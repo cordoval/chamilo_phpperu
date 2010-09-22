@@ -824,6 +824,18 @@ interface WeblcmsDataManagerInterface
 	function update_course_group_right_location($course_group_right_location);
 	
 	function retrieve_course_group_user_relations($condition = null, $offset = null, $count = null, $order_property = null);
+	
+	
+	function delete_course_type_user_category_rel_course(CourseTypeUserCategoryRelCourse $course_type_user_category_rel_course);
 
+    function create_course_type_user_category_rel_course(CourseTypeUserCategoryRelCourse $course_type_user_category_rel_course);
+
+    function count_course_type_user_category_rel_courses($conditions = null);
+
+    function retrieve_course_type_user_category_rel_courses($condition = null, $offset = null, $count = null, $order_property = null);
+    
+    function clean_course_type_user_category_rel_course_sort($start_sort_value, $course_type_user_category_id);
+    
+    function retrieve_all_courses_with_course_categories($condition);
 }
 ?>

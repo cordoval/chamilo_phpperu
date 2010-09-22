@@ -22,6 +22,7 @@ require_once dirname(__FILE__) . '/../course_group/course_group.class.php';
 require_once dirname(__FILE__) . '/../course_group/course_group_user_relation.class.php';
 require_once dirname(__FILE__) . '/../course_group/course_group_right_location.class.php';
 require_once dirname(__FILE__) . '/../course_type/course_type.class.php';
+require_once dirname(__FILE__) . '/../course_type/course_type_user_category_rel_course.class.php';
 require_once dirname(__FILE__) . '/../course/course_request.class.php';
 require_once dirname(__FILE__) . '/../../../../repository/lib/data_manager/database_repository_data_manager.class.php';
 require_once dirname(__FILE__) . '/../category_manager/course_category.class.php';
@@ -883,40 +884,6 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         return $this->retrieve_object_set($query, Course :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
     
-    function retrieve_user_courses_with_given_access($access, $condition = null, $offset = 0, $max_objects = -1, $order_by = null)
-    {
-        $course_alias = $this->get_alias(Course :: get_table_name());
-        $course_settings_alias = $this->get_alias(CourseSettings :: get_table_name());
-        $course_user_relation_alias = $this->get_alias(CourseUserRelation :: get_table_name());
-        $course_group_relation_alias = $this->get_alias(CourseGroupRelation :: get_table_name());
-        
-        $query = 'SELECT DISTINCT ' . $course_alias . '.* FROM ' . $this->escape_table_name(Course :: get_table_name()) . ' AS ' . $course_alias;
-        $query .= ' LEFT JOIN ' . $this->escape_table_name(CourseUserRelation :: get_table_name()) . ' AS ' . $course_user_relation_alias . ' ON ' . $this->escape_column_name(Course :: PROPERTY_ID, $course_alias) . ' = ' . $this->escape_column_name(CourseUserRelation :: PROPERTY_COURSE, $course_user_relation_alias);
-        $query .= ' LEFT JOIN ' . $this->escape_table_name(CourseGroupRelation :: get_table_name()) . ' AS ' . $course_group_relation_alias . ' ON ' . $this->escape_column_name(Course :: PROPERTY_ID, $course_alias) . ' = ' . $this->escape_column_name(CourseGroupRelation :: PROPERTY_COURSE_ID, $course_group_relation_alias);
-        $query .= ' JOIN ' . $this->escape_table_name(CourseSettings :: get_table_name()) . ' AS ' . $course_settings_alias . ' ON ' . $this->escape_column_name(Course :: PROPERTY_ID, $course_alias) . ' = ' . $this->escape_column_name(CourseSettings :: PROPERTY_COURSE_ID, $course_settings_alias);
-        
-        if (is_null($order_by))
-        {
-            $order_by[] = new ObjectTableOrder(Course :: PROPERTY_NAME);
-        }
-        
-        $access_condition = new EqualityCondition(CourseSettings :: PROPERTY_ACCESS, $access, CourseSettings :: get_table_name());
-        
-        if($condition)
-        {
-        	$conditions = array();
-        	$conditions[] = $condition;
-        	$conditions[] = $access_condition;
-        	$condition = new AndCondition($conditions);
-        }
-        else
-        {
-        	$condition = $access_condition;
-        }
-
-        return $this->retrieve_object_set($query, Course :: get_table_name(), $condition, $offset, $max_objects, $order_by);
-    }
-
     function retrieve_course_group_rights_by_type($course_id, $type)
     {
         if (CourseGroupSubscribeRight :: UNSUBSCRIBE == $type)
@@ -1169,43 +1136,18 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     {
         $course_id = $course;
         if (get_class($course) == 'Course')
+        {
             $course_id = $course->get_id();
-        $this->get_connection()->loadModule('Extended');
-        
-        /*$conditions = array();
-        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $user_id);
-        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, 0);
-        $condition = new AndCondition($conditions);
-        
-        $sort = $this->retrieve_max_sort_value(CourseUserRelation :: get_table_name(), CourseUserRelation :: PROPERTY_SORT, $condition);*/
+        }
         
         $course_user_relation = new CourseUserRelation();
         $course_user_relation->set_course($course_id);
         $course_user_relation->set_user($user_id);
         $course_user_relation->set_status($status);
-        $course_user_relation->set_role(null);
-        $course_user_relation->set_tutor($tutor_id);
-        $course_user_relation->set_category(0);
         
         if ($course_user_relation->create())
         {
-            // TODO: New Roles & Rights system
-            //			$role_id = ($status == COURSEMANAGER) ? COURSE_ADMIN : NORMAL_COURSE_MEMBER;
-            //			$location_id = RolesRights::get_course_location_id($course->get_id());
-            //
-            //			$user_rel_props = array();
-            //			$user_rel_props['user_id'] = $user_id;
-            //			$user_rel_props['role_id'] = $role_id;
-            //			$user_rel_props['location_id'] = $location_id;
-            //
-            //			if ($this->get_connection()->extended->autoExecute(Database :: get_main_table(MAIN_USER_ROLE_TABLE), $user_rel_props, MDB2_AUTOQUERY_INSERT))
-            //			{
             return true;
-            //			}
-        //			else
-        //			{
-        //				return false;
-        //			}
         }
         else
         {
@@ -2805,27 +2747,6 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     	
     }
     
-    function retrieve_course_user_categories_from_course_type($course_type_id, $user_id)
-    {
-    	$conditions = array();
-    	$conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_TYPE_ID, $course_type_id, CourseTypeUserCategory :: get_table_name());
-    	$conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_USER_ID, $user_id, CourseTypeUserCategory :: get_table_name());
-    	$condition = new AndCondition($conditions);
-    	
-    	$course_user_category_table_name = $this->get_table_name(CourseUserCategory :: get_table_name());
-    	$course_type_user_category_table_name = $this->get_table_name(CourseTypeUserCategory :: get_table_name());
-    	$course_user_category_alias = $this->get_alias(CourseUserCategory :: get_table_name());
-    	$course_type_user_category_alias = $this->get_alias(CourseTypeUserCategory :: get_table_name());
-    	
-    	$course_user_category_id = $this->escape_column_name(CourseUserCategory :: PROPERTY_ID, $course_user_category_alias);
-    	$course_type_user_category_id = $this->escape_column_name(CourseTypeUserCategory :: PROPERTY_COURSE_USER_CATEGORY_ID, $course_type_user_category_alias);
-    	
-    	$query = 'SELECT * FROM ' . $course_user_category_table_name . ' AS ' . $course_user_category_alias;
-    	$query .= ' JOIN ' . $course_type_user_category_table_name . ' AS ' . $course_type_user_category_alias . ' ON ' . $course_user_category_id . '=' . $course_type_user_category_id;
-    	
-        return $this->retrieve_object_set($query, CourseUserCategory :: get_table_name(), $condition, null, null, new ObjectTableOrder(CourseTypeUserCategory :: PROPERTY_SORT, SORT_ASC, $course_type_user_category_alias));
-    }
-    
     function get_user_with_most_publications_in_course($course_id)
     {
     	$content_object_publication_table_name = $this->get_table_name(ContentObjectPublication :: get_table_name());
@@ -2890,6 +2811,90 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $condition = new EqualityCondition(CourseGroupRightLocation :: PROPERTY_ID, $course_group_right_location->get_id());
         return $this->update($course_group_right_location, $condition);
     }
+    
+    function delete_course_type_user_category_rel_course(CourseTypeUserCategoryRelCourse $course_type_user_category_rel_course)
+    {
+    	$conditions = array();
+    	$conditions[] = new EqualityCondition(CourseTypeUserCategoryRelCourse :: PROPERTY_COURSE_ID, $course_type_user_category_rel_course->get_course_id());
+        $conditions[] = new EqualityCondition(CourseTypeUserCategoryRelCourse :: PROPERTY_COURSE_TYPE_USER_CATEGORY_ID, $course_type_user_category_rel_course->get_course_type_user_category_id());
+        $condition = new AndCondition($conditions);
+         
+        return $this->delete(CourseTypeUserCategoryRelCourse :: get_table_name(), $condition);
+    }
 
+    function create_course_type_user_category_rel_course(CourseTypeUserCategoryRelCourse $course_type_user_category_rel_course)
+    {
+    	return $this->create($course_type_user_category_rel_course);
+    }
+
+    function count_course_type_user_category_rel_courses($conditions = null)
+    {
+    	return $this->count_objects(CourseTypeUserCategoryRelCourse :: get_table_name(), $conditions);
+    }
+
+    function retrieve_course_type_user_category_rel_courses($condition = null, $offset = null, $count = null, $order_property = null)
+    {
+    	 return $this->retrieve_objects(CourseTypeUserCategoryRelCourse :: get_table_name(), $condition, $offset, $count, $order_property);
+    }
+    
+    /**
+     * Cleans the sort value of a current course_type_user_category starting by the given sort value
+     * @param int $start_sort_value
+     * @param int $course_type_user_category_id
+     */
+    function clean_course_type_user_category_rel_course_sort($start_sort_value, $course_type_user_category_id)
+    {
+    	$conditions = array();
+    	$conditions[] = new InEqualityCondition(CourseTypeUserCategoryRelCourse :: PROPERTY_SORT, InEqualityCondition :: GREATER_THAN, $start_sort_value);
+        $conditions[] = new EqualityCondition(CourseTypeUserCategoryRelCourse :: PROPERTY_COURSE_TYPE_USER_CATEGORY_ID, $course_type_user_category_id);
+        $condition = new AndCondition($conditions);
+        
+        $properties = array();
+        $properties[CourseTypeUserCategoryRelCourse :: PROPERTY_SORT] = $this->escape_column_name(CourseTypeUserCategoryRelCourse :: PROPERTY_SORT) . '-1'; 
+        
+        return $this->update_objects(CourseTypeUserCategoryRelCourse :: get_table_name(), $properties, $condition);
+    }
+    
+	function retrieve_course_user_categories_from_course_type($course_type_id, $user_id)
+    {
+    	$conditions = array();
+    	$conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_TYPE_ID, $course_type_id, CourseTypeUserCategory :: get_table_name());
+    	$conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_USER_ID, $user_id, CourseTypeUserCategory :: get_table_name());
+    	$condition = new AndCondition($conditions);
+    	
+    	$course_user_category_table_name = $this->get_table_name(CourseUserCategory :: get_table_name());
+    	$course_type_user_category_table_name = $this->get_table_name(CourseTypeUserCategory :: get_table_name());
+    	$course_user_category_alias = $this->get_alias(CourseUserCategory :: get_table_name());
+    	$course_type_user_category_alias = $this->get_alias(CourseTypeUserCategory :: get_table_name());
+    	
+    	$course_user_category_id = $this->escape_column_name(CourseUserCategory :: PROPERTY_ID, $course_user_category_alias);
+    	$course_type_user_category_id = $this->escape_column_name(CourseTypeUserCategory :: PROPERTY_COURSE_USER_CATEGORY_ID, $course_type_user_category_alias);
+    	
+    	$query = 'SELECT * FROM ' . $course_user_category_table_name . ' AS ' . $course_user_category_alias;
+    	$query .= ' JOIN ' . $course_type_user_category_table_name . ' AS ' . $course_type_user_category_alias . ' ON ' . $course_user_category_id . '=' . $course_type_user_category_id;
+    	
+        return $this->retrieve_object_set($query, CourseUserCategory :: get_table_name(), $condition, null, null, new ObjectTableOrder(CourseTypeUserCategory :: PROPERTY_SORT, SORT_ASC, $course_type_user_category_alias));
+    }
+    
+    function retrieve_all_courses_with_course_categories($condition)
+    {
+    	$course_alias = $this->get_alias(Course :: get_table_name());
+        $course_user_relation_alias = $this->get_alias(CourseUserRelation :: get_table_name());
+        $course_group_relation_alias = $this->get_alias(CourseGroupRelation :: get_table_name());
+        $course_settings_alias = $this->get_alias(CourseSettings :: get_table_name());
+        $course_type_user_category_rel_course_alias = $this->get_alias(CourseTypeUserCategoryRelCourse :: get_table_name());
+        
+        $query = 'SELECT DISTINCT ' . $course_alias . '.*, ' . $course_settings_alias . '.access, ' . $course_type_user_category_rel_course_alias . '.course_type_user_category_id FROM ' . $this->escape_table_name(Course :: get_table_name()) . ' AS ' . $course_alias;
+        $query .= ' LEFT JOIN ' . $this->escape_table_name(CourseUserRelation :: get_table_name()) . ' AS ' . $course_user_relation_alias . ' ON ' . $this->escape_column_name(Course :: PROPERTY_ID, $course_alias) . ' = ' . $this->escape_column_name(CourseUserRelation :: PROPERTY_COURSE, $course_user_relation_alias);
+        $query .= ' LEFT JOIN ' . $this->escape_table_name(CourseGroupRelation :: get_table_name()) . ' AS ' . $course_group_relation_alias . ' ON ' . $this->escape_column_name(Course :: PROPERTY_ID, $course_alias) . ' = ' . $this->escape_column_name(CourseGroupRelation :: PROPERTY_COURSE_ID, $course_group_relation_alias);
+        $query .= ' JOIN ' . $this->escape_table_name(CourseSettings :: get_table_name()) . ' AS ' . $course_settings_alias . ' ON ' . $this->escape_column_name(Course :: PROPERTY_ID, $course_alias) . ' = ' . $this->escape_column_name(CourseSettings :: PROPERTY_COURSE_ID, $course_settings_alias);
+        $query .= ' LEFT JOIN ' . $this->escape_table_name(CourseTypeUserCategoryRelCourse :: get_table_name()) . ' AS ' . $course_type_user_category_rel_course_alias . ' ON ';
+        $query .=  $this->escape_column_name(Course :: PROPERTY_ID, $course_alias) . ' = ' . $this->escape_column_name(CourseSettings :: PROPERTY_COURSE_ID, $course_type_user_category_rel_course_alias);
+        
+        $order_by[] = new ObjectTableOrder(Course :: PROPERTY_NAME);
+        
+        return $this->retrieve_object_set($query, Course :: get_table_name(), $condition, null, null, $order_by);
+    }
+    
 }
 ?>

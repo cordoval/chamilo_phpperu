@@ -32,11 +32,6 @@ class CourseUserRelation extends DataClass
     const PROPERTY_COURSE = 'course_id';
     const PROPERTY_USER = 'user_id';
     const PROPERTY_STATUS = 'status';
-    const PROPERTY_ROLE = 'role';
-    const PROPERTY_COURSE_GROUP = 'course_group_id';
-    const PROPERTY_TUTOR = 'tutor_id';
-    const PROPERTY_SORT = 'sort';
-    const PROPERTY_CATEGORY = 'user_course_cat';
 
     /**
      * Get the default properties of all course user relations.
@@ -44,7 +39,7 @@ class CourseUserRelation extends DataClass
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_COURSE, self :: PROPERTY_USER, self :: PROPERTY_STATUS, self :: PROPERTY_ROLE, self :: PROPERTY_COURSE_GROUP, self :: PROPERTY_TUTOR, self :: PROPERTY_SORT, self :: PROPERTY_CATEGORY);
+        return array(self :: PROPERTY_COURSE, self :: PROPERTY_USER, self :: PROPERTY_STATUS);
     }
 
     /**
@@ -119,115 +114,6 @@ class CourseUserRelation extends DataClass
     function set_status($status)
     {
         $this->set_default_property(self :: PROPERTY_STATUS, $status);
-    }
-
-    /**
-     * Returns the course_group of this course user relation object
-     * @return int
-     */
-    function get_course_group()
-    {
-        return $this->get_default_property(self :: PROPERTY_COURSE_GROUP);
-    }
-
-    /**
-     * Sets the course_group of this course user relation object
-     * @param int $course_group
-     */
-    function set_course_group($course_group)
-    {
-        $this->set_default_property(self :: PROPERTY_COURSE_GROUP, $course_group);
-    }
-
-    /**
-     * Returns the role of this course user relation object
-     * @return int
-     */
-    function get_role()
-    {
-        return $this->get_default_property(self :: PROPERTY_ROLE);
-    }
-
-    /**
-     * Sets the role of this course user relation object
-     * @param int $role
-     */
-    function set_role($role)
-    {
-        $this->set_default_property(self :: PROPERTY_ROLE, $role);
-    }
-
-    /**
-     * Returns the tutor of this course user relation object
-     * @return int
-     */
-    function get_tutor()
-    {
-        return $this->get_default_property(self :: PROPERTY_TUTOR);
-    }
-
-    /**
-     * Sets the tutor of this course user relation object
-     * @param int $tutor
-     */
-    function set_tutor($tutor)
-    {
-        $this->set_default_property(self :: PROPERTY_TUTOR, $tutor);
-    }
-
-    /**
-     * Returns the sort of this course user relation object
-     * @return int
-     */
-    function get_sort()
-    {
-        return $this->get_default_property(self :: PROPERTY_SORT);
-    }
-
-    /**
-     * Sets the sort of this course user relation object
-     * @param int $sort
-     */
-    function set_sort($sort)
-    {
-        $this->set_default_property(self :: PROPERTY_SORT, $sort);
-    }
-
-    /**
-     * Returns the category of this course user relation object
-     * @return int
-     */
-    function get_category()
-    {
-        return $this->get_default_property(self :: PROPERTY_CATEGORY);
-    }
-
-    /**
-     * Sets the category of this course user relation object
-     * @param int $category
-     */
-    function set_category($category)
-    {
-        $this->set_default_property(self :: PROPERTY_CATEGORY, $category);
-    }
-
-    /**
-     * Creates the course user relation object in persistent storage
-     * @return boolean
-     */
-    function create()
-    {
-        $wdm = WeblcmsDataManager :: get_instance();
-        
-        $this->set_sort($wdm->retrieve_next_course_user_relation_sort_value($this));
-        
-        $success = $wdm->create_course_user_relation($this);
-        
-        if (! $success)
-        {
-            return false;
-        }
-        return true;
     }
 
     static function get_table_name()

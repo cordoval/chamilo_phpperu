@@ -8,12 +8,54 @@ require_once dirname(__FILE__) . '/course_list_renderer.class.php';
  */
 class CourseTypeCourseListRenderer extends CourseListRenderer
 {
+	// The entire course list
+	protected $courses;
+	
 	/**
 	 * Returns the course list as html
 	 */
 	function as_html()
 	{
+		$this->courses = $this->retrieve_courses();
 		return $this->display_course_types();
+	}
+	
+	/**
+	 * Retrieves the courses
+	 */
+	function retrieve_courses()
+	{
+		$courses = WeblcmsDataManager :: get_instance()->retrieve_all_courses_with_course_categories($this->get_retrieve_courses_condition());
+    	return $this->parse_courses($courses);
+	}
+	
+	/**
+	 * Returns the conditions needed to retrieve the courses
+	 */
+	function get_retrieve_courses_condition()
+	{
+		$access_conditions = array();
+    	$access_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_parent()->get_user_id(), CourseUserRelation :: get_table_name());
+    	$access_conditions[] = new InCondition(CourseGroupRelation :: PROPERTY_GROUP_ID, $this->get_parent()->get_user()->get_groups(true), CourseGroupRelation :: get_table_name());
+    	
+    	return new OrCondition($access_conditions);
+	}
+	
+	/**
+	 * Parsers the courses in a structure in course type / course category
+	 * @param Course[] $courses
+	 */
+	function parse_courses($courses)
+	{
+		$parsed_courses = array();
+		
+		while($course = $courses->next_result())
+		{
+			$category = $course->get_optional_property(CourseTypeUserCategoryRelCourse :: PROPERTY_COURSE_TYPE_USER_CATEGORY_ID) ? $course->get_optional_property(CourseTypeUserCategoryRelCourse :: PROPERTY_COURSE_TYPE_USER_CATEGORY_ID) : 0;
+			$parsed_courses[$course->get_course_type_id()][$category][] = $course;
+		}
+	
+		return $parsed_courses;
 	}
 	
 	/**
@@ -125,58 +167,17 @@ class CourseTypeCourseListRenderer extends CourseListRenderer
         
         return implode($html, "\n");
     }
-    
 	
 	/**
 	 * Retrieves the courses for a course user category in a given course type
 	 * @param CourseUserCategory $course_user_category
 	 * @param CourseType $course_type
 	 */
-	function retrieve_courses_for_course_user_category(CourseUserCategory $course_user_category, CourseType $course_type)
+	function get_courses_for_course_user_category(CourseUserCategory $course_user_category, CourseType $course_type)
 	{
-		$course_user_category_id = 0;
-		
-		if($course_user_category)
-		{
-			$course_user_category_id = $course_user_category->get_id();
-		}
-		
-		$course_type_id = 0;
-		
-		if($course_type)
-		{
-			$course_type_id = $course_type->get_id();
-		}
-		
-		$conditions = array();
-		
-		$access_conditions = array();
-		$user_access_conditions = array();
-		
-    	$user_access_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $course_user_category_id, CourseUserRelation :: get_table_name());
-    	$user_access_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_parent()->get_user_id(), CourseUserRelation :: get_table_name());
-    	
-    	$access_conditions[] = new AndCondition($user_access_conditions);
-    	if(!$course_user_category)
-    	{
-    		$access_conditions[] = new InCondition(CourseGroupRelation :: PROPERTY_GROUP_ID, $this->get_parent()->get_user()->get_groups(true), CourseGroupRelation :: get_table_name());
-    	}
-    	
-    	$conditions[] = new OrCondition($access_conditions);
-    	$conditions[] = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, $course_type_id, Course :: get_table_name());
-    	$condition = new AndCondition($conditions);
-
-    	return $this->retrieve_courses($condition);
-	}
-	
-	/**
-	 * The function that is called in the data manager in order to retrieve the courses
-	 * This function is splitted from 
-	 * @param $condition
-	 */
-	function retrieve_courses($condition)
-	{
-		return WeblcmsDataManager :: get_instance()->retrieve_user_courses($condition, null, null, new ObjectTableOrder(CourseUserRelation :: PROPERTY_SORT, SORT_ASC, WeblcmsDataManager :: get_instance()->get_alias(CourseUserRelation :: get_table_name())));
+		$course_type_id = $course_type ? $course_type->get_id() : 0; 
+		$course_user_category_id = $course_user_category ? $course_user_category->get_id() : 0;
+		return $this->courses[$course_type_id][$course_user_category_id];
 	}
     
     /**
@@ -186,8 +187,8 @@ class CourseTypeCourseListRenderer extends CourseListRenderer
      */
     function display_courses_for_course_user_category(CourseUserCategory $course_user_category, CourseType $course_type)
     {
-    	$courses = $this->retrieve_courses_for_course_user_category($course_user_category, $course_type);
-    	$size = $courses->size();
+    	$courses = $this->get_courses_for_course_user_category($course_user_category, $course_type);
+    	$size = count($courses);
     	
     	$html = array();
         
@@ -195,7 +196,7 @@ class CourseTypeCourseListRenderer extends CourseListRenderer
         {
             $html[] = '<ul>';
             $count = 0;
-            while($course = $courses->next_result())
+          	foreach($courses as $course)
             {
                 $titular = UserDataManager :: get_instance()->retrieve_user($course->get_titular());
                 $html[] = '<div style="float:left;">';
