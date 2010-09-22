@@ -37,13 +37,18 @@ class SurveyManagerRightsEditorComponent extends SurveyManager implements Delega
             if ($this->get_user()->is_platform_admin() || $publication->get_publisher() == $this->get_user_id())
             {
                 $locations[] = SurveyRights :: get_location_by_identifier_from_surveys_subtree($publication_id, SurveyRights :: TYPE_PUBLICATION);
-            	$publication_user_ids = SurveyRights :: get_allowed_users(SurveyRights :: RIGHT_VIEW, $publication_id, SurveyRights :: TYPE_PUBLICATION);
-                $user_ids = array_merge($user_ids, $publication_user_ids);
+                
+                $rights = SurveyRights :: get_available_rights_for_publications();
+                foreach ($rights as $right)
+                {
+                    $publication_user_ids = SurveyRights :: get_allowed_users($right, $publication_id, SurveyRights :: TYPE_PUBLICATION);
+                    $user_ids = array_merge($user_ids, $publication_user_ids);
+                }
             }
         }
         
         $manager = new RightsEditorManager($this, $locations);
-       
+        
         if (count($user_ids) > 0)
         {
             $manager->limit_users($user_ids);

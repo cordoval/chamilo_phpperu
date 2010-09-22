@@ -163,6 +163,10 @@ $lang['survey']['MailSend'] = 'Mail sent';
 $lang['survey']['ExportToExcel'] = 'Export to Excel';
 $lang['survey']['Excel'] = 'Excel';
 
+$lang['survey']['testcase'] = 'Test cases';
+$lang['survey']['official'] = 'Official';
+$lang['survey']['volunteer'] = 'Voluntary';
+
 $lang['survey']['SurveyManagerBrowserComponent'] = 'Survey Browser';
 $lang['survey']['SurveyManagerPublisherComponent'] = 'Publish Survey';
 

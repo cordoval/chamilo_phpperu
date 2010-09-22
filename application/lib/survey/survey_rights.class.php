@@ -26,7 +26,7 @@ class SurveyRights
     const LOCATION_BROWSER = 1;
     const LOCATION_REPORTING = 2;
     
-    const TREE_TYPE_SURVEY = 1;
+    const TREE_TYPE_SURVEY = 0;
     
     const TYPE_SURVEY_COMPONENT = 1;
     const TYPE_PUBLICATION = 2;
@@ -36,9 +36,9 @@ class SurveyRights
         return array(self :: PARTICIPATE_RIGHT_NAME => self :: RIGHT_PARTICIPATE, self :: VIEW_RIGHT_NAME => self :: RIGHT_VIEW, self :: INVITE_RIGHT_NAME => self :: RIGHT_INVITE, self :: EDIT_RIGHT_NAME => self :: RIGHT_EDIT, self :: DELETE_RIGHT_NAME => self :: RIGHT_DELETE, self :: REPORTING_RIGHT_NAME => self :: RIGHT_REPORTING, self :: MAIL_RIGHT_NAME => self :: RIGHT_MAIL, self :: EXPORT_RESULT_RIGHT_NAME => self :: RIGHT_EXPORT_RESULT);
     }
 
-    static function create_location_in_surveys_subtree($name, $identifier, $parent, $type)
+    static function create_location_in_surveys_subtree($name, $identifier, $parent, $type, $return_location = false)
     {
-        return RightsUtilities :: create_location($name, SurveyManager :: APPLICATION_NAME, $type, $identifier, 1, $parent, 0, 0, self :: TREE_TYPE_SURVEY);
+        return RightsUtilities :: create_location($name, SurveyManager :: APPLICATION_NAME, $type, $identifier, 1, $parent, 0, 0, self :: TREE_TYPE_SURVEY, $return_location);
     }
 
     static function get_surveys_subtree_root()
