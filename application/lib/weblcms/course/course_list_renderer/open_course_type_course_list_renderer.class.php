@@ -9,13 +9,15 @@ require_once dirname(__FILE__) . '/course_type_course_list_renderer.class.php';
 class OpenCourseTypeCourseListRenderer extends CourseTypeCourseListRenderer
 {
 	/**
-	 * The function that is called in the data manager in order to retrieve the courses
-	 * This function is splitted from 
-	 * @param $condition
+	 * Returns the conditions needed to retrieve the courses
 	 */
-	function retrieve_courses($condition)
+	function get_retrieve_courses_condition()
 	{
-		return WeblcmsDataManager :: get_instance()->retrieve_user_courses_with_given_access(CourseSettings :: ACCESS_OPEN, $condition, null, null, new ObjectTableOrder(CourseUserRelation :: PROPERTY_SORT, SORT_ASC, WeblcmsDataManager :: get_instance()->get_alias(CourseUserRelation :: get_table_name())));
+		$conditions = array();
+		$conditions[] = parent :: get_retrieve_courses_condition();
+		$conditions[] = new EqualityCondition(CourseSettings :: PROPERTY_ACCESS, CourseSettings :: ACCESS_OPEN, CourseSettings :: get_table_name());
+    	
+    	return new AndCondition($conditions);
 	}
 }
 
