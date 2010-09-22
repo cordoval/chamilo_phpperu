@@ -106,7 +106,11 @@ class CourseListRenderer
 	 */
 	function retrieve_courses()
 	{
-		$condition = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_parent()->get_user_id(), CourseUserRelation :: get_table_name());
+		$access_conditions = array();
+    	$access_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_parent()->get_user_id(), CourseUserRelation :: get_table_name());
+    	$access_conditions[] = new InCondition(CourseGroupRelation :: PROPERTY_GROUP_ID, $this->get_parent()->get_user()->get_groups(true), CourseGroupRelation :: get_table_name());
+    	
+    	$condition = new OrCondition($access_conditions);
         return WeblcmsDataManager :: get_instance()->retrieve_user_courses($condition);
 	}
 	

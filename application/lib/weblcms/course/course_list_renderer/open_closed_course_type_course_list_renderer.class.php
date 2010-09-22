@@ -27,15 +27,35 @@ class OpenClosedCourseTypeCourseListRenderer extends CourseTypeCourseListRendere
     	
     	return implode($html, "\n");
     }
-    
+
 	/**
-	 * The function that is called in the data manager in order to retrieve the courses
-	 * This function is splitted from 
-	 * @param $condition
+	 * Parsers the courses in a structure in course type / course category
+	 * @param Course[] $courses
 	 */
-	function retrieve_courses($condition)
+	function parse_courses($courses)
 	{
-		return WeblcmsDataManager :: get_instance()->retrieve_user_courses_with_given_access($this->current_access_state, $condition, null, null, new ObjectTableOrder(CourseUserRelation :: PROPERTY_SORT, SORT_ASC, WeblcmsDataManager :: get_instance()->get_alias(CourseUserRelation :: get_table_name())));
+		$parsed_courses = array();
+		
+		while($course = $courses->next_result())
+		{
+			$category = $course->get_optional_property(CourseTypeUserCategoryRelCourse :: PROPERTY_COURSE_TYPE_USER_CATEGORY_ID) ? $course->get_optional_property(CourseTypeUserCategoryRelCourse :: PROPERTY_COURSE_TYPE_USER_CATEGORY_ID) : 0;
+			$access = $course->get_optional_property(CourseSettings :: PROPERTY_ACCESS);
+			$parsed_courses[$course->get_course_type_id()][$category][$access][] = $course;
+		}
+
+		return $parsed_courses;
+	}
+	
+	/**
+	 * Retrieves the courses for a course user category in a given course type
+	 * @param CourseUserCategory $course_user_category
+	 * @param CourseType $course_type
+	 */
+	function get_courses_for_course_user_category(CourseUserCategory $course_user_category, CourseType $course_type)
+	{
+		$course_type_id = $course_type ? $course_type->get_id() : 0; 
+		$course_user_category_id = $course_user_category ? $course_user_category->get_id() : 0;
+		return $this->courses[$course_type_id][$course_user_category_id][$this->current_access_state];
 	}
 }
 

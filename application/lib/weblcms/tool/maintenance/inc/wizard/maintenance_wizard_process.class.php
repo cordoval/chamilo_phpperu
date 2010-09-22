@@ -4,12 +4,12 @@
  * @package application.lib.weblcms.tool.maintenance.inc.wizard
  */
 
-require_once dirname(__FILE__) . '/action/action_empty.class.php'; 
-require_once dirname(__FILE__) . '/action/action_copy.class.php'; 
-require_once dirname(__FILE__) . '/action/action_delete.class.php'; 
-require_once dirname(__FILE__) . '/action/action_backup.class.php'; 
-require_once dirname(__FILE__) . '/action/action_export_cp.class.php'; 
-require_once dirname(__FILE__) . '/action/action_import_cp.class.php'; 
+//require_once dirname(__FILE__) . '/action/action_empty.class.php';
+//require_once dirname(__FILE__) . '/action/action_copy.class.php';
+//require_once dirname(__FILE__) . '/action/action_delete.class.php';
+//require_once dirname(__FILE__) . '/action/action_backup.class.php';
+//require_once dirname(__FILE__) . '/action/action_export_cp.class.php';
+//require_once dirname(__FILE__) . '/action/action_import_cp.class.php';
 
 /**
  * This class implements the action to take after the user has completed a

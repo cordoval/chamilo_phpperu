@@ -1,12 +1,7 @@
 <?php
 
-require_once dirname(__FILE__) . '/../survey_data_manager.class.php';
-
+require_once Path :: get_application_path() . 'lib/survey/survey_data_manager.class.php';
 require_once Path :: get_application_path() . 'lib/survey/survey_rights.class.php';
-//require_once Path :: get_application_path() . 'lib/survey/testcase_manager/testcase_manager.class.php';
-
-
-require_once dirname(__FILE__) . '/component/survey_publication_browser/survey_publication_browser_table.class.php';
 
 class SurveyManager extends WebApplication
 {
@@ -17,53 +12,35 @@ class SurveyManager extends WebApplication
     const PARAM_SURVEY_ID = 'survey_id';
     const PARAM_PARTICIPANT_ID = 'participant_id';
     const PARAM_INVITEE_ID = 'invitee_id';
-    const PARAM_INVITEE_IDS = 'invitee_ids';
     
-    const PARAM_SURVEY_PAGE_ID = 'survey_page_id';
-    const PARAM_SURVEY_QUESTION_ID = 'survey_question';
-    const PARAM_PARTICIPANT_MAIL_ID = 'mail_participant';
-  
-    const PARAM_TARGET = 'target_users_and_groups';
-    const PARAM_TARGET_ELEMENTS = 'target_users_and_groups_elements';
-    const PARAM_TARGET_OPTION = 'target_users_and_groups_option';
+    const PARAM_SURVEY_PAGE_ID = 'page_id';
+    const PARAM_SURVEY_QUESTION_ID = 'question_id';
+    const PARAM_MAIL_ID = 'mail_id';
     
-    const ACTION_DELETE_SURVEY_PUBLICATION = 'deleter';
-    const ACTION_EDIT_SURVEY_PUBLICATION_RIGHTS = 'rights_editor';
-    const ACTION_EDIT_SURVEY_PUBLICATION = 'editor';
-    const ACTION_CREATE_SURVEY_PUBLICATION = 'creator';
-    const ACTION_BROWSE_SURVEY_PUBLICATIONS = 'browser';
-    const ACTION_BROWSE_SURVEY_PAGES = 'page_browser';
-    const ACTION_BROWSE_SURVEY_PAGE_QUESTIONS = 'question_browser';
-    const ACTION_MANAGE_SURVEY_PUBLICATION_CATEGORIES = 'category_manager';
-    const ACTION_VIEW_SURVEY_PUBLICATION = 'viewer';
-    const ACTION_VIEW_SURVEY_PUBLICATION_RESULTS = 'results_viewer';
+    const ACTION_DELETE = 'deleter';
+    const ACTION_EDIT_RIGHTS = 'rights_editor';
+    const ACTION_EDIT = 'editor';
+    const ACTION_PUBLISH = 'publisher';
+    const ACTION_BROWSE = 'browser';
+    const ACTION_BROWSE_PAGES = 'page_browser';
+    const ACTION_BROWSE_PAGE_QUESTIONS = 'question_browser';
+    const ACTION_TAKE = 'taker';
     const ACTION_REPORTING_FILTER = 'reporting_filter';
     const ACTION_REPORTING = 'reporting';
     const ACTION_EXCEL_EXPORT = 'survey_spss_syntax_exporter';
     const ACTION_QUESTION_REPORTING = 'question_reporting';
     
-    const ACTION_BROWSE_SURVEY_PARTICIPANTS = 'participant_browser';
-    const ACTION_BROWSE_SURVEY_EXCLUDED_USERS = 'user_browser';
+    const ACTION_BROWSE_PARTICIPANTS = 'participant_browser';
     const ACTION_CANCEL_INVITATION = 'invitation_canceler';
-    
-    //    const ACTION_CHANGE_TEST_TO_PRODUCTION = 'changer';
-    
-
-    const ACTION_IMPORT_SURVEY = 'survey_importer';
-    const ACTION_EXPORT_SURVEY = 'survey_exporter';
-    const ACTION_CHANGE_SURVEY_PUBLICATION_VISIBILITY = 'visibility_changer';
-    const ACTION_MOVE_SURVEY_PUBLICATION = 'mover';
     const ACTION_EXPORT_RESULTS = 'results_exporter';
-    const ACTION_DOWNLOAD_DOCUMENTS = 'document_downloader';
-    
-    const ACTION_MAIL_SURVEY_PARTICIPANTS = 'mailer';
+    const ACTION_MAIL_INVITEES = 'mailer';
     const ACTION_INVITE_EXTERNAL_USERS = 'inviter';
     
+    //we don't allow to go to the builder of the survey from the publication: building surveys
+    //only in the repository ==> just for usability ==> this has to be evaluated !
     const ACTION_BUILD_SURVEY = 'builder';
-    //    const ACTION_TESTCASES = 'testcase';
     
-
-    const DEFAULT_ACTION = self :: ACTION_BROWSE_SURVEY_PUBLICATIONS;
+    const DEFAULT_ACTION = self :: ACTION_BROWSE;
 
     /**
      * Constructor
@@ -80,161 +57,41 @@ class SurveyManager extends WebApplication
         return self :: APPLICATION_NAME;
     }
 
-    // Data Retrieving
-    
-
-    function count_survey_participant_trackers($condition)
-    {
-        return SurveyDataManager :: get_instance()->count_survey_participant_trackers($condition);
-    }
-
-    function retrieve_survey_participant_trackers($condition = null, $offset = null, $count = null, $order_property = null)
-    {
-        return SurveyDataManager :: get_instance()->retrieve_survey_participant_trackers($condition, $offset, $count, $order_property);
-    }
-
-    function count_survey_publications($condition)
-    {
-        return SurveyDataManager :: get_instance()->count_survey_publications($condition);
-    }
-
-    function retrieve_survey_publications($condition = null, $offset = null, $count = null, $order_property = null)
-    {
-        return SurveyDataManager :: get_instance()->retrieve_survey_publications($condition, $offset, $count, $order_property);
-    }
-
-    function retrieve_survey_publication($id)
-    {
-        return SurveyDataManager :: get_instance()->retrieve_survey_publication($id);
-    }
-
-    function count_survey_publication_groups($condition)
-    {
-        return SurveyDataManager :: get_instance()->count_survey_publication_groups($condition);
-    }
-
-    function retrieve_survey_publication_groups($condition = null, $offset = null, $count = null, $order_property = null)
-    {
-        return SurveyDataManager :: get_instance()->retrieve_survey_publication_groups($condition, $offset, $count, $order_property);
-    }
-
-    function retrieve_survey_publication_group($id)
-    {
-        return SurveyDataManager :: get_instance()->retrieve_survey_publication_group($id);
-    }
-
-    function count_survey_publication_users($condition)
-    {
-        return SurveyDataManager :: get_instance()->count_survey_publication_users($condition);
-    }
-
-    function retrieve_survey_publication_users($condition = null, $offset = null, $count = null, $order_property = null)
-    {
-        return SurveyDataManager :: get_instance()->retrieve_survey_publication_users($condition, $offset, $count, $order_property);
-    }
-
-    function retrieve_survey_publication_user($id)
-    {
-        return SurveyDataManager :: get_instance()->retrieve_survey_publication_user($id);
-    }
-
-    function count_survey_publication_mails($condition)
-    {
-        return SurveyDataManager :: get_instance()->count_survey_publication_mails($condition);
-    }
-
-    function retrieve_survey_publication_mail($id)
-    {
-        return SurveyDataManager :: get_instance()->retrieve_survey_publication_mail($id);
-    }
-
-    function retrieve_survey_publication_mails($condition = null, $offset = null, $count = null, $order_property = null)
-    {
-        return SurveyDataManager :: get_instance()->retrieve_survey_publication_mails($condition, $offset, $count, $order_property);
-    }
-
-    function count_survey_pages($condition)
-    {
-        return SurveyDataManager :: get_instance()->count_survey_pages($condition);
-    }
-
-    function retrieve_survey_pages($condition = null, $offset = null, $count = null, $order_property = null)
-    {
-        return SurveyDataManager :: get_instance()->retrieve_survey_pages($condition, $offset, $count, $order_property);
-    }
-
-    function retrieve_survey_page($page_id)
-    {
-        return SurveyDataManager :: get_instance()->retrieve_survey_page($page_id);
-    }
-
-    function count_survey_questions($condition)
-    {
-        return SurveyDataManager :: get_instance()->count_survey_questions($condition);
-    }
-
-    function retrieve_survey_question($question_id)
-    {
-        return SurveyDataManager :: get_instance()->retrieve_survey_question($question_id);
-    }
-
-    function retrieve_survey_questions($condition = null, $offset = null, $count = null, $order_property = null)
-    {
-        return SurveyDataManager :: get_instance()->retrieve_survey_questions($condition, $offset, $count, $order_property);
-    }
-
     // Url Creation
-    
 
     function get_create_survey_publication_url()
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_SURVEY_PUBLICATION));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_PUBLISH));
     }
 
     function get_update_survey_publication_url($survey_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_SURVEY_PUBLICATION, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id()));
     }
 
     function get_delete_survey_publication_url($survey_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_SURVEY_PUBLICATION, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id()));
     }
 
     function get_browse_survey_publications_url()
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PUBLICATIONS), array(self :: PARAM_PUBLICATION_ID, ComplexBuilder :: PARAM_BUILDER_ACTION));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE), array(self :: PARAM_PUBLICATION_ID, ComplexBuilder :: PARAM_BUILDER_ACTION));
     }
 
     function get_browse_survey_pages_url($survey_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PAGES, self :: PARAM_SURVEY_ID => $survey_publication->get_content_object()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PAGES, self :: PARAM_SURVEY_ID => $survey_publication->get_content_object()));
     }
 
     function get_browse_survey_page_questions_url($survey_page)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PAGE_QUESTIONS, self :: PARAM_SURVEY_PAGE_ID => $survey_page->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PAGE_QUESTIONS, self :: PARAM_SURVEY_PAGE_ID => $survey_page->get_id()));
     }
-
-    function get_manage_survey_publication_categories_url()
-    {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_SURVEY_PUBLICATION_CATEGORIES));
-    }
-
-//    function get_testcase_url()
-//    {
-//        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_TESTCASES), array(TestcaseManager :: PARAM_ACTION, TestcaseManager :: PARAM_PUBLICATION_ID, ComplexBuilder :: PARAM_BUILDER_ACTION));
-//    }
 
     function get_survey_publication_viewer_url($survey_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_SURVEY_PUBLICATION, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id()));
-    }
-
-    function get_survey_results_viewer_url($survey_publication)
-    {
-        $id = $survey_publication ? $survey_publication->get_id() : null;
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_SURVEY_PUBLICATION_RESULTS, self :: PARAM_PUBLICATION_ID => $id));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_TAKE, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id()));
     }
 
     function get_reporting_filter_survey_publication_url()
@@ -252,45 +109,21 @@ class SurveyManager extends WebApplication
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_QUESTION_REPORTING, self :: PARAM_SURVEY_QUESTION_ID => $question->get_id()));
     }
 
-    function get_import_survey_url()
-    {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_IMPORT_SURVEY));
-    }
-
-    function get_export_survey_url($survey_publication)
-    {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EXPORT_SURVEY, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id()));
-    }
-
-    function get_change_survey_publication_visibility_url($survey_publication)
-    {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CHANGE_SURVEY_PUBLICATION_VISIBILITY, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id()));
-    }
-
-    function get_move_survey_publication_url($survey_publication)
-    {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MOVE_SURVEY_PUBLICATION, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id()));
-    }
-
     function get_results_exporter_url($tracker_id)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EXPORT_RESULTS, 'tid' => $tracker_id));
     }
 
-    function get_download_documents_url($survey_publication)
-    {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DOWNLOAD_DOCUMENTS, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id()));
-    }
-
     function get_mail_survey_participant_url($survey_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MAIL_SURVEY_PARTICIPANTS, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MAIL_INVITEES, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id()));
     }
 
-    function get_build_survey_url($survey_publication)
-    {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BUILD_SURVEY, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id()));
-    }
+    //link to builder has to be evaluated
+//    function get_build_survey_url($survey_publication)
+//    {
+//        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BUILD_SURVEY, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id()));
+//    }
 
     function get_survey_publication_export_excel_url($survey_publication)
     {
@@ -299,40 +132,30 @@ class SurveyManager extends WebApplication
 
     function get_browse_survey_participants_url($survey_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PARTICIPANTS, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id()));
-    }
-
-    function get_browse_survey_excluded_users_url($survey_publication)
-    {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_EXCLUDED_USERS, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id()));
-    }
-
-    function get_change_test_to_production_url($survey_publication)
-    {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CHANGE_TEST_TO_PRODUCTION, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PARTICIPANTS, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id()));
     }
 
     function get_survey_participant_publication_viewer_url($survey_participant_tracker)
     {
-        return $this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_VIEW_SURVEY_PUBLICATION, SurveyManager :: PARAM_PUBLICATION_ID => $survey_participant_tracker->get_survey_publication_id(), SurveyManager :: PARAM_PARTICIPANT_ID => $survey_participant_tracker->get_id()));
+        return $this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_TAKE, SurveyManager :: PARAM_PUBLICATION_ID => $survey_participant_tracker->get_survey_publication_id(), SurveyManager :: PARAM_PARTICIPANT_ID => $survey_participant_tracker->get_id()));
     }
 
-	function get_survey_invitee_publication_viewer_url($publication_id, $user_id)
+    function get_survey_invitee_publication_viewer_url($publication_id, $user_id)
     {
-        return $this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_VIEW_SURVEY_PUBLICATION, SurveyManager :: PARAM_PUBLICATION_ID => $publication_id, SurveyManager :: PARAM_INVITEE_ID => $user_id));
+        return $this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_TAKE, SurveyManager :: PARAM_PUBLICATION_ID => $publication_id, SurveyManager :: PARAM_INVITEE_ID => $user_id));
     }
-    
+
     function get_rights_editor_url($survey_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_SURVEY_PUBLICATION_RIGHTS, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_RIGHTS, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id()));
     
     }
 
-function get_survey_cancel_invitation_url($survey_publication_id, $invitee)
+    function get_survey_cancel_invitation_url($survey_publication_id, $invitee)
     {
-        return $this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_CANCEL_INVITATION, SurveyManager :: PARAM_INVITEE_IDS => $survey_publication_id .'|'.$invitee));
+        return $this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_CANCEL_INVITATION, SurveyManager :: PARAM_INVITEE_ID => $survey_publication_id . '|' . $invitee));
     }
-    
+
     //publications
     
 
@@ -405,23 +228,25 @@ function get_survey_cancel_invitation_url($survey_publication_id, $invitee)
 
     static function get_content_object_publication_locations($content_object)
     {
-        $allowed_types = array(Survey :: get_type_name());
-        
-        $type = $content_object->get_type();
-        if (in_array($type, $allowed_types))
-        {
-            //            $categories = SurveyDataManager :: get_instance()->retrieve_survey_publication_categories();
-            $locations = array();
-            //            while ($category = $categories->next_result())
-            //            {
-            //            $locations[$category->get_id()] = $category->get_name() . ' - category';
-            //            }
-            //            $locations[0] = Translation :: get('RootSurveyCategory');
-            
-
-            $locations[1] = Translation :: get('SurveyApplication');
-            return $locations;
-        }
+    	//no publication from repository to tool:: has to be evaluated
+    	
+//        $allowed_types = array(Survey :: get_type_name());
+//        
+//        $type = $content_object->get_type();
+//        if (in_array($type, $allowed_types))
+//        {
+//            //            $categories = SurveyDataManager :: get_instance()->retrieve_survey_publication_categories();
+//            $locations = array();
+//            //            while ($category = $categories->next_result())
+//            //            {
+//            //            $locations[$category->get_id()] = $category->get_name() . ' - category';
+//            //            }
+//            //            $locations[0] = Translation :: get('RootSurveyCategory');
+//            
+//
+//            $locations[1] = Translation :: get('SurveyApplication');
+//            return $locations;
+//        }
         
         return array();
     }
@@ -461,18 +286,8 @@ function get_survey_cancel_invitation_url($survey_publication_id, $invitee)
             $publication->set_to_date(Utilities :: time_from_datepicker($attributes['to_date']));
         }
         
-        //        if ($attributes[SurveyPublication :: PROPERTY_TYPE] == 1)
-        //        {
-        
-
         $publication->set_type($attributes[SurveyPublication :: PROPERTY_TYPE]);
-        //        }
-        //        else
-        //        {
-        //            $publication->set_test(0);
-        //        }
         
-
         if ($attributes[self :: PARAM_TARGET_OPTION] != 0)
         {
             $user_ids = $attributes[self :: PARAM_TARGET_ELEMENTS]['user'];
@@ -488,13 +303,10 @@ function get_survey_cancel_invitation_url($survey_publication_id, $invitee)
             }
         }
         
-//        $publication->set_target_users($user_ids);
-//        $publication->set_target_groups($group_ids);
-        
         $publication->create();
         
         $locations[] = SurveyRights :: get_location_by_identifier_from_surveys_subtree($publication->get_id(), SurveyRights :: TYPE_PUBLICATION);
-               
+        
         foreach ($locations as $location)
         {
             foreach ($user_ids as $user_id)

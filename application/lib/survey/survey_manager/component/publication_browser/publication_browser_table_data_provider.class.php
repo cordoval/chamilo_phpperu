@@ -1,14 +1,5 @@
 <?php
-/**
- * $Id: survey_publication_browser_table_data_provider.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.survey.survey_manager.component.survey_publication_browser
- */
-/**
- * Data provider for a survey_publication table
- *
- * @author Sven Vanpoucke
- * @author
- */
+
 class SurveyPublicationBrowserTableDataProvider extends ObjectTableDataProvider
 {
 
@@ -33,7 +24,7 @@ class SurveyPublicationBrowserTableDataProvider extends ObjectTableDataProvider
     {
         $order_property = $this->get_order_property($order_property);
         
-        return $this->get_browser()->retrieve_survey_publications($this->get_condition(), $offset, $count, $order_property);
+        return SurveyDataManager :: get_instance()->retrieve_survey_publications($this->get_condition(), $offset, $count, $order_property);
     }
 
     /**
@@ -42,7 +33,7 @@ class SurveyPublicationBrowserTableDataProvider extends ObjectTableDataProvider
      */
     function get_object_count()
     {
-        return $this->get_browser()->count_survey_publications($this->get_condition());
+        return SurveyDataManager :: get_instance()->count_survey_publications($this->get_condition());
     }
 }
 ?>
