@@ -5,7 +5,7 @@ if(!function_exists('debug')){
 		DebugUtil::show($value, '', 1);
 	}
 }
-DebugUtil2::set_default_error_handler();
+//DebugUtil2::set_default_error_handler();
 
 /**
  * Helper class used for debuging
