@@ -52,7 +52,7 @@ class ObjectImportSettings
 	}
 
 	public function get_filename(){
-		return $this->filename ? $this->filename : basname($this>get_path());
+		return $this->filename ? $this->filename : basename($this->get_path());
 	}
 
 	public function get_directory(){
@@ -172,7 +172,7 @@ class ObjectImportSettings
 		if($this->dom){
 			return $this->dom;
 		}
-		
+
 		$doc = new DOMDocument();
 		if($doc->loadHTMLFile($this->get_path())){
 			return $this->dom = $doc;
