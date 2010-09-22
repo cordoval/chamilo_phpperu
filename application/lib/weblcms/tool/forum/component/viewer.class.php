@@ -5,6 +5,7 @@
  * @package application.lib.weblcms.tool.forum.component
  */
 require_once dirname(__FILE__) . '/../forum_tool.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object/forum/display/forum_display.class.php';
 
 class ForumToolViewerComponent extends ForumTool implements DelegateComponent
 {
