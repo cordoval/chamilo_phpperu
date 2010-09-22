@@ -979,12 +979,6 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
     
     }
 
-    //
-    //	function truncate_region($region) {
-    //		$condition = new EqualityCondition ( InternshipOrganizerRegion::PROPERTY_ID, $region->get_id () );
-    //		return $this->delete ( InternshipOrganizerRegion::get_table_name (), $condition );
-    //	}
-    //
     function create_internship_organizer_region($region)
     {
         return $this->create($region);
@@ -998,6 +992,12 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
     function retrieve_regions($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         return $this->retrieve_objects(InternshipOrganizerRegion :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerRegion :: CLASS_NAME);
+    }
+
+    function retrieve_region($region_id)
+    {
+        $condition = new EqualityCondition(InternshipOrganizerRegion :: PROPERTY_ID, $region_id);
+        return $this->retrieve_object(InternshipOrganizerRegion :: get_table_name(), $condition, array(), InternshipOrganizerRegion :: CLASS_NAME);
     }
 
     function retrieve_internship_organizer_region($id)
@@ -1105,8 +1105,8 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         
         $query .= ' JOIN ' . $this->escape_table_name(InternshipOrganizerLocation :: get_table_name()) . ' AS ' . $location_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerLocation :: PROPERTY_ID, $location_alias) . ' = ' . $this->escape_column_name(InternshipOrganizerMentorRelLocation :: PROPERTY_LOCATION_ID, $mentor_rel_location_alias);
         
-        $query .= ' JOIN ' . $this->escape_table_name(InternshipOrganizerOrganisation :: get_table_name()) . ' AS ' . $organisation_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerOrganisation :: PROPERTY_ID, $organisation_alias) . ' = ' . $this->escape_column_name(InternshipOrganizerLocation :: PROPERTY_ORGANISATION_ID, $location_alias);
-        
+        $query .= '  JOIN ' . $this->escape_table_name(InternshipOrganizerOrganisation :: get_table_name()) . ' AS ' . $organisation_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerOrganisation :: PROPERTY_ID, $organisation_alias) . ' = ' . $this->escape_column_name(InternshipOrganizerLocation :: PROPERTY_ORGANISATION_ID, $location_alias);
+              
         return $this->retrieve_object_set($query, InternshipOrganizerMentor :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerMentor :: CLASS_NAME);
     
     }
@@ -1219,6 +1219,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         $query .= ' JOIN ' . $this->escape_table_name(InternshipOrganizerLocation :: get_table_name()) . ' AS ' . $location_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerLocation :: PROPERTY_ID, $location_alias) . ' = ' . $this->escape_column_name(InternshipOrganizerMentorRelLocation :: PROPERTY_LOCATION_ID, $mentor_rel_location_alias);
         $query .= ' JOIN ' . $this->escape_table_name(InternshipOrganizerRegion :: get_table_name()) . ' AS ' . $region_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerRegion :: PROPERTY_ID, $region_alias) . ' = ' . $this->escape_column_name(InternshipOrganizerLocation :: PROPERTY_REGION_ID, $location_alias);
         
+               
         return $this->retrieve_object_set($query, InternshipOrganizerMentorRelLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerMentorRelLocation :: CLASS_NAME);
     
     }

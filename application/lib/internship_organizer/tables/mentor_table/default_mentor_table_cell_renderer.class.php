@@ -17,16 +17,16 @@ class DefaultInternshipOrganizerMentorTableCellRenderer extends ObjectTableCellR
         	
     	switch ($column->get_name())
         {
-            case InternshipOrganizerMentor :: PROPERTY_TITLE :
-                return $mentor->get_title();
-            case InternshipOrganizerMentor :: PROPERTY_FIRSTNAME :
-                return $mentor->get_firstname();
-            case InternshipOrganizerMentor :: PROPERTY_LASTNAME :
-                return $mentor->get_lastname();
-            case InternshipOrganizerMentor :: PROPERTY_EMAIL :
-                return $mentor->get_email();
-            case InternshipOrganizerMentor :: PROPERTY_TELEPHONE :
-                return $mentor->get_telephone();
+//            case InternshipOrganizerMentor :: PROPERTY_TITLE :
+//                return $mentor->get_title();
+//            case InternshipOrganizerMentor :: PROPERTY_FIRSTNAME :
+//                return $mentor->get_firstname();
+//            case InternshipOrganizerMentor :: PROPERTY_LASTNAME :
+//                return $mentor->get_lastname();
+//            case InternshipOrganizerMentor :: PROPERTY_EMAIL :
+//                return $mentor->get_email();
+//            case InternshipOrganizerMentor :: PROPERTY_TELEPHONE :
+//                return $mentor->get_telephone();
             default :
                 return '&nbsp;';
         }

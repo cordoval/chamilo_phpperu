@@ -137,9 +137,8 @@ interface InternshipOrganizerDataManagerInterface
 
     function retrieve_internship_organizer_region($id);
 
-    //     function truncate_region($id);
+    function retrieve_region($region_id);
     
-
     function retrieve_regions($condition = null, $offset = null, $count = null, $order_property = null);
 
     function retrieve_root_region();

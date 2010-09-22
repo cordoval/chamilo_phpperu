@@ -425,6 +425,9 @@ $lang['internship_organizer']['ViewInternshipOrganizerPeriod'] = 'View period';
 $lang['internship_organizer']['InternshipOrganizerPeriodManagerAgreementEditorComponent'] = 'Agreement Editor';
 $lang['internship_organizer']['InternshipOrganizerAgreementManagerMomentEditorComponent'] = 'Moment Editor';
 $lang['internship_organizer']['ViewInternshipOrganizerMoment'] = 'View Moment';
+//21-9-10
+$lang['internship_organizer']['InternshipOrganizerOrganisationManagerLocationViewerComponent'] = 'View Location';
+$lang['internship_organizer']['ViewInternshipOrganizerOrganisations'] = 'View Organsation';
 
 
 
