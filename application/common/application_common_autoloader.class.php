@@ -49,6 +49,8 @@ class ApplicationCommonAutoloader
 				      'external_repository_object_display' => 'external_repository_manager/external_repository_object_display.class.php',
 		              'external_repository_component' => 'external_repository_manager/external_repository_component.class.php',
 		              'external_repository_connector' => 'external_repository_manager/external_repository_connector.class.php',
+					  'external_repository_menu' => 'external_repository_manager/external_repository_menu.class.php',
+					  'external_repository_object_renderer' => 'external_repository_manager/external_repository_object_renderer.class.php',
 				      'dynamic_form_manager' => 'dynamic_form_manager/dynamic_form_manager.class.php',
 				      'rights_editor_manager' => 'rights_editor_manager/rights_editor_manager.class.php',
 					  'validation_manager' => 'validation_manager/validation_manager.class.php',
@@ -56,8 +58,15 @@ class ApplicationCommonAutoloader
 					  'web_application_component' => 'web_application_component.class.php',
 					  'test_category_manager' => 'category_manager/test_category_manager.class.php',
 					  'email_manager' => 'email_manager/email_manager.class.php',
-					  'external_repository_menu' => 'external_repository_manager/external_repository_menu.class.php',
-					  'external_repository_object_renderer' => 'external_repository_manager/external_repository_object_renderer.class.php');
+					  'video_conferencing_manager' => 'video_conferencing_manager/video_conferencing_manager.class.php',
+				      'video_conferencing_meeting_object' => 'video_conferencing_manager/video_conferencing_meeting_object.class.php',
+		              'video_conferencing_participants_object' => 'video_conferencing_manager/video_conferencing_participants_object.class.php',
+				      'video_conferencing_connector' => 'video_conferencing_manager/video_conferencing_connector.class.php',
+					  'video_conferencing_menu' => 'video_conferencing_manager/video_conferencing_menu.class.php',
+					  'video_conferencing_meeting_object_renderer' => 'video_conferencing_manager/video_conferencing_meeting_object_renderer.class.php',
+					  'video_conferencing_participants_object_renderer' => 'video_conferencing_manager/video_conferencing_participants_object_renderer.class.php',
+					  'video_conferencing_meeting_object_display' => 'video_conferencing_manager/video_conferencing_meeting_object_renderer.class.php',
+					  'video_conferencing_participants_object_display' => 'video_conferencing_manager/video_conferencing_participants_object_renderer.class.php');
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);
 
