@@ -23,6 +23,11 @@ class ForumToolViewerComponent extends ForumTool implements DelegateComponent
 
         $this->publication_id = Request :: get(Tool :: PARAM_PUBLICATION_ID);
         $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, $this->publication_id);
+        
+        if (is_null(Request::get(ComplexDisplay :: PARAM_DISPLAY_ACTION)))
+        {
+            Request::set_get(ComplexDisplay :: PARAM_DISPLAY_ACTION, ForumDisplay :: ACTION_VIEW_FORUM);
+        }
 
         $this->trail = $trail = BreadcrumbTrail :: get_instance();
 
