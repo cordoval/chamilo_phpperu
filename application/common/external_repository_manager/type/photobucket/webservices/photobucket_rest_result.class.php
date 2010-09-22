@@ -1,10 +1,4 @@
 <?php
-
-/**
- * Description of mediamosa_rest_resultclass
- *
- * @author jevdheyd
- */
 class PhotobucketRestResult extends RestResult {
 
     

@@ -11,10 +11,8 @@ require_once dirname(__FILE__).'/photobucket_rest_result.class.php';
 
 class PhotobucketRestClient extends RestClient{
 
-    private $matterhorn_url;
-    //private $connector_cookie = null;
+    private $photobucket_url;
     
-
     const METHOD_POST = 'POST';
     const METHOD_GET = 'GET';
     const METHOD_PUT = 'PUT';
@@ -24,7 +22,7 @@ class PhotobucketRestClient extends RestClient{
     {
         parent::__construct();
 
-        $this->photobucket_url = $photobucket_url;
+        $this->photobucket_url = $photobucket_url;        
     }
 
     function array_to_url($data)
@@ -62,7 +60,7 @@ class PhotobucketRestClient extends RestClient{
      */
     function request($method, $url, $data = null)
     {
-        $this->set_http_method($method);
+    	$this->set_http_method($method);
 
         $this->set_data_to_send('');
 

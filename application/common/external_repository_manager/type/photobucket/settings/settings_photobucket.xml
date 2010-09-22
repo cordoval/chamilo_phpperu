@@ -7,6 +7,16 @@
 					<validation rule="required" message="ThisFieldIsRequired" />
 				</validations>
 			</setting>
+			<setting name="consumer_key" field="text">
+				<validations>
+					<validation rule="required" message="ThisFieldIsRequired" />
+				</validations>
+			</setting>
+			<setting type="password" name="consumer_secret" field="text">
+				<validations>
+					<validation rule="required" message="ThisFieldIsRequired" />
+				</validations>
+			</setting>
 		</category>
 	</settings>
 </application>

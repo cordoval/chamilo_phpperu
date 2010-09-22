@@ -61,7 +61,6 @@ if ( !class_exists('phpFlickr') ) {
 			$this->api_key = $api_key;
 			$this->secret = $secret;
 			$this->die_on_error = $die_on_error;
-			$this->service = "flickr";
 
 			//Find the PHP version and store it for future reference
 			$this->php_version = explode("-", phpversion());
@@ -578,7 +577,6 @@ if ( !class_exists('phpFlickr') ) {
 			// Redirects to Flickr's authentication piece if there is no valid token.
 			// If remember_uri is set to false, the callback script (included) will
 			// redirect to its default page.
-
 			if (empty($_SESSION['phpFlickr_auth_token']) && empty($this->token)) {
 				if ( $remember_uri === true ) {
 					session_register('phpFlickr_auth_redirect');
@@ -588,12 +586,11 @@ if ( !class_exists('phpFlickr') ) {
 					$_SESSION['phpFlickr_auth_redirect'] = $remember_uri;
 				}
 				$api_sig = md5($this->secret . "api_key" . $this->api_key . "perms" . $perms);
-				
-				if ($this->service == "23") {
-					header("Location: http://www.23hq.com/services/auth/?api_key=" . $this->api_key . "&perms=" . $perms . "&api_sig=". $api_sig);
-				} else {
+//				if ($this->service == "23") {
+//					header("Location: http://www.23hq.com/services/auth/?api_key=" . $this->api_key . "&frob" . $frob);
+//				} else {
 					header("Location: http://www.flickr.com/services/auth/?api_key=" . $this->api_key . "&perms=" . $perms . "&api_sig=". $api_sig);
-				}
+//				}
 				exit;
 			} else {
 				$tmp = $this->die_on_error;
@@ -608,6 +605,23 @@ if ( !class_exists('phpFlickr') ) {
 			}
 		}
 
+		
+		function auth23hq ($frob, $remember_uri = true) {
+			// Redirects to Flickr's authentication piece if there is no valid token.
+			// If remember_uri is set to false, the callback script (included) will
+			// redirect to its default page.
+			//if (empty($_SESSION['phpFlickr_auth_token']) && empty($this->token)) {
+				if ( $remember_uri === true ) {
+					session_register('phpFlickr_auth_redirect');
+					$_SESSION['phpFlickr_auth_redirect'] = $_SERVER['REQUEST_URI'];
+				} elseif ( $remember_uri !== false ) {
+					session_register('phpFlickr_auth_redirect');
+					$_SESSION['phpFlickr_auth_redirect'] = $remember_uri;
+				}
+				header("Location: http://www.23hq.com/services/auth/?api_key=" . $this->api_key . "&frob=" . $frob);
+				exit;
+			//}
+		}
 		/*******************************
 
 		To use the phpFlickr::call method, pass a string containing the API method you want

@@ -37,7 +37,7 @@ abstract class ExternalRepositoryManager extends SubManager
      */
     function ExternalRepositoryManager($application)
     {
-        parent :: __construct($application);
+    	parent :: __construct($application);
         $this->external_repository = $application->get_external_repository();
         
         $external_repository_manager_action = Request :: get(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION);

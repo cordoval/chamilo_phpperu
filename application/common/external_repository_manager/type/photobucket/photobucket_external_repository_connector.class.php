@@ -1,6 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/photobucket_external_repository_object.class.php';
 require_once dirname(__FILE__) . '/webservices/photobucket_rest_client.class.php';
+require_once 'OAuth/Request.php';
 /**
  * 
  * @author magali.gillard
@@ -9,24 +10,32 @@ require_once dirname(__FILE__) . '/webservices/photobucket_rest_client.class.php
 class PhotobucketExternalRepositoryConnector extends ExternalRepositoryConnector
 {
     private $photobucket;
-    private $consumer_key;
-    private $consumer_secret;
-
+	private $consumer;
+	private $url;
+    
     function PhotobucketExternalRepositoryConnector($external_repository_instance)
     {
         parent :: __construct($external_repository_instance);
 
-        $this->consumer_key = ExternalRepositorySetting :: get('key', $this->get_external_repository_instance_id());
-        $this->consumer_secret = ExternalRepositorySetting :: get('secret', $this->get_external_repository_instance_id());
+        $this->key = ExternalRepositorySetting :: get('consumer_key', $this->get_external_repository_instance_id());
+        $this->secret = ExternalRepositorySetting :: get('consumer_secret', $this->get_external_repository_instance_id());
         
-        $url = ExternalRepositorySetting :: get('url', $this->get_external_repository_instance_id());
-        $this->photobucket = new PhotobucketRestClient();
+        $this->url = ExternalRepositorySetting :: get('url', $this->get_external_repository_instance_id());
+       	$this->login();
+        //$this->photobucket = new PhotobucketRestClient($url);
+    }   
+
+    
+    function login()
+    {
+    	$this->consumer = new OAuth_Consumer($this->key, $this->secret);
+    	$request = OAuth_Request::fromConsumerAndToken($this->consumer, NULL, "POST", 'http://api.photobucket.com/login/request');
+    	$request->signRequest('HMAC-SHA1', $this->consumer);
+dump($request);
+   		Header("Location: $request");
+		
     }
     
-    function retrieve_external_repository_login()
-    {
-    	$login = $this->request(PhotobucketRestClient :: METHOD_POST, '/login/request');
-    }
 //    
 //    /**
 //     * @param int $instance_id
@@ -42,11 +51,25 @@ class PhotobucketExternalRepositoryConnector extends ExternalRepositoryConnector
 //    }
 
     function retrieve_external_repository_objects($condition, $order_property, $offset, $count)
-    {    	
-    	$response = $this->request(PhotobucketRestClient :: METHOD_GET, '/media');
-        $objects = array();
-      
-        $xml = $this->get_xml($response->get_response_content());
+    {       	   	  	   	
+    	$request = OAuth_Request::fromUrl($this->url . '/featured/group?format=xml', 'GET', $this->consumer);
+    	$request->signRequest('HMAC-SHA1', $this->consumer);
+    	Header("Location: $request");
+    	
+    	$response = $this->request($request);
+    	dump($response);
+    	
+		//check the url : OK
+    	$url = $request->__toString();
+		dump($url);
+		
+		//xml file from this ... NOT OK !!!
+		
+		exit;
+
+		$objects = array();
+        $xml = $this->get_xml($request->get_response_content());
+
         if ($xml)
         {
             
@@ -56,6 +79,15 @@ class PhotobucketExternalRepositoryConnector extends ExternalRepositoryConnector
             }
         }
         return new ArrayResultSet($objects);
+    }
+
+ 	function request($request)
+    {
+        if ($this->photobucket)
+        {
+        	return $this->photobucket;
+        }
+        return false;
     }
 
     function retrieve_external_repository_object($id)
@@ -76,14 +108,7 @@ class PhotobucketExternalRepositoryConnector extends ExternalRepositoryConnector
 //        }
     }
 
-    function request($method, $url, $data)
-    {
-        if ($this->photobucket)
-        {
-        	return $this->photobucket->request($method, $url, $data);
-        }
-        return false;
-    }
+   
 
     function count_external_repository_objects($condition)
     {
@@ -119,7 +144,7 @@ class PhotobucketExternalRepositoryConnector extends ExternalRepositoryConnector
     
     function export_external_repository_object($object)
     {
-        return true;
+ //       return true;
     }
 
     function determine_rights($video_entry)

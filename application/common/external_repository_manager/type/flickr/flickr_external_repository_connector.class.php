@@ -52,7 +52,8 @@ class FlickrExternalRepositoryConnector extends ExternalRepositoryConnector
         $this->key = ExternalRepositorySetting :: get('key', $this->get_external_repository_instance_id());
         $this->secret = ExternalRepositorySetting :: get('secret', $this->get_external_repository_instance_id());
         $this->flickr = new phpFlickr($this->key, $this->secret);
-
+		$this->flickr->set_service('flickr');
+        
         $session_token = ExternalRepositoryUserSetting :: get('session_token', $this->get_external_repository_instance_id());
 
         if (! $session_token)
