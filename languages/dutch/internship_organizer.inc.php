@@ -6,7 +6,7 @@ $lang['DeleteConfirm'] = 'Ben je zeker dat je deze elementen wil verwijderen?';
 $lang['internship_organizer']['CreateInternshipOrganizerAgreement'] = 'Stel Contract Op';
 $lang['internship_organizer']['InternshipOrganizerAgreementCreated'] = 'Contract Opgesteld';
 $lang['internship_organizer']['InternshipOrganizerAgreementNotCreated'] = 'Kon Contract Niet Opstellen';
-$lang['internship_organizer']['BrowseInternshipOrganizerAgreements'] = 'Doorzoek Contracten';
+$lang['internship_organizer']['BrowseInternshipOrganizerAgreements'] = 'Contractbeheer';
 $lang['internship_organizer']['ViewInternshipOrganizerAgreement'] = 'Bekijk Contracten';
 $lang['internship_organizer']['UpdateInternshipOrganizerAgreement'] = 'Wijzig Contract';
 $lang['internship_organizer']['InternshipOrganizerAgreementUpdated'] = 'Contract Gewijzigd';
@@ -20,7 +20,7 @@ $lang['internship_organizer']['NoInternshipOrganizerAgreementsSelected'] = 'Geen
 $lang['internship_organizer']['CreateInternshipOrganizerMoment'] = 'Maak Moment Aan';
 $lang['internship_organizer']['InternshipOrganizerMomentCreated'] = 'Moment Aangemaakt';
 $lang['internship_organizer']['InternshipOrganizerMomentNotCreated'] = 'Kon Moment Niet Aanmaken';
-$lang['internship_organizer']['BrowseInternshipOrganizerMoments'] = 'Doorzoek Momenten';
+$lang['internship_organizer']['BrowseInternshipOrganizerMoments'] = 'Momentbeheer';
 $lang['internship_organizer']['UpdateInternshipOrganizerMoment'] = 'Wijzig Momenten';
 $lang['internship_organizer']['InternshipOrganizerMomentsUpdated'] = 'Momenten Gewijzigd';
 $lang['internship_organizer']['InternshipOrganizerMomentNotUpdated'] = 'Kon Moment Niet Wijzigen';
@@ -35,7 +35,7 @@ $lang['internship_organizer']['NoInternshipOrganizerMomentsSelected'] = 'Geen Mo
 $lang['internship_organizer']['CreateInternshipOrganizerCategory'] = 'Maak Categorie Aan';
 $lang['internship_organizer']['InternshipOrganizerCategoryCreated'] = 'Categorie Aangemaakt';
 $lang['internship_organizer']['InternshipOrganizerCategoryNotCreated'] = 'Kon Categorie Niet Aanmaken';
-$lang['internship_organizer']['BrowseInternshipOrganizerCategories'] = 'Doorzoek Categorieën';
+$lang['internship_organizer']['BrowseInternshipOrganizerCategories'] = 'Categoriebeheer';
 $lang['internship_organizer']['UpdateInternshipOrganizerCategory'] = 'Wijzig Categorie';
 $lang['internship_organizer']['InternshipOrganizerCategoryUpdated'] = 'Categorie Gewijzigd';
 $lang['internship_organizer']['InternshipOrganizerCategoryNotUpdated'] = 'Kon Categorie Niet Wijzigen';
@@ -83,7 +83,7 @@ $lang['internship_organizer']['InternshipOrganizerCategory'] = 'Categorie';
 $lang['internship_organizer']['CreateInternshipOrganizerMentor'] = 'Maak Mentor Aan';
 $lang['internship_organizer']['InternshipOrganizerMentorCreated'] = 'Mentor Aangemaakt';
 $lang['internship_organizer']['InternshipOrganizerMentorNotCreated'] = 'Kon Mentor Niet Aanmaken';
-$lang['internship_organizer']['BrowseInternshipOrganizerMentors'] = 'Doorzoek Mentoren';
+$lang['internship_organizer']['BrowseInternshipOrganizerMentors'] = 'Mentorbeheer';
 $lang['internship_organizer']['UpdateInternshipOrganizerMentor'] = 'Wijzig Mentor';
 $lang['internship_organizer']['InternshipOrganizerMentorUpdated'] = 'Mentor Gewijzigd';
 $lang['internship_organizer']['InternshipOrganizerMentorNotUpdated'] = 'Kon Mentor Niet Wijzigen';
@@ -98,7 +98,7 @@ $lang['internship_organizer']['NoInternshipOrganizerMentorsSelected'] = 'Geen Me
 $lang['internship_organizer']['CreateInternshipOrganizerOrganisation'] = 'Maak Organisatie Aan';
 $lang['internship_organizer']['InternshipOrganizerOrganisationCreated'] = 'Organisatie Aangemaakt';
 $lang['internship_organizer']['InternshipOrganizerOrganisationNotCreated'] = 'Kon Organisatie Niet Aanmaken';
-$lang['internship_organizer']['BrowseInternshipOrganizerOrganisations'] = 'Doorzoek Organisaties';
+$lang['internship_organizer']['BrowseInternshipOrganizerOrganisations'] = 'Organisatiebeheer';
 $lang['internship_organizer']['UpdateInternshipOrganizerOrganisation'] = 'Wijzig Organisatie';
 $lang['internship_organizer']['InternshipOrganizerOrganisationUpdated'] = 'Organisatie Gewijzigd';
 $lang['internship_organizer']['InternshipOrganizerOrganisationNotUpdated'] = 'Kon Organisatie Niet Wijzigen';
@@ -114,7 +114,7 @@ $lang['internship_organizer']['AddInternshipOrganizerUsers'] = 'Ken Gebruikers T
 $lang['internship_organizer']['CreateInternshipOrganizerPeriod'] = 'Maak Periode Aan';
 $lang['internship_organizer']['InternshipOrganizerPeriodCreated'] = 'Periode Aangemaakt';
 $lang['internship_organizer']['InternshipOrganizerPeriodNotCreated'] = 'Kon Periode Niet Aanmaken';
-$lang['internship_organizer']['BrowseInternshipOrganizerPeriods'] = 'Doorzoek Periodes';
+$lang['internship_organizer']['BrowseInternshipOrganizerPeriods'] = 'Periodebeheer';
 $lang['internship_organizer']['UpdateInternshipOrganizerPeriod'] = 'Wijzig Periode';
 $lang['internship_organizer']['InternshipOrganizerPeriodUpdated'] = 'Periode Gewijzigd';
 $lang['internship_organizer']['InternshipOrganizerPeriodNotUpdated'] = 'Kon Periode Niet Wijzigen';
@@ -132,7 +132,7 @@ $lang['internship_organizer']['Periods'] = 'Periodes';
 $lang['internship_organizer']['CreateInternshipOrganizerRegion'] = 'Maak Regio Aan';
 $lang['internship_organizer']['InternshipOrganizerRegionCreated'] = 'Regio Aangemaakt';
 $lang['internship_organizer']['InternshipOrganizerRegionNotCreated'] = 'Kon Regio Niet Aanmaken';
-$lang['internship_organizer']['BrowseInternshipOrganizerRegions'] = 'Doorzoek Regio´s';
+$lang['internship_organizer']['BrowseInternshipOrganizerRegions'] = 'Regiobeheer';
 $lang['internship_organizer']['UpdateInternshipOrganizerRegion'] = 'Wijzig Regio';
 $lang['internship_organizer']['InternshipOrganizerRegionUpdated'] = 'Regio Gewijzigd';
 $lang['internship_organizer']['InternshipOrganizerRegionNotUpdated'] = 'Kon Regio Niet Wijzigen';
@@ -211,9 +211,31 @@ $lang['internship_organizer']['InternshipOrganizerAgreementToApprove'] = 'Wacht 
 $lang['internship_organizer']['InternshipOrganizerAgreementApproved'] = 'Goedgekeurd';
 
 //2010-09-20
+//Rechten
+$lang['internship_organizer']['NoInherit'] = 'Geen Overerving';
+$lang['internship_organizer']['RightsEditorManagerBrowserComponent'] = 'Wijzig Rechten';
+$lang['internship_organizer']['LockedTrue']= 'Vergrendeld Juist';
+$lang['internship_organizer']['LockedFalse']= 'Vergrendeld Fout';
+$lang['internship_organizer']['InheritedTrue']= 'Overgeërfd Juist';
+$lang['internship_organizer']['InheritedFalse']= 'Overgeërfd Fout';
+$lang['internship_organizer']['HideRightsLegend']= 'Verberg Rechtenlegende';
+//Reporting
+$lang['internship_organizer']['ReportingViewerViewerComponent']= 'Rapporteringsoverzicht';
+$lang['internship_organizer']['ExportToPdf']= 'Exporteer Naar PDF';
+$lang['internship_organizer']['ExportToExcel']= 'Exporteer Naar Excel';
+$lang['internship_organizer']['InternshipOrganizerAgreementCoordinatorReportingBlock']= 'Coördinator';
+$lang['internship_organizer']['InternshipOrganizerAgreementCoachReportingBlock']= 'Coach';
+$lang['internship_organizer']['InternshipOrganizerAgreementStudentReportingBlock']= 'Student';
+$lang['internship_organizer']['InternshipOrganizerAgreementMentorReportingBlock']= 'Mentor';
+$lang['internship_organizer']['InternshipOrganizerAgreementAddLocationReportingBlock']= 'Locatie Toe Te Kennen';
+$lang['internship_organizer']['InternshipOrganizerAgreementToApproveReportingBlock']= 'Wacht Op Goedkeuring';
+
 //Agreement
-$lang['internship_organizer']['InternshipOrganizerAgreementManagerBrowserComponent'] = 'Contractbeheer';
-$lang['internship_organizer']['InternshipOrganizerAgreementManagerPublisherComponent'] = 'Contractbeheer';
+$lang['internship_organizer']['InternshipOrganizerAgreementManagerBrowserComponent'] = 'Contractoverzicht';
+$lang['internship_organizer']['InternshipOrganizerAgreementManagerEditorComponent'] = 'Wijzig Contract';
+$lang['internship_organizer']['InternshipOrganizerAgreementManagerViewerComponent'] = 'Bekijk Contract';
+$lang['internship_organizer']['InternshipOrganizerAgreementManagerCreatorComponent'] = 'Maak Contract';
+$lang['internship_organizer']['InternshipOrganizerAgreementManagerPublisherComponent'] = 'Publiceer In Contract';
 $lang['internship_organizer']['PublishInAgreements'] = 'Publiceer In Contract';
 $lang['internship_organizer']['MyRepository'] = 'Mijn Magazijn';
 $lang['internship_organizer']['RepoViewerCreatorComponent'] = 'Verkenner';
@@ -224,6 +246,7 @@ $lang['internship_organizer']['FileName'] = 'Bestandsnaam';
 $lang['internship_organizer']['SharedContentObjects'] = 'Gedeelde Inhoud';
 $lang['internship_organizer']['SelectedContentObjects'] = 'Gekozen Inhoud';
 $lang['internship_organizer']['ObjectPublished'] = 'Inhoud Gepubliceerd';
+$lang['internship_organizer']['Username'] = 'Gebruikersnaam';
 
 $lang['internship_organizer']['InternshipOrganizerTypeOfPublication'] = 'Publicatietype';
 $lang['internship_organizer']['InternshipOrganizerContract'] = 'Contract';
@@ -247,6 +270,7 @@ $lang['internship_organizer']['AddCategories'] = 'Ken Categorieën Toe';
 $lang['internship_organizer']['Categories'] = 'Categorieën';
 $lang['internship_organizer']['Details'] = 'Details';
 $lang['internship_organizer']['ManageRights'] = 'Rechten';
+$lang['internship_organizer']['ParentPeriod'] = 'Overkoepelende Periode';
 
 $lang['internship_organizer']['InternshipOrganizerPeriodManagerSubscribeUserComponent'] = 'Gebruikers Toekennen';
 $lang['internship_organizer']['InternshipOrganizerPeriodManagerSubscribeGroupComponent'] = 'Groepen Toekennen';
@@ -256,6 +280,7 @@ $lang['internship_organizer']['PublishFor'] = 'Ken Toe Aan';
 //Organisatie
 $lang['internship_organizer']['InternshipOrganizerOrganisationManagerBrowserComponent'] = 'Organisatiebeheer';
 $lang['internship_organizer']['InternshipOrganizerOrganisationManagerViewerComponent'] = 'Organisatiebeheer';
+$lang['internship_organizer']['InternshipOrganizerOrganisationManagerCreatorComponent'] = 'Organisatiebeheer';
 $lang['internship_organizer']['InternshipOrganizerLocations'] = 'Locaties';
 $lang['internship_organizer']['InternshipOrganizerMentors'] = 'Mentoren';
 $lang['internship_organizer']['InternshipOrganizerUsers'] = 'Gebruikers';
@@ -263,15 +288,17 @@ $lang['internship_organizer']['RemoveSelected'] = 'Verwijder Gekozen Items';
 
 //Categorie
 $lang['internship_organizer']['InternshipOrganizerCategoryManagerBrowserComponent'] = 'Categoriebeheer';
+$lang['internship_organizer']['InternshipOrganizerCategoryManagerViewerComponent'] = 'Categoriebeheer';
+$lang['internship_organizer']['InternshipOrganizerCategoryManagerCreatorComponent'] = 'Categoriebeheer';
 $lang['internship_organizer']['TruncateNA'] = 'Legen Niet Beschikbaar';
 $lang['internship_organizer']['TruncateSelected'] = 'Gekozen Items Legen';
+$lang['internship_organizer']['Truncate'] = 'Legen';
 $lang['internship_organizer']['SubCategories'] = 'Subcategorieën';
 
 //Regio
 $lang['internship_organizer']['InternshipOrganizerRegionManagerBrowserComponent'] = 'Regiobeheer';
-$lang['internship_organizer'][''] = '';
-$lang['internship_organizer'][''] = '';
-$lang['internship_organizer'][''] = '';
+$lang['internship_organizer']['InternshipOrganizerRegionManagerViewerComponent'] = 'Regiobeheer';
+$lang['internship_organizer']['InternshipOrganizerRegionManagerCreatorComponent'] = 'Regiobeheer';
 
 
 ?>
