@@ -41,7 +41,7 @@ class SurveyManagerPageBrowserComponent extends SurveyManager
 
     function get_table()
     {
-        $table = new SurveyPageBrowserTable($this, array(Application :: PARAM_APPLICATION => self :: APPLICATION_NAME, Application :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PAGES), $this->get_condition());
+        $table = new SurveyPageBrowserTable($this, array(Application :: PARAM_APPLICATION => self :: APPLICATION_NAME, Application :: PARAM_ACTION => self :: ACTION_BROWSE_PAGES), $this->get_condition());
         return $table->as_html();
     }
 
@@ -76,7 +76,7 @@ class SurveyManagerPageBrowserComponent extends SurveyManager
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PUBLICATIONS)), Translation :: get('BrowseSurveys')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE)), Translation :: get('BrowseSurveys')));
     }
 
     function get_additional_parameters()

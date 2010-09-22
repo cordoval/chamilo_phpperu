@@ -19,7 +19,7 @@ class DefaultSurveyPageTableCellRenderer extends ObjectTableCellRenderer
      */
     function render_cell($column, $survey_page)
     {
-  
+  	    	
         switch ($column->get_name())
         {
             case ContentObject :: PROPERTY_TITLE :
