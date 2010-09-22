@@ -25,7 +25,8 @@ class SurveyPageBrowserTableCellRenderer extends DefaultSurveyPageTableCellRende
     // Inherited
     function render_cell($column, $survey_page)
     {
-        if ($column === SurveyPageBrowserTableColumnModel :: get_modification_column())
+        
+    	if ($column === SurveyPageBrowserTableColumnModel :: get_modification_column())
         {
             return $this->get_modification_links($survey_page);
         }

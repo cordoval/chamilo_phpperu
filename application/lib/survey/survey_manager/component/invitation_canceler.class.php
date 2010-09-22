@@ -15,7 +15,7 @@ class SurveyManagerInvitationCancelerComponent extends SurveyManager
     function run()
     {
         
-        $ids = Request :: get(SurveyManager :: PARAM_INVITEE_IDS);
+        $ids = Request :: get(SurveyManager :: PARAM_INVITEE_ID);
         $failures = 0;
         
         if (! empty($ids))
@@ -70,7 +70,7 @@ class SurveyManagerInvitationCancelerComponent extends SurveyManager
             }
             
            
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_SURVEY_PARTICIPANTS, SurveyManager :: PARAM_PUBLICATION_ID =>$publication_id));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_PARTICIPANTS, SurveyManager :: PARAM_PUBLICATION_ID =>$publication_id));
            
         }
         else

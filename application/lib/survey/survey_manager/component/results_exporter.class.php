@@ -1,8 +1,5 @@
 <?php
-/**
- * $Id: results_exporter.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.survey.survey_manager.component
- */
+
 require_once dirname(__FILE__) . '/../survey_manager.class.php';
 
 require_once dirname(__FILE__) . '/results_export_form/results_export_form.class.php';
@@ -13,11 +10,7 @@ class SurveyManagerResultsExporterComponent extends SurveyManager
 
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        //$trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS)), Translation :: get('BrowseSurveyPublications')));
-        //$trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_VIEW_SURVEY_PUBLICATION_RESULTS)), Translation :: get('ViewResults')));
-        $trail->add_help('courses survey tool');
-        
+               
         if (Request :: get('tid'))
         {
             $id = Request :: get('tid');

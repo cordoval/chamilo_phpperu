@@ -41,7 +41,7 @@ class SurveyManagerMailerComponent extends SurveyManager
             
             foreach ($ids as $id)
             {
-                $survey_publication = $this->retrieve_survey_publication($id);
+                $survey_publication = SurveyDataManager :: get_instance()->retrieve_survey_publication($id);
                 $survey_id = $survey_publication->get_content_object();
                 $surveys[] = RepositoryDataManager :: get_instance()->retrieve_content_object($survey_id);
             
@@ -119,7 +119,7 @@ class SurveyManagerMailerComponent extends SurveyManager
         }
         else
         {
-            $this->redirect(Translation :: get('NoParticipantSelected'), false, array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PUBLICATIONS));
+            $this->redirect(Translation :: get('NoParticipantSelected'), false, array(self :: PARAM_ACTION => self :: ACTION_BROWSE));
         }
     
     }
@@ -187,7 +187,7 @@ class SurveyManagerMailerComponent extends SurveyManager
         
         if (count(array_values($mail_users)) == 0)
         {
-            $this->redirect(Translation :: get('NoSurveyParticipantMailsSend'), false, array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PUBLICATIONS));
+            $this->redirect(Translation :: get('NoSurveyParticipantMailsSend'), false, array(self :: PARAM_ACTION => self :: ACTION_BROWSE));
         }
         else
         {
@@ -218,11 +218,11 @@ class SurveyManagerMailerComponent extends SurveyManager
             }
             if ($this->mail_send == false)
             {
-                $this->redirect(Translation :: get('NotAllSurveyParticipantMailsSend'), false, array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PUBLICATIONS));
+                $this->redirect(Translation :: get('NotAllSurveyParticipantMailsSend'), false, array(self :: PARAM_ACTION => self :: ACTION_BROWSE));
             }
             else
             {
-                $this->redirect(Translation :: get('AllSurveyParticipantMailsSend'), false, array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PUBLICATIONS));
+                $this->redirect(Translation :: get('AllSurveyParticipantMailsSend'), false, array(self :: PARAM_ACTION => self :: ACTION_BROWSE));
             }
         
         }
@@ -239,11 +239,11 @@ class SurveyManagerMailerComponent extends SurveyManager
         
         if (count($unique_surveys) != 1)
         {
-            $parameters[self :: PARAM_ACTION] = self :: ACTION_BROWSE_SURVEY_PUBLICATIONS;
+            $parameters[self :: PARAM_ACTION] = self :: ACTION_BROWSE;
         }
         else
         {
-            $parameters[self :: PARAM_ACTION] = self :: ACTION_VIEW_SURVEY_PUBLICATION;
+            $parameters[self :: PARAM_ACTION] = self :: ACTION_TAKE;
             $parameters[self :: PARAM_PUBLICATION_ID] = $unique_surveys[0];
         }
         
@@ -370,7 +370,7 @@ class SurveyManagerMailerComponent extends SurveyManager
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PUBLICATIONS)), Translation :: get('BrowseSurveys')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE)), Translation :: get('BrowseSurveys')));
     }
 
     function get_additional_parameters()

@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/../survey_manager.class.php';
 
 require_once dirname(__FILE__) . '/../../forms/survey_publication_form.class.php';
 
-class SurveyManagerCreatorComponent extends SurveyManager implements RepoViewerInterface
+class SurveyManagerPublisherComponent extends SurveyManager implements RepoViewerInterface
 {
 
     /**
@@ -13,35 +13,14 @@ class SurveyManagerCreatorComponent extends SurveyManager implements RepoViewerI
     function run()
     {
 
-        if (! SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_ADD, 'publication_browser', SurveyRights :: TYPE_SURVEY_COMPONENT))
+        if (! SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_PUBLISH, SurveyRights :: LOCATION_BROWSER, SurveyRights :: TYPE_SURVEY_COMPONENT))
         {
             $this->display_header();
             $this->display_error_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
         }
-
-//        $test = Request :: get(SurveyManager :: PARAM_TESTCASE);
-//        if ($test === 1)
-//        {
-//            $testcase = true;
-//        }
-
-//        $trail = BreadcrumbTrail :: get_instance();
-//        if ($testcase)
-//        {
-//            //$trail->add(new Breadcrumb($this->get_testcase_url(), Translation :: get('BrowseTestCaseSurveyPublications')));
-//            //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateTestCaseSurveyPublication')));
-//        }
-//        else
-//        {
-//            //$trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
-//            //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateSurveyPublication')));
-//        }
-
-//        dump($object_ids);
-//        exit;
-        
+       
         $html = array();
 
         if (!RepoViewer :: is_ready_to_be_published())
@@ -113,11 +92,11 @@ class SurveyManagerCreatorComponent extends SurveyManager implements RepoViewerI
 
                 if ($testcase)
                 {
-                    $this->redirect($message, (! $publication ? true : false), array(TestcaseManager :: PARAM_ACTION => TestcaseManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS));
+                    $this->redirect($message, (! $publication ? true : false), array(TestcaseManager :: PARAM_ACTION => TestcaseManager :: ACTION_BROWSE));
                 }
                 else
                 {
-                    $this->redirect($message, (! $publication ? true : false), array(Application :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS));
+                    $this->redirect($message, (! $publication ? true : false), array(Application :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE));
                 }
 
             }

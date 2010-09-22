@@ -1,6 +1,6 @@
 <?php
 
-class SurveyManagerRightsEditorComponent extends SurveyManager
+class SurveyManagerRightsEditorComponent extends SurveyManager implements DelegateComponent
 {
 
     /**
@@ -29,18 +29,31 @@ class SurveyManagerRightsEditorComponent extends SurveyManager
         
         $locations = array();
         
-        foreach ($publications as $publication)
+        foreach ($publications as $publication_id)
         {
             
-            $pub = SurveyDataManager :: get_instance()->retrieve_survey_publication($publication);
-            if ($this->get_user()->is_platform_admin() || $pub->get_publisher() == $this->get_user_id())
+            $publication = SurveyDataManager :: get_instance()->retrieve_survey_publication($publication_id);
+            $user_ids = array();
+            if ($this->get_user()->is_platform_admin() || $publication->get_publisher() == $this->get_user_id())
             {
-                $locations[] = SurveyRights :: get_location_by_identifier_from_surveys_subtree($publication, SurveyRights :: TYPE_PUBLICATION);
+                $locations[] = SurveyRights :: get_location_by_identifier_from_surveys_subtree($publication_id, SurveyRights :: TYPE_PUBLICATION);
+            	$publication_user_ids = SurveyRights :: get_allowed_users(SurveyRights :: RIGHT_VIEW, $publication_id, SurveyRights :: TYPE_PUBLICATION);
+                $user_ids = array_merge($user_ids, $publication_user_ids);
             }
         }
         
         $manager = new RightsEditorManager($this, $locations);
-        $manager->exclude_users(array($this->get_user_id()));
+       
+        if (count($user_ids) > 0)
+        {
+            $manager->limit_users($user_ids);
+        }
+        else
+        {
+            $manager->limit_users(array(0));
+        }
+        
+        $manager->set_modus(RightsEditorManager :: MODUS_USERS);
         $manager->run();
     }
 
@@ -53,7 +66,7 @@ class SurveyManagerRightsEditorComponent extends SurveyManager
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PUBLICATIONS)), Translation :: get('BrowseSurveys')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE)), Translation :: get('BrowseSurveys')));
     }
 
     function get_additional_parameters()

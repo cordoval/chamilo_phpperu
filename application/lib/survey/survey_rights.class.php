@@ -4,13 +4,24 @@ require_once Path :: get_application_path() . 'lib/survey/survey_manager/survey_
 
 class SurveyRights
 {
-    const RIGHT_VIEW = '1';
-    const RIGHT_ADD = '2';
-    const RIGHT_EDIT = '3';
-    const RIGHT_DELETE = '4';
-    const RIGHT_PUBLISH = '5';
-    const RIGHT_MOVE = '6';
-    const RIGHT_MAIL = '7';
+    const RIGHT_VIEW = 1;
+    const VIEW_RIGHT_NAME = 'view';
+    const RIGHT_INVITE = 2;
+    const INVITE_RIGHT_NAME = 'invite';
+    const RIGHT_EDIT = 3;
+    const EDIT_RIGHT_NAME = 'edit';
+    const RIGHT_DELETE = 4;
+    const DELETE_RIGHT_NAME = 'delete';
+    const RIGHT_PUBLISH = 5;
+    const PUBLISH_RIGHT_NAME = 'publish';
+    const RIGHT_REPORTING = 6;
+    const REPORTING_RIGHT_NAME = 'reporting';
+    const RIGHT_MAIL = 7;
+    const MAIL_RIGHT_NAME = 'mail';
+    const RIGHT_EXPORT_RESULT = 8;
+    const EXPORT_RESULT_RIGHT_NAME = 'export_result';
+    const RIGHT_PARTICIPATE = 9;
+    const PARTICIPATE_RIGHT_NAME = 'participate';
     
     const LOCATION_BROWSER = 1;
     const LOCATION_REPORTING = 2;
@@ -22,7 +33,7 @@ class SurveyRights
 
     static function get_available_rights_for_publications()
     {
-        return array('View' => self :: RIGHT_VIEW);
+        return array(self :: PARTICIPATE_RIGHT_NAME => self :: RIGHT_PARTICIPATE, self :: VIEW_RIGHT_NAME => self :: RIGHT_VIEW, self :: INVITE_RIGHT_NAME => self :: RIGHT_INVITE, self :: EDIT_RIGHT_NAME => self :: RIGHT_EDIT, self :: DELETE_RIGHT_NAME => self :: RIGHT_DELETE, self :: REPORTING_RIGHT_NAME => self :: RIGHT_REPORTING, self :: MAIL_RIGHT_NAME => self :: RIGHT_MAIL, self :: EXPORT_RESULT_RIGHT_NAME => self :: RIGHT_EXPORT_RESULT);
     }
 
     static function create_location_in_surveys_subtree($name, $identifier, $parent, $type)

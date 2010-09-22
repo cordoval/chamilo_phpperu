@@ -19,7 +19,6 @@ class DefaultSurveyPageTableColumnModel extends ObjectTableColumnModel
     {
         $rdm = RepositoryDataManager :: get_instance();
         $content_object_alias = $rdm->get_alias(ContentObject :: get_table_name());
-        
         $columns = array();
               
         $columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_TITLE, true, $content_object_alias);

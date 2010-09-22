@@ -132,21 +132,20 @@ class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInt
         
         //test
         $complex_content_objects = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new InCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $survey_ids, ComplexContentObjectItem :: get_table_name()));
-        
         $survey_page_ids = array();
         
         while ($complex_content_object = $complex_content_objects->next_result())
         {
             $survey_page_ids[] = $complex_content_object->get_ref();
         }
-        
+              
         if (count($survey_page_ids) == 0)
         {
             $survey_page_ids[] = 0;
         }
         
         $survey_page_condition = new InCondition(ContentObject :: PROPERTY_ID, $survey_page_ids, ContentObject :: get_table_name());
-        
+                
         if (isset($condition))
         {
             $condition = new AndCondition(array($condition, $survey_page_condition));
@@ -156,7 +155,8 @@ class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInt
             $condition = $survey_page_condition;
         }
         
-        return RepositoryDataManager :: get_instance()->retrieve_content_objects($condition, $offset, $max_objects, $order_by);
+        
+        return RepositoryDataManager :: get_instance()->retrieve_content_objects($condition,$order_by,  $offset, $max_objects);
     }
 
     function count_survey_questions($page_ids, $condition = null)
@@ -302,7 +302,7 @@ class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInt
             $info->set_application(SurveyManager :: APPLICATION_NAME);
             //TODO: i8n location string
             $info->set_location(Translation :: get('Survey'));
-            $info->set_url('run.php?application=survey&go=' . SurveyManager :: ACTION_VIEW_SURVEY_PUBLICATION);
+            $info->set_url('run.php?application=survey&go=' . SurveyManager :: ACTION_TAKE);
             $info->set_publication_object_id($record[SurveyPublication :: PROPERTY_CONTENT_OBJECT]);
             
             $publication_attr[] = $info;

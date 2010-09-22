@@ -13,7 +13,6 @@ class SurveyPublication extends DataClass
     const PROPERTY_CONTENT_OBJECT = 'content_object_id';
     const PROPERTY_FROM_DATE = 'from_date';
     const PROPERTY_TO_DATE = 'to_date';
-    const PROPERTY_HIDDEN = 'hidden';
     const PROPERTY_PUBLISHER = 'publisher_id';
     const PROPERTY_PUBLISHED = 'published';
     const PROPERTY_TYPE = 'type';
@@ -143,7 +142,7 @@ class SurveyPublication extends DataClass
 
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_CONTENT_OBJECT, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED, self :: PROPERTY_TYPE));
+        return parent :: get_default_property_names(array(self :: PROPERTY_CONTENT_OBJECT, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED, self :: PROPERTY_TYPE));
     }
 
     function get_data_manager()
@@ -205,15 +204,6 @@ class SurveyPublication extends DataClass
         $this->set_default_property(self :: PROPERTY_TO_DATE, $to_date);
     }
 
-    /**
-     * Returns the hidden of this SurveyPublication.
-     * @return the hidden.
-     */
-    function get_hidden()
-    {
-        return $this->get_default_property(self :: PROPERTY_HIDDEN);
-    }
-
     function get_type()
     {
         return $this->get_default_property(self :: PROPERTY_TYPE);
@@ -227,15 +217,6 @@ class SurveyPublication extends DataClass
     static public function get_types()
     {
         return array(self :: TYPE_TEST_CASE => self :: TYPE_NAME_TEST_CASE, self :: TYPE_OFFICIAL => self :: TYPE_NAME_OFFICIAL, self :: TYPE_VOLUNTEER => self :: TYPE_NAME_VOLUNTEER);
-    }
-
-    /**
-     * Sets the hidden of this SurveyPublication.
-     * @param hidden
-     */
-    function set_hidden($hidden)
-    {
-        $this->set_default_property(self :: PROPERTY_HIDDEN, $hidden);
     }
 
     /**
@@ -272,20 +253,6 @@ class SurveyPublication extends DataClass
     function set_published($published)
     {
         $this->set_default_property(self :: PROPERTY_PUBLISHED, $published);
-    }
-
-    function toggle_visibility()
-    {
-        $this->set_hidden(! $this->get_hidden());
-    }
-
-    /**
-     * Determines whether this publication is hidden or not
-     * @return boolean True if the publication is hidden.
-     */
-    function is_hidden()
-    {
-        return $this->get_default_property(self :: PROPERTY_HIDDEN);
     }
  
 

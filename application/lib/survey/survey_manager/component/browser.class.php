@@ -2,7 +2,7 @@
 require_once dirname(__FILE__) . '/../survey_manager.class.php';
 
 //require_once dirname(__FILE__) . '/../../survey_publication_category_menu.class.php';
-require_once dirname(__FILE__) . '/survey_publication_browser/survey_publication_browser_table.class.php';
+require_once dirname(__FILE__) . '/publication_browser/publication_browser_table.class.php';
 
 class SurveyManagerBrowserComponent extends SurveyManager
 {
@@ -60,7 +60,7 @@ class SurveyManagerBrowserComponent extends SurveyManager
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
         
-        if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_ADD, 'publication_browser', SurveyRights :: TYPE_SURVEY_COMPONENT))
+        if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_PUBLISH, 'publication_browser', SurveyRights :: TYPE_SURVEY_COMPONENT))
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_create_survey_publication_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
@@ -109,6 +109,7 @@ class SurveyManagerBrowserComponent extends SurveyManager
             $interval[] = new InequalityCondition(SurveyPublication :: PROPERTY_TO_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, time(), $publication_alias);
             $dates[] = new AndCondition($interval);
             $dates[] = new AndCondition(array(new EqualityCondition(SurveyPublication :: PROPERTY_FROM_DATE, 0, $publication_alias), new EqualityCondition(SurveyPublication :: PROPERTY_TO_DATE, 0, $publication_alias)));
+            $dates[] = new EqualityCondition(SurveyPublication :: PROPERTY_PUBLISHER, $this->get_user_id(), $publication_alias);
             $conditions[] = new OrCondition($dates);
             
             return new AndCondition($conditions);

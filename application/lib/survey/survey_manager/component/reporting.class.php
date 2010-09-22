@@ -17,14 +17,12 @@ class SurveyManagerReportingComponent extends SurveyManager implements DelegateC
             exit();
         }
 
-//        $classname = Request :: get(ReportingManager :: PARAM_TEMPLATE_NAME);
-
         $publication_id = Request :: get(self :: PARAM_PUBLICATION_ID);
-        $publication = $this->retrieve_survey_publication($publication_id);
+        $publication = SurveyDataManager :: get_instance()->retrieve_survey_publication($publication_id);
         $this->set_parameter(self :: PARAM_PUBLICATION_ID, $publication_id);
 
 	    $breadcrumbtrail = BreadcrumbTrail::get_instance();
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PUBLICATIONS)), Translation :: get('BrowseSurveyPublications')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE)), Translation :: get('BrowseSurveyPublications')));
         
 
         $rtv = ReportingViewer :: construct($this);
