@@ -45,7 +45,7 @@ class RepositoryDataManager
     {
         //        $this->initialize();
         //        $this->typeProperties = array();
-        self :: load_types();
+        //self :: load_types();
         self :: $applications = array();
     }
 
@@ -59,7 +59,7 @@ class RepositoryDataManager
     {
         if (! isset(self :: $instance))
         {
-            self :: load_types();
+         //   self :: load_types();
 
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
             require_once dirname(__FILE__) . '/data_manager/' . strtolower($type) . '_repository_data_manager.class.php';

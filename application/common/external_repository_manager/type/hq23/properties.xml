@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<repository name="23hq">
+	<properties>
+		<property name="section" value="image" />
+	</properties>
+</repository>
