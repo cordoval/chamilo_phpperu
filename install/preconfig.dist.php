@@ -41,6 +41,7 @@ $values['install_laika'] = 1;
 $values['install_linker'] = 0;
 $values['install_personal_calendar'] = 1;
 $values['install_personal_messenger'] = 1;
+$values['install_photo_gallery'] = 1;
 $values['install_portfolio'] = 1;
 $values['install_profiler'] = 1;
 $values['install_reservations'] = 1;

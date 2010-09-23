@@ -19,21 +19,12 @@ class MatterhornRestClient extends RestClient{
     const METHOD_GET = 'GET';
     const METHOD_PUT = 'PUT';
     const METHOD_DELETE = 'DELETE';
-
-    //const PARAM_CONNECTOR_COOKIE = 'mediamosa_connector_cookie';
     
     function __construct($matterhorn_url)
     {
         parent::__construct();
 
         $this->matterhorn_url = $matterhorn_url;
-
-        //check if connector cookie is set
-//        $cookie = new Cookie();
-//        if($the_cookie = $cookie->retrieve(self :: PARAM_CONNECTOR_COOKIE))
-//        {
-//            $this->set_connector_cookie($the_cookie);
-//        }
     }
 
     /*
@@ -81,44 +72,7 @@ class MatterhornRestClient extends RestClient{
 //       return false;
 //    }
 
-    /*
-     * sets login validation cookie
-     * @param string cookie
-     */
-//    private function set_connector_cookie($name, $value)
-//    {
-//        $this->connector_cookie = array('name' => $name, 'value' => $value);
-//        $cookie = new Cookie();
-//        $cookie->register(self :: PARAM_CONNECTOR_COOKIE, $this->connector_cookie); //expire
-//    }
-
-    /*
-     * gets login validation cookie
-     * checks if cookie exists and returns
-     * @return string or false
-     */
-    //TODO:jens -> check if cookie exists
-//    function get_connector_cookie()
-//    {
-//        if(!is_null($this->connector_cookie))
-//        {
-//            return $this->connector_cookie;
-//        }
-//        else
-//        {
-//            $cookie = new Cookie();
-//            $tmp_cookie = $cookie->retrieve(self :: PARAM_CONNECTOR_COOKIE);
-//
-//            if($tmp_cookie)
-//            {
-//                $this->connector_cookie = $tmp_cookie;
-//                return $this->connector_cookie;
-//            }
-//        }
-//        return false;
-//    }
-
-    function array_to_url($data)
+     function array_to_url($data)
     {
         if(is_array($data))
         {
@@ -191,13 +145,6 @@ class MatterhornRestClient extends RestClient{
         }
         
         $this->set_url($this->matterhorn_url.$url);
-        
-        //add connector cookie to headers if set
-//        if($this->get_connector_cookie())
-//        {
-//            $connector_cookie = $this->get_connector_cookie();
-//            $this->set_header_data('Cookie', $connector_cookie['name'].'='.$connector_cookie['value']);
-//        }
         
         $response = $this->send_request();
         //$response->set_response_content_xml();

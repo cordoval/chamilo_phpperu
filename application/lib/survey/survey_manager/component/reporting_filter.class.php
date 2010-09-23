@@ -1,10 +1,8 @@
 <?php
 require_once dirname(__FILE__) . '/../survey_manager.class.php';
-require_once Path :: get_application_path() . 'lib/survey/wizards/survey_reporting_filter_wizard.class.php';
 
 class SurveyManagerReportingFilterComponent extends SurveyManager
 {
-    private $wizard;
 
     /**
      * Runs this component and displays its output.
@@ -21,7 +19,6 @@ class SurveyManagerReportingFilterComponent extends SurveyManager
         }
         else
         {
-            $this->wizard = new SurveyReportingFilterWizard($this->get_user(), $ids, $this->get_url($parameters));
             $publication_ids = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
             
             if (! empty($publication_ids))
@@ -34,26 +31,17 @@ class SurveyManagerReportingFilterComponent extends SurveyManager
                 $trail = BreadcrumbTrail :: get_instance();
                 
                 $trail->add_help('survey reporting filter');
-                
-                if ($this->wizard->validate())
+                                 
+                $rtv = ReportingViewer :: construct($this);
+     
+                foreach ($publication_ids as $publication_id)
                 {
-                
+                    $this->set_parameter(SurveyManager :: PARAM_PUBLICATION_ID, $publication_id);   
                 }
-                else
-                {
-                    
-                    $rtv = ReportingViewer :: construct($this);
-                    
-                    foreach ($publication_ids as $publication_id)
-                    {
-                        $this->set_parameter(SurveyManager :: PARAM_PUBLICATION_ID, $publication_id);
-                    
-                    }
-                    $rtv->add_template_by_name('survey_publication_reporting_filter_template', SurveyManager :: APPLICATION_NAME);
-                    $rtv->set_breadcrumb_trail($trail);
-                    $rtv->hide_all_blocks();
-                    $rtv->run();
-                }
+                $rtv->add_template_by_name('survey_publication_reporting_filter_template', SurveyManager :: APPLICATION_NAME);
+                $rtv->set_breadcrumb_trail($trail);
+                $rtv->hide_all_blocks();
+                $rtv->run();
             }
             else
             {
@@ -64,10 +52,7 @@ class SurveyManagerReportingFilterComponent extends SurveyManager
 
     function display_header($trail)
     {
-        parent :: display_header();
-        
-        $this->wizard->display();
-    
+        parent :: display_header();   
     }
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)

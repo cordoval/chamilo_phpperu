@@ -53,6 +53,7 @@ class FlickrExternalRepositoryConnector extends ExternalRepositoryConnector
         $this->secret = ExternalRepositorySetting :: get('secret', $this->get_external_repository_instance_id());
         $this->flickr = new phpFlickr($this->key, $this->secret);
 
+        
         $session_token = ExternalRepositoryUserSetting :: get('session_token', $this->get_external_repository_instance_id());
 
         if (! $session_token)
@@ -138,7 +139,7 @@ class FlickrExternalRepositoryConnector extends ExternalRepositoryConnector
      */
     function retrieve_photos($condition = null, $order_property, $offset, $count)
     {
-        $feed_type = Request :: get(FlickrExternalRepositoryManager :: PARAM_FEED_TYPE);
+    	$feed_type = Request :: get(FlickrExternalRepositoryManager :: PARAM_FEED_TYPE);
 
         $offset = (($offset - ($offset % $count)) / $count) + 1;
         $attributes = 'description,date_upload,owner_name,license,media,original_format,last_update,url_sq,url_t,url_s,url_m,url_l,url_o';

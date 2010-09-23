@@ -1250,52 +1250,44 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
 
     function delete_course_type_user_category($course_type_user_category)
     {
-        $conditions = array();
-        $conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_TYPE_ID, $course_type_user_category->get_course_type_id());
-        $conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_USER_CATEGORY_ID, $course_type_user_category->get_course_user_category_id());
-        $condition = new AndCondition($conditions);
+        $condition = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_ID, $course_type_user_category->get_id());
         
         if ($this->delete_objects(CourseTypeUserCategory :: get_table_name(), $condition))
         {
-            $success = true;
-            
-            $relation_conditions = array();
-            $relation_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $course_type_user_category->get_user_id());
-            $relation_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $course_type_user_category->get_course_user_category_id());
-            $relation_condition = new AndCondition($relation_conditions);
-            
-            $relations = $this->retrieve_course_user_relations($relation_condition, null, null, array(new ObjectTableOrder(CourseUserRelation :: PROPERTY_SORT)));
-            
-            $conditions = array();
-            $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $course_type_user_category->get_user_id());
-            $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, 0);
-            $condition = new AndCondition($conditions);
-            
-            $sort = $this->retrieve_max_sort_value(CourseUserRelation :: get_table_name(), CourseUserRelation :: PROPERTY_SORT, $condition);
-            
-            while ($relation = $relations->next_result())
-            {
-                $relation->set_sort(++ $sort);
-                $success &= $relation->update();
-            }
-            
-            $conditions = array();
-            $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $course_type_user_category->get_course_user_category_id());
-            $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $course_type_user_category->get_user_id());
-            $condition = new AndCondition($conditions);
-            
-            $properties = array(CourseUserRelation :: PROPERTY_CATEGORY => 0);
-            $success &= $this->update_objects(CourseUserRelation :: get_table_name(), $properties, $condition);
-            
             $condition = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_USER_CATEGORY_ID, $course_type_user_category->get_course_user_category_id());
             $count = $this->count_course_type_user_categories($condition);
             if ($count == 0)
             {
                 $condition = new EqualityCondition(CourseUserCategory :: PROPERTY_ID, $course_type_user_category->get_course_user_category_id());
                 $course_user_category = $this->retrieve_course_user_category($condition);
-                $success &= $course_user_category->delete();
+                if(!$course_user_category->delete())
+                {
+                	return false;
+                }
             }
-            return $success;
+            
+        	$conditions = array();
+	        $conditions[] = new EqualityCondition(CourseTypeUserCategoryRelCourse :: PROPERTY_COURSE_TYPE_USER_CATEGORY_ID, $course_type_user_category->get_id());
+	        $condition = new AndCondition($conditions);
+	    	$course_type_user_category_rel_courses = $this->retrieve_course_type_user_category_rel_courses($condition);
+	        
+	    	while($course_type_user_category_rel_course = $course_type_user_category_rel_courses->next_result())
+	    	{
+	        	if(!$course_type_user_category_rel_course->delete())
+	        	{
+	        		return false;
+	        	}
+	    	}
+	        
+	        $conditions = array();
+	    	$conditions[] = new InEqualityCondition(CourseTypeUserCategory :: PROPERTY_SORT, InEqualityCondition :: GREATER_THAN, $course_type_user_category->get_sort());
+	        $conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_TYPE_ID, $course_type_user_category->get_course_type_id());
+	        $condition = new AndCondition($conditions);
+	        
+	        $properties = array();
+	        $properties[CourseTypeUserCategory :: PROPERTY_SORT] = $this->escape_column_name(CourseTypeUserCategory :: PROPERTY_SORT) . '-1'; 
+	        
+	        return $this->update_objects(CourseTypeUserCategory :: get_table_name(), $properties, $condition);
         }
         else
         {
@@ -2821,6 +2813,16 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
          
         return $this->delete(CourseTypeUserCategoryRelCourse :: get_table_name(), $condition);
     }
+    
+	function update_course_type_user_category_rel_course(CourseTypeUserCategoryRelCourse $course_type_user_category_rel_course)
+    {
+    	$conditions = array();
+    	$conditions[] = new EqualityCondition(CourseTypeUserCategoryRelCourse :: PROPERTY_COURSE_ID, $course_type_user_category_rel_course->get_course_id());
+        $conditions[] = new EqualityCondition(CourseTypeUserCategoryRelCourse :: PROPERTY_COURSE_TYPE_USER_CATEGORY_ID, $course_type_user_category_rel_course->get_course_type_user_category_id());
+        $condition = new AndCondition($conditions);
+         
+        return $this->update($course_type_user_category_rel_course, $condition);
+    }
 
     function create_course_type_user_category_rel_course(CourseTypeUserCategoryRelCourse $course_type_user_category_rel_course)
     {
@@ -2870,10 +2872,10 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     	$course_user_category_id = $this->escape_column_name(CourseUserCategory :: PROPERTY_ID, $course_user_category_alias);
     	$course_type_user_category_id = $this->escape_column_name(CourseTypeUserCategory :: PROPERTY_COURSE_USER_CATEGORY_ID, $course_type_user_category_alias);
     	
-    	$query = 'SELECT * FROM ' . $course_user_category_table_name . ' AS ' . $course_user_category_alias;
-    	$query .= ' JOIN ' . $course_type_user_category_table_name . ' AS ' . $course_type_user_category_alias . ' ON ' . $course_user_category_id . '=' . $course_type_user_category_id;
+    	$query = 'SELECT ' . $course_type_user_category_alias . '.*, ' . $course_user_category_alias . '.title FROM ' . $course_type_user_category_table_name . ' AS ' . $course_type_user_category_alias;
+    	$query .= ' JOIN ' . $course_user_category_table_name . ' AS ' . $course_user_category_alias . ' ON ' . $course_user_category_id . '=' . $course_type_user_category_id;
     	
-        return $this->retrieve_object_set($query, CourseUserCategory :: get_table_name(), $condition, null, null, new ObjectTableOrder(CourseTypeUserCategory :: PROPERTY_SORT, SORT_ASC, $course_type_user_category_alias));
+        return $this->retrieve_object_set($query, CourseTypeUserCategory :: get_table_name(), $condition, null, null, new ObjectTableOrder(CourseTypeUserCategory :: PROPERTY_SORT, SORT_ASC));
     }
     
     function retrieve_all_courses_with_course_categories($condition)
@@ -2891,7 +2893,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $query .= ' LEFT JOIN ' . $this->escape_table_name(CourseTypeUserCategoryRelCourse :: get_table_name()) . ' AS ' . $course_type_user_category_rel_course_alias . ' ON ';
         $query .=  $this->escape_column_name(Course :: PROPERTY_ID, $course_alias) . ' = ' . $this->escape_column_name(CourseSettings :: PROPERTY_COURSE_ID, $course_type_user_category_rel_course_alias);
         
-        $order_by[] = new ObjectTableOrder(Course :: PROPERTY_NAME);
+        $order_by[] = new ObjectTableOrder(CourseTypeUserCategoryRelCourse :: PROPERTY_SORT, SORT_ASC, $course_type_user_category_rel_course_alias);
         
         return $this->retrieve_object_set($query, Course :: get_table_name(), $condition, null, null, $order_by);
     }

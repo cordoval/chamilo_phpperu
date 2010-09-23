@@ -225,6 +225,7 @@ class RestClient
     public function set_basic_login($basic_login)
     {
     	$this->basic_login = $basic_login;
+    	dump($this->basic_login);
     }
     
     

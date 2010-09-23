@@ -118,14 +118,14 @@ class CourseTypeCourseListRenderer extends CourseListRenderer
     	
     	$html[] = $this->display_course_user_category(null, $course_type);
     	
-    	$course_categories = $this->retrieve_course_user_categories_for_course_type($course_type);
+    	$course_type_user_categories = $this->retrieve_course_user_categories_for_course_type($course_type);
     	
     	$count = 0;
-    	$size = $course_categories->size();
+    	$size = $course_type_user_categories->size();
     	
-    	while($course_category = $course_categories->next_result())
+    	while($course_type_user_category = $course_type_user_categories->next_result())
     	{
-    		$html[] = $this->display_course_user_category($course_category, $course_type, $count, $size);
+    		$html[] = $this->display_course_user_category($course_type_user_category, $course_type, $count, $size);
     		$count++;
     	}
 
@@ -139,29 +139,29 @@ class CourseTypeCourseListRenderer extends CourseListRenderer
      * @param int $index
      * @param int $count
      */
-    function display_course_user_category(CourseUserCategory $course_user_category, CourseType $course_type, $offset, $count)
+    function display_course_user_category(CourseTypeUserCategory $course_type_user_category, CourseType $course_type, $offset, $count)
     {
     	$html = array();
     	
-    	if (isset($course_user_category))
+    	if (isset($course_type_user_category))
         {
-            $title = Utilities :: htmlentities($course_user_category->get_title());
-            $course_user_category_id = $course_user_category->get_id();
+            $title = Utilities :: htmlentities($course_type_user_category->get_optional_property(CourseUserCategory :: PROPERTY_TITLE));
+            $course_type_user_category_id = $course_type_user_category->get_id();
         }
         else
         {
             $title = Translation :: get('GeneralCourses');
-            $course_user_category_id = 0;
+            $course_type_user_category_id = 0;
         }
         
-        $html[] = '<div class="block user_category_block" id="course_user_category_' . $course_user_category_id . '">';
+        $html[] = '<div class="block user_category_block" id="course_user_category_' . $course_type_user_category_id . '">';
         $html[] = '<div class="title user_category_title">';
         $html[] = '<div style="float: left;">' . $title . '</div>';
-        $html[] = $this->get_course_user_category_actions($course_user_category, $course_type, $offset, $count);
+        $html[] = $this->get_course_type_user_category_actions($course_type_user_category, $course_type, $offset, $count);
         $html[] = '<div style="clear: both;"></div></div>';
         $html[] = '<div class="description user_category_description">';
         
-        $html[] = $this->display_courses_for_course_user_category($course_user_category, $course_type);
+        $html[] = $this->display_courses_for_course_type_user_category($course_type_user_category, $course_type);
         
         $html[] = '</div></div>';
         
@@ -173,11 +173,11 @@ class CourseTypeCourseListRenderer extends CourseListRenderer
 	 * @param CourseUserCategory $course_user_category
 	 * @param CourseType $course_type
 	 */
-	function get_courses_for_course_user_category(CourseUserCategory $course_user_category, CourseType $course_type)
+	function get_courses_for_course_type_user_category(CourseTypeUserCategory $course_type_user_category, CourseType $course_type)
 	{
 		$course_type_id = $course_type ? $course_type->get_id() : 0; 
-		$course_user_category_id = $course_user_category ? $course_user_category->get_id() : 0;
-		return $this->courses[$course_type_id][$course_user_category_id];
+		$course_type_user_category_id = $course_type_user_category ? $course_type_user_category->get_id() : 0;
+		return $this->courses[$course_type_id][$course_type_user_category_id];
 	}
     
     /**
@@ -185,9 +185,9 @@ class CourseTypeCourseListRenderer extends CourseListRenderer
      * @param CourseUserCategory $course_category
      * @param CourseType $course_type_id
      */
-    function display_courses_for_course_user_category(CourseUserCategory $course_user_category, CourseType $course_type)
+    function display_courses_for_course_type_user_category(CourseTypeUserCategory $course_type_user_category, CourseType $course_type)
     {
-    	$courses = $this->get_courses_for_course_user_category($course_user_category, $course_type);
+    	$courses = $this->get_courses_for_course_type_user_category($course_type_user_category, $course_type);
     	$size = count($courses);
     	
     	$html = array();
@@ -254,7 +254,7 @@ class CourseTypeCourseListRenderer extends CourseListRenderer
                 $html[] = '</li>';
                 $html[] = '</div>';
                 $html[] = '<div style="float:right; padding-right: 20px;">';
-                $html[] = $this->get_course_actions($course, $course_type, $count, $size);
+                $html[] = $this->get_course_actions($course_type_user_category, $course, $course_type, $count, $size);
                 $html[] = '</div>';
                 $html[] = '<div style="clear: both;"></div>';
                 

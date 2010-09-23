@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="hq23">
+	<settings>
+		<category name="credentials">
+			<setting name="key" field="text" default="">
+				<validations>
+					<validation rule="required" message="ThisFieldIsRequired" />
+				</validations>
+			</setting>
+			<setting name="secret" field="text" default="">
+				<validations>
+					<validation rule="required" message="ThisFieldIsRequired" />
+				</validations>
+			</setting>
+					</category>
+	</settings>
+</application>
