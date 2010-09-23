@@ -100,7 +100,8 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
         }
         if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_REPORTING, $survey_publication->get_id(), SurveyRights :: TYPE_PUBLICATION, $user_id))
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('BrowseSurveyPages'), Theme :: get_common_image_path() . 'action_view_results.png', $this->browser->get_browse_survey_pages_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
+            //$toolbar->add_item(new ToolbarItem(Translation :: get('BrowseSurveyPages'), Theme :: get_common_image_path() . 'action_view_results.png', $this->browser->get_browse_survey_pages_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
+        	$toolbar->add_item(new ToolbarItem(Translation :: get('ReportingFilter'), Theme :: get_common_image_path() . 'action_view_results.png', $this->browser->get_reporting_filter_survey_publication_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
         }
         if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_EXPORT_RESULT, $survey_publication->get_id(), SurveyRights :: TYPE_PUBLICATION, $user_id))
         {
