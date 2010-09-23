@@ -593,7 +593,6 @@ class RightsUtilities
             
             if ($user_right_location)
             {
-                dump($user_right_location);
             	if ($value == true)
                 {
                     $user_right_location->set_value($value);

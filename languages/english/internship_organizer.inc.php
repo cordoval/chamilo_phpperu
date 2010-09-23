@@ -433,7 +433,8 @@ $lang['internship_organizer']['AppointmentTab'] = 'Appointments';
 $lang['internship_organizer']['AppointmentLink'] = 'Appointments';
 $lang['internship_organizer']['AppointmentLinkDescription'] = 'Appointment Description';
 $lang['internship_organizer']['InternshipOrganizerAppointmentManagerBrowserComponent'] = 'Appointment Browser';
-
+//23-09-10
+$lang['internship_organizer']['Moments'] = 'Moments';
 
 
 ?>
