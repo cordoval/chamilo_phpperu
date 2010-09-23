@@ -32,7 +32,7 @@ class InternshipOrganizerOrganisationManagerUnsubscribeUserComponent extends Int
                 if ($organisationreluser_ids[0] == $organisationreluser->get_organisation_id())
                 {
                     
-                    if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_EDIT,InternshipOrganizerRights :: LOCATION_ORGANISATION, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+                    if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_EDIT,InternshipOrganizerRights :: LOCATION_ORGANISATION, InternshipOrganizerRights :: TYPE_COMPONENT))
                     {
                         if (! $organisationreluser->delete())
                         {

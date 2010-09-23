@@ -236,6 +236,19 @@ interface InternshipOrganizerDataManagerInterface
     function retrieve_publication($publication_id);
 
     function retrieve_publications($condition = null, $offset = null, $count = null, $order_property = null);
+	
+     //appointments
+    function create_internship_organizer_appointment($appointment);
 
+    function update_internship_organizer_appointment($appointment);
+
+    function delete_internship_organizer_appointment($appointment);
+
+    function count_appointments($conditions = null);
+
+    function retrieve_appointment($id);
+
+    function retrieve_appointments($condition = null, $offset = null, $count = null, $order_property = null);
+    
 }
 ?>

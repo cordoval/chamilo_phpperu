@@ -33,7 +33,7 @@ class InternshipOrganizerOrganisationManagerUnsubscribeMentorUserComponent exten
                 if ($mentor_rel_user_ids[0] == $mentor_rel_user->get_mentor_id())
                 {
                     
-                    if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_EDIT,InternshipOrganizerRights :: LOCATION_ORGANISATION, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+                    if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_EDIT,InternshipOrganizerRights :: LOCATION_ORGANISATION, InternshipOrganizerRights :: TYPE_COMPONENT))
                     {
                         if (! $mentor_rel_user->delete())
                         {
