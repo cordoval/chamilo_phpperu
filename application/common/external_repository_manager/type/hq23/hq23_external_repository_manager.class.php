@@ -75,29 +75,17 @@ class Hq23ExternalRepositoryManager extends ExternalRepositoryManager
     {
         $menu_items = array();
 
-        $general = array();
-        $general['title'] = Translation :: get('Browse');
-        $general['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_GENERAL), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
-        $general['class'] = 'home';
-        $menu_items[] = $general;
-
-        $most_recent = array();
-        $most_recent['title'] = Translation :: get('MostRecent');
-        $most_recent['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_MOST_RECENT), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
-        $most_recent['class'] = 'recent';
-        $menu_items[] = $most_recent;
-
-        $most_interesting = array();
-        $most_interesting['title'] = Translation :: get('MostInteresting');
-        $most_interesting['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_MOST_INTERESTING), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
-        $most_interesting['class'] = 'interesting';
-        $menu_items[] = $most_interesting;
-
         $my_photos = array();
         $my_photos['title'] = Translation :: get('MyPhotos');
         $my_photos['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_MY_PHOTOS), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
         $my_photos['class'] = 'user';
         $menu_items[] = $my_photos;
+        
+        $general = array();
+        $general['title'] = Translation :: get('Public');
+        $general['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_GENERAL), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
+        $general['class'] = 'home';
+        $menu_items[] = $general;
 
         return $menu_items;
     }

@@ -7,7 +7,7 @@ class Hq23ExternalRepositoryManagerEditorComponent extends Hq23ExternalRepositor
     function run()
     {
         $id = Request :: get(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID);
-        $form = new FlickrExternalRepositoryManagerForm(Hq23ExternalRepositoryManagerForm :: TYPE_EDIT, $this->get_url(array(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => $id)), $this);
+        $form = new Hq23ExternalRepositoryManagerForm(Hq23ExternalRepositoryManagerForm :: TYPE_EDIT, $this->get_url(array(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => $id)), $this);
 
         $object = $this->retrieve_external_repository_object($id);
 

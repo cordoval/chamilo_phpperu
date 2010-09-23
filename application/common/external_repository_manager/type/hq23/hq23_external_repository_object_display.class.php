@@ -9,9 +9,9 @@ class Hq23ExternalRepositoryObjectDisplay extends ExternalRepositoryObjectDispla
         $object = $this->get_object();
 
         $properties = parent :: get_display_properties();
-		$properties[Translation :: get('Album')] = Translation:: get($object->get_album_name());
+        $properties[Translation :: get('AvailableSizes')] = $object->get_available_sizes_string();
         $properties[Translation :: get('Tags')] = $object->get_tags_string();
-
+		$properties[Translation :: get('License')] = $object->get_license_icon();
         return $properties;
     }
 
@@ -22,7 +22,7 @@ class Hq23ExternalRepositoryObjectDisplay extends ExternalRepositoryObjectDispla
         $class = ($is_thumbnail ? 'thumbnail' : 'with_border');
 
         $html = array();
-        $html[] = '<img class="' . $class . '" src="' . $object->get_url() . '" />';
+        $html[] = '<img class="' . $class . '" src="' . $object->get_url($size) . '" />';
         return implode("\n", $html);
     }
 }

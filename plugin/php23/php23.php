@@ -1,31 +1,20 @@
 <?php
-/* phpFlickr Class 3.0
- * Written by Dan Coulter (dan@dancoulter.com)
- * Project Home Page: http://phpflickr.com/
- * Released under GNU Lesser General Public License (http://www.gnu.org/copyleft/lgpl.html)
- * For more information about the class and upcoming tools and toys using it,
- * visit http://www.phpflickr.com/
- *
- *	 For installation instructions, open the README.txt file packaged with this
- *	 class. If you don't have a copy, you can see it at:
- *	 http://www.phpflickr.com/README.txt
- *
- *	 Please submit all problems or questions to the Help Forum on my Google Code project page:
- *		 http://code.google.com/p/phpflickr/issues/list
+/* php23 
+ * based on php23
  *
  */ 
-if ( !class_exists('phpFlickr') ) {
+if ( !class_exists('php23') ) {
 	if (session_id() == "") {
 		@session_start();
 	}
 
-	class phpFlickr {
+	class php23 {
 		var $api_key;
 		var $secret;
 		
-		var $rest_endpoint = 'http://api.flickr.com/services/rest/';
-		var $upload_endpoint = 'http://api.flickr.com/services/upload/';
-		var $replace_endpoint = 'http://api.flickr.com/services/replace/';
+		var $rest_endpoint = 'http://www.23hq.com/services/rest/';
+		var $upload_endpoint = 'http://www.23hq.com/services/upload/';
+		var $replace_endpoint = 'http://www.23hq.com/services/replace/';
 		var $req;
 		var $response;
 		var $parsed_response;
@@ -55,13 +44,13 @@ if ( !class_exists('phpFlickr') ) {
 		 */
 		var $max_cache_rows = 1000;
 
-		function phpFlickr ($api_key, $secret = NULL, $die_on_error = false) {
+		function php23 ($api_key, $secret = NULL, $die_on_error = false) {
 			//The API Key must be set before any calls can be made.  You can
 			//get your own at http://www.flickr.com/services/api/misc.api_keys.html
 			$this->api_key = $api_key;
 			$this->secret = $secret;
 			$this->die_on_error = $die_on_error;
-			$this->service = "flickr";
+			$this->service = "23";
 
 			//Find the PHP version and store it for future reference
 			$this->php_version = explode("-", phpversion());
@@ -334,7 +323,7 @@ if ( !class_exists('phpFlickr') ) {
 		}
 
 		function setProxy ($server, $port) {
-			// Sets the proxy for all phpFlickr calls.
+			// Sets the proxy for all php23 calls.
 			$this->req->setProxy($server, $port);
 		}
 
@@ -574,11 +563,43 @@ if ( !class_exists('phpFlickr') ) {
 			}
 		}
 
-		function auth ($perms = "read", $remember_uri = true) {
+//		function auth ($perms = "read", $remember_uri = true) {
+//			// Redirects to Flickr's authentication piece if there is no valid token.
+//			// If remember_uri is set to false, the callback script (included) will
+//			// redirect to its default page.
+//			if (empty($_SESSION['phpFlickr_auth_token']) && empty($this->token)) {
+//				if ( $remember_uri === true ) {
+//					session_register('phpFlickr_auth_redirect');
+//					$_SESSION['phpFlickr_auth_redirect'] = $_SERVER['REQUEST_URI'];
+//				} elseif ( $remember_uri !== false ) {
+//					session_register('phpFlickr_auth_redirect');
+//					$_SESSION['phpFlickr_auth_redirect'] = $remember_uri;
+//				}
+//				$api_sig = md5($this->secret . "api_key" . $this->api_key . "perms" . $perms);
+//				if ($this->service == "23") {
+//					header("Location: http://www.23hq.com/services/auth/?api_key=" . $this->api_key);
+//				} else {
+//					header("Location: http://www.flickr.com/services/auth/?api_key=" . $this->api_key . "&perms=" . $perms . "&api_sig=". $api_sig);
+//				}
+//				exit;
+//			} else {
+//				$tmp = $this->die_on_error;
+//				$this->die_on_error = false;
+//				$rsp = $this->auth_checkToken();
+//				if ($this->error_code !== false) {
+//					unset($_SESSION['phpFlickr_auth_token']);
+//					$this->auth($perms, $remember_uri);
+//				}
+//				$this->die_on_error = $tmp;
+//				return $rsp['perms'];
+//			}
+//		}
+
+		
+		function auth ($frob, $remember_uri = true) {
 			// Redirects to Flickr's authentication piece if there is no valid token.
 			// If remember_uri is set to false, the callback script (included) will
 			// redirect to its default page.
-			if (empty($_SESSION['phpFlickr_auth_token']) && empty($this->token)) {
 				if ( $remember_uri === true ) {
 					session_register('phpFlickr_auth_redirect');
 					$_SESSION['phpFlickr_auth_redirect'] = $_SERVER['REQUEST_URI'];
@@ -586,33 +607,16 @@ if ( !class_exists('phpFlickr') ) {
 					session_register('phpFlickr_auth_redirect');
 					$_SESSION['phpFlickr_auth_redirect'] = $remember_uri;
 				}
-				$api_sig = md5($this->secret . "api_key" . $this->api_key . "perms" . $perms);
-//				if ($this->service == "23") {
-//					header("Location: http://www.23hq.com/services/auth/?api_key=" . $this->api_key);
-//				} 
-//				else {
-					header("Location: http://www.flickr.com/services/auth/?api_key=" . $this->api_key . "&perms=" . $perms . "&api_sig=". $api_sig);
-//				}
+				header("Location: http://www.23hq.com/services/auth/?api_key=" . $this->api_key . "&frob=" . $frob);
 				exit;
-			} else {
-				$tmp = $this->die_on_error;
-				$this->die_on_error = false;
-				$rsp = $this->auth_checkToken();
-				if ($this->error_code !== false) {
-					unset($_SESSION['phpFlickr_auth_token']);
-					$this->auth($perms, $remember_uri);
-				}
-				$this->die_on_error = $tmp;
-				return $rsp['perms'];
-			}
 		}
 		/*******************************
 
-		To use the phpFlickr::call method, pass a string containing the API method you want
+		To use the php23::call method, pass a string containing the API method you want
 		to use and an associative array of arguments.  For example:
 			$result = $f->call("flickr.photos.comments.getList", array("photo_id"=>'34952612'));
 		This method will allow you to make calls to arbitrary methods that haven't been
-		implemented in phpFlickr yet.
+		implemented in php23 yet.
 
 		*******************************/
 
@@ -667,6 +671,7 @@ if ( !class_exists('phpFlickr') ) {
 			$this->request('flickr.auth.getToken', array('frob'=>$frob));
 			session_register('phpFlickr_auth_token');
 			$_SESSION['phpFlickr_auth_token'] = $this->parsed_response['auth']['token'];
+			//dump($this->parsed_response);
 			return $this->parsed_response ? $this->parsed_response['auth'] : false;
 		}
 
@@ -948,10 +953,10 @@ if ( !class_exists('phpFlickr') ) {
 			return $this->call('flickr.people.getPublicPhotos', array('user_id' => $user_id, 'safe_search' => $safe_search, 'extras' => $extras, 'per_page' => $per_page, 'page' => $page));
 		}
 
-		function people_getUploadStatus () {
+		function people_getUploadStatus ($token) {
 			/* http://www.flickr.com/services/api/flickr.people.getUploadStatus.html */
 			/* Requires Authentication */
-			$this->request("flickr.people.getUploadStatus");
+			$this->request("flickr.people.getUploadStatus", array('auth_token' => $token));
 			return $this->parsed_response ? $this->parsed_response['user'] : false;
 		}
 
@@ -966,7 +971,7 @@ if ( !class_exists('phpFlickr') ) {
 		function photos_delete ($photo_id) {
 			/* http://www.flickr.com/services/api/flickr.photos.delete.html */
 			$this->request("flickr.photos.delete", array("photo_id"=>$photo_id), TRUE);
-			return $this->parsed_response ? true : false;
+			return true;
 		}
 
 		function photos_getAllContexts ($photo_id) {
@@ -1687,7 +1692,7 @@ if ( !class_exists('phpFlickr_pager') ) {
 		}
 		
 		function set_phpFlickr($phpFlickr) {
-			if ( is_a($phpFlickr, 'phpFlickr') ) {
+			if ( is_a($phpFlickr, 'php23') ) {
 				$this->phpFlickr = $phpFlickr;
 				if ( $this->phpFlickr->cache ) {
 					$this->args['per_page'] = 500;

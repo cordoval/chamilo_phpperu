@@ -60,8 +60,8 @@ class Hq23ExternalRepositoryManagerForm extends FormValidator
 
     function build_basic_form()
     {
-        $this->addElement('text', Hq23ExternalRepositoryObject :: PROPERTY_TITLE, Translation :: get('Title'), array('size' => '50'));
-        $this->addRule(FlickrExternalRepositoryObject :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
+        //$this->addElement('text', Hq23ExternalRepositoryObject :: PROPERTY_TITLE, Translation :: get('Title'), array('size' => '50'));
+        //$this->addRule(Hq23ExternalRepositoryObject :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
 
         $this->addElement('textarea', Hq23ExternalRepositoryObject :: PROPERTY_TAGS, Translation :: get('Tags'), array('rows' => '2', 'cols' => '80'));
 
