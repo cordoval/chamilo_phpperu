@@ -523,7 +523,7 @@ class Database
             $query .= $translator->render_query($condition);
         }
 
-        //              dump($query);
+//                      dump($query);
         //                exit;
 
 

@@ -1,7 +1,7 @@
 <?php
-require_once Path :: get_application_path() . 'lib/internship_organizer/agreement_manager/component/browser/browser_table.class.php';
-require_once Path :: get_application_path() . 'lib/internship_organizer/agreement_manager/component/moment_browser/browser_table.class.php';
-require_once Path :: get_application_path() . 'lib/internship_organizer/agreement.class.php';
+//require_once Path :: get_application_path() . 'lib/internship_organizer/agreement_manager/component/browser/browser_table.class.php';
+//require_once Path :: get_application_path() . 'lib/internship_organizer/agreement_manager/component/moment_browser/browser_table.class.php';
+//require_once Path :: get_application_path() . 'lib/internship_organizer/agreement.class.php';
 
 class InternshipOrganizerAgreementManager extends SubManager
 {

@@ -8,6 +8,8 @@
 		<property name="created" type="integer" notnull="1" />
 		<property name="moment_id" type="integer" unsigned="1"
 			notnull="1" />
-		<property name="owner" type="integer" unsigned="1" notnull="1" />
+		<property name="owner_id" type="integer" unsigned="1" notnull="1" />
+		<property name="status" type="integer" unsigned="1" notnull="1" />
+		<property name="type" type="integer" unsigned="1" notnull="1" />
 	</properties>
 </object>

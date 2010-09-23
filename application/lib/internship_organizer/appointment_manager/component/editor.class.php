@@ -1,11 +1,11 @@
 <?php
 
 require_once Path :: get_application_path() . 'lib/internship_organizer/internship_organizer_manager/internship_organizer_manager.class.php';
-require_once Path :: get_application_path() . 'lib/internship_organizer/forms/moment_form.class.php';
-require_once Path :: get_application_path() . 'lib/internship_organizer/agreement_manager/component/viewer.class.php';
+require_once Path :: get_application_path() . 'lib/internship_organizer/forms/appointment_form.class.php';
+require_once Path :: get_application_path() . 'lib/internship_organizer/moment_manager/component/viewer.class.php';
 
 
-class InternshipOrganizerAgreementManagerMomentEditorComponent extends InternshipOrganizerAgreementManager
+class InternshipOrganizerAppointmentManagerAppointmentEditorComponent extends InternshipOrganizerAppointmentManager
 {
 
     /**
@@ -14,9 +14,9 @@ class InternshipOrganizerAgreementManagerMomentEditorComponent extends Internshi
     function run()
     {
         
-        $moment_id = Request :: get(self :: PARAM_MOMENT_ID);
+        $appointment_id = Request :: get(self :: PARAM_APPOINTMENT_ID);
         
-        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_EDIT, $moment_id, InternshipOrganizerRights :: TYPE_MOMENT))
+        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_EDIT, $appointment_id, InternshipOrganizerRights :: TYPE_APPOINTMENT))
         {
             $this->display_header();
             $this->display_error_message(Translation :: get('NotAllowed'));
@@ -24,14 +24,14 @@ class InternshipOrganizerAgreementManagerMomentEditorComponent extends Internshi
             exit();
         }
         
-        $moment = $this->retrieve_moment($moment_id);
+        $appointment = $this->retrieve_appointment($appointment_id);
         
-        $form = new InternshipOrganizerMomentForm(InternshipOrganizerMomentForm :: TYPE_EDIT, $moment, $this->get_url(array(self :: PARAM_MOMENT_ID => $moment->get_id())), $this->get_user());
+        $form = new InternshipOrganizerAppointmentForm(InternshipOrganizerAppointmentForm :: TYPE_EDIT, $appointment, $this->get_url(array(self :: PARAM_APPOINTMENT_ID => $appointment->get_id())), $this->get_user());
         
         if ($form->validate())
         {
-            $success = $form->update_moment();
-            $this->redirect($success ? Translation :: get('InternshipOrganizerMomentUpdated') : Translation :: get('InternshipOrganizerMomentNotUpdated'), ! $success, array(self :: PARAM_ACTION => self :: ACTION_VIEW_AGREEMENT, self :: PARAM_AGREEMENT_ID => $moment->get_agreement_id(), DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerAgreementManagerViewerComponent :: TAB_MOMENTS));
+            $success = $form->update_appointment();
+            $this->redirect($success ? Translation :: get('InternshipOrganizerAppointmentUpdated') : Translation :: get('InternshipOrganizerAppointmentNotUpdated'), ! $success, array(self :: PARAM_ACTION => self :: ACTION_VIEW_MOMENT, self :: PARAM_MOMENT_ID => $appointment->get_moment_id(), DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerAppointmentManagerViewerComponent :: TAB_APPOINTMENTS));
         }
         else
         {
@@ -43,15 +43,15 @@ class InternshipOrganizerAgreementManagerMomentEditorComponent extends Internshi
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_AGREEMENT)), Translation :: get('BrowseInternshipOrganizerAgreements')));
-        $agreement_id = Request :: get(self :: PARAM_AGREEMENT_ID);
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_AGREEMENT, self :: PARAM_AGREEMENT_ID => $agreement_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerAgreementManagerViewerComponent :: TAB_MOMENTS)), Translation :: get('ViewInternshipOrganizerAgreement')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_MOMENT)), Translation :: get('BrowseInternshipOrganizerAgreements')));
+        $moment_id = Request :: get(self :: PARAM_MOMENT_ID);
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_MOMENT, self :: PARAM_MOMENT_ID => $moment_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerAppointmentManagerViewerComponent :: TAB_APPOINTMENTS)), Translation :: get('ViewInternshipOrganizerAgreement')));
         
     }
 
     function get_additional_parameters()
     {
-        return array(self :: PARAM_AGREEMENT_ID, self :: PARAM_MOMENT_ID);
+        return array(self :: PARAM_MOMENT_ID, self :: PARAM_APPOINTMENT_ID);
     }
 
 }

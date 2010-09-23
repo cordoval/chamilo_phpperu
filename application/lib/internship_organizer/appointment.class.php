@@ -1,6 +1,5 @@
 <?php
 
-
 class InternshipOrganizerAppointment extends DataClass
 {
     const CLASS_NAME = __CLASS__;
@@ -14,23 +13,23 @@ class InternshipOrganizerAppointment extends DataClass
     const PROPERTY_DESCRIPTION = 'description';
     const PROPERTY_OWNER_ID = 'owner_id';
     const PROPERTY_CREATED = 'created';
-    const PROPERTY_STATUS ='status';
+    const PROPERTY_STATUS = 'status';
     const PROPERTY_TYPE = 'type';
     
-    const STATUS_CONFIRMED =1;
+    const STATUS_CONFIRMED = 1;
     const STATUS_CONFIRMED_NAME = 'confirmed';
-    const STATUS_PENDING =2;
+    const STATUS_PENDING = 2;
     const STATUS_PENDING_NAME = 'pending';
     const STATUS_CANCELLED = 3;
     const STATUS_CANCELLED_NAME = 'cancelled';
     
-	const TYPE_VISIT = 1;
-	const TYPE_VISTIT_NAME = 'visit';
-	const TYPE_MEETING = 2;
-	const TYPE_MEETING_NAME = 'meeting';
-	const TYPE_EVALUATION = 3;
-	const TYPE_EVALUATION_NAME = 'evaluation';
-    
+    const TYPE_VISIT = 1;
+    const TYPE_VISTIT_NAME = 'visit';
+    const TYPE_MEETING = 2;
+    const TYPE_MEETING_NAME = 'meeting';
+    const TYPE_EVALUATION = 3;
+    const TYPE_EVALUATION_NAME = 'evaluation';
+
     /**
      * Get the default properties
      * @return array The property names.
@@ -132,7 +131,7 @@ class InternshipOrganizerAppointment extends DataClass
      */
     function set_owner_id($owner_id)
     {
-        $this->set_default_property(self :: PROPERTY_OWNER_ID, $owner);
+        $this->set_default_property(self :: PROPERTY_OWNER_ID, $owner_id);
     }
 
     /**
@@ -152,9 +151,8 @@ class InternshipOrganizerAppointment extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_CREATED, $created);
     }
-   
-    
-/**
+
+    /**
      * Returns the type of this InternshipOrganizerAppointment.
      * @return the type.
      */
@@ -171,8 +169,8 @@ class InternshipOrganizerAppointment extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_TYPE, $type);
     }
-    
-/**
+
+    /**
      * Returns the status of this InternshipOrganizerAppointment.
      * @return the status.
      */
@@ -189,20 +187,54 @@ class InternshipOrganizerAppointment extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_STATUS, $status);
     }
-    
+
     function get_moment()
     {
         return $this->get_data_manager()->retrieve_moment($this->get_moment_id());
     }
-	
-    static function get_types(){
-    	return array(self :: TYPE_EVALUATION => self :: TYPE_EVALUATION_NAME, self :: TYPE_MEETING => self :: TYPE_MEETING_NAME, self :: TYPE_VISIT =>self :: TYPE_VISTIT_NAME);	
+
+    static function get_types()
+    {
+        return array(self :: TYPE_EVALUATION => self :: TYPE_EVALUATION_NAME, self :: TYPE_MEETING => self :: TYPE_MEETING_NAME, self :: TYPE_VISIT => self :: TYPE_VISTIT_NAME);
     }
-    
-    static function get_states(){
-    	return array(self :: STATUS_CANCELLED =>self :: STATUS_CANCELLED_NAME, self :: STATUS_CONFIRMED => self :: STATUS_CONFIRMED_NAME, self :: STATUS_PENDING => self :: STATUS_PENDING_NAME);
+
+    static function get_type_name($index)
+    {
+        switch ($index)
+        {
+            case self :: TYPE_EVALUATION :
+                return self :: TYPE_EVALUATION_NAME;
+                break;
+            case self :: TYPE_MEETING :
+                return self :: TYPE_MEETING_NAME;
+                break;
+            case self :: TYPE_VISIT :
+                return self :: TYPE_VISTIT_NAME;
+                break;
+        }
     }
-    
+
+    static function get_status_name($index)
+    {
+        switch ($index)
+        {
+            case self :: STATUS_CANCELLED :
+                return self :: STATUS_CANCELLED_NAME;
+                break;
+            case self :: STATUS_CONFIRMED :
+                return self :: STATUS_CONFIRMED_NAME;
+                break;
+            case self :: STATUS_PENDING :
+                return self :: STATUS_PENDING_NAME;
+                break;
+        }
+    }
+
+    static function get_states()
+    {
+        return array(self :: STATUS_CANCELLED => self :: STATUS_CANCELLED_NAME, self :: STATUS_CONFIRMED => self :: STATUS_CONFIRMED_NAME, self :: STATUS_PENDING => self :: STATUS_PENDING_NAME);
+    }
+
     static function get_table_name()
     {
         return 'appointment';

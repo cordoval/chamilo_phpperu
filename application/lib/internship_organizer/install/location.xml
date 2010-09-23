@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <object name="location">
 	<properties>
-		<property name="id" type="integer" unsigned="1" notnull="1"
+		<property name="location_id" type="integer" unsigned="1" notnull="1"
 			autoincrement="true" />
-		<property name="organisation_id" type="integer" unsigned="1"
+		<property name="location_organisation_id" type="integer" unsigned="1"
 			notnull="1" />
-		<property name="name" type="text" notnull="1" />
-		<property name="address" type="text" notnull="1" />
-		<property name="region_id" type="integer" unsigned="1"
+		<property name="location_name" type="text" notnull="1" />
+		<property name="location_address" type="text" notnull="1" />
+		<property name="location_region_id" type="integer" unsigned="1"
 			notnull="1" />
-		<property name="telephone" type="text" />
-		<property name="fax" type="text" />
-		<property name="email" type="text" />
-		<property name="description" type="text" />
+		<property name="location_telephone" type="text" />
+		<property name="location_fax" type="text" />
+		<property name="location_email" type="text" />
+		<property name="location_description" type="text" />
 	</properties>
 </object>

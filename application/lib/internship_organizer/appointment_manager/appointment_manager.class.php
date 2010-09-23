@@ -1,6 +1,4 @@
 <?php
-require_once Path :: get_application_path() . 'lib/internship_organizer/appointment_manager/component/moment_browser/table.class.php';
-require_once Path :: get_application_path() . 'lib/internship_organizer/appointment.class.php';
 
 class InternshipOrganizerAppointmentManager extends SubManager
 {

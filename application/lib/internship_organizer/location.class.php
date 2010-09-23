@@ -9,15 +9,15 @@ class InternshipOrganizerLocation extends DataClass
     /**
      * InternshipOrganizerLocation properties
      */
-    const PROPERTY_ID = 'id';
-    const PROPERTY_ORGANISATION_ID = 'organisation_id';
-    const PROPERTY_NAME = 'name';
-    const PROPERTY_ADDRESS = 'address';
-    const PROPERTY_REGION_ID = 'region_id';
-    const PROPERTY_TELEPHONE = 'telephone';
-    const PROPERTY_FAX = 'fax';
-    const PROPERTY_EMAIL = 'email';
-    const PROPERTY_DESCRIPTION = 'description';
+    const PROPERTY_ID = 'location_id';
+    const PROPERTY_ORGANISATION_ID = 'location_organisation_id';
+    const PROPERTY_NAME = 'location_name';
+    const PROPERTY_ADDRESS = 'location_address';
+    const PROPERTY_REGION_ID = 'location_region_id';
+    const PROPERTY_TELEPHONE = 'location_telephone';
+    const PROPERTY_FAX = 'location_fax';
+    const PROPERTY_EMAIL = 'location_email';
+    const PROPERTY_DESCRIPTION = 'location_description';
 
     /**
      * Get the default properties

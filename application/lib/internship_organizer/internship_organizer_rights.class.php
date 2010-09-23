@@ -4,42 +4,42 @@ require_once Path :: get_application_path() . 'lib/internship_organizer/internsh
 
 class InternshipOrganizerRights
 {
-    const RIGHT_VIEW = '1';
+    const RIGHT_VIEW = 1;
     const VIEW_RIGHT_NAME = 'view';
-    const RIGHT_ADD = '2';
+    const RIGHT_ADD = 2;
     const ADD_RIGHT_NAME = 'add';
-    const RIGHT_EDIT = '3';
+    const RIGHT_EDIT = 3;
     const EDIT_RIGHT_NAME = 'edit';
-    const RIGHT_DELETE = '4';
+    const RIGHT_DELETE = 4;
     const DELETE_RIGHT_NAME = 'delete';
-    const RIGHT_PUBLISH = '5';
-    const RIGHT_PUBLISH_NAME = 'publish';
+    const RIGHT_PUBLISH = 5;
+    const PUBLISH_RIGHT_NAME = 'publish';
 
-    const ADD_AGREEMENT_RIGHT = '6';
+    const ADD_AGREEMENT_RIGHT = 5;
     const ADD_AGREEMENT_NAME = 'add_agreement';
 
-    const SUBSCRIBE_CATEGORY_RIGHT = '7';
+    const SUBSCRIBE_CATEGORY_RIGHT = 7;
     const SUBSCRIBE_CATEGORY_NAME = 'subscribe_category';
 
-    const SUBSCRIBE_GROUP_RIGHT = '8';
+    const SUBSCRIBE_GROUP_RIGHT = 8;
     const SUBSCRIBE_GROUP_NAME = 'subscribe_group';
 
-    const SUBSCRIBE_USER_RIGHT = '9';
+    const SUBSCRIBE_USER_RIGHT = 9;
     const SUBSCRIBE_USER_NAME = 'subscribe_user';
   
-    const SUBSCRIBE_AGREEMENT_USER_RIGHT = '10';
+    const SUBSCRIBE_AGREEMENT_USER_RIGHT = 10;
     const SUBSCRIBE_AGREEMENT_USER_NAME = 'subscribe_agreement_user';
 
-    const ADD_LOCATION_RIGHT = '11';
+    const ADD_LOCATION_RIGHT = 11;
     const ADD_LOCATION_NAME = 'add_location';
     
-    const APPROVE_LOCATION_RIGHT = '12';
+    const APPROVE_LOCATION_RIGHT = 12;
     const APPROVE_LOCATION_NAME = 'approve_location';
     
-    const ADD_MENTOR_RIGHT = '13';
+    const ADD_MENTOR_RIGHT = 13;
     const ADD_MENTOR_NAME = 'add_mentor';
     
-    const ADD_MOMENT_RIGHT = '14';
+    const ADD_MOMENT_RIGHT = 14;
     const ADD_MOMENT_NAME = 'add_moment';
        
     const LOCATION_AGREEMENT = 1;
@@ -65,17 +65,17 @@ class InternshipOrganizerRights
 
     static function get_available_rights_for_periods()
     {
-        return array(self :: RIGHT_PUBLISH_NAME => self :: RIGHT_PUBLISH, self :: ADD_AGREEMENT_NAME => self :: ADD_AGREEMENT_RIGHT, self :: SUBSCRIBE_AGREEMENT_USER_NAME => self :: SUBSCRIBE_AGREEMENT_USER_RIGHT, self :: SUBSCRIBE_CATEGORY_NAME => self :: SUBSCRIBE_CATEGORY_RIGHT, self :: SUBSCRIBE_GROUP_NAME => self :: SUBSCRIBE_GROUP_RIGHT, self :: SUBSCRIBE_USER_NAME => self :: SUBSCRIBE_USER_RIGHT);
+        return array(self :: PUBLISH_RIGHT_NAME => self :: RIGHT_PUBLISH, self :: ADD_AGREEMENT_NAME => self :: ADD_AGREEMENT_RIGHT, self :: SUBSCRIBE_AGREEMENT_USER_NAME => self :: SUBSCRIBE_AGREEMENT_USER_RIGHT, self :: SUBSCRIBE_CATEGORY_NAME => self :: SUBSCRIBE_CATEGORY_RIGHT, self :: SUBSCRIBE_GROUP_NAME => self :: SUBSCRIBE_GROUP_RIGHT, self :: SUBSCRIBE_USER_NAME => self :: SUBSCRIBE_USER_RIGHT);
     }
 
     static function get_available_rights_for_agreements()
     {
-        return array(self :: RIGHT_PUBLISH_NAME => self :: RIGHT_PUBLISH, self :: VIEW_RIGHT_NAME => self :: RIGHT_VIEW, self :: DELETE_RIGHT_NAME => self :: RIGHT_DELETE, self :: EDIT_RIGHT_NAME => self :: RIGHT_EDIT, self :: ADD_LOCATION_NAME => self :: ADD_LOCATION_RIGHT, self :: APPROVE_LOCATION_NAME => self :: APPROVE_LOCATION_RIGHT, self :: ADD_MENTOR_NAME => self :: ADD_MENTOR_RIGHT, self :: ADD_MOMENT_NAME => self :: ADD_MOMENT_RIGHT);
+        return array(self :: PUBLISH_RIGHT_NAME => self :: RIGHT_PUBLISH, self :: VIEW_RIGHT_NAME => self :: RIGHT_VIEW, self :: DELETE_RIGHT_NAME => self :: RIGHT_DELETE, self :: EDIT_RIGHT_NAME => self :: RIGHT_EDIT, self :: ADD_LOCATION_NAME => self :: ADD_LOCATION_RIGHT, self :: APPROVE_LOCATION_NAME => self :: APPROVE_LOCATION_RIGHT, self :: ADD_MENTOR_NAME => self :: ADD_MENTOR_RIGHT, self :: ADD_MOMENT_NAME => self :: ADD_MOMENT_RIGHT);
     }
 
     static function get_available_rights_for_moments()
     {
-        return array(self :: RIGHT_PUBLISH_NAME => self :: RIGHT_PUBLISH, self :: VIEW_RIGHT_NAME => self :: RIGHT_VIEW, self :: EDIT_RIGHT_NAME => self :: RIGHT_EDIT, self :: DELETE_RIGHT_NAME => self :: RIGHT_DELETE);
+        return array(self :: PUBLISH_RIGHT_NAME => self :: RIGHT_PUBLISH, self :: VIEW_RIGHT_NAME => self :: RIGHT_VIEW, self :: EDIT_RIGHT_NAME => self :: RIGHT_EDIT, self :: DELETE_RIGHT_NAME => self :: RIGHT_DELETE);
     }
 
     static function create_location_in_internship_organizers_subtree($name, $identifier, $parent, $type, $return_location = false)
