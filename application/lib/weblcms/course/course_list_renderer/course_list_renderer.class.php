@@ -53,9 +53,9 @@ class CourseListRenderer
 	 * @param CourseUserCategory $course_user_category
 	 * @param CourseType $course_type
 	 */
-	function get_course_user_category_actions(CourseUserCategory $course_user_category, CourseType $course_type, $offset, $count)
+	function get_course_type_user_category_actions(CourseTypeUserCategory $course_type_user_category, CourseType $course_type, $offset, $count)
 	{
-		if(method_exists($this->get_parent(), 'get_course_user_category_actions'))
+		if(method_exists($this->get_parent(), 'get_course_type_user_category_actions'))
 		{
 			$course_type_id = 0;
 			if($course_type)
@@ -63,7 +63,7 @@ class CourseListRenderer
 				$course_type_id = $course_type->get_id();
 			}
 			
-			return $this->get_parent()->get_course_user_category_actions($course_user_category, $course_type_id, $offset, $count);
+			return $this->get_parent()->get_course_type_user_category_actions($course_type_user_category, $course_type_id, $offset, $count);
 		}
 	}
 	
@@ -71,7 +71,7 @@ class CourseListRenderer
 	 * Retrieves the actions for the given course
 	 * @param Course $course
 	 */
-	function get_course_actions(Course $course, CourseType $course_type, $offset, $count)
+	function get_course_actions(CourseTypeUserCategory $course_type_user_category, Course $course, CourseType $course_type, $offset, $count)
 	{
 		if(method_exists($this->get_parent(), 'get_course_actions'))
 		{
@@ -81,7 +81,7 @@ class CourseListRenderer
 				$course_type_id = $course_type->get_id();
 			}
 			
-			return $this->get_parent()->get_course_actions($course, $course_type_id, $offset, $count);
+			return $this->get_parent()->get_course_actions($course_type_user_category, $course, $course_type_id, $offset, $count);
 		}
 	}
 	

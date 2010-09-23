@@ -58,7 +58,7 @@ class WeblcmsManager extends WebApplication
     const PARAM_COURSE_CATEGORY_ID = 'category';
     const PARAM_COURSE_USER = 'course';
     const PARAM_COURSE_GROUP = 'course_group';
-    const PARAM_COURSE_USER_CATEGORY_ID = 'category';
+    const PARAM_COURSE_TYPE_USER_CATEGORY_ID = 'user_category';
     const PARAM_COURSE_TYPE = 'course_type';
     const PARAM_USERS = 'users';
     const PARAM_GROUP = 'group';
@@ -1154,9 +1154,9 @@ class WeblcmsManager extends WebApplication
      * @param CourseUsercategory $course_user_category
      * @return String
      */
-    function get_course_user_category_edit_url($course_user_category)
+    function get_course_user_category_edit_url(CourseTypeUserCategory $course_type_user_category)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT, self :: PARAM_COMPONENT_ACTION => 'edit', self :: PARAM_COURSE_USER_CATEGORY_ID => $course_user_category->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT, self :: PARAM_COMPONENT_ACTION => 'edit', self :: PARAM_COURSE_TYPE_USER_CATEGORY_ID => $course_type_user_category->get_id()));
     }
 
     /**
@@ -1174,11 +1174,11 @@ class WeblcmsManager extends WebApplication
      * @param string $direction
      * @return String
      */
-    function get_course_user_category_move_url($course_user_category, $course_type_id, $direction)
+    function get_course_user_category_move_url(CourseTypeUserCategory $course_type_user_category, $direction)
     {
         return $this->get_url(array(
-                self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT, self :: PARAM_COMPONENT_ACTION => 'movecat', self :: PARAM_DIRECTION => $direction, self :: PARAM_COURSE_USER_CATEGORY_ID => $course_user_category->get_id(),
-                self :: PARAM_COURSE_TYPE => $course_type_id));
+                self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT, self :: PARAM_COMPONENT_ACTION => 'movecat', 
+                self :: PARAM_DIRECTION => $direction, self :: PARAM_COURSE_TYPE_USER_CATEGORY_ID => $course_type_user_category->get_id()));
     }
 
     /**
@@ -1186,9 +1186,10 @@ class WeblcmsManager extends WebApplication
      * @param CourseUserCategory $course_user_category
      * @return String
      */
-    function get_course_user_category_delete_url($course_user_category, $course_type_id)
+    function get_course_user_category_delete_url(CourseTypeUserCategory $course_type_user_category)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT, self :: PARAM_COMPONENT_ACTION => 'delete', self :: PARAM_COURSE_USER_CATEGORY_ID => $course_user_category->get_id(), self :: PARAM_COURSE_TYPE => $course_type_id));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT, self :: PARAM_COMPONENT_ACTION => 'delete', 
+        		self :: PARAM_COURSE_TYPE_USER_CATEGORY_ID => $course_type_user_category->get_id()));
     }
 
     /**
@@ -1196,9 +1197,9 @@ class WeblcmsManager extends WebApplication
      * @param CourseCategory $course_category
      * @return String
      */
-    function get_course_category_edit_url($coursecategory)
+    function get_course_category_edit_url($course_category)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COURSE_CATEGORY_MANAGER, self :: PARAM_COMPONENT_ACTION => 'edit', self :: PARAM_COURSE_CATEGORY_ID => $coursecategory->get_code()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COURSE_CATEGORY_MANAGER, self :: PARAM_COMPONENT_ACTION => 'edit', self :: PARAM_COURSE_CATEGORY => $course_category->get_code()));
     }
 
     /**
@@ -1225,9 +1226,15 @@ class WeblcmsManager extends WebApplication
      * @param Course $course
      * @return String
      */
-    function get_course_user_edit_url($course)
+    function get_course_user_edit_url(CourseTypeUserCategory $course_type_user_category, Course $course)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT, self :: PARAM_COMPONENT_ACTION => 'assign', self :: PARAM_COURSE => $course->get_id()));
+    	if($course_type_user_category)
+        {
+        	$course_type_user_category_id = $course_type_user_category->get_id();
+        }
+        
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT, self :: PARAM_COMPONENT_ACTION => 'assign', 
+        	self :: PARAM_COURSE => $course->get_id(), self :: PARAM_COURSE_TYPE_USER_CATEGORY_ID => $course_type_user_category_id));
     }
 
     /**
@@ -1236,9 +1243,10 @@ class WeblcmsManager extends WebApplication
      * @param string $direction
      * @return String
      */
-    function get_course_user_move_url($course, $course_type_id, $direction)
+    function get_course_user_move_url(CourseTypeUserCategory $course_type_user_category, Course $course, $direction)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT, self :: PARAM_COMPONENT_ACTION => 'move', self :: PARAM_DIRECTION => $direction, self :: PARAM_COURSE => $course->get_id(), self :: PARAM_COURSE_TYPE => $course_type_id));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT, self :: PARAM_COMPONENT_ACTION => 'move', self :: PARAM_DIRECTION => $direction, 
+        	self :: PARAM_COURSE => $course->get_id(), self :: PARAM_COURSE_TYPE_USER_CATEGORY_ID => $course_type_user_category->get_id()));
     }
 
     /**
