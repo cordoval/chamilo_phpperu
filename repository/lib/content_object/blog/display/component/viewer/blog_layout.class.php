@@ -136,7 +136,7 @@ abstract class BlogLayout
     function retrieve_complex_blog_items()
     {
    		$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_blog()->get_id(), ComplexContentObjectItem :: get_table_name());
-    	return RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items($condition, null, null, new ObjectTableOrder(ComplexContentObjectItem :: PROPERTY_ADD_DATE, SORT_DESC));
+    	return RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items($condition, null, null, null, new ObjectTableOrder(ComplexContentObjectItem :: PROPERTY_ADD_DATE, SORT_DESC));
     }
 	
 }
