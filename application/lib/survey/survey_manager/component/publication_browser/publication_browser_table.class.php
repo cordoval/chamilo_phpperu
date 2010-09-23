@@ -28,6 +28,7 @@ class SurveyPublicationBrowserTable extends ObjectTable
         $data_provider = new SurveyPublicationBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, self :: DEFAULT_NAME, $model, $renderer);
         $this->set_additional_parameters($parameters);
+        
         $action = new ObjectTableFormActions();
         
         $action->add_form_action(new ObjectTableFormAction(SurveyManager :: ACTION_REPORTING_FILTER, Translation :: get('ReportingSelected'),false));

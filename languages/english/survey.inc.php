@@ -181,7 +181,21 @@ $lang['survey']['RightsEditorManagerBrowserComponent'] = 'Rights Browser';
 $lang['survey']['SurveyManagerRightsEditorComponent'] = 'Rights Manager';
 $lang['survey']['RepoViewerCreatorComponent'] = 'Repository Creator';
 $lang['survey']['RepoViewerBrowserComponent'] = 'Repository Browser';
+$lang['survey']['SurveyManagerReportingFilterComponent'] = 'Reporting filter';
 
+$lang['survey']['SelectAvailableContextTemplates'] = 'Select context templates';
+$lang['survey']['AvailableContextTemplates'] = 'Available templates';
+$lang['survey']['AvailableContextTemplates'] = 'Available templates';
+$lang['survey']['SelectAvailableGroups'] = 'Select available groups';
+
+$lang['survey']['AvailableGroups'] = 'Available groups';
+$lang['survey']['AvailableUsers'] = 'Available users';
+$lang['survey']['SelectAvailableUsers'] = 'Selct available users';
+
+$lang['survey']['ContextTemplates'] = 'Available contexts';
+$lang['survey']['Contexts'] = 'Available contexts';
+$lang['survey']['SelectAvailableContexts'] = 'Select available context';
+$lang['survey']['AvailableContexts'] = 'Available contexts';
 
 
 
