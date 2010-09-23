@@ -9,7 +9,7 @@ class InternshipOrganizerAgreementManagerReportingComponent extends InternshipOr
     function run()
     {
 
-    if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, InternshipOrganizerRights :: LOCATION_REPORTING, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+    if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, InternshipOrganizerRights :: LOCATION_REPORTING, InternshipOrganizerRights :: TYPE_COMPONENT))
         {
             $this->display_header();
             $this->display_error_message(Translation :: get('NotAllowed'));

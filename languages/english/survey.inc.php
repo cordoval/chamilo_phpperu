@@ -34,6 +34,20 @@ $lang['survey']['count'] = 'Aantal';
 $lang['survey']['AllGroups'] = 'Alle groepen';
 $lang['survey']['SurveyName'] = 'Naam';
 $lang['survey']['SurveyDescription'] = 'Omschrijving';
+$lang['survey']['Firstname'] = 'Firstname';
+$lang['survey']['Lastname'] = 'Lastname';
+
+//rights
+$lang['survey']['Participate'] = 'Participate';
+$lang['survey']['View'] = 'View';
+$lang['survey']['Invite'] = 'Invite';
+$lang['survey']['Edit'] = 'Edit';
+$lang['survey']['Delete'] = 'Delete';
+$lang['survey']['Reporting'] = 'Reporting';
+$lang['survey']['Mail'] = 'E-mail';
+$lang['survey']['ExportResult'] = 'Export Results';
+$lang['survey']['Publish'] = 'Publish';
+
 
 $lang['survey']['TakeSurvey'] = 'Take survey';
 $lang['survey']['InviteParticipants'] = 'Invite Participants';
@@ -149,7 +163,13 @@ $lang['survey']['MailSend'] = 'Mail sent';
 $lang['survey']['ExportToExcel'] = 'Export to Excel';
 $lang['survey']['Excel'] = 'Excel';
 
+$lang['survey']['testcase'] = 'Test cases';
+$lang['survey']['official'] = 'Official';
+$lang['survey']['volunteer'] = 'Voluntary';
+
 $lang['survey']['SurveyManagerBrowserComponent'] = 'Survey Browser';
+$lang['survey']['SurveyManagerPublisherComponent'] = 'Publish Survey';
+
 $lang['survey']['SurveyManagerParticipantBrowserComponent'] = 'Participant Browser';
 $lang['survey']['BrowseSurveys'] = 'Survey Browser';
 $lang['survey']['SurveyManagerEditorComponent'] = 'Survey Editor';
@@ -159,6 +179,23 @@ $lang['survey']['SurveyManagerPageBrowserComponent'] = 'Page Browser';
 $lang['survey']['SurveyManagerQuestionBrowserComponent'] = 'Question Browser';
 $lang['survey']['RightsEditorManagerBrowserComponent'] = 'Rights Browser';
 $lang['survey']['SurveyManagerRightsEditorComponent'] = 'Rights Manager';
+$lang['survey']['RepoViewerCreatorComponent'] = 'Repository Creator';
+$lang['survey']['RepoViewerBrowserComponent'] = 'Repository Browser';
+$lang['survey']['SurveyManagerReportingFilterComponent'] = 'Reporting filter';
+
+$lang['survey']['SelectAvailableContextTemplates'] = 'Select context templates';
+$lang['survey']['AvailableContextTemplates'] = 'Available templates';
+$lang['survey']['AvailableContextTemplates'] = 'Available templates';
+$lang['survey']['SelectAvailableGroups'] = 'Select available groups';
+
+$lang['survey']['AvailableGroups'] = 'Available groups';
+$lang['survey']['AvailableUsers'] = 'Available users';
+$lang['survey']['SelectAvailableUsers'] = 'Selct available users';
+
+$lang['survey']['ContextTemplates'] = 'Available contexts';
+$lang['survey']['Contexts'] = 'Available contexts';
+$lang['survey']['SelectAvailableContexts'] = 'Select available context';
+$lang['survey']['AvailableContexts'] = 'Available contexts';
 
 
 

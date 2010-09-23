@@ -10,19 +10,23 @@ require_once Path :: get_application_path() . 'lib/internship_organizer/category
 require_once Path :: get_application_path() . 'lib/internship_organizer/agreement_manager/agreement_manager.class.php';
 require_once Path :: get_application_path() . 'lib/internship_organizer/region_manager/region_manager.class.php';
 require_once Path :: get_application_path() . 'lib/internship_organizer/period_manager/period_manager.class.php';
+require_once Path :: get_application_path() . 'lib/internship_organizer/appointment_manager/appointment_manager.class.php';
+
 require_once Path :: get_application_path() . 'lib/internship_organizer/internship_organizer_rights.class.php';
 
 class InternshipOrganizerManager extends WebApplication
 {
     const APPLICATION_NAME = 'internship_organizer';
-
+    
     const ACTION_ORGANISATION = 'organisation';
     const ACTION_AGREEMENT = 'agreement';
     const ACTION_CATEGORY = 'category';
     const ACTION_APPLICATION_CHOOSER = 'application_chooser';
     const ACTION_REGION = 'region';
     const ACTION_PERIOD = 'period';
-
+    const ACTION_APPOINTMENT = 'appointment';
+    
+    
     const DEFAULT_ACTION = self :: ACTION_APPLICATION_CHOOSER;
 
     /**
@@ -37,37 +41,43 @@ class InternshipOrganizerManager extends WebApplication
     function get_organisation_application_url()
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_ORGANISATION));
-
+    
     }
 
     function get_agreement_application_url()
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_AGREEMENT));
-
+    
     }
 
     function get_category_application_url()
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CATEGORY));
-
+    
     }
 
     function get_application_chooser_url()
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_APPLICATION_CHOOSER));
-
+    
     }
 
     function get_region_application_url()
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_REGION));
-
+    
     }
 
     function get_period_application_url()
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_PERIOD));
+    
+    }
 
+    function get_appointment_application_url()
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_APPOINTMENT));
+    
     }
 
     function get_application_name()
@@ -75,7 +85,7 @@ class InternshipOrganizerManager extends WebApplication
         return self :: APPLICATION_NAME;
     }
 
-//publications: interaction with the repository
+    //publications: interaction with the repository
     
 
     static function content_object_is_published($object_id)
@@ -120,7 +130,7 @@ class InternshipOrganizerManager extends WebApplication
 
     static function add_publication_attributes_elements($form)
     {
-        
+    
     }
 
     static function get_content_object_publication_locations($content_object)
@@ -130,9 +140,9 @@ class InternshipOrganizerManager extends WebApplication
         $type = $content_object->get_type();
         if (in_array($type, $allowed_types))
         {
-           
+            
             $locations = array();
-          
+            
             return $locations;
         }
         
@@ -141,7 +151,7 @@ class InternshipOrganizerManager extends WebApplication
 
     static function publish_content_object($content_object, $location, $attributes)
     {
-     
+    
     }
 
     /**

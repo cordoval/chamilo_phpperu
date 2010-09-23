@@ -3,8 +3,8 @@ require_once dirname(__FILE__) . '/../survey_publication.class.php';
 
 class SurveyPublicationForm extends FormValidator
 {
-    const TYPE_SINGLE = 1;
-    const TYPE_MULTI = 2;
+    const TYPE_EDIT = 1;
+    const TYPE_CREATE = 2;
     
     const PARAM_TARGET = 'target_users_and_groups';
     const PARAM_TARGET_ELEMENTS = 'target_users_and_groups_elements';
@@ -12,27 +12,29 @@ class SurveyPublicationForm extends FormValidator
     const PARAM_FOREVER = 'forever';
     const PARAM_FROM_DATE = 'from_date';
     const PARAM_TO_DATE = 'to_date';
+    const PARAM_PARTICIPATE = 'participate';
     
     private $publication;
+    private $publication_type;
     private $content_object;
     private $user;
-    private $testcase = 0;
 
-    function SurveyPublicationForm($form_type, $content_object, $user, $action)
+    function SurveyPublicationForm($form_type, $content_object, $user, $action, $publication)
     {
         parent :: __construct('survey_publication_settings', 'post', $action);
-
+        
         $this->content_object = $content_object;
         $this->user = $user;
+        $this->publication = $publication;
         $this->form_type = $form_type;
         
         switch ($this->form_type)
         {
-            case self :: TYPE_SINGLE :
-                $this->build_single_form();
+            case self :: TYPE_EDIT :
+                $this->build_edit_form();
                 break;
-            case self :: TYPE_MULTI :
-                $this->build_multi_form();
+            case self :: TYPE_CREATE :
+                $this->build_create_form();
                 break;
         }
         
@@ -40,89 +42,20 @@ class SurveyPublicationForm extends FormValidator
         $this->setDefaults();
     }
 
-    /**
-     * Sets the publication. Use this function if you're using this form to
-     * change the settings of a learning object publication.
-     * @param ContentObjectPublication $publication
-     */
-    function set_publication($publication)
+    function build_edit_form()
     {
-        $this->publication = $publication;
-        $this->addElement('hidden', 'pid');
-        $this->addElement('hidden', 'action');
-        $defaults['action'] = 'edit';
-        $defaults['pid'] = $publication->get_id();
-        $defaults['from_date'] = $publication->get_from_date();
-        $defaults['to_date'] = $publication->get_to_date();
-        $defaults[SurveyPublication :: PROPERTY_TYPE] = $publication->get_type();
-        if ($defaults['from_date'] != 0)
-        {
-            $defaults['forever'] = 0;
-        }
         
-        $defaults['hidden'] = $publication->is_hidden();
-        
-        $udm = UserDataManager :: get_instance();
-        $gdm = GroupDataManager :: get_instance();
-        
-        $target_groups = $this->publication->get_target_groups();
-        $target_users = $this->publication->get_target_users();
-        
-        $defaults[self :: PARAM_TARGET_ELEMENTS] = array();
-        foreach ($target_groups as $target_group)
-        {
-            $group = $gdm->retrieve_group($target_group);
-            
-            $selected_group = array();
-            $selected_group['id'] = 'group_' . $group->get_id();
-            $selected_group['classes'] = 'type type_group';
-            $selected_group['title'] = $group->get_name();
-            $selected_group['description'] = $group->get_description();
-            
-            $defaults[self :: PARAM_TARGET_ELEMENTS][$selected_group['id']] = $selected_group;
-        }
-        foreach ($target_users as $target_user)
-        {
-            $user = $udm->retrieve_user($target_user);
-            
-            $selected_user = array();
-            $selected_user['id'] = 'user_' . $user->get_id();
-            $selected_user['classes'] = 'type type_user';
-            $selected_user['title'] = $user->get_fullname();
-            $selected_user['description'] = $user->get_username();
-            
-            $defaults[self :: PARAM_TARGET_ELEMENTS][$selected_user['id']] = $selected_user;
-        }
-        
-        if (count($defaults[self :: PARAM_TARGET_ELEMENTS]) > 0)
-        {
-            $defaults[self :: PARAM_TARGET_OPTION] = '1';
-        }
-        
-        $active = $this->getElement(self :: PARAM_TARGET_ELEMENTS);
-        $active->_elements[0]->setValue(serialize($defaults[self :: PARAM_TARGET_ELEMENTS]));
-        
-        parent :: setDefaults($defaults);
+        $checkbox = $this->createElement('checkbox', self :: PARAM_PARTICIPATE, Translation :: get('ParticipateYourself'), '', array());
+        $this->addElement($checkbox);
+        $this->add_forever_or_timewindow();
+        $this->add_select(SurveyPublication :: PROPERTY_TYPE, Translation :: get('SurveyType'), SurveyPublication :: get_types());
     }
 
-    function build_single_form()
+    function build_create_form()
     {
-        $this->build_form();
-    }
-
-    function build_multi_form()
-    {
-        $this->build_form();
-        $this->addElement('hidden', 'ids', serialize($this->content_object));
-    }
-
-    /**
-     * Builds the form by adding the necessary form elements.
-     */
-    function build_form()
-    {
-        $targets = array();
         
+        $checkbox = $this->createElement('checkbox', self :: PARAM_PARTICIPATE, '', Translation :: get('ParticipateYourself'), array());
+        $this->addElement($checkbox);
         $attributes = array();
         $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_user_group_feed.php';
         $locale = array();
@@ -134,12 +67,12 @@ class SurveyPublicationForm extends FormValidator
         $attributes['defaults'] = array();
         $attributes['options'] = array('load_elements' => false);
         
-        $this->add_receivers(self :: PARAM_TARGET, Translation :: get('PublishFor'), $attributes);
+        $this->add_receivers(self :: PARAM_TARGET, Translation :: get('Participants'), $attributes);
         
         $this->add_forever_or_timewindow();
-        $this->addElement('checkbox', SurveyPublication :: PROPERTY_HIDDEN, Translation :: get('Hidden'));
-    	
-        $this->add_select(SurveyPublication :: PROPERTY_TYPE ,Translation :: get('SurveyType'), SurveyPublication :: get_types() );
+        
+        $this->add_select(SurveyPublication :: PROPERTY_TYPE, Translation :: get('SurveyType'), SurveyPublication :: get_types());
+        $this->addElement('hidden', 'ids', serialize($this->content_object));
     }
 
     function add_footer()
@@ -150,15 +83,11 @@ class SurveyPublicationForm extends FormValidator
     
     }
 
-    /**
-     * Creates a learning object publication using the values from the form.
-     * @return ContentObjectPublication The new publication
-     */
-    function create_content_object_publication()
+    function update_publication()
     {
         $values = $this->exportValues();
         
-        $type = $values[SurveyPublication :: PROPERTY_TYPE];
+        $this->publication_type = $values[SurveyPublication :: PROPERTY_TYPE];
         
         if ($values[self :: PARAM_FOREVER] != 0)
         {
@@ -169,36 +98,24 @@ class SurveyPublicationForm extends FormValidator
             $from = Utilities :: time_from_datepicker($values[self :: PARAM_FROM_DATE]);
             $to = Utilities :: time_from_datepicker($values[self :: PARAM_TO_DATE]);
         }
-        $hidden = ($values[SurveyPublication :: PROPERTY_HIDDEN] ? 1 : 0);
         
-        if ($values[self :: PARAM_TARGET_OPTION] != 0)
+        $publication = $this->publication;
+        $publication->set_from_date($from);
+        $publication->set_to_date($to);
+        $publication->set_type($this->publication_type);
+        
+        if ($publication->update())
         {
-            $user_ids = $values[self :: PARAM_TARGET_ELEMENTS]['user'];
-            $group_ids = $values[self :: PARAM_TARGET_ELEMENTS]['group'];
-        }
-        else
-        {
-            $users = UserDataManager :: get_instance()->retrieve_users();
-            $user_ids = array();
-            while ($user = $users->next_result())
+            $location_id = SurveyRights :: get_location_id_by_identifier_from_surveys_subtree($publication->get_id(), SurveyRights :: TYPE_PUBLICATION);
+            
+            if ($values[self :: PARAM_PARTICIPATE] == 1)
             {
-                $user_ids[] = $user->get_id();
+                RightsUtilities :: set_user_right_location_value(SurveyRights :: RIGHT_PARTICIPATE, $this->user->get_id(), $location_id, 1);
             }
-        }
-        
-        $pub = new SurveyPublication();
-        $pub->set_content_object($this->content_object->get_id());
-        $pub->set_publisher($this->form_user->get_id());
-        $pub->set_published(time());
-        $pub->set_from_date($from);
-        $pub->set_to_date($to);
-        $pub->set_hidden($hidden);
-        $pub->set_type($type);
-        //$pub->set_target_users($user_ids);
-        //$pub->set_target_groups($group_ids);
-        
-        if ($pub->create())
-        {
+            else
+            {
+                RightsUtilities :: set_user_right_location_value(SurveyRights :: RIGHT_PARTICIPATE, $this->user->get_id(), $location_id, 0);
+            }
             return true;
         }
         else
@@ -207,11 +124,11 @@ class SurveyPublicationForm extends FormValidator
         }
     }
 
-    function create_content_object_publications()
+    function create_publications()
     {
         $values = $this->exportValues();
         
-        $type = $values[SurveyPublication :: PROPERTY_TYPE];
+        $this->publication_type = $values[SurveyPublication :: PROPERTY_TYPE];
         
         if ($values[self :: PARAM_FOREVER] != 0)
         {
@@ -222,12 +139,29 @@ class SurveyPublicationForm extends FormValidator
             $from = Utilities :: time_from_datepicker($values[self :: PARAM_FROM_DATE]);
             $to = Utilities :: time_from_datepicker($values[self :: PARAM_TO_DATE]);
         }
-        $hidden = ($values[SurveyPublication :: PROPERTY_HIDDEN] ? 1 : 0);
         
         if ($values[self :: PARAM_TARGET_OPTION] != 0)
         {
             $user_ids = $values[self :: PARAM_TARGET_ELEMENTS]['user'];
+            
             $group_ids = $values[self :: PARAM_TARGET_ELEMENTS]['group'];
+            $group_user_ids = array();
+            foreach ($group_ids as $group_id)
+            {
+                
+                $group = GroupDataManager :: get_instance()->retrieve_group($group_id);
+                $ids = $group->get_users(true, true);
+                $group_user_ids = array_merge($group_user_ids, $ids);
+            
+            }
+            if (count($user_ids))
+            {
+                $user_ids = array_merge($user_ids, $group_user_ids);
+            }
+            else
+            {
+                $user_ids = $group_user_ids;
+            }
         }
         else
         {
@@ -238,72 +172,55 @@ class SurveyPublicationForm extends FormValidator
                 $user_ids[] = $user->get_id();
             }
         }
+        
+        $user_ids = array_unique($user_ids);
         
         $ids = unserialize($values['ids']);
         
+        $succes = false;
+        
         foreach ($ids as $id)
         {
-            $pub = new SurveyPublication();
-            $pub->set_content_object($id);
-            $pub->set_publisher($this->user->get_id());
-            $pub->set_published(time());
-            $pub->set_from_date($from);
-            $pub->set_to_date($to);
-            $pub->set_hidden($hidden);
-            $pub->set_type($type);
-            //$pub->set_target_users($user_ids);
-            //$pub->set_target_groups($group_ids);
+            $publication = new SurveyPublication();
+            $publication->set_content_object($id);
+            $publication->set_publisher($this->user->get_id());
+            $publication->set_published(time());
+            $publication->set_from_date($from);
+            $publication->set_to_date($to);
+            $publication->set_type($this->publication_type);
             
-            if (! $pub->create())
+            if (! $publication->create())
             {
-                return false;
+                $succes = false;
+            }
+            else
+            {
+                $location_id = SurveyRights :: get_location_id_by_identifier_from_surveys_subtree($publication->get_id(), SurveyRights :: TYPE_PUBLICATION);
+                
+                if (count($user_ids))
+                {
+                    foreach ($user_ids as $user_id)
+                    {
+                        $succes = RightsUtilities :: set_user_right_location_value(SurveyRights :: RIGHT_PARTICIPATE, $user_id, $location_id, 1);
+                    }
+                }
+                if ($values[self :: PARAM_PARTICIPATE] == 1)
+                {
+                   $succes = RightsUtilities :: set_user_right_location_value(SurveyRights :: RIGHT_PARTICIPATE, $this->user->get_id(), $location_id, 1);
+                }
+                else
+                {
+                    $succes = true;
+                }
             }
         }
-        return true;
+        
+        return $succes;
     }
 
-    function update_content_object_publication()
+    function get_publication_type()
     {
-        $values = $this->exportValues();
-        
-        $type = $values[SurveyPublication :: PROPERTY_TYPE];
-        
-        if ($values[self :: PARAM_FOREVER] != 0)
-        {
-            $from = $to = 0;
-        }
-        else
-        {
-            $from = Utilities :: time_from_datepicker($values[self :: PARAM_FROM_DATE]);
-            $to = Utilities :: time_from_datepicker($values[self :: PARAM_TO_DATE]);
-        }
-        $hidden = ($values[SurveyPublication :: PROPERTY_HIDDEN] ? 1 : 0);
-        
-        if ($values[self :: PARAM_TARGET_OPTION] != 0)
-        {
-            $user_ids = $values[self :: PARAM_TARGET_ELEMENTS]['user'];
-            $group_ids = $values[self :: PARAM_TARGET_ELEMENTS]['group'];
-        }
-        else
-        {
-            $users = UserDataManager :: get_instance()->retrieve_users();
-            $user_ids = array();
-            while ($user = $users->next_result())
-            {
-                $user_ids[] = $user->get_id();
-            }
-        }
-        
-        $pub = $this->publication;
-        $pub->set_from_date($from);
-        $pub->set_to_date($to);
-        $pub->set_hidden($hidden);
-        $pub->set_type($type);
-        
-        //$pub->set_target_users($user_ids);
-        //$pub->set_target_groups($group_ids);
-        return $pub->update();
-    
+        return $this->publication_type;
     }
 
     /**
@@ -315,8 +232,33 @@ class SurveyPublicationForm extends FormValidator
     function setDefaults()
     {
         $defaults = array();
-        $defaults[self :: PARAM_TARGET_OPTION] = 0;
-        $defaults[self :: PARAM_FOREVER] = 1;
+        if (! $this->publication)
+        {
+            $defaults[self :: PARAM_TARGET_OPTION] = 1;
+            $defaults[self :: PARAM_FOREVER] = 1;
+        }
+        else
+        {
+            $defaults[SurveyPublication :: PROPERTY_TYPE] = $this->publication->get_type();
+            
+            if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_PARTICIPATE, $this->publication->get_id(), SurveyRights :: TYPE_PUBLICATION, $this->user->get_id()))
+            {
+                $defaults[self :: PARAM_PARTICIPATE] = 1;
+            }
+            
+            if ($this->publication->get_from_date() == 0)
+            {
+                $defaults[self :: PARAM_FOREVER] = 1;
+            }
+            else
+            {
+                $defaults[self :: PARAM_FOREVER] = 0;
+                $defaults[self :: PARAM_FROM_DATE] = $this->publication->get_from_date();
+                $defaults[self :: PARAM_TO_DATE] = $this->publication->get_to_date();
+            }
+        
+        }
+        
         parent :: setDefaults($defaults);
     }
 }

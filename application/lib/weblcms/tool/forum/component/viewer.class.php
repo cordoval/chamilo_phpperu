@@ -5,6 +5,7 @@
  * @package application.lib.weblcms.tool.forum.component
  */
 require_once dirname(__FILE__) . '/../forum_tool.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object/forum/display/forum_display.class.php';
 
 class ForumToolViewerComponent extends ForumTool implements DelegateComponent
 {
@@ -23,6 +24,11 @@ class ForumToolViewerComponent extends ForumTool implements DelegateComponent
 
         $this->publication_id = Request :: get(Tool :: PARAM_PUBLICATION_ID);
         $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, $this->publication_id);
+        
+        if (is_null(Request::get(ComplexDisplay :: PARAM_DISPLAY_ACTION)))
+        {
+            Request::set_get(ComplexDisplay :: PARAM_DISPLAY_ACTION, ForumDisplay :: ACTION_VIEW_FORUM);
+        }
 
         $this->trail = $trail = BreadcrumbTrail :: get_instance();
 

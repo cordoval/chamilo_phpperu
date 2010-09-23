@@ -1,22 +1,15 @@
 <?php
 
-//require_once dirname(__FILE__) . '/../organisation_manager.class.php';
-
-
-//require_once dirname ( __FILE__ ) . '/rel_location_browser/rel_location_browser_table.class.php';
 require_once Path :: get_application_path() . 'lib/internship_organizer/organisation_manager/component/location_browser/browser_table.class.php';
 require_once Path :: get_application_path() . 'lib/internship_organizer/organisation_manager/component/mentor_browser/browser_table.class.php';
-//require_once Path :: get_application_path() . 'lib/internship_organizer/organisation_manager/component/rel_mentor_browser/rel_mentor_browser_table.class.php';
-
-
 require_once Path :: get_application_path() . 'lib/internship_organizer/organisation_manager/component/rel_user_browser/rel_user_browser_table.class.php';
 
 class InternshipOrganizerOrganisationManagerViewerComponent extends InternshipOrganizerOrganisationManager
 {
     
-    const TAB_LOCATIONS = 0;
-    const TAB_MENTORS = 1;
-    const TAB_USERS = 2;
+    const TAB_LOCATIONS = 1;
+    const TAB_MENTORS = 2;
+    const TAB_USERS = 3;
     
     private $action_bar;
     private $organisation;
@@ -120,10 +113,13 @@ class InternshipOrganizerOrganisationManagerViewerComponent extends InternshipOr
         
         $mentor_alias = InternshipOrganizerDataManager :: get_instance()->get_alias(InternshipOrganizerMentor :: get_table_name());
         $organisation_alias = InternshipOrganizerDataManager :: get_instance()->get_alias(InternshipOrganizerOrganisation :: get_table_name());
+        $location_alias = InternshipOrganizerDataManager :: get_instance()->get_alias(InternshipOrganizerLocation :: get_table_name());
+        
         
         $conditions = array();
+//        $conditions[] = new EqualityCondition(InternshipOrganizerOrganisation :: PROPERTY_ID, $this->organisation->get_id(), $organisation_alias, true);
         
-        $conditions[] = new EqualityCondition(InternshipOrganizerOrganisation :: PROPERTY_ID, $this->organisation->get_id(), $organisation_alias, true);
+        $conditions[] = new EqualityCondition(InternshipOrganizerLocation :: PROPERTY_ORGANISATION_ID, $this->organisation->get_id(), $location_alias, true);
         
         $query = $this->action_bar->get_query();
         if (isset($query) && $query != '')

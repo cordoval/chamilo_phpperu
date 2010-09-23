@@ -16,7 +16,7 @@ class InternshipOrganizerMentorForm extends FormValidator
     
     private $mentor;
     private $user;
-      
+         
     function InternshipOrganizerMentorForm($form_type, $mentor, $action, $user)
     {
         parent :: __construct('mentor_settings', 'post', $action);
@@ -118,15 +118,15 @@ class InternshipOrganizerMentorForm extends FormValidator
     {
         $mentor = $this->mentor;
         $values = $this->exportValues();
-            
+    
         $mentor->set_title($values[InternshipOrganizerMentor :: PROPERTY_TITLE]);
         $mentor->set_firstname($values[InternshipOrganizerMentor :: PROPERTY_FIRSTNAME]);
         $mentor->set_lastname($values[InternshipOrganizerMentor :: PROPERTY_LASTNAME]);
         $mentor->set_email($values[InternshipOrganizerMentor :: PROPERTY_EMAIL]);
         $mentor->set_telephone($values[InternshipOrganizerMentor :: PROPERTY_TELEPHONE]);
-                
+	        
         $value = $mentor->create();
-        
+       
         if ($value)
         {
             
@@ -152,7 +152,6 @@ class InternshipOrganizerMentorForm extends FormValidator
             }
         
         }
-        
         return $value;
     }
 

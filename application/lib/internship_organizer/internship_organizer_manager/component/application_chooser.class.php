@@ -3,11 +3,12 @@
 class InternshipOrganizerManagerApplicationChooserComponent extends InternshipOrganizerManager implements DelegateComponent
 {
     
-    const TAB_PERIOD = 0;
-    const TAB_AGREEMENT = 1;
-    const TAB_ORGANISATION = 2;
-    const TAB_CATEGORY = 3;
-    const TAB_REGION = 4;
+    const TAB_PERIOD = 1;
+    const TAB_AGREEMENT = 2;
+    const TAB_ORGANISATION = 3;
+    const TAB_CATEGORY = 4;
+    const TAB_REGION = 5;
+    const TAB_APPOINTMENT = 6;
 
     /**
      * Runs this component and displays its output.
@@ -66,7 +67,7 @@ class InternshipOrganizerManagerApplicationChooserComponent extends InternshipOr
 
     private function get_tabs()
     {
-        return array(self :: TAB_AGREEMENT, self :: TAB_PERIOD, self :: TAB_ORGANISATION, self :: TAB_CATEGORY, self :: TAB_REGION);
+        return array(self :: TAB_APPOINTMENT, self :: TAB_AGREEMENT, self :: TAB_PERIOD, self :: TAB_ORGANISATION, self :: TAB_CATEGORY, self :: TAB_REGION);
     }
 
     function get_internship_organizer_links()
@@ -80,35 +81,42 @@ class InternshipOrganizerManagerApplicationChooserComponent extends InternshipOr
             switch ($tab)
             {
                 case self :: TAB_PERIOD :
-                    if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, InternshipOrganizerRights :: LOCATION_PERIOD, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+                    if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, InternshipOrganizerRights :: LOCATION_PERIOD, InternshipOrganizerRights :: TYPE_COMPONENT))
                     {
                         $tab_links = $this->get_links_for_tab($tab);
                         $links[] = $tab_links;
                     }
                     break;
                 case self :: TAB_AGREEMENT :
-                    if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, InternshipOrganizerRights :: LOCATION_AGREEMENT, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+                    if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, InternshipOrganizerRights :: LOCATION_AGREEMENT, InternshipOrganizerRights :: TYPE_COMPONENT))
                     {
                         $tab_links = $this->get_links_for_tab($tab);
                         $links[] = $tab_links;
                     }
                     break;
                 case self :: TAB_ORGANISATION :
-                    if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, InternshipOrganizerRights :: LOCATION_ORGANISATION, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+                    if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, InternshipOrganizerRights :: LOCATION_ORGANISATION, InternshipOrganizerRights :: TYPE_COMPONENT))
                     {
                         $tab_links = $this->get_links_for_tab($tab);
                         $links[] = $tab_links;
                     }
                     break;
                 case self :: TAB_CATEGORY :
-                    if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, InternshipOrganizerRights :: LOCATION_CATEGORY, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+                    if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, InternshipOrganizerRights :: LOCATION_CATEGORY, InternshipOrganizerRights :: TYPE_COMPONENT))
                     {
                         $tab_links = $this->get_links_for_tab($tab);
                         $links[] = $tab_links;
                     }
                     break;
                 case self :: TAB_REGION :
-                    if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, InternshipOrganizerRights :: LOCATION_REGION, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+                    if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, InternshipOrganizerRights :: LOCATION_REGION, InternshipOrganizerRights :: TYPE_COMPONENT))
+                    {
+                        $tab_links = $this->get_links_for_tab($tab);
+                        $links[] = $tab_links;
+                    }
+                    break;
+                case self :: TAB_APPOINTMENT :
+                    if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, InternshipOrganizerRights :: LOCATION_APPOINTMENT, InternshipOrganizerRights :: TYPE_COMPONENT))
                     {
                         $tab_links = $this->get_links_for_tab($tab);
                         $links[] = $tab_links;
@@ -194,6 +202,19 @@ class InternshipOrganizerManagerApplicationChooserComponent extends InternshipOr
                 $region_link->set_image(Theme :: get_image_path() . 'browse_region.png');
                 $region_link->set_url($this->get_region_application_url());
                 $links[] = $region_link;
+                
+                $tab_links['links'] = $links;
+                break;
+            case self :: TAB_APPOINTMENT :
+                
+                $tab_links['application'] = array('name' => Translation :: get('AppointmentTab'), 'class' => 'appointment');
+                
+                $appointment_link = new DynamicAction();
+                $appointment_link->set_title(Translation :: get('AppointmentLink'));
+                $appointment_link->set_description(Translation :: get('AppointmentLinkDescription'));
+                $appointment_link->set_image(Theme :: get_image_path() . 'browse_region.png');
+                $appointment_link->set_url($this->get_appointment_application_url());
+                $links[] = $appointment_link;
                 
                 $tab_links['links'] = $links;
                 break;

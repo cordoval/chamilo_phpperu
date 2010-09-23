@@ -26,23 +26,21 @@ class InternshipOrganizerAgreementManagerViewerComponent extends InternshipOrgan
     function run()
     {
         
-        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, InternshipOrganizerRights :: LOCATION_AGREEMENT, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, InternshipOrganizerRights :: LOCATION_AGREEMENT, InternshipOrganizerRights :: TYPE_COMPONENT))
         {
-            $this->display_header($trail);
+            $this->display_header();
             $this->display_error_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
         }
         
-        $agreement_id = $_GET[InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID];
+        $agreement_id = $_GET[self :: PARAM_AGREEMENT_ID];
         
         $this->agreement = $this->retrieve_agreement($agreement_id);
-        
-        $trail = BreadcrumbTrail :: get_instance();
-        
+               
         $this->action_bar = $this->get_action_bar();
         
-        $this->display_header($trail);
+        $this->display_header();
         
         echo $this->action_bar->as_html();
         echo '<div id="action_bar_browser">';

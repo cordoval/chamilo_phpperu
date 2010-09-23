@@ -13,24 +13,29 @@ class SurveyPublication extends DataClass
     const PROPERTY_CONTENT_OBJECT = 'content_object_id';
     const PROPERTY_FROM_DATE = 'from_date';
     const PROPERTY_TO_DATE = 'to_date';
-    const PROPERTY_HIDDEN = 'hidden';
     const PROPERTY_PUBLISHER = 'publisher_id';
     const PROPERTY_PUBLISHED = 'published';
     const PROPERTY_TYPE = 'type';
     
-    const TYPE_TEST_CASE = 1;
-    const TYPE_NAME_TEST_CASE = 'testcase';
-    const TYPE_OFFICIAL = 2;
+    const TYPE_OFFICIAL = 1;
     const TYPE_NAME_OFFICIAL = 'official';
-    const TYPE_VOLUNTEER = 3;
+    const TYPE_VOLUNTEER = 2;
     const TYPE_NAME_VOLUNTEER = 'volunteer';
 
     public function create()
     {
         $succes = parent :: create();
         $parent_location = SurveyRights :: get_surveys_subtree_root_id();
-        return SurveyRights :: create_location_in_surveys_subtree($this->get_content_object(), $this->get_id(), $parent_location, SurveyRights :: TYPE_PUBLICATION);
-    
+        $location = SurveyRights :: create_location_in_surveys_subtree($this->get_content_object(), $this->get_id(), $parent_location, SurveyRights :: TYPE_PUBLICATION, true);
+        
+        $rights = SurveyRights :: get_available_rights_for_publications();
+        foreach ($rights as $right)
+        {
+            if($right != SurveyRights :: RIGHT_PARTICIPATE){
+            	RightsUtilities :: set_user_right_location_value($right, $this->get_publisher(), $location->get_id(), 1);
+            }
+        }
+        return $succes;
     }
 
     public function update()
@@ -143,7 +148,7 @@ class SurveyPublication extends DataClass
 
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_CONTENT_OBJECT, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED, self :: PROPERTY_TYPE));
+        return parent :: get_default_property_names(array(self :: PROPERTY_CONTENT_OBJECT, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED, self :: PROPERTY_TYPE));
     }
 
     function get_data_manager()
@@ -205,15 +210,6 @@ class SurveyPublication extends DataClass
         $this->set_default_property(self :: PROPERTY_TO_DATE, $to_date);
     }
 
-    /**
-     * Returns the hidden of this SurveyPublication.
-     * @return the hidden.
-     */
-    function get_hidden()
-    {
-        return $this->get_default_property(self :: PROPERTY_HIDDEN);
-    }
-
     function get_type()
     {
         return $this->get_default_property(self :: PROPERTY_TYPE);
@@ -226,16 +222,7 @@ class SurveyPublication extends DataClass
 
     static public function get_types()
     {
-        return array(self :: TYPE_TEST_CASE => self :: TYPE_NAME_TEST_CASE, self :: TYPE_OFFICIAL => self :: TYPE_NAME_OFFICIAL, self :: TYPE_VOLUNTEER => self :: TYPE_NAME_VOLUNTEER);
-    }
-
-    /**
-     * Sets the hidden of this SurveyPublication.
-     * @param hidden
-     */
-    function set_hidden($hidden)
-    {
-        $this->set_default_property(self :: PROPERTY_HIDDEN, $hidden);
+        return array(self :: TYPE_OFFICIAL => self :: TYPE_NAME_OFFICIAL, self :: TYPE_VOLUNTEER => self :: TYPE_NAME_VOLUNTEER);
     }
 
     /**
@@ -274,104 +261,90 @@ class SurveyPublication extends DataClass
         $this->set_default_property(self :: PROPERTY_PUBLISHED, $published);
     }
 
-    function toggle_visibility()
-    {
-        $this->set_hidden(! $this->get_hidden());
-    }
-
-    /**
-     * Determines whether this publication is hidden or not
-     * @return boolean True if the publication is hidden.
-     */
-    function is_hidden()
-    {
-        return $this->get_default_property(self :: PROPERTY_HIDDEN);
-    }
- 
-
-//    function is_visible_for_target_user($user, $exclude_publisher = false)
-//    {
-//        if ($user->is_platform_admin())
-//        {
-//            return true;
-//        }
-//        
-//        if (! $exclude_publisher && $user->get_id() == $this->get_publisher())
-//        {
-//            return true;
-//        }
-//        
-//        if ($this->get_target_groups() || $this->get_target_users())
-//        {
-//            $allowed = false;
-//            
-//            if (in_array($user->get_id(), $this->get_target_users()))
-//            {
-//                
-//                $allowed = true;
-//            }
-//            
-//            if (! $allowed)
-//            {
-//                $user_groups = $user->get_groups();
-//                
-//                if (isset($user_groups))
-//                {
-//                    while ($user_group = $user_groups->next_result())
-//                    {
-//                        if (in_array($user_group->get_id(), $this->get_target_groups()))
-//                        {
-//                            $allowed = true;
-//                            break;
-//                        }
-//                    }
-//                }
-//            
-//            }
-//            
-//            if (! $allowed)
-//            {
-//                return false;
-//            }
-//        }
-//        
-//        if ($this->get_hidden())
-//        {
-//            
-//            return false;
-//        }
-//        
-//        if (! $this->is_publication_period())
-//        {
-//            
-//            return false;
-//        }
-//        
-//        return true;
-//    }
-//
-//    function is_publication_period()
-//    {
-//        
-//        $from_date = $this->get_from_date();
-//        $to_date = $this->get_to_date();
-//        if ($from_date == 0 && $to_date == 0)
-//        {
-//            return true;
-//        }
-//        
-//        $time = time();
-//        
-//        if ($time < $from_date || $time > $to_date)
-//        {
-//            return false;
-//        }
-//        else
-//        {
-//            return true;
-//        }
-//    
-//    }
+    //    function is_visible_for_target_user($user, $exclude_publisher = false)
+    //    {
+    //        if ($user->is_platform_admin())
+    //        {
+    //            return true;
+    //        }
+    //        
+    //        if (! $exclude_publisher && $user->get_id() == $this->get_publisher())
+    //        {
+    //            return true;
+    //        }
+    //        
+    //        if ($this->get_target_groups() || $this->get_target_users())
+    //        {
+    //            $allowed = false;
+    //            
+    //            if (in_array($user->get_id(), $this->get_target_users()))
+    //            {
+    //                
+    //                $allowed = true;
+    //            }
+    //            
+    //            if (! $allowed)
+    //            {
+    //                $user_groups = $user->get_groups();
+    //                
+    //                if (isset($user_groups))
+    //                {
+    //                    while ($user_group = $user_groups->next_result())
+    //                    {
+    //                        if (in_array($user_group->get_id(), $this->get_target_groups()))
+    //                        {
+    //                            $allowed = true;
+    //                            break;
+    //                        }
+    //                    }
+    //                }
+    //            
+    //            }
+    //            
+    //            if (! $allowed)
+    //            {
+    //                return false;
+    //            }
+    //        }
+    //        
+    //        if ($this->get_hidden())
+    //        {
+    //            
+    //            return false;
+    //        }
+    //        
+    //        if (! $this->is_publication_period())
+    //        {
+    //            
+    //            return false;
+    //        }
+    //        
+    //        return true;
+    //    }
+    //
+    //    function is_publication_period()
+    //    {
+    //        
+    //        $from_date = $this->get_from_date();
+    //        $to_date = $this->get_to_date();
+    //        if ($from_date == 0 && $to_date == 0)
+    //        {
+    //            return true;
+    //        }
+    //        
+    //        $time = time();
+    //        
+    //        if ($time < $from_date || $time > $to_date)
+    //        {
+    //            return false;
+    //        }
+    //        else
+    //        {
+    //            return true;
+    //        }
+    //    
+    //    }
+    
 
     static function get_table_name()
     {

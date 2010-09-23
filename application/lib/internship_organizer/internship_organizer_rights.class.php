@@ -48,10 +48,11 @@ class InternshipOrganizerRights
     const LOCATION_PERIOD = 4;
     const LOCATION_REGION = 5;
     const LOCATION_REPORTING = 6;
+    const LOCATION_APPOINTMENT = 7;
     
     const TREE_TYPE_INTERNSHIP_ORGANIZER = 0;
     
-    const TYPE_INTERNSHIP_ORGANIZER_COMPONENT = 1;
+    const TYPE_COMPONENT = 1;
     const TYPE_PUBLICATION = 2;
     const TYPE_PERIOD = 3;
     const TYPE_AGREEMENT = 4;

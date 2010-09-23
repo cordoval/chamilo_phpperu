@@ -24,7 +24,7 @@ class InternshipOrganizerRegionBrowserTable extends ObjectTable
         $this->set_default_row_count(20);
         
         $actions = new ObjectTableFormActions(InternshipOrganizerRegionManager :: PARAM_ACTION);
-        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_DELETE, InternshipOrganizerRights :: LOCATION_REGION, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_DELETE, InternshipOrganizerRights :: LOCATION_REGION, InternshipOrganizerRights :: TYPE_COMPONENT))
         {
             $actions->add_form_action(new ObjectTableFormAction(InternshipOrganizerRegionManager :: ACTION_DELETE_REGION, Translation :: get('Delete')));
         }

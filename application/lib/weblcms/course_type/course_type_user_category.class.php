@@ -20,7 +20,7 @@ class CourseTypeUserCategory extends DataClass
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_USER_ID,
+        return array(self :: PROPERTY_ID, self :: PROPERTY_USER_ID,
         			 self :: PROPERTY_COURSE_USER_CATEGORY_ID,
         			 self :: PROPERTY_COURSE_TYPE_ID,
         			 self :: PROPERTY_SORT);

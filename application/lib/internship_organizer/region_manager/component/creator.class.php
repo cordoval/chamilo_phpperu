@@ -10,7 +10,7 @@ class InternshipOrganizerRegionManagerCreatorComponent extends InternshipOrganiz
     function run()
     {
         
-        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_ADD, InternshipOrganizerRights :: LOCATION_REGION, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_ADD, InternshipOrganizerRights :: LOCATION_REGION, InternshipOrganizerRights :: TYPE_COMPONENT))
         {
             $this->display_header();
             $this->display_error_message(Translation :: get('NotAllowed'));

@@ -61,7 +61,7 @@ class SurveyManagerDeleterComponent extends SurveyManager
                 }
             }
             
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PUBLICATIONS));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(self :: PARAM_ACTION => self :: ACTION_BROWSE));
         
         }
         else

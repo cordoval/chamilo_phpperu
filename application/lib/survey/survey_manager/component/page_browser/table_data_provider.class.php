@@ -24,7 +24,7 @@ class SurveyPageBrowserTableDataProvider extends ObjectTableDataProvider
     function get_objects($offset, $count, $order_property = null)
     {
         $order_property = $this->get_order_property($order_property);
-        return $this->get_browser()->retrieve_survey_pages($this->survey_ids, $this->get_condition(), $offset, $count, $order_property);
+        return SurveyDataManager :: get_instance()->retrieve_survey_pages($this->survey_ids, $this->get_condition(), $offset, $count, $order_property);
     }
 
     /**
@@ -33,7 +33,7 @@ class SurveyPageBrowserTableDataProvider extends ObjectTableDataProvider
      */
     function get_object_count()
     {
-    	return $this->get_browser()->count_survey_pages($this->survey_ids,$this->get_condition());
+    	return SurveyDataManager :: get_instance()->count_survey_pages($this->survey_ids,$this->get_condition());
     }
 }
 ?>

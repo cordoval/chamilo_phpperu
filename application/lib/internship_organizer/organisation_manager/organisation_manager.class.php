@@ -143,7 +143,7 @@ class InternshipOrganizerOrganisationManager extends SubManager
 
     function get_view_location_url($location)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_LOCATION, self :: PARAM_LOCATION_ID => $location->get_id(), self :: PARAM_REGION_ID => $location->get_region_id(), self :: PARAM_ORGANISATION_ID => $location->get_organisation_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_LOCATION, self :: PARAM_LOCATION_ID => $location->get_id()));
     }
 
     function get_update_location_url($location)
