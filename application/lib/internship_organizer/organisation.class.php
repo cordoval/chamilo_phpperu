@@ -88,10 +88,10 @@ class InternshipOrganizerOrganisation extends DataClass
 
     function count_locations()
     {
-       $dm = $this->get_data_manager();
-       $organisation_id = $this->get_id();
-       $condition = new EqualityCondition(InternshipOrganizerLocation :: PROPERTY_ORGANISATION_ID, $organisation_id);
-       return $dm->count_locations($condition);
+        $dm = $this->get_data_manager();
+        $organisation_id = $this->get_id();
+        $condition = new EqualityCondition(InternshipOrganizerLocation :: PROPERTY_ORGANISATION_ID, $organisation_id);
+        return $dm->count_locations($condition);
     }
 
     function get_locations()
@@ -116,6 +116,20 @@ class InternshipOrganizerOrganisation extends DataClass
         return $location_ids;
     }
 
+    function get_user_ids()
+    {
+        
+        $condition = new EqualityCondition(InternshipOrganizerOrganisationRelUser :: PROPERTY_ORGANISATION_ID, $this->get_id());
+        $organisation_rel_locations = $this->get_data_manager()->retrieve_organisation_rel_users($condition);
+        $user_ids = array();
+        
+        while ($organisation_rel_location = $organisation_rel_locations->next_result())
+        {
+            $user_ids[] = $organisation_rel_location->get_user_id();
+        
+        }
+        return $user_ids;
+    }
 }
 
 ?>

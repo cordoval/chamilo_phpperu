@@ -9,6 +9,7 @@ class InternshipOrganizerManagerApplicationChooserComponent extends InternshipOr
     const TAB_CATEGORY = 4;
     const TAB_REGION = 5;
     const TAB_APPOINTMENT = 6;
+    const TAB_ADMINISTARTION = 7;
 
     /**
      * Runs this component and displays its output.
@@ -67,7 +68,7 @@ class InternshipOrganizerManagerApplicationChooserComponent extends InternshipOr
 
     private function get_tabs()
     {
-        return array(self :: TAB_APPOINTMENT, self :: TAB_AGREEMENT, self :: TAB_PERIOD, self :: TAB_ORGANISATION, self :: TAB_CATEGORY, self :: TAB_REGION);
+        return array(self :: TAB_APPOINTMENT, self :: TAB_AGREEMENT, self :: TAB_PERIOD, self :: TAB_ORGANISATION, self :: TAB_CATEGORY, self :: TAB_REGION, self :: TAB_ADMINISTARTION);
     }
 
     function get_internship_organizer_links()
@@ -117,6 +118,13 @@ class InternshipOrganizerManagerApplicationChooserComponent extends InternshipOr
                     break;
                 case self :: TAB_APPOINTMENT :
                     if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, InternshipOrganizerRights :: LOCATION_APPOINTMENT, InternshipOrganizerRights :: TYPE_COMPONENT))
+                    {
+                        $tab_links = $this->get_links_for_tab($tab);
+                        $links[] = $tab_links;
+                    }
+                    break;
+                case self :: TAB_ADMINISTARTION :
+                    if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, InternshipOrganizerRights :: LOCATION_ADMINISTRATION, InternshipOrganizerRights :: TYPE_COMPONENT))
                     {
                         $tab_links = $this->get_links_for_tab($tab);
                         $links[] = $tab_links;
@@ -215,6 +223,71 @@ class InternshipOrganizerManagerApplicationChooserComponent extends InternshipOr
                 $appointment_link->set_image(Theme :: get_image_path() . 'browse_region.png');
                 $appointment_link->set_url($this->get_appointment_application_url());
                 $links[] = $appointment_link;
+                
+                $tab_links['links'] = $links;
+                break;
+            case self :: TAB_ADMINISTARTION :
+                
+                $tab_links['application'] = array('name' => Translation :: get('AdministrationTab'), 'class' => 'administration');
+                
+                $period_link = new DynamicAction();
+                $period_link->set_title(Translation :: get('PeriodRightLink'));
+                $period_link->set_description(Translation :: get('PeriodRightLinkDescription'));
+                $period_link->set_image(Theme :: get_image_path() . 'browse_period.png');
+                $period_link->set_url($this->get_administration_url(InternshipOrganizerRights :: LOCATION_PERIOD));
+                $links[] = $period_link;
+                
+                $agreement_link = new DynamicAction();
+                $agreement_link->set_title(Translation :: get('AgreementRightLink'));
+                $agreement_link->set_description(Translation :: get('AgreementRightLinkDescription'));
+                $agreement_link->set_image(Theme :: get_image_path() . 'browse_agreement.png');
+                $agreement_link->set_url($this->get_administration_url(InternshipOrganizerRights :: LOCATION_AGREEMENT));
+                $links[] = $agreement_link;
+                
+                $organisation_link = new DynamicAction();
+                $organisation_link->set_title(Translation :: get('OrganisationRightLink'));
+                $organisation_link->set_description(Translation :: get('OrganisationRightLinkDescription'));
+                $organisation_link->set_image(Theme :: get_image_path() . 'browse_organisation.png');
+                $organisation_link->set_url($this->get_administration_url(InternshipOrganizerRights :: LOCATION_ORGANISATION));
+                $links[] = $organisation_link;
+                
+                $category_link = new DynamicAction();
+                $category_link->set_title(Translation :: get('CategoryRightLink'));
+                $category_link->set_description(Translation :: get('CategoryRightLinkDescription'));
+                $category_link->set_image(Theme :: get_image_path() . 'browse_category.png');
+                $category_link->set_url($this->get_administration_url(InternshipOrganizerRights :: LOCATION_CATEGORY));
+                $links[] = $category_link;
+                
+                $region_link = new DynamicAction();
+                $region_link->set_title(Translation :: get('RegionRightLink'));
+                $region_link->set_description(Translation :: get('RegionRightLinkDescription'));
+                $region_link->set_image(Theme :: get_image_path() . 'browse_region.png');
+                $region_link->set_url($this->get_administration_url(InternshipOrganizerRights :: LOCATION_REGION));
+                $links[] = $region_link;
+                
+                $appointment_link = new DynamicAction();
+                $appointment_link->set_title(Translation :: get('AppointmentRightLink'));
+                $appointment_link->set_description(Translation :: get('AppointmentRightLinkDescription'));
+                $appointment_link->set_image(Theme :: get_image_path() . 'browse_region.png');
+                $appointment_link->set_url($this->get_administration_url(InternshipOrganizerRights :: LOCATION_APPOINTMENT));
+                $links[] = $appointment_link;
+                
+                $reporting_link = new DynamicAction();
+                $reporting_link->set_title(Translation :: get('ReportingRightLink'));
+                $reporting_link->set_description(Translation :: get('ReportingRightLinkDescription'));
+                $reporting_link->set_image(Theme :: get_image_path() . 'browse_region.png');
+                $reporting_link->set_url($this->get_administration_url(InternshipOrganizerRights :: LOCATION_REPORTING));
+                $links[] = $reporting_link;
+                
+                if ($this->get_user()->is_platform_admin())
+                {
+                    $administration_link = new DynamicAction();
+                    $administration_link->set_title(Translation :: get('AdministrationRightLink'));
+                    $administration_link->set_description(Translation :: get('AdministrationRightLinkDescription'));
+                    $administration_link->set_image(Theme :: get_image_path() . 'browse_region.png');
+                    $administration_link->set_url($this->get_administration_url(InternshipOrganizerRights :: LOCATION_ADMINISTRATION));
+                    $links[] = $administration_link;
+                }
                 
                 $tab_links['links'] = $links;
                 break;
