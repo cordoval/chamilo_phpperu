@@ -142,6 +142,12 @@ class CourseUserCategoryForm extends FormValidator
     function create_course_user_category()
     {
         $values = $this->exportValues();
+        $course_types = $this->get_selected_course_types();
+        
+        if(count($course_types) == 0)
+        {
+        	return false;
+        }
         
         $this->courseusercategory->set_id($values[CourseUserCategory :: PROPERTY_ID]);
         $this->courseusercategory->set_title($values[CourseUserCategory :: PROPERTY_TITLE]);
@@ -149,7 +155,6 @@ class CourseUserCategoryForm extends FormValidator
         if(!$this->courseusercategory->create())
         	return false;
         
-        $course_types = $this->get_selected_course_types();
         foreach($course_types as $course_type)
         {
         	if(! $course_type->create())
