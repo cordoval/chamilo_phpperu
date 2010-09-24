@@ -664,8 +664,6 @@ interface WeblcmsDataManagerInterface
      */
     function retrieve_course_user_categories($conditions = null, $offset = null, $count = null, $order_property = null);
 
-    function retrieve_course_user_categories_by_course_type($condition = null);
-
     /**
      * Retrieves a personal course category for the user.
      * @return CourseUserCategory The course user category.

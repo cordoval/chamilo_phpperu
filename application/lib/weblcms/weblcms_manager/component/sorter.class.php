@@ -5,7 +5,7 @@
  */
 require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
 
-require_once dirname(__FILE__) . '/../../course/course_user_relation_form.class.php';
+require_once dirname(__FILE__) . '/../../course_type/course_type_user_category_rel_course_form.class.php';
 require_once dirname(__FILE__) . '/../../course/course_user_category_form.class.php';
 require_once dirname(__FILE__) . '/../../course/course_list_renderer/course_type_course_list_renderer.class.php';
 /**
@@ -105,12 +105,12 @@ class WeblcmsManagerSorterComponent extends WeblcmsManager
         	$course_type_user_category_rel_course = WeblcmsDataManager :: get_instance()->retrieve_course_type_user_category_rel_courses($condition)->next_result();
         }
         
-        $form = new CourseUserRelationForm(CourseUserRelationForm :: TYPE_EDIT, $courseuserrelation, $this->get_user(), 
+        $form = new CourseTypeUserCategoryRelCourseForm( $course_type_user_category_rel_course, $this->get_user(), 
         	$this->get_url(array(WeblcmsManager :: PARAM_COURSE => $course_id, WeblcmsManager :: PARAM_COURSE_TYPE_USER_CATEGORY_ID => $course_type_user_category_id)));
-        
+
         if ($form->validate())
         {
-            $success = $form->update_course_user_relation();
+            $success = $form->update_course_type_user_category_rel_course();
             $this->redirect(Translation :: get($success ? 'CourseUserCategoryUpdated' : 'CourseUserCategoryNotUpdated'), ($success ? false : true), 
             	array(WeblcmsManager :: PARAM_COMPONENT_ACTION => WeblcmsManager :: ACTION_MANAGER_SORT));
         }
