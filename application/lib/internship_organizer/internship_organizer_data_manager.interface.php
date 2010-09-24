@@ -61,7 +61,7 @@ interface InternshipOrganizerDataManagerInterface
     function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null);
 
     function retrieve_root_category();
-    
+
     function retrieve_category($category_id);
 
     function retrieve_category_rel_location($location_id, $category_id);
@@ -94,6 +94,14 @@ interface InternshipOrganizerDataManagerInterface
     function count_moment_rel_users($conditions = null);
 
     function retrieve_moment_rel_users($condition = null, $offset = null, $count = null, $order_property = null);
+
+    function count_moment_rel_locations($conditions = null);
+
+    function retrieve_moment_rel_locations($condition = null, $offset = null, $count = null, $order_property = null);
+    
+    function count_moment_rel_appointments($conditions = null);
+
+    function retrieve_moment_rel_appointments($condition = null, $offset = null, $count = null, $order_property = null);
 
     //agreements
     function create_internship_organizer_agreement($organisation);
@@ -138,7 +146,7 @@ interface InternshipOrganizerDataManagerInterface
     function retrieve_internship_organizer_region($id);
 
     function retrieve_region($region_id);
-    
+
     function retrieve_regions($condition = null, $offset = null, $count = null, $order_property = null);
 
     function retrieve_root_region();
@@ -236,8 +244,8 @@ interface InternshipOrganizerDataManagerInterface
     function retrieve_publication($publication_id);
 
     function retrieve_publications($condition = null, $offset = null, $count = null, $order_property = null);
-	
-     //appointments
+
+    //appointments
     function create_internship_organizer_appointment($appointment);
 
     function update_internship_organizer_appointment($appointment);
@@ -249,6 +257,6 @@ interface InternshipOrganizerDataManagerInterface
     function retrieve_appointment($id);
 
     function retrieve_appointments($condition = null, $offset = null, $count = null, $order_property = null);
-    
+
 }
 ?>

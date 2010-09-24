@@ -10,8 +10,8 @@ class InternshipOrganizerOrganisation extends DataClass
      * Organisation properties
      */
     const PROPERTY_ID = 'id';
-    const PROPERTY_NAME = 'name';
-    const PROPERTY_DESCRIPTION = 'description';
+    const PROPERTY_NAME = 'organisation_name';
+    const PROPERTY_DESCRIPTION = 'organisation_description';
 
     /**
      * Get the default properties

@@ -3,17 +3,18 @@ require_once dirname(__FILE__) . '/../survey_publication.class.php';
 
 class SurveyReportingFilterWizard extends WizardPageValidator
 {
-	function SurveyReportingFilterWizard($user,$selected_survey_ids, $actions)
+	function SurveyReportingFilterWizard($selected_survey_ids, $actions)
     {  
     	parent :: __construct('survey_reporting_filter', 'post', $actions);
+    	
     	$tabs_generator = new DynamicFormTabsRenderer($this->getAttribute('name'), $this);
 	
 		$tabs_generator->add_tab(new DynamicFormTab('context_templates', Translation :: get('ContextTemplates'), null, 'build_context_templates_form'));
 		$tabs_generator->add_tab(new DynamicFormTab('contexts', Translation :: get('Contexts'), null, 'build_contexts_form'));
 		$tabs_generator->add_tab(new DynamicFormTab('groups', Translation :: get('Groups'), null, 'build_groups_form'));
-       	$tabs_generator->add_tab(new DynamicFormTab('users', Translation :: get('Users'), null, 'build_users_form')); 	
-        
-        $tabs_generator->render();
+       	$tabs_generator->add_tab(new DynamicFormTab('users', Translation :: get('Users'), null, 'build_users_form')); 	     
+    	
+       	$tabs_generator->render();
     }
 
 	function build_context_templates_form()
@@ -58,7 +59,7 @@ class SurveyReportingFilterWizard extends WizardPageValidator
         $locale['Error'] = Translation :: get('Error');
         $attributes['locale'] = $locale;
         $attributes['defaults'] = array();
-		$attributes['options'] = array('load_elements' => true);
+		$attributes['options'] = array('load_elements' => false);
     	$element_finder = $this->createElement('element_finder','contexts',Translation :: get('AvailableContexts'),$attributes['search_url'],$attributes['locale'],$attributes['defaults'], $attributes['options']);
       	$element_finder->excludeElements($attributes['exclude']);
       	$this->addElement($element_finder);
@@ -82,7 +83,7 @@ class SurveyReportingFilterWizard extends WizardPageValidator
         $locale['Error'] = Translation :: get('Error');
         $attributes['locale'] = $locale;
         $attributes['defaults'] = array();
-		$attributes['options'] = array('load_elements' => true);
+		$attributes['options'] = array('load_elements' => false);
     	$element_finder = $this->createElement('element_finder','groups',Translation :: get('AvailableGroups'),$attributes['search_url'],$attributes['locale'],$attributes['defaults'], $attributes['options']);
     	$element_finder->excludeElements($attributes['exclude']);
     	$this->addElement($element_finder);
@@ -107,7 +108,7 @@ class SurveyReportingFilterWizard extends WizardPageValidator
         $locale['Error'] = Translation :: get('Error');
         $attributes['locale'] = $locale;
         $attributes['defaults'] = array();
-		$attributes['options'] = array('load_elements' => true);
+		$attributes['options'] = array('load_elements' => false);
     	$element_finder = $this->createElement('element_finder','users',Translation :: get('AvailableUsers'),$attributes['search_url'],$attributes['locale'],$attributes['defaults'], $attributes['options']);
     	$element_finder->excludeElements($attributes['exclude']);
     	$this->addElement($element_finder);
@@ -117,6 +118,7 @@ class SurveyReportingFilterWizard extends WizardPageValidator
         
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
+    
 }
 
 ?>

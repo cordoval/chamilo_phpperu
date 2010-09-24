@@ -59,7 +59,8 @@ abstract class ReportingTemplate
         $display_all = $this->get_parent()->are_all_blocks_visible();
         
     	$html[] = $this->display_header();
-
+		$html[] = $this->display_filter();
+		
         if ($display_all)
         {
             foreach($this->get_reporting_blocks() as $block)
@@ -186,6 +187,11 @@ abstract class ReportingTemplate
     {
         $html[] = '<br />' . $this->get_action_bar()->as_html() . '<br />';
         return implode("\n", $html);
+    }
+    
+    public function display_filter()
+    {
+    	
     }
 
     public function get_parent()

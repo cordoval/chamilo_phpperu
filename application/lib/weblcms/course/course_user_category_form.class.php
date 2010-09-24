@@ -55,15 +55,6 @@ class CourseUserCategoryForm extends FormValidator
         $locale['Error'] = Translation :: get('Error');
         $attributes['locale'] = $locale;
         $attributes['defaults'] = array();
-
-        /*
-        $legend_items = array();
-        $legend_items[] = new ToolbarItem(Translation :: get('UserGroup'), Theme :: get_common_image_path() . 'treemenu/group.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'legend');
-
-        $legend = new Toolbar();
-        $legend->set_items($legend_items);
-        $legend->set_type(Toolbar :: TYPE_HORIZONTAL);
-        */
         
         $element_finder = $this->createElement('user_group_finder', self :: COURSE_TYPE_TARGET_ELEMENTS ,  Translation :: get('CourseType'), $attributes['search_url'], $attributes['locale'], $attributes['defaults'], $attributes['options']);
         $element_finder->excludeElements($attributes['exclude']);
@@ -104,13 +95,23 @@ class CourseUserCategoryForm extends FormValidator
         $courseusercategory->set_title($values[CourseUserCategory :: PROPERTY_TITLE]);
         
         if(!$courseusercategory->update())
+        {
         	return false;
+        }
         
     	$wdm = WeblcmsDataManager::get_instance();
     	$condition = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_USER_CATEGORY_ID, $courseusercategory->get_id());
 		$previous_types = $wdm->retrieve_course_type_user_categories($condition);
 		$course_types = $this->get_selected_course_types();
 
+    	foreach($course_types as $type)
+		{
+			if(!$type->create())
+			{
+				return false;
+			}
+		}
+		
 		while($previous_type = $previous_types->next_result())
 		{
 			$validation = false;
@@ -119,7 +120,9 @@ class CourseUserCategoryForm extends FormValidator
 				if($type->get_course_type_id() == $previous_type->get_course_type_id())
 				{
 					if(!$type->update())
+					{
 						return false;
+					}
 					unset($course_types[$index]);
 					$validation = true;
 				}
@@ -127,13 +130,10 @@ class CourseUserCategoryForm extends FormValidator
 			if(!$validation)
 			{
 				if(!$previous_type->delete())
+				{
 					return false;
+				}
 			}
-		}
-		foreach($course_types as $type)
-		{
-			if(!$type->create())
-				return false;
 		}
 		
         return true;
@@ -142,6 +142,12 @@ class CourseUserCategoryForm extends FormValidator
     function create_course_user_category()
     {
         $values = $this->exportValues();
+        $course_types = $this->get_selected_course_types();
+        
+        if(count($course_types) == 0)
+        {
+        	return false;
+        }
         
         $this->courseusercategory->set_id($values[CourseUserCategory :: PROPERTY_ID]);
         $this->courseusercategory->set_title($values[CourseUserCategory :: PROPERTY_TITLE]);
@@ -149,7 +155,6 @@ class CourseUserCategoryForm extends FormValidator
         if(!$this->courseusercategory->create())
         	return false;
         
-        $course_types = $this->get_selected_course_types();
         foreach($course_types as $course_type)
         {
         	if(! $course_type->create())

@@ -6,6 +6,7 @@ class InternshipOrganizerAppointmentForm extends FormValidator
     const TYPE_CREATE = 1;
     const TYPE_EDIT = 2;
     
+    private $form_type;
     private $appointment;
     private $user;
 
@@ -38,11 +39,9 @@ class InternshipOrganizerAppointmentForm extends FormValidator
         $this->addElement('text', InternshipOrganizerAppointment :: PROPERTY_DESCRIPTION, Translation :: get('Description'));
         $this->addRule(InternshipOrganizerAppointment :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');
         
-        $this->add_datepicker(InternshipOrganizerAppointment :: PROPERTY_BEGIN, Translation :: get('Begin'));
-        $this->addRule(InternshipOrganizerAppointment :: PROPERTY_BEGIN, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->add_select(InternshipOrganizerAppointment :: PROPERTY_STATUS, Translation :: get('Status'), InternshipOrganizerAppointment :: get_states(), true);
         
-        $this->add_datepicker(InternshipOrganizerAppointment :: PROPERTY_END, Translation :: get('End'));
-        $this->addRule(InternshipOrganizerAppointment :: PROPERTY_END, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->add_select(InternshipOrganizerAppointment :: PROPERTY_TYPE, Translation :: get('Type'), InternshipOrganizerAppointment :: get_types(), true );
     
     }
 
@@ -71,10 +70,10 @@ class InternshipOrganizerAppointmentForm extends FormValidator
         $appointment = $this->appointment;
         $values = $this->exportValues();
         
-        $appointment->set_name($values[InternshipOrganizerAppointment :: PROPERTY_NAME]);
+        $appointment->set_title($values[InternshipOrganizerAppointment :: PROPERTY_TITLE]);
         $appointment->set_description($values[InternshipOrganizerAppointment :: PROPERTY_DESCRIPTION]);
-        $appointment->set_begin(Utilities :: time_from_datepicker($values[InternshipOrganizerPeriod :: PROPERTY_BEGIN]));
-        $appointment->set_end(Utilities :: time_from_datepicker($values[InternshipOrganizerPeriod :: PROPERTY_END]));
+        $appointment->set_status($values[InternshipOrganizerAppointment :: PROPERTY_STATUS]);
+        $appointment->set_type($values[InternshipOrganizerAppointment :: PROPERTY_TYPE]);
         
         return $appointment->update();
     }
@@ -84,12 +83,12 @@ class InternshipOrganizerAppointmentForm extends FormValidator
         $appointment = $this->appointment;
         $values = $this->exportValues();
         
-        $appointment->set_name($values[InternshipOrganizerAppointment :: PROPERTY_NAME]);
+        $appointment->set_title($values[InternshipOrganizerAppointment :: PROPERTY_TITLE]);
         $appointment->set_description($values[InternshipOrganizerAppointment :: PROPERTY_DESCRIPTION]);
-        
-        $appointment->set_begin(Utilities :: time_from_datepicker($values[InternshipOrganizerPeriod :: PROPERTY_BEGIN]));
-        $appointment->set_end(Utilities :: time_from_datepicker($values[InternshipOrganizerPeriod :: PROPERTY_END]));
-              
+        $appointment->set_status($values[InternshipOrganizerAppointment :: PROPERTY_STATUS]);
+        $appointment->set_type($values[InternshipOrganizerAppointment :: PROPERTY_TYPE]);
+		$appointment->set_created(time());
+        		
         return $appointment->create();
     }
 
@@ -101,10 +100,15 @@ class InternshipOrganizerAppointmentForm extends FormValidator
     {
         $appointment = $this->appointment;
         
-        $defaults[InternshipOrganizerAppointment :: PROPERTY_NAME] = $appointment->get_name();
+        $defaults[InternshipOrganizerAppointment :: PROPERTY_TITLE] = $appointment->get_title();
         $defaults[InternshipOrganizerAppointment :: PROPERTY_DESCRIPTION] = $appointment->get_description();
-        $defaults[InternshipOrganizerAppointment :: PROPERTY_BEGIN] = $appointment->get_begin();
-        $defaults[InternshipOrganizerAppointment :: PROPERTY_END] = $appointment->get_end();
+        $defaults[InternshipOrganizerAppointment :: PROPERTY_STATUS] = $appointment->get_status();
+        $defaults[InternshipOrganizerAppointment :: PROPERTY_TYPE] = $appointment->get_type();
+        
+        if($this->form_type == self :: TYPE_CREATE){
+        	$defaults[InternshipOrganizerAppointment :: PROPERTY_STATUS] = InternshipOrganizerAppointment :: STATUS_CONFIRMED;
+        	$defaults[InternshipOrganizerAppointment :: PROPERTY_TYPE] = InternshipOrganizerAppointment :: TYPE_VISIT;
+        }
         
         parent :: setDefaults($defaults);
     }

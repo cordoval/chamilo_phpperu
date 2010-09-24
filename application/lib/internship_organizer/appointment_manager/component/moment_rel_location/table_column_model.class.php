@@ -1,8 +1,8 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../../tables/moment_table/default_moment_table_column_model.class.php';
+require_once dirname(__FILE__) . '/../../../tables/moment_rel_location_table/default_moment_rel_location_table_column_model.class.php';
 
-class InternshipOrganizerMomentRelUserBrowserTableColumnModel extends DefaultInternshipOrganizerMomentTableColumnModel
+class InternshipOrganizerMomentRelLocationBrowserTableColumnModel extends DefaultInternshipOrganizerMomentRelLocationTableColumnModel
 {
     /**
      * The tables modification column
@@ -12,11 +12,12 @@ class InternshipOrganizerMomentRelUserBrowserTableColumnModel extends DefaultInt
     /**
      * Constructor
      */
-    function InternshipOrganizerMomentRelUserBrowserTableColumnModel()
+    function InternshipOrganizerMomentRelLocationBrowserTableColumnModel()
     {
         parent :: __construct();
         $this->set_default_order_column(0);
         $this->add_column(self :: get_modification_column());
+        $this->add_column(new StaticTableColumn(Translation :: get('Appointments')));
     }
 
     /**

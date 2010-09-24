@@ -3,9 +3,9 @@
 	<properties>
 		<property name="id" type="integer" unsigned="1" notnull="1"
 			autoincrement="true" />
-		<property name="name" type="text" length="255" notnull="1"
+		<property name="category_name" type="text" length="255" notnull="1"
 			default="" />
-		<property name="description" type="text" />
+		<property name="category_description" type="text" />
 		<property name="parent_id" type="integer" unsigned="1"
 			notnull="1" />
 		<property name="left_value" type="integer" unsigned="1"

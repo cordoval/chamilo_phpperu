@@ -16,9 +16,9 @@ class InternshipOrganizerRegion extends NestedTreeNode
      * Region properties
      */
     const PROPERTY_ID = 'id';
-    const PROPERTY_CITY_NAME = 'city_name';
-    const PROPERTY_ZIP_CODE = 'zip_code';
-    const PROPERTY_DESCRIPTION = 'description';
+    const PROPERTY_CITY_NAME = 'region_city_name';
+    const PROPERTY_ZIP_CODE = 'region_zip_code';
+    const PROPERTY_DESCRIPTION = 'region_description';
 
     /**
      * Get the default properties

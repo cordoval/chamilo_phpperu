@@ -3,11 +3,11 @@
 	<properties>
 		<property name="id" type="integer" unsigned="1" notnull="1"
 			autoincrement="true" />
-		<property name="title" type="text" />
-		<property name="firstname" type="text" notnull="1" />
-		<property name="lastname" type="text" notnull="1" />
-		<property name="email" type="text" />
-		<property name="telephone" type="text" />
-		<property name="organisation_id" type="integer" unsigned="1" notnull="1" />
+		<property name="mentor_title" type="text" />
+		<property name="mentor_firstname" type="text" notnull="1" />
+		<property name="mentor_lastname" type="text" notnull="1" />
+		<property name="mentor_email" type="text" />
+		<property name="mentor_telephone" type="text" />
+		<property name="mentor_organisation_id" type="integer" unsigned="1" notnull="1" />
 	</properties>
 </object>

@@ -1,14 +1,14 @@
 <?php
 
 require_once dirname(__FILE__) . '/table_column_model.class.php';
-require_once dirname(__FILE__) . '/../../../tables/moment_table/default_moment_table_cell_renderer.class.php';
+require_once dirname(__FILE__) . '/../../../tables/moment_rel_location_table/default_moment_rel_location_table_cell_renderer.class.php';
 
-class InternshipOrganizerMomentRelUserBrowserTableCellRenderer extends DefaultInternshipOrganizerMomentTableCellRenderer
+class InternshipOrganizerMomentRelLocationBrowserTableCellRenderer extends DefaultInternshipOrganizerMomentRelLocationTableCellRenderer
 {
     
     private $browser;
 
-    function InternshipOrganizerMomentRelUserBrowserTableCellRenderer($browser)
+    function InternshipOrganizerMomentRelLocationBrowserTableCellRenderer($browser)
     {
         parent :: __construct();
         $this->browser = $browser;
@@ -17,19 +17,23 @@ class InternshipOrganizerMomentRelUserBrowserTableCellRenderer extends DefaultIn
     // Inherited
     function render_cell($column, $moment)
     {
-        if ($column === InternshipOrganizerMomentRelUserBrowserTableColumnModel :: get_modification_column())
+        if ($column === InternshipOrganizerMomentRelLocationBrowserTableColumnModel :: get_modification_column())
         {
             return $this->get_modification_links($moment);
         }
         
+        switch ($column->get_name())
+        {
+            case Translation :: get('Appointments') :
+                $condition = new EqualityCondition(InternshipOrganizerAppointment::PROPERTY_MOMENT_ID, $moment->get_optional_property('moment_id'));
+            	$appointment_count = InternshipOrganizerDataManager::get_instance()->count_appointments($condition);
+            	return $appointment_count;
+        }              
+        
+        
         return parent :: render_cell($column, $moment);
     }
-
-    function render_id_cell($moment)
-    {
-        
-        return $moment->get_id();
-    }
+  
 
     /**
      * Gets the action links to display

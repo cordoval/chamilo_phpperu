@@ -243,7 +243,7 @@ class InternshipOrganizerAgreementForm extends FormValidator
     {
         $agreement = $this->agreement;
         $values = $this->exportValues();
-        
+               
         $period_ids = $values[self :: PARAM_TARGET_PERIODS]['period'];
         
         $succes = false;
@@ -265,12 +265,12 @@ class InternshipOrganizerAgreementForm extends FormValidator
                 $period = $dm->retrieve_period($period_id);
                 
                 $students_ids = $period->get_user_ids(InternshipOrganizerUserType :: STUDENT);
-                
+                          
                 foreach ($students_ids as $student_id)
                 {
                     
                     $succes = $agreement->create();
-                    
+
                     $location_id = InternshipOrganizerRights :: get_location_id_by_identifier_from_internship_organizers_subtree($agreement->get_id(), InternshipOrganizerRights :: TYPE_AGREEMENT);
                     
                     foreach ($values[InternshipOrganizerUserType :: STUDENT] as $right => $value)
@@ -290,7 +290,7 @@ class InternshipOrganizerAgreementForm extends FormValidator
                         $agreement_rel_user->set_user_id($student_id);
                         $agreement_rel_user->set_user_type(InternshipOrganizerUserType :: STUDENT);
                         $agreement_rel_user->create();
-                        
+                                              
                         if ($values[self :: PARAM_COORDINATORS] == 1)
                         {
                             $coordinators = $period->get_user_ids(InternshipOrganizerUserType :: COORDINATOR);

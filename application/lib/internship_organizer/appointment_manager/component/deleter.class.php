@@ -1,10 +1,10 @@
 <?php
 
 require_once Path :: get_application_path() . 'lib/internship_organizer/internship_organizer_manager/internship_organizer_manager.class.php';
-require_once Path :: get_application_path() . 'lib/internship_organizer/agreement_manager/component/viewer.class.php';
+require_once Path :: get_application_path() . 'lib/internship_organizer/moment_manager/component/viewer.class.php';
 
 
-class InternshipOrganizerAgreementManagerMomentDeleterComponent extends InternshipOrganizerAgreementManager
+class InternshipOrganizerAppointmentManagerAppointmentDeleterComponent extends InternshipOrganizerAppointmentManager
 {
 
     /**
@@ -12,7 +12,7 @@ class InternshipOrganizerAgreementManagerMomentDeleterComponent extends Internsh
      */
     function run()
     {
-        $ids = $_GET[self :: PARAM_MOMENT_ID];
+        $ids = $_GET[self :: PARAM_APPOINTMENT_ID];
         $failures = 0;
         
         if (! empty($ids))
@@ -25,11 +25,11 @@ class InternshipOrganizerAgreementManagerMomentDeleterComponent extends Internsh
             foreach ($ids as $id)
             {
                 
-                if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_DELETE, $id, InternshipOrganizerRights :: TYPE_MOMENT))
+                if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_DELETE, $id, InternshipOrganizerRights :: TYPE_APPOINTMENT))
                 {
-                    $moment = $this->retrieve_moment($id);
-                    $agreement_id = $moment->get_agreement_id();
-                    if (! $moment->delete())
+                    $appointment = $this->retrieve_appointment($id);
+                    $moment_id = $appointment->get_moment_id();
+                    if (! $appointment->delete())
                     {
                         $failures ++;
                     }
@@ -41,30 +41,30 @@ class InternshipOrganizerAgreementManagerMomentDeleterComponent extends Internsh
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedInternshipOrganizerMomentNotDeleted';
+                    $message = 'SelectedInternshipOrganizerAppointmentNotDeleted';
                 }
                 else
                 {
-                    $message = 'Selected{InternshipOrganizerMomentsNotDeleted';
+                    $message = 'Selected{InternshipOrganizerAppointmentsNotDeleted';
                 }
             }
             else
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedInternshipOrganizerMomentDeleted';
+                    $message = 'SelectedInternshipOrganizerAppointmentDeleted';
                 }
                 else
                 {
-                    $message = 'SelectedInternshipOrganizerMomentsDeleted';
+                    $message = 'SelectedInternshipOrganizerAppointmentsDeleted';
                 }
             }
             
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(self :: PARAM_ACTION => self :: ACTION_VIEW_AGREEMENT, self :: PARAM_AGREEMENT_ID => $agreement_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerAgreementManagerViewerComponent :: TAB_MOMENTS));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(self :: PARAM_ACTION => self :: ACTION_VIEW_MOMENT, self :: PARAM_MOMENT_ID => $moment_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerAppointmentManagerViewerComponent :: TAB_APPOINTMENTS));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoInternshipOrganizerMomentsSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoInternshipOrganizerAppointmentsSelected')));
         }
     }
 }

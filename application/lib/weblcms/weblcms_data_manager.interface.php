@@ -664,8 +664,6 @@ interface WeblcmsDataManagerInterface
      */
     function retrieve_course_user_categories($conditions = null, $offset = null, $count = null, $order_property = null);
 
-    function retrieve_course_user_categories_by_course_type($condition = null);
-
     /**
      * Retrieves a personal course category for the user.
      * @return CourseUserCategory The course user category.
@@ -837,5 +835,7 @@ interface WeblcmsDataManagerInterface
     function clean_course_type_user_category_rel_course_sort($start_sort_value, $course_type_user_category_id);
     
     function retrieve_all_courses_with_course_categories($condition);
+    
+    function update_course_type_user_category_rel_course(CourseTypeUserCategoryRelCourse $course_type_user_category_rel_course);
 }
 ?>

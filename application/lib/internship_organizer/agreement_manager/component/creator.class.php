@@ -22,7 +22,7 @@ class InternshipOrganizerAgreementManagerCreatorComponent extends InternshipOrga
     
         $agreement = new InternshipOrganizerAgreement();
         $agreement->set_owner($this->get_user_id());
-        
+              
         $form = new InternshipOrganizerAgreementForm(InternshipOrganizerAgreementForm :: TYPE_CREATE, $agreement, $this->get_url());
         
         if ($form->validate())

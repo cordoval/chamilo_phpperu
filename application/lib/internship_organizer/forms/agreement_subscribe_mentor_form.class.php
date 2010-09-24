@@ -34,9 +34,7 @@ class InternshipOrganizerAgreementSubscribeMentorForm extends FormValidator
         $location_id = $location->get_location_id();
             
         $url = Path :: get(WEB_PATH) . 'application/lib/internship_organizer/xml_feeds/xml_mentor_feed.php?location_id=' . $location_id;
-        
-        dump($url);
-        
+               
         $locale = array();
         $locale['Display'] = Translation :: get('ChooseMentors');
         $locale['Searching'] = Translation :: get('Searching');

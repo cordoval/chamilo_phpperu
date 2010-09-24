@@ -435,6 +435,28 @@ $lang['internship_organizer']['AppointmentLinkDescription'] = 'Appointment Descr
 $lang['internship_organizer']['InternshipOrganizerAppointmentManagerBrowserComponent'] = 'Appointment Browser';
 //23-09-10
 $lang['internship_organizer']['Moments'] = 'Moments';
+$lang['internship_organizer']['InternshipOrganizerAppointmentManagerCreatorComponent'] = 'Appointment Creator';
+$lang['internship_organizer']['Appointments'] = 'Appointments';
+$lang['internship_organizer']['LocationName'] = 'Location';
+$lang['internship_organizer']['LocationAddress'] = 'Address';
+$lang['internship_organizer']['LocationTelephone'] = 'Telephone';
+
+$lang['internship_organizer']['AgreementName'] = 'Agreement';
+$lang['internship_organizer']['AgreementDescription'] = 'Agreement Description';
+$lang['internship_organizer']['MomentDescription'] = 'Moment Description';
+$lang['internship_organizer']['MomentName'] = 'Moment';
+$lang['internship_organizer']['MomentBegin'] = 'Moment begin';
+$lang['internship_organizer']['MomentEnd'] = 'Moment end';
+$lang['internship_organizer']['PeriodName'] = 'Period';
+$lang['internship_organizer']['RegionZipCode'] = 'ZipCode';
+$lang['internship_organizer']['RegionCityName'] = 'City';
+$lang['internship_organizer']['AppointmentTitle'] = 'Title';
+$lang['internship_organizer']['AppointmentDescription'] = 'Description';
+$lang['internship_organizer']['AppointmentType'] = 'Type';
+$lang['internship_organizer']['AppointmentStatus'] = 'Status';
+$lang['internship_organizer']['AppointmentCreated'] = 'Created';
+
+
 
 
 ?>

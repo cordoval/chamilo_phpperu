@@ -1,6 +1,4 @@
 <?php
-require_once Path :: get_application_path() . 'lib/internship_organizer/appointment_manager/component/moment_browser/table.class.php';
-require_once Path :: get_application_path() . 'lib/internship_organizer/appointment.class.php';
 
 class InternshipOrganizerAppointmentManager extends SubManager
 {
@@ -37,7 +35,7 @@ class InternshipOrganizerAppointmentManager extends SubManager
     //url creation
     function get_create_appointment_url($moment)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_APPOINTMENT, self :: PARAM_MOMENT_ID => $moment->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_APPOINTMENT, self :: PARAM_MOMENT_ID => $moment->get_optional_property('moment_id')));
     }
 
     function get_update_appointment_url($appointment)
