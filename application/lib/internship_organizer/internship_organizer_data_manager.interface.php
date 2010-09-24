@@ -98,6 +98,10 @@ interface InternshipOrganizerDataManagerInterface
     function count_moment_rel_locations($conditions = null);
 
     function retrieve_moment_rel_locations($condition = null, $offset = null, $count = null, $order_property = null);
+    
+    function count_moment_rel_appointments($conditions = null);
+
+    function retrieve_moment_rel_appointments($condition = null, $offset = null, $count = null, $order_property = null);
 
     //agreements
     function create_internship_organizer_agreement($organisation);

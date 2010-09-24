@@ -67,7 +67,7 @@ class DefaultInternshipOrganizerMomentRelLocationTableCellRenderer extends Objec
 
     function render_id_cell($object)
     {
-        return $object->get_id();
+        return get_optional_property('moment_id');
     }
 }
 ?>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <object name="period">
 	<properties>
-		<property name="period_id" type="integer" unsigned="1" notnull="1"
+		<property name="id" type="integer" unsigned="1" notnull="1"
 			autoincrement="true" />
 		<property name="period_name" type="text" notnull="1" />
 		<property name="period_description" type="text" />

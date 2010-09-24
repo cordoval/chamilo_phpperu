@@ -3,13 +3,13 @@
 	<properties>
 		<property name="id" type="integer" unsigned="1" notnull="1"
 			autoincrement="true" />
-		<property name="title" type="text" notnull="1" />
-		<property name="description" type="text" />
-		<property name="created" type="integer" notnull="1" />
-		<property name="moment_id" type="integer" unsigned="1"
+		<property name="appointment_title" type="text" notnull="1" />
+		<property name="appointment_description" type="text" />
+		<property name="appointment_created" type="integer" notnull="1" />
+		<property name="appointment_moment_id" type="integer" unsigned="1"
 			notnull="1" />
-		<property name="owner_id" type="integer" unsigned="1" notnull="1" />
-		<property name="status" type="integer" unsigned="1" notnull="1" />
-		<property name="type" type="integer" unsigned="1" notnull="1" />
+		<property name="appointment_owner_id" type="integer" unsigned="1" notnull="1" />
+		<property name="appointment_status" type="integer" unsigned="1" notnull="1" />
+		<property name="appointment_type" type="integer" unsigned="1" notnull="1" />
 	</properties>
 </object>

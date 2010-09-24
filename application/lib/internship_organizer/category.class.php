@@ -16,8 +16,8 @@ class InternshipOrganizerCategory extends NestedTreeNode
      * Category properties
      */
     const PROPERTY_ID = 'id';
-    const PROPERTY_NAME = 'name';
-    const PROPERTY_DESCRIPTION = 'description';
+    const PROPERTY_NAME = 'category_name';
+    const PROPERTY_DESCRIPTION = 'category_description';
 
     /**
      * Get the default properties

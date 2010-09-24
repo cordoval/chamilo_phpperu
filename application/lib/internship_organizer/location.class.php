@@ -9,7 +9,7 @@ class InternshipOrganizerLocation extends DataClass
     /**
      * InternshipOrganizerLocation properties
      */
-    const PROPERTY_ID = 'location_id';
+    const PROPERTY_ID = 'id';
     const PROPERTY_ORGANISATION_ID = 'location_organisation_id';
     const PROPERTY_NAME = 'location_name';
     const PROPERTY_ADDRESS = 'location_address';

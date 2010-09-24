@@ -8,13 +8,13 @@ class InternshipOrganizerAppointment extends DataClass
      * InternshipOrganizerAppointment properties
      */
     const PROPERTY_ID = 'id';
-    const PROPERTY_MOMENT_ID = 'moment_id';
-    const PROPERTY_TITLE = 'title';
-    const PROPERTY_DESCRIPTION = 'description';
-    const PROPERTY_OWNER_ID = 'owner_id';
-    const PROPERTY_CREATED = 'created';
-    const PROPERTY_STATUS = 'status';
-    const PROPERTY_TYPE = 'type';
+    const PROPERTY_MOMENT_ID = 'appointment_moment_id';
+    const PROPERTY_TITLE = 'appointment_title';
+    const PROPERTY_DESCRIPTION = 'appointment_description';
+    const PROPERTY_OWNER_ID = 'appointment_owner_id';
+    const PROPERTY_CREATED = 'appointment_created';
+    const PROPERTY_STATUS = 'appointment_status';
+    const PROPERTY_TYPE = 'appointment_type';
     
     const STATUS_CONFIRMED = 1;
     const STATUS_CONFIRMED_NAME = 'confirmed';

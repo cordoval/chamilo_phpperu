@@ -566,7 +566,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         $region_alias = $this->get_alias(InternshipOrganizerRegion :: get_table_name());
         $period_alias = $this->get_alias(InternshipOrganizerPeriod :: get_table_name());
         
-        $query = 'SELECT ' . $moment_alias . '. *  ,' . $user_alias . '.lastname  , ' . $user_alias . '.firstname , ' . $agreement_alias . '. * , ' . $locations_alias . '. * , ' . $region_alias . '. * , '.$period_alias. '. * ';
+        $query = 'SELECT ' . $moment_alias . '.id as moment_id  ,' . $moment_alias . '. *  ,' . $user_alias . '.lastname  , ' . $user_alias . '.firstname , ' . $agreement_alias . '. * , ' . $locations_alias . '. * , ' . $region_alias . '. * , ' . $period_alias . '. * ';
         $query .= ' FROM ' . $this->escape_table_name(InternshipOrganizerMoment :: get_table_name()) . ' AS ' . $moment_alias;
         
         $query .= ' JOIN ' . $this->escape_table_name(InternshipOrganizerAgreement :: get_table_name()) . ' AS ' . $agreement_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerAgreement :: PROPERTY_ID, $agreement_alias) . ' = ' . $this->escape_column_name(InternshipOrganizerMoment :: PROPERTY_AGREEMENT_ID, $moment_alias);
@@ -609,6 +609,35 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         $query .= ' JOIN ' . $this->escape_table_name(InternshipOrganizerRegion :: get_table_name()) . ' AS ' . $region_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerRegion :: PROPERTY_ID, $region_alias) . ' = ' . $this->escape_column_name(InternshipOrganizerLocation :: PROPERTY_REGION_ID, $locations_alias);
         
         $query .= ' JOIN ' . $this->escape_table_name(InternshipOrganizerPeriod :: get_table_name()) . ' AS ' . $period_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerPeriod :: PROPERTY_ID, $period_alias) . ' = ' . $this->escape_column_name(InternshipOrganizerAgreement :: PROPERTY_PERIOD_ID, $agreement_alias);
+        
+        return $this->count_result_set($query, InternshipOrganizerMoment :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerMoment :: CLASS_NAME);
+    
+    }
+
+    function retrieve_moment_rel_appointments($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    {
+        $moment_alias = $this->get_alias(InternshipOrganizerMoment :: get_table_name());
+        $appointment_alias = $this->get_alias(InternshipOrganizerAppointment :: get_table_name());
+        
+        $query = 'SELECT ' . $moment_alias . '. *  ';
+        $query .= ' FROM ' . $this->escape_table_name(InternshipOrganizerMoment :: get_table_name()) . ' AS ' . $moment_alias;
+        
+        $query .= ' JOIN ' . $this->escape_table_name(InternshipOrganizerAppointment :: get_table_name()) . ' AS ' . $appointment_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerAppointment :: PROPERTY_MOMENT_ID, $appointment_alias) . ' = ' . $this->escape_column_name(InternshipOrganizerMoment :: PROPERTY_ID, $moment_alias);
+        
+        return $this->retrieve_object_set($query, InternshipOrganizerMoment :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerMoment :: CLASS_NAME);
+    }
+
+    function count_moment_rel_appointments($condition = null)
+    {
+        
+        $moment_alias = $this->get_alias(InternshipOrganizerMoment :: get_table_name());
+        $appointment_alias = $this->get_alias(InternshipOrganizerAppointment :: get_table_name());
+        
+        $query = 'SELECT COUNT(* ) ';
+        $query = 'SELECT ' . $moment_alias . '. *  ,';
+        $query .= ' FROM ' . $this->escape_table_name(InternshipOrganizerMoment :: get_table_name()) . ' AS ' . $moment_alias;
+        
+        $query .= ' JOIN ' . $this->escape_table_name(InternshipOrganizerAppointment :: get_table_name()) . ' AS ' . $appointment_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerAppointment :: PROPERTY_MOMENT_ID, $appointment_alias) . ' = ' . $this->escape_column_name(InternshipOrganizerMoment :: PROPERTY_ID, $moment_alias);
         
         return $this->count_result_set($query, InternshipOrganizerMoment :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerMoment :: CLASS_NAME);
     

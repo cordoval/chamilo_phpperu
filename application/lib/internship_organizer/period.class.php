@@ -15,7 +15,7 @@ class InternshipOrganizerPeriod extends NestedTreeNode
     /**
      * Period properties
      */
-    const PROPERTY_ID = 'period_id';
+    const PROPERTY_ID = 'id';
     const PROPERTY_NAME = 'period_name';
     const PROPERTY_DESCRIPTION = 'period_description';
     const PROPERTY_BEGIN = 'period_begin';

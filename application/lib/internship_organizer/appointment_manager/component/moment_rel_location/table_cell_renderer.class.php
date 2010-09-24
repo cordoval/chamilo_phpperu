@@ -25,7 +25,7 @@ class InternshipOrganizerMomentRelLocationBrowserTableCellRenderer extends Defau
         switch ($column->get_name())
         {
             case Translation :: get('Appointments') :
-                $condition = new EqualityCondition(InternshipOrganizerAppointment::PROPERTY_MOMENT_ID, $moment->get_id());
+                $condition = new EqualityCondition(InternshipOrganizerAppointment::PROPERTY_MOMENT_ID, $moment->get_optional_property('moment_id'));
             	$appointment_count = InternshipOrganizerDataManager::get_instance()->count_appointments($condition);
             	return $appointment_count;
         }              
@@ -33,12 +33,7 @@ class InternshipOrganizerMomentRelLocationBrowserTableCellRenderer extends Defau
         
         return parent :: render_cell($column, $moment);
     }
-
-    function render_id_cell($moment)
-    {
-        
-        return $moment->get_id();
-    }
+  
 
     /**
      * Gets the action links to display

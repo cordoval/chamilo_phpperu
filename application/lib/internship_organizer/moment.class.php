@@ -12,7 +12,7 @@ class InternshipOrganizerMoment extends DataClass implements AttachmentSupport
     /**
      * Moment properties
      */
-    const PROPERTY_ID = 'moment_id';
+    const PROPERTY_ID = 'id';
     const PROPERTY_NAME = 'moment_name';
     const PROPERTY_DESCRIPTION = 'moment_description';
     const PROPERTY_BEGIN = 'moment_begin';

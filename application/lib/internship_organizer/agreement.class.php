@@ -7,7 +7,7 @@ class InternshipOrganizerAgreement extends DataClass
     /**
      * InternshipAgreement properties
      */
-    const PROPERTY_ID = 'agreement_id';
+    const PROPERTY_ID = 'id';
     const PROPERTY_NAME = 'agreement_name';
     const PROPERTY_DESCRIPTION = 'agreement_description';
     const PROPERTY_BEGIN = 'agreement_begin';

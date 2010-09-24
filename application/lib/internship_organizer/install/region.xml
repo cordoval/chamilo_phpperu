@@ -3,10 +3,10 @@
 	<properties>
 		<property name="id" type="integer" unsigned="1" notnull="1"
 			autoincrement="true" />
-		<property name="city_name" type="text" length="255" notnull="1"
+		<property name="region_city_name" type="text" length="255" notnull="1"
 			default="" />
-		<property name="zip_code" type="text" length="15" default="" />
-		<property name="description" type="text" />
+		<property name="region_zip_code" type="text" length="15" default="" />
+		<property name="region_description" type="text" />
 		<property name="parent_id" type="integer" unsigned="1"
 			notnull="1" />
 		<property name="left_value" type="integer" unsigned="1"

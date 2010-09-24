@@ -16,12 +16,12 @@ class InternshipOrganizerMentor extends DataClass
      * Mentor properties
      */
     const PROPERTY_ID = 'id';
-    const PROPERTY_TITLE = 'title';
-    const PROPERTY_FIRSTNAME = 'firstname';
-    const PROPERTY_LASTNAME = 'lastname';
-    const PROPERTY_EMAIL = 'email';
-    const PROPERTY_TELEPHONE = 'telephone';
-    const PROPERTY_ORGANISATION_ID = 'organisation_id';
+    const PROPERTY_TITLE = 'mentor_title';
+    const PROPERTY_FIRSTNAME = 'mentor_firstname';
+    const PROPERTY_LASTNAME = 'mentor_lastname';
+    const PROPERTY_EMAIL = 'mentor_email';
+    const PROPERTY_TELEPHONE = 'mentor_telephone';
+    const PROPERTY_ORGANISATION_ID = 'mentor_organisation_id';
 
     /**
      * Get the default properties
