@@ -12,14 +12,15 @@ class InternshipOrganizerOrganisationManagerLocationViewerComponent extends Inte
     
     private $action_bar;
     
+    private $location_id;
     private $location;
     private $region;
 
     function run()
     {
         
-        $location_id = $_GET[self :: PARAM_LOCATION_ID];
-        $this->location = $this->retrieve_location($location_id);
+        $this->location_id = $_GET[self :: PARAM_LOCATION_ID];
+        $this->location = $this->retrieve_location($this->location_id);
         $location = $this->location;
         $this->region = InternshipOrganizerDataManager::get_instance()->retrieve_region($location->get_region_id());
         
@@ -89,8 +90,13 @@ class InternshipOrganizerOrganisationManagerLocationViewerComponent extends Inte
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         $action_bar->set_search_url($this->get_url(array(self :: PARAM_LOCATION_ID => $this->location->get_id())));
-        
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_view_location_url($this->location), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        
+    	if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_PUBLISH, $this->location_id, InternshipOrganizerRights :: TYPE_LOCATION))
+        {
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_location_publish_url($this->location_id), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
+        
         return $action_bar;
     }
 

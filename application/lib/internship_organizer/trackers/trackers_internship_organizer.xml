@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="internship_organizer">
+	<event name="create">
+		<tracker name="internship_organizer_changes" />
+	</event>
+	<event name="update">
+		<tracker name="internship_organizer_changes" />
+	</event>
+	<event name="delete">
+		<tracker name="internship_organizer_changes" />
+	</event>
+</application>

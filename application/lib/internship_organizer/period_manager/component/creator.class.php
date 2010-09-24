@@ -18,7 +18,7 @@ class InternshipOrganizerPeriodManagerCreatorComponent extends InternshipOrganiz
             $this->display_footer();
             exit();
         }
-            
+        
         $period = new InternshipOrganizerPeriod();
         $parent_id = Request :: get(self :: PARAM_PERIOD_ID);
         
@@ -32,6 +32,14 @@ class InternshipOrganizerPeriodManagerCreatorComponent extends InternshipOrganiz
             if ($success)
             {
                 $period = $form->get_period();
+
+                $parameters = array();
+                $parameters[InternshipOrganizerChangesTracker :: PROPERTY_OBJECT_ID] = $period->get_id();
+                $parameters[InternshipOrganizerChangesTracker :: PROPERTY_OBJECT_TYPE] = InternshipOrganizerChangesTracker :: TYPE_PERIOD;
+                $parameters[InternshipOrganizerChangesTracker :: PROPERTY_EVENT_TYPE] = InternshipOrganizerChangesTracker :: CREATE_EVENT;
+                $parameters[InternshipOrganizerChangesTracker :: PROPERTY_USER_ID] = $this->get_user_id();
+                Event :: trigger(InternshipOrganizerChangesTracker :: CREATE_EVENT, InternshipOrganizerManager :: APPLICATION_NAME, $parameters);
+                
                 $this->redirect(Translation :: get('InternshipOrganizerPeriodCreated'), (false), array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PERIODS, self :: PARAM_PERIOD_ID => $period->get_id(), DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerPeriodManagerBrowserComponent :: TAB_SUBPERIODS));
             }
             else
@@ -46,11 +54,11 @@ class InternshipOrganizerPeriodManagerCreatorComponent extends InternshipOrganiz
             $this->display_footer();
         }
     }
-    
-function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PERIODS)), Translation :: get('BrowseInternshipOrganizerPeriods')));
     }
-    
+
 }
 ?>

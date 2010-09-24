@@ -7,5 +7,7 @@
 		<location name="Period" type="1" identifier="4" />
 		<location name="Region" type="1" identifier="5" />
 		<location name="Reporting" type="1" identifier="6" />
+		<location name="Appointment" type="1" identifier="7" />
+		<location name="Administration" type="1" identifier="8" />
 	</children>
 </location>
