@@ -2,11 +2,6 @@
 <application name="photobucket">
 	<settings>
 		<category name="credentials">
-			<setting name="developer_key" field="text">
-				<validations>
-					<validation rule="required" message="ThisFieldIsRequired" />
-				</validations>
-			</setting>
 			<setting name="consumer_key" field="text">
 				<validations>
 					<validation rule="required" message="ThisFieldIsRequired" />

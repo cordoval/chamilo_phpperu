@@ -1,6 +1,8 @@
 <?php
 require_once dirname(__FILE__) . '/photobucket_external_repository_connector.class.php';
 require_once dirname(__FILE__) . '/../../general/streaming/streaming_media_external_repository_browser_gallery_table_cell_renderer.class.php';
+require_once dirname(__FILE__) . '/table/photobucket_external_repository_browser_gallery_table_property_model.class.php';
+
 /**
  * 
  * @author magali.gillard
@@ -9,8 +11,12 @@ require_once dirname(__FILE__) . '/../../general/streaming/streaming_media_exter
 class PhotobucketExternalRepositoryManager extends ExternalRepositoryManager
 {
     const REPOSITORY_TYPE = 'photobucket';
+    
+    const PARAM_FEED_TYPE = 'feed';
+    const PARAM_FEED_IDENTIFIER = 'identifier';
 
-    const PARAM_MEDIAFILE = 'mediafile_id';
+    const FEED_TYPE_GENERAL = 1;
+    const FEED_TYPE_MY_MEDIAS = 2;
 
     /**
      * @param Application $application
@@ -18,6 +24,7 @@ class PhotobucketExternalRepositoryManager extends ExternalRepositoryManager
     function PhotobucketExternalRepositoryManager($external_repository, $application)
     {
         parent :: __construct($external_repository, $application);
+        $this->set_parameter(self :: PARAM_FEED_TYPE, Request :: get(self :: PARAM_FEED_TYPE));
     }
 
     /* (non-PHPdoc)
@@ -69,7 +76,19 @@ class PhotobucketExternalRepositoryManager extends ExternalRepositoryManager
     function get_menu_items()
     {
         $menu_items = array();
+
+        $my_photos = array();
+        $my_photos['title'] = Translation :: get('MyMedias');
+        $my_photos['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_MY_MEDIAS), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
+        $my_photos['class'] = 'user';
+        $menu_items[] = $my_photos;
         
+        $general = array();
+        $general['title'] = Translation :: get('Public');
+        $general['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_GENERAL), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
+        $general['class'] = 'home';
+        $menu_items[] = $general;
+
         return $menu_items;
     }
 

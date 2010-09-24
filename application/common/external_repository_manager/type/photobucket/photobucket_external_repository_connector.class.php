@@ -1,17 +1,17 @@
 <?php
 require_once dirname(__FILE__) . '/photobucket_external_repository_object.class.php';
-require_once dirname(__FILE__) . '/webservices/photobucket_rest_client.class.php';
 require_once 'OAuth/Request.php';
+require_once PATH :: get_plugin_path() . 'PBAPI-0.2.3/PBAPI-0.2.3/PBAPI.php';
 /**
  * 
  * @author magali.gillard
- * developer key : 179830482
+ * key : 149830482
+ * secret : 410277f61d5fc4b01a9b9e763bf2e97b
  */
 class PhotobucketExternalRepositoryConnector extends ExternalRepositoryConnector
 {
     private $photobucket;
 	private $consumer;
-	private $url;
     
     function PhotobucketExternalRepositoryConnector($external_repository_instance)
     {
@@ -19,21 +19,19 @@ class PhotobucketExternalRepositoryConnector extends ExternalRepositoryConnector
 
         $this->key = ExternalRepositorySetting :: get('consumer_key', $this->get_external_repository_instance_id());
         $this->secret = ExternalRepositorySetting :: get('consumer_secret', $this->get_external_repository_instance_id());
-        
-        $this->url = ExternalRepositorySetting :: get('url', $this->get_external_repository_instance_id());
-       	$this->login();
-        //$this->photobucket = new PhotobucketRestClient($url);
+        $url = ExternalRepositorySetting :: get('url', $this->get_external_repository_instance_id());
+        $this->login();
     }   
 
+//    static function get_sort_properties()
+//    {
+//        return array(self :: RELEVANCE, self :: PUBLISHED, self :: VIEW_COUNT, self :: RATING);
+//    }
+    
     
     function login()
     {
-    	$this->consumer = new OAuth_Consumer($this->key, $this->secret);
-    	$request = OAuth_Request::fromConsumerAndToken($this->consumer, NULL, "POST", 'http://api.photobucket.com/login/request');
-    	$request->signRequest('HMAC-SHA1', $this->consumer);
-dump($request);
-   		Header("Location: $request");
-		
+    	$this->consumer = new PBAPI($this->key, $this->secret);
     }
     
 //    
@@ -51,43 +49,46 @@ dump($request);
 //    }
 
     function retrieve_external_repository_objects($condition, $order_property, $offset, $count)
-    {       	   	  	   	
-    	$request = OAuth_Request::fromUrl($this->url . '/featured/group?format=xml', 'GET', $this->consumer);
-    	$request->signRequest('HMAC-SHA1', $this->consumer);
-    	Header("Location: $request");
-    	
-    	$response = $this->request($request);
-    	dump($response);
-    	
-		//check the url : OK
-    	$url = $request->__toString();
-		dump($url);
-		
-		//xml file from this ... NOT OK !!!
-		
-		exit;
+    {   
+	    $this->consumer->setResponseParser('simplexmlarray');
+    	$response = $this->consumer->search('titi')->get()->getParsedResponse(true);
 
-		$objects = array();
-        $xml = $this->get_xml($request->get_response_content());
+    	$objects = array(); 
+    	$media_package = $response['result']['primary']['media'];	
 
-        if ($xml)
+    	$number = 1;
+    	foreach ($response['result']['primary']['media'] as $media)
         {
-            
-        	foreach ($xml['result'] as $media_package)
-            {
-            	$objects[] = $this->get_media_package($media_package);
-            }
-        }
-        return new ArrayResultSet($objects);
-    }
+        	$object = new PhotobucketExternalRepositoryObject();
+	        $object->set_id($number);
+	        $object->set_title($media['title']);
+	        $object->set_description($media['description']);
+	        $object->set_thumbnail($media['thumb']);
+	        $object->set_owner_id($media[_attribs]['username']);
+	        $object->set_created(strtotime($media[_attribs]['uploaddate']));	        
+        	$object->set_type(Utilities :: camelcase_to_underscores($media[_attribs]['type']));
 
- 	function request($request)
-    {
-        if ($this->photobucket)
-        {
-        	return $this->photobucket;
+			$objects[] = $object;
+			$number ++;
         }
-        return false;
+
+    	foreach ($response['result']['secondary']['media'] as $media)
+        {
+        	$object = new PhotobucketExternalRepositoryObject();
+	        $object->set_id($number);
+	        $object->set_title($media['title']);
+	        $object->set_description($media['description']);
+	        $object->set_thumbnail($media['thumb']);
+	        $object->set_owner_id($media[_attribs]['username']);
+	        $object->set_created(strtotime($media[_attribs]['uploaddate']));	        
+        	$object->set_type(Utilities :: camelcase_to_underscores($media[_attribs]['type']));
+
+			$objects[] = $object;
+			$number ++;
+        }
+        
+        $array = new ArrayResultSet($objects);
+        return $array;
     }
 
     function retrieve_external_repository_object($id)
@@ -192,124 +193,6 @@ dump($request);
     static function translate_search_query($query)
     {
         return $query;
-    }
-
-//    public function get_series($id)
-//    {
-//        $response = $this->request(MatterhornRestClient :: METHOD_GET, '/series/rest/series/' . $id);
-//        $xml = $this->get_xml($response->get_response_content());
-//        if ($xml)
-//        {
-//        	if ($xml['metadataList'])
-//            {
-//				foreach($xml['metadataList']['metadata'] as $metadata)
-//				{
-//					if ($metadata['key'] == 'title')
-//					{
-//						return $metadata['value'];
-//					}
-//				}
-//				return "";
-//            }
-//            else
-//            {
-//                return false;
-//            }
-//        }
-//    }
-
-//    private function get_media_package($result)
-//    {
-//        $media_package = $result['mediapackage'];
-//        $matterhorn_external_repository_object = new MatterhornExternalRepositoryObject();
-//        $matterhorn_external_repository_object->set_id($media_package['id']);
-//        $matterhorn_external_repository_object->set_duration($result['dcExtent']);
-//        $matterhorn_external_repository_object->set_title($result['dcTitle']);
-//        $matterhorn_external_repository_object->set_description($result['dcDescription']);
-//        $matterhorn_external_repository_object->set_contributors($result['dcContributor']);
-//        $matterhorn_external_repository_object->set_series($this->get_series($media_package['series']));
-//        $matterhorn_external_repository_object->set_owner_id($result['dcCreator']);
-//        $matterhorn_external_repository_object->set_created(strtotime($result['dcCreated']));
-//        
-//        $matterhorn_external_repository_object->set_subjects($result['dcSubject']);
-//        $matterhorn_external_repository_object->set_license($result['dcLicense']);
-//        $matterhorn_external_repository_object->set_type(Utilities :: camelcase_to_underscores($result['mediaType']));
-//        $matterhorn_external_repository_object->set_modified(strtotime($result['modified']));
-//        
-//        foreach ($media_package['media']['track'] as $media_track)
-//        {
-//            $track = new MatterhornExternalRepositoryObjectTrack();
-//            $track->set_ref($media_track['ref']);
-//            $track->set_type($media_track['type']);
-//            $track->set_id($media_track['id']);
-//            $track->set_mimetype($media_track['mimetype']);
-//            $track->set_tags($media_track['tags']['tag']);
-//            $track->set_url($media_track['url']);
-//            $track->set_checksum($media_track['checksum']);
-//            $track->set_duration($media_track['duration']);
-//            
-//            if ($media_track['audio'])
-//            {
-//                $audio = new MatterhornExternalRepositoryObjectTrackAudio();
-//                $audio->set_id($media_track['audio']['id']);
-//                $audio->set_device($media_track['audio']['device']);
-//                $audio->set_encoder($media_track['audio']['encoder']['type']);
-//                $audio->set_bitdepth($media_track['audio']['bitdepth']);
-//                $audio->set_channels($media_track['audio']['channels']);
-//                $audio->set_samplingrate($media_track['audio']['samplingrate']);
-//                $audio->set_bitrate($media_track['audio']['bitrate']);
-//                $track->set_audio($audio);
-//            }
-//            
-//            if ($media_track['video'])
-//            {
-//                $video = new MatterhornExternalRepositoryObjectTrackVideo();
-//                $video->set_id($media_track['video']['id']);
-//                $video->set_device($media_track['video']['device']);
-//                $video->set_encoder($media_track['video']['encoder']['type']);
-//                $video->set_framerate($media_track['video']['framerate']);
-//                $video->set_bitrate($media_track['video']['bitrate']);
-//                $video->set_resolution($media_track['video']['resolution']);
-//                $track->set_video($video);
-//            }
-//            $matterhorn_external_repository_object->add_track($track);
-//        }
-//        
-//        foreach ($media_package['attachments']['attachment'] as $attachment)
-//        {
-//            $attach = new MatterhornExternalRepositoryObjectAttachment();
-//            $attach->set_id($attachment['id']);
-//            $attach->set_ref($attachment['ref']);
-//            $attach->set_type($attachment['type']);
-//            $attach->set_mimetype($attachment['mimetype']);
-//            $attach->set_tags($attachment['tags']['tag']);
-//            $attach->set_url($attachment['url']);
-//            
-//            $matterhorn_external_repository_object->add_attachment($attach);
-//        }
-//        
-//        $matterhorn_external_repository_object->set_rights($this->determine_rights($media_package));
-//        return $matterhorn_external_repository_object;
-//    }
-
-    private function get_xml($xml)
-    {
-        if ($xml)
-        {
-            $unserializer = new XML_Unserializer();
-            $unserializer->setOption(XML_UNSERIALIZER_OPTION_COMPLEXTYPE, 'array');
-            $unserializer->setOption(XML_UNSERIALIZER_OPTION_ATTRIBUTES_PARSE, true);
-            $unserializer->setOption(XML_UNSERIALIZER_OPTION_RETURN_RESULT, true);
-            $unserializer->setOption(XML_UNSERIALIZER_OPTION_GUESS_TYPES, true);
-            //$unserializer->setOption(XML_UNSERIALIZER_OPTION_FORCE_ENUM, array('result', 'track', 'attachment'));
-            
-            // userialize the document
-            return $unserializer->unserialize($xml);
-        }
-        else
-        {
-            return false;
-        }
     }
 }
 ?>
