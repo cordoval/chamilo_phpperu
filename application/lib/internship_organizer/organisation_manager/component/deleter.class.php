@@ -10,6 +10,15 @@ class InternshipOrganizerOrganisationManagerDeleterComponent extends InternshipO
      */
     function run()
     {
+        
+        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_DELETE, InternshipOrganizerRights :: LOCATION_ORGANISATION, InternshipOrganizerRights :: TYPE_COMPONENT))
+        {
+            $this->display_header();
+            $this->display_error_message(Translation :: get('NotAllowed'));
+            $this->display_footer();
+            exit();
+        }
+        
         $ids = $_GET[self :: PARAM_ORGANISATION_ID];
         $failures = 0;
         
