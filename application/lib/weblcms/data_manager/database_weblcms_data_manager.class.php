@@ -1760,16 +1760,6 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         return $this->retrieve_object(CourseUserCategory :: get_table_name(), $condition);
     }
 
-    function retrieve_course_user_categories_by_course_type($condition = null)
-    {
-        $course_alias = $this->get_alias(CourseUserCategory :: get_table_name());
-        $course_type_alias = $this->get_alias(CourseTypeUserCategory :: get_table_name());
-        
-        $query = 'SELECT ' . $course_alias . '.* FROM ' . $this->escape_table_name(CourseUserCategory :: get_table_name()) . ' AS ' . $course_alias;
-        $query .= ' JOIN ' . $this->escape_table_name(CourseTypeUserCategory :: get_table_name()) . ' AS ' . $course_type_alias . ' ON ' . $this->escape_column_name(CourseUserCategory :: PROPERTY_ID, $course_alias) . '=' . $this->escape_column_name(CourseTypeUserCategory :: PROPERTY_COURSE_USER_CATEGORY_ID, $course_type_alias);
-        return $this->retrieve_object_set($query, CourseUserCategory :: get_table_name(), $condition);
-    }
-
     function set_module_visible($course_code, $module, $visible)
     {
         $conditions = array();

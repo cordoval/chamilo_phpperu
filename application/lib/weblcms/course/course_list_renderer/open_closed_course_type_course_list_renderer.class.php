@@ -51,11 +51,11 @@ class OpenClosedCourseTypeCourseListRenderer extends CourseTypeCourseListRendere
 	 * @param CourseUserCategory $course_user_category
 	 * @param CourseType $course_type
 	 */
-	function get_courses_for_course_user_category(CourseUserCategory $course_user_category, CourseType $course_type)
+	function get_courses_for_course_type_user_category(CourseTypeUserCategory $course_type_user_category, CourseType $course_type)
 	{
 		$course_type_id = $course_type ? $course_type->get_id() : 0; 
-		$course_user_category_id = $course_user_category ? $course_user_category->get_id() : 0;
-		return $this->courses[$course_type_id][$course_user_category_id][$this->current_access_state];
+		$course_type_user_category_id = $course_type_user_category ? $course_type_user_category->get_id() : 0;
+		return $this->courses[$course_type_id][$course_type_user_category_id][$this->current_access_state];
 	}
 }
 
