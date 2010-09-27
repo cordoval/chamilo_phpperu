@@ -50,7 +50,12 @@ class InternshipOrganizerOrganisationManagerBrowserComponent extends InternshipO
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateInternshipOrganizerOrganisation'), Theme :: get_common_image_path() . 'action_create.png', $this->get_create_organisation_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
-              
+        
+        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_IMPORT, InternshipOrganizerRights :: LOCATION_ORGANISATION, InternshipOrganizerRights :: TYPE_COMPONENT))
+        {
+            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ImportInternshipOrganizerOrganisation'), Theme :: get_common_image_path() . 'action_import.png', $this->get_organisation_importer_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
+        
         return $action_bar;
     }
 
