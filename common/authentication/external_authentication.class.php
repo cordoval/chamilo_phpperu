@@ -462,7 +462,8 @@ abstract class ExternalAuthentication extends Authentication
      */
     protected function redirect_to_home_page()
     {
-        header('Location: ' . Configuration :: get_instance()->get_parameter('general', 'root_web'));
+        //header('Location: ' . Configuration :: get_instance()->get_parameter('general', 'root_web'));
+        header('Location: ' . Path :: get(WEB_PATH));
         exit();
     }
 
@@ -479,7 +480,8 @@ abstract class ExternalAuthentication extends Authentication
             $link_params[RightsManagerRoleRequesterComponent :: PARAM_IS_NEW_USER] = '1';
         }
 
-        header('Location: ' . Configuration :: get_instance()->get_parameter('general', 'root_web') . '/' . Redirect :: get_link('rights', $link_params, null, false, Redirect :: TYPE_CORE));
+        //header('Location: ' . Configuration :: get_instance()->get_parameter('general', 'root_web') . '/' . Redirect :: get_link('rights', $link_params, null, false, Redirect :: TYPE_CORE));
+        header('Location: ' . Path :: get(WEB_PATH). '/' . Redirect :: get_link('rights', $link_params, null, false, Redirect :: TYPE_CORE));
         exit();
     }
 
