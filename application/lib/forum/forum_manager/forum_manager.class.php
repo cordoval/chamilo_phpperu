@@ -115,6 +115,31 @@ class ForumManager extends WebApplication
     {
         return ForumDataManager :: get_instance()->get_content_object_publication_attributes($object_id, $type, $offset, $count, $order_property);
     }
+    
+	static function get_content_object_publication_locations($content_object)
+    {
+        $allowed_types = array(Forum :: get_type_name());
+
+        $type = $content_object->get_type();
+        if (in_array($type, $allowed_types))
+        {
+            $locations = array(Translation :: get(Utilities :: underscores_to_camelcase(self :: APPLICATION_NAME)));
+            return $locations;
+        }
+
+        return array();
+    }
+    
+	static function publish_content_object($content_object, $location)
+    {
+        require_once dirname(__FILE__) . '/../forum_publication.class.php';
+        $pub = new ForumPublication();
+        $pub->set_forum_id($content_object->get_id());
+        $pub->set_author($content_object->get_owner_id());
+        $pub->create();
+
+        return Translation :: get('PublicationCreated');
+    }
 
     static function get_content_object_publication_attribute($object_id)
     {
