@@ -153,12 +153,18 @@ class CourseUserCategoryForm extends FormValidator
         $this->courseusercategory->set_title($values[CourseUserCategory :: PROPERTY_TITLE]);
         
         if(!$this->courseusercategory->create())
+        {
         	return false;
-        
+        }
+
         foreach($course_types as $course_type)
         {
+        	$course_type->set_course_user_category_id($this->courseusercategory->get_id());
+        	
         	if(! $course_type->create())
+        	{
         		return false;
+        	}
         }
         	
         return true;
@@ -172,7 +178,6 @@ class CourseUserCategoryForm extends FormValidator
 		foreach($values[self :: COURSE_TYPE_TARGET_ELEMENTS]['coursetype'] as $value)
 		{
 			$coursetypeusercategory = new CourseTypeUserCategory();
-       		$coursetypeusercategory->set_course_user_category_id($this->courseusercategory->get_id());
         	$coursetypeusercategory->set_course_type_id($value);
         	$coursetypeusercategory->set_user_id($this->user->get_id());
 			$course_types_array[] = $coursetypeusercategory;

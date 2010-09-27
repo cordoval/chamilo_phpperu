@@ -834,7 +834,7 @@ interface WeblcmsDataManagerInterface
     
     function clean_course_type_user_category_rel_course_sort($start_sort_value, $course_type_user_category_id);
     
-    function retrieve_all_courses_with_course_categories($condition);
+    function retrieve_all_courses_with_course_categories($condition, $user_id);
     
     function update_course_type_user_category_rel_course(CourseTypeUserCategoryRelCourse $course_type_user_category_rel_course);
 }

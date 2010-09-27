@@ -2868,7 +2868,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         return $this->retrieve_object_set($query, CourseTypeUserCategory :: get_table_name(), $condition, null, null, new ObjectTableOrder(CourseTypeUserCategory :: PROPERTY_SORT, SORT_ASC));
     }
     
-    function retrieve_all_courses_with_course_categories($condition)
+    function retrieve_all_courses_with_course_categories($condition, $user_id)
     {
     	$course_alias = $this->get_alias(Course :: get_table_name());
         $course_user_relation_alias = $this->get_alias(CourseUserRelation :: get_table_name());
@@ -2881,7 +2881,8 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $query .= ' LEFT JOIN ' . $this->escape_table_name(CourseGroupRelation :: get_table_name()) . ' AS ' . $course_group_relation_alias . ' ON ' . $this->escape_column_name(Course :: PROPERTY_ID, $course_alias) . ' = ' . $this->escape_column_name(CourseGroupRelation :: PROPERTY_COURSE_ID, $course_group_relation_alias);
         $query .= ' JOIN ' . $this->escape_table_name(CourseSettings :: get_table_name()) . ' AS ' . $course_settings_alias . ' ON ' . $this->escape_column_name(Course :: PROPERTY_ID, $course_alias) . ' = ' . $this->escape_column_name(CourseSettings :: PROPERTY_COURSE_ID, $course_settings_alias);
         $query .= ' LEFT JOIN ' . $this->escape_table_name(CourseTypeUserCategoryRelCourse :: get_table_name()) . ' AS ' . $course_type_user_category_rel_course_alias . ' ON ';
-        $query .=  $this->escape_column_name(Course :: PROPERTY_ID, $course_alias) . ' = ' . $this->escape_column_name(CourseSettings :: PROPERTY_COURSE_ID, $course_type_user_category_rel_course_alias);
+        $query .=  $this->escape_column_name(Course :: PROPERTY_ID, $course_alias) . ' = ' . $this->escape_column_name(CourseSettings :: PROPERTY_COURSE_ID, $course_type_user_category_rel_course_alias) . ' AND ';
+        $query .=  $this->escape_column_name(CourseTypeUserCategoryRelCourse :: PROPERTY_USER_ID, $course_type_user_category_rel_course_alias) . ' = ' . $user_id;
         
         $order_by[] = new ObjectTableOrder(CourseTypeUserCategoryRelCourse :: PROPERTY_SORT, SORT_ASC, $course_type_user_category_rel_course_alias);
         
