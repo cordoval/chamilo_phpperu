@@ -31,7 +31,7 @@ class WeblcmsRights extends RightsUtilities
 
 	    foreach($rights as $key => $right)
 		{
-			if(substr(strtolower($key), -5) != 'right')
+			if(substr(strtolower($key), -5) != 'right' || $key == 'CONSTANT_RIGHT')
 			{
 				unset($rights[$key]);
 			}
