@@ -90,7 +90,7 @@ class SurveyManager extends WebApplication
 
     function get_survey_publication_viewer_url($survey_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_TAKE, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_TAKE, self :: PARAM_SURVEY_ID => $survey_publication->get_content_object(), self :: PARAM_INVITEE_ID => $this->get_user_id()));
     }
 
     function get_reporting_filter_survey_publication_url()

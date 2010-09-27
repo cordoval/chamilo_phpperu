@@ -1,231 +1,172 @@
 <?php
-/**
- * $Id: survey_menu.class.php 224 2009-11-13 14:40:30Z kariboe $
- * @package survey.lib
- */
+
 require_once 'HTML/Menu.php';
 require_once 'HTML/Menu/ArrayRenderer.php';
-/**
- * This class provides a navigation menu to allow a user to browse through
- * categories of courses.
- * @author Bart Mollet
- */
+
 class SurveyMenu extends HTML_Menu
 {
     const TREE_NAME = __CLASS__;
     
-    /**
-     * The string passed to sprintf() to format category URLs
-     */
+    const PARAM_TEMPLATE_ID = 'template_id';
+    
     private $urlFmt;
-    /**
-     * The array renderer used to determine the breadcrumbs.
-     */
-    private $array_renderer;
     
-    private $include_root;
+    private $current_template_id;
     
-    private $current_participant;
+    private $root_context_template_id;
     
-    private $show_complete_tree;
+    private $survey_id;
     
-    private $hide_current_participant;
+    private $user_id;
+    
+    private $menu_matrix;
+    
+    private $level_matrix;
 
-    /**
-     * Creates a new category navigation menu.
-     * @param int $owner The ID of the owner of the categories to provide in
-     * this menu.
-     * @param int $current_category The ID of the current category in the menu.
-     * @param string $url_format The format to use for the URL of a category.
-     * Passed to sprintf(). Defaults to the string
-     * "?category=%s".
-     * @param array $extra_items An array of extra tree items, added to the
-     * root.
-     */
-    function SurveyMenu($current_participant, $url_format = '?application=survey&go=viewer&survey_publication=%s&survey_participant=%s', $include_root = true, $show_complete_tree = false, $hide_current_participant = false)
+    function SurveyMenu($parent, $current_template_id, $url_format = '?application=survey&go=viewer&survey_id=%s&context_template_id=%s', $survey)
     {
-        $this->include_root = $include_root;
-        $this->show_complete_tree = $show_complete_tree;
-        $this->hide_current_participant = $hide_current_participant;
+        $this->root_context_template_id = $survey->get_context_template_id();
+        $this->survey_id = $survey->get_id();
         
-        $track = new SurveyParticipantTracker();
-        $condition = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_ID, $current_participant);
-        $trackers = $track->retrieve_tracker_items($condition);
+        $this->user_id = $parent->get_parent()->get_parameter(SurveyViewerWizard :: PARAM_INVITEE_ID);
         
-        $this->current_participant = $trackers[0];
+        $current_context_template_id = $parent->get_parent()->get_parameter(SurveyViewerWizard :: PARAM_CONTEXT_TEMPLATE_ID);
+        $current_context_id = $parent->get_parent()->get_parameter(SurveyViewerWizard :: PARAM_CONTEXT_ID, $current_context_id);
+        $current_context_path = $parent->get_parent()->get_parameter(SurveyViewerWizard :: PARAM_CONTEXT_PATH);
+        
+        $this->current_context_template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($current_template_id);
+        
+        $this->current_template_id = $current_template_id;
         
         $this->urlFmt = $url_format;
         $menu = $this->get_menu();
         parent :: __construct($menu);
-        $this->array_renderer = new HTML_Menu_ArrayRenderer();
-        $this->forceCurrentUrl($this->get_url($this->current_participant));
+        $this->forceCurrentUrl($this->get_url($current_context_template_id, $this->current_template_id, $current_context_id, $current_context_path));
+    }
+
+    private function create_menu_matrix()
+    {
+        
+        $context_template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($this->root_context_template_id);
+        
+        $level = 1;
+        $this->level_matrix[$level] = $context_template->get_id();
+        $context_template_children = $context_template->get_children(true);
+        while ($child_template = $context_template_children->next_result())
+        {
+            $level ++;
+            $this->level_matrix[$level] = $child_template->get_id();
+        }
+        
+        $condition = new EqualityCondition(SurveyTemplate :: PROPERTY_USER_ID, $this->user_id, SurveyTemplate :: get_table_name());
+        $templates = SurveyContextDataManager :: get_instance()->retrieve_survey_templates($context_template->get_type(), $condition);
+        
+        $menu_matrix = array();
+        
+        while ($template = $templates->next_result())
+        {
+            
+            $level = 1;
+            $property_names = $template->get_additional_property_names(true);
+            $parent_id = 0;
+            foreach ($property_names as $property_name => $context_type)
+            {
+                $context_id = $template->get_additional_property($property_name);
+                
+                $context = SurveyContextDataManager :: get_instance()->retrieve_survey_context_by_id($context_id);
+                $template_id = $template->get_id();
+                
+                $menu_matrix[$level][$parent_id][$context_id] = $context->get_name();
+                $menu_matrix[self :: PARAM_TEMPLATE_ID][$parent_id][$context_id] = $template->get_id();
+                
+                $parent_id = $context_id;
+                $level ++;
+            }
+        }
+        
+        //        dump($menu_matrix);
+        
+
+        $this->menu_matrix = $menu_matrix;
     }
 
     function get_menu()
     {
-        $include_root = $this->include_root;
-        
-        $track = new SurveyParticipantTracker();
-        $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->current_participant->get_survey_publication_id());
-        $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_USER_ID, $this->current_participant->get_user_id());
-        $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_PARENT_ID, 0);
-        $condition = new AndCondition($conditions);
-        $trackers = $track->retrieve_tracker_items($condition);
-        
-//        dump($trackers);
-        
-        if (! $include_root)
-        {
-//            dump('include root');
-            exit();
-            $menu = array();
-            foreach ($trackers as $tracker)
-            {
-                $menu = array_merge($this->get_menu_items($tracker->get_id()), $menu);
-            }
-            return $menu;
-        }
-        else
-        {
-            $menu = array();
-            
-//            dump('not include root');
-            
-            foreach ($trackers as $tracker)
-            {
-//                dump($tracker);
-                $menu_item = array();
-                $menu_item['title'] = $tracker->get_context_name();
-                $menu_item['url'] = $this->get_url($tracker);
-                
-                $sub_menu_items = $this->get_menu_items($tracker->get_id());
-//                
-//                dump($sub_menu_items);
-//                exit();
-                
-                if (count($sub_menu_items) > 0)
-                {
-                    $menu_item['sub'] = $sub_menu_items;
-                }
-                if ($tracker->get_status() == SurveyParticipantTracker :: STATUS_FINISHED)
-                {
-                    $menu_item['class'] = 'survey_finished';
-                }
-                else
-                {
-                    $menu_item['class'] = 'survey';
-                }
-                
-                $menu_item[OptionsMenuRenderer :: KEY_ID] = $tracker->get_id();
-                $menu[$tracker->get_id()] = $menu_item;
-            }
-            return $menu;
-        }
+        $this->create_menu_matrix();
+        return $this->get_menu_items();
     }
 
     /**
      * Returns the menu items.
-     * @param array $extra_items An array of extra tree items, added to the
-     * root.
      * @return array An array with all menu items. The structure of this array
      * is the structure needed by PEAR::HTML_Menu, on which this
      * class is based.
      */
-    private function get_menu_items($parent_id = 0)
+    private function get_menu_items($level = 1, $parent_id = 0, $path = null)
     {
-        $current_participant = $this->current_participant;
         
-        $show_complete_tree = $this->show_complete_tree;
-        $hide_current_participant = $this->hide_current_participant;
-        
-        //        $track = new SurveyParticipantTracker();
-        $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $current_participant->get_survey_publication_id());
-        $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_USER_ID, $current_participant->get_user_id());
-        $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_PARENT_ID, $parent_id);
-        $condition = new AndCondition($conditions);
-        $trackers = Tracker :: get_data(SurveyParticipantTracker :: get_table_name(), SurveyManager :: APPLICATION_NAME, $condition);
-        $tracker_count = Tracker :: count_data(SurveyParticipantTracker :: get_table_name(), SurveyManager :: APPLICATION_NAME, $condition);
-//        dump($tracker_count);
-        
-//        while($tracker = $trackers->next_result()){
-//        	dump($tracker);
-//        }
-        
-        //        dump($trackers);
-        
-
-        //        exit;
-       while ($participant = $trackers->next_result())
+        foreach ($this->menu_matrix[$level][$parent_id] as $id => $context_name)
         {
+            $template_id = $this->menu_matrix[self :: PARAM_TEMPLATE_ID][$parent_id][$id];
+            $context_template_id = $this->level_matrix[$level];
             
-        	$participant_id = $participant->get_id();
-            
-//        	dump($participant_id);
-        	
-            if (! ($participant_id == $current_participant->get_id() && $hide_current_participant))
+            if ($level == 1)
             {
-                
-                $menu_item = array();
-                $menu_item['title'] = $participant->get_context_name();
-                $menu_item['url'] = $this->get_url($participant);
-                
-                if ($participant->has_children())
-                {
-//                    dump($participant->get_id());
-//                    exit;
-                    $menu_item['sub'] = $this->get_menu_items($participant->get_id());
-                }
-                
-                if ($participant->get_status() == SurveyParticipantTracker :: STATUS_FINISHED)
-                {
-                    $menu_item['class'] = 'survey_finished';
-                }
-                else
-                {
-                    $menu_item['class'] = 'survey';
-                }
-                
-                $menu_item[OptionsMenuRenderer :: KEY_ID] = $participant->get_id();
-                $menu[$participant->get_id()] = $menu_item;
+                $path = null;
             }
+            
+            if ($path)
+            {
+                $contexts = explode('_', $path);
+                
+                if (count($contexts) == $level)
+                {
+                    $index = 0;
+                    $path = '';
+                    while ($index != $level - 1)
+                    {
+                        if ($index != 0)
+                        {
+                            $path = $path . '_' . $contexts[$index];
+                        }
+                        else
+                        {
+                            $path = $contexts[$index];
+                        }
+                        $index ++;
+                    }
+                }
+                
+                $path = $path . '_' . $id;
+            
+            }
+            else
+            {
+                $path = $id;
+            }
+            
+            $menu_item = array();
+            $menu_item['title'] = $context_name;
+            $menu_item['url'] = $this->get_url($context_template_id, $template_id, $id, $path);
+            
+            $sub_menu_items = $this->get_menu_items($level + 1, $id, $path);
+            if (count($sub_menu_items) > 0)
+            {
+                foreach ($sub_menu_items as $sub_parent_id => $sub_menu_item)
+                {
+                    $menu_item['sub'] = $sub_menu_items;
+                }
+            }
+            $menu_item['class'] = 'survey';
+            $menu_item[OptionsMenuRenderer :: KEY_ID] = $id;
+            $menu[$id] = $menu_item;
         }
-        
         return $menu;
     }
 
-    /**
-     * Gets the URL of a given category
-     * @param int $category The id of the category
-     * @return string The requested URL
-     */
-    function get_url($participant)
+    function get_url($context_template_id, $template_id, $context_id, $context_path)
     {
-        // TODO: Put another class in charge of the htmlentities() invocation
-        $survey_publication_id = $participant->get_survey_publication_id();
-        $participant_id = $participant->get_id();
-        return htmlentities(sprintf($this->urlFmt, $survey_publication_id, $participant_id));
-    }
-
-    private function get_home_url($category)
-    {
-        // TODO: Put another class in charge of the htmlentities() invocation
-        return htmlentities(str_replace('&group_id=%s', '', $this->urlFmt));
-    }
-
-    /**
-     * Get the breadcrumbs which lead to the current category.
-     * @return array The breadcrumbs.
-     */
-    function get_breadcrumbs()
-    {
-        $this->render($this->array_renderer, 'urhere');
-        $breadcrumbs = $this->array_renderer->toArray();
-        foreach ($breadcrumbs as $crumb)
-        {
-            $crumb['name'] = $crumb['title'];
-            unset($crumb['title']);
-        }
-        return $breadcrumbs;
+        return htmlentities(sprintf($this->urlFmt, $this->survey_id, $this->user_id, $context_template_id, $template_id, $context_id, $context_path));
     }
 
     /**

@@ -23,7 +23,7 @@ class SurveyManagerDeleterComponent extends SurveyManager
             foreach ($ids as $id)
             {
                 
-                $survey_publication = $this->retrieve_survey_publication($id);
+                $survey_publication = SurveyDataManager::get_instance()->retrieve_survey_publication($id);
                 
                 if (! SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_DELETE, $id, SurveyRights :: TYPE_PUBLICATION, $this->get_user_id()))
                 {

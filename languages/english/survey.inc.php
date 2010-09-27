@@ -197,6 +197,10 @@ $lang['survey']['Contexts'] = 'Available contexts';
 $lang['survey']['SelectAvailableContexts'] = 'Select available context';
 $lang['survey']['AvailableContexts'] = 'Available contexts';
 
+$lang['survey']['ParticipateYourself'] = 'Participate Yourself';
+$lang['survey']['SurveyManagerTakerComponent'] = 'Take Survey';
+
+
 
 
 

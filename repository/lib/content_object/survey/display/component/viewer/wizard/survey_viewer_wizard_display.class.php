@@ -28,14 +28,16 @@ class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
     function _renderForm($current_page)
     {
         
-        //    	dump('current page');
-        //    	dump($current_page->get_page_number());
+//            	dump('current page');
+//            	dump($current_page->get_page_number());
         
 
         $html = array();
         $this->parent->get_parent()->display_header();
-                
-        if ($this->parent->get_tracker_count() > 1)
+        
+//        dump($this->parent->get_parent()->get_parameters());
+        
+        if ($this->parent->has_context())
         {
             $this->with_menu = true;
             $html[] = $this->get_menu_html();
@@ -153,7 +155,22 @@ class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
 
     function get_menu_html()
     {
-        $survey_menu = new SurveyMenu($this->parent->get_participant_id());
+
+        
+		$url = $this->parent->get_parent()->get_url(array(), array(SurveyDisplay::PARAM_DISPLAY_ACTION));
+		$url = explode('?', $url);
+		$url_format = $url[1];
+				
+    	$url_format = '?'.$url_format.'&'.SurveyViewerWizard :: PARAM_SURVEY_ID.'=%s&'.SurveyViewerWizard :: PARAM_INVITEE_ID.'=%s&'.SurveyViewerWizard :: PARAM_CONTEXT_TEMPLATE_ID.'=%s&'.SurveyViewerWizard :: PARAM_TEMPLATE_ID.'=%s&'.SurveyViewerWizard :: PARAM_CONTEXT_ID.'=%s&'.SurveyViewerWizard :: PARAM_CONTEXT_PATH.'=%s';
+    	$include_root = true;
+    	$show_complete_tree = false;
+        $hide_current_context_template_id = false;
+          
+        $survey = $this->parent->get_survey();
+//    	$user_id = $this->parent->get_parent()->get_invitee_id();
+        
+        $survey_menu = new SurveyMenu($this->parent, Request::get(SurveyViewerWizard :: PARAM_TEMPLATE_ID), $url_format, $survey);
+        
         $html = array();
         $html[] = '<div style="float: left; width: 18%; overflow: auto; height: 500px;">';
         $html[] = $survey_menu->render_as_tree();

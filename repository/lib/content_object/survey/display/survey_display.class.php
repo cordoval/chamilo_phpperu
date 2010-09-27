@@ -13,34 +13,11 @@ class SurveyDisplay extends ComplexDisplay
     
     const DEFAULT_ACTION = self :: ACTION_VIEW_SURVEY;
 
-//    function save_answer($complex_question_id, $answer)
-//    {
-//        return $this->get_parent()->save_answer($complex_question_id, $answer);
-//    }
-//
-//    function finish_survey($percent)
-//    {
-//        return $this->get_parent()->finish_survey($percent);
-//    }
-//
-//    function get_go_back_url()
-//    {
-//        return $this->get_parent()->get_go_back_url();
-//    }
-//
-//    function parse($value)
-//    {
-//        return $this->get_parent()->parse($value);
-//    }
-
+    
     function get_application_component_path()
     {
         return dirname(__FILE__) . '/component/';
     }
-	
-//    function get_context_template_id(){
-//    	 return $this->get_parent()->get_context_template_id();
-//    }
     
     /**
      * Helper function for the SubManager class,

@@ -206,7 +206,7 @@ class SurveyPublicationForm extends FormValidator
                 }
                 if ($values[self :: PARAM_PARTICIPATE] == 1)
                 {
-                   $succes = RightsUtilities :: set_user_right_location_value(SurveyRights :: RIGHT_PARTICIPATE, $this->user->get_id(), $location_id, 1);
+                    $succes = RightsUtilities :: set_user_right_location_value(SurveyRights :: RIGHT_PARTICIPATE, $this->user->get_id(), $location_id, 1);
                 }
                 else
                 {

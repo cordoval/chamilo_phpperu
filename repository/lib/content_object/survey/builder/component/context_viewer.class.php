@@ -24,11 +24,8 @@ class SurveyBuilderContextViewerComponent extends SurveyBuilder
             $this->template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($id);
             
             $template = $this->template;
-            
-//            $trail->add(new Breadcrumb($this->get_configure_context_url(), Translation :: get('BrowseContexts')));
-//            $trail->add(new Breadcrumb($this->get_url(array(SurveyBuilder :: PARAM_TEMPLATE_ID => $id)), $template->get_name()));
-            
-            $this->display_header($trail);
+        
+            $this->display_header();
             $this->ab = $this->get_action_bar();
             echo $this->ab->as_html() . '<br />';
             
@@ -41,7 +38,7 @@ class SurveyBuilderContextViewerComponent extends SurveyBuilder
             echo '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_users.png);">';
             echo '<div class="title">' . Translation :: get('SurveyPages') . '</div>';
             $parameters = $this->get_parameters();
-            $parameters[SurveyBuilder :: PARAM_TEMPLATE_ID ] =  $id;
+            $parameters[SurveyBuilder :: PARAM_TEMPLATE_ID] = $id;
             $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->ab->get_query();
             
             $table = new SurveyContextTemplateRelPageBrowserTable($this, $parameters, $this->get_condition());
@@ -90,7 +87,7 @@ class SurveyBuilderContextViewerComponent extends SurveyBuilder
         }
         
         $condition = new AndCondition($conditions);
-     
+        
         return $condition;
     }
 
@@ -120,6 +117,16 @@ class SurveyBuilderContextViewerComponent extends SurveyBuilder
         }
         
         return $action_bar;
+    }
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_BROWSE)), Translation :: get('BrowseSurvey')));
+    }
+
+    function get_additional_parameters()
+    {
+        return array(self :: PARAM_TEMPLATE_ID);
     }
 
 }
