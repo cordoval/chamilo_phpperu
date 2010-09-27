@@ -9,7 +9,7 @@ class ForumToolMoverComponent extends ForumTool
 
     function get_move_direction()
     {
-        return 1;
+        return Request::get(Tool::PARAM_MOVE_DIRECTION);
     }
 }
 ?>
