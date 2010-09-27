@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="metadata_namespace">
+	<properties>
+		<property name="ns_prefix" type="text" length="255" notnull="1" />
+                <property name="name" type="text" length="255" notnull="1" />
+                <property name="url" type="text" length="255" notnull="1" />
+	</properties>
+        <index name="ns_prefix" type="primary">
+            <indexproperty name="ns_prefix" />
+        </index>
+</object>
