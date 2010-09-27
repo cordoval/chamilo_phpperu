@@ -14,6 +14,8 @@ class InternshipOrganizerRights
     const DELETE_RIGHT_NAME = 'delete';
     const RIGHT_PUBLISH = 5;
     const PUBLISH_RIGHT_NAME = 'publish';
+    const RIGHT_IMPORT = 6;
+    const IMPORT_RIGHT_NAME = 'import';
     
     const ADD_AGREEMENT_RIGHT = 5;
     const ADD_AGREEMENT_NAME = 'add_agreement';
@@ -62,7 +64,7 @@ class InternshipOrganizerRights
 
     static function get_available_rights_for_components()
     {
-        return array(self :: ADD_RIGHT_NAME => self ::RIGHT_ADD, self :: VIEW_RIGHT_NAME => self :: RIGHT_VIEW, self :: EDIT_RIGHT_NAME=> self :: RIGHT_EDIT, self :: DELETE_RIGHT_NAME => self :: RIGHT_DELETE);
+        return array(self :: ADD_RIGHT_NAME => self ::RIGHT_ADD, self :: VIEW_RIGHT_NAME => self :: RIGHT_VIEW, self :: EDIT_RIGHT_NAME=> self :: RIGHT_EDIT, self :: DELETE_RIGHT_NAME => self :: RIGHT_DELETE, self :: IMPORT_RIGHT_NAME => self :: RIGHT_IMPORT);
     }
 	
     static function get_administration_locations(){

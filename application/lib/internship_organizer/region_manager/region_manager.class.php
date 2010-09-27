@@ -14,10 +14,15 @@ class InternshipOrganizerRegionManager extends SubManager
     const PARAM_REGION_ID = 'region_id';
     const PARAM_REMOVE_SELECTED = 'delete';
     
+    const PARAM_MESSAGE = 'message';
+    const PARAM_WARNING_MESSAGE = 'warning_message';
+    const PARAM_ERROR_MESSAGE = 'error_message';
+    
     const ACTION_CREATE_REGION = 'creator';
     const ACTION_BROWSE_REGIONS = 'browser';
     const ACTION_EDIT_REGION = 'editor';
     const ACTION_DELETE_REGION = 'deleter';
+    const ACTION_IMPORT_REGION = 'importer';
     
     const DEFAULT_ACTION = self :: ACTION_BROWSE_REGIONS;
 
@@ -86,10 +91,16 @@ class InternshipOrganizerRegionManager extends SubManager
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_REGION, self :: PARAM_REGION_ID => $region->get_id()));
     }
 
-    private function set_region_action($action)
+    function get_region_importer_url($region_id)
     {
-        $this->set_parameter(self :: PARAM_ACTION, $action);
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_IMPORT_REGION, self :: PARAM_REGION_ID => $region_id));
     }
+
+    //    private function set_region_action($action)
+    //    {
+    //        $this->set_parameter(self :: PARAM_ACTION, $action);
+    //    }
+    
 
     /**
      * Helper function for the SubManager class,

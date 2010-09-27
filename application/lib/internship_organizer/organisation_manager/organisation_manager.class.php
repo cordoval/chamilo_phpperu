@@ -20,6 +20,10 @@ class InternshipOrganizerOrganisationManager extends SubManager
     
     const PARAM_PUBLICATION_ID = 'publication_id';
     
+    const PARAM_MESSAGE = 'message';
+    const PARAM_WARNING_MESSAGE = 'warning_message';
+    const PARAM_ERROR_MESSAGE = 'error_message';
+    
     const ACTION_CREATE_ORGANISATION = 'creator';
     const ACTION_BROWSE_ORGANISATION = 'browser';
     const ACTION_EDIT_ORGANISATION = 'editor';
@@ -47,6 +51,8 @@ class InternshipOrganizerOrganisationManager extends SubManager
     const ACTION_VIEW_PUBLICATION = 'publication_viewer';
     const ACTION_DELETE_PUBLICATION = 'publication_deleter';
     const ACTION_EDIT_PUBLICATION_RIGHTS = 'publication_rights_editor';
+    
+    const ACTION_IMPORT_ORGANISATION = 'importer';
     
     const DEFAULT_ACTION = self :: ACTION_BROWSE_ORGANISATION;
 
@@ -236,6 +242,11 @@ class InternshipOrganizerOrganisationManager extends SubManager
     function get_publication_rights_editor_url($publication)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_PUBLICATION_RIGHTS, self :: PARAM_PUBLICATION_ID => $publication->get_id()));
+    }
+
+    function get_organisation_importer_url()
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_IMPORT_ORGANISATION));
     }
 
     /**

@@ -482,4 +482,20 @@ $lang['internship_organizer']['AppointmentRightLink'] = 'Appointment Rights';
 $lang['internship_organizer']['AppointmentRightLinkDescription'] = 'Appointment Rights Description';
 $lang['internship_organizer']['ReportingRightLink'] = 'Reporting Rights';
 $lang['internship_organizer']['ReportingRightLinkDescription'] = 'Reporting Rights Description';
+
+
+//27-09-10
+
+$lang['internship_organizer']['Typecsv'] = 'CSV';
+$lang['internship_organizer']['Typeexcel'] = 'EXCEL';
+$lang['internship_organizer']['InternshipOrganizerRegionManagerImporterComponent'] = 'Region Importer';
+$lang['internship_organizer']['ImportInternshipOrganizerCategory'] = 'Import Categories';
+$lang['internship_organizer']['ImportInternshipOrganizerRegion'] = 'Import Regions';
+$lang['internship_organizer']['InternshipOrganizerCategoryManagerImporterComponent'] = 'Category Importer';
+$lang['internship_organizer']['ImportInternshipOrganizerOrganisation'] = 'Import Organisations';
+$lang['internship_organizer']['InternshipOrganizerOrganisationManagerImporterComponent'] = 'Organisation Importer';
+
+
+
+
 ?>

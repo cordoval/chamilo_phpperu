@@ -194,6 +194,11 @@ class InternshipOrganizerCategoryManagerBrowserComponent extends InternshipOrgan
         
         }
         
+        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_IMPORT, InternshipOrganizerRights :: LOCATION_CATEGORY, InternshipOrganizerRights :: TYPE_COMPONENT))
+        {
+            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ImportInternshipOrganizerCategory'), Theme :: get_common_image_path() . 'action_import.png', $this->get_category_importer_url($this->get_category()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
+        
         return $action_bar;
     }
 
