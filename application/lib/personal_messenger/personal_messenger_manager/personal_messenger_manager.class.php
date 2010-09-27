@@ -30,7 +30,7 @@ class PersonalMessengerManager extends WebApplication
     const FOLDER_INBOX = 'inbox';
     const FOLDER_OUTBOX = 'outbox';
 
-    const ACTION_DELETE_PUBLICATION = 'deletee';
+    const ACTION_DELETE_PUBLICATION = 'deleter';
     const ACTION_VIEW_PUBLICATION = 'viewer';
     const ACTION_VIEW_ATTACHMENTS = 'attachment_viewer';
     const ACTION_MARK_PUBLICATION = 'marker';
