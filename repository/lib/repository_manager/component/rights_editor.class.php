@@ -90,7 +90,7 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManager implement
 
         $type = Request :: get(self :: PARAM_TYPE);
 
-        if($type == RepositoryRights :: TYPE_USER_CONTENT_OBJECT)
+        if(!$type || $type == RepositoryRights :: TYPE_USER_CONTENT_OBJECT)
         {
 	        $object_ids = Request :: get(self :: PARAM_IDENTIFIER);
 

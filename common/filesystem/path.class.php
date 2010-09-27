@@ -80,11 +80,16 @@ class Path
 				{
 		 	        $dir .= '/';
  				}
- 				
+ 
  				//Temporary fix for things that are launched from the common folder
- 				if(strpos($dir, 'common/') !== false)
+ 				$possible_launchers = array('common', 'home');
+ 				foreach($possible_launchers as $possible_launcher)
  				{
- 					$dir = substr($dir, 0, strpos($dir, 'common/'));
+ 					if(strpos($dir, $possible_launcher . '/') !== false)
+ 					{
+ 						$dir = substr($dir, 0, strpos($dir, $possible_launcher . '/'));
+ 						break;
+ 					}
  				}
  				
  				$protocol = empty($_SERVER['HTTPS']) ? 'http://' : 'https://';
