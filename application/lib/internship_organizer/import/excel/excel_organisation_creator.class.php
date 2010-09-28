@@ -14,18 +14,18 @@ class ExcelOrganisationCreator
 	 * An errorarray will consist of the numbers of rules where there were errors
 	 * A objectarray will consist of objectsthat need to be created.
 	 */
-    function excel_validate($worksheet)
+    function excel_validate($owner_id, $worksheet)
     {
         $errorarray = array();
         $objectarray = array();
         $errorarray[0] = '';
         
         $excel_array = $worksheet->toArray();
-               
+        
         $current_organisation_id;
         
         //elke regel in het excel bestand aflopen behalve rij 1 = headers !
-        for($i = 2; $i < count($excel_array)+1; $i ++)
+        for($i = 2; $i < count($excel_array) + 1; $i ++)
         {
             
             $organisation_id = $excel_array[$i][0];
@@ -42,7 +42,7 @@ class ExcelOrganisationCreator
                 {
                     continue;
                 }
-            	$current_organisation_id = $organisation_id;
+                $current_organisation_id = $organisation_id;
             }
             
             //check if region exist els default region =1 = rootregion
@@ -71,10 +71,14 @@ class ExcelOrganisationCreator
                 {
                     $condition = new EqualityCondition(InternshipOrganizerRegion :: PROPERTY_CITY_NAME, $city_name);
                     $region = InternshipOrganizerDataManager :: get_instance()->retrieve_regions($condition, 1)->next_result();
-                }if($region){
-                	 $region_id = $region->get_id();
-                }else{
-                	$region_id = 1;
+                }
+                if ($region)
+                {
+                    $region_id = $region->get_id();
+                }
+                else
+                {
+                    $region_id = 1;
                 }
             }
             
@@ -95,8 +99,35 @@ class ExcelOrganisationCreator
             $location->set_fax($fax);
             $location->set_telephone($telephone);
             $location->set_region_id($region_id);
+            $location->set_owner_id($owner_id);
             
-            $objectarray[] = $location;
+            $succes = $location->create();
+            
+            $categories = $excel_array[$i][11];
+            $cats = explode('_', $categories);
+            $category_ids = array();
+            foreach ($cats as $cat)
+            {
+                $condition = new EqualityCondition(InternshipOrganizerCategory :: PROPERTY_NAME, $cat);
+                $category = InternshipOrganizerDataManager :: get_instance()->retrieve_categories($condition, 1)->next_result();
+                if ($category)
+                {
+                    $category_ids[] = $category->get_id();
+                }
+            }
+            
+            if (count($category_ids))
+            {
+                foreach ($category_ids as $id)
+                {
+                    $category_rel_location = new InternshipOrganizerCategoryRelLocation();
+                    $category_rel_location->set_category_id($id);
+                    $category_rel_location->set_location_id($location->get_id());
+                    $succes = $category_rel_location->create();
+                }
+            }
+            
+            $objectarray[] = 1;
         
         }
         //return the errorarray if its filled

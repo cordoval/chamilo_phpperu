@@ -24,15 +24,15 @@ class CsvOrganisationImport extends InternshipOrganizerImport
         
         $csvarray = Import :: read_csv($this->get_internship_organizer_file_property(self :: TEMP_FILE_NAME));
         
-        $csvcreator = new CsvCategoryCreator();
+        $csvcreator = new CsvOrganisationCreator();
         
-        $temparray = $csvcreator->csv_validate($csvarray);
+        $temparray = $csvcreator->csv_validate($this->get_user()->get_id(), $csvarray);
         if (! ($temparray[0] == 'faultyarrayreturn'))
         {
-            for($i = 0; $i < count($temparray); $i ++)
-            {
-                $temparray[$i]->create();
-            }
+//            for($i = 0; $i < count($temparray); $i ++)
+//            {
+//                $temparray[$i]->create();
+//            }
             
             return true;
         }

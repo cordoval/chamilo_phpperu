@@ -28,13 +28,13 @@ class ExcelOrganisationImport extends InternshipOrganizerImport
         $worksheet = $excel->getActiveSheet();
         $excel_creator = new ExcelOrganisationCreator();
         
-        $temparray = $excel_creator->excel_validate($worksheet);
+        $temparray = $excel_creator->excel_validate($this->get_user()->get_id(), $worksheet);
         if (! ($temparray[0] == 'faultyarrayreturn'))
         {
-            for($i = 0; $i < count($temparray); $i ++)
-            {
-                $temparray[$i]->create();
-            }
+//            for($i = 0; $i < count($temparray); $i ++)
+//            {
+//                $temparray[$i]->create();
+//            }
             
             return true;
         }

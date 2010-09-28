@@ -13,7 +13,7 @@ class CsvOrganisationCreator
 	 * An errorarray will consist of the numbers of rules where there were errors
 	 * A objectarray will consist of objectsthat need to be created.
 	 */
-    function csv_validate($csvarray)
+    function csv_validate($owner_id, $csvarray)
     {
         $errorarray = array();
         $objectarray = array();
@@ -96,8 +96,35 @@ class CsvOrganisationCreator
             $location->set_fax($fax);
             $location->set_telephone($telephone);
             $location->set_region_id($region_id);
+            $location->set_owner_id($owner_id);
             
-            $objectarray[] = $location;
+            $succes = $location->create();
+            
+            $categories = $csvarray[$i][11];
+            $cats = explode('_', $categories);
+            $category_ids = array();
+            foreach ($cats as $cat)
+            {
+                $condition = new EqualityCondition(InternshipOrganizerCategory :: PROPERTY_NAME, $cat);
+                $category = InternshipOrganizerDataManager :: get_instance()->retrieve_categories($condition, 1)->next_result();
+                if ($category)
+                {
+                    $category_ids[] = $category->get_id();
+                }
+            }
+            
+            if (count($category_ids))
+            {
+                foreach ($category_ids as $id)
+                {
+                    $category_rel_location = new InternshipOrganizerCategoryRelLocation();
+                    $category_rel_location->set_category_id($id);
+                    $category_rel_location->set_location_id($location->get_id());
+                    $succes = $category_rel_location->create();
+                }
+            }
+            
+            $objectarray[] = 1;
         
         }
         //return the errorarray if its filled
