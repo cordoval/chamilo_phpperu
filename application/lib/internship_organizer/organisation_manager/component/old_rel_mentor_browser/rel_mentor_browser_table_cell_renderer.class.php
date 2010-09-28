@@ -3,7 +3,7 @@
 require_once dirname(__FILE__) . '/rel_mentor_browser_table_column_model.class.php';
 require_once dirname(__FILE__) . '/../../../tables/mentor_rel_location_table/default_mentor_rel_location_table_cell_renderer.class.php';
 
-class InternshipOrganizerMentorRelLocationBrowserTableCellRenderer extends DefaultInternshipOrganizerMentorRelLocationTableCellRenderer
+class oldInternshipOrganizerMentorRelLocationBrowserTableCellRenderer extends DefaultInternshipOrganizerMentorRelLocationTableCellRenderer
 {
     
     private $browser;

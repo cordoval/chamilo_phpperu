@@ -50,9 +50,22 @@ class InternshipOrganizerLocationBrowserTableCellRenderer extends DefaultInterns
     private function get_modification_links($location)
     {
         $toolbar = new Toolbar();
+        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_EDIT, $location->get_id(), InternshipOrganizerRights :: TYPE_LOCATION))
+        {
         $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_location_url($location), ToolbarItem :: DISPLAY_ICON));
+        }
+        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_DELETE, $location->get_id(), InternshipOrganizerRights :: TYPE_LOCATION))
+        {
         $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_location_url($location), ToolbarItem :: DISPLAY_ICON, true));
+        }
+        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, $location->get_id(), InternshipOrganizerRights :: TYPE_LOCATION))
+        {
         $toolbar->add_item(new ToolbarItem(Translation :: get('View'), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_view_location_url($location), ToolbarItem :: DISPLAY_ICON));
+        }
+    	if ($this->browser->get_user()->is_platform_admin() || $location->get_owner_id() == $this->browser->get_user_id())
+        {
+            $toolbar->add_item(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->browser->get_location_rights_editor_url($location), ToolbarItem :: DISPLAY_ICON));
+        }
         
         return $toolbar->as_html();
     }

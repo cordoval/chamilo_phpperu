@@ -5,6 +5,7 @@ require_once dirname(__FILE__) . '/../../../tables/mentor_table/default_mentor_t
 require_once dirname(__FILE__) . '/../../../mentor.class.php';
 //require_once dirname(__FILE__) . '/../../mentor_manager.class.php';
 
+
 class InternshipOrganizerMentorBrowserTableCellRenderer extends DefaultInternshipOrganizerMentorTableCellRenderer
 {
     
@@ -33,17 +34,23 @@ class InternshipOrganizerMentorBrowserTableCellRenderer extends DefaultInternshi
      * action links should be returned
      * @return string A HTML representation of the action links
      */
-    private function get_modification_links($mentor)
+    private function get_modification_links($mentor_rel_location)
     {
         
         $toolbar = new Toolbar();
-        
-        $user = $this->browser->get_user();
-        
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_mentor_url($mentor), ToolbarItem :: DISPLAY_ICON));
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_mentor_url($mentor), ToolbarItem :: DISPLAY_ICON, true));
-        $toolbar->add_item(new ToolbarItem(Translation :: get('View'), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_view_mentor_url($mentor), ToolbarItem :: DISPLAY_ICON));
-        
+              
+        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_EDIT, InternshipOrganizerRights :: LOCATION_ORGANISATION, InternshipOrganizerRights :: TYPE_COMPONENT))
+        {
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_mentor_url($mentor_rel_location), ToolbarItem :: DISPLAY_ICON));
+        }
+        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_DELETE, InternshipOrganizerRights :: LOCATION_ORGANISATION, InternshipOrganizerRights :: TYPE_COMPONENT))
+        {
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_mentor_url($mentor_rel_location), ToolbarItem :: DISPLAY_ICON, true));
+        }
+        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, InternshipOrganizerRights :: LOCATION_ORGANISATION, InternshipOrganizerRights :: TYPE_COMPONENT))
+        {
+            $toolbar->add_item(new ToolbarItem(Translation :: get('View'), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_view_mentor_url($mentor_rel_location), ToolbarItem :: DISPLAY_ICON));
+        }
         return $toolbar->as_html();
     }
 }

@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/rel_mentor_browser_table_data_provider.class.
 require_once dirname(__FILE__) . '/rel_mentor_browser_table_column_model.class.php';
 require_once dirname(__FILE__) . '/rel_mentor_browser_table_cell_renderer.class.php';
 
-class InternshipOrganizerMentorRelLocationBrowserTable extends ObjectTable
+class oldInternshipOrganizerMentorRelLocationBrowserTable extends ObjectTable
 {
     const DEFAULT_NAME = 'rel_mentor_browser_table';
 

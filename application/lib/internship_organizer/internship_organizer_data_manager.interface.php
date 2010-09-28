@@ -134,6 +134,11 @@ interface InternshipOrganizerDataManagerInterface
 
     function retrieve_agreement_rel_mentors($condition = null, $offset = null, $count = null, $order_property = null);
 
+    function count_agreement_rel_locations($conditions = null);
+
+    function retrieve_agreement_rel_locations($condition = null, $offset = null, $count = null, $order_property = null);
+    
+    
     //regions
     function delete_internship_organizer_region($region);
 

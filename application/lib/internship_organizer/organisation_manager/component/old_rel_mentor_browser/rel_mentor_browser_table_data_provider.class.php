@@ -1,6 +1,6 @@
 <?php
 
-class InternshipOrganizerMentorRelLocationBrowserTableDataProvider extends ObjectTableDataProvider
+class oldInternshipOrganizerMentorRelLocationBrowserTableDataProvider extends ObjectTableDataProvider
 {
     
     private $browser;

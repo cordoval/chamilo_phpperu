@@ -16,9 +16,9 @@ class InternshipOrganizerOrganisationManagerMentorViewerComponent extends Intern
     function run()
     {
         
-        $mentor_id = $_GET[self :: PARAM_MENTOR_ID];
+        $mentor_id = Request :: get(self :: PARAM_MENTOR_ID);
         $this->mentor = $this->retrieve_mentor($mentor_id);
- 
+        
         $this->action_bar = $this->get_action_bar();
         
         $this->display_header();
@@ -66,11 +66,11 @@ class InternshipOrganizerOrganisationManagerMentorViewerComponent extends Intern
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         $action_bar->set_search_url($this->get_url(array(self :: PARAM_MENTOR_ID => $this->mentor->get_id())));
         
-        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddLocations'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_subscribe_locations_url($this->mentor), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        
-        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddUsers'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_subscribe_mentor_users_url($this->mentor), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        
-        
+        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_ADD, InternshipOrganizerRights :: LOCATION_ORGANISATION, InternshipOrganizerRights :: TYPE_COMPONENT))
+        {
+            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddLocations'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_subscribe_locations_url($this->mentor), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddUsers'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_subscribe_mentor_users_url($this->mentor), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
         return $action_bar;
     }
 

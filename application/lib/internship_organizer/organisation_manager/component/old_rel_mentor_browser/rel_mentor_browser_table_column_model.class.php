@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__) . '/../../../tables/mentor_rel_location_table/default_mentor_rel_location_table_column_model.class.php';
 
-class InternshipOrganizerMentorRelLocationBrowserTableColumnModel extends DefaultInternshipOrganizerMentorRelLocationTableColumnModel
+class oldInternshipOrganizerMentorRelLocationBrowserTableColumnModel extends DefaultInternshipOrganizerMentorRelLocationTableColumnModel
 {
     /**
      * The tables modification column

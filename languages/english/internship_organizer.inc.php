@@ -496,6 +496,12 @@ $lang['internship_organizer']['ImportInternshipOrganizerOrganisation'] = 'Import
 $lang['internship_organizer']['InternshipOrganizerOrganisationManagerImporterComponent'] = 'Organisation Importer';
 
 
+//28-09-10
+
+$lang['internship_organizer']['InternshipOrganizerOrganisationManagerLocationRightsEditorComponent'] = 'Location Rights';
+$lang['internship_organizer']['MyOrganisations'] = 'My Organisations';
+$lang['internship_organizer']['Organisations'] = 'Organisations';
+
 
 
 ?>
