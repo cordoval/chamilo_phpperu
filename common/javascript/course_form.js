@@ -18,12 +18,12 @@ $(function ()
 		
 		var	course_id = $('.course_id').val();
 			course_param = '';
-			go = 'coursecreator';
+			go = 'course_creator';
 			
 		if(course_id!='')
 		{
 			course_param = '&course='+course_id+'&tool=course_settings';
-			go = 'courseviewer';
+			go = 'course_viewer';
 		}
 		
 		window.location.replace("run.php?go="+go+"&course_type="+course_type_id+course_param+"&application=weblcms");
@@ -45,7 +45,7 @@ $(function ()
 		$('.viewablecheckbox').viewableStyle();
 		$('.viewablecheckbox').setViewableStyle();
 		$(':reset').live('click', reset);
-		$('.course_type_selector').live('click',reload_form);
+		$('.course_type_selector').live('change',reload_form);
 	});
 
 });

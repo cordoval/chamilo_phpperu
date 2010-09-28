@@ -1,6 +1,6 @@
 $(function() {
 	
-	var $tabs = $('#survey_reporting_filter_tabs').tabs();
+	var $tabs = $('#' + element + '_tabs').tabs();
 	var selected = $tabs.tabs('option', 'selected');
 	
 	$(document).ready(function() {
