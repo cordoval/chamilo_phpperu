@@ -752,7 +752,7 @@ $lang['common']['Msn'] = 'Msn';
 $lang['common']['Yim'] = 'Yim';
 $lang['common']['Aim'] = 'Aim';
 $lang['common']['Icq'] = 'Icq';
-
+$lang['common']['TitleExists'] = 'Deze titel wordt al gebruikt';
 $lang['common']['Competences'] = 'Compententies';
 $lang['common']['Diplomas'] = 'Diploma';
 $lang['common']['Teaching'] = 'Onderwijs activiteiten';

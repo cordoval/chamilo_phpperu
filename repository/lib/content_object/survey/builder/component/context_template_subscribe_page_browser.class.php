@@ -15,21 +15,9 @@ class SurveyBuilderContextTemplateSubscribePageBrowserComponent extends SurveyBu
      */
     function run()
     {
-            	
-    	$trail = BreadcrumbTrail :: get_instance();
-       
-        $trail->add(new Breadcrumb($this->get_configure_context_url(), Translation :: get('BrowseContexts')));
-        
         $template_id = Request :: get(SurveyBuilder :: PARAM_TEMPLATE_ID);
         $this->template = SurveyContextDataManager::get_instance()->retrieve_survey_context_template($template_id);
-           
-        
-        $trail->add(new Breadcrumb($this->get_template_viewing_url($template_id), $this->template->get_name()));
-      
 
-        $trail->add(new Breadcrumb($this->get_template_suscribe_page_browser_url($template_id), Translation :: get('AddPages')));
-		
-        
         $this->ab = $this->get_action_bar();
         $output = $this->get_html();
 		
@@ -69,18 +57,21 @@ class SurveyBuilderContextTemplateSubscribePageBrowserComponent extends SurveyBu
         }
 		
        $survey = RepositoryDataManager::get_instance()->retrieve_content_object($this->get_root_content_object_id());
-     
-        
+    
         $pages = $survey->get_pages();
+       
         $survey_pages = array();
         foreach ($pages as $page) {
         	$survey_pages[] = $page->get_id();
         }
         
         $not_template_pages = array_diff($survey_pages, $template_pages);
-        
+           
         $conditions = array();
 
+        if(!count($not_template_pages)){
+        	$not_template_pages[] = 0;
+        }
         $conditions[] = new InCondition(SurveyPage :: PROPERTY_ID,$not_template_pages, SurveyPage::get_table_name());
        
         $query = $this->ab->get_query();

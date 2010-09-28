@@ -213,6 +213,7 @@ class CommonAutoloader
 					  'rss_icon_generator' => 'util/rss_icon_generator/rss_icon_generator.class.php',
 					  'external_repository_launcher' => 'launcher/external_repository/external_repository_launcher.class.php',
 					  'video_conferencing_launcher' => 'launcher/video_conferencing/video_conferencing_launcher.class.php',
+					  'repo_viewer_launcher' => 'launcher/repo_viewer/repo_viewer_launcher.class.php',
 					  'chamilo_test_suite' => 'test/chamilo_test_suite.class.php',
 					  'file_logger' => 'filesystem/file_logger.class.php',
 					  'timer' => 'datetime/timer.class.php'

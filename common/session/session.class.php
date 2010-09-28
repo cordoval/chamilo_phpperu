@@ -30,14 +30,14 @@ class Session
         session_start();
         if ($already_installed)
         {
-            if (empty($_SESSION['checkChamiloURL']))
+            /*if (empty($_SESSION['checkChamiloURL']))
             {
                 $_SESSION['checkChamiloURL'] = Path :: get(WEB_PATH);
             }
             elseif ($_SESSION['checkChamiloURL'] != Path :: get(WEB_PATH))
             {
                 self :: clear();
-            }
+            }*/
         }
     }
 

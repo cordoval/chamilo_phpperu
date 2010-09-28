@@ -18,6 +18,38 @@ class InternshipOrganizerLocation extends DataClass
     const PROPERTY_FAX = 'location_fax';
     const PROPERTY_EMAIL = 'location_email';
     const PROPERTY_DESCRIPTION = 'location_description';
+    const PROPERTY_OWNER_ID = 'location_owner_id';
+
+    public function create()
+    {
+        $succes = parent :: create();
+        if ($succes)
+        {
+            $parent_location = InternshipOrganizerRights :: get_internship_organizers_subtree_root_id();
+            $location = InternshipOrganizerRights :: create_location_in_internship_organizers_subtree($this->get_name(), $this->get_id(), $parent_location, InternshipOrganizerRights :: TYPE_LOCATION, true);
+            
+            $rights = InternshipOrganizerRights :: get_available_rights_for_locations();
+            foreach ($rights as $right)
+            {
+                RightsUtilities :: set_user_right_location_value($right, $this->get_owner_id(), $location->get_id(), 1);
+            }
+        }
+        return $succes;
+    }
+
+    public function delete()
+    {
+        $location = InternshipOrganizerRights :: get_location_by_identifier_from_internship_organizers_subtree($this->get_id(), InternshipOrganizerRights :: TYPE_LOCATION);
+        if ($location)
+        {
+            if (! $location->remove())
+            {
+                return false;
+            }
+        }
+        $succes = parent :: delete();
+        return $succes;
+    }
 
     /**
      * Get the default properties
@@ -25,7 +57,7 @@ class InternshipOrganizerLocation extends DataClass
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_ID, self :: PROPERTY_ORGANISATION_ID, self :: PROPERTY_NAME, self :: PROPERTY_ADDRESS, self :: PROPERTY_REGION_ID, self :: PROPERTY_TELEPHONE, self :: PROPERTY_FAX, self :: PROPERTY_EMAIL, self :: PROPERTY_DESCRIPTION);
+        return array(self :: PROPERTY_ID, self :: PROPERTY_ORGANISATION_ID, self :: PROPERTY_NAME, self :: PROPERTY_ADDRESS, self :: PROPERTY_REGION_ID, self :: PROPERTY_TELEPHONE, self :: PROPERTY_FAX, self :: PROPERTY_EMAIL, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_OWNER_ID);
     }
 
     function get_data_manager()
@@ -229,6 +261,24 @@ class InternshipOrganizerLocation extends DataClass
     function set_description($description)
     {
         $this->set_default_property(self :: PROPERTY_DESCRIPTION, $description);
+    }
+
+    /**
+     * Returns the owner of this InternshipOrganizerLocation.
+     * @return owner_id.
+     */
+    function get_owner_id()
+    {
+        return $this->get_default_property(self :: PROPERTY_OWNER_ID);
+    }
+
+    /**
+     * Sets the owner of this InternshipOrganizerLocation.
+     * @param owner_id
+     */
+    function set_owner_id($owner)
+    {
+        $this->set_default_property(self :: PROPERTY_OWNER_ID, $owner);
     }
 
     function get_organisation()

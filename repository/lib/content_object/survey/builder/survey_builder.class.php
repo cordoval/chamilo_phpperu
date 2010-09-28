@@ -23,6 +23,8 @@ class SurveyBuilder extends ComplexBuilder implements ComplexMenuSupport
     const ACTION_CHANGE_QUESTION_VISIBILITY = 'visibility_changer';
     const ACTION_CONFIGURE_QUESTION = 'configure_question';
     
+    const ACTION_SUBSCRIBE_CONTEXT_TEMPLATE = 'subscribe_context_template';
+    
     const PARAM_SURVEY_PAGE_ID = 'survey_page';
     const PARAM_SURVEY_ID = 'survey';
     const PARAM_TEMPLATE_ID = 'template_id';
@@ -36,8 +38,8 @@ class SurveyBuilder extends ComplexBuilder implements ComplexMenuSupport
     function SurveyBuilder($parent)
     {
         parent :: __construct($parent);
-          
-//        $this->parse_input_from_survey_table();
+        
+    //        $this->parse_input_from_survey_table();
     }
 
     function get_application_component_path()
@@ -61,6 +63,11 @@ class SurveyBuilder extends ComplexBuilder implements ComplexMenuSupport
         return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_CONFIGURE_PAGE, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id(), self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $selected_cloi, self :: PARAM_SURVEY_PAGE_ID => $selected_cloi->get_ref()));
     }
 
+    function get_add_context_url()
+    {
+        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_SUBSCRIBE_CONTEXT_TEMPLATE, self :: PARAM_SURVEY_ID => $this->get_root_content_object()->get_id()));
+    }
+
     function get_configure_context_url()
     {
         return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_BROWSE_CONTEXT, self :: PARAM_TEMPLATE_ID => $this->get_root_content_object()->get_context_template_id()));
@@ -78,7 +85,7 @@ class SurveyBuilder extends ComplexBuilder implements ComplexMenuSupport
 
     function get_template_suscribe_page_url($template_id, $page_id)
     {
-        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_SUBSCRIBE_PAGE_TO_TEMPLATE, self :: PARAM_TEMPLATE_ID => $template_id, self :: PARAM_SURVEY_PAGE_ID => $page_id));
+        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_SUBSCRIBE_PAGE_TO_TEMPLATE, self :: PARAM_TEMPLATE_REL_PAGE_ID => $template_id.'|'. $page_id));
     }
 
     function get_template_unsubscribing_page_url($template_rel_page)
@@ -101,68 +108,6 @@ class SurveyBuilder extends ComplexBuilder implements ComplexMenuSupport
     {
         return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_CONFIGURE_QUESTION, self :: PARAM_COMPLEX_QUESTION_ITEM => $complex_question_item->get_id()));
     }
-
-//    private function parse_input_from_survey_table()
-//    {
-//        $action = Request :: post('action');
-//        if (isset($action))
-//        {
-//            
-//            $template_rel_page = Request :: post(SurveyContextTemplateRelPageBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX);
-//            if (isset($template_rel_page))
-//            {
-//                $selected_ids = Request :: post(SurveyContextTemplateRelPageBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX);
-//            }
-//            $template_subscribe_page = Request :: post(SurveyContextTemplateSubscribePageBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX);
-//            
-//            if (isset($template_subscribe_page))
-//            {
-//                $selected_ids = Request :: post(SurveyContextTemplateSubscribePageBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX);
-//            }
-//            
-//            $template = Request :: post(SurveyContextTemplateBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX);
-//            if (isset($template))
-//            {
-//                $selected_ids = Request :: post(SurveyContextTemplateBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX);
-//            }
-//            
-//            if (empty($selected_ids))
-//            {
-//                $selected_ids = array();
-//            }
-//            elseif (! is_array($selected_ids))
-//            {
-//                $selected_ids = array($selected_ids);
-//            }
-//            
-//            switch ($action)
-//            {
-//                case self :: PARAM_UNSUBSCRIBE_SELECTED :
-//                    $this->set_action(self :: ACTION_UNSUBSCRIBE_PAGE_FROM_TEMPLATE);
-//                    Request :: set_get(self :: PARAM_TEMPLATE_REL_PAGE_ID, $selected_ids);
-//                    break;
-//                case self :: PARAM_SUBSCRIBE_SELECTED :
-//                    $this->set_action(self :: ACTION_SUBSCRIBE_PAGE_TO_TEMPLATE);
-//                    $location_ids = array();
-//                    
-//                    foreach ($selected_ids as $selected_id)
-//                    {
-//                        $ids = explode('|', $selected_id);
-//                        $page_ids[] = $ids[1];
-//                        $template_id = $ids[0];
-//                    }
-//                    
-//                    Request :: set_get(self :: PARAM_TEMPLATE_ID, $template_id);
-//                    Request :: set_get(self :: PARAM_SURVEY_PAGE_ID, $page_ids);
-//                    break;
-//                case self :: PARAM_TRUNCATE_SELECTED :
-//                    $this->set_action(self :: ACTION_TRUNCATE_TEMPLATE);
-//                    Request :: set_get(self :: PARAM_TEMPLATE_ID, $selected_ids);
-//                    break;
-//            }
-//        }
-//    
-//    }
 
     /**
      * Helper function for the SubManager class,

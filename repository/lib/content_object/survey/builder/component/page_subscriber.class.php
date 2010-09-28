@@ -13,6 +13,7 @@ class SurveyBuilderPageSubscriberComponent extends SurveyBuilder
 	{
 		
 		$ids = Request::get ( SurveyBuilder::PARAM_TEMPLATE_REL_PAGE_ID );
+			
 		$pages = Request::get ( SurveyBuilder::PARAM_SURVEY_PAGE_ID );
 		$survey_id = $this->get_root_content_object_id();
 			

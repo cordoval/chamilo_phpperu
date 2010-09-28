@@ -11,6 +11,15 @@ class InternshipOrganizerOrganisationManagerLocationCreatorComponent extends Int
      */
     function run()
     {
+        
+        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_ADD, InternshipOrganizerRights :: LOCATION_ORGANISATION, InternshipOrganizerRights :: TYPE_COMPONENT))
+        {
+            $this->display_header();
+            $this->display_error_message(Translation :: get('NotAllowed'));
+            $this->display_footer();
+            exit();
+        }
+        
         $organisation_id = $_GET[self :: PARAM_ORGANISATION_ID];
         
         $location = new InternshipOrganizerLocation();

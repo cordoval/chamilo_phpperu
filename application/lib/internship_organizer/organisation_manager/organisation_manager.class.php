@@ -18,6 +18,12 @@ class InternshipOrganizerOrganisationManager extends SubManager
     const PARAM_MENTOR_REL_LOCATION_ID = 'mentor_rel_location_id';
     const PARAM_MENTOR_REL_USER_ID = 'mentor_rel_user_id';
     
+    const PARAM_PUBLICATION_ID = 'publication_id';
+    
+    const PARAM_MESSAGE = 'message';
+    const PARAM_WARNING_MESSAGE = 'warning_message';
+    const PARAM_ERROR_MESSAGE = 'error_message';
+    
     const ACTION_CREATE_ORGANISATION = 'creator';
     const ACTION_BROWSE_ORGANISATION = 'browser';
     const ACTION_EDIT_ORGANISATION = 'editor';
@@ -28,6 +34,8 @@ class InternshipOrganizerOrganisationManager extends SubManager
     const ACTION_EDIT_LOCATION = 'location_editor';
     const ACTION_DELETE_LOCATION = 'location_deleter';
     const ACTION_VIEW_LOCATION = 'location_viewer';
+    const ACTION_PUBLISH_LOCATION = 'publisher';
+    const ACTION_EDIT_LOCATION_RIGHTS = 'location_rights_editor';
     
     const ACTION_CREATE_MENTOR = 'mentor_creator';
     const ACTION_EDIT_MENTOR = 'mentor_editor';
@@ -40,6 +48,12 @@ class InternshipOrganizerOrganisationManager extends SubManager
     
     const ACTION_SUBSCRIBE_USER = 'subscribe_user';
     const ACTION_UNSUBSCRIBE_USER = 'unsubscribe_user';
+    
+    const ACTION_VIEW_PUBLICATION = 'publication_viewer';
+    const ACTION_DELETE_PUBLICATION = 'publication_deleter';
+    const ACTION_EDIT_PUBLICATION_RIGHTS = 'publication_rights_editor';
+    
+    const ACTION_IMPORT_ORGANISATION = 'importer';
     
     const DEFAULT_ACTION = self :: ACTION_BROWSE_ORGANISATION;
 
@@ -161,14 +175,14 @@ class InternshipOrganizerOrganisationManager extends SubManager
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_MENTOR, self :: PARAM_ORGANISATION_ID => $organisation->get_id()));
     }
 
-    function get_update_mentor_url($mentor)
+    function get_update_mentor_url($mentor_rel_location)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_MENTOR, self :: PARAM_MENTOR_ID => $mentor->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_MENTOR, self :: PARAM_MENTOR_ID => $mentor_rel_location->get_mentor_id()));
     }
 
-    function get_delete_mentor_url($mentor)
+    function get_delete_mentor_url($mentor_rel_location)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_MENTOR, self :: PARAM_MENTOR_ID => $mentor->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_MENTOR, self :: PARAM_MENTOR_ID => $mentor_rel_location->get_mentor_id()));
     }
 
     function get_subscribe_locations_url($mentor)
@@ -181,9 +195,9 @@ class InternshipOrganizerOrganisationManager extends SubManager
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UNSUBSCRIBE_LOCATION, self :: PARAM_MENTOR_REL_LOCATION_ID => $mentor_rel_location->get_mentor_id() . '|' . $mentor_rel_location->get_location_id()));
     }
 
-    function get_view_mentor_url($mentor)
+    function get_view_mentor_url($mentor_rel_location)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_MENTOR, self :: PARAM_MENTOR_ID => $mentor->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_MENTOR, self :: PARAM_MENTOR_ID => $mentor_rel_location->get_mentor_id()));
     }
 
     function get_subscribe_mentor_users_url($mentor)
@@ -206,9 +220,39 @@ class InternshipOrganizerOrganisationManager extends SubManager
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UNSUBSCRIBE_USER, self :: PARAM_ORGANISATION_REL_USER_ID => $organisation_rel_user->get_organisation_id() . '|' . $organisation_rel_user->get_user_id()));
     }
 
-    private function set_organisation_action($action)
+    function get_organisation_publish_url($organisation_id)
     {
-        $this->set_parameter(self :: PARAM_ACTION, $action);
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_PUBLISH_LOCATION, self :: PARAM_ORGANISATION_ID => $organisation_id));
+    }
+
+    function get_location_publish_url($location_id)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_PUBLISH_LOCATION, self :: PARAM_LOCATION_ID => $location_id));
+    }
+
+    function get_view_publication_url($publication)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_PUBLICATION, self :: PARAM_PUBLICATION_ID => $publication->get_id()));
+    }
+
+    function get_delete_publication_url($publication)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_PUBLICATION, self :: PARAM_PUBLICATION_ID => $publication->get_id()));
+    }
+
+    function get_publication_rights_editor_url($publication)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_PUBLICATION_RIGHTS, self :: PARAM_PUBLICATION_ID => $publication->get_id()));
+    }
+
+    function get_organisation_importer_url()
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_IMPORT_ORGANISATION));
+    }
+
+    function get_location_rights_editor_url($location)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_LOCATION_RIGHTS, self :: PARAM_LOCATION_ID => $location->get_id()));
     }
 
     /**

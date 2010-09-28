@@ -13,5 +13,7 @@
 		<property name="location_fax" type="text" />
 		<property name="location_email" type="text" />
 		<property name="location_description" type="text" />
+		<property name="location_owner_id" type="integer" unsigned="1"
+			notnull="1" />
 	</properties>
 </object>

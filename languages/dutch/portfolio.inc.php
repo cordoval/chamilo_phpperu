@@ -105,7 +105,7 @@ $lang['portfolio']['Msn'] = 'Msn';
 $lang['portfolio']['Yim'] = 'Yim';
 $lang['portfolio']['Aim'] = 'Aim';
 $lang['portfolio']['Icq'] = 'Icq';
-
+$lang['portfolio']['PortfolioIntroductionChanged'] = 'De introductietekst werd aangepast';
 $lang['portfolio']['Competences'] = 'Compententies';
 $lang['portfolio']['Diplomas'] = 'Diploma';
 $lang['portfolio']['Teaching'] = 'Onderwijs activiteiten';

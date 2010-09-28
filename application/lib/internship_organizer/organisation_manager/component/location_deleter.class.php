@@ -25,9 +25,12 @@ class InternshipOrganizerOrganisationManagerLocationDeleterComponent extends Int
                 $location = $this->retrieve_location($id);
                 $organisation_id = $location->get_organisation_id();
                 
-                if (! $location->delete())
+                if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_DELETE, $id, InternshipOrganizerRights :: TYPE_LOCATION))
                 {
-                    $failures ++;
+                    if (! $location->delete())
+                    {
+                        $failures ++;
+                    }
                 }
             }
             

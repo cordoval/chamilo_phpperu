@@ -177,10 +177,6 @@ class PortfolioRights {
                 $rights[self::USER_RIGHTS] = $user_rights;
                 if(isset($user_rights))
                 {
-//                    while ($uright = $user_rights->next_result())
-//                    {
-//                          $rights[$uright->get_right_id()][self::USER_RIGHTS][]= $uright->get_user_id();
-//                    }
                     foreach ($user_rights as $uright)
                     {
                           $rights[$uright->get_right_id()][self::USER_RIGHTS][]= $uright->get_user_id();
@@ -191,27 +187,23 @@ class PortfolioRights {
                 $rights[self::GROUP_RIGHTS] = $group_rights;
                 if(isset($group_rights))
                 {
-//                    while ($gright = $group_rights->next_result())
-//                    {
-//                          $rights[$gright->get_right_id()][self::GROUP_RIGHTS][]= $gright->get_group_id();
-//                    }
                     foreach($group_rights as $gright)
                     {
                         $rights[$gright->get_right_id()][self::GROUP_RIGHTS][]= $gright->get_group_id();
                     }
                 }
                 //VIEW RIGHTS
-                if(in_array(self::ANONYMOUS_USERS_ID, $rights[self::VIEW_RIGHT][self::USER_RIGHTS]))
+                if(array_key_exists(self::USER_RIGHTS, $rights[self::VIEW_RIGHT]) && in_array(self::ANONYMOUS_USERS_ID, $rights[self::VIEW_RIGHT][self::USER_RIGHTS]))
                 {
                     $view_option = self::RADIO_OPTION_ANONYMOUS;
                     //right set for anonymous user (1) --> right set for everybody
                 }
-                else if(in_array(self::ALL_USERS_ID, $rights[self::VIEW_RIGHT][self::USER_RIGHTS]))
+                elseif(array_key_exists(self::USER_RIGHTS, $rights[self::VIEW_RIGHT]) && in_array(self::ALL_USERS_ID, $rights[self::VIEW_RIGHT][self::USER_RIGHTS]))
                 {
                     $view_option = self::RADIO_OPTION_ALLUSERS;
                     //right set for all users (0) --> right set for everybody logged in
                 }
-                else if((count($rights[self::VIEW_RIGHT][self::USER_RIGHTS]) >0) || (count($rights[PortfolioPublicationForm::RIGHT_VIEW][self::GROUP_RIGHTS]) >0))
+                elseif((array_key_exists(self::USER_RIGHTS, $rights[self::VIEW_RIGHT]) && (count($rights[self::VIEW_RIGHT][self::USER_RIGHTS]) >0)) || (array_key_exists(self::GROUP_RIGHTS, $rights[self::VIEW_RIGHT]) &&(count($rights[self::VIEW_RIGHT][self::GROUP_RIGHTS]) >0)))
                 {
                     $view_option = self::RADIO_OPTION_GROUPS_USERS;
                     //right set for groups or users
@@ -222,17 +214,17 @@ class PortfolioRights {
                     //no rights set --> right set for owner but nobody else
                 }
                 //EDIT RIGHTS
-                if(in_array(self::ANONYMOUS_USERS_ID, $rights[self::EDIT_RIGHT][self::USER_RIGHTS]))
+                if(array_key_exists(self::USER_RIGHTS, $rights[self::EDIT_RIGHT]) && in_array(self::ANONYMOUS_USERS_ID, $rights[self::EDIT_RIGHT][self::USER_RIGHTS]))
                 {
                     $edit_option = self::RADIO_OPTION_ANONYMOUS;
                     //right set for anonymous user --> right set for everybody
                 }
-                else if (in_array(self::ALL_USERS_ID, $rights[self::EDIT_RIGHT][self::USER_RIGHTS]))
+                elseif (array_key_exists(self::USER_RIGHTS, $rights[self::EDIT_RIGHT]) && in_array(self::ALL_USERS_ID, $rights[self::EDIT_RIGHT][self::USER_RIGHTS]))
                 {
                     $edit_option = self::RADIO_OPTION_ALLUSERS;
                     //right set for all users (0) --> right set for everybody logged in
                 }
-                else if((count($rights[self::EDIT_RIGHT][self::USER_RIGHTS]) >0) || (count($rights[PortfolioPublicationForm::RIGHT_VIEW][self::GROUP_RIGHTS]) >0))
+                elseif((array_key_exists(self::USER_RIGHTS, $rights[self::EDIT_RIGHT]) && count($rights[self::EDIT_RIGHT][self::USER_RIGHTS]) >0) || (array_key_exists(self::GROUP_RIGHTS, $rights[self::EDIT_RIGHT]) && count($rights[self::EDIT_RIGHT][self::GROUP_RIGHTS]) >0))
                 {
                     $edit_option = self::RADIO_OPTION_GROUPS_USERS;
                     //right set for groups or users
@@ -243,16 +235,16 @@ class PortfolioRights {
                     //no rights set --> right set for owner but nobody else
                 }
                 //FEEDBACK VIEW RIGHTS
-                if(in_array(self::ANONYMOUS_USERS_ID, $rights[self::VIEW_FEEDBACK_RIGHT][self::USER_RIGHTS]))
+                if(array_key_exists(self::USER_RIGHTS, $rights[self::VIEW_FEEDBACK_RIGHT]) && in_array(self::ANONYMOUS_USERS_ID, $rights[self::VIEW_FEEDBACK_RIGHT][self::USER_RIGHTS]))
                 {
                     $fbv_option = self::RADIO_OPTION_ANONYMOUS;
                 }
-                else if (in_array(self::ALL_USERS_ID, $rights[self::VIEW_FEEDBACK_RIGHT][self::USER_RIGHTS]))
+                elseif (array_key_exists(self::USER_RIGHTS, $rights[self::VIEW_FEEDBACK_RIGHT]) && in_array(self::ALL_USERS_ID, $rights[self::VIEW_FEEDBACK_RIGHT][self::USER_RIGHTS]))
                 {
                     $fbv_option = self::RADIO_OPTION_ALLUSERS;
                     //right set for all users (0) --> right set for everybody logged in
                 }
-                else if((count($rights[self::VIEW_FEEDBACK_RIGHT][self::USER_RIGHTS]) >0) || (count($rights[PortfolioPublicationForm::RIGHT_VIEW_FEEDBACK][self::GROUP_RIGHTS]) >0))
+                elseif((array_key_exists(self::USER_RIGHTS, $rights[self::VIEW_FEEDBACK_RIGHT]) && count($rights[self::VIEW_FEEDBACK_RIGHT][self::USER_RIGHTS]) >0) || (array_key_exists(self::GROUP_RIGHTS, $rights[self::VIEW_FEEDBACK_RIGHT]) && count($rights[self::VIEW_FEEDBACK_RIGHT][self::GROUP_RIGHTS]) >0))
                 {
                     $fbv_option = self::RADIO_OPTION_GROUPS_USERS;
                 }
@@ -263,16 +255,16 @@ class PortfolioRights {
                 }
                 //FEEDBACK GIVE RIGHTS
                 $nr_fbg = count($rights[self::GIVE_FEEDBACK_RIGHT][self::USER_RIGHTS]);
-                if(in_array(self::ANONYMOUS_USERS_ID, $rights[self::GIVE_FEEDBACK_RIGHT][self::USER_RIGHTS]))
+                if(array_key_exists(self::USER_RIGHTS, $rights[self::GIVE_FEEDBACK_RIGHT]) && in_array(self::ANONYMOUS_USERS_ID, $rights[self::GIVE_FEEDBACK_RIGHT][self::USER_RIGHTS]))
                 {
                     $fbg_option = self::RADIO_OPTION_ANONYMOUS;
                 }
-                else if (in_array(self::ALL_USERS_ID, $rights[self::GIVE_FEEDBACK_RIGHT][self::USER_RIGHTS]))
+                elseif (array_key_exists(self::USER_RIGHTS, $rights[self::GIVE_FEEDBACK_RIGHT]) && in_array(self::ALL_USERS_ID, $rights[self::GIVE_FEEDBACK_RIGHT][self::USER_RIGHTS]))
                 {
                     $fbg_option = self::RADIO_OPTION_ALLUSERS;
                     //right set for all users (0) --> right set for everybody logged in
                 }
-                else if(($nr_fbg >0) || (count($rights[PortfolioPublicationForm::RIGHT_GIVE_FEEDBACK][self::GROUP_RIGHTS]) >0))
+                elseif((array_key_exists(self::USER_RIGHTS, $rights[self::GIVE_FEEDBACK_RIGHT]) && count($rights[self::GIVE_FEEDBACK_RIGHT][self::USER_RIGHTS]) >0) || (array_key_exists(self::GROUP_RIGHTS, $rights[self::GIVE_FEEDBACK_RIGHT]) && count($rights[self::GIVE_FEEDBACK_RIGHT][self::GROUP_RIGHTS]) >0))
                 {
                     $fbg_option = self::RADIO_OPTION_GROUPS_USERS;
                 }
@@ -303,7 +295,7 @@ class PortfolioRights {
     */
     static function implement_update_rights($values, $location)
     {
-        //for the moment updating the rights is the same as implementing them as old rights are deleted
+        //for the moment updating the rights is the same as implementing them as old rights are deleted to avoid mistakes
         return self::implement_rights($values, $location);
     }
 
@@ -407,8 +399,7 @@ class PortfolioRights {
                 if(($values[PortfolioPublicationForm::INHERIT_OR_SET.'_option'] == self::RADIO_OPTION_DEFAULT)||($values[PortfolioPublicationForm::INHERIT_OR_SET.'_option'] == self::RADIO_OPTION_INHERIT))
                 {
                     //if the selected option was "inherit or default", set the inherit flag of the location to "true"
-                     $location->set_inherit(true);
-                     //todo: delete the specific rights?
+                     $location->set_inherit(true);      
                 }
                 else
                 {
@@ -628,9 +619,6 @@ class PortfolioRights {
         {
                PortfolioManager::create_portfolio_system_settings_page($view_option, $edit_option, $fbv_option, $fbg_option);
         }
-
-
-
        return $success;
     }
 
@@ -762,7 +750,7 @@ class PortfolioRights {
             { //result1: NO --> user does not have all rights automatically
                 $location = self::get_portfolio_location($portfolio_identifier, $types, $owner_id);
                 if(is_object($location))
-                {//begin location
+                {
                     //CHECK2: LOCATION HAS LOCKED PARENT
                     $locked_parent = $location->get_locked_parent();
                     if(isset($locked_parent))
@@ -971,7 +959,6 @@ class PortfolioRights {
         if(!($nr_locations > 0))
         {
             //TODO: no locations found --> error or imported from repository????
-
             $location = false;
         }
         else if($nr_locations == 1)
@@ -980,8 +967,7 @@ class PortfolioRights {
         }
         else
         {
-            //TODO: more then one location found --> error
-
+            //TODO: more then one location found --> error message
             $location = false;
         }
         return $location;
@@ -1073,7 +1059,7 @@ class PortfolioRights {
             }
             else
             {
-                //TODO: differentiate between No root and more then one roots --> both are a problem!!!
+                //TODO: differentiate between No root and more then one roots --> both are a problem that should be fixed!!!
                 return false;
             }
         }
@@ -1155,10 +1141,7 @@ class PortfolioRights {
                
                 if($children_set)
                 {
-                    $location_id = $location->get_id();
-//                    $pdm = PortfolioDataManager::get_instance();
-//                    $success &= $pdm->create_locations_for_children($children_set, $parent_location_id, $publication->get_owner());
-                    while($complex_child = $children_set->next_result())
+                    $location_id = $location->get_id();while($complex_child = $children_set->next_result())
                     {
                         $object_id = PortfolioManager::get_co_id_from_complex_wrapper($complex_child->get_id(), $complex_child);
                         $rdm = RepositoryDataManager::get_instance();
@@ -1173,8 +1156,7 @@ class PortfolioRights {
                         {
                             $type = self::TYPE_PORTFOLIO_ITEM;
                             $children = false;
-                        }
-                        
+                        }                        
                            $success &= self::create_location($type, $complex_child->get_id(), true, $location_id, false, $user_id, false, $children);
                         
                         
@@ -1411,44 +1393,6 @@ class PortfolioRights {
                     $location = self::get_default_location();
                 }
             }
-
-//            while($inherits)
-//            {
-//                $parent = $location->get_parent();
-//                $pdm = PortfolioDataManager::get_instance();
-//
-//                $conditions = array();
-//                $conditions[] = new EqualityCondition(PortfolioLocation :: PROPERTY_TREE_IDENTIFIER, $user_id);
-//                $conditions[] = new EqualityCondition(PortfolioLocation :: PROPERTY_IDENTIFIER, $parent);
-//
-//                $typeconditions[] = new EqualityCondition(PortfolioLocation :: PROPERTY_TYPE, self::TYPE_PORTFOLIO_FOLDER);
-//                $typeconditions[] = new EqualityCondition(PortfolioLocation :: PROPERTY_TYPE, self::TYPE_PORTFOLIO_SUB_FOLDER);
-//                $typeconditions[] = new EqualityCondition(PortfolioLocation :: PROPERTY_TYPE, self::TYPE_ROOT);
-//                $conditions[] = new OrCondition($typeconditions);
-//
-//                $condition = new AndCondition($conditions);
-//                $location_set = self::retrieve_locations($condition, 0,1);
-//                $nr_locations = $location_set->size();
-//                    if(!($nr_locations > 0))
-//                    {
-//                        //TODO: no locations found --> error or imported from repository????
-//                        $inherits = "false";
-//                    }
-//                    else if($nr_locations == 1)
-//                    {
-//                        $location = $location_set->next_result();
-//                    }
-//                    else
-//                    {
-//                        //TODO: more then one location found --> problem LOOK AT CONTENT OBJECTS
-//                        $inherits = "false";
-//                    }
-//
-//                    $inherits = $location->get_inherit();
-//            }
-
-
-
                 $rights = self::get_rights_on_location($location->get_id());
 
                 $user_rights = $rights[self::USER_RIGHTS]->as_array();
@@ -1552,7 +1496,7 @@ class PortfolioRights {
                     //no rights set --> right set for owner but nobody else
                 }
             
-//            $rights[PortfolioPublicationForm::INHERIT_OR_SET]['option']= $inherits;
+
             $rights[PortfolioPublicationForm::RIGHT_EDIT]['option']= $edit_option;
             $rights[PortfolioPublicationForm::RIGHT_VIEW]['option']= $view_option;
             $rights[PortfolioPublicationForm::RIGHT_VIEW_FEEDBACK]['option']= $fbv_option;

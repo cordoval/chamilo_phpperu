@@ -21,10 +21,6 @@ class SurveyManagerParticipantBrowserComponent extends SurveyManager
         {
             $this->pid = Request :: post(SurveyManager :: PARAM_PUBLICATION_ID);
         }
-        //        $trail = BreadcrumbTrail :: get_instance();
-        //        //$trail->add(new Breadcrumb($this->get_browse_survey_publication_url(), Translation :: get('BrowseTestCaseSurveyPublications')));
-        //        //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseTestCaseSurveyParticipants')));
-        
 
         $this->action_bar = $this->get_action_bar();
         
@@ -40,15 +36,6 @@ class SurveyManagerParticipantBrowserComponent extends SurveyManager
         $this->display_footer();
     }
 
-    //    function get_table()
-    //    {
-    //        $parameters = $this->get_parameters();
-    //        $parameters[SurveyManager :: PARAM_PUBLICATION_ID] = $this->pid;
-    //       	$parameters[ActionBarSearchForm::PARAM_SIMPLE_SEARCH_QUERY] =  $this->action_bar->get_query();
-    //        $table = new SurveyParticipantBrowserTable($this, $parameters, $this->get_condition());
-    //        return $table->as_html();
-    //    }
-    
 
     function get_tables()
     {
@@ -126,10 +113,10 @@ class SurveyManagerParticipantBrowserComponent extends SurveyManager
     function get_invitee_condition()
     {
         
-        $survey_pub_id = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
+        $publication_id = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
         
         $invited_users = array();
-        $invited_users = SurveyRights :: get_allowed_users(SurveyRights :: RIGHT_VIEW, $survey_pub_id, SurveyRights :: TYPE_PUBLICATION);
+        $invited_users = SurveyRights :: get_allowed_users(SurveyRights :: RIGHT_PARTICIPATE, $publication_id, SurveyRights :: TYPE_PUBLICATION);
         
         $condition = null;
         if (count($invited_users) > 0)

@@ -15,25 +15,13 @@ class WeblcmsManagerCourseTypeViewerComponent extends WeblcmsManager
 
     function run()
     {
-
-        Header :: set_section('admin');
-
         $breadcrumbtrail = BreadcrumbTrail :: get_instance();
 
-        $id = $_GET[WeblcmsManager :: PARAM_COURSE_TYPE];
+        $id = Request :: get(WeblcmsManager :: PARAM_COURSE_TYPE);
         if ($id)
         {
             $this->course_type = $this->retrieve_course_type($id);
             $course_type = $this->course_type;
-
-            /* if (!WeblcmsRights :: is_allowed(WeblcmsRights :: VIEW_RIGHT, WeblcmsRights :: LOCATION_VIEWER, 1))
-              {
-              $this->display_header();
-              $this->display_error_message(Translation :: get('NotAllowed'));
-              $this->display_footer();
-              exit;
-              } */
-
 
 
             $this->display_header();
@@ -139,18 +127,16 @@ class WeblcmsManagerCourseTypeViewerComponent extends WeblcmsManager
     {
 
         if ($this->get_user()->is_platform_admin())
-            {
-                $breadcrumbtrail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-                $breadcrumbtrail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => WeblcmsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Courses')));
-                $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_BROWSER)), Translation :: get('CourseTypeList')));
-                $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE_TYPE, WeblcmsManager :: PARAM_COURSE_TYPE => $id)), $this->course_type->get_name()));
-            }
-            else
-            {
-                $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME)), Translation :: get('CourseType')));
-                $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_BROWSER)), Translation :: get('CourseTypeList')));
-                $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE_TYPE, WeblcmsManager :: PARAM_COURSE_TYPE => $id)), $this->course_type->get_name()));
-            }
+        {
+            $breadcrumbtrail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
+            $breadcrumbtrail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => WeblcmsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Courses')));
+            $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_BROWSER)), Translation :: get('CourseTypeList')));
+        }
+        else
+        {
+            $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME)), Translation :: get('CourseType')));
+            $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_BROWSER)), Translation :: get('CourseTypeList')));
+        }
     }
 
     function get_additional_parameters()

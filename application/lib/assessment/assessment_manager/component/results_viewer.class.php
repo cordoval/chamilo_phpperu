@@ -55,7 +55,9 @@ class AssessmentManagerResultsViewerComponent extends AssessmentManager
         
         if (! $pid)
         {
-            echo $this->display_summary_results();
+            $this->display_header();
+        	echo $this->display_summary_results();
+        	$this->display_footer();
         }
         else
         {

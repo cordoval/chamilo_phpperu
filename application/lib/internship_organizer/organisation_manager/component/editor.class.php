@@ -11,7 +11,15 @@ class InternshipOrganizerOrganisationManagerEditorComponent extends InternshipOr
      */
     function run()
     {
-      
+        
+        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_EDIT, InternshipOrganizerRights :: LOCATION_ORGANISATION, InternshipOrganizerRights :: TYPE_COMPONENT))
+        {
+            $this->display_header();
+            $this->display_error_message(Translation :: get('NotAllowed'));
+            $this->display_footer();
+            exit();
+        }
+        
         $organisation = $this->retrieve_organisation(Request :: get(self :: PARAM_ORGANISATION_ID));
         $form = new InternshipOrganizerOrganisationForm(InternshipOrganizerOrganisationForm :: TYPE_EDIT, $organisation, $this->get_url(array(self :: PARAM_ORGANISATION_ID => $organisation->get_id())), $this->get_user());
         

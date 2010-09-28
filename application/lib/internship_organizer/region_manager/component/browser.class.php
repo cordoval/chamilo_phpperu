@@ -176,7 +176,12 @@ class InternshipOrganizerRegionManagerBrowserComponent extends InternshipOrganiz
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateInternshipOrganizerRegion'), Theme :: get_common_image_path() . 'action_create.png', $this->get_region_create_url($this->get_region()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
-       
+        
+        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_IMPORT, InternshipOrganizerRights :: LOCATION_REGION, InternshipOrganizerRights :: TYPE_COMPONENT))
+        {
+            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ImportInternshipOrganizerRegion'), Theme :: get_common_image_path() . 'action_import.png', $this->get_region_importer_url($this->get_region()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
+        
         return $action_bar;
     }
 }

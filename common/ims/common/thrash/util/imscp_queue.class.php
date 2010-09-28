@@ -38,11 +38,10 @@ class ImscpQueue
 	    $this->todo = array();
 	    $this->done = array();
     }
-*/
     
 }
 
-
+*/
 
 
 

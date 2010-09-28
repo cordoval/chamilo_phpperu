@@ -94,6 +94,7 @@ class WeblcmsManagerSorterComponent extends WeblcmsManager
         {
         	$course_type_user_category_rel_course = new CourseTypeUserCategoryRelCourse();
         	$course_type_user_category_rel_course->set_course_id($course_id);
+        	$course_type_user_category_rel_course->set_user_id($this->get_user_id());
         }
         else
         {

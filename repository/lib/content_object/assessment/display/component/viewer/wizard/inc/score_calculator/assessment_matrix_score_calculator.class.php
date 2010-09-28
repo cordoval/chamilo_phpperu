@@ -38,14 +38,17 @@ class AssessmentMatrixScoreCalculator extends ScoreCalculator
                 if ($matches == null)
                     $matches = array();
 
-                $difference = array_diff($answers, $matches);
-                if (count($difference) == 0)
+                $difference_answers = array_diff($answers, $matches);
+                $difference_matches = array_diff($matches, $answers);
+       
+                if (count($difference_answers) == 0 && count($difference_matches) == 0)
                 {
                     $score += $option->get_score();
                 }
-
+                
                 $total_weight += $option->get_score();
             }
+            
         }
 
         return $this->make_score_relative($score, $total_weight);

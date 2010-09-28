@@ -26,6 +26,8 @@ class DefaultSurveyContextTableColumnModel extends ObjectTableColumnModel
 		$survey_context = SurveyContext :: factory($this->survey_context_type);
         $property_names = $survey_context->get_additional_property_names();
 		
+       	$columns[] = new ObjectTableColumn(SurveyContext :: PROPERTY_NAME, false, null, false);
+        
         foreach ($property_names as $property_name)
         {
             $columns[] = new ObjectTableColumn($property_name, true, null, false);

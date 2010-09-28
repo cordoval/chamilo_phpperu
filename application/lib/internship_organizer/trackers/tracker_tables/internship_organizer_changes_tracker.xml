@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="internship_organizer_changes_tracker">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1"
+			autoincrement="true" />
+		<property name="user_id" type="integer" unsigned="1" notnull="1" />
+		<property name="object_id" type="integer"
+			unsigned="1" notnull="1" />
+		<property name="object_type" type="integer"
+			unsigned="1" notnull="1" />	
+		<property name="created" type="integer" unsigned="1" notnull="1" />
+		<property name="event_type" type="text" length="6" notnull="1"
+			default="" />
+	</properties>
+	<index name="object_id">
+		<indexproperty name="object_id" />
+	</index>
+	<index name="user_id">
+		<indexproperty name="user_id" />
+	</index>
+</object>

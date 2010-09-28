@@ -15,11 +15,11 @@ class SurveyContentObjectInstaller extends ContentObjectInstaller
     function install_extra()
     {
     	$survey_context_template = new SurveyContextTemplate();
-    	$survey_context_template->set_name('Default');
-    	$survey_context_template->set_description('Default');
-    	$survey_context_template->set_context_type('survey_default_context');
-    	$survey_context_template->set_context_type_name('Default');
-    	$survey_context_template->set_key('NOCONTEXT');
+    	$survey_context_template->set_name('ROOTTEMPLATA');
+    	$survey_context_template->set_description('DONOTDELETE');
+    	$survey_context_template->set_context_type('NONCONTEXT');
+    	$survey_context_template->set_context_type_name('NONAME');
+    	$survey_context_template->set_key('NOKEY');
     	$survey_context_template->set_parent_id(0);
     	if ($survey_context_template->create())
     	{
@@ -31,20 +31,7 @@ class SurveyContentObjectInstaller extends ContentObjectInstaller
     		$this->add_message(Installer::TYPE_ERROR, Translation :: get('DefaultSurveyContextTemplateFailed'));
     		return false;
     	}
-     
-//    	$dir = dirname(__FILE__) . '/../context';
-//        $files = Filesystem :: get_directory_content($dir, Filesystem :: LIST_FILES);
-//        
-//        foreach ($files as $file)
-//        {
-//            if ((substr($file, - 3) == 'xml'))
-//            {
-//                if (! $this->create_storage_unit($file))
-//                {
-//                    return false;
-//                }
-//            }
-//        }
+
     }
 }
 ?>

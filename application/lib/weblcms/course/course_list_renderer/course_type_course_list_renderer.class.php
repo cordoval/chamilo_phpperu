@@ -25,7 +25,7 @@ class CourseTypeCourseListRenderer extends CourseListRenderer
 	 */
 	function retrieve_courses()
 	{
-		$courses = WeblcmsDataManager :: get_instance()->retrieve_all_courses_with_course_categories($this->get_retrieve_courses_condition());
+		$courses = WeblcmsDataManager :: get_instance()->retrieve_all_courses_with_course_categories($this->get_retrieve_courses_condition(), $this->get_parent()->get_user_id());
     	return $this->parse_courses($courses);
 	}
 	
@@ -34,6 +34,8 @@ class CourseTypeCourseListRenderer extends CourseListRenderer
 	 */
 	function get_retrieve_courses_condition()
 	{
+		$conditions = array();
+		
 		$access_conditions = array();
     	$access_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_parent()->get_user_id(), CourseUserRelation :: get_table_name());
     	$access_conditions[] = new InCondition(CourseGroupRelation :: PROPERTY_GROUP_ID, $this->get_parent()->get_user()->get_groups(true), CourseGroupRelation :: get_table_name());

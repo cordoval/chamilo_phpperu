@@ -20,7 +20,11 @@ class InternshipOrganizerCategoryManager extends SubManager
     const PARAM_CATEGORY_ID = 'category_id';
     const PARAM_CATEGORY_REL_LOCATION_ID = 'category_rel_location_id';
     const PARAM_LOCATION_ID = 'location_id';
-       
+    
+    const PARAM_MESSAGE = 'message';
+    const PARAM_WARNING_MESSAGE = 'warning_message';
+    const PARAM_ERROR_MESSAGE = 'error_message';
+    
     const ACTION_CREATE_CATEGORY = 'creator';
     const ACTION_BROWSE_CATEGORIES = 'browser';
     const ACTION_EDIT_CATEGORY = 'editor';
@@ -30,6 +34,7 @@ class InternshipOrganizerCategoryManager extends SubManager
     const ACTION_SUBSCRIBE_LOCATION_TO_CATEGORY = 'subscriber';
     const ACTION_SUBSCRIBE_LOCATION_BROWSER = 'subscribe_location_browser';
     const ACTION_UNSUBSCRIBE_LOCATION_FROM_CATEGORY = 'unsubscriber';
+    const ACTION_IMPORT_CATEGORY = 'importer';
     
     const DEFAULT_ACTION = self :: ACTION_BROWSE_CATEGORIES;
 
@@ -141,11 +146,11 @@ class InternshipOrganizerCategoryManager extends SubManager
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MOVE_CATEGORY, self :: PARAM_CATEGORY_ID => $category->get_id()));
     }
 
-    private function set_category_action($action)
+    function get_category_importer_url($category_id)
     {
-        $this->set_parameter(self :: PARAM_ACTION, $action);
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_IMPORT_CATEGORY, self :: PARAM_CATEGORY_ID => $category_id));
     }
-
+  
     /**
      * Helper function for the SubManager class,
      * pending access to class constants via variables in PHP 5.3

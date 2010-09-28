@@ -449,7 +449,8 @@ class PortfolioManager extends WebApplication
     static function get_portfolio_system_settings_page()
     {
         //TODO: support for multiple languates
-        return Configuration :: get_instance()->get_parameter('general', 'root_web') . self :: SYSTEM_SETTINGS_INFO_FILE_LOCATION . Translation :: get_instance()->get_language() . '_' . self :: SYSTEM_SETTINGS_INFO_FILE_NAME;
+        //return Configuration :: get_instance()->get_parameter('general', 'root_web') . self :: SYSTEM_SETTINGS_INFO_FILE_LOCATION . Translation :: get_instance()->get_language() . '_' . self :: SYSTEM_SETTINGS_INFO_FILE_NAME;
+        return Path :: get(WEB_PATH) . self :: SYSTEM_SETTINGS_INFO_FILE_LOCATION . Translation :: get_instance()->get_language() . '_' . self :: SYSTEM_SETTINGS_INFO_FILE_NAME;
 
     }
 
@@ -548,7 +549,8 @@ class PortfolioManager extends WebApplication
     static function display_all_portfolio_settings_link()
     {
         //show settings for all user's portfolio
-        $link = Configuration :: get_instance()->get_parameter('general', 'root_web') . 'run.php?' . Application :: PARAM_APPLICATION . '=' . PortfolioManager :: APPLICATION_NAME . '&' . Application :: PARAM_ACTION . '=' . self :: ACTION_SHOW_PORTFOLIO_RIGHTS_OVERVIEW;
+        //$link = Configuration :: get_instance()->get_parameter('general', 'root_web') . 'run.php?' . Application :: PARAM_APPLICATION . '=' . PortfolioManager :: APPLICATION_NAME . '&' . Application :: PARAM_ACTION . '=' . self :: ACTION_SHOW_PORTFOLIO_RIGHTS_OVERVIEW;
+        $link = Path :: get(WEB_PATH) . 'run.php?' . Application :: PARAM_APPLICATION . '=' . PortfolioManager :: APPLICATION_NAME . '&' . Application :: PARAM_ACTION . '=' . self :: ACTION_SHOW_PORTFOLIO_RIGHTS_OVERVIEW;
 
         $html[] = '<div align="right">';
         $html[] = '<a class="help" target="about:blank" href="';

@@ -10,6 +10,7 @@ class CourseTypeUserCategoryRelCourse extends DataClass
 
     const PROPERTY_COURSE_TYPE_USER_CATEGORY_ID = 'course_type_user_category_id';
     const PROPERTY_COURSE_ID = 'course_id';
+    const PROPERTY_USER_ID = 'user_id';
     const PROPERTY_SORT = 'sort';
 
     /**
@@ -19,7 +20,7 @@ class CourseTypeUserCategoryRelCourse extends DataClass
     static function get_default_property_names()
     {
         return array(self :: PROPERTY_COURSE_TYPE_USER_CATEGORY_ID,
-        			 self :: PROPERTY_COURSE_ID,
+        			 self :: PROPERTY_COURSE_ID, self :: PROPERTY_USER_ID,
         			 self :: PROPERTY_SORT);
     }
 
@@ -41,6 +42,11 @@ class CourseTypeUserCategoryRelCourse extends DataClass
         return $this->get_default_property(self :: PROPERTY_COURSE_ID);
     }
     
+	function get_user_id()
+    {
+        return $this->get_default_property(self :: PROPERTY_USER_ID);
+    }
+    
     function get_sort()
     {
         return $this->get_default_property(self :: PROPERTY_SORT);
@@ -56,6 +62,11 @@ class CourseTypeUserCategoryRelCourse extends DataClass
         $this->set_default_property(self :: PROPERTY_COURSE_ID, $course_id);
     }
 
+	function set_user_id($user_id)
+    {
+        $this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
+    }
+    
     function set_sort($sort)
     {
         $this->set_default_property(self :: PROPERTY_SORT, $sort);

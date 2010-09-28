@@ -75,7 +75,27 @@ class Path
         switch ($path_type)
         {
             case WEB_PATH :
-                return self :: $path[$path_type] = Configuration :: get_instance()->get_parameter('general', 'root_web');
+            	$dir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'].'x'));
+				if ($dir !== '/')
+				{
+		 	        $dir .= '/';
+ 				}
+ 
+ 				//Temporary fix for things that are launched from the common folder
+ 				$possible_launchers = array('common', 'home');
+ 				foreach($possible_launchers as $possible_launcher)
+ 				{
+ 					if(strpos($dir, $possible_launcher . '/') !== false)
+ 					{
+ 						$dir = substr($dir, 0, strpos($dir, $possible_launcher . '/'));
+ 						break;
+ 					}
+ 				}
+ 				
+ 				$protocol = empty($_SERVER['HTTPS']) ? 'http://' : 'https://';
+ 				
+ 				return self :: $path[$path_type] = $protocol . $_SERVER['HTTP_HOST'] . $dir;
+                //return self :: $path[$path_type] = Configuration :: get_instance()->get_parameter('general', 'root_web');
             case SYS_PATH :
                 return self :: $path[$path_type] = realpath(dirname(__FILE__) . '/../../') . '/';
             case REL_PATH :

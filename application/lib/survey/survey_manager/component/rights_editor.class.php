@@ -47,6 +47,8 @@ class SurveyManagerRightsEditorComponent extends SurveyManager implements Delega
             }
         }
         
+        $user_ids = array_unique($user_ids);
+        
         $manager = new RightsEditorManager($this, $locations);
         
         if (count($user_ids) > 0)

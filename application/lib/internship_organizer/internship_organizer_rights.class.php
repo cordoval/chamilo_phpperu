@@ -14,22 +14,24 @@ class InternshipOrganizerRights
     const DELETE_RIGHT_NAME = 'delete';
     const RIGHT_PUBLISH = 5;
     const PUBLISH_RIGHT_NAME = 'publish';
-
+    const RIGHT_IMPORT = 6;
+    const IMPORT_RIGHT_NAME = 'import';
+    
     const ADD_AGREEMENT_RIGHT = 5;
     const ADD_AGREEMENT_NAME = 'add_agreement';
-
+    
     const SUBSCRIBE_CATEGORY_RIGHT = 7;
     const SUBSCRIBE_CATEGORY_NAME = 'subscribe_category';
-
+    
     const SUBSCRIBE_GROUP_RIGHT = 8;
     const SUBSCRIBE_GROUP_NAME = 'subscribe_group';
-
+    
     const SUBSCRIBE_USER_RIGHT = 9;
     const SUBSCRIBE_USER_NAME = 'subscribe_user';
-  
+    
     const SUBSCRIBE_AGREEMENT_USER_RIGHT = 10;
     const SUBSCRIBE_AGREEMENT_USER_NAME = 'subscribe_agreement_user';
-
+    
     const ADD_LOCATION_RIGHT = 11;
     const ADD_LOCATION_NAME = 'add_location';
     
@@ -41,7 +43,7 @@ class InternshipOrganizerRights
     
     const ADD_MOMENT_RIGHT = 14;
     const ADD_MOMENT_NAME = 'add_moment';
-       
+    
     const LOCATION_AGREEMENT = 1;
     const LOCATION_CATEGORY = 2;
     const LOCATION_ORGANISATION = 3;
@@ -49,6 +51,7 @@ class InternshipOrganizerRights
     const LOCATION_REGION = 5;
     const LOCATION_REPORTING = 6;
     const LOCATION_APPOINTMENT = 7;
+    const LOCATION_ADMINISTRATION = 8;
     
     const TREE_TYPE_INTERNSHIP_ORGANIZER = 0;
     
@@ -57,7 +60,17 @@ class InternshipOrganizerRights
     const TYPE_PERIOD = 3;
     const TYPE_AGREEMENT = 4;
     const TYPE_MOMENT = 5;
+    const TYPE_LOCATION = 6;
 
+    static function get_available_rights_for_components()
+    {
+        return array(self :: ADD_RIGHT_NAME => self ::RIGHT_ADD, self :: VIEW_RIGHT_NAME => self :: RIGHT_VIEW, self :: EDIT_RIGHT_NAME=> self :: RIGHT_EDIT, self :: DELETE_RIGHT_NAME => self :: RIGHT_DELETE, self :: IMPORT_RIGHT_NAME => self :: RIGHT_IMPORT);
+    }
+	
+    static function get_administration_locations(){
+    	return array(self :: LOCATION_PERIOD, self :: LOCATION_AGREEMENT, self :: LOCATION_APPOINTMENT, self :: LOCATION_REPORTING, self :: LOCATION_ORGANISATION, self :: LOCATION_CATEGORY, self :: LOCATION_REGION);
+    }
+    
     static function get_available_rights_for_publications()
     {
         return array(self :: VIEW_RIGHT_NAME => self :: RIGHT_VIEW, self :: DELETE_RIGHT_NAME => self :: RIGHT_DELETE);
@@ -74,6 +87,11 @@ class InternshipOrganizerRights
     }
 
     static function get_available_rights_for_moments()
+    {
+        return array(self :: PUBLISH_RIGHT_NAME => self :: RIGHT_PUBLISH, self :: VIEW_RIGHT_NAME => self :: RIGHT_VIEW, self :: EDIT_RIGHT_NAME => self :: RIGHT_EDIT, self :: DELETE_RIGHT_NAME => self :: RIGHT_DELETE);
+    }
+
+    static function get_available_rights_for_locations()
     {
         return array(self :: PUBLISH_RIGHT_NAME => self :: RIGHT_PUBLISH, self :: VIEW_RIGHT_NAME => self :: RIGHT_VIEW, self :: EDIT_RIGHT_NAME => self :: RIGHT_EDIT, self :: DELETE_RIGHT_NAME => self :: RIGHT_DELETE);
     }
@@ -102,6 +120,7 @@ class InternshipOrganizerRights
     {
         return RightsUtilities :: get_location_by_identifier(InternshipOrganizerManager :: APPLICATION_NAME, $type, $identifier, 0, self :: TREE_TYPE_INTERNSHIP_ORGANIZER);
     }
+
     static function is_allowed_in_internship_organizers_subtree($right, $identifier, $type, $user_id = null)
     {
         return RightsUtilities :: is_allowed($right, $identifier, $type, InternshipOrganizerManager :: APPLICATION_NAME, $user_id, 0, self :: TREE_TYPE_INTERNSHIP_ORGANIZER);

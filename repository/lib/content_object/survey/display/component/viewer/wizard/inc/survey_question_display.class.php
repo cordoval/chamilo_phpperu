@@ -178,30 +178,30 @@ abstract class SurveyQuestionDisplay
 
     function parse($value)
     {
-        $context = $this->survey->get_context_instance();
-        $explode = explode('$V{', $value);
-
-        $new_value = array();
-        foreach ($explode as $part)
-        {
-
-            $vars = explode('}', $part);
-
-            if (count($vars) == 1)
-            {
-                $new_value[] = $vars[0];
-            }
-            else
-            {
-                $var = $vars[0];
-
-                $replace = $context->get_additional_property($var);
-
-                $new_value[] = $replace . ' ' . $vars[1];
-            }
-
-        }
-        return implode(' ', $new_value);
+//        $context = $this->survey->get_context_instance();
+//        $explode = explode('$V{', $value);
+//
+//        $new_value = array();
+//        foreach ($explode as $part)
+//        {
+//
+//            $vars = explode('}', $part);
+//
+//            if (count($vars) == 1)
+//            {
+//                $new_value[] = $vars[0];
+//            }
+//            else
+//            {
+//                $var = $vars[0];
+//
+//                $replace = $context->get_additional_property($var);
+//
+//                $new_value[] = $replace . ' ' . $vars[1];
+//            }
+//
+//        }
+//        return implode(' ', $new_value);
     }
 
 }

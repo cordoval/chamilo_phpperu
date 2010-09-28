@@ -164,52 +164,8 @@ class SurveyContextTemplate extends NestedTreeNode
     {
         $this->get_data_manager()->update_survey_context_template($this);
     }
-    
-//    function get_pages($include_subtemplates = false, $recursive_subtemplates = false)
-//    {
-//        $dm = $this->get_data_manager();
-//        
-//        $categories = array();
-//        $categories[] = $this->get_id();
-//        
-//        if ($include_subcategories)
-//        {
-//            $subcategories = $dm->nested_tree_get_children($this, $recursive_subcategories);
-//            
-//            while ($subSurveyContextTemplate = $subcategories->next_result())
-//            {
-//                $categories[] = $subSurveyContextTemplate->get_id();
-//            }
-//        }
-//        
-//        $condition = new InCondition(InternshipOrganizerSurveyContextTemplateRelLocation :: PROPERTY_SurveyContextTemplate_ID, $categories);
-//        $SurveyContextTemplate_rel_locations = $dm->retrieve_SurveyContextTemplate_rel_locations($condition);
-//        $locations = array();
-//        
-//        while ($SurveyContextTemplate_rel_location = $SurveyContextTemplate_rel_locations->next_result())
-//        {
-//            $location_id = $SurveyContextTemplate_rel_location->get_location_id();
-//            if (! in_array($location_id, $locations))
-//            {
-//                $locations[] = $location_id;
-//            }
-//        }
-//        
-//        return $locations;
-//    }
-//
-//    function count_pages($include_subtemplates = false, $recursive_subtemplates = false)
-//    {
-//        $locations = $this->get_locations($include_subcategories, $recursive_subcategories);
-//        
-//        return count($locations);
-//    }
+ 
 
-
-//    function truncate()
-//    {
-//       return $this->get_data_manager()->truncate_survey_context_template($this);
-//    }
 }
 
 ?>

@@ -11,12 +11,16 @@ require_once Path :: get_application_path() . 'lib/internship_organizer/agreemen
 require_once Path :: get_application_path() . 'lib/internship_organizer/region_manager/region_manager.class.php';
 require_once Path :: get_application_path() . 'lib/internship_organizer/period_manager/period_manager.class.php';
 require_once Path :: get_application_path() . 'lib/internship_organizer/appointment_manager/appointment_manager.class.php';
+require_once Path :: get_application_path() . 'lib/internship_organizer/trackers/internship_organizer_changes_tracker.class.php';
+
 
 require_once Path :: get_application_path() . 'lib/internship_organizer/internship_organizer_rights.class.php';
 
 class InternshipOrganizerManager extends WebApplication
 {
     const APPLICATION_NAME = 'internship_organizer';
+    
+    const PARAM_COMPONENT_ID = 'component';
     
     const ACTION_ORGANISATION = 'organisation';
     const ACTION_AGREEMENT = 'agreement';
@@ -25,7 +29,7 @@ class InternshipOrganizerManager extends WebApplication
     const ACTION_REGION = 'region';
     const ACTION_PERIOD = 'period';
     const ACTION_APPOINTMENT = 'appointment';
-    
+    const ACTION_ADMINISTRATION = 'rights_editor';
     
     const DEFAULT_ACTION = self :: ACTION_APPLICATION_CHOOSER;
 
@@ -77,6 +81,12 @@ class InternshipOrganizerManager extends WebApplication
     function get_appointment_application_url()
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_APPOINTMENT));
+    
+    }
+
+    function get_administration_url($component_id)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_ADMINISTRATION, self :: PARAM_COMPONENT_ID => $component_id));
     
     }
 
