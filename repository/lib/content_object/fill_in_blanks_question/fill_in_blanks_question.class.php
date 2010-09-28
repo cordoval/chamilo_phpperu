@@ -139,16 +139,24 @@ class FillInBlanksQuestion extends ContentObject implements Versionable
      */
     public function is_correct($question_index, $answer)
     {
-        $max_question_weight = $this->get_question_maximum_weight($question_index);
+        $weight = $this->get_weight_from_answer($answer);
+    	$max_question_weight = $this->get_question_maximum_weight($question_index);
+    	
+        return $weight == $max_question_weight;
+    }
+    
+    public function get_weight_from_answer($question_index, $answer)
+    {
         $answers = $this->get_answers();
         foreach ($answers as $a)
         {
             if ($a->get_value() == $answer && $a->get_position() == $question_index)
             {
-                return $a->get_weight() == $max_question_weight;
+               	return $a->get_weight();
             }
         }
-        return false;
+        
+        return 0;
     }
 
     static function get_additional_property_names()
