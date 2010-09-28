@@ -87,7 +87,7 @@ class InternshipOrganizerOrganisationImportForm extends FormValidator
      */
     function setDefaults($defaults = array ())
     {
-        $defaults['type'] = $this->import_type;
+        $defaults['type'] = 'excel';
         parent :: setDefaults($defaults);
     }
 

@@ -102,7 +102,7 @@ class InternshipOrganizerCategoryImportForm extends FormValidator
     function setDefaults($defaults = array ())
     {
         $defaults[InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID] = $this->get_category_id();
-        $defaults['type'] = $this->import_type;
+        $defaults['type'] = 'excel';
         parent :: setDefaults($defaults);
     }
 
@@ -133,12 +133,6 @@ class InternshipOrganizerCategoryImportForm extends FormValidator
         {
             return false;
         }
-    }
-  
-
-    function get_path($path_type)
-    {
-        return Path :: get($path_type);
     }
 
     function get_category_id()
