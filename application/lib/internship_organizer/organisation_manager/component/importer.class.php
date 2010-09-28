@@ -10,7 +10,17 @@ class InternshipOrganizerOrganisationManagerImporterComponent extends Internship
      */
     function run()
     {
-        $import_form = new InternshipOrganizerOrganisationImportForm('import', 'post', $this->get_url(), $this->get_user());
+        
+    if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_IMPORT, InternshipOrganizerRights :: LOCATION_ORGANISATION, InternshipOrganizerRights :: TYPE_COMPONENT))
+        {
+            $this->display_header();
+            $this->display_error_message(Translation :: get('NotAllowed'));
+            $this->display_footer();
+            exit();
+        }
+    	
+    	
+    	$import_form = new InternshipOrganizerOrganisationImportForm('import', 'post', $this->get_url(), $this->get_user());
         
         if ($import_form->validate())
         {
