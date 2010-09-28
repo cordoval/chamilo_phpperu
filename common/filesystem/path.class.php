@@ -94,7 +94,7 @@ class Path
  				
  				$protocol = empty($_SERVER['HTTPS']) ? 'http://' : 'https://';
  				
- 				return self :: $path[$path_type] = $protocol . $_SERVER['SERVER_NAME'] . $dir;
+ 				return self :: $path[$path_type] = $protocol . $_SERVER['HTTP_HOST'] . $dir;
                 //return self :: $path[$path_type] = Configuration :: get_instance()->get_parameter('general', 'root_web');
             case SYS_PATH :
                 return self :: $path[$path_type] = realpath(dirname(__FILE__) . '/../../') . '/';
