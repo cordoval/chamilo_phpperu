@@ -501,6 +501,9 @@ $lang['internship_organizer']['InternshipOrganizerOrganisationManagerImporterCom
 $lang['internship_organizer']['InternshipOrganizerOrganisationManagerLocationRightsEditorComponent'] = 'Location Rights';
 $lang['internship_organizer']['MyOrganisations'] = 'My Organisations';
 $lang['internship_organizer']['Organisations'] = 'Organisations';
+$lang['internship_organizer']['AgreementBegin'] = 'Begin';
+$lang['internship_organizer']['AgreementEnd'] = 'End';
+$lang['internship_organizer']['AgreementStatus'] = 'Status';
 
 
 

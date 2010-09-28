@@ -37,7 +37,7 @@ class InternshipOrganizerAgreementManagerViewerComponent extends InternshipOrgan
         $agreement_id = $_GET[self :: PARAM_AGREEMENT_ID];
         
         $this->agreement = $this->retrieve_agreement($agreement_id);
-               
+        
         $this->action_bar = $this->get_action_bar();
         
         $this->display_header();
@@ -263,8 +263,11 @@ class InternshipOrganizerAgreementManagerViewerComponent extends InternshipOrgan
     {
         $conditions = array();
         $agreement_id = $this->agreement->get_id();
-        $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelLocation :: PROPERTY_AGREEMENT_ID, $agreement_id);
-        $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelLocation :: PROPERTY_LOCATION_TYPE, $location_type);
+        
+        $agreement_rel_location_alias = InternshipOrganizerDataManager :: get_instance()->get_alias(InternshipOrganizerAgreementRelLocation :: get_table_name());
+        
+        $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelLocation :: PROPERTY_AGREEMENT_ID, $agreement_id, $agreement_rel_location_alias, true);
+        $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelLocation :: PROPERTY_LOCATION_TYPE, $location_type, $agreement_rel_location_alias, true);
         
         //         $query = $this->action_bar->get_query();
         //        if (isset($query) && $query != '')
