@@ -30,9 +30,17 @@ class PBAPI_Methods_user extends PBAPI_Methods {
      *
      * @param array $params
      */
-    public function search($params = null) {
+    public function search($term = null, $params = null) {
         $this->core->_setParamList($params);
-        $this->core->_appendUri('/search');
+        if ($term)
+        {
+        	$this->core->_appendUri('/search/' . $term);
+        }
+        else 
+        {
+        	$this->core->_appendUri('/search');
+        }
+        
     }
     
     /**

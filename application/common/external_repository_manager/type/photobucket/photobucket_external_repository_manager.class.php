@@ -16,7 +16,7 @@ class PhotobucketExternalRepositoryManager extends ExternalRepositoryManager
     const PARAM_FEED_IDENTIFIER = 'identifier';
 
     const FEED_TYPE_GENERAL = 1;
-    const FEED_TYPE_MY_MEDIAS = 2;
+    const FEED_TYPE_MY_PHOTOS = 2;
 
     /**
      * @param Application $application
@@ -79,7 +79,7 @@ class PhotobucketExternalRepositoryManager extends ExternalRepositoryManager
 
         $my_photos = array();
         $my_photos['title'] = Translation :: get('MyMedias');
-        $my_photos['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_MY_MEDIAS), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
+        $my_photos['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_MY_PHOTOS), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
         $my_photos['class'] = 'user';
         $menu_items[] = $my_photos;
         

@@ -51,7 +51,6 @@ class PBAPI_Request_curl extends PBAPI_Request {
             $curl_opts[CURLOPT_POST] = 1;
             $curl_opts[CURLOPT_POSTFIELDS] = $params;
         }
-        
         $ch = curl_init($url);
         curl_setopt_array($ch, $curl_opts);
         $data = curl_exec($ch);

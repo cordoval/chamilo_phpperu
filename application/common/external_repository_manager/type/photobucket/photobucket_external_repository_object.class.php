@@ -1,16 +1,18 @@
 <?php
-require_once dirname(__FILE__) . '/../../general/streaming/streaming_media_external_repository_object.class.php';
+//require_once dirname(__FILE__) . '/../../general/streaming/streaming_media_external_repository_object.class.php';
 
 /**
  *
  * @author magali.gillard
  *
  */
-class PhotobucketExternalRepositoryObject extends StreamingMediaExternalRepositoryObject
+class PhotobucketExternalRepositoryObject extends ExternalRepositoryObject
 {
     const OBJECT_TYPE = 'photobucket';
 
     const PROPERTY_TAGS = 'tags'; 
+    const PROPERTY_URL = 'url';
+    const PROPERTY_THUMBNAIL = 'thumbnail';
 	    
 	function get_tags()
     {
@@ -34,7 +36,39 @@ class PhotobucketExternalRepositoryObject extends StreamingMediaExternalReposito
 
     static function get_object_type()
     {
-        return self :: OBJECT_TYPE;
+    	return self :: OBJECT_TYPE;
 	}
+	
+    /**
+     * @param $url the $url to set
+     */
+    public function set_url($url)
+    {
+        $this->set_default_property(self :: PROPERTY_URL, $url);
+    }
+    
+    /**
+     * @return the $url
+     */
+    public function get_url()
+    {
+        return $this->get_default_property(self :: PROPERTY_URL);
+    }
+    
+    /**
+     * @return the $thumbnail
+     */
+    public function get_thumbnail()
+    {
+        return $this->get_default_property(self :: PROPERTY_THUMBNAIL);
+    }
+
+    /**
+     * @param $thumbnail the $thumbnail to set
+     */
+    public function set_thumbnail($thumbnail)
+    {
+        $this->set_default_property(self :: PROPERTY_THUMBNAIL, $thumbnail);
+    }
 }
 ?>

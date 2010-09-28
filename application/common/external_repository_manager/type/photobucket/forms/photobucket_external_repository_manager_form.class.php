@@ -45,9 +45,9 @@ class PhotobucketExternalRepositoryManagerForm extends FormValidator
     {
         $this->external_repository_object = $external_repository_object;
         $this->addElement('hidden', ExternalRepositoryObject :: PROPERTY_ID);
-        $defaults[YoutubeExternalRepositoryObject :: PROPERTY_TITLE] = $external_repository_object->get_title();
-        $defaults[YoutubeExternalRepositoryObject :: PROPERTY_DESCRIPTION] = $external_repository_object->get_description();
-        $defaults[YoutubeExternalRepositoryObject :: PROPERTY_TAGS] = $this->get_tags();
+        $defaults[PhotobucketExternalRepositoryObject :: PROPERTY_TITLE] = $external_repository_object->get_title();
+        $defaults[PhotobucketExternalRepositoryObject :: PROPERTY_DESCRIPTION] = $external_repository_object->get_description();
+        $defaults[PhotobucketExternalRepositoryObject :: PROPERTY_TAGS] = $this->get_tags();
         parent :: setDefaults($defaults);
     }
 
@@ -60,20 +60,20 @@ class PhotobucketExternalRepositoryManagerForm extends FormValidator
 
     function build_basic_form()
     {
-        $this->addElement('text', YoutubeExternalRepositoryObject :: PROPERTY_TITLE, Translation :: get('Title'), array("size" => "50"));
-        $this->addRule(YoutubeExternalRepositoryObject :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addElement('text', PhotobucketExternalRepositoryObject :: PROPERTY_TITLE, Translation :: get('Title'), array("size" => "50"));
+        $this->addRule(PhotobucketExternalRepositoryObject :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
 
-        $this->addElement('textarea', YoutubeExternalRepositoryObject :: PROPERTY_TAGS, Translation :: get('Tags'), array("rows" => "2", "cols" => "80"));
-        $this->addRule(YoutubeExternalRepositoryObject :: PROPERTY_TAGS, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addElement('textarea', PhotobucketExternalRepositoryObject :: PROPERTY_TAGS, Translation :: get('Tags'), array("rows" => "2", "cols" => "80"));
+        $this->addRule(PhotobucketExternalRepositoryObject :: PROPERTY_TAGS, Translation :: get('ThisFieldIsRequired'), 'required');
 
-        $this->addElement('textarea', YoutubeExternalRepositoryObject :: PROPERTY_DESCRIPTION, Translation :: get('Description'), array("rows" => "7", "cols" => "80"));
+        $this->addElement('textarea', PhotobucketExternalRepositoryObject :: PROPERTY_DESCRIPTION, Translation :: get('Description'), array("rows" => "7", "cols" => "80"));
     }
 
     function build_editing_form()
     {
         $this->build_basic_form();
 
-        $this->addElement('hidden', YoutubeExternalRepositoryObject :: PROPERTY_ID);
+        $this->addElement('hidden', PhotobucketExternalRepositoryObject :: PROPERTY_ID);
 
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Edit'), array('class' => 'positive update'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));

@@ -1,9 +1,9 @@
 <?php
-require_once dirname(__FILE__) . '/../../general/streaming/streaming_media_external_repository_object_display.class.php';
+//require_once dirname(__FILE__) . '/../../general/streaming/external_repository_object_display.class.php';
 
-class PhotobucketExternalRepositoryObjectDisplay extends StreamingMediaExternalRepositoryObject
+class PhotobucketExternalRepositoryObjectDisplay extends ExternalRepositoryObjectDisplay
 {		
-    function get_display_properties()
+	function get_display_properties()
     {
         $properties = parent :: get_display_properties();
         $properties[Translation :: get('Tags')] = $this->get_object()->get_tags_string();
@@ -12,9 +12,13 @@ class PhotobucketExternalRepositoryObjectDisplay extends StreamingMediaExternalR
 
     function get_preview($is_thumbnail = false)
     {
+		
         $object = $this->get_object();
-        $html = array();
-        $html[] = '<<embed height="344" width="425" type="application/x-shockwave-flash" src="' . $object->get_thumbnail() . '"></embed>';
+        $size = ($is_thumbnail ? $object->get_thumbnail() : $object->get_url());
+        $class = ($is_thumbnail ? 'thumbnail' : 'with_border');
+    	
+    	$html = array();
+        $html[] = '<img class="' . $class . '" src="' . $size . '" />';
         return implode("\n", $html);
     }
 }
