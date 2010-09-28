@@ -70,6 +70,10 @@ class InternshipOrganizerPublicationTableCellRenderer extends DefaultInternshipO
         if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, $publication->get_id(), InternshipOrganizerRights :: TYPE_PUBLICATION))
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('View'), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_view_publication_url($publication), ToolbarItem :: DISPLAY_ICON));
+        	//test
+        	$toolbar->add_item(new ToolbarItem(Translation :: get('View'), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_take_evaluation_url($publication), ToolbarItem :: DISPLAY_ICON));
+            
+            
         }
         
         //edit of publication not implemented jet

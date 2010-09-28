@@ -7,6 +7,7 @@ class InternshipOrganizerPublicationPlace
     const AGREEMENT = 2;
     const MOMENT = 3;
     const LOCATION = 4;
+    
 
     static function get_user_type_names()
     {

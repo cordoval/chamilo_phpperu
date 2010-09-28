@@ -6,6 +6,7 @@
 		<property name="name" type="text" notnull="1" />
 		<property name="description" type="text" />
 		<property name="content_object_id" type="integer" notnull="1" />
+		<property name="content_object_type" type="text" notnull="1" />
 		<property name="from_date" type="integer" notnull="1" />
 		<property name="to_date" type="integer" notnull="1" />
 		<property name="publisher_id" type="integer" notnull="1" />
@@ -13,10 +14,13 @@
 		<property name="publication_type" type="integer" notnull="1" />
 		<property name="publication_place" type="integer" notnull="1" />
 		<property name="place_id" type="integer" notnull="1" />
-		
+
 	</properties>
 	<index name="content_object_id">
 		<indexproperty name="content_object_id" />
+	</index>
+	<index name="content_object_type">
+		<indexproperty name="content_object_type" />
 	</index>
 	<index name="publisher_id">
 		<indexproperty name="publisher_id" />
