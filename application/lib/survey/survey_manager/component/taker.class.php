@@ -7,31 +7,17 @@ require_once Path :: get_repository_path() . 'lib/content_object/survey/display/
 class SurveyManagerTakerComponent extends SurveyManager
 {
     private $survey_id;
+    private $publication_id;
     private $invitee_id;
 
     function run()
     {
         
-        $this->survey_id = Request :: get(SurveyManager :: PARAM_SURVEY_ID);
+        $this->survey_id = Request :: get(SurveyViewerWizard :: PARAM_SURVEY_ID);
         
-//        $this->set_parameter(SurveyManager :: PARAM_SURVEY_ID, $this->survey_id);
-        
-//        
-//        $this->publication_id = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
-//        
-//        $this->set_parameter(SurveyManager :: PARAM_PUBLICATION_ID, $this->publication_id);
-        
-//        $this->set_parameter(SurveyManager :: PARAM_PARTICIPANT_ID, Request :: get(SurveyManager :: PARAM_PARTICIPANT_ID));
-        
-        $this->invitee_id = Request :: get(SurveyManager :: PARAM_INVITEE_ID);
-        
-//        dump($this->invitee_id);
-        
-//        if (!$this->invitee_id)
-//        {
-//            $this->invitee_id = $this->get_user_id();
-//            $this->set_parameter(SurveyManager :: PARAM_INVITEE_ID, $this->invitee_id);
-//        }
+        $this->publication_id = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
+         
+        $this->invitee_id = Request :: get(SurveyViewerWizard :: PARAM_INVITEE_ID);
                
         if (! SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_PARTICIPATE, $this->publication_id, SurveyRights :: TYPE_PUBLICATION, $this->user_id))
         {
@@ -48,16 +34,11 @@ class SurveyManagerTakerComponent extends SurveyManager
 
     function get_additional_parameters()
     {
-        return array(SurveyViewerWizard :: PARAM_SURVEY_ID, SurveyViewerWizard :: PARAM_INVITEE_ID, SurveyViewerWizard :: PARAM_CONTEXT_ID, SurveyViewerWizard :: PARAM_CONTEXT_PATH, SurveyViewerWizard :: PARAM_CONTEXT_TEMPLATE_ID, SurveyViewerWizard :: PARAM_TEMPLATE_ID);
+        return array(self :: PARAM_PUBLICATION_ID, SurveyViewerWizard :: PARAM_SURVEY_ID, SurveyViewerWizard :: PARAM_INVITEE_ID, SurveyViewerWizard :: PARAM_CONTEXT_PATH);
     }
 
     //try out for interface SurveyTaker
-    
 
-    function get_invitee_id()
-    {
-        return $this->invitee_id;
-    }
 
     function started($survey_id)
     {

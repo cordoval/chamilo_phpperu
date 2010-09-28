@@ -14,17 +14,21 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
 {
     
     const PARAM_SURVEY_ID = 'survey_id';
+    const PARAM_PUBLICATION_ID = 'publication_id';
     const PARAM_CONTEXT_TEMPLATE_ID = 'context_template_id';
     const PARAM_TEMPLATE_ID = 'template_id';
     const PARAM_CONTEXT_ID = 'context_id';
     const PARAM_INVITEE_ID = 'invitee_id';
     const PARAM_CONTEXT_PATH = 'path';
     
-    const PARAM_CURRENT_PAGE = 'current_page';
+//    const PARAM_CURRENT_PAGE = 'current_page';
     
     private $parent;
     private $survey;
     private $context_template_id;
+    
+    private $context_path;
+    
     
     private $invitee_id;
     
@@ -49,40 +53,33 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
         parent :: HTML_QuickForm_Controller('SurveyViewerWizard_' . $survey__id, true);
         
         $this->invitee_id = Request :: get(self :: PARAM_INVITEE_ID);
-        $this->get_parent()->set_parameter(self :: PARAM_INVITEE_ID, $this->invitee_id);
         
         $this->survey = RepositoryDataManager :: get_instance()->retrieve_content_object($survey__id);
         
         if ($this->survey->has_context())
         {
-            $this->context_template_id = Request :: get(self :: PARAM_CONTEXT_TEMPLATE_ID);
-            if (! $this->context_template_id)
+            $this->context_path = Request :: get(self :: PARAM_CONTEXT_PATH);
+            if (!$this->context_path)
             {
-                $context_template = $this->survey->get_context_template();
+                $context_template = $this->survey->get_context_template(1);
                 $this->context_template_id = $context_template->get_id();
                 
                 $this->parent->started_context($this->survey, $context_template, $context_id);
+            }else{
+            	$path = explode('_', $this->context_path);
+            	$level = count($path);
+            	$context_template = $this->survey->get_context_template($level);
+            	
             }
-        }
-        else
-        {
-            $this->parent->started($this->survey);
-        }
-        
-        if ($this->survey->has_context())
-        {
             $this->add_context_pages();
+        }else{
+        	 $this->add_pages();
         }
-        else
-        {
-            $this->add_pages();
-        }
-        
+                  
         $this->addAction('next', new SurveyViewerWizardNext($this));
         $this->addAction('process', new SurveyViewerWizardProcess($this));
         $this->addAction('display', new SurveyViewerWizardDisplay($this));
         
-    //        dump($this->get_parent()->get_parameters());
     }
 
     function add_pages()
@@ -158,11 +155,13 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
     function add_context_pages()
     {
         
-//        $this->create_page_matrix();
+        $this->create_page_matrix();
       
+        dump($this->get_context_pages());
         
+    exit;    
         $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_SURVEY_ID, $this->survey->get_id());
-    	 $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_TEMPLATE_ID, $this->context_template_id);
+    	$conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_TEMPLATE_ID, $this->context_template_id);
         $condition = new AndCondition($conditions);
         
         $template_rel_pages = SurveyContextDataManager :: get_instance()->retrieve_template_rel_pages($condition);
@@ -172,7 +171,7 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
             $pages_ids[] = $template_rel_page->get_page_id();
         }
         
-        dump($pages_ids);
+//        dump($pages_ids);
         
         $complex_survey_page_items = $this->survey->get_pages(true);
         $page_nr = 0;
@@ -311,12 +310,6 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
         return $count;
     }
 
-    //    function get_invitee_id()
-    //    {
-    //        $this->parent->get_invitee_id();
-    //    }
-    
-
     function save_answer($complex_question_id, $answer)
     {
         $this->parent->save_answer($complex_question_id, $answer);
@@ -361,19 +354,20 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
     private function create_page_matrix()
     {
         
-        $root_context_template_id = $this->survey->get_context_template_id();
-        $context_template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($root_context_template_id);
+        $context_template = $this->survey->get_context_template(1);
+      
+//        $context_template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($root_context_template_id);
         
-        $level = 1;
-        $this->level_matrix[$level] = $context_template->get_id();
-        $context_template_children = $context_template->get_children(true);
-        while ($child_template = $context_template_children->next_result())
-        {
-            $level ++;
-            $this->level_matrix[$level] = $child_template->get_id();
-        }
-        
-        dump($this->level_matrix);
+//        $level = 1;
+//        $this->level_matrix[$level] = $context_template->get_id();
+//        $context_template_children = $context_template->get_children(true);
+//        while ($child_template = $context_template_children->next_result())
+//        {
+//            $level ++;
+//            $this->level_matrix[$level] = $child_template->get_id();
+//        }
+//        
+//        dump($this->level_matrix);
         
         $condition = new EqualityCondition(SurveyTemplate :: PROPERTY_USER_ID, $this->invitee_id, SurveyTemplate :: get_table_name());
         $templates = SurveyContextDataManager :: get_instance()->retrieve_survey_templates($context_template->get_type(), $condition);
@@ -391,13 +385,13 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
                 
                 $conditions = array();
             	$conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_SURVEY_ID, $this->survey->get_id());
-                $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_TEMPLATE_ID, $this->level_matrix[$level]);
+                $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_TEMPLATE_ID, $this->survey->get_context_template($level)->get_id($level));
                 $condition = new AndCondition($conditions);
                 $template_rel_pages = SurveyContextDataManager :: get_instance()->retrieve_template_rel_pages($condition);
                 $pages_ids = array();
                 while ($template_rel_page = $template_rel_pages->next_result())
                 {
-                   dump($template_rel_page);
+//                   dump($template_rel_page);
                 	$pages_ids[] = $template_rel_page->get_page_id();
                 }
                 
@@ -463,10 +457,11 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
             }
             
             $menu_item = array();
-            $menu_item['title'] = $context_name;
-            $menu_item['url'] = $this->get_url($context_template_id, $template_id, $id, $path);
-            
-            $sub_menu_items = $this->get_menu_items($level + 1, $id, $path);
+            foreach ($pages as $page_id) {
+            	 $menu_item[$path.'_'.$page_id] = $page_id;
+            }
+                    
+            $sub_menu_items = $this->get_context_pages($level + 1, $id, $path);
             if (count($sub_menu_items) > 0)
             {
                 foreach ($sub_menu_items as $sub_parent_id => $sub_menu_item)
@@ -474,8 +469,6 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
                     $menu_item['sub'] = $sub_menu_items;
                 }
             }
-            $menu_item['class'] = 'survey';
-            $menu_item[OptionsMenuRenderer :: KEY_ID] = $id;
             $menu[$id] = $menu_item;
         }
         return $menu;

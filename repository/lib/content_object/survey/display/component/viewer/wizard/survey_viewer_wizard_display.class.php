@@ -157,11 +157,12 @@ class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
     {
 
         
-		$url = $this->parent->get_parent()->get_url(array(), array(SurveyDisplay::PARAM_DISPLAY_ACTION));
+		$url = $this->parent->get_parent()->get_url(array(), array(SurveyDisplay::PARAM_DISPLAY_ACTION, SurveyViewerWizard :: PARAM_PUBLICATION_ID,SurveyViewerWizard :: PARAM_SURVEY_ID, SurveyViewerWizard :: PARAM_INVITEE_ID, SurveyViewerWizard :: PARAM_CONTEXT_PATH ));
 		$url = explode('?', $url);
 		$url_format = $url[1];
-				
-    	$url_format = '?'.$url_format.'&'.SurveyViewerWizard :: PARAM_SURVEY_ID.'=%s&'.SurveyViewerWizard :: PARAM_INVITEE_ID.'=%s&'.SurveyViewerWizard :: PARAM_CONTEXT_TEMPLATE_ID.'=%s&'.SurveyViewerWizard :: PARAM_TEMPLATE_ID.'=%s&'.SurveyViewerWizard :: PARAM_CONTEXT_ID.'=%s&'.SurveyViewerWizard :: PARAM_CONTEXT_PATH.'=%s';
+		
+    	$url_format = '?'.$url_format.'&'.SurveyViewerWizard :: PARAM_PUBLICATION_ID.'=%s&'.SurveyViewerWizard :: PARAM_SURVEY_ID.'=%s&'.SurveyViewerWizard :: PARAM_INVITEE_ID.'=%s&'.SurveyViewerWizard :: PARAM_CONTEXT_PATH.'=%s';
+    	
     	$include_root = true;
     	$show_complete_tree = false;
         $hide_current_context_template_id = false;

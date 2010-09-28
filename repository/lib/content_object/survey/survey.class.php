@@ -62,45 +62,6 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
         $this->set_additional_property(self :: PROPERTY_FINISH_TEXT, $value);
     }
 
-    //    function get_anonymous()
-    //    {
-    //        return $this->get_additional_property(self :: PROPERTY_ANONYMOUS);
-    //    }
-    //
-    //    function set_anonymous($value)
-    //    {
-    //        return $this->set_additional_property(self :: PROPERTY_ANONYMOUS, $value);
-    //    }
-    
-
-    //    function get_context()
-    //    {
-    //        $type = $this->get_additional_property(self :: PROPERTY_CONTEXT);
-    //        return SurveyContext :: factory($type);
-    //    }
-    //
-    //    function get_context_type()
-    //    {
-    //        return $this->get_additional_property(self :: PROPERTY_CONTEXT);
-    //    }
-    //
-    //    function set_context($value)
-    //    {
-    //        $this->set_additional_property(self :: PROPERTY_CONTEXT, $value);
-    //    }
-    
-
-    //    function set_context_instance($context)
-    //    {
-    //        $this->context = $context;
-    //    }
-    //
-    //    function get_context_instance()
-    //    {
-    //        return $this->context;
-    //    }
-    
-
     function get_context_template_name()
     {
         $template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($this->get_additional_property(self :: PROPERTY_CONTEXT_TEMPLATE_ID));
@@ -108,9 +69,25 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
     
     }
 
-    function get_context_template()
+    function get_context_template($level = null)
     {
-        return SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($this->get_additional_property(self :: PROPERTY_CONTEXT_TEMPLATE_ID));
+        
+        $context_template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($this->get_additional_property(self :: PROPERTY_CONTEXT_TEMPLATE_ID));
+        if ($level)
+        {
+            
+            $index = 1;
+            $level_matrix[$index] = $context_template;
+            $context_template_children = $context_template->get_children(true);
+            while ($child_template = $context_template_children->next_result())
+            {
+                $index ++;
+                $level_matrix[$index] = $child_template;
+            }
+            return $level_matrix[$level];
+        }
+        
+        return $context_template;
     
     }
 
@@ -124,11 +101,12 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
     {
         $this->set_additional_property(self :: PROPERTY_CONTEXT_TEMPLATE_ID, $value);
     }
-	
-    function has_context(){
-    	return $this->get_context_template_id() !=0;
+
+    function has_context()
+    {
+        return $this->get_context_template_id() != 0;
     }
-    
+
     function get_allowed_types()
     {
         return array(SurveyPage :: get_type_name());

@@ -19,16 +19,20 @@ class SurveyMenu extends HTML_Menu
     
     private $user_id;
     
+    private $publication_id;
+    
+    
     private $menu_matrix;
     
     private $level_matrix;
 
-    function SurveyMenu($parent, $current_template_id, $url_format = '?application=survey&go=viewer&survey_id=%s&context_template_id=%s', $survey)
+    function SurveyMenu($parent, $current_template_id, $url_format, $survey)
     {
         $this->root_context_template_id = $survey->get_context_template_id();
         $this->survey_id = $survey->get_id();
         
         $this->user_id = $parent->get_parent()->get_parameter(SurveyViewerWizard :: PARAM_INVITEE_ID);
+        $this->publication_id = $parent->get_parent()->get_parameter(SurveyViewerWizard :: PARAM_PUBLICATION_ID);
         
         $current_context_template_id = $parent->get_parent()->get_parameter(SurveyViewerWizard :: PARAM_CONTEXT_TEMPLATE_ID);
         $current_context_id = $parent->get_parent()->get_parameter(SurveyViewerWizard :: PARAM_CONTEXT_ID, $current_context_id);
@@ -41,7 +45,9 @@ class SurveyMenu extends HTML_Menu
         $this->urlFmt = $url_format;
         $menu = $this->get_menu();
         parent :: __construct($menu);
-        $this->forceCurrentUrl($this->get_url($current_context_template_id, $this->current_template_id, $current_context_id, $current_context_path));
+        $this->forceCurrentUrl($this->get_url($current_context_path));
+        
+    //        $this->forceCurrentUrl($this->get_url($current_context_template_id, $this->current_template_id, $current_context_id, $current_context_path));
     }
 
     private function create_menu_matrix()
@@ -147,8 +153,11 @@ class SurveyMenu extends HTML_Menu
             
             $menu_item = array();
             $menu_item['title'] = $context_name;
-            $menu_item['url'] = $this->get_url($context_template_id, $template_id, $id, $path);
+            $menu_item['url'] = $this->get_url($path);
             
+            //            $menu_item['url'] = $this->get_url($context_template_id, $template_id, $id, $path);
+            
+
             $sub_menu_items = $this->get_menu_items($level + 1, $id, $path);
             if (count($sub_menu_items) > 0)
             {
@@ -164,9 +173,11 @@ class SurveyMenu extends HTML_Menu
         return $menu;
     }
 
-    function get_url($context_template_id, $template_id, $context_id, $context_path)
+    function get_url($context_path)
     {
-        return htmlentities(sprintf($this->urlFmt, $this->survey_id, $this->user_id, $context_template_id, $template_id, $context_id, $context_path));
+    	$test = sprintf($this->urlFmt,$this->publication_id, $this->survey_id, $this->user_id, $context_path);
+    	$test = $test.'&display_action=survey_viewer&_qf_question_page_3_display=true';
+    	return htmlentities($test);
     }
 
     /**
