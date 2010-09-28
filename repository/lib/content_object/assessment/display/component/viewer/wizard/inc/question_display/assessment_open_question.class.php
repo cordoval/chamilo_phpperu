@@ -53,15 +53,26 @@ class AssessmentOpenQuestionDisplay extends QuestionDisplay
 
     function add_document($clo_question, $formvalidator)
     {
-        $name_1 = $clo_question->get_id() . '_1';
+		$type = $this->get_question()->get_question_type();
+		if($type == AssessmentOpenQuestion :: TYPE_OPEN_WITH_DOCUMENT)
+		{
+			$html[] = '<div class="splitter" style="margin: 10px -10px 10px -10px; border-left: none; border-right: none; border-top: 1px solid #B5CAE7;">';
+			$html[] = Translation :: get('SelectDocument');
+        	$html[] = '</div>';
+        	$formvalidator->addElement('html', implode("\n", $html));
+		}
+    	
+    	$name_1 = $clo_question->get_id() . '_1';
         $name_2 = $clo_question->get_id() . '_2';
-        $formvalidator->addElement('file', $name_1, '', array('class' => 'select_file'));
+
         $group = array();
-        $group[] = & $formvalidator->createElement('text', ($name_2 . '_text'), '', array('class' => 'select_file_text', 'disabled' => 'disabled', 'style' => 'display: none; width: 200px; height: 20px'));
-        $group[] = & $formvalidator->createElement('hidden', $name_2, '', array('id' => $name_2));
-        $group[] = & $formvalidator->createElement('style_submit_button', 'select_file', Translation :: get('SelectFile'), array('class' => 'select_file_button positive', 'style' => 'display: none;', 'id' => $clo_question->get_id()));
+        $group[] = & $formvalidator->createElement('text', ($name_2 . '_title'), '', array('class' => 'select_file_text', 'disabled' => 'disabled', 'style' => 'width: 200px; height: 20px'));
+        $group[] = & $formvalidator->createElement('hidden', $name_2);
+        
+        $link = PATH :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=' . RepoViewerLauncher :: APPLICATION_NAME . '&' . RepoViewerLauncher :: PARAM_ELEMENT_NAME . '=' . $name_2;
+        $group[] = & $formvalidator->createElement('static', null, null, '<a class="button normal_button select_file_button" onclick="javascript:openPopup(\'' . $link . '\');"> ' . Translation :: get('BrowseContentObjects') . '</a>');
+        
         $formvalidator->addGroup($group, '');
-        $formvalidator->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/repoviewer_popup.js'));
     }
 
     function add_borders()
@@ -73,11 +84,21 @@ class AssessmentOpenQuestionDisplay extends QuestionDisplay
     {
         $instruction = array();
         $question = $this->get_question();
+        $type = $question->get_question_type();
 
         if ($question->has_description())
         {
             $instruction[] = '<div class="splitter">';
-            $instruction[] = Translation :: get('EnterAnswer');
+            
+            if($type == AssessmentOpenQuestion :: TYPE_DOCUMENT)
+            {
+            	$instruction[] = Translation :: get('SelectDocument');
+            }
+            else
+            {
+            	$instruction[] = Translation :: get('EnterAnswer');
+            }
+            
             $instruction[] = '</div>';
         }
         else

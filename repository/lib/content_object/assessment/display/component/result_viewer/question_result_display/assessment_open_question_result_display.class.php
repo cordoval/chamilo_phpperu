@@ -54,16 +54,8 @@ class AssessmentOpenQuestionResultDisplay extends QuestionResultDisplay
         $html[] = '<br />';
     }
 
-    function display_document_box(&$html, $answer, $with_open = false)
+	function display_document_box(&$html, $answer, $with_open = false)
     {
-        if (! $answer)
-        {
-            $html[] = Translation :: get('NoDocument') . '<div class="clear"></div><br />';
-            return;
-        }
-
-        $document = RepositoryDataManager :: get_instance()->retrieve_content_object($answer, Document :: get_type_name());
-
         if ($with_open)
         {
             $html[] = '<div class="splitter" style="margin: -10px; border-left: none; border-right: none; border-top: 1px solid #B5CAE7;">';
@@ -75,6 +67,15 @@ class AssessmentOpenQuestionResultDisplay extends QuestionResultDisplay
 
         $html[] = Translation :: get('Document');
         $html[] = '</div>';
+        
+    	if (! $answer)
+        {
+            
+        	$html[] = '<br /><p>' . Translation :: get('NoDocument') . '</p><div class="clear"></div><br />';
+            return;
+        }
+
+        $document = RepositoryDataManager :: get_instance()->retrieve_content_object($answer, Document :: get_type_name());
 
         $html[] = '<br />';
 
@@ -83,7 +84,7 @@ class AssessmentOpenQuestionResultDisplay extends QuestionResultDisplay
 				  background-color: #E5EDF9; border-color: #4171B5; padding: 15px; text-align:center;">';
 
         $html[] = sprintf(Translation :: get('LPDownloadDocument'), $document->get_filename(), $document->get_filesize());
-        $html[] .= '<br /><a target="about:blank" href="' . $document->get_url() . '">' . Translation :: get('Download') . '</a>';
+        $html[] .= '<br /><a target="about:blank" href="' . RepositoryManager :: get_document_downloader_url($document->get_id()) . '">' . Translation :: get('Download') . '</a>';
 
         $html[] = '</div>';
         $html[] = '<br />';
