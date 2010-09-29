@@ -1667,7 +1667,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
     function retrieve_external_repository_sync_info($conditions)
     {
-        return $this->retrieve_object(ExternalRepositorySyncInfo :: get_table_name(), $condition);
+        return $this->retrieve_object(ExternalRepositorySyncInfo :: get_table_name(), $conditions);
     }
 
     function retrieve_external_repository_sync($condition)
@@ -1905,6 +1905,164 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     {
         $condition = new EqualityCondition(ExternalRepositoryUserQuotum :: PROPERTY_ID, $external_repository_user_quotum->get_id());
         return $this->delete(ExternalRepositoryUserQuotum :: get_table_name(), $condition);
+    }
+    
+    /*
+     * Content Object User Share
+     */
+    function delete_content_object_user_share(ContentObjectUserShare $content_object_user_share)
+    {
+    	$conditions = array();
+    	$conditions[] = new EqualityCondition(ContentObjectUserShare :: PROPERTY_CONTENT_OBJECT_ID, $content_object_user_share->get_content_object_id());
+    	$conditions[] = new EqualityCondition(ContentObjectUserShare :: PROPERTY_USER_ID, $content_object_user_share->get_user_id());
+    	$condition = new AndCondition($conditions);
+    	
+    	return $this->delete(ContentObjectUserShare :: get_table_name(), $condition);
+    }
+
+    function update_content_object_user_share(ContentObjectUserShare $content_object_user_share)
+    {
+    	$conditions = array();
+    	$conditions[] = new EqualityCondition(ContentObjectUserShare :: PROPERTY_CONTENT_OBJECT_ID, $content_object_user_share->get_content_object_id());
+    	$conditions[] = new EqualityCondition(ContentObjectUserShare :: PROPERTY_USER_ID, $content_object_user_share->get_user_id());
+    	$condition = new AndCondition($conditions);
+    	
+    	return $this->update($content_object_user_share, $condition);
+    }
+
+    function create_content_object_user_share(ContentObjectUserShare $content_object_user_share)
+    {
+    	return $this->create($content_object_user_share);
+    }
+
+    function count_content_object_user_shares(Condition $condition = null)
+    {
+    	return $this->count_objects(ContentObjectUserShare :: get_table_name(), $condition);
+    }
+
+    function retrieve_content_object_user_shares(Condition $condition = null, $offset = null, $count = null, ObjectTableOrder $order_property = null)
+    {
+    	return $this->retrieve_objects(ContentObjectUserShare :: get_table_name(), $condition, $offset, $count, $order_property);	
+    }
+    
+     /*
+     * Content Object Group Share
+     */
+    function delete_content_object_group_share(ContentObjectGroupShare $content_object_group_share)
+    {
+    	$conditions = array();
+    	$conditions[] = new EqualityCondition(ContentObjectGroupShare :: PROPERTY_CONTENT_OBJECT_ID, $content_object_group_share->get_content_object_id());
+    	$conditions[] = new EqualityCondition(ContentObjectGroupShare :: PROPERTY_GROUP_ID, $content_object_group_share->get_group_id());
+    	$condition = new AndCondition($conditions);
+    	
+    	return $this->delete(ContentObjectGroupShare :: get_table_name(), $condition);
+    }
+
+    function update_content_object_group_share(ContentObjectGroupShare $content_object_group_share)
+    {
+    	$conditions = array();
+    	$conditions[] = new EqualityCondition(ContentObjectGroupShare :: PROPERTY_CONTENT_OBJECT_ID, $content_object_group_share->get_content_object_id());
+    	$conditions[] = new EqualityCondition(ContentObjectGroupShare :: PROPERTY_GROUP_ID, $content_object_group_share->get_group_id());
+    	$condition = new AndCondition($conditions);
+    	
+    	return $this->update($content_object_group_share, $condition);
+    }
+
+    function create_content_object_group_share(ContentObjectGroupShare $content_object_group_share)
+    {
+    	return $this->create($content_object_group_share);
+    }
+
+    function count_content_object_group_shares(Condition $condition = null)
+    {
+    	return $this->count_objects(ContentObjectGroupShare :: get_table_name(), $condition);
+    }
+
+    function retrieve_content_object_group_shares(Condition $condition = null, $offset = null, $count = null, ObjectTableOrder $order_property = null)
+    {
+    	return $this->retrieve_objects(ContentObjectGroupShare :: get_table_name(), $condition, $offset, $count, $order_property);
+    }
+    
+    function retrieve_shared_content_objects_from_me(User $user, Condition $condition = null, $offset = null, $count = null, ObjectTableOrder $order_property = null)
+    {
+    	if(!$user)
+    	{
+    		return null;
+    	}
+    	
+    	$user_condition = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $user->get_id());
+    	if($condition)
+    	{
+    		$conditions = array();
+    		$conditions[] = $condition;
+    		$conditions[] = $user_condition;
+    		$condition = new AndCondition($conditions);
+    	}
+    	else
+    	{
+    		$condition = $user_condition;
+    	}
+    	
+    	$query = $this->get_shared_objects_query();
+    	return $this->retrieve_object_set($query, ContentObject :: get_table_name(), $condition, $offset, $count, $order_property);
+    }
+    
+    function retrieve_shared_content_objects_with_me(User $user, Condition $condition = null, $offset = null, $count = null, ObjectTableOrder $order_property = null)
+    {
+    	if(!$user)
+    	{
+    		return null;
+    	}
+    	
+    	$group_ids = array();
+    	$groups = $user->get_groups();
+    	while($group = $groups->next_result())
+    	{
+    		$group_ids[] = $group->get_id();
+    	}
+    	
+    	$conditions = array();
+    	$conditions[] = new EqualityCondition(ContentObjectUserShare :: PROPERTY_USER_ID, $user->get_id());
+    	$conditions[] = new InCondition(ContentObjectGroupShare :: PROPERTY_GROUP_ID, $group_ids);
+    	$user_condition = new OrCondition($conditions);
+    	
+    	if($condition)
+    	{
+    		$conditions = array();
+    		$conditions[] = $condition;
+    		$conditions[] = $user_condition;
+    		$condition = new AndCondition($conditions);
+    	}
+    	else
+    	{
+    		$condition = $user_condition;
+    	}
+    	
+    	$query = $this->get_shared_objects_query();
+        return $this->retrieve_object_set($query, ContentObject :: get_table_name(), $condition, $offset, $count, $order_property);
+    	
+    }
+    
+    private function get_shared_objects_query()
+    {
+    	$content_object_table = $this->escape_table_name(ContentObject :: get_table_name());
+    	$content_object_alias = $this->get_alias(ContentObject :: get_table_name());
+    	$content_object_version_table = $this->escape_table_name('content_object_version');
+    	$content_object_version_alias = $this->get_alias('content_object_version');
+    	$content_object_user_share_table = $this->escape_table_name(ContentObjectUserShare :: get_table_name());
+    	$content_object_user_share_alias = $this->get_alias(ContentObjectUserShare :: get_table_name());
+    	$content_object_group_share_table = $this->escape_table_name(ContentObjectGroupShare :: get_table_name());
+    	$content_object_group_share_alias = $this->get_alias(ContentObjectGroupShare :: get_table_name());
+    	
+    	$query = 'SELECT * FROM ' . $content_object_table . ' AS ' . $content_object_alias;
+        $query .= ' JOIN ' . $content_object_version_table . ' AS ' . $content_object_version_alias . ' ON '; 
+        $query .=  $content_object_alias . '.' . ContentObject :: PROPERTY_ID . ' = ' . $content_object_version_alias . '.' . ContentObject :: PROPERTY_ID;
+        $query .= ' JOIN ' . $content_object_user_share_table . '  AS ' . $content_object_user_share_alias . ' ON ';
+        $query .=  $content_object_alias . '.' . ContentObject :: PROPERTY_ID . ' = ' . $content_object_user_share_alias . '.' . ContentObjectUserShare :: PROPERTY_CONTENT_OBJECT_ID;
+        $query .= ' JOIN ' . $content_object_group_share_table . '  AS ' . $content_object_group_share_alias . ' ON ';
+        $query .=  $content_object_alias . '.' . ContentObject :: PROPERTY_ID . ' = ' . $content_object_group_share_alias . '.' . ContentObjectGroupShare :: PROPERTY_CONTENT_OBJECT_ID;
+        
+        return $query;
     }
 }
 ?>
