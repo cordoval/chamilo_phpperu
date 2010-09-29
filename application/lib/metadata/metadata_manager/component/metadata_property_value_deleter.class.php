@@ -31,7 +31,7 @@ class MetadataManagerMetadataPropertyValueDeleterComponent extends MetadataManag
                             $metadata_property_value = $this->retrieve_metadata_property_value($id);
 
                             $attr_failures = 0;
-                            $condition = new EqualityCondition(MetadataPropertyAttributeValue :: PROPERTY_PROPERTY_VALUE_ID, $metadata_property_value->get_id());
+                            $condition = new EqualityCondition(MetadataPropertyAttributeValue :: PROPERTY_PARENT_ID, $metadata_property_value->get_id());
                             $metadata_property_attribute_values = $this->retrieve_metadata_property_attribute_values($condition);
 
                             while($metadata_property_attribute_value = $metadata_property_attribute_values->next_result())
@@ -71,7 +71,7 @@ class MetadataManagerMetadataPropertyValueDeleterComponent extends MetadataManag
 				}
 			}
 
-			$this->redirect(Translation :: get($message), ($failures ? true : false), array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_EDIT_METADATA_PROPERTY_VALUES, MetadataManager :: PARAM_CONTENT_OBJECT => Request :: get(MetadataManager :: PARAM_CONTENT_OBJECT)));
+			$this->redirect(Translation :: get($message), ($failures ? true : false), array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_EDIT_METADATA, MetadataManager :: PARAM_CONTENT_OBJECT => Request :: get(MetadataManager :: PARAM_CONTENT_OBJECT)));
 		}
 		else
 		{

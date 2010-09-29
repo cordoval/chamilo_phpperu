@@ -77,7 +77,7 @@ class MetadataManagerMetadataEditorComponent extends MetadataManager
             if($form->validate())
             {
                     $success = $form->edit_metadata_property_values();
-                    $this->redirect($success ? Translation :: get('MetadataPropertyValueUpdated') : Translation :: get('MetadataPropertyValueNotUpdated'), !$success, array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_EDIT_METADATA_PROPERTY_VALUES, MetadataManager :: PARAM_CONTENT_OBJECT => $content_object->get_id()));
+                    $this->redirect($success ? Translation :: get('MetadataPropertyValueUpdated') : Translation :: get('MetadataPropertyValueNotUpdated'), !$success, array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_EDIT_METADATA, MetadataManager :: PARAM_CONTENT_OBJECT => $content_object->get_id()));
             }
             else
             {
