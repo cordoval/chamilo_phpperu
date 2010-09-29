@@ -3,6 +3,7 @@
 //require_once Path :: get_application_path() . 'lib/internship_organizer/agreement_manager/component/moment_browser/browser_table.class.php';
 //require_once Path :: get_application_path() . 'lib/internship_organizer/agreement.class.php';
 
+
 class InternshipOrganizerAgreementManager extends SubManager
 {
     
@@ -254,6 +255,11 @@ class InternshipOrganizerAgreementManager extends SubManager
     function get_publication_rights_editor_url($publication)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_PUBLICATION_RIGHTS, self :: PARAM_PUBLICATION_ID => $publication->get_id()));
+    }
+
+    function get_take_evaluation_url($publication)
+    {
+        return $this->get_url(array(Application :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_EVALUATION, InternshipOrganizerEvaluationManager :: PARAM_ACTION => InternshipOrganizerEvaluationManager :: ACTION_TAKE_EVALUATION, InternshipOrganizerEvaluationManager :: PARAM_PUBLICATION_ID => $publication->get_id(), InternshipOrganizerEvaluationManager :: PARAM_SURVEY_ID => $publication->get_content_object_id(), InternshipOrganizerEvaluationManager :: PARAM_INVITEE_ID => $this->get_user_id()));
     }
 
     private function set_agreement_action($action)

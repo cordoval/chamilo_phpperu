@@ -16,6 +16,8 @@ class InternshipOrganizerRights
     const PUBLISH_RIGHT_NAME = 'publish';
     const RIGHT_IMPORT = 6;
     const IMPORT_RIGHT_NAME = 'import';
+    const RIGHT_PARTICIPATE = 15;
+    const PARTICIPATE_RIGHT_NAME = 'participate';
     
     const ADD_AGREEMENT_RIGHT = 5;
     const ADD_AGREEMENT_NAME = 'add_agreement';

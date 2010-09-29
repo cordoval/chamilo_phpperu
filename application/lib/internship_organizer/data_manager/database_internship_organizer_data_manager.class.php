@@ -929,12 +929,35 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
 
     function count_agreement_rel_locations($condition = null)
     {
-        return $this->count_objects(InternshipOrganizerAgreementRelLocation :: get_table_name(), $condition);
-    }
+        
+        $agreement_alias = $this->get_alias(InternshipOrganizerAgreement :: get_table_name());
+        $agreement_rel_location_alias = $this->get_alias(InternshipOrganizerAgreementRelLocation :: get_table_name());
+        $location_alias = $this->get_alias(InternshipOrganizerLocation :: get_table_name());
+        
+        $query = 'SELECT COUNT(* ) ';
+        $query .= ' FROM ' . $this->escape_table_name(InternshipOrganizerAgreementRelLocation :: get_table_name()) . ' AS ' . $agreement_rel_location_alias;
+        
+        $query .= ' JOIN ' . $this->escape_table_name(InternshipOrganizerAgreement :: get_table_name()) . ' AS ' . $agreement_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerAgreement :: PROPERTY_ID, $agreement_alias) . ' = ' . $this->escape_column_name(InternshipOrganizerAgreementRelLocation :: PROPERTY_AGREEMENT_ID, $agreement_rel_location_alias);
+        
+        $query .= ' JOIN ' . $this->escape_table_name(InternshipOrganizerLocation :: get_table_name()) . ' AS ' . $location_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerLocation :: PROPERTY_ID, $location_alias) . ' = ' . $this->escape_column_name(InternshipOrganizerAgreementRelLocation :: PROPERTY_LOCATION_ID, $agreement_rel_location_alias);
+        
+        return $this->count_result_set($query, InternshipOrganizerAgreementRelLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerAgreementRelUser :: CLASS_NAME);
+            }
 
     function retrieve_agreement_rel_locations($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->retrieve_objects(InternshipOrganizerAgreementRelLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerAgreementRelLocation :: CLASS_NAME);
+        $agreement_alias = $this->get_alias(InternshipOrganizerAgreement :: get_table_name());
+        $agreement_rel_location_alias = $this->get_alias(InternshipOrganizerAgreementRelLocation :: get_table_name());
+        $location_alias = $this->get_alias(InternshipOrganizerLocation :: get_table_name());
+        
+        $query = 'SELECT ' . $agreement_rel_location_alias . '. *  ,' . $location_alias . '. * , ' . $agreement_alias . '. *  ';
+        $query .= ' FROM ' . $this->escape_table_name(InternshipOrganizerAgreementRelLocation :: get_table_name()) . ' AS ' . $agreement_rel_location_alias;
+        
+        $query .= ' JOIN ' . $this->escape_table_name(InternshipOrganizerAgreement :: get_table_name()) . ' AS ' . $agreement_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerAgreement :: PROPERTY_ID, $agreement_alias) . ' = ' . $this->escape_column_name(InternshipOrganizerAgreementRelLocation :: PROPERTY_AGREEMENT_ID, $agreement_rel_location_alias);
+        
+        $query .= ' JOIN ' . $this->escape_table_name(InternshipOrganizerLocation :: get_table_name()) . ' AS ' . $location_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerLocation :: PROPERTY_ID, $location_alias) . ' = ' . $this->escape_column_name(InternshipOrganizerAgreementRelLocation :: PROPERTY_LOCATION_ID, $agreement_rel_location_alias);
+        
+        return $this->retrieve_object_set($query, InternshipOrganizerAgreementRelLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerAgreementRelLocation :: CLASS_NAME);
     }
 
     function retrieve_agreement_rel_location($location_id, $agreement_id)

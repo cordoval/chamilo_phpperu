@@ -1,36 +1,22 @@
 <?php
-/**
- * $Id: questions_survey_viewer_wizard_page.class.php 200 2009-11-13 12:30:04Z kariboe $
- * @package repository.lib.complex_display.survey.component.viewer.wizard
- */
+
 require_once dirname(__FILE__) . '/inc/survey_question_display.class.php';
 
-class QuestionsSurveyViewerWizardPage extends SurveyViewerWizardPage
+class SurveyQuestionViewerWizardPage extends SurveyViewerWizardPage
 {
     private $page_number;
     private $questions;
 
-    function QuestionsSurveyViewerWizardPage($name, $parent, $number)
+    function SurveyQuestionViewerWizardPage($name, $parent, $number)
     {
         parent :: SurveyViewerWizardPage($name, $parent);
         $this->page_number = $number;
-        //        $this->addAction('process', new SurveyViewerWizardProcess($this));
-    
-
     }
 
     function buildForm()
     {
-        
-        //		dump('build form with questions');
-        
-
         $this->_formBuilt = true;
-        
-        //		dump($this->get_parent ());
-        //		$this->page_number = 2;
-        //		dump('pagenr: '.$this->page_number);
-        
+      
 
         $this->questions = $this->get_parent()->get_questions($this->page_number);
         
@@ -40,9 +26,7 @@ class QuestionsSurveyViewerWizardPage extends SurveyViewerWizardPage
         $question_count = count($this->questions);
         
         $survey_page = $this->get_parent()->get_page($this->page_number);
-        
-        //		dump($survey_page);
-        
+              
 
         // Add buttons
         if ($this->page_number > 1)
@@ -88,9 +72,7 @@ class QuestionsSurveyViewerWizardPage extends SurveyViewerWizardPage
         $renderer->setElementTemplate('<div style="float: right;">{element}</div><br /><br />', 'buttons');
         $renderer->setGroupElementTemplate('{element}', 'buttons');
         $this->setDefaultAction('next');
-        //		dump($this);
-    
-
+     
     }
 
     function get_page_number()

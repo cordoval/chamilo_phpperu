@@ -12,6 +12,7 @@ require_once Path :: get_application_path() . 'lib/internship_organizer/region_m
 require_once Path :: get_application_path() . 'lib/internship_organizer/period_manager/period_manager.class.php';
 require_once Path :: get_application_path() . 'lib/internship_organizer/appointment_manager/appointment_manager.class.php';
 require_once Path :: get_application_path() . 'lib/internship_organizer/trackers/internship_organizer_changes_tracker.class.php';
+require_once Path :: get_application_path() . 'lib/internship_organizer/evaluation_manager/evaluation_manager.class.php';
 
 
 require_once Path :: get_application_path() . 'lib/internship_organizer/internship_organizer_rights.class.php';
@@ -30,6 +31,7 @@ class InternshipOrganizerManager extends WebApplication
     const ACTION_PERIOD = 'period';
     const ACTION_APPOINTMENT = 'appointment';
     const ACTION_ADMINISTRATION = 'rights_editor';
+    const ACTION_EVALUATION = 'evaluation';
     
     const DEFAULT_ACTION = self :: ACTION_APPLICATION_CHOOSER;
 
