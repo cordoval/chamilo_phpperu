@@ -475,6 +475,32 @@ interface RepositoryDataManagerInterface
     function retrieve_external_repository_settings($condition = null, $order_by = array (), $offset = 0, $max_objects = -1);
     
     function retrieve_external_repository_setting_from_variable_name($variable, $external_repository_id);
+    
+    /*
+     * Content Object User Share
+     */
+    function delete_content_object_user_share(ContentObjectUserShare $content_object_user_share);
+
+    function update_content_object_user_share(ContentObjectUserShare $content_object_user_share);
+
+    function create_content_object_user_share(ContentObjectUserShare $content_object_user_share);
+
+    function count_content_object_user_shares(Condition $condition = null);
+
+    function retrieve_content_object_user_shares(Condition $condition = null, $offset = null, $count = null, ObjectTableOrder $order_property = null);
+    
+     /*
+     * Content Object Group Share
+     */
+    function delete_content_object_group_share(ContentObjectGroupShare $content_object_group_share);
+
+    function update_content_object_group_share(ContentObjectGroupShare $content_object_group_share);
+
+    function create_content_object_group_share(ContentObjectGroupShare $content_object_group_share);
+
+    function count_content_object_group_shares(Condition $condition = null);
+
+    function retrieve_content_object_group_shares(Condition $condition = null, $offset = null, $count = null, ObjectTableOrder $order_property = null);
 
 }
 ?>
