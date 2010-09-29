@@ -64,7 +64,7 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
                 $context_template = $this->survey->get_context_template(1);
                 $this->context_template_id = $context_template->get_id();
                 
-                $this->parent->started_context($this->survey, $context_template, $context_id);
+                $this->parent->started();
             }else{
             	$path = explode('_', $this->context_path);
             	$level = count($path);
@@ -156,10 +156,10 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
     {
         
         $this->create_page_matrix();
-      
-        dump($this->get_context_pages());
-        
-    exit;    
+//      
+//        dump($this->get_context_pages());
+//        
+//    exit;    
         $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_SURVEY_ID, $this->survey->get_id());
     	$conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_TEMPLATE_ID, $this->context_template_id);
         $condition = new AndCondition($conditions);
@@ -267,7 +267,7 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
 
     function get_real_page_nr($page_nr)
     {
-        return $this->real_pages[$page_nr];
+       return $this->real_pages[$page_nr];
     }
 
     function get_question_visibility($question_id)
@@ -310,9 +310,9 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
         return $count;
     }
 
-    function save_answer($complex_question_id, $answer)
+    function save_answer($complex_question_id, $answer, $context_path)
     {
-        $this->parent->save_answer($complex_question_id, $answer);
+        $this->parent->save_answer($complex_question_id, $answer, $context_path);
     }
 
     function parse($value)
@@ -408,7 +408,7 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
             }
         }
         
-        dump($page_matrix);
+//        dump($page_matrix);
         
         $this->page_matrix = $page_matrix;
     }

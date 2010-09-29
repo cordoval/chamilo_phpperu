@@ -15,11 +15,14 @@ class SurveyViewerWizardNext extends HTML_QuickForm_Action
     function perform($page, $actionName)
     {
         
-
-//    	dump($page);
+		$context_path = Request :: get(SurveyViewerWizard :: PARAM_CONTEXT_PATH);
+//    	dump($context_path);
     	
     	// save the form values and validation status to the session
         $page->isFormBuilt() or $page->buildForm();
+        
+//        dump($page);
+        
         $pageName = $page->getAttribute('id');
         $data = & $page->controller->container();
         $data['values'][$pageName] = $page->exportValues();
@@ -100,7 +103,9 @@ class SurveyViewerWizardNext extends HTML_QuickForm_Action
                         {
 //                            $question = $rdm->retrieve_content_object($question_ccoi->get_ref());
                             $count_questions ++;
-                          $this->parent->save_answer($question_ccoi->get_id(), serialize($answers));
+                          	$page_id = $page->get_real_page_number();
+                            $path = $context_path.$pageName.$question_ccoi->get_id();
+                            $this->parent->save_answer($question_ccoi->get_id(), serialize($answers), $context_path);
                         }
                     
                     }
@@ -108,8 +113,8 @@ class SurveyViewerWizardNext extends HTML_QuickForm_Action
                 }
             }
             
-            $total_questions = $this->parent->get_total_questions();
-            $percent = $count_questions / $total_questions * 100;
+//            $total_questions = $this->parent->get_total_questions();
+//            $percent = $count_questions / $total_questions * 100;
 //            $this->parent->get_parent()->finish_survey($percent);
             
             $next = & $page->controller->getPage($nextName);

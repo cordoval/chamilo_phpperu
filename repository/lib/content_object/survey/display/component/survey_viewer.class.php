@@ -18,34 +18,19 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
         return $wizard->run();
     }
 
-    function get_invitee_id()
+    function started()
     {
-        return $this->get_parent()->get_invitee_id();
+        $this->get_parent()->started();
     }
 
-    function started($survey_id)
+    function finish()
     {
-        $this->get_parent()->started($survey_id);
+       $this->get_parent()->finish();
     }
 
-    function finish($survey_id)
+    function save_answer($question_id, $answer, $context_path)
     {
-       $this->get_parent()->finish($survey_id);
-    }
-
-    function started_context($survey_id, $context_template, $context_id)
-    {
-        $this->get_parent()->started_context($survey_id, $context_template, $context_id);
-    }
-
-    function finish_context($survey, $template_id, $context_id)
-    {
-        $this->get_parent()->finish_context($survey, $template_id, $context_id);
-    }
-
-    function save_answer($question_id, $answer, $template_id, $context_id)
-    {
-       $this->get_parent()->save_answers($question_id, $answer, $template_id, $context_id);
+       $this->get_parent()->save_answer($question_id, $answer, $context_path);
     }
 
 }

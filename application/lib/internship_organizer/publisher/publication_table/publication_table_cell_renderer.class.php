@@ -69,19 +69,27 @@ class InternshipOrganizerPublicationTableCellRenderer extends DefaultInternshipO
         
         if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, $publication->get_id(), InternshipOrganizerRights :: TYPE_PUBLICATION))
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('View'), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_view_publication_url($publication), ToolbarItem :: DISPLAY_ICON));
-        	//test
-        	$toolbar->add_item(new ToolbarItem(Translation :: get('View'), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_take_evaluation_url($publication), ToolbarItem :: DISPLAY_ICON));
             
+            if ($publication->get_content_object_type() == Survey :: get_type_name())
+            {
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Evaluate'), Theme :: get_common_image_path() . 'action_next.png', $this->browser->get_take_evaluation_url($publication), ToolbarItem :: DISPLAY_ICON));
             
+            }
+            else
+            {
+                $toolbar->add_item(new ToolbarItem(Translation :: get('View'), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_view_publication_url($publication), ToolbarItem :: DISPLAY_ICON));
+            
+            }
+        
         }
         
         //edit of publication not implemented jet
-//        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_EDIT, $publication->get_id(), InternshipOrganizerRights :: TYPE_PUBLICATION))
-//        {
-//            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_edit_publication_url($publication), ToolbarItem :: DISPLAY_ICON));
-//        }
+        //        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_EDIT, $publication->get_id(), InternshipOrganizerRights :: TYPE_PUBLICATION))
+        //        {
+        //            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_edit_publication_url($publication), ToolbarItem :: DISPLAY_ICON));
+        //        }
         
+
         if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_DELETE, $publication->get_id(), InternshipOrganizerRights :: TYPE_PUBLICATION))
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_publication_url($publication), ToolbarItem :: DISPLAY_ICON, true));
