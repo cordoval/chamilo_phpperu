@@ -52,7 +52,7 @@ class InternshipOrganizerEvaluationManagerTakerComponent extends InternshipOrgan
 
     function save_answer($question_id, $answer, $context_path)
     {
-      dump($context_path);
+//      dump($context_path);
     
     }
 	

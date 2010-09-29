@@ -96,7 +96,7 @@ class InternshipOrganizerAgreementManagerViewerComponent extends InternshipOrgan
         // Evaluations table tab
         $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_EVALUATIONS;
         $table = new InternshipOrganizerPublicationTable($this, $parameters, $this->get_publications_condition(array(Survey :: get_type_name())));
-        $tabs->add_tab(new DynamicContentTab(self :: TAB_EVALUATIONS, Translation :: get('InternshipOrganizerEvaluations'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_EVALUATIONS, Translation :: get('InternshipOrganizerEvaluations'), Theme :: get_image_path('internship_organizer') . 'place_mini_survey.png', $table->as_html()));
         
         $count = $this->count_agreement_rel_locations($this->get_location_condition(InternshipOrganizerAgreementRelLocation :: APPROVED));
         if ($count == 1)

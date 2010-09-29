@@ -2,7 +2,7 @@
 
 abstract class SurveyQuestionDisplay
 {
-    private $clo_question;
+    private $complex_question;
     private $question;
     private $question_nr;
     private $formvalidator;
@@ -12,26 +12,19 @@ abstract class SurveyQuestionDisplay
     private $answer;
     private $visible;
 
-    function SurveyQuestionDisplay($formvalidator, $visible, $question_nr, $question, $survey, $page_nr, $answer)
+    function SurveyQuestionDisplay($formvalidator, $complex_question, $question, $question_nr ,$answer)
     {
-
         $this->formvalidator = $formvalidator;
         $this->renderer = $formvalidator->defaultRenderer();
-		
-//        $this->clo_question = $clo_question;
-//        dump($this->clo_question);
-        $this->question_nr = $question_nr;
+		$this->complex_question = $complex_question;
+	    $this->question_nr = $question_nr;
         $this->question = $question;
-//        dump($this->question);
-        $this->survey = $survey;
-        $this->page_nr = $page_nr;
-        $this->answer = $answer;
-        $this->visible = $visible;
+    	$this->answer = $answer;
      }
 
-    function get_clo_question()
+    function get_complex_question()
     {
-        return $this->clo_question;
+        return $this->complex_question;
     }
 
     function get_question()
@@ -48,17 +41,7 @@ abstract class SurveyQuestionDisplay
     {
         return $this->formvalidator;
     }
-
-    function get_survey()
-    {
-        return $this->survey;
-    }
-
-    function get_page_nr()
-    {
-        return $this->page_nr;
-    }
-
+   
 	function get_answer()
     {
         return $this->answer;
@@ -154,10 +137,11 @@ abstract class SurveyQuestionDisplay
 
     abstract function get_instruction();
 
-    static function factory($formvalidator, $question, $visible ,$question_nr, $survey, $page_nr)
+ static function factory($formvalidator, $complex_question ,$question_nr, $answer)
     {
-//        $question = $clo_question;
-        $type = $question->get_type();
+       	
+    	$question = RepositoryDataManager::get_instance()->retrieve_content_object($complex_question->get_ref());
+    	$type = $question->get_type();
 
         $file = dirname(__FILE__) . '/survey_question_display/' . $type . '.class.php';
 
@@ -169,9 +153,28 @@ abstract class SurveyQuestionDisplay
         require_once $file;
 
         $class = Utilities :: underscores_to_camelcase($type) . 'Display';
-        $question_display = new $class($formvalidator, $visible, $question_nr, $question, $survey, $page_nr);
+        $question_display = new $class($formvalidator, $complex_question, $question, $question_nr, $answer);
         return $question_display;
     }
+    
+//    static function factory($formvalidator, $question, $visible ,$question_nr, $survey, $page_nr)
+//    {
+////        $question = $clo_question;
+//        $type = $question->get_type();
+//
+//        $file = dirname(__FILE__) . '/survey_question_display/' . $type . '.class.php';
+//
+//        if (! file_exists($file))
+//        {
+//            die('file does not exist: ' . $file);
+//        }
+//
+//        require_once $file;
+//
+//        $class = Utilities :: underscores_to_camelcase($type) . 'Display';
+//        $question_display = new $class($formvalidator, $visible, $question_nr, $question, $survey, $page_nr);
+//        return $question_display;
+//    }
 
     function parse($value)
     {

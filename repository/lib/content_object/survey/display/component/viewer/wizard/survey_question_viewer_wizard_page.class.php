@@ -4,37 +4,36 @@ require_once dirname(__FILE__) . '/inc/survey_question_display.class.php';
 
 class SurveyQuestionViewerWizardPage extends SurveyViewerWizardPage
 {
-    private $page_number;
-    private $questions;
+    
+    private $page_nr;
+    private $context_path;
+    private $invitee_id;
+    
+    /**
+     * @var Survey
+     */
+    private $survey;
 
-    function SurveyQuestionViewerWizardPage($name, $parent, $number)
+    function SurveyQuestionViewerWizardPage($name, $parent, $context_path, $page_nr, $survey, $invitee_id)
     {
         parent :: SurveyViewerWizardPage($name, $parent);
-        $this->page_number = $number;
+        $this->context_path = $context_path;
+        $this->page_nr = $page_nr;
+        $this->survey = $survey;
+        $this->invitee_id = $invitee_id;
     }
 
     function buildForm()
     {
         $this->_formBuilt = true;
-      
-
-        $this->questions = $this->get_parent()->get_questions($this->page_number);
         
-        //		dump($this->questions);
-        
-
-        $question_count = count($this->questions);
-        
-        $survey_page = $this->get_parent()->get_page($this->page_number);
-              
-
         // Add buttons
-        if ($this->page_number > 1)
+        if ($this->page_nr > 1)
         {
             $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Back'), array('class' => 'previous'));
         }
         
-        if ($this->page_number < $this->get_parent()->get_total_pages())
+        if ($this->page_nr < $this->get_parent()->get_total_pages())
         {
             $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next'), array('class' => 'next'));
         
@@ -48,31 +47,26 @@ class SurveyQuestionViewerWizardPage extends SurveyViewerWizardPage
         // Add question forms
         
 
-        if ($question_count != 0)
-        {
-            foreach ($this->questions as $nr => $question)
-            {
-                
-                //				$answer = $this->get_parent()->get_parent()->get_parent()->get_answer($question);
-                
-
-                $visibility = $this->get_parent()->get_question_visibility($question->get_id());
-                
-                $question_display = SurveyQuestionDisplay :: factory($this, $question, $visibility, $nr, $this->get_parent()->get_survey(), $this->get_parent()->get_real_page_nr($this->page_number), $answer);
-                
-                $question_display->display();
-            }
-            
-            // Add buttons second time
-            $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+        $complex_questions = $this->survey->get_page_complex_questions($this->invitee_id, $this->context_path);
         
+        foreach ($complex_questions as $complex_question)
+        {
+            
+            $answer = $this->get_parent()->get_answer($complex_question->get_id, $this->context_path);
+            
+            $question_display = SurveyQuestionDisplay :: factory($this, $complex_question, 1, $answer);
+            
+            $question_display->display();
         }
+        
+        // Add buttons second time
+        $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         
         $renderer = $this->defaultRenderer();
         $renderer->setElementTemplate('<div style="float: right;">{element}</div><br /><br />', 'buttons');
         $renderer->setGroupElementTemplate('{element}', 'buttons');
         $this->setDefaultAction('next');
-     
+    
     }
 
     function get_page_number()
@@ -86,4 +80,5 @@ class SurveyQuestionViewerWizardPage extends SurveyViewerWizardPage
     }
 
 }
+
 ?>

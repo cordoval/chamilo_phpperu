@@ -127,25 +127,19 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
             return $complex_content_objects;
         }
         
-        //        $survey_page_ids = array();
         $survey_pages = array();
         
         while ($complex_content_object = $complex_content_objects->next_result())
         {
-            //            $survey_page_ids[] = $complex_content_object->get_ref();
             $survey_pages[] = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_content_object->get_ref());
-        
         }
         
         return $survey_pages;
-        
-    //        if (count($survey_page_ids) == 0)
-    //        {
-    //            $survey_page_ids[] = 0;
-    //        }
-    //
-    //        $condition = new InCondition(ContentObject :: PROPERTY_ID, $survey_page_ids, ContentObject :: get_table_name());
-    //        return RepositoryDataManager :: get_instance()->retrieve_content_objects($condition);
+    }
+
+    function get_page_by_id($page_id)
+    {
+        return RepositoryDataManager :: get_instance()->retrieve_content_object($page_id);
     }
 
     function get_page_by_index($index)
@@ -167,12 +161,59 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
         return RepositoryDataManager :: get_instance()->count_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexContentObjectItem :: get_table_name()));
     }
 
+    function get_context_paths($user_id, $with_question_id = false)
+    {
+        $context_paths = array();
+        if (! $this->has_context())
+        {
+            
+            $pages = $this->get_pages();
+            foreach ($pages as $page)
+            {
+                $page_id = $page->get_id();
+                if ($with_question_id)
+                {
+                    $complex_questions = $page->get_questions(true);
+                    while ($complex_question = $complex_questions->next_result())
+                    {
+                        $context_paths[] = $page_id . '_' . $complex_question->get_id();
+                    }
+                }
+                else
+                {
+                    $context_paths[] = $page_id;
+                }
+            }
+        }
+        
+        return $context_paths;
+    }
+
+    function get_page_complex_questions($user_id, $context_path)
+    {
+        $questions = array();
+        
+        $ids = explode('_', $context_path);
+        $count = count($ids);
+        $page_id = $ids[$count - 1];
+        
+        $page = $this->get_page_by_id($page_id);
+        
+        $complex_questions = $page->get_questions(true);
+        while ($complex_question = $complex_questions->next_result())
+        {
+            $questions[] = $complex_question;
+        }
+        
+        return $questions;
+    }
+
     static function get_managers()
     {
         $managers = array();
         $managers[] = self :: MANAGER_CONTEXT;
-        
         return $managers;
     }
 }
+
 ?>

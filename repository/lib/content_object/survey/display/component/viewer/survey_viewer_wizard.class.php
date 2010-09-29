@@ -9,6 +9,8 @@ require_once dirname(__FILE__) . '/wizard/survey_viewer_wizard_process.class.php
 require_once dirname(__FILE__) . '/wizard/survey_viewer_wizard_next.class.php';
 require_once dirname(__FILE__) . '/wizard/survey_viewer_wizard_page.class.php';
 require_once dirname(__FILE__) . '/wizard/questions_survey_viewer_wizard_page.class.php';
+require_once dirname(__FILE__) . '/wizard/survey_question_viewer_wizard_page.class.php';
+
 
 class SurveyViewerWizard extends HTML_QuickForm_Controller
 {
@@ -24,6 +26,9 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
 //    const PARAM_CURRENT_PAGE = 'current_page';
     
     private $parent;
+    /**
+     * @var Survey
+     */
     private $survey;
     private $context_template_id;
     
@@ -85,70 +90,95 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
     function add_pages()
     {
         
-        $complex_survey_page_items = $this->survey->get_pages(true);
-        $page_nr = 0;
-        $question_nr = 0;
-        $this->question_visibility = array();
-        
-        while ($survey_page_item = $complex_survey_page_items->next_result())
-        {
-            $survey_page = RepositoryDataManager :: get_instance()->retrieve_content_object($survey_page_item->get_ref());
-            
-            $page_nr ++;
-            $this->real_pages[$page_nr] = $survey_page->get_id();
-            
-            $this->addPage(new QuestionsSurveyViewerWizardPage('question_page_' . $page_nr, $this, $page_nr));
-            
-            $questions = array();
-            $questions_items = $survey_page->get_questions(true);
-            
-            while ($question_item = $questions_items->next_result())
-            {
-                $question = RepositoryDataManager :: get_instance()->retrieve_content_object($question_item->get_ref());
-                
-                if ($question_item->get_visible() == 1)
-                {
-                    $this->question_visibility[$question->get_id()] = true;
-                }
-                else
-                {
-                    $this->question_visibility[$question->get_id()] = false;
-                }
-                
-                if ($question->get_type() == SurveyDescription :: get_type_name())
-                {
-                    $questions[$question->get_id() . 'description'] = $question;
-                }
-                else
-                {
-                    if ($question_item->get_visible() == 1)
-                    {
-                        $question_nr ++;
-                        $questions[$question_nr] = $question;
-                    }
-                    else
-                    {
-                        //                    	$question_nr ++;
-                        $bis_nr = $question_nr . '.1';
-                        $questions[$bis_nr] = $question;
-                    }
-                
-                }
-            
-            }
-            
-            $this->pages[$page_nr] = array(page => $survey_page, questions => $questions);
-        
+        $context_paths = $this->survey->get_context_paths($this->invitee_id);
+    	
+        if(count($context_paths)){
+        	
+        	$this->total_pages = count($context_paths);
+        	$context_question_paths = $this->survey->get_context_paths($this->invitee_id, true);
+        	$page_nr = 1;
+        	foreach ($context_paths as $context_path) {
+        		$this->addPage(new SurveyQuestionViewerWizardPage('page_' . $context_path, $this, $context_path, $page_nr, $this->survey, $this->invitee_id));
+        		$page_nr++;
+        	}
+        	
+        	
+        	
+        }else{
+        	//no pages added to survey !!
+        	 $this->addPage(new SurveyQuestionViewerWizardPage('question_page_' . $page_nr, $this, $page_nr));
+        	
         }
+        
+        
+        
+        
+//        dump($context_paths);
+//        
+//    	$complex_survey_page_items = $this->survey->get_pages(true);
+//        $page_nr = 0;
+//        $question_nr = 0;
+//        $this->question_visibility = array();
+//        
+//        while ($survey_page_item = $complex_survey_page_items->next_result())
+//        {
+//            $survey_page = RepositoryDataManager :: get_instance()->retrieve_content_object($survey_page_item->get_ref());
+//            
+//            $page_nr ++;
+//            $this->real_pages[$page_nr] = $survey_page->get_id();
+//            
+//            $this->addPage(new QuestionsSurveyViewerWizardPage('question_page_' . $page_nr, $this, $page_nr));
+//            
+//            $questions = array();
+//            $questions_items = $survey_page->get_questions(true);
+//            
+//            while ($question_item = $questions_items->next_result())
+//            {
+//                $question = RepositoryDataManager :: get_instance()->retrieve_content_object($question_item->get_ref());
+//                
+//                if ($question_item->get_visible() == 1)
+//                {
+//                    $this->question_visibility[$question->get_id()] = true;
+//                }
+//                else
+//                {
+//                    $this->question_visibility[$question->get_id()] = false;
+//                }
+//                
+//                if ($question->get_type() == SurveyDescription :: get_type_name())
+//                {
+//                    $questions[$question->get_id() . 'description'] = $question;
+//                }
+//                else
+//                {
+//                    if ($question_item->get_visible() == 1)
+//                    {
+//                        $question_nr ++;
+//                        $questions[$question_nr] = $question;
+//                    }
+//                    else
+//                    {
+//                        //                    	$question_nr ++;
+//                        $bis_nr = $question_nr . '.1';
+//                        $questions[$bis_nr] = $question;
+//                    }
+//                
+//                }
+//            
+//            }
+//            
+//            $this->pages[$page_nr] = array(page => $survey_page, questions => $questions);
+        
+//        }
         
         //there are no pages added to this survey so add a page with just a message that says exactly that!
-        if ($page_nr == 0)
-        {
-            $this->addPage(new QuestionsSurveyViewerWizardPage('question_page_' . $page_nr, $this, $page_nr));
-        }
+//        if ($page_nr == 0)
+//        {
+//            $this->addPage(new QuestionsSurveyViewerWizardPage('question_page_' . $page_nr, $this, $page_nr));
+//        }
         
-        $this->total_pages = $page_nr;
-        $this->total_questions = $question_nr;
+//        $this->total_pages = $page_nr;
+//        $this->total_questions = $question_nr;
     
     }
 

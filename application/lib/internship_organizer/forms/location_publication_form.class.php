@@ -69,8 +69,8 @@ class InternshipOrganizerLocationPublicationForm extends FormValidator
         
         if ($this->type == InternshipOrganizerLocationPublisher :: MULTIPLE_LOCATION_TYPE)
         {
-            $organisation_id = Request ::get(InternshipOrganizerOrganisationManager:: PARAM_ORGANISATION_ID);
-        	$url = Path :: get(WEB_PATH) . 'application/lib/internship_organizer/xml_feeds/xml_location_feed.php?'. InternshipOrganizerOrganisationManager:: PARAM_ORGANISATION_ID.'='. $organisation_id;
+            $organisation_id = Request :: get(InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_ID);
+            $url = Path :: get(WEB_PATH) . 'application/lib/internship_organizer/xml_feeds/xml_location_feed.php?' . InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_ID . '=' . $organisation_id;
             
             $locale = array();
             $locale['Display'] = Translation :: get('ChooseLocations');
@@ -111,15 +111,17 @@ class InternshipOrganizerLocationPublicationForm extends FormValidator
         if (count($location_ids))
         {
             
-            foreach ($location_ids as $location_id)
+            foreach ($ids as $id)
             {
-                                               
-                foreach ($ids as $id)
+                $content_object = RepositoryDataManager :: get_instance()->retrieve_content_object($id);
+                
+                foreach ($location_ids as $location_id)
                 {
                     $pub = new InternshipOrganizerPublication();
                     $pub->set_name($values[InternshipOrganizerPublication :: PROPERTY_NAME]);
                     $pub->set_description($values[InternshipOrganizerPublication :: PROPERTY_DESCRIPTION]);
-                    $pub->set_content_object($id);
+                    $pub->set_content_object_id($id);
+                    $pub->set_content_object_type($content_object->get_type());
                     $pub->set_publisher_id($this->user->get_id());
                     $pub->set_published(time());
                     $pub->set_from_date($values[InternshipOrganizerPublication :: PROPERTY_FROM_DATE]);

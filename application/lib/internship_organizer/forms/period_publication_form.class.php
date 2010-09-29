@@ -71,7 +71,7 @@ class InternshipOrganizerPeriodPublicationForm extends FormValidator
         $this->addElement('checkbox', self :: PARAM_COORDINATORS, Translation :: get('InternshipOrganizerCoordinators'));
         $this->addElement('checkbox', self :: PARAM_COACHES, Translation :: get('InternshipOrganizerCoaches'));
         $this->addElement('checkbox', self :: PARAM_STUDENTS, Translation :: get('InternshipOrganizerStudents'));
-              
+        
         if ($this->type == InternshipOrganizerPeriodPublisher :: MULTIPLE_PERIOD_TYPE)
         {
             $url = Path :: get(WEB_PATH) . 'application/lib/internship_organizer/xml_feeds/xml_period_feed.php';
@@ -134,10 +134,12 @@ class InternshipOrganizerPeriodPublicationForm extends FormValidator
                 
                 foreach ($ids as $id)
                 {
+                    $content_object = RepositoryDataManager :: get_instance()->retrieve_content_object($id);
                     $pub = new InternshipOrganizerPublication();
                     $pub->set_name($values[InternshipOrganizerPublication :: PROPERTY_NAME]);
                     $pub->set_description($values[InternshipOrganizerPublication :: PROPERTY_DESCRIPTION]);
-                    $pub->set_content_object($id);
+                    $pub->set_content_object_id($id);
+                    $pub->set_content_object_type($content_object->get_type());
                     $pub->set_publisher_id($this->user->get_id());
                     $pub->set_published(time());
                     $pub->set_from_date($period->get_begin());
