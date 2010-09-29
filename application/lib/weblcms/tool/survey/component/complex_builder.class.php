@@ -1,6 +1,6 @@
 <?php
 
-class SurveyToolBuilderComponent extends SurveyTool
+class SurveyToolComplexBuilderComponent extends SurveyTool
 {
 
     function run()

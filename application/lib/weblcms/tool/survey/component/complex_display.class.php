@@ -8,7 +8,7 @@ require_once dirname(__FILE__) . '/../survey_invitation.class.php';
 require_once Path :: get_application_path() . 'lib/weblcms/trackers/weblcms_survey_participant_tracker.class.php';
 require_once Path :: get_application_path() . 'lib/weblcms/trackers/weblcms_survey_question_answer_tracker.class.php';
 
-class SurveyToolTakerComponent extends SurveyTool
+class SurveyToolComplexDisplayComponent extends SurveyTool
 {
     private $datamanager;
     
