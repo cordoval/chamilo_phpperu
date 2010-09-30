@@ -46,7 +46,7 @@ class RepositoryAutoloader
 					  'content_object', 'content_object_attachment', 'difference_engine', 'external_repository', 'external_repository_setting',
 					  'external_repository_user_setting', 'external_repository_sync_info', 'external_repository_sync', 'quota_manager', 'repository_block',
 					  'repository_data_class', 'repository_data_manager', 'repository_rights', 'user_view_rel_content_object', 'user_view',
-					  'content_object_renderer');
+					  'content_object_renderer', 'content_object_share', 'content_object_user_share', 'content_object_group_share');
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);
 

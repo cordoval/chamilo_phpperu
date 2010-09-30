@@ -94,6 +94,9 @@ class PortfolioPublicationForm extends FormValidator
         
         $attributes1['defaults'] = array();
 
+        
+        $attributes1['options'] = array('load_elements' => false);
+
 
         $radioOptions = array();
         $i = 0;
@@ -270,6 +273,7 @@ class PortfolioPublicationForm extends FormValidator
         $attributes['exclude'] = array('user_' . PortfolioRights::ANONYMOUS_USERS_ID);
         $attributes['defaults'] = array();
         $attributes['options'] = array();
+        $attributes['options']['load-elements'] = false;
 
         $radio_options = array();
         $radio_options[0] = PortfolioRights::RADIO_OPTION_ANONYMOUS;
