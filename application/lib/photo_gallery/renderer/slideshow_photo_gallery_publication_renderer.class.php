@@ -1,7 +1,7 @@
 <?php
-require_once dirname(__FILE__) . '/../photo_gallery_renderer.class.php';
+require_once dirname(__FILE__) . '/../photo_gallery_publication_renderer.class.php';
 
-class SlideshowPhotoGalleryRenderer extends PhotoGalleryRenderer
+class SlideshowPhotoGalleryPublicationRenderer extends PhotoGalleryPublicationRenderer
 {
     const SLIDESHOW_INDEX = 'slideshow';
     const SLIDESHOW_AUTOPLAY = 'autoplay';
@@ -17,15 +17,15 @@ class SlideshowPhotoGalleryRenderer extends PhotoGalleryRenderer
             $slideshow_index = Request :: get(self :: SLIDESHOW_INDEX);
         }
         
-        $photo_gallery = $this->retrieve_photos_gallery($this->get_condition(), null, $slideshow_index, 1)->next_result();
-        $photo_gallery_count = $this->count_photo_gallery($this->get_condition());
+        $photo_gallery = $this->retrieve_photo_gallery_publications($this->get_condition(), null, $slideshow_index, 1)->next_result();
+        $photo_gallery_count = $this->count_photo_gallery_publications($this->get_condition());
         if ($photo_gallery_count == 0)
         {
-            $html[] = Display :: normal_message(Translation :: get('NoPhotoGalleryAvailable'), true);
+            $html[] = Display :: normal_message(Translation :: get('NoPhotoGalleryPublicationAvailable'), true);
             return implode("\n", $html);
         }
         
-        $content_object = $photo_gallery->get_photo_gallery_object();
+        $content_object = $photo_gallery->get_publication_object();
         
         $first = ($slideshow_index == 0);
         $last = ($slideshow_index == $photo_gallery_count - 1);

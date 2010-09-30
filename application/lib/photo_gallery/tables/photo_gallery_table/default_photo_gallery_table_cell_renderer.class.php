@@ -1,5 +1,4 @@
 <?php
-require_once dirname(__FILE__) . '/../../photo_gallery.class.php';
 
 class DefaultPhotoGalleryTableCellRenderer extends ObjectTableCellRenderer
 {
@@ -20,7 +19,7 @@ class DefaultPhotoGalleryTableCellRenderer extends ObjectTableCellRenderer
      */
     function render_cell($column, $photo_gallery)
     {
-        $content_object = $photo_gallery->get_photo_gallery_object();
+        $content_object = $photo_gallery->get_publication_object();
         
         switch ($column->get_name())
         {

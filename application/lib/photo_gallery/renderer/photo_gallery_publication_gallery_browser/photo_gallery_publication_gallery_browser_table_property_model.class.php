@@ -3,7 +3,7 @@ require_once dirname(__FILE__) . '/../../tables/photo_gallery_gallery_table/defa
 /**
  * Table column model for the repository browser table
  */
-class PhotoGalleryGalleryBrowserTablePropertyModel extends DefaultPhotoGalleryGalleryTablePropertyModel
+class PhotoGalleryPublicationGalleryBrowserTablePropertyModel extends DefaultPhotoGalleryGalleryTablePropertyModel
 {
 }
 ?>

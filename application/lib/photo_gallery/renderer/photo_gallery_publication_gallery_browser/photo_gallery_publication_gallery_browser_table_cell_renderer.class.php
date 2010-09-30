@@ -3,7 +3,7 @@ require_once dirname(__FILE__) . '/../../tables/photo_gallery_gallery_table/defa
 /**
  * Cell rendere for the learning object browser table
  */
-class PhotoGalleryGalleryBrowserTableCellRenderer extends DefaultPhotoGalleryGalleryTableCellRenderer
+class PhotoGalleryPublicationGalleryBrowserTableCellRenderer extends DefaultPhotoGalleryGalleryTableCellRenderer
 {
     /**
      * The repository browser component
@@ -14,7 +14,7 @@ class PhotoGalleryGalleryBrowserTableCellRenderer extends DefaultPhotoGalleryGal
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function PhotoGalleryGalleryBrowserTableCellRenderer($browser)
+    function PhotoGalleryPublicationGalleryBrowserTableCellRenderer($browser)
     {
         parent :: __construct();
         $this->browser = $browser;
@@ -40,13 +40,13 @@ class PhotoGalleryGalleryBrowserTableCellRenderer extends DefaultPhotoGalleryGal
     /**
      * @param ContentObject $publication
      */
-    function get_cell_content(PhotoGallery  $photo_gallery)
+    function get_cell_content(PhotoGalleryPublication  $photo_gallery)
     {
-        $content_object = $photo_gallery->get_photo_gallery_object();
+        $content_object = $photo_gallery->get_publication_object();
         $display = ContentObjectDisplay :: factory($content_object);
         
         $html[] = '<h4>' . Utilities :: truncate_string($content_object->get_title(), 25) . '</h4>';
-        //$html[] = '<a href="' . htmlentities($this->browser->get_publication_viewing_url($photo_gallery)) . '">' . $display->get_preview(true) . '</a>';
+        $html[] = '<a href="' . htmlentities($this->browser->get_publication_viewing_url($photo_gallery)) . '">' . $display->get_preview(true) . '</a>';
         
         return implode("\n", $html);
     }

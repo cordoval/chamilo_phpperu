@@ -5,7 +5,7 @@
  * This class implements some functions to allow photo_gallery browser tables to
  * retrieve information about the photo_gallery objects to display.
  */
-class PhotoGalleryBrowserTableDataProvider extends ObjectTableDataProvider
+class PhotoGalleryPublicationBrowserTableDataProvider extends ObjectTableDataProvider
 {
 
     /**
@@ -13,7 +13,7 @@ class PhotoGalleryBrowserTableDataProvider extends ObjectTableDataProvider
      * @param PhotoGalleryManagerComponent $browser
      * @param Condition $condition
      */
-    function PhotoGalleryBrowserTableDataProvider($browser, $condition)
+    function PhotoGalleryPublicationBrowserTableDataProvider($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }
@@ -29,7 +29,7 @@ class PhotoGalleryBrowserTableDataProvider extends ObjectTableDataProvider
     {
         $order_property = $this->get_order_property($order_property);
         
-        return $this->get_browser()->retrieve_photos_gallery($this->get_condition(), $order_property, $offset, $count);
+        return $this->get_browser()->retrieve_photo_gallery_publications($this->get_condition(), $order_property, $offset, $count);
     }
 
     /**
@@ -38,7 +38,7 @@ class PhotoGalleryBrowserTableDataProvider extends ObjectTableDataProvider
      */
     function get_object_count()
     {
-        return $this->get_browser()->count_photo_gallery($this->get_condition());
+        return $this->get_browser()->count_photo_gallery_publications($this->get_condition());
     }
 }
 ?>

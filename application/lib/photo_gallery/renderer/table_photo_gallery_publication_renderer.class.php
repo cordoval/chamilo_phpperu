@@ -1,8 +1,7 @@
 <?php
-require_once dirname(__FILE__) . '/../photo_gallery_renderer.class.php';
-require_once dirname(__FILE__) . '/photo_gallery_browser/photo_gallery_browser_table.class.php';
+require_once dirname(__FILE__) . '/photo_gallery_publication_browser/photo_gallery_publication_browser_table.class.php';
 
-class TablePhotoGalleryRenderer extends PhotoGalleryRenderer
+class TablePhotoGalleryPublicationRenderer extends PhotoGalleryPublicationRenderer
 {
 
     /**

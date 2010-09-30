@@ -1,11 +1,9 @@
 <?php
-require_once dirname(__FILE__) . '/photo_gallery_browser_table_column_model.class.php';
-require_once dirname(__FILE__) . '/../../tables/photo_gallery_table/default_photo_gallery_table_cell_renderer.class.php';
-require_once dirname(__FILE__) . '/../../photo_gallery_manager/photo_gallery_manager.class.php';
+
 /**
  * Cell renderer for the learning object browser table
  */
-class PhotoGalleryBrowserTableCellRenderer extends DefaultPhotoGalleryTableCellRenderer
+class PhotoGalleryPublicationBrowserTableCellRenderer extends DefaultPhotoGalleryTableCellRenderer
 {
     /**
      * The repository browser component
@@ -16,7 +14,7 @@ class PhotoGalleryBrowserTableCellRenderer extends DefaultPhotoGalleryTableCellR
      * Constructor
      * @param PhotoGalleryManagerBrowserComponent $browser
      */
-    function PhotoGalleryBrowserTableCellRenderer($browser)
+    function PhotoGalleryPublicationBrowserTableCellRenderer($browser)
     {
         parent :: __construct();
         $this->browser = $browser;
@@ -25,7 +23,7 @@ class PhotoGalleryBrowserTableCellRenderer extends DefaultPhotoGalleryTableCellR
     // Inherited
     function render_cell($column, $photo_gallery)
     {
-        if ($column === PhotoGalleryBrowserTableColumnModel :: get_modification_column())
+        if ($column === PhotoGalleryPublicationBrowserTableColumnModel :: get_modification_column())
         {
             return $this->get_modification_links($photo_gallery);
         }
@@ -35,7 +33,7 @@ class PhotoGalleryBrowserTableCellRenderer extends DefaultPhotoGalleryTableCellR
             case ContentObject :: PROPERTY_TITLE :
                 $title = parent :: render_cell($column, $photo_gallery);
                 $title_short = Utilities :: truncate_string($title, 53, false);
-                return '<a href="' . htmlentities($photo_gallery->get_photo_gallery_object()->get_url()) . '" title="' . $title . '">' . $title_short . '</a>';
+                return '<a href="' . htmlentities($photo_gallery->get_publication_object()->get_url()) . '" title="' . $title . '">' . $title_short . '</a>';
         }
         
         return parent :: render_cell($column, $photo_gallery);
@@ -55,7 +53,7 @@ class PhotoGalleryBrowserTableCellRenderer extends DefaultPhotoGalleryTableCellR
         
     	$toolbar = new Toolbar(); 
         
-        //$viewing_url = $this->browser->get_publication_viewing_url($photo_gallery);
+        $viewing_url = $this->browser->get_publication_viewing_url($photo_gallery);
         
         $toolbar->add_item(new ToolbarItem(Translation :: get('View'), Theme :: get_common_image_path() . 'action_details.png', $viewing_url, ToolbarItem :: DISPLAY_ICON));
         

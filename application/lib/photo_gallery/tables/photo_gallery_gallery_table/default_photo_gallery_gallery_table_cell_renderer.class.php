@@ -18,6 +18,6 @@ abstract class DefaultPhotoGalleryGalleryTableCellRenderer implements GalleryObj
         return $publication->get_id();
     }
 
-    abstract function get_cell_content(PhotoGallery $publication);
+    abstract function get_cell_content(PhotoGalleryPublication $publication);
 }
 ?>

@@ -1,10 +1,8 @@
 <?php
-
-require_once dirname(__FILE__) . '/../../tables/photo_gallery_table/default_photo_gallery_table_column_model.class.php';
 /**
  * Table column model for the publication browser table
  */
-class PhotoGalleryBrowserTableColumnModel extends DefaultPhotoGalleryTableColumnModel
+class PhotoGalleryPublicationBrowserTableColumnModel extends DefaultPhotoGalleryTableColumnModel
 {
     /**
      * The tables modification column
@@ -14,7 +12,7 @@ class PhotoGalleryBrowserTableColumnModel extends DefaultPhotoGalleryTableColumn
     /**
      * Constructor
      */
-    function PhotoGalleryBrowserTableColumnModel()
+    function PhotoGalleryPublicationBrowserTableColumnModel()
     {
         parent :: __construct();
         $this->set_default_order_column(1);

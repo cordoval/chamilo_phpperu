@@ -10,10 +10,10 @@ interface PhotoGalleryDataManagerInterface
 
 //    function create_storage_unit($name, $properties, $indexes);
 
-    function count_photo_gallery($conditions = null);
+    function count_photo_gallery_publications($conditions = null);
 
-    function retrieve_photo_gallery($id);
+    function retrieve_photo_gallery_publication($id);
 
-    function retrieve_photos_gallery($condition = null, $offset = null, $count = null, $order_property = array());
+    function retrieve_photo_gallery_publications($condition = null, $offset = null, $count = null, $order_property = array());
 }
 ?>
