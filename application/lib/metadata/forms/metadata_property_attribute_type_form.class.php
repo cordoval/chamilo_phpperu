@@ -57,29 +57,30 @@ class MetadataPropertyAttributeTypeForm extends FormValidator
         $this->addElement('text', MetadataPropertyAttributeType :: PROPERTY_NAME, Translation :: get('Name'));
         $this->addRule(MetadataPropertyAttributeType :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
 
-        $value_types = array();
-        $value_types[MetadataPropertyAttributeType :: VALUE_TYPE_NONE] = '--';
-        $value_types[MetadataPropertyAttributeType :: VALUE_TYPE_ID] = Translation :: get('id');
-        $value_types[MetadataPropertyAttributeType :: VALUE_TYPE_VALUE] = Translation :: get('value');
-
-        $this->addElement('select', MetadataPropertyAttributeType :: PROPERTY_VALUE_TYPE, Translation :: get('ValueType'), $value_types);
+//        $value_types = array();
+//        $value_types[MetadataPropertyAttributeType :: VALUE_TYPE_NONE] = '--';
+//        $value_types[MetadataPropertyAttributeType :: VALUE_TYPE_ID] = Translation :: get('id');
+//        $value_types[MetadataPropertyAttributeType :: VALUE_TYPE_VALUE] = Translation :: get('value');
+//
+//        $this->addElement('select', MetadataPropertyAttributeType :: PROPERTY_VALUE_TYPE, Translation :: get('ValueType'), $value_types);
         //$this->addRule(MetadataPropertyAttributeType :: PROPERTY_VALUE_TYPE, Translation :: get('ThisFieldIsRequired'), 'required');
 
-        $attribute_types = $mm->retrieve_metadata_property_attribute_types();
+//        $attribute_types = $mm->retrieve_metadata_property_attribute_types();
+//
+//        $attribute_options = array();
+//        $attribute_options[self :: OPTION_BLANK] = '--';
+//
+//        while($attribute_type = $attribute_types->next_result())
+//        {
+//            $prefix = (is_null($attribute_type->get_ns_prefix())) ? '' : $attribute_type->get_ns_prefix() . ':';
+//            $value = (is_null($attribute_type->get_value())) ? '' : '=' . $attribute_type->get_value();
+//            if($attribute_type->get_id() != $this->metadata_property_attribute_type->get_id()) $attribute_options[$attribute_type->get_id()] = $prefix . $attribute_type->get_name() . $value;
+//
+//        }
 
-        $attribute_options = array();
-        $attribute_options[self :: OPTION_BLANK] = '--';
-
-        while($attribute_type = $attribute_types->next_result())
-        {
-            $prefix = (is_null($attribute_type->get_ns_prefix())) ? '' : $attribute_type->get_ns_prefix() . ':';
-            $value = (is_null($attribute_type->get_value())) ? '' : '=' . $attribute_type->get_value();
-            $attribute_options[$attribute_type->get_id()] = $prefix . $attribute_type->get_name() . $value;
-        }
-
-        $this->addElement('select', MetadataPropertyAttributeType :: PROPERTY_VALUE, Translation :: get('Value'), $attribute_options);
-        //$this->addRule(MetadataPropertyAttributeType :: PROPERTY_VALUE, Translation :: get('ThisFieldIsRequired'), 'required');
-        $this->addElement('text', MetadataPropertyAttributeType :: PROPERTY_VALUE. '_2', Translation :: get('Value'));
+//        $this->addElement('select', MetadataPropertyAttributeType :: PROPERTY_VALUE, Translation :: get('Value'), $attribute_options);
+//        //$this->addRule(MetadataPropertyAttributeType :: PROPERTY_VALUE, Translation :: get('ThisFieldIsRequired'), 'required');
+//        $this->addElement('text', MetadataPropertyAttributeType :: PROPERTY_VALUE. '_2', Translation :: get('Value'));
     }
 
     function build_editing_form()
@@ -114,20 +115,20 @@ class MetadataPropertyAttributeTypeForm extends FormValidator
         $metadata_property_attribute_type->set_name($values[MetadataPropertyAttributeType :: PROPERTY_NAME]);
     	//$metadata_property_attribute_type->set_value_type($values[MetadataPropertyAttributeType :: PROPERTY_VALUE_TYPE]);
 
-        $metadata_property_attribute_type->set_value_type($values[MetadataPropertyAttributeType :: PROPERTY_VALUE_TYPE]);
-
-        switch($metadata_property_attribute_type->get_value_type())
-        {
-            case MetadataPropertyAttributeType :: VALUE_TYPE_ID:
-                $metadata_property_attribute_type->set_value($values[MetadataPropertyAttributeType :: PROPERTY_VALUE]);
-                break;
-            case MetadataPropertyAttributeType :: VALUE_TYPE_VALUE:
-                 $metadata_property_attribute_type->set_value($values[MetadataPropertyAttributeType :: PROPERTY_VALUE . '_2']);
-                break;
-            case MetadataPropertyAttributeType :: VALUE_TYPE_NONE:
-                 $metadata_property_attribute_type->set_value(null);
-                break;
-        }
+//        $metadata_property_attribute_type->set_value_type($values[MetadataPropertyAttributeType :: PROPERTY_VALUE_TYPE]);
+//
+//        switch($metadata_property_attribute_type->get_value_type())
+//        {
+//            case MetadataPropertyAttributeType :: VALUE_TYPE_ID:
+//                $metadata_property_attribute_type->set_value($values[MetadataPropertyAttributeType :: PROPERTY_VALUE]);
+//                break;
+//            case MetadataPropertyAttributeType :: VALUE_TYPE_VALUE:
+//                 $metadata_property_attribute_type->set_value($values[MetadataPropertyAttributeType :: PROPERTY_VALUE . '_2']);
+//                break;
+//            case MetadataPropertyAttributeType :: VALUE_TYPE_NONE:
+//                 $metadata_property_attribute_type->set_value(null);
+//                break;
+//        }
 
     	return $metadata_property_attribute_type->update();
     }
@@ -142,20 +143,20 @@ class MetadataPropertyAttributeTypeForm extends FormValidator
         $metadata_property_attribute_type->set_name($values[MetadataPropertyAttributeType :: PROPERTY_NAME]);
     	//$metadata_property_attribute_type->set_value_type($values[MetadataPropertyAttributeType :: PROPERTY_VALUE_TYPE]);
         
-        $metadata_property_attribute_type->set_value_type($values[MetadataPropertyAttributeType :: PROPERTY_VALUE_TYPE]);
-        
-        switch($metadata_property_attribute_type->get_value_type())
-        {
-            case MetadataPropertyAttributeType :: VALUE_TYPE_ID:
-                $metadata_property_attribute_type->set_value($values[MetadataPropertyAttributeType :: PROPERTY_VALUE]);
-                break;
-            case MetadataPropertyAttributeType :: VALUE_TYPE_VALUE:
-                 $metadata_property_attribute_type->set_value($values[MetadataPropertyAttributeType :: PROPERTY_VALUE . '_2']);
-                break;
-            case MetadataPropertyAttributeType :: VALUE_TYPE_NONE:
-                 $metadata_property_attribute_type->set_value(null);
-                break;
-        }
+//        $metadata_property_attribute_type->set_value_type($values[MetadataPropertyAttributeType :: PROPERTY_VALUE_TYPE]);
+//
+//        switch($metadata_property_attribute_type->get_value_type())
+//        {
+//            case MetadataPropertyAttributeType :: VALUE_TYPE_ID:
+//                $metadata_property_attribute_type->set_value($values[MetadataPropertyAttributeType :: PROPERTY_VALUE]);
+//                break;
+//            case MetadataPropertyAttributeType :: VALUE_TYPE_VALUE:
+//                 $metadata_property_attribute_type->set_value($values[MetadataPropertyAttributeType :: PROPERTY_VALUE . '_2']);
+//                break;
+//            case MetadataPropertyAttributeType :: VALUE_TYPE_NONE:
+//                 $metadata_property_attribute_type->set_value(null);
+//                break;
+//        }
 
         return $metadata_property_attribute_type->create();
     }
