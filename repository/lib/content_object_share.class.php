@@ -61,5 +61,11 @@ class ContentObjectShare extends DataClass
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
+    
+    function get_rights()
+    {
+    	return array(self :: SEARCH_RIGHT => Translation :: get('Search'), self :: VIEW_RIGHT => Translation :: get('View'), 
+    				 self :: USE_RIGHT => Translation :: get('Use'), self :: REUSE_RIGHT => Translation :: get('Reuse'));
+    }
 }
 ?>
