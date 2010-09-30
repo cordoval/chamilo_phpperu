@@ -8,7 +8,7 @@ require_once dirname(__file__) . '/photobucket_external_repository_table_column_
 
 class PhotobucketExternalRepositoryTable extends ObjectTable
 {
-    const DEFAULT_NAME = 'youtube_external_repository_table';
+    const DEFAULT_NAME = 'photobucket_external_repository_table';
 
     /**
      * Constructor

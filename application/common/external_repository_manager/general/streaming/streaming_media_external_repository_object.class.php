@@ -48,9 +48,6 @@ abstract class StreamingMediaExternalRepositoryObject extends ExternalRepository
     }
 
     /**
-     * @return the $title
-     */
-    /**
      * @return the $thumbnail
      */
     public function get_thumbnail()
