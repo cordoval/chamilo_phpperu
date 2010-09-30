@@ -1,8 +1,4 @@
 <?php
-require_once dirname(__FILE__) . '/photobucket_external_repository_connector.class.php';
-require_once dirname(__FILE__) . '/../../general/streaming/streaming_media_external_repository_browser_gallery_table_cell_renderer.class.php';
-require_once dirname(__FILE__) . '/table/photobucket_external_repository_browser_gallery_table_property_model.class.php';
-
 /**
  * 
  * @author magali.gillard
@@ -40,9 +36,10 @@ class PhotobucketExternalRepositoryManager extends ExternalRepositoryManager
      */
     function validate_settings()
     {
-//  		$developer_key = ExternalRepositorySetting :: get('developer_key');
+//    	$key = ExternalRepositorySetting :: get('key');
+//        $secret = ExternalRepositorySetting :: get('secret');
 //
-//        if (! $developer_key)
+//        if (! $key || ! $secret)
 //        {
 //            return false;
 //        }
@@ -78,7 +75,7 @@ class PhotobucketExternalRepositoryManager extends ExternalRepositoryManager
         $menu_items = array();
 
         $my_photos = array();
-        $my_photos['title'] = Translation :: get('MyMedias');
+        $my_photos['title'] = Translation :: get('MyPhotos');
         $my_photos['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_MY_PHOTOS), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
         $my_photos['class'] = 'user';
         $menu_items[] = $my_photos;
@@ -130,14 +127,14 @@ class PhotobucketExternalRepositoryManager extends ExternalRepositoryManager
      */
     function get_content_object_type_conditions()
     {
-        $video_types = Document :: get_video_types();
-        $video_conditions = array();
-        foreach ($video_types as $video_type)
+        $image_types = Document :: get_image_types();
+        $image_conditions = array();
+        foreach ($image_types as $image_type)
         {
-            $video_conditions[] = new PatternMatchCondition(Document :: PROPERTY_FILENAME, '*.' . $video_type, Document :: get_type_name());
+            $image_conditions[] = new PatternMatchCondition(Document :: PROPERTY_FILENAME, '*.' . $image_type, Document :: get_type_name());
         }
 
-        return new OrCondition($video_conditions);
+        return new OrCondition($image_conditions);
     }
 
     /**

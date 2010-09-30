@@ -1,6 +1,4 @@
 <?php
-//require_once dirname(__FILE__) . '/../../general/streaming/external_repository_object_display.class.php';
-
 class PhotobucketExternalRepositoryObjectDisplay extends ExternalRepositoryObjectDisplay
 {		
 	function get_display_properties()

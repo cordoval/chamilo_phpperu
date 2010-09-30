@@ -1,6 +1,4 @@
 <?php
-//require_once dirname(__FILE__) . '/../../general/streaming/streaming_media_external_repository_object.class.php';
-
 /**
  *
  * @author magali.gillard
@@ -26,12 +24,12 @@ class PhotobucketExternalRepositoryObject extends ExternalRepositoryObject
 
     function get_tags_string()
     {
-		return implode(" ", $this->get_tags());
+		return implode(", ", $this->get_tags());
     }
     
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_TAGS));
+        return parent :: get_default_property_names(array(self :: PROPERTY_TAGS, self :: PROPERTY_URL, self :: PROPERTY_THUMBNAIL));
     }
 
     static function get_object_type()
