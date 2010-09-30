@@ -11,8 +11,9 @@ abstract class SurveyQuestionDisplay
     private $page_nr;
     private $answer;
     private $visible;
+    private $contex_path;
 
-    function SurveyQuestionDisplay($formvalidator, $complex_question, $question, $question_nr ,$answer)
+    function SurveyQuestionDisplay($formvalidator, $complex_question, $question, $question_nr , $answer, $context_path)
     {
         $this->formvalidator = $formvalidator;
         $this->renderer = $formvalidator->defaultRenderer();
@@ -20,6 +21,7 @@ abstract class SurveyQuestionDisplay
 	    $this->question_nr = $question_nr;
         $this->question = $question;
     	$this->answer = $answer;
+    	$this->contex_path = $context_path;
      }
 
     function get_complex_question()
@@ -46,7 +48,12 @@ abstract class SurveyQuestionDisplay
     {
         return $this->answer;
     }
-
+	
+	function get_context_path()
+    {
+        return $this->contex_path;
+    }
+    
     function display()
     {
         $formvalidator = $this->formvalidator;
@@ -77,13 +84,13 @@ abstract class SurveyQuestionDisplay
     {
         $formvalidator = $this->formvalidator;
      
-        if(!$this->visible){
-        	        $html[] = '<div style="display:none" class="question" id="survey_question_'. $this->question->get_id() .'">';
-        	
-        }else{
+//        if(!$this->visible){
+//        	        $html[] = '<div style="display:none" class="question" id="survey_question_'. $this->question->get_id() .'">';
+//        	
+//        }else{
         	        $html[] = '<div  class="question" id="survey_question_'. $this->question->get_id() .'">';
         	
-        }
+//        }
         
 //        style="display:none"
         $html[] = '<div class="title">';
@@ -137,10 +144,11 @@ abstract class SurveyQuestionDisplay
 
     abstract function get_instruction();
 
- static function factory($formvalidator, $complex_question ,$question_nr, $answer)
+ static function factory($formvalidator, $complex_question ,$question_nr, $answer, $context_path)
     {
        	
     	$question = RepositoryDataManager::get_instance()->retrieve_content_object($complex_question->get_ref());
+    	
     	$type = $question->get_type();
 
         $file = dirname(__FILE__) . '/survey_question_display/' . $type . '.class.php';
@@ -153,7 +161,7 @@ abstract class SurveyQuestionDisplay
         require_once $file;
 
         $class = Utilities :: underscores_to_camelcase($type) . 'Display';
-        $question_display = new $class($formvalidator, $complex_question, $question, $question_nr, $answer);
+        $question_display = new $class($formvalidator, $complex_question, $question, $question_nr, $answer, $context_path);
         return $question_display;
     }
     

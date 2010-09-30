@@ -12,9 +12,9 @@ class SurveyMatrixQuestionDisplay extends SurveyQuestionDisplay
     {
         $formvalidator = $this->get_formvalidator();
         $renderer = $this->get_renderer();
-        $clo_question = $this->get_clo_question();
+        $complex_question = $this->get_complex_question();
         $question = $this->get_question();
-
+		        
         $options = $question->get_options();
         $matches = $question->get_matches();
         $type = $question->get_matrix_type();
@@ -49,7 +49,8 @@ class SurveyMatrixQuestionDisplay extends SurveyQuestionDisplay
             {
                 if ($type == MatrixQuestion :: MATRIX_TYPE_RADIO)
                 {
-                    $answer_name = $question_id . '_' . $i . '_0_'.$this->get_page_nr();
+                    $answer_name = $question_id . '_' . $i . '_0_'.$this->get_context_path();
+                  
                     $radio = $formvalidator->createElement('radio', $answer_name, null, null, $j);
 //					if($answer[$i][0]==$j){
 //						$radio->setChecked(true);
@@ -58,7 +59,7 @@ class SurveyMatrixQuestionDisplay extends SurveyQuestionDisplay
                 }
                 elseif ($type == MatrixQuestion :: MATRIX_TYPE_CHECKBOX)
                 {
-                    $answer_name = $question_id . '_' . $i . '_' . $j . '_'.$this->get_page_nr();
+                    $answer_name = $question_id . '_' . $i . '_' . $j . '_'.$this->get_context_path();
                     $checkbox = $formvalidator->createElement('checkbox', $answer_name, '', '', array('checked'=>'checked'));
                     $group[] = $checkbox;
                 }

@@ -10,7 +10,7 @@ class SurveyFillInBlanksQuestionDisplay extends SurveyQuestionDisplay
 
     function add_question_form()
     {
-        $clo_question = $this->get_clo_question();
+        $complex_question = $this->get_complex_question();
         $question = $this->get_question();
         $formvalidator = $this->get_formvalidator();
         $renderer = $this->get_renderer();
@@ -35,7 +35,7 @@ class SurveyFillInBlanksQuestionDisplay extends SurveyQuestionDisplay
         $matches = $matches[0];
         foreach ($matches as $i => $match)
         {
-            $name = $clo_question->get_id() . '_' . $i.'_'.$this->get_page_nr();
+            $name = $complex_question->get_id() . '_' . $i.'_'.$this->get_context_path();
             
             if ($question_type == FillInBlanksQuestion :: TYPE_SELECT)
             {

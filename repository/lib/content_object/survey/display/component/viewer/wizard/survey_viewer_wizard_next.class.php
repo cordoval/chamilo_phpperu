@@ -103,8 +103,7 @@ class SurveyViewerWizardNext extends HTML_QuickForm_Action
                         {
 //                            $question = $rdm->retrieve_content_object($question_ccoi->get_ref());
                             $count_questions ++;
-                          	$page_id = $page->get_real_page_number();
-                            $path = $context_path.$pageName.$question_ccoi->get_id();
+                          	
                             $this->parent->save_answer($question_ccoi->get_id(), serialize($answers), $context_path);
                         }
                     

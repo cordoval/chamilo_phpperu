@@ -25,12 +25,17 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
 
     function finish()
     {
-       $this->get_parent()->finish();
+        $this->get_parent()->finish();
     }
 
     function save_answer($question_id, $answer, $context_path)
     {
-       $this->get_parent()->save_answer($question_id, $answer, $context_path);
+        $this->get_parent()->save_answer($question_id, $answer, $context_path);
+    }
+
+    function get_answer($question_id, $answer, $context_path)
+    {
+        $this->get_parent()->save_answer($question_id, $answer, $context_path);
     }
 
 }

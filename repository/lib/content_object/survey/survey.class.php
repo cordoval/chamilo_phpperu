@@ -21,6 +21,11 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
     const MANAGER_CONTEXT = 'context';
     
     private $context;
+    
+    private $page_matrix;
+    private $user_id;
+    private $context_paths;
+    
 
     static function get_type_name()
     {
@@ -163,7 +168,8 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
 
     function get_context_paths($user_id, $with_question_id = false)
     {
-        $context_paths = array();
+        $this->user_id = $user_id;
+    	$context_paths = array();
         if (! $this->has_context())
         {
             
@@ -184,6 +190,16 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
                     $context_paths[] = $page_id;
                 }
             }
+        }else{
+        	
+        	$contexts = $this->get_context_pages();
+        	$level_count = $this->get_context_template(1)->get_level_count();
+        	
+//        	dump($contexts);
+//        	dump($this->context_paths);
+//        	dump(count($this->context_paths));
+//        	dump(array_keys($contexts));
+        	$context_paths = $this->context_paths;
         }
         
         return $context_paths;
@@ -207,7 +223,127 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
         
         return $questions;
     }
-
+	
+private function create_page_matrix()
+    {
+        
+        $context_template = $this->get_context_template(1);
+       
+        $condition = new EqualityCondition(SurveyTemplate :: PROPERTY_USER_ID, $this->user_id, SurveyTemplate :: get_table_name());
+        $templates = SurveyContextDataManager :: get_instance()->retrieve_survey_templates($context_template->get_type(), $condition);
+        
+        $page_matrix = array();
+        
+        while ($template = $templates->next_result())
+        {
+            
+            $level = 1;
+            $property_names = $template->get_additional_property_names(true);
+            $parent_id = 0;
+            foreach ($property_names as $property_name => $context_type)
+            {
+                
+                $conditions = array();
+            	$conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_SURVEY_ID, $this->get_id());
+                $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_TEMPLATE_ID, $this->get_context_template($level)->get_id($level));
+                $condition = new AndCondition($conditions);
+                $template_rel_pages = SurveyContextDataManager :: get_instance()->retrieve_template_rel_pages($condition);
+                $pages_ids = array();
+                while ($template_rel_page = $template_rel_pages->next_result())
+                {
+//                   dump($template_rel_page);
+                	$pages_ids[] = $template_rel_page->get_page_id();
+                }
+                
+                $context_id = $template->get_additional_property($property_name);
+                
+                $context = SurveyContextDataManager :: get_instance()->retrieve_survey_context_by_id($context_id);
+               
+                $page_matrix[$level][$parent_id][$context_id] = $pages_ids;
+                               
+                $parent_id = $context_id;
+                $level ++;
+            }
+        }
+        
+//        dump($page_matrix);
+        
+        $this->page_matrix = $page_matrix;
+    }
+	
+	private function get_context_pages($level = 1, $parent_id = 0, $path = null)
+    {
+        
+		if(!$this->page_matrix){
+			$this->create_page_matrix();
+		}
+    	
+			
+    	foreach ($this->page_matrix[$level][$parent_id] as $id => $pages)
+        {
+//            $template_id = $this->menu_matrix[self :: PARAM_TEMPLATE_ID][$parent_id][$id];
+            
+            $context_template_id = $this->level_matrix[$level];
+            
+            if ($level == 1)
+            {
+                $path = null;
+            }
+            
+            if ($path)
+            {
+                $contexts = explode('_', $path);
+                
+                if (count($contexts) == $level)
+                {
+                    $index = 0;
+                    $path = '';
+                    while ($index != $level - 1)
+                    {
+                        if ($index != 0)
+                        {
+                            $path = $path . '_' . $contexts[$index];
+                        }
+                        else
+                        {
+                            $path = $contexts[$index];
+                        }
+                        $index ++;
+                    }
+                }
+                
+                $path = $path . '_' . $id;
+            
+            }
+            else
+            {
+                $path = $id;
+            }
+            
+            
+            
+            $menu_item = array();
+            foreach ($pages as $page_id) {
+            	 $menu_item[$path.'_'.$page_id] = $page_id;
+            	 $this->context_paths[$path.'_'.$page_id] =$page_id;
+            }
+                    
+            $sub_menu_items = $this->get_context_pages($level + 1, $id, $path);
+            if (count($sub_menu_items) > 0)
+            {
+                foreach ($sub_menu_items as $sub_parent_id => $sub_menu_item)
+                {
+                    $menu_item['sub'] = $sub_menu_items;
+                }
+            }
+            $menu[$id] = $menu_item;
+        }
+        
+     	
+        
+        return $menu;
+    }
+    
     static function get_managers()
     {
         $managers = array();

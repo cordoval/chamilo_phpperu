@@ -53,8 +53,8 @@ class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
         }
         $html[] = '<div style="float: right; width: ' . $width . '%;">';
         
-        if ($current_page->get_page_number() != 0)
-        {
+//        if ($current_page->get_page_number() != 0)
+//        {
             $html[] = '<div class="assessment">';
             $html[] = '<h2>' . $this->parent->get_survey()->get_title() . '</h2>';
             
@@ -78,10 +78,10 @@ class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
             
             $html[] = '<br />';
             
-            if (strlen(strip_tags($this->parent->get_page($current_page->get_page_number())->get_introduction_text(), '<img>')) > 0)
+            if (strlen(strip_tags($current_page->get_survey_page()->get_introduction_text(), '<img>')) > 0)
             {
                 $html[] = '<div class="description">';
-                $introduction = $this->parent->get_page($current_page->get_page_number())->get_introduction_text();
+                $introduction = $current_page->get_survey_page()->get_introduction_text();
                 
                 //                $html[] = $this->parent->get_parent()->parse($introduction);
                 
@@ -101,11 +101,11 @@ class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
             
             $html[] = '<div class="assessment">';
             
-            if (strlen(strip_tags($this->parent->get_page($current_page->get_page_number())->get_finish_text(), '<img>')) > 0)
+            if (strlen(strip_tags($current_page->get_survey_page()->get_finish_text(), '<img>')) > 0)
             {
                 
                 $html[] = '<div class="description">';
-                $finishtext = $this->parent->get_page($current_page->get_page_number())->get_finish_text();
+                $finishtext = $current_page->get_survey_page()->get_finish_text();
                 
                 //                $html[] = $this->parent->get_parent()->parse($finishtext);
                 $html[] = $finishtext;
@@ -139,15 +139,15 @@ class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
             $html[] = '</div>';
             
             echo implode("\n", $html);
-        }
-        else
-        {
-            $html = array();
-            $html[] = '<div style="width: 100%; text-align: center;">';
-            $html[] = Translation :: get('NoSurveyPageAddedToSurvey');
-            $html[] = '</div>';
-            echo implode("\n", $html);
-        }
+//        }
+//        else
+//        {
+//            $html = array();
+//            $html[] = '<div style="width: 100%; text-align: center;">';
+//            $html[] = Translation :: get('NoSurveyPageAddedToSurvey');
+//            $html[] = '</div>';
+//            echo implode("\n", $html);
+//        }
         
         $this->parent->get_parent()->display_footer();
     

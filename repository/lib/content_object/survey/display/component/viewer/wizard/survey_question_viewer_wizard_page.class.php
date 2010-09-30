@@ -5,20 +5,24 @@ require_once dirname(__FILE__) . '/inc/survey_question_display.class.php';
 class SurveyQuestionViewerWizardPage extends SurveyViewerWizardPage
 {
     
-    private $page_nr;
+    private $page_number;
     private $context_path;
     private $invitee_id;
+    private $survey_page;
     
     /**
      * @var Survey
      */
     private $survey;
 
-    function SurveyQuestionViewerWizardPage($name, $parent, $context_path, $page_nr, $survey, $invitee_id)
+    function SurveyQuestionViewerWizardPage($name, $parent, $context_path, $survey_page_id, $page_number, $survey, $invitee_id)
     {
         parent :: SurveyViewerWizardPage($name, $parent);
         $this->context_path = $context_path;
-        $this->page_nr = $page_nr;
+        $this->survey_page = RepositoryDataManager::get_instance()->retrieve_content_object($survey_page_id);
+        
+        
+        $this->page_number = $page_number;
         $this->survey = $survey;
         $this->invitee_id = $invitee_id;
     }
@@ -54,7 +58,7 @@ class SurveyQuestionViewerWizardPage extends SurveyViewerWizardPage
             
             $answer = $this->get_parent()->get_answer($complex_question->get_id, $this->context_path);
             
-            $question_display = SurveyQuestionDisplay :: factory($this, $complex_question, 1, $answer);
+            $question_display = SurveyQuestionDisplay :: factory($this, $complex_question, 1, $answer, $this->context_path);
             
             $question_display->display();
         }
@@ -74,11 +78,14 @@ class SurveyQuestionViewerWizardPage extends SurveyViewerWizardPage
         return $this->page_number;
     }
 
-    function get_real_page_number()
+    function get_survey_page()
     {
-        $this->get_parent()->get_real_page_nr($this->page_number);
+        return $this->survey_page;
     }
-
+	
+    function get_context_path(){
+    	return $this->get_context_path();
+    }
 }
 
 ?>
