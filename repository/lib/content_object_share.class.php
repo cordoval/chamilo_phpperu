@@ -18,6 +18,8 @@ class ContentObjectShare extends DataClass
     const PROPERTY_CONTENT_OBJECT_ID = 'content_object_id';
     const PROPERTY_RIGHT_ID = 'right_id';
 
+    const PARAM_TYPE = 'share_type';
+
     function get_content_object_id()
     {
         return $this->get_default_property(self :: PROPERTY_CONTENT_OBJECT_ID);
@@ -62,7 +64,7 @@ class ContentObjectShare extends DataClass
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
     
-    function get_rights()
+    static function get_rights()
     {
     	return array(self :: SEARCH_RIGHT => Translation :: get('Search'), self :: VIEW_RIGHT => Translation :: get('View'), 
     				 self :: USE_RIGHT => Translation :: get('Use'), self :: REUSE_RIGHT => Translation :: get('Reuse'));

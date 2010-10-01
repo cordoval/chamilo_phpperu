@@ -12,6 +12,8 @@ class ContentObjectGroupShare extends ContentObjectShare
     
     const PROPERTY_GROUP_ID = 'group_id';
 
+    const TYPE_GROUP_SHARE = 'group';
+
     function get_group_id()
     {
         return $this->get_default_property(self :: PROPERTY_GROUP_ID);
