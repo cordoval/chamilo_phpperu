@@ -1,4 +1,5 @@
 <?php
+
 /**
  * $Id: user_view_form.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.forms
@@ -6,11 +7,11 @@
  */
 class ContentObjectShareForm extends FormValidator
 {
-	const PARAM_RIGHTS = 'rights';
-	const PARAM_TARGET = 'target_users_and_groups';
+    const PARAM_RIGHTS = 'rights';
+    const PARAM_TARGET = 'target_users_and_groups';
     const PARAM_TARGET_ELEMENTS = 'target_users_and_groups_elements';
     const PARAM_TARGET_OPTION = 'target_users_and_groups_option';
-	
+
     const TYPE_CREATE = 1;
     const TYPE_EDIT = 2;
 
@@ -25,7 +26,7 @@ class ContentObjectShareForm extends FormValidator
         $this->content_objects = $content_objects;
         $this->form_type = $form_type;
         $this->user = $user;
-        
+
         if ($this->form_type == self :: TYPE_EDIT)
         {
             $this->build_editing_form();
@@ -78,7 +79,7 @@ class ContentObjectShareForm extends FormValidator
         $legend->set_type(Toolbar :: TYPE_HORIZONTAL);
 
         $this->add_receivers(self :: PARAM_TARGET, Translation :: get('PublishFor'), $attributes, 'Everybody', $legend);
-        
+
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
@@ -89,19 +90,21 @@ class ContentObjectShareForm extends FormValidator
     {
         
     }
-    
+
     function update_content_object_share()
     {
-    	
+
     }
 
     /**
      * Sets default values.
      * @param array $defaults Default values for this form's parameters.
      */
-    function setDefaults($defaults = array ())
+    function setDefaults($defaults = array())
     {
         parent :: setDefaults($defaults);
     }
+
 }
+
 ?>

@@ -12,6 +12,8 @@ class ContentObjectUserShare extends ContentObjectShare
     
     const PROPERTY_USER_ID = 'user_id';
 
+    const TYPE_USER_SHARE = 'user';
+
     function get_user_id()
     {
         return $this->get_default_property(self :: PROPERTY_USER_ID);
