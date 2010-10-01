@@ -15,7 +15,7 @@ class SurveyViewerWizardNext extends HTML_QuickForm_Action
     function perform($page, $actionName)
     {
         
-		$context_path = Request :: get(SurveyViewerWizard :: PARAM_CONTEXT_PATH);
+//		$context_path = Request :: get(SurveyViewerWizard :: PARAM_CONTEXT_PATH);
 //    	dump($context_path);
     	
     	// save the form values and validation status to the session
@@ -24,6 +24,12 @@ class SurveyViewerWizardNext extends HTML_QuickForm_Action
 //        dump($page);
         
         $pageName = $page->getAttribute('id');
+//        dump($pageName);
+        $paths = explode('page_', $pageName);
+        $context_path = $paths[1];
+        
+//        dump($context_path);
+        
         $data = & $page->controller->container();
         $data['values'][$pageName] = $page->exportValues();
         if (PEAR :: isError($valid = $page->validate()))
@@ -119,9 +125,9 @@ class SurveyViewerWizardNext extends HTML_QuickForm_Action
             $next = & $page->controller->getPage($nextName);
             
 //            dump($next);
-            
+//            dump('handle jump');
             return $next->handle('jump');
-            // Consider this a 'finish' button, if there is no explicit one
+//             Consider this a 'finish' button, if there is no explicit one
         }
         elseif ($page->controller->isModal())
         {
@@ -137,7 +143,7 @@ class SurveyViewerWizardNext extends HTML_QuickForm_Action
         }
         else
         {
-            
+//            dump('display');
             return $page->handle('display');
         }
    

@@ -7,22 +7,29 @@ abstract class SurveyQuestionDisplay
     private $question_nr;
     private $formvalidator;
     private $renderer;
+    
+    /**
+     * @var Survey
+     */
     private $survey;
     private $page_nr;
     private $answer;
     private $visible;
     private $contex_path;
 
-    function SurveyQuestionDisplay($formvalidator, $complex_question, $question, $question_nr , $answer, $context_path)
+    function SurveyQuestionDisplay($formvalidator, $complex_question, $question, $answer, $context_path, $survey)
     {
         $this->formvalidator = $formvalidator;
         $this->renderer = $formvalidator->defaultRenderer();
-		$this->complex_question = $complex_question;
-	    $this->question_nr = $question_nr;
+        $this->complex_question = $complex_question;
+        
         $this->question = $question;
-    	$this->answer = $answer;
-    	$this->contex_path = $context_path;
-     }
+        $this->answer = $answer;
+        $this->contex_path = $context_path;
+        $this->survey = $survey;
+        
+        $this->question_nr = $this->survey->get_question_nr($context_path.'_'.$complex_question->get_id());;
+    }
 
     function get_complex_question()
     {
@@ -43,17 +50,17 @@ abstract class SurveyQuestionDisplay
     {
         return $this->formvalidator;
     }
-   
-	function get_answer()
+
+    function get_answer()
     {
         return $this->answer;
     }
-	
-	function get_context_path()
+
+    function get_context_path()
     {
         return $this->contex_path;
     }
-    
+
     function display()
     {
         $formvalidator = $this->formvalidator;
@@ -63,11 +70,11 @@ abstract class SurveyQuestionDisplay
             $header = array();
             $header[] = $this->get_instruction();
             $header[] = '<div class="with_borders">';
-
+            
             $formvalidator->addElement('html', implode("\n", $header));
         }
         $this->add_question_form();
-
+        
         if ($this->add_borders())
         {
             $footer = array();
@@ -83,16 +90,18 @@ abstract class SurveyQuestionDisplay
     function add_header()
     {
         $formvalidator = $this->formvalidator;
-     
-//        if(!$this->visible){
-//        	        $html[] = '<div style="display:none" class="question" id="survey_question_'. $this->question->get_id() .'">';
-//        	
-//        }else{
-        	        $html[] = '<div  class="question" id="survey_question_'. $this->question->get_id() .'">';
-        	
-//        }
         
-//        style="display:none"
+        if (! $this->get_complex_question()->is_visible())
+        {
+            $html[] = '<div style="display:none" class="question" id="survey_question_' . $this->question->get_id() . '">';
+        
+        }
+        else
+        {
+            $html[] = '<div  class="question" id="survey_question_' . $this->question->get_id() . '">';
+        
+        }
+        
         $html[] = '<div class="title">';
         $html[] = '<div class="number">';
         $html[] = '<div class="bevel">';
@@ -103,25 +112,25 @@ abstract class SurveyQuestionDisplay
         $html[] = '<div class="bevel">';
         $title = $this->question->get_title();
         $html[] = $this->parse($title);
-
+        
         $html[] = '</div>';
         $html[] = '</div>';
         $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
         $html[] = '<div class="answer">';
-
+        
         $description = $this->question->get_description();
         if ($this->question->has_description())
         {
             $html[] = '<div class="description">';
-
+            
             $html[] = $this->parse($description);
             $html[] = '<div class="clear">&nbsp;</div>';
             $html[] = '</div>';
         }
-
+        
         $html[] = '<div class="clear"></div>';
-
+        
         $header = implode("\n", $html);
         $formvalidator->addElement('html', $header);
     }
@@ -129,10 +138,10 @@ abstract class SurveyQuestionDisplay
     function add_footer($formvalidator)
     {
         $formvalidator = $this->formvalidator;
-
+        
         $html[] = '</div>';
         $html[] = '</div>';
-
+        
         $footer = implode("\n", $html);
         $formvalidator->addElement('html', $footer);
     }
@@ -144,72 +153,30 @@ abstract class SurveyQuestionDisplay
 
     abstract function get_instruction();
 
- static function factory($formvalidator, $complex_question ,$question_nr, $answer, $context_path)
+    static function factory($formvalidator, $complex_question, $answer, $context_path, $survey)
     {
-       	
-    	$question = RepositoryDataManager::get_instance()->retrieve_content_object($complex_question->get_ref());
-    	
-    	$type = $question->get_type();
-
+        
+        $question = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_question->get_ref());
+        
+        $type = $question->get_type();
+        
         $file = dirname(__FILE__) . '/survey_question_display/' . $type . '.class.php';
-
+        
         if (! file_exists($file))
         {
             die('file does not exist: ' . $file);
         }
-
+        
         require_once $file;
-
+        
         $class = Utilities :: underscores_to_camelcase($type) . 'Display';
-        $question_display = new $class($formvalidator, $complex_question, $question, $question_nr, $answer, $context_path);
+        $question_display = new $class($formvalidator, $complex_question, $question, $answer, $context_path, $survey);
         return $question_display;
     }
-    
-//    static function factory($formvalidator, $question, $visible ,$question_nr, $survey, $page_nr)
-//    {
-////        $question = $clo_question;
-//        $type = $question->get_type();
-//
-//        $file = dirname(__FILE__) . '/survey_question_display/' . $type . '.class.php';
-//
-//        if (! file_exists($file))
-//        {
-//            die('file does not exist: ' . $file);
-//        }
-//
-//        require_once $file;
-//
-//        $class = Utilities :: underscores_to_camelcase($type) . 'Display';
-//        $question_display = new $class($formvalidator, $visible, $question_nr, $question, $survey, $page_nr);
-//        return $question_display;
-//    }
 
     function parse($value)
     {
-//        $context = $this->survey->get_context_instance();
-//        $explode = explode('$V{', $value);
-//
-//        $new_value = array();
-//        foreach ($explode as $part)
-//        {
-//
-//            $vars = explode('}', $part);
-//
-//            if (count($vars) == 1)
-//            {
-//                $new_value[] = $vars[0];
-//            }
-//            else
-//            {
-//                $var = $vars[0];
-//
-//                $replace = $context->get_additional_property($var);
-//
-//                $new_value[] = $replace . ' ' . $vars[1];
-//            }
-//
-//        }
-//        return implode(' ', $new_value);
+        return $this->survey->parse($this->context_path, $value);
     }
 
 }

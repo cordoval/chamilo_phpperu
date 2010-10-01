@@ -22,10 +22,13 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
     
     private $context;
     
-    private $page_matrix;
+    private $context_path_tree;
     private $user_id;
     private $context_paths;
+    private $question_context_paths;
+    private $question_nr = 1;
     
+    private $context_objects;
 
     static function get_type_name()
     {
@@ -74,11 +77,11 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
     
     }
 
-    function get_context_template($level = null)
+    function get_context_template($level = 1)
     {
         
         $context_template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($this->get_additional_property(self :: PROPERTY_CONTEXT_TEMPLATE_ID));
-        if ($level)
+        if ($level != 1)
         {
             
             $index = 1;
@@ -94,6 +97,18 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
         
         return $context_template;
     
+    }
+
+    function count_levels()
+    {
+        if (! $this->has_context())
+        {
+            return 1;
+        }
+        else
+        {
+            return $this->get_context_template(1)->count_children(true) + 1;
+        }
     }
 
     function get_context_template_id()
@@ -142,6 +157,10 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
         return $survey_pages;
     }
 
+    /**
+     * @param int $page_id
+     * @return SurveyPage
+     */
     function get_page_by_id($page_id)
     {
         return RepositoryDataManager :: get_instance()->retrieve_content_object($page_id);
@@ -166,53 +185,26 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
         return RepositoryDataManager :: get_instance()->count_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexContentObjectItem :: get_table_name()));
     }
 
-    function get_context_paths($user_id, $with_question_id = false)
-    {
-        $this->user_id = $user_id;
-    	$context_paths = array();
-        if (! $this->has_context())
-        {
-            
-            $pages = $this->get_pages();
-            foreach ($pages as $page)
-            {
-                $page_id = $page->get_id();
-                if ($with_question_id)
-                {
-                    $complex_questions = $page->get_questions(true);
-                    while ($complex_question = $complex_questions->next_result())
-                    {
-                        $context_paths[] = $page_id . '_' . $complex_question->get_id();
-                    }
-                }
-                else
-                {
-                    $context_paths[] = $page_id;
-                }
-            }
-        }else{
-        	
-        	$contexts = $this->get_context_pages();
-        	$level_count = $this->get_context_template(1)->get_level_count();
-        	
-//        	dump($contexts);
-//        	dump($this->context_paths);
-//        	dump(count($this->context_paths));
-//        	dump(array_keys($contexts));
-        	$context_paths = $this->context_paths;
-        }
-        
-        return $context_paths;
-    }
+    //    function get_context_paths($user_id, $with_question_id = false)
+    //    {
+    //        $this->user_id = $user_id;
+    //        
+    //        //        dump('hello');
+    //        $this->get_context_pages();
+    //        dump('after get_pages');
+    //        dump($this->context_paths);
+    //        exit();
+    //        return $this->context_paths;
+    //    
+    //    }
+    
 
     function get_page_complex_questions($user_id, $context_path)
     {
         $questions = array();
-        
         $ids = explode('_', $context_path);
         $count = count($ids);
         $page_id = $ids[$count - 1];
-        
         $page = $this->get_page_by_id($page_id);
         
         $complex_questions = $page->get_questions(true);
@@ -223,127 +215,263 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
         
         return $questions;
     }
-	
-private function create_page_matrix()
+
+    public function get_context_paths($user_id, $tree = false)
     {
-        
-        $context_template = $this->get_context_template(1);
-       
-        $condition = new EqualityCondition(SurveyTemplate :: PROPERTY_USER_ID, $this->user_id, SurveyTemplate :: get_table_name());
-        $templates = SurveyContextDataManager :: get_instance()->retrieve_survey_templates($context_template->get_type(), $condition);
-        
-        $page_matrix = array();
-        
-        while ($template = $templates->next_result())
+        $this->user_id = $user_id;
+        if ($tree)
+        {
+            if (! $this->context_path_tree)
+            {
+                $this->create_context_path_tree();
+            }
+            return $this->context_path_tree;
+        }
+        else
         {
             
-            $level = 1;
-            $property_names = $template->get_additional_property_names(true);
-            $parent_id = 0;
-            foreach ($property_names as $property_name => $context_type)
+            if (! $this->context_paths)
+            {
+                $this->create_context_paths();
+            }
+            return $this->context_paths;
+        }
+    }
+
+    private function create_context_path_tree()
+    {
+        
+        $context_path_tree = array();
+        
+        if ($this->has_context())
+        {
+            $context_template = $this->get_context_template(1);
+            
+            $condition = new EqualityCondition(SurveyTemplate :: PROPERTY_USER_ID, $this->user_id, SurveyTemplate :: get_table_name());
+            $templates = SurveyContextDataManager :: get_instance()->retrieve_survey_templates($context_template->get_type(), $condition);
+            
+            while ($template = $templates->next_result())
             {
                 
-                $conditions = array();
-            	$conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_SURVEY_ID, $this->get_id());
-                $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_TEMPLATE_ID, $this->get_context_template($level)->get_id($level));
-                $condition = new AndCondition($conditions);
-                $template_rel_pages = SurveyContextDataManager :: get_instance()->retrieve_template_rel_pages($condition);
-                $pages_ids = array();
-                while ($template_rel_page = $template_rel_pages->next_result())
+                $level = 1;
+                $property_names = $template->get_additional_property_names(true);
+                $parent_id = 0;
+                foreach ($property_names as $property_name => $context_type)
                 {
-//                   dump($template_rel_page);
-                	$pages_ids[] = $template_rel_page->get_page_id();
+                    
+                    $conditions = array();
+                    $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_SURVEY_ID, $this->get_id());
+                    $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_TEMPLATE_ID, $this->get_context_template($level)->get_id($level));
+                    $condition = new AndCondition($conditions);
+                    $template_rel_pages = SurveyContextDataManager :: get_instance()->retrieve_template_rel_pages($condition);
+                    $pages_ids = array();
+                    while ($template_rel_page = $template_rel_pages->next_result())
+                    {
+                        $survey_page = $this->get_page_by_id($template_rel_page->get_page_id());
+                        $page_id = $survey_page->get_id();
+                        $pages_ids[] = $page_id;
+                        $pages_ids['page_' . $page_id] = $survey_page->get_title();
+                        
+                        $complex_questions = $survey_page->get_questions(true);
+                        $questions_ids = array();
+                        while ($complex_question = $complex_questions->next_result())
+                        {
+                            if (! $complex_question instanceof ComplexSurveyDescription)
+                            {
+                                if ($complex_question->is_visible())
+                                {
+                                    $question_id = $complex_question->get_id();
+                                    $questions_ids[] = $question_id;
+                                    $questions_ids['question_' . $question_id] = 'vraag ' . $question_id;
+                                
+                                }
+                            }
+                        }
+                        $pages_ids[$page_id] = $questions_ids;
+                    }
+                    
+                    $context_id = $template->get_additional_property($property_name);
+                    
+                    $context = SurveyContextDataManager :: get_instance()->retrieve_survey_context_by_id($context_id);
+                    
+                    $context_path_tree[$level][$parent_id]['context_' . $context_id] = $context->get_name();
+                    $context_path_tree[$level][$parent_id][$context_id] = $pages_ids;
+                    
+                    $parent_id = $context_id;
+                    $level ++;
                 }
-                
-                $context_id = $template->get_additional_property($property_name);
-                
-                $context = SurveyContextDataManager :: get_instance()->retrieve_survey_context_by_id($context_id);
-               
-                $page_matrix[$level][$parent_id][$context_id] = $pages_ids;
-                               
-                $parent_id = $context_id;
-                $level ++;
             }
         }
-        
-//        dump($page_matrix);
-        
-        $this->page_matrix = $page_matrix;
+        else
+        {
+            $pages = $this->get_pages();
+            $page_ids = array();
+            //            dump($page_ids);
+            foreach ($pages as $page)
+            {
+                $page_ids[] = $page->get_id();
+            }
+            $context_path_tree[1][0][1] = $page_ids;
+        }
+        $this->context_path_tree = $context_path_tree;
     }
-	
-	private function get_context_pages($level = 1, $parent_id = 0, $path = null)
+
+    private function create_page_context_paths($path, $page_context_as_tree)
+    {
+        $page_id = $page_context_as_tree[0];
+        $page_path = $path . '_' . $page_id;
+        $this->context_paths[] = $page_path;
+        $questions = $page_context_as_tree[$page_id];
+        
+        foreach ($questions as $index => $question_id)
+        {
+            if (is_int($index))
+            {
+                $this->context_paths[] = $page_path . '_' . $question_id;
+            }
+        }
+    }
+
+    private function create_context_paths($level = 1, $parent_id = 0, $path = null)
     {
         
-		if(!$this->page_matrix){
-			$this->create_page_matrix();
-		}
-    	
-			
-    	foreach ($this->page_matrix[$level][$parent_id] as $id => $pages)
+        if (! $this->context_path_tree)
         {
-//            $template_id = $this->menu_matrix[self :: PARAM_TEMPLATE_ID][$parent_id][$id];
-            
-            $context_template_id = $this->level_matrix[$level];
-            
-            if ($level == 1)
+            $this->create_context_path_tree();
+        }
+        
+        if ($level == 1)
+        {
+            $this->question_nr = 1;
+        }
+        
+        foreach ($this->context_path_tree[$level][$parent_id] as $id => $pages)
+        {
+            if (is_int($id))
             {
-                $path = null;
-            }
-            
-            if ($path)
-            {
-                $contexts = explode('_', $path);
-                
-                if (count($contexts) == $level)
+                if ($level == 1)
                 {
-                    $index = 0;
-                    $path = '';
-                    while ($index != $level - 1)
-                    {
-                        if ($index != 0)
-                        {
-                            $path = $path . '_' . $contexts[$index];
-                        }
-                        else
-                        {
-                            $path = $contexts[$index];
-                        }
-                        $index ++;
-                    }
+                    $path = null;
                 }
                 
-                $path = $path . '_' . $id;
-            
+                if ($path)
+                {
+                    $contexts = explode('_', $path);
+                    
+                    if (count($contexts) == $level)
+                    {
+                        $index = 0;
+                        $path = '';
+                        while ($index != $level - 1)
+                        {
+                            if ($index != 0)
+                            {
+                                $path = $path . '_' . $contexts[$index];
+                            }
+                            else
+                            {
+                                $path = $contexts[$index];
+                            }
+                            $index ++;
+                        }
+                    }
+                    
+                    $path = $path . '_' . $id;
+                
+                }
+                else
+                {
+                    $path = $id;
+                }
+                
+                $this->create_page_context_paths($path, $pages);
+                
+                if ($level < ($this->count_levels()))
+                {
+                    $this->create_context_paths($level + 1, $id, $path);
+                }
             }
             else
             {
-                $path = $id;
+                continue;
             }
+        }
+    }
+
+    function parse($context_path, $value)
+    {
+        
+        $context_objects = $this->get_context_objects($context_path);
+        
+        $explode = explode('$V{', $value);
+        
+        $new_value = array();
+        foreach ($explode as $part)
+        {
             
+            $vars = explode('}', $part);
             
-            
-            $menu_item = array();
-            foreach ($pages as $page_id) {
-            	 $menu_item[$path.'_'.$page_id] = $page_id;
-            	 $this->context_paths[$path.'_'.$page_id] =$page_id;
-            }
-                    
-            $sub_menu_items = $this->get_context_pages($level + 1, $id, $path);
-            if (count($sub_menu_items) > 0)
+            if (count($vars) == 1)
             {
-                foreach ($sub_menu_items as $sub_parent_id => $sub_menu_item)
+                $new_value[] = $vars[0];
+            }
+            else
+            {
+                $var = $vars[0];
+                
+                foreach ($context_objects as $index => $context_object)
                 {
-                    $menu_item['sub'] = $sub_menu_items;
+                    if ($index != 'user')
+                    {
+                        $replace = $context_object->get_additional_property($var);
+                    }
+                    else
+                    {
+                        $replace = $context_object->get_default_property($var);
+                    }
+                }
+                
+                $new_value[] = $replace . ' ' . $vars[1];
+            }
+        
+        }
+        return implode(' ', $new_value);
+    
+    }
+
+    private function get_context_objects($context_path)
+    {
+        
+        if ($this->context_objects)
+        {
+            return $this->context_objects;
+        }
+        else
+        {
+            $this->context_objects = array();
+            
+            $user = UserDataManager :: get_instance()->retrieve_user($this->user_id);
+            $this->context_objects['user'] = $user;
+            $level_count = $this->count_levels();
+            $ids = explode('_', $context_path);
+            $count = count($ids);
+            if ($count > 1)
+            {
+                $index = 1;
+                while ($index < $level_count)
+                {
+                    $this->context_objects[] = SurveyContextDataManager :: get_instance()->retrieve_survey_context_by_id($ids[$index]);
+                    $index ++;
                 }
             }
-            $menu[$id] = $menu_item;
         }
-        
-     	
-        
-        return $menu;
     }
-    
+
+    function get_question_nr($question_context_path)
+    {
+        return $this->question_context_paths[$question_context_path];
+    }
+
     static function get_managers()
     {
         $managers = array();
