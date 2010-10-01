@@ -7,7 +7,7 @@ class SurveyPageBuilder extends ComplexBuilder //implements ComplexMenuSupport
 {
     
     const ACTION_CREATE_SURVEY_PAGE = 'creator';
-     const ACTION_CREATE_QUESTION = 'create_question';
+     const ACTION_CREATE_QUESTION = 'creator';
     const ACTION_BUILD_ROUTING = 'routing';
     
     const PARAM_QUESTION_ID = 'question';

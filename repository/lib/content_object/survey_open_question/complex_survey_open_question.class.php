@@ -24,6 +24,11 @@ class ComplexSurveyOpenQuestion extends ComplexOpenQuestion {
 		$this->set_additional_property ( self::PROPERTY_VISIBLE, $value );
 	}
 	
+    function is_visible()
+    {
+        return $this->get_visible() == 1;
+    }
+	
 	function toggle_visibility() {
 		$this->set_visible ( ! $this->get_visible () );
 	}

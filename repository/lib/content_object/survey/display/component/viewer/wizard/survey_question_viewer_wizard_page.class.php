@@ -20,8 +20,7 @@ class SurveyQuestionViewerWizardPage extends SurveyViewerWizardPage
         parent :: SurveyViewerWizardPage($name, $parent);
         $this->context_path = $context_path;
         $this->survey_page = RepositoryDataManager::get_instance()->retrieve_content_object($survey_page_id);
-        
-        
+              
         $this->page_number = $page_number;
         $this->survey = $survey;
         $this->invitee_id = $invitee_id;
@@ -31,13 +30,15 @@ class SurveyQuestionViewerWizardPage extends SurveyViewerWizardPage
     {
         $this->_formBuilt = true;
         
+//        dump('in form');
+        
         // Add buttons
-        if ($this->page_nr > 1)
+        if ($this->page_number > 1)
         {
             $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Back'), array('class' => 'previous'));
         }
         
-        if ($this->page_nr < $this->get_parent()->get_total_pages())
+        if ($this->page_number < $this->get_parent()->get_total_pages())
         {
             $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next'), array('class' => 'next'));
         
@@ -56,9 +57,10 @@ class SurveyQuestionViewerWizardPage extends SurveyViewerWizardPage
         foreach ($complex_questions as $complex_question)
         {
             
-            $answer = $this->get_parent()->get_answer($complex_question->get_id, $this->context_path);
+//            dump($complex_question);
+        	$answer = $this->get_parent()->get_answer($complex_question->get_id, $this->context_path);
             
-            $question_display = SurveyQuestionDisplay :: factory($this, $complex_question, 1, $answer, $this->context_path);
+            $question_display = SurveyQuestionDisplay :: factory($this, $complex_question, $answer, $this->context_path, $this->survey);
             
             $question_display->display();
         }
@@ -84,7 +86,7 @@ class SurveyQuestionViewerWizardPage extends SurveyViewerWizardPage
     }
 	
     function get_context_path(){
-    	return $this->get_context_path();
+    	return $this->context_path;
     }
 }
 
