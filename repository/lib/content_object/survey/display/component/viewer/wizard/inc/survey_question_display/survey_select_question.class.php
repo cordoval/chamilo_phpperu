@@ -12,7 +12,7 @@ class SurveySelectQuestionDisplay extends SurveyQuestionDisplay
     {
         $formvalidator = $this->get_formvalidator();
         $renderer = $this->get_renderer();
-//        $clo_question = $this->get_clo_question();
+//        $complex_question = $this->get_complex_question();
         $question = $this->get_question();
         
         $options = $question->get_options();
@@ -32,7 +32,7 @@ class SurveySelectQuestionDisplay extends SurveyQuestionDisplay
         $element_template[] = '</div>';
         $element_template = implode("\n", $element_template);
         
-        $question_name = $question_id . '_0'.'_'.$this->get_page_nr();
+        $question_name = $question_id . '_0'.'_'.$this->get_context_path();
         
         if ($type == 'checkbox')
         {

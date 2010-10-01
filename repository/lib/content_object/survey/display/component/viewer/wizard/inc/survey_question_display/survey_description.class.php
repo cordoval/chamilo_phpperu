@@ -7,7 +7,7 @@ class SurveyDescriptionDisplay extends SurveyQuestionDisplay
 
     function add_question_form()
     {
-        $clo_question = $this->get_clo_question();
+        $complex_question = $this->get_complex_question();
         $description = $this->get_question();
         $formvalidator = $this->get_formvalidator ();
 

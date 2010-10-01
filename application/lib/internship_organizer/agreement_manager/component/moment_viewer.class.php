@@ -9,6 +9,7 @@ class InternshipOrganizerAgreementManagerMomentViewerComponent extends Internshi
 {
     
     const TAB_PUBLICATIONS = 1;
+    const TAB_EVALUATIONS = 2;
     
     private $action_bar;
     private $moment;
@@ -69,8 +70,13 @@ class InternshipOrganizerAgreementManagerMomentViewerComponent extends Internshi
         $parameters[self :: PARAM_MOMENT_ID] = $this->moment->get_id();
         
         // Publications table tab
-        $table = new InternshipOrganizerPublicationTable($this, $parameters, $this->get_publications_condition());
+        $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_PUBLICATIONS;
+        $table = new InternshipOrganizerPublicationTable($this, $parameters, $this->get_publications_condition(array(Document :: get_type_name())));
         $tabs->add_tab(new DynamicContentTab(self :: TAB_PUBLICATIONS, Translation :: get('InternshipOrganizerPublications'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
+        
+        $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_EVALUATIONS;
+        $table = new InternshipOrganizerPublicationTable($this, $parameters, $this->get_publications_condition(array(Survey :: get_type_name())));
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_EVALUATIONS, Translation :: get('InternshipOrganizerEvaluations'), Theme :: get_image_path('internship_organizer') . 'place_mini_survey.png', $table->as_html()));
         
         $html[] = $tabs->render();
         
@@ -94,11 +100,12 @@ class InternshipOrganizerAgreementManagerMomentViewerComponent extends Internshi
         return $action_bar;
     }
 
-    function get_publications_condition()
+    function get_publications_condition($types = array(''))
     {
         $conditions = array();
         $conditions[] = new EqualityCondition(InternshipOrganizerPublication :: PROPERTY_PUBLICATION_PLACE, InternshipOrganizerPublicationPlace :: MOMENT);
         $conditions[] = new EqualityCondition(InternshipOrganizerPublication :: PROPERTY_PLACE_ID, $this->moment->get_id());
+        $conditions[] = new InCondition(InternshipOrganizerPublication :: PROPERTY_CONTENT_OBJECT_TYPE, $types);
         
         $query = $this->action_bar->get_query();
         

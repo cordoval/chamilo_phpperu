@@ -121,6 +121,8 @@ class RepositoryManager extends CoreApplication
     const ACTION_DELETE_USER_VIEW = 'user_view_deleter';
     const ACTION_UPDATE_USER_VIEW = 'user_view_updater';
 
+    const ACTION_EDIT_CONTENT_OBJECT_SHARE_RIGHTS = 'content_object_share_rights_browser';
+
     const DEFAULT_ACTION = self :: ACTION_BROWSE_CONTENT_OBJECTS;
 
     const PARAM_USER_VIEW = 'user_view';
@@ -438,6 +440,10 @@ class RepositoryManager extends CoreApplication
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UPDATE_CONTENT_OBJECT_PUBLICATION, self :: PARAM_PUBLICATION_APPLICATION => $publication_attribute->get_application(), self :: PARAM_PUBLICATION_ID => $publication_attribute->get_id()));
     }
 
+    function get_content_object_share_rights_url($content_object_ids)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_CONTENT_OBJECT_SHARE_RIGHTS, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $content_object_ids));
+    }
     /**
      * Gets the url to view a learning object.
      * @param ContentObject $content_object The learning object.

@@ -115,6 +115,15 @@ class RepositorySharedContentObjectsBrowserTableCellRenderer extends DefaultShar
 			));
         }
 
+
+        //@todo: only show when u are the owner
+        $toolbar->add_item(new ToolbarItem(
+        			Translation :: get('EditShareRights'),
+        			Theme :: get_common_image_path() . 'edit_rights',
+					$this->browser->get_content_object_share_rights_url($content_object->get_id()),
+				 	ToolbarItem :: DISPLAY_ICON
+                ));
+
         return $toolbar->as_html();
     }
 }

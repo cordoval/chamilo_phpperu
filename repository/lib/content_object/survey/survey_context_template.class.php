@@ -164,8 +164,10 @@ class SurveyContextTemplate extends NestedTreeNode
     {
         $this->get_data_manager()->update_survey_context_template($this);
     }
- 
-
+ 	
+	function get_level_count(){
+		return $this->count_children(true)+1;
+	}
 }
 
 ?>

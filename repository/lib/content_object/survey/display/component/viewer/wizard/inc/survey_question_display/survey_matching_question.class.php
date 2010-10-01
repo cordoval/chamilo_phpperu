@@ -91,7 +91,7 @@ class SurveyMatchingQuestionDisplay extends SurveyQuestionDisplay
         $answer_count = 0;
         foreach ($answers as $answer_id => $answer)
         {
-            $answer_name = $question_id . '_' . $answer_id.'_'.$this->get_page_nr();
+            $answer_name = $question_id . '_' . $answer_id.'_'.$this->get_context_path();
             
             $group = array();
             $answer_number = ($answer_count + 1) . '.';

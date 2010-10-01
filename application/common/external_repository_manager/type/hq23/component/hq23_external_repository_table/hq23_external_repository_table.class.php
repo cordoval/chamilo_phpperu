@@ -1,6 +1,6 @@
 <?php
 /**
- * Table to display a set of flickr external repository objects.
+ * Table to display a set of hq23 external repository objects.
  */
 require_once dirname(__file__) . '/hq23_external_repository_table_cell_renderer.class.php';
 require_once dirname(__file__) . '/hq23_external_repository_table_data_provider.class.php';

@@ -59,7 +59,7 @@ class InternshipOrganizerAgreementManagerMomentPublisherComponent extends Intern
 
     function get_allowed_content_object_types()
     {
-        return array(Document :: get_type_name());
+        return array(Document :: get_type_name(), Survey :: get_type_name());
     }
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)

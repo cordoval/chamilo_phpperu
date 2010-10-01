@@ -506,7 +506,7 @@ EOT;
         $this->addElement('html', '<div style="margin-left: 25px; display: block;" id="' . $elementName . 'receivers_window">');
 
         $element_finder = $this->createElement('user_group_finder', $elementName . '_elements', '', $attributes['search_url'], $attributes['locale'], $attributes['defaults'], $attributes['options']);
-//        $element_finder = $this->addElement('element_finder', $elementName, null, $attributes['search_url'], $attributes['locale'], $attributes['defaults'], $attributes['options']);
+
         $element_finder->excludeElements($attributes['exclude']);
 
         $this->addElement($element_finder);

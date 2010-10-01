@@ -99,11 +99,12 @@ class InternshipOrganizerAgreementPublicationForm extends FormValidator
         }
         else
         {
-            $agreement_ids = array($_GET[InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID]);
+            $agreement_ids = array(Request :: get(InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID));
         }
-        
+             
         $ids = unserialize($values['ids']);
         $succes = false;
+        
         
         if (count($agreement_ids))
         {
@@ -117,7 +118,7 @@ class InternshipOrganizerAgreementPublicationForm extends FormValidator
                 {
                     
                 	$content_object = RepositoryDataManager::get_instance()->retrieve_content_object($id);
-                 	$pub = new InternshipOrganizerPublication();
+                	$pub = new InternshipOrganizerPublication();
                     $pub->set_name($values[InternshipOrganizerPublication :: PROPERTY_NAME]);
                     $pub->set_description($values[InternshipOrganizerPublication :: PROPERTY_DESCRIPTION]);
                     $pub->set_content_object_id($id);
@@ -136,7 +137,7 @@ class InternshipOrganizerAgreementPublicationForm extends FormValidator
                     }
                     else
                     {
-                        $succes = true;
+                      	$succes = true;
                     }
                 }
             }

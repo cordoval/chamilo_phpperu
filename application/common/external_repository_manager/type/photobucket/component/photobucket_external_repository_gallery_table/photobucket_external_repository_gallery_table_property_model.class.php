@@ -3,6 +3,16 @@ require_once dirname(__FILE__) . '/../../../../table/default_external_repository
 
 class PhotobucketExternalRepositoryGalleryTablePropertyModel extends DefaultExternalRepositoryGalleryObjectTablePropertyModel
 {
+    function PhotobucketExternalRepositoryGalleryTablePropertyModel()
+    {
+        parent :: __construct();
 
+//        $youtube_properties = PhotobucketExternalRepositoryConnector :: get_sort_properties();
+//
+//        foreach (PhotobucketExternalRepositoryConnector :: get_sort_properties() as $property)
+//        {
+//            $this->add_property(new GalleryObjectTableProperty($property));
+//        }
+    }
 }
 ?>

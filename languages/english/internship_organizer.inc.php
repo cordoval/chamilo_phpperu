@@ -483,8 +483,8 @@ $lang['internship_organizer']['AppointmentRightLinkDescription'] = 'Appointment 
 $lang['internship_organizer']['ReportingRightLink'] = 'Reporting Rights';
 $lang['internship_organizer']['ReportingRightLinkDescription'] = 'Reporting Rights Description';
 
-
 //27-09-10
+
 
 $lang['internship_organizer']['Typecsv'] = 'CSV';
 $lang['internship_organizer']['Typeexcel'] = 'EXCEL';
@@ -495,8 +495,8 @@ $lang['internship_organizer']['InternshipOrganizerCategoryManagerImporterCompone
 $lang['internship_organizer']['ImportInternshipOrganizerOrganisation'] = 'Import Organisations';
 $lang['internship_organizer']['InternshipOrganizerOrganisationManagerImporterComponent'] = 'Organisation Importer';
 
-
 //28-09-10
+
 
 $lang['internship_organizer']['InternshipOrganizerOrganisationManagerLocationRightsEditorComponent'] = 'Location Rights';
 $lang['internship_organizer']['MyOrganisations'] = 'My Organisations';
@@ -504,7 +504,9 @@ $lang['internship_organizer']['Organisations'] = 'Organisations';
 $lang['internship_organizer']['AgreementBegin'] = 'Begin';
 $lang['internship_organizer']['AgreementEnd'] = 'End';
 $lang['internship_organizer']['AgreementStatus'] = 'Status';
-
+//29-09-10
+$lang['internship_organizer']['InternshipOrganizerEvaluations'] = 'Evaluations';
+$lang['internship_organizer']['InternshipOrganizerEvaluationManagerTakerComponent'] = 'Take Evaluation';
 
 
 ?>

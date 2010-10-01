@@ -173,7 +173,7 @@ class Hq23ExternalRepositoryObject extends ExternalRepositoryObject
 
     function get_license_icon()
     {
-        return Theme :: get_common_image('external_repository/flickr/licenses/license_' . $this->get_license_id(), 'png', $this->get_license_name(), $this->get_license_url(), ToolbarItem :: DISPLAY_ICON);
+        return Theme :: get_common_image('external_repository/hq23/licenses/license_' . $this->get_license_id(), 'png', $this->get_license_name(), $this->get_license_url(), ToolbarItem :: DISPLAY_ICON);
     }
 
     function set_license($license)
@@ -201,7 +201,7 @@ class Hq23ExternalRepositoryObject extends ExternalRepositoryObject
         $licenses[4] = array('id' => 4, 'name' => 'Attribution License', 'url' => 'http://creativecommons.org/licenses/by/2.0/');
         $licenses[5] = array('id' => 5, 'name' => 'Attribution-ShareAlike License', 'url' => 'http://creativecommons.org/licenses/by-sa/2.0/');
         $licenses[6] = array('id' => 6, 'name' => 'Attribution-NoDerivs License', 'url' => 'http://creativecommons.org/licenses/by-nd/2.0/');
-        $licenses[7] = array('id' => 7, 'name' => 'No known copyright restrictions', 'url' => 'http://www.flickr.com/commons/usage/');
+        $licenses[7] = array('id' => 7, 'name' => 'No known copyright restrictions', 'url' => 'http://www.23hq.com/commons/usage/');
         $licenses[8] = array('id' => 8, 'name' => 'United States Government Work', 'url' => 'http://www.usa.gov/copyright.shtml');
         return $licenses;
     }

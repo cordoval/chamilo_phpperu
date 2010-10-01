@@ -82,6 +82,11 @@ class RightsTemplateRightLocation extends DataClass
         $value = $this->get_value();
         $this->set_value(! $value);
     }
+    
+	function is_enabled()
+    {
+        return $this->get_value() == true;
+    }
 
     static function get_table_name()
     {

@@ -11,7 +11,7 @@ class SurveyMultipleChoiceQuestionDisplay extends SurveyQuestionDisplay
     function add_question_form()
     {
         $formvalidator = $this->get_formvalidator();
-        $clo_question = $this->get_clo_question();
+        $complex_question = $this->get_complex_question();
         $question = $this->get_question();
         //  $answers = $this->shuffle_with_keys($question->get_options());
         $answers = $question->get_options();
@@ -37,13 +37,13 @@ class SurveyMultipleChoiceQuestionDisplay extends SurveyQuestionDisplay
 
             if ($type == MultipleChoiceQuestion :: ANSWER_TYPE_RADIO )
             {
-                $answer_name = $question_id . '_0'.'_'.$this->get_page_nr();
+                $answer_name = $question_id . '_0'.'_'.$this->get_context_path();
                 $group[] = $formvalidator->createElement('radio', $answer_name, null, null, $i);
                 $group[] = $formvalidator->createElement('static', null, null, $answer->get_value());
             }
             elseif ($type == MultipleChoiceQuestion :: ANSWER_TYPE_CHECKBOX)
             {
-                $answer_name = $question_id . '_' . ($i).'_'.$this->get_page_nr();
+                $answer_name = $question_id . '_' . ($i).'_'.$this->get_context_path();
                 $group[] = $formvalidator->createElement('checkbox', $answer_name);
                 $group[] = $formvalidator->createElement('static', null, null, $answer->get_value());
             }

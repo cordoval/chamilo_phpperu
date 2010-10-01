@@ -1,315 +1,349 @@
 <?php
 require_once dirname(__FILE__) . '/photobucket_external_repository_object.class.php';
-require_once dirname(__FILE__) . '/webservices/photobucket_rest_client.class.php';
 require_once 'OAuth/Request.php';
+require_once PATH :: get_plugin_path() . 'PBAPI-0.2.3/PBAPI-0.2.3/PBAPI.php';
 /**
  * 
  * @author magali.gillard
- * developer key : 179830482
+ * key : 149830482
+ * secret : 410277f61d5fc4b01a9b9e763bf2e97b
  */
 class PhotobucketExternalRepositoryConnector extends ExternalRepositoryConnector
 {
     private $photobucket;
-	private $consumer;
-	private $url;
-    
+    private $consumer;
+    private $key;
+    private $secret;
+    private $photobucket_session;
+
     function PhotobucketExternalRepositoryConnector($external_repository_instance)
     {
         parent :: __construct($external_repository_instance);
-
+        
         $this->key = ExternalRepositorySetting :: get('consumer_key', $this->get_external_repository_instance_id());
         $this->secret = ExternalRepositorySetting :: get('consumer_secret', $this->get_external_repository_instance_id());
-        
-        $this->url = ExternalRepositorySetting :: get('url', $this->get_external_repository_instance_id());
-       	$this->login();
-        //$this->photobucket = new PhotobucketRestClient($url);
-    }   
+        $url = ExternalRepositorySetting :: get('url', $this->get_external_repository_instance_id());
+        $this->login();
+    }
 
-    
     function login()
     {
-    	$this->consumer = new OAuth_Consumer($this->key, $this->secret);
-    	$request = OAuth_Request::fromConsumerAndToken($this->consumer, NULL, "POST", 'http://api.photobucket.com/login/request');
-    	$request->signRequest('HMAC-SHA1', $this->consumer);
-dump($request);
-   		Header("Location: $request");
-		
-    }
-    
-//    
-//    /**
-//     * @param int $instance_id
-//     * @return PhotobucketExternalRepositoryConnector:
-//     */
-//    static function get_instance($instance_id)
-//    {
-//        if (! isset(self :: $instance[$instance_id]))
-//        {
-//            self :: $instance[$instance_id] = new PhotobucketExternalRepositoryConnector($instance_id);
-//        }
-//        return self :: $instance[$instance_id];
-//    }
-
-    function retrieve_external_repository_objects($condition, $order_property, $offset, $count)
-    {       	   	  	   	
-    	$request = OAuth_Request::fromUrl($this->url . '/featured/group?format=xml', 'GET', $this->consumer);
-    	$request->signRequest('HMAC-SHA1', $this->consumer);
-    	Header("Location: $request");
-    	
-    	$response = $this->request($request);
-    	dump($response);
-    	
-		//check the url : OK
-    	$url = $request->__toString();
-		dump($url);
-		
-		//xml file from this ... NOT OK !!!
-		
-		exit;
-
-		$objects = array();
-        $xml = $this->get_xml($request->get_response_content());
-
-        if ($xml)
+        $this->consumer = new PBAPI($this->key, $this->secret);
+        $this->consumer->setResponseParser('simplexmlarray');
+        
+        $this->photobucket_session = unserialize(ExternalRepositoryUserSetting :: get('session', $this->get_external_repository_instance_id()));
+        $oauth_access_token = $this->photobucket_session['photobucket_access_token'];
+        
+        $oauth_request_token = Session :: retrieve('photobucket_request_token');
+        if (! $oauth_access_token)
         {
-            
-        	foreach ($xml['result'] as $media_package)
+            if (! $oauth_request_token)
             {
-            	$objects[] = $this->get_media_package($media_package);
+                $this->consumer->login('request')->post()->loadTokenFromResponse();
+                Session :: register('photobucket_request_token', serialize($this->consumer->getOauthToken()));
+                $this->consumer->goRedirect('login');
             }
+            else
+            {
+                $oauth_request_token = unserialize($oauth_request_token);
+                $this->consumer->setOAuthToken($oauth_request_token->getKey(), $oauth_request_token->getSecret());
+                
+                $this->consumer->login('access')->post()->loadTokenFromResponse();
+                
+                $session_array = array();
+                $session_array['photobucket_access_token'] = $this->consumer->getOAuthToken();
+                $session_array['photobucket_username'] = $this->consumer->getUsername();
+                $session_array['photobucket_subdomain'] = $this->consumer->getSubdomain();
+                $session_array = serialize($session_array);
+                
+                $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('session', $this->get_external_repository_instance_id());
+                $user_setting = new ExternalRepositoryUserSetting();
+                $user_setting->set_setting_id($setting->get_id());
+                $user_setting->set_user_id(Session :: get_user_id());
+                $user_setting->set_value($session_array);
+                if ($user_setting->create())
+                {
+                    Session :: unregister('photobucket_request_token');
+                }
+            }
+        
+        }
+        else
+        {
+            $username = $this->photobucket_session['photobucket_username'];
+            $subdomain = $this->photobucket_session['photobucket_subdomain'];
+            
+            $this->consumer->setOAuthToken($oauth_access_token->getKey(), $oauth_access_token->getSecret(), $username);
+            $this->consumer->setSubdomain($subdomain);
+        }
+    }
+
+    //Only image for the moment
+    function retrieve_external_repository_objects($condition, $order_property, $offset, $count)
+    {
+        $response = $this->retrieve_photos($condition, $order_property, $offset, $count);
+        $objects = array();
+        
+        foreach ($response['media'] as $media)
+        {
+            $objects[] = $this->set_photo_object($media);
         }
         return new ArrayResultSet($objects);
     }
 
- 	function request($request)
+    function retrieve_photos($condition, $order_property, $offset, $count)
     {
-        if ($this->photobucket)
+        $feed_type = Request :: get(PhotobucketExternalRepositoryManager :: PARAM_FEED_TYPE);
+        
+        $offset = (($offset - ($offset % $count)) / $count) + 1;
+        if (is_null($condition))
         {
-        	return $this->photobucket;
+            $condition = '';
         }
-        return false;
+        
+        switch ($feed_type)
+        {
+            case PhotobucketExternalRepositoryManager :: FEED_TYPE_GENERAL :
+                $response = $this->consumer->search($condition, array('num' => $count, 'perpage' => $count, 'page' => $offset, 'secondaryperpage' => 1))->get()->getParsedResponse(true);
+                if ($condition)
+                {
+                    $response = $response['result']['primary'];
+                }
+                else
+                {
+                    $response = $response['result'];
+                }
+                
+                break;
+            case PhotobucketExternalRepositoryManager :: FEED_TYPE_MY_PHOTOS :
+                if ($condition)
+                {
+                    $response = $this->consumer->search($condition, array('num' => $count, 'perpage' => $count, 'page' => $offset, 'secondaryperpage' => 1))->get()->getParsedResponse(true);
+                    
+                    $response = $response['result']['primary'];
+                }
+                else
+                {
+                    $response = $this->consumer->user($this->photobucket_session['photobucket_username'])->search($condition, array('perpage' => $count, 'page' => $offset, 'type' => 'image'))->get()->getParsedResponse(true);
+                }
+                break;
+            default :
+                if ($condition)
+                {
+                    $response = $this->consumer->search($condition, array('num' => $count, 'perpage' => $count, 'page' => $offset, 'secondaryperpage' => 1))->get()->getParsedResponse(true);
+                    
+                    $response = $response['result']['primary'];
+                }
+                else
+                {
+                    $response = $this->consumer->user($this->photobucket_session['photobucket_username'])->search($condition, array('perpage' => $count, 'page' => $offset, 'type' => 'image'))->get()->getParsedResponse(true);
+                }
+                break;
+                break;
+        }
+        return $response;
     }
 
     function retrieve_external_repository_object($id)
     {
-//        $response = $this->request(MatterhornRestClient :: METHOD_GET, '/search/rest/episode', array('id' => $id));
-//        $xml = $this->get_xml($response->get_response_content());
-//
-//        if ($xml)
-//        {
-//            if ($xml['result'])
-//            {
-//            	return $this->get_media_package($xml['result'][0]);
-//            }
-//            else
-//            {
-//                return false;
-//            }
-//        }
+        $data = $this->consumer->media(urldecode($id))->get()->getParsedResponse(true);
+        
+        return $this->set_photo_object($data['media']);
     }
 
-   
+    function set_photo_object($data)
+    {
+        $object = new PhotobucketExternalRepositoryObject();
+        $object->set_id(urlencode($data['url']));
+        $object->set_title($data['title']);
+        $object->set_description($data['description']);
+        $object->set_url($data['url']);
+        $object->set_thumbnail($data['thumb']);
+        $object->set_owner_id($data['_attribs']['username']);
+        $object->set_created($data['_attribs']['uploaddate']);
+        $object->set_modified($data['_attribs']['uploaddate']);
+        $object->set_type(Utilities :: camelcase_to_underscores($data['_attribs']['type']));
+        $object->set_rights($this->determine_rights($data));
+        
+        $tags = array();
+        if (count($data['tag']) > 1)
+        {
+            foreach ($data['tag'] as $tag)
+            {
+                $tags[] = $tag['_attribs']['tag'];
+            }
+        }
+        elseif (count($data['media']['tag']) == 1)
+        {
+            $tags[] = $data['tag']['_attribs']['tag'];
+        }
+        $object->set_tags($tags);
+        
+        return $object;
+    }
 
     function count_external_repository_objects($condition)
     {
-//    	$response = $this->request(MatterhornRestClient :: METHOD_GET, '/search/rest/episode', array('limit' => 1));
-//        $xml = $response->get_response_content();
-//
-//        $doc = new DOMDocument();
-//        $doc->loadXML($xml);
-//               
-//        $object = $doc->getElementsByTagname('search-results')->item(0);
-//        return $object->getAttribute('total');
-    }
-
-    function delete_external_repository_object($id)
-    {
-//	    $search_response = $this->request(MatterhornRestClient :: METHOD_DELETE, '/search/rest/' . $id);
-//	    if ($search_response->get_response_http_code() == 200)
-//	    {
-//	    	return true;
-//	    }
-//    	return false;
-    }
-
-    function create_external_repository_object($values, $track_path)
-    {
-//    	$parameters = array('flavor' => 'presenter/source');
-//    	$parameters['title'] = $values[MatterhornExternalRepositoryObject::PROPERTY_TITLE];
-//    	$parameters['type'] = 'AudioVisual';
-//    	$parameters['BODY'] = file_get_contents($track_path);
-//    	$response = $this->request(MatterhornRestClient :: METHOD_POST, '/ingest/rest/addMediaPackage', $parameters);
-//        $xml = $this->get_xml($response->get_response_content());
-    }
+        $feed_type = Request :: get(PhotobucketExternalRepositoryManager :: PARAM_FEED_TYPE);
+        
+        if (is_null($condition))
+        {
+            $condition = '';
+        }
+        
+        switch ($feed_type)
+        {
+            case PhotobucketExternalRepositoryManager :: FEED_TYPE_GENERAL :
+                
+                if ($condition)
+                {
+                    $response = $this->consumer->search($condition, array('num' => 1, 'perpage' => 1, 'page' => 1, 'secondaryperpage' => 1))->get()->getParsedResponse(true);
+                    return $response['result']['_attribs']['totalresults'];
+                }
+                else
+                {
+                    return 900;
+                }
+                
+                break;
+            case PhotobucketExternalRepositoryManager :: FEED_TYPE_MY_PHOTOS :
+                if ($condition)
+                {
+                    $response = $this->consumer->search($condition, array('num' => 1, 'perpage' => 1, 'page' => 1, 'secondaryperpage' => 1))->get()->getParsedResponse(true);
+                    return $response['result']['_attribs']['totalresults'];
+                }
+                else
+                {
+                    $response = $this->consumer->user($this->photobucket_session['photobucket_username'])->get()->getParsedResponse(true);
+                    return $response['total_pictures'];
+                }
+                
+                break;
+            default :
+                if ($condition)
+                {
+                    $response = $this->consumer->search($condition, array('num' => 1, 'perpage' => 1, 'page' => 1, 'secondaryperpage' => 1))->get()->getParsedResponse(true);
+                    return $response['result']['_attribs']['totalresults'];
+                }
+                else
+                {
+                    $response = $this->consumer->user($this->photobucket_session['photobucket_username'])->get()->getParsedResponse(true);
+                    return $response['total_pictures'];
+                }
+                break;
+        }
     
-    function export_external_repository_object($object)
-    {
- //       return true;
     }
-
-    function determine_rights($video_entry)
-    {
-        $rights = array();
-        $rights[ExternalRepositoryObject :: RIGHT_USE] = true;
-        $rights[ExternalRepositoryObject :: RIGHT_EDIT] = false;
-        $rights[ExternalRepositoryObject :: RIGHT_DELETE] = true;
-        $rights[ExternalRepositoryObject :: RIGHT_DOWNLOAD] = false;
-        return $rights;
-    }
-    
-//    function update_matterhorn_video($values)
-//    {
-//    	$response = $this->request(MatterhornRestClient :: METHOD_GET, '/search/rest/episode', array('id' => MatterhornExternalRepositoryObject::PROPERTY_ID));
-//
-//        $xml = $this->get_xml($response->get_response_content());
-//        $catalogs = $xml['result'][0]['mediapackage']['metadata']['catalog'];
-//        if(isset ($catalogs))
-//        {
-//        	foreach($catalogs as $catalog)
-//        	{
-//        		if ($catalog['type'] == 'dublincore/episode')
-//        		{
-//        			$url = $catalog['url'];
-//        			
-//        		}
-//        	}
-//        	if (isset($url))
-//        	{
-//        		$doc = new DOMDocument();
-//        		$doc->load($url);
-//        		$object = $doc->getElementsByTagname('catalog')->item(0);
-//        	}
-//        }
-//
-//        $object = $doc->getElementsByTagname('catalog')->item(0);
-//        $object->getAttribute('total');
-//    }
 
     /**
-     * @param string $query
-     * @return string
+     * @param array $values
+     * @return boolean
      */
-    static function translate_search_query($query)
+    function update_external_repository_object($values)
     {
-        return $query;
-    }
-
-//    public function get_series($id)
-//    {
-//        $response = $this->request(MatterhornRestClient :: METHOD_GET, '/series/rest/series/' . $id);
-//        $xml = $this->get_xml($response->get_response_content());
-//        if ($xml)
-//        {
-//        	if ($xml['metadataList'])
-//            {
-//				foreach($xml['metadataList']['metadata'] as $metadata)
-//				{
-//					if ($metadata['key'] == 'title')
-//					{
-//						return $metadata['value'];
-//					}
-//				}
-//				return "";
-//            }
-//            else
-//            {
-//                return false;
-//            }
-//        }
-//    }
-
-//    private function get_media_package($result)
-//    {
-//        $media_package = $result['mediapackage'];
-//        $matterhorn_external_repository_object = new MatterhornExternalRepositoryObject();
-//        $matterhorn_external_repository_object->set_id($media_package['id']);
-//        $matterhorn_external_repository_object->set_duration($result['dcExtent']);
-//        $matterhorn_external_repository_object->set_title($result['dcTitle']);
-//        $matterhorn_external_repository_object->set_description($result['dcDescription']);
-//        $matterhorn_external_repository_object->set_contributors($result['dcContributor']);
-//        $matterhorn_external_repository_object->set_series($this->get_series($media_package['series']));
-//        $matterhorn_external_repository_object->set_owner_id($result['dcCreator']);
-//        $matterhorn_external_repository_object->set_created(strtotime($result['dcCreated']));
-//        
-//        $matterhorn_external_repository_object->set_subjects($result['dcSubject']);
-//        $matterhorn_external_repository_object->set_license($result['dcLicense']);
-//        $matterhorn_external_repository_object->set_type(Utilities :: camelcase_to_underscores($result['mediaType']));
-//        $matterhorn_external_repository_object->set_modified(strtotime($result['modified']));
-//        
-//        foreach ($media_package['media']['track'] as $media_track)
-//        {
-//            $track = new MatterhornExternalRepositoryObjectTrack();
-//            $track->set_ref($media_track['ref']);
-//            $track->set_type($media_track['type']);
-//            $track->set_id($media_track['id']);
-//            $track->set_mimetype($media_track['mimetype']);
-//            $track->set_tags($media_track['tags']['tag']);
-//            $track->set_url($media_track['url']);
-//            $track->set_checksum($media_track['checksum']);
-//            $track->set_duration($media_track['duration']);
-//            
-//            if ($media_track['audio'])
-//            {
-//                $audio = new MatterhornExternalRepositoryObjectTrackAudio();
-//                $audio->set_id($media_track['audio']['id']);
-//                $audio->set_device($media_track['audio']['device']);
-//                $audio->set_encoder($media_track['audio']['encoder']['type']);
-//                $audio->set_bitdepth($media_track['audio']['bitdepth']);
-//                $audio->set_channels($media_track['audio']['channels']);
-//                $audio->set_samplingrate($media_track['audio']['samplingrate']);
-//                $audio->set_bitrate($media_track['audio']['bitrate']);
-//                $track->set_audio($audio);
-//            }
-//            
-//            if ($media_track['video'])
-//            {
-//                $video = new MatterhornExternalRepositoryObjectTrackVideo();
-//                $video->set_id($media_track['video']['id']);
-//                $video->set_device($media_track['video']['device']);
-//                $video->set_encoder($media_track['video']['encoder']['type']);
-//                $video->set_framerate($media_track['video']['framerate']);
-//                $video->set_bitrate($media_track['video']['bitrate']);
-//                $video->set_resolution($media_track['video']['resolution']);
-//                $track->set_video($video);
-//            }
-//            $matterhorn_external_repository_object->add_track($track);
-//        }
-//        
-//        foreach ($media_package['attachments']['attachment'] as $attachment)
-//        {
-//            $attach = new MatterhornExternalRepositoryObjectAttachment();
-//            $attach->set_id($attachment['id']);
-//            $attach->set_ref($attachment['ref']);
-//            $attach->set_type($attachment['type']);
-//            $attach->set_mimetype($attachment['mimetype']);
-//            $attach->set_tags($attachment['tags']['tag']);
-//            $attach->set_url($attachment['url']);
-//            
-//            $matterhorn_external_repository_object->add_attachment($attach);
-//        }
-//        
-//        $matterhorn_external_repository_object->set_rights($this->determine_rights($media_package));
-//        return $matterhorn_external_repository_object;
-//    }
-
-    private function get_xml($xml)
-    {
-        if ($xml)
+        while ($data = $this->consumer->media(urldecode($values[PhotobucketExternalRepositoryObject :: PROPERTY_ID]))->tag()->get()->getParsedResponse(true))
         {
-            $unserializer = new XML_Unserializer();
-            $unserializer->setOption(XML_UNSERIALIZER_OPTION_COMPLEXTYPE, 'array');
-            $unserializer->setOption(XML_UNSERIALIZER_OPTION_ATTRIBUTES_PARSE, true);
-            $unserializer->setOption(XML_UNSERIALIZER_OPTION_RETURN_RESULT, true);
-            $unserializer->setOption(XML_UNSERIALIZER_OPTION_GUESS_TYPES, true);
-            //$unserializer->setOption(XML_UNSERIALIZER_OPTION_FORCE_ENUM, array('result', 'track', 'attachment'));
-            
-            // userialize the document
-            return $unserializer->unserialize($xml);
+            $response = $this->consumer->media(urldecode($values[PhotobucketExternalRepositoryObject :: PROPERTY_ID]))->tag($data['tagid'])->delete()->getParsedResponse(true);
+        }
+        
+        $response = $this->consumer->media(urldecode($values[PhotobucketExternalRepositoryObject :: PROPERTY_ID]))->title(array('title' => $values[PhotobucketExternalRepositoryObject :: PROPERTY_TITLE]))->put()->getParsedResponse(true);
+        if ($response)
+        {
+            $response = $this->consumer->media(urldecode($values[PhotobucketExternalRepositoryObject :: PROPERTY_ID]))->description(array('description' => $values[PhotobucketExternalRepositoryObject :: PROPERTY_DESCRIPTION]))->put()->getParsedResponse(true);
+            if ($response)
+            {
+                if ($values[PhotobucketExternalRepositoryObject :: PROPERTY_TAGS])
+                {
+                    $tags = explode(',', $values[PhotobucketExternalRepositoryObject :: PROPERTY_TAGS]);
+                    
+                    foreach ($tags as $tag)
+                    {
+                        $response = $this->consumer->media(urldecode($values[PhotobucketExternalRepositoryObject :: PROPERTY_ID]))->tag(array(
+                                'tag' => $tag, 'topleftx' => 0, 'toplefty' => 0, 'bottomrightx' => 0, 'bottomrighty' => 0))->post()->getParsedResponse(true);
+                        if (! $response)
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                return false;
+            }
         }
         else
         {
             return false;
         }
+        return true;
+    }
+
+    function delete_external_repository_object($id)
+    {
+        $response = $this->consumer->media($id)->delete()->getParsedResponse(true);
+        if ($response['deleted'] == 1)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    function create_external_repository_object($values, $file)
+    {
+        $photo = base64_encode(file_get_contents($file['tmp_name']));
+        
+        $tags = explode(',', $values[PhotobucketExternalRepositoryObject :: PROPERTY_TAGS]);
+        $response = $this->consumer->album(Session :: retrieve('username'))->upload(array(
+                'type' => 'base64', 'filename' => $file['name'], 'uploadfile' => $photo, 'title' => $values[PhotobucketExternalRepositoryObject :: PROPERTY_TITLE], 
+                'description' => $values[PhotobucketExternalRepositoryObject :: PROPERTY_DESCRIPTION]))->post()->getParsedResponse(true);
+        foreach ($tags as $tag)
+        {
+            $this->consumer->media(urlencode($response['url']))->tag(array('tag' => $tag, 'topleftx' => 0, 'toplefty' => 0, 'bottomrightx' => 0, 'bottomrighty' => 0))->post()->getParsedResponse(true);
+        }
+        return urlencode($response['url']);
+    
+    }
+
+    function export_external_repository_object($object)
+    {
+        $photo = base64_encode(file_get_contents($object->get_full_path()));
+        
+        $response = $this->consumer->album($this->photobucket_session['photobucket_username'])->upload(array('type' => 'base64', 'filename' => $object->get_filename(), 'uploadfile' => $photo, 'title' => $object->get_title(), 'description' => $object->get_description()))->post()->getParsedResponse(true);
+        
+        return urlencode($response['url']);
+    }
+
+    function determine_rights($photo)
+    {
+        $rights = array();
+        if ($this->photobucket_session['photobucket_username'] == $photo['_attribs']['username'])
+        {
+            
+            $rights[ExternalRepositoryObject :: RIGHT_USE] = true;
+            $rights[ExternalRepositoryObject :: RIGHT_EDIT] = true;
+            $rights[ExternalRepositoryObject :: RIGHT_DELETE] = true;
+            $rights[ExternalRepositoryObject :: RIGHT_DOWNLOAD] = true;
+        }
+        else
+        {
+            $rights[ExternalRepositoryObject :: RIGHT_USE] = true;
+            $rights[ExternalRepositoryObject :: RIGHT_EDIT] = false;
+            $rights[ExternalRepositoryObject :: RIGHT_DELETE] = false;
+            $rights[ExternalRepositoryObject :: RIGHT_DOWNLOAD] = false;
+        }
+        return $rights;
+    }
+
+    /**
+     * @param string $query
+     * @return string
+     */
+    static 
+
+    function translate_search_query($query)
+    {
+        return $query;
     }
 }
 ?>

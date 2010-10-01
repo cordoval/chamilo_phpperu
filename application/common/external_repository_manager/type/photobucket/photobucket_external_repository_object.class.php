@@ -1,32 +1,17 @@
 <?php
-require_once dirname(__FILE__) . '/../../general/streaming/streaming_media_external_repository_object.class.php';
-
 /**
  *
  * @author magali.gillard
  *
  */
-class PhotobucketExternalRepositoryObject extends StreamingMediaExternalRepositoryObject
+class PhotobucketExternalRepositoryObject extends ExternalRepositoryObject
 {
     const OBJECT_TYPE = 'photobucket';
-	const PROPERTY_ALBUM = 'album';
-    const PROPERTY_TAGS = 'tags';
+
+    const PROPERTY_TAGS = 'tags'; 
+    const PROPERTY_URL = 'url';
+    const PROPERTY_THUMBNAIL = 'thumbnail';
 	    
-	function get_album()
-	{
-		return $this->get_default_property(self :: PROPERTY_ALBUM);
-	}
-	
-	function set_album($album)
-	{
-		return $this->set_default_property(self :: PROPERTY_ALBUM, $album);
-	}
-
-    function get_album_string()
-    {
-		return implode(" ", $this->get_album());
-    }
-
 	function get_tags()
     {
         return $this->get_default_property(self :: PROPERTY_TAGS);
@@ -39,17 +24,49 @@ class PhotobucketExternalRepositoryObject extends StreamingMediaExternalReposito
 
     function get_tags_string()
     {
-		return implode(" ", $this->get_tags());
+		return implode(", ", $this->get_tags());
     }
     
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_ALBUM));
+        return parent :: get_default_property_names(array(self :: PROPERTY_TAGS, self :: PROPERTY_URL, self :: PROPERTY_THUMBNAIL));
     }
 
     static function get_object_type()
     {
-        return self :: OBJECT_TYPE;
+    	return self :: OBJECT_TYPE;
 	}
+	
+    /**
+     * @param $url the $url to set
+     */
+    public function set_url($url)
+    {
+        $this->set_default_property(self :: PROPERTY_URL, $url);
+    }
+    
+    /**
+     * @return the $url
+     */
+    public function get_url()
+    {
+        return $this->get_default_property(self :: PROPERTY_URL);
+    }
+    
+    /**
+     * @return the $thumbnail
+     */
+    public function get_thumbnail()
+    {
+        return $this->get_default_property(self :: PROPERTY_THUMBNAIL);
+    }
+
+    /**
+     * @param $thumbnail the $thumbnail to set
+     */
+    public function set_thumbnail($thumbnail)
+    {
+        $this->set_default_property(self :: PROPERTY_THUMBNAIL, $thumbnail);
+    }
 }
 ?>

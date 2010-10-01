@@ -3,11 +3,10 @@
 require_once Path :: get_application_path() . 'lib/survey/trackers/survey_participant_tracker.class.php';
 require_once Path :: get_repository_path() . 'lib/content_object/survey/display/component/viewer/survey_viewer_wizard.class.php';
 
-
 class InternshipOrganizerEvaluationManagerTakerComponent extends InternshipOrganizerEvaluationManager
 {
     
-	private $survey_id;
+    private $survey_id;
     private $publication_id;
     private $invitee_id;
 
@@ -16,11 +15,11 @@ class InternshipOrganizerEvaluationManagerTakerComponent extends InternshipOrgan
         
         $this->survey_id = Request :: get(SurveyViewerWizard :: PARAM_SURVEY_ID);
         
-        $this->publication_id = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
-         
+        $this->publication_id = Request :: get(self :: PARAM_PUBLICATION_ID);
+        
         $this->invitee_id = Request :: get(SurveyViewerWizard :: PARAM_INVITEE_ID);
-               
-        if (! SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_PARTICIPATE, $this->publication_id, SurveyRights :: TYPE_PUBLICATION, $this->user_id))
+        
+        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_PARTICIPATE, $this->publication_id, InternshipOrganizerRights :: TYPE_PUBLICATION))
         {
             Display :: not_allowed();
         }
@@ -30,7 +29,7 @@ class InternshipOrganizerEvaluationManagerTakerComponent extends InternshipOrgan
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE)), Translation :: get('BrowseEvaluations')));
+        //        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE)), Translation :: get('BrowseEvaluations')));
     }
 
     function get_additional_parameters()
@@ -39,35 +38,27 @@ class InternshipOrganizerEvaluationManagerTakerComponent extends InternshipOrgan
     }
 
     //try out for interface SurveyTaker
+    
 
-
-    function started($survey_id)
-    {
-
-    }
-
-    function finish($survey_id)
+    function started()
     {
     
     }
 
-    function started_context($survey_id, $context_template, $context_id)
-    {
-        
-
-       
-    }
-
-    function finish_context($survey, $template_id, $context_id)
+    function finish()
     {
     
     }
 
-    function save_answers($question_id, $answer, $template_id, $context_id)
+    function save_answer($question_id, $answer, $context_path)
     {
-
+//      dump($context_path);
+    
     }
-
+	
+    function retrieve_answer($question_id, $context_path){
+    	
+    }
 }
 
 ?>

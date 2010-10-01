@@ -1,11 +1,8 @@
 <?php
-/**
- * $Id: survey_question_display.class.php 200 2009-11-13 12:30:04Z kariboe $
- * @package repository.lib.complex_display.survey.component.viewer.wizard.inc
- */
+
 abstract class SurveyQuestionDisplay
 {
-    private $clo_question;
+    private $complex_question;
     private $question;
     private $question_nr;
     private $formvalidator;
@@ -14,27 +11,22 @@ abstract class SurveyQuestionDisplay
     private $page_nr;
     private $answer;
     private $visible;
+    private $contex_path;
 
-    function SurveyQuestionDisplay($formvalidator, $visible, $question_nr, $question, $survey, $page_nr, $answer)
+    function SurveyQuestionDisplay($formvalidator, $complex_question, $question, $question_nr , $answer, $context_path)
     {
-
         $this->formvalidator = $formvalidator;
         $this->renderer = $formvalidator->defaultRenderer();
-		
-//        $this->clo_question = $clo_question;
-//        dump($this->clo_question);
-        $this->question_nr = $question_nr;
+		$this->complex_question = $complex_question;
+	    $this->question_nr = $question_nr;
         $this->question = $question;
-//        dump($this->question);
-        $this->survey = $survey;
-        $this->page_nr = $page_nr;
-        $this->answer = $answer;
-        $this->visible = $visible;
+    	$this->answer = $answer;
+    	$this->contex_path = $context_path;
      }
 
-    function get_clo_question()
+    function get_complex_question()
     {
-        return $this->clo_question;
+        return $this->complex_question;
     }
 
     function get_question()
@@ -51,22 +43,17 @@ abstract class SurveyQuestionDisplay
     {
         return $this->formvalidator;
     }
-
-    function get_survey()
-    {
-        return $this->survey;
-    }
-
-    function get_page_nr()
-    {
-        return $this->page_nr;
-    }
-
+   
 	function get_answer()
     {
         return $this->answer;
     }
-
+	
+	function get_context_path()
+    {
+        return $this->contex_path;
+    }
+    
     function display()
     {
         $formvalidator = $this->formvalidator;
@@ -97,13 +84,13 @@ abstract class SurveyQuestionDisplay
     {
         $formvalidator = $this->formvalidator;
      
-        if(!$this->visible){
-        	        $html[] = '<div style="display:none" class="question" id="survey_question_'. $this->question->get_id() .'">';
-        	
-        }else{
+//        if(!$this->visible){
+//        	        $html[] = '<div style="display:none" class="question" id="survey_question_'. $this->question->get_id() .'">';
+//        	
+//        }else{
         	        $html[] = '<div  class="question" id="survey_question_'. $this->question->get_id() .'">';
         	
-        }
+//        }
         
 //        style="display:none"
         $html[] = '<div class="title">';
@@ -157,10 +144,12 @@ abstract class SurveyQuestionDisplay
 
     abstract function get_instruction();
 
-    static function factory($formvalidator, $question, $visible ,$question_nr, $survey, $page_nr)
+ static function factory($formvalidator, $complex_question ,$question_nr, $answer, $context_path)
     {
-//        $question = $clo_question;
-        $type = $question->get_type();
+       	
+    	$question = RepositoryDataManager::get_instance()->retrieve_content_object($complex_question->get_ref());
+    	
+    	$type = $question->get_type();
 
         $file = dirname(__FILE__) . '/survey_question_display/' . $type . '.class.php';
 
@@ -172,9 +161,28 @@ abstract class SurveyQuestionDisplay
         require_once $file;
 
         $class = Utilities :: underscores_to_camelcase($type) . 'Display';
-        $question_display = new $class($formvalidator, $visible, $question_nr, $question, $survey, $page_nr);
+        $question_display = new $class($formvalidator, $complex_question, $question, $question_nr, $answer, $context_path);
         return $question_display;
     }
+    
+//    static function factory($formvalidator, $question, $visible ,$question_nr, $survey, $page_nr)
+//    {
+////        $question = $clo_question;
+//        $type = $question->get_type();
+//
+//        $file = dirname(__FILE__) . '/survey_question_display/' . $type . '.class.php';
+//
+//        if (! file_exists($file))
+//        {
+//            die('file does not exist: ' . $file);
+//        }
+//
+//        require_once $file;
+//
+//        $class = Utilities :: underscores_to_camelcase($type) . 'Display';
+//        $question_display = new $class($formvalidator, $visible, $question_nr, $question, $survey, $page_nr);
+//        return $question_display;
+//    }
 
     function parse($value)
     {

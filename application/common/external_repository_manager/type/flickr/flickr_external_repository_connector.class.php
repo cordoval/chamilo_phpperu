@@ -254,7 +254,6 @@ class FlickrExternalRepositoryConnector extends ExternalRepositoryConnector
 
             $objects[] = $object;
         }
-
         return new ArrayResultSet($objects);
     }
 

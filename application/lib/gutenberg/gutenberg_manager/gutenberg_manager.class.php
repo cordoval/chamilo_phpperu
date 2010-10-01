@@ -32,6 +32,7 @@ class GutenbergManager extends WebApplication
     public function GutenbergManager($user)
     {
         parent :: __construct($user);
+        $this->set_parameter(self :: PARAM_RENDERER, $this->get_renderer());
     }
 
     /**

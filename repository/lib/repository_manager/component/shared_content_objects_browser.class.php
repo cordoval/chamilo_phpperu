@@ -77,10 +77,12 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
         }
         $parameters = $this->get_parameters(true);
         $types = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE);
+
         if (is_array($types) && count($types))
         {
             $parameters[RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE] = $types;
         }
+
         $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
         $table = new RepositorySharedContentObjectsBrowserTable($this, $parameters, $condition);
         return $table->as_html();

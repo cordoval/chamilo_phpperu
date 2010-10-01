@@ -7,7 +7,7 @@ class Hq23ExternalRepositoryGalleryTablePropertyModel extends DefaultExternalRep
     {
         parent :: __construct();
 
-        $flickr_properties = Hq23ExternalRepositoryConnector :: get_sort_properties();
+        $hq23_properties = Hq23ExternalRepositoryConnector :: get_sort_properties();
 
         foreach (Hq23ExternalRepositoryConnector :: get_sort_properties() as $property)
         {
