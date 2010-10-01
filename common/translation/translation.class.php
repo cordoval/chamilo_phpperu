@@ -5,7 +5,10 @@
  */
 class Translation
 {
-    /**
+	const PACKAGE_DELIMITER = '.';
+	const PACKAGE_COMMON = 'common';
+	
+	/**
      * Instance of this class for the singleton pattern.
      */
     private static $instance;
@@ -72,10 +75,14 @@ class Translation
      *
      * @return Translation The instance.
      */
-    function get($variable, $parameters = array())
+    function get($variable, $context, $parameters = array())
     {
-        $instance = self :: get_instance();
-        $translation = $instance->translate($variable);
+        $called_class = get_called_class();
+        dump($called_class);
+        $reflection_class = new \ReflectionClass($called_class);
+        dump($reflection_class->getNamespaceName());
+    	$instance = self :: get_instance();
+        $translation = $instance->translate($variable, $context);
 
         if (empty($parameters))
         {
@@ -119,7 +126,7 @@ class Translation
      * @param string $name The parameter name.
      * @return mixed The parameter value.
      */
-    function translate($variable)
+    function translate($variable, $context)
     {
         $instance = self :: get_instance();
 
@@ -132,53 +139,16 @@ class Translation
 
         if (! isset($strings[$language]))
         {
-            $instance->add_language_file_to_array($language, 'common');
+            $instance->add_context_internationalization($language, $context);
         }
-        elseif (! isset($strings[$language]['common']))
+        elseif (! isset($strings[$language][$context]))
         {
-            $instance->add_language_file_to_array($language, 'common');
-        }
+            $instance->add_context_internationalization($language, $context);
+        }       
 
-        $application = $instance->get_application();
-
-        if (! isset($application))
+        if (isset($strings[$language][$context][$variable]))
         {
-            $application = 'common';
-        }
-
-        if (! isset($strings[$language][$application]))
-        {
-            $instance->add_language_file_to_array($language, $application);
-        }
-
-        // Removed by Ivan Tcholakov, 31-MAR-2010, see BUG #743
-        //$strings = $instance->strings;
-
-        if (isset($strings[$language][$application][$variable]))
-        {
-            $value = $strings[$language][$application][$variable];
-        }
-        elseif (isset($strings[$language]['common'][$variable]))
-        {
-            $value = $strings[$language]['common'][$variable];
-        }
-        else
-        {
-        	$packages = array('application_common', 'repository', 'components');
-
-        	foreach($packages as $package)
-        	{
-	        	if(!isset($strings[$language][$package]))
-	        	{
-	        		$instance->add_language_file_to_array($language, $package);
-	        	}
-
-		        if (isset($strings[$language][$package][$variable]))
-		        {
-		            $value = $strings[$language][$package][$variable];
-		            break;
-		        }
-        	}
+            $value = $strings[$language][$context][$variable];
         }
 
         if (!$value || $value == '' || $value == ' ')
@@ -189,13 +159,13 @@ class Translation
             }
             else
             {
-                return '[=' . self :: application_to_class($application) . '=' . $variable . '=]';
+                return '[=' . $context . '=' . $variable . '=]';
             }
         }
 
         if ($this->show_variable_in_translation)
         {
-            return '<span title="' . $application . ' - ' . $variable . '">' . $value . '</span>';
+            return '<span title="' . $context . ' - ' . $variable . '">' . $value . '</span>';
         }
 
         return $value;
@@ -208,6 +178,16 @@ class Translation
         include_once ($path);
         $instance = self :: get_instance();
         $instance->strings[$language][$application] = $lang[$application];
+    }
+    
+    function add_context_internationalization($language, $context)
+    {
+    	$path = Path :: get_language_path() . $language . '/' . $context . '.i18n';
+        $strings = parse_ini_file($path);
+        
+        
+        $instance = self :: get_instance();
+        $instance->strings[$language][$context] = $strings;
     }
 
     static function application_to_class($application)

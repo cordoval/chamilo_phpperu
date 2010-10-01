@@ -475,5 +475,14 @@ abstract class ExternalRepositoryManager extends SubManager
         
         return new $class($application->get_external_repository(), $application->get_parent());
     }
+    
+    static function get_i18n_context($type = null)
+    {
+    	if ($type == null)
+    	{
+    		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+    	}
+    	return Utilities :: camelcase_to_underscores(self :: CLASS_NAME) . Translation :: PACKAGE_DELIMITER . $type;
+    }
 }
 ?>

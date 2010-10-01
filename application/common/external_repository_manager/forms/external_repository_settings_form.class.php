@@ -5,10 +5,11 @@
  * @package application.common
  * @author Hans De Bisschop
  */
-
-class ExternalRepositorySettingsForm extends FormValidator
+    namespace Application\common\external_repository_manager;
+class ExternalRepositorySettingsForm extends \FormValidator
 {
-    private $external_repository;
+
+	private $external_repository;
 
     private $configuration;
 
@@ -66,17 +67,17 @@ class ExternalRepositorySettingsForm extends FormValidator
                     if (! $has_settings && $categories > 1)
                     {
                         $this->addElement('html', '<div class="configuration_form">');
-                        $this->addElement('html', '<span class="category">' . Translation :: get(Utilities :: underscores_to_camelcase($category_name)) . '</span>');
+                        $this->addElement('html', '<span class="category">' . Translation :: get(Utilities :: underscores_to_camelcase($category_name), ExternalRepositoryManager::get_i18n_context($configuration['name'])) . '</span>');
                         $has_settings = true;
                     }
 
                     if ($setting['locked'] == 'true')
                     {
-                        $this->addElement('static', $name, Translation :: get(Utilities :: underscores_to_camelcase($name)));
+                        $this->addElement('static', $name, Translation :: get(Utilities :: underscores_to_camelcase($name)), ExternalRepositoryManager::get_i18n_context($configuration['name']));
                     }
                     elseif ($setting['field'] == 'text')
                     {
-                        $this->add_textfield($name, Translation :: get(Utilities :: underscores_to_camelcase($name)), ($setting['required'] == 'true'));
+                        $this->add_textfield($name, Translation :: get(Utilities :: underscores_to_camelcase($name), ExternalRepositoryManager::get_i18n_context($configuration['name'])), ($setting['required'] == 'true'));
 
                         $validations = $setting['validations'];
                         if ($validations)
@@ -90,7 +91,7 @@ class ExternalRepositorySettingsForm extends FormValidator
                                         $validation['format'] = NULL;
                                     }
 
-                                    $this->addRule($name, Translation :: get($validation['message']), $validation['rule'], $validation['format']);
+                                    $this->addRule($name, Translation :: get($validation['message'], ExternalRepositoryManager::get_i18n_context($configuration['name'])), $validation['rule'], $validation['format']);
                                 }
                             }
                         }
@@ -98,7 +99,7 @@ class ExternalRepositorySettingsForm extends FormValidator
                     }
                     elseif ($setting['field'] == 'html_editor')
                     {
-                        $this->add_html_editor($name, Translation :: get(Utilities :: underscores_to_camelcase($name)), ($setting['required'] == 'true'));
+                        $this->add_html_editor($name, Translation :: get(Utilities :: underscores_to_camelcase($name), ExternalRepositoryManager::get_i18n_context($configuration['name'])), ($setting['required'] == 'true'));
                     }
                     else
                     {
@@ -128,11 +129,11 @@ class ExternalRepositorySettingsForm extends FormValidator
                                     $group[] = & $this->createElement($setting['field'], $name, null, Translation :: get(Utilities :: underscores_to_camelcase($option_name)), $option_value);
                                 }
                             }
-                            $this->addGroup($group, $name, Translation :: get(Utilities :: underscores_to_camelcase($name)), '<br/>', false);
+                            $this->addGroup($group, $name, Translation :: get(Utilities :: underscores_to_camelcase($name), ExternalRepositoryManager::get_i18n_context($configuration['name'])), '<br/>', false);
                         }
                         elseif ($setting['field'] == 'select')
                         {
-                            $this->addElement('select', $name, Translation :: get(Utilities :: underscores_to_camelcase($name)), $options);
+                            $this->addElement('select', $name, Translation :: get(Utilities :: underscores_to_camelcase($name), ExternalRepositoryManager::get_i18n_context($configuration['name'])), $options);
                         }
                     }
                 }
@@ -145,13 +146,13 @@ class ExternalRepositorySettingsForm extends FormValidator
             }
 
             $buttons = array();
-            $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
-            $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+            $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save', Translation :: PACKAGE_COMMON), array('class' => 'positive'));
+            $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', Translation :: PACKAGE_COMMON), array('class' => 'normal empty'));
             $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         }
         else
         {
-            $this->addElement('html', Translation :: get('NoConfigurableSettings'));
+            $this->addElement('html', Translation :: get('NoConfigurableSettings', ExternalRepositoryManager::get_i18n_context()));
         }
     }
 
