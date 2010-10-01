@@ -19,14 +19,20 @@ class SurveyPublicationReportingFilterTemplate extends ReportingTemplate
 		$this->add_reporting_block(new SurveyQuestionTypeReportingBlock($this));
 		//$this->add_reporting_block(new SurveyContextTemplateReportingBlock($this));
 		//$this->add_reporting_block(new SurveyContextReportingBlock($this));
-		$this->add_reporting_block(new SurveyQuestionReportingBlock($this));
+		//$this->add_reporting_block(new SurveyQuestionReportingBlock($this));
 	}
 	
 	public function display_filter()
 	{
 		$html = array();
 		$ids = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
-		$this->wizard = new SurveyReportingFilterWizard($ids, $this->get_url($parameters));
+		Request::set_get(DynamicFormTabsRenderer::PARAM_SELECTED_TAB, Request::post('submit'));
+		$this->wizard = new SurveyReportingFilterWizard($ids, $this->get_url($this->get_parameters()));
+		
+		if($this->wizard->validate())
+		{
+			
+		}
 		$html[] = $this->reporting_filter_header();
 		$html[] = $this->wizard->toHtml();
 		$html[] = $this->reporting_filter_footer();
@@ -60,10 +66,11 @@ class SurveyPublicationReportingFilterTemplate extends ReportingTemplate
         $html[] = '</div>';
 		$html[] = '</div>';
 		$html[] = '</div>';
+		
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/reporting_filter_horizontal.js');
 
         $html[] = '<div class="clear"></div>';
-        
+
         return implode("\n", $html); 
     }
 	

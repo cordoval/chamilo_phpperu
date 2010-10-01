@@ -833,4 +833,6 @@ $lang['common']['Surround'] = 'Surround';
 $lang['common']['hz'] = 'hz';
 
 $lang['common']['UnableToAttachObject'] = 'Unable to attach object';
+
+$lang['common']['ShowReportingFilter'] = 'Show Reporting Filter';
 ?>

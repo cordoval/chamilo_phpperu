@@ -31,13 +31,14 @@ class SurveyManagerReportingFilterComponent extends SurveyManager
                 $trail = BreadcrumbTrail :: get_instance();
                 
                 $trail->add_help('survey reporting filter');
-                                 
+  
                 $rtv = ReportingViewer :: construct($this);
      
                 foreach ($publication_ids as $publication_id)
                 {
-                    $this->set_parameter(SurveyManager :: PARAM_PUBLICATION_ID, $publication_id);   
+                    $this->set_parameter(SurveyManager :: PARAM_PUBLICATION_ID, $publication_id);      
                 }
+                
                 $rtv->add_template_by_name('survey_publication_reporting_filter_template', SurveyManager :: APPLICATION_NAME);
                 $rtv->set_breadcrumb_trail($trail);
                 $rtv->hide_all_blocks();
