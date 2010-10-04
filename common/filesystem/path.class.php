@@ -225,7 +225,7 @@ class Path
 
     public static function get_home_path()
     {
-        return self :: get(SYS_APP_HOME_PATH);
+        return self :: get(SYS_APP_HOME_PATH) . 'php/';
     }
 
     public static function get_menu_path()
@@ -240,12 +240,12 @@ class Path
 
     public static function get_help_path()
     {
-        return self :: get(SYS_APP_HELP_PATH);
+        return self :: get(SYS_APP_HELP_PATH) . 'php/';
     }
 
     public static function get_rights_path()
     {
-        return self :: get(SYS_APP_RIGHTS_PATH);
+        return self :: get(SYS_APP_RIGHTS_PATH) . 'php/';
     }
 
     public static function get_migration_path()
@@ -275,7 +275,7 @@ class Path
 
     public static function get_tracking_path()
     {
-        return self :: get(SYS_APP_TRACKING_PATH);
+        return self :: get(SYS_APP_TRACKING_PATH) . 'php/';
     }
 
     public static function get_application_path()
@@ -301,7 +301,7 @@ class Path
 
     public static function get_webservice_path()
     {
-        return self :: get(SYS_APP_WEBSERVICE_PATH);
+        return self :: get(SYS_APP_WEBSERVICE_PATH) . 'php/';
     }
 
     public static function get_common_path()

@@ -127,9 +127,7 @@ class HomeManagerHomeComponent extends HomeManager
                     $condition = new AndCondition($conditions);
                     
                     $blocks = $this->retrieve_home_blocks($condition);
-                    
-                    $path = Path :: get_application_path() . 'lib';
-                    
+                                       
                     if ($blocks->size() > 0)
                     {
                         while ($block = $blocks->next_result())
@@ -139,7 +137,7 @@ class HomeManagerHomeComponent extends HomeManager
                             
                             if (! WebApplication :: is_application($application))
                             {
-                                $sys_app_path = Path :: get(SYS_PATH) . $application . '/lib/' . $application . '_manager' . '/' . $application . '_manager.class.php';
+                                $sys_app_path = CoreApplication :: get_application_path($application) . '/lib/' . $application . '_manager' . '/' . $application . '_manager.class.php';
                                 require_once $sys_app_path;
                                 
                                 $application_class .= 'Manager';
@@ -157,8 +155,7 @@ class HomeManagerHomeComponent extends HomeManager
                             }
                             else
                             {
-                                $toolPath = $path . '/' . $application . '/' . $application . '_manager';
-                                require_once $toolPath . '/' . $application . '_manager.class.php';
+                                require_once WebApplication :: get_application_path($application) . '/' . $application . '_manager' . '/' . $application . '_manager.class.php';
                                 
                                 if (! is_null($this->get_user()))
                                 {
