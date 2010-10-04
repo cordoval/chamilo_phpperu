@@ -17,7 +17,7 @@ class Database
     private $connection;
     private $prefix;
     private $aliases;
-    
+
     /**
      * Used for debug
      * @var int
@@ -88,7 +88,7 @@ class Database
     {
         $this->connection = $connection;
     }
-	
+
     /**
      * Debug function
      * Uncomment the lines if you want to debug
@@ -216,16 +216,16 @@ class Database
      */
     function create_storage_unit($name, $properties, $indexes)
     {
-        
+
         $check_name = $this->prefix . $name;
     	$name = $this->get_table_name($name);
-   
+
     	$this->connection->loadModule('Manager');
         $manager = $this->connection->manager;
         // If table allready exists -> drop it
         // @todo This should change: no automatic table drop but warning to user
         $tables = $manager->listTables();
-       
+
         if (in_array($check_name, $tables))
         {
             $manager->dropTable($name);
@@ -369,7 +369,7 @@ class Database
             $query = 'UPDATE ' . $this->escape_table_name($table_name) . ' AS ' . $table_name_alias . ' SET ';
 
             $updates = array();
-            
+
             foreach ($properties as $column => $property)
             {
                 $updates[] = $this->escape_column_name($column) . '=' . $property;
@@ -412,7 +412,7 @@ class Database
             }
 
             $res = $this->query($query);
-            
+
             if (MDB2 :: isError($res))
             {
                 return false;
