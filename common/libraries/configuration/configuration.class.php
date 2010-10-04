@@ -28,7 +28,7 @@ class Configuration
     private function Configuration()
     {
         global $configuration;
-        include_once dirname(__FILE__) . '/configuration.php';
+        include_once Path :: get_common_path(). 'configuration/configuration.php';
         $this->params = $configuration;
     }
 

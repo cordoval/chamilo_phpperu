@@ -192,7 +192,7 @@ class Display
 //        }
         
         global $language_interface, $adm, $httpHeadXtra, $htmlHeadXtra, $text_dir, $plugins, $interbreadcrumb, $charset, $noPHP_SELF;
-        include (Path :: get(SYS_LIB_PATH) . 'html/header.inc.php');
+        include (Path :: get_common_libraries_path() . 'html/header.inc.php');
     }
 
     public static function small_header()

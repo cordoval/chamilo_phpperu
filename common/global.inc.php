@@ -84,13 +84,14 @@ if (! $already_installed)
 }
 
 // Add the path to the pear packages to the include path
-require_once dirname(__FILE__) . '/filesystem/path.class.php';
-require_once dirname(__FILE__) . '/utilities.class.php';
+require_once dirname(__FILE__) . '/libraries/filesystem/path.class.php';
+require_once dirname(__FILE__) . '/libraries/utilities.class.php';
 ini_set('include_path', realpath(Path :: get_plugin_path() . 'pear') . PATH_SEPARATOR . realpath(Path :: get_plugin_path() . 'google/library'));
+
 
 function __autoload($classname)
 {
-	$autoloaders = array(dirname(__FILE__) . '/common_autoloader.class.php', Path :: get_repository_path() . 'repository_autoloader.class.php',
+	$autoloaders = array(Path :: get_common_libraries_path() . 'common_autoloader.class.php', Path :: get_repository_path() . 'repository_autoloader.class.php',
 					     Path :: get_user_path() . 'user_autoloader.class.php', Path :: get_admin_path() . 'admin_autoloader.class.php',
 					     Path :: get_group_path() . 'group_autoloader.class.php', Path :: get_help_path() . 'help_autoloader.class.php',
 					     Path :: get_home_path() . 'home_autoloader.class.php', Path :: get_menu_path() . 'menu_autoloader.class.php',

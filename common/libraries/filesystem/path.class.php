@@ -97,7 +97,7 @@ class Path
  				return self :: $path[$path_type] = $protocol . $_SERVER['HTTP_HOST'] . $dir;
                 //return self :: $path[$path_type] = Configuration :: get_instance()->get_parameter('general', 'root_web');
             case SYS_PATH :
-                return self :: $path[$path_type] = realpath(dirname(__FILE__) . '/../../') . '/';
+                return self :: $path[$path_type] = realpath(dirname(__FILE__) . '/../../../') . '/';
             case REL_PATH :
                 $url_append = Configuration :: get_instance()->get_parameter('general', 'url_append');
                 return self :: $path[$path_type] = (substr($url_append, - 1) === '/' ? $url_append : $url_append . '/');
