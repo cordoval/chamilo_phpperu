@@ -15,10 +15,6 @@ class RepositoryManagerImporterComponent extends RepositoryManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ContentObjectImport')));
-        $trail->add_help('repository importer');
-        
         $import_form = new ContentObjectImportForm('import', 'post', $this->get_url(), $this->get_parameter(RepositoryManager :: PARAM_CATEGORY_ID), $this->get_user());
         
         if ($import_form->validate())
@@ -46,7 +42,7 @@ class RepositoryManagerImporterComponent extends RepositoryManager
         }
         else
         {
-            $this->display_header($trail, false, true);
+            $this->display_header(null, false, true);
             $import_form->display();
             $this->display_footer();
         }
