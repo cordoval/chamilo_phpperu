@@ -24,7 +24,6 @@ require_once dirname(__FILE__) . '/../course_group/course_group_right_location.c
 require_once dirname(__FILE__) . '/../course_type/course_type.class.php';
 require_once dirname(__FILE__) . '/../course_type/course_type_user_category_rel_course.class.php';
 require_once dirname(__FILE__) . '/../course/course_request.class.php';
-require_once dirname(__FILE__) . '/../../../../repository/lib/data_manager/database_repository_data_manager.class.php';
 require_once dirname(__FILE__) . '/../category_manager/course_category.class.php';
 require_once dirname(__FILE__) . '/../weblcms_data_manager.interface.php';
 

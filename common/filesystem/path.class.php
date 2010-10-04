@@ -215,12 +215,12 @@ class Path
 
     public static function get_repository_path()
     {
-        return self :: get(SYS_APP_REPOSITORY_PATH);
+        return self :: get(SYS_APP_REPOSITORY_PATH) . 'php/';
     }
 
     public static function get_user_path()
     {
-        return self :: get(SYS_APP_USER_PATH);
+        return self :: get(SYS_APP_USER_PATH) . 'php/';
     }
 
     public static function get_home_path()
@@ -230,12 +230,12 @@ class Path
 
     public static function get_menu_path()
     {
-        return self :: get(SYS_APP_MENU_PATH);
+        return self :: get(SYS_APP_MENU_PATH) . 'php/';
     }
 
     public static function get_group_path()
     {
-        return self :: get(SYS_APP_CLASS_GROUP_PATH);
+        return self :: get(SYS_APP_CLASS_GROUP_PATH) . 'php/';
     }
 
     public static function get_help_path()
@@ -255,7 +255,7 @@ class Path
 
     public static function get_admin_path()
     {
-        return self :: get(SYS_APP_ADMIN_PATH);
+        return self :: get(SYS_APP_ADMIN_PATH) . 'php/';
     }
 
     public static function get_plugin_path()
@@ -296,7 +296,7 @@ class Path
 
     public static function get_reporting_path()
     {
-        return self :: get(SYS_APP_REPORTING_PATH);
+        return self :: get(SYS_APP_REPORTING_PATH) . 'php/';
     }
 
     public static function get_webservice_path()

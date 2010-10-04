@@ -86,7 +86,7 @@ abstract class CoreApplication extends BasicApplication
 
     public static function get_application_path($application_name)
     {
-        return Path :: get(SYS_PATH) . $application_name . '/';
+        return Path :: get(SYS_PATH) . $application_name . '/php/';
     }
 
     public function get_application_component_path()
