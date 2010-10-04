@@ -97,8 +97,18 @@ class RepositoryManagerContentObjectShareRightsBrowserComponent extends Reposito
      */
     private function get_users_browser_html()
     {
-        $condition = new EqualityCondition(User :: PROPERTY_ID, 1); //temp: get shared users
-        $browser_table = new ContentObjectUserShareRightsBrowserTable($this, $this->get_parameters(), $condition);
+//        $dm = RepositoryDataManager :: get_instance();
+//        $user_shares_result_set = $dm->retrieve_content_object_user_shares();
+//
+//        $user_share = $user_shares_result_set->next_result();
+//        while ($user_share != null)
+//        {
+//            $conditions[] = new EqualityCondition(User :: PROPERTY_ID, $user_share->get_user_id());
+//            $user_to_right[$user_share->get_user_id()] = $user_share->get_right_id();
+//            $user_share = $user_shares_result_set->next_result();
+//        }
+
+        $browser_table = new ContentObjectUserShareRightsBrowserTable($this, $this->get_parameters());
         return $browser_table->as_html();
     }
 
@@ -107,82 +117,22 @@ class RepositoryManagerContentObjectShareRightsBrowserComponent extends Reposito
      */
     private function get_groups_browser_html()
     {
-        $html = array();
-
-        $renderer_name = Utilities :: camelcase_to_underscores(get_class($this));
-        $tabs = new DynamicTabsRenderer($renderer_name);
-
-        $html[] = '<div style="float: left; width: 18%; overflow: auto;">';
-
-        $group = Request :: get(ContentObjectGroupShare :: PROPERTY_GROUP_ID) ? Request :: get(ContentObjectGroupShare :: PROPERTY_GROUP_ID) : 1;
-
-        $url = $this->get_url(array(ContentObjectShare :: PARAM_TYPE => ContentObjectGroupShare :: TYPE_GROUP_SHARE)) . '&' . ContentObjectGroupShare :: PROPERTY_GROUP_ID . '=%s';
-        $group_menu = new GroupMenu($group, $url);
-        $html[] = $group_menu->render_as_tree();
-
-        $html[] = '</div>';
-        $html[] = '<div style="float: right; width: 80%; overflow:auto;">';
-
-        $group_object = GroupDataManager :: get_instance()->retrieve_group($group);
-
-        if ($group_object->has_children())
-        {
-            $parameters = $this->get_parameters();
-            $parameters[ContentObjectShare :: PARAM_TYPE] = ContentObjectGroupShare :: TYPE_GROUP_SHARE;
-            $parameters['query'] = $this->action_bar->get_query();
-
-            $table = new ContentObjectGroupShareRightsBrowserTable($this, $parameters, $this->get_group_conditions());
-            $tabs->add_tab(new DynamicContentTab(self :: TAB_SUBGROUPS, Translation :: get('Subgroups'), Theme :: get_image_path('admin') . 'place_mini_group.png', $table->as_html()));
-        }
-
-        $table = new ContentObjectGroupShareRightsBrowserTable($this, $this->get_parameters(), $this->get_group_conditions(false));
-        $tabs->add_tab(new DynamicContentTab(self :: TAB_DETAILS, Translation :: get('Rights'), Theme :: get_image_path('admin') . 'place_mini_rights.png', $table->as_html()));
-
-        $html[] = $tabs->render();
-        $html[] = '</div>';
-        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'application/common/rights_editor_manager/javascript/configure_group.js');
-
-        return implode("\n", $html);
-    }
-
-    function get_group_conditions($get_children = true)
-    {
-        $conditions = array();
-
-        $query = $this->action_bar->get_query();
-        if (isset($query) && $query != '')
-        {
-            $conditions[] = new PatternMatchCondition(Group :: PROPERTY_NAME, '*' . $query . '*');
-        }
-
-        $group = Request :: get(ContentObjectGroupShare :: PROPERTY_GROUP_ID) ? Request :: get(ContentObjectGroupShare :: PROPERTY_GROUP_ID) : 1;
-
-        if ($get_children)
-        {
-            $conditions[] = new EqualityCondition(Group :: PROPERTY_PARENT, $group);
-        }
-        else
-        {
-            $conditions[] = new EqualityCondition(Group :: PROPERTY_ID, $group);
-        }
-
-//        if (count($this->get_limited_groups()) > 0)
-//        {
-//            $conditions[] = new InCondition(Group :: PROPERTY_ID, $this->get_limited_groups());
-//        }
+//        $html = array();
 //
-//        if (count($this->get_excluded_groups()) > 0)
-//        {
-//            $excluded_group_conditions = array();
-//            foreach ($this->get_excluded_groups() as $group)
-//            {
-//                $excluded_group_conditions[] = new NotCondition(new EqualityCondition(Group :: PROPERTY_ID, $group));
-//            }
+//        $dm = RepositoryDataManager :: get_instance();
+//        $groups_result_set = $dm->retrieve_content_object_group_shares();
 //
-//            $conditions[] = new AndCondition($excluded_group_conditions);
+//        $group = $groups_result_set->next_result();
+//        while ($group != null)
+//        {
+//            $conditions[] = new EqualityCondition(Group :: PROPERTY_ID, $group->get_group_id());
+//            $group = $groups_result_set->next_result();
 //        }
 
-        return new AndCondition($conditions);
+//        $condition = new OrCondition($conditions);
+        $browser_table = new ContentObjectGroupShareRightsBrowserTable($this, $this->get_parameters());
+        
+        return $browser_table->as_html();
     }
 
     /**

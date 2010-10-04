@@ -11,8 +11,15 @@ require_once Path :: get_group_path() . 'lib/group_table/default_group_table_cel
  * Cell renderer for the content object Group share rights browser
  * @author Pieterjan Broekaert
  */
-class ContentObjectGroupShareRightsBrowserTableCellRenderer extends DefaultGroupTableCellRenderer
+class ContentObjectGroupShareRightsBrowserTableCellRenderer extends ObjectTableCellRenderer
 {
+
+    private $browser;
+
+    function ContentObjectGroupShareRightsBrowserTableCellRenderer($browser)
+    {
+        $this->browser = $browser;
+    }
 
     /**
      *
@@ -20,30 +27,42 @@ class ContentObjectGroupShareRightsBrowserTableCellRenderer extends DefaultGroup
      * @param <type> $registration
      * @return cell content
      */
-    function render_cell($column, $group)
+    function render_cell($column, $group_share)
     {
+        $group = GroupDataManager :: get_instance()->retrieve_group($group_share->get_group_id());
+
         if ($column instanceof ShareRightColumn)
         { // to do return right value:
             return Theme :: get_common_image('action_setting_false', 'png');
         }
         else if ($column instanceof ActionColumn)
         {
-            return 'edit_link';
+            $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
+            $toolbar->add_item(new ToolbarItem(
+                            Translation :: get('ContentObjectGroupShareEditor'),
+                            Theme :: get_common_image_path() . 'action_edit.png',
+                            $this->browser->get_content_object_share_editor_url(Request::get(RepositoryManager::PARAM_CONTENT_OBJECT_ID), null, $group->get_id()),
+                            ToolbarItem :: DISPLAY_ICON
+            ));
+            return $toolbar->as_html();
         }
         else
         {
             switch ($column->get_name())
             {
-                case Group :: PROPERTY_DESCRIPTION :
-                    $description = strip_tags(parent :: render_cell($column, $group));
-                    return Utilities :: truncate_string($description);
+                case Group :: PROPERTY_NAME :
+                    return $group->get_name();
                 case Translation :: get('Users') :
-                    return $group->count_users();
+                    return $group->count_users(true);
                 case Translation :: get('Subgroups') :
                     return $group->count_subgroups(true);
             }
-            return parent :: render_cell($column, $group);
         }
+    }
+
+    function render_id_cell($object)
+    {
+        return $object->get_id();
     }
 
 }
