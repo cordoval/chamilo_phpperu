@@ -69,26 +69,30 @@ class ContentObjectShare extends DataClass
     	return array(self :: SEARCH_RIGHT => Translation :: get('Search'), self :: VIEW_RIGHT => Translation :: get('View'), 
     				 self :: USE_RIGHT => Translation :: get('Use'), self :: REUSE_RIGHT => Translation :: get('Reuse'));
     }
-    
-    function has_search_right()
+
+    function has_right($right_id)
     {
-    	return $this->get_right() >= self :: SEARCH_RIGHT;
+        return $this->get_right_id() >= $right_id;
     }
-    
-    function has_view_right()
-    {
-    	return $this->get_right() >= self :: VIEW_RIGHT;
-    }
-    
-    function has_use_right()
-    {
-    	return $this->get_right() >= self :: USE_RIGHT;
-    }
-    
-	function has_reuse_right()
-    {
-    	return $this->get_right() >= self :: REUSE_RIGHT;
-    }
+//    function has_search_right()
+//    {
+//    	return $this->get_right() >= self :: SEARCH_RIGHT;
+//    }
+//
+//    function has_view_right()
+//    {
+//    	return $this->get_right() >= self :: VIEW_RIGHT;
+//    }
+//
+//    function has_use_right()
+//    {
+//    	return $this->get_right() >= self :: USE_RIGHT;
+//    }
+//
+//	function has_reuse_right()
+//    {
+//    	return $this->get_right() >= self :: REUSE_RIGHT;
+//    }
    
 }
 ?>

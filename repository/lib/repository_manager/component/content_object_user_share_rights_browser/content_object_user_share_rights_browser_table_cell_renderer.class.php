@@ -11,27 +11,54 @@ require_once Path :: get_user_path() . 'lib/user_table/default_user_table_cell_r
  * Cell renderer for the content object user share rights browser
  * @author Pieterjan Broekaert
  */
-class ContentObjectUserShareRightsBrowserTableCellRenderer extends DefaultUserTableCellRenderer
+class ContentObjectUserShareRightsBrowserTableCellRenderer extends ObjectTableCellRenderer
 {
+    private $browser;
 
+    function ContentObjectUserShareRightsBrowserTableCellRenderer($browser)
+    {
+        $this->browser = $browser;
+    }
     /**
      *
      * @param StaticTableColumn $column
      * @param <type> $registration
      * @return cell content
      */
-    function render_cell($column, $user)
+    function render_cell($column, $user_share)
     {
         if ($column instanceof ShareRightColumn)
-        { // to do return right value:
-            return Theme :: get_common_image('action_setting_false', 'png');
+        { 
+            if($user_share->has_right($column->get_right_id()))
+            {   
+                return Theme :: get_common_image('action_setting_true', 'png');
+            }
+            else
+            {
+                return Theme :: get_common_image('action_setting_false', 'png');
+            }
         }
         else if ($column instanceof ActionColumn)
         {
-            return 'edit_link';
+            $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
+            $toolbar->add_item(new ToolbarItem(
+                            Translation :: get('ContentObjectUserShareEditor'),
+                            Theme :: get_common_image_path() . 'action_edit.png',
+                            $this->browser->get_content_object_share_editor_url(Request::get(RepositoryManager::PARAM_CONTENT_OBJECT_ID), $user_share->get_user_id, null),
+                            ToolbarItem :: DISPLAY_ICON
+            ));
+            return $toolbar->as_html();
         }
-        else
-            return parent :: render_cell ($column, $user);
+        else //display the username
+        {
+            return UserDataManager :: get_instance()->retrieve_user($user_share->get_user_id())->get_username();
+        }
+
+    }
+
+    function render_id_cell($object)
+    {
+        return $object->get_id();
     }
 
 }

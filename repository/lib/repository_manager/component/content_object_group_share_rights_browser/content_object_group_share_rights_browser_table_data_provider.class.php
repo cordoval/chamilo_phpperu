@@ -17,13 +17,12 @@ class ContentObjectGroupShareRightsBrowserTableDataProvider extends ObjectTableD
      */
     function get_objects($offset, $count, $order_property = null)
     {
-        $order_property = $this->get_order_property($order_property);
-        return GroupDataManager :: get_instance()->retrieve_groups($this->get_condition());
+        return RepositoryDataManager :: get_instance()->retrieve_content_object_group_shares($this->get_condition());
     }
 
     function get_object_count()
     {
-        return 1;
+        return RepositoryDataManager :: get_instance()->count_content_object_group_shares();
     }
 
 }
