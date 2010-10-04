@@ -33,7 +33,14 @@ class ContentObjectGroupShareRightsBrowserTableCellRenderer extends ObjectTableC
 
         if ($column instanceof ShareRightColumn)
         { // to do return right value:
-            return Theme :: get_common_image('action_setting_false', 'png');
+            if($group_share->has_right($column->get_right_id()))
+            {
+                return Theme :: get_common_image('action_setting_true', 'png');
+            }
+            else
+            {
+                return Theme :: get_common_image('action_setting_false', 'png');
+            }
         }
         else if ($column instanceof ActionColumn)
         {

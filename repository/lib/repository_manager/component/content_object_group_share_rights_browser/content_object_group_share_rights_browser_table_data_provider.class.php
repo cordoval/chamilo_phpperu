@@ -17,7 +17,7 @@ class ContentObjectGroupShareRightsBrowserTableDataProvider extends ObjectTableD
      */
     function get_objects($offset, $count, $order_property = null)
     {
-        return RepositoryDataManager :: get_instance()->retrieve_content_object_group_shares();
+        return RepositoryDataManager :: get_instance()->retrieve_content_object_group_shares($this->get_condition());
     }
 
     function get_object_count()

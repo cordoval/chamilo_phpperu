@@ -108,7 +108,8 @@ class RepositoryManagerContentObjectShareRightsBrowserComponent extends Reposito
 //            $user_share = $user_shares_result_set->next_result();
 //        }
 
-        $browser_table = new ContentObjectUserShareRightsBrowserTable($this, $this->get_parameters());
+        $condition = new EqualityCondition(ContentObjectShare :: PROPERTY_CONTENT_OBJECT_ID, Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID));
+        $browser_table = new ContentObjectUserShareRightsBrowserTable($this, $this->get_parameters(), $condition);
         return $browser_table->as_html();
     }
 
@@ -128,10 +129,11 @@ class RepositoryManagerContentObjectShareRightsBrowserComponent extends Reposito
 //            $conditions[] = new EqualityCondition(Group :: PROPERTY_ID, $group->get_group_id());
 //            $group = $groups_result_set->next_result();
 //        }
-
 //        $condition = new OrCondition($conditions);
-        $browser_table = new ContentObjectGroupShareRightsBrowserTable($this, $this->get_parameters());
-        
+        $condition = new EqualityCondition(ContentObjectShare :: PROPERTY_CONTENT_OBJECT_ID, Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID));
+
+        $browser_table = new ContentObjectGroupShareRightsBrowserTable($this, $this->get_parameters(), $condition);
+
         return $browser_table->as_html();
     }
 
