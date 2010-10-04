@@ -11,7 +11,6 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
 {
 	const VIEW_OTHERS_OBJECTS = 0;
 	const VIEW_OWN_OBJECTS = 1;
-	const PARAM_VIEW_OBJECTS = 'view_objects';
 	
     private $form;
 	private $view;
@@ -20,7 +19,7 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
      */
     function run()
     {
-		$this->view = Request :: get(self :: PARAM_VIEW_OBJECTS);
+		$this->view = Request :: get(self :: PARAM_SHOW_OBJECTS_SHARED_BY_ME);
 		if(is_null($this->view)) $this->view = self :: VIEW_OTHERS_OBJECTS;
     	
         $trail = BreadcrumbTrail :: get_instance();
@@ -91,13 +90,13 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
     function get_action_bar()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        switch($this->view)
+        /*switch($this->view)
         {
         	case self :: VIEW_OTHERS_OBJECTS: 	$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowOwnSharedObjects'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(self :: PARAM_VIEW_OBJECTS => self :: VIEW_OWN_OBJECTS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         										break;
         	case self :: VIEW_OWN_OBJECTS:		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowOthersSharedObjects'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(self :: PARAM_VIEW_OBJECTS => self :: VIEW_OTHERS_OBJECTS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         										break;
-        }
+        }*/
         $action_bar->set_search_url($this->get_url());
         return $action_bar;
     }
@@ -283,7 +282,7 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
     
     function get_additional_parameters()
     {
-    	return array(self :: PARAM_VIEW_OBJECTS);
+    	return array(self :: PARAM_SHOW_OBJECTS_SHARED_BY_ME);
     }
 
 }

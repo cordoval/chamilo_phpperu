@@ -29,7 +29,7 @@ class ContentObjectGroupShare extends ContentObjectShare
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(self :: PROPERTY_GROUP_ID);
+        return parent :: get_default_property_names(array(self :: PROPERTY_GROUP_ID));
     }
 
 

@@ -387,14 +387,7 @@ EOT;
         $this->addGroup($choices, null, $elementLabel, '<br />', false);
         $this->addElement('html', '<div style="margin-left: 25px; display: block;" id="receivers_window_' . $elementName . '">');
 
-        $element_finder = $this->createElement('user_group_finder', $elementName . '_elements', '', $attributes['search_url'], $attributes['locale'], $attributes['defaults'], $attributes['options']);
-        $element_finder->excludeElements($attributes['exclude']);
-        $this->addElement($element_finder);
-
-        if ($legend)
-        {
-            $this->addElement('static', null, null, $legend->as_html());
-        }
+        $this->add_element_finder_with_legend($elementName, null, $attributes, $legend);
 
         $this->addElement('html', '</div>');
         $this->addElement('html', "<script type=\"text/javascript\">
@@ -429,6 +422,18 @@ EOT;
 					});
 					/* ]]> */
 					</script>\n");
+    }
+    
+    function add_element_finder_with_legend($elementName, $elementLabel, $attributes, $legend = null)
+    {
+    	$element_finder = $this->createElement('user_group_finder', $elementName . '_elements', $elementLabel, $attributes['search_url'], $attributes['locale'], $attributes['defaults'], $attributes['options']);
+        $element_finder->excludeElements($attributes['exclude']);
+        $this->addElement($element_finder);
+
+        if ($legend)
+        {
+            $this->addElement('static', null, null, $legend->as_html());
+        }
     }
 
     function add_receivers_extended($elementName, $elementLabel, $attributes, $no_selection = 'Everybody')

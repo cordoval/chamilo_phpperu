@@ -7,23 +7,25 @@
  */
 class ContentObjectShareForm extends FormValidator
 {
-    const PARAM_RIGHTS = 'rights';
+    const PARAM_RIGHTS = 'right';
     const PARAM_TARGET = 'target_users_and_groups';
     const PARAM_TARGET_ELEMENTS = 'target_users_and_groups_elements';
+    const PARAM_USER = 'user';
+    const PARAM_GROUP = 'group';
     const PARAM_TARGET_OPTION = 'target_users_and_groups_option';
 
     const TYPE_CREATE = 1;
     const TYPE_EDIT = 2;
 
-    private $content_objects;
+    private $content_object_ids;
     private $form_type;
     private $user;
 
-    function ContentObjectShareForm($form_type, $content_objects = array(), $user, $action)
+    function ContentObjectShareForm($form_type, $content_object_ids = array(), $user, $action)
     {
         parent :: __construct('content_object_share_form', 'post', $action);
-
-        $this->content_objects = $content_objects;
+        
+        $this->content_object_ids = $content_object_ids;
         $this->form_type = $form_type;
         $this->user = $user;
 
@@ -78,7 +80,7 @@ class ContentObjectShareForm extends FormValidator
         $legend->set_items($legend_items);
         $legend->set_type(Toolbar :: TYPE_HORIZONTAL);
 
-        $this->add_receivers(self :: PARAM_TARGET, Translation :: get('PublishFor'), $attributes, 'Everybody', $legend);
+        $this->add_element_finder_with_legend(self :: PARAM_TARGET, Translation :: get('SelectUsers'), $attributes, $legend);
 
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
@@ -88,7 +90,35 @@ class ContentObjectShareForm extends FormValidator
 
     function create_content_object_share()
     {
+        $values = $this->exportValues();
+        $user_ids = $values[self :: PARAM_TARGET_ELEMENTS][self :: PARAM_USER];
+        $group_ids = $values[self :: PARAM_TARGET_ELEMENTS][self :: PARAM_GROUP];
+        $right_id = $values[self :: PARAM_RIGHTS];
         
+        $succes = true;
+        
+        foreach($this->content_object_ids as $content_object_id)
+        {
+	        foreach($user_ids as $user_id)
+	        {
+	        	$content_object_user_share = new ContentObjectUserShare();
+	        	$content_object_user_share->set_user_id($user_id);
+	        	$content_object_user_share->set_content_object_id($content_object_id);
+	        	$content_object_user_share->set_right_id($right_id);
+	        	$succes &= $content_object_user_share->create();
+	        }
+	        
+        	foreach($group_ids as $group_id)
+	        {
+	        	$content_object_group_share = new ContentObjectGroupShare();
+	        	$content_object_group_share->set_group_id($group_id);
+	        	$content_object_group_share->set_content_object_id($content_object_id);
+	        	$content_object_group_share->set_right_id($right_id);
+	        	$succes &= $content_object_group_share->create();
+	        }
+        }
+        
+    	return $succes;
     }
 
     function update_content_object_share()

@@ -62,7 +62,7 @@ class RepositoryAutoloader
 	static function check_for_form_files($classname)
 	{
 		$list = array('external_repository_browser_form', 'external_repository_export_form', 'external_repository_object_browser_form', 'external_repository_import_form', 'metadata_lom_edit_form', 'metadata_lom_export_form',
-					  'repository_filter_form', 'user_view_form');
+					  'repository_filter_form', 'user_view_form', 'content_object_share_form');
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);
 

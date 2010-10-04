@@ -50,7 +50,8 @@ class RepositoryManager extends CoreApplication
     const PARAM_DIRECTION_DOWN = 'down';
     const PARAM_ADD_OBJECTS = 'add_objects';
     const PARAM_DELETE_SELECTED_USER_VIEW = 'delete_user_view';
-    const PARAM_TARGET_USER = 'target';
+    const PARAM_TARGET_USER = 'target_user';
+    const PARAM_TARGET_GROUP = 'target_group';
     const PARAM_DELETE_TEMPLATES = 'delete_templates';
     const PARAM_COPY_FROM_TEMPLATES = 'copy_template';
     const PARAM_COPY_TO_TEMPLATES = 'copy_to_template';
@@ -59,6 +60,7 @@ class RepositoryManager extends CoreApplication
     const PARAM_LINK_TYPE = 'link_type';
     const PARAM_LINK_ID = 'link_id';
     const PARAM_CONTENT_OBJECT_MANAGER_TYPE = 'manage';
+    const PARAM_SHOW_OBJECTS_SHARED_BY_ME = 'show_my_objects';
 
     const PARAM_TYPE = 'type';
     const PARAM_IDENTIFIER = 'identifier';
@@ -121,6 +123,11 @@ class RepositoryManager extends CoreApplication
     const ACTION_DELETE_USER_VIEW = 'user_view_deleter';
     const ACTION_UPDATE_USER_VIEW = 'user_view_updater';
 
+    const ACTION_CONTENT_OBJECT_SHARE_BROWSER = 'content_object_share_rights_browser';
+    const ACTION_CONTENT_OBJECT_SHARE_CREATOR = 'content_object_share_rights_creator';
+    const ACTION_CONTENT_OBJECT_SHARE_EDITOR = 'content_object_share_rights_editor';
+    const ACTION_CONTENT_OBJECT_SHARE_DELETER = 'content_object_share_rights_deleter';
+    
     const ACTION_EDIT_CONTENT_OBJECT_SHARE_RIGHTS = 'content_object_share_rights_browser';
 
     const DEFAULT_ACTION = self :: ACTION_BROWSE_CONTENT_OBJECTS;
@@ -815,6 +822,18 @@ class RepositoryManager extends CoreApplication
             $shared['title'] = Translation :: get('SharedContentObjects');
             $shared['url'] = $this->get_shared_content_objects_url();
             $shared['class'] = 'category';
+            
+            $shared_own = array();
+            $shared_own['title'] = Translation :: get('ContentObjectsSharedByMe');
+            $shared_own['url'] = $this->get_shared_content_objects_url(true);
+            $shared_own['class'] = 'category';
+            $shared['sub'][] = $shared_own;
+            
+            $shared_others = array();
+            $shared_others['title'] = Translation :: get('ContentObjectsSharedWithMe');
+            $shared_others['url'] = $this->get_shared_content_objects_url();
+            $shared_others['class'] = 'category';
+            $shared['sub'][] = $shared_others;
 
             $doubles = array();
             $doubles['title'] = Translation :: get('ViewDoubles');
@@ -1215,9 +1234,9 @@ class RepositoryManager extends CoreApplication
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_USER_VIEWS));
     }
 
-    function get_shared_content_objects_url()
+    function get_shared_content_objects_url($show_objects_shared_by_me = null)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SHARED_CONTENT_OBJECTS, self :: PARAM_CATEGORY_ID => null));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SHARED_CONTENT_OBJECTS, self :: PARAM_CATEGORY_ID => null, self :: PARAM_SHOW_OBJECTS_SHARED_BY_ME => $show_objects_shared_by_me));
     }
 
     function create_user_view_url()
@@ -1368,6 +1387,28 @@ class RepositoryManager extends CoreApplication
     function get_delete_user_view_url($user_view_id)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_USER_VIEW, self :: PARAM_USER_VIEW => $user_view_id));
+    }
+    
+	function get_content_object_share_browser_url($content_object_ids)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CONTENT_OBJECT_SHARE_BROWSER, self :: PARAM_CONTENT_OBJECT_ID => $content_object_ids));
+    }
+
+    function get_content_object_share_create_url($content_object_ids)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CONTENT_OBJECT_SHARE_CREATOR, self :: PARAM_CONTENT_OBJECT_ID => $content_object_ids));
+    }
+
+    function get_content_object_share_deleter_url($content_object_ids, $user_ids = null, $group_ids = null)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CONTENT_OBJECT_SHARE_DELETER, self :: PARAM_CONTENT_OBJECT_ID => $content_object_ids,
+        						   self :: PARAM_TARGET_USER => $user_ids, self :: PARAM_TARGET_GROUP => $group_ids));
+    }
+    
+	function get_content_object_share_editor_url($content_object_ids, $user_ids = null, $group_ids = null)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CONTENT_OBJECT_SHARE_EDITOR, self :: PARAM_CONTENT_OBJECT_ID => $content_object_ids,
+        						   self :: PARAM_TARGET_USER => $user_ids, self :: PARAM_TARGET_GROUP => $group_ids));
     }
 
     function get_renderer()

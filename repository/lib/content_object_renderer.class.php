@@ -104,7 +104,7 @@ abstract class ContentObjectRenderer
         
         //$actions[] = new ToolbarItem(Translation :: get('Move'), Theme :: get_common_image_path() . 'action_move.png', $this->get_repository_browser()->get_content_object_moving_url($content_object), ToolbarItem :: DISPLAY_ICON);
         $actions[] = new ToolbarItem(Translation :: get('Metadata'), Theme :: get_common_image_path() . 'action_metadata.png', $this->get_repository_browser()->get_content_object_metadata_editing_url($content_object), ToolbarItem :: DISPLAY_ICON);
-        $actions[] = new ToolbarItem(Translation :: get('Rights'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_repository_browser()->get_content_object_rights_editing_url($content_object), ToolbarItem :: DISPLAY_ICON);
+        $actions[] = new ToolbarItem(Translation :: get('Share'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_repository_browser()->get_content_object_share_create_url($content_object->get_id()), ToolbarItem :: DISPLAY_ICON);
         $actions[] = new ToolbarItem(Translation :: get('Export'), Theme :: get_common_image_path() . 'action_export.png', $this->get_repository_browser()->get_content_object_exporting_url($content_object), ToolbarItem :: DISPLAY_ICON);
         $actions[] = new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_repository_browser()->get_publish_content_object_url($content_object), ToolbarItem :: DISPLAY_ICON);
         
