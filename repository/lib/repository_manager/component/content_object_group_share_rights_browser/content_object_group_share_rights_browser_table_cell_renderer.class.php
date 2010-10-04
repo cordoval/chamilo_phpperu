@@ -69,7 +69,7 @@ class ContentObjectGroupShareRightsBrowserTableCellRenderer extends ObjectTableC
 
     function render_id_cell($object)
     {
-        return $object->get_id();
+        return $object->get_user_id();
     }
 
 }

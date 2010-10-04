@@ -56,9 +56,9 @@ class ContentObjectUserShareRightsBrowserTableCellRenderer extends ObjectTableCe
 
     }
 
-    function render_id_cell($object)
+    function render_id_cell($user_share)
     {
-        return $object->get_id();
+        return $user_share->get_user_id();
     }
 
 }
