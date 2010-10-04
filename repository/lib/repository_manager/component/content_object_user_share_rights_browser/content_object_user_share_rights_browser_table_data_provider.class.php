@@ -17,13 +17,13 @@ class ContentObjectUserShareRightsBrowserTableDataProvider extends ObjectTableDa
      */
     function get_objects($offset, $count, $order_property = null)
     {
-        $order_property = $this->get_order_property($order_property);
-        return UserDataManager :: get_instance()->retrieve_users($this->get_condition());
+        $repo_data_manager = RepositoryDataManager :: get_instance();
+        return $repo_data_manager->retrieve_content_object_user_shares();
     }
 
     function get_object_count()
     {
-        return 1;
+        return RepositoryDataManager :: get_instance()->count_content_object_user_shares();
     }
 
 }
