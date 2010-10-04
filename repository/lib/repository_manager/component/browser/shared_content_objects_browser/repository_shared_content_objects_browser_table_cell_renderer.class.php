@@ -40,9 +40,9 @@ class RepositorySharedContentObjectsBrowserTableCellRenderer extends DefaultShar
             case ContentObject :: PROPERTY_TITLE :
                 $title = parent :: render_cell($column, $content_object);
                 $title_short = Utilities :: truncate_string($title, 53, false);
-                if ($this->browser->has_right($content_object->get_id(), RepositoryRights :: VIEW_RIGHT))
+                /*if ($this->browser->has_right($content_object->get_id(), RepositoryRights :: VIEW_RIGHT))
                 	return '<a href="' . htmlentities($this->browser->get_content_object_viewing_url($content_object)) . '" title="' . $title . '">' . $title_short . '</a>';
-                else
+                else*/
                 	return $title_short;
             case ContentObject :: PROPERTY_MODIFICATION_DATE :
                 return DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $content_object->get_modification_date());
@@ -62,7 +62,7 @@ class RepositorySharedContentObjectsBrowserTableCellRenderer extends DefaultShar
     {
         $toolbar = new Toolbar();
 
-        if ($this->browser->has_right($content_object->get_id(), RepositoryRights :: VIEW_RIGHT))
+        /*if ($this->browser->has_right($content_object->get_id(), RepositoryRights :: VIEW_RIGHT))
             $toolbar->add_item(new ToolbarItem(
         			Translation :: get('View'),
         			Theme :: get_common_image_path().'action_visible.png',
@@ -123,7 +123,7 @@ class RepositorySharedContentObjectsBrowserTableCellRenderer extends DefaultShar
 					$this->browser->get_content_object_share_rights_url($content_object->get_id()),
 				 	ToolbarItem :: DISPLAY_ICON
                 ));
-
+*/
         return $toolbar->as_html();
     }
 }
