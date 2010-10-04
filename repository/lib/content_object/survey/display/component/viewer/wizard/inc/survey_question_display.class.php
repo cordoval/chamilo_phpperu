@@ -27,7 +27,7 @@ abstract class SurveyQuestionDisplay
         $this->answer = $answer;
         $this->contex_path = $context_path;
         $this->survey = $survey;
-        
+//        dump($context_path);
         $this->question_nr = $this->survey->get_question_nr($context_path.'_'.$complex_question->get_id());;
     }
 

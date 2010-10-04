@@ -30,17 +30,17 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
      * @var Survey
      */
     private $survey;
-    private $context_template_id;
+//    private $context_template_id;
     
-    private $context_path;
+//    private $context_path;
     
     private $invitee_id;
     
-    private $page_matrix;
+//    private $page_matrix;
     
-    private $has_template;
+//    private $has_template;
     
-    private $context;
+//    private $context;
     
     private $total_pages;
     private $total_questions;
@@ -56,8 +56,8 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
         parent :: HTML_QuickForm_Controller('SurveyViewerWizard_' . $survey_id, true);
         
         $this->invitee_id = Request :: get(self :: PARAM_INVITEE_ID);
-        
         $this->survey = RepositoryDataManager :: get_instance()->retrieve_content_object($survey_id);
+        $this->survey->set_invitee_id( $this->invitee_id);
         
         $this->add_pages();
         
@@ -70,27 +70,29 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
     function add_pages()
     {
         
-        $context_paths = $this->survey->get_context_paths($this->invitee_id);
+        $page_context_paths = $this->survey->get_page_context_paths();
         
-        if (count($context_paths))
+        dump($page_context_paths);
+        
+        if (count($page_context_paths))
         {
             
-            $this->total_pages = count($context_paths);
-            $level_count = $this->survey->count_levels();
+//            $this->total_pages = count($context_paths);
+//            $level_count = $this->survey->count_levels();
             $page_nr = 1;
             
-            foreach ($context_paths as $context_path)
+            foreach ($page_context_paths as $page_context_path)
             {
-                $path_ids = explode('_', $context_path);
-                if (count($path_ids) == $level_count + 1)
-                {
-                    $survey_page_id = $path_ids[$level_count];
-                    $this->addPage(new SurveyQuestionViewerWizardPage('page_' . $context_path, $this, $context_path, $survey_page_id, $page_nr, $this->survey, $this->invitee_id));
-                    $page_nr ++;
-                }
+//                $path_ids = explode('_', $context_path);
+//                if (count($path_ids) == $level_count + 1)
+//                {
+//                    $survey_page_id = $path_ids[$level_count];
+                    $this->addPage(new SurveyQuestionViewerWizardPage('page_' . $page_context_path, $this, $page_context_path, $this->survey));
+//                    $page_nr ++;
+//                }
             
             }
-        
+//        	 $this->total_pages = count($page_nr);
         }
         else
         {

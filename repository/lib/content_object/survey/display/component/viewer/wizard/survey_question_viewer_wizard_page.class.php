@@ -7,7 +7,6 @@ class SurveyQuestionViewerWizardPage extends SurveyViewerWizardPage
     
     private $page_number;
     private $context_path;
-    private $invitee_id;
     private $survey_page;
     
     /**
@@ -15,30 +14,31 @@ class SurveyQuestionViewerWizardPage extends SurveyViewerWizardPage
      */
     private $survey;
 
-    function SurveyQuestionViewerWizardPage($name, $parent, $context_path, $survey_page_id, $page_number, $survey, $invitee_id)
+    function SurveyQuestionViewerWizardPage($name, $parent, $context_path, $survey)
     {
         parent :: SurveyViewerWizardPage($name, $parent);
         $this->context_path = $context_path;
-        $this->survey_page = RepositoryDataManager::get_instance()->retrieve_content_object($survey_page_id);
-              
-        $this->page_number = $page_number;
+        
         $this->survey = $survey;
-        $this->invitee_id = $invitee_id;
+//        dump($this->context_path);
+        $this->page_number = $this->survey->get_page_nr($this->context_path);
+        $this->survey_page = $this->survey->get_survey_page($this->context_path);
     }
 
     function buildForm()
     {
         $this->_formBuilt = true;
         
-//        dump('in form');
+        //        dump('in form');
         
+
         // Add buttons
         if ($this->page_number > 1)
         {
             $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Back'), array('class' => 'previous'));
         }
         
-        if ($this->page_number < $this->get_parent()->get_total_pages())
+        if ($this->page_number < $this->survey->count_pages())
         {
             $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next'), array('class' => 'next'));
         
@@ -52,13 +52,13 @@ class SurveyQuestionViewerWizardPage extends SurveyViewerWizardPage
         // Add question forms
         
 
-        $complex_questions = $this->survey->get_page_complex_questions($this->invitee_id, $this->context_path);
+        $complex_questions = $this->survey->get_page_complex_questions($this->context_path);
         
         foreach ($complex_questions as $complex_question)
         {
             
-//            dump($complex_question);
-        	$answer = $this->get_parent()->get_answer($complex_question->get_id, $this->context_path);
+            //            dump($complex_question);
+            $answer = $this->get_parent()->get_answer($complex_question->get_id, $this->context_path);
             
             $question_display = SurveyQuestionDisplay :: factory($this, $complex_question, $answer, $this->context_path, $this->survey);
             
@@ -84,9 +84,10 @@ class SurveyQuestionViewerWizardPage extends SurveyViewerWizardPage
     {
         return $this->survey_page;
     }
-	
-    function get_context_path(){
-    	return $this->context_path;
+
+    function get_context_path()
+    {
+        return $this->context_path;
     }
 }
 

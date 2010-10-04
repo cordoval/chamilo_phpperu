@@ -27,11 +27,11 @@ class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
         $html = array();
         $this->parent->get_parent()->display_header();
         
-        if ($this->survey->has_context())
-        {
+//        if ($this->survey->has_context())
+//        {
             $this->with_menu = true;
             $html[] = $this->get_menu_html($current_page);
-        }
+//        }
         
         if ($this->with_menu)
         {
@@ -46,7 +46,7 @@ class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
         $html[] = '<h2>' . $this->survey->parse($current_page->get_context_path(), $this->survey->get_title()) . '</h2>';
         $html[] = '<br />';
         $html[] = '<div style="width: 100%; text-align: center;">';
-        $html[] = $current_page->get_page_number() . ' / ' . $this->parent->get_total_pages();
+        $html[] = $current_page->get_page_number() . ' / ' . $this->survey->count_pages();
         $html[] = '</div>';
         $html[] = '<br />';
         
