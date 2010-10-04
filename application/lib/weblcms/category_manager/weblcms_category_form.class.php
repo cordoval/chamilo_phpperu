@@ -4,7 +4,7 @@
  * @package application.lib.weblcms.category_manager
  */
 
-require_once Path :: get_application_library_path() . 'category_manager/category_manager_form.class.php';
+require_once Path :: get_common_extensions_path() . 'category_manager/category_manager_form.class.php';
 
 class WeblcmsCategoryForm extends CategoryForm
 {

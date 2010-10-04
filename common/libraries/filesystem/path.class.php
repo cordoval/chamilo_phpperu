@@ -216,6 +216,11 @@ class Path
         return self :: get_common_libraries_path();
     }
     
+    public static function get_common_extensions_path()
+    {
+    	return self :: get(SYS_LIB_PATH) . 'extensions/';
+    }
+    
 	public static function get_common_libraries_path()
     {
         return self :: get(SYS_LIB_PATH) . 'libraries/';

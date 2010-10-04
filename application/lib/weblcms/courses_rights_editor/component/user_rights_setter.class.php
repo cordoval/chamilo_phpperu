@@ -4,7 +4,7 @@
  * @package application.common.rights_editor_manager.component
  */
 
-require_once Path :: get_application_library_path() . 'rights_editor_manager/component/user_rights_setter.class.php';
+require_once Path :: get_common_extensions_path() . 'rights_editor_manager/component/user_rights_setter.class.php';
 
 class CoursesRightsEditorManagerUserRightsSetterComponent extends RightsEditorManagerUserRightsSetterComponent
 {

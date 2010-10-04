@@ -5,7 +5,7 @@
  */
 require_once dirname(__FILE__) . '/../content_object_publication_form.class.php';
 
-//require_once Path :: get_application_library_path() . 'publisher/component/publication_candidate_table/publication_candidate_table.class.php';
+//require_once Path :: get_common_extensions_path() . 'publisher/component/publication_candidate_table/publication_candidate_table.class.php';
 
 
 /**

@@ -3,10 +3,10 @@
  * $Id: personal_calendar_publisher.class.php 201 2009-11-13 12:34:51Z chellee $
  * @package application.personal_calendar.publisher
  */
-//require_once Path :: get_application_library_path() . 'publisher/component/multipublisher.class.php';
+//require_once Path :: get_common_extensions_path() . 'publisher/component/multipublisher.class.php';
 require_once dirname(__FILE__) . '/../personal_calendar_publication_form.class.php';
 
-//require_once Path :: get_application_library_path() . 'publisher/component/publication_candidate_table/publication_candidate_table.class.php';
+//require_once Path :: get_common_extensions_path() . 'publisher/component/publication_candidate_table/publication_candidate_table.class.php';
 
 
 /**

@@ -35,7 +35,7 @@ try
 					    	 Path :: get_migration_path() . 'migration_autoloader.class.php',
 						     Path :: get_reporting_path() . 'reporting_autoloader.class.php', Path :: get_rights_path() . 'rights_autoloader.class.php',
 						     Path :: get_tracking_path() . 'tracking_autoloader.class.php', Path :: get_webservice_path() . 'webservice_autoloader.class.php',
-						     Path :: get_application_library_path() . 'application_common_autoloader.class.php');
+						     Path :: get_common_extensions_path() . 'application_common_autoloader.class.php');
 	
 		foreach($autoloaders as $autoloader)
 		{

@@ -1,6 +1,6 @@
 <?php
 
-require_once Path :: get_application_library_path() . 'category_manager/platform_category.class.php';
+require_once Path :: get_common_extensions_path() . 'category_manager/platform_category.class.php';
 
 /**
  * $Id: admin_category.class.php 168 2009-11-12 11:53:23Z vanpouckesven $

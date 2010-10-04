@@ -4,7 +4,7 @@
  * $Id: profiler_category.class.php 212 2009-11-13 13:38:35Z chellee $
  * @package application.profiler.category_manager
  */
-require_once Path :: get_application_library_path() . 'category_manager/platform_category.class.php';
+require_once Path :: get_common_extensions_path() . 'category_manager/platform_category.class.php';
 require_once dirname(__FILE__) . '/../profiler_data_manager.class.php';
 require_once dirname(__FILE__) . '/../profiler_rights.class.php';
 

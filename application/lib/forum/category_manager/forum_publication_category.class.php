@@ -3,7 +3,7 @@
  * $Id: forum_publication_category.class.php 195 2009-11-13 12:02:41Z chellee $
  * @package application.lib.forum.category_manager
  */
-require_once Path :: get_application_library_path() . 'category_manager/platform_category.class.php';
+require_once Path :: get_common_extensions_path() . 'category_manager/platform_category.class.php';
 require_once dirname(__FILE__) . '/../forum_data_manager.class.php';
 
 /**

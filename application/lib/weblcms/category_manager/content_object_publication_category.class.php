@@ -7,7 +7,7 @@
  *	@author Sven Vanpoucke
  */
 
-require_once Path :: get_application_library_path() . 'category_manager/platform_category.class.php';
+require_once Path :: get_common_extensions_path() . 'category_manager/platform_category.class.php';
 require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
 
 class ContentObjectPublicationCategory extends PlatformCategory

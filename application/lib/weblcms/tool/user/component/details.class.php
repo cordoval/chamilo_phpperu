@@ -5,7 +5,6 @@
  * @package application.lib.weblcms.tool.user.component
  */
 require_once dirname(__FILE__) . '/../user_tool.class.php';
-require_once dirname(__FILE__) . '/../../../../../common/user_details.class.php';
 
 class UserToolDetailsComponent extends UserTool
 {

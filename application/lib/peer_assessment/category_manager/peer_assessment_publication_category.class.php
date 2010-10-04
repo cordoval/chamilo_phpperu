@@ -1,5 +1,5 @@
 <?php
-require_once Path :: get_application_library_path() . 'category_manager/platform_category.class.php';
+require_once Path :: get_common_extensions_path() . 'category_manager/platform_category.class.php';
 require_once dirname(__FILE__) . '/../peer_assessment_data_manager.class.php';
 /**
  *	@author Nick Van Loocke

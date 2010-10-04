@@ -124,7 +124,7 @@ class ExternalRepositorySetting extends DataClass
 
     static function initialize(ExternalRepository $external_repository)
     {
-        $settings_file = Path :: get_application_library_path() . 'external_repository_manager/type/' . $external_repository->get_type() . '/settings/settings_' . $external_repository->get_type() . '.xml';
+        $settings_file = Path :: get_common_extensions_path() . 'external_repository_manager/type/' . $external_repository->get_type() . '/settings/settings_' . $external_repository->get_type() . '.xml';
         
         $doc = new DOMDocument();
         

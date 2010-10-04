@@ -64,7 +64,7 @@ class ExternalRepositoryInstanceManagerCreatorComponent extends ExternalReposito
 
     function get_external_repository_types()
     {
-        $path = Path :: get_application_library_path() . 'external_repository_manager/type/';
+        $path = Path :: get_common_extensions_path() . 'external_repository_manager/type/';
         $folders = Filesystem :: get_directory_content($path, Filesystem :: LIST_DIRECTORIES, false);
         
         $types = array();
@@ -72,7 +72,7 @@ class ExternalRepositoryInstanceManagerCreatorComponent extends ExternalReposito
         
         foreach ($folders as $folder)
         {
-            $properties_file = Path :: get_application_library_path() . 'external_repository_manager/type/' . $folder . '/properties.xml';
+            $properties_file = Path :: get_common_extensions_path() . 'external_repository_manager/type/' . $folder . '/properties.xml';
             if (! file_exists($properties_file))
             {
                 continue;

@@ -4,7 +4,7 @@
  * @package application.common.rights_editor_manager.component
  */
 
-require_once Path :: get_application_library_path() . 'rights_editor_manager/component/browser.class.php';
+require_once Path :: get_common_extensions_path() . 'rights_editor_manager/component/browser.class.php';
 require_once dirname(__FILE__) . '/location_course_group_browser/location_course_group_browser_table.class.php';
 require_once dirname(__FILE__) . '/../../tool/course_group/course_group_menu.class.php';
 

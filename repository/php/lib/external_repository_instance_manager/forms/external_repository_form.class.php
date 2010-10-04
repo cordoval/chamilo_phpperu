@@ -66,7 +66,7 @@ class ExternalRepositoryForm extends FormValidator
         $external_repository = $this->external_repository;
         $configuration = $this->configuration;
 
-        require_once Path :: get_application_library_path() . 'external_repository_manager/type/' . $external_repository->get_type() . '/settings/settings_' . $external_repository->get_type() . '_connector.class.php';
+        require_once Path :: get_common_extensions_path() . 'external_repository_manager/type/' . $external_repository->get_type() . '/settings/settings_' . $external_repository->get_type() . '_connector.class.php';
 
         $categories = count($configuration['settings']);
 
@@ -312,7 +312,7 @@ class ExternalRepositoryForm extends FormValidator
 
     function get_external_repository_types()
     {
-        $path = Path :: get_application_library_path() . 'external_repository_manager/type/';
+        $path = Path :: get_common_extensions_path() . 'external_repository_manager/type/';
         $folders = Filesystem :: get_directory_content($path, Filesystem :: LIST_DIRECTORIES, false);
 
         $types = array();
@@ -328,7 +328,7 @@ class ExternalRepositoryForm extends FormValidator
     {
         $external_repository = $this->external_repository;
 
-        $file = Path :: get_application_library_path() . 'external_repository_manager/type/' . $external_repository->get_type() . '/settings/settings_' . $external_repository->get_type() . '.xml';
+        $file = Path :: get_common_extensions_path() . 'external_repository_manager/type/' . $external_repository->get_type() . '/settings/settings_' . $external_repository->get_type() . '.xml';
         $result = array();
 
         if (file_exists($file))

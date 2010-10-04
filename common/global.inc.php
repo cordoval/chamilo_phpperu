@@ -91,14 +91,14 @@ ini_set('include_path', realpath(Path :: get_plugin_path() . 'pear') . PATH_SEPA
 
 function __autoload($classname)
 {
-	$autoloaders = array(Path :: get_common_libraries_path() . 'common_autoloader.class.php', Path :: get_repository_path() . 'repository_autoloader.class.php',
+	$autoloaders = array(Path :: get_common_libraries_path() . 'libraries_autoloader.class.php', Path :: get_repository_path() . 'repository_autoloader.class.php',
 					     Path :: get_user_path() . 'user_autoloader.class.php', Path :: get_admin_path() . 'admin_autoloader.class.php',
 					     Path :: get_group_path() . 'group_autoloader.class.php', Path :: get_help_path() . 'help_autoloader.class.php',
 					     Path :: get_home_path() . 'home_autoloader.class.php', Path :: get_menu_path() . 'menu_autoloader.class.php',
 					     Path :: get_migration_path() . 'migration_autoloader.class.php',
 					     Path :: get_reporting_path() . 'reporting_autoloader.class.php', Path :: get_rights_path() . 'rights_autoloader.class.php',
 					     Path :: get_tracking_path() . 'tracking_autoloader.class.php', Path :: get_webservice_path() . 'webservice_autoloader.class.php',
-					     Path :: get_application_library_path() . 'application_common_autoloader.class.php');
+					     Path :: get_common_extensions_path() . 'extensions_autoloader.class.php');
 
 	foreach($autoloaders as $autoloader)
 	{
