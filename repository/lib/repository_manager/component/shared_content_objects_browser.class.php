@@ -99,10 +99,10 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
     	$conditions = $subconditions = array();
     	$conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->get_user_id());
     	
-		$subconditions[] = new SubselectCondition(ContentObject :: PROPERTY_ID, ContentObjectUserShare :: PROPERTY_CONTENT_OBJECT_ID, ContentObjectUserShare :: get_table_name(), null, ContentObject :: get_table_name());
-    	$subconditions[] = new SubselectCondition(ContentObject :: PROPERTY_ID, ContentObjectGroupShare :: PROPERTY_CONTENT_OBJECT_ID, ContentObjectGroupShare :: get_table_name(), null, ContentObject :: get_table_name());
-		
-		$conditions[] = new OrCondition($subconditions);
+    	$subconditions[] = new NotCondition(new EqualityCondition(ContentObjectUserShare :: PROPERTY_USER_ID, null, ContentObjectUserShare :: get_table_name()));
+    	$subconditions[] = new NotCondition(new EqualityCondition(ContentObjectGroupShare :: PROPERTY_GROUP_ID, null, ContentObjectGroupShare :: get_table_name()));
+    	
+    	$conditions[] = new OrCondition($subconditions);
 		return new AndCondition($conditions);
     }
 
@@ -110,8 +110,7 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
     {
     	$conditions = array();
     	
-    	$user_sub_condition = new EqualityCondition(ContentObjectUserShare :: PROPERTY_USER_ID, $this->get_user_id(), ContentObjectUserShare :: get_table_name());
-		$conditions[] = new SubselectCondition(ContentObject :: PROPERTY_ID, ContentObjectUserShare :: PROPERTY_CONTENT_OBJECT_ID, ContentObjectUserShare :: get_table_name(), $user_sub_condition, ContentObject :: get_table_name());
+    	$conditions[] = new EqualityCondition(ContentObjectUserShare :: PROPERTY_USER_ID, $this->get_user_id(), ContentObjectUserShare :: get_table_name());
 		
 		$group_ids = array();
     	$groups = $this->get_user()->get_groups();
@@ -122,8 +121,7 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
     			$group_ids[] = $group->get_id();
     		}
     	
-			$group_sub_condition = new InCondition(ContentObjectGroupShare :: PROPERTY_GROUP_ID, $group_ids, ContentObjectGroupShare :: get_table_name());
-			$conditions[] = new SubselectCondition(ContentObject :: PROPERTY_ID, ContentObjectGroupShare :: PROPERTY_CONTENT_OBJECT_ID, ContentObjectGroupShare :: get_table_name(), $group_sub_condition, ContentObject :: get_table_name());
+			$conditions[] = new InCondition(ContentObjectGroupShare :: PROPERTY_GROUP_ID, $group_ids, ContentObjectGroupShare :: get_table_name());
     	}
 		
 		return new OrCondition($conditions);
@@ -138,6 +136,11 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
     function get_additional_parameters()
     {
     	return array(self :: PARAM_SHOW_OBJECTS_SHARED_BY_ME);
+    }
+    
+    function show_my_objects()
+    {
+    	return Request :: get(self :: PARAM_SHOW_OBJECTS_SHARED_BY_ME) == 1;
     }
 
 }
