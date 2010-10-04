@@ -7,7 +7,7 @@ require_once dirname(__FILE__) . '/assessment_results_table_admin/assessment_res
 require_once dirname(__FILE__) . '/assessment_results_table_admin/assessment_results_table_detail.class.php';
 require_once dirname(__FILE__) . '/assessment_results_table_student/assessment_results_table_overview.class.php';
 require_once dirname(__FILE__) . '/../../../browser/content_object_publication_category_tree.class.php';
-require_once dirname(__FILE__) . '/taker.class.php';
+
 require_once Path :: get_application_path() . 'lib/weblcms/trackers/weblcms_assessment_attempts_tracker.class.php';
 require_once Path :: get_application_path() . 'lib/weblcms/trackers/weblcms_question_attempts_tracker.class.php';
 
