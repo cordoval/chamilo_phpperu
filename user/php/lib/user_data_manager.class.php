@@ -8,8 +8,6 @@
  * This is a skeleton for a data manager for the User application.
  */
 
-require_once Path :: get_application_path() . 'lib/weblcms/weblcms_data_manager.class.php';
-
 class UserDataManager
 {
     /**

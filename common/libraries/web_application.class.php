@@ -112,7 +112,7 @@ abstract class WebApplication extends BasicApplication
     public static function load_all_from_filesystem($include_application_classes = true, $only_registered_applications = false)
     {
         $applications = array();
-        $path = dirname(__FILE__) . '/../lib/';
+        $path = Path :: get_application_path();
         $directories = Filesystem :: get_directory_content($path, Filesystem :: LIST_DIRECTORIES, false);
 
         foreach ($directories as $directory)
@@ -141,7 +141,7 @@ abstract class WebApplication extends BasicApplication
 
     public static function load_all($include_application_classes = true)
     {
-    	$path = Path :: get_application_path() . 'lib';
+    	$path = Path :: get_application_path();
         $adm = AdminDataManager :: get_instance();
         $condition = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_APPLICATION);
         $applications = $adm->retrieve_registrations($condition);
@@ -151,7 +151,7 @@ abstract class WebApplication extends BasicApplication
         {
         	if ($include_application_classes)
             {
-                require_once $path . '/' . $application->get_name() . '/' . $application->get_name() . '_manager/' . $application->get_name() . '_manager.class.php';
+                require_once $path . $application->get_name() . '/' . $application->get_name() . '_manager/' . $application->get_name() . '_manager.class.php';
             }
             $active_applications[] = $application->get_name();
 
@@ -216,12 +216,12 @@ abstract class WebApplication extends BasicApplication
 
     public static function get_application_path($application_name)
     {
-        return Path :: get_application_path() . 'lib/' . $application_name . '/';
+        return Path :: get_application_path() . $application_name . '/';
     }
 
     public static function get_application_web_path($application_name)
     {
-    	return Path :: get_application_web_path() . 'lib/' . $application_name . '/';
+    	return Path :: get_application_web_path() . $application_name . '/';
     }
     
     
