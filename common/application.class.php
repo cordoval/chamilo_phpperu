@@ -541,6 +541,8 @@ abstract class Application
     //abstract function run();
     
 
+    abstract static function get_application_web_path($application_name);
+    
     abstract static function get_application_path($application_name);
 
     //abstract static function get_application_manager_path($application_name);

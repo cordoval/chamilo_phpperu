@@ -88,6 +88,11 @@ abstract class CoreApplication extends BasicApplication
     {
         return Path :: get(SYS_PATH) . $application_name . '/php/';
     }
+    
+	public static function get_application_web_path($application_name)
+    {
+    	return Path :: get(WEB_PATH) . $application_name . '/php/' ;
+    }
 
     public function get_application_component_path()
     {

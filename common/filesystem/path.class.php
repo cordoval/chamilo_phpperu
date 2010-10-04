@@ -208,9 +208,17 @@ class Path
         }
     }
 
+    /**
+     * @deprecated
+     */
     public static function get_library_path()
     {
-        return self :: get(SYS_LIB_PATH);
+        return self :: get_common_libraries_path();
+    }
+    
+	public static function get_common_libraries_path()
+    {
+        return self :: get(SYS_LIB_PATH) . 'libraries/';
     }
 
     public static function get_repository_path()
@@ -281,6 +289,11 @@ class Path
     public static function get_application_path()
     {
         return self :: get(SYS_APP_PATH);
+    }
+    
+    public static function get_application_web_path()
+    {
+    	return self :: get(WEB_APP_PATH);
     }
     
     public static function get_launcher_application_path($web = false)

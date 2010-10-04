@@ -56,6 +56,18 @@ abstract class BasicApplication extends Application
             return false;
         }
     }
+    
+    static function get_application_web_path($application_name)
+{
+        if (WebApplication :: is_application($application_name))
+        {
+            return WebApplication :: get_application_web_path($application_name);
+        }
+        else
+        {
+            return CoreApplication :: get_application_web_path($application_name);
+        }
+    }
 
     static function get_application_path($application_name)
     {

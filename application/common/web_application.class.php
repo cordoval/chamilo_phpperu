@@ -220,6 +220,12 @@ abstract class WebApplication extends BasicApplication
         return Path :: get_application_path() . 'lib/' . $application_name . '/';
     }
 
+    public static function get_application_web_path($application_name)
+    {
+    	return Path :: get_application_web_path() . 'lib/' . $application_name . '/';
+    }
+    
+    
     public function get_application_component_path()
     {
         $application_name = $this->get_application_name();
