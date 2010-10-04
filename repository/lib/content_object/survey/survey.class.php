@@ -31,6 +31,8 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
     private $page_nr = 1;
     
     private $question_context_paths;
+   
+    
     private $question_nr = 1;
     
     private $context_objects;
@@ -201,18 +203,15 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
     //    	return RepositoryDataManager :: get_instance()->count_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexContentObjectItem :: get_table_name()));
     }
 
-    //    function get_context_paths($user_id, $with_question_id = false)
-    //    {
-    //        $this->user_id = $user_id;
-    //        
-    //        //        dump('hello');
-    //        $this->get_context_pages();
-    //        dump('after get_pages');
-    //        dump($this->context_paths);
-    //        exit();
-    //        return $this->context_paths;
-    //    
-    //    }
+        function get_question_context_paths()
+        {
+            if(!$this->question_context_paths){
+            	$this->create_context_paths();
+            }else{
+            	return $this->question_context_paths;
+            }
+        
+        }
     
 
     function get_page_complex_questions($context_path)
@@ -390,7 +389,7 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
         {
             $page_id = $page_context_as_tree[0];
             $page_path = $path . '_' . $page_id;
-            $this->context_paths[] = $page_path;
+//            $this->context_paths[] = $page_path;
             $this->page_context_paths[$page_path] = $this->page_nr;
             $this->page_nr ++;
             $this->survey_pages[$page_path] = $this->get_page_by_id($page_id);
@@ -400,7 +399,7 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
             {
                 if (is_int($index))
                 {
-                    $this->context_paths[] = $page_path . '_' . $question_id;
+                    $this->context_paths[] = $this->get_id().'_'.$page_path . '_' . $question_id;
                     $complex_question = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($question_id);
                     if (! $complex_question instanceof ComplexSurveyDescription)
                     {
