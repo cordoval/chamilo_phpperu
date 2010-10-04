@@ -37,7 +37,7 @@ class RepositorySharedContentObjectsBrowserTableDataProvider extends ObjectTable
         //		$order_property[] = ContentObject :: PROPERTY_TITLE;
 
 
-        return $this->get_browser()->retrieve_content_objects($this->get_condition(), $order_property, $offset, $count);
+        return RepositoryDataManager :: get_instance()->retrieve_shared_content_objects($this->get_condition(), $offset, $count, $order_property);
     }
 
     /**
@@ -46,7 +46,7 @@ class RepositorySharedContentObjectsBrowserTableDataProvider extends ObjectTable
      */
     function get_object_count()
     {
-        return $this->get_browser()->count_content_objects($this->get_condition());
+        return RepositoryDataManager :: get_instance()->count_shared_content_objects($this->get_condition());
     }
 }
 ?>
