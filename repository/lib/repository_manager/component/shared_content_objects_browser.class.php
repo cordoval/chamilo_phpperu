@@ -39,7 +39,9 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
                 $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Filter') . ': ' . $user_view->get_name()));
             }
             else
+            {
                 $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Filter') . ': ' . Utilities :: underscores_to_camelcase(($session_filter))));
+            }
         }
 
         $this->display_header($trail, false, true);
