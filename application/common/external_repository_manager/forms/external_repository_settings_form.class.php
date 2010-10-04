@@ -5,7 +5,8 @@
  * @package application.common
  * @author Hans De Bisschop
  */
-    namespace Application\common\external_repository_manager;
+
+namespace Application\common\external_repository_manager;
 class ExternalRepositorySettingsForm extends \FormValidator
 {
 

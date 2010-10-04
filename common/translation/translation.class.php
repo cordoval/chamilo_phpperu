@@ -78,9 +78,9 @@ class Translation
     function get($variable, $context, $parameters = array())
     {
         $called_class = get_called_class();
-        dump($called_class);
+        //dump($called_class);
         $reflection_class = new \ReflectionClass($called_class);
-        dump($reflection_class->getNamespaceName());
+        //dump($reflection_class->getNamespaceName());
     	$instance = self :: get_instance();
         $translation = $instance->translate($variable, $context);
 

@@ -9,7 +9,6 @@ class ExternalRepositoryComponentConfigurerComponent extends ExternalRepositoryC
         $external_repository_id = $this->get_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY);
 
         $form = new ExternalRepositorySettingsForm($this, $external_repository_id, 'config', 'post', $this->get_url());
-
         if ($form->validate())
         {
             $success = $form->update_configuration();
