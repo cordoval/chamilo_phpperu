@@ -13,7 +13,8 @@ try
     // If application path doesn't exist, block the user
     if (! WebApplication :: is_active($application_name))
     {
-        Display :: not_allowed();
+        echo('hier');
+    	Display :: not_allowed();
     }
 
     Utilities :: set_application($this_section);

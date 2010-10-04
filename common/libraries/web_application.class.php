@@ -166,9 +166,8 @@ abstract class WebApplication extends BasicApplication
      */
     public static function is_application($name)
     {
-        $path = dirname(__FILE__) . '/../lib';
-        $application_path = $path . '/' . $name;
-        $application_manager_path = $path . '/' . $name . '/' . $name . '_manager' . '/' . $name . '_manager.class.php';
+        $application_path = self :: get_application_path($name);
+        $application_manager_path = $application_path . $name . '_manager' . '/' . $name . '_manager.class.php';
 
         if (file_exists($application_path) && is_dir($application_path) && file_exists($application_manager_path))
         {
