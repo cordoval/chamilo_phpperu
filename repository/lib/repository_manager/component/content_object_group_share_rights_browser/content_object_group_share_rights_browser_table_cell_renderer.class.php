@@ -48,7 +48,13 @@ class ContentObjectGroupShareRightsBrowserTableCellRenderer extends ObjectTableC
             $toolbar->add_item(new ToolbarItem(
                             Translation :: get('ContentObjectGroupShareEditor'),
                             Theme :: get_common_image_path() . 'action_edit.png',
-                            $this->browser->get_content_object_share_editor_url(Request::get(RepositoryManager::PARAM_CONTENT_OBJECT_ID), null, $group->get_id()),
+                            $this->browser->get_content_object_share_editor_url(Request::get(RepositoryManager::PARAM_CONTENT_OBJECT_ID), null, $group_share->get_group_id()),
+                            ToolbarItem :: DISPLAY_ICON
+            ));
+            $toolbar->add_item(new ToolbarItem(
+                            Translation :: get('ContentObjectGroupShareDeleter'),
+                            Theme :: get_common_image_path() . 'action_delete.png',
+                            $this->browser->get_content_object_share_deleter_url(Request::get(RepositoryManager::PARAM_CONTENT_OBJECT_ID), null, $group_share->get_group_id()),
                             ToolbarItem :: DISPLAY_ICON
             ));
             return $toolbar->as_html();
@@ -69,7 +75,7 @@ class ContentObjectGroupShareRightsBrowserTableCellRenderer extends ObjectTableC
 
     function render_id_cell($object)
     {
-        return $object->get_user_id();
+        return $object->get_group_id();
     }
 
 }

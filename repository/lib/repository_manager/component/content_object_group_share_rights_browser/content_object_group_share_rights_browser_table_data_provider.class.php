@@ -22,7 +22,8 @@ class ContentObjectGroupShareRightsBrowserTableDataProvider extends ObjectTableD
 
     function get_object_count()
     {
-        return RepositoryDataManager :: get_instance()->count_content_object_group_shares();
+        $conditon = new EqualityCondition(ContentObjectGroupShare :: PROPERTY_CONTENT_OBJECT_ID, Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID));
+        return RepositoryDataManager :: get_instance()->count_content_object_group_shares($conditon);
     }
 
 }
