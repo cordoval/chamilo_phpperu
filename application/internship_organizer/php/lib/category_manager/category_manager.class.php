@@ -1,13 +1,13 @@
 <?php
 
-require_once Path :: get_application_path() . 'internship_organizer/php/category_manager/component/browser/browser_table.class.php';
-require_once Path :: get_application_path() . 'internship_organizer/php/category_manager/component/rel_location_browser/rel_location_browser_table.class.php';
-require_once Path :: get_application_path() . 'internship_organizer/php/category_manager/component/subscribe_location_browser/subscribe_location_browser_table.class.php';
+require_once Path :: get_application_path() . 'internship_organizer/php/lib/category_manager/component/browser/browser_table.class.php';
+require_once Path :: get_application_path() . 'internship_organizer/php/lib/category_manager/component/rel_location_browser/rel_location_browser_table.class.php';
+require_once Path :: get_application_path() . 'internship_organizer/php/lib/category_manager/component/subscribe_location_browser/subscribe_location_browser_table.class.php';
 
 require_once dirname(__FILE__) . '/../category_menu.class.php';
 
-require_once Path :: get_application_path() . 'internship_organizer/php/category.class.php';
-require_once Path :: get_application_path() . 'internship_organizer/php/category_rel_location.class.php';
+require_once Path :: get_application_path() . 'internship_organizer/php/lib/category.class.php';
+require_once Path :: get_application_path() . 'internship_organizer/php/lib/category_rel_location.class.php';
 /**
  * General category manager not good enough?
  *

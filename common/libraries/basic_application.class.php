@@ -73,11 +73,11 @@ abstract class BasicApplication extends Application
     {
         if (WebApplication :: is_application($application_name))
         {
-            return WebApplication :: get_application_path($application_name);
+            return WebApplication :: get_application_class_path($application_name);
         }
         else
         {
-            return CoreApplication :: get_application_path($application_name);
+            return CoreApplication :: get_application_class_path($application_name);
         }
     }
 
@@ -128,6 +128,27 @@ abstract class BasicApplication extends Application
         elseif (CoreApplication :: is_application($application_name))
         {
             return CoreApplication :: get_component_path($application_name);
+        }
+    }
+
+    public static function get_application_class_path()
+    {
+        return Path :: CLASS_PATH . '/';
+    }
+
+    static function exists($application)
+    {
+        if (WebApplication :: exists($application))
+        {
+        	return WebApplication :: CLASS_NAME;
+        }
+        elseif (CoreApplication :: exists($application))
+        {
+            return CoreApplication :: CLASS_NAME;
+        }
+        else
+        {
+            return false;
         }
     }
 }

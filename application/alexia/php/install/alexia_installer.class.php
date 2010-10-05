@@ -4,7 +4,7 @@
  * @package application.lib.alexia.install
  */
 
-require_once dirname(__FILE__) . '/../alexia_data_manager.class.php';
+require_once dirname(__FILE__) . '/../lib/alexia_data_manager.class.php';
 
 /**
  * This installer can be used to create the storage structure for the

@@ -6,7 +6,7 @@
  */
 
 
-require_once Path :: get_application_path() . 'laika/php/laika_manager/laika_manager.class.php';
+require_once Path :: get_application_path() . 'laika/php/lib/laika_manager/laika_manager.class.php';
 
 class LaikaRights
 {

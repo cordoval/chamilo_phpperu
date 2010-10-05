@@ -4,8 +4,8 @@
  * @package application.lib.assessment.install
  */
 
-require_once dirname(__FILE__) . '/../assessment_data_manager.class.php';
-require_once dirname(__FILE__) . '/../assessment_rights.class.php';
+require_once dirname(__FILE__) . '/../lib/assessment_data_manager.class.php';
+require_once dirname(__FILE__) . '/../lib/assessment_rights.class.php';
 
 /**
  * This installer can be used to create the storage structure for the

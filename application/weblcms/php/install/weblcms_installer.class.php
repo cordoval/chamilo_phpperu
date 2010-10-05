@@ -2,8 +2,8 @@
 /**
  * @package application.lib.weblcms.install
  */
-require_once dirname(__FILE__) . '/../weblcms_manager/weblcms_manager.class.php';
-require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
+require_once dirname(__FILE__) . '/../lib/weblcms_manager/weblcms_manager.class.php';
+require_once dirname(__FILE__) . '/../lib/weblcms_data_manager.class.php';
 
 require_once 'Tree/Tree.php';
 

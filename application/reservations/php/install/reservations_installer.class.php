@@ -3,7 +3,7 @@
  * $Id: reservations_installer.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.install
  */
-require_once dirname(__FILE__) . '/../reservations_data_manager.class.php';
+require_once dirname(__FILE__) . '/../lib/reservations_data_manager.class.php';
 
 /**
  * This installer can be used to create the storage structure for the

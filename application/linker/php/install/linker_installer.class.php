@@ -3,7 +3,7 @@
  * $Id: linker_installer.class.php 199 2009-11-13 12:23:04Z chellee $
  * @package application.lib.linker.install
  */
-require_once dirname(__FILE__) . '/../linker_data_manager.class.php';
+require_once dirname(__FILE__) . '/../lib/linker_data_manager.class.php';
 /**
  * This installer can be used to create the storage structure for the
  * linker application.

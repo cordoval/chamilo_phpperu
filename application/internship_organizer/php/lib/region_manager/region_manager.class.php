@@ -1,10 +1,10 @@
 <?php
 
-require_once Path :: get_application_path() . 'internship_organizer/php/region_manager/component/browser/browser_table.class.php';
+require_once Path :: get_application_path() . 'internship_organizer/php/lib/region_manager/component/browser/browser_table.class.php';
 
 require_once dirname(__FILE__) . '/../region_menu.class.php';
 
-require_once Path :: get_application_path() . 'internship_organizer/php/region.class.php';
+require_once Path :: get_application_path() . 'internship_organizer/php/lib/region.class.php';
 
 class InternshipOrganizerRegionManager extends SubManager
 {

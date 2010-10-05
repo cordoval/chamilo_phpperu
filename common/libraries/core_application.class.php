@@ -5,7 +5,7 @@
  */
 abstract class CoreApplication extends BasicApplication
 {
-
+	const CLASS_NAME = __CLASS__;
     /**
      *
      * @see Application::is_active()
@@ -30,8 +30,8 @@ abstract class CoreApplication extends BasicApplication
     public static function is_application($name)
     {
         $application_path = self :: get_application_path($name);
-        $application_manager_path = $application_path . '/lib/' . $name . '_manager' . '/' . $name . '_manager.class.php';
-        if (file_exists($application_path) && is_dir($application_path) && file_exists($application_manager_path))
+        
+        if (file_exists($application_path) && is_dir($application_path))
         {
             return true;
         }
@@ -86,12 +86,12 @@ abstract class CoreApplication extends BasicApplication
 
     public static function get_application_path($application_name)
     {
-        return Path :: get(SYS_PATH) . $application_name . '/php/';
+        return Path :: get(SYS_PATH) . $application_name . '/';
     }
     
 	public static function get_application_web_path($application_name)
     {
-    	return Path :: get(WEB_PATH) . $application_name . '/php/' ;
+    	return Path :: get(WEB_PATH) . $application_name . '/' ;
     }
 
     public function get_application_component_path()
@@ -112,12 +112,28 @@ abstract class CoreApplication extends BasicApplication
     	return self :: get_application_path($application_name) . 'lib/' . $application_name . '_manager' . '/' . $application_name . '_manager.class.php';
     }
 
-
-
-
     static function get_component_path($application)
     {
         return self :: get_application_path($application) . 'lib/' . $application . '_manager/component/';
+    }
+    
+    static function get_application_class_path ($application)
+    {
+    	return self :: get_application_path($application) . parent :: get_application_class_path();
+    }
+    
+    static function exists($application)
+    {
+    	$application_path = self :: get_application_path($name);       
+        
+        if (file_exists($application_path) && is_dir($application_path) )
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
 

@@ -1,6 +1,6 @@
 <?php
 require_once Path :: get_rights_path() . 'lib/rights_utilities.class.php';
-require_once Path :: get_application_path() . 'internship_organizer/php/internship_organizer_manager/internship_organizer_manager.class.php';
+require_once Path :: get_application_path() . 'internship_organizer/php/lib/internship_organizer_manager/internship_organizer_manager.class.php';
 
 class InternshipOrganizerRights
 {

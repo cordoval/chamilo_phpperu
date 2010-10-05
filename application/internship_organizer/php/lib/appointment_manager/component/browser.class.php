@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/moment_rel_location/table.class.php';
 require_once dirname(__FILE__) . '/appointment/table.class.php';
-require_once Path :: get_application_path() . 'internship_organizer/php/agreement_rel_user.class.php';
+require_once Path :: get_application_path() . 'internship_organizer/php/lib/agreement_rel_user.class.php';
 
 class InternshipOrganizerAppointmentManagerBrowserComponent extends InternshipOrganizerAppointmentManager
 {

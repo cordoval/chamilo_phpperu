@@ -64,6 +64,7 @@ define('SYS_CACHE_PATH', 'SYS_CACHE_PATH');
 class Path
 {
     private static $path = array();
+    const CLASS_PATH = 'php';
 
     public static function get($path_type)
     {

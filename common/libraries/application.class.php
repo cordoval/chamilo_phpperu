@@ -732,7 +732,9 @@ abstract class Application
      */
     static function construct($application_name, $user)
     {
-        require_once self :: get_application_manager_path($application_name);
+    	$type = self :: get_type($application_name);
+
+    	require_once $type :: get_application_manager_path($application_name);
         
         $action = self :: get_component_action($application_name);
         $component = self :: component($application_name, $user, $action);
@@ -786,6 +788,25 @@ abstract class Application
     function get_additional_parameters()
     {
         return array();
+    }
+    
+    function get_type($application)
+    {
+   		if (! BasicApplication :: exists($application))
+   		{
+   			if (LauncherApplication :: exists($application))
+   			{
+   				return LauncherApplication::CLASS_NAME;	
+   			}
+   			else
+   			{
+   				return false;
+   			}
+   		}
+   		else
+   		{
+   			return BasicApplication :: exists($application);
+   		}
     }
 }
 ?>

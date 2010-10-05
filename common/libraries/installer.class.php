@@ -323,7 +323,7 @@ abstract class Installer
     {
         $application = $this->get_application();
         
-        $base_path = (WebApplication :: is_application($application) ? WebApplication :: get_application_path($application) : CoreApplication :: get_application_path($application));
+        $base_path = (WebApplication :: is_application($application) ? WebApplication :: get_application_class_path($application) : CoreApplication :: get_application_class_path($application));
                 
         $dirblock = $base_path . 'reporting/blocks';
         if (is_dir($dirblock))
@@ -400,7 +400,7 @@ abstract class Installer
     {
         $application = $this->get_application();
         
-        $base_path = (WebApplication :: is_application($application) ? WebApplication :: get_application_path($application) : CoreApplication :: get_application_path($application));
+        $base_path = (WebApplication :: is_application($application) ? WebApplication :: get_application_class_path($application) : CoreApplication :: get_application_class_path($application));
                 
         $dir = $base_path . 'trackers/tracker_tables/';
         $files = array();
@@ -494,7 +494,7 @@ abstract class Installer
         
         $application = $this->get_application();
         
-        $base_path = (WebApplication :: is_application($application) ? WebApplication :: get_application_path($application) : CoreApplication :: get_application_path($application));
+        $base_path = (WebApplication :: is_application($application) ? WebApplication :: get_application_class_path($application) : CoreApplication :: get_application_class_path($application));
         
         $settings_file = $base_path . 'settings/settings_' . $application . '.xml';
         
@@ -562,7 +562,7 @@ abstract class Installer
     {
         $application = $this->get_application();
         
-        $base_path = (WebApplication :: is_application($application) ? WebApplication :: get_application_path($application) : CoreApplication :: get_application_path($application));
+        $base_path = (WebApplication :: is_application($application) ? WebApplication :: get_application_class_path($application) : CoreApplication :: get_application_class_path($application));
                 
         $path = $base_path . 'webservices/';
         
@@ -769,7 +769,7 @@ abstract class Installer
     static function factory($application, $values)
     {
         $class = Application :: application_to_class($application) . 'Installer';
-        $base_path = (WebApplication :: is_application($application) ? WebApplication :: get_application_path($application)  : CoreApplication :: get_application_path($application));
+        $base_path = (WebApplication :: is_application($application) ? WebApplication :: get_application_class_path($application)  : CoreApplication :: get_application_class_path($application));
         
         require_once ($base_path . 'install/' . $application . '_installer.class.php');
         return new $class($values);

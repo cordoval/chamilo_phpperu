@@ -3,7 +3,7 @@
  * $Id: laika_installer.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika.install
  */
-require_once dirname(__FILE__) . '/../laika_data_manager.class.php';
+require_once dirname(__FILE__) . '/../lib/laika_data_manager.class.php';
 
 class LaikaInstaller extends Installer
 {

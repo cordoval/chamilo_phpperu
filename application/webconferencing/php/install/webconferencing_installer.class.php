@@ -4,7 +4,7 @@
  * @package application.lib.webconferencing.install
  */
 
-require_once dirname(__FILE__) . '/../webconferencing_data_manager.class.php';
+require_once dirname(__FILE__) . '/../lib/webconferencing_data_manager.class.php';
 
 /**
  * This installer can be used to create the storage structure for the

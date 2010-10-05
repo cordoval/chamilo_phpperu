@@ -155,7 +155,7 @@ class HomeManagerHomeComponent extends HomeManager
                             }
                             else
                             {
-                                require_once WebApplication :: get_application_path($application) . '/' . $application . '_manager' . '/' . $application . '_manager.class.php';
+                                require_once WebApplication :: get_application_manager_path($application);
                                 
                                 if (! is_null($this->get_user()))
                                 {

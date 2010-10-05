@@ -5,7 +5,7 @@
  */
 require_once dirname(__FILE__) . '/../laika_manager/laika_manager.class.php';
 require_once dirname(__FILE__) . '/../laika_data_manager.class.php';
-require_once Path :: get_application_path() . 'lib/laika/laika_graph_renderer.class.php';
+require_once Path :: get_application_path() . 'laika/php/lib/laika_graph_renderer.class.php';
 require_once Path :: get_repository_path() . 'lib/content_object/document/document.class.php';
 
 class LaikaGrapherFilterForm extends FormValidator

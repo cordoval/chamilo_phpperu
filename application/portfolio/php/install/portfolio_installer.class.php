@@ -4,7 +4,7 @@
  * @package application.portfolio.install
  */
 
-require_once dirname(__FILE__) . '/../portfolio_data_manager.class.php';
+require_once dirname(__FILE__) . '/../lib/portfolio_data_manager.class.php';
 
 /**
  * This installer can be used to create the storage structure for the

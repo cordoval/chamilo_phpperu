@@ -6,7 +6,7 @@
 
 abstract class WebApplication extends BasicApplication
 {
-
+	const CLASS_NAME = __CLASS__;
     /**
      * Determines whether the given learning object has been published in this
      * application.
@@ -151,7 +151,7 @@ abstract class WebApplication extends BasicApplication
         {
             if ($include_application_classes)
             {
-                require_once $path . $application->get_name() . '/php/' . $application->get_name() . '_manager/' . $application->get_name() . '_manager.class.php';
+                require_once self :: get_application_manager_path($application->get_name());
             }
             $active_applications[] = $application->get_name();
         
@@ -166,10 +166,9 @@ abstract class WebApplication extends BasicApplication
      */
     public static function is_application($name)
     {
-        $application_path = self :: get_application_path($name);
-        $application_manager_path = $application_path . $name . '_manager' . '/' . $name . '_manager.class.php';
+    	$application_path = self :: get_application_path($name);       
         
-        if (file_exists($application_path) && is_dir($application_path) && file_exists($application_manager_path))
+        if (file_exists($application_path) && is_dir($application_path) )
         {
             return true;
         }
@@ -216,18 +215,18 @@ abstract class WebApplication extends BasicApplication
 
     public static function get_application_path($application_name)
     {
-        return Path :: get_application_path() . $application_name . '/php/';
+        return Path :: get_application_path() . $application_name. '/';
     }
 
     public static function get_application_web_path($application_name)
     {
-        return Path :: get_application_web_path() . $application_name . '/php/';
+        return Path :: get_application_web_path() . $application_name . '/';
     }
 
     public function get_application_component_path()
     {
         $application_name = $this->get_application_name();
-        return $this->get_application_path($application_name) . $application_name . '_manager/component/';
+        return $this->get_application_path($application_name) . 'lib/' . $application_name . '_manager/component/';
     }
 
     static function factory($application, $user = null)
@@ -241,15 +240,34 @@ abstract class WebApplication extends BasicApplication
     {
         return null;
     }
-
+    
+    static function get_component_path($application)
+    {
+        return self :: get_application_class_path($application) . 'lib/' . $application . '_manager/component/';
+    }
+    
     static function get_application_manager_path($application_name)
     {
-        return self :: get_application_path($application_name) . $application_name . '_manager' . '/' . $application_name . '_manager.class.php';
+    	return self :: get_application_class_path($application_name) . 'lib/' . $application_name . '_manager' . '/' . $application_name . '_manager.class.php';
     }
-
-    public static function get_component_path($application_name)
+    
+    static function get_application_class_path ($application)
     {
-        return self :: get_application_path($application_name) . $application_name . '_manager/component/';
+    	return self :: get_application_path($application) . parent :: get_application_class_path();
+    }
+    
+    static function exists($application)
+    {
+    	$application_path = self :: get_application_path($name);       
+        
+        if (file_exists($application_path) && is_dir($application_path) )
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
 ?>

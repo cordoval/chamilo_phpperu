@@ -5,17 +5,17 @@
 
 require_once dirname(__FILE__) . '/../internship_organizer_data_manager.class.php';
 require_once dirname(__FILE__) . '/../internship_organizer_utilities.class.php';
-require_once Path :: get_application_path() . 'internship_organizer/php/organisation_manager/organisation_manager.class.php';
-require_once Path :: get_application_path() . 'internship_organizer/php/category_manager/category_manager.class.php';
-require_once Path :: get_application_path() . 'internship_organizer/php/agreement_manager/agreement_manager.class.php';
-require_once Path :: get_application_path() . 'internship_organizer/php/region_manager/region_manager.class.php';
-require_once Path :: get_application_path() . 'internship_organizer/php/period_manager/period_manager.class.php';
-require_once Path :: get_application_path() . 'internship_organizer/php/appointment_manager/appointment_manager.class.php';
+require_once Path :: get_application_path() . 'internship_organizer/php/lib/organisation_manager/organisation_manager.class.php';
+require_once Path :: get_application_path() . 'internship_organizer/php/lib/category_manager/category_manager.class.php';
+require_once Path :: get_application_path() . 'internship_organizer/php/lib/agreement_manager/agreement_manager.class.php';
+require_once Path :: get_application_path() . 'internship_organizer/php/lib/region_manager/region_manager.class.php';
+require_once Path :: get_application_path() . 'internship_organizer/php/lib/period_manager/period_manager.class.php';
+require_once Path :: get_application_path() . 'internship_organizer/php/lib/appointment_manager/appointment_manager.class.php';
 require_once Path :: get_application_path() . 'internship_organizer/php/trackers/internship_organizer_changes_tracker.class.php';
-require_once Path :: get_application_path() . 'internship_organizer/php/evaluation_manager/evaluation_manager.class.php';
+require_once Path :: get_application_path() . 'internship_organizer/php/lib/evaluation_manager/evaluation_manager.class.php';
 
 
-require_once Path :: get_application_path() . 'internship_organizer/php/internship_organizer_rights.class.php';
+require_once Path :: get_application_path() . 'internship_organizer/php/lib/internship_organizer_rights.class.php';
 
 class InternshipOrganizerManager extends WebApplication
 {

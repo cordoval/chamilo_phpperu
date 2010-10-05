@@ -1,10 +1,10 @@
 <?php
 
-require_once Path :: get_application_path() . 'internship_organizer/php/period_manager/component/browser/browser_table.class.php';
+require_once Path :: get_application_path() . 'internship_organizer/php/lib/period_manager/component/browser/browser_table.class.php';
 
 require_once dirname(__FILE__) . '/../period_menu.class.php';
 
-require_once Path :: get_application_path() . 'internship_organizer/php/period.class.php';
+require_once Path :: get_application_path() . 'internship_organizer/php/lib/period.class.php';
 
 class InternshipOrganizerPeriodManager extends SubManager 
 {

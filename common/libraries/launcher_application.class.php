@@ -34,5 +34,19 @@ abstract class LauncherApplication extends Application
     {
         Display :: small_footer();
     }
+    
+    static function exists($application)
+    {
+    	$application_path = self :: get_application_path($name);       
+        
+        if (file_exists($application_path) && is_dir($application_path) )
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
 ?>

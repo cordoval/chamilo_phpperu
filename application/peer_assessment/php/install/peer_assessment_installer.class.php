@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/../peer_assessment_data_manager.class.php';
+require_once dirname(__FILE__).'/../lib/peer_assessment_data_manager.class.php';
 /**
  * @author Nick Van Loocke
  */

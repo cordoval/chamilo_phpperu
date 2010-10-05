@@ -5,7 +5,7 @@
  * @subpackage gutenberg
  */
 
-require_once dirname(__FILE__) . '/../gutenberg_data_manager.class.php';
+require_once dirname(__FILE__) . '/../lib/gutenberg_data_manager.class.php';
 
 /**
  * This installer can be used to create the storage structure for the

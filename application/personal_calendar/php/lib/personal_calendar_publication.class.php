@@ -3,7 +3,7 @@
  * $Id: personal_calendar_publication.class.php 201 2009-11-13 12:34:51Z chellee $
  * @package application.personal_calendar
  */
-require_once Path :: get_application_path() . 'personal_calendar/php/personal_calendar_data_manager.class.php';
+require_once Path :: get_application_path() . 'personal_calendar/php/lib/personal_calendar_data_manager.class.php';
 
 /**
  *	This class represents a CalendarEventPublication.

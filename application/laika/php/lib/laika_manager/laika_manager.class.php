@@ -1,6 +1,6 @@
 <?php
 require_once dirname(__FILE__) . '/../laika_data_manager.class.php';
-require_once Path :: get_application_path() . 'laika/php/laika_rights.class.php';
+require_once Path :: get_application_path() . 'laika/php/lib/laika_rights.class.php';
 require_once dirname(__FILE__) . '/component/laika_calculated_result_browser/laika_calculated_result_browser_table.class.php';
 
 class LaikaManager extends WebApplication

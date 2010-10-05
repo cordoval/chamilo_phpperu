@@ -3,8 +3,8 @@
  * $Id: profiler_installer.class.php 212 2009-11-13 13:38:35Z chellee $
  * @package application.profiler.install
  */
-require_once dirname(__FILE__) . '/../profiler_data_manager.class.php';
-require_once dirname(__FILE__) . '/../profiler_rights.class.php';
+require_once dirname(__FILE__) . '/../lib/profiler_data_manager.class.php';
+require_once dirname(__FILE__) . '/../lib/profiler_rights.class.php';
 /**
  * This installer can be used to create the storage structure for the
  * profiler application.
