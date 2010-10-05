@@ -21,7 +21,7 @@ class ContentObjectRegistrationBrowserTable extends RegistrationBrowserTable
         $model = new ContentObjectRegistrationBrowserTableColumnModel();
         $renderer = new ContentObjectRegistrationBrowserTableCellRenderer($browser);
         $data_provider = new ContentObjectRegistrationBrowserTableDataProvider($browser, $condition);
-        ObjectTable :: __construct($data_provider, Utilities :: underscores_to_camelcase(__CLASS__), $model, $renderer);
+        ObjectTable :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
         $this->set_additional_parameters($parameters);
         $this->set_default_row_count(20);
     }
