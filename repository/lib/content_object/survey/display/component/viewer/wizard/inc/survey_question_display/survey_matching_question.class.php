@@ -75,7 +75,7 @@ class SurveyMatchingQuestionDisplay extends SurveyQuestionDisplay
         $table_header[] = '<tbody>';
         $formvalidator->addElement('html', implode("\n", $table_header));
         
-        $question_id = $this->get_question()->get_id();
+        $question_id = $this->get_complex_question()->get_id();
         
         $answers = $this->answers;
         $matches = $this->matches;
@@ -91,7 +91,9 @@ class SurveyMatchingQuestionDisplay extends SurveyQuestionDisplay
         $answer_count = 0;
         foreach ($answers as $answer_id => $answer)
         {
-            $answer_name = $question_id . '_' . $answer_id.'_'.$this->get_context_path();
+//             $answer_name = $question_id . '_' . $answer_id.'_'.$this->get_context_path();
+        	
+        	$answer_name = $question_id . '_' . $answer_id;
             
             $group = array();
             $answer_number = ($answer_count + 1) . '.';

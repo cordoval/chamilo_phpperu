@@ -57,10 +57,11 @@ class SurveyQuestionViewerWizardPage extends SurveyViewerWizardPage
         foreach ($complex_questions as $complex_question)
         {
             
-            //            dump($complex_question);
-            $answer = $this->get_parent()->get_answer($complex_question->get_id, $this->context_path);
-            
-            $question_display = SurveyQuestionDisplay :: factory($this, $complex_question, $answer, $this->context_path, $this->survey);
+           	$question_context_path = $this->context_path.'_'.$complex_question->get_id();
+                      	
+           	$answer = $this->get_parent()->get_answer($complex_question->get_id(), $question_context_path);
+                       
+            $question_display = SurveyQuestionDisplay :: factory($this, $complex_question, $answer, $question_context_path, $this->survey);
             
             $question_display->display();
         }
@@ -89,6 +90,11 @@ class SurveyQuestionViewerWizardPage extends SurveyViewerWizardPage
     {
         return $this->context_path;
     }
+    
+    function get_question_context_paths(){
+    	return $this->survey->get_page_question_context_paths($this->get_context_path());
+    }
+    
 }
 
 ?>

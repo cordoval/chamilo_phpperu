@@ -46,7 +46,14 @@ class ContentObjectTableDataProvider extends ObjectTableDataProvider
         $order_property = $this->get_order_property($order_property);
         $dm = RepositoryDataManager :: get_instance();
 
-        return $dm->retrieve_content_objects($this->get_condition(), $order_property, $offset, $count);
+        if (!$this->get_parent()->is_shared_object_browser())
+        {
+        	return $dm->retrieve_content_objects($this->get_condition(), $order_property, $offset, $count);
+        }
+        else
+        {
+        	return $dm->retrieve_shared_content_objects($this->get_condition(), $offset, $count, $order_property);
+        }
     }
 
     /*
@@ -55,7 +62,16 @@ class ContentObjectTableDataProvider extends ObjectTableDataProvider
     function get_object_count()
     {
         $dm = RepositoryDataManager :: get_instance();
-        return $dm->count_content_objects($this->get_condition());
+        
+    	if (!$this->get_parent()->is_shared_object_browser())
+        {
+        	return $dm->count_content_objects($this->get_condition());
+        }
+        else
+        {
+        	return $dm->count_shared_content_objects($this->get_condition());
+        }
+        
     }
 
     /**
@@ -66,145 +82,69 @@ class ContentObjectTableDataProvider extends ObjectTableDataProvider
     {
         $owner = $this->get_owner();
 
+        $conditions = array();
+        $type_conditions = array();
+
+        $types = $this->get_types();
+
+        foreach ($types as $type)
+        {
+            $type_conditions[] = new EqualityCondition(ContentObject :: PROPERTY_TYPE, $type);
+        }
+
+        $conditions[] = new OrCondition($type_conditions);
+        
+        $query = $this->get_query();
+
+        if (isset($query) && $query != '')
+        {
+            $or_conditions[] = new PatternMatchCondition(ContentObject :: PROPERTY_TITLE, '*' . $query . '*');
+            $or_conditions[] = new PatternMatchCondition(ContentObject :: PROPERTY_DESCRIPTION, '*' . $query . '*');
+            $conditions[] = new OrCondition($or_conditions);
+        }
+        
         if (!$this->get_parent()->is_shared_object_browser())
         {
             $category = Request :: get('category');
             $category = $category ? $category : 0;
 
-            $conds = array();
-            $conds[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $owner->get_id());
-            $conds[] = new EqualityCondition(ContentObject :: PROPERTY_PARENT_ID, $category);
-            $conds[] = new EqualityCondition(ContentObject :: PROPERTY_STATE, 0);
-            $type_cond = array();
-            $types = $this->get_types();
-
-            foreach ($types as $type)
-            {
-                $type_cond[] = new EqualityCondition(ContentObject :: PROPERTY_TYPE, $type);
-            }
-
-            $conds[] = new OrCondition($type_cond);
-            $query_condition = Utilities :: query_to_condition($this->get_query());
-
-            if (! is_null($query_condition))
-            {
-                $conds[] = $query_condition;
-            }
+            $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $owner->get_id());
+            $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_PARENT_ID, $category);
+            $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_STATE, 0);
 
             foreach ($this->get_parent()->get_excluded_objects() as $excluded)
             {
                 $conds[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_ID, $excluded, ContentObject :: get_table_name()));
             }
-
-            $type_conditions = $this->get_type_conditions();
-            if ($type_conditions)
-            {
-                $conds[] = $type_conditions;
-            }
-
-            return new AndCondition($conds);
         }
         else
         {
-            $query = $this->get_query();
-
-            if (isset($query) && $query != '')
-            {
-                $or_conditions[] = new PatternMatchCondition(ContentObject :: PROPERTY_TITLE, '*' . $query . '*');
-                $or_conditions[] = new PatternMatchCondition(ContentObject :: PROPERTY_DESCRIPTION, '*' . $query . '*');
-                $conditions[] = new OrCondition($or_conditions);
-            }
-
-            $rdm = RightsDataManager :: get_instance();
-
-            $user = $this->get_owner();
-            $groups = $user->get_groups();
-            foreach ($groups as $group)
-            {
-                $group_ids[] = $group->get_id();
-            }
-
-            //retrieve all the rights
-            $reflect = new ReflectionClass(Application :: application_to_class(RepositoryManager :: APPLICATION_NAME) . 'Rights');
-            $rights_db = $reflect->getConstants();
-
-            foreach ($rights_db as $right_id)
-            {
-                if ($right_id != RepositoryRights :: VIEW_RIGHT && $right_id != RepositoryRights :: USE_RIGHT && $right_id != RepositoryRights :: REUSE_RIGHT)
-                {
-                    continue;
-                }
-                $rights[] = $right_id;
-            }
-
-            $location_ids = array();
-            $shared_content_objects = $rdm->retrieve_shared_content_objects_for_user($user->get_id(), $rights);
-
-            while ($user_right_location = $shared_content_objects->next_result())
-            {
-                if (! in_array($user_right_location->get_location_id(), $location_ids))
-                {
-                    $location_ids[] = $user_right_location->get_location_id();
-                }
-
-                $this->list[] = array('location_id' => $user_right_location->get_location_id(), 'user' => $user_right_location->get_user_id(), 'right' => $user_right_location->get_right_id());
-            }
-
-            $shared_content_objects = $rdm->retrieve_shared_content_objects_for_groups($group_ids, $rights);
-
-            while ($group_right_location = $shared_content_objects->next_result())
-            {
-                if (! in_array($group_right_location->get_location_id(), $location_ids))
-                {
-                    $location_ids[] = $group_right_location->get_location_id();
-                }
-
-                $this->list[] = array('location_id' => $group_right_location->get_location_id(), 'group' => $group_right_location->get_group_id(), 'right' => $group_right_location->get_right_id());
-            }
-
-            if (count($location_ids) > 0)
-            {
-                $location_cond = new InCondition('id', $location_ids);
-                $locations = $rdm->retrieve_locations($location_cond);
-
-                while ($location = $locations->next_result())
-                {
-                    $ids[] = $location->get_identifier();
-
-                    foreach ($this->list as $key => $value)
-                    {
-                        if ($value['location_id'] == $location->get_id())
-                        {
-                            $value['content_object'] = $location->get_identifier();
-                            $this->list[$key] = $value;
-                        }
-                    }
-                }
-
-                if ($ids)
-                {
-                    $conditions[] = new InCondition('id', $ids, ContentObject :: get_table_name());
-
-                    $type_conditions = $this->get_type_conditions();
-                    if ($type_conditions)
-                    {
-                        $conditions[] = $type_conditions;
-                    }
-                }
-
-                if ($conditions)
-                {
-                    $condition = new AndCondition($conditions);
-                }
-            }
-
-            if (! $condition)
-            {
-                $condition = new EqualityCondition('id', - 1, ContentObject :: get_table_name());
-            }
-
-            return $condition;
+            $subconditions = array();
+            
+	    	$subconditions[] = new AndCondition(array(
+	    			new EqualityCondition(ContentObjectUserShare :: PROPERTY_USER_ID, $this->get_parent()->get_user_id(), ContentObjectUserShare :: get_table_name()),
+	    			new InEqualityCondition(ContentObjectUserShare :: PROPERTY_RIGHT_ID, InequalityCondition :: GREATER_THAN_OR_EQUAL, ContentObjectShare :: USE_RIGHT, ContentObjectUserShare :: get_table_name())));
+			
+			$group_ids = array();
+	    	$groups = $this->get_parent()->get_user()->get_groups();
+	    	if($groups)
+	    	{
+	    		while($group = $groups->next_result())
+	    		{
+	    			$group_ids[] = $group->get_id();
+	    		}
+	    	
+				$subconditions[] = new AndCondition(array(
+	    			new InCondition(ContentObjectGroupShare :: PROPERTY_GROUP_ID, $group_ids, ContentObjectGroupShare :: get_table_name()),
+	    			new InEqualityCondition(ContentObjectGroupShare :: PROPERTY_RIGHT_ID, InequalityCondition :: GREATER_THAN_OR_EQUAL, ContentObjectShare :: USE_RIGHT, ContentObjectGroupShare :: get_table_name())));
+	    	}
+			
+	    	$conditions[] = new OrCondition($subconditions);
+	    
         }
+        
+        
+        return new AndCondition($conditions);
     }
 
     protected function set_types($types)

@@ -24,6 +24,11 @@ abstract class ObjectTableCellRenderer
 
     abstract function render_cell($column, $object);
 
+    /**
+     * Define the unique identifier for the row
+     * needed for e.g. checkboxes
+     * @param <type> $object
+     */
     abstract function render_id_cell($object);
 }
 ?>

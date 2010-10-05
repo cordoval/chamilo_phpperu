@@ -49,7 +49,7 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
         echo $this->action_bar->as_html();
         echo '<br />' . $this->form->display() . '<br />';
         echo $output;
-        echo ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/repository.js');
+        //echo ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/repository.js');
 
         $this->display_footer();
     }
@@ -74,6 +74,15 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
         		$condition = new EqualityCondition(ContentObject :: PROPERTY_ID, -1);
         }
         
+        $search_condition = $this->action_bar->get_conditions(array(new ConditionProperty(ContentObject :: PROPERTY_TITLE), new ConditionProperty(ContentObject :: PROPERTY_DESCRIPTION)));
+        if($search_condition)
+        {
+        	$conditions = array();
+        	$conditions[] = $condition;
+        	$conditions[] = $search_condition;
+        	$condition = new AndCondition($conditions);
+        }
+        
         $parameters = $this->get_parameters(true);
         $types = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE);
 
@@ -91,6 +100,7 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         $action_bar->set_search_url($this->get_url());
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         return $action_bar;
     }
     

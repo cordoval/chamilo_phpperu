@@ -145,6 +145,12 @@ class RepositorySharedContentObjectsBrowserTableCellRenderer extends DefaultShar
 						$this->browser->get_content_object_share_browser_url($content_object->get_id()),
 					 	ToolbarItem :: DISPLAY_ICON
 	                ));
+                $toolbar->add_item(new ToolbarItem(
+	        			Translation :: get('UnShare'),
+	        			Theme :: get_common_image_path() . 'delete_rights',
+						$this->browser->get_content_object_share_deleter_url($content_object->get_id(), null),
+					 	ToolbarItem :: DISPLAY_ICON
+	                ));
 		}
 		
         return $toolbar->as_html();

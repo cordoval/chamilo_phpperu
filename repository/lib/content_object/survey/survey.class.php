@@ -31,7 +31,8 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
     private $page_nr = 1;
     
     private $question_context_paths;
-   
+    
+    private $page_question_context_paths;
     
     private $question_nr = 1;
     
@@ -144,9 +145,15 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 
-    function set_invitee_id($invitee_id)
+    function initialize($invitee_id)
     {
         $this->invitee_id = $invitee_id;
+        $this->create_context_paths();
+    }
+
+    function get_invitee_id()
+    {
+        return $this->invitee_id;
     }
 
     function get_pages($complex_items = false)
@@ -178,20 +185,6 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
         return RepositoryDataManager :: get_instance()->retrieve_content_object($page_id);
     }
 
-    function get_page_by_index($index)
-    {
-        $complex_content_objects = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexContentObjectItem :: get_table_name()))->as_array();
-        
-        if (isset($complex_content_objects[$index - 1]))
-        {
-            return RepositoryDataManager :: get_instance()->retrieve_content_object($complex_content_objects[$index - 1]->get_ref());
-        }
-        else
-        {
-            return null;
-        }
-    }
-
     function count_pages()
     {
         if (! $this->page_context_paths)
@@ -199,20 +192,34 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
             $this->create_context_paths();
         }
         return count($this->page_context_paths);
-        
-    //    	return RepositoryDataManager :: get_instance()->count_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexContentObjectItem :: get_table_name()));
     }
 
-        function get_question_context_paths()
+    function get_question_context_paths()
+    {
+        if (! $this->question_context_paths)
         {
-            if(!$this->question_context_paths){
-            	$this->create_context_paths();
-            }else{
-            	return $this->question_context_paths;
-            }
-        
+            $this->create_context_paths();
+        }
+        return $this->question_context_paths;
+    
+    }
+
+    function get_page_question_context_paths($page_context_path = null)
+    {
+        if (! $this->page_question_context_paths)
+        {
+            $this->create_context_paths();
+        }
+        if ($page_context_path)
+        {
+            return $this->page_question_context_paths[$page_context_path];
+        }
+        else
+        {
+            return $this->page_question_context_paths;
         }
     
+    }
 
     function get_page_complex_questions($context_path)
     {
@@ -227,7 +234,6 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
         {
             $questions[] = $complex_question;
         }
-        
         return $questions;
     }
 
@@ -303,11 +309,10 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
                     
                     $context_path_tree[$level][$parent_id]['context_' . $context_id] = $context->get_name();
                     
-                   
                     while ($template_rel_page = $template_rel_pages->next_result())
                     {
                         $pages_ids = array();
-                    	$survey_page = $this->get_page_by_id($template_rel_page->get_page_id());
+                        $survey_page = $this->get_page_by_id($template_rel_page->get_page_id());
                         $page_id = $survey_page->get_id();
                         $pages_ids[] = $page_id;
                         $pages_ids['page_' . $page_id] = $survey_page->get_title();
@@ -331,8 +336,9 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
                         $context_path_tree[$level][$parent_id][$context_id][$page_id] = $pages_ids;
                     }
                     
-//                    dump($context_path_tree);
+                    //                    dump($context_path_tree);
                     
+
                     //                  old bug ?  $context_path_tree[$level][$parent_id][$context_id] = $pages_ids;
                     
 
@@ -376,7 +382,6 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
             }
             $context_path_tree[1][0]['context_' . 1] = 'NOCONTEXT';
         
-
         }
         //        dump($context_path_tree);
         $this->context_path_tree = $context_path_tree;
@@ -384,12 +389,19 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
 
     private function create_page_context_paths($path, $pages_context_as_tree)
     {
-//        dump($pages_context_as_tree);
+        //        dump($pages_context_as_tree);
         foreach ($pages_context_as_tree as $page_context_as_tree)
         {
             $page_id = $page_context_as_tree[0];
-            $page_path = $path . '_' . $page_id;
-//            $this->context_paths[] = $page_path;
+            if ($this->has_context())
+            {
+                $page_path = $this->get_id() . '_' . $path . '_' . $page_id;
+            }
+            else
+            {
+                $page_path = $this->get_id() . '_' . $page_id;
+            }
+            
             $this->page_context_paths[$page_path] = $this->page_nr;
             $this->page_nr ++;
             $this->survey_pages[$page_path] = $this->get_page_by_id($page_id);
@@ -399,24 +411,23 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
             {
                 if (is_int($index))
                 {
-                    if($this->has_context()){
-                    	$this->context_paths[] = $this->get_id().'_'.$page_path . '_' . $question_id;
-                    }else{
-                    	$this->context_paths[] = $this->get_id().'_'.$page_id . '_' . $question_id;
-                    }
-                	
+                    
+                    $this->context_paths[] = $page_path . '_' . $question_id;
+                    
                     $complex_question = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($question_id);
                     if (! $complex_question instanceof ComplexSurveyDescription)
                     {
                         if ($complex_question->is_visible())
                         {
                             $this->question_context_paths[$page_path . '_' . $question_id] = $this->question_nr;
+                            $this->page_question_context_paths[$page_path][$question_id] = $page_path . '_' . $question_id;
                             $this->question_nr ++;
                             $sub_index = 1;
                         }
                         else
                         {
                             $this->question_context_paths[$page_path . '_' . $question_id] = $this->question_nr . '.' . $sub_index;
+                            $this->page_question_context_paths[$page_path][$question_id] = $page_path . '_' . $question_id;
                             $sub_index ++;
                         }
                     }
