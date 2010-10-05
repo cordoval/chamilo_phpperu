@@ -2,7 +2,7 @@
 /**
  * @author Hans De Bisschop
  */
-class CasUserManagerDeleterComponent extends CasUserManager
+class CasAccountManagerDeleterComponent extends CasAccountManager
 {
 
     /**
@@ -11,7 +11,7 @@ class CasUserManagerDeleterComponent extends CasUserManager
     function run()
     {
 
-        $ids = Request :: get(CasUserManager :: PARAM_REQUEST_ID);
+        $ids = Request :: get(CasAccountManager :: PARAM_ACCOUNT_ID);
         $failures = 0;
 
         if (! empty($ids))
@@ -23,9 +23,9 @@ class CasUserManagerDeleterComponent extends CasUserManager
 
             foreach ($ids as $id)
             {
-                $cas_user_request = $cas_user_request = CasUserDataManager :: get_instance()->retrieve_cas_user_request($id);
+                $cas_account = CasAccountDataManager :: get_instance()->retrieve_cas_account($id);
 
-                if (! $cas_user_request->delete())
+                if (! $cas_account->delete())
                 {
                     $failures ++;
                 }
@@ -35,30 +35,30 @@ class CasUserManagerDeleterComponent extends CasUserManager
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedCasUserRequestNotDeleted';
+                    $message = 'SelectedCasAccountNotDeleted';
                 }
                 else
                 {
-                    $message = 'SelectedCasUserRequestsNotDeleted';
+                    $message = 'SelectedCasAccountsNotDeleted';
                 }
             }
             else
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedCasUserRequestDeleted';
+                    $message = 'SelectedCasAccountDeleted';
                 }
                 else
                 {
-                    $message = 'SelectedCasUserRequestsDeleted';
+                    $message = 'SelectedCasAccountsDeleted';
                 }
             }
 
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(CasUserManager :: PARAM_ACTION => CasUserManager :: ACTION_BROWSE));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(CasAccountManager :: PARAM_CAS_ACCOUNT_ACTION => CasAccountManager :: ACTION_BROWSE));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoCasUserRequestSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoCasAccountSelected')));
         }
     }
 }

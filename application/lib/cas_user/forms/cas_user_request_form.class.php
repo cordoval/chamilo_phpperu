@@ -6,7 +6,15 @@ class CasUserRequestForm extends FormValidator
     const TYPE_EDIT = 2;
 
     private $parent;
+
+    /**
+     * @var CasUserRequest
+     */
     private $cas_user_request;
+
+    /**
+     * @var User
+     */
     private $user;
 
     function CasUserRequestForm($form_type, $cas_user_request, $action, $user)
@@ -77,7 +85,7 @@ class CasUserRequestForm extends FormValidator
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
-    function update_group()
+    function update_cas_user_request()
     {
         $cas_user_request = $this->cas_user_request;
         $values = $this->exportValues();
@@ -119,6 +127,7 @@ class CasUserRequestForm extends FormValidator
         $defaults[CasUserRequest :: PROPERTY_LAST_NAME] = $cas_user_request->get_last_name();
         $defaults[CasUserRequest :: PROPERTY_EMAIL] = $cas_user_request->get_email();
         $defaults[CasUserRequest :: PROPERTY_MOTIVATION] = $cas_user_request->get_motivation();
+        $defaults[CasUserRequest :: PROPERTY_AFFILIATION] = $cas_user_request->get_affiliation();
         parent :: setDefaults($defaults);
     }
 

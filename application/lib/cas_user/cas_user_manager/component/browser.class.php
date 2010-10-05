@@ -11,7 +11,6 @@ class CasUserManagerBrowserComponent extends CasUserManager
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CasUser')));
         $trail->add_help('cas_user general');
 
         $this->action_bar = $this->get_action_bar();
@@ -67,6 +66,8 @@ class CasUserManagerBrowserComponent extends CasUserManager
             {
                 $this->action_bar->add_common_action(new ToolbarItem(Translation :: get('RequestAccount'), Theme :: get_image_path() . 'action_request.png', $this->get_url(array(
                         Application :: PARAM_ACTION => CasUserManager :: ACTION_CREATE))));
+                $this->action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageAccounts'), Theme :: get_image_path() . 'action_manage.png', $this->get_url(array(
+                        Application :: PARAM_ACTION => CasUserManager :: ACTION_ACCOUNT))));
             }
         }
         return $this->action_bar;

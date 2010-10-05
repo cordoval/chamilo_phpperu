@@ -15,6 +15,7 @@ class CasUserManager extends WebApplication
     const ACTION_CREATE = 'creator';
     const ACTION_ACCEPT = 'accepter';
     const ACTION_REJECT = 'rejecter';
+    const ACTION_ACCOUNT = 'account';
 
     const DEFAULT_ACTION = self :: ACTION_BROWSE;
 
