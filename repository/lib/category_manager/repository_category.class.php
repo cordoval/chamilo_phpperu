@@ -35,20 +35,20 @@ class RepositoryCategory extends PlatformCategory
             return false;
         }
 
-        $parent = $this->get_parent();
-        if ($parent == 0)
-        {
-            $parent_id = RepositoryRights :: get_user_root_id($user_id);
-        }
-        else
-        {
-            $parent_id = RepositoryRights :: get_location_id_by_identifier_from_user_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $this->get_parent(), $user_id); 
-        }
-        
-    	if (!RepositoryRights :: create_location_in_user_tree($this->get_name(), RepositoryRights :: TYPE_USER_CATEGORY, $this->get_id(), $parent_id, $user_id))
-        {
-            return false;
-        }
+//        $parent = $this->get_parent();
+//        if ($parent == 0)
+//        {
+//            $parent_id = RepositoryRights :: get_user_root_id($user_id);
+//        }
+//        else
+//        {
+//            $parent_id = RepositoryRights :: get_location_id_by_identifier_from_user_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $this->get_parent(), $user_id); 
+//        }
+//        
+//    	if (!RepositoryRights :: create_location_in_user_tree($this->get_name(), RepositoryRights :: TYPE_USER_CATEGORY, $this->get_id(), $parent_id, $user_id))
+//        {
+//            return false;
+//        }
 
         return true;
     }
@@ -60,34 +60,34 @@ class RepositoryCategory extends PlatformCategory
         	return false;
         }     
         
-    	if($move)
-        {
-        	if($this->get_parent())
-        	{
-        		$new_parent_id = RepositoryRights :: get_location_id_by_identifier_from_user_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $this->get_parent(), $this->get_user_id());
-        	}
-        	else
-        	{
-        		$new_parent_id = RepositoryRights :: get_user_root_id();	
-        	}
-        	
-        	$location =  RepositoryRights :: get_location_by_identifier_from_users_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $this->get_id(), $this->get_user_id());
-        	return $location->move($new_parent_id);
-        }
+//    	if($move)
+//        {
+//        	if($this->get_parent())
+//        	{
+//        		$new_parent_id = RepositoryRights :: get_location_id_by_identifier_from_user_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $this->get_parent(), $this->get_user_id());
+//        	}
+//        	else
+//        	{
+//        		$new_parent_id = RepositoryRights :: get_user_root_id();	
+//        	}
+//        	
+//        	$location =  RepositoryRights :: get_location_by_identifier_from_users_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $this->get_id(), $this->get_user_id());
+//        	return $location->move($new_parent_id);
+//        }
         
     	return true; 
     }
 
     function delete()
     {
-    	$location = RepositoryRights :: get_location_by_identifier_from_users_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $this->get_id(), $this->get_user_id());
-		if($location)
-		{
-			if(!$location->remove())
-			{
-				return false;
-			}
-		}
+//    	$location = RepositoryRights :: get_location_by_identifier_from_users_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $this->get_id(), $this->get_user_id());
+//		if($location)
+//		{
+//			if(!$location->remove())
+//			{
+//				return false;
+//			}
+//		}
 		
     	return RepositoryDataManager :: get_instance()->delete_category($this);
     }

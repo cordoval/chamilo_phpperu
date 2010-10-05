@@ -101,14 +101,7 @@ class DatabaseUserDataManager extends Database implements UserDataManagerInterfa
 
 	function create_user($user)
 	{
-		//add rss id to user
-		$user->set_security_token(sha1(time().uniqid()));
-		$this->create($user);
-
-		// Create the user's root category for the repository
-		RepositoryRights :: create_user_root($user);
-
-		return true;
+		return $this->create($user);
 	}
 
 	function retrieve_user($id)

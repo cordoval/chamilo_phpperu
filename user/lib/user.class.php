@@ -577,6 +577,8 @@ class User extends DataClass
     {
         $udm = UserDataManager :: get_instance();
         $this->set_registration_date(time());
+        $this->set_security_token(sha1(time().uniqid()));
+        
         $succes = $udm->create_user($this);
 
         $version_quota = $this->get_version_quota() ? $this->get_version_quota() : 20;
