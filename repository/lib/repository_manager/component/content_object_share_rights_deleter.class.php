@@ -61,7 +61,7 @@ class RepositoryManagerContentObjectShareRightsDeleterComponent extends Reposito
             {
                 $ids = array($content_object_id);
             }
-            foreach ($ids as $id)
+            foreach ($content_object_id as $id)
             {
                 $isDeleted = $repo_data_manager->delete_all_content_object_user_shares_by_content_object_id($id);
                 if(!$isDeleted)
@@ -96,6 +96,7 @@ class RepositoryManagerContentObjectShareRightsDeleterComponent extends Reposito
         $parameters[] = RepositoryManager :: PARAM_CONTENT_OBJECT_ID;
         $parameters[] = RepositoryManager :: PARAM_CATEGORY_ID;
         $parameters[] = ContentObjectShare :: PARAM_TYPE;
+        $parameters[] = RepositoryManager :: PARAM_SHOW_OBJECTS_SHARED_BY_ME;
 
         return $parameters;
     }

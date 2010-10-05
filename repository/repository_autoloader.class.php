@@ -88,7 +88,10 @@ class RepositoryAutoloader
 					  'user_view_browser_table' => 'user_view_browser/user_view_browser_table.class.php',
 				      'link_browser_table' => 'link_browser/link_browser_table.class.php',
 				      'external_link_browser_table' => 'external_link_browser/external_link_browser_table.class.php',
-					  'content_object_registration_browser_table' => 'content_object_registration_browser/content_object_registration_browser_table.class.php');
+					  'content_object_registration_browser_table' => 'content_object_registration_browser/content_object_registration_browser_table.class.php',
+                                          'content_object_user_share_rights_browser_table' => 'content_object_user_share_rights_browser/content_object_user_share_rights_browser_table.class.php',
+                                        'content_object_group_share_rights_browser_table' => 'content_object_group_share_rights_browser/content_object_group_share_rights_browser_table.class.php'
+                                        );
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);
 
