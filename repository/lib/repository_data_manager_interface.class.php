@@ -501,6 +501,10 @@ interface RepositoryDataManagerInterface
     function count_content_object_group_shares(Condition $condition = null);
 
     function retrieve_content_object_group_shares(Condition $condition = null, $offset = null, $count = null, ObjectTableOrder $order_property = null);
+    
+    function retrieve_content_object_user_share($content_object_id, $user_id);
+    
+	function retrieve_content_object_group_share($content_object_id, $group_id);
 
 }
 ?>

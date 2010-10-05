@@ -2074,5 +2074,25 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         
         return $query;
     }
+    
+    function retrieve_content_object_user_share($content_object_id, $user_id)
+    {
+    	$conditions = array();
+    	$conditions[] = new EqualityCondition(ContentObjectUserShare :: PROPERTY_CONTENT_OBJECT_ID, $content_object_id);
+    	$conditions[] = new EqualityCondition(ContentObjectUserShare :: PROPERTY_USER_ID, $user_id);
+    	$condition = new AndCondition($conditions);
+    	
+    	return $this->retrieve_object(ContentObjectUserShare :: get_table_name(), $condition);
+    }
+    
+	function retrieve_content_object_group_share($content_object_id, $group_id)
+    {
+    	$conditions = array();
+    	$conditions[] = new EqualityCondition(ContentObjectGroupShare :: PROPERTY_CONTENT_OBJECT_ID, $content_object_id);
+    	$conditions[] = new EqualityCondition(ContentObjectGroupShare :: PROPERTY_GROUP_ID, $group_id);
+    	$condition = new AndCondition($conditions);
+    	
+    	return $this->retrieve_object(ContentObjectGroupShare :: get_table_name(), $condition);
+    }
 }
 ?>

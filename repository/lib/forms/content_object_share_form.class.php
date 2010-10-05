@@ -7,7 +7,7 @@
  */
 class ContentObjectShareForm extends FormValidator
 {
-    const PARAM_RIGHTS = 'right';
+    const PARAM_RIGHT = 'right';
     const PARAM_TARGET = 'target_users_and_groups';
     const PARAM_TARGET_ELEMENTS = 'target_users_and_groups_elements';
     const PARAM_USER = 'user';
@@ -37,13 +37,11 @@ class ContentObjectShareForm extends FormValidator
         {
             $this->build_creation_form();
         }
-
-        $this->setDefaults();
     }
 
     function build_basic_form()
     {
-        $this->addElement('select', self :: PARAM_RIGHTS, Translation :: get('Rights'), ContentObjectShare :: get_rights());
+        $this->addElement('select', self :: PARAM_RIGHT, Translation :: get('Rights'), ContentObjectShare :: get_rights());
     }
 
     function build_editing_form()
@@ -93,7 +91,7 @@ class ContentObjectShareForm extends FormValidator
         $values = $this->exportValues();
         $user_ids = $values[self :: PARAM_TARGET_ELEMENTS][self :: PARAM_USER];
         $group_ids = $values[self :: PARAM_TARGET_ELEMENTS][self :: PARAM_GROUP];
-        $right_id = $values[self :: PARAM_RIGHTS];
+        $right_id = $values[self :: PARAM_RIGHT];
         
         $succes = true;
         
@@ -121,18 +119,50 @@ class ContentObjectShareForm extends FormValidator
     	return $succes;
     }
 
-    function update_content_object_share()
+    function update_content_object_share($target_user_ids = array(), $target_group_ids = array())
     {
-
+		$rdm = RepositoryDataManager :: get_instance();
+		$succes = true;
+		
+		$values = $this->exportValues();
+        $right_id = $values[self :: PARAM_RIGHT];
+		
+    	foreach($this->content_object_ids as $content_object_id)
+		{
+    		foreach($target_user_ids as $target_user_id)
+			{
+				$content_object_user_share = $rdm->retrieve_content_object_user_share($content_object_id, $target_user_id);
+	        	$content_object_user_share->set_right_id($right_id);
+	        	$succes &= $content_object_user_share->update();
+			}
+			
+			foreach($target_group_ids as $target_group_id)
+			{
+				$content_object_group_share = $rdm->retrieve_content_object_group_share($content_object_id, $target_group_id);
+	        	$content_object_group_share->set_right_id($right_id);
+	        	$succes &= $content_object_group_share->update();
+			}
+		}
+		
+		return $succes;
     }
 
-    /**
-     * Sets default values.
-     * @param array $defaults Default values for this form's parameters.
-     */
-    function setDefaults($defaults = array())
+    function set_default_rights($target_user_ids = array(), $target_group_ids = array())
     {
-        parent :: setDefaults($defaults);
+    	$rdm = RepositoryDataManager :: get_instance();
+    	
+    	if(count($target_user_ids) > 0)
+    	{
+    		$content_object_user_share = $rdm->retrieve_content_object_user_share($this->content_object_ids[0], $target_user_ids[0]);
+    		$right = $content_object_user_share->get_right_id();
+    	}
+    	elseif(count($target_group_ids) > 0)
+    	{
+    		$content_object_group_share = $rdm->retrieve_content_object_group_share($this->content_object_ids[0], $target_group_ids[0]);
+    		$right = $content_object_group_share->get_right_id();
+    	}
+    	
+    	$this->setDefaults(array(self :: PARAM_RIGHT => $right));
     }
 
 }
