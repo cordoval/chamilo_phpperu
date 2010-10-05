@@ -2,27 +2,23 @@
 /**
  * @author Hans De Bisschop
  */
-class CasUserRequest extends DataClass
+class CasAccount extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    const TABLE_NAME = 'request';
+//    const TABLE_NAME = 'account';
 
     /**
-     * CasUserRequest properties
+     * CasAccount properties
      */
     const PROPERTY_ID = 'id';
     const PROPERTY_FIRST_NAME = 'first_name';
     const PROPERTY_LAST_NAME = 'last_name';
     const PROPERTY_EMAIL = 'email';
     const PROPERTY_AFFILIATION = 'affiliation';
-    const PROPERTY_MOTIVATION = 'motivation';
-    const PROPERTY_REQUESTER_ID = 'requester_id';
-    const PROPERTY_REQUEST_DATE = 'requested';
-    const PROPERTY_STATUS = 'status';
-
-    const STATUS_PENDING = 1;
-    const STATUS_ACCEPTED = 2;
-    const STATUS_REJECTED = 3;
+    const PROPERTY_PASSWORD = 'password';
+    
+    const STATUS_ENABLED = 1;
+    const STATUS_DISABLED = 2;
 
     /**
      * Get the default properties
@@ -30,7 +26,7 @@ class CasUserRequest extends DataClass
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_ID, self :: PROPERTY_FIRST_NAME, self :: PROPERTY_LAST_NAME, self :: PROPERTY_EMAIL, self :: PROPERTY_AFFILIATION, self :: PROPERTY_MOTIVATION, self :: PROPERTY_REQUESTER_ID, self :: PROPERTY_REQUEST_DATE, self :: PROPERTY_STATUS);
+        return array(self :: PROPERTY_ID, self :: PROPERTY_FIRST_NAME, self :: PROPERTY_LAST_NAME, self :: PROPERTY_EMAIL, self :: PROPERTY_AFFILIATION, self :: PROPERTY_PASSWORD);
     }
 
     function get_data_manager()
@@ -63,19 +59,9 @@ class CasUserRequest extends DataClass
         return $this->get_default_property(self :: PROPERTY_AFFILIATION);
     }
 
-    public function get_motivation()
+    public function get_password()
     {
-        return $this->get_default_property(self :: PROPERTY_MOTIVATION);
-    }
-
-    public function get_requester_id()
-    {
-        return $this->get_default_property(self :: PROPERTY_REQUESTER_ID);
-    }
-
-    public function get_request_date()
-    {
-        return $this->get_default_property(self :: PROPERTY_REQUEST_DATE);
+        return $this->get_default_property(self :: PROPERTY_PASSWORD);
     }
 
     public function get_status()
@@ -108,61 +94,37 @@ class CasUserRequest extends DataClass
         $this->set_default_property(self :: PROPERTY_AFFILIATION, $affiliation);
     }
 
-    public function set_motivation($motivation)
+    public function set_password($password)
     {
-        $this->set_default_property(self :: PROPERTY_MOTIVATION, $motivation);
+        $this->set_default_property(self :: PROPERTY_PASSWORD, $password);
     }
-
-    public function set_requester_id($requester_id)
-    {
-        $this->set_default_property(self :: PROPERTY_REQUESTER_ID, $requester_id);
-    }
-
-    public function set_request_date($request_date)
-    {
-        $this->set_default_property(self :: PROPERTY_REQUEST_DATE, $request_date);
-    }
-
+    
     public function set_status($status)
     {
         $this->set_default_property(self :: PROPERTY_STATUS, $status);
     }
 
-    static function get_table_name()
-    {
-        return self :: TABLE_NAME;
-    }
+//    static function get_table_name()
+//    {
+//        return self :: TABLE_NAME;
+//    }
 
     function get_status_icon()
     {
         switch ($this->get_status())
         {
-            case self :: STATUS_ACCEPTED :
-                return Theme :: get_image('status_accepted');
+            case self :: STATUS_ENABLED :
+                return Theme :: get_image('status_enabled');
                 break;
-            case self :: STATUS_PENDING :
-                return Theme :: get_image('status_pending');
-                break;
-            case self :: STATUS_REJECTED :
-                return Theme :: get_image('status_rejected');
+            case self :: STATUS_DISABLED :
+                return Theme :: get_image('status_disabled');
                 break;
         }
     }
 
-    function is_pending()
+    function is_enabled()
     {
-        return $this->get_status() == self :: STATUS_PENDING;
-    }
-
-    function is_rejected()
-    {
-        return $this->get_status() == self :: STATUS_REJECTED;
-    }
-
-    function get_requester_user()
-    {
-        $user = UserDataManager :: get_instance()->retrieve_user($this->get_requester_id());
-        return ($user instanceof User ? $user : '');
+        return $this->get_status() == self :: STATUS_ENABLED;
     }
 }
 
