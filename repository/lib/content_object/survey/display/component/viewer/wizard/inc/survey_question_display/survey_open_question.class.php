@@ -11,7 +11,8 @@ class SurveyOpenQuestionDisplay extends SurveyQuestionDisplay
     function add_question_form()
     {
         $complex_question = $this->get_complex_question();
-        $question = $this->get_question();
+//      	$question = $this->get_question();
+        $question = $this->get_complex_question();
         //$type = $question->get_question_type();
         $formvalidator = $this->get_formvalidator();
 
