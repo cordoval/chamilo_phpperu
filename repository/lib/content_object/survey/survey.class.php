@@ -399,7 +399,12 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
             {
                 if (is_int($index))
                 {
-                    $this->context_paths[] = $this->get_id().'_'.$page_path . '_' . $question_id;
+                    if($this->has_context()){
+                    	$this->context_paths[] = $this->get_id().'_'.$page_path . '_' . $question_id;
+                    }else{
+                    	$this->context_paths[] = $this->get_id().'_'.$page_id . '_' . $question_id;
+                    }
+                	
                     $complex_question = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($question_id);
                     if (! $complex_question instanceof ComplexSurveyDescription)
                     {

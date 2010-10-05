@@ -72,9 +72,9 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
         
         $page_context_paths = $this->survey->get_page_context_paths();
         
-        dump($page_context_paths);
-        dump($this->survey->get_context_paths());
-        dump(count($this->survey->get_context_paths()));
+//        dump($page_context_paths);
+//        dump($this->survey->get_context_paths());
+//        dump(count($this->survey->get_context_paths()));
         
         if (count($page_context_paths))
         {
