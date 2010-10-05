@@ -49,7 +49,7 @@ class AdminInstaller extends Installer
 
     function create_languages()
     {	
-    	$root = dirname(__FILE__) . '/../../languages/';
+    	$root = dirname(__FILE__) . '/../../../languages/';
     	$folders = Filesystem :: get_directory_content($root, Filesystem :: LIST_DIRECTORIES, false);
     	
     	foreach($folders as $folder)

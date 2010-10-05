@@ -304,10 +304,8 @@ button.normal:active,a.normal_button:active {
 	color: #ffffff;
 }
 
-button.mini, a.mini_button,
-button.mini:hover, a.mini_button:hover,
-button.mini:active, a.mini_button:active
-{
+button.mini,a.mini_button,button.mini:hover,a.mini_button:hover,button.mini:active,a.mini_button:active
+	{
 	background-position: 6px center;
 	padding: 0px 6px 0px 28px;
 	margin: -3px 0px 0px -3px;
@@ -317,8 +315,7 @@ button.mini:active, a.mini_button:active
 	font-size: 11px;
 }
 
-button.mini, a.mini_button
-{
+button.mini,a.mini_button {
 	border: 1px solid #dedede;
 }
 
@@ -474,7 +471,7 @@ button.continue,a.continue_button {
 	background-image: url(../images/common/buttons/button_continue.png);
 }
 
-button.hide, a.hide_button {
+button.hide,a.hide_button {
 	background-image: url(../images/common/buttons/button_hide.png);
 }
 
@@ -603,8 +600,7 @@ div.element_finder_buttons {
 	margin: 0px 10px 0px 10px;
 }
 
-#selected_image
-{
+#selected_image {
 	border: 1px solid #dedede;
 	margin-bottom: 5px;
 }
@@ -637,9 +633,10 @@ div.filter_form div.row div.formw button {
 /**********************
  * JUMP FORM STYLES *
  **********************/
-#personal_calendar_jump_form select{
-	width : 100%;
+#personal_calendar_jump_form select {
+	width: 100%;
 }
+
 div.jump_form {
 	clear: both;
 	padding: 0px;

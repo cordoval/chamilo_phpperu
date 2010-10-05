@@ -12,7 +12,7 @@ abstract class WebApplication extends BasicApplication
      * application.
      * @param int $object_id The ID of the learning object.
      * @return boolean True if the object is currently published, false
-     *                 otherwise.
+     * otherwise.
      */
     static function content_object_is_published($object_id)
     {
@@ -36,7 +36,7 @@ abstract class WebApplication extends BasicApplication
      * published.
      * @param int $object_id The ID of the learning object.
      * @return array An array of ContentObjectPublicationAttributes objects;
-     *               empty if the object has not been published anywhere.
+     * empty if the object has not been published anywhere.
      */
     static function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
     {
@@ -76,7 +76,7 @@ abstract class WebApplication extends BasicApplication
 
     static function delete_content_object_publication($publication_id)
     {
-    	return true;
+        return true;
     }
 
     static function get_content_object_publication_locations($content_object)
@@ -114,16 +114,16 @@ abstract class WebApplication extends BasicApplication
         $applications = array();
         $path = Path :: get_application_path();
         $directories = Filesystem :: get_directory_content($path, Filesystem :: LIST_DIRECTORIES, false);
-
+        
         foreach ($directories as $directory)
         {
             $application_name = basename($directory);
-
-            if($only_registered_applications && !AdminDataManager :: is_registered($application_name))
+            
+            if ($only_registered_applications && ! AdminDataManager :: is_registered($application_name))
             {
-            	continue;
+                continue;
             }
-
+            
             if (Application :: is_application_name($application_name))
             {
                 if (! in_array($application_name, $applications))
@@ -141,20 +141,20 @@ abstract class WebApplication extends BasicApplication
 
     public static function load_all($include_application_classes = true)
     {
-    	$path = Path :: get_application_path();
+        $path = Path :: get_application_path();
         $adm = AdminDataManager :: get_instance();
         $condition = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_APPLICATION);
         $applications = $adm->retrieve_registrations($condition);
         $active_applications = array();
-
+        
         while ($application = $applications->next_result())
         {
-        	if ($include_application_classes)
+            if ($include_application_classes)
             {
-                require_once $path . $application->get_name() . '/' . $application->get_name() . '_manager/' . $application->get_name() . '_manager.class.php';
+                require_once $path . $application->get_name() . '/php/' . $application->get_name() . '_manager/' . $application->get_name() . '_manager.class.php';
             }
             $active_applications[] = $application->get_name();
-
+        
         }
         return $active_applications;
     }
@@ -168,7 +168,7 @@ abstract class WebApplication extends BasicApplication
     {
         $application_path = self :: get_application_path($name);
         $application_manager_path = $application_path . $name . '_manager' . '/' . $name . '_manager.class.php';
-
+        
         if (file_exists($application_path) && is_dir($application_path) && file_exists($application_manager_path))
         {
             return true;
@@ -184,12 +184,12 @@ abstract class WebApplication extends BasicApplication
         if (self :: is_application($application))
         {
             $adm = AdminDataManager :: get_instance();
-
+            
             $conditions = array();
             $conditions[] = new EqualityCondition(Registration :: PROPERTY_TYPE, 'application');
             $conditions[] = new EqualityCondition(Registration :: PROPERTY_NAME, $application);
             $condition = new AndCondition($conditions);
-
+            
             $registrations = $adm->retrieve_registrations($condition);
             if ($registrations->size() > 0)
             {
@@ -216,15 +216,14 @@ abstract class WebApplication extends BasicApplication
 
     public static function get_application_path($application_name)
     {
-        return Path :: get_application_path() . $application_name . '/';
+        return Path :: get_application_path() . $application_name . '/php/';
     }
 
     public static function get_application_web_path($application_name)
     {
-    	return Path :: get_application_web_path() . $application_name . '/';
+        return Path :: get_application_web_path() . $application_name . '/php/';
     }
-    
-    
+
     public function get_application_component_path()
     {
         $application_name = $this->get_application_name();
@@ -240,17 +239,13 @@ abstract class WebApplication extends BasicApplication
 
     function get_additional_user_information($user)
     {
-    	return null;
+        return null;
     }
 
-	static function get_application_manager_path($application_name)
+    static function get_application_manager_path($application_name)
     {
-    	return self :: get_application_path($application_name) . $application_name . '_manager' . '/' . $application_name . '_manager.class.php';
+        return self :: get_application_path($application_name) . $application_name . '_manager' . '/' . $application_name . '_manager.class.php';
     }
-
-
-
-
 
     public static function get_component_path($application_name)
     {

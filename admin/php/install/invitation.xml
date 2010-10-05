@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <object name="invitation">
 	<properties>
-		<property name="id" type="integer" unsigned="1" notnull="1" autoincrement="true" />
+		<property name="id" type="integer" unsigned="1" notnull="1"
+			autoincrement="true" />
 		<property name="application" type="text" length="30" fixed="true" />
 		<property name="date" type="integer" unsigned="1" notnull="1" />
-		<property name="expiration_date" type="integer" unsigned="1" notnull="1" />
-		<property name="code" type="text" fixed="true" length="150" notnull="1" default="" />
+		<property name="expiration_date" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="code" type="text" fixed="true" length="150"
+			notnull="1" default="" />
 		<property name="parameters" type="text" />
-		<property name="anonymous" type="integer" length="1" unsigned="1" notnull="1" default="0" />
+		<property name="anonymous" type="integer" length="1"
+			unsigned="1" notnull="1" default="0" />
 		<property name="title" type="text" notnull="1" />
 		<property name="message" type="text" />
 		<property name="email" type="text" fixed="true" length="100" />
 		<property name="rights_templates" type="text" />
-		<property name="user_created" type="integer" length="1" unsigned="1" notnull="1" default="0" />
+		<property name="user_created" type="integer" length="1"
+			unsigned="1" notnull="1" default="0" />
 	</properties>
 </object>

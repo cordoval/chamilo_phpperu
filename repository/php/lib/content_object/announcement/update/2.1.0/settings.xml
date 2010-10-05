@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <application name="repository">
 	<settings>
-			
-			<setting name="test" default="1" type="1"/>
-			<setting name="test1" default="0" type="1"/>
-			
+
+		<setting name="test" default="1" type="1" />
+		<setting name="test1" default="0" type="1" />
+
 	</settings>
 </application>

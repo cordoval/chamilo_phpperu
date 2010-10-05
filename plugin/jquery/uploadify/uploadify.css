@@ -13,9 +13,11 @@ Co-developed by Travis Nickels
 	padding: 10px;
 	width: 300px;
 }
+
 .fileUploadQueueItem .cancel {
 	float: right;
 }
+
 .fileUploadProgress {
 	background-color: #FFFFFF;
 	border-top: 1px solid #808080;
@@ -25,6 +27,7 @@ Co-developed by Travis Nickels
 	margin-top: 10px;
 	width: 100%;
 }
+
 .fileUploadProgressBar {
 	background-color: #0099FF;
 }

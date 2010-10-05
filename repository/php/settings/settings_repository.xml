@@ -2,7 +2,8 @@
 <application name="repository">
 	<settings>
 		<category name="administrator">
-			<setting name="description_required" field="checkbox" default="1">
+			<setting name="description_required" field="checkbox"
+				default="1">
 				<options type="static">
 					<option name="description_required" value="1" />
 				</options>
@@ -12,7 +13,8 @@
 
 		</category>
 		<category name="rights">
-			<setting name="use_cumulative_rights" field="checkbox" default="0">
+			<setting name="use_cumulative_rights" field="checkbox"
+				default="0">
 				<options type="static">
 					<option name="use_cumulative_rights" value="1" />
 				</options>

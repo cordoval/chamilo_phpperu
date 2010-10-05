@@ -20,32 +20,26 @@
  *
  * Styles used by the dialog boxes.
  */
-
-html, body
-{
+html,body {
 	background-color: transparent;
 	margin: 0px;
 	padding: 0px;
 }
 
-body
-{
+body {
 	padding: 10px;
 }
 
-body, td, input, select, textarea
-{
+body,td,input,select,textarea {
 	font-size: 11px;
-	font-family: 'Microsoft Sans Serif' , Arial, Helvetica, Verdana;
+	font-family: 'Microsoft Sans Serif', Arial, Helvetica, Verdana;
 }
 
-body, .BackColor
-{
+body,.BackColor {
 	background-color: #f7f7f7;
 }
 
-.PopupBody
-{
+.PopupBody {
 	height: 100%;
 	width: 100%;
 	overflow: hidden;
@@ -53,13 +47,11 @@ body, .BackColor
 	padding: 0px;
 }
 
-#header
-{
+#header {
 	cursor: move;
 }
 
-.PopupTitle
-{
+.PopupTitle {
 	font-weight: bold;
 	font-size: 14pt;
 	color: #504845;
@@ -67,8 +59,7 @@ body, .BackColor
 	padding: 3px 10px 3px 10px;
 }
 
-.PopupButtons
-{
+.PopupButtons {
 	position: absolute;
 	right: 0px;
 	left: 0px;
@@ -78,47 +69,39 @@ body, .BackColor
 	padding: 7px 10px 7px 10px;
 }
 
-.Button
-{
+.Button {
 	border: #7a7261 1px solid;
 	color: #504845;
 	background-color: #cec6b5;
 }
 
-#btnOk
-{
+#btnOk {
 	width: 100px;
 }
 
-.DarkBackground
-{
+.DarkBackground {
 	background-color: #f2f2f2;
 }
 
-.LightBackground
-{
+.LightBackground {
 	background-color: #ffffbe;
 }
 
-.PopupTitleBorder
-{
+.PopupTitleBorder {
 	border-bottom: #cec6b5 1px solid;
 }
 
-.PopupTabArea
-{
+.PopupTabArea {
 	color: #504845;
 	background-color: #DEDEDE;
 }
 
-.PopupTabEmptyArea
-{
-	padding-left: 10px ;
+.PopupTabEmptyArea {
+	padding-left: 10px;
 	border-bottom: #cec6b5 1px solid;
 }
 
-.PopupTab, .PopupTabSelected
-{
+.PopupTab,.PopupTabSelected {
 	border-right: #cec6b5 1px solid;
 	border-top: #cec6b5 1px solid;
 	border-left: #cec6b5 1px solid;
@@ -126,42 +109,36 @@ body, .BackColor
 	color: #504845;
 }
 
-.PopupTab
-{
+.PopupTab {
 	margin-top: 1px;
 	border-bottom: #cec6b5 1px solid;
 	cursor: pointer;
 	cursor: hand;
 }
 
-.PopupTabSelected
-{
-	font-weight:bold;
+.PopupTabSelected {
+	font-weight: bold;
 	cursor: default;
 	padding-top: 4px;
 	border-bottom: #f1f1e3 1px solid;
 	background-color: #f7f7f7;
 }
 
-.PopupSelectionBox
-{
+.PopupSelectionBox {
 	border: #a9a9a9 1px solid !important;
 	background-color: #dcdcdc !important;
 	cursor: pointer;
 	cursor: hand;
 }
 
-#tdBrowse
-{
+#tdBrowse {
 	vertical-align: bottom;
 }
 
 /**
  * Dialog frame related styles.
  */
-
-.contents
-{
+.contents {
 	position: absolute;
 	top: 2px;
 	left: 16px;
@@ -172,44 +149,37 @@ body, .BackColor
 	z-index: 1;
 }
 
-.tl, .tr, .tc, .bl, .br, .bc
-{
+.tl,.tr,.tc,.bl,.br,.bc {
 	position: absolute;
 	background-image: url(images/sprites.png);
 	background-repeat: no-repeat;
 }
 
-* html .tl, * html .tr, * html .tc, * html .bl, * html .br, * html .bc
-{
+* html .tl,* html .tr,* html .tc,* html .bl,* html .br,* html .bc {
 	background-image: url(images/sprites.gif);
 }
 
-.ml, .mr
-{
+.ml,.mr {
 	position: absolute;
 	background-image: url(images/dialog.sides.png);
 	background-repeat: repeat-y;
 }
 
-* html .ml, * html .mr
-{
+* html .ml,* html .mr {
 	background-image: url(images/dialog.sides.gif);
 }
 
-.rtl .ml, .rtl .mr
-{
+.rtl .ml,.rtl .mr {
 	position: absolute;
 	background-image: url(images/dialog.sides.rtl.png);
 	background-repeat: repeat-y;
 }
 
-* html .rtl .ml, * html .rtl .mr
-{
+* html .rtl .ml,* html .rtl .mr {
 	background-image: url(images/dialog.sides.gif);
 }
 
-.tl
-{
+.tl {
 	top: 0px;
 	left: 0px;
 	width: 16px;
@@ -217,13 +187,11 @@ body, .BackColor
 	background-position: -16px -16px;
 }
 
-.rtl .tl
-{
+.rtl .tl {
 	background-position: -16px -397px;
 }
 
-.tr
-{
+.tr {
 	top: 0px;
 	right: 0px;
 	width: 16px;
@@ -231,13 +199,11 @@ body, .BackColor
 	background-position: -16px -76px;
 }
 
-.rtl .tr
-{
+.rtl .tr {
 	background-position: -16px -457px;
 }
 
-.tc
-{
+.tc {
 	top: 0px;
 	right: 16px;
 	left: 16px;
@@ -246,8 +212,7 @@ body, .BackColor
 	background-repeat: repeat-x;
 }
 
-.ml
-{
+.ml {
 	top: 16px;
 	left: 0px;
 	width: 16px;
@@ -255,8 +220,7 @@ body, .BackColor
 	background-position: 0px 0px;
 }
 
-.mr
-{
+.mr {
 	top: 16px;
 	right: 0px;
 	width: 16px;
@@ -264,8 +228,7 @@ body, .BackColor
 	background-position: -16px 0px;
 }
 
-.bl
-{
+.bl {
 	bottom: 0px;
 	left: 0px;
 	width: 30px;
@@ -273,13 +236,11 @@ body, .BackColor
 	background-position: -16px -196px;
 }
 
-.rtl .bl
-{
+.rtl .bl {
 	background-position: -16px -517px;
 }
 
-.br
-{
+.br {
 	bottom: 0px;
 	right: 0px;
 	width: 30px;
@@ -287,13 +248,11 @@ body, .BackColor
 	background-position: -16px -263px;
 }
 
-.rtl .br
-{
+.rtl .br {
 	background-position: -16px -584px;
 }
 
-.bc
-{
+.bc {
 	bottom: 0px;
 	right: 30px;
 	left: 30px;
@@ -303,18 +262,16 @@ body, .BackColor
 }
 
 /* For IE6. Do not change it. */
-* html .blocker
-{
+* html .blocker {
 	position: absolute;
 	width: 100%;
 	height: 100%;
 	z-index: 12;
-	filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+	filter: progid : DXImageTransform.Microsoft.Alpha ( opacity = 0 );
 }
 
 /* The layer used to cover the dialog when opening a child dialog. */
-.cover
-{
+.cover {
 	position: absolute;
 	top: 0px;
 	left: 14px;
@@ -323,8 +280,7 @@ body, .BackColor
 	z-index: 11;
 }
 
-#closeButton
-{
+#closeButton {
 	position: absolute;
 	right: 0px;
 	top: 0px;
@@ -338,65 +294,54 @@ body, .BackColor
 	background-position: -16px -651px;
 }
 
-* html #closeButton
-{
+* html #closeButton {
 	cursor: hand;
 	background-image: url(images/sprites.gif);
 }
 
-.rtl #closeButton
-{
+.rtl #closeButton {
 	right: auto;
 	left: 10px;
 	margin-right: 0px;
 }
 
-#closeButton:hover
-{
+#closeButton:hover {
 	background-position: -16px -687px;
 }
 
-#throbberBlock
-{
+#throbberBlock {
 	z-index: 10;
 }
 
-#throbberBlock div
-{
+#throbberBlock div {
 	float: left;
 	width: 8px;
 	height: 9px;
 	margin-left: 2px;
 	margin-right: 2px;
-	font-size: 1px;	/* IE6 */
+	font-size: 1px; /* IE6 */
 }
 
 /*
 	Color Gradient Generator:
 	http://www.herethere.net/~samson/php/color_gradient/?cbegin=504845&cend=DEDEDE&steps=4
 */
-
-.throbber_1
-{
+.throbber_1 {
 	background-color: #504845;
 }
 
-.throbber_2
-{
+.throbber_2 {
 	background-color: #736D6B;
 }
 
-.throbber_3
-{
+.throbber_3 {
 	background-color: #979391;
 }
 
-.throbber_4
-{
+.throbber_4 {
 	background-color: #BAB8B7;
 }
 
-.throbber_5
-{
+.throbber_5 {
 	background-color: #DEDEDE;
 }

@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<tool name="maintenance">
-	<properties>
-		<property name="section" value="course_admin"/>
-	</properties>
-</tool>

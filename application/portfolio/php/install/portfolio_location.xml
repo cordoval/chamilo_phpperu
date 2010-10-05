@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="portfolio_location">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1"
+			autoincrement="true" />
+		<property name="left_value" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="right_value" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="parent_id" type="integer" unsigned="1"
+			notnull="1" default="" />
+		<property name="inherit" type="integer" length="1" notnull="1"
+			unsigned="1" default="1" />
+		<property name="locked" type="boolean" default="0" />
+		<property name="owner_id" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="item_id" type="integer" unsigned="1" notnull="1" />
+		<property name="type" type="text" length="20" fixed="true"
+			notnull="1" />
+	</properties>
+	<index name="parent_id">
+		<indexproperty name="parent_id" />
+	</index>
+	<index name="type">
+		<indexproperty name="type" />
+	</index>
+	<index name="item_id">
+		<indexproperty name="item_id" />
+	</index>
+	$
+	<index name="owner_id">
+		<indexproperty name="owner_id" />
+	</index>
+</object>

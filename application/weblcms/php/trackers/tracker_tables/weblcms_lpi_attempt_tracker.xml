@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="weblcms_lpi_attempt_tracker">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1"
+			autoincrement="true" />
+		<property name="lp_item_id" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="lp_view_id" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="start_time" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="total_time" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="score" type="integer" unsigned="1" notnull="1"
+			default="0" />
+		<property name="status" type="text" length="50" fixed="true"
+			notnull="1" default="incomplete" />
+		<property name="lesson_location" type="text" length="255"
+			fixed="true" />
+		<property name="suspend_data" type="text" />
+		<property name="min_score" type="integer" unsigned="1"
+			notnull="1" default="0" />
+		<property name="max_score" type="integer" unsigned="1"
+			notnull="1" default="0" />
+	</properties>
+	<index name="lp_view_id">
+		<indexproperty name="lp_view_id" />
+		<indexproperty name="lp_item_id" />
+	</index>
+	<index name="lp_view_id">
+		<indexproperty name="lp_view_id" />
+	</index>
+	<index name="lp_item_id">
+		<indexproperty name="lp_item_id" />
+	</index>
+</object>

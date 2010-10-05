@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <object name="content_object_group_share">
 	<properties>
-		<property name="content_object_id" type="integer" unsigned="1" notnull="1" default="0" />
-		<property name="group_id" type="integer" unsigned="1" notnull="1" default="0" />
-		<property name="right_id" type="boolean" default="0"/>
+		<property name="content_object_id" type="integer" unsigned="1"
+			notnull="1" default="0" />
+		<property name="group_id" type="integer" unsigned="1"
+			notnull="1" default="0" />
+		<property name="right_id" type="boolean" default="0" />
 	</properties>
 	<index name="co_group" type="primary">
 		<indexproperty name="content_object_id" />

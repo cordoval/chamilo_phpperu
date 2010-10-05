@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <object name="tracker_setting">
 	<properties>
-		<property name="id" type="integer" unsigned="1" notnull="1" autoincrement="true" />
+		<property name="id" type="integer" unsigned="1" notnull="1"
+			autoincrement="true" />
 		<property name="tracker_id" type="integer" unsigned="1"
 			notnull="1" />
 		<property name="setting" type="text" length="50" fixed="true"

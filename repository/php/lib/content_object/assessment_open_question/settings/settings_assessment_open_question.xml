@@ -2,10 +2,11 @@
 <application name="repository">
 	<settings>
 		<category name="assessment_open_question">
-			<setting name="allow_assessment_open_question_creation" field="checkbox"
-				default="1">
+			<setting name="allow_assessment_open_question_creation"
+				field="checkbox" default="1">
 				<options type="static">
-					<option name="allow_assessment_open_question_creation" value="1" />
+					<option name="allow_assessment_open_question_creation"
+						value="1" />
 				</options>
 			</setting>
 		</category>

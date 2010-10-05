@@ -2,11 +2,10 @@
 <application name="repository">
 	<settings>
 		<category name="fill_in_blanks_question">
-			<setting name="allow_fill_in_blanks_question_creation"
-				field="checkbox" default="1">
+			<setting name="allow_fill_in_blanks_question_creation" field="checkbox"
+				default="1">
 				<options type="static">
-					<option name="allow_fill_in_blanks_question_creation"
-						value="0" />
+					<option name="allow_fill_in_blanks_question_creation" value="0" />
 				</options>
 			</setting>
 		</category>

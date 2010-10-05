@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="course_type_settings">
+	<properties>
+		<property name="course_type_id" type="integer" notnull="1" />
+		<property name="titular_fixed" type="boolean" default="0" />
+		<property name="language" type="text" length="255" fixed="true"
+			default="English" />
+		<property name="language_fixed" type="boolean" default="0" />
+		<property name="visibility" type="boolean" default="1" />
+		<property name="visibility_fixed" type="boolean" default="0" />
+		<property name="access" type="boolean" default="1" />
+		<property name="access_fixed" type="boolean" default="0" />
+		<property name="max_number_of_members" type="integer"
+			default="0" />
+		<property name="max_number_of_members_fixed" type="boolean"
+			default="0" />
+	</properties>
+	<index name="course_type_id" type="primary">
+		<indexproperty name="course_type_id" />
+	</index>
+</object>

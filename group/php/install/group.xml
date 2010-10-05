@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <object name="group">
 	<properties>
-		<property name="id" type="integer" unsigned="1" notnull="1" autoincrement="true" />
-		<property name="name" type="text" length="255" notnull="1" default="" />
+		<property name="id" type="integer" unsigned="1" notnull="1"
+			autoincrement="true" />
+		<property name="name" type="text" length="255" notnull="1"
+			default="" />
 		<property name="description" type="text" />
 		<property name="parent_id" type="integer" unsigned="1"
 			notnull="1" />
@@ -11,7 +13,8 @@
 		<property name="right_value" type="integer" unsigned="1"
 			notnull="1" />
 		<property name="sort" type="integer" unsigned="1" notnull="1" />
-		<property name="code" type="text" length="50" fixed="1" notnull="1" default="" />
+		<property name="code" type="text" length="50" fixed="1"
+			notnull="1" default="" />
 	</properties>
 	<index name="parent_id">
 		<indexproperty name="parent_id" />

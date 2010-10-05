@@ -16,8 +16,7 @@ img {
 	border: none;
 }
 
-img.with_border
-{
+img.with_border {
 	border: 1px solid #c0c0c0;
 }
 
@@ -1201,8 +1200,7 @@ div.action_bar {
 		no-repeat;
 }
 
-.action_bar_text
-{
+.action_bar_text {
 	display: none;
 }
 
@@ -1221,26 +1219,22 @@ div.action_bar_text div.bevel {
 	padding: 5px 10px 5px 10px;
 }
 
-div.action_bar table
-{
+div.action_bar table {
 	border-spacing: 0px;
 	padding: 0px;
 	margin: 0px;
 	width: 100%;
 }
 
-div.action_bar .common_menu,
-div.action_bar .tool_menu,
-div.action_bar .search_menu
-{
+div.action_bar .common_menu,div.action_bar .tool_menu,div.action_bar .search_menu
+	{
 	padding: 5px 5px 5px 5px;
 	width: 33%;
 	vertical-align: top;
 }
 
-div.action_bar .tool_menu
-{
-	width: 34%;	
+div.action_bar .tool_menu {
+	width: 34%;
 }
 
 div.action_bar .search_menu div.search_form {
@@ -1360,8 +1354,8 @@ div.reporting_filter_text {
 	-moz-border-radius-bottomright: 15px;
 	-webkit-border-top-left-radius: 15px;
 	-webkit-border-bottom-right-radius: 15px;
-	background: #d4e0f1 url(../images/common/background_reporting_filter.png)
-		no-repeat;
+	background: #d4e0f1
+		url(../images/common/background_reporting_filter.png) no-repeat;
 }
 
 div.reporting_filter_text img {
@@ -1377,12 +1371,11 @@ div.reporting_filter {
 	-webkit-border-top-left-radius: 15px;
 	-webkit-border-bottom-right-radius: 15px;
 	/*height: 60px;*/
-	background: #d4e0f1 url(../images/common/background_reporting_filter.png)
-		no-repeat;
+	background: #d4e0f1
+		url(../images/common/background_reporting_filter.png) no-repeat;
 }
 
-.reporting_filter_text
-{
+.reporting_filter_text {
 	display: none;
 }
 
@@ -1401,26 +1394,22 @@ div.reporting_filter_text div.bevel {
 	padding: 5px 10px 5px 10px;
 }
 
-div.reporting_filter table
-{
+div.reporting_filter table {
 	border-spacing: 0px;
 	padding: 0px;
 	margin: 0px;
 	width: 100%;
 }
 
-div.reporting_filter .common_menu,
-div.reporting_filter .tool_menu,
-div.reporting_filter .search_menu
-{
+div.reporting_filter .common_menu,div.reporting_filter .tool_menu,div.reporting_filter .search_menu
+	{
 	padding: 5px 5px 5px 5px;
 	width: 33%;
 	vertical-align: top;
 }
 
-div.reporting_filter .tool_menu
-{
-	width: 34%;	
+div.reporting_filter .tool_menu {
+	width: 34%;
 }
 
 div.reporting_filter .search_menu div.search_form {
@@ -2280,7 +2269,7 @@ div.time_left {
 	border: 1px solid #ffd89b;
 	background-color: #fff8aa;
 	text-align: center;
-	margin-top: -10px;	
+	margin-top: -10px;
 }
 
 div.time {
@@ -2393,6 +2382,7 @@ div.complex_browser_display {
 div.complex_browser_display div.content_object div.title {
 	color: #4271B5;
 }
+
 /*
 div.create_block {
 	background-repeat: no-repeat;	
@@ -2409,7 +2399,7 @@ div.create_block {
 }
 */
 div.create_category {
-	background-repeat: no-repeat;	
+	background-repeat: no-repeat;
 	background-position: 10px center;
 	background-color: #F6F6F6;
 	float: left;
@@ -2425,8 +2415,7 @@ div.create_category {
 	/*height: 200px;*/
 }
 
-div.create_category span.title
-{
+div.create_category span.title {
 	display: block;
 	border-bottom: dotted 1px grey;
 	clear: both;
@@ -2463,15 +2452,13 @@ div.create_block {
 	overflow: auto;
 }
 
-div.no_thumbnail, div.no_preview
-{
+div.no_thumbnail,div.no_preview {
 	border: 1px solid #cccccc;
 	background-color: white;
 	padding: 15px;
 	width: 300px;
 	text-align: center;
 	color: #797268;
-	
 	-webkit-border-top-left-radius: 10px;
 	-webkit-border-top-right-radius: 0px;
 	-webkit-border-bottom-right-radius: 5px;
@@ -2486,16 +2473,13 @@ div.no_thumbnail, div.no_preview
 	border-bottom-left-radius: 0px;
 }
 
-div.no_thumbnail
-{
+div.no_thumbnail {
 	width: 150px;
 	border-width: 0px;
 	padding: 0px;
 }
 
-div.no_thumbnail div.background,
-div.no_preview div.background
-{
+div.no_thumbnail div.background,div.no_preview div.background {
 	border: 1px solid #cccccc;
 	background-color: #efefef;
 	padding: 15px;
@@ -2505,20 +2489,17 @@ div.no_preview div.background
 	background-repeat: repeat-x;
 }
 
-div.no_thumbnail div.background
-{
+div.no_thumbnail div.background {
 	width: 118px;
 	padding: 15px;
 }
 
-div.no_thumbnail div.background h3
-{
+div.no_thumbnail div.background h3 {
 	color: #797268;
 	font-size: 95%;
 }
 
-iframe.preview
-{
+iframe.preview {
 	border: 1px solid #cccccc;
 	width: 100%;
 	height: 300px;

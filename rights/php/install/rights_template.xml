@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <object name="rights_template">
 	<properties>
-		<property name="id" type="integer" unsigned="1" notnull="1" autoincrement="true" />
+		<property name="id" type="integer" unsigned="1" notnull="1"
+			autoincrement="true" />
 		<property name="name" type="text" length="250" fixed="true"
 			unsigned="1" notnull="1" />
 		<property name="type" type="text" length="40" fixed="true"

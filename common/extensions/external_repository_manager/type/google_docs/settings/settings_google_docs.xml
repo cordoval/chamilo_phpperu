@@ -2,7 +2,8 @@
 <application name="google_docs">
 	<settings>
 		<category name="credentials">
-			<setting name="session_token" field="text" default="" user_setting="1"/>
+			<setting name="session_token" field="text" default=""
+				user_setting="1" />
 		</category>
 	</settings>
 </application>

@@ -2,8 +2,9 @@
 <application name="admin">
 	<settings>
 		<category name="administrator">
-                     
-			<setting name="show_administrator_data" field="checkbox" default="1">
+
+			<setting name="show_administrator_data" field="checkbox"
+				default="1">
 				<options type="static">
 					<option name="show_administrator_data" value="1" />
 				</options>
@@ -11,7 +12,8 @@
 			<setting name="administrator_firstname" field="text" default="Chamilo" />
 
 			<setting name="administrator_surname" field="text" default="Administrator" />
-			<setting name="administrator_email" field="text" default="chamilo.admin@mychamilo.com">
+			<setting name="administrator_email" field="text"
+				default="chamilo.admin@mychamilo.com">
 				<validations>
 					<validation rule="email" message="MustBeAnEMailAddress" />
 				</validations>
@@ -35,7 +37,8 @@
 		<category name="platform">
 			<setting name="site_name" field="text" default="Chamilo" />
 			<setting name="institution" field="text" default="Chamilo" />
-			<setting name="institution_url" field="text" default="http://www.chamilo.org">
+			<setting name="institution_url" field="text"
+				default="http://www.chamilo.org">
 				<validations>
 					<validation rule="regex" format="/http:\/\/.*/" message="MustStartWithHTTP" />
 				</validations>
@@ -48,7 +51,8 @@
 			<setting name="page_after_login" field="select" default="home">
 				<options type="dynamic" source="get_active_applications" />
 			</setting>
-			<setting name="public_pages_compliance_to_wai" field="checkbox" default="0">
+			<setting name="public_pages_compliance_to_wai" field="checkbox"
+				default="0">
 				<options type="static">
 					<option name="public_pages_compliance_to_wai" value="1" />
 				</options>
@@ -58,46 +62,56 @@
 					<option name="hide_dcda_markup" value="1" />
 				</options>
 			</setting>
-			<setting name="show_variable_in_translation" field="checkbox" default="0">
+			<setting name="show_variable_in_translation" field="checkbox"
+				default="0">
 				<options type="static">
 					<option name="show_variable_in_translation" value="1" />
 				</options>
 			</setting>
-			<setting name="platform_timezone" field="select" default="Europe/Brussels" user_setting="1">
+			<setting name="platform_timezone" field="select" default="Europe/Brussels"
+				user_setting="1">
 				<options type="dynamic" source="get_time_zones" />
 			</setting>
-			<setting name="active_online_email_editor" field="checkbox" default="0">
+			<setting name="active_online_email_editor" field="checkbox"
+				default="0">
 				<options type="static">
 					<option name="active_online_email_editor" value="1" />
 				</options>
 			</setting>
-			<setting name="installation_blocked" field="checkbox" default="0">
+			<setting name="installation_blocked" field="checkbox"
+				default="0">
 				<options type="static">
 					<option name="installation_blocked" value="1" />
 				</options>
 			</setting>
 		</category>
 		<category name="calendar">
-			<setting name="working_hours_start" field="select" default="0" user_setting="1">
+			<setting name="working_hours_start" field="select" default="0"
+				user_setting="1">
 				<options type="dynamic" source="get_working_hours" />
 			</setting>
-			<setting name="working_hours_end" field="select" default="24" user_setting="1">
+			<setting name="working_hours_end" field="select" default="24"
+				user_setting="1">
 				<options type="dynamic" source="get_working_hours" />
 			</setting>
-			<setting name="hide_none_working_hours" field="checkbox" default="0" user_setting="1">
+			<setting name="hide_none_working_hours" field="checkbox"
+				default="0" user_setting="1">
 				<options type="static">
 					<option name="hide_none_working_hours" value="1" />
 				</options>
 			</setting>
 		</category>
 		<category name="visual">
-			<setting name="platform_language" field="select" default="english" user_setting="1">
+			<setting name="platform_language" field="select" default="english"
+				user_setting="1">
 				<options type="dynamic" source="get_languages" />
 			</setting>
-			<setting name="theme" field="select" default="aqua" user_setting="1">
+			<setting name="theme" field="select" default="aqua"
+				user_setting="1">
 				<options type="dynamic" source="get_themes" />
 			</setting>
-			<setting name="html_editor" field="radio" default="ckeditor" user_setting="1">
+			<setting name="html_editor" field="radio" default="ckeditor"
+				user_setting="1">
 				<options type="static">
 					<option name="CKEditor" value="ckeditor" />
 					<option name="TinyMCE" value="tinymce" />
@@ -109,7 +123,8 @@
 				</options>
 			</setting>
 			<setting name="portal_home" field="html_editor" default="" />
-			<setting name="allow_portal_functionality" field="checkbox" default="1">
+			<setting name="allow_portal_functionality" field="checkbox"
+				default="1">
 				<options type="static">
 					<option name="allow_portal_functionality" value="1" />
 				</options>

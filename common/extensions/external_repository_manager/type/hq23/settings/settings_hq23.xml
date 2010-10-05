@@ -12,6 +12,6 @@
 					<validation rule="required" message="ThisFieldIsRequired" />
 				</validations>
 			</setting>
-					</category>
+		</category>
 	</settings>
 </application>

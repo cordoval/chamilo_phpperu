@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="metadata_attribute_nesting">
+	<properties>
+		<property name="parent_id" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="child_id" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="child_type" type="text" length="255" notnull="1" />
+	</properties>
+	<index name="id" type="primary">
+		<indexproperty name="parent_id" />
+		<indexproperty name="child_id" />
+		<indexproperty name="child_type" />
+	</index>
+</object>

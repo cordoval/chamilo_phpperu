@@ -3,8 +3,7 @@
 	<properties>
 		<property name="survey_id" type="integer" unsigned="1"
 			notnull="1" />
-		<property name="page_id" type="integer" unsigned="1"
-			notnull="1" />
+		<property name="page_id" type="integer" unsigned="1" notnull="1" />
 		<property name="template_id" type="integer" unsigned="1"
 			notnull="1" />
 	</properties>

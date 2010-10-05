@@ -52,7 +52,7 @@
 		// Determine tool text class
 		var tool_text = $("#tool_text", parent);
 		
-		$.post("./application/lib/weblcms/ajax/change_course_module_visibility.php", 
+		$.post("./application/weblcms/php/ajax/change_course_module_visibility.php", 
 	    {
 	    	tool:  tool,
 	    	visible: new_visible
@@ -124,7 +124,7 @@
 		var section = $(this).attr("id");
 		var order = $(this).sortable("serialize");
 
-		$.post("./application/lib/weblcms/ajax/block_sort.php", 
+		$.post("./application/weblcms/php/ajax/block_sort.php", 
 		{
 			section : section,
 			order : order

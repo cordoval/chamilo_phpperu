@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="survey_invitation">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1"
+			autoincrement="true" />
+		<property name="user_id" type="integer" notnull="1" default="0" />
+		<property name="survey_id" type="integer" notnull="1" />
+		<property name="invitation_code" type="text" notnull="1" />
+		<property name="email" type="text" notnull="0" />
+		<property name="valid" type="boolean" />
+	</properties>
+</object>

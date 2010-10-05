@@ -4,9 +4,12 @@
 	xsi:schemaLocation="info:fedora/fedora-system:def/foxml#
                                          http://www.fedora.info/definitions/1/0/foxml1-1.xsd">
 	<foxml:objectProperties>
-		<foxml:property NAME="info:fedora/fedora-system:def/model#state" VALUE="A" />
-		<foxml:property NAME="info:fedora/fedora-system:def/model#label" VALUE="TO_DEFINE" />
-		<foxml:property NAME="info:fedora/fedora-system:def/model#ownerId" VALUE="TO_DEFINE" />
+		<foxml:property NAME="info:fedora/fedora-system:def/model#state"
+			VALUE="A" />
+		<foxml:property NAME="info:fedora/fedora-system:def/model#label"
+			VALUE="TO_DEFINE" />
+		<foxml:property NAME="info:fedora/fedora-system:def/model#ownerId"
+			VALUE="TO_DEFINE" />
 	</foxml:objectProperties>
 
 	<foxml:datastream ID="DC" STATE="A" CONTROL_GROUP="X">
@@ -27,7 +30,8 @@
 	</foxml:datastream>
 
 	<foxml:datastream CONTROL_GROUP="M" ID="LOM" STATE="A">
-		<foxml:datastreamVersion ID="LOM.0" MIMETYPE="text/xml" LABEL="Learning Object Metadata XML">
+		<foxml:datastreamVersion ID="LOM.0" MIMETYPE="text/xml"
+			LABEL="Learning Object Metadata XML">
 			<foxml:xmlContent>
 				<lom>TO_DEFINE</lom>
 			</foxml:xmlContent>

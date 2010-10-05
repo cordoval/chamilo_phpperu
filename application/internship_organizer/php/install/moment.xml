@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="moment">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1"
+			autoincrement="true" />
+		<property name="moment_name" type="text" notnull="1" />
+		<property name="moment_description" type="text" />
+		<property name="moment_begin" type="integer" notnull="1" />
+		<property name="moment_end" type="integer" notnull="1" />
+		<property name="moment_agreement_id" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="moment_owner_id" type="integer" unsigned="1"
+			notnull="1" />
+	</properties>
+</object>

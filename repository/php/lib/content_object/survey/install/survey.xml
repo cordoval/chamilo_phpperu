@@ -5,7 +5,8 @@
 		<property name="header" type="text" notnull="0" />
 		<property name="footer" type="text" notnull="0" />
 		<property name="finish_text" type="text" notnull="0" />
-		<property name="context_template_id" type="integer" default='0' unsigned="1" notnull="0" />
+		<property name="context_template_id" type="integer" default='0'
+			unsigned="1" notnull="0" />
 	</properties>
 	<index name="id" type="primary">
 		<indexproperty name="id" />

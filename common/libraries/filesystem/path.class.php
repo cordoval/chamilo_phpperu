@@ -263,7 +263,7 @@ class Path
 
     public static function get_migration_path()
     {
-        return self :: get(SYS_APP_MIGRATION_PATH);
+        return self :: get(SYS_APP_MIGRATION_PATH) . 'php/';
     }
 
     public static function get_admin_path()
@@ -329,12 +329,12 @@ class Path
 
     public static function get_web_application_path($application_name)
     {
-        return Path :: get_application_path() . 'lib/' . $application_name . '/';
+        return Path :: get_application_path() . $application_name . '/';
     }
 
     public static function get_web_application_component_path($application_name)
     {
-        return self :: get_web_application_path($application_name) . '/lib/' . $application_name . '_manager/component/';
+        return self :: get_web_application_path($application_name) . 'php/' . $application_name . '_manager/component/';
     }
 
     public static function get_temp_path()

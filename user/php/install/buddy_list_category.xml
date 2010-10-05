@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <object name="buddy_list_category">
 	<properties>
-		<property name="id" type="integer" unsigned="1" notnull="1" autoincrement="true" />
+		<property name="id" type="integer" unsigned="1" notnull="1"
+			autoincrement="true" />
 		<property name="title" type="text" length="50" fixed="true"
 			notnull="1" default="category title" />
 		<property name="user_id" type="integer" unsigned="1" notnull="1" />

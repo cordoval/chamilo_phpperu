@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="scale">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1"
+			autoincrement="true" />
+		<property name="cluster_id" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="title" type="text" notnull="1" />
+		<property name="description" type="text" notnull="1" />
+	</properties>
+	<index name="cluster_id">
+		<indexproperty name="cluster_id" />
+	</index>
+</object>

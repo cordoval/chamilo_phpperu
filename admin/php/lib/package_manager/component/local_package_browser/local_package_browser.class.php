@@ -137,7 +137,7 @@ class LocalPackageBrowser
     {
         $applications = array();
         
-        $application_path = Path :: get_application_path() . 'lib/';
+        $application_path = Path :: get_application_path();
         $application_folders = Filesystem :: get_directory_content($application_path, Filesystem :: LIST_DIRECTORIES, false);
         
         $condition = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_APPLICATION);

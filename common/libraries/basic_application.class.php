@@ -9,13 +9,13 @@ abstract class BasicApplication extends Application
     public static function get_selecter($url, $current_application = null)
     {
         $html = array();
-
+        
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/application.js');
         $html[] = '<div class="application_selecter">';
-
+        
         $the_applications = WebApplication :: load_all();
         $the_applications = array_merge(CoreApplication :: get_list(), $the_applications);
-
+        
         foreach ($the_applications as $the_application)
         {
             if (isset($current_application) && $current_application == $the_application)
@@ -26,17 +26,17 @@ abstract class BasicApplication extends Application
             {
                 $type = 'application';
             }
-
+            
             $application_name = Translation :: get(Utilities :: underscores_to_camelcase($the_application));
-
+            
             $html[] = '<a href="' . str_replace(self :: PLACEHOLDER_APPLICATION, $the_application, $url) . '">';
             $html[] = '<div class="' . $type . '" style="background-image: url(' . Theme :: get_image_path('admin') . 'place_' . $the_application . '.png);">' . $application_name . '</div>';
             $html[] = '</a>';
         }
-
+        
         $html[] = '</div>';
         $html[] = '<div style="clear: both;"></div>';
-
+        
         return implode("\n", $html);
     }
 
@@ -56,9 +56,9 @@ abstract class BasicApplication extends Application
             return false;
         }
     }
-    
+
     static function get_application_web_path($application_name)
-{
+    {
         if (WebApplication :: is_application($application_name))
         {
             return WebApplication :: get_application_web_path($application_name);

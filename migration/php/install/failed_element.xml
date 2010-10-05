@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="failed_element">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1"
+			autoincrement="1" />
+		<property name="failed_id" type="text" length="50" notnull="1" />
+		<property name="failed_table_name" type="text" length="50"
+			notnull="1" />
+	</properties>
+	<index name="failed_id">
+		<indexproperty name="failed_id" />
+		<indexproperty name="failed_table_name" />
+	</index>
+</object>

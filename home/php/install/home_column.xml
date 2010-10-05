@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <object name="column">
 	<properties>
-		<property name="id" type="integer" unsigned="1" notnull="1" autoincrement="true" />
+		<property name="id" type="integer" unsigned="1" notnull="1"
+			autoincrement="true" />
 		<property name="row_id" type="integer" unsigned="1" notnull="1" />
 		<property name="title" type="text" length="255" unsigned="1"
 			notnull="1" fixed="true" />

@@ -3,8 +3,10 @@
 	<properties>
 		<property name="id" type="integer" unsigned="1" notnull="1" />
 		<property name="options" type="text" notnull="1" />
-		<property name="use_wildcards" type="boolean" notnull="1" default="true"/>
-		<property name="ignore_case" type="boolean" notnull="1" default="true"/>
+		<property name="use_wildcards" type="boolean" notnull="1"
+			default="true" />
+		<property name="ignore_case" type="boolean" notnull="1"
+			default="true" />
 	</properties>
 	<index name="id" type="primary">
 		<indexproperty name="id" />

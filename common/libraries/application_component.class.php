@@ -84,8 +84,8 @@ class ApplicationComponent
     {
         return $this->get_parent()->set_parameter($name, $value);
     }
-    
-	function set_parameters($parameters)
+
+    function set_parameters($parameters)
     {
         return $this->get_parent()->set_parameters($parameters);
     }
@@ -233,15 +233,15 @@ class ApplicationComponent
     {
         return $this->get_parent()->get_application_platform_admin_links();
     }
-    
-	/**
+
+    /**
      * @see Application :: get_application_platform_import_links()
      */
     function get_application_platform_import_links()
     {
         return $this->get_parent()->get_application_platform_import_links();
     }
-    
+
     /**
      * Create a new application component
      * @param string $type The type of the component to create.

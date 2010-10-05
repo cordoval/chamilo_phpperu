@@ -37,13 +37,13 @@ class HomeDataManager
     {
         if (WebApplication :: is_application($application))
         {
-            $path = dirname(__FILE__) . '/../../application/lib/' . $application . '/block/' . $application . '_' . $component . '.xml';
+            $path = dirname(__FILE__) . '/../../application/' . $application . '/php/block/' . $application . '_' . $component . '.xml';
         }
         else
         {
-            $path = dirname(__FILE__) . '/../../' . $application . '/block/' . $application . '_' . $component . '.xml';
+            $path = dirname(__FILE__) . '/../../' . $application . '/php/block/' . $application . '_' . $component . '.xml';
         }
-
+        
         if (file_exists($path))
         {
             $doc = new DOMDocument();
@@ -55,7 +55,7 @@ class HomeDataManager
             {
                 $properties[$property->getAttribute('name')] = $property->getAttribute('default');
             }
-
+            
             return $properties;
         }
         else
@@ -67,21 +67,21 @@ class HomeDataManager
     function create_block_properties($block)
     {
         $homeblockconfigs = self :: retrieve_block_properties($block->get_application(), $block->get_component());
-
+        
         foreach ($homeblockconfigs as $variable => $value)
         {
             $homeblockconfig = new HomeBlockConfig($block->get_id());
             {
                 $homeblockconfig->set_variable($variable);
                 $homeblockconfig->set_value($value);
-
+                
                 if (! $homeblockconfig->create())
                 {
                     return false;
                 }
             }
         }
-
+        
         return true;
     }
 }

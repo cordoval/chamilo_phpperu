@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <object name="feedback_publication">
 	<properties>
-		<property name="id" type="integer" unsigned="1" notnull="1" autoincrement="true" />
+		<property name="id" type="integer" unsigned="1" notnull="1"
+			autoincrement="true" />
 		<property name="application" type="text" length="30" fixed="true" />
 		<property name="publication_id" type="integer" length="10"
 			unsigned="1" />
@@ -9,8 +10,10 @@
 			unsigned="1" />
 		<property name="feedback_id" type="integer" length="10"
 			unsigned="1" />
-		<property name="creation_date" type="integer" unsigned="1" notnull="1"/>
-		<property name="modification_date" type="integer" unsigned="1" notnull="1"/>
+		<property name="creation_date" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="modification_date" type="integer" unsigned="1"
+			notnull="1" />
 	</properties>
 	<index name="feedback_list_index">
 		<indexproperty name="application" />

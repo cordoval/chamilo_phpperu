@@ -13,7 +13,15 @@
 		<sha256>f743def30d4bc1cf9d5bc7f346dea19832aaaf0f0c48061aaebce7e2ac67bb27</sha256>
 		<sha512>bc1b85606168494506b1544c32bf2c32b302df7134a499dcd49e1444ff31e57fa3bb14e2e84f8badf65c6f57b7ed63b83d3e83b1e4ef54aadd0a92b8759950f6</sha512>
 		<tagline>From Wikipedia, the free encyclopedia</tagline>
-		<description>Electronic mail, often abbreviated as email or e-mail, is a method of exchanging digital messages, designed primarily for human use. E-mail systems are based on a store-and-forward model in which e-mail computer server systems accept, forward, deliver and store messages on behalf of users, who only need to connect to the e-mail infrastructure, typically an e-mail server, with a network-enabled device (e.g., a personal computer) for the duration of message submission or retrieval. Rarely is e-mail transmitted directly from one user's device to another's.</description>
+		<description>Electronic mail, often abbreviated as email or e-mail, is
+			a method of exchanging digital messages, designed primarily for human
+			use. E-mail systems are based on a store-and-forward model in which
+			e-mail computer server systems accept, forward, deliver and store
+			messages on behalf of users, who only need to connect to the e-mail
+			infrastructure, typically an e-mail server, with a network-enabled
+			device (e.g., a personal computer) for the duration of message
+			submission or retrieval. Rarely is e-mail transmitted directly from
+			one user's device to another's.</description>
 		<homepage>http://www.chamilo.org/</homepage>
 		<dependencies>
 			<server>
@@ -47,16 +55,16 @@
 			</extensions>
 			<content_objects>
 				<dependency>
-		  			<id>personal_message</id>
-		  			<version type="4">1.0.0</version>
-		  			<severity>4</severity>
+					<id>personal_message</id>
+					<version type="4">1.0.0</version>
+					<severity>4</severity>
 				</dependency>
 			</content_objects>
 			<applications>
 				<dependency>
-		  			<id>personal_calendar</id>
-		  			<version type="4">1.0.0</version>
-		  			<severity>1</severity>
+					<id>personal_calendar</id>
+					<version type="4">1.0.0</version>
+					<severity>1</severity>
 				</dependency>
 			</applications>
 		</dependencies>
@@ -74,7 +82,16 @@
 		<sha256>1915cecbd3923a3942193032f04e914bc9261d42c8a54224f7263452227551c7</sha256>
 		<sha512>2741f6c8a32716bb03385b55e352c8bd7b60e768e4231770f90bca87b3fd03e9f74954bb1da3bfa7983c654a0bd0993ab0a61802302f774287f73e274767047c</sha512>
 		<tagline>From Wikipedia, the free encyclopedia</tagline>
-		<description>A calendar is a system of organizing days for social, religious, commercial, or administrative purposes. This is done by giving names to periods of time, typically days, weeks, months, and years. The name given to each day is known as a date. Periods in a calendar (such as years and months) are usually, though not necessarily, synchronized with the cycles of some astronomical phenomenon, such as the cycle of the sun or the moon. Many civilizations and societies have devised a calendar, usually derived from other calendars on which they model their systems, suited to their particular needs.</description>
+		<description>A calendar is a system of organizing days for social,
+			religious, commercial, or administrative purposes. This is done by
+			giving names to periods of time, typically days, weeks, months, and
+			years. The name given to each day is known as a date. Periods in a
+			calendar (such as years and months) are usually, though not
+			necessarily, synchronized with the cycles of some astronomical
+			phenomenon, such as the cycle of the sun or the moon. Many
+			civilizations and societies have devised a calendar, usually derived
+			from other calendars on which they model their systems, suited to
+			their particular needs.</description>
 		<homepage>http://www.chamilo.org/</homepage>
 		<dependencies>
 			<server>
@@ -86,16 +103,16 @@
 			</server>
 			<content_objects>
 				<dependency>
-		  			<id>calendar_event</id>
-		  			<version type="4">1.0.0</version>
-		  			<severity>4</severity>
+					<id>calendar_event</id>
+					<version type="4">1.0.0</version>
+					<severity>4</severity>
 				</dependency>
 			</content_objects>
 			<applications>
 				<dependency>
-		  			<id>weblcms</id>
-		  			<version type="4">1.0.0</version>
-		  			<severity>5</severity>
+					<id>weblcms</id>
+					<version type="4">1.0.0</version>
+					<severity>5</severity>
 				</dependency>
 			</applications>
 		</dependencies>
@@ -113,9 +130,17 @@
 		<sha256>f743def30d4bc1cf9d5bc7f346dea19832aaaf0f0c48061aaebce7e2ac67bb27</sha256>
 		<sha512>bc1b85606168494506b1544c32bf2c32b302df7134a499dcd49e1444ff31e57fa3bb14e2e84f8badf65c6f57b7ed63b83d3e83b1e4ef54aadd0a92b8759950f6</sha512>
 		<tagline>From Wikipedia, the free encyclopedia</tagline>
-		<description>Electronic mail, often abbreviated as email or e-mail, is a method of exchanging digital messages, designed primarily for human use. E-mail systems are based on a store-and-forward model in which e-mail computer server systems accept, forward, deliver and store messages on behalf of users, who only need to connect to the e-mail infrastructure, typically an e-mail server, with a network-enabled device (e.g., a personal computer) for the duration of message submission or retrieval. Rarely is e-mail transmitted directly from one user's device to another's.</description>
+		<description>Electronic mail, often abbreviated as email or e-mail, is
+			a method of exchanging digital messages, designed primarily for human
+			use. E-mail systems are based on a store-and-forward model in which
+			e-mail computer server systems accept, forward, deliver and store
+			messages on behalf of users, who only need to connect to the e-mail
+			infrastructure, typically an e-mail server, with a network-enabled
+			device (e.g., a personal computer) for the duration of message
+			submission or retrieval. Rarely is e-mail transmitted directly from
+			one user's device to another's.</description>
 		<homepage>http://www.chamilo.org/</homepage>
-		<dependencies>	
+		<dependencies>
 		</dependencies>
 	</package>
 	<package>

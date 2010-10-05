@@ -13,13 +13,18 @@
 		<property name="inker" type="text" length="255" />
 		<property name="editor" type="text" length="255" />
 		<property name="collection" type="text" length="255" />
-		<!--<property name="collection_issue" unsigned="1" type="integer" length="4" />-->
+		<!--
+			<property name="collection_issue" unsigned="1" type="integer"
+			length="4" />
+		-->
 		<property name="book_type" type="text" length="50" />
 		<property name="binding" unsigned="1" type="integer" length="1" />
 		<property name="pages" unsigned="1" type="integer" length="4" />
 		<property name="year" type="integer" length="4" />
 		<!--<property name="genre" type="text" length="50" />-->
-		<!--<property name="limited" unsigned="1" type="integer" length="1" />-->
+		<!--
+			<property name="limited" unsigned="1" type="integer" length="1" />
+		-->
 		<!--<property name="signed" unsigned="1" type="integer" length="1" />-->
 		<property name="language" type="text" length="255" />
 		<property name="colour" unsigned="1" type="integer" length="1" />

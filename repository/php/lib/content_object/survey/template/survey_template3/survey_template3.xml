@@ -2,9 +2,12 @@
 <object name="survey_template3">
 	<properties>
 		<property name="id" type="integer" unsigned="1" notnull="1" />
-		<property name="level_1_user" type="text" length="50" fixed="true" notnull="1" />
-		<property name="level_2_name" type="text" length="50" fixed="true" notnull="1" />
-		<property name="level_3_test" type="text" length="50" fixed="true" notnull="1" />
+		<property name="level_1_user" type="text" length="50" fixed="true"
+			notnull="1" />
+		<property name="level_2_name" type="text" length="50" fixed="true"
+			notnull="1" />
+		<property name="level_3_test" type="text" length="50" fixed="true"
+			notnull="1" />
 	</properties>
 	<index name="id" type="primary">
 		<indexproperty name="id" />
