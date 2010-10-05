@@ -34,7 +34,7 @@ class MetadataPropertyAttributeValue extends DataClass
      */
     static function get_default_property_names()
     {
-            return array (self :: PROPERTY_ID, self :: PROPERTY_PARENT_ID, self :: PROPERTY_PROPERTY_ATTRIBUTE_TYPE_ID, self :: PROPERTY_RELATION);
+            return array (self :: PROPERTY_ID, self :: PROPERTY_PARENT_ID, self :: PROPERTY_PROPERTY_ATTRIBUTE_TYPE_ID, self :: PROPERTY_RELATION, self :: PROPERTY_VALUE, self :: PROPERTY_VALUE_TYPE);
     }
 
     function get_data_manager()

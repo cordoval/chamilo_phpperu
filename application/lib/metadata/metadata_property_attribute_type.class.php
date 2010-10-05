@@ -26,7 +26,7 @@ class MetadataPropertyAttributeType extends DataClass
      */
     static function get_default_property_names()
     {
-            return array (self :: PROPERTY_ID, self :: PROPERTY_NS_PREFIX, self :: PROPERTY_NAME, self :: PROPERTY_VALUE, self :: PROPERTY_VALUE_TYPE);
+            return array (self :: PROPERTY_ID, self :: PROPERTY_NS_PREFIX, self :: PROPERTY_NAME);
     }
 
     function get_data_manager()

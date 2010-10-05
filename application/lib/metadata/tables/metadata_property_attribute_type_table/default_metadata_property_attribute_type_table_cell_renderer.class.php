@@ -37,10 +37,7 @@ class DefaultMetadataPropertyAttributeTypeTableCellRenderer extends ObjectTableC
 				return $metadata_property_attribute_type->get_ns_prefix();
 			case MetadataPropertyAttributeType :: PROPERTY_NAME :
 				return $metadata_property_attribute_type->get_name();
-			case MetadataPropertyAttributeType :: PROPERTY_VALUE :
-				return $metadata_property_attribute_type->get_value();
-			case MetadataPropertyAttributeType :: PROPERTY_VALUE_TYPE :
-				return $metadata_property_attribute_type->get_value_type();
+			
 			default :
 				return '&nbsp;';
 		}

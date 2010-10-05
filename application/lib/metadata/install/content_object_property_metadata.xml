@@ -4,5 +4,6 @@
         <property name="id" type="integer" unsigned="1" notnull="1" autoincrement="true" />
         <property name="property_type_id"  type="integer" unsigned="1" notnull="1" />
         <property name="content_object_property" type="text" length="255" notnull="1" />
+        <property name="source"  type="integer" unsigned="1" notnull="1" />
     </properties>
 </object>
