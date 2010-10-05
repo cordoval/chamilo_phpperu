@@ -392,7 +392,7 @@ class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
         //retrieve the answer trackers
         $conditions = array();
         $conditions[] = new InCondition(SurveyQuestionAnswerTracker :: PROPERTY_SURVEY_PARTICIPANT_ID, $participant_ids);
-        $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_QUESTION_CID, $question->get_id());
+        $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_COMPLEX_QUESTION_ID, $question->get_id());
         $condition = new AndCondition($conditions);
         $trackers = Tracker :: get_data('survey_question_answer_tracker', SurveyManager :: APPLICATION_NAME, $condition);
         

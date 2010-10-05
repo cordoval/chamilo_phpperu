@@ -26,22 +26,10 @@ class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
     {
         $html = array();
         $this->parent->get_parent()->display_header();
-        
-//        if ($this->survey->has_context())
-//        {
-            $this->with_menu = true;
-            $html[] = $this->get_menu_html($current_page);
-//        }
-        
-        if ($this->with_menu)
-        {
-            $width = 80;
-        }
-        else
-        {
-            $width = 100;
-        }
-        $html[] = '<div style="float: right; width: ' . $width . '%;">';
+
+        $html[] = $this->get_menu_html($current_page);
+             
+        $html[] = '<div style="float: right; width: 80%;">';
         $html[] = '<div class="assessment">';
         $html[] = '<h2>' . $this->survey->parse($current_page->get_context_path(), $this->survey->get_title()) . '</h2>';
         $html[] = '<br />';
@@ -96,7 +84,7 @@ class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
         
         $html[] = '<br />';
         $html[] = '<div style="width: 100%; text-align: center;">';
-        $html[] = $current_page->get_page_number() . ' / ' . $this->parent->get_total_pages();
+        $html[] = $current_page->get_page_number() . ' / ' . $this->survey->count_pages();
         $html[] = '</div>';
         $html[] = '</div>';
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/survey.js');

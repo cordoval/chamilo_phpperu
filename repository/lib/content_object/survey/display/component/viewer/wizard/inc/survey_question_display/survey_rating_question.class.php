@@ -17,7 +17,9 @@ class SurveyRatingQuestionDisplay extends SurveyQuestionDisplay
         
         $min = $question->get_low();
         $max = $question->get_high();
-        $question_name = $this->get_question()->get_id() . '_0'.'_'.$this->get_context_path();
+        $question_name = $this->get_complex_question()->get_id() . '_0';
+        
+//        $question_name = $this->get_question()->get_id() . '_0'.'_'.$this->get_context_path();
         
         for($i = $min; $i <= $max; $i ++)
         {

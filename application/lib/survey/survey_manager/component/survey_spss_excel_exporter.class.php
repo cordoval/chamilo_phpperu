@@ -212,7 +212,7 @@ class SurveyManagerSurveyExcelSyntaxExporterComponent extends SurveyManager
                 $question_id = $question->get_id();
                 $conditions = array();
                 $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_SURVEY_PARTICIPANT_ID, $participant_id);
-                $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_QUESTION_CID, $question->get_id());
+                $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_COMPLEX_QUESTION_ID, $question->get_id());
                 $condition = new AndCondition($conditions);
                 $tracker_count = Tracker :: count_data('survey_question_answer_tracker', SurveyManager :: APPLICATION_NAME, $condition);
                 
