@@ -44,7 +44,7 @@ class ContentObjectUserShareRightsBrowserTableCellRenderer extends ObjectTableCe
             $toolbar->add_item(new ToolbarItem(
                             Translation :: get('ContentObjectUserShareEditor'),
                             Theme :: get_common_image_path() . 'action_edit.png',
-                            $this->browser->get_content_object_share_editor_url(Request::get(RepositoryManager::PARAM_CONTENT_OBJECT_ID), $user_share->get_user_id, null),
+                            $this->browser->get_content_object_share_editor_url(Request::get(RepositoryManager::PARAM_CONTENT_OBJECT_ID), $user_share->get_user_id(), null),
                             ToolbarItem :: DISPLAY_ICON
             ));
             return $toolbar->as_html();

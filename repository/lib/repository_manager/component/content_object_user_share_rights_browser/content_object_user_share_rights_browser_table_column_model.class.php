@@ -31,7 +31,7 @@ class ContentObjectUserShareRightsBrowserTableColumnModel extends ObjectTableCol
         foreach ($rights as $right_id => $right_name)
         {
             $column_name = Utilities :: underscores_to_camelcase(strtolower($right_name));
-            $column = new ShareRightColumn(Translation :: get($column_name), $right_id);
+            $column = new ShareRightColumn($column_name, $right_id);
             $this->add_column($column);
         }
     }

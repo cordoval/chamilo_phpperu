@@ -87,10 +87,10 @@ class RepositoryDataManager
 
         while ($content_object = $content_objects->next_result())
         {
-            if ($check_for_view_right && ! RepositoryRights :: is_allowed_in_content_objects_subtree(RepositoryRights :: VIEW_RIGHT, $content_object->get_id()))
+            /*if ($check_for_view_right && ! RepositoryRights :: is_allowed_in_content_objects_subtree(RepositoryRights :: VIEW_RIGHT, $content_object->get_id()))
             {
                 continue;
-            }
+            }*/
 
             $active_content_objects[] = $content_object->get_name();
         }

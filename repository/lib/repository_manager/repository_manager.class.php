@@ -1061,8 +1061,8 @@ class RepositoryManager extends CoreApplication
                 self :: PARAM_ACTION => self :: ACTION_IMPORT_TEMPLATE), array(), false, Redirect :: TYPE_CORE));
         $links[] = new DynamicAction(Translation :: get('ManageExternalRepositoryManagerInstances'), Translation :: get('ManageExternalRepositoryManagerInstancesDescription'), Theme :: get_image_path() . 'browse_repository.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
                 self :: PARAM_ACTION => self :: ACTION_MANAGE_EXTERNAL_REPOSITORY_INSTANCES), array(), false, Redirect :: TYPE_CORE));
-        $links[] = new DynamicAction(Translation :: get('ManageContentObjectTypes'), Translation :: get('ManageContentObjectTypesDescription'), Theme :: get_image_path() . 'browse_repository.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
-                self :: PARAM_ACTION => self :: ACTION_MANAGE_CONTENT_OBJECT_REGISTRATIONS), array(), false, Redirect :: TYPE_CORE));
+        /*$links[] = new DynamicAction(Translation :: get('ManageContentObjectTypes'), Translation :: get('ManageContentObjectTypesDescription'), Theme :: get_image_path() . 'browse_repository.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+                self :: PARAM_ACTION => self :: ACTION_MANAGE_CONTENT_OBJECT_REGISTRATIONS), array(), false, Redirect :: TYPE_CORE));*/
 
         $info['search'] = Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTENT_OBJECTS), array(), false, Redirect :: TYPE_CORE);
         $info['links'] = $links;
