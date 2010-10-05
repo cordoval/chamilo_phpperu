@@ -16,70 +16,24 @@ class MetadataManagerMetadataNamespaceDeleterComponent extends MetadataManager
 	 */
 	function run()
 	{
-		$ids = $_GET[MetadataManager :: PARAM_METADATA_NAMESPACE];
-		$failures = 0;
+		$id = $_GET[MetadataManager :: PARAM_METADATA_NAMESPACE];
 
-		if (!empty ($ids))
+                if (!empty ($id))
 		{
-			if (!is_array($ids))
-			{
-				$ids = array ($ids);
-			}
-
-			foreach ($ids as $id)
-			{
-				$metadata_namespace = $this->retrieve_metadata_namespace($id);
-                                
-                                $condition = new EqualityCondition(MetadataPropertyType :: PROPERTY_NS_PREFIX, $metadata_namespace->get_ns_prefix());
-                                $count = $metadata_property_types = $this->count_metadata_property_types($condition);
-
-                                $condition = new EqualityCondition(MetadataPropertyAttributeType :: PROPERTY_NS_PREFIX, $metadata_namespace->get_ns_prefix());
-                                $count += $metadata_property_types = $this->count_metadata_property_attribute_types($condition);
-                                
-                                if(!$count){
-                                    if (!$metadata_namespace->delete())
-                                    {
-                                        $failures++;
-                                    }
+                    $metadata_namespace = $this->retrieve_metadata_namespace($id);
+                    
+                    if (!$metadata_namespace->delete())
+                    {
+                        $fail = true;
+                        $message = 'MetadataNamespaceNotDeleted';
+                    }
+                    else
+                    {
+                        $message = 'MetadataNamespaceDeleted';
+                    }
                                     
-                                }
-                                else
-                                {
-                                     $this->redirect(Translation :: get('SelectedMetadataNamespaceNotDeleted' . 'ChildrenExist'), true, array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE_METADATA_NAMESPACES));
-                                }
-                                
-				
-			}
-
-			if ($failures)
-			{
-				if (count($ids) == 1)
-				{
-					$message = 'SelectedMetadataNamespaceNotDeleted';
-				}
-				else
-				{
-					$message = 'Selected{MetadataNamespacesNotDeleted';
-				}
-			}
-			else
-			{
-				if (count($ids) == 1)
-				{
-					$message = 'SelectedMetadataNamespaceDeleted';
-				}
-				else
-				{
-					$message = 'SelectedMetadataNamespacesDeleted';
-				}
-			}
-
-			$this->redirect(Translation :: get($message), ($failures ? true : false), array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE_METADATA_NAMESPACES));
-		}
-		else
-		{
-			$this->display_error_page(htmlentities(Translation :: get('NoMetadataNamespacesSelected')));
-		}
+                    $this->redirect(Translation :: get($message), ($fail ? true : false), array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE_METADATA_NAMESPACES));
+                }
 	}
 }
 ?>

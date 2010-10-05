@@ -30,20 +30,8 @@ function dump_attribute_tree($attributes)
     {
        $prefix = (!is_null($attribute->get_ns_prefix())) ? $attribute->get_ns_prefix() . ':' : '';
        $name = $attribute->get_name();
-       switch($attribute->get_value_type())
-       {
-           case MetadataPropertyAttributeType :: VALUE_TYPE_NONE:
-               $value = '';
-               break;
-           case MetadataPropertyAttributeType :: VALUE_TYPE_ID:
-               $temp_attribute = $attributes[$attribute->get_value_type()];
-               $value  = display_attribute($temp_attribute);
-               break;
-           case MetadataPropertyAttributeType :: VALUE_TYPE_VALUE:
-               $value = $attribute->get_value();
-               break;
-       }
-       echo '<leaf id="attributes_'.$attribute->get_id().'" classes="type type_cda_language" title="' . $prefix . $name . $value . '" description=""/>' . "\n";
+       
+       echo '<leaf id="attributes_'.$attribute->get_id().'" classes="type type_cda_language" title="' . $prefix . $name. '" description=""/>' . "\n";
     }
     echo '</node>', "\n";
 }
