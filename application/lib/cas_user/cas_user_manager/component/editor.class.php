@@ -18,7 +18,7 @@ class CasUserManagerEditorComponent extends CasUserManager
         if ($form->validate())
         {
             $success = $form->update_cas_user_request();
-            $this->redirect($success ? Translation :: get('CasUserRequestUpdated') : Translation :: get('CasUserRequestNotUpdated'), ! $success, array(CdaManager :: PARAM_ACTION => CasUserManager :: ACTION_BROWSE));
+            $this->redirect($success ? Translation :: get('CasUserRequestUpdated') : Translation :: get('CasUserRequestNotUpdated'), ! $success, array(CasUserManager :: PARAM_ACTION => CasUserManager :: ACTION_BROWSE));
         }
         else
         {

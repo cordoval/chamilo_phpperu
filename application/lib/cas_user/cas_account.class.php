@@ -5,20 +5,22 @@
 class CasAccount extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-//    const TABLE_NAME = 'account';
+    const TABLE_NAME = 'external_users';
 
     /**
      * CasAccount properties
      */
     const PROPERTY_ID = 'id';
-    const PROPERTY_FIRST_NAME = 'first_name';
-    const PROPERTY_LAST_NAME = 'last_name';
+    const PROPERTY_FIRST_NAME = 'firstname';
+    const PROPERTY_LAST_NAME = 'lastname';
     const PROPERTY_EMAIL = 'email';
     const PROPERTY_AFFILIATION = 'affiliation';
     const PROPERTY_PASSWORD = 'password';
-    
+    const PROPERTY_GROUP = 'group';
+    const PROPERTY_STATUS = 'status';
+
     const STATUS_ENABLED = 1;
-    const STATUS_DISABLED = 2;
+    const STATUS_DISABLED = 0;
 
     /**
      * Get the default properties
@@ -26,12 +28,12 @@ class CasAccount extends DataClass
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_ID, self :: PROPERTY_FIRST_NAME, self :: PROPERTY_LAST_NAME, self :: PROPERTY_EMAIL, self :: PROPERTY_AFFILIATION, self :: PROPERTY_PASSWORD);
+        return array(self :: PROPERTY_ID, self :: PROPERTY_FIRST_NAME, self :: PROPERTY_LAST_NAME, self :: PROPERTY_EMAIL, self :: PROPERTY_AFFILIATION, self :: PROPERTY_PASSWORD, self :: PROPERTY_GROUP, self :: PROPERTY_STATUS);
     }
 
     function get_data_manager()
     {
-        return CasUserDataManager :: get_instance();
+        return CasAccountDataManager :: get_instance();
     }
 
     function get_id()
@@ -62,6 +64,11 @@ class CasAccount extends DataClass
     public function get_password()
     {
         return $this->get_default_property(self :: PROPERTY_PASSWORD);
+    }
+
+    public function get_group()
+    {
+        return $this->get_default_property(self :: PROPERTY_GROUP);
     }
 
     public function get_status()
@@ -98,26 +105,31 @@ class CasAccount extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_PASSWORD, $password);
     }
-    
+
+    public function set_group($group)
+    {
+        $this->set_default_property(self :: PROPERTY_GROUP, $group);
+    }
+
     public function set_status($status)
     {
         $this->set_default_property(self :: PROPERTY_STATUS, $status);
     }
 
-//    static function get_table_name()
-//    {
-//        return self :: TABLE_NAME;
-//    }
+    static function get_table_name()
+    {
+        return self :: TABLE_NAME;
+    }
 
     function get_status_icon()
     {
         switch ($this->get_status())
         {
             case self :: STATUS_ENABLED :
-                return Theme :: get_image('status_enabled');
+                return Theme :: get_image(self :: PROPERTY_STATUS . '_enabled');
                 break;
             case self :: STATUS_DISABLED :
-                return Theme :: get_image('status_disabled');
+                return Theme :: get_image(self :: PROPERTY_STATUS . '_disabled');
                 break;
         }
     }
