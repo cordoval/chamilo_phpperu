@@ -66,8 +66,18 @@ class ContentObjectShare extends DataClass
     
     static function get_rights()
     {
-    	return array(self :: SEARCH_RIGHT => Translation :: get('Search'), self :: VIEW_RIGHT => Translation :: get('View'), 
-    				 self :: USE_RIGHT => Translation :: get('Use'), self :: REUSE_RIGHT => Translation :: get('Reuse'));
+    	$rights = array();
+    	
+    	if(!PlatformSetting :: get('all_objects_searchable', RepositoryManager :: APPLICATION_NAME))
+    	{
+			$rights[self :: SEARCH_RIGHT] = Translation :: get('Search');
+    	}
+		
+		$rights[self :: VIEW_RIGHT] = Translation :: get('View');
+		$rights[self :: USE_RIGHT] = Translation :: get('Use');
+		$rights[self :: REUSE_RIGHT] = Translation :: get('Reuse');
+		
+		return $rights;
     }
 
     function has_right($right_id)
