@@ -11,7 +11,7 @@ class CasAccountConnection extends Connection
      * Instance of this class for the singleton pattern.
      */
     private static $instance;
-    
+
     /**
      * The MDB2 Connection object.
      */
@@ -22,7 +22,7 @@ class CasAccountConnection extends Connection
      */
     private function CasAccountConnection()
     {
-        $this->connection = MDB2 :: connect('mysql://root:password@localhost/cas', array('debug' => 3));
+        $this->connection = MDB2 :: connect('mysql://root@localhost/cas', array('debug' => 3));
     }
 
     /**

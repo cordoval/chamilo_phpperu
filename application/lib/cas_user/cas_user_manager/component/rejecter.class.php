@@ -11,7 +11,7 @@ class CasUserManagerRejecterComponent extends CasUserManager
     function run()
     {
 
-        $ids = $_GET[CasUserManager :: PARAM_REQUEST_ID];
+        $ids = Request :: get(CasUserManager :: PARAM_REQUEST_ID);
         $failures = 0;
 
         if (! empty($ids))
