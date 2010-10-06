@@ -152,7 +152,7 @@ class Dokeos185CourseRelUser extends Dokeos185MigrationDataClass
         }
 
         $chamilo_course_rel_user->set_status($this->get_status());
-        $chamilo_course_rel_user->set_role($this->get_role());
+        /*$chamilo_course_rel_user->set_role($this->get_role());
         $chamilo_course_rel_user->set_course_group($this->get_group_id());
         $chamilo_course_rel_user->set_tutor($this->get_tutor_id());
         $chamilo_course_rel_user->set_sort($this->get_sort());
@@ -162,7 +162,7 @@ class Dokeos185CourseRelUser extends Dokeos185MigrationDataClass
             $chamilo_course_rel_user->set_category($user_course_category_id);
         } else {
             $chamilo_course_rel_user->set_category(0);
-        }
+        }*/
 
         //create user in database
         $chamilo_course_rel_user->create();
