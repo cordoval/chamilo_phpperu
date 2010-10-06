@@ -61,7 +61,8 @@ class HomeAutoloader
 	{
 		$list = array('home_manager' => 'home_manager/home_manager.class.php',
 					  'home_manager_component' => 'home_manager/home_manager_component.class.php',
-					  'build_wizard' => 'home_manager/component/wizards/build_wizard.class.php');
+					  'build_wizard' => 'home_manager/component/wizards/build_wizard.class.php',
+					  'home_renderer' => 'home_renderer/home_renderer.class.php');
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);
 

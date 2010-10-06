@@ -5,10 +5,10 @@
  */
 class Translation
 {
-	const PACKAGE_DELIMITER = '.';
-	const PACKAGE_COMMON = 'common';
-	
-	/**
+    const PACKAGE_DELIMITER = '.';
+    const PACKAGE_COMMON = 'common';
+
+    /**
      * Instance of this class for the singleton pattern.
      */
     private static $instance;
@@ -79,9 +79,9 @@ class Translation
     {
         $called_class = get_called_class();
         //dump($called_class);
-        $reflection_class = new \ReflectionClass($called_class);
+        $reflection_class = new ReflectionClass($called_class);
         //dump($reflection_class->getNamespaceName());
-    	$instance = self :: get_instance();
+        $instance = self :: get_instance();
         $translation = $instance->translate($variable, $context);
 
         if (empty($parameters))
@@ -90,7 +90,7 @@ class Translation
         }
         else
         {
-        	return preg_replace('#\{([A-Z0-9\-_]+)\}#e', 'isset($parameters[\'\\1\']) ? $parameters[\'\\1\'] : \'\'', $translation);
+            return preg_replace('#\{([A-Z0-9\-_]+)\}#e', 'isset($parameters[\'\\1\']) ? $parameters[\'\\1\'] : \'\'', $translation);
         }
     }
 
@@ -122,7 +122,7 @@ class Translation
      * This comment does not fit here.
      * Gets a parameter from the configuration.
      * @param string $section The name of the section in which the parameter
-     *                        is located.
+     * is located.
      * @param string $name The parameter name.
      * @return mixed The parameter value.
      */
@@ -144,16 +144,16 @@ class Translation
         elseif (! isset($strings[$language][$context]))
         {
             $instance->add_context_internationalization($language, $context);
-        }       
+        }
 
         if (isset($strings[$language][$context][$variable]))
         {
             $value = $strings[$language][$context][$variable];
         }
 
-        if (!$value || $value == '' || $value == ' ')
+        if (! $value || $value == '' || $value == ' ')
         {
-            if ( (Request :: get('install_running') != 1 && file_exists(dirname(__FILE__) . '/../../configuration/configuration.php')) && PlatformSetting :: get('hide_dcda_markup'))
+            if ((Request :: get('install_running') != 1 && file_exists(dirname(__FILE__) . '/../../configuration/configuration.php')) && PlatformSetting :: get('hide_dcda_markup'))
             {
                 return $variable;
             }
@@ -179,14 +179,12 @@ class Translation
         $instance = self :: get_instance();
         $instance->strings[$language][$application] = $lang[$application];
     }
-    
+
     function add_context_internationalization($language, $context)
     {
-    	$path = BasicApplication::get_application_resources_i18n_path($context). $language . '.i18n';
-        dump($path);
-    	$strings = parse_ini_file($path);
-        
-        
+        $path = BasicApplication :: get_application_resources_i18n_path($context) . $language . '.i18n';
+        $strings = parse_ini_file($path);
+
         $instance = self :: get_instance();
         $instance->strings[$language][$context] = $strings;
     }

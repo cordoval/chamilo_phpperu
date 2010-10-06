@@ -19,7 +19,7 @@ class HomeDataManager
      * Uses a singleton pattern and a factory pattern to return the data
      * manager. The configuration determines which data manager class is to
      * be instantiated.
-     * @return UserDataManager The data manager.
+     * @return HomeDataManagerInterface The data manager.
      */
     static function get_instance()
     {
@@ -43,7 +43,7 @@ class HomeDataManager
         {
             $path = dirname(__FILE__) . '/../../' . $application . '/php/block/' . $application . '_' . $component . '.xml';
         }
-        
+
         if (file_exists($path))
         {
             $doc = new DOMDocument();
@@ -55,7 +55,7 @@ class HomeDataManager
             {
                 $properties[$property->getAttribute('name')] = $property->getAttribute('default');
             }
-            
+
             return $properties;
         }
         else
@@ -67,21 +67,21 @@ class HomeDataManager
     function create_block_properties($block)
     {
         $homeblockconfigs = self :: retrieve_block_properties($block->get_application(), $block->get_component());
-        
+
         foreach ($homeblockconfigs as $variable => $value)
         {
             $homeblockconfig = new HomeBlockConfig($block->get_id());
             {
                 $homeblockconfig->set_variable($variable);
                 $homeblockconfig->set_value($value);
-                
+
                 if (! $homeblockconfig->create())
                 {
                     return false;
                 }
             }
         }
-        
+
         return true;
     }
 }

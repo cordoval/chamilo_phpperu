@@ -2,7 +2,7 @@
 
 /**
  * @package admin.block
- * $Id: admin_system_announcements.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
+ * $Id: system_announcements.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  */
 class AdminSystemAnnouncements extends AdminBlock
 {

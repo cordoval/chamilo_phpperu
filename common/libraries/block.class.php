@@ -5,11 +5,11 @@
  */
 class Block
 {
-    
+
     const PARAM_ACTION = 'block_action';
     const BLOCK_LIST_SIMPLE = 'simple';
     const BLOCK_LIST_ADVANCED = 'advanced';
-    
+
     private $parent;
     private $type;
     private $block_info;
@@ -66,67 +66,67 @@ class Block
     function as_html()
     {
         $html = array();
-        
+
         $html[] = $this->display_header();
         $html[] = $this->display_footer();
-        
+
         return implode("\n", $html);
     }
 
     function display_header()
     {
         $html = array();
-        
+
         $html[] = '<div class="block" id="block_' . $this->get_block_info()->get_id() . '" style="background-image: url(' . Theme :: get_image_path() . 'block_' . $this->get_block_info()->get_application() . '.png);">';
         $html[] = $this->display_title();
         $html[] = '<div class="description"' . ($this->get_block_info()->is_visible() ? '' : ' style="display: none"') . '>';
-        
+
         return implode("\n", $html);
     }
 
     function display_title()
     {
         $html = array();
-        
+
         $html[] = '<div class="title"><div style="float: left;">' . $this->get_block_info()->get_title() . '</div>';
         $html[] = $this->display_actions();
         $html[] = '<div style="clear: both;"></div>';
         $html[] = '</div>';
-        
+
         return implode("\n", $html);
     }
 
     function display_actions()
     {
         $html = array();
-        
+
         $user_home_allowed = PlatformSetting :: get('allow_user_home', HomeManager :: APPLICATION_NAME);
-        
+
         if (($user_home_allowed && Authentication :: is_valid()) || (! is_null($this->get_user()) && $this->get_user()->is_platform_admin()))
         {
             if ($this->is_deletable())
             {
                 $html[] = '<a href="' . $this->get_block_deleting_link($this->get_block_info()) . '" class="deleteEl"><img src="' . Theme :: get_common_image_path() . 'action_delete.png" /></a>';
             }
-            
+
             if ($this->block_info->is_configurable())
             {
                 $html[] = '<a href="' . $this->get_block_configuring_link($this->get_block_info()) . '" class="configEl"><img src="' . Theme :: get_common_image_path() . 'action_config.png" /></a>';
             }
-            
+
             if ($this->is_editable())
             {
                 $html[] = '<a href="' . $this->get_block_editing_link($this->get_block_info()) . '" class="editEl"><img src="' . Theme :: get_common_image_path() . 'action_edit.png" /></a>';
             }
-            
+
             if ($this->is_hidable())
             {
                 $html[] = '<a href="' . $this->get_block_visibility_link($this->get_block_info()) . '" class="closeEl"><img class="visible"' . ($this->get_block_info()->is_visible() ? '' : ' style="display: none;"') . ' src="' . Theme :: get_common_image_path() . 'action_visible.png" /><img class="invisible"' . ($this->get_block_info()->is_visible() ? ' style="display: none;"' : '') . ' src="' . Theme :: get_common_image_path() . 'action_invisible.png" /></a>';
             }
-            
+
             $html[] = '<a href="#" id="drag_block_' . $this->get_block_info()->get_id() . '" class="dragEl"><img src="' . Theme :: get_common_image_path() . 'action_drag.png" /></a>';
         }
-        
+
         return implode("\n", $html);
     }
 
@@ -158,11 +158,11 @@ class Block
     function display_footer()
     {
         $html = array();
-        
+
         $html[] = '<div style="clear: both;"></div>';
         $html[] = '</div>';
         $html[] = '</div>';
-        
+
         return implode("\n", $html);
     }
 
@@ -171,11 +171,11 @@ class Block
         $result = array();
         $applications_options = array();
         $components_options = array();
-        
+
         $applications = WebApplication :: load_all(false);
-        
+
         $path = Path :: get_application_path() . '/lib/';
-        
+
         foreach ($applications as $application)
         {
             $application_path = $path . $application . '/block';
@@ -185,10 +185,10 @@ class Block
                 {
                     if (! is_dir($file) && stripos($file, '.class.php') !== false)
                     {
-                        
+
                         $component = str_replace('.class.php', '', $file);
                         $component = str_replace($application . '_', '', $component);
-                        
+
                         $applications_options[$application] = Translation :: get(Application :: application_to_class($application));
                         $components_options[$application][$component] = Utilities :: underscores_to_camelcase($component);
                     }
@@ -196,11 +196,11 @@ class Block
                 closedir($handle);
             }
         }
-        
+
         $core_applications = array('admin', 'tracking', 'repository', 'user', 'group', 'rights', 'home', 'menu');
-        
+
         $path = Path :: get(SYS_PATH);
-        
+
         foreach ($core_applications as $core_application)
         {
             $application_path = $path . $core_application . '/block';
@@ -210,10 +210,10 @@ class Block
                 {
                     if (! is_dir($file) && stripos($file, '.class.php') !== false)
                     {
-                        
+
                         $component = str_replace('.class.php', '', $file);
                         $component = str_replace($core_application . '_', '', $component);
-                        
+
                         $applications_options[$core_application] = Translation :: get(Application :: application_to_class($core_application));
                         $components_options[$core_application][$component] = Utilities :: underscores_to_camelcase($component);
                     }
@@ -221,12 +221,12 @@ class Block
                 closedir($handle);
             }
         }
-        
+
         asort($applications_options);
-        
+
         $result['applications'] = $applications_options;
         $result['components'] = $components_options;
-        
+
         return $result;
     }
 
@@ -238,9 +238,9 @@ class Block
     {
         $application_components = array();
         $applications = WebApplication :: load_all(false);
-        
+
         $path = Path :: get_application_path() . '/lib/';
-        
+
         foreach ($applications as $application)
         {
             $application_path = $path . $application . '/block';
@@ -251,7 +251,7 @@ class Block
                     if (! is_dir($file) && stripos($file, '.class.php') !== false)
                     {
                         $component = str_replace('.class.php', '', $file);
-                        $component = str_replace($application . '_', '', $component); 
+                        $component = str_replace($application . '_', '', $component);
                         $value = $application . '.' . $component;
                         $display = Translation :: get(Application :: application_to_class($application)) . '&nbsp;>&nbsp;' . Utilities :: underscores_to_camelcase($component);
                         $application_components[$value] = $display;
@@ -260,11 +260,11 @@ class Block
                 closedir($handle);
             }
         }
-        
+
         $core_applications = array('admin', 'tracking', 'repository', 'user', 'group', 'rights', 'home', 'menu');
-        
+
         $path = Path :: get(SYS_PATH);
-        
+
         foreach ($core_applications as $core_application)
         {
             $application_path = $path . $core_application . '/block';
@@ -303,6 +303,23 @@ class Block
     function is_deletable()
     {
         return true;
+    }
+
+    static public function factory(HomeRenderer $renderer, HomeBlock $block_info)
+    {
+        $type = $block_info->get_component();
+        $application = $block_info->get_application();
+
+        $path = BasicApplication :: get_application_class_path($application) . 'blocks/' . $type . '.class.php';
+        dump($path);
+        if (! file_exists($path) || ! is_file($path))
+        {
+            die('Failed to load "' . $type . '" block');
+        }
+        $class = Utilities :: underscores_to_camelcase($application . '_' . $type);
+
+        require_once $path;
+        return new $class($renderer, $block_info);
     }
 }
 ?>
