@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: search_portal_basic.class.php 222 2009-11-13 14:39:28Z chellee $
+ * $Id: basic.class.php 222 2009-11-13 14:39:28Z chellee $
  * @package application.search_portal.block
  */
 require_once dirname(__FILE__) . '/../search_portal_block.class.php';
