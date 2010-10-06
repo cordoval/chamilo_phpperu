@@ -16,12 +16,8 @@ class SurveyManagerParticipantBrowserComponent extends SurveyManager
     function run()
     {
         
-        $this->pid = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
-        if (! isset($this->pid))
-        {
-            $this->pid = Request :: post(SurveyManager :: PARAM_PUBLICATION_ID);
-        }
-
+        $this->pid = Request :: get(self :: PARAM_PUBLICATION_ID);
+        
         $this->action_bar = $this->get_action_bar();
         
         $this->display_header($trail);
@@ -36,7 +32,6 @@ class SurveyManagerParticipantBrowserComponent extends SurveyManager
         $this->display_footer();
     }
 
-
     function get_tables()
     {
         $renderer_name = Utilities :: camelcase_to_underscores(get_class($this));
@@ -44,7 +39,7 @@ class SurveyManagerParticipantBrowserComponent extends SurveyManager
         
         $parameters = $this->get_parameters();
         $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
-        $parameters[SurveyManager :: PARAM_PUBLICATION_ID] = $this->pid;
+        $parameters[self :: PARAM_PUBLICATION_ID] = $this->pid;
         
         $table = new SurveyParticipantBrowserTable($this, $parameters, $this->get_participant_condition());
         $tabs->add_tab(new DynamicContentTab(self :: TAB_PARTICIPANTS, Translation :: get('participants'), Theme :: get_image_path('survey') . 'survey-16.png', $table->as_html()));
@@ -69,10 +64,16 @@ class SurveyManagerParticipantBrowserComponent extends SurveyManager
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         
         $parameters = $this->get_parameters();
-        $parameters[SurveyManager :: PARAM_PUBLICATION_ID] = $this->pid;
+        $parameters[self :: PARAM_PUBLICATION_ID] = $this->pid;
         
         $action_bar->set_search_url($this->get_url($parameters));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url($parameters), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        
+        if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_INVITE, SurveyRights :: LOCATION_PARTICIPANT_BROWSER, SurveyRights :: TYPE_SURVEY_COMPONENT))
+        {
+            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('SubscribeUsers'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_subscribe_user_url($this->pid), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('SubscribeGroups'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_subscribe_group_url($this->pid), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
         
         return $action_bar;
     }
@@ -113,7 +114,7 @@ class SurveyManagerParticipantBrowserComponent extends SurveyManager
     function get_invitee_condition()
     {
         
-        $publication_id = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
+        $publication_id = Request :: get(self :: PARAM_PUBLICATION_ID);
         
         $invited_users = array();
         $invited_users = SurveyRights :: get_allowed_users(SurveyRights :: RIGHT_PARTICIPATE, $publication_id, SurveyRights :: TYPE_PUBLICATION);
@@ -152,7 +153,7 @@ class SurveyManagerParticipantBrowserComponent extends SurveyManager
     function get_no_participant_condition()
     {
         
-        $survey_pub_id = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
+        $survey_pub_id = Request :: get(self :: PARAM_PUBLICATION_ID);
         
         $survey_publication = SurveyDataManager :: get_instance()->retrieve_survey_publication($survey_pub_id);
         

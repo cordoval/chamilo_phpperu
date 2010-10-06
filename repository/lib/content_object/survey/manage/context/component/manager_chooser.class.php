@@ -1,6 +1,6 @@
 <?php
 
-class SurveyContextManagerManagerChooserComponent extends SurveyContextManager
+class SurveyContextManagerManagerChooserComponent extends SurveyContextManager implements DelegateComponent
 {
     
     const ADMINISTRATIONTAB = 0;

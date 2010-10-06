@@ -80,7 +80,7 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
 
     function get_context_template_name()
     {
-        $template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($this->get_additional_property(self :: PROPERTY_CONTEXT_TEMPLATE_ID));
+        $template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($this->get_context_template_id());
         return empty($template) ? '' : $template->get_name();
     
     }
@@ -88,7 +88,8 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
     function get_context_template($level = 1)
     {
         
-        $context_template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($this->get_additional_property(self :: PROPERTY_CONTEXT_TEMPLATE_ID));
+        if(!$this->get_context_template_id() == 0){
+    	$context_template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($this->get_context_template_id());
         if ($level != 1)
         {
             
@@ -104,6 +105,10 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
         }
         
         return $context_template;
+        }
+        else{
+        	return null;
+        }
     
     }
 
