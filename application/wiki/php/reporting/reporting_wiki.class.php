@@ -6,7 +6,7 @@
 /**
  * @author Michael Kyndt
  */
-require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
+require_once WebAppplication :: get_application_lib_path('weblcms') . 'weblcms_data_manager.class.php';
 
 class ReportingWeblcms
 {

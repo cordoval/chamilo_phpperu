@@ -3,10 +3,10 @@
  * $Id: wiki_publication_browser_table_cell_renderer.class.php 210 2009-11-13 13:18:50Z kariboe $
  * @package application.lib.wiki.wiki_manager.component.wiki_publication_browser
  */
-require_once dirname(__FILE__) . '/wiki_publication_browser_table_column_model.class.php';
-require_once dirname(__FILE__) . '/../../../tables/wiki_publication_table/default_wiki_publication_table_cell_renderer.class.php';
-require_once dirname(__FILE__) . '/../../../wiki_publication.class.php';
-require_once dirname(__FILE__) . '/../../wiki_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('wiki') . 'wiki_manager/component/wiki_publication_browser/wiki_publication_browser_table_column_model.class.php';
+require_once WebApplication :: get_application_class_lib_path('wiki') . 'tables/wiki_publication_table/default_wiki_publication_table_cell_renderer.class.php';
+require_once WebApplication :: get_application_class_lib_path('wiki') . 'wiki_publication.class.php';
+require_once WebApplication :: get_application_class_lib_path('wiki') . 'wiki_manager/wiki_manager.class.php';
 
 /**
  * Cell rendere for the learning object browser table

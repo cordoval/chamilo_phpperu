@@ -1,6 +1,6 @@
 <?php
-require_once dirname(__FILE__) . '/../wiki_reporting_block.class.php';
-require_once PATH :: get_reporting_path() . '/lib/reporting_data.class.php';
+require_once WebApplication :: get_application_class_path('wiki') . 'reporting/wiki_reporting_block.class.php';
+require_once  CoreApplication :: get_application_class_lib_path('reporting') . 'reporting_data.class.php';
 
 class WikiMostEditedPageReportingBlock extends WikiReportingBlock
 {

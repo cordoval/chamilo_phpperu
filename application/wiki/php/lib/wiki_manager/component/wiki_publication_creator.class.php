@@ -3,9 +3,9 @@
  * $Id: wiki_publication_creator.class.php 210 2009-11-13 13:18:50Z kariboe $
  * @package application.lib.wiki.wiki_manager.component
  */
-require_once dirname(__FILE__) . '/../wiki_manager.class.php';
-require_once dirname(__FILE__) . '/../../forms/wiki_publication_form.class.php';
-require_once Path :: get_application_path() . '/lib/weblcms/content_object_repo_viewer.class.php';
+require_once WebApplication :: get_application_class_lib_path('wiki') . 'wiki_manager/wiki_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('wiki') . 'forms/wiki_publication_form.class.php';
+require_once WebApplication :: get_application_class_lib_path('weblcms') .'content_object_repo_viewer.class.php';
 
 /**
  * Component to create a new wiki_publication object

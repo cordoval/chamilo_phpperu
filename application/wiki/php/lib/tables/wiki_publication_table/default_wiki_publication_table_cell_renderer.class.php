@@ -4,7 +4,7 @@
  * @package application.lib.wiki.tables.wiki_publication_table
  */
 
-require_once dirname(__FILE__) . '/../../wiki_publication.class.php';
+require_once WebApplication :: get_application_class_lib_path('wiki') . 'wiki_publication.class.php';
 //require_once Path :: get_repository_path() . 'lib/complex_display/wiki/wiki_display.class.php';
 
 /**

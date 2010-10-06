@@ -3,7 +3,7 @@
  * $Id: wiki_installer.class.php 210 2009-11-13 13:18:50Z kariboe $
  * @package application.lib.wiki.install
  */
-require_once dirname(__FILE__) . '/../lib/wiki_data_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('wiki') . 'wiki_data_manager.class.php';
 
 /**
  * This installer can be used to create the storage structure for the

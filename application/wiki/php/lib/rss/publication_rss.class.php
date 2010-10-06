@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__).'/../../../../common/global.inc.php';
-require_once Path :: get_common_path().'/rss/publication_rss.class.php';
-require_once dirname(__FILE__).'/../wiki_data_manager.class.php';
+require_once Path :: get_common_libraries_path().'/rss/publication_rss.class.php';
+require_once WebApplication :: get_application_class_lib_path('wiki') . 'wiki_data_manager.class.php';
 
 class WikiPublicationRSS extends PublicationRSS
 {
