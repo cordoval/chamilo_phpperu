@@ -4,14 +4,13 @@
  * $Id: browser.class.php 201 2009-11-13 12:34:51Z chellee $
  * @package application.personal_calendar.personal_calendar_manager.component
  */
-require_once dirname(__FILE__) . '/../personal_calendar_manager.class.php';
-require_once dirname(__FILE__) . '/../../renderer/personal_calendar_mini_month_renderer.class.php';
-require_once dirname(__FILE__) . '/../../renderer/personal_calendar_list_renderer.class.php';
-require_once dirname(__FILE__) . '/../../renderer/personal_calendar_month_renderer.class.php';
-require_once dirname(__FILE__) . '/../../renderer/personal_calendar_week_renderer.class.php';
-require_once dirname(__FILE__) . '/../../renderer/personal_calendar_day_renderer.class.php';
-require_once dirname(__FILE__) . '/../../forms/personal_calendar_jump_form.class.php';
-require_once dirname(__FILE__) . '/../../personal_calendar_rights.class.php';
+require_once WebApplication :: get_application_class_lib_path('personal_calendar') . 'renderer/personal_calendar_mini_month_renderer.class.php';
+require_once WebApplication :: get_application_class_lib_path('personal_calendar') .  'renderer/personal_calendar_list_renderer.class.php';
+require_once WebApplication :: get_application_class_lib_path('personal_calendar') .  'renderer/personal_calendar_month_renderer.class.php';
+require_once WebApplication :: get_application_class_lib_path('personal_calendar') .  'renderer/personal_calendar_week_renderer.class.php';
+require_once WebApplication :: get_application_class_lib_path('personal_calendar') .  'renderer/personal_calendar_day_renderer.class.php';
+require_once WebApplication :: get_application_class_lib_path('personal_calendar') . 'forms/personal_calendar_jump_form.class.php';
+require_once WebApplication :: get_application_class_lib_path('personal_calendar') . 'personal_calendar_rights.class.php';
 
 class PersonalCalendarManagerBrowserComponent extends PersonalCalendarManager
 {  
@@ -22,7 +21,7 @@ class PersonalCalendarManagerBrowserComponent extends PersonalCalendarManager
      */
     function run()
     {
-        $view = Request :: get(PersonalCalendarManager::PARAM_VIEW) ? Request :: get(PersonalCalendarManager::PARAM_VIEW) : 'month'; 
+    	$view = Request :: get(PersonalCalendarManager::PARAM_VIEW) ? Request :: get(PersonalCalendarManager::PARAM_VIEW) : 'month'; 
         $this->set_parameter(PersonalCalendarManager::PARAM_VIEW, $view);
         $this->form = new PersonalCalendarJumpForm($this, $this->get_url());
         if ($this->form->validate())

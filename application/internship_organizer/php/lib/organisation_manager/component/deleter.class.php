@@ -1,6 +1,6 @@
 <?php
 
-require_once Path :: get_application_path() . 'internship_organizer/php/internship_organizer_manager/internship_organizer_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'internship_organizer_manager/internship_organizer_manager.class.php';
 
 class InternshipOrganizerOrganisationManagerDeleterComponent extends InternshipOrganizerOrganisationManager
 {

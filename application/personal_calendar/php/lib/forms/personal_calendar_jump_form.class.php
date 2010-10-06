@@ -40,7 +40,7 @@ class PersonalCalendarJumpForm extends FormValidator
         $this->renderer->setFormTemplate('<form {attributes}><div class="jump_form">{content}</div><div class="clear">&nbsp;</div></form>');
         $this->renderer->setElementTemplate('<div class="row"><div class="formw">{element}</div></div>');
 
-        $this->addElement('static', null, null, Translation :: get('JumpTo'));
+        $this->addElement('static', null, null, Translation :: get('JumpTo', PersonalCalendarManager :: APPLICATION_NAME));
         $this->addElement('select', self :: JUMP_DAY, null, $this->get_days(), array('class' => 'postback'));
         $this->addElement('select', self :: JUMP_MONTH, null, $this->get_months(), array('class' => 'postback'));
         $this->addElement('select', self :: JUMP_YEAR, null, $this->get_years(), array('class' => 'postback'));

@@ -3,10 +3,10 @@
  * $Id: database_photo_gallery_data_manager.class.php 
  * @package application.lib.photo_gallery.data_manager
  */
-require_once dirname(__FILE__) . '/../photo_gallery_publication.class.php';
-require_once dirname(__FILE__) . '/../photo_gallery_data_manager_interface.class.php';
-require_once dirname(__FILE__) . '/../photo_gallery_publication_user.class.php';
-require_once dirname(__FILE__) . '/../photo_gallery_publication_group.class.php';
+require_once WebApplication :: get_application_class_lib_path('photo_gallery') . 'photo_gallery_publication.class.php';
+require_once WebApplication :: get_application_class_lib_path('photo_gallery') . 'photo_gallery_data_manager_interface.class.php';
+require_once WebApplication :: get_application_class_lib_path('photo_gallery') . 'photo_gallery_publication_user.class.php';
+require_once WebApplication :: get_application_class_lib_path('photo_gallery') . 'photo_gallery_publication_group.class.php';
 
 /**
  * This is a data manager that uses a database for storage. It was written

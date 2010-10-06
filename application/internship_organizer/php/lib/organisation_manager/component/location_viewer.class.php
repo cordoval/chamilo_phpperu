@@ -1,8 +1,8 @@
 <?php
 
-require_once Path :: get_application_path() . 'internship_organizer/php/organisation_manager/component/viewer.class.php';
-require_once Path :: get_application_path() . 'internship_organizer/php/publisher/publication_table/publication_table.class.php';
-require_once Path :: get_application_path() . 'internship_organizer/php/organisation_manager/component/mentor_browser/browser_table.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'organisation_manager/component/viewer.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'publisher/publication_table/publication_table.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'organisation_manager/component/mentor_browser/browser_table.class.php';
 
 class InternshipOrganizerOrganisationManagerLocationViewerComponent extends InternshipOrganizerOrganisationManager
 {

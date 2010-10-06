@@ -1,6 +1,6 @@
 <?php
 
-require_once Path :: get_application_path() . 'internship_organizer/php/import/internship_organizer_import.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'import/internship_organizer_import.class.php';
 
 class InternshipOrganizerOrganisationImportForm extends FormValidator
 {
@@ -51,7 +51,7 @@ class InternshipOrganizerOrganisationImportForm extends FormValidator
 
     function get_types()
     {
-        $folder = Path :: get_application_path() . 'internship_organizer/php/import/';
+        $folder = WebApplication :: get_application_class_lib_path('internship_organizer') . 'import/';
         $folders = Filesystem :: get_directory_content($folder, Filesystem :: LIST_DIRECTORIES, false);
         foreach ($folders as $f)
         {

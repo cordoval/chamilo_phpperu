@@ -1,8 +1,8 @@
 <?php
-require_once dirname(__FILE__) . '/photo_gallery_publication_browser_table_data_provider.class.php';
-require_once dirname(__FILE__) . '/photo_gallery_publication_browser_table_column_model.class.php';
-require_once dirname(__FILE__) . '/photo_gallery_publication_browser_table_cell_renderer.class.php';
-require_once dirname(__FILE__) . '/../../photo_gallery_manager/photo_gallery_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('photo_gallery') . 'renderer/photo_gallery_publication_browser/photo_gallery_publication_browser_table_data_provider.class.php';
+require_once WebApplication :: get_application_class_lib_path('photo_gallery') . 'renderer/photo_gallery_publication_browser/photo_gallery_publication_browser_table_column_model.class.php';
+require_once WebApplication :: get_application_class_lib_path('photo_gallery') . 'renderer/photo_gallery_publication_browser/photo_gallery_publication_browser_table_cell_renderer.class.php';
+require_once WebApplication :: get_application_class_lib_path('photo_gallery') . 'renderer/photo_gallery_publication_browser/photo_gallery_manager/photo_gallery_manager.class.php';
 /**
  * Table to display a set of learning objects.
  */

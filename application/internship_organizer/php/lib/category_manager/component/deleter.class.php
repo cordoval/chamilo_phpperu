@@ -1,6 +1,6 @@
 <?php
 
-require_once Path :: get_application_path() . 'internship_organizer/php/category_manager/component/browser.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'category_manager/component/browser.class.php';
 
 
 class InternshipOrganizerCategoryManagerDeleterComponent extends InternshipOrganizerCategoryManager

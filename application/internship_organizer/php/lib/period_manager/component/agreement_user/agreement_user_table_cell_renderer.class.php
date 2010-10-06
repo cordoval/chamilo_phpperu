@@ -1,8 +1,7 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../../tables/user_table/default_user_table_cell_renderer.class.php';
-require_once Path :: get_user_path() . '/lib/user_table/default_user_table_cell_renderer.class.php';
-
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'tables/user_table/default_user_table_cell_renderer.class.php';
+require_once CoreApplication :: get_application_class_lib_path('user') . 'user_table/default_user_table_cell_renderer.class.php';
 class InternshipOrganizerPeriodAgreementUserBrowserTableCellRenderer extends DefaultInternshipOrganizerUserTableCellRenderer
 {
     

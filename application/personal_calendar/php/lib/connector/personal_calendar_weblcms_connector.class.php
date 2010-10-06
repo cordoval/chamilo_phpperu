@@ -3,8 +3,8 @@
  * $Id: personal_calendar_weblcms_connector.class.php 201 2009-11-13 12:34:51Z chellee $
  * @package application.personal_calendar.connector
  */
-require_once (dirname(__FILE__) . '/../personal_calendar_connector.class.php');
-require_once Path :: get_application_path() . 'weblcms/php/lib/weblcms_data_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('personal_calendar') . 'personal_calendar_connector.class.php';
+require_once WebApplication :: get_application_class_lib_path('weblcms') . 'weblcms_data_manager.class.php';
 /**
  * This personal calendar connector allows the personal calendar to retrieve the
  * published calendar events in the WebLcms application.

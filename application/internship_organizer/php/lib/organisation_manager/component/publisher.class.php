@@ -1,8 +1,8 @@
 <?php
 
 require_once dirname(__FILE__) . '/../../publisher/location_publisher.class.php';
-require_once Path :: get_application_path() . 'internship_organizer/php/organisation_manager/component/browser.class.php';
-require_once Path :: get_application_path() . 'internship_organizer/php/organisation_manager/component/viewer.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'organisation_manager/component/browser.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'organisation_manager/component/viewer.class.php';
 
 
 class InternshipOrganizerOrganisationManagerPublisherComponent extends InternshipOrganizerOrganisationManager implements RepoViewerInterface

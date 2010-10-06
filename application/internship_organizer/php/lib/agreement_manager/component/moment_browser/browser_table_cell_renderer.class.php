@@ -1,9 +1,9 @@
 <?php
 
-require_once dirname(__FILE__) . '/browser_table_column_model.class.php';
-require_once dirname(__FILE__) . '/../../../tables/moment_table/default_moment_table_cell_renderer.class.php';
-require_once dirname(__FILE__) . '/../../../moment.class.php';
-require_once dirname(__FILE__) . '/../../agreement_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'agreement_manager/component/moment_browser/browser_table_column_model.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'tables/moment_table/default_moment_table_cell_renderer.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'moment.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'agreement_manager/agreement_manager.class.php';
 
 class InternshipOrganizerMomentBrowserTableCellRenderer extends DefaultInternshipOrganizerMomentTableCellRenderer
 {

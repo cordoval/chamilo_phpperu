@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__) . '/../location_rel_category.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'location_rel_category.class.php';
 
 /**
  * This class describes the form for a InternshipOrganizerLocationRelCategory object.

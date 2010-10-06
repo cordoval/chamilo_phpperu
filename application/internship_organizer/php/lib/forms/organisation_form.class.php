@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__) . '/../organisation.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'organisation.class.php';
 
 /**
  * This class describes the form for a Place object.

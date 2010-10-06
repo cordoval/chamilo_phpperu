@@ -1,6 +1,6 @@
 <?php
 
-require_once Path :: get_application_path() . 'lib/survey/trackers/survey_participant_tracker.class.php';
+require_once WebApplication :: get_application_class_lib_path('survey') . 'trackers/survey_participant_tracker.class.php';
 require_once Path :: get_repository_path() . 'lib/content_object/survey/display/component/viewer/survey_viewer_wizard.class.php';
 
 class InternshipOrganizerEvaluationManagerTakerComponent extends InternshipOrganizerEvaluationManager

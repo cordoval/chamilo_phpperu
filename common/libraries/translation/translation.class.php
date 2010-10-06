@@ -182,8 +182,9 @@ class Translation
     
     function add_context_internationalization($language, $context)
     {
-    	$path = Path :: get_language_path() . $language . '/' . $context . '.i18n';
-        $strings = parse_ini_file($path);
+    	$path = BasicApplication::get_application_resources_i18n_path($context). $language . '.i18n';
+        dump($path);
+    	$strings = parse_ini_file($path);
         
         
         $instance = self :: get_instance();

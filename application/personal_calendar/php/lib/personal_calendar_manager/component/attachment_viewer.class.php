@@ -3,7 +3,6 @@
  * $Id: attachment_viewer.class.php 201 2009-11-13 12:34:51Z chellee $
  * @package application.personal_calendar.personal_calendar_manager.component
  */
-require_once dirname(__FILE__) . '/../personal_calendar_manager.class.php';
 
 class PersonalCalendarManagerAttachmentViewerComponent extends PersonalCalendarManager
 {

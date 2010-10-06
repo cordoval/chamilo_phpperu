@@ -65,44 +65,51 @@ class Path
 {
     private static $path = array();
     const CLASS_PATH = 'php';
+    const CLASS_LIB_PATH = 'lib';
+    const RESOURCES_PATH = 'resources';
+    const RESOURCES_IMAGES_PATH = 'images';
+    const RESOURCES_CSS_PATH = 'css';
+    const RESOURCES_I18N_PATH = 'i18n';
+    const RESOURCES_TEMPLATES_PATH = 'templates';
+    const RESOURCES_JAVASCRIPT_PATH = 'javascript';
 
     public static function get($path_type)
     {
-    	if (isset(self :: $path[$path_type]))
-    	{
-    		return self :: $path[$path_type];
-    	}
-
+        if (isset(self :: $path[$path_type]))
+        {
+            return self :: $path[$path_type];
+        }
+        
         switch ($path_type)
         {
             case WEB_PATH :
-            	$dir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'].'x'));
-				if ($dir !== '/')
-				{
-		 	        $dir .= '/';
- 				}
- 
- 				//Temporary fix for things that are launched from the common folder
- 				$possible_launchers = array('common', 'home');
- 				foreach($possible_launchers as $possible_launcher)
- 				{
- 					if(strpos($dir, $possible_launcher . '/') !== false)
- 					{
- 						$dir = substr($dir, 0, strpos($dir, $possible_launcher . '/'));
- 						break;
- 					}
- 				}
- 				
- 				$protocol = empty($_SERVER['HTTPS']) ? 'http://' : 'https://';
- 				
- 				return self :: $path[$path_type] = $protocol . $_SERVER['HTTP_HOST'] . $dir;
-                //return self :: $path[$path_type] = Configuration :: get_instance()->get_parameter('general', 'root_web');
+                $dir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] . 'x'));
+                if ($dir !== '/')
+                {
+                    $dir .= '/';
+                }
+                
+                //Temporary fix for things that are launched from the common folder
+                $possible_launchers = array('common', 'home');
+                foreach ($possible_launchers as $possible_launcher)
+                {
+                    if (strpos($dir, $possible_launcher . '/') !== false)
+                    {
+                        $dir = substr($dir, 0, strpos($dir, $possible_launcher . '/'));
+                        break;
+                    }
+                }
+                
+                $protocol = empty($_SERVER['HTTPS']) ? 'http://' : 'https://';
+                
+                return self :: $path[$path_type] = $protocol . $_SERVER['HTTP_HOST'] . $dir;
+            //return self :: $path[$path_type] = Configuration :: get_instance()->get_parameter('general', 'root_web');
             case SYS_PATH :
                 return self :: $path[$path_type] = realpath(dirname(__FILE__) . '/../../../') . '/';
             case REL_PATH :
                 $url_append = Configuration :: get_instance()->get_parameter('general', 'url_append');
                 return self :: $path[$path_type] = (substr($url_append, - 1) === '/' ? $url_append : $url_append . '/');
-
+            
             // Platform-level paths
             case WEB_LIB_PATH :
                 return self :: $path[$path_type] = self :: get(WEB_PATH) . 'common/';
@@ -126,7 +133,7 @@ class Path
                 return self :: $path[$path_type] = self :: get(WEB_PATH) . 'languages/';
             case SYS_LANG_PATH :
                 return self :: $path[$path_type] = self :: get(SYS_PATH) . 'languages/';
-
+            
             // Some paths for the LCMS applications
             case SYS_APP_PATH :
                 return self :: $path[$path_type] = self :: get(SYS_PATH) . 'application/';
@@ -158,15 +165,15 @@ class Path
                 return self :: $path[$path_type] = self :: get(SYS_PATH) . 'reporting/';
             case SYS_APP_WEBSERVICE_PATH :
                 return self :: $path[$path_type] = self :: get(SYS_PATH) . 'webservice/';
-			case SYS_LAUNCH_APP_PATH :
+            case SYS_LAUNCH_APP_PATH :
                 return self :: $path[$path_type] = self :: get_library_path() . 'launcher/';
-			case WEB_LAUNCH_APP_PATH :
-				return self :: $path[$path_type] = self :: get(WEB_LIB_PATH) . 'launcher/';
-                
+            case WEB_LAUNCH_APP_PATH :
+                return self :: $path[$path_type] = self :: get(WEB_LIB_PATH) . 'launcher/';
+            
             // Application-paths
             case SYS_APP_LIB_PATH :
                 return self :: $path[$path_type] = self :: get(SYS_APP_PATH) . 'common/';
-
+            
             // Files-paths
             case WEB_ARCHIVE_PATH :
                 return self :: $path[$path_type] = self :: get(WEB_FILE_PATH) . 'archive/';
@@ -216,13 +223,13 @@ class Path
     {
         return self :: get_common_libraries_path();
     }
-    
+
     public static function get_common_extensions_path()
     {
-    	return self :: get(SYS_LIB_PATH) . 'extensions/';
+        return self :: get(SYS_LIB_PATH) . 'extensions/';
     }
-    
-	public static function get_common_libraries_path()
+
+    public static function get_common_libraries_path()
     {
         return self :: get(SYS_LIB_PATH) . 'libraries/';
     }
@@ -296,22 +303,20 @@ class Path
     {
         return self :: get(SYS_APP_PATH);
     }
-    
+
     public static function get_application_web_path()
     {
-    	return self :: get(WEB_APP_PATH);
+        return self :: get(WEB_APP_PATH);
     }
-    
+
     public static function get_launcher_application_path($web = false)
     {
-    	if ($web)
-    	{
-    		return self :: get(WEB_LAUNCH_APP_PATH);
-    	}
-    	return self :: get(SYS_LAUNCH_APP_PATH);
+        if ($web)
+        {
+            return self :: get(WEB_LAUNCH_APP_PATH);
+        }
+        return self :: get(SYS_LAUNCH_APP_PATH);
     }
-    
-    
 
     public static function get_reporting_path()
     {
@@ -347,10 +352,10 @@ class Path
     {
         return self :: get(SYS_CACHE_PATH);
     }
-    
+
     public static function get_layout_path()
     {
-    	return self :: get(SYS_LAYOUT_PATH);
+        return self :: get(SYS_LAYOUT_PATH);
     }
 }
 ?>

@@ -1,8 +1,8 @@
 <?php
 
 require_once dirname(__FILE__) . '/publication_table_column_model.class.php';
-require_once Path :: get_application_path() . 'internship_organizer/php/tables/publication_table/default_publication_table_cell_renderer.class.php';
-require_once Path :: get_application_path() . 'internship_organizer/php/publication.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'tables/publication_table/default_publication_table_cell_renderer.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'publication.class.php';
 
 class InternshipOrganizerPublicationTableCellRenderer extends DefaultInternshipOrganizerPublicationTableCellRenderer
 {

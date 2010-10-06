@@ -93,18 +93,6 @@ abstract class BasicApplication extends Application
         }
     }
 
-    static function get_application_manager_path($application_name)
-    {
-        if (WebApplication :: is_application($application_name))
-        {
-            return WebApplication :: get_application_manager_path($application_name);
-        }
-        else
-        {
-            return CoreApplication :: get_application_manager_path($application_name);
-        }
-    }
-
     /**
      * Gets a link to the personal calendar application
      * @param array $parameters
@@ -118,24 +106,92 @@ abstract class BasicApplication extends Application
         $application = $this->get_application_name();
         return Redirect :: get_link($application, $parameters, $filter, $encode_entities, $application_type);
     }
-
-    public static function get_component_path($application_name)
+ 
+    static function get_application_manager_path($application_name)
     {
-        if (WebApplication :: is_application($application_name))
-        {
-            return WebApplication :: get_component_path($application_name);
-        }
-        elseif (CoreApplication :: is_application($application_name))
-        {
-            return CoreApplication :: get_component_path($application_name);
-        }
+   		$type = Application::get_type($application_name);
+    	return $type :: get_application_class_path($application_name) . 'lib/' . $application_name . '_manager' . '/' . $application_name . '_manager.class.php';
+    } 
+    
+    static function get_component_path($application)
+    {
+        $type = Application::get_type($application);
+    	return $type :: get_application_class_path($application) . 'lib/' . $application . '_manager/component/';
     }
 
-    public static function get_application_class_path()
+    static function get_application_class_path($application)
     {
-        return Path :: CLASS_PATH . '/';
+    	$type = Application::get_type($application);
+    	return $type :: get_application_path($application) . Path :: CLASS_PATH . '/';
+    }
+    
+    static function get_application_class_lib_path($application)
+    {
+    	return self ::get_application_class_path($application) . Path :: CLASS_LIB_PATH . '/'; 
+    }
+    
+ 	static function get_application_resources_path($application)
+    {
+    	$type = Application::get_type($application);
+    	return $type :: get_application_path($application) . Path :: RESOURCES_PATH . '/';
+    }
+    
+ 	static function get_application_web_resources_path($application)
+    {
+    	$type = Application::get_type($application);
+    	return $type :: get_application_web_path($application) . Path :: RESOURCES_PATH . '/';
     }
 
+ 	static function get_application_resources_images_path($application)
+    {
+    	return self :: get_application_resources_path($application) . Path :: RESOURCES_IMAGES_PATH . '/';
+    }
+ 	
+    static function get_application_resources_i18n_path($application)
+    {
+    	return self :: get_application_resources_path($application) . Path :: RESOURCES_I18N_PATH . '/';
+    }
+ 	
+    static function get_application_resources_css_path($application)
+    {
+    	return self :: get_application_resources_path($application) . Path :: RESOURCES_CSS_PATH . '/';
+    }   
+    
+ 	static function get_application_resources_templates_path($application)
+    {
+    	return self :: get_application_resources_path($application) . Path :: RESOURCES_TEMPLATES_PATH . '/';
+    }
+    
+ 	static function get_application_resources_javascript_path($application)
+    {
+    	return self :: get_application_resources_path($application) . Path :: RESOURCES_JAVASCRIPT_PATH . '/';
+    }
+    //web_path
+	static function get_application_web_resources_images_path($application)
+    {
+    	return self :: get_application_web_resources_path($application) . Path :: RESOURCES_IMAGES_PATH . '/';
+    }
+ 	
+    static function get_application_web_resources_i18n_path($application)
+    {
+    	return self :: get_application_web_resources_path($application) . Path :: RESOURCES_I18N_PATH . '/';
+    }
+ 	
+    static function get_application_web_resources_css_path($application)
+    {
+    	return self :: get_application_web_resources_path($application) . Path :: RESOURCES_CSS_PATH . '/';
+    }   
+    
+ 	static function get_application_web_resources_templates_path($application)
+    {
+    	return self :: get_application_web_resources_path($application) . Path :: RESOURCES_TEMPLATES_PATH . '/';
+    }
+    
+ 	static function get_application_web_resources_javascript_path($application)
+    {
+    	return self :: get_application_web_resources_path($application) . Path :: RESOURCES_JAVASCRIPT_PATH . '/';
+    }
+    
     static function exists($application)
     {
         if (WebApplication :: exists($application))

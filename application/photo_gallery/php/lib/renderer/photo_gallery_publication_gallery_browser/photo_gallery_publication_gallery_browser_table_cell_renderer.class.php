@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__) . '/../../tables/photo_gallery_gallery_table/default_photo_gallery_gallery_table_cell_renderer.class.php';
+require_once WebApplication :: get_application_class_lib_path('photo_gallery') . 'tables/photo_gallery_gallery_table/default_photo_gallery_gallery_table_cell_renderer.class.php';
 /**
  * Cell rendere for the learning object browser table
  */

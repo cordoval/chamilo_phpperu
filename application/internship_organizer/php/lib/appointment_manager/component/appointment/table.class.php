@@ -1,8 +1,8 @@
 <?php
 
-require_once dirname(__FILE__) . '/table_data_provider.class.php';
-require_once dirname(__FILE__) . '/table_column_model.class.php';
-require_once dirname(__FILE__) . '/table_cell_renderer.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'appointment_manager/component/appointment/table_data_provider.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'appointment_manager/component/appointment/table_column_model.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'appointment_manager/component/appointment/table_cell_renderer.class.php';
 
 class InternshipOrganizerAppointmentBrowserTable extends ObjectTable
 {

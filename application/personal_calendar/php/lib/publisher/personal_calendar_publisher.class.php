@@ -4,7 +4,7 @@
  * @package application.personal_calendar.publisher
  */
 //require_once Path :: get_common_extensions_path() . 'publisher/component/multipublisher.class.php';
-require_once dirname(__FILE__) . '/../personal_calendar_publication_form.class.php';
+require_once WebApplication :: get_application_class_lib_path('personal_calendar') . 'personal_calendar_publication_form.class.php';
 
 //require_once Path :: get_common_extensions_path() . 'publisher/component/publication_candidate_table/publication_candidate_table.class.php';
 

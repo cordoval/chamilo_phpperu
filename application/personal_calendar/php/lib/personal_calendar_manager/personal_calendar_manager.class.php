@@ -3,11 +3,12 @@
  * $Id: personal_calendar_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.personal_calendar.personal_calendar_manager
  */
-require_once dirname(__FILE__) . '/../connector/personal_calendar_weblcms_connector.class.php';
-require_once dirname(__FILE__) . '/../personal_calendar_event.class.php';
-require_once dirname(__FILE__) . '/../personal_calendar_data_manager.class.php';
-require_once dirname(__FILE__) . '/../personal_calendar_block.class.php';
-require_once dirname(__FILE__) . '/../personal_calendar_event_parser.class.php';
+require_once WebApplication :: get_application_class_lib_path('personal_calendar') . 'connector/personal_calendar_weblcms_connector.class.php';
+require_once WebApplication :: get_application_class_lib_path('personal_calendar') . 'personal_calendar_event.class.php';
+require_once WebApplication :: get_application_class_lib_path('personal_calendar') . 'personal_calendar_data_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('personal_calendar') . 'personal_calendar_block.class.php';
+require_once WebApplication :: get_application_class_lib_path('personal_calendar') . 'personal_calendar_event_parser.class.php';
+
 /**
  * This application gives each user the possibility to maintain a personal
  * calendar.

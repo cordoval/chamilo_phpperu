@@ -163,6 +163,7 @@ abstract class WebApplication extends BasicApplication
      * Determines if a given application exists
      * @param string $name
      * @return boolean
+     * @deprecated
      */
     public static function is_application($name)
     {
@@ -180,7 +181,7 @@ abstract class WebApplication extends BasicApplication
 
     public function is_active($application)
     {
-        if (self :: is_application($application))
+        if (self :: exists($application))
         {
             $adm = AdminDataManager :: get_instance();
             
@@ -223,12 +224,18 @@ abstract class WebApplication extends BasicApplication
         return Path :: get_application_web_path() . $application_name . '/';
     }
 
+    /**
+     * @deprecated
+     */
     public function get_application_component_path()
     {
         $application_name = $this->get_application_name();
         return $this->get_application_path($application_name) . 'lib/' . $application_name . '_manager/component/';
     }
 
+    /**
+     * @deprecated
+     */
     static function factory($application, $user = null)
     {
         require_once self :: get_application_manager_path($application);
@@ -240,25 +247,11 @@ abstract class WebApplication extends BasicApplication
     {
         return null;
     }
-    
-    static function get_component_path($application)
-    {
-        return self :: get_application_class_path($application) . 'lib/' . $application . '_manager/component/';
-    }
-    
-    static function get_application_manager_path($application_name)
-    {
-    	return self :: get_application_class_path($application_name) . 'lib/' . $application_name . '_manager' . '/' . $application_name . '_manager.class.php';
-    }
-    
-    static function get_application_class_path ($application)
-    {
-    	return self :: get_application_path($application) . parent :: get_application_class_path();
-    }
+
     
     static function exists($application)
     {
-    	$application_path = self :: get_application_path($name);       
+    	$application_path = self :: get_application_path($application);       
         
         if (file_exists($application_path) && is_dir($application_path) )
         {

@@ -1,6 +1,6 @@
 <?php
-require_once dirname(__FILE__) . '/../category_manager.class.php';
-require_once dirname(__FILE__) . '/browser/browser_table.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'category_manager/category_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'category_manager/component/browser/browser_table.class.php';
 
 class InternshipOrganizerCategoryManagerBrowserComponent extends InternshipOrganizerCategoryManager
 {

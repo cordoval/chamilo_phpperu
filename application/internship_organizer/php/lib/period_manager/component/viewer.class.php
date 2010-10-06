@@ -3,7 +3,7 @@
 require_once dirname(__FILE__) . '/rel_user_browser/rel_user_browser_table.class.php';
 require_once dirname(__FILE__) . '/rel_group_browser/rel_group_browser_table.class.php';
 require_once dirname(__FILE__) . '/user_browser/user_browser_table.class.php';
-require_once Path :: get_application_path() . 'internship_organizer/php/publisher/publication_table/publication_table.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'publisher/publication_table/publication_table.class.php';
 
 
 class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganizerPeriodManager

@@ -187,7 +187,7 @@ class HomeManagerHomeComponent extends HomeManager
         
         if ($user_home_allowed && Authentication :: is_valid())
         {
-            $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/home_ajax.js' . '"></script>';
+            //$html[] = '<script type="text/javascript" src="' . BasicApplication::get_application_resources_javascript_path(HomeManager::APPLICATION_NAME) . 'home_ajax.js' . '"></script>';
         }
         
         return implode("\n", $html);

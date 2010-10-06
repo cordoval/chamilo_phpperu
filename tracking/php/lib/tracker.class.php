@@ -190,8 +190,8 @@ abstract class Tracker extends DataClass
      */
     static function load_tracker($type, $application)
     {
-        $application_path = BasicApplication :: get_application_path($application);
-        require_once ($application_path . '/trackers/' . $type . '.class.php');
+        $application_path = BasicApplication :: get_application_class_path($application);
+        require_once ($application_path . 'trackers/' . $type . '.class.php');
     }
 }
 ?>

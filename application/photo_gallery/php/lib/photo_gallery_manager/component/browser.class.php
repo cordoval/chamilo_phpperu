@@ -3,7 +3,6 @@
  * $Id: browser.class.php
  * @package application.lib.photo_gallery.photo_gallery_manager.component
  */
-require_once dirname(__FILE__) . '/../photo_gallery_manager.class.php';
 
 class PhotoGalleryManagerBrowserComponent extends PhotoGalleryManager
 {

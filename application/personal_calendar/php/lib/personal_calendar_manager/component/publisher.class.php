@@ -3,9 +3,8 @@
  * $Id: publisher.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.personal_calendar.personal_calendar_manager.component
  */
-require_once dirname(__FILE__) . '/../personal_calendar_manager.class.php';
-require_once dirname(__FILE__) . '/../../publisher/personal_calendar_publisher.class.php';
-require_once dirname(__FILE__) . '/../../personal_calendar_rights.class.php';
+require_once WebApplication :: get_application_class_lib_path('personal_calendar') . 'publisher/personal_calendar_publisher.class.php';
+require_once WebApplication :: get_application_class_lib_path('personal_calendar') . 'personal_calendar_rights.class.php';
 
 class PersonalCalendarManagerPublisherComponent extends PersonalCalendarManager implements RepoViewerInterface
 {

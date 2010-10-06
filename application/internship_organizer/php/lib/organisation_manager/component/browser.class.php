@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__) . '/../organisation_manager.class.php';
 require_once dirname(__FILE__) . '/browser/browser_table.class.php';
-require_once Path :: get_application_path() . 'internship_organizer/php/agreement_rel_user.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'agreement_rel_user.class.php';
 
 
 class InternshipOrganizerOrganisationManagerBrowserComponent extends InternshipOrganizerOrganisationManager

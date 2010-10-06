@@ -1,6 +1,6 @@
 <?php
 
-require_once Path :: get_application_path() . 'internship_organizer/php/organisation_manager/component/mentor_viewer.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'organisation_manager/component/mentor_viewer.class.php';
 
 
 class InternshipOrganizerOrganisationManagerUnsubscribeLocationComponent extends InternshipOrganizerOrganisationManager

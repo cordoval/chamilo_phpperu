@@ -3,11 +3,11 @@
  * $Id: database_personal_calendar_data_manager.class.php 238 2009-11-16 14:10:27Z vanpouckesven $
  * @package application.personal_calendar.data_manager
  */
-require_once dirname(__FILE__) . '/../personal_calendar_data_manager.class.php';
-require_once dirname(__FILE__) . '/../personal_calendar_publication.class.php';
-require_once dirname(__FILE__) . '/../personal_calendar_publication_user.class.php';
-require_once dirname(__FILE__) . '/../personal_calendar_publication_group.class.php';
-require_once dirname(__FILE__) . '/../personal_calendar_data_manager_interface.class.php';
+require_once WebApplication :: get_application_class_lib_path('personal_calendar') . 'personal_calendar_data_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('personal_calendar') . 'personal_calendar_publication.class.php';
+require_once WebApplication :: get_application_class_lib_path('personal_calendar') . 'personal_calendar_publication_user.class.php';
+require_once WebApplication :: get_application_class_lib_path('personal_calendar') . 'personal_calendar_publication_group.class.php';
+require_once WebApplication :: get_application_class_lib_path('personal_calendar') . 'personal_calendar_data_manager_interface.class.php';
 /**
  * This is an implementation of a personal calendar datamanager using the PEAR::
  * MDB2 package as a database abstraction layer.

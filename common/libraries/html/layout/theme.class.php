@@ -123,7 +123,8 @@ class Theme
     static function get_css_path()
     {
         $instance = self :: get_instance();
-        return BasicApplication :: get_application_web_path($instance->get_application()) .'../resources/css/' . $instance->get_theme() . '.css';
+        $application = (is_null($application) ? $instance->get_application() : $application);
+        return BasicApplication :: get_application_web_resources_css_path($application) . $instance->get_theme() . '.css';
     }
 
     /**
@@ -141,7 +142,7 @@ class Theme
     {
         $instance = self :: get_instance();
         $application = (is_null($application) ? $instance->get_application() : $application);
-        return BasicApplication :: get_application_web_path($instance->get_application()) .'../resources/images/' . $instance->get_theme() . '/';       return $instance->get_path(WEB_IMG_PATH) . $application . '/';
+        return BasicApplication :: get_application_web_resources_images_path($application) . $instance->get_theme() . '/';       
     }
 
     /**
@@ -151,7 +152,7 @@ class Theme
     {
     	$instance = self :: get_instance();
         $application = (is_null($application) ? $instance->get_application() : $application);
-        return BasicApplication :: get_application_path($instance->get_application()) .'../resources/images/' . $instance->get_theme() . '/';       return $instance->get_path(WEB_IMG_PATH) . $application . '/';
+        return BasicApplication :: get_application_resources_images_path($application) . $instance->get_theme() . '/';
     }
 
     /**

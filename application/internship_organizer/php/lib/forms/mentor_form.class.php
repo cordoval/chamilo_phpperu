@@ -1,6 +1,6 @@
 <?php
-require_once dirname(__FILE__) . '/../mentor.class.php';
-require_once dirname(__FILE__) . '/../mentor_rel_user.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'mentor.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'mentor_rel_user.class.php';
 
 /**
  * This class describes the form for a Mentor object.

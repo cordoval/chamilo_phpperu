@@ -1,7 +1,7 @@
 <?php
 
-require_once dirname(__FILE__) . '/rel_mentor_browser_table_column_model.class.php';
-require_once dirname(__FILE__) . '/../../../tables/agreement_rel_mentor_table/default_agreement_rel_mentor_table_cell_renderer.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'agreement_manager/component/rel_mentor_browser/rel_mentor_browser_table_column_model.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'tables/agreement_rel_mentor_table/default_agreement_rel_mentor_table_cell_renderer.class.php';
 
 class InternshipOrganizerAgreementRelMentorBrowserTableCellRenderer extends DefaultInternshipOrganizerAgreementRelMentorTableCellRenderer
 {

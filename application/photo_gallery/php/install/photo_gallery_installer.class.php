@@ -4,7 +4,7 @@
  * @package application.lib.photo_gallery.install
  */
 
-require_once dirname(__FILE__) . '/../lib/photo_gallery_data_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('photo_gallery') . 'photo_gallery_data_manager.class.php';
 
 class PhotoGalleryInstaller extends Installer
 {

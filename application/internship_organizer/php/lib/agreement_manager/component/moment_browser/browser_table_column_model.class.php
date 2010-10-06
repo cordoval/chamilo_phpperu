@@ -1,7 +1,7 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../../tables/moment_table/default_moment_table_column_model.class.php';
-require_once dirname(__FILE__) . '/../../../moment.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'tables/moment_table/default_moment_table_column_model.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'moment.class.php';
 
 class InternshipOrganizerMomentBrowserTableColumnModel extends DefaultInternshipOrganizerMomentTableColumnModel
 {

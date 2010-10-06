@@ -1,12 +1,12 @@
 <?php
 
-require_once dirname(__FILE__) . '/../agreement_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'agreement_manager.class.php';
 
-require_once Path :: get_application_path() . 'internship_organizer/php/agreement_manager/component/moment_browser/browser_table.class.php';
-require_once Path :: get_application_path() . 'internship_organizer/php/agreement_manager/component/rel_location_browser/rel_location_browser_table.class.php';
-require_once Path :: get_application_path() . 'internship_organizer/php/agreement_manager/component/user_browser/user_browser_table.class.php';
-require_once Path :: get_application_path() . 'internship_organizer/php/agreement_manager/component/rel_mentor_browser/rel_mentor_browser_table.class.php';
-require_once Path :: get_application_path() . 'internship_organizer/php/publisher/publication_table/publication_table.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'agreement_manager/component/moment_browser/browser_table.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'agreement_manager/component/rel_location_browser/rel_location_browser_table.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'agreement_manager/component/user_browser/user_browser_table.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'agreement_manager/component/rel_mentor_browser/rel_mentor_browser_table.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'agreement_manager/component/publisher/publication_table/publication_table.class.php';
 
 class InternshipOrganizerAgreementManagerViewerComponent extends InternshipOrganizerAgreementManager
 {

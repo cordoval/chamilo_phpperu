@@ -3,7 +3,7 @@
  * $Id: photo_gallery_publication_form.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.photo_gallery.forms
  */
-require_once dirname(__FILE__) . '/../photo_gallery_publication.class.php';
+require_once WebApplication :: get_application_class_lib_path('photo_gallery') . 'photo_gallery_publication.class.php';
 
 class PhotoGalleryPublicationForm extends FormValidator
 {

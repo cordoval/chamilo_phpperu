@@ -1,7 +1,7 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../../tables/agreement_table/default_agreement_table_column_model.class.php';
-require_once dirname(__FILE__) . '/../../../agreement.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'tables/agreement_table/default_agreement_table_column_model.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'agreement.class.php';
 
 class InternshipOrganizerAgreementBrowserTableColumnModel extends DefaultInternshipOrganizerAgreementTableColumnModel
 {

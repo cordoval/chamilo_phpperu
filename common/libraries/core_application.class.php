@@ -12,7 +12,7 @@ abstract class CoreApplication extends BasicApplication
      */
     function is_active($application)
     {
-        if (self :: is_application($application))
+        if (self :: exists($application))
         {
             return true;
         }
@@ -26,6 +26,7 @@ abstract class CoreApplication extends BasicApplication
      * Determines if a given application exists
      * @param string $name
      * @return boolean
+     * @deprecated
      */
     public static function is_application($name)
     {
@@ -94,32 +95,23 @@ abstract class CoreApplication extends BasicApplication
     	return Path :: get(WEB_PATH) . $application_name . '/' ;
     }
 
+    /**
+     * @deprecated
+     */
     public function get_application_component_path()
     {
         $application_name = $this->get_application_name();
         return $this->get_application_path($application_name) . 'lib/' . $application_name . '_manager/component/';
     }
 
+    /**
+     * @deprecated
+     */
     static function factory($application, $user = null)
     {
         require_once self :: get_application_manager_path($application);
         $class = self :: get_application_class_name($application);
         return new $class($user);
-    }
-
-    static function get_application_manager_path($application_name)
-    {
-    	return self :: get_application_path($application_name) . 'lib/' . $application_name . '_manager' . '/' . $application_name . '_manager.class.php';
-    }
-
-    static function get_component_path($application)
-    {
-        return self :: get_application_path($application) . 'lib/' . $application . '_manager/component/';
-    }
-    
-    static function get_application_class_path ($application)
-    {
-    	return self :: get_application_path($application) . parent :: get_application_class_path();
     }
     
     static function exists($application)

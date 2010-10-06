@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../publisher/agreement_publisher.class.php';
+require_once require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'publisher/agreement_publisher.class.php';
 
 class InternshipOrganizerAgreementManagerPublisherComponent extends InternshipOrganizerAgreementManager implements RepoViewerInterface
 {

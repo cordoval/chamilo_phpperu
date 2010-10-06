@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../../tables/agreement_rel_location_table/default_agreement_rel_location_table_column_model.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'tables/agreement_rel_location_table/default_agreement_rel_location_table_column_model.class.php';
 /**
  * Table column model for the user browser table
  */

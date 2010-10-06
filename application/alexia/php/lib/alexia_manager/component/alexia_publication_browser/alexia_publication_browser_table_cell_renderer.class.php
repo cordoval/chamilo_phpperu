@@ -5,6 +5,8 @@
  */
 require_once dirname(__FILE__) . '/alexia_publication_browser_table_column_model.class.php';
 require_once dirname(__FILE__) . '/../../../tables/alexia_publication_table/default_alexia_publication_table_cell_renderer.class.php';
+//require_once WebApplication :: get_application_class_path('alexia') . 'lib/tables/alexia_publication_table/default_alexia_publication_table_cell_renderer.class.php';
+//require_once WebApplication :: get_application_manager_path('alexia');
 require_once dirname(__FILE__) . '/../../alexia_manager.class.php';
 /**
  * Cell renderer for the learning object browser table

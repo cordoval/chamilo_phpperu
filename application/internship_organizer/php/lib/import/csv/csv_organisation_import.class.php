@@ -1,6 +1,6 @@
 <?php
 
-require_once Path :: get_application_path() . 'internship_organizer/php/import/csv/csv_organisation_creator.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'import/csv/csv_organisation_creator.class.php';
 
 class CsvOrganisationImport extends InternshipOrganizerImport
 {

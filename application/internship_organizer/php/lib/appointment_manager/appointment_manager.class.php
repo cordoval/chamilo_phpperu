@@ -28,7 +28,7 @@ class InternshipOrganizerAppointmentManager extends SubManager
 
     function get_application_component_path()
     {
-        return Path :: get_application_path() . 'internship_organizer/php/lib/appointment_manager/component/';
+        return WebApplication :: get_application_class_lib_path('internship_organizer') . 'appointment_manager/component/';
     }
 
   

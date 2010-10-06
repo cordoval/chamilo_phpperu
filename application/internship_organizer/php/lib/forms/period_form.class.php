@@ -1,6 +1,6 @@
 <?php
-require_once dirname(__FILE__) . '/../period.class.php';
-require_once dirname(__FILE__) . '/../category_rel_period.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'period.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'category_rel_period.class.php';
 
 class InternshipOrganizerPeriodForm extends FormValidator
 {

@@ -1,7 +1,7 @@
 <?php
 
-require_once Path :: get_application_path() . 'internship_organizer/php/lib/region_manager/component/browser/browser_table.class.php';
-require_once Path :: get_application_path() . 'internship_organizer/php/lib/region.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'region_manager/component/browser/browser_table.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'region.class.php';
 
 class InternshipOrganizerEvaluationManager extends SubManager
 {
@@ -29,7 +29,7 @@ class InternshipOrganizerEvaluationManager extends SubManager
 
     function get_application_component_path()
     {
-        return Path :: get_application_path() . 'internship_organizer/php/evaluation_manager/component/';
+        return WebApplication :: get_application_class_lib_path('internship_organizer') . 'evaluation_manager/component/';
     }
  
     //url

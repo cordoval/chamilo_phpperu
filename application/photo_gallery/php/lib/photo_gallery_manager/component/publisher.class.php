@@ -3,9 +3,9 @@
  * $Id: publisher.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.personal_calendar.personal_calendar_manager.component
  */
-require_once dirname(__FILE__) . '/../photo_gallery_manager.class.php';
-require_once dirname(__FILE__) . '/../../publisher/photo_gallery_publisher.class.php';
-require_once dirname(__FILE__) . '/../../publisher/image/photo_gallery_repo_viewer.class.php';
+require_once WebApplication :: get_application_class_lib_path('photo_gallery') . 'photo_gallery_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('photo_gallery') . 'publisher/photo_gallery_publisher.class.php';
+require_once WebApplication :: get_application_class_lib_path('photo_gallery') . 'publisher/image/photo_gallery_repo_viewer.class.php';
 //require_once dirname(__FILE__) . '/../../photo_gallery_rights.class.php';
 
 class PhotoGalleryManagerPublisherComponent extends PhotoGalleryManager implements RepoViewerInterface

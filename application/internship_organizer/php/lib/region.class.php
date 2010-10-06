@@ -2,7 +2,7 @@
 /**
  * internship_organizer
  */
-require_once dirname(__FILE__) . '/internship_organizer_data_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'internship_organizer_data_manager.class.php';
 /**
  * This class describes a Region data object
  * @author Sven Vanpoucke

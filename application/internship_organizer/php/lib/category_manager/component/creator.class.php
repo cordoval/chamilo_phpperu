@@ -1,5 +1,5 @@
 <?php
-require_once Path :: get_application_path() . 'internship_organizer/php/forms/category_form.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'forms/category_form.class.php';
 
 class InternshipOrganizerCategoryManagerCreatorComponent extends InternshipOrganizerCategoryManager
 {

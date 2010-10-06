@@ -1,14 +1,10 @@
 <?php
 require_once dirname(__FILE__) . '/../../../../common/global.inc.php';
-require_once Path :: get_application_path() . '/internship_organizer/php/internship_organizer_data_manager.class.php';
-require_once Path :: get_library_path() . 'utilities.class.php';
-require_once Path :: get_user_path() . 'lib/user.class.php';
-require_once Path :: get_library_path() . 'condition/equality_condition.class.php';
-require_once Path :: get_library_path() . 'condition/not_condition.class.php';
-require_once Path :: get_library_path() . 'condition/and_condition.class.php';
-require_once Path :: get_library_path() . 'condition/or_condition.class.php';
-require_once Path :: get_application_path() . '/internship_organizer/php/period.class.php';
-require_once Path :: get_application_path() . '/internship_organizer/php/internship_organizer_manager/internship_organizer_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'internship_organizer_data_manager.class.php';
+require_once Path :: get_common_libraries_path() . 'utilities.class.php';
+require_once CoreApplication :: get_application_class_lib_path('user') . 'user.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'period.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'internship_organizer_manager/internship_organizer_manager.class.php';
 
 Translation :: set_application(InternshipOrganizerManager :: APPLICATION_NAME);
 

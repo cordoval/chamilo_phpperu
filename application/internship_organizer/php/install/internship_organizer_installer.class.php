@@ -3,9 +3,9 @@
  * internship_organizer.install
  */
 
-require_once dirname(__FILE__) . '/../internship_organizer_data_manager.class.php';
-require_once dirname(__FILE__) . '/../category.class.php';
-require_once dirname(__FILE__) . '/../region.class.php';
+require_once WebApplication :: get_application_class_lib_pathdirname('internship_organizer') . 'internship_organizer_data_manager.class.php';
+require_once WebApplication :: get_application_class_lib_pathdirname('internship_organizer') . 'category.class.php';
+require_once WebApplication :: get_application_class_lib_pathdirname('internship_organizer') . 'region.class.php';
 
 class InternshipOrganizerInstaller extends Installer
 {

@@ -1,8 +1,8 @@
 <?php
 require_once dirname(__FILE__).'/../../../../common/global.inc.php';
 require_once Path :: get_common_path().'/rss/publication_rss.class.php';
-require_once dirname(__FILE__).'/../data_manager/database.class.php';
-require_once dirname(__FILE__).'/../personal_calendar_manager/personal_calendar_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('personal_calendar') . 'data_manager/database.class.php';
+require_once WebApplication :: get_application_class_lib_path('personal_calendar') . 'personal_calendar_manager/personal_calendar_manager.class.php';
 
 class PersonalCalendarPublicationRSS extends PublicationRSS
 {

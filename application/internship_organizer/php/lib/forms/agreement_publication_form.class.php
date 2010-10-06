@@ -1,8 +1,8 @@
 <?php
-require_once dirname(__FILE__) . '/../publication.class.php';
-require_once dirname(__FILE__) . '/../user_type.class.php';
-require_once dirname(__FILE__) . '/../publication_type.class.php';
-require_once dirname(__FILE__) . '/../publication_place.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'publication.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'user_type.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'publication_type.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'publication_place.class.php';
 
 class InternshipOrganizerAgreementPublicationForm extends FormValidator
 {

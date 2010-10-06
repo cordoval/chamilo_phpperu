@@ -1,10 +1,10 @@
 <?php
 
-require_once Path :: get_application_path() . 'internship_organizer/php/lib/period_manager/component/browser/browser_table.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'period_manager/component/browser/browser_table.class.php';
 
-require_once dirname(__FILE__) . '/../period_menu.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'period_menu.class.php';
 
-require_once Path :: get_application_path() . 'internship_organizer/php/lib/period.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'period.class.php';
 
 class InternshipOrganizerPeriodManager extends SubManager 
 {
@@ -60,7 +60,7 @@ class InternshipOrganizerPeriodManager extends SubManager
 
     function get_application_component_path()
     {
-        return Path :: get_application_path() . 'internship_organizer/php/period_manager/component/';
+        return WebApplication :: get_application_class_lib_path('internship_organizer') . 'period_manager/component/';
     }
 
     //periods

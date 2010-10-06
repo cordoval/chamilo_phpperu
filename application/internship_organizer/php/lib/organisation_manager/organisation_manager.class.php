@@ -1,8 +1,8 @@
 <?php
-require_once Path :: get_application_path() . 'internship_organizer/php/lib/organisation_manager/component/browser/browser_table.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'organisation_manager/component/browser/browser_table.class.php';
 
-require_once Path :: get_application_path() . 'internship_organizer/php/lib/organisation_manager/component/location_browser/browser_table.class.php';
-require_once Path :: get_application_path() . 'internship_organizer/php/lib/organisation.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'organisation_manager/component/location_browser/browser_table.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'organisation.class.php';
 
 class InternshipOrganizerOrganisationManager extends SubManager
 {
@@ -64,7 +64,7 @@ class InternshipOrganizerOrganisationManager extends SubManager
 
     function get_application_component_path()
     {
-        return Path :: get_application_path() . 'internship_organizer/php/organisation_manager/component/';
+        return WebApplication :: get_application_class_lib_path('internship_organizer') . 'organisation_manager/component/';
     }
 
     //organisations
