@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: user_login.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
+ * $Id: login.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.block
  */
 
