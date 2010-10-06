@@ -6,10 +6,5 @@ class AssessmentToolHidePublicationComponent extends AssessmentTool
     {
         ToolComponent :: launch($this);
     }
-
-    function get_hidden()
-    {
-        return 1;
-    }
 }
 ?>
