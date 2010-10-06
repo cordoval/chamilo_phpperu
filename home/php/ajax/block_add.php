@@ -5,7 +5,7 @@
  */
 $this_section = 'home';
 
-require_once dirname(__FILE__) . '/../../common/global.inc.php';
+require_once dirname(__FILE__) . '/../../../common/global.inc.php';
 
 Utilities :: set_application($this_section);
 
@@ -45,27 +45,9 @@ if ($user_home_allowed && Authentication :: is_valid())
     $block->set_user($user_id);
 
     $block->create();
-	$user = UserDataManager :: get_instance()->retrieve_user($user_id);
-//    $usermgr = new UserManager($user_id);
-//    $user = $usermgr->get_user();
+    $user = UserDataManager :: get_instance()->retrieve_user($user_id);
 
-    $application = $block->get_application();
-    $application_class = Application :: application_to_class($application);
-
-    if (! WebApplication :: is_application($application))
-    {
-        $path = Path :: get(SYS_PATH) . $application . '/lib/' . $application . '_manager' . '/' . $application . '_manager.class.php';
-        require_once $path;
-        $application_class .= 'Manager';
-        $app = new $application_class($user);
-    }
-    else
-    {
-        $path = Path :: get_application_path() . 'lib' . '/' . $application . '/' . $application . '_manager' . '/' . $application . '_manager.class.php';
-        require_once $path;
-        $app = Application :: factory($application, $user);
-    }
-
-    echo $app->render_block($block);
+    $renderer = HomeRenderer :: factory(HomeRenderer :: TYPE_DEFAULT, $user);
+    echo Block :: factory($renderer, $block)->as_html();
 }
 ?>

@@ -112,7 +112,7 @@ $(function () {
 		column = $(this).attr("id");
 		order = $(this).sortable("serialize");
 
-		$.post("./home/ajax/block_sort.php", {
+		$.post("./home/php/ajax/block_sort.php", {
 			column : column,
 			order : order
 		}// ,
@@ -123,7 +123,7 @@ $(function () {
 	function tabsSortableUpdate(e, ui) {
 		var order = $(this).sortable("serialize");
 		
-		$.post("./home/ajax/tab_sort.php", {
+		$.post("./home/php/ajax/tab_sort.php", {
 			order : order
 		} //,
 				 //function(data){alert("Data Loaded: " + data);}
@@ -164,7 +164,7 @@ $(function () {
 
 		$(this).css('width', widthPercentage + "%");
 
-		$.post("./home/ajax/column_width.php", {
+		$.post("./home/php/ajax/column_width.php", {
 			column : columnId,
 			width : widthPercentage
 		}// ,
@@ -179,7 +179,7 @@ $(function () {
 		$(this).children(".invisible").toggle();
 		$(this).children(".visible").toggle();
 
-		$.post("./home/ajax/block_visibility.php", {
+		$.post("./home/php/ajax/block_visibility.php", {
 			block : $(this).parent().parent().attr("id")
 		}// ,
 				// function(data){alert("Data Loaded: " + data);}
@@ -204,14 +204,14 @@ $(function () {
 			columnId = $(this).parent().parent().parent().attr("id");
 
 			$(this).parent().parent().remove();
-			$.post("./home/ajax/block_delete.php", {
+			$.post("./home/php/ajax/block_delete.php", {
 				block : $(this).parent().parent().attr("id")
 			}// ,
 					// function(data){alert("Data Loaded: " + data);}
 					);
 
 			order = $("#" + columnId).sortable("serialize");
-			$.post("./home/ajax/block_sort.php", {
+			$.post("./home/php/ajax/block_sort.php", {
 				column : columnId,
 				order : order
 			}// ,
@@ -232,7 +232,7 @@ $(function () {
 
 	function showBlockScreen(e, ui) {
 		e.preventDefault();
-		$.post("./home/ajax/block_list.php", function (data) {
+		$.post("./home/php/ajax/block_list.php", function (data) {
 			$("#tab_menu").after(data);
 			$("#addBlock").slideToggle(300);
 
@@ -273,7 +273,7 @@ $(function () {
 		columnId = column.attr("id");
 		order = column.sortable("serialize");
 		
-		$.post("./home/ajax/block_add.php", {
+		$.post("./home/php/ajax/block_add.php", {
 			component : $(this).attr("id"),
 			column : columnId,
 			order : order
@@ -285,7 +285,7 @@ $(function () {
 			bindIconsLegacy();
 			blocksDraggable();
 
-			$.post("./home/ajax/block_sort.php", {
+			$.post("./home/php/ajax/block_sort.php", {
 				column : columnId,
 				order : order
 			},
@@ -322,7 +322,7 @@ $(function () {
 			close: false
 		});
 		
-		$.post("./home/ajax/tab_add.php", {}, function (data) {
+		$.post("./home/php/ajax/tab_add.php", {}, function (data) {
 			$("#main .tab:last").after(data.html);
 			$("#tab_menu ul").append(data.title);
 			bindIconsLegacy();
@@ -353,7 +353,7 @@ $(function () {
 			close: false
 		});
 		
-		$.post("./home/ajax/column_add.php", {row: rowId}, function (data) {
+		$.post("./home/php/ajax/column_add.php", {row: rowId}, function (data) {
 			var columnHtml, newWidths, lastColumn;
 			
 			columnHtml = data.html;
@@ -450,7 +450,7 @@ $(function () {
 			close: false
 		});
 		
-		$.post("./home/ajax/tab_delete.php", {tab: tabId}, function (data) {
+		$.post("./home/php/ajax/tab_delete.php", {tab: tabId}, function (data) {
 			if (data.success === '1')
 			{
 				$('#tab_' + tabId).remove();
@@ -488,7 +488,7 @@ $(function () {
 		tabId = tab[2];
 		newTitle = $('#tabTitle').attr('value');
 		
-		$.post("./home/ajax/tab_edit.php", {tab: tabId, title: newTitle}, function (data) {
+		$.post("./home/php/ajax/tab_edit.php", {tab: tabId, title: newTitle}, function (data) {
 			if (data.success === '1')
 			{
 				e.data.tab.html(data.title);
@@ -550,7 +550,7 @@ $(function () {
 			close: false
 		});
 		
-		$.post("./home/ajax/column_delete.php", {column: columnId}, function (data) {
+		$.post("./home/php/ajax/column_delete.php", {column: columnId}, function (data) {
 			if (data.success === '1')
 			{
 				var columnWidth, otherColumn, otherColumnWidth, newColumnWidth;
@@ -575,7 +575,7 @@ $(function () {
 					otherColumn.css('margin-right', '0px');
 					otherColumn.css('width', newColumnWidth + '%');
 					
-					$.post("./home/ajax/column_width.php", {
+					$.post("./home/php/ajax/column_width.php", {
 						column : otherColumn.attr('id'),
 						width : newColumnWidth
 					}// ,
@@ -663,7 +663,7 @@ $(function () {
 		});
 		
 		// Do the actual move + postback		
-		$.post("./home/ajax/block_move.php", {block: blockId, column: newColumnId}, function (data) {
+		$.post("./home/php/ajax/block_move.php", {block: blockId, column: newColumnId}, function (data) {
 			if (data.success === '1')
 			{
 				//Does the column have blocks

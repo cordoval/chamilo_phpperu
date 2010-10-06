@@ -5,12 +5,13 @@
  */
 
 require_once Path :: get_library_path() . 'block.class.php';
+require_once BasicApplication :: get_application_class_lib_path('personal_calendar') . 'personal_calendar_data_manager.class.php';
 
 /**
 ==============================================================================
- *	This class represents a general Personal Calendar Block.
+ * This class represents a general Personal Calendar Block.
  *
- *	@author Hans De bisschop
+ * @author Hans De bisschop
 ==============================================================================
  */
 
@@ -28,23 +29,9 @@ class PersonalCalendarBlock extends Block
         parent :: __construct($parent, $block_info);
     }
 
-    /**
-     * Create a new personal calendar component
-     * @param string $type The type of the component to create.
-     * @param Weblcms $weblcms The weblcms in
-     * which the created component will be used
-     */
-    static function factory($personal_calendar, $block)
+    function get_events($from_date, $to_date)
     {
-        $type = $block->get_component();
-        $filename = dirname(__FILE__) . '/block/personal_calendar_' . $type . '.class.php';
-        if (! file_exists($filename) || ! is_file($filename))
-        {
-            die('Failed to load "' . $type . '" block');
-        }
-        $class = 'PersonalCalendar' . Utilities :: underscores_to_camelcase($type);
-        require_once $filename;
-        return new $class($personal_calendar, $block);
+        return PersonalCalendarDataManager :: get_events($this->get_parent(), $from_data, $to_date);
     }
 }
 ?>

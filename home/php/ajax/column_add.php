@@ -5,7 +5,7 @@
  */
 $this_section = 'home';
 
-require_once dirname(__FILE__) . '/../../common/global.inc.php';
+require_once dirname(__FILE__) . '/../../../common/global.inc.php';
 
 Utilities :: set_application($this_section);
 
@@ -70,7 +70,7 @@ if ($user_home_allowed && Authentication :: is_valid())
         	$user = UserDataManager :: get_instance()->retrieve_user($user_id);
 //    $usermgr = new UserManager($user_id);
 //    $user = $usermgr->get_user();
-        
+
 
         $application = $block->get_application();
         $application_class = Application :: application_to_class($application);

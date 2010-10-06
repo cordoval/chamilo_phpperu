@@ -5,14 +5,13 @@
  */
 $this_section = 'home';
 
-require_once dirname(__FILE__) . '/../../common/global.inc.php';
+require_once dirname(__FILE__) . '/../../../common/global.inc.php';
 
 Utilities :: set_application($this_section);
 
 $user_home_allowed = PlatformSetting :: get('allow_user_home', HomeManager :: APPLICATION_NAME);
 
 // TODO: Add styles to css instead of leaving them hardcoded.
-
 
 if ($user_home_allowed && Authentication :: is_valid())
 {

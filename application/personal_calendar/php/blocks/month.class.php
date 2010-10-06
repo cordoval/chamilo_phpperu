@@ -24,15 +24,15 @@ class PersonalCalendarMonth extends PersonalCalendarBlock
     function as_html()
     {
         $html = array();
-        
+
         $html[] = $this->display_header();
-        
+
         $time = Request :: get('time') ? intval(Request :: get('time')) : time();
-        $minimonthcalendar = new PersonalCalendarMiniMonthRenderer($this->get_parent(), $time);
+        $minimonthcalendar = new PersonalCalendarMiniMonthRenderer($this, $time);
         $html[] = $minimonthcalendar->render();
-        
+
         $html[] = $this->display_footer();
-        
+
         return implode("\n", $html);
     }
 }

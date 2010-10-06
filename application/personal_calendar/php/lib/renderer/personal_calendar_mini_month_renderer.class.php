@@ -21,22 +21,22 @@ class PersonalCalendarMiniMonthRenderer extends PersonalCalendarRenderer
         $to_date = strtotime('-1 Second', strtotime('Next Month', $from_date));
         $events = $this->get_events($from_date, $to_date);
         $html = array();
-        
+
         $start_time = $calendar->get_start_time();
         $end_time = $calendar->get_end_time();
         $table_date = $start_time;
-        
+
         while ($table_date <= $end_time)
         {
             $next_table_date = strtotime('+24 Hours', $table_date);
-            
+
             foreach ($events as $index => $event)
             {
                 if (! $calendar->contains_events_for_time($table_date))
                 {
                     $start_date = $event->get_start_date();
                     $end_date = $event->get_end_date();
-                    
+
                     if ($table_date < $start_date && $start_date < $next_table_date || $table_date <= $end_date && $end_date <= $next_table_date || $start_date <= $table_date && $next_table_date <= $end_date)
                     {
                         $content = $this->render_event($event);
@@ -46,7 +46,7 @@ class PersonalCalendarMiniMonthRenderer extends PersonalCalendarRenderer
             }
             $table_date = $next_table_date;
         }
-        
+
         $parameters['time'] = '-TIME-';
         $calendar->add_calendar_navigation($this->get_parent()->get_url($parameters));
         switch ($this->get_parent()->get_parameter('view'))

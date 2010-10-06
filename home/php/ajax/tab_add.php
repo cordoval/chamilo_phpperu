@@ -5,7 +5,7 @@
  */
 $this_section = 'home';
 
-require_once dirname(__FILE__) . '/../../common/global.inc.php';
+require_once dirname(__FILE__) . '/../../../common/global.inc.php';
 Utilities :: set_application($this_section);
 
 $user_home_allowed = PlatformSetting :: get('allow_user_home', HomeManager :: APPLICATION_NAME);
@@ -45,7 +45,7 @@ if ($user_home_allowed && Authentication :: is_valid())
         $json_result['message'] = Translation :: get('TabColumnNotAdded');
     }
 
-    
+
     $block = new HomeBlock();
     $block->set_column($column->get_id());
     $block->set_title(Translation :: get('DummyBlock'));
@@ -62,7 +62,7 @@ if ($user_home_allowed && Authentication :: is_valid())
     	$user = UserDataManager :: get_instance()->retrieve_user($user_id);
 //    $usermgr = new UserManager($user_id);
 //    $user = $usermgr->get_user();
-    
+
 
     $application = $block->get_application();
     $application_class = Application :: application_to_class($application);

@@ -3,7 +3,7 @@
  * $Id: tab_delete.php 227 2009-11-13 14:45:05Z kariboe $
  * @package home.ajax
  */
-require_once dirname(__FILE__) . '/../../common/global.inc.php';
+require_once dirname(__FILE__) . '/../../../common/global.inc.php';
 
 $user_home_allowed = PlatformSetting :: get('allow_user_home', HomeManager :: APPLICATION_NAME);
 
@@ -11,11 +11,11 @@ if ($user_home_allowed && Authentication :: is_valid())
 {
     $user_id = Session :: get_user_id();
     $tab = Request :: post('tab');
-    
+
     $hdm = HomeDataManager :: get_instance();
-    
+
     $tab = $hdm->retrieve_home_tab($tab);
-    
+
     if ($tab->get_user() == $user_id && $tab->can_be_deleted())
     {
         if ($tab->delete())

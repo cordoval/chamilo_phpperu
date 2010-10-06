@@ -8,11 +8,12 @@ class Redirect
     // Different redirect types
     const TYPE_LINK = 'link';
     const TYPE_URL = 'url';
-    
+
     // Different link types
     const TYPE_CORE = 'core';
     const TYPE_APPLICATION = 'application';
-    
+    const TYPE_INDEX = 'index';
+
     const ARGUMENT_SEPARATOR = '&';
 
     /**
@@ -64,9 +65,9 @@ class Redirect
                 $link = 'index';
                 break;
         }
-        
+
         $link .= '.php';
-        
+
         if (count($filter) > 0)
         {
             foreach ($parameters as $key => $value)
@@ -76,10 +77,10 @@ class Redirect
                     $url_parameters[$key] = $value;
                 }
             }
-            
+
             $parameters = $url_parameters;
         }
-        
+
         return self :: get_web_link($link, $parameters, $encode_entities);
     }
 
@@ -104,7 +105,7 @@ class Redirect
     {
         $url = $_SERVER['PHP_SELF'];
         $filter = is_array($filter) ? $filter : array($filter);
-        
+
         if (count($filter) > 0)
         {
             foreach ($parameters as $key => $value)
@@ -114,10 +115,10 @@ class Redirect
                     $url_parameters[$key] = $value;
                 }
             }
-            
+
             $parameters = $url_parameters;
         }
-        
+
         return self :: get_web_link($url, $parameters, $encode_entities);
     }
 
@@ -136,12 +137,12 @@ class Redirect
             // trouble when parsing the resulting urls
             $url .= '?' . http_build_query($parameters, '', self :: ARGUMENT_SEPARATOR);
         }
-        
+
         if ($encode_entities)
         {
             $url = htmlentities($url);
         }
-        
+
         return $url;
     }
 
@@ -172,17 +173,17 @@ class Redirect
     static function current_url($encode_entities = false)
     {
         global $_SERVER;
-        
+
         /**
          * Filter php_self to avoid a security vulnerability.
          */
         $php_request_uri = substr($_SERVER['REQUEST_URI'], 0, strcspn($_SERVER['REQUEST_URI'], "\n\r"));
-        
+
         if ($encode_entities)
         {
             $php_request_uri = htmlentities($php_request_uri, ENT_QUOTES);
         }
-        
+
         if (isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on')
         {
             $protocol = 'https://';

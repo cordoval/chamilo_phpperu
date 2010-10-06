@@ -174,20 +174,16 @@ class Block
 
         $applications = WebApplication :: load_all(false);
 
-        $path = Path :: get_application_path() . '/lib/';
-
         foreach ($applications as $application)
         {
-            $application_path = $path . $application . '/block';
+            $application_path = WebApplication :: get_application_class_path($application) . 'blocks/';
             if ($handle = opendir($application_path))
             {
                 while (false !== ($file = readdir($handle)))
                 {
                     if (! is_dir($file) && stripos($file, '.class.php') !== false)
                     {
-
                         $component = str_replace('.class.php', '', $file);
-                        $component = str_replace($application . '_', '', $component);
 
                         $applications_options[$application] = Translation :: get(Application :: application_to_class($application));
                         $components_options[$application][$component] = Utilities :: underscores_to_camelcase($component);
@@ -203,7 +199,7 @@ class Block
 
         foreach ($core_applications as $core_application)
         {
-            $application_path = $path . $core_application . '/block';
+            $application_path = CoreApplication :: get_application_class_path($core_application) . 'blocks/';
             if ($handle = opendir($application_path))
             {
                 while (false !== ($file = readdir($handle)))
@@ -212,7 +208,6 @@ class Block
                     {
 
                         $component = str_replace('.class.php', '', $file);
-                        $component = str_replace($core_application . '_', '', $component);
 
                         $applications_options[$core_application] = Translation :: get(Application :: application_to_class($core_application));
                         $components_options[$core_application][$component] = Utilities :: underscores_to_camelcase($component);
@@ -319,6 +314,16 @@ class Block
 
         require_once $path;
         return new $class($renderer, $block_info);
+    }
+
+    function get_url($parameters = array (), $filter = array(), $encode_entities = false)
+    {
+        return $this->get_parent()->get_url($parameters, $filter, $encode_entities);
+    }
+
+    function get_parameter($name)
+    {
+        return $this->get_parent()->get_parameter($name);
     }
 }
 ?>

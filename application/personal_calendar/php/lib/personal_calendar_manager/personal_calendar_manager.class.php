@@ -60,82 +60,36 @@ class PersonalCalendarManager extends WebApplication
      */
     public function get_events($from_date, $to_date)
     {
-        $events = $this->get_user_events($from_date, $to_date);
-        $events = array_merge($events, $this->get_connector_events($from_date, $to_date));
-        $events = array_merge($events, $this->get_user_shared_events($from_date, $to_date));
-        return $events;
+        return PersonalCalendarDataManager :: get_events($this, $from_date, $to_date);
     }
 
     public function get_user_events($from_date, $to_date)
     {
-
-        $dm = PersonalCalendarDatamanager :: get_instance();
-        $condition = new EqualityCondition(PersonalCalendarPublication :: PROPERTY_PUBLISHER, $this->get_user_id());
-        $publications = $dm->retrieve_personal_calendar_publications($condition);
-
-        //$query = Request :: post('query');
-
-
-        return $this->render_personal_calendar_events($publications, $from_date, $to_date);
+        return PersonalCalendarDataManager :: get_user_events($this, $from_date, $to_date);
     }
 
     public function get_connector_events($from_date, $to_date)
     {
-        $events = array();
-
-        $path = dirname(__FILE__) . '/../connector/';
-        $files = Filesystem :: get_directory_content($path, Filesystem :: LIST_FILES, false);
-        foreach ($files as $file)
-        {
-            $application = str_replace('_connector.class.php', '', $file);
-            $application = str_replace(PersonalCalendarManager :: APPLICATION_NAME . '_', '', $application);
-            $application = Utilities :: camelcase_to_underscores($application);
-
-            if (WebApplication :: is_active($application))
-            {
-                $file_class = split('.class.php', $file);
-                require_once dirname(__FILE__) . '/../connector/' . $file;
-                $class = Utilities :: underscores_to_camelcase($file_class[0]);
-
-                $connector = new $class();
-                $events = array_merge($events, $connector->get_events($this->get_user(), $from_date, $to_date));
-            }
-        }
-
-        return $events;
+        return PersonalCalendarDataManager :: get_connector_events($this, $from_date, $to_date);
     }
 
     public function get_user_shared_events($from_date, $to_date)
     {
-        $events = array();
-        $user = $this->get_user();
-        $user_groups = $user->get_groups(true);
-
-        $pcdm = PersonalCalendarDatamanager :: get_instance();
-        $conditions = array();
-        $conditions[] = new EqualityCondition('user_id', $this->get_user_id(), 'publication_user');
-        if (count($user_groups) > 0)
-        {
-            $conditions[] = new InCondition('group_id', $user_groups, 'publication_group');
-        }
-        $condition = new OrCondition($conditions);
-        $publications = $pcdm->retrieve_shared_personal_calendar_publications($condition);
-
-        return $this->render_personal_calendar_events($publications, $from_date, $to_date, 'SharedEvents');
+        return PersonalCalendarDataManager :: get_user_shared_events($this, $from_date, $to_date);
     }
 
-    public function render_personal_calendar_events($publications, $from_date, $to_date, $source = self :: APPLICATION_NAME)
-    {
-        $events = array();
-        $query = Request :: post('query');
-
-        while ($publication = $publications->next_result())
-        {
-            $parser = PersonalCalendarEventParser :: factory($this, $publication, $from_date, $to_date);
-            $events = array_merge($events, $parser->get_events());
-        }
-        return $events;
-    }
+//    public function render_personal_calendar_events($publications, $from_date, $to_date, $source = self :: APPLICATION_NAME)
+//    {
+//        $events = array();
+//        $query = Request :: post('query');
+//
+//        while ($publication = $publications->next_result())
+//        {
+//            $parser = PersonalCalendarEventParser :: factory($this, $publication, $from_date, $to_date);
+//            $events = array_merge($events, $parser->get_events());
+//        }
+//        return $events;
+//    }
 
     /**
      * @see Application::content_object_is_published()
