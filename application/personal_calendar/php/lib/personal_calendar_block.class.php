@@ -18,17 +18,6 @@ require_once BasicApplication :: get_application_class_lib_path('personal_calend
 class PersonalCalendarBlock extends Block
 {
 
-    /**
-     * Constructor.
-     * @param array $types The learning object types that may be published.
-     * @param  boolean $email_option If true the publisher has the option to
-     * send the published learning object by email to the selecter target users.
-     */
-    function PersonalCalendarBlock($parent, $block_info)
-    {
-        parent :: __construct($parent, $block_info);
-    }
-
     function get_events($from_date, $to_date)
     {
         return PersonalCalendarDataManager :: get_events($this->get_parent(), $from_data, $to_date);
