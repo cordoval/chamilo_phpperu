@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: personal_messenger_view_messages.class.php 203 2009-11-13 12:46:38Z chellee $
+ * $Id: view_messages.class.php 203 2009-11-13 12:46:38Z chellee $
  * @package application.personal_messenger.block
  */
 require_once dirname(__FILE__) . '/../personal_messenger_block.class.php';

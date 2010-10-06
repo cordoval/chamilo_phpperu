@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: personal_messenger_new.class.php 203 2009-11-13 12:46:38Z chellee $
+ * $Id: most_recent.class.php 203 2009-11-13 12:46:38Z chellee $
  * @package application.personal_messenger.block
  */
 require_once dirname(__FILE__) . '/../personal_messenger_block.class.php';
@@ -9,7 +9,7 @@ require_once Path :: get_library_path() . 'utilities.class.php';
  * This class represents a calendar publisher component which can be used
  * to browse through the possible learning objects to publish.
  */
-class PersonalMessengerNew extends PersonalMessengerBlock
+class PersonalMessengerMostRecent extends PersonalMessengerBlock
 {
 
     function run()
@@ -32,7 +32,7 @@ class PersonalMessengerNew extends PersonalMessengerBlock
         
         if ($publications->size() > 0)
         {
-            $html[] = '<ul>';
+            $html[] = '<ul style="list-style: square inside;">';
             while ($publication = $publications->next_result())
             {
                 $html[] = '<li>';
@@ -54,7 +54,6 @@ class PersonalMessengerNew extends PersonalMessengerBlock
     function get_condition()
     {
         $conditions = array();
-        $conditions[] = new EqualityCondition(PersonalMessagePublication :: PROPERTY_STATUS, '1');
         $conditions[] = new EqualityCondition(PersonalMessagePublication :: PROPERTY_RECIPIENT, $this->get_user_id());
         $conditions[] = new EqualityCondition(PersonalMessagePublication :: PROPERTY_USER, $this->get_user_id());
         return new AndCondition($conditions);
