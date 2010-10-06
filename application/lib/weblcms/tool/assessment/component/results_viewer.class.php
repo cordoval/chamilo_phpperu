@@ -134,7 +134,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentTool
         $publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($this->user_assessment->get_assessment_id());
         $object = $publication->get_content_object();
         
-        $_GET['display_action'] = 'view_result';
+        $_GET['display_action'] = AssessmentTool :: ACTION_VIEW_RESULTS;
         
         $this->set_parameter('uaid', $uaid);
         
