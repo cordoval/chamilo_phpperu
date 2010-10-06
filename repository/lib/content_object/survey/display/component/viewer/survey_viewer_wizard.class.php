@@ -100,6 +100,9 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
     {
         return $this->parent->get_answer($complex_question_id, $context_path);
     }
-
+	
+    function get_go_back_url(){
+    	 return $this->parent->get_go_back_url();
+    }
 }
 ?>

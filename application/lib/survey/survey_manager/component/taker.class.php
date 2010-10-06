@@ -10,6 +10,9 @@ class SurveyManagerTakerComponent extends SurveyManager
     private $publication_id;
     private $invitee_id;
     
+    /**
+     * @var SurveyParticipantTracker
+     */
     private $participant_tracker;
 
     function run()
@@ -68,9 +71,22 @@ class SurveyManagerTakerComponent extends SurveyManager
         }
     }
 
-    function finish()
+    function finished()
     {
-    
+    	
+    	$condition =new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_SURVEY_PARTICIPANT_ID, $this->participant_tracker->get_id());
+    	
+    	$answer_count = Tracker :: count_data(SurveyQuestionAnswerTracker :: get_table_name(), SurveyManager :: APPLICATION_NAME, $condition);
+    	
+    	$survey = RepositoryDataManager::get_instance()->retrieve_content_object($this->survey_id);
+    	$survey->initialize($this->invitee_id);
+    	$question_count = count($survey->get_question_context_paths());
+    	
+    	$progress = $answer_count/$question_count*100;
+    	
+    	$this->participant_tracker->set_progress($progress);
+    	$this->participant_tracker->set_total_time(time());
+    	$this->participant_tracker->update();
     }
 
     function save_answer($complex_question_id, $answer, $context_path)
@@ -80,7 +96,7 @@ class SurveyManagerTakerComponent extends SurveyManager
         $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_CONTEXT_PATH, $context_path);
         $condition = new AndCondition($conditions);
         $tracker = $trackers = tracker :: get_data(SurveyQuestionAnswerTracker :: get_table_name(), SurveyManager :: APPLICATION_NAME, $condition, 0, 1)->next_result();
-        
+               
         if ($tracker)
         {
             $tracker->set_answer($answer);
@@ -93,7 +109,7 @@ class SurveyManagerTakerComponent extends SurveyManager
             $parameters[SurveyQuestionAnswerTracker :: PROPERTY_COMPLEX_QUESTION_ID] = $complex_question_id;
             $parameters[SurveyQuestionAnswerTracker :: PROPERTY_ANSWER] = $answer;
             $parameters[SurveyQuestionAnswerTracker :: PROPERTY_CONTEXT_PATH] = $context_path;
-            
+                      
             Event :: trigger(SurveyQuestionAnswerTracker :: SAVE_QUESTION_ANSWER_EVENT, SurveyManager :: APPLICATION_NAME, $parameters);
         }
     }
@@ -114,6 +130,10 @@ class SurveyManagerTakerComponent extends SurveyManager
         {
         	return null;
         }
+    }
+    
+    function get_go_back_url(){
+    	return $this->get_browse_survey_publications_url();
     }
 }
 

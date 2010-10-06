@@ -54,6 +54,12 @@ class SurveyOpenQuestionDisplay extends SurveyQuestionDisplay
 
         $name = $question->get_id() . '_0';
         $formvalidator->add_html_editor($name, '', false, $html_editor_options);
+        
+        $answer = $this->get_answer();
+        if($answer){
+        	$formvalidator->setDefaults(array($name =>$answer[0]));
+        }
+        
         $renderer->setElementTemplate($element_template, $name);
     }
 

@@ -38,7 +38,7 @@ class SurveyMatrixQuestionDisplay extends SurveyQuestionDisplay
         $question_id = $complex_question->get_id();
         
         $answer = $this->get_answer();
-              
+               
         foreach ($options as $i => $option)
         {
             $group = array();
@@ -49,26 +49,27 @@ class SurveyMatrixQuestionDisplay extends SurveyQuestionDisplay
             {
                 if ($type == MatrixQuestion :: MATRIX_TYPE_RADIO)
                 {
-                    //                                        $answer_name = $question_id . '_' . $i . '_0_'.$this->get_context_path();
                     $option_name = $question_id . '_' . $i . '_0';
                     
                     $radio = $formvalidator->createElement('radio', $option_name, null, null, $j);
-                    if ($answer[$i] == $j)
+                    if ($answer)
                     {
-                        $formvalidator->setDefaults(array($option_name => $j));
-                    
+                        if ($answer[$i] == $j)
+                        {
+                            $formvalidator->setDefaults(array($option_name => $j));
+                        }
                     }
+                    
                     $group[] = $radio;
                 }
                 elseif ($type == MatrixQuestion :: MATRIX_TYPE_CHECKBOX)
                 {
-                    
-                    //                        $answer_name = $question_id . '_' . $i . '_' . $j . '_'.$this->get_context_path();
                     $option_name = $question_id . '_' . $i . '_' . $j;
                     
                     $checkbox = $formvalidator->createElement('checkbox', $option_name, '', '');
-                    if($answer[$i][$j] == 1){
-                    	$formvalidator->setDefaults(array($option_name => 1));
+                    if ($answer[$i][$j] == 1)
+                    {
+                        $formvalidator->setDefaults(array($option_name => 1));
                     }
                     
                     $group[] = $checkbox;

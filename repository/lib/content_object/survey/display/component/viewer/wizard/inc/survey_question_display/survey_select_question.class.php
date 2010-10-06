@@ -16,8 +16,7 @@ class SurveySelectQuestionDisplay extends SurveyQuestionDisplay
         $question = $this->get_question();
         
         $answer = $this->get_answer();
-        dump($answer);
-        
+            
         $options = $question->get_options();
         $type = $question->get_answer_type();
         $question_id = $question->get_id();
