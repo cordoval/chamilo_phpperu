@@ -10,21 +10,10 @@ require_once PATH :: get_repository_path() . '/question_types/open_question/open
  */
 class AssessmentOpenQuestionForm extends OpenQuestionForm
 {
-
-    function set_csv_values($valuearray)
-    {
-        $defaults[ContentObject :: PROPERTY_TITLE] = $valuearray[0];
-        $defaults[ContentObject :: PROPERTY_PARENT_ID] = $valuearray[1];
-        $defaults[ContentObject :: PROPERTY_DESCRIPTION] = $valuearray[2];
-        $defaults[AssessmentOpenQuestion :: PROPERTY_QUESTION_TYPE] = $valuearray[3];
-
-        parent :: set_values($defaults);
-    }
-
     function setDefaults($defaults = array ())
     {
         $object = $this->get_content_object();
-        if ($object != null)
+        if ($object->get_id() != null)
         {
             $defaults[AssessmentOpenQuestion :: PROPERTY_QUESTION_TYPE] = $object->get_question_type();
         }
