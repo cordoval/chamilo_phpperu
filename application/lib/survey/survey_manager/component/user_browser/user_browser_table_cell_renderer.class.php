@@ -42,5 +42,7 @@ class SurveyUserBrowserTableCellRenderer extends DefaultSurveyUserTableCellRende
         
         return $toolbar->as_html();
     }
+    
+    
 }
 ?>

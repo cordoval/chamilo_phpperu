@@ -31,7 +31,7 @@ class InternshipOrganizerPeriodSubscribeGroupForm extends FormValidator
         $this->addRule(InternshipOrganizerPeriodRelUser :: PROPERTY_USER_TYPE, Translation :: get('ThisFieldIsRequired'), 'required');
         
         $attributes = array();
-        $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_user_group_feed.php';
+        $attributes['search_url'] = Path :: get(WEB_PATH) . 'group/xml_feeds/xml_group_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('ShareWith');
         $locale['Searching'] = Translation :: get('Searching');

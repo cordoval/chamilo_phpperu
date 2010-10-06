@@ -68,5 +68,8 @@ class SurveyContextManagerRegistrationBrowserComponent extends SurveyContextMana
 
         return $action_bar;
     }
+    
+    
+    
 }
 ?>

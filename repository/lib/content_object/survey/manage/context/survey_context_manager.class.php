@@ -157,6 +157,21 @@ class SurveyContextManager extends SubManager
     {
         return self :: PARAM_ACTION;
     }
+    
+    function display_header()
+    {
+    	Application :: display_header();
+    }
+    
+    function display_footer()
+    {
+    	Application :: display_footer();
+    }
+    
+    function has_menu()
+    {
+    	return false;
+    }
 }
 
 ?>
