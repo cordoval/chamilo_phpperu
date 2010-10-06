@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: repository_feeder.class.php 200 2009-11-13 12:30:04Z kariboe $
+ * $Id: feeder.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.block
  */
 class RepositoryFeeder extends RepositoryBlock
