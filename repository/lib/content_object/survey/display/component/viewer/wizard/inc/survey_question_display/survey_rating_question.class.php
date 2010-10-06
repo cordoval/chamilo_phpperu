@@ -12,13 +12,16 @@ class SurveyRatingQuestionDisplay extends SurveyQuestionDisplay
     {
         $formvalidator = $this->get_formvalidator();
         $renderer = $this->get_renderer();
-//        $complex_question = $this->get_complex_question();
+        //        $complex_question = $this->get_complex_question();
         $question = $this->get_question();
         
         $min = $question->get_low();
         $max = $question->get_high();
-        $question_name = $this->get_question()->get_id() . '_0'.'_'.$this->get_context_path();
+        $question_name = $this->get_complex_question()->get_id() . '_0';
         
+        //        $question_name = $this->get_question()->get_id() . '_0'.'_'.$this->get_context_path();
+        
+
         for($i = $min; $i <= $max; $i ++)
         {
             $scores[$i] = $i;
@@ -33,6 +36,15 @@ class SurveyRatingQuestionDisplay extends SurveyQuestionDisplay
         $element_template = implode("\n", $element_template);
         
         $formvalidator->addElement('select', $question_name, Translation :: get('Rating') . ': ', $scores, 'class="rating_slider"');
+        
+        $answer = $this->get_answer();
+       
+        
+        if ($answer)
+        {
+            $formvalidator->setDefaults(array($question_name => $answer[0]));
+        }
+        
         $renderer->setElementTemplate($element_template, $question_name);
         $formvalidator->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/rating_question.js'));
     }

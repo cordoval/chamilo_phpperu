@@ -5,7 +5,15 @@ class CasAccountForm extends FormValidator
     const TYPE_CREATE = 1;
     const TYPE_EDIT = 2;
 
+    const PASSWORD_OPTION = 'password_option';
+    const PASSWORD_GROUP = 'password_group';
+
     private $parent;
+
+    /**
+     * @var string
+     */
+    private $unencrypted_password;
 
     /**
      * @var CasAccount
@@ -47,6 +55,16 @@ class CasAccountForm extends FormValidator
         $this->addElement('text', CasAccount :: PROPERTY_EMAIL, Translation :: get('Email'), array("size" => "50"));
         $this->addRule(CasAccount :: PROPERTY_EMAIL, Translation :: get('ThisFieldIsRequired'), 'required');
         $this->addRule(CasAccount :: PROPERTY_EMAIL, Translation :: get('WrongEmail'), 'email');
+
+        $group = array();
+        if ($this->form_type == self :: TYPE_EDIT)
+        {
+            $group[] = & $this->createElement('radio', self :: PASSWORD_OPTION, null, Translation :: get('KeepPassword') . '<br />', 2);
+        }
+        $group[] = & $this->createElement('radio', self :: PASSWORD_OPTION, null, Translation :: get('AutoGeneratePassword') . '<br />', 1);
+        $group[] = & $this->createElement('radio', self :: PASSWORD_OPTION, null, null, 0);
+        $group[] = & $this->createElement('password', CasAccount :: PROPERTY_PASSWORD, null, null, array('autocomplete' => 'off'));
+        $this->addGroup($group, self :: PASSWORD_GROUP, Translation :: get('Password'), '');
 
         $affiliation_options = array();
         $affiliation_options['student'] = Translation :: get('Student');
@@ -100,7 +118,14 @@ class CasAccountForm extends FormValidator
         $cas_account->set_group($values[CasAccount :: PROPERTY_GROUP]);
         $cas_account->set_status($values[CasAccount :: PROPERTY_STATUS]);
 
-        return $cas_account->create();
+        if ($values[self :: PASSWORD_GROUP][self :: PASSWORD_OPTION] != 2)
+        {
+            $this->unencrypted_password = $values[self :: PASSWORD_GROUP][self :: PASSWORD_OPTION] == 1 ? $this->unencrypted_password : $values[self :: PASSWORD_GROUP][CasAccount :: PROPERTY_PASSWORD];
+            $password = md5($this->unencrypted_password);
+            $cas_account->set_password($password);
+        }
+
+        return $cas_account->update();
     }
 
     function create_cas_account()
@@ -114,6 +139,9 @@ class CasAccountForm extends FormValidator
         $cas_account->set_affiliation($values[CasAccount :: PROPERTY_AFFILIATION]);
         $cas_account->set_group($values[CasAccount :: PROPERTY_GROUP]);
         $cas_account->set_status($values[CasAccount :: PROPERTY_STATUS]);
+
+        $this->unencrypted_password = $values[self :: PASSWORD_GROUP][self :: PASSWORD_OPTION] == 1 ? Text :: generate_password() : $values[self :: PASSWORD_GROUP][CasAccount :: PROPERTY_PASSWORD];
+        $cas_account->set_password(md5($this->unencrypted_password));
 
         return $cas_account->create();
     }
@@ -132,6 +160,16 @@ class CasAccountForm extends FormValidator
         $defaults[CasAccount :: PROPERTY_AFFILIATION] = $cas_account->get_affiliation();
         $defaults[CasAccount :: PROPERTY_GROUP] = $cas_account->get_group();
         $defaults[CasAccount :: PROPERTY_STATUS] = $cas_account->get_status();
+
+        if ($this->form_type == self :: TYPE_EDIT)
+        {
+            $defaults[self :: PASSWORD_GROUP][self :: PASSWORD_OPTION] = 2;
+        }
+        else
+        {
+            $defaults[self :: PASSWORD_GROUP][self :: PASSWORD_OPTION] = 1;
+        }
+
         parent :: setDefaults($defaults);
     }
 

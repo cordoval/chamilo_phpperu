@@ -22,7 +22,13 @@ class CasAccountConnection extends Connection
      */
     private function CasAccountConnection()
     {
-        $this->connection = MDB2 :: connect('mysql://root@localhost/cas', array('debug' => 3));
+        $cas_dbms = PlatformSetting :: get('dbms', CasUserManager :: APPLICATION_NAME);
+        $cas_user = PlatformSetting :: get('user', CasUserManager :: APPLICATION_NAME);
+        $cas_password = PlatformSetting :: get('password', CasUserManager :: APPLICATION_NAME);
+        $cas_host = PlatformSetting :: get('host', CasUserManager :: APPLICATION_NAME);
+        $cas_database = PlatformSetting :: get('database', CasUserManager :: APPLICATION_NAME);
+
+        $this->connection = MDB2 :: connect($cas_dbms . '://' . $cas_user . ':' . $cas_password . '@' . $cas_host . '/' . $cas_database, array('debug' => 3));
     }
 
     /**

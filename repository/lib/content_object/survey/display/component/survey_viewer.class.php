@@ -23,9 +23,9 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
         $this->get_parent()->started();
     }
 
-    function finish()
+    function finished()
     {
-        $this->get_parent()->finish();
+        $this->get_parent()->finished();
     }
 
     function save_answer($question_id, $answer, $context_path)
@@ -33,10 +33,13 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
         $this->get_parent()->save_answer($question_id, $answer, $context_path);
     }
 
-    function get_answer($question_id, $answer, $context_path)
+    function get_answer($complex_question_id, $context_path)
     {
-        $this->get_parent()->save_answer($question_id, $answer, $context_path);
+        return $this->get_parent()->get_answer($complex_question_id, $context_path);
     }
-
+	
+    function get_go_back_url(){
+    	return $this->get_parent()->get_go_back_url();
+    }
 }
 ?>

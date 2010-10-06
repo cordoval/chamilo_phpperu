@@ -2,6 +2,9 @@
 /**
  * @author Hans De Bisschop
  */
+
+require_once dirname(__FILE__) . '/cas_account_data_manager/cas_account_data_manager.class.php';
+
 class CasAccount extends DataClass
 {
     const CLASS_NAME = __CLASS__;
@@ -28,7 +31,7 @@ class CasAccount extends DataClass
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_ID, self :: PROPERTY_FIRST_NAME, self :: PROPERTY_LAST_NAME, self :: PROPERTY_EMAIL, self :: PROPERTY_AFFILIATION, self :: PROPERTY_PASSWORD, self :: PROPERTY_GROUP, self :: PROPERTY_STATUS);
+        return parent :: get_default_property_names(array(self :: PROPERTY_FIRST_NAME, self :: PROPERTY_LAST_NAME, self :: PROPERTY_EMAIL, self :: PROPERTY_AFFILIATION, self :: PROPERTY_PASSWORD, self :: PROPERTY_GROUP, self :: PROPERTY_STATUS));
     }
 
     function get_data_manager()

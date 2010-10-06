@@ -197,7 +197,7 @@ class ReportingSurvey
             $participant_count ++;
             $dummy = new SurveyQuestionAnswerTracker();
             $conditions = array();
-            $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_QUESTION_CID, $question_id);
+            $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_COMPLEX_QUESTION_ID, $question_id);
             $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_SURVEY_PARTICIPANT_ID, $participant->get_id());
             $condition = new AndCondition($conditions);
             $trackers = $dummy->retrieve_tracker_items($condition);

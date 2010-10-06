@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="cas_user">
+	<settings>
+		<category name="general">
+			<setting name="dbms" field="text" default="mysql" />
+			<setting name="host" field="text" default="localhost" />
+			<setting name="table" field="text" default="external_users" />
+			<setting name="user" field="text" default="root" />
+			<setting name="password" field="text" default="" />
+		</category>
+	</settings>
+</application>
