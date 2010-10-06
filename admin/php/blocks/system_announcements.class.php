@@ -21,9 +21,9 @@ class AdminSystemAnnouncements extends AdminBlock
         $configuration = $this->get_configuration();
         $show_when_empty = $configuration['show_when_empty'];
         $html = array();
-        
-        $announcements = $this->get_parent()->retrieve_system_announcement_publications();
-        
+
+        $announcements = AdminDataManager :: get_instance()->retrieve_system_announcement_publications();
+
         if ($announcements->size() > 0)
         {
             $html[] = $this->display_header();
@@ -39,21 +39,21 @@ class AdminSystemAnnouncements extends AdminBlock
                 $html[] = $this->display_footer();
             }
         }
-        
+
         return implode("\n", $html);
     }
 
     function get_system_announcements($announcements)
     {
         $html = array();
-        
+
         $html[] = '<ul style="list-style: none; margin: 0px; padding: 0px;">';
-        
+
         if ($announcements->size() == 0)
         {
             $html[] = '<li style="margin-bottom: 2px;">' . Translation :: get('NoNewSystemAnnouncements') . '</a></li>';
         }
-        
+
         while ($announcement = $announcements->next_result())
         {
         	if ($announcement->is_visible_for_target_users())
@@ -62,9 +62,9 @@ class AdminSystemAnnouncements extends AdminBlock
             	$html[] = '<li style="margin-bottom: 2px;"><img style="vertical-align: middle;" src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $object->get_icon_name() . '.png" />&nbsp;&nbsp;<a href="' . $this->get_parent()->get_link(array(Application :: PARAM_ACTION => AdminManager :: ACTION_VIEW_SYSTEM_ANNOUNCEMENT, AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $announcement->get_id())) . '">' . $object->get_title() . '</a></li>';
         	}
         }
-        
+
         $html[] = '</ul>';
-        
+
         return implode("\n", $html);
     }
 
@@ -72,7 +72,7 @@ class AdminSystemAnnouncements extends AdminBlock
 	{
 		return false;
 	}*/
-    
+
     function is_hidable()
     {
         return false;

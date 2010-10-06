@@ -2,7 +2,7 @@
 
 /**
  * @package admin.block
- * $Id: admin_portal_home.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
+ * $Id: portal_home.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  */
 class AdminPortalHome extends AdminBlock
 {
