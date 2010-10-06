@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: weblcms_course_list.class.php 216 2009-11-13 14:08:06Z kariboe $
+ * $Id: course_list.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.block
  */
 require_once dirname(__FILE__) . '/../weblcms_block.class.php';
