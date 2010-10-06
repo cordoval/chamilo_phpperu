@@ -46,8 +46,6 @@ class DefaultHomeRenderer extends HomeRenderer
             $tabs = HomeDataManager :: get_instance()->retrieve_home_tabs($tabs_condition);
         }
 
-        //if ($tabs->size() > 1)
-        //{
         $html[] = '<div id="tab_menu"><ul id="tab_elements">';
         while ($tab = $tabs->next_result())
         {
@@ -78,8 +76,6 @@ class DefaultHomeRenderer extends HomeRenderer
         $html[] = '<div style="font-size: 0px; clear: both; height: 0px; line-height: 0px;">&nbsp;</div>';
         $html[] = '</div>';
         $html[] = '<div style="clear: both; height: 0px; line-height: 0px;">&nbsp;</div>';
-        //}
-
 
         $tabs = HomeDataManager :: get_instance()->retrieve_home_tabs($tabs_condition);
 
@@ -124,38 +120,6 @@ class DefaultHomeRenderer extends HomeRenderer
                         while ($block = $blocks->next_result())
                         {
                             $html[] = Block :: factory($this, $block)->as_html();
-//                            $html[] = $block->get_application();
-                            //                            $application = $block->get_application();
-                        //                            $application_class = Application :: application_to_class($application);
-                        //
-                        //                            if (! WebApplication :: is_application($application))
-                        //                            {
-                        //                                $sys_app_path = CoreApplication :: get_application_path($application) . '/lib/' . $application . '_manager' . '/' . $application . '_manager.class.php';
-                        //                                require_once $sys_app_path;
-                        //
-                        //                                $application_class .= 'Manager';
-                        //
-                        //                                if (! is_null($this->get_user()))
-                        //                                {
-                        //                                    $app = new $application_class($this->get_user());
-                        //                                    $html[] = $app->render_block($block);
-                        //                                }
-                        //                                elseif (($application == 'user' && $block->get_component() == 'login') || ($application == 'admin' && $block->get_component() == 'portal_home'))
-                        //                                {
-                        //                                    $app = new $application_class($this->get_user());
-                        //                                    $html[] = $app->render_block($block);
-                        //                                }
-                        //                            }
-                        //                            else
-                        //                            {
-                        //                                require_once WebApplication :: get_application_manager_path($application);
-                        //
-                        //                                if (! is_null($this->get_user()))
-                        //                                {
-                        //                                    $app = Application :: factory($application, $this->get_user());
-                        //                                    $html[] = $app->render_block($block);
-                        //                                }
-                        //                            }
                         }
                     }
                     else
@@ -180,10 +144,68 @@ class DefaultHomeRenderer extends HomeRenderer
 
         if ($user_home_allowed && Authentication :: is_valid())
         {
-            //$html[] = '<script type="text/javascript" src="' . BasicApplication::get_application_resources_javascript_path(HomeManager::APPLICATION_NAME) . 'home_ajax.js' . '"></script>';
+            $html[] = '<script type="text/javascript" src="' . BasicApplication :: get_application_web_resources_javascript_path(HomeManager :: APPLICATION_NAME) . 'home_ajax.js' . '"></script>';
         }
 
         return implode("\n", $html);
+    }
+
+    function create_user_home()
+    {
+        $user = $this->get_user();
+
+        $tabs_condition = new EqualityCondition(HomeTab :: PROPERTY_USER, '0');
+        $tabs = HomeDataManager :: get_instance()->retrieve_home_tabs($tabs_condition);
+
+        while ($tab = $tabs->next_result())
+        {
+            $old_tab_id = $tab->get_id();
+            $tab->set_user($user->get_id());
+            $tab->create();
+
+            $rows_conditions = array();
+            $rows_conditions[] = new EqualityCondition(HomeRow :: PROPERTY_TAB, $old_tab_id);
+            $rows_conditions[] = new EqualityCondition(HomeRow :: PROPERTY_USER, '0');
+            $rows_condition = new AndCondition($rows_conditions);
+            $rows = HomeDataManager :: get_instance()->retrieve_home_rows($rows_condition);
+
+            while ($row = $rows->next_result())
+            {
+                $old_row_id = $row->get_id();
+                $row->set_user($user->get_id());
+                $row->set_tab($tab->get_id());
+                $row->create();
+
+                $conditions = array();
+                $conditions[] = new EqualityCondition(HomeColumn :: PROPERTY_ROW, $old_row_id);
+                $conditions[] = new EqualityCondition(HomeColumn :: PROPERTY_USER, '0');
+                $condition = new AndCondition($conditions);
+
+                $columns = HomeDataManager :: get_instance()->retrieve_home_columns($condition);
+
+                while ($column = $columns->next_result())
+                {
+                    $old_column_id = $column->get_id();
+                    $column->set_user($user->get_id());
+                    $column->set_row($row->get_id());
+                    $column->create();
+
+                    $conditions = array();
+                    $conditions[] = new EqualityCondition(HomeBlock :: PROPERTY_COLUMN, $old_column_id);
+                    $conditions[] = new EqualityCondition(HomeBlock :: PROPERTY_USER, '0');
+                    $condition = new AndCondition($conditions);
+
+                    $blocks = HomeDataManager :: get_instance()->retrieve_home_blocks($condition);
+
+                    while ($block = $blocks->next_result())
+                    {
+                        $block->set_user($user->get_id());
+                        $block->set_column($column->get_id());
+                        $block->create();
+                    }
+                }
+            }
+        }
     }
 }
 ?>

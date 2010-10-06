@@ -311,7 +311,6 @@ class Block
         $application = $block_info->get_application();
 
         $path = BasicApplication :: get_application_class_path($application) . 'blocks/' . $type . '.class.php';
-        dump($path);
         if (! file_exists($path) || ! is_file($path))
         {
             die('Failed to load "' . $type . '" block');
