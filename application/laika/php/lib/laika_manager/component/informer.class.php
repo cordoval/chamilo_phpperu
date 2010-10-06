@@ -3,8 +3,8 @@
  * $Id: informer.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika.laika_manager.component
  */
-require_once dirname(__FILE__) . '/../laika_manager.class.php';
-require_once dirname(__FILE__) . '/../../laika_scale.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_manager/laika_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_scale.class.php';
 
 class LaikaManagerInformerComponent extends LaikaManager
 {

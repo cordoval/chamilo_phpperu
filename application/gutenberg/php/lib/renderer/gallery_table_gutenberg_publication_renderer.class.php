@@ -3,8 +3,8 @@
  * $Id: table_content_object_publication_list_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.browser.list_renderer
  */
-require_once dirname(__FILE__) . '/../gutenberg_publication_renderer.class.php';
-require_once dirname(__FILE__) . '/gutenberg_publication_gallery_browser/gutenberg_publication_gallery_browser_table.class.php';
+require_once WebApplication :: get_application_class_lib_path('gutenberg') . 'gutenberg_publication_renderer.class.php';
+require_once WebApplication :: get_application_class_lib_path('gutenberg') . 'renderer/gutenberg_publication_gallery_browser/gutenberg_publication_gallery_browser_table.class.php';
 /**
  * Renderer to display a sortable table with learning object publications.
  */

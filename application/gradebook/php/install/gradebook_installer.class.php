@@ -1,6 +1,6 @@
 <?php
-require_once dirname(__FILE__).'/../lib/gradebook_data_manager.class.php';
-require_once Path :: get_library_path().'installer.class.php';
+require_once WebApplication :: get_application_class_lib_path('gradebook') . 'gradebook_data_manager.class.php';
+require_once Path :: get_common_libraries_path() . 'installer.class.php';
 
 class GradebookInstaller extends Installer
 {

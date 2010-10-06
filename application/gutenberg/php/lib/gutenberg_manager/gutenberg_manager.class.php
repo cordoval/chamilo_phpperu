@@ -3,8 +3,8 @@
  * $Id: gutenberg_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.gutenberg
  */
-require_once dirname(__FILE__) . '/../gutenberg_data_manager.class.php';
-require_once dirname(__FILE__) . '/../gutenberg_publication.class.php';
+require_once WebApplication :: get_application_class_lib_path('gutenberg') . 'gutenberg_data_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('gutenberg') . 'gutenberg_publication.class.php';
 /**
  * This application gives each user the possibility to maintain a personal
  * calendar.

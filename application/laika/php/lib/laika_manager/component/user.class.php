@@ -3,10 +3,10 @@
  * $Id: user.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika.laika_manager.component
  */
-require_once dirname(__FILE__) . '/../laika_manager.class.php';
-require_once dirname(__FILE__) . '/../../laika_utilities.class.php';
-require_once dirname(__FILE__) . '/laika_user_browser/laika_user_browser_table.class.php';
-require_once dirname(__FILE__) . '/../../forms/laika_user_filter_form.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_manager/laika_manager/laika_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_manager/laika_utilities.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_manager/component/laika_user_browser/laika_user_browser_table.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_manager/forms/laika_user_filter_form.class.php';
 
 class LaikaManagerUserComponent extends LaikaManager
 {

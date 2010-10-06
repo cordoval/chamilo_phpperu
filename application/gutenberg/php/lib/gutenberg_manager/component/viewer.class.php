@@ -3,7 +3,7 @@
  * $Id: viewer.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.gutenberg.gutenberg_manager
  */
-require_once dirname(__FILE__) . '/../gutenberg_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('gutenberg') . 'gutenberg_manager/gutenberg_manager.class.php';
 require_once Path :: get_library_path() . 'utilities.class.php';
 
 class GutenbergManagerViewerComponent extends GutenbergManager

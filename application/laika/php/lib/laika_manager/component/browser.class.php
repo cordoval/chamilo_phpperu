@@ -3,9 +3,9 @@
  * $Id: browser.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika.laika_manager.component
  */
-require_once dirname(__FILE__) . '/../laika_manager.class.php';
-require_once dirname(__FILE__) . '/laika_calculated_result_browser/laika_calculated_result_browser_table.class.php';
-require_once dirname(__FILE__) . '/../../forms/laika_browser_filter_form.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_manager/laika_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_manager/component//laika_calculated_result_browser/laika_calculated_result_browser_table.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'forms/laika_browser_filter_form.class.php';
 
 class LaikaManagerBrowserComponent extends LaikaManager
 {

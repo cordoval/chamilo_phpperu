@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__).'/../../format.class.php';
+require_once WebApplication :: get_application_class_lib_path('gradebook') . 'format.class.php';
 
 class DefaultGradebookPublicationTableCellRenderer extends ObjectTableCellRenderer
 {

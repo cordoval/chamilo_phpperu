@@ -1,7 +1,7 @@
 <?php
-require_once dirname(__FILE__).'/../../forms/external_item_form.class.php';
-require_once dirname(__FILE__) . '/../../data_provider/gradebook_tree_menu_data_provider.class.php';
-require_once dirname(__FILE__).'/../../forms/external_grade_evaluation_input_form.class.php';
+require_once WebApplication :: get_application_class_lib_path('gradebook') . 'forms/external_item_form.class.php';
+require_once WebApplication :: get_application_class_lib_path('gradebook') . 'data_provider/gradebook_tree_menu_data_provider.class.php';
+require_once WebApplication :: get_application_class_lib_path('gradebook') . 'forms/external_grade_evaluation_input_form.class.php';
 class GradebookManagerExternalCreatorComponent extends GradebookManager
 {
 	function run()

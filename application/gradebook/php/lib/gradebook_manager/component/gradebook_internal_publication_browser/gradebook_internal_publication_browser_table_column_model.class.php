@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/../../../tables/gradebook_publication_table/default_gradebook_publication_table_column_model.class.php';
+require_once WebApplication :: get_application_class_lib_path('gradebook') . 'tables/gradebook_publication_table/default_gradebook_publication_table_column_model.class.php';
 
 class GradebookInternalPublicationBrowserTableColumnModel extends DefaultGradebookPublicationTableColumnModel
 {

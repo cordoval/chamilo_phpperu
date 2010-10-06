@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__) . '/../evaluation_format.class.php';
+require_once WebApplication :: get_application_class_lib_path('gradebook') . 'evaluation_format.class.php';
 
 class PointsOnTwenty extends EvaluationFormat
 {

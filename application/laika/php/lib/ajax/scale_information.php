@@ -6,7 +6,7 @@
 $this_section = 'laika';
 
 require_once dirname(__FILE__) . '/../../../../common/global.inc.php';
-require_once Path :: get_application_path() . 'lib/laika/laika_data_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_data_manager.class.php';
 
 Utilities :: set_application($this_section);
 

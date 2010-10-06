@@ -3,7 +3,7 @@
  * $Id: laika_user_browser_table_column_model.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika.laika_manager.component.laika_user_browser
  */
-require_once Path :: get_user_path() . '/lib/user_table/default_user_table_column_model.class.php';
+require_once CoreApplication :: get_application_class_lib_path('user') . 'user_table/default_user_table_column_model.class.php';
 /**
  * Table column model for the user browser table
  */

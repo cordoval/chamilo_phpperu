@@ -1,7 +1,7 @@
 <?php
-require_once dirname (__FILE__) . '/../evaluations_reporting_block.class.php';
-require_once dirname (__FILE__) . '/../../gradebook_manager/gradebook_manager.class.php';
-require_once dirname(__FILE__) . '/../../evaluation_format/evaluation_format.class.php';
+require_once WebApplication :: get_application_class_path('gradebook') . 'reporting/evaluations_reporting_block.class.php';
+require_once WebApplication :: get_application_class_lib_path('gradebook') . 'gradebook_manager/gradebook_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('gradebook') . 'evaluation_format/evaluation_format.class.php';
 
 
 class PublicationEvaluationsReportingBlock extends EvaluationsReportingBlock

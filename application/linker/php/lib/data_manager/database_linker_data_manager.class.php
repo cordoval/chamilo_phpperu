@@ -4,8 +4,8 @@
  * @package application.lib.linker.data_manager
  */
 
-require_once dirname(__FILE__) . '/../link.class.php';
-require_once dirname(__FILE__) . '/../linker_data_manager_interface.class.php';
+require_once WebApplication :: get_application_class_lib_path('linker') . 'link.class.php';
+require_once WebApplication :: get_application_class_lib_path('linker') . 'linker_data_manager_interface.class.php';
 
 /**
 ==============================================================================

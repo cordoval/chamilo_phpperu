@@ -1,6 +1,6 @@
 <?php
-require_once dirname(__FILE__).'/../../evaluation.class.php';
-require_once dirname(__FILE__).'/../../grade_evaluation.class.php';
+require_once WebApplication :: get_application_class_lib_path('gradebook') . 'evaluation.class.php';
+require_once WebApplication :: get_application_class_lib_path('gradebook') . 'grade_evaluation.class.php';
 
 class DefaultEvaluationBrowserTableColumnModel extends ObjectTableColumnModel
 {

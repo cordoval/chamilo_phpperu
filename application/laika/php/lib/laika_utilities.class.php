@@ -4,7 +4,7 @@
  * @package application.lib.laika
  */
 
-require_once dirname(__FILE__) . '/laika_data_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_data_manager.class.php';
 
 class LaikaUtilities
 {

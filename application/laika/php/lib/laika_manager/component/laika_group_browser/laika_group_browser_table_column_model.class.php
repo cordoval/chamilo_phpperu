@@ -3,7 +3,7 @@
  * $Id: laika_group_browser_table_column_model.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika.laika_manager.component.laika_group_browser
  */
-require_once Path :: get_group_path() . '/lib/group_table/default_group_table_column_model.class.php';
+require_once CoreApplication :: get_application_class_lib_path('group') . 'group_table/default_group_table_column_model.class.php';
 /**
  * Table column model for the user browser table
  */

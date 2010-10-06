@@ -1,10 +1,10 @@
 <?php
-require_once dirname(__FILE__) . '/../../../../plugin/pear/HTML/QuickForm/Rule.php';
-require_once dirname(__FILE__) . '/../external_item.class.php';
-require_once dirname(__FILE__) . '/../evaluation_format/evaluation_format.class.php';
-require_once dirname(__FILE__) . '/../../weblcms/course/course_user_relation.class.php';
-require_once dirname(__FILE__) . '/../../weblcms/weblcms_manager/weblcms_manager.class.php';
-require_once dirname(__FILE__) . '/../data_provider/gradebook_tree_menu_data_provider.class.php';
+require_once path :: get_plugin_path() . 'pear/HTML/QuickForm/Rule.php';
+require_once WebApplication :: get_application_class_lib_path('gradebook') . '/external_item.class.php';
+require_once WebApplication :: get_application_class_lib_path('gradebook') . 'evaluation_format/evaluation_format.class.php';
+require_once WebApplication :: get_application_class_lib_path('weblcms') . 'course/course_user_relation.class.php';
+require_once WebApplication :: get_application_class_lib_path('weblcms') . 'weblcms_manager/weblcms_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('gradebook') . 'data_provider/gradebook_tree_menu_data_provider.class.php';
 
 class ExternalItemForm extends FormValidator
 {

@@ -4,7 +4,7 @@
  * @package application.lib.laika
  */
 
-require_once Path :: get_application_path() . 'laika/php/lib/laika_data_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_data_manager.class.php';
 
 require_once Path :: get_plugin_path() . '/pChart/pChart/pChart.class';
 require_once Path :: get_plugin_path() . '/pChart/pChart/pData.class';
