@@ -10,27 +10,9 @@ class ExtensionsAutoloader
 
     static function load($classname)
     {
-        if (self :: check_for_calendar_files($classname))
-        {
-            return true;
-        }
 
         if (self :: check_for_special_files($classname))
         {
-            return true;
-        }
-
-        return false;
-    }
-
-    static function check_for_calendar_files($classname)
-    {
-        $list = array('calendar_table', 'day_calendar', 'mini_day_calendar', 'mini_month_calendar', 'mini_week_calendar', 'month_calendar', 'week_calendar');
-        $lower_case = Utilities :: camelcase_to_underscores($classname);
-
-        if (in_array($lower_case, $list))
-        {
-            require_once dirname(__FILE__) . '/calendar/' . $lower_case . '.class.php';
             return true;
         }
 

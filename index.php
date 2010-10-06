@@ -1,10 +1,6 @@
 <?php
-/**
- * $Id: index.php 176 2009-11-12 13:25:10Z vanpouckesven $
- */
 try
 {
-
     $this_section = 'home';
 
     include_once ('common/global.inc.php');
