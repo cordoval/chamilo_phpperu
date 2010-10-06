@@ -1,16 +1,15 @@
 <?php
 /**
- * $Id: personal_calendar_month.class.php 201 2009-11-13 12:34:51Z chellee $
+ * $Id: day.class.php 201 2009-11-13 12:34:51Z chellee $
  * @package application.lib.personal_calendar.block
  */
 require_once WebApplication :: get_application_class_lib_path('personal_calendar') . 'personal_calendar_block.class.php';
-require_once Path :: get_library_path() . 'utilities.class.php';
-require_once WebApplication :: get_application_class_lib_path('personal_calendar') . 'renderer/personal_calendar_mini_month_renderer.class.php';
+require_once WebApplication :: get_application_class_lib_path('personal_calendar') . 'renderer/personal_calendar_mini_day_renderer.class.php';
 /**
  * This class represents a calendar publisher component which can be used
  * to browse through the possible learning objects to publish.
  */
-class PersonalCalendarMonth extends PersonalCalendarBlock
+class PersonalCalendarDay extends PersonalCalendarBlock
 {
 
     function run()
@@ -23,13 +22,19 @@ class PersonalCalendarMonth extends PersonalCalendarBlock
 	 */
     function as_html()
     {
+        $configuration = $this->get_configuration();
+        
+        $hour_step = $configuration['hour_step'];
+        $time_start = $configuration['time_start'];
+        $time_end = $configuration['time_end'];
+        
         $html = array();
         
         $html[] = $this->display_header();
         
         $time = Request :: get('time') ? intval(Request :: get('time')) : time();
-        $minimonthcalendar = new PersonalCalendarMiniMonthRenderer($this->get_parent(), $time);
-        $html[] = $minimonthcalendar->render();
+        $minidaycalendar = new PersonalCalendarMiniDayRenderer($this->get_parent(), $time, $hour_step, $time_start, $time_end);
+        $html[] = $minidaycalendar->render();
         
         $html[] = $this->display_footer();
         
