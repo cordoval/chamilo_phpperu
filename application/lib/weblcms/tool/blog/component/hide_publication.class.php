@@ -6,10 +6,5 @@ class BlogToolHidePublicationComponent extends BlogTool
     {
         ToolComponent :: launch($this);
     }
-
-    function get_hidden()
-    {
-        return 1;
-    }
 }
 ?>

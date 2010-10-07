@@ -96,7 +96,7 @@ class CasUserRequestForm extends FormValidator
         $cas_user_request->set_affiliation($values[CasUserRequest :: PROPERTY_AFFILIATION]);
         $cas_user_request->set_motivation($values[CasUserRequest :: PROPERTY_MOTIVATION]);
 
-        return $cas_user_request->create();
+        return $cas_user_request->update();
     }
 
     function create_cas_user_request()

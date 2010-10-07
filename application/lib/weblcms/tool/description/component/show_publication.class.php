@@ -6,10 +6,5 @@ class DescriptionToolShowPublicationComponent extends DescriptionTool
     {
         ToolComponent :: launch($this);
     }
-
-    function get_hidden()
-    {
-        return 0;
-    }
 }
 ?>

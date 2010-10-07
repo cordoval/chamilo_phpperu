@@ -8,14 +8,14 @@ class SurveyDescriptionDisplay extends SurveyQuestionDisplay
     function add_question_form()
     {
         $complex_question = $this->get_complex_question();
-        $description = $this->get_question();
+        $question = $this->get_question();
         $formvalidator = $this->get_formvalidator ();
 
-        if ($description->has_description())
+        if ($question->has_description())
         {
             $html[] = '<div class="assessment">';
             $html[] = '<div class="information">';
-            $html[] = $this->parse($description->get_description());
+            $html[] = $this->parse($question->get_description());
 
             $html[] = '<div class="clear">&nbsp;</div>';
             $html[] = '</div>';

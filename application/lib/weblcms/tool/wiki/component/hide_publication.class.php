@@ -6,10 +6,5 @@ class WikiToolHidePublicationComponent extends WikiTool
     {
         ToolComponent :: launch($this);
     }
-
-    function get_hidden()
-    {
-        return 1;
-    }
 }
 ?>

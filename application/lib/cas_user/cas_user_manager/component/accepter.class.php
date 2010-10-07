@@ -25,7 +25,7 @@ class CasUserManagerAccepterComponent extends CasUserManager
             {
                 $cas_user_request = $cas_user_request = CasUserDataManager :: get_instance()->retrieve_cas_user_request($id);
 
-                if (! CasUserDataManager :: create_cas_account($cas_user_request))
+                if (! $cas_user_request->generate_cas_account())
                 {
                     $failures ++;
                 }

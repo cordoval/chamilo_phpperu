@@ -25,6 +25,7 @@ class SurveyRights
     
     const LOCATION_BROWSER = 1;
     const LOCATION_REPORTING = 2;
+    const LOCATION_PARTICIPANT_BROWSER = 3;
     
     const TREE_TYPE_SURVEY = 0;
     

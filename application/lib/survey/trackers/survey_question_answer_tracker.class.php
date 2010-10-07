@@ -7,20 +7,22 @@
 class SurveyQuestionAnswerTracker extends SimpleTracker
 {
     const CLASS_NAME = __CLASS__;
-	
+    
     const SAVE_QUESTION_ANSWER_EVENT = 'save_question_answer';
     
     const PROPERTY_SURVEY_PARTICIPANT_ID = 'survey_participant_id';
     const PROPERTY_CONTEXT_ID = 'context_id';
-    const PROPERTY_QUESTION_CID = 'question_cid';
+    const PROPERTY_COMPLEX_QUESTION_ID = 'question_cid';
     const PROPERTY_ANSWER = 'answer';
+    const PROPERTY_CONTEXT_PATH = 'context_path';
 
     function validate_parameters(array $parameters = array())
     {
         $this->set_survey_participant_id($parameters[self :: PROPERTY_SURVEY_PARTICIPANT_ID]);
         $this->set_context_id($parameters[self :: PROPERTY_CONTEXT_ID]);
-        $this->set_question_cid($parameters[self :: PROPERTY_QUESTION_CID]);
+        $this->set_question_cid($parameters[self :: PROPERTY_COMPLEX_QUESTION_ID]);
         $this->set_answer($parameters[self :: PROPERTY_ANSWER]);
+        $this->set_context_path($parameters[self :: PROPERTY_CONTEXT_PATH]);
     }
 
     /**
@@ -28,7 +30,7 @@ class SurveyQuestionAnswerTracker extends SimpleTracker
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_SURVEY_PARTICIPANT_ID, self :: PROPERTY_QUESTION_CID, self :: PROPERTY_ANSWER));
+        return parent :: get_default_property_names(array(self :: PROPERTY_SURVEY_PARTICIPANT_ID, self :: PROPERTY_COMPLEX_QUESTION_ID, self :: PROPERTY_ANSWER, self :: PROPERTY_CONTEXT_PATH));
     }
 
     function get_survey_participant_id()
@@ -51,24 +53,39 @@ class SurveyQuestionAnswerTracker extends SimpleTracker
         $this->set_default_property(self :: PROPERTY_CONTEXT_ID, $context_id);
     }
 
+    function get_context_path()
+    {
+        return $this->get_default_property(self :: PROPERTY_CONTEXT_ID);
+    }
+
+    function set_context_path($context_path)
+    {
+        $this->set_default_property(self :: PROPERTY_CONTEXT_PATH, $context_path);
+    }
+
     function get_question_cid()
     {
-        return $this->get_default_property(self :: PROPERTY_QUESTION_CID);
+        return $this->get_default_property(self :: PROPERTY_COMPLEX_QUESTION_ID);
     }
 
     function set_question_cid($question_cid)
     {
-        $this->set_default_property(self :: PROPERTY_QUESTION_CID, $question_cid);
+        $this->set_default_property(self :: PROPERTY_COMPLEX_QUESTION_ID, $question_cid);
     }
 
     function get_answer()
     {
-
-        if ($result = unserialize($this->get_default_property(self :: PROPERTY_ANSWER)))
+        $answer = unserialize($this->get_default_property(self :: PROPERTY_ANSWER));
+     
+        if ($answer)
         {
-            return $result;
+            return $answer;
         }
-        return array();
+        else
+        {
+            return array();
+        }
+    
     }
 
     function set_answer($answer)

@@ -7,9 +7,5 @@ class LinkToolShowPublicationComponent extends LinkTool
         ToolComponent :: launch($this);
     }
 
-    function get_hidden()
-    {
-        return 0;
-    }
 }
 ?>

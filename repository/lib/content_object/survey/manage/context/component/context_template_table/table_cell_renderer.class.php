@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__) . '/browser_table_column_model.class.php';
+require_once dirname(__FILE__) . '/table_column_model.class.php';
 require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/tables/context_template_table/default_context_template_table_cell_renderer.class.php';
 /**
  * Cell rendere for the learning object browser table

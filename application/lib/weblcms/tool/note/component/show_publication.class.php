@@ -6,10 +6,5 @@ class NoteToolShowPublicationComponent extends NoteTool
     {
         ToolComponent :: launch($this);
     }
-
-    function get_hidden()
-    {
-        return 0;
-    }
 }
 ?>

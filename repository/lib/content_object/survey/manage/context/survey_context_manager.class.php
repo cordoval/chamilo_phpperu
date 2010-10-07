@@ -19,6 +19,11 @@ class SurveyContextManager extends SubManager
     const PARAM_TEMPLATE_ID = 'template_id';
     const PARAM_CONTEXT = 'context';
     
+    const PARAM_SURVEY_PAGE_ID = 'survey_page';
+    const PARAM_SURVEY_ID = 'survey';
+    const PARAM_TEMPLATE_REL_PAGE_ID = 'template_rel_page_id';
+    
+    
     const ACTION_MANAGER_CHOOSER = 'manager_chooser';
     
     const ACTION_CREATE_CONTEXT_REGISTRATION = 'registration_creator';
@@ -40,6 +45,9 @@ class SurveyContextManager extends SubManager
     const ACTION_CREATE_TEMPLATE = 'template_creator';
     const ACTION_EDIT_TEMPLATE = 'template_updater';
     const ACTION_DELETE_TEMPLATE = 'template_deleter';
+    
+    const ACTION_DELETE_SURVEY_REL_CONTEXT_TEMPLATE = 'survey_context_deleter';
+    
     
     const DEFAULT_ACTION = self :: ACTION_MANAGER_CHOOSER;
 
@@ -156,6 +164,21 @@ class SurveyContextManager extends SubManager
     static function get_action_parameter()
     {
         return self :: PARAM_ACTION;
+    }
+    
+    function display_header()
+    {
+    	Application :: display_header();
+    }
+    
+    function display_footer()
+    {
+    	Application :: display_footer();
+    }
+    
+    function has_menu()
+    {
+    	return false;
     }
 }
 

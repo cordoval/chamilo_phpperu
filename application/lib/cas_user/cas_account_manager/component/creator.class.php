@@ -14,10 +14,10 @@ class CasAccountManagerCreatorComponent extends CasAccountManager
 
         if ($form->validate())
         {
-            $success = $form->create_cas_user_request();
+            $success = $form->create_cas_account();
             if ($success)
             {
-                $this->redirect(Translation :: get('CasAccountCreated'), (false), array(CasAccountManager :: PARAM_CAS_ACCOUNT_ACTION => CasAccountManager :: ACTION_VIEW, CasAccountManager :: PARAM_ACCOUNT_ID => $cas_account->get_id()));
+                $this->redirect(Translation :: get('CasAccountCreated'), (false), array(CasAccountManager :: PARAM_CAS_ACCOUNT_ACTION => CasAccountManager :: ACTION_BROWSE, CasAccountManager :: PARAM_ACCOUNT_ID => $cas_account->get_id()));
             }
             else
             {

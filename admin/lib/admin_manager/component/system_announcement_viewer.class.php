@@ -16,12 +16,6 @@ class AdminManagerSystemAnnouncementViewerComponent extends AdminManager impleme
         
         $user = $this->get_user();
         
-        if (! $user->is_platform_admin())
-        {
-            Display :: not_allowed();
-            exit();
-        }
-        
         if ($id)
         {
             $system_announcement_publication = $this->retrieve_system_announcement_publication($id);

@@ -7,9 +7,5 @@ class DocumentToolShowPublicationComponent extends DocumentTool
         ToolComponent :: launch($this);
     }
 
-    function get_hidden()
-    {
-        return 0;
-    }
 }
 ?>

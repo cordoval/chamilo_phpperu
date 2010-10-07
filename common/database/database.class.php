@@ -302,7 +302,7 @@ class Database
     function get_better_next_id($table_name, $column)
     {
         $this->connection->loadModule('Extended');
-        return $this->connection->extended->getBeforeID($this->get_table_name($table_name), $column, true, true);
+        return $this->connection->extended->getBeforeID($this->get_table_name($table_name), $column, true, false);
     }
 
     /**

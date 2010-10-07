@@ -19,7 +19,7 @@ class SurveyQuestionReportingBlock extends SurveyReportingBlock
         
 //        dump($question_id);
 //        
-//        //        $condition = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_QUESTION_CID, $this->get_survey_question_id());
+//        //        $condition = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_COMPLEX_QUESTION_ID, $this->get_survey_question_id());
 //        $tracker = new SurveyQuestionAnswerTracker();
 //        $count = $tracker->count_tracker_items($condition);
 //        dump($count);
@@ -53,7 +53,7 @@ class SurveyQuestionReportingBlock extends SurveyReportingBlock
     {
         
         //retrieve the answer trackers
-        $condition = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_QUESTION_CID, $this->get_survey_question_id());
+        $condition = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_COMPLEX_QUESTION_ID, $this->get_survey_question_id());
         $tracker = new SurveyQuestionAnswerTracker();
         $trackers = $tracker->retrieve_tracker_items_result_set($condition);
         

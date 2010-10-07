@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/../../forms/cas_account_form.class.php';
 /**
  * @author Hans De Bisschop
  */
-class CasAccountManagerUpdaterComponent extends CasUserManager
+class CasAccountManagerUpdaterComponent extends CasAccountManager
 {
 
     /**
@@ -13,7 +13,11 @@ class CasAccountManagerUpdaterComponent extends CasUserManager
     function run()
     {
         $cas_account = CasAccountDataManager :: get_instance()->retrieve_cas_account(Request :: get(CasAccountManager :: PARAM_ACCOUNT_ID));
-        $form = new CasAccountForm(CasAccountForm :: TYPE_EDIT, $cas_account, $this->get_url(array(CasAccountManager :: PARAM_ACCOUNT_ID => $cas_account->get_id())), $this->get_user());
+
+        $parameters = $this->get_parameters();
+        $parameters[CasAccountManager :: PARAM_ACCOUNT_ID] = $cas_account->get_id();
+
+        $form = new CasAccountForm(CasAccountForm :: TYPE_EDIT, $cas_account, $this->get_url($parameters), $this->get_user());
 
         if ($form->validate())
         {

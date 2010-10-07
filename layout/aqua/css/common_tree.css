@@ -252,6 +252,18 @@ ul.tree-menu li div a.survey {
 	background-image: url(../images/common/treemenu/survey.png);
 }
 
+ul.tree-menu li div a.survey_context {
+	background-image: url(../images/common/treemenu/survey.png);
+}
+
+ul.tree-menu li div a.survey_page {
+	background-image: url(../images/common/treemenu/survey.png);
+}
+
+ul.tree-menu li div a.survey_question {
+	background-image: url(../images/common/treemenu/survey.png);
+}
+
 ul.tree-menu li div a.survey_finished {
 	background-image: url(../images/common/treemenu/survey_finished.png);
 }

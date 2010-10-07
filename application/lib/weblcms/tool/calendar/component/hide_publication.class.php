@@ -7,9 +7,5 @@ class CalendarToolHidePublicationComponent extends CalendarTool
         ToolComponent :: launch($this);
     }
 
-    function get_hidden()
-    {
-        return 1;
-    }
 }
 ?>
