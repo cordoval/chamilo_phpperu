@@ -1,6 +1,4 @@
 <?php
-require_once WebApplication :: get_application_class_lib_path('gradebook') . 'gradebook_data_manager.class.php';
-require_once WebApplication :: get_application_class_lib_path('gradebook') . 'internal_item.class.php';
 class GradebookInternalItemForm extends FormValidator
 {
 	private $calculated_applications = array('assessment', 'learning_path');

@@ -3,9 +3,6 @@
  * $Id: photo_gallery_manager.class.php
  * @package application.photo_gallery
  */
-require_once WebApplication :: get_application_class_lib_path('photo_gallery') . 'photo_gallery_data_manager.class.php';
-require_once WebApplication :: get_application_class_lib_path('photo_gallery') . 'photo_gallery_publication_renderer.class.php';
-
 class PhotoGalleryManager extends WebApplication
 {
     const APPLICATION_NAME = 'photo_gallery';

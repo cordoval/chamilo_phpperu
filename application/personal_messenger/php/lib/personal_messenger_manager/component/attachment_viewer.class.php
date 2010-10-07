@@ -3,10 +3,7 @@
  * $Id: attachment_viewer.class.php 203 2009-11-13 12:46:38Z chellee $
  * @package application.personal_messenger.personal_messenger_manager.component
  */
-require_once dirname(__FILE__) . '/../personal_messenger_manager.class.php';
-require_once dirname(__FILE__) . '/publication_browser/publication_browser_table.class.php';
-require_once dirname(__FILE__) . '/../../personal_messenger_menu.class.php';
-require_once Path :: get_library_path() . 'utilities.class.php';
+require_once Path :: get_common_libraries_path() . 'utilities.class.php';
 
 class PersonalMessengerManagerAttachmentViewerComponent extends PersonalMessengerManager
 {

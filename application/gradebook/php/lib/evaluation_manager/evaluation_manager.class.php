@@ -1,7 +1,4 @@
 <?php
-require_once WebApplication :: get_application_class_lib_path('gradebook') . 'gradebook_data_manager.class.php';
-require_once WebApplication :: get_application_class_lib_path('gradebook') . 'evaluation_manager/evaluation_manager_interface.class.php';
-
 class EvaluationManager extends SubManager
 {
     const APPLICATION_NAME = 'evaluation';
@@ -33,7 +30,7 @@ class EvaluationManager extends SubManager
 
     function get_application_component_path()
     {
-        return Path :: get_application_path() . 'lib/gradebook/evaluation_manager/component/';
+        return Path :: get_application_class_lib_path(self :: APPLICATION_NAME) . 'evaluation_manager/component/';
     }
 
     function get_publisher_id()

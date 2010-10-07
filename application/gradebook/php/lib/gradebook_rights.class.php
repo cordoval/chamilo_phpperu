@@ -1,6 +1,5 @@
 <?php
 require_once CoreApplication :: get_application_class_lib_path('rights') . 'rights_utilities.class.php';
-require_once WebApplication :: get_application_class_lib_path('gradebook') . 'gradebook_manager/gradebook_manager.class.php';
 
 class GradebookRights
 {

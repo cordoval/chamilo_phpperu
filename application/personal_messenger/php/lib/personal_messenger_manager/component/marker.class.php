@@ -5,9 +5,6 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-
-require_once dirname(__FILE__) . '/../personal_messenger_manager.class.php';
-
 class PersonalMessengerManagerMarkerComponent extends PersonalMessengerManager
 {
 

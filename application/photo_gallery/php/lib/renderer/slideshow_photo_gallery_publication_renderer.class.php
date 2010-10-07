@@ -1,6 +1,4 @@
 <?php
-require_once WebApplication :: get_application_class_lib_path('photo_gallery') . 'photo_gallery_publication_renderer.class.php';
-
 class SlideshowPhotoGalleryPublicationRenderer extends PhotoGalleryPublicationRenderer
 {
     const SLIDESHOW_INDEX = 'slideshow';

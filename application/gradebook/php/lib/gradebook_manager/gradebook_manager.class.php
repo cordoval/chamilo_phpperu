@@ -1,12 +1,7 @@
 <?php
 require_once Path :: get_common_libraries_path() . 'configuration/configuration.class.php';
 require_once Path :: get_common_libraries_path() . 'utilities.class.php';
-require_once WebApplication :: get_application_class_lib_path('gradebook') . 'gradebook_rights.class.php';
-
-require_once WebApplication :: get_application_class_lib_path('gradebook') . 'gradebook_utilities.class.php';
 require_once WebApplication :: get_application_class_lib_path('gradebook') . 'data_provider/gradebook_tree_menu_data_provider.class.php';
-require_once WebApplication :: get_application_class_lib_path('gradebook') . 'gradebook_data_manager.class.php';
-
 require_once WebApplication :: get_application_class_lib_path('gradebook') . 'gradebook_manager/component/evaluation_formats_browser/evaluation_formats_browser_table.class.php';
 require_once WebApplication :: get_application_class_lib_path('gradebook') . 'gradebook_manager/component/gradebook_external_publication_browser/gradebook_external_publication_browser_table.class.php';
 

@@ -4,9 +4,7 @@
  * $Id: browser.class.php 203 2009-11-13 12:46:38Z chellee $
  * @package application.personal_messenger.personal_messenger_manager.component
  */
-require_once dirname(__FILE__) . '/../personal_messenger_manager.class.php';
-require_once dirname(__FILE__) . '/pm_publication_browser/pm_publication_browser_table.class.php';
-require_once dirname(__FILE__) . '/../../personal_messenger_rights.class.php';
+require_once WebApplication :: get_application_class_lib_path('personal_messenger') . 'personal_messenger_manager/component/pm_publication_browser/pm_publication_browser_table.class.php';
 
 class PersonalMessengerManagerBrowserComponent extends PersonalMessengerManager
 {

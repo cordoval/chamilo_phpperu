@@ -3,7 +3,7 @@
  * $Id: viewer.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.photo_gallery.photo_gallery_manager
  */
-require_once Path :: get_library_path() . 'utilities.class.php';
+require_once Path :: get_common_libraries_path() . 'utilities.class.php';
 
 class PhotoGalleryManagerViewerComponent extends PhotoGalleryManager
 {

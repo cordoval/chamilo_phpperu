@@ -15,9 +15,11 @@ class PersonalMessengerAutoloader
         'personal_messenger_data_manager_interface' => 'personal_messenger_data_manager_interface.class.php',
         'personal_messenger_data_manager' => 'personal_messenger_data_manager.class.php', 
         'personal_messenger_menu' => 'personal_messenger_menu.class.php',
-        'personal_message_publication' => 'personal_message_publication.class.php',
+		'personal_message_publisher' => 'publisher/personal_message_publisher.class.php',
         'personal_message_publication_form' => 'personal_message_publication_form.class.php',
-		'pm_publication_browser_table' => 'personal_messenger_manager/component/pm_publication_browser/pm_publication_browser_table.class.php);
+		'personal_messenger_rights' => 'personal_messenger_rights.class.php',
+		'personal_messenger_manager' => 'personal_messenger_manager/personal_messenger_manager.class.php',
+		'pm_publication_browser_table' => 'personal_messenger_manager/component/pm_publication_browser/pm_publication_browser_table.class.php');
         
         $lower_case = Utilities :: camelcase_to_underscores($classname);
         
