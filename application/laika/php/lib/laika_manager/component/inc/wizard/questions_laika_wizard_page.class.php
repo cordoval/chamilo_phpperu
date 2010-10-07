@@ -3,7 +3,7 @@
  * $Id: questions_laika_wizard_page.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika.laika_manager.component.inc.wizard
  */
-require_once dirname(__FILE__) . '/laika_wizard_page.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_manager/component/inc/wizard/laika_wizard_page.class.php';
 /**
  * This form can be used to let the user select publications in the course.
  */

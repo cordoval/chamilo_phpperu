@@ -1,7 +1,7 @@
 <?php
-require_once dirname(__FILE__).'/evaluation_formats_browser_table_data_provider.class.php';
-require_once dirname(__FILE__).'/evaluation_formats_browser_table_column_model.class.php';
-require_once dirname(__FILE__).'/evaluation_formats_browser_table_cell_renderer.class.php';
+require_once WebApplication :: get_application_class_lib_path('gradebook') . 'gradebook_manager/component/evaluation_formats_browser/evaluation_formats_browser_table_data_provider.class.php';
+require_once WebApplication :: get_application_class_lib_path('gradebook') . 'gradebook_manager/component/evaluation_formats_browser/evaluation_formats_browser_table_column_model.class.php';
+require_once WebApplication :: get_application_class_lib_path('gradebook') . 'gradebook_manager/component/evaluation_formats_browser/evaluation_formats_browser_table_cell_renderer.class.php';
 
 class EvaluationFormatsBrowserTable extends ObjectTable
 {

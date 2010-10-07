@@ -3,10 +3,10 @@
  * $Id: laika_group_browser_table.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika.laika_manager.component.laika_group_browser
  */
-require_once dirname(__FILE__) . '/laika_group_browser_table_data_provider.class.php';
-require_once dirname(__FILE__) . '/laika_group_browser_table_column_model.class.php';
-require_once dirname(__FILE__) . '/laika_group_browser_table_cell_renderer.class.php';
-require_once dirname(__FILE__) . '/../../laika_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_manager/component/browser/laika_group_browser_table_data_provider.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_manager/component/browser/laika_group_browser_table_column_model.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_manager/component/browser/laika_group_browser_table_cell_renderer.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_manager/laika_manager.class.php';
 /**
  * Table to display a set of learning objects.
  */

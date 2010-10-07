@@ -4,8 +4,8 @@
  * @package application.lib.weblcms.reporting.templates
  */
 
-require_once dirname(__FILE__) . '/../blocks/wiki_most_visited_page_reporting_block.class.php';
-require_once dirname(__FILE__) . '/../blocks/wiki_most_edited_page_reporting_block.class.php';
+require_once WebApplication :: get_application_class_path('wiki') . 'reporting/blocks/wiki_most_visited_page_reporting_block.class.php';
+require_once WebApplication :: get_application_class_path('wiki') . 'reporting/blocks/wiki_most_edited_page_reporting_block.class.php';
 
 class WikiMostReportingTemplate extends ReportingTemplate
 {

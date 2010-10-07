@@ -1,5 +1,5 @@
 <?php
-require_once Path :: get_application_path() . 'lib/gradebook/reporting/templates/publication_evaluations_template.class.php';
+require_once WebApplication :: get_application_class_path('gradebook') . 'reporting/templates/publication_evaluations_template.class.php';
 
 class GradebookManagerViewEvaluationsOnPublicationComponent extends GradebookManager
 {

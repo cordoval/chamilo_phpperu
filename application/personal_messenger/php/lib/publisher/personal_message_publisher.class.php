@@ -3,7 +3,7 @@
  * $Id: personal_message_publisher.class.php 203 2009-11-13 12:46:38Z chellee $
  * @package application.personal_messenger.publisher
  */
-require_once dirname(__FILE__) . '/../personal_message_publication_form.class.php';
+require_once WebApplication :: get_application_class_lib_path('personal_messenger') . 'personal_message_publication_form.class.php';
 /**
  * This class represents a profile publisher component which can be used
  * to create a new learning object before publishing it.

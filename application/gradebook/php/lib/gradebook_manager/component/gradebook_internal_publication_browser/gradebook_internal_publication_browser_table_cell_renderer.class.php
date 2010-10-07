@@ -1,6 +1,6 @@
 <?php
-require_once dirname(__FILE__).'/../../../tables/gradebook_publication_table/default_gradebook_publication_table_cell_renderer.class.php';
-require_once Path :: get_common_path() . '/datetime/datetime_utilities.class.php';
+require_once WebApplication :: get_application_class_lib_path('gradebook') . 'tables/gradebook_publication_table/default_gradebook_publication_table_cell_renderer.class.php';
+require_once Path :: get_common_libraries_path() . '/datetime/datetime_utilities.class.php';
 
 class GradebookInternalPublicationBrowserTableCellRenderer extends DefaultGradebookPublicationTableCellRenderer
 {/**

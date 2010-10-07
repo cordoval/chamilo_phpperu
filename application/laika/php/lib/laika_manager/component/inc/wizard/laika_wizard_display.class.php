@@ -3,7 +3,7 @@
  * $Id: laika_wizard_display.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika.laika_manager.component.inc.wizard
  */
-require_once dirname(__FILE__) . '/../../../laika_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_manager.class.php';
 /**
  * This class provides the needed functionality to show a page in a maintenance
  * wizard.

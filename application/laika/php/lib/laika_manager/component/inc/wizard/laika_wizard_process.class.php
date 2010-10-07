@@ -4,10 +4,10 @@
  * @package application.lib.laika.laika_manager.component.inc.wizard
  */
 
-require_once Path :: get_application_path() . 'lib/laika/laika_attempt.class.php';
-require_once Path :: get_application_path() . 'lib/laika/laika_answer.class.php';
-require_once Path :: get_application_path() . 'lib/laika/laika_result.class.php';
-require_once Path :: get_application_path() . 'lib/laika/laika_calculated_result.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_attempt.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_answer.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_result.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_calculated_result.class.php';
 
 /**
  * This class implements the action to take after the user has completed a

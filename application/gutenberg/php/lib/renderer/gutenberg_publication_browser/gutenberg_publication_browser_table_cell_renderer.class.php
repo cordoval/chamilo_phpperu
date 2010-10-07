@@ -3,9 +3,9 @@
  * $Id: gutenberg_publication_browser_table_cell_renderer.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.gutenbergr.gutenbergr_manager.component.gutenbergpublicationbrowser
  */
-require_once dirname(__FILE__) . '/gutenberg_publication_browser_table_column_model.class.php';
-require_once dirname(__FILE__) . '/../../tables/gutenberg_publication_table/default_gutenberg_publication_table_cell_renderer.class.php';
-require_once dirname(__FILE__) . '/../../gutenberg_manager/gutenberg_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('gutenberg') . 'renderer/gutenberg_publication_browser/gutenberg_publication_browser_table_column_model.class.php';
+require_once WebApplication :: get_application_class_lib_path('gutenberg') . 'tables/gutenberg_publication_table/default_gutenberg_publication_table_cell_renderer.class.php';
+require_once WebApplication :: get_application_class_lib_path('gutenberg') . 'gutenberg_manager/gutenberg_manager.class.php';
 /**
  * Cell renderer for the learning object browser table
  */

@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__) . '/personal_messenger_manager/personal_messenger_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('personal_messenger') . '/personal_messenger_manager/personal_messenger_manager.class.php';
 
 class PersonalMessengerRights extends RightsUtilities
 {

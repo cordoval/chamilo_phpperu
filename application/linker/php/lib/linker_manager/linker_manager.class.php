@@ -3,7 +3,7 @@
  * $Id: linker_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.lib.linker.linker_manager
  */
-require_once dirname(__FILE__) . '/../linker_data_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('linker') . 'linker_data_manager.class.php';
 
 /**
  * A linker manager provides some functionalities to the admin to manage

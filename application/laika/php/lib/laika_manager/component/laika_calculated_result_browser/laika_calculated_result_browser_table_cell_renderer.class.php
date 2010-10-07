@@ -3,9 +3,9 @@
  * $Id: laika_calculated_result_browser_table_cell_renderer.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika.laika_manager.component.laika_calculated_result_browser
  */
-require_once dirname(__FILE__) . '/laika_calculated_result_browser_table_column_model.class.php';
-require_once dirname(__FILE__) . '/../../../tables/laika_calculated_result_table/default_laika_calculated_result_table_cell_renderer.class.php';
-require_once dirname(__FILE__) . '/../../../laika_calculated_result.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_manager/component/laika_calculated_result_browser/laika_calculated_result_browser_table_column_model.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'tables/laika_calculated_result_table/default_laika_calculated_result_table_cell_renderer.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_calculated_result.class.php';
 /**
  * Cell rendere for the learning object browser table
  */
