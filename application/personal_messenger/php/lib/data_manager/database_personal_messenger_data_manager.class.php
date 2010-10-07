@@ -3,10 +3,6 @@
  * $Id: database_personal_messenger_data_manager.class.php 238 2009-11-16 14:10:27Z vanpouckesven $
  * @package application.personal_messenger.data.manager
  */
-require_once dirname(__FILE__) . '/../personal_messenger_data_manager.class.php';
-require_once dirname(__FILE__) . '/../personal_message_publication.class.php';
-require_once dirname(__FILE__) . '/../personal_messenger_data_manager_interface.class.php';
-
 class DatabasePersonalMessengerDataManager extends Database implements PersonalMessengerDataManagerInterface
 {
     function initialize()

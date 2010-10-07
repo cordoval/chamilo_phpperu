@@ -3,7 +3,7 @@
  * $Id: default_laika_calculated_result_table_column_model.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika.tables.laika_calculated_result_table
  */
-require_once dirname(__FILE__) . '/../../laika_calculated_result.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_calculated_result.class.php';
 
 /**
  * TODO: Add comment

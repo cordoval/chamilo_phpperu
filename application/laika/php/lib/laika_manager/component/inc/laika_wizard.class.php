@@ -6,9 +6,9 @@
 require_once 'HTML/QuickForm/Controller.php';
 require_once 'HTML/QuickForm/Rule.php';
 require_once 'HTML/QuickForm/Action/Display.php';
-require_once dirname(__FILE__) . '/wizard/questions_laika_wizard_page.class.php';
-require_once dirname(__FILE__) . '/wizard/laika_wizard_process.class.php';
-require_once dirname(__FILE__) . '/wizard/laika_wizard_display.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_manager/component/inc/wizard/questions_laika_wizard_page.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_manager/component/inc/wizard/laika_wizard_process.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_manager/component/inc/wizard/laika_wizard_display.class.php';
 /**
  * A wizard which guides the user to several steps to complete a maintenance
  * action on a course.

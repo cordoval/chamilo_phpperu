@@ -1,6 +1,6 @@
 <?php
-require_once dirname(__FILE__) . '/../gradebook_data_manager.class.php';
-require_once dirname(__FILE__) . '/evaluation_manager_interface.class.php';
+require_once WebApplication :: get_application_class_lib_path('gradebook') . 'gradebook_data_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('gradebook') . 'evaluation_manager/evaluation_manager_interface.class.php';
 
 class EvaluationManager extends SubManager
 {

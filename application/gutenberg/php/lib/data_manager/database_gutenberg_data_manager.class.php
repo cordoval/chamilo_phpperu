@@ -3,8 +3,8 @@
  * $Id: database_gutenberg_data_manager.class.php 238 2009-11-16 14:10:27Z vanpouckesven $
  * @package application.lib.gutenberg.data_manager
  */
-require_once dirname(__FILE__) . '/../gutenberg_publication.class.php';
-require_once dirname(__FILE__) . '/../gutenberg_data_manager_interface.class.php';
+require_once WebApplication :: get_application_class_lib_path('gutenberg') . 'gutenberg_publication.class.php';
+require_once WebApplication :: get_application_class_lib_path('gutenberg') . 'gutenberg_data_manager_interface.class.php';
 
 /**
  * This is a data manager that uses a database for storage. It was written

@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/../../../tables/evaluation_formats_table/default_evaluation_formats_table_column_model.class.php';
+require_once WebApplication :: get_application_class_lib_path('gradebook') . 'tables/evaluation_formats_table/default_evaluation_formats_table_column_model.class.php';
 
 class EvaluationFormatsBrowserTableColumnModel extends DefaultEvaluationFormatsTableColumnModel
 {

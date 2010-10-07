@@ -3,7 +3,7 @@
  * $Id: gutenberg_publication_gallery_browser_table_cell_renderer.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.browser
  */
-require_once dirname(__FILE__) . '/../../tables/gutenberg_publication_gallery_table/default_gutenberg_publication_gallery_table_cell_renderer.class.php';
+require_once WebApplication :: get_application_class_lib_path('gutenberg') . 'tables/gutenberg_publication_gallery_table/default_gutenberg_publication_gallery_table_cell_renderer.class.php';
 /**
  * Cell rendere for the learning object browser table
  */

@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/../../../tables/evaluation_formats_table/default_evaluation_formats_table_cell_renderer.class.php';
+require_once WebApplication :: get_application_class_lib_path('gradebook') . 'tables/evaluation_formats_table/default_evaluation_formats_table_cell_renderer.class.php';
 
 class EvaluationFormatsBrowserTableCellRenderer extends DefaultEvaluationFormatsTableCellRenderer
 {/**

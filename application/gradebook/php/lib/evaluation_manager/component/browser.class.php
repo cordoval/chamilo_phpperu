@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__) . '/evaluation_browser/evaluation_browser_table.class.php';
+require_once WebApplication :: get_application_class_lib_path('gradebook') . 'evaluation_manager/component/evaluation_browser/evaluation_browser_table.class.php';
 
 class EvaluationManagerBrowserComponent extends EvaluationManager
 {

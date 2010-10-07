@@ -3,7 +3,7 @@
  * $Id: default_wiki_publication_table_column_model.class.php 210 2009-11-13 13:18:50Z kariboe $
  * @package application.lib.wiki.tables.wiki_publication_table
  */
-require_once dirname(__FILE__) . '/../../wiki_publication.class.php';
+require_once WebApplication :: get_application_class_lib_path('wiki') . 'wiki_publication.class.php';
 
 /**
  * Default column model for the wiki_publication table

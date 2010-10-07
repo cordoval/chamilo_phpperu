@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__) . '/../gutenberg_publication_renderer.class.php';
+require_once WebApplication :: get_application_class_lib_path('gutenberg') . 'renderer/gutenberg_publication_renderer.class.php';
 
 class SlideshowGutenbergPublicationRenderer extends GutenbergPublicationRenderer
 {

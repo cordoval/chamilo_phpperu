@@ -5,7 +5,6 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__) . '/../personal_message_publication.class.php';
 
 class DefaultPmPublicationTableColumnModel extends ObjectTableColumnModel
 {

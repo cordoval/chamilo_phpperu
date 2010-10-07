@@ -3,15 +3,15 @@
  * $Id: database_laika_data_manager.class.php 230 2009-11-16 09:29:45Z vanpouckesven $
  * @package application.lib.laika.data_manager
  */
-require_once dirname(__FILE__) . '/../laika_data_manager.class.php';
-require_once dirname(__FILE__) . '/../laika_question.class.php';
-require_once dirname(__FILE__) . '/../laika_attempt.class.php';
-require_once dirname(__FILE__) . '/../laika_answer.class.php';
-require_once dirname(__FILE__) . '/../laika_scale.class.php';
-require_once dirname(__FILE__) . '/../laika_cluster.class.php';
-require_once dirname(__FILE__) . '/../laika_result.class.php';
-require_once dirname(__FILE__) . '/../laika_calculated_result.class.php';
-require_once dirname(__FILE__) . '/../laika_data_manager_interface.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_data_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_question.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_attempt.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_answer.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_scale.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_cluster.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_result.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_calculated_result.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_data_manager_interface.class.php';
 /**
  * This is an implementation of a personal calendar datamanager using the PEAR::
  * MDB2 package as a database abstraction layer.

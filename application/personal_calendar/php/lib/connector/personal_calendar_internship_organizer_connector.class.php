@@ -1,7 +1,6 @@
 <?php
 
-require_once WebApplication :: get_application_class_lib_path('personal_calendar') . 'personal_calendar_connector.class.php';
-require_once WebApplication :: get_application_class_path('internship_organizer') .  'lib/internship_organizer_data_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') .  'internship_organizer_data_manager.class.php';
 /**
  * This personal calendar connector allows the personal calendar to retrieve the
  * published calendar events in the internship organizer application.

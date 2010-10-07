@@ -3,9 +3,9 @@
  * $Id: laika_grapher_filter_form.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika.forms
  */
-require_once dirname(__FILE__) . '/../laika_manager/laika_manager.class.php';
-require_once dirname(__FILE__) . '/../laika_data_manager.class.php';
-require_once Path :: get_application_path() . 'laika/php/lib/laika_graph_renderer.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_manager/laika_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_data_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_graph_renderer.class.php';
 require_once Path :: get_repository_path() . 'lib/content_object/document/document.class.php';
 
 class LaikaGrapherFilterForm extends FormValidator

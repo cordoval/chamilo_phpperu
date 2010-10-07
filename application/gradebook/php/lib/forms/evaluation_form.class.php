@@ -1,8 +1,8 @@
 <?php
-require_once dirname(__FILE__) . '/../evaluation_manager/evaluation_manager.class.php';
-require_once dirname(__FILE__) . '/../evaluation_format/evaluation_format.class.php';
+require_once WebApplication :: get_application_class_lib_path('gradebook') . 'evaluation_manager/evaluation_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('gradebook') . 'evaluation_format/evaluation_format.class.php';
 
-require_once dirname(__FILE__) . '/../../../../plugin/pear/HTML/QuickForm/Rule.php';
+require_once Path :: get_plugin_path() . 'pear/HTML/QuickForm/Rule.php';
 
 class EvaluationForm extends FormValidator
 {

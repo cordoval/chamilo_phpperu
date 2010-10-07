@@ -3,7 +3,7 @@
  * $Id: default_gutenberg_publication_table_column_model.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.gutenberg.tables.gutenberg_publication_table
  */
-require_once dirname(__FILE__) . '/../../gutenberg_publication.class.php';
+require_once WebApplication :: get_application_class_lib_path('gutenberg') . 'gutenberg_publication.class.php';
 
 class DefaultGutenbergPublicationTableColumnModel extends ObjectTableColumnModel
 {

@@ -1,6 +1,4 @@
 <?php
-require_once dirname(__FILE__) . '/../evaluation_format.class.php';
-
 class Percentage extends EvaluationFormat
 {
 	const MIN_VALUE = 0;

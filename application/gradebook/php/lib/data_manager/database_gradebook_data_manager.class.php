@@ -1,13 +1,12 @@
 <?php
-require_once dirname(__FILE__) . '/../internal_item.class.php';
-require_once dirname(__FILE__) . '/../external_item.class.php';
-require_once dirname(__FILE__) . '/../evaluation.class.php';
-require_once dirname(__FILE__) . '/../format.class.php';
-require_once dirname(__FILE__) . '/../grade_evaluation.class.php';
-require_once dirname(__FILE__) . '/../internal_item_instance.class.php';
-require_once dirname(__FILE__) . '/../external_item_instance.class.php';
-require_once Path :: get_library_path() . 'condition/condition_translator.class.php';
-require_once dirname(__FILE__) . '/../gradebook_data_manager_interface.class.php';
+require_once WebApplication :: get_application_class_lib_path('gradebook') . 'internal_item.class.php';
+require_once WebApplication :: get_application_class_lib_path('gradebook') . 'external_item.class.php';
+require_once WebApplication :: get_application_class_lib_path('gradebook') . 'evaluation.class.php';
+require_once WebApplication :: get_application_class_lib_path('gradebook') . 'format.class.php';
+require_once WebApplication :: get_application_class_lib_path('gradebook') . 'grade_evaluation.class.php';
+require_once WebApplication :: get_application_class_lib_path('gradebook') . 'internal_item_instance.class.php';
+require_once WebApplication :: get_application_class_lib_path('gradebook') . 'external_item_instance.class.php';
+require_once WebApplication :: get_application_class_lib_path('gradebook') . 'gradebook_data_manager_interface.class.php';
 
 class DatabaseGradebookDataManager extends Database implements GradebookDataManagerInterface
 {

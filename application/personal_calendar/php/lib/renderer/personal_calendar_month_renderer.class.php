@@ -4,7 +4,6 @@
  * $Id: personal_calendar_month_renderer.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.personal_calendar.renderer
  */
-require_once WebApplication :: get_application_class_lib_path('personal_calendar') . 'personal_calendar_renderer.class.php';
 /**
  * This personal calendar renderer provides a tabular month view of the events
  * in the calendar.

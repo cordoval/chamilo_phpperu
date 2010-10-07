@@ -13,11 +13,12 @@ require_once dirname(__FILE__) . '/../install_data_manager.class.php';
 class InstallManager extends CoreApplication
 {
     const APPLICATION_NAME = 'install';
+    const DEFAULT_ACTION = self :: ACTION_INSTALL_PLATFORM;
 
     /**
      * Constant defining an action of the repository manager.
      */
-    const ACTION_INSTALL_PLATFORM = 'install';
+    const ACTION_INSTALL_PLATFORM = 'installer';
 
     /**
      * Property of this repository manager.
@@ -86,7 +87,7 @@ class InstallManager extends CoreApplication
         $output[] = '<title>-- ' . $chamilo_version . ' Installation --</title>';
         $output[] = '<link rel="stylesheet" href="../layout/aqua/plugin/jquery/jquery.css" type="text/css"/>';
         $output[] = '<link rel="stylesheet" href="../layout/aqua/css/common.css" type="text/css"/>';
-        $output[] = '<link rel="stylesheet" href="../layout/aqua/css/install.css" type="text/css"/>';
+        $output[] = '<link rel="stylesheet" href="resources/css/aqua.css" type="text/css"/>';
         $output[] = '<script type="text/javascript" src="../plugin/jquery/jquery.min.js"></script>';
         $output[] = '<script type="text/javascript" src="../plugin/jquery/jquery.dimensions.min.js"></script>';
 
@@ -166,6 +167,21 @@ class InstallManager extends CoreApplication
         $output[] = '</html>';
 
         echo implode("\n", $output);
+    }
+
+    /**
+     * Helper function for the Application class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS APPLICATION'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourApplicationManager :: DEFAULT_ACTION in all other application classes
+     */
+    function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
     }
 }
 ?>

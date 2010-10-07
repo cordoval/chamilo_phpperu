@@ -3,7 +3,7 @@
  * $Id: personal_calendar_data_manager.class.php 127 2009-11-09 13:11:56Z vanpouckesven $
  * @package application.personal_calendar
  */
-require_once BasicApplication :: get_application_manager_path('personal_calendar');
+//require_once BasicApplication :: get_application_manager_path('personal_calendar');
 
 /**
  * This abstract class provides the necessary functionality to connect a

@@ -3,9 +3,9 @@
  * $Id: database_wiki_data_manager.class.php 238 2009-11-16 14:10:27Z vanpouckesven $
  * @package application.lib.wiki.data_manager
  */
-require_once dirname(__FILE__) . '/../wiki_publication.class.php';
-require_once dirname(__FILE__) . '/../wiki_pub_feedback.class.php';
-require_once dirname(__FILE__) . '/../wiki_data_manager_interface.class.php';
+require_once WebApplication :: get_application_class_lib_path('wiki') . 'wiki_publication.class.php';
+require_once WebApplication :: get_application_class_lib_path('wiki') . 'wiki_pub_feedback.class.php';
+require_once WebApplication :: get_application_class_lib_path('wiki') . 'wiki_data_manager_interface.class.php';
 
 /**
  *	This is a data manager that uses a database for storage. It was written

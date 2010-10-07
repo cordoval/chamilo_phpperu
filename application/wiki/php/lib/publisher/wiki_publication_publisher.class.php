@@ -4,7 +4,7 @@
  * @package application.lib.wiki.publisher
  */
 
-require_once dirname(__FILE__) . '/../forms/wiki_publication_form.class.php';
+require_once WebApplication :: get_application_class_lib_path('wiki') . 'forms/wiki_publication_form.class.php';
 
 class WikiPublicationPublisher
 {

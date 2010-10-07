@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/../../forms/external_grade_evaluation_input_form.class.php';
+require_once WebApplication :: get_application_class_lib_path('gradebook') . 'forms/external_grade_evaluation_input_form.class.php';
 class GradebookManagerExternalGradeEvaluationInputComponent extends GradebookManager
 {
 	function run()

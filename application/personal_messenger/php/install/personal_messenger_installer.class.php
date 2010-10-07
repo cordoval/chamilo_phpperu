@@ -3,7 +3,7 @@
  * $Id: personal_messenger_installer.class.php 203 2009-11-13 12:46:38Z chellee $
  * @package application.personal_messenger.install
  */
-require_once dirname(__FILE__) . '/../lib/personal_messenger_data_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('personal_messenger') . 'personal_messenger_data_manager.class.php';
 /**
  *	This installer can be used to create the storage structure for the
  * personal messenger application.
