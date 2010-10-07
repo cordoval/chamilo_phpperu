@@ -5,11 +5,11 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__) . '/../personal_messenger_data_manager.class.php';
-require_once dirname(__FILE__) . '/component/pm_publication_browser/pm_publication_browser_table.class.php';
+require_once WebApplication :: get_application_class_lib_path('personal_messenger') . 'personal_messenger_data_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('personal_messenger') . 'personal_messenger_manager/component/pm_publication_browser/pm_publication_browser_table.class.php';
 //require_once dirname(__FILE__).'/../personal_message_publisher.class.php';
-require_once dirname(__FILE__) . '/../personal_messenger_menu.class.php';
-require_once dirname(__FILE__) . '/../personal_messenger_block.class.php';
+require_once WebApplication :: get_application_class_lib_path('personal_messenger') . 'personal_messenger_menu.class.php';
+require_once WebApplication :: get_application_class_lib_path('personal_messenger') . 'personal_messenger_block.class.php';
 
 /**
  * A personal messenger manager allows a user to send/receive personal messages.
