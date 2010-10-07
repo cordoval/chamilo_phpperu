@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: block_repository_connector.class.php 200 2009-11-13 12:30:04Z kariboe $
+ * $Id: repository_connector.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.block.connectors
  */
 /**
@@ -9,7 +9,7 @@
  * @author Hans De Bisschop
  */
 
-class BlockRepositoryConnector
+class RepositoryBlockConnector
 {
 
     function get_rss_feed_objects()
