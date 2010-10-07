@@ -38,7 +38,7 @@ class DefaultContextLinkTableCellRenderer extends ObjectTableCellRenderer
 			case ContextLink :: PROPERTY_METADATA_PROPERTY_VALUE_ID :
 				return $context_link->get_metadata_property_value_id();
 			case ContextLink :: PROPERTY_DATE :
-				return $context_link->get_date();
+				return date('Ymd',$context_link->get_date());
 			default :
 				return '&nbsp;';
 		}

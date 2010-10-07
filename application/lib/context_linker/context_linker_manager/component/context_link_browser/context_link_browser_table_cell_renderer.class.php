@@ -56,7 +56,10 @@ class ContextLinkBrowserTableCellRenderer extends DefaultContextLinkTableCellRen
             {
                 return $context_link[MetadataPropertyValue :: PROPERTY_VALUE];
             }
-
+            elseif($column->get_name() == DefaultContextLinkTableColumnModel :: COLUMN_DATE)
+            {
+                return date('Y-m-d h:i:s', $context_link[ContextLink :: PROPERTY_DATE]);
+            }
             return parent :: render_cell($column, $context_link);
 	}
 
