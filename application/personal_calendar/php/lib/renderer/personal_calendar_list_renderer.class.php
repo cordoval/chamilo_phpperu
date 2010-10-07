@@ -3,7 +3,6 @@
  * $Id: personal_calendar_list_renderer.class.php 201 2009-11-13 12:34:51Z chellee $
  * @package application.personal_calendar.renderer
  */
-require_once WebApplication :: get_application_class_lib_path('personal_calendar') . 'personal_calendar_renderer.class.php';
 /**
  * This personal calendar renderer provides a simple list view of the events in
  * the calendar.

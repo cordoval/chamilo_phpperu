@@ -1,6 +1,4 @@
 <?php
-require_once dirname(__FILE__) . '/personal_calendar_manager/personal_calendar_manager.class.php';
-
 class PersonalCalendarRights extends RightsUtilities
 {
 

@@ -3,12 +3,6 @@
  * $Id: personal_calendar_publisher.class.php 201 2009-11-13 12:34:51Z chellee $
  * @package application.personal_calendar.publisher
  */
-//require_once Path :: get_common_extensions_path() . 'publisher/component/multipublisher.class.php';
-require_once WebApplication :: get_application_class_lib_path('personal_calendar') . 'personal_calendar_publication_form.class.php';
-
-//require_once Path :: get_common_extensions_path() . 'publisher/component/publication_candidate_table/publication_candidate_table.class.php';
-
-
 /**
  * This class represents a profile publisher component which can be used
  * to preview a learning object in the learning object publisher.

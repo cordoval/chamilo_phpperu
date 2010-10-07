@@ -3,10 +3,6 @@
  * $Id: personal_calendar_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.personal_calendar.personal_calendar_manager
  */
-require_once WebApplication :: get_application_class_lib_path('personal_calendar') . 'connector/personal_calendar_weblcms_connector.class.php';
-require_once WebApplication :: get_application_class_lib_path('personal_calendar') . 'personal_calendar_event.class.php';
-require_once WebApplication :: get_application_class_lib_path('personal_calendar') . 'personal_calendar_data_manager.class.php';
-require_once WebApplication :: get_application_class_lib_path('personal_calendar') . 'personal_calendar_event_parser.class.php';
 
 /**
  * This application gives each user the possibility to maintain a personal
@@ -95,7 +91,7 @@ class PersonalCalendarManager extends WebApplication
      */
     static public function content_object_is_published($object_id)
     {
-        $dm = PersonalCalendarDatamanager :: get_instance();
+        $dm = PersonalCalendarDataManager :: get_instance();
         return $dm->content_object_is_published($object_id);
     }
 
@@ -104,7 +100,7 @@ class PersonalCalendarManager extends WebApplication
      */
     static public function any_content_object_is_published($object_ids)
     {
-        $dm = PersonalCalendarDatamanager :: get_instance();
+        $dm = PersonalCalendarDataManager :: get_instance();
         return $dm->any_content_object_is_published($object_ids);
     }
 
@@ -113,7 +109,7 @@ class PersonalCalendarManager extends WebApplication
      */
     static public function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
     {
-        $dm = PersonalCalendarDatamanager :: get_instance();
+        $dm = PersonalCalendarDataManager :: get_instance();
         return $dm->get_content_object_publication_attributes($object_id, $type, $offset, $count, $order_property);
     }
 
@@ -122,13 +118,13 @@ class PersonalCalendarManager extends WebApplication
      */
     static public function get_content_object_publication_attribute($publication_id)
     {
-        $dm = PersonalCalendarDatamanager :: get_instance();
+        $dm = PersonalCalendarDataManager :: get_instance();
         return $dm->get_content_object_publication_attribute($publication_id);
     }
 
     static function count_publication_attributes($user = null, $object_id = null, $condition = null)
     {
-        return PersonalCalendarDatamanager :: get_instance()->count_publication_attributes($user, $object_id, $condition);
+        return PersonalCalendarDataManager :: get_instance()->count_publication_attributes($user, $object_id, $condition);
     }
 
     /**
@@ -136,13 +132,13 @@ class PersonalCalendarManager extends WebApplication
      */
     static public function delete_content_object_publications($object_id)
     {
-        $dm = PersonalCalendarDatamanager :: get_instance();
+        $dm = PersonalCalendarDataManager :: get_instance();
         return $dm->delete_content_object_publications($object_id);
     }
 
     static function delete_content_object_publication($publication_id)
     {
-        $dm = PersonalCalendarDatamanager :: get_instance();
+        $dm = PersonalCalendarDataManager :: get_instance();
         return $dm->delete_content_object_publication($publication_id);
     }
 
@@ -151,7 +147,7 @@ class PersonalCalendarManager extends WebApplication
      */
     static public function update_content_object_publication_id($publication_attr)
     {
-        return PersonalCalendarDatamanager :: get_instance()->update_content_object_publication_id($publication_attr);
+        return PersonalCalendarDataManager :: get_instance()->update_content_object_publication_id($publication_attr);
     }
 
     /**
@@ -173,7 +169,7 @@ class PersonalCalendarManager extends WebApplication
 
     static function publish_content_object($content_object, $location)
     {
-        require_once dirname(__FILE__) . '/../personal_calendar_publication.class.php';
+        require_once WebApplication :: get_application_class_lib_pathdirname('personal_calendar') . 'personal_calendar_publication.class.php';
         $pub = new PersonalCalendarPublication();
         $pub->set_content_object_id($content_object->get_id());
         $pub->set_publisher($content_object->get_owner_id());
@@ -264,6 +260,35 @@ class PersonalCalendarManager extends WebApplication
     function get_default_action()
     {
         return self :: DEFAULT_ACTION;
+    }
+    
+    static public function __autoload($classname)
+    {
+        $list = array(
+        'personal_calendar_event' => 'personal_calendar_event.class.php', 
+        'personal_calendar_data_manager' =>'personal_calendar_data_manager.class.php', 
+        'personal_calendar_event_parser' => 'personal_calendar_event_parser.class.php', 
+        'personal_calendar_connector' => 'personal_calendar_connector.class.php',
+        '/connector/personal_calendar_connector' => 'personal_calendar_weblcms_connector.class.php',
+        'personal_calendar_data_manager' => 'personal_calendar_data_manager.class.php',
+        'personal_calendar_publication' => 'personal_calendar_publication.class.php',
+        'personal_calendar_publication_user' => 'personal_calendar_publication_user.class.php',
+        'personal_calendar_publication_group' => 'personal_calendar_publication_group.class.php',
+        'personal_calendar_data_manager_interface' => 'personal_calendar_data_manager_interface.class.php',
+        'personal_calendar_publication_form' => 'personal_calendar_publication_form.class.php',
+        'personal_calendar_renderer' => 'personal_calendar_renderer.class.php',
+        'personal_calendar_manager/personal_calendar_manager' => 'personal_calendar_manager.class.php');
+        
+        $lower_case = Utilities :: camelcase_to_underscores($classname);
+        
+        if (key_exists($lower_case, $list))
+        {
+            $url = $list[$lower_case];
+            require_once WebApplication :: get_application_class_lib_path('personal_calendar') . $url;
+            return true;
+        }
+        
+        return false;
     }
 }
 ?>

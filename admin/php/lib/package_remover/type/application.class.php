@@ -254,7 +254,7 @@ class PackageApplicationRemover extends PackageRemover
         $database = new Database();
         $database->set_prefix($registration->get_name() . '_');
 
-        $path = Path :: get_application_path() . 'lib/' . $registration->get_name() . '/install/';
+        $path = WebApplication :: get_application_class_path($registration->get_name()) . 'install/';
         $files = Filesystem :: get_directory_content($path, Filesystem :: LIST_FILES);
 
         foreach ($files as $file)

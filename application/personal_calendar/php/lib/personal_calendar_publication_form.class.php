@@ -3,8 +3,6 @@
  * $Id: personal_calendar_publication_form.class.php 201 2009-11-13 12:34:51Z chellee $
  * @package application.personal_calendar
  */
-
-require_once dirname(__FILE__) . '/personal_calendar_publication.class.php';
 require_once Path :: get_plugin_path() . 'html2text/class.html2text.inc';
 /**
  * This class represents a form to allow a user to publish a learning object.

@@ -1,6 +1,4 @@
 <?php
-require_once WebApplication :: get_application_class_lib_path('gradebook') . 'evaluation_format.class.php';
-
 class PointsOnHundred extends EvaluationFormat
 {
 	const MIN_VALUE = 0;

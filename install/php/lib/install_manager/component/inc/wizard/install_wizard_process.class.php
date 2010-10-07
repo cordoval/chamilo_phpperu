@@ -276,7 +276,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 
         foreach ($applications as $application)
         {
-            $toolPath = Path :: get_application_path() . 'lib/' . $application . '/install';
+            $toolPath = WebApplication :: get_application_class_path($application) . 'install';
             if (is_dir($toolPath) && WebApplication :: is_application_name($application))
             {
                 $check_name = 'install_' . $application;
@@ -436,7 +436,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
         $count = 0;
         foreach ($applications as $application)
         {
-            $toolPath = Path :: get_application_path() . 'lib/' . $application . '/install';
+            $toolPath = WebApplication::get_application_class_path($application) . 'install';
             if (is_dir($toolPath) && WebApplication :: is_application_name($application))
             {
                 $check_name = 'install_' . $application;
@@ -464,7 +464,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
         $counter = $this->counter;
 
         $html = array();
-        $html[] = '<div class="content_object" style="padding: 15px 15px 15px 76px; background-image: url(../layout/aqua/images/admin/place_' . $application . '.png);' . ($counter % 2 == 0 ? 'background-color: #fafafa;' : '') . '">';
+        $html[] = '<div class="content_object" style="padding: 15px 15px 15px 76px; background-image: url(../admin/resources/images/aqua/place_' . $application . '.png);' . ($counter % 2 == 0 ? 'background-color: #fafafa;' : '') . '">';
         $html[] = '<div class="title">' . Translation :: get(Application :: application_to_class($application)) . '</div>';
 
         $collapse = '';

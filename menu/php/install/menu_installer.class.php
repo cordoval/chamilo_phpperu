@@ -111,7 +111,7 @@ class MenuInstaller extends Installer
         
         foreach ($applications as $application)
         {
-            $xml_data = file_get_contents(Path :: get_application_path() . 'lib/' . $application . '/package.info');
+            $xml_data = file_get_contents(WebApplication:: get_application_class_path($application) . 'package.info');
             
             if ($xml_data)
             {

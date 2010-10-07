@@ -5,9 +5,6 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-
-require_once WebApplication :: get_application_class_lib_path('personal_messenger') . 'personal_message_publication.class.php';
-
 class DefaultPmPublicationTableCellRenderer extends ObjectTableCellRenderer
 {
 
