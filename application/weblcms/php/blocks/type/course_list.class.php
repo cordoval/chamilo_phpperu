@@ -14,11 +14,6 @@ require_once dirname(__FILE__) . '/../course/course_list_renderer/course_list_re
 class WeblcmsCourseList extends WeblcmsBlock
 {
 
-    function run()
-    {
-        return $this->as_html();
-    }
-
     /*
 	 * Inherited
 	 */
@@ -42,7 +37,7 @@ class WeblcmsCourseList extends WeblcmsBlock
      */
     function get_link($parameters)
     {
-    	return $this->get_parent()->get_link($parameters);
+        return $this->get_parent()->get_link($parameters);
     }
 }
 ?>

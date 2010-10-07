@@ -13,11 +13,6 @@ require_once WebApplication :: get_application_class_lib_path('personal_calendar
 class PersonalCalendarMonth extends PersonalCalendarBlock
 {
 
-    function run()
-    {
-        return $this->as_html();
-    }
-
     /*
 	 * Inherited
 	 */

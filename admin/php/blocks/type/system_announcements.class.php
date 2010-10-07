@@ -8,15 +8,6 @@ require_once CoreApplication :: get_application_class_path('admin') . 'blocks/ad
 class AdminSystemAnnouncements extends AdminBlock
 {
 
-    /**
-     * Runs this component and displays its output.
-     * This component is only meant for use within the home-component and not as a standalone item.
-     */
-    function run()
-    {
-        return $this->as_html();
-    }
-
     function as_html()
     {
         $configuration = $this->get_configuration();
@@ -57,11 +48,12 @@ class AdminSystemAnnouncements extends AdminBlock
 
         while ($announcement = $announcements->next_result())
         {
-        	if ($announcement->is_visible_for_target_users())
-        	{
-            	$object = $announcement->get_publication_object();
-            	$html[] = '<li style="margin-bottom: 2px;"><img style="vertical-align: middle;" src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $object->get_icon_name() . '.png" />&nbsp;&nbsp;<a href="' . $this->get_parent()->get_link(array(Application :: PARAM_ACTION => AdminManager :: ACTION_VIEW_SYSTEM_ANNOUNCEMENT, AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $announcement->get_id())) . '">' . $object->get_title() . '</a></li>';
-        	}
+            if ($announcement->is_visible_for_target_users())
+            {
+                $object = $announcement->get_publication_object();
+                $html[] = '<li style="margin-bottom: 2px;"><img style="vertical-align: middle;" src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $object->get_icon_name() . '.png" />&nbsp;&nbsp;<a href="' . $this->get_parent()->get_link(array(
+                        Application :: PARAM_ACTION => AdminManager :: ACTION_VIEW_SYSTEM_ANNOUNCEMENT, AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $announcement->get_id())) . '">' . $object->get_title() . '</a></li>';
+            }
         }
 
         $html[] = '</ul>';

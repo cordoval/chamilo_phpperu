@@ -12,11 +12,6 @@ require_once Path :: get_library_path() . 'utilities.class.php';
 class PersonalMessengerMostRecent extends PersonalMessengerBlock
 {
 
-    function run()
-    {
-        return $this->as_html();
-    }
-
     /*
 	 * Inherited
 	 */

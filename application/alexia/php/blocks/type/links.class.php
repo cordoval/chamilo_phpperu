@@ -8,15 +8,6 @@ require_once WebApplication :: get_application_class_path('alexia') . 'blocks/al
 class AlexiaLinks extends AlexiaBlock
 {
 
-    /**
-     * Runs this component and displays its output.
-     * This component is only meant for use within the home-component and not as a standalone item.
-     */
-    function run()
-    {
-        return $this->as_html();
-    }
-
     function as_html()
     {
         $datamanager = AlexiaDataManager :: get_instance();
@@ -82,7 +73,9 @@ class AlexiaLinks extends AlexiaBlock
         $access[] = new InCondition(AlexiaPublicationGroup :: PROPERTY_GROUP_ID, $groups, AlexiaPublicationGroup :: get_table_name());
         if (! empty($user_id) || ! empty($groups))
         {
-            $access[] = new AndCondition(array(new EqualityCondition(AlexiaPublicationUser :: PROPERTY_USER, null, AlexiaPublicationUser :: get_table_name()), new EqualityCondition(AlexiaPublicationGroup :: PROPERTY_GROUP_ID, null, AlexiaPublicationGroup :: get_table_name())));
+            $access[] = new AndCondition(array(
+                    new EqualityCondition(AlexiaPublicationUser :: PROPERTY_USER, null, AlexiaPublicationUser :: get_table_name()),
+                    new EqualityCondition(AlexiaPublicationGroup :: PROPERTY_GROUP_ID, null, AlexiaPublicationGroup :: get_table_name())));
         }
         $conditions[] = new OrCondition($access);
 
@@ -94,7 +87,9 @@ class AlexiaLinks extends AlexiaBlock
             $conditions[] = new OrCondition($visibility);
 
             $dates = array();
-            $dates[] = new AndCondition(array(new InequalityCondition(AlexiaPublication :: PROPERTY_FROM_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, time()), new InequalityCondition(AlexiaPublication :: PROPERTY_TO_DATE, InequalityCondition :: LESS_THAN_OR_EQUAL, time())));
+            $dates[] = new AndCondition(array(
+                    new InequalityCondition(AlexiaPublication :: PROPERTY_FROM_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, time()),
+                    new InequalityCondition(AlexiaPublication :: PROPERTY_TO_DATE, InequalityCondition :: LESS_THAN_OR_EQUAL, time())));
             $dates[] = new EqualityCondition(AlexiaPublication :: PROPERTY_PUBLISHER, $user->get_id());
             $conditions[] = new OrCondition($dates);
         }

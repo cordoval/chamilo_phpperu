@@ -12,11 +12,6 @@ require_once WebApplication :: get_application_class_path('search_portal') . 'bl
 class SearchPortalBasic extends SearchPortalBlock
 {
 
-    function run()
-    {
-        return $this->as_html();
-    }
-
     /*
 	 * Inherited
 	 */

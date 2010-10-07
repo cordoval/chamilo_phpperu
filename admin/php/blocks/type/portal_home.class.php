@@ -9,15 +9,6 @@ require_once CoreApplication :: get_application_class_path('admin') . 'blocks/ad
 class AdminPortalHome extends AdminBlock
 {
 
-    /**
-     * Runs this component and displays its output.
-     * This component is only meant for use within the home-component and not as a standalone item.
-     */
-    function run()
-    {
-        return $this->as_html();
-    }
-
     function as_html()
     {
         $html[] = $this->display_header();

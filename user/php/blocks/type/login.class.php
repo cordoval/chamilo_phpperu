@@ -8,15 +8,6 @@ require_once CoreApplication :: get_application_class_path('user') . 'blocks/use
 class UserLogin extends UserBlock
 {
 
-    /**
-     * Runs this component and displays its output.
-     * This component is only meant for use within the home-component and not as a standalone item.
-     */
-    function run()
-    {
-        return $this->as_html();
-    }
-
     function as_html()
     {
         $html = array();
