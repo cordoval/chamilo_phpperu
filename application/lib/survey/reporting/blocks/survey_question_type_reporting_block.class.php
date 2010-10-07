@@ -49,7 +49,7 @@ class SurveyQuestionTypeReportingBlock extends SurveyReportingBlock {
 		foreach ($survey->get_pages(false) as $page){
 			foreach ($page->get_questions(false) as $question){
 				
-				switch ($question->get_type_name()){
+				switch ($question->get_type()){
 					case SurveyMatchingQuestion::get_type_name():
 					 	$question_type [Translation::get ( SurveyRatingQuestion :: get_type_name())] ++;
 						break;

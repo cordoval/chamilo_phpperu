@@ -77,12 +77,23 @@ class SurveyContextManagerContextTemplateViewerComponent extends SurveyContextMa
         return $condition;
     }
 
-    function get_survey_condition()
+    function get_survey_condition($with_template = true)
     {
         
         $conditions = array();
         $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->get_user_id(), ContentObject :: get_table_name());
         $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Survey :: get_type_name(), ContentObject :: get_table_name());
+      
+        if ($with_template)
+        {
+            $conditions[] = new EqualityCondition(Survey :: PROPERTY_CONTEXT_TEMPLATE_ID, $this->context_template->get_id(), Survey :: get_type_name());
+        
+        }
+        else
+        {
+            $conditions[] = new EqualityCondition(Survey :: PROPERTY_CONTEXT_TEMPLATE_ID, 0, Survey :: get_type_name());
+        
+        }
         
         $query = $this->ab->get_query();
         
@@ -94,7 +105,7 @@ class SurveyContextManagerContextTemplateViewerComponent extends SurveyContextMa
             $conditions[] = new OrCondition($search_conditions);
         
         }
-        
+             
         return new AndCondition($conditions);
     }
 
