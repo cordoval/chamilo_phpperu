@@ -34,7 +34,7 @@ class UserAutoloader
 
 	static function check_for_general_files($classname)
 	{
-		$list = array('buddy_list_category', 'buddy_list_item', 'buddy_list', 'chat_manager', 'chat_message', 'user_block', 'user_data_manager',
+		$list = array('buddy_list_category', 'buddy_list_item', 'buddy_list', 'chat_manager', 'chat_message', 'user_data_manager',
 					  'user_menu', 'user_quota', 'user_rights_template', 'user', 'user_setting', 'user_rights');
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);

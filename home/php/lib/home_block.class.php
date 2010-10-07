@@ -146,7 +146,7 @@ class HomeBlock extends DataClass
     function create_initial_settings()
     {
         $application = $this->get_application();
-        $file = BasicApplication :: get_application_class_path($application) . 'blocks/' . $this->get_component() . '.xml';
+        $file = BasicApplication :: get_application_class_path($application) . 'blocks/type/' . $this->get_component() . '.xml';
 
         $result = array();
 

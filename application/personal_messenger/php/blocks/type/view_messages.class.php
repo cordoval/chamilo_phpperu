@@ -3,7 +3,7 @@
  * $Id: view_messages.class.php 203 2009-11-13 12:46:38Z chellee $
  * @package application.personal_messenger.block
  */
-require_once dirname(__FILE__) . '/../personal_messenger_block.class.php';
+require_once WebApplication :: get_application_class_path('personal_messenger') . 'blocks/personal_messenger_block.class.php';
 require_once Path :: get_library_path() . 'utilities.class.php';
 /**
  * This class represents a calendar publisher component which can be used
@@ -25,11 +25,11 @@ class PersonalMessengerViewMessages extends PersonalMessengerBlock
         $nrOfMessages = 5;
         $nrOfNewMessages = 0;
         $html = array();
-        
+
         $personal_messenger = $this->get_parent();
-        
+
         $html[] = $this->display_header();
-        
+
         /*
 		$publications = $personal_messenger->retrieve_personal_message_publications($this->get_condition(), array (), array (), $nrOfMessages);
 		if($publications->size() > 0)
@@ -46,22 +46,22 @@ class PersonalMessengerViewMessages extends PersonalMessengerBlock
 			}
 		}
 		*/
-        
+
         $publications_new = $personal_messenger->retrieve_personal_message_publications($this->get_condition("new"), array(), array(), $nrOfMessages);
         $publications_recent = $personal_messenger->retrieve_personal_message_publications($this->get_condition(), array(), array(), $nrOfMessages);
-        
+
         $arr_pub_new = array();
         while ($publication = $publications_new->next_result())
         {
             $arr_pub_new[] = $publication;
         }
-        
+
         $arr_pub = array();
         while ($publication = $publications_recent->next_result())
         {
             $arr_pub[] = $publication;
         }
-        
+
         if ($publications_new->size() > 0)
         {
             foreach ($arr_pub_new as $publication)
@@ -85,10 +85,10 @@ class PersonalMessengerViewMessages extends PersonalMessengerBlock
             $html[] = Translation :: get('NoMessages');
         }
         //*/
-        
+
 
         $html[] = $this->display_footer();
-        
+
         return implode("\n", $html);
     }
 
@@ -96,7 +96,7 @@ class PersonalMessengerViewMessages extends PersonalMessengerBlock
     {
         $separator = ' - ';
         $html[] = $new ? '<img width="15" height="15" src="' . Theme :: get_common_image_path() . 'content_object/personal_message_new.png" />' : '<img width="15" height="15" src="' . Theme :: get_common_image_path() . 'content_object/personal_message_na.png" />';
-        
+
         $html[] = '<a href="' . $personal_messenger->get_publication_viewing_link($publication) . '">';
         //$html[] = $this->str_trim($publication->get_publication_sender()->get_fullname()) . $separator;
         //$html[] = $this->str_trim($publication->get_publication_object()->get_title());
@@ -124,7 +124,7 @@ class PersonalMessengerViewMessages extends PersonalMessengerBlock
 
     function get_condition($condition)
     {
-        
+
         $conditions = array();
         if ($condition == "new")
             $conditions[] = new EqualityCondition(PersonalMessagePublication :: PROPERTY_STATUS, '1');
@@ -132,7 +132,7 @@ class PersonalMessengerViewMessages extends PersonalMessengerBlock
         $conditions[] = new EqualityCondition(PersonalMessagePublication :: PROPERTY_USER, $this->get_user_id());
         return new AndCondition($conditions);
     }
-    
+
 // Trim a string to specified length and append an end character (default = ...)
 // 	function str_trim($str, $lim = 32, $chr = '&#8230;')
 // 	{

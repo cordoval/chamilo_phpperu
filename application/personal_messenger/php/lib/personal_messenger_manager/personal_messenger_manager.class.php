@@ -9,7 +9,6 @@ require_once dirname(__FILE__) . '/../personal_messenger_data_manager.class.php'
 require_once dirname(__FILE__) . '/component/pm_publication_browser/pm_publication_browser_table.class.php';
 //require_once dirname(__FILE__).'/../personal_message_publisher.class.php';
 require_once dirname(__FILE__) . '/../personal_messenger_menu.class.php';
-require_once dirname(__FILE__) . '/../personal_messenger_block.class.php';
 
 /**
  * A personal messenger manager allows a user to send/receive personal messages.

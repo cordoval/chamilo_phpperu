@@ -3,6 +3,7 @@
  * $Id: login.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.block
  */
+require_once CoreApplication :: get_application_class_path('user') . 'blocks/user_block.class.php';
 
 class UserLogin extends UserBlock
 {
@@ -56,11 +57,11 @@ class UserLogin extends UserBlock
             $html[] = '<a href="' . Path :: get(WEB_PATH) . 'index.php?logout=true" class="button normal_button logout_button">' . Translation :: get('Logout') . '</a>';
             $html[] = '<br /><br />';
 
-//            if(PlatformSetting :: get('page_after_login') == 'weblcms')
-//			{
-//				//header('Location: run.php?application=weblcms');
-//				header('Location: index_repository_manager.php');
-//			}
+        //            if(PlatformSetting :: get('page_after_login') == 'weblcms')
+        //			{
+        //				//header('Location: run.php?application=weblcms');
+        //				header('Location: index_repository_manager.php');
+        //			}
         }
 
         return implode("\n", $html);
@@ -107,7 +108,7 @@ class UserLogin extends UserBlock
 
         $form->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 
-//        $form->setDefaults(array('login' => Translation :: get('EnterUsername'), 'password' => '*******'));
+        //        $form->setDefaults(array('login' => Translation :: get('EnterUsername'), 'password' => '*******'));
         return $form->toHtml();
     }
 

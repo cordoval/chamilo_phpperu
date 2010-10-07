@@ -23,7 +23,6 @@ require_once dirname(__FILE__) . '/component/admin_course_type_browser/admin_cou
 //require_once dirname(__FILE__) . '/component/subscribed_user_browser/subscribed_user_browser_table.class.php';
 //require_once dirname(__FILE__) . '/component/subscribe_group_browser/subscribe_group_browser_table.class.php';
 require_once dirname(__FILE__) . '/component/admin_request_browser/admin_request_browser_table.class.php';
-require_once dirname(__FILE__) . '/../weblcms_block.class.php';
 require_once dirname(__FILE__) . '/../weblcms_rights.class.php';
 require_once dirname(__FILE__) . '/../course_type/course_type.class.php';
 require_once dirname(__FILE__) . '/../course_type/course_type_layout.class.php';
@@ -1177,7 +1176,7 @@ class WeblcmsManager extends WebApplication
     function get_course_user_category_move_url(CourseTypeUserCategory $course_type_user_category, $direction)
     {
         return $this->get_url(array(
-                self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT, self :: PARAM_COMPONENT_ACTION => 'movecat', 
+                self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT, self :: PARAM_COMPONENT_ACTION => 'movecat',
                 self :: PARAM_DIRECTION => $direction, self :: PARAM_COURSE_TYPE_USER_CATEGORY_ID => $course_type_user_category->get_id()));
     }
 
@@ -1188,7 +1187,7 @@ class WeblcmsManager extends WebApplication
      */
     function get_course_user_category_delete_url(CourseTypeUserCategory $course_type_user_category)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT, self :: PARAM_COMPONENT_ACTION => 'delete', 
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT, self :: PARAM_COMPONENT_ACTION => 'delete',
         		self :: PARAM_COURSE_TYPE_USER_CATEGORY_ID => $course_type_user_category->get_id()));
     }
 
@@ -1232,8 +1231,8 @@ class WeblcmsManager extends WebApplication
         {
         	$course_type_user_category_id = $course_type_user_category->get_id();
         }
-        
-    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT, self :: PARAM_COMPONENT_ACTION => 'assign', 
+
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT, self :: PARAM_COMPONENT_ACTION => 'assign',
         	self :: PARAM_COURSE => $course->get_id(), self :: PARAM_COURSE_TYPE_USER_CATEGORY_ID => $course_type_user_category_id));
     }
 
@@ -1245,7 +1244,7 @@ class WeblcmsManager extends WebApplication
      */
     function get_course_user_move_url(CourseTypeUserCategory $course_type_user_category, Course $course, $direction)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT, self :: PARAM_COMPONENT_ACTION => 'move', self :: PARAM_DIRECTION => $direction, 
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT, self :: PARAM_COMPONENT_ACTION => 'move', self :: PARAM_DIRECTION => $direction,
         	self :: PARAM_COURSE => $course->get_id(), self :: PARAM_COURSE_TYPE_USER_CATEGORY_ID => $course_type_user_category->get_id()));
     }
 

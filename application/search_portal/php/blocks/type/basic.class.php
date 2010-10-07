@@ -3,7 +3,7 @@
  * $Id: basic.class.php 222 2009-11-13 14:39:28Z chellee $
  * @package application.search_portal.block
  */
-require_once dirname(__FILE__) . '/../search_portal_block.class.php';
+require_once WebApplication :: get_application_class_path('search_portal') . 'blocks/search_portal_block.class.php';
 
 /**
  * This class represents a calendar publisher component which can be used
@@ -23,7 +23,7 @@ class SearchPortalBasic extends SearchPortalBlock
     function as_html()
     {
         $html = array();
-        
+
         $html[] = $this->display_header();
         //$html[] = 'Search Portal test block ...';
         $form = new FormValidator('search_simple', 'get', 'run.php', '', null, false);
@@ -38,7 +38,7 @@ class SearchPortalBasic extends SearchPortalBlock
         $html[] = $renderer->toHTML();
         $html[] = '</div>';
         $html[] = $this->display_footer();
-        
+
         return implode("\n", $html);
     }
 }

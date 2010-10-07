@@ -3,7 +3,7 @@
  * $Id: day.class.php 201 2009-11-13 12:34:51Z chellee $
  * @package application.lib.personal_calendar.block
  */
-require_once WebApplication :: get_application_class_lib_path('personal_calendar') . 'personal_calendar_block.class.php';
+require_once WebApplication :: get_application_class_path('personal_calendar') . 'blocks/personal_calendar_block.class.php';
 require_once WebApplication :: get_application_class_lib_path('personal_calendar') . 'renderer/personal_calendar_mini_day_renderer.class.php';
 /**
  * This class represents a calendar publisher component which can be used

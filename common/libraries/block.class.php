@@ -305,7 +305,7 @@ class Block
         $type = $block_info->get_component();
         $application = $block_info->get_application();
 
-        $path = BasicApplication :: get_application_class_path($application) . 'blocks/' . $type . '.class.php';
+        $path = BasicApplication :: get_application_class_path($application) . 'blocks/type/' . $type . '.class.php';
         if (! file_exists($path) || ! is_file($path))
         {
             die('Failed to load "' . $type . '" block');
