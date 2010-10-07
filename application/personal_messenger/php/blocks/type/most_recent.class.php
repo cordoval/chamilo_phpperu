@@ -4,7 +4,7 @@
  * @package application.personal_messenger.block
  */
 require_once WebApplication :: get_application_class_path('personal_messenger') . 'blocks/personal_messenger_block.class.php';
-require_once Path :: get_library_path() . 'utilities.class.php';
+require_once Path :: get_common_libraries_path() . 'utilities.class.php';
 /**
  * This class represents a calendar publisher component which can be used
  * to browse through the possible learning objects to publish.
