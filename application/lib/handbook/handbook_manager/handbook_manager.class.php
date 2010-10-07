@@ -19,6 +19,7 @@ require_once dirname(__FILE__).'/component/handbook_publication_browser/handbook
 	const PARAM_DELETE_SELECTED_HANDBOOK_PUBLICATIONS = 'delete_selected_handbook_publications';
         const PARAM_HANDBOOK_PUBLICATION_ID = 'hpid';
         const PARAM_HANDBOOK_ID = 'hid';
+        const PARAM_HANDBOOK_SELECTION_ID = 'hsid';
 
 	const ACTION_DELETE_HANDBOOK_PUBLICATION = 'handbook_publication_deleter';
 	const ACTION_EDIT_HANDBOOK_PUBLICATION = 'handbook_publication_editor';
