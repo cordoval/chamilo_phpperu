@@ -148,6 +148,13 @@ class MetadataPropertyType extends DataClass
             return false;
         }
     }
+
+    function render_name()
+    {
+        $pref = $this->get_ns_prefix();
+        $prefix = (empty($pref)) ? '' : $this->get_ns_prefix() . ':';
+        return $prefix . $this->get_name();
+    }
 }
 
 ?>
