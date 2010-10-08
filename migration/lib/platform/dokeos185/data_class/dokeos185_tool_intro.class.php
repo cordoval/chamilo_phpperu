@@ -110,7 +110,10 @@ class Dokeos185ToolIntro extends Dokeos185CourseDataMigrationDataClass
      */
     function is_valid()
     {
-        if (!$this->get_intro_text()) {
+        $new_course_id = $this->get_id_reference($this->get_course()->get_code(), 'main_database.course');
+        
+    	if (!$this->get_intro_text() || !$new_course_id) 
+        {
             $this->create_failed_element($this->get_id());
             return false;
         }
@@ -125,7 +128,7 @@ class Dokeos185ToolIntro extends Dokeos185CourseDataMigrationDataClass
     function convert_data()
     {
         $new_course_id = $this->get_id_reference($this->get_course()->get_code(), 'main_database.course');
-        $owner_id = $this->get_data_manager()->get_owner_id();
+        $owner_id = $this->get_data_manager()->get_owner_id($new_course_id);
 
         $chamilo_tool_intro = new Introduction();
         $chamilo_tool_intro->set_title($this->get_intro_text());
