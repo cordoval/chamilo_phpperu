@@ -5,7 +5,7 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once Path :: get_common_libraries_path() . 'utilities.class.php';
+require_once Path :: get_common_libraries_class_path() . 'utilities.class.php';
 
 class PersonalMessengerManagerViewerComponent extends PersonalMessengerManager
 {

@@ -18,8 +18,8 @@ try
     $cidReset = true;
     $this_section = 'install';
     
-    require_once dirname(__FILE__) . '/../common/libraries/filesystem/path.class.php';
-    require_once dirname(__FILE__) . '/../common/libraries/utilities.class.php';
+    require_once dirname(__FILE__) . '/../common/libraries/php/filesystem/path.class.php';
+    require_once dirname(__FILE__) . '/../common/libraries/php/utilities.class.php';
     ini_set('include_path', realpath(Path :: get_plugin_path() . 'pear'));
     
     ini_set("memory_limit", "-1");

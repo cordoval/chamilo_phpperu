@@ -1,7 +1,7 @@
 <?php
-require_once Path :: get_common_libraries_path() . '/html/menu/tree_menu/tree_menu_data_provider.class.php';
-require_once Path :: get_common_libraries_path() . '/html/menu/tree_menu/tree_menu.class.php';
-require_once Path :: get_common_libraries_path() . '/html/menu/tree_menu/tree_menu_item.class.php';
+require_once Path :: get_common_libraries_class_path() . '/html/menu/tree_menu/tree_menu_data_provider.class.php';
+require_once Path :: get_common_libraries_class_path() . '/html/menu/tree_menu/tree_menu.class.php';
+require_once Path :: get_common_libraries_class_path() . '/html/menu/tree_menu/tree_menu_item.class.php';
 
 class ForumGradebookTreeMenuDataProvider extends GradebookTreeMenuDataProvider
 {

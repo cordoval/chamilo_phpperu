@@ -4,7 +4,7 @@
  * @package application.profiler
  */
 
-require_once Path :: get_common_libraries_path() . 'block.class.php';
+require_once Path :: get_common_libraries_class_path() . 'block.class.php';
 
 /**
 ==============================================================================

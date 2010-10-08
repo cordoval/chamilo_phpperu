@@ -84,8 +84,8 @@ if (! $already_installed)
 }
 
 // Add the path to the pear packages to the include path
-require_once dirname(__FILE__) . '/libraries/filesystem/path.class.php';
-require_once dirname(__FILE__) . '/libraries/utilities.class.php';
+require_once dirname(__FILE__) . '/libraries/php/filesystem/path.class.php';
+require_once dirname(__FILE__) . '/libraries/php/utilities.class.php';
 ini_set('include_path', realpath(Path :: get_plugin_path() . 'pear') . PATH_SEPARATOR . realpath(Path :: get_plugin_path() . 'google/library'));
 
 spl_autoload_register('Utilities::autoload_core');

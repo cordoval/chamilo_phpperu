@@ -2,9 +2,9 @@
 require_once WebApplication :: get_application_class_lib_path('gradebook') . 'gradebook_manager/component/gradebook_internal_publication_browser/gradebook_internal_publication_browser_table.class.php';
 require_once WebApplication :: get_application_class_lib_path('gradebook') . 'gradebook_manager/component/gradebook_external_publication_browser/gradebook_external_publication_browser_table.class.php';
 require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
-require_once Path :: get_common_libraries_path() . 'html/action_bar/action_bar_renderer.class.php';
+require_once Path :: get_common_libraries_class_path() . 'html/action_bar/action_bar_renderer.class.php';
 require_once Path :: get_repository_path() . 'lib/repository_manager/repository_manager.class.php';
-require_once Path :: get_common_libraries_path() . '/html/menu/tree_menu/tree_menu.class.php';
+require_once Path :: get_common_libraries_class_path() . '/html/menu/tree_menu/tree_menu.class.php';
 
 class GradebookManagerGradebookBrowserComponent extends GradebookManager
 {

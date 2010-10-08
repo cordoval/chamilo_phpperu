@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/../../../../common/global.inc.php';
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'internship_organizer_data_manager.class.php';
-require_once Path :: get_common_libraries_path() . 'utilities.class.php';
+require_once Path :: get_common_libraries_class_path() . 'utilities.class.php';
 require_once CoreApplication :: get_application_class_lib_path('user') . 'user.class.php';
 require_once WebApplication :: get_application_class_path('internship_organizer') . 'internship_organizer/php/mentor.class.php';
 require_once WebApplication :: get_application_class_path('internship_organizer') . 'internship_organizer/php/mentor_rel_location.class.php';
