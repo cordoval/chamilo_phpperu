@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="group_use_group">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1" autoincrement="true" />
+		<property name="use_group_id" type="integer" unsigned="1" notnull="1" />
+		<property name="request_group_id" type="integer" unsigned="1" notnull="1" />
+		<property name="application" type="text" length="255" fixed="true" />
+	</properties>
+	<index name="usage">
+		<indexproperty name="use_group_id" />
+		<indexproperty name="req_group_id" />
+		<indexproperty name="application" />
+	</index>
+</object>
