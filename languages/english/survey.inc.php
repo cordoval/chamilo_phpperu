@@ -153,6 +153,9 @@ $lang['survey']['SurveyPublicationReportingTemplate'] = 'Publication reporting t
 $lang['survey']['SurveyParticipantReportingBlock'] = 'Participant reporting block';
 $lang['survey']['SurveyParticipantMailReportingBlock'] = 'Participant mail reporting block';
 $lang['survey']['SurveyQuestionTypeReportingBlock'] = 'Question Type reporting block';
+$lang['survey']['SurveyParticipantReportingFilterBlock'] = 'Participant reporting block';
+$lang['survey']['SurveyParticipantMailReportingFilterBlock'] = 'Participant mail reporting block';
+$lang['survey']['SurveyQuestionTypeReportingFilterBlock'] = 'Question Type reporting block';
 
 $lang['survey']['Count'] = 'Count';
 $lang['survey']['finished'] = 'Finished';

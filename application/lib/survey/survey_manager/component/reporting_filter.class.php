@@ -20,7 +20,7 @@ class SurveyManagerReportingFilterComponent extends SurveyManager
         else
         {
             $publication_ids = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
-            
+                 
             if (! empty($publication_ids))
             {
                 if (! is_array($publication_ids))
@@ -33,13 +33,15 @@ class SurveyManagerReportingFilterComponent extends SurveyManager
                 $trail->add_help('survey reporting filter');
   
                 $rtv = ReportingViewer :: construct($this);
-     
-                foreach ($publication_ids as $publication_id)
+     			
+                /*foreach ($publication_ids as $publication_id)
                 {
                     $this->set_parameter(SurveyManager :: PARAM_PUBLICATION_ID, $publication_id);      
-                }
+                }*/
+                 //$this->set_parameter(SurveyManager :: PARAM_PUBLICATION_ID, $publication_ids);  
                 
-                $rtv->add_template_by_name('survey_publication_reporting_filter_template', SurveyManager :: APPLICATION_NAME);
+                //$rtv->add_template_by_name('survey_publication_reporting_filter_template', SurveyManager :: APPLICATION_NAME);
+                $rtv->add_template_by_name('survey_question_answer_reporting_filter_template', SurveyManager :: APPLICATION_NAME);
                 $rtv->set_breadcrumb_trail($trail);
                 $rtv->hide_all_blocks();
                 $rtv->run();

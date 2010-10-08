@@ -1,24 +1,19 @@
 <?php
 require_once PATH :: get_reporting_path() . '/lib/reporting_template.class.php';
-require_once dirname(__FILE__) . '/../blocks/survey_participant_reporting_filter_block.class.php';
-require_once dirname(__FILE__) . '/../blocks/survey_participant_mail_reporting_filter_block.class.php';
-require_once dirname(__FILE__) . '/../blocks/survey_question_type_reporting_filter_block.class.php';
-require_once dirname(__FILE__) . '/../blocks/survey_context_template_reporting_filter_block.class.php';
 require_once dirname(__FILE__) . '/../blocks/survey_context_reporting_filter_block.class.php';
+require_once dirname(__FILE__) . '/../blocks/survey_question_answer_reporting_filter_block.class.php';
 require_once Path :: get_application_path() . 'lib/survey/wizards/survey_reporting_filter_wizard.class.php';
 
-class SurveyPublicationReportingFilterTemplate extends ReportingTemplate
+class SurveyQuestionAnswerReportingFilterTemplate extends ReportingTemplate
 {
 	private $filter_parameters;
 	private $wizard;
-	function SurveyPublicationReportingFilterTemplate($parent)
+	function SurveyQuestionAnswerReportingFilterTemplate($parent)
 	{
 		parent :: __construct($parent);
-		$this->add_reporting_block(new SurveyParticipantReportingFilterBlock($this));
-		$this->add_reporting_block(new SurveyParticipantMailReportingFilterBlock($this));		
-		$this->add_reporting_block(new SurveyQuestionTypeReportingFilterBlock($this));
-		$this->add_reporting_block(new SurveyContextTemplateReportingFilterBlock($this));
+		
 		$this->add_reporting_block(new SurveyContextReportingFilterBlock($this));
+		$this->add_reporting_block(new SurveyQuestionAnswerReportingFilterBlock($this));
 	}
 	
 	public function display_filter()

@@ -30,7 +30,7 @@ class SurveyManager extends WebApplication
     const ACTION_BROWSE_PAGE_QUESTIONS = 'question_browser';
     const ACTION_TAKE = 'taker';
     const ACTION_REPORTING_FILTER = 'reporting_filter';
-    const ACTION_REPORTING = 'reporting_filter';
+    const ACTION_REPORTING = 'reporting';
     const ACTION_EXCEL_EXPORT = 'survey_excel_median_exporter';
     const ACTION_QUESTION_REPORTING = 'question_reporting';
     
