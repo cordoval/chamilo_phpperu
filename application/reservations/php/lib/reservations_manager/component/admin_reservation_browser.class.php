@@ -3,12 +3,9 @@
  * $Id: admin_reservation_browser.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.reservations_manager.component
  */
-require_once dirname(__FILE__) . '/../reservations_manager.class.php';
-
-require_once dirname(__FILE__) . '/reservation_browser/reservation_browser_table.class.php';
-require_once dirname(__FILE__) . '/../../reservations_menu.class.php';
-require_once dirname(__FILE__) . '/../../calendar/reservations_calendar_mini_month_renderer.class.php';
-require_once dirname(__FILE__) . '/../../calendar/reservations_calendar_week_renderer.class.php';
+require_once WebApplication :: get_application_class_lib_path('reservations') . 'reservations_manager/component/reservation_browser/reservation_browser_table.class.php';
+require_once WebApplication :: get_application_class_lib_path('reservations') . 'calendar/reservations_calendar_mini_month_renderer.class.php';
+require_once WebApplication :: get_application_class_lib_path('reservations') . 'calendar/reservations_calendar_week_renderer.class.php';
 
 class ReservationsManagerAdminReservationBrowserComponent extends ReservationsManager
 {

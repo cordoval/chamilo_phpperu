@@ -3,9 +3,6 @@
  * $Id: item_deleter.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.reservations_manager.component
  */
-require_once dirname(__FILE__) . '/../reservations_manager.class.php';
-
-
 /**
  * Component to delete an item
  */

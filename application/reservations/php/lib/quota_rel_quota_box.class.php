@@ -1,7 +1,4 @@
 <?php
-
-require_once dirname(__FILE__) . '/reservations_data_manager.class.php';
-
 /**
  * $Id: quota_rel_quota_box.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations

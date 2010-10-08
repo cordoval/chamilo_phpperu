@@ -4,8 +4,6 @@
  * @package application.reservations.tables.category_quota_box_table
  */
 
-require_once dirname(__FILE__) . '/../../quota_box.class.php';
-require_once dirname(__FILE__) . '/../../quota_box_rel_category.class.php';
 /**
  * TODO: Add comment
  */

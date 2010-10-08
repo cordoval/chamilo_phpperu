@@ -3,9 +3,6 @@
  * $Id: default_subscription_table_cell_renderer.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations.tables.subscription_table
  */
-
-require_once dirname(__FILE__) . '/../../item.class.php';
-require_once dirname(__FILE__) . '/../../subscription.class.php';
 /**
  * TODO: Add comment
  */

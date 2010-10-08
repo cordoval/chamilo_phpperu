@@ -3,9 +3,7 @@
  * $Id: subscription_user_browser.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations.reservations_manager.component
  */
-require_once dirname(__FILE__) . '/../reservations_manager.class.php';
-
-require_once dirname(__FILE__) . '/subscription_user_browser/subscription_user_browser_table.class.php';
+require_once WebApplication :: get_application_class_lib_path('reservations') . 'reservations_manager/component/subscription_user_browser/subscription_user_browser_table.class.php';
 
 class ReservationsManagerSubscriptionUserBrowserComponent extends ReservationsManager
 {

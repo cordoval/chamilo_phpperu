@@ -4,7 +4,6 @@
  * @package application.reservations.reservations_manager.component
  */
 
-
 /**
  * Repository manager component to edit the rights for the learning objects in
  * the repository.

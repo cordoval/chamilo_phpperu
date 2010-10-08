@@ -24,7 +24,7 @@ class ReservationsDataManager
         if (! isset(self :: $instance))
         {
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
-            require_once dirname(__FILE__) . '/data_manager/' . strtolower($type) . '_reservations_data_manager.class.php';
+            require_once WebApplication :: get_application_class_lib_path('reservations') . 'data_manager/' . strtolower($type) . '_reservations_data_manager.class.php';
             $class = $type . 'ReservationsDataManager';
             self :: $instance = new $class();
         }

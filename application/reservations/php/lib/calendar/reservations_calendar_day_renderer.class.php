@@ -3,8 +3,7 @@
  * $Id: reservations_calendar_day_renderer.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.calendar
  */
-require_once (dirname(__FILE__) . '/reservations_calendar_renderer.class.php');
-require_once dirname(__FILE__) . '/mini_day_calendar.class.php';
+require_once WebApplication :: get_application_class_lib_path('reservations') . 'calendar/mini_day_calendar.class.php';
 /**
  * This personal calendar renderer provides a tabular week view of the events in
  * the calendar.

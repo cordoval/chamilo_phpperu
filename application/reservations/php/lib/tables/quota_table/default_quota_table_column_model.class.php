@@ -3,7 +3,6 @@
  * $Id: default_quota_table_column_model.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations.tables.quota_table
  */
-require_once dirname(__FILE__) . '/../../quota.class.php';
 
 /**
  * TODO: Add comment

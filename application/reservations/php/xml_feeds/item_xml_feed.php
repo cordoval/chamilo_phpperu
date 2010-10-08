@@ -5,8 +5,8 @@
  * @author Sven Vanpoucke
  */
 require_once dirname(__FILE__) . '/../../../../common/global.inc.php';
-require_once Path :: get_application_path() . 'lib/reservations/item.class.php';
-require_once Path :: get_application_path() . 'lib/reservations/reservations_data_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('reservations') . 'item.class.php';
+require_once WebApplication :: get_application_class_lib_path('reservations') . 'reservations_data_manager.class.php';
 
 if (Authentication :: is_valid())
 {

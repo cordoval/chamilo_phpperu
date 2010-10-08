@@ -3,9 +3,6 @@
  * $Id: quota_box_form.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.forms
  */
-require_once dirname(__FILE__) . '/../quota_box.class.php';
-require_once dirname(__FILE__) . '/../reservations_data_manager.class.php';
-
 class QuotaBoxForm extends FormValidator
 {
 

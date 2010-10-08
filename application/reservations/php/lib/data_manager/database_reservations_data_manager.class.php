@@ -3,20 +3,6 @@
  * $Id: database_reservations_data_manager.class.php 230 2009-11-16 09:29:45Z vanpouckesven $
  * @package application.reservations.data_manager
  */
-require_once dirname(__FILE__) . '/../reservations_data_manager.class.php';
-require_once dirname(__FILE__) . '/../category.class.php';
-require_once dirname(__FILE__) . '/../item.class.php';
-require_once dirname(__FILE__) . '/../quota.class.php';
-require_once dirname(__FILE__) . '/../quota_box.class.php';
-require_once dirname(__FILE__) . '/../quota_box_rel_category.class.php';
-require_once dirname(__FILE__) . '/../quota_box_rel_category_rel_user.class.php';
-require_once dirname(__FILE__) . '/../quota_box_rel_category_rel_group.class.php';
-require_once dirname(__FILE__) . '/../quota_rel_quota_box.class.php';
-require_once dirname(__FILE__) . '/../reservation.class.php';
-require_once dirname(__FILE__) . '/../subscription.class.php';
-require_once dirname(__FILE__) . '/../subscription_user.class.php';
-require_once dirname(__FILE__) . '/../overview_item.class.php';
-require_once dirname(__FILE__) . '/../reservations_data_manager_interface.class.php';
 
 /**
 ==============================================================================

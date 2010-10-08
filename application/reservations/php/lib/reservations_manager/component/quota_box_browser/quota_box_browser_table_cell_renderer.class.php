@@ -3,10 +3,9 @@
  * $Id: quota_box_browser_table_cell_renderer.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.reservations_manager.component.quota_box_browser
  */
-require_once dirname(__FILE__) . '/quota_box_browser_table_column_model.class.php';
-require_once dirname(__FILE__) . '/../../../tables/quota_box_table/default_quota_box_table_cell_renderer.class.php';
-require_once dirname(__FILE__) . '/../../../quota_box.class.php';
-require_once dirname(__FILE__) . '/../../reservations_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('reservations') . 'reservations_manager/component/quota_box_browser/quota_box_browser_table_column_model.class.php';
+require_once WebApplication :: get_application_class_lib_path('reservations') . 'tables/quota_box_table/default_quota_box_table_cell_renderer.class.php';
+
 /**
  * Cell rendere for the learning object browser table
  */

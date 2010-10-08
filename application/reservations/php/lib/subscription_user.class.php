@@ -3,7 +3,6 @@
  * $Id: subscription_user.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations
  */
-require_once dirname(__FILE__) . '/reservations_data_manager.class.php';
 
 /**
  *	@author Sven Vanpoucke

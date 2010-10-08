@@ -3,10 +3,7 @@
  * $Id: pool_searcher.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.reservations_manager.component
  */
-require_once dirname(__FILE__) . '/../reservations_manager.class.php';
-
 require_once Path :: get_plugin_path() . 'nusoap/nusoap.php';
-
 /**
  * Component to search a pool
  */

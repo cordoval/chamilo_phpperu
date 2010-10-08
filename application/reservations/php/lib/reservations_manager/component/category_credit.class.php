@@ -3,12 +3,6 @@
  * $Id: category_credit.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.reservations_manager.component
  */
-require_once dirname(__FILE__) . '/../reservations_manager.class.php';
-
-require_once dirname(__FILE__) . '/../../category.class.php';
-require_once dirname(__FILE__) . '/../../forms/credit_form.class.php';
-require_once dirname(__FILE__) . '/../../reservations_data_manager.class.php';
-
 class ReservationsManagerCategoryCreditComponent extends ReservationsManager
 {
 

@@ -3,10 +3,10 @@
  * $Id: quota_browser_table.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.reservations_manager.component.quota_browser
  */
-require_once dirname(__FILE__) . '/quota_browser_table_data_provider.class.php';
-require_once dirname(__FILE__) . '/quota_browser_table_column_model.class.php';
-require_once dirname(__FILE__) . '/quota_browser_table_cell_renderer.class.php';
-require_once dirname(__FILE__) . '/../../reservations_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('reservations') . 'reservations_manager/component/quota_browser/quota_browser_table_data_provider.class.php';
+require_once WebApplication :: get_application_class_lib_path('reservations') . 'reservations_manager/component/quota_browser/quota_browser_table_column_model.class.php';
+require_once WebApplication :: get_application_class_lib_path('reservations') . 'reservations_manager/component/quota_browser/quota_browser_table_cell_renderer.class.php';
+
 /**
  * Table to display a set of learning objects.
  */

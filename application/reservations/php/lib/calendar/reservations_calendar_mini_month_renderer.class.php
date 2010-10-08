@@ -3,7 +3,6 @@
  * $Id: reservations_calendar_mini_month_renderer.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.calendar
  */
-require_once (dirname(__FILE__) . '/reservations_calendar_renderer.class.php');
 /**
  * This personal calendar renderer provides a tabular month view to navigate in
  * the calendar

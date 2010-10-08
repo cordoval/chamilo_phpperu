@@ -3,8 +3,6 @@
  * $Id: reservations_rights.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations
  */
-require_once Path :: get_application_path() . 'lib/reservations/reservations_manager/reservations_manager.class.php';
-
 class ReservationsRights
 {
     const VIEW_RIGHT = '1';

@@ -3,12 +3,6 @@
  * $Id: quota_creator.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.reservations_manager.component
  */
-require_once dirname(__FILE__) . '/../reservations_manager.class.php';
-
-require_once dirname(__FILE__) . '/../../quota.class.php';
-require_once dirname(__FILE__) . '/../../forms/quota_form.class.php';
-require_once dirname(__FILE__) . '/../../reservations_data_manager.class.php';
-
 class ReservationsManagerQuotaCreatorComponent extends ReservationsManager
 {
 

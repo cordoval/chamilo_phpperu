@@ -3,10 +3,7 @@
  * $Id: admin_category_browser.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.reservations_manager.component
  */
-require_once dirname(__FILE__) . '/../reservations_manager.class.php';
-
-require_once dirname(__FILE__) . '/category_browser/category_browser_table.class.php';
-require_once dirname(__FILE__) . '/../../reservations_menu.class.php';
+require_once WebApplication :: get_application_class_lib_path('reservations') . 'reservations_manager/component/category_browser/category_browser_table.class.php';
 
 class ReservationsManagerAdminCategoryBrowserComponent extends ReservationsManager
 {

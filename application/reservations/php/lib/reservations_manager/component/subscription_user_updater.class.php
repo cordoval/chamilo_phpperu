@@ -3,11 +3,6 @@
  * $Id: subscription_user_updater.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations.reservations_manager.component
  */
-require_once dirname(__FILE__) . '/../reservations_manager.class.php';
-
-require_once dirname(__FILE__) . '/../../forms/subscription_user_form.class.php';
-require_once dirname(__FILE__) . '/../../reservations_data_manager.class.php';
-
 class ReservationsManagerSubscriptionUserUpdaterComponent extends ReservationsManager
 {
     private $item;

@@ -3,15 +3,14 @@
  * $Id: reservations_manager.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations.reservations_manager
  */
-require_once dirname(__FILE__) . '/../reservations_data_manager.class.php';
-require_once dirname(__FILE__) . '/../reservations_rights.class.php';
-require_once dirname(__FILE__) . '/component/category_browser/category_browser_table.class.php';
-require_once dirname(__FILE__) . '/component/category_quota_box_browser/category_quota_box_browser_table.class.php';
-require_once dirname(__FILE__) . '/component/item_browser/item_browser_table.class.php';
-require_once dirname(__FILE__) . '/component/quota_box_browser/quota_box_browser_table.class.php';
-require_once dirname(__FILE__) . '/component/quota_browser/quota_browser_table.class.php';
-require_once dirname(__FILE__) . '/component/reservation_browser/reservation_browser_table.class.php';
-require_once dirname(__FILE__) . '/component/subscription_browser/subscription_browser_table.class.php';
+
+require_once WebApplication :: get_application_class_lib_path('reservations') . 'reservations_manager/component/category_browser/category_browser_table.class.php';
+require_once WebApplication :: get_application_class_lib_path('reservations') . 'reservations_manager/component/category_quota_box_browser/category_quota_box_browser_table.class.php';
+require_once WebApplication :: get_application_class_lib_path('reservations') . 'reservations_manager/component/item_browser/item_browser_table.class.php';
+require_once WebApplication :: get_application_class_lib_path('reservations') . 'reservations_manager/component/quota_box_browser/quota_box_browser_table.class.php';
+require_once WebApplication :: get_application_class_lib_path('reservations') . 'reservations_manager/component/quota_browser/quota_browser_table.class.php';
+require_once WebApplication :: get_application_class_lib_path('reservations') . 'reservations_manager/component/reservation_browser/reservation_browser_table.class.php';
+require_once WebApplication :: get_application_class_lib_path('reservations') . 'reservations_manager/component/subscription_browser/subscription_browser_table.class.php';
 
 class ReservationsManager extends WebApplication
 {

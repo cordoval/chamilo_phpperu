@@ -3,10 +3,9 @@
  * $Id: subscription_user_browser_table_cell_renderer.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.reservations_manager.component.subscription_user_browser
  */
-require_once dirname(__FILE__) . '/subscription_user_browser_table_column_model.class.php';
-require_once dirname(__FILE__) . '/../../../tables/subscription_user_table/default_subscription_user_table_cell_renderer.class.php';
-require_once dirname(__FILE__) . '/../../../subscription_user.class.php';
-require_once dirname(__FILE__) . '/../../reservations_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('reservations') . 'reservations_manager/component/subscription_user_browser/subscription_user_browser_table_column_model.class.php';
+require_once WebApplication :: get_application_class_lib_path('reservations') . 'tables/subscription_user_table/default_subscription_user_table_cell_renderer.class.php';
+
 /**
  * Cell rendere for the learning object browser table
  */

@@ -3,8 +3,8 @@
  * $Id: reservation_browser_table_column_model.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.reservations_manager.component.reservation_browser
  */
-require_once dirname(__FILE__) . '/../../../tables/reservation_table/default_reservation_table_column_model.class.php';
-require_once dirname(__FILE__) . '/../../../reservation.class.php';
+require_once WebApplication :: get_application_class_lib_path('reservations') . 'tables/reservation_table/default_reservation_table_column_model.class.php';
+
 /**
  * Table column model for the user browser table
  */

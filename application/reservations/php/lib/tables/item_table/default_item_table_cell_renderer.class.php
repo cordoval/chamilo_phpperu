@@ -4,7 +4,6 @@
  * @package application.reservations.tables.item_table
  */
 
-require_once dirname(__FILE__) . '/../../item.class.php';
 /**
  * TODO: Add comment
  */

@@ -3,9 +3,6 @@
  * $Id: subscription_approver.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations.reservations_manager.component
  */
-require_once dirname(__FILE__) . '/../reservations_manager.class.php';
-
-
 /**
  * Component to delete a subscription
  */
