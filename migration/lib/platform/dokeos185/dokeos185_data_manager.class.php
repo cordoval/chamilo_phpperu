@@ -211,7 +211,7 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
     		return $possible_owner;
     	}
     	
-    	$possible_admin = MigrationDataManager :: retrieve_id_reference_by_old_id_and_table($this->get_admin_id(), 'main_database.user');
+    	$possible_admin = MigrationDataManager :: retrieve_id_reference_by_old_id_and_table($this->get_admin_id(), 'main_database.user')->get_new_id();
     	if($possible_admin)
     	{
     		return $possible_admin;
