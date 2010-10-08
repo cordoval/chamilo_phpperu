@@ -1,6 +1,4 @@
 <?php
-require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_data_manager.class.php';
-require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_rights.class.php';
 require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_manager/component/laika_calculated_result_browser/laika_calculated_result_browser_table.class.php';
 
 class LaikaManager extends WebApplication

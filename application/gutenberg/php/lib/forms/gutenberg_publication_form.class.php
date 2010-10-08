@@ -3,7 +3,6 @@
  * $Id: gutenberg_publication_form.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.gutenberg.forms
  */
-require_once WebApplication :: get_application_class_lib_path('gutenberg') . 'gutenberg_publication.class.php';
 /**
  * This class represents a form to allow a user to publish a learning object.
  *

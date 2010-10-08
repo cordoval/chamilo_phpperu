@@ -3,9 +3,6 @@
  * $Id: laika_utilities.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika
  */
-
-require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_data_manager.class.php';
-
 class LaikaUtilities
 {
 

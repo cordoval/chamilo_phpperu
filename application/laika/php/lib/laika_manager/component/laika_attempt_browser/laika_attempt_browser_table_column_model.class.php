@@ -4,7 +4,6 @@
  * @package application.lib.laika.laika_manager.component.laika_attempt_browser
  */
 require_once WebApplication :: get_application_class_lib_path('laika') . 'tables/laika_attempt_table/default_laika_attempt_table_column_model.class.php';
-require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_attempt.class.php';
 /**
  * Table column model for the user browser table
  */

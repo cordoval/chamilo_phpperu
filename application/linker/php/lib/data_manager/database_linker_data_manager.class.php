@@ -3,10 +3,6 @@
  * $Id: database_linker_data_manager.class.php 199 2009-11-13 12:23:04Z chellee $
  * @package application.lib.linker.data_manager
  */
-
-require_once WebApplication :: get_application_class_lib_path('linker') . 'link.class.php';
-require_once WebApplication :: get_application_class_lib_path('linker') . 'linker_data_manager_interface.class.php';
-
 /**
 ==============================================================================
  *	This is a data manager that uses a database for storage. It was written

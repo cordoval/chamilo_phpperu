@@ -5,7 +5,6 @@
  */
 require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_manager/component/laika_attempt_browser/laika_attempt_browser_table_column_model.class.php';
 require_once WebApplication :: get_application_class_lib_path('laika') . 'tables/laika_attempt_table/default_laika_attempt_table_cell_renderer.class.php';
-require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_attempt.class.php';
 /**
  * Cell rendere for the learning object browser table
  */

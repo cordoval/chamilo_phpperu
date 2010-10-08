@@ -4,7 +4,6 @@
  * @package application.lib.laika.laika_manager.component.laika_calculated_result_browser
  */
 require_once WebApplication :: get_application_class_lib_path('laika') . 'tables/laika_calculated_result_table/default_laika_calculated_result_table_column_model.class.php';
-require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_calculated_result.class.php';
 /**
  * Table column model for the user browser table
  */

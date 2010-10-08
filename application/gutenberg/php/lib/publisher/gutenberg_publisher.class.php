@@ -3,8 +3,6 @@
  * $Id: gutenberg_publisher.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.gutenberg.publisher
  */
-require_once WebApplication :: get_application_class_lib_path('gutenberg') . 'forms/gutenberg_publication_form.class.php';
-
 /**
  * This class represents a profile publisher component which can be used
  * to preview a learning object in the learning object publisher.

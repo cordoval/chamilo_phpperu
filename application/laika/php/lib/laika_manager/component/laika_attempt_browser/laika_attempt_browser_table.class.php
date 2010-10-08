@@ -6,7 +6,6 @@
 require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_manager/component/laika_attempt_browser/laika_attempt_browser_table_data_provider.class.php';
 require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_manager/component/laika_attempt_browser/laika_attempt_browser_table_column_model.class.php';
 require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_manager/component/laika_attempt_browser/laika_attempt_browser_table_cell_renderer.class.php';
-require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_manager/laika_manager.class.php';
 /**
  * Table to display a set of learning objects.
  */

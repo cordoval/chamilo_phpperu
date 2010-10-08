@@ -3,8 +3,6 @@
  * $Id: link_form.class.php 199 2009-11-13 12:23:04Z chellee $
  * @package application.lib.linker.forms
  */
-require_once WebApplication :: get_application_class_lib_path('linker') . 'link.class.php';
-
 class LinkForm extends FormValidator
 {
     

@@ -3,10 +3,8 @@
  * $Id: laika_group_browser_table_cell_renderer.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika.laika_manager.component.laika_group_browser
  */
-require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_manager/component/browser/laika_group_browser_table_column_model.class.php';
+require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_manager/component/laika_group_browser/laika_group_browser_table_column_model.class.php';
 require_once CoreApplication :: get_application_class_lib_path('group') . 'group_table/default_group_table_cell_renderer.class.php';
-require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_manager.class.php';
-require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_attempt.class.php';
 /**
  * Cell rendere for the learning object browser table
  */
