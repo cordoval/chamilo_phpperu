@@ -219,7 +219,7 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
             //$unique_hash = FileSystem :: create_unique_name($new_path, $base_hash);
 
             $hash_filename = $this->migrate_file($this->directory, $new_path, $original_filename, $base_hash);
-
+			
             if ($hash_filename)
             {
                 //Create document in repository
@@ -232,8 +232,7 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
                     $chamilo_repository_document->set_title($this->get_title());
                 else
                     $chamilo_repository_document->set_title($original_filename);
-                $chamilo_repository_document->set_description('...');
-                $chamilo_repository_document->set_comment($this->get_comment());
+                $chamilo_repository_document->set_description($this->get_comment());
                 $chamilo_repository_document->set_owner_id($new_user_id);
                 $chamilo_repository_document->set_creation_date(strtotime($this->get_item_property()->get_insert_date()));
                 $chamilo_repository_document->set_modification_date(strtotime($this->get_item_property()->get_lastedit_date()));
