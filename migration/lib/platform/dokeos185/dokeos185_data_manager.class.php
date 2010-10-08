@@ -151,7 +151,7 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
     {
      	$this->set_database('main_database');
      	
-        $query = 'SELECT user_id FROM ' . $this->escape_table_name('admin');
+        $query = 'SELECT a.user_id FROM ' . $this->escape_table_name('admin') . ' AS a JOIN ' . $this->escape_table_name('user') . ' AS u ON a.user_id = u.user_id;';
         $result = $this->query($query);
         $record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
         $id = $record['user_id'];
@@ -211,7 +211,13 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
     		return $possible_owner;
     	}
     	
-    	return MigrationDataManager :: retrieve_id_reference_by_old_id_and_table($this->get_admin_id(), 'main_database.user');
+    	$possible_admin = MigrationDataManager :: retrieve_id_reference_by_old_id_and_table($this->get_admin_id(), 'main_database.user');
+    	if($possible_admin)
+    	{
+    		return $possible_admin;
+    	}
+    	
+    	return UserDataManager :: get_instance()->retrieve_users(new EqualityCondition(User :: PROPERTY_PLATFORMADMIN, 1))->next_result();
     }
 
     /**
