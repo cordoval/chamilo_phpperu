@@ -208,7 +208,7 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
 
             if (!$new_user_id)
             {
-                $new_user_id = $this->get_owner($new_course_code);
+                $new_user_id = $this->get_data_manager()->get_owner_id($new_course_code);
             }
 
             $filename_split = split('/', $this->get_path());

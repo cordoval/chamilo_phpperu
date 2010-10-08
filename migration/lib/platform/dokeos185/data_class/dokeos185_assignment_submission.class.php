@@ -272,7 +272,7 @@ class Dokeos185AssignmentSubmission extends Dokeos185MigrationDataClass
         $new_user_id = $mgdm->get_id_reference($this->get_user_id(), 'user_user');
         if (! $new_user_id)
         {
-            $new_user_id = $mgdm->get_owner($new_course_code);
+            $new_user_id = $this->get_data_manager()->get_owner_id($new_course_code);
         }
         
         $filename = $this->get_submitted_doc_path();

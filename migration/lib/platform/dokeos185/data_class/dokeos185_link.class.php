@@ -184,8 +184,9 @@ class Dokeos185Link extends Dokeos185CourseDataMigrationDataClass
         //the $this->category_id is the id of the category in which the link resides in a dokeos 1.8.5 course (in chamilo: the publication category, not the repository category id!)
         $new_publication_category_id = $this->get_id_reference($this->get_category_id(), $this->get_database_name() . '.link_category');
 
-        if (!$new_user_id) {
-            $new_user_id = $this->get_data_manager()->get_owner($new_course_code);
+        if (!$new_user_id) 
+        {
+            $new_user_id = $this->get_data_manager()->get_owner_id($new_course_code);
         }
 
         $chamilo_link = new Link();

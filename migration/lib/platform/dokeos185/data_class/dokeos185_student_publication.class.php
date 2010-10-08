@@ -222,7 +222,7 @@ class Dokeos185StudentPublication extends Dokeos185MigrationDataClass
         
         if (! $new_user_id)
         {
-            $new_user_id = $mgdm->get_owner($new_course_code);
+            $new_user_id = $this->get_data_manager()->get_owner_id($new_course_code);
         }
         
         $new_path = $new_user_id . '/';

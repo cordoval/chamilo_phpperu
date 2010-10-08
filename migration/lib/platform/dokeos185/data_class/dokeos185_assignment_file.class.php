@@ -149,7 +149,7 @@ class Dokeos185AssignmentFile extends Dokeos185MigrationDataClass
         $mgdm = MigrationDataManager :: get_instance();
         
         $new_course_code = $mgdm->get_id_reference($course->get_code(), 'weblcms_course');
-        $new_user_id = $mgdm->get_owner($new_course_code);
+        $new_user_id = $this->get_data_manager()->get_owner_id($new_course_code);
         
         $filename = $this->get_doc_path();
         $new_path = $new_user_id . '/';
