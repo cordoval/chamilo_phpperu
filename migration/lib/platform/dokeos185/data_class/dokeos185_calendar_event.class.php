@@ -169,8 +169,8 @@ class Dokeos185CalendarEvent extends Dokeos185CourseDataMigrationDataClass
         //calendar event parameters
         $chamilo_calendar_event = new CalendarEvent();
 
-        $chamilo_calendar_event->set_start_date($this->get_data_manager()->make_unix_time($this->get_start_date()));
-        $chamilo_calendar_event->set_end_date($this->get_data_manager()->make_unix_time($this->get_end_date()));
+        $chamilo_calendar_event->set_start_date(strtotime($this->get_start_date()));
+        $chamilo_calendar_event->set_end_date(strtotime($this->get_end_date()));
 
         // Category for calendar_events already exists?
         $chamilo_category_id = RepositoryDataManager :: get_repository_category_by_name_or_create_new($new_user_id, Translation :: get('calendar_events'));
@@ -195,8 +195,8 @@ class Dokeos185CalendarEvent extends Dokeos185CourseDataMigrationDataClass
             }
 
             $chamilo_calendar_event->set_owner_id($new_user_id);
-            $chamilo_calendar_event->set_creation_date($this->get_data_manager()->make_unix_time($this->get_item_property()->get_insert_date()));
-            $chamilo_calendar_event->set_modification_date($this->get_data_manager()->make_unix_time($this->get_item_property()->get_lastedit_date()));
+            $chamilo_calendar_event->set_creation_date(strtotime($this->get_item_property()->get_insert_date()));
+            $chamilo_calendar_event->set_modification_date(strtotime($this->get_item_property()->get_lastedit_date()));
 
             if ($this->get_item_property()->get_visibility() == 2)
             {

@@ -8,7 +8,6 @@ require_once dirname(__FILE__) . '/cas_account_data_manager/cas_account_data_man
 class CasAccount extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    const TABLE_NAME = 'external_users';
 
     /**
      * CasAccount properties
@@ -121,7 +120,7 @@ class CasAccount extends DataClass
 
     static function get_table_name()
     {
-        return self :: TABLE_NAME;
+        return PlatformSetting :: get('table', CasUserManager :: APPLICATION_NAME);
     }
 
     function get_status_icon()

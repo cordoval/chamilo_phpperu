@@ -149,7 +149,7 @@ class Dokeos185AssignmentFile extends Dokeos185MigrationDataClass
         $mgdm = MigrationDataManager :: get_instance();
         
         $new_course_code = $mgdm->get_id_reference($course->get_code(), 'weblcms_course');
-        $new_user_id = $mgdm->get_owner($new_course_code);
+        $new_user_id = $this->get_data_manager()->get_owner_id($new_course_code);
         
         $filename = $this->get_doc_path();
         $new_path = $new_user_id . '/';
@@ -276,12 +276,12 @@ class Dokeos185AssignmentFile extends Dokeos185MigrationDataClass
 			$publication->set_publisher_id($new_user_id);
 			$publication->set_tool('document');
 			$publication->set_category_id($parent);
-			//$publication->set_from_date(self :: $mgdm->make_unix_time($this->item_property->get_start_visible()));
-			//$publication->set_to_date(self :: $mgdm->make_unix_time($this->item_property->get_end_visible()));
+			//$publication->set_from_date(strtotime($this->item_property->get_start_visible()));
+			//$publication->set_to_date(strtotime($this->item_property->get_end_visible()));
 			$publication->set_from_date(0);
 			$publication->set_to_date(0);
-			$publication->set_publication_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
-			$publication->set_modified_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
+			$publication->set_publication_date(strtotime($this->item_property->get_insert_date()));
+			$publication->set_modified_date(strtotime($this->item_property->get_lastedit_date()));
 			//$publication->set_modified_date(0);
 			//$publication->set_display_order_index($this->get_display_order());
 			$publication->set_display_order_index(0);
