@@ -3,11 +3,6 @@
  * $Id: database_alexia_data_manager.class.php 238 2009-11-16 14:10:27Z vanpouckesven $
  * @package application.lib.alexia.data_manager
  */
-require_once dirname(__FILE__) . '/../alexia_publication.class.php';
-require_once dirname(__FILE__) . '/../alexia_publication_group.class.php';
-require_once dirname(__FILE__) . '/../alexia_publication_user.class.php';
-require_once dirname(__FILE__) . '/../alexia_data_manager_interface.class.php';
-
 /**
  * This is a data manager that uses a database for storage. It was written
  * for MySQL, but should be compatible with most SQL flavors.

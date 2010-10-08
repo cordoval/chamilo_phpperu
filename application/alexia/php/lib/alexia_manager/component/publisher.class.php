@@ -3,9 +3,6 @@
  * $Id: publisher.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.lib.alexia.alexia_manager.component
  */
-require_once dirname(__FILE__) . '/../alexia_manager.class.php';
-require_once dirname(__FILE__) . '/../../publisher/alexia_publisher.class.php';
-
 class AlexiaManagerPublisherComponent extends AlexiaManager implements RepoViewerInterface
 {
 

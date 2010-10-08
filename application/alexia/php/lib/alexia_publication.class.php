@@ -3,9 +3,6 @@
  * $Id: alexia_publication.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.alexia
  */
-require_once dirname(__FILE__) . '/alexia_publication_user.class.php';
-require_once dirname(__FILE__) . '/alexia_publication_group.class.php';
-
 /**
  * This class describes an AlexiaPublication data object
  *

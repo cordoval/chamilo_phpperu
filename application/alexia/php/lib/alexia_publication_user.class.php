@@ -3,8 +3,6 @@
  * $Id: alexia_publication_user.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.alexia
  */
-
-
 /**
  * This class describes a AlexiaPublicationUser data object
  *

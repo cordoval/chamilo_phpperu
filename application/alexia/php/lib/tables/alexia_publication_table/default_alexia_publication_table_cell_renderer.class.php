@@ -3,9 +3,6 @@
  * $Id: default_alexia_publication_table_cell_renderer.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.alexia.tables.alexia_publication_table
  */
-
-require_once dirname(__FILE__) . '/../../alexia_publication.class.php';
-
 class DefaultAlexiaPublicationTableCellRenderer extends ObjectTableCellRenderer
 {
 

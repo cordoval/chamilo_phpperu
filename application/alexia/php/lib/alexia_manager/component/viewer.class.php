@@ -3,8 +3,7 @@
  * $Id: viewer.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.alexia.alexia_manager
  */
-require_once dirname(__FILE__) . '/../alexia_manager.class.php';
-require_once Path :: get_library_path() . 'utilities.class.php';
+require_once Path :: get_common_libraries_path() . 'utilities.class.php';
 
 class AlexiaManagerViewerComponent extends AlexiaManager
 {

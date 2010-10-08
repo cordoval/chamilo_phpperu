@@ -4,9 +4,6 @@
  * $Id: deleter.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.alexia.alexia_manager.component
  */
-
-require_once dirname(__FILE__) . '/../alexia_manager.class.php';
-
 class AlexiaManagerDeleterComponent extends AlexiaManager
 {
 

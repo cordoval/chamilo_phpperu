@@ -3,9 +3,8 @@
  * $Id: alexia_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.alexia
  */
-require_once dirname(__FILE__) . '/component/alexia_publication_browser/alexia_publication_browser_table.class.php';
-require_once dirname(__FILE__) . '/../alexia_data_manager.class.php';
-require_once dirname(__FILE__) . '/../alexia_block.class.php';
+require_once WebApplication :: get_application_class_lib_path('alexia') . 'alexia_manager/component/alexia_publication_browser/alexia_publication_browser_table.class.php';
+require_once WebApplication :: get_application_class_path('alexia') . '/blocks/alexia_block.class.php';
 /**
  * This application gives each user the possibility to maintain a personal
  * calendar.

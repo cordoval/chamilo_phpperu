@@ -3,7 +3,7 @@
  * $Id: alexia_publication_browser_table_column_model.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.alexiar.alexiar_manager.component.alexiapublicationbrowser
  */
-require_once dirname(__FILE__) . '/../../../tables/alexia_publication_table/default_alexia_publication_table_column_model.class.php';
+require_once WebApplication :: get_application_class_lib_path('alexia') . 'tables/alexia_publication_table/default_alexia_publication_table_column_model.class.php';
 /**
  * Table column model for the publication browser table
  */

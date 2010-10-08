@@ -3,8 +3,6 @@
  * $Id: introducer.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.lib.alexia.alexia_manager.component
  */
-require_once dirname(__FILE__) . '/../alexia_manager.class.php';
-require_once dirname(__FILE__) . '/../../forms/alexia_publication_form.class.php';
 
 class AlexiaManagerIntroducerComponent extends AlexiaManager implements RepoViewerInterface
 {
