@@ -4,7 +4,7 @@
  * @package admin.lib.package_manager.component
  * @author Hans De Bisschop
  */
-require_once dirname(__FILE__) . '/phrases_mastery_level_browser/phrases_mastery_level_browser_table.class.php';
+require_once WebApplication :: get_application_class_lib_path('phrases') . 'phrases_manager/component/mastery_level_manager/component/phrases_mastery_level_browser/phrases_mastery_level_browser_table.class.php';
 /**
  * Admin component
  */

@@ -5,7 +5,6 @@
  */
 require_once 'HTML/Menu.php';
 require_once 'HTML/Menu/ArrayRenderer.php';
-require_once dirname(__FILE__) . '/phrases_publication.class.php';
 /**
  * This class provides a navigation menu to allow a user to browse through his
  * categories of learning objects.

@@ -3,10 +3,7 @@
  * $Id: database_phrases_data_manager.class.php 238 2009-11-16 14:10:27Z vanpouckesven $
  * @package application.personal_calendar.data_manager
  */
-require_once dirname(__FILE__) . '/../phrases_data_manager.class.php';
-require_once dirname(__FILE__) . '/../phrases_publication.class.php';
-require_once dirname(__FILE__) . '/../phrases_mastery_level.class.php';
-require_once dirname(__FILE__) . '/../phrases_data_manager_interface.class.php';
+
 /**
  * This is an implementation of a personal calendar datamanager using the PEAR::
  * MDB2 package as a database abstraction layer.

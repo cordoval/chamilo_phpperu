@@ -4,8 +4,7 @@
  * @package application.lib.phrases.phrases_manager.component.phrases_publication_browser
  */
 
-require_once dirname(__FILE__) . '/../../../../../tables/phrases_publication_table/default_phrases_publication_table_column_model.class.php';
-require_once dirname(__FILE__) . '/../../../../../phrases_publication.class.php';
+require_once WebApplication :: get_application_class_lib_path('phrases') . 'tables/phrases_publication_table/default_phrases_publication_table_column_model.class.php';
 
 /**
  * Table column model for the phrases_publication browser table

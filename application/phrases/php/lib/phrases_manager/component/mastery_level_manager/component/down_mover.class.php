@@ -5,7 +5,7 @@
  * @author
  */
 
-require_once dirname(__FILE__) . '/mover.class.php';
+require_once WebApplication :: get_application_class_lib_path('phrases') . 'phrases_manager/component/mastery_level_manager/component/mover.class.php';
 
 class PhrasesMasteryLevelManagerDownMoverComponent extends PhrasesMasteryLevelManagerMoverComponent
 {

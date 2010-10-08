@@ -3,7 +3,7 @@
  * $Id: updater.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.assessment_manager.component
  */
-require_once dirname(__FILE__) . '/../../../../forms/phrases_mastery_level_form.class.php';
+require_once WebApplication :: get_application_class_lib_path('phrases') . 'forms/phrases_mastery_level_form.class.php';
 
 /**
  * Component to edit an existing assessment_mastery_level object

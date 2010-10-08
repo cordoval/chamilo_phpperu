@@ -18,6 +18,8 @@ class PhrasesMasteryLevelManager extends SubManager
     const ACTION_MOVE = 'mover';
     const ACTION_MOVE_UP = 'up_mover';
     const ACTION_MOVE_DOWN = 'down_mover';
+    
+    const DEFAULT_ACTION = self :: ACTION_BROWSE;
 
     function PhrasesMasteryLevelManager($phrases_manager)
     {

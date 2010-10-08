@@ -4,8 +4,7 @@
  * @package application.personal_calendar.personal_calendar_manager.component
  */
 
-require_once dirname(__FILE__) . '/publication_manager/publication_manager.class.php';
-require_once dirname(__FILE__) . '/../../trackers/phrases_assessment_attempts_tracker.class.php';
+require_once WebApplication :: get_application_class_path('phrases') . 'trackers/phrases_assessment_attempts_tracker.class.php';
 
 class PhrasesManagerTakerComponent extends PhrasesManager
 {

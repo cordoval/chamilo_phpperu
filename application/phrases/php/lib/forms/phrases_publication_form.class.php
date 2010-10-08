@@ -4,7 +4,6 @@
  * @package application.personal_calendar
  */
 
-require_once dirname(__FILE__) . '/../phrases_publication.class.php';
 require_once Path :: get_plugin_path() . 'html2text/class.html2text.inc';
 /**
  * This class represents a form to allow a user to publish a learning object.

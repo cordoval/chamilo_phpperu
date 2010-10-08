@@ -2,7 +2,7 @@
 /**
  * @package application.cda.cda.component
  */
-require_once dirname(__FILE__) . '/../../../../forms/phrases_mastery_level_form.class.php';
+require_once WebApplication :: get_application_class_lib_path('phrases') . 'forms/phrases_mastery_level_form.class.php';
 
 /**
  * Component to create a new cda_language object

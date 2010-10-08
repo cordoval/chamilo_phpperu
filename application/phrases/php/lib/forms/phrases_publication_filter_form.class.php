@@ -3,9 +3,6 @@
  * $Id: phrases_publication_filter_form.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika.forms
  */
-require_once dirname(__FILE__) . '/../phrases_manager/phrases_manager.class.php';
-require_once dirname(__FILE__) . '/../phrases_data_manager.class.php';
-
 class PhrasesPublicationFilterForm extends FormValidator
 {
     const BROWSER_FILTER_MASTERY_LEVEL = 'filter_level';

@@ -4,8 +4,6 @@
  * @package admin.lib.package_manager
  * @author Hans De Bisschop
  */
-//require_once dirname(__FILE__) . '/component/registration_browser/registration_browser_table.class.php';
-
 
 class PhrasesPublicationManager extends SubManager
 {

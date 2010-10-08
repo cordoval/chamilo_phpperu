@@ -1,6 +1,4 @@
 <?php
-require_once dirname(__FILE__) . '/../phrases_mastery_level.class.php';
-
 /**
  * This class describes the form for a PhrasesMasteryLevel object.
  * @author Hans De Bisschop

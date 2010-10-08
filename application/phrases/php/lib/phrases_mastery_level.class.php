@@ -3,7 +3,6 @@
  * $Id: phrases_publication.class.php 201 2009-11-13 12:34:51Z chellee $
  * @package application.personal_calendar
  */
-require_once Path :: get_application_path() . '/lib/phrases/phrases_data_manager.class.php';
 
 /**
  * This class represents a CalendarEventPublication.

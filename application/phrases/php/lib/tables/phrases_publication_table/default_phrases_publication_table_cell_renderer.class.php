@@ -4,8 +4,6 @@
  * @package application.lib.assessment.tables.assessment_publication_table
  */
 
-require_once dirname(__FILE__) . '/../../phrases_publication.class.php';
-
 /**
  * Default cell renderer for the phrases_publication table
  *

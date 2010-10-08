@@ -3,7 +3,6 @@
  * $Id: updater.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.assessment_manager.component
  */
-require_once dirname(__FILE__) . '/../../../../forms/phrases_publication_form.class.php';
 
 /**
  * Component to edit an existing assessment_publication object

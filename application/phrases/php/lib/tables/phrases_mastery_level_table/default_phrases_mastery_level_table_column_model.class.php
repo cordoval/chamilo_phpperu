@@ -3,7 +3,6 @@
  * $Id: default_phrases_mastery_level_table_column_model.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.tables.phrases_mastery_level_table
  */
-require_once dirname(__FILE__) . '/../../phrases_mastery_level.class.php';
 
 /**
  * Default column model for the phrases_mastery_level table

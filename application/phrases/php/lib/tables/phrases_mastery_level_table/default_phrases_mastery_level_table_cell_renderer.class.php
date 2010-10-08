@@ -4,8 +4,6 @@
  * @package application.lib.assessment.tables.assessment_mastery_level_table
  */
 
-require_once dirname(__FILE__) . '/../../phrases_mastery_level.class.php';
-
 /**
  * Default cell renderer for the phrases_mastery_level table
  *

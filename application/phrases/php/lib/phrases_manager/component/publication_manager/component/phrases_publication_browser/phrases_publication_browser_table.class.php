@@ -5,8 +5,7 @@
  */
 require_once dirname(__FILE__) . '/phrases_publication_browser_table_data_provider.class.php';
 require_once dirname(__FILE__) . '/phrases_publication_browser_table_column_model.class.php';
-require_once dirname(__FILE__) . '/phrases_publication_browser_table_cell_renderer.class.php';
-require_once dirname(__FILE__) . '/../../../../phrases_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('phrases') . 'publication_manager/component/phrases_publication_browser/phrases_publication_browser_table_cell_renderer.class.php';
 
 /**
  * Table to display a list of phrases_publications

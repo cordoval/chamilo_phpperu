@@ -3,8 +3,7 @@
  * $Id: personal_calendar_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.personal_calendar.personal_calendar_manager
  */
-require_once dirname(__FILE__) . '/../phrases_publication.class.php';
-require_once dirname(__FILE__) . '/../phrases_data_manager.class.php';
+
 /**
  * This application gives each user the possibility to maintain a personal
  * calendar.

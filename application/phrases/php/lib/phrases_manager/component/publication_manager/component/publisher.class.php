@@ -3,9 +3,6 @@
  * $Id: publisher.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.personal_calendar.personal_calendar_manager.component
  */
-require_once dirname(__FILE__) . '/../../../phrases_manager.class.php';
-require_once dirname(__FILE__) . '/../../../../publisher/phrases_publisher.class.php';
-
 class PhrasesPublicationManagerPublisherComponent extends PhrasesPublicationManager implements RepoViewerInterface
 {
 

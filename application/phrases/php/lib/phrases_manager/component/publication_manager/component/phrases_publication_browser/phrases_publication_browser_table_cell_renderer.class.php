@@ -3,10 +3,8 @@
  * $Id: phrases_publication_browser_table_cell_renderer.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.phrases.phrases_manager.component.phrases_publication_browser
  */
-require_once dirname(__FILE__) . '/phrases_publication_browser_table_column_model.class.php';
-require_once dirname(__FILE__) . '/../../../../../tables/phrases_publication_table/default_phrases_publication_table_cell_renderer.class.php';
-require_once dirname(__FILE__) . '/../../../../../phrases_publication.class.php';
-require_once dirname(__FILE__) . '/../../../../phrases_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('phrases') . 'publication_manager/component/phrases_publication_browser/phrases_publication_browser_table_column_model.class.php';
+require_once WebApplication :: get_application_class_lib_path('phrases') . 'tables/phrases_publication_table/default_phrases_publication_table_cell_renderer.class.php';
 
 /**
  * Cell rendere for the learning object browser table

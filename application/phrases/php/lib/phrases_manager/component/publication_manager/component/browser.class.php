@@ -5,8 +5,7 @@
  * @author Hans De Bisschop
  */
 require_once dirname(__FILE__) . '/phrases_publication_browser/phrases_publication_browser_table.class.php';
-require_once dirname(__FILE__) . '/../../../../phrases_publication_menu.class.php';
-require_once dirname(__FILE__) . '/../../../../forms/phrases_publication_filter_form.class.php';
+require_once WebApplication :: get_application_class_lib_path('phrases') . 'forms/phrases_publication_filter_form.class.php';
 /**
  * Admin component
  */
