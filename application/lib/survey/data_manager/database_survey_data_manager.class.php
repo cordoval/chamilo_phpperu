@@ -213,7 +213,7 @@ class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInt
         {
             $page_question_ids[] = 0;
         }
-        
+             
         $page_question_condition = new InCondition(ContentObject :: PROPERTY_ID, $page_question_ids, ContentObject :: get_table_name());
         
         if (isset($condition))
@@ -224,8 +224,8 @@ class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInt
         {
             $condition = $page_question_condition;
         }
-        
-        return RepositoryDataManager :: get_instance()->retrieve_content_objects($condition, $offset, $max_objects, $order_by);
+              
+        return RepositoryDataManager :: get_instance()->retrieve_content_objects($condition, $order_by, $offset, $max_objects);
     }
 
     function content_object_is_published($object_id)

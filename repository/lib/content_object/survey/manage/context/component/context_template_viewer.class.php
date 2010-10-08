@@ -6,8 +6,9 @@ require_once dirname(__FILE__) . '/survey_table/table.class.php';
 class SurveyContextManagerContextTemplateViewerComponent extends SurveyContextManager
 {
     
-    const TAB_SURVEYS = 'surveys';
-    const TAB_TEMPLATES = 'templates';
+    const TAB_SURVEYS = 1;
+    const TAB_ADD_TEMPLATE = 2;
+    const TAB_TEMPLATES = 3;
     
     private $ab;
     private $context_template;
@@ -47,6 +48,11 @@ class SurveyContextManagerContextTemplateViewerComponent extends SurveyContextMa
         $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_SURVEYS;
         $table = new SurveyTable($this, $parameters, $this->get_survey_condition());
         $tabs->add_tab(new DynamicContentTab(self :: TAB_SURVEYS, Translation :: get('Surveys'), Theme :: get_image_path('survey') . 'place_mini_survey.png', $table->as_html()));
+        
+        $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_ADD_TEMPLATE;
+        $table = new SurveyTable($this, $parameters, $this->get_survey_condition(false));
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_ADD_TEMPLATE, Translation :: get('AddTemplates'), Theme :: get_image_path('survey') . 'place_mini_survey.png', $table->as_html()));
+        
         
         $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_TEMPLATES;
         $table = new SurveyTemplateTable($this, $parameters, $this->get_condition(), $this->context_template);
