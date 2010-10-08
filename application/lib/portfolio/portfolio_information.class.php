@@ -187,43 +187,48 @@ class PortfolioInformation extends DataClass
         {
             $text .= Translation :: get('PortfolioChanged');
         }
-        $text .= '</div><div>';
-        $text .= Translation :: get('LastChangedItem');
-        $text .= ' : ';
-        $type = $this->get_last_updated_item_type();
-        $id = $this->get_last_updated_item_id();
-        if($type == PortfolioRights::TYPE_PORTFOLIO_FOLDER)
-        {
-//            $pub = PortfolioManager::retrieve_portfolio_publication($id);
-            if($id && $id != 0)
-            {
-                $pub = ContentObject::get_by_id($id);
-            }
-            if($pub)
-            {
-                $text .= $pub->get_title();
-            }
-        }
-        else if($type == PortfolioRights::TYPE_PORTFOLIO_ITEM || $type == PortfolioRights::TYPE_PORTFOLIO_SUB_FOLDER )
-        {
-            $rdm = RepositoryDataManager :: get_instance();
-//            $wrapper = $rdm->retrieve_content_object($id);
-//            $item = $rdm->retrieve_content_object($wrapper->get_reference());
-            $item = $rdm->retrieve_content_object($id);
-            if($item)
-            {
-                $text .= $item->get_title();
-            }
-        }
-        else
-        {
-            $text.=$type;
-            $text.='  /  ' ;
-            $text.=$id;
-
-        }
-
         $text .= '</div>';
+
+         if(($action == self::ACTION_ITEM_ADDED) || ($action == self::ACTION_PORTFOLIO_ADDED))
+         {
+            $text .= '<div>';
+            $text .= Translation :: get('LastChangedItem');
+            $text .= ' : ';
+            $type = $this->get_last_updated_item_type();
+            $id = $this->get_last_updated_item_id();
+            if($type == PortfolioRights::TYPE_PORTFOLIO_FOLDER)
+            {
+    //            $pub = PortfolioManager::retrieve_portfolio_publication($id);
+                if($id)
+                {
+                    $pub = ContentObject::get_by_id($id);
+                }
+                if($pub)
+                {
+                    $text .= $pub->get_title();
+                }
+            }
+            else if($type == PortfolioRights::TYPE_PORTFOLIO_ITEM || $type == PortfolioRights::TYPE_PORTFOLIO_SUB_FOLDER )
+            {
+                $rdm = RepositoryDataManager :: get_instance();
+    //            $wrapper = $rdm->retrieve_content_object($id);
+    //            $item = $rdm->retrieve_content_object($wrapper->get_reference());
+                $item = $rdm->retrieve_content_object($id);
+                if($item)
+                {
+                    $text .= $item->get_title();
+                }
+            }
+            else
+            {
+                $text.=$type;
+                $text.='  /  ' ;
+                $text.=$id;
+
+            }
+
+            $text .= '</div>';
+         }
 
         return $text;
     }
