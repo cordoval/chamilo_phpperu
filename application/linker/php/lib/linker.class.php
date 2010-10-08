@@ -1,13 +1,13 @@
 <?php
 /**
- * $Id: link.class.php 199 2009-11-13 12:23:04Z chellee $
+ * $Id: linker.class.php 199 2009-11-13 12:23:04Z chellee $
  * @package application.lib.linker
  */
 /**
  *  @author Sven Vanpoucke
  */
 
-class Link extends DataClass
+class Linker extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     

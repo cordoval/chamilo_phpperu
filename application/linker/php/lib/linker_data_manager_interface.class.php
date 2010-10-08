@@ -5,11 +5,11 @@ interface LinkerDataManagerInterface
 
     function create_storage_unit($name, $properties, $indexes);
 
-    function delete_link($link);
+    function delete_linker($link);
 
-    function update_link($link);
+    function update_linker($link);
 
-    function create_link($link);
+    function create_linker($link);
 
     function retrieve_link($id);
 

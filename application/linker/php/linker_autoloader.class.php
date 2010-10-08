@@ -13,7 +13,7 @@ class LinkerAutoloader
 			'linker_data_manager' => 'linker_data_manager.class.php',
 			'linker_data_manager_interface' => 'linker_data_manager_interface.class.php',
 			'linker_manager' => 'linker_manager/linker_manager.class.php',
-			'link' => 'link.class.php',
+			'linker' => 'linker.class.php',
 			'link_form' => 'forms/link_form.class.php');  
 		     
         $lower_case = Utilities :: camelcase_to_underscores($classname);

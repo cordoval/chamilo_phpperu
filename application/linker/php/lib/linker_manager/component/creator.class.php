@@ -16,7 +16,7 @@ class LinkerManagerCreatorComponent extends LinkerManager
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => LinkerManager :: ACTION_BROWSE_LINKS)), Translation :: get('Links')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateLink')));
         
-        $link = new Link();
+        $link = new Linker();
         $form = new LinkForm(LinkForm :: TYPE_CREATE, $link, $this->get_url(), $this->get_user());
         
         if ($form->validate())
