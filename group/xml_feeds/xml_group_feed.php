@@ -47,25 +47,39 @@ if (Authentication :: is_valid())
             $group_conditions[] = new AndCondition($exclude_conditions['group']);
         }
     }
-	
+
+    $user = UserDataManager :: get_instance()->retrieve_user(Session :: get_user_id());
+
+    if (! $user->is_platform_admin())
+    {
+        $group_ids = $user->get_allowed_groups();
+        $group_conditions[] = new InCondition(Group :: PROPERTY_ID, $group_ids);
+    }
+
     $group_condition = null;
-    if(count($group_conditions)>1)
-    	$group_condition = new AndCondition($group_conditions);
-    elseif(count($group_conditions)==1)
-    	$group_condition = $group_conditions[0];
-    	
+    if (count($group_conditions) > 1)
+    {
+        $group_condition = new AndCondition($group_conditions);
+    }
+    elseif (count($group_conditions) == 1)
+    {
+        $group_condition = $group_conditions[0];
+    }
+
     $groups = array();
+
     $group_result_set = GroupDataManager :: get_instance()->retrieve_groups($group_condition, null, null, array(new ObjectTableOrder(Group :: PROPERTY_NAME)));
+
     while ($group = $group_result_set->next_result())
     {
         $group_parent_id = $group->get_parent();
 
-        if (!is_array($groups[$group_parent_id]))
+        if (! is_array($groups[$group_parent_id]))
         {
             $groups[$group_parent_id] = array();
         }
 
-        if (!isset($groups[$group_parent_id][$group->get_id()]))
+        if (! isset($groups[$group_parent_id][$group->get_id()]))
         {
             $groups[$group_parent_id][$group->get_id()] = $group;
         }
@@ -78,12 +92,12 @@ if (Authentication :: is_valid())
             {
                 $tree_parent_parent_id = $tree_parent->get_parent();
 
-                if (!is_array($groups[$tree_parent_parent_id]))
+                if (! is_array($groups[$tree_parent_parent_id]))
                 {
                     $groups[$tree_parent_parent_id] = array();
                 }
 
-                if (!isset($groups[$tree_parent_parent_id][$tree_parent->get_id()]))
+                if (! isset($groups[$tree_parent_parent_id][$tree_parent->get_id()]))
                 {
                     $groups[$tree_parent_parent_id][$tree_parent->get_id()] = $tree_parent;
                 }
@@ -105,25 +119,25 @@ function dump_tree($groups)
 
     if (contains_results($groups))
     {
-//        echo '<node id="group" classes="category unlinked" title="Groups">', "\n";
         dump_groups_tree($groups);
-//        echo '</node>', "\n";
     }
 }
 
 function dump_groups_tree($groups)
 {
-    foreach($groups as $group)
+    global $group_ids;
+
+    foreach ($groups as $group)
     {
         if (contains_results($group['children']))
         {
-            echo '<node id="group_' . $group['group']->get_id() . '" classes="type type_group" title="' . htmlspecialchars($group['group']->get_name()) . '" description="' . htmlspecialchars($group['group']->get_name()) . '">', "\n";
+            echo '<node id="group_' . $group['group']->get_id() . '" classes="type type_group' . (! isset($group_ids) || in_array($group['group']->get_id(), $group_ids) ? '' : ' disabled') . '" title="' . htmlspecialchars($group['group']->get_name()) . '" description="' . htmlspecialchars($group['group']->get_name()) . '">', "\n";
             dump_groups_tree($group['children']);
             echo '</node>', "\n";
         }
         else
         {
-            echo '<leaf id="group_' . $group['group']->get_id() . '" classes="' . 'type type_group' . '" title="' . htmlspecialchars($group['group']->get_name()) . '" description="' . htmlspecialchars($group['group']->get_name()) . '"/>' . "\n";
+            echo '<leaf id="group_' . $group['group']->get_id() . '" classes="type type_group' . (! isset($group_ids) || in_array($group['group']->get_id(), $group_ids) ? '' : ' disabled') . '" title="' . htmlspecialchars($group['group']->get_name()) . '" description="' . htmlspecialchars($group['group']->get_name()) . '"/>' . "\n";
         }
     }
 }

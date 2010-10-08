@@ -34,7 +34,7 @@ class GroupAutoloader
 
 	static function check_for_general_files($classname)
 	{
-		$list = array('group_data_manager', 'group_menu', 'group_rel_user', 'group_rights_template', 'group');
+		$list = array('group_data_manager', 'group_menu', 'group_rel_user', 'group_rights_template', 'group', 'group_use_group');
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);
 
