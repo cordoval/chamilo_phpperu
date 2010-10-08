@@ -17,12 +17,7 @@ class MetadataManagerMetadataAssociationsEditorComponent extends MetadataManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE)), Translation :: get('BrowseMetadata')));
-        //$trail->add(new Breadcrumb($this->get_url(array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE_METADATA_ATTRIBUTE_NESTINGS)), Translation :: get('BrowseMetadataAttributeNestings')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateMetadataAttributeNesting')));
-
-        $metadata_property_type = $this->retrieve_metadata_property_type(Request :: get(MetadataManager :: PARAM_METADATA_PROPERTY_TYPE));
+       $metadata_property_type = $this->retrieve_metadata_property_type(Request :: get(MetadataManager :: PARAM_METADATA_PROPERTY_TYPE));
       
 
         $form = new MetadataAssociationsForm(MetadataAssociationsForm :: TYPE_EDIT, $metadata_property_type, $this->get_url(array(MetadataManager :: PARAM_METADATA_PROPERTY_TYPE => $metadata_property_type->get_id())), $this->get_user(), $this);
@@ -34,7 +29,7 @@ class MetadataManagerMetadataAssociationsEditorComponent extends MetadataManager
         }
         else
         {
-            $this->display_header($trail);
+            $this->display_header();
             $form->display();
             $this->display_footer();
         }

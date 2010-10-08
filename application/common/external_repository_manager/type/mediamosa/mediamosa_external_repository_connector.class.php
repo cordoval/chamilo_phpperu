@@ -179,7 +179,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
             if (PlatformSetting :: get('proxy_settings_active', 'admin'))
                 $this->mediamosa->set_proxy(PlatformSetting :: get('proxy_server', 'admin'), PlatformSetting :: get('proxy_port', 'admin'), PlatformSetting :: get('proxy_username', 'admin'), PlatformSetting :: get('proxy_password', 'admin'));
 
-            if ($this->mediamosa->login(ExternalRepositorySetting :: get('login', $this->get_external_repository_instance_id()), ExternalRepositorySetting :: get('password', $this->get_external_repository_instance_id()))) {
+            if ($this->mediamosa->login(ExternalRepositorySetting :: get('loginname', $this->get_external_repository_instance_id()), ExternalRepositorySetting :: get('password', $this->get_external_repository_instance_id()))) {
                 return true;
             }
         }

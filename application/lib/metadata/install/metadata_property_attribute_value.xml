@@ -4,6 +4,8 @@
 		<property name="id" type="integer" unsigned="1" notnull="1"  autoincrement="true"/>
                 <property name="parent_id" type="integer" unsigned="1" notnull="1"/>
                 <property name="property_attribute_type_id" type="integer" unsigned="1" notnull="1"/>
+                <property name="value" type="text" length="255" />
+                <property name="value_type" type="integer" unsigned="1" notnull="1" />
                 <property name="relation" type="integer" unsigned="1"/>
         </properties>
          <index name="id2" type="index">

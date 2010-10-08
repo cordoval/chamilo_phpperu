@@ -59,7 +59,7 @@ class MetadataManagerMetadataPropertyAttributeValueDeleterComponent extends Meta
 				}
 			}
 
-			$this->redirect(Translation :: get($message), ($failures ? true : false), array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_EDIT_METADATA_PROPERTY_VALUES, MetadataManager :: PARAM_CONTENT_OBJECT => Request  :: get(MetadataManager :: PARAM_CONTENT_OBJECT)));
+			$this->redirect(Translation :: get($message), ($failures ? true : false), array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_EDIT_METADATA, MetadataManager :: PARAM_CONTENT_OBJECT => Request  :: get(MetadataManager :: PARAM_CONTENT_OBJECT)));
 		}
 		else
 		{
