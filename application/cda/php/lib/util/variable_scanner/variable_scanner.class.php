@@ -1,7 +1,4 @@
 <?php
-
-require_once dirname(__FILE__) . '/../../cda_data_manager.class.php';
-
 class VariableScanner
 {
 	private $language_pack;

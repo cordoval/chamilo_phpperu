@@ -2,12 +2,10 @@
 /**
  * @package application.lib.cda.cda_manager
  */
-require_once dirname(__FILE__) . '/../cda_data_manager.class.php';
-require_once dirname(__FILE__) . '/component/cda_language_browser/cda_language_browser_table.class.php';
-require_once dirname(__FILE__) . '/component/language_pack_browser/language_pack_browser_table.class.php';
-require_once dirname(__FILE__) . '/component/variable_browser/variable_browser_table.class.php';
-require_once dirname(__FILE__) . '/component/variable_translation_browser/variable_translation_browser_table.class.php';
-require_once dirname(__FILE__) . '/../cda_rights.class.php';
+require_once WebApplication :: get_application_class_lib_path('cda') . 'cda_manager/component/cda_language_browser/cda_language_browser_table.class.php';
+require_once WebApplication :: get_application_class_lib_path('cda') . 'cda_manager/component/language_pack_browser/language_pack_browser_table.class.php';
+require_once WebApplication :: get_application_class_lib_path('cda') . 'cda_manager/component/variable_browser/variable_browser_table.class.php';
+require_once WebApplication :: get_application_class_lib_path('cda') . 'cda_manager/component/variable_translation_browser/variable_translation_browser_table.class.php';
 
 /**
  * A cda manager

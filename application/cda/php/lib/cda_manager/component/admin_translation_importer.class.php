@@ -2,9 +2,8 @@
 /**
  * @package application.cda.cda.component
  */
-require_once dirname(__FILE__).'/../cda_manager.class.php';
-require_once dirname(__FILE__).'/../../forms/translation_import_form.class.php';
-require_once dirname(__FILE__) . '/translation_importer/translation_importer.class.php';
+require_once WebApplication :: get_application_class_lib_path('cda') . 'forms/translation_import_form.class.php';
+require_once WebApplication :: get_application_class_lib_path('cda') . 'cda_manager/component/translation_importer/translation_importer.class.php';
 
 /**
  * @author Sven Vanpoucke

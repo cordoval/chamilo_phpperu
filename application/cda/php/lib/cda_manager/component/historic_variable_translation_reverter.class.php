@@ -2,7 +2,6 @@
 /**
  * @package application.cda.cda.component
  */
-require_once dirname(__FILE__).'/../cda_manager.class.php';
 
 /**
  * Component to revert historic variable translations objects

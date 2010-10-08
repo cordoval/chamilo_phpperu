@@ -1,7 +1,7 @@
 <?php
 
 require_once dirname(__FILE__) . '/../../../../common/global.inc.php';
-require_once dirname(__FILE__) . '/variable_scanner/variable_scanner.class.php';
+require_once WebApplication :: get_application_class_lib_path('cda') . 'util/variable_scanner/variable_scanner.class.php';
 
 set_time_limit(0);
 

@@ -2,8 +2,6 @@
 /**
  * @package cda.tables.cda_language_table
  */
-require_once dirname(__FILE__).'/../../cda_language.class.php';
-
 /**
  * Default column model for the cda_language table
  *

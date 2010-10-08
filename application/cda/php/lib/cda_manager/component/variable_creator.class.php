@@ -2,9 +2,6 @@
 /**
  * @package application.cda.cda.component
  */
-require_once dirname(__FILE__).'/../cda_manager.class.php';
-require_once dirname(__FILE__).'/../../forms/variable_form.class.php';
-
 /**
  * Component to create a new variable object
  * @author Sven Vanpoucke

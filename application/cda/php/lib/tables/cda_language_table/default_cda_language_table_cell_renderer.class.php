@@ -2,9 +2,6 @@
 /**
  * @package cda.tables.cda_language_table
  */
-
-require_once dirname(__FILE__).'/../../cda_language.class.php';
-
 /**
  * Default cell renderer for the cda_language table
  *

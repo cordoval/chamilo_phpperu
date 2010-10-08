@@ -2,9 +2,6 @@
 /**
  * @package cda.tables.variable_translation_table
  */
-
-require_once dirname(__FILE__).'/../../historic_variable_translation.class.php';
-
 /**
  * Default cell renderer for the historic_variable_translation table
  *

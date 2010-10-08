@@ -3,8 +3,8 @@
  * @package cda.tables.variable_table
  */
 
-require_once dirname(__FILE__).'/../../../tables/variable_table/default_variable_table_column_model.class.php';
-require_once dirname(__FILE__).'/../../../variable.class.php';
+require_once WebApplication :: get_application_class_lib_path('cda') . 'tables/variable_table/default_variable_table_column_model.class.php';
+
 
 /**
  * Table column model for the variable browser table

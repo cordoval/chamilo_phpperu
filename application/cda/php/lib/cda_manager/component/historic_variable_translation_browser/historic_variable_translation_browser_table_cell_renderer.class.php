@@ -2,10 +2,8 @@
 /**
  * @package cda.tables.variable_translation_table
  */
-require_once dirname(__FILE__).'/historic_variable_translation_browser_table_column_model.class.php';
-require_once dirname(__FILE__).'/../../../tables/historic_variable_translation_table/default_historic_variable_translation_table_cell_renderer.class.php';
-require_once dirname(__FILE__).'/../../../historic_variable_translation.class.php';
-require_once dirname(__FILE__).'/../../cda_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('cda') . 'cda_manager/component/historic_variable_translation_browser/historic_variable_translation_browser_table_column_model.class.php';
+require_once WebApplication :: get_application_class_lib_path('cda') . 'tables/historic_variable_translation_table/default_historic_variable_translation_table_cell_renderer.class.php';
 
 /**
  * Cell renderer for the historic variable translation browser table

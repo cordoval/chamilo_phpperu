@@ -3,9 +3,8 @@
  * @package application.cda.cda.component
  */
 
-require_once dirname(__FILE__).'/../cda_manager.class.php';
-require_once dirname(__FILE__).'/language_pack_browser/language_pack_browser_table.class.php';
-require_once dirname(__FILE__) . '/../../forms/language_pack_browser_filter_form.class.php';
+require_once WebApplication :: get_application_class_lib_path('cda') . 'cda_manager/component/language_pack_browser/language_pack_browser_table.class.php';
+require_once WebApplication :: get_application_class_lib_path('cda') . 'forms/language_pack_browser_filter_form.class.php';
 
 /**
  * cda component which allows the user to browse his language_packs

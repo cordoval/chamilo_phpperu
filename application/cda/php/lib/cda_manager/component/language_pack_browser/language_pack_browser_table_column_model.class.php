@@ -2,9 +2,7 @@
 /**
  * @package cda.tables.language_pack_table
  */
-
-require_once dirname(__FILE__).'/../../../tables/language_pack_table/default_language_pack_table_column_model.class.php';
-require_once dirname(__FILE__).'/../../../language_pack.class.php';
+require_once WebApplication :: get_application_class_lib_path('cda') . 'tables/language_pack_table/default_language_pack_table_column_model.class.php';
 
 /**
  * Table column model for the language_pack browser table

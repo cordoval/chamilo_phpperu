@@ -3,8 +3,7 @@
  * @package cda.tables.translator_application_table
  */
 
-require_once dirname(__FILE__).'/../../../tables/translator_application_table/default_translator_application_table_column_model.class.php';
-require_once dirname(__FILE__).'/../../../translator_application.class.php';
+require_once WebApplication :: get_application_class_lib_path('cda') . 'tables/translator_application_table/default_translator_application_table_column_model.class.php';
 
 /**
  * Table column model for the translator_application browser table

@@ -2,8 +2,6 @@
 /**
  * cda
  */
-require_once dirname(__FILE__) . '/historic_variable_translation.class.php';
-
 /**
  * This class describes a VariableTranslation data object
  * @author Sven Vanpoucke

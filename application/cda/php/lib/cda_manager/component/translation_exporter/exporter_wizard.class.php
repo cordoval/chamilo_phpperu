@@ -6,12 +6,12 @@ require_once 'HTML/QuickForm/Controller.php';
 require_once 'HTML/QuickForm/Rule.php';
 require_once 'HTML/QuickForm/Action/Display.php';
 
-require_once dirname(__FILE__) . '/pages/exporter_wizard_page.class.php';
-require_once dirname(__FILE__) . '/pages/branch_selecting_exporter_wizard_page.class.php';
-require_once dirname(__FILE__) . '/pages/language_selecting_exporter_wizard_page.class.php';
-require_once dirname(__FILE__) . '/pages/language_pack_selecting_exporter_wizard_page.class.php';
-require_once dirname(__FILE__) . '/pages/exporter_wizard_process.class.php';
-require_once dirname(__FILE__) . '/pages/exporter_wizard_display.class.php';
+require_once WebApplication :: get_application_class_lib_path('cda') . 'cda_manager/component/translation_exporter/pages/exporter_wizard_page.class.php';
+require_once WebApplication :: get_application_class_lib_path('cda') . 'cda_manager/component/translation_exporter/pages/branch_selecting_exporter_wizard_page.class.php';
+require_once WebApplication :: get_application_class_lib_path('cda') . 'cda_manager/component/translation_exporter/pages/language_selecting_exporter_wizard_page.class.php';
+require_once WebApplication :: get_application_class_lib_path('cda') . 'cda_manager/component/translation_exporter/pages/language_pack_selecting_exporter_wizard_page.class.php';
+require_once WebApplication :: get_application_class_lib_path('cda') . 'cda_manager/component/translation_exporter/pages/exporter_wizard_process.class.php';
+require_once WebApplication :: get_application_class_lib_path('cda') . 'cda_manager/component/translation_exporter/pages/exporter_wizard_display.class.php';
 
 
 /**

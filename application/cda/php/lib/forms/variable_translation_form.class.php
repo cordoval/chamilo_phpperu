@@ -1,6 +1,4 @@
 <?php
-require_once dirname(__FILE__) . '/../variable_translation.class.php';
-
 /**
  * This class describes the form for a VariableTranslation object.
  * @author Sven Vanpoucke

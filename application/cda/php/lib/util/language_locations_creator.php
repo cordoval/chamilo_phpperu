@@ -1,8 +1,6 @@
 <?php
 
 require_once dirname(__FILE__) . '/../../../../common/global.inc.php';
-require_once dirname(__FILE__) . '/../cda_data_manager.class.php';
-require_once dirname(__FILE__) . '/../cda_manager/cda_manager.class.php';
 
 $dm = CdaDataManager :: get_instance();
 $languages = $dm->retrieve_cda_languages();

@@ -6,8 +6,6 @@
  * @author Sven Vanpoucke
  * @author Hans De Bisschop
  */
-require_once Path :: get_application_path() . 'lib/cda/cda_manager/cda_manager.class.php';
-
 class CdaRights
 {
     const VIEW_RIGHT = '1';

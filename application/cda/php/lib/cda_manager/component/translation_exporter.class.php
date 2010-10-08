@@ -3,8 +3,7 @@
  * @package application.cda.cda.component
  */
 
-require_once dirname(__FILE__).'/../cda_manager.class.php';
-require_once dirname(__FILE__).'/translation_exporter/exporter_wizard.class.php';
+require_once WebApplication :: get_application_class_lib_path('cda') . 'cda_manager/component/translation_exporter/exporter_wizard.class.php';
 
 /**
  * cda component which allows the user to export translations

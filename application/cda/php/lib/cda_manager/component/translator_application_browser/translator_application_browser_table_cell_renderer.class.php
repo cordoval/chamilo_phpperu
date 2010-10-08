@@ -2,10 +2,8 @@
 /**
  * @package cda.tables.translator_application_table
  */
-require_once dirname(__FILE__).'/translator_application_browser_table_column_model.class.php';
-require_once dirname(__FILE__).'/../../../tables/translator_application_table/default_translator_application_table_cell_renderer.class.php';
-require_once dirname(__FILE__).'/../../../translator_application.class.php';
-require_once dirname(__FILE__).'/../../cda_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('cda') . 'cda_manager/component/translator_application_browser/translator_application_browser_table_column_model.class.php';
+require_once WebApplication :: get_application_class_lib_path('cda') . 'tables/translator_application_table/default_translator_application_table_cell_renderer.class.php';
 
 /**
  * Cell rendere for the learning object browser table

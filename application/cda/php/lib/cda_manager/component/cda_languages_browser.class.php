@@ -2,9 +2,7 @@
 /**
  * @package application.cda.cda.component
  */
-
-require_once dirname(__FILE__).'/../cda_manager.class.php';
-require_once dirname(__FILE__).'/cda_language_browser/cda_language_browser_table.class.php';
+require_once WebApplication :: get_application_class_lib_path('cda') . 'cda_manager/component/cda_language_browser/cda_language_browser_table.class.php';
 
 /**
  * cda component which allows the user to browse his cda_languages

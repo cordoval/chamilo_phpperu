@@ -2,10 +2,8 @@
 /**
  * @package cda.tables.variable_table
  */
-require_once dirname(__FILE__).'/variable_browser_table_column_model.class.php';
-require_once dirname(__FILE__).'/../../../tables/variable_table/default_variable_table_cell_renderer.class.php';
-require_once dirname(__FILE__).'/../../../variable.class.php';
-require_once dirname(__FILE__).'/../../cda_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('cda') . 'cda_manager/component/variable_browser/variable_browser_table_column_model.class.php';
+require_once WebApplication :: get_application_class_lib_path('cda') . 'tables/variable_table/default_variable_table_cell_renderer.class.php';
 
 /**
  * Cell rendere for the learning object browser table

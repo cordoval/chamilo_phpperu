@@ -2,10 +2,8 @@
 /**
  * @package application.cda.cda.component
  */
-
-require_once dirname(__FILE__).'/../cda_manager.class.php';
-require_once dirname(__FILE__).'/../../forms/variable_translation_browser_filter_form.class.php';
-require_once dirname(__FILE__).'/variable_translation_browser/variable_translation_browser_table.class.php';
+require_once WebApplication :: get_application_class_lib_path('cda') . 'forms/variable_translation_browser_filter_form.class.php';
+require_once WebApplication :: get_application_class_lib_path('cda') . 'cda_manager/component/variable_translation_browser/variable_translation_browser_table.class.php';
 
 /**
  * cda component which allows the user to browse his variable_translations

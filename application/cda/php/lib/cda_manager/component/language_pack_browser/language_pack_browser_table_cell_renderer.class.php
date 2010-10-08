@@ -2,10 +2,8 @@
 /**
  * @package cda.tables.language_pack_table
  */
-require_once dirname(__FILE__).'/language_pack_browser_table_column_model.class.php';
-require_once dirname(__FILE__).'/../../../tables/language_pack_table/default_language_pack_table_cell_renderer.class.php';
-require_once dirname(__FILE__).'/../../../language_pack.class.php';
-require_once dirname(__FILE__).'/../../cda_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('cda') . 'cda_manager/component/language_pack_browser/language_pack_browser_table_column_model.class.php';
+require_once WebApplication :: get_application_class_lib_path('cda') . 'tables/language_pack_table/default_language_pack_table_cell_renderer.class.php';
 
 /**
  * Cell rendere for the learning object browser table

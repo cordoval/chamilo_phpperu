@@ -2,8 +2,7 @@
 /**
  * @package application.cda.cda.component
  */
-require_once dirname(__FILE__).'/../cda_manager.class.php';
-require_once dirname(__FILE__).'/../../forms/cda_language_form.class.php';
+require_once WebApplication :: get_application_class_lib_path('cda') . 'forms/cda_language_form.class.php';
 
 /**
  * Component to create a new cda_language object

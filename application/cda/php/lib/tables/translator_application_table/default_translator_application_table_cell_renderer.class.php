@@ -2,9 +2,6 @@
 /**
  * @package cda.tables.translator_application
  */
-
-require_once dirname(__FILE__).'/../../translator_application.class.php';
-
 /**
  * Default cell renderer for the translator application table
  *

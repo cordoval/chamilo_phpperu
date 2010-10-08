@@ -2,8 +2,6 @@
 /**
  * @package application.cda.cda.component
  */
-require_once dirname(__FILE__).'/../cda_manager.class.php';
-
 /**
  * Component to delete language_packs objects
  * @author Sven Vanpoucke

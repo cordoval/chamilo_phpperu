@@ -3,7 +3,7 @@
  * $Id: exporter_wizard_process.class.php 204 2009-11-13 12:51:30Z kariboe $
  */
 
-require_once dirname(__FILE__) . '/../translation_exporter.class.php';
+require_once WebApplication :: get_application_class_lib_path('cda') . 'cda_manager/component/translation_exporter/translation_exporter.class.php';
 
 /**
  * This class implements the action to take after the user has completed the export wizard

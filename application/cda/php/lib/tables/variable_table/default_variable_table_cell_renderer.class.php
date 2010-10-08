@@ -3,8 +3,6 @@
  * @package cda.tables.variable_table
  */
 
-require_once dirname(__FILE__).'/../../variable.class.php';
-
 /**
  * Default cell renderer for the variable table
  *

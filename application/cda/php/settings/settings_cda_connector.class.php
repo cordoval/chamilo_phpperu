@@ -3,8 +3,8 @@
  * $Id: settings_cda_connector.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.cda.settings
  */
-require_once Path :: get_application_path() . 'lib/cda/cda_data_manager.class.php';
-require_once Path :: get_application_path() . 'lib/cda/cda_language.class.php';
+require_once WebApplication :: get_application_class_lib_path('cda') . 'cda_data_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('cda') . 'cda_language.class.php';
 
 /**
  * Simple connector class to facilitate rendering settings forms by

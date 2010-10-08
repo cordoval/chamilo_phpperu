@@ -2,7 +2,6 @@
 /**
  * @package cda.tables.variable_table
  */
-require_once dirname(__FILE__).'/../../variable.class.php';
 
 /**
  * Default column model for the variable table
