@@ -3,7 +3,6 @@
  * $Id: local_repository_search_source.class.php 222 2009-11-13 14:39:28Z chellee $
  * @package application.search_portal.search_source
  */
-require_once dirname(__FILE__) . '/../search_source.class.php';
 
 class LocalRepositorySearchSource extends SearchSource
 {

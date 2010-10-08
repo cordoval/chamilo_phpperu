@@ -13,7 +13,7 @@ abstract class SearchSource
 	{
 		if(!self :: $instance)
 		{
-			$file = dirname(__FILE__) . '/sources/' . $type . '_search_source.class.php';
+			$file = WebApplication :: get_application_class_lib_path('search_portal') . 'sources/' . $type . '_search_source.class.php';
 			
 			if(file_exists($file))
 			{

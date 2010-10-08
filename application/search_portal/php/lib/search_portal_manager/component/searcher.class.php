@@ -3,7 +3,7 @@
  * $Id: search_portal_manager_searcher_component.class.php 222 2009-11-13 14:39:28Z chellee $
  * @package application.search_portal.search_portal_manager.component
  */
-require_once dirname(__FILE__) . '/../../search_source/search_source.class.php';
+
 require_once 'Pager/Pager.php';
 
 
