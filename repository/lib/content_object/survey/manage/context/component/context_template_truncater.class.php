@@ -1,6 +1,6 @@
 <?php
 
-class SurveyBuilderContextTemplateTruncaterComponent extends SurveyBuilder
+class SurveyContextManagerContextTemplateTruncaterComponent extends SurveyContextManager
 {
 
     /**

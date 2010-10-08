@@ -3,7 +3,7 @@
 require_once Path::get_repository_path () . 'lib/content_object/survey/builder/forms/subscribe_context_template_form.class.php';
 
 
-class SurveyBuilderSubscribeContextTemplateComponent extends SurveyBuilder
+class SurveyContextManagerSubscribeContextTemplateComponent extends SurveyContextManager
 {
     
     private $survey_id;

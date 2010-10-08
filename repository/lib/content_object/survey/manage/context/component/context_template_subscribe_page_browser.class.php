@@ -5,7 +5,7 @@ require_once Path :: get_repository_path() . '/lib/content_object/survey_page/su
 require_once Path :: get_repository_path() . '/lib/content_object/survey/survey_context_template_rel_page.class.php';
 
 
-class SurveyBuilderContextTemplateSubscribePageBrowserComponent extends SurveyBuilder
+class SurveyContextManagerContextTemplateSubscribePageBrowserComponent extends SurveyContextManager
 {
     private $template;
     private $ab;
