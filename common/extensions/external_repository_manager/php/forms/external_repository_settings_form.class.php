@@ -51,7 +51,7 @@ class ExternalRepositorySettingsForm extends FormValidator
         {
             $categories = count($configuration['settings']);
 
-            require_once Path :: get_common_extensions_path() . 'external_repository_manager/type/' . $external_repository->get_type() . '/settings/settings_' . $external_repository->get_type() . '_connector.class.php';
+            require_once Path :: get_common_extensions_path() . 'external_repository_manager/implementation/' . $external_repository->get_type() . '/php/settings/settings_' . $external_repository->get_type() . '_connector.class.php';
 
             foreach ($configuration['settings'] as $category_name => $settings)
             {
@@ -160,7 +160,7 @@ class ExternalRepositorySettingsForm extends FormValidator
     {
         $external_repository = $this->external_repository;
 
-        $file = Path :: get_common_extensions_path() . 'external_repository_manager/type/' . $external_repository->get_type() . '/settings/settings_' . $external_repository->get_type() . '.xml';
+        $file = Path :: get_common_extensions_path() . 'external_repository_manager/implementation/' . $external_repository->get_type() . '/php/settings/settings_' . $external_repository->get_type() . '.xml';
         $result = array();
 
         if (file_exists($file))

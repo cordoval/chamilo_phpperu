@@ -99,7 +99,7 @@ abstract class ExternalRepositoryManager extends SubManager
     {
         $type = $application->get_external_repository()->get_type();
         
-        $file = dirname(__FILE__) . '/type/' . $type . '/' . $type . '_external_repository_manager.class.php';
+        $file = dirname(__FILE__) . '/../implementation/' . $type . '/php/' . $type . '_external_repository_manager.class.php';
         if (! file_exists($file))
         {
             throw new Exception(Translation :: get('ExternalRepositoryManagerTypeDoesNotExist', array('type' => $type)));

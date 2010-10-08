@@ -54,7 +54,7 @@ abstract class ExternalRepositoryConnector
     {
         $type = $external_repository_instance->get_type();
         
-        $file = dirname(__FILE__) . '/type/' . $type . '/' . $type . '_external_repository_connector.class.php';
+        $file = dirname(__FILE__) . '/../implementation/' . $type . '/php/' . $type . '_external_repository_connector.class.php';
         if (! file_exists($file))
         {
             throw new Exception(Translation :: get('ExternalRepositoryConnectorTypeDoesNotExist', array('type' => $type)));

@@ -30,7 +30,7 @@ abstract class ExternalRepositoryComponent extends SubManager
 
     function get_application_component_path()
     {
-        return Path :: get_common_extensions_path() . 'external_repository_manager/component/';
+        return Path :: get_common_extensions_path() . 'external_repository_manager/php/component/';
     }
 
     function get_external_repository_object_viewing_url($object)
