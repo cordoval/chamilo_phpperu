@@ -55,6 +55,13 @@ class ContentObjectPropertyMetadataForm extends FormValidator
         $this->addElement('text', ContentObjectPropertyMetadata :: PROPERTY_CONTENT_OBJECT_PROPERTY, Translation :: get('ContentObjectProperty'));
         $this->addRule(ContentObjectPropertyMetadata :: PROPERTY_CONTENT_OBJECT_PROPERTY, Translation :: get('ThisFieldIsRequired'), 'required');
 
+        $sources = array();
+        $sources[ContentObjectPropertyMetadata :: SOURCE_TEXT] = Translation :: get('text');
+        $sources[ContentObjectPropertyMetadata :: SOURCE_CHAMILO_USER] = Translation :: get('ChamiloUser');
+        $sources[ContentObjectPropertyMetadata :: SOURCE_TIMESTAMP] = Translation :: get('timestamp');
+
+        $this->addElement('select', ContentObjectPropertyMetadata :: PROPERTY_SOURCE, Translation :: get('Source'), $sources);
+
     }
 
     function build_editing_form()
@@ -86,6 +93,7 @@ class ContentObjectPropertyMetadataForm extends FormValidator
 
     	$content_object_property_metadata->set_property_type_id($values[ContentObjectPropertyMetadata :: PROPERTY_PROPERTY_TYPE_ID]);
     	$content_object_property_metadata->set_content_object_property($values[ContentObjectPropertyMetadata :: PROPERTY_CONTENT_OBJECT_PROPERTY]);
+        $content_object_property_metadata->set_source($values[ContentObjectPropertyMetadata :: PROPERTY_SOURCE]);
 
     	return $content_object_property_metadata->update();
     }
@@ -97,7 +105,7 @@ class ContentObjectPropertyMetadataForm extends FormValidator
 
     	$content_object_property_metadata->set_property_type_id($values[ContentObjectPropertyMetadata :: PROPERTY_PROPERTY_TYPE_ID]);
     	$content_object_property_metadata->set_content_object_property($values[ContentObjectPropertyMetadata :: PROPERTY_CONTENT_OBJECT_PROPERTY]);
-
+        $content_object_property_metadata->set_source($values[ContentObjectPropertyMetadata :: PROPERTY_SOURCE]);
    		return $content_object_property_metadata->create();
     }
 

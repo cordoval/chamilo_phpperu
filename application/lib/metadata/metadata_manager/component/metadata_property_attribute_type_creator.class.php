@@ -17,25 +17,20 @@ class MetadataManagerMetadataPropertyAttributeTypeCreatorComponent extends Metad
 	 */
 	function run()
 	{
-		$trail = BreadcrumbTrail :: get_instance();
-		$trail->add(new Breadcrumb($this->get_url(array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE)), Translation :: get('BrowseMetadata')));
-		$trail->add(new Breadcrumb($this->get_url(array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE_METADATA_PROPERTY_ATTRIBUTE_TYPES)), Translation :: get('BrowseMetadataPropertyAttributeTypes')));
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateMetadataPropertyAttributeType')));
+            $metadata_property_attribute_type = new MetadataPropertyAttributeType();
+            $form = new MetadataPropertyAttributeTypeForm(MetadataPropertyAttributeTypeForm :: TYPE_CREATE, $metadata_property_attribute_type, $this->get_url(), $this->get_user());
 
-		$metadata_property_attribute_type = new MetadataPropertyAttributeType();
-		$form = new MetadataPropertyAttributeTypeForm(MetadataPropertyAttributeTypeForm :: TYPE_CREATE, $metadata_property_attribute_type, $this->get_url(), $this->get_user());
-
-		if($form->validate())
-		{
-			$success = $form->create_metadata_property_attribute_type();
-			$this->redirect($success ? Translation :: get('MetadataPropertyAttributeTypeCreated') : Translation :: get('MetadataPropertyAttributeTypeNotCreated'), !$success, array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE_METADATA_PROPERTY_ATTRIBUTE_TYPES));
-		}
-		else
-		{
-			$this->display_header($trail);
-			$form->display();
-			$this->display_footer();
-		}
+            if($form->validate())
+            {
+                    $success = $form->create_metadata_property_attribute_type();
+                    $this->redirect($success ? Translation :: get('MetadataPropertyAttributeTypeCreated') : Translation :: get('MetadataPropertyAttributeTypeNotCreated'), !$success, array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE_METADATA_PROPERTY_ATTRIBUTE_TYPES));
+            }
+            else
+            {
+                    $this->display_header();
+                    $form->display();
+                    $this->display_footer();
+            }
 	}
 }
 ?>

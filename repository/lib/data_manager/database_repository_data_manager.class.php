@@ -163,7 +163,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         
         if (isset($condition))
         {
-            $translator = new ConditionTranslator($this);
+            $translator = new ConditionTranslator($this, $content_object_alias);
             $query .= $translator->render_query($condition);
         }
         
@@ -182,6 +182,9 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         {
             $max_objects = null;
         }
+        
+//        dump($query);
+//        dump($condition);
         
         $this->set_limit(intval($max_objects), intval($offset));
         $res = $this->query($query);
@@ -234,7 +237,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $content_object_version_alias = $this->get_alias('content_object_version');
         $type_alias = $this->get_alias($type);
         
-        if (RepositoryDataManager :: is_extended_type($type))
+        if (ContentObject :: is_extended_type($type))
         {
             $query = 'SELECT COUNT(' . $this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER, $content_object_alias) . ') FROM ' . $this->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $content_object_alias . ' JOIN ' . $this->escape_table_name($type) . ' AS ' . $type_alias . ' ON ' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $content_object_alias) . ' = ' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $type_alias);
         }
@@ -246,6 +249,9 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         }
         
         $query .= ' JOIN ' . $this->escape_table_name('content_object_version') . ' AS ' . $content_object_version_alias . ' ON ' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $content_object_alias) . ' = ' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $content_object_version_alias);
+        
+//        dump($query);
+//        dump($condition);
         
         return $this->count_result_set($query, ContentObject :: get_table_name(), $condition);
     }

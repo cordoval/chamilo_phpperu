@@ -54,7 +54,7 @@ class RightsEditorManager extends SubManager
     {
         if ($content_object)
         {
-            $type = $content_object->get_type_name();
+            $type = $content_object->get_type();
             $file = Path :: get_repository_path() . '/lib/content_object/' . $type . '/rights/' . $type . '_rights_editor_manager.class.php';
             if (file_exists($file))
             {
