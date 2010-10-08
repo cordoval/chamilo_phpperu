@@ -109,7 +109,23 @@ class SurveyManagerTakerComponent extends SurveyManager
             $parameters[SurveyQuestionAnswerTracker :: PROPERTY_COMPLEX_QUESTION_ID] = $complex_question_id;
             $parameters[SurveyQuestionAnswerTracker :: PROPERTY_ANSWER] = $answer;
             $parameters[SurveyQuestionAnswerTracker :: PROPERTY_CONTEXT_PATH] = $context_path;
-                      
+            $parameters[SurveyQuestionAnswerTracker :: PROPERTY_PUBLICATION_ID] = $this->publication_id;
+            $parameters[SurveyQuestionAnswerTracker :: PROPERTY_USER_ID] = $this->invitee_id;          
+            
+            $survey = RepositoryDataManager::get_instance()->retrieve_content_object($this->survey_id);
+            
+            if($survey->has_context()){
+            	$level_count = $survey->count_levels();
+            	$path_ids = explode('|', $context_path);
+            	$context_ids = explode('_', $path_ids[1]);
+            	$context_count = count($context_ids);
+            	$parameters[SurveyQuestionAnswerTracker :: PROPERTY_CONTEXT_ID] = array_pop($context_ids);
+            	
+            	
+            }else{
+            	$parameters[SurveyQuestionAnswerTracker :: PROPERTY_CONTEXT_ID] = 0;
+            }
+            
             Event :: trigger(SurveyQuestionAnswerTracker :: SAVE_QUESTION_ANSWER_EVENT, SurveyManager :: APPLICATION_NAME, $parameters);
         }
     }
