@@ -49,10 +49,15 @@ class ConfigurationForm extends FormValidator
         $application = $this->application;
         $base_path = $this->base_path;
         $configuration = $this->configuration;
-        
+
         if (count($configuration['settings']) > 0)
         {
-            require_once $base_path . $application . '/settings/settings_' . $application . '_connector.class.php';
+            $connector_path = $base_path . $application . '/settings/settings_' . $application . '_connector.class.php';
+
+            if (file_exists($connector_path))
+            {
+                require_once $connector_path;
+            }
 
             foreach ($configuration['settings'] as $category_name => $settings)
             {
@@ -60,17 +65,17 @@ class ConfigurationForm extends FormValidator
 
                 foreach ($settings as $name => $setting)
                 {
-                	if($this->is_user_setting_form && !$setting['user_setting'])
-                	{
-                		continue;
-                	}
+                    if ($this->is_user_setting_form && ! $setting['user_setting'])
+                    {
+                        continue;
+                    }
 
-                	if(!$has_settings)
-                	{
-                		$this->addElement('html', '<div class="configuration_form">');
-                		$this->addElement('html', '<span class="category">' . Translation :: get(Utilities :: underscores_to_camelcase($category_name)) . '</span>');
-                		$has_settings = true;
-                	}
+                    if (! $has_settings)
+                    {
+                        $this->addElement('html', '<div class="configuration_form">');
+                        $this->addElement('html', '<span class="category">' . Translation :: get(Utilities :: underscores_to_camelcase($category_name)) . '</span>');
+                        $has_settings = true;
+                    }
 
                     if ($setting['locked'] == 'true')
                     {
@@ -79,24 +84,24 @@ class ConfigurationForm extends FormValidator
                     elseif ($setting['field'] == 'text')
                     {
                         $this->add_textfield($name, Translation :: get(Utilities :: underscores_to_camelcase($name)), ($setting['required'] == 'true'));
-                        
+
                         $validations = $setting['validations'];
-	                    if($validations)
-	                    {
-	                    	foreach($validations as $validation)
-	                    	{
-	                    		if($this->is_valid_validation_method($validation['rule']))
-	                    		{
-	                    			if($validation['rule'] != 'regex')
-	                    			{
-	                    				$validation['format'] = NULL;
-	                    			}
-	                    			
-	                    			$this->addRule($name, Translation :: get($validation['message']), $validation['rule'], $validation['format']);
-	                    		}
-	                    	}
-	                    } 
-                        
+                        if ($validations)
+                        {
+                            foreach ($validations as $validation)
+                            {
+                                if ($this->is_valid_validation_method($validation['rule']))
+                                {
+                                    if ($validation['rule'] != 'regex')
+                                    {
+                                        $validation['format'] = NULL;
+                                    }
+
+                                    $this->addRule($name, Translation :: get($validation['message']), $validation['rule'], $validation['format']);
+                                }
+                            }
+                        }
+
                     }
                     elseif ($setting['field'] == 'html_editor')
                     {
@@ -139,10 +144,10 @@ class ConfigurationForm extends FormValidator
                     }
                 }
 
-                if($has_settings)
+                if ($has_settings)
                 {
-                	$this->addElement('html', '<div style="clear: both;"></div>');
-                	$this->addElement('html', '</div>');
+                    $this->addElement('html', '<div style="clear: both;"></div>');
+                    $this->addElement('html', '</div>');
                 }
             }
 
@@ -200,45 +205,48 @@ class ConfigurationForm extends FormValidator
                     if ($property->hasChildNodes())
                     {
                         $property_options = $property->getElementsByTagname('options')->item(0);
-                        
-                        if($property_options)
+
+                        if ($property_options)
                         {
-	                        $property_options_attributes = array('type', 'source');
-	                        
-                        	foreach ($property_options_attributes as $index => $options_attribute)
-	                        {
-	                            if ($property_options->hasAttribute($options_attribute))
-	                            {
-	                                $property_info['options'][$options_attribute] = $property_options->getAttribute($options_attribute);
-	                            }
-	                        }
-	
-	                        if ($property_options->getAttribute('type') == 'static' && $property_options->hasChildNodes())
-	                        {
-	                            $options = $property_options->getElementsByTagname('option');
-	                            $options_info = array();
-	                            foreach ($options as $option)
-	                            {
-	                                $options_info[$option->getAttribute('value')] = $option->getAttribute('name');
-	                            }
-	                            $property_info['options']['values'] = $options_info;
-	                        }
+                            $property_options_attributes = array('type', 'source');
+
+                            foreach ($property_options_attributes as $index => $options_attribute)
+                            {
+                                if ($property_options->hasAttribute($options_attribute))
+                                {
+                                    $property_info['options'][$options_attribute] = $property_options->getAttribute($options_attribute);
+                                }
+                            }
+
+                            if ($property_options->getAttribute('type') == 'static' && $property_options->hasChildNodes())
+                            {
+                                $options = $property_options->getElementsByTagname('option');
+                                $options_info = array();
+                                foreach ($options as $option)
+                                {
+                                    $options_info[$option->getAttribute('value')] = $option->getAttribute('name');
+                                }
+                                $property_info['options']['values'] = $options_info;
+                            }
                         }
-                        
+
                         $property_validations = $property->getElementsByTagname('validations')->item(0);
-                        
-                        if($property_validations)
+
+                        if ($property_validations)
                         {
-                        	if($property_validations->hasChildNodes())
-                        	{
-                        		$validations = $property_validations->getElementsByTagname('validation');
-	                            $validation_info = array();
-	                            foreach ($validations as $validation)
-	                            {
-	                                $validation_info[] = array('rule' => $validation->getAttribute('rule'), 'message' => $validation->getAttribute('message'), 'format' => $validation->getAttribute('format'));
-	                            } 
-	                            $property_info['validations'] = $validation_info;
-                        	}
+                            if ($property_validations->hasChildNodes())
+                            {
+                                $validations = $property_validations->getElementsByTagname('validation');
+                                $validation_info = array();
+                                foreach ($validations as $validation)
+                                {
+                                    $validation_info[] = array(
+                                            'rule' => $validation->getAttribute('rule'),
+                                            'message' => $validation->getAttribute('message'),
+                                            'format' => $validation->getAttribute('format'));
+                                }
+                                $property_info['validations'] = $validation_info;
+                            }
                         }
                     }
                     $category_properties[$property->getAttribute('name')] = $property_info;
@@ -269,13 +277,13 @@ class ConfigurationForm extends FormValidator
         {
             foreach ($settings as $name => $setting)
             {
-                if($setting['user_setting'] && $this->is_user_setting_form)
+                if ($setting['user_setting'] && $this->is_user_setting_form)
                 {
-                	$configuration_value = LocalSetting :: get($name, $application);
+                    $configuration_value = LocalSetting :: get($name, $application);
                 }
                 else
                 {
-            		$configuration_value = PlatformSetting :: get($name, $application);
+                    $configuration_value = PlatformSetting :: get($name, $application);
                 }
 
                 if (isset($configuration_value))
@@ -310,18 +318,51 @@ class ConfigurationForm extends FormValidator
                 if ($setting['locked'] != 'true')
                 {
                     $adm = AdminDataManager :: get_instance();
-                    $setting = $adm->retrieve_setting_from_variable_name($name, $application);
-                    if (isset($values[$name]))
+                    $application_setting = $adm->retrieve_setting_from_variable_name($name, $application);
+
+                    if ($application_setting)
                     {
-                        $setting->set_value($values[$name]);
+                        if (isset($values[$name]))
+                        {
+                            $application_setting->set_value($values[$name]);
+                        }
+                        else
+                        {
+                            $application_setting->set_value(0);
+                        }
+                        if (! $application_setting->update())
+                        {
+                            $problems ++;
+                        }
                     }
                     else
                     {
-                        $setting->set_value(0);
-                    }
-                    if (! $setting->update())
-                    {
-                        $problems ++;
+                        $application_setting = new Setting();
+                        $application_setting->set_application($application);
+                        $application_setting->set_variable($name);
+
+                        if ($setting['user_setting'])
+                        {
+                            $application_setting->set_user_setting($setting['user_setting']);
+                        }
+                        else
+                        {
+                            $application_setting->set_user_setting(0);
+                        }
+
+                        if (isset($values[$name]))
+                        {
+                            $application_setting->set_value($values[$name]);
+                        }
+                        else
+                        {
+                            $application_setting->set_value(0);
+                        }
+
+                        if (! $application_setting->create())
+                        {
+                            $problems ++;
+                        }
                     }
                 }
             }
@@ -339,12 +380,12 @@ class ConfigurationForm extends FormValidator
 
     function update_user_settings()
     {
-    	$values = $this->exportValues();
-    	$adm = AdminDataManager :: get_instance();
-    	$udm = UserDataManager :: get_instance();
-    	$problems = 0;
-    	
-    	foreach ($this->configuration['settings'] as $category_name => $settings)
+        $values = $this->exportValues();
+        $adm = AdminDataManager :: get_instance();
+        $udm = UserDataManager :: get_instance();
+        $problems = 0;
+
+        foreach ($this->configuration['settings'] as $category_name => $settings)
         {
             foreach ($settings as $name => $setting)
             {
@@ -358,28 +399,28 @@ class ConfigurationForm extends FormValidator
                     {
                         $value = 0;
                     }
-                    
-	                $setting = $adm->retrieve_setting_from_variable_name($name, $this->application);
-		    		$user_setting = $udm->retrieve_user_setting(Session :: get_user_id(), $setting->get_id());
-		    		if($user_setting)
-		    		{
-		    			$user_setting->set_value($value);
-		    			if(!$user_setting->update())
-		    			{
-		    				$problems++;
-		    			}
-		    		}
-		    		else
-		    		{
-		    			$user_setting = new UserSetting();
-		    			$user_setting->set_setting_id($setting->get_id());
-		    			$user_setting->set_value($value);
-		    			$user_setting->set_user_id(Session :: get_user_id());
-		    			if(!$user_setting->create())
-		    			{
-		    				$problems++;
-		    			}
-		    		}
+
+                    $setting = $adm->retrieve_setting_from_variable_name($name, $this->application);
+                    $user_setting = $udm->retrieve_user_setting(Session :: get_user_id(), $setting->get_id());
+                    if ($user_setting)
+                    {
+                        $user_setting->set_value($value);
+                        if (! $user_setting->update())
+                        {
+                            $problems ++;
+                        }
+                    }
+                    else
+                    {
+                        $user_setting = new UserSetting();
+                        $user_setting->set_setting_id($setting->get_id());
+                        $user_setting->set_value($value);
+                        $user_setting->set_user_id(Session :: get_user_id());
+                        if (! $user_setting->create())
+                        {
+                            $problems ++;
+                        }
+                    }
                 }
             }
         }
@@ -393,11 +434,11 @@ class ConfigurationForm extends FormValidator
             return true;
         }
     }
-    
+
     private function is_valid_validation_method($validation_method)
     {
-    	$available_validation_methods = array('regex', 'email', 'lettersonly', 'alphanumeric', 'numeric');
-    	return in_array($validation_method, $available_validation_methods);
+        $available_validation_methods = array('regex', 'email', 'lettersonly', 'alphanumeric', 'numeric');
+        return in_array($validation_method, $available_validation_methods);
     }
 }
 ?>
