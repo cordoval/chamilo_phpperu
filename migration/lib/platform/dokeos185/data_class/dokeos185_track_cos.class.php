@@ -4,6 +4,7 @@
  * $Id: dokeos185_track_cos.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
+require_once dirname(__FILE__) . "/../../../../../user/trackers/os_trackers.class.php";
 require_once dirname(__FILE__) . '/../dokeos185_migration_data_class.class.php';
 
 /**
