@@ -4,9 +4,6 @@
  * $Id: creator.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.lib.forum.forum_manager.component
  */
-require_once dirname(__FILE__) . '/../forum_manager.class.php';
-require_once dirname(__FILE__) . '/../../publisher/forum_publication_publisher.class.php';
-require_once dirname(__FILE__) . '/../../forms/forum_publication_form.class.php';
 
 /**
  * Component to create a new forum_publication object

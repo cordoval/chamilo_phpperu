@@ -3,8 +3,7 @@
  * $Id: forum_publication_category_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.lib.forum.category_manager
  */
-require_once dirname(__FILE__) . '/../forum_data_manager.class.php';
-require_once dirname(__FILE__) . '/forum_publication_category.class.php';
+require_once WebApplication :: get_application_class_lib_path('forum') . 'category_manager/forum_publication_category.class.php';
 
 class ForumPublicationCategoryManager extends CategoryManager
 {

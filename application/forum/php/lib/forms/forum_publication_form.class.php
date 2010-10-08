@@ -3,8 +3,6 @@
  * $Id: forum_publication_form.class.php 195 2009-11-13 12:02:41Z chellee $
  * @package application.lib.forum.forms
  */
-require_once dirname(__FILE__) . '/../forum_publication.class.php';
-
 /**
  * This class describes the form for a ForumPublication object.
  * @author Sven Vanpoucke

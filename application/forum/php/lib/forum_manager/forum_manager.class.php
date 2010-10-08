@@ -3,9 +3,6 @@
  * $Id: forum_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.lib.forum.forum_manager
  */
-require_once dirname(__FILE__) . '/../forum_data_manager.class.php';
-require_once dirname(__FILE__) . '/../forum_rights.class.php';
-
 /**
  * A forum manager
  * @author Sven Vanpoucke & Michael Kyndt

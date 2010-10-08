@@ -1,8 +1,6 @@
 <?php
 require_once dirname(__FILE__).'/../../../../common/global.inc.php';
-require_once Path :: get_common_path().'/rss/publication_rss.class.php';
-require_once dirname(__FILE__).'/../data_manager/database.class.php';
-require_once dirname(__FILE__).'/../forum_manager/forum_manager.class.php';
+require_once Path :: get_common_libraries_path().'/rss/publication_rss.class.php';
 require_once Path :: get_repository_path() . 'lib/complex_display/forum/forum_display.class.php';
 
 class ForumPublicationRSS extends PublicationRSS

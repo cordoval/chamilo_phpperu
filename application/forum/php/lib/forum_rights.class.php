@@ -4,9 +4,6 @@
  * $Id: user_rights.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package user
  */
-
-require_once dirname(__FILE__) . '/forum_manager/forum_manager.class.php';
-
 class ForumRights
 {
     const PUBLISH_RIGHT = '1';

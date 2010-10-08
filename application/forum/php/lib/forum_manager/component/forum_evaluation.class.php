@@ -1,6 +1,5 @@
 <?php
-require_once dirname(__FILE__) . '/../../../gradebook/evaluation_manager/evaluation_manager.class.php';
-require_once dirname(__FILE__) . '/../forum_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('gradebook') . 'evaluation_manager/evaluation_manager.class.php';
 
 class ForumManagerForumEvaluationComponent extends ForumManager implements EvaluationManagerInterface
 {

@@ -3,8 +3,7 @@
  * $Id: viewer.class.php 195 2009-11-13 12:02:41Z chellee $
  * @package application.lib.forum.forum_manager.component
  */
-require_once dirname(__FILE__) . '/../forum_manager.class.php';
-require_once dirname(__FILE__) . '/../../trackers/forum_topic_view_tracker.class.php';
+require_once WebApplication :: get_application_class_path('forum') . 'trackers/forum_topic_view_tracker.class.php';
 
 /**
  * Component to view a new forum_publication object

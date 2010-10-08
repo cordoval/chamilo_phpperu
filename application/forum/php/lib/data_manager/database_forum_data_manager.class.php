@@ -3,9 +3,6 @@
  * $Id: database_forum_data_manager.class.php 238 2009-11-16 14:10:27Z vanpouckesven $
  * @package application.lib.forum.data_manager
  */
-require_once dirname(__FILE__) . '/../forum_publication.class.php';
-require_once dirname(__FILE__) . '/../category_manager/forum_publication_category.class.php';
-require_once dirname(__FILE__) . '/../forum_data_manager_interface.class.php';
 
 /**
  *	This is a data manager that uses a database for storage. It was written

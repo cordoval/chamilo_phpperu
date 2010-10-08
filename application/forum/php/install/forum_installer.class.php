@@ -4,8 +4,8 @@
  * @package application.lib.forum.install
  */
 
-require_once dirname(__FILE__) . '/../lib/forum_data_manager.class.php';
-require_once dirname(__FILE__) . '/../lib/forum_rights.class.php';
+require_once WebApplication :: get_application_class_lib_path('forum') . 'forum_data_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('forum') . 'forum_rights.class.php';
 
 /**
  * This installer can be used to create the storage structure for the

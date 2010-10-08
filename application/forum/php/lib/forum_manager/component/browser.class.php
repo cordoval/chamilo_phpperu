@@ -3,8 +3,6 @@
  * $Id: browser.class.php 195 2009-11-13 12:02:41Z chellee $
  * @package application.lib.forum.forum_manager.component
  */
-require_once dirname(__FILE__) . '/../forum_manager.class.php';
-require_once dirname(__FILE__) . '/../../forum_publication.class.php';
 require_once Path :: get_repository_path() . '/lib/content_object/forum/forum.class.php';
 require_once Path :: get_repository_path() . '/lib/content_object/forum/display/forum_display.class.php';
 

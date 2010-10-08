@@ -3,7 +3,6 @@
  * $Id: deleter.class.php 195 2009-11-13 12:02:41Z chellee $
  * @package application.lib.forum.forum_manager.component
  */
-require_once dirname(__FILE__) . '/../forum_manager.class.php';
 
 /**
  * Component to delete forum_publications objects

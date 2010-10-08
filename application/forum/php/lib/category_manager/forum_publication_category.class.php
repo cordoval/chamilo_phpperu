@@ -4,8 +4,6 @@
  * @package application.lib.forum.category_manager
  */
 require_once Path :: get_common_extensions_path() . 'category_manager/platform_category.class.php';
-require_once dirname(__FILE__) . '/../forum_data_manager.class.php';
-
 /**
  *	@author Sven Vanpoucke
  */

@@ -3,8 +3,6 @@
  * $Id: forum_publication_publisher.class.php 195 2009-11-13 12:02:41Z chellee $
  * @package application.lib.forum.publisher
  */
-require_once dirname(__FILE__) . '/../forms/forum_publication_form.class.php';
-
 class ForumPublicationPublisher
 {
     private $parent;
