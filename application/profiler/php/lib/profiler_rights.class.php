@@ -4,7 +4,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-require_once dirname(__FILE__) . '/profiler_manager/profiler_manager.class.php';
 
 /**
  * Provides the rights and locations of the profiler application

@@ -3,9 +3,6 @@
  * $Id: profiler_category_manager.class.php 212 2009-11-13 13:38:35Z chellee $
  * @package application.profiler.category_manager
  */
-require_once dirname(__FILE__) . '/../profiler_data_manager.class.php';
-require_once dirname(__FILE__) . '/profiler_category.class.php';
-
 class ProfilerCategoryManager extends CategoryManager
 {
     private $trail;

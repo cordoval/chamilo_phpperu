@@ -4,10 +4,7 @@
  * $Id: browser.class.php 212 2009-11-13 13:38:35Z chellee $
  * @package application.profiler.profiler_manager.component
  */
-require_once dirname(__FILE__) . '/../profiler_manager.class.php';
-require_once dirname(__FILE__) . '/profile_publication_browser/profile_publication_browser_table.class.php';
-require_once dirname(__FILE__) . '/../../profiler_menu.class.php';
-require_once dirname(__FILE__) . '/../../profiler_rights.class.php';
+require_once WebApplication :: get_application_class_lib_path('profiler') . 'profiler_manager/component/profile_publication_browser/profile_publication_browser_table.class.php';
 
 class ProfilerManagerBrowserComponent extends ProfilerManager
 {

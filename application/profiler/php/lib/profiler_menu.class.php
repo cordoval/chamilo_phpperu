@@ -5,7 +5,6 @@
  */
 require_once 'HTML/Menu.php';
 require_once 'HTML/Menu/ArrayRenderer.php';
-require_once dirname(__FILE__) . '/category_manager/profiler_category.class.php';
 /**
  * This class provides a navigation menu to allow a user to browse through
  * categories of profiles.

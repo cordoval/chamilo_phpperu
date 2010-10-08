@@ -3,8 +3,6 @@
  * $Id: deleter.class.php 212 2009-11-13 13:38:35Z chellee $
  * @package application.profiler.profiler_manager.component
  */
-require_once dirname(__FILE__) . '/../profiler_manager.class.php';
-
 class ProfilerManagerDeleterComponent extends ProfilerManager
 {
 

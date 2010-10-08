@@ -4,10 +4,6 @@
  * $Id: profile_publication.class.php 212 2009-11-13 13:38:35Z chellee $
  * @package application.profiler
  */
-require_once Path :: get_application_path() . 'lib/profiler/profiler_data_manager.class.php';
-require_once dirname(__FILE__) . '/profiler_rights.class.php';
-
-
 /**
  * 	This class represents a ProfilePublication.
  *

@@ -3,11 +3,8 @@
  * $Id: profiler_manager.class.php 212 2009-11-13 13:38:35Z chellee $
  * @package application.profiler.profiler_manager
  */
-require_once dirname(__FILE__) . '/profiler_search_form.class.php';
-require_once dirname(__FILE__) . '/../profiler_data_manager.class.php';
-require_once dirname(__FILE__) . '/component/profile_publication_browser/profile_publication_browser_table.class.php';
-require_once dirname(__FILE__) . '/../profiler_menu.class.php';
-require_once dirname(__FILE__) . '/../profiler_block.class.php';
+require_once WebApplication :: get_application_class_lib_path('profiler') . 'profiler_manager/profiler_search_form.class.php';
+require_once WebApplication :: get_application_class_lib_path('profiler') . 'profiler_manager/component/profile_publication_browser/profile_publication_browser_table.class.php';
 
 /**
  * A profiler manager provides some functionalities to the admin to manage

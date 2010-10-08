@@ -3,9 +3,6 @@
  * $Id: editor.class.php 212 2009-11-13 13:38:35Z chellee $
  * @package application.profiler.profiler_manager.component
  */
-require_once dirname(__FILE__) . '/../profiler_manager.class.php';
-require_once dirname(__FILE__) . '/../../profile_publication_form.class.php';
-
 class ProfilerManagerEditorComponent extends ProfilerManager
 {
     private $folder;

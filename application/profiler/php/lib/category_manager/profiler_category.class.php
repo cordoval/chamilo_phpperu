@@ -5,10 +5,6 @@
  * @package application.profiler.category_manager
  */
 require_once Path :: get_common_extensions_path() . 'category_manager/platform_category.class.php';
-require_once dirname(__FILE__) . '/../profiler_data_manager.class.php';
-require_once dirname(__FILE__) . '/../profiler_rights.class.php';
-
-
 /**
  * 	@author Sven Vanpoucke
  */

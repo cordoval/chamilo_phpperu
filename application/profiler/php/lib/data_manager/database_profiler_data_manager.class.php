@@ -3,10 +3,7 @@
  * $Id: database_profiler_data_manager.class.php 238 2009-11-16 14:10:27Z vanpouckesven $
  * @package application.profiler.data_manager
  */
-require_once Path :: get_application_path() . 'lib/profiler/profiler_data_manager.class.php';
-require_once Path :: get_application_path() . 'lib/profiler/profile_publication.class.php';
 require_once Path :: get_repository_path() . 'lib/data_manager/database_repository_data_manager.class.php';
-require_once dirname(__FILE__) . '/../profiler_data_manager_interface.class.php';
 
 class DatabaseProfilerDataManager extends Database implements ProfilerDataManagerInterface
 {

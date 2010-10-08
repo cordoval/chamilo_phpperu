@@ -3,9 +3,9 @@
  * $Id: settings_profiler_connector.class.php 212 2009-11-13 13:38:35Z chellee $
  * @package application.profiler.settings
  */
-require_once Path :: get_application_path() . 'lib/profiler/profilerdatamanager.class.php';
-require_once Path :: get_library_path() . 'utilities.class.php';
-require_once Path :: get_library_path() . 'filesystem/path.class.php';
+require_once WebApplication :: get_application_class_lib_path('profiler') . 'profilerdatamanager.class.php';
+require_once Path :: get_common_libraries_path() . 'utilities.class.php';
+require_once Path :: get_common_libraries_path() . 'filesystem/path.class.php';
 
 /**
  * Simple connector class to facilitate rendering settings forms by

@@ -3,9 +3,6 @@
  * $Id: default_profile_publication_table_cell_renderer.class.php 212 2009-11-13 13:38:35Z chellee $
  * @package application.profiler.profile_publication_table
  */
-
-require_once dirname(__FILE__) . '/../profile_publication.class.php';
-
 class DefaultProfilePublicationTableCellRenderer extends ObjectTableCellRenderer
 {
 
