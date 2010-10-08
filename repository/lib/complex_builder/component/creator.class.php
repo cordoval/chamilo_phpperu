@@ -54,6 +54,7 @@ class ComplexBuilderComponentCreatorComponent extends ComplexBuilderComponent im
 
         $exclude = $this->retrieve_used_items($this->get_root_content_object()->get_id());
         $exclude[] = $this->get_root_content_object()->get_id();
+        //TODO: exclude parents or children
 
         if (!$this->type)
         {
