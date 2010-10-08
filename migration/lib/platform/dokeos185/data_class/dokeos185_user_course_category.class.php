@@ -114,8 +114,8 @@ class Dokeos185UserCourseCategory extends Dokeos185MigrationDataClass
         $course_type_user_category->create();
         
         //Add id references to temp table
-        $this->create_id_reference($this->get_id(), $chamilo_user_course_category->get_id());
-        $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'user course category', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_user_course_category->get_id())));
+        $this->create_id_reference($this->get_id(), $course_type_user_category->get_id());
+        $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'user course category', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $course_type_user_category->get_id())));
     }
 
     static function get_table_name()
