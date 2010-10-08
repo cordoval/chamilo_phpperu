@@ -3,9 +3,6 @@
  * $Id: group_moderator.class.php 194 2009-11-13 11:54:13Z chellee $
  * @package application.lib.distribute
  */
-require_once dirname(__FILE__) . '/distribute_data_manager.class.php';
-
-
 class GroupModerator extends DataClass
 {
     const CLASS_NAME = __CLASS__;

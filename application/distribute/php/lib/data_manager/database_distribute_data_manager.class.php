@@ -3,8 +3,6 @@
  * $Id: database_distribute_data_manager.class.php 238 2009-11-16 14:10:27Z vanpouckesven $
  * @package application.lib.distribute.database
  */
-require_once dirname(__FILE__) . '/../announcement_distribution.class.php';
-require_once dirname(__FILE__) . '/../distribute_data_manager_interface.class.php';
 
 /**
  * This is a data manager that uses a database for storage. It was written

@@ -3,8 +3,6 @@
  * $Id: viewer.class.php 194 2009-11-13 11:54:13Z chellee $
  * @package application.lib.distribute.distribute_manager.component
  */
-require_once dirname(__FILE__) . '/../distribute_manager.class.php';
-
 class DistributeManagerViewerComponent extends DistributeManager
 {
     private $action_bar;

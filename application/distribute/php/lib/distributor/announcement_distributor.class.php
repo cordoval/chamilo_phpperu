@@ -4,7 +4,7 @@
  * @package application.lib.distribute.distributor
  */
 //require_once Path :: get_common_extensions_path() . 'publisher/component/multipublisher.class.php';
-require_once Path :: get_application_path() . 'lib/distribute/forms/announcement_distribution_form.class.php';
+require_once WebApplication :: get_application_class_lib_path('distribute') . 'forms/announcement_distribution_form.class.php';
 
 //require_once Path :: get_common_extensions_path() . 'publisher/component/publication_candidate_table/publication_candidate_table.class.php';
 

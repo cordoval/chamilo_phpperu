@@ -3,8 +3,7 @@
  * $Id: browser.class.php 194 2009-11-13 11:54:13Z chellee $
  * @package application.lib.distribute.distribute_manager.component
  */
-require_once dirname(__FILE__) . '/../distribute_manager.class.php';
-require_once dirname(__FILE__) . '/announcement_distribution_browser/announcement_distribution_browser_table.class.php';
+require_once WebApplication :: get_application_class_lib_path('distribute') . 'distribute_manager/component/announcement_distribution_browser/announcement_distribution_browser_table.class.php';
 
 /**
  * Distribute component which allows the user to browse the distribute application

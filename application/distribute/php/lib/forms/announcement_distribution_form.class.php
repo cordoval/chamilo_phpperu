@@ -3,8 +3,6 @@
  * $Id: announcement_distribution_form.class.php 194 2009-11-13 11:54:13Z chellee $
  * @package application.lib.distribute.forms
  */
-require_once dirname(__FILE__) . '/../announcement_distribution.class.php';
-
 /**
  * This class describes the form for a AnnouncementPublication object.
  * @author Hans De Bisschop

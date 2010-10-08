@@ -3,9 +3,6 @@
  * $Id: default_announcement_distribution_table_cell_renderer.class.php 194 2009-11-13 11:54:13Z chellee $
  * @package application.lib.distribute.tables.announcement_distribution_table
  */
-
-require_once Path :: get_application_path() . 'lib/distribute/announcement_distribution.class.php';
-
 class DefaultAnnouncementDistributionTableCellRenderer extends ObjectTableCellRenderer
 {
 

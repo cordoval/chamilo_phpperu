@@ -35,7 +35,7 @@ class DistributeDataManager
         if (! isset(self :: $instance))
         {
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
-            require_once dirname(__FILE__) . '/data_manager/' . strtolower($type) . '_distribute_data_manager.class.php';
+            require_once WebApplication :: get_application_class_lib_path('distribute') . 'data_manager/' . strtolower($type) . '_distribute_data_manager.class.php';
             $class = Utilities :: underscores_to_camelcase($type) . 'DistributeDataManager';
             self :: $instance = new $class();
         }

@@ -3,10 +3,6 @@
  * $Id: distribute_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.lib.distribute.distribute_manager
  */
-require_once dirname(__FILE__) . '/../distribute_data_manager.class.php';
-//require_once dirname(__FILE__).'/component/distribute_publication_browser/distribute_publication_browser_table.class.php';
-
-
 /**
  * A distribute manager
  * @author Hans De Bisschop
@@ -19,7 +15,7 @@ class DistributeManager extends WebApplication
 
     const ACTION_BROWSE_ANNOUNCEMENT_DISTRIBUTIONS = 'browser';
     const ACTION_VIEW_ANNOUNCEMENT_DISTRIBUTION = 'viewer';
-    const ACTION_DISTRIBUTE_ANNOUNCEMENT = 'distributer';
+    const ACTION_DISTRIBUTE_ANNOUNCEMENT = 'distributor';
 
     const DEFAULT_ACTION = self :: ACTION_BROWSE_ANNOUNCEMENT_DISTRIBUTIONS;
 

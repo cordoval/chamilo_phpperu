@@ -3,10 +3,9 @@
  * $Id: announcement_distribution_browser_table.class.php 194 2009-11-13 11:54:13Z chellee $
  * @package application.lib.distribute.distribute_manager.component.announcement_distribution_browser
  */
-require_once dirname(__FILE__) . '/announcement_distribution_browser_table_data_provider.class.php';
-require_once dirname(__FILE__) . '/announcement_distribution_browser_table_column_model.class.php';
-require_once dirname(__FILE__) . '/announcement_distribution_browser_table_cell_renderer.class.php';
-require_once dirname(__FILE__) . '/../../distribute_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('distribute') . 'distribute_manager/component/announcement_distribution_browser/announcement_distribution_browser_table_data_provider.class.php';
+require_once WebApplication :: get_application_class_lib_path('distribute') . 'distribute_manager/component/announcement_distribution_browser/announcement_distribution_browser_table_column_model.class.php';
+require_once WebApplication :: get_application_class_lib_path('distribute') . 'distribute_manager/component/announcement_distribution_browser/announcement_distribution_browser_table_cell_renderer.class.php';
 /**
  * Table to display a set of announcement distributions.
  */

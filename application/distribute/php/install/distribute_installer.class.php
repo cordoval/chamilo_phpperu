@@ -4,7 +4,7 @@
  * @package application.lib.distribute.install
  */
 
-require_once dirname(__FILE__) . '/../lib/distribute_data_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('distribute') . 'distribute_data_manager.class.php';
 
 /**
  * This installer can be used to create the storage structure for the

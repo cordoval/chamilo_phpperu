@@ -3,8 +3,7 @@
  * $Id: distributor.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.lib.distribute.distribute_manager.component
  */
-require_once dirname(__FILE__) . '/../distribute_manager.class.php';
-require_once Path :: get_application_path() . 'lib/distribute/distributor/announcement_distributor.class.php';
+require_once WebApplication :: get_application_class_lib_path('distribute') . 'distributor/announcement_distributor.class.php';
 
 class DistributeManagerDistributorComponent extends DistributeManager implements RepoViewerInterface
 {
