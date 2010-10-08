@@ -1,7 +1,6 @@
 <?php
-require_once WebApplication :: get_application_class_lib_path('gradebook') . 'gradebook_manager/gradebook_manager.class.php';
 // required table classes
-require_once dirname(__FILE__).'/evaluation_formats_browser/evaluation_formats_browser_table.class.php';
+require_once WebApplication::get_application_class_lib_path('gradebook') . 'gradebook_manager/component/evaluation_formats_browser/evaluation_formats_browser_table.class.php';
 
 class GradebookManagerAdminEvaluationFormatsBrowserComponent extends GradebookManager
 {

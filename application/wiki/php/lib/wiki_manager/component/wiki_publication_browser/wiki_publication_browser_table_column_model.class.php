@@ -5,7 +5,6 @@
  */
 
 require_once WebApplication :: get_application_class_lib_path('wiki') . 'tables/wiki_publication_table/default_wiki_publication_table_column_model.class.php';
-require_once WebApplication :: get_application_class_lib_path('wiki') . 'wiki_publication.class.php';
 
 /**
  * Table column model for the wiki_publication browser table

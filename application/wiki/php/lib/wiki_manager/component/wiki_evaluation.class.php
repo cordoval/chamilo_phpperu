@@ -1,6 +1,5 @@
 <?php
 require_once WebApplication :: get_application_class_lib_path('gradebook') . 'evaluation_manager/evaluation_manager.class.php';
-require_once WebApplication :: get_application_class_lib_path('wiki') . 'wiki_manager/wiki_manager.class.php';
 
 class WikiManagerWikiEvaluationComponent extends WikiManager implements EvaluationManagerInterface
 {

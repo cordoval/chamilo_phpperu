@@ -4,8 +4,6 @@
  * @package application.lib.wiki.publisher
  */
 
-require_once WebApplication :: get_application_class_lib_path('wiki') . 'forms/wiki_publication_form.class.php';
-
 class WikiPublicationPublisher
 {
     private $parent;

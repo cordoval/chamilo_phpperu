@@ -3,8 +3,6 @@
  * $Id: wiki_publication_form.class.php 210 2009-11-13 13:18:50Z kariboe $
  * @package application.lib.wiki.forms
  */
-require_once WebApplication :: get_application_class_lib_path('wiki') . 'wiki_publication.class.php';
-
 /**
  * This class describes the form for a WikiPublication object.
  * @author Sven Vanpoucke & Stefan Billiet
