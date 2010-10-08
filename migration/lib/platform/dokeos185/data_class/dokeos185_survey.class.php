@@ -323,8 +323,8 @@ class Dokeos185Survey extends Dokeos185CourseDataMigrationDataClass
         $publication->set_publisher_id($new_user_id);
         $publication->set_tool('survey');
         $publication->set_category_id(0);
-        //$publication->set_from_date($mgdm->make_unix_time($this->item_property->get_start_visible()));
-        //$publication->set_to_date($mgdm->make_unix_time($this->item_property->get_end_visible()));
+        //$publication->set_from_date(strtotime($this->item_property->get_start_visible()));
+        //$publication->set_to_date(strtotime($this->item_property->get_end_visible()));
         $publication->set_from_date(0);
         $publication->set_to_date(0);
         $publication->set_publication_date(strtotime($this->get_creation_date()));

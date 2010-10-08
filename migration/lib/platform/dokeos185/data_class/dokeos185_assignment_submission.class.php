@@ -311,8 +311,8 @@ class Dokeos185AssignmentSubmission extends Dokeos185MigrationDataClass
                 $lcms_document->set_path($new_path . $file);
                 $lcms_document->set_filename($file);
                 
-                $lcms_document->set_creation_date($mgdm->make_unix_time($this->get_creation_date()));
-                $lcms_document->set_modification_date($mgdm->make_unix_time($this->get_last_edit_date()));
+                $lcms_document->set_creation_date(strtotime($this->get_creation_date()));
+                $lcms_document->set_modification_date(strtotime($this->get_last_edit_date()));
                 
                 //if($this->get_visibility() == 2)
                 //	$lcms_document->set_state(1);
@@ -412,12 +412,12 @@ class Dokeos185AssignmentSubmission extends Dokeos185MigrationDataClass
 			$publication->set_publisher_id($new_user_id);
 			$publication->set_tool('document');
 			$publication->set_category_id($parent);
-			//$publication->set_from_date(self :: $mgdm->make_unix_time($this->item_property->get_start_visible()));
-			//$publication->set_to_date(self :: $mgdm->make_unix_time($this->item_property->get_end_visible()));
+			//$publication->set_from_date(strtotime($this->item_property->get_start_visible()));
+			//$publication->set_to_date(strtotime($this->item_property->get_end_visible()));
 			$publication->set_from_date(0);
 			$publication->set_to_date(0);
-			$publication->set_publication_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
-			$publication->set_modified_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
+			$publication->set_publication_date(strtotime($this->item_property->get_insert_date()));
+			$publication->set_modified_date(strtotime($this->item_property->get_lastedit_date()));
 			//$publication->set_modified_date(0);
 			//$publication->set_display_order_index($this->get_display_order());
 			$publication->set_display_order_index(0);
