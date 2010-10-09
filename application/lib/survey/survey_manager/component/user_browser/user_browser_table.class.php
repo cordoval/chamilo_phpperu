@@ -28,7 +28,7 @@ class SurveyUserBrowserTable extends ObjectTable
 		$action = new ObjectTableFormActions();
         
         
-		if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_INVITE, SurveyRights :: LOCATION_PARTICIPANT_BROWSER, SurveyRights :: TYPE_SURVEY_COMPONENT ))
+		if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_INVITE, SurveyRights :: LOCATION_PARTICIPANT_BROWSER, SurveyRights :: TYPE_COMPONENT ))
         {
            $action->add_form_action(new ObjectTableFormAction(SurveyManager :: ACTION_CANCEL_INVITATION, Translation :: get('CancelInvitation'),true));
         }

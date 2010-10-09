@@ -23,18 +23,27 @@ class SurveyRights
     const RIGHT_PARTICIPATE = 9;
     const PARTICIPATE_RIGHT_NAME = 'participate';
     
+    const RIGHT_ACTIVATE = 10;
+    const ACTIVATE_RIGHT_NAME = 'activate';
+    
+    
     const LOCATION_BROWSER = 1;
     const LOCATION_REPORTING = 2;
     const LOCATION_PARTICIPANT_BROWSER = 3;
     
     const TREE_TYPE_SURVEY = 0;
     
-    const TYPE_SURVEY_COMPONENT = 1;
+    const TYPE_COMPONENT = 1;
     const TYPE_PUBLICATION = 2;
 
     static function get_available_rights_for_publications()
     {
         return array(self :: PARTICIPATE_RIGHT_NAME => self :: RIGHT_PARTICIPATE, self :: VIEW_RIGHT_NAME => self :: RIGHT_VIEW, self :: INVITE_RIGHT_NAME => self :: RIGHT_INVITE, self :: EDIT_RIGHT_NAME => self :: RIGHT_EDIT, self :: DELETE_RIGHT_NAME => self :: RIGHT_DELETE, self :: REPORTING_RIGHT_NAME => self :: RIGHT_REPORTING, self :: MAIL_RIGHT_NAME => self :: RIGHT_MAIL, self :: EXPORT_RESULT_RIGHT_NAME => self :: RIGHT_EXPORT_RESULT);
+    }
+
+    static function get_available_rights_for_reporting_templates()
+    {
+        return array(self :: VIEW_RIGHT_NAME => self :: RIGHT_VIEW);
     }
 
     static function create_location_in_surveys_subtree($name, $identifier, $parent, $type, $return_location = false)
@@ -62,7 +71,7 @@ class SurveyRights
         return RightsUtilities :: get_location_by_identifier(SurveyManager :: APPLICATION_NAME, $type, $identifier, 0, self :: TREE_TYPE_SURVEY);
     }
 
-    static function is_allowed_in_surveys_subtree($right,$identifier, $type, $user_id = null)
+    static function is_allowed_in_surveys_subtree($right, $identifier, $type, $user_id = null)
     {
         return RightsUtilities :: is_allowed($right, $identifier, $type, SurveyManager :: APPLICATION_NAME, $user_id, 0, self :: TREE_TYPE_SURVEY);
     }
