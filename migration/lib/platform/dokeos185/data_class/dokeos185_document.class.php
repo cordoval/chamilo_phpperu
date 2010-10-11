@@ -208,7 +208,7 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
 
             if (!$new_user_id)
             {
-                $new_user_id = $this->get_owner($new_course_code);
+                $new_user_id = $this->get_data_manager()->get_owner_id($new_course_code);
             }
 
             $filename_split = split('/', $this->get_path());
@@ -218,8 +218,8 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
             $new_path = Path :: get(SYS_REPO_PATH) . $new_user_id . '/' . Text :: char_at($base_hash, 0) . '/';
             //$unique_hash = FileSystem :: create_unique_name($new_path, $base_hash);
 
-            $hash_filename = $this->migrate_file($this->directory, $new_path, $original_filename, $base_hash);
-
+            $hash_filename = $this->migrate_file($this->directory, $new_path, utf8_decode($original_filename), $base_hash);
+			
             if ($hash_filename)
             {
                 //Create document in repository
@@ -228,12 +228,25 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
                 $chamilo_repository_document->set_path($new_user_id . '/' . Text :: char_at($hash_filename, 0) . '/' . $hash_filename);  //!!!!!!!
                 $chamilo_repository_document->set_filesize($this->get_size());
                 $chamilo_repository_document->set_hash($hash_filename);
+                
                 if ($this->get_title())
+                {
                     $chamilo_repository_document->set_title($this->get_title());
+                }
                 else
+                {
                     $chamilo_repository_document->set_title($original_filename);
-                $chamilo_repository_document->set_description('...');
-                $chamilo_repository_document->set_comment($this->get_comment());
+                }
+                
+                if($this->get_comment())
+                {
+                	$chamilo_repository_document->set_description($this->get_comment());
+                }
+                else
+                {
+                	$chamilo_repository_document->set_description($chamilo_repository_document->get_title());
+                }
+                
                 $chamilo_repository_document->set_owner_id($new_user_id);
                 $chamilo_repository_document->set_creation_date(strtotime($this->get_item_property()->get_insert_date()));
                 $chamilo_repository_document->set_modification_date(strtotime($this->get_item_property()->get_lastedit_date()));

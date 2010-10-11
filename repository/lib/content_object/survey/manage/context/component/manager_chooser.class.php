@@ -5,8 +5,7 @@ class SurveyContextManagerManagerChooserComponent extends SurveyContextManager i
     
     const TAB_CONTEXT = 0;
     const TAB_TEMPLATE = 1;
-    const TAB_SURVEY = 2;
-
+    
     /**
      * Runs this component and displays its output.
      */
@@ -96,20 +95,7 @@ class SurveyContextManagerManagerChooserComponent extends SurveyContextManager i
                 
                 $tab_links['links'] = $links;
                 break;
-            case self :: TAB_SURVEY :
-                
-                $tab_links['application'] = array('name' => Translation :: get('SurveyTab'), 'class' => 'survey');
-                
-                $survey_link = new DynamicAction();
-                $survey_link->set_title(Translation :: get('SurveyContextTemplateLink'));
-                $survey_link->set_description(Translation :: get('SurveyContextTemplateDescription'));
-                $survey_link->set_image(Theme :: get_image_path(RepositoryManager :: APPLICATION_NAME) . 'place_mini_survey.png');
-                $survey_link->set_url($this->get_context_template_browsing_url());
-                $links[] = $survey_link;
-                
-                $tab_links['links'] = $links;
-                break;
-            
+                       
             default :
                 
                 break;

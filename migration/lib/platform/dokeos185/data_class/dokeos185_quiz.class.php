@@ -128,7 +128,7 @@ class Dokeos185Quiz extends Dokeos185CourseDataMigrationDataClass
     {
         $this->set_item_property($this->get_data_manager()->get_item_property($this->get_course(), 'quiz', $this->get_id()));
         
-    	if (! $this->get_id() || ! ($this->get_title() || $this->get_description()))
+    	if (! $this->get_id() || ! ($this->get_title() || $this->get_description()) || !$this->get_item_property())
         {
             $this->create_failed_element($this->get_id());
             return false;

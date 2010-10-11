@@ -114,7 +114,7 @@ class ContentObjectTableDataProvider extends ObjectTableDataProvider
 
             foreach ($this->get_parent()->get_excluded_objects() as $excluded)
             {
-                $conds[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_ID, $excluded, ContentObject :: get_table_name()));
+                $conditions[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_ID, $excluded, ContentObject :: get_table_name()));
             }
         }
         else

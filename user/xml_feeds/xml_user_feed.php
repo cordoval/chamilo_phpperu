@@ -27,6 +27,29 @@ if (Authentication :: is_valid())
         $conditions[] = new NotCondition(new OrCondition($c));
     }
 
+//    $user = UserDataManager :: get_instance()->retrieve_user(Session :: get_user_id());
+//
+//    if (! $user->is_platform_admin())
+//    {
+//        $group_ids = $user->get_allowed_groups();
+//        $group_condition = new InCondition(Group :: PROPERTY_ID, $group_ids);
+//        $group_result_set = GroupDataManager :: get_instance()->retrieve_groups($group_condition, null, null, array(new ObjectTableOrder(Group :: PROPERTY_NAME)));
+//
+//        while ($group = $group_result_set->next_result())
+//        {
+//            $group_users = $group->get_users(true, true);
+//            foreach ($group_users as $group_user)
+//            {
+//                if (! in_array($group_user, $allowed_users))
+//                {
+//                    $allowed_users[] = $group_user;
+//                }
+//            }
+//        }
+//
+//        $conditions[] = new InCondition(User :: PROPERTY_ID, $allowed_users);
+//    }
+
     if (count($conditions) > 0)
     {
         $condition = new AndCondition($conditions);

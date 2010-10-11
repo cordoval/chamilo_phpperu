@@ -88,26 +88,28 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
     function get_context_template($level = 1)
     {
         
-        if(!$this->get_context_template_id() == 0){
-    	$context_template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($this->get_context_template_id());
-        if ($level != 1)
+        if (! $this->get_context_template_id() == 0)
         {
-            
-            $index = 1;
-            $level_matrix[$index] = $context_template;
-            $context_template_children = $context_template->get_children(true);
-            while ($child_template = $context_template_children->next_result())
+            $context_template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($this->get_context_template_id());
+            if ($level != 1)
             {
-                $index ++;
-                $level_matrix[$index] = $child_template;
+                
+                $index = 1;
+                $level_matrix[$index] = $context_template;
+                $context_template_children = $context_template->get_children(true);
+                while ($child_template = $context_template_children->next_result())
+                {
+                    $index ++;
+                    $level_matrix[$index] = $child_template;
+                }
+                return $level_matrix[$level];
             }
-            return $level_matrix[$level];
+            
+            return $context_template;
         }
-        
-        return $context_template;
-        }
-        else{
-        	return null;
+        else
+        {
+            return null;
         }
     
     }
@@ -229,9 +231,19 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
     function get_page_complex_questions($context_path)
     {
         $questions = array();
-        $ids = explode('_', $context_path);
-        $count = count($ids);
-        $page_id = $ids[$count - 1];
+        if ($this->has_context())
+        {
+            $path_ids = explode('|', $context_path);
+            $ids = explode('_', $path_ids[2]);
+            $page_id = $ids[0];
+        }
+        else
+        {
+            $ids = explode('_', $context_path);
+            $count = count($ids);
+            $page_id = $ids[$count - 1];
+        }
+        
         $page = $this->get_page_by_id($page_id);
         
         $complex_questions = $page->get_questions(true);
@@ -400,7 +412,9 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
             $page_id = $page_context_as_tree[0];
             if ($this->has_context())
             {
-                $page_path = $this->get_id() . '_' . $path . '_' . $page_id;
+                //                $page_path = $this->get_id() . '_' . $path . '_' . $page_id;
+                $page_path = $this->get_id() . '|' . $path . '|' . $page_id;
+            
             }
             else
             {

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="handbook">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1" />
+		<property name="uuid" type="integer" unsigned="1"
+                notnull="1" />
+	</properties>
+	<index name="id" type="primary">
+		<indexproperty name="id" />
+	</index>	
+        <index name="uuid">
+		<indexproperty name="uuid" />
+	</index>
+</object>

@@ -45,14 +45,14 @@ class SurveyManagerSurveyExcelMedianExporterComponent extends SurveyManager
         {
             $ids = array($ids);
         }
-       
         
         $this->create_participants($ids);
         
-        dump($this->participants);
-         dump('hi');
-        exit;
+        //        dump($this->participants);
+        //         dump('hi');
+        //        exit;
         
+
         $this->render_data();
     
     }
@@ -62,8 +62,9 @@ class SurveyManagerSurveyExcelMedianExporterComponent extends SurveyManager
         $excel = new PHPExcel();
         
         $worksheet = $excel->getSheet(0)->setTitle('Algemeen');
-        $this->render_summary_data($worksheet);
+        //        $this->render_summary_data($worksheet);
         
+
         $questions = $this->get_questions();
         $worksheet_index = 1;
         
@@ -71,12 +72,6 @@ class SurveyManagerSurveyExcelMedianExporterComponent extends SurveyManager
         {
             
             $title = Utilities :: truncate_string(trim(strip_tags($question->get_title())), 15, true, '');
-            //            dump($title);
-            //                        $title = $title . ' (id:' . $question_id . ')';
-            
-
-            //                        $worksheet = $excel->createSheet($worksheet_index)->setTitle($title);
-            //            $title = 'page'.$worksheet_index;
             $worksheet = $excel->createSheet($worksheet_index)->setTitle($title);
             $worksheet = $excel->getSheet($worksheet_index);
             $page_reporting_data = $this->create_page_reporting_data($question);
@@ -514,6 +509,11 @@ class SurveyManagerSurveyExcelMedianExporterComponent extends SurveyManager
                 
 
                 //total count
+                
+	
+//                dump($answer_count);
+              
+                
                 foreach ($options as $option_key => $option)
                 {
                     
@@ -523,13 +523,20 @@ class SurveyManagerSurveyExcelMedianExporterComponent extends SurveyManager
                         $totals[$match_key] = $totals[$match_key] + $answer_count[$option_key][$match_key];
                     
                     }
-                
+                    $totals[$match_key] = $totals[$match_key];
+                		
                 }
+                
+//                dump($totals);
+                
+//                  exit;
                 
                 $total_colums = count($totals);
                 $total_count = $totals[$total_colums - 1];
                 
                 $summary_totals = array();
+                
+                $median_number = 1;
                 
                 foreach ($totals as $index => $value)
                 {
@@ -539,10 +546,11 @@ class SurveyManagerSurveyExcelMedianExporterComponent extends SurveyManager
                     }
                     else
                     {
-                        $percentage = number_format($value / $total_count * 100, 2);
-                        $summary_totals[$index] = $percentage;
+                        //                        $percentage = number_format($value / $total_count * 100, 2);
+                        //                        $summary_totals[$index] = $percentage;
+                        $summary_totals[$index] = $value*$median_number;
                     }
-                
+                	$median_number++;
                 }
                 //                dump($totals);
                 //                dump($summary_totals);
@@ -558,12 +566,15 @@ class SurveyManagerSurveyExcelMedianExporterComponent extends SurveyManager
 
                 //                exit();
                 
-
+				
                 foreach ($options as $option_key => $option)
                 {
                     $reporting_data->add_category($option);
                     //                    dump('op key: '.$option_key);
                     //                    dump('option: '.$option);
+                    $median_number = 1;
+                    $median = 0;
+                    $count = 0;
                     foreach ($matches as $match_key => $match)
                     {
                         //                        dump('match key: '.$match_key);
@@ -573,20 +584,33 @@ class SurveyManagerSurveyExcelMedianExporterComponent extends SurveyManager
                         //                        dump('total: '.$totals[$match_key]);
                         if ($match_key == $total_index)
                         {
-                        	$value = $answer_count[$option_key][$match_key] / $total_count;
-                            $percentage = number_format($value * 100, 2);
-                            $reporting_data->add_data_category_row($option, strip_tags($match), $percentage);
+                            //                        	$value = $answer_count[$option_key][$match_key] / $total_count;
+                            //                            $percentage = number_format($value * 100, 2);
+                            $count = $answer_count[$option_key][$total_index];
+//                            dump($count);
+//                            dump($match);
+//                            $reporting_data->add_data_category_row($option, strip_tags($match), $percentage);
                         }
                         else
                         {
-                            $value = $answer_count[$option_key][$match_key] / $answer_count[$option_key][$total_index];
-                            $percentage = number_format($value * 100, 2);
+                            //                            $value = $answer_count[$option_key][$match_key] / $answer_count[$option_key][$total_index];
+                            //                            $percentage = number_format($value * 100, 2);
+                            $percentage = $answer_count[$option_key][$match_key] * $median_number;
+                            $median = $median + $percentage;
                             $reporting_data->add_data_category_row($option, strip_tags($match), $percentage);
                         }
-                    
+                       
+                        
+                        
+                        $median_number ++;
                     }
-                
+                	 $median = $median/$count;
+                	 $median = number_format($median, 2);
+                    $reporting_data->add_data_category_row($option, Translation :: get(self :: COUNT), $median);
+//                    dump($median);
                 }
+                
+//                exit;
                 
                 //                dump($totals);
                 //                
@@ -605,15 +629,35 @@ class SurveyManagerSurveyExcelMedianExporterComponent extends SurveyManager
                     
                     //                    foreach ($options as $option)
                     //                    {
+                    $total = 0;
                     foreach ($matches as $match_key => $match)
                     {
-                        $reporting_data->add_data_category_row(Translation :: get(self :: TOTAL), strip_tags($match), $summary_totals[$match_key]);
+                        if($match != Translation :: get(self :: COUNT)){
+                        	   
+                        	$reporting_data->add_data_category_row(Translation :: get(self :: TOTAL), strip_tags($match), $summary_totals[$match_key]);
+                        	$total =$total + $summary_totals[$match_key];
+                        }
+                    	
+//                    	dump($match_key);
+//                        dump($match);
+//                    	dump($summary_totals[$match_key]);
                     }
+//                    dump($total);
+//                    dump($totals);
+                    $keys =array_keys($matches, Translation :: get(self :: COUNT));
+//                    dump($totals[$keys[0]]);
+                    
+                    $median = $total/$totals[$keys[0]];
+                    $median = number_format($median, 2);
+//                    dump($median);
+                    $reporting_data->add_data_category_row(Translation :: get(self :: TOTAL), Translation :: get(self :: COUNT), $median);
+                    
+                    
                     //                    }
                 
 
                 }
-                
+//                exit;
                 break;
             case SurveyMultipleChoiceQuestion :: get_type_name() :
                 
@@ -660,7 +704,7 @@ class SurveyManagerSurveyExcelMedianExporterComponent extends SurveyManager
                 }
                 
                 //totalcount
-         		$total_count = 0;
+                $total_count = 0;
                 foreach ($options as $option_key => $option)
                 {
                     
@@ -671,7 +715,6 @@ class SurveyManagerSurveyExcelMedianExporterComponent extends SurveyManager
                 
                 }
                 
-                
                 //creating actual reporing data
                 
 
@@ -679,14 +722,14 @@ class SurveyManagerSurveyExcelMedianExporterComponent extends SurveyManager
                 {
                     $reporting_data->add_row(strip_tags($match));
                 }
-                            
+                
                 foreach ($options as $option_key => $option)
                 {
                     
                     $reporting_data->add_category($option);
                     foreach ($matches as $match)
                     {
-                        $value = $answer_count[$option_key]/ $total_count;
+                        $value = $answer_count[$option_key] / $total_count;
                         $percentage = number_format($value * 100, 2);
                         $reporting_data->add_data_category_row($option, strip_tags($match), $percentage);
                     }
@@ -717,6 +760,8 @@ class SurveyManagerSurveyExcelMedianExporterComponent extends SurveyManager
         $this->surveys = array();
         
         $surveys = array();
+        $total_users_ids = array();
+        
         foreach ($ids as $id)
         {
             $sv = array();
@@ -728,59 +773,59 @@ class SurveyManagerSurveyExcelMedianExporterComponent extends SurveyManager
             $sv[self :: SURVEY_NAME] = Utilities :: truncate_string(trim(strip_tags($survey_title)), 20, true, '');
             $sv[self :: SURVEY_DESCRIPTION] = Utilities :: truncate_string(trim(strip_tags($survey_description)), 20, true, '');
             $surveys[$id] = $sv;
-             $total_users_ids = array_merge($total_user_ids, SurveyRights :: get_allowed_users(SurveyRights :: RIGHT_PARTICIPATE, $id, SurveyRights :: TYPE_PUBLICATION));
-            
+            $user_ids = SurveyRights :: get_allowed_users(SurveyRights :: RIGHT_PARTICIPATE, $id, SurveyRights :: TYPE_PUBLICATION);
+            $total_users_ids = array_merge($user_ids, $total_users_ids);
         }
         
         $this->participants[self :: SURVEYS] = $surveys;
         $this->participants[self :: SURVEY_COUNT] = count($surveys);
         
-//        $condition = new InCondition(SurveyPublicationGroup :: PROPERTY_SURVEY_PUBLICATION, $ids);
-//        $publication_rel_groups = SurveyDataManager :: get_instance()->retrieve_survey_publication_groups($condition);
-//        
-//        $groups = array();
-//        $group_user_ids = array();
-//        $total_user_ids = array();
-//        
-//        $atp_groups = array(24, 70, 130, 85, 100, 111, 128);
-//        $op_groups = array(23, 69, 84, 99, 110, 127);
-//        
-//        while ($publication_rel_group = $publication_rel_groups->next_result())
-//        {
-//            $group = GroupDataManager :: get_instance()->retrieve_group($publication_rel_group->get_group_id());
-//            $id = $group->get_id();
-//            if (in_array($id, $op_groups))
-//            {
-//                $groups[] = $group;
-//                $group_user_ids[$group->get_id()] = $group->get_users(true, true);
-//                $total_user_ids = array_merge($total_user_ids, $group_user_ids[$group->get_id()]);
-//            }
-//        
-//        }
-//        
-//        $user_ids = array();
-//        
-//        $condition = new InCondition(SurveyPublicationUser :: PROPERTY_SURVEY_PUBLICATION, $ids);
-//        $publication_rel_users = SurveyDataManager :: get_instance()->retrieve_survey_publication_users($condition);
-//        
-//        while ($publication_rel_user = $publication_rel_users->next_result())
-//        {
-//            $user_ids[] = $publication_rel_user->get_user_id();
-//        }
-//        
-//        $total_user_ids = array_merge($total_user_ids, $user_ids);
-//        
-//        
-//        
-//        
-        $total_user_ids = array_unique($total_user_ids);
-        
+        //        $condition = new InCondition(SurveyPublicationGroup :: PROPERTY_SURVEY_PUBLICATION, $ids);
+        //        $publication_rel_groups = SurveyDataManager :: get_instance()->retrieve_survey_publication_groups($condition);
+        //        
+        //        $groups = array();
+        //        $group_user_ids = array();
+        //        $total_user_ids = array();
+        //        
+        //        $atp_groups = array(24, 70, 130, 85, 100, 111, 128);
+        //        $op_groups = array(23, 69, 84, 99, 110, 127);
+        //        
+        //        while ($publication_rel_group = $publication_rel_groups->next_result())
+        //        {
+        //            $group = GroupDataManager :: get_instance()->retrieve_group($publication_rel_group->get_group_id());
+        //            $id = $group->get_id();
+        //            if (in_array($id, $op_groups))
+        //            {
+        //                $groups[] = $group;
+        //                $group_user_ids[$group->get_id()] = $group->get_users(true, true);
+        //                $total_user_ids = array_merge($total_user_ids, $group_user_ids[$group->get_id()]);
+        //            }
+        //        
+        //        }
+        //        
+        //        $user_ids = array();
+        //        
+        //        $condition = new InCondition(SurveyPublicationUser :: PROPERTY_SURVEY_PUBLICATION, $ids);
+        //        $publication_rel_users = SurveyDataManager :: get_instance()->retrieve_survey_publication_users($condition);
+        //        
+        //        while ($publication_rel_user = $publication_rel_users->next_result())
+        //        {
+        //            $user_ids[] = $publication_rel_user->get_user_id();
+        //        }
+        //        
+        //        $total_user_ids = array_merge($total_user_ids, $user_ids);
+        //        
+        //        
+        //        
+        //        
+        $total_users_ids = array_unique($total_users_ids);
         
         $conditions = array();
         $conditions[] = new InCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $ids);
-        $conditions[] = new InCondition(SurveyParticipantTracker :: PROPERTY_USER_ID, $total_user_ids);
+        $conditions[] = new InCondition(SurveyParticipantTracker :: PROPERTY_USER_ID, $total_users_ids);
         $condition = new AndCondition($conditions);
-        $trackers = Tracker :: get_data('survey_participant_tracker', SurveyManager :: APPLICATION_NAME, $condition);
+        
+        $trackers = Tracker :: get_data(SurveyParticipantTracker :: get_table_name(), SurveyManager :: APPLICATION_NAME, $condition);
         
         $all_participants = array();
         $started_participants = array();
@@ -825,65 +870,66 @@ class SurveyManagerSurveyExcelMedianExporterComponent extends SurveyManager
         $participatie = number_format($participatie, 2);
         $this->participants[self :: PARTICIPATION_GRADE] = $participatie;
         
-//        foreach ($groups as $group)
-//        {
-//            
-//            $this->participants[self :: GROUPS][$group->get_id()][self :: GROUP_NAME] = $group->get_name();
-//            $this->participants[self :: GROUPS][$group->get_id()][self :: GROUP_DESCRIPTION] = $group->get_description();
-//            
-//            $group_users = $group_user_ids[$group->get_id()];
-//            
-//            $condition = new InCondition(SurveyParticipantTracker :: PROPERTY_USER_ID, $group_users);
-//            $trackers = Tracker :: get_data('survey_participant_tracker', SurveyManager :: APPLICATION_NAME, $condition);
-//            
-//            $all_trackers = array();
-//            
-//            while ($tracker = $trackers->next_result())
-//            {
-//                $all_trackers[] = $tracker->get_id();
-//            }
-//            
-//            $all_tracker_count = count($all_trackers);
-//            $this->participants[self :: GROUPS][$group->get_id()][self :: ALL_PARTICIPANT_COUNT] = $all_tracker_count;
-//            $this->participants[self :: GROUPS][$group->get_id()][self :: ALL_PARTICIPANTS] = $all_trackers;
-//            
-//            $started = array_intersect($group_users, $started_users);
-//            
-//            $condition = new InCondition(SurveyParticipantTracker :: PROPERTY_USER_ID, $started);
-//            $trackers = Tracker :: get_data('survey_participant_tracker', SurveyManager :: APPLICATION_NAME, $condition);
-//            
-//            $started_trackers = array();
-//            
-//            while ($tracker = $trackers->next_result())
-//            {
-//                $started_trackers[] = $tracker->get_id();
-//            }
-//            
-//            $started_tracker_count = count($started_trackers);
-//            $this->participants[self :: GROUPS][$group->get_id()][self :: STARTED_PARTICIPANT_COUNT] = $started_tracker_count;
-//            $this->participants[self :: GROUPS][$group->get_id()][self :: STARTED_PARTICIPANTS] = $started_trackers;
-//            
-//            $not_started = array_intersect($group_users, $not_started_users);
-//            
-//            $condition = new InCondition(SurveyParticipantTracker :: PROPERTY_USER_ID, $not_started);
-//            $trackers = Tracker :: get_data('survey_participant_tracker', SurveyManager :: APPLICATION_NAME, $condition);
-//            
-//            $not_started_trackers = array();
-//            
-//            while ($tracker = $trackers->next_result())
-//            {
-//                $not_started_trackers[] = $tracker->get_id();
-//            }
-//            
-//            $this->participants[self :: GROUPS][$group->get_id()][self :: NOT_STARTED_PARTICIPANT_COUNT] = count($not_started_trackers);
-//            $this->participants[self :: GROUPS][$group->get_id()][self :: NOT_STARTED_PARTICIPANTS] = $not_started_trackers;
-//            
-//            $participatie = $started_tracker_count / $all_tracker_count * 100;
-//            $participatie = number_format($participatie, 2);
-//            $this->participants[self :: GROUPS][$group->get_id()][self :: PARTICIPATION_GRADE] = $participatie;
-//        
-//        }
+    //        foreach ($groups as $group)
+    //        {
+    //            
+    //            $this->participants[self :: GROUPS][$group->get_id()][self :: GROUP_NAME] = $group->get_name();
+    //            $this->participants[self :: GROUPS][$group->get_id()][self :: GROUP_DESCRIPTION] = $group->get_description();
+    //            
+    //            $group_users = $group_user_ids[$group->get_id()];
+    //            
+    //            $condition = new InCondition(SurveyParticipantTracker :: PROPERTY_USER_ID, $group_users);
+    //            $trackers = Tracker :: get_data('survey_participant_tracker', SurveyManager :: APPLICATION_NAME, $condition);
+    //            
+    //            $all_trackers = array();
+    //            
+    //            while ($tracker = $trackers->next_result())
+    //            {
+    //                $all_trackers[] = $tracker->get_id();
+    //            }
+    //            
+    //            $all_tracker_count = count($all_trackers);
+    //            $this->participants[self :: GROUPS][$group->get_id()][self :: ALL_PARTICIPANT_COUNT] = $all_tracker_count;
+    //            $this->participants[self :: GROUPS][$group->get_id()][self :: ALL_PARTICIPANTS] = $all_trackers;
+    //            
+    //            $started = array_intersect($group_users, $started_users);
+    //            
+    //            $condition = new InCondition(SurveyParticipantTracker :: PROPERTY_USER_ID, $started);
+    //            $trackers = Tracker :: get_data('survey_participant_tracker', SurveyManager :: APPLICATION_NAME, $condition);
+    //            
+    //            $started_trackers = array();
+    //            
+    //            while ($tracker = $trackers->next_result())
+    //            {
+    //                $started_trackers[] = $tracker->get_id();
+    //            }
+    //            
+    //            $started_tracker_count = count($started_trackers);
+    //            $this->participants[self :: GROUPS][$group->get_id()][self :: STARTED_PARTICIPANT_COUNT] = $started_tracker_count;
+    //            $this->participants[self :: GROUPS][$group->get_id()][self :: STARTED_PARTICIPANTS] = $started_trackers;
+    //            
+    //            $not_started = array_intersect($group_users, $not_started_users);
+    //            
+    //            $condition = new InCondition(SurveyParticipantTracker :: PROPERTY_USER_ID, $not_started);
+    //            $trackers = Tracker :: get_data('survey_participant_tracker', SurveyManager :: APPLICATION_NAME, $condition);
+    //            
+    //            $not_started_trackers = array();
+    //            
+    //            while ($tracker = $trackers->next_result())
+    //            {
+    //                $not_started_trackers[] = $tracker->get_id();
+    //            }
+    //            
+    //            $this->participants[self :: GROUPS][$group->get_id()][self :: NOT_STARTED_PARTICIPANT_COUNT] = count($not_started_trackers);
+    //            $this->participants[self :: GROUPS][$group->get_id()][self :: NOT_STARTED_PARTICIPANTS] = $not_started_trackers;
+    //            
+    //            $participatie = $started_tracker_count / $all_tracker_count * 100;
+    //            $participatie = number_format($participatie, 2);
+    //            $this->participants[self :: GROUPS][$group->get_id()][self :: PARTICIPATION_GRADE] = $participatie;
+    //        
+    //        }
     
+
     }
 }
 

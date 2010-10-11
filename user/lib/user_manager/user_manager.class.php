@@ -168,9 +168,9 @@ class UserManager extends CoreApplication
         return UserDataManager :: get_instance()->retrieve_users($condition, $offset, $count, $order_property);
     }
 
-    /*
-     * Retrieves a user.
-     * @param int $id The id of the user.
+    /**
+     * @param int $id
+     * @return User
      */
     function retrieve_user($id)
     {

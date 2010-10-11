@@ -4,7 +4,11 @@ require_once dirname(__FILE__) . '/context_table/table.class.php';
 
 class SurveyContextManagerRegistrationViewerComponent extends SurveyContextManager
 {
-    private $ab;
+    
+	const TAB_CONTEXTS = 'contexts';
+	const TAB_USERS = 'users';
+	
+	private $ab;
     private $context_registration;
 
     /**
@@ -18,7 +22,7 @@ class SurveyContextManagerRegistrationViewerComponent extends SurveyContextManag
 
         $this->ab = $this->get_action_bar();
         
-        $output = $this->get_browser_html();
+        $output = $this->get_tabs_html();
         
         $this->display_header();
         echo $this->ab->as_html() . '<br />';
@@ -26,7 +30,7 @@ class SurveyContextManagerRegistrationViewerComponent extends SurveyContextManag
         $this->display_footer();
     }
 
-    function get_browser_html()
+    function get_tabs_html()
     {
         $parameters = $this->get_parameters();
         $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->ab->get_query();

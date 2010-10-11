@@ -2,10 +2,7 @@
 
 require_once Path :: get_application_path() . 'lib/survey/survey_data_manager.class.php';
 require_once Path :: get_application_path() . 'lib/survey/survey_rights.class.php';
-//require_once Path :: get_application_path() . 'lib/survey/survey_manager/component/publication_browser/publication_browser_table.class.php';
-//require_once Path :: get_application_path() . 'lib/survey/survey_manager/component/participant_browser/participant_browser_table.class.php';
-//require_once Path :: get_application_path() . 'lib/survey/survey_manager/component/user_browser/user_browser_table.class.php';
-
+require_once Path :: get_application_path() . 'lib/survey/reporting_manager/reporting_manager.class.php';
 
 class SurveyManager extends WebApplication
 {
@@ -30,7 +27,7 @@ class SurveyManager extends WebApplication
     const ACTION_BROWSE_PAGE_QUESTIONS = 'question_browser';
     const ACTION_TAKE = 'taker';
     const ACTION_REPORTING_FILTER = 'reporting_filter';
-    const ACTION_REPORTING = 'reporting_filter';
+    const ACTION_REPORTING = 'reporting';
     const ACTION_EXCEL_EXPORT = 'survey_excel_median_exporter';
     const ACTION_QUESTION_REPORTING = 'question_reporting';
     
@@ -274,7 +271,7 @@ class SurveyManager extends WebApplication
     static function publish_content_object($content_object, $location, $attributes)
     {
         
-        if (! SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_ADD, SurveyRights :: LOCATION_BROWSER, SurveyRights :: TYPE_SURVEY_COMPONENT))
+        if (! SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_ADD, SurveyRights :: LOCATION_BROWSER, SurveyRights :: TYPE_COMPONENT))
         {
             return Translation :: get('NoRightsForSurveyPublication');
         }

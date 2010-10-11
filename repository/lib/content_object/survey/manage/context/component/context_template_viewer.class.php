@@ -6,8 +6,9 @@ require_once dirname(__FILE__) . '/survey_table/table.class.php';
 class SurveyContextManagerContextTemplateViewerComponent extends SurveyContextManager
 {
     
-    const TAB_SURVEYS = 'surveys';
-    const TAB_TEMPLATES = 'templates';
+    const TAB_SURVEYS = 1;
+    const TAB_ADD_TEMPLATE = 2;
+    const TAB_TEMPLATES = 3;
     
     private $ab;
     private $context_template;
@@ -48,6 +49,11 @@ class SurveyContextManagerContextTemplateViewerComponent extends SurveyContextMa
         $table = new SurveyTable($this, $parameters, $this->get_survey_condition());
         $tabs->add_tab(new DynamicContentTab(self :: TAB_SURVEYS, Translation :: get('Surveys'), Theme :: get_image_path('survey') . 'place_mini_survey.png', $table->as_html()));
         
+        $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_ADD_TEMPLATE;
+        $table = new SurveyTable($this, $parameters, $this->get_survey_condition(false));
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_ADD_TEMPLATE, Translation :: get('AddTemplates'), Theme :: get_image_path('survey') . 'place_mini_survey.png', $table->as_html()));
+        
+        
         $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_TEMPLATES;
         $table = new SurveyTemplateTable($this, $parameters, $this->get_condition(), $this->context_template);
         $tabs->add_tab(new DynamicContentTab(self :: TAB_TEMPLATES, Translation :: get('Templates'), Theme :: get_image_path('survey') . 'place_mini_survey.png', $table->as_html()));
@@ -77,12 +83,23 @@ class SurveyContextManagerContextTemplateViewerComponent extends SurveyContextMa
         return $condition;
     }
 
-    function get_survey_condition()
+    function get_survey_condition($with_template = true)
     {
         
         $conditions = array();
         $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->get_user_id(), ContentObject :: get_table_name());
         $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Survey :: get_type_name(), ContentObject :: get_table_name());
+      
+        if ($with_template)
+        {
+            $conditions[] = new EqualityCondition(Survey :: PROPERTY_CONTEXT_TEMPLATE_ID, $this->context_template->get_id(), Survey :: get_type_name());
+        
+        }
+        else
+        {
+            $conditions[] = new EqualityCondition(Survey :: PROPERTY_CONTEXT_TEMPLATE_ID, 0, Survey :: get_type_name());
+        
+        }
         
         $query = $this->ab->get_query();
         
@@ -94,7 +111,7 @@ class SurveyContextManagerContextTemplateViewerComponent extends SurveyContextMa
             $conditions[] = new OrCondition($search_conditions);
         
         }
-        
+             
         return new AndCondition($conditions);
     }
 

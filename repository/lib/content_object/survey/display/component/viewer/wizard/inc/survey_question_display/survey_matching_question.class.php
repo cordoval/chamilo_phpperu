@@ -103,9 +103,10 @@ class SurveyMatchingQuestionDisplay extends SurveyQuestionDisplay
             $group[] = $formvalidator->createElement('select', $option_name, null, $match_options);
             
             $formvalidator->addGroup($group, 'group_' . $option_name, null, '', false);
-            
-            if($answer){
+                     
+            if(isset($answer)){
             	if($answer[$option_id]){
+            		dump('hi');
             		$formvalidator->setDefaults(array($option_name =>array_values($answer[$option_id])));
             	}
             }
