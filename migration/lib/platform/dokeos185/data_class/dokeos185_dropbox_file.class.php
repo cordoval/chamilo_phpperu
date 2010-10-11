@@ -202,8 +202,8 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
         $filename = $this->get_filename();
         $old_rel_path = 'courses/' . $course->get_directory() . '/dropbox/';
 
-        $filename = iconv("UTF-8", "ISO-8859-1", $filename);
-        $old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
+        /*$filename = iconv("UTF-8", "ISO-8859-1", $filename);
+        $old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);*/
 
         $this->directory = $this->get_data_manager()->get_sys_path() . $old_rel_path;
 
@@ -240,7 +240,7 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
             return false;
         }
         else
-        if (!file_exists($this->directory . $filename))
+        if (!file_exists(utf8_decode($this->directory . $filename)))
         {
             //echo 'Error in full_path at course : ' . $course->get_db_name() .'ID : ' . $this->get_id();
             $this->create_failed_element($this->get_id());
@@ -289,7 +289,7 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
         $new_path = Path :: get(SYS_REPO_PATH) . $new_user_id . '/' . Text :: char_at($base_hash, 0) . '/';
         $unique_hash = FileSystem :: create_unique_name($new_path, $base_hash);
 
-        $hash_filename = $this->migrate_file($this->directory, $new_path, $this->get_filename(), $unique_hash);
+        $hash_filename = $this->migrate_file(utf8_decode($this->directory), $new_path, utf8_decode($this->get_filename()), $unique_hash);
 
         if ($hash_filename)
         {

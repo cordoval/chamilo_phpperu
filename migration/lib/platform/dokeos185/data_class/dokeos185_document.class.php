@@ -218,7 +218,7 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
             $new_path = Path :: get(SYS_REPO_PATH) . $new_user_id . '/' . Text :: char_at($base_hash, 0) . '/';
             //$unique_hash = FileSystem :: create_unique_name($new_path, $base_hash);
 
-            $hash_filename = $this->migrate_file($this->directory, $new_path, utf8_decode($original_filename), $base_hash);
+            $hash_filename = $this->migrate_file(utf8_decode($this->directory), $new_path, utf8_decode($original_filename), $base_hash);
 			
             if ($hash_filename)
             {
