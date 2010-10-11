@@ -71,11 +71,6 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
         if ($user->is_platform_admin() || $user->get_id() == $survey_publication->get_publisher())
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->browser->get_rights_editor_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
-            
-        //            if ($survey instanceof ComplexContentObjectSupport)
-        //            {
-        //                $toolbar->add_item(new ToolbarItem(Translation :: get('BrowseSurvey'), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_build_survey_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
-        //            }
         }
         
         if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_EDIT, $survey_publication->get_id(), SurveyRights :: TYPE_PUBLICATION, $user_id))
@@ -100,8 +95,8 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
         }
         if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_REPORTING, $survey_publication->get_id(), SurveyRights :: TYPE_PUBLICATION, $user_id))
         {
-            //$toolbar->add_item(new ToolbarItem(Translation :: get('BrowseSurveyPages'), Theme :: get_common_image_path() . 'action_view_results.png', $this->browser->get_browse_survey_pages_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
-        	$toolbar->add_item(new ToolbarItem(Translation :: get('ReportingFilter'), Theme :: get_common_image_path() . 'action_view_results.png', $this->browser->get_reporting_filter_survey_publication_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
+           $toolbar->add_item(new ToolbarItem(Translation :: get('BrowseSurveyPages'), Theme :: get_common_image_path() . 'action_view_results.png', $this->browser->get_browse_survey_pages_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
+//        	$toolbar->add_item(new ToolbarItem(Translation :: get('ReportingFilter'), Theme :: get_common_image_path() . 'action_view_results.png', $this->browser->get_reporting_filter_survey_publication_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
         }
         if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_EXPORT_RESULT, $survey_publication->get_id(), SurveyRights :: TYPE_PUBLICATION, $user_id))
         {

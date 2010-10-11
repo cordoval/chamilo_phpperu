@@ -13,7 +13,7 @@ class SurveyManagerPublisherComponent extends SurveyManager implements RepoViewe
     function run()
     {
         
-        if (! SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_PUBLISH, SurveyRights :: LOCATION_BROWSER, SurveyRights :: TYPE_SURVEY_COMPONENT))
+        if (! SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_PUBLISH, SurveyRights :: LOCATION_BROWSER, SurveyRights :: TYPE_COMPONENT))
         {
             $this->display_header();
             $this->display_error_message(Translation :: get('NotAllowed'));

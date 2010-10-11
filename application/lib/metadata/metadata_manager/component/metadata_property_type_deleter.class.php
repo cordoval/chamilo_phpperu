@@ -14,57 +14,37 @@ class MetadataManagerMetadataPropertyTypeDeleterComponent extends MetadataManage
 	/**
 	 * Runs this component and displays its output.
 	 */
-	function run()
-	{
-		$ids = $_GET[MetadataManager :: PARAM_METADATA_PROPERTY_TYPE];
-		$failures = 0;
+    function run()
+    {
+        $id = $_GET[MetadataManager :: PARAM_METADATA_PROPERTY_TYPE];
 
-		if (!empty ($ids))
-		{
-			if (!is_array($ids))
-			{
-				$ids = array ($ids);
-			}
 
-			foreach ($ids as $id)
-			{
-				$metadata_property_type = $this->retrieve_metadata_property_type($id);
+        if (!empty ($id))
+        {
+            if (!is_array($ids))
+            {
+                    $ids = array ($ids);
+            }
 
-				if (!$metadata_property_type->delete())
-				{
-					$failures++;
-				}
-                        }
+            $metadata_property_type = $this->retrieve_metadata_property_type($id);
 
-			if ($failures)
-			{
-				if (count($ids) == 1)
-				{
-					$message = 'SelectedMetadataPropertyTypeNotDeleted';
-				}
-				else
-				{
-					$message = 'Selected{MetadataPropertyTypesNotDeleted';
-				}
-			}
-			else
-			{
-				if (count($ids) == 1)
-				{
-					$message = 'SelectedMetadataPropertyTypeDeleted';
-				}
-				else
-				{
-					$message = 'SelectedMetadataPropertyTypesDeleted';
-				}
-			}
+            if (!$metadata_property_type->delete())
+            {
+                    $fail = true;
+                    $message = 'SelectedMetadataPropertyTypeNotDeleted';
+            }
+            else
+            {
+                $message = 'SelectedMetadataPropertyTypeDeleted';
+            }
 
-			$this->redirect(Translation :: get($message), ($failures ? true : false), array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE_METADATA_PROPERTY_TYPES));
-		}
-		else
-		{
-			$this->display_error_page(htmlentities(Translation :: get('NoMetadataPropertyTypesSelected')));
-		}
-	}
+
+            $this->redirect(Translation :: get($message), ($fail ? true : false), array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE_METADATA_PROPERTY_TYPES));
+        }
+        else
+        {
+                $this->display_error_page(htmlentities(Translation :: get('NoMetadataPropertyTypesSelected')));
+        }
+    }
 }
 ?>

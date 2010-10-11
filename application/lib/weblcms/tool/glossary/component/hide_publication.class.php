@@ -7,9 +7,5 @@ class GlossaryToolHidePublicationComponent extends GlossaryTool
         ToolComponent :: launch($this);
     }
 
-    function get_hidden()
-    {
-        return 1;
-    }
 }
 ?>

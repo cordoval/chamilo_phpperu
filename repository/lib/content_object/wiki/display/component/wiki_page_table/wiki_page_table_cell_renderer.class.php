@@ -67,9 +67,9 @@ class WikiPageTableCellRenderer extends DefaultContentObjectTableCellRenderer
                         return Utilities :: truncate_string($description, 50);
                 }
             }
-        }
         
-        return parent :: render_cell($column, $wiki_page);
+        	return parent :: render_cell($column, $wiki_page);
+        }
     }
 
     function get_actions($publication)
@@ -117,10 +117,10 @@ class WikiPageTableCellRenderer extends DefaultContentObjectTableCellRenderer
         return Utili ties :: build_toolbar($toolbar_data);*/
     }
 
-    private function get_publication_from_complex_content_object_item($clo_item)
+	private function get_publication_from_complex_content_object_item($clo_item)
     {
-        $publication = $this->datamanager->retrieve_content_objects(new EqualityCondition(ContentObject :: PROPERTY_ID, $clo_item->get_default_property(ComplexContentObjectItem :: PROPERTY_REF), ContentObject :: get_table_name()))->as_array();
-        return $publication[0];
+    	$publication = $this->datamanager->retrieve_content_object($clo_item->get_ref());
+        return $publication;
     }
 }
 ?>

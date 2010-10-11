@@ -11,11 +11,10 @@ class SurveyContextManagerRegistrationCreatorComponent extends SurveyContextMana
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-               
+        
         $context_registration = new SurveyContextRegistration();
-    
-        $form = new SurveyContextRegistrationForm(SurveyContextRegistrationForm :: TYPE_CREATE, $this->get_url(), $context_registration,  $this->get_user(), $this);
+        
+        $form = new SurveyContextRegistrationForm(SurveyContextRegistrationForm :: TYPE_CREATE, $this->get_url(), $context_registration, $this->get_user(), $this);
         
         if ($form->validate())
         {
@@ -32,10 +31,21 @@ class SurveyContextManagerRegistrationCreatorComponent extends SurveyContextMana
         }
         else
         {
-            $this->display_header($trail, false);
+            $this->display_header();
             $form->display();
             $this->display_footer();
         }
     }
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTEXT_REGISTRATION)), Translation :: get('BrowseContextRegistrations')));
+    }
+
+    function get_additional_parameters()
+    {
+        return array(self :: PARAM_CONTEXT_REGISTRATION_ID);
+    }
+
 }
 ?>

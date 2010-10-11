@@ -195,7 +195,7 @@ class PortfolioInformation extends DataClass
         if($type == PortfolioRights::TYPE_PORTFOLIO_FOLDER)
         {
 //            $pub = PortfolioManager::retrieve_portfolio_publication($id);
-            if($id)
+            if($id && $id != 0)
             {
                 $pub = ContentObject::get_by_id($id);
             }

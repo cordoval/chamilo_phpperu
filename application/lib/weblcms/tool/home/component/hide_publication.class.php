@@ -7,9 +7,5 @@ class HomeToolHidePublicationComponent extends HomeTool
         ToolComponent :: launch($this);
     }
 
-    function get_hidden()
-    {
-        return 1;
-    }
 }
 ?>

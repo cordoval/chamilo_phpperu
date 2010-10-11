@@ -6,10 +6,5 @@ class CalendarToolShowPublicationComponent extends CalendarTool
     {
         ToolComponent :: launch($this);
     }
-
-    function get_hidden()
-    {
-        return 0;
-    }
 }
 ?>

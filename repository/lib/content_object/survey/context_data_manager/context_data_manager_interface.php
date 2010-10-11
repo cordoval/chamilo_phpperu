@@ -65,5 +65,16 @@ interface SurveyContextDataManagerInterface
 
     function retrieve_additional_survey_template_properties($survey_template);
     
+    
+    function delete_survey_context_rel_user($context_rel_user);
+
+    function create_survey_context_rel_user($context_rel_user);
+
+    function count_survey_context_rel_users($conditions = null);
+
+    function retrieve_survey_context_rel_users($condition = null, $offset = null, $count = null, $order_property = null);
+
+    function retrieve_survey_context_rel_user($context_id, $user_id);
+    
 }
 ?>

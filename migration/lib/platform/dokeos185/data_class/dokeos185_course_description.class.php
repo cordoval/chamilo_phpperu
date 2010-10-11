@@ -149,7 +149,7 @@ class Dokeos185CourseDescription extends Dokeos185CourseDataMigrationDataClass
         $new_course_code = $this->get_id_reference($this->get_course()->get_code(), 'main_database.course');
 
         // Category for contents already exists?
-        $chamilo_category_id = RepositoryDataManager :: get_repository_category_by_name_or_create_new($new_user_id, Translation :: get('descriptions'));
+        $chamilo_category_id = RepositoryDataManager :: get_repository_category_by_name_or_create_new($new_user_id, Translation :: get('Descriptions'));
 
         $chamilo_description->set_parent_id($chamilo_category_id);
 

@@ -36,28 +36,7 @@ class MetadataPropertyAttributeTypeBrowserTableCellRenderer extends DefaultMetad
 	{
 		switch($column->get_name())
                 {
-                    case MetadataPropertyAttributeType :: PROPERTY_VALUE_TYPE:
-                        switch($metadata_property_attribute_type->get_value_type())
-                        {
-                            case MetadataPropertyAttributeType :: VALUE_TYPE_NONE:
-                                return '-';
-                            case MetadataPropertyAttributeType :: VALUE_TYPE_ID:
-                                return Translation :: get('attribute');
-                            case MetadataPropertyAttributeType :: VALUE_TYPE_VALUE:
-                                return Translation :: get('value');
-                        }
-                      case MetadataPropertyAttributeType :: PROPERTY_VALUE:
-                          switch($metadata_property_attribute_type->get_value_type())
-                        {
-                            case MetadataPropertyAttributeType :: VALUE_TYPE_ID:
-                                $attribute_type = $this->browser->retrieve_metadata_property_attribute_type($metadata_property_attribute_type->get_value());
-                                $prefix = (is_null($attribute_type->get_ns_prefix())) ? '' : $attribute_type->get_ns_prefix() . ':';
-                                $value = (is_null($attribute_type->get_value())) ? '' : '=' . $attribute_type->get_value();
-
-                                return $prefix . $attribute_type->get_name() . $value;
-                             default:
-                                return $metadata_property_attribute_type->get_value();
-                        }
+                    
                 }
 
                 if ($column === MetadataPropertyAttributeTypeBrowserTableColumnModel :: get_modification_column())

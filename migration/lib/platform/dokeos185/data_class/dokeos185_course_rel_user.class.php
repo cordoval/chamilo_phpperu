@@ -122,8 +122,11 @@ class Dokeos185CourseRelUser extends Dokeos185MigrationDataClass
      */
     function is_valid()
     {
-        if (!$this->get_course_code() || !$this->get_user_id() || $this->get_status() == NULL || $this->get_group_id() == NULL || $this->get_tutor_id() == NULL ||
-                $this->get_failed_element($this->get_course_code(), 'main_database.course') || $this->get_failed_element('main_database.user', $this->get_user_id())) {
+        $new_course_id = $this->get_id_reference($this->get_course_code(), 'main_database.course');
+        $new_user_id = $this->get_id_reference($this->get_user_id(), 'main_database.user');
+        
+    	if (!$this->get_course_code() || !$this->get_user_id() || $this->get_status() == NULL || !$new_course_id || !$new_user_id) 
+        {
             $this->create_failed_element($this->get_user_id() . '-' . $this->get_course_code());
             $this->set_message(Translation :: get('CourseRelUserInvalidMessage', array('USER_ID' => $this->get_user_id(), 'COURSE_ID' => $this->get_course_code())));
             return false;
@@ -152,16 +155,15 @@ class Dokeos185CourseRelUser extends Dokeos185MigrationDataClass
         }
 
         $chamilo_course_rel_user->set_status($this->get_status());
-        $chamilo_course_rel_user->set_role($this->get_role());
-        $chamilo_course_rel_user->set_course_group($this->get_group_id());
-        $chamilo_course_rel_user->set_tutor($this->get_tutor_id());
-        $chamilo_course_rel_user->set_sort($this->get_sort());
 
-        $user_course_category_id = $this->get_id_reference($this->get_user_course_cat(), 'user_personal_database.user_course_category');
-        if ($user_course_category_id) {
-            $chamilo_course_rel_user->set_category($user_course_category_id);
-        } else {
-            $chamilo_course_rel_user->set_category(0);
+        $course_type_user_category_id = $this->get_id_reference($this->get_user_course_cat(), 'user_personal_database.user_course_category');
+        if ($course_type_user_category_id) 
+        {
+            $course_type_user_category_rel_course = new CourseTypeUserCategoryRelCourse();
+            $course_type_user_category_rel_course->set_course_id($course_code);
+            $course_type_user_category_rel_course->set_course_type_user_category_id($course_type_user_category_id);
+            $course_type_user_category_rel_course->set_user_id($user_id);
+            $course_type_user_category_rel_course->create();
         }
 
         //create user in database

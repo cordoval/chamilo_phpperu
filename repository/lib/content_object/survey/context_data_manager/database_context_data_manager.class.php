@@ -514,5 +514,66 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
         return $survey_template;
     }
 
+    
+ function delete_survey_context_rel_user($context_rel_user)
+    {
+        $conditions = array();
+        $conditions[] = new EqualityCondition(SurveyContextRelUser :: PROPERTY_USER_ID, $context_rel_user->get_user_id());
+        $conditions[] = new EqualityCondition(SurveyContextRelUser :: PROPERTY_CONTEXT_ID, $context_rel_user->get_context_id());
+        $condition = new AndCondition($conditions);
+        $bool = $this->delete($context_rel_user->get_table_name(), $condition);
+        return $bool;
+    }
+
+    function create_survey_context_rel_user($context_rel_user)
+    {
+        return $this->create($context_rel_user);
+    }
+
+    function count_survey_context_rel_users($condition = null)
+    {
+        $context_alias = $this->get_alias(SurveyContext :: get_table_name());
+        $user_alias = UserDataManager :: get_instance()->get_alias(User :: get_table_name());
+        $context_rel_user_alias = $this->get_alias(SurveyContextRelUser :: get_table_name());
+        
+        $query = 'SELECT COUNT(* ) ';
+        $query .= ' FROM ' . $this->escape_table_name(SurveyContextRelUser :: get_table_name()) . ' AS ' . $context_rel_user_alias;
+        
+        $query .= ' JOIN ' . $this->escape_table_name(SurveyContext :: get_table_name()) . ' AS ' . $context_alias . ' ON ' . $this->escape_column_name(SurveyContext :: PROPERTY_ID, $context_alias) . ' = ' . $this->escape_column_name(SurveyContextRelUser :: PROPERTY_CONTEXT_ID, $context_rel_user_alias);
+        
+        $query .= ' JOIN ' . UserDataManager :: get_instance()->escape_table_name(User :: get_table_name()) . ' AS ' . $user_alias . ' ON ' . $this->escape_column_name(SurveyContextRelUser :: PROPERTY_USER_ID, $context_rel_user_alias) . ' = ' . $this->escape_column_name(User :: PROPERTY_ID, $user_alias);
+        
+        return $this->count_result_set($query, SurveyContextRelUser :: get_table_name(), $condition);
+    
+    }
+
+    function retrieve_survey_context_rel_users($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    {
+        
+         $context_alias = $this->get_alias(SurveyContext :: get_table_name());
+        $user_alias = UserDataManager :: get_instance()->get_alias(User :: get_table_name());
+        $context_rel_user_alias = $this->get_alias(SurveyContextRelUser :: get_table_name());
+        
+        $query = 'SELECT ' . $context_rel_user_alias . '.*  ,' . $user_alias . '.* ';
+        $query .= ' FROM ' . $this->escape_table_name(SurveyContextRelUser :: get_table_name()) . ' AS ' . $context_rel_user_alias;
+        
+        $query .= ' JOIN ' . $this->escape_table_name(SurveyContext :: get_table_name()) . ' AS ' . $context_alias . ' ON ' . $this->escape_column_name(SurveyContext :: PROPERTY_ID, $context_alias) . ' = ' . $this->escape_column_name(SurveyContextRelUser :: PROPERTY_CONTEXT_ID, $context_rel_user_alias);
+        
+        $query .= ' JOIN ' . UserDataManager :: get_instance()->escape_table_name(User :: get_table_name()) . ' AS ' . $user_alias . ' ON ' . $this->escape_column_name(SurveyContextRelUser :: PROPERTY_USER_ID, $context_rel_user_alias) . ' = ' . $this->escape_column_name(User :: PROPERTY_ID, $user_alias);
+        
+        return $this->retrieve_object_set($query, SurveyContextRelUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, SurveyContextRelUser :: CLASS_NAME);
+    
+    }
+
+    function retrieve_survey_context_rel_user($context_id, $user_id)
+    {
+        
+        $conditions = array();
+        $conditions[] = new EqualityCondition(SurveyContextRelUser :: PROPERTY_CONTEXT_ID, $context_id);
+        $conditions[] = new EqualityCondition(SurveyContextRelUser :: PROPERTY_USER_ID, $user_id);
+        $condition = new AndCondition($conditions);
+        return $this->retrieve_object(SurveyContextRelUser :: get_table_name(), $condition, array(), SurveyContextRelUser :: CLASS_NAME);
+    }
+    
 }
 ?>

@@ -16,50 +16,25 @@ class MetadataManagerMetadataPropertyAttributeTypeDeleterComponent extends Metad
 	 */
 	function run()
 	{
-		$ids = $_GET[MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_TYPE];
-		$failures = 0;
+		$id = $_GET[MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_TYPE];
+		$fail = false;
 
-		if (!empty ($ids))
+		if (!empty ($id))
 		{
-			if (!is_array($ids))
-			{
-				$ids = array ($ids);
-			}
+			
+                    $metadata_property_attribute_type = $this->retrieve_metadata_property_attribute_type($id);
 
-			foreach ($ids as $id)
-			{
-				$metadata_property_attribute_type = $this->retrieve_metadata_property_attribute_type($id);
-
-				if (!$metadata_property_attribute_type->delete())
-				{
-					$failures++;
-				}
-			}
-
-			if ($failures)
-			{
-				if (count($ids) == 1)
-				{
-					$message = 'SelectedMetadataPropertyAttributeTypeNotDeleted';
-				}
-				else
-				{
-					$message = 'Selected{MetadataPropertyAttributeTypesNotDeleted';
-				}
-			}
-			else
-			{
-				if (count($ids) == 1)
-				{
-					$message = 'SelectedMetadataPropertyAttributeTypeDeleted';
-				}
-				else
-				{
-					$message = 'SelectedMetadataPropertyAttributeTypesDeleted';
-				}
-			}
-
-			$this->redirect(Translation :: get($message), ($failures ? true : false), array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE_METADATA_PROPERTY_ATTRIBUTE_TYPES));
+                    if (!$metadata_property_attribute_type->delete())
+                    {
+                        $fail = true;
+                        $message = 'SelectedMetadataPropertyAttributeTypesDeleted';
+                    }
+                    else
+                    {
+                        $message = 'SelectedMetadataPropertyAttributeTypeDeleted';
+                    }
+			
+                    $this->redirect(Translation :: get($message), ($fail ? true : false), array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE_METADATA_PROPERTY_ATTRIBUTE_TYPES));
 		}
 		else
 		{

@@ -6,10 +6,5 @@ class StreamingVideoToolHidePublicationComponent extends StreamingVideoTool
     {
         ToolComponent :: launch($this);
     }
-
-    function get_hidden()
-    {
-        return 1;
-    }
 }
 ?>

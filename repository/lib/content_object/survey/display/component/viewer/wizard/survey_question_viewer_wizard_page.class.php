@@ -60,7 +60,7 @@ class SurveyQuestionViewerWizardPage extends SurveyViewerWizardPage
            	$question_context_path = $this->context_path.'_'.$complex_question->get_id();
                       	
            	$answer = $this->get_parent()->get_answer($complex_question->get_id(), $question_context_path);
-                       
+           	
             $question_display = SurveyQuestionDisplay :: factory($this, $complex_question, $answer, $question_context_path, $this->survey);
             
             $question_display->display();

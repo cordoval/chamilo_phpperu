@@ -37,7 +37,7 @@ abstract class Application
     //
     //        if (Request :: get(self :: PARAM_APPLICATION) == $this->get_application_name())
     //        {
-        //        $this->handle_table_action();
+    //        $this->handle_table_action();
     //        }
     }
 
@@ -699,7 +699,7 @@ abstract class Application
      */
     static function component($application_name, $user, $type)
     {
-    	$class = self :: load_class($application_name, $type);
+        $class = self :: load_class($application_name, $type);
         return new $class($user);
     }
 
@@ -729,42 +729,52 @@ abstract class Application
      * @param User $user
      */
     static function construct($application_name, $user)
-    { 
-    	require_once self :: get_application_manager_path($application_name);
-
+    {
+        require_once self :: get_application_manager_path($application_name);
+        self :: register_autoloader($application_name);
+        
         $action = self :: get_component_action($application_name);
-        $component = self :: component($application_name, $user, $action);   
+        $component = self :: component($application_name, $user, $action);
         $component->set_parameter(self :: PARAM_APPLICATION, $application_name);
         
         $trail = BreadcrumbTrail :: get_instance();
         
-        if($component instanceof AdministrationComponent)
+        if ($component instanceof AdministrationComponent)
         {
-        	$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        	$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => $application_name), array(), false, Redirect :: TYPE_CORE), Translation :: get(self :: application_to_class($application_name))));
+            $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
+            $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => $application_name), array(), false, Redirect :: TYPE_CORE), Translation :: get(self :: application_to_class($application_name))));
         }
         else
         {
-        	$trail->add(new Breadcrumb($component->get_url(), Translation :: get(self :: application_to_class($application_name))));
-                //$trail->add(new Breadcrumb(Redirect :: get_link($application_name)));
+            $trail->add(new Breadcrumb($component->get_url(), Translation :: get(self :: application_to_class($application_name))));
+            //$trail->add(new Breadcrumb(Redirect :: get_link($application_name)));
         }
         
         $component->add_additional_breadcrumbs($trail);
         
         $parameters = $component->get_additional_parameters();
-        foreach($parameters as $parameter)
+        foreach ($parameters as $parameter)
         {
-       		$component->set_parameter($parameter, Request :: get($parameter));
+            $component->set_parameter($parameter, Request :: get($parameter));
         }
         
         $component->set_action($action);
         
-        if(!$component instanceof DelegateComponent)
+        if (! $component instanceof DelegateComponent)
         {
-        	$trail->add(new Breadcrumb($component->get_url(array(self :: PARAM_ACTION => $action)), Translation :: get(get_class($component))));
+            $trail->add(new Breadcrumb($component->get_url(array(self :: PARAM_ACTION => $action)), Translation :: get(get_class($component))));
         }
         
         return $component;
+    }
+
+    static function register_autoloader($application_name)
+    {
+        $application_class_name = self :: get_application_class_name($application_name);
+        if (method_exists($application_class_name, '__autoload'))
+        {
+            spl_autoload_register($application_class_name . '::__autoload');
+        }
     }
 
     /**
@@ -775,15 +785,15 @@ abstract class Application
     {
         self :: construct($application_name, $user)->run();
     }
-    
+
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	
+    
     }
 
-	function get_additional_parameters()
+    function get_additional_parameters()
     {
-    	return array();
+        return array();
     }
 }
 ?>

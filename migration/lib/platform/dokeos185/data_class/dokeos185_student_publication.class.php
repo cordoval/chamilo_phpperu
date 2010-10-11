@@ -222,7 +222,7 @@ class Dokeos185StudentPublication extends Dokeos185MigrationDataClass
         
         if (! $new_user_id)
         {
-            $new_user_id = $mgdm->get_owner($new_course_code);
+            $new_user_id = $this->get_data_manager()->get_owner_id($new_course_code);
         }
         
         $new_path = $new_user_id . '/';
@@ -260,8 +260,8 @@ class Dokeos185StudentPublication extends Dokeos185MigrationDataClass
                 else
                     $lcms_document->set_description($this->get_description());
                 $lcms_document->set_owner_id($new_user_id);
-                //$lcms_document->set_creation_date($mgdm->make_unix_time($this->item_property->get_insert_date()));
-                //$lcms_document->set_modification_date($mgdm->make_unix_time($this->item_property->get_lastedit_date()));
+                //$lcms_document->set_creation_date(strtotime($this->item_property->get_insert_date()));
+                //$lcms_document->set_modification_date(strtotime($this->item_property->get_lastedit_date()));
                 $lcms_document->set_path($new_path . $file);
                 $lcms_document->set_filename($file);
                 
@@ -362,12 +362,12 @@ class Dokeos185StudentPublication extends Dokeos185MigrationDataClass
 			$publication->set_publisher_id($new_user_id);
 			$publication->set_tool('document');
 			$publication->set_category_id($parent);
-			//$publication->set_from_date($mgdm->make_unix_time($this->item_property->get_start_visible()));
-			//$publication->set_to_date($mgdm->make_unix_time($this->item_property->get_end_visible()));
+			//$publication->set_from_date(strtotime($this->item_property->get_start_visible()));
+			//$publication->set_to_date(strtotime($this->item_property->get_end_visible()));
 			$publication->set_from_date(0);
 			$publication->set_to_date(0);
-			$publication->set_publication_date($mgdm->make_unix_time($this->item_property->get_insert_date()));
-			$publication->set_modified_date($mgdm->make_unix_time($this->item_property->get_lastedit_date()));
+			$publication->set_publication_date(strtotime($this->item_property->get_insert_date()));
+			$publication->set_modified_date(strtotime($this->item_property->get_lastedit_date()));
 			//$publication->set_modified_date(0);
 			//$publication->set_display_order_index($this->get_display_order());
 			$publication->set_display_order_index(0);

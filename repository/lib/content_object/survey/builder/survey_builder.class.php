@@ -19,6 +19,7 @@ class SurveyBuilder extends ComplexBuilder implements ComplexMenuSupport
     const ACTION_UNSUBSCRIBE_PAGE_FROM_TEMPLATE = 'page_unsubscriber';
     const ACTION_SUBSCRIBE_PAGE_TO_TEMPLATE = 'page_subscriber';
     const ACTION_TRUNCATE_TEMPLATE = 'context_template_truncater';
+
     const ACTION_CONFIGURE_PAGE = 'configure';
     const ACTION_CHANGE_QUESTION_VISIBILITY = 'visibility_changer';
     const ACTION_CONFIGURE_QUESTION = 'configure_question';

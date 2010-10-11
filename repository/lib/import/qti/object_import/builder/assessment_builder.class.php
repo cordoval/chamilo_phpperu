@@ -108,7 +108,7 @@ class AssessmentBuilder extends BuilderBase{
 
     	$types = Assessment::get_allowed_types();
     	foreach($types as $type){
-    		if($type == $question->get_type_name()){
+    		if($type == $question->get_type()){
     			return true;
     		}
     	}

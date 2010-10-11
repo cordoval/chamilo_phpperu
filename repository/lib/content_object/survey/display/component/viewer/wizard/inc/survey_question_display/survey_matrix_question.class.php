@@ -38,7 +38,7 @@ class SurveyMatrixQuestionDisplay extends SurveyQuestionDisplay
         $question_id = $complex_question->get_id();
         
         $answer = $this->get_answer();
-               
+        
         foreach ($options as $i => $option)
         {
             $group = array();
@@ -67,11 +67,13 @@ class SurveyMatrixQuestionDisplay extends SurveyQuestionDisplay
                     $option_name = $question_id . '_' . $i . '_' . $j;
                     
                     $checkbox = $formvalidator->createElement('checkbox', $option_name, '', '');
-                    if ($answer[$i][$j] == 1)
+                    if ($answer)
                     {
-                        $formvalidator->setDefaults(array($option_name => 1));
+                        if ($answer[$i][$j] == 1)
+                        {
+                            $formvalidator->setDefaults(array($option_name => 1));
+                        }
                     }
-                    
                     $group[] = $checkbox;
                 }
             }

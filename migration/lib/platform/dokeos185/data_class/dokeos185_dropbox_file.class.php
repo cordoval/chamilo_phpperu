@@ -197,13 +197,13 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
     function is_valid()
     {
         $course = $this->get_course();
-        $this->set_item_property($this->get_data_manager()->get_item_property($course, 'document', $this->get_id()));
+        $this->set_item_property($this->get_data_manager()->get_item_property($course, 'dropbox', $this->get_id()));
 
         $filename = $this->get_filename();
         $old_rel_path = 'courses/' . $course->get_directory() . '/dropbox/';
 
-        $filename = iconv("UTF-8", "ISO-8859-1", $filename);
-        $old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
+        /*$filename = iconv("UTF-8", "ISO-8859-1", $filename);
+        $old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);*/
 
         $this->directory = $this->get_data_manager()->get_sys_path() . $old_rel_path;
 
@@ -214,7 +214,7 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
             return false;
         }
         else
-        if (!$this->get_id_reference($this->get_cat_id(), 'dokeos_DOKEOSCOURSE.dropbox_category'))
+        if ($this->get_cat_id() > 0 && !$this->get_id_reference($this->get_cat_id(), $this->get_database_name() . '.dropbox_category'))
         {
             $this->create_failed_element($this->get_id());
             return false;
@@ -240,7 +240,7 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
             return false;
         }
         else
-        if (!file_exists($this->directory . $filename))
+        if (!file_exists(utf8_decode($this->directory . $filename)))
         {
             //echo 'Error in full_path at course : ' . $course->get_db_name() .'ID : ' . $this->get_id();
             $this->create_failed_element($this->get_id());
@@ -258,9 +258,13 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
     function convert_data()
     {
         if ($this->get_uploader_id())
+        {
             $new_user_id = $this->get_id_reference($this->get_uploader_id(), 'main_database.user');
+        }
         else
+        {
             $new_user_id = $this->get_id_reference($this->get_item_property()->get_insert_user_id(), 'main_database.user');
+        }
 
         $course = $this->get_course();
         $new_course_code = $this->get_id_reference($course->get_code(), 'main_database.course');
@@ -270,7 +274,7 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
 
         if (!$new_user_id)
         {
-            $new_user_id = $this->get_owner($new_course_code);
+            $new_user_id = $this->get_data_manager()->get_owner_id($new_course_code);
         }
 
         $new_path = $new_user_id . '/';
@@ -285,7 +289,7 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
         $new_path = Path :: get(SYS_REPO_PATH) . $new_user_id . '/' . Text :: char_at($base_hash, 0) . '/';
         $unique_hash = FileSystem :: create_unique_name($new_path, $base_hash);
 
-        $hash_filename = $this->migrate_file($this->directory, $new_path, $this->get_filename(), $unique_hash);
+        $hash_filename = $this->migrate_file(utf8_decode($this->directory), $new_path, utf8_decode($this->get_filename()), $unique_hash);
 
         if ($hash_filename)
         {
@@ -309,7 +313,9 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
             $chamilo_repository_document->set_parent_id($chamilo_category_id);
 
             if ($this->get_item_property()->get_visibility() == 2)
+            {
                 $chamilo_repository_document->set_state(1);
+            }
 
             //Create document in db
             $chamilo_repository_document->create();
@@ -319,7 +325,7 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
             $this->create_id_reference($this->get_id(), $chamilo_repository_document->get_id());
 
             //publication
-            $parent_id = $this->get_id_reference($this->get_cat_id(), 'dokeos_DOKEOSCOURSE.dropbox_category');
+            $parent_id = $this->get_id_reference($this->get_cat_id(), $this->get_database_name() . '.dropbox_category');
             $this->create_publication($chamilo_repository_document, $new_course_code, $new_user_id, 'document', $parent_id, $new_to_user_id, $new_to_group_id);
         }
         return $chamilo_repository_document;

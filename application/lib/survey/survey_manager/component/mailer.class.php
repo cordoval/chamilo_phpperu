@@ -16,7 +16,7 @@ class SurveyManagerMailerComponent extends SurveyManager
     function run()
     {
         
-        if (! SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_MAIL, 'publication_browser', SurveyRights :: TYPE_SURVEY_COMPONENT))
+        if (! SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_MAIL, 'publication_browser', SurveyRights :: TYPE_COMPONENT))
         {
             $this->display_header();
             $this->display_error_message(Translation :: get('NotAllowed'));

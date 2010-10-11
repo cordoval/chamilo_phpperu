@@ -6,10 +6,5 @@ class GeolocationToolHidePublicationComponent extends GeolocationTool
     {
         ToolComponent :: launch($this);
     }
-
-    function get_hidden()
-    {
-        return 1;
-    }
 }
 ?>

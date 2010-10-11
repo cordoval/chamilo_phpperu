@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__) . '/template_browser/browser_table.class.php';
+require_once dirname(__FILE__) . '/context_template_table/table.class.php';
 
 class SurveyContextManagerContextTemplateBrowserComponent extends SurveyContextManager
 {

@@ -15,6 +15,8 @@ class SurveyQuestionAnswerTracker extends SimpleTracker
     const PROPERTY_COMPLEX_QUESTION_ID = 'question_cid';
     const PROPERTY_ANSWER = 'answer';
     const PROPERTY_CONTEXT_PATH = 'context_path';
+    const PROPERTY_PUBLICATION_ID = 'publication_id';
+    const PROPERTY_USER_ID = 'user_id';
 
     function validate_parameters(array $parameters = array())
     {
@@ -23,6 +25,8 @@ class SurveyQuestionAnswerTracker extends SimpleTracker
         $this->set_question_cid($parameters[self :: PROPERTY_COMPLEX_QUESTION_ID]);
         $this->set_answer($parameters[self :: PROPERTY_ANSWER]);
         $this->set_context_path($parameters[self :: PROPERTY_CONTEXT_PATH]);
+        $this->set_publication_id($parameters[self :: PROPERTY_PUBLICATION_ID]);
+        $this->set_user_id($parameters[self :: PROPERTY_USER_ID]);
     }
 
     /**
@@ -30,7 +34,7 @@ class SurveyQuestionAnswerTracker extends SimpleTracker
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_SURVEY_PARTICIPANT_ID, self :: PROPERTY_COMPLEX_QUESTION_ID, self :: PROPERTY_ANSWER, self :: PROPERTY_CONTEXT_PATH));
+        return parent :: get_default_property_names(array(self :: PROPERTY_SURVEY_PARTICIPANT_ID, self :: PROPERTY_COMPLEX_QUESTION_ID, self :: PROPERTY_ANSWER, self :: PROPERTY_CONTEXT_PATH, self :: PROPERTY_PUBLICATION_ID, self :: PROPERTY_USER_ID));
     }
 
     function get_survey_participant_id()
@@ -76,7 +80,7 @@ class SurveyQuestionAnswerTracker extends SimpleTracker
     function get_answer()
     {
         $answer = unserialize($this->get_default_property(self :: PROPERTY_ANSWER));
-     
+        
         if ($answer)
         {
             return $answer;
@@ -91,6 +95,26 @@ class SurveyQuestionAnswerTracker extends SimpleTracker
     function set_answer($answer)
     {
         $this->set_default_property(self :: PROPERTY_ANSWER, $answer);
+    }
+
+    function get_publication_id()
+    {
+        return $this->get_default_property(self :: PROPERTY_PUBLICATION_ID);
+    }
+
+    function set_publication_id($publication_id)
+    {
+        $this->set_default_property(self :: PROPERTY_PUBLICATION_ID, $publication_id);
+    }
+
+    function get_user_id()
+    {
+        return $this->get_default_property(self :: PROPERTY_USER_ID);
+    }
+
+    function set_user_id($user_id)
+    {
+        $this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
     }
 
     static function get_table_name()

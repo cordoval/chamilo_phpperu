@@ -29,7 +29,6 @@ class UserLogin extends UserBlock
 
     function display_anonymous_right_menu()
     {
-        global $loginFailed, $plugins;
         $html = array();
 
         if (! Authentication :: is_valid())
@@ -38,7 +37,7 @@ class UserLogin extends UserBlock
             //api_display_language_form();
             $html[] = $this->display_login_form();
 
-            if ($loginFailed)
+            if (Request :: get('loginFailed') == 1)
             {
                 $html[] = $this->handle_login_failed();
             }
@@ -69,12 +68,9 @@ class UserLogin extends UserBlock
 
     function handle_login_failed()
     {
-        $message = Translation :: get("InvalidId");
-        if (PlatformSetting :: get('allow_registration', 'user') == 'true')
-        {
-            $message = Translation :: get("InvalidForSelfRegistration");
-        }
-        return "<div id=\"login_fail\">" . $message . "</div>";
+        $message = Request :: get('message');
+        return '<div class="error-message" style="width: auto; left: 0%; margin: auto; margin-left: -40px;">' . $message . '</div>';
+        //return '<div style="background-color:#FFD1D1; background-image:url("../images/common/status_error_mini.png"); border:1px solid #FF9B9D; color:#B40404;">' . $message . '</div>';
     }
 
     function display_login_form()

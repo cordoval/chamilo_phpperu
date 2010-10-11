@@ -63,9 +63,20 @@ class SurveyMenu extends HTML_Menu
         
         $this->context_path_relations = array();
         
+        $has_context = $this->survey->has_context();
+        
         foreach ($context_paths as $index => $context_path)
         {
-            $path_ids = explode('_', $context_path);
+            
+            if ($has_context)
+            {
+                $context_path_ids = explode('|', $context_path);
+                $parent_path = $context_path_ids[0] . '|' . $context_path_ids[1];
+                $path_ids = explode('_', $context_path_ids[2]);
+            }else{
+            	 $path_ids = explode('_', $context_path);
+            }
+            
             $id_count = count($path_ids);
             
             //questions
@@ -74,7 +85,14 @@ class SurveyMenu extends HTML_Menu
             $context[self :: QUESTION_ID] = $question_id;
             
             array_pop($path_ids);
-            $question_parent_context = implode('_', $path_ids);
+            if ($has_context)
+            {
+                $question_parent_context = $parent_path . '|' . $path_ids[0];
+            }
+            else
+            {
+                $question_parent_context = implode('_', $path_ids);
+            }
             
             $context[self :: PARENT_ID] = $question_parent_context;
             $context[self :: ID] = $context_path;
@@ -87,7 +105,14 @@ class SurveyMenu extends HTML_Menu
             $context[self :: PAGE_ID] = $page_id;
             
             array_pop($path_ids);
-            $page_parent_context = implode('_', $path_ids);
+            if ($has_context)
+            {
+                $page_parent_context = $parent_path;
+            }
+            else
+            {
+                $page_parent_context = implode('_', $path_ids);
+            }
             
             $context[self :: PARENT_ID] = $page_parent_context;
             $context[self :: ID] = $question_parent_context;
@@ -107,13 +132,33 @@ class SurveyMenu extends HTML_Menu
         {
             foreach ($parent_ids as $index => $context_path)
             {
-                $path_ids = explode('_', $context_path);
-                $id_count = count($path_ids);
+                
+            	if ($has_context)
+                {
+                    $context_path_ids = explode('|', $context_path);
+                    $path_ids = explode('_', $context_path_ids[1]);
+                    $id_count = count($path_ids) + 1;
+                    $count = count($path_ids);
+                
+                }
+                else
+                {
+                    $path_ids = explode('_', $context_path);
+                    $id_count = count($path_ids);
+                }
+                
                 if ($id_count == $level)
                 {
                     $context = array();
                     $context[self :: ID] = $context_path;
-                    $context[self :: CONTEXT_ID] = $path_ids[$id_count - 1];
+                    if ($has_context)
+                    {
+                        $context[self :: CONTEXT_ID] = $path_ids[$count - 1];
+                    }
+                    else
+                    {
+                        $context[self :: CONTEXT_ID] = $path_ids[$id_count - 1];
+                    }
                     
                     if ($level == 1)
                     {
@@ -123,7 +168,26 @@ class SurveyMenu extends HTML_Menu
                     else
                     {
                         array_pop($path_ids);
-                        $parent_id = implode('_', $path_ids);
+                        if (count($path_ids) > 0)
+                        {
+                            if($has_context){
+                            	$parent_id = $context_path_ids[0] . '|' . implode('_', $path_ids);
+                            }else{
+                            	$parent_id = implode('_', $path_ids);
+                            }
+                        	
+                        }
+                        else
+                        {
+                            if($has_context){
+                            	$parent_id = $context_path_ids[0];
+                            }else{
+                            	$parent_id = implode('_', $path_ids);
+                            }
+                        	
+                        }
+                        
+                        //                        
                         $parent_ids[] = $parent_id;
                         $context[self :: MENU_ITEM_TYPE] = self :: TYPE_CONTEXT;
                     }
@@ -135,6 +199,19 @@ class SurveyMenu extends HTML_Menu
             }
             $level --;
         }
+        
+        if ($has_context)
+        {
+            $context = array();
+            $context[self :: ID] = $this->survey_id;
+            $context[self :: CONTEXT_ID] = $this->survey_id;
+            $context[self :: MENU_ITEM_TYPE] = self :: TYPE_SURVYEY;
+            $context[self :: PARENT_ID] = 0;
+            $this->context_path_relations[$this->survey_id] = $context;
+        }
+        
+//        dump($this->context_path_relations);
+//        exit();
     
     }
 
