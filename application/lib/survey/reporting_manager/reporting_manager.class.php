@@ -8,18 +8,21 @@ class SurveyReportingManager extends SubManager
     
     const PARAM_ACTION = 'action';
     
-    const PARAM_REPORTING_TEMPLATE_ID = 'template_id';
+    const PARAM_REPORTING_TEMPLATE_REGISTRATION_ID = 'template_registration_id';
+    
+    const PARAM_PUBLICATION_REL_REPORTING_TEMPLATE_ID = 'publication_rel_reporting_template_id';
     
     //used for import
     const PARAM_MESSAGE = 'message';
     const PARAM_WARNING_MESSAGE = 'warning_message';
     const PARAM_ERROR_MESSAGE = 'error_message';
     
-    const ACTION_ACTIVATE_REPORTING_TEMPLATE = 'activator';
+    const ACTION_ACTIVATE_REPORTING_TEMPLATE_REGISTRATION = 'activator';
     const ACTION_BROWSE_REPORTING_TEMPLATES = 'browser';
     const ACTION_EDIT_REPORTING_TEMPLATE = 'editor';
-    const ACTION_DEACTIVATE_REPORTING_TEMPLATE = 'deleter';
-    const ACTION_IMPORT_REPORTING_TEMPLATE = 'importer';
+    const ACTION_EDIT_REPORTING_RIGHTS = 'rights_editor';
+    const ACTION_DEACTIVATE_REPORTING_TEMPLATE = 'deactivator';
+    const ACTION_REPORTING = 'reporting';
     
     const DEFAULT_ACTION = self :: ACTION_BROWSE_REPORTING_TEMPLATES;
 
@@ -36,30 +39,29 @@ class SurveyReportingManager extends SubManager
     //url
     
 
-    function get_browse_reporting_templates_url($reporting_template)
+    function get_browse_reporting_templates_url()
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_REPORTING_TEMPLATES));
     }
 
-    function get_reporting_template_editing_url($reporting_template)
+    function get_reporting_template_activate_url($reporting_template_registation)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_REPORTING_TEMPLATE, self :: PARAM_REPORTING_TEMPLATE_ID => $reporting_template->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_ACTIVATE_REPORTING_TEMPLATE_REGISTRATION, self :: PARAM_REPORTING_TEMPLATE_REGISTRATION_ID => $reporting_template_registation->get_id()));
     }
 
-    function get_reporting_template_activate_url()
+    function get_reporting_template_deactivate_url($publication_rel_reporting_template_registation)
     {
-            return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_ACTIVATE_REPORTING_TEMPLATE));
-      
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DEACTIVATE_REPORTING_TEMPLATE, self :: PARAM_PUBLICATION_REL_REPORTING_TEMPLATE_ID => $publication_rel_reporting_template_registation->get_id()));
     }
 
-    function get_reporting_template_deactivate_url($reporting_template)
+    function get_reporting_rights_editor_url($publication_rel_reporting_template_registation)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DEACTIVATE_REPORTING_TEMPLATE, self :: PARAM_REPORTING_TEMPLATE_ID => $reporting_template->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_REPORTING_RIGHTS, self :: PARAM_PUBLICATION_REL_REPORTING_TEMPLATE_ID => $publication_rel_reporting_template_registation->get_id()));
     }
 
-    function get_reporting_template_importer_url($reporting_template_id)
+    function get_reporting_url($publication_rel_reporting_template_registation)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_IMPORT_REPORTING_TEMPLATE, self :: PARAM_REPORTING_TEMPLATE_ID => $reporting_template_id));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_REPORTING, self :: PARAM_PUBLICATION_REL_REPORTING_TEMPLATE_ID => $publication_rel_reporting_template_registation->get_id()));
     }
 
     /**

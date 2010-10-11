@@ -16,7 +16,7 @@ class SurveyReportingTemplateTableDataProvider extends ObjectTableDataProvider
 
     function get_object_count()
     {
-        return $this->get_browser()->count_reporting_template_registrations($this->get_condition());
+        return ReportingDataManager :: get_instance()->count_reporting_template_registrations($this->get_condition());
     }
 }
 ?>

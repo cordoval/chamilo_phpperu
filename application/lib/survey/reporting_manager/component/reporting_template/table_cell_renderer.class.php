@@ -57,9 +57,9 @@ class SurveyReportingTemplateTableCellRenderer extends DefaultSurveyReportingTem
     private function get_modification_links($column, $reporting_template)
     {
         $toolbar = new Toolbar();
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Deactivate'), Theme :: get_common_image_path() . 'action_edit.png', $this->component->get_reporting_template_deactivate_url($reporting_template), ToolbarItem :: DISPLAY_ICON));
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Activate'), Theme :: get_common_image_path() . 'action_delete.png', $this->component->get_reporting_template_activate_url($reporting_template), ToolbarItem :: DISPLAY_ICON, true));
-        
+         
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Activate'), Theme :: get_common_image_path() . 'action_confirm.png', $this->component->get_reporting_template_activate_url($reporting_template), ToolbarItem :: DISPLAY_ICON, true));
+          
         return $toolbar->as_html();
     }
 }

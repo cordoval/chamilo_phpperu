@@ -25,7 +25,8 @@ class SurveyRights
     
     const RIGHT_ACTIVATE = 10;
     const ACTIVATE_RIGHT_NAME = 'activate';
-    
+    const RIGHT_ADD_REPORTING_TEMPLATE = 11;
+    const ADD_REPORTING_TEMPLATE_RIGHT_NAME = 'add_reporting_template';
     
     const LOCATION_BROWSER = 1;
     const LOCATION_REPORTING = 2;
@@ -35,13 +36,14 @@ class SurveyRights
     
     const TYPE_COMPONENT = 1;
     const TYPE_PUBLICATION = 2;
+    const TYPE_REPORTING_TEMPLATE_REGISTRATION = 3;
 
     static function get_available_rights_for_publications()
     {
-        return array(self :: PARTICIPATE_RIGHT_NAME => self :: RIGHT_PARTICIPATE, self :: VIEW_RIGHT_NAME => self :: RIGHT_VIEW, self :: INVITE_RIGHT_NAME => self :: RIGHT_INVITE, self :: EDIT_RIGHT_NAME => self :: RIGHT_EDIT, self :: DELETE_RIGHT_NAME => self :: RIGHT_DELETE, self :: REPORTING_RIGHT_NAME => self :: RIGHT_REPORTING, self :: MAIL_RIGHT_NAME => self :: RIGHT_MAIL, self :: EXPORT_RESULT_RIGHT_NAME => self :: RIGHT_EXPORT_RESULT);
+        return array(self :: PARTICIPATE_RIGHT_NAME => self :: RIGHT_PARTICIPATE, self :: VIEW_RIGHT_NAME => self :: RIGHT_VIEW, self :: INVITE_RIGHT_NAME => self :: RIGHT_INVITE, self :: EDIT_RIGHT_NAME => self :: RIGHT_EDIT, self :: DELETE_RIGHT_NAME => self :: RIGHT_DELETE, self :: REPORTING_RIGHT_NAME => self :: RIGHT_REPORTING, self :: MAIL_RIGHT_NAME => self :: RIGHT_MAIL, self :: EXPORT_RESULT_RIGHT_NAME => self :: RIGHT_EXPORT_RESULT, self :: ADD_REPORTING_TEMPLATE_RIGHT_NAME => self :: RIGHT_ADD_REPORTING_TEMPLATE);
     }
 
-    static function get_available_rights_for_reporting_templates()
+    static function get_available_rights_for_reporting_template_registrations()
     {
         return array(self :: VIEW_RIGHT_NAME => self :: RIGHT_VIEW);
     }

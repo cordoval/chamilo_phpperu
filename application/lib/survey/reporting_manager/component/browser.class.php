@@ -1,16 +1,17 @@
 <?php
-require_once dirname(__FILE__) . '/../region_manager.class.php';
-require_once dirname(__FILE__) . '/browser/browser_table.class.php';
+
+require_once dirname(__FILE__) . '/reporting_template/table.class.php';
+require_once dirname(__FILE__) . '/publication_rel_reporting_template/table.class.php';
+require_once Path :: get_application_path() . 'lib/survey/survey_publication_rel_reporting_template_registration.class.php';
 
 class SurveyReportingManagerBrowserComponent extends SurveyReportingManager
 {
     
-    const TAB_TEMPLATE_REGISTRATIONS = 1;
-       
+    const TAB_PUBLICATION_REL_TEMPLATE_REGISTRATIONS = 1;
+    const TAB_TEMPLATE_REGISTRATIONS = 2;
+    
     private $action_bar;
-    private $region;
-    private $parent_region;
-    private $root_region;
+    private $publication_id;
 
     /**
      * Runs this component and displays its output.
@@ -18,7 +19,7 @@ class SurveyReportingManagerBrowserComponent extends SurveyReportingManager
     function run()
     {
         
-        if (! SurveyRights :: is_allowed_in_internship_organizers_subtree(SurveyRights :: RIGHT_VIEW, SurveyRights :: LOCATION_REPORTING, SurveyRights :: TYPE_COMPONENT))
+        if (! SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_VIEW, SurveyRights :: LOCATION_REPORTING, SurveyRights :: TYPE_COMPONENT))
         {
             $this->display_header();
             $this->display_error_message(Translation :: get('NotAllowed'));
@@ -26,14 +27,28 @@ class SurveyReportingManagerBrowserComponent extends SurveyReportingManager
             exit();
         }
         
-        $this->action_bar = $this->get_action_bar();
-
-        $output = $this->get_tabs_html();
+        $this->publication_ids = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
         
-        $this->display_header();
-        echo $this->action_bar->as_html() . '<br />';
-        echo $output;
-        $this->display_footer();
+        if (! empty($this->publication_ids))
+        {
+            if (! is_array($this->publication_ids))
+            {
+                $this->publication_ids = array($this->publication_ids);
+            }
+            
+            $this->action_bar = $this->get_action_bar();
+            
+            $output = $this->get_tabs_html();
+            
+            $this->display_header();
+            echo $this->action_bar->as_html() . '<br />';
+            echo $output;
+            $this->display_footer();
+        }
+        else
+        {
+            $this->display_error_page(htmlentities(Translation :: get('NoSurveyPublicationsSelected')));
+        }
     }
 
     function get_tabs_html()
@@ -41,84 +56,87 @@ class SurveyReportingManagerBrowserComponent extends SurveyReportingManager
         
         $html = array();
         
-        
         $renderer_name = Utilities :: camelcase_to_underscores(get_class($this));
         $tabs = new DynamicTabsRenderer($renderer_name);
         
         $parameters = $this->get_parameters();
         $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
         
-        // Subregion table tab
-        $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_TEMPLATE_REGISTRATIONS;
-        $table = new SurveyReportingTemplateTable($this, $parameters, $this->get_condition());
-        $tabs->add_tab(new DynamicContentTab(self :: TAB_TEMPLATE_REGISTRATIONS, Translation :: get('ReportingTemplates'), Theme :: get_image_path('survey') . 'place_mini_survey.png', $table->as_html()));
+        $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_PUBLICATION_REL_TEMPLATE_REGISTRATIONS;
+        $table = new SurveyPublicationRelReportingTemplateTable($this, $parameters, $this->get_publication_rel_template_registration_condition());
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_PUBLICATION_REL_TEMPLATE_REGISTRATIONS, Translation :: get('ReportingTemplates'), Theme :: get_image_path('survey') . 'place_mini_survey.png', $table->as_html()));
         
-//        $tabs->add_tab(new DynamicContentTab(self :: TAB_DETAIL, Translation :: get('Detail'), Theme :: get_image_path('survey') . 'place_mini_survey.png', $this->get_region_info()));
+        if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_ADD_REPORTING_TEMPLATE, $this->publication_id, SurveyRights :: TYPE_PUBLICATION))
+        {
+            $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_TEMPLATE_REGISTRATIONS;
+            $table = new SurveyReportingTemplateTable($this, $parameters, $this->get_template_registration_condition());
+            $tabs->add_tab(new DynamicContentTab(self :: TAB_TEMPLATE_REGISTRATIONS, Translation :: get('AddReportingTemplates'), Theme :: get_image_path('survey') . 'place_mini_survey.png', $table->as_html()));
+        }
         
         $html[] = $tabs->render();
         
-       
         $html[] = '<div class="clear"></div>';
         
         return implode($html, "\n");
     }
 
-//    function get_region_info()
-//    {
-//        
-//        $region = $this->retrieve_region($this->get_region());
-//        
-//        $html = array();
-//        
-//        $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
-//        
-//        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_EDIT, InternshipOrganizerRights :: LOCATION_REGION, InternshipOrganizerRights :: TYPE_COMPONENT))
-//        {
-//            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_region_editing_url($region), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-//        }
-//        if ($region->get_parent_id() != 0)
-//        {
-//            if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_DELETE, InternshipOrganizerRights :: LOCATION_REGION, InternshipOrganizerRights :: TYPE_COMPONENT))
-//            {
-//                $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_region_delete_url($region), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-//            }
-//        }
-//        
-//        $html[] = '<b>' . Translation :: get('ZipCode') . '</b>: ' . $region->get_zip_code() . '<br />';
-//        $html[] = '<b>' . Translation :: get('City') . '</b>: ' . $region->get_city_name() . '<br />';
-//        
-//        $description = $region->get_description();
-//        if ($description)
-//        {
-//            $html[] = '<b>' . Translation :: get('Description') . '</b>: ' . $description . '<br />';
-//        }
-//        
-//        $html[] = '<br />';
-//        $html[] = $toolbar->as_html();
-//        
-//        return implode("\n", $html);
-//    }
-
-
-    function get_condition()
+    function get_template_registration_condition()
     {
-        $condition = new EqualityCondition(ReportingTemplateRegistration :: PROPERTY_APPLICATION, SurveyManager :: APPLICATION_NAME);
+        $conditions = array();
+        $conditions[] = new EqualityCondition(ReportingTemplateRegistration :: PROPERTY_APPLICATION, SurveyManager :: APPLICATION_NAME);
         
-//        $query = $this->action_bar->get_query();
-//        if (isset($query) && $query != '')
-//        {
-//            $or_conditions = array();
-//            $or_conditions[] = new PatternMatchCondition(InternshipOrganizerRegion :: PROPERTY_CITY_NAME, '*' . $query . '*');
-//            $or_conditions[] = new PatternMatchCondition(InternshipOrganizerRegion :: PROPERTY_ZIP_CODE, '*' . $query . '*');
-//            $or_conditions[] = new PatternMatchCondition(InternshipOrganizerRegion :: PROPERTY_DESCRIPTION, '*' . $query . '*');
-//            $or_condition = new OrCondition($or_conditions);
-//            
-//            $and_conditions = array();
-//            $and_conditions[] = $condition;
-//            $and_conditions[] = $or_condition;
-//            $condition = new AndCondition($and_conditions);
-//        }
+        $reporting_template_registration_ids = array();
+        $condition = new InCondition(SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_PUBLICATION_ID, $this->publication_ids);
+        $publication_rel_reporting_template_registrations = SurveyDataManager :: get_instance()->retrieve_survey_publication_rel_reporting_template_registrations($condition);
+        while ($publication_rel_reporting_template_registration = $publication_rel_reporting_template_registrations->next_result())
+        {
+            $reporting_template_registration_ids[] = $publication_rel_reporting_template_registration->get_reporting_template_registration_id();
+        }
+        if (count($reporting_template_registration_ids))
+        {
+            $in_condition = new InCondition(ReportingTemplateRegistration :: PROPERTY_ID, $reporting_template_registration_ids);
+            $conditions[] = new NotCondition($in_condition);
+        }
         
+        //        $query = $this->action_bar->get_query();
+        //        if (isset($query) && $query != '')
+        //        {
+        //            $or_conditions = array();
+        //            $or_conditions[] = new PatternMatchCondition(InternshipOrganizerRegion :: PROPERTY_CITY_NAME, '*' . $query . '*');
+        //            $or_conditions[] = new PatternMatchCondition(InternshipOrganizerRegion :: PROPERTY_ZIP_CODE, '*' . $query . '*');
+        //            $or_conditions[] = new PatternMatchCondition(InternshipOrganizerRegion :: PROPERTY_DESCRIPTION, '*' . $query . '*');
+        //            $or_condition = new OrCondition($or_conditions);
+        //            
+        //            $and_conditions = array();
+        //            $and_conditions[] = $condition;
+        //            $and_conditions[] = $or_condition;
+        //            $condition = new AndCondition($and_conditions);
+        //        }
+        
+
+        return $condition = new AndCondition($conditions);
+    }
+
+    function get_publication_rel_template_registration_condition()
+    {
+        $condition = new InCondition(SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_PUBLICATION_ID, $this->publication_ids);
+        
+        //        $query = $this->action_bar->get_query();
+        //        if (isset($query) && $query != '')
+        //        {
+        //            $or_conditions = array();
+        //            $or_conditions[] = new PatternMatchCondition(InternshipOrganizerRegion :: PROPERTY_CITY_NAME, '*' . $query . '*');
+        //            $or_conditions[] = new PatternMatchCondition(InternshipOrganizerRegion :: PROPERTY_ZIP_CODE, '*' . $query . '*');
+        //            $or_conditions[] = new PatternMatchCondition(InternshipOrganizerRegion :: PROPERTY_DESCRIPTION, '*' . $query . '*');
+        //            $or_condition = new OrCondition($or_conditions);
+        //            
+        //            $and_conditions = array();
+        //            $and_conditions[] = $condition;
+        //            $and_conditions[] = $or_condition;
+        //            $condition = new AndCondition($and_conditions);
+        //        }
+        
+
         return $condition;
     }
 
@@ -128,14 +146,23 @@ class SurveyReportingManagerBrowserComponent extends SurveyReportingManager
         
         $action_bar->set_search_url($this->get_url());
         
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ViewRoot'), Theme :: get_common_image_path() . 'action_home.png', $this->get_browse_regions_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        
-        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(SurveyRights :: RIGHT_ACTIVATE, SurveyRights :: LOCATION_REPORTING, SurveyRights :: TYPE_COMPONENT))
+        if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_ACTIVATE, SurveyRights :: LOCATION_REPORTING, SurveyRights :: TYPE_COMPONENT))
         {
-//            $action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateInternshipOrganizerRegion'), Theme :: get_common_image_path() . 'action_create.png', $this->get_region_create_url($this->get_region()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            //            $action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateInternshipOrganizerRegion'), Theme :: get_common_image_path() . 'action_create.png', $this->get_region_create_url($this->get_region()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
-               
+        
         return $action_bar;
     }
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE)), Translation :: get('BrowseSurveys')));
+    }
+
+    function get_additional_parameters()
+    {
+        return array(SurveyManager :: PARAM_PUBLICATION_ID);
+    }
+
 }
 ?>
