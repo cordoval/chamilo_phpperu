@@ -162,7 +162,20 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
     {
         return $this->invitee_id;
     }
-
+	
+    function get_complex_questions(){
+    	$pages = $this->get_pages();
+    	$questions = array();
+    	foreach ($pages as $page) {
+    		$complex_questions = $page->get_questions(true);
+    		while($complex_question = $complex_questions->next_result()){
+    			$questions[$complex_question->get_id()] = $complex_question;
+    		}
+    		
+    	}
+    	return $questions;
+    }
+    
     function get_pages($complex_items = false)
     {
         

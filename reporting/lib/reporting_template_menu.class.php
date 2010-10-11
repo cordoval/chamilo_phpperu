@@ -77,9 +77,9 @@ class ReportingTemplateMenu
         
         if (count($reporting_blocks) > 0)
         {
-            foreach ($reporting_blocks as $reporting_block)
+            foreach ($reporting_blocks as $reporting_block_index => $reporting_block)
             {
-                $bloc_parameters = array_merge($parameters, array(ReportingManager :: PARAM_REPORTING_BLOCK_ID => $reporting_block->get_id()));
+                $bloc_parameters = array_merge($parameters, array(ReportingManager :: PARAM_REPORTING_BLOCK_ID => $reporting_block_index));
                 
                 $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_chart.png)"><a href="' . $reporting_template->get_parent()->get_url($bloc_parameters) . '">' . Translation :: get(get_class($reporting_block)) . '</a></li>';
             }
