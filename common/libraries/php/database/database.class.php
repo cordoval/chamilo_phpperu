@@ -437,7 +437,14 @@ class Database
      */
     function delete($table_name, $condition)
     {
-        $query = 'DELETE FROM ' . $this->escape_table_name($table_name) . ' WHERE ' . $condition;
+    	$query = 'DELETE ' . $this->get_alias($table_name) . '.* FROM ' . $this->escape_table_name($table_name) . ' AS ' . $this->get_alias($table_name);
+
+        if (isset($condition))
+        {
+            $translator = new ConditionTranslator($this, $this->get_alias($table_name));
+            $query .= $translator->render_query($condition);
+        }
+
         $res = $this->query($query);
 
         if (MDB2 :: isError($res))

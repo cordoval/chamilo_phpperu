@@ -34,14 +34,5 @@ class NotCondition extends AggregateCondition
     {
         return $this->condition;
     }
-
-    /**
-     * Gets a string representation of this condition
-     * @return string
-     */
-    function __toString()
-    {
-        return ' NOT (' . $this->get_condition() . ')';
-    }
 }
 ?>

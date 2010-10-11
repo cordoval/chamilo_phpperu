@@ -108,19 +108,5 @@ class SubselectCondition implements Condition
     {
     	return $this->data_manager;
     }
-
-    /**
-     * Gets a string representation of this condition
-     * @return string
-     */
-    function __toString()
-    {
-        if ($this->get_condition())
-        {
-            $where = ' WHERE ' . $this->get_condition();
-        }
-        
-        return $this->get_name() . ' IN (SELECT ' . $this->get_value() . ' FROM ' . $this->get_storage_unit_value() . $where . ')';
-    }
 }
 ?>

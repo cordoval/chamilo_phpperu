@@ -91,23 +91,5 @@ class EqualityCondition implements Condition
     {
         return $this->is_alias;
     }
-
-    /**
-     * Gets a string representation of this condition
-     * @return string
-     */
-    function __toString()
-    {
-        $value = $this->get_value();
-
-        if (is_null($value))
-        {
-            return $this->get_name() . ' IS NULL';
-        }
-        else
-        {
-            return $this->get_name() . ' = \'' . $this->get_value() . '\'';
-        }
-    }
 }
 ?>

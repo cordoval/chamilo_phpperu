@@ -26,9 +26,9 @@ class UserManagerAdditionalAccountInformationComponent extends UserManager
 		
 		parent :: display_header();
 		
-		$actions[] = 'account';
-		$actions[] = 'user_settings';
-		$actions[] = 'account_extra';
+		$actions[] = UserManager :: ACTION_VIEW_ACCOUNT;
+		$actions[] = UserManager :: ACTION_USER_SETTINGS;
+		$actions[] = UserManager :: ACTION_ADDITIONAL_ACCOUNT_INFORMATION;
 		
 		echo '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
         foreach ($actions as $action)

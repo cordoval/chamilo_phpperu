@@ -50,14 +50,14 @@ class UserManagerUserSettingsComponent extends UserManager
     {
         parent :: display_header();
         
-        $actions[] = 'account';
-        $actions[] = 'user_settings';
+        $actions[] = UserManager :: ACTION_VIEW_ACCOUNT;
+		$actions[] = UserManager :: ACTION_USER_SETTINGS;
         
         $form_builder = new DynamicFormManager($this, UserManager :: APPLICATION_NAME, 'account_fields', DynamicFormManager :: TYPE_EXECUTER);
         $dynamic_form = $form_builder->get_form();
         if (count($dynamic_form->get_elements()) > 0)
         {
-            $actions[] = 'account_extra';
+			$actions[] = UserManager :: ACTION_ADDITIONAL_ACCOUNT_INFORMATION;
         }
         
         $tabs = new DynamicVisualTabsRenderer('account');

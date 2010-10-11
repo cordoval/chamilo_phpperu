@@ -39,7 +39,7 @@ class EmailManager extends SubManager
 
 	function get_application_component_path()
 	{
-		return Path :: get_common_extensions_path() . 'email_manager/component/';
+		return Path :: get_common_extensions_path() . 'email_manager/php/component/';
 	}
 
     /**

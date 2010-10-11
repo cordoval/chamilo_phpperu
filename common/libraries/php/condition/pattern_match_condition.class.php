@@ -84,15 +84,5 @@ class PatternMatchCondition implements Condition
     {
         return $this->is_alias;
     }
-
-    /**
-     * Gets a string representation of this condition
-     * @return string
-     */
-    function __toString()
-    {
-        $result = $this->name . ' = \'' . $this->pattern . '\'';
-        return $result;
-    }
 }
 ?>

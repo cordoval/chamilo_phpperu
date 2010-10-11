@@ -96,7 +96,7 @@ class RightsEditorManager extends SubManager
 
     function get_application_component_path()
     {
-        return Path :: get_common_extensions_path() . 'rights_editor_manager/component/';
+        return Path :: get_common_extensions_path() . 'rights_editor_manager/php/component/';
     }
 
     function get_locations()

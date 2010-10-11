@@ -14,28 +14,6 @@ class OrCondition extends MultipleAggregateCondition
 {
     const OPERATOR = ' OR ';
 
-    /**
-     * Gets a string representation of this condition
-     * @return string
-     */
-    function __toString()
-    {
-        $cond_string = array();
-        $conditions = $this->get_conditions();
-        
-        foreach ($conditions as $condition)
-        {
-            $condition_string = $condition->__toString();
-            
-            if (! empty($condition_string))
-            {
-                $cond_string[] = '(' . $condition_string . ')';
-            }
-        }
-        
-        return implode($this->get_operator(), $cond_string);
-    }
-
     function get_operator()
     {
         return self :: OPERATOR;

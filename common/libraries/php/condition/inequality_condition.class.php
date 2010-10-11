@@ -116,25 +116,5 @@ class InequalityCondition implements Condition
     {
         return $this->is_alias;
     }
-
-    function __toString()
-    {
-        switch ($this->operator)
-        {
-            case self :: LESS_THAN :
-                $op = '<';
-                break;
-            case self :: LESS_THAN_OR_EQUAL :
-                $op = '<=';
-                break;
-            case self :: GREATER_THAN :
-                $op = '>';
-                break;
-            case self :: GREATER_THAN_OR_EQUAL :
-                $op = '>=';
-                break;
-        }
-        return $this->name . $op . $this->value;
-    }
 }
 ?>

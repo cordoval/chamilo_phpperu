@@ -285,7 +285,7 @@ class RepoViewer extends SubManager
 
     function get_application_component_path()
     {
-        return Path :: get_common_extensions_path() . 'repo_viewer/component/';
+        return Path :: get_common_extensions_path() . 'repo_viewer/php/component/';
     }
 
     /**

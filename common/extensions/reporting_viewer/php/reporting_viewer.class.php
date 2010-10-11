@@ -119,7 +119,7 @@ class ReportingViewer extends SubManager
 
 	function get_application_component_path()
 	{
-		return Path :: get_common_extensions_path() . 'reporting_viewer/component/';
+		return Path :: get_common_extensions_path() . 'reporting_viewer/php/component/';
 	}
 
 	function get_template()

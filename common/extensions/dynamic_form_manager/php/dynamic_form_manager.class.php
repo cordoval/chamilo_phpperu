@@ -137,7 +137,7 @@ class DynamicFormManager extends SubManager
     
     function get_application_component_path()
     {
-        return Path :: get_common_extensions_path() . 'dynamic_form_manager/component/';
+        return Path :: get_common_extensions_path() . 'dynamic_form_manager/php/component/';
     }
 
     function get_add_element_url()

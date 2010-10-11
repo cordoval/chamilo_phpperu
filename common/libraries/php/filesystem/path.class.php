@@ -238,6 +238,11 @@ class Path
     {
         return self :: get(SYS_LIB_PATH) . 'libraries/';
     }
+    
+    public static function get_web_common_libraries_path()
+	{
+        return self :: get(WEB_LIB_PATH) . 'libraries/';
+    }
 
     public static function get_repository_path()
     {

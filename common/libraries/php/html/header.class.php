@@ -63,10 +63,10 @@ class Header
         $this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH) . 'jquery/jquery.jsuggest.js');
         $this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH) . 'jquery/jquery.jeditable.mini.js');
         $this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH) . 'jquery/jquery.query.js');
-        $this->add_javascript_file_header($this->get_path(WEB_LIB_PATH) . 'javascript/utilities.js');
-        $this->add_javascript_file_header($this->get_path(WEB_LIB_PATH) . 'javascript/notifications.js');
-        $this->add_javascript_file_header($this->get_path(WEB_LIB_PATH) . 'javascript/help.js');
-        $this->add_javascript_file_header($this->get_path(WEB_LIB_PATH) . 'javascript/visit.js');
+        $this->add_javascript_file_header(Path :: get_web_common_libraries_path() . 'resources/javascript/utilities.js');
+        $this->add_javascript_file_header(Path :: get_web_common_libraries_path() . 'resources/javascript/notifications.js');
+        $this->add_javascript_file_header(Path :: get_web_common_libraries_path() . 'resources/javascript/help.js');
+        $this->add_javascript_file_header(Path :: get_web_common_libraries_path() . 'resources/javascript/visit.js');
         $this->add_link_header($this->get_path(WEB_PATH) . 'index.php', 'top');
         //$this->add_link_header($this->get_path(WEB_PATH). 'index_user.php?go=account','account',htmlentities(Translation :: get('ModifyProfile')));
         $this->add_link_header('http://www.chamilo.org/documentation.php', 'help');

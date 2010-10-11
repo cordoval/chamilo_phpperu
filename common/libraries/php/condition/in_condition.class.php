@@ -82,28 +82,5 @@ class InCondition implements Condition
     {
         return $this->is_alias;
     }
-
-    /**
-     * Gets a string representation of this condition
-     * @return string
-     */
-    function __toString()
-    {
-        $values = $this->get_values();
-
-        if (! is_array($values))
-        {
-            $values = array($values);
-        }
-
-        if (count($values) > 0)
-        {
-            return $this->get_name() . ' IN (' . implode(',', $values) . ')';
-        }
-        else
-        {
-            return '';
-        }
-    }
 }
 ?>

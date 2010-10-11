@@ -37,7 +37,7 @@ class InvitationManager extends SubManager
 
 	function get_application_component_path()
 	{
-		return Path :: get_common_extensions_path() . 'invitation_manager/component/';
+		return Path :: get_common_extensions_path() . 'invitation_manager/php/component/';
 	}
 }
 ?>
