@@ -214,7 +214,7 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
             return false;
         }
         else
-        if (!$this->get_id_reference($this->get_cat_id(), 'dokeos_DOKEOSCOURSE.dropbox_category'))
+        if (!$this->get_id_reference($this->get_cat_id(), $this->get_database_name() . '.dropbox_category'))
         {
             $this->create_failed_element($this->get_id());
             return false;
@@ -258,9 +258,13 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
     function convert_data()
     {
         if ($this->get_uploader_id())
+        {
             $new_user_id = $this->get_id_reference($this->get_uploader_id(), 'main_database.user');
+        }
         else
+        {
             $new_user_id = $this->get_id_reference($this->get_item_property()->get_insert_user_id(), 'main_database.user');
+        }
 
         $course = $this->get_course();
         $new_course_code = $this->get_id_reference($course->get_code(), 'main_database.course');
@@ -309,7 +313,9 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
             $chamilo_repository_document->set_parent_id($chamilo_category_id);
 
             if ($this->get_item_property()->get_visibility() == 2)
+            {
                 $chamilo_repository_document->set_state(1);
+            }
 
             //Create document in db
             $chamilo_repository_document->create();
@@ -319,7 +325,7 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
             $this->create_id_reference($this->get_id(), $chamilo_repository_document->get_id());
 
             //publication
-            $parent_id = $this->get_id_reference($this->get_cat_id(), 'dokeos_DOKEOSCOURSE.dropbox_category');
+            $parent_id = $this->get_id_reference($this->get_cat_id(), $this->get_database_name() . '.dropbox_category');
             $this->create_publication($chamilo_repository_document, $new_course_code, $new_user_id, 'document', $parent_id, $new_to_user_id, $new_to_group_id);
         }
         return $chamilo_repository_document;
