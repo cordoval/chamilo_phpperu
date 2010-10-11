@@ -1,6 +1,6 @@
 <?php
 require_once dirname(__FILE__) . '/matterhorn_external_repository_connector.class.php';
-require_once dirname(__FILE__) . '/../../general/streaming/streaming_media_external_repository_browser_gallery_table_cell_renderer.class.php';
+require_once Path :: get_common_extensions_path() . 'external_repository_manager/php/general/streaming/streaming_media_external_repository_browser_gallery_table_cell_renderer.class.php';
 
 
 /**
@@ -35,7 +35,7 @@ class MatterhornExternalRepositoryManager extends ExternalRepositoryManager
      */
     function get_application_component_path()
     {
-        return Path :: get_common_extensions_path() . 'external_repository_manager/type/matterhorn/component/';
+        return Path :: get_common_extensions_path() . 'external_repository_manager/implementation/matterhorn/php/component/';
     }
 
     /* (non-PHPdoc)
