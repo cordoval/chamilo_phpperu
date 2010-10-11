@@ -63,6 +63,11 @@ class User extends DataClass
     const ANONYMOUS_ID = "1";
 
     /**
+     * @var array
+     */
+    private $allowed_groups;
+
+    /**
      * Get the default properties of all users.
      * @return array The property names.
      */
@@ -719,24 +724,27 @@ class User extends DataClass
      */
     function get_allowed_groups()
     {
-        $allowed_groups = array();
-        $groups = $this->get_groups();
-
-        if (! is_null($groups))
+        if (! isset($this->allowed_groups))
         {
-            while ($group = $groups->next_result())
+            $this->allowed_groups = array();
+            $groups = $this->get_groups();
+
+            if (! is_null($groups))
             {
-                foreach($group->get_allowed_groups() as $group_id)
+                while ($group = $groups->next_result())
                 {
-                    if (!in_array($group_id, $allowed_groups))
+                    foreach ($group->get_allowed_groups() as $group_id)
                     {
-                        $allowed_groups[] = $group_id;
+                        if (! in_array($group_id, $this->allowed_groups))
+                        {
+                            $this->allowed_groups[] = $group_id;
+                        }
                     }
                 }
             }
         }
 
-        return $allowed_groups;
+        return $this->allowed_groups;
     }
 }
 ?>
