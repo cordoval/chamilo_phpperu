@@ -7,12 +7,12 @@
 class ExternalRepositorySetting extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_EXTERNAL_REPOSITORY_ID = 'external_repository_id';
     const PROPERTY_VARIABLE = 'variable';
     const PROPERTY_VALUE = 'value';
     const PROPERTY_USER_SETTING = 'user_setting';
-    
+
     /**
      * A static array containing all settings of external repository instances
      * @var array
@@ -125,20 +125,20 @@ class ExternalRepositorySetting extends DataClass
     static function initialize(ExternalRepository $external_repository)
     {
         $settings_file = Path :: get_application_library_path() . 'external_repository_manager/type/' . $external_repository->get_type() . '/settings/settings_' . $external_repository->get_type() . '.xml';
-        
+
         $doc = new DOMDocument();
-        
+
         $doc->load($settings_file);
         $object = $doc->getElementsByTagname('application')->item(0);
         $settings = $doc->getElementsByTagname('setting');
-        
+
         foreach ($settings as $index => $setting)
         {
             $repository_setting = new ExternalRepositorySetting();
             $repository_setting->set_external_repository_id($external_repository->get_id());
             $repository_setting->set_variable($setting->getAttribute('name'));
             $repository_setting->set_value($setting->getAttribute('default'));
-            
+
             $user_setting = $setting->getAttribute('user_setting');
             if ($user_setting)
             {
@@ -148,13 +148,13 @@ class ExternalRepositorySetting extends DataClass
             {
                 $repository_setting->set_user_setting(0);
             }
-            
+
             if (! $repository_setting->create())
             {
                 return false;
             }
         }
-        
+
         return true;
     }
 
@@ -195,18 +195,18 @@ class ExternalRepositorySetting extends DataClass
         if (is_null($external_repository_id) || ! is_numeric($external_repository_id))
         {
             $external_repository_id = Request :: get(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY);
-            
+
             if (is_null($external_repository_id) || ! is_numeric($external_repository_id))
             {
                 Display :: error_page(Translation :: get('WhatsUpDoc'));
             }
         }
-        
+
         if (! isset(self :: $settings[$external_repository_id]))
         {
             self :: load($external_repository_id);
         }
-        
+
         return (isset(self :: $settings[$external_repository_id][$variable]) ? self :: $settings[$external_repository_id][$variable] : null);
     }
 
@@ -215,18 +215,18 @@ class ExternalRepositorySetting extends DataClass
         if (is_null($external_repository_id) || ! is_numeric($external_repository_id))
         {
             $external_repository_id = Request :: get(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY);
-            
+
             if (is_null($external_repository_id) || ! is_numeric($external_repository_id))
             {
                 Display :: error_page(Translation :: get('WhatsUpDoc'));
             }
         }
-        
+
         if (! isset(self :: $settings[$external_repository_id]))
         {
             self :: load($external_repository_id);
         }
-        
+
         return self :: $settings[$external_repository_id];
     }
 
@@ -237,7 +237,7 @@ class ExternalRepositorySetting extends DataClass
     {
         $condition = new EqualityCondition(ExternalRepositorySetting :: PROPERTY_EXTERNAL_REPOSITORY_ID, $external_repository_id);
         $settings = RepositoryDataManager :: get_instance()->retrieve_external_repository_settings($condition);
-        
+
         while ($setting = $settings->next_result())
         {
             self :: $settings[$external_repository_id][$setting->get_variable()] = $setting->get_value();

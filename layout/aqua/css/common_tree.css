@@ -124,6 +124,26 @@ ul.tree-menu li div a.fedora {
 	background-image: url(../images/common/external_repository/fedora/logo/16.png);
 }
 
+ul.tree-menu li div a.fedora_object {
+	clear: both;
+	background-image: url(../images/common/external_repository/fedora/types/object.png);
+}
+
+ul.tree-menu li div a.fedora_history {
+	clear: both;
+	background-image: url(../images/common/external_repository/fedora/types/history_tree.png);
+}
+
+ul.tree-menu li div a.fedora_datastream {
+	clear: both;
+	background-image: url(../images/common/external_repository/fedora/types/datastream.png);
+}
+
+ul.tree-menu li div a.fedora_folder {
+	clear: both;
+	background-image: url(../images/common/external_repository/fedora/types/folder_tree.png);
+}
+
 ul.tree-menu li div a.flickr {
 	clear: both;
 	background-image: url(../images/common/external_repository/flickr/logo/16.png);
@@ -254,6 +274,10 @@ ul.tree-menu li div a.survey {
 
 ul.tree-menu li div a.survey_finished {
 	background-image: url(../images/common/treemenu/survey_finished.png);
+}
+
+ul.tree-menu li div a.lock {
+	background-image: url(../images/common/action_lock.png);
 }
 
 ul.tree-menu li div a.divider {
