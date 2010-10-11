@@ -144,7 +144,7 @@ class Dokeos185ToolIntro extends Dokeos185CourseDataMigrationDataClass
         $chamilo_tool_intro->set_description($this->get_intro_text());
 
         // Category for contents already exists?
-        $chamilo_repository_category_id = RepositoryDataManager::get_repository_category_by_name_or_create_new($owner_id, 'descriptions');
+        $chamilo_repository_category_id = RepositoryDataManager::get_repository_category_by_name_or_create_new($owner_id, Translation :: get('Introductions'));
         $chamilo_tool_intro->set_parent_id($chamilo_repository_category_id);
 
         $chamilo_tool_intro->set_owner_id($owner_id);

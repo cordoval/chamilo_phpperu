@@ -173,7 +173,7 @@ class Dokeos185CalendarEvent extends Dokeos185CourseDataMigrationDataClass
         $chamilo_calendar_event->set_end_date(strtotime($this->get_end_date()));
 
         // Category for calendar_events already exists?
-        $chamilo_category_id = RepositoryDataManager :: get_repository_category_by_name_or_create_new($new_user_id, Translation :: get('calendar_events'));
+        $chamilo_category_id = RepositoryDataManager :: get_repository_category_by_name_or_create_new($new_user_id, Translation :: get('CalendarEvents'));
 
         $chamilo_calendar_event->set_parent_id($chamilo_category_id);
 
