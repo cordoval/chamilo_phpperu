@@ -111,15 +111,10 @@ class Dokeos185ToolIntro extends Dokeos185CourseDataMigrationDataClass
     function is_valid()
     {
         $new_course_id = $this->get_id_reference($this->get_course()->get_code(), 'main_database.course');
-    	$converted_tool = $this->convert[$this->get_id()];
-        if($converted_tool)
-        {
-        	$this->set_id($converted_tool);
-        }
         
         $module = WeblcmsDataManager :: get_instance()->retrieve_course_module_by_name($new_course_id, $this->get_id());
         
-    	if (!$this->get_intro_text() || !$new_course_id || !$module) 
+    	if (!$this->get_intro_text() || !$new_course_id || (!$module && $this->get_id() != 'course_homepage'))
         {
             $this->create_failed_element($this->get_id());
             return false;
@@ -156,7 +151,15 @@ class Dokeos185ToolIntro extends Dokeos185CourseDataMigrationDataClass
         $publication->set_content_object_id($chamilo_tool_intro->get_id());
         $publication->set_course_id($new_course_id);
         $publication->set_publisher_id($owner_id);
-        $publication->set_tool($this->get_id());
+        
+       	if($this->get_id() == 'course_homepage')
+       	{
+       		$publication->set_tool('home');
+       	}
+       	else
+       	{
+        	$publication->set_tool($this->get_id());
+       	}
 
         $publication->set_category_id(0);
         $publication->set_from_date(0);
