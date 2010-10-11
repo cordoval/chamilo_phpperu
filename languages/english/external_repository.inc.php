@@ -9,10 +9,15 @@ $lang['external_repository']['DefaultUserQuotum'] = 'Default Quotum';
 $lang['external_repository']['Loginname'] = 'Login';
 $lang['external_repository']['IsUploadPossible'] = 'Is Upload Possible?';
 $lang['external_repository']['IsDefault'] = 'Default';
+
+
+
 $lang['repository']['Owner'] = 'Owner';
 $lang['repository']['AvailableSizes'] = 'Available sizes';
 $lang['repository']['PublishedBy'] = 'Published by';
 $lang['repository']['CreatedBy'] = 'Created by';
 $lang['repository']['UploadSuccess'] = 'Upload succeeded';
 $lang['repository']['TranscodeNeeded'] = 'The file needs to be transcoded before you can view it.';
+
+
 ?>

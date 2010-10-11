@@ -1,0 +1,102 @@
+﻿,0,1,1,Nicht definiert,Not defined,Pas definie,Non definato,
+1932,0,1,1,Kunst & Kultur,Arts & Culture,Arts & Culture,Arte & Cultura,
+5314,1932,2,2,Architektur,Architecture,Architecture,Architettura,7300
+5575,5314,3,3,Raumplanung,Spatial planning,Aménagement du territoire,Pianificazione del territorio,
+6302,5314,4,3,Landschaftsarchitektur,Landscape architecture,architecture paysagère,Architettura del paesaggio,
+9202,1932,5,2,Kunstgeschichte ,Art history,Histoire de l'art,Storia dell'arte,1700
+8202,1932,6,2,Musik,Music,Musique,Musica,1800
+2043,8202,7,3,Musikpädagogik,Music education,Pédagogie musicale,Educazione musicale,
+9610,8202,8,3,Schul- und Kirchenmusik,School and church music,musique scolaire et sacrée,Didattica musicale e musica sacra,
+3829,1932,9,2,Theater,Theatre,Théatre,Teatro,1850
+5395,1932,10,2,Film,Film,Cinéma,Cinema,1850
+1497,1932,11,2,Bildende Kunst,Visual arts,Arts plastiques,Arti Visive,
+3119,1932,12,2,Design,Design,Design,Design,
+5103,3119,13,3,Visuelle Kommunikation,Visual communication,communication visuelle,Comunicazione Visiva,
+6095,3119,14,3,Produkt- und Industriedesign,Industrial design,design industriel,Disegno Industriale,
+4832,0,15,1,Geisteswissenschaften,Humanities,Lettres,Lettere e Filosofia,1
+4761,4832,16,2,Philosophie,Philosophy,Philosophie,Filosofia,1300
+3867,4832,17,2,Theologie,Theology,Théologie,Teologia,1.1
+5633,3867,18,3,Protestantische Theologie,Protestant theology,Théologie protestante,Teologia Protestante,1205
+9787,3867,19,3,Römisch-katholische Theologie,Roman catholic theology,Théologie catholique romaine,Teologia Cattolica,1210
+6527,3867,20,3,Theologie fächerübergr./übrige,General theology,Théologie interdisciplinaire,Teologia interdisciplinare,1215/1201
+8796,4832,21,2,Geschichte,History,Histoire,Storia,1600
+7210,4832,22,2,Sprach- u. Literaturw. (SLW),Linguistics & Literature (LL),Linguistique & littérature,Linguistica e Letteratura,1.2
+7408,7210,23,3,Linguistik,Linguistics,Linguistique,Linguistica,1405
+4391,7210,24,3,Deutsche SLW,German LL,Langue et littérature allemandes,Lingua e letteratura tedesca,1410
+9472,7210,25,3,Französische SLW,French LL,Langue et littérature françaises,Lingua e letteratura francese,1415
+3468,7210,26,3,Italienische SLW,Italian LL,Langue et littérature italiennes,Lingua e letteratura italiana,1420
+5424,7210,27,3,Rätoromanische SLW,Rhaeto-Romanic LL,Langue et littérature rhéto-romanches,Lingua e letteratura retoromancia,1425
+9391,7210,28,3,Englische SLW,English LL,Langue et littérature anglaises,Lingua e letteratura inglese,1435
+6230,7210,29,3,Andere mod. Sprachen Europas,Other modern European languages,autres langues modernes européennes,Altre lingue moderne europee,1429/30/31/40/45
+9557,7210,30,3,Klass. Sprachen Europas,Classical European languages,langues classiques européennes,Lingue classiche europee,1449
+5676,7210,31,3,Andere nichteurop. Sprachen,Other non-European languages,autes langues non-européennes,Altre lingue non europee,1454/55/60/65
+7599,7210,32,3,Dolmetschen u. Uebersetzung,Translation studies,Traduction & interprétation,Traduzione e interpretariato,1470
+1438,4832,33,2,Archäologie,Archeology,Archéologie,Archeologia,1500
+8637,0,34,1,Sozialwissenschaften,Social sciences,Sciences sociales,Scienze sociali,1.4
+6005,8637,35,2,Psychologie ,Psychology,Psychologie,Psicologia,2000
+6525,8637,36,2,Soziologie ,Sociology,Sociologie,Sociologia,2200
+7288,8637,37,2,Sozialarbeit,Social work,Travail social,Lavoro sociale,2205
+1514,8637,38,2,Politikwissenschaft,Political science,Sciences politiques,Scienze Politiche,2300
+9619,8637,39,2,Kommunikations- u. Medienwissenschaften,Communication and media studies,Médias & Communication,Comunicazione e media,2400
+8367,8637,40,2,Ethnologie u. Volkskunde,Ethnology,Ethnologie,Etnologia,1990
+1774,8637,41,2,Frauen- / Geschlechterforschung,Gender studies,Etudes genres,Studi di genere,9001
+1861,0,42,1,Recht,Law,Droit,Diritto,3/2600
+4890,1861,43,2,Wirtschaftsrecht,Business law,Droit économique,Diritto economico,
+6950,0,44,1,Wirtschaftswissenschaften,Business,Sciences économiques,Economia,2
+7290,6950,45,2,Volkswirtschaft,Economics,Economie politique,Economia politica,2505
+1676,6950,46,2,Betriebswirtschaft,Business Administration,Economie d'entreprise,Economia aziendale,2520
+4949,6950,47,2,Wirtschaftsinformatik ,Business Informatics,Informatique de gestion,Informatica gestionale,2530
+2108,6950,48,2,Facility Management,Facility Management,Facility Management,Facility Management,
+7641,6950,49,2,Hotellerie,Hotel business,Hôtellerie,Alberghiero,
+6238,6950,50,2,Tourismus,Tourism,Tourisme,Turismo,
+2990,0,51,1,Naturwissenschaften & Mathematik,Natural sciences & Mathematics,Sciences naturelles & Mathématiques,Scienze naturali & Matematica,4
+2158,2990,52,2,Mathematik,Mathematics,Mathématiques,Matematica,4200
+1266,2990,53,2,Informatik,Computer science,Informatique,Informatica,4300
+8990,2990,54,2,Astronomie,Astronomy,Astronomie,Astronomia,4400
+6986,2990,55,2,Physik,Physics,Physique,Fisica,4500
+6451,2990,56,2,Chemie,Chemistry,Chimie,Chimica,4600
+4195,2990,57,2,Biologie,Biology,Biologie,Biologia,4700
+7793,4195,58,3,Oekologie,Ecology,Ecologie,Ecologia,1000
+5255,2990,59,2,Erdwissenschaften,Earth Sciences,Géologie,Geologia,4800
+7950,2990,60,2,Geographie,Geography,Géographie,Geografia,4900
+9321,0,61,1,Technische & angewandte Wissenschaften,Technology & Applied sciences,Technologie & Sciences appliquées,Tecnologie & Scienze applicate,6
+7303,9321,62,2,Telekommunikation,Telecommunication,Télecommunication,Telecomunicazioni,7550
+5742,9321,63,2,Elektroingenieur,Electrical Engineering,électrotechnique,Elettrotecnica,7500
+8189,9321,64,2,Maschineningenieur,Mechanical Engineering,mécanique technique,Ingegneria Meccanica,7600
+8502,8189,65,3,Mikrotechnik ,Microtechnology,Microtechnique,Microtecnica,7450
+5324,8189,66,3,Automobiltechnik,Automoive Engineering,Technique automobile,Tecnica Automobilistica,
+1566,9321,67,2,Materialwissenschaften ,Material sciences,science des matériaux,Scienze dei Materiali,7700
+7132,9321,68,2,Gebäudetechnik,Building Engineering,Technique du bâtiment,Tecnologia degli edifici & impiantistica,
+2979,9321,69,2,Forstwirtschaft,Forestry,Sylviculture,Selvicoltutura,7905
+3624,9321,70,2,Agrarwirtschaft,Agriculture,Agriculture & Agronomie,Agricultura,7910
+1442,3624,71,3,Oenologie,Enology,œnologie,Enologia,
+9768,9321,72,2,Lebensmitteltechnologie,Food technology,Technologie alimentaire,Tecnologia Alimentare,7915
+5727,9321,73,2,Chemieingenieurwesen ,Chemical Engineering,Génie chimique,Ingegneria Chimica,7400
+1892,9321,74,2,Biotechnologie,Biotechnology,Biotechnologie,Biotecnologia,
+2850,9321,75,2,Umweltingenieurwesen,Environmental Engineering,Génie de l'environnement,Ingegneria Civile,
+9389,9321,76,2,Bauwesen,Construction Science,Sciences de la construction,Scienze dalla Costruzione,6.1
+2527,9389,77,3,Bauingenieurwesen,Civil Engineering,Génie civil,Genio Civile,7200
+9738,9389,78,3,Kulturtechnik und Vermessung,Rural Engineering and Surveying,Génie rural et mensuration,Ingegneria rurale & geomatica,7800
+4380,9321,79,2,Betriebs- und Produktionswissenschaften,Production and Enterprise,Production et Entreprise,Gestione della produzione e dei processi industriali,7650
+8220,0,80,1,Gesundheit & Medizin,Health,Santé & Médecine,Salute & Medicina,5
+5955,8220,81,2,Humanmedizin ,Human medicine,Médecine humaine,Medicina,5.1/6200
+2075,8220,82,2,Zahnmedizin ,Dentistry,Odontologie,Odontoiatria,5.2/6300
+3787,8220,83,2,Veterinärmedizin ,Veterinary medicine,Médecine vétérinaire,Veterinaria,5.3/6400
+3424,8220,84,2,Pharmazie ,Pharmacy,Pharmacie,Farmacia,5.4/6500
+5516,8220,85,2,Pflege,Nursing,Sciences infirmières,Cure infermieristiche ,6150
+4864,8220,86,2,Therapie,Therapy,Thérapie,Terapia,
+7072,4864,87,3,Physiotherapie,Physiotherapy,Physiothérapie,Fisioterapia,
+6688,4864,88,3,Ergotherapie,Occupational therapy,Ergothérapie,Ergoterapia,
+5214,0,89,1,Erziehungswissenschaften,Education,Éducation,Educazione,2100
+9955,5214,90,2,Lehrkräfteausbildung,Teacher education,Formation des enseignants,Formazione degli insegnanti,
+6409,9955,91,3,Vorschul- und Primarstufe allgemein,Primary school,École primaire,Scuola elementare,
+7008,9955,92,3,Sekundarstufe I allgemein,Secondary school I,École secondaire I,Scuola media,1190/4103
+4233,9955,93,3,Sekundarstufe II allgemein (Maturitätsschulen),Secondary school II,École secondaire II (lycée),Scuola superiore,
+1672,5214,94,2,Logopädie,Logopedics,Logopédie,Logopedia,
+1406,5214,95,2,Pädagogik,Pedagogy,Pédagogie,Pedagogia,
+2150,1406,96,3,Sonderpädagogik ,Special education,Pédagogie spécialisée,Pedagogia speciale,2120
+3822,1406,97,3,Heilpädagogik,Orthopedagogy,Pédagogie curative,Pedagogia curativa,
+5889,0,98,1,Interdisziplinäre & Andere,Interdisciplinary & Other,Interdisciplinaire & Autre,Interdisciplinare & Altre,
+6059,5889,99,2,Information & Dokumentation,Information & documentation,Information & documentation,Archivistica & biblioteconomia & documentazione,
+8683,5889,100,2,Sport,Sport,Sport,Sport,2130
+5561,5889,101,2,Militärwissenschaften,Military sciences,Sciences militaires,Scienze Militari,8000

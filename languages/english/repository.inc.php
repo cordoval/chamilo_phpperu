@@ -721,6 +721,7 @@ $lang['repository']['MetadataLomDateInvalid'] = 'Metadata LOM date invalid....';
 $lang['repository']['BaseURL'] = 'Base URL';
 $lang['repository']['ExternalRepositoryExportConfirmationText'] = 'You are going to export an object to an external repository';
 $lang['repository']['ExternalRepositoryExportSuccess'] = 'The object has been successfully exported';
+$lang['repository']['ExternalRepositoryExportFailure'] = 'The object has not exported';
 $lang['repository']['UserViewNameNotUnique'] = '';
 $lang['repository']['SelectYourChoice'] = '';
 $lang['repository']['SelectYourChoices'] = '';
@@ -764,6 +765,7 @@ $lang['repository']['Meeting'] = 'Meeting';
 $lang['repository']['Monitoring'] = 'Monitoring';
 $lang['repository']['Problems'] = 'Problems';
 $lang['repository']['Private'] = 'Private';
+$lang['repository']['Public'] = 'Public';
 $lang['repository']['Professional'] = 'Professional';
 $lang['repository']['Projects'] = 'Projects';
 $lang['repository']['PublicHoliday'] = 'PublicHoliday';
@@ -898,4 +900,82 @@ $lang['repository']['ImportSuccessfull'] = 'The object was successfully imported
 $lang['repository']['NoThumbnailAvailable'] = 'No Thumbnail Available';
 $lang['repository']['Mediamosa'] = 'Mediamosa';
 $lang['repository']['FileMissing'] = 'File is missing';
+
+$lang['repository']['ClientCertificateFile'] = 'Client certificate file';
+$lang['repository']['ClientCertificateKeyFile'] = 'Client certificate key file';
+$lang['repository']['ClientCertificateKeyPassword'] = 'Client certificate key password';
+$lang['repository']['CheckTargetCertificate'] = 'Check target certificate';
+$lang['repository']['TargetCaFile'] = 'Target ca file';
+$lang['repository']['MaxResults'] = 'Max results';
+
+$lang['repository']['mystuff'] = 'My stuff';
+$lang['repository']['today'] = 'Today';
+$lang['repository']['this_week'] = 'This week';
+$lang['repository']['last_week'] = 'Last week';
+$lang['repository']['two_weeks_ago'] = 'Two weeks ago';
+$lang['repository']['three_weeks_ago'] = 'Three weeks ago';
+$lang['repository']['history'] = 'History';
+$lang['repository']['root'] = 'Root';
+$lang['repository']['lastobjects'] = 'Last objects';
+$lang['repository']['Datastreams'] = 'Datastreams';
+$lang['repository']['Collection'] = 'Collection';
+$lang['repository']['Licence'] = 'Licence';
+$lang['repository']['AccessRights'] = 'Access Rights';
+$lang['repository']['Classification'] = 'Classification';
+$lang['repository']['Typeless'] = 'Typeless';
+$lang['repository']['Owerwite'] = 'Owerwite';
+$lang['repository']['SelectCourse'] = 'Select course';
+$lang['repository']['EnterMetadata'] = 'Enter metadata';
+$lang['repository']['FedoraExternalRepositoryManagerBrowserComponent'] = 'Browse';
+$lang['repository']['FedoraExternalRepositoryManagerUploaderComponent'] = 'Upload';
+$lang['repository']['FedoraExternalRepositoryManagerExporterComponent'] = 'Export';
+
+$lang['repository']['AnnouncementToolTitle'] = 'Announcements';
+$lang['repository']['SurveyToolTitle'] = 'Survey';
+$lang['repository']['ChatToolTitle'] = 'Chat';
+$lang['repository']['DocumentToolTitle'] = 'Document';
+$lang['repository']['LearningPathToolTitle'] = 'Learning Path';
+$lang['repository']['SearchToolTitle'] = 'Search';
+$lang['repository']['CourseSettingsToolTitle'] = 'Course settings';
+$lang['repository']['DropboxToolTitle'] = 'Dropbox';
+$lang['repository']['CourseGroupToolTitle'] = 'Groups';
+$lang['repository']['UserToolTitle'] = 'Users';
+$lang['repository']['MaintenanceToolTitle'] = 'Maintenance';
+$lang['repository']['CalendarToolTitle'] = 'Calendar';
+$lang['repository']['DescriptionToolTitle'] = 'Description';
+$lang['repository']['ForumToolTitle'] = 'Forum';
+$lang['repository']['LinkToolTitle'] = 'Links';
+$lang['repository']['WikiToolTitle'] = 'Wiki';
+$lang['repository']['StatisticsToolTitle'] = 'Reporting';
+$lang['repository']['AssessmentToolTitle'] = 'Assessments';
+$lang['repository']['CourseSectionsToolTitle'] = 'Course sections';
+$lang['repository']['BlogToolTitle'] = 'Blogs';
+$lang['repository']['GlossaryToolTitle'] = 'Glossary';
+$lang['repository']['NoteToolTitle'] = 'Notes';
+$lang['repository']['ReportingToolTitle'] = 'Reporting';
+$lang['repository']['IntroductionToolTitle'] = 'Introduction';
+$lang['repository']['GeolocationToolTitle'] = 'Locations';
+$lang['repository']['StreamingVideoToolTitle'] = 'Streaming Video';
+$lang['repository']['HomeToolTitle'] = 'Home';
+
+$lang['repository']['CourseExporterTitle'] = 'Export Course';
+$lang['repository']['EditorTitle'] = 'Edit';
+$lang['repository']['EditMetadata'] = 'Edit metadata';
+$lang['repository']['Api'] = 'Api';
+$lang['repository']['Data'] = 'Data';
+$lang['repository']['SelectCategory'] = 'Select category';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ?>

@@ -471,12 +471,14 @@ class Document extends ContentObject implements Versionable
         $image_types[] = 'png';
         $image_types[] = 'jpg';
         $image_types[] = 'jpeg';
+        $image_types[] = 'jpe';
         $image_types[] = 'svg';
         $image_types[] = 'bmp';
         $image_types[] = 'GIF';
         $image_types[] = 'PNG';
         $image_types[] = 'JPG';
         $image_types[] = 'JPEG';
+        $image_types[] = 'JPE';
         $image_types[] = 'SVG';
         $image_types[] = 'BMP';
 

@@ -20,17 +20,23 @@ class DocumentImport extends ContentObjectImport
     public function import_content_object()
     {
         $category = $this->get_category();
-        $file = $this->get_content_object_file(); 
-        
+        $file = $this->get_content_object_file();
+
         $document = new Document();
-        $document->set_title($file['name']);
+        $document->set_title($this->trim_extention($file['name']));
         $document->set_description($file['name']);
         $document->set_owner_id($this->get_user()->get_id());
         $document->set_parent_id($category);
         $document->set_filename($file['name']);
         $document->set_temporary_file_path($file['tmp_name']);
-        return $document->create();
+        return $document->create()  ? $document : false;
+    }
+
+    public function trim_extention($file_name){
+    	return reset(explode('.', $file_name));
     }
 
 }
+
+
 ?>

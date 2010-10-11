@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<foxml:xmlContent>
+	<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+		xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:rel="info:fedora/fedora-system:def/relations-external#"
+		xmlns:fedora-model="info:fedora/fedora-system:def/model#" xmlns:oai="http://www.openarchives.org/OAI/2.0/"
+		xmlns:dcterms="http://purl.org/dc/terms/" xmlns:chor_dc="http://purl.org/switch/chor/"
+		xmlns:chor_dcterms="http://purl.org/switch/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		<rdf:Description rdf:about="info:fedora/changeme:53">
+			<fedora-model:hasModel rdf:resource="info:fedora/fedora-system:FedoraObject-3.0"></fedora-model:hasModel>
+			<fedora-model:hasModel rdf:resource="info:fedora/LORmodel:object"></fedora-model:hasModel>
+			<fedora-model:hasModel rdf:resource="info:fedora/LORmodel:collection"></fedora-model:hasModel>
+			<oai:itemID>changeme:53</oai:itemID>
+			<dcterms:accessRights chor_dcterms:access="private">private</dcterms:accessRights>
+			<dcterms:rights chor_dcterms:access="private">private</dcterms:rights>
+			<dcterms:creator>John Doe</dcterms:creator>
+			<dcterms:description>des fff</dcterms:description>
+		</rdf:Description>
+	</rdf:RDF>
+</foxml:xmlContent>
