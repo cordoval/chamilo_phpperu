@@ -197,7 +197,7 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
     function is_valid()
     {
         $course = $this->get_course();
-        $this->set_item_property($this->get_data_manager()->get_item_property($course, 'document', $this->get_id()));
+        $this->set_item_property($this->get_data_manager()->get_item_property($course, 'dropbox', $this->get_id()));
 
         $filename = $this->get_filename();
         $old_rel_path = 'courses/' . $course->get_directory() . '/dropbox/';
