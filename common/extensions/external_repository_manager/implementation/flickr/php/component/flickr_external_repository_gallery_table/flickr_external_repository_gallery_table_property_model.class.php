@@ -1,5 +1,6 @@
 <?php
-
+namespace common\extensions\external_repository_manager\implementation\flickr;
+use \DefaultExternalRepositoryGalleryObjectTablePropertyModel;
 class FlickrExternalRepositoryGalleryTablePropertyModel extends DefaultExternalRepositoryGalleryObjectTablePropertyModel
 {
     function FlickrExternalRepositoryGalleryTablePropertyModel()

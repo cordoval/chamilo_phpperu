@@ -107,7 +107,7 @@ abstract class ExternalRepositoryManager extends SubManager
         
         require_once $file;
         
-        $class = Utilities :: underscores_to_camelcase($type) . 'ExternalRepositoryManager';
+        $class = 'common\extensions\external_repository_manager\implementation\\' . $type . '\\' . Utilities :: underscores_to_camelcase($type) . 'ExternalRepositoryManager';
         
         $settings_validated = call_user_func(array($class, 'validate_settings'));
         

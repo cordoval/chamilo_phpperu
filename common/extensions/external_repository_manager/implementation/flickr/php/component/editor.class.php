@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\flickr;
 require_once dirname(__FILE__) . '/../forms/flickr_external_repository_manager_form.class.php';
 
 class FlickrExternalRepositoryManagerEditorComponent extends FlickrExternalRepositoryManager

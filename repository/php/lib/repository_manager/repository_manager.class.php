@@ -760,27 +760,27 @@ class RepositoryManager extends CoreApplication
             }
             $extra_items = array();
             $create = array();
-            $create['title'] = Translation :: get('Create');
+            $create['title'] = Translation :: get('Create', self :: APPLICATION_NAME);
             $create['url'] = $this->get_content_object_creation_url();
             $create['class'] = 'create';
 
             $templates = array();
-            $templates['title'] = Translation :: get('BrowseTemplates');
+            $templates['title'] = Translation :: get('BrowseTemplates' , self :: APPLICATION_NAME);
             $templates['url'] = $this->get_url(array(self :: PARAM_CATEGORY_ID => null, self :: PARAM_ACTION => self :: ACTION_BROWSE_TEMPLATES));
             $templates['class'] = 'template';
 
             $import = array();
-            $import['title'] = Translation :: get('Import');
+            $import['title'] = Translation :: get('Import', self :: APPLICATION_NAME);
             $import['url'] = $this->get_content_object_importing_url();
             $import['class'] = 'import';
 
             $quota = array();
-            $quota['title'] = Translation :: get('Quota');
+            $quota['title'] = Translation :: get('Quota', self :: APPLICATION_NAME);
             $quota['url'] = $this->get_quota_url();
             $quota['class'] = 'quota';
 
             $pub = array();
-            $pub['title'] = Translation :: get('MyPublications');
+            $pub['title'] = Translation :: get('MyPublications', self :: APPLICATION_NAME);
             $pub['url'] = $this->get_publication_url();
             $pub['class'] = 'publication';
 
@@ -789,7 +789,7 @@ class RepositoryManager extends CoreApplication
             $line['class'] = 'divider';
 
             $trash = array();
-            $trash['title'] = Translation :: get('RecycleBin');
+            $trash['title'] = Translation :: get('RecycleBin', self :: APPLICATION_NAME);
             $trash['url'] = $this->get_recycle_bin_url();
             if ($this->current_user_has_recycled_objects())
             {
@@ -904,7 +904,7 @@ class RepositoryManager extends CoreApplication
             if (count($content_object_managers) > 0)
             {
                 $content_object_manage_item = array();
-                $content_object_manage_item['title'] = Translation :: get('ManageContentObjects');
+                $content_object_manage_item['title'] = Translation :: get('ManageContentObjects', self :: APPLICATION_NAME);
                 $content_object_manage_item['url'] = '#';
                 $content_object_manage_item['class'] = 'manage';
 

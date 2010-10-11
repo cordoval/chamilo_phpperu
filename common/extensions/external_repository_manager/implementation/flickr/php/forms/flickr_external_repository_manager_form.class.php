@@ -1,4 +1,9 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\flickr;
+use \FormValidator;
+use \Utilities;
+use \Translation;
+use \StringUtilities;
 /**
  * $Id: flickr_external_repository_manager_form.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package

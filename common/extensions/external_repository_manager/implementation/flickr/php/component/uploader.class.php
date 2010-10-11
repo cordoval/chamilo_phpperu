@@ -1,4 +1,8 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\flickr;
+use \ExternalRepositoryManager;
+use \Redirect;
+use \Path;
 require_once dirname(__FILE__) . '/../forms/flickr_external_repository_manager_form.class.php';
 
 class FlickrExternalRepositoryManagerUploaderComponent extends FlickrExternalRepositoryManager

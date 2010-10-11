@@ -1,4 +1,10 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\flickr;
+use \ExternalRepositoryObject;
+use \Translation;
+use \Utilities;
+use \Theme;
+use \ToolbarItem;
 class FlickrExternalRepositoryObject extends ExternalRepositoryObject
 {
     const OBJECT_TYPE = 'flickr';

@@ -1,4 +1,15 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\flickr;
+use \ExternalRepositoryManager;
+use \ExternalRepositorySetting;
+use \Path;
+use \ExternalRepositoryObjectRenderer;
+use \Request;
+use \Translation;
+use \ActionBarSearchForm;
+use \Document;
+use \PatternMatchCondition;
+use \OrCondition;
 require_once dirname(__FILE__) . '/flickr_external_repository_connector.class.php';
 
 /**

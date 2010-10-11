@@ -62,7 +62,7 @@ abstract class ExternalRepositoryConnector
         
         require_once $file;
         
-        $class = Utilities :: underscores_to_camelcase($type) . 'ExternalRepositoryConnector';
+        $class = 'common\extensions\external_repository_manager\implementation\\' . $type . '\\' . Utilities :: underscores_to_camelcase($type) . 'ExternalRepositoryConnector';
         return new $class($external_repository_instance);
     }
     

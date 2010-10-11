@@ -1,4 +1,14 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\flickr;
+use \Path;
+use \ExternalRepositoryConnector;
+use \ExternalRepositorySetting;
+use \phpFlickr;
+use \ExternalRepositoryUserSetting;
+use \Request;
+use \ActionBarSearchForm;
+use \ExternalRepositoryObject;
+use \ArrayResultSet;
 require_once Path :: get_plugin_path() . 'phpflickr-3.0/phpFlickr.php';
 require_once dirname(__FILE__) . '/flickr_external_repository_object.class.php';
 

@@ -21,7 +21,7 @@ abstract class ExternalRepositoryObjectDisplay
     static function factory($object)
     {
         $type = $object->get_object_type();
-        $class = Utilities :: underscores_to_camelcase($type) . 'ExternalRepositoryObjectDisplay';
+        $class = 'common\extensions\external_repository_manager\implementation\\' . $type . '\\' . Utilities :: underscores_to_camelcase($type) . 'ExternalRepositoryObjectDisplay';
         require_once dirname(__FILE__) . '/../implementation/' . $type . '/php/' . $type . '_external_repository_object_display.class.php';
         return new $class($object);
     }

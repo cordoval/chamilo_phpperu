@@ -12,6 +12,7 @@ class Translation
      * Instance of this class for the singleton pattern.
      */
     private static $instance;
+    private static $called_class;
 
     /**
      * Language strings defined in the language-files. Stored as an associative array.
@@ -77,11 +78,9 @@ class Translation
      */
     function get($variable, $context, $parameters = array())
     {
-        $called_class = get_called_class();
-        //dump($called_class);
-        $reflection_class = new ReflectionClass($called_class);
-        //dump($reflection_class->getNamespaceName());
-        $instance = self :: get_instance();
+    	$instance = self :: get_instance();
+		self :: $called_class = get_called_class();  	
+    	
         $translation = $instance->translate($variable, $context);
 
         if (empty($parameters))
@@ -128,7 +127,7 @@ class Translation
      */
     function translate($variable, $context)
     {
-        $instance = self :: get_instance();
+    	$instance = self :: get_instance();
 
         $language = $instance->language;
         // Modified by Ivan Tcholakov, 31-MAR-2010, see BUG #743
@@ -137,6 +136,11 @@ class Translation
         //
         $value = '';
 
+        if (count(explode('\\', self :: $called_class)) > 1)
+        {
+        	$context = self :: $called_class;
+        }
+        
         if (! isset($strings[$language]))
         {
             $instance->add_context_internationalization($language, $context);
@@ -182,7 +186,17 @@ class Translation
 
     function add_context_internationalization($language, $context)
     {
-        $path = BasicApplication :: get_application_resources_i18n_path($context) . $language . '.i18n';
+    	$called_class = explode('\\', $context);
+    	if (count($called_class) > 1)
+    	{
+    		array_pop($called_class);
+    		$path = Path :: get(SYS_PATH) . '/' . implode('/', $called_class) . '/resources/i18n/' . $language . '.i18n';
+    	}
+    	else
+    	{
+    		$path = BasicApplication :: get_application_resources_i18n_path($context) . $language . '.i18n';
+    		
+    	}
         $strings = parse_ini_file($path);
 
         $instance = self :: get_instance();

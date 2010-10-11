@@ -1,5 +1,7 @@
 <?php
-
+namespace common\extensions\external_repository_manager\implementation\flickr;
+use \ExternalRepositoryObjectDisplay;
+use \Translation;
 class FlickrExternalRepositoryObjectDisplay extends ExternalRepositoryObjectDisplay
 {
 
