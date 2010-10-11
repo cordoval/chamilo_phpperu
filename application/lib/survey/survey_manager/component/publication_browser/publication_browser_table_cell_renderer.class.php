@@ -71,11 +71,6 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
         if ($user->is_platform_admin() || $user->get_id() == $survey_publication->get_publisher())
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->browser->get_rights_editor_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
-            
-        //            if ($survey instanceof ComplexContentObjectSupport)
-        //            {
-        //                $toolbar->add_item(new ToolbarItem(Translation :: get('BrowseSurvey'), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_build_survey_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
-        //            }
         }
         
         if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_EDIT, $survey_publication->get_id(), SurveyRights :: TYPE_PUBLICATION, $user_id))

@@ -69,7 +69,7 @@ class SurveyManagerParticipantBrowserComponent extends SurveyManager
         $action_bar->set_search_url($this->get_url($parameters));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url($parameters), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
-        if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_INVITE, SurveyRights :: LOCATION_PARTICIPANT_BROWSER, SurveyRights :: TYPE_SURVEY_COMPONENT))
+        if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_INVITE, SurveyRights :: LOCATION_PARTICIPANT_BROWSER, SurveyRights :: TYPE_COMPONENT))
         {
             $action_bar->add_tool_action(new ToolbarItem(Translation :: get('SubscribeUsers'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_subscribe_user_url($this->pid), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
             $action_bar->add_tool_action(new ToolbarItem(Translation :: get('SubscribeGroups'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_subscribe_group_url($this->pid), ToolbarItem :: DISPLAY_ICON_AND_LABEL));

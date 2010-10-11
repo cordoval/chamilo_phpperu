@@ -22,22 +22,25 @@ class SurveyPublicationBrowserTable extends ObjectTable
         
         $action = new ObjectTableFormActions();
         
-        $action->add_form_action(new ObjectTableFormAction(SurveyManager :: ACTION_REPORTING_FILTER, Translation :: get('ReportingSelected'),false));
+        if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_VIEW, SurveyRights :: LOCATION_REPORTING, SurveyRights :: TYPE_COMPONENT))
+        {
+            $action->add_form_action(new ObjectTableFormAction(SurveyReportingManager :: ACTION_REPORTING, Translation :: get('Reporting'), false));
+        }
         
         if ($browser->get_user()->is_platform_admin())
         {
-           $action->add_form_action(new ObjectTableFormAction(SurveyManager :: ACTION_DELETE, Translation :: get('RemoveSelected'),true));
-           $action->add_form_action(new ObjectTableFormAction(SurveyManager :: ACTION_EDIT_RIGHTS, Translation :: get('ManageRights'),false));
-           $action->add_form_action(new ObjectTableFormAction(SurveyManager :: ACTION_MAIL_INVITEES, Translation :: get('InviteParticipants'),false));
-           $action->add_form_action(new ObjectTableFormAction(SurveyManager :: ACTION_EXCEL_EXPORT, Translation :: get('ExportToExcel'),false));
-           
+            $action->add_form_action(new ObjectTableFormAction(SurveyManager :: ACTION_DELETE, Translation :: get('RemoveSelected'), true));
+            $action->add_form_action(new ObjectTableFormAction(SurveyManager :: ACTION_EDIT_RIGHTS, Translation :: get('ManageRights'), false));
+            $action->add_form_action(new ObjectTableFormAction(SurveyManager :: ACTION_MAIL_INVITEES, Translation :: get('InviteParticipants'), false));
+            $action->add_form_action(new ObjectTableFormAction(SurveyManager :: ACTION_EXCEL_EXPORT, Translation :: get('ExportToExcel'), false));
+        
         }
         
         $this->set_form_actions($action);
         $this->set_default_row_count(20);
     }
-    
-	static function handle_table_action()
+
+    static function handle_table_action()
     {
         $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
         Request :: set_get(SurveyManager :: PARAM_PUBLICATION_ID, $ids);

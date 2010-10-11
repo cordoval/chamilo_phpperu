@@ -9,8 +9,12 @@
 
 class ReportingDataManager
 {
+    
     private static $instance;
 
+    /**
+     * @return ReportingDataManagerInterface
+     */
     public static function get_instance()
     {
         if (! isset(self :: $instance))

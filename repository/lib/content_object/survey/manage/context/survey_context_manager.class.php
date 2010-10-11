@@ -18,11 +18,12 @@ class SurveyContextManager extends SubManager
     const PARAM_CONTEXT_ID = 'context_id';
     const PARAM_TEMPLATE_ID = 'template_id';
     const PARAM_CONTEXT = 'context';
+    const PARAM_CONTEXT_REL_USER_ID = 'context_template_id';
     
     const PARAM_SURVEY_PAGE_ID = 'survey_page';
     const PARAM_SURVEY_ID = 'survey';
     const PARAM_TEMPLATE_REL_PAGE_ID = 'template_rel_page_id';
-      
+    
     const ACTION_MANAGER_CHOOSER = 'manager_chooser';
     
     const ACTION_CREATE_CONTEXT_REGISTRATION = 'registration_creator';
@@ -37,23 +38,22 @@ class SurveyContextManager extends SubManager
     const ACTION_VIEW_CONTEXT_TEMPLATE = 'context_template_viewer';
     const ACTION_BROWSE_CONTEXT_TEMPLATE = 'context_template_browser';
     
-   const ACTION_SUBSCRIBE_CONTEXT_TEMPLATE = 'subscribe_context_template';
-     const ACTION_SUBSCRIBE_PAGE_BROWSER = 'context_template_subscribe_page_browser';
+    const ACTION_SUBSCRIBE_CONTEXT_TEMPLATE = 'subscribe_context_template';
+    const ACTION_SUBSCRIBE_PAGE_BROWSER = 'context_template_subscribe_page_browser';
     const ACTION_UNSUBSCRIBE_PAGE_FROM_TEMPLATE = 'page_unsubscriber';
     const ACTION_SUBSCRIBE_PAGE_TO_TEMPLATE = 'page_subscriber';
-    const ACTION_TRUNCATE_TEMPLATE = 'context_template_truncater'; 
-    
+    const ACTION_TRUNCATE_TEMPLATE = 'context_template_truncater';
     
     const ACTION_CREATE_CONTEXT = 'context_creator';
     const ACTION_EDIT_CONTEXT = 'context_updater';
     const ACTION_DELETE_CONTEXT = 'context_deleter';
+    const ACTION_VIEW_CONTEXT = 'context_viewer';
     
     const ACTION_CREATE_TEMPLATE = 'template_creator';
     const ACTION_EDIT_TEMPLATE = 'template_updater';
     const ACTION_DELETE_TEMPLATE = 'template_deleter';
     
     const ACTION_DELETE_SURVEY_REL_CONTEXT_TEMPLATE = 'survey_context_deleter';
-    
     
     const DEFAULT_ACTION = self :: ACTION_MANAGER_CHOOSER;
 
@@ -95,6 +95,11 @@ class SurveyContextManager extends SubManager
     function get_context_creation_url($context_registration)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_CONTEXT, self :: PARAM_CONTEXT_REGISTRATION_ID => $context_registration->get_id()));
+    }
+
+    function get_context_view_url($context)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT, self :: PARAM_CONTEXT_ID => $context->get_id()));
     }
 
     function get_context_update_url($context_registration_id, $survey_context)
@@ -171,20 +176,20 @@ class SurveyContextManager extends SubManager
     {
         return self :: PARAM_ACTION;
     }
-    
+
     function display_header()
     {
-    	Application :: display_header();
+        Application :: display_header();
     }
-    
+
     function display_footer()
     {
-    	Application :: display_footer();
+        Application :: display_footer();
     }
-    
+
     function has_menu()
     {
-    	return false;
+        return false;
     }
 }
 

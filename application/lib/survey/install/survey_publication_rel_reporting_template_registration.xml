@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="publication_rel_reporting_template_registration">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1"
+			autoincrement="true" />
+		<property name="publication_id" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="reporting_template_registration_id" type="integer"
+			unsigned="1" notnull="1" />
+		<property name="owner_id" type="integer" unsigned="1"
+			notnull="1" />	
+	</properties>
+	<index name="publication_id">
+		<indexproperty name="publication_id" />
+	</index>
+	<index name="reporting_template_registration_id">
+		<indexproperty name="reporting_template_registration_id" />
+	</index>
+</object>
