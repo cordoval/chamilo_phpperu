@@ -22,7 +22,14 @@ class ContextLinkerManagerContextLinksBrowserComponent extends ContextLinkerMana
         $html = array();
 
         $html[]= $this->get_action_bar();
-        $html[] = $this->get_table();
+        if(Request :: get(ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID))
+        {
+            $html[] = $this->get_table();
+        }
+        else
+        {
+            $html[] = '<p>' . Translation :: get('NoContentObjectSelected') . '</p>';
+        }
 
         echo implode("\n", $html);
 
