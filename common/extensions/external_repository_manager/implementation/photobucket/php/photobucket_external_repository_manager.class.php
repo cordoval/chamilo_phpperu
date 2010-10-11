@@ -28,7 +28,7 @@ class PhotobucketExternalRepositoryManager extends ExternalRepositoryManager
      */
     function get_application_component_path()
     {
-        return Path :: get_common_extensions_path() . 'external_repository_manager/type/photobucket/component/';
+        return Path :: get_common_extensions_path() . 'external_repository_manager/implementation/photobucket/php/component/';
     }
 
     /* (non-PHPdoc)
