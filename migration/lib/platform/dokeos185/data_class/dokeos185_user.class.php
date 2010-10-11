@@ -385,14 +385,17 @@ class Dokeos185User extends Dokeos185MigrationDataClass
         $chamilo_user->set_phone($this->get_phone());
 
         //the expiration date needs to be converted from a string to a unix timestamp format
-        $exp_date=date($this->get_expiration_date());
-        $exp_date=strtotime($exp_date);
-        $chamilo_user->set_expiration_date($exp_date);
+        if($this->get_expiration_date())
+        {
+        	$chamilo_user->set_expiration_date(strtotime($this->get_expiration_date()));
+        }
+        else
+        {
+        	$chamilo_user->set_expiration_date(0);
+        }
 
         //the registration date needs to be converted from a string to a unix timestamp format
-        $reg_date=date($this->get_registration_date());
-        $reg_date=strtotime($exp_date);
-        $chamilo_user->set_registration_date($reg_date);
+        $chamilo_user->set_registration_date(strtotime($this->get_registration_date()));
 
         //Set user authentication method, if not available use default: platform
         if (Authentication :: is_valid_authentication_type($this->get_auth_source()))
