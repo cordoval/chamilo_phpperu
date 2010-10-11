@@ -21,7 +21,7 @@ class SurveyPublicationReportingFilterTemplate extends ReportingTemplate
 		$this->add_reporting_block(new SurveyContextReportingFilterBlock($this));
 	}
 	
-	public function display_filter()
+	public function display_filter_body()
 	{
 		$html = array();
 		$ids = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
@@ -33,10 +33,11 @@ class SurveyPublicationReportingFilterTemplate extends ReportingTemplate
 			$this->filter_parameters = $this->wizard->getParameters();
 		}
 		
-		$html[] = $this->reporting_filter_header();
-		$html[] = $this->wizard->toHtml();
-		$html[] = $this->reporting_filter_footer();
-		return implode("\n", $html);
+//		$html[] = $this->reporting_filter_header();
+//		$html[] = $this->wizard->toHtml();
+//		$html[] = $this->reporting_filter_footer();
+//		return implode("\n", $html);
+		return $this->wizard->toHtml();
 	}
 	
 	public function display_context()
@@ -44,35 +45,35 @@ class SurveyPublicationReportingFilterTemplate extends ReportingTemplate
 		
 	}
 	
-	function reporting_filter_header()
-    {
-    	$html = array();
-    	
-       	$html[] = '<div style="clear: both; height: 0px; line-height: 0px;">&nbsp;</div>';
-        $html[] = '<div id="reporting_filter" class="reporting_filter">';
-        $html[] = '<div class="bevel">';
-       	
-        $html[] = '<div class="clear"></div>';
-        return implode("\n", $html); 
-    }
-    
-    function reporting_filter_footer()
-    {
-    	$html = array();
-        
-       $html[] = '<div class="clear"></div>';
-        $html[] = '<div id="reporting_filter_hide_container" class="reporting_filter_hide_container">';
-        $html[] = '<a id="reporting_filter_hide_link" class="reporting_filter_hide" href="#"><img src="' . Theme :: get_common_image_path() . 'action_ajax_hide.png" /></a>';
-        $html[] = '</div>';
-		$html[] = '</div>';
-		$html[] = '</div>';
-		
-        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/reporting_filter_horizontal.js');
-
-        $html[] = '<div class="clear"></div>';
-
-        return implode("\n", $html); 
-    }
+//	function reporting_filter_header()
+//    {
+//    	$html = array();
+//    	
+//       	$html[] = '<div style="clear: both; height: 0px; line-height: 0px;">&nbsp;</div>';
+//        $html[] = '<div id="reporting_filter" class="reporting_filter">';
+//        $html[] = '<div class="bevel">';
+//       	
+//        $html[] = '<div class="clear"></div>';
+//        return implode("\n", $html); 
+//    }
+//    
+//    function reporting_filter_footer()
+//    {
+//    	$html = array();
+//        
+//       $html[] = '<div class="clear"></div>';
+//        $html[] = '<div id="reporting_filter_hide_container" class="reporting_filter_hide_container">';
+//        $html[] = '<a id="reporting_filter_hide_link" class="reporting_filter_hide" href="#"><img src="' . Theme :: get_common_image_path() . 'action_ajax_hide.png" /></a>';
+//        $html[] = '</div>';
+//		$html[] = '</div>';
+//		$html[] = '</div>';
+//		
+//        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/reporting_filter_horizontal.js');
+//
+//        $html[] = '<div class="clear"></div>';
+//
+//        return implode("\n", $html); 
+//    }
 	
 	function get_application()
 	{

@@ -11,7 +11,7 @@
 require_once dirname(__FILE__) . '/reporting_template_menu.class.php';
 
 abstract class ReportingTemplate
-{   
+{
     private $blocks = array();
     private $parent;
 
@@ -22,7 +22,7 @@ abstract class ReportingTemplate
 
     public static function factory($registration, $parent)
     {
-    	$application = $registration->get_application();
+        $application = $registration->get_application();
         $base_path = (WebApplication :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
         $file = $base_path . $application . '/reporting/templates/' . Utilities :: camelcase_to_underscores($registration->get_template()) . '.class.php';
         require_once ($file);
@@ -58,22 +58,23 @@ abstract class ReportingTemplate
     {
         $display_all = $this->get_parent()->are_all_blocks_visible();
         
-    	$html[] = $this->display_header();
-		$html[] = $this->display_filter();
-		
+        $html[] = $this->display_header();
+        $html[] = $this->display_filter();
+        
         if ($display_all)
         {
-            foreach($this->get_reporting_blocks() as $block)
+            foreach ($this->get_reporting_blocks() as $block)
             {
-            	$html[] = $block->to_html();
+                $html[] = $block->to_html();
             }
         }
         else
         {
-        	if ($this->get_number_of_reporting_blocks() > 1)
+            if ($this->get_number_of_reporting_blocks() > 1)
             {
-            	$html[] = $this->get_menu();
-            	$html[] = '<div id="tool_browser_left">';
+            	// TODO: Header and footer of template should also be IN the tool_browser_left div
+                $html[] = $this->get_menu();
+                $html[] = '<div id="tool_browser_left">';
             }
             $block = Request :: get(ReportingManager :: PARAM_REPORTING_BLOCK_ID);
             if (isset($block))
@@ -82,8 +83,10 @@ abstract class ReportingTemplate
             }
             else
             {
-            	$keys = array_keys($this->get_reporting_blocks());
-                $html[] = $this->get_reporting_block($keys[0])->to_html();
+                $keys = array_keys($this->get_reporting_blocks());
+                if(count($keys)){
+                	$html[] = $this->get_reporting_block($keys[0])->to_html();
+                }
             }
             if ($this->get_number_of_reporting_blocks() > 1)
             {
@@ -134,7 +137,7 @@ abstract class ReportingTemplate
         {
             $html[] = '<div id="tool_browser_left">';
         }
-       
+        
         $html[] = $this->get_current_block()->to_html();
         if ($this->get_number_of_reporting_blocks() > 1)
         {
@@ -143,10 +146,10 @@ abstract class ReportingTemplate
         $html[] = '<div class="clear"></div>';
         return implode($html, "\n");
     }
-    
+
     public function get_current_block()
     {
-    	$block = Request :: get(ReportingManager :: PARAM_REPORTING_BLOCK_ID);
+        $block = Request :: get(ReportingManager :: PARAM_REPORTING_BLOCK_ID);
         if (isset($block))
         {
             return $this->get_reporting_block($block);
@@ -188,10 +191,52 @@ abstract class ReportingTemplate
         $html[] = '<br />' . $this->get_action_bar()->as_html() . '<br />';
         return implode("\n", $html);
     }
-    
+
     public function display_filter()
     {
-    	
+        $body = $this->display_filter_body();
+        if ($body)
+        {
+            $html[] = $this->reporting_filter_header();
+            $html[] = $body;
+            $html[] = $this->reporting_filter_footer();
+            return implode("\n", $html);
+        }
+    }
+
+    public function display_filter_body()
+    {
+    
+    }
+
+    function reporting_filter_header()
+    {
+        $html = array();
+        
+        $html[] = '<div style="clear: both; height: 0px; line-height: 0px;">&nbsp;</div>';
+        $html[] = '<div id="reporting_filter" class="reporting_filter">';
+        $html[] = '<div class="bevel">';
+        
+        $html[] = '<div class="clear"></div>';
+        return implode("\n", $html);
+    }
+
+    function reporting_filter_footer()
+    {
+        $html = array();
+        
+        $html[] = '<div class="clear"></div>';
+        $html[] = '<div id="reporting_filter_hide_container" class="reporting_filter_hide_container">';
+        $html[] = '<a id="reporting_filter_hide_link" class="reporting_filter_hide" href="#"><img src="' . Theme :: get_common_image_path() . 'action_ajax_hide.png" /></a>';
+        $html[] = '</div>';
+        $html[] = '</div>';
+        $html[] = '</div>';
+        
+        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/reporting_filter_horizontal.js');
+        
+        $html[] = '<div class="clear"></div>';
+        
+        return implode("\n", $html);
     }
 
     public function get_parent()
@@ -199,12 +244,12 @@ abstract class ReportingTemplate
         return $this->parent;
     }
 
-	function get_url($parameters = array (), $filter = array(), $encode_entities = false)
+    function get_url($parameters = array (), $filter = array(), $encode_entities = false)
     {
         return $this->get_parent()->get_url($parameters, $filter, $encode_entities);
     }
-    
-	public function set_parent($parent)
+
+    public function set_parent($parent)
     {
         $this->parent = $parent;
     }
@@ -221,17 +266,17 @@ abstract class ReportingTemplate
 
     public function add_reporting_block($block)
     {
-        $this->blocks[$block->get_id()] = $block;
+        $this->blocks[] = $block;
     }
 
     public function get_parameters()
     {
         return $this->get_parent()->get_parameters();
     }
-    
+
     public function get_parameter($key)
     {
-    	return $this->get_parent()->get_parameter($key);
+        return $this->get_parent()->get_parameter($key);
     }
 
     public function set_parameters($parameters)
@@ -244,21 +289,22 @@ abstract class ReportingTemplate
         $this->get_parent()->set_parameter($key, $value);
     }
 
-//    public function add_parameters($key, $value)
-//    {
-//        $this->parameters[$key] = $value;
-//    }
+    //    public function add_parameters($key, $value)
+    //    {
+    //        $this->parameters[$key] = $value;
+    //    }
+    
 
     public abstract function display_context();
 
-function get_action_bar()
+    function get_action_bar()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         $parameters = $this->get_parameters();
-        $parameters[ReportingViewer::PARAM_REPORTING_VIEWER_ACTION] = ReportingViewer::ACTION_EXPORT_TEMPLATE;
+        $parameters[ReportingViewer :: PARAM_REPORTING_VIEWER_ACTION] = ReportingViewer :: ACTION_EXPORT_TEMPLATE;
         $parameters[ReportingManager :: PARAM_TEMPLATE_ID] = $this->get_id();
         $parameters[ReportingManager :: PARAM_EXPORT_TYPE] = 'pdf';
-      	
+        
         $display_mode = $this->get_displaymode();
         if (isset($display_mode))
         {
@@ -269,7 +315,7 @@ function get_action_bar()
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ExportToPdf'), Theme :: get_common_image_path() . 'export_pdf.png', $url));
         
         $parameters[ReportingManager :: PARAM_EXPORT_TYPE] = 'excel';
-      	
+        
         $display_mode = $this->get_displaymode();
         if (isset($display_mode))
         {
