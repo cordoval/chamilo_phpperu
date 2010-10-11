@@ -26,8 +26,8 @@ class ToolComponentBrowserComponent extends ToolComponent
 
         $actions = new ObjectTableFormActions(Tool :: PARAM_ACTION);
         $actions->add_form_action(new ObjectTableFormAction(Tool :: ACTION_DELETE, Translation :: get('DeleteSelected')));
-        $actions->add_form_action(new ObjectTableFormAction(Tool :: ACTION_HIDE_PUBLICATION, Translation :: get('Hide'), false));
-        $actions->add_form_action(new ObjectTableFormAction(Tool :: ACTION_SHOW_PUBLICATION, Translation :: get('Show'), false));
+        $actions->add_form_action(new ObjectTableFormAction(Tool :: ACTION_TOGGLE_VISIBILITY, Translation :: get('ToggleVisibility'), false));
+        //$actions->add_form_action(new ObjectTableFormAction(Tool :: ACTION_TOGGLE_VISIBILITY, Translation :: get('ToggleVisibility'), false));
         if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT) && $this->get_parent() instanceof Categorizable)
         {
             $actions->add_form_action(new ObjectTableFormAction(Tool :: ACTION_MOVE_TO_CATEGORY, Translation :: get('MoveSelected'), false));
