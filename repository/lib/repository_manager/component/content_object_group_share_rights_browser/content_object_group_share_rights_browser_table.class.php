@@ -22,6 +22,7 @@ class ContentObjectGroupShareRightsBrowserTable extends ObjectTable
 
         $table_form_actions = new ObjectTableFormActions();
         $table_form_actions->add_form_action(new ObjectTableFormAction(RepositoryManager :: ACTION_CONTENT_OBJECT_SHARE_DELETER, Translation :: get('delete'), true));
+        $this->set_form_actions($table_form_actions);
 
         $this->set_additional_parameters($parameters);
         $this->set_default_row_count(20);
