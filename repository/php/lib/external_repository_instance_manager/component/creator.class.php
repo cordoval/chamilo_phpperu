@@ -18,18 +18,17 @@ class ExternalRepositoryInstanceManagerCreatorComponent extends ExternalReposito
         
         if ($type && ExternalRepositoryManager :: exists($type))
         {
-            $external_repository = new ExternalRepository();
+        	$external_repository = new ExternalRepository();
             $external_repository->set_type($type);
             $form = new ExternalRepositoryForm(ExternalRepositoryForm :: TYPE_CREATE, $external_repository, $this->get_url(array(ExternalRepositoryInstanceManager :: PARAM_EXTERNAL_REPOSITORY_TYPE => $type)));
-            
             if ($form->validate())
             {
-                $success = $form->create_external_repository();
+            	$success = $form->create_external_repository();
                 $this->redirect(Translation :: get($success ? 'ExternalRepositoryAdded' : 'ExternalRepositoryNotAdded'), ($success ? false : true), array(ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION => ExternalRepositoryInstanceManager :: ACTION_BROWSE_INSTANCES));
             }
             else
             {
-                $this->display_header();
+            	$this->display_header();
                 $form->display();
                 $this->display_footer();
             }
@@ -64,7 +63,7 @@ class ExternalRepositoryInstanceManagerCreatorComponent extends ExternalReposito
 
     function get_external_repository_types()
     {
-        $path = Path :: get_common_extensions_path() . 'external_repository_manager/type/';
+        $path = Path :: get_common_extensions_path() . 'external_repository_manager/implementation/';
         $folders = Filesystem :: get_directory_content($path, Filesystem :: LIST_DIRECTORIES, false);
         
         $types = array();
@@ -72,7 +71,7 @@ class ExternalRepositoryInstanceManagerCreatorComponent extends ExternalReposito
         
         foreach ($folders as $folder)
         {
-            $properties_file = Path :: get_common_extensions_path() . 'external_repository_manager/type/' . $folder . '/properties.xml';
+            $properties_file = Path :: get_common_extensions_path() . 'external_repository_manager/implementation/' . $folder . '/properties.xml';
             if (! file_exists($properties_file))
             {
                 continue;

@@ -29,7 +29,7 @@ class Hq23ExternalRepositoryManager extends ExternalRepositoryManager
      */
     function get_application_component_path()
     {
-        return Path :: get_common_extensions_path() . 'external_repository_manager/type/hq23/component/';
+        return Path :: get_common_extensions_path() . 'external_repository_manager/implementation/hq23/php/component/';
     }
 
     /* (non-PHPdoc)

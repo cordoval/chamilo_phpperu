@@ -1,6 +1,4 @@
 <?php
-require_once dirname(__FILE__) . '/../../external_repository_object.class.php';
-
 class Hq23ExternalRepositoryObject extends ExternalRepositoryObject
 {
     const OBJECT_TYPE = 'hq23';

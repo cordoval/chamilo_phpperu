@@ -332,7 +332,7 @@ class ExternalRepository extends RepositoryDataClass
             $camel_type = ucfirst(strtolower($type));
             $class_name = 'ExternalRepository' . $camel_type;
             $file_name = Utilities :: camelcase_to_underscores($class_name) . '.class.php';
-            
+           
             require_once dirname(__FILE__) . '/external/' . $file_name;
             
             self :: $already_required_types[] = $type;

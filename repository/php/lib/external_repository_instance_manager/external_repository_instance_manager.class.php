@@ -17,7 +17,7 @@ class ExternalRepositoryInstanceManager extends SubManager
     const ACTION_ACTIVATE_INSTANCE = 'activator';
     const ACTION_DEACTIVATE_INSTANCE = 'deactivator';
     const ACTION_UPDATE_INSTANCE = 'updater';
-    const ACTION_DELETE_INSTANCE = 'remover';
+    const ACTION_DELETE_INSTANCE = 'deleter';
     const ACTION_CREATE_INSTANCE = 'creator';
     const ACTION_MANAGE_INSTANCE_RIGHTS = 'rights_editor';
 

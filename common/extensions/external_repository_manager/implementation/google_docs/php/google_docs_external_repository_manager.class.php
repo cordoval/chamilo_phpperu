@@ -21,7 +21,7 @@ class GoogleDocsExternalRepositoryManager extends ExternalRepositoryManager
      */
     function get_application_component_path()
     {
-        return Path :: get_common_extensions_path() . 'external_repository_manager/type/google_docs/component/';
+        return Path :: get_common_extensions_path() . 'external_repository_manager/implementation/google_docs/php/component/';
     }
 
     /* (non-PHPdoc)

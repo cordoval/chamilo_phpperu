@@ -1,5 +1,4 @@
 <?php
-require_once dirname(__FILE__) . '/../../external_repository_object.class.php';
 
 class GoogleDocsExternalRepositoryObject extends ExternalRepositoryObject
 {

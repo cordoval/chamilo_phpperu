@@ -29,7 +29,7 @@ class PicasaExternalRepositoryManager extends ExternalRepositoryManager
      */
     function get_application_component_path()
     {
-        return Path :: get_common_extensions_path() . 'external_repository_manager/type/picasa/component/';
+        return Path :: get_common_extensions_path() . 'external_repository_manager/implementation/picasa/php/component/';
     }
 
     /* (non-PHPdoc)

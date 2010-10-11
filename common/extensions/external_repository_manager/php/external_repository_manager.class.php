@@ -421,9 +421,9 @@ abstract class ExternalRepositoryManager extends SubManager
      */
     static public function exists($type)
     {
-        $path = dirname(__FILE__) . '/type';
+        $path = Path :: get_common_extensions_path() . 'external_repository_manager/implementation';
         $external_repository_path = $path . '/' . $type;
-        $external_repository_manager_path = $external_repository_path . '/' . $type . '_external_repository_manager.class.php';
+        $external_repository_manager_path = $external_repository_path . '/php/' . $type . '_external_repository_manager.class.php';
         
         if (file_exists($external_repository_path) && is_dir($external_repository_path) && file_exists($external_repository_manager_path))
         {

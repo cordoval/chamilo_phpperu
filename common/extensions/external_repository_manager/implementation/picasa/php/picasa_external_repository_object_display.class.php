@@ -1,6 +1,4 @@
 <?php
-require_once dirname(__FILE__) . '/../../external_repository_object_display.class.php';
-
 class PicasaExternalRepositoryObjectDisplay extends ExternalRepositoryObjectDisplay
 {
 
