@@ -177,9 +177,11 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
         if (!$this->get_id() || !$this->get_path() || !$this->get_filetype() || !$this->get_item_property() || !$this->get_item_property()->get_ref() || !$this->get_item_property()->get_insert_date() ||
         	 !file_exists(utf8_decode($this->directory . $filename)) || $this->get_filetype() == 'folder')
         {
-            $this->create_failed_element($this->get_id());
+            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'document', 'ID' => $this->get_id())));
+        	$this->create_failed_element($this->get_id());
             return false;
         }
+        
         unset($old_rel_path);
         unset($filename);
         unset($course);
@@ -193,9 +195,7 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
      */
     function convert_data()
     {
-        if ($this->get_filetype() == 'file')
-        { //folders are converted to categories in the publication part (the correct folders are parsed from the file path)
-            $course = $this->get_course();
+        $course = $this->get_course();
 
             $new_user_id = $this->get_id_reference($this->get_item_property()->get_insert_user_id(), 'main_database.user');
             $new_course_code = $this->get_id_reference($course->get_code(), 'main_database.course');
@@ -260,6 +260,7 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
                 //Add id references to migration table
 
                 $this->create_id_reference($this->get_id(), $chamilo_repository_document->get_id());
+                $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'document', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_repository_document->get_id())));
 
                 //publication
 
@@ -308,7 +309,6 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
                     $this->create_publication($chamilo_repository_document, $new_course_code, $new_user_id, 'document', $parent_id, $new_to_user_id, $new_to_group_id);
                 }
             }
-        }
     }
 
     static function get_table_name()
