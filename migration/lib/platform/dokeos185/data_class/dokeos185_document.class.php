@@ -172,13 +172,10 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
         $old_rel_path = 'courses/' . $course->get_directory() . '/document/' . $old_path . '/';
         unset($old_path);
 
-        $filename = iconv("UTF-8", "ISO-8859-1", $filename);
-        $old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
-
         $this->directory = $this->get_data_manager()->get_sys_path() . $old_rel_path;
 
-
-        if (!$this->get_id() || !$this->get_path() || !$this->get_filetype() || !$this->get_item_property() || !$this->get_item_property()->get_ref() || !$this->get_item_property()->get_insert_date() || !file_exists($this->directory . $filename))
+        if (!$this->get_id() || !$this->get_path() || !$this->get_filetype() || !$this->get_item_property() || !$this->get_item_property()->get_ref() || !$this->get_item_property()->get_insert_date() ||
+        	 !file_exists(utf8_decode($this->directory . $filename)))
         {
             $this->create_failed_element($this->get_id());
             return false;
