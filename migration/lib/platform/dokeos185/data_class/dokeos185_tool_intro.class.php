@@ -119,7 +119,7 @@ class Dokeos185ToolIntro extends Dokeos185CourseDataMigrationDataClass
         
         $module = WeblcmsDataManager :: get_instance()->retrieve_course_module_by_name($new_course_id, $id);
         
-    	if (!$this->get_intro_text() || !$new_course_id || (!$module && $this->get_id() != 'home'))
+    	if (!$this->get_intro_text() || !$new_course_id || (!$module && $id != 'home'))
         {
             $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'tool_intro', 'ID' => $this->get_id())));
         	$this->create_failed_element($this->get_id());
