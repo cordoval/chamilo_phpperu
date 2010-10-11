@@ -1,7 +1,5 @@
 <?php
 require_once dirname(__FILE__) . '/youtube_external_repository_connector.class.php';
-require_once dirname(__FILE__) . '/table/youtube_external_repository_browser_gallery_table_property_model.class.php';
-require_once dirname(__FILE__) . '/../../general/streaming/streaming_media_external_repository_browser_gallery_table_cell_renderer.class.php';
 
 class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
 {
@@ -28,7 +26,7 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
      */
     function get_application_component_path()
     {
-        return Path :: get_common_extensions_path() . 'external_repository_manager/type/youtube/component/';
+        return Path :: get_common_extensions_path() . 'external_repository_manager/implementation/youtube/php/component/';
     }
 
     /* (non-PHPdoc)

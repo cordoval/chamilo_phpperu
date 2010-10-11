@@ -15,17 +15,7 @@ class ExtensionsAutoloader
 		{
 			return true;
 		}
-
-//		if(self :: check_for_form_files($classname))
-//		{
-//			return true;
-//		}
-//
-//		if(self :: check_for_tables($classname))
-//		{
-//			return true;
-//		}
-    	
+		
         if (self :: check_for_special_files($classname))
         {
             return true;
@@ -48,7 +38,8 @@ class ExtensionsAutoloader
     	  		'default_external_repository_object_table_cell_renderer' => 'table/default_external_repository_object_table_cell_renderer.class.php',
     	 		'default_external_repository_gallery_object_table_property_model' => 'table/default_external_repository_gallery_object_table_property_model.class.php',
     	 		'default_external_repository_gallery_object_table_data_provider' => 'table/default_external_repository_gallery_object_table_data_provider.class.php',
-    	 		'default_external_repository_gallery_object_table_cell_renderer' => 'table/default_external_repository_gallery_object_table_cell_renderer.class.php'
+    	 		'default_external_repository_gallery_object_table_cell_renderer' => 'table/default_external_repository_gallery_object_table_cell_renderer.class.php',
+    	 		'external_repository_browser_gallery_property_model' => 'component/external_repository_browser_gallery_table/external_repository_browser_gallery_table_property_model.class.php'
     			
     	 );
     	 $lower_case = Utilities :: camelcase_to_underscores($classname);

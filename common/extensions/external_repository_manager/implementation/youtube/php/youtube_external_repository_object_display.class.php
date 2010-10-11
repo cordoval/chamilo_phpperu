@@ -1,6 +1,5 @@
 <?php
-require_once dirname(__FILE__) . '/../../general/streaming/streaming_media_external_repository_object_display.class.php';
-
+require_once Path :: get_common_extensions_path() . 'external_repository_manager/php/general/streaming/streaming_media_external_repository_object_display.class.php';
 class YoutubeExternalRepositoryObjectDisplay extends StreamingMediaExternalRepositoryObjectDisplay
 {
     function get_title()
