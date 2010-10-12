@@ -47,7 +47,7 @@ abstract class ContentObjectForm extends FormValidator
     	$registration = AdminDataManager :: get_registration($content_object->get_type(), Registration :: TYPE_CONTENT_OBJECT);
         if(!RepositoryRights :: is_allowed_in_content_objects_subtree(RepositoryRights :: ADD_RIGHT, $registration->get_id())) 
         {
-        	throw new Exception('YouCanNotCreateAContentObjectOfThisType');		
+        	throw new Exception(Translation :: get('NotAllowedToCreateCoOfThisType'));
         }
         
     	parent :: __construct($form_name, $method, $action);
