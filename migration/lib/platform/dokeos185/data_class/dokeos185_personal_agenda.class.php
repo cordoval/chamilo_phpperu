@@ -158,7 +158,7 @@ class Dokeos185PersonalAgenda extends Dokeos185MigrationDataClass
         $chamilo_category_id = RepositoryDataManager :: get_repository_category_by_name_or_create_new($owner_id, Translation :: get('CalendarEvents'));
         $chamilo_calendar_event->set_parent_id($chamilo_category_id);
         $chamilo_calendar_event->create();
-
+       	$this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'calendar_event', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_calendar_event->get_id())));
         //control if the personal_agenda application exists
         $is_registered = AdminDataManager :: is_registered('personal_calendar');
 
@@ -172,6 +172,7 @@ class Dokeos185PersonalAgenda extends Dokeos185MigrationDataClass
 
             return $chamilo_calendar_event;
         }
+
     }
 
     static function get_table_name()

@@ -119,8 +119,11 @@ class Dokeos185CourseDescription extends Dokeos185CourseDataMigrationDataClass
     function is_valid()
     {
 
-        if (!$this->get_id() || !($this->get_title() || $this->get_content())) {
+        if (!$this->get_id() || !($this->get_title() || $this->get_content()))
+        {
             $this->create_failed_element($this->get_id());
+            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'course_description', 'ID' => $this->get_id())));
+
             return false;
         }
         return true;
@@ -184,6 +187,7 @@ class Dokeos185CourseDescription extends Dokeos185CourseDataMigrationDataClass
 
         //$publication->set_hidden($this->item_property->get_visibility() == 1 ? 0 : 1);
         $publication->create();
+        $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'course_description', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_description->get_id())));
 
         return $chamilo_description;
     }
@@ -199,4 +203,5 @@ class Dokeos185CourseDescription extends Dokeos185CourseDataMigrationDataClass
     }
 
 }
+
 ?>
