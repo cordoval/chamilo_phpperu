@@ -70,7 +70,6 @@ class SurveyReportingFilterWizard extends WizardPageValidator
                     break;
             }
         }
-        dump($this->publication_id);
         $this->addElement('hidden', self :: PARAM_PUBLICATION_ID, $this->publication_id);
         $this->tabs_generator->render();
         $this->setDefaults();
@@ -224,9 +223,7 @@ class SurveyReportingFilterWizard extends WizardPageValidator
 
     function get_filter_parameters()
     {
-        
-    	dump($this->exportValues());
-    	
+    
     	if (! $this->validate() && ! $this->get_parameters_are_set())
         {
             return array();

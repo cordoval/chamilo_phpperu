@@ -53,9 +53,7 @@ class SurveyQuestionReportingBlock extends SurveyReportingBlock
         
         
         $filter_parameters = $this->get_filter_parameters();
-        
-        dump($filter_parameters);
-        
+               
         $publication_id = $filter_parameters[SurveyReportingFilterWizard :: PARAM_PUBLICATION_ID];
         $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_PUBLICATION_ID, $publication_id);
         
