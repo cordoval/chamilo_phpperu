@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\survey;
 
 require_once dirname(__FILE__) . '/context_template_browser/browser_table.class.php';
 require_once dirname(__FILE__) . '/context_template_menu.class.php';

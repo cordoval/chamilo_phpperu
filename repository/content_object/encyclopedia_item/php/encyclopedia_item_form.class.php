@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\encyclopedia_item;
 /**
  * This class describes the form for a EncyclopediaItem object.
  * @package repository.lib.content_object.link

@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\learning_path;
 
 /**
  * $Id: item_creator.class.php 200 2009-11-13 12:30:04Z kariboe $

@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\survey;
 
 class SurveyContextRegistrationBrowserTableDataProvider extends ObjectTableDataProvider
 {

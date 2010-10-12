@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\assessment;
 /**
  * $Id: object_browser_table_data_provider.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.assessment.component.assessment_merger

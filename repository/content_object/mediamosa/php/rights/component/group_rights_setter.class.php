@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\mediamosa;
 require_once Path :: get_application_path() . 'common/rights_editor_manager/component/group_rights_setter.class.php';
 
 class MediamosaRightsEditorManagerGroupRightsSetterComponent extends MediamosaRightsEditormanager

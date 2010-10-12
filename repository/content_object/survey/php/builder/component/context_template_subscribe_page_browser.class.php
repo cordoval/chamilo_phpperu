@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\survey;
 
 require_once dirname ( __FILE__ ) . '/context_template_subscribe_page_browser/subscribe_page_browser_table.class.php';
 require_once Path :: get_repository_path() . '/lib/content_object/survey_page/survey_page.class.php';

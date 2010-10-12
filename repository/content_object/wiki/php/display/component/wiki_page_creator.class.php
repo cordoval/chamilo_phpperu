@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\wiki;
 /**
  * $Id: wiki_page_creator.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package repository.lib.complex_display.wiki.component

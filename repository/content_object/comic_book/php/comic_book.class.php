@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\comic_book;
 /**
  * This class describes a ComicBook data object
  *

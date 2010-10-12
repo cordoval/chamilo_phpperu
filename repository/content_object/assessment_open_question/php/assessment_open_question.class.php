@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\assessment_open_question;
 /**
  * $Id: assessment_open_question.class.php $
  * @package repository.lib.content_object.assessment_open_question

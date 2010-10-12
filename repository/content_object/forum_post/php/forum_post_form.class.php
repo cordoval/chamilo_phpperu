@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\forum_post;
 require_once dirname(__FILE__) . '/forum_post.class.php';
 /**
  * @package repository.learningobject

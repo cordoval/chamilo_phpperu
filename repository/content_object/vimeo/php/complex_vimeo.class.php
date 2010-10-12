@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\vimeo;
 /**
  * $Id: complex_vimeo.class.php 2010-06-08
  * package repository.lib.content_object.vimeo

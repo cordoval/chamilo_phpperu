@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\glossary;
 /**
  * $Id: glossary_viewer_table_cell_renderer.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.glossary.component.glossary_viewer

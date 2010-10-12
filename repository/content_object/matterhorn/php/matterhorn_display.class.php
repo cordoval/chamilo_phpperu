@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\matterhorn;
 
 class MatterhornDisplay extends ContentObjectDisplay
 {

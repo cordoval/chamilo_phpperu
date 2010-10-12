@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\survey;
 
 require_once dirname(__FILE__) . '/template_table/table.class.php';
 

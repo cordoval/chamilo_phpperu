@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\encyclopedia_item;
 /**
  * This class can be used to get the difference between encyclopedia items
  *

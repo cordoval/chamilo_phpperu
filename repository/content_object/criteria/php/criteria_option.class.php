@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\criteria;
 /**
  *  $Id: criteria_option.class.php  $
  *  @package repository.lib.content_object.criteria

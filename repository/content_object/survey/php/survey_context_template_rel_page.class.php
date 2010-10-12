@@ -1,4 +1,5 @@
-<?php 
+<?php
+namespace repository\content_object\survey; 
 
 class SurveyContextTemplateRelPage extends DataClass
 {

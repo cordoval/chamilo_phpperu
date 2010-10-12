@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\survey;
 
 require_once dirname(__FILE__) . '/registration_browser/browser_table.class.php';
 

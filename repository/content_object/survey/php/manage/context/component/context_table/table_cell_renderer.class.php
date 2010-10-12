@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\survey;
 
 require_once dirname(__FILE__) . '/table_column_model.class.php';
 require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/tables/context_table/default_context_table_cell_renderer.class.php';

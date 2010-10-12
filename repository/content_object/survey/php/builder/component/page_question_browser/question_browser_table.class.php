@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\survey;
 
 require_once dirname(__FILE__) . '/question_browser_table_data_provider.class.php';
 require_once dirname(__FILE__) . '/question_browser_table_column_model.class.php';

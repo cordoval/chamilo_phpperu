@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\assessment;
 /**
  * @package repository.lib.complex_display.assessment.component.viewer.wizard.inc.question_result_display
  */

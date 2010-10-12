@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\survey;
 
 require_once Path::get_repository_path () . 'lib/content_object/survey/builder/forms/subscribe_context_template_form.class.php';
 

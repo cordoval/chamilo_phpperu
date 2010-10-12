@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\forum_post;
 /**
  * @package repository.learningobject
  * @subpackage forumpost

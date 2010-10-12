@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\assessment_matrix_question;
 /**
  * $Id: assessment_matrix_question_display.class.php $
  * @package repository.lib.content_object.matrix_question
