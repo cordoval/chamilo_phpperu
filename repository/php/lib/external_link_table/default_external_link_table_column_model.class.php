@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 /**
  * $Id: default_external_link_table_column_model.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.link_table

@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 /**
  * Import a file as a Document object. Accept all kind of files. Called last.

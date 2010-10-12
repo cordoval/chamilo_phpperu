@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 /**
  * $Id: creator.class.php 200 2009-11-13 12:30:04Z kariboe $

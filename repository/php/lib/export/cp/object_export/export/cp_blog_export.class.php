@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 /**
  * Export Blog objects as a sub IMS CP package.

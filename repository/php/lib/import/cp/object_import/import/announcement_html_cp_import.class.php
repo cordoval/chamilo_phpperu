@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 /**
  * Import announcement html files as Announcement objects.

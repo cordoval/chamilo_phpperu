@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 /**
  * Utility class used to generate IMS QTI 2.0 XML schemas.

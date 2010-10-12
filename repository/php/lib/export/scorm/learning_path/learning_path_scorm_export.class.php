@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 /**
  * $Id: learning_path_scorm_export.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.export.scorm.learning_path

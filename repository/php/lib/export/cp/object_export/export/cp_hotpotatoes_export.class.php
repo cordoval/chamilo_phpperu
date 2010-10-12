@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 /**
  * Export Hotpotatoes objects. Write attachment. Do not export object's properties.

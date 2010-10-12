@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 /**
  * Question builder for Survey Matching Questions.

@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 /**
  * Import an hotpotatoes file as a hotpotatoes object.

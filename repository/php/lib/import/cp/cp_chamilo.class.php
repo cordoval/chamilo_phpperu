@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 /**
  * Facade for chamilo

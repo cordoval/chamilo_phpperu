@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 /**
  * Perform a -->Directory<-- import by looking up for a manifest file and importing it.

@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 /**
  * $Id: complex_feedback.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.assessment.component

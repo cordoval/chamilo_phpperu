@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 class ExternalRepositoryImportForm extends FormValidator
 {
     private $repository_object_infos;

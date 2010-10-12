@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 /**
  * $Id: include_image_parser.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.includes

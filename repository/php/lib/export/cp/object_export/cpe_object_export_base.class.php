@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 require_once (dirname(__FILE__) .'/cp_object_export.class.php');
 

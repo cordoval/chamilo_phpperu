@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 require_once dirname(__FILE__) . '/builder_base.class.php';
 require_once_all(dirname(__FILE__) .'/builder/*.class.php');

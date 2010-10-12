@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 /**
  * $Id: rights_editor.class.php 239 2009-11-16 14:25:41Z vanpouckesven $
  * @package repository.lib.repository_manager.component

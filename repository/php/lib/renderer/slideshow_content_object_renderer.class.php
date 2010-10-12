@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 require_once dirname(__FILE__) . '/../content_object_renderer.class.php';
 
 class SlideshowContentObjectRenderer extends ContentObjectRenderer

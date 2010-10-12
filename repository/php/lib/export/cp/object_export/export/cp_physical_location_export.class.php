@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 include_once Path::get_repository_path() .'/lib/content_object/physical_location/physical_location_display.class.php';
 

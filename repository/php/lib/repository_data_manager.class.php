@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 /**
  * $Id: repository_data_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package repository.lib

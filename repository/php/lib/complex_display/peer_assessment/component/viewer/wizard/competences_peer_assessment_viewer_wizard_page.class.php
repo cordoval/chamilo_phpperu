@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 /*
  *	@author Nick Van Loocke
  */

@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 class ExternalRepositoryInstanceManagerDeleterComponent extends ExternalRepositoryInstanceManager
 {
 

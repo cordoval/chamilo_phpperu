@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 /**
  * Import blog post html files as BlogItem objects.

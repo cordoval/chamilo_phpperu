@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 /**
  * Import a IMS CP Manifest organization node as a learning path.

@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 require_once dirname(__FILE__) . '/../repository_reporting_block.class.php';
 
 class UserRepositoryReportingBlock extends RepositoryReportingBlock

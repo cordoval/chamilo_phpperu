@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 /**
  * Aggregate importer contained in the /dir/ directory.

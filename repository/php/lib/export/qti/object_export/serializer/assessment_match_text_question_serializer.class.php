@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 /**
  * Serializer for Assessment Match Text Questions. 

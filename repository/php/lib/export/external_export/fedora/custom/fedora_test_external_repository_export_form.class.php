@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 require_once Path :: get_repository_path() . '/lib/forms/external_repository_export_form.class.php';
 
 class FedoraTestExternalRepositoryExportForm extends ExternalRepositoryExportForm

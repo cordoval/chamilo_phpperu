@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 /**
  * Export Document objects. Write the attached document. Do not export Document's properties.

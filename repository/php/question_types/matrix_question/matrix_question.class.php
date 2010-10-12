@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 /**
  * $Id: matrix_question.class.php
  * @package repository.question_types.matrix_question

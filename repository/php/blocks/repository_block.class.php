@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 /**
  * @author Hans De bisschop
  */

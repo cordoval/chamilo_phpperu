@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 /**
  * Import note html files as Note objects.

@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 /**
  * Import glossary entries html files as GlossaryItem objects.

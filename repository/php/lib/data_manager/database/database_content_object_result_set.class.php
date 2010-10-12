@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 /**
  * $Id: database_content_object_result_set.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.data_manager.database

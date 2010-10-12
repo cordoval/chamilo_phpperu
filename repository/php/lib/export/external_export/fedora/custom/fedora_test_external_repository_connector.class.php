@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 require_once Path :: get_repository_path() . '/lib/export/external_export/fedora/fedora_external_repository.class.php';
 
 /**

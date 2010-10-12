@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 require_once dirname(__FILE__) . '/../forms/external_repository_form.class.php';
 
 class ExternalRepositoryInstanceManagerUpdaterComponent extends ExternalRepositoryInstanceManager

@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 /**
  * Import description html files as Description objects.

@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 /**
  * Import location files as PhysicalLocation objects.
