@@ -102,7 +102,7 @@ class SurveyContextTemplate extends NestedTreeNode
      */
     function get_context_type_name()
     {
-        return $this->get_default_property(self :: PROPERTY_CONTEXT_TYPE);
+        return $this->get_default_property(self :: PROPERTY_CONTEXT_TYPE_NAME);
     }
 
     /**

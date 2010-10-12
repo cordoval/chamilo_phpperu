@@ -14,13 +14,19 @@ class SurveyQuestionReportingBlock extends SurveyReportingBlock
     private $question_id;
     private $question;
 
-    
-    function SurveyQuestionReportingBlock($parent, $question_id){
-    	parent :: __construct($parent);
-    	$this->question_id = $question_id;
-    	$this->question = RepositoryDataManager :: get_instance()->retrieve_content_object($question_id); 
+    function SurveyQuestionReportingBlock($parent, $complex_question_id)
+    {
+        parent :: __construct($parent);
+        $complex_question = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($complex_question_id);
+        $this->question = $complex_question->get_ref_object();
+        $this->question_id = $this->question->get_id();
     }
-    
+
+    public function get_title()
+    {
+        return $this->question->get_title();
+    }
+
     public function count_data()
     {
         return $this->create_reporting_data();
@@ -41,25 +47,37 @@ class SurveyQuestionReportingBlock extends SurveyReportingBlock
     {
         
         //retrieve the answer trackers
+        
+
+        $conditions = array();
+        $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_COMPLEX_QUESTION_ID, $this->question_id);
+        
         $filter_parameters = $this->get_filter_parameters();
         $groups = $filter_parameters[SurveyReportingFilterWizard :: PARAM_GROUPS];
         $user_ids = array();
-        if(count($groups)){
-        	foreach ($groups as $group_id) {
-        		$group = GroupDataManager::get_instance()->retrieve_group($group_id);
-        		$group_user_ids = $group->get_users(true, true);
-        		$user_ids = array_merge($user_ids, $group_user_ids);
-        	}
+        if (count($groups))
+        {
+            foreach ($groups as $group_id)
+            {
+                $group = GroupDataManager :: get_instance()->retrieve_group($group_id);
+                $group_user_ids = $group->get_users(true, true);
+                $user_ids = array_merge($user_ids, $group_user_ids);
+            }
         }
-    	$user_ids = array_unique($user_ids);
-    	$conditions = array();    	
-    	$conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_COMPLEX_QUESTION_ID, $this->question_id);
-        if(count($user_ids)){
-        	$conditions[] = new InCondition(SurveyQuestionAnswerTracker :: PROPERTY_USER_ID, $user_ids);
+        $user_ids = array_unique($user_ids);
+        
+        
+        if (count($user_ids))
+        {
+            $conditions[] = new InCondition(SurveyQuestionAnswerTracker :: PROPERTY_USER_ID, $user_ids);
         }
-    	
+        
+        $context_template_ids = $filter_parameters[SurveyReportingFilterWizard :: PARAM_CONTEXT_TEMPLATES];
+        
+        $conditions[] = new InCondition(SurveyQuestionAnswerTracker :: PROPERTY_CONTEXT_TEMPLATE_ID, $context_template_ids);
+        
         $condition = new AndCondition($conditions);
-        $trackers = Tracker :: get_data(SurveyQuestionAnswerTracker :: get_table_name(), SurveyManager::APPLICATION_NAME, $condition);
+        $trackers = Tracker :: get_data(SurveyQuestionAnswerTracker :: get_table_name(), SurveyManager :: APPLICATION_NAME, $condition);
         
         //option and matches of question
         $options = array();
@@ -168,10 +186,10 @@ class SurveyQuestionReportingBlock extends SurveyReportingBlock
 
                 //total count
                 
-	
-//                dump($answer_count);
-              
+
+                //                dump($answer_count);
                 
+
                 foreach ($options as $option_key => $option)
                 {
                     
@@ -182,13 +200,15 @@ class SurveyQuestionReportingBlock extends SurveyReportingBlock
                     
                     }
                     $totals[$match_key] = $totals[$match_key];
-                		
+                
                 }
                 
-//                dump($totals);
+                //                dump($totals);
                 
-//                  exit;
+
+                //                  exit;
                 
+
                 $total_colums = count($totals);
                 $total_count = $totals[$total_colums - 1];
                 
@@ -206,9 +226,9 @@ class SurveyQuestionReportingBlock extends SurveyReportingBlock
                     {
                         //                        $percentage = number_format($value / $total_count * 100, 2);
                         //                        $summary_totals[$index] = $percentage;
-                        $summary_totals[$index] = $value*$median_number;
+                        $summary_totals[$index] = $value * $median_number;
                     }
-                	$median_number++;
+                    $median_number ++;
                 }
                 //                dump($totals);
                 //                dump($summary_totals);
@@ -224,7 +244,7 @@ class SurveyQuestionReportingBlock extends SurveyReportingBlock
 
                 //                exit();
                 
-				
+
                 foreach ($options as $option_key => $option)
                 {
                     $reporting_data->add_category($option);
@@ -245,9 +265,9 @@ class SurveyQuestionReportingBlock extends SurveyReportingBlock
                             //                        	$value = $answer_count[$option_key][$match_key] / $total_count;
                             //                            $percentage = number_format($value * 100, 2);
                             $count = $answer_count[$option_key][$total_index];
-//                            dump($count);
-//                            dump($match);
-//                            $reporting_data->add_data_category_row($option, strip_tags($match), $percentage);
+                            //                            dump($count);
+                        //                            dump($match);
+                        //                            $reporting_data->add_data_category_row($option, strip_tags($match), $percentage);
                         }
                         else
                         {
@@ -257,19 +277,18 @@ class SurveyQuestionReportingBlock extends SurveyReportingBlock
                             $median = $median + $percentage;
                             $reporting_data->add_data_category_row($option, strip_tags($match), $percentage);
                         }
-                       
-                        
                         
                         $median_number ++;
                     }
-                	 $median = $median/$count;
-                	 $median = number_format($median, 2);
+                    $median = $median / $count;
+                    $median = number_format($median, 2);
                     $reporting_data->add_data_category_row($option, Translation :: get(self :: COUNT), $median);
-//                    dump($median);
+                    //                    dump($median);
                 }
                 
-//                exit;
+                //                exit;
                 
+
                 //                dump($totals);
                 //                
                 //                dump($answer_count);
@@ -290,32 +309,33 @@ class SurveyQuestionReportingBlock extends SurveyReportingBlock
                     $total = 0;
                     foreach ($matches as $match_key => $match)
                     {
-                        if($match != Translation :: get(self :: COUNT)){
-                        	   
-                        	$reporting_data->add_data_category_row(Translation :: get(self :: TOTAL), strip_tags($match), $summary_totals[$match_key]);
-                        	$total =$total + $summary_totals[$match_key];
+                        if ($match != Translation :: get(self :: COUNT))
+                        {
+                            
+                            $reporting_data->add_data_category_row(Translation :: get(self :: TOTAL), strip_tags($match), $summary_totals[$match_key]);
+                            $total = $total + $summary_totals[$match_key];
                         }
-                    	
-//                    	dump($match_key);
-//                        dump($match);
-//                    	dump($summary_totals[$match_key]);
+                        
+                    //                    	dump($match_key);
+                    //                        dump($match);
+                    //                    	dump($summary_totals[$match_key]);
                     }
-//                    dump($total);
-//                    dump($totals);
-                    $keys =array_keys($matches, Translation :: get(self :: COUNT));
-//                    dump($totals[$keys[0]]);
+                    //                    dump($total);
+                    //                    dump($totals);
+                    $keys = array_keys($matches, Translation :: get(self :: COUNT));
+                    //                    dump($totals[$keys[0]]);
                     
-                    $median = $total/$totals[$keys[0]];
+
+                    $median = $total / $totals[$keys[0]];
                     $median = number_format($median, 2);
-//                    dump($median);
+                    //                    dump($median);
                     $reporting_data->add_data_category_row(Translation :: get(self :: TOTAL), Translation :: get(self :: COUNT), $median);
                     
-                    
-                    //                    }
+                //                    }
                 
 
                 }
-//                exit;
+                //                exit;
                 break;
             case SurveyMultipleChoiceQuestion :: get_type_name() :
                 
@@ -411,11 +431,7 @@ class SurveyQuestionReportingBlock extends SurveyReportingBlock
         return $reporting_data;
     }
     
-
-    
-    
-    
-    //old    
+//old    
 // switch ($type)
 //        {
 //            case SurveyMatrixQuestion :: get_type_name() :
@@ -574,7 +590,8 @@ class SurveyQuestionReportingBlock extends SurveyReportingBlock
 //                ;
 //                break;
 //        }
-    
+
+
 }
 
 ?>

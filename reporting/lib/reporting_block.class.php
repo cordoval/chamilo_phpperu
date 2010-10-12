@@ -38,6 +38,10 @@ abstract class ReportingBlock
 	public abstract function retrieve_data();
 
 	public abstract function get_data_manager();
+	
+	public function get_title(){
+		return Translation::get(get_class($this));
+	}
 
 	public function display_footer()
 	{
@@ -61,7 +65,7 @@ abstract class ReportingBlock
 	    $html = array();
 		$html[] = '<div id="' . $this->get_id() . '" class="reporting_block">';
         $html[] = '<div class="reporting_header">';
-        $html[] = '<div class="reporting_header_title">' . Translation::get(get_class($this)) . '</div>';
+        $html[] = '<div class="reporting_header_title">' . $this->get_title() . '</div>';
         $html[] = '<div class="reporting_header_displaymode">';
         if (count($this->get_available_displaymodes()) > 1)
         {
