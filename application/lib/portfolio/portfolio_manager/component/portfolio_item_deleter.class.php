@@ -48,6 +48,10 @@ class PortfolioManagerPortfolioItemDeleterComponent extends PortfolioManager
                     //DELETE PORTFOLIO ITEM WRAPPER
                     $success &= $ref->delete();
                 }
+                else
+                {
+                    $object_id = $ref->get_id();
+                }
             }
             
             if ($success)
