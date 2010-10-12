@@ -10,7 +10,7 @@ class ContentObjectPackageInfo extends PackageInfo
 {
 	function get_path()
     {
-    	return Path :: get_repository_path() . 'lib/content_object/' . $this->get_package_name() . '/';
+    	return Path :: get_repository_content_object_path() . $this->get_package_name() . '/php/';
     }
 }
 ?>

@@ -78,7 +78,7 @@ abstract class ContentObjectDifference
     {
         $type = $object->get_type();
         $class = ContentObject :: type_to_class($type) . 'Difference';
-        require_once dirname(__FILE__) . '/content_object/' . $type . '/' . $type . '_difference.class.php';
+        require_once Path :: get_repository_content_object_path() . $type . '/php/' . $type . '_difference.class.php';
         return new $class($object, $version);
     }
 }

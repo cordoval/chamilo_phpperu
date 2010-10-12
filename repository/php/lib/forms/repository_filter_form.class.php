@@ -75,7 +75,7 @@ class RepositoryFilterForm extends FormValidator
         $session_filter = Session :: retrieve('filter');
         $this->setDefaults(array(self :: FILTER_TYPE => $session_filter, 'published' => 1));
 
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/postback.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get_web_common_libraries_path() . 'resources/javascript/postback.js'));
     }
 
     function get_filter_conditions()

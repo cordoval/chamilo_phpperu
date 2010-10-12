@@ -42,12 +42,12 @@ class InstallWizardDisplay extends HTML_QuickForm_Action_Display
 EOT;
         $renderer->setFormTemplate($form_template);
 
-        $current_page->setRequiredNote('<font color="#FF0000"><img src="../layout/aqua/images/common/action_required.png" alt="*" title ="*"/></font> ' . Translation :: get('ThisFieldIsRequired'));
+        $current_page->setRequiredNote('<font color="#FF0000"><img src="../common/libraries/resources/images/aqua/action_required.png" alt="*" title ="*"/></font> ' . Translation :: get('ThisFieldIsRequired'));
         //		$element_template = "\n\t<tr>\n\t\t<td valign=\"top\"><!-- BEGIN required --><span style=\"color: #ff0000\">*</span> <!-- END required -->{label}</td>\n\t\t<td valign=\"top\" align=\"left\"><!-- BEGIN error --><span style=\"color: #ff0000;font-size:x-small;margin:2px;\">{error}</span><br /><!-- END error -->\t{element}</td>\n\t</tr>";
         $element_template = array();
         $element_template[] = '<div class="row">';
         $element_template[] = '<div class="label">';
-        $element_template[] = '{label}<!-- BEGIN required --><span class="form_required"><img src="../layout/aqua/images/common/action_required.png" alt="*" title ="*"/></span> <!-- END required -->';
+        $element_template[] = '{label}<!-- BEGIN required --><span class="form_required"><img src="../common/libraries/resources/images/aqua/action_required.png" alt="*" title ="*"/></span> <!-- END required -->';
         $element_template[] = '</div>';
         $element_template[] = '<div class="formw">';
         $element_template[] = '<div class="element"><!-- BEGIN error --><span class="form_error">{error}</span><br /><!-- END error -->	{element}</div>';
@@ -66,7 +66,7 @@ EOT;
         $header_template = implode("\n", $header_template);
 
         $renderer->setHeaderTemplate($header_template);
-        HTML_QuickForm :: setRequiredNote('<span class="form_required"><img src="../layout/aqua/images/common/action_required.png" alt="*" title ="*"/>&nbsp;<small>' . Translation :: get('ThisFieldIsRequired') . '</small></span>');
+        HTML_QuickForm :: setRequiredNote('<span class="form_required"><img src="../common/libraries/resources/images/aqua/action_required.png" alt="*" title ="*"/>&nbsp;<small>' . Translation :: get('ThisFieldIsRequired') . '</small></span>');
         $required_note_template = <<<EOT
 	<div class="row">
 		<div class="label"></div>

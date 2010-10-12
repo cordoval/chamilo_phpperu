@@ -54,7 +54,7 @@ class ReportingFormatterForm extends FormValidator
         
         $this->setDefaults(array(self :: FORMATTER_TYPE => $session_filter));
 
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/postback.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get_web_common_libraries_path() . 'resources/javascript/postback.js'));
     }
 
     /**

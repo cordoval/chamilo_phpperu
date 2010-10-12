@@ -82,7 +82,7 @@ class SurveyPageBuilder extends ComplexBuilder //implements ComplexMenuSupport
             $html[] = '</div></a>';
         }
         
-        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/repository.js');
+        $html[] = ResourceManager :: get_instance()->get_resource_html(BasicApplication :: get_application_web_resources_javascript_path(RepositoryManager::APPLICATION_NAME) . 'repository.js');
         $html[] = '</div>';
         $html[] = '<div class="clear">&nbsp;</div>';
         $html[] = '</div>';

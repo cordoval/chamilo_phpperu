@@ -95,7 +95,7 @@ class RepoViewerCreatorComponent extends RepoViewer
         $form->addElement('select', RepoViewer :: PARAM_CONTENT_OBJECT_TYPE, Translation :: get('CreateANew'), $selection_types, array('class' => 'learning-object-creation-type postback'));
         $form->addElement('static', '', '', implode("\n", $html));
         $form->addElement('style_submit_button', 'submit', Translation :: get('Select'), array('class' => 'normal select'));
-        $form->addElement('html', '<br /><br />' . ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/postback.js'));
+        $form->addElement('html', '<br /><br />' . ResourceManager :: get_instance()->get_resource_html(Path :: get_web_common_libraries_path() . 'resources/javascript/postback.js'));        
         $form->setDefaults(array(RepoViewer :: PARAM_ACTION => Request :: get(RepoViewer :: PARAM_ACTION)));
 
         if ($form->validate())

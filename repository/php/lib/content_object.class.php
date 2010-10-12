@@ -1109,7 +1109,6 @@ class ContentObject extends DataClass
         }
         
         $class = self :: type_to_class($type);
-        require_once dirname(__FILE__) . '/content_object/' . $type . '/' . $type . '.class.php';
         return new $class($defaultProperties, $additionalProperties);
     }
 
@@ -1120,7 +1119,6 @@ class ContentObject extends DataClass
     static function is_extended_type($type)
     {
         $class = self :: type_to_class($type);
-        require_once dirname(__FILE__) . '/content_object/' . $type . '/' . $type . '.class.php';
         
         $properties = call_user_func(array($class, 'get_additional_property_names'));
         return ! empty($properties);

@@ -370,7 +370,6 @@ class Filesystem
                 $result[] = $entry->__toString();
             }
         }
-        
         return $result;
     }
 

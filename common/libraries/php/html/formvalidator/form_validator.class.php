@@ -76,7 +76,7 @@ class FormValidator extends HTML_QuickForm
         $this->registerRule('disk_quota', null, 'HTML_QuickForm_Rule_DiskQuota', $dir . 'Rule/DiskQuota.php');
         $this->registerRule('max_value', null, 'HTML_QuickForm_Rule_MaxValue', $dir . 'Rule/MaxValue.php');
 
-        $this->addElement('html', '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/reset.js"></script>');
+        $this->addElement('html', '<script type="text/javascript" src="' . Path :: get_web_common_libraries_path(). 'resources/javascript/reset.js"></script>');
 
         // Modify the default templates
         $renderer = $this->defaultRenderer();

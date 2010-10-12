@@ -248,6 +248,11 @@ class Path
     {
         return self :: get(SYS_APP_REPOSITORY_PATH) . 'php/';
     }
+    
+    public static function get_repository_content_object_path()
+    {
+    	return self :: get(SYS_APP_REPOSITORY_PATH) . 'content_object/';
+    }
 
     public static function get_user_path()
     {

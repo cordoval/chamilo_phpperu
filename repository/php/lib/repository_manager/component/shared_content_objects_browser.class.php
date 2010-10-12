@@ -55,7 +55,7 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
         echo $this->action_bar->as_html();
         echo '<br />' . $this->form->display() . '<br />';
         echo $output;
-        echo ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/repository.js');
+        echo ResourceManager :: get_instance()->get_resource_html(BasicApplication :: get_application_web_resources_javascript_path(RepositoryManager::APPLICATION_NAME) . 'repository.js');
 
         $this->display_footer();
     }

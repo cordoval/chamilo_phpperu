@@ -1,6 +1,6 @@
 <?php
 
-require_once Path :: get_repository_path() . 'lib/content_object/survey/context_data_manager/context_data_manager.class.php';
+require_once Path :: get_repository_content_object_path() . 'survey/php/context_data_manager/context_data_manager.class.php';
 
 /**
  * @package repository.lib.content_object.survey.manage.context
@@ -45,12 +45,13 @@ class SurveyContextManager extends SubManager
 
     function SurveyContextManager($repository_manager)
     {
+    	
         parent :: __construct($repository_manager);
     }
 
     function get_application_component_path()
     {
-        return Path :: get_repository_path() . 'lib/content_object/survey/manage/context/component/';
+        return Path :: get_repository_content_object_path() . 'survey/php/manage/context/component/';
     }
 
     function get_context_registration_browsing_url()

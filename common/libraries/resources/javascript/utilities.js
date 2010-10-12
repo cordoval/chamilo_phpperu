@@ -51,7 +51,7 @@ function getUtilities(type, parameters)
 	}
 	
 	parameters.type = type;
-	response = doAjaxPost(rootWebPath + "common/javascript/ajax/utilities.php", parameters);
+	response = doAjaxPost(rootWebPath + "common/libraries/php/ajax/utilities.php", parameters);
 	return eval('(' + response + ')');
 }
 
@@ -115,7 +115,7 @@ function renderHtmlEditor(editorName, editorOptions, editorLabel, editorAttribut
 	
 	var ajaxParameters = $.extend(defaults, parameters);
 	
-	var result = doAjaxPost("./common/html/formvalidator/form_validator_html_editor_instance.php", ajaxParameters);
+	var result = doAjaxPost(rootWebPath + "common/libraries/php/html/formvalidator/form_validator_html_editor_instance.php", ajaxParameters);
 	
 //	alert(result);
 	

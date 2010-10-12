@@ -26,9 +26,9 @@ abstract class InstallWizardPage extends HTML_QuickForm_Page
         //$this->updateAttributes(array('action'=>$parent->get_url()));
         
 
-        $this->registerElementType('style_submit_button', dirname(__FILE__) . '/../../../../../../../common/libraries/html/formvalidator/Element/style_submit_button.php', 'HTML_QuickForm_stylesubmitbutton');
-        $this->registerElementType('style_reset_button', dirname(__FILE__) . '/../../../../../../../common/libraries/html/formvalidator/Element/style_reset_button.php', 'HTML_QuickForm_styleresetbutton');
-        $this->registerElementType('category', dirname(__FILE__) . '/../../../../../../../common/libraries/html/formvalidator/Element/category.php', 'HTML_QuickForm_category');
+        $this->registerElementType('style_submit_button', dirname(__FILE__) . '/../../../../../../../common/libraries/php/html/formvalidator/Element/style_submit_button.php', 'HTML_QuickForm_stylesubmitbutton');
+        $this->registerElementType('style_reset_button', dirname(__FILE__) . '/../../../../../../../common/libraries/php/html/formvalidator/Element/style_reset_button.php', 'HTML_QuickForm_styleresetbutton');
+        $this->registerElementType('category', dirname(__FILE__) . '/../../../../../../../common/libraries/php/html/formvalidator/Element/category.php', 'HTML_QuickForm_category');
     }
 
     /**

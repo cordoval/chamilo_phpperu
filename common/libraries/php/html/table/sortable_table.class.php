@@ -265,7 +265,7 @@ class SortableTable extends HTML_Table
                 $params = $this->get_additional_url_paramstring();
                 //$html[] = '<form method="post" action="' . $_SERVER['PHP_SELF'] . '?' . $params . '" name="form_' . $this->table_name . '"  onsubmit="return anyCheckboxChecked(\'form_' . $this->table_name . '\') &amp;&amp; confirm(\'' . addslashes(htmlentities(Translation :: get("ConfirmYourChoice"))) . '\');">';
                 $html[] = '<form method="post" action="' . $_SERVER['PHP_SELF'] . '?' . $params . '" name="form_' . $this->table_name . '" class="table_form">';
-                $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/sortable_table.js');
+                $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get_web_common_libraries_path() . 'resources/javascript/sortable_table.js');
             }
         }
         $html[] = $this->get_table_html();

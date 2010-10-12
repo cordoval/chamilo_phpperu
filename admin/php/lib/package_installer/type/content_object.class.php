@@ -14,7 +14,7 @@ class PackageInstallerContentObjectType extends PackageInstallerType
         $source = $this->get_source();
         $attributes = $source->get_attributes();
         $object_name = $attributes->get_code();
-        $object_path = Path :: get_repository_path() . 'lib/content_object/' . $object_name;
+        $object_path = Path :: get_repository_content_object_path() . $object_name;
         
         if ($this->verify_dependencies())
         {
@@ -64,7 +64,7 @@ class PackageInstallerContentObjectType extends PackageInstallerType
     
 	static function get_path($content_object_name)
     {
-    	return Path :: get_repository_path() . 'lib/content_object/' . $content_object_name . '/';
+    	return Path :: get_repository_content_object_path() . $content_object_name . '/';
     }
 
     function add_registration()

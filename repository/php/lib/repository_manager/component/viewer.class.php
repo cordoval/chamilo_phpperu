@@ -115,7 +115,7 @@ class RepositoryManagerViewerComponent extends RepositoryManager
                 
                 $version_browser = new RepositoryVersionBrowserTable($this, $version_parameters, new EqualityCondition(ContentObject :: PROPERTY_OBJECT_NUMBER, $object->get_object_number()));
                 $version_tab_content[] = $version_browser->as_html();
-                $version_tab_content[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/repository.js');
+                $version_tab_content[] = ResourceManager :: get_instance()->get_resource_html(BasicApplication :: get_application_web_resources_javascript_path(RepositoryManager::APPLICATION_NAME) . 'repository.js');
                 $version_tab_content[] = $display->get_version_quota_as_html($version_data);
                 $this->tabs->add_tab(new DynamicContentTab('versions', Translation :: get('Versions'), Theme :: get_image_path() . 'place_mini_versions.png', implode("\n", $version_tab_content)));
             }

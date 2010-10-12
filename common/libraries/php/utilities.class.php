@@ -558,16 +558,14 @@ class Utilities
             
             $classn = substr(basename($autoloader), 0, - 10);
             $classname_upp = Utilities :: underscores_to_camelcase($classn);
-            $class = new $classname_upp();
-            
-            if ($class->load($classname))
-                break;
+            if ($classname_upp :: load($classname))
+                    break;
         }
     }
 
     static function autoload_web($classname)
     {
-        $applications = WebApplication :: load_all_from_filesystem(false);
+    	$applications = WebApplication :: load_all_from_filesystem(false);
         foreach ($applications as $application)
         {
             $path = WebApplication :: get_application_class_path($application) . $application . '_autoloader.class.php';

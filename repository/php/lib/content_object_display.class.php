@@ -383,7 +383,7 @@ abstract class ContentObjectDisplay
         $type = $object->get_type();
 
         $class = ContentObject :: type_to_class($type) . 'Display';
-        require_once dirname(__FILE__) . '/content_object/' . $type . '/' . $type . '_display.class.php';
+        require_once Path :: get_repository_content_object_path() . $type . '/php/' . $type . '_display.class.php';
         return new $class($object);
     }
 

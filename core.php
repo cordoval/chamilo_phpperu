@@ -39,7 +39,6 @@ try
             $user = Session :: get_user_id();
         }
     }
-
     // Load & run the application
     try
     {

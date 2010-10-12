@@ -85,9 +85,8 @@ class InstallManager extends CoreApplication
         $output[] = '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">';
         $output[] = '<head>';
         $output[] = '<title>-- ' . $chamilo_version . ' Installation --</title>';
-        $output[] = '<link rel="stylesheet" href="../layout/aqua/plugin/jquery/jquery.css" type="text/css"/>';
-        $output[] = '<link rel="stylesheet" href="../layout/aqua/css/common.css" type="text/css"/>';
-        $output[] = '<link rel="stylesheet" href="resources/css/aqua.css" type="text/css"/>';
+        $output[] = '<link rel="stylesheet" href="../common/libraries/resources/css/aqua/aqua.css" type="text/css"/>';
+        $output[] = '<link rel="stylesheet" href="resources/css/aqua/aqua.css" type="text/css"/>';
         $output[] = '<script type="text/javascript" src="../plugin/jquery/jquery.min.js"></script>';
         $output[] = '<script type="text/javascript" src="../plugin/jquery/jquery.dimensions.min.js"></script>';
 

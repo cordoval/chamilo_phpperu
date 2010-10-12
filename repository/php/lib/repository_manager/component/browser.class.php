@@ -17,7 +17,7 @@ class RepositoryManagerBrowserComponent extends RepositoryManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
+    	$trail = BreadcrumbTrail :: get_instance();
 
         $this->form = new RepositoryFilterForm($this, $this->get_url(array('category' => $this->get_parent_id())));
         $output = $this->get_content_objects_html();
@@ -48,7 +48,7 @@ class RepositoryManagerBrowserComponent extends RepositoryManager
         echo $this->get_action_bar()->as_html();
         echo '<br />' . $this->form->display() . '<br />';
         echo $output;
-        echo ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/repository.js');
+        echo ResourceManager :: get_instance()->get_resource_html(BasicApplication :: get_application_web_resources_javascript_path(RepositoryManager::APPLICATION_NAME) . 'repository.js');
 
         $this->display_footer();
     }

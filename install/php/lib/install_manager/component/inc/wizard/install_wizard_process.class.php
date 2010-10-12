@@ -413,7 +413,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
         
         //installation of contentObject
         echo '<h3>' . Translation :: get('InstallingContentObjects') . '</h3>';
-        $dir = Path :: get_repository_path() . 'lib/content_object';
+        $dir = Path :: get_repository_content_object_path();
         // Register the learning objects
         $folders = Filesystem :: get_directory_content($dir, Filesystem :: LIST_DIRECTORIES, false);
 

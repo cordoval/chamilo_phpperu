@@ -1,6 +1,5 @@
 <?php
 require_once dirname(__FILE__) . '/../repository_reporting_block.class.php';
-require_once dirname(__FILE__) . '/../../lib/content_object/document/document.class.php';
 
 class UserDocumentTypeRepositoryReportingBlock extends RepositoryReportingBlock
 {

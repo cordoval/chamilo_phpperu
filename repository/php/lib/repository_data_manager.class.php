@@ -43,9 +43,6 @@ class RepositoryDataManager
      */
     protected function RepositoryDataManager()
     {
-        //        $this->initialize();
-        //        $this->typeProperties = array();
-        //self :: load_types();
         self :: $applications = array();
     }
 
@@ -59,8 +56,6 @@ class RepositoryDataManager
     {
         if (! isset(self :: $instance))
         {
-         //   self :: load_types();
-
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
             require_once dirname(__FILE__) . '/data_manager/' . strtolower($type) . '_repository_data_manager.class.php';
             $class = Utilities :: underscores_to_camelcase($type) . 'RepositoryDataManager';
@@ -419,25 +414,6 @@ class RepositoryDataManager
     }
 
     /**
-     * Automagically loads all the available types of learning objects
-     * and registers them with this data manager.
-     * @todo This function now parses the XML-files of every learning object
-     * type. There's probably a faster way to retrieve this information by
-     * saving the types and their properties in the database when the learning
-     * object type is installed on the system.
-     */
-    public static function load_types()
-    {
-        $path = Path :: get_repository_path() . 'lib/content_object/';
-
-        foreach (self :: get_registered_types() as $content_object_type)
-        {
-            $content_object_path = $path . $content_object_type . '/' . $content_object_type . '.class.php';
-            require_once $content_object_path;
-        }
-    }
-
-    /**
      * Checks if an identifier is a valid name for a learning object type.
      * @param string $name The name.
      * @return boolean True if a valid learning object type name was passed,
@@ -490,7 +466,6 @@ class RepositoryDataManager
 
     public static function get_content_object_managers()
     {
-        self :: load_types();
         $active_objects = self :: get_registered_types();
         $managers = array();
 

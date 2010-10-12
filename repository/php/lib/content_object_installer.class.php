@@ -79,7 +79,7 @@ abstract class ContentObjectInstaller
 	public function import_content_object()
     {
         $type = $this->get_content_object();
-    	$file = Path :: get_repository_path() . 'lib/content_object/' . $type . '/install/example.zip';
+    	$file = Path :: get_repository_content_object_path() . $type . '/php/install/example.cpo';
 
     	if (file_exists($file))
     	{
@@ -255,8 +255,8 @@ abstract class ContentObjectInstaller
     function configure_content_object()
     {
         $content_object = $this->get_content_object();
-        $base_path = Path :: get_repository_path() . 'lib/content_object/' . $content_object;
-        $settings_file = $base_path . '/settings/settings_' . $content_object . '.xml';
+        $base_path = Path :: get_repository_content_object_path() . $content_object;
+        $settings_file = $base_path . '/php/settings/settings_' . $content_object . '.xml';
         
         if (file_exists($settings_file))
         {
@@ -341,7 +341,7 @@ abstract class ContentObjectInstaller
     {
         $class = ContentObject :: type_to_class($type) . 'ContentObjectInstaller';
 
-        $file = Path :: get_repository_path() . 'lib/content_object/' . $type . '/install/' . $type . '_installer.class.php';
+        $file = Path :: get_repository_content_object_path() . $type . '/php/install/' . $type . '_installer.class.php';
         if (file_exists($file))
         {
             require_once $file;

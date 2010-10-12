@@ -181,7 +181,7 @@ class ActionBarRenderer
         $html[] = '</div>';
         $html[] = '</div>';
 
-        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/action_bar_horizontal.js');
+        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get_web_common_libraries_path() . 'resources/javascript/action_bar_horizontal.js');
 
         $html[] = '<div class="clear"></div>';
 
@@ -252,7 +252,7 @@ class ActionBarRenderer
         $html[] = '</div>';
         $html[] = '</div>';
 
-        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/action_bar_vertical.js');
+        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get_web_common_libraries_path() . 'resources/javascript/action_bar_vertical.js');
 
         $html[] = '<div class="clear"></div>';
 

@@ -122,7 +122,7 @@ class ContentObjectDifferenceDisplay
     {
         $type = $difference->get_object()->get_type();
         $class = ContentObject :: type_to_class($type) . 'DifferenceDisplay';
-        require_once dirname(__FILE__) . '/content_object/' . $type . '/' . $type . '_difference_display.class.php';
+        require_once Path :: get_repository_content_object_path() . $type . '/php/' . $type . '_difference_display.class.php';
         return new $class($difference);
     }
 

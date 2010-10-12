@@ -47,7 +47,7 @@ class PersonalCalendarJumpForm extends FormValidator
         $this->addElement('style_submit_button', 'submit', Translation :: get('Jump'), array('class' => 'normal'));
 		$time = Request :: get(PersonalCalendarManager::PARAM_TIME) ? intval(Request :: get(PersonalCalendarManager::PARAM_TIME)) : time();
         $this->setDefaults(array(self :: JUMP_DAY => date('j', $time), self :: JUMP_MONTH => date('n', $time), self :: JUMP_YEAR => date('Y', $time)));
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/postback.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get_web_common_libraries_path() . 'resources/javascript/postback.js'));
     }
 
     /**

@@ -40,7 +40,7 @@ class WikiDisplayWikiHistoryComponent extends WikiDisplay
             $html[] = '<div class="wiki-pane-content-subtitle">' . Translation :: get('From') . ' ' . $this->get_root_content_object()->get_title() . '</div>';
             $html[] = '<div class="wiki-pane-content-history">';
             $html[] = $version_browser->as_html();
-            $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/repository.js');
+            $html[] = ResourceManager :: get_instance()->get_resource_html(BasicApplication :: get_application_web_resources_javascript_path(RepositoryManager::APPLICATION_NAME) . 'repository.js');
             $html[] = '<div class="clear"></div>';
             $html[] = '</div>';
             echo implode("\n", $html);

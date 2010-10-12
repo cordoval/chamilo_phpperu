@@ -158,7 +158,7 @@ class LibrariesAutoloader
 
     static function check_for_general_files($classname)
     {
-        $list = array(
+    	$list = array(
                 'application_component', 'application', 'block', 'core_application_component', 'core_application', 'installer', 'redirect', 'resource_manager', 'sub_manager_component', 'sub_manager', 'launcher_application',
                 'basic_application', 'messages_object', 'web_application', 'web_application_component', 'user_details');
 
