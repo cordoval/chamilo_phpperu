@@ -214,7 +214,7 @@ abstract class ReportingBlock
 
     public function get_export_links()
     {
-        $list = Export :: get_supported_filetypes(array('ical'));
+        $list = Export :: get_supported_filetypes(array('ical','pdf'));
         $download_bar_items = array();
         $save_bar_items = array();
 
