@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * $Id: user_approval_browser_table_column_model.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager.component.user_approval_browser

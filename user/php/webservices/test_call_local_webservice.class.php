@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * $Id: test_call_local_webservice.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.webservices
@@ -22,7 +23,7 @@ class TestCallLocalWebservice
     function run()
     {
         //TEST 1 :  Get User
-        
+
 
         /*$wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
 		$functions = array();
@@ -32,9 +33,9 @@ class TestCallLocalWebservice
                 'parameters' => array('input' => array(User :: PROPERTY_USERNAME => 'SSoliber'),'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 				'handler' => 'handle_webservice'
 		);*/
-        
+
         //TEST 2 : Get User Courses
-        
+
 
         /*$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		  $functions = array();
@@ -43,13 +44,13 @@ class TestCallLocalWebservice
 				'parameters' => array('id' => '4','hash'=>'550859312670dd7996153002d046737f08ba2c9f'),
 		  		'handler' => 'handle_webservice'
 			);*/
-        
+
         //TEST 3 : Get Group
-        
+
 
         /*$wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
 		$functions = array();
-		
+
 		{
 			$functions[] = array(
 				'name' => 'WebServicesUser.get_all_users',
@@ -57,7 +58,7 @@ class TestCallLocalWebservice
 				'handler' => 'handle_webservice'
 			);
 		}*/
-        
+
         //TEST 4 : Login Webservice
         //$wsdl = 'http://www.chamilo.org/demo_portal/user/webservices/login_webservice.class.php?wsdl';
         /*$wsdl = 'http://localhost/user/webservices/login_webservice.class.php?wsdl';
@@ -70,9 +71,9 @@ class TestCallLocalWebservice
 				'handler' => 'handle_webservice'
 			);
 		}*/
-        
+
         //TEST 5 :  Create User
-        
+
 
         /*$user = array (
 		  'lastname' => 'Jos',
@@ -106,19 +107,19 @@ class TestCallLocalWebservice
             'parameters' => array('input' => $user,'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
             'handler' => 'handle_webservice'
         );*/
-        
+
         //TEST 6 :: Update User
-        
+
 
         $user = array('lastname' => 'Oske', 'firstname' => 'Jos', 'username' => 'admin', 'password' => 'b9921b6ebaac9174f01ea9e2fe3df9f95010410b', 'auth_source' => 'platform', 'email' => 'admin@localhost.localdomain', 'status' => '1', 'admin' => '1', 'phone' => NULL, 'official_code' => 'ADMIN', 'picture_uri' => NULL, 'creator_id' => NULL, 'language' => 'english', 'disk_quota' => '209715200', 'database_quota' => '300', 'version_quota' => '20', 'theme' => NULL, 'activation_date' => '0', 'expiration_date' => '0', 'registration_date' => '1234774883', 'active' => '1');
-        
+
         $wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
         $functions = array();
-        
+
         $functions[] = array('name' => 'WebServicesUser.update_users', 'parameters' => array('input' => array($user), 'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'), 'handler' => 'handle_webservice');
-        
+
         //TEST 7 : Delete User
-        
+
 
         /*$user = array (
 		  'lastname' => 'Jos',
@@ -143,7 +144,7 @@ class TestCallLocalWebservice
 		  'registration_date' => '1234774883',
 		  'active' => '1',
         );
-        
+
         $wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
 		$functions = array();
 
@@ -152,9 +153,9 @@ class TestCallLocalWebservice
 				'parameters' => array('input' => array($user), 'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 				'handler' => 'handle_webservice'
 		);*/
-        
+
         //TEST 8 : Create Course
-        
+
 
         /*$course = array (
 
@@ -180,7 +181,7 @@ class TestCallLocalWebservice
             'allow_feedback' => '1',
             'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f' //hash 3 needed for credential
             );
-            
+
           //$wsdl = 'http://www.chamilo.org/demo_portal/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
           $wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		  $functions = array();
@@ -189,9 +190,9 @@ class TestCallLocalWebservice
 				'parameters' => $course,
 		  		'handler' => 'handle_webservice'
 			);*/
-        
+
         //TEST 9 : Update Course
-        
+
 
         /*$course = array (
             'course_language' => 'english',
@@ -223,9 +224,9 @@ class TestCallLocalWebservice
 				'parameters' => $course,
 		  		'handler' => 'handle_webservice'
 			);*/
-        
+
         //TEST 10 : Delete Course
-        
+
 
         /*$course = array (
             'course_language' => 'english',
@@ -257,9 +258,9 @@ class TestCallLocalWebservice
 				'parameters' => $course,
 		  		'handler' => 'handle_webservice'
 			);*/
-        
+
         //TEST 11 : Subscribe User
-        
+
 
         /*$course = array (
             'user_id' => 'Soliber', //expect name
@@ -277,9 +278,9 @@ class TestCallLocalWebservice
 				'parameters' => $course,
 		  		'handler' => 'handle_webservice'
 			);*/
-        
+
         //TEST 12 : Unsubscribe User
-        
+
 
         /*$course = array (
             'user_id' => 'Soliber', //expect name
@@ -297,9 +298,9 @@ class TestCallLocalWebservice
 				'parameters' => $course,
 		  		'handler' => 'handle_webservice'
 			);*/
-        
+
         //TEST 13 :  Get all users
-        
+
 
         /*$wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
 		$functions = array();
@@ -309,11 +310,11 @@ class TestCallLocalWebservice
 				'parameters' => array('hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 				'handler' => 'handle_webservice'
 		);*/
-        
+
         /*TEST 14 : A test to subscribe a group to a course in the db
 		 *
 		 */
-        
+
         /* $coursegroup = array (
 		  	  'course_code' => 'KIT',
 			  'name' => 'testgroup',
@@ -330,11 +331,11 @@ class TestCallLocalWebservice
 				'parameters' => $coursegroup,
 		  		'handler' => 'handle_webservice'
 			);*/
-        
+
         /*TEST 15 : A test to unsubscribe a group from a course in the db
 		 *
 		 */
-        
+
         /*$coursegroup = array (
 		  	  'course_code' => 'KIT',
 			  'name' => 'testgroup',
@@ -351,7 +352,7 @@ class TestCallLocalWebservice
 				'parameters' => $coursegroup,
 		  		'handler' => 'handle_webservice'
 			);*/
-        
+
         //TEST 14 : Get Group
         /*$wsdl = 'http://localhost/group/webservices/webservices_group.class.php?wsdl';
 		$functions = array();
@@ -363,7 +364,7 @@ class TestCallLocalWebservice
 				'handler' => 'handle_webservice'
 			);
 		}*/
-        
+
         //TEST 15 : Delete Group
         /*$group = array (
 			    'name' => 'ShinsengumiXXVII',
@@ -378,11 +379,11 @@ class TestCallLocalWebservice
 		  $functions[] = array(
 				'name' => 'WebServicesGroup.delete_group',
 				'parameters' => $group,
-		  		'handler' => 'handle_webservice'			
+		  		'handler' => 'handle_webservice'
 			);*/
-        
+
         //TEST 16 :  Get all Users
-        
+
 
         /*$wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
 		$functions = array();
@@ -392,9 +393,9 @@ class TestCallLocalWebservice
 				'parameters' => array('hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 				'handler' => 'handle_webservice'
 		);*/
-        
+
         //TEST 17 :  Create Users
-        
+
 
         /* $users = array ('0' => array
         (
@@ -469,7 +470,7 @@ class TestCallLocalWebservice
             'expiration_date' => '0',
             'registration_date' => '1238155721',
             'active' => 1,
-        
+
         )
 );
 
@@ -481,9 +482,9 @@ class TestCallLocalWebservice
             'parameters' => array('input' => $users, 'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
             'handler' => 'handle_webservice'
         );*/
-        
+
         //TEST 17 :  Delete Users
-        
+
 
         /*$users = array ('0' => array
         (
@@ -570,7 +571,7 @@ class TestCallLocalWebservice
             'parameters' => array('input' => $users, 'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
             'handler' => 'handle_webservice'
         );*/
-        
+
         $this->webservice->call_webservice($wsdl, $functions);
     }
 

@@ -1,4 +1,5 @@
 <?php
+namespace rights;
 /**
  * $Id: location_menu.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib
@@ -22,13 +23,13 @@ class LocationMenu extends HTML_Menu
      * The array renderer used to determine the breadcrumbs.
      */
     private $array_renderer;
-    
+
     private $include_root;
-    
+
     private $exclude_children;
-    
+
     private $root_category;
-    
+
     private $current_category;
 
     /**
@@ -48,15 +49,15 @@ class LocationMenu extends HTML_Menu
         $this->exclude_children = $exclude_children;
         $this->root_category = $root_category;
         $this->current_category = $current_category;
-        
+
         if ($current_category == '0')
         {
             $condition = new EqualityCondition(Location :: PROPERTY_PARENT, 0);
             $location = RightsDataManager :: get_instance()->retrieve_locations($condition, null, 1, array(new ObjectTableOrder(Location :: PROPERTY_LOCATION)))->next_result();
-            
+
             $this->current_category = $location->get_id();
         }
-        
+
         $this->urlFmt = $url_format;
         $menu = $this->get_menu();
         parent :: __construct($menu);
@@ -68,7 +69,7 @@ class LocationMenu extends HTML_Menu
     {
         $include_root = $this->include_root;
         $location = RightsDataManager :: get_instance()->retrieve_location($this->root_category);
-        
+
         if (! $include_root)
         {
             return $this->get_menu_items($location->get_id());
@@ -76,23 +77,23 @@ class LocationMenu extends HTML_Menu
         else
         {
             $menu = array();
-            
+
             $root = array();
             $root['title'] = Translation :: get('ApplicationRoot');
             $root['url'] = $this->get_root_url();
             $root['class'] = 'rights';
             $menu[] = $root;
-            
+
             $menu_item = array();
             $menu_item['title'] = $location->get_location();
             $menu_item['url'] = $this->get_url($location->get_id());
-            
+
             $sub_menu_items = $this->get_menu_items($location->get_id());
             if (count($sub_menu_items) > 0)
             {
                 $menu_item['sub'] = $sub_menu_items;
             }
-            
+
             $menu_item['class'] = 'home';
             $menu_item[OptionsMenuRenderer :: KEY_ID] = $location->get_id();
             $menu[$location->get_id()] = $menu_item;
@@ -112,29 +113,29 @@ class LocationMenu extends HTML_Menu
     {
         $exclude_children = $this->exclude_children;
         $current_category = $this->current_category;
-        
+
         $condition = new EqualityCondition(Location :: PROPERTY_PARENT, $parent_id);
         $locations = RightsDataManager :: get_instance()->retrieve_locations($condition, null, null, array(new ObjectTableOrder(Location :: PROPERTY_LOCATION)));
-        
+
         while ($location = $locations->next_result())
         {
             $location_id = $location->get_id();
-            
+
             if (! ($exclude_children && $location_id == $current_category))
             {
                 $menu_item = array();
                 $menu_item['title'] = $location->get_location();
-                
+
                 if ($location->has_children())
                 {
                     $menu_item['url'] = $this->get_url($location->get_id());
                     $sub_menu_items = $this->get_menu_items($location->get_id());
-                    
+
                     if (count($sub_menu_items) > 0)
                     {
                         $menu_item['sub'] = $sub_menu_items;
                     }
-                    
+
                     $menu_item['class'] = 'category';
                 }
                 else
@@ -142,12 +143,12 @@ class LocationMenu extends HTML_Menu
                     $menu_item['url'] = '#';
                     $menu_item['class'] = 'end_node no_link';
                 }
-                
+
                 $menu_item[OptionsMenuRenderer :: KEY_ID] = $location->get_id();
                 $menu[$location->get_id()] = $menu_item;
             }
         }
-        
+
         return $menu;
     }
 
@@ -194,7 +195,7 @@ class LocationMenu extends HTML_Menu
         $this->render($renderer, 'sitemap');
         return $renderer->toHTML();
     }
-    
+
     static function get_tree_name()
     {
     	return Utilities :: camelcase_to_underscores(self :: TREE_NAME);

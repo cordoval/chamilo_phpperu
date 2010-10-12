@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * $Id: user_rights_template.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib
@@ -12,7 +13,7 @@
 class UserRightsTemplate extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_USER_ID = 'user_id';
     const PROPERTY_RIGHTS_TEMPLATE_ID = 'rights_template_id';
 

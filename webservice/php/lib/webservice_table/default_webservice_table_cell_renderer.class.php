@@ -1,4 +1,5 @@
 <?php
+namespace webservice;
 /**
  * $Id: default_webservice_table_cell_renderer.class.php 208 2009-11-13 13:14:39Z vanpouckesven $
  * @package webservices.lib.webservice_table

@@ -1,4 +1,5 @@
 <?php
+namespace tracking;
 /**
  * $Id: admin_event_viewer_action_handler.class.php 213 2009-11-13 13:38:50Z vanpouckesven $
  * @package tracking.lib.tracking_manager.component.admin_event_viewer
@@ -42,16 +43,16 @@ class AdminEventViewerActionHandler
     function handle_action($parameters)
     {
         $action = $parameters['action'];
-        
+
         $ids = array();
-        
+
         foreach ($parameters as $key => $parameter)
         {
             if (substr($key, 0, 2) == 'id')
             {
                 $ids[] = substr($key, 2);
             }
-            
+
             if ($action == 'enable' || $action == 'disable')
             {
                 $this->eventviewer->redirect(null, null, array(Application :: PARAM_ACTION => TrackingManager :: ACTION_CHANGE_ACTIVE, TrackingManager :: PARAM_EVENT_ID => $this->event->get_id(), TrackingManager :: PARAM_TRACKER_ID => $ids, TrackingManager :: PARAM_TYPE => 'tracker', TrackingManager :: PARAM_EXTRA => $action));

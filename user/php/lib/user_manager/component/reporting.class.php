@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * $Id: reporting.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager.component
@@ -33,13 +34,13 @@ class UserManagerReportingComponent extends UserManager implements Administratio
 
         $rtv->run();
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserManagerAdminUserBrowserComponent')));
     	$breadcrumbtrail->add_help('user_reporting');
     }
-    
+
     function get_additional_parameters()
     {
     	return array(UserManager :: PARAM_USER_USER_ID);

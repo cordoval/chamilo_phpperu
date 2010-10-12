@@ -1,4 +1,5 @@
 <?php
+namespace tracking;
 /**
  * $Id: archive_wizard_page.class.php 151 2009-11-10 12:23:34Z kariboe $
  * @package tracking.lib.tracking_manager.component.wizards.archive
@@ -15,7 +16,7 @@ abstract class ArchiveWizardPage extends FormValidatorPage
      * The Component which the wizard runs.
      */
     private $parent;
-    
+
     /**
      * The name of the page
      */

@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * $Id: user.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib
@@ -597,10 +598,10 @@ class User extends DataClass
         	$this->delete();
         	return false;
         }
-        
+
         return $succes;
     }
-    
+
     function delete()
     {
     	$location = UserRights :: get_location_by_identifier_from_users_subtree($this->get_id());
@@ -611,7 +612,7 @@ class User extends DataClass
         		return false;
     		}
         }
-        
+
         return parent :: delete();
     }
 

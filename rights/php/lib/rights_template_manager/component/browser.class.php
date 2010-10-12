@@ -1,4 +1,5 @@
 <?php
+namespace rights;
 /**
  * $Id: browser.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.rights_template_manager.component
@@ -38,7 +39,7 @@ class RightsTemplateManagerBrowserComponent extends RightsTemplateManager
     {
         $parameters = $this->get_parameters();
         $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
-        
+
     	$table = new RightsTemplateBrowserTable($this, $parameters, $this->get_condition());
 
         $html = array();
@@ -75,7 +76,7 @@ class RightsTemplateManagerBrowserComponent extends RightsTemplateManager
 
         return $action_bar;
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add_help('rights_templates_browser');

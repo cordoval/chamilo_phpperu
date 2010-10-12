@@ -1,4 +1,5 @@
 <?php
+namespace webservice;
 /**
  * $Id: webservice_browser_table_cell_renderer.class.php 208 2009-11-13 13:14:39Z vanpouckesven $
  * @package webservices.lib.webservice_manager.component.webservice_browser_table
@@ -32,7 +33,7 @@ class WebserviceBrowserTableCellRenderer extends DefaultWebserviceTableCellRende
         {
             return $this->get_modification_links($webservice);
         }
-        
+
         return parent :: render_cell($column, $webservice);
     }
 
@@ -47,11 +48,11 @@ class WebserviceBrowserTableCellRenderer extends DefaultWebserviceTableCellRende
         $toolbar = new Toolbar();
         $toolbar->add_item(new ToolbarItem(
         	Translation :: get('ManageWebservices'),
-        	Theme :: get_common_image_path().'action_rights.png', 
+        	Theme :: get_common_image_path().'action_rights.png',
 			$this->browser->get_manage_roles_url($webservice),
 		 	ToolbarItem :: DISPLAY_ICON
 		));
-        
+
 		return $toolbar->as_html();
     }
 }

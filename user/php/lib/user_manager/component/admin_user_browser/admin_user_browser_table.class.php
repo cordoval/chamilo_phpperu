@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * $Id: admin_user_browser_table.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager.component.admin_user_browser
@@ -28,16 +29,16 @@ class AdminUserBrowserTable extends ObjectTable
         $actions[] =  new ObjectTableFormAction(UserManager :: ACTION_ACTIVATE, Translation :: get('ActivateSelected'), false);
         $actions[] =  new ObjectTableFormAction(UserManager :: ACTION_DEACTIVATE, Translation :: get('DeactivateSelected'));
         $actions[] =  new ObjectTableFormAction(UserManager :: ACTION_RESET_PASSWORD_MULTI, Translation :: get('ResetPassword'));
-        
+
         if(PlatformSetting :: get('active_online_email_editor'))
         {
         	$actions[] =  new ObjectTableFormAction(UserManager :: ACTION_EMAIL, Translation :: get('EmailSelected'), false);
         }
-        
+
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
     }
-    
+
 	static function handle_table_action()
     {
         $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));

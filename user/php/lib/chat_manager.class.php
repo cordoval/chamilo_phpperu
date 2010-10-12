@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * $Id: chat_manager.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @author Sven Vanpoucke

@@ -1,4 +1,5 @@
 <?php
+namespace tracking;
 /**
  * $Id: event.class.php 213 2009-11-13 13:38:50Z vanpouckesven $
  * @package tracking.lib
@@ -111,14 +112,14 @@ class Event extends DataClass
         {
         	return false;
         }
-        
+
         $parent = TrackingRights :: get_tracking_subtree_root_id();
         if(!$parent)
         {
         	TrackingRights :: create_tracking_subtree_root_location();
         	$parent = TrackingRights :: get_tracking_subtree_root_id();
         }
-        
+
         return TrackingRights :: create_location_in_tracking_subtree($this->get_name(), $this->get_id(), $parent);
     }
 

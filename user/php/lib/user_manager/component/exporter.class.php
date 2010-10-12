@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * $Id: exporter.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager.component
@@ -19,9 +20,9 @@ class UserManagerExporterComponent extends UserManager implements Administration
             $this->display_footer();
             exit();
         }
-        
+
         $form = new UserExportForm(UserExportForm :: TYPE_EXPORT, $this->get_url());
-        
+
         if ($form->validate())
         {
             $export = $form->exportValues();
@@ -36,9 +37,9 @@ class UserManagerExporterComponent extends UserManager implements Administration
             	else
             	{
             		$user_array = $this->prepare_for_other_export($user);
-            		
+
             	}
-            	
+
                 Event :: trigger('export', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->get_user()->get_id()));
                 $data[] = $user_array;
             }
@@ -51,7 +52,7 @@ class UserManagerExporterComponent extends UserManager implements Administration
             $this->display_footer();
         }
     }
-    
+
 	function prepare_for_pdf_export($user)
     {
         $lastname_title = Translation :: get(Utilities :: underscores_to_camelcase(User :: PROPERTY_LASTNAME));
@@ -66,7 +67,7 @@ class UserManagerExporterComponent extends UserManager implements Administration
         $activation_date_title = Translation :: get(Utilities :: underscores_to_camelcase(User :: PROPERTY_ACTIVATION_DATE));
         $expiration_date_title = Translation :: get(Utilities :: underscores_to_camelcase(User :: PROPERTY_EXPIRATION_DATE));
         $auth_source_title = Translation :: get(Utilities :: underscores_to_camelcase(User :: PROPERTY_AUTH_SOURCE));
-        
+
     	$user_array[$lastname_title] = $user->get_lastname();
         $user_array[$firstname_title] = $user->get_firstname();
         $user_array[$username_title] = $user->get_username();
@@ -76,20 +77,20 @@ class UserManagerExporterComponent extends UserManager implements Administration
         $user_array[$active_title] = $user->get_active();
         $user_array[$official_code_title] = $user->get_official_code();
         $user_array[$phone_title] = $user->get_phone();
-                
+
         $act_date = $user->get_activation_date();
-                
+
         $user_array[$activation_date_title] = $act_date;
-               
+
         $exp_date = $user->get_expiration_date();
-              
+
         $user_array[$expiration_date_title] = $exp_date;
-                
+
         $user_array[$auth_source_title] = $user->get_auth_source();
-        
+
         return $user_array;
     }
-    
+
     function prepare_for_other_export($user)
     {
     	//$user_array[User::PROPERTY_USER_ID] = $user->get_id();
@@ -102,17 +103,17 @@ class UserManagerExporterComponent extends UserManager implements Administration
         $user_array[User :: PROPERTY_ACTIVE] = $user->get_active();
         $user_array[User :: PROPERTY_OFFICIAL_CODE] = $user->get_official_code();
         $user_array[User :: PROPERTY_PHONE] = $user->get_phone();
-                
+
         $act_date = $user->get_activation_date();
-                
+
         $user_array[User :: PROPERTY_ACTIVATION_DATE] = $act_date;
-               
+
         $exp_date = $user->get_expiration_date();
-              
+
         $user_array[User :: PROPERTY_EXPIRATION_DATE] = $exp_date;
-                
+
         $user_array[User :: PROPERTY_AUTH_SOURCE] = $user->get_auth_source();
-        
+
         return $user_array;
     }
 
@@ -127,11 +128,11 @@ class UserManagerExporterComponent extends UserManager implements Administration
         $export->set_filename($filename);
         $export->send_to_browser();
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add_help('user_exporter');
     }
-    
+
 }
 ?>

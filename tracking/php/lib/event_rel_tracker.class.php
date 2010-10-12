@@ -1,4 +1,5 @@
 <?php
+namespace tracking;
 /**
  * $Id: event_rel_tracker.class.php 213 2009-11-13 13:38:50Z vanpouckesven $
  * @package tracking.lib
@@ -14,7 +15,7 @@
 class EventRelTracker extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     /**
      * EventRelTracker properties
      */

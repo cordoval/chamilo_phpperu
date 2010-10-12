@@ -1,4 +1,5 @@
 <?php
+namespace webservice;
 /**
  * $Id: webservice_browser_table_data_provider.class.php 208 2009-11-13 13:14:39Z vanpouckesven $
  * @package webservices.lib.webservice_manager.component.webservice_browser_table
@@ -32,9 +33,9 @@ class WebserviceBrowserTableDataProvider extends ObjectTableDataProvider
     function get_objects($offset, $count, $order_property = null)
     {
         $order_property = $this->get_order_property($order_property);
-        
+
         $webservices = WebserviceDataManager :: get_instance()->retrieve_webservices($this->get_condition(), $offset, $count, $order_property);
-        
+
         return $webservices;
     }
 

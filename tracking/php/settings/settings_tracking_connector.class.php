@@ -1,4 +1,5 @@
 <?php
+namespace tracking;
 /**
  * $Id: settings_tracking_connector.class.php 213 2009-11-13 13:38:50Z vanpouckesven $
  * @package tracking.settings

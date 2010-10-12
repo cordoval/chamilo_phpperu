@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * $Id: user_data_reporting_template.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.reporting.templates
@@ -21,22 +22,22 @@ class UserDataReportingTemplate extends ReportingTemplate
     function UserDataReportingTemplate($parent)
     {
          parent :: __construct($parent);
-        
+
          $this->add_reporting_block(new BrowsersReportingBlock($this));
          $this->add_reporting_block(new CountriesReportingBlock($this));
          $this->add_reporting_block(new OsReportingBlock($this));
          $this->add_reporting_block(new ProvidersReportingBlock($this));
          $this->add_reporting_block(new ReferersReportingBlock($this));
     }
-    
+
 	function get_application()
     {
     	return UserManager::APPLICATION_NAME;
     }
-    
+
     function display_context()
     {}
-    
+
 	function is_platform()
     {
     	return true;

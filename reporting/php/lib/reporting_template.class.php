@@ -1,4 +1,5 @@
 <?php
+namespace reporting;
 /**
  * $Id: reporting_template.class.php 215 2009-11-13 14:07:59Z vanpouckesven $
  * Extendable class for the reporting templates
@@ -11,7 +12,7 @@
 require_once dirname(__FILE__) . '/reporting_template_menu.class.php';
 
 abstract class ReportingTemplate
-{   
+{
     private $blocks = array();
     private $parent;
 
@@ -57,10 +58,10 @@ abstract class ReportingTemplate
     public function to_html()
     {
         $display_all = $this->get_parent()->are_all_blocks_visible();
-        
+
     	$html[] = $this->display_header();
 		$html[] = $this->display_filter();
-		
+
         if ($display_all)
         {
             foreach($this->get_reporting_blocks() as $block)
@@ -102,8 +103,8 @@ abstract class ReportingTemplate
         $html = array();
         if ($this->get_number_of_reporting_blocks() > 1)
         {
-            //$html[] = '<div style="float: left; width: 18%; overflow: auto; height: 500px;">'; 
-            
+            //$html[] = '<div style="float: left; width: 18%; overflow: auto; height: 500px;">';
+
 
             $menu = new ReportingTemplateMenu($this);
             $html[] = $menu->as_html();
@@ -134,7 +135,7 @@ abstract class ReportingTemplate
         {
             $html[] = '<div id="tool_browser_left">';
         }
-       
+
         $html[] = $this->get_current_block()->to_html();
         if ($this->get_number_of_reporting_blocks() > 1)
         {
@@ -143,7 +144,7 @@ abstract class ReportingTemplate
         $html[] = '<div class="clear"></div>';
         return implode($html, "\n");
     }
-    
+
     public function get_current_block()
     {
     	$block = Request :: get(ReportingManager :: PARAM_REPORTING_BLOCK_ID);
@@ -177,7 +178,7 @@ abstract class ReportingTemplate
     {
         $parameters = array();
         $parameters[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS] = Request :: get(ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS);
-        
+
         $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/reporting_charttype.js' . '"></script>';
         $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/reporting_template_ajax.js' . '"></script>';
         return implode("\n", $html);
@@ -188,10 +189,10 @@ abstract class ReportingTemplate
         $html[] = '<br />' . $this->get_action_bar()->as_html() . '<br />';
         return implode("\n", $html);
     }
-    
+
     public function display_filter()
     {
-    	
+
     }
 
     public function get_parent()
@@ -203,7 +204,7 @@ abstract class ReportingTemplate
     {
         return $this->get_parent()->get_url($parameters, $filter, $encode_entities);
     }
-    
+
 	public function set_parent($parent)
     {
         $this->parent = $parent;
@@ -228,7 +229,7 @@ abstract class ReportingTemplate
     {
         return $this->get_parent()->get_parameters();
     }
-    
+
     public function get_parameter($key)
     {
     	return $this->get_parent()->get_parameter($key);
@@ -258,18 +259,18 @@ function get_action_bar()
         $parameters[ReportingViewer::PARAM_REPORTING_VIEWER_ACTION] = ReportingViewer::ACTION_EXPORT_TEMPLATE;
         $parameters[ReportingManager :: PARAM_TEMPLATE_ID] = $this->get_id();
         $parameters[ReportingManager :: PARAM_EXPORT_TYPE] = 'pdf';
-      	
+
         $display_mode = $this->get_displaymode();
         if (isset($display_mode))
         {
             $parameters[ReportingFormatterForm :: FORMATTER_TYPE] = $this->get_displaymode();
         }
         $url = Redirect :: get_url($parameters, array(), false);
-        
+
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ExportToPdf'), Theme :: get_common_image_path() . 'export_pdf.png', $url));
-        
+
         $parameters[ReportingManager :: PARAM_EXPORT_TYPE] = 'excel';
-      	
+
         $display_mode = $this->get_displaymode();
         if (isset($display_mode))
         {
@@ -279,7 +280,7 @@ function get_action_bar()
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ExportToExcel'), Theme :: get_common_image_path() . 'export_excel.png', $url));
         //$action_bar->add_common_action(new ToolbarItem(Translation :: get('ExportToXml'), null, $url));
         //$action_bar->add_common_action(new ToolbarItem(Translation :: get('ExportToCsv'), null, $url));
-        
+
 
         return $action_bar;
     }
@@ -308,7 +309,7 @@ function get_action_bar()
         if (isset($this->params['course_id']))
             $html[] = '<b>Course: </b><i>' . $this->params['course_id'] . '</i>';
         $html[] = '</div><br /><br />';
-        
+
         $html[] = $this->get_visible_reporting_blocks(true);
         return implode("\n", $html);
     }

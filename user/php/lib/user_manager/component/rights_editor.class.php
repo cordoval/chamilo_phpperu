@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * $Id: rights_editor.class.php 198 2009-11-13 12:20:22Z vanpouckesven $
  * @package webservices.lib.webservice_manager.component
@@ -28,7 +29,7 @@ class UserManagerRightsEditorComponent extends UserManager implements Administra
         foreach ($user_ids as $user_id)
         {
         	if (UserRights :: is_allowed_in_users_subtree(UserRights :: EDIT_RIGHT, $user_id))
-        	{ 
+        	{
         		$locations[] = UserRights :: get_location_by_identifier_from_users_subtree($user_id);
         	}
         }
@@ -40,23 +41,23 @@ class UserManagerRightsEditorComponent extends UserManager implements Administra
         		$locations = UserRights :: get_users_subtree_root();
         	}
         }
-        
+
         $manager = new RightsEditorManager($this, $locations);
 	    $manager->exclude_users(array($this->get_user_id()));
     	$manager->run();
     }
-    
+
     function get_available_rights()
     {
     	return UserRights :: get_available_rights();
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserManagerAdminUserBrowserComponent')));
     	$breadcrumbtrail->add_help('user_rights_editor');
     }
-    
+
     function get_additional_parameters()
     {
     	return array(UserManager :: PARAM_USER_USER_ID);

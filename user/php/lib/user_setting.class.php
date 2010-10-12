@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * $Id: user_setting.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @author Sven Vanpoucke
@@ -10,7 +11,7 @@ class UserSetting extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'setting';
-    
+
     const PROPERTY_USER_ID = 'user_id';
     const PROPERTY_SETTING_ID = 'setting_id';
     const PROPERTY_VALUE = 'value';

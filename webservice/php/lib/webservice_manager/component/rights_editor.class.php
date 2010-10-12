@@ -1,4 +1,5 @@
 <?php
+namespace webservice;
 /**
  * $Id: rights_editor.class.php 198 2009-11-13 12:20:22Z vanpouckesven $
  * @package webservices.lib.webservice_manager.component
@@ -40,22 +41,22 @@ class WebserviceManagerRightsEditorComponent extends WebserviceManager implement
         		$locations[] = WebserviceRights :: get_webservices_subtree_root();
         	}
         }
-        
+
         $manager = new RightsEditorManager($this, $locations);
 	    $manager->exclude_users(array($this->get_user_id()));
     	$manager->run();
     }
-    
+
     function get_available_rights()
     {
     	return WebserviceRights :: get_available_rights();
     }
-	
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(WebserviceManager :: PARAM_ACTION => WebserviceManager :: ACTION_BROWSE_WEBSERVICES)), Translation :: get('WebserviceManagerWebserviceBrowserComponent')));
     	$breadcrumbtrail->add_help('webservice_rights_editor');
     }
-    
+
 }
 ?>

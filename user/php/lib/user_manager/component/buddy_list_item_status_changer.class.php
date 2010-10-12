@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * $Id: buddy_list_item_status_changer.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager.component
@@ -17,18 +18,18 @@ class UserManagerBuddyListItemStatusChangerComponent extends UserManager
         if ($id)
         {
             $udm = UserDataManager :: get_instance();
-            
+
             $conditions[] = new EqualityCondition(BuddyListItem :: PROPERTY_BUDDY_ID, $this->get_user()->get_id());
             $conditions[] = new EqualityCondition(BuddyListItem :: PROPERTY_USER_ID, $id);
             $condition = new AndCondition($conditions);
-            
+
             $buddy = $udm->retrieve_buddy_list_items($condition)->next_result();
-            
+
             if ($buddy)
             {
                 $buddy->set_status($status);
                 $succes = $buddy->update();
-                
+
                 if ($succes && $status == 0)
                 {
                     $buddy = new BuddyListItem();
@@ -39,10 +40,10 @@ class UserManagerBuddyListItemStatusChangerComponent extends UserManager
                     $succes &= $buddy->create();
                 }
             }
-            
+
             if (! $succes)
                 echo Translation :: get('StatusNotChanged');
-            
+
             $ajax = Request :: get('ajax');
             if (! $ajax)
                 $this->redirect(Translation :: get($succes ? 'StatusChanged' : 'StatusNotChanged'), ! $succes, array(Application :: PARAM_ACTION => UserManager :: ACTION_VIEW_BUDDYLIST));

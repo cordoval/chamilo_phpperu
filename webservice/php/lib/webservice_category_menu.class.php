@@ -1,4 +1,5 @@
 <?php
+namespace webservice;
 /**
  * $Id: webservice_category_menu.class.php 208 2009-11-13 13:14:39Z vanpouckesven $
  * @package webservices.lib
@@ -13,7 +14,7 @@ require_once 'HTML/Menu/ArrayRenderer.php';
 class WebserviceCategoryMenu extends HTML_Menu
 {
     const TREE_NAME = __CLASS__;
-    
+
     /**
      * The string passed to sprintf() to format category URLs
      */
@@ -46,17 +47,17 @@ class WebserviceCategoryMenu extends HTML_Menu
     function get_menu()
     {
         $menu = array();
-        
+
         $menu_item = array();
         $menu_item['title'] = Translation :: get('Webservices');
         $menu_item['url'] = $this->get_home_url();
-        
+
         $sub_menu_items = $this->get_menu_items(0);
         if (count($sub_menu_items) > 0)
         {
             $menu_item['sub'] = $sub_menu_items;
         }
-        
+
         $menu_item['class'] = 'home';
         $menu_item[OptionsMenuRenderer :: KEY_ID] = 0;
         $menu[0] = $menu_item;
@@ -75,25 +76,25 @@ class WebserviceCategoryMenu extends HTML_Menu
     {
         $condition = new EqualityCondition(WebserviceCategory :: PROPERTY_PARENT, $parent_id);
         $objects = WebserviceDataManager :: get_instance()->retrieve_webservice_categories($condition, null, null, null);
-        
+
         while ($object = $objects->next_result())
         {
             $menu_item = array();
             $menu_item['title'] = $object->get_name();
             $menu_item['url'] = $this->get_url($object->get_id());
-            
+
             $sub_menu_items = $this->get_menu_items($object->get_id());
-            
+
             if (count($sub_menu_items) > 0)
             {
                 $menu_item['sub'] = $sub_menu_items;
             }
-            
+
             $menu_item['class'] = 'type_category';
             $menu_item[OptionsMenuRenderer :: KEY_ID] = $object->get_id();
             $menu[$object->get_id()] = $menu_item;
         }
-        
+
         return $menu;
     }
 
@@ -140,7 +141,7 @@ class WebserviceCategoryMenu extends HTML_Menu
         $this->render($renderer, 'sitemap');
         return $renderer->toHTML();
     }
-    
+
     static function get_tree_name()
     {
     	return Utilities :: camelcase_to_underscores(self :: TREE_NAME);

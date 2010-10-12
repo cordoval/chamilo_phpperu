@@ -1,4 +1,5 @@
 <?php
+namespace rights;
 /**
  * $Id: group_location_browser_table_cell_renderer.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.group_right_manager.component.group_location_browser_table
@@ -32,12 +33,12 @@ class GroupLocationBrowserTableCellRenderer extends DefaultLocationTableCellRend
         {
             return $this->get_modification_links($location);
         }
-        
+
         if (GroupLocationBrowserTableColumnModel :: is_rights_column($column))
         {
             return $this->get_rights_column_value($column, $location);
         }
-        
+
         switch ($column->get_name())
         {
             case Location :: PROPERTY_LOCATION :
@@ -71,7 +72,7 @@ class GroupLocationBrowserTableCellRenderer extends DefaultLocationTableCellRend
                 }
                 break;
         }
-        
+
         return parent :: render_cell($column, $location);
     }
 
@@ -86,11 +87,11 @@ class GroupLocationBrowserTableCellRenderer extends DefaultLocationTableCellRend
         $toolbar = new Toolbar();
        	$toolbar->add_item(new ToolbarItem(
        		Translation :: get('Delete'),
-     		Theme :: get_common_image_path().'action_reset.png', 
+     		Theme :: get_common_image_path().'action_reset.png',
 			null,
 			ToolbarItem :: DISPLAY_ICON
 		));
-			
+
         return $toolbar->as_html();
     }
 
@@ -100,9 +101,9 @@ class GroupLocationBrowserTableCellRenderer extends DefaultLocationTableCellRend
         $locked_parent = $location->get_locked_parent();
         $rights = RightsUtilities :: get_available_rights($this->browser->get_source());
         $group_id = $browser->get_current_group()->get_id();
-        
+
         $location_url = $browser->get_url(array('application' => $this->application, 'location' => ($locked_parent ? $locked_parent->get_id() : $location->get_id())));
-        
+
         foreach ($rights as $right_name => $right_id)
         {
             $column_name = Translation :: get(Utilities :: underscores_to_camelcase(strtolower($right_name)));

@@ -1,4 +1,5 @@
 <?php
+namespace tracking;
 /**
  * $Id: archive_wizard_display.class.php 151 2009-11-10 12:23:34Z kariboe $
  * @package tracking.lib.tracking_manager.component.wizards.archive
@@ -39,14 +40,14 @@ class ArchiveWizardDisplay extends HTML_QuickForm_Action_Display
         $renderer->setHeaderTemplate($header_template);
         HTML_QuickForm :: setRequiredNote('<font color="red">*</font> <small>' . Translation :: get('ThisFieldIsRequired') . '</small>');
         $current_page->accept($renderer);*/
-        
+
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => TrackingManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Tracking')));
         $trail->add(new Breadcrumb($this->parent->get_url(array(Application :: PARAM_ACTION => TrackingManager :: ACTION_ARCHIVE)), Translation :: get('Archiver')));
-        
+
         $this->parent->display_header();
-        
+
         echo '<div style="float: left; background-color:#EFEFEF; width: 17%; margin-right: 20px;padding: 15px; min-height: 400px;">';
         echo '<img src="layout/aqua/images/common/chamilo.png" alt="logo"/>';
         $all_pages = $current_page->controller->_pages;
@@ -69,13 +70,13 @@ class ArchiveWizardDisplay extends HTML_QuickForm_Action_Display
         }
         echo '</ol>';
         echo '</div>' . "\n";
-        
+
         echo '<div style="margin: 10px; float: right; width: 75%;">';
         echo '<h2>' . Translation :: get('Step') . ' ' . $current_page_number . ' ' . Translation :: get('of') . ' ' . $total_number_of_pages . ' &ndash; ' . $current_page->get_title() . '</h2>';
         echo '<div>';
         echo $current_page->get_info();
         echo '</div>';
-        
+
         if (isset($_SESSION['install_message']))
         {
             Display :: normal_message($_SESSION['install_message']);
@@ -86,10 +87,10 @@ class ArchiveWizardDisplay extends HTML_QuickForm_Action_Display
             Display :: error_message($_SESSION['install_error_message']);
             unset($_SESSION['install_error_message']);
         }
-        
+
         parent :: _renderForm($current_page);
         echo '</div>';
-        
+
         $this->parent->display_footer();
     }
 }

@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * $Id: buddy_list_viewer.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager.component
@@ -35,12 +36,12 @@ class UserManagerBuddyListViewerComponent extends UserManager
 		$buddylist = new BuddyList($this->get_user(), $this);
 		echo $buddylist->to_html();
 		echo '</div>';
-		
+
 		echo '<div style="width: 78%; float: right; overflow: auto;">';
 		$chatmanager = new ChatManager($this->get_user(), $this->get_user(), $this);
 		echo $chatmanager->to_html();
 		echo '</div>';
-		
+
 		echo '<div class="clear"></div>';
 		echo '</div></div>';
 

@@ -1,4 +1,5 @@
 <?php
+namespace tracking;
 /**
  * $Id: event_browser_table_cell_renderer.class.php 213 2009-11-13 13:38:50Z vanpouckesven $
  * @package tracking.lib.tracking_manager.component.admin_event_browser
@@ -65,21 +66,21 @@ class EventBrowserTableCellRenderer extends DefaultEventTableCellRenderer
 
         if(TrackingRights :: is_allowed_in_tracking_subtree(TrackingRights :: EDIT_RIGHT, $event->get_id()))
         {
-        
+
 	        $toolbar->add_item(new ToolbarItem(
 	        	($event->get_active() == 1) ? Translation :: get('Deactivate') : Translation :: get('Activate'),
 	        	($event->get_active() == 1) ? Theme :: get_common_image_path() . 'action_visible.png' : Theme :: get_common_image_path() . 'action_invisible.png',
 				$this->browser->get_change_active_url('event', $event->get_id()),
 				ToolbarItem :: DISPLAY_ICON
 			));
-	
+
 			$toolbar->add_item(new ToolbarItem(
 	        	Translation :: get('Empty_event'),
 	        	Theme :: get_common_image_path().'action_recycle_bin.png',
 				$this->browser->get_empty_tracker_url('event', $event->get_id()),
 				ToolbarItem :: DISPLAY_ICON
 			));
-			
+
 			$toolbar->add_item(new ToolbarItem(
 	        	Translation :: get('ManageRights'),
 	        	Theme :: get_common_image_path().'action_rights.png',

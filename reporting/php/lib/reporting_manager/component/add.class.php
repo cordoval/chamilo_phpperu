@@ -1,4 +1,5 @@
 <?php
+namespace reporting;
 /**
  * $Id: add.class.php 215 2009-11-13 14:07:59Z vanpouckesven $
  * @package reporting.lib.reporting_manager.component
@@ -73,7 +74,7 @@ class ReportingManagerAddComponent extends ReportingManager implements Administr
 
         return $action_bar;
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(ReportingManager :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES)), Translation :: get('ReportingManagerBrowserComponent')));

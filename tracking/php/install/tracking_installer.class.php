@@ -1,4 +1,5 @@
 <?php
+namespace tracking;
 /**
  * $Id: tracking_installer.class.php 213 2009-11-13 13:38:50Z vanpouckesven $
  * @package tracking.install
@@ -16,7 +17,7 @@ class TrackingInstaller extends Installer
     {
         parent :: __construct($values, TrackingDataManager :: get_instance());
     }
-    
+
     function get_path()
     {
         return dirname(__FILE__);

@@ -1,4 +1,5 @@
 <?php
+namespace reporting;
 class ReportingExcelExporter extends ReportingExporter
 {
 	function export()

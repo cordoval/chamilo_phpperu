@@ -1,5 +1,5 @@
 <?php
-
+namespace user;
 /**
  * $Id: deleter.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager.component

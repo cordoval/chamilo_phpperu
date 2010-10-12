@@ -1,4 +1,5 @@
 <?php
+namespace user;
 require_once dirname (__FILE__) . '/../user_reporting_block.class.php';
 
 class UserActiveInactiveReportingBlock extends UserReportingBlock
@@ -27,18 +28,18 @@ class UserActiveInactiveReportingBlock extends UserReportingBlock
         $reporting_data->add_data_category_row(Translation :: get('Active'), Translation :: get('count'), $active[Translation :: get('Active')]);
 		$reporting_data->add_data_category_row(Translation :: get('Inactive'), Translation :: get('count'), $active[Translation :: get('Inactive')]);
         return $reporting_data;
-	}	
-	
+	}
+
 	public function retrieve_data()
 	{
 		return $this->count_data();
 	}
-	
+
 	public function get_application()
 	{
 		return UserManager::APPLICATION_NAME;
 	}
-	
+
 	public function get_available_displaymodes()
 	{
 		$modes = array();

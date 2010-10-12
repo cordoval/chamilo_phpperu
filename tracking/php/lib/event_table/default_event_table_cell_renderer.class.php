@@ -1,4 +1,5 @@
 <?php
+namespace tracking;
 /**
  * $Id: default_event_table_cell_renderer.class.php 213 2009-11-13 13:38:50Z vanpouckesven $
  * @package tracking.lib.event_table

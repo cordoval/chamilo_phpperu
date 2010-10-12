@@ -1,4 +1,5 @@
 <?php
+namespace tracking;
 /**
  * @author Hans De Bisschop
  *

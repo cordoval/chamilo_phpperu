@@ -1,4 +1,5 @@
 <?php
+namespace rights;
 /**
  * $Id: location_manager.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.location_manager
@@ -9,19 +10,19 @@ class LocationManager extends SubManager
     const PARAM_LOCATION_ACTION = 'action';
     const PARAM_SOURCE = 'source';
     const PARAM_LOCATION = 'location';
-    
+
     const ACTION_BROWSE_LOCATIONS = 'browser';
     const ACTION_LOCK_LOCATIONS = 'locker';
     const ACTION_UNLOCK_LOCATIONS = 'unlocker';
     const ACTION_INHERIT_LOCATIONS = 'inheriter';
     const ACTION_DISINHERIT_LOCATIONS = 'disinheriter';
-    
+
     const DEFAULT_ACTION = self :: ACTION_BROWSE_LOCATIONS;
 
     function LocationManager($rights_manager)
     {
         parent :: __construct($rights_manager);
-        
+
         $location_action = Request :: get(self :: PARAM_LOCATION_ACTION);
         if ($location_action)
         {

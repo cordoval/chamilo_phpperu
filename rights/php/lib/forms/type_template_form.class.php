@@ -1,4 +1,5 @@
 <?php
+namespace rights;
 /**
  * $Id: type_template_form.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.data_manager.forms
@@ -6,12 +7,12 @@
 
 class TypeTemplateForm extends FormValidator
 {
-    
+
     const TYPE_CREATE = 1;
     const TYPE_EDIT = 2;
     const RESULT_SUCCESS = 'TypeTemplateUpdated';
     const RESULT_ERROR = 'TypeTemplateUpdateFailed';
-    
+
     private $parent;
     private $type_template;
 
@@ -22,9 +23,9 @@ class TypeTemplateForm extends FormValidator
     function TypeTemplateForm($form_type, $type_template, $action)
     {
         parent :: __construct('type_template_edit', 'post', $action);
-        
+
         $this->type_template = $type_template;
-        
+
         $this->form_type = $form_type;
         if ($this->form_type == self :: TYPE_EDIT)
         {
@@ -34,7 +35,7 @@ class TypeTemplateForm extends FormValidator
         {
             $this->build_creation_form();
         }
-        
+
         $this->setDefaults();
     }
 
@@ -46,7 +47,7 @@ class TypeTemplateForm extends FormValidator
         // Lastname
         $this->addElement('text', TypeTemplate :: PROPERTY_NAME, Translation :: get('Name'), array("size" => "50"));
         $this->addRule(TypeTemplate :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
-        
+
         $this->add_html_editor(TypeTemplate :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
     }
 
@@ -57,11 +58,11 @@ class TypeTemplateForm extends FormValidator
     {
         $user = $this->user;
         $parent = $this->parent;
-        
+
         $this->build_basic_form();
-        
+
         $this->addElement('hidden', TypeTemplate :: PROPERTY_ID);
-        
+
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
@@ -73,7 +74,7 @@ class TypeTemplateForm extends FormValidator
     function build_creation_form()
     {
         $this->build_basic_form();
-        
+
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
@@ -86,10 +87,10 @@ class TypeTemplateForm extends FormValidator
     {
         $type_template = $this->type_template;
         $values = $this->exportValues();
-        
+
         $type_template->set_name($values[TypeTemplate :: PROPERTY_NAME]);
         $type_template->set_description($values[TypeTemplate :: PROPERTY_DESCRIPTION]);
-        
+
         if (! $type_template->update())
         {
             return false;
@@ -107,10 +108,10 @@ class TypeTemplateForm extends FormValidator
     {
         $type_template = $this->type_template;
         $values = $this->exportValues();
-        
+
         $type_template->set_name($values[TypeTemplate :: PROPERTY_NAME]);
         $type_template->set_description($values[TypeTemplate :: PROPERTY_DESCRIPTION]);
-        
+
         if (! $type_template->create())
         {
             return false;
@@ -128,10 +129,10 @@ class TypeTemplateForm extends FormValidator
     function setDefaults($defaults = array ())
     {
         $type_template = $this->type_template;
-        
+
         $defaults[TypeTemplate :: PROPERTY_NAME] = $type_template->get_name();
         $defaults[TypeTemplate :: PROPERTY_DESCRIPTION] = $type_template->get_description();
-        
+
         parent :: setDefaults($defaults);
     }
 }

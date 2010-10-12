@@ -1,4 +1,5 @@
 <?php
+namespace reporting;
 /**
  * $Id: reporting_block_registration.class.php
  * Class representing a reporting block
@@ -9,7 +10,7 @@
 class ReportingBlockRegistration extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_APPLICATION = 'application';
     const PROPERTY_BLOCK = 'block';
 
@@ -29,7 +30,7 @@ class ReportingBlockRegistration extends DataClass
     {
         return ReportingDataManager :: get_instance();
     }
-    
+
     /*
  	 * Getters and setters
  	 */
@@ -47,7 +48,7 @@ class ReportingBlockRegistration extends DataClass
     {
         return $this->get_default_property(self :: PROPERTY_BLOCK);
     }
-    
+
     public function get_block_object()
     {
     	return ;
@@ -57,7 +58,7 @@ class ReportingBlockRegistration extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_BLOCK, $value);
     }
-    
+
     static function get_table_name()
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);

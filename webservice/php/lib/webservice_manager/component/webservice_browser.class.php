@@ -1,4 +1,5 @@
 <?php
+namespace webservice;
 /**
  * $Id: webservice_browser.class.php 208 2009-11-13 13:14:39Z vanpouckesven $
  * @package webservices.lib.webservice_manager.component
@@ -42,7 +43,7 @@ class WebserviceManagerWebserviceBrowserComponent extends WebserviceManager impl
         $parameters = $this->get_parameters();
     	$parameters[WebserviceManager :: PARAM_WEBSERVICE_CATEGORY_ID] = $this->get_webservice_category();
         $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
-        
+
     	$table = new WebserviceBrowserTable($this, $parameters, $this->get_condition());
 
         $html = array();
@@ -103,7 +104,7 @@ class WebserviceManagerWebserviceBrowserComponent extends WebserviceManager impl
 
         return $action_bar;
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add_help('webservice_rights_editor');

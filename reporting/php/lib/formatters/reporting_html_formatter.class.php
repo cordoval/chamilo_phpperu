@@ -1,4 +1,5 @@
 <?php
+namespace reporting;
 /**
  * $Id: reporting_html_formatter.class.php 215 2009-11-13 14:07:59Z vanpouckesven $
  * @package reporting.lib.formatters
@@ -11,7 +12,7 @@ class ReportingHtmlFormatter extends ReportingFormatter
         //$this->reporting_block = $reporting_block;
         parent :: __construct($block);
     }
-    
+
     /**
      * @see Reporting Formatter -> to_html
      */

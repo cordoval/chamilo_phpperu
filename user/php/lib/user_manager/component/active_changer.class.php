@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * $Id: deleter.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager.component
@@ -29,9 +30,9 @@ class UserManagerActiveChangerComponent extends UserManager implements Administr
 	            if(!UserRights :: is_allowed_in_users_subtree(UserRights :: EDIT_RIGHT, $id))
 	            {
 	            	$failures++;
-	            	continue;	
+	            	continue;
 	            }
-	            
+
 				$user = $this->retrieve_user($id);
 	            $user->set_active($active);
 
@@ -58,13 +59,13 @@ class UserManagerActiveChangerComponent extends UserManager implements Administr
             $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
         }
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_USER_APPROVAL_BROWSER)), Translation :: get('UserManagerUserApprovalBrowserComponent')));
     	$breadcrumbtrail->add_help('user_active_changer');
     }
-    
+
     function get_additional_parameters()
     {
     	return array(UserManager :: PARAM_USER_USER_ID, UserManager :: PARAM_ACTIVE);

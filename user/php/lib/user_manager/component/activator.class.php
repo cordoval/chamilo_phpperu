@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * @package user.lib.user_manager.component
  * @author Hans De Bisschop

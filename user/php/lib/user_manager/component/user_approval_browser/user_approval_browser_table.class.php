@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * $Id: user_approval_browser_table.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager.component.user_approval_browser
@@ -29,7 +30,7 @@ class UserApprovalBrowserTable extends ObjectTable
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
     }
-    
+
 	static function handle_table_action()
     {
         $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));

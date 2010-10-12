@@ -1,4 +1,5 @@
 <?php
+namespace tracking;
 /**
  * $Id: settings_archive_wizard_page.class.php 213 2009-11-13 13:38:50Z vanpouckesven $
  * @package tracking.lib.tracking_manager.component.wizards.archive
@@ -35,24 +36,24 @@ class SettingsArchiveWizardPage extends ArchiveWizardPage
     function buildForm()
     {
         $this->_formBuilt = true;
-        
+
         $exports = $this->exportValues();
-        
+
         $this->addElement('html', '<div style="margin-top: 10px;"></div>');
-        
+
         $this->addElement('datepicker', 'start_date', Translation :: get('Start_date') . ' (00:00:00)', array('form_name' => $this->getAttribute('name')), false);
         $this->addRule(array('start_date'), Translation :: get('Start_date_must_be_larger_then_last_archive_date'), new ValidateSettings($exports['start_date']));
         $this->addElement('datepicker', 'end_date', Translation :: get('End_date') . ' (23:59:59)', array('form_name' => $this->getAttribute('name')), false);
         $this->addRule(array('end_date'), Translation :: get('End_date_must_be_larger_then_start_date'), new ValidateSettings());
-        
+
         $numbers = array();
         for($i = 1; $i < 1001; $i ++)
         {
             $numbers[$i] = $i;
         }
-        
+
         $this->addElement('select', 'period', Translation :: get('Period') . ' (' . Translation :: get('Days') . ')', $numbers);
-        
+
         $prevnext[] = $this->createElement('style_submit_button', $this->getButtonName('back'), '<< ' . Translation :: get('Previous'), array('class' => 'previous'));
         $prevnext[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next') . ' >>', array('class' => 'next'));
         $this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
@@ -66,10 +67,10 @@ class SettingsArchiveWizardPage extends ArchiveWizardPage
     function set_form_defaults()
     {
         $defaults = array();
-        
+
         $adm = AdminDataManager :: get_instance();
         $setting = $adm->retrieve_setting_from_variable_name('last_time_archived', 'tracking');
-        
+
         $defaults['start_date'] = $setting ? $setting->get_value() : date('d-F-Y');
         $defaults['end_date'] = date('d-F-Y');
         $this->setDefaults($defaults);
@@ -101,12 +102,12 @@ class ValidateSettings extends HTML_QuickForm_Rule
         $sd = $parameters[0];
         $date = $sd['Y'] . '-' . $sd['F'] . '-' . $sd['d'];
         $date = Utilities :: time_from_datepicker_without_timepicker($date);
-        
+
         if ($start_date == 0)
         {
             $adm = AdminDataManager :: get_instance();
             $setting = $adm->retrieve_setting_from_variable_name('last_time_archived', 'tracking');
-            
+
             $setting_date = Utilities :: time_from_datepicker_without_timepicker($setting->get_value());
             return $date >= $setting_date;
         }

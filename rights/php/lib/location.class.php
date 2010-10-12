@@ -1,4 +1,5 @@
 <?php
+namespace rights;
 /**
  * $Id: location.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib
@@ -27,8 +28,8 @@ class Location extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_LOCATION, self :: PROPERTY_LEFT_VALUE, self :: PROPERTY_RIGHT_VALUE, self :: PROPERTY_PARENT, 
-        												  self :: PROPERTY_APPLICATION, self :: PROPERTY_TYPE, self :: PROPERTY_IDENTIFIER, 
+        return parent :: get_default_property_names(array(self :: PROPERTY_LOCATION, self :: PROPERTY_LEFT_VALUE, self :: PROPERTY_RIGHT_VALUE, self :: PROPERTY_PARENT,
+        												  self :: PROPERTY_APPLICATION, self :: PROPERTY_TYPE, self :: PROPERTY_IDENTIFIER,
         												  self :: PROPERTY_TREE_IDENTIFIER, self :: PROPERTY_TREE_TYPE,
         												  self :: PROPERTY_INHERIT, self :: PROPERTY_LOCKED));
     }
@@ -125,7 +126,7 @@ class Location extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_INHERIT, $inherit);
     }
-    
+
 	function get_tree_identifier()
     {
         return $this->get_default_property(self :: PROPERTY_TREE_IDENTIFIER);
@@ -135,7 +136,7 @@ class Location extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_TREE_IDENTIFIER, $tree_identifier);
     }
-    
+
 	function get_tree_type()
     {
         return $this->get_default_property(self :: PROPERTY_TREE_TYPE);

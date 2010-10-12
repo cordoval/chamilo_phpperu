@@ -1,4 +1,5 @@
 <?php
+namespace rights;
 /**
  * $Id: location_browser_table_cell_renderer.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.location_manager.component.location_browser_table
@@ -32,7 +33,7 @@ class LocationBrowserTableCellRenderer extends DefaultLocationTableCellRenderer
         {
             return $this->get_modification_links($location);
         }
-        
+
         switch ($column->get_name())
         {
             case Location :: PROPERTY_LOCATION :
@@ -66,7 +67,7 @@ class LocationBrowserTableCellRenderer extends DefaultLocationTableCellRenderer
                 }
                 break;
         }
-        
+
         return parent :: render_cell($column, $location);
     }
 
@@ -82,7 +83,7 @@ class LocationBrowserTableCellRenderer extends DefaultLocationTableCellRenderer
 
        	$toolbar->add_item(new ToolbarItem(
    			Translation :: get('Delete'),
-   			Theme :: get_common_image_path().'action_reset.png', 
+   			Theme :: get_common_image_path().'action_reset.png',
 			null,
 			ToolbarItem :: DISPLAY_ICON
 		));

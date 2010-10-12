@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * $Id: quota.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager.component
@@ -13,9 +14,9 @@ class UserManagerQuotaComponent extends UserManager implements AdministrationCom
     function run()
     {
         $user_id = $this->get_user_id();
-        
+
         $id = Request :: get(UserManager :: PARAM_USER_USER_ID);
-        
+
         if ($id)
         {
 	        if (!UserRights :: is_allowed_in_users_subtree(UserRights :: EDIT_RIGHT, $id))
@@ -25,7 +26,7 @@ class UserManagerQuotaComponent extends UserManager implements AdministrationCom
 	            $this->display_footer();
 	            exit();
 	        }
-            
+
         	$user = $this->retrieve_user($id);
 
             if (! $this->get_user()->is_platform_admin())
@@ -36,7 +37,7 @@ class UserManagerQuotaComponent extends UserManager implements AdministrationCom
                 exit();
             }
             $form = new UserQuotaForm($user, $this->get_url(array(UserManager :: PARAM_USER_USER_ID => $id)));
-            
+
             if ($form->validate())
             {
                 $success = $form->update_quota();
@@ -54,13 +55,13 @@ class UserManagerQuotaComponent extends UserManager implements AdministrationCom
             $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
         }
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserManagerAdminUserBrowserComponent')));
     	$breadcrumbtrail->add_help('user_quota');
     }
-    
+
     function get_additional_parameters()
     {
     	return array(UserManager :: PARAM_USER_USER_ID);

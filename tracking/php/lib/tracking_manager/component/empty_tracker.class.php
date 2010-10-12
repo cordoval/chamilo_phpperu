@@ -1,4 +1,5 @@
 <?php
+namespace tracking;
 /**
  * $Id: emptytracker.class.php 213 2009-11-13 13:38:50Z vanpouckesven $
  * @package tracking.lib.tracking_manager.component
@@ -147,7 +148,7 @@ class TrackingManagerEmptyTrackerComponent extends TrackingManager implements Ad
             $this->redirect(Translation :: get($success ? 'TrackerEmpty' : 'TrackerNotEmpty'), ($success ? false : true), array(Application :: PARAM_ACTION => TrackingManager :: ACTION_BROWSE_EVENTS));
         }
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add_help('tracking_empty_tracker');

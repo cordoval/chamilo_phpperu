@@ -1,4 +1,5 @@
 <?php
+namespace tracking;
 /**
  * $Id: main_tracker.class.php 213 2009-11-13 13:38:50Z vanpouckesven $
  * @package tracking.lib

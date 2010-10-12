@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * $Id: deleter.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager.component
@@ -48,7 +49,7 @@ class UserManagerEmailerComponent extends UserManager implements AdministrationC
     	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserManagerAdminUserBrowserComponent')));
     	$breadcrumbtrail->add_help('user_emailer');
     }
-    
+
     function get_additional_parameters()
     {
     	return array(UserManager :: PARAM_USER_USER_ID);

@@ -1,11 +1,12 @@
 <?php
+namespace rights;
 /**
  * $Id: right.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib
  * @author Hans de Bisschop
  */
 /**
- *	This class represents a rights_template. 
+ *	This class represents a rights_template.
  *
  *	User objects have a number of default properties:
  *	- user_id: the numeric ID of the user;

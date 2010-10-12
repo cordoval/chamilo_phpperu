@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * $Id: register.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager.component
@@ -66,7 +67,7 @@ class UserManagerRegisterComponent extends UserManager
             $this->display_footer();
         }
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add_help('user_register');

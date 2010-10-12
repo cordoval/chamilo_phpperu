@@ -1,4 +1,5 @@
 <?php
+namespace rights;
 /**
  * $Id: group_right_manager.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.group_right_manager
@@ -10,17 +11,17 @@ class GroupRightManager extends SubManager
     const PARAM_GROUP = 'group';
     const PARAM_SOURCE = 'source';
     const PARAM_LOCATION = 'location';
-    
+
     const ACTION_BROWSE_GROUP_RIGHTS = 'browser';
     const ACTION_BROWSE_LOCATION_GROUP_RIGHTS = 'group';
     const ACTION_SET_GROUP_RIGHTS = 'setter';
-    
+
     const DEFAULT_ACTION = self :: ACTION_BROWSE_GROUP_RIGHTS;
 
     function GroupRightManager($rights_manager)
     {
         parent :: __construct($rights_manager);
-        
+
         $rights_template_action = Request :: get(self :: PARAM_GROUP_RIGHT_ACTION);
         if ($rights_template_action)
         {

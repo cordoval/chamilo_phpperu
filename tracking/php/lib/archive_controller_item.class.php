@@ -1,4 +1,5 @@
 <?php
+namespace tracking;
 /**
  * $Id: archive_controller_item.class.php 213 2009-11-13 13:38:50Z vanpouckesven $
  * @package tracking.lib

@@ -1,31 +1,32 @@
 <?php
+namespace user;
 /**
  * This class tracks the visits to pages
- * 
+ *
  * @package users.lib.trackers
  */
 
 class VisitTracker extends SimpleTracker
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_USER_ID = 'user_id';
     const PROPERTY_ENTER_DATE = 'enter_date';
     const PROPERTY_LEAVE_DATE = 'leave_date';
     const PROPERTY_LOCATION = 'location';
-    
+
     const TYPE_ENTER = 'enter';
     const TYPE_LEAVE = 'leave';
 
     function validate_parameters(array $parameters = array())
     {
         $type = $this->get_event()->get_name();
-        
+
         if ($parameters[self :: PROPERTY_USER_ID])
         {
             $this->set_user_id($parameters[self :: PROPERTY_USER_ID]);
         }
-        
+
         if ($type == self :: TYPE_LEAVE)
         {
             $this->set_id($parameters[self :: PROPERTY_ID]);
@@ -42,9 +43,9 @@ class VisitTracker extends SimpleTracker
     function run(array $parameters = array())
     {
         $this->validate_parameters($parameters);
-        
+
         $type = $this->get_event()->get_name();
-        
+
         if ($type == self :: TYPE_LEAVE)
         {
             return $this->update();

@@ -1,4 +1,5 @@
 <?php
+namespace user;
 require_once dirname(__FILE__) . '/../blocks/user_no_of_logins_day_reporting_block.class.php';
 require_once dirname(__FILE__) . '/../blocks/user_no_of_logins_hour_reporting_block.class.php';
 require_once dirname(__FILE__) . '/../blocks/user_no_of_logins_month_reporting_block.class.php';
@@ -25,6 +26,6 @@ class UserLoginsReportingTemplate extends ReportingTemplate
 
     function display_context()
     {
-    }    
+    }
 }
 ?>

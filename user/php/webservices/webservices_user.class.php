@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /*
  * $Id: webservices_user.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.webservices
@@ -69,28 +70,28 @@ class WebServicesUser
 
     function run()
     {
-        
+
         $functions = array();
-        
+
         $functions['get_user'] = array('input' => new User(), 'output' => new User());
-        
+
         $functions['get_all_users'] = array('array_output' => true, 'output' => array(new User()));
-        
+
         $functions['delete_user'] = array('input' => new User());
-        
+
         $functions['create_user'] = array('input' => new User());
-        
+
         $functions['create_users'] = array('array_input' => true, 'input' => array(new User()));
-        
+
         $functions['update_user'] = array('input' => new User());
-        
+
         $functions['delete_users'] = array('array_input' => true, 'input' => array(new User()));
-        
+
         $functions['update_users'] = array('array_input' => true, 'input' => array(new User()));
-        
+
         $time_end = microtime(true);
         $time = $time_end - $time_start;
-        
+
         $this->webservice->provide_webservice($functions);
     }
 
@@ -120,7 +121,7 @@ class WebServicesUser
         {
             return $this->webservice->raise_error($this->webservice->get_message());
         }
-    
+
     }
 
     function get_all_users($input_user)
@@ -155,7 +156,7 @@ class WebServicesUser
             {
                 return $this->webservice->raise_error($this->validator->get_error_message(), null, Translation :: get('Client'), $this->validator->get_error_source());
             }
-        
+
         }
         else
         {

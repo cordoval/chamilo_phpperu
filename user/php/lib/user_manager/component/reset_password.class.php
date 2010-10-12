@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * $Id: reset_password.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager.component
@@ -20,12 +21,12 @@ class UserManagerResetPasswordComponent extends UserManager
     {
         //$user_id = $this->get_user_id();
         $user_id = Session :: get_user_id();
-        
+
         if ($this->get_platform_setting('allow_password_retrieval', 'admin') == false)
         {
             Display :: not_allowed();
         }
-        
+
         if (isset($user_id))
         {
             $this->display_header();
@@ -33,7 +34,7 @@ class UserManagerResetPasswordComponent extends UserManager
             $this->display_footer();
             exit();
         }
-        
+
         $this->display_header();
         $request_key = Request :: get(self :: PARAM_RESET_KEY);
         $request_user_id = Request :: get(User :: PROPERTY_ID);
@@ -71,7 +72,7 @@ class UserManagerResetPasswordComponent extends UserManager
                 else
                 {
                     $failures = 0;
-                    
+
                 	foreach ($users as $index => $user)
                     {
                         $auth_source = $user->get_auth_source();
@@ -81,14 +82,14 @@ class UserManagerResetPasswordComponent extends UserManager
                             Display :: error_message('ResetPasswordNotPossibleForThisUser');
                         }
                         else
-                        { 
+                        {
                             if(!$this->send_reset_link($user))
                             {
                             	$failures++;
                             }
                         }
                     }
-                    
+
                     $message = $this->get_result($failures, count($users), 'ResetLinkHasNotBeenSend', 'ResetLinksHasNotBeenSend', 'ResetLinkHasBeenSend', 'ResetLinksHasBeenSend');
                     if($failures == 0)
                     {
@@ -160,11 +161,11 @@ class UserManagerResetPasswordComponent extends UserManager
         global $security_key;
         return Hashing :: hash($security_key . $user->get_email());
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add_help('user_password_resetter');
     }
-    
+
 }
 ?>

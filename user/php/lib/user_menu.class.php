@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * $Id: user_menu.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib
@@ -15,7 +16,7 @@ require_once 'HTML/Menu/ArrayRenderer.php';
  */
 class UserMenu extends HTML_Menu
 {
-	const TREE_NAME = __CLASS__;    
+	const TREE_NAME = __CLASS__;
     /**
      * The string passed to sprintf() to format category URLs
      */
@@ -58,7 +59,7 @@ class UserMenu extends HTML_Menu
         {
             $menu = array_merge($menu, $extra_items);
         }
-        
+
         $home = array();
         $home['title'] = Translation :: get('Home');
         $home['url'] = $this->get_home_url();
@@ -128,7 +129,7 @@ class UserMenu extends HTML_Menu
         $this->render($renderer, 'sitemap');
         return $renderer->toHTML();
     }
-    
+
     static function get_tree_name()
     {
     	return Utilities :: camelcase_to_underscores(self :: TREE_NAME);

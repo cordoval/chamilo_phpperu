@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * This class is a abstract class for user tracking
  *

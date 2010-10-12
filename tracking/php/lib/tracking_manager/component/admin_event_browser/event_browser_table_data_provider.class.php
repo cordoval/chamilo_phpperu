@@ -1,4 +1,5 @@
 <?php
+namespace tracking;
 /**
  * $Id: event_browser_table_data_provider.class.php 213 2009-11-13 13:38:50Z vanpouckesven $
  * @package tracking.lib.tracking_manager.component.admin_event_browser
@@ -42,7 +43,7 @@ class EventBrowserTableDataProvider extends ObjectTableDataProvider
     {
         // We always use title as second sorting parameter
         // $order_property = array($order_property);
-        
+
 
         return $this->get_browser()->retrieve_events($this->get_condition(), $offset, $count, $order_property);
     }

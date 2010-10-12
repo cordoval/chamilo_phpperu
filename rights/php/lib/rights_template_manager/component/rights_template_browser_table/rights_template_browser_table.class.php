@@ -1,4 +1,5 @@
 <?php
+namespace rights;
 /**
  * $Id: rights_template_browser_table.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.rights_template_manager.component.rights_template_browser_table

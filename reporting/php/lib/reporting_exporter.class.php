@@ -1,4 +1,5 @@
 <?php
+namespace reporting;
 /**
  * $Id: reporting_exporter.class.php 215 2009-11-13 14:07:59Z vanpouckesven $
  * @package reporting.lib
@@ -21,22 +22,22 @@ abstract class ReportingExporter
         $class = 'Reporting' . Utilities::underscores_to_camelcase($type) . 'Exporter';
 
         return new $class($template);
-    } 
-    
+    }
+
     function get_file_name()
     {
     	return $this->get_template()->get_name() . date('_Y-m-d_H-i-s');
     }
-    
+
     abstract function export();
-    
+
     abstract function save();
-    
+
     function get_template()
     {
     	return $this->template;
     }
-    
+
     function set_template($template)
     {
     	$this->template = $template;

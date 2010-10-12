@@ -1,4 +1,5 @@
 <?php
+namespace reporting;
 /**
  * $Id: browser.class.php 215 2009-11-13 14:07:59Z vanpouckesven $
  * @package reporting.lib.reporting_manager.component
@@ -120,7 +121,7 @@ class ReportingManagerBrowserComponent extends ReportingManager implements Admin
         $parameters = $this->get_parameters();
         $parameters[ReportingManager :: PARAM_APPLICATION] = $this->application;
     	$parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
-    	
+
     	$table = new ReportingTemplateRegistrationBrowserTable($this, $parameters, $this->get_condition());
         $html = array();
         $html[] = '<div style="float: right; width: 100%;">';
@@ -165,12 +166,12 @@ class ReportingManagerBrowserComponent extends ReportingManager implements Admin
 
         return $action_bar;
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add_help('reporting_browser');
     }
-    
+
     function get_additional_parameters()
     {
     	return array(ReportingManager :: PARAM_TEMPLATE_ID);

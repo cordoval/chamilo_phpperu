@@ -1,4 +1,5 @@
 <?php
+namespace rights;
 /**
  * $Id: user_location_browser_table_cell_renderer.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.user_right_manager.component.user_location_bowser_table
@@ -32,12 +33,12 @@ class UserLocationBrowserTableCellRenderer extends DefaultLocationTableCellRende
         {
             return $this->get_modification_links($location);
         }
-        
+
         if (UserLocationBrowserTableColumnModel :: is_rights_column($column))
         {
             return $this->get_rights_column_value($column, $location);
         }
-        
+
         switch ($column->get_name())
         {
             case Location :: PROPERTY_LOCATION :
@@ -71,7 +72,7 @@ class UserLocationBrowserTableCellRenderer extends DefaultLocationTableCellRende
                 }
                 break;
         }
-        
+
         return parent :: render_cell($column, $location);
     }
 
@@ -87,7 +88,7 @@ class UserLocationBrowserTableCellRenderer extends DefaultLocationTableCellRende
 
         $toolbar->add_item(new ToolbarItem(
        		Translation :: get('Delete'),
-       		Theme :: get_common_image_path().'action_reset.png', 
+       		Theme :: get_common_image_path().'action_reset.png',
 			null,
 			ToolbarItem :: DISPLAY_ICON
 		));
@@ -101,9 +102,9 @@ class UserLocationBrowserTableCellRenderer extends DefaultLocationTableCellRende
         $locked_parent = $location->get_locked_parent();
         $rights = RightsUtilities :: get_available_rights($this->browser->get_source());
         $user_id = $browser->get_current_user()->get_id();
-        
+
         $location_url = $browser->get_url(array('application' => $this->application, 'location' => ($locked_parent ? $locked_parent->get_id() : $location->get_id())));
-        
+
         foreach ($rights as $right_name => $right_id)
         {
             $column_name = Translation :: get(Utilities :: underscores_to_camelcase(strtolower($right_name)));

@@ -1,4 +1,5 @@
 <?php
+namespace reporting;
 /**
  * $Id: reporting_template_registration_browser_table.class.php 215 2009-11-13 14:07:59Z vanpouckesven $
  * @package reporting.lib.reporting_manager.component.reporting_template_registration_browser_table

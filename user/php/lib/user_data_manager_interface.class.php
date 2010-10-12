@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * @package group.lib
  *

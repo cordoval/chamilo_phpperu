@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * $Id: admin_user_browser_table_cell_renderer.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager.component.admin_user_browser
@@ -70,53 +71,53 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
     private function get_modification_links($user)
     {
     	$toolbar = new Toolbar();
-    	
+
     	if(UserRights :: is_allowed_in_users_subtree(UserRights :: EDIT_RIGHT, $user->get_id()))
         {
-	        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', 
+	        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png',
 						$this->browser->get_user_editing_url($user), ToolbarItem :: DISPLAY_ICON));
 	        $toolbar->add_item(new ToolbarItem(Translation :: get('VersionQuota'),
 	        	Theme :: get_common_image_path() . 'action_statistics.png',
 	        	$this->browser->get_user_quota_url($user),
 	        	ToolbarItem :: DISPLAY_ICON));
-	
-	       
+
+
 	        $toolbar->add_item(new ToolbarItem(Translation :: get('ManageRightsTemplates'),
 	        	Theme :: get_common_image_path() . 'action_rights.png',
 	        	$this->browser->get_manage_user_rights_url($user),
-	        	ToolbarItem :: DISPLAY_ICON));	
-	        	
+	        	ToolbarItem :: DISPLAY_ICON));
+
 	         $toolbar->add_item(new ToolbarItem(Translation :: get('ManageRights'),
 	        	Theme :: get_common_image_path() . 'action_rights.png',
 	        	$this->browser->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_EDIT_RIGHTS, UserManager :: PARAM_USER_USER_ID => $user->get_id())),
-	        	ToolbarItem :: DISPLAY_ICON));	
-	       
+	        	ToolbarItem :: DISPLAY_ICON));
+
 	        $params = array();
 	        $params[ReportingManager :: PARAM_USER_ID] = $user->get_id();
 	       		$toolbar->add_item(new ToolBarItem(Translation :: get('Detail'),
 	        	Theme :: get_common_image_path().'action_details.png',
 	        	$this->browser->get_user_detail_url($user->get_id()),
 	        	ToolbarItem :: DISPLAY_ICON));
-	        	
+
 			        $toolbar->add_item(new ToolBarItem(Translation :: get('Report'),
 	        	Theme :: get_common_image_path() . 'action_reporting.png',
 	        	$this->browser->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_REPORTING, UserManager::PARAM_USER_USER_ID => $user->get_id())),
-	        	ToolbarItem :: DISPLAY_ICON));	
-	        	
+	        	ToolbarItem :: DISPLAY_ICON));
+
 	        $toolbar->add_item(new ToolBarItem(Translation :: get('ViewQuota'),
 	        	Theme :: get_common_image_path() . 'action_browser.png',
 	        	$this->browser->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_VIEW_QUOTA, UserManager::PARAM_USER_USER_ID => $user->get_id())),
-	        	ToolbarItem :: DISPLAY_ICON));	
-	
-	               	
-	        
+	        	ToolbarItem :: DISPLAY_ICON));
+
+
+
 	    	if(PlatformSetting :: get('active_online_email_editor'))
 	        {
 	        	$toolbar->add_item(new ToolBarItem(Translation :: get('SendEmail'),
 	        		Theme :: get_common_image_path() . 'action_email.png',
 	        		$this->browser->get_email_user_url($user),
-	        		ToolbarItem :: DISPLAY_ICON));	
-	        	
+	        		ToolbarItem :: DISPLAY_ICON));
+
 	        }
         }
 
@@ -139,7 +140,7 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
         			ToolbarItem :: DISPLAY_ICON
         		));
             }
-        	
+
             if(UserRights :: is_allowed_in_users_subtree(UserRights :: EDIT_RIGHT, $user->get_id()))
             {
 				$toolbar->add_item(new ToolBarItem(Translation :: get('LoginAsUser'),
@@ -157,7 +158,7 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
         		ToolbarItem :: DISPLAY_ICON
         	));
         }
-        
+
 		return $toolbar->as_html();
     }
 }

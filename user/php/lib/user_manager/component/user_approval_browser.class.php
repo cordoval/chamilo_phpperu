@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * $Id: admin_user_browser.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager.component
@@ -37,7 +38,7 @@ class UserManagerUserApprovalBrowserComponent extends UserManager implements Adm
     {
         $parameters = $this->get_parameters(true);
 		$parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->ab->get_query();
-		
+
         $table = new UserApprovalBrowserTable($this, $parameters, $this->get_condition());
 
         $html = array();
@@ -70,7 +71,7 @@ class UserManagerUserApprovalBrowserComponent extends UserManager implements Adm
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         return $action_bar;
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add_help('user_approval_browser');

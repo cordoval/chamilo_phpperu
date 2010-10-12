@@ -1,4 +1,5 @@
 <?php
+namespace user;
 
 require_once dirname(__FILE__) . '/../user_reporting_block.class.php';
 

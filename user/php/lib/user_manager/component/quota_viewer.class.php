@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * $Id: quota_viewer.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager.component
@@ -37,7 +38,7 @@ class UserManagerQuotaViewerComponent extends UserManager implements Administrat
             $this->display_footer();
             exit();
         }
-            
+
         $this->display_header();
 
         $this->display_action_bar();
@@ -194,13 +195,13 @@ class UserManagerQuotaViewerComponent extends UserManager implements Administrat
         }
         return $quota_data;
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserManagerAdminUserBrowserComponent')));
     	$breadcrumbtrail->add_help('user_quota_viewer');
     }
-    
+
     function get_additional_parameters()
     {
     	return array(UserManager :: PARAM_USER_USER_ID);

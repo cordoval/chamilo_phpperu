@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * $Id: database_user_data_manager.class.php 231 2009-11-16 09:53:00Z vanpouckesven $
  * @package user.lib.data_manager
@@ -420,7 +421,7 @@ class DatabaseUserDataManager extends Database implements UserDataManagerInterfa
 		$condition = new EqualityCondition(UserSetting :: PROPERTY_ID, $user_setting->get_id());
 		return $this->delete(UserSetting :: get_table_name(), $condition);
 	}
-	
+
 	function delete_user_settings($condition = null)
     {
         return $this->delete_objects(UserSetting :: get_table_name(), $condition);

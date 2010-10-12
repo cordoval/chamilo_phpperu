@@ -1,4 +1,5 @@
 <?php
+namespace rights;
 /**
  * $Id: rights_installer.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.install
@@ -25,7 +26,7 @@ class RightsInstaller extends Installer
         {
             return false;
         }
-        
+
         return true;
     }
 
@@ -37,14 +38,14 @@ class RightsInstaller extends Installer
         {
             return false;
         }
-        
+
         $rights_template = new RightsTemplate();
         $rights_template->set_name('Administrator');
         if (! $rights_template->create())
         {
             return false;
         }
-        
+
         return true;
     }
 

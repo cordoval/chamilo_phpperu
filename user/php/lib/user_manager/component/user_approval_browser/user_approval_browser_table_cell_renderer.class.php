@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * $Id: user_approval_browser_table_cell_renderer.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager.component.user_approval_browser
@@ -32,7 +33,7 @@ class UserApprovalBrowserTableCellRenderer extends DefaultUserTableCellRenderer
         {
             return $this->get_modification_links($user);
         }
-        
+
         return parent :: render_cell($column, $user);
     }
 
@@ -45,24 +46,24 @@ class UserApprovalBrowserTableCellRenderer extends DefaultUserTableCellRenderer
     private function get_modification_links($user)
     {
         $toolbar = new Toolbar();
-        
+
         if (!UserRights :: is_allowed(UserRights :: VIEW_RIGHT, UserRights :: LOCATION_APPROVER, UserRights :: TYPE_COMPONENT));
         {
 	        $toolbar->add_item(new ToolbarItem(
 	       		Translation :: get('Approve'),
-	        	Theme :: get_common_image_path().'action_activate.png', 
+	        	Theme :: get_common_image_path().'action_activate.png',
 				 $this->browser->get_approve_user_url($user),
 			 	ToolbarItem :: DISPLAY_ICON
 			));
-				
+
 			$toolbar->add_item(new ToolbarItem(
 	       		Translation :: get('Deny'),
-	        	Theme :: get_common_image_path().'action_deinstall.png', 
+	        	Theme :: get_common_image_path().'action_deinstall.png',
 				$this->browser->get_deny_user_url($user),
 				ToolbarItem :: DISPLAY_ICON
 			));
         }
-        
+
         return $toolbar->as_html();
     }
 }

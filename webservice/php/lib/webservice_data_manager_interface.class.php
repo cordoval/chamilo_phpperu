@@ -1,4 +1,5 @@
 <?php
+namespace webservice;
 /**
  * @package group.lib
  *

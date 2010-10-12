@@ -1,4 +1,5 @@
 <?php
+namespace reporting;
 class ReportingData
 {
     private $title;

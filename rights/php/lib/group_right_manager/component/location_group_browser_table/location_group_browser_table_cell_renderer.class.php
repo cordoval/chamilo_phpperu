@@ -1,4 +1,5 @@
 <?php
+namespace rights;
 /**
  * $Id: location_group_browser_table_cell_renderer.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.group_right_manager.component.location_group_browser_table
@@ -32,12 +33,12 @@ class LocationGroupBrowserTableCellRenderer extends DefaultGroupTableCellRendere
         {
             return $this->get_modification_links($group);
         }
-        
+
         if (LocationGroupBrowserTableColumnModel :: is_rights_column($column))
         {
             return $this->get_rights_column_value($column, $group);
         }
-        
+
         // Add special features here
         switch ($column->get_name())
         {
@@ -62,7 +63,7 @@ class LocationGroupBrowserTableCellRenderer extends DefaultGroupTableCellRendere
             case Translation :: get('Subgroups') :
                 return $group->count_subgroups(true);
         }
-        
+
         return parent :: render_cell($column, $group);
     }
 
@@ -74,7 +75,7 @@ class LocationGroupBrowserTableCellRenderer extends DefaultGroupTableCellRendere
      */
     private function get_modification_links($group)
     {
-  
+
     }
 
     private function get_rights_column_value($column, $group)
@@ -84,9 +85,9 @@ class LocationGroupBrowserTableCellRenderer extends DefaultGroupTableCellRendere
         $locked_parent = $location->get_locked_parent();
         $rights = RightsUtilities :: get_available_rights($this->browser->get_source());
         $group_id = $group->get_id();
-        
+
         $location_url = $browser->get_url(array('application' => $this->application, 'location' => ($locked_parent ? $locked_parent->get_id() : $location->get_id())));
-        
+
         foreach ($rights as $right_name => $right_id)
         {
             $column_name = Translation :: get(Utilities :: underscores_to_camelcase(strtolower($right_name)));

@@ -1,4 +1,5 @@
 <?php
+namespace webservice;
 /**
  * $Id: webservice_credential.class.php 208 2009-11-13 13:14:39Z vanpouckesven $
  * @package webservices.lib

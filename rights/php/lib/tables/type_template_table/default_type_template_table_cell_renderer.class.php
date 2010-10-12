@@ -1,4 +1,5 @@
 <?php
+namespace rights;
 /**
  * @package rights.lib.tables.type_template_table
  */

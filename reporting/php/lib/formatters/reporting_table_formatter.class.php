@@ -1,4 +1,5 @@
 <?php
+namespace reporting;
 /**
  * $Id: reporting_table_formatter.class.php 215 2009-11-13 14:07:59Z vanpouckesven $
  * @package reporting.lib.formatters
@@ -114,7 +115,7 @@ class ReportingTableFormatter extends ReportingFormatter
         	$table->set_header(0, '', false);
         	$j++;
         }
-        
+
         foreach($reporting_data->get_rows() as $row)
         {
         	$table->set_header($j, $row);

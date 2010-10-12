@@ -1,4 +1,5 @@
 <?php
+namespace rights;
 /**
  * $Id: rights_template_right_location.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib
@@ -82,7 +83,7 @@ class RightsTemplateRightLocation extends DataClass
         $value = $this->get_value();
         $this->set_value(! $value);
     }
-    
+
 	function is_enabled()
     {
         return $this->get_value() == true;
