@@ -23,29 +23,43 @@ class SurveyReportingManagerReportingComponent extends SurveyReportingManager im
         
         $condition = new EqualityCondition(SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_ID, $publication_rel_template_registration_id);
         $publication_rel_template_registration = SurveyDataManager :: get_instance()->retrieve_survey_publication_rel_reporting_template_registrations($condition, 0, 1)->next_result();
-              
-        $this->set_parameter(self :: PARAM_PUBLICATION_REL_REPORTING_TEMPLATE_ID, $publication_rel_template_registration_id);
         
-        $publication_ids = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
+        $rtv = ReportingViewer :: construct($this);
+        $rtv->add_template_by_name($publication_rel_template_registration->get_optional_property(ReportingTemplateRegistration :: PROPERTY_TEMPLATE), SurveyManager :: APPLICATION_NAME);
+//        $rtv->set_breadcrumb_trail();
+        $rtv->hide_all_blocks();
+        $rtv->run();
         
-        if (! empty($publication_ids))
-        {
-            if (! is_array($publication_ids))
-            {
-                $publication_ids = array($publication_ids);
-            }
-            
-            $rtv = ReportingViewer :: construct($this);
-            $rtv->add_template_by_name($publication_rel_template_registration->get_optional_property(ReportingTemplateRegistration :: PROPERTY_TEMPLATE), SurveyManager :: APPLICATION_NAME);
-            $rtv->set_breadcrumb_trail($trail);
-            $rtv->hide_all_blocks();
-            $rtv->run();
-        }
-        else
-        {
-            $this->display_error_page(htmlentities(Translation :: get('NoSurveyPublicationsSelected')));
-        }
+    //        $this->set_parameter(self :: PARAM_PUBLICATION_REL_REPORTING_TEMPLATE_ID, $publication_rel_template_registration_id);
+    //        
+    //        
+    //        
+    //        
+    //        $publication_ids = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
+    //        
+    //        if (! empty($publication_ids))
+    //        {
+    //            if (! is_array($publication_ids))
+    //            {
+    //                $publication_ids = array($publication_ids);
+    //            }
+    //            
+    //            dump($publication_ids);
+    //            
+    //            $this->set_parameter(SurveyManager :: PARAM_PUBLICATION_ID, $publication_ids);
+    //            
+    //            $rtv = ReportingViewer :: construct($this);
+    //            $rtv->add_template_by_name($publication_rel_template_registration->get_optional_property(ReportingTemplateRegistration :: PROPERTY_TEMPLATE), SurveyManager :: APPLICATION_NAME);
+    //            $rtv->set_breadcrumb_trail();
+    //            $rtv->hide_all_blocks();
+    //            $rtv->run();
+    //        }
+    //        else
+    //        {
+    //            $this->display_error_page(htmlentities(Translation :: get('NoSurveyPublicationsSelected')));
+    //        }
     
+
     }
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
