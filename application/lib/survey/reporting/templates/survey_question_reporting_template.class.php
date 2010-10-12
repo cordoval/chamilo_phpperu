@@ -13,19 +13,11 @@ class SurveyQuestionReportingTemplate extends ReportingTemplate
     {
         parent :: __construct($parent);
         
-        $ids = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
-        
-        if (! empty($ids))
-        {
-            if (! is_array($ids))
-            {
-                $ids = array($ids);
-            }
-        }
-        
+        $publication_id = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
+                   
         Request :: set_get(DynamicFormTabsRenderer :: PARAM_SELECTED_TAB, Request :: post('submit'));
-        $types = array(SurveyReportingFilterWizard :: TYPE_QUESTIONS, SurveyReportingFilterWizard :: TYPE_GROUPS, SurveyReportingFilterWizard :: TYPE_CONTEXT_TEMPLATES );
-        $this->wizard = new SurveyReportingFilterWizard($types , $ids, $this->get_url($this->get_parameters()));
+        $types = array(SurveyReportingFilterWizard :: TYPE_ANALYSE_TYPE, SurveyReportingFilterWizard :: TYPE_QUESTIONS, SurveyReportingFilterWizard :: TYPE_GROUPS, SurveyReportingFilterWizard :: TYPE_CONTEXT_TEMPLATES );
+        $this->wizard = new SurveyReportingFilterWizard($types , $publication_id, $this->get_url($this->get_parameters()));
        
         $this->filter_parameters = $this->wizard->get_filter_parameters();
         
