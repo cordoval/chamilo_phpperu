@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 class MessageLogger
 {
     const TYPE_NORMAL = '1';

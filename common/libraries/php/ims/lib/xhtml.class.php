@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 /**
  * XHTML tags and helper functions.

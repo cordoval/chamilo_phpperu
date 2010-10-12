@@ -1,6 +1,7 @@
 <?php
 namespace user;
 use common\libraries\Header;
+use common\libraries\Utilities;
 /**
  * $Id: account.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager.component

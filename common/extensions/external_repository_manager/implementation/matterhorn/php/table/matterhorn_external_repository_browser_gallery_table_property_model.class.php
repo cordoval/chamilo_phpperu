@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\matterhorn;
 require_once dirname(__FILE__) . '/../../../component/external_repository_browser_gallery_table/external_repository_browser_gallery_table_property_model.class.php';
 require_once dirname(__FILE__) . '/../matterhorn_external_repository_connector.class.php';
 

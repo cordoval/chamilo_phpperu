@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\video_conferencing_manager;
 abstract class VideoConferencingyManager extends SubManager
 {
     const PARAM_VIDEO_CONFERENCING_MANAGER_ACTION = 'conferencing_action';

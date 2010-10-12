@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 class HtmlEditorCkeditorDailymotionProcessor extends HtmlEditorProcessor
 {
     function run()

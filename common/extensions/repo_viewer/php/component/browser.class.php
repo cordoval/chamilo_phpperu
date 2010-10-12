@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\repo_viewer;
 /**
  * $Id: browser.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.common.repo_viewer.component

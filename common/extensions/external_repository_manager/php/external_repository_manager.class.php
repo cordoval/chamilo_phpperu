@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\external_repository_manager;
 abstract class ExternalRepositoryManager extends SubManager
 {
     const PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION = 'repository_action';
@@ -26,6 +27,7 @@ abstract class ExternalRepositoryManager extends SubManager
     const PARAM_USER_QUOTUM = 'default_user_quotum';
     
     const CLASS_NAME = __CLASS__;
+    const NAMESPACE_NAME = __NAMESPACE__;
     
     /**
      * @var ExternalRepository
@@ -107,7 +109,7 @@ abstract class ExternalRepositoryManager extends SubManager
         
         require_once $file;
         
-        $class = 'common\extensions\external_repository_manager\implementation\\' . $type . '\\' . Utilities :: underscores_to_camelcase($type) . 'ExternalRepositoryManager';
+        $class = self :: NAMESPACE_NAME . '\implementation\\' . $type . '\\' . Utilities :: underscores_to_camelcase($type) . 'ExternalRepositoryManager';
         
         $settings_validated = call_user_func(array($class, 'validate_settings'));
         

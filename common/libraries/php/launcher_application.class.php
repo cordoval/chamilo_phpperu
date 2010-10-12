@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 abstract class LauncherApplication extends Application
 {
     const CLASS_NAME = __CLASS__;

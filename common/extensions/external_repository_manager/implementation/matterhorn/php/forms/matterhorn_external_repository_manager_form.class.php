@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\matterhorn;
 /**
  * 
  * $Id: matterhorn_external_repository_manager_form.class.php 

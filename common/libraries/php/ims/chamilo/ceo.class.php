@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 /**
  * Ceo object's format. XML. One object per file.

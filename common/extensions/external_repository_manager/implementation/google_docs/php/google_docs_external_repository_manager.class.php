@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\google_docs;
 require_once dirname(__FILE__) . '/google_docs_external_repository_connector.class.php';
 
 class GoogleDocsExternalRepositoryManager extends ExternalRepositoryManager

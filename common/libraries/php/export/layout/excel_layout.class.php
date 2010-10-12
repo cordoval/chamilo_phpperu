@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 /**
  * $Id: layout.class.php 2010-06-23 11:05:20Z Shoira Mukhsinova $
  * @package common.export.excel.layout

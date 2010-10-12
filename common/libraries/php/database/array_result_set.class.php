@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 /**
  * $Id: array_result_set.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common.database

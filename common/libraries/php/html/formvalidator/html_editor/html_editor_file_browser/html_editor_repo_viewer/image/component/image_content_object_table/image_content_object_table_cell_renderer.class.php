@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 /**
  * $Id: image_content_object_table_cell_renderer.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.repo_viewer.component.content_object_table

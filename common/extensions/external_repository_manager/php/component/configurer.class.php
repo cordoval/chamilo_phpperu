@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\external_repository_manager;
 require_once dirname(__FILE__) . '/../forms/external_repository_settings_form.class.php';
 
 class ExternalRepositoryComponentConfigurerComponent extends ExternalRepositoryComponent

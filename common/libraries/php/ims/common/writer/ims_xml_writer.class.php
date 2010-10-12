@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 require_once  dirname(__FILE__) . '/../ims_id_factory.class.php';
 

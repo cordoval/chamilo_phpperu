@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 /**
  * Dataclass generator used to generate dataclasses with given properties
@@ -76,7 +77,8 @@ class AdditionalClassGenerator
             
             $template->assign_vars(array('TYPE' => $this->xml_definition['name'], 'DESCRIPTION' => $description, 'AUTHOR' => $this->author, 'OBJECT_CLASS' => $classname));
             
-            $string = "<?php\n" . $template->pparse_return('data_class_display') . "?>";
+            $string = "<?php
+namespace common\libraries;\n" . $template->pparse_return('data_class_display') . "?>";
             fwrite($file, $string);
             fclose($file);
         }
@@ -110,7 +112,8 @@ class AdditionalClassGenerator
             
             $template->assign_vars(array('TYPE' => $this->xml_definition['name'], 'DESCRIPTION' => $description, 'AUTHOR' => $this->author, 'OBJECT_CLASS' => $classname));
             
-            $string = "<?php\n" . $template->pparse_return('data_class_difference') . "?>";
+            $string = "<?php
+namespace common\libraries;\n" . $template->pparse_return('data_class_difference') . "?>";
             fwrite($file, $string);
             fclose($file);
         }
@@ -144,7 +147,8 @@ class AdditionalClassGenerator
             
             $template->assign_vars(array('TYPE' => $this->xml_definition['name'], 'DESCRIPTION' => $description, 'AUTHOR' => $this->author, 'OBJECT_CLASS' => $classname));
             
-            $string = "<?php\n" . $template->pparse_return('data_class_difference_display') . "?>";
+            $string = "<?php
+namespace common\libraries;\n" . $template->pparse_return('data_class_difference_display') . "?>";
             fwrite($file, $string);
             fclose($file);
         }
@@ -175,7 +179,8 @@ class AdditionalClassGenerator
             $classname = Utilities :: underscores_to_camelcase($this->xml_definition['name']);
             $template->assign_vars(array('TYPE' => $this->xml_definition['name'], 'AUTHOR' => $this->author, 'OBJECT_CLASS' => $classname));
             
-            $string = "<?php\n" . $template->pparse_return('complex_data_class') . "?>";
+            $string = "<?php
+namespace common\libraries;\n" . $template->pparse_return('complex_data_class') . "?>";
             fwrite($file, $string);
             fclose($file);
         }
@@ -206,7 +211,8 @@ class AdditionalClassGenerator
             $classname = Utilities :: underscores_to_camelcase($this->xml_definition['name']);
             $template->assign_vars(array('TYPE' => $this->xml_definition['name'], 'AUTHOR' => $this->author, 'OBJECT_CLASS' => $classname));
             
-            $string = "<?php\n" . $template->pparse_return('complex_data_class_form') . "?>";
+            $string = "<?php
+namespace common\libraries;\n" . $template->pparse_return('complex_data_class_form') . "?>";
             fwrite($file, $string);
             fclose($file);
         }
@@ -237,7 +243,8 @@ class AdditionalClassGenerator
             
             $template->assign_vars(array('TYPE' => $this->xml_definition['name'], 'DESCRIPTION' => $description, 'AUTHOR' => $this->author, 'OBJECT_CLASS' => $classname));
             
-            $string = "<?php\n" . $template->pparse_return('data_class_installer') . "?>";
+            $string = "<?php
+namespace common\libraries;\n" . $template->pparse_return('data_class_installer') . "?>";
             fwrite($file, $string);
             fclose($file);
         }

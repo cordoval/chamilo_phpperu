@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\external_repository_manager;
 /**
  * $Id: table_content_object_publication_list_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.browser.list_renderer

@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 /**
  * Generic import strategy. Make as little assumptions as possible about the qti file.

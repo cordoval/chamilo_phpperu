@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 class DynamicVisualTabsRenderer extends DynamicTabsRenderer
 {
     private $content;

@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 /**
  * A class implements the <code>AttachmentSupport</code> interface to
  * indicate that it supports attachments

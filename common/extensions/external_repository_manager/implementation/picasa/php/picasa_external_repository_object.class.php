@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\picasa;
 class PicasaExternalRepositoryObject extends ExternalRepositoryObject
 {
     const OBJECT_TYPE = 'picasa';

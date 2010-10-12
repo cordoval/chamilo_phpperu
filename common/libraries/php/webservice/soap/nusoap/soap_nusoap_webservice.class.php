@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 /**
  * $Id: soap_nusoap_webservice.class.php 198 2009-11-13 12:20:22Z vanpouckesven $
  * @package common.webservice.soap.nusoap

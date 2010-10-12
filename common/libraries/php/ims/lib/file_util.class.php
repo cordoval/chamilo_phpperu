@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 /**
  * Helper class for file management.

@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 /**
  * $Id: ldap_authentication.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common.authentication.ldap

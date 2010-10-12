@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 /**
  * @package common.html.action_bar
  * $Id: action_bar_search_form.class.php 128 2009-11-09 13:13:20Z vanpouckesven $

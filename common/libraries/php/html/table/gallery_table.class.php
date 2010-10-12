@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 require_once "HTML/Table.php";
 require_once "Pager/Pager.php";
 require_once "Pager/Sliding.php";

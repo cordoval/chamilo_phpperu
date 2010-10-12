@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\external_repository_manager;
 require_once dirname(__FILE__) . '/../external_repository_object_renderer.class.php';
 
 class SlideshowExternalRepositoryObjectRenderer extends ExternalRepositoryObjectRenderer

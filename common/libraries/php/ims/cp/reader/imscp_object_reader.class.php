@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 /**
  * Used to read a CEO object's file. 

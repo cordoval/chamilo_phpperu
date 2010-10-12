@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\picasa;
 require_once 'Zend/Loader.php';
 require_once dirname(__FILE__) . '/picasa_external_repository_object.class.php';
 

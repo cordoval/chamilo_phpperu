@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 /**
  * $Id: database.class.php 229 2009-11-16 09:02:34Z scaramanga $
  * @package common.database

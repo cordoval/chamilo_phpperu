@@ -1,4 +1,5 @@
-<?php 
+<?php
+namespace common\libraries; 
 
 class FileTemplateCache extends TemplateCache
 {

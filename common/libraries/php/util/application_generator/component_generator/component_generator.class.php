@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 /**
  * Component generator used to generate components

@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 /**
  * Utility class to translate wildcard patterns (* = any character) to a regex and

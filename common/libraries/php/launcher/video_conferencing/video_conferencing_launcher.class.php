@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 class VideoConferencingLauncher extends LauncherApplication
 {
     const APPLICATION_NAME = 'external_repository';

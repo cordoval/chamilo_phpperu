@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 require_once Path :: get_library_path() . 'application_component.class.php';
 
 class WebApplicationComponent extends ApplicationComponent

@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 /**
  * $Id: web_application.class.php 237 2009-11-16 13:04:53Z vanpouckesven $
  * @package application

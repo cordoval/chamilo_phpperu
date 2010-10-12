@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\external_repository_manager;
 /**
  * $Id: category_menu.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.category_manager

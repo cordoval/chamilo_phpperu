@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 /**
  * $Id: mini_day_calendar.class.php

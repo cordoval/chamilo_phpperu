@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\matterhorn;
 require_once Path :: get_common_extensions_path() . 'external_repository_manager/php/general/streaming/streaming_media_external_repository_object_display.class.php';
 
 /**

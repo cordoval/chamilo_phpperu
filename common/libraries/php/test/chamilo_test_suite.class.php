@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 require_once Path :: get_plugin_path() . 'simpletest/unit_tester.php';
 require_once Path :: get_plugin_path() . 'simpletest/autorun.php';

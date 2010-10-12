@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 /**
  * Extension on the database to embedd basic functionality for nested trees

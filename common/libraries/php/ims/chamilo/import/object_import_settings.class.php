@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 /**
  * Store import settings. File path, category, log, etc.

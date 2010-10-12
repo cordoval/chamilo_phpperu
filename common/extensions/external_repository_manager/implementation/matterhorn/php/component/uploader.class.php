@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\matterhorn;
 require_once dirname(__FILE__) . '/../forms/matterhorn_external_repository_manager_form.class.php';
 require_once dirname(__FILE__) . '/../forms/matterhorn_external_repository_manager_upload_form.class.php';
 

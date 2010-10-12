@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\reporting_viewer;
 
 class ReportingViewer extends SubManager
 {

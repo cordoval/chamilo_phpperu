@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\photobucket;
 require_once dirname(__FILE__) . '/photobucket_external_repository_object.class.php';
 require_once 'OAuth/Request.php';
 require_once PATH :: get_plugin_path() . 'PBAPI-0.2.3/PBAPI-0.2.3/PBAPI.php';

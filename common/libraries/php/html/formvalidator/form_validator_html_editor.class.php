@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 require_once Path :: get_library_path() . 'html/formvalidator/form_validator_html_editor_options.class.php';
 
 class FormValidatorHtmlEditor

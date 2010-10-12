@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\dynamic_form_manager;
 /**
  * $Id: dynamic_form_element_value.class.php 227 2009-11-13 14:45:05Z kariboe $
  * @package application.common.dynamic_form_manager

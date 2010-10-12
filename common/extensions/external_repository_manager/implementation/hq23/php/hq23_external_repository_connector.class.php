@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\hq23;
 require_once Path :: get_plugin_path() . 'php23/php23.php';
 require_once dirname(__FILE__) . '/hq23_external_repository_object.class.php';
 /**

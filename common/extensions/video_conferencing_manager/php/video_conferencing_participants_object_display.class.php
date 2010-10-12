@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\video_conferencing_manager;
 abstract class VideoConferencingParticipantsObjectDisplay
 {
     private $object;

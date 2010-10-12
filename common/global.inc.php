@@ -1,4 +1,8 @@
-<?php // $Id: global.inc.php 187 2009-11-13 10:31:25Z vanpouckesven $
+<?php 
+use common\libraries\Path;
+use common\libraries\Utilities;
+
+// $Id: global.inc.php 187 2009-11-13 10:31:25Z vanpouckesven $
 /**
 ==============================================================================
  * It is recommended that ALL chamilo scripts include this important file.
@@ -88,9 +92,9 @@ require_once dirname(__FILE__) . '/libraries/php/filesystem/path.class.php';
 require_once dirname(__FILE__) . '/libraries/php/utilities.class.php';
 ini_set('include_path', realpath(Path :: get_plugin_path() . 'pear') . PATH_SEPARATOR . realpath(Path :: get_plugin_path() . 'google/library'));
 
-spl_autoload_register('Utilities::autoload_core');
+spl_autoload_register('common\libraries\Utilities::autoload_core');
 
-spl_autoload_register('Utilities::autoload_web');
+spl_autoload_register('common\libraries\Utilities::autoload_web');
 
 require_once 'MDB2.php';
 

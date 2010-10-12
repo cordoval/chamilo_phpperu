@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\external_repository_manager;
 require_once dirname(__FILE__) . '/export_content_object_table/export_content_object_table.class.php';
 
 class ExternalRepositoryComponentExporterComponent extends ExternalRepositoryComponent

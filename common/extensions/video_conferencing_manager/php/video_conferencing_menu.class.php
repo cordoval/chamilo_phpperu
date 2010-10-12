@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\video_conferencing_manager;
 require_once 'HTML/Menu.php';
 require_once 'HTML/Menu/ArrayRenderer.php';
 

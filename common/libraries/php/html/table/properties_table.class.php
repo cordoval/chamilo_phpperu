@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 require_once 'HTML/Table.php';
 
 class PropertiesTable extends HTML_Table

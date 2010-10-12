@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 /**
  * $Id: banner.class.php 179 2009-11-12 13:51:39Z vanpouckesven $

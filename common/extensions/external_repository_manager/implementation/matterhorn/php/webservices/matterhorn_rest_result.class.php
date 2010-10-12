@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\matterhorn;
 
 /**
  * Description of mediamosa_rest_resultclass

@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\dynamic_form_manager;
 /**
  * $Id: default_user_table_column_model.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_table

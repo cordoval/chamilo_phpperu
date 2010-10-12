@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 /**
  * Object cache implemented as dictionary where the key can be an object.

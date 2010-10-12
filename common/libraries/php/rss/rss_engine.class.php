@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 require_once Path :: get_user_path().'/lib/user_data_manager.class.php';
 
 class RSSEngine

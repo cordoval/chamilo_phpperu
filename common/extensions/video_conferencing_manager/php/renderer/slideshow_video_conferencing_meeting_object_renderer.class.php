@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\video_conferencing_manager;
 require_once dirname(__FILE__) . '/../video_conferencing_meeting_object_renderer.class.php';
 
 class SlideshowVideoConferencingObjectRenderer extends VideoConferencingMeetingObjectRenderer

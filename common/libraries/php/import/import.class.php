@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 /**
  * This class provides some functions which can be used when importing data from
  * external files into Chamilo

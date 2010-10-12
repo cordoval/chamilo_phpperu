@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 /**
  * Base class for import strategies.

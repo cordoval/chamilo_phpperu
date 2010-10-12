@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\photobucket;
 require_once dirname(__file__) . '/photobucket_external_repository_gallery_table_cell_renderer.class.php';
 require_once dirname(__file__) . '/photobucket_external_repository_gallery_table_data_provider.class.php';
 require_once dirname(__file__) . '/photobucket_external_repository_gallery_table_property_model.class.php';

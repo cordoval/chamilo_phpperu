@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 /**
  * The combination of options available for the FormValidatorCkeditorHtmlEditor
  *

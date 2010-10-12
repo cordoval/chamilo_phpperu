@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 /**
  * A class implements the <code>DelegateComponent</code> interface to
  * indicate that it is a component that delegates its responsabilities to others

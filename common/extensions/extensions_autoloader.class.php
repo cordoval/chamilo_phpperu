@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions;
 /**
  * $Id: extensions_autoloader.class.php 236 2009-11-16 12:56:59Z scaramanga $
  * @author vanpouckesven

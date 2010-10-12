@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 /**
  *  Contains constants, tags and helper functions for the IMS CP format.
