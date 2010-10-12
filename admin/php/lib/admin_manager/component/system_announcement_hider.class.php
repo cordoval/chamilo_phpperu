@@ -1,6 +1,7 @@
 <?php
 
 namespace admin;
+use common\libraries\Application;
 /**
  * $Id: system_announcement_hider.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package admin.lib.admin_manager.component

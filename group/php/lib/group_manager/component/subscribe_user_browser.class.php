@@ -1,5 +1,6 @@
 <?php
 namespace group;
+use common\libraries\Application;
 require_once dirname(__FILE__) ."/../../group_rights.class.php";
 /**
  * $Id: subscribe_user_browser.class.php 224 2009-11-13 14:40:30Z kariboe $

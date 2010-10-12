@@ -1,5 +1,6 @@
 <?php
 namespace help;
+use common\libraries\Utilities;
 /**
  * $Id: user_autoloader.class.php 170 2009-11-12 12:21:00Z vanpouckesven $
  * @author vanpouckesven

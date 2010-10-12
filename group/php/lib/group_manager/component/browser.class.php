@@ -1,5 +1,6 @@
 <?php
 namespace group;
+use common\libraries\Utilities;
 require_once dirname(__FILE__) . "/../../group_rights.class.php";
 
 /**

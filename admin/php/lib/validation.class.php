@@ -1,5 +1,6 @@
 <?php
 namespace admin;
+use common\libraries\Utilities;
 /**
  * Description of validation
  *

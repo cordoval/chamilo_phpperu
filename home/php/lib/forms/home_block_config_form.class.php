@@ -1,5 +1,7 @@
 <?php
 namespace home;
+use common\libraries\Utilities;
+use common\libraries\Application;
 /**
  * $Id: home_block_config_form.class.php 227 2009-11-13 14:45:05Z kariboe $
  * @package home.lib.forms

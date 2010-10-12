@@ -1,5 +1,7 @@
 <?php
 
+use common\libraries\Utilities;
+use common\libraries\Application;
 /**
  * $Id: index.php 225 2009-11-13 14:43:20Z vanpouckesven $
  * @package install.lib

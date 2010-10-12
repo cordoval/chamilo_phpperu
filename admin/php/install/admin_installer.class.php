@@ -1,6 +1,7 @@
 <?php
 
 namespace admin;
+use common\libraries\Utilities;
 /**
  * $Id: admin_installer.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package admin.install

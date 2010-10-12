@@ -1,5 +1,6 @@
 <?php
 namespace help;
+use common\libraries\Utilities;
 
 /**
  * $Id: laika_rights.class.php 196 2009-11-13 12:19:18Z chellee $

@@ -1,5 +1,6 @@
 <?php
 namespace admin;
+use common\libraries\Utilities;
 require_once Path :: get_admin_path() . 'lib/package_installer/source/package_info/package_info.class.php';
 
 class RegistrationDisplay

@@ -1,5 +1,6 @@
 <?php
 namespace group;
+use common\libraries\Utilities;
 /**
  * $Id: group_form.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package groups.lib.forms

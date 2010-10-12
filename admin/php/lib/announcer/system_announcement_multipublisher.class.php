@@ -1,5 +1,7 @@
 <?php
 namespace admin;
+use common\libraries\Utilities;
+use common\libraries\Application;
 /**
  * $Id: system_announcement_multipublisher.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package admin.lib.announcer

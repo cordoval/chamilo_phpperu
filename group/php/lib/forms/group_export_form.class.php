@@ -1,5 +1,7 @@
 <?php
 namespace group;
+use common\libaries\Export;
+
 /**
  *  $Id: group_export_form.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package groups.lib.forms

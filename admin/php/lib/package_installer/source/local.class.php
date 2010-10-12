@@ -1,5 +1,6 @@
 <?php
 namespace admin;
+use common\libraries\Utilities;
 require_once dirname(__FILE__) . '/package_info/package_info.class.php';
 
 /**

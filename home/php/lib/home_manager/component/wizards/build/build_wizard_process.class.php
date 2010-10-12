@@ -1,5 +1,6 @@
 <?php
 namespace home;
+use common\libraries\Application;
 /**
  * $Id: build_wizard_process.class.php 141 2009-11-10 07:44:45Z kariboe $
  * @package home.lib.home_manager.component.wizards.build

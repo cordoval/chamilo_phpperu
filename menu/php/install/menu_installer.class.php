@@ -1,5 +1,6 @@
 <?php
 namespace menu;
+use common\libraries\Utilities;
 /**
  * $Id: menu_installer.class.php 223 2009-11-13 14:39:28Z vanpouckesven $
  * @package menu.install

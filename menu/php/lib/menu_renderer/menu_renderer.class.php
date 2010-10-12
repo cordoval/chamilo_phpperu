@@ -1,5 +1,6 @@
 <?php
 namespace menu;
+use common\libraries\Utilities;
 /**
  * @author Hans De Bisschop
  */

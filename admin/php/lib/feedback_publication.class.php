@@ -1,5 +1,6 @@
 <?php
 namespace admin;
+use common\libraries\Utilities;
 /* 
  * To change this template, choose Tools | Templates
  * and open the template in the editor.

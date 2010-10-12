@@ -1,5 +1,6 @@
 <?php
 namespace admin;
+use common\libraries\Application;
 /**
  * @package admin.block
  * $Id: system_announcements.class.php 168 2009-11-12 11:53:23Z vanpouckesven $

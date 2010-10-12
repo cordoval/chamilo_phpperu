@@ -1,5 +1,6 @@
 <?php
 namespace admin;
+use common\libraries\Utilities;
 abstract class PackageDependency
 {
     const PROPERTY_ID = 'id';

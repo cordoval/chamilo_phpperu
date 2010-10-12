@@ -1,5 +1,6 @@
 <?php
 namespace admin;
+use common\libraries\Utilities;
 abstract class PackageUpdaterSource
 {
     private $parent;

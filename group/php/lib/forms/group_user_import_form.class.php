@@ -1,5 +1,6 @@
 <?php
 namespace group;
+use common\libaries\Import;
 /**
  * $Id: $
  * @author vanpouckesven

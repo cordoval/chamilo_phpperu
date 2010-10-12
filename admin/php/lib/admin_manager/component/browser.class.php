@@ -1,5 +1,6 @@
 <?php
 namespace admin;
+use common\libraries\Utilities;
 /**
  * $Id: browser.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package admin.lib.admin_manager.component

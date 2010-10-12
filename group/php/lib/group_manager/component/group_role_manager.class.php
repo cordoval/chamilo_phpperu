@@ -1,5 +1,6 @@
 <?php
 namespace group;
+use common\libraries\Application;
 /**
  * $Id: group_role_manager.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package group.lib.group_manager.component

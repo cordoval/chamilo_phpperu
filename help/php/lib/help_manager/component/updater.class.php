@@ -1,5 +1,6 @@
 <?php
 namespace help;
+use common\libraries\Application;
 /**
  * $Id: updater.class.php 226 2009-11-13 14:44:03Z chellee $
  * @package help.lib.help_manager.component

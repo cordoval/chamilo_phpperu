@@ -1,5 +1,6 @@
 <?php
 namespace admin;
+use common\libraries\Utilities;
 require_once Path :: get_common_extensions_path() . 'category_manager/platform_category.class.php';
 
 /**

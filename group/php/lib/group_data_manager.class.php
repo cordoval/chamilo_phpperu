@@ -1,5 +1,6 @@
 <?php
 namespace group;
+use common\libraries\Utilities;
 /**
  * $Id: group_data_manager.class.php 157 2009-11-10 13:44:02Z vanpouckesven $
  * @package group.lib

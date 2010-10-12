@@ -1,5 +1,6 @@
 <?php
 namespace admin;
+use common\libraries\Utilities;
 /**
  * @package admin.lib
  * $Id: system_announcement_publication_form.class.php 170 2009-11-12 12:21:00Z vanpouckesven $

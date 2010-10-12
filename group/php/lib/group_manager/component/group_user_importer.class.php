@@ -1,5 +1,6 @@
 <?php
 namespace group;
+use common\libraries\Application;
 /**
  * $Id: $
  * @author vanpouckesven

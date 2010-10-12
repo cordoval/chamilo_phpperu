@@ -1,5 +1,6 @@
 <?php
 namespace home;
+use common\libraries\Utilities;
 /**
  * $Id: home_data_manager.class.php 157 2009-11-10 13:44:02Z vanpouckesven $
  * @package home.lib
