@@ -119,11 +119,13 @@ class SurveyManagerTakerComponent extends SurveyManager
             	$path_ids = explode('|', $context_path);
             	$context_ids = explode('_', $path_ids[1]);
             	$context_count = count($context_ids);
+            	$parameters[SurveyQuestionAnswerTracker :: PROPERTY_LEVEL] = $context_count;
             	$parameters[SurveyQuestionAnswerTracker :: PROPERTY_CONTEXT_ID] = array_pop($context_ids);
             	
             	
             }else{
             	$parameters[SurveyQuestionAnswerTracker :: PROPERTY_CONTEXT_ID] = 0;
+            	$parameters[SurveyQuestionAnswerTracker :: PROPERTY_LEVEL] = 0;
             }
             
             Event :: trigger(SurveyQuestionAnswerTracker :: SAVE_QUESTION_ANSWER_EVENT, SurveyManager :: APPLICATION_NAME, $parameters);

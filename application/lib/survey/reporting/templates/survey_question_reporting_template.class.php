@@ -24,8 +24,7 @@ class SurveyQuestionReportingTemplate extends ReportingTemplate
         }
         
         Request :: set_get(DynamicFormTabsRenderer :: PARAM_SELECTED_TAB, Request :: post('submit'));
-
-        $types = array(SurveyReportingFilterWizard :: TYPE_QUESTIONS, SurveyReportingFilterWizard :: TYPE_GROUPS);
+        $types = array(SurveyReportingFilterWizard :: TYPE_QUESTIONS, SurveyReportingFilterWizard :: TYPE_GROUPS, SurveyReportingFilterWizard :: TYPE_CONTEXT_TEMPLATES );
         $this->wizard = new SurveyReportingFilterWizard($types , $ids, $this->get_url($this->get_parameters()));
        
         $this->filter_parameters = $this->wizard->get_filter_parameters();

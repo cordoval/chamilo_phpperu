@@ -24,5 +24,6 @@ abstract class SurveyReportingBlock extends ReportingBlock
         $modes[ReportingChartFormatter ::DISPLAY_FILLED_CUBIC] = Translation :: get('Chart:FilledCubic');
         return $modes;
     }
+    
 }
 ?>
