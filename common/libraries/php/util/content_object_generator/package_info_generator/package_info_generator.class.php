@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 /**
  * Package info generator used to generate package info files with given properties

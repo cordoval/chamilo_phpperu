@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 /**
  * Shape - polygone - functions used by the IMS formats - CP and QTI.

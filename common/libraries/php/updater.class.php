@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 /**
  * $Id: installer.class.php 198 2009-11-13 12:20:22Z vanpouckesven $
  * @package common

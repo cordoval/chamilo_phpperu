@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\category_manager;
 /**
  * $Id: category_form.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.category_manager

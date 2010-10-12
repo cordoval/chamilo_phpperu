@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 /**
  * A class which can be used to log messages to a file

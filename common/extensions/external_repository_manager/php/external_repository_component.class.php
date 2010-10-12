@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\external_repository_manager;
 abstract class ExternalRepositoryComponent extends SubManager
 {
     const BROWSER_COMPONENT = 'browser';

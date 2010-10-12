@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 /**
  * $Id: validator.class.php 182 2009-11-13 09:14:43Z vanpouckesven $
  * @package common.validator

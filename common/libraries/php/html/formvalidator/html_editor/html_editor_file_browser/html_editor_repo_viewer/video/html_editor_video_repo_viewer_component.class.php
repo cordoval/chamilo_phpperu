@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 /**
  * $Id: html_editor_image_repo_viewer_component.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.repo_viewer

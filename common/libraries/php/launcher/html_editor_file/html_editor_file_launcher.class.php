@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 require_once PATH :: get_library_path() . 'html/formvalidator/html_editor/html_editor_file_browser/html_editor_repo_viewer/html_editor_repo_viewer.class.php';
 require_once PATH :: get_library_path() . 'html/formvalidator/html_editor/html_editor_file_browser/html_editor_processor/html_editor_processor.class.php';
 

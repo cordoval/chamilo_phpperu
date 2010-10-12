@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 abstract class TreeMenuDataProvider
 {
     private $selected_tree_menu_item;

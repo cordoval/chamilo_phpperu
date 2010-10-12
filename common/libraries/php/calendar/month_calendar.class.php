@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 /**
  * $Id: month_calendar.class.php 205 2009-11-13 12:57:33Z vanpouckesven $

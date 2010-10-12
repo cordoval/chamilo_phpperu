@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\feedback_manager;
 /**
  * $Id: updater.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.feedback_manager.component

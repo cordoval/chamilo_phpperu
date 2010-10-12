@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 class DynamicTabsRenderer
 {
     const PARAM_SELECTED_TAB = 'tab';

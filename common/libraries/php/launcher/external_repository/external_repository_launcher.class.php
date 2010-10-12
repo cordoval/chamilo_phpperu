@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 class ExternalRepositoryLauncher extends LauncherApplication
 {
     const APPLICATION_NAME = 'external_repository';

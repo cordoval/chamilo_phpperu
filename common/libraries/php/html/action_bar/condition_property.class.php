@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 /**
  * Class that represents a condition property

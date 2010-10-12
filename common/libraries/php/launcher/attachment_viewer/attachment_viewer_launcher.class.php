@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 class AttachmentViewerLauncher extends LauncherApplication
 {
     const APPLICATION_NAME = 'attachment_viewer';

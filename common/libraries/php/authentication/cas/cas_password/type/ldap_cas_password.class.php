@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 require_once dirname(__FILE__) . '/../cas_password.class.php';
 require_once 'Net/LDAP2.php';
 require_once 'Net/LDAP2/Filter.php';

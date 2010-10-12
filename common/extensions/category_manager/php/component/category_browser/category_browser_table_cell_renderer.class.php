@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\category_manager;
 /**
  * $Id: category_browser_table_cell_renderer.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.common.category_manager.component.category_browser

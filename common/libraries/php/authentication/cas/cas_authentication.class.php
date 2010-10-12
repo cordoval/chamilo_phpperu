@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 /**
  * $Id: cas_authentication.class.php 166 2009-11-12 11:03:06Z vanpouckesven $
  * @package common.authentication.cas

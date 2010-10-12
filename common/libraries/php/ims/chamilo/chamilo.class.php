@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 require_once Path::get_application_path() . 'lib/weblcms/content_object_publication.class.php';
 require_once Path::get_application_path() . 'lib/weblcms/weblcms_data_manager.class.php';

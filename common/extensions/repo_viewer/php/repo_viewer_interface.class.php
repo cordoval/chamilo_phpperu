@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\repo_viewer;
 /**
  * @author Hans De Bisschop
  *

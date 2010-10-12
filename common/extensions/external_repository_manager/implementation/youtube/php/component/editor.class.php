@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\youtube;
 require_once dirname(__FILE__) . '/../forms/youtube_external_repository_manager_form.class.php';
 
 class YoutubeExternalRepositoryManagerEditorComponent extends YoutubeExternalRepositoryManager

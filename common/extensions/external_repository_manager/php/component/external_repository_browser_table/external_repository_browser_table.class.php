@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\external_repository_manager;
 class ExternalRepositoryBrowserTable extends ObjectTable
 {
     static function factory($type, $browser, $parameters, $condition)

@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 class HtmlEditorCkeditorVimeoProcessor extends HtmlEditorProcessor
 {
     function run()

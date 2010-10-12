@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\external_repository_manager;
 require_once dirname(__FILE__) . '/../external_repository_object_renderer.class.php';
 require_once dirname(__FILE__) . '/../component/external_repository_browser_table/external_repository_browser_table.class.php';
 

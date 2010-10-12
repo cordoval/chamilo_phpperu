@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\invitation_manager;
 /**
  * A class implements the <code>InvitationSupport</code> interface to
  * indicate that it supports the creation of invitations

@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 /**
  * Used to write object's to the CEO format.

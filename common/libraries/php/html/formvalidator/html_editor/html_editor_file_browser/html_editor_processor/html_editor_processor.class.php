@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 /**
  * @package common.html.formvalidator.html_editor.html_editor_file_browser.html_editor_processor
  * @author Hans De Bisschop

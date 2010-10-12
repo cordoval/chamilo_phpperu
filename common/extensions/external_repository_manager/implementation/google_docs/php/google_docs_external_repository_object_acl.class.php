@@ -1,4 +1,6 @@
 <?php
+<?php
+namespace common\extensions\external_repository_manager\implementation\google_docs;
 class GoogleDocsExternalRepositoryObjectAcl
 {
     const ACL_OWNER = 'owner';

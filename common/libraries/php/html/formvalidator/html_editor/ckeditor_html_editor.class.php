@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 /**
  * Specific setting / additions for the CKEditor HTML editor
  * All CKEditor settings: http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.config.html

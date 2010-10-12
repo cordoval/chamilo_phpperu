@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 /**
  * Class representing a page of a multipage form in the formvalidator extension.
  *

@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\photobucket;
 class PhotobucketExternalRepositoryObjectDisplay extends ExternalRepositoryObjectDisplay
 {		
 	function get_display_properties()

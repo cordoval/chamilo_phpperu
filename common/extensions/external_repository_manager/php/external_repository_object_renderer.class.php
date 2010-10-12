@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\external_repository_manager;
 abstract class ExternalRepositoryObjectRenderer
 {
     const TYPE_TABLE = 'table';

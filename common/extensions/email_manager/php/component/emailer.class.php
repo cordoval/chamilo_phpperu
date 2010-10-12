@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\email_manager;
 /**
  * $Id: emailer.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.email_manager.component

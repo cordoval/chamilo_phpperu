@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 require_once dirname(dirname(__FILE__)) .'/main.php';
 

@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 require_once dirname(__FILE__).'/basic_rss.class.php';
 
 abstract class CombinedRSS extends BasicRSS

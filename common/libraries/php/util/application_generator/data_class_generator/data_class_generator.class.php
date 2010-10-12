@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 /**
  * Dataclass generator used to generate dataclasses with given properties
@@ -54,7 +55,8 @@ class DataClassGenerator
             
             $this->template->assign_vars(array('DEFAULT_PROPERTY_NAMES' => implode(', ', $property_names), 'APPLICATION_NAME' => Utilities :: underscores_to_camelcase($application_name)));
             
-            $string = "<?php \n" . $this->template->pparse_return('dataclass') . "\n?>";
+            $string = "<?php
+namespace common\libraries; \n" . $this->template->pparse_return('dataclass') . "\n?>";
             fwrite($file, $string);
             fclose($file);
         }

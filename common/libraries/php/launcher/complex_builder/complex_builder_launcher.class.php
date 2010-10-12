@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 class ComplexBuilderLauncher extends LauncherApplication
 {
     const APPLICATION_NAME = 'complex_builder';

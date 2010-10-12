@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 /**
  * Helper class to read a QTI XML file.

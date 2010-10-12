@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\invitation_manager;
 /**
  * @package admin.lib
  * @author Hans De Bisschop

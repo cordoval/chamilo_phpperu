@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\rights_editor_manager;
 /**
  * $Id: location_group_browser_table.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.rights_editor_manager.component.location_group_bowser

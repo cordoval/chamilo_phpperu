@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 class DebugUtilities
 {
     public static function show($object, $title = null, $backtrace_index = 0)

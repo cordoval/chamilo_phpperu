@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 /**
  * The combination of options available for the FormValidatorHtmlEditor
  * Should be implemented for each specific editor to translate the generic option values

@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 /**
  * Utility class used to generate IMS CP 1.1.4 Manifest XML schemas.

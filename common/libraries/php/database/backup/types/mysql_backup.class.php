@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 class MysqlBackup extends DatabaseBackup
 {
 	function MysqlBackup(array $storage_units, $data_manager)

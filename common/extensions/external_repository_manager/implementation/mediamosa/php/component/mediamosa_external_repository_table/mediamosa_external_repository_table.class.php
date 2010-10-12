@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\mediamosa;
 /**
  * Table to display a set of mediamosa external repository objects.
  */

@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\invitation_manager;
 class InvitationManagerCreatorComponent extends InvitationManager
 {
 

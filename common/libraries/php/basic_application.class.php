@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 abstract class BasicApplication extends Application
 {
 

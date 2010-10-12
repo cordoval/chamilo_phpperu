@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 /**
  * Utility class to generate unique ids. Generates either local or "unique" ids.

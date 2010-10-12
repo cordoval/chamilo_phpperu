@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\hq23;
 class Hq23ExternalRepositoryManagerInternalSyncerComponent extends Hq23ExternalRepositoryManager
 {
 

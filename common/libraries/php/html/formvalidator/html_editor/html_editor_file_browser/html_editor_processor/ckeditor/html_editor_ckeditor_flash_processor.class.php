@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 require_once Path :: get_plugin_path() . 'getid3/getid3.php';
 
 class HtmlEditorCkeditorFlashProcessor extends HtmlEditorProcessor

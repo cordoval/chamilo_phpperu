@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\invitation_manager;
 /**
  * @author Hans De Bisschop
  */

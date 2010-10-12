@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\mediamosa;
 /**
  * Description of mediamosa_external_repository_upload_form
  *

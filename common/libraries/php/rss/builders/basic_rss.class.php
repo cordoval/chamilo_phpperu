@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 require_once dirname(__FILE__).'/../rss_engine.class.php';
 require_once dirname(__FILE__).'/../objects/rss_stream.class.php';
 require_once dirname(__FILE__).'/../objects/channel.class.php';

@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\matterhorn;
 require_once dirname(__FILE__) . '/matterhorn_external_repository_object.class.php';
 require_once dirname(__FILE__) . '/matterhorn_external_repository_object_track.class.php';
 require_once dirname(__FILE__) . '/matterhorn_external_repository_object_track_video.class.php';

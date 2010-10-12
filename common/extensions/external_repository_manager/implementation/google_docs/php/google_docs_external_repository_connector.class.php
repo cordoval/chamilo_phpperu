@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\google_docs;
 require_once 'Zend/Loader.php';
 require_once dirname(__FILE__) . '/google_docs_external_repository_object.class.php';
 require_once dirname(__FILE__) . '/google_docs_external_repository_object_acl.class.php';

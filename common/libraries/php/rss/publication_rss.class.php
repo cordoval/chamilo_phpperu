@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 require_once dirname(__FILE__).'/builders/basic_rss.class.php';
 
 abstract class PublicationRSS extends BasicRSS

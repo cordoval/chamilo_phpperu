@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 require_once dirname(__FILE__) . '/cas/cas_authentication.class.php';
 /**
  * $Id: authentication.class.php 128 2009-11-09 13:13:20Z vanpouckesven $

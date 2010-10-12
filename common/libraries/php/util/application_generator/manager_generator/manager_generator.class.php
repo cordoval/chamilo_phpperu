@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 /**
  * Manager generator used to generate managers

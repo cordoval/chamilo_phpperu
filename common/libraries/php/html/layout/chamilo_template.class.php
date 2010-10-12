@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 require_once Path :: get_plugin_path() . 'phpbb3/phpbb3_template.php';
 require_once Path :: get_library_path() . 'html/layout/chamilo_template_compiler.class.php';
 
@@ -96,7 +97,8 @@ class ChamiloTemplate extends Phpbb3Template
         }
         else
         {
-            eval(' ?>' . $this->compiled_code[$handle] . '<?php ');
+            eval(' ?>' . $this->compiled_code[$handle] . '<?php
+namespace common\libraries; ');
         }
 
         return true;
@@ -178,7 +180,8 @@ class ChamiloTemplate extends Phpbb3Template
                 include ($filename);
                 return;
             }
-            eval(' ?>' . $this->compiled_code[$handle] . '<?php ');
+            eval(' ?>' . $this->compiled_code[$handle] . '<?php
+namespace common\libraries; ');
         }
     }
 

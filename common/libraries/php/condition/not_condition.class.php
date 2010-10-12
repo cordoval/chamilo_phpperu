@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 /**
  * $Id: not_condition.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common.condition

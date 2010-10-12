@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\hq23;
 require_once dirname(__FILE__) . '/../forms/hq23_external_repository_manager_form.class.php';
 
 class Hq23ExternalRepositoryManagerUploaderComponent extends Hq23ExternalRepositoryManager
