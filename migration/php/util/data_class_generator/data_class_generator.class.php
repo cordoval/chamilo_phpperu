@@ -1,4 +1,5 @@
 <?php
+namespace migration;
 /**
  * Dataclass generator used to generate dataclasses with given properties
  * $Id: data_class_generator.class.php 221 2009-11-13 14:36:41Z vanpouckesven $

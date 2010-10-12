@@ -1,4 +1,5 @@
 <?php
+namespace admin;
 
 /**
  * $Id: log_viewer.class.php 168 2009-11-12 11:53:23Z vanpouckesven $

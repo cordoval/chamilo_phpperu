@@ -1,4 +1,5 @@
 <?php
+namespace migration;
 
 require_once dirname(__FILE__) . "/../data_class/dokeos185_track_euploads.class.php";
 

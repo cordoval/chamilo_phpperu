@@ -1,4 +1,5 @@
 <?php
+namespace home;
 /**
  * @package group.lib
  *

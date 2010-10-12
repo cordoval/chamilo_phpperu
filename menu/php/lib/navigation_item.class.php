@@ -1,4 +1,5 @@
 <?php
+namespace menu;
 /**
  * $Id: navigation_item.class.php 223 2009-11-13 14:39:28Z vanpouckesven $
  * @package menu.lib

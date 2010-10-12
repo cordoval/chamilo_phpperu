@@ -1,4 +1,5 @@
 <?php
+namespace home;
 /**
  * $Id: tab_edit.php 227 2009-11-13 14:45:05Z kariboe $
  * @package home.ajax

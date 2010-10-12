@@ -1,4 +1,5 @@
 <?php
+namespace migration;
 
 /**
  * Simple connector class to facilitate rendering settings forms by

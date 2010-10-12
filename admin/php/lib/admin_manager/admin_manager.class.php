@@ -1,4 +1,5 @@
 <?php
+namespace admin;
 /**
  * $Id: admin_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package admin.lib.admin_manager

@@ -1,4 +1,5 @@
 <?php
+namespace admin;
 /**
  * @package admin.lib.admin_manager.component
  * @author Hans De Bisschop

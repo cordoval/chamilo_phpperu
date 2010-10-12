@@ -1,4 +1,5 @@
 <?php
+namespace home;
 /**
  * $Id: home_block_form.class.php 227 2009-11-13 14:45:05Z kariboe $
  * @package home.lib.forms

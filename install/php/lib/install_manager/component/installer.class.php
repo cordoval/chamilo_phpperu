@@ -1,4 +1,5 @@
 <?php
+namespace install;
 /**
  * $Id: installer.class.php 225 2009-11-13 14:43:20Z vanpouckesven $
  * @package install.lib.installmanager.component

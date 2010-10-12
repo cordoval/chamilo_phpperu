@@ -1,4 +1,5 @@
 <?php
+namespace migration;
 
 /**
  * Interface to determine some obligated functions for each datamanager

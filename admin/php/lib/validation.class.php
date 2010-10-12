@@ -1,5 +1,5 @@
 <?php
-
+namespace admin;
 /**
  * Description of validation
  *

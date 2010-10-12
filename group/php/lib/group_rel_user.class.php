@@ -1,4 +1,5 @@
 <?php
+namespace group;
 /**
  * $Id: group_rel_user.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package group.lib

@@ -1,4 +1,5 @@
 <?php
+namespace menu;
 class MenuManagerMoverComponent extends MenuManager implements AdministrationComponent
 {
 	function run()

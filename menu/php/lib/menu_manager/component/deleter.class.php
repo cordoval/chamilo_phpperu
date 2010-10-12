@@ -1,4 +1,5 @@
 <?php
+namespace menu;
 class MenuManagerDeleterComponent extends MenuManager implements AdministrationComponent
 {
 	function run()

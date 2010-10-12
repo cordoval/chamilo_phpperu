@@ -1,4 +1,5 @@
 <?php
+namespace admin;
 abstract class PackageDependency
 {
     const PROPERTY_ID = 'id';

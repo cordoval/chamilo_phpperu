@@ -1,4 +1,5 @@
 <?php
+namespace migration;
 /**
  * $Id: migration_wizard_display.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.migration_manager.component.inc.wizard

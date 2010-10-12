@@ -1,4 +1,5 @@
 <?php
+namespace help;
 /**
  * $Id: database_help_data_manager.class.php 226 2009-11-13 14:44:03Z chellee $
  * @package help.lib.data_manager

@@ -1,4 +1,5 @@
 <?php
+namespace admin;
 /**
  * $Id: remote_package_browser_table_column_model.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package admin.lib.package_manager.component.remote_package_browser

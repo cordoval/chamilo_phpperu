@@ -1,4 +1,5 @@
 <?php
+namespace admin;
 require_once 'XML/Unserializer.php';
 
 class PackageInfo

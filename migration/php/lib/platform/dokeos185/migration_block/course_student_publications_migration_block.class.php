@@ -1,4 +1,5 @@
 <?php
+namespace migration;
 
 class CourseStudentPublicationsMigrationBlock extends MigrationBlock
 {

@@ -1,4 +1,5 @@
 <?php
+namespace migration;
 /**
  * General migration properties class that describes the properties for a platform
  */

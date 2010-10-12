@@ -1,4 +1,5 @@
 <?php
+namespace menu;
 /**
  * @package group.lib
  *

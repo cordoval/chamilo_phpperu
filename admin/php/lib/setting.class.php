@@ -1,5 +1,5 @@
 <?php
-
+namespace admin;
 /**
  * @package admin.lib
  * $Id: setting.class.php 168 2009-11-12 11:53:23Z vanpouckesven $

@@ -1,4 +1,5 @@
 <?php
+namespace menu;
 /**
  * $Id: menu_manager.class.php 223 2009-11-13 14:39:28Z vanpouckesven $
  * @package menu.lib.menu_manager.component

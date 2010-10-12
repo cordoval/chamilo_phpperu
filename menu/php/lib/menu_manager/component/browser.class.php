@@ -1,4 +1,5 @@
 <?php
+namespace menu;
 class MenuManagerBrowserComponent extends MenuManager implements AdministrationComponent
 {
 	private $action_bar;

@@ -1,4 +1,5 @@
 <?php
+namespace migration;
 
 require_once dirname(__FILE__) . '/../data_class/dokeos185_quiz.class.php';
 require_once dirname(__FILE__) . '/../data_class/dokeos185_quiz_question.class.php';

@@ -1,4 +1,5 @@
 <?php
+namespace home;
 /**
  * $Id: columns_config_build_wizard_page.class.php 141 2009-11-10 07:44:45Z kariboe $
  * @package home.lib.home_manager.component.wizards.build

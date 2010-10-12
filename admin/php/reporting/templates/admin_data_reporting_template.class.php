@@ -1,4 +1,5 @@
 <?php
+namespace admin;
 /**
  * @author Michael Kyndt
  */

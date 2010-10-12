@@ -1,4 +1,5 @@
 <?php
+namespace help;
 /**
  * @package help.lib
  *

@@ -1,4 +1,5 @@
 <?php
+namespace home;
 /**
  * @package home.trackers
  */

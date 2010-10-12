@@ -1,4 +1,5 @@
 <?php
+namespace home;
 /**
  * $Id: settings_home_connector.class.php 227 2009-11-13 14:45:05Z kariboe $
  * @package home.settings

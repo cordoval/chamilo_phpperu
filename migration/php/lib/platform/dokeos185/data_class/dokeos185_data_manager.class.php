@@ -1,4 +1,5 @@
 <?php
+namespace migration;
 
 /**
  * $Id: dokeos185_data_manager.class.php 221 2009-11-13 14:36:41Z vanpouckesven $

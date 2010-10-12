@@ -1,4 +1,5 @@
 <?php
+namespace migration;
 
 /**
  * Class that extends the general connection class so we can use this to connect to different databases then the one of chamilo 2.0

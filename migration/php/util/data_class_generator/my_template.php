@@ -1,4 +1,5 @@
 <?php
+namespace migration;
 /**
  * $Id: my_template.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.util.data_class_generator

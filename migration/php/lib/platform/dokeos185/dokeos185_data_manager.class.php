@@ -1,4 +1,5 @@
 <?php
+namespace migration;
 
 /**
  * Class that connects to the old dokeos185 system

@@ -1,5 +1,5 @@
 <?php
-
+namespace admin;
 abstract class PackageUpdaterSource
 {
     private $parent;

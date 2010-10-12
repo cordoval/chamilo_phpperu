@@ -1,4 +1,5 @@
 <?php
+namespace admin;
 /**
  * $Id: default_registration_table_cell_renderer.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package admin.lib.tables.registration_table

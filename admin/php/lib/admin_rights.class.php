@@ -1,5 +1,5 @@
 <?php
-
+namespace admin;
 /**
  * $Id: admin_rights.class.php 184 2009-11-13 09:51:32Z vanpouckesven $
  * @package admin.lib

@@ -1,4 +1,5 @@
 <?php
+namespace admin;
 require_once Path :: get_admin_path() . 'lib/package_manager/package_dependency_verifier.class.php';
 require_once Path :: get_admin_path() . 'lib/package_installer/source/package_info/package_info.class.php';
 

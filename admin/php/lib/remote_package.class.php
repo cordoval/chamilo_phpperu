@@ -1,5 +1,5 @@
 <?php
-
+namespace admin;
 /**
  * This class describes a Package data object
  * 

@@ -1,4 +1,5 @@
 <?php
+namespace home;
 /**
  * @author Hans De Bisschop
  */

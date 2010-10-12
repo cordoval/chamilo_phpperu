@@ -1,4 +1,5 @@
 <?php
+namespace group;
 /**
  * $Id: user_autoloader.class.php 167 2009-11-12 11:17:52Z vanpouckesven $
  * @author vanpouckesven

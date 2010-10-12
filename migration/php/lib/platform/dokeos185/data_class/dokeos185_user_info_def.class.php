@@ -1,4 +1,5 @@
 <?php
+namespace migration;
 /**
  * $Id: dokeos185_user_info_def.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185

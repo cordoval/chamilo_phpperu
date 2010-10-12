@@ -1,4 +1,5 @@
 <?php
+namespace migration;
 /**
  * $Id: dokeos185_forum_post.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185

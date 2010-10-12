@@ -1,4 +1,5 @@
 <?php
+namespace group;
 /**
  * $Id: $
  * @author vanpouckesven

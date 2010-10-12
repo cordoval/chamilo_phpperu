@@ -1,4 +1,5 @@
 <?php
+namespace group;
 /**
  * $Id: database_group_data_manager.class.php 232 2009-11-16 10:11:48Z vanpouckesven $
  * @package group.lib.datamanager

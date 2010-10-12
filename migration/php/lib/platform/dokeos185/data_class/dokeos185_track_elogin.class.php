@@ -1,4 +1,5 @@
 <?php
+namespace migration;
 
 require_once dirname(__FILE__) . "/../../../../../user/trackers/login_logout_tracker.class.php";
 

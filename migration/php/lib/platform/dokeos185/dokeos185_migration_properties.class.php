@@ -1,4 +1,5 @@
 <?php
+namespace migration;
 
 require_once dirname(__FILE__) . '/dokeos185_data_manager.class.php';
 

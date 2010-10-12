@@ -1,4 +1,5 @@
 <?php
+namespace migration;
 require_once dirname(__FILE__) . '/../data_class/dokeos185_group.class.php';
 require_once dirname(__FILE__) . '/../data_class/dokeos185_group_rel_user.class.php';
 require_once dirname(__FILE__) . '/../course_data_migration_block.class.php';

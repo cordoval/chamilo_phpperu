@@ -1,4 +1,5 @@
 <?php
+namespace migration;
 /**
  * $Id: clean_up_script.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.util

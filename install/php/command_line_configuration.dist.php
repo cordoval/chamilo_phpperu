@@ -1,4 +1,5 @@
 <?php
+namespace install;
 /**
  * $Id: command_line_configuration.dist.php 225 2009-11-13 14:43:20Z vanpouckesven $
  * @package install.lib

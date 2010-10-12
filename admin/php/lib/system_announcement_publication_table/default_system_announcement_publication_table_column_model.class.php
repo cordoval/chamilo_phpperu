@@ -1,4 +1,5 @@
 <?php
+namespace admin;
 /**
  * $Id: default_system_announcement_publication_table_column_model.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package admin.lib.system_announcement_publication_table

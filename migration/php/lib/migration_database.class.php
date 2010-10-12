@@ -1,4 +1,5 @@
 <?php
+namespace migration;
 
 /**
  * Class that extends the general database class, but needs a new connection instance because we need to connect to a different database then the one of chamilo 2.0

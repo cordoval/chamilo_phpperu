@@ -1,4 +1,5 @@
 <?php
+namespace menu;
 /**
  * @author Hans De Bisschop
  */

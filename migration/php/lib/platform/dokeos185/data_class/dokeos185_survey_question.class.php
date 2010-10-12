@@ -1,4 +1,5 @@
 <?php
+namespace migration;
 
 require_once dirname(__FILE__) . "/../dokeos185_course_data_migration_data_class.class.php";
 /**

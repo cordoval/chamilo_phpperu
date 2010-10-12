@@ -1,4 +1,5 @@
 <?php
+namespace menu;
 abstract class MenuManagerCreatorComponent extends MenuManager
 {
 	function run()

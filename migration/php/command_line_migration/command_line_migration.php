@@ -1,4 +1,5 @@
 <?php
+namespace migration;
 /**
  * @package migration
  * @author Sven Vanpoucke

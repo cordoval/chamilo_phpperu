@@ -1,4 +1,5 @@
 <?php
+namespace menu;
 
 require_once dirname(__FILE__) . '/editor.class.php';
 

@@ -1,4 +1,5 @@
 <?php
+namespace help;
 /**
  * $Id: default_help_item_table_column_model.class.php 226 2009-11-13 14:44:03Z chellee $
  * @package help.lib.help_item_table

@@ -1,4 +1,5 @@
 <?php
+namespace admin;
 require_once Path :: get_admin_path() . 'lib/package_updater/package_updater_type.class.php';
 require_once Path :: get_repository_path() . 'lib/content_object_updater.class.php';
 

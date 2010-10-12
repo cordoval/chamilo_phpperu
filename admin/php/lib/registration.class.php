@@ -1,5 +1,5 @@
 <?php
-
+namespace admin;
 /**
  * $Id: registration.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package admin.lib

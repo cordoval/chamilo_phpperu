@@ -1,4 +1,5 @@
 <?php
+namespace migration;
 $settings = array();
 $settings['platform'] = 'dokeos185';
 $settings['platform_path'] = '';

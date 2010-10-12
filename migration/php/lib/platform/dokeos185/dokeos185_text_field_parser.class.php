@@ -1,4 +1,5 @@
 <?php
+namespace migration;
 
 /**
  * Generic parser framework to parse several included objects from a given dokeos 185 field

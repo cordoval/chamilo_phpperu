@@ -1,4 +1,5 @@
 <?php
+namespace help;
 
 /**
  * $Id: help_item.class.php 226 2009-11-13 14:44:03Z chellee $

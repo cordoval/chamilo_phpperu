@@ -1,4 +1,5 @@
 <?php
+namespace migration;
 require_once dirname(__FILE__) . '/../data_class/dokeos185_lp.class.php';
 require_once dirname(__FILE__) . '/../data_class/dokeos185_lp_item.class.php';
 require_once dirname(__FILE__) . '/../data_class/dokeos185_lp_item_view.class.php';

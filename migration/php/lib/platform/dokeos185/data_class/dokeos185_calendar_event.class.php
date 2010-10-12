@@ -1,4 +1,5 @@
 <?php
+namespace migration;
 
 /**
  * $Id: dokeos185_calendar_event.class.php 221 2009-11-13 14:36:41Z vanpouckesven $

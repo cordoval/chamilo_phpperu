@@ -1,4 +1,5 @@
 <?php
+namespace migration;
 /**
  * $Id: $
  * @package migration.lib

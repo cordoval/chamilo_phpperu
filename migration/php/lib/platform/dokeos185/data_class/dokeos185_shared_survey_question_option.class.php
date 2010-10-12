@@ -1,4 +1,5 @@
 <?php
+namespace migration;
 /**
  * $Id: dokeos185_shared_survey_question_option.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185

@@ -1,4 +1,5 @@
 <?php
+namespace help;
 require_once dirname(__FILE__) ."/../../help_rights.class.php";
 /**
  * $Id: deleter.class.php 224 2009-11-13 14:40:30Z kariboe $
