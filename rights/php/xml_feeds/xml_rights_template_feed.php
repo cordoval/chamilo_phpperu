@@ -1,4 +1,8 @@
 <?php
+use common\libraries\Utilities;
+use common\libraries\Translation;
+
+use rights\RightsUtilities;
 /**
  * $Id: xml_rights_template_feed.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.xml_feeds

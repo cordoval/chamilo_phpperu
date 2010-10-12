@@ -1,5 +1,8 @@
 <?php
 namespace user;
+
+use common\libraries\Request;
+
 /**
  * $Id: buddy_list_category_deleter.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager.component

@@ -1,5 +1,7 @@
 <?php
 namespace user;
+
+use common\libraries\Utilities;
 /**
  * This class tracks the visits to pages
  *

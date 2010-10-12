@@ -1,5 +1,12 @@
 <?php
 namespace user;
+
+use common\libraries\Utilities;
+use common\libraries\Path;
+use common\libraries\Filesystem;
+use common\libraries\Translation;
+
+use repository\RepositoryDataManager;
 /**
  * $Id: user.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib

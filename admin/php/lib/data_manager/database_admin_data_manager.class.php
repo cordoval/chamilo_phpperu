@@ -1,5 +1,8 @@
 <?php
 namespace admin;
+
+use common\libraries\Database;
+
 /**
  * $Id: database_admin_data_manager.class.php 231 2009-11-16 09:53:00Z vanpouckesven $
  * @package admin.lib.data_manager
@@ -700,13 +703,13 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
         $condition = new EqualityCondition(Invitation :: PROPERTY_ID, $invitation->get_id());
         return $this->update($invitation, $condition);
     }
-    
+
     function delete_feedback_from_publication($application, $publication_id)
     {
     	$conditions[] = new EqualityCondition(FeedbackPublication :: PROPERTY_APPLICATION, $application);
     	$conditions[] = new EqualityCondition(FeedbackPublication :: PROPERTY_PID, $publication_id);
     	$condition = new AndCondition($conditions);
-    	
+
     	return $this->delete(FeedbackPublication :: get_table_name(), $condition);
     }
 }

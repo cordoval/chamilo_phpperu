@@ -1,4 +1,7 @@
 <?php
+use common\libraries\Translation;
+use common\libraries\Request;
+
 /**
  * $Id: reporting_formatter_form.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.forms
@@ -40,7 +43,7 @@ class ReportingFormatterForm extends FormValidator
 
         $this->addElement('select', self :: FORMATTER_TYPE, null, $this->manager->get_displaymodes(), array('class' => 'postback'));
         $this->addElement('style_submit_button', 'submit', Translation :: get('Formatter'), array('class' => 'normal filter'));
-        
+
    	    $display = Request::post(self::FORMATTER_TYPE);
     	$display_get = Request::get(self::FORMATTER_TYPE);
         if (isset($display))
@@ -51,7 +54,7 @@ class ReportingFormatterForm extends FormValidator
         {
         	$session_filter = $display_get;
         }
-        
+
         $this->setDefaults(array(self :: FORMATTER_TYPE => $session_filter));
 
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get_web_common_libraries_path() . 'resources/javascript/postback.js'));

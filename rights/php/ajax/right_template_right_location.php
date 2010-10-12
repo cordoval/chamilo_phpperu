@@ -1,4 +1,7 @@
 <?php
+use common\libraries\Authentication;
+
+use rights\RightsUtilities;
 /**
  * $Id: right_template_right_location.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.ajax

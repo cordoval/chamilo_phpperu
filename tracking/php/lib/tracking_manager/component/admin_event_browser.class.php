@@ -1,5 +1,9 @@
 <?php
 namespace tracking;
+
+use common\libraries\Application;
+use common\libraries\Translation;
+
 /**
  * $Id: admin_event_browser.class.php 213 2009-11-13 13:38:50Z vanpouckesven $
  * @package tracking.lib.tracking_manager.component

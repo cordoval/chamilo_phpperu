@@ -1,5 +1,10 @@
 <?php
 namespace webservice;
+
+use common\libraries\Utilities;
+use common\libraries\Translation;
+
+use rights\RightsUtilities;
 /**
  * $Id: webservice_installer.class.php 208 2009-11-13 13:14:39Z vanpouckesven $
  * @package webservices.install

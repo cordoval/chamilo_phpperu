@@ -1,5 +1,7 @@
 <?php
 namespace user;
+
+use common\libraries\Utilities;
 /**
  * $Id: user_rights_template.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib

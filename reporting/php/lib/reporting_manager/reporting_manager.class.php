@@ -1,4 +1,9 @@
 <?php
+use common\libraries\Application;
+use common\libraries\CoreApplication;
+use common\libraries\Redirect;
+use common\libraries\Translation;
+
 /**
  * $Id: reporting_manager.class.php 215 2009-11-13 14:07:59Z vanpouckesven $
  * @package reporting.lib.reporting_manager

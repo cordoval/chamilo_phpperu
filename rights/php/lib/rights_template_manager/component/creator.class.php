@@ -1,5 +1,8 @@
 <?php
 namespace rights;
+
+use common\libraries\Translation;
+
 /**
  * $Id: creator.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.rights_template_manager.component

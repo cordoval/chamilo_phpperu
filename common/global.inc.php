@@ -1,6 +1,10 @@
-<?php 
+<?php
 use common\libraries\Path;
 use common\libraries\Utilities;
+use common\libraries\Session;
+use common\libraries\Connection;
+use common\libraries\PlatformSetting;
+
 
 // $Id: global.inc.php 187 2009-11-13 10:31:25Z vanpouckesven $
 /**
@@ -94,13 +98,11 @@ ini_set('include_path', realpath(Path :: get_plugin_path() . 'pear') . PATH_SEPA
 
 spl_autoload_register('common\libraries\Utilities::autoload_core');
 
-spl_autoload_register('common\libraries\Utilities::autoload_web');
+//spl_autoload_register('common\libraries\Utilities::autoload_web');
 
 require_once 'MDB2.php';
 
 // Start session
-
-
 Session :: start($already_installed);
 
 // Test database connection

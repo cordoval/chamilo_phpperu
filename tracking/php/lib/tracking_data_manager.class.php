@@ -1,5 +1,7 @@
 <?php
 namespace tracking;
+
+use common\libraries\Utilities;
 /**
  * $Id: tracking_data_manager.class.php 213 2009-11-13 13:38:50Z vanpouckesven $
  * @package tracking.lib

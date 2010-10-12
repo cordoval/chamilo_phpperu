@@ -1,6 +1,8 @@
 <?php
 namespace common\libraries;
 
+use repository\RepositoryAutoloader;
+
 /**
  * $Id: utilities.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common
@@ -19,7 +21,7 @@ class Utilities
     const TOOLBAR_DISPLAY_ICON = 1;
     const TOOLBAR_DISPLAY_LABEL = 2;
     const TOOLBAR_DISPLAY_ICON_AND_LABEL = 3;
-    
+
     private static $us_camel_map = array();
     private static $us_camel_map_with_spaces = array();
     private static $camel_us_map = array();
@@ -261,14 +263,14 @@ class Utilities
             $html[] = '</li>';
         }
         $html[] = '</ul>';
-        
+
         return implode($html);
     }
 
     static function add_block_hider()
     {
         $html = array();
-        
+
         $html[] = '<script type="text/javascript">';
         $html[] .= 'function showElement(item)';
         $html[] .= '{';
@@ -287,24 +289,24 @@ class Utilities
         $html[] .= '	}';
         $html[] .= '}';
         $html[] .= '</script>';
-        
+
         return implode("\n", $html);
     }
 
     static function build_block_hider($id = null, $message = null, $display_block = false)
     {
         $html = array();
-        
+
         if (isset($id))
         {
             if (! isset($message))
             {
                 $message = self :: underscores_to_camelcase($id);
             }
-            
+
             $show_message = 'Show' . $message;
             $hide_message = 'Hide' . $message;
-            
+
             $html[] = '<div id="plus-' . $id . '"><a href="javascript:showElement(\'' . $id . '\')">' . Translation :: get('Show' . $message) . '</a></div>';
             $html[] = '<div id="minus-' . $id . '" style="display: none;"><a href="javascript:showElement(\'' . $id . '\')">' . Translation :: get('Hide' . $message) . '</a></div>';
             $html[] = '<div id="' . $id . '" style="display: ' . ($display_block ? 'block' : 'none') . ';">';
@@ -313,7 +315,7 @@ class Utilities
         {
             $html[] = '</div>';
         }
-        
+
         return implode("\n", $html);
     }
 
@@ -377,20 +379,20 @@ class Utilities
     {
         $hours = floor($seconds / 3600);
         $rest = $seconds % 3600;
-        
+
         $minutes = floor($rest / 60);
         $seconds = $rest % 60;
-        
+
         if ($minutes < 10)
         {
             $minutes = '0' . $minutes;
         }
-        
+
         if ($seconds < 10)
         {
             $seconds = '0' . $seconds;
         }
-        
+
         return $hours . ':' . $minutes . ':' . $seconds;
     }
 
@@ -398,17 +400,17 @@ class Utilities
     {
         $minutes = floor($seconds / 60);
         $seconds = $seconds % 60;
-        
+
         if ($minutes < 10)
         {
             $minutes = '0' . $minutes;
         }
-        
+
         if ($seconds < 10)
         {
             $seconds = '0' . $seconds;
         }
-        
+
         return $minutes . ':' . $seconds;
     }
 
@@ -429,13 +431,13 @@ class Utilities
         {
             $string = strip_tags($string);
         }
-        
+
         $string = html_entity_decode($string, ENT_QUOTES, 'UTF-8');
         if (mb_strlen($string, 'UTF-8') > $length)
         {
             $string = mb_substr($string, 0, $length - mb_strlen($char, 'UTF-8'), 'UTF-8') . $char;
         }
-        
+
         return $string;
     }
 
@@ -449,10 +451,10 @@ class Utilities
             $unserializer->setOption(XML_UNSERIALIZER_OPTION_ATTRIBUTES_PARSE, true);
             $unserializer->setOption(XML_UNSERIALIZER_OPTION_RETURN_RESULT, true);
             $unserializer->setOption(XML_UNSERIALIZER_OPTION_GUESS_TYPES, true);
-            
+
             foreach ($extra_options as $op => $value)
                 $unserializer->setOption($op, $value);
-                
+
             // userialize the document
             $status = $unserializer->unserialize($file, true);
             if (PEAR :: isError($status))
@@ -498,35 +500,35 @@ class Utilities
     static function get_usable_memory()
     {
         $val = trim(@ini_get('memory_limit'));
-        
+
         if (preg_match('/(\\d+)([mkg]?)/i', $val, $regs))
         {
             $memory_limit = (int) $regs[1];
             switch ($regs[2])
             {
-                
+
                 case 'k' :
                 case 'K' :
                     $memory_limit *= 1024;
                     break;
-                
+
                 case 'm' :
                 case 'M' :
                     $memory_limit *= 1048576;
                     break;
-                
+
                 case 'g' :
                 case 'G' :
                     $memory_limit *= 1073741824;
                     break;
             }
-            
+
             // how much memory PHP requires at the start of export (it is really a little less)
             if ($memory_limit > 6100000)
             {
                 $memory_limit -= 6100000;
             }
-            
+
             // allow us to consume half of the total memory available
             $memory_limit /= 2;
         }
@@ -535,7 +537,7 @@ class Utilities
             // set the buffer to 1M if we have no clue how much memory PHP will give us :P
             $memory_limit = 1048576;
         }
-        
+
         return $memory_limit;
     }
 
@@ -548,18 +550,27 @@ class Utilities
     static function autoload_core($classname)
     {
     	$autoloaders = array(
-                Path :: get_common_libraries_class_path() . 'libraries_autoloader.class.php', Path :: get_repository_path() . 'repository_autoloader.class.php', Path :: get_user_path() . 'user_autoloader.class.php', 
-                Path :: get_admin_path() . 'admin_autoloader.class.php', Path :: get_group_path() . 'group_autoloader.class.php', Path :: get_help_path() . 'help_autoloader.class.php', 
-                Path :: get_home_path() . 'home_autoloader.class.php', Path :: get_menu_path() . 'menu_autoloader.class.php', Path :: get_migration_path() . 'migration_autoloader.class.php', 
-                Path :: get_reporting_path() . 'reporting_autoloader.class.php', Path :: get_rights_path() . 'rights_autoloader.class.php', Path :: get_tracking_path() . 'tracking_autoloader.class.php', 
-                Path :: get_webservice_path() . 'webservice_autoloader.class.php', Path :: get_common_extensions_path() . 'extensions_autoloader.class.php');
-        
-        foreach ($autoloaders as $autoloader)
+                'common\libraries' => Path :: get_common_libraries_class_path() . 'libraries_autoloader.class.php',
+                'repository' => Path :: get_repository_path() . 'repository_autoloader.class.php',
+                'user' => Path :: get_user_path() . 'user_autoloader.class.php',
+                'admin' => Path :: get_admin_path() . 'admin_autoloader.class.php',
+                'group' => Path :: get_group_path() . 'group_autoloader.class.php',
+                'help' => Path :: get_help_path() . 'help_autoloader.class.php',
+                'home' => Path :: get_home_path() . 'home_autoloader.class.php',
+                'menu' => Path :: get_menu_path() . 'menu_autoloader.class.php',
+                'migration' => Path :: get_migration_path() . 'migration_autoloader.class.php',
+                'reporting' => Path :: get_reporting_path() . 'reporting_autoloader.class.php',
+                'rights' => Path :: get_rights_path() . 'rights_autoloader.class.php',
+                'tracking' => Path :: get_tracking_path() . 'tracking_autoloader.class.php',
+                'webservice' => Path :: get_webservice_path() . 'webservice_autoloader.class.php',
+                'common\extensions' => Path :: get_common_extensions_path() . 'extensions_autoloader.class.php');
+
+        foreach ($autoloaders as $namespace => $autoloader)
         {
             require_once $autoloader;
-            
+
             $classn = substr(basename($autoloader), 0, - 10);
-            $classname_upp = Utilities :: underscores_to_camelcase($classn);
+            $classname_upp = $namespace . '\\' . Utilities :: underscores_to_camelcase($classn);
             if ($classname_upp :: load($classname))
                     break;
         }

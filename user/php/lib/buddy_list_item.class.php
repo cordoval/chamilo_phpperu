@@ -1,11 +1,12 @@
 <?php
 namespace user;
+
+use common\libraries\Utilities;
 /**
  * $Id: buddy_list_item.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @author Sven Vanpoucke
  * @package user.lib
  */
-
 
 class BuddyListItem extends DataClass
 {

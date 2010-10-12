@@ -1,5 +1,8 @@
 <?php
 namespace common\libraries;
+
+use admin\AdminDataManager;
+
 /**
  * $Id: platform_setting.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package common.configuration

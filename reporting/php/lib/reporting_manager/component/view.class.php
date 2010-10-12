@@ -1,5 +1,9 @@
 <?php
 namespace reporting;
+
+use common\libraries\Translation;
+use common\libraries\Request;
+
 /**
  * $Id: view.class.php 215 2009-11-13 14:07:59Z vanpouckesven $
  * @package reporting.lib.reporting_manager.component

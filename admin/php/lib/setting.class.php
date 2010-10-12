@@ -1,5 +1,9 @@
 <?php
 namespace admin;
+
+use common\libraries\DataClass;
+use common\libraries\Utilities;
+
 /**
  * @package admin.lib
  * $Id: setting.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
@@ -10,7 +14,7 @@ namespace admin;
 class Setting extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_APPLICATION = 'application';
     const PROPERTY_VARIABLE = 'variable';
     const PROPERTY_VALUE = 'value';
@@ -87,7 +91,7 @@ class Setting extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_VALUE, $value);
     }
-    
+
 	/**
      * Returns the user_setting of this setting object
      * @return string the user_setting
@@ -96,7 +100,7 @@ class Setting extends DataClass
     {
         return $this->get_default_property(self :: PROPERTY_USER_SETTING);
     }
-    
+
 	/**
      * Sets the user_setting of this setting.
      * @param string $user_setting the user_setting.
@@ -108,9 +112,9 @@ class Setting extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
     }
-    
+
     function delete()
     {
     	if (! parent :: delete())
@@ -125,12 +129,12 @@ class Setting extends DataClass
 	    		{
 	    			return false;
 	    		}
-	    		else 
+	    		else
 	    		{
 	    			return true;
 	    		}
 			}
-			else 
+			else
 			{
 				return true;
 			}

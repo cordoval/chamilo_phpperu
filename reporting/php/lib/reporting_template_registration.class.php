@@ -1,5 +1,7 @@
 <?php
 namespace reporting;
+
+use common\libraries\Utilities;
 /**
  * $Id: reporting_template_registration.class.php 215 2009-11-13 14:07:59Z vanpouckesven $
  * Class representing a reporting template

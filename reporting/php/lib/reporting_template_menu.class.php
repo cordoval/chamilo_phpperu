@@ -1,5 +1,9 @@
 <?php
 namespace reporting;
+
+use common\libraries\Utilities;
+use common\libraries\Path;
+use common\libraries\Translation;
 /**
  * @package reporting.lib
  */

@@ -1,5 +1,7 @@
 <?php
 namespace rights;
+
+use common\libraries\Utilities;
 /**
  * $Id: rights_template_right_location.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib

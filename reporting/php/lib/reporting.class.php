@@ -1,12 +1,13 @@
 <?php
 namespace reporting;
+
+use common\libraries\Translation;
 /**
  * $Id: reporting.class.php 215 2009-11-13 14:07:59Z vanpouckesven $
  * Receives a request, makes the reporting block retrieve its data & displays the block in the given format;
  * @package reporting.lib
  * @author Michael Kyndt
  */
-
 
 class Reporting
 {

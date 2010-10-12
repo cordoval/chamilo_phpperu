@@ -1,5 +1,7 @@
 <?php
 namespace rights;
+
+use common\libraries\Utilities;
 /**
  * @package rights.lib
  * @author Hans de Bisschop

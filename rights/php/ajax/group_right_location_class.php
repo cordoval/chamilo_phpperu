@@ -1,4 +1,8 @@
 <?php
+use common\libraries\Authentication;
+use common\libraries\Translation;
+
+use rights\RightsUtilities;
 /**
  * $Id: group_right_location_class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.ajax

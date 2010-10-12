@@ -1,5 +1,9 @@
 <?php
 namespace tracking;
+
+use common\libraries\Redirect;
+use common\libraries\Translation;
+
 /**
  * $Id: archive_wizard_display.class.php 151 2009-11-10 12:23:34Z kariboe $
  * @package tracking.lib.tracking_manager.component.wizards.archive

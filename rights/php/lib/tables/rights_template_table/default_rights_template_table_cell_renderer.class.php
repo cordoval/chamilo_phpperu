@@ -1,5 +1,7 @@
 <?php
 namespace rights;
+
+use common\libraries\Utilities;
 /**
  * @package rights.lib.tables.rights_template_table
  */

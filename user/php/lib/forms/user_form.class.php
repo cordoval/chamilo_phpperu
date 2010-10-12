@@ -1,5 +1,11 @@
 <?php
 namespace user;
+
+use common\libraries\Utilities;
+use common\libraries\Path;
+use common\libraries\Translation;
+
+use rights\RightsUtilities;
 /**
  * $Id: user_form.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.forms

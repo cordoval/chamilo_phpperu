@@ -1,5 +1,8 @@
 <?php
 namespace common\libraries;
+
+use \MDB2;
+
 /**
  * $Id: connection.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common.database
@@ -38,7 +41,7 @@ class Connection
         if(MDB2 :: isError($this->connection))
         {
         	throw new Exception('The system can not connect to the database. If you are installing, please remove the configuration file.');
-        } 
+        }
         // TODO: The following line is for production systems, debugging feature is disabled:
         //$this->connection = MDB2 :: connect($configuration->get_parameter('database', 'connection_string'), array('debug' => 0));
     }
@@ -64,7 +67,7 @@ class Connection
     {
         return $this->connection;
     }
-    
+
     function set_connection($connection)
     {
     	$this->connection = $connection;

@@ -1,5 +1,9 @@
 <?php
 namespace reporting;
+
+use common\libraries\Path;
+use common\libraries\Translation;
+
 /**
  * $Id: reporting_validator.class.php 215 2009-11-13 14:07:59Z vanpouckesven $
  * @package reporting.validator

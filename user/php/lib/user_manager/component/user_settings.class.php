@@ -1,5 +1,11 @@
 <?php
 namespace user;
+
+use common\libraries\Utilities;
+use common\libraries\WebApplication;
+use common\libraries\Translation;
+use common\libraries\Request;
+
 /**
  * $Id: user_settings.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager.component

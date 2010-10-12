@@ -1,5 +1,8 @@
 <?php
 namespace common\libraries;
+
+use \MDB2;
+
 /**
  * $Id: object_result_set.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common.database
@@ -14,7 +17,7 @@ class ObjectResultSet extends RecordResultSet
      * The datamanager used to retrieve objects from the repository
      */
     private $data_manager;
-    
+
     /**
      * The classname to map the object to
      */

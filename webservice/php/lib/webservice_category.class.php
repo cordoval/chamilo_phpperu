@@ -1,5 +1,7 @@
 <?php
 namespace webservice;
+
+use common\libraries\Utilities;
 /**
  * $Id: webservice_category.class.php 208 2009-11-13 13:14:39Z vanpouckesven $
  * @package webservices.lib

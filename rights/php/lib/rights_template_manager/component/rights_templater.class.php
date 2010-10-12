@@ -1,5 +1,14 @@
 <?php
 namespace rights;
+
+use common\libraries\Path;
+use common\libraries\Application;
+use common\libraries\WebApplication;
+use common\libraries\BasicApplication;
+use common\libraries\Translation;
+use common\libraries\Request;
+
+use rights\RightsUtilities;
 /**
  * $Id: rights_templater.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.rights_template_manager.component

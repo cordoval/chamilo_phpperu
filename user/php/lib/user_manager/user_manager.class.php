@@ -1,4 +1,11 @@
 <?php
+use common\libraries\Application;
+use common\libraries\CoreApplication;
+use common\libraries\Redirect;
+use common\libraries\Translation;
+
+use repository\RepositoryDataManager;
+
 /**
  * $Id: user_manager.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager

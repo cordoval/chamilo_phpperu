@@ -1,5 +1,9 @@
 <?php
 namespace user;
+
+use common\libraries\Path;
+use common\libraries\Translation;
+
 /**
  * $Id: buddy_list.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @author Sven Vanpoucke

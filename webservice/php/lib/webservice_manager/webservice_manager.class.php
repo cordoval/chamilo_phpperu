@@ -1,5 +1,10 @@
 <?php
 namespace webservice;
+
+use common\libraries\Application;
+use common\libraries\CoreApplication;
+use common\libraries\Redirect;
+use common\libraries\Translation;
 /**
  * $Id: webservice_manager.class.php 208 2009-11-13 13:14:39Z vanpouckesven $
  * @package webservices.lib.webservice_manager

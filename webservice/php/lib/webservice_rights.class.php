@@ -1,5 +1,9 @@
 <?php
 namespace webservice;
+
+use common\libraries\Utilities;
+
+use rights\RightsUtilities;
 /**
  * $Id: webservice_rights.class.php 208 2009-11-13 13:14:39Z vanpouckesven $
  * @package webservices.lib

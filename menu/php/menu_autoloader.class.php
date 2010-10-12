@@ -1,5 +1,8 @@
 <?php
 namespace menu;
+
+use common\libraries\Utilities;
+
 /**
  * $Id: menu_autoloader.class.php 236 2009-11-16 12:56:59Z scaramanga $
  * @author vanpouckesven

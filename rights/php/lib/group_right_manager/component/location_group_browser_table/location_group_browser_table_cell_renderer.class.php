@@ -1,5 +1,11 @@
 <?php
 namespace rights;
+
+use common\libraries\Utilities;
+use common\libraries\Path;
+use common\libraries\Translation;
+
+use rights\RightsUtilities;
 /**
  * $Id: location_group_browser_table_cell_renderer.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.group_right_manager.component.location_group_browser_table

@@ -1,5 +1,11 @@
 <?php
 namespace rights;
+
+use common\libraries\Application;
+use common\libraries\CoreApplication;
+use common\libraries\Redirect;
+use common\libraries\Translation;
+
 /**
  * $Id: rights_manager.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.rights_manager

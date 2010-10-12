@@ -1,5 +1,9 @@
 <?php
 namespace user;
+
+use common\libraries\Path;
+
+use rights\RightsUtilities;
 /**
  * $Id: user_rights.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package user

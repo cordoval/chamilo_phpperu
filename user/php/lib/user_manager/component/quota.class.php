@@ -1,5 +1,9 @@
 <?php
 namespace user;
+
+use common\libraries\Translation;
+use common\libraries\Request;
+
 /**
  * $Id: quota.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager.component
