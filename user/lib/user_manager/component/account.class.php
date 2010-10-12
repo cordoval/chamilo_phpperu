@@ -21,7 +21,23 @@ class UserManagerAccountComponent extends UserManager
         if ($form->validate())
         {
             $success = $form->update_account();
-            $this->redirect(Translation :: get($success ? 'UserProfileUpdated' : 'UserProfileNotUpdated'), ($success ? false : true), array(Application :: PARAM_ACTION => UserManager :: ACTION_VIEW_ACCOUNT));
+            if(!$success)
+            {
+                if(isset($_FILES['picture_uri']) &&  $_FILES['picture_uri']['error'])
+                {
+                    $neg_message = 'FileTooBig';
+        }
+        else
+        {
+                    $neg_message = 'UserProfileNotUpdated';
+                }
+            }
+            else
+            {
+                $neg_message = 'UserProfileNotUpdated';
+                $pos_message = 'UserProfileUpdated';
+            }
+            $this->redirect(Translation :: get($success ? $pos_message : $neg_message), ($success ? false : true), array(Application :: PARAM_ACTION => UserManager :: ACTION_VIEW_ACCOUNT));
         }
         else
         {

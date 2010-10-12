@@ -318,7 +318,15 @@ class PortfolioManager extends WebApplication
             $portfolio_publication = $pdm->retrieve_portfolio_publication($pid);
         }
 
+        if($portfolio_publication)
+        {
         return $portfolio_publication->get_content_object();
+    }
+        else
+        {
+            return false;
+        }
+
     }
 
     /**
