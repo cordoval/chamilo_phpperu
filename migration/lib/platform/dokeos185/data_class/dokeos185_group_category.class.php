@@ -220,7 +220,6 @@ class Dokeos185GroupCategory extends Dokeos185MigrationDataClass
      */
     function convert_data()
     {
-        
     }
 
     static function get_table_name()

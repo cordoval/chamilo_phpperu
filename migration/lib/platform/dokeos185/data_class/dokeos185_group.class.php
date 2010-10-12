@@ -209,6 +209,8 @@ class Dokeos185Group extends Dokeos185CourseDataMigrationDataClass
 
         if (!$this->get_name() || $this->get_self_registration_allowed() == NULL || $this->get_self_unregistration_allowed() == NULL) {
             $this->create_failed_element($this->get_id());
+            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'group', 'ID' => $this->get_id())));
+
             return false;
         }
 
@@ -241,6 +243,7 @@ class Dokeos185Group extends Dokeos185CourseDataMigrationDataClass
         $chamilo_lcms_group->create();
 
         $this->create_id_reference($this->get_id(), $chamilo_lcms_group->get_id());
+        $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'group', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_lcms_group->get_id())));
 
         return $chamilo_lcms_group;
     }
