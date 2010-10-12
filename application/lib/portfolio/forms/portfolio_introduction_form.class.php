@@ -57,7 +57,9 @@ class PortfolioIntroductionForm extends FormValidator
     {
 
          $label= Translation :: get('IntroductionTextLabel');
-        $this->add_html_editor("introduction", $label, true);
+        $textfield = $this->add_html_editor('introduction', $label, true);
+        $message = Translation :: get('IntroductionMaximumLengthMessage');
+        $this->addRule('introduction', $message, 'maxlength', '255');
        
        
     }
