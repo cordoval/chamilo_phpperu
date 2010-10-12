@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\story;
 /**
  * This class describes a Story data object
  *

@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\wiki;
 
 /*
  * This is a standalone wiki parser component, used to parse links to other wiki pages, much in the same way as on Wikipedia.

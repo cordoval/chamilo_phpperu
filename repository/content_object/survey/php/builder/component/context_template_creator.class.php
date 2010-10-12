@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\survey;
 require_once Path :: get_application_path() . 'lib/internship_organizer/forms/category_form.class.php';
 
 

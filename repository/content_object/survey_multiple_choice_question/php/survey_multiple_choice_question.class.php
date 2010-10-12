@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\survey_multiple_choice_question;
 /**
  * $Id: survey_multiple_choice_question.class.php $
  * @package repository.lib.content_object.survey_multiple_choice_question

@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\blog;
 
 /**
  * A personal blog layout with the user picture on the side

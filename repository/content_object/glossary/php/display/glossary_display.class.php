@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\glossary;
 /**
  * @package repository.lib.complex_display.glossary
  * 

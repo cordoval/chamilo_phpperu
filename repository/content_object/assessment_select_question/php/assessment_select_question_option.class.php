@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\assessment_select_question;
 /**
  * $Id: assessment_select_question_option.class.php $
  * @package repository.lib.content_object.select_question

@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\youtube;
 /**
  * $Id: youtube_form.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.youtube

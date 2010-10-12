@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\survey;
 
 require_once 'HTML/Menu.php';
 require_once 'HTML/Menu/ArrayRenderer.php';

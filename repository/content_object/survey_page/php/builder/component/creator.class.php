@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\survey_page;
 
 //require_once dirname(__FILE__) . '/../survey_page_builder_component.class.php';
 //require_once dirname(__FILE__) . '/../../complex_repo_viewer.class.php';

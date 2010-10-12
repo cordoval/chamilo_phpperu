@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\matterhorn;
 /**
  * This class can be used to display the difference between YouTubes
  */

@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\survey;
 
 require_once Path :: get_repository_content_object_path() . 'survey/php/context_data_manager/context_data_manager.class.php';
 

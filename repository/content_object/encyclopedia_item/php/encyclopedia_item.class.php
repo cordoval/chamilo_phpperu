@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\encyclopedia_item;
 /**
  * This class describes a EncyclopediaItem data object
  *

@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\assessment_match_text_question;
 
 class AssessmentMatchTextQuestionContentObjectInstaller extends ContentObjectInstaller
 {

@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\dailymotion;
 /**
  * $Id: complex_dailymotion_form.class.php 2010-06-08
  * package repository.lib.content_object.dailymotion

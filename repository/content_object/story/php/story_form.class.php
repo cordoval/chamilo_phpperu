@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\story;
 /**
  * This class describes the form for a Story object.
  * @package repository.lib.content_object.link

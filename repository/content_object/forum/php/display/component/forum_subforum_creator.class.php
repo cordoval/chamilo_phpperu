@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\forum;
 /**
  * $Id: forum_subforum_creator.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package repository.lib.complex_display.forum.component

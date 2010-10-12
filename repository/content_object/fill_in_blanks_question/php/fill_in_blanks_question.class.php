@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\fill_in_blanks_question;
 require_once dirname(__FILE__) . '/fill_in_blanks_question_answer.class.php';
 /**
  * $Id: fill_in_blanks_question.class.php 200 2009-11-13 12:30:04Z kariboe $

@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\story;
 /**
  * This class can be used to display storys
  *

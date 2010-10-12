@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\survey_select_question;
 /**
  * $Id: complex_survey_select_question_form.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.survey_select_question

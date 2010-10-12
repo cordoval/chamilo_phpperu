@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\peer_assessment;
 /*
  *	@author Nick Van Loocke
  */

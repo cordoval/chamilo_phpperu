@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\comic_book;
 /**
  * This class describes the form for a ComicBook object.
  * @package repository.lib.content_object.link

@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\forum;
 /**
  * $Id: forum_browser_table_cell_renderer.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.forum.component.browser

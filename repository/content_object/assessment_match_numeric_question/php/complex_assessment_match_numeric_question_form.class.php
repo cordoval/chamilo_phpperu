@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\assessment_match_numeric_question;
 /**
  * @package repository.lib.content_object.match_numeric_question
  */

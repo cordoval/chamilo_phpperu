@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\matterhorn;
 class Matterhorn extends ContentObject implements Versionable
 {
     const PROPERTY_MATTERHORN_ID = 'matterhorn_id';
