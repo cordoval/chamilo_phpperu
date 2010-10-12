@@ -1,11 +1,12 @@
 <?php
+use common\libraries\Display;
 /**
  * This script will load the requested core application and launch it.
  */
-
+require_once dirname(__FILE__) . '/common/global.inc.php';
 try
 {
-    require_once dirname(__FILE__) . '/common/global.inc.php';
+    
 
     $application_name = Request :: get('application');
     $this_section = $application_name;
