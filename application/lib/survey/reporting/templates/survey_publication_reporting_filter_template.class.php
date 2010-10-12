@@ -18,7 +18,7 @@ class SurveyPublicationReportingFilterTemplate extends ReportingTemplate
         
         $ids = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
         Request :: set_get(DynamicFormTabsRenderer :: PARAM_SELECTED_TAB, Request :: post('submit'));
-        $this->wizard = new SurveyReportingFilterWizard(SurveyReportingFilterWizard :: TYPE_CONTEXTS, $ids, $this->get_url($this->get_parameters()));
+        $this->wizard = new SurveyReportingFilterWizard(array(SurveyReportingFilterWizard :: TYPE_CONTEXTS), $ids, $this->get_url($this->get_parameters()));
         $this->filter_parameters = $this->wizard->get_filter_parameters();
         $this->set_filter_parameters();
         
