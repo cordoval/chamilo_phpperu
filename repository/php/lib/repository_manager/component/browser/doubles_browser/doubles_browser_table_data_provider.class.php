@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 /**
  * $Id: doubles_browser_table_data_provider.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package doubles.lib.doubles_manager.component.browser

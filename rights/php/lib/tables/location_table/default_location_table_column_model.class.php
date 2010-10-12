@@ -1,4 +1,5 @@
 <?php
+namespace rights;
 /**
  * $Id: default_location_table_column_model.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.tables.location_table

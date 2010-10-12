@@ -1,4 +1,5 @@
 <?php
+namespace tracking;
 abstract class Tracker extends DataClass
 {
 
@@ -166,12 +167,12 @@ abstract class Tracker extends DataClass
 
         return self :: get_data_manager()->count_tracker_items($table_name, $condition);
     }
-	
+
      /**
      * @param string $type
      * @param string $application
      * @param Condition $condition
-     * @return boolean 
+     * @return boolean
      */
     static function remove_data($type, $application, $condition = null)
     {
@@ -182,8 +183,8 @@ abstract class Tracker extends DataClass
 
         return self :: get_data_manager()->remove_tracker_items($table_name, $condition);
     }
-    
-    
+
+
     /**
      * @param string $type
      * @param string $application

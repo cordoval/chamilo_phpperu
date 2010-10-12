@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * $Id: user_quota.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib
@@ -20,7 +21,7 @@
 class UserQuota extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_USER_ID = 'user_id';
     const PROPERTY_CONTENT_OBJECT_TYPE = 'content_object_type';
     const PROPERTY_USER_QUOTA = 'user_quota';

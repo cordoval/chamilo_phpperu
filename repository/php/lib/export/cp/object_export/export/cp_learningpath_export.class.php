@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 /**
  * Scorm/LearningPath Export. Delegates work to the Scorm module.

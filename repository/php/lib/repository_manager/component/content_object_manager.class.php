@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 /**
  * @package repository.lib.repository_manager.component
  *

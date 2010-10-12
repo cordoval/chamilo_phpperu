@@ -1,4 +1,5 @@
 <?php
+namespace reporting;
 /**
  * $Id: reporting_formatter.class.php 215 2009-11-13 14:07:59Z vanpouckesven $
  * @package reporting.lib
@@ -14,12 +15,12 @@ abstract class ReportingFormatter
 	const DISPLAY_TABLE = 2;
 	const DISPLAY_CHART = 3;
 	const DISPLAY_HTML = 4;
-    
+
     function ReportingFormatter($block)
     {
     	$this->set_block($block);
     }
-    
+
     /**
      * Generates the html representing the chosen display mode
      * @return html
@@ -35,8 +36,8 @@ abstract class ReportingFormatter
         $class = 'Reporting' . Utilities::underscores_to_camelcase($type) . 'Formatter';
 
         return new $class($reporting_block);
-    } 
-    
+    }
+
     function get_type_name($value)
     {
     	switch($value)
@@ -48,17 +49,17 @@ abstract class ReportingFormatter
     		default : return 'text';
     	}
     }
-    
+
     public function get_block()
     {
     	return $this->block;
     }
-    
+
     public function set_block($block)
     {
     	$this->block = $block;
     }
-    
+
     protected function get_pager_links($pager)
     {
         return '<div class="page" style="text-align: center; margin: 1em 0;">' . $pager_links .= $pager->links . '</div>';
@@ -69,5 +70,5 @@ abstract class ReportingFormatter
         return Pager :: factory($params);
     }
 
-} 
+}
 ?>

@@ -1,4 +1,5 @@
 <?php
+namespace reporting;
 class ReportingCsvExporter extends ReportingExporter
 {
 	function export()
@@ -6,15 +7,15 @@ class ReportingCsvExporter extends ReportingExporter
 		$file = $this->get_file_name();
         $export = Export :: factory('csv', $this->convert_data());
         $export->set_filename($this->get_file_name());
-    	$export->send_to_browser(); 
+    	$export->send_to_browser();
     }
-    
+
     function save()
     {
     	$file = $this->get_file_name();
         $export = Export :: factory('csv', $this->convert_data());
         $export->set_filename($this->get_file_name());
-    	return $export->render_data(); 
+    	return $export->render_data();
     }
 
     function convert_data()
@@ -22,9 +23,9 @@ class ReportingCsvExporter extends ReportingExporter
     	$template = $this->get_template();
     	$block = $template->get_current_block();
         $data = $block->retrieve_data();
-        
+
         $csv_data = array();
-        
+
         foreach($data->get_categories() as $category_id => $category_name)
     	{
     		$category_array = array();

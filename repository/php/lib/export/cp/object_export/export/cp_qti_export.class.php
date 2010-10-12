@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 /**
  * Qti Export. Delegate works to the QTI module.

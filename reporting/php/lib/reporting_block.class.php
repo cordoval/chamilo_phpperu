@@ -1,4 +1,5 @@
 <?php
+namespace reporting;
 /**
  * $Id: reporting_block.class.php 215 2009-11-13 14:07:59Z vanpouckesven $
  * @package reporting.lib
@@ -101,7 +102,7 @@ abstract class ReportingBlock
         $conditions[] = new EqualityCondition(ReportingBlockRegistration::PROPERTY_APPLICATION, $this->get_application());
         $conditions[] = new EqualityCondition(ReportingBlockRegistration::PROPERTY_BLOCK, $this->get_name());
         $condition = new AndCondition($conditions);
-       
+
 		$registrations = ReportingDataManager::get_instance()->retrieve_reporting_block_registrations($condition);
 		if($registrations->size() == 1)
         {
@@ -222,18 +223,18 @@ abstract class ReportingBlock
             $parameters [ReportingManager :: PARAM_EXPORT_TYPE] = $export_format;
             $parameters [ReportingFormatterForm::FORMATTER_TYPE] = $this->get_displaymode();
             $parameters [ReportingViewer::PARAM_REPORTING_VIEWER_ACTION] = ReportingViewer::ACTION_SAVE_TEMPLATE;
-            
+
             $link = Redirect::get_url($parameters, array(), false);
             $export_format_name = Translation :: get(Utilities :: underscores_to_camelcase($export_format));
             $save_bar_items[] = new ToolbarItem($export_format_name, Theme :: get_common_image_path() . 'export_' . $export_format . '.png', $link, ToolbarItem :: DISPLAY_ICON);
 
             $parameters [ReportingViewer::PARAM_REPORTING_VIEWER_ACTION] = ReportingViewer::ACTION_EXPORT_TEMPLATE;
-            
+
             $link = Redirect::get_url($parameters, array(), false);
             $export_format_name = Translation :: get(Utilities :: underscores_to_camelcase($export_format));
             $download_bar_items[] = new ToolbarItem($export_format_name, Theme :: get_common_image_path() . 'export_' . $export_format . '.png', $link, ToolbarItem :: DISPLAY_ICON);
-            
-            
+
+
         }
 
         $download_bar = new Toolbar();
@@ -242,14 +243,14 @@ abstract class ReportingBlock
         $save_bar = new Toolbar();
         $save_bar->set_items($save_bar_items);
         $save_bar->set_type(Toolbar :: TYPE_HORIZONTAL);
-        
+
         $html = array();
         $html[] = '<div style="float:left;">' . Translation::get('Download') . ' : ';
         $html[] = $download_bar->as_html() . '</div>';
         $html[] = '<div style="float:left;">&nbsp;|&nbsp;';
         $html[] = Translation::get('Save') . ' : ';
         $html[] = $save_bar->as_html() . '</div>';
-        
+
         return implode("\n", $html);
     }
 
@@ -290,7 +291,7 @@ abstract class ReportingBlock
     {
     	return Translation :: get(Utilities::underscores_to_camelcase($this->get_name()));
     }
-    
+
     public function get_displaymode()
     {
     	$display = Request::post(ReportingFormatterForm::FORMATTER_TYPE);

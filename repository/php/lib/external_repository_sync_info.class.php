@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 class ExternalRepositorySyncInfo extends RepositoryDataClass
 {
     const CLASS_NAME = __CLASS__;

@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 require_once Path :: get_repository_path() . 'lib/external_repository_instance_manager/component/external_repository_instance_browser/external_repository_instance_browser_table.class.php';
 
 class ExternalRepositoryInstanceManagerBrowserComponent extends ExternalRepositoryInstanceManager

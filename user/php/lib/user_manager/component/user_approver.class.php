@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * $Id: deleter.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager.component
@@ -17,7 +18,7 @@ class UserManagerUserApproverComponent extends UserManager implements Administra
     {
         $ids = Request :: get(UserManager :: PARAM_USER_USER_ID);
         $choice = Request :: get(self :: PARAM_CHOICE);
-        
+
         if (!UserRights :: is_allowed(UserRights :: VIEW_RIGHT, UserRights :: LOCATION_APPROVER, UserRights :: TYPE_COMPONENT));
         {
             $this->display_header();
@@ -88,13 +89,13 @@ class UserManagerUserApproverComponent extends UserManager implements Administra
             $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
         }
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_USER_APPROVAL_BROWSER)), Translation :: get('UserManagerUserApprovalBrowserComponent')));
     	$breadcrumbtrail->add_help('user_approver');
     }
-    
+
     function get_additional_parameters()
     {
     	return array(UserManager :: PARAM_USER_USER_ID, UserManager :: PARAM_CHOICE);

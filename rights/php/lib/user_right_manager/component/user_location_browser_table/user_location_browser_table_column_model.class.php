@@ -1,4 +1,5 @@
 <?php
+namespace rights;
 /**
  * $Id: user_location_browser_table_column_model.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.user_right_manager.component.user_location_bowser_table
@@ -49,7 +50,7 @@ class UserLocationBrowserTableColumnModel extends DefaultLocationTableColumnMode
     function add_rights_columns()
     {
         $rights = RightsUtilities :: get_available_rights($this->browser->get_source());
-        
+
         foreach ($rights as $right_name => $right_id)
         {
             $column_name = Utilities :: underscores_to_camelcase(strtolower($right_name));

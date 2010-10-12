@@ -1,4 +1,5 @@
 <?php
+namespace rights;
 /**
  * $Id: rights_templater.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.rights_template_manager.component
@@ -130,11 +131,11 @@ class TypeTemplateManagerRightsTemplaterComponent extends TypeTemplateManager
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_TYPE_TEMPLATES,
-    															  TypeTemplateManager :: PARAM_TYPE_TEMPLATE_ACTION => TypeTemplateManager :: ACTION_BROWSE_TYPE_TEMPLATES)), 
+    															  TypeTemplateManager :: PARAM_TYPE_TEMPLATE_ACTION => TypeTemplateManager :: ACTION_BROWSE_TYPE_TEMPLATES)),
     										 Translation :: get('TypeTemplateManagerBrowserComponent')));
     	$breadcrumbtrail->add_help('rights_type_templates_rights_editor');
     }
-    
+
 	function get_additional_parameters()
     {
     	return array(TypeTemplateManager :: PARAM_TYPE_TEMPLATE_ID, TypeTemplateManager :: PARAM_SOURCE);

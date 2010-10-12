@@ -1,4 +1,5 @@
 <?php
+namespace tracking;
 /**
  * $Id: rights_editor.class.php 198 2009-11-13 12:20:22Z vanpouckesven $
  * @package webservices.lib.webservice_manager.component
@@ -28,7 +29,7 @@ class TrackingManagerRightsEditorComponent extends TrackingManager implements Ad
         foreach ($events as $event)
         {
         	if (TrackingRights :: is_allowed_in_tracking_subtree(TrackingRights :: EDIT_RIGHT, $event))
-        	{ 
+        	{
         		$locations[] = TrackingRights :: get_location_by_identifier_from_tracking_subtree($event);
         	}
         }
@@ -40,23 +41,23 @@ class TrackingManagerRightsEditorComponent extends TrackingManager implements Ad
         		$locations[] = TrackingRights :: get_tracking_subtree_root();
         	}
         }
-        
+
         $manager = new RightsEditorManager($this, $locations);
 	    $manager->exclude_users(array($this->get_user_id()));
     	$manager->run();
     }
-    
+
     function get_available_rights()
     {
     	return TrackingRights :: get_available_rights();
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add(new Breadcrumb($this->get_browser_url(), Translation :: get('TrackingManagerAdminEventBrowserComponent')));
     	$breadcrumbtrail->add_help('tracking_event_viewer');
     }
-    
+
     function get_additional_parameters()
     {
     	return array(TrackingManager :: PARAM_EVENT_ID);

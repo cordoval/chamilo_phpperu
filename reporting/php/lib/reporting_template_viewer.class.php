@@ -1,4 +1,5 @@
 <?php
+namespace reporting;
 /**
  * $Id: reporting_template_viewer.class.php 215 2009-11-13 14:07:59Z vanpouckesven $
  * @package reporting.lib
@@ -6,7 +7,7 @@
  */
 class ReportingTemplateViewer
 {
-    
+
     private $parent;
 
     public function ReportingTemplateViewer($parent)
@@ -26,7 +27,7 @@ class ReportingTemplateViewer
             Display :: error_message(Translation :: get("NotFound"));
             exit();
         }
-        
+
         $this->show_reporting_template_by_name($reporting_template_registration->get_template());
     }
 
@@ -40,21 +41,21 @@ class ReportingTemplateViewer
         $rpdm = ReportingDataManager :: get_instance();
         $templates = $rpdm->retrieve_reporting_template_registrations($condition);
         $reporting_template_registration = $templates->next_result();
-        
+
         //registration doesn't exist
         if (! isset($reporting_template_registration))
         {
             Display :: error_message(Translation :: get("NotFound"));
             exit();
         }
-        
+
         //is platform template
         if ($reporting_template_registration->isPlatformTemplate() && ! $this->parent->get_user()->is_platform_admin())
         {
             Display :: error_message(Translation :: get("NotAllowed"));
             exit();
         }
-        
+
         $application = $reporting_template_registration->get_application();
         $base_path = (WebApplication :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
        	$file = $base_path . $application . '/reporting/templates/' . Utilities :: camelcase_to_underscores($reporting_template_registration->get_template()) . '.class.php';

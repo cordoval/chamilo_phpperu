@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 include_once dirname(__FILE__) . '/imscp_manifest_cp_import.class.php';
 

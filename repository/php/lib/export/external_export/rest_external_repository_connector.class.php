@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 abstract class RestExternalRepositoryConnector extends BaseExternalRepositoryConnector 
 {

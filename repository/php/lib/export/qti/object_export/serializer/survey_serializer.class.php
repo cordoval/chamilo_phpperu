@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 /**
  * Qti serializer for survey questions. 

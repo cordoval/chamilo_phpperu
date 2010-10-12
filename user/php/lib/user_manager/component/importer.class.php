@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * $Id: importer.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager.component
@@ -19,12 +20,12 @@ class UserManagerImporterComponent extends UserManager implements Administration
             $this->display_footer();
             exit();
         }
-        
+
         $form = new UserImportForm(UserImportForm :: TYPE_IMPORT, $this->get_url(), $this->get_user());
-        
+
         if ($form->validate())
         {
-            $success = $form->import_users(); 
+            $success = $form->import_users();
             $message = Translation :: get(($success ? 'CsvUsersProcessed' : 'CsvUsersNotProcessed'), array('COUNT' => $form->count_failed_items()));
             $this->redirect($message . '<br />' . $form->get_failed_csv(), ($success ? false : true), array(Application :: PARAM_ACTION => UserManager :: ACTION_IMPORT_USERS));
         }
@@ -44,35 +45,35 @@ class UserManagerImporterComponent extends UserManager implements Administration
         $html[] = '<blockquote>';
         $html[] = '<pre>';
         $text = '<b>action</b>;<b>lastname</b>;<b>firstname</b>;';
-        
+
         if (PlatformSetting :: get('require_email', UserManager :: APPLICATION_NAME))
         {
         	$text .= '<b>email</b>;';
         }
-        else 
+        else
         {
-        	$text .= 'email;';	
+        	$text .= 'email;';
         }
 
         $text .= '<b>username</b>;password;auth_source;<b>official_code</b>;phone;status;language;active;activation_date;expiration_date';
         $html[] = $text;
-        
+
         $text = '<b>xxx</b>;<b>xxx</b>;<b>xxx</b>;';
-        
+
     	if (PlatformSetting :: get('require_email', UserManager :: APPLICATION_NAME))
         {
         	$text .= '<b>xxx</b>;';
         }
-        else 
+        else
         {
-        	$text .= 'xxx;';	
+        	$text .= 'xxx;';
         }
-        
+
         $text .= '<b>xxx</b>;xxx;platform/ldap;<b>xxx</b>;xxx;1/5;xxx;1/0;date/0;date/0';
         $html[] = $text;
         $html[] = '</pre>';
         $html[] = '</blockquote>';
-        
+
         $html[] = '<p>' . Translation :: get('XMLMustLookLike') . ' (' . Translation :: get('MandatoryFields') . ')</p>';
         $html[] = '<blockquote>';
         $html[] = '<pre>';
@@ -86,16 +87,16 @@ class UserManagerImporterComponent extends UserManager implements Administration
         $html[] = '        <b>&lt;username&gt;xxx&lt;/username&gt;</b>';
         $html[] = '';
         $html[] = '        &lt;password&gt;xxx&lt;/password&gt;';
-        
+
    		if (PlatformSetting :: get('require_email', UserManager :: APPLICATION_NAME))
         {
         	 $html[] = '        <b>&lt;email&gt;xxx&lt;/email&gt;</b>';
         }
-        else 
+        else
         {
         	 $html[] = '        &lt;email&gt;xxx&lt;/email&gt;';
         }
-       
+
         $html[] = '        &lt;language&gt;xxx&lt;/language&gt;';
         $html[] = '';
         $html[] = '        &lt;status&gt;1/5&lt;/status&gt;';
@@ -113,7 +114,7 @@ class UserManagerImporterComponent extends UserManager implements Administration
         $html[] = '&lt;/Contacts&gt;';
         $html[] = '</pre>';
         $html[] = '</blockquote>';
-        
+
         $html[] = '<p>' . Translation :: get('Details') . '</p>';
         $html[] = '<blockquote>';
         $html[] = '<u><b>' . Translation :: get('Action') . '</u></b>';
@@ -129,10 +130,10 @@ class UserManagerImporterComponent extends UserManager implements Administration
         $html[] = '<br />0 ' . Translation :: get('NotTakenIntoAccount');
         $html[] = '<br />YYYY-MM-DD HH:MM:SS';
         $html[] = '</blockquote>';
-        
+
         echo implode($html, "\n");
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add_help('user_importer');

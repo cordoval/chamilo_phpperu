@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * $Id: default_user_table_cell_renderer.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_table

@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /*
  * $Id: login_webservice.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.webservices
@@ -31,11 +32,11 @@ class LoginWebservice
 
     function run()
     {
-        
+
         $functions = array();
-        
+
         $functions['login'] = array('input' => new User(), 'output' => new WebserviceCredential());
-        
+
         $this->webservice->provide_webservice($functions);
     }
 

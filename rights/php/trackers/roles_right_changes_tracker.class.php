@@ -1,4 +1,5 @@
 <?php
+namespace rights;
 
 /**
  * $Id: roles_right_changes_tracker.class.php 214 2009-11-13 13:57:37Z vanpouckesven $

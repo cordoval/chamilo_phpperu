@@ -1,5 +1,5 @@
 <?php
-
+namespace user;
 /**
  * $Id: user_quota_form.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.forms
@@ -59,7 +59,7 @@ class UserQuotaForm extends FormValidator
         $this->addElement('category');
 
         $rdm = RepositoryDataManager :: get_instance();
-        
+
         if(count($this->get_active_external_repositories()))
         {
             $this->addElement('category', Translation :: get('ExternalRepositories'));
@@ -122,14 +122,14 @@ class UserQuotaForm extends FormValidator
         $user->update();
 
         $rdm = RepositoryDataManager :: get_instance();
-        
+
 
         foreach($this->get_active_external_repositories() as $repository)
         {
             if($values[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '_' . $repository['data']->get_id()] != $repository['settings']->get_value())
             {
                 $connector = ExternalRepositoryConnector :: get_instance($repository['data']);
-                
+
                 if($user_quotum = $rdm->retrieve_external_repository_user_quotum($user->get_id(), $repository['data']->get_id()))
                 {
                    $user_quotum->set_quotum($values[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '_' . $repository['data']->get_id()]);
@@ -177,7 +177,7 @@ class UserQuotaForm extends FormValidator
                 }
             }
         }
-        
+
         if ($failures != 0)
         {
             return false;
@@ -212,7 +212,7 @@ class UserQuotaForm extends FormValidator
         foreach($this->get_active_external_repositories() as $repository)
         {
             if($user_quotum = $rdm->retrieve_external_repository_user_quotum($user->get_id(), $repository['settings']->get_external_repository_id()))
-           
+
             {
                 $defaults[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '_' . $repository['settings']->get_external_repository_id()] = $user_quotum->get_quotum();
             }
@@ -221,7 +221,7 @@ class UserQuotaForm extends FormValidator
                 $defaults[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '_' . $repository['settings']->get_external_repository_id()] = $repository['settings']->get_value();
             }
         }
-        
+
         parent :: setDefaults($defaults);
     }
 
@@ -272,7 +272,7 @@ class UserQuotaForm extends FormValidator
                     $this->active_external_repositories[$active_external_repository->get_id()]['data'] = $active_external_repository;
                 }
             }
-            
+
             $this->active_repositories_searched = true;
         }
         return $this->active_external_repositories;

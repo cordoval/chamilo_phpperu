@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 /**
  * $Id: complex_rating_question.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.question_types.rating_question

@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * $Id: register_form.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.forms
@@ -59,10 +60,10 @@ class RegisterForm extends FormValidator
         $group[] = & $this->createElement('radio', 'pass', null, null, 0);
         $group[] = & $this->createElement('password', User :: PROPERTY_PASSWORD, null, null);
         $this->addGroup($group, 'pw', Translation :: get('Password'), '');
-        
+
         $this->addElement('category');
         $this->addElement('category', Translation :: get('Additional'));
-        
+
         // Official Code
         $this->addElement('text', User :: PROPERTY_OFFICIAL_CODE, Translation :: get('OfficialCode'), array("size" => "50"));
         if (PlatformSetting :: get('require_official_code', 'user'))
@@ -78,7 +79,7 @@ class RegisterForm extends FormValidator
         $this->addRule(User :: PROPERTY_PICTURE_URI, Translation :: get('OnlyImagesAllowed'), 'filetype', $allowed_picture_types);
         // Phone Number
         $this->addElement('text', User :: PROPERTY_PHONE, Translation :: get('PhoneNumber'), array("size" => "50"));
-        
+
         // Status
         if (PlatformSetting :: get('allow_teacher_registration', 'user'))
         {
@@ -96,13 +97,13 @@ class RegisterForm extends FormValidator
         //$this->addElement('submit', 'user_settings', 'OK');
 
         $this->addElement('category');
-        
+
         if(PlatformSetting :: get('enable_terms_and_conditions', 'user'))
         {
 	        $this->addElement('category', Translation :: get('Information'));
 			$this->addElement('textarea', 'conditions', Translation :: get('TermsAndConditions'), array('cols' => 80, 'rows' => 20, 'disabled' => 'disabled', 'style' => 'background-color: white;'));
 			$this->addElement('checkbox', 'conditions_accept', '', Translation :: get('IAccept'));
-        	$this->addRule('conditions_accept', Translation :: get('ThisFieldIsRequired'), 'required');       
+        	$this->addRule('conditions_accept', Translation :: get('ThisFieldIsRequired'), 'required');
 	        $this->addElement('category');
         }
 
@@ -137,7 +138,7 @@ class RegisterForm extends FormValidator
             $picture_location = Path :: get(SYS_USER_PATH) . $picture_uri;
             $user->set_picture_uri($picture_location);
             move_uploaded_file($temp_picture_location, $picture_location);*/
-        	
+
         	$user->set_picture_file($_FILES[User :: PROPERTY_PICTURE_URI]);
         }
         $udm = UserDataManager :: get_instance();
@@ -176,14 +177,14 @@ class RegisterForm extends FormValidator
             {
                 $this->send_email($user);
             }
-            
+
             if (PlatformSetting :: get('allow_registration', 'user') == 2)
         	{
         		$user->set_approved(0);
         		$user->set_active(0);
         		return $user->create();
         	}
-            
+
             if ($user->create())
             {
                 Session :: register('_uid', intval($user->get_id()));

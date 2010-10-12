@@ -1,4 +1,5 @@
 <?php
+namespace tracking;
 /**
  * $Id: activity_changer.class.php 213 2009-11-13 13:38:50Z vanpouckesven $
  * @package tracking.lib.tracking_manager.component
@@ -19,7 +20,7 @@ class TrackingManagerActivityChangerComponent extends TrackingManager implements
         $tracker_ids = Request :: get(TrackingManager :: PARAM_TRACKER_ID);
         $type = Request :: get(TrackingManager :: PARAM_TYPE);
         $event_ids = Request :: get(TrackingManager :: PARAM_EVENT_ID);
-        
+
         if (! $this->get_user() || ! $this->get_user()->is_platform_admin())
         {
             $this->display_header();
@@ -27,7 +28,7 @@ class TrackingManagerActivityChangerComponent extends TrackingManager implements
             $this->display_footer();
             exit();
         }
-        
+
         if (($type == 'event' && $event_ids) || ($type == 'tracker' && $event_ids && $tracker_ids) || ($type == 'all'))
         {
             switch ($type)
@@ -63,9 +64,9 @@ class TrackingManagerActivityChangerComponent extends TrackingManager implements
             {
                 $event_ids = array($event_ids);
             }
-            
+
             $success = true;
-            
+
             foreach ($event_ids as $event_id)
             {
                 $event = $this->retrieve_event($event_id);
@@ -75,11 +76,11 @@ class TrackingManagerActivityChangerComponent extends TrackingManager implements
                 }
                 else
                     $event->set_active(! $event->get_active());
-                
+
                 if (! $event->update())
                     $success = false;
             }
-            
+
             $this->redirect(Translation :: get($success ? 'ActivityUpdated' : 'ActivityNotUpdated'), ($success ? false : true), array(Application :: PARAM_ACTION => TrackingManager :: ACTION_BROWSE_EVENTS));
         }
     }
@@ -97,26 +98,26 @@ class TrackingManagerActivityChangerComponent extends TrackingManager implements
             {
                 $tracker_ids = array($tracker_ids);
             }
-            
+
             $success = true;
-            
+
             foreach ($tracker_ids as $tracker_id)
             {
                 $relation = $this->retrieve_event_tracker_relation($event_id, $tracker_id);
-                
+
                 if (Request :: get('extra'))
                 {
                     $relation->set_active(Request :: get('extra') == 'enable' ? 1 : 0);
                 }
                 else
                     $relation->set_active(! $relation->get_active());
-                
+
                 if (! $relation->update())
                     $success = false;
             }
-            
+
             $this->redirect(Translation :: get($success ? 'ActivityUpdated' : 'ActivityNotUpdated'), ($success ? false : true), array(Application :: PARAM_ACTION => TrackingManager :: ACTION_VIEW_EVENT, TrackingManager :: PARAM_EVENT_ID => $event_id));
-        
+
         }
     }
 
@@ -129,15 +130,15 @@ class TrackingManagerActivityChangerComponent extends TrackingManager implements
         $setting = $adm->retrieve_setting_from_variable_name('enable_tracking', 'tracking');
         $setting->set_value($setting->get_value() == 1 ? 0 : 1);
         $success = $setting->update();
-        
+
         $this->redirect(Translation :: get($success ? 'ActivityUpdated' : 'ActivityNotUpdated'), ($success ? false : true), array(Application :: PARAM_ACTION => TrackingManager :: ACTION_BROWSE_EVENTS));
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add_help('tracking_activity_changer');
     }
-    
+
 	function get_additional_parameters()
     {
     	return array(TrackingManager :: PARAM_EVENT_ID, TrackingManager :: PARAM_TRACKER_ID, TrackingManager :: PARAM_TYPE);

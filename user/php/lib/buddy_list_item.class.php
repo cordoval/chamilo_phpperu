@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * $Id: buddy_list_item.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @author Sven Vanpoucke
@@ -9,12 +10,12 @@
 class BuddyListItem extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_USER_ID = 'user_id';
     const PROPERTY_BUDDY_ID = 'buddy_id';
     const PROPERTY_CATEGORY_ID = 'category_id';
     const PROPERTY_STATUS = 'status';
-    
+
     const STATUS_NORMAL = 0;
     const STATUS_REQUESTED = 1;
     const STATUS_REJECTED = 2;

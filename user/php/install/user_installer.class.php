@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * $Id: user_installer.class.php 187 2009-11-13 10:31:25Z vanpouckesven $
  * @package user.install
@@ -31,7 +32,7 @@ class UserInstaller extends Installer
         {
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('UsersSubtreeCreated'));
         }
-        
+
     	if (! $this->create_anonymous_user())
         {
             return false;
@@ -40,7 +41,7 @@ class UserInstaller extends Installer
         {
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('AnonymousAccountCreated'));
         }
-        
+
         if (! $this->create_admin_account())
         {
             return false;
@@ -49,7 +50,7 @@ class UserInstaller extends Installer
         {
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('AdminAccountCreated'));
         }
-        
+
         if (! $this->create_test_user_account())
         {
             return false;
@@ -58,16 +59,16 @@ class UserInstaller extends Installer
         {
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('TestUserAccountCreated'));
         }
-        
+
         return true;
     }
 
     function create_admin_account()
     {
         $values = $this->get_form_values();
-        
+
         $user = new User();
-        
+
         $user->set_lastname($values['admin_surname']);
         $user->set_firstname($values['admin_firstname']);
         $user->set_username($values['admin_username']);
@@ -82,7 +83,7 @@ class UserInstaller extends Installer
         $user->set_database_quota('300');
         $user->set_version_quota('20');
         $user->set_expiration_date(0);
-        
+
         if (! $user->create())
         {
             return false;
@@ -91,15 +92,15 @@ class UserInstaller extends Installer
         {
             return true;
         }
-    
+
     }
 
     function create_anonymous_user()
     {
         $values = $this->get_form_values();
-        
+
         $user = new User();
-        
+
         $user->set_lastname(Translation :: get('Anonymous'));
         $user->set_firstname(Translation :: get('Mr'));
         $user->set_username('anonymous');
@@ -114,7 +115,7 @@ class UserInstaller extends Installer
         $user->set_database_quota('0');
         $user->set_version_quota('0');
         $user->set_expiration_date(0);
-        
+
         if (! $user->create())
         {
             return false;
@@ -136,9 +137,9 @@ class UserInstaller extends Installer
     function create_test_user_account()
     {
         $values = $this->get_form_values();
-        
+
         $user = new User();
-        
+
         $user->set_lastname('Doe');
         $user->set_firstname('John');
         $user->set_username('JohnDoe');
@@ -153,7 +154,7 @@ class UserInstaller extends Installer
         $user->set_database_quota('300');
         $user->set_version_quota('20');
         $user->set_expiration_date(0);
-        
+
         if (! $user->create())
         {
             return false;
@@ -163,7 +164,7 @@ class UserInstaller extends Installer
         	LocalSetting :: create_local_setting('platform_language', 'dutch', 'admin', $user->get_id());
             return true;
         }
-    
+
     }
 
     function get_path()

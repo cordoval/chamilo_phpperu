@@ -1,4 +1,5 @@
 <?php
+namespace user;
 require_once dirname(__FILE__) . '/../user_reporting_block.class.php';
 require_once PATH :: get_reporting_path() . '/lib/reporting_data.class.php';
 

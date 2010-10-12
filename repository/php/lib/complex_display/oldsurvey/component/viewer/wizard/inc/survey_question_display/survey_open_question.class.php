@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 /**
  * $Id: survey_open_question.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.survey.component.viewer.wizard.inc.question_display

@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * $Id: user_search_form.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.forms
@@ -60,9 +61,9 @@ class UserSearchForm extends FormValidator
         $this->renderer = clone $this->defaultRenderer();
         $this->manager = $manager;
         $this->frozen_elements = array();
-        
+
         $this->build_simple_search_form();
-        
+
         $this->autofreeze();
         $this->accept($this->renderer);
     }
@@ -134,15 +135,15 @@ class UserSearchForm extends FormValidator
     private function get_search_conditions()
     {
         $values = $this->exportValues();
-        
+
         $query = $values[self :: PARAM_SIMPLE_SEARCH_QUERY];
-        
+
         if (isset($query) && $query != '')
         {
             $conditions = array();
             $conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, '*' . $values[self :: PARAM_SIMPLE_SEARCH_QUERY] . '*');
             $conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $values[self :: PARAM_SIMPLE_SEARCH_QUERY] . '*');
-            
+
             return new OrCondition($conditions);
         }
         else

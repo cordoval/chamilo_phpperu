@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * $Id: updater.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager.component
@@ -22,9 +23,9 @@ class UserManagerUpdaterComponent extends UserManager implements AdministrationC
 		        $this->display_footer();
 		        exit();
 		    }
-	    
+
         	$user = $this->retrieve_user($id);
-            
+
             if (! $this->get_user()->is_platform_admin())
             {
                 $this->display_header();
@@ -32,9 +33,9 @@ class UserManagerUpdaterComponent extends UserManager implements AdministrationC
                 $this->display_footer();
                 exit();
             }
-            
+
             $form = new UserForm(UserForm :: TYPE_EDIT, $user, $this->get_user(), $this->get_url(array(UserManager :: PARAM_USER_USER_ID => $id)));
-            
+
             if ($form->validate())
             {
                 $success = $form->update_user();
@@ -52,13 +53,13 @@ class UserManagerUpdaterComponent extends UserManager implements AdministrationC
             $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
         }
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserManagerAdminUserBrowserComponent')));
     	$breadcrumbtrail->add_help('user_updater');
     }
-    
+
     function get_additional_parameters()
     {
     	return array(UserManager :: PARAM_USER_USER_ID);

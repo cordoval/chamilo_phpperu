@@ -1,4 +1,5 @@
 <?php
+namespace tracking;
 /**
  * @package tracking.lib.tracking_manager.component
  */

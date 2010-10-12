@@ -1,4 +1,5 @@
 <?php
+namespace tracking;
 /**
  * $Id: archiver.class.php 213 2009-11-13 13:38:50Z vanpouckesven $
  * @package tracking.lib.tracking_manager.component
@@ -25,11 +26,11 @@ class TrackingManagerArchiverComponent extends TrackingManager implements Admini
             $this->display_footer();
             exit();
         }
-        
+
         $wizard = new ArchiveWizard($this);
         $wizard->run();
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add_help('tracking_archiver');

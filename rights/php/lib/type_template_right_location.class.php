@@ -1,4 +1,5 @@
 <?php
+namespace rights;
 /**
  * @package rights.lib
  * @author Hans de Bisschop

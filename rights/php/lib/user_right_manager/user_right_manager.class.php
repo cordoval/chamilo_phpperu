@@ -1,4 +1,5 @@
 <?php
+namespace rights;
 /**
  * $Id: user_right_manager.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.user_right_manager
@@ -11,17 +12,17 @@ class UserRightManager extends SubManager
     const PARAM_USER = 'user';
     const PARAM_SOURCE = 'source';
     const PARAM_LOCATION = 'location';
-    
+
     const ACTION_BROWSE_USER_RIGHTS = 'browser';
     const ACTION_BROWSE_LOCATION_USER_RIGHTS = 'user';
     const ACTION_SET_USER_RIGHTS = 'setter';
-    
+
     const DEFAULT_ACTION = self :: ACTION_BROWSE_USER_RIGHTS;
 
     function UserRightManager($rights_manager)
     {
         parent :: __construct($rights_manager);
-        
+
         $rights_template_action = Request :: get(self :: PARAM_USER_RIGHT_ACTION);
         if ($rights_template_action)
         {

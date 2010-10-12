@@ -1,6 +1,7 @@
 <?php
+namespace reporting;
 /**
- * $Id: test_call_local_webservice.class.php 215 2009-11-13 14:07:59Z vanpouckesven $ 
+ * $Id: test_call_local_webservice.class.php 215 2009-11-13 14:07:59Z vanpouckesven $
  * @package reporting.webservices
  * @author Michael Kyndt
  */
@@ -36,12 +37,12 @@ class TestCallLocalWebservice
     function run()
     {
         /*A test to retrieve courses of a user from the db
-		 * 
+		 *
 		 */
-        
+
         /*$wsdl = 'http://localhost/reporting/webservices/webservices_reporting.class.php?wsdl';
         $functions = array();
-		
+
 		{
 			$functions[] = array(
 				'name' => 'WebServicesReporting.get_user_courses',
@@ -49,14 +50,14 @@ class TestCallLocalWebservice
 				'handler' => 'handle_webservice'
 			);
 		}*/
-        
+
         /*A test to retrieve users of a course from the db
-		 * 
+		 *
 		 */
-        
+
         /*$wsdl = 'http://localhost/reporting/webservices/webservices_reporting.class.php?wsdl';
 		$functions = array();
-		
+
 		{
 			$functions[] = array(
 				'name' => 'WebServicesReporting.get_course_users',
@@ -64,14 +65,14 @@ class TestCallLocalWebservice
 				'handler' => 'handle_webservice'
 			);
 		}*/
-        
+
         /*A test to get new publications in course X from the db
-		 * 
+		 *
 		 */
-        
+
         /*$wsdl = 'http://localhost/reporting/webservices/webservices_reporting.class.php?wsdl';
 		$functions = array();
-		
+
 		{
 			$functions[] = array(
 				'name' => 'WebServicesReporting.get_new_publications_in_course',
@@ -79,11 +80,11 @@ class TestCallLocalWebservice
 				'handler' => 'handle_webservice'
 			);
 		}*/
-        
+
         /*A test to get new publications in course X, tool Y from the db
 		 *
 		 */
-        
+
         /*$wsdl = 'http://localhost/reporting/webservices/webservices_reporting.class.php?wsdl';
 		$functions = array();
 
@@ -94,11 +95,11 @@ class TestCallLocalWebservice
 				'handler' => 'handle_webservice'
 			);
 		}*/
-        
+
         /*A test to get publications for user X from the db
 		 *
 		 */
-        
+
         /*$wsdl = 'http://localhost/reporting/webservices/webservices_reporting.class.php?wsdl';
 		$functions = array();
 
@@ -109,18 +110,18 @@ class TestCallLocalWebservice
 				'handler' => 'handle_webservice'
 			);
 		}*/
-        
+
         /*A test to get publications for course X from the db
 		 *
 		 */
-        
+
         $wsdl = 'http://localhost/reporting/webservices/webservices_reporting.class.php?wsdl';
         $functions = array();
-        
+
         {
             $functions[] = array('name' => 'WebServicesReporting.get_publications_for_course', 'parameters' => array('input' => array('visual_code' => 'KIT'), 'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'), 'handler' => 'handle_webservice');
         }
-        
+
         $this->webservice->call_webservice($wsdl, $functions);
     }
 

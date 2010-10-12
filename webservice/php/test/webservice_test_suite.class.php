@@ -1,4 +1,5 @@
-<?php 
+<?php
+namespace webservice;
 
 require_once dirname(__FILE__) . '/../../common/global.inc.php';
 

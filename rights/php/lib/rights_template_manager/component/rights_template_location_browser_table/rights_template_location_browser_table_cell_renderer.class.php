@@ -1,4 +1,5 @@
 <?php
+namespace rights;
 /**
  * $Id: rights_template_location_browser_table_cell_renderer.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.rights_template_manager.component.rights_template_browser_location_table
@@ -32,12 +33,12 @@ class RightsTemplateLocationBrowserTableCellRenderer extends DefaultLocationTabl
         {
             return $this->get_modification_links($location);
         }
-        
+
         if (RightsTemplateLocationBrowserTableColumnModel :: is_rights_column($column))
         {
             return $this->get_rights_column_value($column, $location);
         }
-        
+
         switch ($column->get_name())
         {
             case Location :: PROPERTY_LOCATION :
@@ -71,7 +72,7 @@ class RightsTemplateLocationBrowserTableCellRenderer extends DefaultLocationTabl
                 }
                 break;
         }
-        
+
         return parent :: render_cell($column, $location);
     }
 
@@ -84,10 +85,10 @@ class RightsTemplateLocationBrowserTableCellRenderer extends DefaultLocationTabl
     private function get_modification_links($location)
     {
         $toolbar  = new Toolbar();
-        
+
         $toolbar->add_item(new ToolbarItem(
         	Translation :: get('Delete'),
-        	Theme :: get_common_image_path().'action_reset.png', 
+        	Theme :: get_common_image_path().'action_reset.png',
 			null,
 		 	ToolbarItem :: DISPLAY_ICON
 		));
@@ -101,9 +102,9 @@ class RightsTemplateLocationBrowserTableCellRenderer extends DefaultLocationTabl
         $locked_parent = $location->get_locked_parent();
         $rights = RightsUtilities :: get_available_rights($this->browser->get_source());
         $rights_template_id = $browser->get_current_rights_template()->get_id();
-        
+
         $location_url = $browser->get_url(array('application' => $this->application, 'location' => ($locked_parent ? $locked_parent->get_id() : $location->get_id())));
-        
+
         foreach ($rights as $right_name => $right_id)
         {
             $column_name = Translation :: get(Utilities :: underscores_to_camelcase(strtolower($right_name)));

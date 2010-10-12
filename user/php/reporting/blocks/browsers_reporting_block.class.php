@@ -1,4 +1,5 @@
 <?php
+namespace user;
 require_once dirname (__FILE__) . '/../user_reporting_block.class.php';
 
 class BrowsersReportingBlock extends UserReportingBlock
@@ -14,24 +15,24 @@ class BrowsersReportingBlock extends UserReportingBlock
         $keys = array_keys($data);
         $reporting_data->set_categories($keys);
         $reporting_data->set_rows(array(Translation :: get('Browsers')));
-        
+
         foreach ($keys as $key => $name)
         {
             $reporting_data->add_data_category_row($name, Translation :: get('Browsers'), $data[$name]);
         }
         return $reporting_data;
-    }	
-	
+    }
+
 	public function retrieve_data()
 	{
-		return $this->count_data();		
+		return $this->count_data();
 	}
-	
+
 	function get_application()
 	{
 		return UserManager::APPLICATION_NAME;
 	}
-	
+
 	public function get_available_displaymodes()
 	{
         $modes = array();

@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 class SurveyDescriptionBuilder extends QuestionBuilder{
 

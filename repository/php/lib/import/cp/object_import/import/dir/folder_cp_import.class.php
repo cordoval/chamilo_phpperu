@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 /**
  * Imports a folder resource as a Document object. Zip the folder in order to attach it to the document.

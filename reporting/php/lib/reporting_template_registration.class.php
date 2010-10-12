@@ -1,4 +1,5 @@
 <?php
+namespace reporting;
 /**
  * $Id: reporting_template_registration.class.php 215 2009-11-13 14:07:59Z vanpouckesven $
  * Class representing a reporting template
@@ -10,7 +11,7 @@
 class ReportingTemplateRegistration extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_APPLICATION = 'application';
     const PROPERTY_TEMPLATE = 'template';
     const PROPERTY_PLATFORM = 'platform';
@@ -31,7 +32,7 @@ class ReportingTemplateRegistration extends DataClass
     {
         return ReportingDataManager :: get_instance();
     }
-    
+
     /**
      * Checks if the reporting template registration is aplatform template.
      * @return int
@@ -75,7 +76,7 @@ class ReportingTemplateRegistration extends DataClass
     }
 
     static function get_table_name()
-    {   	
+    {
     	return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 } //class ReportingTemplateRegistration

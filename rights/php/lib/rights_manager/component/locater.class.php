@@ -1,4 +1,5 @@
 <?php
+namespace rights;
 /**
  * @package rights.lib.rights_manager.component
  */

@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 require_once Path::get_repository_path(). 'lib/content_object/assessment_matrix_question/assessment_matrix_question_option.class.php';
  

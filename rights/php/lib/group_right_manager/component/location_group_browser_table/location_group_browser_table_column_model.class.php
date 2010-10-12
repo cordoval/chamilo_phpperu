@@ -1,4 +1,5 @@
 <?php
+namespace rights;
 /**
  * $Id: location_group_browser_table_column_model.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.group_right_manager.component.location_group_browser_table
@@ -52,7 +53,7 @@ class LocationGroupBrowserTableColumnModel extends DefaultGroupTableColumnModel
     function add_rights_columns()
     {
         $rights = RightsUtilities :: get_available_rights($this->browser->get_source());
-        
+
         foreach ($rights as $right_name => $right_id)
         {
             $column_name = Utilities :: underscores_to_camelcase(strtolower($right_name));

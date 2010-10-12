@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 /**
  * Export course publications. 

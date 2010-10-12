@@ -1,4 +1,5 @@
 <?php
+namespace reporting;
 /**
  * $Id: view.class.php 215 2009-11-13 14:07:59Z vanpouckesven $
  * @package reporting.lib.reporting_manager.component
@@ -22,13 +23,13 @@ class ReportingManagerViewComponent extends ReportingManager implements Administ
 
         $rtv->run();
     } //run
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(ReportingManager :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES)), Translation :: get('ReportingManagerBrowserComponent')));
     	$breadcrumbtrail->add_help('reporting_viewer');
     }
-    
+
     function get_additional_parameters()
     {
     	return array(ReportingManager :: PARAM_TEMPLATE_ID);

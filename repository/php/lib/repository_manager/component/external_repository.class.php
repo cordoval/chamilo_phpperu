@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 class RepositoryManagerExternalRepositoryComponent extends RepositoryManager
 {
     private $external_repository;

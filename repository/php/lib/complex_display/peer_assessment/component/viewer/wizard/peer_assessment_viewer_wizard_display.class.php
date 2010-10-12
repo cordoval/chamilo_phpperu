@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 require_once dirname(__FILE__) . '/../../../../../../../application/peer_assessment/php/peer_assessment_publication_results.class.php';
 
 /**

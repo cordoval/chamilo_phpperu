@@ -1,4 +1,5 @@
 <?php
+namespace tracking;
 /**
  * $Id: admin_event_viewer_cell_renderer.class.php 213 2009-11-13 13:38:50Z vanpouckesven $
  * @package tracking.lib.tracking_manager.component.admin_event_viewer

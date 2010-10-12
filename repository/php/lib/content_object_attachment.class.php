@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 class ContentObjectAttachment extends DataClass
 {
     const CLASS_NAME = __CLASS__;

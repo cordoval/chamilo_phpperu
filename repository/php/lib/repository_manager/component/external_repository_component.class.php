@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 /**
  * $Id: external_repository_repository_component.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component

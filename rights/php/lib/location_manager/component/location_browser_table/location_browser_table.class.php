@@ -1,4 +1,5 @@
 <?php
+namespace rights;
 /**
  * $Id: location_browser_table.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.location_manager.component.location_browser_table

@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 require_once Path :: get_plugin_path() . '/webservices/rest/client/rest_client.class.php';
 
 /**

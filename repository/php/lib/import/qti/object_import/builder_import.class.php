@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 require_once dirname(__FILE__) .'/question_builder.class.php';
 
 /**

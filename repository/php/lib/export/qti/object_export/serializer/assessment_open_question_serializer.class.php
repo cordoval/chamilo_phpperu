@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 /**
  * Serializer for open questions.

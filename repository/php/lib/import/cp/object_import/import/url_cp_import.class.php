@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 require_once Path::get_repository_path() .'lib/import/qti/main.php';
 

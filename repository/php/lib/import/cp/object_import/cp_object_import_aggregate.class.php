@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 include_once dirname(__FILE__) . '/cp_object_import_base.class.php';
 

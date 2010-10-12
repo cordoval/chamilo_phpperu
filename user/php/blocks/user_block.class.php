@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * @author Hans De bisschop
  */

@@ -1,4 +1,5 @@
 <?php
+namespace rights;
 /**
  * $Id: rights_template_location_browser_table_column_model.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.rights_template_manager.component.rights_template_browser_location_table
@@ -49,7 +50,7 @@ class RightsTemplateLocationBrowserTableColumnModel extends DefaultLocationTable
     function add_rights_columns()
     {
         $rights = RightsUtilities :: get_available_rights($this->browser->get_source());
-        
+
         foreach ($rights as $right_name => $right_id)
         {
             $column_name = Utilities :: underscores_to_camelcase(strtolower($right_name));

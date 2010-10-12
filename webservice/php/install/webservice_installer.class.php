@@ -1,4 +1,5 @@
 <?php
+namespace webservice;
 /**
  * $Id: webservice_installer.class.php 208 2009-11-13 13:14:39Z vanpouckesven $
  * @package webservices.install
@@ -22,7 +23,7 @@ class WebserviceInstaller extends Installer
     {
         return dirname(__FILE__);
     }
-    
+
 	function install_extra()
     {
         if (! $this->create_webservice_subtree())
@@ -33,15 +34,15 @@ class WebserviceInstaller extends Installer
         {
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('WebserviceSubTreeCreated'));
         }
-        
+
         return true;
     }
-    
+
     private function create_webservice_subtree()
     {
     	return RightsUtilities :: create_subtree_root_location(WebserviceManager :: APPLICATION_NAME, 0, WebserviceRights :: TREE_TYPE_WEBSERVICES);
     }
-    
-    
+
+
 }
 ?>

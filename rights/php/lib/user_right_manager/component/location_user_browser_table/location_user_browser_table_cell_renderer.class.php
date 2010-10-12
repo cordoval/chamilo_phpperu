@@ -1,4 +1,5 @@
 <?php
+namespace rights;
 /**
  * $Id: location_user_browser_table_cell_renderer.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.user_right_manager.component.location_user_bowser_table
@@ -32,12 +33,12 @@ class LocationUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
         {
             return $this->get_modification_links($user);
         }
-        
+
         if (LocationUserBrowserTableColumnModel :: is_rights_column($column))
         {
             return $this->get_rights_column_value($column, $user);
         }
-        
+
         // Add special features here
         switch ($column->get_name())
         {
@@ -64,9 +65,9 @@ class LocationUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
         $locked_parent = $location->get_locked_parent();
         $rights = RightsUtilities :: get_available_rights($this->browser->get_source());
         $user_id = $user->get_id();
-        
+
         $location_url = $browser->get_url(array('application' => $this->application, 'location' => ($locked_parent ? $locked_parent->get_id() : $location->get_id())));
-        
+
         foreach ($rights as $right_name => $right_id)
         {
             $column_name = Translation :: get(Utilities :: underscores_to_camelcase(strtolower($right_name)));

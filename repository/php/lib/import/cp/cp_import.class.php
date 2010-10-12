@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 require_once 'main.php';
 

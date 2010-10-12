@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 /**
  * Import wiki html files as WikiPage objects.

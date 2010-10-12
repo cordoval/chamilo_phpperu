@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 abstract class DefaultContentObjectGalleryTableCellRenderer implements GalleryObjectTableCellRenderer
 {
 

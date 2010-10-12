@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * $Id: buddy_list_category.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @author Sven Vanpoucke
@@ -7,7 +8,7 @@
 class BuddyListCategory extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_ID = 'id';
     const PROPERTY_TITLE = 'title';
     const PROPERTY_USER_ID = 'user_id';

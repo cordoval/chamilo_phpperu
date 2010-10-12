@@ -1,4 +1,5 @@
 <?php
+namespace tracking;
 /**
  * $Id: database_tracking_data_manager.class.php 231 2009-11-16 09:53:00Z vanpouckesven $
  * @package tracking.lib.data_manager

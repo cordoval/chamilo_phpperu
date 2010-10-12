@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 /**
  * $Id: complex_browser_table.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.complex_browser

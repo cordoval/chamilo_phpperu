@@ -1,4 +1,5 @@
 <?php
+namespace reporting;
 /**
  * $Id: content_object_publication_user.class.php 166 2009-11-12 11:03:06Z vanpouckesven $
  * @package reporting.webservices.provider

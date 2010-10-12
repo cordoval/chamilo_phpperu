@@ -1,4 +1,5 @@
 <?php
+namespace reporting;
 /**
  * $Id: pchart_reporting_chart_formatter.class.php 215 2009-11-13 14:07:59Z vanpouckesven $
  * @package reporting.lib.formatters.pchart
@@ -20,7 +21,7 @@ class PchartReportingChartFormatter extends ReportingChartFormatter
         return $this->get_pchart_instance()->to_html();
     } //to_html
 
-    
+
     public function get_chart()
     {
         $all_data = $this->get_block()->retrieve_data();
@@ -49,14 +50,14 @@ class PchartReportingChartFormatter extends ReportingChartFormatter
         }
         return $data;
     }
-    
+
     public function PchartReportingChartFormatter(&$reporting_block)
     {
         parent :: __construct($reporting_block);
         $this->font = Path :: get_plugin_path() . 'pChart/Fonts/tahoma.ttf';
     } //ReportingChartFormatter
 
-    
+
     public function get_pchart_instance()
     {
         if (! isset(self :: $instance))
@@ -64,7 +65,7 @@ class PchartReportingChartFormatter extends ReportingChartFormatter
             $display_mode = $this->get_block()->get_displaymode();
             $display_mode = explode('_', $display_mode);
             $type = self :: get_type_name($display_mode[0] . '_' . $display_mode[1]);
-            
+
             require_once dirname(__FILE__) . '/' . strtolower($type) . '_pchart_reporting_chart_formatter.class.php';
             $class = Utilities :: underscores_to_camelcase($type) . 'PchartReportingChartFormatter';
             $this->instance = new $class($this->get_block()); // (self :: $charttype);
@@ -72,7 +73,7 @@ class PchartReportingChartFormatter extends ReportingChartFormatter
         return $this->instance;
     } //get_instance
 
-    
+
     /**
      * Generates an image of the chart in a temporary folder and returns
      * html referring to this image.
@@ -86,7 +87,7 @@ class PchartReportingChartFormatter extends ReportingChartFormatter
         // Render the pie chart to a temporary file
         //$path = Path :: get(SYS_FILE_PATH) . 'temp/'.$this->reporting_block->get_name().'_'.$chartname . $random . '.png';
         //$chart->Render($path);
-        
+
 
         // Return the html code to the file
         //$path = Path :: get(WEB_FILE_PATH) . 'temp/'.$this->reporting_block->get_name().'_'.$chartname . $random . '.png';
@@ -105,7 +106,7 @@ class PchartReportingChartFormatter extends ReportingChartFormatter
             $chart = array();
             $chart_description = array();
             $chart_data = array();
-            
+
             $chart_description['Position'] = 'Name';
             $chart_description['Values'] = array();
               $chart_description['Description'] = array();
@@ -114,9 +115,9 @@ class PchartReportingChartFormatter extends ReportingChartFormatter
                 $chart_description['Values'][$row_id] = 'Serie'.$row_id;
                 $chart_description['Description']['Serie'.$row_id] = trim(trim(trim(html_entity_decode(strip_tags($row_name), ENT_COMPAT, 'utf-8')), "\xC2\xA0" ));
             }
-            
+
             $chart[1] = $chart_description;
-            
+
             foreach ($reporting_data->get_categories() as $category_id => $category_name)
             {
                 $category_array = array();
@@ -127,7 +128,7 @@ class PchartReportingChartFormatter extends ReportingChartFormatter
                 }
                 $chart_data[] = $category_array;
             }
-            
+
             $chart[0] = $chart_data;
             return $chart;
         }

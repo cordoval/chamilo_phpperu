@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * $Id: user_reporting_template.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.reporting.templates
@@ -40,7 +41,7 @@ class UserReportingTemplate extends ReportingTemplate
     function display_context()
     {
     }
-    
+
 	function is_platform()
     {
     	return true;

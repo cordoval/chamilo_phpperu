@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 /**
  * Import video URLs as video streaming objects.

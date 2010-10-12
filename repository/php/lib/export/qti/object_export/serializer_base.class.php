@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 /**
  * Base class for serializers.

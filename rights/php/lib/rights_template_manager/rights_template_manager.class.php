@@ -1,4 +1,5 @@
 <?php
+namespace rights;
 /**
  * $Id: rights_template_manager.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.rights_template_manager
@@ -10,7 +11,7 @@ class RightsTemplateManager extends SubManager
     const PARAM_RIGHTS_TEMPLATE_ACTION = 'action';
     const PARAM_SOURCE = 'source';
     const PARAM_LOCATION = 'location';
-    
+
     const ACTION_BROWSE_RIGHTS_TEMPLATES = 'browser';
     const ACTION_EDIT_RIGHTS_TEMPLATE = 'editor';
     const ACTION_DELETE_RIGHTS_TEMPLATES = 'deleter';
@@ -22,13 +23,13 @@ class RightsTemplateManager extends SubManager
     const ACTION_INHERIT_RIGHTS_TEMPLATES = 'inheriter';
     const ACTION_DISINHERIT_RIGHTS_TEMPLATES = 'disinheriter';
     const ACTION_SET_RIGHTS_TEMPLATES = 'setter';
-    
+
     const DEFAULT_ACTION = self :: ACTION_BROWSE_RIGHTS_TEMPLATES;
 
     function RightsTemplateManager($rights_manager)
     {
         parent :: __construct($rights_manager);
-        
+
         $rights_template_action = Request :: get(self :: PARAM_RIGHTS_TEMPLATE_ACTION);
         if ($rights_template_action)
         {

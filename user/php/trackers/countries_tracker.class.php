@@ -1,4 +1,5 @@
 <?php
+namespace user;
 /**
  * This class tracks the country that a user uses
  * @package user.trackers

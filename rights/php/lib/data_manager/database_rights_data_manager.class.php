@@ -1,4 +1,5 @@
 <?php
+namespace rights;
 /**
  * $Id: database_rights_data_manager.class.php 235 2009-11-16 12:08:00Z scaramanga $
  * @package rights.lib.data_manager
@@ -67,7 +68,7 @@ class DatabaseRightsDataManager extends Database implements RightsDataManagerInt
     {
         return $this->create($rights_template);
     }
-    
+
     function create_type_template($type_template)
     {
         return $this->create($type_template);
@@ -107,7 +108,7 @@ class DatabaseRightsDataManager extends Database implements RightsDataManagerInt
     {
         return $this->retrieve_objects(RightsTemplate :: get_table_name(), $condition, $offset, $max_objects, $order_by, RightsTemplate :: CLASS_NAME);
     }
-    
+
     function retrieve_type_templates($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         return $this->retrieve_objects(TypeTemplate :: get_table_name(), $condition, $offset, $max_objects, $order_by, TypeTemplate :: CLASS_NAME);
@@ -130,7 +131,7 @@ class DatabaseRightsDataManager extends Database implements RightsDataManagerInt
         $condition = new EqualityCondition(RightsTemplate :: PROPERTY_ID, $id);
         return $this->retrieve_object(RightsTemplate :: get_table_name(), $condition, array(), RightsTemplate :: CLASS_NAME);
     }
-    
+
     function retrieve_type_template($id)
     {
         $condition = new EqualityCondition(TypeTemplate :: PROPERTY_ID, $id);
@@ -156,7 +157,7 @@ class DatabaseRightsDataManager extends Database implements RightsDataManagerInt
     {
         return $this->count_objects(RightsTemplate :: get_table_name(), $condition);
     }
-    
+
     function count_type_templates($condition = null)
     {
         return $this->count_objects(TypeTemplate :: get_table_name(), $condition);
@@ -385,7 +386,7 @@ class DatabaseRightsDataManager extends Database implements RightsDataManagerInt
         $condition = new EqualityCondition(RightsTemplate :: PROPERTY_ID, $rights_template->get_id());
         return $this->update($rights_template, $condition);
     }
-    
+
     function update_type_template($type_template)
     {
         $condition = new EqualityCondition(TypeTemplate :: PROPERTY_ID, $type_template->get_id());
@@ -417,7 +418,7 @@ class DatabaseRightsDataManager extends Database implements RightsDataManagerInt
         $condition = new EqualityCondition(RightsTemplate :: PROPERTY_ID, $rights_template->get_id());
         return $this->delete(RightsTemplate :: get_table_name(), $condition);
     }
-    
+
     function delete_type_template($type_template)
     {
 //        // Delete all type_template_right_locations for that specific rights_template
@@ -538,7 +539,7 @@ class DatabaseRightsDataManager extends Database implements RightsDataManagerInt
     {
         return $this->retrieve_objects(RightsTemplateRightLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by, RightsTemplateRightLocation :: CLASS_NAME);
     }
-    
+
     /**
      * retrieves the rights_template and right location
      *
@@ -561,7 +562,7 @@ class DatabaseRightsDataManager extends Database implements RightsDataManagerInt
 
         return $this->retrieve_object(TypeTemplateRightLocation :: get_table_name(), $condition);
     }
-    
+
     function retrieve_type_template_right_locations($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         return $this->retrieve_objects(TypeTemplateRightLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by, TypeTemplateRightLocation :: CLASS_NAME);

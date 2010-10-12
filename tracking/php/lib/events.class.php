@@ -1,4 +1,5 @@
 <?php
+namespace tracking;
 /**
  * $Id: events.class.php 213 2009-11-13 13:38:50Z vanpouckesven $
  * @package tracking.lib
@@ -11,7 +12,7 @@
 class Events
 {
 
-    /** 
+    /**
      * Create an event
      * @param String $event_name the event name (must be a unique name)
      */
@@ -25,7 +26,7 @@ class Events
         {
             return false;
         }
-        
+
         return $event;
     }
 }

@@ -1,4 +1,5 @@
 <?php
+namespace reporting;
 /**
  * @package reporting.lib
  *

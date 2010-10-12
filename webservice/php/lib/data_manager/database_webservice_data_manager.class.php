@@ -1,4 +1,5 @@
 <?php
+namespace webservice;
 /**
  * $Id: database_webservice_data_manager.class.php 208 2009-11-13 13:14:39Z vanpouckesven $
  * @package webservices.lib.data_manager
@@ -29,7 +30,7 @@ class DatabaseWebserviceDataManager extends Database implements WebserviceDataMa
     {
         return $this->count_objects(WebserviceRegistration :: get_table_name(), $conditions);
     }
-    
+
     function count_webservice_categories($conditions = null)
     {
     	return $this->count_objects(WebserviceCategoryRegistration :: get_table_name(), $conditions);
@@ -117,12 +118,12 @@ class DatabaseWebserviceDataManager extends Database implements WebserviceDataMa
 
         return $bool;
     }
-    
+
     function delete_webservices($condition)
     {
     	return $this->delete_objects(WebserviceRegistration :: get_table_name(), $condition);
     }
-    
+
 
     function delete_webservice_category($webserviceCategory)
     {

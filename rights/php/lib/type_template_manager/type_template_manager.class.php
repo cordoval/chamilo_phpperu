@@ -1,4 +1,5 @@
 <?php
+namespace rights;
 /**
  * $Id: type_template_manager.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.rights_template_manager
@@ -10,19 +11,19 @@ class TypeTemplateManager extends SubManager
     const PARAM_TYPE_TEMPLATE_ACTION = 'action';
     const PARAM_SOURCE = 'source';
     const PARAM_LOCATION = 'location';
-    
+
     const ACTION_BROWSE_TYPE_TEMPLATES = 'browser';
     const ACTION_EDIT_TYPE_TEMPLATE = 'editor';
     const ACTION_DELETE_TYPE_TEMPLATES = 'deleter';
     const ACTION_CREATE_TYPE_TEMPLATE = 'creator';
     const ACTION_CONFIGURE_TYPE_TEMPLATES = 'rights_templater';
-    
+
     const DEFAULT_ACTION = self :: ACTION_BROWSE_TYPE_TEMPLATES;
 
     function TypeTemplateManager($rights_manager)
     {
         parent :: __construct($rights_manager);
-        
+
         $type_template_action = Request :: get(self :: PARAM_TYPE_TEMPLATE_ACTION);
         if ($type_template_action)
         {
