@@ -5,6 +5,7 @@ use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\DataClass;
+use common\libraries\InCondition;
 
 /**
  * $Id: rights_template.class.php 214 2009-11-13 13:57:37Z vanpouckesven $

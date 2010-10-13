@@ -8,6 +8,7 @@ use common\libraries\Translation;
 use common\libraries\Configuration;
 use common\libraries\EqualityCondition;
 use common\libraries\PlatformSetting;
+use common\libraries\Session;
 /**
  * $Id: user_data_manager.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @author Hans De Bisschop
@@ -97,11 +98,7 @@ class UserDataManager
     public function logout()
     {
         $user = self :: get_instance()->retrieve_user(Session :: get_user_id());
-        $authentication_method = $user->get_auth_source();
-        $authentication_class_file = Path :: get_library_path() . 'authentication/' . $authentication_method . '/' . $authentication_method . '_authentication.class.php';
-        $authentication_class = ucfirst($authentication_method) . 'Authentication';
-        require_once $authentication_class_file;
-        $authentication = new $authentication_class();
+        $authentication = Authentication :: factory($user->get_auth_source());
         if ($authentication->logout($user))
         {
             return true;

@@ -16,6 +16,7 @@ use rights\RightsDataManager;
 use admin\AdminDataManager;
 
 use tracking\Event;
+use tracking\ChangesTracker;
 /**
  * $Id: user_form.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.forms

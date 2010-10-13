@@ -1,5 +1,7 @@
 <?php
 namespace common\libraries;
+
+use \Exception;
 /**
  * $Id: redirect.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common

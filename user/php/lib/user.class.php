@@ -8,6 +8,7 @@ use common\libraries\Translation;
 use common\libraries\DataClass;
 use common\libraries\Theme;
 use common\libraries\EqualityCondition;
+use common\libraries\InCondition;
 use common\libraries\PlatformSetting;
 
 use repository\RepositoryDataManager;

@@ -2,6 +2,7 @@
 namespace migration;
 
 use admin\AdminDataManager;
+use common\libraries\InCondition;
 
 /**
  * $Id: dokeos185_setting_current.class.php 221 2009-11-13 14:36:41Z vanpouckesven $

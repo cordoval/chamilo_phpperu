@@ -9,6 +9,7 @@ use common\libraries\PatternMatchCondition;
 use common\libraries\InequalityCondition;
 use common\libraries\NotCondition;
 use common\libraries\SubselectCondition;
+use common\libraries\InCondition;
 
 /**
  * $Id: database_rights_data_manager.class.php 235 2009-11-16 12:08:00Z scaramanga $

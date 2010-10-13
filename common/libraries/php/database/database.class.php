@@ -361,7 +361,7 @@ class Database
         if (isset($condition))
         {
             $translator = new ConditionTranslator($this);
-            $condition = $translator->render_query($condition);
+            $condition = $translator->render_query($condition, false);
         }
 
         $this->connection->loadModule('Extended');

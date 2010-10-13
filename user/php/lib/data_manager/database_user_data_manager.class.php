@@ -6,6 +6,7 @@ use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\OrCondition;
 use common\libraries\NotCondition;
+use common\libraries\InCondition;
 
 use repository\RepositoryRights;
 
@@ -249,7 +250,7 @@ class DatabaseUserDataManager extends Database implements UserDataManagerInterfa
 
     function retrieve_user_rights_templates($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->retrieve_objects(UserRightsTemplate :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(UserRightsTemplate :: get_table_name(), $condition, $offset, $max_objects, $order_by, UserRightsTemplate :: CLASS_NAME);
     }
 
     function add_rights_template_link($user, $rights_template_id)

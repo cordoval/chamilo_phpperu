@@ -310,9 +310,9 @@ class ConditionTranslator
         return preg_replace(array('/([%\'\\\\_])/e', '/(?<!\\\\)\*/', '/(?<!\\\\)\?/'), array("'\\\\\\\\' . '\\1'", '%', '_'), $string);
     }
 
-    function render_query($condition)
+    function render_query($condition, $add_where = true)
     {
-        return ' WHERE ' . $this->translate($condition);
+        return ($add_where ? ' WHERE ' : '') . $this->translate($condition);
     }
 
 }
