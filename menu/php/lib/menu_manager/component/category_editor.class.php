@@ -1,5 +1,6 @@
 <?php
 namespace menu;
+use common\libraries\Translation;
 
 require_once dirname(__FILE__) . '/editor.class.php';
 

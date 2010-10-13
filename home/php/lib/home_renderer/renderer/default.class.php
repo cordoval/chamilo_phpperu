@@ -1,5 +1,7 @@
 <?php
 namespace home;
+use common\libraries\BasicApplication;
+use common\libraries\Translation;
 /**
  * @author Hans De Bisschop
  */

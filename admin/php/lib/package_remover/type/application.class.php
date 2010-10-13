@@ -1,5 +1,8 @@
 <?php
 namespace admin;
+use common\libraries\Path;
+use common\libraries\WebApplication;
+use common\libraries\Translation;
 /**
  * $Id: application.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package admin.lib.package_remover.type

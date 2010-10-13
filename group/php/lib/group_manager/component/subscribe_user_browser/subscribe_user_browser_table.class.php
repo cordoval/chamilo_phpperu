@@ -1,6 +1,8 @@
 <?php
 namespace group;
 use common\libraries\Utilities;
+use common\libraries\Translation;
+use common\libraries\Request;
 /**
  * $Id: subscribe_user_browser_table.class.php 166 2009-11-12 11:03:06Z vanpouckesven $
  * @package groups.lib.group_manager.component.subscribe_user_browser

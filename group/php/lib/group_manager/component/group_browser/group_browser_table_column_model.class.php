@@ -1,5 +1,6 @@
 <?php
 namespace group;
+use common\libraries\Translation;
 /**
  * $Id: group_browser_table_column_model.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package groups.lib.group_manager.component.group_browser

@@ -1,5 +1,7 @@
 <?php
 namespace menu;
+use common\libraries\Translation;
+use common\libraries\Request;
 class MenuManagerDeleterComponent extends MenuManager implements AdministrationComponent
 {
 	function run()

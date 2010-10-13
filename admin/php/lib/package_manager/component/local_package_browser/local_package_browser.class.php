@@ -1,6 +1,9 @@
 <?php
 namespace admin;
 use common\libraries\Utilities;
+use common\libraries\Path;
+use common\libraries\Translation;
+use common\libraries\Request;
 /**
  * $Id: local_package_browser.class.php 126 2009-11-09 13:11:05Z vanpouckesven $
  * @package admin.lib.package_manager.component.local_package_browser

@@ -1,6 +1,8 @@
 <?php
 namespace menu;
 use common\libraries\Utilities;
+use common\libraries\Translation;
+use common\libraries\Request;
 /**
  * $Id: navigation_item_browser_table.class.php 223 2009-11-13 14:39:28Z vanpouckesven $
  * @package menu.lib.menu_manager.component.navigation_item_browser

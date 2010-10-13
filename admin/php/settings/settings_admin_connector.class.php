@@ -1,6 +1,8 @@
 <?php
 namespace admin;
 use common\libraries\Utilities;
+use common\libraries\Translation;
+use common\libraries\Session;
 /**
  * Simple connector class to facilitate rendering settings forms by
  * preprocessing data from the datamanagers to a simple array format.

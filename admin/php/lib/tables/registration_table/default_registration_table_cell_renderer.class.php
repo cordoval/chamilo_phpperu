@@ -1,5 +1,6 @@
 <?php
 namespace admin;
+use common\libraries\Translation;
 use common\libraries\Utilities;
 /**
  * $Id: default_registration_table_cell_renderer.class.php 168 2009-11-12 11:53:23Z vanpouckesven $

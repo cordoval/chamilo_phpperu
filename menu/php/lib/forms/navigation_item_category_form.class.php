@@ -1,5 +1,6 @@
 <?php
 namespace menu;
+use common\libraries\Translation;
 /**
  * $Id: navigation_item_category_form.class.php 223 2009-11-13 14:39:28Z vanpouckesven $
  * @package menu.lib

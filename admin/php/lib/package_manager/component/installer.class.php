@@ -1,5 +1,7 @@
 <?php
 namespace admin;
+use common\libraries\Translation;
+use common\libraries\Request;
 /**
  * $Id: installer.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package admin.lib.package_manager.component

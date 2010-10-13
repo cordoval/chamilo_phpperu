@@ -1,6 +1,7 @@
 <?php
 namespace menu;
 use common\libraries\Utilities;
+use common\libraries\Translation;
 /**
  * @author Hans De Bisschop
  */

@@ -1,6 +1,7 @@
 <?php
 
 namespace menu;
+use common\libraries\Translation;
 require_once dirname(__FILE__) . '/creator.class.php';
 
 class MenuManagerCategoryCreatorComponent extends MenuManagerCreatorComponent implements AdministrationComponent

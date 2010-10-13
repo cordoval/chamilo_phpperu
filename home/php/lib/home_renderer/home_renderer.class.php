@@ -1,6 +1,8 @@
 <?php
 namespace home;
 use common\libraries\Utilities;
+use common\libraries\Translation;
+use common\libraries\Request;
 /**
  * @author Hans De Bisschop
  */

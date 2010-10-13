@@ -1,6 +1,8 @@
 <?php
 namespace group;
 use common\libraries\Utilities;
+use common\libraries\Path;
+use common\libraries\Translation;
 /**
  * $Id: group_form.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package groups.lib.forms

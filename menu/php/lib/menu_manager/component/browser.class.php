@@ -1,5 +1,7 @@
 <?php
 namespace menu;
+use common\libraries\Translation;
+use common\libraries\Request;
 class MenuManagerBrowserComponent extends MenuManager implements AdministrationComponent
 {
 	private $action_bar;

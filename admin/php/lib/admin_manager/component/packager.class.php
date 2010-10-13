@@ -1,5 +1,6 @@
 <?php
 namespace admin;
+use common\libraries\Translation;
 /**
  * @package admin.lib.admin_manager.component
  * @author Hans De Bisschop

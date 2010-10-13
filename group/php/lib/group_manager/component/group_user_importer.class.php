@@ -1,6 +1,7 @@
 <?php
 namespace group;
 use common\libraries\Application;
+use common\libraries\Translation;
 /**
  * $Id: $
  * @author vanpouckesven

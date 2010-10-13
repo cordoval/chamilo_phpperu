@@ -1,5 +1,8 @@
 <?php
 namespace admin;
+use common\libraries\Path;
+use common\libraries\SubManager;
+use common\libraries\Request;
 /**
  * $Id: package_manager.class.php 126 2009-11-09 13:11:05Z vanpouckesven $
  * @package admin.lib.package_manager

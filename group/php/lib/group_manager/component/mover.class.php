@@ -1,6 +1,8 @@
 <?php
 namespace group;
 use common\libraries\Application;
+use common\libraries\Translation;
+use common\libraries\Request;
 require_once dirname(__FILE__) ."/../../group_rights.class.php";
 /**
  * $Id: mover.class.php 224 2009-11-13 14:40:30Z kariboe $

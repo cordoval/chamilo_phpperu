@@ -1,6 +1,7 @@
 <?php
 namespace help;
 use common\libraries\Application;
+use common\libraries\Translation;
 
 /**
  * $Id: help_item_browser_table_cell_renderer.class.php 226 2009-11-13 14:44:03Z chellee $

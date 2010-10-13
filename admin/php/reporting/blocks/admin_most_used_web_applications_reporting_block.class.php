@@ -1,5 +1,7 @@
 <?php
 namespace admin;
+use common\libraries\WebApplication;
+use common\libraries\Translation;
 require_once dirname(__FILE__) . '/../admin_reporting_block.class.php';
 require_once PATH :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
 

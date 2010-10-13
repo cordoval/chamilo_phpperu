@@ -1,6 +1,7 @@
 <?php
 namespace group;
 use common\libaries\Export;
+use common\libraries\Translation;
 
 /**
  *  $Id: group_export_form.class.php 224 2009-11-13 14:40:30Z kariboe $

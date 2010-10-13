@@ -1,6 +1,8 @@
 <?php
 namespace admin;
+use common\libraries\Translation;
 use common\libraries\Application;
+use common\libraries\Request;
 /**
  * $Id: deactivator.class.php 126 2009-11-09 13:11:05Z vanpouckesven $
  * @package admin.lib.package_manager.component

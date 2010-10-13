@@ -1,6 +1,9 @@
 <?php
 namespace menu;
 use common\libraries\Application;
+use common\libraries\CoreApplication;
+use common\libraries\Translation;
+use common\libraries\Request;
 /**
  * $Id: menu_manager.class.php 223 2009-11-13 14:39:28Z vanpouckesven $
  * @package menu.lib.menu_manager.component

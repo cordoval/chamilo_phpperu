@@ -3,6 +3,9 @@ namespace group;
 use common\libaries\Export;
 use common\libaries\Import;
 use common\libraries\Application;
+use common\libraries\CoreApplication;
+use common\libraries\Translation;
+use common\libraries\Request;
 /**
  * $Id: group_manager.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package group.lib.group_manager

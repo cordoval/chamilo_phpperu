@@ -2,6 +2,10 @@
 namespace admin;
 use common\libraries\Utilities;
 use common\libraries\Application;
+use common\libraries\Path;
+use common\libraries\WebApplication;
+use common\libraries\Translation;
+use common\libraries\Session;
 /**
  * $Id: configuration_form.class.php 126 2009-11-09 13:11:05Z vanpouckesven $
  * @package admin.lib

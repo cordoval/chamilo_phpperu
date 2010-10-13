@@ -1,6 +1,7 @@
 <?php
 namespace group;
 use common\libraries\Utilities;
+use common\libraries\Translation;
 
 /**
  * $Id: group_browser_table_cell_renderer.class.php 224 2009-11-13 14:40:30Z kariboe $

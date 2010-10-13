@@ -2,6 +2,8 @@
 namespace group;
 use common\libraries\Utilities;
 use common\libraries\Application;
+use common\libraries\Translation;
+use common\libraries\Request;
 require_once dirname(__FILE__) ."/../../group_rights.class.php";
 
 /**

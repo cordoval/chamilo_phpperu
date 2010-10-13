@@ -1,6 +1,8 @@
 <?php
 namespace admin;
 use common\libraries\Utilities;
+use common\libraries\Translation;
+use common\libraries\Request;
 require_once Path :: get_admin_path() . 'lib/package_installer/package_installer_source.class.php';
 require_once Path :: get_admin_path() . 'lib/package_installer/package_installer_type.class.php';
 /**

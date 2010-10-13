@@ -1,6 +1,8 @@
 <?php
 namespace menu;
 use common\libraries\Utilities;
+use common\libraries\WebApplication;
+use common\libraries\Translation;
 /**
  * $Id: menu_installer.class.php 223 2009-11-13 14:39:28Z vanpouckesven $
  * @package menu.install

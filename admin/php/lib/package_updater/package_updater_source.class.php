@@ -1,6 +1,8 @@
 <?php
 namespace admin;
 use common\libraries\Utilities;
+use common\libraries\Path;
+use common\libraries\Translation;
 abstract class PackageUpdaterSource
 {
     private $parent;

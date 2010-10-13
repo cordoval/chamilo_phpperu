@@ -1,5 +1,7 @@
 <?php
 namespace admin;
+use common\libraries\Path;
+use common\libraries\Translation;
 
 /**
  * $Id: log_viewer.class.php 168 2009-11-12 11:53:23Z vanpouckesven $

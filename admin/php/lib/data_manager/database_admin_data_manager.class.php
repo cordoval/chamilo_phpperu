@@ -1,5 +1,6 @@
 <?php
 namespace admin;
+use common\libraries\Session;
 /**
  * $Id: database_admin_data_manager.class.php 231 2009-11-16 09:53:00Z vanpouckesven $
  * @package admin.lib.data_manager

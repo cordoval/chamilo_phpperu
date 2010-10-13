@@ -1,5 +1,6 @@
 <?php
 namespace menu;
+use common\libraries\Translation;
 abstract class MenuManagerCreatorComponent extends MenuManager
 {
 	function run()

@@ -2,6 +2,9 @@
 namespace admin;
 use common\libraries\Utilities;
 use common\libraries\Application;
+use common\libraries\BasicApplication;
+use common\libraries\Translation;
+use common\libraries\Request;
 
 /**
  * $Id: configurer.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
