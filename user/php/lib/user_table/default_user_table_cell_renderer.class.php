@@ -1,6 +1,6 @@
 <?php
 namespace user;
-
+use common\libraries\ObjectTableCellRenderer;
 use common\libraries\Path;
 
 /**

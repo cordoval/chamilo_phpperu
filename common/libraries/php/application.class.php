@@ -1,5 +1,6 @@
 <?php
 namespace common\libraries;
+use admin\AdminManager;
 /**
  * $Id: application.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common
@@ -587,6 +588,7 @@ abstract class Application
      */
     static function get_application_class_name($application)
     {
+    	
         if (BasicApplication :: is_application($application))
         {
             return BasicApplication :: get_application_class_name($application);
@@ -691,7 +693,13 @@ abstract class Application
         }
 
         require_once $file;
-        return $manager_class . Utilities :: underscores_to_camelcase($type) . 'Component';
+        return self :: determine_namespace($application_name) . '\\' . $manager_class . Utilities :: underscores_to_camelcase($type) . 'Component';
+    }
+    
+    private function determine_namespace($application_name)
+    {
+    	$application_type = self :: get_type($application_name);   	
+   		return $application_type:: get_application_namespace($application_name);
     }
 
     /**
@@ -712,7 +720,7 @@ abstract class Application
      */
     static function get_component_action($application_name)
     {
-        $manager_class = self :: get_application_class_name($application_name);
+        $manager_class = self :: determine_namespace($application_name) . '\\' . self :: get_application_class_name($application_name);
         $default_action = call_user_func(array($manager_class, 'get_default_action'));
 
         $action = Request :: get(self :: PARAM_ACTION);

@@ -105,6 +105,11 @@ abstract class CoreApplication extends BasicApplication
         return $this->get_application_path($application_name) . 'lib/' . $application_name . '_manager/component/';
     }
 
+    static function get_application_namespace($application_name)
+    {
+    	return $application_name;
+    } 
+    
     /**
      * @deprecated
      */

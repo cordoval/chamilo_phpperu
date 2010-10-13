@@ -5,6 +5,8 @@ use common\libraries\Application;
 use common\libraries\CoreApplication;
 use common\libraries\Redirect;
 use common\libraries\Translation;
+use common\libraries\LocalSetting;
+use common\libraries\Theme;
 
 use repository\RepositoryDataManager;
 

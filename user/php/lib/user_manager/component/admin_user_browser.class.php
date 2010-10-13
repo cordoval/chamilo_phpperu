@@ -3,6 +3,12 @@ namespace user;
 
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\AdministrationComponent;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
+use common\libraries\ActionBarSearchForm;
+
 
 /**
  * $Id: admin_user_browser.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
@@ -22,13 +28,13 @@ class UserManagerAdminUserBrowserComponent extends UserManager implements Admini
     {
         $this->firstletter = Request :: get(UserManager :: PARAM_FIRSTLETTER);
 
-        if (!UserRights :: is_allowed_in_users_subtree(UserRights :: VIEW_RIGHT, 0))
-        {
-            $this->display_header();
-            Display :: error_message(Translation :: get("NotAllowed"));
-            $this->display_footer();
-            exit();
-        }
+//        if (!UserRights :: is_allowed_in_users_subtree(UserRights :: VIEW_RIGHT, 0))
+//        {
+//            $this->display_header();
+//            Display :: error_message(Translation :: get("NotAllowed"));
+//            $this->display_footer();
+//            exit();
+//        }
 
         $this->ab = $this->get_action_bar();
         $output = $this->get_user_html();
@@ -129,10 +135,10 @@ class UserManagerAdminUserBrowserComponent extends UserManager implements Admini
 
         $action_bar->set_search_url($this->get_url());
 
-        if(UserRights :: is_allowed_in_users_subtree(UserRights :: ADD_RIGHT, 0))
-        {
-        	$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path() . 'action_add.png', $this->get_url(array(Application :: PARAM_ACTION => UserManager :: ACTION_CREATE_USER)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        }
+//        if(UserRights :: is_allowed_in_users_subtree(UserRights :: ADD_RIGHT, 0))
+//        {
+//        	$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path() . 'action_add.png', $this->get_url(array(Application :: PARAM_ACTION => UserManager :: ACTION_CREATE_USER)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+//        }
 
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         return $action_bar;

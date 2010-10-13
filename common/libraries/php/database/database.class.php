@@ -733,7 +733,9 @@ class Database
 
         $this->set_limit(1);
         $res = $this->query($query);
+
         $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+        
         $res->free();
 
         if ($record)
@@ -749,7 +751,6 @@ class Database
     function retrieve_object($table_name, $condition = null, $order_by = array(), $class_name = null)
     {
         $record = $this->retrieve_record($table_name, $condition, $order_by);
-
         if (is_null($class_name))
         {
             $class_name = Utilities :: underscores_to_camelcase($table_name);

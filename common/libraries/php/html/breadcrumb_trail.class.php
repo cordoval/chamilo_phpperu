@@ -1,5 +1,6 @@
 <?php
 namespace common\libraries;
+
 /**
  * $Id: breadcrumb_trail.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common.html
@@ -125,29 +126,29 @@ class BreadcrumbTrail
         $html = array();
         $help_items = $this->help_items;
         
-        if (is_array($help_items) && count($help_items) > 0)
-        {
-            $items = array();
-            
-            foreach ($help_items as $help_item)
-            {
-                $item = HelpManager :: get_tool_bar_help_item($help_item);
-                if ($item)
-                {
-                    $items[] = $item;
-                }
-            }
-            
-            if (count($items) > 0)
-            {
-                $html[] = '<div id="help_item">';
-                $toolbar = new Toolbar();
-                $toolbar->set_items($items);
-                $toolbar->set_type(Toolbar :: TYPE_HORIZONTAL);
-                $html[] = $toolbar->as_html();
-                $html[] = '</div>';
-            }
-        }
+//        if (is_array($help_items) && count($help_items) > 0)
+//        {
+//            $items = array();
+//            
+//            foreach ($help_items as $help_item)
+//            {
+//                $item = HelpManager :: get_tool_bar_help_item($help_item);
+//                if ($item)
+//                {
+//                    $items[] = $item;
+//                }
+//            }
+//            
+//            if (count($items) > 0)
+//            {
+//                $html[] = '<div id="help_item">';
+//                $toolbar = new Toolbar();
+//                $toolbar->set_items($items);
+//                $toolbar->set_type(Toolbar :: TYPE_HORIZONTAL);
+//                $html[] = $toolbar->as_html();
+//                $html[] = '</div>';
+//            }
+//        }
         
         return implode("\n", $html);
     }

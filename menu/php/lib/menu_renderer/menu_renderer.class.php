@@ -49,7 +49,7 @@ abstract class MenuRenderer
 
         require_once $file;
 
-        $class = Utilities :: underscores_to_camelcase($type) . 'MenuRenderer';
+        $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type) . 'MenuRenderer';
         $renderer = new $class($user);
         return $renderer;
     }
