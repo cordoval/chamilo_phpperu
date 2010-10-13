@@ -162,7 +162,8 @@ class Dokeos185GroupRelUser extends Dokeos185CourseDataMigrationDataClass
         $course_group_user_relation->set_course_group($new_group_id);
         $course_group_user_relation->set_user($new_user_id);
         $course_group_user_relation->create();
-        $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'group_rel_user', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $course_group_user_relation->get_id())));
+        $this->set_message(Translation :: get('CourseGroupRelUserConvertedMessage', array('OLD_ID' => $this->get_id(), 'USER_ID' => $course_group_user_relation->get_user(), 'COURSE_GROUP_ID' => 
+                $course_group_user_relation->get_course_group())));
     }
 
     static function get_table_name()
