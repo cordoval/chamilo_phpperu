@@ -2,6 +2,7 @@
 namespace admin;
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\EqualityCondition;
 /**
  * $Id: whois_online.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package admin.lib.admin_manager.component

@@ -3,6 +3,7 @@
 namespace admin;
 use common\libraries\Utilities;
 use common\libraries\Translation;
+use common\libraries\Installer;
 /**
  * $Id: admin_installer.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package admin.install

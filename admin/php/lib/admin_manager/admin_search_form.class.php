@@ -2,6 +2,8 @@
 namespace admin;
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\EqualityCondition;
+ 
 /**
  * $Id: admin_search_form.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package admin.lib.admin_manager

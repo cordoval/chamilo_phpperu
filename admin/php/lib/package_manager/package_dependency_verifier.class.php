@@ -1,6 +1,9 @@
 <?php
 namespace admin;
 use common\libraries\Translation;
+use common\libraries\EqualityCondition;
+ 
+ 
 require_once dirname(__FILE__) . '/package_dependency.class.php';
 require_once dirname(__FILE__) . '/../package_installer/source/package_info/package_info.class.php';
 /**

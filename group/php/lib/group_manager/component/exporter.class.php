@@ -3,6 +3,7 @@ namespace group;
 use common\libraries\Translation;
 use common\libaries\Export;
 use common\libraries\Request;
+use common\libraries\EqualityCondition;
 require_once dirname(__FILE__) ."/../../group_rights.class.php";
 /**
  * $Id: exporter.class.php 224 2009-11-13 14:40:30Z kariboe $

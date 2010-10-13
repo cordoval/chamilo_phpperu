@@ -1,6 +1,7 @@
 <?php
 namespace admin;
 use common\libraries\Translation;
+ 
 /**
  * $Id: remote.class.php 126 2009-11-09 13:11:05Z vanpouckesven $
  * @package admin.lib.package_manager.component
@@ -17,13 +18,13 @@ class PackageManagerRemoteComponent extends PackageManager
      */
     function run()
     {
-        if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW))
-        {
-            $this->display_header();
-            $this->display_error_message(Translation :: get('NotAllowed'));
-            $this->display_footer();
-            exit();
-        }
+//        if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW))
+//        {
+//            $this->display_header();
+//            $this->display_error_message(Translation :: get('NotAllowed'));
+//            $this->display_footer();
+//            exit();
+//        }
         
         $this->action_bar = $this->get_action_bar();
         $parameters = $this->get_parameters();

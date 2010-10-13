@@ -2,6 +2,7 @@
 namespace menu;
 use common\libraries\Utilities;
 use common\libraries\DataClass;
+use common\libraries\EqualityCondition;
 /**
  * $Id: navigation_item.class.php 223 2009-11-13 14:39:28Z vanpouckesven $
  * @package menu.lib

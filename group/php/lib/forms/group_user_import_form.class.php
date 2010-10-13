@@ -2,6 +2,8 @@
 namespace group;
 use common\libaries\Import;
 use common\libraries\Translation;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
 /**
  * $Id: $
  * @author vanpouckesven

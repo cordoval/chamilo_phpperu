@@ -14,13 +14,13 @@ class PackageManagerUpdaterComponent extends PackageManager
      */
     function run()
     {
-        if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW))
-        {
-            $this->display_header();
-            $this->display_error_message(Translation :: get('NotAllowed'));
-            $this->display_footer();
-            exit();
-        }
+//        if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW))
+//        {
+//            $this->display_header();
+//            $this->display_error_message(Translation :: get('NotAllowed'));
+//            $this->display_footer();
+//            exit();
+//        }
 
         $updater = new PackageUpdater();
         $updater->run();

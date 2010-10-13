@@ -1,6 +1,8 @@
 <?php
 namespace home;
 use common\libraries\Translation;
+use common\libraries\EqualityCondition;
+use common\libraries\SubselectCondition;
 /**
  * $Id: home_block_form.class.php 227 2009-11-13 14:45:05Z kariboe $
  * @package home.lib.forms

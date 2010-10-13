@@ -2,7 +2,11 @@
 namespace group;
 use common\libraries\Application;
 use common\libraries\Translation;
+use common\libraries\EqualityCondition;
 use common\libraries\Request;
+use common\libraries\AndCondition;
+ 
+ 
 require_once dirname(__FILE__) ."/../../group_rights.class.php";
 /**
  * $Id: subscribe_user_browser.class.php 224 2009-11-13 14:40:30Z kariboe $

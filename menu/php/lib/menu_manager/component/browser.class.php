@@ -2,6 +2,9 @@
 namespace menu;
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+
 class MenuManagerBrowserComponent extends MenuManager implements AdministrationComponent
 {
 	private $action_bar;

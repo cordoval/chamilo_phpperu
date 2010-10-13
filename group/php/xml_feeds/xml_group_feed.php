@@ -1,6 +1,10 @@
 <?php
 namespace group;
 use common\libraries\Request;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+ 
+ 
 /**
  * $Id: xml_group_feed.php 224 2009-11-13 14:40:30Z kariboe $
  * @package group.xml_feeds

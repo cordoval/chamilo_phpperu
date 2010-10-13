@@ -2,6 +2,7 @@
 namespace help;
 use common\libraries\Translation;
 use common\libraries\Request;
+ 
 /**
  * $Id: browser.class.php 226 2009-11-13 14:44:03Z chellee $
  * @package help.lib.help_manager.component

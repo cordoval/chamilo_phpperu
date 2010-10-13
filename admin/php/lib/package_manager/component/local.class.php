@@ -17,13 +17,13 @@ class PackageManagerLocalComponent extends PackageManager
      */
     function run()
     {
-        if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW))
-        {
-            $this->display_header();
-            $this->display_error_message(Translation :: get('NotAllowed'));
-            $this->display_footer();
-            exit();
-        }
+//        if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW))
+//        {
+//            $this->display_header();
+//            $this->display_error_message(Translation :: get('NotAllowed'));
+//            $this->display_footer();
+//            exit();
+//        }
         
         $this->action_bar = $this->get_action_bar();
         $table = new LocalPackageBrowser($this);

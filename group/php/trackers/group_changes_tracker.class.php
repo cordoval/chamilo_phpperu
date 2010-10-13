@@ -1,6 +1,7 @@
 <?php
 namespace group;
 use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
 /**
  * $Id: group_changes_tracker.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package group.trackers
