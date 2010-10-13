@@ -1,5 +1,6 @@
 <?php
 use common\libraries\Request;
+use common\libraries\CoreApplication;
 
 /**
  * $Id: reporting_change_charttype.php 215 2009-11-13 14:07:59Z vanpouckesven $

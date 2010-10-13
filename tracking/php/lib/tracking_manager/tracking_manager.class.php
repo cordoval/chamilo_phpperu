@@ -6,6 +6,7 @@ use common\libraries\Application;
 use common\libraries\CoreApplication;
 use common\libraries\Redirect;
 use common\libraries\Translation;
+use common\libraries\Theme;
 
 /**
  * $Id: tracking_manager.class.php 213 2009-11-13 13:38:50Z vanpouckesven $

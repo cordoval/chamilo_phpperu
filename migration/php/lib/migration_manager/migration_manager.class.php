@@ -1,5 +1,9 @@
 <?php
 namespace migration;
+
+use common\libraries\Theme;
+use common\libraries\CoreApplication;
+
 /**
  * $Id: migration_manager.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.migration_manager

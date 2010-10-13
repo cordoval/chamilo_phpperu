@@ -7,6 +7,7 @@ use common\libraries\WebApplication;
 use common\libraries\BasicApplication;
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\Theme;
 
 use rights\RightsUtilities;
 /**

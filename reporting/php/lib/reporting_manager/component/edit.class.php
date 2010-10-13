@@ -3,6 +3,7 @@ namespace reporting;
 
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\Display;
 
 /**
  * $Id: edit.class.php 215 2009-11-13 14:07:59Z vanpouckesven $

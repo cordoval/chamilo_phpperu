@@ -2,6 +2,7 @@
 namespace tracking;
 
 use common\libraries\Translation;
+use common\libraries\Theme;
 
 /**
  * $Id: trackers_selection_archive_wizard_page.class.php 213 2009-11-13 13:38:50Z vanpouckesven $

@@ -2,6 +2,7 @@
 namespace reporting;
 
 use common\libraries\Path;
+use common\libraries\Theme;
 
 /**
  * $Id: filledcubic_pchart_reporting_chart_formatter.class.php 215 2009-11-13 14:07:59Z vanpouckesven $

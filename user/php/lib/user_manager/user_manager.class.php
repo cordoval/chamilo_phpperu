@@ -11,6 +11,8 @@ use common\libraries\DynamicAction;
 use common\libraries\PlatformSetting;
 
 use repository\RepositoryDataManager;
+use rights\RightsManager;
+use rights\UserRightManager;
 
 /**
  * $Id: user_manager.class.php 211 2009-11-13 13:28:39Z vanpouckesven $

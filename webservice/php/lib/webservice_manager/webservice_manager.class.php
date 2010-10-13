@@ -5,6 +5,9 @@ use common\libraries\Application;
 use common\libraries\CoreApplication;
 use common\libraries\Redirect;
 use common\libraries\Translation;
+use common\libraries\Theme;
+use common\libraries\ToolbarItem;
+use common\libraries\Toolbar;
 /**
  * $Id: webservice_manager.class.php 208 2009-11-13 13:14:39Z vanpouckesven $
  * @package webservices.lib.webservice_manager

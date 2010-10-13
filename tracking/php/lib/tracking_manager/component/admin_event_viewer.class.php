@@ -3,6 +3,7 @@ namespace tracking;
 
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\Display;
 
 /**
  * $Id: admin_event_viewer.class.php 213 2009-11-13 13:38:50Z vanpouckesven $

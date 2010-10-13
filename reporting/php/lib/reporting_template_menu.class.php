@@ -4,6 +4,7 @@ namespace reporting;
 use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Translation;
+use common\libraries\Theme;
 /**
  * @package reporting.lib
  */

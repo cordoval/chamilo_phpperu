@@ -2,6 +2,7 @@
 namespace webservice;
 
 use common\libraries\Request;
+use common\libraries\Display;
 
 /**
  * $Id: webservice_browser.class.php 208 2009-11-13 13:14:39Z vanpouckesven $

@@ -1,6 +1,7 @@
 <?php
 use common\libraries\Authentication;
 use common\libraries\Translation;
+use common\libraries\Theme;
 
 use rights\RightsUtilities;
 /**

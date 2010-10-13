@@ -1,5 +1,8 @@
 <?php
 namespace rights;
+
+use common\libraries\Database;
+
 /**
  * $Id: database_rights_data_manager.class.php 235 2009-11-16 12:08:00Z scaramanga $
  * @package rights.lib.data_manager

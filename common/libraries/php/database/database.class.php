@@ -735,7 +735,7 @@ class Database
         $res = $this->query($query);
 
         $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
-        
+
         $res->free();
 
         if ($record)

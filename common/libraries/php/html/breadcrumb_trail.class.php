@@ -1,6 +1,8 @@
 <?php
 namespace common\libraries;
 
+use help\HelpManager;
+
 /**
  * $Id: breadcrumb_trail.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common.html
@@ -9,11 +11,11 @@ class BreadcrumbTrail
 {
     // Singleton
     private static $instance;
-    
+
     private $breadcrumbtrail;
-    
+
     private $help_items;
-    
+
     private $extra_items;
 
     /**
@@ -25,7 +27,7 @@ class BreadcrumbTrail
         {
             self :: $instance = new BreadcrumbTrail();
         }
-        
+
         return self :: $instance;
     }
 
@@ -94,11 +96,11 @@ class BreadcrumbTrail
     function render()
     {
         $html = array();
-        
+
         $html[] = $this->render_breadcrumbs();
         $html[] = $this->render_help();
         $html[] = $this->render_extra();
-        
+
         return implode("\n", $html);
     }
 
@@ -106,7 +108,7 @@ class BreadcrumbTrail
     {
         $html = array();
         $html[] = '<ul id="breadcrumbtrail">';
-        
+
         $breadcrumbtrail = $this->breadcrumbtrail;
         if (is_array($breadcrumbtrail) && count($breadcrumbtrail) > 0)
         {
@@ -115,9 +117,9 @@ class BreadcrumbTrail
                 $html[] = '<li><a href="' . $breadcrumb->get_url() . '" target="_self">' . Utilities :: truncate_string($breadcrumb->get_name(), 50, true) . '</a></li>';
             }
         }
-        
+
         $html[] = '</ul>';
-        
+
         return implode("\n", $html);
     }
 
@@ -125,31 +127,31 @@ class BreadcrumbTrail
     {
         $html = array();
         $help_items = $this->help_items;
-        
-//        if (is_array($help_items) && count($help_items) > 0)
-//        {
-//            $items = array();
-//            
-//            foreach ($help_items as $help_item)
-//            {
-//                $item = HelpManager :: get_tool_bar_help_item($help_item);
-//                if ($item)
-//                {
-//                    $items[] = $item;
-//                }
-//            }
-//            
-//            if (count($items) > 0)
-//            {
-//                $html[] = '<div id="help_item">';
-//                $toolbar = new Toolbar();
-//                $toolbar->set_items($items);
-//                $toolbar->set_type(Toolbar :: TYPE_HORIZONTAL);
-//                $html[] = $toolbar->as_html();
-//                $html[] = '</div>';
-//            }
-//        }
-        
+
+        if (is_array($help_items) && count($help_items) > 0)
+        {
+            $items = array();
+
+            foreach ($help_items as $help_item)
+            {
+                $item = HelpManager :: get_tool_bar_help_item($help_item);
+                if ($item)
+                {
+                    $items[] = $item;
+                }
+            }
+
+            if (count($items) > 0)
+            {
+                $html[] = '<div id="help_item">';
+                $toolbar = new Toolbar();
+                $toolbar->set_items($items);
+                $toolbar->set_type(Toolbar :: TYPE_HORIZONTAL);
+                $html[] = $toolbar->as_html();
+                $html[] = '</div>';
+            }
+        }
+
         return implode("\n", $html);
     }
 
@@ -157,21 +159,21 @@ class BreadcrumbTrail
     {
         $html = array();
         $extra_items = $this->extra_items;
-        
+
         $html[] = '<div id="extra_item">';
         $toolbar = new Toolbar();
         $toolbar->add_item(new ToolbarItem(Translation :: get('ShowActionBar'), Theme :: get_common_image_path() . 'action_bar.png', '#', ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'action_bar_text'));
         $toolbar->add_item(new ToolbarItem(Translation :: get('ShowReportingFilter'), Theme :: get_common_image_path() . 'reporting_filter.png', '#', ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'reporting_filter_text'));
-        
+
         if (is_array($extra_items) && count($extra_items) > 0)
         {
             $toolbar->add_items($extra_items);
             $toolbar->set_type(Toolbar :: TYPE_HORIZONTAL);
         }
-        
+
         $html[] = $toolbar->as_html();
         $html[] = '</div>';
-        
+
         return implode("\n", $html);
     }
 

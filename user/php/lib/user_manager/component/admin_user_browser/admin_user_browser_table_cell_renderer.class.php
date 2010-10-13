@@ -4,6 +4,12 @@ namespace user;
 use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\Toolbar;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
+use common\libraries\PlatformSetting;
+use common\libraries\Session;
+
+use reporting\ReportingManager;
 
 /**
  * $Id: admin_user_browser_table_cell_renderer.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
@@ -60,9 +66,9 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
                     return Translation :: get('Student');
                 }
             case User :: PROPERTY_PLATFORMADMIN :
-            	return Utilities :: display_true_false_icon($user->get_platformadmin());
-            case User :: PROPERTY_ACTIVE:
-            	return Utilities :: display_true_false_icon($user->get_active());
+                return Utilities :: display_true_false_icon($user->get_platformadmin());
+            case User :: PROPERTY_ACTIVE :
+                return Utilities :: display_true_false_icon($user->get_active());
         }
         return parent :: render_cell($column, $user);
     }
@@ -75,96 +81,57 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
      */
     private function get_modification_links($user)
     {
-    	$toolbar = new Toolbar();
+        $toolbar = new Toolbar();
 
-//    	if(UserRights :: is_allowed_in_users_subtree(UserRights :: EDIT_RIGHT, $user->get_id()))
-//        {
-//	        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png',
-//						$this->browser->get_user_editing_url($user), ToolbarItem :: DISPLAY_ICON));
-//	        $toolbar->add_item(new ToolbarItem(Translation :: get('VersionQuota'),
-//	        	Theme :: get_common_image_path() . 'action_statistics.png',
-//	        	$this->browser->get_user_quota_url($user),
-//	        	ToolbarItem :: DISPLAY_ICON));
-//
-//
-//	        $toolbar->add_item(new ToolbarItem(Translation :: get('ManageRightsTemplates'),
-//	        	Theme :: get_common_image_path() . 'action_rights.png',
-//	        	$this->browser->get_manage_user_rights_url($user),
-//	        	ToolbarItem :: DISPLAY_ICON));
-//
-//	         $toolbar->add_item(new ToolbarItem(Translation :: get('ManageRights'),
-//	        	Theme :: get_common_image_path() . 'action_rights.png',
-//	        	$this->browser->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_EDIT_RIGHTS, UserManager :: PARAM_USER_USER_ID => $user->get_id())),
-//	        	ToolbarItem :: DISPLAY_ICON));
-//
-//	        $params = array();
-//	        $params[ReportingManager :: PARAM_USER_ID] = $user->get_id();
-//	       		$toolbar->add_item(new ToolBarItem(Translation :: get('Detail'),
-//	        	Theme :: get_common_image_path().'action_details.png',
-//	        	$this->browser->get_user_detail_url($user->get_id()),
-//	        	ToolbarItem :: DISPLAY_ICON));
-//
-//			        $toolbar->add_item(new ToolBarItem(Translation :: get('Report'),
-//	        	Theme :: get_common_image_path() . 'action_reporting.png',
-//	        	$this->browser->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_REPORTING, UserManager::PARAM_USER_USER_ID => $user->get_id())),
-//	        	ToolbarItem :: DISPLAY_ICON));
-//
-//	        $toolbar->add_item(new ToolBarItem(Translation :: get('ViewQuota'),
-//	        	Theme :: get_common_image_path() . 'action_browser.png',
-//	        	$this->browser->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_VIEW_QUOTA, UserManager::PARAM_USER_USER_ID => $user->get_id())),
-//	        	ToolbarItem :: DISPLAY_ICON));
-//
-//
-//
-//	    	if(PlatformSetting :: get('active_online_email_editor'))
-//	        {
-//	        	$toolbar->add_item(new ToolBarItem(Translation :: get('SendEmail'),
-//	        		Theme :: get_common_image_path() . 'action_email.png',
-//	        		$this->browser->get_email_user_url($user),
-//	        		ToolbarItem :: DISPLAY_ICON));
-//
-//	        }
-//        }
-//
-//        if ($user->get_id() != Session :: get_user_id())
-//        {
-//            if (UserDataManager :: user_deletion_allowed($user) && UserRights :: is_allowed_in_users_subtree(UserRights :: DELETE_RIGHT, $user->get_id()))
-//            {
-//            	$toolbar->add_item(new ToolBarItem(Translation :: get('Delete'),
-//        			Theme :: get_common_image_path() . 'action_delete.png',
-//        			$this->browser->get_user_delete_url($user),
-//        			ToolbarItem :: DISPLAY_ICON,
-//        			true
-//        		));
-//            }
-//            else
-//            {
-//            	$toolbar->add_item(new ToolBarItem(Translation :: get('DeleteNA'),
-//        			Theme :: get_common_image_path() . 'action_delete_na.png',
-//        			null,
-//        			ToolbarItem :: DISPLAY_ICON
-//        		));
-//            }
-//
-//            if(UserRights :: is_allowed_in_users_subtree(UserRights :: EDIT_RIGHT, $user->get_id()))
-//            {
-//				$toolbar->add_item(new ToolBarItem(Translation :: get('LoginAsUser'),
-//	        		Theme :: get_common_image_path() . 'action_login.png',
-//	        		$this->browser->get_change_user_url($user),
-//	        		ToolbarItem :: DISPLAY_ICON)
-//	        	);
-//            }
-//        }
-//        else
-//        {
-//        	$toolbar->add_item(new ToolBarItem(Translation :: get('DeleteNA'),
-//        		Theme :: get_common_image_path() . 'action_delete_na.png',
-//        		null,
-//        		ToolbarItem :: DISPLAY_ICON
-//        	));
-//        }
+        if (UserRights :: is_allowed_in_users_subtree(UserRights :: EDIT_RIGHT, $user->get_id()))
+        {
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_user_editing_url($user), ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('VersionQuota'), Theme :: get_common_image_path() . 'action_statistics.png', $this->browser->get_user_quota_url($user), ToolbarItem :: DISPLAY_ICON));
 
-		return $toolbar->as_html();
+            $toolbar->add_item(new ToolbarItem(Translation :: get('ManageRightsTemplates'), Theme :: get_common_image_path() . 'action_rights.png', $this->browser->get_manage_user_rights_url($user), ToolbarItem :: DISPLAY_ICON));
+
+            $toolbar->add_item(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->browser->get_url(array(
+                    UserManager :: PARAM_ACTION => UserManager :: ACTION_EDIT_RIGHTS, UserManager :: PARAM_USER_USER_ID => $user->get_id())), ToolbarItem :: DISPLAY_ICON));
+
+            $params = array();
+            $params[ReportingManager :: PARAM_USER_ID] = $user->get_id();
+            $toolbar->add_item(new ToolBarItem(Translation :: get('Detail'), Theme :: get_common_image_path() . 'action_details.png', $this->browser->get_user_detail_url($user->get_id()), ToolbarItem :: DISPLAY_ICON));
+
+            $toolbar->add_item(new ToolBarItem(Translation :: get('Report'), Theme :: get_common_image_path() . 'action_reporting.png', $this->browser->get_url(array(
+                    UserManager :: PARAM_ACTION => UserManager :: ACTION_REPORTING, UserManager :: PARAM_USER_USER_ID => $user->get_id())), ToolbarItem :: DISPLAY_ICON));
+
+            $toolbar->add_item(new ToolBarItem(Translation :: get('ViewQuota'), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_url(array(
+                    UserManager :: PARAM_ACTION => UserManager :: ACTION_VIEW_QUOTA, UserManager :: PARAM_USER_USER_ID => $user->get_id())), ToolbarItem :: DISPLAY_ICON));
+
+            if (PlatformSetting :: get('active_online_email_editor'))
+            {
+                $toolbar->add_item(new ToolBarItem(Translation :: get('SendEmail'), Theme :: get_common_image_path() . 'action_email.png', $this->browser->get_email_user_url($user), ToolbarItem :: DISPLAY_ICON));
+
+            }
+        }
+
+        if ($user->get_id() != Session :: get_user_id())
+        {
+            if (UserDataManager :: user_deletion_allowed($user) && UserRights :: is_allowed_in_users_subtree(UserRights :: DELETE_RIGHT, $user->get_id()))
+            {
+                $toolbar->add_item(new ToolBarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_user_delete_url($user), ToolbarItem :: DISPLAY_ICON, true));
+            }
+            else
+            {
+                $toolbar->add_item(new ToolBarItem(Translation :: get('DeleteNA'), Theme :: get_common_image_path() . 'action_delete_na.png', null, ToolbarItem :: DISPLAY_ICON));
+            }
+
+            if (UserRights :: is_allowed_in_users_subtree(UserRights :: EDIT_RIGHT, $user->get_id()))
+            {
+                $toolbar->add_item(new ToolBarItem(Translation :: get('LoginAsUser'), Theme :: get_common_image_path() . 'action_login.png', $this->browser->get_change_user_url($user), ToolbarItem :: DISPLAY_ICON));
+            }
+        }
+        else
+        {
+            $toolbar->add_item(new ToolBarItem(Translation :: get('DeleteNA'), Theme :: get_common_image_path() . 'action_delete_na.png', null, ToolbarItem :: DISPLAY_ICON));
+        }
+
+        return $toolbar->as_html();
     }
 }
 ?>

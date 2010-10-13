@@ -2,6 +2,7 @@
 namespace help;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
+use common\libraries\Database;
 /**
  * $Id: database_help_data_manager.class.php 226 2009-11-13 14:44:03Z chellee $
  * @package help.lib.data_manager
@@ -48,13 +49,13 @@ class DatabaseHelpDataManager extends Database implements HelpDataManagerInterfa
 
     function retrieve_help_items($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->retrieve_objects(HelpItem :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(HelpItem :: get_table_name(), $condition, $offset, $max_objects, $order_by, HelpItem :: CLASS_NAME);
     }
 
     function retrieve_help_item($id)
     {
         $condition = new EqualityCondition(HelpItem :: PROPERTY_ID, $id);
-        return $this->retrieve_object(HelpItem :: get_table_name(), $condition);
+        return $this->retrieve_object(HelpItem :: get_table_name(), $condition, array(), HelpItem :: CLASS_NAME);
     }
 
     function retrieve_help_item_by_name_and_language($name, $language)
@@ -65,7 +66,7 @@ class DatabaseHelpDataManager extends Database implements HelpDataManagerInterfa
 
         $condition = new AndCondition($conditions);
 
-        return $this->retrieve_object(HelpItem :: get_table_name(), $condition);
+        return $this->retrieve_object(HelpItem :: get_table_name(), $condition, array(), HelpItem :: CLASS_NAME);
     }
 }
 ?>

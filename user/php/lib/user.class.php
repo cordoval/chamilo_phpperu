@@ -6,6 +6,7 @@ use common\libraries\Path;
 use common\libraries\Filesystem;
 use common\libraries\Translation;
 use common\libraries\DataClass;
+use common\libraries\Theme;
 
 use repository\RepositoryDataManager;
 /**

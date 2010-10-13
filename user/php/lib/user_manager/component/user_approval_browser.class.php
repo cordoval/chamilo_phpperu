@@ -1,5 +1,11 @@
 <?php
 namespace user;
+
+use common\libraries\Display;
+use common\libraries\Theme;
+use common\libraries\ToolbarItem;
+use common\libraries\Toolbar;
+
 /**
  * $Id: admin_user_browser.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager.component

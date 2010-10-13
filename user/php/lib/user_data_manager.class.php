@@ -83,7 +83,8 @@ class UserDataManager
                     }
                 }
             }
-            $authentication_dir->close(); exit;
+            $authentication_dir->close();
+            exit();
             return Translation :: get('UsernameNotAvailable');
         }
     }
@@ -113,13 +114,14 @@ class UserDataManager
     function user_deletion_allowed($user)
     {
         //A check to not delete a user when he's an active teacher
-        $courses = WeblcmsDataManager :: get_instance()->count_courses(new EqualityCondition(Course :: PROPERTY_TITULAR,$user->get_id()));
-        if($courses > 0)
-        {
-        	return false;
-        }
+        //$courses = WeblcmsDataManager :: get_instance()->count_courses(new EqualityCondition(Course :: PROPERTY_TITULAR,$user->get_id()));
+        //if($courses > 0)
+        //{
+        return false;
+        //}
 
-        return true;
+
+    //return true;
     }
 }
 ?>

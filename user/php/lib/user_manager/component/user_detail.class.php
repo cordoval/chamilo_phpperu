@@ -4,6 +4,10 @@ namespace user;
 use common\libraries\WebApplication;
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\Theme;
+use common\libraries\Display;
+use common\libraries\ToolbarItem;
+use common\libraries\Toolbar;
 
 /**
  * $Id: user_detail.class.php 211 2009-11-13 13:28:39Z vanpouckesven $

@@ -1,5 +1,10 @@
 <?php
 namespace rights;
+
+use common\libraries\Theme;
+use common\libraries\ToolbarItem;
+use common\libraries\Toolbar;
+
 /**
  * $Id: type_template_browser_table_cell_renderer.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.type_template_manager.component.type_template_browser_table

@@ -2,6 +2,9 @@
 namespace rights;
 
 use common\libraries\Translation;
+use common\libraries\Theme;
+use common\libraries\ToolbarItem;
+use common\libraries\Toolbar;
 
 /**
  * $Id: location_browser_table_cell_renderer.class.php 214 2009-11-13 13:57:37Z vanpouckesven $

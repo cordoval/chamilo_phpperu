@@ -8,6 +8,9 @@ use common\libraries\WebApplication;
 use common\libraries\Redirect;
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\Theme;
+use common\libraries\ToolbarItem;
+use common\libraries\Toolbar;
 
 /**
  * $Id: reporting_template.class.php 215 2009-11-13 14:07:59Z vanpouckesven $

@@ -4,6 +4,7 @@ namespace user;
 use common\libraries\Authentication;
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\Display;
 
 /**
  * $Id: reset_password.class.php 211 2009-11-13 13:28:39Z vanpouckesven $

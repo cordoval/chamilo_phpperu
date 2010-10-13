@@ -5,6 +5,10 @@ use common\libraries\Path;
 use common\libraries\CoreApplication;
 use common\libraries\WebApplication;
 use common\libraries\Request;
+use common\libraries\Theme;
+use common\libraries\Display;
+use common\libraries\ToolbarItem;
+use common\libraries\Toolbar;
 
 /**
  * $Id: browser.class.php 215 2009-11-13 14:07:59Z vanpouckesven $

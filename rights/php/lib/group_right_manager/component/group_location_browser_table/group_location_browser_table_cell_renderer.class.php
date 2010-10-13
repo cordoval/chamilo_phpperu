@@ -2,6 +2,9 @@
 namespace rights;
 
 use common\libraries\Translation;
+use common\libraries\Theme;
+use common\libraries\ToolbarItem;
+use common\libraries\Toolbar;
 
 use rights\RightsUtilities;
 /**

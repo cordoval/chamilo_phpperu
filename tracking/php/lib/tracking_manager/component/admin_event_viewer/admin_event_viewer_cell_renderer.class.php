@@ -3,6 +3,9 @@ namespace tracking;
 
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\Theme;
+use common\libraries\ToolbarItem;
+use common\libraries\Toolbar;
 
 /**
  * $Id: admin_event_viewer_cell_renderer.class.php 213 2009-11-13 13:38:50Z vanpouckesven $

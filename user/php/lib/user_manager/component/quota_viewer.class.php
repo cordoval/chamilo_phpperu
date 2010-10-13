@@ -4,6 +4,10 @@ namespace user;
 use common\libraries\Filesystem;
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\Theme;
+use common\libraries\Display;
+use common\libraries\ToolbarItem;
+use common\libraries\Toolbar;
 
 use repository\RepositoryDataManager;
 

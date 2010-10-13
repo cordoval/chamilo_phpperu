@@ -2,6 +2,7 @@
 namespace user;
 
 use common\libraries\Translation;
+use common\libraries\Theme;
 
 /**
  * $Id: buddy_list_category_form.class.php 211 2009-11-13 13:28:39Z vanpouckesven $

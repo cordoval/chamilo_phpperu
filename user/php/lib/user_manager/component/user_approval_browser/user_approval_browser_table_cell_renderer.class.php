@@ -1,5 +1,10 @@
 <?php
 namespace user;
+
+use common\libraries\Theme;
+use common\libraries\ToolbarItem;
+use common\libraries\Toolbar;
+
 /**
  * $Id: user_approval_browser_table_cell_renderer.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager.component.user_approval_browser
