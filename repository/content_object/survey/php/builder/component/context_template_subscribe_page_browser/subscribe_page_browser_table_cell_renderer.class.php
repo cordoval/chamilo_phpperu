@@ -1,14 +1,16 @@
 <?php
 namespace repository\content_object\survey;
 
+use common\libraries\Translation;
+
 require_once dirname(__FILE__) . '/subscribe_page_browser_table_column_model.class.php';
 require_once dirname(__FILE__) . '/../../tables/page_table/default_page_table_cell_renderer.class.php';
 
 class SurveyContextTemplateSubscribePageBrowserTableCellRenderer extends DefaultSurveyPageTableCellRenderer
 {
-    
+
     private $browser;
-   
+
     function SurveyContextTemplateSubscribePageBrowserTableCellRenderer($browser)
     {
         parent :: __construct();
@@ -22,7 +24,7 @@ class SurveyContextTemplateSubscribePageBrowserTableCellRenderer extends Default
         {
             return $this->get_modification_links($page);
         }
-           
+
         return parent :: render_cell($column, $page);
     }
 
@@ -30,7 +32,7 @@ class SurveyContextTemplateSubscribePageBrowserTableCellRenderer extends Default
     	$template = $this->browser->get_survey_context_template();
     	return $template->get_id() . '|' . $page->get_id();
     }
-    
+
     /**
      * Gets the action links to display
      * @param Location $user The user for which the
@@ -40,16 +42,16 @@ class SurveyContextTemplateSubscribePageBrowserTableCellRenderer extends Default
     private function get_modification_links($page)
     {
         $template = $this->browser->get_survey_context_template();
-        
+
         $toolbar = New Toolbar();
-       
+
         $toolbar->add_item(new ToolbarItem(
         			Translation :: get('Subscribe'),
-        			Theme :: get_common_image_path().'action_subscribe.png', 
+        			Theme :: get_common_image_path().'action_subscribe.png',
 					$this->browser->get_template_suscribe_page_url($template->get_id(), $page->get_id()),
 				 	ToolbarItem :: DISPLAY_ICON
 		));
-		        
+
         return $toolbar->as_html();
     }
 }

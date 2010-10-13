@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\assessment_rating_question;
+
+use common\libraries\Translation;
+
 /**
  * $Id: complex_assessment_rating_question_form.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.rating_question
@@ -21,12 +24,12 @@ class ComplexAssessmentRatingQuestionForm extends ComplexRatingQuestionForm
     function get_default_values()
     {
         $cloi = $this->get_complex_content_object_item();
-        
+
         if (isset($cloi))
         {
             $defaults[ComplexAssessmentRatingQuestion :: PROPERTY_WEIGHT] = $cloi->get_weight() ? $cloi->get_weight() : 0;
         }
-        
+
         return $defaults;
     }
 

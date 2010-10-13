@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\calendar_event;
+
+use common\libraries\Translation;
+
 /**
  * $Id: calendar_event_display.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.calendar_event
@@ -23,11 +26,11 @@ class CalendarEventDisplay extends ContentObjectDisplay
         $description = parent :: get_description();
         $object = $this->get_content_object();
         $date_format = Translation :: get('dateTimeFormatLong');
-        
+
         $prepend = array();
-     
+
         $repeats = $object->repeats();
-        
+
         if ($repeats)
         {
             $prepend[] = '<div class="calendar_event_range" style="font-weight: bold;">';
@@ -54,7 +57,7 @@ class CalendarEventDisplay extends ContentObjectDisplay
             $prepend[] = DatetimeUtilities :: format_locale_date($date_format, $object->get_end_date());
             $prepend[] = '</div>';
         }
-        
+
         return implode('', $prepend) . $description;
     }
 }

@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\rdpublication;
+
+use common\libraries\Translation;
+
 /**
  * $Id: rdpublication_form.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.rd_event
@@ -14,13 +17,13 @@ class RdpublicationForm extends ContentObjectForm
     // Inherited
     function create_content_object()
     {
-        
+
         $object = new Rdpublication();
         $object->set_ref_id($this->exportValue(Rdpublication :: PROPERTY_REF_ID));
         $object->set_pub_type($this->exportValue(Rdpublication :: PROPERTY_PUB_TYPE));
         $this->set_content_object($object);
         return parent :: create_content_object();
-    
+
     }
 
     protected function build_creation_form()

@@ -1,5 +1,10 @@
 <?php
 namespace repository\content_object\assessment;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\Path;
+use common\libraries\BreadcrumbTrail;
 /**
  * $Id: question_selecter.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.assessment.component
@@ -26,7 +31,7 @@ class AssessmentBuilderQuestionSelecterComponent extends AssessmentBuilder
             if (! is_array($question_ids))
                 $question_ids = array($question_ids);
         }
-        
+
         if (count($question_ids) == 0)
         {
         	$trail = BreadcrumbTrail :: get_instance();
@@ -37,11 +42,11 @@ class AssessmentBuilderQuestionSelecterComponent extends AssessmentBuilder
             $this->display_footer();
             exit;
         }
-        
+
         $succes = true;
-        
+
         $parent = $this->get_root_content_object()->get_id();
-        
+
         foreach ($question_ids as $question_id)
         {
             $question = RepositoryDataManager :: get_instance()->retrieve_content_object($question_id);
@@ -52,9 +57,9 @@ class AssessmentBuilderQuestionSelecterComponent extends AssessmentBuilder
             $cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($parent));
             $succes &= $cloi->create();
         }
-        
+
         $message = $succes ? Translation :: get('QuestionsAdded') : Translation :: get('QuestionsNotAdded');
-        
+
         $this->redirect($message, ! $succes, array(AssessmentBuilder :: PARAM_BUILDER_ACTION => AssessmentBuilder :: ACTION_BROWSE));
     }
 

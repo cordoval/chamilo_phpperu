@@ -1,5 +1,9 @@
 <?php
 namespace repository;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+
 require_once dirname(__FILE__) . '/../content_object_renderer.class.php';
 
 class SlideshowContentObjectRenderer extends ContentObjectRenderer
@@ -47,7 +51,7 @@ class SlideshowContentObjectRenderer extends ContentObjectRenderer
 
             $play_toolbar->add_item(new ToolbarItem(Translation :: get('Play'), Theme :: get_common_image_path() . 'action_play.png', $this->get_url($parameters), ToolbarItem :: DISPLAY_ICON));
         }
-        
+
         $parameters = $this->get_parameters();
 
         $navigation_toolbar = new Toolbar();

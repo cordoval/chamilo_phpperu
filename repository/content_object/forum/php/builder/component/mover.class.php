@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\forum;
+
+use common\libraries\Request;
+use common\libraries\Translation;
 /**
  * $Id: browser.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.glossary.component
@@ -20,7 +23,7 @@ class ForumBuilderMoverComponent extends ForumBuilder
             $rdm = RepositoryDataManager :: get_instance();
             $complex_content_object_item = $rdm->retrieve_complex_content_object_item($id);
             $parent = $complex_content_object_item->get_parent();
-            
+
             $conditions = array();
             $conditions[] = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $parent);
             $subcondition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Forum :: get_type_name());

@@ -1,5 +1,10 @@
 <?php
 namespace repository;
+
+use common\libraries\Translation;
+use common\libraries\Path;
+use common\libraries\Configuration;
+
 abstract class ContentObjectUpdater
 {
     const TYPE_NORMAL = '1';
@@ -8,12 +13,12 @@ abstract class ContentObjectUpdater
     const TYPE_ERROR = '4';
     const UPDATE_SUCCESS = 'success';
     const UPDATE_MESSAGE = 'message';
-    
+
     /**
      * The datamanager which can be used by the installer of the application
      */
     private $data_manager;
-    
+
     /**
      * Message to be displayed upon completion of the update procedure
      */
@@ -34,7 +39,7 @@ abstract class ContentObjectUpdater
     {
         $dir = $this->get_install_path();
         $files = Filesystem :: get_directory_content($dir, Filesystem :: LIST_FILES);
-        
+
         foreach ($files as $file)
         {
             if ((substr($file, - 3) == 'xml'))
@@ -57,12 +62,12 @@ abstract class ContentObjectUpdater
                 }
             }
         }
-        
+
         if (! $this->configure_content_object())
         {
             return false;
         }
-        
+
         if (method_exists($this, 'update_extra'))
         {
             if (! $this->update_extra())
@@ -70,7 +75,7 @@ abstract class ContentObjectUpdater
                 return false;
             }
         }
-        
+
         return $this->update_successful();
     }
 
@@ -78,13 +83,13 @@ abstract class ContentObjectUpdater
     {
         $type = $this->get_content_object();
         $file = Path :: get_repository_path() . 'lib/content_object/' . $type . '/install/example.zip';
-        
+
         if (file_exists($file))
         {
             $condition = new EqualityCondition(User :: PROPERTY_PLATFORMADMIN, 1);
             $user = UserDataManager :: get_instance()->retrieve_users($condition)->next_result();
             $category = RepositoryDataManager :: get_instance();
-            
+
             $import = ContentObjectImport :: factory('cpo', array('tmp_name' => $file), $user, 0);
             if (! $import->import_content_object())
             {
@@ -100,7 +105,7 @@ abstract class ContentObjectUpdater
         return true;
     }
 
-    
+
     function get_content_object()
     {
         return $this->type;
@@ -110,7 +115,7 @@ abstract class ContentObjectUpdater
     {
         return Utilities :: underscores_to_camelcase($this->type);
     }
-    
+
     /**
      * Parses an XML file describing a storage unit.
      * For defining the 'type' of the field, the same definition is used as the
@@ -126,7 +131,7 @@ abstract class ContentObjectUpdater
         $name = '';
         $properties = array();
         $indexes = array();
-        
+
         $doc = new DOMDocument();
         $doc->load($file);
         $object = $doc->getElementsByTagname('object')->item(0);
@@ -161,7 +166,7 @@ abstract class ContentObjectUpdater
         $result['name'] = $name;
         $result['properties'] = $properties;
         $result['indexes'] = $indexes;
-        
+
         return $result;
     }
 
@@ -228,19 +233,19 @@ abstract class ContentObjectUpdater
     function parse_content_object_settings($file)
     {
         $doc = new DOMDocument();
-        
+
         $doc->load($file);
         $object = $doc->getElementsByTagname('application')->item(0);
-        
+
         // Get events
         $events = $doc->getElementsByTagname('setting');
         $settings = array();
-        
+
         foreach ($events as $index => $event)
         {
             $settings[$event->getAttribute('name')] = array('default' => $event->getAttribute('default'), 'user_setting' => $event->getAttribute('user_setting'), 'type' => $event->getAttribute('type'));
         }
-        
+
         return $settings;
     }
 
@@ -248,7 +253,7 @@ abstract class ContentObjectUpdater
     {
         $content_object = $this->get_content_object();
         $settings_file = $this->get_path() . 'settings.xml';
-        
+
         if (file_exists($settings_file))
         {
             $xml = $this->parse_content_object_settings($settings_file);
@@ -261,13 +266,13 @@ abstract class ContentObjectUpdater
                     $setting->set_application(RepositoryManager :: APPLICATION_NAME);
                     $setting->set_variable($name);
                     $setting->set_value($parameters['default']);
-                    
+
                     $user_setting = $parameters['user_setting'];
                     if ($user_setting)
                         $setting->set_user_setting($user_setting);
                     else
                         $setting->set_user_setting(0);
-                    
+
                     if (! $setting->create())
                     {
                         $message = Translation :: get('ApplicationConfigurationFailed');
@@ -280,7 +285,7 @@ abstract class ContentObjectUpdater
                     $conditions[] = new EqualityCondition(Setting :: PROPERTY_APPLICATION, $application);
                     $conditions[] = new EqualityCondition(Setting :: PROPERTY_VARIABLE, $name);
                     $condition = new AndCondition($conditions);
-                    
+
                     $settings = AdminDataManager :: get_instance()->retrieve_settings($condition);
                     while ($setting = $settings->next_result())
                     {
@@ -293,7 +298,7 @@ abstract class ContentObjectUpdater
             }
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('SettingsAdded'));
         }
-        
+
         return true;
     }
 
@@ -334,9 +339,9 @@ abstract class ContentObjectUpdater
     static function factory($type, $version)
     {
         $version_string = str_replace('.', '', $version);
-        
+
     	$class = ContentObject :: type_to_class($type) . $version_string . 'ContentObjectUpdater';
-        
+
         $file = Path :: get_repository_path() . 'lib/content_object/' . $type . '/update/' . $version . '/' . $type . '_' . $version_string . '_updater.class.php';
         if (file_exists($file))
         {
@@ -347,11 +352,11 @@ abstract class ContentObjectUpdater
         {
             return false;
         }
-    
+
     }
 
     abstract function get_path();
-    
+
     abstract function get_install_path();
 }
 ?>

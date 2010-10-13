@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\assessment;
+
+use common\libraries\Request;
+
 /**
  * $Id: assessment_builder.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.assessment
@@ -10,7 +13,7 @@ class AssessmentBuilder extends ComplexBuilder
 {
     const ACTION_MERGE_ASSESSMENT = 'assessment_merger';
     const ACTION_SELECT_QUESTIONS = 'question_selecter';
-    
+
     const PARAM_ADD_SELECTED_QUESTIONS = 'add_selected_questions';
     const PARAM_QUESTION_ID = 'question';
     const PARAM_ASSESSMENT_ID = 'assessment';
@@ -18,7 +21,7 @@ class AssessmentBuilder extends ComplexBuilder
     function AssessmentBuilder($parent)
     {
         parent :: __construct($parent);
-        
+
         $this->parse_input_from_object_browser_table();
     }
 

@@ -1,5 +1,8 @@
 P<?php
 namespace repository\content_object\photobucket;
+
+use common\libraries\Translation;
+
 require_once dirname(__FILE__) . '/photobucket.class.php';
 
 class PhotobucketForm extends ContentObjectForm

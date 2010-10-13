@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\survey;
 
+use common\libraries\Translation;
+
 require_once dirname(__FILE__) . '/browser_table_column_model.class.php';
 require_once dirname(__FILE__) . '/../../tables/survey_context_template_table/default_survey_context_template_table_cell_renderer.class.php';
 /**
@@ -30,7 +32,7 @@ class SurveyContextTemplateBrowserTableCellRenderer extends DefaultSurveyContext
         {
             return $this->get_modification_links($template);
         }
-        
+
         // Add special features here
         switch ($column->get_name())
         {
@@ -42,7 +44,7 @@ class SurveyContextTemplateBrowserTableCellRenderer extends DefaultSurveyContext
                 {
                     $title_short = mb_substr($title_short, 0, 50) . '&hellip;';
                 }
-                
+
                 return '<a href="' . htmlentities($this->browser->get_template_viewing_url($template->get_id())) . '" title="' . $title . '">' . $title_short . '</a>';
             case SurveyContextTemplate :: PROPERTY_DESCRIPTION :
                 $description = strip_tags(parent :: render_cell($column, $template));
@@ -62,7 +64,7 @@ class SurveyContextTemplateBrowserTableCellRenderer extends DefaultSurveyContext
             case Translation :: get('SubContexts') :
                 return $template->count_children(false);
         }
-        
+
         return parent :: render_cell($column, $template);
     }
 
@@ -74,7 +76,7 @@ class SurveyContextTemplateBrowserTableCellRenderer extends DefaultSurveyContext
      */
     private function get_modification_links($template)
     {
-        
+
     }
 }
 ?>

@@ -1,5 +1,9 @@
 <?php
 namespace repository;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+
 /**
  * $Id: repository_browser_gallery_table.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.browser

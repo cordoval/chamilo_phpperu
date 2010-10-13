@@ -1,5 +1,11 @@
 <?php
 namespace repository\content_object\competence;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\Path;
+use common\libraries\BreadcrumbTrail;
+
 /**
  * $Id: creator.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.component

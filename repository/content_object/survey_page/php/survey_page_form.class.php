@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\survey_page;
+
+use common\libraries\Translation;
+
 /**
  * $Id: survey_page_form.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.survey_page
@@ -16,12 +19,12 @@ class SurveyPageForm extends ContentObjectForm
         $object = $this->get_content_object();
         if ($object != null)
         {
-            
+
             $defaults[SurveyPage :: PROPERTY_INTRODUCTION_TEXT] = $object->get_introduction_text();
             $defaults[SurveyPage :: PROPERTY_FINISH_TEXT] = $object->get_finish_text();
 
         }
-        
+
         parent :: setDefaults($defaults);
     }
 
@@ -29,8 +32,8 @@ class SurveyPageForm extends ContentObjectForm
     {
         $html_editor_options = array();
 	    $html_editor_options[FormValidatorHtmlEditorOptions :: OPTION_TOOLBAR] = 'RepositorySurveyQuestion';
-    	
-    	
+
+
     	parent :: build_creation_form($html_editor_options);
         $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
         $this->add_html_editor(SurveyPage :: PROPERTY_INTRODUCTION_TEXT, Translation :: get('SurveyPageHeaderText'), false, $html_editor_options);
@@ -41,10 +44,10 @@ class SurveyPageForm extends ContentObjectForm
     // Inherited
     protected function build_editing_form()
     {
-        
+
     	$html_editor_options = array();
 	    $html_editor_options[FormValidatorHtmlEditorOptions :: OPTION_TOOLBAR] = 'RepositorySurveyQuestion';
-    	
+
     	parent :: build_editing_form($html_editor_options);
         $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
         $this->add_html_editor(SurveyPage :: PROPERTY_INTRODUCTION_TEXT, Translation :: get('SurveyPageHeaderText'), false, $html_editor_options);
@@ -57,10 +60,10 @@ class SurveyPageForm extends ContentObjectForm
     {
         $object = new SurveyPage();
         $values = $this->exportValues();
-        
+
         $object->set_finish_text($values[SurveyPage :: PROPERTY_FINISH_TEXT]);
         $object->set_introduction_text($values[SurveyPage :: PROPERTY_INTRODUCTION_TEXT]);
-    
+
         $this->set_content_object($object);
         return parent :: create_content_object();
     }
@@ -69,11 +72,11 @@ class SurveyPageForm extends ContentObjectForm
     {
         $object = $this->get_content_object();
         $values = $this->exportValues();
-        
+
         $object->set_finish_text($values[SurveyPage :: PROPERTY_FINISH_TEXT]);
         $object->set_introduction_text($values[SurveyPage :: PROPERTY_INTRODUCTION_TEXT]);
 
-        
+
         $this->set_content_object($object);
         return parent :: update_content_object();
     }

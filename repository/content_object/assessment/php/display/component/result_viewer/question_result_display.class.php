@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\assessment;
+
+use common\libraries\Translation;
+
 /**
  * $Id: question_result_display.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.assessment.component.result_viewer
@@ -60,17 +63,17 @@ abstract class QuestionResultDisplay
     function display()
     {
         $this->display_header();
-        
+
         if ($this->add_borders())
         {
             $header = array();
             $header[] = '<div class="with_borders">';
-            
+
             $this->form->addElement('html', implode("\n", $header));
         }
-        
+
         $this->form->addElement('html', $this->display_question_result());
-        
+
         if ($this->add_borders())
         {
             $footer = array();
@@ -78,9 +81,9 @@ abstract class QuestionResultDisplay
             $footer[] = '</div>';
             $this->form->addElement('html', implode("\n", $footer));
         }
-        
+
         $this->display_feedback();
-        
+
         $this->form->addElement('html', $this->display_footer());
     }
 
@@ -92,7 +95,7 @@ abstract class QuestionResultDisplay
     function display_header()
     {
         $html = array();
-        
+
         $html[] = '<div class="question">';
         $html[] = '<div class="title">';
         $html[] = '<div class="number">';
@@ -101,14 +104,14 @@ abstract class QuestionResultDisplay
         $html[] = '</div>';
         $html[] = '</div>';
         $html[] = '<div class="text">';
-        
+
         $html[] = '<div class="bevel" style="float: left;">';
         $html[] = $this->question->get_title();
         $html[] = '</div>';
         $html[] = '<div class="bevel" style="text-align: right;">';
         $this->form->addElement('html', implode("\n", $html));
         $html = array();
-        
+
         if (! $this->can_change)
         {
             $html[] = $this->get_score() . ' / ' . $this->get_complex_content_object_question()->get_weight();
@@ -119,22 +122,22 @@ abstract class QuestionResultDisplay
             {
                 $score[$i] = $i;
             }
-            
+
             $renderer = $this->form->defaultRenderer();
-            
+
             $this->form->addElement('select', $this->complex_content_object_question->get_id() . '_score', '', $score);
             $renderer->setElementTemplate('{element}', $this->complex_content_object_question->get_id() . '_score');
             $defaults[$this->complex_content_object_question->get_id() . '_score'] = $this->get_score();
             $this->form->setDefaults($defaults);
         }
-        
+
         $html[] = '</div>';
-        
+
         $html[] = '</div>';
         $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
         $html[] = '<div class="answer">';
-        
+
         $description = $this->question->get_description();
         if ($this->question->has_description())
         {
@@ -143,9 +146,9 @@ abstract class QuestionResultDisplay
             $html[] = '<div class="clear"></div>';
             $html[] = '</div>';
         }
-        
+
         $html[] = '<div class="clear"></div>';
-        
+
         $this->form->addElement('html', implode("\n", $html));
     }
 
@@ -155,10 +158,10 @@ abstract class QuestionResultDisplay
         $html[] = Translation :: get('Feedback');
         $html[] = '</div>';
         $html[] = '<div class="with_borders">';
-        
+
         $this->form->addElement('html', implode("\n", $html));
         $html = array();
-        
+
         if (! $this->can_change)
         {
             $feedback = $this->feedback ? $this->feedback : Translation :: get('NoFeedback');
@@ -170,9 +173,9 @@ abstract class QuestionResultDisplay
             $defaults[$this->complex_content_object_question->get_id() . '_feedback'] = $this->get_feedback();
             $this->form->setDefaults($defaults);
         }
-        
+
         $html[] = '</div>';
-        
+
         $this->form->addElement('html', implode("\n", $html));
     }
 
@@ -180,7 +183,7 @@ abstract class QuestionResultDisplay
     {
         $html[] = '</div>';
         $html[] = '</div>';
-        
+
         $footer = implode("\n", $html);
         return $footer;
     }
@@ -193,16 +196,16 @@ abstract class QuestionResultDisplay
     static function factory(&$form, $complex_content_object_question, $question_nr, $answers, $score, $feedback, $can_change)
     {
         $type = $complex_content_object_question->get_ref()->get_type();
-        
+
         $file = dirname(__FILE__) . '/question_result_display/' . $type . '_result_display.class.php';
-        
+
         if (! file_exists($file))
         {
             die('file does not exist: ' . $file);
         }
-        
+
         require_once $file;
-        
+
         $class = Utilities :: underscores_to_camelcase($type) . 'ResultDisplay';
         $question_result_display = new $class($form, $complex_content_object_question, $question_nr, $answers, $score, $feedback, $can_change);
         return $question_result_display;

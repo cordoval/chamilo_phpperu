@@ -1,14 +1,17 @@
 <?php
 namespace repository\content_object\survey;
+
+use common\libraries\Translation;
+
 require_once (dirname(__FILE__) . '/../../survey_context.class.php');
 
 class SurveyDefaultContext extends SurveyContext
 {
-    
+
     const CLASS_NAME = __CLASS__;
     const PROPERTY_DESCRIPTION = 'description';
     const PROPERTY_DEFAULT_KEY = 'NOCONTEXT';
-    
+
     private $default_context;
 
     static function get_additional_property_names()
@@ -36,10 +39,10 @@ class SurveyDefaultContext extends SurveyContext
      */
     static public function create_contexts_for_user($user_id, $key, $key_type = self :: PROPERTY_DEFAULT_KEY)
     {
-        
+
         if ($key_type == self :: PROPERTY_DEFAULT_KEY)
         {
-            
+
             $condition = new EqualityCondition(SurveyContext :: PROPERTY_TYPE, SurveyContext :: class_to_type(self :: CLASS_NAME), SurveyContext :: get_table_name() );
             $dm = SurveyContextDataManager :: get_instance();
             $contexts = $dm->retrieve_survey_contexts(self :: get_table_name(), $condition);
@@ -61,7 +64,7 @@ class SurveyDefaultContext extends SurveyContext
         {
             return array();
         }
-    
+
     }
 
     static public function get_allowed_keys()

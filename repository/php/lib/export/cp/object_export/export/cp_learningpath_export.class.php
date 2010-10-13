@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use common\libraries\Path;
+
 /**
  * Scorm/LearningPath Export. Delegates work to the Scorm module.
  *
@@ -23,15 +25,15 @@ class CpLearningpathExport extends CpObjectExport{
 	}
 
 	/**
-	 * @todo: Enable class when SCORM module is fixed. 
-	 * 
+	 * @todo: Enable class when SCORM module is fixed.
+	 *
 	 * @param ContentObject|Course $object
 	 * @return boolean
 	 */
 	public static function accept($object){
-		
+
 		return false; //@todo: !!!!! Remove that when SCORM module is fixed.
-		
+
 		if(! $object instanceof ContentObject){
 			return false;
 		}
@@ -51,7 +53,7 @@ class CpLearningpathExport extends CpObjectExport{
 			Filesystem::remove($path);
 			$this->add_manifest_entry($object, $href);
 		}
-		 
+
 		return $path;
 	}
 

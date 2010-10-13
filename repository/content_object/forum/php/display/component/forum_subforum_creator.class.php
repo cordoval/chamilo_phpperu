@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\forum;
+
+use common\libraries\Translation;
+
 /**
  * $Id: forum_subforum_creator.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package repository.lib.complex_display.forum.component

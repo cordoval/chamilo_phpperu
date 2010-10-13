@@ -1,5 +1,9 @@
 <?php
 namespace repository\content_object\document;
+
+use common\libraries\Translation;
+use common\libraries\Path;
+
 /**
  * $Id: document_form.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.document
@@ -144,7 +148,7 @@ class DocumentImageForm extends ContentObjectForm
         {
             $errors['upload'] = Translation :: get('NoFileSelected');
         }
-        
+
         if (count($errors) == 0)
         {
             return true;
@@ -160,7 +164,7 @@ class DocumentImageForm extends ContentObjectForm
     private function allow_file_type($type)
     {
         $image_types = Document :: get_image_types();
-        
+
         $filtering_type = PlatformSetting :: get('type_of_filtering');
         if ($filtering_type == 'blacklist')
         {

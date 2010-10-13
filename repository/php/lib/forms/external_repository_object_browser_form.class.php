@@ -1,5 +1,9 @@
 <?php
 namespace repository;
+
+use common\libraries\FormValidator;
+use common\libraries\Translation;
+
 class ExternalRepositoryObjectBrowserForm extends FormValidator
 {
     private $objects_list;

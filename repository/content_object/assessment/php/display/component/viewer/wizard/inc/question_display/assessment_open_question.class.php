@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\assessment;
+
+use common\libraries\Translation;
+
 /**
  * $Id: assessment_open_question.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.assessment.component.viewer.wizard.inc.question_display
@@ -62,17 +65,17 @@ class AssessmentOpenQuestionDisplay extends QuestionDisplay
         	$html[] = '</div>';
         	$formvalidator->addElement('html', implode("\n", $html));
 		}
-    	
+
     	$name_1 = $clo_question->get_id() . '_1';
         $name_2 = $clo_question->get_id() . '_2';
 
         $group = array();
         $group[] = & $formvalidator->createElement('text', ($name_2 . '_title'), '', array('class' => 'select_file_text', 'disabled' => 'disabled', 'style' => 'width: 200px; height: 20px'));
         $group[] = & $formvalidator->createElement('hidden', $name_2);
-        
+
         $link = PATH :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=' . RepoViewerLauncher :: APPLICATION_NAME . '&' . RepoViewerLauncher :: PARAM_ELEMENT_NAME . '=' . $name_2;
         $group[] = & $formvalidator->createElement('static', null, null, '<a class="button normal_button select_file_button" onclick="javascript:openPopup(\'' . $link . '\');"> ' . Translation :: get('BrowseContentObjects') . '</a>');
-        
+
         $formvalidator->addGroup($group, '');
     }
 
@@ -90,7 +93,7 @@ class AssessmentOpenQuestionDisplay extends QuestionDisplay
         if ($question->has_description())
         {
             $instruction[] = '<div class="splitter">';
-            
+
             if($type == AssessmentOpenQuestion :: TYPE_DOCUMENT)
             {
             	$instruction[] = Translation :: get('SelectDocument');
@@ -99,7 +102,7 @@ class AssessmentOpenQuestionDisplay extends QuestionDisplay
             {
             	$instruction[] = Translation :: get('EnterAnswer');
             }
-            
+
             $instruction[] = '</div>';
         }
         else

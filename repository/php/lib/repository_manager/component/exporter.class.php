@@ -1,5 +1,9 @@
 <?php
 namespace repository;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\BreadcrumbTrail;
 /**
  * $Id: exporter.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component
@@ -43,7 +47,7 @@ class RepositoryManagerExporterComponent extends RepositoryManager
                 }
 
                 $exporter = ContentObjectExport :: factory('cpo', $content_objects);
-                
+
                 if ($ids[0] == 'all')
                 	$path = $exporter->export_content_object(true);
                 else
@@ -67,13 +71,13 @@ class RepositoryManagerExporterComponent extends RepositoryManager
             }
         }
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
     	$breadcrumbtrail->add_help('repository_exporter');
     }
-    
+
     function get_additional_parameters()
     {
     	return array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);

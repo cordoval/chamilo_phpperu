@@ -1,5 +1,9 @@
 <?php
 namespace repository\content_object\assessment;
+
+use common\libraries\Translation;
+use common\libraries\Path;
+
 /**
  * $Id: object_browser_table_cell_renderer.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.assessment.component.assessment_merger
@@ -33,13 +37,13 @@ class ObjectBrowserTableCellRenderer extends DefaultContentObjectTableCellRender
         {
             return $this->get_modification_links($content_object);
         }
-        
+
         switch ($column->get_name())
         {
             case ContentObject :: PROPERTY_MODIFICATION_DATE :
                 return DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $content_object->get_modification_date());
         }
-        
+
         return parent :: render_cell($column, $content_object);
     }
 
@@ -52,14 +56,14 @@ class ObjectBrowserTableCellRenderer extends DefaultContentObjectTableCellRender
     private function get_modification_links($content_object)
     {
     	$toolbar = new Toolbar();
-    	
+
     	$toolbar->add_item(new ToolbarItem(
-    			Translation :: get('SelectQuestion'), 
-    			Theme :: get_common_image_path().'action_right.png', 
-				$this->browser->get_question_selector_url($content_object->get_id()), 
+    			Translation :: get('SelectQuestion'),
+    			Theme :: get_common_image_path().'action_right.png',
+				$this->browser->get_question_selector_url($content_object->get_id()),
 				ToolbarItem :: DISPLAY_ICON
 		));
-					
+
 		return $toolbar->as_html();
     }
 }

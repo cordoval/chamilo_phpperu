@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\forum_post;
+
+use common\libraries\Translation;
+
 require_once dirname(__FILE__) . '/forum_post.class.php';
 /**
  * @package repository.learningobject
@@ -34,12 +37,12 @@ class ForumPostForm extends ContentObjectForm
     /**
      * Override the regular form by adding a selection for email notifications
      * A new field has been added to the forum_topic table to store emails of users
-     * who need to be notified when new messages are posted. 
+     * who need to be notified when new messages are posted.
      */
     private function build_form()
     {
         $this->add_select(ForumPost :: PROPERTY_NOTIFICATION, "Notification? ", array(ForumPost :: NOTIFY_NONE => 'None', ForumPost :: NOTIFY_TOPIC => 'Notify me of any replies in this thread'), false);
-    
+
     }
 
 }

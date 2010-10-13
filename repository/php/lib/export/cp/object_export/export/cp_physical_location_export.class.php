@@ -1,12 +1,14 @@
 <?php
 namespace repository;
 
+use common\libraries\Path;
+
 include_once Path::get_repository_path() .'/lib/content_object/physical_location/physical_location_display.class.php';
 
 /**
- * Export PhysicalLocation objects. 
- * 
- * @copyright (c) 2010 University of Geneva 
+ * Export PhysicalLocation objects.
+ *
+ * @copyright (c) 2010 University of Geneva
  * @license GNU General Public License
  * @author laurent.opprecht@unige.ch
  *
@@ -21,7 +23,7 @@ class CpPhysicalLocationExport extends CpObjectExport{
 			return NULL;
 		}
 	}
-	
+
 	public static function accept($object){
 		if(! $object instanceof ContentObject){
 			return false;
@@ -33,7 +35,7 @@ class CpPhysicalLocationExport extends CpObjectExport{
 		$settings = $this->get_settings();
 		$object = $settings->get_object();
 		$content = $this->format($object);
-		//$href = str_safe($object->get_title()).'.location.html'; 
+		//$href = str_safe($object->get_title()).'.location.html';
 		$href = $this->get_file_name($object, 'location.html');
 		$directory = $settings->get_directory();
 		$path = $directory.$href;
@@ -44,7 +46,7 @@ class CpPhysicalLocationExport extends CpObjectExport{
 			return false;
 		}
 	}
-	
+
 	public function format(PhysicalLocation $object){
 		return $this->get_description($object);
 	}
@@ -54,7 +56,7 @@ class CpPhysicalLocationExport extends CpObjectExport{
 		$title = $object->get_title();
 		$description = $object->get_description();
 		$location = $object->get_location();
-		
+
         $html = array();
 		$html[] = '<html><head>';
 		$html[] = "$css<title>$title</title>";

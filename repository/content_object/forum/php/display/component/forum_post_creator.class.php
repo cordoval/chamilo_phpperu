@@ -1,6 +1,9 @@
 <?php
 namespace repository\content_object\forum;
 
+use common\libraries\Translation;
+use common\libraries\BreadcrumbTrail;
+
 /**
  * $Id: forum_post_creator.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package repository.lib.complex_display.forum.component
@@ -43,7 +46,7 @@ class ForumDisplayForumPostCreatorComponent extends ForumDisplay implements Repo
 
                 $repo_viewer->set_creation_defaults(array(ContentObject :: PROPERTY_TITLE => $reply));
             }
-            
+
             $trail = BreadcrumbTrail :: get_instance();
             $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_VIEW_FORUM)), $this->get_root_content_object()->get_title()));
             $topic = RepositoryDataManager :: get_instance()->retrieve_content_object($this->get_complex_content_object_item()->get_ref());

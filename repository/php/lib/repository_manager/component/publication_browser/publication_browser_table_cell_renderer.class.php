@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\Translation;
+
 /**
  * $Id: publication_browser_table_cell_renderer.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.publication_browser
@@ -33,7 +36,7 @@ class PublicationBrowserTableCellRenderer extends DefaultPublicationTableCellRen
         {
             return $this->get_modification_links($content_object);
         }
-        
+
         // Add special features here
         switch ($column->get_name())
         {
@@ -52,21 +55,21 @@ class PublicationBrowserTableCellRenderer extends DefaultPublicationTableCellRen
     private function get_modification_links($content_object)
     {
         $toolbar = new Toolbar();
-        
+
         $toolbar->add_item(new ToolbarItem(
        			Translation :: get('Delete'),
-       			Theme :: get_common_image_path().'action_delete.png', 	
-   				$this->browser->get_content_object_delete_publications_url($content_object), 
-				ToolbarItem :: DISPLAY_ICON, 
+       			Theme :: get_common_image_path().'action_delete.png',
+   				$this->browser->get_content_object_delete_publications_url($content_object),
+				ToolbarItem :: DISPLAY_ICON,
 				true
 		));
-        
+
     	if (! $content_object->get_publication_object()->is_latest_version())
         {
         	$toolbar->add_item(new ToolbarItem(
        			Translation :: get('Update'),
-       			Theme :: get_common_image_path().'action_revert.png', 	
-   				$this->browser->get_publication_update_url($content_object), 
+       			Theme :: get_common_image_path().'action_revert.png',
+   				$this->browser->get_publication_update_url($content_object),
 				ToolbarItem :: DISPLAY_ICON
 			));
         }

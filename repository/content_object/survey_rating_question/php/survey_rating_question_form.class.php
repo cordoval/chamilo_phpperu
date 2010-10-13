@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\survey_rating_question;
+
+use common\libraries\Translation;
+
 /**
  * $Id: survey_rating_question_form.class.php $
  * @package repository.lib.content_object.survey_rating_question

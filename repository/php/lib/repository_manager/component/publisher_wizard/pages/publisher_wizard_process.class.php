@@ -1,5 +1,9 @@
 <?php
 namespace repository;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\BreadcrumbTrail;
 /**
  * $Id: publisher_wizard_process.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.publication_wizard.pages
@@ -28,16 +32,16 @@ class PublisherWizardProcess extends HTML_QuickForm_Action
     function perform($page, $actionName)
     {
         $values = $page->controller->exportValues();
-        
+
         $locations = array();
         $options = array();
-        
+
         foreach ($values as $index => $value)
         {
             $array = explode('_', $index);
             $option = array_slice($array, 2);
             $option = implode('_', $option);
-            
+
             if ($array[1] == 'opt')
             {
                 $options[$array[0]][$option] = $value;
@@ -47,20 +51,20 @@ class PublisherWizardProcess extends HTML_QuickForm_Action
                 $locations[$index] = $value;
             }
         }
-        
+
         // Display the page header
         $this->parent->display_header(BreadcrumbTrail :: get_instance(), false, true, 'repository publication wizard');
-        
+
         $previous_application = '';
         $message = '';
-        
+
         $ids = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
         if (! is_array($ids))
             $ids = array($ids);
-        
+
         foreach ($ids as $id)
             $los[] = $this->parent->retrieve_content_object($id);
-        
+
         foreach ($locations as $location => $value)
         {
             if ($value == 1)
@@ -68,7 +72,7 @@ class PublisherWizardProcess extends HTML_QuickForm_Action
                 $split = explode('|', $location);
                 $application_name = $split[0];
                 $location_id = $split[1];
-                               
+
                 if ($application_name != $previous_application)
                 {
                     if ($previous_application != '')
@@ -78,7 +82,7 @@ class PublisherWizardProcess extends HTML_QuickForm_Action
                     $message = '';
                     $previous_application = $application_name;
                 }
-                
+
                 //$location = implode('_', $split);
                 $application = Application :: factory($application_name);
                 foreach ($los as $lo)
@@ -87,12 +91,12 @@ class PublisherWizardProcess extends HTML_QuickForm_Action
                 }
             }
         }
-               
+
         $this->process_result($previous_application, true, $message);
-        
+
         $url = $this->parent->get_url(array(RepositoryManager :: PARAM_ACTION => null));
         echo '<a href="' . $url . '">' . Translation :: get('GoBack') . '</a>';
-        
+
         // Display the page footer
         $this->parent->display_footer();
     }
@@ -124,7 +128,7 @@ class PublisherWizardProcess extends HTML_QuickForm_Action
             $this->parent->display_footer();
             exit();
         }
-    
+
     }
 }
 ?>

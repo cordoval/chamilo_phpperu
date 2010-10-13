@@ -1,5 +1,9 @@
 <?php
 namespace repository\content_object\wiki;
+
+use common\libraries\Translation;
+use common\libraries\Path;
+
 /**
  * $Id: wiki_browser_table_cell_renderer.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.wiki.component.browser
@@ -42,7 +46,7 @@ class WikiBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
     function get_modification_links($complex_content_object_item)
     {
         $toolbar = parent :: get_modification_links($complex_content_object_item);
-       
+
         if (! $complex_content_object_item->get_is_homepage())
         {
             $toolbar->add_item(new ToolbarItem(

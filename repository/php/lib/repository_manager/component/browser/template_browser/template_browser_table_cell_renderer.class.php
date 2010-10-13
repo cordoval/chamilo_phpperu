@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\Translation;
+
 /**
  * $Id: template_browser_table_cell_renderer.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.browser.template_browser
@@ -60,10 +63,10 @@ class TemplateBrowserTableCellRenderer extends DefaultContentObjectTableCellRend
     private function get_modification_links($content_object)
     {
     	$toolbar = new Toolbar();
-    	
+
     	$toolbar->add_item(new ToolbarItem(
         			Translation :: get('CopyToRepository'),
-        			Theme :: get_common_image_path().'action_copy.png', 
+        			Theme :: get_common_image_path().'action_copy.png',
 					$this->browser->get_copy_content_object_url($content_object->get_id(), $this->browser->get_user_id()),
 				 	ToolbarItem :: DISPLAY_ICON
 		));
@@ -72,7 +75,7 @@ class TemplateBrowserTableCellRenderer extends DefaultContentObjectTableCellRend
         {
           	$toolbar->add_item(new ToolbarItem(
         			Translation :: get('DeleteFromTemplates'),
-        			Theme :: get_common_image_path().'action_delete.png', 
+        			Theme :: get_common_image_path().'action_delete.png',
 					$this->browser->get_delete_template_url($content_object->get_id()),
 				 	ToolbarItem :: DISPLAY_ICON,
 				 	true

@@ -1,7 +1,12 @@
 <?php
 namespace repository\content_object\survey;
-require_once Path :: get_application_path() . 'lib/internship_organizer/forms/category_form.class.php';
 
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\Path;
+use common\libraries\BreadcrumbTrail;
+
+require_once Path :: get_application_path() . 'lib/internship_organizer/forms/category_form.class.php';
 
 class InternshipOrganizerCategoryManagerCreatorComponent extends SurveyBuilder
 {
@@ -13,14 +18,14 @@ class InternshipOrganizerCategoryManagerCreatorComponent extends SurveyBuilder
     {
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_browse_categories_url(), Translation :: get('BrowseCategories')));
-        
+
         $trail->add(new Breadcrumb($this->get_category_create_url, Translation :: get('CreateCategory')));
-       
-             
+
+
         $category = new InternshipOrganizerCategory();
         $category->set_parent_id(Request :: get(InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID));
         $form = new InternshipOrganizerCategoryForm(InternshipOrganizerCategoryForm :: TYPE_CREATE, $category, $this->get_url(array(SurveyBuilderComponent :: PARAM_CATEGORY_ID => Request :: get(SurveyBuilderComponent :: PARAM_CATEGORY_ID))), $this->get_user());
-        
+
         if ($form->validate())
         {
             $success = $form->create_category();

@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\assessment;
+
+use common\libraries\Translation;
+
 /**
  * $Id: assessment_viewer_wizard_process.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.assessment.component.viewer.wizard

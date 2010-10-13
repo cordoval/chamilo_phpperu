@@ -1,19 +1,21 @@
 <?php
 namespace repository\content_object\survey;
 
+use common\libraries\Translation;
+
 class DefaultSurveyPageQuestionTableCellRenderer extends ObjectTableCellRenderer
 {
-	
+
 	function DefaultSurveyPageQuestionTableCellRenderer()
 	{
 	}
-	
+
 	function render_cell($column, $complex_item)
 	{
-		
+
 		$question_id = $complex_item->get_ref();
 		$question = RepositoryDataManager::get_instance()->retrieve_content_object($question_id);
-		
+
 		switch ($column->get_name())
 			{
 				case ContentObject :: PROPERTY_TITLE :
@@ -28,15 +30,15 @@ class DefaultSurveyPageQuestionTableCellRenderer extends ObjectTableCellRenderer
 					}else{
 						return Translation :: get('QuestionInVisible');
 					}
-				
-				
+
+
 			}
-		
+
 	}
-	
+
 	function render_id_cell($question){
 		return $question->get_id();
 	}
-	
+
 }
 ?>

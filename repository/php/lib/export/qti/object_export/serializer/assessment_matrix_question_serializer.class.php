@@ -1,17 +1,19 @@
 <?php
 namespace repository;
 
+use common\libraries\Path;
+
 require_once Path::get_repository_path(). 'lib/content_object/assessment_matrix_question/assessment_matrix_question_option.class.php';
- 
+
 /**
  * Serializer for matrix questions.
- * 
- * @copyright (c) 2010 University of Geneva 
+ *
+ * @copyright (c) 2010 University of Geneva
  * @author laurent.opprecht@unige.ch
  *
  */
 class AssessmentMatrixQuestionSerializer extends QuestionSerializer{
-	
+
 	static function factory($question, $target_root, $directory, $manifest, $toc){
 		if($question instanceof AssessmentMatrixQuestion){
 			return new self($target_root, $directory, $manifest, $toc);
@@ -19,11 +21,11 @@ class AssessmentMatrixQuestionSerializer extends QuestionSerializer{
 			return null;
 		}
 	}
-	
+
 	protected function has_answer_feedback($question){
 		return true;
 	}
-	
+
     protected function get_question_score(AssessmentMatrixQuestion $question){
     	//@todo: check if score is for all entries, per entry, etc
     	$result = 0;
@@ -43,7 +45,7 @@ class AssessmentMatrixQuestionSerializer extends QuestionSerializer{
 		$result = $item->add_responseDeclaration($id, $cardinality, $type);
 		$correct_response = $result->add_correctResponse();
 		$mapping = $result->add_mapping(0, $question_score, 0);
-		
+
         $answers = $question->get_options();
 		foreach($answers as $index => $answer){
 			$question_id = "Q_$index";
@@ -59,21 +61,21 @@ class AssessmentMatrixQuestionSerializer extends QuestionSerializer{
 		}
 		return $result;
 	}
-	
+
 	protected function add_score_processing($response_processing, AssessmentMatrixQuestion $question){
 		return $response_processing->add_standard_response_map_response();
 	}
-		
+
 	protected function add_answer_feedback_processing(ImsQtiWriter $response_processing, $question){
 		$response_processing->add_setOutcomeValue(Qti::FEEDBACK)->add_baseValue(Qti::BASETYPE_IDENTIFIER, Qti::FEEDBACK_SHOW);
 	}
-	
+
 	protected function add_interaction(ImsQtiWriter $body, AssessmentMatrixQuestion $question){
 		$label = 'display=matrix';
 		$result = $body->add_matchInteraction(ImsQtiWriter::RESPONSE, 0, true, '', '', '', $label);
 		$questions = $result->add_simpleMatchSet();
 		$answers = $result->add_simpleMatchSet();
-		
+
         $options = $question->get_options();
         $match_max = $question->get_matrix_type() == MatrixQuestion::MATRIX_TYPE_RADIO ? 1 : 0;
 		foreach($options as $index => $option){
@@ -83,7 +85,7 @@ class AssessmentMatrixQuestionSerializer extends QuestionSerializer{
 			$choice = $questions->add_simpleAssociableChoice($question_id, false, array(), $match_max)->add_flow($text);
 			$choice->add_feedbackInline(Qti::FEEDBACK, Qti::FEEDBACK_SHOW, Qti::FEEDBACK_SHOW)->add_flow($feedback);
 		}
-		
+
 		$matches = $question->get_matches();
 		foreach($matches as $index => $match){
 			$answer_id = "A_$index";

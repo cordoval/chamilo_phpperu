@@ -1,6 +1,10 @@
 <?php
 namespace repository\content_object\wiki;
 
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\Path;
+
 /*
  * This is a standalone wiki parser component, used to parse links to other wiki pages, much in the same way as on Wikipedia.
  * A normal wiki page link looks like [[*title of wiki page*]]
@@ -39,17 +43,17 @@ class WikiParser
     {
     	$this->parent = $parent;
     }
-    
+
     function get_parent()
     {
     	return $this->parent;
     }
-    
+
     function get_url($parameters = array())
     {
     	return $this->parent->get_url($parameters);
     }
-    
+
     function set_wiki_id($value)
     {
         $this->wiki_id = $value;
@@ -257,13 +261,13 @@ class WikiParser
     {
         $this->set_wiki_text($links);
         $this->handle_internal_links();
-        
+
         $links = str_replace(']]', ']];', $links);
         $links = explode(';', $links);
-        
+
         $new_links = str_replace('</a>', '</a>;', $this->wikiText);
         $new_links = explode(';', $new_links);
-        
+
         $this->wikiText = array();
 
         foreach($new_links as $i => $link)
@@ -272,7 +276,7 @@ class WikiParser
         	$title = substr($title, 2, strlen($title) - 4);
         	$this->wikiText[$title] = $link;
         }
-        
+
         return $this->get_wiki_text();
     }
 

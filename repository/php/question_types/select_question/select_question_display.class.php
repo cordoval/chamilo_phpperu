@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\Translation;
+
 /**
  * $Id: select_question_display.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.question_types.select_question
@@ -15,11 +18,11 @@ class SelectQuestionDisplay extends ContentObjectDisplay
     function get_description()
     {
         $html = array();
-        
+
         $lo = $this->get_content_object();
         $options = $lo->get_options();
         $type = $lo->get_answer_type();
-        
+
         $html[] = parent :: get_description();
         $html[] = '<table class="data_table">';
         $html[] = '<thead>';
@@ -28,13 +31,13 @@ class SelectQuestionDisplay extends ContentObjectDisplay
         $html[] = '</tr>';
         $html[] = '</thead>';
         $html[] = '<tbody>';
-        
+
         $select_options = array();
         foreach ($options as $option)
         {
             $select_options[] = '<option>' . $option->get_value() . '</option>';
         }
-        
+
         $html[] = '<tr>';
         $html[] = '<td>';
         $html[] = '<select style="width: 200px;"' . ($type == 'checkbox' ? ' multiple="true"' : '') . '>';
@@ -42,7 +45,7 @@ class SelectQuestionDisplay extends ContentObjectDisplay
         $html[] = '</select>';
         $html[] = '</td>';
         $html[] = '</tr>';
-        
+
         $html[] = '</tbody>';
         $html[] = '</table>';
         return implode("\n", $html);

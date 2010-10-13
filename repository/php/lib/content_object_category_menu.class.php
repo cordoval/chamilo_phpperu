@@ -1,5 +1,9 @@
 <?php
 namespace repository;
+
+use common\libraries\Translation;
+use common\libraries\BreadcrumbTrail;
+
 /**
  * $Id: content_object_category_menu.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib
@@ -81,7 +85,7 @@ class ContentObjectCategoryMenu extends HTML_Menu
         $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_PARENT_ID, 0);
         $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->owner);
 		$conditions[] = new InCondition(ContentObject :: PROPERTY_TYPE, RepositoryDataManager :: get_registered_types());
-		
+
         if(count($this->filter_count_on_types))
         {
         	$conditions[] = new InCondition(ContentObject :: PROPERTY_TYPE, $this->filter_count_on_types);

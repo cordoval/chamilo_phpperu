@@ -1,6 +1,10 @@
 <?php
 namespace repository\content_object\survey;
 
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\Path;
+
 require_once dirname ( __FILE__ ) . '/context_template_subscribe_page_browser/subscribe_page_browser_table.class.php';
 require_once Path :: get_repository_path() . '/lib/content_object/survey_page/survey_page.class.php';
 require_once Path :: get_repository_path() . '/lib/content_object/survey/survey_context_template_rel_page.class.php';
@@ -21,7 +25,7 @@ class SurveyBuilderContextTemplateSubscribePageBrowserComponent extends SurveyBu
 
         $this->ab = $this->get_action_bar();
         $output = $this->get_html();
-		
+
         $this->display_header($trail);
         echo $this->ab->as_html() . '<br />';
         echo $output;
@@ -33,7 +37,7 @@ class SurveyBuilderContextTemplateSubscribePageBrowserComponent extends SurveyBu
         $parameters = $this->get_parameters();
         $parameters[SurveyBuilder :: PARAM_TEMPLATE_ID ] = $this->template->get_id();
     	$parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->ab->get_query();
-    	
+
         $table = new SurveyContextTemplateSubscribePageBrowserTable($this, $parameters, $this->get_condition());
 
         $html = array();
@@ -50,31 +54,31 @@ class SurveyBuilderContextTemplateSubscribePageBrowserComponent extends SurveyBu
         $condition = new AndCondition($root_conditions);
         $template_rel_pages = SurveyContextDataManager::get_instance()->retrieve_template_rel_pages($condition);
 
-       
+
         $template_pages= array();
         while ($template_rel_page = $template_rel_pages->next_result())
         {
             $template_pages[] =  $template_rel_page->get_page_id();
         }
-		
+
        $survey = RepositoryDataManager::get_instance()->retrieve_content_object($this->get_root_content_object_id());
-    
+
         $pages = $survey->get_pages();
-       
+
         $survey_pages = array();
         foreach ($pages as $page) {
         	$survey_pages[] = $page->get_id();
         }
-        
+
         $not_template_pages = array_diff($survey_pages, $template_pages);
-           
+
         $conditions = array();
 
         if(!count($not_template_pages)){
         	$not_template_pages[] = 0;
         }
         $conditions[] = new InCondition(SurveyPage :: PROPERTY_ID,$not_template_pages, SurveyPage::get_table_name());
-       
+
         $query = $this->ab->get_query();
 
         if (isset($query) && $query != '')
@@ -88,7 +92,7 @@ class SurveyBuilderContextTemplateSubscribePageBrowserComponent extends SurveyBu
         	 return null;
         }
 		$condition = new AndCondition($conditions);
-        
+
         return $condition;
     }
 

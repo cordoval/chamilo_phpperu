@@ -1,5 +1,9 @@
 <?php
 namespace repository;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+
 class ExternalRepositoryInstanceManagerDeactivatorComponent extends ExternalRepositoryInstanceManager
 {
 
@@ -9,28 +13,28 @@ class ExternalRepositoryInstanceManagerDeactivatorComponent extends ExternalRepo
         {
             $this->not_allowed();
         }
-        
+
         $ids = Request :: get(ExternalRepositoryInstanceManager :: PARAM_INSTANCE);
         $failures = 0;
-        
+
         if (! empty($ids))
         {
             if (! is_array($ids))
             {
                 $ids = array($ids);
             }
-            
+
             foreach ($ids as $id)
             {
                 $external_repository = $this->retrieve_external_repository($id);
                 $external_repository->deactivate();
-                
+
                 if (! $external_repository->update())
                 {
                     $failures ++;
                 }
             }
-            
+
             if ($failures)
             {
                 if (count($ids) == 1)
@@ -53,7 +57,7 @@ class ExternalRepositoryInstanceManagerDeactivatorComponent extends ExternalRepo
                     $message = 'SelectedExternalRepositoriesDeleted';
                 }
             }
-            
+
             $this->redirect(Translation :: get($message), ($failures ? true : false), array(ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION => ExternalRepositoryInstanceManager :: ACTION_BROWSE_INSTANCES));
         }
         else

@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\profile;
+
+use common\libraries\Translation;
+
 /**
  * $Id: profile_display.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.profile
@@ -15,9 +18,9 @@ class ProfileDisplay extends ContentObjectDisplay
     {
         $html = array();
         $html[] = parent :: get_full_html();
-        
+
         $object = $this->get_content_object();
-        
+
         if ($object->get_address() != '')
         {
             $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_address.png);">';
@@ -25,7 +28,7 @@ class ProfileDisplay extends ContentObjectDisplay
             $html[] = $object->get_address();
             $html[] = '</div>';
         }
-        
+
         if ($object->get_mail() != '' || $object->get_phone() != '' || $object->get_fax() != '' || $object->get_skype() != '' || $object->get_msn() != '' || $object->get_aim() != '' || $object->get_yim() != '' || $object->get_icq() != '')
         {
             $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_contact.png);">';
@@ -48,7 +51,7 @@ class ProfileDisplay extends ContentObjectDisplay
                 $html[] = Translation :: get('Icq') . ': ' . $object->get_icq() . '<br/>';
             $html[] = '</div>';
         }
-        
+
         if ($object->get_competences() != '')
         {
             $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_competences.png);">';
@@ -56,7 +59,7 @@ class ProfileDisplay extends ContentObjectDisplay
             $html[] = $object->get_competences();
             $html[] = '</div>';
         }
-        
+
         if ($object->get_diplomas() != '')
         {
             $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_diplomas.png);">';
@@ -64,7 +67,7 @@ class ProfileDisplay extends ContentObjectDisplay
             $html[] = $object->get_diplomas();
             $html[] = '</div>';
         }
-        
+
         if ($object->get_teaching() != '')
         {
             $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_teaching.png);">';
@@ -72,7 +75,7 @@ class ProfileDisplay extends ContentObjectDisplay
             $html[] = $object->get_teaching();
             $html[] = '</div>';
         }
-        
+
         if ($object->get_open() != '')
         {
             $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_open_area.png);">';
@@ -80,7 +83,7 @@ class ProfileDisplay extends ContentObjectDisplay
             $html[] = $object->get_open();
             $html[] = '</div>';
         }
-        
+
         return implode("\n", $html);
     }
 

@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\Translation;
+
 /**
  * $Id: user_view.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib
@@ -82,7 +85,7 @@ class UserView extends DataClass
     function create($values)
     {
         $rdm = $this->get_data_manager();
-        
+
     	$condition = new EqualityCondition(self :: PROPERTY_NAME, $this->get_name());
         $views = $rdm->count_user_views($condition);
         if ($views > 0)
@@ -114,7 +117,7 @@ class UserView extends DataClass
     function update($values)
     {
     	$rdm = RepositoryDataManager :: get_instance();
-    	
+
     	$conditions[] = new EqualityCondition(self :: PROPERTY_NAME, $this->get_name());
     	$conditions[] = new NotCondition(new EqualityCondition(self :: PROPERTY_ID, $this->get_id()));
     	$condition = new AndCondition($conditions);

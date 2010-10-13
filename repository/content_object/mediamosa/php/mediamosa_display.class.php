@@ -1,5 +1,9 @@
 <?php
 namespace repository\content_object\mediamosa;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\Path;
 /**
  * Description of MediamosaDisplay class
  *
@@ -27,7 +31,7 @@ class MediamosaDisplay extends ContentObjectDisplay
 //            $this->mediamosa_external_repository_connector = MediamosaExternalRepositoryConnector :: get_instance($external_repository);
 //        }
 //
-        
+
         if(!$this->mediamosa_external_repository_connector)
         {
             $object = $this->get_content_object();
@@ -51,7 +55,7 @@ class MediamosaDisplay extends ContentObjectDisplay
     function get_video_player_as_html()
 	{
             $this->set_mediamosa_object();
-            
+
             if($this->mediamosa_object->get_status() == MediamosaExternalRepositoryObject :: STATUS_AVAILABLE)
             {
                 //see which mediafile to play
@@ -110,7 +114,7 @@ class MediamosaDisplay extends ContentObjectDisplay
 
     function get_preview($is_thumbnail = false)
     {
-       
+
         $this->set_mediamosa_object();
         $object = $this->get_content_object();
 

@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\Translation;
+
 /**
  * @package repository.lib
  */
@@ -13,9 +16,9 @@ class ContentObjectShare extends DataClass
     const VIEW_RIGHT = 2;
     const USE_RIGHT = 3;
     const REUSE_RIGHT = 4;
-    
+
 	const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_CONTENT_OBJECT_ID = 'content_object_id';
     const PROPERTY_RIGHT_ID = 'right_id';
 
@@ -28,7 +31,7 @@ class ContentObjectShare extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_CONTENT_OBJECT_ID, $content_object_id);
     }
-    
+
  	function get_right_id()
     {
         return $this->get_default_property(self :: PROPERTY_RIGHT_ID);
@@ -62,10 +65,10 @@ class ContentObjectShare extends DataClass
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
-    
+
     function get_rights()
     {
-    	return array(self :: SEARCH_RIGHT => Translation :: get('Search'), self :: VIEW_RIGHT => Translation :: get('View'), 
+    	return array(self :: SEARCH_RIGHT => Translation :: get('Search'), self :: VIEW_RIGHT => Translation :: get('View'),
     				 self :: USE_RIGHT => Translation :: get('Use'), self :: REUSE_RIGHT => Translation :: get('Reuse'));
     }
 }

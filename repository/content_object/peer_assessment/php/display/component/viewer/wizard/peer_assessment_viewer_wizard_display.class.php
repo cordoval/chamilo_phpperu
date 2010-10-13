@@ -1,6 +1,9 @@
 <?php
 namespace repository\content_object\peer_assessment;
 
+use common\libraries\Request;
+use common\libraries\Translation;
+
 /**
  * @author Sven Vanpoucke
  * @author Nick Van Loocke
@@ -8,14 +11,14 @@ namespace repository\content_object\peer_assessment;
 
 class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 {
-    private $parent;       								    	
+    private $parent;
 
     public function PeerAssessmentViewerWizardDisplay($parent)
     {
     	// Publication id
     	$publication_id = Request :: get('peer_assessment_publication');
     	// Users
-		$users = $parent->get_peer_assessment_publication_users($publication_id)->as_array();   
+		$users = $parent->get_peer_assessment_publication_users($publication_id)->as_array();
 		$count_users = sizeof($parent->get_peer_assessment_publication_users($publication_id)->as_array());
 
 		// No users => gives back error message
@@ -26,12 +29,12 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
         	$error[] = Translation :: get('NoUsersInThePeerAssessment');
         	$error[] = '<div class="close_message" id="closeMessage"></div>';
         	$error[] = '</div>';
-        	
+
         	echo implode("\n", $error);
 		}
 
 		$error = array();
-		
+
 		// No competences => gives back error message
     	if($parent->get_total() == 0)
     	{
@@ -40,11 +43,11 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
         	$error[] = Translation :: get('NoCompetencesInThePeerAssessment');
         	$error[] = '<div class="close_message" id="closeMessage"></div>';
         	$error[] = '</div>';
-        	
+
         	echo implode("\n", $error);
         	exit();
-    	}	
-    	
+    	}
+
         $this->parent = $parent;
     }
 
@@ -53,10 +56,10 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
      * @param HTML_Quickform_Page $page The page to display.
      */
     function _renderForm($current_page)
-    {   	
+    {
 		$this->parent->display_header();
     	parent :: _renderForm($current_page);
-    	$this->parent->display_footer();	
+    	$this->parent->display_footer();
     }
 }
 ?>

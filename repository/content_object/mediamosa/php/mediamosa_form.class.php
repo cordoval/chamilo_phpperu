@@ -1,6 +1,9 @@
 <?php
 namespace repository\content_object\mediamosa;
 
+use common\libraries\Translation;
+use common\libraries\Path;
+
 /**
  * Description of MediamosaForm class
  *
@@ -37,7 +40,7 @@ class MediamosaForm extends ContentObjectForm
     function build_editing_form()
     {
         parent :: build_editing_form();
-        
+
         //$this->streaming_video_clip_form_elements();
     }
 
@@ -50,9 +53,9 @@ class MediamosaForm extends ContentObjectForm
             $external_respository_sync = new ExternalRepositorySync();
             $external_respository_sync->set_external_repository_id($this->exportValue(ExternalRepositoryObject :: PROPERTY_EXTERNAL_REPOSITORY_ID));
             $external_respository_sync->set_external_repository_object_id($this->exportValue(ExternalRepositoryObject :: PROPERTY_ID));
-            
+
             $object = $external_respository_sync->get_external_repository_object();
-            
+
             ExternalRepositorySync :: quicksave($mediamosa, $object, $this->exportValue(ExternalRepositoryObject :: PROPERTY_EXTERNAL_REPOSITORY_ID));
 
             return $mediamosa;

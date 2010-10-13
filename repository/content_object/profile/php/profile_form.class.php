@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\profile;
+
+use common\libraries\Translation;
+
 /**
  * $Id: profile_form.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.profile
@@ -42,7 +45,7 @@ class ProfileForm extends ContentObjectForm
         $this->add_textfield(Profile :: PROPERTY_YIM, Translation :: get('Yim'), false, 'size="40"');
         $this->add_textfield(Profile :: PROPERTY_ICQ, Translation :: get('Icq'), false, 'size="40"');
         $this->addElement('checkbox', Profile :: PROPERTY_PICTURE, Translation :: get('IncludeAccountPicture'));
-    
+
     }
 
     function setDefaults($defaults = array ())
@@ -65,7 +68,7 @@ class ProfileForm extends ContentObjectForm
             $defaults[Profile :: PROPERTY_ICQ] = $lo->get_icq();
             $defaults[Profile :: PROPERTY_PICTURE] = $lo->get_picture();
         }
-        
+
         parent :: setDefaults($defaults);
     }
 
@@ -88,7 +91,7 @@ class ProfileForm extends ContentObjectForm
         $defaults[Profile :: PROPERTY_AIM] = $valuearray[14];
         $defaults[Profile :: PROPERTY_ICQ] = $valuearray[15];
         $defaults[Profile :: PROPERTY_PICTURE] = $valuearray[16];
-        
+
         parent :: set_values($defaults);
     }
 

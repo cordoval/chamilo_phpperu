@@ -1,6 +1,10 @@
 <?php
 namespace repository\content_object\survey;
 
+use common\libraries\Translation;
+use common\libraries\Path;
+use common\libraries\BreadcrumbTrail;
+
 require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/forms/context_registration_form.class.php';
 require_once Path :: get_repository_path() . 'lib/content_object/survey/survey_context_registration.class.php';
 
@@ -13,11 +17,11 @@ class SurveyContextManagerRegistrationCreatorComponent extends SurveyContextMana
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-               
+
         $context_registration = new SurveyContextRegistration();
-    
+
         $form = new SurveyContextRegistrationForm(SurveyContextRegistrationForm :: TYPE_CREATE, $this->get_url(), $context_registration,  $this->get_user(), $this);
-        
+
         if ($form->validate())
         {
             $success = $form->create_context_registration();

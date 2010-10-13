@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\forum;
+
+use common\libraries\Translation;
+
 /**
  * $Id: forum_topic_creator.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package repository.lib.complex_display.forum.component
@@ -12,7 +15,7 @@ class ForumDisplayForumTopicCreatorComponent extends ForumDisplay implements Rep
 
     function run()
     {
-        
+
 
         if (!RepoViewer::is_ready_to_be_published())
         {

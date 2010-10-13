@@ -1,5 +1,9 @@
 <?php
 namespace repository;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+
 require_once dirname(__FILE__) . '/../forms/external_repository_form.class.php';
 
 class ExternalRepositoryInstanceManagerUpdaterComponent extends ExternalRepositoryInstanceManager
@@ -11,14 +15,14 @@ class ExternalRepositoryInstanceManagerUpdaterComponent extends ExternalReposito
         {
             $this->not_allowed();
         }
-        
+
         $instance_id = Request :: get(ExternalRepositoryInstanceManager :: PARAM_INSTANCE);
-        
+
         if(isset($instance_id))
         {
             $external_repository = $this->retrieve_external_repository($instance_id);
             $form = new ExternalRepositoryForm(ExternalRepositoryForm :: TYPE_EDIT, $external_repository, $this->get_url(array(ExternalRepositoryInstanceManager :: PARAM_INSTANCE => $instance_id)));
-            
+
             if ($form->validate())
             {
                 $success = $form->update_external_repository();

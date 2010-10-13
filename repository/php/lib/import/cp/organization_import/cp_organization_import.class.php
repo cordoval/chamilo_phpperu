@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use common\libraries\Path;
+
 /**
  * Import a IMS CP Manifest organization node as a learning path.
  *
@@ -22,19 +24,19 @@ class CpOrganizationImport{
 	}
 
 	public static function get_learning_path_types(){
-		//@todo: should be moved to learning path 
-		$result = array(LearningPath :: get_type_name(), 
-						Announcement :: get_type_name(), 
-						Assessment :: get_type_name(), 
-						BlogItem :: get_type_name(), 
+		//@todo: should be moved to learning path
+		$result = array(LearningPath :: get_type_name(),
+						Announcement :: get_type_name(),
+						Assessment :: get_type_name(),
+						BlogItem :: get_type_name(),
 						CalendarEvent :: get_type_name(),
-						Description :: get_type_name(), 
-						Document :: get_type_name(), 
-						Forum :: get_type_name(), 
-						Glossary :: get_type_name(), 
-						Hotpotatoes :: get_type_name(), 
+						Description :: get_type_name(),
+						Document :: get_type_name(),
+						Forum :: get_type_name(),
+						Glossary :: get_type_name(),
+						Hotpotatoes :: get_type_name(),
 						Link :: get_type_name(),
-						Note :: get_type_name(), 
+						Note :: get_type_name(),
 						Wiki :: get_type_name()
 						);
 		return $result;
@@ -96,12 +98,12 @@ class CpOrganizationImport{
 			$resource_settings = $settings->copy($settings->get_directory().$href, $type);
 			if($child_object = CpImport::object_factory($resource_settings)->import_content_object()){
 				$types = self::get_learning_path_types();
-				if(	$child_object instanceof ContentObject && 
+				if(	$child_object instanceof ContentObject &&
 					in_array($child_object->get_type(), $types)){
 					$child = new LearningPathItem();
 					$child->set_reference($child_object->get_id());
 					$child->save();
-	
+
 					$cloi = new ComplexLearningPathItem();
 					$cloi->set_ref($child->get_id());
 					$cloi->set_user_id($settings->get_user()->get_id());
@@ -113,7 +115,7 @@ class CpOrganizationImport{
 		}
 		$count=0;
 		$children_item = $item->list_item();
-		$process_children = count($children_item)>0 && 
+		$process_children = count($children_item)>0 &&
 							(empty($child_object) || ($child_object instanceof ContentObject && !$child_object->is_complex_content_object()));
 		if($process_children){
 			$title = empty($title) ? $object->get_title() . '.' . ++$count : $title;
@@ -124,7 +126,7 @@ class CpOrganizationImport{
 			//$child->set_parent_id($object->get_id());
 			$object->set_state(ContentObject::STATE_NORMAL);
 			$child->save();
-				
+
 			$cloi = new ComplexLearningPathItem();
 			$cloi->set_ref($child->get_id());
 			$cloi->set_user_id($settings->get_user()->get_id());

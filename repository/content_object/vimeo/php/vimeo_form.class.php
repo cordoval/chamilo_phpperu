@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\vimeo;
+
+use common\libraries\Translation;
+
 /**
  * $Id: vimeo_form.class.php 2010-06-08
  * package repository.lib.content_object.vimeo

@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\learning_path_item;
+
+use common\libraries\Translation;
+
 /**
  * $Id: learning_path_item_form.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.learning_path_item
@@ -57,7 +60,7 @@ class LearningPathItemForm extends ContentObjectForm
             $defaults[LearningPathItem :: PROPERTY_REFERENCE] = $object->get_reference();
             parent :: setDefaults($defaults);
         }
-        
+
     }
 
 }

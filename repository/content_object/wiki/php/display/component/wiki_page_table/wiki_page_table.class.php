@@ -1,5 +1,9 @@
 <?php
 namespace repository\content_object\wiki;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+
 /**
  * $Id: wiki_page_table.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.wiki.component.wiki_page_table
@@ -28,17 +32,17 @@ class WikiPageTable extends ObjectTable
      */
     function WikiPageTable($parent, $owner)
     {
-        
+
         $model = new WikiPageTableColumnModel();
         $renderer = new WikiPageTableCellRenderer($parent);
         $data_provider = new WikiPageTableDataProvider($parent, $owner);
         parent :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
-        
+
         $actions = new ObjectTableFormActions(ComplexDisplay :: PARAM_DISPLAY_ACTION);
-        
+
         $actions->add_form_action(new ObjectTableFormAction(ComplexDisplay :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM, Translation :: get('RemoveSelected')));
         $this->set_form_actions($actions);
-    
+
     }
 
     /**
@@ -64,13 +68,13 @@ class WikiPageTable extends ObjectTable
             $table_data[] = $row;
         }
         return $table_data;
-    
+
     }
-    
+
     function handle_table_action()
     {
     	$ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
-    	Request :: set_get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID, $ids);	
+    	Request :: set_get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID, $ids);
     }
 }
 ?>

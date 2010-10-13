@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\Translation;
+
 class DefaultExternalRepositoryInstanceTableCellRenderer extends ObjectTableCellRenderer
 {
 

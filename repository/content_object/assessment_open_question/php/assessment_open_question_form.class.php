@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\assessment_open_question;
+
+use common\libraries\Translation;
+
 /**
  * $Id: assessment_open_question_form.class.php$ $
  * @package repository.lib.content_object.assessment_open_question

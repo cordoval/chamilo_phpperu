@@ -1,5 +1,10 @@
 <?php
 namespace repository;
+
+use common\libraries\Translation;
+use common\libraries\Path;
+use common\libraries\Configuration;
+
 /**
  * $Id: installer.class.php 198 2009-11-13 12:20:22Z vanpouckesven $
  * @package common
@@ -15,12 +20,12 @@ abstract class ContentObjectInstaller
     const TYPE_ERROR = '4';
     const INSTALL_SUCCESS = 'success';
     const INSTALL_MESSAGE = 'message';
-    
+
     /**
      * The datamanager which can be used by the installer of the application
      */
     private $data_manager;
-    
+
     /**
      * Message to be displayed upon completion of the installation procedure
      */
@@ -41,10 +46,10 @@ abstract class ContentObjectInstaller
         {
             return false;
         }
-        
+
         $dir = $this->get_path();
         $files = Filesystem :: get_directory_content($dir, Filesystem :: LIST_FILES);
-        
+
         foreach ($files as $file)
         {
             if ((substr($file, - 3) == 'xml'))
@@ -55,12 +60,12 @@ abstract class ContentObjectInstaller
                 }
             }
         }
-        
+
         if (! $this->configure_content_object())
         {
             return false;
         }
-        
+
         if (method_exists($this, 'install_extra'))
         {
             if (! $this->install_extra())
@@ -68,15 +73,15 @@ abstract class ContentObjectInstaller
                 return false;
             }
         }
-        
+
         if (! $this->import_content_object())
         {
         	return false;
         }
-        
+
         return $this->installation_successful();
     }
-    
+
 	public function import_content_object()
     {
         $type = $this->get_content_object();
@@ -87,8 +92,8 @@ abstract class ContentObjectInstaller
 	    	$condition = new EqualityCondition(User::PROPERTY_PLATFORMADMIN, 1);
 	        $user = UserDataManager::get_instance()->retrieve_users($condition)->next_result();
 	        $category = RepositoryDataManager::get_instance();
-        
-	        
+
+
 	    	$import = ContentObjectImport::factory('cpo', array('tmp_name' => $file), $user, 0);
 	        if (! $import->import_content_object())
 	        {
@@ -103,20 +108,20 @@ abstract class ContentObjectInstaller
     	}
     	return true;
     }
-    
+
 
     function get_content_object()
     {
         $content_object_class = $this->get_content_object_name();
         $content_object = Utilities :: camelcase_to_underscores($content_object_class);
-        
+
         return $content_object;
     }
 
     function get_content_object_name()
     {
         $content_object_class = str_replace('ContentObjectInstaller', '', get_class($this));
-        
+
         return $content_object_class;
     }
 
@@ -135,7 +140,7 @@ abstract class ContentObjectInstaller
         $name = '';
         $properties = array();
         $indexes = array();
-        
+
         $doc = new DOMDocument();
         $doc->load($file);
         $object = $doc->getElementsByTagname('object')->item(0);
@@ -170,7 +175,7 @@ abstract class ContentObjectInstaller
         $result['name'] = $name;
         $result['properties'] = $properties;
         $result['indexes'] = $indexes;
-        
+
         return $result;
     }
 
@@ -237,19 +242,19 @@ abstract class ContentObjectInstaller
     function parse_content_object_settings($file)
     {
         $doc = new DOMDocument();
-        
+
         $doc->load($file);
         $object = $doc->getElementsByTagname('application')->item(0);
-        
+
         // Get events
         $events = $doc->getElementsByTagname('setting');
         $settings = array();
-        
+
         foreach ($events as $index => $event)
         {
             $settings[$event->getAttribute('name')] = array('default' => $event->getAttribute('default'), 'user_setting' => $event->getAttribute('user_setting'));
         }
-        
+
         return $settings;
     }
 
@@ -258,25 +263,25 @@ abstract class ContentObjectInstaller
         $content_object = $this->get_content_object();
         $base_path = Path :: get_repository_content_object_path() . $content_object;
         $settings_file = $base_path . '/php/settings/settings_' . $content_object . '.xml';
-        
+
         if (file_exists($settings_file))
         {
             $xml = $this->parse_content_object_settings($settings_file);
-            
+
             foreach ($xml as $name => $parameters)
             {
                 $setting = new Setting();
                 $setting->set_application(RepositoryManager :: APPLICATION_NAME);
-                
+
                 $setting->set_variable($name);
                 $setting->set_value($parameters['default']);
-                
+
                 $user_setting = $parameters['user_setting'];
                 if ($user_setting)
                     $setting->set_user_setting($user_setting);
                 else
                     $setting->set_user_setting(0);
-                
+
                 if (! $setting->create())
                 {
                     $message = Translation :: get('ContentObjectConfigurationFailed');
@@ -285,37 +290,37 @@ abstract class ContentObjectInstaller
             }
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('SettingsAdded'));
         }
-        
+
         return true;
     }
 
     function register_content_object()
     {
         $this->add_message(self :: TYPE_NORMAL, Translation :: get('ContentObjectRegistration'));
-        
+
         $content_object_registration = new Registration();
         $content_object_registration->set_type(Registration :: TYPE_CONTENT_OBJECT);
         $content_object_registration->set_name($this->get_content_object());
         $content_object_registration->set_status(Registration :: STATUS_ACTIVE);
-        
+
         $package_info = PackageInfo :: factory(Registration :: TYPE_CONTENT_OBJECT, $this->get_content_object());
-        
+
         if ($package_info)
         {
             $content_object_registration->set_version($package_info->get_package()->get_version());
         }
-        
+
         if (! $content_object_registration->create())
         {
             return $this->installation_failed(Translation :: get('ContentObjectRegistrationFailed'));
         }
-        
+
         $succes = RepositoryRights :: create_location_in_content_objects_subtree($this->get_content_object(), $content_object_registration->get_id(), RepositoryRights :: get_content_objects_subtree_root_id());
         if(!$succes)
         {
         	return $this->installation_failed(Translation :: get('ContentObjectLocationRegistrationFailed'));
         }
-        
+
         return true;
     }
 
@@ -352,7 +357,7 @@ abstract class ContentObjectInstaller
         {
             return false;
         }
-    
+
     }
 
     abstract function get_path();

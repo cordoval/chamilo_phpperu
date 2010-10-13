@@ -1,5 +1,11 @@
 <?php
 namespace repository\content_object\wiki;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\Path;
+use common\libraries\BreadcrumbTrail;
+
 /**
  * $Id: wiki_viewer.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.wiki.component
@@ -24,12 +30,12 @@ class WikiDisplayViewerComponent extends WikiDisplay
     function run()
     {
         $this->action_bar = $this->get_toolbar($this, $this->get_root_content_object()->get_id(), $this->get_root_content_object(), null);
-        
+
 
         if ($this->get_root_content_object() != null)
         {
             $complex_wiki_homepage = $this->get_wiki_homepage($this->get_root_content_object_id());
-            
+
             if (! is_null($complex_wiki_homepage))
             {
                 Request :: set_get(ComplexDisplay::PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID, $complex_wiki_homepage->get_id());

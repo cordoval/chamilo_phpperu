@@ -1,8 +1,10 @@
 <?php
 namespace repository;
 
+use common\libraries\Path;
+
 require_once dirname(__FILE__) .'/question_builder.class.php';
-require_once_all(dirname(__FILE__) .'/builder/*.class.php');
+//require_once_all(dirname(__FILE__) .'/builder/*.class.php');
 
 /**
  * Base class for all object builders.

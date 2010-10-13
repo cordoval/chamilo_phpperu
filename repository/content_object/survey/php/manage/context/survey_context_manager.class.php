@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\survey;
 
+use common\libraries\Path;
+
 require_once Path :: get_repository_content_object_path() . 'survey/php/context_data_manager/context_data_manager.class.php';
 
 /**
@@ -11,42 +13,42 @@ require_once Path :: get_repository_content_object_path() . 'survey/php/context_
  */
 class SurveyContextManager extends SubManager
 {
-    
+
     const PARAM_ACTION = 'action';
-    
+
     const PARAM_CONTEXT_REGISTRATION_ID = 'context_registration_id';
     const PARAM_CONTEXT_TEMPLATE_ID = 'context_template_id';
     const PARAM_CONTEXT_ID = 'context_id';
     const PARAM_TEMPLATE_ID = 'template_id';
     const PARAM_CONTEXT = 'context';
-    
+
     const ACTION_MANAGER_CHOOSER = 'manager_chooser';
-    
+
     const ACTION_CREATE_CONTEXT_REGISTRATION = 'registration_creator';
     const ACTION_EDIT_CONTEXT_REGISTRATION = 'registration_updater';
     const ACTION_DELETE_CONTEXT_REGISTRATION = 'registration_deleter';
     const ACTION_VIEW_CONTEXT_REGISTRATION = 'registration_viewer';
     const ACTION_BROWSE_CONTEXT_REGISTRATION = 'registration_browser';
-    
+
     const ACTION_CREATE_CONTEXT_TEMPLATE = 'context_template_creator';
     const ACTION_EDIT_CONTEXT_TEMPLATE = 'context_template_updater';
     const ACTION_DELETE_CONTEXT_TEMPLATE = 'context_template_deleter';
     const ACTION_VIEW_CONTEXT_TEMPLATE = 'context_template_viewer';
     const ACTION_BROWSE_CONTEXT_TEMPLATE = 'context_template_browser';
-    
+
     const ACTION_CREATE_CONTEXT = 'context_creator';
     const ACTION_EDIT_CONTEXT = 'context_updater';
     const ACTION_DELETE_CONTEXT = 'context_deleter';
-    
+
     const ACTION_CREATE_TEMPLATE = 'template_creator';
     const ACTION_EDIT_TEMPLATE = 'template_updater';
     const ACTION_DELETE_TEMPLATE = 'template_deleter';
-    
+
     const DEFAULT_ACTION = self :: ACTION_MANAGER_CHOOSER;
 
     function SurveyContextManager($repository_manager)
     {
-    	
+
         parent :: __construct($repository_manager);
     }
 

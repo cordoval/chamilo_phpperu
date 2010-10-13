@@ -1,4 +1,5 @@
 <?php
+use common\libraries\Path;
 
 require_once  Path::get_common_path() .'ims/main.php';
 

@@ -1,5 +1,9 @@
 <?php
 namespace repository\content_object\portfolio;
+
+use common\libraries\Translation;
+use common\libraries\Path;
+
 /**
  * $Id: portfolio_browser_table_cell_renderer.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.portfolio.component.browser
@@ -19,14 +23,14 @@ class PortfolioBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
     {
         parent :: __construct($browser, $condition);
     }
-    
+
     private $lpi_ref_object;
 
     // Inherited
     function render_cell($column, $complex_content_object_item)
     {
         $content_object = $this->retrieve_content_object($complex_content_object_item->get_ref());
-        
+
         if ($content_object->get_type() == PortfolioItem :: get_type_name())
         {
             if (! $this->lpi_ref_object || $this->lpi_ref_object->get_id() != $content_object->get_reference())
@@ -43,23 +47,23 @@ class PortfolioBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
         {
             $ref_content_object = $content_object;
         }
-        
+
         switch ($column->get_name())
         {
             case Translation :: get(Utilities :: underscores_to_camelcase(ContentObject :: PROPERTY_TITLE)) :
                 $title = htmlspecialchars($ref_content_object->get_title());
                 $title_short = $title;
-                
+
                 $title_short = Utilities :: truncate_string($title_short, 53, false);
-                
+
                 if ($ref_content_object->get_type() == Portfolio :: get_type_name())
                 {
                     $title_short = '<a href="' . $this->browser->get_url(array(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id())) . '">' . $title_short . '</a>';
                 }
-                
+
                 return $title_short;
         }
-        
+
         return parent :: render_cell($column, $complex_content_object_item, $ref_content_object);
     }
 

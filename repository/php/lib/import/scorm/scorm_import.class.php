@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\Path;
+
 /**
  * $Id: scorm_import.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.import.scorm
@@ -171,7 +174,7 @@ class ScormImport extends ContentObjectImport
 
         $global_sequencing = array();
         $sequencing_items = $sequencing_collections['imsss:sequencing'];
-        $sequencing_items = $sequencing_items ? $sequencing_items : array(); 
+        $sequencing_items = $sequencing_items ? $sequencing_items : array();
         foreach ($sequencing_items as $sequencing)
         {
             if ($sequencing['ID'] == $lp_sequencing['IDRef'])

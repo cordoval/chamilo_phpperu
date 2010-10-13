@@ -1,5 +1,9 @@
 <?php
 namespace repository;
+
+use common\libraries\Translation;
+use common\libraries\BreadcrumbTrail;
+
 /**
  * $Id: template_browser.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component
@@ -58,7 +62,7 @@ class RepositoryManagerContentObjectRegistrationBrowserComponent extends Reposit
 
         return $action_bar;
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add_help('repository_registrations_browser');

@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\BreadcrumbTrail;
+
 /**
  * $Id: repo_viewer.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package repository.lib.repository_manager.component
@@ -16,7 +19,7 @@ class RepositoryManagerRepoViewerComponent extends RepositoryManager implements 
      */
     function run()
     {
-        
+
 
         if (!RepoViewer::is_ready_to_be_published())
         {
@@ -36,7 +39,7 @@ class RepositoryManagerRepoViewerComponent extends RepositoryManager implements 
     {
         return array(Document :: get_type_name());
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add_help('repository_repo_viewer');

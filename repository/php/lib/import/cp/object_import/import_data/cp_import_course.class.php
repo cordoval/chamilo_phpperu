@@ -1,18 +1,20 @@
 <?php
 namespace repository;
 
+use common\libraries\Translation;
+
 /**
- * 
- * 
- * 
- * @copyright (c) 2010 University of Geneva 
- * 
+ *
+ *
+ *
+ * @copyright (c) 2010 University of Geneva
+ *
  * @license GNU General Public License
  * @author laurent.opprecht@unige.ch
  *
  */
 class CpImportCourse extends CpObjectImportBase{
-	
+
 	public static function factory(ObjectImportSettings $settings){
 		$type = strtolower($settings->get_type());
 		if($type == 'ceo_v1p0#course'){
@@ -23,18 +25,18 @@ class CpImportCourse extends CpObjectImportBase{
 			return null;
 		}
 	}
-	
+
     public function import_content_object(){
     	$reader = new ImscpObjectReader($this->get_path(), false);
     	$item = $reader->get_objects()->first_object();
     	$ids = $this->get_identifiers($item);
     	$type = $item->type;
-    
+
     	$object = $this->create_object($type);
     	$this->process_general($object, $item);
     	$this->process_categories($object, $item);
         $result = $object->create(); //needed to get the object id for publications
-        
+
     	$relation = new CourseUserRelation();
     	$relation->set_course($object->get_id());
     	$relation->set_user($this->get_settings()->get_user()->get_id());
@@ -42,7 +44,7 @@ class CpImportCourse extends CpObjectImportBase{
     	$relation->set_status(1);
     	$relation->set_category(0);
     	$relation->save();
-    	
+
     	$this->process_settings($object, $item);
     	$this->process_layout_settings($object, $item);
     	$this->process_rights($object, $item);
@@ -59,7 +61,7 @@ class CpImportCourse extends CpObjectImportBase{
         }
         return $object; //->get_id()
     }
-        
+
     protected function create_category($name){
     	$result = new CourseCategory();
     	$result->set_name($name);
@@ -69,12 +71,12 @@ class CpImportCourse extends CpObjectImportBase{
 
     protected function process_general(Course $object, ImscpObjectReader $item){
     	$properties = array(Course::PROPERTY_VISUAL ,
-    						Course::PROPERTY_NAME , 
-    						Course::PROPERTY_EXTLINK_NAME , 
-    						Course::PROPERTY_EXTLINK_URL , 
+    						Course::PROPERTY_NAME ,
+    						Course::PROPERTY_EXTLINK_NAME ,
+    						Course::PROPERTY_EXTLINK_URL ,
     						Course::PROPERTY_EXPIRATION_DATE ,
     						);
-    	
+
     	$children = $item->get_general()->children();
     	foreach($children as $child){
     		$name = $child->name();
@@ -90,7 +92,7 @@ class CpImportCourse extends CpObjectImportBase{
     		$object->set_visual($code .'-'. time());
     	}
     }
-    
+
     protected function process_settings(Course $object, ImscpObjectReader $item){
     	$settings = $object->get_settings();
     	$children = $item->get_settings()->get_general()->children();
@@ -115,7 +117,7 @@ class CpImportCourse extends CpObjectImportBase{
 		$object->set_access($access);
     	$settings->save();
     }
-    
+
     protected function process_layout_settings(Course $object, ImscpObjectReader $item){
     	$settings = $object->get_layout_settings();
     	$children = $item->get_layout_settings()->get_general()->children();
@@ -128,7 +130,7 @@ class CpImportCourse extends CpObjectImportBase{
     			}
     	}
     }
-    
+
     protected function process_rights(Course $object, ImscpObjectReader $item){
     	$rights = $object->get_rights();
     	$children = $item->get_rights()->get_general()->children();
@@ -141,7 +143,7 @@ class CpImportCourse extends CpObjectImportBase{
     			}
     	}
     }
-    
+
     protected function process_type(Course $object, ImscpObjectReader $item){
     	$item = $item->first_type();
         $condition = new EqualityCondition(CourseType::PROPERTY_NAME, $item->name);
@@ -151,10 +153,10 @@ class CpImportCourse extends CpObjectImportBase{
         	//@todo:create a new type?
         }
     }
-    
+
     protected function process_introduction(Course $object, ImscpObjectReader $item){
     	//not needed
-    	
+
     	/*
     	$settings = $this->get_settings();
     	$object->set_intro_text(true);
@@ -164,7 +166,7 @@ class CpImportCourse extends CpObjectImportBase{
     	$intro->set_title(substr($text, 0, 150));
     	$intro->set_description($value);
     	$intro->save();
-    	
+
     	$pub = new ContentObjectPublication();
     	$pub->set_course_id($object->get_id());
     	$pub->set_content_object_id($intro->get_id());
@@ -179,7 +181,7 @@ class CpImportCourse extends CpObjectImportBase{
     	$pub->set_modified_date($time);
     	$pub->save();*/
     }
-    
+
     protected function process_sections(Course $object, ImscpObjectReader $item){
     	$standard_sections = array('Tools', 'Links', 'Disabled', 'Course administration');
     	$items = $item->get_sections()->list_section();
@@ -202,7 +204,7 @@ class CpImportCourse extends CpObjectImportBase{
     			}
     			foreach($module_items as $module_item){
     				$module = $tools[strtolower($module_item->name)];
-    				if(empty($module)){	
+    				if(empty($module)){
     					$module = new CourseModule();
     					$module->set_name($module_item->name);
     					$module->set_course_code($object->get_id());
@@ -214,7 +216,7 @@ class CpImportCourse extends CpObjectImportBase{
     		}
     	}
     }
-    
+
     protected function process_publications(Course $object, ImscpObjectReader $item){
     	$settings = $this->get_settings();
     	$items = $item->get_publications()->list_publication();
@@ -243,14 +245,14 @@ class CpImportCourse extends CpObjectImportBase{
     		}
     	}
     }
-    
+
     protected function process_groups(Course $object, ImscpObjectReader $item, $parent = null){
     	$items = $item->get_groups()->list_group();
     	foreach($items as $item){
     		$general = $item->get_general();
     		$name = $general->get_name()->value();
     		//root group is created automatically. we don't recreate it.
-    		if(!is_null($parent) || $name != $object->get_name()){ 
+    		if(!is_null($parent) || $name != $object->get_name()){
 	    		$group = new CourseGroup();
 		    	$group->set_name($general->get_name()->value());
 		    	$group->set_course_code($object->get_id());
@@ -261,7 +263,7 @@ class CpImportCourse extends CpObjectImportBase{
 		    	$group->set_self_registration_allowed((bool)$general->get_self_reg_allowed()->value());
 		    	$group->set_self_unregistration_allowed((bool)$general->get_self_unreg_allowed()->value());
 		    	$group->set_parent_id(empty($parent) ? 0 : $parent->get_id());
-	    		$group->save();    		
+	    		$group->save();
     		}else{
     			$group = null;
     		}
@@ -269,7 +271,7 @@ class CpImportCourse extends CpObjectImportBase{
     		$this->process_groups($object, $item, $group);
     	}
     }
-    
+
     protected function process_user_relations(Course $object, ImscpObjectReader $item, $parent = null){
     	$items = $item->get_user_relations()->list_user_relation();
     	foreach($items as $item){
@@ -287,11 +289,11 @@ class CpImportCourse extends CpObjectImportBase{
     				$relation = new CourseUserRelation();
     				$relation->set_course($object->get_id());
     				$relation->set_user($user_id);
-    				
+
     				$role = $item->get_general()->get_role()->value();
     				$role = empty($role) ? 0 : $role;
     				$relation->set_role($role);
-    				
+
     				$status = $item->get_general()->get_status()->value();
     				$status = empty($status) ? 0 : $status;
     				$relation->set_status($status);
@@ -301,23 +303,23 @@ class CpImportCourse extends CpObjectImportBase{
     		}else{
     			//should not be the case unless
     			$log = $this->get_settings()->get_log();
-    			$log->error(Translation::Translate('FailedToCreateUser'));	
+    			$log->error(Translation::Translate('FailedToCreateUser'));
     		}
     	}
     }
-    
+
     protected function process_user(Course $object, ImscpObjectReader $item){
     	$item = $item->get_general();
     	$store = User::get_data_manager();
     	$user = $store->retrieve_user_by_username($item->get_official_code()->value());
     	$user = empty($user) ? reset($store->retrieve_users_by_email($item->get_email()->value())) : $user;
     	$user = empty($user) ? new User() : $user;
-    	
+
     	if(!$user->is_identified()){
-	    	$skip = array(	User::PROPERTY_ID, 
+	    	$skip = array(	User::PROPERTY_ID,
 	    					User::PROPERTY_CREATOR_ID,
 	    					User::PROPERTY_REGISTRATION_DATE);
-	    						
+
 	    	$names = array_diff(User::get_default_property_names(), $skip);
 	    	$properties = $this->read_properties($item, $names);
 	    	foreach($properties as $name=>$value){
@@ -328,16 +330,16 @@ class CpImportCourse extends CpObjectImportBase{
     		$user->save();
     	}
     	return $user;
-    } 
-    
+    }
+
     protected function process_categories(Course $object, ImscpObjectReader $item){
     	$category_name = $item->get_categories()->get_category()->get_name()->value();
     	$category = $this->get_course_category($category_name);
     	if(!empty($category)){
     		$object->set_category($category->get_id());
     	}
-    }    
-    
+    }
+
     protected function get_course_category($name){
     	if(empty($name)){
     		return 0;
@@ -348,7 +350,7 @@ class CpImportCourse extends CpObjectImportBase{
         $result = empty($result) ? $this->create_course_category($name) : $result;
         return $result;
     }
-    
+
     protected function create_course_category($name){
     	$result = new CourseCategory();
     	$result->set_name($name);
@@ -356,19 +358,19 @@ class CpImportCourse extends CpObjectImportBase{
     	$result->save();
     	return $result;
     }
-    
-    
+
+
     /*
-    
+
     protected function set_system_id($file_id, $system_id){
     	$this->objects[$file_id] = $system_id;
     	return $system_id;
     }
-    
+
     protected function has_system_id($file_id){
     	return isset($this->objects[$file_id]);
     }
-    
+
     protected function get_system_id($file_id){
     	if(isset($this->objects[$file_id])){
     		return $this->objects[$file_id];
@@ -376,7 +378,7 @@ class CpImportCourse extends CpObjectImportBase{
     		return 0;
     	}
     }
-    
+
     public function get_identifiers($item){
     	$result = array();
     	$ids = $item->get_identifiers()->list_identifier();
@@ -387,7 +389,7 @@ class CpImportCourse extends CpObjectImportBase{
     	}
     	return $result;
     }
-    
+
     /*
     protected function node_to_object($item){
     	$result = $item->node_to_object($item);
@@ -400,7 +402,7 @@ class CpImportCourse extends CpObjectImportBase{
     public static function retrieve_content_object($id){
         return RepositoryDataManager :: get_instance()->retrieve_content_object($id);
     }*/
-    
+
 }
 
 

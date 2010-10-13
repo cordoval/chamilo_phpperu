@@ -1,8 +1,10 @@
 <?php
 namespace repository\content_object\survey;
 
-require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/tables/context_template_table/default_context_template_table_column_model.class.php';
+use common\libraries\Translation;
+use common\libraries\Path;
 
+require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/tables/context_template_table/default_context_template_table_column_model.class.php';
 
 class SurveyContextTemplateBrowserTableColumnModel extends DefaultSurveyContextTemplateTableColumnModel
 {
@@ -21,7 +23,7 @@ class SurveyContextTemplateBrowserTableColumnModel extends DefaultSurveyContextT
         $this->add_column(new StaticTableColumn(Translation :: get('Levels')));
         $this->add_column(self :: get_modification_column());
     }
-    
+
     static function get_modification_column()
     {
         if (! isset(self :: $modification_column))

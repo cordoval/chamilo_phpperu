@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\wiki_page;
+
+use common\libraries\Translation;
+
 /**
  * $Id: complex_wiki_page_form.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.wiki_page
@@ -44,12 +47,12 @@ class ComplexWikiPageForm extends ComplexContentObjectItemForm
     function get_default_values()
     {
         $cloi = $this->get_complex_content_object_item();
-        
+
         if (isset($cloi))
         {
             $defaults[ComplexWikiPage :: PROPERTY_IS_HOMEPAGE] = $cloi->get_is_homepage() ? $cloi->get_is_homepage() : false;
         }
-        
+
         return $defaults;
     }
 

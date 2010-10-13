@@ -1,5 +1,9 @@
 <?php
 namespace repository;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+
 /**
  * $Id: user_view_browser_table.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.user_view_browser
@@ -28,7 +32,7 @@ class UserViewBrowserTable extends ObjectTable
 		$this->set_form_actions($actions);
         $this->set_default_row_count(20);
     }
-    
+
 	static function handle_table_action()
     {
         $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));

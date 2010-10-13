@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\rss_feed;
+
+use common\libraries\Translation;
+
 /**
  * $Id: rss_feed_form.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.rss_feed

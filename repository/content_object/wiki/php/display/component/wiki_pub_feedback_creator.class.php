@@ -1,5 +1,11 @@
 <?php
 namespace repository\content_object\wiki;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\Path;
+use common\libraries\BreadcrumbTrail;
+
 /**
  * $Id: wiki_pub_feedback_creator.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.wiki.component
@@ -17,9 +23,9 @@ class WikiDisplayWikiPubFeedbackCreatorComponent extends WikiDisplay implements 
 
     function run()
     {
-        
 
-        
+
+
 
         if (!RepoViewer::is_ready_to_be_published())
         {
@@ -77,7 +83,7 @@ class WikiDisplayWikiPubFeedbackCreatorComponent extends WikiDisplay implements 
     {
         return array(Feedback :: get_type_name());
     }
-    
+
     function  add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
         $breadcrumbtrail = $this->get_breadcrumbtrail();

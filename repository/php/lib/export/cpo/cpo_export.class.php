@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\Path;
+
 /**
  * $Id: cpo_export.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.export.cpo
@@ -346,13 +349,13 @@ class CpoExport extends ContentObjectExport
             while ($content_object_attachment = $content_object_attachments->next_result())
             {
                 $attachment = $content_object_attachment->get_attachment_object();
-                
+
                 $attachment_element = $doc->createElement('attachment');
                 $attachments_element->appendChild($attachment_element);
-                
+
                 $type = $doc->createAttribute('type');
                 $attachment_element->appendChild($type);
-                
+
                 $type_value = $doc->createTextNode($content_object_attachment->get_type());
                 $type->appendChild($type_value);
 

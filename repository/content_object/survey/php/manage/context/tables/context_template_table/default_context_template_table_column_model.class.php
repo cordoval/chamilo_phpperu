@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\survey;
 
+use common\libraries\Path;
+
 require_once Path :: get_repository_path() . 'lib/content_object/survey/survey_context_template.class.php';
 
 class DefaultSurveyContextTemplateTableColumnModel extends ObjectTableColumnModel

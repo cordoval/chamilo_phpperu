@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\assessment;
+
+use common\libraries\Translation;
+
 /**
  * $Id: fill_in_blanks_question_result_display.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.assessment.component.viewer.wizard.inc.question_result_display
@@ -12,21 +15,21 @@ class FillInBlanksQuestionResultDisplay extends QuestionResultDisplay
     function display_question_result()
     {
         $answers = $this->get_answers();
-    
+
         $answer_text = $this->get_question()->get_answer_text();
         $answer_text = nl2br($answer_text);
         $parts = preg_split(FillInBlanksQuestionAnswer::CLOZE_REGEX, $answer_text);
-                
+
         $html[] = '<div class="with_borders">';
         $html[] = array_shift($parts);
         $index = 0;
         foreach($parts as $i => $part)
         {
         	$answers[$i] = empty($answers[$i]) ? Translation :: get('NoAnswer') : $answers[$i];
-        	
+
         	$weight = $this->get_question()->get_weight_from_answer($i, $answers[$i]);
-        	$max_question_weight = $this->get_question()->get_question_maximum_weight($i); 
-        	
+        	$max_question_weight = $this->get_question()->get_question_maximum_weight($i);
+
         	if($weight == $max_question_weight)
         	{
         		$html[] = '<span style="color:green"><b>'.$answers[$i].'</b></span>';
@@ -41,20 +44,20 @@ class FillInBlanksQuestionResultDisplay extends QuestionResultDisplay
         			$html[] = '<span style="color:orange"><b>'.$answers[$i].'</b></span>';
         		}
         	}
-        	
+
         	$html[] = $part;
         	$index++;
         }
-        
+
         $html[] = '</div>';
-        
+
         foreach($parts as $index => $part)
         {
         	$html[] = $this->get_question_feedback($index);
         }
         echo implode("\n", $html);
     }
-    
+
     function get_question_feedback($index)
     {
     	$html[] = '<div class="with_borders"><b>'.Translation::get('Question').' '. ($index+1).'</b></div>';
@@ -68,7 +71,7 @@ class FillInBlanksQuestionResultDisplay extends QuestionResultDisplay
         $html[] = '</tr>';
         $html[] = '</thead>';
         $html[] = '<tbody>';
-        
+
         $i=0;
         $correct_answers = $this->get_question_answer($index);
         foreach ($correct_answers as $correct_answer)
@@ -80,13 +83,13 @@ class FillInBlanksQuestionResultDisplay extends QuestionResultDisplay
              $html[] = '<td>' . $correct_answer->get_weight() . '</td></tr>';
             $i++;
         }
-        
+
         $html[] = '</tbody>';
         $html[] = '</table>';
-        
+
         return implode("\n", $html);
     }
-    
+
     function get_question_answer($index)
     {
     	$result = array();
@@ -98,7 +101,7 @@ class FillInBlanksQuestionResultDisplay extends QuestionResultDisplay
         		$result[] = $answer;
         	}
         }
-        
+
         return $result;
     }
 }

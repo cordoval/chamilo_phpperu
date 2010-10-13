@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\Path;
+
 /**
  * $Id: rating_question_display.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.question_types.rating_question
@@ -14,9 +17,9 @@ class RatingQuestionDisplay extends ContentObjectDisplay
 		$question =  $this->get_content_object();
 		$min = $question->get_low();
         $max = $question->get_high();
-        
-        
-        
+
+
+
         $html = array();
         $html[] = parent :: get_description();
         $html[] = '<div class="question">';

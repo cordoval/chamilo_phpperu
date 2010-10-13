@@ -1,5 +1,7 @@
 <?php
 namespace repository\content_object\forum;
+
+use common\libraries\Request;
 /**
  * $Id: forum_display.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.forum
@@ -10,23 +12,23 @@ namespace repository\content_object\forum;
 
 class ForumDisplay extends ComplexDisplay
 {
-    
+
     const ACTION_VIEW_FORUM = 'forum_viewer';
     const ACTION_VIEW_TOPIC = 'topic_viewer';
     const ACTION_PUBLISH_FORUM = 'publisher';
-    
+
     const ACTION_CREATE_FORUM_POST = 'forum_post_creator';
     const ACTION_EDIT_FORUM_POST = 'forum_post_editor';
     const ACTION_DELETE_FORUM_POST = 'forum_post_deleter';
     const ACTION_QUOTE_FORUM_POST = 'forum_post_quoter';
-    
+
     const ACTION_CREATE_TOPIC = 'forum_topic_creator';
     const ACTION_DELETE_TOPIC = 'forum_topic_deleter';
-    
+
     const ACTION_CREATE_SUBFORUM = 'forum_subforum_creator';
     const ACTION_EDIT_SUBFORUM = 'forum_subforum_editor';
     const ACTION_DELETE_SUBFORUM = 'forum_subforum_deleter';
-    
+
     const ACTION_MAKE_IMPORTANT = 'important';
     const ACTION_MAKE_STICKY = 'sticky';
     const ACTION_CHANGE_LOCK = 'change_lock';

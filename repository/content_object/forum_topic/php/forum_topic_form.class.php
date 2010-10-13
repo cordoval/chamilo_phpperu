@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\forum_topic;
+
+use common\libraries\Translation;
+
 /**
  * $Id: forum_topic_form.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.forum_topic
@@ -12,7 +15,7 @@ class ForumTopicForm extends ContentObjectForm
     function create_content_object()
     {
         $object = new ForumTopic();
-        
+
         $object->set_locked($this->exportValue(ForumTopic :: PROPERTY_LOCKED));
         $this->set_content_object($object);
 
@@ -23,7 +26,7 @@ class ForumTopicForm extends ContentObjectForm
     {
         $object = $this->get_content_object();
         $object->set_locked($this->exportValue(ForumTopic :: PROPERTY_LOCKED));
-        
+
         return parent :: update_content_object();
     }
 
@@ -51,7 +54,7 @@ class ForumTopicForm extends ContentObjectForm
         $defaults[ForumTopic :: PROPERTY_LOCKED] = $valuearray[3];
         parent :: set_values($defaults);
     }
-    
+
 	function setDefaults($defaults = array())
 	{
 		$object = $this->get_content_object();

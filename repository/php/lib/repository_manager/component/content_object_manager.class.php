@@ -1,5 +1,11 @@
 <?php
 namespace repository;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\Path;
+use common\libraries\BreadcrumbTrail;
+
 /**
  * @package repository.lib.repository_manager.component
  *
@@ -16,12 +22,12 @@ class RepositoryManagerContentObjectManagerComponent extends RepositoryManager
     {
         $object_type = Request :: get(self :: PARAM_CONTENT_OBJECT_TYPE);
         $manage_type = Request :: get(self :: PARAM_CONTENT_OBJECT_MANAGER_TYPE);
-        
+
         if (isset($object_type) && isset($manage_type))
         {
             require_once Path :: get_repository_content_object_path() . $object_type . '/php/manage/' . $manage_type . '/' . $object_type . '_' . $manage_type . '_manager.class.php';
             $class = Utilities :: underscores_to_camelcase($object_type . '_' . $manage_type) . 'Manager';
-            
+
             call_user_func(array($class, 'launch'), $this);
         }
         else
@@ -32,13 +38,13 @@ class RepositoryManagerContentObjectManagerComponent extends RepositoryManager
             Display :: footer();
         }
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
     	$breadcrumbtrail->add_help('repository_content_object_manager');
     }
-    
+
     function get_additional_parameters()
     {
     	return array(self :: PARAM_CONTENT_OBJECT_TYPE, self :: PARAM_CONTENT_OBJECT_MANAGER_TYPE);

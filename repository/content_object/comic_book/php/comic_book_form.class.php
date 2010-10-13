@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\comic_book;
+
+use common\libraries\Translation;
+
 /**
  * This class describes the form for a ComicBook object.
  * @package repository.lib.content_object.link
@@ -37,7 +40,7 @@ class ComicBookForm extends ContentObjectForm
         $this->add_textfield(ComicBook :: PROPERTY_COLLECTION, Translation :: get('Collection'), true, array('size' => '255', 'style' => 'width: 300px;'));
         //$this->add_textfield(ComicBook :: PROPERTY_COLLECTION_ISSUE, Translation :: get('CollectionIssue'), true, array('size' => '5', 'style' => 'width: 50px;'));
         $this->addElement('category');
-        
+
         $this->addElement('category', Translation :: get('Authors'));
         $this->add_textfield(ComicBook :: PROPERTY_ARTIST, Translation :: get('Artist'), true, array('size' => '255', 'style' => 'width: 300px;'));
         $this->add_textfield(ComicBook :: PROPERTY_WRITER, Translation :: get('Writer'), true, array('size' => '255', 'style' => 'width: 300px;'));
@@ -45,9 +48,9 @@ class ComicBookForm extends ContentObjectForm
         $this->add_textfield(ComicBook :: PROPERTY_INKER, Translation :: get('Inker'), true, array('size' => '255', 'style' => 'width: 300px;'));
         $this->add_textfield(ComicBook :: PROPERTY_EDITOR, Translation :: get('Editor'), true, array('size' => '255', 'style' => 'width: 300px;'));
         $this->addElement('category');
-        
+
         $this->addElement('category', Translation :: get('Edition'));
-        
+
         $types = array();
         $types['Single'] = Translation :: get('Single');
         $types['Coffret'] = Translation :: get('Coffret');
@@ -56,21 +59,21 @@ class ComicBookForm extends ContentObjectForm
         $types['Luxury'] = Translation :: get('LuxuryEdition');
         $types['TPB'] = Translation :: get('TradePaperback');
         $this->addElement('select', ComicBook :: PROPERTY_BOOK_TYPE, Translation :: get('Type'), $types);
-        
+
         $bindings = array('HC' => 'HC', 'SC' => 'SC', 'HC & SC' => 'HC &amp; SC');
         $this->addElement('select', ComicBook :: PROPERTY_BINDING, Translation :: get('Binding'), $bindings);
         $this->add_textfield(ComicBook :: PROPERTY_PAGES, Translation :: get('Pages'), true, array('size' => '5', 'style' => 'width: 50px;'));
         $this->add_textfield(ComicBook :: PROPERTY_YEAR, Translation :: get('Year'), true, array('size' => '5', 'style' => 'width: 50px;'));
-        
+
         //$this->addElement('text', ComicBook :: PROPERTY_GENRE, Translation :: get('Genre'));
         //$this->addRule(ComicBook :: PROPERTY_GENRE, Translation :: get('ThisFieldIsRequired'), 'required');
         //$this->addElement('checkbox', ComicBook :: PROPERTY_LIMITED, Translation :: get('Limited'));
         //$this->addElement('checkbox', ComicBook :: PROPERTY_SIGNED, Translation :: get('Signed'));
-        
+
 
         $this->addElement('select', ComicBook :: PROPERTY_LANGUAGE, Translation :: get('Language'), AdminDataManager :: get_languages());
         $this->addElement('checkbox', ComicBook :: PROPERTY_COLOUR, Translation :: get('Colour'));
-        
+
         //$this->addElement('text', ComicBook :: PROPERTY_WEIGHT, Translation :: get('Weight'));
         //$this->addRule(ComicBook :: PROPERTY_WEIGHT, Translation :: get('ThisFieldIsRequired'), 'required');
         //$this->addElement('text', ComicBook :: PROPERTY_PRICE, Translation :: get('Price'));
@@ -78,42 +81,42 @@ class ComicBookForm extends ContentObjectForm
         //$this->addElement('text', ComicBook :: PROPERTY_CURRENCY, Translation :: get('Currency'));
         //$this->addRule(ComicBook :: PROPERTY_CURRENCY, Translation :: get('ThisFieldIsRequired'), 'required');
         $this->addElement('category');
-        
+
         $this->addElement('category', Translation :: get('Content'));
-        
+
         $html_editor_options = array();
         $html_editor_options['width'] = '500';
         $html_editor_options['height'] = '100';
         $html_editor_options['collapse_toolbar'] = true;
         $html_editor_options['toolbar_set'] = 'RepositoryQuestion';
-        
+
         $this->add_html_editor(ComicBook :: PROPERTY_SYNOPSIS, Translation :: get('Synopsis'), false, $html_editor_options);
         $this->add_html_editor(ComicBook :: PROPERTY_FACTS, Translation :: get('Facts'), false, $html_editor_options);
-        
+
         $this->addElement('textarea', ComicBook :: PROPERTY_TAGS, Translation :: get('Tags'), array('cols' => '60', 'rows' => '2'));
         $this->addRule(ComicBook :: PROPERTY_TAGS, Translation :: get('ThisFieldIsRequired'), 'required');
-        
+
         $this->addElement('category');
-        
+
         $this->addElement('category', Translation :: get('Links'));
-        
+
         $locale = array();
         $locale['Searching'] = Translation :: get('Searching');
         $locale['NoResults'] = Translation :: get('NoResults');
         $locale['Error'] = Translation :: get('Error');
-        
+
         // Comic book covers
         $url = $this->get_path(WEB_PATH) . 'repository/xml_feeds/xml_image_feed.php';
         $locale['Display'] = Translation :: get('SelectCovers');
         $covers = Utilities :: content_objects_for_element_finder($this->get_content_object()->get_covers());
         $cover = $this->addElement('element_finder', ComicBook :: ATTACHMENT_COVER, Translation :: get('Covers'), $url, $locale, $covers);
         $cover->setHeight('100');
-        
+
         // Comic book extract
         $locale['Display'] = Translation :: get('SelectExtract');
         $extract = $this->addElement('image_selecter', ComicBook :: ATTACHMENT_EXTRACT, Translation :: get('Extract'), $url, $locale);
         $extract->setHeight('100');
-        
+
         // Encyclopedia items related to the comic book
         $url = $this->get_path(WEB_PATH) . 'repository/lib/content_object/encyclopedia_item/xml_feeds/xml_encyclopedia_item_feed.php';
         $locale['Display'] = Translation :: get('SelectEncyclopediaItems');
@@ -153,7 +156,7 @@ class ComicBookForm extends ContentObjectForm
             //$defaults[ComicBook :: PROPERTY_CURRENCY] = $content_object->get_currency();
             $defaults[ComicBook :: PROPERTY_SYNOPSIS] = $content_object->get_synopsis();
             $defaults[ComicBook :: PROPERTY_FACTS] = $content_object->get_facts();
-            
+
             $defaults[ComicBook :: ATTACHMENT_EXTRACT] = $content_object->get_extract(true);
             $defaults[ComicBook :: PROPERTY_TAGS] = $content_object->get_tags();
         }
@@ -171,7 +174,7 @@ class ComicBookForm extends ContentObjectForm
     }
 
     function update_content_object()
-    {        
+    {
         $object = $this->get_content_object();
         $this->fill_properties($object);
         parent :: set_content_object($object);
@@ -179,16 +182,16 @@ class ComicBookForm extends ContentObjectForm
         $this->process_attachments($object);
         return true;
     }
-    
+
     private function process_attachments(ContentObject $object)
     {
         $covers = $this->exportValue(ComicBook :: ATTACHMENT_COVER);
         $object->set_covers($covers['lo']);
-        
+
         $encyclopedia_items = $this->exportValue(ComicBook :: ATTACHMENT_ENCYCLOPEDIA_ITEM);
         $encyclopedia_items['lo'] = !isset($encyclopedia_items['lo']) ? array() : $encyclopedia_items['lo'];
         $object->set_encyclopedia_items($encyclopedia_items['lo']);
-        
+
         $object->set_extracts($this->exportValue(ComicBook :: ATTACHMENT_EXTRACT));
     }
 

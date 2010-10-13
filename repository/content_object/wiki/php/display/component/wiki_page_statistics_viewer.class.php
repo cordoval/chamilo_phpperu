@@ -1,5 +1,9 @@
 <?php
 namespace repository\content_object\wiki;
+
+use common\libraries\Request;
+use common\libraries\Path;
+
 /**
  * $Id: wiki_page_statistics_viewer.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.wiki.component
@@ -21,7 +25,7 @@ class WikiDisplayWikiPageStatisticsViewerComponent extends WikiDisplay
         /*
          *  We use the Reporting Tool, for more information about it, please read the information provided in the reporting class
          */
-        
+
         /*
          *  The publication id and complex object id are requested and passed to the url
          */

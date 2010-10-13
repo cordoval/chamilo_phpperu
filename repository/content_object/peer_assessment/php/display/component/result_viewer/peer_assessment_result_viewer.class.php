@@ -1,5 +1,7 @@
 <?php
 namespace repository\content_object\peer_assessment;
+
+use common\libraries\Request;
 /*
  *	@author Nick Van Loocke
  */
@@ -17,22 +19,22 @@ class PeerAssessmentResultViewerWizard extends HTML_QuickForm_Controller
 	private $parent;
     private $peer_assessment;
     private $total;
-	
+
 	function PeerAssessmentResultViewerWizard($parent, $peer_assessment)
-    {    	
+    {
 		$this->parent = $parent;
         $this->peer_assessment = $peer_assessment;
         $this->add_pages();
 
         $this->addAction('display', new PeerAssessmentResultViewerWizardDisplay($this));
     }
-    
-    
+
+
     function add_pages()
-    {   	
+    {
     	$this->total = 0;
         $complex_content_objects = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->peer_assessment->get_id(), ComplexContentObjectItem :: get_table_name()));
-        
+
         while (($complex_content_object = $complex_content_objects->next_result()))
         {
             $this->total ++;
@@ -41,20 +43,20 @@ class PeerAssessmentResultViewerWizard extends HTML_QuickForm_Controller
             if($competence_id == null)
             {
             	$this->addPage(new CompetencesPeerAssessmentResultViewerWizardPage('competences_page_' . $this->total, $this, $this->total));
-            	$peer_assessment_page = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_content_object->get_ref());           
+            	$peer_assessment_page = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_content_object->get_ref());
             }
         }
-    }  
+    }
 
-    
+
   	// Peer assessment publication
 	function get_peer_assessment_publication($peer_assessment_id)
     {
         $peer_assessment_publication = PeerAssessmentDataManager :: get_instance()->retrieve_peer_assessment_publication($peer_assessment_id);
         return $peer_assessment_publication;
     }
-    
-    
+
+
     // Competences
 	function get_peer_assessment_page_competences($peer_assessment_page)
     {
@@ -69,8 +71,8 @@ class PeerAssessmentResultViewerWizard extends HTML_QuickForm_Controller
         }
         return $competences;
     }
-    
-    
+
+
     // Indicators of a competence
     function get_peer_assessment_page_indicators_via_competence($peer_assessment_page, $competence)
     {
@@ -81,74 +83,74 @@ class PeerAssessmentResultViewerWizard extends HTML_QuickForm_Controller
         {
             $this->total_indicators ++;
             $indicator = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_content_object->get_ref());
-            $indicators[$this->total_indicators] = $indicator;         
+            $indicators[$this->total_indicators] = $indicator;
         }
         return $indicators;
     }
-       
-    
+
+
     // Criterias of an indicator
 	function get_peer_assessment_page_criterias_via_indicator($peer_assessment_page, $indicator)
     {
     	$complex_content_objects = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $indicator->get_id(), ComplexContentObjectItem :: get_table_name()));
     	$criterias = array();
-		
+
         while ($complex_content_object = $complex_content_objects->next_result())
         {
             $this->total_criterias ++;
             $criteria = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_content_object->get_ref());
-            $criterias[$this->total_criterias] = $criteria;         
+            $criterias[$this->total_criterias] = $criteria;
         }
         return $criterias;
     }
-    
-    
+
+
 	// Criteria of an peer assessment
 	function get_peer_assessment_page_criteria($peer_assessment_page, $criteria_id)
-    {   	
-        $criteria = RepositoryDataManager :: get_instance()->retrieve_content_object($criteria_id);        
+    {
+        $criteria = RepositoryDataManager :: get_instance()->retrieve_content_object($criteria_id);
         return $criteria;
     }
-    
-    
+
+
     // Retrieves one result row
     function get_peer_assessment_publication_result($publication_id, $competence_id, $indicator_id, $user_id, $graded_user_id)
     {
     	$peer_assessment_publication_result = PeerAssessmentDataManager :: get_instance()->retrieve_peer_assessment_publication_result($publication_id, $competence_id, $indicator_id, $user_id, $graded_user_id);
         return $peer_assessment_publication_result;
     }
-    
-    
+
+
     // Groups
 	function get_peer_assessment_publication_groups($peer_assessment_id)
     {
-        $condition = new EqualityCondition(PeerAssessmentPublicationGroup :: PROPERTY_PEER_ASSESSMENT_PUBLICATION, $peer_assessment_id);     
+        $condition = new EqualityCondition(PeerAssessmentPublicationGroup :: PROPERTY_PEER_ASSESSMENT_PUBLICATION, $peer_assessment_id);
         $peer_assessment_publication_groups = PeerAssessmentDataManager :: get_instance()->retrieve_peer_assessment_publication_groups($condition);
         return $peer_assessment_publication_groups;
     }
-    
+
 	function get_group($group_id)
     {
         $group = GroupDataManager :: get_instance()->retrieve_group($group_id);
         return $group;
     }
-    
-    
+
+
     // Users
 	function get_peer_assessment_publication_users($peer_assessment_id)
     {
-    	$condition = new EqualityCondition(PeerAssessmentPublicationUser :: PROPERTY_PEER_ASSESSMENT_PUBLICATION, $peer_assessment_id);     
+    	$condition = new EqualityCondition(PeerAssessmentPublicationUser :: PROPERTY_PEER_ASSESSMENT_PUBLICATION, $peer_assessment_id);
         $peer_assessment_publication_users = PeerAssessmentDataManager :: get_instance()->retrieve_peer_assessment_publication_users($condition);
         return $peer_assessment_publication_users;
     }
-    
+
 	function get_user($user_id)
     {
         $user = UserDataManager :: get_instance()->retrieve_user($user_id);
         return $user;
     }
 
-    
+
 	// Parent
     function get_parent()
     {

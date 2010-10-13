@@ -1,7 +1,12 @@
 <?php
 namespace repository\content_object\survey;
-require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/forms/context_template_form.class.php';
 
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\Path;
+use common\libraries\BreadcrumbTrail;
+
+require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/forms/context_template_form.class.php';
 require_once Path :: get_repository_path() . 'lib/content_object/survey/survey_context_template.class.php';
 
 class SurveyContextManagerContextTemplateUpdaterComponent extends SurveyContextManager
@@ -12,16 +17,16 @@ class SurveyContextManagerContextTemplateUpdaterComponent extends SurveyContextM
      */
     function run()
     {
- 
+
     	$trail = BreadcrumbTrail :: get_instance();
-               
+
         $context_template_id = Request :: get(SurveyContextManager :: PARAM_CONTEXT_TEMPLATE_ID);
 		$this->set_parameter(SurveyContextManager :: PARAM_CONTEXT_TEMPLATE_ID, $context_template_id);
-        
+
         $context_template = SurveyContextDataManager::get_instance()->retrieve_survey_context_template($context_template_id);
-		       
+
         $form = new SurveyContextTemplateForm(SurveyContextTemplateForm :: TYPE_EDIT, $this->get_url(), $context_template,  $this->get_user(), $this);
-        
+
         if ($form->validate())
         {
             $success = $form->update_context_template();

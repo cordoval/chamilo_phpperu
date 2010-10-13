@@ -1,5 +1,9 @@
 <?php
 namespace repository;
+
+use common\libraries\Translation;
+use common\libraries\BreadcrumbTrail;
+
 /**
  * $Id: importer.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component
@@ -19,13 +23,13 @@ class RepositoryManagerImporterComponent extends RepositoryManager
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ContentObjectImport')));
         $trail->add_help('repository importer');
-        
+
         $import_form = new ContentObjectImportForm('import', 'post', $this->get_url(), $this->get_parameter(RepositoryManager :: PARAM_CATEGORY_ID), $this->get_user());
-        
+
         if ($import_form->validate())
         {
             $success = $import_form->import_content_object();
-            
+
             $messages = array();
             $errors = array();
             if($success){
@@ -33,7 +37,7 @@ class RepositoryManagerImporterComponent extends RepositoryManager
             }else{
             	$errors[] = Translation::translate('ContentObjectNotImported');
             }
-            
+
             $messages = array_merge($messages, $import_form->get_messages());
             $warnings = $import_form->get_warnings();
             $errors = array_merge($errors, $import_form->get_errors());
@@ -41,9 +45,9 @@ class RepositoryManagerImporterComponent extends RepositoryManager
             $parameters[self::PARAM_MESSAGE] = implode('<br/>', $messages);
             $parameters[self::PARAM_WARNING_MESSAGE] = implode('<br/>', $warnings);
             $parameters[self::PARAM_ERROR_MESSAGE] = implode('<br/>', $errors);
-            
+
             $this->simple_redirect($parameters);
-            
+
         }
         else
         {
@@ -52,13 +56,13 @@ class RepositoryManagerImporterComponent extends RepositoryManager
             $this->display_footer();
         }
     }
-    
+
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
     	$breadcrumbtrail->add_help('repository_importer');
     }
-    
+
     function get_additional_parameters()
     {
     	return array(RepositoryManager :: PARAM_CATEGORY_ID);

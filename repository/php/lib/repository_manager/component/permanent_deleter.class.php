@@ -1,5 +1,7 @@
 <?php
 namespace repository;
+
+use common\libraries\Request;
 /**
  * Repository manager component which provides functionality to permanently
  * delete a content object from the users repository.

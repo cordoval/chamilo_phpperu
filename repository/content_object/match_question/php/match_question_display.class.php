@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\match_question;
+
+use common\libraries\Translation;
+
 /**
  * $Id: match_question_display.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.match_question
@@ -16,9 +19,9 @@ class MatchQuestionDisplay extends ContentObjectDisplay
     {
         $object = $this->get_content_object();
         $options = $object->get_options();
-    	
+
     	$html = array();
-        
+
         $html[] = parent :: get_description();
         $html[] = '<table class="data_table">';
         $html[] = '<thead>';

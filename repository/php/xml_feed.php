@@ -1,4 +1,6 @@
 <?php
+use common\libraries\Request;
+use common\libraries\Translation;
 /**
  * @package repository
  */
@@ -19,7 +21,7 @@ if (Authentication :: is_valid())
 
     $owner_condition = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, Session :: get_user_id());
     $conditions[] = $owner_condition;
-    
+
     $recycle_condition = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_STATE, ContentObject :: STATE_RECYCLED));
     $conditions[] = $recycle_condition;
 
@@ -40,7 +42,7 @@ if (Authentication :: is_valid())
     $order_property[] = new ObjectTableOrder(ContentObject :: PROPERTY_TITLE);
     $objects = $dm->retrieve_content_objects($condition, $order_property);
 	$objects_by_cat = array();
-    
+
     while ($lo = $objects->next_result())
     {
         /*$cat = $dm->retrieve_categories(new EqualityCondition('id', $lo->get_parent_id()))->next_result();

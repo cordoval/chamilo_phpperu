@@ -1,5 +1,9 @@
 <?php
 namespace repository;
+
+use common\libraries\Translation;
+use common\libraries\Path;
+
 /**
  * $Id: content_object_display.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib

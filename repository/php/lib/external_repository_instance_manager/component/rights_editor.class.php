@@ -1,5 +1,7 @@
 <?php
 namespace repository;
+
+use common\libraries\Request;
 /**
  * $Id: rights_editor.class.php 239 2009-11-16 14:25:41Z vanpouckesven $
  * @package repository.lib.repository_manager.component
@@ -17,14 +19,14 @@ class ExternalRepositoryInstanceManagerRightsEditorComponent extends ExternalRep
     function run()
     {
         $identifiers = Request :: get(self :: PARAM_INSTANCE);
-        
+
         $locations = array();
-        
+
     	if(!$identifiers)
 		{
         	$locations[] = RepositoryRights :: get_external_repositories_subtree_root();
 		}
-        
+
         if ($identifiers && ! is_array($identifiers))
         {
             $identifiers = array($identifiers);

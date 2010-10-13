@@ -1,5 +1,9 @@
 <?php
 namespace repository\content_object\forum_post;
+
+use common\libraries\Translation;
+use common\libraries\Path;
+
 /**
  * @package repository.learningobject
  * @subpackage forum_post
@@ -40,12 +44,12 @@ class ComplexForumPostForm extends ComplexContentObjectItemForm
     function get_default_values($defaults = array ())
     {
         $cloi = $this->get_complex_content_object_item();
-        
+
         if (isset($cloi))
         {
             $defaults[ComplexForumPost :: PROPERTY_REPLY_ON_POST] = $cloi->get_reply_on_post() ? $cloi->get_reply_on_post() : 0;
         }
-        
+
         return $defaults;
     }
 

@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\FormValidator;
+
 /**
  * $Id: metadata_lom_export_form.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.forms
@@ -27,9 +30,9 @@ class MetadataLomExportForm extends FormValidator
         {
             header('Content-Type: text/xml');
         }
-        
+
         $this->ieee_lom_mapper->export_metadata($format_for_html_page);
-        
+
         if ($format_for_html_page)
         {
             echo '</pre>';

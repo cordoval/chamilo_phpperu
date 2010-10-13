@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\wiki;
+
+use common\libraries\Translation;
+
 /**
  * $Id: wiki_page_table_column_model.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.wiki.component.wiki_page_table

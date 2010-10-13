@@ -1,5 +1,9 @@
 <?php
 namespace repository;
+
+use common\libraries\Translation;
+use common\libraries\Path;
+
 /**
  * $Id: complex_builder_component.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder
@@ -99,7 +103,7 @@ abstract class ComplexBuilderComponent extends SubManager
     {
         return $this->get_parent()->get_action_bar($content_object);
     }
-    
+
     /**
      * Helper function for the SubManager class,
      * pending access to class constants via variables in PHP 5.3

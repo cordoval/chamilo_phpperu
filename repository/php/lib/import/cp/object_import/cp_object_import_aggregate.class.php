@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use common\libraries\Translation;
+
 include_once dirname(__FILE__) . '/cp_object_import_base.class.php';
 
 /**

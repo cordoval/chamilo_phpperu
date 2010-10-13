@@ -1,6 +1,9 @@
 <?php
 namespace repository\content_object\survey;
 
+use common\libraries\Translation;
+use common\libraries\BreadcrumbTrail;
+
 require_once dirname(__FILE__) . '/browser/survey_browser_table_cell_renderer.class.php';
 
 class SurveyBuilderBrowserComponent extends SurveyBuilder
@@ -9,17 +12,17 @@ class SurveyBuilderBrowserComponent extends SurveyBuilder
     function run()
     {
         $browser = ComplexBuilderComponent :: factory(ComplexBuilderComponent :: BROWSER_COMPONENT, $this);
-        
+
         $browser->run();
     }
 
     function get_action_bar($content_object)
     {
-        
+
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        
+
         $action_bar->add_tool_action(new ToolbarItem(Translation :: get('SubscribeSurveyContext'), Theme :: get_common_image_path() . 'action_build_prerequisites.png', $this->get_add_context_url($content_object)));
-        
+
         $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ConfigureSurveyContext'), Theme :: get_common_image_path() . 'action_build_prerequisites.png', $this->get_configure_context_url($content_object)));
         return $action_bar->as_html();
     }

@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\Request;
+use common\libraries\Translation;
 /**
  * $Id: exporter.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component
@@ -23,7 +26,7 @@ class RepositoryManagerExporterCpComponent extends RepositoryManager
         	return;
 		}
         $ids = is_array($ids) ? $ids : array($ids);
-        
+
         if ($ids[0] == 'all'){
         	$conditions[] = new EqualityCondition(ContentObject::PROPERTY_OWNER_ID, $this->get_user_id());
             $conditions[] = new EqualityCondition(ContentObject::PROPERTY_STATE, ContentObject::STATE_NORMAL);
@@ -35,8 +38,8 @@ class RepositoryManagerExporterCpComponent extends RepositoryManager
        	$los = $this->retrieve_content_objects($condition);
 		while ($lo = $los->next_result()){
        		$content_objects[] = $lo;
-        }  
-        
+        }
+
         $exporter = ContentObjectExport::factory('cp', $content_objects);
         $path = $exporter->export_content_object();
 
@@ -47,7 +50,7 @@ class RepositoryManagerExporterCpComponent extends RepositoryManager
         $this->display_message('<a href="' . $webpath . '">' . Translation::get('Download') . '</a>');
         $this->display_footer();
 	}
-	        
+
 }
 
 

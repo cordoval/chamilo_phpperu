@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\Request;
+use common\libraries\Translation;
 /**
  * $Id: deleter.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.assessment.component
@@ -23,7 +26,7 @@ class ComplexDisplayComponentDeleterComponent extends ComplexDisplayComponent
             {
                 $cloi_ids = $_POST['selected_cloi'];
             }*/
-        	
+
         	$complex_content_object_item_ids = Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID);
 
         	if (! is_array($complex_content_object_item_ids))
@@ -37,7 +40,7 @@ class ComplexDisplayComponentDeleterComponent extends ComplexDisplayComponent
                 $complex_content_object_item->set_id($complex_content_object_item_id);
                 $complex_content_object_item->delete();
             }
-            
+
             if (count($complex_content_object_item_ids) > 1)
             {
                 $message = htmlentities(Translation :: get('ComplexContentObjectItemsDeleted'));
@@ -46,8 +49,8 @@ class ComplexDisplayComponentDeleterComponent extends ComplexDisplayComponent
             {
                 $message = htmlentities(Translation :: get('ComplexContentObjectItemDeleted'));
             }
-            
-            $this->redirect($message, false, array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_VIEW_COMPLEX_CONTENT_OBJECT, 
+
+            $this->redirect($message, false, array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_VIEW_COMPLEX_CONTENT_OBJECT,
             				ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
         }
     }

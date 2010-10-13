@@ -1,5 +1,7 @@
 <?php
 namespace repository;
+
+use common\libraries\Request;
 /**
  * $Id: csv_import.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.import.csv
@@ -22,7 +24,7 @@ class CsvImport extends ContentObjectImport
         $category = Request :: get(RepositoryManager :: PARAM_CATEGORY_ID);
         $csvarray = Import :: read_csv($this->get_content_object_file_property('tmp_name'));
         $csvcreator = new CSVCreator();
-        
+
         $true = $csvcreator->quota_check($csvarray, $this->get_user());
         if ($true)
         {
@@ -34,7 +36,7 @@ class CsvImport extends ContentObjectImport
                 {
                     $temparray[$i]->create_content_object();
                 }
-                
+
                 return $temparray[$i];
             }
             else
@@ -44,7 +46,7 @@ class CsvImport extends ContentObjectImport
                 {
                     $errormessage = $errormessage . ' ' . $temparray[$i];
                 }
-                
+
                 return false;
             }
         }

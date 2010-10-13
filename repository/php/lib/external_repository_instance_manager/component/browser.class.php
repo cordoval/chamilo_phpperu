@@ -1,10 +1,14 @@
 <?php
 namespace repository;
+
+use common\libraries\Translation;
+use common\libraries\Path;
+
 require_once Path :: get_repository_path() . 'lib/external_repository_instance_manager/component/external_repository_instance_browser/external_repository_instance_browser_table.class.php';
 
 class ExternalRepositoryInstanceManagerBrowserComponent extends ExternalRepositoryInstanceManager
 {
-    
+
     private $action_bar;
 
     function run()
@@ -13,12 +17,12 @@ class ExternalRepositoryInstanceManagerBrowserComponent extends ExternalReposito
         {
             $this->not_allowed();
         }
-        
+
         $this->action_bar = $this->get_action_bar();
         $parameters = $this->get_parameters();
         $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
         $table = new ExternalRepositoryInstanceBrowserTable($this, $parameters, $this->get_condition());
-        
+
         $this->display_header();
         echo $this->action_bar->as_html();
         echo $table->as_html();
@@ -28,7 +32,7 @@ class ExternalRepositoryInstanceManagerBrowserComponent extends ExternalReposito
     function get_condition()
     {
         $query = $this->action_bar->get_query();
-        
+
         if (isset($query) && $query != '')
         {
             $conditions = array();
@@ -40,7 +44,7 @@ class ExternalRepositoryInstanceManagerBrowserComponent extends ExternalReposito
         {
             $condition = null;
         }
-        
+
         return $condition;
     }
 

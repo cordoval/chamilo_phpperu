@@ -1,6 +1,9 @@
 <?php
 namespace repository\content_object\mediamosa;
 
+use common\libraries\Request;
+use common\libraries\Path;
+
 require_once Path :: get_application_path() . 'common/external_repository_manager/type/mediamosa/mediamosa_external_repository_connector.class.php';
 
 class MediamosaRightsEditorManager extends RightsEditorManager
@@ -33,7 +36,7 @@ class MediamosaRightsEditorManager extends RightsEditorManager
     {
         return Path :: get_repository_path() . 'lib/content_object/mediamosa/rights/component/';
     }
-    
+
     function update_mediamosa_rights()
     {
         $redm =  RepositoryDataManager :: get_instance();
@@ -124,9 +127,9 @@ class MediamosaRightsEditorManager extends RightsEditorManager
             if ($update) $mmc->set_mediamosa_asset_rights($sync->get_external_repository_object_id(), $rights, $owner_id);
             //$mmc->set_mediamosa_mediafile_rights($sync->get_external_repository_object_id(), $rights, $owner_id);
         }
-        
-        
-        
+
+
+
     }
 
     function get_available_rights()

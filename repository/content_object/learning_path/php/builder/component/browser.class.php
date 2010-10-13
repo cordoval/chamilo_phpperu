@@ -1,5 +1,10 @@
 <?php
 namespace repository\content_object\learning_path;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\BreadcrumbTrail;
+
 /**
  * $Id: browser.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.learning_path.component
@@ -104,9 +109,9 @@ class LearningPathBuilderBrowserComponent extends LearningPathBuilder
         {
         	if(!RepositoryRights :: is_allowed_in_content_objects_subtree(RepositoryRights :: ADD_RIGHT, AdminDataManager :: get_registration($type, Registration :: TYPE_CONTENT_OBJECT)->get_id()))
             {
-            	continue;	
+            	continue;
             }
-            
+
         	if ($type == LearningPath :: get_type_name())
             {
                 $url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));

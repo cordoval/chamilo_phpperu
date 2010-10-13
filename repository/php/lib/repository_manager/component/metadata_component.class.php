@@ -1,5 +1,9 @@
 <?php
 namespace repository;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\Path;
 /**
  * $Id: metadata_component.class.php 207 2009-11-13 13:09:14Z vanpouckesven $
  * @package repository.lib.repository_manager.component
@@ -13,7 +17,7 @@ class RepositoryManagerMetadataComponent extends RepositoryManager
 {
     const METADATA_FORMAT_LOM = 'lom';
     const METADATA_FORMAT_DUBLINCORE = 'dc';
-    
+
     const METADATA_TRANSLATION_PREFIX = 'Metadata';
 
     /**
@@ -36,14 +40,14 @@ class RepositoryManagerMetadataComponent extends RepositoryManager
     function get_content_object_from_params()
     {
         /*
-	     * Check if the learning object is given in the URL params  
+	     * Check if the learning object is given in the URL params
 	     */
         $lo_id = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
-        
+
         if (isset($lo_id) && is_numeric($lo_id))
         {
             /*
-	         * Check if the learning object does exist 
+	         * Check if the learning object does exist
 	         */
             $dm = RepositoryDataManager :: get_instance();
             return $dm->retrieve_content_object($lo_id);
@@ -62,9 +66,9 @@ class RepositoryManagerMetadataComponent extends RepositoryManager
             echo '<div class="title">' . $content_object->get_title() . '</div>';
             echo '<pre>';
         }
-        
+
         $metadata_mapper->export_metadata($format_for_html_page);
-        
+
         if ($format_for_html_page)
         {
             echo '</pre>';
@@ -74,7 +78,7 @@ class RepositoryManagerMetadataComponent extends RepositoryManager
 
     /**
      * Return the metadata type that is requested.
-     * 
+     *
      * @return string The type of metadata requested. Default returned is LOM.
      */
     function get_metadata_type()
@@ -84,7 +88,7 @@ class RepositoryManagerMetadataComponent extends RepositoryManager
         {
             $metadata_type = self :: METADATA_FORMAT_LOM;
         }
-        
+
         return $metadata_type;
     }
 
@@ -96,7 +100,7 @@ class RepositoryManagerMetadataComponent extends RepositoryManager
     function get_catalogs()
     {
         $catalogs = array();
-        
+
         $catalogs[Catalog :: CATALOG_LOM_LANGUAGE] = $this->get_metadata_specific_translation(Catalog :: get_catalog(Catalog :: CATALOG_LOM_LANGUAGE));
         $catalogs[Catalog :: CATALOG_LOM_ROLE] = $this->get_metadata_specific_translation(Catalog :: get_catalog(Catalog :: CATALOG_LOM_ROLE));
         $catalogs[Catalog :: CATALOG_LOM_COPYRIGHT] = $this->get_metadata_specific_translation(Catalog :: get_catalog(Catalog :: CATALOG_LOM_COPYRIGHT));
@@ -106,7 +110,7 @@ class RepositoryManagerMetadataComponent extends RepositoryManager
         $catalogs[Catalog :: CATALOG_HOUR] = Catalog :: get_catalog(Catalog :: CATALOG_HOUR);
         $catalogs[Catalog :: CATALOG_MIN] = Catalog :: get_catalog(Catalog :: CATALOG_MIN);
         $catalogs[Catalog :: CATALOG_SEC] = Catalog :: get_catalog(Catalog :: CATALOG_SEC);
-        
+
         return $catalogs;
     }
 
@@ -116,7 +120,7 @@ class RepositoryManagerMetadataComponent extends RepositoryManager
         {
             $catalog[$value] = Translation :: get(self :: METADATA_TRANSLATION_PREFIX . $title);
         }
-        
+
         return $catalog;
     }
 

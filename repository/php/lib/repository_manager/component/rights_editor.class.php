@@ -1,5 +1,9 @@
 <?php
 namespace repository;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\BreadcrumbTrail;
 /**
  * $Id: rights_editor.class.php 239 2009-11-16 14:25:41Z vanpouckesven $
  * @package repository.lib.repository_manager.component
@@ -119,13 +123,13 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManager implement
 	        echo implode("\n", $html);
         }
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
     	$breadcrumbtrail->add_help('repository_rights_editor');
     }
-    
+
     function get_additional_parameters()
     {
     	return array(self :: PARAM_IDENTIFIER, self :: PARAM_TYPE);

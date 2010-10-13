@@ -1,5 +1,9 @@
 <?php
 namespace repository;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\BreadcrumbTrail;
 /**
  * $Id: metadata_viewer.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component
@@ -14,9 +18,9 @@ class RepositoryManagerMetadataViewerComponent extends RepositoryManagerMetadata
         if ($this->check_content_object_from_params())
         {
             $content_object = $this->get_content_object_from_params();
-            
+
             $metadata_type = $this->get_metadata_type();
-            
+
             $mapper = null;
             $form = null;
             switch ($metadata_type)
@@ -25,13 +29,13 @@ class RepositoryManagerMetadataViewerComponent extends RepositoryManagerMetadata
                     $mapper = new IeeeLomMapper($content_object);
                     $form = new MetadataLomExportForm($content_object, $mapper);
                     break;
-                
+
             /*
-                 * Implementation of another Metadata type than LOM 
+                 * Implementation of another Metadata type than LOM
                  * could be done here
                  */
             }
-            
+
             if (isset($form))
             {
                 $form->display_metadata();
@@ -42,7 +46,7 @@ class RepositoryManagerMetadataViewerComponent extends RepositoryManagerMetadata
             throw new Exception(Translation :: get('InvalidURLException'));
         }
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
@@ -50,7 +54,7 @@ class RepositoryManagerMetadataViewerComponent extends RepositoryManagerMetadata
     														   RepositoryManager :: PARAM_CONTENT_OBJECT_ID => Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID))), Translation :: get('RepositoryManagerViewerComponent')));
     	$breadcrumbtrail->add_help('repository_metadata_viewer');
     }
-    
+
     function get_additional_parameters()
     {
     	return array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID, RepositoryManager :: PARAM_LINK_TYPE, RepositoryManager :: PARAM_LINK_ID);

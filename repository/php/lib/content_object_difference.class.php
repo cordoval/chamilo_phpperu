@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\Path;
+
 /**
  * $Id: content_object_difference.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib
@@ -56,15 +59,15 @@ abstract class ContentObjectDifference
         $object_string = str_replace('<p>', '', $object_string);
         $object_string = str_replace('</p>', "<br />\n", $object_string);
         $object_string = explode("\n", strip_tags($object_string));
-        
+
         $version_string = $this->version->get_description();
         $version_string = str_replace('<p>', '', $version_string);
         $version_string = str_replace('</p>', "<br />\n", $version_string);
         $version_string = explode("\n", strip_tags($version_string));
-        
+
         $td = new Difference_Engine($version_string, $object_string);
         //$td = new Difference_Engine($object_string, $version_string);
-        
+
 
         return $td->getDiff();
     }

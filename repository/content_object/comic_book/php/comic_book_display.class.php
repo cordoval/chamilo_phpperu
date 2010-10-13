@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\comic_book;
+
+use common\libraries\Translation;
+
 /**
  * This class can be used to display comic books
  *
@@ -23,7 +26,7 @@ class ComicBookDisplay extends ContentObjectDisplay
             return parent :: get_preview($is_thumbnail);
         }
     }
-    
+
     /**
      * Returns a full HTML view of the learning object.
      * @return string The HTML.
@@ -32,7 +35,7 @@ class ComicBookDisplay extends ContentObjectDisplay
     {
         $object = $this->get_content_object();
         $html = array();
-        
+
         //Display extract as header
         $extract = $object->get_extract();
         if ($extract)
@@ -47,7 +50,7 @@ class ComicBookDisplay extends ContentObjectDisplay
         {
             $html[] = '<h3>'. $object->get_issue() . ' - ' . $object->get_title() .'</h3>';
         }
-        
+
         $html[] = '<div class="content_object comic_book" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/' . $object->get_icon_name() . ($object->is_latest_version() ? '' : '_na') . '.png);">';
         $html[] = '<div class="title">' . Translation :: get('Synopsis') . '</div>';
         $html[] = '<div class="description" style="overflow: auto;">';
@@ -56,12 +59,12 @@ class ComicBookDisplay extends ContentObjectDisplay
         $html[] = '<div class="clear"></div>';
         $html[] = '<div class="title">' . Translation :: get('FactsFiction') . '</div>';
         $html[] = '<div class="description" style="overflow: auto;">';
-        
+
         //if ($object->has_covers())
         //{
         //    $html[] = $this->get_preview(true);
         //}
-        
+
         $html[] = $object->get_facts();
         $html[] = '</div>';
         $html[] = '<div class="clear"></div>';

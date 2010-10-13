@@ -1,9 +1,13 @@
 <?php
+use common\libraries\FormValidator;
+use common\libraries\Translation;
+use common\libraries\Path;
+
 /**
  * $Id: testcvs.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.test
  */
-/* 
+/*
 This file is a temporary test file , used by the students of HoGent to test csv imports for the entire Learning Objects
 The file is based on the fill_tables file and has been modded by Maarten Dauwe
 */
@@ -12,33 +16,33 @@ require_once dirname(__FILE__) . '/../../common/global.inc.php';
 Translation :: set_application('repository');
 Display :: header();
 set_time_limit(0);
-// create new form 
+// create new form
 $form = new FormValidator('testbestand');
 $form->addElement('submit', 'doen', 'doen');
 // if form isnt submitted , the form will be displayed so the user can choose the csv file to upload
-//@todo : implement csv import stuff 
+//@todo : implement csv import stuff
 
 
 if (! $form->isSubmitted())
 {
     Display :: normal_message('Hiermee vullen we de databank als test...');
-    
+
     $form->display();
 }
 else
 {
-    
-    // The user has submitted the form , now we have to check if value's are correct and 
-    
+
+    // The user has submitted the form , now we have to check if value's are correct and
+
 
     $dataManager = RepositoryDataManager :: get_instance();
-    // clear the entire learning object database 
+    // clear the entire learning object database
     // WARNING , the entire learning object database will be wiped
     $dataManager->delete_all_content_objects();
     title('Er wordt een nieuwe Category gemaakt (vroegere zijn gewist)');
-    
+
     create_category(Session :: get_user_id());
-    
+
     title('5 willekeurige Announcements worden aangemaakt : ');
     for($i = 0; $i < 5; $i ++)
     {
@@ -73,7 +77,7 @@ else
         $event->set_start_date($start_date);
         $event->set_end_date($end_date);
         $event->create();
-        
+
         progress();
     } /*
 	title('Documents');

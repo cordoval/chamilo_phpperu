@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\assessment;
+
+use common\libraries\Translation;
+
 /**
  * $Id: assessment_open_question_result_display.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.assessment.component.result_viewer.question_result_display
@@ -68,10 +71,10 @@ class AssessmentOpenQuestionResultDisplay extends QuestionResultDisplay
 
         $html[] = Translation :: get('Document');
         $html[] = '</div>';
-        
+
     	if (! $answer)
         {
-            
+
         	$html[] = '<br /><p>' . Translation :: get('NoDocument') . '</p><div class="clear"></div><br />';
             return;
         }

@@ -1,10 +1,12 @@
 <?php
 namespace repository\content_object\assessment_match_text_question;
 
+use common\libraries\Translation;
+
 /**
  * @package repository.lib.content_object.match_text_question
  */
-require_once dirname(__FILE__) . '/main.php'; 
+require_once dirname(__FILE__) . '/main.php';
 
 class AssessmentMatchTextQuestionDisplay extends ContentObjectDisplay
 {
@@ -18,9 +20,9 @@ class AssessmentMatchTextQuestionDisplay extends ContentObjectDisplay
     {
         $object = $this->get_content_object();
         $options = $object->get_options();
-    	
+
     	$html = array();
-        
+
         $html[] = parent :: get_description();
         $html[] = '<table class="data_table">';
         $html[] = '<thead>';

@@ -1,4 +1,7 @@
 <?php
+use common\libraries\Request;
+use common\libraries\Translation;
+
 /**
  * $Id: title_exists.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.ajax

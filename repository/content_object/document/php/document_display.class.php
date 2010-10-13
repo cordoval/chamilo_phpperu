@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\document;
+
+use common\libraries\Path;
+
 /**
  * $Id: document_display.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.document
@@ -16,9 +19,9 @@ class DocumentDisplay extends ContentObjectDisplay
         $html = parent :: get_description();
         $object = $this->get_content_object();
         $name = $object->get_filename();
-        
+
         $url = Path :: get(WEB_PATH) . RepositoryManager :: get_document_downloader_url($object->get_id());
-        
+
         $img_extensions = array('jpg', 'jpeg', 'bmp', 'png', 'gif');
         $extension = strtolower(substr($name, strrpos($name, '.') + 1));
         if (in_array($extension, $img_extensions))
@@ -36,7 +39,7 @@ class DocumentDisplay extends ContentObjectDisplay
                 $html = preg_replace('|</div>\s*$|s', '<br /><div class="document_link" style="margin-top: 1em;"><a href="' . Utilities :: htmlentities($url) . '">' . Utilities :: htmlentities($name) . '</a> (' . Filesystem :: format_file_size($object->get_filesize()) . ')</div></div>', $html);
             }
         }
-        
+
         return $html;
     }
 
@@ -45,7 +48,7 @@ class DocumentDisplay extends ContentObjectDisplay
     {
         $object = $this->get_content_object();
         $url = RepositoryManager :: get_document_downloader_url($object->get_id());
-        
+
         return '<span class="content_object"><a href="' . Utilities :: htmlentities($url) . '">' . Utilities :: htmlentities($object->get_title()) . '</a></span>';
     }
 
@@ -58,7 +61,7 @@ class DocumentDisplay extends ContentObjectDisplay
             {
                 $width = 200;
                 $height = 200;
-                
+
                 $thumbnail_path = Path :: get_temp_path() . md5($object->get_full_path()) . basename($object->get_full_path());
                 $thumbnal_web_path = Path :: get(WEB_TEMP_PATH) . md5($object->get_full_path()) . basename($object->get_full_path());
                 if (! is_file($thumbnail_path))

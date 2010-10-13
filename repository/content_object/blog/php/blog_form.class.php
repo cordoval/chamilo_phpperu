@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\blog;
+
+use common\libraries\Translation;
+
 /**
  * $Id: blog_form.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.blog
@@ -19,7 +22,7 @@ class BlogForm extends ContentObjectForm
         $this->set_content_object($object);
         return parent :: create_content_object();
     }
-    
+
     function update_content_object()
     {
     	$object = $this->get_content_object();

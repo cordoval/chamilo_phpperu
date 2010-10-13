@@ -1,5 +1,11 @@
 <?php
 namespace repository\content_object\assessment;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\Path;
+use common\libraries\BreadcrumbTrail;
+
 /**
  * $Id: assessment_merger.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.assessment.component
@@ -18,7 +24,7 @@ class AssessmentBuilderAssessmentMergerComponent extends AssessmentBuilder imple
         $trail->add_help('repository assessment builder');
         $assessment = $this->get_root_content_object();
 
-        
+
 
         if (!RepoViewer :: is_ready_to_be_published())
         {

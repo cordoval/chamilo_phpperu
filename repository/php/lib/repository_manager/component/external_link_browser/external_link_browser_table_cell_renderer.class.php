@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\Translation;
+
 /**
  * $Id: external_link_browser_table_cell_renderer.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.link_browser
@@ -33,7 +36,7 @@ class ExternalLinkBrowserTableCellRenderer extends DefaultExternalLinkTableCellR
         {
             return $this->get_modification_links($object);
         }
-        
+
         return parent :: render_cell($column, $object);
     }
 
@@ -48,12 +51,12 @@ class ExternalLinkBrowserTableCellRenderer extends DefaultExternalLinkTableCellR
         $toolbar = new Toolbar();
         $toolbar->add_item(new ToolbarItem(
         			Translation :: get('View'),
-        			Theme :: get_common_image_path().'action_details.png', 
+        			Theme :: get_common_image_path().'action_details.png',
 					$this->browser->get_external_repository_object_viewing_url($object),
 				 	ToolbarItem :: DISPLAY_ICON
 		));
         return $toolbar->as_html();
-    
+
     }
 }
 ?>

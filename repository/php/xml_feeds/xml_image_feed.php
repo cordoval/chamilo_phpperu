@@ -1,4 +1,6 @@
 <?php
+use common\libraries\Request;
+use common\libraries\Translation;
 /**
  * @package repository.xml_feeds
  */

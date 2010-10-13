@@ -1,5 +1,9 @@
 <?php
 namespace repository\content_object\document;
+
+use common\libraries\Translation;
+use common\libraries\Path;
+
 /**
  * $Id: document_form.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.document
@@ -189,7 +193,7 @@ class DocumentForm extends ContentObjectForm
                     $object->set_hash($hash);
 					$object->set_title(basename($url));
 					$object->set_content_hash(md5_file($full_path));
-					
+
 	                $this->set_content_object($object);
                     $object = parent :: create_content_object();
                     if (isset($created_directories[dirname($url)]))

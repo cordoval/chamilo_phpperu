@@ -1,5 +1,9 @@
 <?php
 namespace repository;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+
 require_once dirname(__FILE__) . '/../../../../../../../application/peer_assessment/php/peer_assessment_publication_results.class.php';
 
 /**
@@ -9,14 +13,14 @@ require_once dirname(__FILE__) . '/../../../../../../../application/peer_assessm
 
 class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 {
-    private $parent;       								    	
+    private $parent;
 
     public function PeerAssessmentViewerWizardDisplay($parent)
     {
     	// Publication id
     	$publication_id = Request :: get('peer_assessment_publication');
     	// Users
-		$users = $parent->get_peer_assessment_publication_users($publication_id)->as_array();   
+		$users = $parent->get_peer_assessment_publication_users($publication_id)->as_array();
 		$count_users = sizeof($parent->get_peer_assessment_publication_users($publication_id)->as_array());
 
 		// No users => gives back error message
@@ -27,7 +31,7 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
         	$error[] = Translation :: get('NoUsersInThePeerAssessment');
         	$error[] = '<div class="close_message" id="closeMessage"></div>';
         	$error[] = '</div>';
-        	
+
         	echo implode("\n", $error);
         	exit();
 		}
@@ -40,11 +44,11 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
         	$error[] = Translation :: get('NoCompetencesInThePeerAssessment');
         	$error[] = '<div class="close_message" id="closeMessage"></div>';
         	$error[] = '</div>';
-        	
+
         	echo implode("\n", $error);
         	exit();
-    	}	
-    	
+    	}
+
         $this->parent = $parent;
     }
 
@@ -53,8 +57,8 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
      * @param HTML_Quickform_Page $page The page to display.
      */
     function _renderForm($current_page)
-    {   	
-		parent :: _renderForm($current_page);	
+    {
+		parent :: _renderForm($current_page);
     }
 }
 ?>

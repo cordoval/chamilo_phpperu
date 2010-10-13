@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\Translation;
+
 /**
  * $Id: multiple_choice_question_display.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.question_types.multiple_choice_question
@@ -16,17 +19,17 @@ class MultipleChoiceQuestionDisplay extends ContentObjectDisplay
     function get_description()
     {
         $html = array();
-        
+
         $lo = $this->get_content_object();
         $options = $lo->get_options();
         $type = $lo->get_answer_type();
-        
+
         switch($type)
         {
         	case MultipleChoiceQuestion :: ANSWER_TYPE_RADIO : $type = 'radio'; break;
         	case MultipleChoiceQuestion :: ANSWER_TYPE_CHECKBOX : $type = 'checkbox'; break;
         }
-        
+
         $html[] = parent :: get_description();
         $html[] = '<table class="data_table">';
         $html[] = '<thead>';

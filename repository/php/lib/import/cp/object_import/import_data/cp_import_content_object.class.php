@@ -1,18 +1,20 @@
 <?php
 namespace repository;
 
+use common\libraries\Path;
+
 /**
- * 
- * 
- * 
- * @copyright (c) 2010 University of Geneva 
- * 
+ *
+ *
+ *
+ * @copyright (c) 2010 University of Geneva
+ *
  * @license GNU General Public License
  * @author laurent.opprecht@unige.ch
  *
  */
 class CpImportContentObject extends CpObjectImportBase{
-	
+
 	public static function factory(ObjectImportSettings $settings){
 		$type = strtolower($settings->get_type());
 		if($type == 'ceo_v1p0#contentobject'){
@@ -23,25 +25,25 @@ class CpImportContentObject extends CpObjectImportBase{
 			return null;
 		}
 	}
-	
+
 	private $objects = array();
-	   
+
     public function import_content_object(){
     	$reader = new ImscpObjectReader($this->get_path(), false);
     	$item = $reader->get_objects()->first_object();
     	$ids = $this->get_identifiers($item);
     	$type = $item->type;
     	$object = $this->create_object($type);
-    	
+
     	$this->process_general($object, $item);
     	$this->process_extended($object, $item);
     	$this->process_categories($object, $item);
         $object->save();//id is used by other objects
-        
+
     	$this->process_attachments($object, $item);
     	$this->process_includes($object, $item);
     	$this->process_children($object, $item);
-    	
+
         $result = $object->save();
         if(!$result){
         	$log = $this->get_log();
@@ -49,11 +51,11 @@ class CpImportContentObject extends CpObjectImportBase{
         }
         return $object; //->get_id()
     }
-            
+
     protected function process_general(ContentObject $object, ImscpObjectReader $item){
     	$properties = array(ContentObject::PROPERTY_TITLE ,
-    						ContentObject::PROPERTY_DESCRIPTION , 
-    						ContentObject::PROPERTY_STATE , 
+    						ContentObject::PROPERTY_DESCRIPTION ,
+    						ContentObject::PROPERTY_STATE ,
     						ContentObject::PROPERTY_COMMENT ,
     						);
     	$children = $item->get_general()->children();
@@ -71,7 +73,7 @@ class CpImportContentObject extends CpObjectImportBase{
     	$object->set_state(ContentObject::STATE_NORMAL);
         $object->set_owner_id($this->get_settings()->get_user()->get_id());
     }
-    
+
     protected function process_extended(ContentObject $object, ImscpObjectReader $item){
     	$names = $object->get_additional_property_names();
     	$children = $item->get_extended()->children();
@@ -83,13 +85,13 @@ class CpImportContentObject extends CpObjectImportBase{
     		}
     	}
     }
-    
+
     protected function process_categories(ContentObject $object, ImscpObjectReader $item){
     	$categories = array();
     	$item = $item->get_categories()->get_category();
     	while($name = $item->get_name()->value()){
     		$categories[] = $name;
-    		$item = $item->get_category(); 
+    		$item = $item->get_category();
     	}
     	$categories = array_reverse($categories);
     	$category_id = $this->get_settings()->get_category();
@@ -98,7 +100,7 @@ class CpImportContentObject extends CpObjectImportBase{
     	}
     	$object->set_parent_id($category_id);
     }
-    
+
     protected function get_category($name, $parent_id){
         if($result = Chamilo::get_category_by_name($name, $parent_id)){
         	return $result;
@@ -106,7 +108,7 @@ class CpImportContentObject extends CpObjectImportBase{
         	return $this->create_category($name, $parent_id);
         }
     }
-    
+
     protected function create_category($name, $parent_id){
     	$category = new RepositoryCategory();
     	$category->set_name($name);
@@ -115,7 +117,7 @@ class CpImportContentObject extends CpObjectImportBase{
         $category->save();
         return $category;
     }
-       
+
     protected function process_attachments(ContentObject $object, ImscpObjectReader $item){
     	$settings = $this->get_settings();
     	$items = $item->get_attachments()->list_attachment();
@@ -127,7 +129,7 @@ class CpImportContentObject extends CpObjectImportBase{
     		}
     	}
     }
-    
+
     protected function process_includes(ContentObject $object, ImscpObjectReader $item){
     	$settings = $this->get_settings();
     	$items = $item->get_includes()->list_include();
@@ -139,7 +141,7 @@ class CpImportContentObject extends CpObjectImportBase{
     		}
     	}
     }
-    
+
     protected function process_children(ContentObject $object, ImscpObjectReader $item){
     	$store = ContentObject::get_data_manager();
     	$settings = $this->get_settings();
@@ -170,25 +172,25 @@ class CpImportContentObject extends CpObjectImportBase{
                 	$value = $property->value();
                 	$cloi->set_additional_property($name, $value);
                 }
-                $cloi->save(); 
+                $cloi->save();
                 }
-    		
+
     	}
     }
-    
-    
-    
+
+
+
     /*
-    
+
     protected function set_system_id($file_id, $system_id){
     	$this->objects[$file_id] = $system_id;
     	return $system_id;
     }
-    
+
     protected function has_system_id($file_id){
     	return isset($this->objects[$file_id]);
     }
-    
+
     protected function get_system_id($file_id){
     	if(isset($this->objects[$file_id])){
     		return $this->objects[$file_id];
@@ -196,7 +198,7 @@ class CpImportContentObject extends CpObjectImportBase{
     		return 0;
     	}
     }
-    
+
     public function get_identifiers($item){
     	$result = array();
     	$ids = $item->get_identifiers()->list_identifier();

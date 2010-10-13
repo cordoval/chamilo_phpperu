@@ -1,5 +1,9 @@
 <?php
 namespace repository\content_object\wiki;
+
+use common\libraries\Translation;
+use common\libraries\Path;
+
 /**
  * $Id: wiki_discuss_browser.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.wiki.component.wiki_discuss
@@ -20,11 +24,11 @@ class WikiDiscussBrowser extends ContentObjectPubFeedbackBrowser
     function WikiDiscussBrowser($parent)
     {
         parent :: __construct($parent, 'wiki');
-        
+
         $renderer = new ListContentObjectPublicationListRenderer($this);
         $actions = array(Tool :: ACTION_DELETE => Translation :: get('DeleteSelected'), Tool :: ACTION_HIDE => Translation :: get('Hide'), Tool :: ACTION_SHOW => Translation :: get('Show'));
         $renderer->set_actions($actions);
-        
+
         $this->set_publication_list_renderer($renderer);
 
         function get_publications($from, $count, $column, $direction)
@@ -47,12 +51,12 @@ class WikiDiscussBrowser extends ContentObjectPubFeedbackBrowser
                     }
                     $visible_feedbacks[] = $feedback;
                 }
-                
+
                 $this->feedbacks = $visible_feedbacks;
             }
-            
+
             return $this->feedbacks;
-        
+
         }
 
         function get_publication_count()

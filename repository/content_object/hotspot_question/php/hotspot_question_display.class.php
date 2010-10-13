@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\hotspot_question;
+
+use common\libraries\Translation;
+
 /**
  * $Id: hotspot_question_display.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.hotspot_question
@@ -14,17 +17,17 @@ class HotspotQuestionDisplay extends ContentObjectDisplay
     function get_description()
     {
         $html = array();
-        
+
         $content_object = $this->get_content_object();
         $options = $content_object->get_answers();
         $image = $content_object->get_image_object();
-        
+
         $html[] = parent :: get_description();
-        
+
         if(!is_null($image))
         	$html[] = '<img class="hotspot_image_display" src="' . $image->get_url() . '" alt="' . $image->get_title() . '" title="' . $image->get_title() . '" />';
         $html[] = '';
-        
+
         $html[] = '<table class="data_table">';
         $html[] = '<thead>';
         $html[] = '<tr>';

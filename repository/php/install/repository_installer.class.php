@@ -1,5 +1,9 @@
 <?php
 namespace repository;
+
+use common\libraries\Translation;
+use common\libraries\Path;
+
 require_once Path :: get_admin_path() . 'lib/package_installer/source/package_info/package_info.class.php';
 require_once Path :: get_repository_path() . 'lib/content_object_installer.class.php';
 /**
@@ -54,7 +58,7 @@ class RepositoryInstaller extends Installer
         {
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('ContentObjectsSubtreeCreated'));
         }
-        
+
         if (!RepositoryRights :: create_external_repositories_subtree_root_location())
         {
             return false;
@@ -63,8 +67,8 @@ class RepositoryInstaller extends Installer
         {
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('ExternalRepositoriesSubtreeCreated'));
         }
-        
-        
+
+
         if (! $this->add_metadata_catalogs())
         {
             return false;
@@ -203,7 +207,7 @@ class RepositoryInstaller extends Installer
         {
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('ExternalRepositoryManagerAdded') . ': Flickr');
         }
-        
+
     	// Adding the Photobucket Manager
         $photobucket = new ExternalRepository();
         $photobucket->set_title('Photobucket');
@@ -221,7 +225,7 @@ class RepositoryInstaller extends Installer
         {
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('ExternalRepositoryManagerAdded') . ': Photobucket');
         }
-        
+
     	// Adding the Matterhorn Manager
         $matterhorn = new ExternalRepository();
         $matterhorn->set_title('Matterhorn');
@@ -239,7 +243,7 @@ class RepositoryInstaller extends Installer
         {
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('ExternalRepositoryManagerAdded') . ': Matterhorn');
         }
-        
+
         return true;
     }
 }

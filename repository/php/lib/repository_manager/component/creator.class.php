@@ -1,5 +1,11 @@
 <?php
 namespace repository;
+
+use common\libraries\Request;
+use common\libraries\FormValidator;
+use common\libraries\Translation;
+use common\libraries\Path;
+use common\libraries\BreadcrumbTrail;
 /**
  * $Id: creator.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component
@@ -235,22 +241,22 @@ class RepositoryManagerCreatorComponent extends RepositoryManager
 
         return implode("\n", $html);
     }
-    
+
     function get_allowed_content_object_types()
     {
     	$types = $this->get_content_object_types(true, false);
     	foreach($types as $index => $type)
     	{
     		$registration = AdminDataManager :: get_registration($type, Registration :: TYPE_CONTENT_OBJECT);
-        	if(!RepositoryRights :: is_allowed_in_content_objects_subtree(RepositoryRights :: ADD_RIGHT, $registration->get_id())) 
+        	if(!RepositoryRights :: is_allowed_in_content_objects_subtree(RepositoryRights :: ADD_RIGHT, $registration->get_id()))
         	{
         		unset($types[$index]);
         	}
     	}
-    	
+
     	return $types;
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));

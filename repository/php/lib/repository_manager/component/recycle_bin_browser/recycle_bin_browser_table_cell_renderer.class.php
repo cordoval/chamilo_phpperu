@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\Translation;
+
 /**
  * $Id: recycle_bin_browser_table_cell_renderer.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.recycle_bin_browser
@@ -54,7 +57,7 @@ class RecycleBinBrowserTableCellRenderer extends DefaultContentObjectTableCellRe
                 if (! isset($this->parent_title_cache[$pid]))
                 {
                     $category = RepositoryDataManager :: get_instance()->retrieve_categories(new EqualityCondition(RepositoryCategory :: PROPERTY_ID, $pid))->next_result();
-                    
+
                     $this->parent_title_cache[$pid] = '<a href="' . htmlentities($this->browser->get_url(array('category' => $pid, 'go' => 'browse'))) . '" title="' . htmlentities(Translation :: get('BrowseThisCategory')) . '">' . ($category ? $category->get_name() : Translation :: get('Root')) . '</a>';
                 }
                 return $this->parent_title_cache[$pid];
@@ -71,23 +74,23 @@ class RecycleBinBrowserTableCellRenderer extends DefaultContentObjectTableCellRe
     private function get_action_links($content_object)
     {
         $toolbar  = new Toolbar();
-        
+
 		$toolbar->add_item(new ToolbarItem(
-       		Translation :: get('Restore'), 
-       		Theme :: get_common_image_path().'action_restore.png', 
-			$this->browser->get_content_object_restoring_url($content_object), 
+       		Translation :: get('Restore'),
+       		Theme :: get_common_image_path().'action_restore.png',
+			$this->browser->get_content_object_restoring_url($content_object),
 			ToolbarItem :: DISPLAY_ICON
 		));
-			
+
 	   	$toolbar->add_item(new ToolbarItem(
-        	Translation :: get('Delete'), 
-     		Theme :: get_common_image_path().'action_delete.png', 
-			$this->browser->get_content_object_deletion_url($content_object), 
-			ToolbarItem :: DISPLAY_ICON, 
+        	Translation :: get('Delete'),
+     		Theme :: get_common_image_path().'action_delete.png',
+			$this->browser->get_content_object_deletion_url($content_object),
+			ToolbarItem :: DISPLAY_ICON,
 			true
 		));
 		return $toolbar->as_html();
-		
+
     }
 }
 ?>

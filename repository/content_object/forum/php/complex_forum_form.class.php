@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\forum;
+
+use common\libraries\Path;
+
 /**
  * $Id: complex_forum_form.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.forum
@@ -31,7 +34,7 @@ class ComplexForumForm extends ComplexContentObjectItemForm
 
     function get_default_values()
     {
-    
+
     }
 
     function create_cloi_from_values($values)

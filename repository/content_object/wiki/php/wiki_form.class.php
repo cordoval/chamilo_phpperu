@@ -1,5 +1,9 @@
 <?php
 namespace repository\content_object\wiki;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+
 /**
  * $Id: wiki_form.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.wiki
@@ -61,18 +65,18 @@ class WikiForm extends ContentObjectForm
     function setDefaults($defaults = array ())
     {
         $parser = new WikiParser();
-        
+
         $lo = $this->get_content_object();
         if (isset($lo))
         {
             $defaults[ContentObject :: PROPERTY_ID] = $lo->get_id();
-            
+
             $defaults[ContentObject :: PROPERTY_TITLE] = $lo->get_title();
             $defaults[ContentObject :: PROPERTY_DESCRIPTION] = $lo->get_description();
             $defaults[Wiki :: PROPERTY_LOCKED] = $lo->get_locked();
             $defaults[Wiki :: PROPERTY_LINKS] = $lo->get_links();
         }
-        
+
         parent :: setDefaults($defaults);
     }
 

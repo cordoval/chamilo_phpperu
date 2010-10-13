@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\assessment;
+
+use common\libraries\Translation;
+
 /**
  * $Id: hotspot_question.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.assessment.component.viewer.wizard.inc.question_display
@@ -16,13 +19,13 @@ class HotspotQuestionDisplay extends QuestionDisplay
         $question = $this->get_question();
         $answers = $this->shuffle_with_keys($question->get_answers());
         $renderer = $this->get_renderer();
-        
+
         $question_id = $clo_question->get_id();
-        
+
         $formvalidator->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/jquery.draw.js'));
         $formvalidator->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/serializer.pack.js'));
         $formvalidator->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/hotspot_question_display.js'));
-        
+
         $image_html = array();
         $image_object = $question->get_image_object();
         $dimensions = getimagesize($image_object->get_full_path());
@@ -38,7 +41,7 @@ class HotspotQuestionDisplay extends QuestionDisplay
         $image_html[] = '<div class="clear"></div>';
         $image_html[] = '</div>';
         $formvalidator->addElement('html', implode("\n", $image_html));
-        
+
         $table_header = array();
         $table_header[] = '<table class="data_table take_assessment">';
         $table_header[] = '<thead>';
@@ -51,28 +54,28 @@ class HotspotQuestionDisplay extends QuestionDisplay
         $table_header[] = '</thead>';
         $table_header[] = '<tbody>';
         $formvalidator->addElement('html', implode("\n", $table_header));
-        
+
         foreach ($answers as $i => $answer)
         {
             $answer_name = $question_id . '_' . $i;
-            
+
             $group = array();
             $group[] = $formvalidator->createElement('static', null, null, '<div class="colour_box" style="background-color: ' . $this->colours[$i] . ';"></div>');
             $group[] = $formvalidator->createElement('static', null, null, $answer->get_answer());
             $group[] = $formvalidator->createElement('static', null, null, '<img class="hotspot_configured" src="' . Theme :: get_common_image_path() . 'action_confirm.png" style="display: none;" /><img id="edit_' . $answer_name . '" class="edit_option" type="image" src="' . Theme :: get_common_image_path() . 'action_edit.png" />');
             $group[] = $formvalidator->createElement('static', null, null, '<img id="reset_' . $answer_name . '" class="reset_option" type="image" src="' . Theme :: get_common_image_path() . 'action_reset.png" />');
             $group[] = $formvalidator->createElement('hidden', $answer_name, '', 'class="hotspot_coordinates"');
-            
+
             $formvalidator->addGroup($group, 'option_' . $i, null, '', false);
-            
+
             $renderer->setElementTemplate('<tr id="' . $answer_name . '" class="' . ($i % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', 'option_' . $i);
             $renderer->setGroupElementTemplate('<td>{element}</td>', 'option_' . $i);
         }
-        
+
         $table_footer[] = '</tbody>';
         $table_footer[] = '</table>';
         $formvalidator->addElement('html', implode("\n", $table_footer));
-        
+
     //		$this->add_scripts_element($clo_question->get_id(), $formvalidator);
     //		//$formvalidator->addElement('html', '<br/>');
     //		$answers = $question->get_answers();

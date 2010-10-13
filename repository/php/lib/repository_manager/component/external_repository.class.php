@@ -1,5 +1,10 @@
 <?php
 namespace repository;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\BreadcrumbTrail;
+
 class RepositoryManagerExternalRepositoryComponent extends RepositoryManager
 {
     private $external_repository;

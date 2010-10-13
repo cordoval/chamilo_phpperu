@@ -1,7 +1,12 @@
 <?php
 namespace repository\content_object\survey;
-require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/forms/context_form.class.php';
 
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\Path;
+use common\libraries\BreadcrumbTrail;
+
+require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/forms/context_form.class.php';
 require_once Path :: get_repository_path() . 'lib/content_object/survey/survey_context.class.php';
 
 class SurveyContextManagerContextUpdaterComponent extends SurveyContextManager
@@ -12,19 +17,19 @@ class SurveyContextManagerContextUpdaterComponent extends SurveyContextManager
      */
     function run()
     {
- 
+
     	$trail = BreadcrumbTrail :: get_instance();
-               
+
         $context_id = Request :: get(SurveyContextManager :: PARAM_CONTEXT_ID);
 		$this->set_parameter(SurveyContextManager :: PARAM_CONTEXT_ID, $context_id);
-        
+
         $survey_context = SurveyContextDataManager::get_instance()->retrieve_survey_context_by_id($context_id);
-		
+
         $context_registration_id = Request :: get(SurveyContextManager :: PARAM_CONTEXT_REGISTRATION_ID);
-		$this->set_parameter(SurveyContextManager :: PARAM_CONTEXT_REGISTRATION_ID, $context_registration_id);        
-        
+		$this->set_parameter(SurveyContextManager :: PARAM_CONTEXT_REGISTRATION_ID, $context_registration_id);
+
         $form = new SurveyContextForm(SurveyContextForm :: TYPE_EDIT, $this->get_url(), $survey_context,  $this->get_user(), $this);
-        
+
         if ($form->validate())
         {
             $success = $form->update_survey_context();

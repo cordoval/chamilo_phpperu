@@ -1,5 +1,9 @@
 <?php
 namespace repository;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\BreadcrumbTrail;
 /**
  * $Id: deleter.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component
@@ -23,7 +27,7 @@ class RepositoryManagerDeleterComponent extends RepositoryManager
             {
                 $ids = array($ids);
             }
-            
+
             $failures = 0;
             $delete_version = Request :: get(RepositoryManager :: PARAM_DELETE_VERSION);
             $permanent = Request :: get(RepositoryManager :: PARAM_DELETE_PERMANENTLY);
@@ -58,13 +62,13 @@ class RepositoryManagerDeleterComponent extends RepositoryManager
                                 }
                             }
                             elseif ($recycled)
-                            { 
+                            {
                                 $versions = $object->get_content_object_versions();
                                 foreach ($versions as $version)
                                 {
                                     $version->recycle();
                                 }
-                                
+
                             }
                         }
                         else
@@ -78,7 +82,7 @@ class RepositoryManagerDeleterComponent extends RepositoryManager
                     $failures ++;
                 }
             }
-            
+
             if ($delete_version)
             {
                 if ($failures)
@@ -115,10 +119,10 @@ class RepositoryManagerDeleterComponent extends RepositoryManager
                     }
                 }
             }
-            
+
             $parameters = array();
             $parameters[Application :: PARAM_ACTION] = ($permanent ? RepositoryManager :: ACTION_BROWSE_RECYCLED_CONTENT_OBJECTS : RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS);
-            
+
             $this->redirect(Translation :: get($message), ($failures ? true : false), $parameters);
         }
         else
@@ -126,13 +130,13 @@ class RepositoryManagerDeleterComponent extends RepositoryManager
             $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
         }
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
     	$breadcrumbtrail->add_help('repository_deleter');
     }
-    
+
     function get_additional_parameters()
     {
     	return array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID, RepositoryManager :: PARAM_DELETE_VERSION, RepositoryManager :: PARAM_DELETE_PERMANENTLY, RepositoryManager :: PARAM_DELETE_RECYCLED);

@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\Translation;
+
 /**
  * $Id: external_repository_instance_browser_table_cell_renderer.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.browser
@@ -30,7 +33,7 @@ class ExternalRepositoryInstanceBrowserTableCellRenderer extends DefaultExternal
         {
             return $this->get_modification_links($external_repository);
         }
-        
+
 //        switch ($column->get_name())
 //        {
 //            //            case ContentObject :: PROPERTY_TYPE :
@@ -52,7 +55,7 @@ class ExternalRepositoryInstanceBrowserTableCellRenderer extends DefaultExternal
     private function get_modification_links($external_repository)
     {
         $toolbar = new Toolbar();
-        
+
         if ($external_repository->is_enabled())
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('Deactivate'), Theme :: get_common_image_path() . 'action_deactivate.png', $this->browser->get_url(array(ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION => ExternalRepositoryInstanceManager :: ACTION_DEACTIVATE_INSTANCE, ExternalRepositoryInstanceManager :: PARAM_INSTANCE => $external_repository->get_id())), ToolbarItem :: DISPLAY_ICON, true));
@@ -61,10 +64,10 @@ class ExternalRepositoryInstanceBrowserTableCellRenderer extends DefaultExternal
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('Activate'), Theme :: get_common_image_path() . 'action_activate.png', $this->browser->get_url(array(ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION => ExternalRepositoryInstanceManager :: ACTION_ACTIVATE_INSTANCE, ExternalRepositoryInstanceManager :: PARAM_INSTANCE => $external_repository->get_id())), ToolbarItem :: DISPLAY_ICON, true));
         }
-        
+
         $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_url(array(ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION => ExternalRepositoryInstanceManager :: ACTION_UPDATE_INSTANCE, ExternalRepositoryInstanceManager :: PARAM_INSTANCE => $external_repository->get_id())), ToolbarItem :: DISPLAY_ICON));
         $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_url(array(ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION => ExternalRepositoryInstanceManager :: ACTION_DELETE_INSTANCE, ExternalRepositoryInstanceManager :: PARAM_INSTANCE => $external_repository->get_id())), ToolbarItem :: DISPLAY_ICON, true));
-        
+
         $toolbar->add_item(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->browser->get_url(array(ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION => ExternalRepositoryInstanceManager :: ACTION_MANAGE_INSTANCE_RIGHTS, ExternalRepositoryInstanceManager :: PARAM_INSTANCE => $external_repository->get_id())), ToolbarItem :: DISPLAY_ICON));
         //        $toolbar->add_items($this->browser->get_content_object_actions($external_repository));
         return $toolbar->as_html();

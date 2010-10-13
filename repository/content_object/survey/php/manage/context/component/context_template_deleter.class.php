@@ -1,7 +1,10 @@
 <?php
 namespace repository\content_object\survey;
-require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/forms/context_form.class.php';
 
+use common\libraries\Translation;
+use common\libraries\Path;
+
+require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/forms/context_form.class.php';
 require_once Path :: get_repository_path() . 'lib/content_object/survey/survey_context.class.php';
 
 class SurveyContextManagerContextTemplateDeleterComponent extends SurveyContextManager
@@ -14,24 +17,24 @@ class SurveyContextManagerContextTemplateDeleterComponent extends SurveyContextM
     {
         $ids = $_GET[SurveyContextManager :: PARAM_CONTEXT_TEMPLATE_ID];
         $failures = 0;
-        
+
         if (! empty($ids))
         {
             if (! is_array($ids))
             {
                 $ids = array($ids);
             }
-            
+
             foreach ($ids as $id)
             {
                 $context_template  = SurveyContextDataManager::get_instance()->retrieve_survey_context_template($id);
-               
+
                 if (! $context_template->delete())
                 {
                     $failures ++;
                 }
             }
-            
+
             if ($failures)
             {
                 if (count($ids) == 1)
@@ -54,7 +57,7 @@ class SurveyContextManagerContextTemplateDeleterComponent extends SurveyContextM
                     $message = 'SelectedContextTemplatesDeleted';
                 }
             }
-            
+
             $this->redirect(Translation :: get($message), ($failures ? true : false), array(SurveyContextManager :: PARAM_ACTION => SurveyContextManager :: ACTION_BROWSE_CONTEXT_TEMPLATE));
         }
         else

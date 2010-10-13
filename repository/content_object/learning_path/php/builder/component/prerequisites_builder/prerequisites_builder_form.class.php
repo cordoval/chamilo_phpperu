@@ -1,5 +1,9 @@
 <?php
 namespace repository\content_object\learning_path;
+
+use common\libraries\FormValidator;
+use common\libraries\Translation;
+
 /**
  * $Id: prerequisites_builder_form.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.learning_path.component.prerequisites_builder
@@ -147,7 +151,7 @@ class PrerequisitesBuilderForm extends FormValidator
                 $category_html[] = '<div class="body">';
                 $this->addElement('html', implode("\n", $category_html));
                 //$this->addElement('category', Translation :: get('PrerequisiteGroup') . ' ' . ($gcounter + 1));
-				
+
                 $number_of_items = intval($_SESSION['number_of_items'][$group_number]);
 
                 $counter = 0;
@@ -231,12 +235,12 @@ class PrerequisitesBuilderForm extends FormValidator
         while ($sibbling = $siblings_list->next_result())
         {
             $content_object = $rdm->retrieve_content_object($sibbling->get_ref());
-            
+
             if($content_object->get_type() == LearningPath :: get_type_name())
             {
             	continue;
             }
-            
+
             if ($content_object->get_type() == LearningPathItem :: get_type_name())
             {
                 $content_object = $rdm->retrieve_content_object($content_object->get_reference());
@@ -244,7 +248,7 @@ class PrerequisitesBuilderForm extends FormValidator
 
             $siblings[$sibbling->get_id()] = $content_object->get_title();
         }
-		
+
         return $siblings;
     }
 

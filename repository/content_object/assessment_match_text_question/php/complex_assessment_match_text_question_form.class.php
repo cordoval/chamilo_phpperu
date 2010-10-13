@@ -1,9 +1,12 @@
 <?php
 namespace repository\content_object\assessment_match_text_question;
+
+use common\libraries\Translation;
+
 /**
  * @package repository.lib.content_object.match_text_question
  */
-require_once dirname(__FILE__) . '/main.php'; 
+require_once dirname(__FILE__) . '/main.php';
 
 /**
  * This class represents a form to create or update complex assessments
@@ -20,12 +23,12 @@ class ComplexAssessmentMatchTextQuestionForm extends ComplexContentObjectItemFor
     function get_default_values()
     {
         $cloi = $this->get_complex_content_object_item();
-        
+
         if (isset($cloi))
         {
             $defaults[ComplexAssessmentMatchTextQuestion :: PROPERTY_WEIGHT] = $cloi->get_weight() ? $cloi->get_weight() : 0;
         }
-        
+
         return $defaults;
     }
 

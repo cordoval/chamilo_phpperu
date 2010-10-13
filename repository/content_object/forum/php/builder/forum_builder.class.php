@@ -1,5 +1,7 @@
 <?php
 namespace repository\content_object\forum;
+
+use common\libraries\Request;
 /**
  * $Id: forum_builder.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.forum
@@ -31,7 +33,7 @@ class ForumBuilder extends ComplexBuilder
                     $selected_ids = $_POST['topic_table' . ObjectTable :: CHECKBOX_NAME_SUFFIX];
                     break;
             }
-            
+
             if (empty($selected_ids))
             {
                 $selected_ids = array();
@@ -40,7 +42,7 @@ class ForumBuilder extends ComplexBuilder
             {
                 $selected_ids = array($selected_ids);
             }
-            
+
             $this->set_action(self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM);
             Request :: set_get(self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID, $selected_ids);
         }

@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\assessment_open_question;
+
+use common\libraries\Translation;
+
 /**
  * $Id: assessment_open_question_display.class.php $
  * @package repository.lib.content_object.assessment_open_question
@@ -16,7 +19,7 @@ class AssessmentOpenQuestionDisplay extends OpenQuestionDisplay
         $description = parent :: get_description();
         $object = $this->get_content_object();
         $type_id = $object->get_question_type();
-        
+
         switch ($type_id)
         {
             case 1 :
@@ -32,7 +35,7 @@ class AssessmentOpenQuestionDisplay extends OpenQuestionDisplay
                 $type = Translation :: get('OpenQuestion');
                 break;
         }
-        
+
         return '<b>' . Translation :: get('Type') . ':</b> ' . $type . $description;
     }
 }

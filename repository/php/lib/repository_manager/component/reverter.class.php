@@ -1,5 +1,9 @@
 <?php
 namespace repository;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\BreadcrumbTrail;
 /**
  * $Id: reverter.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component
@@ -41,14 +45,14 @@ class RepositoryManagerReverterComponent extends RepositoryManager
                     {
                         $failures ++;
                     }
-                
+
                 }
                 else
                 {
                     $failures ++;
                 }
             }
-            
+
             if ($failures)
             {
                 $message = 'SelectedObjectNotReverted';
@@ -64,13 +68,13 @@ class RepositoryManagerReverterComponent extends RepositoryManager
             $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
         }
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
     	$breadcrumbtrail->add_help('repository_reverter');
     }
-    
+
     function get_additional_parameters()
     {
     	return array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);

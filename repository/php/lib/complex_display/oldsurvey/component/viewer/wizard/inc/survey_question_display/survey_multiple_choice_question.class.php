@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\Translation;
+
 /**
  * $Id: survey_multiple_choice_question.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.survey.component.viewer.wizard.inc.question_display

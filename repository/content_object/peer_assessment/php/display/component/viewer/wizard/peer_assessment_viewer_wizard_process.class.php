@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\peer_assessment;
+
+use common\libraries\Request;
+use common\libraries\Translation;
 /*
  *	@author Nick Van Loocke
  */
@@ -15,23 +18,23 @@ class PeerAssessmentViewerWizardProcess extends HTML_QuickForm_Action
     }
 
     function perform()
-    {    	
+    {
     	if(sizeof($_POST[select]) > 0)
     	{
         	// Publication id
     		$publication_id = Request :: get('peer_assessment_publication');
     		// Users
     		$users = $this->parent->get_peer_assessment_publication_users($publication_id)->as_array();
-    		 
-    		
+
+
     		// Retrieve competences
 	        $competences = $this->parent->get_peer_assessment_page_competences($this->parent->get_peer_assessment());
 
             foreach($competences as $competence)
             {
 				// Retrieve indicators of the selected competence
-				$indicators = $this->parent->get_peer_assessment_page_indicators_via_competence($this->parent->get_peer_assessment(), $competence);			
-	
+				$indicators = $this->parent->get_peer_assessment_page_indicators_via_competence($this->parent->get_peer_assessment(), $competence);
+
 	    		foreach($indicators as $indicator)
 	    		{
 		    		foreach($users as $user)
@@ -40,11 +43,11 @@ class PeerAssessmentViewerWizardProcess extends HTML_QuickForm_Action
 		    			$indicator_id = $indicator->get_id();
 		    			$user_id = Session :: get_user_id();
 		    			$graded_user_id = $user->get_user();
-		    			
+
 		    			$value = ($_POST[select][c.$competence_id.i.$indicator_id.u.$graded_user_id]);
 
 		    			$publication_result = $this->parent->get_peer_assessment_publication_result($publication_id, $competence_id, $indicator_id, $user_id, $graded_user_id);
-						
+
 		    			if($publication_result == null)
 		    			{
 		    				// Create
@@ -59,7 +62,7 @@ class PeerAssessmentViewerWizardProcess extends HTML_QuickForm_Action
 				    		{
 				    			$results->set_finished(1);
 				    		}
-				    		
+
 				    		$results->create();
 		    			}
 		    			else
@@ -76,21 +79,21 @@ class PeerAssessmentViewerWizardProcess extends HTML_QuickForm_Action
 							}
 						}
 
-		    		}  
+		    		}
 	    		}
             }
-            
+
     		if($results)
     		{
 		        $message = Translation :: get('PeerAssessmentResultsCreated');
     		}
     		elseif($publication_result)
     		{
-    			$message = Translation :: get('PeerAssessmentResultsUpdated');	
+    			$message = Translation :: get('PeerAssessmentResultsUpdated');
     		}
-    		
+
     		$this->parent->get_parent()->redirect($message, false, array('run.php?application=peer_assessment'));
-    
+
     	}
     }
 

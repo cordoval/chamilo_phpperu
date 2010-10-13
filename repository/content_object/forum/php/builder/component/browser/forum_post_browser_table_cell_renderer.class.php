@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\forum;
+
+use common\libraries\Translation;
+
 /**
  * $Id: forum_post_browser_table_cell_renderer.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.forum.component.browser
@@ -32,10 +35,10 @@ class ForumPostBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
             case Translation :: get('AddDate') :
                 return DatetimeUtilities :: format_locale_date(null,$complex_content_object_item->get_add_date());
         }
-        
+
         return parent :: render_cell($column, $complex_content_object_item);
     }
-    
+
  	function get_modification_links($complex_content_object_item)
     {
         return parent :: get_modification_links($complex_content_object_item, array(), true);

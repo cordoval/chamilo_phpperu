@@ -1,5 +1,9 @@
 <?php
 namespace repository;
+
+use common\libraries\Translation;
+use common\libraries\Path;
+
 /**
  * $Id: content_object_difference_display.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib
@@ -10,7 +14,7 @@ namespace repository;
  */
 class ContentObjectDifferenceDisplay
 {
-    
+
     /**
      * The learning object difference.
      */
@@ -33,7 +37,7 @@ class ContentObjectDifferenceDisplay
     function get_diff_as_html()
     {
         $diff = $this->get_difference();
-        
+
         $html = array();
         $html[] = '<div class="difference" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/' . $diff->get_object()->get_icon_name() . '.png);">';
         $html[] = '<div class="titleleft">';
@@ -44,13 +48,13 @@ class ContentObjectDifferenceDisplay
         $html[] = $diff->get_version()->get_title();
         $html[] = date(" (d M Y, H:i:s O)", $diff->get_version()->get_creation_date());
         $html[] = '</div>';
-        
+
         foreach ($diff->get_difference() as $d)
         {
             if (get_class($d) == 'Difference_Engine_Op_change')
             {
                 $td = new Difference_Engine(explode(" ", $d->get_orig()), explode(" ", $d->get_final()));
-                
+
                 $html[] = '<div class="left">';
                 $html_change = array();
                 foreach ($td->getDiff() as $t)
@@ -59,7 +63,7 @@ class ContentObjectDifferenceDisplay
                 }
                 $html[] = implode(' ', $html_change);
                 $html[] = '</div>';
-                
+
                 $html[] = '<div class="right">';
                 $html_change = array();
                 foreach ($td->getDiff() as $t)
@@ -68,7 +72,7 @@ class ContentObjectDifferenceDisplay
                 }
                 $html[] = implode(' ', $html_change);
                 $html[] = '</div>';
-                
+
                 $html[] = '<br style="clear:both;" />';
             }
             else
@@ -83,7 +87,7 @@ class ContentObjectDifferenceDisplay
             }
         }
         $html[] = '</div>';
-        
+
         return implode("\n", $html);
     }
 
@@ -111,7 +115,7 @@ class ContentObjectDifferenceDisplay
         $html[] = '<span class="compare_change">' . Translation :: get('CompareExample') . '</span>: ' . Translation :: get('CompareChangeInfo') . '<br />';
         $html[] = '<span class="compare_copy">' . Translation :: get('CompareExample') . '</span>: ' . Translation :: get('CompareCopyInfo') . '<br />';
         $html[] = '</div>';
-        
+
         return implode("\n", $html);
     }
 

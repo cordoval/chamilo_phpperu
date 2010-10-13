@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\Request;
+
 /**
  * $Id: complex_content_object_menu.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib
@@ -14,7 +17,7 @@ require_once 'HTML/Menu/ArrayRenderer.php';
 class ComplexContentObjectMenu extends HTML_Menu
 {
     const TREE_NAME = __CLASS__;
-    
+
     private $current_item;
     private $root;
     /**
@@ -25,12 +28,12 @@ class ComplexContentObjectMenu extends HTML_Menu
      * The array renderer used to determine the breadcrumbs.
      */
     private $array_renderer;
-    
+
     /**
      * Boolean to determine wheter the nodes of the tree which are not complex are shown in the tree or not
      */
     private $view_entire_structure;
-    
+
     private $dm;
 
     /**
@@ -48,13 +51,13 @@ class ComplexContentObjectMenu extends HTML_Menu
     {
         $this->view_entire_structure = $view_entire_structure;
         $extra = array('publish', 'clo_action');
-        
+
         foreach ($extra as $item)
         {
             if (Request :: get($item))
                 $url_format .= '&' . $item . '=' . Request :: get($item);
         }
-        
+
         $this->current_item = $current_item;
         $this->root = $root;
         $this->urlFmt = $url_format;
@@ -73,13 +76,13 @@ class ComplexContentObjectMenu extends HTML_Menu
         $menu_item = array();
         $menu_item['title'] = $lo->get_title();
         $menu_item['url'] = $this->get_cloi_url($root);
-        
+
         $sub_menu_items = $this->get_menu_items($root);
         if (count($sub_menu_items) > 0)
         {
             $menu_item['sub'] = $sub_menu_items;
         }
-        
+
         $menu_item['class'] = 'type_' . $lo->get_type();
         //$menu_item['class'] = 'type_category';
         $menu_item[OptionsMenuRenderer :: KEY_ID] = $root;
@@ -100,7 +103,7 @@ class ComplexContentObjectMenu extends HTML_Menu
         $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $cloi, ComplexContentObjectItem :: get_table_name());
         $datamanager = $this->dm;
         $objects = $datamanager->retrieve_complex_content_object_items($condition);
-        
+
         while ($object = $objects->next_result())
         {
             if ($object->is_complex() || $this->view_entire_structure)
@@ -109,20 +112,20 @@ class ComplexContentObjectMenu extends HTML_Menu
                 $menu_item = array();
                 $menu_item['title'] = $lo->get_title();
                 $menu_item['url'] = $this->get_cloi_url($object->get_ref());
-                
+
                 $sub_menu_items = $this->get_menu_items($object->get_ref());
                 if (count($sub_menu_items) > 0)
                 {
                     $menu_item['sub'] = $sub_menu_items;
                 }
-                
+
                 $menu_item['class'] = 'type_' . $lo->get_type();
                 //$menu_item['class'] = 'type_category';
                 $menu_item[OptionsMenuRenderer :: KEY_ID] = $object->get_ref();
                 $menu[$object->get_ref()] = $menu_item;
             }
         }
-        
+
         return $menu;
     }
 
@@ -157,7 +160,7 @@ class ComplexContentObjectMenu extends HTML_Menu
         $this->render($renderer, 'sitemap');
         return $renderer->toHTML();
     }
-    
+
     static function get_tree_name()
     {
     	return Utilities :: camelcase_to_underscores(self :: TREE_NAME);

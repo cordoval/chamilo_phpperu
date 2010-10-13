@@ -1,5 +1,9 @@
 <?php
 namespace repository;
+
+use common\libraries\Translation;
+use common\libraries\BreadcrumbTrail;
+
 /**
  * $Id: browser.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.component
@@ -59,12 +63,12 @@ class ComplexBuilderComponentBrowserComponent extends ComplexBuilderComponent
         {
         	$column_model = $this->get_parent()->get_complex_content_object_table_column_model();
         }
-        
+
     	if(method_exists($this->get_parent(), 'get_complex_content_object_table_cell_renderer'))
         {
         	$cell_renderer = $this->get_parent()->get_complex_content_object_table_cell_renderer();
         }
-        
+
         echo $this->get_complex_content_object_table_html(true, $column_model, $cell_renderer);
         echo '</div>';
         echo '<div class="clear">&nbsp;</div>';

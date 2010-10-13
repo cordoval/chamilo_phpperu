@@ -1,16 +1,19 @@
 <?php
 namespace repository\content_object\survey_page;
+
+use common\libraries\Translation;
+
 /**
  * $Id: survey_page_builder.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package
  */
 class SurveyPageBuilder extends ComplexBuilder //implements ComplexMenuSupport
 {
-    
+
     const ACTION_CREATE_SURVEY_PAGE = 'creator';
      const ACTION_CREATE_QUESTION = 'create_question';
     const ACTION_BUILD_ROUTING = 'routing';
-    
+
     const PARAM_QUESTION_ID = 'question';
     const PARAM_SURVEY_PAGE_ID = 'survey_page';
 
@@ -58,22 +61,22 @@ class SurveyPageBuilder extends ComplexBuilder //implements ComplexMenuSupport
     function get_creation_links($content_object, $types = array(), $additional_links = array())
     {
         $html[] = '<div class="category_form"><div id="content_object_selection">';
-        
+
         if (count($types) == 0)
         {
             $types = $content_object->get_allowed_types();
         }
-        
+
         foreach ($types as $type)
         {
             $url = $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_CREATE_QUESTION, self :: PARAM_TYPE => 'survey_page', self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
-            
+
             $html[] = '<a href="' . $url . '"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/big/' . $type . '.png);">';
             $html[] = Translation :: get(ContentObject :: type_to_class($type) . 'TypeName');
             $html[] = '<div class="clear">&nbsp;</div>';
             $html[] = '</div></a>';
         }
-        
+
         foreach ($this->get_additional_links() as $link)
         {
             $type = $link['type'];
@@ -82,12 +85,12 @@ class SurveyPageBuilder extends ComplexBuilder //implements ComplexMenuSupport
             $html[] = '<div class="clear">&nbsp;</div>';
             $html[] = '</div></a>';
         }
-        
+
         $html[] = ResourceManager :: get_instance()->get_resource_html(BasicApplication :: get_application_web_resources_javascript_path(RepositoryManager::APPLICATION_NAME) . 'repository.js');
         $html[] = '</div>';
         $html[] = '<div class="clear">&nbsp;</div>';
         $html[] = '</div>';
-        
+
         return implode("\n", $html);
     }
 

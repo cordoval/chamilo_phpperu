@@ -1,5 +1,9 @@
 <?php
 namespace repository;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+
 /**
  * $Id: complex_display.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display
@@ -17,7 +21,7 @@ abstract class ComplexDisplay extends SubManager
     const PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID = 'selected_cloi';
     const PARAM_DIRECTION = 'direction';
     const PARAM_TYPE = 'type';
-    
+
     const ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM = 'deleter';
     const ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM = 'updater';
     const ACTION_UPDATE_CONTENT_OBJECT = 'content_object_updater';
@@ -27,17 +31,17 @@ abstract class ComplexDisplay extends SubManager
     const ACTION_CREATE_FEEDBACK = 'complex_feedback';
     const ACTION_EDIT_FEEDBACK = 'feedback_editor';
     const ACTION_DELETE_FEEDBACK = 'feedback_deleter';
-    
+
     const DEFAULT_ACTION = self :: ACTION_VIEW_COMPLEX_CONTENT_OBJECT;
-    
+
     protected $menu;
-    
+
     /**
      * The current item in treemenu to determine where we are in the structure
      * @var ComplexContentObjectItem
      */
     private $complex_content_object_item;
-    
+
     /**
      * The item we select to execute an action like update / delete / move etc
      * @var ComplexContentObjectItem
@@ -47,18 +51,18 @@ abstract class ComplexDisplay extends SubManager
     function ComplexDisplay($parent)
     {
         parent :: __construct($parent);
-        
+
         $action = Request :: get(self :: PARAM_DISPLAY_ACTION);
         $this->set_action($action);
 
         $this->set_parameter(self :: PARAM_TYPE, Request :: get(self :: PARAM_TYPE));
-        
+
         $complex_content_object_item_id = Request :: get(self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
         if ($complex_content_object_item_id)
         {
             $this->complex_content_object_item = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($complex_content_object_item_id);
         }
-        
+
         $selected_complex_content_object_item_id = Request :: get(self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID);
         if ($selected_complex_content_object_item_id && ! is_array($selected_complex_content_object_item_id))
         {
@@ -74,7 +78,7 @@ abstract class ComplexDisplay extends SubManager
         $class = Utilities :: underscores_to_camelcase($type) . 'Display';
         return new $class($parent);
     }
-    
+
     /**
      * @param string $type
      * @param Application $application
@@ -86,11 +90,11 @@ abstract class ComplexDisplay extends SubManager
         {
             throw new Exception(Translation :: get('ComplexDisplayTypeDoesNotExist', array('type' => $type)));
         }
-        
+
         require_once $file;
-        
+
         $class = Utilities :: underscores_to_camelcase($type) . 'Display';
-        
+
         parent :: launch($class, $application, $add_breadcrumb);
     }
 
@@ -170,7 +174,7 @@ abstract class ComplexDisplay extends SubManager
     }
 
     //url building
-    
+
 
     function get_complex_content_object_item_update_url($complex_content_object_item)
     {

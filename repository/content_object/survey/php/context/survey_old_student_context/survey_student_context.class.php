@@ -1,13 +1,15 @@
 <?php
 namespace repository\content_object\survey;
 
+use common\libraries\Translation;
+
 require_once (dirname(__FILE__) . '/../../survey_context.class.php');
 
 class SurveyStudentContext extends SurveyContext
 {
-    
+
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_FIRSTNAME = 'firstname';
     const PROPERTY_LASTNAME = 'lastname';
     const PROPERTY_EMAIL = 'email';
@@ -54,7 +56,7 @@ class SurveyStudentContext extends SurveyContext
 
     static public function create_contexts_for_user($user_id, $key, $key_type = self :: PROPERTY_USERNAME_KEY)
     {
-        
+
         if ($key_type == self :: PROPERTY_USERNAME_KEY)
         {
             $dm = UserDataManager :: get_instance();
@@ -72,12 +74,12 @@ class SurveyStudentContext extends SurveyContext
                 $context->create();
                 $contexts[] = $context;
             }
-            
+
             return $contexts;
         }else{
         	return array();
         }
-    
+
     }
 
     static public function get_allowed_keys()

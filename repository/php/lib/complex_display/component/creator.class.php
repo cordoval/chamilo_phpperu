@@ -1,6 +1,10 @@
 <?php
 namespace repository;
 
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\BreadcrumbTrail;
+
 /**
  * $Id: creator.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.assessment.component
@@ -15,13 +19,13 @@ class ComplexDisplayComponentCreatorComponent extends ComplexDisplayComponent im
     function run()
     {
 
-        
+
 
         if ($this->is_allowed(ADD_RIGHT))
         {
             $complex_content_object_item_id = $this->get_complex_content_object_item_id();
             $complex_content_object_item = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($complex_content_object_item_id);
-            
+
             if (!$this->get_root_content_object())
             {
                 $this->display_header();

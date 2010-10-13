@@ -1,5 +1,9 @@
 <?php
 namespace repository;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+
 /**
  * $Id: repository_browser_table.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.browser
@@ -55,7 +59,7 @@ class RepositoryBrowserTable extends ObjectTable
     static function handle_table_action()
     {
         $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
-        
+
         $action = Request :: post(Utilities :: camelcase_to_underscores(__CLASS__) . '_action_value');
         if($action == RepositoryManager :: ACTION_EDIT_CONTENT_OBJECT_RIGHTS)
         {

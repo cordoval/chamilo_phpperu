@@ -1,4 +1,7 @@
 <?php
+use common\libraries\FormValidator;
+use common\libraries\Translation;
+
 /**
  * $Id: fill_tables.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.test
@@ -28,11 +31,11 @@ else
      * @author Tim De Pauw
      * @package repository
      */
-    
+
     $users = 200;
-    
+
     $max_categories = array(2, 3);
-    
+
     $announcements = rand(200, 1000);
     $calendar_events = rand(200, 1000);
     $documents = rand(200, 1000);
@@ -42,10 +45,10 @@ else
     $forum_posts = rand(60, 1200);
     $questions_fill_in_blanks = rand(200, 100);
     $questions_multiple_choice = rand(200, 100);
-    
+
     // TODO
     //$learning_paths = rand(100,500);
-    
+
 
     $randomTexts[] = 'Lorem ipsum dolor sit amet consectetuer adipiscing elit Cras vel erat Phasellus est Curabitur nunc leo laoreet eu varius sit amet faucibus faucibus magna Quisque venenatis ante quis dictum sodales orci velit molestie';
     $words = array();
@@ -53,11 +56,11 @@ else
     {
         $words = array_merge($words, explode(' ', $randomText));
     }
-    
+
     // Create some random users
     $usermanager = UserDataManager :: get_instance();
     $usermanager->delete_all_users();
-    
+
     title('Create users');
     for($user_nr = 1; $user_nr <= $users; $user_nr ++)
     {
@@ -78,7 +81,7 @@ else
     //exit;
     // Create some random learning objects
     $dataManager = RepositoryDataManager :: get_instance();
-    
+
     $dataManager->delete_all_content_objects();
     title('Categories');
     for($u = 1; $u <= $users; $u ++)
@@ -236,12 +239,12 @@ else
         $post->create();
         progress();
     }
-    
+
     foreach ($created_forum_topics as $topic)
     {
         $topic->update();
     }
-    
+
     foreach ($created_forums as $forum)
     {
         $forum->update();
@@ -276,7 +279,7 @@ else
         }
         $question->set_options($options);
         $question->create();
-        
+
         progress();
     }
 }

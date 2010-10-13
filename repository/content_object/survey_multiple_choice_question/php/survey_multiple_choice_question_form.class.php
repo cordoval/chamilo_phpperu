@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\survey_multiple_choice_question;
+
+use common\libraries\Path;
+
 /**
  * $Id: survey_multiple_choice_question_form.class.php $
  * @package repository.lib.content_object.survey_multiple_choice_question

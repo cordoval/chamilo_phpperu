@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\Translation;
+
 require_once dirname(__FILE__) . '/../repository_reporting_block.class.php';
 
 class UserDocumentTypeRepositoryReportingBlock extends RepositoryReportingBlock

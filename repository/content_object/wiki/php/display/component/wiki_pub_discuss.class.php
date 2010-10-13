@@ -1,5 +1,10 @@
 <?php
 namespace repository\content_object\wiki;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\Path;
+
 /**
  * $Id: wiki_pub_discuss.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.wiki.component

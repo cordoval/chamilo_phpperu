@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\forum;
+
+use common\libraries\Translation;
+
 /**
  * $Id: forum_form.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.forum
@@ -49,7 +52,7 @@ class ForumForm extends ContentObjectForm
         $defaults[ContentObject :: PROPERTY_LOCKED] = $valuearray[3];
         parent :: set_values($defaults);
     }
-    
+
 	function setDefaults($defaults = array())
 	{
 		$object = $this->get_content_object();

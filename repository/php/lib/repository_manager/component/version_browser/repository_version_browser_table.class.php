@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\Request;
+use common\libraries\Translation;
 /**
  * $Id: repository_version_browser_table.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.browser
@@ -24,10 +27,10 @@ class RepositoryVersionBrowserTable extends ObjectTable
         $renderer = new RepositoryVersionBrowserTableCellRenderer($browser);
         $data_provider = new RepositoryVersionBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, RepositoryVersionBrowserTable :: DEFAULT_NAME, $model, $renderer);
-        
+
         $actions = new ObjectTableFormActions();
         $actions->add_form_action(new ObjectTableFormAction(RepositoryManager :: ACTION_COMPARE_CONTENT_OBJECTS, Translation :: get('CompareSelected')));
-        
+
         $this->set_additional_parameters($parameters);
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);

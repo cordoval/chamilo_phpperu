@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\assessment_open_question;
+
+use common\libraries\Translation;
+
 /**
  * $Id: complex_assessment_open_question_form.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.open_question
@@ -10,7 +13,7 @@ require_once PATH :: get_repository_path() . '/question_types/open_question/comp
  */
 class ComplexAssessmentOpenQuestionForm extends ComplexOpenQuestionForm
 {
-	
+
 public function get_elements()
     {
         $elements[] = $this->createElement('text', ComplexAssessmentOpenQuestion :: PROPERTY_WEIGHT, Translation :: get('Weight'), array("size" => "50"));
@@ -20,12 +23,12 @@ public function get_elements()
     function get_default_values()
     {
         $cloi = $this->get_complex_content_object_item();
-        
+
         if (isset($cloi))
         {
             $defaults[ComplexAssessmentOpenQuestion :: PROPERTY_WEIGHT] = $cloi->get_weight() ? $cloi->get_weight() : 0;
         }
-        
+
         return $defaults;
     }
 

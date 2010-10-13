@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\assessment;
+
+use common\libraries\Translation;
+
 /**
  * $Id: ordering_question_result_display.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.assessment.component.result_viewer.question_result_display
@@ -20,10 +23,10 @@ class OrderingQuestionResultDisplay extends QuestionResultDisplay
         $html[] = '</tr>';
         $html[] = '</thead>';
         $html[] = '<tbody>';
-        
+
         $answers = $this->get_question()->get_options();
         $user_answers = $this->get_answers();
-        
+
         foreach ($answers as $i => $answer)
         {
             $html[] = '<tr class="' . ($i % 2 == 0 ? 'row_even' : 'row_odd') . '">';
@@ -32,10 +35,10 @@ class OrderingQuestionResultDisplay extends QuestionResultDisplay
             $html[] = '<td>' . $answer->get_value() . '</td>';
             $html[] = '</tr>';
         }
-        
+
         $html[] = '</tbody>';
         $html[] = '</table>';
-        
+
         return implode("\n", $html);
     }
 }

@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use common\libraries\Path;
+
 require_once Path::get_repository_path() .'lib/import/qti/main.php';
 
 /**

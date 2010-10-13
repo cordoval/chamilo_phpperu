@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\assessment;
+
+use common\libraries\Translation;
+
 /**
  * $Id: select_question.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.assessment.component.viewer.wizard.inc.question_display
@@ -15,16 +18,16 @@ class AssessmentSelectQuestionDisplay extends QuestionDisplay
         $renderer = $this->get_renderer();
         $clo_question = $this->get_complex_content_object_question();
         $question = $this->get_question();
-        
+
         $options = $question->get_options();
         $type = $question->get_answer_type();
         $question_id = $clo_question->get_id();
-        
+
         foreach ($options as $option)
         {
             $answers[] = $option->get_value();
         }
-        
+
         $element_template = array();
         $element_template[] = '<div><!-- BEGIN error --><span class="form_error">{error}</span><br /><!-- END error -->	{element}';
         $element_template[] = '<div class="clear">&nbsp;</div>';
@@ -32,9 +35,9 @@ class AssessmentSelectQuestionDisplay extends QuestionDisplay
         $element_template[] = '<div class="clear">&nbsp;</div>';
         $element_template[] = '</div>';
         $element_template = implode("\n", $element_template);
-        
+
         $question_name = $question_id . '_0';
-        
+
         if ($type == 'checkbox')
         {
             $advanced_select = $formvalidator->createElement('advmultiselect', $question_name, '', $answers, array('style' => 'width: 200px;', 'class' => 'advanced_select_question'));
@@ -46,7 +49,7 @@ class AssessmentSelectQuestionDisplay extends QuestionDisplay
         {
             $formvalidator->addElement('select', $question_name, '', $answers, 'class="select_question"');
         }
-        
+
         $renderer->setElementTemplate($element_template, $question_name);
     }
 
@@ -60,7 +63,7 @@ class AssessmentSelectQuestionDisplay extends QuestionDisplay
         $instruction = array();
         $question = $this->get_question();
         $type = $question->get_answer_type();
-        
+
         if ($type == 'radio' && $question->has_description())
         {
             $instruction[] = '<div class="splitter">';
@@ -77,7 +80,7 @@ class AssessmentSelectQuestionDisplay extends QuestionDisplay
         {
             $instruction = array();
         }
-        
+
         return implode("\n", $instruction);
     }
 }

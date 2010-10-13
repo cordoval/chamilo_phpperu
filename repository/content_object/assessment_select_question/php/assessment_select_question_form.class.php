@@ -1,5 +1,9 @@
 <?php
 namespace repository\content_object\assessment_select_question;
+
+use common\libraries\Translation;
+use common\libraries\Path;
+
 /**
  * $Id: assessment_select_question_form.class.php $
  * @package repository.lib.content_object.select_question

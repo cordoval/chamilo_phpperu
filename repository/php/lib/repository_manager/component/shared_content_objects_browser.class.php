@@ -1,5 +1,10 @@
 <?php
 namespace repository;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\BreadcrumbTrail;
+
 /**
  * $Id: shared_content_objects_browser.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component
@@ -13,7 +18,7 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
 	const VIEW_OTHERS_OBJECTS = 0;
 	const VIEW_OWN_OBJECTS = 1;
 	const PARAM_VIEW_OBJECTS = 'view_objects';
-	
+
     private $form;
 	private $view;
     /**
@@ -23,7 +28,7 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
     {
 		$this->view = Request :: get(self :: PARAM_VIEW_OBJECTS);
 		if(is_null($this->view)) $this->view = self :: VIEW_OTHERS_OBJECTS;
-    	
+
         $trail = BreadcrumbTrail :: get_instance();
 
         $this->action_bar = $this->get_action_bar();
@@ -36,7 +41,7 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
         //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Search')));
         //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('SearchResultsFor').': '.$query));
         //}
-        
+
         $session_filter = Session :: retrieve('filter');
 
         if ($session_filter != null && ! $session_filter == 0)
@@ -124,10 +129,10 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
                 continue;
             $rights[] = $right_id;
         }
-        
+
         return $rights;
     }
-    
+
     private function get_others_condition()
     {
         //TODO: limit this so only the shared objects are seen (view and use)
@@ -211,7 +216,7 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
 
         return $condition;
     }
-    
+
 	private function get_own_condition()
     {
         //TODO: limit this so only the shared objects are seen (view and use)
@@ -223,7 +228,7 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
 	        {
 	        	$ids[] = $content_object->get_id();
 	        }
-	        
+
 	        $rights_data_manager = RightsDataManager :: get_instance();
 	        $locations = $rights_data_manager->retrieve_locations(new InCondition(Location :: PROPERTY_IDENTIFIER, $ids));
 	        $location_ids = array();
@@ -235,10 +240,10 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
 	        $rights_condition = new InCondition(UserRightLocation :: PROPERTY_RIGHT_ID, $rights);
 	        $user_condition = new InCondition(UserRightLocation :: PROPERTY_LOCATION_ID, $location_ids);
 	        $group_condition = new InCondition(GroupRightLocation :: PROPERTY_LOCATION_ID, $location_ids);
-	        
+
 	        $user_rights = $rights_data_manager->retrieve_user_right_locations(new AndCondition($rights_condition, $user_condition));
 	        $group_rights = $rights_data_manager->retrieve_group_right_locations(new AndCondition($rights_condition, $group_condition));
-	        
+
 	        $ids = array();
 	        while($user_right = $user_rights->next_result())
 	        {
@@ -249,9 +254,9 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
 	        			$ids[] = $index;
 	        			unset($location_ids[$index]);
 	        		}
-	        	}	
+	        	}
 	        }
-	        
+
 	        while($group_right = $group_rights->next_result())
 	        {
 	        	foreach($location_ids as $index => $location_id)
@@ -261,25 +266,25 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
 	        			$ids[] = $index;
 	        			unset($location_ids[$index]);
 	        		}
-	        	}	
+	        	}
 	        }
-	        
+
 	        if(count($ids))
 	        	$condition = new InCondition(ContentObject :: PROPERTY_ID, $ids, ContentObject :: get_table_name());
         }
-        
+
         if($condition)
         	return $condition;
         else
         	return new EqualityCondition(ContentObject :: PROPERTY_ID, -1, ContentObject :: get_table_name());
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
     	$breadcrumbtrail->add_help('repository_shared_content_object_browser');
     }
-    
+
     function get_additional_parameters()
     {
     	return array(self :: PARAM_VIEW_OBJECTS);

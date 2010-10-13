@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\Path;
+
 /**
  * $Id: repository_category.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.category_manager
@@ -43,9 +46,9 @@ class RepositoryCategory extends PlatformCategory
         }
         else
         {
-            $parent_id = RepositoryRights :: get_location_id_by_identifier_from_user_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $this->get_parent(), $user_id); 
+            $parent_id = RepositoryRights :: get_location_id_by_identifier_from_user_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $this->get_parent(), $user_id);
         }
-        
+
     	if (!RepositoryRights :: create_location_in_user_tree($this->get_name(), RepositoryRights :: TYPE_USER_CATEGORY, $this->get_id(), $parent_id, $user_id))
         {
             return false;
@@ -59,8 +62,8 @@ class RepositoryCategory extends PlatformCategory
         if(!RepositoryDataManager :: get_instance()->update_category($this))
         {
         	return false;
-        }     
-        
+        }
+
     	if($move)
         {
         	if($this->get_parent())
@@ -69,14 +72,14 @@ class RepositoryCategory extends PlatformCategory
         	}
         	else
         	{
-        		$new_parent_id = RepositoryRights :: get_user_root_id();	
+        		$new_parent_id = RepositoryRights :: get_user_root_id();
         	}
-        	
+
         	$location =  RepositoryRights :: get_location_by_identifier_from_users_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $this->get_id(), $this->get_user_id());
         	return $location->move($new_parent_id);
         }
-        
-    	return true; 
+
+    	return true;
     }
 
     function delete()
@@ -89,7 +92,7 @@ class RepositoryCategory extends PlatformCategory
 				return false;
 			}
 		}
-		
+
     	return RepositoryDataManager :: get_instance()->delete_category($this);
     }
 

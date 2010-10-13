@@ -1,5 +1,9 @@
 <?php
 namespace repository;
+
+use common\libraries\Translation;
+use common\libraries\BreadcrumbTrail;
+
 /**
  * $Id: publisher_wizard_display.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.publication_wizard.pages
@@ -39,12 +43,12 @@ class PublisherWizardDisplay extends HTML_QuickForm_Action_Display
         $renderer->setHeaderTemplate($header_template);
         HTML_QuickForm :: setRequiredNote('<font color="red">*</font> <small>' . Translation :: get('ThisFieldIsRequired') . '</small>');
 //        $current_page->accept($renderer);
-        
+
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->parent->get_url(), Translation :: get('Publish')));
-        
+
         $this->parent->display_header($trail, false, true, 'repository publication wizard');
-        
+
         /*echo '<div style="background-color:#EFEFEF;padding: 10px; height: 35px;">';
 		$all_pages = $current_page->controller->_pages;
 		$total_number_of_pages = count($all_pages);
@@ -66,16 +70,16 @@ class PublisherWizardDisplay extends HTML_QuickForm_Action_Display
 		}
 		echo '</ol>';
 		echo '</div>';*/
-        
+
         echo '<div style="margin: 10px;">';
         /*echo '<h2>'.Translation :: get('Step').' '.$current_page_number.' '.Translation :: get('of').' '.$total_number_of_pages.' &ndash; '.$current_page->get_title().'</h2>';*/
         echo '<div>';
         echo $current_page->get_info();
         echo '</div>';
-        
+
         parent :: _renderForm($current_page);
         echo '</div>';
-        
+
         $this->parent->display_footer();
     }
 }

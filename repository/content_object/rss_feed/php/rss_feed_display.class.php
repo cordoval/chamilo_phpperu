@@ -1,5 +1,9 @@
 <?php
 namespace repository\content_object\rss_feed;
+
+use common\libraries\Translation;
+use common\libraries\Path;
+
 /**
  * $Id: rss_feed_display.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.rss_feed
@@ -18,15 +22,15 @@ class RssFeedDisplay extends ContentObjectDisplay
     {
         $object = $this->get_content_object();
         $html = array();
-        
+
         $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/' . $object->get_icon_name() . ($object->is_latest_version() ? '' : '_na') . '.png);">';
         $html[] = '<div class="title">' . Translation :: get('Description') . '</div>';
         $html[] = $this->get_description();
         $html[] = '<div class="link_url" style="margin-top: 1em;"><a href="' . htmlentities($object->get_url()) . '">' . htmlentities($object->get_url()) . '</a></div>';
         $html[] = '</div>';
-        
+
         $feed = $this->parse_file($object->get_url());
-        
+
         foreach ($feed['items'] as $item)
         {
             $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/rss_feed_item.png);">';
@@ -35,7 +39,7 @@ class RssFeedDisplay extends ContentObjectDisplay
             $html[] = '<div class="link_url" style="margin-top: 1em;"><a href="' . htmlentities($item['link']) . '">' . htmlentities($item['link']) . '</a></div>';
             $html[] = '</div>';
         }
-        
+
         return implode("\n", $html);
     }
 
@@ -44,7 +48,7 @@ class RssFeedDisplay extends ContentObjectDisplay
     {
         $object = $this->get_content_object();
         $html = array();
-        
+
         $html[] = '<h4 class="table"><a href="' . htmlentities($object->get_url()) . '">' . $object->get_title() . '</a></h4>';
         $html[] = $object->get_description();
         return implode("\n", $html);
@@ -59,10 +63,10 @@ class RssFeedDisplay extends ContentObjectDisplay
     function parse_file($url)
     {
         $rss = new LastRss($url);
-        // TODO: Make items limit configurable. 
+        // TODO: Make items limit configurable.
         $rss->set_items_limit(5);
         $rss->set_cache_dir(Path :: get(SYS_TEMP_PATH));
-        
+
         if ($rs = $rss->get_feed_content())
         {
             return $rs;

@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\assessment;
+
+use common\libraries\Translation;
+
 /**
  * $Id: object_browser_table.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.assessment.component.assessment_merger
@@ -24,11 +27,11 @@ class ObjectBrowserTable extends ObjectTable
         $renderer = new ObjectBrowserTableCellRenderer($browser);
         $data_provider = new ObjectBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, ObjectBrowserTable :: DEFAULT_NAME, $model, $renderer);
-        
+
         $actions = array();
         $actions[] = new ObjectTableFormAction(AssessmentBuilder :: PARAM_ADD_SELECTED_QUESTIONS, Translation :: get('AddSelectedQuestions'), false);
         $this->set_form_actions($actions);
-        
+
         $this->set_additional_parameters($parameters);
         $this->set_default_row_count(20);
     }

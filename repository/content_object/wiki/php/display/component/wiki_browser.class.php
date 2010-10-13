@@ -1,5 +1,9 @@
 <?php
 namespace repository\content_object\wiki;
+
+use common\libraries\Path;
+use common\libraries\BreadcrumbTrail;
+
 /**
  * $Id: wiki_viewer.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.wiki.component
@@ -24,15 +28,15 @@ class WikiDisplayWikiBrowserComponent extends WikiDisplay
     function run()
     {
         $this->action_bar = $this->get_toolbar($this, $this->get_root_content_object()->get_id(), $this->get_root_content_object(), null);
-        
-        
+
+
         if ($this->get_root_content_object() != null)
         {
             $this->display_header();
-            
+
             $table = new WikiPageTable($this, $this->get_root_content_object()->get_id());
             echo $table->as_html();
-            
+
             $this->display_footer();
         }
     }

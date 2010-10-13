@@ -1,5 +1,9 @@
 <?php
 namespace repository;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+
 require_once dirname(__FILE__) . '/../../../../../../../application/peer_assessment/php/peer_assessment_publication_results.class.php';
 
 /**
@@ -17,7 +21,7 @@ class PeerAssessmentResultViewerWizardDisplay extends HTML_QuickForm_Action_Disp
         // Users
         $users = $parent->get_peer_assessment_publication_users($publication_id)->as_array();
         $count_users = sizeof($parent->get_peer_assessment_publication_users($publication_id)->as_array());
-        
+
         // No users => gives back error message
         if ($users == null)
         {
@@ -26,11 +30,11 @@ class PeerAssessmentResultViewerWizardDisplay extends HTML_QuickForm_Action_Disp
             $error[] = Translation :: get('NoUsersInThePeerAssessment');
             $error[] = '<div class="close_message" id="closeMessage"></div>';
             $error[] = '</div>';
-            
+
             echo implode("\n", $error);
             exit();
         }
-        
+
         // No competences => gives back error message
         if ($parent->get_total() == 0)
         {
@@ -39,11 +43,11 @@ class PeerAssessmentResultViewerWizardDisplay extends HTML_QuickForm_Action_Disp
             $error[] = Translation :: get('NoCompetencesInThePeerAssessment');
             $error[] = '<div class="close_message" id="closeMessage"></div>';
             $error[] = '</div>';
-            
+
             echo implode("\n", $error);
             exit();
         }
-        
+
         $this->parent = $parent;
     }
 

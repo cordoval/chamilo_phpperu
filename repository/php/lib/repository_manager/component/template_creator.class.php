@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\Request;
+
 /**
  * Repository manager component which provides functionality to create a
  * template based on another content object

@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\story;
+
+use common\libraries\Translation;
+
 /**
  * This class describes the form for a Story object.
  * @package repository.lib.content_object.link
@@ -30,13 +33,13 @@ class StoryForm extends ContentObjectForm
     private function build_default_form()
     {
         $this->add_warning_message('header_message', null, Translation :: get('HeaderRequiredForFeaturedItems'));
-        
+
         $locale = array();
         $locale['Searching'] = Translation :: get('Searching');
         $locale['NoResults'] = Translation :: get('NoResults');
         $locale['Error'] = Translation :: get('Error');
         $locale['Display'] = Translation :: get('SelectHeaderImage');
-        
+
         $url = $this->get_path(WEB_PATH) . 'repository/xml_feeds/xml_image_feed.php';
         $extract = $this->addElement('image_selecter', Story :: ATTACHMENT_HEADER, Translation :: get('HeaderImage'), $url, $locale);
         $extract->setHeight('100');

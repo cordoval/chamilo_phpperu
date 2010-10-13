@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\Translation;
+
 /**
  * $Id: doubles_browser_table_cell_renderer.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.browser.doubles_browser
@@ -36,7 +39,7 @@ class DoublesBrowserTableCellRenderer extends DefaultContentObjectTableCellRende
         {
             return $this->get_modification_links($content_object);
         }
- 
+
     	switch ($column->get_name())
         {
         	case 'Duplicates';
@@ -46,7 +49,7 @@ class DoublesBrowserTableCellRenderer extends DefaultContentObjectTableCellRende
                 $title_short = Utilities :: truncate_string($title, 53, false);
                 return '<a href="' . htmlentities($this->browser->get_content_object_viewing_url($content_object)) . '" title="' . $title . '">' . $title_short . '</a>';
         }
-        
+
         return parent :: render_cell($column, $content_object);
     }
 
@@ -62,12 +65,12 @@ class DoublesBrowserTableCellRenderer extends DefaultContentObjectTableCellRende
         {
         	return '&nbsp;';
         }
-        
+
     	$toolbar = new Toolbar();
 		$toolbar->add_item(new ToolbarItem(
-        			Translation :: get('ViewItem'), 
-        			Theme :: get_common_image_path().'action_browser.png', 
-					$this->browser->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id())), 
+        			Translation :: get('ViewItem'),
+        			Theme :: get_common_image_path().'action_browser.png',
+					$this->browser->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id())),
 					ToolbarItem :: DISPLAY_ICON
 		));
 		return $toolbar->as_html();

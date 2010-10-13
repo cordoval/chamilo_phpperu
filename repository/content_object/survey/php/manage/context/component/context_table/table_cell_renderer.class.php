@@ -1,6 +1,9 @@
 <?php
 namespace repository\content_object\survey;
 
+use common\libraries\Translation;
+use common\libraries\Path;
+
 require_once dirname(__FILE__) . '/table_column_model.class.php';
 require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/tables/context_table/default_context_table_cell_renderer.class.php';
 /**
@@ -8,7 +11,7 @@ require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/c
  */
 class SurveyContextTableCellRenderer extends DefaultSurveyContextTableCellRenderer
 {
-    
+
     private $component;
     private $context_registration_id;
 
@@ -30,7 +33,7 @@ class SurveyContextTableCellRenderer extends DefaultSurveyContextTableCellRender
         {
             return $this->get_modification_links($context);
         }
-        
+
         // Add special features here
         switch ($column->get_name())
         {
@@ -42,7 +45,7 @@ class SurveyContextTableCellRenderer extends DefaultSurveyContextTableCellRender
         //                {
         //                    $title_short = mb_substr($title_short, 0, 50) . '&hellip;';
         //                }
-        //                
+        //
         //                return '<a href="' . htmlentities($this->component->get_context_registration_viewing_url($context)) . '" title="' . $title . '">' . $title_short . '</a>';
         //            case SurveyContext :: PROPERTY_DESCRIPTION :
         //                $description = strip_tags(parent :: render_cell($column, $context));
@@ -51,17 +54,17 @@ class SurveyContextTableCellRenderer extends DefaultSurveyContextTableCellRender
         //                    $description = mb_substr($description, 0, 170) . '&hellip;';
         //                }
         //                return Utilities :: truncate_string($description);
-        
+
 
         }
-        
+
         return parent :: render_cell($column, $context);
     }
 
     private function get_modification_links($context)
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
-        
+
         $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->component->get_context_update_url($this->context_registration_id, $context), ToolbarItem :: DISPLAY_ICON));
         return $toolbar->as_html();
     }

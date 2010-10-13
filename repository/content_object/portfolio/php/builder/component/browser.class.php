@@ -1,5 +1,10 @@
 <?php
 namespace repository\content_object\portfolio;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\BreadcrumbTrail;
+
 /**
  * $Id: browser.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.portfolio.component
@@ -9,7 +14,7 @@ require_once dirname(__FILE__) . '/browser/portfolio_browser_table_cell_renderer
 
 class PortfolioBuilderBrowserComponent extends PortfolioBuilder
 {
-    
+
 
     function run()
     {
@@ -30,15 +35,15 @@ class PortfolioBuilderBrowserComponent extends PortfolioBuilder
         }
 
         $this->display_header();
-        
-        
+
+
 
 
         $html[] =  '<br />';
         //TODO: shouldn't this be an admin setting or at least more flexible/generalized because now the portfolio application sets these allowed types independently
-        $types = array(Portfolio :: get_type_name(), Announcement :: get_type_name(), BlogItem :: get_type_name(), CalendarEvent :: get_type_name(), Description :: get_type_name(), 
+        $types = array(Portfolio :: get_type_name(), Announcement :: get_type_name(), BlogItem :: get_type_name(), CalendarEvent :: get_type_name(), Description :: get_type_name(),
         			  Document :: get_type_name(), Link :: get_type_name(), Note :: get_type_name(), RssFeed :: get_type_name(), Profile :: get_type_name(), Youtube :: get_type_name());
-        
+
         $html[] =  $this->get_creation_links($content_object, $types);
         $html[] =  '<div class="clear">&nbsp;</div><br />';
 
@@ -48,7 +53,7 @@ class PortfolioBuilderBrowserComponent extends PortfolioBuilder
         $html[] =  $this->get_complex_content_object_table_html(false, null, new PortfolioBrowserTableCellRenderer($this, $this->get_complex_content_object_table_condition()));
         $html[] =  '</div>';
         $html[] =  '<div class="clear">&nbsp;</div>';
-        
+
         echo  implode("\n", $html);
         $this->display_footer();
     }
@@ -101,9 +106,9 @@ class PortfolioBuilderBrowserComponent extends PortfolioBuilder
         {
         	if(!RepositoryRights :: is_allowed_in_content_objects_subtree(RepositoryRights :: ADD_RIGHT, AdminDataManager :: get_registration($type, Registration :: TYPE_CONTENT_OBJECT)->get_id()))
             {
-            	continue;	
+            	continue;
             }
-            
+
         	if ($type == Portfolio :: get_type_name())
             {
                 $url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => ($this->get_complex_content_object_item() ? $this->get_complex_content_object_item()->get_id() : null)));

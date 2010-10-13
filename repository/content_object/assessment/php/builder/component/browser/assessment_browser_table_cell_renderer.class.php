@@ -1,5 +1,9 @@
 <?php
 namespace repository\content_object\assessment;
+
+use common\libraries\Translation;
+use common\libraries\Path;
+
 /**
  * $Id: assessment_browser_table_cell_renderer.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.assessment.component.browser
@@ -27,13 +31,13 @@ class AssessmentBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
         $return = parent :: render_cell($column, $cloi);
         if ($return != '')
             return $return;
-        
+
         switch ($column->get_name())
         {
             case Translation :: get('Weight') :
                 return $cloi->get_weight();
         }
-        
+
         return '';
     }
 }

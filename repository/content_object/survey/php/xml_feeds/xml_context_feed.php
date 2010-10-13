@@ -1,4 +1,8 @@
 <?php
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\Path;
+
 require_once dirname(__FILE__) . '/../../../../../common/global.inc.php';
 require_once Path :: get_repository_path() . 'lib/content_object/survey/survey_context.class.php';
 
@@ -18,20 +22,20 @@ if (Authentication :: is_valid())
 {
     $query = Request :: get('query');
     $exclude = Request :: get('exclude');
-	
+
     $type = Request :: get('context_type');
-        
+
     $survey_context = SurveyContext :: factory($type);
     $properties = $survey_context->get_additional_property_names();
-       
+
 	$conditions = array();
-    
+
     $query_condition = Utilities :: query_to_condition($query, $properties);
     if (isset($query_condition))
     {
         $conditions[] = $query_condition;
     }
-    
+
     if (is_array($exclude))
     {
         $c = array();
@@ -41,7 +45,7 @@ if (Authentication :: is_valid())
         }
         $conditions[] = new NotCondition(new OrCondition($c));
     }
-    
+
     if (count($conditions) > 0)
     {
         $condition = new AndCondition($conditions);
@@ -50,13 +54,13 @@ if (Authentication :: is_valid())
     {
         $condition = null;
     }
-       
-    
+
+
     $dm = SurveyContextDataManager :: get_instance();
     $objects = $dm->retrieve_survey_contexts($type, $condition);
-    
+
     $contexts = array();
-    
+
     while ($context = $objects->next_result())
     {
         $contexts[] = $context;
@@ -76,24 +80,24 @@ function dump_tree($contexts)
     if (contains_results($contexts))
     {
         echo '<node id="0" classes="category unlinked" title="' . Translation :: get('SurveyContexts') . '">' . "\n";
-        
+
         foreach ($contexts as $context)
         {
             $id = 'context_' . $context->get_id();
             $props = $context->get_additional_properties();
-            
+
             $properties = array();
             foreach ($props as $prop) {
             	$prop = strip_tags($prop);
             	$properties[] = $prop;
             }
             $name = implode(" | ", $properties);
-                        
+
             echo '<leaf id="' . $id . '" classes="" title="' . htmlspecialchars($name) . '" description="' . htmlspecialchars($name) . '"/>' . "\n";
         }
-        
+
         echo '</node>' . "\n";
-    
+
     }
 }
 

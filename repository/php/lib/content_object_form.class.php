@@ -1,5 +1,10 @@
 <?php
 namespace repository;
+
+use common\libraries\FormValidator;
+use common\libraries\Translation;
+use common\libraries\Path;
+
 /**
  * $Id: content_object_form.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib
@@ -16,21 +21,21 @@ abstract class ContentObjectForm extends FormValidator
     const TYPE_REPLY = 4;
     const RESULT_SUCCESS = 'ObjectUpdated';
     const RESULT_ERROR = 'ObjectUpdateFailed';
-    
+
     private $allow_new_version;
-    
+
     private $owner_id;
-    
+
     /**
      * The learning object.
      */
     private $content_object;
-    
+
     /**
      * Any extra information passed to the form.
      */
     private $extra;
-    
+
     protected $form_type;
 
     /**
@@ -46,20 +51,20 @@ abstract class ContentObjectForm extends FormValidator
     protected function __construct($form_type, $content_object, $form_name, $method = 'post', $action = null, $extra = null, $additional_elements, $allow_new_version = true)
     {
     	$registration = AdminDataManager :: get_registration($content_object->get_type(), Registration :: TYPE_CONTENT_OBJECT);
-        if(!RepositoryRights :: is_allowed_in_content_objects_subtree(RepositoryRights :: ADD_RIGHT, $registration->get_id())) 
+        if(!RepositoryRights :: is_allowed_in_content_objects_subtree(RepositoryRights :: ADD_RIGHT, $registration->get_id()))
         {
-        	throw new Exception('YouCanNotCreateAContentObjectOfThisType');		
+        	throw new Exception('YouCanNotCreateAContentObjectOfThisType');
         }
-        
+
     	parent :: __construct($form_name, $method, $action);
         $this->form_type = $form_type;
-        
+
         $this->content_object = $content_object;
         $this->owner_id = $content_object->get_owner_id();
         $this->extra = $extra;
         $this->additional_elements = $additional_elements;
         $this->allow_new_version = $allow_new_version;
-        
+
         if ($this->form_type == self :: TYPE_EDIT || $this->form_type == self :: TYPE_REPLY)
         {
             $this->build_editing_form();
@@ -163,7 +168,7 @@ abstract class ContentObjectForm extends FormValidator
         $object = $this->content_object;
         $owner = UserDataManager :: get_instance()->retrieve_user($this->get_owner_id());
         $quotamanager = new QuotaManager($owner);
-        
+
         $this->addElement('category', Translation :: get('GeneralProperties'));
         $this->build_basic_form($htmleditor_options);
         if ($object instanceof Versionable) // && $this->allow_new_version)
@@ -219,11 +224,11 @@ EOT;
 
 EOT;
         $renderer->setElementTemplate($element_template);
-        
+
         if (isset($this->extra['version_data']))
         {
             $object = $this->content_object;
-            
+
             //            if ($object->is_latest_version())
             //            {
             //                $html[] = '<div class="versions" style="margin-top: 1em;">';
@@ -232,18 +237,18 @@ EOT;
             //            {
             //                $html[] = '<div class="versions_na" style="margin-top: 1em;">';
             //            }
-            
+
 
             //            $html[] = '<div class="versions_title">' . htmlentities(Translation :: get('Versions')) . '</div>';
-            
+
 
             //            $this->addElement('html', implode("\n", $html));
             $this->add_element_hider('script_radio', $object);
-            
+
             $i = 0;
-            
+
             $radios = array();
-            
+
             foreach ($this->extra['version_data'] as $version)
             {
                 $versions = array();
@@ -254,15 +259,15 @@ EOT;
                 $versions[] = & $this->createElement('radio', 'compare', null, null, $version['id'], 'onclick="javascript:showRadio(\'A\',\'' . $i . '\')"');
                 $versions[] = & $this->createElement('static', null, null, '</span>');
                 $versions[] = & $this->createElement('static', null, null, $version['html']);
-                
+
                 $this->addGroup($versions, null, null, "\n");
                 $i ++;
             }
-            
+
             //$this->addElement('submit', 'submit', Translation :: get('CompareVersions'));
             $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('CompareVersions'), array('class' => 'normal compare'));
             $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
-            
+
         //            $this->addElement('html', '</div>');
         }
     }
@@ -296,11 +301,11 @@ EOT;
     {
         $object = $this->content_object;
         //$elem = $this->addElement('advmultiselect', 'ihsTest', 'Hierarchical select:', array("test"), array('style' => 'width: 20em;'), '<br />');
-        
+
 
         if ($object instanceof AttachmentSupport)
         {
-            
+
             $html[] = '<script type="text/javascript">';
             $html[] = 'var support_attachments = true';
             $html[] = '</script>';
@@ -314,13 +319,13 @@ EOT;
             {
                 $attachments = array();
             }
-            
+
             $los = RepositoryDataManager :: get_instance()->retrieve_content_objects(new EqualityCondition('owner_id', $this->owner_id));
             while ($lo = $los->next_result())
             {
                 $defaults[$lo->get_id()] = array('title' => $lo->get_title(), 'description', $lo->get_description(), 'class' => $lo->get_type());
             }
-            
+
             $url = $this->get_path(WEB_PATH) . 'repository/xml_feed.php';
             $locale = array();
             $locale['Display'] = Translation :: get('AddAttachments');
@@ -328,23 +333,23 @@ EOT;
             $locale['NoResults'] = Translation :: get('NoResults');
             $locale['Error'] = Translation :: get('Error');
             $hidden = true;
-            
+
             $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/uploadify2/swfobject.js'));
             $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/uploadify2/jquery.uploadify.v2.1.0.min.js'));
             $this->addElement('category', Translation :: get('Attachments'), 'content_object_attachments');
             $this->addElement('static', 'uploadify', Translation :: get('UploadDocument'), '<div id="uploadify"></div>');
             $elem = $this->addElement('element_finder', 'attachments', Translation :: get('SelectAttachment'), $url, $locale, $attachments);
             $this->addElement('category');
-            
+
             $elem->setDefaults($defaults);
-            
+
             if ($id = $object->get_id())
             {
                 $elem->excludeElements(array($object->get_id()));
             }
             //$elem->setDefaultCollapsed(count($attachments) == 0);
         }
-        
+
         if (count($this->additional_elements) > 0)
         {
             $count = 0;
@@ -353,7 +358,7 @@ EOT;
                 if ($element->getType() != 'hidden')
                     $count ++;
             }
-            
+
             if ($count > 0)
             {
                 $this->addElement('category', Translation :: get('AdditionalProperties'));
@@ -364,11 +369,11 @@ EOT;
                 $this->addElement('category');
             }
         }
-        
+
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/content_object_form.js'));
-        
+
         $buttons = array();
-        
+
         switch ($this->form_type)
         {
             case self :: TYPE_COMPARE :
@@ -387,7 +392,7 @@ EOT;
                 $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
                 break;
         }
-        
+
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -402,7 +407,7 @@ EOT;
     {
         $content_object = $this->content_object;
         $defaults[ContentObject :: PROPERTY_ID] = $content_object->get_id();
-        
+
         if ($this->form_type == self :: TYPE_REPLY)
         {
             $defaults[ContentObject :: PROPERTY_TITLE] = Translation :: get('ReplyShort') . ' ' . $content_object->get_title();
@@ -412,12 +417,12 @@ EOT;
             $defaults[ContentObject :: PROPERTY_TITLE] = $defaults[ContentObject :: PROPERTY_TITLE] == null ? $content_object->get_title() : $defaults[ContentObject :: PROPERTY_TITLE];
             $defaults[ContentObject :: PROPERTY_DESCRIPTION] = $content_object->get_description();
         }
-        
+
         if ($content_object instanceof ForcedVersionSupport && $this->form_type == self :: TYPE_EDIT)
         {
             $defaults['version'] = 1;
         }
-        
+
         parent :: setDefaults($defaults);
     }
 
@@ -440,7 +445,7 @@ EOT;
     function create_content_object()
     {
         $values = $this->exportValues();
-        
+
         $object = $this->content_object;
         $object->set_owner_id($this->get_owner_id());
         $object->set_title($values[ContentObject :: PROPERTY_TITLE]);
@@ -450,19 +455,19 @@ EOT;
         {
             $object->set_parent_id($values[ContentObject :: PROPERTY_PARENT_ID]);
         }
-        
+
         $object->create();
-        
+
         if ($object->has_errors())
         {
             //TODO: display errors
             //DebugUtilities :: show($object->get_errors());
             return null;
         }
-        
+
         // Process includes
         ContentObjectIncludeParser :: parse_includes($this);
-        
+
         // Process attachments
         if ($object instanceof AttachmentSupport)
         {
@@ -490,12 +495,12 @@ EOT;
     {
         $object = $this->content_object;
         $values = $this->exportValues();
-        
+
         $object->set_title($values[ContentObject :: PROPERTY_TITLE]);
-        
+
         $desc = $values[ContentObject :: PROPERTY_DESCRIPTION] ? $values[ContentObject :: PROPERTY_DESCRIPTION] : '';
         $object->set_description($desc ? $desc : '');
-        
+
         if ($this->allows_category_selection())
         {
             $parent = $values[ContentObject :: PROPERTY_PARENT_ID];
@@ -504,7 +509,7 @@ EOT;
                 if ($object->move_allowed($parent))
                 {
                     $object->set_parent_id($parent);
-                
+
                 }
                 else
                 {
@@ -517,7 +522,7 @@ EOT;
                 }
             }
         }
-        
+
         if (isset($values['version']) && $values['version'] == 1)
         {
             $object->set_comment(nl2br($values[ContentObject :: PROPERTY_COMMENT]));
@@ -527,19 +532,19 @@ EOT;
         {
             $result = $object->update();
         }
-        
+
         if ($object->has_errors())
         {
             //TODO: display errors
             //DebugUtilities :: show($object->get_errors());
             return false;
         }
-        
+
         // Process includes
         ContentObjectIncludeParser :: parse_includes($this);
-        
+
         //$include_parser->parse_editors();
-        
+
 
         // Process attachments
         if ($object instanceof AttachmentSupport)
@@ -553,7 +558,7 @@ EOT;
             {
                 $object->detach_content_object($attached_object_id->get_id(), ContentObject :: ATTACHMENT_NORMAL);
             }
-            
+
             $object->attach_content_objects($values['attachments']['lo'], ContentObject :: ATTACHMENT_NORMAL);
         }
         return $result;
@@ -600,7 +605,7 @@ EOT;
     static function factory($form_type, $content_object, $form_name, $method = 'post', $action = null, $extra = null, $additional_elements = array(), $allow_new_version = true, $form_variant = null)
     {
         $type = $content_object->get_type();
-        
+
         if ($form_variant)
         {
             $class = ContentObject :: type_to_class($type) . ContentObject :: type_to_class($form_variant) . 'Form';
@@ -611,7 +616,7 @@ EOT;
             $class = ContentObject :: type_to_class($type) . 'Form';
             require_once Path :: get_repository_content_object_path() . $type . '/php/' . $type . '_form.class.php';
         }
-        
+
         return new $class($form_type, $content_object, $form_name, $method, $action, $extra, $additional_elements, $allow_new_version);
     }
 
@@ -629,7 +634,7 @@ EOT;
                 return false;
             }
         }
-        
+
         return parent :: validate();
     }
 

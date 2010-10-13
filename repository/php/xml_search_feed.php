@@ -1,4 +1,5 @@
 <?php
+use common\libraries\Translation;
 /**
  * @package repository
  */

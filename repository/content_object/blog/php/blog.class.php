@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\blog;
+
+use common\libraries\Translation;
+
 /**
  * $Id: blog.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.blog
@@ -17,14 +20,14 @@ class Blog extends ContentObject implements ComplexContentObjectSupport
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
-	
+
 	function get_allowed_types()
     {
         $allowed_types = array();
         $allowed_types[] = BlogItem :: get_type_name();
         return $allowed_types;
     }
-    
+
     function get_blog_layout()
     {
         return $this->get_additional_property(self :: PROPERTY_BLOG_LAYOUT);
@@ -39,11 +42,11 @@ class Blog extends ContentObject implements ComplexContentObjectSupport
     {
         return array(self :: PROPERTY_BLOG_LAYOUT);
     }
-    
+
     static function get_available_blog_layouts()
     {
     	$blog_layouts = array();
-    	
+
     	$dir = dirname(__FILE__) . '/display/component/viewer/blog_layout/';
     	$files = Filesystem :: get_directory_content($dir, Filesystem :: LIST_FILES);
     	foreach($files as $file)
@@ -53,13 +56,13 @@ class Blog extends ContentObject implements ComplexContentObjectSupport
     		{
     			continue;
     		}
-    		
+
     		$type = substr($file, 0, -22);
     		$blog_layouts[$type] = Translation :: get(Utilities :: underscores_to_camelcase($type) . 'BlogLayout');
     	}
-    	
+
     	return $blog_layouts;
-    	
+
     }
 
 }

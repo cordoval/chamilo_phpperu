@@ -1,5 +1,10 @@
 <?php
 namespace repository\content_object\wiki;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\Path;
+
 /**
  * $Id: wiki_page_creator.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package repository.lib.complex_display.wiki.component
@@ -20,7 +25,7 @@ class WikiDisplayWikiPageCreatorComponent extends WikiDisplay implements RepoVie
 
     function run()
     {
-        
+
 
         if (!RepoViewer::is_ready_to_be_published())
         {

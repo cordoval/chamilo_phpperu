@@ -5,6 +5,8 @@ use common\libraries\DynamicAction;
 use common\libraries\Translation;
 use common\libraries\Theme;
 use common\libraries\Redirect;
+use common\libraries\Request;
+use common\libraries\BreadcrumbTrail;
 /**
  * @package repository.lib.repository_manager
  *

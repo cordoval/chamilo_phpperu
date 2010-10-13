@@ -3,6 +3,7 @@ namespace repository;
 
 use common\libraries\EqualityCondition;
 use common\libraries\ObjectTableOrder;
+use common\libraries\Configuration;
 
 use admin\Registration;
 use admin\AdminDataManager;

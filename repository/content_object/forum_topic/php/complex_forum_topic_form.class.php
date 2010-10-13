@@ -1,5 +1,9 @@
 <?php
 namespace repository\content_object\forum_topic;
+
+use common\libraries\Translation;
+use common\libraries\Path;
+
 /**
  * $Id: complex_forum_topic_form.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.forum_topic
@@ -50,12 +54,12 @@ class ComplexForumTopicForm extends ComplexContentObjectItemForm
     function get_default_values($defaults = array ())
     {
         $cloi = $this->get_complex_content_object_item();
-        
+
         if (isset($cloi))
         {
             $defaults[ComplexForumTopic :: PROPERTY_TYPE] = $cloi->get_type() ? $cloi->get_type() : 0;
         }
-        
+
         return $defaults;
     }
 

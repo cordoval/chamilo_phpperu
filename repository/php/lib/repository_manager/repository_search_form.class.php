@@ -1,5 +1,9 @@
 <?php
 namespace repository;
+
+use common\libraries\Request;
+use common\libraries\FormValidator;
+use common\libraries\Translation;
 /**
  * $Id: repository_search_form.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager

@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\survey;
+
+use common\libraries\Translation;
+
 /**
  * $Id: survey_installer.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.install
@@ -12,7 +15,7 @@ class SurveyContentObjectInstaller extends ContentObjectInstaller
     {
         return dirname(__FILE__);
     }
-    
+
     function install_extra()
     {
     	$survey_context_template = new SurveyContextTemplate();
@@ -25,7 +28,7 @@ class SurveyContentObjectInstaller extends ContentObjectInstaller
     	if ($survey_context_template->create())
     	{
            	$this->add_message(Installer::TYPE_NORMAL, Translation :: get('DefaultSurveyContextTemplateCreated'));
-           	
+
     	}
     	else
     	{

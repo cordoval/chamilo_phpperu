@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\Request;
+use common\libraries\Translation;
 /**
  * $Id: recycle_bin_browser_table.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.recycle_bin_browser
@@ -25,14 +28,14 @@ class RecycleBinBrowserTable extends ObjectTable
         parent :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
         $this->set_additional_parameters($parameters);
         $actions = array();
-        
+
         $actions[] = new ObjectTableFormAction(RepositoryManager :: ACTION_RESTORE_CONTENT_OBJECTS, Translation :: get('RestoreSelected'));
         $actions[] = new ObjectTableFormAction(RepositoryManager :: ACTION_DELETE_CONTENT_OBJECTS_PERMANENTLY, Translation :: get('DeleteSelected'));
-        
+
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
     }
-    
+
 	static function handle_table_action()
     {
         $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));

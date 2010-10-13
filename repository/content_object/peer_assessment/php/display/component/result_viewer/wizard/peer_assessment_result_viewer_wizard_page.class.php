@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\peer_assessment;
 
+use common\libraries\FormValidatorPage;
+
 abstract class PeerAssessmentResultViewerWizardPage extends FormValidatorPage
 {
     /**

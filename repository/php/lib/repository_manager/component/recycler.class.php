@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\Request;
+
 /**
  * Repository manager component which provides functionality to recycle
  * a content object from the users repository.
