@@ -311,12 +311,25 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
             $chamilo_repository_document->set_path($new_user_id . '/' . Text :: char_at($base_hash, 0) . '/' . $unique_hash);  //!!!!!!!
             $chamilo_repository_document->set_filesize($this->get_filesize());
             $chamilo_repository_document->set_hash($unique_hash);
+            
             if ($this->get_title())
+            {
                 $chamilo_repository_document->set_title($this->get_title());
+            }
             else
+            {
                 $chamilo_repository_document->set_title($original_filename);
-            $chamilo_repository_document->set_description($this->get_description());
-            $chamilo_repository_document->set_comment('...');
+            }
+            
+            if($this->get_description())
+            {
+                $chamilo_repository_document->set_description($this->get_description());
+            }
+            else
+            {
+                $chamilo_repository_document->set_description($this->get_title());
+            }
+            
             $chamilo_repository_document->set_owner_id($new_user_id);
             $chamilo_repository_document->set_creation_date(strtotime($this->get_item_property()->get_insert_date()));
             $chamilo_repository_document->set_modification_date(strtotime($this->get_item_property()->get_lastedit_date()));
@@ -339,10 +352,8 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
             //publication
             $parent_id = $this->get_id_reference($this->get_cat_id(), $this->get_database_name() . '.dropbox_category');
             $this->create_publication($chamilo_repository_document, $new_course_code, $new_user_id, 'document', $parent_id, $new_to_user_id, $new_to_group_id);
+            $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'dropbox_file', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_repository_document->get_id())));
         }
-        $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'dropbox_file', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_repository_document->get_id())));
-
-        return $chamilo_repository_document;
     }
 
     static function get_table_name()
