@@ -11,54 +11,71 @@ use common\libraries\Utilities;
 
 class MigrationAutoloader
 {
-	static function load($classname)
-	{
-		if(self :: check_for_general_files($classname))
-		{
-			return true;
-		}
+    public static $class_name;
 
-		if(self :: check_for_special_files($classname))
-		{
-			return true;
-		}
+    static function load($classname)
+    {
+        $classname_parts = explode('\\', $classname);
 
-		return false;
-	}
+        if (count($classname_parts) == 1)
+        {
+            return false;
+        }
+        else
+        {
+            self :: $class_name = $classname_parts[count($classname_parts) - 1];
+            array_pop($classname_parts);
+            if (implode('\\', $classname_parts) != __NAMESPACE__)
+            {
+                return false;
+            }
+        }
 
-	static function check_for_general_files($classname)
-	{
-		$list = array('migration_data_manager', 'old_migration_data_manager', 'migration_data_class', 'migration_data_manager_interface',
-					  'failed_element', 'file_recovery', 'id_reference', 'migration_block', 'migration', 'migration_block_registration',
-					  'migration_properties', 'migration_database', 'migration_database_connection', 'platform_migration_data_manager');
+        if (self :: check_for_general_files())
+        {
+            return true;
+        }
 
-		$lower_case = Utilities :: camelcase_to_underscores($classname);
+        if (self :: check_for_special_files())
+        {
+            return true;
+        }
 
-		if(in_array($lower_case, $list))
-		{
-			require_once dirname(__FILE__) . '/lib/' . $lower_case . '.class.php';
-			return true;
-		}
+        return false;
+    }
 
-		return false;
-	}
+    static function check_for_general_files()
+    {
+        $list = array(
+                'migration_data_manager', 'old_migration_data_manager', 'migration_data_class', 'migration_data_manager_interface', 'failed_element', 'file_recovery', 'id_reference', 'migration_block', 'migration',
+                'migration_block_registration', 'migration_properties', 'migration_database', 'migration_database_connection', 'platform_migration_data_manager');
 
-	static function check_for_special_files($classname)
-	{
-		$list = array('migration_manager' => 'migration_manager/migration_manager.class.php',
-					  'migration_form' => 'forms/migration_form.class.php');
+        $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
-		$lower_case = Utilities :: camelcase_to_underscores($classname);
+        if (in_array($lower_case, $list))
+        {
+            require_once dirname(__FILE__) . '/lib/' . $lower_case . '.class.php';
+            return true;
+        }
 
-		if(key_exists($lower_case, $list))
-		{
-			$url = $list[$lower_case];
-			require_once dirname(__FILE__) . '/lib/' . $url;
-			return true;
-		}
+        return false;
+    }
 
-		return false;
-	}
+    static function check_for_special_files()
+    {
+        $list = array('migration_manager' => 'migration_manager/migration_manager.class.php', 'migration_form' => 'forms/migration_form.class.php');
+
+        $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
+
+        if (key_exists($lower_case, $list))
+        {
+            $url = $list[$lower_case];
+            require_once dirname(__FILE__) . '/lib/' . $url;
+            return true;
+        }
+
+        return false;
+    }
 }
 
 ?>

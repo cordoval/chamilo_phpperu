@@ -10,74 +10,90 @@ use common\libraries\Utilities;
 
 class WebserviceAutoloader
 {
-	static function load($classname)
-	{
-		if(self :: check_for_general_files($classname))
-		{
-			return true;
-		}
+    public static $class_name;
 
-		if(self :: check_for_tables($classname))
-		{
-			return true;
-		}
+    static function load($classname)
+    {
+        $classname_parts = explode('\\', $classname);
 
-		if(self :: check_for_special_files($classname))
-		{
-			return true;
-		}
+        if (count($classname_parts) == 1)
+        {
+            return false;
+        }
+        else
+        {
+            self :: $class_name = $classname_parts[count($classname_parts) - 1];
+            array_pop($classname_parts);
+            if (implode('\\', $classname_parts) != __NAMESPACE__)
+            {
+                return false;
+            }
+        }
 
-		return false;
-	}
+        if (self :: check_for_general_files())
+        {
+            return true;
+        }
 
-	static function check_for_general_files($classname)
-	{
-		$list = array('webservice_category_menu', 'webservice_category', 'webservice_credential', 'webservice_data_manager', 'webservice_registration',
-					  'webservice_rights');
+        if (self :: check_for_tables())
+        {
+            return true;
+        }
 
-		$lower_case = Utilities :: camelcase_to_underscores($classname);
+        if (self :: check_for_special_files())
+        {
+            return true;
+        }
 
-		if(in_array($lower_case, $list))
-		{
-			require_once dirname(__FILE__) . '/lib/' . $lower_case . '.class.php';
-			return true;
-		}
+        return false;
+    }
 
-		return false;
-	}
+    static function check_for_general_files()
+    {
+        $list = array('webservice_category_menu', 'webservice_category', 'webservice_credential', 'webservice_data_manager', 'webservice_registration', 'webservice_rights');
 
-	static function check_for_tables($classname)
-	{
-		$list = array('webservice_browser_table' => 'webservice_browser_table/webservice_browser_table.class.php');
+        $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
-		$lower_case = Utilities :: camelcase_to_underscores($classname);
+        if (in_array($lower_case, $list))
+        {
+            require_once dirname(__FILE__) . '/lib/' . $lower_case . '.class.php';
+            return true;
+        }
 
-		if(key_exists($lower_case, $list))
-		{
-			$url = $list[$lower_case];
-			require_once dirname(__FILE__) . '/lib/webservice_manager/component/' . $url;
-			return true;
-		}
+        return false;
+    }
 
-		return false;
-	}
+    static function check_for_tables()
+    {
+        $list = array('webservice_browser_table' => 'webservice_browser_table/webservice_browser_table.class.php');
 
-	static function check_for_special_files($classname)
-	{
-		$list = array('webservice_manager' => 'webservice_manager/webservice_manager.class.php',
-					  'webservice_manager_component' => 'webservice_manager/webservice_manager_component.class.php');
+        $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
-		$lower_case = Utilities :: camelcase_to_underscores($classname);
+        if (key_exists($lower_case, $list))
+        {
+            $url = $list[$lower_case];
+            require_once dirname(__FILE__) . '/lib/webservice_manager/component/' . $url;
+            return true;
+        }
 
-		if(key_exists($lower_case, $list))
-		{
-			$url = $list[$lower_case];
-			require_once dirname(__FILE__) . '/lib/' . $url;
-			return true;
-		}
+        return false;
+    }
 
-		return false;
-	}
+    static function check_for_special_files()
+    {
+        $list = array('webservice_manager' => 'webservice_manager/webservice_manager.class.php', 'webservice_manager_component' => 'webservice_manager/webservice_manager_component.class.php');
+
+        $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
+
+        if (key_exists($lower_case, $list))
+        {
+            $url = $list[$lower_case];
+            require_once dirname(__FILE__) . '/lib/' . $url;
+            return true;
+        }
+
+        return false;
+    }
 }
 
 ?>
