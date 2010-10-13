@@ -1,5 +1,6 @@
 <?php
 use common\libraries\Translation;
+use common\libraries\FormValidator;
 
 /**
  * $Id: reporting_template_registration_form.class.php 215 2009-11-13 14:07:59Z vanpouckesven $

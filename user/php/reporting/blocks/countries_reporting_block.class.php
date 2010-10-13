@@ -1,6 +1,7 @@
 <?php
 namespace user;
 
+use common\libraries\EqualityCondition;
 use common\libraries\Translation;
 
 require_once dirname (__FILE__) . '/../user_reporting_block.class.php';

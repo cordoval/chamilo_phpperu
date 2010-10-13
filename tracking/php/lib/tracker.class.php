@@ -4,6 +4,7 @@ namespace tracking;
 use common\libraries\Utilities;
 use common\libraries\BasicApplication;
 use common\libraries\DataClass;
+use common\libraries\EqualityCondition;
 
 abstract class Tracker extends DataClass
 {

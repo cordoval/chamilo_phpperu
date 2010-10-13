@@ -6,6 +6,8 @@ use common\libraries\Theme;
 use common\libraries\Display;
 use common\libraries\ToolbarItem;
 use common\libraries\Toolbar;
+use common\libraries\PatternMatchCondition;
+use common\libraries\BreadcrumbTrail;
 
 /**
  * $Id: browser.class.php 214 2009-11-13 13:57:37Z vanpouckesven $

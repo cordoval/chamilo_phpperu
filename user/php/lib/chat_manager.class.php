@@ -2,6 +2,11 @@
 namespace user;
 
 use common\libraries\Translation;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use common\libraries\OrCondition;
+use common\libraries\InequalityCondition;
+use common\libraries\FormValidator;
 
 /**
  * $Id: chat_manager.class.php 211 2009-11-13 13:28:39Z vanpouckesven $

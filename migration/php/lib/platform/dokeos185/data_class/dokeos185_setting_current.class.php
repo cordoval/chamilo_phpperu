@@ -1,6 +1,8 @@
 <?php
 namespace migration;
 
+use admin\AdminDataManager;
+
 /**
  * $Id: dokeos185_setting_current.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.platform.dokeos185
@@ -19,18 +21,18 @@ require_once dirname(__FILE__) . '/../dokeos185_data_manager.class.php';
 class Dokeos185SettingCurrent extends Dokeos185MigrationDataClass
 {
     const CLASS_NAME = __CLASS__;
-	const TABLE_NAME = 'settings_current';   
+	const TABLE_NAME = 'settings_current';
 	const DATABASE_NAME = 'main_database';
-	
-	private static $convert = array('siteName' => 'site_name', 'server_type' => 'server_type', 'Institution' => 'institution', 'InstitutionUrl' => 'institution_url', 
-									'show_administrator_data' => 'show_administrator_data', 'administratorName' => 'administrator_firstname', 'administratorSurname' => 'administrator_surname', 
+
+	private static $convert = array('siteName' => 'site_name', 'server_type' => 'server_type', 'Institution' => 'institution', 'InstitutionUrl' => 'institution_url',
+									'show_administrator_data' => 'show_administrator_data', 'administratorName' => 'administrator_firstname', 'administratorSurname' => 'administrator_surname',
 									'emailAdministrator' => 'administrator_email', 'administratorTelephone' => 'administrator_telephone');
 									//'allow_lostpassword' => 'allow_password_retrieval', 'allow_registration' => 'allow_registration');
-    
+
     /**
      * current setting properties
      */
-    
+
     const PROPERTY_ID = 'id';
     const PROPERTY_VARIABLE = 'variable';
     const PROPERTY_SUBKEY = 'subkey';
@@ -41,7 +43,7 @@ class Dokeos185SettingCurrent extends Dokeos185MigrationDataClass
     const PROPERTY_COMMENT = 'comment';
     const PROPERTY_SCOPE = 'scope';
     const PROPERTY_SUBKEYTEXT = 'subkeytext';
-    
+
     /**
      * Get the default properties of all current setting.
      * @return array The property names.
@@ -172,7 +174,7 @@ class Dokeos185SettingCurrent extends Dokeos185MigrationDataClass
         if ($value)
         {
             $chamilo_admin_setting = AdminDataManager :: get_instance()->retrieve_setting_from_variable_name($value);
-            
+
             if ($this->get_variable() == 'allow_lostpassword')
             {
                 if ($this->get_selected_value() == 'true')
@@ -184,7 +186,7 @@ class Dokeos185SettingCurrent extends Dokeos185MigrationDataClass
                     $this->set_selected_value(0);
                 }
             }
-            
+
             if ($this->get_variable() == 'allow_registration')
             {
                 if ($this->get_selected_value() == 'true')
@@ -196,31 +198,31 @@ class Dokeos185SettingCurrent extends Dokeos185MigrationDataClass
                     $this->set_selected_value(0);
                 }
             }
-            
+
             if ($chamilo_admin_setting)
             {
                 $chamilo_admin_setting->set_value($this->get_selected_value());
                 $chamilo_admin_setting->update();
                 $this->set_message(Translation :: get('SettingConvertedMessage', array('SETTING' => $value, 'VALUE' => $this->get_selected_value())));
             }
-        }        
+        }
     }
 
     static function get_table_name()
     {
         return self :: TABLE_NAME;
     }
-    
+
     static function get_class_name()
     {
     	return self :: CLASS_NAME;
     }
-    
+
     function get_database_name()
     {
     	return self :: DATABASE_NAME;
     }
-    
+
     static function get_retrieve_condition()
     {
     	return new InCondition(self :: PROPERTY_VARIABLE, array_keys(self :: $convert));

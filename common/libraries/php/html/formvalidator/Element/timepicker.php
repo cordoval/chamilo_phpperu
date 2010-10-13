@@ -1,4 +1,5 @@
 <?php
+use admin\AdminDataManager;
 /**
  * @package common.html.formvalidator.Element
  */
@@ -21,7 +22,7 @@ class HTML_QuickForm_timepicker extends HTML_QuickForm_date
         {
             return;
         }
-        
+
         $js_form_name = $attributes['form_name'];
         //unset($attributes['form_name']);
         HTML_QuickForm_element :: HTML_QuickForm_element($elementName, $elementLabel, $attributes);
@@ -47,7 +48,7 @@ class HTML_QuickForm_timepicker extends HTML_QuickForm_date
         {
             $this->_locale[$editor_lang]['months_long'] = array(Translation :: get("JanuaryLong"), Translation :: get("FebruaryLong"), Translation :: get("MarchLong"), Translation :: get("AprilLong"), Translation :: get("MayLong"), Translation :: get("JuneLong"), Translation :: get("JulyLong"), Translation :: get("AugustLong"), Translation :: get("SeptemberLong"), Translation :: get("OctoberLong"), Translation :: get("NovemberLong"), Translation :: get("DecemberLong"));
         }
-        
+
         if ($include_minutes_picker)
         {
             $this->_options['format'] = 'H ' . $hour_minute_devider . ' i';
@@ -56,7 +57,7 @@ class HTML_QuickForm_timepicker extends HTML_QuickForm_date
         {
             $this->_options['format'] = 'H' . $hour_minute_devider;
         }
-        
+
         $this->_options['language'] = $editor_lang;
         $this->setValue(date('H'));
     }
@@ -99,7 +100,7 @@ class HTML_QuickForm_timepicker extends HTML_QuickForm_date
         $i = $values['i'][0];
         $h = $h < 10 ? '0' . $h : $h;
         $i = $i < 10 ? '0' . $i : $i;
-        
+
         if ($this->include_minutes_picker)
         {
             $datetime = $h . ':' . $i . ':00';
@@ -108,9 +109,9 @@ class HTML_QuickForm_timepicker extends HTML_QuickForm_date
         {
             $datetime = $h;
         }
-        
+
         $datetime = $h;
-        
+
         $result[$this->getName()] = $datetime;
         return $result;
     }

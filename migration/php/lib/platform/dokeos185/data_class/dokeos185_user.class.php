@@ -1,6 +1,8 @@
 <?php
 namespace migration;
 
+use admin\AdminDataManager;
+
 /**
  * $Id: dokeos185_user.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.platform.dokeos185
@@ -21,7 +23,7 @@ require_once Path :: get_application_path() . 'lib/profiler/profile_publication.
 class Dokeos185User extends Dokeos185MigrationDataClass
 {
 	 const CLASS_NAME = __CLASS__;
-	 const TABLE_NAME = 'user';   
+	 const TABLE_NAME = 'user';
 	 const DATABASE_NAME = 'main_database';
 
     /**
@@ -300,7 +302,7 @@ class Dokeos185User extends Dokeos185MigrationDataClass
     {
         return $this->get_default_property(self :: PROPERTY_OPENID);
     }
-    
+
     /**
      * Function to determine wether a user is a platform admin
      * Retrieves the data from the admin table in dokeos_main
@@ -317,17 +319,17 @@ class Dokeos185User extends Dokeos185MigrationDataClass
      * @return Boolean
      */
     function is_valid()
-    { 
+    {
         if (! $this->get_username() || ! $this->get_password() || ! $this->get_status())
         {
             $this->create_failed_element($this->get_user_id());
 			$this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'user', 'ID' => $this->get_user_id())));
-			
+
             return false;
         }
-        
+
         $udm = UserDataManager :: get_instance();
-        
+
         $index = 0;
         $user = $udm->retrieve_user_by_username($this->get_username());
         $firstuser = $user;
@@ -353,20 +355,20 @@ class Dokeos185User extends Dokeos185MigrationDataClass
 
         return true;
     }
-    
+
     /**
      * Migration users, create directories, copy user pictures, migrate user profiles
      * @return User
      */
     function convert_data()
-    { 
+    {
         $chamilo_user = $this->create_user();
         $this->create_profile($chamilo_user);
         $this->create_productions($chamilo_user);
-        
+
         $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'user', 'OLD_ID' => $this->get_user_id(), 'NEW_ID' => $chamilo_user->get_id())));
     }
-    
+
     /**
      * Helper function for convert_data
      * Creates the user object
@@ -428,7 +430,7 @@ class Dokeos185User extends Dokeos185MigrationDataClass
 
         //create user in database
         $chamilo_user->create();
-        
+
         //Add id references to temp table
         $this->create_id_reference($this->get_user_id(), $chamilo_user->get_id());
 
@@ -436,16 +438,16 @@ class Dokeos185User extends Dokeos185MigrationDataClass
         {
             $language = $this->get_language();
         }
-        else 
+        else
         {
             $language = 'english';
         }
-        
+
         LocalSetting :: create_local_setting('platform_language', $language, 'admin', $chamilo_user->get_id());
-        
+
         return $chamilo_user;
     }
-    
+
     /**
      * Helper function for convert_data to create a new user profile
      */
@@ -466,7 +468,7 @@ class Dokeos185User extends Dokeos185MigrationDataClass
         	$chamilo_repository_profile->set_parent_id($chamilo_category_id);
         	$chamilo_repository_profile->set_phone($this->get_phone());
 			$chamilo_repository_profile->set_owner_id($chamilo_user->get_id());
-			
+
         	//Create profile in database
         	$chamilo_repository_profile->create();
 
@@ -479,7 +481,7 @@ class Dokeos185User extends Dokeos185MigrationDataClass
         	$chamilo_profile_publication->create();
         }
     }
-    
+
     /**
      * Helper function for convert_data to create new productions
      */
@@ -526,18 +528,18 @@ class Dokeos185User extends Dokeos185MigrationDataClass
                 }
             }
         }
-	}    
+	}
 
     static function get_table_name()
     {
         return self :: TABLE_NAME;
     }
-    
+
     static function get_class_name()
     {
     	return self :: CLASS_NAME;
     }
-    
+
     function get_database_name()
     {
     	return self :: DATABASE_NAME;

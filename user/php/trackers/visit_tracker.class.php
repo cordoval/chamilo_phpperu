@@ -2,6 +2,7 @@
 namespace user;
 
 use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
 
 use tracking\SimpleTracker;
 /**

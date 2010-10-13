@@ -1,4 +1,9 @@
 <?php
+use common\libraries\Theme;
+use common\libraries\Translation;
+use common\libraries\Path;
+
+use admin\AdminDataManager;
 /**
  * @package common.html.formvalidator.Element
  */

@@ -1,4 +1,8 @@
 <?php
+namespace reporting;
+
+use common\libraries\EqualityCondition;
+
 require_once 'MDB2.php';
 require_once dirname(__FILE__) . '/../reporting_data_manager_interface.class.php';
 /**
@@ -125,8 +129,8 @@ class DatabaseReportingDataManager extends Database implements ReportingDataMana
     function retrieve_reporting_template_registration_by_condition($condition)
     {
         return $this->retrieve_object(ReportingTemplateRegistration :: get_table_name(), $condition);
-    } 
-    
+    }
+
     function retrieve_reporting_block_registration($reporting_block_registration_id)
     {
     	$condition = new EqualityCondition(ReportingBlockRegistration:: PROPERTY_ID, $reporting_block_registration_id);
@@ -137,7 +141,7 @@ class DatabaseReportingDataManager extends Database implements ReportingDataMana
     {
         return $this->delete_objects(ReportingBlockRegistration :: get_table_name(), $condition);
     }
-    
+
     function delete_reporting_template_registrations($condition = null)
     {
         return $this->delete_objects(ReportingTemplateRegistration :: get_table_name(), $condition);

@@ -1,5 +1,8 @@
 <?php
 namespace migration;
+
+use common\libraries\Text;
+
 /**
  * $Id: dokeos185_forum_forum.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
@@ -16,7 +19,7 @@ class Dokeos185ForumAttachment extends Dokeos185CourseDataMigrationDataClass
 {
 	const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'forum_attachment';
-        
+
     /**
      * Dokeos185ForumForum properties
      */
@@ -26,7 +29,7 @@ class Dokeos185ForumAttachment extends Dokeos185CourseDataMigrationDataClass
     const PROPERTY_SIZE = 'size';
     const PROPERTY_POST_ID = 'post_id';
     const PROPERTY_FILENAME = 'filename';
-    
+
     /**
      * Get the default properties
      * @return array The property names.
@@ -92,15 +95,15 @@ class Dokeos185ForumAttachment extends Dokeos185CourseDataMigrationDataClass
 
     /**
      * Check if the forum attachment is valid
-     * @return true if the forum is valid 
+     * @return true if the forum is valid
      */
     function is_valid()
     {
         $this->set_item_property($this->get_data_manager()->get_item_property($this->get_course(), 'forum_attachment', $this->get_id()));
-        
+
     	$course = $this->get_course();
     	$path = $this->get_data_manager()->get_sys_path() . '/courses/' . $course->get_directory() . '/upload/forum/' . $this->get_path();
-    	
+
     	if (! $this->get_post_id() || !$this->get_filename() || ! $this->get_path() || !file_exists($path) || !$this->item_property)
         {
             $this->create_failed_element($this->get_id());
@@ -119,16 +122,16 @@ class Dokeos185ForumAttachment extends Dokeos185CourseDataMigrationDataClass
     {
         $course = $this->get_course();
     	$path = $this->get_data_manager()->get_sys_path() . '/courses/' . $course->get_directory() . '/upload/forum/';
-    	
+
     	$post_id = $this->get_id_reference($this->get_post_id(), $this->get_database_name() . '.forum_post');
     	$post = RepositoryDataManager :: get_instance()->retrieve_content_object($post_id, ForumPost :: get_type_name());
-    	
+
     	$hash = md5($this->get_filename());
     	$new_path = Path :: get(SYS_REPO_PATH) . $post->get_owner_id() . '/' . Text :: char_at($hash, 0) . '/';
     	$file_exists = file_exists($new_path . $hash);
-    	
+
     	$migrated_hash = $this->migrate_file($path, $new_path, $this->get_path(), $hash);
-    	
+
     	if($file_exists && $hash == $migrated_hash)
     	{
     		$document = RepositoryDataManager :: retrieve_document_from_hash($post->get_owner_id(), $migrated_hash);
@@ -156,23 +159,23 @@ class Dokeos185ForumAttachment extends Dokeos185CourseDataMigrationDataClass
 
             $document->create();
     	}
-    	
+
     	if($document)
     	{
     		$post->attach_content_object($document->get_id());
     	}
-    	
+
     	//Add id references to temp table
         $this->create_id_reference($this->get_id(), $document->get_id());
         $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'forum_attachment', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $document->get_id())));
-    	
+
     }
 
     static function get_table_name()
     {
         return self :: TABLE_NAME;
     }
-    
+
     static function get_class_name()
     {
     	return self :: CLASS_NAME;

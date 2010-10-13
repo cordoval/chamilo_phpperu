@@ -1,5 +1,8 @@
 <?php
 namespace user;
+
+use common\libraries\EqualityCondition;
+
 /**
  * This class tracks the country that a user uses
  * @package user.trackers

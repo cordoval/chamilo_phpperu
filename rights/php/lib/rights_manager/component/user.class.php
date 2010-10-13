@@ -1,5 +1,9 @@
 <?php
 namespace rights;
+
+use common\libraries\AdministrationComponent;
+use common\libraries\DelegateComponent;
+
 /**
  * $Id: user.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.rights_manager.component

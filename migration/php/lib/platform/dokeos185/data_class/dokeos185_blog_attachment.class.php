@@ -1,5 +1,8 @@
 <?php
 namespace migration;
+
+use common\libraries\Text;
+
 /**
  * $Id: dokeos185_blog_attachment.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
@@ -16,7 +19,7 @@ class Dokeos185BlogAttachment extends Dokeos185CourseDataMigrationDataClass
 {
 	const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'blog_attachment';
-        
+
     /**
      * Dokeos185BlogAttachment properties
      */
@@ -28,7 +31,7 @@ class Dokeos185BlogAttachment extends Dokeos185CourseDataMigrationDataClass
     const PROPERTY_FILENAME = 'filename';
     const PROPERTY_BLOG_ID = 'blog_id';
     const PROPERTY_COMMENT_ID = 'comment_id';
-    
+
     /**
      * Get the default properties
      * @return array The property names.
@@ -92,7 +95,7 @@ class Dokeos185BlogAttachment extends Dokeos185CourseDataMigrationDataClass
     {
         return $this->get_default_property(self :: PROPERTY_FILENAME);
     }
-    
+
 	/**
      * Returns the blog_id of this Dokeos185BlogAttachment.
      * @return the blog_id.
@@ -101,7 +104,7 @@ class Dokeos185BlogAttachment extends Dokeos185CourseDataMigrationDataClass
     {
         return $this->get_default_property(self :: PROPERTY_BLOG_ID);
     }
-    
+
 	/**
      * Returns the comment_id of this Dokeos185BlogAttachment.
      * @return the comment_id.
@@ -113,17 +116,17 @@ class Dokeos185BlogAttachment extends Dokeos185CourseDataMigrationDataClass
 
     /**
      * Check if the forum attachment is valid
-     * @return true if the forum is valid 
+     * @return true if the forum is valid
      */
     function is_valid()
     {
     	$course = $this->get_course();
     	$path = $this->get_data_manager()->get_sys_path() . '/courses/' . $course->get_directory() . '/upload/blog/' . $this->get_path();
-    	
+
     	$post_id = $this->get_id_reference($this->get_post_id(), $this->get_database_name() . '.blog_post');
     	$blog_id = $this->get_id_reference($this->get_blog_id(), $this->get_database_name() . '.blog');
     	$comment_id = $this->get_id_reference($this->get_comment_id(), $this->get_database_name() . '.blog_comment');
-    	
+
     	if ( !$post_id || !$blog_id || !$this->get_filename() || ! $this->get_path() || !file_exists($path) || ($this->get_comment_id() > 0 && !$comment_id))
         {
             $this->create_failed_element($this->get_id());
@@ -142,7 +145,7 @@ class Dokeos185BlogAttachment extends Dokeos185CourseDataMigrationDataClass
     {
         $course = $this->get_course();
     	$path = $this->get_data_manager()->get_sys_path() . '/courses/' . $course->get_directory() . '/upload/blog/';
-    	
+
     	if(!$this->get_comment_id())
     	{
     		$object_id = $this->get_id_reference($this->get_post_id(), $this->get_database_name() . '.blog_post');
@@ -151,20 +154,20 @@ class Dokeos185BlogAttachment extends Dokeos185CourseDataMigrationDataClass
     	{
     		$object_id = $this->get_id_reference($this->get_comment_id(), $this->get_database_name() . '.blog_comment');
     	}
-    	
+
     	$object = RepositoryDataManager :: get_instance()->retrieve_content_object($object_id);
-    	
+
     	$hash = md5($this->get_filename());
     	$new_path = Path :: get(SYS_REPO_PATH) . $object->get_owner_id() . '/' . Text :: char_at($hash, 0) . '/';
     	$file_exists = file_exists($new_path . $hash);
-    	
+
     	$migrated_hash = $this->migrate_file($path, $new_path, $this->get_path(), $hash);
-    	
+
     	if($file_exists && $hash == $migrated_hash)
     	{
     		$document = RepositoryDataManager :: retrieve_document_from_hash($object->get_owner_id(), $migrated_hash);
     	}
-    	
+
     	if(!$document)
     	{
     		$document = new Document();
@@ -183,20 +186,20 @@ class Dokeos185BlogAttachment extends Dokeos185CourseDataMigrationDataClass
 
             $document->create();
     	}
-    	
+
     	$object->attach_content_object($document->get_id());
-    	
+
     	//Add id references to temp table
         $this->create_id_reference($this->get_id(), $document->get_id());
         $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'forum_attachment', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $document->get_id())));
-    	
+
     }
 
     static function get_table_name()
     {
         return self :: TABLE_NAME;
     }
-    
+
     static function get_class_name()
     {
     	return self :: CLASS_NAME;

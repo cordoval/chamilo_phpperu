@@ -3,6 +3,10 @@ namespace tracking;
 
 use common\libraries\Request;
 use common\libraries\Display;
+use common\libraries\AdministrationComponent;
+use common\libraries\BreadcrumbTrail;
+
+use admin\AdminDataManager;
 
 /**
  * $Id: activity_changer.class.php 213 2009-11-13 13:38:50Z vanpouckesven $

@@ -3,6 +3,8 @@ namespace rights;
 
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
 
 use rights\RightsUtilities;
 /**

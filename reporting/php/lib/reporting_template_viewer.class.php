@@ -5,6 +5,7 @@ use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Display;
 use common\libraries\WebApplication;
+use common\libraries\EqualityCondition;
 /**
  * $Id: reporting_template_viewer.class.php 215 2009-11-13 14:07:59Z vanpouckesven $
  * @package reporting.lib

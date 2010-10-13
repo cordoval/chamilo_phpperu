@@ -5,6 +5,8 @@ use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Request;
 use common\libraries\Display;
+use common\libraries\AdministrationComponent;
+use common\libraries\BreadcrumbTrail;
 
 /**
  * $Id: emptytracker.class.php 213 2009-11-13 13:38:50Z vanpouckesven $

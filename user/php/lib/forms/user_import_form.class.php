@@ -3,6 +3,10 @@ namespace user;
 
 use common\libraries\Utilities;
 use common\libraries\Translation;
+use common\libraries\FormValidator;
+use common\libraries\PlatformSetting;
+use common\libraries\Hashing;
+use common\libraries\Mail;
 /**
  * $Id: user_import_form.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.forms

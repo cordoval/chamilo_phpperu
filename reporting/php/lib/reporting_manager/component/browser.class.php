@@ -9,6 +9,12 @@ use common\libraries\Theme;
 use common\libraries\Display;
 use common\libraries\ToolbarItem;
 use common\libraries\Toolbar;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use common\libraries\OrCondition;
+use common\libraries\PatternMatchCondition;
+use common\libraries\AdministrationComponent;
+use common\libraries\BreadcrumbTrail;
 
 /**
  * $Id: browser.class.php 215 2009-11-13 14:07:59Z vanpouckesven $

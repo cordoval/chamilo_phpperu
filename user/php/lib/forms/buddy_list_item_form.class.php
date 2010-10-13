@@ -3,6 +3,9 @@ namespace user;
 
 use common\libraries\Path;
 use common\libraries\Translation;
+use common\libraries\EqualityCondition;
+use common\libraries\OrCondition;
+use common\libraries\FormValidator;
 
 /**
  * $Id: buddy_list_item_form.class.php 211 2009-11-13 13:28:39Z vanpouckesven $

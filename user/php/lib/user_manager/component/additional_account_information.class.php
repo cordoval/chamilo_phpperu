@@ -2,6 +2,8 @@
 namespace user;
 
 use common\libraries\Translation;
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
 
 /**
  * $Id: additional_account_information.class.php 211 2009-11-13 13:28:39Z vanpouckesven $

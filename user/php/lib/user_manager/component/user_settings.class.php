@@ -7,6 +7,11 @@ use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\Theme;
 use common\libraries\CoreApplication;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use common\libraries\BreadcrumbTrail;
+
+use admin\AdminDataManager;
 
 /**
  * $Id: user_settings.class.php 211 2009-11-13 13:28:39Z vanpouckesven $

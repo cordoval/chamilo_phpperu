@@ -5,6 +5,11 @@ use common\libraries\Authentication;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\Display;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\FormValidator;
+use common\libraries\Text;
+use common\libraries\Hashing;
+use common\libraries\Mail;
 
 /**
  * $Id: reset_password.class.php 211 2009-11-13 13:28:39Z vanpouckesven $

@@ -1,6 +1,8 @@
 <?php
 namespace common\libraries;
 
+use \PHPMailer;
+
 /**
  * $Id: phpmailer_mail.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common.mail.phpmailer
@@ -82,7 +84,7 @@ class PhpmailerMail extends Mail
 
             //$mail->ConfirmReadingTo = $this->get_from(); //Disposition-Notification
         }
-        
+
         if(! is_null($this->get_reply())){
 
          	$mail->AddReplyTo($this->get_reply_email(), $this->get_reply_name());

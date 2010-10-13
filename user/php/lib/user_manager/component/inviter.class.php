@@ -5,6 +5,10 @@ use common\libraries\Redirect;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\Display;
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
+
+use admin\AdminDataManager;
 
 /**
  * $Id: register.class.php 211 2009-11-13 13:28:39Z vanpouckesven $

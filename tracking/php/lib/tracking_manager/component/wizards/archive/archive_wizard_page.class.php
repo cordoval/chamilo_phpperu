@@ -1,5 +1,8 @@
 <?php
 namespace tracking;
+
+use common\libraries\FormValidatorPage;
+
 /**
  * $Id: archive_wizard_page.class.php 151 2009-11-10 12:23:34Z kariboe $
  * @package tracking.lib.tracking_manager.component.wizards.archive

@@ -2,6 +2,9 @@
 namespace user;
 
 use common\libraries\Translation;
+use common\libraries\OrCondition;
+use common\libraries\PatternMatchCondition;
+use common\libraries\FormValidator;
 
 /**
  * $Id: user_search_form.class.php 211 2009-11-13 13:28:39Z vanpouckesven $

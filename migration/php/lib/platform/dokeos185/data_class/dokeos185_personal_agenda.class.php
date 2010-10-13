@@ -1,6 +1,8 @@
 <?php
 namespace migration;
 
+use admin\AdminDataManager;
+
 /**
  * $Id: dokeos185_personal_agenda.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.platform.dokeos185

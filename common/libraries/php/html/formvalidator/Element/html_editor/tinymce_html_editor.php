@@ -1,4 +1,8 @@
 <?php
+use common\libraries\Theme;
+use common\libraries\Translation;
+
+use admin\AdminDataManager;
 /**
  * @package common.html.formvalidator.Element.html_editor
  * $Id: tinymce_html_editor.php 128 2009-11-09 13:13:20Z vanpouckesven $
@@ -39,7 +43,7 @@ class HTML_QuickForm_tinymce_html_editor extends HTML_QuickForm_html_editor
         {
             return $this->render_textarea();
         }
-        
+
         $adm = AdminDataManager :: get_instance();
         $editor_lang = $adm->retrieve_language_from_english_name($language_interface)->get_isocode();
         $language_file = Path :: get_plugin_path() . 'fckeditor/editor/lang/' . $editor_lang . '.js';
@@ -48,7 +52,7 @@ class HTML_QuickForm_tinymce_html_editor extends HTML_QuickForm_html_editor
             //if there was no valid iso-code, use the english one
             $editor_lang = 'en';
         }
-        
+
         $name = $this->getAttribute('name');
         $result[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'html_editor/tinymce/tiny_mce.js');
         $result[] = '<script type="text/javascript">';

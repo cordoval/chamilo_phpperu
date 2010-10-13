@@ -5,6 +5,8 @@ use common\libraries\Redirect;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\Display;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\PlatformSetting;
 
 /**
  * $Id: register.class.php 211 2009-11-13 13:28:39Z vanpouckesven $

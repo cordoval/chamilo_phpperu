@@ -1,5 +1,10 @@
 <?php
 namespace webservice;
+
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use common\libraries\InequalityCondition;
+
 /**
  * $Id: database_webservice_data_manager.class.php 208 2009-11-13 13:14:39Z vanpouckesven $
  * @package webservices.lib.data_manager

@@ -1,5 +1,9 @@
 <?php
 namespace tracking;
+
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+
 /**
  * @author Hans De Bisschop
  *

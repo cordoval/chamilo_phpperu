@@ -2,6 +2,7 @@
 namespace rights;
 
 use common\libraries\Translation;
+use common\libraries\FormValidator;
 /**
  * $Id: right_request_form.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.data_manager.forms

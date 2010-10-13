@@ -1,9 +1,12 @@
 <?php
 namespace migration;
+
+use common\libraries\FormValidatorPage;
+
 /**
  * $Id: migration_wizard_page.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.migration_manager.component.inc.wizard
- * 
+ *
  * This abstract class defines a page which is used in a migration wizard.
  */
 abstract class MigrationWizardPage extends FormValidatorPage
@@ -24,16 +27,16 @@ abstract class MigrationWizardPage extends FormValidatorPage
     {
         parent :: __construct($name, 'post');
         $this->updateAttributes(array('action' => $parent->get_parent()->get_url()));
-        
+
     	$this->parent = $parent;
         $this->name = $name;
     }
 
 	function display_page_html()
 	{
-		
+
 	}
-    
+
     /**
      * Returns the MigrationManager component in which this wizard runs
      * @return MigrationManager
@@ -42,17 +45,17 @@ abstract class MigrationWizardPage extends FormValidatorPage
     {
         return $this->parent;
     }
-    
+
 	function get_name()
     {
         return $this->name;
     }
-    
+
     function get_platform()
     {
     	return $this->get_parent()->get_platform();
     }
-    
+
     abstract function display_page_info();
     abstract function display_next_page_info();
 

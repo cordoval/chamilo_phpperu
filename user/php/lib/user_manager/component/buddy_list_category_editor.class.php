@@ -3,6 +3,9 @@ namespace user;
 
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\EqualityCondition;
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
 
 /**
  * $Id: buddy_list_category_editor.class.php 211 2009-11-13 13:28:39Z vanpouckesven $

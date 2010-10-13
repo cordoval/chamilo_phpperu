@@ -2,6 +2,13 @@
 namespace rights;
 
 use common\libraries\Database;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use common\libraries\OrCondition;
+use common\libraries\PatternMatchCondition;
+use common\libraries\InequalityCondition;
+use common\libraries\NotCondition;
+use common\libraries\SubselectCondition;
 
 /**
  * $Id: database_rights_data_manager.class.php 235 2009-11-16 12:08:00Z scaramanga $

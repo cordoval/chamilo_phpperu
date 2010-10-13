@@ -8,6 +8,9 @@ use common\libraries\Theme;
 use common\libraries\Display;
 use common\libraries\ToolbarItem;
 use common\libraries\Toolbar;
+use common\libraries\AdministrationComponent;
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
 
 /**
  * $Id: user_detail.class.php 211 2009-11-13 13:28:39Z vanpouckesven $

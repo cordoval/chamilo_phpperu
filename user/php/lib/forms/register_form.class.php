@@ -4,8 +4,16 @@ namespace user;
 use common\libraries\Path;
 use common\libraries\Filesystem;
 use common\libraries\Translation;
+use common\libraries\AndCondition;
+use common\libraries\FormValidator;
+use common\libraries\PlatformSetting;
+use common\libraries\Text;
+use common\libraries\Hashing;
+use common\libraries\Mail;
 
 use repository\RepositoryDataManager;
+
+use admin\AdminDataManager;
 
 /**
  * $Id: register_form.class.php 211 2009-11-13 13:28:39Z vanpouckesven $

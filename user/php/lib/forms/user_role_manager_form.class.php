@@ -3,8 +3,10 @@ namespace user;
 
 use common\libraries\Path;
 use common\libraries\Translation;
+use common\libraries\FormValidator;
 
 use rights\RightsUtilities;
+use rights\RightsDataManager;
 /**
  * $Id: user_role_manager_form.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.forms

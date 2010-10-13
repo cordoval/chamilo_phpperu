@@ -2,6 +2,8 @@
 namespace user;
 
 use common\libraries\Display;
+use common\libraries\AdministrationComponent;
+use common\libraries\BreadcrumbTrail;
 
 /**
  * $Id: user_field_builder.class.php 211 2009-11-13 13:28:39Z vanpouckesven $

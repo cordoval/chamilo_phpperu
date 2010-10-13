@@ -6,6 +6,8 @@ use common\libraries\Path;
 use common\libraries\Authentication;
 use common\libraries\Translation;
 use common\libraries\Configuration;
+use common\libraries\EqualityCondition;
+use common\libraries\PlatformSetting;
 /**
  * $Id: user_data_manager.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @author Hans De Bisschop

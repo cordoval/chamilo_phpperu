@@ -1,5 +1,9 @@
 <?php
 namespace migration;
+
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+
 /**
  * $Id: migration_data_manager.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib
@@ -14,7 +18,7 @@ namespace migration;
 abstract class MigrationDataManager
 {
     private static $instance;
-    
+
     /**
      * Uses a singleton pattern and a factory pattern to return the data
      * manager. The configuration determines which data manager class is to
@@ -38,24 +42,24 @@ abstract class MigrationDataManager
     	$condition = new EqualityCondition(MigrationBlockRegistration :: PROPERTY_NAME, $name);
     	return self :: get_instance()->retrieve_migration_block_registrations($condition)->next_result();
     }
-    
+
     static function retrieve_failed_element_by_id_and_table($id, $table)
     {
     	$conditions = array();
     	$conditions[] = new EqualityCondition(FailedElement :: PROPERTY_FAILED_ID, $id);
     	$conditions[] = new EqualityCondition(FailedElement :: PROPERTY_FAILED_TABLE_NAME, $table);
     	$condition = new AndCondition($conditions);
-    	
+
     	return self :: get_instance()->retrieve_failed_elements($condition)->next_result();
     }
-    
+
 	static function retrieve_id_reference_by_old_id_and_table($old_id, $table)
     {
     	$conditions = array();
     	$conditions[] = new EqualityCondition(IdReference :: PROPERTY_OLD_ID, $old_id);
     	$conditions[] = new EqualityCondition(IdReference :: PROPERTY_REFERENCE_TABLE_NAME, $table);
     	$condition = new AndCondition($conditions);
-    	
+
     	return self :: get_instance()->retrieve_id_references($condition)->next_result();
     }
 }

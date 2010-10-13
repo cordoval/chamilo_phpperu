@@ -4,6 +4,12 @@ namespace user;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\Display;
+use common\libraries\AdministrationComponent;
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Text;
+use common\libraries\Hashing;
+use common\libraries\Mail;
 
 /**
  * $Id: deleter.class.php 211 2009-11-13 13:28:39Z vanpouckesven $

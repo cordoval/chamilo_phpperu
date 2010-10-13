@@ -1,5 +1,8 @@
 <?php
 namespace migration;
+
+use common\libraries\PlatformSetting;
+
 /**
  * $Id: import.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.migration_manager
@@ -16,13 +19,13 @@ abstract class MigrationDataClass extends DataClass
 	 * @var String
 	 */
 	private $message;
-	
+
 	/**
 	 * Caching variable for id references
 	 * @var $id_references[$table][$old_id] = $new_id;
 	 */
 	private $id_references;
-	
+
 	/**
 	 * Returns the message
 	 */
@@ -30,7 +33,7 @@ abstract class MigrationDataClass extends DataClass
 	{
 		return $this->message;
 	}
-	
+
 	/**
 	 * Sets the message
 	 * @param String $message
@@ -39,11 +42,11 @@ abstract class MigrationDataClass extends DataClass
 	{
 		return $this->message = $message;
 	}
-	
+
 	/**
 	 * Some help functions
 	 */
-	
+
 	/**
 	 * Creates a failed element object
 	 * @param Int $id
@@ -53,7 +56,7 @@ abstract class MigrationDataClass extends DataClass
 	{
 		$failed_element = new FailedElement();
 		$failed_element->set_failed_id($id);
-		
+
 		if($table)
 		{
 			$failed_element->set_failed_table_name($table);
@@ -62,10 +65,10 @@ abstract class MigrationDataClass extends DataClass
 		{
 			$failed_element->set_failed_table_name($this->get_table_name());
 		}
-		
+
 		return $failed_element->create();
 	}
-	
+
 	/**
 	 * Retrieves a failed element
 	 * @param Int $id
@@ -77,10 +80,10 @@ abstract class MigrationDataClass extends DataClass
 		{
 			$table = $this->get_table_name();
 		}
-		
+
 		return MigrationDataManager :: retrieve_failed_element_by_id_and_table($id, $table);
 	}
-	
+
 	/**
 	 * Creates an id reference object
 	 * @param int $old_id
@@ -92,7 +95,7 @@ abstract class MigrationDataClass extends DataClass
 		$id_reference = new IdReference();
 		$id_reference->set_old_id($old_id);
 		$id_reference->set_new_id($new_id);
-		
+
 		if($table)
 		{
 			$id_reference->set_reference_table_name($table);
@@ -101,10 +104,10 @@ abstract class MigrationDataClass extends DataClass
 		{
 			$id_reference->set_reference_table_name($this->get_table_name());
 		}
-		
+
 		return $id_reference->create();
 	}
-	
+
 	/**
 	 * Retrieves an id reference
 	 * @param Int $old_id
@@ -116,19 +119,19 @@ abstract class MigrationDataClass extends DataClass
 		{
 			$table = $this->get_table_name();
 		}
-		
+
 		if(!$this->id_references[$table][$old_id])
 		{
 			$id_reference = MigrationDataManager :: retrieve_id_reference_by_old_id_and_table($old_id, $table);
 			if($id_reference)
 			{
 				$this->id_references[$table][$old_id] = $id_reference->get_new_id();
-			} 
+			}
 		}
-		
+
 		return $this->id_references[$table][$old_id];
 	}
-	
+
 	/**
 	 * Creates a file recovery object
 	 * @param String $old_file
@@ -141,7 +144,7 @@ abstract class MigrationDataClass extends DataClass
 		$file_recovery->set_new_path($new_file);
 		return $file_recovery->create();
 	}
-	
+
 	/**
      * Migrates a file to a new place, makes use of Filesystem class
      * Built in checks for same filename
@@ -155,27 +158,27 @@ abstract class MigrationDataClass extends DataClass
         {
         	$new_filename = $filename;
         }
-        
+
         $old_file = $old_path . $filename;
         $new_file = $new_path . $new_filename;
 
         $secure_filename = Filesystem :: copy_file_with_double_files_protection($old_path, $filename, $new_path, $new_filename, PlatformSetting :: get('move_files', MigrationManager :: APPLICATION_NAME));
-        
+
     	if(!$secure_filename)
 		{
 			return;
 		}
-        
+
         if($secure_filename)
         {
         	$new_file = $new_path . $secure_filename;
         }
-        
+
         $this->create_file_recovery($old_file, $new_file);
 
         return $secure_filename;
     }
-	
+
     /**
      * Factory to retrieve the correct class of an old system
      * @param string $old_system the old system
@@ -184,18 +187,18 @@ abstract class MigrationDataClass extends DataClass
     static function factory($old_system, $type)
     {
         $filename = dirname(__FILE__) . '/../platform/' . $old_system . '/' . $old_system . '_' . $type . '.class.php';
-        
+
         if (! file_exists($filename) || ! is_file($filename))
         {
             echo ($filename);
             die('Failed to load ' . $filename);
         }
         $class = Utilities :: underscores_to_camelcase($old_system . '_' . $type);
-        
+
         require_once $filename;
         return new $class();
     }
-    
+
     /**
      * Additional conditions to retrieve data from the data class
      */
@@ -203,7 +206,7 @@ abstract class MigrationDataClass extends DataClass
     {
     	return null;
     }
-    
+
     /**
      * Checks wether the current data is valid
      */

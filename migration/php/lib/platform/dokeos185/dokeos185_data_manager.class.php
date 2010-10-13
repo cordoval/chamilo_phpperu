@@ -1,6 +1,11 @@
 <?php
 namespace migration;
 
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use common\libraries\OrCondition;
+use common\libraries\PlatformSetting;
+
 /**
  * Class that connects to the old dokeos185 system
  *
@@ -20,39 +25,39 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
 	 * @var String
 	 */
 	private $current_database;
-	
+
 	/**
 	 * Singleton
 	 */
 	private static $instance;
-	
+
 	static function get_instance()
 	{
 		if(!self :: $instance)
 		{
 			self :: $instance = new self();
 		}
-		
+
 		return self :: $instance;
 	}
-	
+
 	/**
 	 * Constructor
 	 */
 	final private function __construct()
 	{
 		$this->configuration = $this->get_configuration();
-		
+
 		if(!$this->configuration)
 		{
 			throw new Exception(Translation :: get('PlatformConfigurationCanNotBeFound'));
 		}
-		
+
 		$connection_string = 'mysql://' . $this->configuration['db_user'] . ':' . $this->configuration['db_password'] . '@' . $this->configuration['db_host'] . '/' . $this->get_database_name('main_database');
 		$this->initialize($connection_string);
 		$this->current_database = $this->get_database_name('main_database');
 	}
-	
+
 	/**
 	 * Retrieves the configuration from dokeos 1.8.5
 	 */
@@ -61,7 +66,7 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
         if(!$this->configuration)
         {
         	$platform_path = 'file://' . PlatformSetting :: get('platform_path', MigrationManager :: APPLICATION_NAME);
-	
+
 	        if (file_exists($platform_path) && is_dir($platform_path))
 	        {
 	            $config_file = $platform_path . '/main/inc/conf/configuration.php';
@@ -73,10 +78,10 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
 	            }
 	        }
         }
-        
+
         return $this->configuration;
     }
-	
+
     /**
      * Get the database name from the configuration or use the given one
      * @param String $database_name
@@ -85,7 +90,7 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
 	{
 		return isset($this->configuration[$database_name]) ? $this->configuration[$database_name] : $database_name;
 	}
-	
+
 	/**
 	 * Change the database selection
 	 * @param String $database_name
@@ -93,38 +98,38 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
 	function set_database($database_name)
     {
         $database_name = $this->get_database_name($database_name);
-        
+
     	if($this->current_database == $database_name)
         {
         	return;
         }
-        
+
     	$this->current_database = $database_name;
         $this->get_connection()->setDatabase($database_name);
     }
-    
+
     /**
      * Retrieve all objects
      * @param Dokeos185MigrationDataClass $data_class
      * @param int $offset - the offset
-     * @param int $count - the number of objects to retrieve 
+     * @param int $count - the number of objects to retrieve
      */
     function retrieve_all_objects($data_class, $offset, $count)
     {
     	$this->set_database($data_class->get_database_name());
     	return $this->retrieve_objects($data_class->get_table_name(), $data_class->get_retrieve_condition(), $offset, $count, null, $data_class->get_class_name());
     }
-    
+
     /**
      * Counts all objects
-     * @param Dokeos185MigrationDataClass $data_class 
+     * @param Dokeos185MigrationDataClass $data_class
      */
     function count_all_objects($data_class)
     {
     	$this->set_database($data_class->get_database_name());
     	return $this->count_objects($data_class->get_table_name(), $data_class->get_retrieve_condition());
     }
-    
+
     /**
      * Check wether a user is a platform admin
      */
@@ -132,10 +137,10 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
     {
     	$condition = new EqualityCondition(Dokeos185User :: PROPERTY_USER_ID, $user->get_user_id());
     	$count = $this->count_objects('admin', $condition);
-    	
+
     	return ($count > 0);
     }
-    
+
     /**
      * Gets the system path of the dokeos185 installation
      */
@@ -144,14 +149,14 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
     	$conf = $this->get_configuration();
     	return $conf['root_sys'];
     }
-    
+
     /**
      * Gets the id of the first admin of the dokeos 185 platform
      */
     function get_admin_id()
     {
      	$this->set_database('main_database');
-     	
+
         $query = 'SELECT user_id FROM ' . $this->escape_table_name('admin');
         $result = $this->query($query);
         $record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
@@ -160,25 +165,25 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
 
         return $id;
     }
-    
+
     /**
      * Retrieves an item property of a course tool
      * @param Dokeos185Course $course
-     * @param String $tool 
+     * @param String $tool
      * @param int $id
      */
     function get_item_property($course, $tool, $id)
     {
     	$this->set_database($course->get_db_name());
-		
+
     	$conditions = array();
     	$conditions[] = new EqualityCondition(Dokeos185ItemProperty :: PROPERTY_TOOL, $tool);
     	$conditions[] = new EqualityCondition(Dokeos185ItemProperty :: PROPERTY_REF, $id);
 	    $condition = new AndCondition($conditions);
-    	
+
     	return $this->retrieve_objects(Dokeos185ItemProperty :: get_table_name(), $condition, null, null, null, 'Dokeos185ItemProperty')->next_result();
     }
-    
+
     /**
      * Algorithm to determine the owner of an object in a course
      * Count the number of course teachers (with status 1) and if there is only 1. This user will become the owner
@@ -196,7 +201,7 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
     	{
     		return $wdm->retrieve_course_user_relations(new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $course_id))->next_result()->get_user();
     	}
-    	
+
     	//Check for the titular
     	$course = $wdm->retrieve_course($course_id);
     	$user_relation = $wdm->retrieve_course_user_relation($course_id, $course->get_titular());
@@ -204,14 +209,14 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
     	{
     		return $course->get_titular();
     	}
-    	
+
     	//Check for the user with the most publications
     	$possible_owner = $wdm->get_user_with_most_publications_in_course($course_id);
     	if($possible_owner)
     	{
     		return $possible_owner;
     	}
-    	
+
     	return MigrationDataManager :: retrieve_id_reference_by_old_id_and_table($this->get_admin_id(), 'main_database.user');
     }
 
@@ -251,7 +256,7 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
     function retrieve_quiz_rel_questions($course, $question_id)
     {
     	$this->set_database($course->get_db_name());
-    	
+
     	$condition = new EqualityCondition(Dokeos185QuizRelQuestion :: PROPERTY_QUESTION_ID, $question_id);
     	return $this->retrieve_objects(Dokeos185QuizRelQuestion :: get_table_name(), $condition, null, null, null, 'Dokeos185QuizRelQuestion');
     }

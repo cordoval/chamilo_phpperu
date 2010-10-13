@@ -1,6 +1,8 @@
 <?php
 namespace migration;
 
+use common\libraries\EqualityCondition;
+
 /**
  * $Id: dokeos185_dropbox_feedback.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185

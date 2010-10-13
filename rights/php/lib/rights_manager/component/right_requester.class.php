@@ -4,6 +4,10 @@ namespace rights;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\Display;
+use common\libraries\AdministrationComponent;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\PlatformSetting;
+use common\libraries\Mail;
 
 /**
  * $Id: right_requester.class.php 214 2009-11-13 13:57:37Z vanpouckesven $

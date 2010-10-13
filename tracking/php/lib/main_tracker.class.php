@@ -1,5 +1,9 @@
 <?php
 namespace tracking;
+
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+
 /**
  * $Id: main_tracker.class.php 213 2009-11-13 13:38:50Z vanpouckesven $
  * @package tracking.lib

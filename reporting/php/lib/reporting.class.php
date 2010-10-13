@@ -2,6 +2,8 @@
 namespace reporting;
 
 use common\libraries\Translation;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
 /**
  * $Id: reporting.class.php 215 2009-11-13 14:07:59Z vanpouckesven $
  * Receives a request, makes the reporting block retrieve its data & displays the block in the given format;

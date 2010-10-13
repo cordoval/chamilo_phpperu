@@ -4,6 +4,10 @@ namespace tracking;
 use common\libraries\Utilities;
 use common\libraries\BasicApplication;
 use common\libraries\Translation;
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
+
+use admin\AdminDataManager;
 
 /**
  * $Id: archive_wizard_process.class.php 213 2009-11-13 13:38:50Z vanpouckesven $

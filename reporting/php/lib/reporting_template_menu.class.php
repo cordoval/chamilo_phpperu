@@ -5,6 +5,8 @@ use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\Theme;
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
 /**
  * @package reporting.lib
  */

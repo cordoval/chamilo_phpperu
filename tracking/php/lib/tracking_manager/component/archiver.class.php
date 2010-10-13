@@ -2,6 +2,8 @@
 namespace tracking;
 
 use common\libraries\Display;
+use common\libraries\AdministrationComponent;
+use common\libraries\BreadcrumbTrail;
 
 /**
  * $Id: archiver.class.php 213 2009-11-13 13:38:50Z vanpouckesven $

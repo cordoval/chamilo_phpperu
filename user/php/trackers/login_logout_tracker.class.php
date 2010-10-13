@@ -2,6 +2,7 @@
 namespace user;
 
 use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
 /**
  * $Id: login_logout_tracker.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.trackers

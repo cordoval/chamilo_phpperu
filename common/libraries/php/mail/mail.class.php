@@ -14,7 +14,7 @@ abstract class Mail
 {
     const NAME = 'name';
     const EMAIL = 'email';
-     
+
     /**
      * The sender of the mail
      * An array containing the name AND the e-mail address
@@ -73,7 +73,7 @@ abstract class Mail
         // TODO: This value should come from configuration and can be one of the available mail-implementations
         $mail_file = 'phpmailer';
         require_once dirname(__FILE__) . '/' . $mail_file . '/' . $mail_file . '_mail.class.php';
-        $mail_class = Utilities :: underscores_to_camelcase($mail_file) . 'Mail';
+        $mail_class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($mail_file) . 'Mail';
         return new $mail_class($subject, $message, $to, $from, $cc, $bcc);
     }
 
@@ -140,7 +140,7 @@ abstract class Mail
     {
         return $this->from[self :: EMAIL];
     }
-    
+
     /**
      * Retrieves the reply-to of the email
      * @return array
@@ -159,12 +159,12 @@ abstract class Mail
     {
         return $this->reply[self :: NAME];
     }
-	
+
     function get_reply_email()
     {
         return $this->reply[self :: EMAIL];
     }
-    
+
 
     /**
      * Send the email

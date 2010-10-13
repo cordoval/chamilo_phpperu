@@ -3,6 +3,9 @@ namespace reporting;
 
 use common\libraries\Path;
 use common\libraries\Translation;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use common\libraries\InequalityCondition;
 /**
  * $Id: webservices_reporting.class.php 215 2009-11-13 14:07:59Z vanpouckesven $
  * @package reporting.webservices

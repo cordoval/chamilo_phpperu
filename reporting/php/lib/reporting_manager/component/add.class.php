@@ -7,6 +7,10 @@ use common\libraries\Theme;
 use common\libraries\Display;
 use common\libraries\ToolbarItem;
 use common\libraries\Toolbar;
+use common\libraries\PatternMatchCondition;
+use common\libraries\AdministrationComponent;
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
 
 /**
  * $Id: add.class.php 215 2009-11-13 14:07:59Z vanpouckesven $

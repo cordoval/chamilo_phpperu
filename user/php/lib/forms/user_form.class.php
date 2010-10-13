@@ -4,8 +4,18 @@ namespace user;
 use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Translation;
+use common\libraries\FormValidator;
+use common\libraries\PlatformSetting;
+use common\libraries\Text;
+use common\libraries\Hashing;
+use common\libraries\Mail;
 
 use rights\RightsUtilities;
+use rights\RightsDataManager;
+
+use admin\AdminDataManager;
+
+use tracking\Event;
 /**
  * $Id: user_form.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.forms

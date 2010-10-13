@@ -2,6 +2,7 @@
 namespace rights;
 
 use common\libraries\Translation;
+use common\libraries\EqualityCondition;
 
 use common\libraries\Utilities;
 /**

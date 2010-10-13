@@ -1,5 +1,10 @@
 <?php
 namespace migration;
+
+use common\libraries\AdministrationComponent;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\PlatformSetting;
+
 /**
  * $Id: migration.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.migration_manager.component
@@ -20,9 +25,9 @@ class MigrationManagerMigrationComponent extends MigrationManager implements Adm
      */
     function run()
     {
-        ini_set("memory_limit", "3500M"); 
-		ini_set("max_execution_time", "72000"); 
-		
+        ini_set("memory_limit", "3500M");
+		ini_set("max_execution_time", "72000");
+
 		$setting = PlatformSetting :: get('in_migration', MigrationManager :: APPLICATION_NAME);
 		if($setting == 1)
 		{
@@ -32,7 +37,7 @@ class MigrationManagerMigrationComponent extends MigrationManager implements Adm
 		else
 		{
 			$form = new MigrationForm($this->get_url());
-			
+
 			if($form->validate())
 			{
 				$succes = $form->create_migration_settings();
@@ -44,9 +49,9 @@ class MigrationManagerMigrationComponent extends MigrationManager implements Adm
 				$form->display();
 				$this->display_footer();
 			}
-		}	
+		}
     }
-    
+
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add_help('migration_migrate');

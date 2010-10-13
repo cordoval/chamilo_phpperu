@@ -1,5 +1,8 @@
 <?php
 namespace migration;
+
+use common\libraries\Text;
+
 /**
  * Implementation of the dokeos 185 text field parser to parse images from the given field
  * @author Sven Vanpoucke
@@ -18,12 +21,12 @@ class Dokeos185ImageTextFieldParser extends Dokeos185TextFieldParser
     		if($document)
     		{
     			$this->add_included_object($document->get_id());
-    			
+
     			$url = RepositoryManager :: get_document_downloader_url($document->get_id());
     			$text_field = str_replace($src, $url, $text_field);
     		}
     	}
-    	
+
     	return $text_field;
 	}
 }

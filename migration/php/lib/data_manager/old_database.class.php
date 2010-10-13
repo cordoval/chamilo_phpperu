@@ -1,5 +1,8 @@
 <?php
 namespace migration;
+
+use common\libraries\EqualityCondition;
+
 /**
  * $Id: database.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.data_manager

@@ -2,6 +2,7 @@
 namespace user;
 
 use common\libraries\Request;
+use common\libraries\AdministrationComponent;
 
 /**
  * @package user.lib.user_manager.component

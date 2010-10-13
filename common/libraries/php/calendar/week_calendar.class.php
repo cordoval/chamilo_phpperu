@@ -51,10 +51,10 @@ class WeekCalendar extends CalendarTable
     public function get_start_time()
     {
         $setting = PlatformSetting :: get('first_day_of_week');
-        
+
         if ($setting == 'sunday')
             return strtotime('Next Sunday', strtotime('-1 Week', $this->get_display_time()));
-        
+
         return strtotime('Next Monday', strtotime('-1 Week', $this->get_display_time()));
     }
 
@@ -66,10 +66,10 @@ class WeekCalendar extends CalendarTable
     public function get_end_time()
     {
         $setting = PlatformSetting :: get('first_day_of_week');
-        
+
         if ($setting == 'sunday')
             return strtotime('Next Saterday', strtotime('-1 Week', $this->get_display_time()));
-        
+
         return strtotime('Next Sunday', $this->get_start_time());
     }
 
@@ -81,30 +81,30 @@ class WeekCalendar extends CalendarTable
         $header = $this->getHeader();
         $header->setRowType(0, 'th');
         $header->setHeaderContents(0, 0, '');
-        
+
         $week_number = date('W', $this->get_display_time());
         // Go 1 week back end them jump to the next monday to reach the first day of this week
         $first_day = $this->get_start_time();
         $last_day = $this->get_end_time;
-        
+
     	$working_start = LocalSetting :: get('working_hours_start');
         $working_end = LocalSetting :: get('working_hours_end');
         $hide = LocalSetting :: get('hide_none_working_hours');
         $start = 0;
         $end = 24;
-        
+
         if($hide)
         {
         	$start = $working_start;
         	$end = $working_end;
         }
-        
+
         for($hour = $start; $hour < $end; $hour += $this->hour_step)
         {
             $cell_content = $hour . Translation :: get('h') . ' - ' . ($hour + $this->hour_step) . Translation :: get('h');
             $this->setCellContents(($hour / $this->hour_step) - $start, 0, $cell_content);
         }
-        
+
         $this->updateColAttributes(0, 'class="week_hours"');
         $dates[] = '';
         $today = date('Y-m-d');
@@ -112,7 +112,7 @@ class WeekCalendar extends CalendarTable
         {
             $week_day = strtotime('+' . $day . ' days', $first_day);
             $header->setHeaderContents(0, $day + 1, Translation :: get(date('l', $week_day) . 'Long') . '<br/>' . date('Y-m-d', $week_day));
-            
+
             for($hour = $start; $hour < $end; $hour += $this->hour_step)
             {
                 $row = ($hour / $this->hour_step) - $start;
@@ -133,7 +133,7 @@ class WeekCalendar extends CalendarTable
                 {
                     $this->updateCellAttributes( $row, $day + 1, 'class="' . implode(' ', $class) . '"');
                 }
-                
+
             	if ($hour < $working_start || $hour >= $working_end)
             	{
                 	$this->updateCellAttributes($row, $day + 1, 'class="disabled_month"');
@@ -155,13 +155,13 @@ class WeekCalendar extends CalendarTable
         $hide = LocalSetting :: get('hide_none_working_hours');
         $start = 0;
         $end = 24;
-        
+
         if($hide)
         {
         	$start = $working_start;
         	$end = $working_end;
         }
-        
+
         foreach ($events as $time => $items)
         {
             $row = (date('H', $time) / $this->hour_step) - $start;
@@ -169,9 +169,9 @@ class WeekCalendar extends CalendarTable
             {
             	continue;
             }
-            
+
             $column = date('w', $time);
-            
+
             if ($column == 0)
             {
                 $column = 7;
@@ -183,7 +183,7 @@ class WeekCalendar extends CalendarTable
                 $this->setCellContents($row, $column, $cell_content);
             }
         }
-    
+
     }
 
     /**
