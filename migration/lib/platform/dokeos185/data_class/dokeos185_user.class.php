@@ -374,8 +374,8 @@ class Dokeos185User extends Dokeos185MigrationDataClass
     {
     	//User parameters
         $chamilo_user = new User();
-        $chamilo_user->set_lastname($this->get_lastname());
-        $chamilo_user->set_firstname($this->get_firstname());
+        $chamilo_user->set_lastname(utf8_decode($this->get_lastname()));
+        $chamilo_user->set_firstname(utf8_decode($this->get_firstname()));
         $chamilo_user->set_username($this->get_username());
         $chamilo_user->set_password($this->get_password());
         $chamilo_user->set_email($this->get_email());
@@ -383,6 +383,7 @@ class Dokeos185User extends Dokeos185MigrationDataClass
         $chamilo_user->set_platformadmin($this->is_platform_admin());
         $chamilo_user->set_official_code($this->get_official_code());
         $chamilo_user->set_phone($this->get_phone());
+        $chamilo_user->set_active($this->get_active());
 
         //the expiration date needs to be converted from a string to a unix timestamp format
         if($this->get_expiration_date())

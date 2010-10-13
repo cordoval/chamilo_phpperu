@@ -218,7 +218,7 @@ class Dokeos185ForumThread extends Dokeos185CourseDataMigrationDataClass
         		$additional_properties[ForumTopic :: PROPERTY_STATE] = 0;
         	}*/
         	
-        	$this->create_complex_content_object_item($chamilo_forum_topic, $parent_forum_id, $new_user_id);
+        	$this->create_complex_content_object_item($chamilo_forum_topic, $parent_forum_id, $new_user_id, strtotime($this->get_thread_date()));
         }
     }
 
