@@ -260,6 +260,19 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
     	$condition = new EqualityCondition(Dokeos185QuizRelQuestion :: PROPERTY_QUESTION_ID, $question_id);
     	return $this->retrieve_objects(Dokeos185QuizRelQuestion :: get_table_name(), $condition, null, null, null, 'Dokeos185QuizRelQuestion');
     }
+    
+	/**
+     * Retrieves all the dropbox persons
+     * @param Dokeos185Course $course
+     * @param int $question_id
+     */
+    function retrieve_dropbox_persons($course, $dropbox_file_id)
+    {
+    	$this->set_database($course->get_db_name());
+    	
+    	$condition = new EqualityCondition(Dokeos185DropboxPerson :: PROPERTY_FILE_ID , $dropbox_file_id);
+    	return $this->retrieve_objects(Dokeos185DropboxPerson :: get_table_name(), $condition, null, null, null, 'Dokeos185DropboxPerson');
+    }
 }
 
 ?>

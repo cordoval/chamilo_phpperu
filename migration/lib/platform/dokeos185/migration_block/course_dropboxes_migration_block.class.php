@@ -1,6 +1,6 @@
 <?php
 require_once dirname(__FILE__) . '/../course_data_migration_block.class.php';
-require_once dirname(__FILE__) . '/../data_class/dokeos185_dropbox_category.class.php';
+require_once dirname(__FILE__) . '/../data_class/dokeos185_dropbox_person.class.php';
 require_once dirname(__FILE__) . '/../data_class/dokeos185_dropbox_file.class.php';
 require_once dirname(__FILE__) . '/../data_class/dokeos185_dropbox_feedback.class.php';
 
