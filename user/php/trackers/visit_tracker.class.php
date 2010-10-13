@@ -1,5 +1,9 @@
 <?php
 namespace user;
+
+use common\libraries\Utilities;
+
+use tracking\SimpleTracker;
 /**
  * This class tracks the visits to pages
  *

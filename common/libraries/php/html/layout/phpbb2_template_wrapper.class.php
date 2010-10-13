@@ -1,5 +1,7 @@
 <?php
 namespace common\libraries;
+
+use \Phpbb2Template;
 /***************************************************************************
  *                              template.php
  *                            -------------------

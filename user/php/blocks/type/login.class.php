@@ -1,5 +1,12 @@
 <?php
 namespace user;
+
+use common\libraries\Path;
+use common\libraries\CoreApplication;
+use common\libraries\Redirect;
+use common\libraries\Authentication;
+use common\libraries\Translation;
+
 /**
  * $Id: login.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.block

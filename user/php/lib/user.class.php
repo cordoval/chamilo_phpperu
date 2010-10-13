@@ -1,34 +1,41 @@
 <?php
 namespace user;
+
+use common\libraries\Utilities;
+use common\libraries\Path;
+use common\libraries\Filesystem;
+use common\libraries\Translation;
+use common\libraries\DataClass;
+
+use repository\RepositoryDataManager;
 /**
  * $Id: user.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib
  */
 /**
- *	This class represents a user.
+ * This class represents a user.
  *
- *	User objects have a number of default properties:
- *	- user_id: the numeric ID of the user;
- *	- lastname: the lastname of the user;
- *	- firstname: the firstname of the user;
- *	- password: the password for this user;
- *	- auth_source:
- *  - external_uid: the external authentication system unique id of the user (eg: Shibboleth uid, OpenID uid, ...)
- *	- email: the email address of this user;
- *	- status: the status of this user: 1 is teacher, 5 is a student;
- *	- phone: the phone number of the user;
- *	- official_code; the official code of this user;
- *	- picture_uri: the URI location of the picture of this user;
- *	- creator_id: the user_id of the user who created this user;
- *	- language: the language setting of this user;
- *	- disk quota: the disk quota for this user;
- *	- database_quota: the database quota for this user;
- *	- version_quota: the default quota for this user of no quota for a specific learning object type is set.
+ * User objects have a number of default properties:
+ * - user_id: the numeric ID of the user;
+ * - lastname: the lastname of the user;
+ * - firstname: the firstname of the user;
+ * - password: the password for this user;
+ * - auth_source:
+ * - external_uid: the external authentication system unique id of the user (eg: Shibboleth uid, OpenID uid, ...)
+ * - email: the email address of this user;
+ * - status: the status of this user: 1 is teacher, 5 is a student;
+ * - phone: the phone number of the user;
+ * - official_code; the official code of this user;
+ * - picture_uri: the URI location of the picture of this user;
+ * - creator_id: the user_id of the user who created this user;
+ * - language: the language setting of this user;
+ * - disk quota: the disk quota for this user;
+ * - database_quota: the database quota for this user;
+ * - version_quota: the default quota for this user of no quota for a specific learning object type is set.
  *
- *	@author Hans de Bisschop
- *	@author Dieter De Neef
+ * @author Hans de Bisschop
+ * @author Dieter De Neef
  */
-
 
 class User extends DataClass
 {
@@ -70,12 +77,10 @@ class User extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_LASTNAME, self :: PROPERTY_FIRSTNAME, self :: PROPERTY_USERNAME,
-        		self :: PROPERTY_PASSWORD, self :: PROPERTY_AUTH_SOURCE, self :: PROPERTY_EXTERNAL_UID, self :: PROPERTY_EMAIL,
-        		self :: PROPERTY_STATUS, self :: PROPERTY_PLATFORMADMIN, self :: PROPERTY_PHONE, self :: PROPERTY_OFFICIAL_CODE,
-        		self :: PROPERTY_PICTURE_URI, self :: PROPERTY_CREATOR_ID, self :: PROPERTY_DISK_QUOTA, self :: PROPERTY_DATABASE_QUOTA,
-        		self :: PROPERTY_VERSION_QUOTA, self :: PROPERTY_ACTIVATION_DATE, self :: PROPERTY_EXPIRATION_DATE,
-        		self :: PROPERTY_REGISTRATION_DATE, self :: PROPERTY_ACTIVE, self :: PROPERTY_SECURITY_TOKEN, self :: PROPERTY_APPROVED));
+        return parent :: get_default_property_names(array(
+                self :: PROPERTY_LASTNAME, self :: PROPERTY_FIRSTNAME, self :: PROPERTY_USERNAME, self :: PROPERTY_PASSWORD, self :: PROPERTY_AUTH_SOURCE, self :: PROPERTY_EXTERNAL_UID, self :: PROPERTY_EMAIL, self :: PROPERTY_STATUS,
+                self :: PROPERTY_PLATFORMADMIN, self :: PROPERTY_PHONE, self :: PROPERTY_OFFICIAL_CODE, self :: PROPERTY_PICTURE_URI, self :: PROPERTY_CREATOR_ID, self :: PROPERTY_DISK_QUOTA, self :: PROPERTY_DATABASE_QUOTA,
+                self :: PROPERTY_VERSION_QUOTA, self :: PROPERTY_ACTIVATION_DATE, self :: PROPERTY_EXPIRATION_DATE, self :: PROPERTY_REGISTRATION_DATE, self :: PROPERTY_ACTIVE, self :: PROPERTY_SECURITY_TOKEN, self :: PROPERTY_APPROVED));
     }
 
     /**
@@ -524,12 +529,12 @@ class User extends DataClass
         $this->set_default_property(self :: PROPERTY_ACTIVE, $active);
     }
 
-	function set_approved($approved)
+    function set_approved($approved)
     {
         $this->set_default_property(self :: PROPERTY_APPROVED, $approved);
     }
 
-	function get_approved()
+    function get_approved()
     {
         return $this->get_default_property(self :: PROPERTY_APPROVED);
     }
@@ -593,10 +598,10 @@ class User extends DataClass
             $userquota->create();
         }
 
-        if(!UserRights :: create_location_in_users_subtree($this->get_fullname(), $this->get_id(), UserRights :: get_users_subtree_root_id()))
+        if (! UserRights :: create_location_in_users_subtree($this->get_fullname(), $this->get_id(), UserRights :: get_users_subtree_root_id()))
         {
-        	$this->delete();
-        	return false;
+            $this->delete();
+            return false;
         }
 
         return $succes;
@@ -604,13 +609,13 @@ class User extends DataClass
 
     function delete()
     {
-    	$location = UserRights :: get_location_by_identifier_from_users_subtree($this->get_id());
-    	if($location)
-    	{
-    		if(!$location->remove())
-    		{
-        		return false;
-    		}
+        $location = UserRights :: get_location_by_identifier_from_users_subtree($this->get_id());
+        if ($location)
+        {
+            if (! $location->remove())
+            {
+                return false;
+            }
         }
 
         return parent :: delete();
@@ -618,7 +623,8 @@ class User extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 
     function get_groups($only_retrieve_ids = false)

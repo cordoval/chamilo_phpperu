@@ -1,6 +1,7 @@
 <?php
 namespace admin;
 use common\libraries\Utilities;
+use tracking\SimpleTracker;
 /**
  * @package admin.trackers
  */

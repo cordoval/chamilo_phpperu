@@ -1,5 +1,8 @@
 <?php
 namespace common\libraries;
+
+use \HTML_Quickform;
+
 /**
  * @package common.html.formvalidator
  */
@@ -21,7 +24,7 @@ class FormValidator extends HTML_QuickForm
 {
     const PARAM_SUBMIT = 'submit';
     const PARAM_RESET = 'reset';
-    
+
 	private $no_errors;
 
     /**

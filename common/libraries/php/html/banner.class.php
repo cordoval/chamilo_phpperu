@@ -1,6 +1,9 @@
 <?php
 namespace common\libraries;
 
+use user\UserDataManager;
+use menu\MenuRenderer;
+
 /**
  * $Id: banner.class.php 179 2009-11-12 13:51:39Z vanpouckesven $
  * @package common.html

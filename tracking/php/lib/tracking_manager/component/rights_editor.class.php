@@ -1,5 +1,9 @@
 <?php
 namespace tracking;
+
+use common\libraries\Translation;
+use common\libraries\Request;
+
 /**
  * $Id: rights_editor.class.php 198 2009-11-13 12:20:22Z vanpouckesven $
  * @package webservices.lib.webservice_manager.component

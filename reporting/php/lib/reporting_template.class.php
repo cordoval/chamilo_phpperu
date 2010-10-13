@@ -1,5 +1,14 @@
 <?php
 namespace reporting;
+
+use common\libraries\Utilities;
+use common\libraries\Path;
+use common\libraries\CoreApplication;
+use common\libraries\WebApplication;
+use common\libraries\Redirect;
+use common\libraries\Translation;
+use common\libraries\Request;
+
 /**
  * $Id: reporting_template.class.php 215 2009-11-13 14:07:59Z vanpouckesven $
  * Extendable class for the reporting templates

@@ -1,5 +1,12 @@
 <?php
 namespace rights;
+
+use common\libraries\Utilities;
+use common\libraries\Path;
+use common\libraries\Application;
+use common\libraries\Translation;
+
+use rights\RightsUtilities;
 /**
  * $Id: rights_utilities.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib
@@ -174,9 +181,9 @@ class RightsUtilities
             $user = self :: $user_cache[$user_id];
         }
 
-        if(!$user)
+        if (! $user)
         {
-        	return false;
+            return false;
         }
 
         $cache_id = md5(serialize(array($right, $identifier, $type, $application, $user_id, $tree_identifier, $tree_type)));
@@ -203,15 +210,15 @@ class RightsUtilities
     static function get_right($right, $identifier, $type, $application, $user, $tree_identifier, $tree_type)
     {
 
-    	if ($user instanceof User && $user->is_platform_admin())
+        if ($user instanceof User && $user->is_platform_admin())
         {
-           	return true;
+            return true;
         }
 
         $location = self :: get_location_by_identifier($application, $type, $identifier, $tree_identifier, $tree_type);
         if (! $location)
         {
-            	return false;
+            return false;
         }
 
         $locked_parent = $location->get_locked_parent();
@@ -235,13 +242,13 @@ class RightsUtilities
                     {
                         if (self :: is_allowed_for_rights_template($group_template->get_id(), $right, $location))
                         {
-                        	return true;
+                            return true;
                         }
                     }
 
                     if (self :: is_allowed_for_group($group->get_id(), $right, $location))
                     {
-                    	return true;
+                        return true;
                     }
                 }
             }
@@ -253,13 +260,13 @@ class RightsUtilities
             {
                 if (self :: is_allowed_for_rights_template($user_template->get_id(), $right, $location))
                 {
-                	return true;
+                    return true;
                 }
             }
 
             if (self :: is_allowed_for_user($user->get_id(), $right, $location))
             {
-            	return true;
+                return true;
             }
         }
         else
@@ -594,7 +601,7 @@ class RightsUtilities
 
             if ($user_right_location)
             {
-            	if ($value == true)
+                if ($value == true)
                 {
                     $user_right_location->set_value($value);
                     return $user_right_location->update();
@@ -879,7 +886,7 @@ class RightsUtilities
                 $users[] = $object->get_user_id();
             }
 
-            $gdm = GroupDataManager::get_instance();
+            $gdm = GroupDataManager :: get_instance();
 
             $conditions = array();
             $conditions[] = new EqualityCondition(GroupRightLocation :: PROPERTY_RIGHT_ID, $right);
@@ -892,7 +899,7 @@ class RightsUtilities
             while ($object = $objects->next_result())
             {
                 $group = $gdm->retrieve_group($object->get_group_id());
-            	$group_users = array_merge($group_users, $group->get_users(true));
+                $group_users = array_merge($group_users, $group->get_users(true));
 
             }
             $users = array_merge($users, $group_users);

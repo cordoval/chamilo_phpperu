@@ -1,5 +1,9 @@
 <?php
 namespace menu;
+
+use common\libraries\Database;
+use common\libraries\EqualityCondition;
+
 /**
  * $Id: database_menu_data_manager.class.php 232 2009-11-16 10:11:48Z vanpouckesven $
  * @package menu.lib.data_manager
@@ -32,13 +36,13 @@ class DatabaseMenuDataManager extends Database implements MenuDataManagerInterfa
 
     function retrieve_navigation_items($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->retrieve_objects(NavigationItem :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(NavigationItem :: get_table_name(), $condition, $offset, $max_objects, $order_by, NavigationItem :: CLASS_NAME);
     }
 
     function retrieve_navigation_item($id)
     {
         $condition = new EqualityCondition(NavigationItem :: PROPERTY_ID, $id);
-        return $this->retrieve_object(NavigationItem :: get_table_name(), $condition);
+        return $this->retrieve_object(NavigationItem :: get_table_name(), $condition, array(), NavigationItem :: CLASS_NAME);
     }
 
     function retrieve_navigation_item_at_sort($parent, $sort, $direction)
@@ -60,7 +64,7 @@ class DatabaseMenuDataManager extends Database implements MenuDataManagerInterfa
         $condition = new AndCondition($conditions);
         $order[] = new ObjectTableOrder(NavigationItem :: PROPERTY_SORT, $order_direction);
 
-        return $this->retrieve_object(NavigationItem :: get_table_name(), $condition, $order);
+        return $this->retrieve_object(NavigationItem :: get_table_name(), $condition, $order, NavigationItem :: CLASS_NAME);
     }
 
     function update_navigation_item($navigation_item)

@@ -1,5 +1,13 @@
 <?php
 namespace rights;
+
+use common\libraries\Utilities;
+use common\libraries\Path;
+use common\libraries\Application;
+use common\libraries\BasicApplication;
+use common\libraries\Request;
+
+use rights\RightsUtilities;
 /**
  * $Id: user.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.user_right_manager.component

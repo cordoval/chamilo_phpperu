@@ -1,5 +1,12 @@
 <?php
 namespace tracking;
+
+use common\libraries\Path;
+use common\libraries\Application;
+use common\libraries\CoreApplication;
+use common\libraries\Redirect;
+use common\libraries\Translation;
+
 /**
  * $Id: tracking_manager.class.php 213 2009-11-13 13:38:50Z vanpouckesven $
  * @package tracking.lib.tracking_manager

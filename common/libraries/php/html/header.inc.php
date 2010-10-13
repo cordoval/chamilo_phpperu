@@ -1,4 +1,10 @@
-<?php // $Id: header.inc.php 128 2009-11-09 13:13:20Z vanpouckesven $
+<?php
+use common\libraries\Header;
+use common\libraries\PlatformSetting;
+use common\libraries\Banner;
+
+use admin\AdminDataManager;
+
 /**
  *	This script displays the Chamilo header.
  *	@package common.html

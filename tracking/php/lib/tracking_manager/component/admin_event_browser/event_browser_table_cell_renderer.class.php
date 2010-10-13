@@ -1,5 +1,8 @@
 <?php
 namespace tracking;
+
+use common\libraries\Translation;
+
 /**
  * $Id: event_browser_table_cell_renderer.class.php 213 2009-11-13 13:38:50Z vanpouckesven $
  * @package tracking.lib.tracking_manager.component.admin_event_browser

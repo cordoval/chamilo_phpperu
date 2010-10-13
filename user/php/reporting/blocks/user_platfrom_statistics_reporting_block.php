@@ -1,4 +1,6 @@
 <?php
+use common\libraries\Translation;
+
 require_once dirname (__FILE__) . '/../user_reporting_block.class.php';
 
 class UserPlatformStatisticsReportingBlock extends UserReportingBlock
@@ -41,18 +43,18 @@ class UserPlatformStatisticsReportingBlock extends UserReportingBlock
         $arr[Translation :: get('TimeOnPlatform')][] = self :: get_total_time($trackerdata);
 
         return Reporting :: getSerieArray($arr);
-    }	
-	
+    }
+
 	public function retrieve_data()
 	{
-		return $this->count_data();		
+		return $this->count_data();
 	}
-	
+
 	function get_application()
 	{
 		return UserManager::APPLICATION_NAME;
 	}
-	
+
 	public function get_available_displaymodes()
 	{
 		$modes = array();
@@ -64,7 +66,7 @@ class UserPlatformStatisticsReportingBlock extends UserReportingBlock
         $modes["Chart:FilledCubic"] = Translation :: get('Chart:FilledCubic');
         return $modes;
 	}
-	
+
 /**
      * Checks if a given start date is greater than a given end date
      * @param <type> $start_date

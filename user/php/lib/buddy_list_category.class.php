@@ -1,5 +1,7 @@
 <?php
 namespace user;
+
+use common\libraries\Utilities;
 /**
  * $Id: buddy_list_category.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @author Sven Vanpoucke

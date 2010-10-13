@@ -1,5 +1,10 @@
 <?php
 namespace rights;
+
+use common\libraries\Translation;
+use common\libraries\Request;
+
+use rights\RightsUtilities;
 /**
  * $Id: setter.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.user_right_manager.component

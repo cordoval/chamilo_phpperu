@@ -1,5 +1,9 @@
 <?php
 namespace user;
+
+use common\libraries\Utilities;
+use common\libraries\Translation;
+
 /**
  * $Id: admin_user_browser_table_cell_renderer.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager.component.admin_user_browser

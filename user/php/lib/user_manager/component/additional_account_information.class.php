@@ -1,5 +1,8 @@
 <?php
 namespace user;
+
+use common\libraries\Translation;
+
 /**
  * $Id: additional_account_information.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager.component

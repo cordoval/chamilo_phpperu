@@ -1,5 +1,8 @@
 <?php
 namespace webservice;
+
+use common\libraries\Request;
+
 /**
  * $Id: webservice_browser.class.php 208 2009-11-13 13:14:39Z vanpouckesven $
  * @package webservices.lib.webservice_manager.component

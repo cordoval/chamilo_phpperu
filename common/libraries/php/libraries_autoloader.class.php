@@ -6,45 +6,62 @@ namespace common\libraries;
  */
 class LibrariesAutoloader
 {
+    public static $class_name;
 
     static function load($classname)
     {
-        if (self :: load_files_with_same_directory_name($classname))
+        $classname_parts = explode('\\', $classname);
+
+        if (count($classname_parts) == 1)
+        {
+            return false;
+        }
+        else
+        {
+            self :: $class_name = $classname_parts[count($classname_parts) - 1];
+            array_pop($classname_parts);
+            if (implode('\\', $classname_parts) != __NAMESPACE__)
+            {
+                return false;
+            }
+        }
+
+        if (self :: load_files_with_same_directory_name())
         {
             return true;
         }
 
-        if (self :: check_for_utilities_files($classname))
+        if (self :: check_for_utilities_files())
         {
             return true;
         }
 
-        if (self :: check_for_html_files($classname))
+        if (self :: check_for_html_files())
         {
             return true;
         }
 
-        if (self :: check_for_interface_files($classname))
+        if (self :: check_for_interface_files())
         {
             return true;
         }
 
-        if (self :: check_for_general_files($classname))
+        if (self :: check_for_general_files())
         {
             return true;
         }
 
-        if (self :: check_for_conditions($classname))
+        if (self :: check_for_conditions())
         {
             return true;
         }
 
-        if (self :: check_for_calendar_files($classname))
+        if (self :: check_for_calendar_files())
         {
             return true;
         }
 
-        if (self :: check_for_special_files($classname))
+        if (self :: check_for_special_files())
         {
             return true;
         }
@@ -52,10 +69,10 @@ class LibrariesAutoloader
         return false;
     }
 
-    static function check_for_calendar_files($classname)
+    static function check_for_calendar_files()
     {
         $list = array('calendar_table', 'day_calendar', 'mini_day_calendar', 'mini_month_calendar', 'mini_week_calendar', 'month_calendar', 'week_calendar');
-        $lower_case = Utilities :: camelcase_to_underscores($classname);
+        $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
         if (in_array($lower_case, $list))
         {
@@ -66,13 +83,13 @@ class LibrariesAutoloader
         return false;
     }
 
-    static function load_files_with_same_directory_name($classname)
+    static function load_files_with_same_directory_name()
     {
         $list = array(
                 'authentication', 'configuration', 'database', 'datetime', 'debug', 'diagnoser', 'export', 'filecompression', 'filesystem', 'hashing', 'image_manipulation', 'import', 'mail', 'security', 'session', 'string',
                 'translation', 'validator', 'xml', 'webservice');
 
-        $lower_case = Utilities :: camelcase_to_underscores($classname);
+        $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
         if (in_array($lower_case, $list))
         {
@@ -83,11 +100,11 @@ class LibrariesAutoloader
         return false;
     }
 
-    static function check_for_utilities_files($classname)
+    static function check_for_utilities_files()
     {
         $list = array('datetime_utilities' => 'datetime', 'debug_utilities' => 'debug', 'string_utilities' => 'string', 'xml_utilities' => 'xml');
 
-        $lower_case = Utilities :: camelcase_to_underscores($classname);
+        $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
         if (array_key_exists($lower_case, $list))
         {
@@ -100,7 +117,7 @@ class LibrariesAutoloader
         }
     }
 
-    static function check_for_html_files($classname)
+    static function check_for_html_files()
     {
         $list = array(
                 'bbcode_parser' => 'bbcode_parser.class.php', 'breadcrumb_trail' => 'breadcrumb_trail.class.php', 'breadcrumb' => 'breadcrumb.class.php', 'dynamic_form_tabs_renderer' => 'tabs/dynamic_form_tabs_renderer.class.php',
@@ -125,7 +142,7 @@ class LibrariesAutoloader
                 'form_validator_html_editor_options' => 'formvalidator/form_validator_html_editor_options.class.php',
                 'html_editor_processor' => 'formvalidator/html_editor/html_editor_file_browser/html_editor_processor/html_editor_processor.class.php', 'action_bar_renderer' => 'action_bar/action_bar_renderer.class.php');
 
-        $lower_case = Utilities :: camelcase_to_underscores($classname);
+        $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
         if (key_exists($lower_case, $list))
         {
@@ -137,7 +154,7 @@ class LibrariesAutoloader
         return false;
     }
 
-    static function check_for_interface_files($classname)
+    static function check_for_interface_files()
     {
         $list = array(
                 'categorizable' => 'categorizable.class.php', 'versionable' => 'versionable.class.php', 'attachment_support' => 'attachment_support.class.php', 'changeable_password' => 'changeable_password.class.php',
@@ -145,7 +162,7 @@ class LibrariesAutoloader
                 'complex_menu_support' => 'complex_menu_support.class.php', 'complex_content_object_support' => 'complex_content_object_support.class.php', 'administration_component' => 'administration_component.class.php',
                 'delegate_component' => 'delegate_component.class.php');
 
-        $lower_case = Utilities :: camelcase_to_underscores($classname);
+        $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
         if (key_exists($lower_case, $list))
         {
@@ -157,13 +174,13 @@ class LibrariesAutoloader
         return false;
     }
 
-    static function check_for_general_files($classname)
+    static function check_for_general_files()
     {
-    	$list = array(
+        $list = array(
                 'application_component', 'application', 'block', 'core_application_component', 'core_application', 'installer', 'redirect', 'resource_manager', 'sub_manager_component', 'sub_manager', 'launcher_application',
                 'basic_application', 'messages_object', 'web_application', 'web_application_component', 'user_details');
 
-        $lower_case = Utilities :: camelcase_to_underscores($classname);
+        $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
         if (in_array($lower_case, $list))
         {
@@ -174,7 +191,7 @@ class LibrariesAutoloader
         return false;
     }
 
-    static function check_for_special_files($classname)
+    static function check_for_special_files()
     {
         $list = array(
                 'platform_setting' => 'configuration/platform_setting.class.php', 'local_setting' => 'configuration/local_setting.class.php', 'array_result_set' => 'database/array_result_set.class.php',
@@ -185,7 +202,7 @@ class LibrariesAutoloader
                 'video_conferencing_launcher' => 'launcher/video_conferencing/video_conferencing_launcher.class.php', 'repo_viewer_launcher' => 'launcher/repo_viewer/repo_viewer_launcher.class.php',
                 'chamilo_test_suite' => 'test/chamilo_test_suite.class.php', 'file_logger' => 'filesystem/file_logger.class.php', 'timer' => 'datetime/timer.class.php');
 
-        $lower_case = Utilities :: camelcase_to_underscores($classname);
+        $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
         if (key_exists($lower_case, $list))
         {
@@ -197,9 +214,9 @@ class LibrariesAutoloader
         return false;
     }
 
-    static function check_for_conditions($classname)
+    static function check_for_conditions()
     {
-        $lower_case = Utilities :: camelcase_to_underscores($classname);
+        $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
         if (strpos($lower_case, 'condition') !== false)
         {
             require_once dirname(__FILE__) . '/condition/' . $lower_case . '.class.php';

@@ -1,4 +1,6 @@
 <?php
+use common\libraries\Request;
+
 /**
  * $Id: chat_manager.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.ajax

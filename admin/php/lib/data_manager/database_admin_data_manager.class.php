@@ -1,6 +1,9 @@
 <?php
 namespace admin;
 use common\libraries\Session;
+use common\libraries\Database;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
 /**
  * $Id: database_admin_data_manager.class.php 231 2009-11-16 09:53:00Z vanpouckesven $
  * @package admin.lib.data_manager

@@ -1,5 +1,9 @@
 <?php
 namespace user;
+
+use common\libraries\Authentication;
+use common\libraries\Translation;
+
 /**
  * $Id: account_form.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.forms

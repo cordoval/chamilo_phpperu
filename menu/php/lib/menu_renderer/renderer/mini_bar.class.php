@@ -2,6 +2,10 @@
 namespace menu;
 use common\libraries\WebApplication;
 use common\libraries\Translation;
+use common\libraries\EqualityCondition;
+use common\libraries\ObjectTableOrder;
+use common\libraries\Header;
+use common\libraries\PlatformSetting;
 /**
  * @author Hans De Bisschop
  */

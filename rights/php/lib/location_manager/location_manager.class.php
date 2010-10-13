@@ -1,5 +1,11 @@
 <?php
 namespace rights;
+
+use common\libraries\Path;
+use common\libraries\Application;
+use common\libraries\SubManager;
+use common\libraries\Request;
+
 /**
  * $Id: location_manager.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.location_manager

@@ -1,5 +1,10 @@
 <?php
 namespace tracking;
+
+use common\libraries\Utilities;
+use common\libraries\BasicApplication;
+use common\libraries\DataClass;
+
 abstract class Tracker extends DataClass
 {
 

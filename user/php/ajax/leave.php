@@ -1,4 +1,6 @@
 <?php
+use common\libraries\Request;
+
 /**
  * @package user.ajax
  */

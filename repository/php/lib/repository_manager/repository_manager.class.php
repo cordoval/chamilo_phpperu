@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\CoreApplication;
+
 /**
  * @package repository.lib.repository_manager
  *

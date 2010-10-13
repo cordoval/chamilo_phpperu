@@ -1,5 +1,8 @@
 <?php
 namespace reporting;
+
+use common\libraries\Utilities;
+use common\libraries\Translation;
 /**
  * $Id: default_reporting_template_registration_table_cell_renderer.class.php 215 2009-11-13 14:07:59Z vanpouckesven $
  * @package reporting.lib.reporting_template_registration_table

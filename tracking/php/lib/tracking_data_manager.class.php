@@ -1,5 +1,8 @@
 <?php
 namespace tracking;
+
+use common\libraries\Utilities;
+use common\libraries\Configuration;
 /**
  * $Id: tracking_data_manager.class.php 213 2009-11-13 13:38:50Z vanpouckesven $
  * @package tracking.lib
@@ -34,7 +37,7 @@ class TrackingDataManager
         {
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
             require_once dirname(__FILE__) . '/data_manager/' . strtolower($type) . '_tracking_data_manager.class.php';
-            $class = Utilities :: underscores_to_camelcase($type) . 'TrackingDataManager';
+            $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type) . 'TrackingDataManager';
             self :: $instance = new $class();
         }
         return self :: $instance;

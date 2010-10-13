@@ -1,5 +1,8 @@
 <?php
 namespace tracking;
+
+use common\libraries\Request;
+
 /**
  * @package tracking.lib.tracking_manager.component
  */

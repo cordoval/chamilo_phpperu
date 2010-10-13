@@ -22,7 +22,7 @@ abstract class Hashing
         {
             $type = Configuration :: get_instance()->get_parameter('general', 'hashing_algorithm');
             $file = dirname(__FILE__) . '/' . $type . '/' . $type . '_hashing.class.php';
-            $class = Utilities :: underscores_to_camelcase($type) . 'Hashing';
+            $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type) . 'Hashing';
             if (file_exists($file))
             {
                 require_once ($file);

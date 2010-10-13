@@ -1,5 +1,7 @@
 <?php
 namespace reporting;
+
+use common\libraries\Utilities;
 /**
  * $Id: reporting_block_registration.class.php
  * Class representing a reporting block
