@@ -20,7 +20,7 @@ class CourseDropboxesMigrationBlock extends CourseDataMigrationBlock
 	
 	function get_course_data_classes()
 	{
-		return array(new Dokeos185DropboxCategory(), new Dokeos185DropboxFile(), new Dokeos185DropboxFeedback());
+		return array(new Dokeos185DropboxFile(), new Dokeos185DropboxFeedback());
 	}
 }
 

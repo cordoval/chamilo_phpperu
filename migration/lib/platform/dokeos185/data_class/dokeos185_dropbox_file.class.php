@@ -350,8 +350,7 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
             $this->create_id_reference($this->get_id(), $chamilo_repository_document->get_id());
 
             //publication
-            $parent_id = $this->get_id_reference($this->get_cat_id(), $this->get_database_name() . '.dropbox_category');
-            $this->create_publication($chamilo_repository_document, $new_course_code, $new_user_id, 'document', $parent_id, $new_to_user_id, $new_to_group_id);
+            $this->create_publication($chamilo_repository_document, $new_course_code, $new_user_id, 'document', null, $new_to_user_id, $new_to_group_id);
             $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'dropbox_file', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_repository_document->get_id())));
         }
     }
