@@ -4,6 +4,10 @@ use common\libraries\Application;
 use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+ 
+ 
 /**
  * $Id: synchroniser.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package admin.lib.package_manager.component
@@ -18,13 +22,13 @@ class PackageManagerSynchroniserComponent extends PackageManager
      */
     function run()
     {
-        if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW))
-        {
-            $this->display_header();
-            $this->display_error_message(Translation :: get('NotAllowed'));
-            $this->display_footer();
-            exit();
-        }
+//        if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW))
+//        {
+//            $this->display_header();
+//            $this->display_error_message(Translation :: get('NotAllowed'));
+//            $this->display_footer();
+//            exit();
+//        }
         
         $data = $this->get_remote_packages_data();
         

@@ -13,13 +13,13 @@ class AdminManagerPackagerComponent extends AdminManager implements Administrati
      */
     function run()
     {
-        if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW))
-        {
-            $this->display_header();
-            $this->display_error_message(Translation :: get('NotAllowed'));
-            $this->display_footer();
-            exit();
-        }
+//        if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW))
+//        {
+//            $this->display_header();
+//            $this->display_error_message(Translation :: get('NotAllowed'));
+//            $this->display_footer();
+//            exit();
+//        }
         
         PackageManager :: launch($this);
     }

@@ -2,6 +2,10 @@
 namespace admin;
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\InequalityCondition;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+ 
 
 /**
  * $Id: system_announcement_browser.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
@@ -18,13 +22,13 @@ class AdminManagerSystemAnnouncementBrowserComponent extends AdminManager implem
 
     function run()
     {
-        if (!AdminRights::is_allowed(AdminRights::RIGHT_VIEW, AdminRights::LOCATION_SYSTEM_ANNOUNCEMENTS))
-        {
-            $this->display_header();
-            Display :: warning_message(Translation :: get('NotAllowed'));
-            $this->display_footer();
-            exit();
-        }
+//        if (!AdminRights::is_allowed(AdminRights::RIGHT_VIEW, AdminRights::LOCATION_SYSTEM_ANNOUNCEMENTS))
+//        {
+//            $this->display_header();
+//            Display :: warning_message(Translation :: get('NotAllowed'));
+//            $this->display_footer();
+//            exit();
+//        }
         $user = $this->get_user();
 
         if (!$user->is_platform_admin())

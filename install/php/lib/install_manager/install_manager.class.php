@@ -2,6 +2,7 @@
 namespace install;
 use common\libraries\CoreApplication;
 use common\libraries\Translation;
+use common\libraries\Installer;
 /**
  * $Id: install_manager.class.php 225 2009-11-13 14:43:20Z vanpouckesven $
  * @package install.lib.installmanager

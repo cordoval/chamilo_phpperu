@@ -1,8 +1,10 @@
 <?php
 namespace repository;
-
 use common\libraries\CoreApplication;
-
+use common\libraries\DynamicAction;
+use common\libraries\Translation;
+use common\libraries\Theme;
+use common\libraries\Redirect;
 /**
  * @package repository.lib.repository_manager
  *

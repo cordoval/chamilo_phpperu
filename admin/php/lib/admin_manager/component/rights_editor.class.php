@@ -15,11 +15,11 @@ class AdminManagerRightsEditorComponent extends AdminManager implements Administ
 {
     function run()
     {
-        $location[] = AdminRights::get_location_by_identifier(AdminManager::APPLICATION_NAME, AdminRights::TYPE_ADMIN_COMPONENT, AdminRights::LOCATION_SYSTEM_ANNOUNCEMENTS);
-        
-        $manager = new RightsEditorManager($this, $location);
-        $manager->exclude_users(array($this->get_user_id()));
-        $manager->run();
+//        $location[] = AdminRights::get_location_by_identifier(AdminManager::APPLICATION_NAME, AdminRights::TYPE_ADMIN_COMPONENT, AdminRights::LOCATION_SYSTEM_ANNOUNCEMENTS);
+//        
+//        $manager = new RightsEditorManager($this, $location);
+//        $manager->exclude_users(array($this->get_user_id()));
+//        $manager->run();
     }
 
     function get_available_rights()

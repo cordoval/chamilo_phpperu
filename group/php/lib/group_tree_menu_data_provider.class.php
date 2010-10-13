@@ -1,5 +1,6 @@
 <?php
 namespace group;
+use common\libraries\EqualityCondition;
 require_once Path :: get_common_path() . '/html/menu/tree_menu/tree_menu_data_provider.class.php';
 require_once Path :: get_common_path() . '/html/menu/tree_menu/tree_menu.class.php';
 require_once Path :: get_common_path() . '/html/menu/tree_menu/tree_menu_item.class.php';

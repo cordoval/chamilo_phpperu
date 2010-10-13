@@ -1,6 +1,8 @@
 <?php
 namespace group;
 use common\libraries\Translation;
+use common\libraries\Validator;
+use common\libraries\EqualityCondition;
 /**
  * $Id: group_validator.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package group.validator

@@ -5,6 +5,7 @@ use common\libraries\Application;
 use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\Installer;
 /**
  * $Id: command_line_installation.php 225 2009-11-13 14:43:20Z vanpouckesven $
  * @package install.lib

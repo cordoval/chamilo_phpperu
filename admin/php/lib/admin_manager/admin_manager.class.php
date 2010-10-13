@@ -6,6 +6,22 @@ use common\libraries\CoreApplication;
 use common\libraries\WebApplication;
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\DynamicAction;
+use common\libraries\Theme;
+use common\libraries\Redirect;
+use common\libraries\BreadcrumbTrail;
+use repository\RepositoryManager;
+use user\UserManager;
+use group\GroupManager;
+use help\HelpManager;
+use migration\MigrationManager;
+use menu\MenuManager;
+use reporting\ReportingManager;
+use home\HomeManager;
+use tracking\TrackingManager;
+use webservice\WebserviceManager;
+
+
 /**
  * $Id: admin_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package admin.lib.admin_manager
@@ -110,8 +126,8 @@ class AdminManager extends CoreApplication
         $links = array();
         $links[] = new DynamicAction(Translation :: get('Importer'), Translation :: get('ImporterDescription'), Theme :: get_image_path() . 'browse_import.png', Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_IMPORTER), array(), false, Redirect :: TYPE_CORE));
         $links[] = new DynamicAction(Translation :: get('ManagePackages'), Translation :: get('ManagePackagesDescription'), Theme :: get_image_path() . 'browse_build.png', Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_MANAGE_PACKAGES), array(), false, Redirect :: TYPE_CORE));
-        if(AdminRights::is_allowed(AdminRights::RIGHT_VIEW, AdminRights::LOCATION_SYSTEM_ANNOUNCEMENTS))
-            $links[] = new DynamicAction(Translation :: get('SystemAnnouncements'), Translation :: get('SystemAnnouncementsDescription'), Theme :: get_image_path() . 'browse_list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS), array(), false, Redirect :: TYPE_CORE));
+//        if(AdminRights::is_allowed(AdminRights::RIGHT_VIEW, AdminRights::LOCATION_SYSTEM_ANNOUNCEMENTS))
+//            $links[] = new DynamicAction(Translation :: get('SystemAnnouncements'), Translation :: get('SystemAnnouncementsDescription'), Theme :: get_image_path() . 'browse_list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS), array(), false, Redirect :: TYPE_CORE));
         $links[] = new DynamicAction(Translation :: get('ManageCategories'), Translation :: get('ManageCategoriesDescription'), Theme :: get_image_path() . 'browse_list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_MANAGE_CATEGORIES), array(), false, Redirect :: TYPE_CORE));
         $links[] = new DynamicAction(Translation :: get('Diagnose'), Translation :: get('DiagnoseDescription'), Theme :: get_image_path() . 'browse_information.png', Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_DIAGNOSE), array(), false, Redirect :: TYPE_CORE));
         $links[] = new DynamicAction(Translation :: get('LogsViewer'), Translation :: get('LogsViewerDescription'), Theme :: get_image_path() . 'browse_information.png', Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_VIEW_LOGS), array(), false, Redirect :: TYPE_CORE));
@@ -122,7 +138,7 @@ class AdminManager extends CoreApplication
 
         $info[] = RepositoryManager :: get_application_platform_admin_links();
         $info[] = UserManager :: get_application_platform_admin_links();
-        $info[] = RightsManager :: get_application_platform_admin_links();
+        //$info[] = RightsManager :: get_application_platform_admin_links();
         $info[] = GroupManager :: get_application_platform_admin_links();
         $info[] = WebserviceManager :: get_application_platform_admin_links();
         $info[] = TrackingManager :: get_application_platform_admin_links();

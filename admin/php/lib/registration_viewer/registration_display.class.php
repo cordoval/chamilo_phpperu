@@ -2,6 +2,8 @@
 namespace admin;
 use common\libraries\Utilities;
 use common\libraries\Translation;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
 require_once Path :: get_admin_path() . 'lib/package_installer/source/package_info/package_info.class.php';
 
 class RegistrationDisplay

@@ -2,6 +2,7 @@
 namespace group;
 use common\libraries\Utilities;
 use common\libraries\Path;
+use common\libraries\EqualityCondition;
 /**
  * $Id: group_menu.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package group.lib

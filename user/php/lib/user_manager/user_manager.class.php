@@ -7,6 +7,8 @@ use common\libraries\Redirect;
 use common\libraries\Translation;
 use common\libraries\LocalSetting;
 use common\libraries\Theme;
+use common\libraries\DynamicAction;
+use common\libraries\PlatformSetting;
 
 use repository\RepositoryDataManager;
 

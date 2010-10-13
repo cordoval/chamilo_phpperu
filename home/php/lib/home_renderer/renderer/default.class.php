@@ -2,6 +2,8 @@
 namespace home;
 use common\libraries\BasicApplication;
 use common\libraries\Translation;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
 /**
  * @author Hans De Bisschop
  */

@@ -2,6 +2,7 @@
 namespace menu;
 use common\libraries\WebApplication;
 use common\libraries\Translation;
+use common\libraries\EqualityCondition;
 /**
  * @author Hans De Bisschop
  */

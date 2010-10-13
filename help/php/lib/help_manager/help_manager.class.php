@@ -3,6 +3,7 @@ namespace help;
 use common\libraries\CoreApplication;
 use common\libraries\Translation;
 use common\libraries\Session;
+use common\libraries\DynamicAction;
 /**
  * $Id: help_manager.class.php 226 2009-11-13 14:44:03Z chellee $
  * @package help.lib.help_manager

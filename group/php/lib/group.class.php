@@ -1,6 +1,10 @@
 <?php
 namespace group;
 use common\libraries\Utilities;
+use common\libraries\InequalityCondition;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+ 
 
 require_once dirname(__FILE__) . "/group_rights.class.php";
 /**

@@ -5,6 +5,7 @@ use common\libraries\Application;
 use common\libraries\BasicApplication;
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\DynamicTabsRenderer;
 
 /**
  * $Id: configurer.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
@@ -24,13 +25,13 @@ class AdminManagerConfigurerComponent extends AdminManager
     {
         $application = $this->get_application();
         
-        if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW, AdminRights :: LOCATION_SETTINGS, AdminRights :: TYPE_ADMIN_COMPONENT))
-        {
-            $this->display_header();
-            $this->display_error_message(Translation :: get('NotAllowed'));
-            $this->display_footer();
-            exit();
-        }
+//        if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW, AdminRights :: LOCATION_SETTINGS, AdminRights :: TYPE_ADMIN_COMPONENT))
+//        {
+//            $this->display_header();
+//            $this->display_error_message(Translation :: get('NotAllowed'));
+//            $this->display_footer();
+//            exit();
+//        }
 
         $form = new ConfigurationForm($application, 'config', 'post', $this->get_url(array(AdminManager :: PARAM_WEB_APPLICATION => $application)));
 

@@ -4,6 +4,12 @@ use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\ResourceManager;
+use common\libraries\EqualityCondition;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\DynamicTabsRenderer;
+use common\libraries\DynamicAction;
 /**
  * $Id: browser.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package admin.lib.admin_manager.component
@@ -20,13 +26,13 @@ class AdminManagerBrowserComponent extends AdminManager
      */
     function run()
     {
-    	if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW))
-        {
-            $this->display_header();
-            $this->display_error_message(Translation :: get('NotAllowed'));
-            $this->display_footer();
-            exit();
-        } 
+//    	if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW))
+//        {
+//            $this->display_header();
+//            $this->display_error_message(Translation :: get('NotAllowed'));
+//            $this->display_footer();
+//            exit();
+//        } 
         
         $breadcrumbtrail = BreadcrumbTrail :: get_instance();
         $breadcrumbtrail->truncate(true);

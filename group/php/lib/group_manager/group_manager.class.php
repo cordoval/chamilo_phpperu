@@ -6,6 +6,8 @@ use common\libraries\Application;
 use common\libraries\CoreApplication;
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\DynamicAction;
 /**
  * $Id: group_manager.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package group.lib.group_manager

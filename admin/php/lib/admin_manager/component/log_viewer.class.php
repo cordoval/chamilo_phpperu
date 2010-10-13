@@ -2,6 +2,7 @@
 namespace admin;
 use common\libraries\Path;
 use common\libraries\Translation;
+use common\libraries\ResourceManager;
 
 /**
  * $Id: log_viewer.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
@@ -21,13 +22,13 @@ class AdminManagerLogViewerComponent extends AdminManager implements Administrat
      */
     function run()
     {
-        if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW))
-        {
-            $this->display_header();
-            $this->display_error_message(Translation :: get('NotAllowed'));
-            $this->display_footer();
-            exit();
-        }
+//        if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW))
+//        {
+//            $this->display_header();
+//            $this->display_error_message(Translation :: get('NotAllowed'));
+//            $this->display_footer();
+//            exit();
+//        }
         
         $form = $this->build_form();
         
