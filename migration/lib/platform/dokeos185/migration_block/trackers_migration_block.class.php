@@ -58,12 +58,13 @@ class TrackersMigrationBlock extends MigrationBlock
 
     function get_data_classes()
     {
-        return array(new Dokeos185TrackCOs(), new Dokeos185TrackCBrowsers(), new Dokeos185TrackCCountries(),
-            new Dokeos185TrackCProviders(), new Dokeos185TrackCReferers(), new Dokeos185TrackEAccess(),
-            new Dokeos185TrackEAttempt(), new Dokeos185TrackECourseAccess(), new Dokeos185TrackEDefault(),
-            new Dokeos185TrackEDownloads(), new Dokeos185TrackEExercices(), new Dokeos185TrackEHotpotatoes(),
-            new Dokeos185TrackEHotspot(), new Dokeos185TrackELastaccess(), new Dokeos185TrackELinks(),
-            new Dokeos185TrackELogin(), new Dokeos185TrackEOnline(), new Dokeos185TrackEOpen(), new Dokeos185TrackEUploads());
+//        return array(new Dokeos185TrackCOs(), new Dokeos185TrackCBrowsers(), new Dokeos185TrackCCountries(),
+//            new Dokeos185TrackCProviders(), new Dokeos185TrackCReferers(), new Dokeos185TrackEAccess(),
+//            new Dokeos185TrackEAttempt(), new Dokeos185TrackECourseAccess(), new Dokeos185TrackEDefault(),
+//            new Dokeos185TrackEDownloads(), new Dokeos185TrackEExercices(), new Dokeos185TrackEHotpotatoes(),
+//            new Dokeos185TrackEHotspot(), new Dokeos185TrackELastaccess(), new Dokeos185TrackELinks(),
+//            new Dokeos185TrackELogin(), new Dokeos185TrackEOnline(), new Dokeos185TrackEOpen(), new Dokeos185TrackEUploads());
+        return array(new Dokeos185TrackEAccess());
     }
 
 }
