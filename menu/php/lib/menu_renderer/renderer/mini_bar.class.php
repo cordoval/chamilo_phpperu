@@ -1,5 +1,13 @@
 <?php
 namespace menu;
+
+use common\libraries\EqualityCondition;
+use common\libraries\ObjectTableOrder;
+use common\libraries\Header;
+use common\libraries\PlatformSetting;
+use common\libraries\Translation;
+use common\libraries\WebApplication;
+
 /**
  * @author Hans De Bisschop
  */

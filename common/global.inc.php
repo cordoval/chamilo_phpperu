@@ -4,6 +4,18 @@ use common\libraries\Utilities;
 use common\libraries\Session;
 use common\libraries\Connection;
 use common\libraries\PlatformSetting;
+use common\libraries\LocalSetting;
+use common\libraries\Request;
+
+use admin\AdminDataManager;
+use admin\AdminManager;
+
+use user\UserDataManager;
+use user\UserManager;
+use user\User;
+use user\VisitTracker;
+
+use tracking\Event;
 
 
 // $Id: global.inc.php 187 2009-11-13 10:31:25Z vanpouckesven $
@@ -203,7 +215,7 @@ if(!AdminDataManager :: is_language_active($language_interface))
 if (isset($_POST['login']))
 {
     $user = UserDataManager :: login($_POST['login'], $_POST['password']);
-    if (get_class($user) == 'User')
+    if (get_class($user) == User :: CLASS_NAME)
     {
         Session :: register('_uid', $user->get_id());
         Event :: trigger('login', 'user', array('server' => $_SERVER, 'user' => $user));
@@ -288,8 +300,9 @@ if (isset($_SESSION['_uid']))
 
     if (strpos($_SERVER['REQUEST_URI'], 'leave.php') === false && strpos($_SERVER['REQUEST_URI'], 'ajax') === false)
     {
-        $return = Event :: trigger('enter', UserManager :: APPLICATION_NAME, array(VisitTracker :: PROPERTY_LOCATION => $_SERVER['REQUEST_URI'], VisitTracker :: PROPERTY_USER_ID => $user->get_id()));
-        $htmlHeadXtra[] = '<script type="text/javascript">var tracker=' . $return[0]->get_id() . ';</script>';
+        // TODO: Temporarily disabled
+        // $return = Event :: trigger('enter', UserManager :: APPLICATION_NAME, array(VisitTracker :: PROPERTY_LOCATION => $_SERVER['REQUEST_URI'], VisitTracker :: PROPERTY_USER_ID => $user->get_id()));
+        // $htmlHeadXtra[] = '<script type="text/javascript">var tracker=' . $return[0]->get_id() . ';</script>';
     }
 }
 

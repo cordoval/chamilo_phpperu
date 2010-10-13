@@ -1,5 +1,8 @@
 <?php
 namespace common\libraries;
+
+use admin\AdminDataManager;
+use admin\Registration;
 /**
  * $Id: web_application.class.php 237 2009-11-16 13:04:53Z vanpouckesven $
  * @package application
@@ -115,16 +118,16 @@ abstract class WebApplication extends BasicApplication
         $applications = array();
         $path = Path :: get_application_path();
         $directories = Filesystem :: get_directory_content($path, Filesystem :: LIST_DIRECTORIES, false);
-        
+
         foreach ($directories as $directory)
         {
             $application_name = basename($directory);
-            
+
             if ($only_registered_applications && ! AdminDataManager :: is_registered($application_name))
             {
                 continue;
             }
-            
+
             if (Application :: is_application_name($application_name))
             {
                 if (! in_array($application_name, $applications))
@@ -147,7 +150,7 @@ abstract class WebApplication extends BasicApplication
         $condition = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_APPLICATION);
         $applications = $adm->retrieve_registrations($condition);
         $active_applications = array();
-        
+
         while ($application = $applications->next_result())
         {
             if ($include_application_classes)
@@ -155,7 +158,7 @@ abstract class WebApplication extends BasicApplication
                 require_once self :: get_application_manager_path($application->get_name());
             }
             $active_applications[] = $application->get_name();
-        
+
         }
         return $active_applications;
     }
@@ -168,8 +171,8 @@ abstract class WebApplication extends BasicApplication
      */
     public static function is_application($name)
     {
-    	$application_path = self :: get_application_path($name);       
-        
+    	$application_path = self :: get_application_path($name);
+
         if (file_exists($application_path) && is_dir($application_path) )
         {
             return true;
@@ -185,12 +188,12 @@ abstract class WebApplication extends BasicApplication
         if (self :: exists($application))
         {
             $adm = AdminDataManager :: get_instance();
-            
+
             $conditions = array();
             $conditions[] = new EqualityCondition(Registration :: PROPERTY_TYPE, 'application');
             $conditions[] = new EqualityCondition(Registration :: PROPERTY_NAME, $application);
             $condition = new AndCondition($conditions);
-            
+
             $registrations = $adm->retrieve_registrations($condition);
             if ($registrations->size() > 0)
             {
@@ -249,11 +252,11 @@ abstract class WebApplication extends BasicApplication
         return null;
     }
 
-    
+
     static function exists($application)
     {
-    	$application_path = self :: get_application_path($application);       
-        
+    	$application_path = self :: get_application_path($application);
+
         if (file_exists($application_path) && is_dir($application_path) )
         {
             return true;

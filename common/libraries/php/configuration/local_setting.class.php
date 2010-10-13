@@ -1,5 +1,8 @@
 <?php
 namespace common\libraries;
+
+use user\UserSetting;
+use user\UserDataManager;
 /**
  * $Id: local_setting.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package common.configuration
@@ -17,7 +20,7 @@ class LocalSetting
      * Instance of this class for the singleton pattern.
      */
     private static $instance;
-    
+
     /**
      * Parameters defined in the configuration. Stored as an associative array.
      */
@@ -54,14 +57,14 @@ class LocalSetting
     static function get($variable, $application = 'admin')
     {
         $instance = self :: get_instance();
-        
+
         $params = & $instance->params;
-        
+
         if (! $params)
         {
             return PlatformSetting :: get($variable, $application);
         }
-        
+
         if (isset($params[$application]) && isset($params[$application][$variable]))
         {
             return $params[$application][$variable];
@@ -79,9 +82,9 @@ class LocalSetting
         {
             return null;
         }
-        
+
         $params = array();
-        
+
         $condition = new EqualityCondition(UserSetting :: PROPERTY_USER_ID, $user_id);
         $user_settings = UserDataManager :: get_instance()->retrieve_user_settings($condition);
         while ($user_setting = $user_settings->next_result())
@@ -90,7 +93,7 @@ class LocalSetting
             $setting = AdminDataManager :: get_instance()->retrieve_settings($condition)->next_result();
             $params[$setting->get_application()][$setting->get_variable()] = $user_setting->get_value();
         }
-        
+
         return $params;
     }
 
@@ -100,19 +103,19 @@ class LocalSetting
         {
             $user_id = Session :: get_user_id();
         }
-        
+
         $setting = AdminDataManager :: get_instance()->retrieve_setting_from_variable_name($variable, $application);
-        
+
         if ($setting && $setting->get_user_setting() == 1)
         {
             $conditions = array();
             $conditions[] = new EqualityCondition(UserSetting :: PROPERTY_USER_ID, $user_id);
             $conditions[] = new EqualityCondition(UserSetting :: PROPERTY_SETTING_ID, $setting->get_id());
             $condition = new AndCondition($conditions);
-            
+
             $user_settings = UserDataManager :: get_instance()->retrieve_user_settings($condition);
             $user_setting = $user_settings->next_result();
-            
+
             if ($user_setting)
             {
                 $user_setting->set_value($value);

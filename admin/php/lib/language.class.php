@@ -1,16 +1,18 @@
 <?php
 namespace admin;
+
+use common\libraries\DataClass;
+use common\libraries\Utilities;
 /**
  * $Id: language.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package admin.lib
  * @author Hans De Bisschop
  */
 
-
 class Language extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_ORIGINAL_NAME = 'original_name';
     const PROPERTY_ENGLISH_NAME = 'english_name';
     const PROPERTY_ISOCODE = 'isocode';
@@ -131,38 +133,39 @@ class Language extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
-    
+
     function create()
     {
-    	if(!parent :: create())
-    	{
-    		return false;
-    	}
-    	
-    	$registration = new Registration();
-    	$registration->set_name($this->get_english_name());
-    	$registration->set_type(Registration :: TYPE_LANGUAGE);
-    	$registration->set_version('1.0.0');
-    	$registration->set_status(Registration :: STATUS_ACTIVE);
-    	return $registration->create();
+        if (! parent :: create())
+        {
+            return false;
+        }
+
+        $registration = new Registration();
+        $registration->set_name($this->get_english_name());
+        $registration->set_type(Registration :: TYPE_LANGUAGE);
+        $registration->set_version('1.0.0');
+        $registration->set_status(Registration :: STATUS_ACTIVE);
+        return $registration->create();
     }
-    
+
     function delete()
     {
-    	if(!parent :: delete())
-    	{
-    		return false;
-    	}
-    	
-    	$conditions = array();
-    	$conditions[] = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_LANGUAGE);
-    	$conditions[] = new EqualityCondition(Registration :: PROPERTY_NAME, $this->get_english_name());
-    	$condition = new AndCondition($conditions);
-    	
-    	$registration = AdminDataManager :: get_instance()->retrieve_registrations($condition)->next_result();
-    	return $registration->delete();
+        if (! parent :: delete())
+        {
+            return false;
+        }
+
+        $conditions = array();
+        $conditions[] = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_LANGUAGE);
+        $conditions[] = new EqualityCondition(Registration :: PROPERTY_NAME, $this->get_english_name());
+        $condition = new AndCondition($conditions);
+
+        $registration = AdminDataManager :: get_instance()->retrieve_registrations($condition)->next_result();
+        return $registration->delete();
     }
 }
 ?>

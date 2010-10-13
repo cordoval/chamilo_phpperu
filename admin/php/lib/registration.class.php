@@ -1,5 +1,8 @@
 <?php
 namespace admin;
+
+use common\libraries\DataClass;
+use common\libraries\Utilities;
 /**
  * $Id: registration.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package admin.lib
@@ -116,12 +119,12 @@ class Registration extends DataClass
     {
         return $this->get_status();
     }
-    
+
     function activate()
     {
     	$this->set_status(true);
     }
-    
+
     function deactivate()
     {
     	$this->set_status(false);
@@ -134,7 +137,8 @@ class Registration extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 
     function is_up_to_date()
@@ -143,7 +147,7 @@ class Registration extends DataClass
         {
         	return true;
         }
-        
+
     	$conditions = array();
         $conditions[] = new EqualityCondition(RemotePackage::PROPERTY_CODE, $this->get_name());
         $conditions[] = new EqualityCondition(RemotePackage::PROPERTY_SECTION, $this->get_type());
@@ -168,7 +172,7 @@ class Registration extends DataClass
             return true;
         }
     }
-    
+
     function delete()
     {
     	if($this->get_type() == self :: TYPE_CONTENT_OBJECT)
@@ -180,9 +184,9 @@ class Registration extends DataClass
 	        	{
 	        		return false;
 	        	}
-	        }	
+	        }
     	}
-    	
+
     	return parent :: delete();
     }
 }

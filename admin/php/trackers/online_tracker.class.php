@@ -1,5 +1,8 @@
 <?php
 namespace admin;
+
+use tracking\SimpleTracker;
+
 /**
  * @package admin.trackers
  */

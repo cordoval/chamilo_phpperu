@@ -1,5 +1,10 @@
 <?php
 namespace common\libraries;
+
+use user\UserManager;
+use admin\AdminManager;
+use repository\RepositoryManager;
+
 require_once dirname(__FILE__) . '/cas/cas_authentication.class.php';
 /**
  * $Id: authentication.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
@@ -122,7 +127,7 @@ abstract class Authentication
     function factory($authentication_method)
     {
         $authentication_class_file = dirname(__FILE__) . '/' . $authentication_method . '/' . $authentication_method . '_authentication.class.php';
-        $authentication_class = Utilities :: underscores_to_camelcase($authentication_method) . 'Authentication';
+        $authentication_class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($authentication_method) . 'Authentication';
         require_once $authentication_class_file;
         return new $authentication_class();
     }
@@ -142,7 +147,7 @@ abstract class Authentication
         $types[] = 'platform';
         return $types;
     }
-    
+
     static function is_valid_authentication_type($type)
     {
     	$types = array_merge(self :: get_external_authentication_types(), self :: get_internal_authentication_types());

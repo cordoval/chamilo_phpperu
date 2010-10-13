@@ -1,5 +1,9 @@
 <?php
 namespace user;
+
+use common\libraries\Database;
+use common\libraries\EqualityCondition;
+
 /**
  * $Id: database_user_data_manager.class.php 231 2009-11-16 09:53:00Z vanpouckesven $
  * @package user.lib.data_manager
@@ -115,31 +119,31 @@ class DatabaseUserDataManager extends Database implements UserDataManagerInterfa
 	function retrieve_user($id)
 	{
 		$condition = new EqualityCondition(User :: PROPERTY_ID, $id);
-		return $this->retrieve_object(User :: get_table_name(), $condition);
+		return $this->retrieve_object(User :: get_table_name(), $condition, array(), User :: CLASS_NAME);
 	}
 
 	function retrieve_user_by_username($username)
 	{
 		$condition = new EqualityCondition(User :: PROPERTY_USERNAME, $username);
-		return $this->retrieve_object(User :: get_table_name(), $condition);
+		return $this->retrieve_object(User :: get_table_name(), $condition, array(), User :: CLASS_NAME);
 	}
 
 	function retrieve_user_by_external_uid($external_uid)
 	{
 		$condition = new EqualityCondition(User :: PROPERTY_EXTERNAL_UID, $external_uid);
-		return $this->retrieve_object(User :: get_table_name(), $condition);
+		return $this->retrieve_object(User :: get_table_name(), $condition, array(), User :: CLASS_NAME);
 	}
 
 	function retrieve_user_by_security_token($security_token)
 	{
 		$condition = new EqualityCondition(User :: PROPERTY_SECURITY_TOKEN, $security_token);
-		return $this->retrieve_object(User :: get_table_name(), $condition);
+		return $this->retrieve_object(User :: get_table_name(), $condition, array(), User :: CLASS_NAME);
 	}
 
 	function retrieve_users_by_email($email)
 	{
 		$condition = new EqualityCondition(User :: PROPERTY_EMAIL, $email);
-		$users = $this->retrieve_objects(User :: get_table_name(), $condition);
+		$users = $this->retrieve_objects(User :: get_table_name(), $condition, null, null, array(), User :: CLASS_NAME);
 		return $users->as_array();
 	}
 
@@ -199,7 +203,7 @@ class DatabaseUserDataManager extends Database implements UserDataManagerInterfa
 		$conditions[] = new EqualityCondition(User :: PROPERTY_APPROVED, 1);
 		$condition = new AndCondition($conditions);
 
-		return $this->retrieve_objects(User :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+		return $this->retrieve_objects(User :: get_table_name(), $condition, $offset, $max_objects, $order_by, User :: CLASS_NAME);
 	}
 
 	function retrieve_approval_users($condition = null, $offset = null, $max_objects = null, $order_by = null)

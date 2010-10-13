@@ -13,30 +13,47 @@ use common\libraries\Filesystem;
 
 class RepositoryAutoloader
 {
+    public static $class_name;
 
     static function load($classname)
     {
-        if (self :: check_for_general_files($classname))
+        $classname_parts = explode('\\', $classname);
+
+        if (count($classname_parts) == 1)
+        {
+            return false;
+        }
+        else
+        {
+            self :: $class_name = $classname_parts[count($classname_parts) - 1];
+            array_pop($classname_parts);
+            if (implode('\\', $classname_parts) != __NAMESPACE__)
+            {
+                return false;
+            }
+        }
+
+        if (self :: check_for_general_files())
         {
             return true;
         }
 
-        if (self :: check_for_form_files($classname))
+        if (self :: check_for_form_files())
         {
             return true;
         }
 
-        if (self :: check_for_tables($classname))
+        if (self :: check_for_tables())
         {
             return true;
         }
 
-        if (self :: check_for_special_files($classname))
+        if (self :: check_for_special_files())
         {
             return true;
         }
 
-        if (self :: check_for_content_objects($classname))
+        if (self :: check_for_content_objects())
         {
             return true;
         }
@@ -44,7 +61,7 @@ class RepositoryAutoloader
         return false;
     }
 
-    static function check_for_general_files($classname)
+    static function check_for_general_files()
     {
         $list = array(
                 'catalog', 'complex_content_object_item_form', 'complex_content_object_item', 'complex_content_object_menu', 'content_object_category_menu', 'content_object_copier', 'content_object_difference_display',
@@ -53,7 +70,7 @@ class RepositoryAutoloader
                 'external_repository_user_setting', 'external_repository_sync_info', 'external_repository_sync', 'quota_manager', 'repository_data_class', 'repository_data_manager', 'repository_rights', 'user_view_rel_content_object',
                 'user_view', 'content_object_renderer', 'content_object_share', 'content_object_user_share', 'content_object_group_share');
 
-        $lower_case = Utilities :: camelcase_to_underscores($classname);
+        $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
         if (in_array($lower_case, $list))
         {
@@ -64,11 +81,11 @@ class RepositoryAutoloader
         return false;
     }
 
-    static function check_for_form_files($classname)
+    static function check_for_form_files()
     {
         $list = array('external_repository_browser_form', 'external_repository_export_form', 'external_repository_object_browser_form', 'external_repository_import_form', 'metadata_lom_edit_form', 'metadata_lom_export_form', 'repository_filter_form', 'user_view_form');
 
-        $lower_case = Utilities :: camelcase_to_underscores($classname);
+        $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
         if (in_array($lower_case, $list))
         {
@@ -79,7 +96,7 @@ class RepositoryAutoloader
         return false;
     }
 
-    static function check_for_tables($classname)
+    static function check_for_tables()
     {
         $list = array(
                 'repository_browser_table' => 'browser/repository_browser_table.class.php', 'repository_browser_gallery_table' => 'gallery_browser/repository_browser_gallery_table.class.php',
@@ -90,7 +107,7 @@ class RepositoryAutoloader
                 'link_browser_table' => 'link_browser/link_browser_table.class.php', 'external_link_browser_table' => 'external_link_browser/external_link_browser_table.class.php',
                 'content_object_registration_browser_table' => 'content_object_registration_browser/content_object_registration_browser_table.class.php');
 
-        $lower_case = Utilities :: camelcase_to_underscores($classname);
+        $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
         if (key_exists($lower_case, $list))
         {
@@ -102,7 +119,7 @@ class RepositoryAutoloader
         return false;
     }
 
-    static function check_for_special_files($classname)
+    static function check_for_special_files()
     {
         $list = array(
                 'complex_builder' => 'complex_builder/complex_builder.class.php', 'complex_builder_component' => 'complex_builder/complex_builder_component.class.php', 'complex_display' => 'complex_display/complex_display.class.php',
@@ -124,7 +141,7 @@ class RepositoryAutoloader
                 'repository_manager' => 'repository_manager/repository_manager.class.php', 'repository_manager_component' => 'repository_manager/repository_manager_component.class.php',
                 'repository_search_form' => 'repository_manager/repository_search_form.class.php', 'publisher_wizard' => 'repository_manager/component/publisher_wizard/publisher_wizard.class.php');
 
-        $lower_case = Utilities :: camelcase_to_underscores($classname);
+        $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
         if (key_exists($lower_case, $list))
         {
@@ -138,28 +155,29 @@ class RepositoryAutoloader
 
     static $content_objects;
 
-    static function check_for_content_objects($classname)
+    static function check_for_content_objects()
     {
-//        $dir = Path :: get_repository_content_object_path();
-//        if (!file_exists($dir) || !is_dir($dir))
-//        {
-//        	return false;
-//        }
-//        if (! self :: $content_objects)
-//        {
-//            self :: $content_objects = Filesystem :: get_directory_content($dir, Filesystem :: LIST_DIRECTORIES, false);
-//        }
-//
-//        if (is_array(self :: $content_objects))
-//        {
-//            $lower_case = Utilities :: camelcase_to_underscores($classname);
-//
-//            if (in_array($lower_case, self :: $content_objects))
-//            {
-//                require_once $dir . $lower_case . '/php/' . $lower_case . '.class.php';
-//                return true;
-//            }
-//        }
+        //        $dir = Path :: get_repository_content_object_path();
+        //        if (!file_exists($dir) || !is_dir($dir))
+        //        {
+        //        	return false;
+        //        }
+        //        if (! self :: $content_objects)
+        //        {
+        //            self :: $content_objects = Filesystem :: get_directory_content($dir, Filesystem :: LIST_DIRECTORIES, false);
+        //        }
+        //
+        //        if (is_array(self :: $content_objects))
+        //        {
+        //            $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
+        //
+        //            if (in_array($lower_case, self :: $content_objects))
+        //            {
+        //                require_once $dir . $lower_case . '/php/' . $lower_case . '.class.php';
+        //                return true;
+        //            }
+        //        }
+
 
         return false;
     }

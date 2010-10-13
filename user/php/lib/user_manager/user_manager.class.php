@@ -1,4 +1,6 @@
 <?php
+namespace user;
+
 use common\libraries\Application;
 use common\libraries\CoreApplication;
 use common\libraries\Redirect;

@@ -2,6 +2,8 @@
 namespace admin;
 
 use common\libraries\Database;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
 
 /**
  * $Id: database_admin_data_manager.class.php 231 2009-11-16 09:53:00Z vanpouckesven $
@@ -21,7 +23,7 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
 
     function retrieve_languages($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
     {
-        return $this->retrieve_objects(Language :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(Language :: get_table_name(), $condition, $offset, $max_objects, $order_by, Language :: CLASS_NAME);
     }
 
     function count_settings($condition = null)
@@ -31,7 +33,7 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
 
     function retrieve_settings($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
     {
-        return $this->retrieve_objects(Setting :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(Setting :: get_table_name(), $condition, $offset, $max_objects, $order_by, Setting :: CLASS_NAME);
     }
 
     function delete_settings($condition = null)
@@ -64,19 +66,19 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
 
     function retrieve_registrations($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
     {
-        return $this->retrieve_objects(Registration :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(Registration :: get_table_name(), $condition, $offset, $max_objects, $order_by, Registration :: CLASS_NAME);
     }
 
     function retrieve_language_from_english_name($english_name)
     {
         $condition = new EqualityCondition(Language :: PROPERTY_ENGLISH_NAME, $english_name);
-        return $this->retrieve_object(Language :: get_table_name(), $condition);
+        return $this->retrieve_object(Language :: get_table_name(), $condition, array(), Language :: CLASS_NAME);
     }
 
     function retrieve_language($id)
     {
         $condition = new EqualityCondition(Language :: PROPERTY_ID, $id);
-        return $this->retrieve_object(Language :: get_table_name(), $condition);
+        return $this->retrieve_object(Language :: get_table_name(), $condition, array(), Language :: CLASS_NAME);
     }
 
     function retrieve_setting_from_variable_name($variable, $application = 'admin')
@@ -85,7 +87,7 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
         $conditions[] = new EqualityCondition(Setting :: PROPERTY_VARIABLE, $variable);
         $condition = new AndCondition($conditions);
 
-        return $this->retrieve_object(Setting :: get_table_name(), $condition);
+        return $this->retrieve_object(Setting :: get_table_name(), $condition, array(), Setting :: CLASS_NAME);
     }
 
     function update_setting($setting)

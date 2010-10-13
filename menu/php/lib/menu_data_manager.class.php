@@ -1,5 +1,9 @@
 <?php
 namespace menu;
+
+use common\libraries\Configuration;
+use common\libraries\Utilities;
+
 /**
  * $Id: menu_data_manager.class.php 157 2009-11-10 13:44:02Z vanpouckesven $
  * @package menu.lib
@@ -30,7 +34,7 @@ abstract class MenuDataManager
         {
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
             require_once dirname(__FILE__) . '/data_manager/' . strtolower($type) . '_menu_data_manager.class.php';
-            $class = Utilities :: underscores_to_camelcase($type) . 'MenuDataManager';
+            $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type) . 'MenuDataManager';
             self :: $instance = new $class();
         }
         return self :: $instance;
