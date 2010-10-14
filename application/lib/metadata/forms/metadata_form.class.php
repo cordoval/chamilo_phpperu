@@ -63,7 +63,7 @@ class MetadataForm extends FormValidator
         $group[] = $this->createElement('select', MetadataPropertyValue :: PROPERTY_PROPERTY_TYPE_ID, Translation :: get('PropertyType'), $this->property_types);
         $group[] = $this->createElement('text', MetadataPropertyValue :: PROPERTY_VALUE, Translation :: get('PropertyValue'));
 
-        $this->addGroup($group, '', Translation :: get('NewPropertyType'));
+        $this->addGroup($group, '', Translation :: get('NewPropertyValue'));
 
         $this->build_metadata_property_values();
     }

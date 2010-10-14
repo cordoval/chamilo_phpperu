@@ -354,6 +354,7 @@ $lang['repository']['IsHomepage'] = 'Is homepage';
 $lang['repository']['SubforumEdited'] = 'Subforum edited';
 $lang['repository']['ContentObjectsDeleted'] = 'Objects deleted';
 $lang['repository']['ContentObjectDeleted'] = 'Object deleted';
+$lang['repository']['ContentObjectNotDeleted'] = 'Object not deleted';
 $lang['repository']['ForumTopics'] = 'Forum topics';
 $lang['repository']['Objects'] = 'Objects';
 $lang['repository']['PortalHomeCreationFormTitle'] = 'Create Portal Home block';

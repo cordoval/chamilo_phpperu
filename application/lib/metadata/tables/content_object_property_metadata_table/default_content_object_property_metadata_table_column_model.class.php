@@ -30,7 +30,7 @@ class DefaultContentObjectPropertyMetadataTableColumnModel extends ObjectTableCo
 	{
             $columns = array();
 
-            $columns[] = new ObjectTableColumn(ContentObjectPropertyMetadata :: PROPERTY_PROPERTY_TYPE_ID);
+            $columns[] = new ObjectTableColumn(self :: COLUMN_TYPE_PROPERTY_TYPE);
             $columns[] = new ObjectTableColumn(ContentObjectPropertyMetadata :: PROPERTY_CONTENT_OBJECT_PROPERTY);
             $columns[] = new ObjectTableColumn(ContentObjectPropertyMetadata :: PROPERTY_SOURCE);
 

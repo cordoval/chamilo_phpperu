@@ -34,7 +34,7 @@ class ContextLinkerManagerContextLinkPublisherComponent extends ContextLinkerMan
 
         $condition = new EqualityCondition(ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID, Request :: get(ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID));
         $metadata_property_values = $mdm->retrieve_full_metadata_property_values($condition);
-
+        
         $params = array();
         $params[ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID] = request :: get(ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID);
         $params[ContextLinkerManager :: PARAM_ALTERNATIVE_CONTENT_OBJECT_ID] = Request ::get(ContextLinkerManager :: PARAM_ALTERNATIVE_CONTENT_OBJECT_ID);
@@ -53,10 +53,5 @@ class ContextLinkerManagerContextLinkPublisherComponent extends ContextLinkerMan
                 $this->display_footer();
         }
     }
-
-    
-    
-    
-
 }
 ?>
