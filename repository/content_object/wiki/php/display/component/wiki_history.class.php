@@ -6,6 +6,9 @@ use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\EqualityCondition;
 use common\libraries\ResourceManager;
+use common\libraries\BasicApplication;
+use common\libraries\ObjectTableFormActions;
+use common\libraries\ObjectTableFormAction;
 
 /**
  * $Id: wiki_history.class.php 200 2009-11-13 12:30:04Z kariboe $

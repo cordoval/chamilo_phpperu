@@ -5,6 +5,10 @@ use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\ResourceManager;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
+use common\libraries\BasicApplication;
 
 /**
  * $Id: browser.class.php 200 2009-11-13 12:30:04Z kariboe $

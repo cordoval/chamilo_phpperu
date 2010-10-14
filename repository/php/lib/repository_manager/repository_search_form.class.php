@@ -6,6 +6,7 @@ use common\libraries\FormValidator;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
 /**
  * $Id: repository_search_form.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager

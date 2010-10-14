@@ -4,6 +4,9 @@ namespace repository;
 use common\libraries\Path;
 use common\libraries\Utilities;
 
+use repository\content_object\learning_path_item\LearningPathItem;
+use repository\content_object\portfolio_item\PortfolioItem;
+
 require_once dirname(__FILE__) . '/cpe_object_export_base.class.php';
 //require_once_all(dirname(__FILE__) .'/export/*.class.php');
 

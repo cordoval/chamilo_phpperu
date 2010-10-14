@@ -2,6 +2,9 @@
 namespace repository\content_object\survey;
 
 use common\libraries\Translation;
+use common\libraries\ToolbarItem;
+use common\libraries\Toolbar;
+use common\libraries\Theme;
 
 require_once dirname(__FILE__) . '/rel_page_browser_table_column_model.class.php';
 require_once dirname(__FILE__) . '/../../tables/template_rel_page_table/default_template_rel_page_table_cell_renderer.class.php';

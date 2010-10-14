@@ -2,6 +2,7 @@
 namespace repository;
 
 use common\libraries\FormValidator;
+use common\libraries\Theme;
 
 /**
  * $Id: metadata_lom_export_form.class.php 200 2009-11-13 12:30:04Z kariboe $

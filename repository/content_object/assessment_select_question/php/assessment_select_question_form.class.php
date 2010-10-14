@@ -4,6 +4,7 @@ namespace repository\content_object\assessment_select_question;
 use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\ResourceManager;
+use common\libraries\Theme;
 
 /**
  * $Id: assessment_select_question_form.class.php $

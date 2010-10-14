@@ -6,6 +6,9 @@ use common\libraries\FormValidator;
 use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\EqualityCondition;
+use common\libraries\Application;
+use common\libraries\NotCondition;
+use common\libraries\AndCondition;
 /**
  * $Id: mover.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component

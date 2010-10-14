@@ -4,6 +4,7 @@ namespace repository;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\ObjectTableCellRenderer;
+use common\libraries\Theme;
 
 /**
  * $Id: default_external_link_table_cell_renderer.class.php 204 2009-11-13 12:51:30Z kariboe $

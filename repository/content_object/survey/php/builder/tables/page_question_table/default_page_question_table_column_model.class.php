@@ -2,6 +2,8 @@
 namespace repository\content_object\survey;
 
 use common\libraries\ObjectTableColumnModel;
+use common\libraries\ObjectTableColumn;
+use common\libraries\StaticTableColumn;
 
 class DefaultSurveyPageQuestionTableColumnModel extends ObjectTableColumnModel
 {

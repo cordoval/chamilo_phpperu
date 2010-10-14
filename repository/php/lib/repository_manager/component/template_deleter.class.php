@@ -5,6 +5,7 @@ use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\EqualityCondition;
+use common\libraries\Application;
 
 /**
  * $Id: template_deleter.class.php 204 2009-11-13 12:51:30Z kariboe $

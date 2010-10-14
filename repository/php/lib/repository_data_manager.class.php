@@ -1,15 +1,20 @@
 <?php
 namespace repository;
 
-use common\libraries;
-
 use common\libraries\EqualityCondition;
 use common\libraries\ObjectTableOrder;
 use common\libraries\Configuration;
 use common\libraries\Utilities;
+use common\libraries\WebApplication;
+use common\libraries\AndCondition;
 
 use admin\Registration;
 use admin\AdminDataManager;
+
+use repository\content_object\learning_path_item\LearningPathItem;
+use repository\content_object\portfolio_item\PortfolioItem;
+
+use home\HomeDataManager;
 /**
  * $Id: repository_data_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package repository.lib

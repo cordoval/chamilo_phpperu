@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\rdevent;
 
+use common\libraries\Theme;
+
 use repository\ContentObjectDisplay;
 
 /**

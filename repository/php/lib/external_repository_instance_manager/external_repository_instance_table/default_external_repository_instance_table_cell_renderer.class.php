@@ -4,6 +4,8 @@ namespace repository;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\ObjectTableCellRenderer;
+use common\libraries\Theme;
+use common\libraries\DatetimeUtilities;
 
 class DefaultExternalRepositoryInstanceTableCellRenderer extends ObjectTableCellRenderer
 {

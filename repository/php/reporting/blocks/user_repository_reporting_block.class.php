@@ -4,6 +4,7 @@ namespace repository;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
 
 require_once dirname(__FILE__) . '/../repository_reporting_block.class.php';
 

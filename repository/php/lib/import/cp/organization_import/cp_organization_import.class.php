@@ -3,6 +3,8 @@ namespace repository;
 
 use common\libraries\Path;
 
+use repository\content_object\learning_path_item\LearningPathItem;
+
 /**
  * Import a IMS CP Manifest organization node as a learning path.
  *

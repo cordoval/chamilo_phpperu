@@ -3,6 +3,8 @@ namespace repository\content_object\survey_page;
 
 use common\libraries\Translation;
 use common\libraries\ResourceManager;
+use common\libraries\Theme;
+use common\libraries\BasicApplication;
 
 /**
  * $Id: survey_page_builder.class.php 200 2009-11-13 12:30:04Z kariboe $

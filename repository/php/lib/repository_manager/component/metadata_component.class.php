@@ -4,6 +4,7 @@ namespace repository;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Path;
+use common\libraries\Theme;
 /**
  * $Id: metadata_component.class.php 207 2009-11-13 13:09:14Z vanpouckesven $
  * @package repository.lib.repository_manager.component

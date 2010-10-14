@@ -5,6 +5,9 @@ use common\libraries\Path;
 use common\libraries\Utilities;
 use common\libraries\ObjectTableCellRenderer;
 
+use repository\content_object\learning_path_item\LearningPathItem;
+use repository\content_object\portfolio_item\PortfolioItem;
+
 /**
  * $Id: default_link_table_cell_renderer.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.link_table

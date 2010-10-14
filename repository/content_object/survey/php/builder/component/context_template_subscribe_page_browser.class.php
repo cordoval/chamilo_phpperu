@@ -5,6 +5,12 @@ use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\EqualityCondition;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ActionBarSearchForm;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
+use common\libraries\InCondition;
+use common\libraries\AndCondition;
 
 require_once dirname ( __FILE__ ) . '/context_template_subscribe_page_browser/subscribe_page_browser_table.class.php';
 require_once Path :: get_repository_path() . '/lib/content_object/survey_page/survey_page.class.php';

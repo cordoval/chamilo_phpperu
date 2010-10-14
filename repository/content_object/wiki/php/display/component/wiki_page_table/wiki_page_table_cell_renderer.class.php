@@ -6,6 +6,8 @@ use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
 
 /**
  * $Id: wiki_page_table_cell_renderer.class.php 200 2009-11-13 12:30:04Z kariboe $

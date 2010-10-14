@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\feedback;
 
+use common\libraries\Theme;
+
 use repository\ContentObjectDifferenceDisplay;
 
 /**

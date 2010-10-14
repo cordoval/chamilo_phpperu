@@ -3,6 +3,7 @@ namespace repository\content_object\wiki;
 
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
 
 use repository\ContentObject;
 

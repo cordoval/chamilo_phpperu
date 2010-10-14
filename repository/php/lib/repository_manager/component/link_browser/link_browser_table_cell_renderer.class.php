@@ -2,6 +2,9 @@
 namespace repository;
 
 use common\libraries\Translation;
+use common\libraries\ToolbarItem;
+use common\libraries\Toolbar;
+use common\libraries\Theme;
 
 /**
  * $Id: link_browser_table_cell_renderer.class.php 204 2009-11-13 12:51:30Z kariboe $

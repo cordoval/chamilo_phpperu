@@ -4,6 +4,8 @@ namespace repository;
 use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\ObjectTableColumnModel;
+use common\libraries\ObjectTableColumn;
+use common\libraries\StaticTableColumn;
 
 /**
  * $Id: default_shared_content_objects_table_column_model.class.php 200 2009-11-13 12:30:04Z kariboe $

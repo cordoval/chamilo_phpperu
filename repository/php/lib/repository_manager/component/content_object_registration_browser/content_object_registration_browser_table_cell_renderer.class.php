@@ -3,6 +3,9 @@ namespace repository;
 
 use common\libraries\Translation;
 use common\libraries\Path;
+use common\libraries\ToolbarItem;
+use common\libraries\Toolbar;
+use common\libraries\Theme;
 
 /**
  * $Id: registration_browser_table_cell_renderer.class.php 168 2009-11-12 11:53:23Z vanpouckesven $

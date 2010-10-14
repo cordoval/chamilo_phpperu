@@ -7,6 +7,8 @@ use common\libraries\Path;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Configuration;
 use common\libraries\EqualityCondition;
+use common\libraries\InCondition;
+use common\libraries\AndCondition;
 
 require_once Path::get_repository_path () . 'lib/content_object/survey_page/survey_page.class.php';
 require_once dirname ( __FILE__ ) . '/page_question_browser/question_browser_table.class.php';

@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\external_calendar;
 
+use common\libraries\Theme;
+
 use repository\ContentObjectDifferenceDisplay;
 
 /**

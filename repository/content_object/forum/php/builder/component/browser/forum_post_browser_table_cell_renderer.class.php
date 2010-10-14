@@ -2,6 +2,7 @@
 namespace repository\content_object\forum;
 
 use common\libraries\Translation;
+use common\libraries\DatetimeUtilities;
 
 /**
  * $Id: forum_post_browser_table_cell_renderer.class.php 200 2009-11-13 12:30:04Z kariboe $

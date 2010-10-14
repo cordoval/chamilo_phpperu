@@ -4,6 +4,7 @@ namespace repository;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\Application;
 
 /**
  * $Id: user_view_deleter.class.php 204 2009-11-13 12:51:30Z kariboe $

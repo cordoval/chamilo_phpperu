@@ -5,6 +5,8 @@ use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\ObjectTable;
+use common\libraries\ObjectTableFormActions;
+use common\libraries\ObjectTableFormAction;
 
 /**
  * $Id: repository_version_browser_table.class.php 204 2009-11-13 12:51:30Z kariboe $

@@ -8,6 +8,18 @@ use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\Session;
 use common\libraries\ResourceManager;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ActionBarSearchForm;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
+use common\libraries\Application;
+use common\libraries\BasicApplication;
+use common\libraries\NotCondition;
+use common\libraries\InCondition;
+use common\libraries\AndCondition;
+
+use repository\content_object\learning_path_item\LearningPathItem;
+use repository\content_object\portfolio_item\PortfolioItem;
 
 /**
  * $Id: browser.class.php 204 2009-11-13 12:51:30Z kariboe $

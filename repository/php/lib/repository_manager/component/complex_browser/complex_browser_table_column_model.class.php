@@ -4,6 +4,7 @@ namespace repository;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\ObjectTableColumnModel;
+use common\libraries\StaticTableColumn;
 
 /**
  * $Id: complex_browser_table_column_model.class.php 204 2009-11-13 12:51:30Z kariboe $

@@ -4,6 +4,7 @@ namespace repository\content_object\matterhorn;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\Versionable;
+use common\libraries\AndCondition;
 
 use repository\ContentObject;
 

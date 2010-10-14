@@ -2,6 +2,7 @@
 namespace repository\content_object\vimeo;
 
 use repository\ContentObjectDifferenceDisplay;
+use common\libraries\Theme;
 
 /**
  * $Id: vimeo_difference_display.class.php 2010-06-08

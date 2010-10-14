@@ -5,6 +5,7 @@ use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\ObjectTableColumnModel;
 use common\libraries\ObjectTableCellRenderer;
+use common\libraries\Theme;
 
 /**
  * $Id: default_shared_content_objects_table_cell_renderer.class.php 200 2009-11-13 12:30:04Z kariboe $

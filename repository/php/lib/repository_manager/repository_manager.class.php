@@ -10,6 +10,9 @@ use common\libraries\Request;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
+use common\libraries\Application;
+use common\libraries\InCondition;
+use common\libraries\AndCondition;
 /**
  * @package repository.lib.repository_manager
  *

@@ -8,6 +8,14 @@ use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\Session;
 use common\libraries\ResourceManager;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ActionBarSearchForm;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
+use common\libraries\Application;
+use common\libraries\BasicApplication;
+use common\libraries\InCondition;
+use common\libraries\AndCondition;
 
 /**
  * $Id: shared_content_objects_browser.class.php 204 2009-11-13 12:51:30Z kariboe $

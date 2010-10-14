@@ -8,6 +8,7 @@ use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\Versionable;
 use common\libraries\ResourceManager;
+use common\libraries\AttachmentSupport;
 
 /**
  * $Id: content_object_form.class.php 204 2009-11-13 12:51:30Z kariboe $

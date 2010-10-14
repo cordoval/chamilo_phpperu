@@ -4,6 +4,9 @@ namespace repository;
 use common\libraries\Path;
 use common\libraries\EqualityCondition;
 
+use repository\content_object\learning_path_item\LearningPathItem;
+use repository\content_object\portfolio_item\PortfolioItem;
+
 /**
  * $Id: cpo_export.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.export.cpo

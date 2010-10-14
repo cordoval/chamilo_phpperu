@@ -2,6 +2,7 @@
 namespace repository\content_object\matterhorn;
 
 use common\libraries\Translation;
+use common\libraries\Application;
 
 use repository\ContentObjectForm;
 

@@ -3,6 +3,7 @@ namespace repository\content_object\rss_feed;
 
 use common\libraries\Translation;
 use common\libraries\Path;
+use common\libraries\Theme;
 
 use repository\ContentObjectDisplay;
 

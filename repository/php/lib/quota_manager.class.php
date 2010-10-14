@@ -2,6 +2,12 @@
 namespace repository;
 
 use common\libraries\EqualityCondition;
+use common\libraries\NotCondition;
+use common\libraries\InCondition;
+use common\libraries\AndCondition;
+
+use repository\content_object\learning_path_item\LearningPathItem;
+use repository\content_object\portfolio_item\PortfolioItem;
 
 /**
  * $Id: quota_manager.class.php 204 2009-11-13 12:51:30Z kariboe $

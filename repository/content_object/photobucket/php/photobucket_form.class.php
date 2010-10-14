@@ -2,6 +2,7 @@ P<?php
 namespace repository\content_object\photobucket;
 
 use common\libraries\Translation;
+use common\libraries\Application;
 
 use repository\ContentObjectForm;
 

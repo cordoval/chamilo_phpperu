@@ -2,6 +2,7 @@
 namespace repository\content_object\survey;
 
 use common\libraries\Request;
+use common\libraries\InCondition;
 
 /**
  * $Id: survey_viewer_wizard_process.class.php 200 2009-11-13 12:30:04Z kariboe $

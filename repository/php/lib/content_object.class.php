@@ -7,6 +7,12 @@ use common\libraries\EqualityCondition;
 use common\libraries\DataClass;
 use common\libraries\Versionable;
 use common\libraries\Session;
+use common\libraries\Theme;
+use common\libraries\InCondition;
+use common\libraries\AndCondition;
+use common\libraries\AttachmentSupport;
+
+use admin\AdminDataManager;
 
 /**
  * $Id: content_object.class.php 204 2009-11-13 12:51:30Z kariboe $
@@ -1082,7 +1088,7 @@ class ContentObject extends DataClass
      */
     static function type_to_class($type)
     {
-        return Utilities :: underscores_to_camelcase($type);
+        return self :: get_content_object_type_namespace($type) . '\\' . Utilities :: underscores_to_camelcase($type);
     }
 
     /**
@@ -1158,7 +1164,8 @@ class ContentObject extends DataClass
      */
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 
     /**
@@ -1211,6 +1218,11 @@ class ContentObject extends DataClass
         $is_external = $this->get_synchronization_data();
 
     	return isset($is_external);
+    }
+
+    static function get_content_object_type_namespace($type)
+    {
+        return 'repository\content_object\\' . $type;
     }
 }
 ?>

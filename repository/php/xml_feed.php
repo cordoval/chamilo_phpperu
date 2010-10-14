@@ -4,6 +4,9 @@ use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\Session;
+use common\libraries\NotCondition;
+use common\libraries\InCondition;
+use common\libraries\AndCondition;
 /**
  * @package repository
  */

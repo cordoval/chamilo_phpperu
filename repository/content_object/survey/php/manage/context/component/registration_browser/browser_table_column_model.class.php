@@ -3,6 +3,7 @@ namespace repository\content_object\survey;
 
 use common\libraries\Translation;
 use common\libraries\Path;
+use common\libraries\StaticTableColumn;
 
 require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/tables/survey_context_registration_table/default_survey_context_registration_table_column_model.class.php';
 

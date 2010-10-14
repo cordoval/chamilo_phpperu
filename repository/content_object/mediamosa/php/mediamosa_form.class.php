@@ -3,6 +3,7 @@ namespace repository\content_object\mediamosa;
 
 use common\libraries\Translation;
 use common\libraries\Path;
+use common\libraries\Application;
 
 use repository\ContentObjectForm;
 

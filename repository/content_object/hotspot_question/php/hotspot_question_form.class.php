@@ -3,6 +3,7 @@ namespace repository\content_object\hotspot_question;
 
 use common\libraries\Translation;
 use common\libraries\ResourceManager;
+use common\libraries\Theme;
 
 use repository\ContentObjectForm;
 

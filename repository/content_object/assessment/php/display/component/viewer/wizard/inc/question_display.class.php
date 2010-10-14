@@ -2,6 +2,7 @@
 namespace repository\content_object\assessment;
 
 use common\libraries\Utilities;
+use common\libraries\Theme;
 
 /**
  * $Id: question_display.class.php 200 2009-11-13 12:30:04Z kariboe $

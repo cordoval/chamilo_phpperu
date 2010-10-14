@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\rdpublication;
 
+use common\libraries\Theme;
+
 use repository\ContentObjectDisplay;
 
 /**
