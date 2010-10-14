@@ -119,7 +119,7 @@ class Dokeos185CourseDescription extends Dokeos185CourseDataMigrationDataClass
     function is_valid()
     {
 
-        if (!$this->get_id() || !($this->get_title() || $this->get_content()))
+        if ($this->get_id() == NULL || !($this->get_title() || $this->get_content()))
         {
             $this->create_failed_element($this->get_id());
             $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'course_description', 'ID' => $this->get_id())));
