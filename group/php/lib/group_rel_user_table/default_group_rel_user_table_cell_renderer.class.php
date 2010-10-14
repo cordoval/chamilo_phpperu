@@ -1,5 +1,8 @@
 <?php
 namespace group;
+use common\libraries\ObjectTableColumnModel;
+use common\libraries\ObjectTableCellRenderer;
+
 /**
  * $Id: default_group_rel_user_table_cell_renderer.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package group.lib.group_rel_user_table

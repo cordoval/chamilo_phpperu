@@ -3,6 +3,9 @@ namespace group;
 use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\ObjectTable;
+use common\libraries\ObjectTableFormActions;
+use common\libraries\ObjectTableFormAction;
 /**
  * $Id: group_browser_table.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package groups.lib.group_manager.component.group_browser

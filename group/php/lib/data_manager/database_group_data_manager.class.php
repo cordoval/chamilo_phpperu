@@ -94,12 +94,12 @@ class DatabaseGroupDataManager extends Database implements GroupDataManagerInter
 
     function retrieve_groups($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->retrieve_objects(Group :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(Group :: get_table_name(), $condition, $offset, $max_objects, $order_by, Group :: CLASS_NAME);
     }
 
     function retrieve_group_rel_users($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->retrieve_objects(GroupRelUser :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(GroupRelUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, GroupRelUser :: CLASS_NAME);
     }
 
     function retrieve_group_rel_user($user_id, $group_id)
@@ -109,30 +109,30 @@ class DatabaseGroupDataManager extends Database implements GroupDataManagerInter
         $conditions[] = new EqualityCondition(GroupRelUser :: PROPERTY_GROUP_ID, $group_id);
         $condition = new AndCondition($conditions);
 
-        return $this->retrieve_object(GroupRelUser :: get_table_name(), $condition);
+        return $this->retrieve_object(GroupRelUser :: get_table_name(), $condition, array(), GroupRelUser :: CLASS_NAME);
     }
 
     function retrieve_user_groups($user_id)
     {
         $condition = new EqualityCondition(GroupRelUser :: PROPERTY_USER_ID, $user_id);
-        return $this->retrieve_objects(GroupRelUser :: get_table_name(), $condition);
+        return $this->retrieve_objects(GroupRelUser :: get_table_name(), $condition, array(), GroupRelUser :: CLASS_NAME);
     }
 
     function retrieve_group($id)
     {
         $condition = new EqualityCondition(Group :: PROPERTY_ID, $id);
-        return $this->retrieve_object(Group :: get_table_name(), $condition);
+        return $this->retrieve_object(Group :: get_table_name(), $condition, array(), Group :: CLASS_NAME);
     }
 
     function retrieve_group_by_name($name)
     {
         $condition = new EqualityCondition(Group :: PROPERTY_NAME, $name);
-        return $this->retrieve_object(Group :: get_table_name(), $condition);
+        return $this->retrieve_object(Group :: get_table_name(), $condition, array(), Group :: CLASS_NAME);
     }
 
     function retrieve_group_rights_templates($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->retrieve_objects(GroupRightsTemplate :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(GroupRightsTemplate :: get_table_name(), $condition, $offset, $max_objects, $order_by, GroupRightsTemplate :: CLASS_NAME);
     }
 
     function delete_group_rights_templates($condition)

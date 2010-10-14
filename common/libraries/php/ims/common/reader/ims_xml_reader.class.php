@@ -1,5 +1,7 @@
 <?php
 namespace common\libraries;
+use IteratorAggregate;
+use Iterator;
 
 //require_once dirname(dirname(__FILE__)) .'/main.php';
 

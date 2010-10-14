@@ -1,5 +1,7 @@
 <?php
 namespace group;
+use common\libraries;
+
 use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Translation;
@@ -7,7 +9,7 @@ use common\libraries\Translation;
  * $Id: group_form.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package groups.lib.forms
  */
-require_once dirname(__FILE__) . '/../../../common/global.inc.php';
+require_once Path :: get_common_path() 'global.inc.php';
 
 class GroupForm extends FormValidator
 {

@@ -3,6 +3,9 @@ namespace group;
 use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
+use common\libraries\ToolbarItem; 
+use common\libraries\Toolbar; 
+use common\libraries\Theme; 
 
 /**
  * $Id: group_browser_table_cell_renderer.class.php 224 2009-11-13 14:40:30Z kariboe $

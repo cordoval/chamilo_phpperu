@@ -1,5 +1,6 @@
 <?php
 namespace common\libraries;
+use Iterator;
 
 require_once  dirname(__FILE__) . '/ims_xml_reader.class.php';
 

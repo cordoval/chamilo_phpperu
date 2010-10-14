@@ -1,6 +1,7 @@
 <?php
 namespace group;
 use common\libraries\Utilities;
+use common\libraries\DataClass;
 
 /**
  * $Id: group_rel_user.class.php 224 2009-11-13 14:40:30Z kariboe $
@@ -60,10 +61,11 @@ class GroupRelUser extends DataClass
         $gdm = $this->get_data_manager();
         return $gdm->create_group_rel_user($this);
     }
-
+    
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 }
 ?>

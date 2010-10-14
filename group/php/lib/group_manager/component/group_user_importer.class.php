@@ -2,6 +2,9 @@
 namespace group;
 use common\libraries\Application;
 use common\libraries\Translation;
+use common\libraries\AdministrationComponent;
+use common\libraries\BreadcrumbTrail;
+
 /**
  * $Id: $
  * @author vanpouckesven

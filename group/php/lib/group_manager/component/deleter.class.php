@@ -3,8 +3,11 @@ namespace group;
 use common\libraries\Application;
 use common\libraries\Translation;
 use common\libraries\Request;
-use common\libraries\BreadcrumbTrail;
 use common\libraries\DynamicTabsRenderer;
+use common\libraries\AdministrationComponent;
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
+
 require_once dirname(__FILE__) ."/../../group_rights.class.php";
 /**
  * $Id: deleter.class.php 224 2009-11-13 14:40:30Z kariboe $

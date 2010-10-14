@@ -8,8 +8,13 @@ use common\libraries\DynamicTabsRenderer;
 use common\libraries\AndCondition;
 use common\libraries\AdministrationComponent;
 use common\libraries\ActionBarRenderer;
- 
- 
+use common\libraries\ToolbarItem; 
+use common\libraries\Toolbar; 
+use common\libraries\Theme; 
+use common\libraries\TreeMenu; 
+use common\libraries\ActionBarSearchForm;  
+use common\libraries\DynamicContentTab;
+
 require_once dirname(__FILE__) . "/../../group_rights.class.php";
 
 /**

@@ -10,6 +10,11 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\DynamicAction;
 use common\libraries\Theme;
 use common\libraries\redirect;
+use common\libraries\Display;
+
+use rights\RightsManager;
+use rights\GroupRightManager;
+
 /**
  * $Id: group_manager.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package group.lib.group_manager

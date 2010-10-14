@@ -448,7 +448,7 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
 
     function retrieve_remote_packages($condition = null, $order_by = array(), $offset = null, $max_objects = null)
     {
-        return $this->retrieve_objects(RemotePackage :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(RemotePackage :: get_table_name(), $condition, $offset, $max_objects, $order_by, RemotePackage :: CLASS_NAME);
     }
 
     function retrieve_feedback_publications($pid, $cid, $application)
