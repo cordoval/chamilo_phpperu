@@ -4,6 +4,7 @@
  */
 require_once dirname(__FILE__).'/../context_linker_data_manager.class.php';
 require_once dirname(__FILE__).'/component/context_link_browser/context_link_browser_table.class.php';
+require_once dirname(__FILE__).'/component/content_object_browser/content_object_browser_table.class.php';
 
 /**
  * A context_linker manager
@@ -15,6 +16,8 @@ require_once dirname(__FILE__).'/component/context_link_browser/context_link_bro
  {
     const APPLICATION_NAME = 'context_linker';
 
+    const ACTION_BROWSE_CONTENT_OBJECTS = 'content_objects_browser';
+
     const PARAM_CONTEXT_LINK = 'context_link';
     const PARAM_DELETE_SELECTED_CONTEXT_LINKS = 'delete_selected_context_links';
 
@@ -24,7 +27,7 @@ require_once dirname(__FILE__).'/component/context_link_browser/context_link_bro
     const ACTION_PUBLISH_CONTEXT_LINK = 'context_link_publisher';
     const ACTION_BROWSE_CONTEXT_LINKS = 'context_links_browser';
 
-    const DEFAULT_ACTION = self :: ACTION_BROWSE_CONTEXT_LINKS;
+    const DEFAULT_ACTION = self :: ACTION_BROWSE_CONTENT_OBJECTS;
 
     const PARAM_CONTENT_OBJECT_ID = 'content_object_id';
     const PARAM_ALTERNATIVE_CONTENT_OBJECT_ID = 'alternative_content_object_id';
@@ -117,9 +120,9 @@ require_once dirname(__FILE__).'/component/context_link_browser/context_link_bro
                                                                 self :: PARAM_CONTEXT_LINK => $context_link[ContextLink:: PROPERTY_ID]));
     }
 
-    function get_browse_context_links_url()
+    function get_browse_context_links_url($content_object)
     {
-            return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTEXT_LINKS));
+            return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTEXT_LINKS, self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
     }
 
     function get_browse_url()
