@@ -9,7 +9,7 @@ use common\libraries\Translation;
  * $Id: group_form.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package groups.lib.forms
  */
-require_once Path :: get_common_path() 'global.inc.php';
+require_once Path :: get_common_path() . 'global.inc.php';
 
 class GroupForm extends FormValidator
 {
