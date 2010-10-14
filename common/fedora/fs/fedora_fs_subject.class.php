@@ -87,11 +87,10 @@ class fedora_fs_subject extends fedora_fs_folder{
 		if($offset){
 			$result .= 'offset '.$offset . ' ';
 		}
-		//debug(htmlentities($result));
 		return $result;
 	}
 
-	public function query($fedora, $sort=false, $limit=false, $offset=false){
+	public function query(FedoraProxy $fedora, $sort=false, $limit=false, $offset=false){
 		$result = array();
 
 		$query = $this->query_string($sort, $limit, $offset);
@@ -107,7 +106,7 @@ class fedora_fs_subject extends fedora_fs_folder{
 		return $result;
 	}
 
-	public function count($fedora){
+	public function count(FedoraProxy $fedora){
 		$query = $this->query_string();
 		$result =  $fedora->ri_search($query, '', 'tuples', 'iTql', 'count');
 		return $result;

@@ -23,7 +23,7 @@ class fedora_fs_search_by_id extends fedora_fs_folder{
 		return $this->get(__FUNCTION__, '');
 	}
 
-	public function query(FedoraProxy $fedora){
+	public function query(FedoraProxy $fedora, $sort=false, $limit=false, $offset=false){
 		$result = array();
 
 		if($object = $fedora->get_object_profile($this->pid)){

@@ -310,18 +310,7 @@ class FedoraExternalRepositoryManagerExporterComponent extends FedoraExternalRep
 			Filesystem::remove($thumbnail['path']);
 		}
 		if(empty($thumbnail) && $this->is_image($ext)){
-			$meta->thumbnail_label = $data['title'];
-			$meta->thumbnail_mime = $mime;
-
-			$tmp = Path::get_temp_path() . 'f' . $this->get_user_id() . md5(uniqid('fedora_thumb'));
-			$size = getimagesize($path);
-			$ratio = $size[1]/$size[0];
-			$ratio = $ratio ? $ratio : 1;
-			$thumbnail_creator = ImageManipulation::factory($path);
-			$thumbnail_creator->create_thumbnail(150, $ratio * 150);
-			$thumbnail_creator->write_to_file($tmp);
-			$meta->thumbnail = file_get_contents($tmp);
-			Filesystem::remove($tmp);
+			$connector->update_thumbnail($pid, $meta->label, $path, $mime);
 		}
 
 		if($pid){

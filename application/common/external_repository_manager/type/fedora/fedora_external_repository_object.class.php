@@ -1,6 +1,14 @@
 <?php
 require_once dirname(__FILE__) . '/../../external_repository_object.class.php';
 
+/**
+ * Describes a Fedora object located in the Fedora repository.
+ *
+ * @copyright (c) 2010 University of Geneva
+ * @license GNU General Public License
+ * @author laurent.opprecht@unige.ch
+ *
+ */
 class FedoraExternalRepositoryObject extends ExternalRepositoryObject
 {
 	const OBJECT_TYPE = 'fedora';
@@ -11,14 +19,6 @@ class FedoraExternalRepositoryObject extends ExternalRepositoryObject
 	const PROPERTY_LICENSE = 'license';
 	const PROPERTY_ACCESS_RIGHTS = 'access_rights';
 	const PROPERTY_EDIT_RIGHTS = 'edit_rights';
-
-	//const PROPERTY_VIEWED = 'viewed';
-	//const PROPERTY_CONTENT = 'content';
-
-	//static function get_default_property_names()
-	//{
-	//	return parent :: get_default_property_names(array(self :: PROPERTY_VIEWED, self :: PROPERTY_CONTENT, self :: PROPERTY_MODIFIER_ID, self :: PROPERTY_ACL));
-	//}
 
 	static function get_object_type()
 	{
@@ -36,17 +36,7 @@ class FedoraExternalRepositoryObject extends ExternalRepositoryObject
 		$this->_connector = ExternalRepositoryConnector::get_instance($repository);
 		return $this->_connector;
 	}
-/*
-	function get_content()
-	{
-		return $this->get_default_property(self :: PROPERTY_CONTENT);
-	}
 
-	function set_content($content)
-	{
-		return $this->set_default_property(self :: PROPERTY_CONTENT, $content);
-	}
-*/
 	function get_license(){
 		$name = str_replace('get_', '' , __FUNCTION__);
 		$result = $this->get_metadata($name);
@@ -137,30 +127,41 @@ class FedoraExternalRepositoryObject extends ExternalRepositoryObject
 
 	protected $metadata = false;
 	function get_metadata($name=''){
-		if(! $metadata){
+		if(! $this->metadata){
 			$connector = $this->get_connector();
-			$metadata = $connector->retrieve_object_metadata($this->get_id());
+			$this->metadata = $connector->retrieve_object_metadata($this->get_id());
 		}
 		if($name){
-			$result = isset($metadata[$name]) ? $metadata[$name] : '';
+			$result = isset($this->metadata[$name]) ? $this->metadata[$name] : '';
 		}else{
-			$result = $metadata;
+			$result = $this->metadata;
 		}
 		return $result;
 	}
 
+	function set_metadata($value){
+		$this->metadata = $value;
+	}
+
+	protected $datastreams = false;
 	function get_datastreams($dsID = false){
-		static $datastreams = false;
-		if(! $datastreams){
+		$result = $this->datastreams;
+		if(empty($result)){
 			$connector = $this->get_connector();
-			$datastreams = $connector->retrieve_datastreams($this->get_id());
+			$result = $this->datastreams = $connector->retrieve_datastreams($this->get_id());
 		}
 		if($dsID){
-			$result = isset($datastreams[$dsID]) ? $datastreams[$dsID] : false;
-		}else{
-			$result = $datastreams;
+			$result = isset($result[$dsID]) ? $result[$dsID] : false;
 		}
-		return $result;
+		return  $result;
+	}
+
+	/**
+	 * Set during initial creation to avoid chatty calls
+	 * @param $value
+	 */
+	function set_datastreams($value){
+		$this->datastreams = $value;
 	}
 
 	function has_datastream($dsID){

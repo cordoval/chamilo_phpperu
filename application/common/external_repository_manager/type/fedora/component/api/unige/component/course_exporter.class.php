@@ -10,10 +10,6 @@ require_once dirname(__FILE__) . '/../forms/fedora_unige_confirm_form.class.php'
  *
  */
 class FedoraUnigeCourseExporterComponent extends FedoraExternalRepositoryManagerCourseExporterComponent{
-/*
-	function run(){
-		$this->step();
-	}*/
 
 	/**
 	 * Returns the form to be displayed for a step.

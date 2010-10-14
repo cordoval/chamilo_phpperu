@@ -2,8 +2,9 @@
 
 require_once dirname(__FILE__) . '/fedora_external_repository_table_column_model.class.php';
 require_once dirname(__FILE__) . '/../../../../table/default_external_repository_object_table_cell_renderer.class.php';
+
 /**
- * Cell rendere for the learning object browser table
+ * Cell renderer for the learning object browser table
  */
 class FedoraExternalRepositoryTableCellRenderer extends DefaultExternalRepositoryObjectTableCellRenderer
 {

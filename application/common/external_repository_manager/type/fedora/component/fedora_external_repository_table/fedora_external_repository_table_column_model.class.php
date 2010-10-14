@@ -35,7 +35,7 @@ class FedoraExternalRepositoryTableColumnModel extends ObjectTableColumnModel
        // $columns[] = new ObjectTableColumn(ExternalRepositoryObject::PROPERTY_DESCRIPTION);
         $columns[] = new ObjectTableColumn(ExternalRepositoryObject::PROPERTY_CREATED, true);
         $columns[] = new ObjectTableColumn(ExternalRepositoryObject::PROPERTY_MODIFIED, true);
-        $columns[] = new ObjectTableColumn(ExternalRepositoryObject::PROPERTY_DESCRIPTION, false);
+        //$columns[] = new ObjectTableColumn(ExternalRepositoryObject::PROPERTY_DESCRIPTION, false);
         return $columns;
     }
 

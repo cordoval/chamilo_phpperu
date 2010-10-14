@@ -58,7 +58,7 @@ class fedora_fs_folder extends fedora_fs_base{
 		return $query->count($fedora);
 	}
 
-	public function query($fedora, $sort=false, $limit=false, $offset=false){
+	public function query(FedoraProxy $fedora, $sort=false, $limit=false, $offset=false){
 		return array();
 	}
 

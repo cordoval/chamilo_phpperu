@@ -282,8 +282,6 @@ class FedoraProxy extends RestProxyBase{
 	 * If an id is provided returns either the discipline if found or an empty array.
 	 * If no id is provided returns all discliplines.
 	 *
-	 * @todo: store the result in the server session cache for all queries?
-	 *
 	 * @link https://collection.switch.ch/spec/2008/disciplines/disciplines.csv
 	 * @param string $id
 	 * @return array
@@ -291,7 +289,11 @@ class FedoraProxy extends RestProxyBase{
 	public function SWITCH_get_disciplines($id=false){
 		static $disciplines = false;
 		if($disciplines === false){
+
+			$bom = pack("CCC",0xef,0xbb,0xbf); //UTF8 Byte Order Mark
 			$content = file_get_contents(dirname(__FILE__) . '/resource/switch/disciplines.csv');
+			$content = substr($content, 0,3) == $bom ? substr($content, 3) : $content;
+
 
 			/*
 			 * call SWITCH web site to get the list of disciplines
@@ -363,8 +365,6 @@ class FedoraProxy extends RestProxyBase{
 	 * If an id is provided returns either the license if found or an empty array.
 	 * If no id is provided returns all licenses.
 	 *
-	 * @todo: store the result in the server session cache for all queries?
-	 *
 	 * @link https://collection.switch.ch/spec/2008/licenses/licenses.csv
 	 * @param string $id
 	 * @return array
@@ -373,7 +373,10 @@ class FedoraProxy extends RestProxyBase{
 		static $licenses = false;
 		if($licenses === false){
 
+			$bom = pack("CCC",0xef,0xbb,0xbf); //UTF8 Byte Order Mark
 			$content = file_get_contents(dirname(__FILE__) . '/resource/switch/licenses.csv');
+			$content = substr($content, 0,3) == $bom ? substr($content, 3) : $content;
+
 			/*
 			 * call SWITCH web site to get the list of licenses
 			 *
@@ -405,6 +408,7 @@ class FedoraProxy extends RestProxyBase{
 				//$header = curl_getinfo($ch);
 
 				*/
+
 			if($content){
 				$lines = explode("\n", $content);
 				foreach($lines as $line){
@@ -510,7 +514,6 @@ class FedoraProxy extends RestProxyBase{
 			return $result;
 
 		}else{
-			debug('dd');die;
 			$result =  $this->execute_raw('risearch', $args, 'get');
 			//$result = $this->execute_raw('risearch', array(), 'post', array('content'=>$args));
 		}
@@ -538,8 +541,6 @@ class FedoraProxy extends RestProxyBase{
 		}
 		$query .= 'OPTIONAL {?pid <fedora-rels-ext:isCollection> ?col} FILTER( !BOUND(?col) || !?col) ';
 		$query .= '} ORDER BY DESC(?lastModifiedDate) LIMIT 1 ';
-
-		//debug(htmlentities($query));die;
 
 		$items = $this->ri_search($query, '', 'tuples', 'Sparql', 'Sparql');
 
@@ -866,6 +867,32 @@ class FedoraProxy extends RestProxyBase{
 		return $result;
 	}
 
+	/**
+	 * Utility function. If a datastream exists modify it. Otherwise add it.
+	 *
+	 * @param $pid
+	 * @param $dsID
+	 * @param $dsLabel
+	 * @param $content
+	 * @param $mimeType
+	 * @param $versionable
+	 * @param $dsState
+	 * @param $controlGroup
+	 * @param $dsLocation
+	 * @param $altIDs
+	 * @param $formatURI
+	 * @param $checksum
+	 * @param $logMessage
+	 * @param $ignoreContent
+	 * @param $lastModifiedDate
+	 */
+	public function update_datastream($pid, $dsID, $dsLabel, $content=false, $mimeType = false, $versionable=true, $dsState='A', $controlGroup = 'M', $dsLocation=false, $altIDs = false, $formatURI = false, $checksum = false, $logMessage = false, $ignoreContent = false, $lastModifiedDate = false){
+		try{
+			return $this->modify_datastream($pid, $dsID, $dsLabel, $content, $mimeType, $versionable, $dsState, $dsLocation, $altIDs, $formatURI, $checksum, $logMessage, $ignoreContent, $lastModifiedDate);
+		}catch(Exception $e){
+			return $this->add_datastream($pid, $dsID, $dsLabel, $content, $mimeType, $versionable, $dsState, $controlGroup, $dsLocation, $altIDs, $formatURI, $checksum, $logMessage, $ignoreContent, $lastModifiedDate);
+		}
+	}
 
 	/**
 	 * addDatastream
@@ -898,7 +925,7 @@ class FedoraProxy extends RestProxyBase{
 	 *
 	 *
 	 */
-	public function add_datastream($pid, $dsID, $dsLabel, $content=false, $mimeType = false, $versionable=true, $dsState='A', $dsLocation=false, $altIDs = false, $formatURI = false, $checksum = false, $logMessage = false, $ignoreContent = false, $lastModifiedDate = false){
+	public function add_datastream($pid, $dsID, $dsLabel, $content=false, $mimeType = false, $versionable=true, $dsState='A', $controlGroup = 'M', $dsLocation=false, $altIDs = false, $formatURI = false, $checksum = false, $logMessage = false, $ignoreContent = false, $lastModifiedDate = false){
 		$args = array();
 
 		if($dsLocation !== false){
@@ -928,6 +955,9 @@ class FedoraProxy extends RestProxyBase{
 		}
 		if($lastModifiedDate !== false){
 			$args['lastModifiedDate'] = $lastModifiedDate;
+		}
+		if($controlGroup){
+			$args['controlGroup'] = $controlGroup;
 		}
 		$data_to_send = $content ? $content : null;
 		$mimeType = $mimeType ? $mimeType : '';
@@ -1018,9 +1048,13 @@ class FedoraProxy extends RestProxyBase{
 	 * 		PUT: /objects/demo:35/datastreams/HIGH?dsLocation=http://example:80/highDS?logMessage=Update
 	 *
 	 */
-	public function modify_datastream($pid, $dsID, $dsLabel, $content=false, $mimeType = false, $versionable=true, $dsState='A', $dsLocation=false, $altIDs = false, $formatURI = false, $checksum = false, $logMessage = false, $ignoreContent = false, $lastModifiedDate = false){
-		$args = array();
+	public function modify_datastream($pid, $dsID, $dsLabel, $content=false, $mimeType = false, $versionable=false, $dsState=false, $dsLocation=false, $altIDs = false, $formatURI = false, $checksum = false, $logMessage = false, $ignoreContent = false, $lastModifiedDate = false){
 
+		$ignoreContent = $content ? $ignoreContent : true;
+		$data_to_send = $content ? $content : null;
+		$mimeType = $mimeType ? $mimeType : '';
+
+		$args = array();
 		if($dsLocation !== false){
 			$args['dsLocation'] = $dsLocation;
 		}
@@ -1031,6 +1065,7 @@ class FedoraProxy extends RestProxyBase{
 			$args['altIDs'] = $altIDs;
 		}
 		$args['versionable'] = $versionable;
+
 		if($dsState !== false){
 			$args['dsState'] = $dsState;
 		}
@@ -1049,8 +1084,6 @@ class FedoraProxy extends RestProxyBase{
 		if($lastModifiedDate !== false){
 			$args['lastModifiedDate'] = $lastModifiedDate;
 		}
-		$data_to_send = $content ? $content : null;
-		$mimeType = $mimeType ? $mimeType : '';
 		$result = $this->execute_raw("objects/$pid/datastreams/$dsID", $args, 'PUT', $data_to_send, $mimeType);
 		return $result;
 	}

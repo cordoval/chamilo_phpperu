@@ -31,7 +31,6 @@ class FedoraExternalRepositoryManagerCourseExporterComponent extends FedoraExter
 		}else{
 			return $this->step();
 		}
-		ExternalRepository::
 	}
 
 	/**
@@ -62,7 +61,6 @@ class FedoraExternalRepositoryManagerCourseExporterComponent extends FedoraExter
 		}
 		$next_action = $this->next_action();
 		$parameters = $this->get_wizard_parameters($next_action);
-		//debug($parameters);
 		Redirect::url($parameters);
 	}
 

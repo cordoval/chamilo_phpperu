@@ -583,7 +583,6 @@ class FoxmlWriter extends XmlWriterBase{
 	 * @return FoxmlWriter
 	 */
 	public function add_rel_conformsTo($id){
-		//@todo:check if this is correct
 		$result = $this->add_element('rel:conformsTo');
 		$result->set_attribute('rdf:resource', $id);
 		return $result;

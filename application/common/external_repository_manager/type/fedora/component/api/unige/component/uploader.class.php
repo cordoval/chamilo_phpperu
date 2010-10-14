@@ -11,10 +11,6 @@ require_once dirname(__FILE__) . '/../forms/fedora_unige_confirm_form.class.php'
  *
  */
 class FedoraUnigeUploaderComponent extends FedoraExternalRepositoryManagerUploaderComponent{
-/*
-	function run(){
-		$this->step();
-	}*/
 
 	/**
 	 * Returns the form to be displayed for a step.

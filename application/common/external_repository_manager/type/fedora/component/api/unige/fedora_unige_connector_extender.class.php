@@ -11,6 +11,10 @@
  */
 class FedoraUnigeExternalRepositoryConnectorExtender{
 
+	const DOCUMENTS_PUBLIC = 'public';
+	const DOCUMENTS_INSTITUTION = 'institution';
+	const DOCUMENTS_PRIVATE = 'private';
+
 	/**
 	 * @var FedoraExternalRepositoryConnector
 	 */
@@ -32,7 +36,7 @@ class FedoraUnigeExternalRepositoryConnectorExtender{
 	}
 
 	public function get_store(){
-		$result =  $this->connector->get_default_store();
+		$result =  $this->get_default_store();
 		$disciplines = $this->get_discipline_tree();
 		$owner = $this->connector->get_owner_id();
 		$fs = fedora_fs_subject::factory($disciplines, $owner);
@@ -42,7 +46,38 @@ class FedoraUnigeExternalRepositoryConnectorExtender{
 		return $result;
 	}
 
+	public function get_default_store(){
+		$owner = $this->get_connector()->get_owner_id();
 
+		$today = today();
+		$this_week = this_week();
+		$last_week = last_week();
+		$two_weeks_ago = last_week(2);
+		$three_weeks_ago = last_week(3);
+
+		$result = new fedora_fs_store(Translation::get_instance()->translate('root'), 'root');
+
+		$result->add($mystuff = new fedora_fs_store(Translation::get('mystuff'), FedoraExternalRepositoryConnector::DOCUMENTS_MY_STUFF));
+		$mystuff->set_class('user');
+		$mystuff->aggregate(new fedora_fs_mystuff('_'.FedoraExternalRepositoryConnector::DOCUMENTS_MY_STUFF, $owner));
+		$mystuff->add($rights = new fedora_fs_store('rights', translation::get('Rights'), 'rights'));
+		$rights->add($fs = new fedora_fs_access_right('public', translation::get('Public'), $owner, 'green_light', self::DOCUMENTS_PUBLIC));
+		$rights->add(new fedora_fs_access_right('institution', translation::get('Institution'), $owner, 'yellow_light', self::DOCUMENTS_INSTITUTION));
+		$rights->add(new fedora_fs_access_right('private', translation::get('Private'), $owner, 'red_light', self::DOCUMENTS_PRIVATE));
+
+		$mystuff->add($history = new fedora_fs_store(Translation::get_instance()->translate('history')));
+		$history->add(new fedora_fs_history(Translation::get('today'), today(), NULL, $owner, FedoraExternalRepositoryConnector::DOCUMENTS_TODAY));
+		$history->add(new fedora_fs_history(Translation::get('this_week'), $this_week, NULL, $owner, FedoraExternalRepositoryConnector::DOCUMENTS_THIS_WEEK));
+		$history->add(new fedora_fs_history(Translation::get('last_week'), $last_week, $this_week, $owner, FedoraExternalRepositoryConnector::DOCUMENTS_LAST_WEEK));
+		$history->add(new fedora_fs_history(Translation::get('two_weeks_ago'), $two_weeks_ago, $last_week, $owner, FedoraExternalRepositoryConnector::DOCUMENTS_TWO_WEEKS_AGO));
+		$history->add(new fedora_fs_history(Translation::get('three_weeks_ago'), $three_weeks_ago, $two_weeks_ago, $owner, FedoraExternalRepositoryConnector::DOCUMENTS_THREE_WEEKS_AGO));
+
+		$result->aggregate(new fedora_fs_lastobjects('', false, $owner));
+
+		$history->set_class('fedora_history');
+
+		return $result;
+	}
 
 	/**
 	 * Returns disciplines formated as a tree.
@@ -108,6 +143,16 @@ class FedoraUnigeExternalRepositoryConnectorExtender{
 		return $result;
 	}
 
+	public function retrieve_collections($id=false){
+		$result = array();
+		$result['LOR:49'] = 'Unige';
+		if($key!==false){
+			return isset($result[$id]) ? $result[$id] : false;
+		}else{
+			return $result;
+		}
+	}
+
 	private $rights = false;
 	public function retrieve_rights($id=false){
 		if(empty($rights)){
@@ -170,16 +215,7 @@ class FedoraUnigeExternalRepositoryConnectorExtender{
 							$result[$name] = $value;
 							$license = $this->retrieve_licenses($value);
 							$lang = Translation::get_language();
-							$text = isset($license[$lang]) ? $license[$lang] : '';
-							if($text){
-								if(substr($value, 0, 4) == 'http'){
-									$value = '<a href="' . $value . '" target="_blank">' . $text .'</a>';
-								}else{
-									$value = $text;
-								}
-							}else{
-								$value = $value;
-							}
+							$value = isset($license[$lang]) ? $license[$lang] : '';
 							$result[$name .'_text'] = $value;
 						}
 						break;
@@ -211,12 +247,25 @@ class FedoraUnigeExternalRepositoryConnectorExtender{
 		}
 		return $result;
 	}
-/*
-	function __call($name, $args){
-		$f = array($this->connector, $name);
-		return is_callable($f) ? call_user_func_array($f, $args) : false;
+
+	public function determine_rights(fedora_fs_object $item){
+		$can_edit = $item->get_owner() == FedoraExternalRepositoryConnector::get_owner_id();
+		if(! $can_edit){
+			$meta = $this->retrieve_object_metadata($item->get_pid());
+			$edit_rights = isset($meta['rights']) ? $meta['rights'] : '';
+			if($edit_rights == 'public' || $edit_rights == 'institution' ){
+				$can_edit = true;
+			}
+		}
+
+		$rights = array();
+		$rights[ExternalRepositoryObject::RIGHT_USE] = true;
+		$rights[ExternalRepositoryObject::RIGHT_EDIT] = $can_edit;
+		$rights[ExternalRepositoryObject::RIGHT_DELETE] = $can_edit;
+		$rights[ExternalRepositoryObject::RIGHT_DOWNLOAD] = true;
+		return $rights;
 	}
-*/
+
 }
 
 

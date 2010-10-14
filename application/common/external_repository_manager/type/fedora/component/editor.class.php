@@ -2,6 +2,16 @@
 
 require_once dirname(__FILE__) . '/../forms/fedora_edit_form.class.php';
 
+/**
+ * Edit a Fedora object. Allow to change the main datastream and metadata.
+ *
+ * If the current API provides a specialization for this component launch it instead.
+ *
+ * @copyright (c) 2010 University of Geneva
+ * @license GNU General Public License
+ * @author laurent.opprecht@unige.ch
+ *
+ */
 class FedoraExternalRepositoryManagerEditorComponent extends FedoraExternalRepositoryManager{
 
 	function run(){
@@ -45,6 +55,21 @@ class FedoraExternalRepositoryManagerEditorComponent extends FedoraExternalRepos
 		return Request::get(ExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_ID);
 	}
 
+	/**
+	 * @return FedoraProxy
+	 */
+	function get_fedora(){
+		return $this->get_external_repository_connector()->get_fedora();
+	}
+
+	/**
+	 * @return FedoraExternalRepositoryConnector
+	 *
+	 */
+	function get_connector(){
+		return $this->get_external_repository_connector();
+	}
+
 	function create_form($object_external_id){
 		$result = new FedoraEditForm($this, $_GET, array('edit' => $object_external_id));
 		return $result;
@@ -60,6 +85,15 @@ class FedoraExternalRepositoryManagerEditorComponent extends FedoraExternalRepos
 			$path = $file['tmp_name'];
 			$mime_type = $file['type'];
 			$this->update_thumbnail($pid, $name, $path, $mime_type);
+		}else if(isset($_FILES['data']) && !empty($_FILES['data']['tmp_name'])){
+			$mime_type = $_FILES['data']['type'];
+			$ext = mimetype_to_ext($mime_type);
+			if($this->is_image($ext)){
+				$name = $_FILES['data']['name'];
+				$path = $_FILES['data']['tmp_name'];
+				$this->update_thumbnail($pid, $name, $path, $mime_type);
+				Filesystem::remove($tmp);
+			}
 		}
 		if(isset($_FILES['data']) && !empty($_FILES['data']['tmp_name'])){
 			$file = $_FILES['data'];
@@ -74,15 +108,14 @@ class FedoraExternalRepositoryManagerEditorComponent extends FedoraExternalRepos
 	}
 
 	function update_label($pid, $label){
-		$fedora = $this->get_external_repository_connector()->get_fedora();
+		$fedora = $this->get_fedora();
 		$fedora->modify_object($pid, $label);
 		$fedora->modify_datastream($pid, 'DS1', $label);
 	}
 
 	function update_thumbnail($pid, $name, $path, $mime_type){
-		$fedora = $this->get_external_repository_connector()->get_fedora();
-		$content = file_get_contents($path);
-		$fedora->modify_datastream($pid, 'THUMBNAIL', $name, $content, $mime_type, false);
+		$connector = $this->get_connector();
+		$connector->update_thumbnail($pid, $name, $path, $mime_type);
 	}
 
 	function update_metadata($pid, $data){
@@ -100,24 +133,30 @@ class FedoraExternalRepositoryManagerEditorComponent extends FedoraExternalRepos
 		$switch->discipline_text = $data['subject_dd']['subject_text'];
 		$switch->creator = $data['author'];
 		$switch->description = $data['description'];
+		$switch->rights = $data['edit_rights'];
+		$switch->accessRights = $data['access_rights'];
 
 		$fedora = $this->get_external_repository_connector()->get_fedora();
 		$content = SWITCH_get_rels_int($meta, $switch);
 		$fedora->modify_datastream($pid, 'RELS-EXT', 'Relationships to other objects', $content, 'application/rdf+xml');
 		$content = SWITCH_get_chor_dc($meta, $switch);
-		$fedora->modify_datastream($pid, 'CHOR_DC', 'SWITCH CHOR_DC record for this object', $content, 'text/xml');
+		$fedora->update_datastream($pid, 'CHOR_DC', 'SWITCH CHOR_DC record for this object', $content, 'text/xml');
 	}
 
 	function update_data($pid, $name, $path, $mime_type){
-		$fedora = $this->get_external_repository_connector()->get_fedora();
+		$fedora = $this->get_fedora();
 		$content = file_get_contents($path);
-		$fedora->modify_datastream($pid, 'DS1', $name, $content, $mime_type, false);
+		$fedora->update_datastream($pid, 'DS1', $name, $content, $mime_type, false);
 	}
 
 	function display($form){
 		$this->display_header($trail, false);
 		$form->display();
 		$this->display_footer();
+	}
+
+	protected function is_image($ext){
+		return in_array($ext, Document::get_image_types());
 	}
 
 }

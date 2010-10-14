@@ -2,7 +2,7 @@
 require_once dirname(__FILE__) . '/../../external_repository_object_display.class.php';
 
 /**
- *
+ * Provides a readonly interface that display thumbail, metadata and datastream.
  *
  * @copyright (c) 2010 University of Geneva
  * @license GNU General Public License
@@ -15,7 +15,7 @@ class FedoraExternalRepositoryObjectDisplay extends ExternalRepositoryObjectDisp
 	function get_display_properties(){
 		$properties = parent::get_display_properties();
 		$object = $this->get_object();
-		if($value = $object->get_license_text()){
+		if($value = $this->get_licence($object)){
 			$properties[Translation::get('License')] = $value;
 		}
 		if($value = $object->get_creator()){
@@ -55,7 +55,6 @@ class FedoraExternalRepositoryObjectDisplay extends ExternalRepositoryObjectDisp
 			if(Filesystem::write_to_file($temp, $content)){
 				$image_url = Path::get(WEB_TEMP_PATH). $opath;
 				$html[] = '<img src="' . $image_url . '" style="max-width:400px;,max-height:400px;" />';
-				//$html[] = $text;
 				$html[] = '<div class="clear">&nbsp;</div>';
 				return implode("\n", $html);
 			}
@@ -162,6 +161,19 @@ class FedoraExternalRepositoryObjectDisplay extends ExternalRepositoryObjectDisp
 		return preg_match($pattern, trim($text)) ? true : false;
 	}
 
+	protected function get_licence($object){
+		$value = $object->get_license();
+		$text = $object->get_license_text();
+		$text = $text ? $text : $value;
+		if(!empty($value) && substr($value, 0, 4) == 'http'){
+			$result = '<a href="' . $value . '" target="_blank">' . $text . '</a>';
+		}else if($text){
+			$result = $text;
+		}else{
+			$result = '';
+		}
+		return $result;
+	}
 
 }
 

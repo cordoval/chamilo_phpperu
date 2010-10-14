@@ -20,12 +20,12 @@ class Session
         //	$session_handler = new session_handler();
         //	@ session_set_save_handler(array ($session_handler, 'open'), array ($session_handler, 'close'), array ($session_handler, 'read'), array ($session_handler, 'write'), array ($session_handler, 'destroy'), array ($session_handler, 'garbage'));
         //}
-        
+
 
         $session_key = Configuration :: get_instance()->get_parameter('general', 'security_key');
         if (is_null($session_key))
             $session_key = 'dk_sid';
-        
+
         session_name($session_key);
         session_start();
         if ($already_installed)
@@ -75,6 +75,16 @@ class Session
         if(array_key_exists($variable, $_SESSION))
         {
     		return $_SESSION[$variable];
+        }
+    }
+
+    static function get($variable, $default = null)
+    {
+        if(array_key_exists($variable, $_SESSION))
+        {
+    		return $_SESSION[$variable];
+        }else{
+        	return $default;
         }
     }
 

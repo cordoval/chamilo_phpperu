@@ -6,6 +6,7 @@
 
 require_once dirname(__FILE__) . '/fedora_proxy.class.php';
 require_once dirname(__FILE__) . '/writer/foxml_writer.class.php';
+require_once dirname(__FILE__) . '/reader/foxml_reader.class.php';
 require_once dirname(__FILE__) . '/switch.php';
 
 require_once(dirname(__FILE__).'/../mime/mime_type.php');
@@ -103,11 +104,9 @@ function fedora_content_to_foxml($content, fedora_object_meta $meta){
 	foreach($collections as $collection){
 		$w->add_rel_isMemberOfCollection($collection);
 	}
-	//@todo: add pid prefix unige?
+
 	$w->add_oai_itemID($meta->pid);
 
-	//@todo: change that
-	$o->save("C:\\Documents and Settings\\lo\\Bureau\\text.xml");
 	return $o->saveXML();
 
 }

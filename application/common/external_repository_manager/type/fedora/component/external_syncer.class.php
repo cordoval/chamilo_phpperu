@@ -61,16 +61,7 @@ class FedoraExternalRepositoryManagerExternalSyncerComponent extends FedoraExter
 		$name = $document->get_filename();
 
 		if($document->is_image()){
-			$tmp = Path::get_temp_path() . 'f' . $this->get_user_id() . md5(uniqid('fedora_thumb'));
-			$size = getimagesize($path);
-			$ratio = $size[1]/$size[0];
-			$ratio = $ratio ? $ratio : 1;
-			$thumbnail_creator = ImageManipulation::factory($path);
-			$thumbnail_creator->create_thumbnail(150, $ratio * 150);
-			$thumbnail_creator->write_to_file($tmp);
-			$meta->thumbnail = file_get_contents($tmp);
-			$this->update_thumbnail($pid, $name, $tmp, $mime_type);
-			Filesystem::remove($tmp);
+			$this->update_thumbnail($pid, $name, $path, $mime_type);
 		}
 
 		$this->update_data($pid, $name, $path, $mime_type);
@@ -94,32 +85,27 @@ class FedoraExternalRepositoryManagerExternalSyncerComponent extends FedoraExter
 	}
 
 	function update_thumbnail($pid, $name, $path, $mime_type){
-		$fedora = $this->get_external_repository_connector()->get_fedora();
-		$content = file_get_contents($path);
-		try{
-			$fedora->modify_datastream($pid, 'THUMBNAIL', $name, $content, $mime_type, false);
-		}catch(Exception $e){
-			$fedora->add_datastream($pid, 'THUMBNAIL', $name, $content, $mime_type, false);
-		}
+		$connector = $this->get_external_repository_connector();
+		$connector->update_thumbnail($pid, $name, $path, $mime_type);
 	}
 
 	function update_metadata($pid, $description, $data){
 		$meta = new fedora_object_meta();
 		$meta->pid = $pid;
-
 		$switch = new switch_object_meta();
-		$keys = array_keys($data);
-		foreach($keys as $key){
-			if(isset($data[$key])){
-				$switch->{$key} = $data[$key];
-			}
+
+		foreach($data as $key=>$value){
+			$switch->{$key} = $data[$key];
 		}
+
 		$switch->discipline = $data['subject'];
 		$switch->discipline_text = $data['subject_dd']['subject_text'];
-		$switch->creator = $data['author'];
+		$switch->creator = isset($data['creator']) ? $data['creator'] : $this->get_user()->get_fullname();
 		$switch->description = $description;
 
-		$fedora = $this->get_external_repository_connector()->get_fedora();
+		$connector = $this->get_external_repository_connector();
+		$fedora = $connector->get_fedora();
+
 		$content = SWITCH_get_rels_int($meta, $switch);
 		$fedora->modify_datastream($pid, 'RELS-EXT', 'Relationships to other objects', $content, 'application/rdf+xml');
 		$content = SWITCH_get_chor_dc($meta, $switch);

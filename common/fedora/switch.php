@@ -86,7 +86,6 @@ function SWITCH_content_to_foxml($content, fedora_object_meta $meta, SWITCH_obje
 	foreach($collections as $collection){
 		$w->add_rel_isMemberOfCollection($collection);
 	}
-	//@todo: add pid prefix unige?
 	$w->add_oai_itemID($meta->pid);
 
 	//ensure chor_dc data is indexed by resource index
@@ -111,8 +110,6 @@ function SWITCH_content_to_foxml($content, fedora_object_meta $meta, SWITCH_obje
 		$w->add_binaryContent($meta->thumbnail);
 	}
 
-	//@todo: change that
-	//$o->save("C:\\Users\\lopprecht\\Desktop\\test.xml");
 	$result = $o->saveXML();
 	return $result;
 }
@@ -131,7 +128,6 @@ function SWITCH_get_rels_int(fedora_object_meta $meta, SWITCH_object_meta $switc
 	foreach($collections as $collection){
 		$w->add_rel_isMemberOfCollection($collection);
 	}
-	//@todo: add pid prefix unige?
 	$w->add_oai_itemID($meta->pid);
 
 	//ensure chor_dc data is indexed by resource index

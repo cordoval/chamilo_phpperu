@@ -129,11 +129,10 @@ class fedora_fs_sparql_query{
 		}
 
 		$result = implode(' ', $result);
-		//debug(htmlentities($result));
 		return $result;
 	}
 
-	public function query($fedora){
+	public function query(FedoraProxy $fedora){
 		$query = $this->format();
 		$items = $fedora->ri_search($query, '', 'tuples', 'Sparql', 'Sparql');
 

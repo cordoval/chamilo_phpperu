@@ -90,11 +90,10 @@ class fedora_fs_itql_query{
 			$result .= 'offset '.$offset . ' ';
 		}
 
-		//debug(htmlentities($result));
 		return $result;
 	}
 
-	public function query($fedora){
+	public function query(FedoraProxy $fedora){
 		$query = $this->format();
 		$items = $fedora->ri_search($query, '', 'tuples', 'iTql', 'Sparql');
 

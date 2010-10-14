@@ -62,7 +62,7 @@ class fedora_fs_history extends fedora_fs_folder{
 		}
 	}
 
-	public function query($fedora, $sort=false, $limit=false, $offset=false){
+	public function query(FedoraProxy $fedora, $sort=false, $limit=false, $offset=false){
 		$result = array();
 		$start = $this->get_start_date();
 		$end = $this->get_end_date();

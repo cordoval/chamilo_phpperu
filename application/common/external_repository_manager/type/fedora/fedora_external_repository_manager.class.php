@@ -2,6 +2,14 @@
 
 require_once dirname(__FILE__) . '/fedora_external_repository_connector.class.php';
 
+/**
+ * Manager of the Fedora repository action.
+ *
+ * @copyright (c) 2010 University of Geneva
+ * @license GNU General Public License
+ * @author laurent.opprecht@unige.ch
+ *
+ */
 class FedoraExternalRepositoryManager extends ExternalRepositoryManager
 {
 	const REPOSITORY_TYPE = 'fedora';
@@ -68,7 +76,6 @@ class FedoraExternalRepositoryManager extends ExternalRepositoryManager
 		}else if(empty($parent)){
 			$parent = $connector->get_store();
 			$result = $this->get_menu_items($parent->get_children());
-			//debug($result);die;
 			return $result;
 		}else{
 			$result = array();
@@ -82,11 +89,6 @@ class FedoraExternalRepositoryManager extends ExternalRepositoryManager
 			}
 			return $result;
 		}
-		/*
-		 $line = array();
-		 $line['title'] = '';
-		 $line['class'] = 'divider';
-		 */
 	}
 
 	/* (non-PHPdoc)
@@ -157,17 +159,6 @@ class FedoraExternalRepositoryManager extends ExternalRepositoryManager
 	 */
 	function get_content_object_type_conditions(){
 		return null;
-	}
-
-	/**
-	 * @param FedoraExternalRepositoryObject $object
-	 * @return array
-	 */
-	function get_external_repository_object_actions(FedoraExternalRepositoryObject $object)
-	{
-		$actions = parent::get_external_repository_object_actions($object);
-
-		return $actions;
 	}
 
 	/**

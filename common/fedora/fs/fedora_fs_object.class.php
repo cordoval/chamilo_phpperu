@@ -38,7 +38,7 @@ class fedora_fs_object extends fedora_fs_base{
 		return $this->get(__FUNCTION__, 'fedora_object');
 	}
 
-	public function query($fedora){
+	public function query(FedoraProxy $fedora, $sort=false, $limit=false, $offset=false){
 		$result = array();
 		$pid = $this->pid;
 		$config = $fedora->get_config();

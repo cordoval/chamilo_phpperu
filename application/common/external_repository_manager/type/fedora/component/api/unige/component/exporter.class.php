@@ -4,7 +4,6 @@ require_once dirname(__FILE__) . '/../forms/fedora_unige_confirm_form.class.php'
 
 /**
  *
- *
  * @copyright (c) 2010 University of Geneva
  * @license GNU General Public License
  * @author laurent.opprecht@unige.ch

@@ -352,7 +352,6 @@ class RestClient{
 			$result->set_response_error('The REST request returned an HTTP error code of ' . $response_http_code . ' (' . $this->get_http_code_translation($response_http_code) . ')');
 		}
 
-
 		return $result;
 	}
 

@@ -24,12 +24,15 @@
 				default="">
 			</setting>
 
-			<setting name="ClientCertificateKeyPassword" field="text"
+			<setting name="ClientCertificateKeyPassword" field="password"
 				default="">
 			</setting>
 
 			<setting name="CheckTargetCertificate" field="checkbox"
 				default="0">
+				<options type="static">
+					<option name="CheckTargetCertificate" value="True" />
+				</options>
 			</setting>
 
 			<setting name="TargetCaFile" field="text" default="">
@@ -38,12 +41,7 @@
 			<setting name="Login" field="text" default="fedoraAdmin">
 			</setting>
 
-			<setting name="Password" field="text" default="">
-			</setting>
-			<setting name="MaxResults" field="text" default="250">
-				<validations>
-					<validation rule="numeric" message="MustBeNumeric" />
-				</validations>
+			<setting name="Password" field="password" default="">
 			</setting>
 		</category>
 	</settings>

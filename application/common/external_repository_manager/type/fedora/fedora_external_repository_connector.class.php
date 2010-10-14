@@ -3,6 +3,16 @@
 require_once dirname(__FILE__) . '/fedora_external_repository_object.class.php';
 require_once Path::get_common_path() . '/fedora/lib.php';
 
+/**
+ * Main object to connect Chamilo to the Fedora repository.
+ * If an API provides a method's specialization calls it instead.
+ * The API Extender do not inherit from this class because the connector's factory is not accessible.
+ *
+ * @copyright (c) 2010 University of Geneva
+ * @license GNU General Public License
+ * @author laurent.opprecht@unige.ch
+ *
+ */
 class FedoraExternalRepositoryConnector extends ExternalRepositoryConnector{
 
 	const DOCUMENTS_MY_STUFF = 'my_stuff';
@@ -18,6 +28,10 @@ class FedoraExternalRepositoryConnector extends ExternalRepositoryConnector{
 	 *
 	 */
 	public static function get_owner_id(){
+		static $result = false;
+		if($result){
+			return $result;
+		}
 		$user = UserDataManager::get_instance()->retrieve_user(Session::get_user_id());
 		$result = $user->get_external_uid();
 		$result = $result ? $result : $user->get_email();
@@ -66,14 +80,13 @@ class FedoraExternalRepositoryConnector extends ExternalRepositoryConnector{
 		$result = new fedora_fs_store(Translation::get_instance()->translate('root'));
 		$result->add(new fedora_fs_mystuff(self::DOCUMENTS_MY_STUFF, $owner));
 		$result->add($history = new fedora_fs_store(Translation::get_instance()->translate('history')));
-		$history->add(new fedora_fs_history(Translation::get_instance()->translate('today'), today(), NULL, $owner, self::DOCUMENTS_TODAY));
-		$history->add(new fedora_fs_history(Translation::get_instance()->translate('this_week'), $this_week, NULL, $owner, self::DOCUMENTS_THIS_WEEK));
-		$history->add(new fedora_fs_history(Translation::get_instance()->translate('last_week'), $last_week, $this_week, $owner, self::DOCUMENTS_LAST_WEEK));
-		$history->add(new fedora_fs_history(Translation::get_instance()->translate('two_weeks_ago'), $two_weeks_ago, $last_week, $owner, self::DOCUMENTS_TWO_WEEKS_AGO));
-		$history->add(new fedora_fs_history(Translation::get_instance()->translate('three_weeks_ago'), $three_weeks_ago, $two_weeks_ago, $owner, self::DOCUMENTS_THREE_WEEKS_AGO));
+		$history->add(new fedora_fs_history(Translation::get('today'), today(), NULL, $owner, self::DOCUMENTS_TODAY));
+		$history->add(new fedora_fs_history(Translation::get('this_week'), $this_week, NULL, $owner, self::DOCUMENTS_THIS_WEEK));
+		$history->add(new fedora_fs_history(Translation::get('last_week'), $last_week, $this_week, $owner, self::DOCUMENTS_LAST_WEEK));
+		$history->add(new fedora_fs_history(Translation::get('two_weeks_ago'), $two_weeks_ago, $last_week, $owner, self::DOCUMENTS_TWO_WEEKS_AGO));
+		$history->add(new fedora_fs_history(Translation::get('three_weeks_ago'), $three_weeks_ago, $two_weeks_ago, $owner, self::DOCUMENTS_THREE_WEEKS_AGO));
 
 		$result->aggregate(new fedora_fs_lastobjects('', false, $owner));
-		$result->set_max_results(250);//@todo
 
 		$history->set_class('fedora_history');
 		return $result;
@@ -156,14 +169,8 @@ class FedoraExternalRepositoryConnector extends ExternalRepositoryConnector{
 	 */
 	function retrieve_external_repository_object($pid){
 		$fedora = $this->get_fedora();
-		$fs = new fedora_fs_search_by_id($pid);
-		$items = $fs->query($fedora);
-		if($items){
-			$result = $this->fs_to_object(reset($items));
-			return $result;
-		}else{
-			return false;
-		}
+		$xml = $fedora->get_object_xml($pid);
+		return $xml ? $this->foxml_to_object($xml) : false;
 	}
 
 	/**
@@ -174,15 +181,9 @@ class FedoraExternalRepositoryConnector extends ExternalRepositoryConnector{
 	 */
 	function retrieve_datastreams($pid){
 		$fedora = $this->get_fedora();
-		$fs = new fedora_fs_search_by_id($pid);
-		$items = $fs->query($fedora);
-		if($items){
-			$fso = reset($items);
-			$result = $fso->query($fedora);
-			return $result;
-		}else{
-			return false;
-		}
+		$fs = new fedora_fs_object($pid, '', self::get_owner_id(), time(), time());
+		$result = $fs->query($fedora);
+		return $result;
 	}
 
 	function get_datastream_content_url($pid, $dsID){
@@ -201,7 +202,6 @@ class FedoraExternalRepositoryConnector extends ExternalRepositoryConnector{
 		$fedora = $this->get_fedora();
 		return $fedora->get_datastream_content($pid, $dsID);
 	}
-
 
 	/**
 	 * Returns object's metadata from Fedora in an associative array.
@@ -307,6 +307,16 @@ class FedoraExternalRepositoryConnector extends ExternalRepositoryConnector{
 	}
 
 	/**
+	 * Returns the list of collections
+	 *
+	 * @param $key $id
+	 */
+	public function retrieve_collections($id=false){
+		$default = $id ? false : array();
+		return $this->call_api(__FUNCTION__, func_get_args(), $default);
+	}
+
+	/**
 	 * Delete an object on the server.
 	 *
 	 * @param string $id
@@ -314,7 +324,7 @@ class FedoraExternalRepositoryConnector extends ExternalRepositoryConnector{
 	function delete_external_repository_object($id){
 		$fedora = $this->get_fedora();
 		try{
-			$fedora->purge_object($id);
+			$result = $fedora->purge_object($id);
 			return true;
 		}catch(Exception $e){
 			return false;
@@ -390,7 +400,6 @@ class FedoraExternalRepositoryConnector extends ExternalRepositoryConnector{
 
 		if($condition){
 			$owner = $this->get_owner_id();
-			//debug($order_property);
 			$search = new fedora_fs_search('', $condition, fedora_fs_search::SEARCH_LEVEL_FUZZI, false, false, $owner, $order_property, $limit, $offset);
 			$fedora = $this->get_fedora();
 			$items = $search->query($fedora, $sort, $limit, $offset);
@@ -429,6 +438,41 @@ class FedoraExternalRepositoryConnector extends ExternalRepositoryConnector{
 	}
 
 	/**
+	 * Update the Thumbnail datastream of an object. If file provided is greater than max size - 150 pixels - the image size is decreased.
+	 *
+	 * @param $pid object ID
+	 * @param $name image/datastream's name
+	 * @param $path path to the file
+	 * @param $mime_type mime type
+	 */
+	function update_thumbnail($pid, $name, $path, $mime_type){
+		$fedora = $this->get_fedora();
+		$max_size = 150;
+		$size = getimagesize($path);
+		$width = $size[0];
+		$height = $size[1];
+		if($width == 0){//Unable to deternime image size
+			$content = file_get_contents($path);
+			$fedora->update_datastream($pid, 'THUMBNAIL', $name, $content, $mime_type, false);
+		}else if($width <= $max_size && $height <= $max_size){
+			$content = file_get_contents($path);
+			$fedora->update_datastream($pid, 'THUMBNAIL', $name, $content, $mime_type, false);
+		}else{
+			$tmp = Path::get_temp_path() . 'f' . Session::get_user_id() . md5(uniqid('fedora_thumb'));
+			$ratio = $size[1]/$size[0];
+			$ratio = $ratio ? $ratio : 1;
+			$thumbnail_creator = ImageManipulation::factory($path);
+			$thumbnail_creator->create_thumbnail($max_size, $ratio * $max_size);
+			$thumbnail_creator->write_to_file($tmp);
+
+			$content = file_get_contents($tmp);
+			$fedora->update_datastream($pid, 'THUMBNAIL', $name, $content, $mime_type, false);
+
+			Filesystem::remove($tmp);
+		}
+	}
+
+	/**
 	 * Creates a FedoraExternalRepositoryObject based on a fedora_fs_object definintion;
 	 *
 	 * @param $fs
@@ -447,18 +491,24 @@ class FedoraExternalRepositoryConnector extends ExternalRepositoryConnector{
 		return $object;
 	}
 
-	function determine_rights(fedora_fs_object $item){
+	public function determine_rights(fedora_fs_object $item){
+		if($result = $this->call_api(__FUNCTION__, $item)){
+			return $result;
+		}
+
+		$can_edit = $item->get_owner() == $this->get_owner_id();
 		$rights = array();
 		$rights[ExternalRepositoryObject::RIGHT_USE] = true;
-		$rights[ExternalRepositoryObject::RIGHT_EDIT] = $item->get_owner() == $this->get_owner_id();
-		$rights[ExternalRepositoryObject::RIGHT_DELETE] = $item->get_owner() == $this->get_owner_id();
+		$rights[ExternalRepositoryObject::RIGHT_EDIT] = $can_edit;
+		$rights[ExternalRepositoryObject::RIGHT_DELETE] = $can_edit;
 		$rights[ExternalRepositoryObject::RIGHT_DOWNLOAD] = true;
 		return $rights;
 	}
 
 	protected function call_api($name, $args = array(), $default = false){
 		$api = $this->get_api_extender();
-		$f = array($api, $name);
+		$args = is_array($args) ? $args : array($args);
+		$f=array($api, $name);
 		if(is_callable($f)){
 			return call_user_func_array($f, $args);
 		}else{
@@ -466,8 +516,112 @@ class FedoraExternalRepositoryConnector extends ExternalRepositoryConnector{
 		}
 	}
 
+	/**
+	 * Returns a FedoraExternalRepositoryObject from the foxml description.
+	 * Used to build an object in one call.
+	 *
+	 * @param string $xml
+	 * @return FedoraExternalRepositoryObject
+	 */
+	protected function foxml_to_object($xml){
+		$result = new FedoraExternalRepositoryObject();
+		$reader = new FoxmlReader($xml);
+
+		$pid = $reader->PID;
+		$properties = $reader->get_objectProperties();
+		$label = $properties->get_label();
+		$modified = $properties->get_lastModifiedDate();
+		$created = $properties->get_createdDate();
+		$owner = $properties->get_ownerId();
+
+		$config = $this->get_fedora()->get_config();
+		$base_url = rtrim($config->get_base_url(), '/');
+
+		$metadata = array();
+		$datastreams = array();
+		$dss = $reader->list_datastream();
+		foreach($dss as $ds){
+			$dsID = $ds->ID;
+			$version = $ds->first_datastreamVersion();
+			$title = $version->LABEL;
+			$mime_type = $version->MIMETYPE;
+			$source = "$base_url/objects/$pid/datastreams/$dsID/content";
+			$datastreams[$dsID] = new fedora_fs_datastream($pid, $dsID, $title, $mime_type, $source);
+
+			if($dsID == 'RELS-EXT'){
+				$description = $version->children_head()->children_head()->children_head();
+				$children = $description->children();
+				foreach($children as $child){
+					$name = $child->name();
+					$value = $child->value();
+					$parts = explode(':', $name);
+					$namespace = reset($parts);
+					$name = end($parts);
+					if($namespace == 'dcterms'){
+						$metadata[$name] = $value;
+					}
+				}
+				$metadata['title'] = $label;
+				$metadata['created'] = $created;
+				$metadata['modified'] = $modified;
+
+				$lang = Translation::get_instance()->get_language();
+				if($id = $metadata['license']){
+					$data = $this->retrieve_licenses($id);
+					$metadata['license_text'] = $data[$lang];
+				}
+
+				if($id = $metadata['subject']){
+					$data = $this->retrieve_disciplines($id);
+					$metadata['subject_text'] = $data[$lang];
+				}
+			}
+		}
+
+		$edit_right = isset($metadata['rights']) ? $metadata['rights'] : 'private';
+		$can_edit = ($owner == $this->get_owner_id()) || $edit_right == 'public' || $edit_right == 'institution';
+
+		$rights = array();
+		$rights[ExternalRepositoryObject::RIGHT_USE] = true;
+		$rights[ExternalRepositoryObject::RIGHT_EDIT] = $can_edit;
+		$rights[ExternalRepositoryObject::RIGHT_DELETE] = $can_edit;
+		$rights[ExternalRepositoryObject::RIGHT_DOWNLOAD] = true;
+
+		$result->set_created($created);
+		$result->set_id($pid);
+		$result->set_title($label);
+		$result->set_external_repository_id($this->get_external_repository_instance_id());
+		$result->set_modified($modified);
+		$result->set_datastreams($datastreams);
+		$result->set_metadata($metadata);
+		$result->set_owner_id($owner);
+		$result->set_created($created);
+		$result->set_rights($rights);
+		return $result;
+	}
+
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ?>

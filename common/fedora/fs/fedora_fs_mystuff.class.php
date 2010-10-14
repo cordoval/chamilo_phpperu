@@ -30,7 +30,7 @@ class fedora_fs_mystuff extends fedora_fs_folder{
 		return $this->translate('mystuff');
 	}
 
-	public function query($fedora, $sort=false, $limit=false, $offset=false){
+	public function query(FedoraProxy $fedora, $sort=false, $limit=false, $offset=false){
 		$result = array();
 
 		$owner = $this->get_owner();
@@ -49,7 +49,7 @@ class fedora_fs_mystuff extends fedora_fs_folder{
 		return $result;
 	}
 
-	public function count($fedora){
+	public function count(FedoraProxy $fedora){
 		$owner = $this->get_owner();
 		$result = self::sparql_count($fedora, '', 0, NULL, NULL, $owner, self::$max_results);
 		return $result;

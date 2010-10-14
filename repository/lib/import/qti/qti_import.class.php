@@ -13,7 +13,7 @@ class QtiImport extends ContentObjectImport{
 		if(!file_exists($settings->get_path())){
 			//builders may delete the file after import and cicular reference may force this function to be called twice on the same file.
 			$result = EmptyObjectImport::get_instance();
-		}else if($import = BuilderImport::factory($settings)){
+		}else if($import = QtiBuilderImport::factory($settings)){
 			$result = $import;
 		}else{
 			$result = EmptyObjectImport::get_instance();

@@ -2,6 +2,13 @@
 
 require_once dirname(__FILE__) . '/../../../../forms/fedora_edit_form.class.php';
 
+/**
+ *
+ * @copyright (c) 2010 University of Geneva
+ * @license GNU General Public License
+ * @author laurent.opprecht@unige.ch
+ *
+ */
 class FedoraUnigeEditForm extends FedoraEditForm{
 
 	function __construct($application, $parameters, $data=false){
@@ -103,8 +110,8 @@ class FedoraUnigeEditForm extends FedoraEditForm{
 	}
 
 	function get_collections(){
-		$result = array();
-		$result['LOR:49'] = 'Unige';
+		$connector = $this->get_connector();
+		$result = $connector->retrieve_collections();
 		return $result;
 	}
 

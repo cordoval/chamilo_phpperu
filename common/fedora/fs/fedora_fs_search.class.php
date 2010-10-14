@@ -76,7 +76,7 @@ class fedora_fs_search extends fedora_fs_folder{
 		return $this->get(__FUNCTION__, '');
 	}
 
-	public function query($fedora){
+	public function query(FedoraProxy $fedora, $sort=false, $limit=false, $offset=false){
 		$result = array();
 
 		$term = $this->get_term();
@@ -100,7 +100,7 @@ class fedora_fs_search extends fedora_fs_folder{
 		return $result;
 	}
 
-	public function count($fedora){
+	public function count(FedoraProxy $fedora){
 		$result = array();
 
 		$term = $this->get_term();

@@ -140,8 +140,6 @@ abstract class RestProxyBase  {
 			$result =  $this->get_rest_xml_response($url, $http_method, $data_to_send, $mime_type);
 			return $result;
 		}catch(Exception $e){
-			//echo htmlentities($parameters['query']) . "\n</br>". "\n</br>";//@todo:changethat
-			//echo htmlentities($url) . "\n</br>". "\n</br>";//@todo:changethat
 			throw $e;
 		}
 	}
@@ -154,7 +152,6 @@ abstract class RestProxyBase  {
 			$result =  $this->get_post_xml_response($url, $post);
 			return $result;
 		}catch(Exception $e){
-			//echo htmlentities($parameters['query']) . "\n</br>". "\n</br>";//@todo:changethat
 			throw $e;
 		}
 	}
@@ -170,13 +167,14 @@ abstract class RestProxyBase  {
 			$args[] = $key. '=' . urlencode($value);
 		}
 		$args = implode('&', $args);
-		$url = "$base/$verb?$args";
+		$args = $args ? '?'.$args : '';
+		$url = "$base/$verb{$args}";
 
 		try{
 			$result =  $this->get_rest_response($url, $http_method, $data_to_send, $mime_type);
 			return $result;
 		}catch(Exception $e){
-			//debug(htmlentities($url));die;
+			//debug(htmlentities($url));debug($e);die;
 			throw $e;
 		}
 	}
@@ -189,7 +187,6 @@ abstract class RestProxyBase  {
 			$result =  $this->get_post_response($url, $post);
 			return $result;
 		}catch(Exception $e){
-			//echo htmlentities($parameters['query']) . "\n</br>". "\n</br>";//@todo:changethat
 			throw $e;
 		}
 	}
@@ -230,9 +227,6 @@ abstract class RestProxyBase  {
 
 			return $document;
 		}else{
-
-			//echo htmlentities($url) . "\n</br>". "\n</br>";//@todo:changethat
-
 			if(stripos($response_content, 'Exception') === false){
 				throw new Exception(htmlentities($result->get_response_error()));
 			}else{
@@ -262,9 +256,6 @@ abstract class RestProxyBase  {
 
 			return $document;
 		}else{
-
-			//echo htmlentities($url) . "\n</br>". "\n</br>";//@todo:changethat
-
 			if(stripos($response_content, 'Exception') === false){
 				throw new Exception(htmlentities($result->get_response_error()));
 			}else{
@@ -284,15 +275,12 @@ abstract class RestProxyBase  {
 	 */
 	protected function get_rest_response($url, $http_method, $data_to_send = null, $content_mimetype = null)
 	{
-
 		$client = $this->get_rest_client();
 		$client->set_url($url);
 		$client->set_http_method($http_method);
 
-		if(isset($data_to_send))
-		{
-			if(file_exists($data_to_send) && !isset($content_mimetype))
-			{
+		if($data_to_send){
+			if(empty($content_mimetype) && file_exists($data_to_send)){
 				$content_mimetype = $this->get_file_mimetype($data_to_send);
 			}
 
@@ -305,18 +293,12 @@ abstract class RestProxyBase  {
 
 		$response_content = $result->get_response_content();
 
-		if(!$result->has_error() && stripos($response_content, 'Exception') === false)
-		{
+		if(!$result->has_error() && stripos($response_content, 'Exception') === false){
 			return $response_content;
-		}
-		else
-		{
-			if(stripos($response_content, 'Exception') === false)
-			{
+		}else{
+			if(stripos($response_content, 'Exception') === false){
 				throw new Exception(htmlentities($result->get_response_error()));
-			}
-			else
-			{
+			}else{
 				throw new Exception('<h3>REST response:</h3><p><strong>URL : </strong>' . $result->get_request_url() . '<p><strong>POST data : </strong>' . htmlentities($result->get_request_sent_data()) . '</p><p><strong>Response : </strong>' . $response_content . '</p>');
 			}
 		}
@@ -328,25 +310,18 @@ abstract class RestProxyBase  {
 		$client->set_http_method('post');
 		$client->set_data_to_send(array('content' => $post));
 
-
 		$client->set_check_target_certificate(false);
 
 		$result = $client->send_request();
 
 		$response_content = $result->get_response_content();
 
-		if(!$result->has_error() && stripos($response_content, 'Exception') === false)
-		{
+		if(!$result->has_error() && stripos($response_content, 'Exception') === false){
 			return $response_content;
-		}
-		else
-		{
-			if(stripos($response_content, 'Exception') === false)
-			{
+		}else{
+			if(stripos($response_content, 'Exception') === false){
 				throw new Exception(htmlentities($result->get_response_error()));
-			}
-			else
-			{
+			}else{
 				throw new Exception('<h3>REST response:</h3><p><strong>URL : </strong>' . $result->get_request_url() . '<p><strong>POST data : </strong>' . htmlentities($result->get_request_sent_data()) . '</p><p><strong>Response : </strong>' . $response_content . '</p>');
 			}
 		}

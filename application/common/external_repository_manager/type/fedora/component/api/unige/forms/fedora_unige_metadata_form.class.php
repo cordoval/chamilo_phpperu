@@ -2,6 +2,13 @@
 
 require_once dirname(__FILE__) . '/../../../../forms/fedora_metadata_form.class.php';
 
+/**
+ *
+ * @copyright (c) 2010 University of Geneva
+ * @license GNU General Public License
+ * @author laurent.opprecht@unige.ch
+ *
+ */
 class FedoraUnigeMetadataForm extends FedoraMetadataForm{
 
 	function __construct($application, $parameters, $data=false){
@@ -92,8 +99,8 @@ class FedoraUnigeMetadataForm extends FedoraMetadataForm{
 	}
 
 	function get_collections(){
-		$result = array();
-		$result['LOR:49'] = 'Unige';
+		$connector = $this->get_connector();
+		$result = $connector->retrieve_collections();
 		return $result;
 	}
 

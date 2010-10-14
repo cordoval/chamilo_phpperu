@@ -12,13 +12,16 @@
 class fedora_fs_store extends fedora_fs_folder{
 
 	protected $title = '';
-	protected $id = '';
+	//protected $id = '';
 	protected $children = array();
 	protected $elements = array();
 
-	public function __construct($title, $fsid = ''){
+	public function __construct($title, $fsid = '', $class = ''){
 		parent::__construct($fsid);
 		$this->title = $title;
+		if($class){
+			$this->class = $class;
+		}
 	}
 
 	public function aggregate($element){

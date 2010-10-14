@@ -2,6 +2,13 @@
 
 require_once dirname(__FILE__) . '/../../../../forms/fedora_confirm_form.class.php';
 
+/**
+ *
+ * @copyright (c) 2010 University of Geneva
+ * @license GNU General Public License
+ * @author laurent.opprecht@unige.ch
+ *
+ */
 class FedoraUnigeConfirmForm extends FedoraConfirmForm{
 
 	function get_licences($key=false){
@@ -23,30 +30,19 @@ class FedoraUnigeConfirmForm extends FedoraConfirmForm{
 
 	function get_access_rights($key=false){
 		$connector = $this->get_connector();
-		$result = $connector->retrieve_rights();
-		if($key!==false){
-			$result = isset($result[$key]) ? $result[$key] : '';
-		}
-		return $result;
+		$result = $connector->retrieve_rights($key);
 	}
 
 	function get_edit_rights($key=false){
 		$connector = $this->get_connector();
-		$result = $connector->retrieve_rights();
-		if($key!==false){
-			$result = isset($result[$key]) ? $result[$key] : '';
-		}
+		$result = $connector->retrieve_rights($key);
 		return $result;
 	}
 
-	function get_collections($key=false){
-		$result = array();
-		$result['LOR:49'] = 'Unige';
-		if($key!==false){
-			return isset($result[$key]) ? $result[$key] : '';
-		}else{
-			return $result;
-		}
+	function get_collections($id=false){
+		$connector = $this->get_connector();
+		$result = $connector->retrieve_collections($id);
+		return $result;
 	}
 
 }
