@@ -174,7 +174,7 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
         
         $this->directory = $this->get_data_manager()->get_sys_path() . $old_rel_path;
         
-        if (! $this->get_id() || ! $this->get_path() || ! $this->get_filetype() || ! $this->get_item_property() || ! $this->get_item_property()->get_ref() || ! $this->get_item_property()->get_insert_date() || ! file_exists(utf8_decode($this->directory . $filename)) || $this->get_filetype() == 'folder')
+        if (! $this->get_id() || ! $this->get_path() || ! $this->get_filetype() || ! $this->get_item_property() || ! $this->get_item_property()->get_ref() || ! $this->get_item_property()->get_insert_date() || ! file_exists($this->directory . $filename) || $this->get_filetype() == 'folder')
         {
             $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'document', 'ID' => $this->get_id())));
             $this->create_failed_element($this->get_id());
@@ -213,9 +213,9 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
 //        $base_hash = md5($original_filename);
 //        $new_path = Path :: get(SYS_REPO_PATH) . $new_user_id . '/' . Text :: char_at($base_hash, 0) . '/';
 //        $unique_hash = FileSystem :: create_unique_name($new_path, $base_hash);
-//        $hash_filename = $this->migrate_file(utf8_decode($this->directory), $new_path, utf8_decode($original_filename), $base_hash);
+//        $hash_filename = $this->migrate_file($this->directory, $new_path, $original_filename, $base_hash);
         
-        $chamilo_repository_document = $this->migrate_file_and_create_document(utf8_decode($this->directory), utf8_decode($original_filename), $new_user_id);
+        $chamilo_repository_document = $this->migrate_file_and_create_document($this->directory, $original_filename, $new_user_id);
         
         if ($chamilo_repository_document)
         {
