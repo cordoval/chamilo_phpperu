@@ -19,7 +19,8 @@ class CpImport extends ContentObjectImport{
 
 	private $settings = null;
 
-	public function __construct($file, $user, $category, $log = NULL){
+	public function __construct($file, $user=false, $category=0, $log = NULL){
+		$user = $user ? $user : UserDataManager::get_instance()->retrieve_user(Session::get_user_id());
 		parent::__construct($file, $user, $category);
 		$ext = strpos(strtolower($file['type']), 'zip') !== false ? 'zip' : '';
 		$path = $file['tmp_name'];
@@ -55,7 +56,7 @@ class CpImport extends ContentObjectImport{
 	 */
 	public function publish(Course $course, $object){
 		$objects = is_array($object) ? $object : array($object);
-		$settings = $this->get_settings();
+		//$settings = $this->get_settings();
 		$user = $settings->get_user();
 		$application = Application::factory('Weblcms', $user);
 		foreach($objects as $object){
@@ -97,35 +98,9 @@ class CpImport extends ContentObjectImport{
 		return NULL;
 	}
 
-
-/*
-	protected function import_resources($resources){
-		foreach($resources as $resource){
-			$this->import_resource($resource);
-		}
-	}
-
-	protected function import_resource(ImscpManifestReader $resource){
-		$resource->get_resources();
-		$type = $resource->get_type();
-		$metadata = $resource->has_metadata ? $resource->get_metadata() : null;
-		$href = $resource->href;
-		$href = empty($href) ? $resource->first_file()->href : $href;
-		$path = $this->get_directory() . $href;
-		$resource_settings = $this->settings->copy($path, $type, $metadata);
-		return self::object_factory($resource_settings)->import_content_object();
-	}
-
-	protected function import_organizations($organizations){
-		foreach($organizations as $organization){
-			CpOrganizationImport::factory($organization, $this->get_settings())->import_content_object();
-		}
-	}*/
-
 	public function __call($name, $arguments){
 		return call_user_func_array(array($this->settings, $name), $arguments);
 	}
-
 
 
 }

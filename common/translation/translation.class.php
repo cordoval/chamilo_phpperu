@@ -63,6 +63,9 @@ class Translation
     /**
      * TODO: This comment does not fit here.
      * Returns the instance of this class.
+     *
+     * TODO: make this function static
+     *
      * @param String $variable
      * @param Array $parameters (always use capital letters)
      *
@@ -72,7 +75,7 @@ class Translation
      *
      * @return Translation The instance.
      */
-    function get($variable, $parameters = array())
+    static function get($variable, $parameters = array())
     {
         $instance = self :: get_instance();
         $translation = $instance->translate($variable);

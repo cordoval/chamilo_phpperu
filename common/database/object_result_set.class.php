@@ -13,7 +13,7 @@ class ObjectResultSet extends RecordResultSet
      * The datamanager used to retrieve objects from the repository
      */
     private $data_manager;
-    
+
     /**
      * The classname to map the object to
      */
