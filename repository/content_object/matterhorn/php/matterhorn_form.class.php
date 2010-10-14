@@ -3,6 +3,8 @@ namespace repository\content_object\matterhorn;
 
 use common\libraries\Translation;
 
+use repository\ContentObjectForm;
+
 require_once dirname(__FILE__) . '/matterhorn.class.php';
 
 class MatterhornForm extends ContentObjectForm

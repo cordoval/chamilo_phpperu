@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\mediamosa;
+
+use repository\ComplexContentObjectItem;
+
 /**
  * Description of complex_mediamosa class
  *
@@ -7,6 +10,6 @@ namespace repository\content_object\mediamosa;
  */
 class ComplexMediamosa extends ComplexContentObjectItem
 {
-    
+
 }
 ?>

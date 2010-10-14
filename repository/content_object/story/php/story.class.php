@@ -1,5 +1,10 @@
 <?php
 namespace repository\content_object\story;
+
+use common\libraries\Utilities;
+
+use repository\ContentObject;
+
 /**
  * This class describes a Story data object
  *
@@ -10,18 +15,18 @@ namespace repository\content_object\story;
 class Story extends ContentObject implements AttachmentSupport, Versionable
 {
 	const CLASS_NAME = __CLASS__;
-	
+
 	const ATTACHMENT_HEADER = 'header';
 
 	static function get_type_name()
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
-	
+
     function get_header($only_return_id = false)
     {
         $header = array_shift($this->get_headers());
-        
+
         if (is_null($header))
         {
             return $only_return_id ? $header : false;

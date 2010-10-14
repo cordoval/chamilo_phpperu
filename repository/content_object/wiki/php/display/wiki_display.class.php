@@ -5,6 +5,7 @@ use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\EqualityCondition;
 
 /**
  * $Id: wiki_display.class.php 200 2009-11-13 12:30:04Z kariboe $

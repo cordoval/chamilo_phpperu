@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use common\libraries\Utilities;
+
 /**
  * Aggregate importer contained in the /dir/ directory.
  * Delegate importation to the first importer that accept the call.

@@ -3,6 +3,7 @@ namespace repository\content_object\learning_path;
 
 use common\libraries\FormValidator;
 use common\libraries\Translation;
+use common\libraries\EqualityCondition;
 
 /**
  * $Id: prerequisites_builder_form.class.php 200 2009-11-13 12:30:04Z kariboe $

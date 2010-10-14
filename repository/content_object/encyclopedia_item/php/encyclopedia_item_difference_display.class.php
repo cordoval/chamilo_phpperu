@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\encyclopedia_item;
+
+use repository\ContentObjectDifferenceDisplay;
+
 /**
  * This class can be used to display the difference between encyclopedia items
  *

@@ -2,6 +2,9 @@
 namespace repository\content_object\comic_book;
 
 use common\libraries\Translation;
+use common\libraries\Utilities;
+
+use repository\ContentObjectForm;
 
 /**
  * This class describes the form for a ComicBook object.

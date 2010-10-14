@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use repository\ContentObjectImport;
+
 /**
  * $Id: csv_import.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.import.csv
@@ -21,8 +24,8 @@ class DocumentImport extends ContentObjectImport
     public function import_content_object()
     {
         $category = $this->get_category();
-        $file = $this->get_content_object_file(); 
-        
+        $file = $this->get_content_object_file();
+
         $document = new Document();
         $document->set_title($file['name']);
         $document->set_description($file['name']);

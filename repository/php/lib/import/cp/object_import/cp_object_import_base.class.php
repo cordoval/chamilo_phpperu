@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use common\libraries\Utilities;
+
 /**
  *
  * Base class for Object Import. I.e. single file import per opposition to the CP multi file import.

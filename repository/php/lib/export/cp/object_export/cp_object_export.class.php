@@ -2,6 +2,7 @@
 namespace repository;
 
 use common\libraries\Path;
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/cpe_object_export_base.class.php';
 //require_once_all(dirname(__FILE__) .'/export/*.class.php');

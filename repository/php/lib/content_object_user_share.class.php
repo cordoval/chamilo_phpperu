@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\Utilities;
+
 /**
  * @package repository.lib
  */
@@ -10,7 +13,7 @@ namespace repository;
 class ContentObjectUserShare extends ContentObjectShare
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_USER_ID = 'user_id';
 
     function get_user_id()

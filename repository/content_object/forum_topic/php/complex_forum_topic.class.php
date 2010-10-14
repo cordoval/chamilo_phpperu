@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\forum_topic;
+
+use repository\ComplexContentObjectItem;
+
 /**
  * $Id: complex_forum_topic.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.forum_topic
@@ -27,31 +30,31 @@ class ComplexForumTopic extends ComplexContentObjectItem
     function create()
     {
         parent :: create();
-        
+
         $rdm = RepositoryDataManager :: get_instance();
         $lo = $rdm->retrieve_content_object($this->get_ref());
-        
+
         $parent = $rdm->retrieve_content_object($this->get_parent());
         $parent->add_topic();
         $parent->add_post($lo->get_total_posts());
         $parent->recalculate_last_post($this->get_ref());
-        
+
         return true;
     }
 
     function delete()
     {
         parent :: delete();
-        
+
         $rdm = RepositoryDataManager :: get_instance();
         $lo = $rdm->retrieve_content_object($this->get_ref());
-        
+
         $parent = $rdm->retrieve_content_object($this->get_parent());
         $parent->remove_topic();
         $parent->remove_post($lo->get_total_posts());
-        
+
         $parent->recalculate_last_post();
-        
+
         return true;
     }
 

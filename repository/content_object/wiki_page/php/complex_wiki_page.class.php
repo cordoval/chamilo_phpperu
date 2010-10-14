@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\wiki_page;
+
+use common\libraries\EqualityCondition;
+
 /**
  * $Id: complex_wiki_page.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.wiki_page
@@ -42,7 +45,7 @@ class ComplexWikiPage extends ComplexContentObjectItem
             $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_parent(), ComplexContentObjectItem :: get_table_name());
             //$conditions[] = new EqualityCondition(ComplexWikiPage :: PROPERTY_IS_HOMEPAGE, 1);
             //$condition = new AndCondition($conditions);
-            
+
 
             $rdm = RepositoryDataManager :: get_instance();
             $children = $rdm->retrieve_complex_content_object_items($condition);
@@ -56,7 +59,7 @@ class ComplexWikiPage extends ComplexContentObjectItem
                 }
             }
         }
-        
+
         return parent :: update();
     }
 }

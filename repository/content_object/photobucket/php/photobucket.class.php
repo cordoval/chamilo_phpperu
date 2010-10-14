@@ -1,5 +1,11 @@
 <?php
 namespace repository\content_object\photobucket;
+
+use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
+
+use repository\ContentObject;
+
 /**
  * $Id: photobucket.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.youtube
@@ -56,7 +62,7 @@ class Photobucket extends ContentObject implements Versionable
     {
         return $this->set_additional_property(self :: PROPERTY_THUMBNAIL, $thumbnail);
     }
-    	
+
     static function get_additional_property_names()
     {
         return array(self :: PROPERTY_PHOTOBUCKET_ID, self :: PROPERTY_THUMBNAIL);
@@ -76,7 +82,7 @@ class Photobucket extends ContentObject implements Versionable
 //        return 'http://s799.photobucket.com/albums/yy278/MagaliGillard/' . $this->get_album() . '/?action=view&current=' . $this->get_video_id();
 //    }
 
-    
+
     function get_video_url()
     {
         $conditions = array();

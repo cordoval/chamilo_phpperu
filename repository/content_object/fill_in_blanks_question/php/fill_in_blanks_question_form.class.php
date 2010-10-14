@@ -3,6 +3,8 @@ namespace repository\content_object\fill_in_blanks_question;
 
 use common\libraries\Translation;
 
+use repository\ContentObjectForm;
+
 /**
  * $Id: fill_in_blanks_question_form.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.question_types.fill_in_blanks_question

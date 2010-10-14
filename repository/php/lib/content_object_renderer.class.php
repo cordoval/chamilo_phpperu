@@ -4,6 +4,8 @@ namespace repository;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Path;
+use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
 
 require_once Path :: get_library_path() . 'html/action_bar/action_bar_search_form.class.php';
 

@@ -4,6 +4,8 @@ namespace repository\content_object\forum_post;
 use common\libraries\Translation;
 use common\libraries\Path;
 
+use repository\ComplexContentObjectItemForm;
+
 /**
  * @package repository.learningobject
  * @subpackage forum_post

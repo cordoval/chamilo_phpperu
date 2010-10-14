@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\survey;
 
+use common\libraries\Utilities;
+
 abstract class SurveyQuestionDisplay
 {
     private $complex_question;
@@ -44,17 +46,17 @@ abstract class SurveyQuestionDisplay
     {
         return $this->formvalidator;
     }
-   
+
 	function get_answer()
     {
         return $this->answer;
     }
-	
+
 	function get_context_path()
     {
         return $this->contex_path;
     }
-    
+
     function display()
     {
         $formvalidator = $this->formvalidator;
@@ -84,15 +86,15 @@ abstract class SurveyQuestionDisplay
     function add_header()
     {
         $formvalidator = $this->formvalidator;
-     
+
 //        if(!$this->visible){
 //        	        $html[] = '<div style="display:none" class="question" id="survey_question_'. $this->question->get_id() .'">';
-//        	
+//
 //        }else{
         	        $html[] = '<div  class="question" id="survey_question_'. $this->question->get_id() .'">';
-        	
+
 //        }
-        
+
 //        style="display:none"
         $html[] = '<div class="title">';
         $html[] = '<div class="number">';
@@ -147,9 +149,9 @@ abstract class SurveyQuestionDisplay
 
  static function factory($formvalidator, $complex_question ,$question_nr, $answer, $context_path)
     {
-       	
+
     	$question = RepositoryDataManager::get_instance()->retrieve_content_object($complex_question->get_ref());
-    	
+
     	$type = $question->get_type();
 
         $file = dirname(__FILE__) . '/survey_question_display/' . $type . '.class.php';
@@ -165,7 +167,7 @@ abstract class SurveyQuestionDisplay
         $question_display = new $class($formvalidator, $complex_question, $question, $question_nr, $answer, $context_path);
         return $question_display;
     }
-    
+
 //    static function factory($formvalidator, $question, $visible ,$question_nr, $survey, $page_nr)
 //    {
 ////        $question = $clo_question;

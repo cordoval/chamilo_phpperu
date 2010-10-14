@@ -1,5 +1,8 @@
 <?php
 namespace common\libraries;
+
+use \DirectoryIterator;
+
 /**
  * $Id: filesystem.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common.filesystem
@@ -49,7 +52,7 @@ class Filesystem
 				if($ad && $ad != '')
 					$mode = $ad;
 			}*/
-        
+
         }
         // If the given path is a file, return false
         if (is_file($path))
@@ -106,7 +109,7 @@ class Filesystem
         if (! is_dir($source))
             return self :: copy_file($source, $destination, $overwrite);
         $bool = true;
-        
+
         $content = self :: get_directory_content($source, self :: LIST_FILES_AND_DIRECTORIES, false);
         foreach ($content as $file)
         {
@@ -122,16 +125,16 @@ class Filesystem
                 $bool &= self :: recurse_copy($path_to_file, $path_to_new_file, $overwrite);
             }
         }
-        
+
         return $bool;
     }
-	
+
     function recurse_move($source, $destination, $overwrite = false)
     {
         if (! is_dir($source))
             return self :: move_file($source, $destination, $overwrite);
         $bool = true;
-        
+
         $content = self :: get_directory_content($source, self :: LIST_FILES_AND_DIRECTORIES, false);
         foreach ($content as $file)
         {
@@ -147,14 +150,14 @@ class Filesystem
                 $bool &= self :: recurse_move($path_to_file, $path_to_new_file, $overwrite);
             }
         }
-        
+
         return $bool;
     }
-    
+
     /**
      * Moves a file. If the destination directory doesn't exist, this function
      * tries to create the directory using the Filesystem::create_dir function.
-     * Path cannot have a '/' at the end 
+     * Path cannot have a '/' at the end
      * @param string $source The full path to the source file
      * @param string $destination The full path to the destination file
      * @param boolean $overwrite If the destination file allready exists, should
@@ -342,7 +345,7 @@ class Filesystem
     public static function get_directory_content($path, $type = Filesystem::LIST_FILES_AND_DIRECTORIES, $recursive = true)
     {
         $result = array();
-        
+
     	if ($recursive)
         {
             $it = new RecursiveDirectoryIterator($path);
@@ -386,7 +389,7 @@ class Filesystem
     {
         if(realpath($path) == '/')
         	return false;
-        	
+
     	if (is_file($path))
         {
             return @unlink($path);
@@ -431,13 +434,13 @@ class Filesystem
         {
             return null;
         }
-        
+
         if (file_exists($destination_file) && is_file($destination_file))
         {
             if (! (md5_file($source_file) == md5_file($destination_file)))
             {
                 $new_unique_file = self :: create_unique_name($destination_path, $destination_filename);
-                 
+
                 if ($move_file)
                 {
                 	self :: move_file($source_file, $destination_path . $new_unique_file);
@@ -446,7 +449,7 @@ class Filesystem
                 {
                     self :: copy_file($source_file, $destination_path . $new_unique_file);
                 }
-                
+
                 return $new_unique_file;
             }
             else
@@ -454,7 +457,7 @@ class Filesystem
                 return $destination_filename;
             }
         }
-        
+
         if ($move_file)
         {
             self :: move_file($source_file, $destination_file);
@@ -463,10 +466,10 @@ class Filesystem
         {
             self :: copy_file($source_file, $destination_file);
         }
-        
+
         return $destination_filename;
     }
-    
+
     /**
      * Transform the file size in a human readable format.
      *
@@ -514,11 +517,11 @@ class Filesystem
         }
         $filename = ($name == '') ? basename($full_file_name) : $name;
         $len = filesize($full_file_name);
-        
+
         if ($forced)
         {
             //force the browser to save the file instead of opening it
-            
+
 
             header('Content-type: application/octet-stream');
             //header('Content-Type: application/force-download');
@@ -539,7 +542,7 @@ class Filesystem
             }
             header('Content-Description: ' . $filename);
             header('Content-transfer-encoding: binary');
-            
+
             $fp = fopen($full_file_name, 'r');
             fpassthru($fp);
             return true;
@@ -547,7 +550,7 @@ class Filesystem
         else
         {
             //no forced download, just let the browser decide what to do according to the mimetype
-            
+
 
             $content_type = DocumentManager :: file_get_mime_type($filename);
             header('Expires: Wed, 01 Jan 1990 00:00:00 GMT');
@@ -573,20 +576,20 @@ class Filesystem
     /**
      * Call the chmod function on the given file path.
      * The chmod value must be the octal value, with or without its leading zero
-     * 
+     *
      * Ex:
      * 		Filesystem :: chmod('/path/to/file', '666')		OK
      * 		Filesystem :: chmod('/path/to/file', '0666')	OK
      * 		Filesystem :: chmod('/path/to/file', 666)		OK
      * 		Filesystem :: chmod('/path/to/file', 0666)		OK
-     * 
+     *
      * Note:
-     * 		This function was written to facilitate the storage of a chmod value. 
-     * 		
-     * 		The PHP chmod value must be called with an octal number, but it is not easy 
+     * 		This function was written to facilitate the storage of a chmod value.
+     *
+     * 		The PHP chmod value must be called with an octal number, but it is not easy
      * 		to store a value with a leading 0 that is a number and not a string.
-     * 
-     * 
+     *
+     *
      * @param $file_path string Path to file or folder
      * @param $chmod_value mixed The chmod value as a string or an integer
      * @return void
@@ -594,7 +597,7 @@ class Filesystem
     public static function chmod($file_path, $chmod_value)
     {
         $new_chmod_value = null;
-        
+
         if (is_integer($chmod_value))
         {
             $new_chmod_value = (int) $chmod_value;
@@ -603,11 +606,11 @@ class Filesystem
         {
             $new_chmod_value = intval($chmod_value);
         }
-        
+
         if (isset($new_chmod_value) && file_exists($file_path))
         {
             $new_chmod_value = octdec($new_chmod_value);
-            
+
             chmod($file_path, $new_chmod_value);
         }
     }

@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\survey;
+
+use common\libraries\Utilities;
+
 /**
  * $Id: question_result_display.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.survey.component.viewer.wizard.inc
@@ -49,17 +52,17 @@ abstract class QuestionResultDisplay
     function display()
     {
         $this->display_header();
-        
+
         if ($this->add_borders())
         {
             $header = array();
             $header[] = '<div class="with_borders">';
-            
+
             echo (implode("\n", $header));
         }
-        
+
         $this->display_question_result();
-        
+
         if ($this->add_borders())
         {
             $footer = array();
@@ -67,7 +70,7 @@ abstract class QuestionResultDisplay
             $footer[] = '</div>';
             echo (implode("\n", $footer));
         }
-        
+
         $this->display_footer();
     }
 
@@ -79,7 +82,7 @@ abstract class QuestionResultDisplay
     function display_header()
     {
         $html = array();
-        
+
         $html[] = '<div class="question">';
         $html[] = '<div class="title">';
         $html[] = '<div class="number">';
@@ -88,19 +91,19 @@ abstract class QuestionResultDisplay
         $html[] = '</div>';
         $html[] = '</div>';
         $html[] = '<div class="text">';
-        
+
         $html[] = '<div class="bevel" style="float: left;">';
         $html[] = $this->question->get_title();
         $html[] = '</div>';
         $html[] = '<div class="bevel" style="text-align: right;">';
         $html[] = $this->get_score() . ' / ' . $this->get_clo_question()->get_weight();
         $html[] = '</div>';
-        
+
         $html[] = '</div>';
         $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
         $html[] = '<div class="answer">';
-        
+
         $description = $this->question->get_description();
         if ($this->question->has_description())
         {
@@ -109,9 +112,9 @@ abstract class QuestionResultDisplay
             $html[] = '<div class="clear"></div>';
             $html[] = '</div>';
         }
-        
+
         $html[] = '<div class="clear"></div>';
-        
+
         $header = implode("\n", $html);
         echo $header;
     }
@@ -120,7 +123,7 @@ abstract class QuestionResultDisplay
     {
         $html[] = '</div>';
         $html[] = '</div>';
-        
+
         $footer = implode("\n", $html);
         echo $footer;
     }
@@ -133,16 +136,16 @@ abstract class QuestionResultDisplay
     static function factory($clo_question, $question_nr, $answers, $score)
     {
         $type = $clo_question->get_ref()->get_type();
-        
+
         $file = dirname(__FILE__) . '/survey_question_result_display/' . $type . '_result_display.class.php';
-        
+
         if (! file_exists($file))
         {
             die('file does not exist: ' . $file);
         }
-        
+
         require_once $file;
-        
+
         $class = Utilities :: underscores_to_camelcase($type) . 'ResultDisplay';
         $question_result_display = new $class($clo_question, $question_nr, $answers, $score);
         return $question_result_display;

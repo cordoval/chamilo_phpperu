@@ -1,5 +1,10 @@
 <?php
 namespace repository\content_object\comic_book;
+
+use common\libraries\Utilities;
+
+use repository\ContentObject;
+
 /**
  * This class describes a ComicBook data object
  *
@@ -10,7 +15,7 @@ namespace repository\content_object\comic_book;
 class ComicBook extends ContentObject implements Versionable
 {
     const CLASS_NAME = __CLASS__;
-    
+
     /**
      * ComicBook properties
      */
@@ -41,7 +46,7 @@ class ComicBook extends ContentObject implements Versionable
     const PROPERTY_SYNOPSIS = 'synopsis';
     const PROPERTY_FACTS = 'facts';
     const PROPERTY_TAGS = 'tags';
-    
+
     const ATTACHMENT_COVER = 'cover';
     const ATTACHMENT_EXTRACT = 'extract';
     const ATTACHMENT_ENCYCLOPEDIA_ITEM = 'encyclopedia_item';
@@ -550,7 +555,7 @@ class ComicBook extends ContentObject implements Versionable
     function get_extract($only_return_id = false)
     {
         $extract = array_shift($this->get_extracts());
-        
+
         if (is_null($extract))
         {
             return $only_return_id ? $extract : false;
@@ -613,26 +618,26 @@ class ComicBook extends ContentObject implements Versionable
     }
 
     function set_encyclopedia_items($encyclopedia_items = array())
-    {        
+    {
         $current_encyclopedia_items = $this->get_encyclopedia_items(true);
-        
+
         $add = array_diff($encyclopedia_items, $current_encyclopedia_items);
         $delete = array_diff($current_encyclopedia_items, $encyclopedia_items);
-        
+
         foreach ($add as $encyclopedia_item)
         {
             $this->attach_content_object($encyclopedia_item, self :: ATTACHMENT_ENCYCLOPEDIA_ITEM);
             $encyclopedia_item = $this->get_data_manager()->retrieve_content_object($encyclopedia_item);
             $encyclopedia_item->attach_content_object($this->get_id(), EncyclopediaItem :: ATTACHMENT_COMIC_BOOK);
         }
-        
+
         foreach ($delete as $encyclopedia_item)
         {
             $this->detach_content_object($encyclopedia_item, self :: ATTACHMENT_ENCYCLOPEDIA_ITEM);
             $encyclopedia_item = $this->get_data_manager()->retrieve_content_object($encyclopedia_item);
             $encyclopedia_item->detach_content_object($this->get_id(), EncyclopediaItem :: ATTACHMENT_COMIC_BOOK);
         }
-        
+
         $this->truncate_attachment_cache(self :: ATTACHMENT_ENCYCLOPEDIA_ITEM);
     }
 

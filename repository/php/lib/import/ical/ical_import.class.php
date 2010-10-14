@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use repository\ContentObject;
+
 /**
  * $Id: ical_import.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.import.ical
@@ -18,8 +21,8 @@ class IcalImport extends ContentObjectImport
 
     public function import_content_object()
     {
-    	
-    	
+
+
         $file = $this->get_content_object_file();
 
         $content = file_get_contents($file['tmp_name']);
@@ -37,18 +40,18 @@ class IcalImport extends ContentObjectImport
                 $counter++;
             }
         }
- 
+
         for($i = 0; $i < $count; $i ++)
         {
             $line = rtrim($lines[$i]);
-            
-            
+
+
             if ($line == 'BEGIN:VEVENT')
             {
                 $i = $this->import_event($lines, $i, $count);
             }
         }
-        
+
         return $this->calendar_event_ids;
     }
 
@@ -71,7 +74,7 @@ class IcalImport extends ContentObjectImport
             	$line .= $trimmed_line;
 
             }
-            
+
             if ($line == 'END:VEVENT')
             {
                 break;
@@ -90,7 +93,7 @@ class IcalImport extends ContentObjectImport
             if (substr($line, 0, 7) == 'DTSTART')
             {
                 $start = substr($line, 8);
-                
+
                 $timezone = substr($start, 0, 4);
                 if($timezone == 'TZID')
                 {
@@ -103,7 +106,7 @@ class IcalImport extends ContentObjectImport
                 	$time = strtotime($start);
                 	$calendar_event->set_start_date($time);
             	}
-               
+
             }
 
             if (substr($line, 0, 5) == 'DTEND')
@@ -182,7 +185,7 @@ class IcalImport extends ContentObjectImport
             }
 
         }
-        
+
         $calendar_event->create();
         $this->calendar_event_ids[] = $calendar_event->get_id();
 

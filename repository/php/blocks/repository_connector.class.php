@@ -2,6 +2,7 @@
 namespace repository;
 
 use common\libraries\Translation;
+use common\libraries\EqualityCondition;
 
 /**
  * $Id: repository_connector.class.php 200 2009-11-13 12:30:04Z kariboe $

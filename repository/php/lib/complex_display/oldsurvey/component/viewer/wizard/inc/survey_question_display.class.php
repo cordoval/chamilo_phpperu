@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\Utilities;
+
 /**
  * $Id: survey_question_display.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.survey.component.viewer.wizard.inc
@@ -21,7 +24,7 @@ abstract class SurveyQuestionDisplay
 
         $this->formvalidator = $formvalidator;
         $this->renderer = $formvalidator->defaultRenderer();
-		
+
 //        $this->clo_question = $clo_question;
 //        dump($this->clo_question);
         $this->question_nr = $question_nr;
@@ -97,15 +100,15 @@ abstract class SurveyQuestionDisplay
     function add_header()
     {
         $formvalidator = $this->formvalidator;
-     
+
         if(!$this->visible){
         	        $html[] = '<div style="display:none" class="question" id="survey_question_'. $this->question->get_id() .'">';
-        	
+
         }else{
         	        $html[] = '<div  class="question" id="survey_question_'. $this->question->get_id() .'">';
-        	
+
         }
-        
+
 //        style="display:none"
         $html[] = '<div class="title">';
         $html[] = '<div class="number">';

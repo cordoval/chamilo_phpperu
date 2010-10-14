@@ -1,7 +1,10 @@
 <?php
 namespace repository\content_object\dailymotion;
+
+use repository\ContentObjectInstaller;
+
 /**
- * $Id: dailymotion_installer.class.php 2010-06-08 
+ * $Id: dailymotion_installer.class.php 2010-06-08
  * package repository.lib.content_object.dailymotion
  * @author Shoira Mukhsinova
  */

@@ -2,6 +2,8 @@
 namespace repository\content_object\survey;
 
 use common\libraries\Translation;
+use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
 
 require_once (dirname(__FILE__) . '/../../survey_context.class.php');
 

@@ -3,6 +3,8 @@ namespace repository\content_object\comic_book;
 
 use common\libraries\Translation;
 
+use repository\ContentObjectDisplay;
+
 /**
  * This class can be used to display comic books
  *

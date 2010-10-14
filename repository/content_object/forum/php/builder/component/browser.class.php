@@ -4,6 +4,7 @@ namespace repository\content_object\forum;
 use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\EqualityCondition;
 
 /**
  * $Id: browser.class.php 200 2009-11-13 12:30:04Z kariboe $

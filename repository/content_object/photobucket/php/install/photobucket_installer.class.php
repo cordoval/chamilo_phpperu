@@ -1,5 +1,7 @@
 <?php
 namespace repository\content_object\photobucket;
+
+use repository\ContentObjectInstaller;
 /**
  * $Id: photobucket_installer.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.install

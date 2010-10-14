@@ -2,6 +2,7 @@
 namespace repository;
 
 use common\libraries\Translation;
+use common\libraries\EqualityCondition;
 
 /**
  *

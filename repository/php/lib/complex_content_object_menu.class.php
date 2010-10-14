@@ -2,6 +2,8 @@
 namespace repository;
 
 use common\libraries\Request;
+use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
 
 /**
  * $Id: complex_content_object_menu.class.php 204 2009-11-13 12:51:30Z kariboe $

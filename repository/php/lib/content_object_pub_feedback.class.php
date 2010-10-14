@@ -1,12 +1,15 @@
 <?php
 namespace repository;
+
+use common\libraries\Utilities;
+
 /**
  * $Id: content_object_pub_feedback.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib
  */
 
 class ContentObjectPubFeedback extends ContentObject
-{ 
+{
     const CLASS_NAME = __CLASS__;
     const PROPERTY_ID = 'id';
     const PROPERTY_PUBLICATION_ID = 'publication_id';
@@ -122,7 +125,7 @@ class ContentObjectPubFeedback extends ContentObject
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
-    
+
     static function get_type_name()
     {
     	return self :: get_table_name();

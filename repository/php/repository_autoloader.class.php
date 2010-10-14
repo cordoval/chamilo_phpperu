@@ -29,7 +29,17 @@ class RepositoryAutoloader
             array_pop($classname_parts);
             if (implode('\\', $classname_parts) != __NAMESPACE__)
             {
-                return false;
+                if (! self :: is_content_object_namespace(implode('\\', $classname_parts)))
+                {
+                    return false;
+                }
+                else
+                {
+                    if (self :: check_for_content_objects())
+                    {
+                        return true;
+                    }
+                }
             }
         }
 
@@ -49,11 +59,6 @@ class RepositoryAutoloader
         }
 
         if (self :: check_for_special_files())
-        {
-            return true;
-        }
-
-        if (self :: check_for_content_objects())
         {
             return true;
         }
@@ -155,29 +160,59 @@ class RepositoryAutoloader
 
     static $content_objects;
 
+    static function get_content_object_types()
+    {
+        $dir = Path :: get_repository_content_object_path();
+        if (! file_exists($dir) || ! is_dir($dir))
+        {
+            return false;
+        }
+        if (! self :: $content_objects)
+        {
+            self :: $content_objects = Filesystem :: get_directory_content($dir, Filesystem :: LIST_DIRECTORIES, false);
+        }
+
+        return self :: $content_objects;
+    }
+
+    static function is_content_object_namespace($namespace)
+    {
+        $content_objects = self :: get_content_object_types();
+
+        foreach ($content_objects as $content_object)
+        {
+            $content_object_namespace = 'repository\content_object\\' . $content_object;
+            if ($content_object_namespace == $namespace)
+            {
+                return true;
+            }
+        }
+    }
+
     static function check_for_content_objects()
     {
-        //        $dir = Path :: get_repository_content_object_path();
-        //        if (!file_exists($dir) || !is_dir($dir))
-        //        {
-        //        	return false;
-        //        }
-        //        if (! self :: $content_objects)
-        //        {
-        //            self :: $content_objects = Filesystem :: get_directory_content($dir, Filesystem :: LIST_DIRECTORIES, false);
-        //        }
-        //
-        //        if (is_array(self :: $content_objects))
-        //        {
-        //            $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
-        //
-        //            if (in_array($lower_case, self :: $content_objects))
-        //            {
-        //                require_once $dir . $lower_case . '/php/' . $lower_case . '.class.php';
-        //                return true;
-        //            }
-        //        }
+        $content_objects = self :: get_content_object_types();
 
+        $dir = Path :: get_repository_content_object_path();
+        if (! file_exists($dir) || ! is_dir($dir))
+        {
+            return false;
+        }
+        if (! self :: $content_objects)
+        {
+            self :: $content_objects = Filesystem :: get_directory_content($dir, Filesystem :: LIST_DIRECTORIES, false);
+        }
+
+        if (is_array(self :: $content_objects))
+        {
+            $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
+
+            if (in_array($lower_case, self :: $content_objects))
+            {
+                require_once $dir . $lower_case . '/php/' . $lower_case . '.class.php';
+                return true;
+            }
+        }
 
         return false;
     }

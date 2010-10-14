@@ -3,6 +3,7 @@ namespace repository;
 
 use common\libraries\Translation;
 use common\libraries\Path;
+use common\libraries\Utilities;
 
 require_once Path :: get_repository_path() . 'lib/content_object/survey/survey.class.php';
 require_once Path :: get_repository_path() . 'lib/content_object/survey_page/complex_survey_page.class.php';

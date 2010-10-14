@@ -2,6 +2,7 @@
 namespace repository\content_object\peer_assessment;
 
 use common\libraries\Request;
+use common\libraries\EqualityCondition;
 /*
  *	@author Nick Van Loocke
  */

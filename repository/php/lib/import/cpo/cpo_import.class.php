@@ -2,6 +2,9 @@
 namespace repository;
 
 use common\libraries\Path;
+use common\libraries\EqualityCondition;
+
+use repository\ContentObjectImport;
 
 /**
  * $Id: cpo_import.class.php 204 2009-11-13 12:51:30Z kariboe $

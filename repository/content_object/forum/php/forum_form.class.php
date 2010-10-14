@@ -3,6 +3,8 @@ namespace repository\content_object\forum;
 
 use common\libraries\Translation;
 
+use repository\ContentObjectForm;
+
 /**
  * $Id: forum_form.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.forum

@@ -3,6 +3,8 @@ namespace repository;
 
 use common\libraries\Translation;
 
+use repository\ContentObject;
+
 /**
  * $Id: matrix_question_form.class.php
  * @package repository.question_types.matrix_question

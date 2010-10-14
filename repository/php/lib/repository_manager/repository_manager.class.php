@@ -1,5 +1,6 @@
 <?php
 namespace repository;
+
 use common\libraries\CoreApplication;
 use common\libraries\DynamicAction;
 use common\libraries\Translation;
@@ -7,6 +8,8 @@ use common\libraries\Theme;
 use common\libraries\Redirect;
 use common\libraries\Request;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
 /**
  * @package repository.lib.repository_manager
  *

@@ -4,6 +4,8 @@ namespace repository\content_object\assessment_match_text_question;
 use common\libraries\Translation;
 use common\libraries\Path;
 
+use repository\ContentObjectForm;
+
 /**
   * @package repository.lib.content_object.match_text_question
  */

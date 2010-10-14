@@ -2,6 +2,9 @@
 namespace repository;
 
 use common\libraries\Translation;
+use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
+use common\libraries\DataClass;
 
 /**
  * $Id: user_view.class.php 204 2009-11-13 12:51:30Z kariboe $
@@ -134,7 +137,8 @@ class UserView extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 }
 ?>

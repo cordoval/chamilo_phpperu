@@ -1,5 +1,10 @@
 <?php
 namespace repository\content_object\fill_in_blanks_question;
+
+use common\libraries\Utilities;
+
+use repository\ContentObject;
+
 require_once dirname(__FILE__) . '/fill_in_blanks_question_answer.class.php';
 /**
  * $Id: fill_in_blanks_question.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -142,10 +147,10 @@ class FillInBlanksQuestion extends ContentObject implements Versionable
     {
         $weight = $this->get_weight_from_answer($answer);
     	$max_question_weight = $this->get_question_maximum_weight($question_index);
-    	
+
         return $weight == $max_question_weight;
     }
-    
+
     public function get_weight_from_answer($question_index, $answer)
     {
         $answers = $this->get_answers();
@@ -156,7 +161,7 @@ class FillInBlanksQuestion extends ContentObject implements Versionable
                	return $a->get_weight();
             }
         }
-        
+
         return 0;
     }
 

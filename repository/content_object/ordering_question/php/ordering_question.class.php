@@ -1,5 +1,10 @@
 <?php
 namespace repository\content_object\ordering_question;
+
+use common\libraries\Utilities;
+
+use repository\ContentObject;
+
 /**
  * $Id: ordering_question.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.ordering_question

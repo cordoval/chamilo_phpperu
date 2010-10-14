@@ -4,6 +4,8 @@ namespace repository;
 use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
 
 /**
  * $Id: complex_menu.class.php 200 2009-11-13 12:30:04Z kariboe $

@@ -2,6 +2,7 @@
 namespace repository;
 
 use common\libraries\Path;
+use common\libraries\Utilities;
 
 abstract class BaseExternalRepositoryConnector
 {

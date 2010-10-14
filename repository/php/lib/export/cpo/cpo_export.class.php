@@ -2,6 +2,7 @@
 namespace repository;
 
 use common\libraries\Path;
+use common\libraries\EqualityCondition;
 
 /**
  * $Id: cpo_export.class.php 200 2009-11-13 12:30:04Z kariboe $

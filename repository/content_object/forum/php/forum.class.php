@@ -1,5 +1,11 @@
 <?php
 namespace repository\content_object\forum;
+
+use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
+
+use repository\ContentObject;
+
 /**
  * $Id: forum.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.forum
@@ -225,7 +231,7 @@ class Forum extends ContentObject implements ComplexContentObjectSupport
 
     	return array($message, ($failures > 0));
     }
-    
+
 	function is_locked()
     {
     	if($this->get_locked())
@@ -234,7 +240,7 @@ class Forum extends ContentObject implements ComplexContentObjectSupport
     	}
 
     	$rdm = RepositoryDataManager :: get_instance();
-    	
+
     	$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_REF, $this->get_id());
         $parents = $rdm->retrieve_complex_content_object_items($condition);
 
@@ -246,10 +252,10 @@ class Forum extends ContentObject implements ComplexContentObjectSupport
             	return true;
             }
         }
-    	
+
     	return false;
     }
-    
+
     function invert_locked()
     {
     	$this->set_locked(!$this->get_locked());

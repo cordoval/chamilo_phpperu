@@ -3,6 +3,8 @@ namespace repository\content_object\survey;
 
 use common\libraries\Translation;
 
+use repository\ContentObjectInstaller;
+
 /**
  * $Id: survey_installer.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.install

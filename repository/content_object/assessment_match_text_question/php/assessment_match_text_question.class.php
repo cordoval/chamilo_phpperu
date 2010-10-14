@@ -1,6 +1,10 @@
 <?php
 namespace repository\content_object\assessment_match_text_question;
 
+use common\libraries\Utilities;
+
+use repository\ContentObject;
+
 /**
  * @package repository.lib.content_object.match_text_question
  */

@@ -1,5 +1,7 @@
 <?php
 namespace repository\content_object\hotpotatoes;
+
+use repository\ContentObjectDifference;
 /**
  * $Id: hotpotatoes_difference.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.hotpotatoes
@@ -14,15 +16,15 @@ class HotpotatoesDifference extends ContentObjectDifference
     {
         $object = $this->get_object();
         $version = $this->get_version();
-        
+
         $object_string = $object->get_path();
         $object_string = explode("\n", strip_tags($object_string));
-        
+
         $version_string = $version->get_path();
         $version_string = explode("\n", strip_tags($version_string));
-        
+
         $td = new Difference_Engine($object_string, $version_string);
-        
+
         return array_merge(parent :: get_difference(), $td->getDiff());
     }
 }

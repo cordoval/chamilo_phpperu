@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\assessment;
+
+use common\libraries\Utilities;
+
 /**
  * $Id: question_display.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.assessment.component.viewer.wizard.inc
@@ -16,7 +19,7 @@ abstract class QuestionDisplay
     {
         $this->formvalidator = $formvalidator;
         $this->renderer = $formvalidator->defaultRenderer();
-        
+
         $this->complex_content_object_question = $complex_content_object_question;
         $this->question_nr = $question_nr;
         $this->question = $question;
@@ -51,7 +54,7 @@ abstract class QuestionDisplay
             $header = array();
             $header[] = $this->get_instruction();
             $header[] = '<div class="with_borders">';
-            
+
             $formvalidator->addElement('html', implode("\n", $header));
         }
         $this->add_question_form();
@@ -74,7 +77,7 @@ abstract class QuestionDisplay
 
 		$number_of_questions = $formvalidator->get_number_of_questions();
 		$current_question = $this->question_nr;*/
-        
+
         $html[] = '<div class="question">';
         $html[] = '<div class="title">';
         $html[] = '<div class="number">';
@@ -91,7 +94,7 @@ abstract class QuestionDisplay
         $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
         $html[] = '<div class="answer">';
-        
+
         $description = $this->question->get_description();
         if ($this->question->has_description())
         {
@@ -100,9 +103,9 @@ abstract class QuestionDisplay
             $html[] = '<div class="clear">&nbsp;</div>';
             $html[] = '</div>';
         }
-        
+
         $html[] = '<div class="clear"></div>';
-        
+
         $header = implode("\n", $html);
         $formvalidator->addElement('html', $header);
     }
@@ -110,10 +113,10 @@ abstract class QuestionDisplay
     function add_footer($formvalidator)
     {
         $formvalidator = $this->formvalidator;
-        
+
         $html[] = '</div>';
         $html[] = '</div>';
-        
+
         $footer = implode("\n", $html);
         $formvalidator->addElement('html', $footer);
     }
@@ -129,16 +132,16 @@ abstract class QuestionDisplay
     {
         $question = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_content_object_question->get_ref());
         $type = $question->get_type();
-        
+
         $file = dirname(__FILE__) . '/question_display/' . $type . '.class.php';
-        
+
         if (! file_exists($file))
         {
             die('file does not exist: ' . $file);
         }
-        
+
         require_once $file;
-        
+
         $class = Utilities :: underscores_to_camelcase($type) . 'Display';
         $question_display = new $class($formvalidator, $complex_content_object_question, $question_nr, $question);
         return $question_display;

@@ -3,6 +3,9 @@ namespace repository\content_object\task;
 
 use common\libraries\Translation;
 use common\libraries\Path;
+use common\libraries\Utilities;
+
+use repository\ContentObjectForm;
 
 /**
  * $Id: task_form.class.php 200 2009-11-13 12:30:04Z kariboe $

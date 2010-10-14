@@ -1,28 +1,30 @@
 <?php
 namespace repository\content_object\survey;
 
+use common\libraries\Utilities;
+
 require_once (dirname(__FILE__) . '/context_data_manager/context_data_manager.class.php');
 
 abstract class SurveyContext extends DataClass
 {
-    
+
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_TYPE = 'type';
     const PROPERTY_NAME = 'name';
     const PROPERTY_USERNAME_KEY = 'username';
-    
+
     private $additionalProperties;
 
     //    abstract static public function create_contexts_for_user($user_id, $key, $key_type = '' );
-    
+
 
     abstract static public function get_allowed_keys();
 
     abstract static function get_additional_property_names();
 
     //    abstract static public function get_display_name();
-    
+
 
     public function SurveyContext($defaultProperties = array (), $additionalProperties = null)
     {
@@ -31,13 +33,13 @@ abstract class SurveyContext extends DataClass
         {
             $this->additionalProperties = $additionalProperties;
         }
-    
+
     }
 
     public function create()
     {
         $dm = SurveyContextDataManager :: get_instance();
-        
+
         if (! $dm->create_survey_context($this))
         {
             return false;
@@ -46,14 +48,14 @@ abstract class SurveyContext extends DataClass
         {
             return true;
         }
-    
+
     }
 
     public function delete()
     {
-        
+
         $dm = SurveyContextDataManager :: get_instance();
-        
+
         if (! $dm->delete_survey_context($this))
         {
             return false;
@@ -66,9 +68,9 @@ abstract class SurveyContext extends DataClass
 
     public function update()
     {
-        
+
         $dm = SurveyContextDataManager :: get_instance();
-        
+
         if (! $dm->update_survey_context($this))
         {
             return false;

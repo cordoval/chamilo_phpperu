@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\survey;
+
+use common\libraries\Utilities;
+
 /**
  * $Id: survey_question_display.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.survey.component.viewer.wizard.inc
@@ -164,7 +167,7 @@ abstract class SurveyQuestionDisplay
         $question_display = new $class($formvalidator, $clo_question, $question_nr, $question, $survey, $page_nr);
         return $question_display;
     }
-    
+
 
 }
 ?>

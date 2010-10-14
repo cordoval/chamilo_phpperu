@@ -1,11 +1,13 @@
 <?php
 namespace repository\content_object\matterhorn;
 
+use repository\ContentObjectDisplay;
+
 class MatterhornDisplay extends ContentObjectDisplay
 {
 
     function get_video_element($width = 620, $height = 596)
-    {     
+    {
     	return '<iframe src="' . $this->get_content_object()->get_video_url() . '" style="border:0px #FFFFFF none;" name="Opencast Matterhorn - Media Player" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" width="'. $width . '" height="'. $height .'"></iframe>';
     }
 
@@ -13,7 +15,7 @@ class MatterhornDisplay extends ContentObjectDisplay
     {
         $html = parent :: get_description();
         $object = $this->get_content_object();
-                       
+
         return str_replace(self :: DESCRIPTION_MARKER, '<div class="link_url" style="margin-top: 1em;">' . $this->get_preview() . '<br/></div>' . self :: DESCRIPTION_MARKER, $html);
     }
 
@@ -25,9 +27,9 @@ class MatterhornDisplay extends ContentObjectDisplay
 
     function get_thumbnail()
     {
-        return '<img class="thumbnail" src="' . $this->get_content_object()->get_thumbnail() . '" />';    
+        return '<img class="thumbnail" src="' . $this->get_content_object()->get_thumbnail() . '" />';
     }
-    
+
     function get_preview($is_thumbnail = false)
     {
         if ($is_thumbnail)
@@ -36,7 +38,7 @@ class MatterhornDisplay extends ContentObjectDisplay
         }
         else
         {
-			return $this->get_video_element();       
+			return $this->get_video_element();
         }
     }
 }

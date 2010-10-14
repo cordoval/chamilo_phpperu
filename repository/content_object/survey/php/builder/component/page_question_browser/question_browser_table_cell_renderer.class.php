@@ -2,6 +2,7 @@
 namespace repository\content_object\survey;
 
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 require_once dirname ( __FILE__ ) . '/question_browser_table_column_model.class.php';
 require_once dirname ( __FILE__ ) . '/../../tables/page_question_table/default_page_question_table_cell_renderer.class.php';

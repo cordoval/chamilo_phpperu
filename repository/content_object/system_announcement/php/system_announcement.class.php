@@ -2,6 +2,9 @@
 namespace repository\content_object\system_announcement;
 
 use common\libraries\Translation;
+use common\libraries\Utilities;
+
+use repository\ContentObject;
 
 /**
  * $Id: system_announcement.class.php 200 2009-11-13 12:30:04Z kariboe $

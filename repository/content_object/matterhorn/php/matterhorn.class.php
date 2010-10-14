@@ -1,5 +1,11 @@
 <?php
 namespace repository\content_object\matterhorn;
+
+use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
+
+use repository\ContentObject;
+
 class Matterhorn extends ContentObject implements Versionable
 {
     const PROPERTY_MATTERHORN_ID = 'matterhorn_id';
@@ -52,7 +58,7 @@ class Matterhorn extends ContentObject implements Versionable
     {
         return $this->set_additional_property(self :: PROPERTY_THUMBNAIL, $thumbnail);
     }
-    
+
     static function get_additional_property_names()
     {
         return array(self :: PROPERTY_MATTERHORN_ID, self :: PROPERTY_THUMBNAIL/*, self :: PROPERTY_HEIGHT, self :: PROPERTY_WIDTH*/);

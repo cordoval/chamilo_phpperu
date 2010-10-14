@@ -1,5 +1,9 @@
 <?php
 namespace repository;
+
+use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
+
 /**
  * @author Hans De Bisschop
  *
@@ -7,35 +11,35 @@ namespace repository;
 class ExternalRepositorySync extends RepositoryDataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_CONTENT_OBJECT_ID = 'content_object_id';
     const PROPERTY_CONTENT_OBJECT_TIMESTAMP = 'content_object_timestamp';
-    
+
     const PROPERTY_EXTERNAL_REPOSITORY_ID = 'external_repository_id';
     const PROPERTY_EXTERNAL_REPOSITORY_OBJECT_ID = 'external_repository_object_id';
     const PROPERTY_EXTERNAL_REPOSITORY_OBJECT_TIMESTAMP = 'external_repository_object_timestamp';
-    
+
     const SYNC_STATUS_ERROR = 0;
     const SYNC_STATUS_EXTERNAL = 1;
     const SYNC_STATUS_INTERNAL = 2;
     const SYNC_STATUS_IDENTICAL = 3;
     const SYNC_STATUS_CONFLICT = 4;
-    
+
     /**
      * @var ContentObject
      */
     private $content_object;
-    
+
     /**
      * @var ExternalRepositoryObject
      */
     private $external_repository_object;
-    
+
     /**
      * @var int
      */
     private $synchronization_status;
-    
+
     /**
      * @var ExternalRepository
      */
@@ -146,7 +150,7 @@ class ExternalRepositorySync extends RepositoryDataClass
         $extended_property_names[] = self :: PROPERTY_EXTERNAL_REPOSITORY_ID;
         $extended_property_names[] = self :: PROPERTY_EXTERNAL_REPOSITORY_OBJECT_ID;
         $extended_property_names[] = self :: PROPERTY_EXTERNAL_REPOSITORY_OBJECT_TIMESTAMP;
-        
+
         return parent :: get_default_property_names($extended_property_names);
     }
 
@@ -178,7 +182,7 @@ class ExternalRepositorySync extends RepositoryDataClass
         {
             throw new Exception('ExternalRepositorySync object could not be saved as its identity is not set');
         }
-        
+
         $this->set_modification_date(time());
         return parent :: update();
     }
@@ -207,7 +211,7 @@ class ExternalRepositorySync extends RepositoryDataClass
         }
         return $this->external_repository_object;
     }
-    
+
     /**
      * @return ExternalRepository
      */
@@ -228,12 +232,12 @@ class ExternalRepositorySync extends RepositoryDataClass
             {
                 $content_object_date = $this->get_content_object()->get_modification_date();
             }
-            
+
             if (is_null($external_object_date))
             {
                 $external_object_date = $this->get_external_repository_object()->get_created();
             }
-            
+
             if ($content_object_date > $this->get_content_object_timestamp())
             {
                 if ($external_object_date > $this->get_external_repository_object_timestamp())
@@ -269,14 +273,14 @@ class ExternalRepositorySync extends RepositoryDataClass
                 $this->synchronization_status = self :: SYNC_STATUS_ERROR;
             }
         }
-        
+
         return $this->synchronization_status;
     }
 
     /*************************************************************************
      * Fat model methods
      *************************************************************************/
-    
+
     /**
      * @param int $content_object_id
      * @return ExternalRepositorySync

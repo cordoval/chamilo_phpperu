@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\vimeo;
+
+use repository\ComplexContentObjectItemForm;
+
 /**
  * $Id: complex_vimeo_form.class.php 2010-06-08
  * package repository.lib.content_object.vimeo

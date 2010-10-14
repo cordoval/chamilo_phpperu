@@ -4,6 +4,8 @@ namespace repository;
 use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\Configuration;
+use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
 
 /**
  * $Id: installer.class.php 198 2009-11-13 12:20:22Z vanpouckesven $

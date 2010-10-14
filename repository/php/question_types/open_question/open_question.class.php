@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use repository\ContentObject;
+
 /**
  * $Id: open_question.class.php
  * @package repository.question_types.open_question

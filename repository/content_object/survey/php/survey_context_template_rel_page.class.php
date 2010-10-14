@@ -1,5 +1,7 @@
 <?php
-namespace repository\content_object\survey; 
+namespace repository\content_object\survey;
+
+use common\libraries\Utilities;
 
 class SurveyContextTemplateRelPage extends DataClass
 {
@@ -8,12 +10,12 @@ class SurveyContextTemplateRelPage extends DataClass
 	/**
 	 * SurveyContextTemplateRelPage properties
 	 */
-	
+
 	const PROPERTY_SURVEY_ID = 'survey_id';
 	const PROPERTY_PAGE_ID = 'page_id';
 	const PROPERTY_TEMPLATE_ID = 'template_id';
 
-		
+
 	static function get_default_property_names()
 	{
 		return array (self :: PROPERTY_SURVEY_ID ,self :: PROPERTY_PAGE_ID, self :: PROPERTY_TEMPLATE_ID);
@@ -23,7 +25,7 @@ class SurveyContextTemplateRelPage extends DataClass
 	{
 		return SurveyContextDataManager :: get_instance();
 	}
-	
+
 /**
 	 * Returns the survey_id of this SurveyContextTemplateRelPage.
 	 * @return the survey_id.
@@ -41,7 +43,7 @@ class SurveyContextTemplateRelPage extends DataClass
 	{
 		$this->set_default_property(self :: PROPERTY_SURVEY_ID, $survey_id);
 	}
-	
+
 	/**
 	 * Returns the page_id of this SurveyContextTemplateRelPage.
 	 * @return the page_id.

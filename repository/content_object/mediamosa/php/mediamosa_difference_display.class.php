@@ -1,6 +1,9 @@
 <?php
 namespace repository\content_object\mediamosa;
-/* 
+
+use repository\ContentObjectDifferenceDisplay;
+
+/*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */

@@ -3,6 +3,7 @@ namespace repository\content_object\survey;
 
 use common\libraries\Translation;
 use common\libraries\Path;
+use common\libraries\Utilities;
 
 /**
  * $Id: learning_path_browser_table_cell_renderer.class.php 200 2009-11-13 12:30:04Z kariboe $

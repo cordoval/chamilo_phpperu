@@ -4,6 +4,8 @@ namespace repository;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
 
 /**
  * $Id: browser.class.php 204 2009-11-13 12:51:30Z kariboe $

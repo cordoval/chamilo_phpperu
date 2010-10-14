@@ -5,6 +5,7 @@ use common\libraries\Request;
 use common\libraries\FormValidator;
 use common\libraries\Translation;
 use common\libraries\Configuration;
+use common\libraries\Utilities;
 
 require_once dirname ( __FILE__ ) . '/../component/inc/survey_question_display.class.php';
 

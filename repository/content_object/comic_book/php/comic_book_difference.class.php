@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\comic_book;
+
+use repository\ContentObjectDifference;
+
 /**
  * This class can be used to get the difference between comic books
  *

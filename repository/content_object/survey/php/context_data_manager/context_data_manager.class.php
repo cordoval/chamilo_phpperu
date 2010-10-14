@@ -2,6 +2,7 @@
 namespace repository\content_object\survey;
 
 use common\libraries\Configuration;
+use common\libraries\Utilities;
 
 class SurveyContextDataManager implements DataManagerInterface
 {

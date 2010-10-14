@@ -1,5 +1,10 @@
 <?php
 namespace repository\content_object\note;
+
+use common\libraries\Utilities;
+
+use repository\ContentObject;
+
 /**
  * $Id: note.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.note

@@ -4,6 +4,8 @@ namespace repository\content_object\mediamosa;
 use common\libraries\Translation;
 use common\libraries\Path;
 
+use repository\ContentObjectForm;
+
 /**
  * Description of MediamosaForm class
  *

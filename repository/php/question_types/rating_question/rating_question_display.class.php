@@ -3,6 +3,8 @@ namespace repository;
 
 use common\libraries\Path;
 
+use repository\ContentObject;
+
 /**
  * $Id: rating_question_display.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.question_types.rating_question

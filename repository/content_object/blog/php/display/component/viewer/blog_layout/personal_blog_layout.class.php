@@ -3,6 +3,7 @@ namespace repository\content_object\blog;
 
 use common\libraries\Translation;
 use common\libraries\Path;
+use common\libraries\Utilities;
 
 /**
  * A personal blog layout with the user picture on the side

@@ -2,6 +2,9 @@
 namespace repository;
 
 use common\libraries\Path;
+use common\libraries\Utilities;
+
+use common\extensions\category_manager\PlatformCategory;
 
 /**
  * $Id: repository_category.class.php 200 2009-11-13 12:30:04Z kariboe $

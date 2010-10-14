@@ -1,5 +1,7 @@
 <?php
 namespace repository\content_object\hotpotatoes;
+
+use repository\ContentObjectDisplay;
 /**
  * $Id: hotpotatoes_display.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.hotpotatoes
@@ -17,7 +19,7 @@ class HotpotatoesDisplay extends ContentObjectDisplay
         $html = '<iframe src="' . $path . '" width="100%" height="600">
   				 <p>Your browser does not support iframes.</p>
 				 </iframe>';
-        
+
         return $html;
     }
 

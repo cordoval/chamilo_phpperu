@@ -1,5 +1,7 @@
 <?php
 namespace repository;
+
+use repository\ContentObject;
 /**
  * $Id: rating_question_form.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.question_types.rating_question
@@ -37,7 +39,7 @@ class RatingQuestionForm extends ContentObjectForm
         {
             $defaults[RatingQuestion :: PROPERTY_LOW] = $object->get_low();
             $defaults[RatingQuestion :: PROPERTY_HIGH] = $object->get_high();
-            
+
             if ($object->get_low() == 0 && $object->get_high() == 100)
             {
                 $defaults['ratingtype'] = 0;
@@ -51,7 +53,7 @@ class RatingQuestionForm extends ContentObjectForm
         {
             $defaults['ratingtype'] = 0;
         }
-        
+
         parent :: setDefaults($defaults);
     }
 }

@@ -2,6 +2,9 @@
 namespace repository\content_object\encyclopedia_item;
 
 use common\libraries\Translation;
+use common\libraries\Utilities;
+
+use repository\ContentObjectForm;
 
 /**
  * This class describes the form for a EncyclopediaItem object.

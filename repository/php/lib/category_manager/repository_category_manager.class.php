@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\EqualityCondition;
+
 /**
  * $Id: repository_category_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package repository.lib.category_manager
@@ -62,7 +65,7 @@ class RepositoryCategoryManager extends CategoryManager
 
         $condition = new EqualityCondition(RepositoryCategory :: PROPERTY_PARENT, $category_id);
         $category_count = RepositoryDataManager :: get_instance()->count_categories($condition);
-        
+
         return (($object_count == 0) && ($category_count == 0));
     }
 }

@@ -4,6 +4,8 @@ namespace repository\content_object\document;
 use common\libraries\Translation;
 use common\libraries\Path;
 
+use repository\ContentObjectForm;
+
 /**
  * $Id: document_form.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.document

@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use repository\ContentObject;
+
 /**
  * $Id: include_wiki_parser.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.includes
@@ -21,7 +24,7 @@ class IncludeWikiParser extends ContentObjectIncludeParser
         {
         	return;
         }
-        
+
         /*
          * need to be configured to work with wikitags
          */
@@ -35,7 +38,7 @@ class IncludeWikiParser extends ContentObjectIncludeParser
                 {
                 	return;
                 }
-                
+
                 foreach ($tags as $tag)
                 {
                     $search_path = str_replace($base_path, '', $tag['src']);

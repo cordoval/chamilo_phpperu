@@ -3,6 +3,8 @@ namespace repository\content_object\forum_post;
 
 use common\libraries\Translation;
 
+use repository\ContentObjectForm;
+
 require_once dirname(__FILE__) . '/forum_post.class.php';
 /**
  * @package repository.learningobject

@@ -1,5 +1,10 @@
 <?php
 namespace repository\content_object\mediamosa;
+
+use common\libraries\Utilities;
+
+use repository\ContentObject;
+
 /*
  * @author jevdheyd
  */

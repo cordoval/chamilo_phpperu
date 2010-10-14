@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\assessment_multiple_choice_question;
+
+use common\libraries\Utilities;
+
 /**
  * $Id: assessment_multiple_choice_question.class.php$
  * @package repository.lib.content_object.multiple_choice_question
@@ -11,7 +14,7 @@ class AssessmentMultipleChoiceQuestion extends MultipleChoiceQuestion
 {
 	const CLASS_NAME = __CLASS__;
 
-	static function get_type_name() 
+	static function get_type_name()
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}

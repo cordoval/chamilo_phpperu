@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\personal_message;
+
+use repository\ContentObjectForm;
+
 /**
  * $Id: personal_message_form.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.personal_message

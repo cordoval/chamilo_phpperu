@@ -3,6 +3,8 @@ namespace repository;
 
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
 
 /**
  * $Id: external_repository_user_setting.class.php 211 2009-11-13 13:28:39Z vanpouckesven $

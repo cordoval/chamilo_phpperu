@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\mediamosa;
+
+use repository\ContentObjectDifference;
+
 /**
  * Description of mediamosa_difference
  *

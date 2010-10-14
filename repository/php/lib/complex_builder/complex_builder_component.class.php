@@ -3,6 +3,7 @@ namespace repository;
 
 use common\libraries\Translation;
 use common\libraries\Path;
+use common\libraries\Utilities;
 
 /**
  * $Id: complex_builder_component.class.php 200 2009-11-13 12:30:04Z kariboe $

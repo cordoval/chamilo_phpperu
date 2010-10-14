@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\Utilities;
+
 /**
  * Description of mediamosa_external_repository_user_quotumclass
  *

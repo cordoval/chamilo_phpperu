@@ -1,5 +1,10 @@
 <?php
 namespace repository\content_object\forum_post;
+
+use common\libraries\Utilities;
+
+use repository\ContentObject;
+
 /**
  * @package repository.learningobject
  * @subpackage forum

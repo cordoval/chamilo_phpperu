@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\forum_post;
+
+use repository\ContentObjectDifferenceDisplay;
+
 /**
  * @package repository.learningobject
  * @subpackage forumpost

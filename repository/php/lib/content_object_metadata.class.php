@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\Utilities;
+
 /**
  * $Id: content_object_metadata.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib
@@ -7,7 +10,7 @@ namespace repository;
 class ContentObjectMetadata extends RepositoryDataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_CONTENT_OBJECT = 'content_object_id';
     const PROPERTY_OVERRIDE_ID = 'override_id';
     const PROPERTY_TYPE = 'type';
@@ -20,7 +23,7 @@ class ContentObjectMetadata extends RepositoryDataClass
     }
 
     /*************************************************************************/
-    
+
     function set_content_object_id($id)
     {
         if (isset($id) && is_numeric($id))
@@ -35,7 +38,7 @@ class ContentObjectMetadata extends RepositoryDataClass
     }
 
     /*************************************************************************/
-    
+
     function set_override_id($id)
     {
         if (isset($id) && is_numeric($id))
@@ -50,7 +53,7 @@ class ContentObjectMetadata extends RepositoryDataClass
     }
 
     /*************************************************************************/
-    
+
     function set_type($type)
     {
         if (isset($type) && strlen($type) > 0)
@@ -65,7 +68,7 @@ class ContentObjectMetadata extends RepositoryDataClass
     }
 
     /*************************************************************************/
-    
+
     function set_property($property)
     {
         if (isset($property) && strlen($property) > 0)
@@ -80,7 +83,7 @@ class ContentObjectMetadata extends RepositoryDataClass
     }
 
     /*************************************************************************/
-    
+
     function set_value($value)
     {
         if (isset($value))
@@ -95,7 +98,7 @@ class ContentObjectMetadata extends RepositoryDataClass
     }
 
     /*************************************************************************/
-    
+
     static function get_default_property_names($extended_property_names = array())
     {
         $extended_property_names[] = self :: PROPERTY_CONTENT_OBJECT;
@@ -103,7 +106,7 @@ class ContentObjectMetadata extends RepositoryDataClass
         $extended_property_names[] = self :: PROPERTY_PROPERTY;
         $extended_property_names[] = self :: PROPERTY_TYPE;
         $extended_property_names[] = self :: PROPERTY_VALUE;
-        
+
         return parent :: get_default_property_names($extended_property_names);
     }
 
@@ -115,9 +118,9 @@ class ContentObjectMetadata extends RepositoryDataClass
     function create()
     {
         $dm = RepositoryDataManager :: get_instance();
-        
+
         $this->set_creation_date(time());
-        
+
         return $dm->create_content_object_metadata($this);
     }
 
@@ -127,12 +130,12 @@ class ContentObjectMetadata extends RepositoryDataClass
         {
             throw new Exception('Learning object metadata could not be saved as its identity is not set');
         }
-        
+
         $this->set_modification_date(time());
-        
+
         //$dm = RepositoryDataManager :: get_instance();
         $result = $this->get_data_manager()->update_content_object_metadata($this);
-        
+
         return $result;
     }
 
@@ -140,17 +143,17 @@ class ContentObjectMetadata extends RepositoryDataClass
     {
         $dm = RepositoryDataManager :: get_instance();
         $result = $dm->delete_content_object_metadata($this);
-        
+
         return $result;
     }
 
 	/*************************************************************************
 	* Fat model methods
 	*************************************************************************/
-    
+
     /**
      * Return a ContentObject having one of its identifier values equals to the given pair $catalog_name <--> $entry_name
-     * 
+     *
      * @param string $catalog_name
      * @param string $entry_value
      * @return ContentObject
@@ -159,15 +162,15 @@ class ContentObjectMetadata extends RepositoryDataClass
     {
         $rdm = RepositoryDataManager :: get_instance();
         $rs = $rdm->retrieve_content_object_by_catalog_entry_values($catalog_name, $entry_value);
-        
+
         if(isset($rs))
         {
             $object = $rs->next_result();
-            
+
             if(isset($object))
             {
                 $content_object_id = $object->get_content_object_id();
-            
+
                 return $rdm->retrieve_content_object($content_object_id);
             }
             else
@@ -180,6 +183,6 @@ class ContentObjectMetadata extends RepositoryDataClass
             return null;
         }
     }
-    
+
 }
 ?>

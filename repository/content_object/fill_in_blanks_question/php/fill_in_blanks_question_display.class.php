@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\fill_in_blanks_question;
+
+use repository\ContentObjectDisplay;
+
 /**
  * $Id: fill_in_blanks_question_display.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.question_types.fill_in_blanks_question
@@ -22,19 +25,19 @@ class FillInBlanksQuestionDisplay extends ContentObjectDisplay
         $questions = $object->get_number_of_questions();
 
         $question_answers = array();
-        
+
         foreach($answers as $answer)
         {
         	$question_answers[$answer->get_position()][] = $answer;
         }
-        
+
         $html = array();
         $html[] = parent :: get_description();
-        
+
         for($i = 0; $i < $questions; $i++)
         {
 	        $html[] = $clear_text[$i];
-	        
+
         	if ($object->get_question_type() == FillInBlanksQuestion :: TYPE_SELECT)
 	        {
 	            $answer_select = array();
@@ -45,7 +48,7 @@ class FillInBlanksQuestionDisplay extends ContentObjectDisplay
 	                $answer_select[] = '<option value="' . $value . '">' . $value . '</option>';
 	            }
 	            $answer_select[] = '</select>';
-	            
+
 	            $html[] = implode("\n", $answer_select);
 	        }
 	        else
@@ -54,12 +57,12 @@ class FillInBlanksQuestionDisplay extends ContentObjectDisplay
 	            {
 	                $repeat = $answer->get_size() == 0 ? strlen($answer->get_value()) : $answer->get_size();
 	                $replacement = str_repeat('_', $repeat);
-				    $html[] = $replacement;	            	
-	            	
+				    $html[] = $replacement;
+
 	            }
 	        }
         }
-        
+
         return implode("\n", $html);
     }
 }

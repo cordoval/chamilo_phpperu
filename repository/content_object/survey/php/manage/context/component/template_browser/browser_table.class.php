@@ -3,6 +3,7 @@ namespace repository\content_object\survey;
 
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/browser_table_data_provider.class.php';
 require_once dirname(__FILE__) . '/browser_table_column_model.class.php';

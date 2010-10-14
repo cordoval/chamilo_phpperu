@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\survey_matching_question;
+
+use common\libraries\Utilities;
+
 /**
  * $Id: survey_matching_question.class.php $
  * @package repository.lib.content_object.survey_matching_question
@@ -12,9 +15,9 @@ class SurveyMatchingQuestion extends MatchingQuestion
 {
 	const CLASS_NAME = __CLASS__;
 
-	static function get_type_name() 
+	static function get_type_name()
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
-	}   
+	}
 }
 ?>

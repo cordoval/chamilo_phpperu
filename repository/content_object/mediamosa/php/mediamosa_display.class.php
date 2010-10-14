@@ -4,6 +4,10 @@ namespace repository\content_object\mediamosa;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Path;
+use common\libraries\EqualityCondition;
+
+use repository\ContentObjectDisplay;
+
 /**
  * Description of MediamosaDisplay class
  *

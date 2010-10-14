@@ -2,6 +2,7 @@
 namespace repository\content_object\survey;
 
 use common\libraries\Request;
+use common\libraries\EqualityCondition;
 
 require_once 'HTML/QuickForm/Controller.php';
 require_once 'HTML/QuickForm/Rule.php';

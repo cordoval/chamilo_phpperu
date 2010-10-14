@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\scorm_item;
+
+use repository\ContentObjectDifference;
+
 /**
  * $Id: scorm_item_difference.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.scorm_item

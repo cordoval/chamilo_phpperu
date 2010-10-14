@@ -2,6 +2,9 @@
 namespace repository\content_object\task;
 
 use common\libraries\Translation;
+use common\libraries\Utilities;
+
+use repository\ContentObject;
 
 /**
  * $Id: task.class.php 200 2009-11-13 12:30:04Z kariboe $

@@ -1,10 +1,12 @@
 <?php
 namespace repository\content_object\survey;
 
+use common\libraries\Utilities;
+
 class SurveyContextTemplate extends NestedTreeNode
 {
     const CLASS_NAME = __CLASS__;
-    
+
     /**
      * SurveyContextTemplate properties
      */
@@ -165,7 +167,7 @@ class SurveyContextTemplate extends NestedTreeNode
     {
         $this->get_data_manager()->update_survey_context_template($this);
     }
- 	
+
 	function get_level_count(){
 		return $this->count_children(true)+1;
 	}

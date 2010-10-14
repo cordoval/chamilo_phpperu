@@ -3,6 +3,8 @@ namespace repository\content_object\story;
 
 use common\libraries\Translation;
 
+use repository\ContentObjectForm;
+
 /**
  * This class describes the form for a Story object.
  * @package repository.lib.content_object.link

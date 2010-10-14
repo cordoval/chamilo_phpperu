@@ -4,6 +4,7 @@ namespace repository\content_object\survey;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\EqualityCondition;
 
 require_once dirname(__FILE__) . '/context_template_browser/browser_table.class.php';
 require_once dirname(__FILE__) . '/context_template_menu.class.php';

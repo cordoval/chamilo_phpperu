@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\story;
+
+use repository\ContentObjectInstaller;
+
 /**
  * This class is used to install the story content object
  *

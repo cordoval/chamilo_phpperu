@@ -1,5 +1,7 @@
 <?php
 use common\libraries\Translation;
+use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
 /**
  * @package repository
  */

@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use repository\ContentObject;
+
 require_once dirname(__FILE__) . '/../content_object_renderer.class.php';
 require_once dirname(__FILE__) . '/../repository_manager/component/browser/repository_browser_table.class.php';
 

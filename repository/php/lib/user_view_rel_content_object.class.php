@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\Utilities;
+
 /**
  * $Id: user_view_rel_content_object.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib
@@ -12,7 +15,7 @@ namespace repository;
 class UserViewRelContentObject extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_VIEW_ID = 'view_id';
     const PROPERTY_CONTENT_OBJECT_TYPE = 'content_object_type';
     const PROPERTY_VISIBILITY = 'visibility';

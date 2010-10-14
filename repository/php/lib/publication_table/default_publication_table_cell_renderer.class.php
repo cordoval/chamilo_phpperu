@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\Utilities;
+
 /**
  * $Id: default_publication_table_cell_renderer.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.publication_table
@@ -35,19 +38,19 @@ class DefaultPublicationTableCellRenderer extends ObjectTableCellRenderer
                 return Utilities :: underscores_to_camelcase_with_spaces($content_object_publication->get_application());
             case ContentObjectPublicationAttributes :: PROPERTY_LOCATION :
                 $application = $content_object_publication->get_application();
-                
+
                 if ($application == 'weblcms')
                 {
                     $location = $content_object_publication->get_location();
                     $codes = explode("&gt;", $location);
                     $course_id = trim($codes[0]);
                     $tool = trim($codes[1]);
-                    
+
                     $wdm = WeblcmsDataManager :: get_instance();
                     $course = $wdm->retrieve_course($course_id);
                     return $course->get_name() . ' > ' . $tool;
                 }
-                
+
                 return $content_object_publication->get_location();
             case ContentObject :: PROPERTY_TITLE :
 
@@ -72,7 +75,7 @@ class DefaultPublicationTableCellRenderer extends ObjectTableCellRenderer
 				}*/
 				$url = $content_object_publication->get_url();
                 $url = '<a href="' . $url . '">';
-                
+
                 $co = $content_object_publication->get_publication_object();
                 return $url . '<span title="' . $co->get_title() . '">' . Utilities :: truncate_string($co->get_title(), 50) . '</span></a>';
             case ContentObjectPublicationAttributes :: PROPERTY_PUBLICATION_DATE :

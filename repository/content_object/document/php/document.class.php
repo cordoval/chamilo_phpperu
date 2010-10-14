@@ -4,6 +4,9 @@ namespace repository\content_object\document;
 use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\Configuration;
+use common\libraries\Utilities;
+
+use repository\ContentObject;
 
 /**
  * $Id: document.class.php 200 2009-11-13 12:30:04Z kariboe $

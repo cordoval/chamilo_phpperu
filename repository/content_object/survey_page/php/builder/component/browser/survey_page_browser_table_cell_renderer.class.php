@@ -4,6 +4,7 @@ namespace repository\content_object\survey_page;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Path;
+use common\libraries\Utilities;
 
 require_once Path::get_repository_path () . 'lib/repository_manager/component/complex_browser/complex_browser_table_cell_renderer.class.php';
 /**

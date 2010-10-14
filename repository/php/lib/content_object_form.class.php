@@ -4,6 +4,8 @@ namespace repository;
 use common\libraries\FormValidator;
 use common\libraries\Translation;
 use common\libraries\Path;
+use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
 
 /**
  * $Id: content_object_form.class.php 204 2009-11-13 12:51:30Z kariboe $

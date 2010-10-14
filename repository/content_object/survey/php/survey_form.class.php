@@ -2,6 +2,9 @@
 namespace repository\content_object\survey;
 
 use common\libraries\Translation;
+use common\libraries\EqualityCondition;
+
+use repository\ContentObjectForm;
 
 /**
  * $Id: survey_form.class.php 200 2009-11-13 12:30:04Z kariboe $

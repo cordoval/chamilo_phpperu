@@ -1,5 +1,10 @@
 <?php
 namespace repository;
+
+use common\libraries\EqualityCondition;
+
+use repository\ContentObject;
+
 /**
  * $Id: csv_import.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.import.csv
@@ -23,14 +28,14 @@ class ZipImport extends ContentObjectImport
     public function import_content_object()
     {
         $file = $this->get_content_object_file();
-        
+
         $zip = Filecompression :: factory();
         $extracted_files_dir = $zip->extract_file($file['tmp_name']);
-        
+
         $entries = Filesystem :: get_directory_content($extracted_files_dir);
-        
+
         $failures = 0;
-        
+
      	foreach ($entries as $entry)
         {
             $path = str_replace(realpath($extracted_files_dir), '', realpath($entry));
@@ -51,24 +56,24 @@ class ZipImport extends ContentObjectImport
                 {
                 	$parent_id = $this->get_category();
                 }
-                
+
                 $this->create_content_object(basename($path), $entry, $parent_id);
             }
-        
+
         }
-        
+
         Filesystem :: remove($extracted_files_dir);
-        
+
         return ($failures == 0);
     }
-    
+
     private function create_category($path)
     {
     	//Check for existing category
         $condition = new EqualityCondition(RepositoryCategory :: PROPERTY_NAME, basename($path));
         $categories = $this->rdm->retrieve_categories($condition);
         $category = $categories->next_result();
-        
+
         if ($category == null)
         {
             $category = new RepositoryCategory();
@@ -88,12 +93,12 @@ class ZipImport extends ContentObjectImport
         {
         	$succes = true;
         }
-        
+
         $this->created_categories[$path] = $category->get_id();
-        
+
         return $succes;
     }
-    
+
     private function create_content_object($filename, $path, $parent)
     {
     	$document = new Document();

@@ -1,13 +1,15 @@
 <?php
 namespace repository\content_object\survey;
 
+use common\libraries\Utilities;
+
 require_once (dirname(__FILE__) . '/context_data_manager/context_data_manager.class.php');
 
 class SurveyContextRegistration extends DataClass
 {
-    
+
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_TYPE = 'type';
     const PROPERTY_NAME = 'name';
     const PROPERTY_DESCRIPTION = 'description';

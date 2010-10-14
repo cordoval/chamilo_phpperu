@@ -1,5 +1,11 @@
 <?php
 namespace repository\content_object\forum_topic;
+
+use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
+
+use repository\ContentObject;
+
 /**
  * $Id: forum_topic.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.forum_topic
@@ -26,7 +32,7 @@ class ForumTopic extends ContentObject implements Versionable, AttachmentSupport
     {
         $succes = parent :: create();
         $children = RepositoryDataManager :: get_instance()->count_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id()));
-        
+
         //@todo: $children should always be null. should be better to remove this part and
         //@todo: eventually move it to the user interface. Creates issue with re-import.
         if ($children == 0)
@@ -179,16 +185,16 @@ class ForumTopic extends ContentObject implements Versionable, AttachmentSupport
             $lo->remove_post($posts);
         }
     }
-    
+
     function is_locked()
     {
     	if($this->get_locked())
     	{
     		return true;
     	}
-    	
+
     	$rdm = RepositoryDataManager :: get_instance();
-    	
+
     	$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_REF, $this->get_id());
         $parents = $rdm->retrieve_complex_content_object_items($condition);
 
@@ -200,10 +206,10 @@ class ForumTopic extends ContentObject implements Versionable, AttachmentSupport
             	return true;
             }
         }
-    	
+
     	return false;
     }
-    
+
 	function invert_locked()
     {
     	$this->set_locked(!$this->get_locked());

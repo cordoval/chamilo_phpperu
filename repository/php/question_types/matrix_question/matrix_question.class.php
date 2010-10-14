@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use repository\ContentObject;
+
 /**
  * $Id: matrix_question.class.php
  * @package repository.question_types.matrix_question

@@ -3,6 +3,8 @@ namespace repository;
 
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
+
 /**
  * $Id: repository_version_browser_table.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.browser

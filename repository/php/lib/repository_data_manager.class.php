@@ -1,9 +1,12 @@
 <?php
 namespace repository;
 
+use common\libraries;
+
 use common\libraries\EqualityCondition;
 use common\libraries\ObjectTableOrder;
 use common\libraries\Configuration;
+use common\libraries\Utilities;
 
 use admin\Registration;
 use admin\AdminDataManager;
@@ -66,7 +69,7 @@ class RepositoryDataManager
         {
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
             require_once dirname(__FILE__) . '/data_manager/' . strtolower($type) . '_repository_data_manager.class.php';
-            $class = Utilities :: underscores_to_camelcase($type) . 'RepositoryDataManager';
+            $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type) . 'RepositoryDataManager';
 
             self :: $instance = new $class();
         }

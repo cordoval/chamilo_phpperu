@@ -3,6 +3,9 @@ namespace repository;
 
 use common\libraries\Translation;
 use common\libraries\Path;
+use common\libraries\Database;
+use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
 
 /**
  * $Id: database_repository_data_manager.class.php 234 2009-11-16 11:34:07Z vanpouckesven $

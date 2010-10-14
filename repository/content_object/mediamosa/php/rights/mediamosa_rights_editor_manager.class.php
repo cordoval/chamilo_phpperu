@@ -3,6 +3,7 @@ namespace repository\content_object\mediamosa;
 
 use common\libraries\Request;
 use common\libraries\Path;
+use common\libraries\EqualityCondition;
 
 require_once Path :: get_application_path() . 'common/external_repository_manager/type/mediamosa/mediamosa_external_repository_connector.class.php';
 

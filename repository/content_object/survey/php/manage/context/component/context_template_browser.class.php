@@ -3,6 +3,7 @@ namespace repository\content_object\survey;
 
 use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\EqualityCondition;
 
 require_once dirname(__FILE__) . '/template_browser/browser_table.class.php';
 
