@@ -4,6 +4,10 @@ use common\libraries\BasicApplication;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
+use common\libraries\Authentication;
+use common\libraries\PlatformSetting;
+use common\libraries\Theme;
+use common\libraries\Block;
 /**
  * @author Hans De Bisschop
  */

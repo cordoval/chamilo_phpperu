@@ -6,6 +6,8 @@ use common\libraries\Path;
 use common\libraries\WebApplication;
 use common\libraries\Translation;
 use common\libraries\Session;
+use common\libraries\Authentication;
+use common\libraries\Theme;
 /**
  * $Id: tab_add.php 227 2009-11-13 14:45:05Z kariboe $
  * @package home.ajax

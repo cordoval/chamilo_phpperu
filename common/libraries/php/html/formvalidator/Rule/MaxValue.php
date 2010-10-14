@@ -1,4 +1,10 @@
 <?php
+
+use common\libraries\EqualityCondition;
+use home\HomeColumn;
+use common\libraries\NotCondition;
+use common\libraries\AndCondition;
+use home\HomeDataManager;
 /**
  * $Id: MaxValue.php 176 2009-11-12 13:25:10Z vanpouckesven $
  * @package common.html.formvalidator.Rule

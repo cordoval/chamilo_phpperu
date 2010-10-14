@@ -1,6 +1,7 @@
 <?php
 namespace home;
 use common\libraries\Session;
+use common\libraries\Authentication;
 /**
  * $Id: block_visibility.php 227 2009-11-13 14:45:05Z kariboe $
  * @package home.ajax

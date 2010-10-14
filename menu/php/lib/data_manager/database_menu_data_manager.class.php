@@ -5,6 +5,7 @@ use common\libraries\Database;
 use common\libraries\EqualityCondition;
 use common\libraries\InequalityCondition;
 use common\libraries\AndCondition;
+use common\libraries\ObjectTableOrder;
 
 /**
  * $Id: database_menu_data_manager.class.php 232 2009-11-16 10:11:48Z vanpouckesven $

@@ -8,6 +8,8 @@ use common\libraries\Request;
 use common\libraries\EqualityCondition;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\AndCondition;
+use common\libraries\Authentication;
+use common\libraries\Theme;
 /**
  * $Id: home.class.php 227 2009-11-13 14:45:05Z kariboe $
  * @package home.lib.home_manager.component

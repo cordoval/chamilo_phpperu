@@ -2,6 +2,7 @@
 namespace home;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
+use common\libraries\FormValidator;
 /**
  * $Id: home_column_form.class.php 227 2009-11-13 14:45:05Z kariboe $
  * @package home.lib.forms

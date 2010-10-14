@@ -1,6 +1,9 @@
 <?php
 namespace home;
 use common\libraries\Translation;
+use common\libraries\Authentication;
+use common\libraries\FormValidator;
+use common\libraries\Theme;
 /**
  * $Id: user.class.php 227 2009-11-13 14:45:05Z kariboe $
  * @package home.lib.home_manager.component

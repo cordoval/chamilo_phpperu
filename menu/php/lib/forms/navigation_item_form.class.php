@@ -5,6 +5,8 @@ use common\libraries\WebApplication;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
+use common\libraries\FormValidator;
+use common\libraries\ObjectTableOrder;
 /**
  * $Id: navigation_item_form.class.php 223 2009-11-13 14:39:28Z vanpouckesven $
  * @package menu.lib

@@ -42,7 +42,7 @@ class GroupDataManager implements DataManagerInterface
         {
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
             require_once dirname(__FILE__) . '/data_manager/' . strtolower($type) . '_group_data_manager.class.php';
-            $class = Utilities :: underscores_to_camelcase($type) . 'GroupDataManager';
+            $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type) . 'GroupDataManager';
             self :: $instance = new $class();
         }
         return self :: $instance;

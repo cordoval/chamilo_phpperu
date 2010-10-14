@@ -4,6 +4,8 @@ use common\libraries\BasicApplication;
 use common\libraries\Path;
 use common\libraries\WebApplication;
 use common\libraries\EqualityCondition;
+use common\libraries\DataClass;
+
 /**
  * $Id: home_block.class.php 227 2009-11-13 14:45:05Z kariboe $
  * @package home.lib

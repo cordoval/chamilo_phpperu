@@ -2,6 +2,11 @@
 namespace menu;
 use common\libraries\Utilities;
 use common\libraries\Translation;
+use \HTML_Menu;
+use common\libraries\ObjectTableOrder;
+use common\libraries\OptionsMenuRenderer;
+use \HTML_Menu_ArrayRenderer;
+use common\libraries\TreeMenuRenderer;
 /**
  * $Id: navigation_item_menu.class.php 223 2009-11-13 14:39:28Z vanpouckesven $
  * @package menu.lib
