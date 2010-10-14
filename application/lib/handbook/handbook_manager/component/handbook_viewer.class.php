@@ -66,9 +66,11 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
         $this->handbook_id = Request :: get(HandbookManager::PARAM_HANDBOOK_ID);
         $this->handbook_selection_id = Request :: get(HandbookManager::PARAM_HANDBOOK_SELECTION_ID);
 
+        $rdm = RepositoryDataManager::get_instance();
+        
          if ($this->handbook_id && $this->handbook_selection_id)
             {
-                $rdm = RepositoryDataManager::get_instance();
+                
 //                //get complex_content_object
 //                $wrapper = $rdm->retrieve_complex_content_object_item($this->selection_id);
 //                //get handbook_item
@@ -87,7 +89,7 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
                 $publication = HandbookDataManager :: get_instance()->retrieve_handbook_publication($this->handbook_id);
                 if($publication)
                 {
-                    $this->selected_object = $rdm->retrieve_content_object($publication->get_content_object());
+                    $this->selected_object = $rdm->retrieve_content_object($publication->get_content_object_id());
                 }
             }
     }
