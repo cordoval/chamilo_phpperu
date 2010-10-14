@@ -560,7 +560,7 @@ div.tool_bar #tool_bar_hide_container {
  * TOOL MENU IN LEFT MODUS *
  ***************************/
 div.tool_bar_left {
-	width: 160px;
+	/*width: 160px;*/
 	border-left: 0px;
 	left: 0px;
 	-moz-border-radius-bottomright: 10px;
