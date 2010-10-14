@@ -16,7 +16,7 @@ class MetadataManagerMetadataPropertyTypeDeleterComponent extends MetadataManage
 	 */
     function run()
     {
-        $id = $_GET[MetadataManager :: PARAM_METADATA_PROPERTY_TYPE];
+       $id = $_GET[MetadataManager :: PARAM_METADATA_PROPERTY_TYPE];
 
 
         if (!empty ($id))

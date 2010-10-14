@@ -17,11 +17,6 @@ class MetadataManagerMetadataNamespaceUpdaterComponent extends MetadataManager
 	 */
 	function run()
 	{
-		$trail = BreadcrumbTrail :: get_instance();
-		$trail->add(new Breadcrumb($this->get_url(array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE)), Translation :: get('BrowseMetadata')));
-		$trail->add(new Breadcrumb($this->get_url(array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE_METADATA_NAMESPACES)), Translation :: get('BrowseMetadataNamespaces')));
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateMetadataNamespace')));
-
 		$metadata_namespace = $this->retrieve_metadata_namespace(Request :: get(MetadataManager :: PARAM_METADATA_NAMESPACE));
 		$form = new MetadataNamespaceForm(MetadataNamespaceForm :: TYPE_EDIT, $metadata_namespace, $this->get_url(array(MetadataManager :: PARAM_METADATA_NAMESPACE => $metadata_namespace->get_ns_prefix())), $this->get_user());
 
@@ -32,7 +27,7 @@ class MetadataManagerMetadataNamespaceUpdaterComponent extends MetadataManager
 		}
 		else
 		{
-			$this->display_header($trail);
+			$this->display_header();
 			$form->display();
 			$this->display_footer();
 		}
