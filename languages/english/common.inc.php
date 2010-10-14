@@ -694,6 +694,7 @@ $lang['common']['Hidden'] = 'Hidden';
 $lang['common']['ShowOnHomepage'] = 'Show on homepage';
 $lang['common']['Reset'] = 'Reset';
 $lang['common']['Ok'] = 'OK';
+$lang['common']['Cancel'] = 'Cancel';
 $lang['common']['SelectedContentObjects'] = 'Selected content objects';
 $lang['common']['ObjectNotPublished'] = 'Object not published';
 $lang['common']['ObjectPublished'] = 'Object published';

@@ -39,8 +39,6 @@ class ObjectImportFactory {
     	//Document deletes the file it maps to when it is created so file may not exists
 		if( !$cache->has($key) && !file_exists($path)){
     		$log->error(Translation::get_instance()->translate('FileMissing') .': ' . $path);
-			//debug($cache);
-			//debug($key);
 			return EmptyObjectImport::get_instance();
 		}else if($import = $this->create_from_directory($settings)){
     		return new BufferedObjectImport($settings, $import);

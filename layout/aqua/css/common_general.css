@@ -525,6 +525,13 @@ span.subtitle {
 	color: #787878;
 }
 
+span.highlight {
+	font-weight: bold;
+	color: red;
+}
+
+
+
 /* End hide from IE5/mac */
 	/*****************************************************
  *  REPOSITORY / LEARNING OBJECT STYLES              *
