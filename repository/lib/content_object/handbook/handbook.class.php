@@ -1,8 +1,6 @@
 <?php
-/**
- * $Id: handbook.class.php 200 2009-11-13 12:30:04Z kariboe $
- * @package repository.lib.content_object.handbook
- */
+require_once dirname(__FILE__) . '/uuid.class.php';
+
 /**
  * This class represents an handbook
  */
@@ -26,7 +24,8 @@ class Handbook extends ContentObject implements ComplexContentObjectSupport {
         return $this->get_additional_property(self :: PROPERTY_UUID);
     }
 
-    function set_uuid($uuid) {
+    function set_uuid() {
+        $uuid = UUID::generate(UUID::UUID_RANDOM, UUID::FMT_STRING);
         $this->set_additional_property(self :: PROPERTY_UUID, $uuid);
     }
 }
