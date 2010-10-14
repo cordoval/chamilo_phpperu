@@ -136,8 +136,9 @@ class HandbookMenu extends HTML_Menu
             }
             
             $item['title'] = $lo->get_title();
-            $item['url'] = $this->get_sub_item_url($handbook_id, $child->get_id());
-           $item['class'] = $lo->get_type();
+            $item['url'] = $this->get_sub_item_url($handbook_id, $child->get_ref());
+//           $item['class'] = $lo->get_type();
+            $item['class'] = 'test';
             $menu[] = $item;
         }
         
