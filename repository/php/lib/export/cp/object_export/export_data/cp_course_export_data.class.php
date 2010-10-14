@@ -2,6 +2,7 @@
 namespace repository;
 
 use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
 
 /**
  * Export course. Including groups, users and publications.

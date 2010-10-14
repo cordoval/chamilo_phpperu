@@ -2,6 +2,7 @@
 namespace repository;
 
 use common\libraries\ObjectTableColumnModel;
+use common\libraries\ObjectTableColumn;
 
 /**
  * $Id: default_publication_table_column_model.class.php 204 2009-11-13 12:51:30Z kariboe $

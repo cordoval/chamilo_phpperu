@@ -5,6 +5,8 @@ use common\libraries\Path;
 use common\libraries\EqualityCondition;
 
 use repository\ContentObjectImport;
+use repository\content_object\learning_path_item\LearningPathItem;
+use repository\content_object\portfolio_item\PortfolioItem;
 
 /**
  * $Id: cpo_import.class.php 204 2009-11-13 12:51:30Z kariboe $

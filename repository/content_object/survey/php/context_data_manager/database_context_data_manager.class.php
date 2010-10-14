@@ -5,6 +5,7 @@ use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
 
 require_once (dirname(__FILE__) . '/../survey_context_template.class.php');
 require_once (dirname(__FILE__) . '/../survey_template.class.php');

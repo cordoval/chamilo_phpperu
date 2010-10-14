@@ -1,15 +1,17 @@
 <?php
 namespace repository;
 
+use common\libraries\Theme;
+
 /**
- * Serializer for hotspot questions. 
- * 
- * @copyright (c) 2010 University of Geneva 
+ * Serializer for hotspot questions.
+ *
+ * @copyright (c) 2010 University of Geneva
  * @author laurent.opprecht@unige.ch
  *
  */
 class HotspotQuestionSerializer extends QuestionSerializer{
-	
+
 	public static function factory($question, $target_root, $directory, $manifest, $toc){
 		if($question instanceof HotspotQuestion){
 			return new self($target_root, $directory, $manifest, $toc);
@@ -17,11 +19,11 @@ class HotspotQuestionSerializer extends QuestionSerializer{
 			return null;
 		}
 	}
-	
+
 	protected function has_answer_feedback($question){
 		return true;
-	}    
-	
+	}
+
 	protected function get_question_score(HotspotQuestion $question){
 		//@todo: check the hotspot logic: multiple selection, ordered or not
 		$multiple = true;
@@ -48,17 +50,17 @@ class HotspotQuestionSerializer extends QuestionSerializer{
         	$id = Qti::RESPONSE ."_$index";
         	$score = $answer->get_weight();
 			$response = $item->add_responseDeclaration($id, Qti::CARDINALITY_SINGLE, Qti::BASETYPE_POINT);
-    		$mapping = $response->add_areaMapping(0, $score, 0); 
-		
+    		$mapping = $response->add_areaMapping(0, $score, 0);
+
 			//@todo: move unserialize to get_hotspot_coordinates?
             $coordinates = unserialize($answer->get_hotspot_coordinates());
         	$coordinates = $this->serialize_coordinates($coordinates);
         	$mapping->add_areaMapEntry(Qti::SHAPE_POLY, $coordinates, $score);
         }
 	}
-	
+
 	protected function add_score_processing(ImsQtiWriter $response_processing, $question){
-        $answers = $question->get_answers();   
+        $answers = $question->get_answers();
         foreach($answers as $index => $answer){
         	$response_id = Qti::RESPONSE ."_$index";
       		$condition = $response_processing->add_responseCondition();
@@ -81,8 +83,8 @@ class HotspotQuestionSerializer extends QuestionSerializer{
 			$result->add_defaultValue()->add_value('DEFAULT_FEEDBACK');
 		}
 	}
-	
-	protected function add_answer_feedback(ImsQtiWriter $item, $question){ 
+
+	protected function add_answer_feedback(ImsQtiWriter $item, $question){
         $answers = $question->get_answers();
 		foreach($answers as $index=>$answer){
         	$id = Qti::FEEDBACK ."_$index";
@@ -91,7 +93,7 @@ class HotspotQuestionSerializer extends QuestionSerializer{
 		}
 	}
 
-	protected function add_answer_feedback_processing(ImsQtiWriter $processing, $question){	
+	protected function add_answer_feedback_processing(ImsQtiWriter $processing, $question){
         $answers = $question->get_answers();
         foreach($answers as $index => $answer){
         	$response_id = Qti::RESPONSE ."_$index";
@@ -107,18 +109,18 @@ class HotspotQuestionSerializer extends QuestionSerializer{
         	$if->add_setOutcomeValue($feedback_id)->add_baseValue(Qti::BASETYPE_IDENTIFIER, $feedback_id);
         }
 	}
-	
+
 	protected function add_interaction(ImsQtiWriter $body, HotspotQuestion $question){
-		$result = $body->add_positionObjectStage();        
+		$result = $body->add_positionObjectStage();
 		$image = $question->get_image_object();
 		$stage_local_path = Filesystem::create_safe_name($image->get_filename());
 		$stage_local_path = 'resources/'.$stage_local_path;
 		$result->add_object($stage_local_path, $image->get_mime_type());
-		$this->register_resource($image->get_id(), $stage_local_path); 
+		$this->register_resource($image->get_id(), $stage_local_path);
 		$interaction_image_full_path = Theme::get_common_image_system_path().'action_required.png';
 		$interaction_image_local_path = 'resources/star.png';
 		$this->register_resource($interaction_image_full_path, $interaction_image_local_path);
-		
+
         $answers = $question->get_answers();
 		foreach($answers as $index=>$answer){
         	$id = Qti::RESPONSE ."_$index";
@@ -129,7 +131,7 @@ class HotspotQuestionSerializer extends QuestionSerializer{
 		}
 		return $result;
 	}
-	
+
 	protected function serialize_coordinates($points, $separator = ','){
 		$head = reset($points);
 		$points[] = $head;

@@ -4,6 +4,10 @@ namespace repository\content_object\blog;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
+use common\libraries\ToolbarItem;
+use common\libraries\Toolbar;
+use common\libraries\Theme;
+use common\libraries\ObjectTableOrder;
 
 /**
  * Abstract class to define a blog layout so users are able to define new blog layouts and choose between them in the local settings

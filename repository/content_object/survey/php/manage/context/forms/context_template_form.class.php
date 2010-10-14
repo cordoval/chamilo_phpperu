@@ -6,6 +6,7 @@ use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\Utilities;
 use common\libraries\ResourceManager;
+use common\libraries\Theme;
 
 class SurveyContextTemplateForm extends FormValidator
 {

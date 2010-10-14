@@ -3,6 +3,7 @@ namespace repository\content_object\blog_item;
 
 use common\libraries\Utilities;
 use common\libraries\Versionable;
+use common\libraries\AttachmentSupport;
 
 use repository\ContentObject;
 

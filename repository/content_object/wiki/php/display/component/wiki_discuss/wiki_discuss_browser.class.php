@@ -4,6 +4,7 @@ namespace repository\content_object\wiki;
 use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
 
 use repository\ContentObject;
 

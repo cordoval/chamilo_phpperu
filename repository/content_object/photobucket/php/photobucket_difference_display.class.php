@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\photobucket;
 
+use common\libraries\Theme;
+
 use repository\ContentObjectDifferenceDisplay;
 
 /**

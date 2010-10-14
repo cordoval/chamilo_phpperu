@@ -6,6 +6,11 @@ use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\EqualityCondition;
+use common\libraries\ActionBarSearchForm;
+use common\libraries\ToolbarItem;
+use common\libraries\Toolbar;
+use common\libraries\Theme;
+use common\libraries\AndCondition;
 
 /**
  * $Id: wiki_display.class.php 200 2009-11-13 12:30:04Z kariboe $

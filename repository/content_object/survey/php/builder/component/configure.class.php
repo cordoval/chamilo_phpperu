@@ -6,6 +6,11 @@ use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\EqualityCondition;
+use common\libraries\ActionBarRenderer;
+use common\libraries\InCondition;
+use common\libraries\AndCondition;
+use common\libraries\OrCondition;
+use common\libraries\PatternMatchCondition;
 
 //require_once Path :: get_repository_path() . '/lib/content_object/survey/survey.class.php';
 require_once dirname ( __FILE__ ) . '/page_question_browser/question_browser_table.class.php';

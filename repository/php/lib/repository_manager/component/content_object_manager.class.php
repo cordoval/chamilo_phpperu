@@ -6,6 +6,7 @@ use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Utilities;
+use common\libraries\Application;
 
 /**
  * @package repository.lib.repository_manager.component

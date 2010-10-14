@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\survey;
 
+use common\libraries\StaticTableColumn;
+
 require_once dirname(__FILE__) . '/../../tables/page_question_table/default_page_question_table_column_model.class.php';
 /**
  * Table column model for the user browser table

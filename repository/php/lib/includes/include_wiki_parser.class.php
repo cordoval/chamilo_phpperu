@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use common\libraries\Path;
+
 use repository\ContentObject;
 
 /**

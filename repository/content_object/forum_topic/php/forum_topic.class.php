@@ -4,6 +4,9 @@ namespace repository\content_object\forum_topic;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\Versionable;
+use common\libraries\AttachmentSupport;
+use common\libraries\ObjectTableOrder;
+use common\libraries\ComplexContentObjectSupport;
 
 use repository\ContentObject;
 

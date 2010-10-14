@@ -2,6 +2,7 @@
 namespace repository\content_object\calendar_event;
 
 use common\libraries\Translation;
+use common\libraries\DatetimeUtilities;
 
 use repository\ContentObjectDifference;
 

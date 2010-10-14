@@ -2,6 +2,7 @@
 namespace repository;
 
 use common\libraries\Translation;
+use common\libraries\InCondition;
 
 /**
  * $Id: survey_viewer_wizard_process.class.php 200 2009-11-13 12:30:04Z kariboe $

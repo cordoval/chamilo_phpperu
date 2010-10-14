@@ -4,6 +4,12 @@ namespace repository\content_object\learning_path;
 use common\libraries\FormValidator;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
+use common\libraries\Theme;
+use common\libraries\NotCondition;
+use common\libraries\AndCondition;
+use common\libraries\Path;
+
+use repository\content_object\learning_path_item\LearningPathItem;
 
 /**
  * $Id: prerequisites_builder_form.class.php 200 2009-11-13 12:30:04Z kariboe $

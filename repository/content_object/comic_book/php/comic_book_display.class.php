@@ -2,6 +2,7 @@
 namespace repository\content_object\comic_book;
 
 use common\libraries\Translation;
+use common\libraries\Theme;
 
 use repository\ContentObjectDisplay;
 

@@ -3,6 +3,12 @@ namespace repository;
 
 use common\libraries\Translation;
 use common\libraries\Path;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ActionBarSearchForm;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
+use common\libraries\AndCondition;
+use common\libraries\PatternMatchCondition;
 
 require_once Path :: get_repository_path() . 'lib/external_repository_instance_manager/component/external_repository_instance_browser/external_repository_instance_browser_table.class.php';
 

@@ -3,6 +3,8 @@ namespace repository\content_object\wiki;
 
 use common\libraries\Path;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\OrCondition;
+use common\libraries\PatternMatchCondition;
 
 /**
  * $Id: wiki_viewer.class.php 200 2009-11-13 12:30:04Z kariboe $

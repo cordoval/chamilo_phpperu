@@ -10,8 +10,8 @@ use repository\ContentObject;
  * $Id: external_calendar.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.link
  */
-require PATH :: get_plugin_path() . 'icalcreator/iCalcreator.class.php';
-require PATH :: get_plugin_path() . 'ical/ical_recurrence.class.php';
+require Path :: get_plugin_path() . 'icalcreator/iCalcreator.class.php';
+require Path :: get_plugin_path() . 'ical/ical_recurrence.class.php';
 
 class ExternalCalendar extends ContentObject implements Versionable
 {

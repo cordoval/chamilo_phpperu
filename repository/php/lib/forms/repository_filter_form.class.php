@@ -7,6 +7,7 @@ use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\Session;
 use common\libraries\ResourceManager;
+use common\libraries\InCondition;
 
 use repository\content_object\learning_path_item\LearningPathItem;
 use repository\content_object\portfolio_item\PortfolioItem;

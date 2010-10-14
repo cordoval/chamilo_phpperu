@@ -2,6 +2,7 @@
 namespace repository;
 
 use common\libraries\ObjectTableColumnModel;
+use common\libraries\StaticTableColumn;
 
 /**
  * $Id: repository_shared_content_objects_browser_table_column_model.class.php 204 2009-11-13 12:51:30Z kariboe $

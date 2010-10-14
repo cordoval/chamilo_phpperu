@@ -2,6 +2,7 @@
 namespace repository\content_object\glossary;
 
 use common\libraries\Utilities;
+use common\libraries\ComplexContentObjectSupport;
 
 use repository\ContentObject;
 

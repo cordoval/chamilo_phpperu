@@ -4,6 +4,8 @@ namespace repository;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Session;
+use common\libraries\Theme;
+use common\libraries\DatetimeUtilities;
 
 /*
  *	@author Nick Van Loocke

@@ -4,6 +4,7 @@ namespace repository\content_object\survey;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
 
 require_once dirname(__FILE__) . '/browser_table_column_model.class.php';
 require_once dirname(__FILE__) . '/../../tables/survey_context_template_table/default_survey_context_template_table_cell_renderer.class.php';

@@ -6,6 +6,13 @@ use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Versionable;
 use common\libraries\Session;
+use common\libraries\Theme;
+use common\libraries\InCondition;
+use common\libraries\AndCondition;
+use common\libraries\AttachmentSupport;
+use common\libraries\ComplexContentObjectSupport;
+
+use admin\AdminDataManager;
 /**
  * $Id: content_object.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib

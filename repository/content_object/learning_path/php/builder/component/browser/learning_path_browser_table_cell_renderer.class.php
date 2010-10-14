@@ -4,6 +4,16 @@ namespace repository\content_object\learning_path;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
+use common\libraries\ToolbarItem;
+use common\libraries\Toolbar;
+use common\libraries\Theme;
+use common\libraries\Application;
+use common\libraries\NotCondition;
+use common\libraries\AndCondition;
+use common\libraries\ComplexContentObjectSupport;
+use common\libraries\Path;
+
+use repository\content_object\learning_path_item\LearningPathItem;
 
 /**
  * $Id: learning_path_browser_table_cell_renderer.class.php 200 2009-11-13 12:30:04Z kariboe $

@@ -3,6 +3,7 @@ namespace repository;
 
 use common\libraries\Path;
 use common\libraries\ObjectTableColumnModel;
+use common\libraries\ObjectTableColumn;
 
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_column_model.class.php';
 

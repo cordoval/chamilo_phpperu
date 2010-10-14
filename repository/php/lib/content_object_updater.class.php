@@ -6,6 +6,7 @@ use common\libraries\Path;
 use common\libraries\Configuration;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
 
 abstract class ContentObjectUpdater
 {

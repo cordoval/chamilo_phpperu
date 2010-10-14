@@ -3,6 +3,7 @@ namespace repository\content_object\competence;
 
 use common\libraries\Utilities;
 use common\libraries\Versionable;
+use common\libraries\ComplexContentObjectSupport;
 
 use repository\ContentObject;
 

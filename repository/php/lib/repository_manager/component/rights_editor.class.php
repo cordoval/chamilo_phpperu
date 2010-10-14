@@ -4,6 +4,7 @@ namespace repository;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\Theme;
 /**
  * $Id: rights_editor.class.php 239 2009-11-16 14:25:41Z vanpouckesven $
  * @package repository.lib.repository_manager.component

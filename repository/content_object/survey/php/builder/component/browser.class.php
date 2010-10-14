@@ -3,6 +3,9 @@ namespace repository\content_object\survey;
 
 use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
 
 require_once dirname(__FILE__) . '/browser/survey_browser_table_cell_renderer.class.php';
 

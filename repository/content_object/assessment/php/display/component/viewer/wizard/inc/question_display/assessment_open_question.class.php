@@ -2,6 +2,7 @@
 namespace repository\content_object\assessment;
 
 use common\libraries\Translation;
+use common\libraries\Application;
 
 /**
  * $Id: assessment_open_question.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -73,7 +74,7 @@ class AssessmentOpenQuestionDisplay extends QuestionDisplay
         $group[] = & $formvalidator->createElement('text', ($name_2 . '_title'), '', array('class' => 'select_file_text', 'disabled' => 'disabled', 'style' => 'width: 200px; height: 20px'));
         $group[] = & $formvalidator->createElement('hidden', $name_2);
 
-        $link = PATH :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=' . RepoViewerLauncher :: APPLICATION_NAME . '&' . RepoViewerLauncher :: PARAM_ELEMENT_NAME . '=' . $name_2;
+        $link = Path :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=' . RepoViewerLauncher :: APPLICATION_NAME . '&' . RepoViewerLauncher :: PARAM_ELEMENT_NAME . '=' . $name_2;
         $group[] = & $formvalidator->createElement('static', null, null, '<a class="button normal_button select_file_button" onclick="javascript:openPopup(\'' . $link . '\');"> ' . Translation :: get('BrowseContentObjects') . '</a>');
 
         $formvalidator->addGroup($group, '');

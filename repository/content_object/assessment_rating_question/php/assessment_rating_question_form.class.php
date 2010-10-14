@@ -7,7 +7,7 @@ use common\libraries\Translation;
  * $Id: assessment_rating_question_form.class.php $
  * @package repository.lib.content_object.rating_question
  */
-require_once PATH :: get_repository_path() . '/question_types/rating_question/rating_question_form.class.php';
+require_once Path :: get_repository_path() . '/question_types/rating_question/rating_question_form.class.php';
 
 /**
  * This class represents a form to create or update open questions

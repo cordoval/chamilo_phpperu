@@ -3,6 +3,7 @@ namespace repository;
 
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
 
 /**
  * $Id: questions_survey_viewer_wizard_page.class.php 200 2009-11-13 12:30:04Z kariboe $

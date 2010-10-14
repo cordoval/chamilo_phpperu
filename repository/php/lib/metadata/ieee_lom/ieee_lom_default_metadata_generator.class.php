@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\Path;
+
 /**
  * $Id: ieee_lom_default_metadata_generator.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.metadata.ieee_lom
@@ -30,13 +33,13 @@ class IeeeLomDefaultMetadataGenerator
     }
 
     /************************************************************************************/
-    
+
     /**
      * This function will generate some default metadata from a given learning
-     * object. 
-     * 
+     * object.
+     *
      * These default metadata could then be extended by using the IeeeLomMapper class
-     * 
+     *
      * @param ContentObject $content_object
      * @return IeeeLom the generated metadata
      */
@@ -45,12 +48,12 @@ class IeeeLomDefaultMetadataGenerator
         $this->add_general();
         $this->add_lifeCycle();
         $this->add_metametadata();
-        
+
         if (method_exists('IeeeLomDefaultMetadataGenerator', 'add_specific_metadata_for_' . $this->content_object->get_type()))
         {
             call_user_func(array('IeeeLomDefaultMetadataGenerator', 'add_specific_metadata_for_' . $this->content_object->get_type()), $this->content_object, $this->ieeeLom);
         }
-        
+
         return $this->ieeeLom;
     }
 
@@ -64,15 +67,15 @@ class IeeeLomDefaultMetadataGenerator
     private function add_lifeCycle()
     {
         $owner = $this->user_data_manager->retrieve_user($this->content_object->get_owner_id());
-        
+
         $this->ieeeLom->set_version(new IeeeLomLangString($this->content_object->get_content_object_edition(), IeeeLom :: NO_LANGUAGE));
         $this->ieeeLom->set_status(new IeeeLomVocabulary(($this->content_object->is_latest_version() == TRUE ? 'final' : 'draft')));
-        
+
         $all_versions = $this->content_object->get_content_object_versions();
         foreach ($all_versions as $version)
         {
             $versionowner = $this->user_data_manager->retrieve_user($version->get_owner_id());
-            
+
             $vcard = new Contact_Vcard_Build();
             $vcard->addEmail($versionowner->get_email());
             $vcard->setFormattedName($versionowner->get_firstname() . ' ' . $versionowner->get_lastname());
@@ -85,7 +88,7 @@ class IeeeLomDefaultMetadataGenerator
     {
         $this->ieeeLom->add_metadata_schema(IeeeLom :: VERSION);
         $this->ieeeLom->add_metadata_identifier(PlatformSetting :: get('institution', 'admin'), $this->content_object->get_id());
-        
+
         $vcard = new Contact_Vcard_Build();
         $vcard->setFormattedName(PlatformSetting :: get('institution', 'admin'));
         $vcard->setName(PlatformSetting :: get('site_name', 'admin'), null, null, null, null);
@@ -95,7 +98,7 @@ class IeeeLomDefaultMetadataGenerator
     }
 
     /************************************************************************************/
-    
+
     /**
      * This function will add some document specific metadata.
      * @param ContentObject $content_object
@@ -104,10 +107,10 @@ class IeeeLomDefaultMetadataGenerator
     function add_specific_metadata_for_document($content_object, $ieeeLom)
     {
         $this->ieeeLom->set_size($this->content_object->get_filesize());
-        
+
         $url = Path :: get(WEB_PATH) . RepositoryManager :: get_document_downloader_url($content_object->get_id());
         $this->ieeeLom->add_location($url);
-        
+
     //TODO: FileInfo is an experimental extension of PHP.
     //$finfo = finfo_open(FILEINFO_MIME,'C:/wamp/php/extras/magic');
     //$lom->add_format(finfo_file($finfo, $content_object->get_full_path()));
@@ -116,20 +119,20 @@ class IeeeLomDefaultMetadataGenerator
 
     function add_specific_metadata_for_wiki($content_object, $ieeeLom)
     {
-    
+
     }
 
     function add_specific_metadata_for_link($content_object, $ieeeLom)
     {
-    
+
     }
-    
+
 /*
-	 * 
+	 *
 	 *
 	function add_specific_metadata_for_... ($content_object, $ieeeLom)
 	{
-	    
+
 	}
 	*/
 }

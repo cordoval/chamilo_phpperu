@@ -3,6 +3,7 @@ namespace repository;
 
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
 
 class ExternalRepositorySyncInfo extends RepositoryDataClass
 {

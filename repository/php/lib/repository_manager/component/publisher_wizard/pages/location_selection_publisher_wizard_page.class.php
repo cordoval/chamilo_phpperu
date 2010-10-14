@@ -4,6 +4,12 @@ namespace repository;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Utilities;
+use common\libraries\Theme;
+use common\libraries\Application;
+use common\libraries\WebApplication;
+use common\libraries\AttachmentSupport;
+use common\libraries\Path;
+
 /**
  * $Id: location_selection_publisher_wizard_page.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.publication_wizard.pages

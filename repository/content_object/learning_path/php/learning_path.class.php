@@ -2,8 +2,11 @@
 namespace repository\content_object\learning_path;
 
 use common\libraries\Utilities;
+use common\libraries\ComplexContentObjectSupport;
+use common\libraries\Path;
 
 use repository\ContentObject;
+use repository\content_object\learning_path_item\LearningPathItem;
 
 /**
  * $Id: learning_path.class.php 200 2009-11-13 12:30:04Z kariboe $

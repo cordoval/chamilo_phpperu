@@ -3,6 +3,9 @@ namespace repository;
 
 use common\libraries\Path;
 
+use repository\content_object\learning_path_item\LearningPathItem;
+use repository\content_object\portfolio_item\PortfolioItem;
+
 /**
  *
  *

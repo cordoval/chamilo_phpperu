@@ -9,6 +9,13 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\ResourceManager;
+use common\libraries\Theme;
+use common\libraries\Application;
+use common\libraries\BasicApplication;
+use common\libraries\ComplexContentObjectSupport;
+
+use repository\content_object\learning_path_item\LearningPathItem;
+use repository\content_object\portfolio_item\PortfolioItem;
 /**
  * $Id: creator.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component

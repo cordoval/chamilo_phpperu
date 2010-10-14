@@ -3,6 +3,8 @@ namespace repository\content_object\external_calendar;
 
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Theme;
+use common\libraries\DatetimeUtilities;
 
 use repository\ContentObjectDisplay;
 

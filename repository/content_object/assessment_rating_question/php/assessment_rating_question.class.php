@@ -7,7 +7,7 @@ use common\libraries\Utilities;
  * $Id: assessment_rating_question.class.php $
  * @package repository.lib.content_object.rating_question
  */
-require_once PATH :: get_repository_path() . '/question_types/rating_question/rating_question.class.php';
+require_once Path :: get_repository_path() . '/question_types/rating_question/rating_question.class.php';
 /**
  * This class represents an open question
  */

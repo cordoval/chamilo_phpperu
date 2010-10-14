@@ -6,6 +6,7 @@ use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\EqualityCondition;
 use common\libraries\ResourceManager;
+use common\libraries\Theme;
 
 /*
  * This is a standalone wiki parser component, used to parse links to other wiki pages, much in the same way as on Wikipedia.
