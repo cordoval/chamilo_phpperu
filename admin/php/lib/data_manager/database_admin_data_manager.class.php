@@ -6,6 +6,7 @@ use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\ConditionTranslator;
 use common\libraries\SubselectCondition;
+use common\libraries\InCondition;
 
 /**
  * $Id: database_admin_data_manager.class.php 231 2009-11-16 09:53:00Z vanpouckesven $

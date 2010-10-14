@@ -3,6 +3,7 @@ namespace repository;
 
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 
 class RepositoryManagerExternalRepositoryImportComponent extends RepositoryManagerExternalRepositoryComponent

@@ -4,6 +4,7 @@ namespace repository;
 use common\libraries\FormValidator;
 use common\libraries\Translation;
 use common\libraries\Utilities;
+use common\libraries\Path;
 
 /**
  * $Id: external_repository_export_form.class.php 200 2009-11-13 12:30:04Z kariboe $

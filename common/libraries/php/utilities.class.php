@@ -614,5 +614,23 @@ class Utilities
             }
         }
     }
+
+    static function get_classname_from_object($object, $convert_to_underscores = false)
+    {
+        if ($convert_to_underscores)
+        {
+            return self :: camelcase_to_underscores(self :: get_classname_from_namespace(get_class($object)));
+        }
+        else
+        {
+            return self :: get_classname_from_namespace(get_class($object));
+        }
+    }
+
+    static function get_classname_from_namespace($classname)
+    {
+        $classname_parts = explode('\\', $classname);
+        return $classname_parts[count($classname_parts) - 1];
+    }
 }
 ?>

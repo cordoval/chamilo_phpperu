@@ -5,6 +5,7 @@ use common\libraries\Request;
 use common\libraries\FormValidator;
 use common\libraries\Translation;
 use common\libraries\Path;
+use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
@@ -13,9 +14,17 @@ use common\libraries\Theme;
 use common\libraries\Application;
 use common\libraries\BasicApplication;
 use common\libraries\ComplexContentObjectSupport;
+use common\libraries\DynamicTabsRenderer;
+use common\libraries\DynamicContentTab;
 
 use repository\content_object\learning_path_item\LearningPathItem;
 use repository\content_object\portfolio_item\PortfolioItem;
+use repository\content_object\scorm_item\ScormItem;
+
+use admin\AdminDataManager;
+use admin\Registration;
+use admin\PackageInfo;
+
 /**
  * $Id: creator.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component
@@ -224,7 +233,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManager
 
         asort($categories);
 
-        $renderer_name = Utilities :: camelcase_to_underscores(get_class($this));
+        $renderer_name = Utilities :: get_classname_from_object($this, true);
         $tabs = new DynamicTabsRenderer($renderer_name);
         $tabs->add_tab(new DynamicContentTab(self :: TAB_MOST_USED, Translation :: get('MostUsed'), Theme :: get_image_path() . 'place_mini_most_used.png', implode("\n", $most_used_html)));
 

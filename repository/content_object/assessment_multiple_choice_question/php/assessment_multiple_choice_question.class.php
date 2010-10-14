@@ -2,6 +2,9 @@
 namespace repository\content_object\assessment_multiple_choice_question;
 
 use common\libraries\Utilities;
+use common\libraries\Path;
+
+use repository\MultipleChoiceQuestion;
 
 /**
  * $Id: assessment_multiple_choice_question.class.php$

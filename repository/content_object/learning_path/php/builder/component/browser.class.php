@@ -9,6 +9,7 @@ use common\libraries\ActionBarRenderer;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;
 use common\libraries\BasicApplication;
+use common\libraries\Path;
 
 /**
  * $Id: browser.class.php 200 2009-11-13 12:30:04Z kariboe $

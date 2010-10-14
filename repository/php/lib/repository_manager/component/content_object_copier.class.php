@@ -3,6 +3,7 @@ namespace repository;
 
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 /**
  * $Id: content_object_copier.class.php 204 2009-11-13 12:51:30Z kariboe $

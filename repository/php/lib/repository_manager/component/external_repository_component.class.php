@@ -2,6 +2,7 @@
 namespace repository;
 
 use common\libraries\Request;
+use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 /**
  * $Id: external_repository_repository_component.class.php 204 2009-11-13 12:51:30Z kariboe $

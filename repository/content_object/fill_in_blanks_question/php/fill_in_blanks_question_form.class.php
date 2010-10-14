@@ -3,6 +3,7 @@ namespace repository\content_object\fill_in_blanks_question;
 
 use common\libraries\Translation;
 use common\libraries\ResourceManager;
+use common\libraries\Path;
 
 use repository\ContentObjectForm;
 

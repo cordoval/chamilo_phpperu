@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\assessment_rating_question;
+
+use common\libraries\Path;
+
 /**
  * $Id: assessment_rating_question_display.class.php $
  * @package repository.lib.content_object.rating_question

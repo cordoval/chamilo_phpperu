@@ -1,5 +1,9 @@
 <?php
 namespace repository\content_object\assessment_select_question;
+
+use common\libraries\Path;
+
+use repository\SelectQuestionOption;
 /**
  * $Id: assessment_select_question_option.class.php $
  * @package repository.lib.content_object.select_question
@@ -14,7 +18,7 @@ class AssessmentSelectQuestionOption extends SelectQuestionOption
     const PROPERTY_SCORE = 'score';
     const PROPERTY_FEEDBACK = 'feedback';
     const PROPERTY_CORRECT = 'correct';
-    
+
     private $correct;
     private $score;
     private $feedback;
@@ -28,7 +32,7 @@ class AssessmentSelectQuestionOption extends SelectQuestionOption
     	parent :: SelectQuestionOption($value);
     	$this->correct = $correct;
     	$this->score = $score;
-    	$this->feedback = $feedback;   	
+    	$this->feedback = $feedback;
     }
 
 	function get_feedback()
@@ -43,7 +47,7 @@ class AssessmentSelectQuestionOption extends SelectQuestionOption
     {
         return $this->score;
     }
-    
+
     /**
      * Determines if this option is a correct answer
      * @return boolean

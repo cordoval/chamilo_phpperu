@@ -3,6 +3,7 @@ namespace repository\content_object\learning_path;
 
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 /**
  * $Id: prerequisites_builder.class.php 200 2009-11-13 12:30:04Z kariboe $

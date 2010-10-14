@@ -2,6 +2,9 @@
 namespace repository\content_object\assessment_matching_question;
 
 use common\libraries\Utilities;
+use common\libraries\Path;
+
+use repository\MatchingQuestion;
 
 /**
  * $Id: assessment_matching_question.class.php $

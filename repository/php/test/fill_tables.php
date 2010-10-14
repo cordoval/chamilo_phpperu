@@ -2,6 +2,7 @@
 use common\libraries\FormValidator;
 use common\libraries\Translation;
 use common\libraries\Session;
+use common\libraries\Path;
 
 /**
  * $Id: fill_tables.php 204 2009-11-13 12:51:30Z kariboe $

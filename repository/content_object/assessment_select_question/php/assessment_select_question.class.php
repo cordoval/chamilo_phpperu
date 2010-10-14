@@ -2,6 +2,9 @@
 namespace repository\content_object\assessment_select_question;
 
 use common\libraries\Utilities;
+use common\libraries\Path;
+
+use repository\SelectQuestion;
 
 /**
  * $Id: assessment_select_question.class.php $

@@ -4,6 +4,7 @@ namespace repository\content_object\survey;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Path;
+use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 
 require_once Path :: get_application_path() . 'lib/internship_organizer/forms/category_form.class.php';

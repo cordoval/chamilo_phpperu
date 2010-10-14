@@ -4,6 +4,8 @@ namespace repository\content_object\survey_rating_question;
 use common\libraries\Utilities;
 use common\libraries\Path;
 
+use repository\RatingQuestion;
+
 /**
  * $Id: survey_rating_question.class.php $
  * @package repository.lib.content_object.survey_rating_question

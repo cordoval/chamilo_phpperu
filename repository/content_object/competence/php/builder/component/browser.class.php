@@ -3,6 +3,7 @@ namespace repository\content_object\competence;
 
 use common\libraries\Translation;
 use common\libraries\Path;
+use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Application;
 

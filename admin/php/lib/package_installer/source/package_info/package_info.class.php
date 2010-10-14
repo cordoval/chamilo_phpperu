@@ -1,6 +1,11 @@
 <?php
 namespace admin;
+
 use common\libraries\Utilities;
+
+use \PEAR;
+use \XML_Unserializer;
+
 require_once 'XML/Unserializer.php';
 
 class PackageInfo
@@ -15,7 +20,7 @@ class PackageInfo
 
     static function factory($type, $package_name)
     {
-        $class = Utilities :: underscores_to_camelcase($type) . 'PackageInfo';
+        $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type) . 'PackageInfo';
         require_once dirname(__FILE__) . '/type/' . $type . '.class.php';
         return new $class($package_name);
     }

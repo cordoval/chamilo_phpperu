@@ -2,6 +2,7 @@
 namespace repository;
 
 use common\libraries\Request;
+use common\libraries\Path;
 /**
  * $Id: external_repository_instance_manager.class.php 126 2009-11-09 13:11:05Z vanpouckesven $
  * @package repository.lib.external_repository_instance_manager

@@ -2,6 +2,7 @@
 namespace repository\content_object\assessment_open_question;
 
 use common\libraries\Translation;
+use common\libraries\Path;
 
 /**
  * $Id: assessment_open_question_display.class.php $

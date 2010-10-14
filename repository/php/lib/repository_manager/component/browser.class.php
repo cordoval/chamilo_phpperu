@@ -1,5 +1,6 @@
 <?php
 namespace repository;
+use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Request;
 use common\libraries\Utilities;
@@ -123,7 +124,7 @@ class RepositoryManagerBrowserComponent extends RepositoryManager
                             RepositoryManager :: PARAM_RENDERER => $renderer)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
                 }
             }
-            
+
             $this->action_bar->add_tool_action(new ToolbarItem(Translation :: get('ExportEntireRepository'), Theme :: get_common_image_path() . 'action_backup.png', $this->get_url(array(
                     Application :: PARAM_ACTION => RepositoryManager :: ACTION_EXPORT_CONTENT_OBJECTS, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => 'all')), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
@@ -169,7 +170,7 @@ class RepositoryManagerBrowserComponent extends RepositoryManager
     {
         return Request :: get(RepositoryManager :: PARAM_CATEGORY_ID) ? Request :: get(RepositoryManager :: PARAM_CATEGORY_ID) : 0;
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add_help('repository_browser');

@@ -5,6 +5,7 @@ use common\libraries\Translation;
 use common\libraries\ToolbarItem;
 use common\libraries\Toolbar;
 use common\libraries\Theme;
+use common\libraries\Path;
 
 /**
  * $Id: glossary_viewer_table_cell_renderer.class.php 200 2009-11-13 12:30:04Z kariboe $

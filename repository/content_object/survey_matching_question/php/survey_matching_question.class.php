@@ -4,6 +4,8 @@ namespace repository\content_object\survey_matching_question;
 use common\libraries\Utilities;
 use common\libraries\Path;
 
+use repository\MatchingQuestion;
+
 /**
  * $Id: survey_matching_question.class.php $
  * @package repository.lib.content_object.survey_matching_question

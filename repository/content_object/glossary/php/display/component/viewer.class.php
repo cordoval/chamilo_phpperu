@@ -4,6 +4,7 @@ namespace repository\content_object\glossary;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
 use common\libraries\EqualityCondition;
 use common\libraries\ActionBarRenderer;
 use common\libraries\ToolbarItem;

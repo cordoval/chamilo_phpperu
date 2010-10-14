@@ -2,6 +2,7 @@
 namespace repository\content_object\hotpotatoes;
 
 use common\libraries\Translation;
+use common\libraries\Path;
 
 use repository\ContentObjectForm;
 

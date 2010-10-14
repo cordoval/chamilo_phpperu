@@ -3,10 +3,12 @@ namespace repository;
 
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\EqualityCondition;
 use common\libraries\InCondition;
 use common\libraries\AndCondition;
+use common\libraries\Path;
 /**
  * $Id: exporter.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component

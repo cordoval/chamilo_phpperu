@@ -1,6 +1,7 @@
 <?php
 namespace repository\content_object\blog;
 
+use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 
 /**

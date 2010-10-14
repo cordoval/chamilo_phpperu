@@ -13,6 +13,9 @@ use common\libraries\Theme;
 use common\libraries\Application;
 use common\libraries\BasicApplication;
 use common\libraries\ComplexContentObjectSupport;
+use common\libraries\Breadcrumb;
+use common\libraries\DynamicTabsRenderer;
+use common\libraries\DynamicContentTab;
 
 /**
  * $Id: viewer.class.php 204 2009-11-13 12:51:30Z kariboe $
@@ -35,7 +38,7 @@ class RepositoryManagerViewerComponent extends RepositoryManager
         $id = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
         if ($id)
         {
-            $renderer_name = Utilities :: camelcase_to_underscores(get_class($this));
+            $renderer_name = Utilities :: get_classname_from_object($this, true);
             $this->tabs = new DynamicTabsRenderer($renderer_name);
 
             $object = $this->retrieve_content_object($id);

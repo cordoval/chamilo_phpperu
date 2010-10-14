@@ -8,6 +8,8 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\Theme;
+use common\libraries\DynamicTabsRenderer;
+use common\libraries\DynamicContentTab;
 
 require_once dirname(__FILE__) . '/../forms/external_repository_form.class.php';
 

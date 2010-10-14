@@ -4,11 +4,13 @@ namespace repository\content_object\assessment;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Path;
+use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\EqualityCondition;
 use common\libraries\ActionBarRenderer;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;
+use common\libraries\SubselectCondition;
 
 /**
  * $Id: assessment_merger.class.php 200 2009-11-13 12:30:04Z kariboe $

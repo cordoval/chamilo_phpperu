@@ -1,6 +1,7 @@
 <?php
 namespace admin;
 use common\libraries\Utilities;
+use common\libraries\Path;
 require_once Path :: get_admin_path() . 'lib/package_manager/package_dependency_verifier.class.php';
 
 /**

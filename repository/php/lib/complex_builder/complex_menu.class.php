@@ -3,6 +3,7 @@ namespace repository;
 
 use common\libraries\Request;
 use common\libraries\Path;
+use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;

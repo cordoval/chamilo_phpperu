@@ -4,6 +4,7 @@ namespace repository\content_object\personal_message;
 use common\libraries\Utilities;
 use common\libraries\Versionable;
 use common\libraries\AttachmentSupport;
+use common\libraries\ForcedVersionSupport;
 
 use repository\ContentObject;
 

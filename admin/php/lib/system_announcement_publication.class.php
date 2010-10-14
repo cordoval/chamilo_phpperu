@@ -1,5 +1,6 @@
 <?php
 namespace admin;
+
 use common\libraries\Utilities;
 use common\libraries\DataClass;
 /**
@@ -11,7 +12,7 @@ use common\libraries\DataClass;
 class SystemAnnouncementPublication extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_CONTENT_OBJECT_ID = 'content_object_id';
     const PROPERTY_FROM_DATE = 'from_date';
     const PROPERTY_TO_DATE = 'to_date';
@@ -20,7 +21,7 @@ class SystemAnnouncementPublication extends DataClass
     const PROPERTY_PUBLISHED = 'published';
     const PROPERTY_MODIFIED = 'modified';
     const PROPERTY_EMAIL_SENT = 'email_sent';
-    
+
     private $target_groups;
     private $target_users;
 
@@ -138,13 +139,14 @@ class SystemAnnouncementPublication extends DataClass
     {
         $now = time();
         $this->set_published($now);
-        
+
         return parent :: create();
     }
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 
     function is_hidden()
@@ -177,7 +179,7 @@ class SystemAnnouncementPublication extends DataClass
             $adm = AdminDataManager :: get_instance();
             $this->target_users = $adm->retrieve_system_announcement_publication_target_users($this);
         }
-        
+
         return $this->target_users;
     }
 
@@ -188,7 +190,7 @@ class SystemAnnouncementPublication extends DataClass
             $adm = AdminDataManager :: get_instance();
             $this->target_groups = $adm->retrieve_system_announcement_publication_target_groups($this);
         }
-        
+
         return $this->target_groups;
     }
 

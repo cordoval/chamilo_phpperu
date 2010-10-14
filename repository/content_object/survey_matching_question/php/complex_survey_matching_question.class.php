@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\survey_matching_question;
+
+use common\libraries\Path;
+
 /**
  * $Id: complex_survey_matching_question.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.survey_matching_question

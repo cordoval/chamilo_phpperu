@@ -2,11 +2,17 @@
 namespace repository;
 
 use common\libraries\Translation;
+use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\InCondition;
 use common\libraries\AndCondition;
+use common\libraries\OptionsMenuRenderer;
+use common\libraries\TreeMenuRenderer;
+
+use \HTML_Menu;
+use \HTML_Menu_ArrayRenderer;
 
 /**
  * $Id: content_object_category_menu.class.php 204 2009-11-13 12:51:30Z kariboe $

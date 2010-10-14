@@ -3,6 +3,8 @@ namespace repository\content_object\survey_select_question;
 
 use common\libraries\Path;
 
+use repository\SelectQuestionOption;
+
 /**
  * $Id: survey_select_question_option.class.php $
  * @package repository.lib.content_object.survey_select_question

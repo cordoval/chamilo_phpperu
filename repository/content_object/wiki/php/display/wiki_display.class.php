@@ -11,6 +11,7 @@ use common\libraries\ToolbarItem;
 use common\libraries\Toolbar;
 use common\libraries\Theme;
 use common\libraries\AndCondition;
+use common\libraries\Breadcrumb;
 
 /**
  * $Id: wiki_display.class.php 200 2009-11-13 12:30:04Z kariboe $

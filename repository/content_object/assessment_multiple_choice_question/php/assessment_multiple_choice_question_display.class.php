@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\assessment_multiple_choice_question;
+
+use common\libraries\Path;
+
 /**
  * $Id: assessment_multiple_choice_question_display.class.php $
  * @package repository.lib.content_object.multiple_choice_question

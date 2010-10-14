@@ -4,6 +4,8 @@ namespace repository\content_object\survey_open_question;
 use common\libraries\Utilities;
 use common\libraries\Path;
 
+use repository\OpenQuestion;
+
 /**
  * $Id: survey_open_question.class.php $
  * @package repository.lib.content_object.survey_open_question

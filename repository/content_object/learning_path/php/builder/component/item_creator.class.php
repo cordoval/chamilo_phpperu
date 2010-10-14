@@ -3,6 +3,7 @@ namespace repository\content_object\learning_path;
 
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\EqualityCondition;
 

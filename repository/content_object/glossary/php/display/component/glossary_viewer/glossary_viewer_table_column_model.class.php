@@ -4,6 +4,7 @@ namespace repository\content_object\glossary;
 use common\libraries\ObjectTableColumnModel;
 use common\libraries\ObjectTableColumn;
 use common\libraries\StaticTableColumn;
+use common\libraries\Path;
 
 /**
  * $Id: glossary_viewer_table_column_model.class.php 200 2009-11-13 12:30:04Z kariboe $

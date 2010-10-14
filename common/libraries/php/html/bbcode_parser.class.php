@@ -1,5 +1,7 @@
 <?php
 namespace common\libraries;
+
+use \StringParser_BBCode;
 /**
  * $Id: bbcode_parser.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common.html
@@ -8,21 +10,21 @@ require_once Path :: get_plugin_path() . 'stringparser/stringparser_bbcode.class
 
 class BbcodeParser
 {
-    
+
     private static $instance;
-    
+
     private $bbcode;
 
     function BbcodeParser()
     {
         $this->bbcode = new StringParser_BBCode();
         //		$this->bbcode->addFilter (STRINGPARSER_FILTER_PRE, 'convertlinebreaks');
-        
+
 
         //		$this->bbcode->addParser (array ('block', 'inline', 'link', 'listitem'), 'htmlspecialchars');
         //		$this->bbcode->addParser (array ('block', 'inline', 'link', 'listitem'), 'nl2br');
         //		$this->bbcode->addParser ('list', 'bbcode_stripcontents');
-        
+
 
         $this->bbcode->addCode('b', 'simple_replace', null, array('start_tag' => '<b>', 'end_tag' => '</b>'), 'inline', array('listitem', 'block', 'inline', 'link'), array());
         $this->bbcode->addCode('i', 'simple_replace', null, array('start_tag' => '<i>', 'end_tag' => '</i>'), 'inline', array('listitem', 'block', 'inline', 'link'), array());
@@ -89,7 +91,7 @@ class BbcodeParser
     function parse($source)
     {
         $bbcode = $this->bbcode;
-        
+
         return $bbcode->parse($source);
     }
 

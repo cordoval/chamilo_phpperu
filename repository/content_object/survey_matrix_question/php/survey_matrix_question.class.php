@@ -4,6 +4,8 @@ namespace repository\content_object\survey_matrix_question;
 use common\libraries\Utilities;
 use common\libraries\Path;
 
+use repository\MatrixQuestion;
+
 /**
  * $Id: survey_matrix_question.class.php
  * @package repository.lib.content_object.survey_matrix_question

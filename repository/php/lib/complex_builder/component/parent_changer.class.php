@@ -4,6 +4,7 @@ namespace repository;
 use common\libraries\Request;
 use common\libraries\FormValidator;
 use common\libraries\Translation;
+use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\EqualityCondition;
 use common\libraries\InCondition;

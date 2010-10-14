@@ -4,6 +4,7 @@ namespace repository;
 use common\libraries\EqualityCondition;
 use common\libraries\ObjectTableDataProvider;
 use common\libraries\OrCondition;
+use common\libraries\SubselectCondition;
 
 use repository\content_object\learning_path_item\LearningPathItem;
 use repository\content_object\portfolio_item\PortfolioItem;
@@ -58,11 +59,11 @@ class LinkBrowserTableDataProvider extends ObjectTableDataProvider
 			$conditions[] = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_REF, $this->get_browser()->get_object()->get_id(), ComplexContentObjectItem :: get_table_name());
 
 			$subselect_condition = new EqualityCondition(PortfolioItem :: PROPERTY_REFERENCE, $this->get_browser()->get_object()->get_id());
-			$conditions[] = new SubSelectCondition(ComplexContentObjectItem :: PROPERTY_REF, PortfolioItem :: PROPERTY_ID, 'portfolio_item',
+			$conditions[] = new SubselectCondition(ComplexContentObjectItem :: PROPERTY_REF, PortfolioItem :: PROPERTY_ID, 'portfolio_item',
 												   $subselect_condition);
 
 			$subselect_condition = new EqualityCondition(LearningPathItem :: PROPERTY_REFERENCE, $this->get_browser()->get_object()->get_id());
-			$conditions[] = new SubSelectCondition(ComplexContentObjectItem :: PROPERTY_REF, LearningPathItem :: PROPERTY_ID, 'learning_path_item',
+			$conditions[] = new SubselectCondition(ComplexContentObjectItem :: PROPERTY_REF, LearningPathItem :: PROPERTY_ID, 'learning_path_item',
 												   $subselect_condition);
 
 			$condition = new OrCondition($conditions);
@@ -102,11 +103,11 @@ class LinkBrowserTableDataProvider extends ObjectTableDataProvider
 			$conditions[] = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_REF, $this->get_browser()->get_object()->get_id(), ComplexContentObjectItem :: get_table_name());
 
 			$subselect_condition = new EqualityCondition(PortfolioItem :: PROPERTY_REFERENCE, $this->get_browser()->get_object()->get_id());
-			$conditions[] = new SubSelectCondition(ComplexContentObjectItem :: PROPERTY_REF, PortfolioItem :: PROPERTY_ID, 'portfolio_item',
+			$conditions[] = new SubselectCondition(ComplexContentObjectItem :: PROPERTY_REF, PortfolioItem :: PROPERTY_ID, 'portfolio_item',
 												   $subselect_condition);
 
 			$subselect_condition = new EqualityCondition(LearningPathItem :: PROPERTY_REFERENCE, $this->get_browser()->get_object()->get_id());
-			$conditions[] = new SubSelectCondition(ComplexContentObjectItem :: PROPERTY_REF, LearningPathItem :: PROPERTY_ID, 'learning_path_item',
+			$conditions[] = new SubselectCondition(ComplexContentObjectItem :: PROPERTY_REF, LearningPathItem :: PROPERTY_ID, 'learning_path_item',
 												   $subselect_condition);
 
 			$condition = new OrCondition($conditions);

@@ -2,6 +2,9 @@
 namespace repository\content_object\assessment_rating_question;
 
 use common\libraries\Utilities;
+use common\libraries\Path;
+
+use repository\RatingQuestion;
 
 /**
  * $Id: assessment_rating_question.class.php $

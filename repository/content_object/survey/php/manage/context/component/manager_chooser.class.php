@@ -2,9 +2,11 @@
 namespace repository\content_object\survey;
 
 use common\libraries\Translation;
+use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Utilities;
 use common\libraries\Theme;
+use common\libraries\DynamicTabsRenderer;
 
 class SurveyContextManagerManagerChooserComponent extends SurveyContextManager
 {

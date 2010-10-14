@@ -4,6 +4,7 @@ namespace repository\content_object\survey;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Path;
+use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Configuration;
 use common\libraries\EqualityCondition;

@@ -1,6 +1,8 @@
 <?php
 namespace home;
+
 use common\libraries\DataClass;
+
 /**
  * $Id: home_block_config.class.php 227 2009-11-13 14:45:05Z kariboe $
  * @package home.lib
@@ -10,7 +12,7 @@ class HomeBlockConfig extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'block_config';
-    
+
     const PROPERTY_BLOCK_ID = 'block_id';
     const PROPERTY_VARIABLE = 'variable';
     const PROPERTY_VALUE = 'value';

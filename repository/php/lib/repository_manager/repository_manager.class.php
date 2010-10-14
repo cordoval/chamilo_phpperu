@@ -13,10 +13,8 @@ use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Utilities;
 use common\libraries\InCondition;
-
 use common\libraries\ObjectTableOrder;
 use common\libraries\OrCondition;
-use common\libraries\Display;
 
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 /**
@@ -780,7 +778,7 @@ class RepositoryManager extends CoreApplication
             }
             $extra_items = array();
             $create = array();
-            $create['title'] = Translation :: get('Create', self :: APPLICATION_NAME);
+            $create['title'] = Translation :: get('Create');
             $create['url'] = $this->get_content_object_creation_url();
             $create['class'] = 'create';
 
