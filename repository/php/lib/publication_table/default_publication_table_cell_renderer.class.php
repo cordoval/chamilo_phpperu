@@ -2,6 +2,7 @@
 namespace repository;
 
 use common\libraries\Utilities;
+use common\libraries\ObjectTableCellRenderer;
 
 /**
  * $Id: default_publication_table_cell_renderer.class.php 204 2009-11-13 12:51:30Z kariboe $

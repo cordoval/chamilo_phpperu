@@ -2,6 +2,7 @@
 namespace repository\content_object\peer_assessment;
 
 use common\libraries\Utilities;
+use common\libraries\Versionable;
 
 use repository\ContentObject;
 

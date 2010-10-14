@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\survey;
 
+use common\libraries\ObjectTableCellRenderer;
+
 class DefaultSurveyContextTableCellRenderer extends ObjectTableCellRenderer
 {
 
@@ -11,10 +13,10 @@ class DefaultSurveyContextTableCellRenderer extends ObjectTableCellRenderer
     {
     }
 
-    
+
     function render_cell($column, $context_registration)
     {
-        
+
     	return $context_registration->get_additional_property($column->get_name());
 
     }

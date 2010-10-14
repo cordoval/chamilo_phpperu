@@ -2,6 +2,7 @@
 namespace repository;
 
 use common\libraries\EqualityCondition;
+use common\libraries\ObjectTableDataProvider;
 
 /**
  * $Id: link_browser_table_data_provider.class.php 204 2009-11-13 12:51:30Z kariboe $

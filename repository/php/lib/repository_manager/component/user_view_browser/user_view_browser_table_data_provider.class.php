@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\ObjectTableDataProvider;
+
 /**
  * $Id: user_view_browser_table_data_provider.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.user_view_browser
@@ -33,7 +36,7 @@ class UserViewBrowserTableDataProvider extends ObjectTableDataProvider
     function get_objects($offset, $count, $order_property = null)
     {
         $order_property = $this->get_order_property($order_property);
-        
+
         return $this->get_browser()->retrieve_user_views($this->get_condition(), $offset, $count, $order_property);
     }
 

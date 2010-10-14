@@ -2,6 +2,7 @@
 namespace repository\content_object\note;
 
 use common\libraries\Utilities;
+use common\libraries\Versionable;
 
 use repository\ContentObject;
 

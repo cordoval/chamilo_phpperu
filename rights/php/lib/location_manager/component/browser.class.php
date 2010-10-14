@@ -11,6 +11,7 @@ use common\libraries\AndCondition;
 use common\libraries\PatternMatchCondition;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\ResourceManager;
 
 use rights\RightsUtilities;
 /**

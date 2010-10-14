@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\ObjectTableColumnModel;
+
 /**
  * $Id: default_external_link_table_column_model.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.link_table
@@ -29,7 +32,7 @@ class DefaultExternalLinkTableColumnModel extends ObjectTableColumnModel
         $columns = array();
         $columns[] = new ObjectTableColumn(ExternalRepository :: PROPERTY_TYPE, false);
         $columns[] = new ObjectTableColumn(ExternalRepository :: PROPERTY_TITLE, false);
-        $columns[] = new ObjectTableColumn(ExternalRepository :: PROPERTY_DESCRIPTION, false);        
+        $columns[] = new ObjectTableColumn(ExternalRepository :: PROPERTY_DESCRIPTION, false);
         return $columns;
     }
 }

@@ -2,6 +2,7 @@
 namespace repository\content_object\comic_book;
 
 use common\libraries\Utilities;
+use common\libraries\Versionable;
 
 use repository\ContentObject;
 

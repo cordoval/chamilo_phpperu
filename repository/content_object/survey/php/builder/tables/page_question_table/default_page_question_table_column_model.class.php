@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\survey;
 
+use common\libraries\ObjectTableColumnModel;
+
 class DefaultSurveyPageQuestionTableColumnModel extends ObjectTableColumnModel
 {
 	/**
@@ -16,14 +18,14 @@ class DefaultSurveyPageQuestionTableColumnModel extends ObjectTableColumnModel
 	 */
 	private static function get_default_columns()
 	{
-		
+
 		$columns = array();
 		$columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_TITLE, true);
 		$columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_DESCRIPTION, true);
 		$columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_TYPE, true);
 		$columns[] = new StaticTableColumn('visible');
 		return $columns;
-		
+
 	}
 }
 ?>

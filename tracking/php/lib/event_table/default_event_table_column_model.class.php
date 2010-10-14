@@ -1,5 +1,8 @@
 <?php
 namespace tracking;
+
+use common\libraries\ObjectTableColumnModel;
+
 /**
  * $Id: default_event_table_column_model.class.php 213 2009-11-13 13:38:50Z vanpouckesven $
  * @package tracking.lib.event_table

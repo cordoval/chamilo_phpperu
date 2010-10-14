@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\survey;
 
+use common\libraries\ObjectTableDataProvider;
+
 class SurveyContextTemplateSubscribePageBrowserTableDataProvider extends ObjectTableDataProvider {
 
 	function SurveyContextTemplateSubscribePageBrowserTableDataProvider($browser, $condition) {

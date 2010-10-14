@@ -2,6 +2,7 @@
 namespace repository\content_object\assessment_match_text_question;
 
 use common\libraries\Utilities;
+use common\libraries\Versionable;
 
 use repository\ContentObject;
 

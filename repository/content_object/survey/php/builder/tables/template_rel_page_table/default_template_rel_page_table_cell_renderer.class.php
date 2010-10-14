@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\survey;
 
+use common\libraries\ObjectTableCellRenderer;
+
 class DefaultSurveyContextTemplateRelPageTableCellRenderer extends ObjectTableCellRenderer
 {
 
@@ -20,17 +22,18 @@ class DefaultSurveyContextTemplateRelPageTableCellRenderer extends ObjectTableCe
      */
     function render_cell($column, $templaterelpage)
     {
-            
+
         $dm = SurveyContextDataManager :: get_instance();
         $page = $dm->retrieve_content_object($templaterelpage->get_page_id());
-//        $template = $dm->retrieve_survey_context_template($templaterelpage->get_template_id());
-        
+        //        $template = $dm->retrieve_survey_context_template($templaterelpage->get_template_id());
+
+
         switch ($column->get_name())
         {
-//            case SurveyContextTemplate :: PROPERTY_NAME :
-//                return $template->get_name();
-//            case SurveyContextTemplate :: PROPERTY_DESCRIPTION :
-//                return $template->get_description();
+            //            case SurveyContextTemplate :: PROPERTY_NAME :
+            //                return $template->get_name();
+            //            case SurveyContextTemplate :: PROPERTY_DESCRIPTION :
+            //                return $template->get_description();
             case SurveyPage :: PROPERTY_TITLE :
                 return $page->get_title();
             case SurveyPage :: PROPERTY_DESCRIPTION :

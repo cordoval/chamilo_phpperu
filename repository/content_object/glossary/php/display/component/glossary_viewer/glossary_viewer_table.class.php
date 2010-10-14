@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\glossary;
+
+use common\libraries\ObjectTable;
+
 /**
  * $Id: glossary_viewer_table.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.glossary.component.glossary_viewer

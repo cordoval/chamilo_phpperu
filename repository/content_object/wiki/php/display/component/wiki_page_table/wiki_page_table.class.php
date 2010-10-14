@@ -4,6 +4,7 @@ namespace repository\content_object\wiki;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Utilities;
+use common\libraries\ObjectTable;
 
 /**
  * $Id: wiki_page_table.class.php 200 2009-11-13 12:30:04Z kariboe $

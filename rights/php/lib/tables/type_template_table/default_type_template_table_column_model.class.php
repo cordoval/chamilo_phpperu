@@ -1,5 +1,8 @@
 <?php
 namespace rights;
+
+use common\libraries\ObjectTableColumnModel;
+
 /**
  * @package rights.lib.tables.type_template_table
  */

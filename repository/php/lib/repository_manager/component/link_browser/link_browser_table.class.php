@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\ObjectTable;
+
 /**
  * $Id: link_browser_table.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.link_browser
@@ -15,30 +18,30 @@ class LinkBrowserTable extends ObjectTable
     const DEFAULT_NAME = 'link_browser_table';
 
     private $type;
-    
+
     const TYPE_PUBLICATIONS = 1;
     const TYPE_PARENTS = 2;
     const TYPE_CHILDREN = 3;
     const TYPE_ATTACHMENTS = 4;
     const TYPE_INCLUDES = 5;
-    
+
     /**
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
     function LinkBrowserTable($browser, $parameters, $condition, $type)
-    { 
+    {
         $this->type = $type;
-        
+
     	$model = new LinkBrowserTableColumnModel($type);
         $renderer = new LinkBrowserTableCellRenderer($browser, $type);
         $data_provider = new LinkBrowserTableDataProvider($browser, $condition, $type);
         parent :: __construct($data_provider, LinkBrowserTable :: DEFAULT_NAME . '_' . $type, $model, $renderer);
-        
+
         $this->set_additional_parameters($parameters);
         $this->set_default_row_count(20);
     }
-    
+
 	/**
      * ContentObjectPublicationAttributes not directly extracted from the
      * database but preprocessed and are therefore not returned by the datamanager

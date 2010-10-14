@@ -2,6 +2,7 @@
 namespace repository;
 
 use common\libraries\Path;
+use common\libraries\ResourceManager;
 
 use repository\ContentObject;
 

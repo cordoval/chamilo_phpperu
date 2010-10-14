@@ -1,6 +1,9 @@
 <?php
 namespace repository\content_object\survey;
 
+use common\libraries\ObjectTableCellRenderer;
+
+
 class DefaultSurveyContextTemplateTableCellRenderer extends ObjectTableCellRenderer
 {
 

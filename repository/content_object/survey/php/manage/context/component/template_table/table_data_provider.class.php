@@ -1,11 +1,13 @@
 <?php
 namespace repository\content_object\survey;
 
+use common\libraries\ObjectTableDataProvider;
+
 class SurveyTemplateTableDataProvider extends ObjectTableDataProvider
 {
-	
+
 	private $template_type;
-    
+
 	function SurveyTemplateTableDataProvider($component, $condition, $template_type)
     {
         $this->template_type = $template_type;

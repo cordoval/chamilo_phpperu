@@ -10,6 +10,7 @@ use common\libraries\CoreApplication;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\ResourceManager;
 
 use admin\AdminDataManager;
 

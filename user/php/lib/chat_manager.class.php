@@ -7,6 +7,7 @@ use common\libraries\AndCondition;
 use common\libraries\OrCondition;
 use common\libraries\InequalityCondition;
 use common\libraries\FormValidator;
+use common\libraries\ResourceManager;
 
 /**
  * $Id: chat_manager.class.php 211 2009-11-13 13:28:39Z vanpouckesven $

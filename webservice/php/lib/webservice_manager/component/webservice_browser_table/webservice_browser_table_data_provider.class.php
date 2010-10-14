@@ -1,5 +1,8 @@
 <?php
 namespace webservice;
+
+use common\libraries\ObjectTableDataProvider;
+
 /**
  * $Id: webservice_browser_table_data_provider.class.php 208 2009-11-13 13:14:39Z vanpouckesven $
  * @package webservices.lib.webservice_manager.component.webservice_browser_table

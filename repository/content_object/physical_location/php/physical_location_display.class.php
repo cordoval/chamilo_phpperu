@@ -2,6 +2,7 @@
 namespace repository\content_object\physical_location;
 
 use common\libraries\Path;
+use common\libraries\ResourceManager;
 
 use repository\ContentObjectDisplay;
 

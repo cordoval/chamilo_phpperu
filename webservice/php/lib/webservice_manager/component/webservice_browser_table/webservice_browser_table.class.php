@@ -1,5 +1,8 @@
 <?php
 namespace webservice;
+
+use common\libraries\ObjectTable;
+
 /**
  * $Id: webservice_browser_table.class.php 208 2009-11-13 13:14:39Z vanpouckesven $
  * @package webservices.lib.webservice_manager.component.webservice_browser_table

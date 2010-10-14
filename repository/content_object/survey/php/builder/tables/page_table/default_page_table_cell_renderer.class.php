@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\survey;
 
+use common\libraries\ObjectTableCellRenderer;
+
 class DefaultSurveyPageTableCellRenderer extends ObjectTableCellRenderer
 {
 
@@ -13,7 +15,7 @@ class DefaultSurveyPageTableCellRenderer extends ObjectTableCellRenderer
 
     function render_cell($column, $page)
     {
-            
+
     	switch ($column->get_name())
         {
             case SurveyPage :: PROPERTY_TITLE :

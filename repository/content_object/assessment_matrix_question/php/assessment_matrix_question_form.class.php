@@ -3,6 +3,7 @@ namespace repository\content_object\assessment_matrix_question;
 
 use common\libraries\Translation;
 use common\libraries\Path;
+use common\libraries\ResourceManager;
 
 /**
  * $Id: assessment_matrix_question_form.class.php $

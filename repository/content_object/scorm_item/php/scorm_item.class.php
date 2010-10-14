@@ -3,6 +3,7 @@ namespace repository\content_object\scorm_item;
 
 use common\libraries\Path;
 use common\libraries\Utilities;
+use common\libraries\Versionable;
 
 use repository\ContentObject;
 

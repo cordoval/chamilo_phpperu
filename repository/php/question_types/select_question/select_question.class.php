@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use common\libraries\Versionable;
+
 use repository\ContentObject;
 
 /**

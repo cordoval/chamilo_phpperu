@@ -3,6 +3,7 @@ namespace repository\content_object\task;
 
 use common\libraries\Translation;
 use common\libraries\Utilities;
+use common\libraries\Versionable;
 
 use repository\ContentObject;
 

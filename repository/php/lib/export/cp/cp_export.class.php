@@ -2,6 +2,7 @@
 namespace repository;
 
 use common\libraries\Path;
+use common\libraries\Session;
 
 require_once dirname(__FILE__) . '/main.php';
 

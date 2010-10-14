@@ -3,6 +3,7 @@ namespace repository;
 
 use common\libraries\Translation;
 use common\libraries\Utilities;
+use common\libraries\ObjectTableCellRenderer;
 
 class DefaultExternalRepositoryInstanceTableCellRenderer extends ObjectTableCellRenderer
 {

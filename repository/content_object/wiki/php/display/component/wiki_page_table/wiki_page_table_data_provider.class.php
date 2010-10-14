@@ -2,6 +2,7 @@
 namespace repository\content_object\wiki;
 
 use common\libraries\EqualityCondition;
+use common\libraries\ObjectTableDataProvider;
 
 /**
  * $Id: wiki_page_table_data_provider.class.php 200 2009-11-13 12:30:04Z kariboe $

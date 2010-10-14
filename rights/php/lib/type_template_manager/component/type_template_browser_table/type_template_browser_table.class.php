@@ -1,5 +1,8 @@
 <?php
 namespace rights;
+
+use common\libraries\ObjectTable;
+
 /**
  * $Id: type_template_browser_table.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.type_template_manager.component.type_template_browser_table

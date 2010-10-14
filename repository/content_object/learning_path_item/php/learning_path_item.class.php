@@ -2,6 +2,7 @@
 namespace repository\content_object\learning_path_item;
 
 use common\libraries\Utilities;
+use common\libraries\Versionable;
 
 use repository\ContentObject;
 

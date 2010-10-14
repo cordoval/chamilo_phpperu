@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\survey;
 
+use common\libraries\ObjectTableColumnModel;
+
 class DefaultSurveyContextTemplateTableColumnModel extends ObjectTableColumnModel
 {
 

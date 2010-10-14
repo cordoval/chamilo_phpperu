@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\ObjectTableDataProvider;
+
 /**
  * $Id: doubles_browser_table_data_provider.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package doubles.lib.doubles_manager.component.browser
@@ -14,7 +17,7 @@ class DoublesBrowserTableDataProvider extends ObjectTableDataProvider
 {
 
 	private $is_detail;
-	
+
     /**
      * Constructor
      * @param DoublesManagerComponent $browser
@@ -36,12 +39,12 @@ class DoublesBrowserTableDataProvider extends ObjectTableDataProvider
     function get_objects($offset, $count, $order_property = null)
     {
         $order_property = $this->get_order_property($order_property);
-        
+
         if($this->is_detail)
         {
        		return RepositoryDataManager :: get_instance()->retrieve_content_objects($this->get_condition(), $order_property, $offset, $count);
         }
-        
+
         return RepositoryDataManager :: get_instance()->retrieve_doubles_in_repository($this->get_condition(), $order_property, $offset, $count);
     }
 
@@ -55,7 +58,7 @@ class DoublesBrowserTableDataProvider extends ObjectTableDataProvider
         {
        		return RepositoryDataManager :: get_instance()->count_content_objects($this->get_condition());
         }
-    	
+
     	return RepositoryDataManager :: get_instance()->count_doubles_in_repository($this->get_condition());
     }
 }

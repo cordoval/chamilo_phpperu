@@ -2,6 +2,7 @@
 namespace repository\content_object\forum;
 
 use common\libraries\EqualityCondition;
+use common\libraries\ObjectTableDataProvider;
 
 /**
  * $Id: forumtabledataprovider.class.php 200 2009-11-13 12:30:04Z kariboe $

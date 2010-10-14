@@ -2,6 +2,7 @@
 namespace repository;
 
 use common\libraries\Utilities;
+use common\libraries\ResourceManager;
 
 /**
  * Base class for serializers.

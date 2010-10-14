@@ -3,6 +3,7 @@ namespace repository\content_object\feedback;
 
 use common\libraries\Translation;
 use common\libraries\Utilities;
+use common\libraries\Versionable;
 
 use repository\ContentObject;
 

@@ -2,6 +2,7 @@
 namespace repository\content_object\rdevent;
 
 use common\libraries\Utilities;
+use common\libraries\Versionable;
 
 use repository\ContentObject;
 

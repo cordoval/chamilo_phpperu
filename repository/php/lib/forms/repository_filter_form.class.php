@@ -6,8 +6,11 @@ use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
+use common\libraries\Session;
+use common\libraries\ResourceManager;
 
 use repository\content_object\learning_path_item\LearningPathItem;
+use repository\content_object\portfolio_item\PortfolioItem;
 
 /**
  * $Id: repository_filter_form.class.php 200 2009-11-13 12:30:04Z kariboe $

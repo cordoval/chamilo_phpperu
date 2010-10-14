@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\forum;
 
+use common\libraries\ObjectTableColumnModel;
+
 use repository\ContentObject;
 /**
  * $Id: forumtablecolumnmodel.class.php 200 2009-11-13 12:30:04Z kariboe $

@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\ObjectTableColumnModel;
+
 /**
  * $Id: user_view_browser_table_column_model.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.user_view_browser
@@ -30,7 +33,7 @@ class UserViewBrowserTableColumnModel extends ObjectTableColumnModel
         $columns[] = self :: get_modification_column();
         return $columns;
     }
-    
+
     /**
      * The tables modification column
      */

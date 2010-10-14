@@ -1,5 +1,8 @@
 <?php
 namespace repository\content_object\glossary;
+
+use common\libraries\ObjectTableDataProvider;
+
 /**
  * $Id: glossary_viewer_table_data_provider.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.glossary.component.glossary_viewer
@@ -30,7 +33,7 @@ class GlossaryViewerTableDataProvider extends ObjectTableDataProvider
     {
         $order_property = $this->get_order_property($order_property);
         $dm = RepositoryDataManager :: get_instance();
-        
+
         return ($dm->retrieve_complex_content_object_items($this->parent->get_condition(), $order_property, $offset, $count));
     }
 
@@ -39,7 +42,7 @@ class GlossaryViewerTableDataProvider extends ObjectTableDataProvider
         $dm = RepositoryDataManager :: get_instance();
         $count = $dm->count_complex_content_object_items($this->parent->get_condition());
         return $count;
-    
+
     }
 
 }

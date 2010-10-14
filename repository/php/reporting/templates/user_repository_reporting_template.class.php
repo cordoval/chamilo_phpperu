@@ -3,6 +3,7 @@ namespace repository;
 
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Session;
 
 /**
  * $Id: user_repository_reporting_template.class.php 211 2009-11-13 13:28:39Z vanpouckesven $

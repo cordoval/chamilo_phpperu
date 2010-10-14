@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\ObjectTableColumnModel;
+
 /**
  * $Id: default_link_table_column_model.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.link_table
@@ -29,7 +32,7 @@ class DefaultLinkTableColumnModel extends ObjectTableColumnModel
     private static function get_default_columns($type)
     {
         $columns = array();
-        
+
         if($type == LinkBrowserTable :: TYPE_PUBLICATIONS)
         {
         	$columns[] = new ObjectTableColumn(ContentObjectPublicationAttributes :: PROPERTY_APPLICATION);
@@ -42,7 +45,7 @@ class DefaultLinkTableColumnModel extends ObjectTableColumnModel
         	$columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_TITLE);
         	$columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_DESCRIPTION);
         }
-        
+
         return $columns;
     }
 }

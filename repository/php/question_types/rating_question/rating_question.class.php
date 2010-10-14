@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use common\libraries\Versionable;
+
 use repository\ContentObject;
 /**
  * $Id: rating_question.class.php 200 2009-11-13 12:30:04Z kariboe $

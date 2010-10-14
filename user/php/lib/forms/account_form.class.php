@@ -5,6 +5,7 @@ use common\libraries\Authentication;
 use common\libraries\Translation;
 use common\libraries\FormValidator;
 use common\libraries\PlatformSetting;
+use common\libraries\ResourceManager;
 
 use admin\AdminDataManager;
 

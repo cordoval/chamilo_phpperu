@@ -4,6 +4,7 @@ namespace repository\content_object\calendar_event;
 use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\Utilities;
+use common\libraries\ResourceManager;
 
 use repository\ContentObjectForm;
 

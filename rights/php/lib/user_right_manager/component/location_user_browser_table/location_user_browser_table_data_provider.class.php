@@ -1,5 +1,8 @@
 <?php
 namespace rights;
+
+use common\libraries\ObjectTableDataProvider;
+
 /**
  * $Id: location_user_browser_table_data_provider.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.user_right_manager.component.location_user_bowser_table

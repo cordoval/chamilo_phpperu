@@ -3,6 +3,7 @@ namespace repository\content_object\photobucket;
 
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
+use common\libraries\Versionable;
 
 use repository\ContentObject;
 

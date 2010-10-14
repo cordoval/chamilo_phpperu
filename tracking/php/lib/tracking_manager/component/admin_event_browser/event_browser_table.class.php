@@ -4,6 +4,7 @@ namespace tracking;
 use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\ObjectTable;
 
 /**
  * $Id: event_browser_table.class.php 213 2009-11-13 13:38:50Z vanpouckesven $

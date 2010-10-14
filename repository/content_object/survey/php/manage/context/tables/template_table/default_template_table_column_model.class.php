@@ -2,6 +2,7 @@
 namespace repository\content_object\survey;
 
 use common\libraries\Path;
+use common\libraries\ObjectTableColumnModel;
 
 require_once Path :: get_repository_path() . 'lib/content_object/survey/survey_template.class.php';
 require_once Path :: get_repository_path() . 'lib/content_object/survey/context_data_manager/context_data_manager.class.php';

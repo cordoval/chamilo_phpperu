@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\survey;
 
+use common\libraries\ObjectTableCellRenderer;
+
 class DefaultSurveyContextRegistrationTableCellRenderer extends ObjectTableCellRenderer
 {
 
@@ -11,7 +13,7 @@ class DefaultSurveyContextRegistrationTableCellRenderer extends ObjectTableCellR
     {
     }
 
-    
+
     function render_cell($column, $context_registration)
     {
         switch ($column->get_name())

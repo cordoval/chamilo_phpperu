@@ -1,6 +1,7 @@
 <?php
 use common\libraries\Request;
 use common\libraries\EqualityCondition;
+use common\libraries\Session;
 /**
  * $Id: search_complete.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.ajax

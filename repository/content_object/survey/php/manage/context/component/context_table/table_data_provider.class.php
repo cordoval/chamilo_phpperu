@@ -1,11 +1,13 @@
 <?php
 namespace repository\content_object\survey;
 
+use common\libraries\ObjectTableDataProvider;
+
 class SurveyContextTableDataProvider extends ObjectTableDataProvider
 {
-	
+
 	private $context_type;
-    
+
 	function SurveyContextTableDataProvider($component, $condition, $context_type)
     {
         $this->context_type = $context_type;

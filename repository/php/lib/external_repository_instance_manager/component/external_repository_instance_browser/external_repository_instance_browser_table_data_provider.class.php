@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\ObjectTableDataProvider;
+
 class ExternalRepositoryInstanceBrowserTableDataProvider extends ObjectTableDataProvider
 {
 

@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\ObjectTableDataProvider;
+
 /**
  * $Id: external_link_browser_table_data_provider.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.link_browser
@@ -31,7 +34,7 @@ class ExternalLinkBrowserTableDataProvider extends ObjectTableDataProvider
      */
     function get_objects($offset, $count, $order_property = null)
     {
-        
+
     	return new ArrayResultSet(array($this->get_browser()->get_object()->get_synchronization_data()));
     }
 

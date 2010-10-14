@@ -3,6 +3,7 @@ namespace repository\content_object\assessment_match_numeric_question;
 
 use common\libraries\Translation;
 use common\libraries\Path;
+use common\libraries\ResourceManager;
 
 use repository\ContentObjectForm;
 

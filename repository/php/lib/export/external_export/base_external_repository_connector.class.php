@@ -3,6 +3,7 @@ namespace repository;
 
 use common\libraries\Path;
 use common\libraries\Utilities;
+use common\libraries\Session;
 
 abstract class BaseExternalRepositoryConnector
 {

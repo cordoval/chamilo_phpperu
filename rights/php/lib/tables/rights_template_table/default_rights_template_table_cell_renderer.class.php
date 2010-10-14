@@ -2,6 +2,7 @@
 namespace rights;
 
 use common\libraries\Utilities;
+use common\libraries\ObjectTableCellRenderer;
 /**
  * @package rights.lib.tables.rights_template_table
  */

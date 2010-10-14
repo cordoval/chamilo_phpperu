@@ -2,6 +2,7 @@
 namespace repository\content_object\assessment;
 
 use common\libraries\EqualityCondition;
+use common\libraries\Session;
 
 /**
  * $Id: assessment_viewer_wizard.class.php 200 2009-11-13 12:30:04Z kariboe $

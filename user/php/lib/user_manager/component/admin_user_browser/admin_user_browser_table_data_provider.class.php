@@ -1,5 +1,6 @@
 <?php
 namespace user;
+
 use common\libraries\ObjectTableDataProvider;
 /**
  * $Id: admin_user_browser_table_data_provider.class.php 211 2009-11-13 13:28:39Z vanpouckesven $

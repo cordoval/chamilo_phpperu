@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\ObjectTableDataProvider;
+
 /**
  * $Id: complex_browser_table_data_provider.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.complex_browser
@@ -33,10 +36,10 @@ class ComplexBrowserTableDataProvider extends ObjectTableDataProvider
     function get_objects($offset, $count, $order_property = null)
     {
         $order_property = $this->get_order_property($order_property);
-        
+
         // We always use title as second sorting parameter
         //		$order_property[] = ComplexContentObjectItem :: PROPERTY_DISPLAY_ORDER;
-        
+
 
         return RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items($this->get_condition(), $order_property, $offset, $count);
     }
