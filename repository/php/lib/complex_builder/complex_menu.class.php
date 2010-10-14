@@ -7,6 +7,7 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\Application;
+use common\libraries\ComplexContentObjectSupport;
 
 use repository\content_object\learning_path_item\LearningPathItem;
 

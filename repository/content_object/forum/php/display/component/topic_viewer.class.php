@@ -11,6 +11,7 @@ use common\libraries\Toolbar;
 use common\libraries\Theme;
 use common\libraries\Application;
 use common\libraries\DatetimeUtilities;
+use common\libraries\ObjectTableOrder;
 
 /**
  * $Id: topic_viewer.class.php 200 2009-11-13 12:30:04Z kariboe $

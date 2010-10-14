@@ -11,6 +11,7 @@ use common\libraries\Theme;
 use common\libraries\InCondition;
 use common\libraries\AndCondition;
 use common\libraries\AttachmentSupport;
+use common\libraries\ComplexContentObjectSupport;
 
 use admin\AdminDataManager;
 

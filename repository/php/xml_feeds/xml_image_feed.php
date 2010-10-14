@@ -6,6 +6,9 @@ use common\libraries\EqualityCondition;
 use common\libraries\Session;
 use common\libraries\NotCondition;
 use common\libraries\AndCondition;
+use common\libraries\ObjectTableOrder;
+use common\libraries\OrCondition;
+use common\libraries\PatternMatchCondition;
 /**
  * @package repository.xml_feeds
  */

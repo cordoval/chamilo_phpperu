@@ -8,6 +8,8 @@ use common\libraries\ActionBarRenderer;
 use common\libraries\ActionBarSearchForm;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;
+use common\libraries\OrCondition;
+use common\libraries\PatternMatchCondition;
 
 require_once dirname(__FILE__) . '/template_table/table.class.php';
 

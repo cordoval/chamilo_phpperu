@@ -7,6 +7,8 @@ use common\libraries\Session;
 use common\libraries\NotCondition;
 use common\libraries\InCondition;
 use common\libraries\AndCondition;
+use common\libraries\ObjectTableOrder;
+use common\libraries\OrCondition;
 /**
  * @package repository
  */

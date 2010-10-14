@@ -3,6 +3,7 @@ namespace repository\content_object\blog;
 
 use common\libraries\Translation;
 use common\libraries\Utilities;
+use common\libraries\ComplexContentObjectSupport;
 
 use repository\ContentObject;
 

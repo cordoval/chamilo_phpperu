@@ -2,6 +2,7 @@
 namespace repository\content_object\portfolio;
 
 use common\libraries\Utilities;
+use common\libraries\ComplexContentObjectSupport;
 
 use repository\ContentObject;
 use repository\content_object\portfolio_item\PortfolioItem;

@@ -4,6 +4,7 @@ namespace repository;
 use common\libraries\Path;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
+use common\libraries\PatternMatchCondition;
 
 /**
  * $Id: metadata_mapper.class.php 204 2009-11-13 12:51:30Z kariboe $

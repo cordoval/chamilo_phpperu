@@ -10,6 +10,8 @@ use common\libraries\NotCondition;
 use common\libraries\InCondition;
 use common\libraries\AndCondition;
 use common\libraries\ConditionTranslator;
+use common\libraries\ObjectTableOrder;
+use common\libraries\OrCondition;
 
 use repository\content_object\learning_path_item\LearningPathItem;
 use repository\content_object\portfolio_item\PortfolioItem;
@@ -1566,12 +1568,12 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     function retrieve_external_repository($external_repository_id)
     {
         $condition = new EqualityCondition(ExternalRepository :: PROPERTY_ID, $external_repository_id);
-        return $this->retrieve_object(ExternalRepository :: get_table_name(), $condition);
+        return $this->retrieve_object(ExternalRepository :: get_table_name(), $condition, array(), ExternalRepository :: CLASS_NAME);
     }
 
     function retrieve_external_repositories($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->retrieve_objects(ExternalRepository :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(ExternalRepository :: get_table_name(), $condition, $offset, $max_objects, $order_by, ExternalRepository :: CLASS_NAME);
     }
 
     function count_external_repositories($condition = null)

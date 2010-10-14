@@ -1,5 +1,7 @@
 <?php
 namespace repository;
+
+use common\libraries\DataClass;
 /**
  * $Id: repository_data_class.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib
@@ -10,11 +12,11 @@ abstract class RepositoryDataClass extends DataClass
     const PROPERTY_MODIFIED = 'modified';
 
     /*************************************************************************/
-    
+
     public function RepositoryDataClass($defaultProperties = array ())
     {
         parent :: DataClass($defaultProperties);
-    
+
     }
 
     /**
@@ -25,17 +27,17 @@ abstract class RepositoryDataClass extends DataClass
     function get_default_property($name, $default_value = null)
     {
         $value = parent :: get_default_property($name);
-        
+
         if (! isset($value) && isset($default_value))
         {
             $value = $default_value;
         }
-        
+
         return $value;
     }
 
     /*************************************************************************/
-    
+
     public function set_creation_date($created)
     {
         if (isset($created))
@@ -50,7 +52,7 @@ abstract class RepositoryDataClass extends DataClass
     }
 
     /*************************************************************************/
-    
+
     public function set_modification_date($modified)
     {
         if (isset($modified))
@@ -65,7 +67,7 @@ abstract class RepositoryDataClass extends DataClass
     }
 
     /*************************************************************************/
-    
+
     public function get_data_manager()
     {
         return RepositoryDataManager :: get_instance();
@@ -75,12 +77,12 @@ abstract class RepositoryDataClass extends DataClass
     {
         $extended_property_names[] = self :: PROPERTY_CREATED;
         $extended_property_names[] = self :: PROPERTY_MODIFIED;
-        
+
         return parent :: get_default_property_names($extended_property_names);
     }
 
     /*************************************************************************/
-    
+
     abstract static function get_table_name();
 
 }

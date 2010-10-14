@@ -9,6 +9,8 @@ use common\libraries\ActionBarSearchForm;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;
 use common\libraries\AndCondition;
+use common\libraries\OrCondition;
+use common\libraries\PatternMatchCondition;
 
 /**
  * $Id: user_view_browser.class.php 204 2009-11-13 12:51:30Z kariboe $

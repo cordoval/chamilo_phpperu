@@ -17,6 +17,8 @@ use common\libraries\BasicApplication;
 use common\libraries\NotCondition;
 use common\libraries\InCondition;
 use common\libraries\AndCondition;
+use common\libraries\OrCondition;
+use common\libraries\PatternMatchCondition;
 
 use repository\content_object\learning_path_item\LearningPathItem;
 use repository\content_object\portfolio_item\PortfolioItem;

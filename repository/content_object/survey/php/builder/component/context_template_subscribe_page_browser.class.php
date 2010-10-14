@@ -11,6 +11,8 @@ use common\libraries\ToolbarItem;
 use common\libraries\Theme;
 use common\libraries\InCondition;
 use common\libraries\AndCondition;
+use common\libraries\OrCondition;
+use common\libraries\PatternMatchCondition;
 
 require_once dirname ( __FILE__ ) . '/context_template_subscribe_page_browser/subscribe_page_browser_table.class.php';
 require_once Path :: get_repository_path() . '/lib/content_object/survey_page/survey_page.class.php';

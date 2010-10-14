@@ -7,6 +7,7 @@ use common\libraries\EqualityCondition;
 use common\libraries\ToolbarItem;
 use common\libraries\Toolbar;
 use common\libraries\Theme;
+use common\libraries\ComplexContentObjectSupport;
 
 /**
  * $Id: complex_browser_table_cell_renderer.class.php 204 2009-11-13 12:51:30Z kariboe $

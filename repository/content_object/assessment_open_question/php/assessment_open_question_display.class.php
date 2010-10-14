@@ -8,7 +8,7 @@ use common\libraries\Translation;
  * @package repository.lib.content_object.assessment_open_question
  */
 
-require_once PATH :: get_repository_path() . '/question_types/open_question/open_question_display.class.php';
+require_once Path :: get_repository_path() . '/question_types/open_question/open_question_display.class.php';
 /**
  * This class can be used to display open questions
  */

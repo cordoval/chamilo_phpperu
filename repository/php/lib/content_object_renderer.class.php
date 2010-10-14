@@ -9,6 +9,9 @@ use common\libraries\EqualityCondition;
 use common\libraries\ActionBarSearchForm;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;
+use common\libraries\ComplexContentObjectSupport;
+
+use repository\content_object\document\Document;
 
 require_once Path :: get_library_path() . 'html/action_bar/action_bar_search_form.class.php';
 

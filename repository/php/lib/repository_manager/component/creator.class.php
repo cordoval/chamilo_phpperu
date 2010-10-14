@@ -12,6 +12,7 @@ use common\libraries\ResourceManager;
 use common\libraries\Theme;
 use common\libraries\Application;
 use common\libraries\BasicApplication;
+use common\libraries\ComplexContentObjectSupport;
 
 use repository\content_object\learning_path_item\LearningPathItem;
 use repository\content_object\portfolio_item\PortfolioItem;

@@ -3,6 +3,7 @@ namespace repository;
 
 use common\libraries\EqualityCondition;
 use common\libraries\ObjectTableDataProvider;
+use common\libraries\OrCondition;
 
 use repository\content_object\learning_path_item\LearningPathItem;
 use repository\content_object\portfolio_item\PortfolioItem;

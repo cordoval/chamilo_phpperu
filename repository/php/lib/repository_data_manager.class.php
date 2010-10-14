@@ -7,9 +7,12 @@ use common\libraries\Configuration;
 use common\libraries\Utilities;
 use common\libraries\WebApplication;
 use common\libraries\AndCondition;
+use common\libraries\OrCondition;
+use common\libraries\ComplexContentObjectSupport;
 
 use admin\Registration;
 use admin\AdminDataManager;
+use admin\AdminManager;
 
 use repository\content_object\learning_path_item\LearningPathItem;
 use repository\content_object\portfolio_item\PortfolioItem;

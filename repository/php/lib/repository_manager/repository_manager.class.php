@@ -13,6 +13,12 @@ use common\libraries\EqualityCondition;
 use common\libraries\Application;
 use common\libraries\InCondition;
 use common\libraries\AndCondition;
+use common\libraries\ObjectTableOrder;
+use common\libraries\OrCondition;
+use common\libraries\Display;
+
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
+
 /**
  * @package repository.lib.repository_manager
  *
@@ -829,7 +835,8 @@ class RepositoryManager extends CoreApplication
             $doubles['url'] = $this->get_view_doubles_url();
             $doubles['class'] = 'doubles';
 
-            $external_repository_manager_types = $this->retrieve_active_external_repository_types();
+            //$external_repository_manager_types = $this->retrieve_active_external_repository_types();
+            $external_repository_manager_types = array();
 
             foreach ($external_repository_manager_types as $key => $external_repository_manager_type)
             {

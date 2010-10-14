@@ -14,18 +14,18 @@ use common\libraries\Theme;
  * $Id: browser.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.learning_path.component
  */
-require_once dirname ( __FILE__ ) . '/browser/survey_page_browser_table_cell_renderer.class.php';
+require_once dirname(__FILE__) . '/browser/survey_page_browser_table_cell_renderer.class.php';
 
-class SurveyPageBuilderBrowserComponent extends SurveyPageBuilder {
+class SurveyPageBuilderBrowserComponent extends SurveyPageBuilder
+{
 
-	function run()
-	{
+    function run()
+    {
 
+        $browser = ComplexBuilderComponent :: factory(ComplexBuilderComponent :: BROWSER_COMPONENT, $this);
 
-		$browser = ComplexBuilderComponent ::factory(ComplexBuilderComponent::BROWSER_COMPONENT, $this);
-
-		$browser->run();
-	}
+        $browser->run();
+    }
 
 //	function run() {
 //		$menu_trail = $this->get_content_object_breadcrumbs ();

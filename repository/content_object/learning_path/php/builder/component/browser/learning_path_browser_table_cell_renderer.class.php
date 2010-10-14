@@ -10,6 +10,8 @@ use common\libraries\Theme;
 use common\libraries\Application;
 use common\libraries\NotCondition;
 use common\libraries\AndCondition;
+use common\libraries\ComplexContentObjectSupport;
+use common\libraries\Path;
 
 use repository\content_object\learning_path_item\LearningPathItem;
 

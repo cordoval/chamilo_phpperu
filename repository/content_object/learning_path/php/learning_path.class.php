@@ -2,6 +2,8 @@
 namespace repository\content_object\learning_path;
 
 use common\libraries\Utilities;
+use common\libraries\ComplexContentObjectSupport;
+use common\libraries\Path;
 
 use repository\ContentObject;
 use repository\content_object\learning_path_item\LearningPathItem;

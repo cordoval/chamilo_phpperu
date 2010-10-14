@@ -3,6 +3,7 @@ namespace repository\content_object\survey_page;
 
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
+use common\libraries\ComplexContentObjectSupport;
 
 use repository\ContentObject;
 

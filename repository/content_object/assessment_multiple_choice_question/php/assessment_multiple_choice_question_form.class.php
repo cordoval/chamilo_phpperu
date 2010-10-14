@@ -10,7 +10,7 @@ use common\libraries\Theme;
  * $Id: assessment_multiple_choice_question_form.class.php $
  * @package repository.lib.content_object.multiple_choice_question
  */
-require_once PATH :: get_repository_path() . '/question_types/multiple_choice_question/multiple_choice_question_form.class.php';
+require_once Path :: get_repository_path() . '/question_types/multiple_choice_question/multiple_choice_question_form.class.php';
 require_once dirname(__FILE__) . '/assessment_multiple_choice_question_option.class.php';
 
 class AssessmentMultipleChoiceQuestionForm extends MultipleChoiceQuestionForm

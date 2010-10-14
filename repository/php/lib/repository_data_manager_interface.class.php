@@ -1,5 +1,8 @@
 <?php
 namespace repository;
+
+use common\libraries\ObjectTableOrder;
+
 /**
  * @package repository.lib
  *
@@ -430,7 +433,7 @@ interface RepositoryDataManagerInterface
     function retrieve_external_repository_condition($condition = null, $offset = null, $max_objects = null, $order_by = null);
 
     function retrieve_external_repositories($condition = null, $offset = null, $max_objects = null, $order_by = null);
-    
+
     function count_external_repositories($condition = null);
 
     function retrieve_external_repository_fedora($condition = null, $offset = null, $max_objects = null, $order_by = null);
@@ -474,9 +477,9 @@ interface RepositoryDataManagerInterface
      * @param int $max_objects
      */
     function retrieve_external_repository_settings($condition = null, $order_by = array (), $offset = 0, $max_objects = -1);
-    
+
     function retrieve_external_repository_setting_from_variable_name($variable, $external_repository_id);
-    
+
     /*
      * Content Object User Share
      */
@@ -489,7 +492,7 @@ interface RepositoryDataManagerInterface
     function count_content_object_user_shares(Condition $condition = null);
 
     function retrieve_content_object_user_shares(Condition $condition = null, $offset = null, $count = null, ObjectTableOrder $order_property = null);
-    
+
      /*
      * Content Object Group Share
      */

@@ -6,6 +6,7 @@ use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\NotCondition;
 use common\libraries\AndCondition;
+use common\libraries\OrCondition;
 
 require_once dirname(__FILE__) . '/../../../../../common/global.inc.php';
 require_once Path :: get_repository_path() . 'lib/content_object/survey/survey_context.class.php';
