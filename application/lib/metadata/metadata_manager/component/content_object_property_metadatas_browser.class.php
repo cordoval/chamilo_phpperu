@@ -20,11 +20,10 @@ class MetadataManagerContentObjectPropertyMetadatasBrowserComponent extends Meta
         $this->display_header();
 
         $html = array();
-        $html[] = '<a href="' . $this->get_create_content_object_property_metadata_url() . '">' . Translation :: get('CreateContentObjectPropertyMetadata') . '</a>';
-        $html[] = '<br /><br />';
 
+        $html[] = $this->get_action_bar()->as_html();
         $html[] = $this->get_table();
-
+        
         echo implode("\n", $html);
 
         $this->display_footer();
@@ -43,7 +42,12 @@ class MetadataManagerContentObjectPropertyMetadatasBrowserComponent extends Meta
 
     function get_action_bar()
     {
-        $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+       $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+
+        $actions = array();
+        $actions[] = new ToolbarItem(Translation :: get('CreateContentObjectPropertyMetadata'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_CREATE_CONTENT_OBJECT_PROPERTY_METADATA)));
+
+        $action_bar->set_common_actions($actions);
         $action_bar->set_search_url($this->get_url());
 
         return $action_bar;

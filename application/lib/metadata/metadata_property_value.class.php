@@ -101,7 +101,7 @@ class MetadataPropertyValue extends DataClass
             //delete associated elements
             $mdm = $this->get_data_manager();
 
-            $condition = new EqualityCondition(self :: PROPERTY_PARENT_ID, $this->get_id());
+            $condition = new EqualityCondition(MetadataPropertyAttributeValue :: PROPERTY_PARENT_ID, $this->get_id());
             $metadata_property_attribute_values = $mdm->retrieve_metadata_property_attribute_values($condition);
 
             while($metadata_property_attribute_value = $metadata_property_attribute_values->next_result())

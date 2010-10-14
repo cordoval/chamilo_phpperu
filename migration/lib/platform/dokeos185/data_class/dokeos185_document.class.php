@@ -174,7 +174,7 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
         
         $this->directory = $this->get_data_manager()->get_sys_path() . $old_rel_path;
         
-        if (! $this->get_id() || ! $this->get_path() || ! $this->get_filetype() || ! $this->get_item_property() || ! $this->get_item_property()->get_ref() || ! $this->get_item_property()->get_insert_date() || ! file_exists(utf8_decode($this->directory . $filename)) || $this->get_filetype() == 'folder')
+        if (! $this->get_id() || ! $this->get_path() || ! $this->get_filetype() || ! $this->get_item_property() || ! $this->get_item_property()->get_ref() || ! $this->get_item_property()->get_insert_date() || ! file_exists($this->directory . $filename) || $this->get_filetype() == 'folder')
         {
             $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'document', 'ID' => $this->get_id())));
             $this->create_failed_element($this->get_id());
@@ -210,62 +210,55 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
         $filename_split = split('/', $this->get_path());
         $original_filename = $filename_split[count($filename_split) - 1];
         
-        $base_hash = md5($original_filename);
-        $new_path = Path :: get(SYS_REPO_PATH) . $new_user_id . '/' . Text :: char_at($base_hash, 0) . '/';
-        //$unique_hash = FileSystem :: create_unique_name($new_path, $base_hash);
+//        $base_hash = md5($original_filename);
+//        $new_path = Path :: get(SYS_REPO_PATH) . $new_user_id . '/' . Text :: char_at($base_hash, 0) . '/';
+//        $unique_hash = FileSystem :: create_unique_name($new_path, $base_hash);
+//        $hash_filename = $this->migrate_file($this->directory, $new_path, $original_filename, $base_hash);
         
-
-        $hash_filename = $this->migrate_file(utf8_decode($this->directory), $new_path, utf8_decode($original_filename), $base_hash);
+        $chamilo_repository_document = $this->migrate_file_and_create_document($this->directory, $original_filename, $new_user_id);
         
-        if ($hash_filename)
+        if ($chamilo_repository_document)
         {
-            //Create document in repository
-            $chamilo_repository_document = new Document();
-            $chamilo_repository_document->set_filename($original_filename);
-            $chamilo_repository_document->set_path($new_user_id . '/' . Text :: char_at($hash_filename, 0) . '/' . $hash_filename); //!!!!!!!
-            $chamilo_repository_document->set_filesize($this->get_size());
-            $chamilo_repository_document->set_hash($hash_filename);
-            
-            if ($this->get_title())
-            {
-                $chamilo_repository_document->set_title($this->get_title());
-            }
-            else
-            {
-                $chamilo_repository_document->set_title($original_filename);
-            }
-            
-            if ($this->get_comment())
-            {
-                $chamilo_repository_document->set_description($this->get_comment());
-            }
-            else
-            {
-                $chamilo_repository_document->set_description($chamilo_repository_document->get_title());
-            }
-            
-            $chamilo_repository_document->set_owner_id($new_user_id);
-            $chamilo_repository_document->set_creation_date(strtotime($this->get_item_property()->get_insert_date()));
-            $chamilo_repository_document->set_modification_date(strtotime($this->get_item_property()->get_lastedit_date()));
-            
-            $chamilo_category_id = RepositoryDataManager :: get_repository_category_by_name_or_create_new($new_user_id, Translation :: get('Documents'));
-            $chamilo_repository_document->set_parent_id($chamilo_category_id);
-            
-            if ($this->get_item_property()->get_visibility() == 2)
-                $chamilo_repository_document->set_state(1);
+            if(!$chamilo_repository_document->get_id())
+            {            
+                if ($this->get_title())
+                {
+                    $chamilo_repository_document->set_title($this->get_title());
+                }
+                else
+                {
+                    $chamilo_repository_document->set_title($original_filename);
+                }
                 
-            //Create document in db
-            $chamilo_repository_document->create();
+                if ($this->get_comment())
+                {
+                    $chamilo_repository_document->set_description($this->get_comment());
+                }
+                else
+                {
+                    $chamilo_repository_document->set_description($chamilo_repository_document->get_title());
+                }
+                
+                $chamilo_repository_document->set_creation_date(strtotime($this->get_item_property()->get_insert_date()));
+                $chamilo_repository_document->set_modification_date(strtotime($this->get_item_property()->get_lastedit_date()));
+                
+                $chamilo_category_id = RepositoryDataManager :: get_repository_category_by_name_or_create_new($new_user_id, Translation :: get('Documents'));
+                $chamilo_repository_document->set_parent_id($chamilo_category_id);
+                
+                if ($this->get_item_property()->get_visibility() == 2)
+                {
+                    $chamilo_repository_document->set_state(1);
+                }
+                    
+                //Create document in db
+                $chamilo_repository_document->create();
+            }
             
             //Add id references to migration table
-            
-
             $this->create_id_reference($this->get_id(), $chamilo_repository_document->get_id());
             $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'document', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_repository_document->get_id())));
             
             //publication
-            
-
             if ($this->get_item_property()->get_visibility() <= 1)
             {
                 $categories = split('/', $this->get_path());
@@ -275,7 +268,6 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
                 
                 foreach ($categories as $categorie_name)
                 {
-                    
                     //check if the category already exists. (move to weblcmdatamanager?)
                     //(Optimalisation: cache created categories)
                     $conditions = array();

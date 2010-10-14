@@ -207,7 +207,7 @@ class Dokeos185Lp extends Dokeos185CourseDataMigrationDataClass
     {
         $this->set_item_property($this->get_data_manager()->get_item_property($this->get_course(), 'learnpath', $this->get_id()));
         
-        if (! $this->get_id() || ! $this->get_lp_type() || !($this->get_name() || $this->get_description()) || ! $this->item_property || ! $this->item_property->get_ref() || ! $this->item_property->get_insert_date())
+        if (! $this->get_id() || ! $this->get_lp_type() || !($this->get_name() || $this->get_description()))
         {
             $this->create_failed_element($this->get_id());
             $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'learningpath', 'ID' => $this->get_id())));
@@ -250,12 +250,21 @@ class Dokeos185Lp extends Dokeos185CourseDataMigrationDataClass
         }
         
         $chamilo_learning_path->set_owner_id($new_user_id);
-        $chamilo_learning_path->set_creation_date(strtotime($this->item_property->get_insert_date()));
-        $chamilo_learning_path->set_modification_date(strtotime($this->item_property->get_lastedit_date()));
         
-        if ($this->item_property->get_visibility() == 2)
+        if($this->item_property)
         {
-            $chamilo_learning_path->set_state(1);
+            $chamilo_learning_path->set_creation_date(strtotime($this->item_property->get_insert_date()));
+            $chamilo_learning_path->set_modification_date(strtotime($this->item_property->get_lastedit_date()));
+            
+            if ($this->item_property->get_visibility() == 2)
+            {
+                $chamilo_learning_path->set_state(1);
+            }
+        }
+        else
+        {
+            $chamilo_learning_path->set_creation_date(time());
+            $chamilo_learning_path->set_modification_date(time());
         }
         
         $version = strtolower($this->get_content_maker());

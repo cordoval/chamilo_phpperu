@@ -196,6 +196,7 @@ class RepositoryManager extends CoreApplication
         {
             echo '<div id="repository_tree_container" style="float: left; width: 15%;">';
             $this->display_content_object_categories();
+
             echo '</div>';
             echo '<div style="float: right; width: 82%;">';
         }

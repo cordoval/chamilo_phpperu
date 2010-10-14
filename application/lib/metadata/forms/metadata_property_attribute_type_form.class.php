@@ -173,14 +173,14 @@ class MetadataPropertyAttributeTypeForm extends FormValidator
             $defaults[MetadataPropertyAttributeType :: PROPERTY_NS_PREFIX] = $metadata_property_attribute_type->get_ns_prefix();
             $defaults[MetadataPropertyAttributeType :: PROPERTY_NAME] = $metadata_property_attribute_type->get_name();
 
-            $defaults[MetadataPropertyAttributeType :: PROPERTY_VALUE_TYPE] = $metadata_property_attribute_type->get_value_type();
-            if($metadata_property_attribute_type->get_value_type() == MetadataPropertyAttributeType :: VALUE_TYPE_ID)
-            {
-               $defaults[MetadataPropertyAttributeType :: PROPERTY_VALUE] = $metadata_property_attribute_type->get_value();
-            }else
-            {
-               $defaults[MetadataPropertyAttributeType :: PROPERTY_VALUE . '_2'] = $metadata_property_attribute_type->get_value();
-            }
+//            $defaults[MetadataPropertyAttributeType :: PROPERTY_VALUE_TYPE] = $metadata_property_attribute_type->get_value_type();
+//            if($metadata_property_attribute_type->get_value_type() == MetadataPropertyAttributeType :: VALUE_TYPE_ID)
+//            {
+//               $defaults[MetadataPropertyAttributeType :: PROPERTY_VALUE] = $metadata_property_attribute_type->get_value();
+//            }else
+//            {
+//               $defaults[MetadataPropertyAttributeType :: PROPERTY_VALUE . '_2'] = $metadata_property_attribute_type->get_value();
+//            }
 
             parent :: setDefaults($defaults);
 	}

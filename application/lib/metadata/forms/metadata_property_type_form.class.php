@@ -81,7 +81,7 @@ class MetadataPropertyTypeForm extends FormValidator
 
     	$metadata_property_type->set_id($values[MetadataPropertyType :: PROPERTY_ID]);
     	$metadata_property_type->set_ns_prefix($values[MetadataPropertyType :: PROPERTY_NS_PREFIX]);
-    	$metadata_property_type->set_value($values[MetadataPropertyType :: PROPERTY_NAME]);
+    	$metadata_property_type->set_name($values[MetadataPropertyType :: PROPERTY_NAME]);
 
     	return $metadata_property_type->update();
     }

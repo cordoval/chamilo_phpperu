@@ -114,6 +114,9 @@ class ExternalRepositoryForm extends FormValidator
                 {
                     $this->add_html_editor($name, $label, ($setting['required'] == 'true'));
                 }
+                elseif($setting['field'] == 'password'){
+                    $this->add_password($name, $label, ($setting['required'] == 'true'));
+                }
                 else
                 {
                     $options_type = $setting['options']['type'];

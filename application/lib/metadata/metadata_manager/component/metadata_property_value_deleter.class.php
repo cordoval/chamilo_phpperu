@@ -16,7 +16,7 @@ class MetadataManagerMetadataPropertyValueDeleterComponent extends MetadataManag
      */
     function run()
     {
-        $ids = $_GET[MetadataManager :: PARAM_METADATA_PROPERTY_VALUE];
+        $id = $_GET[MetadataManager :: PARAM_METADATA_PROPERTY_VALUE];
         $fail = false;
 
         if (!empty ($id))

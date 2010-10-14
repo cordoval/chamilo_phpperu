@@ -88,6 +88,8 @@ $lang['migration']['CourseRelClassConvertedMessage'] = 'SUCCES: new course class
 $lang['migration']['CourseRelUserInvalidMessage'] = 'FAILED: course user is not valid (USER: {USER_ID} - COURSE: {COURSE_ID})';
 $lang['migration']['CourseRelUserConvertedMessage'] = 'SUCCES: new course user added (USER: {USER_ID} - COURSE: {COURSE_ID})';
 
+$lang['migration']['CourseGroupRelUserConvertedMessage'] = 'SUCCES: new course group user added (OLD ID: {OLD_ID} - USER: {USER_ID} - COURSE GROUP: {COURSE_GROUP_ID})';
+
 $lang['migration']['CourseBlogsMigrationBlockInfoNext'] = 'On the next page all the blogs, blog posts, blog comments and blog attachments from all the courses will be migrated';
 $lang['migration']['CourseBlogsMigrationBlockInfo'] = 'On this page all the blogs, blog posts, blog comments and blog attachments from all the courses will be migrated';
 

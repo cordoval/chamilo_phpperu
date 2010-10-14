@@ -383,6 +383,7 @@ class Dokeos185User extends Dokeos185MigrationDataClass
         $chamilo_user->set_platformadmin($this->is_platform_admin());
         $chamilo_user->set_official_code($this->get_official_code());
         $chamilo_user->set_phone($this->get_phone());
+        $chamilo_user->set_active($this->get_active());
 
         //the expiration date needs to be converted from a string to a unix timestamp format
         if($this->get_expiration_date())

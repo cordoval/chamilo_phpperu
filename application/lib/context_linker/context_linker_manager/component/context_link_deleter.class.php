@@ -40,7 +40,7 @@ class ContextLinkerManagerContextLinkDeleterComponent extends ContextLinkerManag
 
                 if($content_object->delete())
                 {
-                    $message = 'ContentObjectDeleted';
+                    $message = Translation :: get('ContentObjectDeleted');
 
                     //delete other context_links
                     //TODO : has to be integrated in content object dataClass later on
@@ -64,12 +64,12 @@ class ContextLinkerManagerContextLinkDeleterComponent extends ContextLinkerManag
 
             if (!$context_link->delete())
             {
-                $message .= 'ContextLinkNotDeleted';
+                $message .= Translation :: get('ContextLinkNotDeleted');
                 $fail = true;
             }
             else
             {
-                $message .= 'ContextLinkDeleted';
+                $message .= Translation :: get('ContextLinkDeleted');
             }
 
             $this->redirect(Translation :: get($message), ($fail ? true : false), array(ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_BROWSE_CONTEXT_LINKS, ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => $context_link->get_original_content_object_id()));
@@ -77,6 +77,7 @@ class ContextLinkerManagerContextLinkDeleterComponent extends ContextLinkerManag
         else
         {
             $this->display_header();
+            echo '<p>' .  Translation :: get('DeleteAlternativeContentObject') . '</p>';
             $form->display();
             $this->display_footer();
         }

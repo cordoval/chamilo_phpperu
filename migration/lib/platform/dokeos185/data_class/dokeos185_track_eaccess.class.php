@@ -1,5 +1,7 @@
 <?php
 
+require_once dirname(__FILE__) . '/../../../../../application/lib/weblcms/course/course_module_last_access.class.php';
+
 /**
  * $Id: dokeos185_track_eaccess.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
@@ -170,6 +172,36 @@ class Dokeos185TrackEAccess extends Dokeos185MigrationDataClass
         $visit_tracker->set_user_id($new_user_id);
 
         $visit_tracker->create();
+
+        if ($tool)
+        {
+            $weblcms_data_manager = WeblcmsDataManager::get_instance();
+            $conditions = array();
+            $conditions[] = new EqualityCondition(CourseModuleLastAccess :: PROPERTY_COURSE_CODE, $new_course_id);
+            $conditions[] = new EqualityCondition(CourseModuleLastAccess :: PROPERTY_USER_ID, $new_user_id);
+            $conditions[] = new EqualityCondition(CourseModuleLastAccess :: PROPERTY_MODULE_NAME, $tool);
+            $conditions[] = new EqualityCondition(CourseModuleLastAccess :: PROPERTY_CATEGORY_ID, 0);
+            $condition = new AndCondition($conditions);
+
+            $course_module_last_access = $weblcms_data_manager->retrieve_course_module_access($condition);
+
+            if (!$course_module_last_access)
+            {
+                $course_module_last_access = new CourseModuleLastAccess();
+                $course_module_last_access->set_course_code($new_course_id);
+                $course_module_last_access->set_user_id($new_user_id);
+                $course_module_last_access->set_module_name($tool);
+                $course_module_last_access->set_category_id(0);
+                $course_module_last_access->set_access_date(strtotime($this->get_access_date()));
+                return $course_module_last_access->create();
+            }
+            else
+            {
+                $course_module_last_access->set_access_date(strtotime($this->get_access_date()));
+                return $course_module_last_access->update();
+            }
+        }
+            
     }
 
     static function get_table_name()
@@ -188,4 +220,5 @@ class Dokeos185TrackEAccess extends Dokeos185MigrationDataClass
     }
 
 }
+
 ?>

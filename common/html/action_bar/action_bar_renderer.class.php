@@ -19,7 +19,7 @@ class ActionBarRenderer
     const TYPE_VERTICAL = 'vertical';
 
     private $name;
-    private $actions = array();
+    private $actions = array(self::ACTION_BAR_COMMON => array(), self::ACTION_BAR_TOOL => array(), self::ACTION_BAR_SEARCH => array());
     private $search_form;
     private $type;
 
