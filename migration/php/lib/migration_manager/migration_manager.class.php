@@ -1,9 +1,11 @@
 <?php
 namespace migration;
-
-use common\libraries\Theme;
 use common\libraries\CoreApplication;
-
+use common\libraries\DynamicAction;
+use common\libraries\Translation;
+use common\libraries\Theme;
+use common\libraries\Redirect;
+use common\libraries\Application;
 /**
  * $Id: migration_manager.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.migration_manager

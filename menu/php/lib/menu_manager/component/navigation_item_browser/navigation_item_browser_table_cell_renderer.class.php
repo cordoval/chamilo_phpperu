@@ -1,6 +1,9 @@
 <?php
 namespace menu;
 use common\libraries\Translation;
+use common\libraries\Theme;
+use common\libraries\Toolbar;
+use common\libraries\ToolbarItem;
 /**
  * $Id: navigation_item_browser_table_cell_renderer.class.php 223 2009-11-13 14:39:28Z vanpouckesven $
  * @package menu.lib.menu_manager.component.navigation_item_browser

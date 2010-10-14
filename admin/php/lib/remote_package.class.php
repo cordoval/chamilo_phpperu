@@ -1,6 +1,7 @@
 <?php
 namespace admin;
 use common\libraries\Utilities;
+use common\libraries\DataClass;
 /**
  * This class describes a Package data object
  * 

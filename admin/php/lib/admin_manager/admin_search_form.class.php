@@ -3,6 +3,7 @@ namespace admin;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\EqualityCondition;
+use common\libraries\FormValidator;
  
 /**
  * $Id: admin_search_form.class.php 168 2009-11-12 11:53:23Z vanpouckesven $

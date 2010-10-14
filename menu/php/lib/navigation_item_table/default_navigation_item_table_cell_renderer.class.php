@@ -1,5 +1,7 @@
 <?php
 namespace menu;
+use common\libraries\Theme;
+use common\libraries\ObjectTableCellRenderer;
 /**
  * $Id: default_navigation_item_table_cell_renderer.class.php 223 2009-11-13 14:39:28Z vanpouckesven $
  * @package menu.lib.navigation_item_table

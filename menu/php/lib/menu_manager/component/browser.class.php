@@ -4,6 +4,12 @@ use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
+use common\libraries\AdministrationComponent;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
+use common\libraries\ActionBarSearchForm;
+use common\libraries\BreadcrumbTrail;
 
 class MenuManagerBrowserComponent extends MenuManager implements AdministrationComponent
 {

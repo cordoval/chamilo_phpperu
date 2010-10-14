@@ -2,8 +2,8 @@
 namespace help;
 use common\libraries\Utilities;
 use common\libraries\Path;
-
 use rights\RightsUtilities;
+
 
 /**
  * $Id: laika_rights.class.php 196 2009-11-13 12:19:18Z chellee $
@@ -14,12 +14,12 @@ require_once Path :: get_help_path() . 'lib/help_manager/help_manager.class.php'
 
 class HelpRights extends RightsUtilities
 {
-
+    
     const RIGHT_EDIT = '1';
 
     const TREE_TYPE_HELP = 1;
     const TYPE_HELP = 1;
-
+    
 
     static function get_available_rights()
     {
@@ -78,6 +78,6 @@ class HelpRights extends RightsUtilities
     {
         return RightsUtilities :: get_location_by_identifier(HelpManager :: APPLICATION_NAME, self :: TYPE_HELP, $identifier, $tree_identifier, self :: TREE_TYPE_HELP);
     }
-
+    
 }
 ?>

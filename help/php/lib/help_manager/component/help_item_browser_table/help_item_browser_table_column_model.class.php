@@ -1,5 +1,6 @@
 <?php
 namespace help;
+use common\libraries\StaticTableColumn;
 /**
  * $Id: help_item_browser_table_column_model.class.php 226 2009-11-13 14:44:03Z chellee $
  * @package help.lib.help_manager.component.help_item_browser_table

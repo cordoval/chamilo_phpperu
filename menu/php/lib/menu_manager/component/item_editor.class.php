@@ -1,6 +1,8 @@
 <?php
 namespace menu;
 use common\libraries\Translation;
+use common\libraries\AdministrationComponent;
+use common\libraries\BreadcrumbTrail;
 
 require_once dirname(__FILE__) . '/editor.class.php';
 

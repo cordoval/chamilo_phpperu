@@ -1,6 +1,9 @@
 <?php
 namespace menu;
 use common\libraries\Translation;
+use common\libraries\AdministrationComponent;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
 
 require_once dirname(__FILE__) . '/creator.class.php';
 

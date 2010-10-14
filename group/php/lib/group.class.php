@@ -4,7 +4,7 @@ use common\libraries\Utilities;
 use common\libraries\InequalityCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
- 
+use common\libraries\DataClass;
 
 require_once dirname(__FILE__) . "/group_rights.class.php";
 /**

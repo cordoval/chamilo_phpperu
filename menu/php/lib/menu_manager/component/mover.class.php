@@ -2,6 +2,9 @@
 namespace menu;
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\AdministrationComponent;
+use common\libraries\BreadcrumbTrail;
+
 class MenuManagerMoverComponent extends MenuManager implements AdministrationComponent
 {
 	function run()

@@ -1,9 +1,8 @@
 <?php
 namespace repository;
-
-use common\libraries\Path;
+use common\libraries\Filesystem;
 use common\libraries\Utilities;
-
+use common\libraries\Path;
 /**
  * $Id: content_object_import.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.import
@@ -18,12 +17,12 @@ abstract class ContentObjectImport
      * The imported lo's file properties.
      */
     private $content_object_file;
-
+    
     /**
      * The user importing the lo.
      */
     private $user;
-
+    
     /**
      * The category the lo should be placed in.
      */
@@ -34,19 +33,19 @@ abstract class ContentObjectImport
      * @var array of string
      */
     private $messages = array();
-
+    
     /**
      * List of import warnings;
      * @var array of string
      */
     private $warnings = array();
-
+    
     /**
      * List of import errors.
      * @var array of string
      */
     private $errors = array();
-
+    
     /**
      * Constructor
      * @param string $filename
@@ -87,13 +86,13 @@ abstract class ContentObjectImport
     function add_message($message){
     	$this->messages[] = $message;
     }
-
+    
     function add_messages($messages){
     	foreach($messages as $message){
     		$this->add_message($message);
     	}
     }
-
+    
     function clear_messages(){
     	$this->messages = array();
     }
@@ -101,7 +100,7 @@ abstract class ContentObjectImport
     function get_warnings(){
     	return $this->warnings;
     }
-
+    
     function add_warning($warning){
     	$this->warnings[] = $warning;
     }
@@ -111,7 +110,7 @@ abstract class ContentObjectImport
     		$this->add_warning($message);
     	}
     }
-
+    
     function clear_warnings(){
     	$this->warnings = array();
     }
@@ -119,21 +118,21 @@ abstract class ContentObjectImport
     function get_errors(){
     	return $this->errors;
     }
-
+    
     function add_error($error){
     	$this->errors[] = $error;
     }
-
+    
     function add_errors($messages){
     	foreach($messages as $message){
     		$this->add_error($message);
     	}
     }
-
+    
     function clear_errors(){
     	$this->errors = array();
     }
-
+    
     /**
      * Gets a learning object file property
      * @return array

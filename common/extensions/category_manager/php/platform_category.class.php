@@ -1,8 +1,6 @@
 <?php
 namespace common\extensions\category_manager;
-
 use common\libraries\DataClass;
-
 /**
  * $Id: platform_category.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.category_manager
@@ -60,7 +58,7 @@ abstract class PlatformCategory extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_DISPLAY_ORDER, $display_order);
     }
-
+    
     function update($move = false)
     {
     	return parent :: update();

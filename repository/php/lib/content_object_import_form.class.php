@@ -1,14 +1,14 @@
 <?php
 namespace repository;
-
 use common\libraries\FormValidator;
 use common\libraries\Translation;
+use common\libraries\Filesystem;
 use common\libraries\Path;
-
 /**
  * $Id: content_object_import_form.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib
  */
+
 
 /**
  * A form to import a ContentObject.
@@ -16,7 +16,7 @@ use common\libraries\Path;
 class ContentObjectImportForm extends FormValidator
 {
     const IMPORT_FILE_NAME = 'content_object_file';
-
+    
     private $category;
     private $user;
     private $import_type;
@@ -65,18 +65,18 @@ class ContentObjectImportForm extends FormValidator
         }
         else
         {
-        	$this->addElement('hidden', RepositoryManager :: PARAM_CATEGORY_ID);
+        	$this->addElement('hidden', RepositoryManager :: PARAM_CATEGORY_ID);	
         }
-
+        
         if($this->import_type == null)
         {
         	$this->add_select('type', Translation :: get('Type'), $this->get_types());
         }
         else
         {
-        	$this->addElement('hidden', 'type');
+        	$this->addElement('hidden', 'type');	
         }
-
+        
         $this->addElement('file', self :: IMPORT_FILE_NAME, Translation :: get('FileName'));
         //$this->addElement('submit', 'content_object_import', Translation :: get('Ok'));
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Import'), array('class' => 'positive import'));
@@ -92,25 +92,25 @@ class ContentObjectImportForm extends FormValidator
         {
             if (strpos($f, '.svn') !== false || strpos($f, 'csv') !== false)
                 continue;
-
+            
             $types[$f] = Translation :: get('Type' . $f);
         }
-
+        
         return $types;
     }
 
     function get_messages(){
     	return empty($this->messages) ? array() : $this->messages;
     }
-
+    
     function get_warnings(){
     	return empty($this->warnings) ? array() : $this->warnings;
     }
-
+    
     function get_errors(){
     	return empty($this->errors) ? array() : $this->errors;
     }
-
+    
     /**
      * Sets default values.
      * @param array $defaults Default values for this form's parameters.
@@ -134,7 +134,7 @@ class ContentObjectImportForm extends FormValidator
     function import_content_object()
     {
         $type = $this->exportValue('type');
-
+        
         if (ContentObjectImport :: type_supported($type))
         {
             $importer = ContentObjectImport :: factory($type, $_FILES[self :: IMPORT_FILE_NAME], $this->get_user(), $this->exportValue(RepositoryManager :: PARAM_CATEGORY_ID));
@@ -157,7 +157,7 @@ class ContentObjectImportForm extends FormValidator
     {
         if ($this->get_user()->get_id() == 0)
             return parent :: display();
-
+        
         $quotamanager = new QuotaManager($this->get_user());
         if ($quotamanager->get_available_database_space() <= 0)
         {

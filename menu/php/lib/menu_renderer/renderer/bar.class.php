@@ -3,6 +3,7 @@ namespace menu;
 use common\libraries\WebApplication;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
+use common\libraries\ObjectTableOrder;
 /**
  * @author Hans De Bisschop
  */

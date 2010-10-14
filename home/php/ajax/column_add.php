@@ -9,6 +9,7 @@ use common\libraries\Session;
 use common\libraries\InequalityCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
+use common\libraries\Authentication;
 /**
  * $Id: column_add.php 227 2009-11-13 14:45:05Z kariboe $
  * @package home.ajax

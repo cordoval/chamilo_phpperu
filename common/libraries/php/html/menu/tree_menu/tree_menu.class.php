@@ -1,5 +1,6 @@
 <?php
 namespace common\libraries;
+use \HTML_Menu;
 require_once 'HTML/Menu.php';
 require_once 'HTML/Menu/ArrayRenderer.php';
 

@@ -23,13 +23,13 @@ class HelpManagerUpdaterComponent extends HelpManager implements AdministrationC
         {
             $help_item = $this->retrieve_help_item($id);
             
-            if (! HelpRights :: is_allowed_in_help_subtree(HelpRights :: RIGHT_EDIT, Request :: Get(HelpManager :: PARAM_HELP_ITEM)))
-            {
-                $this->display_header();
-                Display :: error_message(Translation :: get("NotAllowed"));
-                $this->display_footer();
-                exit();
-            }
+//            if (! HelpRights :: is_allowed_in_help_subtree(HelpRights :: RIGHT_EDIT, Request :: Get(HelpManager :: PARAM_HELP_ITEM)))
+//            {
+//                $this->display_header();
+//                Display :: error_message(Translation :: get("NotAllowed"));
+//                $this->display_footer();
+//                exit();
+//            }
             
             $form = new HelpItemForm($help_item, $this->get_url(array(HelpManager :: PARAM_HELP_ITEM => $id)));
             

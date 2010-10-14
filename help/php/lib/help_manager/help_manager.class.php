@@ -4,6 +4,9 @@ use common\libraries\CoreApplication;
 use common\libraries\Translation;
 use common\libraries\Session;
 use common\libraries\DynamicAction;
+use common\libraries\Theme;
+use common\libraries\Redirect;
+use common\libraries\Application;
 use common\libraries\LocalSetting;
 
 use user\UserDataManager;

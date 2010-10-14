@@ -1,5 +1,6 @@
 <?php
 namespace home;
+use common\libraries\DataClass;
 /**
  * $Id: home_block_config.class.php 227 2009-11-13 14:45:05Z kariboe $
  * @package home.lib

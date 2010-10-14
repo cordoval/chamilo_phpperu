@@ -1,5 +1,7 @@
 <?php
 namespace menu;
+use common\libraries\StaticTableColumn;
+
 /**
  * $Id: navigation_item_browser_table_column_model.class.php 223 2009-11-13 14:39:28Z vanpouckesven $
  * @package menu.lib.menu_manager.component.navigation_item_browser

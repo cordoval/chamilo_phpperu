@@ -3,6 +3,9 @@ namespace home;
 use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\Request;
+use home\DefaultHomeRenderer;
+use common\libraries\Display;
+use common\libraries\Redirect;
 /**
  * @author Hans De Bisschop
  */
@@ -58,7 +61,7 @@ abstract class HomeRenderer
 
         require_once $file;
 
-        $class = Utilities :: underscores_to_camelcase($type) . 'HomeRenderer';
+        $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type) . 'HomeRenderer';
         $renderer = new $class($user);
         return $renderer;
     }

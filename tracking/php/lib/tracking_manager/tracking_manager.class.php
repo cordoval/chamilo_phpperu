@@ -6,6 +6,7 @@ use common\libraries\Application;
 use common\libraries\CoreApplication;
 use common\libraries\Redirect;
 use common\libraries\Translation;
+use common\libraries\DynamicAction;
 use common\libraries\Theme;
 
 /**

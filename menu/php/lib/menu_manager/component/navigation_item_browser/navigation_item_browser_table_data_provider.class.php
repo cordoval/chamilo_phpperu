@@ -1,5 +1,7 @@
 <?php
 namespace menu;
+use common\libraries\ObjectTableDataProvider;
+use common\libraries\ObjectTableOrder;
 /**
  * $Id: navigation_item_browser_table_data_provider.class.php 223 2009-11-13 14:39:28Z vanpouckesven $
  * @package menu.lib.menu_manager.component.navigation_item_browser

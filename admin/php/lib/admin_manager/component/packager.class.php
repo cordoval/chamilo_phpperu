@@ -1,6 +1,8 @@
 <?php
 namespace admin;
 use common\libraries\Translation;
+use common\libraries\AdministrationComponent;
+use common\libraries\DelegateComponent;
 /**
  * @package admin.lib.admin_manager.component
  * @author Hans De Bisschop

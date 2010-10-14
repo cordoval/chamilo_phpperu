@@ -1,5 +1,6 @@
 <?php
 namespace install;
+use \HTML_QuickForm_Controller;
 /**
  * $Id: install_wizard.class.php 225 2009-11-13 14:43:20Z vanpouckesven $
  * @package install.lib.install_manager.component.inc

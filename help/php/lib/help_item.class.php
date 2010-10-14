@@ -13,7 +13,7 @@ require_once dirname(__FILE__) . '/help_rights.class.php';
 class HelpItem extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-
+    
     const PROPERTY_NAME = 'name';
     const PROPERTY_LANGUAGE = 'language';
     const PROPERTY_URL = 'url';
@@ -96,10 +96,10 @@ class HelpItem extends DataClass
             return false;
         }
 
-        if(!HelpRights :: create_location_in_help_subtree($this->get_name(), $this->get_id(), HelpRights :: get_help_subtree_root_id()))
-        {
-
-        }
+//        if(!HelpRights :: create_location_in_help_subtree($this->get_name(), $this->get_id(), HelpRights :: get_help_subtree_root_id()))
+//        {
+//            
+//        }
         return true;
     }
 }

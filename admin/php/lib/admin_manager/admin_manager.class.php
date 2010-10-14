@@ -20,7 +20,8 @@ use reporting\ReportingManager;
 use home\HomeManager;
 use tracking\TrackingManager;
 use webservice\WebserviceManager;
-
+use common\libraries\Display;
+use rights\RightsManager;
 
 /**
  * $Id: admin_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $

@@ -1,6 +1,11 @@
 <?php
 namespace admin;
 use common\libraries\Translation;
+use common\libraries\Path;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
+use common\libraries\ActionBarSearchForm;
  
 /**
  * $Id: browser.class.php 126 2009-11-09 13:11:05Z vanpouckesven $

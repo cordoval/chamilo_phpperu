@@ -1,5 +1,8 @@
 <?php
 namespace common\extensions\category_manager;
+use common\libraries\ObjectTableDataProvider;
+use common\libraries\ObjectTableOrder;
+
 /**
  * $Id: category_browser_table_data_provider.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.category_manager.component.category_browser

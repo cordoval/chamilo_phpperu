@@ -1,15 +1,11 @@
 <?php
 namespace repository;
-
-use common\libraries;
-
-use common\libraries\EqualityCondition;
-use common\libraries\ObjectTableOrder;
 use common\libraries\Configuration;
 use common\libraries\Utilities;
-
-use admin\Registration;
 use admin\AdminDataManager;
+use common\libraries\EqualityCondition;
+use admin\Registration;
+use common\libraries\ObjectTableOrder;
 /**
  * $Id: repository_data_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package repository.lib

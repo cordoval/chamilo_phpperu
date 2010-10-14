@@ -3,9 +3,9 @@ namespace user;
 
 use common\libraries\Translation;
 use common\libraries\Request;
-use common\libraries\Display;
 use common\libraries\AdministrationComponent;
 use common\libraries\Breadcrumb;
+use common\libraries\Display;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Application;
 
