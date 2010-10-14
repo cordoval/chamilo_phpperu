@@ -1,7 +1,7 @@
 <?php
 
-require_once dirname(__FILE__) . '/reporting_template/table.class.php';
-require_once dirname(__FILE__) . '/publication_rel_reporting_template/table.class.php';
+require_once dirname(__FILE__) . '/reporting_template_table/table.class.php';
+require_once dirname(__FILE__) . '/publication_rel_reporting_template_table/table.class.php';
 require_once Path :: get_application_path() . 'lib/survey/survey_publication_rel_reporting_template_registration.class.php';
 
 class SurveyReportingManagerBrowserComponent extends SurveyReportingManager
@@ -87,10 +87,14 @@ class SurveyReportingManagerBrowserComponent extends SurveyReportingManager
         
         $reporting_template_registration_ids = array();
         $condition = new InCondition(SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_PUBLICATION_ID, $this->publication_ids);
+       
         $publication_rel_reporting_template_registrations = SurveyDataManager :: get_instance()->retrieve_survey_publication_rel_reporting_template_registrations($condition);
         while ($publication_rel_reporting_template_registration = $publication_rel_reporting_template_registrations->next_result())
         {
-            $reporting_template_registration_ids[] = $publication_rel_reporting_template_registration->get_reporting_template_registration_id();
+            if ($publication_rel_reporting_template_registration->get_level() == 0)
+            {
+                $reporting_template_registration_ids[] = $publication_rel_reporting_template_registration->get_reporting_template_registration_id();
+            }
         }
         if (count($reporting_template_registration_ids))
         {

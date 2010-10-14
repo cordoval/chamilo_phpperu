@@ -2,7 +2,7 @@
 
 require_once Path :: get_application_path() . 'lib/survey/reporting_manager/component/browser.class.php';
 
-class SurveyReportingManagerDeactivatorComponent extends SurveyReportingManager
+class SurveyReportingManagerDeleterComponent extends SurveyReportingManager
 {
 
     /**
@@ -58,7 +58,7 @@ class SurveyReportingManagerDeactivatorComponent extends SurveyReportingManager
                 $tab = SurveyReportingManagerBrowserComponent :: TAB_TEMPLATE_REGISTRATIONS;
             }
             
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(self :: PARAM_ACTION => self :: ACTION_BROWSE_REPORTING_TEMPLATES, SurveyManager :: PARAM_PUBLICATION_ID => $publication_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => $tab));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(self :: PARAM_ACTION => self :: ACTION_BROWSE, SurveyManager :: PARAM_PUBLICATION_ID => $publication_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => $tab));
         }
         else
         {

@@ -92,15 +92,22 @@ class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInt
         return $this->retrieve_objects(SurveyPublicationMail :: get_table_name(), $condition, $offset, $max_objects, $order_by, SurveyPublicationMail :: CLASS_NAME);
     }
 
-    function create_survey_publication_rel_reporting_template_registration($survey_publication__rel_reporting_template_registration)
+    function create_survey_publication_rel_reporting_template_registration($survey_publication_rel_reporting_template_registration)
     {
-        return $this->create($survey_publication__rel_reporting_template_registration);
+        return $this->create($survey_publication_rel_reporting_template_registration);
     }
 
-    function delete_survey_publication_rel_reporting_template_registration($survey_publication__rel_reporting_template_registration)
+    function delete_survey_publication_rel_reporting_template_registration($survey_publication_rel_reporting_template_registration)
     {
-        $condition = new EqualityCondition(SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_ID, $survey_publication__rel_reporting_template_registration->get_id());
-        return $this->delete($survey_publication__rel_reporting_template_registration->get_table_name(), $condition);
+        $condition = new EqualityCondition(SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_ID, $survey_publication_rel_reporting_template_registration->get_id());
+        return $this->delete($survey_publication_rel_reporting_template_registration->get_table_name(), $condition);
+    }
+
+    function update_survey_publication_rel_reporting_template_registration($survey_publication_rel_reporting_template_registration)
+    {
+        $condition = new EqualityCondition(SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_ID, $survey_publication_rel_reporting_template_registration->get_id());
+        $succes = $this->update($survey_publication_rel_reporting_template_registration, $condition);
+        return $succes;
     }
 
     function count_survey_publication_rel_reporting_template_registrations($condition = null)
@@ -126,7 +133,7 @@ class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInt
         $rdm = ReportingDataManager :: get_instance();
         $publication_rel_reporting_template_alias = $this->get_alias(SurveyPublicationRelReportingTemplateRegistration :: get_table_name());
         $reporting_template_registration_alias = $rdm->get_alias(ReportingTemplateRegistration :: get_table_name());
-        $query = 'SELECT  ' . $publication_rel_reporting_template_alias . '.*  , ' . $reporting_template_registration_alias . '.'.ReportingTemplateRegistration :: PROPERTY_TEMPLATE.'   FROM ' . $this->escape_table_name(SurveyPublicationRelReportingTemplateRegistration :: get_table_name()) . ' AS ' . $publication_rel_reporting_template_alias;
+        $query = 'SELECT  ' . $publication_rel_reporting_template_alias . '.*  , ' . $reporting_template_registration_alias . '.' . ReportingTemplateRegistration :: PROPERTY_TEMPLATE . '   FROM ' . $this->escape_table_name(SurveyPublicationRelReportingTemplateRegistration :: get_table_name()) . ' AS ' . $publication_rel_reporting_template_alias;
         $query .= ' JOIN ' . $rdm->escape_table_name(ReportingTemplateRegistration :: get_table_name()) . ' AS ' . $reporting_template_registration_alias . ' ON ' . $this->escape_column_name(SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_REPORTING_TEMPLATE_REGISTRATION_ID, $publication_rel_reporting_template_alias) . ' = ' . $rdm->escape_column_name(ReportingTemplateRegistration :: PROPERTY_ID, $reporting_template_registration_alias);
         return $this->retrieve_object_set($query, SurveyPublicationRelReportingTemplateRegistration :: get_table_name(), $condition, $offset, $max_objects, $order_by, SurveyPublicationRelReportingTemplateRegistration :: CLASS_NAME);
     

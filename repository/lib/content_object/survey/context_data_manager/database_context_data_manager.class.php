@@ -6,6 +6,8 @@ require_once (dirname(__FILE__) . '/../survey_template.class.php');
 require_once (dirname(__FILE__) . '/../survey_context_registration.class.php');
 require_once (dirname(__FILE__) . '/../survey_context_template_rel_page.class.php');
 require_once (dirname(__FILE__) . '/../survey_context.class.php');
+require_once (dirname(__FILE__) . '/../survey_context_rel_user.class.php');
+
 
 
 require_once (dirname(__FILE__) . '/context_data_manager_interface.php');
@@ -554,7 +556,7 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
         $user_alias = UserDataManager :: get_instance()->get_alias(User :: get_table_name());
         $context_rel_user_alias = $this->get_alias(SurveyContextRelUser :: get_table_name());
         
-        $query = 'SELECT ' . $context_rel_user_alias . '.*  ,' . $user_alias . '.* ';
+        $query = 'SELECT ' . $context_rel_user_alias . '.*  ,' . $user_alias . '.* ,' . $context_alias . '.* ';
         $query .= ' FROM ' . $this->escape_table_name(SurveyContextRelUser :: get_table_name()) . ' AS ' . $context_rel_user_alias;
         
         $query .= ' JOIN ' . $this->escape_table_name(SurveyContext :: get_table_name()) . ' AS ' . $context_alias . ' ON ' . $this->escape_column_name(SurveyContext :: PROPERTY_ID, $context_alias) . ' = ' . $this->escape_column_name(SurveyContextRelUser :: PROPERTY_CONTEXT_ID, $context_rel_user_alias);

@@ -58,45 +58,23 @@ abstract class ReportingTemplate
     {
         $display_all = $this->get_parent()->are_all_blocks_visible();
         
-        $html[] = $this->display_header();
-        $html[] = $this->display_filter();
-        
         if ($display_all)
         {
+            $html[] = $this->display_header();
+            $html[] = $this->display_filter();
             foreach ($this->get_reporting_blocks() as $block)
             {
                 $html[] = $block->to_html();
             }
+            $html[] = $this->display_footer();
         }
         else
         {
-            if ($this->get_number_of_reporting_blocks() > 1)
-            {
-            	// TODO: Header and footer of template should also be IN the tool_browser_left div
-                $html[] = $this->get_menu();
-                $html[] = '<div id="tool_browser_left">';
-            }
-            $block = Request :: get(ReportingManager :: PARAM_REPORTING_BLOCK_ID);
-            if (isset($block))
-            {
-                $html[] = $this->get_reporting_block($block)->to_html();
-            }
-            else
-            {
-                $keys = array_keys($this->get_reporting_blocks());
-                if(count($keys)){
-                	$html[] = $this->get_reporting_block($keys[0])->to_html();
-                }
-            }
-            if ($this->get_number_of_reporting_blocks() > 1)
-            {
-                $html[] = '</div>';
-            }
-            $html[] = '<div class="clear"></div>';
-            return implode($html, "\n");
+//            $html[] = $this->display_header();
+//            $html[] = $this->display_filter();
             $html[] = $this->render_block();
+//            $html[] = $this->display_footer();
         }
-        $html[] = $this->display_footer();
         return implode("\n", $html);
     }
 
@@ -135,10 +113,20 @@ abstract class ReportingTemplate
         $html = array();
         if ($this->get_number_of_reporting_blocks() > 1)
         {
-            $html[] = '<div id="tool_browser_left">';
+            $html[] = $this->get_menu();
+            $html[] = '<div id="tool_browser_left" style="position: relative; float: right; width: 80%; margin-left: 0px;">';
         }
         
-        $html[] = $this->get_current_block()->to_html();
+        $html[] = $this->display_header();
+        $html[] = $this->display_filter();
+        
+        if ($this->get_current_block())
+        {
+            $html[] = $this->get_current_block()->to_html();
+        }
+        
+        $html[] = $this->display_footer();
+        
         if ($this->get_number_of_reporting_blocks() > 1)
         {
             $html[] = '</div>';
@@ -150,6 +138,7 @@ abstract class ReportingTemplate
     public function get_current_block()
     {
         $block = Request :: get(ReportingManager :: PARAM_REPORTING_BLOCK_ID);
+        
         if (isset($block))
         {
             return $this->get_reporting_block($block);
@@ -157,7 +146,10 @@ abstract class ReportingTemplate
         else
         {
             $keys = array_keys($this->get_reporting_blocks());
-            return $this->get_reporting_block($keys[0]);
+            if (count($keys))
+            {
+                return $this->get_reporting_block($keys[0]);
+            }
         }
     }
 
@@ -266,6 +258,7 @@ abstract class ReportingTemplate
 
     public function add_reporting_block($block)
     {
+        $block->set_id(count($this->blocks));
         $this->blocks[] = $block;
     }
 

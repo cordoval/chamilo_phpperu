@@ -6,7 +6,7 @@ require_once dirname(__FILE__) . '/table_cell_renderer.class.php';
 
 class SurveyReportingTemplateTable extends ObjectTable
 {
-    const DEFAULT_NAME = 'reporting_template_browser_table';
+    const DEFAULT_NAME = 'survey_reporting_template_table';
 
     function SurveyReportingTemplateTable($browser, $parameters, $condition)
     {
@@ -20,7 +20,7 @@ class SurveyReportingTemplateTable extends ObjectTable
         $actions = new ObjectTableFormActions(SurveyReportingManager :: PARAM_ACTION);
         if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_ACTIVATE, SurveyRights :: LOCATION_REPORTING, SurveyRights :: TYPE_COMPONENT))
         {
-            $actions->add_form_action(new ObjectTableFormAction(SurveyReportingManager :: ACTION_ACTIVATE_REPORTING_TEMPLATE_REGISTRATION, Translation :: get('Activate')));
+            $actions->add_form_action(new ObjectTableFormAction(SurveyReportingManager :: ACTION_CREATE, Translation :: get('Activate')));
         }
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);

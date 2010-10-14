@@ -57,12 +57,12 @@ class SurveyAbsoluteAnalyzer extends SurveyAnalyzer
                     $option_count --;
                 }
                 
-                //count answers from all answer trackers
+                //count answers                 
                 
 
                 foreach ($answers as $answer)
                 {
-                   	$options_answered = array();
+                    $options_answered = array();
                     foreach ($answer as $key => $option)
                     {
                         $options_answered[] = $key;
@@ -91,7 +91,6 @@ class SurveyAbsoluteAnalyzer extends SurveyAnalyzer
                     
                     }
                 }
-                             
                 
                 //creating actual reporing data
                 
@@ -175,6 +174,40 @@ class SurveyAbsoluteAnalyzer extends SurveyAnalyzer
                     {
                         $reporting_data->add_data_category_row($option, strip_tags($match), $answer_count[$option_key]);
                     }
+                }
+                break;
+            case SurveyOpenQuestion :: get_type_name() :
+                $reporting_data->add_category('answer');
+                $stripped_answers = array();
+                foreach ($answers as $answer)
+                {
+                    if (strlen(strip_tags($answer[0], '<img>')) > 0)
+                    {
+                        $stripped_answers[] = $answer[0];
+                    }
+                }
+                
+                $answer_count = count($stripped_answers);
+                
+                $categories = array();
+                $nr = 0;
+                while ($answer_count > 0)
+                {
+                    $nr ++;
+                    $categories[] = $nr;
+                    $answer_count --;
+                }
+                
+                $answer_row = Translation :: get('Answer');
+                $rows = array($answer_row);
+                
+                $reporting_data->set_categories($categories);
+                $reporting_data->set_rows($rows);
+                $nr = 0;
+                foreach ($stripped_answers as $answer)
+                {
+                    $nr ++;
+                    $reporting_data->add_data_category_row($nr, $answer_row, $answer);
                 }
                 break;
             default :

@@ -77,7 +77,10 @@ class SurveyContextTemplateRelPage extends DataClass
 		$this->set_default_property(self :: PROPERTY_TEMPLATE_ID, $template_id);
 	}
 
-
+	function get_page(){
+		return RepositoryDataManager::get_instance()->retrieve_content_object($this->get_page_id());
+	}
+	
 	static function get_table_name()
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);

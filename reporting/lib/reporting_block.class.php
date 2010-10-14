@@ -16,7 +16,8 @@ abstract class ReportingBlock
 	const CLASS_NAME = __CLASS__;
     const PARAM_DISPLAY_MODE = "display_mode";
 
-    private $data, $params, $parent;
+    
+    private $id, $data, $params, $parent;
 
 	function ReportingBlock($parent)
 	{
@@ -59,8 +60,10 @@ abstract class ReportingBlock
 	public function display_header()
 	{
         $parameters = $this->parent->get_parameters();
+//        dump($parameters);
         $bloc_parameters = array_merge($parameters, array(ReportingManager::PARAM_REPORTING_BLOCK_ID=>$this->get_id()));
-		$form = new ReportingFormatterForm($this, $this->get_parent()->get_parent()->get_url($bloc_parameters));
+//		dump($bloc_parameters);
+        $form = new ReportingFormatterForm($this, $this->get_parent()->get_parent()->get_url($bloc_parameters));
 
 	    $html = array();
 		$html[] = '<div id="' . $this->get_id() . '" class="reporting_block">';
@@ -101,7 +104,9 @@ abstract class ReportingBlock
 
 	function get_id()
     {
-        $conditions = array();
+        return $this->id;
+    	
+    	$conditions = array();
         $conditions[] = new EqualityCondition(ReportingBlockRegistration::PROPERTY_APPLICATION, $this->get_application());
         $conditions[] = new EqualityCondition(ReportingBlockRegistration::PROPERTY_BLOCK, $this->get_name());
         $condition = new AndCondition($conditions);
@@ -116,7 +121,12 @@ abstract class ReportingBlock
 			throw new Exception(Translation :: get('RegistrationCannotBeNull'));;
 		}
     }
-
+	
+    function set_id($id){
+    	
+    	$this->id = $id;
+    }
+    
 	public function export()
 	{
 		$html[] = '<b>' . Utilities::underscores_to_camelcase_with_spaces($this->get_name()) . '</b><br />';
