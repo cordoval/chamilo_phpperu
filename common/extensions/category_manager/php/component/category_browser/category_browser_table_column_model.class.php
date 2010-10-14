@@ -1,5 +1,8 @@
 <?php
 namespace common\extensions\category_manager;
+use common\libraries\ObjectTableColumnModel;
+use common\libraries\StaticTableColumn;
+use common\libraries\Translation;
 /**
  * $Id: category_browser_table_column_model.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.category_manager.component.category_browser

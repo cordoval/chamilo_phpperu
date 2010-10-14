@@ -1,7 +1,9 @@
 <?php
 namespace admin;
 use common\libraries\Utilities;
-require_once Path :: get_common_extensions_path() . 'category_manager/platform_category.class.php';
+use common\libraries\Path;
+use common\extensions\category_manager\PlatformCategory;
+require_once Path :: get_common_extensions_path() . 'category_manager/php/platform_category.class.php';
 
 /**
  * $Id: admin_category.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
@@ -11,7 +13,7 @@ require_once Path :: get_common_extensions_path() . 'category_manager/platform_c
 
 class AdminCategory extends PlatformCategory
 {
-
+    const CLASS_NAME = __CLASS__;
     function create()
     {
         $wdm = AdminDataManager :: get_instance();

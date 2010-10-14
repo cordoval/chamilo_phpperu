@@ -4,6 +4,9 @@ use common\libraries\CoreApplication;
 use common\libraries\Translation;
 use common\libraries\Session;
 use common\libraries\DynamicAction;
+use common\libraries\Theme;
+use common\libraries\Redirect;
+use common\libraries\Application;
 /**
  * $Id: help_manager.class.php 226 2009-11-13 14:44:03Z chellee $
  * @package help.lib.help_manager

@@ -1,5 +1,11 @@
 <?php
 namespace repository;
+use common\libraries\Configuration;
+use common\libraries\Utilities;
+use admin\AdminDataManager;
+use common\libraries\EqualityCondition;
+use admin\Registration;
+use common\libraries\ObjectTableOrder;
 /**
  * $Id: repository_data_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package repository.lib
@@ -59,7 +65,7 @@ class RepositoryDataManager
         {
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
             require_once dirname(__FILE__) . '/data_manager/' . strtolower($type) . '_repository_data_manager.class.php';
-            $class = Utilities :: underscores_to_camelcase($type) . 'RepositoryDataManager';
+            $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type) . 'RepositoryDataManager';
 
             self :: $instance = new $class();
         }

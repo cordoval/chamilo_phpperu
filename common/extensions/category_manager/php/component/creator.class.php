@@ -1,5 +1,9 @@
 <?php
 namespace common\extensions\category_manager;
+use common\libraries\Translation;
+use common\libraries\Request;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
 /**
  * $Id: creator.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.common.category_manager.component

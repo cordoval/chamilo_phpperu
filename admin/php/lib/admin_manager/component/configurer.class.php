@@ -6,6 +6,7 @@ use common\libraries\BasicApplication;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\DynamicTabsRenderer;
+use common\libraries\Breadcrumb;
 
 /**
  * $Id: configurer.class.php 168 2009-11-12 11:53:23Z vanpouckesven $

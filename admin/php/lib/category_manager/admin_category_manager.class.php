@@ -1,5 +1,6 @@
 <?php
 namespace admin;
+use common\extensions\category_manager\CategoryManager;
 /**
  * $Id: admin_category_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package admin.lib.category_manager

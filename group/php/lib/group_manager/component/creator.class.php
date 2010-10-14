@@ -17,13 +17,13 @@ class GroupManagerCreatorComponent extends GroupManager implements Administratio
      */
     function run()
     {
-        if (!GroupRights::is_allowed_in_groups_subtree(GroupRights::RIGHT_CREATE, Request::get(GroupManager::PARAM_GROUP_ID)))
-        {
-            $this->display_header();
-            Display :: warning_message(Translation :: get('NotAllowed'));
-            $this->display_footer();
-            exit();
-        }
+//        if (!GroupRights::is_allowed_in_groups_subtree(GroupRights::RIGHT_CREATE, Request::get(GroupManager::PARAM_GROUP_ID)))
+//        {
+//            $this->display_header();
+//            Display :: warning_message(Translation :: get('NotAllowed'));
+//            $this->display_footer();
+//            exit();
+//        }
         $group = new Group();
         $group->set_parent(Request :: get(GroupManager :: PARAM_GROUP_ID));
         $form = new GroupForm(GroupForm :: TYPE_CREATE, $group, $this->get_url(array(GroupManager :: PARAM_GROUP_ID => Request :: get(GroupManager :: PARAM_GROUP_ID))), $this->get_user());

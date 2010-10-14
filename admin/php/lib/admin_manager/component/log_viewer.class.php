@@ -3,6 +3,10 @@ namespace admin;
 use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\ResourceManager;
+use common\libraries\AdministrationComponent;
+use common\libraries\FormValidator;
+use common\libraries\Filesystem;
+use common\libraries\PlatformSetting;
 
 /**
  * $Id: log_viewer.class.php 168 2009-11-12 11:53:23Z vanpouckesven $

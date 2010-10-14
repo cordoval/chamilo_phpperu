@@ -283,7 +283,7 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
 
     function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->retrieve_objects('admin_category', $condition, $offset, $count, $order_property);
+        return $this->retrieve_objects('admin_category', $condition, $offset, $count, $order_property, AdminCategory::CLASS_NAME);
     }
 
     function select_next_display_order($parent_category_id)

@@ -6,6 +6,8 @@ use common\libraries\Request;
 use common\libraries\EqualityCondition;
 use common\libraries\DynamicTabsRenderer;
 use common\libraries\AndCondition;
+use common\libraries\AdministrationComponent;
+use common\libraries\ActionBarRenderer;
  
  
 require_once dirname(__FILE__) . "/../../group_rights.class.php";
@@ -43,22 +45,22 @@ class GroupManagerBrowserComponent extends GroupManager implements Administratio
      */
     function run()
     {
-        $this->edit_right = GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_EDIT, $this->get_group());
-        $this->view_right = GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_VIEW, $this->get_group());
-        $this->create_right = GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_CREATE, $this->get_group());
-        $this->export_right = GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_EXPORT, $this->get_group());
-        $this->move_right = GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_MOVE, $this->get_group());
-        $this->subscribe_right = GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_SUBSCRIBE, $this->get_group());
-        $this->unsubscribe_right = GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_UNSUBSCRIBE, $this->get_group());
-        $this->delete_right = GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_DELETE, $this->get_group());
-
-        if (! ($this->edit_right || $this->view_right || $this->export_right || $this->subscribe_right || $this->unsubscribe_right || $this->delete_right || $this->move_right || $this->create_right))
-        {
-            $this->display_header();
-            Display :: error_message(Translation :: get("NotAllowed"));
-            $this->display_footer();
-            exit();
-        }
+//        $this->edit_right = GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_EDIT, $this->get_group());
+//        $this->view_right = GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_VIEW, $this->get_group());
+//        $this->create_right = GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_CREATE, $this->get_group());
+//        $this->export_right = GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_EXPORT, $this->get_group());
+//        $this->move_right = GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_MOVE, $this->get_group());
+//        $this->subscribe_right = GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_SUBSCRIBE, $this->get_group());
+//        $this->unsubscribe_right = GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_UNSUBSCRIBE, $this->get_group());
+//        $this->delete_right = GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_DELETE, $this->get_group());
+//
+//        if (! ($this->edit_right || $this->view_right || $this->export_right || $this->subscribe_right || $this->unsubscribe_right || $this->delete_right || $this->move_right || $this->create_right))
+//        {
+//            $this->display_header();
+//            Display :: error_message(Translation :: get("NotAllowed"));
+//            $this->display_footer();
+//            exit();
+//        }
 
         $this->action_bar = $this->get_action_bar();
 

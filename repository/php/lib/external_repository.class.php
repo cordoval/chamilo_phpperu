@@ -1,5 +1,6 @@
 <?php
 namespace repository;
+use common\libraries\Utilities;
 /**
  * $Id: external_repository.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib

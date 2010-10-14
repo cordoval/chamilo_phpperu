@@ -8,6 +8,8 @@ use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\DynamicAction;
+use common\libraries\Theme;
+use common\libraries\redirect;
 /**
  * $Id: group_manager.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package group.lib.group_manager

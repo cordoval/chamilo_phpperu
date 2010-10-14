@@ -1,5 +1,14 @@
 <?php
 namespace common\extensions\category_manager;
+use \HTML_Menu;
+use common\libraries\Translation;
+use common\libraries\EqualityCondition;
+use common\libraries\ObjectTableOrder;
+use common\libraries\OptionsMenuRenderer;
+use \HTML_Menu_ArrayRenderer;
+use common\libraries\TreeMenuRenderer;
+use common\libraries\Utilities;
+use common\libraries\BreadcrumbTrail;
 /**
  * $Id: category_menu.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.category_manager

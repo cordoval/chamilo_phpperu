@@ -1,5 +1,11 @@
 <?php
 namespace common\extensions\category_manager;
+use common\libraries\ObjectTable;
+use common\libraries\Utilities;
+use common\libraries\ObjectTableFormActions;
+use common\libraries\ObjectTableFormAction;
+use common\libraries\Translation;
+use common\libraries\Request;
 /**
  * $Id: category_browser_table.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.common.category_manager.component.category_browser

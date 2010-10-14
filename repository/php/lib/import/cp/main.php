@@ -1,6 +1,7 @@
 <?php
+use common\libraries\Path;
 
-require_once  Path::get_common_path() .'ims/main.php';
+require_once  Path::get_common_libraries_path() .'php/ims/main.php';
 
 require_once Path::get_application_path() . 'lib/weblcms/course/course.class.php';
 require_once Path::get_application_path() . 'lib/weblcms/category_manager/course_category.class.php';

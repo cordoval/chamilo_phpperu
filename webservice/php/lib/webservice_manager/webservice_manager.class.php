@@ -5,6 +5,8 @@ use common\libraries\Application;
 use common\libraries\CoreApplication;
 use common\libraries\Redirect;
 use common\libraries\Translation;
+use common\libraries\DynamicAction;
+use common\libraries\Theme;
 /**
  * $Id: webservice_manager.class.php 208 2009-11-13 13:14:39Z vanpouckesven $
  * @package webservices.lib.webservice_manager

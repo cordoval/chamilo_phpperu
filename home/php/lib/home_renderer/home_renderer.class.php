@@ -3,6 +3,7 @@ namespace home;
 use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\Request;
+use home\DefaultHomeRenderer;
 /**
  * @author Hans De Bisschop
  */

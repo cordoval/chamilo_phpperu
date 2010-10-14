@@ -592,5 +592,27 @@ class Utilities
         }
     }
 
+    static function get_namespace_classname($namespace, $classname)
+    {
+    	$classname_parts = explode('\\', $classname);
+
+        if (count($classname_parts) == 1)
+        {
+            return false;
+        }
+        else
+        {
+            $class_name = $classname_parts[count($classname_parts) - 1];
+            array_pop($classname_parts);
+            if (implode('\\', $classname_parts) != $namespace)
+            {
+                return false;
+            }
+            else
+            {
+            	return $class_name;
+            }
+        }
+    }
 }
 ?>

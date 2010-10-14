@@ -3,6 +3,9 @@ namespace home;
 use common\libraries\CoreApplication;
 use common\libraries\Translation;
 use common\libraries\DynamicAction;
+use common\libraries\Theme;
+use common\libraries\Redirect;
+use common\libraries\Application;
 /**
  * $Id: home_manager.class.php 227 2009-11-13 14:45:05Z kariboe $
  * @package home.lib.home_manager

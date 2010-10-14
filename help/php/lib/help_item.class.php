@@ -1,6 +1,7 @@
 <?php
 namespace help;
 use common\libraries\Utilities;
+use common\libraries\DataClass;
 
 /**
  * $Id: help_item.class.php 226 2009-11-13 14:44:03Z chellee $
@@ -94,10 +95,10 @@ class HelpItem extends DataClass
             return false;
         }
 
-        if(!HelpRights :: create_location_in_help_subtree($this->get_name(), $this->get_id(), HelpRights :: get_help_subtree_root_id()))
-        {
-            
-        }
+//        if(!HelpRights :: create_location_in_help_subtree($this->get_name(), $this->get_id(), HelpRights :: get_help_subtree_root_id()))
+//        {
+//            
+//        }
         return true;
     }
 }

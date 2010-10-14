@@ -5,6 +5,7 @@ use common\libraries\Path;
 use common\libraries\WebApplication;
 use common\libraries\Translation;
 use common\libraries\Installer;
+use \HTML_QuickForm_Action;
 /**
  * $Id: install_wizard_process.class.php 225 2009-11-13 14:43:20Z vanpouckesven $
  * @package install.lib.installmanager.component.inc.wizard

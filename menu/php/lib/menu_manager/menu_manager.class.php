@@ -5,6 +5,8 @@ use common\libraries\CoreApplication;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\DynamicAction;
+use common\libraries\Theme;
+use common\libraries\Redirect;
 /**
  * $Id: menu_manager.class.php 223 2009-11-13 14:39:28Z vanpouckesven $
  * @package menu.lib.menu_manager.component

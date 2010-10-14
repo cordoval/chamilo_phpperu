@@ -1,5 +1,6 @@
 <?php
 namespace install;
+use \HTML_QuickForm_Page;
 /**
  * $Id: install_wizard_page.class.php 225 2009-11-13 14:43:20Z vanpouckesven $
  * @package install.lib.installmanager.component.inc.wizard

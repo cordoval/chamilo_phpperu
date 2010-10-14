@@ -1,5 +1,7 @@
 <?php
 namespace admin;
+use common\libraries\AdministrationComponent;
+use common\libraries\DelegateComponent;
 /**
  * $Id: category_manager.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package admin.lib.admin_manager.component

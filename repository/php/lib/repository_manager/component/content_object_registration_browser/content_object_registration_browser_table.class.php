@@ -1,5 +1,9 @@
 <?php
 namespace repository;
+use common\libraries\Path;
+use admin\RegistrationBrowserTable;
+use common\libraries\ObjectTable;
+use common\libraries\Utilities;
 /**
  * $Id: registration_browser_table.class.php 126 2009-11-09 13:11:05Z vanpouckesven $
  * @package admin.lib.package_manager.component.registration_browser

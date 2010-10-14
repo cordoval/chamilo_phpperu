@@ -2,6 +2,7 @@
 namespace help;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
+use common\libraries\Database;
 /**
  * $Id: database_help_data_manager.class.php 226 2009-11-13 14:44:03Z chellee $
  * @package help.lib.data_manager

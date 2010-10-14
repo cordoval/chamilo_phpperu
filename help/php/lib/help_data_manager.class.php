@@ -2,6 +2,7 @@
 namespace help;
 use common\libraries\Utilities;
 use common\libraries\Configuration;
+use help\DatabaseHelpDataManager;
 /**
  * $Id: help_data_manager.class.php 226 2009-11-13 14:44:03Z chellee $
  * @package help.lib

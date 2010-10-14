@@ -1,5 +1,7 @@
 <?php
 namespace common\extensions\category_manager;
+use common\libraries\Request;
+
 /**
  * $Id: category_manager.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.category_manager

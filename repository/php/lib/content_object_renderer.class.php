@@ -1,5 +1,6 @@
 <?php
 namespace repository;
+use common\libraries\Path;
 require_once Path :: get_library_path() . 'html/action_bar/action_bar_search_form.class.php';
 
 abstract class ContentObjectRenderer

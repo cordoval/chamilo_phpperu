@@ -1,5 +1,6 @@
 <?php
 namespace common\extensions\category_manager;
+use common\libraries\Utilities;
 /**
  * $Id: category_manager_component.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.category_manager
@@ -198,7 +199,7 @@ abstract class CategoryManagerComponent
         {
             die('Failed to load "' . $type . '" component');
         }
-        $class = 'CategoryManager' . $type . 'Component';
+        $class = __NAMESPACE__ . '\\' .'CategoryManager' . $type . 'Component';
         require_once $filename;
         return new $class($parent);
     }

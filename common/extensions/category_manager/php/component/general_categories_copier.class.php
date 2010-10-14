@@ -1,5 +1,7 @@
 <?php
 namespace common\extensions\category_manager;
+use admin\AdminDataManager;
+use common\libraries\Translation;
 /**
  * $Id: general_categories_copier.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.common.category_manager.component
