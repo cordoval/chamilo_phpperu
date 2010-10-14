@@ -216,13 +216,6 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
             return false;
         }
         else
-        if ($this->get_cat_id() > 0 && !$this->get_id_reference($this->get_cat_id(), $this->get_database_name() . '.dropbox_category'))
-        {
-            $this->create_failed_element($this->get_id());
-            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'dropbox_file', 'ID' => $this->get_id())));
-
-            return false;
-        }
         if (!$this->get_item_property())
         {
             //echo 'Error in property at course : ' . $course->get_db_name() .' ';
