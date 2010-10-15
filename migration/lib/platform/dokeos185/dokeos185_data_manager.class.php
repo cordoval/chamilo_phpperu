@@ -273,6 +273,24 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
     	$condition = new EqualityCondition(Dokeos185DropboxPerson :: PROPERTY_FILE_ID , $dropbox_file_id);
     	return $this->retrieve_objects(Dokeos185DropboxPerson :: get_table_name(), $condition, null, null, null, 'Dokeos185DropboxPerson');
     }
+    
+    function retrieve_dokeos185_track_eaccess()
+    {
+        $this->set_database('statistics_database');
+        
+        $table =  $this->get_table_name(Dokeos185TrackEAccess :: get_table_name());
+        $access_date_column = $this->escape_column_name(Dokeos185TrackEAccess :: PROPERTY_ACCESS_DATE);
+        $access_user_id_column = $this->escape_column_name(Dokeos185TrackEAccess :: PROPERTY_ACCESS_USER_ID);
+        $access_course_code_column = $this->escape_column_name(Dokeos185TrackEAccess :: PROPERTY_ACCESS_COURS_CODE);
+        $access_tool_column = $this->escape_column_name(Dokeos185TrackEAccess :: PROPERTY_ACCESS_TOOL);
+        
+        $query = 'SELECT MAX( ' . $access_date_column . ' ) AS ' . $access_date_column . ', ' . $access_user_id_column . ', ' . $access_course_code_column . ', ' . $access_tool_column . ' FROM ' . $table . 
+        		 ' WHERE ' . $access_user_id_column . ' IS NOT NULL AND ' . $access_course_code_column . ' IS NOT NULl AND ' . $access_tool_column . ' IS NOT NULL 
+        		 GROUP BY ' . $access_user_id_column . ', ' . $access_course_code_column . ', ' . $access_tool_column . ';';
+        
+        $result = $this->query($query);
+        return new ObjectResultSet($this, $result, Dokeos185TrackEAccess :: get_class_name());
+    }
 }
 
 ?>
