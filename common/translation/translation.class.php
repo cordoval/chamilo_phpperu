@@ -127,7 +127,6 @@ class Translation
         $instance = self :: get_instance();
 
         $language = $instance->language;
-        // Modified by Ivan Tcholakov, 31-MAR-2010, see BUG #743
         //$strings = $instance->strings;
         $strings = & $instance->strings;
         //
