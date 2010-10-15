@@ -184,35 +184,35 @@ class Dokeos185CalendarEvent extends Dokeos185CourseDataMigrationDataClass
         else
         {
             $chamilo_calendar_event->set_title($this->get_title());
-
-            if (!$this->get_content())
-            {
-                $chamilo_calendar_event->set_description($this->get_title());
-            }
-            else
-            {
-                $chamilo_calendar_event->set_description($this->get_content());
-            }
-
-            $chamilo_calendar_event->set_owner_id($new_user_id);
-            $chamilo_calendar_event->set_creation_date(strtotime($this->get_item_property()->get_insert_date()));
-            $chamilo_calendar_event->set_modification_date(strtotime($this->get_item_property()->get_lastedit_date()));
-
-            if ($this->get_item_property()->get_visibility() == 2)
-            {
-                $chamilo_calendar_event->set_state(1);
-            }
-
-            //create announcement in database
-            $chamilo_calendar_event->create_all();
-
-            //publication
-
-            $this->create_publication($chamilo_calendar_event, $new_course_code, $new_user_id, 'calendar', 0, $new_to_user_id, $new_to_group_id);
-
-            $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'calendar_event', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_calendar_event->get_id())));
-            return $chamilo_calendar_event;
         }
+
+        if (!$this->get_content())
+        {
+            $chamilo_calendar_event->set_description($this->get_title());
+        }
+        else
+        {
+            $chamilo_calendar_event->set_description($this->get_content());
+        }
+
+        $chamilo_calendar_event->set_owner_id($new_user_id);
+        $chamilo_calendar_event->set_creation_date(strtotime($this->get_item_property()->get_insert_date()));
+        $chamilo_calendar_event->set_modification_date(strtotime($this->get_item_property()->get_lastedit_date()));
+
+        if ($this->get_item_property()->get_visibility() == 2)
+        {
+            $chamilo_calendar_event->set_state(1);
+        }
+
+        //create announcement in database
+        $chamilo_calendar_event->create_all();
+
+        //publication
+
+        $this->create_publication($chamilo_calendar_event, $new_course_code, $new_user_id, 'calendar', 0, $new_to_user_id, $new_to_group_id);
+
+        $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'calendar_event', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_calendar_event->get_id())));
+        return $chamilo_calendar_event;
     }
 
     static function get_table_name()
