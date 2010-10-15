@@ -15,6 +15,7 @@ class ContextLink extends DataClass
 	/**
 	 * ContextLink properties
 	 */
+        const PROPERTY_ID = 'clid';
 	const PROPERTY_ORIGINAL_CONTENT_OBJECT_ID = 'original_content_object_id';
 	const PROPERTY_ALTERNATIVE_CONTENT_OBJECT_ID = 'alternative_content_object_id';
 	const PROPERTY_METADATA_PROPERTY_VALUE_ID = 'metadata_property_value_id';

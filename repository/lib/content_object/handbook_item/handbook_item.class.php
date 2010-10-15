@@ -1,8 +1,7 @@
 <?php
-/**
- * $Id: handbook_item.class.php 200 2009-11-13 12:30:04Z kariboe $
- * @package repository.lib.content_object.handbook_item
- */
+require_once dirname(__FILE__) . '/../handbook/uuid.class.php';
+
+
 class HandbookItem extends ContentObject implements Versionable
 {
     const PROPERTY_REFERENCE = 'reference_id';
@@ -34,9 +33,16 @@ class HandbookItem extends ContentObject implements Versionable
         return $this->get_additional_property(self :: PROPERTY_UUID);
     }
 
-    function set_uuid($uuid)
+    function set_uuid()
     {
+        $uuid = UUID::generate(UUID::UUID_RANDOM, UUID::FMT_STRING);
         $this->set_additional_property(self :: PROPERTY_UUID, $uuid);
+    }
+
+    function create()
+    {
+        $this->set_uuid();
+        parent::create();
     }
 }
 ?>

@@ -49,9 +49,6 @@ class FormValidator extends HTML_QuickForm
 		$this->HTML_QuickForm($form_name, $method, $action, $target, $attributes, $trackSubmit);
 		// Load some custom elements and rules
 		$dir = dirname(__FILE__) . '/';
-		$this->registerElementType('fckeditor_html_editor', $dir . 'Element/html_editor/fckeditor_html_editor.php', 'HTML_QuickForm_fckeditor_html_editor');
-		$this->registerElementType('tinymce_html_editor', $dir . 'Element/html_editor/tinymce_html_editor.php', 'HTML_QuickForm_tinymce_html_editor');
-		$this->registerElementType('html_editor', $dir . 'Element/html_editor.php', 'HTML_QuickForm_html_editor');
 		$this->registerElementType('datepicker', $dir . 'Element/datepicker.php', 'HTML_QuickForm_datepicker');
 		$this->registerElementType('timepicker', $dir . 'Element/timepicker.php', 'HTML_QuickForm_timepicker');
 		$this->registerElementType('receivers', $dir . 'Element/receivers.php', 'HTML_QuickForm_receivers');

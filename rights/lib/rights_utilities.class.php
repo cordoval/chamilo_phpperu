@@ -232,7 +232,7 @@ class RightsUtilities
                     
                     while ($group_template = $group_templates->next_result())
                     {
-                        if (self :: is_allowed_for_rights_template($group_template->get_id(), $right, $location))
+                        if (self :: is_allowed_for_rights_template($group_template->get_template_id(), $right, $location))
                         {
                         	return true;
                         }
@@ -250,7 +250,7 @@ class RightsUtilities
             
             while ($user_template = $user_templates->next_result())
             {
-                if (self :: is_allowed_for_rights_template($user_template->get_id(), $right, $location))
+                if (self :: is_allowed_for_rights_template($user_template->get_template_id(), $right, $location))
                 {
                 	return true;
                 }
