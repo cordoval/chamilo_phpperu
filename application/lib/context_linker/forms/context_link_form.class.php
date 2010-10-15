@@ -104,7 +104,7 @@ class ContextLinkForm extends FormValidator
         if(!empty($values[MetadataPropertyValue :: PROPERTY_VALUE]))
         {
             $metadata_property_value = new MetadataPropertyValue();
-            $metadata_property_value->set_content_object_id($values[ContextLink :: PROPERTY_ORIGINAL_CONTENT_OBJECT_ID]);
+            $metadata_property_value->set_content_object_id($values[ContextLink :: PROPERTY_ALTERNATIVE_CONTENT_OBJECT_ID]);
             $metadata_property_value->set_property_type_id($values[MetadataPropertyValue :: PROPERTY_PROPERTY_TYPE_ID]);
             $metadata_property_value->set_value($values[MetadataPropertyValue :: PROPERTY_VALUE]);
 
