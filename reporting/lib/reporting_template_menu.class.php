@@ -137,7 +137,7 @@ class ReportingTemplateMenu
 
     function as_html()
     {
-        $html[] = '<div id="tool_bar" class="tool_bar tool_bar_left">';
+        $html[] = '<div id="tool_bar" class="tool_bar tool_bar_left" style="position: relative; left: -1%; float:left; width: 17%;">';
         
         $html[] = '<div id="tool_bar_hide_container" class="hide">';
         $html[] = '<a id="tool_bar_hide" href="#"><img src="' . Theme :: get_common_image_path() . 'action_action_bar_left_hide.png" /></a>';
@@ -148,9 +148,8 @@ class ReportingTemplateMenu
         $html[] = $this->get_menu_items();
         $html[] = '</div>';
         
+//        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/tool_bar.js' . '"></script>';
         $html[] = '</div>';
-        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/tool_bar.js' . '"></script>';
-        $html[] = '<div class="clear"></div>';
         
         return implode("\n", $html);
     }

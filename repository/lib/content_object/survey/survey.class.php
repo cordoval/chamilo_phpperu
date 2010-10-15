@@ -162,20 +162,55 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
     {
         return $this->invitee_id;
     }
-	
-    function get_complex_questions(){
-    	$pages = $this->get_pages();
-    	$questions = array();
-    	foreach ($pages as $page) {
-    		$complex_questions = $page->get_questions(true);
-    		while($complex_question = $complex_questions->next_result()){
-    			$questions[$complex_question->get_id()] = $complex_question;
-    		}
-    		
-    	}
-    	return $questions;
+
+    function get_complex_questions()
+    {
+        $pages = $this->get_pages();
+        $questions = array();
+        foreach ($pages as $page)
+        {
+            $complex_questions = $page->get_questions(true);
+            while ($complex_question = $complex_questions->next_result())
+            {
+                $questions[$complex_question->get_id()] = $complex_question;
+            }
+        
+        }
+        return $questions;
     }
-    
+
+    function get_complex_questions_for_context_template_ids($context_template_ids)
+    {
+        if (! empty($context_template_ids))
+        {
+            if (! is_array($context_template_ids))
+            {
+                $context_template_ids = array($context_template_ids);
+            }
+        }
+        
+        $conditions = array();
+        $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_SURVEY_ID, $this->get_id());
+        $conditions[] = new InCondition(SurveyContextTemplateRelPage :: PROPERTY_TEMPLATE_ID, $context_template_ids);
+        $condition = new AndCondition($conditions);
+        $survey_context_rel_pages = SurveyContextDataManager::get_instance()->retrieve_template_rel_pages($condition);
+        $pages = array();
+        while ($survey_context_rel_page = $survey_context_rel_pages->next_result()) {
+        	$pages[] = $survey_context_rel_page->get_page();
+        }
+        $questions = array();
+        foreach ($pages as $page)
+        {
+            $complex_questions = $page->get_questions(true);
+            while ($complex_question = $complex_questions->next_result())
+            {
+                $questions[$complex_question->get_id()] = $complex_question;
+            }
+        
+        }
+        return $questions;
+    }
+
     function get_pages($complex_items = false)
     {
         

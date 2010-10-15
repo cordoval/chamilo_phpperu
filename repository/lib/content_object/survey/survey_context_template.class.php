@@ -168,6 +168,7 @@ class SurveyContextTemplate extends NestedTreeNode
 	function get_level_count(){
 		return $this->count_children(true)+1;
 	}
+		
 }
 
 ?>

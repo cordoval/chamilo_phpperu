@@ -81,7 +81,7 @@ class RepositorySearchForm extends FormValidator
         {
             $_SESSION[self :: SESSION_KEY_ADVANCED_SEARCH] = Request :: get(self :: PARAM_ADVANCED_SEARCH);
         }
-        $this->advanced = $_SESSION[self :: SESSION_KEY_ADVANCED_SEARCH];
+        $this->advanced = Session::get(self :: SESSION_KEY_ADVANCED_SEARCH);
         if ($this->advanced)
         {
             $this->build_advanced_search_form();

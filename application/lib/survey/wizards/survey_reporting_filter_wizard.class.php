@@ -8,6 +8,7 @@ class SurveyReportingFilterWizard extends WizardPageValidator
     private $tabs;
     private $parameters;
     private $publication_id;
+    private $user;
     
     const CONTEXTS_TAB = 'contexts';
     const GROUPS_TAB = 'groups';
@@ -31,14 +32,17 @@ class SurveyReportingFilterWizard extends WizardPageValidator
     const TYPE_CONTEXT_TEMPLATES = 5;
     const TYPE_ANALYSE_TYPE = 6;
 
-    function SurveyReportingFilterWizard($types, $publication_id, $actions)
+    function SurveyReportingFilterWizard($types, $publication_id, $actions, $user)
     {
-        parent :: __construct('survey_reporting_filter', 'post', $actions);
+    	parent :: __construct('survey_reporting_filter', 'post', $actions);
         $this->publication_id = $publication_id;
+        $this->user = $user;
         
         $this->tabs_generator = new DynamicFormTabsRenderer($this->getAttribute('name'), $this);
         
         $this->tabs = array();
+        
+        $without_context_template_tab = true;
         
         foreach ($types as $type)
         {
@@ -63,6 +67,7 @@ class SurveyReportingFilterWizard extends WizardPageValidator
                 case self :: TYPE_CONTEXT_TEMPLATES :
                     $tab = new DynamicFormTab(self :: CONTEXT_TEMPLATES_TAB, Translation :: get(self :: CONTEXT_TEMPLATES_TAB), null, 'build_context_templates_form');
                     $this->tabs_generator->add_tab($tab);
+                    $without_context_template_tab = false;
                     break;
                 case self :: TYPE_ANALYSE_TYPE :
                     $tab = new DynamicFormTab(self :: ANALYSE_TYPE_TAB, Translation :: get(self :: ANALYSE_TYPE_TAB), null, 'build_analyse_type_form');
@@ -70,6 +75,11 @@ class SurveyReportingFilterWizard extends WizardPageValidator
                     break;
             }
         }
+        if ($without_context_template_tab)
+        {
+            $this->set_context_template_parameters();
+        }
+        
         $this->addElement('hidden', self :: PARAM_PUBLICATION_ID, $this->publication_id);
         $this->tabs_generator->render();
         $this->setDefaults();
@@ -89,6 +99,21 @@ class SurveyReportingFilterWizard extends WizardPageValidator
         
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
+
+    private function set_context_template_parameters()
+    {
+        $pub = SurveyDataManager :: get_instance()->retrieve_survey_publication($this->publication_id);
+        $survey = $pub->get_publication_object();
+        $levels = $survey->count_levels();
+        $level = 1;
+        $context_template_ids = array();
+        while ($level <= $levels)
+        {
+            $context_template = $survey->get_context_template($level);
+            $this->addElement('hidden', 'context_templates[]', $context_template->get_id());
+            $level ++;
+        }
+     }
 
     function build_context_templates_form()
     {
@@ -123,7 +148,7 @@ class SurveyReportingFilterWizard extends WizardPageValidator
         $this->addElement('html', '<p>' . Translation :: get('SelectAvailableContexts') . '</p>');
         
         $attributes = array();
-        $attributes['search_url'] = Path :: get(WEB_PATH) . 'application/lib/survey/xml_feeds/xml_context_feed.php';
+        $attributes['search_url'] = Path :: get(WEB_PATH) . 'application/lib/survey/xml_feeds/xml_context_feed.php?' . SurveyManager :: PARAM_USER_ID . '=' . $this->user->get_id();
         
         $locale = array();
         $locale['Display'] = Translation :: get('ChooseContext');
@@ -132,7 +157,7 @@ class SurveyReportingFilterWizard extends WizardPageValidator
         $locale['Error'] = Translation :: get('Error');
         $attributes['locale'] = $locale;
         $attributes['defaults'] = array();
-        $attributes['options'] = array('load_elements' => false);
+        $attributes['options'] = array('load_elements' => true);
         $element_finder = $this->createElement('element_finder', 'contexts', Translation :: get('AvailableContexts'), $attributes['search_url'], $attributes['locale'], $attributes['defaults'], $attributes['options']);
         $element_finder->excludeElements($attributes['exclude']);
         $this->addElement($element_finder);
@@ -223,8 +248,8 @@ class SurveyReportingFilterWizard extends WizardPageValidator
 
     function get_filter_parameters()
     {
-    
-    	if (! $this->validate() && ! $this->get_parameters_are_set())
+        
+        if (! $this->validate() && ! $this->get_parameters_are_set())
         {
             return array();
         }
@@ -267,7 +292,7 @@ class SurveyReportingFilterWizard extends WizardPageValidator
         $analyse_type = Request :: get(self :: PARAM_ANALYSE_TYPE);
         $publication_id = Request :: get(self :: PARAM_PUBLICATION_ID);
         
-        return (isset($contexts) || isset($groups) || isset($users) || isset($questions) || isset($context_templates) || isset($analyse_type)|| isset($publication_id));
+        return (isset($contexts) || isset($groups) || isset($users) || isset($questions) || isset($context_templates) || isset($analyse_type) || isset($publication_id));
     }
 
     function setDefaults($defaults = array ())
@@ -316,11 +341,13 @@ class SurveyReportingFilterWizard extends WizardPageValidator
         {
             $defaults[self :: PARAM_ANALYSE_TYPE] = 'absolute';
         }
-    	if ($publication_id_set)
+        if ($publication_id_set)
         {
             $defaults[self :: PARAM_PUBLICATION_ID] = Request :: get(self :: PARAM_PUBLICATION_ID);
-        }else{
-        	$defaults[self :: PARAM_PUBLICATION_ID] = $this->publication_id;
+        }
+        else
+        {
+            $defaults[self :: PARAM_PUBLICATION_ID] = $this->publication_id;
         }
         
         parent :: setDefaults($defaults);

@@ -93,7 +93,7 @@ class Database
      * Debug function
      * Uncomment the lines if you want to debug
      */
-    function debug()
+    static function debug()
     {
         $args = func_get_args();
         // Do something with the arguments
@@ -167,7 +167,8 @@ class Database
 
         $object = new $class_name();
 
-        foreach ($object->get_default_property_names() as $property)
+        $default_property_names = $object->get_default_property_names();
+        foreach ($default_property_names as $property)
         {
             if (array_key_exists($property, $record))
             {

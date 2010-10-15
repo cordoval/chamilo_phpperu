@@ -374,8 +374,8 @@ class Dokeos185User extends Dokeos185MigrationDataClass
     {
     	//User parameters
         $chamilo_user = new User();
-        $chamilo_user->set_lastname(utf8_decode($this->get_lastname()));
-        $chamilo_user->set_firstname(utf8_decode($this->get_firstname()));
+        $chamilo_user->set_lastname($this->get_lastname());
+        $chamilo_user->set_firstname($this->get_firstname());
         $chamilo_user->set_username($this->get_username());
         $chamilo_user->set_password($this->get_password());
         $chamilo_user->set_email($this->get_email());

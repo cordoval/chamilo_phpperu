@@ -1,12 +1,14 @@
 <?php
 
-//require_once Path :: get_application_path() . 'lib/survey/reporting_manager/component/browser/browser_table.class.php';
-
+require_once Path :: get_application_path() . 'lib/survey/reporting_manager/component/publication_rel_reporting_template_table/table.class.php';
+require_once Path :: get_application_path() . 'lib/survey/reporting_manager/component/reporting_template_table/table.class.php';
 
 class SurveyReportingManager extends SubManager
 {
     
     const PARAM_ACTION = 'action';
+    
+    const PARAM_CONTEXT_TEMPLATE_ID = 'context_template_id';
     
     const PARAM_REPORTING_TEMPLATE_REGISTRATION_ID = 'template_registration_id';
     
@@ -17,14 +19,14 @@ class SurveyReportingManager extends SubManager
     const PARAM_WARNING_MESSAGE = 'warning_message';
     const PARAM_ERROR_MESSAGE = 'error_message';
     
-    const ACTION_ACTIVATE_REPORTING_TEMPLATE_REGISTRATION = 'activator';
-    const ACTION_BROWSE_REPORTING_TEMPLATES = 'browser';
-    const ACTION_EDIT_REPORTING_TEMPLATE = 'editor';
+    const ACTION_CREATE = 'creator';
+    const ACTION_BROWSE = 'browser';
+    const ACTION_EDIT = 'editor';
     const ACTION_EDIT_REPORTING_RIGHTS = 'rights_editor';
-    const ACTION_DEACTIVATE_REPORTING_TEMPLATE = 'deactivator';
+    const ACTION_DELETE = 'deleter';
     const ACTION_REPORTING = 'reporting';
     
-    const DEFAULT_ACTION = self :: ACTION_BROWSE_REPORTING_TEMPLATES;
+    const DEFAULT_ACTION = self :: ACTION_BROWSE;
 
     function InternshipOrganizerRegionManager($survey_manager)
     {
@@ -41,17 +43,22 @@ class SurveyReportingManager extends SubManager
 
     function get_browse_reporting_templates_url()
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_REPORTING_TEMPLATES));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE));
     }
 
-    function get_reporting_template_activate_url($reporting_template_registation)
+    function get_publication_reporting_template_create_url($reporting_template_registation)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_ACTIVATE_REPORTING_TEMPLATE_REGISTRATION, self :: PARAM_REPORTING_TEMPLATE_REGISTRATION_ID => $reporting_template_registation->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE, self :: PARAM_REPORTING_TEMPLATE_REGISTRATION_ID => $reporting_template_registation->get_id()));
     }
 
-    function get_reporting_template_deactivate_url($publication_rel_reporting_template_registation)
+    function get_publication_reporting_template_delete_url($publication_rel_reporting_template_registation)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DEACTIVATE_REPORTING_TEMPLATE, self :: PARAM_PUBLICATION_REL_REPORTING_TEMPLATE_ID => $publication_rel_reporting_template_registation->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE, self :: PARAM_PUBLICATION_REL_REPORTING_TEMPLATE_ID => $publication_rel_reporting_template_registation->get_id()));
+    }
+
+    function get_publication_reporting_template_edit_url($publication_rel_reporting_template_registation)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT, self :: PARAM_PUBLICATION_REL_REPORTING_TEMPLATE_ID => $publication_rel_reporting_template_registation->get_id()));
     }
 
     function get_reporting_rights_editor_url($publication_rel_reporting_template_registation)
@@ -61,7 +68,15 @@ class SurveyReportingManager extends SubManager
 
     function get_reporting_url($publication_rel_reporting_template_registation)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_REPORTING, self :: PARAM_PUBLICATION_REL_REPORTING_TEMPLATE_ID => $publication_rel_reporting_template_registation->get_id()));
+        $context_template_id = $publication_rel_reporting_template_registation->get_level();
+        if ($context_template_id != 0)
+        {
+            return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_REPORTING, self :: PARAM_PUBLICATION_REL_REPORTING_TEMPLATE_ID => $publication_rel_reporting_template_registation->get_id(), self :: PARAM_CONTEXT_TEMPLATE_ID => $publication_rel_reporting_template_registation->get_level()));
+        }
+        else
+        {
+            return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_REPORTING, self :: PARAM_PUBLICATION_REL_REPORTING_TEMPLATE_ID => $publication_rel_reporting_template_registation->get_id()));
+        }
     }
 
     /**

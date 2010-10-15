@@ -13,6 +13,7 @@ class SurveyManager extends WebApplication
     const PARAM_SURVEY_ID = 'survey_id';
     const PARAM_PARTICIPANT_ID = 'participant_id';
     const PARAM_INVITEE_ID = 'invitee_id';
+    const PARAM_USER_ID = 'user_id';
     
     const PARAM_SURVEY_PAGE_ID = 'page_id';
     const PARAM_SURVEY_QUESTION_ID = 'question_id';
