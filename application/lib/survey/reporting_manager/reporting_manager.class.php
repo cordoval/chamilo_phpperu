@@ -9,7 +9,6 @@ class SurveyReportingManager extends SubManager
     const PARAM_ACTION = 'action';
     
     const PARAM_CONTEXT_TEMPLATE_ID = 'context_template_id';
-    
     const PARAM_REPORTING_TEMPLATE_REGISTRATION_ID = 'template_registration_id';
     
     const PARAM_PUBLICATION_REL_REPORTING_TEMPLATE_ID = 'publication_rel_reporting_template_id';

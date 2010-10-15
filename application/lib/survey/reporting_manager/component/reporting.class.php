@@ -42,7 +42,7 @@ class SurveyReportingManagerReportingComponent extends SurveyReportingManager im
 
     function get_additional_parameters()
     {
-        return array(SurveyManager :: PARAM_PUBLICATION_ID, self :: PARAM_PUBLICATION_REL_REPORTING_TEMPLATE_ID);
+        return array(SurveyManager :: PARAM_PUBLICATION_ID, self :: PARAM_PUBLICATION_REL_REPORTING_TEMPLATE_ID, self :: PARAM_CONTEXT_TEMPLATE_ID);
     }
 	    
 }
