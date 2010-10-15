@@ -10,6 +10,7 @@ require_once dirname(__FILE__).'/../../handbook_menu.class.php';
 require_once dirname(__FILE__).'/../../../../../repository/lib/content_object/wiki_page/complex_wiki_page.class.php';
 require_once dirname(__FILE__).'/../../../context_linker/context_link.class.php';
 require_once dirname(__FILE__).'/../../../context_linker/context_linker_data_manager.class.php';
+require_once dirname(__FILE__).'/../../../context_linker/context_linker_manager/context_linker_manager.class.php';
 
 /**
  * Component to view a handbook and it's content
@@ -17,6 +18,10 @@ require_once dirname(__FILE__).'/../../../context_linker/context_linker_data_man
  */
 class HandbookManagerHandbookViewerComponent extends HandbookManager
 {
+
+    const PARAMETER_SHOW_ALTERNATIVES = 'sa';
+    const ALL_ALTERNATIVES = 'aa';
+    const RELEVANT_ALTERNATIVES_ONLY = 'ro';
 
     private $handbook_id;
     private $handbook_selection_id;
@@ -149,8 +154,8 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
 
              
 
-             //ADD A TAB FOR EACH CONTEXT ALTERNATIVE (DYNAMIC TABS DON'T SEEM TO WORK
-             $i=0;
+             //ADD A TAB FOR EACH CONTEXT ALTERNATIVE (DYNAMIC TABS DON'T SEEM TO WORK HERE)
+//             $i=0;
              while ($item = $context_links_resultset->next_result())
              {
                  $alternative_co = $rdm->retrieve_content_object($item[ContentObject :: PROPERTY_ID]);
@@ -159,6 +164,7 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
 //                 $alternative[$i] = 'test';
 //                 $alternative[$i] = $display_alternative[$i]->get_full_html();
                   $html[] = '</div>';
+                  $html[] =  $item[ContentObject :: PROPERTY_ID] . '  '  . $item[ContentObject :: PROPERTY_TITLE] . '  '  . $item[ContentObject :: PROPERTY_TYPE] . '  '  . $item[MetadataPropertyType :: PROPERTY_NAME]. '  '  . $item[MetadataPropertyValue :: PROPERTY_VALUE];
                  $html[] = $display->get_full_html();
 ////                 $alternative[$i] = '</div>';
 //                 $tab_title[$i] = Translation::get($item[MetadataPropertyType :: PROPERTY_NAME]) . ' : '  . $item[MetadataPropertyValue :: PROPERTY_VALUE];
@@ -189,21 +195,30 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
 //        $action_bar->add_common_action(new ToolbarItem(Translation :: get('EditHandbook'), Theme :: get_common_image_path() . 'content_object/portfolio.png', $this->get_create_portfolio_introduction_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 //
 //        //delete handbook/item
-//        $action_bar->add_common_action(new ToolbarItem(Translation :: get('DELE'), Theme :: get_common_image_path() . 'action_delete.png', $url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+//        $action_bar->add_common_action(new ToolbarItem(Translation :: get('DELETE'), Theme :: get_common_image_path() . 'action_delete.png', $url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         //add handbook/item
 
         //set handbook rights
 
         //create alternative context version
-
+        $actions[] = new ToolbarItem(Translation :: get('CreateContextLink'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(Application::PARAM_APPLICATION => ContextLinkerManager::APPLICATION_NAME, ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_CREATE_CONTEXT_LINK, ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => $this->selected_object->get_id())));
         //view glossary
 
 
 
-
+        $action_bar->set_common_actions($actions);
 
         return $action_bar;
+
+    }
+
+    function determin_relevant_alternatives($context_links_resultset)
+    {
+        //Text: Most Relevant = Language
+
+        //Images: Most Relevant = Institution
+
 
     }
 
