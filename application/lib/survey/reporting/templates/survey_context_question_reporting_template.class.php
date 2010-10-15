@@ -15,9 +15,7 @@ class SurveyContextQuestionReportingTemplate extends ReportingTemplate implement
         parent :: __construct($parent);
         
         $publication_id = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
-        
-      
-        
+         
         Request :: set_get(DynamicFormTabsRenderer :: PARAM_SELECTED_TAB, Request :: post('submit'));
         $types = array(SurveyReportingFilterWizard :: TYPE_CONTEXTS, SurveyReportingFilterWizard :: TYPE_QUESTIONS, SurveyReportingFilterWizard :: TYPE_ANALYSE_TYPE);
         
@@ -26,34 +24,13 @@ class SurveyContextQuestionReportingTemplate extends ReportingTemplate implement
         $this->filter_parameters = $this->wizard->get_filter_parameters();
         $complex_question_ids = $this->filter_parameters[SurveyReportingFilterWizard :: PARAM_QUESTIONS];
         
-//        dump($complex_question_ids);
-//          
-//        
-//        if (count($complex_question_ids))
-//        {
-//            $template_question_ids = array_intersect($complex_question_ids, $template_question_ids);
-//        }
-//        else
-//        {
-//            $template_question_ids = array();
-//        }
-        
-//        dump('result');
-//        dump($template_question_ids);
-//
-//        exit;
-        
-        
         foreach ($complex_question_ids as $complex_question_id)
         {
             $this->add_reporting_block(new SurveyContextQuestionReportingBlock($this, $complex_question_id));
         }
         
         $this->set_filter_parameters();
-        
-//        dump($this->get_parent()->get_parameters());
-        
-    
+     
     }
 
     public function display_filter_body()

@@ -53,7 +53,7 @@ class SurveyAbsoluteAnalyzer extends SurveyAnalyzer
                         $answer_count[$option_count][$match_count] = 0;
                         $match_count --;
                     }
-                    $answer_count[$option_count][self :: NO_ANSWER] = 0;
+//                    $answer_count[$option_count][self :: NO_ANSWER] = 0;
                     $option_count --;
                 }
                 
@@ -85,11 +85,11 @@ class SurveyAbsoluteAnalyzer extends SurveyAnalyzer
                         $all_options[] = $key;
                     }
                     $options_not_answered = array_diff($all_options, $options_answered);
-                    foreach ($options_not_answered as $option)
-                    {
-                        $answer_count[$option][self :: NO_ANSWER] ++;
-                    
-                    }
+//                    foreach ($options_not_answered as $option)
+//                    {
+//                        $answer_count[$option][self :: NO_ANSWER] ++;
+//                    
+//                    }
                 }
                 
                 //creating actual reporing data
@@ -100,7 +100,7 @@ class SurveyAbsoluteAnalyzer extends SurveyAnalyzer
                     $reporting_data->add_row(strip_tags($match));
                 }
                 
-                $reporting_data->add_row(self :: NO_ANSWER);
+//                $reporting_data->add_row(self :: NO_ANSWER);
                 
                 foreach ($options as $option_key => $option)
                 {
@@ -111,7 +111,7 @@ class SurveyAbsoluteAnalyzer extends SurveyAnalyzer
                     {
                         $reporting_data->add_data_category_row($option, strip_tags($match), $answer_count[$option_key][$match_key]);
                     }
-                    $reporting_data->add_data_category_row($option, self :: NO_ANSWER, $answer_count[$option_key][self :: NO_ANSWER]);
+//                    $reporting_data->add_data_category_row($option, self :: NO_ANSWER, $answer_count[$option_key][self :: NO_ANSWER]);
                 
                 }
                 break;
@@ -123,7 +123,7 @@ class SurveyAbsoluteAnalyzer extends SurveyAnalyzer
                 {
                     $options[] = $option->get_value();
                 }
-                $options[] = self :: NO_ANSWER;
+//                $options[] = self :: NO_ANSWER;
                 
                 $matches[] = self :: COUNT;
                 
@@ -136,7 +136,7 @@ class SurveyAbsoluteAnalyzer extends SurveyAnalyzer
                     $answer_count[$option_count] = 0;
                     $option_count --;
                 }
-                $answer_count[self :: NO_ANSWER] = 0;
+//                $answer_count[self :: NO_ANSWER] = 0;
                 
                 //count answers from all answer trackers
                 

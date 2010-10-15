@@ -79,7 +79,7 @@ function dump_tree($contexts)
         
         foreach ($contexts as $context)
         {
-            $id = $context->get_context_id();
+            $id = 'context_'.$context->get_context_id();
             $name = strip_tags($context->get_optional_property(SurveyContext :: PROPERTY_NAME));
             //            $description = strip_tags($period->get_description());
             //            $description = preg_replace("/[\n\r]/", "", $description);

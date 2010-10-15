@@ -17,7 +17,8 @@ class SurveyReportingFilterWizard extends WizardPageValidator
     const CONTEXT_TEMPLATES_TAB = 'context_templates';
     const ANALYSE_TYPE_TAB = 'analyse_type';
     
-    const PARAM_CONTEXTS = 'contexts';
+    const CONTEXT_ELEMENT_FINDER = 'context_element_finder';
+    const PARAM_CONTEXTS = 'context_ids';
     const PARAM_GROUPS = 'groups';
     const PARAM_USERS = 'users';
     const PARAM_QUESTIONS = 'questions';
@@ -155,13 +156,14 @@ class SurveyReportingFilterWizard extends WizardPageValidator
         if ($context_template_id)
         {
             $attributes['search_url'] = Path :: get(WEB_PATH) . 'application/lib/survey/xml_feeds/xml_context_feed.php?' . SurveyManager :: PARAM_USER_ID . '=' . $this->user->get_id() . '&' . self :: PARAM_CONTEXT_TEMPLATE_ID . '=' . $context_template_id;
-        	$this->addElement('hidden',self :: PARAM_CONTEXT_TEMPLATE_ID, $context_template_id);
+        	$this->addElement('hidden', self :: PARAM_CONTEXT_TEMPLATE_ID, $context_template_id);
         }
         else
         {
             $attributes['search_url'] = Path :: get(WEB_PATH) . 'application/lib/survey/xml_feeds/xml_context_feed.php?' . SurveyManager :: PARAM_USER_ID . '=' . $this->user->get_id();
-        
         }
+        
+//        dump($attributes['search_url']);
         
         $locale = array();
         $locale['Display'] = Translation :: get('ChooseContext');
@@ -170,10 +172,25 @@ class SurveyReportingFilterWizard extends WizardPageValidator
         $locale['Error'] = Translation :: get('Error');
         $attributes['locale'] = $locale;
         $attributes['defaults'] = array();
+		
+//        $parameters = $this->get_filter_parameters();
+//        dump($parameters);
+//        $contexts = $parameters[self :: PARAM_CONTEXTS];
+//        $defaults = array();
+//        foreach ($contexts as $context_id) {
+//        	$context = SurveyContextDataManager::get_instance()->retrieve_survey_context_by_id($context_id);        
+//        	$defaults['context_'.$context_id] = array('title' => $context->get_name(), 'description', $context->get_name(), 'class' => 'rights_template');
+//        	
+//        }
+        
+//        dump($defaults);
+        
+//        $attributes['defaults'] = $defaults;
+
         $attributes['options'] = array('load_elements' => true);
-        $element_finder = $this->createElement('element_finder', 'contexts', Translation :: get('AvailableContexts'), $attributes['search_url'], $attributes['locale'], $attributes['defaults'], $attributes['options']);
-        $element_finder->excludeElements($attributes['exclude']);
-        $this->addElement($element_finder);
+        $element_finder = $this->createElement('element_finder', 'context', Translation :: get('AvailableContexts'), $attributes['search_url'], $attributes['locale'], $attributes['defaults'], $attributes['options']);
+//        $element_finder->excludeElements($attributes['exclude']);
+       	$this->addElement($element_finder);
         
         $buttons = array();
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Filter'), array('class' => 'positive'), self :: CONTEXTS_TAB);
@@ -280,9 +297,11 @@ class SurveyReportingFilterWizard extends WizardPageValidator
         if ($this->validate())
         {
             $values = $this->exportValues();
-                      
+           
+//            dump($values);
+            
             $parameters = array();
-            $parameters[self :: PARAM_CONTEXTS] = $values[self :: PARAM_CONTEXTS];
+            $parameters[self :: PARAM_CONTEXTS] = $values['context']['context'];
             $parameters[self :: PARAM_GROUPS] = $values[self :: PARAM_GROUPS]['group'];
             $parameters[self :: PARAM_USERS] = $values[self :: PARAM_USERS]['user'];
             $parameters[self :: PARAM_QUESTIONS] = $values[self :: PARAM_QUESTIONS];
@@ -290,6 +309,9 @@ class SurveyReportingFilterWizard extends WizardPageValidator
             $parameters[self :: PARAM_ANALYSE_TYPE] = $values[self :: PARAM_ANALYSE_TYPE];
             $parameters[self :: PARAM_PUBLICATION_ID] = $values[self :: PARAM_PUBLICATION_ID];
             $parameters[self :: PARAM_CONTEXT_TEMPLATE_ID] = $values[self :: PARAM_CONTEXT_TEMPLATE_ID];
+            
+//            dump($parameters);
+            
             return $parameters;
         }
         else
