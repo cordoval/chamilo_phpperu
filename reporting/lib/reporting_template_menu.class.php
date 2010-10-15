@@ -14,7 +14,7 @@ require_once Path :: get_reporting_path() . 'lib/reporting_block.class.php';
 class ReportingTemplateMenu
 {
     const TREE_NAME = __CLASS__;
-    
+
     /**
      * The reporting_templates
      */
@@ -44,12 +44,12 @@ class ReportingTemplateMenu
     {
         $this->reporting_template = $reporting_template;
         $this->url_format = $url_format;
-        
+
     //$menu = $this->get_menu_items();
-    
+
 
     //parent :: __construct($menu);
-    
+
 
     //$this->array_renderer = new HTML_Menu_ArrayRenderer();
     //$this->forceCurrentUrl($this->get_reporting_block_url($current_block));
@@ -67,23 +67,26 @@ class ReportingTemplateMenu
     {
         $html = array();
         $reporting_template = $this->reporting_template;
-        
+
         $html[] = '<ul>';
         //$html[] = '<li class="tool_list_menu title">' . Translation :: get(get_class($reporting_template)) . '</li>';
-        
+
         $parameters = $reporting_template->get_parameters();
-        
+
         $reporting_blocks = $reporting_template->get_reporting_blocks();
-        
+
         if (count($reporting_blocks) > 0)
         {
             foreach ($reporting_blocks as $reporting_block_index => $reporting_block)
             {
                 $bloc_parameters = array_merge($parameters, array(ReportingManager :: PARAM_REPORTING_BLOCK_ID => $reporting_block_index));
-                
+
                 $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_chart.png)"><a href="' . $reporting_template->get_parent()->get_url($bloc_parameters) . '">' . $reporting_block->get_title() . '</a></li>';
             }
         }
+
+        $html[] = '</ul>';
+
         return implode("\n", $html);
     }
 
@@ -117,7 +120,7 @@ class ReportingTemplateMenu
     //        }
     //        return $trail;
     //    }
-    
+
 
     /**
      * Renders the menu as a tree
@@ -129,7 +132,7 @@ class ReportingTemplateMenu
         $this->render($renderer, 'sitemap');
         return $renderer->toHTML();
     }
-    
+
     static function get_tree_name()
     {
     	return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
@@ -138,19 +141,19 @@ class ReportingTemplateMenu
     function as_html()
     {
         $html[] = '<div id="tool_bar" class="tool_bar tool_bar_left" style="position: relative; left: -1%; float:left; width: 17%;">';
-        
+
         $html[] = '<div id="tool_bar_hide_container" class="hide">';
         $html[] = '<a id="tool_bar_hide" href="#"><img src="' . Theme :: get_common_image_path() . 'action_action_bar_left_hide.png" /></a>';
         $html[] = '<a id="tool_bar_show" href="#"><img src="' . Theme :: get_common_image_path() . 'action_action_bar_left_show.png" /></a>';
         $html[] = '</div>';
-        
+
         $html[] = '<div class="tool_menu">';
         $html[] = $this->get_menu_items();
         $html[] = '</div>';
-        
+
 //        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/tool_bar.js' . '"></script>';
         $html[] = '</div>';
-        
+
         return implode("\n", $html);
     }
 }
