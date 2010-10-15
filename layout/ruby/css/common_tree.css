@@ -101,9 +101,74 @@ ul.tree-menu li div a.profile {
 	background-image: url(../images/common/treemenu_types/profile.png);
 }
 
+ul.tree-menu li div a.red_light {
+	background-image: url(../images/common/treemenu/red_light.png);
+}
+
+ul.tree-menu li div a.yellow_light {
+	background-image: url(../images/common/treemenu/yellow_light.png);
+}
+
+ul.tree-menu li div a.green_light {
+	background-image: url(../images/common/treemenu/green_light.png);
+}
+
+/*****************************
+ * External repository types *
+ *****************************/
 ul.tree-menu li div a.youtube {
 	clear: both;
-	background-image: url(../images/common/treemenu_types/youtube.png);
+	background-image: url(../images/common/external_repository/youtube/logo/16.png);
+}
+
+ul.tree-menu li div a.mediamosa {
+	clear: both;
+	background-image: url(../images/common/external_repository/mediamosa/logo/16.png);
+}
+
+ul.tree-menu li div a.google_docs {
+	clear: both;
+	background-image: url(../images/common/external_repository/google_docs/logo/16.png);
+}
+
+ul.tree-menu li div a.fedora {
+	clear: both;
+	background-image: url(../images/common/external_repository/fedora/logo/16.png);
+}
+
+ul.tree-menu li div a.fedora_object {
+	clear: both;
+	background-image: url(../images/common/external_repository/fedora/types/object.png);
+}
+
+ul.tree-menu li div a.fedora_history {
+	clear: both;
+	background-image: url(../images/common/external_repository/fedora/types/history_tree.png);
+}
+
+ul.tree-menu li div a.fedora_datastream {
+	clear: both;
+	background-image: url(../images/common/external_repository/fedora/types/datastream.png);
+}
+
+ul.tree-menu li div a.fedora_folder {
+	clear: both;
+	background-image: url(../images/common/external_repository/fedora/types/folder_tree.png);
+}
+
+ul.tree-menu li div a.flickr {
+	clear: both;
+	background-image: url(../images/common/external_repository/flickr/logo/16.png);
+}
+
+ul.tree-menu li div a.matterhorn {
+	clear: both;
+	background-image: url(../images/common/external_repository/matterhorn/logo/16.png);
+}
+
+ul.tree-menu li div a.picasa {
+	clear: both;
+	background-image: url(../images/common/external_repository/picasa/logo/16.png);
 }
 
 ul.tree-menu li div a.disabled {
@@ -124,6 +189,18 @@ ul.tree-menu li div img {
  */
 ul.tree-menu li div a.home {
 	background-image: url(../images/common/treemenu/home.png);
+}
+
+ul.tree-menu li div a.user {
+	background-image: url(../images/common/treemenu/user.png);
+}
+
+ul.tree-menu li div a.feed {
+	background-image: url(../images/common/treemenu/feed.png);
+}
+
+ul.tree-menu li div a.streaming {
+	background-image: url(../images/common/treemenu/streaming.png);
 }
 
 ul.tree-menu li div a.trash {
@@ -148,6 +225,10 @@ ul.tree-menu li div a.publication {
 
 ul.tree-menu li div a.create {
 	background-image: url(../images/common/treemenu/create.png);
+}
+
+ul.tree-menu li div a.manage {
+	background-image: url(../images/common/treemenu/manage.png);
 }
 
 ul.tree-menu li div a.rights {
@@ -179,12 +260,48 @@ ul.tree-menu li div a.category {
 	background-image: url(../images/common/treemenu/tree-folder-closed.png);
 }
 
+ul.tree-menu li div a.hidden {
+	background-image: url(../images/common/treemenu/hidden.png);
+}
+
+ul.tree-menu li div a.google_docs_pdf {
+	background-image: url(../images/common/external_repository/google_docs/types/pdf.png);
+}
+
+ul.tree-menu li div a.google_docs_document {
+	background-image: url(../images/common/external_repository/google_docs/types/document.png);
+}
+
+ul.tree-menu li div a.google_docs_presentation {
+	background-image: url(../images/common/external_repository/google_docs/types/presentation.png);
+}
+
+ul.tree-menu li div a.google_docs_spreadsheet {
+	background-image: url(../images/common/external_repository/google_docs/types/spreadsheet.png);
+}
+
 ul.tree-menu li div a.survey {
+	background-image: url(../images/common/treemenu/survey.png);
+}
+
+ul.tree-menu li div a.survey_context {
+	background-image: url(../images/common/treemenu/survey.png);
+}
+
+ul.tree-menu li div a.survey_page {
+	background-image: url(../images/common/treemenu/survey.png);
+}
+
+ul.tree-menu li div a.survey_question {
 	background-image: url(../images/common/treemenu/survey.png);
 }
 
 ul.tree-menu li div a.survey_finished {
 	background-image: url(../images/common/treemenu/survey_finished.png);
+}
+
+ul.tree-menu li div a.lock {
+	background-image: url(../images/common/action_lock.png);
 }
 
 ul.tree-menu li div a.divider {
@@ -436,15 +553,15 @@ ul.tree-menu li div a.type_sts {
  * TOOL MENU *
  *************/
 div.tool_bar {
-	background-color: #f4f4f4;
-	border: 1px solid #cecece;
+	background-color: #F4F4F4;
+	border: 1px solid #CECECE;
 	padding: 10px;
 	position: fixed;
 	text-align: left;
 }
 
 div.tool_bar div.divider {
-	background-color: #d90223;
+	background-color: #D90223;
 	margin: 10px 0px 10px 0px;
 	line-height: 1px;
 	height: 1px;
@@ -479,7 +596,7 @@ div.tool_bar #tool_bar_hide_container {
  * TOOL MENU IN LEFT MODUS *
  ***************************/
 div.tool_bar_left {
-	width: 160px;
+	/*width: 160px;*/
 	border-left: 0px;
 	left: 0px;
 	-moz-border-radius-bottomright: 10px;
@@ -593,7 +710,6 @@ div.tool_menu ul li.tool_list_menu {
 div.tool_menu ul li.title {
 	padding: 0px 0px 10px 0px;
 	font-weight: bold;
-	color: #444444;
 }
 
 div.tool_menu ul li.tool_list_menu a {
@@ -603,6 +719,6 @@ div.tool_menu ul li.tool_list_menu a {
 
 div.tool_menu div.splitter {
 	margin: 10px 0 10px 0;
-	border-bottom: 1px dotted #d90223;
+	border-bottom: 1px dotted #D90223;
 	height: 0px;
 }

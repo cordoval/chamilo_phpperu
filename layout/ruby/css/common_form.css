@@ -10,8 +10,8 @@ div.row {
 div.row div.form_header {
 	white-space: nowrap;
 	padding: 2px;
-	background-color: #efefef;
-	border: 1px solid #d90223;
+	background-color: #EFEFEF;
+	border: 1px solid #D90223;
 }
 
 div.row div.label {
@@ -42,8 +42,8 @@ div.formw input[type=text],div.row div.formw input[type=password],div.row div.fo
 
 div.formw input[type=text]:hover,div.row div.formw input[type=text]:focus,div.row div.formw input[type=password]:hover,div.row div.formw input[type=password]:focus,div.row div.formw select:hover,div.row div.formw select:focus
 div.row div.formw textarea:hover,div.row div.formw textarea:focus {
-	background-color: #f7fbfd;
-	border-color: #d90223;
+	background-color: #FDF8F7;
+	border-color: #D90223;
 }
 
 div.row div.forme,div.row div.forme_no_margin {
@@ -69,9 +69,9 @@ div.row div.formc,div.row div.formc_no_margin {
 	background-repeat: no-repeat;
 	background-position: 10px 10px;
 	/*background-image: url('../images/common/status_confirmation_medium.png');*/
-	background-color: #E5EDF9;
+	background-color: #EFEFEF;
 	border: 1px solid #b9d0ef;
-	color: #008;
+	color: #000008;
 }
 
 div.row div.forme h2,div.row div.forme_no_margin h2,div.row div.formc h2,div.row div.formc_no_margin h2
@@ -124,7 +124,7 @@ select,textarea {
 input[type=text],input[type=password] {
 	margin: 0px;
 	padding: 2px 4px 2px 4px;
-	border: 1px solid #d90223;
+	border: 1px solid #D90223;
 }
 
 input.checkbox,input[type=checkbox] {
@@ -145,6 +145,7 @@ select,input[type=checkbox],input[type=radio],input[type=button],input[type=subm
 	{
 	cursor: pointer;
 	font-size: 12px;
+	max-width: 400px;
 }
 
 input[text] {
@@ -223,7 +224,7 @@ input.rating_question_high_value {
 /*********************************************************
  * Fixes button elements in Firefox ... unbelievable :-S *
  *********************************************************/
-button::-moz-focus-inner {
+button: :-moz-focus-inner {
 	border: 0px;
 	padding: 0px;
 }
@@ -292,14 +293,6 @@ button.normal,a.normal_button {
 	background-image: url(../images/common/buttons/button_next.png);
 }
 
-button.next,a.next_button {
-	background-image: url(../images/common/buttons/button_next.png);
-}
-
-button.previous,a.previous_button {
-	background-image: url(../images/common/buttons/button_previous.png);
-}
-
 a.normal_button:hover,button.normal:hover {
 	background-color: #dff4ff;
 	border: 1px solid #c2e1ef;
@@ -312,6 +305,32 @@ button.normal:active,a.normal_button:active {
 	color: #ffffff;
 }
 
+button.mini, a.mini_button,
+button.mini:hover, a.mini_button:hover,
+button.mini:active, a.mini_button:active
+{
+	background-position: 6px center;
+	padding: 0px 6px 0px 28px;
+	margin: -3px 0px 0px -3px;
+	line-height: 16px;
+	height: 22px;
+	vertical-align: middle;
+	font-size: 11px;
+}
+
+button.mini, a.mini_button
+{
+	border: 1px solid #dedede;
+}
+
+button.next,a.next_button {
+	background-image: url(../images/common/buttons/button_next.png);
+}
+
+button.previous,a.previous_button {
+	background-image: url(../images/common/buttons/button_previous.png);
+}
+
 button.empty,a.empty_button {
 	background-image: url(../images/common/buttons/button_empty.png);
 }
@@ -322,6 +341,8 @@ button.select,a.select_button {
 
 button.login,a.login_button {
 	background-image: url(../images/common/buttons/button_login.png);
+	float: left;
+	margin-bottom: 7px;
 }
 
 button.logout,a.logout_button {
@@ -378,6 +399,9 @@ button.compare,a.compare_button {
 
 button.register,a.register_button {
 	background-image: url(../images/common/buttons/button_register.png);
+	float: left;
+	padding-bottom: 11px;
+	margin-bottom: 7px;
 }
 
 button.switch,a.switch_button {
@@ -426,6 +450,9 @@ button.surf,a.surf_button {
 
 button.help,a.help_button {
 	background-image: url(../images/common/buttons/button_help.png);
+	float: left;
+	padding-bottom: 11px;
+	margin-bottom: 7px;
 }
 
 button.email,a.email_button {
@@ -446,6 +473,34 @@ button.quickstart,a.quickstart_button {
 
 button.continue,a.continue_button {
 	background-image: url(../images/common/buttons/button_continue.png);
+}
+
+button.hide, a.hide_button {
+	background-image: url(../images/common/buttons/button_hide.png);
+}
+
+button.dropdown, a.dropdown_button {
+	padding:2px;
+	width:22px; 
+	height:22px; 
+	line-height:16px; 
+	text-decoration:none;
+	outline:none;
+	background-position: center;
+	vertical-align:bottom;
+	background-image: url(../images/common/buttons/button_dropdown.png);
+	margin-left:0px;
+}
+
+div.dropdown{
+	position:absolute;
+	border-style:solid;
+	border-width:1px;
+	border-color:#dedede;
+	background-color:white;
+	min-width:400px;
+	padding:5px;
+	margin:1px;
 }
 
 /*IE-fix to avoid adding unwanted margins to the form*/
@@ -470,7 +525,7 @@ div.configuration_form span.category {
 	top: -20px;
 	background-color: #FFFFFF;
 	font-weight: bold;
-	color: #d90223;
+	color: #D90223;
 	padding: 0px 5px 0px 5px;
 }
 
@@ -480,7 +535,7 @@ div.configuration_form span.category {
  * Don't change unless you have a death wish *
  *********************************************/
 .element_finder_inactive {
-	margin-right: 10px;
+	margin-right: 5px;
 }
 
 .active_elements,.inactive_elements {
@@ -495,18 +550,19 @@ div.configuration_form span.category {
 
 .active_elements:hover,.active_elements:focus,.inactive_elements:hover,.inactive_elements:focus
 	{
-	background-color: #f7fbfd;
-	border: 1px solid #d90223;
+	background-color: #FDF8F7;
+	border: 1px solid #D90223;
 }
 
 input[type=text].element_query { /*****************
 	 * width: 278px; *
 	 *****************/
-	width: 294px;
+	width: 276px;
 	background-image: url('../images/common/buttons/button_search.png');
 	background-repeat: no-repeat;
 	background-position: 2px 2px;
 	padding: 2px 4px 2px 20px;
+	margin-right: 5px;
 }
 
 input[type=button].activate_elements,input[type=button].deactivate_elements
@@ -572,6 +628,12 @@ div.element_finder_buttons {
 	margin: 0px 10px 0px 10px;
 }
 
+#selected_image
+{
+	border: 1px solid #dedede;
+	margin-bottom: 5px;
+}
+
 /**********************
  * FILTER FORM STYLES *
  **********************/
@@ -597,6 +659,28 @@ div.filter_form div.row div.formw button {
 	margin-top: -4px;
 }
 
+/**********************
+ * JUMP FORM STYLES *
+ **********************/
+#personal_calendar_jump_form select{
+	width : 100%;
+}
+div.jump_form {
+	clear: both;
+	padding: 0px;
+	margin: 0px;
+}
+
+div.jump_form div.row {
+	clear: both;
+	padding: 0px;
+}
+
+div.jump_form div.row div.formw {
+	float: none;
+	width: 100%;
+}
+
 input.search_query {
 	background: url(../images/common/action_search.png) 1px 50% no-repeat;
 	padding: 0 0 0 21px;
@@ -617,11 +701,11 @@ input#attachments_expand_button {
 	font-weight: bold;
 	font-family: arial, verdana, helvetica, sans-serif;
 	font-size: 12px;
-	color: #d90223;
+	color: #D90223;
 	cursor: pointer;
 }
 
-input#attachments_expand_button:hover {
+input#attachments_expand_button :hover {
 	color: red;
 }
 
@@ -636,7 +720,7 @@ input#attachments_collapse_button {
 	font-weight: bold;
 	font-family: arial, verdana, helvetica, sans-serif;
 	font-size: 12px;
-	color: #d90223;
+	color: #D90223;
 	cursor: pointer;
 }
 
@@ -655,11 +739,11 @@ input#rights_templates_expand_button {
 	font-weight: bold;
 	font-family: arial, verdana, helvetica, sans-serif;
 	font-size: 12px;
-	color: #d90223;
+	color: #D90223;
 	cursor: pointer;
 }
 
-input#rights_templates_expand_button:hover {
+input#rights_templates_expand_button :hover {
 	color: red;
 }
 
@@ -674,18 +758,18 @@ input#rights_templates_collapse_button {
 	font-weight: bold;
 	font-family: arial, verdana, helvetica, sans-serif;
 	font-size: 12px;
-	color: #d90223;
+	color: #D90223;
 	cursor: pointer;
 }
 
-input#rights_templates_collapse_button:hover {
+input#rights_templates_collapse_button :hover {
 	color: red;
 }
 
 input.link_alike {
 	background-color: #FFFFFF;
 	border-width: 0px;
-	color: #d90223;
+	color: #D90223;
 	font-weight: bold;
 	text-align: left;
 	padding: 0px;
