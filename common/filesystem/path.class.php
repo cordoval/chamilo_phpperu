@@ -44,8 +44,6 @@ define('WEB_LAUNCH_APP_PATH', 'WEB_LAUNCH_APP_PATH');
 // Files-paths
 define('WEB_ARCHIVE_PATH', 'WEB_ARCHIVE_PATH');
 define('SYS_ARCHIVE_PATH', 'SYS_ARCHIVE_PATH');
-define('WEB_FCK_PATH', 'WEB_FCK_PATH');
-define('SYS_FCK_PATH', 'SYS_FCK_PATH');
 define('WEB_GARBAGE_PATH', 'WEB_GARBAGE_PATH');
 define('SYS_GARBAGE_PATH', 'SYS_GARBAGE_PATH');
 define('WEB_REPO_PATH', 'WEB_REPO_PATH');
@@ -80,7 +78,7 @@ class Path
 				{
 		 	        $dir .= '/';
  				}
- 
+
  				//Temporary fix for things that are launched from the common folder
  				$possible_launchers = array('common', 'home');
  				foreach($possible_launchers as $possible_launcher)
@@ -91,9 +89,9 @@ class Path
  						break;
  					}
  				}
- 				
+
  				$protocol = empty($_SERVER['HTTPS']) ? 'http://' : 'https://';
- 				
+
  				return self :: $path[$path_type] = $protocol . $_SERVER['HTTP_HOST'] . $dir;
                 //return self :: $path[$path_type] = Configuration :: get_instance()->get_parameter('general', 'root_web');
             case SYS_PATH :
@@ -161,7 +159,7 @@ class Path
                 return self :: $path[$path_type] = self :: get_library_path() . 'launcher/';
 			case WEB_LAUNCH_APP_PATH :
 				return self :: $path[$path_type] = self :: get(WEB_LIB_PATH) . 'launcher/';
-                
+
             // Application-paths
             case SYS_APP_LIB_PATH :
                 return self :: $path[$path_type] = self :: get(SYS_APP_PATH) . 'common/';
@@ -179,12 +177,6 @@ class Path
                 return self :: $path[$path_type] = self :: get(WEB_FILE_PATH) . 'userpictures/';
             case SYS_USER_PATH :
                 return self :: $path[$path_type] = self :: get(SYS_FILE_PATH) . 'userpictures/';
-            case WEB_FCK_PATH :
-                return self :: $path[$path_type] = self :: get(WEB_FILE_PATH) . 'fckeditor/';
-            case SYS_FCK_PATH :
-                return self :: $path[$path_type] = self :: get(SYS_FILE_PATH) . 'fckeditor/';
-            case REL_FCK_PATH :
-                return self :: $path[$path_type] = self :: get(REL_FILE_PATH) . 'fckeditor/';
             case WEB_REPO_PATH :
                 return self :: $path[$path_type] = self :: get(WEB_FILE_PATH) . 'repository/';
             case SYS_REPO_PATH :
@@ -282,7 +274,7 @@ class Path
     {
         return self :: get(SYS_APP_PATH);
     }
-    
+
     public static function get_launcher_application_path($web = false)
     {
     	if ($web)
@@ -291,8 +283,8 @@ class Path
     	}
     	return self :: get(SYS_LAUNCH_APP_PATH);
     }
-    
-    
+
+
 
     public static function get_reporting_path()
     {
@@ -328,7 +320,7 @@ class Path
     {
         return self :: get(SYS_CACHE_PATH);
     }
-    
+
     public static function get_layout_path()
     {
     	return self :: get(SYS_LAYOUT_PATH);
