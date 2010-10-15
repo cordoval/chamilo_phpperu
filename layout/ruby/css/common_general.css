@@ -45,14 +45,14 @@ img.with_border
 /* Header 1: Containing title, portal and organization */
 #header1 {
 	font-size: 12px;
-	padding: 0px;
-	background-color: #C50C2E;
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-left: 0px;
+	background-color: #c50c2e;
+	background-image: url("../img/common/background_header.png");
 	color: #ffffff;
-	/*border-bottom: 1px solid white;*/
-	height: 80px;
-	background-image: url('../images/common/background_header.png');
-	background-repeat: repeat-x;
-	background-position: center left;
+	height: 90px;
 }
 
 #header1 a {
@@ -67,16 +67,17 @@ img.with_border
 
 #header1 div.banner {
 	float: left;
-	margin: 16px 19px 16px 19px;
-	height: 48px;
-	width: 243px;
+	margin: 16px 1% 16px 0px;
+	height: 58px;
+	width: 210px;
+
 }
 
 #header1 div.banner span.logo {
 	background-image: url('../images/common/logo_header.png');
 	background-repeat: no-repeat;
-	height: 48px;
-	width: 266px;
+	height: 58px;
+	width: 280px;
 	display: block;
 }
 
@@ -86,7 +87,7 @@ img.with_border
 
 #header1 div.menu_container {
 	position: relative;
-	margin-left: 281px;
+	margin-left: 290px;
 	right: 0px;
 	left: 0px;
 	margin-right: 19px;
