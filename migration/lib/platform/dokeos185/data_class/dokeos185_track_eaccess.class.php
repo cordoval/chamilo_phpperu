@@ -142,8 +142,9 @@ class Dokeos185TrackEAccess extends Dokeos185MigrationDataClass
     {
 
         $new_user_id = $this->get_id_reference($this->get_access_user_id(), 'main_database.user');
+        $new_course_id = $this->get_id_reference($this->get_access_course_code(), 'main_database.course');
 
-        if (!$new_user_id || !$this->convert[$this->get_access_tool()]) //if the user id doesn't exist anymore, the data can be ignored
+        if (!$new_user_id || !$new_course_id || !$this->convert[$this->get_access_tool()]) //if the user id doesn't exist anymore, the data can be ignored
         {
             $this->create_failed_element($this->get_id());
             return false;
