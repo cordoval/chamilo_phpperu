@@ -1,5 +1,7 @@
 <?php
 namespace common\libraries;
+
+use admin\AdminDataManager;
 /**
  * The combination of options available for the FormValidatorHtmlEditor
  * Should be implemented for each specific editor to translate the generic option values
@@ -248,7 +250,7 @@ abstract class FormValidatorHtmlEditorOptions
     public static function factory($type, $options = array())
     {
         $file = dirname(__FILE__) . '/html_editor_options/' . $type . '_html_editor_options.class.php';
-        $class = 'FormValidator' . Utilities :: underscores_to_camelcase($type) . 'HtmlEditorOptions';
+        $class = __NAMESPACE__ . '\\' . 'FormValidator' . Utilities :: underscores_to_camelcase($type) . 'HtmlEditorOptions';
 
         if (file_exists($file))
         {

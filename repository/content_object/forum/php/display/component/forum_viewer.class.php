@@ -12,6 +12,8 @@ use common\libraries\Theme;
 use common\libraries\DatetimeUtilities;
 use common\libraries\ObjectTableOrder;
 
+use user\UserDataManager;
+
 /**
  * $Id: forum_viewer.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.forum.component

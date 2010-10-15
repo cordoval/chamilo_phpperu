@@ -632,5 +632,12 @@ class Utilities
         $classname_parts = explode('\\', $classname);
         return $classname_parts[count($classname_parts) - 1];
     }
+
+    static function get_namespace_from_classname($namespace)
+    {
+        $namespace_parts = explode('\\', $namespace);
+        array_pop($namespace_parts);
+        return implode('\\', $namespace_parts);
+    }
 }
 ?>

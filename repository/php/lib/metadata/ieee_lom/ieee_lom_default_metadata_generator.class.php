@@ -2,6 +2,9 @@
 namespace repository;
 
 use common\libraries\Path;
+use common\libraries\PlatformSetting;
+
+use user\UserDataManager;
 
 /**
  * $Id: ieee_lom_default_metadata_generator.class.php 204 2009-11-13 12:51:30Z kariboe $

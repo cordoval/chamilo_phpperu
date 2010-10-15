@@ -8,6 +8,8 @@ use common\libraries\Theme;
 use common\libraries\Application;
 use common\libraries\DatetimeUtilities;
 
+use user\UserDataManager;
+
 /**
  * A personal blog layout with the user picture on the side
  */

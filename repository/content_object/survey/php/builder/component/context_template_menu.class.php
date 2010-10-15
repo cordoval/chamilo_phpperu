@@ -5,6 +5,7 @@ use common\libraries\Path;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\ObjectTableOrder;
+use common\libraries\OptionsMenuRenderer;
 
 require_once 'HTML/Menu.php';
 require_once 'HTML/Menu/ArrayRenderer.php';

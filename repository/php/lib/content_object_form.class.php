@@ -10,9 +10,13 @@ use common\libraries\Versionable;
 use common\libraries\ResourceManager;
 use common\libraries\AttachmentSupport;
 use common\libraries\ForcedVersionSupport;
+use common\libraries\OptionsMenuRenderer;
+use common\libraries\PlatformSetting;
 
 use admin\AdminDataManager;
 use admin\Registration;
+
+use user\UserDataManager;
 
 /**
  * $Id: content_object_form.class.php 204 2009-11-13 12:51:30Z kariboe $

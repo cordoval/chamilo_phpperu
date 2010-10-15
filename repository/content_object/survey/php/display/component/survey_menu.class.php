@@ -3,6 +3,7 @@ namespace repository\content_object\survey;
 
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
+use common\libraries\OptionsMenuRenderer;
 
 require_once 'HTML/Menu.php';
 require_once 'HTML/Menu/ArrayRenderer.php';

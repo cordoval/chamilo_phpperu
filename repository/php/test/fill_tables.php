@@ -4,6 +4,8 @@ use common\libraries\Translation;
 use common\libraries\Session;
 use common\libraries\Path;
 
+use user\UserDataManager;
+
 /**
  * $Id: fill_tables.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.test

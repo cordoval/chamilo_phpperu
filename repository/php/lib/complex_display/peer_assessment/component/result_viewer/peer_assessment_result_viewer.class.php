@@ -3,6 +3,8 @@ namespace repository;
 
 use common\libraries\Request;
 use common\libraries\EqualityCondition;
+
+use user\UserDataManager;
 /*
  *	@author Nick Van Loocke
  */

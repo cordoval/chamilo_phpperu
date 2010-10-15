@@ -144,7 +144,7 @@ class FormValidatorHtmlEditor
     public static function factory($type, $name, $label, $required = true, $options = array(), $attributes = array())
     {
       	$file = dirname(__FILE__) . '/html_editor/' . $type . '_html_editor.class.php';
-        $class = 'FormValidator' . Utilities :: underscores_to_camelcase($type) . 'HtmlEditor';
+        $class = __NAMESPACE__ . '\\' . 'FormValidator' . Utilities :: underscores_to_camelcase($type) . 'HtmlEditor';
 
         if (file_exists($file))
         {

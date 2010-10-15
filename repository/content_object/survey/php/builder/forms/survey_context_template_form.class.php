@@ -3,6 +3,7 @@ namespace repository\content_object\survey;
 
 use common\libraries\FormValidator;
 use common\libraries\Translation;
+use common\libraries\OptionsMenuRenderer;
 
 class SurveyContextTemplateForm extends FormValidator
 {

@@ -5,6 +5,8 @@ use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Session;
 
+use user\UserDataManager;
+
 /**
  * $Id: user_repository_reporting_template.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.reporting.templates

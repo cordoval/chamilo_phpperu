@@ -55,7 +55,7 @@ class PlatformSetting
      * @param string $name The parameter name.
      * @return mixed The parameter value.
      */
-    function get($variable, $application = 'admin')
+    static function get($variable, $application = 'admin')
     {
         $instance = self :: get_instance();
 

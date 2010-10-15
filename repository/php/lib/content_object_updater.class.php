@@ -8,6 +8,8 @@ use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 
+use user\UserDataManager;
+
 abstract class ContentObjectUpdater
 {
     const TYPE_NORMAL = '1';

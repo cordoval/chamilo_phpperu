@@ -4,6 +4,8 @@ namespace repository;
 use common\libraries\Path;
 
 use repository\ContentObject;
+
+use user\UserDataManager;
 /**
  * $Id: ical_export.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.export.ical

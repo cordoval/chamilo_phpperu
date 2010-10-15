@@ -5,6 +5,8 @@ use common\libraries\Path;
 use common\libraries\Utilities;
 use common\libraries\Session;
 
+use user\UserDataManager;
+
 abstract class BaseExternalRepositoryConnector
 {
     const GET_NEW_UID_NOT_IMPLEMENTED = 'GET_NEW_UID_NOT_IMPLEMENTED';

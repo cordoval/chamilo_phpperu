@@ -3,6 +3,8 @@ namespace repository\content_object\peer_assessment;
 
 use common\libraries\Request;
 use common\libraries\EqualityCondition;
+
+use user\UserDataManager;
 /*
  *	@author Nick Van Loocke
  */

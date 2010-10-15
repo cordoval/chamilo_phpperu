@@ -97,6 +97,9 @@ $(function() {
 		
 		$("#datepicker").datepicker();
 		
+//		$("body *").replaceText('[=', "" );
+		$("body *").replaceText('[*]', " <img src=\"http://localhost/chamilocode/common/libraries/resources/images/aqua/action_translate.png\" style=\"width: 7px; height: 7px;\" />" );
+		
 		// hideMessages();
 
 			// placeFooter();

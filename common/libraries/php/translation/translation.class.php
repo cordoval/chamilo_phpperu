@@ -79,9 +79,9 @@ class Translation
      */
     function get($variable, $context, $parameters = array())
     {
-    	$instance = self :: get_instance();
-		self :: $called_class = get_called_class();  	
-    	
+        $instance = self :: get_instance();
+        self :: $called_class = get_called_class();
+
         $translation = $instance->translate($variable, $context);
 
         if (empty($parameters))
@@ -128,7 +128,7 @@ class Translation
      */
     function translate($variable, $context)
     {
-    	$instance = self :: get_instance();
+        $instance = self :: get_instance();
 
         $language = $instance->language;
         // Modified by Ivan Tcholakov, 31-MAR-2010, see BUG #743
@@ -139,9 +139,9 @@ class Translation
 
         if (count(explode('\\', self :: $called_class)) > 1)
         {
-        	$context = self :: $called_class;
+            $context = Utilities :: get_namespace_from_classname(self :: $called_class);
         }
-        
+
         if (! isset($strings[$language]))
         {
             $instance->add_context_internationalization($language, $context);
@@ -164,7 +164,14 @@ class Translation
             }
             else
             {
-                return '[=' . $context . '=' . $variable . '=]';
+                //$url = PlatformSetting :: get('cda_url') . 'run.php?application=cda&go=edit_variable_translation&variable=' . urlencode($variable) . '&context=' . urlencode($context);
+                //$image = '<img src="' . Theme :: get_common_image_path() . 'action_translate.png" style="width: 6px; height: 6px;" />';
+                //$link = '<a href="' . $url . '" style="display: inline; clear: none; height: auto; padding-left: none;">' . $image . '</a>';
+                //$link = $image;
+                //$link = Theme :: get_common_image('action_translate_mini', 'png', null, $url, ToolbarItem::DISPLAY_ICON);
+
+                //return '[=' . $variable . '=] ' . $link;
+                return $variable . ' [*]';
             }
         }
 
@@ -187,17 +194,17 @@ class Translation
 
     function add_context_internationalization($language, $context)
     {
-    	$called_class = explode('\\', $context);
-    	if (count($called_class) > 1)
-    	{
-    		array_pop($called_class);
-    		$path = Path :: get(SYS_PATH) . '/' . implode('/', $called_class) . '/resources/i18n/' . $language . '.i18n';
-    	}
-    	else
-    	{
-    		$path = BasicApplication :: get_application_resources_i18n_path($context) . $language . '.i18n';
-    		
-    	}
+        $called_class = explode('\\', $context);
+        if (count($called_class) > 1)
+        {
+            array_pop($called_class);
+            $path = Path :: get(SYS_PATH) . '/' . implode('/', $called_class) . '/resources/i18n/' . $language . '.i18n';
+        }
+        else
+        {
+            $path = BasicApplication :: get_application_resources_i18n_path($context) . $language . '.i18n';
+
+        }
         $strings = parse_ini_file($path);
 
         $instance = self :: get_instance();
