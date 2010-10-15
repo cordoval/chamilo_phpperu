@@ -1,6 +1,9 @@
 <?php
 namespace admin;
+
 use common\libraries\Translation;
+use common\libraries\CoreApplication;
+use common\libraries\PlatformSetting;
 
 /**
  * @package admin.block

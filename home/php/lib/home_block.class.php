@@ -6,6 +6,9 @@ use common\libraries\WebApplication;
 use common\libraries\EqualityCondition;
 use common\libraries\DataClass;
 
+use XML_Unserializer;
+use PEAR;
+
 /**
  * $Id: home_block.class.php 227 2009-11-13 14:45:05Z kariboe $
  * @package home.lib
@@ -142,10 +145,11 @@ class HomeBlock extends DataClass
         }
 
         $success_settings = $this->create_initial_settings();
-        if (! $success_settings)
-        {
-            return false;
-        }
+        //        if (! $success_settings)
+        //        {
+        //            return false;
+        //        }
+
 
         return true;
     }

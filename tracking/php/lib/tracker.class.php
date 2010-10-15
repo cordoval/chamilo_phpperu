@@ -1,7 +1,10 @@
 <?php
 namespace tracking;
 
+use common\libraries;
+
 use common\libraries\Utilities;
+use common\libraries\Application;
 use common\libraries\BasicApplication;
 use common\libraries\DataClass;
 use common\libraries\EqualityCondition;
@@ -140,7 +143,8 @@ abstract class Tracker extends DataClass
     {
         self :: load_tracker($type, $application);
 
-        $class = Utilities :: underscores_to_camelcase($type);
+        $application_type = Application :: get_type($application);
+        $class = $application_type :: get_application_namespace($application) . '\\' . Utilities :: underscores_to_camelcase($type);
         return new $class();
     }
 

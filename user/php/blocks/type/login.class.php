@@ -2,6 +2,7 @@
 namespace user;
 
 use common\libraries\Path;
+use common\libraries\Application;
 use common\libraries\CoreApplication;
 use common\libraries\Redirect;
 use common\libraries\Authentication;

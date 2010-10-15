@@ -1,7 +1,7 @@
 <?php
 namespace common\libraries;
 
-use \MDB2;
+use MDB2;
 /**
  * $Id: database.class.php 229 2009-11-16 09:02:34Z scaramanga $
  * @package common.database
@@ -587,7 +587,7 @@ class Database
 
         $orders = array();
 
-        //        dump('<strong>Statement</strong><br />' . $query . '<br /><br /><br />');
+        //dump('<strong>Statement</strong><br />' . $query . '<br /><br /><br />');
         //dump($order_by);
 
 

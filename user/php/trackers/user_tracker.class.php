@@ -2,6 +2,9 @@
 namespace user;
 
 use common\libraries\Utilities;
+
+use tracking\AggregateTracker;
+
 /**
  * This class is a abstract class for user tracking
  *

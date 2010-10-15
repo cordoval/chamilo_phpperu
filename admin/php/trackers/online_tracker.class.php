@@ -1,8 +1,12 @@
 <?php
 namespace admin;
+
 use common\libraries\Utilities;
-use tracking\SimpleTracker;
 use common\libraries\InequalityCondition;
+use common\libraries\EqualityCondition;
+use common\libraries\PlatformSetting;
+
+use tracking\SimpleTracker;
 /**
  * @package admin.trackers
  */
