@@ -145,6 +145,7 @@ select,input[type=checkbox],input[type=radio],input[type=button],input[type=subm
 	{
 	cursor: pointer;
 	font-size: 12px;
+	max-width: 400px;
 }
 
 input[text] {
@@ -476,6 +477,30 @@ button.continue,a.continue_button {
 
 button.hide, a.hide_button {
 	background-image: url(../images/common/buttons/button_hide.png);
+}
+
+button.dropdown, a.dropdown_button {
+	padding:2px;
+	width:22px; 
+	height:22px; 
+	line-height:16px; 
+	text-decoration:none;
+	outline:none;
+	background-position: center;
+	vertical-align:bottom;
+	background-image: url(../images/common/buttons/button_dropdown.png);
+	margin-left:0px;
+}
+
+div.dropdown{
+	position:absolute;
+	border-style:solid;
+	border-width:1px;
+	border-color:#dedede;
+	background-color:white;
+	min-width:400px;
+	padding:5px;
+	margin:1px;
 }
 
 /*IE-fix to avoid adding unwanted margins to the form*/

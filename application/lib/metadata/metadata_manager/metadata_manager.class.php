@@ -162,7 +162,7 @@ require_once dirname(__FILE__).'/../metadata_data_manager.class.php';
             return MetadataDataManager :: get_instance()->retrieve_metadata_property_types($condition, $offset, $count, $order_property);
     }
 
-    function retrieve_metadata_property_type($id)
+    static function retrieve_metadata_property_type($id)
     {
             return MetadataDataManager :: get_instance()->retrieve_metadata_property_type($id);
     }
@@ -172,9 +172,31 @@ require_once dirname(__FILE__).'/../metadata_data_manager.class.php';
             return MetadataDataManager :: get_instance()->count_metadata_property_values($condition);
     }
 
-    function retrieve_metadata_property_values($condition = null, $offset = null, $count = null, $order_property = null)
+    static function retrieve_metadata_property_values($condition = null, $offset = null, $count = null, $order_property = null)
     {
             return MetadataDataManager :: get_instance()->retrieve_metadata_property_values($condition, $offset, $count, $order_property);
+    }
+
+    /**
+     * Returns an array with all the metadata for a content-object
+     * array key = metadata_property-namespace:metadata_property-name
+     * array value = metadata_property-value
+     * @param <int> $co_id id of the content-object
+     */
+    static function retrieve_metadata_for_content_object($co_id)
+    {
+         $condition = new EqualityCondition(MetadataPropertyValue :: PROPERTY_CONTENT_OBJECT_ID, $co_id);
+         $metadata_property_values = MetadataManager::retrieve_metadata_property_values($condition);
+         $metadata = array();
+         while($mpv = $metadata_property_values->next_result())
+        {
+            $mpti = $mpv->get_property_type_id();
+            $type = self::retrieve_metadata_property_type($mpti);
+            $metadata[$type->get_ns_prefix().':'.$type->get_name()]= $mpv->get_value();
+        }
+        
+        return $metadata;
+
     }
 
     function retrieve_metadata_property_value($id)

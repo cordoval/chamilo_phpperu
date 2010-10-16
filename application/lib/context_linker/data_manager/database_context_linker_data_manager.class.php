@@ -79,7 +79,7 @@ class DatabaseContextLinkerDataManager extends Database implements ContextLinker
         $property_value_alias = $mdm->get_alias(MetadataPropertyValue :: get_table_name());
         $context_link_alias = $this->get_alias(ContextLink :: get_table_name());
 
-        $query = 'SELECT ' . $context_link_alias . '.' . ContextLink :: PROPERTY_ID . ',' . $content_object_alias . '.' . ContentObject :: PROPERTY_TYPE . ', ' . $content_object_alias . '.' . ContentObject :: PROPERTY_TITLE . ', ' . $property_type_alias . '.' . MetadataPropertyType :: PROPERTY_NS_PREFIX . ', ' . $property_type_alias . '.' . MetadataPropertyType :: PROPERTY_NAME . ', ' . $property_value_alias . '.' . MetadataPropertyValue :: PROPERTY_VALUE;
+        $query = 'SELECT ' . $context_link_alias . '.' . ContextLink :: PROPERTY_ID . ',' . $context_link_alias . '.' . ContextLink :: PROPERTY_DATE . ',' . $content_object_alias . '.' . ContentObject :: PROPERTY_TYPE . ', '. $content_object_alias . '.' . ContentObject :: PROPERTY_ID . ', ' . $content_object_alias . '.' . ContentObject :: PROPERTY_TITLE . ', ' . $property_type_alias . '.' . MetadataPropertyType :: PROPERTY_NS_PREFIX . ', ' . $property_type_alias . '.' . MetadataPropertyType :: PROPERTY_NAME . ', ' . $property_value_alias . '.' . MetadataPropertyValue :: PROPERTY_VALUE;
         $query .=' FROM ' . $this->escape_table_name(ContextLink :: get_table_name()). ' AS ' . $context_link_alias;
         $query .= ' LEFT JOIN ' . $rdm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $content_object_alias;
         $query .= ' ON ' . $this->escape_column_name(ContextLink :: PROPERTY_ALTERNATIVE_CONTENT_OBJECT_ID, $context_link_alias) . ' = ' . $rdm->escape_column_name(ContentObject :: PROPERTY_ID, $content_object_alias);
@@ -97,6 +97,8 @@ class DatabaseContextLinkerDataManager extends Database implements ContextLinker
         while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
         {
             $context_links[] = array(ContextLink :: PROPERTY_ID => $record[ContextLink :: PROPERTY_ID],
+                                    ContextLink :: PROPERTY_DATE => $record[ContextLink :: PROPERTY_DATE],
+                                    ContentObject :: PROPERTY_ID => $record[ContentObject :: PROPERTY_ID],
                                     ContentObject :: PROPERTY_TYPE => $record[ContentObject :: PROPERTY_TYPE],
                                     ContentObject :: PROPERTY_TITLE => $record[ContentObject :: PROPERTY_TITLE],
                                     MetadataPropertyType :: PROPERTY_NS_PREFIX => $record[MetadataPropertyType :: PROPERTY_NS_PREFIX],

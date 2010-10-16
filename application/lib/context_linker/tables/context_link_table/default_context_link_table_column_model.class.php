@@ -16,6 +16,7 @@ class DefaultContextLinkTableColumnModel extends ObjectTableColumnModel
     const COLUMN_TITLE = 'title';
     const COLUMN_METADATA_PROPERTY_TYPE = 'metadata_property_type';
     const COLUMN_METADATA_PROPERTY_VALUE = 'metadata_property_value';
+    const COLUMN_DATE = 'date';
     /**
 	 * Constructor
 	 */
@@ -37,6 +38,7 @@ class DefaultContextLinkTableColumnModel extends ObjectTableColumnModel
                 $columns[] = new ObjectTableColumn(self :: COLUMN_TITLE);
                 $columns[] = new ObjectTableColumn(self :: COLUMN_METADATA_PROPERTY_TYPE);
 		$columns[] = new ObjectTableColumn(self :: COLUMN_METADATA_PROPERTY_VALUE);
+                $columns[] = new ObjectTableColumn(self :: COLUMN_DATE);
 		
                 return $columns;
 	}

@@ -7,23 +7,23 @@
 abstract class DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_ID = 'id';
     const NO_UID = - 1;
-    
+
     /**
      * Default properties of the data class object, stored in an associative
      * array.
      */
     private $defaultProperties;
-    
+
     /**
      * Optional properties of the data class object, stored in an associative
      * array. This is used when retrieving data from joins so we don't need to execute other query's for retrieving optional data which we already retrieved with joins.
      * @var array[String] = String
      */
     private $optionalProperties;
-    
+
     private $errors;
 
     /**
@@ -175,11 +175,11 @@ abstract class DataClass
         {
             $dm = $this->get_data_manager();
             $class_name = $this->get_object_name();
-            
+
             //          $func = 'get_next_' . $class_name . '_id';
             //          $id = call_user_func(array($dm, $func));
             //          $this->set_id($id);
-            
+
 
             $func = 'create_' . $class_name;
             return call_user_func(array($dm, $func), $this);
@@ -193,7 +193,7 @@ abstract class DataClass
         {
             $dm = $this->get_data_manager();
             $class_name = $this->get_object_name();
-            
+
             $func = 'update_' . $class_name;
             return call_user_func(array($dm, $func), $this);
         }
@@ -204,7 +204,7 @@ abstract class DataClass
     {
         $dm = $this->get_data_manager();
         $class_name = $this->get_object_name();
-        
+
         $func = 'delete_' . $class_name;
         //        dump($dm);
         //        dump($class_name);
@@ -230,7 +230,7 @@ abstract class DataClass
          * }
          *
          */
-        
+
         return ! $this->has_errors();
     }
 
@@ -240,7 +240,7 @@ abstract class DataClass
         {
             $this->errors = array();
         }
-        
+
         $this->errors[] = $error_msg;
     }
 

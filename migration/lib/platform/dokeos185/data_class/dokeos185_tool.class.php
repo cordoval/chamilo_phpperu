@@ -118,8 +118,12 @@ class Dokeos185Tool extends Dokeos185CourseDataMigrationDataClass
      */
     function is_valid()
     {
-        if (!$this->get_name()) {
+        if (!$this->get_name())
+        {
             $this->create_failed_element($this->get_id());
+//
+            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'tool', 'ID' => $this->get_id())));
+
             return false;
         }
         return true;
@@ -136,6 +140,7 @@ class Dokeos185Tool extends Dokeos185CourseDataMigrationDataClass
         $new_course_id = $this->get_id_reference($this->get_course()->get_code(), 'main_database.course');
         $db = WeblcmsDataManager :: get_instance();
         $db->set_module_visible($new_course_id, $value, $this->get_visibility());
+        $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'tool', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $new_course_id)));
 
         return $this;
     }
@@ -151,4 +156,5 @@ class Dokeos185Tool extends Dokeos185CourseDataMigrationDataClass
     }
 
 }
+
 ?>

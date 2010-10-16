@@ -15,7 +15,7 @@ class Dokeos185Group extends Dokeos185CourseDataMigrationDataClass
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'group_info';
-
+    
     /**
      * Group properties
      */
@@ -33,62 +33,14 @@ class Dokeos185Group extends Dokeos185CourseDataMigrationDataClass
     const PROPERTY_self_UNREGISTRATION_ALLOWED = 'self_unregistration_allowed';
 
     /**
-     * Default properties stored in an associative array.
-     */
-    private $defaultProperties;
-
-    /**
-     * Creates a new dokeos185 Announcement object
-     * @param array $defaultProperties The default properties
-     */
-    function Dokeos185Group($defaultProperties = array())
-    {
-        $this->defaultProperties = $defaultProperties;
-    }
-
-    /**
-     * Gets a default property by name.
-     * @param string $name The name of the property.
-     */
-    function get_default_property($name)
-    {
-        return $this->defaultProperties[$name];
-    }
-
-    /**
-     * Gets the default properties
-     * @return array An associative array containing the properties.
-     */
-    function get_default_properties()
-    {
-        return $this->defaultProperties;
-    }
-
-    /**
      * Get the default properties
      * @return array The property names.
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_CATEGORY_ID, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_MAX_STUDENT, self :: PROPERTY_DOC_STATE, self :: PROPERTY_CALENDAR_STATE, self :: PROPERTY_WORK_STATE, self :: PROPERTY_ANNOUNCEMENTS_STATE, self :: PROPERTY_SECRET_DIRECTORY, self :: PROPERTY_self_REGISTRATION_ALLOWED, self :: PROPERTY_self_UNREGISTRATION_ALLOWED);
-    }
-
-    /**
-     * Sets a default property by name.
-     * @param string $name The name of the property.
-     * @param mixed $value The new value for the property.
-     */
-    function set_default_property($name, $value)
-    {
-        $this->defaultProperties[$name] = $value;
-    }
-
-    /**
-     * Sets the default properties of this class
-     */
-    function set_default_properties($defaultProperties)
-    {
-        $this->defaultProperties = $defaultProperties;
+        return array(
+                self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_CATEGORY_ID, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_MAX_STUDENT, self :: PROPERTY_DOC_STATE, self :: PROPERTY_CALENDAR_STATE, 
+                self :: PROPERTY_WORK_STATE, self :: PROPERTY_ANNOUNCEMENTS_STATE, self :: PROPERTY_SECRET_DIRECTORY, self :: PROPERTY_self_REGISTRATION_ALLOWED, self :: PROPERTY_self_UNREGISTRATION_ALLOWED);
     }
 
     /**
@@ -206,12 +158,17 @@ class Dokeos185Group extends Dokeos185CourseDataMigrationDataClass
      */
     function is_valid()
     {
-
-        if (!$this->get_name() || $this->get_self_registration_allowed() == NULL || $this->get_self_unregistration_allowed() == NULL) {
+        $course = $this->get_course();
+        $new_course_code = $this->get_id_reference($course->get_code(), 'main_database.course');
+        
+        if (! $this->get_name() || $this->get_self_registration_allowed() == NULL || $this->get_self_unregistration_allowed() == NULL || !$new_course_code)
+        {
             $this->create_failed_element($this->get_id());
+            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'group', 'ID' => $this->get_id())));
+            
             return false;
         }
-
+        
         return true;
     }
 
@@ -224,24 +181,35 @@ class Dokeos185Group extends Dokeos185CourseDataMigrationDataClass
     {
         $course = $this->get_course();
         $new_course_code = $this->get_id_reference($course->get_code(), 'main_database.course');
-
+        
         $chamilo_lcms_group = new CourseGroup();
         $chamilo_lcms_group->set_course_code($new_course_code);
         $chamilo_lcms_group->set_name($this->get_name());
         $chamilo_lcms_group->set_max_number_of_members($this->get_max_student());
-
-        if ($this->get_description()) {
+        
+        if ($this->get_description())
+        {
             $chamilo_lcms_group->set_description($this->get_description());
-        } else {
+        }
+        else
+        {
             $chamilo_lcms_group->set_description($this->get_name());
         }
-
+        
         $chamilo_lcms_group->set_self_registration_allowed($this->get_self_registration_allowed());
         $chamilo_lcms_group->set_self_unregistration_allowed($this->get_self_unregistration_allowed());
+        
+        $group_category = $this->get_id_reference($this->get_category_id(), $this->get_database_name() . '.group_category');
+        if($group_category)
+        {
+            $chamilo_lcms_group->set_parent_id($group_category);
+        }
+        
         $chamilo_lcms_group->create();
-
+        
         $this->create_id_reference($this->get_id(), $chamilo_lcms_group->get_id());
-
+        $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'group', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_lcms_group->get_id())));
+        
         return $chamilo_lcms_group;
     }
 

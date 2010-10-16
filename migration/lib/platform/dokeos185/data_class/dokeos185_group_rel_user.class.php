@@ -4,7 +4,6 @@
  * $Id: dokeos185_group_rel_user.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.platform.dokeos185
  */
-
 require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class.class.php';
 
 /**
@@ -12,10 +11,8 @@ require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class
  *
  * @author David Van Wayenbergh
  */
-
 class Dokeos185GroupRelUser extends Dokeos185CourseDataMigrationDataClass
 {
-
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'group_rel_user';
     /**
@@ -26,7 +23,7 @@ class Dokeos185GroupRelUser extends Dokeos185CourseDataMigrationDataClass
     const PROPERTY_GROUP_ID = 'group_id';
     const PROPERTY_STATUS = 'status';
     const PROPERTY_ROLE = 'role';
-    
+
     /**
      * Default properties of the group tutor relation object, stored in an associative
      * array.
@@ -38,7 +35,7 @@ class Dokeos185GroupRelUser extends Dokeos185CourseDataMigrationDataClass
      * @param array $defaultProperties The default properties of the group tutor relation
      *                                 object. Associative array.
      */
-    function Dokeos185GroupRelUser($defaultProperties = array ())
+    function Dokeos185GroupRelUser($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }
@@ -141,9 +138,10 @@ class Dokeos185GroupRelUser extends Dokeos185CourseDataMigrationDataClass
      */
     function is_valid()
     {
-        if (! $this->get_user_id() || ! $this->get_group_id())
+        if (!$this->get_user_id() || !$this->get_group_id())
         {
             $this->create_failed_element($this->get_id());
+            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'group_rel_user', 'ID' => $this->get_id())));
             return false;
         }
 
@@ -164,7 +162,8 @@ class Dokeos185GroupRelUser extends Dokeos185CourseDataMigrationDataClass
         $course_group_user_relation->set_course_group($new_group_id);
         $course_group_user_relation->set_user($new_user_id);
         $course_group_user_relation->create();
-
+        $this->set_message(Translation :: get('CourseGroupRelUserConvertedMessage', array('OLD_ID' => $this->get_id(), 'USER_ID' => $course_group_user_relation->get_user(), 'COURSE_GROUP_ID' => 
+                $course_group_user_relation->get_course_group())));
     }
 
     static function get_table_name()
@@ -174,8 +173,9 @@ class Dokeos185GroupRelUser extends Dokeos185CourseDataMigrationDataClass
 
     static function get_class_name()
     {
-    	return self :: CLASS_NAME;
+        return self :: CLASS_NAME;
     }
 
 }
+
 ?>

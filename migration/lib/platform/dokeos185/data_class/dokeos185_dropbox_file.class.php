@@ -197,13 +197,13 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
     function is_valid()
     {
         $course = $this->get_course();
-        $this->set_item_property($this->get_data_manager()->get_item_property($course, 'document', $this->get_id()));
+        $this->set_item_property($this->get_data_manager()->get_item_property($course, 'dropbox', $this->get_id()));
 
         $filename = $this->get_filename();
         $old_rel_path = 'courses/' . $course->get_directory() . '/dropbox/';
 
-        $filename = iconv("UTF-8", "ISO-8859-1", $filename);
-        $old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
+        /* $filename = iconv("UTF-8", "ISO-8859-1", $filename);
+          $old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path); */
 
         $this->directory = $this->get_data_manager()->get_sys_path() . $old_rel_path;
 
@@ -211,18 +211,17 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
         {
             //echo 'Error in ID at course : ' . $course->get_db_name() .' ';
             $this->create_failed_element($this->get_id());
+            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'dropbox_file', 'ID' => $this->get_id())));
+
             return false;
         }
         else
-        if (!$this->get_id_reference($this->get_cat_id(), 'dokeos_DOKEOSCOURSE.dropbox_category'))
-        {
-            $this->create_failed_element($this->get_id());
-            return false;
-        }
         if (!$this->get_item_property())
         {
             //echo 'Error in property at course : ' . $course->get_db_name() .' ';
             $this->create_failed_element($this->get_id());
+            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'dropbox_file', 'ID' => $this->get_id())));
+
             return false;
         }
         else
@@ -230,6 +229,8 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
         {
             //echo 'Error in reference at course : ' . $course->get_db_name() .' ';
             $this->create_failed_element($this->get_id());
+            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'dropbox_file', 'ID' => $this->get_id())));
+
             return false;
         }
         else
@@ -237,6 +238,8 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
         {
             //echo 'Error in insert_date at course : ' . $course->get_db_name() .' ';
             $this->create_failed_element($this->get_id());
+            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'dropbox_file', 'ID' => $this->get_id())));
+
             return false;
         }
         else
@@ -244,6 +247,8 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
         {
             //echo 'Error in full_path at course : ' . $course->get_db_name() .'ID : ' . $this->get_id();
             $this->create_failed_element($this->get_id());
+            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'dropbox_file', 'ID' => $this->get_id())));
+
             return false;
         }
 
@@ -258,15 +263,19 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
     function convert_data()
     {
         if ($this->get_uploader_id())
+        {
             $new_user_id = $this->get_id_reference($this->get_uploader_id(), 'main_database.user');
+        }
         else
+        {
             $new_user_id = $this->get_id_reference($this->get_item_property()->get_insert_user_id(), 'main_database.user');
+        }
 
         $course = $this->get_course();
         $new_course_code = $this->get_id_reference($course->get_code(), 'main_database.course');
 
-        $new_to_group_id[] = $this->get_id_reference($this->get_item_property()->get_to_group_id(), $this->get_database_name() . '.group_info');
-        $new_to_user_id[] = $this->get_id_reference($this->get_item_property()->get_to_user_id(), 'main_database.user');
+        //$new_to_group_id[] = $this->get_id_reference($this->get_item_property()->get_to_group_id(), $this->get_database_name() . '.group_info');
+        //$new_to_user_id[] = $this->get_id_reference($this->get_item_property()->get_to_user_id(), 'main_database.user');
 
         if (!$new_user_id)
         {
@@ -295,12 +304,25 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
             $chamilo_repository_document->set_path($new_user_id . '/' . Text :: char_at($base_hash, 0) . '/' . $unique_hash);  //!!!!!!!
             $chamilo_repository_document->set_filesize($this->get_filesize());
             $chamilo_repository_document->set_hash($unique_hash);
+            
             if ($this->get_title())
+            {
                 $chamilo_repository_document->set_title($this->get_title());
+            }
             else
+            {
                 $chamilo_repository_document->set_title($original_filename);
-            $chamilo_repository_document->set_description($this->get_description());
-            $chamilo_repository_document->set_comment('...');
+            }
+            
+            if($this->get_description())
+            {
+                $chamilo_repository_document->set_description($this->get_description());
+            }
+            else
+            {
+                $chamilo_repository_document->set_description($this->get_title());
+            }
+            
             $chamilo_repository_document->set_owner_id($new_user_id);
             $chamilo_repository_document->set_creation_date(strtotime($this->get_item_property()->get_insert_date()));
             $chamilo_repository_document->set_modification_date(strtotime($this->get_item_property()->get_lastedit_date()));
@@ -309,7 +331,9 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
             $chamilo_repository_document->set_parent_id($chamilo_category_id);
 
             if ($this->get_item_property()->get_visibility() == 2)
+            {
                 $chamilo_repository_document->set_state(1);
+            }
 
             //Create document in db
             $chamilo_repository_document->create();
@@ -318,11 +342,25 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
 
             $this->create_id_reference($this->get_id(), $chamilo_repository_document->get_id());
 
+            $target_users = array();
+            
+            // Retrieve all the connections to the different quizzes and convert them because we need to store ponderation and position as well
+            $dropbox_persons = $this->get_data_manager()->retrieve_dropbox_persons($course, $this->get_id());
+            while($dropbox_person = $dropbox_persons->next_result())
+            {
+            	$user_id = $dropbox_person->get_user_id();
+            	
+            	$new_user_id = $this->get_id_reference($this->get_item_property()->get_insert_user_id(), 'main_database.user');
+            	if($new_user_id)
+            	{
+            	    $target_users[] = $new_user_id;
+            	}
+            }
+            
             //publication
-            $parent_id = $this->get_id_reference($this->get_cat_id(), 'dokeos_DOKEOSCOURSE.dropbox_category');
-            $this->create_publication($chamilo_repository_document, $new_course_code, $new_user_id, 'document', $parent_id, $new_to_user_id, $new_to_group_id);
+            $this->create_publication($chamilo_repository_document, $new_course_code, $new_user_id, 'document', null, $target_users);
+            $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'dropbox_file', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_repository_document->get_id())));
         }
-        return $chamilo_repository_document;
     }
 
     static function get_table_name()

@@ -61,13 +61,13 @@ if (Authentication :: is_valid())
         }
     }
 
-    $user = UserDataManager :: get_instance()->retrieve_user(Session :: get_user_id());
-
-    if (! $user->is_platform_admin())
-    {
-        $group_ids = $user->get_allowed_groups();
-        $group_conditions[] = new InCondition(Group :: PROPERTY_ID, $group_ids);
-    }
+//    $user = UserDataManager :: get_instance()->retrieve_user(Session :: get_user_id());
+//
+//    if (! $user->is_platform_admin())
+//    {
+//        $group_ids = $user->get_allowed_groups();
+//        $group_conditions[] = new InCondition(Group :: PROPERTY_ID, $group_ids);
+//    }
 
     //if ($group_conditions)
     if (count($group_conditions) > 0)
@@ -87,17 +87,18 @@ if (Authentication :: is_valid())
     $group_result_set = $gdm->retrieve_groups($group_condition, null, null, array(new ObjectTableOrder(Group :: PROPERTY_NAME)));
     while ($group = $group_result_set->next_result())
     {
-        if (! $user->is_platform_admin())
-        {
-            $group_users = $group->get_users(true, true);
-            foreach ($group_users as $group_user)
-            {
-                if (! in_array($group_user, $allowed_users))
-                {
-                    $allowed_users[] = $group_user;
-                }
-            }
-        }
+        //        if (! $user->is_platform_admin())
+        //        {
+        //            $group_users = $group->get_users(true, true);
+        //            foreach ($group_users as $group_user)
+        //            {
+        //                if (! in_array($group_user, $allowed_users))
+        //                {
+        //                    $allowed_users[] = $group_user;
+        //                }
+        //            }
+        //        }
+
 
         $group_parent_id = $group->get_parent();
 
@@ -134,10 +135,11 @@ if (Authentication :: is_valid())
 
     $groups_tree = get_group_tree(0, $groups);
 
-    if (! $user->is_platform_admin())
-    {
-        $user_conditions[] = new InCondition(User :: PROPERTY_ID, $allowed_users);
-    }
+    //    if (! $user->is_platform_admin())
+    //    {
+    //        $user_conditions[] = new InCondition(User :: PROPERTY_ID, $allowed_users);
+    //    }
+
 
     //if ($user_conditions)
     if (count($user_conditions) > 0)
@@ -199,13 +201,17 @@ function dump_groups_tree($groups)
     {
         if (contains_results($group['children']))
         {
-            echo '<node id="group_' . $group['group']->get_id() . '" classes="type type_group' . (! isset($group_ids) || in_array($group['group']->get_id(), $group_ids) ? '' : ' disabled') . '" title="' . htmlspecialchars($group['group']->get_name()) . '" description="' . htmlspecialchars($group['group']->get_name()) . '">', "\n";
+            var_dump(isset($group_ids) && !in_array($group['group']->get_id(), $group_ids));
+
+//            echo '<node id="group_' . $group['group']->get_id() . '" classes="type type_group' . ((isset($group_ids) && !in_array($group['group']->get_id(), $group_ids)) ? ' disabled' : '') . '" title="' . htmlspecialchars($group['group']->get_name()) . '" description="' . htmlspecialchars($group['group']->get_name()) . '">', "\n";
+            echo '<node id="group_' . $group['group']->get_id() . '" classes="type type_group" title="' . htmlspecialchars($group['group']->get_name()) . '" description="' . htmlspecialchars($group['group']->get_name()) . '">', "\n";
             dump_groups_tree($group['children']);
             echo '</node>', "\n";
         }
         else
         {
-            echo '<leaf id="group_' . $group['group']->get_id() . '" classes="type type_group' . (! isset($group_ids) || in_array($group['group']->get_id(), $group_ids) ? '' : ' disabled') . '" title="' . htmlspecialchars($group['group']->get_name()) . '" description="' . htmlspecialchars($group['group']->get_name()) . '"/>' . "\n";
+            //echo '<leaf id="group_' . $group['group']->get_id() . '" classes="type type_group' . ((isset($group_ids) && !in_array($group['group']->get_id(), $group_ids)) ? ' disabled' : '') . '" title="' . htmlspecialchars($group['group']->get_name()) . '" description="' . htmlspecialchars($group['group']->get_name()) . '"/>' . "\n";
+            echo '<leaf id="group_' . $group['group']->get_id() . '" classes="type type_group" title="' . htmlspecialchars($group['group']->get_name()) . '" description="' . htmlspecialchars($group['group']->get_name()) . '"/>' . "\n";
         }
     }
 }

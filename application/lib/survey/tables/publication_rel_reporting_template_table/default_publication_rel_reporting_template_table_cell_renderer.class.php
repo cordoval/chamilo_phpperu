@@ -1,12 +1,12 @@
 <?php
 
-class  DefaultSurveyPublicationRelReportingTemplateTableCellRenderer extends ObjectTableCellRenderer
+class DefaultSurveyPublicationRelReportingTemplateTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**
      * Constructor
      */
-    function  DefaultSurveyPublicationRelReportingTemplateTableCellRenderer()
+    function DefaultSurveyPublicationRelReportingTemplateTableCellRenderer()
     {
     }
 
@@ -20,6 +20,10 @@ class  DefaultSurveyPublicationRelReportingTemplateTableCellRenderer extends Obj
                 return $publication_rel_reporting_template_registration->get_reporting_template_registration_id();
             case ReportingTemplateRegistration :: PROPERTY_TEMPLATE :
                 return $publication_rel_reporting_template_registration->get_optional_property(ReportingTemplateRegistration :: PROPERTY_TEMPLATE);
+            case SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_NAME :
+                return $publication_rel_reporting_template_registration->get_name();
+            case SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_DESCRIPTION :
+                return $publication_rel_reporting_template_registration->get_description();
             default :
                 return '&nbsp;';
         }

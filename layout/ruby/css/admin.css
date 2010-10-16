@@ -29,7 +29,7 @@ div.admin_header span.category {
 	float: left;
 	background-color: #f6f6f6;
 	font-weight: bold;
-	color: #d90223;
+	color: #D90223;
 	padding: 5px 15px 0px 15px;
 	border: 1px solid #ebebeb;
 	border-bottom: 0px solid #efefef;
@@ -47,7 +47,7 @@ div.admin_header span.category img {
 }
 
 div.admin_header span.category span.title {
-	color: #000066;
+	color: #B1071C;
 	font-size: 14px;
 }
 
@@ -56,7 +56,7 @@ div.admin_header div.admin_search {
 	margin: -10px 15px 0px 0px;
 	background-color: #FFFFFF;
 	font-weight: bold;
-	color: #d90223;
+	color: #D90223;
 }
 
 div.admin_section div.actions {

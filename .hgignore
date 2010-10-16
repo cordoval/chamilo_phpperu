@@ -97,3 +97,17 @@ syntax: regexp
 ^repository/lib/content_object/survey/template/survey_template60$
 syntax: regexp
 ^student_sync$
+syntax: regexp
+^repository/lib/content_object/survey/context$
+syntax: regexp
+<<<<<<< local
+<<<<<<< local
+^layout/ruby/images/common/logo_header\.png$
+syntax: regexp
+^repository/lib/content_object/survey/context$=======
+^layout/ruby/images/common/logo_header\.png$>>>>>>> other
+=======
+^layout/ruby/images/common/logo_header\.png$>>>>>>> other
+
+syntax: regexp
+^repository/lib/content_object/survey/context$

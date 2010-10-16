@@ -14,6 +14,8 @@
 			<property name="publication_id" type="integer" unsigned="1"
 			notnull="1" />	
 			<property name="user_id" type="integer" unsigned="1"
+			notnull="1" />
+			<property name="context_template_id" type="integer" unsigned="1"
 			notnull="1" />	
 	</properties>
 	<index name="question_cid">
@@ -27,5 +29,8 @@
 	</index>
 	<index name="user_id">
 		<indexproperty name="user_id" />
+	</index>
+	<index name="context_template_id">
+		<indexproperty name="context_template_id" />
 	</index>
 </object>

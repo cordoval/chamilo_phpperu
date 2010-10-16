@@ -3,6 +3,7 @@
  * This script will load the requested core application and launch it.
  */
 
+
 try
 {
     require_once dirname(__FILE__) . '/common/global.inc.php';

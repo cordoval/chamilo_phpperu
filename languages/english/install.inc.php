@@ -40,6 +40,7 @@ $lang['install']['OrderingQuestion'] = 'Ordering Question';
 $lang['install']['PhysicalLocation'] = 'Physical Location';
 $lang['install']['PortfolioItem'] = 'Portfolio item';
 $lang['install']['Profile'] = 'Profile';
+
 $lang['install']['RssFeed'] = 'RSS Feed';
 $lang['install']['ScormItem'] = 'SCORM item';
 $lang['install']['Mediamosa'] = 'Media Mosa';

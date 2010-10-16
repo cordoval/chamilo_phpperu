@@ -17,6 +17,7 @@ class SurveyQuestionAnswerTracker extends SimpleTracker
     const PROPERTY_CONTEXT_PATH = 'context_path';
     const PROPERTY_PUBLICATION_ID = 'publication_id';
     const PROPERTY_USER_ID = 'user_id';
+    const PROPERTY_CONTEXT_TEMPLATE_ID = 'context_template_id';
 
     function validate_parameters(array $parameters = array())
     {
@@ -27,6 +28,7 @@ class SurveyQuestionAnswerTracker extends SimpleTracker
         $this->set_context_path($parameters[self :: PROPERTY_CONTEXT_PATH]);
         $this->set_publication_id($parameters[self :: PROPERTY_PUBLICATION_ID]);
         $this->set_user_id($parameters[self :: PROPERTY_USER_ID]);
+        $this->set_level($parameters[self :: PROPERTY_LEVEL]);
     }
 
     /**
@@ -34,7 +36,7 @@ class SurveyQuestionAnswerTracker extends SimpleTracker
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_SURVEY_PARTICIPANT_ID, self :: PROPERTY_COMPLEX_QUESTION_ID, self :: PROPERTY_ANSWER, self :: PROPERTY_CONTEXT_PATH, self :: PROPERTY_PUBLICATION_ID, self :: PROPERTY_USER_ID));
+        return parent :: get_default_property_names(array(self :: PROPERTY_SURVEY_PARTICIPANT_ID, self :: PROPERTY_COMPLEX_QUESTION_ID, self :: PROPERTY_ANSWER, self :: PROPERTY_CONTEXT_PATH, self :: PROPERTY_PUBLICATION_ID, self :: PROPERTY_USER_ID, self :: PROPERTY_CONTEXT_TEMPLATE_ID));
     }
 
     function get_survey_participant_id()
@@ -115,6 +117,16 @@ class SurveyQuestionAnswerTracker extends SimpleTracker
     function set_user_id($user_id)
     {
         $this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
+    }
+
+    function get_context_template_id()
+    {
+        return $this->get_default_property(self :: PROPERTY_CONTEXT_TEMPLATE_ID);
+    }
+
+    function set_set_context_template_id($context_template_id)
+    {
+        $this->set_default_property(self :: PROPERTY_CONTEXT_TEMPLATE_ID, $context_template_id);
     }
 
     static function get_table_name()

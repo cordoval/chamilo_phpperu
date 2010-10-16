@@ -215,7 +215,7 @@ class Dokeos185ForumPost extends Dokeos185CourseDataMigrationDataClass
     	$parent_topic_id = $this->get_id_reference($this->get_thread_id(),  $this->get_database_name() . '.forum_thread');
         if($parent_topic_id)
         {
-        	$this->create_complex_content_object_item($chamilo_forum_post, $parent_topic_id, $new_user_id);
+        	$this->create_complex_content_object_item($chamilo_forum_post, $parent_topic_id, $new_user_id, strtotime($this->get_post_date()));
         }
     }
     

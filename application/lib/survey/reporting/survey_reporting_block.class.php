@@ -3,20 +3,9 @@ require_once PATH :: get_reporting_path() . '/lib/reporting_block.class.php';
 
 abstract class SurveyReportingBlock extends ReportingBlock
 {
-	public function count_data()
-	{}
 	
-	public function retrieve_data()
-	{}
-	
-	function get_survey_publication_id()
-	{
-		return $this->get_parent()->get_parameter(SurveyManager::PARAM_PUBLICATION_ID);	
-	}
-	
-	function get_survey_question_id()
-	{
-		return $this->get_parent()->get_parameter(SurveyManager::PARAM_SURVEY_QUESTION_ID);	
+	function get_filter_parameters(){
+		return $this->get_parent()->get_filter_parameters();
 	}
 	
 	public function get_data_manager()
@@ -35,5 +24,6 @@ abstract class SurveyReportingBlock extends ReportingBlock
         $modes[ReportingChartFormatter ::DISPLAY_FILLED_CUBIC] = Translation :: get('Chart:FilledCubic');
         return $modes;
     }
+    
 }
 ?>
