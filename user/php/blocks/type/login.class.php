@@ -24,6 +24,7 @@ class UserLogin extends UserBlock
         $html = array();
 
         $html[] = $this->display_header();
+        $html[] = ' <input type="submit" value="' . Translation :: get('Ok') . '"/>';
         $html[] = $this->display_anonymous_right_menu();
         $html[] = $this->display_footer();
 
