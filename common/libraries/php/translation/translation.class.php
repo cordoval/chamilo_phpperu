@@ -170,8 +170,8 @@ class Translation
                 //$link = $image;
                 //$link = Theme :: get_common_image('action_translate_mini', 'png', null, $url, ToolbarItem::DISPLAY_ICON);
 
-                //return '[=' . $variable . '=] ' . $link;
-                return $variable . ' [*]';
+              //return '[=' . $variable . '=] ' . $link;
+                return '[CDA context={'. $context .'}]' . $variable . '[/CDA]';
             }
         }
 

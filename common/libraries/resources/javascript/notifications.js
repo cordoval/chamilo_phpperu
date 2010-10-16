@@ -2,6 +2,8 @@
 
 $(function() {
 	var windowHeight = getWindowHeight(), resizeTimer = null;
+	var cdaMatchRegExp = /\[CDA context=\{([^"]*?)\}\](.*?)\[\/CDA\]/gi;
+	var cdaMatchRegExpInAttribute = /"\[CDA context=\{([^"]*?)\}\](.*?)\[\/CDA\]"/gi;
 
 	function hideMessages() {
 		setTimeout("$('.normal-message').fadeOut(500);", 5000);
@@ -98,7 +100,8 @@ $(function() {
 		$("#datepicker").datepicker();
 		
 //		$("body *").replaceText('[=', "" );
-		$("body *").replaceText('[*]', " <img src=\"http://localhost/chamilocode/common/libraries/resources/images/aqua/action_translate.png\" style=\"width: 7px; height: 7px;\" />" );
+		$("body *").replaceText(cdaMatchRegExpInAttribute, "$2" );
+		$("body *").replaceText(cdaMatchRegExp, "$2 <a class=\"cda_link\" href=\"http://translate.chamilo.org/translate.php?context=$1&variable=$2\"><img src=\"http://localhost/chamilocode/common/libraries/resources/images/aqua/action_translate.png\" style=\"width: 7px; height: 7px;\" /></a>" );
 		
 		// hideMessages();
 

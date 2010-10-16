@@ -1,4 +1,9 @@
 <?php
+use common\libraries\Path;
+use common\libraries\Translation;
+use common\libraries\Utilities;
+use common\libraries\Theme;
+
 /**
  * $Id: utilities.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common.javascript.ajax

@@ -289,7 +289,7 @@ class SortableTable extends HTML_Table
                 $html[] = '<select id="actions_' . $this->table_name . '" name="' . $this->table_name . '_action_value">';
                 foreach ($this->form_actions->get_form_actions() as $form_action)
                 {
-                    if (get_class($form_action) == 'ObjectTableFormAction')
+                    if (get_class($form_action) == __NAMESPACE__ . '\ObjectTableFormAction')
                     {
                         $html[] = '<option value="' . $form_action->get_action() . '" class="' . ($form_action->get_confirm() ? 'confirm' : '') . '">' . $form_action->get_title() . '</option>';
                     }
