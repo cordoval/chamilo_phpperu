@@ -162,6 +162,10 @@ class Translation
             {
                 return $variable;
             }
+            elseif(PlatformSetting :: get('hide_dcda_markup'))
+            {
+                return $variable;
+            }
             else
             {
                 //$url = PlatformSetting :: get('cda_url') . 'run.php?application=cda&go=edit_variable_translation&variable=' . urlencode($variable) . '&context=' . urlencode($context);
@@ -170,7 +174,7 @@ class Translation
                 //$link = $image;
                 //$link = Theme :: get_common_image('action_translate_mini', 'png', null, $url, ToolbarItem::DISPLAY_ICON);
 
-              //return '[=' . $variable . '=] ' . $link;
+                //return '[=' . $variable . '=] ' . $link;
                 return '[CDA context={'. $context .'}]' . $variable . '[/CDA]';
             }
         }

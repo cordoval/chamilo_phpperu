@@ -696,7 +696,7 @@ abstract class Application
         return self :: determine_namespace($application_name) . '\\' . $manager_class . Utilities :: underscores_to_camelcase($type) . 'Component';
     }
     
-    private function determine_namespace($application_name)
+    static function determine_namespace($application_name)
     {
     	$application_type = self :: get_type($application_name);   	
    		return $application_type:: get_application_namespace($application_name);

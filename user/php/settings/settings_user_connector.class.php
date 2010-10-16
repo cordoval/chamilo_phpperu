@@ -1,4 +1,6 @@
 <?php
+namespace user;
+
 /**
  * $Id: settings_user_connector.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.settings
