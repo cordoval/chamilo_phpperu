@@ -1099,7 +1099,7 @@ class ContentObject extends DataClass
      */
     static function class_to_type($class)
     {
-        return Utilities :: camelcase_to_underscores($class);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', $class)));
     }
 
     /**

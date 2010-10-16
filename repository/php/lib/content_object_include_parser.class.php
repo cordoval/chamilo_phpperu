@@ -34,22 +34,22 @@ abstract class ContentObjectIncludeParser
 
     static function factory($type, $form)
     {
-        $class = 'Include' . Utilities :: underscores_to_camelcase($type) . 'Parser';
+        $class = __NAMESPACE__ . '\Include' . Utilities :: underscores_to_camelcase($type) . 'Parser';
         require_once dirname(__FILE__) . '/includes/include_' . $type . '_parser.class.php';
         return new $class($form);
     }
 
     static function get_include_types()
     {
-        return array('image', Wiki :: get_type_name(), 'embed', Youtube :: get_type_name());
+        return array('image', 'wiki', 'embed', 'youtube');
     }
 
     function parse_includes($form)
     {
         $content_object = $form->get_content_object();
-
+        
         $form_type = $form->get_form_type();
-
+        
         if ($form_type == ContentObjectForm :: TYPE_EDIT)
         {
             /*
@@ -62,7 +62,7 @@ abstract class ContentObjectIncludeParser
                 $content_object->exclude_content_object($included_object->get_id());
             }
         }
-
+        
         $include_types = self :: get_include_types();
         foreach ($include_types as $include_type)
         {

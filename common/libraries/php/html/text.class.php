@@ -1,5 +1,8 @@
 <?php
-namespace common\libraries; // $Id: text.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
+namespace common\libraries;
+
+use DOMDocument;
+
 /*
 ==============================================================================
 	Chamilo - elearning and course management software
