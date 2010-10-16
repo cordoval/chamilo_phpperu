@@ -19,7 +19,7 @@
 
 		if(selectedClass == 'confirm')
 		{
-			return confirm(translation(selectedValue + 'Confirm'));
+			return confirm(getTranslation(selectedValue + 'Confirm'));
 		}
 	}
 	
@@ -39,17 +39,6 @@
     {
 		$('.table_form').live('submit', form_submitted);
 	});
-
-    function translation(string, application) {
-		var translated_string = $.ajax({
-			type: "POST",
-			url: "./common/javascript/ajax/translation.php",
-			data: { string: string, application: application },
-			async: false
-		}).responseText;
-
-		return translated_string;
-	}
     
     function ucfirst(string)
     {
