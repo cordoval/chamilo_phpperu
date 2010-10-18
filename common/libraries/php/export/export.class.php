@@ -1,5 +1,6 @@
 <?php
 namespace common\libraries;
+
 /**
  * $Id: export.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common.export
@@ -125,11 +126,11 @@ abstract class Export
      */
     public static function factory($type, $data)
     {
-        $file = __NAMESPACE__ . '\\' . dirname(__FILE__) . '/' . $type . '/' . $type . '_export.class.php';
-        $class = Utilities :: underscores_to_camelcase($type) . 'Export';
+    	$file = Path :: get_common_libraries_path() . 'php/export/' . $type . '/' . $type . '_export.class.php';
+        $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type) . 'Export';
         if (file_exists($file))
         {
-            require_once ($file);
+        	require_once ($file);
             return new $class($data);
         }
     }
