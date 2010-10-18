@@ -208,10 +208,10 @@ class SurveyContextManager extends SubManager
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_CONTEXT_TEMPLATE, self :: PARAM_SURVEY_ID => $survey->get_id(), self :: PARAM_CONTEXT_TEMPLATE_ID => $context_template_id));
     }
 
-    function get_context_template_suscribe_page_browser_url()
+    function get_context_template_suscribe_page_browser_url($survey)
     {
         $context_template_id = Request :: get(self :: PARAM_CONTEXT_TEMPLATE_ID);
-    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_PAGE_BROWSER, self :: PARAM_CONTEXT_TEMPLATE_ID => $context_template_id));
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_PAGE_BROWSER, self :: PARAM_CONTEXT_TEMPLATE_ID => $context_template_id, self :: PARAM_SURVEY_ID => $survey->get_id()));
     }
 
     function get_template_suscribe_page_url($context_template_id, $page_id)

@@ -35,7 +35,7 @@ class SurveyTableCellRenderer extends DefaultSurveyTableCellRenderer
                 }
                 if ($survey->has_context())
                 {
-                    return '<a href="' . htmlentities($this->component->get_context_template_suscribe_page_browser_url()) . '" title="' . $title . '">' . $title_short . '</a>';
+                    return '<a href="' . htmlentities($this->component->get_context_template_suscribe_page_browser_url($survey)) . '" title="' . $title . '">' . $title_short . '</a>';
                 
                 }
                 else
@@ -64,7 +64,7 @@ class SurveyTableCellRenderer extends DefaultSurveyTableCellRenderer
             $toolbar->add_item(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path() . 'action_add.png', $this->component->get_subscribe_context_template_url($survey), ToolbarItem :: DISPLAY_ICON));
         
         }else{
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Subscribe'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->component->get_context_template_suscribe_page_browser_url(), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Subscribe'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->component->get_context_template_suscribe_page_browser_url($survey), ToolbarItem :: DISPLAY_ICON));
         	
         }
         return $toolbar->as_html();
