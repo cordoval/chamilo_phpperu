@@ -1,8 +1,14 @@
 <?php
 namespace group;
+
 use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\EqualityCondition; 
+use common\libraries\ObjectTableOrder;
+use common\libraries\OptionsMenuRenderer;
+
+use \HTML_Menu;
+use \HTML_Menu_ArrayRenderer;
 
 /**
  * $Id: group_menu.class.php 224 2009-11-13 14:40:30Z kariboe $

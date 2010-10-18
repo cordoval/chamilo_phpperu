@@ -5,6 +5,9 @@ use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\ConditionTranslator;
 use common\libraries\Database;
+use common\libraries\NotCondition;
+use common\libraries\InCondition;
+
 /**
  * $Id: database_group_data_manager.class.php 232 2009-11-16 10:11:48Z vanpouckesven $
  * @package group.lib.datamanager

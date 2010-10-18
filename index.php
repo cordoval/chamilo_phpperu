@@ -3,6 +3,7 @@ use common\libraries\Utilities;
 use common\libraries\Session;
 use user\UserDataManager;
 use home\HomeRenderer;
+
 try
 {
     $this_section = 'home';

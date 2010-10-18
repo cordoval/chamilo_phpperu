@@ -5,6 +5,7 @@ use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\ObjectTableFormActions;
 use common\libraries\ObjectTableFormAction;
+use common\libraries\ObjectTable;
 
 /**
  * $Id: subscribe_user_browser_table.class.php 166 2009-11-12 11:03:06Z vanpouckesven $

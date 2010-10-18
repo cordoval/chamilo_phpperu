@@ -1,5 +1,7 @@
 <?php
 namespace home;
+use \HTML_QuickForm_Action_Display;
+
 /**
  * $Id: build_wizard_display.class.php 227 2009-11-13 14:45:05Z kariboe $
  * @package home.lib.home_manager.component.wizards.build

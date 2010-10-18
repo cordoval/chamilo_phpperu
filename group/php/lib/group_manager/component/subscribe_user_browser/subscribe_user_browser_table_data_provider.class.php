@@ -1,6 +1,11 @@
 <?php
 namespace group;
+use user;
+
 use common\libraries\ObjectTableDataProvider;
+
+use user\UserDataManager;
+
 /**
  * $Id: subscribe_user_browser_table_data_provider.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package groups.lib.group_manager.component.subscribe_user_browser

@@ -1,6 +1,11 @@
 <?php
 namespace group;
 use common\libraries\StaticTableColumn;
+use common\libraries\Path;
+use common\libraries\ObjectTableColumn;
+use user\User;
+
+use user\DefaultUserTableColumnModel;
 /**
  * $Id: subscribe_user_browser_table_column_model.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package groups.lib.group_manager.component.subscribe_user_browser
