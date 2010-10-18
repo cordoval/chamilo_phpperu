@@ -1,58 +1,49 @@
-html, body
-{
+html,body {
 	background-color: transparent;
 	margin: 0px;
 	padding: 0px;
 }
 
-body
-{
+body {
 	padding: 10px;
 }
 
-body, td, input, select, textarea
-{
+body,td,input,select,textarea {
 	font-size: 11px;
-	font-family: 'Microsoft Sans Serif' , Arial, Helvetica, Verdana;
+	font-family: 'Microsoft Sans Serif', Arial, Helvetica, Verdana;
 }
 
-.midtext
-{
-	padding:0px;
-	margin:10px;
+.midtext {
+	padding: 0px;
+	margin: 10px;
 }
 
-.midtext p
-{
-	padding:0px;
-	margin:10px;
+.midtext p {
+	padding: 0px;
+	margin: 10px;
 }
 
-.Button
-{
+.Button {
 	border: #737357 1px solid;
 	color: #3b3b1f;
 	background-color: #c7c78f;
 }
 
-.PopupTabArea , .button
-{
+.PopupTabArea,.button {
 	color: #737357;
 	background-color: #e3e3c7;
 }
 
-.PopupTitleBorder
-{
+.PopupTitleBorder {
 	border-bottom: #d5d59d 1px solid;
 }
-.PopupTabEmptyArea
-{
+
+.PopupTabEmptyArea {
 	padding-left: 10px;
 	border-bottom: #d5d59d 1px solid;
 }
 
-.PopupTab, .PopupTabSelected
-{
+.PopupTab,.PopupTabSelected {
 	border-right: #d5d59d 1px solid;
 	border-top: #d5d59d 1px solid;
 	border-left: #d5d59d 1px solid;
@@ -60,16 +51,14 @@ body, td, input, select, textarea
 	color: #737357;
 }
 
-.PopupTab
-{
+.PopupTab {
 	margin-top: 1px;
 	border-bottom: #d5d59d 1px solid;
 	cursor: pointer;
 	cursor: hand;
 }
 
-.PopupTabSelected
-{
+.PopupTabSelected {
 	font-weight: bold;
 	cursor: default;
 	padding-top: 4px;
@@ -78,65 +67,74 @@ body, td, input, select, textarea
 }
 
 ul {
-    padding:0;
-    margin:0px 0px 12px 0px;
-    list-style-type:none;
-}
-ul.tabs {
-    height:20px;
-    margin:10px 0px;
-}
-ul.tabs li {
-    float: left;
-	display:none;
-}
-div.tab_container {
-    /*display:none;*/
-    padding: 0px 5px ;
-}
-.lcol {
-    float:left;
-    width:47%;
-    margin-left:5px;
-}
-.rcol {
-    float:right;
-    width:47%;
-    margin-right:5px;
-}
-div.tabs-container{
-	height:220px;
-	overflow-x:hidden;
-	overflow-y:auto;
+	padding: 0;
+	margin: 0px 0px 12px 0px;
+	list-style-type: none;
 }
 
-div.tabs-container h3{
-    margin:5px 15px 7px 15px;
-    background-color:transparent;
-    font-size: 14px ;
+ul.tabs {
+	height: 20px;
+	margin: 10px 0px;
+}
+
+ul.tabs li {
+	float: left;
+	display: none;
+}
+
+div.tab_container { /*display:none;*/
+	padding: 0px 5px;
+}
+
+.lcol {
+	float: left;
+	width: 47%;
+	margin-left: 5px;
+}
+
+.rcol {
+	float: right;
+	width: 47%;
+	margin-right: 5px;
+}
+
+div.tabs-container {
+	height: 220px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+div.tabs-container h3 {
+	margin: 5px 15px 7px 15px;
+	background-color: transparent;
+	font-size: 14px;
 }
 
 .li {
-    border: 1px solid transparent;
+	border: 1px solid transparent;
 }
 
-#dic_message{
+#dic_message {
 	height: 24px;
 }
-#dic_message .error{
-	color: red ;
+
+#dic_message .error {
+	color: red;
 }
-#dic_message .success{
-	color: blue ;
+
+#dic_message .success {
+	color: blue;
 }
 
 .dic_buttons {
 	margin-top: 5px;
-	padding-left:10px;
+	padding-left: 10px;
 }
+
 .dic_buttons a {
 	display: none;
 }
+
 a.button {
 	border: #d5d59d 1px solid;
 	padding: 2px 4px;
@@ -144,13 +142,12 @@ a.button {
 	text-decoration: none;
 }
 
-a.button:hover,
-a.button:active,
-a.button:visited{
+a.button:hover,a.button:active,a.button:visited {
 	padding: 2px 4px;
 	margin-right: 4px;
 	text-decoration: none;
 }
+
 a.button:hover {
 	border: #d5d59d 1px solid;
 	color: #e3e3c7;
@@ -162,8 +159,9 @@ a.button:hover {
 }
 
 #dic_info {
-	margin:10px;
+	margin: 10px;
 }
+
 #dic_tab {
-	display:none;
+	display: none;
 }

@@ -145,15 +145,14 @@ a.next,a.nextPage {
 	clear: right;
 }
 
-.ui-tabs ul li.dynamic_visual_tab
-{
-	background-image: url(../images/common/background_dynamic_visual_tab.png);
+.ui-tabs ul li.dynamic_visual_tab {
+	background-image:
+		url(../images/common/background_dynamic_visual_tab.png);
 	background-position: center center;
 	background-repeat: repeat-x;
 }
 
-.ui-tabs div.dynamic_visual_tab
-{
+.ui-tabs div.dynamic_visual_tab {
 	background-color: white;
 }
 

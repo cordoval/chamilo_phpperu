@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="internal_item_instance">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1"
+			autoincrement="true" />
+		<property name="internal_item_id" type="integer" notnull="1" />
+		<property name="evaluation_id" type="integer" notnull="1" />
+	</properties>
+</object>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="publication">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1"
+			autoincrement="true" />
+		<property name="name" type="text" notnull="1" />
+		<property name="description" type="text" />
+		<property name="content_object_id" type="integer" notnull="1" />
+		<property name="content_object_type" type="text" fixed="true"
+			length="50" notnull="1" />
+		<property name="from_date" type="integer" notnull="1" />
+		<property name="to_date" type="integer" notnull="1" />
+		<property name="publisher_id" type="integer" notnull="1" />
+		<property name="published" type="integer" notnull="1" />
+		<property name="publication_type" type="integer" notnull="1" />
+		<property name="publication_place" type="integer" notnull="1" />
+		<property name="place_id" type="integer" notnull="1" />
+
+	</properties>
+	<index name="content_object_id">
+		<indexproperty name="content_object_id" />
+	</index>
+	<index name="content_object_type">
+		<indexproperty name="content_object_type" />
+	</index>
+	<index name="publisher_id">
+		<indexproperty name="publisher_id" />
+	</index>
+	<index name="publication_place">
+		<indexproperty name="publication_place" />
+	</index>
+	<index name="place_id">
+		<indexproperty name="place_id" />
+	</index>
+</object>

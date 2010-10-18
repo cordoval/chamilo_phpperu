@@ -1,4 +1,24 @@
-<?php // $Id: global.inc.php 187 2009-11-13 10:31:25Z vanpouckesven $
+<?php
+use common\libraries\Path;
+use common\libraries\Utilities;
+use common\libraries\Session;
+use common\libraries\Connection;
+use common\libraries\PlatformSetting;
+use common\libraries\LocalSetting;
+use common\libraries\Request;
+
+use admin\AdminDataManager;
+use admin\AdminManager;
+
+use user\UserDataManager;
+use user\UserManager;
+use user\User;
+use user\VisitTracker;
+
+use tracking\Event;
+
+
+// $Id: global.inc.php 187 2009-11-13 10:31:25Z vanpouckesven $
 /**
 ==============================================================================
  * It is recommended that ALL chamilo scripts include this important file.
@@ -84,42 +104,17 @@ if (! $already_installed)
 }
 
 // Add the path to the pear packages to the include path
-require_once dirname(__FILE__) . '/filesystem/path.class.php';
-require_once dirname(__FILE__) . '/utilities.class.php';
+require_once dirname(__FILE__) . '/libraries/php/filesystem/path.class.php';
+require_once dirname(__FILE__) . '/libraries/php/utilities.class.php';
 ini_set('include_path', realpath(Path :: get_plugin_path() . 'pear') . PATH_SEPARATOR . realpath(Path :: get_plugin_path() . 'google/library'));
 
-function __autoload($classname)
-{
-	$autoloaders = array(dirname(__FILE__) . '/common_autoloader.class.php', Path :: get_repository_path() . 'repository_autoloader.class.php',
-					     Path :: get_user_path() . 'user_autoloader.class.php', Path :: get_admin_path() . 'admin_autoloader.class.php',
-					     Path :: get_group_path() . 'group_autoloader.class.php', Path :: get_help_path() . 'help_autoloader.class.php',
-					     Path :: get_home_path() . 'home_autoloader.class.php', Path :: get_menu_path() . 'menu_autoloader.class.php',
-					     Path :: get_migration_path() . 'migration_autoloader.class.php',
-					     Path :: get_reporting_path() . 'reporting_autoloader.class.php', Path :: get_rights_path() . 'rights_autoloader.class.php',
-					     Path :: get_tracking_path() . 'tracking_autoloader.class.php', Path :: get_webservice_path() . 'webservice_autoloader.class.php',
-					     Path :: get_application_library_path() . 'application_common_autoloader.class.php');
+spl_autoload_register('common\libraries\Utilities::autoload_core');
 
-	foreach($autoloaders as $autoloader)
-	{
-		require_once $autoloader;
-
-		$classn = substr(basename($autoloader), 0, -10);
-		$classname_upp = Utilities :: underscores_to_camelcase($classn);
-		$class = new $classname_upp;
-
-		if($class->load($classname))
-			break;
-	}
-
-}
-
-spl_autoload_register('__autoload');
+//spl_autoload_register('common\libraries\Utilities::autoload_web');
 
 require_once 'MDB2.php';
 
 // Start session
-
-
 Session :: start($already_installed);
 
 // Test database connection
@@ -220,7 +215,7 @@ if(!AdminDataManager :: is_language_active($language_interface))
 if (isset($_POST['login']))
 {
     $user = UserDataManager :: login($_POST['login'], $_POST['password']);
-    if (get_class($user) == 'User')
+    if (get_class($user) == User :: CLASS_NAME)
     {
         Session :: register('_uid', $user->get_id());
         Event :: trigger('login', 'user', array('server' => $_SERVER, 'user' => $user));
@@ -305,8 +300,9 @@ if (isset($_SESSION['_uid']))
 
     if (strpos($_SERVER['REQUEST_URI'], 'leave.php') === false && strpos($_SERVER['REQUEST_URI'], 'ajax') === false)
     {
-        $return = Event :: trigger('enter', UserManager :: APPLICATION_NAME, array(VisitTracker :: PROPERTY_LOCATION => $_SERVER['REQUEST_URI'], VisitTracker :: PROPERTY_USER_ID => $user->get_id()));
-        $htmlHeadXtra[] = '<script type="text/javascript">var tracker=' . $return[0]->get_id() . ';</script>';
+        // TODO: Temporarily disabled
+        // $return = Event :: trigger('enter', UserManager :: APPLICATION_NAME, array(VisitTracker :: PROPERTY_LOCATION => $_SERVER['REQUEST_URI'], VisitTracker :: PROPERTY_USER_ID => $user->get_id()));
+        // $htmlHeadXtra[] = '<script type="text/javascript">var tracker=' . $return[0]->get_id() . ';</script>';
     }
 }
 

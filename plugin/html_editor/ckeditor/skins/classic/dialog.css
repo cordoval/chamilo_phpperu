@@ -524,7 +524,7 @@ body .cke_dialog {
 	margin: 2px;
 	padding: 2px;
 	opacity: .9;
-	filter: alpha(opacity =   90);
+	filter: alpha(opacity =     90);
 	background-color: #e4e4e4;
 }
 

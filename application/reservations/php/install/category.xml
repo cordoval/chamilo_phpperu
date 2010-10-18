@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="category">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1"
+			autoincrement="true" />
+		<property name="name" type="text" length="50" notnull="1"
+			default="" />
+		<property name="parent_id" type="integer" unsigned="1"
+			notnull="1" default="0" />
+		<property name="display_order" type="integer" unsigned="1"
+			notnull="1" default="0" />
+		<property name="pool" type="integer" unsigned="1" notnull="1"
+			default="0" />
+		<property name="status" type="boolean" default="0" />
+	</properties>
+	<index name="status">
+		<indexproperty name="status" />
+	</index>
+	<index name="parent_id">
+		<indexproperty name="parent_id" />
+	</index>
+	<index name="display_order">
+		<indexproperty name="display_order" />
+	</index>
+</object>

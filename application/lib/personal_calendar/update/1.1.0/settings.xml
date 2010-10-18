@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<application name="personal_calendar">
-	<settings>
-			<setting name="maximum_attempts" default="1" type="2"/>
-			<setting name="allow_save" default="0" type="2"/>
-			
-	</settings>
-</application>

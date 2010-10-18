@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<location name="phrases" type="0" identifier="0">
+	<children>
+		<location name="PhrasesManager" type="1" identifier="phrases_manager" />
+		<location name="DifficultyLevelManager" type="1"
+			identifier="mastery_level_manager" />
+		<location name="CategoryManager" type="1" identifier="category_manager" />
+		<location name="Reporting" type="1" identifier="reporting" />
+		<location name="Taker" type="1" identifier="taker" />
+	</children>
+</location>

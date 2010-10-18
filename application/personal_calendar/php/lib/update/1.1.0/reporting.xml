@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="personal_calendar">
+	<blocks>
+		<block name="test_block" type="1" />
+	</blocks>
+	<templates>
+		<template name="test_template" platform="1" type="1" />
+	</templates>
+</application>

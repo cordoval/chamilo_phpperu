@@ -1,6 +1,6 @@
 /* Queue container styling
    or you can use .fileUploadQueue if you want to style all queue containers with the same properties */
-#fileUploadstyleQueue{
+#fileUploadstyleQueue {
 	margin-top: 5px;
 	padding: 3px;
 	background-color: white;
@@ -11,4 +11,3 @@
 	height: 150px;
 	width: 350px;
 }
-

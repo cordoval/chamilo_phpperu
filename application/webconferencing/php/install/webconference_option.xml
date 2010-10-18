@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="webconference_option">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1"
+			autoincrement="true" />
+		<property name="conf_id" type="integer" unsigned="1" notnull="1" />
+		<property name="name" type="text" length="100" fixed="true"
+			notnull="1" default="" />
+		<property name="value" type="text" length="500" notnull="1"
+			default="" />
+	</properties>
+	<index name="conf_id">
+		<indexproperty name="conf_id" />
+	</index>
+	<index name="option">
+		<indexproperty name="conf_id" />
+		<indexproperty name="name" />
+	</index>
+</object>

@@ -1,0 +1,16 @@
+<?php
+namespace repository\content_object\note;
+
+use repository\ComplexContentObjectItemForm;
+
+/**
+ * $Id: complex_note_form.class.php 200 2009-11-13 12:30:04Z kariboe $
+ * @package repository.lib.content_object.note
+ */
+require_once dirname(__FILE__) . '/complex_note.class.php';
+
+class ComplexNoteForm extends ComplexContentObjectItemForm
+{
+}
+
+?>

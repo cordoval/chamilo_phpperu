@@ -1509,7 +1509,7 @@ class HTML_QuickForm extends HTML_Common
     function validate()
     {
         if (count($this->_rules) == 0 && count($this->_formRules) == 0 && 
-            $this->isSubmitted()) {
+        $this->isSubmitted()) {
             return (0 == count($this->_errors));
         } elseif (!$this->isSubmitted()) {
             return false;
@@ -1589,7 +1589,6 @@ class HTML_QuickForm extends HTML_Common
                 }
             }
         }
-
         return (0 == count($this->_errors));
     } // end func validate
 

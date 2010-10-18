@@ -92,7 +92,7 @@ syntax: regexp
 syntax: regexp
 ^repository/lib/content_object/survey/template/survey_template2$
 syntax: regexp
-^application/lib/survey/survey_manager/component/survey_excel_percentage_exporter\.class\.php$
+^application/survey/php/survey_manager/component/survey_excel_percentage_exporter\.class\.php$
 syntax: regexp
 ^repository/lib/content_object/survey/template/survey_template60$
 syntax: regexp

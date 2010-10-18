@@ -106,37 +106,44 @@ ul.tree-menu li div a.profile {
  *****************************/
 ul.tree-menu li div a.youtube {
 	clear: both;
-	background-image: url(../images/common/external_repository/youtube/logo/16.png);
+	background-image:
+		url(../images/common/external_repository/youtube/logo/16.png);
 }
 
 ul.tree-menu li div a.mediamosa {
 	clear: both;
-	background-image: url(../images/common/external_repository/mediamosa/logo/16.png);
+	background-image:
+		url(../images/common/external_repository/mediamosa/logo/16.png);
 }
 
 ul.tree-menu li div a.google_docs {
 	clear: both;
-	background-image: url(../images/common/external_repository/google_docs/logo/16.png);
+	background-image:
+		url(../images/common/external_repository/google_docs/logo/16.png);
 }
 
 ul.tree-menu li div a.fedora {
 	clear: both;
-	background-image: url(../images/common/external_repository/fedora/logo/16.png);
+	background-image:
+		url(../images/common/external_repository/fedora/logo/16.png);
 }
 
 ul.tree-menu li div a.flickr {
 	clear: both;
-	background-image: url(../images/common/external_repository/flickr/logo/16.png);
+	background-image:
+		url(../images/common/external_repository/flickr/logo/16.png);
 }
 
 ul.tree-menu li div a.matterhorn {
 	clear: both;
-	background-image: url(../images/common/external_repository/matterhorn/logo/16.png);
+	background-image:
+		url(../images/common/external_repository/matterhorn/logo/16.png);
 }
 
 ul.tree-menu li div a.picasa {
 	clear: both;
-	background-image: url(../images/common/external_repository/picasa/logo/16.png);
+	background-image:
+		url(../images/common/external_repository/picasa/logo/16.png);
 }
 
 ul.tree-menu li div a.disabled {
@@ -233,19 +240,26 @@ ul.tree-menu li div a.hidden {
 }
 
 ul.tree-menu li div a.google_docs_pdf {
-	background-image: url(../images/common/external_repository/google_docs/types/pdf.png);
+	background-image:
+		url(../images/common/external_repository/google_docs/types/pdf.png);
 }
 
 ul.tree-menu li div a.google_docs_document {
-	background-image: url(../images/common/external_repository/google_docs/types/document.png);
+	background-image:
+		url(../images/common/external_repository/google_docs/types/document.png)
+		;
 }
 
 ul.tree-menu li div a.google_docs_presentation {
-	background-image: url(../images/common/external_repository/google_docs/types/presentation.png);
+	background-image:
+		url(../images/common/external_repository/google_docs/types/presentation.png)
+		;
 }
 
 ul.tree-menu li div a.google_docs_spreadsheet {
-	background-image: url(../images/common/external_repository/google_docs/types/spreadsheet.png);
+	background-image:
+		url(../images/common/external_repository/google_docs/types/spreadsheet.png)
+		;
 }
 
 ul.tree-menu li div a.survey {
