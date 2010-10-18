@@ -1,11 +1,12 @@
 <?php
 namespace group;
 use common\libraries\Translation;
-use common\libaries\Export;
 use common\libraries\Request;
 use common\libraries\EqualityCondition;
 use common\libraries\AdministrationComponent;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\Export;
+
 
 require_once dirname(__FILE__) ."/../../group_rights.class.php";
 /**

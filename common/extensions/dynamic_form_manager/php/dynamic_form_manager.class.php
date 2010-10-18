@@ -1,5 +1,10 @@
 <?php
 namespace common\extensions\dynamic_form_manager;
+use common\libraries\SubManager;
+use common\libraries\Request;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use admin\AdminDataManager;
 /**
  * $Id: dynamic_form_manager.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package application.common.dynamic_form_manager

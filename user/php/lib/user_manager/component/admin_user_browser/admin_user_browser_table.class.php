@@ -7,7 +7,6 @@ use common\libraries\Request;
 use common\libraries\ObjectTable;
 use common\libraries\ObjectTableFormAction;
 use common\libraries\PlatformSetting;
-use common\libraries\ObjectTable;
 
 /**
  * $Id: admin_user_browser_table.class.php 211 2009-11-13 13:28:39Z vanpouckesven $

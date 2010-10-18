@@ -6,6 +6,7 @@ use common\libraries\Utilities;
 use common\libraries\Theme;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\PlatformSetting;
+use common\extensions\dynamic_form_manager\DynamicFormManager;
 /**
  * $Id: account.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager.component

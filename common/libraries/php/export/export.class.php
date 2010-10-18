@@ -125,7 +125,7 @@ abstract class Export
      */
     public static function factory($type, $data)
     {
-        $file = dirname(__FILE__) . '/' . $type . '/' . $type . '_export.class.php';
+        $file = __NAMESPACE__ . '\\' . dirname(__FILE__) . '/' . $type . '/' . $type . '_export.class.php';
         $class = Utilities :: underscores_to_camelcase($type) . 'Export';
         if (file_exists($file))
         {

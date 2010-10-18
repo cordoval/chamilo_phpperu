@@ -8,6 +8,8 @@ use common\libraries\ConditionTranslator;
 use common\libraries\SubselectCondition;
 use common\libraries\InCondition;
 
+use common\extensions\dynamic_form_manager\DynamicForm;
+
 /**
  * $Id: database_admin_data_manager.class.php 231 2009-11-16 09:53:00Z vanpouckesven $
  * @package admin.lib.data_manager
