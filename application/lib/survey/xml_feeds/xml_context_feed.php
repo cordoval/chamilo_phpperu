@@ -11,7 +11,6 @@ require_once Path :: get_application_path() . '/lib/survey/survey_manager/survey
 require_once Path :: get_repository_path() . '/lib/content_object/survey/survey_context.class.php';
 require_once Path :: get_repository_path() . '/lib/content_object/survey/survey_context_rel_user.class.php';
 
-
 Translation :: set_application(SurveyManager :: APPLICATION_NAME);
 
 if (Authentication :: is_valid())
@@ -20,6 +19,15 @@ if (Authentication :: is_valid())
     
     $user_id = $_GET[SurveyManager :: PARAM_USER_ID];
     $conditions[] = new EqualityCondition(SurveyContextRelUser :: PROPERTY_USER_ID, $user_id);
+      
+    $context_template_id = $_GET[SurveyReportingManager :: PARAM_CONTEXT_TEMPLATE_ID];
+    
+    if ($context_template_id)
+    {
+        $context_template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($context_template_id);
+        $context_type = $context_template->get_context_type();
+        $conditions[] = new EqualityCondition(SurveyContext :: PROPERTY_TYPE, $context_type, SurveyContext :: get_table_name());
+    }
     
     $query_condition = Utilities :: query_to_condition($_GET['query'], array(SurveyContext :: PROPERTY_NAME));
     if (isset($query_condition))
@@ -53,7 +61,7 @@ if (Authentication :: is_valid())
     {
         $contexts[] = $context;
     }
-	    
+
 }
 
 header('Content-Type: text/xml');
@@ -71,7 +79,7 @@ function dump_tree($contexts)
         
         foreach ($contexts as $context)
         {
-            $id = $context->get_context_id();
+            $id = 'context_'.$context->get_context_id();
             $name = strip_tags($context->get_optional_property(SurveyContext :: PROPERTY_NAME));
             //            $description = strip_tags($period->get_description());
             //            $description = preg_replace("/[\n\r]/", "", $description);

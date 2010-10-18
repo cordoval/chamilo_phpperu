@@ -1,4 +1,11 @@
 /*********************************************
+ * jQuery CSS: Form tabs ElementFinder
+ *********************************************/
+#form_tabs ul.tree-menu,#form_tabs ul.tree-menu ul {
+	display: block;
+}
+
+/*********************************************
  * jQuery CSS: Form tabs
  *********************************************/
 .form_tab {
@@ -43,6 +50,10 @@
 /*********************************************
  * jQuery CSS: Tabs
  *********************************************/
+ul.tabs-header {
+	display: none;
+}
+
 .ui-tabs {
 	padding: 0px;
 }
@@ -50,6 +61,9 @@
 .ui-tabs .ui-tabs-panel {
 	border: 1px solid #ebebeb;
 	background-color: #FAFCFC;
+}
+
+.ui-tabs .ui-tabs-panel.no-padding {
 	padding: 0px;
 }
 
@@ -129,6 +143,18 @@ a.disabled:hover {
 a.next,a.nextPage {
 	background-image: url(../plugin/jquery/scrollable/bottom.png);
 	clear: right;
+}
+
+.ui-tabs ul li.dynamic_visual_tab
+{
+	background-image: url(../images/common/background_dynamic_visual_tab.png);
+	background-position: center center;
+	background-repeat: repeat-x;
+}
+
+.ui-tabs div.dynamic_visual_tab
+{
+	background-color: white;
 }
 
 /*********** navigator ***********/

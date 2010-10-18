@@ -29,9 +29,9 @@ class SurveyContextRelUserBrowserTableCellRenderer extends DefaultSurveyContextR
     {
         $toolbar = new Toolbar();
         
-//        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: SUBSCRIBE_USER_RIGHT, $context_rel_user->get_context_id(), InternshipOrganizerRights :: TYPE_PERIOD))
+//        if (SurveyContextManagerRights :: is_allowed_in_survey_context_manager_subtree(SurveyContextManagerRights :: SUBSCRIBE_USER_RIGHT, $context_rel_user->get_context_id(), SurveyContextManagerRights :: TYPE_CONTEXT_REGISTRATION))
 //        {
-//            $toolbar->add_item(new ToolbarItem(Translation :: get('Unsubscribe'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_context_unsubscribe_user_url($context_rel_user), ToolbarItem :: DISPLAY_ICON, true));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Unsubscribe'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_context_unsubscribe_user_url($context_rel_user), ToolbarItem :: DISPLAY_ICON, true));
 //        }
         return $toolbar->as_html();
     }

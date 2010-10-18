@@ -64,7 +64,10 @@ class SurveyContextManagerRegistrationBrowserComponent extends SurveyContextMana
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('Create'), Theme :: get_common_image_path() . 'action_add.png', $this->get_context_registration_creation_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         //		$action_bar->add_common_action ( new ToolbarItem ( Translation::get ( 'ViewRoot' ), Theme::get_common_image_path () . 'action_home.png', $this->get_browse_categories_url (), ToolbarItem::DISPLAY_ICON_AND_LABEL ) );
         //		$action_bar->add_common_action ( new ToolbarItem ( Translation::get ( 'ShowAll' ), Theme::get_common_image_path () . 'action_browser.png', $this->get_browse_categories_url (), ToolbarItem::DISPLAY_ICON_AND_LABEL ) );
-        
+        if (SurveyContextManagerRights :: is_allowed_in_survey_context_manager_subtree(SurveyContextManagerRights :: RIGHT_VIEW, SurveyContextManagerRights :: LOCATION_CONTEXT_REGISTRATION, SurveyContextManagerRights :: TYPE_COMPONENT))
+        {
+            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_rights_editor_url(SurveyContextManagerRights :: LOCATION_CONTEXT_REGISTRATION), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
 
         return $action_bar;
     }

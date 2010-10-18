@@ -5,6 +5,7 @@
  */
 require_once dirname(__FILE__) . '/location_user_browser/location_user_browser_table.class.php';
 require_once dirname(__FILE__) . '/location_group_browser/location_group_browser_table.class.php';
+require_once dirname(__FILE__) . '/location_template_browser/location_template_browser_table.class.php';
 
 class RightsEditorManagerBrowserComponent extends RightsEditorManager
 {
@@ -14,6 +15,7 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
     const PARAM_TYPE = 'rights_type';
     const TYPE_USER = 'user';
     const TYPE_GROUP = 'group';
+    const TYPE_TEMPLATE = 'template';
     
     const TAB_DETAILS = 0;
     const TAB_SUBGROUPS = 1;
@@ -73,9 +75,13 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
         {
             $html[] = $this->display_location_user_browser();
         }
-        else
+        elseif($this->type == self :: TYPE_GROUP)
         {
             $html[] = $this->display_location_group_browser();
+        }
+        else
+        {
+            $html[] = $this->display_location_template_browser();
         }
         
         $html[] = '<div class="clear"></div><br />';
@@ -109,13 +115,29 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
     	$html = array();
     	
     	$parameters = $this->get_parameters();
-        $parameters[self :: PARAM_TYPE] = 'user';
+        $parameters[self :: PARAM_TYPE] = self :: TYPE_USER;
         $parameters['query'] = $this->action_bar->get_query();
         $table = new LocationUserBrowserTable($this, $parameters, $this->get_user_conditions());
         $html[] = '<div style="overflow: auto;">';
         $html[] = $table->as_html();
         $html[] = '</div>';
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'application/common/rights_editor_manager/javascript/configure_user.js');
+        
+        return implode("\n", $html);
+    }
+    
+    function display_location_template_browser()
+    {
+    	$html = array();
+    	
+    	$parameters = $this->get_parameters();
+        $parameters[self :: PARAM_TYPE] = self :: TYPE_TEMPLATE;
+        $parameters['query'] = $this->action_bar->get_query();
+        $table = new LocationTemplateBrowserTable($this, $parameters, $this->get_template_conditions());
+        $html[] = '<div style="overflow: auto;">';
+        $html[] = $table->as_html();
+        $html[] = '</div>';
+        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'application/common/rights_editor_manager/javascript/configure_template.js');
         
         return implode("\n", $html);
     }
@@ -179,6 +201,11 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
             $html[] = '<div class="application' . $current . '" style="background-image: url(' . Theme :: get_image_path('admin') . 'place_group.png);">' . Translation :: get('Groups') . '</div>';
             $html[] = '</a>';
             
+            $current = $this->type == self :: TYPE_TEMPLATE ? ' current' : '';
+            $html[] = '<a href="' . $this->get_url(array(self :: PARAM_TYPE => self :: TYPE_TEMPLATE)) . '">';
+            $html[] = '<div class="application' . $current . '" style="background-image: url(' . Theme :: get_image_path('admin') . 'place_template.png);">' . Translation :: get('Templates') . '</div>';
+            $html[] = '</a>';
+            
             $html[] = '</div>';
             $html[] = '<div style="clear: both;"></div>';
         }
@@ -219,6 +246,42 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
         }
         
         return new AndCondition($conditions);
+    }
+    
+    function get_template_conditions()
+    {
+        $conditions = array();
+        
+        $query = $this->action_bar->get_query();
+        if (isset($query) && $query != '')
+        {
+            $search_conditions = array();
+            $search_conditions[] = new PatternMatchCondition(RightsTemplate :: PROPERTY_NAME, '*' . $query . '*');
+            $search_conditions[] = new PatternMatchCondition(RightsTemplate :: PROPERTY_DESCRIPTION, '*' . $query . '*');
+            $conditions[] = new OrCondition($search_conditions);
+        }
+        
+        if (count($this->get_limited_templates()) > 0)
+        {
+            $conditions[] = new InCondition(RightsTemplate :: PROPERTY_ID, $this->get_limited_templates());
+        }
+        
+        if (count($this->get_excluded_templates()) > 0)
+        {
+            $excluded_template_conditions = array();
+            
+            foreach ($this->get_excluded_templates() as $template)
+            {
+                $excluded_template_conditions[] = new NotCondition(new EqualityCondition(RightsTemplate :: PROPERTY_ID, $template));
+            }
+            
+            $conditions[] = new AndCondition($excluded_template_conditions);
+        }
+        
+        if(count($conditions) > 0)
+        {
+            return new AndCondition($conditions);
+        }
     }
 
     function get_group_conditions($get_children = true)

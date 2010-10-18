@@ -32,7 +32,7 @@ class SurveyContextQuestionReportingBlock extends SurveyReportingBlock
 
     public function retrieve_data()
     {
-        return $this->count_data();
+        return $this->create_reporting_data();
     }
 
     function get_application()
@@ -55,8 +55,8 @@ class SurveyContextQuestionReportingBlock extends SurveyReportingBlock
         $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_PUBLICATION_ID, $publication_id);
         
         $context_ids = $filter_parameters[SurveyReportingFilterWizard :: PARAM_CONTEXTS];
-        
-        if (!is_array($context_ids))
+              
+        if (is_array($context_ids))
         {
             $conditions[] = new InCondition(SurveyQuestionAnswerTracker :: PROPERTY_CONTEXT_ID, $context_ids);
         }
@@ -65,8 +65,8 @@ class SurveyContextQuestionReportingBlock extends SurveyReportingBlock
             $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_CONTEXT_ID, 0);
         }
                 
-
         $condition = new AndCondition($conditions);
+          
         $trackers = Tracker :: get_data(SurveyQuestionAnswerTracker :: get_table_name(), SurveyManager :: APPLICATION_NAME, $condition);
         
         $answers = array();

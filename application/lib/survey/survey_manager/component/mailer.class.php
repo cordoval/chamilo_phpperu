@@ -42,7 +42,7 @@ class SurveyManagerMailerComponent extends SurveyManager
             foreach ($ids as $id)
             {
                 $survey_publication = SurveyDataManager :: get_instance()->retrieve_survey_publication($id);
-                $survey_id = $survey_publication->get_content_object();
+                $survey_id = $survey_publication->get_content_object_id();
                 $surveys[] = RepositoryDataManager :: get_instance()->retrieve_content_object($survey_id);
             
             }

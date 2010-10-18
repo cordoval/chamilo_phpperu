@@ -46,18 +46,23 @@ class SurveyContextManagerRegistrationViewerComponent extends SurveyContextManag
 
     function get_condition()
     {
-        $query = $this->ab->get_query();
+        
+    	 $conditions = array();
+    	 $context_alias = SurveyContextDataManager :: get_instance()->get_alias(SurveyContext :: get_table_name());
+    	 $conditions[] = new EqualityCondition(SurveyContext::PROPERTY_CONTEXT_REGISTRATION_ID, $this->context_registration->get_id(), SurveyContext :: get_table_name());
+    	
+    	$query = $this->ab->get_query();
         
         if (isset($query) && $query != '')
         {
-            $conditions = array();
-            $conditions[] = new PatternMatchCondition(SurveyContext :: PROPERTY_NAME, '*' . $query . '*', SurveyContextRegistration :: get_table_name());
+            $search_conditions = array();
+            $search_conditions[] = new PatternMatchCondition(SurveyContext :: PROPERTY_NAME, '*' . $query . '*', SurveyContext :: get_table_name());
             //            $conditions[] = new PatternMatchCondition(SurveyContextRegistration :: PROPERTY_DESCRIPTION, '*' . $query . '*', SurveyContextRegistration :: get_table_name());
-            $condition = new OrCondition($conditions);
+            $conditions[] = new OrCondition($search_conditions);
         
         }
         
-        return $condition;
+        return new AndCondition($conditions);
     }
 
     function get_action_bar()

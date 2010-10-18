@@ -52,7 +52,7 @@ div.block div.title {
 	width: 100%;
 	padding-bottom: 0.3em;
 	margin-bottom: 0.3em;
-	color: #b1071c;
+	color: #B1071C;
 	clear: both;
 	position: relative;
 	cursor: move;
@@ -63,7 +63,7 @@ div.block div.title a {
 	font-weight: normal;
 	font-size: 11px;
 	text-decoration: none;
-	color: #000066;
+	color: #B1071C;
 	cursor: pointer;
 	margin-left: 4px;
 }
@@ -104,7 +104,7 @@ div.empty_column {
 }
 
 #homeOverlay {
-	background-color: #efefef;
+	background-color: #EFEFEF;
 	cursor: wait;
 }
 
@@ -113,7 +113,7 @@ div.empty_column {
 	width: 175px;
 	height: 175px;
 	background-color: #FFFFFF;
-	border: 2px solid #efefef;
+	border: 2px solid #EFEFEF;
 	-moz-border-radius: 10px;
 	-webkit-border-radius: 10px;
 }
@@ -123,7 +123,7 @@ div.empty_column {
 	width: 625px;
 	height: 400px;
 	background-color: #FFFFFF;
-	border: 2px solid #efefef;
+	border: 2px solid #EFEFEF;
 	-moz-border-radius: 10px;
 	-webkit-border-radius: 10px;
 }
@@ -192,8 +192,8 @@ a.modalCloseImg {
 }
 
 #tab_menu li.normal:hover {
-	background-color: #efefef;
-	border: 1px solid #d90223;
+	background-color: #EFEFEF;
+	border: 1px solid #D90223;
 	border-bottom: 0px solid black;
 }
 
@@ -220,7 +220,7 @@ a.deleteTab {
 	margin: 0px 0px 0px 9px;
 	display: none;
 	cursor: pointer;
-	border-left: 1px solid #d90223;
+	border-left: 1px solid #D90223;
 }
 
 a.deleteTab img {
@@ -240,7 +240,7 @@ div.deleteColumn {
 
 #homeEditContainer {
 	background-color: #FFFFFF;
-	border: 2px solid #efefef;
+	border: 2px solid #EFEFEF;
 	-moz-border-radius: 10px;
 	-webkit-border-radius: 10px;
 }

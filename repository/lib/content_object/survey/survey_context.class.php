@@ -9,7 +9,8 @@ abstract class SurveyContext extends DataClass
     
     const PROPERTY_TYPE = 'type';
     const PROPERTY_NAME = 'name';
-    const PROPERTY_USERNAME_KEY = 'username';
+    const PROPERTY_CONTEXT_REGISTRATION_ID = 'context_registration_id';
+    
     
     private $additionalProperties;
 
@@ -110,9 +111,19 @@ abstract class SurveyContext extends DataClass
         return $this->get_default_property(self :: PROPERTY_NAME);
     }
 
+    function get_context_registration_id()
+    {
+        return $this->get_default_property(self :: PROPERTY_CONTEXT_REGISTRATION_ID);
+    }
+
+    function set_context_registration_id($context_registration_id)
+    {
+        $this->set_default_property(self :: PROPERTY_CONTEXT_REGISTRATION_ID, $context_registration_id);
+    }
+
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_TYPE, self :: PROPERTY_NAME));
+        return parent :: get_default_property_names(array(self :: PROPERTY_TYPE, self :: PROPERTY_NAME, self :: PROPERTY_CONTEXT_REGISTRATION_ID));
     }
 
     private static function get_registered_context_types()

@@ -30,17 +30,21 @@ class SurveyPublicationRelReportingTemplateTableCellRenderer extends DefaultSurv
         switch ($column->get_name())
         {
             // Exceptions that need post-processing go here ...
-                    case SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_NAME :
-                        $title = parent :: render_cell($column, $publication_rel_reporting_template);
-                        $title_short = $title;
-                        if (strlen($title_short) > 53)
-                        {
-                            $title_short = mb_substr($title_short, 0, 50) . '&hellip;';
-                        }
-                        return '<a href="' . htmlentities($this->component->get_reporting_url($publication_rel_reporting_template)) . '" title="' . $title . '">' . $title_short . '</a>';
-                    case SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_DESCRIPTION :
-                        $description = strip_tags(parent :: render_cell($column, $publication_rel_reporting_template));
-                        return Utilities :: truncate_string($description);
+            case SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_NAME :
+                $title = parent :: render_cell($column, $publication_rel_reporting_template);
+                $title_short = $title;
+                if (strlen($title_short) > 53)
+                {
+                    $title_short = mb_substr($title_short, 0, 50) . '&hellip;';
+                }
+                return '<a href="' . htmlentities($this->component->get_reporting_url($publication_rel_reporting_template)) . '" title="' . $title . '">' . $title_short . '</a>';
+            case SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_DESCRIPTION :
+                $description = strip_tags(parent :: render_cell($column, $publication_rel_reporting_template));
+                if (strlen($description) > 175)
+                {
+                    $description = mb_substr($description, 0, 170) . '&hellip;';
+                }
+                return Utilities :: truncate_string($description);
         
         }
         

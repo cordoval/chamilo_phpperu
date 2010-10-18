@@ -20,9 +20,9 @@ class SurveyContextRelUserBrowserTable extends ObjectTable
         parent :: __construct($data_provider, SurveyContextRelUserBrowserTable :: DEFAULT_NAME, $model, $renderer);
         $actions = new ObjectTableFormActions(SurveyContextManager :: PARAM_ACTION);
         
-//        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: SUBSCRIBE_AGREEMENT_USER_RIGHT, $browser->get_context()->get_id(), InternshipOrganizerRights :: TYPE_PERIOD))
+//        if (SurveyContextManagerRights :: is_allowed_in_survey_context_manager_subtree(SurveyContextManagerRights :: SUBSCRIBE_AGREEMENT_USER_RIGHT, $browser->get_context()->get_id(), SurveyContextManagerRights :: TYPE_CONTEXT_REGISTRATION))
 //        {
-//            $actions->add_form_action(new ObjectTableFormAction(SurveyContextManager :: ACTION_UNSUBSCRIBE_USER, Translation :: get('Unsubscribe')));
+            $actions->add_form_action(new ObjectTableFormAction(SurveyContextManager :: ACTION_UNSUBSCRIBE_USER, Translation :: get('Unsubscribe')));
 //        }
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
