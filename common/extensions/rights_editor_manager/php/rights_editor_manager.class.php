@@ -1,5 +1,9 @@
 <?php
 namespace common\extensions\rights_editor_manager;
+use common\libraries\SubManager;
+use common\libraries\Session;
+use common\libraries\Request;
+use common\libraries\Path;
 
 /**
  * $Id: rights_editor_manager.class.php 191 2009-11-13 11:50:28Z chellee $
@@ -53,14 +57,13 @@ class RightsEditorManager extends SubManager
 
     function factory($content_object, $parent, $locations)
     {
-        if ($content_object)
+    	if ($content_object)
         {
             $type = $content_object->get_type_name();
-            $file = Path :: get_repository_path() . '/lib/content_object/' . $type . '/rights/' . $type . '_rights_editor_manager.class.php';
+            $file = Path :: get_repository_path() . 'content_object/' . $type . '/php/rights/' . $type . '_rights_editor_manager.class.php';
             if (file_exists($file))
             {
                 require_once $file;
-
                 $class = Utilities :: underscores_to_camelcase($type) . 'RightsEditorManager';
                 $manager = new $class($parent, $locations);
 
@@ -102,7 +105,7 @@ class RightsEditorManager extends SubManager
 
     function get_locations()
     {
-        return $this->locations;
+	   	return $this->locations;
     }
 
     function set_locations($locations)

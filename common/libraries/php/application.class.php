@@ -525,7 +525,7 @@ abstract class Application
         $class = $manager_class . $type . 'Component';
         require_once $file;
 
-        if (is_subclass_of($application, 'SubManager'))
+        if (is_subclass_of($application, 'common\libraries\SubManager'))
         {
             $component = new $class($application->get_parent());
         }
@@ -742,7 +742,6 @@ abstract class Application
     static function construct($application_name, $user)
     {
     	$type = self :: get_type($application_name);
-
     	require_once $type :: get_application_manager_path($application_name);
 
         $action = self :: get_component_action($application_name);

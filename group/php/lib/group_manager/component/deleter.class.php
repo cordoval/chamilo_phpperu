@@ -7,6 +7,7 @@ use common\libraries\DynamicTabsRenderer;
 use common\libraries\AdministrationComponent;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\Event;
 
 require_once dirname(__FILE__) ."/../../group_rights.class.php";
 /**

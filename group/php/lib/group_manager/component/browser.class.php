@@ -140,7 +140,6 @@ class GroupManagerBrowserComponent extends GroupManager implements Administratio
         if (! $this->group)
         {
             $this->group = Request :: get(GroupManager :: PARAM_GROUP_ID);
-            dump($this->group);
 
             if (! $this->group)
             {

@@ -1,11 +1,12 @@
 <?php
 namespace help;
 use common\libraries\Translation;
+use common\libraries\FormValidator;
 /**
  * $Id: help_item_form.class.php 226 2009-11-13 14:44:03Z chellee $
  * @package help.lib.forms
  */
-require_once dirname(__FILE__) . '/../../../common/global.inc.php';
+require_once dirname(__FILE__) . '/../../../../common/global.inc.php';
 
 class HelpItemForm extends FormValidator
 {

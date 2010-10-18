@@ -1,5 +1,20 @@
 <?php
 namespace common\extensions\rights_editor_manager;
+use common\libraries\Path;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Request;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
+use common\libraries\ResourceManager;
+use common\libraries\NotCondition;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use rights\RightsUtilities;
+use user\User;
+
 /**
  * $Id: browser.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.rights_editor_manager.component
@@ -54,9 +69,7 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
         
         $trail = BreadcrumbTrail :: get_instance();
         //$trail->add(new Breadcrumb($this->get_url(array(RightsEditorManager :: PARAM_RIGHTS_EDITOR_ACTION => RightsEditorManager :: ACTION_BROWSE_RIGHTS, self :: PARAM_TYPE => Request :: get(self :: PARAM_TYPE))), Translation :: get('BrowseRights')));
-        
         $this->action_bar = $this->get_action_bar();
-        
         $this->display_header();
         echo $this->get_display_html();
         $this->display_footer();
@@ -267,7 +280,6 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
         $action_bar->set_search_url($this->get_url(array(self :: PARAM_TYPE => $this->type)));
         
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(self :: PARAM_TYPE => $this->type)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        
         $locations = $this->get_locations();
         if(count($locations) == 1)
         {

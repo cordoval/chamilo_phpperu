@@ -4,6 +4,7 @@ use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\AdministrationComponent;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
 
 class MenuManagerMoverComponent extends MenuManager implements AdministrationComponent
 {

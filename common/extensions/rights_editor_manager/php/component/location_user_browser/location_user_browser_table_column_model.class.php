@@ -1,5 +1,13 @@
 <?php
 namespace common\extensions\rights_editor_manager;
+
+use common\libraries\Path;
+use user\DefaultUserTableColumnModel;
+use common\libraries\ObjectTableColumn;
+use common\libraries\StaticTableColumn;
+
+
+use user\User;
 /**
  * $Id: location_user_browser_table_column_model.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.rights_editor_manager.component.location_user_bowser
