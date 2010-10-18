@@ -1,10 +1,7 @@
 <?php
+require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/tables/template_rel_page_table/default_template_rel_page_table_column_model.class.php';
 
-require_once dirname(__FILE__) . '/../../tables/template_rel_page_table/default_template_rel_page_table_column_model.class.php';
-/**
- * Table column model for the user browser table
- */
-class SurveyContextTemplateRelPageBrowserTableColumnModel extends DefaultSurveyContextTemplateRelPageTableColumnModel
+class SurveyContextTemplateRelPageTableColumnModel extends DefaultSurveyContextTemplateRelPageTableColumnModel
 {
     /**
      * The tables modification column
@@ -14,7 +11,7 @@ class SurveyContextTemplateRelPageBrowserTableColumnModel extends DefaultSurveyC
     /**
      * Constructor
      */
-    function SurveyContextTemplateRelPageBrowserTableColumnModel()
+    function SurveyContextTemplateRelPageTableColumnModel()
     {
         parent :: __construct();
         $this->set_default_order_column(0);
