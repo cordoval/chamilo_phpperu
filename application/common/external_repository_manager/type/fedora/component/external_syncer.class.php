@@ -15,7 +15,30 @@ class FedoraExternalRepositoryManagerExternalSyncerComponent extends FedoraExter
 		if($api = $this->create_api_component()){
 			return $api->run();
 		}
-		ExternalRepositoryComponent::launch($this);
+
+		$id = Request::get(ExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_ID);
+
+		if($id){
+			$object = $this->retrieve_external_repository_object($id);
+			if (! $object->is_importable() && ($object->get_synchronization_status() == ExternalRepositorySync::SYNC_STATUS_EXTERNAL || $object->get_synchronization_status() == ExternalRepositorySync::SYNC_STATUS_CONFLICT)){
+				$succes = $this->synchronize_external_repository_object($object);
+				$params = $this->get_parameters();
+				$params[self::PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = self::ACTION_BROWSE_EXTERNAL_REPOSITORY;
+
+				if($succes){
+					$this->redirect(Translation::get('Succes'), false, $params);
+				}else{
+					$this->redirect(Translation::get('Failed'), true, $params);
+				}
+			}
+		}
+		$params = $this->get_parameters();
+		$params[ExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = ExternalRepositoryManager::ACTION_VIEW_EXTERNAL_REPOSITORY;
+		$this->redirect(null, false, $params);
+	}
+
+	function get_external_repository_id(){
+		return Request::get(ExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_ID);
 	}
 
 	function synchronize_external_repository_object(ExternalRepositoryObject $external_object){
@@ -24,30 +47,11 @@ class FedoraExternalRepositoryManagerExternalSyncerComponent extends FedoraExter
 
 		if($this->update_document($external_object, $content_object)){
 			$external_object = $this->get_external_repository_connector()->retrieve_external_repository_object($external_object->get_id());
-
 			$synchronization_data->set_content_object_timestamp($content_object->get_modification_date());
 			$synchronization_data->set_external_repository_object_timestamp($external_object->get_modified());
-			if ($synchronization_data->update())
-			{
-				$parameters = $this->get_parameters();
-				$parameters[Application::PARAM_ACTION] = RepositoryManager::ACTION_VIEW_CONTENT_OBJECTS;
-				$parameters[RepositoryManager::PARAM_CONTENT_OBJECT_ID] = $content_object->get_id();
-				$this->redirect(Translation::get('ContentObjectUpdatedSuccessful'), false, $parameters, array(ExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY, ExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION));
-			}
-			else
-			{
-				$parameters = $this->get_parameters();
-				$parameters[ExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = ExternalRepositoryManager::ACTION_VIEW_EXTERNAL_REPOSITORY;
-				$parameters[ExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_ID] = $external_object->get_id();
-				$this->redirect(Translation::get('ContentObjectUpdatedFailed'), true, $parameters);
-			}
-		}
-		else
-		{
-			$parameters = $this->get_parameters();
-			$parameters[ExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = ExternalRepositoryManager::ACTION_VIEW_EXTERNAL_REPOSITORY;
-			$parameters[ExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_ID] = $external_object->get_id();
-			$this->redirect(Translation::get('ExternalRepositoryObjectUpdatedFailed'), true, $parameters);
+			return $synchronization_data->update();
+		}else{
+			return false;
 		}
 	}
 
@@ -102,6 +106,7 @@ class FedoraExternalRepositoryManagerExternalSyncerComponent extends FedoraExter
 		$switch->discipline_text = $data['subject_dd']['subject_text'];
 		$switch->creator = isset($data['creator']) ? $data['creator'] : $this->get_user()->get_fullname();
 		$switch->description = $description;
+		$switch->collections = $data['collection'];
 
 		$connector = $this->get_external_repository_connector();
 		$fedora = $connector->get_fedora();
@@ -115,11 +120,7 @@ class FedoraExternalRepositoryManagerExternalSyncerComponent extends FedoraExter
 	function update_data($pid, $name, $path, $mime_type){
 		$fedora = $this->get_external_repository_connector()->get_fedora();
 		$content = file_get_contents($path);
-		//try{
 		$fedora->modify_datastream($pid, 'DS1', $name, $content, $mime_type, false);
-		//}catch(Exception $e){
-		//	$fedora->add_datastream($pid, 'DS1', $name, $content, $mime_type, false);
-		//}
 	}
 
 	function html2txt($html){

@@ -303,7 +303,8 @@ class FedoraExternalRepositoryConnector extends ExternalRepositoryConnector{
 	 */
 	public function retrieve_rights($id=false){
 		$default = $id ? false : array();
-		return $this->call_api(__FUNCTION__, func_get_args(), $default);
+		$result =  $this->call_api(__FUNCTION__, func_get_args(), $default);
+		return $result;
 	}
 
 	/**
@@ -446,17 +447,25 @@ class FedoraExternalRepositoryConnector extends ExternalRepositoryConnector{
 	 * @param $mime_type mime type
 	 */
 	function update_thumbnail($pid, $name, $path, $mime_type){
+		$content = $this->get_thumbnail_content($path);
 		$fedora = $this->get_fedora();
+		return $fedora->update_datastream($pid, 'THUMBNAIL', $name, $content, $mime_type, false);
+	}
+
+	/**
+	 * Returns image's content. If file provided is greater than max size - 150 pixels - the image size is decreased.
+	 *
+	 * @param $path
+	 */
+	function get_thumbnail_content($path){
 		$max_size = 150;
 		$size = getimagesize($path);
 		$width = $size[0];
 		$height = $size[1];
 		if($width == 0){//Unable to deternime image size
-			$content = file_get_contents($path);
-			$fedora->update_datastream($pid, 'THUMBNAIL', $name, $content, $mime_type, false);
+			return file_get_contents($path);
 		}else if($width <= $max_size && $height <= $max_size){
-			$content = file_get_contents($path);
-			$fedora->update_datastream($pid, 'THUMBNAIL', $name, $content, $mime_type, false);
+			return file_get_contents($path);
 		}else{
 			$tmp = Path::get_temp_path() . 'f' . Session::get_user_id() . md5(uniqid('fedora_thumb'));
 			$ratio = $size[1]/$size[0];
@@ -466,9 +475,8 @@ class FedoraExternalRepositoryConnector extends ExternalRepositoryConnector{
 			$thumbnail_creator->write_to_file($tmp);
 
 			$content = file_get_contents($tmp);
-			$fedora->update_datastream($pid, 'THUMBNAIL', $name, $content, $mime_type, false);
-
 			Filesystem::remove($tmp);
+			return $content;
 		}
 	}
 
@@ -559,6 +567,8 @@ class FedoraExternalRepositoryConnector extends ExternalRepositoryConnector{
 					$name = end($parts);
 					if($namespace == 'dcterms'){
 						$metadata[$name] = $value;
+					}else if($name == 'isMemberOfCollection'){
+						$metadata['collection'] = $child->get('rdf:resource');
 					}
 				}
 				$metadata['title'] = $label;

@@ -50,13 +50,15 @@ class FedoraExternalRepositoryObjectDisplay extends ExternalRepositoryObjectDisp
 			$filename = 'o'.$object->get_id() . $ext;
 			$filename = str_replace(':', '_', $filename);
 			$filename = Filesystem::create_safe_name($filename);
+
 			$opath = 'fedora/thumb/' . $filename;
 			$temp = Path::get_temp_path() . $opath;
 			if(Filesystem::write_to_file($temp, $content)){
 				$image_url = Path::get(WEB_TEMP_PATH). $opath;
-				$html[] = '<img src="' . $image_url . '" style="max-width:400px;,max-height:400px;" />';
+				$html[] = '<img src="' . $image_url . '" style="max-width:400px;,max-height:400px;" alt="'. $ds->get_title() .'"/>';
 				$html[] = '<div class="clear">&nbsp;</div>';
-				return implode("\n", $html);
+				$result =  implode("\n", $html);
+				return $result;
 			}
 		}
 		return parent::get_preview($is_thumbnail);
@@ -73,14 +75,30 @@ class FedoraExternalRepositoryObjectDisplay extends ExternalRepositoryObjectDisp
 		$result = array();
 		$object = $this->get_object();
 		$dss = $object->get_datastreams();
+		$system_streams = array();
+		$data_streams = array();
+		foreach($dss as $ds){
+			if($ds->is_system_datastream()){
+				$system_streams[] = $ds;
+			}else{
+				$data_streams[] = $ds;
+			}
+		}
 		$result[] = '<h4>' . Translation::get('Datastreams') . '</h4>';
 		$result[] = '<div class="category_form">';
-		foreach($dss as $ds){
-			//if(! $ds->is_system_datastream()){
+		foreach($data_streams as $ds){
 			if($print = $this->format_datastream($ds)){
 				$result[] = $print;
 			}
-			//}
+		}
+		$split = true;
+		foreach($system_streams as $ds){
+			if($split){
+				$split = false;
+			}
+			if($print = $this->format_datastream($ds)){
+				$result[] = $print;
+			}
 		}
 		$result[] = '<div class="clear">&nbsp;</div>';
 		$result[] = '</div>';

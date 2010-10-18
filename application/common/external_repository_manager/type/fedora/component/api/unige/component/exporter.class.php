@@ -56,6 +56,7 @@ class FedoraUnigeExporterComponent extends FedoraExternalRepositoryManagerExport
 		$switch->discipline_text = $data['subject_dd']['subject_text'];
 		$switch->creator = $data['author'];
 		$switch->description = $data['description'];
+		$switch->collections = $data['collection'];
 		return SWITCH_content_to_foxml($content, $meta, $switch);
 	}
 

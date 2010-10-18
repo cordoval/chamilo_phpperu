@@ -31,6 +31,7 @@ class FedoraUnigeConfirmForm extends FedoraConfirmForm{
 	function get_access_rights($key=false){
 		$connector = $this->get_connector();
 		$result = $connector->retrieve_rights($key);
+		return $result;
 	}
 
 	function get_edit_rights($key=false){

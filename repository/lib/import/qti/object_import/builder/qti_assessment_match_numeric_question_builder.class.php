@@ -29,9 +29,9 @@ class QtiAssessmentMatchNumericQuestionBuilder extends QtiQuestionBuilder{
         return $result;
 	}
 
-	protected function get_answer($answer){
+	protected function get_answer($item, $answer){
 		if($this->is_formula($answer)){
-			return $this->execute_formula($answer);
+			return $this->execute_formula($item, $answer);
 		}else{
 			return $answer;
 		}
@@ -43,8 +43,9 @@ class QtiAssessmentMatchNumericQuestionBuilder extends QtiQuestionBuilder{
         $result->set_description($this->get_question_text($item));
 		$interaction = self::get_main_interaction($item);
     	$answers = $this->get_possible_responses($item, $interaction);
+
     	foreach($answers as $answer){
-    		$value = $this->get_answer($answer);
+    		$value = $this->get_answer($item, $answer);
     		$score = $this->get_score($item, $interaction, $answer);
     		$tolerance = $this->get_tolerance($item, $interaction, $answer);
     		$tolerance_type = $this->get_tolerance_type($item, $interaction, $answer);
@@ -56,7 +57,6 @@ class QtiAssessmentMatchNumericQuestionBuilder extends QtiQuestionBuilder{
             $result->add_option($option);
     	}
         $result->set_tolerance_type($this->get_question_tolerance_type($item));
-
 		return $result;
 	}
 

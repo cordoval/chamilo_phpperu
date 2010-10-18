@@ -18,6 +18,15 @@ class QtiExport extends ContentObjectExport{
     	}
     }
 
+	public static function accept($object){
+		if(! $object instanceof ContentObject){
+			return false;
+		}
+		return $object instanceof Assessment ||
+			   $object instanceof Survey ||
+			   strpos(strtolower($object->get_type()), 'question');
+	}
+
     private $manifest = null;
     private $directory = '';
     private $toc = null;

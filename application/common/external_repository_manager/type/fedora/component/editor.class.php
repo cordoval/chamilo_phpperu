@@ -135,6 +135,7 @@ class FedoraExternalRepositoryManagerEditorComponent extends FedoraExternalRepos
 		$switch->description = $data['description'];
 		$switch->rights = $data['edit_rights'];
 		$switch->accessRights = $data['access_rights'];
+		$switch->collections = $data['collection'];
 
 		$fedora = $this->get_external_repository_connector()->get_fedora();
 		$content = SWITCH_get_rels_int($meta, $switch);

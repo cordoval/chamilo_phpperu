@@ -27,22 +27,41 @@
  */
 class FedoraXmlReader implements IteratorAggregate
 {
-    public static function parse_date($text){
-    	if(empty($text)){
-    		return 0;
-    	}
-    	$text = strtoupper($text);
-    	$text = str_replace('T', '-', $text);
-    	$text = str_replace(':', '-', $text);
-    	$pieces = explode('-', $text);
-    	$year = $pieces[0];
-    	$month = $pieces[1];
-    	$day = $pieces[2];
-    	$hour = isset($pieces[3]) ? $pieces[3] : 0;
-    	$minute = isset($pieces[4]) ? $pieces[4] : 0;
-    	$second = isset($pieces[5]) ? $pieces[5] : 0;
-    	return mktime($hour, $minute, $second, $month, $day, $year);
-    }
+	public static function timezone_offset(){
+		static $result = false;
+		if($result !== false){
+			return $result;
+		}
+
+		$timezone = date_default_timezone_get();
+		$timezone = new DateTimeZone($timezone);
+		$result = (int)timezone_offset_get($timezone, new DateTime());
+		$result /=3600;
+		return $result;
+	}
+
+	public static function parse_date($text, $add_time_zone_offset = true){
+		if(empty($text)){
+			return 0;
+		}
+		$text = strtoupper($text);
+		$text = str_replace('T', '-', $text);
+		$text = str_replace(':', '-', $text);
+		$text = str_replace('.', '-', $text);
+		$pieces = explode('-', $text);
+		$year = $pieces[0];
+		$month = $pieces[1];
+		$day = $pieces[2];
+		$hour = is_numeric($pieces[3]) ? $pieces[3] : 0;
+		$minute = is_numeric($pieces[4]) ? $pieces[4] : 0;
+		$second = is_numeric($pieces[5]) ? $pieces[5] : 0;
+
+		if($add_time_zone_offset){
+			$offset = self::timezone_offset();
+			$hour += $offset;
+		}
+		return mktime($hour, $minute, $second, $month, $day, $year);
+	}
 
     private static $empty_reader = null;
     public static function get_empty_reader(){

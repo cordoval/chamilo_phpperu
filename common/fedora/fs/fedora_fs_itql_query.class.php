@@ -35,6 +35,7 @@ class fedora_fs_itql_query{
 	public $hitPageSize = 0;
 	public $offset = 0;
 	public $sort = '';
+	public $state_text = 'Active';
 
 	public function format(){
 		$start_date = $this->start_date;
@@ -61,6 +62,9 @@ class fedora_fs_itql_query{
 		$result .= 'and $pid <fedora-model:label> $label ';
 		$result .= 'and $pid <fedora-model:ownerId> $ownerId ';
 		$result .= 'and $pid <fedora-model:createdDate> $created ';
+		if($state = $this->state_text){
+			$result .= 'and $pid <fedora-model:state> <fedora-model:'. $state. '>';
+		}
 		if($start_date){
 			$result .= 'and $modified <mulgara:after> ' . self::format_datetime($start_date) . ' in <#xsd> ' ;
 		}

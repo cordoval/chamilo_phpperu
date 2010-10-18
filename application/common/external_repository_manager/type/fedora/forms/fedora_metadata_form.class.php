@@ -29,19 +29,21 @@ class FedoraMetadataForm extends FormValidator{
 		$this->paramaters = $parameters;
 		$this->data = $data;
 
-		$this->addElement('hidden', 'file');
 		if($data && isset($data['file'])){
 			$file = $data['file'];
 			$file = is_string($file) ? unserialize($file) : $file;
 			$this->file = $file;
-			$default['file'] = serialize($file);
-			$this->setDefaults($default);
-		}else{
-			$value = $this->exportValue('file');
-			$this->file = is_string($value) ? unserialize($value) : $value;
 		}
 
 		$this->build_form();
+	}
+
+	function exportValues($elementList=null){
+		$result = parent::exportValues($elementList);
+		if(isset($this->file)){
+			$result['file'] = $this->file;
+		}
+		return $result;
 	}
 
 	/**
@@ -152,8 +154,14 @@ class FedoraMetadataForm extends FormValidator{
 			$this->addElement('category', Translation::get('Classification'));
 			$this->addSubject();
 		}
-
-		$this->addElement('hiddenselect', FedoraExternalRepositoryObject::PROPERTY_COLLECTION, Translation::get('Collection'));
+		if($collections = $this->get_collections()){
+			if(count($collections) == 1){
+				$this->addElement('hidden', FedoraExternalRepositoryObject::PROPERTY_COLLECTION, Translation::get('Collection'), $collections);
+				foreach($collections as $key => $value){
+					$defaults[FedoraExternalRepositoryObject::PROPERTY_COLLECTION] = $key;
+				}
+			}
+		}
 
 		$this->addElement('category');
 

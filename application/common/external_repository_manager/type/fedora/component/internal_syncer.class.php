@@ -16,7 +16,25 @@ class FedoraExternalRepositoryManagerInternalSyncerComponent extends FedoraExter
 			return $api->run();
 		}
 
-		ExternalRepositoryComponent::launch($this);
+		$id = Request::get(self::PARAM_EXTERNAL_REPOSITORY_ID);
+		if($id){
+			$object = $this->retrieve_external_repository_object($id);
+
+			if (! $object->is_importable() && ($object->get_synchronization_status() == ExternalRepositorySync::SYNC_STATUS_INTERNAL || $object->get_synchronization_status() == ExternalRepositorySync::SYNC_STATUS_CONFLICT)){
+				$succes = $this->synchronize_internal_repository_object($object);
+				$params = $this->get_parameters();
+				$params[self::PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = self::ACTION_BROWSE_EXTERNAL_REPOSITORY;
+
+				if ($succes){
+					$this->redirect(Translation::get('Succes'), false, $params);
+				}else{
+					$this->redirect(Translation::get('Failed'), true, $params);
+				}
+			}
+		}
+		$params = $this->get_parameters();
+		$params[ExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = ExternalRepositoryManager::ACTION_VIEW_EXTERNAL_REPOSITORY;
+		$this->redirect(null, false, $params);
 	}
 
 	function synchronize_internal_repository_object(ExternalRepositoryObject $external_object){
@@ -26,26 +44,12 @@ class FedoraExternalRepositoryManagerInternalSyncerComponent extends FedoraExter
 		$this->write_standard_properties($external_object, $content_object);
 		$this->write_document_properties($external_object, $content_object);
 
-
 		if ($content_object->update()){
 			$synchronization_data->set_content_object_timestamp($content_object->get_modification_date());
 			$synchronization_data->set_external_repository_object_timestamp($external_object->get_modified());
-			if ($synchronization_data->update()){
-				$parameters = $this->get_parameters();
-				$parameters[Application::PARAM_ACTION] = RepositoryManager::ACTION_VIEW_CONTENT_OBJECTS;
-				$parameters[RepositoryManager::PARAM_CONTENT_OBJECT_ID] = $content_object->get_id();
-				$this->redirect(Translation::get('ContentObjectUpdatedSuccessful'), false, $parameters, array(ExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY, ExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION));
-			}else{
-				$parameters = $this->get_parameters();
-				$parameters[ExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = ExternalRepositoryManager::ACTION_VIEW_EXTERNAL_REPOSITORY;
-				$parameters[ExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_ID] = $external_object->get_id();
-				$this->redirect(Translation::get('ContentObjectUpdatedFailed'), true, $parameters);
-			}
+			return $synchronization_data->update();
 		}else{
-			$parameters = $this->get_parameters();
-			$parameters[ExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = ExternalRepositoryManager::ACTION_VIEW_EXTERNAL_REPOSITORY;
-			$parameters[ExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_ID] = $external_object->get_id();
-			$this->redirect(Translation::get('ContentObjectUpdatedFailed'), true, $parameters);
+			return false;
 		}
 	}
 

@@ -50,6 +50,27 @@ class fedora_fs_base{
 		$this->set(__FUNCTION__, $value);
 	}
 
+	public function get_state(){
+		return $this->get(__FUNCTION__, 'A');
+	}
+
+	public function get_state_text(){
+		$state = $this->get_state();
+		if($state == 'A'){
+			return 'Active';
+		}else if($state == 'I'){
+			return 'Inactive';
+		}else if($state == 'D'){
+			return 'Deleted';
+		}else{
+			return false;
+		}
+	}
+
+	public function set_state($value){
+		$this->set(__FUNCTION__, $value);
+	}
+
 	public function get_title(){
 		return $this->get(__FUNCTION__, '');
 	}

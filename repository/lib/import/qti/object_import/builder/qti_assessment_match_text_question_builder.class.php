@@ -50,7 +50,7 @@ class QtiAssessmentMatchTextQuestionBuilder extends QtiQuestionBuilder{
     		//@todo: add regex has an option on top of wildcards for the question?
     		$use_wildcards = $use_wildcards || $this->is_regex($answer);
 			$ignore_case = $ignore_case && !$this->is_case_sensitive($answer);
-    		$value = $this->get_response_text($answer);
+    		$value = $this->get_response_text($item, $answer);
     		$score = $this->get_score($item, $interaction, $answer);
     		$feedback = $this->get_feedback($item, $interaction, $answer);
     		$option = new AssessmentMatchTextQuestionOption($value, $score, $feedback);
@@ -61,13 +61,13 @@ class QtiAssessmentMatchTextQuestionBuilder extends QtiQuestionBuilder{
 		return $result;
 	}
 
-	protected function get_response_text($response){
+	protected function get_response_text($item, $response){
 		if(! $response instanceof ImsXmlReader){
 			$result = $response;
 		}else if($response->is_patternMatch()){
 			$result = Wildcard::from_regex($response->pattern);
 		}else{
-			$result = $this->execute_formula($response);
+			$result = $this->execute_formula($item, $response);
 		}
 
 		return $result;

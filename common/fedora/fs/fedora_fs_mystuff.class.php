@@ -37,7 +37,8 @@ class fedora_fs_mystuff extends fedora_fs_folder{
 		if($limit){
 			$limit = min(self::$max_results, (int)$limit);
 		}
-		$objects = self::itql_find($fedora, null, null, $owner, $sort, $limit, $offset);
+		$state_text = $this->get_state_text();
+		$objects = self::itql_find($fedora, null, null, $owner, $state_text, $sort, $limit, $offset);
 		foreach($objects as $object){
 			$pid = $object['pid'];
 			$label = $object['label'];

@@ -48,6 +48,9 @@ class fedora_fs_lastobjects extends fedora_fs_folder{
 		$result .= 'and $pid <fedora-model:label> $label ';
 		$result .= 'and $pid <fedora-model:ownerId> $ownerId ';
 		$result .= 'and $pid <fedora-model:createdDate> $created ';
+		if($state = $this->get_state_text()){
+			$result .= 'and $pid <fedora-model:state> <fedora-model:'. $state. '>';
+		}
 		if($owner = $this->get_owner()){
 			$result .= 'and $pid <fedora-model:ownerId> \''. $this->get_owner() . '\' ';
 		}

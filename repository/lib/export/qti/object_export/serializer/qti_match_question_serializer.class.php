@@ -11,7 +11,7 @@ class QtiMatchQuestionSerializer extends QtiQuestionSerializer{
 
 	static function factory($question, $target_root, $directory, $manifest, $toc){
 		if($question instanceof MatchQuestion){
-			return new self($target_root, $manifest, $directory, $manifest, $toc);
+			return new self($target_root, $directory, $manifest, $toc);
 		}else{
 			return null;
 		}

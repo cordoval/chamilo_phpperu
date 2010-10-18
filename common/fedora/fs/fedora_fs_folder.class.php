@@ -36,7 +36,7 @@ class fedora_fs_folder extends fedora_fs_base{
 		return $query->count($fedora);
 	}
 
-	static function itql_find($fedora, $start_date = null, $end_date = null, $owner='', $sort=false, $hitPageSize=false, $offset=false){
+	static function itql_find($fedora, $start_date = null, $end_date = null, $owner='', $state_text = 'Active', $sort=false, $hitPageSize=false, $offset=false){
 		$query = new fedora_fs_itql_query();
 		$query->start_date = $start_date;
 		$query->end_date = $end_date;
@@ -44,6 +44,7 @@ class fedora_fs_folder extends fedora_fs_base{
 		$query->hitPageSize = $hitPageSize;
 		$query->offset = $offset;
 		$query->sort = $sort;
+		$query->state_text = $state_text;
 		return $query->query($fedora);
 	}
 

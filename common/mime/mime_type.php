@@ -17,12 +17,9 @@ function get_mimetype_to_ext(){
 	if($result){
 		return $result;
 	}
-	$result = array();
-	$items = get_ext_to_mimetype();
-	foreach($items as $ext=>$mime){
-		$result[$mime] = $ext;
-	}
-	return $result;
+	$extentions = array();
+	include dirname(__FILE__) . '/extentions.php';
+	return $result = $extentions;
 }
 
 function get_ext_to_mimetype(){
@@ -30,7 +27,7 @@ function get_ext_to_mimetype(){
 	if($result){
 		return $result;
 	}
+	$mimetypes = array();
 	include dirname(__FILE__) . '/mime_types.php';
-	$mimetypes;
 	return $result = $mimetypes;
 }

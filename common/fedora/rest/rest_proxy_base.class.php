@@ -30,7 +30,7 @@ abstract class RestProxyBase  {
 		return $result;
 	}
 
-	public static function parse_date($text){
+	public static function parse_date($text, $add_time_zone_offset = true){
 		if(empty($text)){
 			return 0;
 		}
@@ -46,8 +46,10 @@ abstract class RestProxyBase  {
 		$minute = is_numeric($pieces[4]) ? $pieces[4] : 0;
 		$second = is_numeric($pieces[5]) ? $pieces[5] : 0;
 
-		$offset = self::timezone_offset();
-		$hour += $offset;
+		if($add_time_zone_offset){
+			$offset = self::timezone_offset();
+			$hour += $offset;
+		}
 		return mktime($hour, $minute, $second, $month, $day, $year);
 	}
 

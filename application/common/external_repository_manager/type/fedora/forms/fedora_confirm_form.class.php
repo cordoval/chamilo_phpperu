@@ -109,6 +109,7 @@ class FedoraConfirmForm extends FormValidator{
 	protected function build_body(){
 		$properties = array();
 
+
 		if($file = $this->get_file()){
 			$html = '<a href="' . $file['href'] .'">' . $this->get(FedoraExternalRepositoryObject::PROPERTY_TITLE) . '</a>';
 			$properties[Translation::get('Title')] = $html;

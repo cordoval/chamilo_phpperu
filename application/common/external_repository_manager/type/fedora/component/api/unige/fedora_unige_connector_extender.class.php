@@ -145,8 +145,8 @@ class FedoraUnigeExternalRepositoryConnectorExtender{
 
 	public function retrieve_collections($id=false){
 		$result = array();
-		$result['LOR:49'] = 'Unige';
-		if($key!==false){
+		$result['unigelom:learning_objects'] = 'Unige';
+		if($key){
 			return isset($result[$id]) ? $result[$id] : false;
 		}else{
 			return $result;
@@ -172,7 +172,10 @@ class FedoraUnigeExternalRepositoryConnectorExtender{
 	 * @param unknown_type $pid
 	 */
 	public function retrieve_object_metadata($pid){
-		return $this->retrieve_object_chor_dc($pid);
+		$result =  $this->retrieve_object_rels_ext($pid);
+		debug($result);die;
+
+		return $result;
 	}
 
 	/**
@@ -236,6 +239,82 @@ class FedoraUnigeExternalRepositoryConnectorExtender{
 						}
 
 						break;
+					default:
+						$value = '';
+						break;
+				}
+			}
+			return $result;
+		}catch(Exception $e){
+			$result = array();
+		}
+		return $result;
+	}
+
+
+	/**
+	 *
+	 *
+	 *
+	 * @param $pid
+	 */
+	public function retrieve_object_rels_ext($pid){
+		$result = array();
+		try{
+			$ds = $this->connector->retrieve_datastream_content($pid, 'RELS_EXT');
+			$doc = new DOMDocument();
+			$doc->loadXML($ds);
+			$nodes = $doc->documentElement->childNodes;
+
+			foreach($nodes as $node){
+				$prefix = $node->prefix ? $node->prefix.':' : '';
+				$name = str_replace($prefix, '', $node->tagName);
+				switch($name){
+					case 'title':
+					case 'creator':
+						$value = $node->nodeValue;
+						if($value){
+							$result[$name] = $value;
+						}
+						break;
+					case 'rights':
+					case 'accessRights':
+						$value = $node->getAttribute('chor_dcterms:access');
+						if($value){
+							$result[$name] = $value;
+						}
+						break;
+					case 'license':
+						$value = $node->getAttribute('xsi:type');
+						if($value){
+							$result[$name] = $value;
+							$license = $this->retrieve_licenses($value);
+							$lang = Translation::get_language();
+							$value = isset($license[$lang]) ? $license[$lang] : '';
+							$result[$name .'_text'] = $value;
+						}
+						break;
+					case 'subject':
+						$value = $node->getAttribute('chor_dcterms:discipline');
+						if($value){
+							$result[$name] = $value;
+							$discipline = $this->retrieve_disciplines($value);
+							$lang = Translation::get_language();
+							$value = isset($discipline[$lang]) ? $discipline[$lang] : $value;
+							$result[$name .'_text'] = $value;
+						}
+						break;
+					case 'description':
+						$value = $node->nodeValue;
+						if($value){
+							$result[$name] = $value;
+						}
+
+						break;
+
+					case 'isMemberOfCollection':
+						$result['collection'] = $node->get('rdf:resource');
+
 					default:
 						$value = '';
 						break;

@@ -78,15 +78,14 @@ function SWITCH_content_to_foxml($content, fedora_object_meta $meta, SWITCH_obje
 	$w = $w->add_rels_ext();
 	$w = $w->add_rel_description("info:fedora/{$meta->pid}");
 	$w->add_hasModel('info:fedora/fedora-system:FedoraObject-3.0');
-	$w->add_hasModel('info:fedora/LORmodel:object');
-	$w->add_hasModel('info:fedora/LORmodel:collection');
 	$collections = $switch->collections;
-	$collections = is_array($collections) ? $collections : array();
+	$collections = is_array($collections) ? $collections : array($switch->collections);
 	$collections = array_merge($meta->collections, $collections);
 	foreach($collections as $collection){
 		$w->add_rel_isMemberOfCollection($collection);
 	}
 	$w->add_oai_itemID($meta->pid);
+	$w->add_rel_conformsTo('fedora-system:ContentModel-3.0');
 
 	//ensure chor_dc data is indexed by resource index
 	$w->add_dc_license(trim($switch->license));
@@ -120,10 +119,10 @@ function SWITCH_get_rels_int(fedora_object_meta $meta, SWITCH_object_meta $switc
 	$w = $w->add_rels_ext(false);
 	$w = $w->add_rel_description("info:fedora/{$meta->pid}");
 	$w->add_hasModel('info:fedora/fedora-system:FedoraObject-3.0');
-	$w->add_hasModel('info:fedora/LORmodel:object');
-	$w->add_hasModel('info:fedora/LORmodel:collection');
+	//$w->add_hasModel('info:fedora/LORmodel:object');
+	//$w->add_hasModel('info:fedora/LORmodel:collection');
 	$collections = $switch->collections;
-	$collections = is_array($collections) ? $collections : array();
+	$collections = is_array($collections) ? $collections : array($switch->collections);
 	$collections = array_merge($meta->collections, $collections);
 	foreach($collections as $collection){
 		$w->add_rel_isMemberOfCollection($collection);

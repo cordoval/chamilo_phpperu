@@ -2,9 +2,12 @@
 
 require_once dirname(__FILE__) . '/../forms/fedora_metadata_form.class.php';
 require_once dirname(__FILE__) . '/../forms/fedora_confirm_form.class.php';
+require_once Path::get_repository_path() . 'lib/export/qti/main.php';
+require_once Path::get_repository_path() . 'lib/export/cp/main.php';
+require_once Path::get_application_path() . '/common/external_repository_manager/component/export_content_object_table/export_content_object_table.class.php';
 
 /**
- * Export a repository object to Fedora. Works only for Document objects.
+ * Export a repository object to Fedora. Works only for Document/Assessment objects.
  * If the current API provides a specialization for this component launch it instead.
  *
  * @copyright (c) 2010 University of Geneva
@@ -29,7 +32,7 @@ class FedoraExternalRepositoryManagerExporterComponent extends FedoraExternalRep
 		$external_id = Request::get(FedoraExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_ID);
 		if(empty($external_id)){
 			$this->reset_data(); //in case wizard was aborted before the end
-			ExternalRepositoryComponent::launch($this);
+			$this->display_object_selection_table();
 			return;
 		}
 
@@ -42,17 +45,70 @@ class FedoraExternalRepositoryManagerExporterComponent extends FedoraExternalRep
 		return $this->step();
 	}
 
+	function get_default_browser_actions(){
+		$browser_actions = array();
+		$browser_actions[] = new ToolbarItem(Translation::get('Export'), Theme::get_common_image_path() . 'action_export.png', $this->get_url(array_merge($this->get_parameters(), array(ExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_ID => '__ID__')), false), ToolbarItem::DISPLAY_ICON);
+		return $browser_actions;
+	}
+
+    function is_shared_object_browser(){
+        return false;
+    }
+
+    function get_excluded_objects(){
+        return array();
+    }
+
+	protected function display_object_selection_table(){
+		$this->display_header();
+
+		$actions = $this->get_default_browser_actions();
+		foreach($actions as $key => $action){
+			$action->set_href(str_replace('__ID__', '%d', $action->get_href()));
+		}
+		$types = array(Assessment::get_type_name(), Document::get_type_name());
+		$table = new ExportContentObjectTable($this, $this->get_user(), $types, '', $actions);
+		echo $table->as_html();
+		$this->display_footer();
+	}
+
+	/**
+	 * Set data default values for export. I.e. set data to the file being exported.
+	 *
+	 * @param unknown_type $id
+	 */
 	protected function data_default($id = false){
 		$id = $id ? $id : Request::get(FedoraExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_ID);
 		$co = RepositoryDataManager::get_instance()->retrieve_content_object($id);
 
 		$file = array();
-		$file['tmp_name'] = $co->get_path();
-		$file['path'] = $co->get_full_path();
-		$file['href'] = $co->get_url();
-		$file['name'] = $co->get_title();
-		$file['type'] = $co->get_mime_type();
+		if($co instanceof Document){
+			$file['tmp_name'] = $co->get_path();
+			$file['path'] = $co->get_full_path();
+			$file['href'] = $co->get_url();
+			$file['name'] = $co->get_title();
+			$file['type'] = $co->get_mime_type();
+		}else if(QtiExport::accept($co)){
+			$export = ContentObjectExport::factory('qti', $co);
+			if($path = $export->export_content_object()){
+				$file['tmp_name'] = $path;
+				$file['path'] = $path;
+				$file['href'] = Path::get(WEB_TEMP_PATH) . basename($path);
+				$file['name'] = $co->get_title();
+				$file['type'] = 'application/zip';
 
+			}
+		}else if(CpExport::accept($co)){
+			$export = ContentObjectExport::factory('cp', $co);
+			if($path = $export->export_content_object()){
+				$file['tmp_name'] = $path;
+				$file['path'] = $path;
+				$file['href'] = Path::get(WEB_TEMP_PATH) . basename($path);
+				$file['name'] = $co->get_title();
+				$file['type'] = 'application/zip';
+
+			}
+		}
 		$result['file'] = $file;
 		$result['title'] = $co->get_title();
 		$result['description'] = $this->to_text($co->get_description());
@@ -66,7 +122,8 @@ class FedoraExternalRepositoryManagerExporterComponent extends FedoraExternalRep
 	protected function get_data(){
 		$key = 'fedora_data';
 		$result = Session::retrieve($key);
-		return unserialize($result);
+		$result = unserialize($result);
+		return $result;
 	}
 
 	/**
@@ -310,7 +367,9 @@ class FedoraExternalRepositoryManagerExporterComponent extends FedoraExternalRep
 			Filesystem::remove($thumbnail['path']);
 		}
 		if(empty($thumbnail) && $this->is_image($ext)){
-			$connector->update_thumbnail($pid, $meta->label, $path, $mime);
+			$meta->thumbnail_label = $meta->label;
+			$meta->thumbnail_mime = $mime;
+			$meta->thumbnail = $connector->get_thumbnail_content($path);
 		}
 
 		if($pid){
@@ -319,12 +378,15 @@ class FedoraExternalRepositoryManagerExporterComponent extends FedoraExternalRep
 		$foxml = $this->content_to_foxml($content, $meta, $data);
 		$result = $connector->ingest($foxml, $meta->pid, $meta->label, $meta->owner);
 
-		if($result){
+		$id = $id ? $id : Request::get(FedoraExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_ID);
+		$co = RepositoryDataManager::get_instance()->retrieve_content_object($id);
+		if($result && $co instanceof Document){
 			$id = Request::get(self::PARAM_EXTERNAL_REPOSITORY_ID);
 			$co = RepositoryDataManager::get_instance()->retrieve_content_object($id);
 
 			$connector = $this->get_external_repository_connector();
 			$ext = $connector->retrieve_external_repository_object($meta->pid);
+
 			ExternalRepositorySync::quicksave($co, $ext, $this->get_external_repository()->get_id());
 		}
 
@@ -354,6 +416,7 @@ class FedoraExternalRepositoryManagerExporterComponent extends FedoraExternalRep
 		$switch->discipline_text = $data['subject_dd']['subject_text'];
 		$switch->creator = $data['author'];
 		$switch->description = $data['description'];
+		$switch->collections = $data['collection'];
 		return SWITCH_content_to_foxml($content, $meta, $switch);
 	}
 

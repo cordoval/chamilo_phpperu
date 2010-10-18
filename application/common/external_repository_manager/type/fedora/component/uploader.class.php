@@ -303,7 +303,9 @@ class FedoraExternalRepositoryManagerUploaderComponent extends FedoraExternalRep
 			$meta->thumbnail = file_get_contents($thumbnail['path']);
 		}
 		if(empty($thumbnail) && $this->is_image($ext)){
-			$connector->update_thumbnail($pid, $meta->label, $path, $mime);
+			$meta->thumbnail_label = $meta->label;
+			$meta->thumbnail_mime = $mime;
+			$meta->thumbnail = $connector->get_thumbnail_content($path);
 		}
 
 		if($pid){
