@@ -180,7 +180,7 @@ class Dokeos185TrackEAccess extends Dokeos185MigrationDataClass
             $course_module_last_access = new CourseModuleLastAccess();
             $course_module_last_access->set_course_code($new_course_id);
             $course_module_last_access->set_user_id($new_user_id);
-            $course_module_last_access->set_module_name($tool);
+            $course_module_last_access->set_module_name($value);
             $course_module_last_access->set_category_id(0);
             $course_module_last_access->set_access_date(strtotime($this->get_access_date()));
 
