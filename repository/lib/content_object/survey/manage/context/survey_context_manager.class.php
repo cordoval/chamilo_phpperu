@@ -7,6 +7,11 @@ require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/c
 require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/component/registration_browser/browser_table.class.php';
 require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/component/context_table/table.class.php';
 
+
+//require_once dirname(__FILE__) . '/component/context_template_browser/browser_table.class.php';
+//require_once dirname(__FILE__) . '/component/context_template_rel_page_browser/rel_page_browser_table.class.php';
+//require_once dirname(__FILE__) . '/component/context_template_subscribe_page_browser/subscribe_page_browser_table.class.php';
+
 /**
  * @package repository.lib.content_object.survey.manage.context
  *

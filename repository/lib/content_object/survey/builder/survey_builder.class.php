@@ -3,9 +3,9 @@
 //require_once dirname ( __FILE__ ) . '/survey_builder_component.class.php';
 
 
-require_once dirname(__FILE__) . '/component/context_template_browser/browser_table.class.php';
-require_once dirname(__FILE__) . '/component/context_template_rel_page_browser/rel_page_browser_table.class.php';
-require_once dirname(__FILE__) . '/component/context_template_subscribe_page_browser/subscribe_page_browser_table.class.php';
+//require_once dirname(__FILE__) . '/component/context_template_browser/browser_table.class.php';
+//require_once dirname(__FILE__) . '/component/context_template_rel_page_browser/rel_page_browser_table.class.php';
+//require_once dirname(__FILE__) . '/component/context_template_subscribe_page_browser/subscribe_page_browser_table.class.php';
 
 class SurveyBuilder extends ComplexBuilder implements ComplexMenuSupport
 {
