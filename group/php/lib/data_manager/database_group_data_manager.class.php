@@ -97,7 +97,7 @@ class DatabaseGroupDataManager extends Database implements GroupDataManagerInter
 
     function retrieve_groups($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->retrieve_objects(Group :: get_table_name(), $condition, $offset, $max_objects, $order_by, Group :: CLASS_NAME);
+    	return $this->retrieve_objects(Group :: get_table_name(), $condition, $offset, $max_objects, $order_by, Group :: CLASS_NAME);
     }
 
     function retrieve_group_rel_users($condition = null, $offset = null, $max_objects = null, $order_by = null)

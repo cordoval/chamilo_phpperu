@@ -4,7 +4,6 @@ use common\libraries\Utilities;
 use common\libraries\Configuration;
 use common\libraries\EqualityCondition;
 use common\libraries\DataManagerInterface;
-use group\DatabaseGroupDataManager;
 /**
  * $Id: group_data_manager.class.php 157 2009-11-10 13:44:02Z vanpouckesven $
  * @package group.lib

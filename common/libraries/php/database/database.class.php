@@ -572,7 +572,7 @@ class Database
      */
     function retrieve_objects($table_name, $condition = null, $offset = null, $max_objects = null, $order_by = array(), $class_name = null)
     {
-        $query = 'SELECT * FROM ' . $this->escape_table_name($table_name) . ' AS ' . $this->get_alias($table_name);
+    	$query = 'SELECT * FROM ' . $this->escape_table_name($table_name) . ' AS ' . $this->get_alias($table_name);
         //        echo $query . '<br />';
         return $this->retrieve_object_set($query, $table_name, $condition, $offset, $max_objects, $order_by, $class_name);
     }
@@ -587,8 +587,8 @@ class Database
 
         $orders = array();
 
-        //dump('<strong>Statement</strong><br />' . $query . '<br /><br /><br />');
-        //dump($order_by);
+//        dump('<strong>Statement</strong><br />' . $query . '<br /><br /><br />');
+//        dump($order_by);
 
 
         if (is_null($order_by))

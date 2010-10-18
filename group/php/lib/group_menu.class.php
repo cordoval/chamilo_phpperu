@@ -83,7 +83,7 @@ class GroupMenu extends HTML_Menu
         
         $condition = new EqualityCondition(Group :: PROPERTY_PARENT, 0);
         $group = GroupDataManager :: get_instance()->retrieve_groups($condition, null, 1, new ObjectTableOrder(Group :: PROPERTY_NAME))->next_result();
-        
+        dump($group);
         if (! $include_root)
         {
             return $this->get_menu_items($group->get_id());
