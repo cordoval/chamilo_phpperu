@@ -12,7 +12,7 @@ class SurveyBuilderVisibilityChangerComponent extends SurveyBuilder
      */
     function run()
     {
-        $complex_item_id = Request :: get(SurveyBuilder :: PARAM_COMPLEX_QUESTION_ITEM);
+        $complex_item_id = Request :: get(SurveyBuilder :: PARAM_COMPLEX_QUESTION_ITEM_ID);
         
                
         if ($complex_item_id)

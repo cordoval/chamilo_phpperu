@@ -1,6 +1,8 @@
 <?php
 
 require_once (dirname(__FILE__) . '/context_data_manager/context_data_manager.class.php');
+require_once Path :: get_repository_path() . 'lib/content_object/survey/survey_context_manager_rights.class.php';
+
 
 class SurveyContextRegistration extends DataClass
 {
@@ -10,10 +12,42 @@ class SurveyContextRegistration extends DataClass
     const PROPERTY_TYPE = 'type';
     const PROPERTY_NAME = 'name';
     const PROPERTY_DESCRIPTION = 'description';
+    const PROPERTY_OWNER_ID = 'owner_id';
+
+    public function create()
+    {
+        $succes = parent :: create();
+        if ($succes)
+        {
+            $parent_location = SurveyContextManagerRights :: get_survey_context_manager_subtree_root_id();
+            $location = SurveyContextManagerRights :: create_location_in_survey_context_manager_subtree($this->get_name(), $this->get_id(), $parent_location, SurveyContextManagerRights :: TYPE_CONTEXT_REGISTRATION, true);
+            
+            $rights = SurveyContextManagerRights :: get_available_rights_for_context_registrations();
+            foreach ($rights as $right)
+            {
+                RightsUtilities :: set_user_right_location_value($right, $this->get_owner_id(), $location->get_id(), 1);
+            }
+        }
+        return $succes;
+    }
+
+    public function delete()
+    {
+        $location = SurveyContextManagerRights :: get_location_by_identifier_from_survey_context_manager_subtree($this->get_id(), SurveyContextManagerRights :: TYPE_CONTEXT_REGISTRATION);
+        if ($location)
+        {
+            if (! $location->remove())
+            {
+                return false;
+            }
+        }
+        $succes = parent :: delete();
+        return $succes;
+    }
 
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_TYPE, self :: PROPERTY_NAME, self :: PROPERTY_DESCRIPTION));
+        return parent :: get_default_property_names(array(self :: PROPERTY_TYPE, self :: PROPERTY_NAME, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_OWNER_ID));
     }
 
     function set_type($type)
@@ -44,6 +78,16 @@ class SurveyContextRegistration extends DataClass
     function get_description()
     {
         return $this->get_default_property(self :: PROPERTY_DESCRIPTION);
+    }
+
+    function get_owner_id()
+    {
+        return $this->get_default_property(self :: PROPERTY_OWNER_ID);
+    }
+
+    function set_owner_id($owner_id)
+    {
+        $this->set_default_property(self :: PROPERTY_OWNER_ID, $owner_id);
     }
 
     function get_data_manager()

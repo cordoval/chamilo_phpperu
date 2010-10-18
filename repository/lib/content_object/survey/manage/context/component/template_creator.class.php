@@ -19,6 +19,7 @@ class SurveyContextManagerTemplateCreatorComponent extends SurveyContextManager
         $context_template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($context_template_id);
         
         $survey_template = SurveyTemplate :: factory($context_template->get_type());
+        $survey_template->set_context_template_id($context_template_id);
         
         $form = new SurveyTemplateForm(SurveyTemplateForm :: TYPE_CREATE, $this->get_url(), $survey_template, $this->get_user(), $this);
         

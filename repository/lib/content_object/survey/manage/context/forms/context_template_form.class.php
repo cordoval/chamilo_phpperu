@@ -204,11 +204,15 @@ class SurveyContextTemplateForm extends FormValidator
         
         $properties = array();
         
+        
         foreach ($levels as $index => $level)
         {
             
             $context_key = explode('|', $level);
             $context_type = $context_key[0];
+            $context_registration_ids = explode('_', $context_type);
+            $context_registration_id = array_pop($context_registration_ids);
+                  
             $key = $context_key[1];
             
             $level = $index + 1;
@@ -220,6 +224,8 @@ class SurveyContextTemplateForm extends FormValidator
             $context_template->set_context_type($context_type);
             $context_template->set_key($key);
             $context_template->set_parent_id($parent_id);
+            $context_template->set_owner_id($this->user->get_id());
+            $context_template->set_context_registration_id($context_registration_id);
             if ($index != 0)
             {
                 $context_template->set_type($type);

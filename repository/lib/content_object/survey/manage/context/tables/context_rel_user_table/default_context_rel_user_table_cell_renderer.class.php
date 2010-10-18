@@ -12,8 +12,7 @@ class DefaultSurveyContextRelUserTableCellRenderer extends ObjectTableCellRender
                 
         switch ($column->get_name())
         {
-            case SurveyContextRelUser :: PROPERTY_USER_TYPE :
-                return InternshipOrganizerUserType :: get_user_type_name($context_rel_user->get_user_type());
+            
             case User :: PROPERTY_LASTNAME :
                 return $context_rel_user->get_optional_property(User :: PROPERTY_LASTNAME);
             case User :: PROPERTY_FIRSTNAME :

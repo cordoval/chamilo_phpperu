@@ -28,7 +28,7 @@ class SurveyQuestionAnswerTracker extends SimpleTracker
         $this->set_context_path($parameters[self :: PROPERTY_CONTEXT_PATH]);
         $this->set_publication_id($parameters[self :: PROPERTY_PUBLICATION_ID]);
         $this->set_user_id($parameters[self :: PROPERTY_USER_ID]);
-        $this->set_level($parameters[self :: PROPERTY_LEVEL]);
+        $this->set_context_template_id($parameters[self :: PROPERTY_CONTEXT_TEMPLATE_ID]);
     }
 
     /**
@@ -124,7 +124,7 @@ class SurveyQuestionAnswerTracker extends SimpleTracker
         return $this->get_default_property(self :: PROPERTY_CONTEXT_TEMPLATE_ID);
     }
 
-    function set_set_context_template_id($context_template_id)
+    function set_context_template_id($context_template_id)
     {
         $this->set_default_property(self :: PROPERTY_CONTEXT_TEMPLATE_ID, $context_template_id);
     }

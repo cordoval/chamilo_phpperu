@@ -1,7 +1,6 @@
 <?php
 
-require_once Path::get_repository_path () . 'lib/content_object/survey/builder/forms/subscribe_context_template_form.class.php';
-
+require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/component/context_template_viewer.class.php';
 
 class SurveyContextManagerSubscribeContextTemplateComponent extends SurveyContextManager
 {
@@ -12,22 +11,21 @@ class SurveyContextManagerSubscribeContextTemplateComponent extends SurveyContex
     {
         
         $survey_id = Request :: get(self :: PARAM_SURVEY_ID);
+        $context_template_id = Request :: get(self :: PARAM_CONTEXT_TEMPLATE_ID);
         $survey = RepositoryDataManager :: get_instance()->retrieve_content_object($survey_id, Survey :: get_type_name());
-                
-        $form = new SubscribeContextTemplateForm(SubscribeContextTemplateForm :: TYPE_CREATE, $survey, $this->get_url(array(self :: PARAM_SURVEY_ID => $survey_id)), $this->get_user());
         
-        if ($form->validate())
+        $survey->set_context_template_id($context_template_id);
+        $succes = $survey->update();
+        
+        if ($succes)
         {
-            $form->subscribe_context_template();
-            $this->redirect(Translation :: get('ContextTemplateSubscribed'), (false), array(self :: PARAM_BUILDER_ACTION => self :: ACTION_BROWSE));
-        
+            $this->redirect(Translation :: get('SurveyContextTemplateAdded'), ! $succes, array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT_TEMPLATE, self :: PARAM_CONTEXT_TEMPLATE_ID => $context_template_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => SurveyContextManagerContextTemplateViewerComponent :: TAB_SURVEYS));
         }
         else
         {
-            $this->display_header($trail, false);
-            $form->display();
-            $this->display_footer();
+            $this->redirect(Translation :: get('SurveyContextTemplateNotAdded'), ! $succes, array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT_TEMPLATE, self :: PARAM_CONTEXT_TEMPLATE_ID => $context_template_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => SurveyContextManagerContextTemplateViewerComponent :: TAB_ADD_TEMPLATE));
         }
+    
     }
 
 }

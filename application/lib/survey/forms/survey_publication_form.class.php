@@ -182,7 +182,7 @@ class SurveyPublicationForm extends FormValidator
         foreach ($ids as $id)
         {
             $publication = new SurveyPublication();
-            $publication->set_content_object($id);
+            $publication->set_content_object_id($id);
             $publication->set_publisher($this->user->get_id());
             $publication->set_published(time());
             $publication->set_from_date($from);
