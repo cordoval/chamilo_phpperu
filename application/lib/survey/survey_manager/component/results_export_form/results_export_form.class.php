@@ -47,7 +47,7 @@ class SurveyResultsExportForm extends FormValidator
                 $aid = Request :: get(SurveyTool :: PARAM_PUBLICATION_ID);
                 $publication = SurveyDataManager :: get_instance()->retrieve_survey_publication($aid);
                 
-                $this->addElement('html', '<h3>Survey: ' . $publication->get_content_object()->get_title() . '</h3><br/>');
+                $this->addElement('html', '<h3>Survey: ' . $publication->get_content_object_id()->get_title() . '</h3><br/>');
                 $this->addElement('html', '<h3>Export results for user ' . $user->get_fullname() . '</h3><br />');
             }
         

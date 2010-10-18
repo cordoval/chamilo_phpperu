@@ -5,11 +5,10 @@ require_once (dirname(__FILE__) . '/../../trackers/survey_question_answer_tracke
 require_once (dirname(__FILE__) . '/../../trackers/survey_participant_tracker.class.php');
 require_once Path :: get_repository_path() . 'lib/content_object/survey/analyzer/analyzer.class.php';
 
-
 class SurveyQuestionReportingBlock extends SurveyReportingBlock
 {
-
-	private $question_id;
+    
+    private $question_id;
     private $question;
 
     function SurveyQuestionReportingBlock($parent, $complex_question_id)
@@ -50,17 +49,14 @@ class SurveyQuestionReportingBlock extends SurveyReportingBlock
         $conditions = array();
         $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_COMPLEX_QUESTION_ID, $this->question_id);
         
-        
-        
         $filter_parameters = $this->get_filter_parameters();
-               
+        
         $publication_id = $filter_parameters[SurveyReportingFilterWizard :: PARAM_PUBLICATION_ID];
         $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_PUBLICATION_ID, $publication_id);
         
-        
         $groups = $filter_parameters[SurveyReportingFilterWizard :: PARAM_GROUPS];
         $user_ids = array();
-        if (count($groups))
+        if (is_array($groups))
         {
             foreach ($groups as $group_id)
             {
@@ -77,7 +73,7 @@ class SurveyQuestionReportingBlock extends SurveyReportingBlock
         }
         
         $context_template_ids = $filter_parameters[SurveyReportingFilterWizard :: PARAM_CONTEXT_TEMPLATES];
-        if (count($context_template_ids))
+        if (is_array($context_template_ids))
         {
             $conditions[] = new InCondition(SurveyQuestionAnswerTracker :: PROPERTY_CONTEXT_TEMPLATE_ID, $context_template_ids);
         }
@@ -94,7 +90,7 @@ class SurveyQuestionReportingBlock extends SurveyReportingBlock
         }
         
         $analyse_type = $filter_parameters[SurveyReportingFilterWizard :: PARAM_ANALYSE_TYPE];
-               
+        
         $analyzer = SurveyAnalyzer :: factory($analyse_type, $this->question, $answers);
         
         return $analyzer->analyse();

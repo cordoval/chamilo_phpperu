@@ -9,6 +9,7 @@ abstract class SurveyTemplate extends DataClass
     
     const PROPERTY_TYPE = 'type';
     const PROPERTY_USER_ID = 'user_id';
+    const PROPERTY_CONTEXT_TEMPLATE_ID = 'context_template_id';
     
     private $additionalProperties;
 
@@ -21,9 +22,9 @@ abstract class SurveyTemplate extends DataClass
         }
     
     }
-	
-    abstract static function get_additional_property_names($with_context_type =  false);
-    
+
+    abstract static function get_additional_property_names($with_context_type = false);
+
     public function create()
     {
         $dm = SurveyContextDataManager :: get_instance();
@@ -85,28 +86,35 @@ abstract class SurveyTemplate extends DataClass
     {
         return Utilities :: camelcase_to_underscores($class);
     }
-	
-	function get_user_id()
+
+    function get_user_id()
     {
         return $this->get_default_property(self :: PROPERTY_USER_ID);
     }
 
-   
     function set_user_id($user_id)
     {
         $this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
     }
-    
+
     function get_type()
     {
         return self :: class_to_type(get_class($this));
     }
-	
-    
-    
+
+    function get_context_template_id()
+    {
+        return $this->get_default_property(self :: PROPERTY_CONTEXT_TEMPLATE_ID);
+    }
+
+    function set_context_template_id($context_template_id)
+    {
+        $this->set_default_property(self :: PROPERTY_CONTEXT_TEMPLATE_ID, $context_template_id);
+    }
+
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_TYPE, self :: PROPERTY_USER_ID));
+        return parent :: get_default_property_names(array(self :: PROPERTY_TYPE, self :: PROPERTY_USER_ID, self :: PROPERTY_CONTEXT_TEMPLATE_ID));
     }
 
     /**

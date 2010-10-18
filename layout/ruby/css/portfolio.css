@@ -23,7 +23,7 @@
 
 
 .titlePermissions {
-
+       
        float:left;
        font-weight: bolder;
        display: block;
@@ -42,7 +42,7 @@
         border-right-width: 20px;
         border-left-width: 20px;
         float:left;
-
+      	
 }
 
 .subs {

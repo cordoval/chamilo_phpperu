@@ -65,7 +65,8 @@ class SurveyManagerTakerComponent extends SurveyManager
             $args[SurveyParticipantTracker :: PROPERTY_PARENT_ID] = 0;
             $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_ID] = 0;
             $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_NAME] = 'NOCONTEXT';
-            $this->participant_tracker = Event :: trigger(SurveyParticipantTracker :: CREATE_PARTICIPANT_EVENT, SurveyManager :: APPLICATION_NAME, $args);
+            $trackers = Event :: trigger(SurveyParticipantTracker :: CREATE_PARTICIPANT_EVENT, SurveyManager :: APPLICATION_NAME, $args);
+            $this->participant_tracker = $trackers[0];
         }else{
         	$this->participant_tracker = Tracker :: get_data(SurveyParticipantTracker :: get_table_name(), SurveyManager :: APPLICATION_NAME, $condition, 0, 1)->next_result();
         }
@@ -119,13 +120,14 @@ class SurveyManagerTakerComponent extends SurveyManager
             	$path_ids = explode('|', $context_path);
             	$context_ids = explode('_', $path_ids[1]);
             	$context_count = count($context_ids);
-            	$parameters[SurveyQuestionAnswerTracker :: PROPERTY_LEVEL] = $context_count;
+            	$context_template = $survey->get_context_template($context_count);
+            	$parameters[SurveyQuestionAnswerTracker :: PROPERTY_CONTEXT_TEMPLATE_ID] = $context_template->get_id();
             	$parameters[SurveyQuestionAnswerTracker :: PROPERTY_CONTEXT_ID] = array_pop($context_ids);
             	
             	
             }else{
             	$parameters[SurveyQuestionAnswerTracker :: PROPERTY_CONTEXT_ID] = 0;
-            	$parameters[SurveyQuestionAnswerTracker :: PROPERTY_LEVEL] = 0;
+            	$parameters[SurveyQuestionAnswerTracker :: PROPERTY_CONTEXT_TEMPLATE_ID] = 0;
             }
             
             Event :: trigger(SurveyQuestionAnswerTracker :: SAVE_QUESTION_ANSWER_EVENT, SurveyManager :: APPLICATION_NAME, $parameters);

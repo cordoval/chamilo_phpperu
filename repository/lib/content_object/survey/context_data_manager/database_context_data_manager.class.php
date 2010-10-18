@@ -6,6 +6,8 @@ require_once (dirname(__FILE__) . '/../survey_template.class.php');
 require_once (dirname(__FILE__) . '/../survey_context_registration.class.php');
 require_once (dirname(__FILE__) . '/../survey_context_template_rel_page.class.php');
 require_once (dirname(__FILE__) . '/../survey_context.class.php');
+require_once (dirname(__FILE__) . '/../survey_context_rel_user.class.php');
+
 
 
 require_once (dirname(__FILE__) . '/context_data_manager_interface.php');
@@ -554,7 +556,7 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
         $user_alias = UserDataManager :: get_instance()->get_alias(User :: get_table_name());
         $context_rel_user_alias = $this->get_alias(SurveyContextRelUser :: get_table_name());
         
-        $query = 'SELECT ' . $context_rel_user_alias . '.*  ,' . $user_alias . '.* ';
+        $query = 'SELECT ' . $context_rel_user_alias . '.*  ,' . $user_alias . '.* ,' . $context_alias . '.* ';
         $query .= ' FROM ' . $this->escape_table_name(SurveyContextRelUser :: get_table_name()) . ' AS ' . $context_rel_user_alias;
         
         $query .= ' JOIN ' . $this->escape_table_name(SurveyContext :: get_table_name()) . ' AS ' . $context_alias . ' ON ' . $this->escape_column_name(SurveyContext :: PROPERTY_ID, $context_alias) . ' = ' . $this->escape_column_name(SurveyContextRelUser :: PROPERTY_CONTEXT_ID, $context_rel_user_alias);
@@ -573,6 +575,75 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
         $conditions[] = new EqualityCondition(SurveyContextRelUser :: PROPERTY_USER_ID, $user_id);
         $condition = new AndCondition($conditions);
         return $this->retrieve_object(SurveyContextRelUser :: get_table_name(), $condition, array(), SurveyContextRelUser :: CLASS_NAME);
+    }
+    
+    //surveycontextreluser
+    
+function delete_survey_context_rel_group($context_rel_group)
+    {
+        $conditions = array();
+        $conditions[] = new EqualityCondition(SurveyContextRelGroup :: PROPERTY_GROUP_ID, $context_rel_group->get_group_id());
+        $conditions[] = new EqualityCondition(SurveyContextRelGroup :: PROPERTY_CONTEXT_ID, $context_rel_group->get_context_id());
+        $condition = new AndCondition($conditions);
+        $bool = $this->delete($context_rel_group->get_table_name(), $condition);
+        if($bool){
+        	$group = GroupDataManager::get_instance()->retrieve_group($context_rel_group->get_group_id());
+        	$user_ids = $group->get_users(true, true);
+        	$condition = new InCondition(SurveyContextRelUser :: PROPERTY_USER_ID, $user_ids);
+        	$context_rel_users = $this->delete(SurveyContextRelUser :: get_table_name(), $condition);
+        }
+        
+        return $bool;
+    }
+
+    function create_survey_context_rel_group($context_rel_group)
+    {
+        return $this->create($context_rel_group);
+    }
+
+    function count_survey_context_rel_groups($condition = null)
+    {
+        $context_alias = $this->get_alias(SurveyContext :: get_table_name());
+        $group_alias = groupDataManager :: get_instance()->get_alias(group :: get_table_name());
+        $context_rel_group_alias = $this->get_alias(SurveyContextRelGroup :: get_table_name());
+        
+        $query = 'SELECT COUNT(* ) ';
+        $query .= ' FROM ' . $this->escape_table_name(SurveyContextRelGroup :: get_table_name()) . ' AS ' . $context_rel_group_alias;
+        
+        $query .= ' JOIN ' . $this->escape_table_name(SurveyContext :: get_table_name()) . ' AS ' . $context_alias . ' ON ' . $this->escape_column_name(SurveyContext :: PROPERTY_ID, $context_alias) . ' = ' . $this->escape_column_name(SurveyContextRelGroup :: PROPERTY_CONTEXT_ID, $context_rel_group_alias);
+        
+        $query .= ' JOIN ' . groupDataManager :: get_instance()->escape_table_name(group :: get_table_name()) . ' AS ' . $group_alias . ' ON ' . $this->escape_column_name(SurveyContextRelGroup :: PROPERTY_GROUP_ID, $context_rel_group_alias) . ' = ' . $this->escape_column_name(group :: PROPERTY_ID, $group_alias);
+        
+        return $this->count_result_set($query, SurveyContextRelGroup :: get_table_name(), $condition);
+    
+    }
+
+    function retrieve_survey_context_rel_groups($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    {
+        
+         $context_alias = $this->get_alias(SurveyContext :: get_table_name());
+        $group_alias = groupDataManager :: get_instance()->get_alias(group :: get_table_name());
+        $context_rel_group_alias = $this->get_alias(SurveyContextRelGroup :: get_table_name());
+        
+        $query = 'SELECT ' . $context_rel_group_alias . '.*  ,' . $group_alias . '.* ';
+        $query .= ' FROM ' . $this->escape_table_name(SurveyContextRelGroup :: get_table_name()) . ' AS ' . $context_rel_group_alias;
+        
+        $query .= ' JOIN ' . $this->escape_table_name(SurveyContext :: get_table_name()) . ' AS ' . $context_alias . ' ON ' . $this->escape_column_name(SurveyContext :: PROPERTY_ID, $context_alias) . ' = ' . $this->escape_column_name(SurveyContextRelGroup :: PROPERTY_CONTEXT_ID, $context_rel_group_alias);
+        
+        $query .= ' JOIN ' . groupDataManager :: get_instance()->escape_table_name(group :: get_table_name()) . ' AS ' . $group_alias . ' ON ' . $this->escape_column_name(SurveyContextRelGroup :: PROPERTY_GROUP_ID, $context_rel_group_alias) . ' = ' . $this->escape_column_name(group :: PROPERTY_ID, $group_alias);
+        
+        return $this->retrieve_object_set($query, SurveyContextRelGroup :: get_table_name(), $condition, $offset, $max_objects, $order_by, SurveyContextRelGroup :: CLASS_NAME);
+    
+    }
+
+    function retrieve_survey_context_rel_group($context_id, $group_id)
+    {
+        
+        $conditions = array();
+        $conditions[] = new EqualityCondition(SurveyContextRelGroup :: PROPERTY_CONTEXT_ID, $context_id);
+        $conditions[] = new EqualityCondition(SurveyContextRelGroup :: PROPERTY_GROUP_ID, $group_id);
+        $condition = new AndCondition($conditions);
+        return $this->retrieve_object(SurveyContextRelGroup :: get_table_name(), $condition, array(), SurveyContextRelGroup :: CLASS_NAME);
     }
     
 }

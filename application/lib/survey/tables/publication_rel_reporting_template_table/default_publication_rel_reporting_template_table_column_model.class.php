@@ -22,9 +22,11 @@ class DefaultSurveyPublicationRelReportingTemplateTableColumnModel extends Objec
     {
         $columns = array();
         
-        $columns[] = new ObjectTableColumn(SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_PUBLICATION_ID);
-        $columns[] = new ObjectTableColumn(SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_REPORTING_TEMPLATE_REGISTRATION_ID);
-        $columns[] = new ObjectTableColumn(ReportingTemplateRegistration :: PROPERTY_TEMPLATE);
+        $columns[] = new ObjectTableColumn(SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_NAME);
+        $columns[] = new ObjectTableColumn(SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_DESCRIPTION);
+//        $columns[] = new ObjectTableColumn(SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_PUBLICATION_ID);
+//        $columns[] = new ObjectTableColumn(SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_REPORTING_TEMPLATE_REGISTRATION_ID);
+//        $columns[] = new ObjectTableColumn(ReportingTemplateRegistration :: PROPERTY_TEMPLATE);
         
         return $columns;
     }

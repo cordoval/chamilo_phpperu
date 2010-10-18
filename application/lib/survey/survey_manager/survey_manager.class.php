@@ -13,6 +13,7 @@ class SurveyManager extends WebApplication
     const PARAM_SURVEY_ID = 'survey_id';
     const PARAM_PARTICIPANT_ID = 'participant_id';
     const PARAM_INVITEE_ID = 'invitee_id';
+    const PARAM_USER_ID = 'user_id';
     
     const PARAM_SURVEY_PAGE_ID = 'page_id';
     const PARAM_SURVEY_QUESTION_ID = 'question_id';
@@ -85,7 +86,7 @@ class SurveyManager extends WebApplication
 
     function get_browse_survey_pages_url($survey_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PAGES, self :: PARAM_SURVEY_ID => $survey_publication->get_content_object()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PAGES, self :: PARAM_SURVEY_ID => $survey_publication->get_content_object_id()));
     }
 
     function get_browse_survey_page_questions_url($survey_page)
@@ -95,7 +96,7 @@ class SurveyManager extends WebApplication
 
     function get_survey_publication_viewer_url($survey_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_TAKE, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id(), self :: PARAM_SURVEY_ID => $survey_publication->get_content_object(), self :: PARAM_INVITEE_ID => $this->get_user_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_TAKE, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id(), self :: PARAM_SURVEY_ID => $survey_publication->get_content_object_id(), self :: PARAM_INVITEE_ID => $this->get_user_id()));
     }
 
     function get_reporting_filter_survey_publication_url()
@@ -142,12 +143,14 @@ class SurveyManager extends WebApplication
 
     function get_survey_participant_publication_viewer_url($survey_participant_tracker)
     {
-        return $this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_TAKE, SurveyManager :: PARAM_PUBLICATION_ID => $survey_participant_tracker->get_survey_publication_id(), SurveyManager :: PARAM_PARTICIPANT_ID => $survey_participant_tracker->get_id()));
+        $survey_id = SurveyDataManager::get_instance()->retrieve_survey_publication($survey_participant_tracker->get_survey_publication_id())->get_content_object_id();
+    	return $this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_TAKE, SurveyManager :: PARAM_PUBLICATION_ID => $survey_participant_tracker->get_survey_publication_id(), SurveyManager :: PARAM_INVITEE_ID => $survey_participant_tracker->get_user_id(), self :: PARAM_SURVEY_ID => $survey_id));
     }
 
     function get_survey_invitee_publication_viewer_url($publication_id, $user_id)
     {
-        return $this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_TAKE, SurveyManager :: PARAM_PUBLICATION_ID => $publication_id, SurveyManager :: PARAM_INVITEE_ID => $user_id));
+        $survey_id = SurveyDataManager::get_instance()->retrieve_survey_publication($publication_id)->get_content_object_id();
+    	return $this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_TAKE, SurveyManager :: PARAM_PUBLICATION_ID => $publication_id, SurveyManager :: PARAM_INVITEE_ID => $user_id, self :: PARAM_SURVEY_ID => $survey_id));
     }
 
     function get_rights_editor_url($survey_publication)
@@ -277,7 +280,7 @@ class SurveyManager extends WebApplication
         }
         
         $publication = new SurveyPublication();
-        $publication->set_content_object($content_object->get_id());
+        $publication->set_content_object_id($content_object->get_id());
         $publication->set_publisher(Session :: get_user_id());
         $publication->set_published(time());
         //        $publication->set_category($location);

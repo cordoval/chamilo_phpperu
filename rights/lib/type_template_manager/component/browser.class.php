@@ -70,7 +70,7 @@ class TypeTemplateManagerBrowserComponent extends TypeTemplateManager
 
         $action_bar->set_search_url($this->get_url(array(TypeTemplateManager :: PARAM_TYPE_TEMPLATE_ID => $this->get_type_template())));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('NewTypeTemplate'), Theme :: get_image_path() . 'action_add_template.png', $this->get_url(array(TypeTemplateManager :: PARAM_TYPE_TEMPLATE_ACTION => TypeTemplateManager :: ACTION_CREATE_TYPE_TEMPLATE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ManageTypeTemplateRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_url(array(TypeTemplateManager :: PARAM_TYPE_TEMPLATE_ACTION => TypeTemplateManager :: ACTION_CONFIGURE_TYPE_TEMPLATES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        //$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ManageTypeTemplateRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_url(array(TypeTemplateManager :: PARAM_TYPE_TEMPLATE_ACTION => TypeTemplateManager :: ACTION_CONFIGURE_TYPE_TEMPLATES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         return $action_bar;
     }

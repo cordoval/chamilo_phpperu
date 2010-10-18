@@ -104,7 +104,7 @@
 				if((tree.node && $(tree.node).size() > 0) || (tree.leaf && $(tree.leaf).size() > 0))
 				{
 					if (tree.node && $(tree.node).size() > 0)
-					{
+					{						
 						$.each(tree.node, function(i, the_node){
 							var li = $('<li><div><a href="#" id="' + the_node.id + '" class="' + the_node.classes + '" title="' + the_node.description + '">' + the_node.title + '</a></div></li>');
 							$(ul).append(li);
@@ -328,7 +328,7 @@
 				var elementParent = $(this).parent().parent();
 				var elementHtml = elementParent.html();
 				
-				var elementArray = { id : $(this).attr('id'), classes : $(this).attr('class'), title : $(this).attr('title'), description : $(this).text() };
+				var elementArray = { id : $(this).attr('id'), classes : $(this).attr('class'), title : htmlentities($(this).attr('title')), description : htmlentities($(this).text()) };
 				activatedElements.push(elementArray);
 				
 				var li = $('<li></li>');

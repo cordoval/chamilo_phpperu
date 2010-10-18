@@ -21,6 +21,7 @@ class SurveyContentObjectInstaller extends ContentObjectInstaller
     	$survey_context_template->set_context_type_name('NONAME');
     	$survey_context_template->set_key('NOKEY');
     	$survey_context_template->set_parent_id(0);
+//    	$survey_context_template->set_owner_id();
     	if ($survey_context_template->create())
     	{
            	$this->add_message(Installer::TYPE_NORMAL, Translation :: get('DefaultSurveyContextTemplateCreated'));

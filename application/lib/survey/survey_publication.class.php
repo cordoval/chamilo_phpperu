@@ -10,7 +10,7 @@ class SurveyPublication extends DataClass
     /**
      * SurveyPublication properties
      */
-    const PROPERTY_CONTENT_OBJECT = 'content_object_id';
+    const PROPERTY_CONTENT_OBJECT_ID = 'content_object_id';
     const PROPERTY_FROM_DATE = 'from_date';
     const PROPERTY_TO_DATE = 'to_date';
     const PROPERTY_PUBLISHER = 'publisher_id';
@@ -26,7 +26,7 @@ class SurveyPublication extends DataClass
     {
         $succes = parent :: create();
         $parent_location = SurveyRights :: get_surveys_subtree_root_id();
-        $location = SurveyRights :: create_location_in_surveys_subtree($this->get_content_object(), $this->get_id(), $parent_location, SurveyRights :: TYPE_PUBLICATION, true);
+        $location = SurveyRights :: create_location_in_surveys_subtree($this->get_content_object_id(), $this->get_id(), $parent_location, SurveyRights :: TYPE_PUBLICATION, true);
         
         $rights = SurveyRights :: get_available_rights_for_publications();
         foreach ($rights as $right)
@@ -148,7 +148,7 @@ class SurveyPublication extends DataClass
 
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_CONTENT_OBJECT, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED, self :: PROPERTY_TYPE));
+        return parent :: get_default_property_names(array(self :: PROPERTY_CONTENT_OBJECT_ID, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED, self :: PROPERTY_TYPE));
     }
 
     function get_data_manager()
@@ -157,21 +157,21 @@ class SurveyPublication extends DataClass
     }
 
     /**
-     * Returns the content_object of this SurveyPublication.
-     * @return the content_object.
+     * Returns the content_object_id of this SurveyPublication.
+     * @return the content_object_id.
      */
-    function get_content_object()
+    function get_content_object_id()
     {
-        return $this->get_default_property(self :: PROPERTY_CONTENT_OBJECT);
+        return $this->get_default_property(self :: PROPERTY_CONTENT_OBJECT_ID);
     }
 
     /**
-     * Sets the content_object of this SurveyPublication.
-     * @param content_object
+     * Sets the content_object_id of this SurveyPublication.
+     * @param content_object_id
      */
-    function set_content_object($content_object)
+    function set_content_object_id($content_object_id)
     {
-        $this->set_default_property(self :: PROPERTY_CONTENT_OBJECT, $content_object);
+        $this->set_default_property(self :: PROPERTY_CONTENT_OBJECT_ID, $content_object_id);
     }
 
     /**
@@ -322,28 +322,28 @@ class SurveyPublication extends DataClass
     //        return true;
     //    }
     //
-    //    function is_publication_period()
-    //    {
-    //        
-    //        $from_date = $this->get_from_date();
-    //        $to_date = $this->get_to_date();
-    //        if ($from_date == 0 && $to_date == 0)
-    //        {
-    //            return true;
-    //        }
-    //        
-    //        $time = time();
-    //        
-    //        if ($time < $from_date || $time > $to_date)
-    //        {
-    //            return false;
-    //        }
-    //        else
-    //        {
-    //            return true;
-    //        }
-    //    
-    //    }
+        function is_publication_period()
+        {
+            
+            $from_date = $this->get_from_date();
+            $to_date = $this->get_to_date();
+            if ($from_date == 0 && $to_date == 0)
+            {
+                return true;
+            }
+            
+            $time = time();
+            
+            if ($time < $from_date || $time > $to_date)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        
+        }
     
 
     static function get_table_name()
@@ -354,7 +354,7 @@ class SurveyPublication extends DataClass
     function get_publication_object()
     {
         $rdm = RepositoryDataManager :: get_instance();
-        return $rdm->retrieve_content_object($this->get_content_object());
+        return $rdm->retrieve_content_object($this->get_content_object_id());
     }
 
 }

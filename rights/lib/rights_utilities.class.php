@@ -232,7 +232,7 @@ class RightsUtilities
                     
                     while ($group_template = $group_templates->next_result())
                     {
-                        if (self :: is_allowed_for_rights_template($group_template->get_id(), $right, $location))
+                        if (self :: is_allowed_for_rights_template($group_template->get_rights_template_id(), $right, $location))
                         {
                         	return true;
                         }
@@ -250,7 +250,7 @@ class RightsUtilities
             
             while ($user_template = $user_templates->next_result())
             {
-                if (self :: is_allowed_for_rights_template($user_template->get_id(), $right, $location))
+                if (self :: is_allowed_for_rights_template($user_template->get_rights_template_id(), $right, $location))
                 {
                 	return true;
                 }
@@ -278,7 +278,7 @@ class RightsUtilities
         
         while ($parent = $parents->next_result())
         {
-            $has_right = self :: get_user_right_location($right, $rights_template, $parent->get_id());
+            $has_right = self :: get_rights_template_right_location($right, $rights_template, $parent->get_id());
             
             if ($has_right)
             {
@@ -319,7 +319,7 @@ class RightsUtilities
     static function is_allowed_for_group($group, $right, $location)
     {
         $parents = $location->get_parents();
-        
+    
         while ($parent = $parents->next_result())
         {
             $has_right = self :: get_group_right_location($right, $group, $parent->get_id());
@@ -771,13 +771,11 @@ class RightsUtilities
         else
         {
             $value = RightsUtilities :: $get_function($right, $object->get_id(), $location->get_id());
-            
             if (! $value)
             {
                 if ($location->inherits())
                 {
                     $inherited_value = RightsUtilities :: $allowed_function($object->get_id(), $right, $location);
-                    
                     if ($inherited_value)
                     {
                         $html[] = '<a class="setRight" href="' . $rights_url . '">' . '<div class="rightInheritTrue"></div></a>';

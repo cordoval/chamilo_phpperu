@@ -8,7 +8,10 @@
 		<property name="reporting_template_registration_id" type="integer"
 			unsigned="1" notnull="1" />
 		<property name="owner_id" type="integer" unsigned="1"
-			notnull="1" />	
+			notnull="1" />
+		<property name="level" type="integer" unsigned="1" notnull="1" />
+		<property name="name" type="text" notnull="1" />
+		<property name="description" type="text" />
 	</properties>
 	<index name="publication_id">
 		<indexproperty name="publication_id" />

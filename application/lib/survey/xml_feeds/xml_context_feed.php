@@ -8,14 +8,28 @@ require_once Path :: get_library_path() . 'condition/not_condition.class.php';
 require_once Path :: get_library_path() . 'condition/and_condition.class.php';
 require_once Path :: get_library_path() . 'condition/or_condition.class.php';
 require_once Path :: get_application_path() . '/lib/survey/survey_manager/survey_manager.class.php';
+require_once Path :: get_repository_path() . '/lib/content_object/survey/survey_context.class.php';
+require_once Path :: get_repository_path() . '/lib/content_object/survey/survey_context_rel_user.class.php';
 
 Translation :: set_application(SurveyManager :: APPLICATION_NAME);
 
 if (Authentication :: is_valid())
 {
-	$conditions = array();
+    $conditions = array();
     
-    $query_condition = Utilities :: query_to_condition($_GET['query'], array(SurveyParticipantTracker::PROPERTY_CONTEXT_NAME));
+    $user_id = $_GET[SurveyManager :: PARAM_USER_ID];
+    $conditions[] = new EqualityCondition(SurveyContextRelUser :: PROPERTY_USER_ID, $user_id);
+      
+    $context_template_id = $_GET[SurveyReportingManager :: PARAM_CONTEXT_TEMPLATE_ID];
+    
+    if ($context_template_id)
+    {
+        $context_template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($context_template_id);
+        $context_type = $context_template->get_context_type();
+        $conditions[] = new EqualityCondition(SurveyContext :: PROPERTY_TYPE, $context_type, SurveyContext :: get_table_name());
+    }
+    
+    $query_condition = Utilities :: query_to_condition($_GET['query'], array(SurveyContext :: PROPERTY_NAME));
     if (isset($query_condition))
     {
         $conditions[] = $query_condition;
@@ -26,7 +40,7 @@ if (Authentication :: is_valid())
         $c = array();
         foreach ($_GET['exclude'] as $id)
         {
-            $c[] = new EqualityCondition(SurveyParticipantTracker::PROPERTY_CONTEXT_TEMPLATE_ID, $id);
+            $c[] = new EqualityCondition(SurveyContextRelUser :: PROPERTY_CONTEXT_ID, $id);
         }
         $conditions[] = new NotCondition(new OrCondition($c));
     }
@@ -40,21 +54,12 @@ if (Authentication :: is_valid())
         $condition = null;
     }
     
-    $pubs = SurveyDataManager::get_instance();
-	$survey_publications = $pubs->retrieve_survey_publications($condition);
-	
-	
-	$objects = array();
-	foreach($survey_publications as $survey)
-	{
-		$objects[] = $survey->get_context_template();
-	}
-	
-	dump($objects);
-	exit();
-    while ($context_template = $objects->next_result())
+    $dm = SurveyContextDataManager :: get_instance();
+    $objects = $dm->retrieve_survey_context_rel_users($condition);
+    
+    while ($context = $objects->next_result())
     {
-        $context_templates[] = $context_template;
+        $contexts[] = $context;
     }
 
 }
@@ -62,26 +67,28 @@ if (Authentication :: is_valid())
 header('Content-Type: text/xml');
 echo '<?xml version="1.0" encoding="utf-8"?>', "\n", '<tree>', "\n";
 
-dump_tree($context_templates);
+dump_tree($contexts);
 
 echo '</tree>';
 
-function dump_tree($context_templates)
+function dump_tree($contexts)
 {
-    if (contains_results($context_templates))
+    if (contains_results($contexts))
     {
-        echo '<node id="0" classes="context_template unlinked" title="', Translation :: get('ContextTemplates'), '">', "\n";
+        echo '<node id="0" classes="category unlinked" title="' . Translation :: get('Contexts') . '">' . "\n";
         
-        foreach ($context_templates as $context_template)
+        foreach ($contexts as $context)
         {
-            $id = $context_template->get_id();
-            $name = $context_templates->get_name();
-            $description = $context_templates->get_description();
+            $id = 'context_'.$context->get_context_id();
+            $name = strip_tags($context->get_optional_property(SurveyContext :: PROPERTY_NAME));
+            //            $description = strip_tags($period->get_description());
+            //            $description = preg_replace("/[\n\r]/", "", $description);
             
-            echo '<leaf id="', $id, '" classes="', '', '" title="', htmlentities($name), '" description="', htmlentities(isset($description) && ! empty($description) ? $description : $name), '"/>', "\n";
+
+            echo '<leaf id="' . $id . '" classes="" title="' . htmlspecialchars($name) . '" description="' . htmlspecialchars(isset($description) && ! empty($description) ? $description : $name) . '"/>' . "\n";
         }
         
-        echo '</node>', "\n";
+        echo '</node>' . "\n";
     
     }
 }

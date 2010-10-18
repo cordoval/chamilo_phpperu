@@ -58,7 +58,7 @@ class SurveyReportingManagerRightsEditorComponent extends SurveyReportingManager
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE)), Translation :: get('BrowseSurveys')));
-    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_REPORTING_TEMPLATES, SurveyManager::PARAM_PUBLICATION_ID => Request :: get(SurveyManager::PARAM_PUBLICATION_ID))), Translation :: get('BrowseReportingTemplates')));
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE, SurveyManager::PARAM_PUBLICATION_ID => Request :: get(SurveyManager::PARAM_PUBLICATION_ID))), Translation :: get('BrowseReportingTemplates')));
     }
 
     function get_additional_parameters()
