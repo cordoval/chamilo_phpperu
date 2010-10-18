@@ -1,6 +1,7 @@
 ( function($) {
 
-	var collapseItem = function(e) {
+	var collapseItem = function(e) 
+	{
 		e.preventDefault();
 		
 		var image = $("div", this);
@@ -19,32 +20,14 @@
 			{
 				if (result)
 				{
-					if(application == 'repository' && getPlatformSetting('use_cumulative_rights', 'repository'))
-					{ 
-						$.each(images, function() 
-						{
-							var newClass = $.ajax({
-								type: "POST",
-								url: "./application/common/rights_editor_manager/javascript/ajax/group_right_location_class.php",
-								data: { rights : $(this).parent().attr('id') },
-								async: false
-							}).responseText;
-							
-							var image = $("div", this);
-							image.attr("class", newClass);
-						});
-					}
-					else
-					{
-						var newClass = $.ajax({
-							type: "POST",
-							url: "./application/common/rights_editor_manager/javascript/ajax/group_right_location_class.php",
-							data: { rights : id },
-							async: false
-						}).responseText;
+					var newClass = $.ajax({
+						type: "POST",
+						url: "./application/common/rights_editor_manager/javascript/ajax/group_right_location_class.php",
+						data: { rights : id },
+						async: false
+					}).responseText;
 
-						image.attr("class", newClass);
-					}
+					image.attr("class", newClass);
 				}
 				else
 				{
@@ -55,12 +38,14 @@
 		);
 	};
 
-	function bindIcons() {
+	function bindIcons() 
+	{
 		$("a.setRight").unbind();
 		$("a.setRight").bind('click', collapseItem);
 	}
 
-	$(document).ready( function() {
+	$(document).ready( function() 
+	{
 		bindIcons();
 	});
 
