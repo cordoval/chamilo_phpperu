@@ -14,6 +14,7 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
     const PARAM_TYPE = 'rights_type';
     const TYPE_USER = 'user';
     const TYPE_GROUP = 'group';
+    const TYPE_TEMPLATE = 'template';
     
     const TAB_DETAILS = 0;
     const TAB_SUBGROUPS = 1;
