@@ -1,6 +1,6 @@
 <?php
 
-class SurveyContextTemplateRelPageBrowserTableDataProvider extends ObjectTableDataProvider
+class SurveyContextTemplateRelPageTableDataProvider extends ObjectTableDataProvider
 {
 
     /**
@@ -8,7 +8,7 @@ class SurveyContextTemplateRelPageBrowserTableDataProvider extends ObjectTableDa
      * @param RepositoryManagerComponent $browser
      * @param Condition $condition
      */
-    function SurveyContextTemplateRelPageBrowserTableDataProvider($browser, $condition)
+    function SurveyContextTemplateRelPageTableDataProvider($browser, $condition)
     {
         parent :: __construct($browser, $condition);
 //   dump($this->get_condition());

@@ -7,10 +7,10 @@ require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/c
 require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/component/registration_browser/browser_table.class.php';
 require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/component/context_table/table.class.php';
 
-
 //require_once dirname(__FILE__) . '/component/context_template_browser/browser_table.class.php';
 //require_once dirname(__FILE__) . '/component/context_template_rel_page_browser/rel_page_browser_table.class.php';
 //require_once dirname(__FILE__) . '/component/context_template_subscribe_page_browser/subscribe_page_browser_table.class.php';
+
 
 /**
  * @package repository.lib.content_object.survey.manage.context
@@ -34,7 +34,7 @@ class SurveyContextManager extends SubManager
     const PARAM_CONTEXT_REL_GROUP_ID = 'context_template_id';
     
     const PARAM_SURVEY_PAGE_ID = 'survey_page';
-    const PARAM_SURVEY_ID = 'survey';
+    const PARAM_SURVEY_ID = 'survey_id';
     const PARAM_TEMPLATE_REL_PAGE_ID = 'template_rel_page_id';
     
     const PARAM_COMPONENT_ID = 'component_id';
@@ -56,7 +56,9 @@ class SurveyContextManager extends SubManager
     const ACTION_CONTEXT_TEMPLATE_RIGHTS_EDITOR = 'context_template_rights_editor';
     
     const ACTION_SUBSCRIBE_CONTEXT_TEMPLATE = 'subscribe_context_template';
-    const ACTION_SUBSCRIBE_PAGE_BROWSER = 'context_template_subscribe_page_browser';
+    //    const ACTION_SUBSCRIBE_PAGE_BROWSER = 'context_template_subscribe_page_browser';
+    const ACTION_SUBSCRIBE_PAGE_BROWSER = 'context_browser';
+    
     const ACTION_UNSUBSCRIBE_PAGE_FROM_TEMPLATE = 'page_unsubscriber';
     const ACTION_SUBSCRIBE_PAGE_TO_TEMPLATE = 'page_subscriber';
     const ACTION_TRUNCATE_TEMPLATE = 'context_template_truncater';
@@ -208,18 +210,23 @@ class SurveyContextManager extends SubManager
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_CONTEXT_TEMPLATE, self :: PARAM_SURVEY_ID => $survey->get_id(), self :: PARAM_CONTEXT_TEMPLATE_ID => $context_template_id));
     }
 
-    function get_context_template_suscribe_page_browser_url()
+    function get_context_template_suscribe_page_browser_url($survey)
     {
         $context_template_id = Request :: get(self :: PARAM_CONTEXT_TEMPLATE_ID);
-    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_PAGE_BROWSER, self :: PARAM_CONTEXT_TEMPLATE_ID => $context_template_id));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_PAGE_BROWSER, self :: PARAM_CONTEXT_TEMPLATE_ID => $context_template_id, self :: PARAM_SURVEY_ID => $survey->get_id()));
     }
 
     function get_template_suscribe_page_url($context_template_id, $page_id)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_PAGE_TO_TEMPLATE, self :: PARAM_TEMPLATE_REL_PAGE_ID => $template_id . '|' . $page_id));
     }
-    
 
+    function get_template_unsubscribing_page_url($template_rel_page)
+    {
+        $id = $template_rel_page->get_survey_id() . '|' . $template_rel_page->get_template_id() . '|' . $template_rel_page->get_page_id();
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UNSUBSCRIBE_PAGE_FROM_TEMPLATE, self :: PARAM_TEMPLATE_REL_PAGE_ID => $id));
+    }
+    
     static function launch($application)
     {
         parent :: launch(__CLASS__, $application);

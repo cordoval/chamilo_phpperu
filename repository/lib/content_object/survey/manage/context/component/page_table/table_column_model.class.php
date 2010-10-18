@@ -2,9 +2,7 @@
 
 require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/tables/page_table/default_page_table_column_model.class.php';
 
-
-
-class SurveyContextTemplateSubscribePageBrowserTableColumnModel extends DefaultSurveyPageTableColumnModel
+class SurveyPageTableColumnModel extends DefaultSurveyPageTableColumnModel
 {
     /**
      * The tables modification column
@@ -14,7 +12,7 @@ class SurveyContextTemplateSubscribePageBrowserTableColumnModel extends DefaultS
     /**
      * Constructor
      */
-    function SurveyContextTemplateSubscribePageBrowserTableColumnModel()
+    function SurveyPageTableColumnModel()
     {
         parent :: __construct();
         $this->set_default_order_column(0);
