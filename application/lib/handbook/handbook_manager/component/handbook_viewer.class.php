@@ -24,27 +24,30 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
     const ALL_ALTERNATIVES = 'aa';
     const RELEVANT_ALTERNATIVES_ONLY = 'ro';
 
+    const PARAM_LANGUAGE = 'language';
+    const PARAM_PUBLISHER = 'publisher';
+
+
+
     private $handbook_id;
     private $handbook_selection_id;
     private $selected_object;
 
 
-    private $most_suitable_text_co;
-    private $most_suitable_image_co;
-    private $most_suitable_video_co;
 
-    private $alternativs_text_cos;
-    private $alternative_image_cos;
-    private $alternative_video_cos;
+    private $user_preferences = array();
+    private $handbook_preferences = array();
+
+
+
 	/**
      * Runs this component and displays its output.
      */
     function run()
     {
-
-
         //GET CONTENT OBJECTS TO DISPLAY
         $this->get_content_objects();
+        $this->get_preferences();
         
         parent::display_header();
 
@@ -81,8 +84,7 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
         
         if ($this->handbook_id && $this->handbook_selection_id)
         {
-              $this->selected_object = $rdm->retrieve_content_object($this->handbook_selection_id);
-
+            $this->selected_object = $rdm->retrieve_content_object($this->handbook_selection_id);
             if ($this->selected_object && $this->selected_object->get_type() == HandbookItem::get_type_name())
             {
                 $this->selected_object = $rdm->retrieve_content_object($this->selected_object->get_reference());
@@ -123,116 +125,30 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
 
     function display_content()
     {
-         if ($this->selected_object)
+        //VOORLOPIG: print preferences
+         $html[] = '<div>';
+         $html[] = 'user preferences:<br/>';
+         while(list($key, $value)= each($this->user_preferences))
+         {
+             $html[] = $key . ' =  '. $value . '<br/>';
+         }
+         $html[] = 'handbook preferences:<br/>';
+         while(list($key, $value)= each($this->handbook_preferences))
+         {
+             $html[] = $key . ' =  '. $value . '<br/>';
+         }
+         $html[] = '</div>';
+
+        if ($this->selected_object && $this->selected_object->get_type() == Handbook::get_type_name())
         {
-           //TODO: first determin if there are any "context alternatives" for this content object
-           //if there are alternatives: choose the most suitable one to display
-             // show tabs or links for the alternatives
-             $cldm = ContextLinkerDataManager::get_instance();
-             $rdm = RepositoryDataManager::get_instance();
-             $condition = new EqualityCondition(ContextLink :: PROPERTY_ORIGINAL_CONTENT_OBJECT_ID, $this->selected_object->get_id());
-             $context_links_resultset = $cldm->retrieve_full_context_links($condition);
-
-//             $html[] = 'alternatives: ';
-//             $html[] = '<br />';
-//             while ($item = $context_links_resultset->next_result()) {
-//
-//              $html[] =  $item[ContentObject :: PROPERTY_ID] . '  '  . $item[ContentObject :: PROPERTY_TITLE] . '  '  . $item[ContentObject :: PROPERTY_TYPE] . '  '  . $item[MetadataPropertyType :: PROPERTY_NAME]. '  '  . $item[MetadataPropertyValue :: PROPERTY_VALUE];
-//              $html[] = '<br/>';
-//             }
-//             $html[] = '<br/>';
-
-//             $tabs = new DynamicTabsRenderer('renderer');
-
-
-
-             //ADD TAB FOR ORIGINAL
-//             $html[] = $this->selected_object->get_icon_name() . '  ' . $this->selected_object->get_type();
-//             $display = ContentObjectDisplay :: factory($this->selected_object);
-//             $html[] = $display->get_full_html();
-//             $tabs->add_tab(new DynamicContentTab( 'Original', Translation::get('Original'), Theme::get_common_image_path().'original.png', implode("\n", $original)));
-
-             $alternatives = $this->determine_relevant_alternatives($context_links_resultset);
-
-             $html[] = '<div>';
-             $html[] = 'current language = ' . Translation::get_instance()->get_language();
-             $html[] = '</div>';
-
-
-             //SHOW TEXT
-             $html[] = '<div class = "handbook_text" style="width:200px;">';
-             $html[] = '<H1>TEXT</H1>';
-             while(list($key, $value)= each($alternatives['text']))
-             {
-                $html[] = '</div>';
-                 $html[] = $this->print_metadata($value->get_id());
-                 $display = ContentObjectDisplay :: factory($value);
-                 $html[] = $display->get_full_html();
-
-             }
-             $html[] = '</div>';
-
-             //SHOW IMAGES
-             $html[] = '<div class = "handbook_images" style="width:150px;">';
-             $html[] = '<H1>IMAGE</H1>';
-             while(list($key, $value)= each($alternatives['image']))
-             {
-                $html[] = '</div>';
-                 $html[] = $this->print_metadata($value->get_id());
-                 $display = ContentObjectDisplay :: factory($value);
-                 $html[] = $display->get_full_html();
-
-             }
-             $html[] = '</div>';
-
-             //SHOW VIDEO
-             $html[] = '<div class = "handbook_video" style="width:50%;">';
-             $html[] = '<H1>VIDEO</H1>';
-             while(list($key, $value)= each($alternatives['video']))
-             {
-                $html[] = '</div>';
-                 $html[] = $this->print_metadata($value->get_id());
-                 $display = ContentObjectDisplay :: factory($value);
-                 $html[] = $display->get_full_html();
-
-             }
-             $html[] = '</div>';
-              $html[] = '<div class = "handbook_video" style="width:50%;">';
-             $html[] = '<H1>GLOSSARY</H1>';
-             $html[] = $this->get_glossary();
-             $html[] = '</div>';
-
-             //SHOW GLOSSARY
-
-             //ADD A TAB FOR EACH CONTEXT ALTERNATIVE (DYNAMIC TABS DON'T SEEM TO WORK HERE)
-//             $i=0;
-//             while ($item = $context_links_resultset->next_result())
-//             {
-//                 $alternative_co = $rdm->retrieve_content_object($item[ContentObject :: PROPERTY_ID]);
-//                 $display = ContentObjectDisplay :: factory($alternative_co);
-//////                 $alternative[$i] = '<div>';
-////                 $alternative[$i] = 'test';
-////                 $alternative[$i] = $display_alternative[$i]->get_full_html();
-//                  $html[] = '</div>';
-//                  $html[] = 'icon name: ' . $alternative_co->get_icon_name();
-//                  $html[] =  $item[ContentObject :: PROPERTY_ID] . '  '  . $item[ContentObject :: PROPERTY_TITLE] . '  '  . $item[ContentObject :: PROPERTY_TYPE] . '  '  . $item[MetadataPropertyType :: PROPERTY_NAME]. '  '  . $item[MetadataPropertyValue :: PROPERTY_VALUE];
-//                 $html[] = $display->get_full_html();
-//////                 $alternative[$i] = '</div>';
-////                 $tab_title[$i] = Translation::get($item[MetadataPropertyType :: PROPERTY_NAME]) . ' : '  . $item[MetadataPropertyValue :: PROPERTY_VALUE];
-////                 $tabs->add_tab(new DynamicContentTab( 'Alternative'.$i, $tab_title[$i], Theme::get_common_image_path().$item[MetadataPropertyType :: PROPERTY_NAME].'.png', implode("\n", $alternative[$i])));
-//                 $i++;
-
-
-//             }
-
-            //DISPLAY TABS
-//            $html[] = '<div style="clear: left;"';
-//            $html[]= $tabs->render();
-//            $html[]= '</div>';
-
-                
-            
-
+            //SHOW ALL ITEMS IN THIS HANDBOOK (one level)
+            //TODO!
+            $html[] = $this->get_item_html($this->selected_object->get_id());
+        }
+        else if($this->selected_object)
+        {
+           //SHOW ONLY THE SELECTED ITEM
+             $html[] = $this->get_item_html($this->selected_object->get_id());
         }
 
         return implode ("\n", $html);
@@ -241,13 +157,11 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
     function get_action_bar()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-//
-//        //edit handbook/item
-//        $action_bar->add_common_action(new ToolbarItem(Translation :: get('EditHandbook'), Theme :: get_common_image_path() . 'content_object/portfolio.png', $this->get_create_portfolio_introduction_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-//
-//        //delete handbook/item
-//        $action_bar->add_common_action(new ToolbarItem(Translation :: get('DELETE'), Theme :: get_common_image_path() . 'action_delete.png', $url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
+        //edit handbook/item
+       
+        //delete handbook/item
+       
         //add handbook/item
 
         //set handbook rights
@@ -295,61 +209,75 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
                     {
                         $videos[] = $alternative_co;
                     }
-
-                    
+                    else if($alternative_co->get_type() == Link::get_type_name())
+                    {
+                        $links[] = $alternative_co;
+                    }
+                    else
+                    {
+                        $others[] = $alternative_co;
+                    }
              }
 
              if($this->selected_object->get_type() == Document::get_type_name())
+             {
+                 if($this->selected_object->is_image())
                  {
-                     if($this->selected_object->is_image())
-                     {
-                        $images[] = $alternative_co;
-                     }
-                      else if($this->selected_object->is_flash() || $this->selected_object->is_video() || $this->selected_object->is_audio())
+                    $images[] = $alternative_co;
+                 }
+                  else if($this->selected_object->is_flash() || $this->selected_object->is_video() || $this->selected_object->is_audio())
+                  {
+                    $videos[] = $alternative_co;
+                  }
+                  else
+                  {
+                      $condition = new EqualityCondition(MetadataPropertyValue :: PROPERTY_CONTENT_OBJECT_ID, $this->selected_object->get_id());
+                      $metadata_property_values = MetadataManager::retrieve_metadata_property_values($condition);
+
+                      $metadata_array = array();
+
+                      while($metadata = $metadata_property_values->next_result())
                       {
-                        $videos[] = $alternative_co;
+                          $metadata_array[$metadata->get_property_type_id()]= $metadata->get_value();
                       }
-                      else
-                      {
-                          $condition = new EqualityCondition(MetadataPropertyValue :: PROPERTY_CONTENT_OBJECT_ID, $this->selected_object->get_id());
-                          $metadata_property_values = MetadataManager::retrieve_metadata_property_values($condition);
-
-                          $metadata_array = array();
-
-                          while($metadata = $metadata_property_values->next_result())
-                          {
-                              $metadata_array[$metadata->get_property_type_id()]= $metadata->get_value();
-                          }
-
-                           
-                          $texts['original'] = $this->selected_object;
-                      }
-                    }
-                    else if($this->selected_object->get_type() == Youtube::get_type_name())
-                    {
-                        $videos[] = $alternative_co;
-                    }
-
-
-            
-
+                      $texts['original'] = $this->selected_object;
+                  }
+            }
+            else if($this->selected_object->get_type() == Youtube::get_type_name())
+            {
+                $videos[] = $this->selected_object;
+            }
+            else if($this->selected_object->get_type() == Link::get_type_name())
+            {
+                $links[] = $this->selected_object;
+            }
+            else
+            {
+                $others[] = $this->selected_object;
+            }
                  $alternatives['text'] = $texts;
-                    $alternatives['image'] = $images;
-                    $alternatives['video'] = $videos;
+                 $alternatives['image'] = $images;
+                 $alternatives['video'] = $videos;
+                 $alternatives['other'] = $others;
+                 $alternatives['link'] = $links;
 
+                 //TODO: Determine most relevant ones (Voorlopig is gewoon de eerste de "main" en zit die ook nog eens bij de alternatives)
+                 //TEXT
+                 //1. user language 2. publication language
+                 //3. user institution 4. publication institution
+                 $alternatives['text_main'] = current($alternatives['text']);
 
+                 //IMAGE & VIDEO
+                 //1. user language 2. publication language
+                 //3. user institution 4. publication institution
+                 $alternatives['image_main'] = current($alternatives['image']);
+                 $alternatives['video_main'] = current($alternatives['video']);
 
-                return $alternatives;
-
-        //Text: Most Relevant = Language
-
-        //Images: Most Relevant = Institution
-
-
+                 return $alternatives;
     }
 
     /**
-     * retrieve all the glossary's in this handbook publication and combine them to one
+     * retrieve all the glossary's in this handbook publication and combine them in one
      * searchable table
      */
     function get_glossary()
@@ -366,6 +294,200 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
              $html[] = $key . ' =  '. $value . '<br/>';
          }
          return implode ("\n", $html);
+    }
+
+    function get_item_html($co_id, $show_alternatives_button = true)
+    {
+        //GET ITEM ALTERNATIVES
+         $cldm = ContextLinkerDataManager::get_instance();
+         $rdm = RepositoryDataManager::get_instance();
+         $condition = new EqualityCondition(ContextLink :: PROPERTY_ORIGINAL_CONTENT_OBJECT_ID, $co_id);
+         $context_links_resultset = $cldm->retrieve_full_context_links($condition);
+
+        //DETERMINE MOST SUITABLE ALTERNATIVE
+         $alternatives_array = $this->determine_relevant_alternatives($context_links_resultset);
+
+         $text_width;
+         $visual_width;
+
+         if($alternatives_array['image_main'] != null|| $alternatives_array['video_main'] != null)
+         {
+             $text_width = '70%';
+             $visual_width = '30%';
+         }
+         else
+         {
+             $text_width = '100%';
+             $visual_width = '0%';
+         }
+
+         //OUTPUT HTML
+        $html[] = '<div class = "handbook_item" style="float:left; width:100%; padding:10px;">';
+        
+            $html[] = '<div class = "handbook_item_primary_info" style="float:left; width:100%;">';
+                if(count($alternatives_array['text'])>0)
+                {
+                    $html[] = '<div class = "handbook_item_text" style="float:left; width:'.$text_width.';">';
+                    //TEXT
+                    //MAIN
+                    $display = ContentObjectDisplay :: factory($alternatives_array['text_main']);
+                    $html[] = $display->get_description();
+                    $html[] = '</div>';
+                    //ALTERNATIVES
+                        $html[] = '<br /><a href="#" id="showtext" style="display:none; float:left;">' . Translation :: get('ShowAllTextAlternatives') . '</a><br><br>';
+                        $html[] = '<a href="#" id="hidetext" style="display:none; font-size: 80%; font-weight: normal;">(' . Translation :: get('HideAllTextAlternatives') . ')</a>';
+                        $html[] = '<div id="textlist">';
+                        
+                        while(list($key, $value)= each($alternatives_array['text']))
+                         {
+                             $html[] = $this->print_metadata($value->get_id());
+                             $display = ContentObjectDisplay :: factory($value);
+                             $html[] = $display->get_description();
+                             $html[] = '</div>';
+                         }
+                         $html[] = '</div>';
+                    $html[] = '</div>';
+                }
+
+                $html[] = '<div class = "handbook_item_visual" style="float:left; width:'.$visual_width.'">';
+                if($alternatives_array['image_main'] != null)
+                {
+                    $html[] = '<div class = "handbook_item_images" style="padding: 10px;">';
+                    //IMAGES
+                    //MAIN
+                    $display = ContentObjectDisplay :: factory($alternatives_array['image_main']);
+                    $html[] = $display->get_description();
+                    $html[] = '</div>';
+                    //ALTERNATIVES
+                    if(count($alternatives_array['image'])>0)
+                    {
+                        $html[] = '<br /><a href="#" id="showimage" style="display:none; float:left;">' . Translation :: get('ShowAllImageAlternatives') . '</a><br><br>';
+                        $html[] = '<a href="#" id="hideimage" style="display:none; font-size: 80%; font-weight: normal;">(' . Translation :: get('HideAllImageAlternatives') . ')</a>';
+                        $html[] = '<div id="imagelist">';
+
+                     while(list($key, $value)= each($alternatives_array['image']))
+                         {
+                             $html[] = $this->print_metadata($value->get_id());
+                             $display = ContentObjectDisplay :: factory($value);
+                             $html[] = $display->get_description();
+                         }
+//                         $html[] = '</div>';
+                    $html[] = '</div>';
+                    }
+                }
+                if($alternatives_array['video_main'] != null)
+                {
+                    $html[] = '<div class = "handbook_item_videos" style="padding: 10px;">';
+                    //VIDEO
+                    //MAIN
+                    $display = ContentObjectDisplay :: factory($alternatives_array['video_main']);
+                    $html[] = $display->get_preview(true);
+                    $html[] = '</div>';
+                    //ALTERNATIVES
+                    if(count($alternatives_array['video'])>0)
+                    {
+                        $html[] = '<br /><a href="#" id="showvideo" style="display:none; float:left;">' . Translation :: get('ShowAllVideoAlternatives') . '</a><br><br>';
+                        $html[] = '<a href="#" id="hidevideo" style="display:none; font-size: 80%; font-weight: normal;">(' . Translation :: get('HideAllVideoAlternatives') . ')</a>';
+                        $html[] = '<div id="videolist">';
+
+                        while(list($key, $value)= each($alternatives_array['video']))
+                         {
+
+                             $html[] = $this->print_metadata($value->get_id());
+                             $display = ContentObjectDisplay :: factory($value);
+                             $html[] = $display->get_preview(true);
+                             //todo: link to view video in full size (popup?)
+                         }
+                        $html[] = '</div>';
+                    }
+                }
+                $html[] = '</div>';
+
+            $html[] = '</div>';
+
+            $html[] = '<div class = "handbook_item_secondary_info">';
+            if(count($alternatives_array['link'])>0)
+            {
+              //SHOW LINKS
+                 $html[] = '<div class = "handbook_links" style="width:50%; float:left;">';
+                 $html[] = '<H1>LINKS</H1>';
+                 while(list($key, $value)= each($alternatives_array['link']))
+                 {
+                     $html[] = $this->print_metadata($value->get_id());
+                     $display = ContentObjectDisplay :: factory($value);
+                     $html[] = $display->get_description();
+                     $html[] = '</div>';
+
+                 }
+                 $html[] = '</div>';
+            }
+            if(count($alternatives_array['other'])>0)
+            {
+                 //SHOW OTHERS
+                 $html[] = '<div class = "handbook_others" style="width:50%; clear:both;">';
+                 $html[] = '<H1>OTHER</H1>';
+                 while(list($key, $value)= each($alternatives_array['other']))
+                 {
+                     $html[] = $this->print_metadata($value->get_id());
+                     $display = ContentObjectDisplay :: factory($value);
+                     $html[] = $display->get_full_html();
+                     $html[] = '</div>';
+                 }
+                 $html[] = '</div>';
+            }
+            $html[] = '</div>';
+
+        $html[] = '</div>';
+        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/handbook_alternatives.js' . '"></script>';
+
+        return implode ("\n", $html);
+
+    }
+
+
+    static function translate_chamilo_language_to_iso_code($language)
+    {
+        //should probably be put somewhere else (stored in db?) so one can easily add new languages
+        //for testing the app this should do
+       $iso_639_code;
+       switch ($language) {
+           case 'english':
+               $iso_639_code =  'en';
+               break;
+           case 'dutch':
+               $iso_639_code =  'du';
+               break;
+           case 'french':
+               $iso_639_code =  'fr';
+               break;
+           case 'german':
+               $iso_639_code =  'de';
+               break;
+           case 'spanish':
+               $iso_639_code =  'es';
+               break;
+           default:
+               $iso_639_code =  'un';
+               break;
+       }
+       return $iso_639_code;
+    }
+
+    function get_preferences()
+    {
+        //USER PREFERENCES
+        //TODO: This should be gotten from a user-metadata table for now only the language and the publi is taken into account
+        $this->user_preferences[self::PARAM_LANGUAGE] = $this->translate_chamilo_language_to_iso_code(Translation::get_instance()->get_language());
+        
+        //for now: get institution name from root group
+        $condition = new EqualityCondition(Group :: PROPERTY_PARENT, 0);
+        $group = GroupDataManager :: get_instance()->retrieve_groups($condition, null, 1, new ObjectTableOrder(Group :: PROPERTY_NAME))->next_result();      
+        $this->user_preferences[self::PARAM_PUBLISHER] = $group->get_name();
+
+        //HANDBOOK PREFERENCES
+        //TODO: this should be gotten from a handbook-publication-preferences table
+
+        return;
     }
 
 }
