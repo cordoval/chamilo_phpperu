@@ -19,8 +19,6 @@ class SurveyBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
         parent :: __construct($browser, $condition);
     }
 
-    private $lpi_ref_object;
-
     // Inherited
     function render_cell($column, $cloi)
     {

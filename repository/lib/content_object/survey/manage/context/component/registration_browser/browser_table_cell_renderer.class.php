@@ -76,6 +76,12 @@ class SurveyContextRegistrationBrowserTableCellRenderer extends DefaultSurveyCon
          $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_context_registration_update_url($context_registration), ToolbarItem :: DISPLAY_ICON));
         $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_context_registration_delete_url($context_registration), ToolbarItem :: DISPLAY_ICON));
+        
+        if ($this->browser->get_user()->is_platform_admin() || $context_registration->get_owner_id() == $this->browser->get_user_id())
+        {
+            $toolbar->add_item(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->browser->get_context_registration_rights_editor_url($context_registration), ToolbarItem :: DISPLAY_ICON));
+        }
+        
         return $toolbar->as_html();
     }
 }

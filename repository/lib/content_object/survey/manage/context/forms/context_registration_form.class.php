@@ -179,9 +179,10 @@ class SurveyContextRegistrationForm extends FormValidator
             $context_registration = $this->context_registration;
             $context_registration->set_name($name);
             $context_registration->set_description($values[SurveyContextRegistration :: PROPERTY_DESCRIPTION]);
+            $context_registration->set_owner_id($this->user->get_id());
             $context_registration->create();
             
-            $type = 'survey_context'.$context_registration->get_id();
+            $type = 'survey_context_'.$context_registration->get_id();
             $context_registration->set_type($type);
             $context_registration->update();
             

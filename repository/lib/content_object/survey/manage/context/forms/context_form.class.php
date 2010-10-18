@@ -103,7 +103,7 @@ class SurveyContextForm extends FormValidator
         
         $values = $this->exportValues();
         $survey_context->set_name($values[SurveyContext :: PROPERTY_NAME]);
-        
+                
         foreach ($property_names as $property_name)
         {
             $survey_context->set_additional_property($property_name, $this->exportValue($property_name));

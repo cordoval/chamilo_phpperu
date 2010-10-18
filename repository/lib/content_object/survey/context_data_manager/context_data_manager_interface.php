@@ -76,5 +76,17 @@ interface SurveyContextDataManagerInterface
 
     function retrieve_survey_context_rel_user($context_id, $user_id);
     
+
+    function delete_survey_context_rel_group($context_rel_group);
+
+    function create_survey_context_rel_group($context_rel_group);
+
+    function count_survey_context_rel_groups($conditions = null);
+
+    function retrieve_survey_context_rel_groups($condition = null, $offset = null, $count = null, $order_property = null);
+
+    function retrieve_survey_context_rel_group($context_id, $group_id);
+    
+    
 }
 ?>

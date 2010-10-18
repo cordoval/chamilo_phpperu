@@ -24,7 +24,7 @@ class SurveyPublicationBrowserTableDataProvider extends ObjectTableDataProvider
     {
         $order_property = $this->get_order_property($order_property);
         
-        return SurveyDataManager :: get_instance()->retrieve_survey_publications($this->get_condition(), $offset, $count, $order_property);
+        return SurveyDataManager :: get_instance()->retrieve_survey_publications_for_user($this->get_condition(), $offset, $count, $order_property);
     }
 
     /**
@@ -33,7 +33,7 @@ class SurveyPublicationBrowserTableDataProvider extends ObjectTableDataProvider
      */
     function get_object_count()
     {
-        return SurveyDataManager :: get_instance()->count_survey_publications($this->get_condition());
+        return SurveyDataManager :: get_instance()->count_survey_publications_for_user($this->get_condition());
     }
 }
 ?>
