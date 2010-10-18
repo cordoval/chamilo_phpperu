@@ -22,10 +22,14 @@ class CoursesRightsEditorManagerBrowserComponent extends RightsEditorManagerBrow
         {
             $html[] = $this->display_location_user_browser();
         }
-        else
+        elseif($this->type == self :: TYPE_GROUP)
         {
             //$html[] = $this->display_location_group_browser();
             $html[] = $this->display_location_course_group_browser();
+        }
+        else
+        {
+            $html[] = $this->display_location_template_browser();
         }
         
         $html[] = '<div class="clear"></div><br />';

@@ -11,6 +11,7 @@ class RightsEditorManager extends SubManager
     const ACTION_BROWSE_RIGHTS = 'browse';
     const ACTION_SET_USER_RIGHTS = 'set_user_rights';
     const ACTION_SET_GROUP_RIGHTS = 'set_group_rights';
+    const ACTION_SET_TEMPLATE_RIGHTS = 'set_template_rights';
     const ACTION_CHANGE_INHERIT = 'change_inherit';
 
     const PARAM_GROUP = 'group_id';
@@ -22,8 +23,12 @@ class RightsEditorManager extends SubManager
     private $locations;
     private $excluded_groups;
     private $excluded_users;
+    private $excluded_templates;
+    
     private $limited_groups;
     private $limited_users;
+    private $limited_templates;
+    
     private $modus;
 
     /**
@@ -123,6 +128,16 @@ class RightsEditorManager extends SubManager
     {
         $this->excluded_groups = $groups;
     }
+    
+    function exclude_templates($templates)
+    {
+        $this->excluded_templates = $templates;
+    }
+
+    function get_excluded_templates()
+    {
+        return $this->excluded_templates;
+    }
 
     function get_excluded_users()
     {
@@ -141,6 +156,14 @@ class RightsEditorManager extends SubManager
     {
         $this->limited_users = $users;
     }
+    
+	/**
+     * @param Array $templates An array of template ids
+     */
+    function limit_templates(array $templates)
+    {
+        $this->limited_templates = $templates;
+    }
 
     /**
      * @param Array $groups An array of group ids
@@ -153,6 +176,11 @@ class RightsEditorManager extends SubManager
     function get_limited_users()
     {
         return $this->limited_users;
+    }
+    
+    function get_limited_templates()
+    {
+        return $this->limited_templates;
     }
 
     function get_limited_groups()
