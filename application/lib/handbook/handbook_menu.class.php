@@ -134,8 +134,23 @@ class HandbookMenu extends HTML_Menu
                 if (count($items) > 0)
                     $item['sub'] = $items;
             }
+
+            $alternatives = HandbookManager::get_alternatives($lo->get_id(), $this->handbook_id);
+
+            if($alternatives['text_main'] != null)
+            {
+                $item['title'] = $alternatives['text_main']->get_title();
+            }
+            else if($alternatives['handbook_main'] != null)
+            {
+                $item['title'] = $alternatives['handbook_main']->get_title();
+            }
+            else
+            {
+                $item['title'] = $lo->get_title();
+            }
+
             
-            $item['title'] = $lo->get_title();
             $item['url'] = $this->get_sub_item_url($handbook_id, $child->get_ref());
 //           $item['class'] = $lo->get_type();
             $item['class'] = 'test';

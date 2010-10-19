@@ -24,8 +24,7 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
     const ALL_ALTERNATIVES = 'aa';
     const RELEVANT_ALTERNATIVES_ONLY = 'ro';
 
-    const PARAM_LANGUAGE = 'language';
-    const PARAM_PUBLISHER = 'publisher';
+
 
 
 
@@ -125,25 +124,24 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
 
     function display_content()
     {
-        //VOORLOPIG: print preferences
-         $html[] = '<div>';
-         $html[] = 'user preferences:<br/>';
-         while(list($key, $value)= each($this->user_preferences))
-         {
-             $html[] = $key . ' =  '. $value . '<br/>';
-         }
-         $html[] = 'handbook preferences:<br/>';
-         while(list($key, $value)= each($this->handbook_preferences))
-         {
-             $html[] = $key . ' =  '. $value . '<br/>';
-         }
-         $html[] = '</div>';
+//        //VOORLOPIG: print preferences
+//         $html[] = '<div>';
+//         $html[] = 'user preferences:<br/>';
+//         while(list($key, $value)= each($this->user_preferences))
+//         {
+//             $html[] = $key . ' =  '. $value . '<br/>';
+//         }
+//         $html[] = 'handbook preferences:<br/>';
+//         while(list($key, $value)= each($this->handbook_preferences))
+//         {
+//             $html[] = $key . ' =  '. $value . '<br/>';
+//         }
+//         $html[] = '</div>';
 
         if ($this->selected_object && $this->selected_object->get_type() == Handbook::get_type_name())
         {
             //SHOW ALL ITEMS IN THIS HANDBOOK (one level)
-            //TODO!
-            $html[] = $this->get_item_html($this->selected_object->get_id());
+            $html[] = $this->get_handbook_html($this->selected_object->get_id());
         }
         else if($this->selected_object)
         {
@@ -178,103 +176,124 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
 
     }
 
-    function determine_relevant_alternatives($context_links_resultset)
-    {
-        $texts = array();
-        $images = array();
-        $videos = array();
-        $rdm = RepositoryDataManager::get_instance();
-
-        while ($item = $context_links_resultset->next_result())
-             {
-                 $alternative_co = $rdm->retrieve_content_object($item[ContentObject :: PROPERTY_ID]);
-                 $display = ContentObjectDisplay :: factory($alternative_co);
-
-                 if($alternative_co->get_type() == Document::get_type_name())
-                 {
-                     if($alternative_co->is_image())
-                     {
-                        $images[] = $alternative_co;
-                     }
-                      else if($alternative_co->is_flash() || $alternative_co->is_video() || $alternative_co->is_audio())
-                      {
-                        $videos[] = $alternative_co;
-                      }
-                      else
-                      {
-                          $texts[$item[MetadataPropertyValue :: PROPERTY_VALUE]] = $alternative_co;
-                      }
-                    }
-                    else if($alternative_co->get_type() == Youtube::get_type_name())
-                    {
-                        $videos[] = $alternative_co;
-                    }
-                    else if($alternative_co->get_type() == Link::get_type_name())
-                    {
-                        $links[] = $alternative_co;
-                    }
-                    else
-                    {
-                        $others[] = $alternative_co;
-                    }
-             }
-
-             if($this->selected_object->get_type() == Document::get_type_name())
-             {
-                 if($this->selected_object->is_image())
-                 {
-                    $images[] = $alternative_co;
-                 }
-                  else if($this->selected_object->is_flash() || $this->selected_object->is_video() || $this->selected_object->is_audio())
-                  {
-                    $videos[] = $alternative_co;
-                  }
-                  else
-                  {
-                      $condition = new EqualityCondition(MetadataPropertyValue :: PROPERTY_CONTENT_OBJECT_ID, $this->selected_object->get_id());
-                      $metadata_property_values = MetadataManager::retrieve_metadata_property_values($condition);
-
-                      $metadata_array = array();
-
-                      while($metadata = $metadata_property_values->next_result())
-                      {
-                          $metadata_array[$metadata->get_property_type_id()]= $metadata->get_value();
-                      }
-                      $texts['original'] = $this->selected_object;
-                  }
-            }
-            else if($this->selected_object->get_type() == Youtube::get_type_name())
-            {
-                $videos[] = $this->selected_object;
-            }
-            else if($this->selected_object->get_type() == Link::get_type_name())
-            {
-                $links[] = $this->selected_object;
-            }
-            else
-            {
-                $others[] = $this->selected_object;
-            }
-                 $alternatives['text'] = $texts;
-                 $alternatives['image'] = $images;
-                 $alternatives['video'] = $videos;
-                 $alternatives['other'] = $others;
-                 $alternatives['link'] = $links;
-
-                 //TODO: Determine most relevant ones (Voorlopig is gewoon de eerste de "main" en zit die ook nog eens bij de alternatives)
-                 //TEXT
-                 //1. user language 2. publication language
-                 //3. user institution 4. publication institution
-                 $alternatives['text_main'] = current($alternatives['text']);
-
-                 //IMAGE & VIDEO
-                 //1. user language 2. publication language
-                 //3. user institution 4. publication institution
-                 $alternatives['image_main'] = current($alternatives['image']);
-                 $alternatives['video_main'] = current($alternatives['video']);
-
-                 return $alternatives;
-    }
+//    function determine_relevant_alternatives($context_links_resultset)
+//    {
+//        $texts = array();
+//        $images = array();
+//        $videos = array();
+//        $links = array();
+//        $others = array();
+//        $handbooks = array();
+//        $rdm = RepositoryDataManager::get_instance();
+//
+//        while ($item = $context_links_resultset->next_result())
+//             {
+//                 $alternative_co = $rdm->retrieve_content_object($item[ContentObject :: PROPERTY_ID]);
+//                 $display = ContentObjectDisplay :: factory($alternative_co);
+//
+//                 if($alternative_co->get_type() == Handbook::get_type_name())
+//                    {
+//                        $handbooks[] = $alternative_co;
+//                    }
+//                 else if($alternative_co->get_type() == Document::get_type_name())
+//                 {
+//                     if($alternative_co->is_image())
+//                     {
+//                        $images[] = $alternative_co;
+//                     }
+//                      else if($alternative_co->is_flash() || $alternative_co->is_video() || $alternative_co->is_audio())
+//                      {
+//                        $videos[] = $alternative_co;
+//                      }
+//                      else
+//                      {
+//                          $texts[$item[MetadataPropertyValue :: PROPERTY_VALUE]] = $alternative_co;
+//                      }
+//                    }
+//                    else if($alternative_co->get_type() == Youtube::get_type_name())
+//                    {
+//                        $videos[] = $alternative_co;
+//                    }
+//                    else if($alternative_co->get_type() == Link::get_type_name())
+//                    {
+//                        $links[] = $alternative_co;
+//                    }
+//                    else if($alternative_co->get_type() == WikiPage::get_type_name())
+//                    {
+//                        $texts[] = $alternative_co;
+//                    }
+//                    else
+//                    {
+//                        $others[] = $alternative_co;
+//                    }
+//             }
+//
+//            if($this->selected_object->get_type() == Handbook::get_type_name())
+//            {
+//                $handbooks[] = $this->selected_object;
+//            }
+//             else if($this->selected_object->get_type() == Document::get_type_name())
+//             {
+//                 if($this->selected_object->is_image())
+//                 {
+//                    $images[] = $alternative_co;
+//                 }
+//                  else if($this->selected_object->is_flash() || $this->selected_object->is_video() || $this->selected_object->is_audio())
+//                  {
+//                    $videos[] = $alternative_co;
+//                  }
+//                  else
+//                  {
+//                      $condition = new EqualityCondition(MetadataPropertyValue :: PROPERTY_CONTENT_OBJECT_ID, $this->selected_object->get_id());
+//                      $metadata_property_values = MetadataManager::retrieve_metadata_property_values($condition);
+//
+//                      $metadata_array = array();
+//
+//                      while($metadata = $metadata_property_values->next_result())
+//                      {
+//                          $metadata_array[$metadata->get_property_type_id()]= $metadata->get_value();
+//                      }
+//                      $texts['original'] = $this->selected_object;
+//                  }
+//            }
+//            else if($this->selected_object->get_type() == Youtube::get_type_name())
+//            {
+//                $videos[] = $this->selected_object;
+//            }
+//            else if($this->selected_object->get_type() == Link::get_type_name())
+//            {
+//                $links[] = $this->selected_object;
+//            }
+//            else if($this->selected_object->get_type() == WikiPage::get_type_name())
+//            {
+//                $texts[] = $this->selected_object;
+//            }
+//            else
+//            {
+//                $others[] = $this->selected_object;
+//            }
+//                 $alternatives['text'] = $texts;
+//                 $alternatives['image'] = $images;
+//                 $alternatives['video'] = $videos;
+//                 $alternatives['other'] = $others;
+//                 $alternatives['link'] = $links;
+//                 $alternatives['handbook'] = $handbooks;
+//
+//                 //TODO: Determine most relevant ones (Voorlopig is gewoon de eerste de "main" en zit die ook nog eens bij de alternatives)
+//                 //TEXT
+//                 //1. user language 2. publication language
+//                 //3. user institution 4. publication institution
+//                 $alternatives['text_main'] = current($alternatives['text']);
+//                 $alternatives['handbook_main'] = current($alternatives['handbook']);
+//
+//                 //IMAGE & VIDEO
+//                 //1. user language 2. publication language
+//                 //3. user institution 4. publication institution
+//                 $alternatives['image_main'] = current($alternatives['image']);
+//                 $alternatives['video_main'] = current($alternatives['video']);
+//
+//                 return $alternatives;
+//    }
 
     /**
      * retrieve all the glossary's in this handbook publication and combine them in one
@@ -298,15 +317,9 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
 
     function get_item_html($co_id, $show_alternatives_button = true)
     {
-        //GET ITEM ALTERNATIVES
-         $cldm = ContextLinkerDataManager::get_instance();
-         $rdm = RepositoryDataManager::get_instance();
-         $condition = new EqualityCondition(ContextLink :: PROPERTY_ORIGINAL_CONTENT_OBJECT_ID, $co_id);
-         $context_links_resultset = $cldm->retrieve_full_context_links($condition);
 
-        //DETERMINE MOST SUITABLE ALTERNATIVE
-         $alternatives_array = $this->determine_relevant_alternatives($context_links_resultset);
-
+        $alternatives_array = HandbookManager::get_alternatives($co_id, $this->handbook_id);
+        
          $text_width;
          $visual_width;
 
@@ -325,7 +338,7 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
         $html[] = '<div class = "handbook_item" style="float:left; width:100%; padding:10px;">';
         
             $html[] = '<div class = "handbook_item_primary_info" style="float:left; width:100%;">';
-                if(count($alternatives_array['text'])>0)
+                if($alternatives_array['text_main'] != null)
                 {
                     $html[] = '<div class = "handbook_item_text" style="float:left; width:'.$text_width.';">';
                     //TEXT
@@ -334,6 +347,8 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
                     $html[] = $display->get_description();
                     $html[] = '</div>';
                     //ALTERNATIVES
+                    if(count($alternatives_array['text'])>0 )
+                    {
                         $html[] = '<br /><a href="#" id="showtext" style="display:none; float:left;">' . Translation :: get('ShowAllTextAlternatives') . '</a><br><br>';
                         $html[] = '<a href="#" id="hidetext" style="display:none; font-size: 80%; font-weight: normal;">(' . Translation :: get('HideAllTextAlternatives') . ')</a>';
                         $html[] = '<div id="textlist">';
@@ -346,6 +361,7 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
                              $html[] = '</div>';
                          }
                          $html[] = '</div>';
+                    }
                     $html[] = '</div>';
                 }
 
@@ -444,51 +460,67 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
 
     }
 
-
-    static function translate_chamilo_language_to_iso_code($language)
+    function get_handbook_html($co_id, $show_alternatives_button = true)
     {
-        //should probably be put somewhere else (stored in db?) so one can easily add new languages
-        //for testing the app this should do
-       $iso_639_code;
-       switch ($language) {
-           case 'english':
-               $iso_639_code =  'en';
-               break;
-           case 'dutch':
-               $iso_639_code =  'du';
-               break;
-           case 'french':
-               $iso_639_code =  'fr';
-               break;
-           case 'german':
-               $iso_639_code =  'de';
-               break;
-           case 'spanish':
-               $iso_639_code =  'es';
-               break;
-           default:
-               $iso_639_code =  'un';
-               break;
-       }
-       return $iso_639_code;
+        //GET ITEM ALTERNATIVES
+//         $cldm = ContextLinkerDataManager::get_instance();
+//         $rdm = RepositoryDataManager::get_instance();
+//         $condition = new EqualityCondition(ContextLink :: PROPERTY_ORIGINAL_CONTENT_OBJECT_ID, $co_id);
+//         $context_links_resultset = $cldm->retrieve_full_context_links($condition);
+
+        //DETERMINE MOST SUITABLE ALTERNATIVE
+
+        $alternatives_array = HandbookManager::get_alternatives($co_id, $this->handbook_id);
+
+         //DISPLAY TITLES
+         //todo: hide alternatives
+//         $display = ContentObjectDisplay :: factory($alternatives_array['handbook_main']);
+//        $html[] = $display->get_full_html();
+//        $html[] = '</div>';
+
+         $html[] = '<H1>'.$alternatives_array['handbook_main']->get_title().'</H1>';
+         $html[] = $alternatives_array['handbook_main']->get_description();
+         $html[] = 'alternative titles: ';
+         while(list($key, $value)= each($alternatives_array['handbook']))
+        {
+//             $html[] = $this->print_metadata($value->get_id());
+//             $display = ContentObjectDisplay :: factory($value);
+//             $html[] = $display->get_full_html();
+//             $html[] = '</div>';
+             $html[] = '  -  ';
+             $html[] = $value->get_title();
+
+            
+         }
+
+
+
+         //DISPLAY ITEMS
+         //todo: display the items in this handbook?
+
+         return implode ("\n", $html);
+
     }
 
-    function get_preferences()
-    {
-        //USER PREFERENCES
-        //TODO: This should be gotten from a user-metadata table for now only the language and the publi is taken into account
-        $this->user_preferences[self::PARAM_LANGUAGE] = $this->translate_chamilo_language_to_iso_code(Translation::get_instance()->get_language());
-        
-        //for now: get institution name from root group
-        $condition = new EqualityCondition(Group :: PROPERTY_PARENT, 0);
-        $group = GroupDataManager :: get_instance()->retrieve_groups($condition, null, 1, new ObjectTableOrder(Group :: PROPERTY_NAME))->next_result();      
-        $this->user_preferences[self::PARAM_PUBLISHER] = $group->get_name();
 
-        //HANDBOOK PREFERENCES
-        //TODO: this should be gotten from a handbook-publication-preferences table
+   
 
-        return;
-    }
+////    function get_preferences($handbook_publication_id)
+//    {
+//        //USER PREFERENCES
+//        //TODO: This should be gotten from a user-metadata table for now only the language and the publi is taken into account
+//        $this->user_preferences[self::PARAM_LANGUAGE] = $this->translate_chamilo_language_to_iso_code(Translation::get_instance()->get_language());
+//
+//        //for now: get institution name from root group
+//        $condition = new EqualityCondition(Group :: PROPERTY_PARENT, 0);
+//        $group = GroupDataManager :: get_instance()->retrieve_groups($condition, null, 1, new ObjectTableOrder(Group :: PROPERTY_NAME))->next_result();
+//        $this->user_preferences[self::PARAM_PUBLISHER] = $group->get_name();
+//
+//        //HANDBOOK PREFERENCES
+//        //TODO: this should be gotten from a handbook-publication-preferences table
+//
+//        return;
+//    }
 
 }
 ?>
