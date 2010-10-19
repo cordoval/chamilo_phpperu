@@ -13,9 +13,6 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
     protected $type;
     
     const PARAM_TYPE = 'rights_type';
-    const TYPE_USER = 'user';
-    const TYPE_GROUP = 'group';
-    const TYPE_TEMPLATE = 'template';
     
     const TAB_DETAILS = 0;
     const TAB_SUBGROUPS = 1;
@@ -32,25 +29,17 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('RightsEditorManagerBrowserComponent')));
         
     	$this->type = Request :: get(self :: PARAM_TYPE);
-        $modus = $this->get_modus();
-        if (! $this->type)
+        if (!$this->type)
         {
-            switch ($modus)
-            {
-                case RightsEditorManager :: MODUS_USERS :
-                    $this->type = self :: TYPE_USER;
-                    break;
-                case RightsEditorManager :: MODUS_GROUPS :
-                    $this->type = self :: TYPE_GROUP;
-                    break;
-                case RightsEditorManager :: MODUS_BOTH :
-                    $this->type = self :: TYPE_USER;
-                    break;
-            }
+            $allowed_types = $this->get_types();
+            $this->type = $allowed_types[0];
         }
-        elseif (($modus == RightsEditorManager :: MODUS_USERS && $this->type == self :: PARAM_GROUP) || ($modus == RightsEditorManager :: MODUS_GROUPS && $this->type == self :: TYPE_USER))
+        else
         {
-            $this->not_allowed();
+            if(!in_array($this->type, $this->get_types()))
+            {
+                $this->not_allowed();
+            }
         }
         
         $trail = BreadcrumbTrail :: get_instance();
@@ -182,33 +171,38 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
 
     function display_type_selector()
     {
-        $modus = $this->get_modus();
+        $types = $this->get_types();
         
         $html = array();
-        
-        if ($modus == RightsEditorManager :: MODUS_BOTH)
-        {
-            $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/application.js');
-            $html[] = '<div class="application_selecter">';
+        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/application.js');
+        $html[] = '<div class="application_selecter">';
             
+        if (in_array(self :: TYPE_USER, $types))
+        {
             $current = $this->type == self :: TYPE_USER ? ' current' : '';
             $html[] = '<a href="' . $this->get_url(array(self :: PARAM_TYPE => self :: TYPE_USER)) . '">';
             $html[] = '<div class="application' . $current . '" style="background-image: url(' . Theme :: get_image_path('admin') . 'place_user.png);">' . Translation :: get('Users') . '</div>';
             $html[] = '</a>';
-            
+        }
+        
+        if (in_array(self :: TYPE_GROUP, $types))
+        {
             $current = $this->type == self :: TYPE_GROUP ? ' current' : '';
             $html[] = '<a href="' . $this->get_url(array(self :: PARAM_TYPE => self :: TYPE_GROUP)) . '">';
             $html[] = '<div class="application' . $current . '" style="background-image: url(' . Theme :: get_image_path('admin') . 'place_group.png);">' . Translation :: get('Groups') . '</div>';
             $html[] = '</a>';
-            
+        }
+        
+        if (in_array(self :: TYPE_TEMPLATE, $types))
+        {
             $current = $this->type == self :: TYPE_TEMPLATE ? ' current' : '';
             $html[] = '<a href="' . $this->get_url(array(self :: PARAM_TYPE => self :: TYPE_TEMPLATE)) . '">';
             $html[] = '<div class="application' . $current . '" style="background-image: url(' . Theme :: get_image_path('admin') . 'place_template.png);">' . Translation :: get('Templates') . '</div>';
             $html[] = '</a>';
-            
-            $html[] = '</div>';
-            $html[] = '<div style="clear: both;"></div>';
         }
+        
+        $html[] = '</div>';
+        $html[] = '<div style="clear: both;"></div>';
         
         return implode("\n", $html);
     }
