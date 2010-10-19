@@ -12,6 +12,12 @@ use common\libraries\ResourceManager;
 use common\libraries\NotCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
+use common\libraries\Utilities;
+use common\libraries\DynamicTabsRenderer;
+use common\libraries\DynamicContentTab;
+use group\Group;
+use group\GroupMenu;
+use group\GroupDataManager;
 use rights\RightsUtilities;
 use user\User;
 

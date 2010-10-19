@@ -1,6 +1,8 @@
 <?php
 namespace common\extensions\rights_editor_manager;
 use common\libraries\Path;
+use common\libraries\Translation;
+use group\Group;
 use group\DefaultGroupTableCellRenderer;
 
 /**

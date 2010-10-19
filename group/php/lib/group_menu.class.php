@@ -6,6 +6,7 @@ use common\libraries\Path;
 use common\libraries\EqualityCondition; 
 use common\libraries\ObjectTableOrder;
 use common\libraries\OptionsMenuRenderer;
+use common\libraries\TreeMenuRenderer;
 
 use \HTML_Menu;
 use \HTML_Menu_ArrayRenderer;
