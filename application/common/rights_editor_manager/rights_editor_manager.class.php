@@ -16,9 +16,9 @@ class RightsEditorManager extends SubManager
 
     const PARAM_GROUP = 'group_id';
 
-    const MODUS_USERS = 0;
-    const MODUS_GROUPS = 1;
-    const MODUS_BOTH = 2;
+    const TYPE_USER = 'user';
+    const TYPE_GROUP = 'group';
+    const TYPE_TEMPLATE = 'template';
 
     private $locations;
     private $excluded_groups;
@@ -29,7 +29,7 @@ class RightsEditorManager extends SubManager
     private $limited_users;
     private $limited_templates;
     
-    private $modus;
+    private $types;
 
     /**
      * @param unknown_type $parent
@@ -46,7 +46,7 @@ class RightsEditorManager extends SubManager
         $this->included_users = array();
         $this->included_groups = array();
 
-        $this->modus = self :: MODUS_BOTH;
+        $this->types = array(self :: TYPE_USER, self :: TYPE_GROUP, self :: TYPE_TEMPLATE);
 
         $rights_editor_action = Request :: get(self :: PARAM_RIGHTS_EDITOR_ACTION);
         if ($rights_editor_action)
@@ -196,14 +196,14 @@ class RightsEditorManager extends SubManager
         }
     }
 
-    function set_modus($modus)
+    function set_types(array $types)
     {
-        $this->modus = $modus;
+        $this->types = $types;
     }
 
-    function get_modus()
+    function get_types()
     {
-        return $this->modus;
+        return $this->types;
     }
 
     function create_component($type, $application)
@@ -217,7 +217,7 @@ class RightsEditorManager extends SubManager
             $component->exclude_groups($this->get_excluded_groups());
             $component->limit_users($this->get_limited_users());
             $component->limit_groups($this->get_limited_groups());
-            $component->set_modus($this->get_modus());
+            $component->set_types($this->get_types());
         }
 
         return $component;

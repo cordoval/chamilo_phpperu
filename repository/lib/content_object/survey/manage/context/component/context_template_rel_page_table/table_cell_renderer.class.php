@@ -1,9 +1,9 @@
 <?php
 
-require_once dirname(__FILE__) . '/rel_page_browser_table_column_model.class.php';
-require_once dirname(__FILE__) . '/../../tables/template_rel_page_table/default_template_rel_page_table_cell_renderer.class.php';
+require_once dirname(__FILE__) . '/table_column_model.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/tables/template_rel_page_table/default_template_rel_page_table_cell_renderer.class.php';
 
-class SurveyContextTemplateRelPageBrowserTableCellRenderer extends DefaultSurveyContextTemplateRelPageTableCellRenderer
+class SurveyContextTemplateRelPageTableCellRenderer extends DefaultSurveyContextTemplateRelPageTableCellRenderer
 {
     /**
      * The repository browser component
@@ -14,7 +14,7 @@ class SurveyContextTemplateRelPageBrowserTableCellRenderer extends DefaultSurvey
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function SurveyContextTemplateRelPageBrowserTableCellRenderer($browser)
+    function SurveyContextTemplateRelPageTableCellRenderer($browser)
     {
         parent :: __construct();
         $this->browser = $browser;
@@ -23,7 +23,7 @@ class SurveyContextTemplateRelPageBrowserTableCellRenderer extends DefaultSurvey
     // Inherited
     function render_cell($column, $template_rel_page)
     {
-        if ($column === SurveyContextTemplateRelPageBrowserTableColumnModel :: get_modification_column())
+        if ($column === SurveyContextTemplateRelPageTableColumnModel :: get_modification_column())
         {
             return $this->get_modification_links($template_rel_page);
         }
@@ -45,7 +45,7 @@ class SurveyContextTemplateRelPageBrowserTableCellRenderer extends DefaultSurvey
         $toolbar->add_item(new ToolbarItem(
         			Translation :: get('Unsubscribe'),
         			Theme :: get_common_image_path().'action_delete.png', 
-					$this->browser->get_template_unsubscribing_page_url($template_rel_page),
+					$this->browser->get_context_template_unsubscribing_page_url($template_rel_page),
 				 	ToolbarItem :: DISPLAY_ICON
 		));
 		        

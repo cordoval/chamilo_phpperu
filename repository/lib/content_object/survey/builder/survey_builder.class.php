@@ -64,11 +64,7 @@ class SurveyBuilder extends ComplexBuilder implements ComplexMenuSupport
 //
 
 //
-//    function get_template_unsubscribing_page_url($template_rel_page)
-//    {
-//        $id = $template_rel_page->get_survey_id() . '|' . $template_rel_page->get_template_id() . '|' . $template_rel_page->get_page_id();
-//        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_UNSUBSCRIBE_PAGE_FROM_TEMPLATE, self :: PARAM_TEMPLATE_REL_PAGE_ID => $id));
-//    }
+
 //
 //    function get_template_emptying_url($template_id)
 //    {
