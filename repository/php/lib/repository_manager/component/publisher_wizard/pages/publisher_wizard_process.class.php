@@ -6,6 +6,9 @@ use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Utilities;
 use common\libraries\Application;
+
+use \HTML_QuickForm_Action;
+
 /**
  * $Id: publisher_wizard_process.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.publication_wizard.pages

@@ -4,6 +4,9 @@ namespace repository\content_object\external_calendar;
 use common\libraries\Utilities;
 use common\libraries\Versionable;
 use common\libraries\Path;
+use common\libraries\Filesystem;
+
+use vcalendar;
 
 use repository\ContentObject;
 

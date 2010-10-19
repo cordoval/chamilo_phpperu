@@ -1,5 +1,7 @@
 <?php
 namespace repository;
+
+use \HTML_QuickForm_Controller;
 /**
  * $Id: publisher_wizard.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.publication_wizard

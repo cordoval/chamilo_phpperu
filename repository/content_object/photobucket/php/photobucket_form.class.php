@@ -1,9 +1,10 @@
-P<?php
+<?php
 namespace repository\content_object\photobucket;
 
 use common\libraries\Translation;
 use common\libraries\Application;
 use common\libraries\Path;
+use common\libraries\ExternalRepositoryLauncher;
 
 use repository\ContentObjectForm;
 

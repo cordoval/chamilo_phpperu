@@ -66,7 +66,7 @@ abstract class ContentObjectExport
     public static function factory($type, $content_object)
     {
         $file = dirname(__FILE__) . '/' . $type . '/' . $type . '_export.class.php';
-        $class = Utilities :: underscores_to_camelcase($type) . 'Export';
+        $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type) . 'Export';
         if (file_exists($file))
         {
             require_once ($file);

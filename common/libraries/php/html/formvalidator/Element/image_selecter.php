@@ -1,4 +1,8 @@
 <?php
+use common\libraries\Translation;
+use common\libraries\ResourceManager;
+use common\libraries\Path;
+
 /**
  * $Id: element_finder.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common.html.formvalidator.Element

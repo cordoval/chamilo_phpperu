@@ -1,11 +1,16 @@
 <?php
 namespace repository;
 
+use common\libraries;
+
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Theme;
+use common\libraries\DelegateComponent;
+
+use common\extensions\rights_editor_manager\RightsEditorManager;
 /**
  * $Id: rights_editor.class.php 239 2009-11-16 14:25:41Z vanpouckesven $
  * @package repository.lib.repository_manager.component

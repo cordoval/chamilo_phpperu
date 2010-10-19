@@ -4,6 +4,7 @@ namespace repository\content_object\comic_book;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 
+use admin\AdminDataManager;
 use repository\ContentObjectForm;
 
 /**

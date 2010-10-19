@@ -3,7 +3,9 @@ namespace common\extensions\rights_editor_manager;
 
 use common\libraries\Path;
 use user\DefaultUserTableCellRenderer;
-
+use common\libraries\Translation;
+use common\libraries\Utilities;
+use rights\RightsUtilities;
 
 /**
  * $Id: location_user_browser_table_cell_renderer.class.php 191 2009-11-13 11:50:28Z chellee $

@@ -1,5 +1,10 @@
 <?php
+namespace repository;
 use repository\RepositoryManager;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
+use common\libraries\Request;
+use repository\ContentObjectShareForm;
 
 /*
  * To change this template, choose Tools | Templates

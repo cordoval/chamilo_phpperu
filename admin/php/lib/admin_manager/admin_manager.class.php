@@ -10,6 +10,8 @@ use common\libraries\DynamicAction;
 use common\libraries\Theme;
 use common\libraries\Redirect;
 use common\libraries\BreadcrumbTrail;
+
+use repository\content_object\system_announcement\SystemAnnouncement;
 use repository\RepositoryManager;
 use user\UserManager;
 use group\GroupManager;

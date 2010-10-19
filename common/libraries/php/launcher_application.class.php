@@ -6,7 +6,7 @@ abstract class LauncherApplication extends Application
 
     static function get_application_path($application_name)
     {
-        return Path :: get_library_path() . 'launcher/';
+    	return Path :: get_common_libraries_class_path() . 'php/launcher/';
     }
 
     static function get_application_manager_path($application_name)

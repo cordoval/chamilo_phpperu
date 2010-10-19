@@ -9,6 +9,7 @@ use common\libraries\EqualityCondition;
 use common\libraries\InCondition;
 use common\libraries\AndCondition;
 use common\libraries\Path;
+use common\libraries\Filesystem;
 /**
  * $Id: exporter.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component

@@ -773,7 +773,7 @@ class RightsUtilities
 
     static function get_rights_icon($location_url, $rights_url, $locked_parent, $right, $object, $location)
     {
-        $type = Utilities :: camelcase_to_underscores(get_class($object));
+    	$type = Utilities :: camelcase_to_underscores(get_class($object));
         $get_function = 'get_' . $type . '_right_location';
         $allowed_function = 'is_allowed_for_' . $type;
 

@@ -3,6 +3,7 @@ namespace repository\content_object\survey;
 
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
+use common\libraries\FormValidatorHtmlEditorOptions;
 
 use repository\ContentObjectForm;
 

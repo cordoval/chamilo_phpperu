@@ -7,6 +7,8 @@ use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\InequalityCondition;
 use common\libraries\NotCondition;
+use common\libraries\ObjectTableOrder;
+
 /**
  * $Id: location.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib
