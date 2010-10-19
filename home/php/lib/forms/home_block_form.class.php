@@ -136,7 +136,7 @@ class HomeBlockForm extends FormValidator
             return false;
         }
         
-        $success_config = HomeDataManager :: get_instance()->create_block_properties($homeblock);
+        $success_config = HomeDataManager :: create_block_properties($homeblock);
         
         if (! $success_config)
         {

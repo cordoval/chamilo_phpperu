@@ -738,6 +738,11 @@ class Database
 
         $res->free();
 
+        if (MDB2 :: isError($record))
+        {
+        	dump($record);
+        }
+        
         if ($record)
         {
             return $record;

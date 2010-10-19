@@ -35,7 +35,6 @@ class GroupManagerRightsEditorComponent extends GroupManager implements Administ
         {
             $locations[] = GroupRights :: get_location_by_identifier_from_groups_subtree($group_id);
         }
-
         $manager = new RightsEditorManager($this, $locations);
         
         $manager->exclude_users(array($this->get_user_id()));
