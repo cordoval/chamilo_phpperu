@@ -64,7 +64,7 @@ class fedora_fs_folder extends fedora_fs_base{
 	}
 
 	public function get_thumbnail(){
-		$default = fedora_fs_resource('folder.png');
+		$default = $default = self::$resource_base . 'folder.png';
 		return $this->get(__FUNCTION__, $default);
 	}
 

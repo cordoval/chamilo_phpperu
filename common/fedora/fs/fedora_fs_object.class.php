@@ -27,7 +27,7 @@ class fedora_fs_object extends fedora_fs_base{
 	}
 
 	public function get_thumbnail(){
-		$default = fedora_fs_resource('object.png');
+		$default = $default = self::$resource_base . 'object.png';
 		return $this->get(__FUNCTION__, $default);
 	}
 

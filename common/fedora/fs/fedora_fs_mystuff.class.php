@@ -10,9 +10,10 @@
  */
 class fedora_fs_mystuff extends fedora_fs_folder{
 
-	public function __construct($fsid = '', $owner){
+	public function __construct($fsid = '', $title, $owner){
 		parent::__construct($fsid);
 		$this->owner = $owner;
+		$this->title = $title;
 	}
 
 	/**
@@ -27,7 +28,7 @@ class fedora_fs_mystuff extends fedora_fs_folder{
 	}
 
 	public function get_title(){
-		return $this->translate('mystuff');
+		return $this->get(__FUNCTION__, '');
 	}
 
 	public function query(FedoraProxy $fedora, $sort=false, $limit=false, $offset=false){

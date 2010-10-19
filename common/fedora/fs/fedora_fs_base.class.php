@@ -12,6 +12,8 @@
  */
 class fedora_fs_base{
 
+	//maximum results
+
 	protected static $max_results = 250;
 
 	public static function get_max_results(){
@@ -24,6 +26,18 @@ class fedora_fs_base{
 
 	public static function set_max_results($value){
 		self::$max_results = $value;
+	}
+
+	//resource base, i.e. the web folder path where resouces - icons - can be found
+
+	protected static $resource_base = '';
+
+	public static function get_resource_base(){
+		return self::$resource_base;
+	}
+
+	public static function set_resource_base($value){
+		self::$resource_base = rtrim($value, '/') . '/';
 	}
 
 	public function __construct($fsid = ''){
@@ -204,9 +218,6 @@ class fedora_fs_base{
 		}
 	}
 
-	protected function translate($key){
-		return fedora_fs_translate($key, 'repository_fedora');
-	}
 
 }
 

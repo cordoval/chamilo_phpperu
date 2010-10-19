@@ -59,7 +59,7 @@ class FedoraUnigeExternalRepositoryConnectorExtender{
 
 		$result->add($mystuff = new fedora_fs_store(Translation::get('mystuff'), FedoraExternalRepositoryConnector::DOCUMENTS_MY_STUFF));
 		$mystuff->set_class('user');
-		$mystuff->aggregate(new fedora_fs_mystuff('_'.FedoraExternalRepositoryConnector::DOCUMENTS_MY_STUFF, $owner));
+		$mystuff->aggregate(new fedora_fs_mystuff('_'.FedoraExternalRepositoryConnector::DOCUMENTS_MY_STUFF, '', $owner));
 		$mystuff->add($rights = new fedora_fs_store('rights', translation::get('Rights'), 'rights'));
 		$rights->add($fs = new fedora_fs_access_right('public', translation::get('Public'), $owner, 'green_light', self::DOCUMENTS_PUBLIC));
 		$rights->add(new fedora_fs_access_right('institution', translation::get('Institution'), $owner, 'yellow_light', self::DOCUMENTS_INSTITUTION));

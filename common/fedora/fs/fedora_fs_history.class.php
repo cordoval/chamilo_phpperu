@@ -27,7 +27,7 @@ class fedora_fs_history extends fedora_fs_folder{
 	}
 
 	public function get_thumbnail(){
-		$default = fedora_fs_resource('history.png');
+		$default = $default = self::$resource_base . 'history.png';
 		return $this->get(__FUNCTION__, $default);
 	}
 
