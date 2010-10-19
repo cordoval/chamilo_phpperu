@@ -45,7 +45,7 @@ class SurveyContextTemplateRelPageTableCellRenderer extends DefaultSurveyContext
         $toolbar->add_item(new ToolbarItem(
         			Translation :: get('Unsubscribe'),
         			Theme :: get_common_image_path().'action_delete.png', 
-					$this->browser->get_template_unsubscribing_page_url($template_rel_page),
+					$this->browser->get_context_template_unsubscribing_page_url($template_rel_page),
 				 	ToolbarItem :: DISPLAY_ICON
 		));
 		        

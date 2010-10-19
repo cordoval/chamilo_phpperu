@@ -218,6 +218,9 @@ class SurveyContextTemplateForm extends FormValidator
             $level = $index + 1;
             $properties['Level_' . $level . '_' . $key] = $context_type;
             
+            $condition = new EqualityCondition(SurveyContextRegistration::PROPERTY_TYPE, $context_type);
+            $context_registration = SurveyContextDataManager::get_instance()->retrieve_survey_context_registrations($condition, 0, 1)->next_result();
+            
             $context_template = new SurveyContextTemplate();
             $context_template->set_name($name);
             $context_template->set_description($description);
@@ -226,6 +229,7 @@ class SurveyContextTemplateForm extends FormValidator
             $context_template->set_parent_id($parent_id);
             $context_template->set_owner_id($this->user->get_id());
             $context_template->set_context_registration_id($context_registration_id);
+            $context_template->set_context_type_name($context_registration->get_name());
             if ($index != 0)
             {
                 $context_template->set_type($type);

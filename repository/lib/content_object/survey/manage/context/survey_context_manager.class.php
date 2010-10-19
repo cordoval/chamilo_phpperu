@@ -216,14 +216,17 @@ class SurveyContextManager extends SubManager
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_PAGE_BROWSER, self :: PARAM_CONTEXT_TEMPLATE_ID => $context_template_id, self :: PARAM_SURVEY_ID => $survey->get_id()));
     }
 
-    function get_template_suscribe_page_url($context_template_id, $page_id)
+    function get_context_template_suscribe_page_url( $survey_page)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_PAGE_TO_TEMPLATE, self :: PARAM_TEMPLATE_REL_PAGE_ID => $template_id . '|' . $page_id));
+        $context_template_id = Request :: get(self :: PARAM_CONTEXT_TEMPLATE_ID);
+        $survey_id = Request :: get(self :: PARAM_SURVEY_ID);
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_PAGE_TO_TEMPLATE, self :: PARAM_TEMPLATE_REL_PAGE_ID => $survey_id.'_'.$context_template_id . '_' . $survey_page->get_id()));
     }
-
-    function get_template_unsubscribing_page_url($template_rel_page)
+	
+        
+    function get_context_template_unsubscribing_page_url($template_rel_page)
     {
-        $id = $template_rel_page->get_survey_id() . '|' . $template_rel_page->get_template_id() . '|' . $template_rel_page->get_page_id();
+        $id = $template_rel_page->get_survey_id() . '_' . $template_rel_page->get_template_id() . '_' . $template_rel_page->get_page_id();
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UNSUBSCRIBE_PAGE_FROM_TEMPLATE, self :: PARAM_TEMPLATE_REL_PAGE_ID => $id));
     }
     

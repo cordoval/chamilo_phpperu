@@ -24,10 +24,7 @@ class SurveyContextManagerContextBrowserComponent extends SurveyContextManager
         
         $this->context_template_id = Request :: get(self :: PARAM_CONTEXT_TEMPLATE_ID);
         $this->survey_id = Request :: get(self :: PARAM_SURVEY_ID);
-        
-        //        dump($this->context_template_id);
-        
-
+      
         $this->ab = $this->get_action_bar();
         
         $output = $this->get_tabs_html();
@@ -60,10 +57,7 @@ class SurveyContextManagerContextBrowserComponent extends SurveyContextManager
         
         $table = new SurveyContextTemplateRelPageTable($this, $parameters, $this->get_context_template_rel_page_condition());
         $tabs->add_tab(new DynamicContentTab(self :: TAB_CONTEXT_TEMPLATE_REL_PAGE, Translation :: get('Pages'), Theme :: get_image_path('survey') . 'place_mini_survey.png', $table->as_html()));
-        
-        //        dump($this->contex_template_id);
-//        dump($this->get_survey_page_condition());
-        
+          
         $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_ADD_PAGES;
         $table = new SurveyPageTable($this, $parameters, $this->get_survey_page_condition());
         $tabs->add_tab(new DynamicContentTab(self :: TAB_ADD_PAGES, Translation :: get('AddPages'), Theme :: get_image_path('survey') . 'place_mini_survey.png', $table->as_html()));
@@ -123,7 +117,19 @@ class SurveyContextManagerContextBrowserComponent extends SurveyContextManager
             $page_ids[] = $page->get_id();
         }
         
-        $condition = new InCondition(SurveyPage :: PROPERTY_ID, $page_ids);
+        
+        $conditions = array();
+//        $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_TEMPLATE_ID, $this->context_template_id);
+        $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_SURVEY_ID, $this->survey_id);
+        $context_rel_pages = SurveyContextDataManager::get_instance()->retrieve_template_rel_pages(new AndCondition($conditions));
+        $context_template_rel_page_ids = array();
+        while($context_rel_page = $context_rel_pages->next_result()){
+        	$context_template_rel_page_ids = $context_rel_page->get_page_id();
+        }
+
+        $diff = array_diff($page_ids, $context_template_rel_page_ids );
+        
+        $condition = new InCondition(SurveyPage :: PROPERTY_ID, $diff);
         //        
         //        $query = $this->ab->get_query();
         //        if (isset($query) && $query != '')
@@ -147,13 +153,8 @@ class SurveyContextManagerContextBrowserComponent extends SurveyContextManager
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         
-        $action_bar->set_search_url($this->get_url(array(self :: PARAM_CONTEXT_TEMPLATE_ID => $this->contex_template_id)));
-        
-        //		$action_bar->add_common_action ( new ToolbarItem ( Translation::get ( 'Add' ), Theme::get_common_image_path () . 'action_add.png', $this->get_create_category_url ( $this->get_category () ), ToolbarItem::DISPLAY_ICON_AND_LABEL ) );
-        //		$action_bar->add_common_action ( new ToolbarItem ( Translation::get ( 'ViewRoot' ), Theme::get_common_image_path () . 'action_home.png', $this->get_browse_categories_url (), ToolbarItem::DISPLAY_ICON_AND_LABEL ) );
-        //		$action_bar->add_common_action ( new ToolbarItem ( Translation::get ( 'ShowAll' ), Theme::get_common_image_path () . 'action_browser.png', $this->get_browse_categories_url (), ToolbarItem::DISPLAY_ICON_AND_LABEL ) );
-        
-
+        $action_bar->set_search_url($this->get_url(array(self :: PARAM_CONTEXT_TEMPLATE_ID => $this->contex_template_id, DynamicTabsRenderer::PARAM_SELECTED_TAB => Request :: get(DynamicTabsRenderer::PARAM_SELECTED_TAB))));
+     
         return $action_bar;
     }
 }

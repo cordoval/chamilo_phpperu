@@ -43,12 +43,12 @@ class SurveyPageTableCellRenderer extends DefaultSurveyPageTableCellRenderer
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
-//        $toolbar->add_item(new ToolbarItem(
-//        		Translation :: get('BrowseSurveyPageQuestions'),
-//        		Theme :: get_common_image_path() . 'action_view_results.png',
-//        		$this->browser->get_browse_survey_page_questions_url($survey_page),
-//        		ToolbarItem :: DISPLAY_ICON
-//        ));
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('AddPage'),
+        		Theme :: get_common_image_path() . 'action_add.png',
+        		$this->browser->get_context_template_suscribe_page_url($survey_page),
+        		ToolbarItem :: DISPLAY_ICON
+        ));
         
         return $toolbar->as_html();
     }
