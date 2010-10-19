@@ -72,7 +72,7 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
             }
             else
             {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('SurveyPublished'), Theme :: get_common_image_path() . 'action_next_na.png', null, ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('TakeSurvey'), Theme :: get_common_image_path() . 'action_next_na.png', null, ToolbarItem :: DISPLAY_ICON));
             
             }
         }
