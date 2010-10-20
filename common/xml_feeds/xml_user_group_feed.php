@@ -201,8 +201,6 @@ function dump_groups_tree($groups)
     {
         if (contains_results($group['children']))
         {
-            var_dump(isset($group_ids) && !in_array($group['group']->get_id(), $group_ids));
-
 //            echo '<node id="group_' . $group['group']->get_id() . '" classes="type type_group' . ((isset($group_ids) && !in_array($group['group']->get_id(), $group_ids)) ? ' disabled' : '') . '" title="' . htmlspecialchars($group['group']->get_name()) . '" description="' . htmlspecialchars($group['group']->get_name()) . '">', "\n";
             echo '<node id="group_' . $group['group']->get_id() . '" classes="type type_group" title="' . htmlspecialchars($group['group']->get_name()) . '" description="' . htmlspecialchars($group['group']->get_name()) . '">', "\n";
             dump_groups_tree($group['children']);
