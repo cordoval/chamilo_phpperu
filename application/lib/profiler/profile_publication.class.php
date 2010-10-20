@@ -160,7 +160,7 @@ class ProfilePublication extends DataClass
      */
     function delete()
     {
-    	$location = ProfilerRights :: get_location_by_identifier_from_profiler_subtree($this->get_id(), AssessmentRights :: TYPE_PUBLICATION);
+    	$location = ProfilerRights :: get_location_by_identifier_from_profiler_subtree($this->get_id(), ProfilerRights :: TYPE_PUBLICATION);
     	if($location)
     	{
     		if(!$location->remove())
