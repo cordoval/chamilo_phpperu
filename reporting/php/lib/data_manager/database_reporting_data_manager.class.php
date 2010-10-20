@@ -2,6 +2,7 @@
 namespace reporting;
 
 use common\libraries\EqualityCondition;
+use common\libraries\Database;
 
 require_once 'MDB2.php';
 require_once dirname(__FILE__) . '/../reporting_data_manager_interface.class.php';
@@ -128,7 +129,7 @@ class DatabaseReportingDataManager extends Database implements ReportingDataMana
 
     function retrieve_reporting_template_registration_by_condition($condition)
     {
-        return $this->retrieve_object(ReportingTemplateRegistration :: get_table_name(), $condition);
+        return $this->retrieve_object(ReportingTemplateRegistration :: get_table_name(), $condition, array(), ReportingTemplateRegistration :: CLASS_NAME);
     }
 
     function retrieve_reporting_block_registration($reporting_block_registration_id)

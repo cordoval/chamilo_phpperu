@@ -2,6 +2,7 @@
 namespace repository;
 
 use common\libraries\Utilities;
+use common\libraries\DataClass;
 
 /**
  * Description of mediamosa_external_repository_user_quotumclass

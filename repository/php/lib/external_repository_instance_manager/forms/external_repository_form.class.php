@@ -6,7 +6,10 @@ use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\Theme;
 use common\libraries\Path;
+use common\libraries\DynamicFormTabsRenderer;
+use common\libraries\DynamicFormTab;
 
+use DOMDocument;
 /**
  * $Id: external_repository_form.class.php 227 2009-11-13 14:45:05Z kariboe $
  * @package home.lib.forms

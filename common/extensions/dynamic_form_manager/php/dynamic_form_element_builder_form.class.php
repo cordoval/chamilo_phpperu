@@ -3,6 +3,9 @@ namespace common\extensions\dynamic_form_manager;
 
 use common\libraries\FormValidator;
 use common\libraries\Translation;
+use common\libraries\Theme;
+
+use admin\AdminDataManager;
 
 require_once (dirname(__FILE__) . '/dynamic_form_element.class.php');
 require_once (dirname(__FILE__) . '/dynamic_form_element_option.class.php');

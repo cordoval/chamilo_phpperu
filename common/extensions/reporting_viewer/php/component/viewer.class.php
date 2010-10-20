@@ -1,5 +1,8 @@
 <?php
 namespace common\extensions\reporting_viewer;
+
+use reporting\ReportingTemplate;
+
 class ReportingViewerViewerComponent extends ReportingViewer
 {
 	function run()

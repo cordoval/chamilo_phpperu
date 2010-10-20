@@ -2,6 +2,7 @@
 namespace user;
 
 use common\libraries\Path;
+use \ReflectionClass;
 
 use rights\RightsUtilities;
 /**

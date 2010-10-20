@@ -1,6 +1,15 @@
 <?php
 namespace common\extensions\reporting_viewer;
 
+use common\libraries\SubManager;
+use common\libraries\Path;
+use common\libraries\Request;
+use common\libraries\EqualityCondition;
+use reporting\ReportingTemplateRegistration;
+use common\libraries\AndCondition;
+use reporting\ReportingDataManager;
+use reporting\ReportingManager;
+
 class ReportingViewer extends SubManager
 {
 	const PARAM_REPORTING_VIEWER_ACTION = 'reporting_action';

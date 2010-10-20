@@ -2,6 +2,7 @@
 namespace common\extensions\external_repository_manager;
 
 use common\libraries\SubManager;
+use common\libraries\Path;
 
 abstract class ExternalRepositoryManager extends SubManager
 {

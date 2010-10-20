@@ -1,6 +1,8 @@
 <?php
 namespace common\extensions\dynamic_form_manager;
+
 use common\libraries\ObjectTableCellRenderer;
+use common\libraries\Translation;
 
 /**
  * $Id: default_user_table_cell_renderer.class.php 211 2009-11-13 13:28:39Z vanpouckesven $

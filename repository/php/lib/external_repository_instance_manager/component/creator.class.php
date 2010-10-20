@@ -10,6 +10,10 @@ use common\libraries\EqualityCondition;
 use common\libraries\Theme;
 use common\libraries\DynamicTabsRenderer;
 use common\libraries\DynamicContentTab;
+use common\libraries\Filesystem;
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
+
+use DOMDocument;
 
 require_once dirname(__FILE__) . '/../forms/external_repository_form.class.php';
 

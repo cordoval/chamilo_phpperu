@@ -41,7 +41,7 @@ abstract class ReportingTemplate
         $base_path = (WebApplication :: is_application($application) ? WebApplication :: get_application_class_path($application) : CoreApplication :: get_application_class_path($application));
         $file = $base_path . 'reporting/templates/' . Utilities :: camelcase_to_underscores($registration->get_template()) . '.class.php';
         require_once ($file);
-        $new_template = Utilities :: underscores_to_camelcase($registration->get_template());
+        $new_template = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($registration->get_template());
         return new $new_template($parent);
     }
 

@@ -1863,7 +1863,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $conditions[] = new EqualityCondition(ExternalRepositorySetting :: PROPERTY_VARIABLE, $variable);
         $condition = new AndCondition($conditions);
 
-        return $this->retrieve_object(ExternalRepositorySetting :: get_table_name(), $condition);
+        return $this->retrieve_object(ExternalRepositorySetting :: get_table_name(), $condition, array(), ExternalRepositorySetting :: CLASS_NAME);
     }
 
     /* (non-PHPdoc)

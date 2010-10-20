@@ -1,5 +1,9 @@
 <?php
-require_once PATH :: get_reporting_path() . '/lib/reporting_block.class.php';
+namespace user;
+use common\libraries\Path;
+use reporting\ReportingBlock;
+
+require_once Path :: get_reporting_path() . 'lib/reporting_block.class.php';
 
 abstract class UserReportingBlock extends ReportingBlock
 {

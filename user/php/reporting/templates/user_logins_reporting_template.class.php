@@ -2,6 +2,7 @@
 namespace user;
 
 use common\libraries\Request;
+use reporting\ReportingTemplate;
 
 require_once dirname(__FILE__) . '/../blocks/user_no_of_logins_day_reporting_block.class.php';
 require_once dirname(__FILE__) . '/../blocks/user_no_of_logins_hour_reporting_block.class.php';

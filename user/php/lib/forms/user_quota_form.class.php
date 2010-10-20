@@ -1,18 +1,23 @@
 <?php
 namespace user;
 
+use common\libraries;
 use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
 use common\libraries\FormValidator;
 
+use repository\content_object\learning_path_item\LearningPathItem;
+use repository\content_object\portfolio_item\PortfolioItem;
+
+use repository\ContentObject;
 use repository\RepositoryDataManager;
 /**
  * $Id: user_quota_form.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.forms
  */
-require_once Path :: get_repository_path() . '/lib/external_repository_user_quotum.class.php';
-require_once dirname(__FILE__) . "/../../../application/common/external_repository_manager/external_repository_connector.class.php";
+require_once Path :: get_repository_path() . 'lib/external_repository_user_quotum.class.php';
+require_once Path :: get_common_extensions_path() . 'external_repository_manager/php/external_repository_connector.class.php';
 
 
 class UserQuotaForm extends FormValidator
