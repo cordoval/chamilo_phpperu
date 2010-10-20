@@ -61,25 +61,34 @@ class CasAuthentication extends Authentication implements UserRegistrationSuppor
         {
             Session :: register('_uid', $user->get_id());
             Event :: trigger('login', 'user', array('server' => $_SERVER, 'user' => $user));
-
-            $request_uri = Session :: retrieve('request_uri');
-
-            if ($request_uri)
-            {
-                $request_uris = explode("/", $request_uri);
-                $request_uri = array_pop($request_uris);
-                header('Location: ' . $request_uri);
-            }
-
-            $login_page = PlatformSetting :: get('page_after_login');
-            if ($login_page == 'home')
-            {
-                header('Location: index.php');
-            }
-            else
-            {
-                header('Location: run.php?application=' . $login_page);
-            }
+            
+            /*
+             * TODO: Temporarily always just return true.
+             * In theory we should try to determine whether the user made a specific request.
+             * If this is not the case, then we should determine what the default landing
+             * page is and direct the user there. Always redirecting is not the best option
+             * in any case.
+             */
+            return true;
+            
+//            $request_uri = Session :: retrieve('request_uri');
+//
+//            if ($request_uri)
+//            {
+//                $request_uris = explode("/", $request_uri);
+//                $request_uri = array_pop($request_uris);
+//                header('Location: ' . $request_uri);
+//            }
+//
+//            $login_page = PlatformSetting :: get('page_after_login');
+//            if ($login_page == 'home')
+//            {
+//                header('Location: index.php');
+//            }
+//            else
+//            {
+//                header('Location: run.php?application=' . $login_page);
+//            }
         }
         else
         {
