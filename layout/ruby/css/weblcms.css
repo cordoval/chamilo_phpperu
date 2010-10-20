@@ -11,14 +11,49 @@
 	background-color: #fff;
 }
 
-.user_course_category {
-	background-color: #efefef;
+div.course_home_block {
+	background-color: transparent;
+	padding: 0px;
+}
+
+div.course_home_block div.title {
+	padding: 5px 0px 5px 27px;
+	border: 0px solid;
+	background-position: 0px center;
+	background-repeat: no-repeat;
+	line-height: 18px;
+	width: auto;
+}
+
+div.user_course_category {
+	/*background-color: #efefef;*/
+	background-color: transparent;
 	border: 1px solid #666;
 	font-weight: bold;
 	color: #666;
 	list-style-type: none;
 	margin: 5px;
 	padding: 5px;
+	-moz-border-radius: 0px;
+	-webkit-border-radius: 0px;
+}
+
+div.user_category_block {
+	background-color: transparent;
+	border: 1px dotted #d3d3d3;
+	margin: 0px 0px 10px 0px;
+	padding: 0px;
+}
+
+div.user_category_block div.user_category_title {
+	font-size: 100%;
+	padding: 5px 20px;
+	margin: 0px 0px;
+	width: auto;
+	border-bottom: 1px dotted #d3d3d3;
+}
+
+div.user_category_block div.user_category_description {
 }
 
 div.feedback_block {
@@ -93,13 +128,12 @@ div.feedback div.publication_actions {
 
 div.mini_calendar {
 	float: left;
-	width: 19%;
-	padding-right: 1%;
+	width: 250px;
+	padding-right: 10px;
 }
 
 div.normal_calendar {
-	float: left;
-	width: 80%;
+	margin-left: 260px;
 }
 
 div.level_1 {
@@ -107,7 +141,7 @@ div.level_1 {
 	color: #000000;
 }
 
-div.level_2 { /*background-color: #EDEAF6;*/
+div.level_2 {
 	background-color: #FAFAEB;
 	color: #000000;
 }
@@ -122,13 +156,13 @@ div.announcements div.title {
 	font-weight: bold;
 	width: 60%;
 	padding-bottom: 0.4em;
-	color: #000066;
+	color: #B1071C;
 	font-size: 120%;
 	float: left;
 }
 
 div.announcements a {
-	color: #000066;
+	color: #B1071C;
 }
 
 div.announcements div.topactions {
@@ -157,6 +191,7 @@ div.announcements {
 	padding: 10px 10px 10px 44px;
 	background-position: 10px 10px;
 	background-repeat: no-repeat;
+	overflow: auto;
 }
 
 .toolSortHelper {
@@ -189,7 +224,8 @@ div.questionform input[type=text],div.row div.questionform input[type=password],
 
 div.questionform input[type=text]:hover,div.row div.questionform input[type=text]:focus,div.row div.questionform input[type=password]:hover,div.row div.questionform input[type=password]:focus,div.row div.questionform select:hover,div.row div.questionform select:focus
 	{
-	border-color: #d90223;
+	background-color: #FDF8F7;
+	border-color: #D90223;
 }
 
 /*****************************************************
@@ -245,7 +281,7 @@ table.forum td.spacer {
 }
 
 /*****************************************************
- *  FORUM DOKEOS STYLE                                *
+ *  FORUM CHAMILO STYLE                                *
  *****************************************************/
 table.forum {
 	background-color: #c6d8ec;
@@ -369,7 +405,7 @@ table.forum .quotecontent,.attachcontent {
 	margin-top: 15px;
 	min-width: 200px;
 	padding: 5px;
-	border: 1px solid #d90223;
+	border: 1px solid #D90223;
 	background-color: #faf7f7;
 }
 
@@ -395,4 +431,127 @@ table.forum .quotecontent,.attachcontent {
 
 .link_iframe {
 	
+}
+
+/****************************
+ * Student view link styles *
+ ****************************/
+div.student_view {
+	position: fixed;
+	right: 19px;
+	top: 5px;
+	/*float: right;*/
+}
+
+/************************
+ * Tool shortcut styles *
+ ************************/
+#tool_shortcuts {
+	float: right;
+	margin-bottom: 10px;
+}
+
+div.publication_actions div.toolbar
+{
+	display: inline;
+	clear: none;
+	float: right;
+}
+
+div.publication_actions div.toolbar ul.toolbar_horizontal,
+div.publication_actions div.toolbar ul.toolbar_vertical
+{
+	display: inline;
+	float: right;
+}
+
+div.slideshow
+{
+	background-color: #f9f9f9;
+}
+
+div.slideshow div.description
+{
+	text-align: center;
+}
+
+div.slideshow img
+{
+	border: 1px solid #f0f0f0;
+}
+
+table.data_table#slideshow th.actions div.toolbar
+{
+	float: left;
+}
+
+table.data_table#slideshow th.navigation div.toolbar
+{
+	float: right;
+}
+
+table.data_table#slideshow td.header
+{
+	text-align: center;
+}
+
+/***************
+ * Blog layout *
+ ***************/
+
+div.blog_item
+{
+	border: 1px solid #cccccc;
+	-moz-border-radius-topleft:     10px;
+	-moz-border-radius-bottomright: 10px;
+}
+
+div.blog_item div.information_box
+{
+	float: left;
+	width: 150px;
+	text-align: center;
+	padding: 10px;
+}
+
+div.information_box img.user_image
+{
+	max-width: 100px;
+}
+
+div.blog_item div.message_box
+{
+	min-height: 200px;
+	border-left: 1px solid #cccccc;
+	margin-left: 170px;
+}
+
+div.message_box div.title
+{
+	border-bottom: 1px solid #cccccc;
+	padding: 5px 10px 5px 10px;
+}
+
+div.message_box div.description
+{
+	padding: 10px 10px 0px 10px;
+}
+
+div.blog_item div.actions_box
+{
+	border-top: 1px solid #cccccc;
+}
+
+div.actions_box div.actions
+{
+	float: right;
+	padding: 7px 10px 5px 10px;
+}
+
+div.blog_item div.attachments
+{
+	margin: 0px;
+	border-bottom: 0px;
+	border-top: 1px solid #cccccc;
+	padding-bottom: 20px;
 }

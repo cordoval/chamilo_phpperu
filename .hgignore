@@ -97,3 +97,13 @@ syntax: regexp
 ^repository/lib/content_object/survey/template/survey_template60$
 syntax: regexp
 ^student_sync$
+syntax: regexp
+^repository/lib/content_object/survey/context$
+syntax: regexp
+^layout/ruby/images/common/logo_header\.png$
+syntax: regexp
+^repository/lib/content_object/survey/template$
+syntax: regexp
+^common/mail/phpmailer/phpmailer\.conf\.php$
+syntax: regexp
+^common/mail/phpmailer/phpmailer\.conf\.php$

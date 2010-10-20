@@ -21,15 +21,9 @@ class RepositoryManagerContentObjectShareRightsBrowserComponent extends Reposito
      */
     function run()
     {
-
-        //set the necessary parameters
-        //$this->set_parameter(self :: PARAM_TYPE, Request :: get(self :: PARAM_TYPE));
-        $this->set_parameter(ContentObjectUserShare :: PROPERTY_USER_ID, Request :: get(ContentObjectUserShare :: PROPERTY_USER_ID));
-        $this->set_parameter(ContentObjectGroupShare :: PROPERTY_GROUP_ID, Request :: get(ContentObjectGroupShare :: PROPERTY_GROUP_ID));
-
+        
         $content_object_ids = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
-        $this->set_parameter(RepositoryManager :: PARAM_CONTENT_OBJECT_ID, $content_object_ids);
-
+        
 
         //set rights for users or groups?
         $this->type = Request :: get(ContentObjectShare :: PARAM_TYPE);
@@ -154,6 +148,17 @@ class RepositoryManagerContentObjectShareRightsBrowserComponent extends Reposito
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
         $breadcrumbtrail->add_help("repository_content_object_share_rights_browser");
+    }
+
+    function get_additional_parameters()
+    {
+        $parameters[] = ContentObjectUserShare :: PROPERTY_USER_ID;
+        $parameters[] = ContentObjectGroupShare :: PROPERTY_GROUP_ID;
+        $parameters[] = RepositoryManager :: PARAM_CONTENT_OBJECT_ID;
+        $parameters[] = RepositoryManager :: PARAM_CATEGORY_ID;
+        $parameters[] = ContentObjectShare :: PARAM_TYPE;
+
+        return $parameters;
     }
 
 }

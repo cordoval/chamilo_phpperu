@@ -38,7 +38,12 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
                 $title = parent :: render_cell($column, $survey_publication);
                 if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_PARTICIPATE, $survey_publication->get_id(), SurveyRights :: TYPE_PUBLICATION))
                 {
-                    $url = '<a href="' . htmlentities($this->browser->get_survey_publication_viewer_url($survey_publication)) . '" title="' . $title . '">' . $title . '</a>';
+                    if ($survey_publication->is_publication_period())
+                    {
+                        $url = '<a href="' . htmlentities($this->browser->get_survey_publication_viewer_url($survey_publication)) . '" title="' . $title . '">' . $title . '</a>';
+                    }else{
+                    	$url = $title;
+                    }
                 }
                 else
                 {
@@ -50,7 +55,7 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
         return parent :: render_cell($column, $survey_publication);
     
     }
-    
+
     private function get_modification_links($survey_publication)
     {
         $survey = $survey_publication->get_publication_object();
@@ -60,22 +65,27 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
         
         if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_PARTICIPATE, $survey_publication->get_id(), SurveyRights :: TYPE_PUBLICATION, $user_id))
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('TakeSurvey'), Theme :: get_common_image_path() . 'action_next.png', $this->browser->get_survey_publication_viewer_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
+            if ($survey_publication->is_publication_period())
+            {
+                $toolbar->add_item(new ToolbarItem(Translation :: get('TakeSurvey'), Theme :: get_common_image_path() . 'action_next.png', $this->browser->get_survey_publication_viewer_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
+            
+            }
+            else
+            {
+                $toolbar->add_item(new ToolbarItem(Translation :: get('TakeSurvey'), Theme :: get_common_image_path() . 'action_next_na.png', null, ToolbarItem :: DISPLAY_ICON));
+            
+            }
         }
-        else
-        {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('SurveyPublished'), Theme :: get_common_image_path() . 'action_next_na.png', null, ToolbarItem :: DISPLAY_ICON));
+        //        else
+        //        {
+        //            $toolbar->add_item(new ToolbarItem(Translation :: get('SurveyPublished'), Theme :: get_common_image_path() . 'action_next_na.png', null, ToolbarItem :: DISPLAY_ICON));
+        //        
+        //        }
         
-        }
-        
+
         if ($user->is_platform_admin() || $user->get_id() == $survey_publication->get_publisher())
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->browser->get_rights_editor_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
-            
-        //            if ($survey instanceof ComplexContentObjectSupport)
-        //            {
-        //                $toolbar->add_item(new ToolbarItem(Translation :: get('BrowseSurvey'), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_build_survey_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
-        //            }
         }
         
         if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_EDIT, $survey_publication->get_id(), SurveyRights :: TYPE_PUBLICATION, $user_id))
@@ -98,15 +108,15 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('InviteParticipants'), Theme :: get_common_image_path() . 'action_invite_users.png', $this->browser->get_mail_survey_participant_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
         }
-        if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_REPORTING, $survey_publication->get_id(), SurveyRights :: TYPE_PUBLICATION, $user_id))
-        {
-            //$toolbar->add_item(new ToolbarItem(Translation :: get('BrowseSurveyPages'), Theme :: get_common_image_path() . 'action_view_results.png', $this->browser->get_browse_survey_pages_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
-        	$toolbar->add_item(new ToolbarItem(Translation :: get('ReportingFilter'), Theme :: get_common_image_path() . 'action_view_results.png', $this->browser->get_reporting_filter_survey_publication_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
-        }
-        if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_EXPORT_RESULT, $survey_publication->get_id(), SurveyRights :: TYPE_PUBLICATION, $user_id))
-        {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('ExportToExcel'), Theme :: get_common_image_path() . 'export_excel.png', $this->browser->get_survey_publication_export_excel_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
-        }
+//        if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_REPORTING, $survey_publication->get_id(), SurveyRights :: TYPE_PUBLICATION, $user_id))
+//        {
+//            $toolbar->add_item(new ToolbarItem(Translation :: get('BrowseSurveyPages'), Theme :: get_common_image_path() . 'action_view_results.png', $this->browser->get_browse_survey_pages_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
+//            //        	$toolbar->add_item(new ToolbarItem(Translation :: get('ReportingFilter'), Theme :: get_common_image_path() . 'action_view_results.png', $this->browser->get_reporting_filter_survey_publication_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
+//        }
+//        if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_EXPORT_RESULT, $survey_publication->get_id(), SurveyRights :: TYPE_PUBLICATION, $user_id))
+//        {
+//            $toolbar->add_item(new ToolbarItem(Translation :: get('ExportToExcel'), Theme :: get_common_image_path() . 'export_excel.png', $this->browser->get_survey_publication_export_excel_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
+//        }
         
         return $toolbar->as_html();
     }

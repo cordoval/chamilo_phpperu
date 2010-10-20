@@ -101,7 +101,7 @@ function create_folders()
 {
     $files_path = dirname(__FILE__) . '/../files/';
     
-    $directories = array('archive', 'fckeditor', 'garbage', 'repository', 'temp', 'userpictures', 'scorm', 'logs', 'hotpotatoes');
+    $directories = array('archive', 'garbage', 'repository', 'temp', 'userpictures', 'scorm', 'logs', 'hotpotatoes');
     foreach ($directories as $directory)
     {
         $path = $files_path . $directory;

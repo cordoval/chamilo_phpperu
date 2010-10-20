@@ -76,6 +76,11 @@ class User extends DataClass
     const ANONYMOUS_ID = "1";
 
     /**
+     * @var array
+     */
+    private $allowed_groups;
+
+    /**
      * Get the default properties of all users.
      * @return array The property names.
      */
@@ -587,8 +592,8 @@ class User extends DataClass
     {
         $udm = UserDataManager :: get_instance();
         $this->set_registration_date(time());
-        $this->set_security_token(sha1(time().uniqid()));
-        
+        $this->set_security_token(sha1(time() . uniqid()));
+
         $succes = $udm->create_user($this);
 
         $version_quota = $this->get_version_quota() ? $this->get_version_quota() : 20;
@@ -726,6 +731,34 @@ class User extends DataClass
         $options[self :: NAME_FORMAT_FIRST] = Translation :: get('FirstName') . ' ' . Translation :: get('LastName');
         $options[self :: NAME_FORMAT_LAST] = Translation :: get('LastName') . ' ' . Translation :: get('FirstName');
         return $options;
+    }
+
+    /**
+     * @return ArrayResultSet
+     */
+    function get_allowed_groups()
+    {
+        if (! isset($this->allowed_groups))
+        {
+            $this->allowed_groups = array();
+            $groups = $this->get_groups();
+
+            if (! is_null($groups))
+            {
+                while ($group = $groups->next_result())
+                {
+                    foreach ($group->get_allowed_groups() as $group_id)
+                    {
+                        if (! in_array($group_id, $this->allowed_groups))
+                        {
+                            $this->allowed_groups[] = $group_id;
+                        }
+                    }
+                }
+            }
+        }
+
+        return $this->allowed_groups;
     }
 }
 ?>

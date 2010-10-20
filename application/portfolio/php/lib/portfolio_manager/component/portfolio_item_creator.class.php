@@ -11,6 +11,8 @@ require_once dirname(__FILE__) . '/../../rights/portfolio_rights.class.php';
  */
 class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManager implements RepoViewerInterface
 {
+    private $parents;
+    private $items = array();
 
     /**
      * Runs this component and displays its output.
@@ -20,17 +22,22 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManager imp
         $parent = Request :: get('parent');
         $pp = Request :: get(PortfolioManager :: PARAM_PARENT_PORTFOLIO);
 
-        
+
 
         if (!RepoViewer::is_ready_to_be_published())
         {
+            $exclude = $this->get_parents_and_childeren($parent);
+            $exclude[] = $parent;
+
+
             $repo_viewer = RepoViewer :: construct($this);
             $repo_viewer->set_parameter('parent', $parent);
 
             $repo_viewer->set_parameter(PortfolioManager :: PARAM_PARENT_PORTFOLIO, $pp);
+            $repo_viewer->set_excluded_objects($exclude);
             $repo_viewer->get_parent()->parse_input_from_table();
 
-            $trail = BreadcrumbTrail :: get_instance();
+            $trail = new BreadcrumbTrail();
             $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE)), Translation :: get('BrowsePortfolios')));
 
             $udm = UserDataManager :: get_instance();
@@ -122,8 +129,76 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManager imp
     function get_allowed_content_object_types()
     {
         return array(
-                Document :: get_type_name(), Link :: get_type_name(), Youtube :: get_type_name(), RssFeed :: get_type_name(), Portfolio :: get_type_name(), Announcement :: get_type_name(), BlogItem :: get_type_name(),
-                CalendarEvent :: get_type_name(), Description :: get_type_name(), Note :: get_type_name(), Profile :: get_type_name());
+                Document :: get_type_name(), Link :: get_type_name(), Youtube :: get_type_name(), RssFeed :: get_type_name(), Portfolio :: get_type_name());
     }
+
+    private function retrieve_used_items($parent)
+    {
+
+        $rdm = RepositoryDataManager::get_instance();
+        $complex_content_object_items = $rdm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $parent, ComplexContentObjectItem :: get_table_name()));
+        while ($complex_content_object_item = $complex_content_object_items->next_result())
+        {
+            if ($complex_content_object_item->is_complex())
+            {
+                $this->items[] = $complex_content_object_item->get_ref();
+                $this->retrieve_used_items($complex_content_object_item->get_ref());
+            }
+            else
+            {
+                $this->items[] = $complex_content_object_item->get_ref();
+            }
+        }
+
+
+        return;
+    }
+
+    private function get_parents_and_childeren($parent)
+        {
+            $this->parents = array();
+            $this->items[]= $parent;
+            $this->get_parent($parent);
+            foreach ($this->parents as $parent)
+            {
+                $this->items[]= $parent;
+                $this->retrieve_used_items($parent);
+            }
+
+
+            return $this->items;
+
+        }
+
+        private function get_parent($parent)
+        {
+
+            $rdm = RepositoryDataManager::get_instance();
+            $complex_content_object_parents = $rdm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_REF, $parent, ComplexContentObjectItem :: get_table_name()));
+            while ($complex_content_object_item = $complex_content_object_parents->next_result())
+            {
+                if ($complex_content_object_item->is_complex() )
+                {
+                    $this->parents[] = $complex_content_object_item->get_parent();
+                    $this->get_parent($complex_content_object_item->get_parent());
+                }
+                else
+                {
+                    $this->parents[] = $complex_content_object_item->get_parent();
+                }
+            }
+
+            return;
+        }
+
+        private function get_child($parent)
+        {
+
+        }
+
+
+
+
+
 }
 ?>

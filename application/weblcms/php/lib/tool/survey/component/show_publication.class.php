@@ -6,10 +6,5 @@ class SurveyToolShowPublicationComponent extends SurveyTool
     {
         ToolComponent :: launch($this);
     }
-
-    function get_hidden()
-    {
-        return 0;
-    }
 }
 ?>

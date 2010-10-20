@@ -52,12 +52,12 @@ class RightsTemplateBrowserTableCellRenderer extends DefaultRightsTemplateTableC
     {
         $toolbar = new Toolbar();
 
-		$toolbar->add_item(new ToolbarItem(
+		/*$toolbar->add_item(new ToolbarItem(
       		Translation :: get('ManageRightsTemplates'),
         	Theme :: get_common_image_path().'action_rights.png',
 			$this->browser->get_manage_rights_template_rights_url($rights_template),
 		 	ToolbarItem :: DISPLAY_ICON
-		));
+		));*/
 
        	$toolbar->add_item(new ToolbarItem(
    			Translation :: get('Edit'),

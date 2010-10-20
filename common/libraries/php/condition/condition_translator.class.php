@@ -140,7 +140,8 @@ class ConditionTranslator
 
             if (count($values) > 0)
             {
-                $where_clause = $this->data_manager->escape_column_name($name, $storage_unit) . ' IN (';
+                $where_clause = array();
+                $where_clause[] = $this->data_manager->escape_column_name($name, $storage_unit) . ' IN (';
 
                 $placeholders = array();
                 foreach ($values as $value)
@@ -148,8 +149,9 @@ class ConditionTranslator
                     $placeholders[] = $this->data_manager->quote($value);
                 }
 
-                $where_clause .= implode(',', $placeholders) . ')';
-                return $where_clause;
+                $where_clause[] = implode(',', $placeholders);
+                $where_clause[] =  ')';
+                return implode('', $where_clause);
             }
             else
             {

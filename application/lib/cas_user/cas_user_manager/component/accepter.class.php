@@ -11,7 +11,7 @@ class CasUserManagerAccepterComponent extends CasUserManager
     function run()
     {
 
-        $ids = $_GET[CasUserManager :: PARAM_REQUEST_ID];
+        $ids = Request :: get(CasUserManager :: PARAM_REQUEST_ID);
         $failures = 0;
 
         if (! empty($ids))
@@ -25,7 +25,7 @@ class CasUserManagerAccepterComponent extends CasUserManager
             {
                 $cas_user_request = $cas_user_request = CasUserDataManager :: get_instance()->retrieve_cas_user_request($id);
 
-                if (! CasUserDataManager :: create_cas_account($cas_user_request))
+                if (! $cas_user_request->generate_cas_account())
                 {
                     $failures ++;
                 }
@@ -35,7 +35,7 @@ class CasUserManagerAccepterComponent extends CasUserManager
                     if (! $cas_user_request->update())
                     {
                         // We shouldn't do this ... the account WAS created ?!
-                        // return false;
+                    // return false;
                     }
                 }
             }

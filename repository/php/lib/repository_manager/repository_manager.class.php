@@ -148,7 +148,7 @@ class RepositoryManager extends CoreApplication
     const ACTION_CONTENT_OBJECT_SHARE_CREATOR = 'content_object_share_rights_creator';
     const ACTION_CONTENT_OBJECT_SHARE_EDITOR = 'content_object_share_rights_editor';
     const ACTION_CONTENT_OBJECT_SHARE_DELETER = 'content_object_share_rights_deleter';
-    
+
     const ACTION_EDIT_CONTENT_OBJECT_SHARE_RIGHTS = 'content_object_share_rights_browser';
 
     const DEFAULT_ACTION = self :: ACTION_BROWSE_CONTENT_OBJECTS;
@@ -217,6 +217,7 @@ class RepositoryManager extends CoreApplication
         {
             echo '<div id="repository_tree_container" style="float: left; width: 15%;">';
             $this->display_content_object_categories();
+
             echo '</div>';
             echo '<div style="float: right; width: 82%;">';
         }
@@ -839,13 +840,13 @@ class RepositoryManager extends CoreApplication
             $shared['title'] = Translation :: get('SharedContentObjects');
             $shared['url'] = $this->get_shared_content_objects_url();
             $shared['class'] = 'category';
-            
+
             $shared_own = array();
             $shared_own['title'] = Translation :: get('ContentObjectsSharedByMe');
             $shared_own['url'] = $this->get_shared_content_objects_url(true);
             $shared_own['class'] = 'category';
             $shared['sub'][] = $shared_own;
-            
+
             $shared_others = array();
             $shared_others['title'] = Translation :: get('ContentObjectsSharedWithMe');
             $shared_others['url'] = $this->get_shared_content_objects_url();
@@ -976,7 +977,7 @@ class RepositoryManager extends CoreApplication
             //            }
 
 
-            if (isset($external_repository_item) && count($external_repository_item['sub']) > 0)
+            if (isset($external_repository_item) && (count($external_repository_item['sub']) > 0 || $this->get_user()->is_platform_admin()))
             {
                 $extra_items[] = $external_repository_item;
             }
@@ -1082,8 +1083,8 @@ class RepositoryManager extends CoreApplication
                 self :: PARAM_ACTION => self :: ACTION_IMPORT_TEMPLATE), array(), false, Redirect :: TYPE_CORE));
         $links[] = new DynamicAction(Translation :: get('ManageExternalRepositoryManagerInstances'), Translation :: get('ManageExternalRepositoryManagerInstancesDescription'), Theme :: get_image_path() . 'browse_repository.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
                 self :: PARAM_ACTION => self :: ACTION_MANAGE_EXTERNAL_REPOSITORY_INSTANCES), array(), false, Redirect :: TYPE_CORE));
-        $links[] = new DynamicAction(Translation :: get('ManageContentObjectTypes'), Translation :: get('ManageContentObjectTypesDescription'), Theme :: get_image_path() . 'browse_repository.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
-                self :: PARAM_ACTION => self :: ACTION_MANAGE_CONTENT_OBJECT_REGISTRATIONS), array(), false, Redirect :: TYPE_CORE));
+        /*$links[] = new DynamicAction(Translation :: get('ManageContentObjectTypes'), Translation :: get('ManageContentObjectTypesDescription'), Theme :: get_image_path() . 'browse_repository.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+                self :: PARAM_ACTION => self :: ACTION_MANAGE_CONTENT_OBJECT_REGISTRATIONS), array(), false, Redirect :: TYPE_CORE));*/
 
         $info['search'] = Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTENT_OBJECTS), array(), false, Redirect :: TYPE_CORE);
         $info['links'] = $links;
@@ -1405,7 +1406,7 @@ class RepositoryManager extends CoreApplication
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_USER_VIEW, self :: PARAM_USER_VIEW => $user_view_id));
     }
-    
+
 	function get_content_object_share_browser_url($content_object_ids)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CONTENT_OBJECT_SHARE_BROWSER, self :: PARAM_CONTENT_OBJECT_ID => $content_object_ids));
@@ -1421,7 +1422,7 @@ class RepositoryManager extends CoreApplication
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CONTENT_OBJECT_SHARE_DELETER, self :: PARAM_CONTENT_OBJECT_ID => $content_object_ids,
         						   self :: PARAM_TARGET_USER => $user_ids, self :: PARAM_TARGET_GROUP => $group_ids));
     }
-    
+
 	function get_content_object_share_editor_url($content_object_ids, $user_ids = null, $group_ids = null)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CONTENT_OBJECT_SHARE_EDITOR, self :: PARAM_CONTENT_OBJECT_ID => $content_object_ids,

@@ -151,8 +151,7 @@ class Dokeos185AssignmentFile extends Dokeos185MigrationDataClass
     $mgdm = MigrationDataManager :: get_instance();
     
     $new_course_code = $mgdm->get_id_reference($course->get_code(), 'weblcms_course');
-    $new_user_id = $mgdm->get_owner($new_course_code);
-    
+        $new_user_id = $this->get_data_manager()->get_owner_id($new_course_code);    
     $filename = $this->get_doc_path();
     $new_path = $new_user_id . '/';
     $old_rel_path = 'courses/' . $course->get_directory() . '/assignment/assig_' . $this->get_assignment_id() . '/';
@@ -303,9 +302,7 @@ class Dokeos185AssignmentFile extends Dokeos185MigrationDataClass
      * @param array $parameters parameters for the retrieval
      * @return array of assignment files
      */
-    static 
-
-function retrieve_data($parameters)
+    static function retrieve_data($parameters)
 {
     $old_mgdm = $parameters['old_mgdm'];
     
@@ -316,9 +313,7 @@ function retrieve_data($parameters)
     return $old_mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
 }
 
-    static 
-
-function get_database_table($parameters)
+    static function get_database_table($parameters)
 {
     $array = array();
     $array['database'] = $parameters['course']->get_db_name();

@@ -45,8 +45,6 @@ define('WEB_LAUNCH_APP_PATH', 'WEB_LAUNCH_APP_PATH');
 // Files-paths
 define('WEB_ARCHIVE_PATH', 'WEB_ARCHIVE_PATH');
 define('SYS_ARCHIVE_PATH', 'SYS_ARCHIVE_PATH');
-define('WEB_FCK_PATH', 'WEB_FCK_PATH');
-define('SYS_FCK_PATH', 'SYS_FCK_PATH');
 define('WEB_GARBAGE_PATH', 'WEB_GARBAGE_PATH');
 define('SYS_GARBAGE_PATH', 'SYS_GARBAGE_PATH');
 define('WEB_REPO_PATH', 'WEB_REPO_PATH');
@@ -188,12 +186,6 @@ class Path
                 return self :: $path[$path_type] = self :: get(WEB_FILE_PATH) . 'userpictures/';
             case SYS_USER_PATH :
                 return self :: $path[$path_type] = self :: get(SYS_FILE_PATH) . 'userpictures/';
-            case WEB_FCK_PATH :
-                return self :: $path[$path_type] = self :: get(WEB_FILE_PATH) . 'fckeditor/';
-            case SYS_FCK_PATH :
-                return self :: $path[$path_type] = self :: get(SYS_FILE_PATH) . 'fckeditor/';
-            case REL_FCK_PATH :
-                return self :: $path[$path_type] = self :: get(REL_FILE_PATH) . 'fckeditor/';
             case WEB_REPO_PATH :
                 return self :: $path[$path_type] = self :: get(WEB_FILE_PATH) . 'repository/';
             case SYS_REPO_PATH :

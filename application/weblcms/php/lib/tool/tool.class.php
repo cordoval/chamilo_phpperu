@@ -45,7 +45,7 @@ abstract class Tool extends SubManager
     const ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT = 'complex_display';
     const ACTION_SHOW_PUBLICATION = 'show_publication';
     const ACTION_HIDE_PUBLICATION = 'hide_publication';
-    const ACTION_EVALUATE_TOOL_PUBLICATION = 'tool_evaluate';
+    const ACTION_EVALUATE_TOOL_PUBLICATION = 'evaluate';
     const ACTION_EDIT_RIGHTS = 'rights_editor';
     
     const DEFAULT_ACTION = self :: ACTION_BROWSE;

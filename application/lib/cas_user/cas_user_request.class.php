@@ -2,6 +2,9 @@
 /**
  * @author Hans De Bisschop
  */
+
+require dirname(__FILE__) . '/cas_account.class.php';
+
 class CasUserRequest extends DataClass
 {
     const CLASS_NAME = __CLASS__;
@@ -30,7 +33,7 @@ class CasUserRequest extends DataClass
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_ID, self :: PROPERTY_FIRST_NAME, self :: PROPERTY_LAST_NAME, self :: PROPERTY_EMAIL, self :: PROPERTY_AFFILIATION, self :: PROPERTY_MOTIVATION, self :: PROPERTY_REQUESTER_ID, self :: PROPERTY_REQUEST_DATE, self :: PROPERTY_STATUS);
+        return parent :: get_default_property_names(array(self :: PROPERTY_FIRST_NAME, self :: PROPERTY_LAST_NAME, self :: PROPERTY_EMAIL, self :: PROPERTY_AFFILIATION, self :: PROPERTY_MOTIVATION, self :: PROPERTY_REQUESTER_ID, self :: PROPERTY_REQUEST_DATE, self :: PROPERTY_STATUS));
     }
 
     function get_data_manager()
@@ -163,6 +166,19 @@ class CasUserRequest extends DataClass
     {
         $user = UserDataManager :: get_instance()->retrieve_user($this->get_requester_id());
         return ($user instanceof User ? $user : '');
+    }
+
+    function generate_cas_account()
+    {
+        $cas_account = new CasAccount();
+        $cas_account->set_first_name($this->get_first_name());
+        $cas_account->set_last_name($this->get_last_name());
+        $cas_account->set_email($this->get_email());
+        $cas_account->set_affiliation($this->get_affiliation());
+        $cas_account->set_group('-');
+        $cas_account->set_password(md5(Text :: generate_password()));
+        $cas_account->set_status(CasAccount :: STATUS_ENABLED);
+        return $cas_account->create();
     }
 }
 

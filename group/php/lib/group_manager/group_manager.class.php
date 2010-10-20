@@ -49,6 +49,7 @@ class GroupManager extends CoreApplication
     const ACTION_UNSUBSCRIBE_USER_FROM_GROUP = 'unsubscriber';
     const ACTION_MANAGE_RIGHTS_TEMPLATES = 'group_rights_template_manager';
     const ACTION_RIGHT_EDITS = 'rights_editor';
+    const ACTION_MANAGE_USAGE = 'usage_manager';
 
     const DEFAULT_ACTION = self :: ACTION_BROWSE_GROUPS;
 
@@ -313,6 +314,7 @@ class GroupManager extends CoreApplication
         $links[] = new DynamicAction(Translation :: get('Export'), Translation :: get('ExportDescription'), Theme :: get_image_path() . 'browse_export.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => GroupManager :: ACTION_EXPORT), array(), false, Redirect :: TYPE_CORE));
         $links[] = new DynamicAction(Translation :: get('Import'), Translation :: get('ImportDescription'), Theme :: get_image_path() . 'browse_import.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => GroupManager :: ACTION_IMPORT), array(), false, Redirect :: TYPE_CORE));
         $links[] = new DynamicAction(Translation :: get('ImportGroupUsers'), Translation :: get('ImportGroupUsersDescription'), Theme :: get_image_path() . 'browse_import.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => GroupManager :: ACTION_IMPORT_GROUP_USERS), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('ManageGroupUsage'), Translation :: get('ManageGroupUsageDescription'), Theme :: get_image_path() . 'browse_manage.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => GroupManager :: ACTION_MANAGE_USAGE), array(), false, Redirect :: TYPE_CORE));
 
         $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
         $info['links'] = $links;

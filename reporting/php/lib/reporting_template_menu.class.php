@@ -85,13 +85,16 @@ class ReportingTemplateMenu
 
         if (count($reporting_blocks) > 0)
         {
-            foreach ($reporting_blocks as $reporting_block)
+            foreach ($reporting_blocks as $reporting_block_index => $reporting_block)
             {
-                $bloc_parameters = array_merge($parameters, array(ReportingManager :: PARAM_REPORTING_BLOCK_ID => $reporting_block->get_id()));
+                $bloc_parameters = array_merge($parameters, array(ReportingManager :: PARAM_REPORTING_BLOCK_ID => $reporting_block_index));
 
-                $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_chart.png)"><a href="' . $reporting_template->get_parent()->get_url($bloc_parameters) . '">' . Translation :: get(get_class($reporting_block)) . '</a></li>';
+                $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_chart.png)"><a href="' . $reporting_template->get_parent()->get_url($bloc_parameters) . '">' . $reporting_block->get_title() . '</a></li>';
             }
         }
+
+        $html[] = '</ul>';
+        
         return implode("\n", $html);
     }
 
@@ -145,7 +148,7 @@ class ReportingTemplateMenu
 
     function as_html()
     {
-        $html[] = '<div id="tool_bar" class="tool_bar tool_bar_left">';
+        $html[] = '<div id="tool_bar" class="tool_bar tool_bar_left" style="position: relative; left: -1%; float:left; width: 17%;">';
 
         $html[] = '<div id="tool_bar_hide_container" class="hide">';
         $html[] = '<a id="tool_bar_hide" href="#"><img src="' . Theme :: get_common_image_path() . 'action_action_bar_left_hide.png" /></a>';
@@ -156,10 +159,9 @@ class ReportingTemplateMenu
         $html[] = $this->get_menu_items();
         $html[] = '</div>';
 
+//        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/tool_bar.js' . '"></script>';
         $html[] = '</div>';
-        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/tool_bar.js' . '"></script>';
-        $html[] = '<div class="clear"></div>';
-
+        
         return implode("\n", $html);
     }
 }

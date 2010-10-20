@@ -17,18 +17,19 @@ require_once dirname(__FILE__) . '/../group_data_manager_interface.class.php';
 
 /**
 ==============================================================================
- *	This is a data manager that uses a database for storage. It was written
- *	for MySQL, but should be compatible with most SQL flavors.
+ * This is a data manager that uses a database for storage. It was written
+ * for MySQL, but should be compatible with most SQL flavors.
  *
- *	@author Tim De Pauw
- *	@author Bart Mollet
- *  @author Sven Vanpoucke
- *  @author Hans De Bisschop
+ * @author Tim De Pauw
+ * @author Bart Mollet
+ * @author Sven Vanpoucke
+ * @author Hans De Bisschop
 ==============================================================================
  */
 
 class DatabaseGroupDataManager extends Database implements GroupDataManagerInterface
 {
+
     function initialize()
     {
         parent :: initialize();
@@ -228,8 +229,8 @@ class DatabaseGroupDataManager extends Database implements GroupDataManagerInter
             $query .= $translator->render_query($condition);
         }
 
-		$res = $this->query($query);
-		$res->free();
+        $res = $this->query($query);
+        $res->free();
 
         // Update all necessary right-values
         $condition = new InequalityCondition(Group :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $previous_visited);
@@ -252,7 +253,7 @@ class DatabaseGroupDataManager extends Database implements GroupDataManagerInter
         $condition = new InequalityCondition(Group :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, $group->get_left_value());
 
         $query = 'UPDATE ' . $this->escape_table_name('group');
-        $query .= ' SET ' . $this->escape_column_name(Group ::PROPERTY_LEFT_VALUE) . '=' . $this->escape_column_name(Group :: PROPERTY_LEFT_VALUE) . ' - ' . $this->quote($delta) . ', ';
+        $query .= ' SET ' . $this->escape_column_name(Group :: PROPERTY_LEFT_VALUE) . '=' . $this->escape_column_name(Group :: PROPERTY_LEFT_VALUE) . ' - ' . $this->quote($delta) . ', ';
         $query .= $this->escape_column_name(Group :: PROPERTY_RIGHT_VALUE) . '=' . $this->escape_column_name(Group :: PROPERTY_RIGHT_VALUE) . ' - ' . $this->quote($delta);
 
         $translator = new ConditionTranslator($this);
@@ -365,6 +366,7 @@ class DatabaseGroupDataManager extends Database implements GroupDataManagerInter
         $group = $this->retrieve_group($group->get_id());
         // TODO: What if $group doesn't exist ? Return error.
 
+
         // Calculate the offset of the element to to the spot where it should go
         // correct the offset by one, since it needs to go inbetween!
         $offset = $calculate_width - $group->get_left_value() + 1;
@@ -403,6 +405,51 @@ class DatabaseGroupDataManager extends Database implements GroupDataManagerInter
     static function is_date_column($name)
     {
         return false;
+    }
+
+    function retrieve_usable_groups($condition = null, $offset = null, $count = null, $order_property = null)
+    {
+        $group_alias = $this->get_alias(Group :: get_table_name());
+        $group_use_group_alias = $this->get_alias(GroupUseGroup :: get_table_name());
+
+        $query = 'SELECT DISTINCT ' . $group_alias . '.*';
+        $query .= ' FROM ' . $this->escape_table_name(Group :: get_table_name()) . ' AS ' . $group_alias;
+        $query .= ' JOIN ' . $this->escape_table_name(GroupUseGroup :: get_table_name()) . ' AS ' . $group_use_group_alias . ' ON ' . $this->escape_column_name(Group :: PROPERTY_ID, $group_alias) . ' = ' . $this->escape_column_name(GroupUseGroup :: PROPERTY_USE_GROUP_ID, $group_use_group_alias);
+
+        return $this->retrieve_object_set($query, Group :: get_table_name(), $condition, $offset, $max_objects, $order_by, Group :: CLASS_NAME);
+    }
+
+    function delete_group_use_group($group_use_group)
+    {
+        $condition = new EqualityCondition(GroupUseGroup :: PROPERTY_ID, $group_use_group->get_id());
+        return $this->delete(GroupUseGroup :: get_table_name(), $condition);
+    }
+
+    function update_group_use_group($group_use_group)
+    {
+        $condition = new EqualityCondition(GroupUseGroup :: PROPERTY_ID, $group_use_group->get_id());
+        return $this->update(GroupUseGroup :: get_table_name(), $condition);
+    }
+
+    function create_group_use_group($group_use_group)
+    {
+        return $this->create($group_use_group);
+    }
+
+    function count_group_use_group($conditions = null)
+    {
+        return $this->count_objects(GroupUseGroup :: get_table_name(), $conditions);
+    }
+
+    function retrieve_group_use_groups($condition = null, $offset = null, $count = null, $order_property = null)
+    {
+        return $this->retrieve_objects(GroupUseGroup :: get_table_name(), $condition, $offset, $count, $order_property);
+    }
+
+    function retrieve_group_use_group($id)
+    {
+        $condition = new EqualityCondition(GroupUseGroup :: PROPERTY_ID, $id);
+        return $this->retrieve_object(GroupUseGroup :: get_table_name(), $condition);
     }
 }
 ?>

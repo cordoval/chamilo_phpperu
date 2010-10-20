@@ -154,7 +154,7 @@ class Dokeos185ForumThread extends Dokeos185CourseDataMigrationDataClass
      */
     function is_valid()
     {
-        $this->set_item_property($this->get_data_manager()->get_item_property($this->get_course(), 'forum_thread', $this->get_forum_id()));
+        $this->set_item_property($this->get_data_manager()->get_item_property($this->get_course(), 'forum_thread', $this->get_thread_id()));
         
         if (! $this->get_thread_id() || ! $this->get_thread_title() || ! $this->item_property || ! $this->item_property->get_ref() || ! $this->item_property->get_insert_date())
         {
@@ -219,7 +219,7 @@ class Dokeos185ForumThread extends Dokeos185CourseDataMigrationDataClass
         		$additional_properties[ForumTopic :: PROPERTY_STATE] = 0;
         	}*/
         	
-        	$this->create_complex_content_object_item($chamilo_forum_topic, $parent_forum_id, $new_user_id);
+        	$this->create_complex_content_object_item($chamilo_forum_topic, $parent_forum_id, $new_user_id, strtotime($this->get_thread_date()));
         }
     }
 

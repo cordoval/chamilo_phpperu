@@ -18,9 +18,24 @@ class ContentObjectUserShareRightsBrowserTable extends ObjectTable
         $model = new ContentObjectUserShareRightsBrowserTableColumnModel();
         $renderer = new ContentObjectUserShareRightsBrowserTableCellRenderer($browser);
         $data_provider = new ContentObjectUserShareRightsBrowserTableDataProvider($browser, $condition);
-        ObjectTable :: __construct($data_provider, Utilities :: underscores_to_camelcase(__CLASS__), $model, $renderer);
+        ObjectTable :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
+
+        $table_form_actions = new ObjectTableFormActions();
+        $table_form_actions->add_form_action(new ObjectTableFormAction(RepositoryManager :: ACTION_CONTENT_OBJECT_SHARE_DELETER, Translation :: get('delete'), true));
+
+        $this->set_form_actions($table_form_actions);
         $this->set_additional_parameters($parameters);
         $this->set_default_row_count(20);
+    }
+
+    static function handle_table_action()
+    {
+        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+
+        Request :: set_get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID, Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID));
+        Request :: set_get(ContentObjectUserShare :: PARAM_TYPE, ContentObjectUserShare :: TYPE_USER_SHARE);
+        Request :: set_get(RepositoryManager :: PARAM_TARGET_USER, $ids);
+
     }
 
 }

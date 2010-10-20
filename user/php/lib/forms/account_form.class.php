@@ -223,12 +223,22 @@ class AccountForm extends FormValidator
                 return false;
             }
         }
+        $value1 = true;
 
         if (PlatformSetting :: get('allow_change_user_picture', UserManager :: APPLICATION_NAME))
         {
+
             if (isset($_FILES['picture_uri']) && strlen($_FILES['picture_uri']['name']) > 0)
             {
+                if(!$_FILES['picture_uri']['error'])
+                {
                 $user->set_picture_file($_FILES['picture_uri']);
+            }
+                else
+                {
+                    $value1 &= false;
+                }
+
             }
             if (isset($values['remove_picture']))
             {
@@ -243,7 +253,7 @@ class AccountForm extends FormValidator
             Event :: trigger('update', UserManager :: APPLICATION_NAME, array(ChangesTracker :: PROPERTY_REFERENCE_ID => $user->get_id(), ChangesTracker :: PROPERTY_USER_ID => $user->get_id()));
         }
 
-        return $value;
+        return $value && $value1;
     }
 
     /**

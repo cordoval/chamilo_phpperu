@@ -51,7 +51,7 @@ class Banner
 //            $user = $usermgr->get_user();
         }
 
-        if (! is_null($_SESSION['_as_admin']))
+        if (! is_null(Session::get('_as_admin')))
         {
             $output[] = '<div style="width: 100%; height: 20px; text-align: center; background-color: lightblue;">' . Translation :: get('LoggedInAsUser') . ' ' . $user->get_fullname() . ' <a href="index.php?adminuser=1">' . Translation :: get('Back') . '</a></div>';
         }

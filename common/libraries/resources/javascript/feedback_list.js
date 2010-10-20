@@ -1,13 +1,13 @@
 ( function($) 
 {
-	var toggleList = function(e, ui) 
+	var toggleList = function(e, ui)
 	{
 		$("#feedbacklist").toggle();
 		$("#showfeedback").toggle();
 		$("#hidefeedback").toggle();
 	};
 	
-	var toggleForm = function(e, ui) 
+	var toggleForm = function(e, ui)
 	{
 		$("#feedbackform").toggle();
 		$("#showfeedbackform").toggle();
@@ -20,7 +20,7 @@
 		$("#showfeedback").bind('click', toggleList);
 		$("#hidefeedback").unbind();
 		$("#hidefeedback").bind('click', toggleList);
-		
+
 		$("#showfeedbackform").unbind();
 		$("#showfeedbackform").bind('click', toggleForm);
 		$("#hidefeedbackform").unbind();
@@ -31,10 +31,10 @@
 	{
 		$("#feedbacklist").toggle();
 		$("#showfeedback").toggle();
-		
+
 		$("#feedbackform").toggle();
 		$("#showfeedbackform").toggle();
-		
+
 		bindIcons();
 		
 	});

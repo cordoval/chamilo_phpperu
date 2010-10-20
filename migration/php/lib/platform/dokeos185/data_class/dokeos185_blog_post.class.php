@@ -158,7 +158,7 @@ class Dokeos185BlogPost extends Dokeos185CourseDataMigrationDataClass
         
         $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'blog_post', 'OLD_ID' => $this->get_post_id(), 'NEW_ID' => $chamilo_blog_item->get_id())));
         $this->create_id_reference($this->get_post_id(), $chamilo_blog_item->get_id());
-        $this->create_id_reference($this->get_blog_id(), $complex_content_object_item->get_id(), $this->get_database_name() . '.' . $this->get_table_name() . '.complex');
+        $this->create_id_reference($this->get_post_id(), $complex_content_object_item->get_id(), $this->get_database_name() . '.' . $this->get_table_name() . '.complex');
     }
 
     static function get_table_name()

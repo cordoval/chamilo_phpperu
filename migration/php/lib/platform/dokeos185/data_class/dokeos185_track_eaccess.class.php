@@ -1,6 +1,8 @@
 <?php
 namespace migration;
 
+require_once dirname(__FILE__) . '/../../../../../application/lib/weblcms/course/course_module_last_access.class.php';
+
 /**
  * $Id: dokeos185_track_eaccess.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
@@ -31,6 +33,7 @@ class Dokeos185TrackEAccess extends Dokeos185MigrationDataClass
      * Default properties stored in an associative array.
      */
     private $defaultProperties;
+    private $convert = array('course_description' => 'description', 'calendar_event' => 'calendar', 'document' => 'document', 'learnpath' => 'learning_path', 'link' => 'link', 'announcement' => 'announcement', 'forum' => 'forum', 'dropbox' => 'dropbox', 'user' => 'user', 'group' => 'group', 'chat' => 'chat', 'tracking' => 'statics', 'course_setting' => 'course_settings', 'survey' => 'learning_style_survey', 'course_maintenance' => 'maintenance');
 
     /**
      * Creates a new Dokeos185TrackEAccess object
@@ -140,8 +143,9 @@ class Dokeos185TrackEAccess extends Dokeos185MigrationDataClass
     {
 
         $new_user_id = $this->get_id_reference($this->get_access_user_id(), 'main_database.user');
+        $new_course_id = $this->get_id_reference($this->get_access_course_code(), 'main_database.course');
 
-        if (!$new_user_id) //if the user id doesn't exist anymore, the data can be ignored
+        if (!$new_user_id || !$new_course_id || !$this->convert[$this->get_access_tool()]) //if the user id doesn't exist anymore, the data can be ignored
         {
             $this->create_failed_element($this->get_id());
             return false;
@@ -155,22 +159,35 @@ class Dokeos185TrackEAccess extends Dokeos185MigrationDataClass
      */
     function convert_data()
     {
-        $visit_tracker = new VisitTracker();
+        //$visit_tracker = new VisitTracker();
         $new_course_id = $this->get_id_reference($this->get_access_course_code(), 'main_database.course');
         $new_user_id = $this->get_id_reference($this->get_access_user_id(), 'main_database.user');
         $tool = $this->get_access_tool();
 
-        if ($tool)
-            $url = "/hg/run.php?go=courseviewer&course=$new_course_id&application=weblcms&tool=$tool";
-        else
-            $url="/hg/run.php?go=courseviewer&course=$new_course_id&application=weblcms";
+//        if ($tool)
+//            $url = "/hg/run.php?go=courseviewer&course=$new_course_id&application=weblcms&tool=$tool";
+//        else
+//            $url="/hg/run.php?go=courseviewer&course=$new_course_id&application=weblcms";
+//
+//        $visit_tracker->set_enter_date(strtotime($this->get_access_date()));
+//        $visit_tracker->set_leave_date(strtotime($this->get_access_date()));
+//        $visit_tracker->set_location($url);
+//        $visit_tracker->set_user_id($new_user_id);
+//
+//        $visit_tracker->create();
 
-        $visit_tracker->set_enter_date(strtotime($this->get_access_date()));
-        $visit_tracker->set_leave_date(strtotime($this->get_access_date()));
-        $visit_tracker->set_location($url);
-        $visit_tracker->set_user_id($new_user_id);
+        $value = $this->convert[$tool];
+        if ($value)
+        {
+            $course_module_last_access = new CourseModuleLastAccess();
+            $course_module_last_access->set_course_code($new_course_id);
+            $course_module_last_access->set_user_id($new_user_id);
+            $course_module_last_access->set_module_name($value);
+            $course_module_last_access->set_category_id(0);
+            $course_module_last_access->set_access_date(strtotime($this->get_access_date()));
 
-        $visit_tracker->create();
+            return $course_module_last_access->create();
+        }
     }
 
     static function get_table_name()
@@ -189,4 +206,5 @@ class Dokeos185TrackEAccess extends Dokeos185MigrationDataClass
     }
 
 }
+
 ?>

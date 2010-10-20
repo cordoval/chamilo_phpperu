@@ -72,43 +72,24 @@ abstract class ReportingTemplate
     public function to_html()
     {
         $display_all = $this->get_parent()->are_all_blocks_visible();
-
-    	$html[] = $this->display_header();
-		$html[] = $this->display_filter();
-
+        
         if ($display_all)
         {
-            foreach($this->get_reporting_blocks() as $block)
+            $html[] = $this->display_header();
+            $html[] = $this->display_filter();
+            foreach ($this->get_reporting_blocks() as $block)
             {
-            	$html[] = $block->to_html();
+                $html[] = $block->to_html();
             }
+            $html[] = $this->display_footer();
         }
         else
         {
-        	if ($this->get_number_of_reporting_blocks() > 1)
-            {
-            	$html[] = $this->get_menu();
-            	$html[] = '<div id="tool_browser_left">';
-            }
-            $block = Request :: get(ReportingManager :: PARAM_REPORTING_BLOCK_ID);
-            if (isset($block))
-            {
-                $html[] = $this->get_reporting_block($block)->to_html();
-            }
-            else
-            {
-            	$keys = array_keys($this->get_reporting_blocks());
-                $html[] = $this->get_reporting_block($keys[0])->to_html();
-            }
-            if ($this->get_number_of_reporting_blocks() > 1)
-            {
-                $html[] = '</div>';
-            }
-            $html[] = '<div class="clear"></div>';
-            return implode($html, "\n");
+//            $html[] = $this->display_header();
+//            $html[] = $this->display_filter();
             $html[] = $this->render_block();
+//            $html[] = $this->display_footer();
         }
-        $html[] = $this->display_footer();
         return implode("\n", $html);
     }
 
@@ -142,15 +123,25 @@ abstract class ReportingTemplate
         return implode($html, "\n");
     }
 
-    public function render_block($id)
+public function render_block($id)
     {
         $html = array();
         if ($this->get_number_of_reporting_blocks() > 1)
         {
-            $html[] = '<div id="tool_browser_left">';
+            $html[] = $this->get_menu();
+            $html[] = '<div id="tool_browser_left" style="position: relative; float: right; width: 80%; margin-left: 0px;">';
         }
-
-        $html[] = $this->get_current_block()->to_html();
+        
+        $html[] = $this->display_header();
+        $html[] = $this->display_filter();
+        
+        if ($this->get_current_block())
+        {
+            $html[] = $this->get_current_block()->to_html();
+        }
+        
+        $html[] = $this->display_footer();
+        
         if ($this->get_number_of_reporting_blocks() > 1)
         {
             $html[] = '</div>';
@@ -169,7 +160,10 @@ abstract class ReportingTemplate
         else
         {
             $keys = array_keys($this->get_reporting_blocks());
-            return $this->get_reporting_block($keys[0]);
+        	if (count($keys))
+            {
+                return $this->get_reporting_block($keys[0]);
+            }
         }
     }
 
@@ -206,8 +200,51 @@ abstract class ReportingTemplate
 
     public function display_filter()
     {
-
+    	$body = $this->display_filter_body();
+        if ($body)
+        {
+            $html[] = $this->reporting_filter_header();
+            $html[] = $body;
+            $html[] = $this->reporting_filter_footer();
+            return implode("\n", $html);
+        }
     }
+    
+    public function display_filter_body()
+    {
+    
+    }
+
+    function reporting_filter_header()
+    {
+        $html = array();
+        
+        $html[] = '<div style="clear: both; height: 0px; line-height: 0px;">&nbsp;</div>';
+        $html[] = '<div id="reporting_filter" class="reporting_filter">';
+        $html[] = '<div class="bevel">';
+        
+        $html[] = '<div class="clear"></div>';
+        return implode("\n", $html);
+    }
+
+    function reporting_filter_footer()
+    {
+        $html = array();
+        
+        $html[] = '<div class="clear"></div>';
+        $html[] = '<div id="reporting_filter_hide_container" class="reporting_filter_hide_container">';
+        $html[] = '<a id="reporting_filter_hide_link" class="reporting_filter_hide" href="#"><img src="' . Theme :: get_common_image_path() . 'action_ajax_hide.png" /></a>';
+        $html[] = '</div>';
+        $html[] = '</div>';
+        $html[] = '</div>';
+        
+        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/reporting_filter_horizontal.js');
+        
+        $html[] = '<div class="clear"></div>';
+        
+        return implode("\n", $html);
+    }
+    
 
     public function get_parent()
     {
@@ -236,8 +273,8 @@ abstract class ReportingTemplate
 
     public function add_reporting_block($block)
     {
-        $this->blocks[$block->get_id()] = $block;
-    }
+		$block->set_id(count($this->blocks));
+        $this->blocks[] = $block;    }
 
     public function get_parameters()
     {
@@ -272,7 +309,7 @@ function get_action_bar()
         $parameters = $this->get_parameters();
         $parameters[ReportingViewer::PARAM_REPORTING_VIEWER_ACTION] = ReportingViewer::ACTION_EXPORT_TEMPLATE;
         $parameters[ReportingManager :: PARAM_TEMPLATE_ID] = $this->get_id();
-        $parameters[ReportingManager :: PARAM_EXPORT_TYPE] = 'pdf';
+        /*$parameters[ReportingManager :: PARAM_EXPORT_TYPE] = 'pdf';
 
         $display_mode = $this->get_displaymode();
         if (isset($display_mode))
@@ -282,7 +319,7 @@ function get_action_bar()
         $url = Redirect :: get_url($parameters, array(), false);
 
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ExportToPdf'), Theme :: get_common_image_path() . 'export_pdf.png', $url));
-
+*/
         $parameters[ReportingManager :: PARAM_EXPORT_TYPE] = 'excel';
 
         $display_mode = $this->get_displaymode();

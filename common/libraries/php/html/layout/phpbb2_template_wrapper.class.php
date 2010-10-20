@@ -115,7 +115,7 @@ class Phpbb2TemplateWrapper extends Phpbb2Template
             die("Template->assign_var_from_handle(): Couldn't load template file for handle $handle");
         }
 
-        $_str = "";
+        $_str = '';
         $this->compiled_code[$handle] = $this->cache->retrieve_from_cache($handle, $this->uncompiled_code[$handle]);
 
 		if(!$this->compiled_code[$handle])

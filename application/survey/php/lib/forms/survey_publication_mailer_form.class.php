@@ -11,7 +11,7 @@ class SurveyPublicationMailerForm extends FormValidator
 	const EMAIL_HEADER = 'email_header';
 	const EMAIL_CONTENT = 'email_content';
 
-    function SurveyPublicationMailerForm($parent, $user,$participants, $actions)
+    function SurveyPublicationMailerForm($parent, $user,$users, $actions)
     {
         parent :: __construct('survey_publication_mailer', 'post', $actions);
 
@@ -28,11 +28,15 @@ class SurveyPublicationMailerForm extends FormValidator
         $this->add_html_editor(self :: EMAIL_CONTENT, Translation :: get('SurveyEmailContent'), true);
 
         $this->add_warning_message('attention', Translation :: get('SurveyMailAttention'), Translation :: get('SurveyAttentionSendMailInfo'), false );
-
-        $this->addElement('checkbox', SurveyParticipantTracker :: STATUS_NOTSTARTED, Translation :: get('SurveyNotStarted'), ' '.$participants[SurveyParticipantTracker :: STATUS_NOTSTARTED].' '.Translation :: get('Participants'));
-        $this->addElement('checkbox', SurveyParticipantTracker :: STATUS_STARTED, Translation :: get('SurveyStarted'), ' '.$participants[SurveyParticipantTracker :: STATUS_STARTED].' '.Translation :: get('Participants'));
-        $this->addElement('checkbox', SurveyParticipantTracker :: STATUS_FINISHED, Translation :: get('SurveyFinished'), ' '.$participants[SurveyParticipantTracker :: STATUS_FINISHED].' '.Translation :: get('Participants'));
-
+		
+        $this->addElement('checkbox', SurveyRights::PARTICIPATE_RIGHT_NAME, Translation :: get('Invitees'), ' '.$users[SurveyRights::PARTICIPATE_RIGHT_NAME].' '.Translation :: get('Invitees'));
+        $this->addElement('checkbox', SurveyParticipantTracker :: STATUS_NOTSTARTED, Translation :: get('SurveyNotStarted'), ' '.$users[SurveyParticipantTracker :: STATUS_NOTSTARTED].' '.Translation :: get('Participants'));
+        $this->addElement('checkbox', SurveyParticipantTracker :: STATUS_STARTED, Translation :: get('SurveyStarted'), ' '.$users[SurveyParticipantTracker :: STATUS_STARTED].' '.Translation :: get('Participants'));
+        $this->addElement('checkbox', SurveyParticipantTracker :: STATUS_FINISHED, Translation :: get('SurveyFinished'), ' '.$users[SurveyParticipantTracker :: STATUS_FINISHED].' '.Translation :: get('Participants'));
+	
+        $this->addElement('checkbox', SurveyRights::REPORTING_RIGHT_NAME, Translation :: get('ReportingUsers'), ' '.$users[SurveyRights::REPORTING_RIGHT_NAME].' '.Translation :: get('ReportingUsers'));
+        
+        
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('SendMail'), array('class' => 'positive publish'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 

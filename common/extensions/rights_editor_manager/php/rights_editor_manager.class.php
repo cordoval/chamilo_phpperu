@@ -16,20 +16,23 @@ class RightsEditorManager extends SubManager
     const ACTION_BROWSE_RIGHTS = 'browse';
     const ACTION_SET_USER_RIGHTS = 'set_user_rights';
     const ACTION_SET_GROUP_RIGHTS = 'set_group_rights';
+    const ACTION_SET_TEMPLATE_RIGHTS = 'set_template_rights';
     const ACTION_CHANGE_INHERIT = 'change_inherit';
 
     const PARAM_GROUP = 'group_id';
 
-    const MODUS_USERS = 0;
-    const MODUS_GROUPS = 1;
-    const MODUS_BOTH = 2;
+    const TYPE_USER = 'user';
+    const TYPE_GROUP = 'group';
+    const TYPE_TEMPLATE = 'template';
 
     private $locations;
     private $excluded_groups;
     private $excluded_users;
     private $limited_groups;
     private $limited_users;
-    private $modus;
+    private $limited_templates;
+    
+    private $types;
 
     /**
      * @param unknown_type $parent
@@ -46,8 +49,8 @@ class RightsEditorManager extends SubManager
         $this->included_users = array();
         $this->included_groups = array();
 
-        $this->modus = self :: MODUS_BOTH;
-
+        $this->types = array(self :: TYPE_USER, self :: TYPE_GROUP, self :: TYPE_TEMPLATE);
+        
         $rights_editor_action = Request :: get(self :: PARAM_RIGHTS_EDITOR_ACTION);
         if ($rights_editor_action)
         {
@@ -127,6 +130,16 @@ class RightsEditorManager extends SubManager
     {
         $this->excluded_groups = $groups;
     }
+            
+    function exclude_templates($templates)
+    {
+        $this->excluded_templates = $templates;
+    }
+
+    function get_excluded_templates()
+    {
+        return $this->excluded_templates;
+    }
 
     function get_excluded_users()
     {
@@ -145,6 +158,14 @@ class RightsEditorManager extends SubManager
     {
         $this->limited_users = $users;
     }
+    
+    /**
+     * @param Array $templates An array of template ids
+     */
+    function limit_templates(array $templates)
+    {
+        $this->limited_templates = $templates;
+    }
 
     /**
      * @param Array $groups An array of group ids
@@ -157,6 +178,11 @@ class RightsEditorManager extends SubManager
     function get_limited_users()
     {
         return $this->limited_users;
+    }
+    	
+    function get_limited_templates()
+    {
+        return $this->limited_templates;
     }
 
     function get_limited_groups()
@@ -172,14 +198,14 @@ class RightsEditorManager extends SubManager
         }
     }
 
-    function set_modus($modus)
+    function set_types(array $types)
     {
-        $this->modus = $modus;
+        $this->types = $types;
     }
 
-    function get_modus()
+    function get_types()
     {
-        return $this->modus;
+        return $this->types;
     }
 
     function create_component($type, $application)
@@ -193,7 +219,7 @@ class RightsEditorManager extends SubManager
             $component->exclude_groups($this->get_excluded_groups());
             $component->limit_users($this->get_limited_users());
             $component->limit_groups($this->get_limited_groups());
-            $component->set_modus($this->get_modus());
+            $component->set_types($this->get_types());
         }
 
         return $component;

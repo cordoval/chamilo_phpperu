@@ -364,7 +364,7 @@ class ContentObjectCopier
     }
 
     /**
-     * Method to fix the embedded links in fckeditor fields
+     * Method to fix the embedded links in ckeditor fields
      *
      * @param ContentObject $co
      */

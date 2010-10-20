@@ -112,19 +112,19 @@ class RightsManager extends CoreApplication
     public static function get_application_platform_admin_links()
     {
         $links = array();
-        $links[] = new DynamicAction(Translation :: get('Locations'), Translation :: get('LocationsDescription'), Theme :: get_image_path() . 'browse_location.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
-                self :: PARAM_ACTION => self :: ACTION_MANAGE_LOCATIONS), array(), false, Redirect :: TYPE_CORE));
+//        $links[] = new DynamicAction(Translation :: get('Locations'), Translation :: get('LocationsDescription'), Theme :: get_image_path() . 'browse_location.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+//                self :: PARAM_ACTION => self :: ACTION_MANAGE_LOCATIONS), array(), false, Redirect :: TYPE_CORE));
         $links[] = new DynamicAction(Translation :: get('TypeTemplates'), Translation :: get('TypeTemplatesDescription'), Theme :: get_image_path() . 'browse_template.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
                 self :: PARAM_ACTION => self :: ACTION_MANAGE_TYPE_TEMPLATES), array(), false, Redirect :: TYPE_CORE));
         $links[] = new DynamicAction(Translation :: get('RightsTemplates'), Translation :: get('RightsTemplatesDescription'), Theme :: get_image_path() . 'browse_template.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
                 self :: PARAM_ACTION => self :: ACTION_MANAGE_RIGHTS_TEMPLATES), array(), false, Redirect :: TYPE_CORE));
 
-        $links[] = new DynamicAction(Translation :: get('RightsTemplatePermissions'), Translation :: get('RightsTemplatePermissionsDescription'), Theme :: get_image_path() . 'browse_permission_template.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
-                Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_CONFIGURE_LOCATION_RIGHTS_TEMPLATES), array(), false, Redirect :: TYPE_CORE));
-        $links[] = new DynamicAction(Translation :: get('UserPermissions'), Translation :: get('UserPermissionsDescription'), Theme :: get_image_path() . 'browse_permission_user.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
-                Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_USER_RIGHTS, UserRightManager :: PARAM_USER_RIGHT_ACTION => UserRightManager :: ACTION_BROWSE_LOCATION_USER_RIGHTS), array(), false, Redirect :: TYPE_CORE));
-        $links[] = new DynamicAction(Translation :: get('GroupPermissions'), Translation :: get('GroupPermissionsDescription'), Theme :: get_image_path() . 'browse_permission_group.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
-                Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_GROUP_RIGHTS, GroupRightManager :: PARAM_GROUP_RIGHT_ACTION => GroupRightManager :: ACTION_BROWSE_LOCATION_GROUP_RIGHTS), array(), false, Redirect :: TYPE_CORE));
+//        $links[] = new DynamicAction(Translation :: get('RightsTemplatePermissions'), Translation :: get('RightsTemplatePermissionsDescription'), Theme :: get_image_path() . 'browse_permission_template.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+//                Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_CONFIGURE_LOCATION_RIGHTS_TEMPLATES), array(), false, Redirect :: TYPE_CORE));
+//        $links[] = new DynamicAction(Translation :: get('UserPermissions'), Translation :: get('UserPermissionsDescription'), Theme :: get_image_path() . 'browse_permission_user.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+//                Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_USER_RIGHTS, UserRightManager :: PARAM_USER_RIGHT_ACTION => UserRightManager :: ACTION_BROWSE_LOCATION_USER_RIGHTS), array(), false, Redirect :: TYPE_CORE));
+//        $links[] = new DynamicAction(Translation :: get('GroupPermissions'), Translation :: get('GroupPermissionsDescription'), Theme :: get_image_path() . 'browse_permission_group.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+//                Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_GROUP_RIGHTS, GroupRightManager :: PARAM_GROUP_RIGHT_ACTION => GroupRightManager :: ACTION_BROWSE_LOCATION_GROUP_RIGHTS), array(), false, Redirect :: TYPE_CORE));
 
         $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
         $info['links'] = $links;

@@ -259,8 +259,11 @@ class Dokeos185CourseSetting extends Dokeos185CourseDataMigrationDataClass
     function is_valid()
     {
 
-        if (!$this->get_id() || !($this->get_variable() || $this->get_category())) {
+        if (!$this->get_id() || !($this->get_variable() || $this->get_category()))
+        {
             $this->create_failed_element($this->get_id());
+            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'course_setting', 'ID' => $this->get_id())));
+
             return false;
         }
         return true;
@@ -293,4 +296,5 @@ class Dokeos185CourseSetting extends Dokeos185CourseDataMigrationDataClass
     }
 
 }
+
 ?>

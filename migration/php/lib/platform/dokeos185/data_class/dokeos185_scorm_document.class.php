@@ -182,7 +182,7 @@ class Dokeos185Scormdocument
     
     $new_course_code = $mgdm->get_id_reference($course->get_code(), 'weblcms_course');
     
-    $new_user_id = $mgdm->get_owner($new_course_code);
+    $new_user_id = $this->get_data_manager()->get_owner_id($new_course_code);
     
     $new_path = $new_user_id . '/';
     $old_rel_path = 'courses/' . $course->get_directory() . '/scorm/' . dirname($this->get_path()) . '/';
@@ -346,9 +346,7 @@ class Dokeos185Scormdocument
      * @param Array $array
      * @return Array of dokeos185scormdocument
      */
-    static 
-
-function retrieve_data($parameters)
+    static function retrieve_data($parameters)
 {
     $old_mgdm = $parameters['old_mgdm'];
     
@@ -359,9 +357,7 @@ function retrieve_data($parameters)
     return $old_mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
 }
 
-    static 
-
-function get_database_table($parameters)
+    static function get_database_table($parameters)
 {
     $array = array();
     $array['database'] = $parameters['course']->get_db_name();

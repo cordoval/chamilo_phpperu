@@ -86,7 +86,9 @@ class Dokeos185Blog extends Dokeos185CourseDataMigrationDataClass
      */
     function is_valid()
     {
-        if ( ! $this->get_id_reference($course->get_code(), 'main_database.course') || ! $this->get_blog_id() || ! ($this->get_blog_name() || $this->get_blog_subtitle()) || ! $this->get_date_creation())
+        $course = $this->get_course();
+        
+    	if ( ! $this->get_id_reference($course->get_code(), 'main_database.course') || ! $this->get_blog_id() || ! ($this->get_blog_name() || $this->get_blog_subtitle()) || ! $this->get_date_creation())
         {
             $this->create_failed_element($this->get_blog_id());
             $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'blog', 'ID' => $this->get_blog_id())));

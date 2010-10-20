@@ -73,7 +73,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
         //Sets the correct database before installing applications
         $connection = Connection :: get_instance();
         $connection->get_connection()->setDatabase($this->values['database_name']);
-        
+
         $this->counter ++;
 
         // 3. Installing the applications
@@ -164,14 +164,14 @@ class InstallWizardProcess extends HTML_QuickForm_Action
         {
         	$connection->loadModule('Manager');
             $database_exists = $connection->databaseExists($values['database_name']);
-            
+
             if ($database_exists == true)
             {
                 if(array_key_exists('database_exists', $values) && $values['database_exists'] == 1)
            		{
             		return array(Installer :: INSTALL_SUCCESS => true, Installer :: INSTALL_MESSAGE => Translation :: get('UseExistingDB'));
            		}
-           		
+
             	$drop_result = $connection->dropDatabase($values['database_name']);
 
                 if (MDB2 :: isError($drop_result))
@@ -196,7 +196,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
     function create_folders()
     {
         $files_path = dirname(__FILE__) . '/../../../../../../files/';
-        $directories = array('archive', 'fckeditor', 'garbage', 'repository', 'temp', 'userpictures', 'scorm', 'logs', 'hotpotatoes');
+        $directories = array('archive', 'garbage', 'repository', 'temp', 'userpictures', 'scorm', 'logs', 'hotpotatoes');
         foreach ($directories as $directory)
         {
             $path = $files_path . $directory;
@@ -417,7 +417,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
             unset($installer);
             flush();
         }
-        
+
         //installation of contentObject
         echo '<h3>' . Translation :: get('InstallingContentObjects') . '</h3>';
         $dir = Path :: get_repository_content_object_path();
@@ -433,7 +433,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
             	$this->process_result($folder, $result, $content_object->retrieve_message());
             }
         }
-        
+
 
         // Post-processing for selected applications
     	if (count($applications) > 0)

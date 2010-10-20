@@ -37,6 +37,7 @@ class UserManagerUserDetailComponent extends UserManager implements Administrati
 		    }
 
 			$user = $this->retrieve_user($id);
+
 			$action_bar = $this->get_action_bar($user);
 
 			$this->display_header();

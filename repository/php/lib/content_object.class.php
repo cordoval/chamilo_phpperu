@@ -1181,14 +1181,6 @@ class ContentObject extends DataClass
     }
 
     /**
-     * @return string
-     */
-    static function get_type_name()
-    {
-        return $this->get_type();
-    }
-
-    /**
      * @return array:
      */
     static function get_managers()

@@ -23,6 +23,8 @@ class ContentObjectShare extends DataClass
 
     const PROPERTY_CONTENT_OBJECT_ID = 'content_object_id';
     const PROPERTY_RIGHT_ID = 'right_id';
+    
+    const PARAM_TYPE = 'share_type';
 
     function get_content_object_id()
     {
@@ -68,10 +70,25 @@ class ContentObjectShare extends DataClass
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 
-    function get_rights()
+    static function get_rights()
     {
-    	return array(self :: SEARCH_RIGHT => Translation :: get('Search'), self :: VIEW_RIGHT => Translation :: get('View'),
-    				 self :: USE_RIGHT => Translation :: get('Use'), self :: REUSE_RIGHT => Translation :: get('Reuse'));
+    	$rights = array();
+    	
+    	if(!PlatformSetting :: get('all_objects_searchable', RepositoryManager :: APPLICATION_NAME))
+    	{
+			$rights[self :: SEARCH_RIGHT] = Translation :: get('Search');
+    	}
+		
+		$rights[self :: VIEW_RIGHT] = Translation :: get('View');
+		$rights[self :: USE_RIGHT] = Translation :: get('Use');
+		$rights[self :: REUSE_RIGHT] = Translation :: get('Reuse');
+		
+		return $rights;
+    }
+
+    function has_right($right_id)
+    {
+        return $this->get_right_id() >= $right_id;
     }
 }
 ?>

@@ -154,8 +154,8 @@
 	height: 16px;
 	line-height: 16px;
 	padding: 4px 9px 4px 9px;
-	border-bottom: 1px dotted #efefef;
-	color: #efefef;
+	border-bottom: 1px dotted #EFEFEF;
+	color: #EFEFEF;
 }
 
 /*Color subcells hovering mode*/
@@ -194,7 +194,7 @@
 	height: 1px;
 	line-height: 1.3em;
 	padding: 4px 9px 4px 9px;
-	border-bottom: 1px dotted #efefef;
+	border-bottom: 1px dotted #EFEFEF;
 }
 
 /*Color subcells hovering mode*/

@@ -224,7 +224,7 @@ class Dokeos185StudentPublication extends Dokeos185MigrationDataClass
     
     if (! $new_user_id)
     {
-        $new_user_id = $mgdm->get_owner($new_course_code);
+        $new_user_id = $this->get_data_manager()->get_owner_id($new_course_code);
     }
     
     $new_path = $new_user_id . '/';
@@ -389,9 +389,7 @@ class Dokeos185StudentPublication extends Dokeos185MigrationDataClass
      * @param Array $array
      * @return Array of dokeos185studentpublication
      */
-    static 
-
-function retrieve_data($parameters)
+    static function retrieve_data($parameters)
 {
     $old_mgdm = $parameters['old_mgdm'];
     
@@ -405,9 +403,7 @@ function retrieve_data($parameters)
     return $old_mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
 }
 
-    static 
-
-function get_database_table($parameters)
+    static function get_database_table($parameters)
 {
     $array = array();
     $array['database'] = $parameters['course']->get_db_name();

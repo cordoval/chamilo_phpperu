@@ -81,7 +81,7 @@ class RightsTemplateManagerBrowserComponent extends RightsTemplateManager
 
         $action_bar->set_search_url($this->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ID => $this->get_rights_template())));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('NewRightsTemplate'), Theme :: get_image_path() . 'action_add_template.png', $this->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_CREATE_RIGHTS_TEMPLATE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_CONFIGURE_RIGHTS_TEMPLATES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        //$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_CONFIGURE_RIGHTS_TEMPLATES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         return $action_bar;
     }

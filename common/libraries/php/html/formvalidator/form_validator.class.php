@@ -53,9 +53,6 @@ class FormValidator extends HTML_QuickForm
         $this->HTML_QuickForm($form_name, $method, $action, $target, $attributes, $trackSubmit);
         // Load some custom elements and rules
         $dir = dirname(__FILE__) . '/';
-        $this->registerElementType('fckeditor_html_editor', $dir . 'Element/html_editor/fckeditor_html_editor.php', 'HTML_QuickForm_fckeditor_html_editor');
-        $this->registerElementType('tinymce_html_editor', $dir . 'Element/html_editor/tinymce_html_editor.php', 'HTML_QuickForm_tinymce_html_editor');
-        $this->registerElementType('html_editor', $dir . 'Element/html_editor.php', 'HTML_QuickForm_html_editor');
         $this->registerElementType('datepicker', $dir . 'Element/datepicker.php', 'HTML_QuickForm_datepicker');
         $this->registerElementType('timepicker', $dir . 'Element/timepicker.php', 'HTML_QuickForm_timepicker');
         $this->registerElementType('receivers', $dir . 'Element/receivers.php', 'HTML_QuickForm_receivers');
@@ -171,6 +168,42 @@ EOT;
         $element = $this->createElement('text', $name, $label, $attributes);
         return $element;
     }
+
+	/**
+	 * Add a password field to the form.
+	 *
+	 * @param $name
+	 * @param $label
+	 * @param $required
+	 * @param $attributes
+	 */
+	function add_password($name, $label, $required = true, $attributes = array())
+	{
+		$element = $this->create_password($name, $label, $attributes);
+		$this->addElement($element);
+		if ($required)
+		{
+			$this->addRule($name, Translation :: get('ThisFieldIsRequired'), 'required');
+		}
+		return $element;
+	}
+
+	/**
+	 * Create a password field.
+	 *
+	 * @param $name
+	 * @param $label
+	 * @param $attributes
+	 */
+	function create_password($name, $label, $attributes = array()){
+		if (! array_key_exists('size', $attributes))
+		{
+			$attributes['size'] = 50;
+		}
+		$element = $this->createElement('password', $name, $label, $attributes);
+		return $element;
+	}
+
 
     /**
      * Adds a select control to the form.

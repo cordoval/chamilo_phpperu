@@ -59,7 +59,7 @@ class SurveyManagerBrowserComponent extends SurveyManager
         
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
             
-        if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_PUBLISH, SurveyRights :: LOCATION_BROWSER, SurveyRights :: TYPE_SURVEY_COMPONENT, $this->get_user_id()))
+        if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_PUBLISH, SurveyRights :: LOCATION_BROWSER, SurveyRights :: TYPE_COMPONENT, $this->get_user_id()))
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_create_survey_publication_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
@@ -91,7 +91,7 @@ class SurveyManagerBrowserComponent extends SurveyManager
             $search_conditions[] = new PatternMatchCondition(ContentObject :: PROPERTY_TITLE, '*' . $query . '*', $object_alias);
             $search_conditions[] = new PatternMatchCondition(ContentObject :: PROPERTY_DESCRIPTION, '*' . $query . '*', $object_alias);
             $subselect_condition = new OrCondition($search_conditions);
-            $conditions[] = new SubselectCondition(SurveyPublication :: PROPERTY_CONTENT_OBJECT, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition, null, RepositoryDataManager :: get_instance());
+            $conditions[] = new SubselectCondition(SurveyPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition, null, RepositoryDataManager :: get_instance());
         }
         
         if ($user->is_platform_admin())
@@ -101,16 +101,22 @@ class SurveyManagerBrowserComponent extends SurveyManager
         else
         {
                         
-            $dates = array();
-            $interval[] = new InequalityCondition(SurveyPublication :: PROPERTY_FROM_DATE, InequalityCondition :: LESS_THAN_OR_EQUAL, time(), $publication_alias);
-            $interval[] = new InequalityCondition(SurveyPublication :: PROPERTY_TO_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, time(), $publication_alias);
-            $dates[] = new AndCondition($interval);
-            $dates[] = new AndCondition(array(new EqualityCondition(SurveyPublication :: PROPERTY_FROM_DATE, 0, $publication_alias), new EqualityCondition(SurveyPublication :: PROPERTY_TO_DATE, 0, $publication_alias)));
-            $dates[] = new EqualityCondition(SurveyPublication :: PROPERTY_PUBLISHER, $this->get_user_id(), $publication_alias);
-            $conditions[] = new OrCondition($dates);
+//            $dates = array();
+//            $interval[] = new InequalityCondition(SurveyPublication :: PROPERTY_FROM_DATE, InequalityCondition :: LESS_THAN_OR_EQUAL, time(), $publication_alias);
+//            $interval[] = new InequalityCondition(SurveyPublication :: PROPERTY_TO_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, time(), $publication_alias);
+//            $dates[] = new AndCondition($interval);
+//            $dates[] = new AndCondition(array(new EqualityCondition(SurveyPublication :: PROPERTY_FROM_DATE, 0, $publication_alias), new EqualityCondition(SurveyPublication :: PROPERTY_TO_DATE, 0, $publication_alias)));
+//            $dates[] = new EqualityCondition(SurveyPublication :: PROPERTY_PUBLISHER, $this->get_user_id(), $publication_alias);
+//            $conditions[] = new OrCondition($dates);
 //            $conditions[] = new EqualityCondition(SurveyPublication :: PROPERTY_PUBLISHER, $this->get_user_id(), $publication_alias);
             
+        	 $user_rights_location_alias = RightsDataManager :: get_instance()->get_alias(UserRightLocation :: get_table_name());
+        	
+        	$conditions[] =  new EqualityCondition(UserRightLocation :: PROPERTY_USER_ID, $user->get_id(), $user_rights_location_alias, true);
+        	
             return new AndCondition($conditions);
+			
+        	
         }
     
     }

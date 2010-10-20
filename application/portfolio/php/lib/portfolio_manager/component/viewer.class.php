@@ -144,8 +144,12 @@ class PortfolioManagerViewerComponent extends PortfolioManager
     {
         $rdm = RepositoryDataManager::get_instance();
 
-        $trail = BreadcrumbTrail::get_instance();
+        $trail = new BreadcrumbTrail;
         $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE)), Translation :: get('BrowsePortfolios')));
+        if(!isset ($this->owner_user_id))
+        {
+            $this->owner_user_id = $_REQUEST[PortfolioManager::PARAM_PORTFOLIO_OWNER_ID] ;
+        }
         $user = UserDataManager :: get_instance()->retrieve_user($this->owner_user_id);
         $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->current_user_id)), Translation :: get('ViewPortfolio') . ' ' . $user->get_fullname()));
 
@@ -186,7 +190,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager
 
         
 
-        if ($this->owner_user_id == $this->current_user_id || $this->get_user()->is_platform_admin())
+        if ($this->owner_user_id == $this->current_user_id || ($this->get_user() && $this->get_user()->is_platform_admin()))
         {
 
             $this->action_bar = $this->get_action_bar();
@@ -201,7 +205,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager
             $user = UserDataManager :: get_instance()->retrieve_user($this->owner_user_id);
 
             $html[] = '<div style="text-align: center;">';
-            $html[] = '<img src="' . $user->get_full_picture_url() . '" />';
+            $html[] = '<img src="' . $user->get_full_picture_url() . '" WIDTH=80% />';
             $html[] = '</div><br />';
         }
         $menu = new PortfolioMenu($this->get_user(), 'run.php?go='.self::ACTION_VIEW_PORTFOLIO.'&application=portfolio&'. PortfolioManager::PARAM_PORTFOLIO_OWNER_ID.'=' . $this->owner_user_id . '&pid=%s&cid=%s', $this->pid, $this->cid, $this->owner_user_id);
@@ -230,7 +234,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager
         $html[] = '</ul><div class="tabbed-pane-content">';
 
 
-        parent::display_header();
+        parent::display_header($trail);
         echo implode ("\n", $html);
         if($this->specific_html)
         {
@@ -262,7 +266,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager
         $html[]= '</div>';
 
        
-            $trail = BreadcrumbTrail::get_instance();
+            $trail = new BreadcrumbTrail;
         
         
 
@@ -313,6 +317,10 @@ class PortfolioManagerViewerComponent extends PortfolioManager
             else {
                 $portfolio = $this->pid  ;
                 $parent = PortfolioManager::get_co_id_from_portfolio_publication_wrapper($portfolio);
+                if(!$parent)
+                {
+                    $parent = $this->selected_object->get_id();
+            }
             }
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('AddNewItemToPortfolio'), Theme :: get_common_image_path() . 'action_create.png', $this->get_create_portfolio_item_url($parent, $portfolio), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }

@@ -126,9 +126,9 @@ class CpObjectImportBase{
 					$errors = $result->get_errors();
 					$settings->get_log()->error($errors);
 
-					debug(get_class($this));//@todo: remove that
-					debug($errors);//@todo: remove that
-					debug($settings);die;//@todo: remove that
+					//debug(get_class($this));//@todo: remove that
+					//debug($errors);//@todo: remove that
+					//debug($settings);die;//@todo: remove that
 
 					return false;
 				}else{//i.e. an array

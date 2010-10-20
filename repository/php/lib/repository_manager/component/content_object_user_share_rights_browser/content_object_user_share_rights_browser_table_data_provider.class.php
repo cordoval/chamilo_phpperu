@@ -23,7 +23,8 @@ class ContentObjectUserShareRightsBrowserTableDataProvider extends ObjectTableDa
 
     function get_object_count()
     {
-        return RepositoryDataManager :: get_instance()->count_content_object_user_shares();
+        $conditon = new EqualityCondition(ContentObjectUserShare :: PROPERTY_CONTENT_OBJECT_ID, Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID));
+        return RepositoryDataManager :: get_instance()->count_content_object_user_shares($conditon);
     }
 
 }

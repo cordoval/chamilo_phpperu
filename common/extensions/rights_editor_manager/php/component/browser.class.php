@@ -27,6 +27,7 @@ use user\User;
  */
 require_once dirname(__FILE__) . '/location_user_browser/location_user_browser_table.class.php';
 require_once dirname(__FILE__) . '/location_group_browser/location_group_browser_table.class.php';
+require_once dirname(__FILE__) . '/location_template_browser/location_template_browser_table.class.php';
 
 class RightsEditorManagerBrowserComponent extends RightsEditorManager
 {
@@ -34,8 +35,6 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
     protected $type;
     
     const PARAM_TYPE = 'rights_type';
-    const TYPE_USER = 'user';
-    const TYPE_GROUP = 'group';
     
     const TAB_DETAILS = 0;
     const TAB_SUBGROUPS = 1;
@@ -52,25 +51,17 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('RightsEditorManagerBrowserComponent')));
         
     	$this->type = Request :: get(self :: PARAM_TYPE);
-        $modus = $this->get_modus();
-        if (! $this->type)
+        if (!$this->type)
         {
-            switch ($modus)
-            {
-                case RightsEditorManager :: MODUS_USERS :
-                    $this->type = self :: TYPE_USER;
-                    break;
-                case RightsEditorManager :: MODUS_GROUPS :
-                    $this->type = self :: TYPE_GROUP;
-                    break;
-                case RightsEditorManager :: MODUS_BOTH :
-                    $this->type = self :: TYPE_USER;
-                    break;
-            }
+            $allowed_types = $this->get_types();
+            $this->type = $allowed_types[0];
         }
-        elseif (($modus == RightsEditorManager :: MODUS_USERS && $this->type == self :: PARAM_GROUP) || ($modus == RightsEditorManager :: MODUS_GROUPS && $this->type == self :: TYPE_USER))
+        else
         {
-            $this->not_allowed();
+            if(!in_array($this->type, $this->get_types()))
+            {
+                $this->not_allowed();
+            }
         }
         
         $trail = BreadcrumbTrail :: get_instance();
@@ -93,9 +84,13 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
         {
             $html[] = $this->display_location_user_browser();
         }
-        else
+        elseif($this->type == self :: TYPE_GROUP)
         {
             $html[] = $this->display_location_group_browser();
+        }
+        else
+        {
+            $html[] = $this->display_location_template_browser();
         }
         
         $html[] = '<div class="clear"></div><br />';
@@ -129,13 +124,29 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
     	$html = array();
     	
     	$parameters = $this->get_parameters();
-        $parameters[self :: PARAM_TYPE] = 'user';
+        $parameters[self :: PARAM_TYPE] = self :: TYPE_USER;
         $parameters['query'] = $this->action_bar->get_query();
         $table = new LocationUserBrowserTable($this, $parameters, $this->get_user_conditions());
         $html[] = '<div style="overflow: auto;">';
         $html[] = $table->as_html();
         $html[] = '</div>';
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'application/common/rights_editor_manager/javascript/configure_user.js');
+        
+        return implode("\n", $html);
+    }
+    
+    function display_location_template_browser()
+    {
+    	$html = array();
+    	
+    	$parameters = $this->get_parameters();
+        $parameters[self :: PARAM_TYPE] = self :: TYPE_TEMPLATE;
+        $parameters['query'] = $this->action_bar->get_query();
+        $table = new LocationTemplateBrowserTable($this, $parameters, $this->get_template_conditions());
+        $html[] = '<div style="overflow: auto;">';
+        $html[] = $table->as_html();
+        $html[] = '</div>';
+        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'application/common/rights_editor_manager/javascript/configure_template.js');
         
         return implode("\n", $html);
     }
@@ -180,28 +191,38 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
 
     function display_type_selector()
     {
-        $modus = $this->get_modus();
+        $types = $this->get_types();
         
         $html = array();
-        
-        if ($modus == RightsEditorManager :: MODUS_BOTH)
-        {
-            $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/application.js');
-            $html[] = '<div class="application_selecter">';
+        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/application.js');
+        $html[] = '<div class="application_selecter">';
             
+        if (in_array(self :: TYPE_USER, $types))
+        {
             $current = $this->type == self :: TYPE_USER ? ' current' : '';
             $html[] = '<a href="' . $this->get_url(array(self :: PARAM_TYPE => self :: TYPE_USER)) . '">';
             $html[] = '<div class="application' . $current . '" style="background-image: url(' . Theme :: get_image_path('admin') . 'place_user.png);">' . Translation :: get('Users') . '</div>';
             $html[] = '</a>';
-            
+        }
+        
+        if (in_array(self :: TYPE_GROUP, $types))
+        {
             $current = $this->type == self :: TYPE_GROUP ? ' current' : '';
             $html[] = '<a href="' . $this->get_url(array(self :: PARAM_TYPE => self :: TYPE_GROUP)) . '">';
             $html[] = '<div class="application' . $current . '" style="background-image: url(' . Theme :: get_image_path('admin') . 'place_group.png);">' . Translation :: get('Groups') . '</div>';
             $html[] = '</a>';
-            
-            $html[] = '</div>';
-            $html[] = '<div style="clear: both;"></div>';
         }
+        
+        if (in_array(self :: TYPE_TEMPLATE, $types))
+        {
+            $current = $this->type == self :: TYPE_TEMPLATE ? ' current' : '';
+            $html[] = '<a href="' . $this->get_url(array(self :: PARAM_TYPE => self :: TYPE_TEMPLATE)) . '">';
+            $html[] = '<div class="application' . $current . '" style="background-image: url(' . Theme :: get_image_path('admin') . 'place_template.png);">' . Translation :: get('Templates') . '</div>';
+            $html[] = '</a>';
+        }
+        
+        $html[] = '</div>';
+        $html[] = '<div style="clear: both;"></div>';
         
         return implode("\n", $html);
     }
@@ -239,6 +260,42 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
         }
         
         return new AndCondition($conditions);
+    }
+    
+    function get_template_conditions()
+    {
+        $conditions = array();
+        
+        $query = $this->action_bar->get_query();
+        if (isset($query) && $query != '')
+        {
+            $search_conditions = array();
+            $search_conditions[] = new PatternMatchCondition(RightsTemplate :: PROPERTY_NAME, '*' . $query . '*');
+            $search_conditions[] = new PatternMatchCondition(RightsTemplate :: PROPERTY_DESCRIPTION, '*' . $query . '*');
+            $conditions[] = new OrCondition($search_conditions);
+        }
+        
+        if (count($this->get_limited_templates()) > 0)
+        {
+            $conditions[] = new InCondition(RightsTemplate :: PROPERTY_ID, $this->get_limited_templates());
+        }
+        
+        if (count($this->get_excluded_templates()) > 0)
+        {
+            $excluded_template_conditions = array();
+            
+            foreach ($this->get_excluded_templates() as $template)
+            {
+                $excluded_template_conditions[] = new NotCondition(new EqualityCondition(RightsTemplate :: PROPERTY_ID, $template));
+            }
+            
+            $conditions[] = new AndCondition($excluded_template_conditions);
+        }
+        
+        if(count($conditions) > 0)
+        {
+            return new AndCondition($conditions);
+        }
     }
 
     function get_group_conditions($get_children = true)

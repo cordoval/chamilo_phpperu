@@ -89,7 +89,6 @@ class InternshipOrganizerManager extends WebApplication
     function get_administration_url($component_id)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_ADMINISTRATION, self :: PARAM_COMPONENT_ID => $component_id));
-    
     }
 
     function get_application_name()

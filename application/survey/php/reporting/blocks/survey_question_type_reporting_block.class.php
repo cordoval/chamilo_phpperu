@@ -22,7 +22,9 @@ class SurveyQuestionTypeReportingBlock extends SurveyReportingBlock {
 		require_once (dirname ( __FILE__ ) . '/../../trackers/survey_participant_tracker.class.php');
 		
 		
-		$publication_id = $this->get_survey_publication_id ();
+		 $filter_parameters = $this->get_filter_parameters();
+        
+        $publication_id = $filter_parameters[SurveyReportingFilterWizard :: PARAM_PUBLICATION_ID];
 		
 		$survey_publication = SurveyDataManager::get_instance()->retrieve_survey_publication($publication_id);
 		$survey = $survey_publication->get_publication_object();
@@ -49,7 +51,7 @@ class SurveyQuestionTypeReportingBlock extends SurveyReportingBlock {
 		foreach ($survey->get_pages(false) as $page){
 			foreach ($page->get_questions(false) as $question){
 				
-				switch ($question->get_type_name()){
+				switch ($question->get_type()){
 					case SurveyMatchingQuestion::get_type_name():
 					 	$question_type [Translation::get ( SurveyRatingQuestion :: get_type_name())] ++;
 						break;

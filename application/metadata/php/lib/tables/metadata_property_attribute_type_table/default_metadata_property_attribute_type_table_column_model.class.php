@@ -31,8 +31,8 @@ class DefaultMetadataPropertyAttributeTypeTableColumnModel extends ObjectTableCo
 		//$columns[] = new ObjectTableColumn(MetadataPropertyAttributeType :: PROPERTY_ID);
 		$columns[] = new ObjectTableColumn(MetadataPropertyAttributeType :: PROPERTY_NS_PREFIX);
 		$columns[] = new ObjectTableColumn(MetadataPropertyAttributeType :: PROPERTY_NAME);
-		$columns[] = new ObjectTableColumn(MetadataPropertyAttributeType :: PROPERTY_VALUE);
-		$columns[] = new ObjectTableColumn(MetadataPropertyAttributeType :: PROPERTY_VALUE_TYPE);
+		//$columns[] = new ObjectTableColumn(MetadataPropertyAttributeType :: PROPERTY_VALUE);
+		//$columns[] = new ObjectTableColumn(MetadataPropertyAttributeType :: PROPERTY_VALUE_TYPE);
 
 		return $columns;
 	}

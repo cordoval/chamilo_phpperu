@@ -179,6 +179,52 @@ abstract class MigrationDataClass extends DataClass
         return $secure_filename;
     }
 
+    public function migrate_file_and_create_document($source_path, $source_filename, $user_id)
+    {
+        $hash = md5($source_filename);
+        $destination_path = Path :: get(SYS_REPO_PATH) . $user_id . '/' . Text :: char_at($hash, 0) . '/';
+        
+        $source_file = $source_path . $source_filename;
+        $destination_file = $destination_path . $hash;
+
+        if (! file_exists($source_file) || ! is_file($source_file))
+        {
+            return null;
+        }
+        
+        if (file_exists($destination_file) && is_file($destination_file))
+        {
+            if (! (md5_file($source_file) == md5_file($destination_file)))
+            {
+                $hash = Filesystem :: create_unique_name($destination_path, $hash);
+                $destination_file = $destination_path . $hash;
+            }
+            else
+            {
+                return RepositoryDataManager :: retrieve_document_from_hash($user_id, $hash);
+            }
+        }
+        
+        $move_file = PlatformSetting :: get('move_files', MigrationManager :: APPLICATION_NAME);
+        
+        if ($move_file)
+        {
+            Filesystem :: move_file($source_file, $destination_file);
+        }
+        else
+        {
+            Filesystem :: copy_file($source_file, $destination_file);
+        }
+        
+        $document = new Document();
+        $document->set_filename($source_filename);
+        $document->set_path($user_id . '/' . Text :: char_at($hash, 0) . '/' . $hash);
+        $document->set_filesize(filesize($destination_file));
+        $document->set_hash($hash);
+        $document->set_owner_id($user_id);
+        return $document;
+    }
+
     /**
      * Factory to retrieve the correct class of an old system
      * @param string $old_system the old system

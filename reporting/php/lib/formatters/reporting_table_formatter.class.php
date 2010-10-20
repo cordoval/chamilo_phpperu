@@ -10,12 +10,13 @@ use common\libraries\Request;
  */
 class ReportingTableFormatter extends ReportingFormatter
 {
+	private $reporting_data;
     /**
      * @see Reporting Formatter -> to_html
      */
     public function to_html()
     {
-    	$reporting_data = $this->get_block()->retrieve_data();
+    	$this->reporting_data = $this->get_block()->retrieve_data();
         /*$data = $reporting_data[0];
         $datadescription = $reporting_data[1];
 
@@ -82,8 +83,8 @@ class ReportingTableFormatter extends ReportingFormatter
         /*if ($this->get_block->is_sortable())
             $table = new SortableTable('table_' . $this->get_block->get_id(), 'count_data', 'retrieve_data', $column);
         else*/
-            $table = new SortableTableFromArray($this->convert_reporting_data(), null, 20, 'table_' . $this->get_block()->get_name());
-            //Todo: not a sortable table
+            $table = new SortableTableFromArray($this->convert_reporting_data(), null, 20, 'table_' . $this->get_block()->get_name() . '_' . $this->get_block()->get_id());
+    	            //Todo: not a sortable table
 
 
         /*foreach ($_GET as $key => $value)
@@ -113,34 +114,33 @@ class ReportingTableFormatter extends ReportingFormatter
         $parameters = array_merge($this->get_block()->get_parent()->get_parent()->get_parameters(), $parameters);
         $table->set_additional_parameters($parameters);
         $j = 0;
-        if ($reporting_data->is_categories_visible())
-        {
+        if ($this->reporting_data->is_categories_visible())
+                {
         	$table->set_header(0, '', false);
         	$j++;
         }
 
-        foreach($reporting_data->get_rows() as $row)
-        {
+        foreach($this->reporting_data->get_rows() as $row)
+                {
         	$table->set_header($j, $row);
         	$j++;
         }
         return $table->toHTML();
     }
 
-    public function convert_reporting_data()
+        public function convert_reporting_data()
     {
-    	$reporting_data = $this->get_block()->retrieve_data();
     	$table_data = array();
-    	foreach($reporting_data->get_categories() as $category_id => $category_name)
+    	foreach($this->reporting_data->get_categories() as $category_id => $category_name)
     	{
     		$category_array = array();
-    		if ($reporting_data->is_categories_visible())
+    		if ($this->reporting_data->is_categories_visible())
     		{
     			$category_array[] = $category_name;
     		}
-    		foreach ($reporting_data->get_rows() as $row_id => $row_name)
+    		foreach ($this->reporting_data->get_rows() as $row_id => $row_name)
     		{
-    			$category_array[] = $reporting_data->get_data_category_row($category_id, $row_id);
+    			$category_array[] = $this->reporting_data->get_data_category_row($category_id, $row_id);
     		}
     		$table_data[] = $category_array;
     	}

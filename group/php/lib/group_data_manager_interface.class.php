@@ -56,5 +56,19 @@ interface GroupDataManagerInterface
     function delete_nested_values($group);
 
     function move_group($group, $new_parent_id, $new_previous_id = 0);
+
+    function retrieve_usable_groups($condition = null, $offset = null, $count = null, $order_property = null);
+
+    function delete_group_use_group($group_use_group);
+
+    function update_group_use_group($group_use_group);
+
+    function create_group_use_group($group_use_group);
+
+    function count_group_use_group($conditions = null);
+
+    function retrieve_group_use_groups($condition = null, $offset = null, $count = null, $order_property = null);
+
+    function retrieve_group_use_group($id);
 }
 ?>

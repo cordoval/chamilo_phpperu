@@ -274,7 +274,7 @@ class Dokeos185AssignmentSubmission extends Dokeos185MigrationDataClass
     $new_user_id = $mgdm->get_id_reference($this->get_user_id(), 'user_user');
     if (! $new_user_id)
     {
-        $new_user_id = $mgdm->get_owner($new_course_code);
+        $new_user_id = $this->get_data_manager()->get_owner_id($new_course_code);
     }
     
     $filename = $this->get_submitted_doc_path();
@@ -313,8 +313,8 @@ class Dokeos185AssignmentSubmission extends Dokeos185MigrationDataClass
             $lcms_document->set_path($new_path . $file);
             $lcms_document->set_filename($file);
             
-            $lcms_document->set_creation_date($mgdm->make_unix_time($this->get_creation_date()));
-            $lcms_document->set_modification_date($mgdm->make_unix_time($this->get_last_edit_date()));
+            $lcms_document->set_creation_date(strtotime($this->get_creation_date()));
+            $lcms_document->set_modification_date(strtotime($this->get_last_edit_date()));
             
             //if($this->get_visibility() == 2)
             //	$lcms_document->set_state(1);
@@ -440,9 +440,7 @@ class Dokeos185AssignmentSubmission extends Dokeos185MigrationDataClass
      * @param array $parameters parameters for the retrieval
      * @return array of assignment submissions
      */
-    static 
-
-function retrieve_data($parameters)
+    static function retrieve_data($parameters)
 {
     $old_mgdm = $parameters['old_mgdm'];
     
@@ -453,9 +451,7 @@ function retrieve_data($parameters)
     return $old_mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
 }
 
-    static 
-
-function get_database_table($parameters)
+    static function get_database_table($parameters)
 {
     $array = array();
     $array['database'] = $parameters['course']->get_db_name();

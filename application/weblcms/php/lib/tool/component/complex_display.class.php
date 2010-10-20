@@ -9,11 +9,11 @@ class ToolComponentComplexDisplayComponent extends ToolComponent
 
     function run()
     {
-        if (! $this->is_allowed(WeblcmsRights :: VIEW_RIGHT))
+        /*if (! $this->is_allowed(WeblcmsRights :: VIEW_RIGHT))
         {
             Display :: not_allowed();
             return;
-        }
+        }*/
         
         $publication_id = Request :: get(Tool :: PARAM_PUBLICATION_ID);
         $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, $publication_id);

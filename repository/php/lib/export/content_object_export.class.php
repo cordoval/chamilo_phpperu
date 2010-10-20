@@ -62,6 +62,7 @@ abstract class ContentObjectExport
      * get_supported_filetypes function.
      * @param string $filename The desired filename for the export file
      * (extension will be automatically added depending on the given $type)
+     * @return ContentObjectExport
      */
     public static function factory($type, $content_object)
     {

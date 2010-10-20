@@ -6,10 +6,5 @@ class LearningPathToolShowPublicationComponent extends LearningPathTool
     {
         ToolComponent :: launch($this);
     }
-
-    function get_hidden()
-    {
-        return 0;
-    }
 }
 ?>

@@ -197,7 +197,7 @@ class Dokeos185UserinfoContent
     
     if (! $new_user_id)
     {
-        $new_user_id = $mgdm->get_owner($new_course_code);
+        $new_user_id = $this->get_data_manager()->get_owner_id($new_course_code);
     }
     
     //forum parameters
@@ -231,8 +231,8 @@ class Dokeos185UserinfoContent
     
     $lcms_userinfo_content->set_description($this->get_content());
     
-    $lcms_userinfo_content->set_creation_date($mgdm->make_unix_time($this->get_edition_time()));
-    $lcms_userinfo_content->set_modification_date($mgdm->make_unix_time($this->get_edition_time()));
+    $lcms_userinfo_content->set_creation_date(strtotime($this->get_edition_time()));
+    $lcms_userinfo_content->set_modification_date(strtotime($this->get_edition_time()));
     
     $lcms_userinfo_content->set_owner_id($new_user_id);
     

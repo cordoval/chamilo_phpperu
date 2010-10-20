@@ -23,8 +23,9 @@ class CpImport extends ContentObjectImport
 
     private $settings = null;
 
-    public function __construct($file, $user, $category, $log = NULL)
-    {
+	public function __construct($file, $user=false, $category=0, $log = NULL)
+	{
+		$user = $user ? $user : UserDataManager::get_instance()->retrieve_user(Session::get_user_id());
         parent :: __construct($file, $user, $category);
         $ext = strpos(strtolower($file['type']), 'zip') !== false ? 'zip' : '';
         $path = $file['tmp_name'];
@@ -63,7 +64,7 @@ class CpImport extends ContentObjectImport
     public function publish(Course $course, $object)
     {
         $objects = is_array($object) ? $object : array($object);
-        $settings = $this->get_settings();
+        //$settings = $this->get_settings();
         $user = $settings->get_user();
         $application = Application :: factory('Weblcms', $user);
         foreach ($objects as $object)

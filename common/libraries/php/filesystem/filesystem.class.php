@@ -513,7 +513,7 @@ class Filesystem
      * @param string $name
      * @return false if file doesn't exist, true if stream succeeded
      */
-    public static function file_send_for_download($full_file_name, $forced = false, $name = '')
+    public static function file_send_for_download($full_file_name, $forced = false, $name = '', $content_type = '')
     {
         if (! is_file($full_file_name))
         {
@@ -529,6 +529,9 @@ class Filesystem
 
             header('Content-type: application/octet-stream');
             //header('Content-Type: application/force-download');
+            if($content_type){
+				header('Content-type: ' . $content_type);
+			}
             header('Content-length: ' . $len);
             if (preg_match("/MSIE 5.5/", $_SERVER['HTTP_USER_AGENT']))
             {

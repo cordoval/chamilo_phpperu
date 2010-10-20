@@ -16,7 +16,7 @@ require_once dirname(__FILE__) . '/main.php';
 class QtiExport extends ContentObjectExport{
 
     static function factory_qti($content_object, $directory, $manifest, $toc){
-    	if($result = SerializerExport::factory($content_object, $directory, $manifest, $toc)){
+    	if($result = QtiSerializerExport::factory($content_object, $directory, $manifest, $toc)){
     		return $result;
     	}else{
     		return null;

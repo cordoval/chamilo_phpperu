@@ -5,6 +5,10 @@ abstract class SurveyQuestionDisplay
     private $complex_question;
     private $question;
     private $question_nr;
+    
+    /**
+     * @var SurveyViewerWizardPage
+     */
     private $formvalidator;
     private $renderer;
     
@@ -27,8 +31,7 @@ abstract class SurveyQuestionDisplay
         $this->answer = $answer;
         $this->contex_path = $context_path;
         $this->survey = $survey;
-//        dump($context_path);
-        $this->question_nr = $this->survey->get_question_nr($context_path.'_'.$complex_question->get_id());;
+        $this->question_nr = $this->survey->get_question_nr($context_path);;
     }
 
     function get_complex_question()

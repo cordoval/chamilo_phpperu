@@ -40,7 +40,7 @@ class CategoryBrowserTable extends ObjectTable
             
             if($browser->get_subcategories_allowed())
             {
-            	$actions->add_form_action(new ObjectTableFormAction(CategoryManager :: ACTION_MOVE_CATEGORY, Translation :: get('MoveSelected'), false));
+            	$actions->add_form_action(new ObjectTableFormAction(CategoryManager :: ACTION_CHANGE_CATEGORY_PARENT, Translation :: get('MoveSelected'), false));
             }
             
             $this->set_form_actions($actions);

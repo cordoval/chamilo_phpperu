@@ -160,7 +160,7 @@ class Dokeos185DropboxFeedback extends Dokeos185CourseDataMigrationDataClass
 
         if (!$new_user_id)
         {
-            $new_user_id = $this->get_owner($new_course_code);
+            $new_user_id = $this->get_data_manager()->get_owner_id($new_course_code);
         }
 
         //dropbox_feedback parameters
@@ -192,12 +192,13 @@ class Dokeos185DropboxFeedback extends Dokeos185CourseDataMigrationDataClass
         $condition = new EqualityCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, $feedback_content_object_id);
         $publication = WeblcmsDataManager::get_instance()->retrieve_content_object_publications($condition)->next_result();
 
-        $feedback_publication->set_pid($publication->get_id());
-        $feedback_publication->set_creation_date(strtotime($chamilo_course_dropbox_feedback->get_creation_date()));
-        $feedback_publication->set_modification_date(strtotime($chamilo_course_dropbox_feedback->get_modification_date()));
-        $feedback_publication->create();
-
-        return $chamilo_course_dropbox_feedback;
+        if($publication)
+        {
+            $feedback_publication->set_pid($publication->get_id());
+            $feedback_publication->set_creation_date(strtotime($chamilo_course_dropbox_feedback->get_creation_date()));
+            $feedback_publication->set_modification_date(strtotime($chamilo_course_dropbox_feedback->get_modification_date()));
+            $feedback_publication->create();
+        }
     }
 
     static function get_table_name()

@@ -7,9 +7,5 @@ class AnnouncementToolShowPublicationComponent extends AnnouncementTool
         ToolComponent :: launch($this);
     }
 
-    function get_hidden()
-    {
-        return 0;
-    }
 }
 ?>

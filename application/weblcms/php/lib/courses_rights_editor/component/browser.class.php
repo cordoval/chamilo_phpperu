@@ -23,10 +23,14 @@ class CoursesRightsEditorManagerBrowserComponent extends RightsEditorManagerBrow
         {
             $html[] = $this->display_location_user_browser();
         }
-        else
+        elseif($this->type == self :: TYPE_GROUP)
         {
             //$html[] = $this->display_location_group_browser();
             $html[] = $this->display_location_course_group_browser();
+        }
+   		else
+        {
+            $html[] = $this->display_location_template_browser();
         }
         
         $html[] = '<div class="clear"></div><br />';
@@ -56,11 +60,11 @@ class CoursesRightsEditorManagerBrowserComponent extends RightsEditorManagerBrow
         $course_group_object = WeblcmsDataManager :: get_instance()->retrieve_course_group($course_group);
         if ($course_group_object->has_children())
         {
-            $table = new LocationCourseGroupBrowserTable($this, $this->get_parameters(), $this->get_group_conditions());
+            $table = new LocationCourseGroupBrowserTable($this, $this->get_parameters(), $this->get_course_group_conditions());
             $tabs->add_tab(new DynamicContentTab(self :: TAB_SUBGROUPS, Translation :: get('Subgroups'), Theme :: get_image_path('admin') . 'place_mini_group.png', $table->as_html()));
         }
         
-        $table = new LocationCourseGroupBrowserTable($this, $this->get_parameters(), $this->get_group_conditions(false));
+        $table = new LocationCourseGroupBrowserTable($this, $this->get_parameters(), $this->get_course_group_conditions(false));
         $tabs->add_tab(new DynamicContentTab(self :: TAB_DETAILS, Translation :: get('Rights'), Theme :: get_image_path('admin') . 'place_mini_rights.png', $table->as_html()));
         
         $html[] = $tabs->render();

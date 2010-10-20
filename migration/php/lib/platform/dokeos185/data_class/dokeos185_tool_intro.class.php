@@ -30,7 +30,7 @@ class Dokeos185ToolIntro extends Dokeos185CourseDataMigrationDataClass
      * Map from id to correct chamilo tool
      * @todo add remaining mappings
      */
-    private $convert = array('course_homepage' => 'home');
+    private $convert = array('course_homepage' => 'home', 'course_description' => 'description');
 
     /**
      * Creates a new Dokeos185ToolIntro object
@@ -111,8 +111,19 @@ class Dokeos185ToolIntro extends Dokeos185CourseDataMigrationDataClass
      */
     function is_valid()
     {
-        if (!$this->get_intro_text()) {
-            $this->create_failed_element($this->get_id());
+        $new_course_id = $this->get_id_reference($this->get_course()->get_code(), 'main_database.course');
+        $id = $this->convert[$this->get_id()];
+        if(!$id)
+        {
+        	$id = $this->get_id();
+        }
+        
+        $module = WeblcmsDataManager :: get_instance()->retrieve_course_module_by_name($new_course_id, $id);
+        
+    	if (!$this->get_intro_text() || !$new_course_id || (!$module && $id != 'home'))
+        {
+            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'tool_intro', 'ID' => $this->get_id())));
+        	$this->create_failed_element($this->get_id());
             return false;
         }
         return true;
@@ -126,7 +137,7 @@ class Dokeos185ToolIntro extends Dokeos185CourseDataMigrationDataClass
     function convert_data()
     {
         $new_course_id = $this->get_id_reference($this->get_course()->get_code(), 'main_database.course');
-        $owner_id = $this->get_data_manager()->get_owner_id();
+        $owner_id = $this->get_data_manager()->get_owner_id($new_course_id);
 
         $chamilo_tool_intro = new Introduction();
         $chamilo_tool_intro->set_title($this->get_intro_text());
@@ -134,7 +145,7 @@ class Dokeos185ToolIntro extends Dokeos185CourseDataMigrationDataClass
         $chamilo_tool_intro->set_description($this->get_intro_text());
 
         // Category for contents already exists?
-        $chamilo_repository_category_id = RepositoryDataManager::get_repository_category_by_name_or_create_new($owner_id, 'descriptions');
+        $chamilo_repository_category_id = RepositoryDataManager::get_repository_category_by_name_or_create_new($owner_id, Translation :: get('Introductions'));
         $chamilo_tool_intro->set_parent_id($chamilo_repository_category_id);
 
         $chamilo_tool_intro->set_owner_id($owner_id);
@@ -147,7 +158,14 @@ class Dokeos185ToolIntro extends Dokeos185CourseDataMigrationDataClass
         $publication->set_content_object_id($chamilo_tool_intro->get_id());
         $publication->set_course_id($new_course_id);
         $publication->set_publisher_id($owner_id);
-        $publication->set_tool($this->convert[$this->get_id()]);
+        
+    	$id = $this->convert[$this->get_id()];
+        if(!$id)
+        {
+        	$id = $this->get_id();
+        }
+        
+        $publication->set_tool($id);
 
         $publication->set_category_id(0);
         $publication->set_from_date(0);
@@ -163,8 +181,7 @@ class Dokeos185ToolIntro extends Dokeos185CourseDataMigrationDataClass
         $publication->create();
         //create publication in database
         
-
-        return $chamilo_tool_intro;
+       	$this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'tool_intro', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_tool_intro->get_id())));
     }
 
     static function get_table_name()

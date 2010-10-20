@@ -41,7 +41,7 @@ class Group extends DataClass
     /*
      * Gets the table name for this class
      */
-    
+
     static function get_table_name()
     {
         return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
@@ -148,7 +148,7 @@ class Group extends DataClass
     function get_parents($include_self = true)
     {
         $gdm = $this->get_data_manager();
-        
+
         $parent_conditions = array();
         if ($include_self)
         {
@@ -160,10 +160,10 @@ class Group extends DataClass
             $parent_conditions[] = new InequalityCondition(Group :: PROPERTY_LEFT_VALUE, InequalityCondition :: LESS_THAN, $this->get_left_value());
             $parent_conditions[] = new InequalityCondition(Group :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $this->get_right_value());
         }
-        
+
         $parent_condition = new AndCondition($parent_conditions);
         $order = new ObjectTableOrder(Group :: PROPERTY_LEFT_VALUE, SORT_DESC);
-        
+
         return $gdm->retrieve_groups($parent_condition, null, null, $order);
     }
 
@@ -174,7 +174,7 @@ class Group extends DataClass
             $gdm = $this->get_data_manager();
             $parent = $gdm->retrieve_group($parent);
         }
-        
+
         // TODO: What if $parent is invalid ? Return error
         // Check if the left and right value of the child are within the
         // left and right value of the parent, if so it is a child
@@ -182,7 +182,7 @@ class Group extends DataClass
         {
             return true;
         }
-        
+
         return false;
     }
 
@@ -193,12 +193,12 @@ class Group extends DataClass
             $gdm = $this->get_data_manager();
             $child = $gdm->retrieve_group($child);
         }
-        
+
         if ($this->get_left_value() < $child->get_left_value() && $child->get_right_value() < $this->get_right_value())
         {
             return true;
         }
-        
+
         return false;
     }
 
@@ -208,30 +208,30 @@ class Group extends DataClass
     function get_siblings($include_self = true)
     {
         $gdm = $this->get_data_manager();
-        
+
         $siblings_conditions = array();
         $siblings_conditions[] = new EqualityCondition(Group :: PROPERTY_PARENT, $this->get_parent());
-        
+
         if (! $include_self)
         {
             $siblings_conditions[] = new NotCondition(new EqualityCondition(Group :: PROPERTY_ID, $this->get_id()));
         }
-        
+
         $siblings_condition = new AndCondition($siblings_conditions);
-        
+
         return $gdm->retrieve_groups($siblings_condition);
     }
 
     function has_siblings()
     {
         $gdm = $this->get_data_manager();
-        
+
         $siblings_conditions = array();
         $siblings_conditions[] = new EqualityCondition(Group :: PROPERTY_PARENT, $this->get_parent());
         $siblings_conditions[] = new NotCondition(new EqualityCondition(Group :: PROPERTY_ID, $this->get_id()));
-        
+
         $siblings_condition = new AndCondition($siblings_conditions);
-        
+
         return ($gdm->count_groups($siblings_condition) > 0);
     }
 
@@ -241,7 +241,7 @@ class Group extends DataClass
     function get_children($recursive = true)
     {
         $gdm = $this->get_data_manager();
-        
+
         if ($recursive)
         {
             $children_conditions = array();
@@ -253,14 +253,14 @@ class Group extends DataClass
         {
             $children_condition = new EqualityCondition(Group :: PROPERTY_PARENT, $this->get_id());
         }
-        
+
         return $gdm->retrieve_groups($children_condition);
     }
 
     function has_children()
     {
         return ! ($this->get_left_value() == ($this->get_right_value() - 1));
-        
+
     //		$gdm = $this->get_data_manager();
     //		$children_condition = new EqualityCondition(Location :: PROPERTY_PARENT, $this->get_id());
     //		return ($gdm->count_groups($children_condition) > 0);
@@ -276,24 +276,24 @@ class Group extends DataClass
                 return false;
             }
         }
-        
+
         return $this->move_group($new_parent_id, $new_previous_id = 0);
     }
 
     function move_group($new_parent_id, $new_previous_id = 0)
     {
         $gdm = $this->get_data_manager();
-        
+
         if (! GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_CREATE, $new_parent_id))
         {
             return false;
         }
-        
+
         if (! $gdm->move_group($this, $new_parent_id, $new_previous_id))
         {
             return false;
         }
-        
+
         return true;
     }
 
@@ -304,27 +304,27 @@ class Group extends DataClass
     function delete_group()
     {
         $gdm = $this->get_data_manager();
-        
+
         // Delete the actual location
         if (! $gdm->delete_group($this))
         {
             return false;
         }
-        
+
         // Update left and right values
         if (! $gdm->delete_nested_values($this))
         {
             // TODO: Some kind of general error handling framework would be nice: PEAR-ERROR maybe ?
             return false;
         }
-        
+
         return true;
     }
 
     function delete()
     {
         $gdm = $this->get_data_manager();
-        
+
         $location = GroupRights :: get_location_by_identifier_from_groups_subtree($this->get_id());
         if ($location)
         {
@@ -333,7 +333,7 @@ class Group extends DataClass
                 return false;
             }
         }
-        
+
         return $this->delete_group();
     }
 
@@ -345,34 +345,34 @@ class Group extends DataClass
     function create($previous_id = 0)
     {
         $gdm = $this->get_data_manager();
-        
+
         $parent_id = $this->get_parent();
-        
+
         $previous_visited = 0;
-        
+
         if ($parent_id || $previous_id)
         {
             if ($previous_id)
             {
                 $node = $gdm->retrieve_group($previous_id);
                 $parent_id = $node->get_parent();
-                
+
             // TODO: If $node is invalid, what then ?
             }
             else
             {
                 $node = $gdm->retrieve_group($parent_id);
             }
-            
+
             // Set the new location's parent id
             $this->set_parent($parent_id);
-            
+
             // TODO: If $node is invalid, what then ?
             // get the "visited"-value where to add the new element behind
             // if $previous_id is given, we need to use the right-value
             // if only the $parent_id is given we need to use the left-value
             $previous_visited = $previous_id ? $node->get_right_value() : $node->get_left_value();
-            
+
             // Correct the left and right values wherever necessary.
             if (! $gdm->add_nested_values($previous_visited, 1))
             {
@@ -380,7 +380,7 @@ class Group extends DataClass
                 return false;
             }
         }
-        
+
         // Left and right values have been shifted so now we
         // want to really add the location itself, but first
         // we have to set it's left and right value.
@@ -390,7 +390,7 @@ class Group extends DataClass
         {
             return false;
         }
-        
+
         $parent_location = GroupRights :: get_location_id_by_identifier_from_groups_subtree($this->get_parent());
         $parent_location = ($parent_location ? $parent_location : 0);
         if (! GroupRights :: create_location_in_groups_subtree($this->get_name(), $this->get_id(), $parent_location))
@@ -398,7 +398,7 @@ class Group extends DataClass
             $this->delete_group();
             return false;
         }
-        
+
         return true;
     }
 
@@ -406,7 +406,7 @@ class Group extends DataClass
     {
         $gdm = $this->get_data_manager();
         $condition = new EqualityCondition(GroupRightsTemplate :: PROPERTY_GROUP_ID, $this->get_id());
-        
+
         return $gdm->retrieve_group_rights_templates($condition);
     }
 
@@ -431,24 +431,24 @@ class Group extends DataClass
     function get_users($include_subgroups = false, $recursive_subgroups = false)
     {
         $gdm = $this->get_data_manager();
-        
+
         $groups = array();
         $groups[] = $this->get_id();
-        
+
         if ($include_subgroups)
         {
             $subgroups = $this->get_subgroups($recursive_subgroups);
-            
+
             foreach ($subgroups as $subgroup)
             {
                 $groups[] = $subgroup->get_id();
             }
         }
-        
+
         $condition = new InCondition(GroupRelUser :: PROPERTY_GROUP_ID, $groups);
         $group_rel_users = $gdm->retrieve_group_rel_users($condition);
         $users = array();
-        
+
         while ($group_rel_user = $group_rel_users->next_result())
         {
             $user_id = $group_rel_user->get_user_id();
@@ -457,21 +457,21 @@ class Group extends DataClass
                 $users[] = $user_id;
             }
         }
-        
+
         return $users;
     }
 
     function count_users($include_subgroups = false, $recursive_subgroups = false)
     {
         $users = $this->get_users($include_subgroups, $recursive_subgroups);
-        
+
         return count($users);
     }
 
     function get_subgroups($recursive = false)
     {
         $gdm = $this->get_data_manager();
-        
+
         if ($recursive)
         {
             $children_conditions = array();
@@ -483,23 +483,23 @@ class Group extends DataClass
         {
             $children_condition = new EqualityCondition(Group :: PROPERTY_PARENT, $this->get_id());
         }
-        
+
         $groups = $gdm->retrieve_groups($children_condition);
-        
+
         $subgroups = array();
-        
+
         while ($group = $groups->next_result())
         {
             $subgroups[$group->get_id()] = $group;
         }
-        
+
         return $subgroups;
     }
 
     function count_subgroups($recursive = false)
     {
         $gdm = $this->get_data_manager();
-        
+
         if ($recursive)
         {
             return ($this->get_right_value() - $this->get_left_value() - 1) / 2;
@@ -510,6 +510,39 @@ class Group extends DataClass
             $children_condition = new EqualityCondition(Group :: PROPERTY_PARENT, $this->get_id());
             return $gdm->count_groups($children_condition);
         }
+    }
+
+    /**
+     * @return array
+     */
+    function get_allowed_groups()
+    {
+        $conditions = array();
+        $conditions[] = new EqualityCondition(GroupUseGroup::PROPERTY_REQUEST_GROUP_ID, $this->get_id(), GroupUseGroup::get_table_name());
+        $condition = new AndCondition($conditions);
+
+        $groups_result = array();
+        $usable_groups = $this->get_data_manager()->retrieve_usable_groups($condition);
+
+        while ($usable_group = $usable_groups->next_result())
+        {
+            if (! in_array($usable_group->get_id(), $groups_result))
+            {
+                $groups_result[] = $usable_group->get_id();
+            }
+
+            $subgroups = $usable_group->get_children();
+
+            while ($subgroup = $subgroups->next_result())
+            {
+                if (! in_array($subgroup->get_id(), $groups_result))
+                {
+                    $groups_result[] = $subgroup->get_id();
+                }
+            }
+        }
+
+        return $groups_result;
     }
 
 }

@@ -131,7 +131,8 @@ class Dokeos185Quiz extends Dokeos185CourseDataMigrationDataClass
         
     	if (! $this->get_id() || ! ($this->get_title() || $this->get_description()))
         {
-            $this->create_failed_element($this->get_id());
+            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'quiz', 'ID' => $this->get_id())));
+        	$this->create_failed_element($this->get_id());
             return false;
         }
         return true;
@@ -144,7 +145,11 @@ class Dokeos185Quiz extends Dokeos185CourseDataMigrationDataClass
     {
      	$course = $this->get_course();
         
-    	$new_user_id = $this->get_id_reference($this->get_item_property()->get_insert_user_id(), 'main_database.user');
+     	if($this->get_item_property())
+     	{
+    		$new_user_id = $this->get_id_reference($this->get_item_property()->get_insert_user_id(), 'main_database.user');
+     	}
+     	
         $new_course_code = $this->get_id_reference($course->get_code(), 'main_database.course');
 
         if (! $new_user_id)
@@ -179,12 +184,21 @@ class Dokeos185Quiz extends Dokeos185CourseDataMigrationDataClass
         }
         
         $chamilo_assessment->set_owner_id($new_user_id);
-        $chamilo_assessment->set_creation_date(strtotime($this->get_item_property()->get_insert_date()));
-        $chamilo_assessment->set_modification_date(strtotime($this->get_item_property()->get_lastedit_date()));
         
-        if ($this->get_item_property()->get_visibility() == 2)
+        if($this->get_item_property())
         {
-            $chamilo_assessment->set_state(1);
+	        $chamilo_assessment->set_creation_date(strtotime($this->get_item_property()->get_insert_date()));
+	        $chamilo_assessment->set_modification_date(strtotime($this->get_item_property()->get_lastedit_date()));
+	        
+	        if ($this->get_item_property()->get_visibility() == 2)
+	        {
+	            $chamilo_assessment->set_state(1);
+	        }
+        }
+        else
+        {
+        	$chamilo_assessment->set_creation_date(time());
+	        $chamilo_assessment->set_modification_date(time());
         }
         
 		$chamilo_assessment->set_random_questions($this->get_random());
@@ -202,6 +216,8 @@ class Dokeos185Quiz extends Dokeos185CourseDataMigrationDataClass
         $this->create_publication($chamilo_assessment, $new_course_code, $new_user_id, 'assessment');
 
         $this->create_id_reference($this->get_id(), $chamilo_assessment->get_id());
+        
+        $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'quiz', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_assessment->get_id())));
     }
     
 	static function get_table_name()

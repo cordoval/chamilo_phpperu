@@ -446,4 +446,12 @@ $lang['admin']['LanguageTitle'] = 'Language title';
 $lang['admin'][''] = '';
 $lang['admin']['SetPortfolioDefaults'] = 'Set default portfolio permissions';
 $lang['admin']['SetPortfolioDefaultsDescription'] = 'Here you can Set the default portfolio permissions for your system';
+$lang['admin']['MetadataNamespacesBrowser'] = 'Namespaces';
+$lang['admin']['MetadataNamespacesDescription'] = 'Create, update and delete namespaces';
+$lang['admin']['MetadataPropertyTypesBrowser'] = 'Property types';
+$lang['admin']['MetadataPropertyTypesDescription'] = 'Create, update and delete property types';
+$lang['admin']['MetadataPropertyAttributeTypesBrowser'] = 'Property attribute types';
+$lang['admin']['MetadataPropertyAttributeTypesDescription'] = 'Create, update and delete property attribute types';
+$lang['admin']['ContentObjectPropertyMetadatasBrowser'] = 'Content object property metadata';
+$lang['admin']['ContentObjectPropertyMetadatasBrowserDescription'] = 'Link property types to content object properties';
 ?>

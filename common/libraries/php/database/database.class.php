@@ -96,7 +96,7 @@ class Database
      * Debug function
      * Uncomment the lines if you want to debug
      */
-    function debug()
+    static function debug()
     {
         $args = func_get_args();
         // Do something with the arguments
@@ -169,7 +169,8 @@ class Database
         $optional_properties = array();
         $object = new $class_name();
 
-        foreach ($object->get_default_property_names() as $property)
+        $default_property_names = $object->get_default_property_names();
+        foreach ($default_property_names as $property)
         {
             if (array_key_exists($property, $record))
             {
@@ -304,7 +305,7 @@ class Database
     function get_better_next_id($table_name, $column)
     {
         $this->connection->loadModule('Extended');
-        return $this->connection->extended->getBeforeID($this->get_table_name($table_name), $column, true, true);
+        return $this->connection->extended->getBeforeID($this->get_table_name($table_name), $column, true, false);
     }
 
     /**

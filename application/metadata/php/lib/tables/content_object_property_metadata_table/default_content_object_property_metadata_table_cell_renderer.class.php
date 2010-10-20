@@ -35,7 +35,17 @@ class DefaultContentObjectPropertyMetadataTableCellRenderer extends ObjectTableC
 				return $content_object_property_metadata->get_property_type_id();
 			case ContentObjectPropertyMetadata :: PROPERTY_CONTENT_OBJECT_PROPERTY :
 				return $content_object_property_metadata->get_content_object_property();
-			default :
+                        case ContentObjectPropertyMetadata :: PROPERTY_SOURCE :
+                            switch ($content_object_property_metadata->get_source())
+                            {
+                                case ContentObjectPropertyMetadata :: SOURCE_TEXT:
+                                    return Translation :: get('text');
+                                case ContentObjectPropertyMetadata :: SOURCE_CHAMILO_USER:
+                                    return Translation :: get('chamiloUser');
+                                case ContentObjectPropertyMetadata :: SOURCE_TIMESTAMP:
+                                    return Translation :: get('timestamp');
+                            }
+                        default :
 				return '&nbsp;';
 		}
 	}

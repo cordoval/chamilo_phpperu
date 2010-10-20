@@ -23,6 +23,7 @@ class SurveyParticipantTracker extends SimpleTracker
     const PROPERTY_CONTEXT_ID = 'context_id';
     const PROPERTY_PARENT_ID = 'parent_id';
     const PROPERTY_CONTEXT_TEMPLATE_ID = 'context_template_id';
+    
     const STATUS_STARTED = 'started';
     const STATUS_NOTSTARTED = 'notstarted';
     const STATUS_FINISHED = 'finished';

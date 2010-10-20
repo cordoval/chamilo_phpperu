@@ -1,6 +1,8 @@
 <?php
 
 require_once dirname(__FILE__) . '/../survey_publication.class.php';
+require_once dirname(__FILE__) . '/../survey_publication_rel_reporting_template_registration.class.php';
+
 require_once dirname(__FILE__) . '/../survey_data_manager_interface.class.php';
 
 class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInterface
@@ -37,7 +39,7 @@ class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInt
         $publication_alias = $this->get_alias(SurveyPublication :: get_table_name());
         $object_alias = $rdm->get_alias(ContentObject :: get_table_name());
         $query = 'SELECT COUNT(DISTINCT ' . $this->escape_column_name(SurveyPublication :: PROPERTY_ID, $publication_alias) . ') FROM ' . $this->escape_table_name(SurveyPublication :: get_table_name()) . ' AS ' . $publication_alias;
-        $query .= ' JOIN ' . $rdm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $object_alias . ' ON ' . $this->escape_column_name(SurveyPublication :: PROPERTY_CONTENT_OBJECT, $publication_alias) . ' = ' . $rdm->escape_column_name(ContentObject :: PROPERTY_ID, $object_alias);
+        $query .= ' JOIN ' . $rdm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $object_alias . ' ON ' . $this->escape_column_name(SurveyPublication :: PROPERTY_CONTENT_OBJECT_ID, $publication_alias) . ' = ' . $rdm->escape_column_name(ContentObject :: PROPERTY_ID, $object_alias);
         return $this->count_result_set($query, SurveyPublication :: get_table_name(), $condition);
     }
 
@@ -53,7 +55,49 @@ class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInt
         $publication_alias = $this->get_alias(SurveyPublication :: get_table_name());
         $object_alias = $rdm->get_alias(ContentObject :: get_table_name());
         $query = 'SELECT  DISTINCT ' . $publication_alias . '.* FROM ' . $this->escape_table_name(SurveyPublication :: get_table_name()) . ' AS ' . $publication_alias;
-        $query .= ' JOIN ' . $rdm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $object_alias . ' ON ' . $this->escape_column_name(SurveyPublication :: PROPERTY_CONTENT_OBJECT, $publication_alias) . ' = ' . $rdm->escape_column_name(ContentObject :: PROPERTY_ID, $object_alias);
+        $query .= ' JOIN ' . $rdm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $object_alias . ' ON ' . $this->escape_column_name(SurveyPublication :: PROPERTY_CONTENT_OBJECT_ID, $publication_alias) . ' = ' . $rdm->escape_column_name(ContentObject :: PROPERTY_ID, $object_alias);
+        return $this->retrieve_object_set($query, SurveyPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by, SurveyPublication :: CLASS_NAME);
+    }
+
+    //experimental try to join with rights tables to just retrieve and count the publicions that a user has rights for
+    
+
+    function count_survey_publications_for_user($condition = null)
+    {
+        
+        $repodm = RepositoryDataManager :: get_instance();
+        $rdm = RightsDataManager :: get_instance();
+        $publication_alias = $this->get_alias(SurveyPublication :: get_table_name());
+        $rights_location_alias = $rdm->get_alias(Location :: get_table_name());
+        $user_rights_location_alias = $rdm->get_alias(UserRightLocation :: get_table_name());
+        $object_alias = $repodm->get_alias(ContentObject :: get_table_name());
+        
+        $query = 'SELECT COUNT(DISTINCT ' . $this->escape_column_name(SurveyPublication :: PROPERTY_ID, $publication_alias) . ') FROM ' . $this->escape_table_name(SurveyPublication :: get_table_name()) . ' AS ' . $publication_alias;
+        
+        $query .= ' JOIN ' . $rdm->escape_table_name(Location :: get_table_name()) . ' AS ' . $rights_location_alias . ' ON ' . $this->escape_column_name(SurveyPublication :: PROPERTY_ID, $publication_alias) . ' = ' . $rdm->escape_column_name(Location :: PROPERTY_IDENTIFIER, $rights_location_alias);
+        $query .= ' JOIN ' . $rdm->escape_table_name(UserRightLocation :: get_table_name()) . ' AS ' . $user_rights_location_alias . ' ON ' . $rdm->escape_column_name(UserRightLocation :: PROPERTY_LOCATION_ID, $user_rights_location_alias) . ' = ' . $rdm->escape_column_name(Location :: PROPERTY_ID, $rights_location_alias);
+        
+        $query .= ' JOIN ' . $repodm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $object_alias . ' ON ' . $this->escape_column_name(SurveyPublication :: PROPERTY_CONTENT_OBJECT_ID, $publication_alias) . ' = ' . $repodm->escape_column_name(ContentObject :: PROPERTY_ID, $object_alias);
+        
+        return $this->count_result_set($query, SurveyPublication :: get_table_name(), $condition);
+    }
+
+    function retrieve_survey_publications_for_user($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    {
+        $repodm = RepositoryDataManager :: get_instance();
+        $rdm = RightsDataManager :: get_instance();
+        $publication_alias = $this->get_alias(SurveyPublication :: get_table_name());
+        $rights_location_alias = $rdm->get_alias(Location :: get_table_name());
+        $user_rights_location_alias = $rdm->get_alias(UserRightLocation :: get_table_name());
+        $object_alias = $repodm->get_alias(ContentObject :: get_table_name());
+        
+        $query = 'SELECT  DISTINCT ' . $publication_alias . '.* FROM ' . $this->escape_table_name(SurveyPublication :: get_table_name()) . ' AS ' . $publication_alias;
+        
+        $query .= ' JOIN ' . $rdm->escape_table_name(Location :: get_table_name()) . ' AS ' . $rights_location_alias . ' ON ' . $this->escape_column_name(SurveyPublication :: PROPERTY_ID, $publication_alias) . ' = ' . $rdm->escape_column_name(Location :: PROPERTY_IDENTIFIER, $rights_location_alias);
+        $query .= ' JOIN ' . $rdm->escape_table_name(UserRightLocation :: get_table_name()) . ' AS ' . $user_rights_location_alias . ' ON ' . $rdm->escape_column_name(UserRightLocation :: PROPERTY_LOCATION_ID, $user_rights_location_alias) . ' = ' . $rdm->escape_column_name(Location :: PROPERTY_ID, $rights_location_alias);
+        
+        $query .= ' JOIN ' . $repodm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $object_alias . ' ON ' . $this->escape_column_name(SurveyPublication :: PROPERTY_CONTENT_OBJECT_ID, $publication_alias) . ' = ' . $repodm->escape_column_name(ContentObject :: PROPERTY_ID, $object_alias);
+        
         return $this->retrieve_object_set($query, SurveyPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by, SurveyPublication :: CLASS_NAME);
     }
 
@@ -88,6 +132,53 @@ class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInt
     function retrieve_survey_publication_mails($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         return $this->retrieve_objects(SurveyPublicationMail :: get_table_name(), $condition, $offset, $max_objects, $order_by, SurveyPublicationMail :: CLASS_NAME);
+    }
+
+    function create_survey_publication_rel_reporting_template_registration($survey_publication_rel_reporting_template_registration)
+    {
+        return $this->create($survey_publication_rel_reporting_template_registration);
+    }
+
+    function delete_survey_publication_rel_reporting_template_registration($survey_publication_rel_reporting_template_registration)
+    {
+        $condition = new EqualityCondition(SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_ID, $survey_publication_rel_reporting_template_registration->get_id());
+        return $this->delete($survey_publication_rel_reporting_template_registration->get_table_name(), $condition);
+    }
+
+    function update_survey_publication_rel_reporting_template_registration($survey_publication_rel_reporting_template_registration)
+    {
+        $condition = new EqualityCondition(SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_ID, $survey_publication_rel_reporting_template_registration->get_id());
+        $succes = $this->update($survey_publication_rel_reporting_template_registration, $condition);
+        return $succes;
+    }
+
+    function count_survey_publication_rel_reporting_template_registrations($condition = null)
+    {
+        $rdm = ReportingDataManager :: get_instance();
+        $publication_rel_reporting_template_alias = $this->get_alias(SurveyPublicationRelReportingTemplateRegistration :: get_table_name());
+        $reporting_template_registration_alias = $rdm->get_alias(ReportingTemplateRegistration :: get_table_name());
+        $query = 'SELECT  COUNT(' . $this->escape_column_name(SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_ID, $publication_rel_reporting_template_alias) . ')   FROM ' . $this->escape_table_name(SurveyPublicationRelReportingTemplateRegistration :: get_table_name()) . ' AS ' . $publication_rel_reporting_template_alias;
+        $query .= ' JOIN ' . $rdm->escape_table_name(ReportingTemplateRegistration :: get_table_name()) . ' AS ' . $reporting_template_registration_alias . ' ON ' . $this->escape_column_name(SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_REPORTING_TEMPLATE_REGISTRATION_ID, $publication_rel_reporting_template_alias) . ' = ' . $rdm->escape_column_name(ReportingTemplateRegistration :: PROPERTY_ID, $reporting_template_registration_alias);
+        
+        return $this->count_result_set($query, SurveyPublicationRelReportingTemplateRegistration :: get_table_name(), $condition);
+    }
+
+    function retrieve_survey_publication_rel_reporting_template_registration_by_id($survey_publication__rel_reporting_template_registration_id)
+    {
+        $condition = new EqualityCondition(SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_ID, $survey_publication__rel_reporting_template_registration_id);
+        return $this->retrieve_object(SurveyPublicationRelReportingTemplateRegistration :: get_table_name(), $condition, array(), SurveyPublicationRelReportingTemplateRegistration :: CLASS_NAME);
+    }
+
+    function retrieve_survey_publication_rel_reporting_template_registrations($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    {
+        
+        $rdm = ReportingDataManager :: get_instance();
+        $publication_rel_reporting_template_alias = $this->get_alias(SurveyPublicationRelReportingTemplateRegistration :: get_table_name());
+        $reporting_template_registration_alias = $rdm->get_alias(ReportingTemplateRegistration :: get_table_name());
+        $query = 'SELECT  ' . $publication_rel_reporting_template_alias . '.*  , ' . $reporting_template_registration_alias . '.' . ReportingTemplateRegistration :: PROPERTY_TEMPLATE . '   FROM ' . $this->escape_table_name(SurveyPublicationRelReportingTemplateRegistration :: get_table_name()) . ' AS ' . $publication_rel_reporting_template_alias;
+        $query .= ' JOIN ' . $rdm->escape_table_name(ReportingTemplateRegistration :: get_table_name()) . ' AS ' . $reporting_template_registration_alias . ' ON ' . $this->escape_column_name(SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_REPORTING_TEMPLATE_REGISTRATION_ID, $publication_rel_reporting_template_alias) . ' = ' . $rdm->escape_column_name(ReportingTemplateRegistration :: PROPERTY_ID, $reporting_template_registration_alias);
+        return $this->retrieve_object_set($query, SurveyPublicationRelReportingTemplateRegistration :: get_table_name(), $condition, $offset, $max_objects, $order_by, SurveyPublicationRelReportingTemplateRegistration :: CLASS_NAME);
+    
     }
 
     function count_survey_pages($survey_ids, $condition = null)
@@ -138,14 +229,14 @@ class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInt
         {
             $survey_page_ids[] = $complex_content_object->get_ref();
         }
-              
+        
         if (count($survey_page_ids) == 0)
         {
             $survey_page_ids[] = 0;
         }
         
         $survey_page_condition = new InCondition(ContentObject :: PROPERTY_ID, $survey_page_ids, ContentObject :: get_table_name());
-                
+        
         if (isset($condition))
         {
             $condition = new AndCondition(array($condition, $survey_page_condition));
@@ -155,8 +246,7 @@ class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInt
             $condition = $survey_page_condition;
         }
         
-        
-        return RepositoryDataManager :: get_instance()->retrieve_content_objects($condition,$order_by,  $offset, $max_objects);
+        return RepositoryDataManager :: get_instance()->retrieve_content_objects($condition, $order_by, $offset, $max_objects);
     }
 
     function count_survey_questions($page_ids, $condition = null)
@@ -225,7 +315,7 @@ class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInt
             $condition = $page_question_condition;
         }
         
-        return RepositoryDataManager :: get_instance()->retrieve_content_objects($condition, $offset, $max_objects, $order_by);
+        return RepositoryDataManager :: get_instance()->retrieve_content_objects($condition, $order_by, $offset, $max_objects);
     }
 
     function content_object_is_published($object_id)
@@ -235,7 +325,7 @@ class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInt
 
     function any_content_object_is_published($object_ids)
     {
-        $condition = new InCondition(SurveyPublication :: PROPERTY_CONTENT_OBJECT, $object_ids);
+        $condition = new InCondition(SurveyPublication :: PROPERTY_CONTENT_OBJECT_ID, $object_ids);
         return $this->count_objects(SurveyPublication :: get_table_name(), $condition) >= 1;
     }
 
@@ -249,7 +339,7 @@ class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInt
                 $co_alias = $rdm->get_alias(ContentObject :: get_table_name());
                 $pub_alias = $this->get_alias(SurveyPublication :: get_table_name());
                 
-                $query = 'SELECT ' . $pub_alias . '.*, ' . $co_alias . '.' . $this->escape_column_name(ContentObject :: PROPERTY_TITLE) . ' FROM ' . $this->escape_table_name(SurveyPublication :: get_table_name()) . ' AS ' . $pub_alias . ' JOIN ' . $rdm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $co_alias . ' ON ' . $this->escape_column_name(SurveyPublication :: PROPERTY_CONTENT_OBJECT, $pub_alias) . '=' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $co_alias);
+                $query = 'SELECT ' . $pub_alias . '.*, ' . $co_alias . '.' . $this->escape_column_name(ContentObject :: PROPERTY_TITLE) . ' FROM ' . $this->escape_table_name(SurveyPublication :: get_table_name()) . ' AS ' . $pub_alias . ' JOIN ' . $rdm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $co_alias . ' ON ' . $this->escape_column_name(SurveyPublication :: PROPERTY_CONTENT_OBJECT_ID, $pub_alias) . '=' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $co_alias);
                 
                 $condition = new EqualityCondition(SurveyPublication :: PROPERTY_PUBLISHER, Session :: get_user_id());
                 $translator = new ConditionTranslator($this);
@@ -284,7 +374,7 @@ class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInt
         else
         {
             $query = 'SELECT * FROM ' . $this->escape_table_name(SurveyPublication :: get_table_name());
-            $condition = new EqualityCondition(SurveyPublication :: PROPERTY_CONTENT_OBJECT, $object_id);
+            $condition = new EqualityCondition(SurveyPublication :: PROPERTY_CONTENT_OBJECT_ID, $object_id);
             $translator = new ConditionTranslator($this);
             $query .= $translator->render_query($condition);
         
@@ -303,7 +393,7 @@ class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInt
             //TODO: i8n location string
             $info->set_location(Translation :: get('Survey'));
             $info->set_url('run.php?application=survey&go=' . SurveyManager :: ACTION_TAKE);
-            $info->set_publication_object_id($record[SurveyPublication :: PROPERTY_CONTENT_OBJECT]);
+            $info->set_publication_object_id($record[SurveyPublication :: PROPERTY_CONTENT_OBJECT_ID]);
             
             $publication_attr[] = $info;
         }
@@ -327,7 +417,7 @@ class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInt
         //TODO: i8n location string
         $publication_attr->set_location(Translation :: get('Survey'));
         $publication_attr->set_url('run.php?application=survey&go=browse_surveys');
-        $publication_attr->set_publication_object_id($record[SurveyPublication :: PROPERTY_CONTENT_OBJECT]);
+        $publication_attr->set_publication_object_id($record[SurveyPublication :: PROPERTY_CONTENT_OBJECT_ID]);
         
         return $publication_attr;
     }
@@ -340,7 +430,7 @@ class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInt
 
     function delete_content_object_publications($object_id)
     {
-        $condition = new EqualityCondition(SurveyPublication :: PROPERTY_CONTENT_OBJECT, $object_id);
+        $condition = new EqualityCondition(SurveyPublication :: PROPERTY_CONTENT_OBJECT_ID, $object_id);
         $publications = $this->retrieve_survey_publications($condition);
         
         $succes = true;
@@ -363,7 +453,7 @@ class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInt
     {
         $where = $this->escape_column_name(SurveyPublication :: PROPERTY_ID) . '=' . $publication_attr->get_id();
         $props = array();
-        $props[$this->escape_column_name(SurveyPublication :: PROPERTY_CONTENT_OBJECT)] = $publication_attr->get_publication_object_id();
+        $props[$this->escape_column_name(SurveyPublication :: PROPERTY_CONTENT_OBJECT_ID)] = $publication_attr->get_publication_object_id();
         $this->get_connection()->loadModule('Extended');
         if ($this->get_connection()->extended->autoExecute($this->get_table_name(SurveyPublication :: get_table_name()), $props, MDB2_AUTOQUERY_UPDATE, $where))
         {

@@ -84,7 +84,7 @@ class ResultsXmlExport extends ResultsExport
         $data['weight'] = $clo_question->get_weight();
         
         $track = new SurveyQuestionAttemptsTracker();
-        $condition_q = new EqualityCondition(SurveyQuestionAttemptsTracker :: PROPERTY_QUESTION_CID, $clo_question->get_id());
+        $condition_q = new EqualityCondition(SurveyQuestionAttemptsTracker :: PROPERTY_COMPLEX_QUESTION_ID, $clo_question->get_id());
         $condition_a = new EqualityCondition(SurveyQuestionAttemptsTracker :: PROPERTY_SURVEY_ATTEMPT_ID, $user_survey->get_id());
         $condition = new AndCondition(array($condition_q, $condition_a));
         $user_answers = $track->retrieve_tracker_items($condition);

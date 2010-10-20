@@ -377,4 +377,12 @@ $lang['admin']['LanguageRegistrationNotAdded'] = '';
 $lang['admin']['LanguageRegistrationAdded'] = '';
 $lang['admin']['SetPortfolioDefaultsDescription'] = 'Hier kan je de standaard instellingen voor de portfolio-toepassing wijzigen';
 $lang['admin']['SetPortfolioDefaults'] = 'Standaard Portfolio Rechten';
+$lang['admin']['MetadataNamespacesBrowser'] = 'Namespaces';
+$lang['admin']['MetadataNamespacesDescription'] = 'Editor voor namespaces';
+$lang['admin']['MetadataPropertyTypesBrowser'] = 'Tags';
+$lang['admin']['MetadataPropertyTypesDescription'] = 'Editor voor tags';
+$lang['admin']['MetadataPropertyAttributeTypesBrowser'] = 'Attributen';
+$lang['admin']['MetadataPropertyAttributeTypesDescription'] = 'Editor voor attributen';
+$lang['admin']['ContentObjectPropertyMetadatasBrowser'] = 'Links met objecten';
+$lang['admin']['ContentObjectPropertyMetadatasBrowserDescription'] = 'Leg links tussen eigenschappen van objecten en tags';
 ?>

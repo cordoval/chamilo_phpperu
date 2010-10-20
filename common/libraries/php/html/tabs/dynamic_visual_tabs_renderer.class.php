@@ -3,8 +3,8 @@ namespace common\libraries;
 class DynamicVisualTabsRenderer extends DynamicTabsRenderer
 {
     private $content;
-    
-    public function DynamicVisualTabsRenderer($name, $content)
+
+    public function DynamicVisualTabsRenderer($name, $content='')
     {
         parent :: __construct($name);
         $this->content = $content;
