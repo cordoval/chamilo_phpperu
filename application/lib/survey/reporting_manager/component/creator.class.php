@@ -27,6 +27,7 @@ class SurveyReportingManagerCreatorComponent extends SurveyReportingManager
             if ($form->validate())
             {
                 $success = $form->create();
+                               
                 if ($success)
                 {
                     $message = 'SelectedReportingTemplateUpdated';

@@ -27,6 +27,7 @@ class SurveyPublicationRelReportingTemplateRegistration extends DataClass
                 RightsUtilities :: set_user_right_location_value($right, $this->get_owner_id(), $location->get_id(), 1);
             }
         }
+     
         return $succes;
     }
 
