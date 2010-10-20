@@ -178,13 +178,14 @@ class ProfilerRights
 
         if (!self :: $group_cache[$user->get_id()])
         {
+           $gdm = GroupDataManager::get_instance();
 
             $query = 'select a.group_id,c.id as parent_id, d.rights_template_id
-from `chamilo`.`group_group_rel_user` as a
-join `chamilo`.`group_group` as b on a.group_id = b.id
-join `chamilo`.`group_group` as c on c.left_value < b.left_value and c.right_value > b.right_value
-left join `chamilo`.`group_group_rights_template` as d on d.group_id = a.group_id or c.id = d.group_id
-where a.user_id = 4';
+from `'. $gdm->get_prefix() .  (GroupRelUser :: get_table_name()) . '` as a
+join `'. $gdm->get_prefix() .  (Group :: get_table_name()) . '` as b on a.group_id = b.id
+join `'. $gdm->get_prefix() .  (Group :: get_table_name()) . '` as c on c.left_value < b.left_value and c.right_value > b.right_value
+left join `'. $gdm->get_prefix() .  (GroupRightsTemplate :: get_table_name()) . '` as d on d.group_id = a.group_id or c.id = d.group_id
+where a.user_id = ' . $user->get_id();
 
             $groups_and_templates = new ObjectResultSet($user->get_data_manager(), $user->get_data_manager()->query($query), $class_name = Utilities :: underscores_to_camelcase(GroupRightsTemplate :: get_table_name()));
 
