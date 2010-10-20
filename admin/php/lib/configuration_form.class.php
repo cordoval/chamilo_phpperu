@@ -1,7 +1,6 @@
 <?php
 namespace admin;
 use common\libraries\BasicApplication;
-
 use common\libraries\Utilities;
 use common\libraries\Application;
 use common\libraries\Path;
@@ -10,6 +9,10 @@ use common\libraries\Translation;
 use common\libraries\Session;
 use common\libraries\FormValidator;
 use common\libraries\PlatformSetting;
+use common\libraries\LocalSetting;
+
+use user\UserDataManager;
+use user\UserSetting;
 
 use DOMDocument;
 

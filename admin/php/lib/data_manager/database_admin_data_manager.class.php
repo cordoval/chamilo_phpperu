@@ -1,5 +1,6 @@
 <?php
 namespace admin;
+
 use common\libraries\Session;
 use common\libraries\Database;
 use common\libraries\EqualityCondition;
@@ -8,8 +9,9 @@ use common\libraries\ConditionTranslator;
 use common\libraries\SubselectCondition;
 use common\libraries\InCondition;
 
+use common\extensions\dynamic_form_manager;
 use common\extensions\dynamic_form_manager\DynamicForm;
-
+use common\extensions\dynamic_form_manager\DynamicFormElement;
 /**
  * $Id: database_admin_data_manager.class.php 231 2009-11-16 09:53:00Z vanpouckesven $
  * @package admin.lib.data_manager
@@ -567,7 +569,7 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
 
     function retrieve_dynamic_forms($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->retrieve_objects(DynamicForm :: get_table_name(), $condition, $offset, $count, $order_property);
+        return $this->retrieve_objects(DynamicForm :: get_table_name(), $condition, $offset, $count, $order_property, DynamicForm :: CLASS_NAME);
     }
 
     function delete_dynamic_form_element($dynamic_form_element)

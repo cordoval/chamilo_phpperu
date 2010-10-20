@@ -49,7 +49,6 @@ class ObjectResultSet extends RecordResultSet
     	}
         if ($record = $this->get_handle()->fetchRow(MDB2_FETCHMODE_ASSOC))
         {
-            $this->increment_current();
             return $this->data_manager->record_to_object($record, $this->class_name);
         }
         else

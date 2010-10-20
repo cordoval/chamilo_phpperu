@@ -8,6 +8,8 @@ use common\libraries\PlatformSetting;
 use common\libraries\ResourceManager;
 
 use admin\AdminDataManager;
+use tracking\Event;
+use tracking\ChangesTracker;
 
 /**
  * $Id: account_form.class.php 211 2009-11-13 13:28:39Z vanpouckesven $

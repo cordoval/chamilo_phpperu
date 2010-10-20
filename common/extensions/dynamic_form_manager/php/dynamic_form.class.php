@@ -2,6 +2,8 @@
 namespace common\extensions\dynamic_form_manager;
 use common\libraries\DataClass;
 use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
+use admin\AdminDataManager;
 
 //use admin\AdminDataManager;
 

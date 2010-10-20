@@ -11,8 +11,17 @@ use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\ResourceManager;
+use common\libraries\Header;
+use common\libraries\DynamicVisualTabsRenderer;
+use common\libraries\DynamicVisualTab;
+use common\libraries\Path;
+use common\libraries\Application;
 
+use common\extensions\dynamic_form_manager\DynamicFormManager;
+use admin\ConfigurationForm;
 use admin\AdminDataManager;
+use admin\AdminManager;
+use admin\Setting;
 
 /**
  * $Id: user_settings.class.php 211 2009-11-13 13:28:39Z vanpouckesven $

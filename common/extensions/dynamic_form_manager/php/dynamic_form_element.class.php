@@ -1,5 +1,8 @@
 <?php
 namespace common\extensions\dynamic_form_manager;
+
+use common\libraries\DataClass;
+use common\libraries\Utilities;
 /**
  * $Id: dynamic_form_element.class.php 227 2009-11-13 14:45:05Z kariboe $
  * @package application.common.dynamic_form_manager
@@ -138,10 +141,11 @@ class DynamicFormElement extends DataClass
     {
         return AdminDataManager :: get_instance();
     }
-
+    
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
     
     static function get_types()
