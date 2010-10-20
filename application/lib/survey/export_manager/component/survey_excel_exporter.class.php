@@ -4,7 +4,7 @@ Path :: get_application_path() . 'lib/survey/survey_publication_user.class.php';
 require_once (Path :: get_reporting_path() . 'lib/reporting_data.class.php');
 require_once Path :: get_plugin_path() . 'phpexcel/PHPExcel.php';
 
-class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
+class SurveyExportManagerSurveyExcelExporterComponent extends SurveyExportManager
 {
     
     const COUNT = 'count';
@@ -39,7 +39,7 @@ class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
     
     function run()
     {
-        $ids = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
+        $ids = Request :: get(SurveyExportManager :: PARAM_PUBLICATION_ID);
         
         if (! is_array($ids))
         {
@@ -394,7 +394,7 @@ class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
         $conditions[] = new InCondition(SurveyQuestionAnswerTracker :: PROPERTY_SURVEY_PARTICIPANT_ID, $participant_ids);
         $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_COMPLEX_QUESTION_ID, $question->get_id());
         $condition = new AndCondition($conditions);
-        $trackers = Tracker :: get_data('survey_question_answer_tracker', SurveyManager :: APPLICATION_NAME, $condition);
+        $trackers = Tracker :: get_data('survey_question_answer_tracker', SurveyExportManager :: APPLICATION_NAME, $condition);
         
         //option and matches of question
         $options = array();
@@ -659,7 +659,7 @@ class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
         $conditions[] = new InCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $ids);
         $conditions[] = new InCondition(SurveyParticipantTracker :: PROPERTY_USER_ID, $total_user_ids);
         $condition = new AndCondition($conditions);
-        $trackers = Tracker :: get_data('survey_participant_tracker', SurveyManager :: APPLICATION_NAME, $condition);
+        $trackers = Tracker :: get_data('survey_participant_tracker', SurveyExportManager :: APPLICATION_NAME, $condition);
         
         $all_participants = array();
         $started_participants = array();
@@ -713,7 +713,7 @@ class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
             $group_users = $group_user_ids[$group->get_id()];
             
             $condition = new InCondition(SurveyParticipantTracker :: PROPERTY_USER_ID, $group_users);
-            $trackers = Tracker :: get_data('survey_participant_tracker', SurveyManager :: APPLICATION_NAME, $condition);
+            $trackers = Tracker :: get_data('survey_participant_tracker', SurveyExportManager :: APPLICATION_NAME, $condition);
             
             $all_trackers = array();
             
@@ -729,7 +729,7 @@ class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
             $started = array_intersect($group_users, $started_users);
             
             $condition = new InCondition(SurveyParticipantTracker :: PROPERTY_USER_ID, $started);
-            $trackers = Tracker :: get_data('survey_participant_tracker', SurveyManager :: APPLICATION_NAME, $condition);
+            $trackers = Tracker :: get_data('survey_participant_tracker', SurveyExportManager :: APPLICATION_NAME, $condition);
             
             $started_trackers = array();
             
@@ -745,7 +745,7 @@ class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
             $not_started = array_intersect($group_users, $not_started_users);
             
             $condition = new InCondition(SurveyParticipantTracker :: PROPERTY_USER_ID, $not_started);
-            $trackers = Tracker :: get_data('survey_participant_tracker', SurveyManager :: APPLICATION_NAME, $condition);
+            $trackers = Tracker :: get_data('survey_participant_tracker', SurveyExportManager :: APPLICATION_NAME, $condition);
             
             $not_started_trackers = array();
             

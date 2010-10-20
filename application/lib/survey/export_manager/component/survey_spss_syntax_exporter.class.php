@@ -4,7 +4,7 @@ require_once (Path :: get_application_path() . 'lib/survey/survey_publication_us
 require_once (Path :: get_reporting_path() . 'lib/reporting_data.class.php');
 require_once (Path :: get_plugin_path() . 'phpexcel/PHPExcel.php');
 
-class SurveyManagerSurveySpssSyntaxExporterComponent extends SurveyManager
+class SurveyExportManagerSurveySpssSyntaxExporterComponent extends SurveyExportManager
 {
     const SYNTAX_DATA_LIST = 'DATA LIST ';
     const SYNTAX_BEGIN_DATA = 'BEGIN DATA';
@@ -80,7 +80,7 @@ class SurveyManagerSurveySpssSyntaxExporterComponent extends SurveyManager
     
     function run()
     {
-        $ids = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
+        $ids = Request :: get(SurveyExportManager :: PARAM_PUBLICATION_ID);
         
         if (! is_array($ids))
         {
@@ -357,11 +357,11 @@ class SurveyManagerSurveySpssSyntaxExporterComponent extends SurveyManager
 //                    $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_SURVEY_PARTICIPANT_ID, $participant_id);
 //                    $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_COMPLEX_QUESTION_ID, $question->get_id());
 //                    $condition = new AndCondition($conditions);
-//                    $tracker_count = Tracker :: count_data('survey_question_answer_tracker', SurveyManager :: APPLICATION_NAME, $condition);
+//                    $tracker_count = Tracker :: count_data('survey_question_answer_tracker', SurveyExportManager :: APPLICATION_NAME, $condition);
 //                    
                     if (isset($answer))
                     {
-//                        $trackers = Tracker :: get_data('survey_question_answer_tracker', SurveyManager :: APPLICATION_NAME, $condition);
+//                        $trackers = Tracker :: get_data('survey_question_answer_tracker', SurveyExportManager :: APPLICATION_NAME, $condition);
 //                        $tracker = $trackers->next_result();
 //                        $answer = $tracker->get_answer();
                         $no_answer = false;
@@ -925,11 +925,11 @@ class SurveyManagerSurveySpssSyntaxExporterComponent extends SurveyManager
 //        $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_USER_ID, 1221);
         $condition = new AndCondition($conditions);
         
-        $count = Tracker :: count_data('survey_participant_tracker', SurveyManager :: APPLICATION_NAME, $condition);
+        $count = Tracker :: count_data('survey_participant_tracker', SurveyExportManager :: APPLICATION_NAME, $condition);
         //        dump($count);
         
 
-        $trackers = Tracker :: get_data('survey_participant_tracker', SurveyManager :: APPLICATION_NAME, $condition);
+        $trackers = Tracker :: get_data('survey_participant_tracker', SurveyExportManager :: APPLICATION_NAME, $condition);
         $cases = array();
         $case_id = 1;
         
@@ -955,7 +955,7 @@ class SurveyManagerSurveySpssSyntaxExporterComponent extends SurveyManager
             //test with one level
 //            $condition = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_ID, $tracker->get_parent_id());
             $participants_ids[] = $tracker->get_id();
-//            $parent_tracker = Tracker :: get_data('survey_participant_tracker', SurveyManager :: APPLICATION_NAME, $condition)->next_result();
+//            $parent_tracker = Tracker :: get_data('survey_participant_tracker', SurveyExportManager :: APPLICATION_NAME, $condition)->next_result();
 //            if (isset($parent_tracker))
 //            {
 //                $participant = array();
@@ -986,13 +986,13 @@ class SurveyManagerSurveySpssSyntaxExporterComponent extends SurveyManager
         $participants_ids = array_unique($participants_ids);
                
         $condition = new InCondition(SurveyQuestionAnswerTracker :: PROPERTY_SURVEY_PARTICIPANT_ID, $participants_ids);
-        $tracker_count = Tracker :: count_data('survey_question_answer_tracker', SurveyManager :: APPLICATION_NAME, $condition);
+        $tracker_count = Tracker :: count_data('survey_question_answer_tracker', SurveyExportManager :: APPLICATION_NAME, $condition);
         
 //        dump($tracker_count);
         
         $this->answer_matrix = array();
         
-        $trackers = Tracker :: get_data('survey_question_answer_tracker', SurveyManager :: APPLICATION_NAME, $condition);
+        $trackers = Tracker :: get_data('survey_question_answer_tracker', SurveyExportManager :: APPLICATION_NAME, $condition);
         while ($tracker = $trackers->next_result()) {
         	$this->answer_matrix[$tracker->get_survey_participant_id()][$tracker->get_question_cid()] = $tracker->get_answer();
 //        	dump(memory_get_usage(true)/1024);

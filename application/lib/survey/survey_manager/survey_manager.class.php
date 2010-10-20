@@ -3,6 +3,8 @@
 require_once Path :: get_application_path() . 'lib/survey/survey_data_manager.class.php';
 require_once Path :: get_application_path() . 'lib/survey/survey_rights.class.php';
 require_once Path :: get_application_path() . 'lib/survey/reporting_manager/reporting_manager.class.php';
+require_once Path :: get_application_path() . 'lib/survey/export_manager/export_manager.class.php';
+
 
 class SurveyManager extends WebApplication
 {
