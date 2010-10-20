@@ -29,12 +29,12 @@ class SurveyPublicationMailerForm extends FormValidator
 
         $this->add_warning_message('attention', Translation :: get('SurveyMailAttention'), Translation :: get('SurveyAttentionSendMailInfo'), false );
 		
-        $this->addElement('checkbox', SurveyRights::RIGHT_PARTICIPATE, Translation :: get('Invitees'), ' '.$users[SurveyRights::RIGHT_PARTICIPATE].' '.Translation :: get('Invitees'));
+        $this->addElement('checkbox', SurveyRights::PARTICIPATE_RIGHT_NAME, Translation :: get('Invitees'), ' '.$users[SurveyRights::PARTICIPATE_RIGHT_NAME].' '.Translation :: get('Invitees'));
         $this->addElement('checkbox', SurveyParticipantTracker :: STATUS_NOTSTARTED, Translation :: get('SurveyNotStarted'), ' '.$users[SurveyParticipantTracker :: STATUS_NOTSTARTED].' '.Translation :: get('Participants'));
         $this->addElement('checkbox', SurveyParticipantTracker :: STATUS_STARTED, Translation :: get('SurveyStarted'), ' '.$users[SurveyParticipantTracker :: STATUS_STARTED].' '.Translation :: get('Participants'));
         $this->addElement('checkbox', SurveyParticipantTracker :: STATUS_FINISHED, Translation :: get('SurveyFinished'), ' '.$users[SurveyParticipantTracker :: STATUS_FINISHED].' '.Translation :: get('Participants'));
 	
-        $this->addElement('checkbox', SurveyRights::RIGHT_REPORTING, Translation :: get('ReportingUsers'), ' '.$users[SurveyRights::RIGHT_REPORTING].' '.Translation :: get('ReportingUsers'));
+        $this->addElement('checkbox', SurveyRights::REPORTING_RIGHT_NAME, Translation :: get('ReportingUsers'), ' '.$users[SurveyRights::REPORTING_RIGHT_NAME].' '.Translation :: get('ReportingUsers'));
         
         
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('SendMail'), array('class' => 'positive publish'));

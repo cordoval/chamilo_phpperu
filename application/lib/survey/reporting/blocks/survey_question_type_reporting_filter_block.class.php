@@ -22,7 +22,9 @@ class SurveyQuestionTypeReportingFilterBlock extends SurveyReportingBlock {
 		require_once (dirname ( __FILE__ ) . '/../../trackers/survey_participant_tracker.class.php');
 		
 		
-		$publication_ids = $this->get_survey_publication_id ();
+		 $filter_parameters = $this->get_filter_parameters();
+        
+        $publication_id = $filter_parameters[SurveyReportingFilterWizard :: PARAM_PUBLICATION_ID];
 		
 		$question_type = array();
 		

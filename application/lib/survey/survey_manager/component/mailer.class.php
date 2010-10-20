@@ -10,26 +10,27 @@ class SurveyManagerMailerComponent extends SurveyManager
 {
     private $invitees;
     private $reporting_users;
-	private $not_started;
+    private $not_started;
     private $started;
     private $finished;
     private $mail_send = true;
+    private $publication_id;
 
     function run()
     {
-        $id = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
-        if (! SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_INVITE, $id, SurveyRights :: TYPE_PUBLICATION, $user_id))
+        $this->publication_id = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
+        if (! SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_INVITE, $this->publication_id, SurveyRights :: TYPE_PUBLICATION, $user_id))
         {
             $this->display_header();
             $this->display_error_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
         }
-              
-        $this->invitees = SurveyRights::get_allowed_users(SurveyRights :: RIGHT_PARTICIPATE, $id , SurveyRights ::TYPE_PUBLICATION);
+        
+        $this->invitees = SurveyRights :: get_allowed_users(SurveyRights :: RIGHT_PARTICIPATE, $this->publication_id, SurveyRights :: TYPE_PUBLICATION);
         $invitee_count = count(array_unique($this->invitees));
         
-        $this->reporting_users = SurveyRights::get_allowed_users(SurveyRights :: RIGHT_REPORTING, $id , SurveyRights ::TYPE_PUBLICATION);
+        $this->reporting_users = SurveyRights :: get_allowed_users(SurveyRights :: RIGHT_REPORTING, $this->publication_id, SurveyRights :: TYPE_PUBLICATION);
         $reporting_users_count = count(array_unique($this->reporting_users));
         
         $this->not_started = array();
@@ -37,40 +38,39 @@ class SurveyManagerMailerComponent extends SurveyManager
         $this->started = array();
         $this->finished = array();
         
-        $survey_publication = SurveyDataManager :: get_instance()->retrieve_survey_publication($id);
+        $survey_publication = SurveyDataManager :: get_instance()->retrieve_survey_publication($this->publication_id);
         $survey_id = $survey_publication->get_content_object_id();
         $survey = RepositoryDataManager :: get_instance()->retrieve_content_object($survey_id);
         
-        $condition = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $id);
+        $condition = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->publication_id);
         
+        $trackers = Tracker :: get_data(SurveyParticipantTracker :: get_table_name(), SurveyManager :: APPLICATION_NAME, $condition);
         
-        $trackers = Tracker :: get_data(SurveyParticipantTracker :: get_table_name(), SurveyManager::APPLICATION_NAME, $condition);
-        
-        while($tracker = $trackers->next_result())
+        while ($tracker = $trackers->next_result())
         {
             $this->started[] = $tracker->get_user_id();
-            if($tracker->get_status() == SurveyParticipantTracker :: STATUS_FINISHED){
-            	$this->finished[] =$tracker->get_user_id();
+            if ($tracker->get_status() == SurveyParticipantTracker :: STATUS_FINISHED)
+            {
+                $this->finished[] = $tracker->get_user_id();
             }
-            
+        
         }
         $started_count = count(array_unique($this->started));
         
         $this->not_started = array_diff($this->invitees, $this->started);
         
         $not_started_count = count(array_unique($this->not_started));
-		
+        
         $finished_count = count(array_unique($this->finished));
         
-        
         $users = array();
-        $users[SurveyRights::RIGHT_PARTICIPATE] = $invitee_count;
-        $users[SurveyRights::RIGHT_REPORTING] = $reporting_users_count;
+        $users[SurveyRights :: PARTICIPATE_RIGHT_NAME] = $invitee_count;
+        $users[SurveyRights :: REPORTING_RIGHT_NAME] = $reporting_users_count;
         $users[SurveyParticipantTracker :: STATUS_STARTED] = $started_count;
         $users[SurveyParticipantTracker :: STATUS_NOTSTARTED] = $not_started_count;
         $users[SurveyParticipantTracker :: STATUS_FINISHED] = $finished_count;
         
-        $form = new SurveyPublicationMailerForm($this, $this->get_user(), $users, $this->get_url(array(self :: PARAM_PUBLICATION_ID => $id)));
+        $form = new SurveyPublicationMailerForm($this, $this->get_user(), $users, $this->get_url(array(self :: PARAM_PUBLICATION_ID => $this->publication_id)));
         
         if ($form->validate())
         {
@@ -80,24 +80,19 @@ class SurveyManagerMailerComponent extends SurveyManager
         else
         {
             $this->display_header($trail);
-            echo $this->get_survey_html($surveys);
+            echo $this->get_survey_html($survey);
             echo $form->toHtml();
             $this->display_footer();
         }
     
     }
 
-    function get_survey_html($surveys)
+    function get_survey_html($survey)
     {
         $html = array();
         $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_image_path('survey') . 'survey_22.png);">';
-        $html[] = '<div class="title">' . Translation :: get('MailToParticipantsForSurveys') . '  ' . ' </div>';
-        $i = 1;
-        foreach ($surveys as $survey)
-        {
-            $html[] = $i . ': ' . $survey->get_title() . '<br/>';
-            $i ++;
-        }
+        $html[] = '<div class="title">' . Translation :: get('MailToUsersForSurvey') . '  ' . ' </div>';
+        $html[] = $survey->get_title() . '<br/>';
         $html[] = '</div>';
         return implode("\n", $html);
     
@@ -107,50 +102,49 @@ class SurveyManagerMailerComponent extends SurveyManager
     {
         
         $users = array();
-        $mail_users = array();
+        $mail_user_ids = array();
         $dm = UserDataManager :: get_instance();
         
         $not_started = $values[SurveyParticipantTracker :: STATUS_NOTSTARTED];
         if ($not_started == 1)
         {
-            foreach ($this->not_started as $survey_id => $user_ids)
-            {
-                foreach ($user_ids as $user_id)
-                {
-                    $mail_users[$user_id][] = $survey_id;
-                }
-            }
+            $mail_user_ids = array_merge($mail_user_ids, $this->not_started);
         }
         
         $started = $values[SurveyParticipantTracker :: STATUS_STARTED];
         
         if ($started == 1)
         {
-            foreach ($this->started as $survey_id => $user_ids)
-            {
-                foreach ($user_ids as $user_id)
-                {
-                    $mail_users[$user_id][] = $survey_id;
-                }
-            }
+            $mail_user_ids = array_merge($mail_user_ids, $this->started);
         }
         
         $finished = $values[SurveyParticipantTracker :: STATUS_FINISHED];
         
         if ($finished == 1)
         {
-            foreach ($this->finished as $survey_id => $user_ids)
-            {
-                foreach ($user_ids as $user_id)
-                {
-                    $mail_users[$user_id][] = $survey_id;
-                }
-            }
+            $mail_user_ids = array_merge($mail_user_ids, $this->finished);
         }
         
-        if (count(array_values($mail_users)) == 0)
+        $invitees = $values[SurveyRights :: PARTICIPATE_RIGHT_NAME];
+        
+        if ($invitees == 1)
         {
-            $this->redirect(Translation :: get('NoSurveyParticipantMailsSend'), false, array(self :: PARAM_ACTION => self :: ACTION_BROWSE));
+            
+            $mail_user_ids = array_merge($mail_user_ids, $this->invitees);
+        }
+        
+        $reporting = $values[SurveyRights :: REPORTING_RIGHT_NAME];
+        $reporting_mail_user_ids = array();
+        if ($reporting == 1)
+        {
+            $reporting_mail_user_ids = $this->reporting_users;
+        }
+        
+        $mail_user_ids = array_unique($mail_user_ids);
+               
+        if ((count($mail_user_ids) + count($reporting_mail_user_ids)) == 0)
+        {
+            $this->redirect(Translation :: get('NoSurveyMailsSend'), false, array(self :: PARAM_ACTION => self :: ACTION_BROWSE));
         }
         else
         {
@@ -171,14 +165,22 @@ class SurveyManagerMailerComponent extends SurveyManager
             $email->set_reply_address_name($email_reply_address_name);
             $email->create();
             
-            foreach ($mail_users as $user_id => $survey_ids)
+            foreach ($mail_user_ids as $user_id)
             {
                 
                 $user = $dm->retrieve_user($user_id);
                 $to_email = $user->get_email();
-                $this->send_mail($user_id, $to_email, $email, $survey_ids);
+                $this->send_mail($user_id, $to_email, $email, true);
             
             }
+            
+            foreach ($reporting_mail_user_ids as $user_id)
+            {
+                $user = $dm->retrieve_user($user_id);
+                $to_email = $user->get_email();
+                $this->send_mail($user_id, $to_email, $email);
+            }
+            
             if ($this->mail_send == false)
             {
                 $this->redirect(Translation :: get('NotAllMailsSend'), false, array(self :: PARAM_ACTION => self :: ACTION_BROWSE));
@@ -192,27 +194,24 @@ class SurveyManagerMailerComponent extends SurveyManager
     
     }
 
-    function send_mail($user_id, $to_email, $email, $publication_id)
+    function send_mail($user_id, $to_email, $email, $participate = false)
     {
         
-        $fullbody = array();
         $parameters = array();
         
-//        $unique_surveys = array_unique($survey_ids);
-//        
-//        if (count($unique_surveys) != 1)
-//        {
+        if (! $participate)
+        {
             $parameters[self :: PARAM_ACTION] = self :: ACTION_BROWSE;
-//        }
-//        else
-//        {
-//            $parameters[self :: PARAM_ACTION] = self :: ACTION_TAKE;
-//            $parameters[self :: PARAM_PUBLICATION_ID] = $unique_surveys[0];
-//        }
+        }
+        else
+        {
+            $parameters[self :: PARAM_ACTION] = self :: ACTION_TAKE;
+            $parameters[self :: PARAM_PUBLICATION_ID] = $this->publication_id;
+        }
         
         $url = Path :: get(WEB_PATH) . $this->get_link($parameters);
         
-        //        $fullbody[] = $this->get_mail_header($email);
+        $fullbody = array();
         $fullbody[] = $email->get_mail_content();
         $fullbody[] = '<br/><br/>';
         $fullbody[] = '<p id="link">';
@@ -220,19 +219,7 @@ class SurveyManagerMailerComponent extends SurveyManager
         $fullbody[] = '<br/><br/>' . Translation :: get('OrCopyAndPasteThisText') . ':';
         $fullbody[] = '<br/><a href=' . $url . '>' . $url . '</a>';
         $fullbody[] = '</p>';
-        //        $fullbody[] = $this->get_mail_footer();
         
-
-        //                echo implode('', $fullbody);
-        //                exit;
-        
-
-        //$email->set_mail_content($fullbody);
-        //$email->update();
-        //echo $email . $email_header . $fullbody . '<br/>';
-        
-
-        //		exit;
         $arg = array();
         $args[SurveyParticipantMailTracker :: PROPERTY_USER_ID] = $user_id;
         $args[SurveyParticipantMailTracker :: PROPERTY_SURVEY_PUBLICATION_MAIL_ID] = $email->get_id();
@@ -249,86 +236,19 @@ class SurveyManagerMailerComponent extends SurveyManager
         $mail->set_reply($reply);
         
         // Check whether it was sent successfully
-        if ($mail->send() === FALSE)
-        {
-            $this->mail_send = false;
-            $args[SurveyParticipantMailTracker :: PROPERTY_STATUS] = SurveyParticipantMailTracker :: STATUS_MAIL_NOT_SEND;
-        }
-        else
-        {
-            $args[SurveyParticipantMailTracker :: PROPERTY_STATUS] = SurveyParticipantMailTracker :: STATUS_MAIL_SEND;
-        }
-        
-//        foreach ($unique_surveys as $survey_id)
-//        {
-            
-            $args[SurveyParticipantMailTracker :: PROPERTY_SURVEY_PUBLICATION_ID] = $publication_id;
-            
-            $tracker = Event :: trigger('survey_participation_mail', 'survey', $args);
-//        }
-    
-    }
-
-    function get_mail_header($email)
-    {
-        $html = array();
-        
-        //        $header = new Header();
-        //        $header->add_css_file_header(Theme :: get_theme_path() . 'css/common_mail.css');
-        //        $header->set_page_title(PlatformSetting :: get('site_name'));
-        //        $html[] = $header->toHtml();
+        //        if ($mail->send() === FALSE)
+        //        {
+        //            $this->mail_send = false;
+        //            $args[SurveyParticipantMailTracker :: PROPERTY_STATUS] = SurveyParticipantMailTracker :: STATUS_MAIL_NOT_SEND;
+        //        }
+        //        else
+        //        {
+        $args[SurveyParticipantMailTracker :: PROPERTY_STATUS] = SurveyParticipantMailTracker :: STATUS_MAIL_SEND;
+        //        }
         
 
-        $html[] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
-        $html[] = '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">';
-        $html[] = '<head>';
-        //$html[] = '<style type="text/css" media="screen,projection"> /*<![CDATA[*/ @import "'. Theme :: get_theme_path() . 'css/common_mail.css' .'"; /*]]>*/ </style>';
-        //        $html[] = '<link rel="stylesheet" href="'. Theme :: get_theme_path() . 'css/common_mail.css" type="text/css" media="screen" />';
-        //        $html[] = '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
-        $html[] = '<title>' . PlatformSetting :: get('site_name') . '</title>';
-        $html[] = '</head>';
-        
-        $html[] = '<body>';
-        //        $html[] = '<body bottommargin="0" leftmargin="0" marginheight="0" marginwidth="0" rightmargin="0" topmargin="0">';
-        //        $html[] = '<table id="main" cellpadding="0" cellspacing="0">';
-        //        $html[] = '<tr class="header">';
-        //        $html[] = '<td>';
-        //        $html[] = '<img src="'. Theme :: get_common_image_path() .'logo_header.png" />';
-        //        $html[] = '</td>';
-        //        $html[] = '</tr>';
-        //        $html[] = '<tr class="divider">';
-        //        $html[] = '<td>';
-        //        $html[] = '<a href="'. PlatformSetting :: get('institution_url') .'">' . PlatformSetting :: get('institution') . '</a>';
-        //        $html[] = '&nbsp;|&nbsp;';
-        //        $html[] = PlatformSetting :: get('site_name');
-        //        $html[] = '&nbsp;|&nbsp;';
-        //        $html[] = $email->get_mail_header();
-        //        $html[] = '</td>';
-        //        $html[] = '</tr>';
-        //        $html[] = '<tr class="content">';
-        //        $html[] = '<td>';
-        
-
-        return implode("\n", $html);
-    }
-
-    function get_mail_footer()
-    {
-        $html = array();
-        
-        //        $html[] = '</td>';
-        //        $html[] = '</tr>';
-        //        $html[] = '<tr class="footer">';
-        //        $html[] = '<td>';
-        //        $html[] = '<a href="http://www.chamilo.org"><img src="'. Theme :: get_common_image_path() .'logo_footer.png" /></a>';
-        //        $html[] = '</td>';
-        //        $html[] = '</tr>';
-        //        $html[] = '<tr>';
-        //        $html[] = '</table>';
-        $html[] = '</body>';
-        $html[] = '</html>';
-        
-        return implode("\n", $html);
+        $args[SurveyParticipantMailTracker :: PROPERTY_SURVEY_PUBLICATION_ID] = $this->publication_id;
+        $tracker = Event :: trigger(SurveyParticipantMailTracker :: REGISTER_PARTICIPATION_MAIL_EVENT, SurveyManager :: APPLICATION_NAME, $args);
     }
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)

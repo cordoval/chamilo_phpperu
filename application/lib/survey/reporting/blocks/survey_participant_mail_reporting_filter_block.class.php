@@ -9,7 +9,9 @@ class SurveyParticipantMailReportingFilterBlock extends SurveyReportingBlock {
 		
 		$conditions = array ();
 		
-		$publication_ids = $this->get_survey_publication_id ();
+		 $filter_parameters = $this->get_filter_parameters();
+        
+        $publication_id = $filter_parameters[SurveyReportingFilterWizard :: PARAM_PUBLICATION_ID];
 		$condition = new EqualityCondition ( SurveyParticipantMailTracker::PROPERTY_SURVEY_PUBLICATION_ID, $publication_ids );
 		
 		$tracker = new SurveyParticipantMailTracker ();

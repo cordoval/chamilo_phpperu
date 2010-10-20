@@ -43,9 +43,12 @@ class SurveyMultipleChoiceQuestionDisplay extends SurveyQuestionDisplay
                 
                 $radio_button = $formvalidator->createElement('radio', $option_name, null, null, $i);
                 
-                if ($i == $answer[0])
+                if ($answer)
                 {
-                    $formvalidator->setDefaults(array($option_name => 0));
+                    if ($i == $answer[0])
+                    {
+                        $formvalidator->setDefaults(array($option_name => 0));
+                    }
                 }
                 
                 $group[] = $radio_button;
