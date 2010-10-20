@@ -3,6 +3,8 @@
 require_once Path :: get_application_path() . 'lib/survey/survey_data_manager.class.php';
 require_once Path :: get_application_path() . 'lib/survey/survey_rights.class.php';
 require_once Path :: get_application_path() . 'lib/survey/reporting_manager/reporting_manager.class.php';
+require_once Path :: get_application_path() . 'lib/survey/export_manager/export_manager.class.php';
+
 
 class SurveyManager extends WebApplication
 {
@@ -24,13 +26,11 @@ class SurveyManager extends WebApplication
     const ACTION_EDIT = 'editor';
     const ACTION_PUBLISH = 'publisher';
     const ACTION_BROWSE = 'browser';
-    const ACTION_BROWSE_PAGES = 'page_browser';
-    const ACTION_BROWSE_PAGE_QUESTIONS = 'question_browser';
     const ACTION_TAKE = 'taker';
     const ACTION_REPORTING_FILTER = 'reporting_filter';
     const ACTION_REPORTING = 'reporting';
-    const ACTION_EXCEL_EXPORT = 'survey_excel_median_exporter';
-    const ACTION_QUESTION_REPORTING = 'question_reporting';
+    const ACTION_EXPORT = 'exporter';
+   
     
     const ACTION_SUBSCRIBE_USER = 'subscribe_user';
     const ACTION_SUBSCRIBE_GROUP = 'subscribe_group';
@@ -133,7 +133,7 @@ class SurveyManager extends WebApplication
 
     function get_survey_publication_export_excel_url($survey_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EXCEL_EXPORT, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EXPORT, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id()));
     }
 
     function get_browse_survey_participants_url($survey_publication)
