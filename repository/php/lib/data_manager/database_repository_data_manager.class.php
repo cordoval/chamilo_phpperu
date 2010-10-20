@@ -14,6 +14,7 @@ use common\libraries\OrCondition;
 use common\libraries\DataClass;
 use common\libraries\SubselectCondition;
 
+
 use repository\content_object\learning_path_item\LearningPathItem;
 use repository\content_object\portfolio_item\PortfolioItem;
 /**
@@ -1331,14 +1332,15 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
     function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        if (is_a($order_property, 'ObjectTableOrder'))
+    	if (is_a($order_property, 'common\libraries\ObjectTableOrder'))
         {
-            $order_property = array($order_property);
+        	echo('test');
+        	$order_property = array($order_property);
         }
 
         $order_property[] = new ObjectTableOrder(RepositoryCategory :: PROPERTY_PARENT);
         $order_property[] = new ObjectTableOrder(RepositoryCategory :: PROPERTY_DISPLAY_ORDER);
-        return $this->retrieve_objects(RepositoryCategory :: get_table_name(), $condition, $offset, $count, $order_property);
+        return $this->retrieve_objects(RepositoryCategory :: get_table_name(), $condition, $offset, $count, $order_property, RepositoryCategory::CLASS_NAME);
     }
 
     function select_next_category_display_order($parent_category_id, $user_id)

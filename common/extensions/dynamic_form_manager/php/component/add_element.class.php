@@ -1,5 +1,10 @@
 <?php
 namespace common\extensions\dynamic_form_manager;
+
+use common\libraries\Request;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
 /**
  * $Id: add_element.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.common.dynamic_form_manager.component

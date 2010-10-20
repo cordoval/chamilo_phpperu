@@ -2,6 +2,7 @@
 namespace webservice;
 
 use common\libraries\Utilities;
+use common\libraries\DataClass;
 /**
  * $Id: webservice_category.class.php 208 2009-11-13 13:14:39Z vanpouckesven $
  * @package webservices.lib
@@ -68,7 +69,8 @@ class WebserviceCategory extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 
     function create()

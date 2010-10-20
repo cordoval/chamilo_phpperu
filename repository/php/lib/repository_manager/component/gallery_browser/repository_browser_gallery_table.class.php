@@ -6,6 +6,7 @@ use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\ObjectTableFormActions;
 use common\libraries\ObjectTableFormAction;
+use common\libraries\GalleryObjectTable;
 
 /**
  * $Id: repository_browser_gallery_table.class.php 204 2009-11-13 12:51:30Z kariboe $

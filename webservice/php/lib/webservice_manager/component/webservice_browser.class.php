@@ -9,6 +9,8 @@ use common\libraries\OrCondition;
 use common\libraries\PatternMatchCondition;
 use common\libraries\AdministrationComponent;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ActionBarSearchForm;
 
 /**
  * $Id: webservice_browser.class.php 208 2009-11-13 13:14:39Z vanpouckesven $

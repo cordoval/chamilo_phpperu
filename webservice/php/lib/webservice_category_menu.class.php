@@ -4,6 +4,8 @@ namespace webservice;
 use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
+
+use \HTML_Menu;
 /**
  * $Id: webservice_category_menu.class.php 208 2009-11-13 13:14:39Z vanpouckesven $
  * @package webservices.lib

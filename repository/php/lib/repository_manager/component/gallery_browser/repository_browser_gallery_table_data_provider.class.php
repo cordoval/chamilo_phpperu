@@ -2,6 +2,7 @@
 namespace repository;
 
 use common\libraries\ObjectTableDataProvider;
+use common\libraries\GalleryObjectTableDataProvider;
 
 /**
  * $Id: repository_browser_gallery_table_data_provider.class.php 204 2009-11-13 12:51:30Z kariboe $

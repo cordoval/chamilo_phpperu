@@ -12,6 +12,7 @@ use common\libraries\InCondition;
 use common\extensions\dynamic_form_manager;
 use common\extensions\dynamic_form_manager\DynamicForm;
 use common\extensions\dynamic_form_manager\DynamicFormElement;
+use common\extensions\dynamic_form_manager\DynamicFormElementOption;
 /**
  * $Id: database_admin_data_manager.class.php 231 2009-11-16 09:53:00Z vanpouckesven $
  * @package admin.lib.data_manager
@@ -288,7 +289,7 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
 
     function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->retrieve_objects('admin_category', $condition, $offset, $count, $order_property, AdminCategory::CLASS_NAME);
+        return $this->retrieve_objects('admin_category', $condition, $offset, $count, $order_property);
     }
 
     function select_next_display_order($parent_category_id)
@@ -596,7 +597,7 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
 
     function retrieve_dynamic_form_elements($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->retrieve_objects(DynamicFormElement :: get_table_name(), $condition, $offset, $count, $order_property);
+        return $this->retrieve_objects(DynamicFormElement :: get_table_name(), $condition, $offset, $count, $order_property, DynamicFormElement :: CLASS_NAME);
     }
 
     function select_next_dynamic_form_element_order($dynamic_form_id)
@@ -629,7 +630,7 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
 
     function retrieve_dynamic_form_element_options($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->retrieve_objects(DynamicFormElementOption :: get_table_name(), $condition, $offset, $count, $order_property);
+        return $this->retrieve_objects(DynamicFormElementOption :: get_table_name(), $condition, $offset, $count, $order_property, DynamicFormElementOption::CLASS_NAME);
     }
 
     function select_next_dynamic_form_element_option_order($dynamic_form_element_id)

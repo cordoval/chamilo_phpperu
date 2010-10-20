@@ -4,6 +4,8 @@ use repository\RepositoryManager;
 use common\libraries\Breadcrumb;
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\Theme;
+
 use repository\ContentObjectShareForm;
 
 /*

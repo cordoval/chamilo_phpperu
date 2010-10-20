@@ -1,6 +1,10 @@
 <?php
 namespace common\extensions\dynamic_form_manager;
+
 use common\libraries\ObjectTableDataProvider;
+use common\libraries\EqualityCondition;
+use admin\AdminDataManager;
+
 /**
  * $Id: dynamic_form_element_browser_table_data_provider.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package application.common.dynamic_form_manager.component.dynamic_form_element_browser

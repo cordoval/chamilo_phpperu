@@ -2,7 +2,7 @@
 namespace webservice;
 
 use common\libraries\ObjectTableColumnModel;
-
+use common\libraries\ObjectTableColumn;
 /**
  * $Id: default_webservice_table_column_model.class.php 208 2009-11-13 13:14:39Z vanpouckesven $
  * @package webservices.lib.webservice_table

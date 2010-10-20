@@ -5,6 +5,8 @@ use common\libraries\EqualityCondition;
 use common\libraries\Session;
 use common\libraries\AndCondition;
 
+use common\extensions\category_manager\CategoryManager;
+
 /**
  * $Id: repository_category_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package repository.lib.category_manager
@@ -47,7 +49,6 @@ class RepositoryCategoryManager extends CategoryManager
 
         $conditions[] = new EqualityCondition(RepositoryCategory :: PROPERTY_USER_ID, $this->get_user_id());
         $condition = new AndCondition($conditions);
-
         return $wdm->retrieve_categories($condition, $offset, $count, $order_property);
     }
 

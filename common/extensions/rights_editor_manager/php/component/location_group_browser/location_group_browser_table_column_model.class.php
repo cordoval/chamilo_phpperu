@@ -2,8 +2,9 @@
 namespace common\extensions\rights_editor_manager;
 use common\libraries\Path;
 use common\libraries\StaticTableColumn;
-use group\DefaultGroupTableColumnModel;
+use common\libraries\Utilities;
 use common\libraries\Translation;
+use group\DefaultGroupTableColumnModel;
 
 /**
  * $Id: location_group_browser_table_column_model.class.php 191 2009-11-13 11:50:28Z chellee $

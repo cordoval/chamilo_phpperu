@@ -167,7 +167,6 @@ class Database
         }
         $default_properties = array();
         $optional_properties = array();
-
         $object = new $class_name();
 
         foreach ($object->get_default_property_names() as $property)

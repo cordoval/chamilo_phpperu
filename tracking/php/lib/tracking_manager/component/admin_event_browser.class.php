@@ -10,6 +10,8 @@ use common\libraries\Toolbar;
 use common\libraries\AdministrationComponent;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\PlatformSetting;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ConditionProperty;
 
 /**
  * $Id: admin_event_browser.class.php 213 2009-11-13 13:38:50Z vanpouckesven $

@@ -773,19 +773,19 @@ class RightsUtilities
 
     static function get_rights_icon($location_url, $rights_url, $locked_parent, $right, $object, $location)
     {
-    	$type = Utilities :: camelcase_to_underscores(get_class($object));
+    	$type = Utilities :: camelcase_to_underscores(array_pop(explode('\\', get_class($object))));
         $get_function = 'get_' . $type . '_right_location';
         $allowed_function = 'is_allowed_for_' . $type;
 
         $html[] = '<div id="r_' . $right . '_' . $object->get_id() . '_' . $location->get_id() . '" style="float: left; width: 24%; text-align: center;">';
         if (isset($locked_parent))
         {
-            $value = RightsUtilities :: $get_function($right, $object->get_id(), $locked_parent->get_id());
+            $value = self :: $get_function($right, $object->get_id(), $locked_parent->get_id());
             $html[] = '<a href="' . $location_url . '">' . ($value == 1 ? '<img src="' . Theme :: get_common_image_path() . 'action_setting_true_locked.png" title="' . Translation :: get('LockedTrue') . '" />' : '<img src="' . Theme :: get_common_image_path() . 'action_setting_false_locked.png" title="' . Translation :: get('LockedFalse') . '" />') . '</a>';
         }
         else
         {
-            $value = RightsUtilities :: $get_function($right, $object->get_id(), $location->get_id());
+            $value = self :: $get_function($right, $object->get_id(), $location->get_id());
 
             if (! $value)
             {
