@@ -99,6 +99,7 @@ class Dokeos185ForumAttachment extends Dokeos185CourseDataMigrationDataClass
         
     	$course = $this->get_course();
     	$path = $this->get_data_manager()->get_sys_path() . '/courses/' . $course->get_directory() . '/upload/forum/' . $this->get_path();
+    	$path = iconv('UTF-8', 'ISO-8859-1', $path);
     	
     	if (! $this->get_post_id() || !$this->get_filename() || ! $this->get_path() || !file_exists($path) || !$this->item_property)
         {
@@ -126,7 +127,10 @@ class Dokeos185ForumAttachment extends Dokeos185CourseDataMigrationDataClass
     	$new_path = Path :: get(SYS_REPO_PATH) . $post->get_owner_id() . '/' . Text :: char_at($hash, 0) . '/';
     	$file_exists = file_exists($new_path . $hash);
     	
-    	$migrated_hash = $this->migrate_file($path, $new_path, $this->get_path(), $hash);
+    	$converted_path = iconv('UTF-8', 'ISO-8859-1', $path);
+    	$converted_filename = iconv('UTF-8', 'ISO-8859-1', $this->get_path());
+    	
+    	$migrated_hash = $this->migrate_file($path, $new_path, $converted_filename, $hash);
     	
     	if($file_exists && $hash == $migrated_hash)
     	{
