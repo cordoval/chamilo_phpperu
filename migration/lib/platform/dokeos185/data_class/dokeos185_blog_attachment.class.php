@@ -123,7 +123,8 @@ class Dokeos185BlogAttachment extends Dokeos185CourseDataMigrationDataClass
     	$blog_id = $this->get_id_reference($this->get_blog_id(), $this->get_database_name() . '.blog');
     	$comment_id = $this->get_id_reference($this->get_comment_id(), $this->get_database_name() . '.blog_comment');
     	
-    	$converted_path = iconv('UTF-8', 'ISO-8859-1', $path);
+    	//$converted_path = iconv('UTF-8', 'ISO-8859-1', $path);
+    	$converted_path = $path;
     	
     	if ( !$post_id || !$blog_id || !$this->get_filename() || ! $this->get_path() || !file_exists($converted_path) || ($this->get_comment_id() > 0 && !$comment_id))
         {
@@ -159,8 +160,10 @@ class Dokeos185BlogAttachment extends Dokeos185CourseDataMigrationDataClass
     	$new_path = Path :: get(SYS_REPO_PATH) . $object->get_owner_id() . '/' . Text :: char_at($hash, 0) . '/';
     	$file_exists = file_exists($new_path . $hash);
     	
-    	$converted_path = iconv('UTF-8', 'ISO-8859-1', $path);
-    	$converted_filename = iconv('UTF-8', 'ISO-8859-1', $this->get_path());
+    	//$converted_path = iconv('UTF-8', 'ISO-8859-1', $path);
+    	$converted_path = $path;
+    	//$converted_filename = iconv('UTF-8', 'ISO-8859-1', $this->get_path());
+    	$converted_filename = $this->get_path();
     	
     	$migrated_hash = $this->migrate_file($converted_path, $new_path, $converted_filename, $hash);
     	
