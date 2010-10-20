@@ -45,9 +45,11 @@ class SurveyMultipleChoiceQuestionDisplay extends SurveyQuestionDisplay
                 
                 if ($answer)
                 {
-                    if ($i == $answer[0])
+                    
+                	$key = $answer[0];
+                    if ($i == $key)
                     {
-                        $formvalidator->setDefaults(array($option_name => 0));
+                       $formvalidator->setDefaults(array($option_name => $key));
                     }
                 }
                 

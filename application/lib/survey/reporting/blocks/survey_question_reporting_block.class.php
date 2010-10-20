@@ -9,14 +9,16 @@ class SurveyQuestionReportingBlock extends SurveyReportingBlock
 {
     
     private $publication_id;
-	private $question_id;
-    private $question;
+	private $complex_question_id;
+    private $question_id;
+	    private $question;
     private $analyse_type;
 
     function SurveyQuestionReportingBlock($parent, $complex_question_id, $publication_id , $analyse_type)
     {
         parent :: __construct($parent);
         $complex_question = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($complex_question_id);
+        $this->complex_question_id = $complex_question_id;
         $this->question = $complex_question->get_ref_object();
         $this->question_id = $this->question->get_id();
         $this->publication_id = $publication_id;
@@ -51,9 +53,10 @@ class SurveyQuestionReportingBlock extends SurveyReportingBlock
         
 
         $conditions = array();
-        $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_COMPLEX_QUESTION_ID, $this->question_id);
+        $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_COMPLEX_QUESTION_ID, $this->complex_question_id);
         $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_PUBLICATION_ID, $this->publication_id);
         $condition = new AndCondition($conditions);
+        
         $trackers = Tracker :: get_data(SurveyQuestionAnswerTracker :: get_table_name(), SurveyManager :: APPLICATION_NAME, $condition);
         
         $answers = array();
@@ -63,7 +66,7 @@ class SurveyQuestionReportingBlock extends SurveyReportingBlock
             $answers[] = $tracker->get_answer();
         
         }
-              
+        
         $analyzer = SurveyAnalyzer :: factory($this->analyse_type, $this->question, $answers);
         
         return $analyzer->analyse();

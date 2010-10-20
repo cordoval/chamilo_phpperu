@@ -187,8 +187,7 @@ class SurveyPercentageAnalyzer extends SurveyAnalyzer
 
                 foreach ($answers as $answer)
                 {
-                  
-                   
+                                   
                     foreach ($answer as $key => $option)
                     {
                         if ($question->get_answer_type() == SurveyMultipleChoiceQuestion :: ANSWER_TYPE_CHECKBOX)
