@@ -176,7 +176,7 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
         $converted_filename = iconv('UTF-8', 'ISO-8859-1', $this->directory . $filename);
         
         if (! $this->get_id() || ! $this->get_path() || ! $this->get_filetype() || ! $this->get_item_property() || ! $this->get_item_property()->get_ref() || ! 
-            $this->get_item_property()->get_insert_date() || ! $converted_filename || $this->get_filetype() == 'folder')
+            $this->get_item_property()->get_insert_date() || !file_exists($converted_filename) || $this->get_filetype() == 'folder')
         {
             $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'document', 'ID' => $this->get_id())));
             $this->create_failed_element($this->get_id());
