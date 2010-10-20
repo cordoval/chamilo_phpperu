@@ -1,11 +1,6 @@
 <?php
 
-require_once dirname(__FILE__) . '/../survey_manager.class.php';
-
-require_once dirname(__FILE__) . '/results_export_form/results_export_form.class.php';
-require_once dirname(__FILE__) . '/results_export_form/export.class.php';
-
-class SurveyManagerResultsExporterComponent extends SurveyManager
+class SurveyManagerExporterComponent extends SurveyManager
 {
 
     function run()
