@@ -152,7 +152,7 @@ class SurveyReportingFilterWizard extends WizardPageValidator
         $attributes = array();
         
         $context_template_id = Request :: get(SurveyReportingManager :: PARAM_CONTEXT_TEMPLATE_ID);
-       
+               
         if ($context_template_id)
         {
             $attributes['search_url'] = Path :: get(WEB_PATH) . 'application/lib/survey/xml_feeds/xml_context_feed.php?' . SurveyManager :: PARAM_USER_ID . '=' . $this->user->get_id() . '&' . self :: PARAM_CONTEXT_TEMPLATE_ID . '=' . $context_template_id;

@@ -118,7 +118,7 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
     {
         if (! $this->has_context())
         {
-            return 1;
+            return 0;
         }
         else
         {

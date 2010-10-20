@@ -27,9 +27,14 @@ class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
         $html = array();
         $this->parent->get_parent()->display_header();
 
-        $html[] = $this->get_menu_html($current_page);
-             
-        $html[] = '<div style="float: right; width: 80%;">';
+        if($this->survey->has_context()){
+        	 $html[] = $this->get_menu_html($current_page);
+        	$html[] = '<div style="float: right; width: 80%;">';
+        }else{
+        	$html[] = '<div style="float: right; width: 100%;">';
+        }
+        
+       
         $html[] = '<div class="assessment">';
         $html[] = '<h2>' . $this->survey->parse($current_page->get_context_path(), $this->survey->get_title()) . '</h2>';
         $html[] = '<br />';

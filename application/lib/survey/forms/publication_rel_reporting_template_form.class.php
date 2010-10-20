@@ -107,7 +107,7 @@ class SurveyPublicationRelReportingTemplateRegistrationForm extends FormValidato
         {
             $publication_rel_reporting_template_registration->set_level(0);
         }
-        
+              
         return $publication_rel_reporting_template_registration->create();
     }
 

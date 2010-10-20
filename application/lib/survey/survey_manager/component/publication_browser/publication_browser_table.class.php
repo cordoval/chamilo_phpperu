@@ -22,17 +22,17 @@ class SurveyPublicationBrowserTable extends ObjectTable
         
         $action = new ObjectTableFormActions();
         
-        if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_VIEW, SurveyRights :: LOCATION_REPORTING, SurveyRights :: TYPE_COMPONENT))
-        {
-            $action->add_form_action(new ObjectTableFormAction(SurveyReportingManager :: ACTION_REPORTING, Translation :: get('Reporting'), false));
-        }
+//        if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_VIEW, SurveyRights :: LOCATION_REPORTING, SurveyRights :: TYPE_COMPONENT))
+//        {
+//            $action->add_form_action(new ObjectTableFormAction(SurveyReportingManager :: ACTION_REPORTING, Translation :: get('Reporting'), false));
+//        }
         
         if ($browser->get_user()->is_platform_admin())
         {
             $action->add_form_action(new ObjectTableFormAction(SurveyManager :: ACTION_DELETE, Translation :: get('RemoveSelected'), true));
-            $action->add_form_action(new ObjectTableFormAction(SurveyManager :: ACTION_EDIT_RIGHTS, Translation :: get('ManageRights'), false));
-            $action->add_form_action(new ObjectTableFormAction(SurveyManager :: ACTION_MAIL_INVITEES, Translation :: get('InviteParticipants'), false));
-            $action->add_form_action(new ObjectTableFormAction(SurveyManager :: ACTION_EXCEL_EXPORT, Translation :: get('ExportToExcel'), false));
+//            $action->add_form_action(new ObjectTableFormAction(SurveyManager :: ACTION_EDIT_RIGHTS, Translation :: get('ManageRights'), false));
+//            $action->add_form_action(new ObjectTableFormAction(SurveyManager :: ACTION_MAIL_INVITEES, Translation :: get('InviteParticipants'), false));
+//            $action->add_form_action(new ObjectTableFormAction(SurveyManager :: ACTION_EXCEL_EXPORT, Translation :: get('ExportToExcel'), false));
         
         }
         

@@ -46,7 +46,7 @@ class SurveyReportingManagerRightsEditorComponent extends SurveyReportingManager
             $manager->limit_users(array(0));
         }
         
-        $manager->set_modus(RightsEditorManager :: MODUS_USERS);
+        $manager->set_types(RightsEditorManager :: TYPE_USER);
         $manager->run();
     }
 

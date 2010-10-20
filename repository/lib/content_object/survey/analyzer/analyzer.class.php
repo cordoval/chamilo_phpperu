@@ -2,10 +2,16 @@
 
 abstract class SurveyAnalyzer
 {
-        
+
+	const TYPE_PERCENTAGE ='percentage';
+	const TYPE_MEDIAN ='median';
+	const TYPE_ABSOLUTE ='absolute';
+	
    	private $question;
     private $answers = array();
 	
+    
+    
     public function SurveyAnalyzer($question, $answers)
     {
         $this->question = $question;

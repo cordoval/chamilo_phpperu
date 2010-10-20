@@ -86,6 +86,7 @@ class SurveyManagerTakerComponent extends SurveyManager
     	$progress = $answer_count/$question_count*100;
     	
     	$this->participant_tracker->set_progress($progress);
+    	$this->participant_tracker->set_status(SurveyParticipantTracker :: STATUS_FINISHED);
     	$this->participant_tracker->set_total_time(time());
     	$this->participant_tracker->update();
     }
