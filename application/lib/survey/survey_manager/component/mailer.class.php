@@ -15,10 +15,12 @@ class SurveyManagerMailerComponent extends SurveyManager
     private $finished;
     private $mail_send = true;
     private $publication_id;
+    private $survey_id;
 
     function run()
     {
         $this->publication_id = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
+        
         if (! SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_INVITE, $this->publication_id, SurveyRights :: TYPE_PUBLICATION, $user_id))
         {
             $this->display_header();
@@ -39,8 +41,8 @@ class SurveyManagerMailerComponent extends SurveyManager
         $this->finished = array();
         
         $survey_publication = SurveyDataManager :: get_instance()->retrieve_survey_publication($this->publication_id);
-        $survey_id = $survey_publication->get_content_object_id();
-        $survey = RepositoryDataManager :: get_instance()->retrieve_content_object($survey_id);
+        $this->survey_id = $survey_publication->get_content_object_id();
+        $survey = RepositoryDataManager :: get_instance()->retrieve_content_object($this->survey_id);
         
         $condition = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->publication_id);
         
@@ -206,7 +208,9 @@ class SurveyManagerMailerComponent extends SurveyManager
         else
         {
             $parameters[self :: PARAM_ACTION] = self :: ACTION_TAKE;
+            $parameters[self :: PARAM_SURVEY_ID] = $this->survey_id;
             $parameters[self :: PARAM_PUBLICATION_ID] = $this->publication_id;
+            $parameters[self :: PARAM_INVITEE_ID] = $user_id;
         }
         
         $url = Path :: get(WEB_PATH) . $this->get_link($parameters);
