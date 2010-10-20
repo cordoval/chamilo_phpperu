@@ -21,7 +21,7 @@ class ProfilerManagerCreatorComponent extends ProfilerManager implements RepoVie
         }
         else
         {
-            $RIGHT_PUBLISH = ProfilerRights::is_allowed_in_profiler_subtree(ProfilerRights::RIGHT_PUBLISH, $this->get_category(), ProfilerRights::TYPE_CATEGORY);
+            $RIGHT_PUBLISH = ProfilerRights::is_allowed_in_profiler_subtree(ProfilerRights::RIGHT_PUBLISH, Request :: get('category'), ProfilerRights::TYPE_CATEGORY);
         }
         if(!$RIGHT_PUBLISH)
         {
