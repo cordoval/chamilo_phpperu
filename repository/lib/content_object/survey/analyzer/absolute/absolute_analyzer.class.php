@@ -143,7 +143,7 @@ class SurveyAbsoluteAnalyzer extends SurveyAnalyzer
 
                 foreach ($answers as $answer)
                 {
-                    $answer = $tracker->get_answer();
+                                        
                     foreach ($answer as $key => $option)
                     {
                         if ($question->get_answer_type() == SurveyMultipleChoiceQuestion :: ANSWER_TYPE_CHECKBOX)

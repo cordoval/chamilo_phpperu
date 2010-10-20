@@ -8,15 +8,19 @@ require_once Path :: get_repository_path() . 'lib/content_object/survey/analyzer
 class SurveyQuestionReportingBlock extends SurveyReportingBlock
 {
     
-    private $question_id;
+    private $publication_id;
+	private $question_id;
     private $question;
+    private $analyse_type;
 
-    function SurveyQuestionReportingBlock($parent, $complex_question_id)
+    function SurveyQuestionReportingBlock($parent, $complex_question_id, $publication_id , $analyse_type)
     {
         parent :: __construct($parent);
         $complex_question = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($complex_question_id);
         $this->question = $complex_question->get_ref_object();
         $this->question_id = $this->question->get_id();
+        $this->publication_id = $publication_id;
+        $this->analyse_type = $analyse_type;
     }
 
     public function get_title()
@@ -48,36 +52,7 @@ class SurveyQuestionReportingBlock extends SurveyReportingBlock
 
         $conditions = array();
         $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_COMPLEX_QUESTION_ID, $this->question_id);
-        
-        $filter_parameters = $this->get_filter_parameters();
-        
-        $publication_id = $filter_parameters[SurveyReportingFilterWizard :: PARAM_PUBLICATION_ID];
-        $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_PUBLICATION_ID, $publication_id);
-        
-        $groups = $filter_parameters[SurveyReportingFilterWizard :: PARAM_GROUPS];
-        $user_ids = array();
-        if (is_array($groups))
-        {
-            foreach ($groups as $group_id)
-            {
-                $group = GroupDataManager :: get_instance()->retrieve_group($group_id);
-                $group_user_ids = $group->get_users(true, true);
-                $user_ids = array_merge($user_ids, $group_user_ids);
-            }
-        }
-        $user_ids = array_unique($user_ids);
-        
-        if (count($user_ids))
-        {
-            $conditions[] = new InCondition(SurveyQuestionAnswerTracker :: PROPERTY_USER_ID, $user_ids);
-        }
-        
-        $context_template_ids = $filter_parameters[SurveyReportingFilterWizard :: PARAM_CONTEXT_TEMPLATES];
-        if (is_array($context_template_ids))
-        {
-            $conditions[] = new InCondition(SurveyQuestionAnswerTracker :: PROPERTY_CONTEXT_TEMPLATE_ID, $context_template_ids);
-        }
-        
+        $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_PUBLICATION_ID, $this->publication_id);
         $condition = new AndCondition($conditions);
         $trackers = Tracker :: get_data(SurveyQuestionAnswerTracker :: get_table_name(), SurveyManager :: APPLICATION_NAME, $condition);
         
@@ -88,10 +63,8 @@ class SurveyQuestionReportingBlock extends SurveyReportingBlock
             $answers[] = $tracker->get_answer();
         
         }
-        
-        $analyse_type = $filter_parameters[SurveyReportingFilterWizard :: PARAM_ANALYSE_TYPE];
-        
-        $analyzer = SurveyAnalyzer :: factory($analyse_type, $this->question, $answers);
+              
+        $analyzer = SurveyAnalyzer :: factory($this->analyse_type, $this->question, $answers);
         
         return $analyzer->analyse();
     }
