@@ -141,7 +141,7 @@ class SurveyManagerMailerComponent extends SurveyManager
         }
         
         $mail_user_ids = array_unique($mail_user_ids);
-               
+        
         if ((count($mail_user_ids) + count($reporting_mail_user_ids)) == 0)
         {
             $this->redirect(Translation :: get('NoSurveyMailsSend'), false, array(self :: PARAM_ACTION => self :: ACTION_BROWSE));
@@ -235,18 +235,17 @@ class SurveyManagerMailerComponent extends SurveyManager
         $reply[Mail :: EMAIL] = $email->get_reply_address();
         $mail->set_reply($reply);
         
-        // Check whether it was sent successfully
-        //        if ($mail->send() === FALSE)
-        //        {
-        //            $this->mail_send = false;
-        //            $args[SurveyParticipantMailTracker :: PROPERTY_STATUS] = SurveyParticipantMailTracker :: STATUS_MAIL_NOT_SEND;
-        //        }
-        //        else
-        //        {
-        $args[SurveyParticipantMailTracker :: PROPERTY_STATUS] = SurveyParticipantMailTracker :: STATUS_MAIL_SEND;
-        //        }
+        //         Check whether it was sent successfully
+        if ($mail->send() === FALSE)
+        {
+            $this->mail_send = false;
+            $args[SurveyParticipantMailTracker :: PROPERTY_STATUS] = SurveyParticipantMailTracker :: STATUS_MAIL_NOT_SEND;
+        }
+        else
+        {
+            $args[SurveyParticipantMailTracker :: PROPERTY_STATUS] = SurveyParticipantMailTracker :: STATUS_MAIL_SEND;
+        }
         
-
         $args[SurveyParticipantMailTracker :: PROPERTY_SURVEY_PUBLICATION_ID] = $this->publication_id;
         $tracker = Event :: trigger(SurveyParticipantMailTracker :: REGISTER_PARTICIPATION_MAIL_EVENT, SurveyManager :: APPLICATION_NAME, $args);
     }
