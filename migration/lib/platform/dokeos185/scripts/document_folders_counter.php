@@ -15,7 +15,7 @@ while($row = mysql_fetch_assoc($result))
 {
     $course_database = $row['db_name'];
     
-    $query = 'SELECT COUNT(*) AS count FROM ' . $course_database . '.document WHERE file_type=\'folder\';';
+    $query = 'SELECT COUNT(*) AS count FROM ' . $course_database . '.document WHERE filetype=\'folder\';';
     $document_result = mysql_query($query);
     $count_row = mysql_fetch_assoc($document_result);
 
