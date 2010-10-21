@@ -1,4 +1,13 @@
-<?php
+<?php 
+namespace survey;
+
+use common\libraries\Utilities;
+use common\libraries\Path;
+use common\libraries\Translation;
+use common\libraries\FormValidator;
+
+use rights\RightsUtilities;
+use rights\RightsDataManager;
 
 class SurveySubscribeGroupForm extends FormValidator
 {

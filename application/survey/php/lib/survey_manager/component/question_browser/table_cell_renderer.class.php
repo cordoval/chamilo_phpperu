@@ -1,4 +1,6 @@
-<?php
+<?php 
+namespace survey;
+use common\libraries\ObjectTableCellRenderer;
 
 require_once dirname(__FILE__) . '/table_column_model.class.php';
 require_once dirname(__FILE__) . '/../../../tables/survey_question_table/default_survey_question_table_cell_renderer.class.php';
@@ -43,12 +45,7 @@ class SurveyQuestionBrowserTableCellRenderer extends DefaultSurveyQuestionTableC
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
-        $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('VieuwQuestionResults'),
-        		Theme :: get_common_image_path() . 'action_view_results.png',
-        		$this->browser->get_question_reporting_url($survey_question),
-        		ToolbarItem :: DISPLAY_ICON
-        ));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('VieuwQuestionResults'), Theme :: get_common_image_path() . 'action_view_results.png', $this->browser->get_question_reporting_url($survey_question), ToolbarItem :: DISPLAY_ICON));
         
         return $toolbar->as_html();
     }

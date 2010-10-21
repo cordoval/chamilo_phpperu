@@ -1,7 +1,9 @@
-<?php
+<?php 
+namespace survey;
+
+use common\libraries\ObjectTableCellRenderer;
 
 require_once dirname(__FILE__) . '/../../survey_publication.class.php';
-
 
 class DefaultParticipantTableCellRenderer extends ObjectTableCellRenderer
 {

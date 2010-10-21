@@ -1,4 +1,7 @@
-<?php
+<?php 
+namespace survey;
+
+use common\libraries\ObjectTableCellRenderer;
 
 class DefaultSurveyPublicationRelReportingTemplateTableCellRenderer extends ObjectTableCellRenderer
 {

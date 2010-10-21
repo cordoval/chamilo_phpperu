@@ -1,18 +1,18 @@
-<?php
+<?php namespace survey;
 
 require_once Path :: get_application_path() . 'lib/survey/forms/subscribe_group_form.class.php';
 require_once Path :: get_application_path() . 'lib/survey/survey_manager/component/participant_browser.class.php';
 
 class SurveyManagerSubscribeGroupComponent extends SurveyManager
 {
-   
+
     /**
      * Runs this component and displays its output.
      */
     function run()
     {
         
-      $publication_id = Request :: get(self :: PARAM_PUBLICATION_ID);
+        $publication_id = Request :: get(self :: PARAM_PUBLICATION_ID);
         
         if (! SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_INVITE, $publication_id, SurveyRights :: TYPE_PUBLICATION))
         {
@@ -22,7 +22,7 @@ class SurveyManagerSubscribeGroupComponent extends SurveyManager
             exit();
         }
         
-        $publication = SurveyDataManager::get_instance()->retrieve_survey_publication($publication_id);
+        $publication = SurveyDataManager :: get_instance()->retrieve_survey_publication($publication_id);
         
         $form = new SurveySubscribeGroupForm($publication, $this->get_url(array(self :: PARAM_PUBLICATION_ID => Request :: get(self :: PARAM_PUBLICATION_ID))), $this->get_user());
         
@@ -46,10 +46,10 @@ class SurveyManagerSubscribeGroupComponent extends SurveyManager
         }
     }
 
- function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE)), Translation :: get('BrowseSurveyPublications')));
-    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PARTICIPANTS, self :: PARAM_PUBLICATION_ID => Request :: get(self :: PARAM_PUBLICATION_ID))), Translation :: get('BrowseSurveyParticipants')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PARTICIPANTS, self :: PARAM_PUBLICATION_ID => Request :: get(self :: PARAM_PUBLICATION_ID))), Translation :: get('BrowseSurveyParticipants')));
     }
 
     function get_additional_parameters()

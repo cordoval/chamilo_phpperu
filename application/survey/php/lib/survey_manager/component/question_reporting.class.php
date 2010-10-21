@@ -1,4 +1,4 @@
-<?php
+<?php namespace survey;
 
 class SurveyManagerQuestionReportingComponent extends SurveyManager implements DelegateComponent
 {
@@ -21,12 +21,11 @@ class SurveyManagerQuestionReportingComponent extends SurveyManager implements D
         
         $question_id = Request :: get(self :: PARAM_SURVEY_QUESTION_ID);
         $this->set_parameter(self :: PARAM_SURVEY_QUESTION_ID, $question_id);
-       
+        
         $breadcrumbtrail = BreadcrumbTrail :: get_instance();
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE)), Translation :: get('BrowseSurveys')));
-    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PAGES, self ::PARAM_SURVEY_ID => Request :: get(self :: PARAM_SURVEY_ID))), Translation :: get('BrowseSurveyPages')));
-    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PAGE_QUESTIONS, self ::PARAM_SURVEY_PAGE_ID => Request :: get(self :: PARAM_SURVEY_PAGE_ID))), Translation :: get('BrowseSurveyPageQuestions')));
-    	
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PAGES, self :: PARAM_SURVEY_ID => Request :: get(self :: PARAM_SURVEY_ID))), Translation :: get('BrowseSurveyPages')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PAGE_QUESTIONS, self :: PARAM_SURVEY_PAGE_ID => Request :: get(self :: PARAM_SURVEY_PAGE_ID))), Translation :: get('BrowseSurveyPageQuestions')));
         
         $rtv = ReportingViewer :: construct($this);
         $rtv->add_template_by_name(self :: TEMPLATE_SURVEY_QUESTION_REPORTING, SurveyManager :: APPLICATION_NAME);
@@ -35,8 +34,6 @@ class SurveyManagerQuestionReportingComponent extends SurveyManager implements D
         
         $rtv->run();
     }
-    
-    
-    
+
 }
 ?>

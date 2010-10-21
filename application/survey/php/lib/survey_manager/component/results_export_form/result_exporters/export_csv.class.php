@@ -1,4 +1,4 @@
-<?php
+<?php namespace survey;
 /**
  * $Id: export_csv.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.survey.survey_manager.component.results_export_form.result_exporters
@@ -58,7 +58,7 @@ class ResultsCsvExport extends ResultsExport
         $this->currentrow = array();
         $this->data[] = $this->currentrow;
         $this->currentrow = array(self :: PROPERTY_USERNAME, self :: PROPERTY_RESULT, self :: PROPERTY_DATE_TIME_TAKEN, self :: PROPERTY_QUESTION_TITLE, self :: PROPERTY_QUESTION_DESCRIPTION, self :: PROPERTY_QUESTION_TYPE, self :: PROPERTY_WEIGHT, //self :: PROPERTY_FEEDBACK_TITLE,
-        //self :: PROPERTY_FEEDBACK_DESCRIPTION,
+//self :: PROPERTY_FEEDBACK_DESCRIPTION,
         self :: PROPERTY_ANSWER, self :: PROPERTY_SCORE, 'feedback');
         $this->data[] = $this->currentrow;
         $this->currentrow = array();

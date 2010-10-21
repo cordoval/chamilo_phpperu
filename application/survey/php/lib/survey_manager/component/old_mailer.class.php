@@ -1,4 +1,4 @@
-<?php
+<?php namespace survey;
 
 require_once dirname(__FILE__) . '/../survey_manager.class.php';
 

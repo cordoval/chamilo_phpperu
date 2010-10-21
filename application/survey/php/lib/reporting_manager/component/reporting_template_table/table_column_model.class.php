@@ -1,4 +1,8 @@
-<?php
+<?php 
+namespace survey;
+use common\libraries\ObjectTableColumnModel;
+use common\libraries\ObjectTableColumn;
+
 require_once Path :: get_application_path() . 'lib/survey/tables/reporting_template_table/default_reporting_template_table_column_model.class.php';
 
 class SurveyReportingTemplateTableColumnModel extends DefaultSurveyReportingTemplateTableColumnModel

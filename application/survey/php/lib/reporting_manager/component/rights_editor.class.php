@@ -1,4 +1,4 @@
-<?php
+<?php namespace survey;
 
 class SurveyReportingManagerRightsEditorComponent extends SurveyReportingManager
 {
@@ -26,16 +26,16 @@ class SurveyReportingManagerRightsEditorComponent extends SurveyReportingManager
         {
             
             $publication_rel_reporting_template = SurveyDataManager :: get_instance()->retrieve_survey_publication_rel_reporting_template_registration_by_id($publication_rel_reporting_template_id);
-			            
+            
             if ($this->get_user()->is_platform_admin() || $publication_rel_reporting_template->get_owner_id() == $this->get_user_id())
             {
                 $publication_id = $publication_rel_reporting_template->get_publication_id();
-            	$locations[] = SurveyRights :: get_location_by_identifier_from_surveys_subtree($publication_rel_reporting_template_id, SurveyRights :: TYPE_REPORTING_TEMPLATE_REGISTRATION);
+                $locations[] = SurveyRights :: get_location_by_identifier_from_surveys_subtree($publication_rel_reporting_template_id, SurveyRights :: TYPE_REPORTING_TEMPLATE_REGISTRATION);
             }
         }
-               
+        
         $manager = new RightsEditorManager($this, $locations);
-             
+        
         $user_ids = SurveyRights :: get_allowed_users(SurveyRights :: RIGHT_REPORTING, $publication_id, SurveyRights :: TYPE_PUBLICATION);
         if (count($user_ids) > 0)
         {
@@ -58,7 +58,7 @@ class SurveyReportingManagerRightsEditorComponent extends SurveyReportingManager
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE)), Translation :: get('BrowseSurveys')));
-    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE, SurveyManager::PARAM_PUBLICATION_ID => Request :: get(SurveyManager::PARAM_PUBLICATION_ID))), Translation :: get('BrowseReportingTemplates')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE, SurveyManager :: PARAM_PUBLICATION_ID => Request :: get(SurveyManager :: PARAM_PUBLICATION_ID))), Translation :: get('BrowseReportingTemplates')));
     }
 
     function get_additional_parameters()

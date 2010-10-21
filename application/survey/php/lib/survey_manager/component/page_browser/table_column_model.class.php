@@ -1,4 +1,4 @@
-<?php
+<?php namespace survey;
 
 require_once dirname(__FILE__) . '/../../../tables/survey_page_table/default_survey_page_table_column_model.class.php';
 

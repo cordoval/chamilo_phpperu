@@ -1,4 +1,4 @@
-<?php
+<?php namespace survey;
 require_once Path :: get_application_path() . 'lib/survey/survey_publication_group.class.php';
 Path :: get_application_path() . 'lib/survey/survey_publication_user.class.php';
 require_once (Path :: get_reporting_path() . 'lib/reporting_data.class.php');
@@ -7,7 +7,7 @@ require_once Path :: get_plugin_path() . 'phpexcel/PHPExcel.php';
 class SurveyManagerSurveyExcelSyntaxExporterComponent extends SurveyManager
 {
     
- 	const STARTED_PARTICIPANTS = 'started_participants';
+    const STARTED_PARTICIPANTS = 'started_participants';
     const GROUP = 'group';
     const GROUPS = 'groups';
     const GROUP_NAME = 'group_name';
@@ -185,7 +185,7 @@ class SurveyManagerSurveyExcelSyntaxExporterComponent extends SurveyManager
             }
         
         }
-       
+    
     }
 
     private function create_raw_data_set()

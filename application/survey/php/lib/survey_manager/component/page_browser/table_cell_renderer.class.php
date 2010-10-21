@@ -1,4 +1,7 @@
-<?php
+<?php 
+namespace survey;
+use common\libraries\ObjectTableCellRenderer;
+
 
 require_once dirname(__FILE__) . '/table_column_model.class.php';
 require_once dirname(__FILE__) . '/../../../tables/survey_page_table/default_survey_page_table_cell_renderer.class.php';
@@ -26,7 +29,7 @@ class SurveyPageBrowserTableCellRenderer extends DefaultSurveyPageTableCellRende
     function render_cell($column, $survey_page)
     {
         
-    	if ($column === SurveyPageBrowserTableColumnModel :: get_modification_column())
+        if ($column === SurveyPageBrowserTableColumnModel :: get_modification_column())
         {
             return $this->get_modification_links($survey_page);
         }
@@ -44,12 +47,7 @@ class SurveyPageBrowserTableCellRenderer extends DefaultSurveyPageTableCellRende
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
-        $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('BrowseSurveyPageQuestions'),
-        		Theme :: get_common_image_path() . 'action_view_results.png',
-        		$this->browser->get_browse_survey_page_questions_url($survey_page),
-        		ToolbarItem :: DISPLAY_ICON
-        ));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('BrowseSurveyPageQuestions'), Theme :: get_common_image_path() . 'action_view_results.png', $this->browser->get_browse_survey_page_questions_url($survey_page), ToolbarItem :: DISPLAY_ICON));
         
         return $toolbar->as_html();
     }

@@ -1,4 +1,11 @@
-<?php
+<?php 
+namespace survey;
+
+use common\libraries\Utilities;
+use common\libraries\Path;
+use common\libraries\Translation;
+use common\libraries\FormValidator;
+
 require_once dirname(__FILE__) . '/../survey_publication.class.php';
 
 class SurveyPublicationForm extends FormValidator

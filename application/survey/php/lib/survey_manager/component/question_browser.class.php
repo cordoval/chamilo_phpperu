@@ -1,4 +1,4 @@
-<?php
+<?php namespace survey;
 require_once dirname(__FILE__) . '/../survey_manager.class.php';
 
 require_once dirname(__FILE__) . '/question_browser/table.class.php';
@@ -12,7 +12,7 @@ class SurveyManagerQuestionBrowserComponent extends SurveyManager
     {
         
         $ids = Request :: get(SurveyManager :: PARAM_SURVEY_PAGE_ID);
-              
+        
         if (! empty($ids))
         {
             if (! is_array($ids))
@@ -26,7 +26,7 @@ class SurveyManagerQuestionBrowserComponent extends SurveyManager
         }
         
         $this->page_ids = $ids;
-
+        
         $this->action_bar = $this->get_action_bar();
         $this->display_header();
         
@@ -77,8 +77,8 @@ class SurveyManagerQuestionBrowserComponent extends SurveyManager
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE)), Translation :: get('BrowseSurveys')));
-    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PAGES, self ::PARAM_SURVEY_ID => Request :: get(self :: PARAM_SURVEY_ID))), Translation :: get('BrowseSurveyPages')));
-        
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PAGES, self :: PARAM_SURVEY_ID => Request :: get(self :: PARAM_SURVEY_ID))), Translation :: get('BrowseSurveyPages')));
+    
     }
 
     function get_additional_parameters()

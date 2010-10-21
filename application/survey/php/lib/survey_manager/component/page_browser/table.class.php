@@ -1,4 +1,4 @@
-<?php
+<?php namespace survey;
 
 require_once dirname(__FILE__) . '/table_data_provider.class.php';
 require_once dirname(__FILE__) . '/table_column_model.class.php';
@@ -20,7 +20,7 @@ class SurveyPageBrowserTable extends ObjectTable
         parent :: __construct($data_provider, self :: DEFAULT_NAME, $model, $renderer);
         $this->set_additional_parameters($parameters);
         $actions = array();
-       
+        
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
     }

@@ -1,4 +1,4 @@
-<?php
+<?php namespace survey;
 require_once Path :: get_application_path() . 'lib/survey/survey_publication_group.class.php';
 Path :: get_application_path() . 'lib/survey/survey_publication_user.class.php';
 require_once (Path :: get_reporting_path() . 'lib/reporting_data.class.php');
@@ -252,10 +252,9 @@ class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
                 
                 $block_row ++;
                 $worksheet->setCellValueByColumnAndRow($column, $block_row, 'Deelnemers');
-                $worksheet->setCellValueByColumnAndRow($column+1, $block_row, $participant_count);
-                $worksheet->getStyleByColumnAndRow($column+1, $block_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment :: HORIZONTAL_LEFT);
-                $worksheet->getStyleByColumnAndRow($column+1, $block_row)->getFont()->setBold(true);
-                
+                $worksheet->setCellValueByColumnAndRow($column + 1, $block_row, $participant_count);
+                $worksheet->getStyleByColumnAndRow($column + 1, $block_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment :: HORIZONTAL_LEFT);
+                $worksheet->getStyleByColumnAndRow($column + 1, $block_row)->getFont()->setBold(true);
                 
                 $block_row = $block_row + 2;
                 
@@ -293,9 +292,10 @@ class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
                 
                 $categrory_row_index = 1;
                 
-//                dump('row count: ' . $row_count);
-//                dump('cat count: ' . $category_count);
+                //                dump('row count: ' . $row_count);
+                //                dump('cat count: ' . $category_count);
                 
+
                 foreach ($block_content_data->get_categories() as $category_id => $category_name)
                 {
                     $column = 0;
@@ -304,8 +304,8 @@ class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
                     $worksheet->getStyleByColumnAndRow($column, $block_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment :: HORIZONTAL_LEFT);
                     $this->wrap_text($worksheet, $column, $block_row);
                     
-//                    dump('category row index: ' . $categrory_row_index);
-//                    dump('cat row: ' . $block_row);
+                    //                    dump('category row index: ' . $categrory_row_index);
+                    //                    dump('cat row: ' . $block_row);
                     //                    
                     
 
@@ -315,16 +315,18 @@ class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
                     }
                     
                     $row_index = 1;
-//                    dump('row index: ' . $row_index);
+                    //                    dump('row index: ' . $row_index);
                     
+
                     foreach ($block_content_data->get_rows() as $row_id => $row_name)
                     {
                         $column ++;
                         $worksheet->setCellValueByColumnAndRow($column, $block_row, $block_content_data->get_data_category_row($category_id, $row_id));
                         $worksheet->getStyleByColumnAndRow($column, $block_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment :: HORIZONTAL_CENTER);
-//                        dump('row index: ' . $row_index);
-//                        dump('row: ' . $block_row);
+                        //                        dump('row index: ' . $row_index);
+                        //                        dump('row: ' . $block_row);
                         
+
                         if ($row_index == $row_count && $row_count != 1)
                         {
                             $worksheet->getStyleByColumnAndRow($column, $block_row)->getFont()->setBold(true);
@@ -340,8 +342,8 @@ class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
                     $categrory_row_index ++;
                     $block_row ++;
                 }
-                
-//                exit();
+            
+     //                exit();
             }
         
         }
@@ -517,7 +519,8 @@ class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
                     {
                         $reporting_data->add_data_category_row(Translation :: get(self :: TOTAL), strip_tags($match), $totals[$match_key]);
                     }
-                    //                    }
+                
+     //                    }
                 
 
                 }

@@ -1,8 +1,9 @@
-<?php
+<?php namespace survey;
 
 class SurveyPageBrowserTableDataProvider extends ObjectTableDataProvider
 {
-	private $survey_ids;
+    private $survey_ids;
+
     /**
      * Constructor
      * @param ApplicationComponent $browser
@@ -33,7 +34,7 @@ class SurveyPageBrowserTableDataProvider extends ObjectTableDataProvider
      */
     function get_object_count()
     {
-    	return SurveyDataManager :: get_instance()->count_survey_pages($this->survey_ids,$this->get_condition());
+        return SurveyDataManager :: get_instance()->count_survey_pages($this->survey_ids, $this->get_condition());
     }
 }
 ?>

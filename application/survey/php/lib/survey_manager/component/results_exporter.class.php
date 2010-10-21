@@ -1,4 +1,4 @@
-<?php
+<?php namespace survey;
 
 require_once dirname(__FILE__) . '/../survey_manager.class.php';
 
@@ -10,7 +10,7 @@ class SurveyManagerResultsExporterComponent extends SurveyManager
 
     function run()
     {
-               
+        
         if (Request :: get('tid'))
         {
             $id = Request :: get('tid');
@@ -35,7 +35,7 @@ class SurveyManagerResultsExporterComponent extends SurveyManager
 
     function export($type, $id, $filetype)
     {
-         $results_exporter = ResultsExport :: factory($filetype);
+        $results_exporter = ResultsExport :: factory($filetype);
         
         $data = $results_exporter->export_results($type, $id);
         $exporter = Export :: factory($filetype, $data);

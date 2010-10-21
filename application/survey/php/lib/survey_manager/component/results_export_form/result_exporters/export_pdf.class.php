@@ -1,4 +1,4 @@
-<?php
+<?php namespace survey;
 /**
  * $Id: export_pdf.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.survey.survey_manager.component.results_export_form.result_exporters
