@@ -2,6 +2,7 @@
 namespace help;
 use common\libraries\Translation;
 use common\libraries\Installer;
+use common\libraries\Filesystem;
 /**
  * $Id: help_installer.class.php 226 2009-11-13 14:44:03Z chellee $ 
  * @package help.install

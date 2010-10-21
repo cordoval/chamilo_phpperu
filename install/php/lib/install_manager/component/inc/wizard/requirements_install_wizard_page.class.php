@@ -2,6 +2,9 @@
 namespace install;
 use common\libraries\Translation;
 use common\libraries\Path;
+use common\libraries\SimpleTable;
+use common\libraries\Diagnoser;
+use common\libraries\DiagnoserCellRenderer;
 /**
  * $Id: requirements_install_wizard_page.class.php 225 2009-11-13 14:43:20Z vanpouckesven $
  * @package install.lib.installmanager.component.inc.wizard
@@ -44,7 +47,7 @@ class RequirementsInstallWizardPage extends InstallWizardPage
         $urlAppendPath = str_replace('/install/index.php', '', $_SERVER['PHP_SELF']);
         $path = 'http://' . $_SERVER['HTTP_HOST'] . $urlAppendPath . '/';
 
-        $path .= '/layout/aqua/images/common/';
+        $path .= 'common/libraries/resources/images/aqua/';
 
         $files_folder = Path :: get(SYS_PATH) . '/files';
 

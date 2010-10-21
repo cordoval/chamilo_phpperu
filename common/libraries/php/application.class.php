@@ -1,7 +1,13 @@
 <?php
 namespace common\libraries;
-use admin\AdminManager;
-use repository\RepositoryManagerContentObjectShareRightsCreatorComponent;
+use admin\
+AdminManager;
+use repository\
+RepositoryManagerContentObjectShareRightsCreatorComponent;
+use common\libraries\
+BreadcrumbTrail;
+use install\
+InstallManager;
 /**
  * $Id: application.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common
@@ -10,19 +16,19 @@ use repository\RepositoryManagerContentObjectShareRightsCreatorComponent;
 abstract class Application
 {
     private $user;
-
+    
     private $parameters;
     private $search_parameters;
-
+    
     private $breadcrumbs;
-
+    
     const PARAM_ACTION = 'go';
-
+    
     const PARAM_MESSAGE = 'message';
     const PARAM_ERROR_MESSAGE = 'error_message';
     const PARAM_WARNING_MESSAGE = 'warning_message';
     const PARAM_APPLICATION = 'application';
-
+    
     const PLACEHOLDER_APPLICATION = '__APPLICATION__';
 
     function Application($user)
@@ -31,8 +37,8 @@ abstract class Application
         $this->parameters = array();
         $this->search_parameters = array();
         $this->breadcrumbs = array();
-
-    //        $action = Request :: get(self :: PARAM_ACTION);
+    
+     //        $action = Request :: get(self :: PARAM_ACTION);
     //        if ($action)
     //        {
     //            $this->set_action(Request :: get(self :: PARAM_ACTION));
@@ -53,7 +59,7 @@ abstract class Application
             if (class_exists($class))
             {
                 call_user_func(array($class, 'handle_table_action'));
-
+                
                 $table_action_name = Request :: post($table_name . '_action_name');
                 $table_action_value = Request :: post($table_name . '_action_value');
                 $this->set_parameter($table_action_name, $table_action_value);
@@ -79,7 +85,7 @@ abstract class Application
     }
 
     //abstract static function get_application_class_name($application);
-
+    
 
     /**
      * Creates a new instance of the given application
@@ -147,7 +153,7 @@ abstract class Application
         {
             $parameters[self :: PARAM_ERROR_MESSAGE] = $message;
         }
-
+        
         $this->simple_redirect($parameters, $filter, $encode_entities, $redirect_type, $application_type);
     }
 
@@ -236,7 +242,7 @@ abstract class Application
                 $breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get(Utilities :: underscores_to_camelcase($this->get_application_name()))));
             }
         }
-
+        
         $categories = $this->get_breadcrumbs();
         if (count($categories) > 0)
         {
@@ -245,10 +251,10 @@ abstract class Application
                 $breadcrumbtrail->add(new Breadcrumb($category['url'], $category['title']));
             }
         }
-
+        
         $title = $breadcrumbtrail->get_last()->get_name();
         Display :: header($breadcrumbtrail);
-
+        
         // If there is an application-wide menu, show it
         if ($this->has_menu())
         {
@@ -257,23 +263,23 @@ abstract class Application
             echo '</div>';
             echo '<div style="float: right; width: 85%;">';
         }
-
+        
         if ($display_title)
             echo '<h3 style="float: left;" title="' . $title . '">' . Utilities :: truncate_string($title) . '</h3>';
         echo '<div class="clear">&nbsp;</div>';
-
+        
         $message = Request :: get(self :: PARAM_MESSAGE);
         if ($message)
         {
             $this->display_message($message);
         }
-
+        
         $message = Request :: get(self :: PARAM_ERROR_MESSAGE);
         if ($message)
         {
             $this->display_error_message($message);
         }
-
+        
         $message = Request :: get(self :: PARAM_WARNING_MESSAGE);
         if ($message)
         {
@@ -289,7 +295,7 @@ abstract class Application
             echo '<div class="clear">&nbsp;</div>';
             echo '</div>';
         }
-
+        
         echo '<div class="clear">&nbsp;</div>';
         Display :: footer();
     }
@@ -418,7 +424,7 @@ abstract class Application
         $info['application'] = array('name' => Translation :: get(self :: application_to_class($application)), 'class' => $application);
         $info['links'] = array();
         $info['search'] = null;
-
+        
         return $info;
     }
 
@@ -494,12 +500,12 @@ abstract class Application
         {
             $application = $this;
         }
-
+        
         $manager_class = get_class($application);
         $application_component_path = $application->get_application_component_path();
-
+        
         $file = $application_component_path . Utilities :: camelcase_to_underscores($type) . '.class.php';
-
+        
         if (! file_exists($file) || ! is_file($file))
         {
             $message = array();
@@ -511,21 +517,21 @@ abstract class Application
             $message[] = '<li>' . Translation :: get($manager_class) . '</li>';
             $message[] = '<li>' . Translation :: get($type) . '</li>';
             $message[] = '</ul>';
-
+            
             $application_name = Application :: application_to_class($this->get_application_name());
-
+            
             $trail = BreadcrumbTrail :: get_instance();
             $trail->add(new Breadcrumb('#', Translation :: get($application_name)));
-
+            
             Display :: header($trail);
             Display :: error_message(implode("\n", $message));
             Display :: footer();
             exit();
         }
-
+        
         $class = $manager_class . $type . 'Component';
         require_once $file;
-
+        
         if (is_subclass_of($application, 'common\libraries\SubManager'))
         {
             $component = new $class($application->get_parent());
@@ -542,14 +548,14 @@ abstract class Application
      * Runs the application.
      */
     //abstract function run();
-
+    
 
     abstract static function get_application_web_path($application_name);
 
     abstract static function get_application_path($application_name);
 
     //abstract static function get_application_manager_path($application_name);
-
+    
 
     function get_result($failures, $count, $fail_message_single, $fail_message_multiple, $succes_message_single, $succes_message_multiple)
     {
@@ -575,7 +581,7 @@ abstract class Application
                 $message = $succes_message_multiple;
             }
         }
-
+        
         return Translation :: get($message);
     }
 
@@ -583,13 +589,13 @@ abstract class Application
      * EXPERIMENTAL ENHANCEMENTS
      * @author Hans De Bisschop
      */
-
+    
     /**
      * @param string $application
      */
     static function get_application_class_name($application)
     {
-    	
+        
         if (BasicApplication :: is_application($application))
         {
             return BasicApplication :: get_application_class_name($application);
@@ -644,19 +650,19 @@ abstract class Application
             if (class_exists($class))
             {
                 call_user_func(array($class, 'handle_table_action'));
-
+                
                 $table_action_name = Request :: post($table_name . '_action_name');
                 $table_action_value = Request :: post($table_name . '_action_value');
                 //                $this->set_parameter($table_action_name, $table_action_value);
                 Request :: set_get($table_action_name, $table_action_value);
-
+                
                 if ($table_action_name == self :: PARAM_ACTION)
                 {
                     return $table_action_value;
                 }
             }
         }
-
+        
         return null;
     }
 
@@ -669,9 +675,9 @@ abstract class Application
     {
         $manager_class = self :: get_application_class_name($application_name);
         $application_component_path = self :: get_component_path($application_name);
-
+        
         $file = $application_component_path . Utilities :: camelcase_to_underscores($type) . '.class.php';
-
+        
         if (! file_exists($file) || ! is_file($file))
         {
             $message = array();
@@ -683,24 +689,25 @@ abstract class Application
             $message[] = '<li>' . Translation :: get($manager_class) . '</li>';
             $message[] = '<li>' . Translation :: get($type) . '</li>';
             $message[] = '</ul>';
-
+            
             $trail = BreadcrumbTrail :: get_instance();
             $trail->add(new Breadcrumb('#', Translation :: get($manager_class)));
-
+            
             Display :: header($trail);
             Display :: error_message(implode("\n", $message));
             Display :: footer();
             exit();
         }
-
+        
         require_once $file;
         return self :: determine_namespace($application_name) . '\\' . $manager_class . Utilities :: underscores_to_camelcase($type) . 'Component';
     }
-    
+
     static function determine_namespace($application_name)
     {
-    	$application_type = self :: get_type($application_name);   	
-   		return $application_type:: get_application_namespace($application_name);
+        $application_type = self :: get_type($application_name);   	
+   		return $application_type:: 
+        get_application_namespace($application_name);
     }
 
     /**
@@ -723,16 +730,16 @@ abstract class Application
     {
         $manager_class = self :: determine_namespace($application_name) . '\\' . self :: get_application_class_name($application_name);
         $default_action = call_user_func(array($manager_class, 'get_default_action'));
-
+        
         $action = Request :: get(self :: PARAM_ACTION);
         $action = ! isset($action) ? $default_action : $action;
-
+        
         $table_action = self :: process_table_action();
         if ($table_action)
         {
             $action = $table_action;
         }
-
+        
         return $action;
     }
 
@@ -742,41 +749,45 @@ abstract class Application
      */
     static function construct($application_name, $user)
     {
-    	$type = self :: get_type($application_name);
-    	require_once $type :: get_application_manager_path($application_name);
-
+        $type = self :: get_type($application_name);
+    	require_once $type :: 
+        get_application_manager_path($application_name);
+        
         $action = self :: get_component_action($application_name);
+        
         $component = self :: component($application_name, $user, $action);
+        
         $component->set_parameter(self :: PARAM_APPLICATION, $application_name);
-
-        $trail = BreadcrumbTrail :: get_instance();
-
-        if ($component instanceof AdministrationComponent)
+        
+        if (!$component instanceof InstallManager)
         {
-            $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-            $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => $application_name), array(), false, Redirect :: TYPE_CORE), Translation :: get(self :: application_to_class($application_name))));
+            $trail = BreadcrumbTrail :: get_instance();
+            if ($component instanceof AdministrationComponent)
+            {
+                $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
+                $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => $application_name), array(), false, Redirect :: TYPE_CORE), Translation :: get(self :: application_to_class($application_name))));
+            }
+            else
+            {
+                $trail->add(new Breadcrumb($component->get_url(), Translation :: get(self :: application_to_class($application_name))));
+            }
+            
+            $component->add_additional_breadcrumbs($trail);
         }
-        else
-        {
-            $trail->add(new Breadcrumb($component->get_url(), Translation :: get(self :: application_to_class($application_name))));
-            //$trail->add(new Breadcrumb(Redirect :: get_link($application_name)));
-        }
-
-        $component->add_additional_breadcrumbs($trail);
-
+        
         $parameters = $component->get_additional_parameters();
         foreach ($parameters as $parameter)
         {
             $component->set_parameter($parameter, Request :: get($parameter));
         }
-
+        
         $component->set_action($action);
-
-        if (! $component instanceof DelegateComponent)
+        
+        if (! $component instanceof DelegateComponent && !$component instanceof InstallManager)
         {
             $trail->add(new Breadcrumb($component->get_url(array(self :: PARAM_ACTION => $action)), Translation :: get(get_class($component))));
         }
-
+        
         return $component;
     }
 
@@ -791,7 +802,7 @@ abstract class Application
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-
+    
     }
 
     function get_additional_parameters()
@@ -801,21 +812,21 @@ abstract class Application
 
     static function get_type($application)
     {
-   		if (! BasicApplication :: exists($application))
-   		{
-   			if (LauncherApplication :: exists($application))
-   			{
-   				return LauncherApplication::CLASS_NAME;
-   			}
-   			else
-   			{
-   				return false;
-   			}
-   		}
-   		else
-   		{
-   			return BasicApplication :: exists($application);
-   		}
+        if (! BasicApplication :: exists($application))
+        {
+            if (LauncherApplication :: exists($application))
+            {
+                return LauncherApplication :: CLASS_NAME;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return BasicApplication :: exists($application);
+        }
     }
 }
 ?>

@@ -2,8 +2,10 @@
 namespace admin;
 use common\libraries\CoreApplication;
 use common\libraries\Translation;
+use common\libraries\Path;
+
 require_once dirname(__FILE__) . '/../admin_reporting_block.class.php';
-require_once PATH :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
+require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
 
 class AdminMostUsedCoreApplicationsReportingBlock extends AdminReportingBlock
 {
@@ -13,7 +15,7 @@ class AdminMostUsedCoreApplicationsReportingBlock extends AdminReportingBlock
         $reporting_data = new ReportingData();
         $reporting_data->set_rows(array(Translation :: get('numberVisit')));
 
-        require_once PATH :: get_user_path() . 'trackers/visit_tracker.class.php';
+        require_once Path :: get_user_path() . 'trackers/visit_tracker.class.php';
 
         $applications = CoreApplication :: get_list();
         foreach ($applications as $application)

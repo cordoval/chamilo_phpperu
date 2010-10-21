@@ -9,6 +9,7 @@ use common\libraries\Authentication;
 use common\libraries\Translation;
 use common\libraries\FormValidator;
 use common\libraries\PlatformSetting;
+use common\libraries\Request;
 
 /**
  * $Id: login.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
@@ -24,7 +25,6 @@ class UserLogin extends UserBlock
         $html = array();
 
         $html[] = $this->display_header();
-        $html[] = ' <input type="submit" value="' . Translation :: get('Ok') . '"/>';
         $html[] = $this->display_anonymous_right_menu();
         $html[] = $this->display_footer();
 

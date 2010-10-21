@@ -112,7 +112,7 @@ class DatabaseReportingDataManager extends Database implements ReportingDataMana
 
     function retrieve_reporting_block_registrations($condition = null, $offset = null, $max_objects = null, $order_property = null)
     {
-    	return $this->retrieve_objects(ReportingBlockRegistration :: get_table_name(), $condition, $offset, $max_objects, $order_property);
+    	return $this->retrieve_objects(ReportingBlockRegistration :: get_table_name(), $condition, $offset, $max_objects, $order_property, ReportingBlockRegistration :: CLASS_NAME);
     }
 
     function count_reporting_template_registrations($condition = null)
@@ -135,7 +135,7 @@ class DatabaseReportingDataManager extends Database implements ReportingDataMana
     function retrieve_reporting_block_registration($reporting_block_registration_id)
     {
     	$condition = new EqualityCondition(ReportingBlockRegistration:: PROPERTY_ID, $reporting_block_registration_id);
-    	return $this->retrieve_object(ReportingBlockRegistration::get_table_name(), $condition);
+    	return $this->retrieve_object(ReportingBlockRegistration::get_table_name(), $condition, array(), ReportingBlockRegistration :: CLASS_NAME);
     }
 
 	function delete_reporting_block_registrations($condition = null)

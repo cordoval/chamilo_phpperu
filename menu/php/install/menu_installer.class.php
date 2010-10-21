@@ -1,9 +1,13 @@
 <?php
 namespace menu;
+
 use common\libraries\Utilities;
 use common\libraries\WebApplication;
 use common\libraries\Translation;
 use common\libraries\Installer;
+
+use XML_Unserializer;
+use PEAR;
 /**
  * $Id: menu_installer.class.php 223 2009-11-13 14:39:28Z vanpouckesven $
  * @package menu.install

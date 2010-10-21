@@ -3,6 +3,8 @@ namespace user;
 
 use common\libraries\Translation;
 use common\libraries\Hashing;
+use common\libraries\Installer;
+use common\libraries\LocalSetting;
 
 /**
  * $Id: user_installer.class.php 187 2009-11-13 10:31:25Z vanpouckesven $

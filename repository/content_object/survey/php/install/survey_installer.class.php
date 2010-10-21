@@ -1,4 +1,8 @@
 <?php
+namespace repository\content_object\survey;
+
+use repository\ContentObjectInstaller;
+
 /**
  * $Id: survey_installer.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.install
@@ -14,24 +18,24 @@ class SurveyContentObjectInstaller extends ContentObjectInstaller
     
     function install_extra()
     {
-    	$survey_context_template = new SurveyContextTemplate();
-    	$survey_context_template->set_name('ROOTTEMPLATA');
-    	$survey_context_template->set_description('DONOTDELETE');
-    	$survey_context_template->set_context_type('NONCONTEXT');
-    	$survey_context_template->set_context_type_name('NONAME');
-    	$survey_context_template->set_key('NOKEY');
-    	$survey_context_template->set_parent_id(0);
-//    	$survey_context_template->set_owner_id();
-    	if ($survey_context_template->create())
-    	{
-           	$this->add_message(Installer::TYPE_NORMAL, Translation :: get('DefaultSurveyContextTemplateCreated'));
-           	
-    	}
-    	else
-    	{
-    		$this->add_message(Installer::TYPE_ERROR, Translation :: get('DefaultSurveyContextTemplateFailed'));
-    		return false;
-    	}
+//    	$survey_context_template = new SurveyContextTemplate();
+//    	$survey_context_template->set_name('ROOTTEMPLATA');
+//    	$survey_context_template->set_description('DONOTDELETE');
+//    	$survey_context_template->set_context_type('NONCONTEXT');
+//    	$survey_context_template->set_context_type_name('NONAME');
+//    	$survey_context_template->set_key('NOKEY');
+//    	$survey_context_template->set_parent_id(0);
+////    	$survey_context_template->set_owner_id();
+//    	if ($survey_context_template->create())
+//    	{
+//           	$this->add_message(Installer::TYPE_NORMAL, Translation :: get('DefaultSurveyContextTemplateCreated'));
+//           	
+//    	}
+//    	else
+//    	{
+//    		$this->add_message(Installer::TYPE_ERROR, Translation :: get('DefaultSurveyContextTemplateFailed'));
+//    		return false;
+//    	}
 
     }
 }

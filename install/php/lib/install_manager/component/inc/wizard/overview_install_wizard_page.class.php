@@ -4,6 +4,7 @@ use common\libraries\Utilities;
 use common\libraries\Application;
 use common\libraries\Path;
 use common\libraries\Translation;
+use common\libraries\Filesystem;
 /**
  * $Id: settings_install_wizard_page.class.php 225 2009-11-13 14:43:20Z vanpouckesven $
  * @package install.lib.installmanager.component.inc.wizard
