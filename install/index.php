@@ -17,8 +17,8 @@ function dump($variable)
     echo '</pre>';
 }
 
-try
-{
+//try
+//{
     session_start();
     
     $cidReset = true;
@@ -34,8 +34,8 @@ try
     error_reporting(E_ALL & ~ E_NOTICE & ~ E_DEPRECATED & ~ E_WARNING);
     //ini_set('display_errors', '0');
     
-    spl_autoload_register('Utilities::autoload_core');
-    spl_autoload_register('Utilities::autoload_web');
+    spl_autoload_register('common\libraries\Utilities::autoload_core');
+//    spl_autoload_register('common\libraries\Utilities::autoload_web');
     require_once dirname(__FILE__) . '/php/lib/install_manager/install_manager.class.php';
     
     Request :: set_get('install_running', 1);
@@ -44,9 +44,9 @@ try
     Translation :: set_language('english');
     
     Application :: launch('install', null);
-}
-catch (Exception $exception)
-{
-    Display :: error_message($exception->getMessage());
-}
+//}
+//catch (Exception $exception)
+//{
+//    Display :: error_message($exception->getMessage());
+//}
 ?>

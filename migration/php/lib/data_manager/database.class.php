@@ -2,6 +2,7 @@
 namespace migration;
 
 use common\libraries\EqualityCondition;
+use common\libraries\Database;
 
 /**
  * $Id: database_group_data_manager.class.php 232 2009-11-16 10:11:48Z vanpouckesven $

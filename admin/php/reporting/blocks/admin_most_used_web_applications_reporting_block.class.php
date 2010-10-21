@@ -2,9 +2,10 @@
 namespace admin;
 use common\libraries\WebApplication;
 use common\libraries\Translation;
+use common\libraries\Path;
 
 require_once dirname(__FILE__) . '/../admin_reporting_block.class.php';
-require_once PATH :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
+require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
 
 class AdminMostUsedWebApplicationsReportingBlock extends AdminReportingBlock
 {

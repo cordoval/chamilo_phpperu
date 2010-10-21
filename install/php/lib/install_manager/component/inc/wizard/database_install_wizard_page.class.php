@@ -1,7 +1,8 @@
 <?php
 namespace install;
 use common\libraries\Translation;
-use \HTML_QuickForm_Rule;
+use HTML_QuickForm_Rule;
+use MDB2;
 /**
  * $Id: database_install_wizard_page.class.php 225 2009-11-13 14:43:20Z vanpouckesven $
  * @package install.lib.installmanager.component.inc.wizard

@@ -1,4 +1,8 @@
 <?php
+namespace reporting;
+
+use common\libraries\Installer;
+
 /**
  * $Id: reporting_installer.class.php 215 2009-11-13 14:07:59Z vanpouckesven $
  * @package reporting.ajax

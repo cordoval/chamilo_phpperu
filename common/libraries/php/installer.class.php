@@ -1,5 +1,18 @@
 <?php
 namespace common\libraries;
+
+use DOMDocument;
+use rights\RightsUtilities;
+use admin\Setting;
+use tracking\TrackingDataManager;
+use tracking\Event;
+use tracking\TrackerRegistration;
+use tracking\EventRelTracker;
+use reporting\ReportingBlockRegistration;
+use reporting\ReportingTemplateRegistration;
+use reporting\Reporting;
+use webservice\WebserviceCategory;
+use webservice\WebserviceRegistration;
 /**
  * $Id: installer.class.php 198 2009-11-13 12:20:22Z vanpouckesven $
  * @package common
@@ -89,7 +102,8 @@ abstract class Installer
 
     function get_application_name()
     {
-        $application_class = str_replace('Installer', '', get_class($this));
+        $class = array_pop(explode('\\', get_class($this))); 
+        $application_class = str_replace('Installer', '', $class);
         
         return $application_class;
     }
@@ -769,7 +783,7 @@ abstract class Installer
      */
     static function factory($application, $values)
     {
-        $class = Application :: application_to_class($application) . 'Installer';
+        $class = Application :: determine_namespace($application) . '\\' . Application :: application_to_class($application) . 'Installer';
         $base_path = (WebApplication :: is_application($application) ? WebApplication :: get_application_class_path($application)  : CoreApplication :: get_application_class_path($application));
         
         require_once ($base_path . 'install/' . $application . '_installer.class.php');

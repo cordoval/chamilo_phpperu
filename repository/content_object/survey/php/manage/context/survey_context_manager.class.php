@@ -1,11 +1,13 @@
 <?php
+use common\libraries\Path;
+use common\libraries\SubManager;
 
-require_once Path :: get_repository_path() . 'lib/content_object/survey/context_data_manager/context_data_manager.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/survey/survey_context_manager_rights.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/component/context_rel_user_table/table.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/component/context_rel_group_table/table.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/component/registration_browser/browser_table.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/component/context_table/table.class.php';
+require_once Path :: get_repository_content_object_path() . 'survey/php/context_data_manager/context_data_manager.class.php';
+require_once Path :: get_repository_content_object_path() . 'survey/php/survey_context_manager_rights.class.php';
+//require_once Path :: get_repository_content_object_path() . 'survey/php/manage/context/component/context_rel_user_table/table.class.php';
+//require_once Path :: get_repository_content_object_path() . 'survey/php/manage/context/component/context_rel_group_table/table.class.php';
+//require_once Path :: get_repository_content_object_path() . 'survey/php/manage/context/component/registration_browser/browser_table.class.php';
+//require_once Path :: get_repository_content_object_path() . 'survey/php/manage/context/component/context_table/table.class.php';
 
 //require_once dirname(__FILE__) . '/component/context_template_browser/browser_table.class.php';
 //require_once dirname(__FILE__) . '/component/context_template_rel_page_browser/rel_page_browser_table.class.php';

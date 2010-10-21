@@ -2,6 +2,8 @@
 namespace common\libraries;
 
 use repository\RepositoryAutoloader;
+use XML_Unserializer;
+use PEAR;
 
 /**
  * $Id: utilities.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
