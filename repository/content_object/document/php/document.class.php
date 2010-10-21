@@ -1,16 +1,4 @@
 <?php
-namespace repository\content_object\document;
-
-use common\libraries\Translation;
-use common\libraries\Path;
-use common\libraries\Configuration;
-use common\libraries\Utilities;
-use common\libraries\Versionable;
-use common\libraries\Theme;
-use common\libraries\PlatformSetting;
-
-use repository\ContentObject;
-
 /**
  * $Id: document.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.document
@@ -483,12 +471,14 @@ class Document extends ContentObject implements Versionable
         $image_types[] = 'png';
         $image_types[] = 'jpg';
         $image_types[] = 'jpeg';
+        $image_types[] = 'jpe';
         $image_types[] = 'svg';
         $image_types[] = 'bmp';
         $image_types[] = 'GIF';
         $image_types[] = 'PNG';
         $image_types[] = 'JPG';
         $image_types[] = 'JPEG';
+        $image_types[] = 'JPE';
         $image_types[] = 'SVG';
         $image_types[] = 'BMP';
 

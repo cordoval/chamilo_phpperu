@@ -20,6 +20,10 @@
 			notnull="1" />
 		<property name="right_value" type="integer" unsigned="1"
 			notnull="1" />
+		<property name="owner_id" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="context_registration_id" type="integer"
+			unsigned="1" notnull="1" />
 	</properties>
 	<index name="parent_id">
 		<indexproperty name="parent_id" />
@@ -28,5 +32,11 @@
 		<indexproperty name="parent_id" />
 		<indexproperty name="left_value" />
 		<indexproperty name="right_value" />
+	</index>
+	<index name="owner_id">
+		<indexproperty name="owner_id" />
+	</index>
+	<index name="context_registration_id">
+		<indexproperty name="context_registration_id" />
 	</index>
 </object>

@@ -1,9 +1,4 @@
 <?php
-namespace repository\content_object\survey;
-
-use common\libraries\Utilities;
-use common\libraries\EqualityCondition;
-use common\libraries\OptionsMenuRenderer;
 
 require_once 'HTML/Menu.php';
 require_once 'HTML/Menu/ArrayRenderer.php';
@@ -11,100 +6,213 @@ require_once 'HTML/Menu/ArrayRenderer.php';
 class SurveyMenu extends HTML_Menu
 {
     const TREE_NAME = __CLASS__;
-
-    const PARAM_TEMPLATE_ID = 'template_id';
-
+    
+    const MENU_ITEM_TYPE = 'type';
+    const TYPE_SURVYEY = 'survey';
+    const TYPE_CONTEXT = 'survey_context';
+    const TYPE_PAGE = 'survey_page';
+    const TYPE_QUESTION = 'survey_question';
+    
+    const ID = 'id';
+    const PARENT_ID = 'parent_id';
+    const CONTEXT_ID = 'context_id';
+    const PAGE_ID = 'page_id';
+    const QUESTION_ID = 'question_id';
+    
     private $urlFmt;
-
-    private $current_template_id;
-
-    private $root_context_template_id;
-
+    
+    /**
+     * @var Survey
+     */
+    private $survey;
+    
     private $survey_id;
-
+    
     private $user_id;
-
+    
     private $publication_id;
+    
+    private $context_path_relations;
+    
+    private $parent_ids;
 
-
-    private $menu_matrix;
-
-    private $level_matrix;
-
-    function SurveyMenu($parent, $current_template_id, $url_format, $survey)
+    function SurveyMenu($parent, $current_context_path, $url_format, $survey)
     {
-        $this->root_context_template_id = $survey->get_context_template_id();
-        $this->survey_id = $survey->get_id();
-
+        $this->survey = $survey;
+        $this->survey_id = $this->survey->get_id();
+        
         $this->user_id = $parent->get_parent()->get_parameter(SurveyViewerWizard :: PARAM_INVITEE_ID);
         $this->publication_id = $parent->get_parent()->get_parameter(SurveyViewerWizard :: PARAM_PUBLICATION_ID);
-
-        $current_context_template_id = $parent->get_parent()->get_parameter(SurveyViewerWizard :: PARAM_CONTEXT_TEMPLATE_ID);
-        $current_context_id = $parent->get_parent()->get_parameter(SurveyViewerWizard :: PARAM_CONTEXT_ID, $current_context_id);
-        $current_context_path = $parent->get_parent()->get_parameter(SurveyViewerWizard :: PARAM_CONTEXT_PATH);
-
-        $this->current_context_template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($current_template_id);
-
-        $this->current_template_id = $current_template_id;
-
+        
         $this->urlFmt = $url_format;
         $menu = $this->get_menu();
+        
         parent :: __construct($menu);
-        $this->forceCurrentUrl($this->get_url($current_context_path));
-
-    //        $this->forceCurrentUrl($this->get_url($current_context_template_id, $this->current_template_id, $current_context_id, $current_context_path));
-    }
-
-    private function create_menu_matrix()
-    {
-
-        $context_template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($this->root_context_template_id);
-
-        $level = 1;
-        $this->level_matrix[$level] = $context_template->get_id();
-        $context_template_children = $context_template->get_children(true);
-        while ($child_template = $context_template_children->next_result())
-        {
-            $level ++;
-            $this->level_matrix[$level] = $child_template->get_id();
-        }
-
-        $condition = new EqualityCondition(SurveyTemplate :: PROPERTY_USER_ID, $this->user_id, SurveyTemplate :: get_table_name());
-        $templates = SurveyContextDataManager :: get_instance()->retrieve_survey_templates($context_template->get_type(), $condition);
-
-        $menu_matrix = array();
-
-        while ($template = $templates->next_result())
-        {
-
-            $level = 1;
-            $property_names = $template->get_additional_property_names(true);
-            $parent_id = 0;
-            foreach ($property_names as $property_name => $context_type)
-            {
-                $context_id = $template->get_additional_property($property_name);
-
-                $context = SurveyContextDataManager :: get_instance()->retrieve_survey_context_by_id($context_id);
-                $template_id = $template->get_id();
-
-                $menu_matrix[$level][$parent_id][$context_id] = $context->get_name();
-                $menu_matrix[self :: PARAM_TEMPLATE_ID][$parent_id][$context_id] = $template->get_id();
-
-                $parent_id = $context_id;
-                $level ++;
-            }
-        }
-
-        //        dump($menu_matrix);
-
-
-        $this->menu_matrix = $menu_matrix;
+        //        $this->forceCurrentUrl($this->get_url($current_context_path));
     }
 
     function get_menu()
     {
-        $this->create_menu_matrix();
+        $this->create_context_path_relations();
         return $this->get_menu_items();
+    }
+
+    function create_context_path_relations()
+    {
+        $context_paths = $this->survey->get_context_paths();
+        
+        $this->context_path_relations = array();
+        
+        $has_context = $this->survey->has_context();
+        
+        foreach ($context_paths as $index => $context_path)
+        {
+            
+            if ($has_context)
+            {
+                $context_path_ids = explode('|', $context_path);
+                $parent_path = $context_path_ids[0] . '|' . $context_path_ids[1];
+                $path_ids = explode('_', $context_path_ids[2]);
+            }else{
+            	 $path_ids = explode('_', $context_path);
+            }
+            
+            $id_count = count($path_ids);
+            
+            //questions
+            $context = array();
+            $question_id = $path_ids[$id_count - 1];
+            $context[self :: QUESTION_ID] = $question_id;
+            
+            array_pop($path_ids);
+            if ($has_context)
+            {
+                $question_parent_context = $parent_path . '|' . $path_ids[0];
+            }
+            else
+            {
+                $question_parent_context = implode('_', $path_ids);
+            }
+            
+            $context[self :: PARENT_ID] = $question_parent_context;
+            $context[self :: ID] = $context_path;
+            $context[self :: MENU_ITEM_TYPE] = self :: TYPE_QUESTION;
+            $this->context_path_relations[$context_path] = $context;
+            
+            //pages
+            $context = array();
+            $page_id = $path_ids[$id_count - 2];
+            $context[self :: PAGE_ID] = $page_id;
+            
+            array_pop($path_ids);
+            if ($has_context)
+            {
+                $page_parent_context = $parent_path;
+            }
+            else
+            {
+                $page_parent_context = implode('_', $path_ids);
+            }
+            
+            $context[self :: PARENT_ID] = $page_parent_context;
+            $context[self :: ID] = $question_parent_context;
+            $context[self :: MENU_ITEM_TYPE] = self :: TYPE_PAGE;
+            $this->context_path_relations[$question_parent_context] = $context;
+            
+            $parent_ids[] = $page_parent_context;
+        
+        }
+        
+        $parent_ids = array_unique($parent_ids);
+        
+        $level_count = $this->survey->count_levels();
+        $levels = $level_count + 1;
+        $level = $levels;
+        while ($level >= 1)
+        {
+            foreach ($parent_ids as $index => $context_path)
+            {
+                
+            	if ($has_context)
+                {
+                    $context_path_ids = explode('|', $context_path);
+                    $path_ids = explode('_', $context_path_ids[1]);
+                    $id_count = count($path_ids) + 1;
+                    $count = count($path_ids);
+                
+                }
+                else
+                {
+                    $path_ids = explode('_', $context_path);
+                    $id_count = count($path_ids);
+                }
+                
+                if ($id_count == $level)
+                {
+                    $context = array();
+                    $context[self :: ID] = $context_path;
+                    if ($has_context)
+                    {
+                        $context[self :: CONTEXT_ID] = $path_ids[$count - 1];
+                    }
+                    else
+                    {
+                        $context[self :: CONTEXT_ID] = $path_ids[$id_count - 1];
+                    }
+                    
+                    if ($level == 1)
+                    {
+                        $parent_id = 0;
+                        $context[self :: MENU_ITEM_TYPE] = self :: TYPE_SURVYEY;
+                    }
+                    else
+                    {
+                        array_pop($path_ids);
+                        if (count($path_ids) > 0)
+                        {
+                            if($has_context){
+                            	$parent_id = $context_path_ids[0] . '|' . implode('_', $path_ids);
+                            }else{
+                            	$parent_id = implode('_', $path_ids);
+                            }
+                        	
+                        }
+                        else
+                        {
+                            if($has_context){
+                            	$parent_id = $context_path_ids[0];
+                            }else{
+                            	$parent_id = implode('_', $path_ids);
+                            }
+                        	
+                        }
+                        
+                        //                        
+                        $parent_ids[] = $parent_id;
+                        $context[self :: MENU_ITEM_TYPE] = self :: TYPE_CONTEXT;
+                    }
+                    
+                    $context[self :: PARENT_ID] = $parent_id;
+                    $this->context_path_relations[$context_path] = $context;
+                    unset($parent_ids[$index]);
+                }
+            }
+            $level --;
+        }
+        
+        if ($has_context)
+        {
+            $context = array();
+            $context[self :: ID] = $this->survey_id;
+            $context[self :: CONTEXT_ID] = $this->survey_id;
+            $context[self :: MENU_ITEM_TYPE] = self :: TYPE_SURVYEY;
+            $context[self :: PARENT_ID] = 0;
+            $this->context_path_relations[$this->survey_id] = $context;
+        }
+        
+//        dump($this->context_path_relations);
+//        exit();
+    
     }
 
     /**
@@ -113,76 +221,85 @@ class SurveyMenu extends HTML_Menu
      * is the structure needed by PEAR::HTML_Menu, on which this
      * class is based.
      */
-    private function get_menu_items($level = 1, $parent_id = 0, $path = null)
+    private function get_menu_items($parent_id = 0, $path = null)
     {
-
-        foreach ($this->menu_matrix[$level][$parent_id] as $id => $context_name)
+        
+        $menu = array();
+        
+        $level_count = $this->survey->count_levels();
+        
+        foreach ($this->context_path_relations as $context_path => $context_path_relation)
         {
-            $template_id = $this->menu_matrix[self :: PARAM_TEMPLATE_ID][$parent_id][$id];
-            $context_template_id = $this->level_matrix[$level];
-
-            if ($level == 1)
+            
+            if ($context_path_relation[self :: PARENT_ID] == $parent_id)
+            
             {
-                $path = null;
-            }
-
-            if ($path)
-            {
-                $contexts = explode('_', $path);
-
-                if (count($contexts) == $level)
+                $path_ids = explode('_', $context_path);
+                $id_count = count($path_ids);
+                
+                $type = $context_path_relation[self :: MENU_ITEM_TYPE];
+                
+                $menu_item = array();
+                
+                switch ($type)
                 {
-                    $index = 0;
-                    $path = '';
-                    while ($index != $level - 1)
-                    {
-                        if ($index != 0)
-                        {
-                            $path = $path . '_' . $contexts[$index];
-                        }
-                        else
-                        {
-                            $path = $contexts[$index];
-                        }
-                        $index ++;
-                    }
+                    case self :: TYPE_SURVYEY :
+                        $title = $this->survey->get_title();
+                        $menu_item['class'] = self :: TYPE_SURVYEY;
+                        $menu_item['url'] = 'dsfsdf';
+                        break;
+                    case self :: TYPE_CONTEXT :
+                        $context = SurveyContextDataManager :: get_instance()->retrieve_survey_context_by_id($context_path_relation[self :: CONTEXT_ID]);
+                        $title = $context->get_name();
+                        $menu_item['class'] = self :: TYPE_CONTEXT;
+                        $menu_item['url'] = 'dsfsdf';
+                        break;
+                    case self :: TYPE_PAGE :
+                        $survey_page = $this->survey->get_page_by_id($context_path_relation[self :: PAGE_ID]);
+                        $title = $survey_page->get_title();
+                        $menu_item['class'] = self :: TYPE_PAGE;
+                        $menu_item['url'] = $this->get_url($context_path);
+                        break;
+                    case self :: TYPE_QUESTION :
+                        $complex_question_id = $context_path_relation[self :: QUESTION_ID];
+                        $complex_question = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($complex_question_id);
+                        $question = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_question->get_ref());
+                        $title = $question->get_title();
+                        $menu_item['class'] = self :: TYPE_QUESTION;
+                        $menu_item['url'] = 'dsfsdf';
+                        break;
+                    default :
+                        ;
+                        break;
                 }
-
-                $path = $path . '_' . $id;
-
-            }
-            else
-            {
-                $path = $id;
-            }
-
-            $menu_item = array();
-            $menu_item['title'] = $context_name;
-            $menu_item['url'] = $this->get_url($path);
-
-            //            $menu_item['url'] = $this->get_url($context_template_id, $template_id, $id, $path);
-
-
-            $sub_menu_items = $this->get_menu_items($level + 1, $id, $path);
-            if (count($sub_menu_items) > 0)
-            {
-                foreach ($sub_menu_items as $sub_parent_id => $sub_menu_item)
+                
+                $menu_item['title'] = $title;
+                
+                $sub_menu_items = $this->get_menu_items($context_path_relation[self :: ID]);
+                
+                if (count($sub_menu_items))
                 {
                     $menu_item['sub'] = $sub_menu_items;
                 }
+                
+                $menu_item[OptionsMenuRenderer :: KEY_ID] = $context_path;
+                $menu[$context_path] = $menu_item;
+            
             }
-            $menu_item['class'] = 'survey';
-            $menu_item[OptionsMenuRenderer :: KEY_ID] = $id;
-            $menu[$id] = $menu_item;
+            else
+            {
+                continue;
+            }
         }
+        
         return $menu;
     }
 
     function get_url($context_path)
     {
-    	$test = sprintf($this->urlFmt,$this->publication_id, $this->survey_id, $this->user_id, $context_path);
-    	$test = $test.'&display_action=survey_viewer&_qf_question_page_3_display=true';
-    	return htmlentities($test);
+        $test = sprintf($this->urlFmt, $this->publication_id, $this->survey_id, $this->user_id, $context_path);
+        $test = $test . '&display_action=survey_viewer&_qf_page_' . $context_path . '_display=true';
+        return htmlentities($test);
     }
 
     /**

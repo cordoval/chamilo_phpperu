@@ -1,55 +1,40 @@
 <?php
-namespace repository\content_object\survey;
-
-use common\libraries\Path;
-use common\libraries\Utilities;
-
 require_once (Path :: get_repository_path().'/lib/content_object/survey/survey_template.class.php');
 class SurveyTemplate3 extends SurveyTemplate
 {
  const CLASS_NAME = __CLASS__;
 
- const PROPERTY_LEVEL_1_USER = 'level_1_user';
- const PROPERTY_LEVEL_2_NAME = 'level_2_name';
- const PROPERTY_LEVEL_3_TEST = 'level_3_test';
+ const PROPERTY_LEVEL_1_ID = 'level_1_id';
+ const PROPERTY_LEVEL_2_STUDIEDUUR = 'level_2_studieduur';
 
 static function get_additional_property_names($with_context_type = false)
 {
  if ($with_context_type)
 {
-return array(self :: PROPERTY_LEVEL_1_USER => survey_context1, self :: PROPERTY_LEVEL_2_NAME => survey_context2, self :: PROPERTY_LEVEL_3_TEST => survey_context4);
+return array(self :: PROPERTY_LEVEL_1_ID => survey_context_5, self :: PROPERTY_LEVEL_2_STUDIEDUUR => survey_context_4);
  }
 else
 {
-return array(self :: PROPERTY_LEVEL_1_USER, self :: PROPERTY_LEVEL_2_NAME, self :: PROPERTY_LEVEL_3_TEST);
+return array(self :: PROPERTY_LEVEL_1_ID, self :: PROPERTY_LEVEL_2_STUDIEDUUR);
 }
 }
-function get_level_1_user()
+function get_level_1_id()
 {
-  return $this->get_additional_property(self :: PROPERTY_LEVEL_1_USER);
+  return $this->get_additional_property(self :: PROPERTY_LEVEL_1_ID);
 }
 
-function set_level_1_user($level_1_user)
+function set_level_1_id($level_1_id)
 {
-   $this->set_additional_property(self :: PROPERTY_LEVEL_1_USER, $level_1_user);
+   $this->set_additional_property(self :: PROPERTY_LEVEL_1_ID, $level_1_id);
 }
-function get_level_2_name()
+function get_level_2_studieduur()
 {
-  return $this->get_additional_property(self :: PROPERTY_LEVEL_2_NAME);
-}
-
-function set_level_2_name($level_2_name)
-{
-   $this->set_additional_property(self :: PROPERTY_LEVEL_2_NAME, $level_2_name);
-}
-function get_level_3_test()
-{
-  return $this->get_additional_property(self :: PROPERTY_LEVEL_3_TEST);
+  return $this->get_additional_property(self :: PROPERTY_LEVEL_2_STUDIEDUUR);
 }
 
-function set_level_3_test($level_3_test)
+function set_level_2_studieduur($level_2_studieduur)
 {
-   $this->set_additional_property(self :: PROPERTY_LEVEL_3_TEST, $level_3_test);
+   $this->set_additional_property(self :: PROPERTY_LEVEL_2_STUDIEDUUR, $level_2_studieduur);
 }
 static function get_table_name()
 {

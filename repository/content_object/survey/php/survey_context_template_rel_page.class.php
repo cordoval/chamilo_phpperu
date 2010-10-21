@@ -1,7 +1,4 @@
-<?php
-namespace repository\content_object\survey;
-
-use common\libraries\Utilities;
+<?php 
 
 class SurveyContextTemplateRelPage extends DataClass
 {
@@ -10,12 +7,12 @@ class SurveyContextTemplateRelPage extends DataClass
 	/**
 	 * SurveyContextTemplateRelPage properties
 	 */
-
+	
 	const PROPERTY_SURVEY_ID = 'survey_id';
 	const PROPERTY_PAGE_ID = 'page_id';
 	const PROPERTY_TEMPLATE_ID = 'template_id';
 
-
+		
 	static function get_default_property_names()
 	{
 		return array (self :: PROPERTY_SURVEY_ID ,self :: PROPERTY_PAGE_ID, self :: PROPERTY_TEMPLATE_ID);
@@ -25,7 +22,7 @@ class SurveyContextTemplateRelPage extends DataClass
 	{
 		return SurveyContextDataManager :: get_instance();
 	}
-
+	
 /**
 	 * Returns the survey_id of this SurveyContextTemplateRelPage.
 	 * @return the survey_id.
@@ -43,7 +40,7 @@ class SurveyContextTemplateRelPage extends DataClass
 	{
 		$this->set_default_property(self :: PROPERTY_SURVEY_ID, $survey_id);
 	}
-
+	
 	/**
 	 * Returns the page_id of this SurveyContextTemplateRelPage.
 	 * @return the page_id.
@@ -80,7 +77,10 @@ class SurveyContextTemplateRelPage extends DataClass
 		$this->set_default_property(self :: PROPERTY_TEMPLATE_ID, $template_id);
 	}
 
-
+	function get_page(){
+		return RepositoryDataManager::get_instance()->retrieve_content_object($this->get_page_id());
+	}
+	
 	static function get_table_name()
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);

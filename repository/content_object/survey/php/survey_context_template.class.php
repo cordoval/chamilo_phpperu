@@ -1,12 +1,11 @@
 <?php
-namespace repository\content_object\survey;
 
-use common\libraries\Utilities;
+require_once Path :: get_repository_path() . 'lib/content_object/survey/survey_context_manager_rights.class.php';
 
 class SurveyContextTemplate extends NestedTreeNode
 {
     const CLASS_NAME = __CLASS__;
-
+    
     /**
      * SurveyContextTemplate properties
      */
@@ -17,6 +16,39 @@ class SurveyContextTemplate extends NestedTreeNode
     const PROPERTY_CONTEXT_TYPE_NAME = 'context_type_name';
     const PROPERTY_KEY = 'key_name';
     const PROPERTY_TYPE = 'type';
+    const PROPERTY_OWNER_ID = 'owner_id';
+	const PROPERTY_CONTEXT_REGISTRATION_ID = 'context_registration_id';
+    
+    public function create()
+    {
+        $succes = parent :: create();
+        if ($succes)
+        {
+            $parent_location = SurveyContextManagerRights :: get_survey_context_manager_subtree_root_id();
+            $location = SurveyContextManagerRights :: create_location_in_survey_context_manager_subtree($this->get_name(), $this->get_id(), $parent_location, SurveyContextManagerRights :: TYPE_CONTEXT_TEMPLATE, true);
+            
+            $rights = SurveyContextManagerRights :: get_available_rights_for_context_templates();
+            foreach ($rights as $right)
+            {
+                RightsUtilities :: set_user_right_location_value($right, $this->get_owner_id(), $location->get_id(), 1);
+            }
+        }
+        return $succes;
+    }
+
+    public function delete()
+    {
+        $location = SurveyContextManagerRights :: get_location_by_identifier_from_survey_context_manager_subtree($this->get_id(), SurveyContextManagerRights :: TYPE_CONTEXT_TEMPLATE);
+        if ($location)
+        {
+            if (! $location->remove())
+            {
+                return false;
+            }
+        }
+        $succes = parent :: delete();
+        return $succes;
+    }
 
     /**
      * Get the default properties
@@ -24,7 +56,7 @@ class SurveyContextTemplate extends NestedTreeNode
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_CONTEXT_TYPE, self :: PROPERTY_CONTEXT_TYPE_NAME, self :: PROPERTY_KEY, self :: PROPERTY_TYPE));
+        return parent :: get_default_property_names(array(self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_CONTEXT_TYPE, self :: PROPERTY_CONTEXT_TYPE_NAME, self :: PROPERTY_KEY, self :: PROPERTY_TYPE, self :: PROPERTY_OWNER_ID, self :: PROPERTY_CONTEXT_REGISTRATION_ID));
     }
 
     /**
@@ -105,7 +137,7 @@ class SurveyContextTemplate extends NestedTreeNode
      */
     function get_context_type_name()
     {
-        return $this->get_default_property(self :: PROPERTY_CONTEXT_TYPE);
+        return $this->get_default_property(self :: PROPERTY_CONTEXT_TYPE_NAME);
     }
 
     /**
@@ -153,6 +185,26 @@ class SurveyContextTemplate extends NestedTreeNode
         $this->set_default_property(self :: PROPERTY_TYPE, $type);
     }
 
+    function get_owner_id()
+    {
+        return $this->get_default_property(self :: PROPERTY_OWNER_ID);
+    }
+
+    function set_owner_id($owner_id)
+    {
+        $this->set_default_property(self :: PROPERTY_OWNER_ID, $owner_id);
+    }
+
+ 	function get_context_registration_id()
+    {
+        return $this->get_default_property(self :: PROPERTY_CONTEXT_REGISTRATION_ID);
+    }
+
+    function set_context_registration_id($context_registration_id)
+    {
+        $this->set_default_property(self :: PROPERTY_CONTEXT_REGISTRATION_ID, $context_registration_id);
+    }
+    
     static function get_table_name()
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
@@ -168,9 +220,10 @@ class SurveyContextTemplate extends NestedTreeNode
         $this->get_data_manager()->update_survey_context_template($this);
     }
 
-	function get_level_count(){
-		return $this->count_children(true)+1;
-	}
+    function get_level_count()
+    {
+        return $this->count_children(true) + 1;
+    }
 }
 
 ?>

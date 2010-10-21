@@ -1,8 +1,4 @@
 <?php
-namespace repository\content_object\survey;
-
-use common\libraries\Translation;
-
 /**
  * $Id: survey_open_question.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.survey.component.viewer.wizard.inc.question_display
@@ -15,7 +11,8 @@ class SurveyOpenQuestionDisplay extends SurveyQuestionDisplay
     function add_question_form()
     {
         $complex_question = $this->get_complex_question();
-        $question = $this->get_question();
+//      	$question = $this->get_question();
+        $question = $this->get_complex_question();
         //$type = $question->get_question_type();
         $formvalidator = $this->get_formvalidator();
 
@@ -57,6 +54,12 @@ class SurveyOpenQuestionDisplay extends SurveyQuestionDisplay
 
         $name = $question->get_id() . '_0';
         $formvalidator->add_html_editor($name, '', false, $html_editor_options);
+        
+        $answer = $this->get_answer();
+        if($answer){
+        	$formvalidator->setDefaults(array($name =>$answer[0]));
+        }
+        
         $renderer->setElementTemplate($element_template, $name);
     }
 

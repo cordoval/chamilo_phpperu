@@ -1,14 +1,4 @@
 <?php
-namespace repository\content_object\survey;
-
-use common\libraries\Translation;
-use common\libraries\Path;
-use common\libraries\Utilities;
-use common\libraries\EqualityCondition;
-use common\libraries\ToolbarItem;
-use common\libraries\Toolbar;
-use common\libraries\Theme;
-use common\libraries\AndCondition;
 
 require_once dirname(__FILE__) . '/browser_table_column_model.class.php';
 require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/tables/survey_context_registration_table/default_survey_context_registration_table_cell_renderer.class.php';
@@ -39,7 +29,7 @@ class SurveyContextRegistrationBrowserTableCellRenderer extends DefaultSurveyCon
         {
             return $this->get_modification_links($context_registration);
         }
-
+        
         // Add special features here
         switch ($column->get_name())
         {
@@ -51,7 +41,7 @@ class SurveyContextRegistrationBrowserTableCellRenderer extends DefaultSurveyCon
                 {
                     $title_short = mb_substr($title_short, 0, 50) . '&hellip;';
                 }
-
+                
                 return '<a href="' . htmlentities($this->browser->get_context_registration_viewing_url($context_registration)) . '" title="' . $title . '">' . $title_short . '</a>';
             case SurveyContextRegistration :: PROPERTY_DESCRIPTION :
                 $description = strip_tags(parent :: render_cell($column, $context_registration));
@@ -71,7 +61,7 @@ class SurveyContextRegistrationBrowserTableCellRenderer extends DefaultSurveyCon
 //            case Translation :: get('SubContextRegistrations') :
 //                return $context_registration->count_children(false);
         }
-
+        
         return parent :: render_cell($column, $context_registration);
     }
 
@@ -86,6 +76,12 @@ class SurveyContextRegistrationBrowserTableCellRenderer extends DefaultSurveyCon
          $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_context_registration_update_url($context_registration), ToolbarItem :: DISPLAY_ICON));
         $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_context_registration_delete_url($context_registration), ToolbarItem :: DISPLAY_ICON));
+        
+        if ($this->browser->get_user()->is_platform_admin() || $context_registration->get_owner_id() == $this->browser->get_user_id())
+        {
+            $toolbar->add_item(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->browser->get_context_registration_rights_editor_url($context_registration), ToolbarItem :: DISPLAY_ICON));
+        }
+        
         return $toolbar->as_html();
     }
 }
