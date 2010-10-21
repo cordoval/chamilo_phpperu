@@ -1,4 +1,8 @@
 <?php
+
+namespace PersonalCalendar;
+
+
 require_once dirname(__FILE__).'/publication_rss.class.php';
 
 $rss = new PersonalCalendarPublicationRSS();

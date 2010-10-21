@@ -1,4 +1,12 @@
 <?php
+
+namespace PersonalCalendar;
+
+use common\libraries\Webapplication;
+use common\libraries\Utilities;
+use common\libraries\Request;
+use rights\RightsUtilities;
+
 class PersonalCalendarRights extends RightsUtilities
 {
 

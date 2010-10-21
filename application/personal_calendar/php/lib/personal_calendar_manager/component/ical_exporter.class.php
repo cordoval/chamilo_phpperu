@@ -1,4 +1,13 @@
 <?php
+
+namespace PersonalCalendar;
+
+use common\libraries\WebApplication;
+use common\libraries\Request;
+use common\libraries\Display;
+use common\libraries\Translation;
+use repository\ContentObjectExport;
+use common\libraries\Filesystem;
 /**
  * $Id: ical_exporter.class.php 201 2009-11-13 12:34:51Z chellee $
  * @package application.personal_calendar.personal_calendar_manager.component

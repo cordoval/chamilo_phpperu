@@ -1,4 +1,17 @@
 <?php
+namespace PersonalCalendar;
+
+use common\libraries\WebApplication;
+use WeblcmsDataManager;
+use common\libraries\EqualityCondition;
+use common\libraries\InCondition;
+use common\libraries\AndCondition;
+use repository\ContentObject;
+use repository\content_object\calendar_event\CalendarEvent;
+use common\libraries\SubselectCondition;
+use ContentObjectPublication;
+use repository\RepositoryDataManager;
+use common\libraries\OrCondition;
 /**
  * $Id: personal_calendar_weblcms_connector.class.php 201 2009-11-13 12:34:51Z chellee $
  * @package application.personal_calendar.connector

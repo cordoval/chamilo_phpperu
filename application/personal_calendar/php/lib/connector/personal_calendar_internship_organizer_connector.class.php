@@ -1,5 +1,12 @@
 <?php
 
+namespace PersonalCalendar;
+
+use common\libraries\WebApplication;
+use InternshipOrganizerDataManager;
+use common\libraries\EqualityCondition;
+use InternshipOrganizerAppointment;
+
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') .  'internship_organizer_data_manager.class.php';
 /**
  * This personal calendar connector allows the personal calendar to retrieve the

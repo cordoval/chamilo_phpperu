@@ -1,4 +1,8 @@
 <?php
+
+namespace PersonalCalendar;
+
+
 /**
  * $Id: personal_calendar_renderer.class.php 127 2009-11-09 13:11:56Z vanpouckesven $
  * @package application.personal_calendar
