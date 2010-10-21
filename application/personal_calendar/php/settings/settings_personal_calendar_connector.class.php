@@ -1,4 +1,11 @@
 <?php
+
+namespace PersonalCalendar;
+
+use common\libraries\Webapplication;
+use common\libraries\Utilities;
+use common\libraries\Request;
+
 /**
  * $Id: settings_personal_calendar_connector.class.php 201 2009-11-13 12:34:51Z chellee $
  * @package application.personal_calendar.settings

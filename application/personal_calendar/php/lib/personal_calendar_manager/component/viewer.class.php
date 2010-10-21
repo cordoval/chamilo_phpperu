@@ -1,4 +1,16 @@
 <?php
+
+namespace PersonalCalendar;
+
+use common\libraries\WebApplication;
+use common\libraries\Request;
+use common\libraries\Application;
+use repository\ContentObjectDisplay;
+use common\libraries\Translation;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
+use common\libraries\DatetimeUtilities;
+
 /**
  * $Id: viewer.class.php 201 2009-11-13 12:34:51Z chellee $
  * @package application.personal_calendar.personal_calendar_manager.component

@@ -1,4 +1,7 @@
 <?php
+
+namespace PersonalCalendar;
+
 interface PersonalCalendarDataManagerInterface
 {
     /**

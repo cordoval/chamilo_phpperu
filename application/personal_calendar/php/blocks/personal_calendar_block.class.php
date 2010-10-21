@@ -1,4 +1,8 @@
 <?php
+namespace PersonalCalendar;
+
+use common\libraries\Webapplication;
+
 /**
  * @author Hans De bisschop
  */

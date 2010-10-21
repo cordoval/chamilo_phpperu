@@ -1,4 +1,6 @@
 <?php
+namespace PersonalCalendar;
+
 class PersonalCalendarEventCalendarEventParser extends PersonalCalendarEventParser
 {
 
