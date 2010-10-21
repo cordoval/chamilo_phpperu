@@ -1,4 +1,6 @@
 <?php
+use common\libraries\WebApplication;
+use common\libraries\EqualityCondition;
 /**
  * @package application.lib.handbook.handbook_manager
  */

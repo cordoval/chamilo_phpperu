@@ -1,4 +1,5 @@
 <?php
+use common\libraries\ObjectTableCellRenderer;
 
 
 class DefaultHandbookPublicationTableCellRenderer extends ObjectTableCellRenderer

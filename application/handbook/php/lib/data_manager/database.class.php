@@ -1,4 +1,9 @@
 <?php
+use common\libraries\Database;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use common\libraries\SubselectCondition;
+use repository\ContentObject;
 
 /**
  * @package handbook.datamanager

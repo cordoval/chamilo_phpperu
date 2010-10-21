@@ -1,9 +1,10 @@
 <?php
+use common\libraries\Installer;
 /**
  * handbook.install
  */
 
-require_once dirname(__FILE__).'/../handbook_data_manager.class.php';
+require_once dirname(__FILE__).'/../lib/handbook_data_manager.class.php';
 
 /**
  * This installer can be used to create the storage structure for the
