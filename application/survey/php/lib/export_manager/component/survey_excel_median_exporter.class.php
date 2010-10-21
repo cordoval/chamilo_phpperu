@@ -1,4 +1,4 @@
-<?php
+<?php namespace survey;
 //require_once Path :: get_application_path() . 'lib/survey/survey_publication_group.class.php';
 //Path :: get_application_path() . 'lib/survey/survey_publication_user.class.php';
 require_once (Path :: get_reporting_path() . 'lib/reporting_data.class.php');
@@ -347,8 +347,8 @@ class SurveyExportManagerSurveyExcelMedianExporterComponent extends SurveyExport
                     $categrory_row_index ++;
                     $block_row ++;
                 }
-                
-            //                exit();
+            
+     //                exit();
             }
         
         }
@@ -510,10 +510,10 @@ class SurveyExportManagerSurveyExcelMedianExporterComponent extends SurveyExport
 
                 //total count
                 
-	
-//                dump($answer_count);
-              
+
+                //                dump($answer_count);
                 
+
                 foreach ($options as $option_key => $option)
                 {
                     
@@ -524,13 +524,15 @@ class SurveyExportManagerSurveyExcelMedianExporterComponent extends SurveyExport
                     
                     }
                     $totals[$match_key] = $totals[$match_key];
-                		
+                
                 }
                 
-//                dump($totals);
+                //                dump($totals);
                 
-//                  exit;
+
+                //                  exit;
                 
+
                 $total_colums = count($totals);
                 $total_count = $totals[$total_colums - 1];
                 
@@ -548,9 +550,9 @@ class SurveyExportManagerSurveyExcelMedianExporterComponent extends SurveyExport
                     {
                         //                        $percentage = number_format($value / $total_count * 100, 2);
                         //                        $summary_totals[$index] = $percentage;
-                        $summary_totals[$index] = $value*$median_number;
+                        $summary_totals[$index] = $value * $median_number;
                     }
-                	$median_number++;
+                    $median_number ++;
                 }
                 //                dump($totals);
                 //                dump($summary_totals);
@@ -566,7 +568,7 @@ class SurveyExportManagerSurveyExcelMedianExporterComponent extends SurveyExport
 
                 //                exit();
                 
-				
+
                 foreach ($options as $option_key => $option)
                 {
                     $reporting_data->add_category($option);
@@ -587,9 +589,10 @@ class SurveyExportManagerSurveyExcelMedianExporterComponent extends SurveyExport
                             //                        	$value = $answer_count[$option_key][$match_key] / $total_count;
                             //                            $percentage = number_format($value * 100, 2);
                             $count = $answer_count[$option_key][$total_index];
-//                            dump($count);
-//                            dump($match);
-//                            $reporting_data->add_data_category_row($option, strip_tags($match), $percentage);
+                        
+     //                            dump($count);
+                        //                            dump($match);
+                        //                            $reporting_data->add_data_category_row($option, strip_tags($match), $percentage);
                         }
                         else
                         {
@@ -599,19 +602,19 @@ class SurveyExportManagerSurveyExcelMedianExporterComponent extends SurveyExport
                             $median = $median + $percentage;
                             $reporting_data->add_data_category_row($option, strip_tags($match), $percentage);
                         }
-                       
-                        
                         
                         $median_number ++;
                     }
-                	 $median = $median/$count;
-                	 $median = number_format($median, 2);
+                    $median = $median / $count;
+                    $median = number_format($median, 2);
                     $reporting_data->add_data_category_row($option, Translation :: get(self :: COUNT), $median);
-//                    dump($median);
+                
+     //                    dump($median);
                 }
                 
-//                exit;
+                //                exit;
                 
+
                 //                dump($totals);
                 //                
                 //                dump($answer_count);
@@ -632,32 +635,33 @@ class SurveyExportManagerSurveyExcelMedianExporterComponent extends SurveyExport
                     $total = 0;
                     foreach ($matches as $match_key => $match)
                     {
-                        if($match != Translation :: get(self :: COUNT)){
-                        	   
-                        	$reporting_data->add_data_category_row(Translation :: get(self :: TOTAL), strip_tags($match), $summary_totals[$match_key]);
-                        	$total =$total + $summary_totals[$match_key];
+                        if ($match != Translation :: get(self :: COUNT))
+                        {
+                            
+                            $reporting_data->add_data_category_row(Translation :: get(self :: TOTAL), strip_tags($match), $summary_totals[$match_key]);
+                            $total = $total + $summary_totals[$match_key];
                         }
-                    	
-//                    	dump($match_key);
-//                        dump($match);
-//                    	dump($summary_totals[$match_key]);
+                    
+     //                    	dump($match_key);
+                    //                        dump($match);
+                    //                    	dump($summary_totals[$match_key]);
                     }
-//                    dump($total);
-//                    dump($totals);
-                    $keys =array_keys($matches, Translation :: get(self :: COUNT));
-//                    dump($totals[$keys[0]]);
+                    //                    dump($total);
+                    //                    dump($totals);
+                    $keys = array_keys($matches, Translation :: get(self :: COUNT));
+                    //                    dump($totals[$keys[0]]);
                     
-                    $median = $total/$totals[$keys[0]];
+
+                    $median = $total / $totals[$keys[0]];
                     $median = number_format($median, 2);
-//                    dump($median);
+                    //                    dump($median);
                     $reporting_data->add_data_category_row(Translation :: get(self :: TOTAL), Translation :: get(self :: COUNT), $median);
-                    
-                    
-                    //                    }
+                
+     //                    }
                 
 
                 }
-//                exit;
+                //                exit;
                 break;
             case SurveyMultipleChoiceQuestion :: get_type_name() :
                 
@@ -869,8 +873,8 @@ class SurveyExportManagerSurveyExcelMedianExporterComponent extends SurveyExport
         $participatie = $started_participant_count / $all_participant_count * 100;
         $participatie = number_format($participatie, 2);
         $this->participants[self :: PARTICIPATION_GRADE] = $participatie;
-        
-    //        foreach ($groups as $group)
+    
+     //        foreach ($groups as $group)
     //        {
     //            
     //            $this->participants[self :: GROUPS][$group->get_id()][self :: GROUP_NAME] = $group->get_name();

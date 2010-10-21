@@ -1,4 +1,6 @@
-<?php
+<?php 
+namespace survey;
+use common\libraries\ObjectTableCellRenderer;
 
 require_once dirname(__FILE__) . '/publication_browser_table_column_model.class.php';
 require_once dirname(__FILE__) . '/../../../tables/publication_table/default_survey_publication_table_cell_renderer.class.php';
@@ -41,8 +43,10 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
                     if ($survey_publication->is_publication_period())
                     {
                         $url = '<a href="' . htmlentities($this->browser->get_survey_publication_viewer_url($survey_publication)) . '" title="' . $title . '">' . $title . '</a>';
-                    }else{
-                    	$url = $title;
+                    }
+                    else
+                    {
+                        $url = $title;
                     }
                 }
                 else
@@ -76,7 +80,7 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
             
             }
         }
-      
+        
         if ($user->is_platform_admin() || $user->get_id() == $survey_publication->get_publisher())
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->browser->get_rights_editor_url($survey_publication), ToolbarItem :: DISPLAY_ICON));

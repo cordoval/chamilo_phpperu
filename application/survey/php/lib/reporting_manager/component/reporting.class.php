@@ -1,4 +1,4 @@
-<?php
+<?php namespace survey;
 
 require_once Path :: get_application_path() . 'lib/survey/survey_publication_rel_reporting_template_registration.class.php';
 
@@ -23,14 +23,12 @@ class SurveyReportingManagerReportingComponent extends SurveyReportingManager im
         
         $condition = new EqualityCondition(SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_ID, $publication_rel_template_registration_id);
         $publication_rel_template_registration = SurveyDataManager :: get_instance()->retrieve_survey_publication_rel_reporting_template_registrations($condition, 0, 1)->next_result();
-		 
         
         $rtv = ReportingViewer :: construct($this);
         $rtv->add_template_by_id($publication_rel_template_registration->get_reporting_template_registration_id());
         $rtv->hide_all_blocks();
         $rtv->run();
-  
-
+    
     }
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
@@ -44,6 +42,6 @@ class SurveyReportingManagerReportingComponent extends SurveyReportingManager im
     {
         return array(SurveyManager :: PARAM_PUBLICATION_ID, self :: PARAM_PUBLICATION_REL_REPORTING_TEMPLATE_ID, self :: PARAM_CONTEXT_TEMPLATE_ID);
     }
-	    
+
 }
 ?>

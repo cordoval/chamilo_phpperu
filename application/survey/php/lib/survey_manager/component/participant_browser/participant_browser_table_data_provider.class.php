@@ -1,4 +1,4 @@
-<?php
+<?php namespace survey;
 
 class SurveyParticipantBrowserTableDataProvider extends ObjectTableDataProvider
 {
@@ -23,7 +23,7 @@ class SurveyParticipantBrowserTableDataProvider extends ObjectTableDataProvider
     function get_objects($offset, $count, $order_property = null)
     {
         $order_property = $this->get_order_property($order_property);
-        return Tracker :: get_data( SurveyParticipantTracker:: get_table_name(), SurveyManager::APPLICATION_NAME, $this->get_condition(), $offset, $count, $order_property);
+        return Tracker :: get_data(SurveyParticipantTracker :: get_table_name(), SurveyManager :: APPLICATION_NAME, $this->get_condition(), $offset, $count, $order_property);
     }
 
     /**
@@ -32,7 +32,7 @@ class SurveyParticipantBrowserTableDataProvider extends ObjectTableDataProvider
      */
     function get_object_count()
     {
-        return Tracker :: count_data( SurveyParticipantTracker:: get_table_name(), SurveyManager::APPLICATION_NAME,$this->get_condition());
+        return Tracker :: count_data(SurveyParticipantTracker :: get_table_name(), SurveyManager :: APPLICATION_NAME, $this->get_condition());
     }
 }
 ?>

@@ -1,4 +1,10 @@
-<?php
+<?php 
+namespace survey;
+
+use common\libraries\Utilities;
+use common\libraries\Path;
+use rights\RightsUtilities;
+
 
 class SurveyPublicationRelReportingTemplateRegistration extends DataClass
 {
@@ -27,7 +33,7 @@ class SurveyPublicationRelReportingTemplateRegistration extends DataClass
                 RightsUtilities :: set_user_right_location_value($right, $this->get_owner_id(), $location->get_id(), 1);
             }
         }
-     
+        
         return $succes;
     }
 
@@ -95,7 +101,7 @@ class SurveyPublicationRelReportingTemplateRegistration extends DataClass
         $this->set_default_property(self :: PROPERTY_REPORTING_TEMPLATE_REGISTRATION_ID, $reporting_template_registration_id);
     }
 
-  /**
+    /**
      * Sets the owner of this SurveyPublicationRelReportingTemplateRegistration.
      * @param owner
      */
@@ -103,7 +109,7 @@ class SurveyPublicationRelReportingTemplateRegistration extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_OWNER_ID, $owner);
     }
-    
+
     /**
      * Returns the owner of this SurveyPublicationRelReportingTemplateRegistration.
      * @return owner.
@@ -131,7 +137,7 @@ class SurveyPublicationRelReportingTemplateRegistration extends DataClass
         return $this->get_default_property(self :: PROPERTY_LEVEL);
     }
 
-/**
+    /**
      * Sets the name of this SurveyPublicationRelReportingTemplateRegistration.
      * @param name
      */
@@ -148,8 +154,8 @@ class SurveyPublicationRelReportingTemplateRegistration extends DataClass
     {
         return $this->get_default_property(self :: PROPERTY_NAME);
     }
-    
-/**
+
+    /**
      * Sets the description of this SurveyPublicationRelReportingTemplateRegistration.
      * @param description
      */
@@ -166,7 +172,6 @@ class SurveyPublicationRelReportingTemplateRegistration extends DataClass
     {
         return $this->get_default_property(self :: PROPERTY_DESCRIPTION);
     }
-  
 
     static function get_table_name()
     {

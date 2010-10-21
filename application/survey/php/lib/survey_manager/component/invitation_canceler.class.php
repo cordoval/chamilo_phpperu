@@ -1,7 +1,6 @@
-<?php
+<?php namespace survey;
 //require_once dirname(__FILE__) . '/../survey_manager.class.php';
 require_once Path :: get_application_path() . 'lib/survey/survey_manager/component/participant_browser.class.php';
-
 
 class SurveyManagerInvitationCancelerComponent extends SurveyManager
 {
@@ -37,17 +36,18 @@ class SurveyManagerInvitationCancelerComponent extends SurveyManager
                 
                 if (! SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_EDIT, $publication_id, SurveyRights :: TYPE_PUBLICATION))
                 {
-                   $failures ++;
+                    $failures ++;
                 }
                 else
                 {
-                	$rights = SurveyRights::get_available_rights_for_publications();
-                	foreach ($rights as $right) {
-                	if (! RightsUtilities :: set_user_right_location_value($right, $invitee, $location, 0))
+                    $rights = SurveyRights :: get_available_rights_for_publications();
+                    foreach ($rights as $right)
                     {
-                        $failures ++;
+                        if (! RightsUtilities :: set_user_right_location_value($right, $invitee, $location, 0))
+                        {
+                            $failures ++;
+                        }
                     }
-                	}
                 }
             }
             
@@ -74,9 +74,8 @@ class SurveyManagerInvitationCancelerComponent extends SurveyManager
                 }
             }
             
-           
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_PARTICIPANTS, SurveyManager :: PARAM_PUBLICATION_ID =>$publication_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => SurveyManagerParticipantBrowserComponent :: TAB_INVITEES));
-           
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_PARTICIPANTS, SurveyManager :: PARAM_PUBLICATION_ID => $publication_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => SurveyManagerParticipantBrowserComponent :: TAB_INVITEES));
+        
         }
         else
         {

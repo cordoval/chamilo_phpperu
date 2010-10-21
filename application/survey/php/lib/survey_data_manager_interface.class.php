@@ -1,4 +1,6 @@
-<?php
+<?php 
+namespace survey;
+
 interface SurveyDataManagerInterface
 {
 
@@ -25,7 +27,7 @@ interface SurveyDataManagerInterface
     function count_survey_publication_rel_reporting_template_registrations($conditions = null);
 
     function update_survey_publication_rel_reporting_template_registration($survey_publication_rel_reporting_template_registration);
-    
+
     function retrieve_survey_publication_rel_reporting_template_registration_by_id($survey_publication_rel_reporting_template_registration_id);
 
     function retrieve_survey_publication_rel_reporting_template_registrations($condition = null, $offset = null, $count = null, $order_property = null);

@@ -1,4 +1,4 @@
-<?php
+<?php namespace survey;
 require_once dirname(__FILE__) . '/../survey_manager.class.php';
 
 class SurveyManagerReportingFilterComponent extends SurveyManager
@@ -31,12 +31,12 @@ class SurveyManagerReportingFilterComponent extends SurveyManager
                 $trail = BreadcrumbTrail :: get_instance();
                 
                 $trail->add_help('survey reporting filter');
-  
+                
                 $rtv = ReportingViewer :: construct($this);
-     
+                
                 foreach ($publication_ids as $publication_id)
                 {
-                    $this->set_parameter(SurveyManager :: PARAM_PUBLICATION_ID, $publication_id);      
+                    $this->set_parameter(SurveyManager :: PARAM_PUBLICATION_ID, $publication_id);
                 }
                 
                 $rtv->add_template_by_name('survey_publication_reporting_filter_template', SurveyManager :: APPLICATION_NAME);
@@ -53,7 +53,7 @@ class SurveyManagerReportingFilterComponent extends SurveyManager
 
     function display_header($trail)
     {
-        parent :: display_header();   
+        parent :: display_header();
     }
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)

@@ -1,4 +1,4 @@
-<?php
+<?php namespace survey;
 require_once Path :: get_application_path() . 'lib/survey/survey_publication_group.class.php';
 Path :: get_application_path() . 'lib/survey/survey_publication_user.class.php';
 require_once (Path :: get_reporting_path() . 'lib/reporting_data.class.php');
@@ -346,8 +346,8 @@ class SurveyExportManagerSurveyExcelExporterComponent extends SurveyExportManage
                     $categrory_row_index ++;
                     $block_row ++;
                 }
-                
-            //                exit();
+            
+     //                exit();
             }
         
         }
@@ -567,7 +567,7 @@ class SurveyExportManagerSurveyExcelExporterComponent extends SurveyExportManage
                         //                        dump('total: '.$totals[$match_key]);
                         if ($match_key == $total_index)
                         {
-                        	$value = $answer_count[$option_key][$match_key] / $total_count;
+                            $value = $answer_count[$option_key][$match_key] / $total_count;
                             $percentage = number_format($value * 100, 2);
                             $reporting_data->add_data_category_row($option, strip_tags($match), $percentage);
                         }
@@ -603,7 +603,8 @@ class SurveyExportManagerSurveyExcelExporterComponent extends SurveyExportManage
                     {
                         $reporting_data->add_data_category_row(Translation :: get(self :: TOTAL), strip_tags($match), $summary_totals[$match_key]);
                     }
-                    //                    }
+                
+     //                    }
                 
 
                 }
@@ -654,7 +655,7 @@ class SurveyExportManagerSurveyExcelExporterComponent extends SurveyExportManage
                 }
                 
                 //totalcount
-         		$total_count = 0;
+                $total_count = 0;
                 foreach ($options as $option_key => $option)
                 {
                     
@@ -665,7 +666,6 @@ class SurveyExportManagerSurveyExcelExporterComponent extends SurveyExportManage
                 
                 }
                 
-                
                 //creating actual reporing data
                 
 
@@ -673,14 +673,14 @@ class SurveyExportManagerSurveyExcelExporterComponent extends SurveyExportManage
                 {
                     $reporting_data->add_row(strip_tags($match));
                 }
-                            
+                
                 foreach ($options as $option_key => $option)
                 {
                     
                     $reporting_data->add_category($option);
                     foreach ($matches as $match)
                     {
-                        $value = $answer_count[$option_key]/ $total_count;
+                        $value = $answer_count[$option_key] / $total_count;
                         $percentage = number_format($value * 100, 2);
                         $reporting_data->add_data_category_row($option, strip_tags($match), $percentage);
                     }

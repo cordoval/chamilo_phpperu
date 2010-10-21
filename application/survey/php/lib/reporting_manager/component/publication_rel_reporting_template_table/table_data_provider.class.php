@@ -1,4 +1,4 @@
-<?php
+<?php namespace survey;
 
 class SurveyPublicationRelReportingTemplateTableDataProvider extends ObjectTableDataProvider
 {

@@ -1,5 +1,8 @@
-<?php
+<?php 
+namespace survey;
 
+use common\libraries\ObjectTableColumnModel;
+use common\libraries\ObjectTableColumn;
 
 /**
  * TODO: Add comment
@@ -22,7 +25,7 @@ class DefaultSurveyReportingTemplateTableColumnModel extends ObjectTableColumnMo
     private static function get_default_columns()
     {
         $columns = array();
-       
+        
         $columns[] = new ObjectTableColumn(ReportingTemplateRegistration :: PROPERTY_APPLICATION);
         $columns[] = new ObjectTableColumn(ReportingTemplateRegistration :: PROPERTY_TEMPLATE);
         return $columns;
