@@ -1,4 +1,6 @@
 <?php
+namespace application\photo_gallery;
+
 require_once Path :: get_common_libraries_class_path() . 'html/action_bar/action_bar_search_form.class.php';
 
 abstract class PhotoGalleryPublicationRenderer

@@ -1,4 +1,5 @@
 <?php
+namespace application\photo_gallery;
 /**
  * $Id: photo_gallery_installer.class.php
  * @package application.lib.photo_gallery.install

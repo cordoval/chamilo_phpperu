@@ -1,4 +1,6 @@
 <?php
+namespace application\photo_gallery;
+
 /**
  * $Id: database_photo_gallery_data_manager.class.php 
  * @package application.lib.photo_gallery.data_manager

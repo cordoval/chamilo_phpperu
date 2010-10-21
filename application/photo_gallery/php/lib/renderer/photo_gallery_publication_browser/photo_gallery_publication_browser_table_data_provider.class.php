@@ -1,4 +1,6 @@
 <?php
+namespace application\photo_gallery;
+
 /**
  * Data provider for a photo_gallery browser table.
  *

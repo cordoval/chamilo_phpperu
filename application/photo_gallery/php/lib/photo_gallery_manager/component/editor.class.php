@@ -1,4 +1,6 @@
 <?php
+namespace application\photo_gallery;
+
 /**
  * $Id: editor.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.photo_gallery.photo_gallery_manager.component

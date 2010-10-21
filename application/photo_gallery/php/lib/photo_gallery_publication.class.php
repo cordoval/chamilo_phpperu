@@ -1,4 +1,6 @@
 <?php
+namespace application\photo_gallery;
+
 class PhotoGalleryPublication extends DataClass
 {
 	const CLASS_NAME = __CLASS__;

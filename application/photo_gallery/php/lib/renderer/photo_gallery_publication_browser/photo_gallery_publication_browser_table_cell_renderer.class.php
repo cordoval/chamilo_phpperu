@@ -1,4 +1,6 @@
 <?php
+namespace application\photo_gallery;
+
 
 /**
  * Cell renderer for the learning object browser table
