@@ -46,24 +46,26 @@ class ProfilerCategory extends PlatformCategory
         }
         else
         {
+            $location = ProfilerRights :: get_location_by_identifier_from_profiler_subtree($this->get_id(), ProfilerRights :: TYPE_CATEGORY);
+            
             $new_parent = $this->get_parent();
 
-            if ($parent == 0)
+            if ($new_parent == 0)
             {
                 $parent_id = ProfilerRights :: get_profiler_subtree_root_id();
             }
             else
             {
-                $parent_id = ProfilerRights :: get_location_id_by_identifier_from_profiler_subtree($parent, ProfilerRights :: TYPE_CATEGORY);
+                $parent_id = ProfilerRights :: get_location_id_by_identifier_from_profiler_subtree($new_parent, ProfilerRights :: TYPE_CATEGORY);
             }
 
-            return ProfilerRights :: create_location_in_profiler_subtree($this->get_name(), $this->get_id(), $parent_id, ProfilerRights :: TYPE_CATEGORY);
+            return $location->move($parent_id);
         }
     }
 
     function delete()
     {
-        $location = ProfilerRights :: get_location_by_identifier_from_profiler_subtree($this->get_id(), AssessmentRights :: TYPE_CATEGORY);
+        $location = ProfilerRights :: get_location_by_identifier_from_profiler_subtree($this->get_id(), ProfilerRights :: TYPE_CATEGORY);
     	if($location)
     	{
     		if(!$location->remove())

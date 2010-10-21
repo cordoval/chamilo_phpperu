@@ -32,7 +32,7 @@ class SurveyPublicationBrowserTable extends ObjectTable
             $action->add_form_action(new ObjectTableFormAction(SurveyManager :: ACTION_DELETE, Translation :: get('RemoveSelected'), true));
 //            $action->add_form_action(new ObjectTableFormAction(SurveyManager :: ACTION_EDIT_RIGHTS, Translation :: get('ManageRights'), false));
 //            $action->add_form_action(new ObjectTableFormAction(SurveyManager :: ACTION_MAIL_INVITEES, Translation :: get('InviteParticipants'), false));
-//            $action->add_form_action(new ObjectTableFormAction(SurveyManager :: ACTION_EXCEL_EXPORT, Translation :: get('ExportToExcel'), false));
+//            $action->add_form_action(new ObjectTableFormAction(SurveyManager :: ACTION_EXPORT, Translation :: get('ExportToExcel'), false));
         
         }
         

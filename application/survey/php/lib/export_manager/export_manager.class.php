@@ -3,7 +3,7 @@
 require_once Path :: get_application_path() . 'lib/survey/reporting_manager/component/publication_rel_reporting_template_table/table.class.php';
 require_once Path :: get_application_path() . 'lib/survey/reporting_manager/component/reporting_template_table/table.class.php';
 
-class SurveyReportingManager extends SubManager
+class SurveyExportManager extends SubManager
 {
     
     const PARAM_ACTION = 'action';
@@ -27,14 +27,14 @@ class SurveyReportingManager extends SubManager
     
     const DEFAULT_ACTION = self :: ACTION_BROWSE;
 
-    function SurveyReportingManager($survey_manager)
+    function SurveyExportManager($survey_manager)
     {
         parent :: __construct($survey_manager);
     }
 
     function get_application_component_path()
     {
-        return Path :: get_application_path() . 'lib/survey/reporting_manager/component/';
+        return Path :: get_application_path() . 'lib/survey/export_manager/component/';
     }
 
     //url

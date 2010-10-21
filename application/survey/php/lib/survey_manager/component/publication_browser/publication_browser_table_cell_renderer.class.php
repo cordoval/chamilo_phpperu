@@ -76,13 +76,7 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
             
             }
         }
-        //        else
-        //        {
-        //            $toolbar->add_item(new ToolbarItem(Translation :: get('SurveyPublished'), Theme :: get_common_image_path() . 'action_next_na.png', null, ToolbarItem :: DISPLAY_ICON));
-        //        
-        //        }
-        
-
+      
         if ($user->is_platform_admin() || $user->get_id() == $survey_publication->get_publisher())
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->browser->get_rights_editor_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
@@ -108,15 +102,10 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('InviteParticipants'), Theme :: get_common_image_path() . 'action_invite_users.png', $this->browser->get_mail_survey_participant_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
         }
-//        if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_REPORTING, $survey_publication->get_id(), SurveyRights :: TYPE_PUBLICATION, $user_id))
-//        {
-//            $toolbar->add_item(new ToolbarItem(Translation :: get('BrowseSurveyPages'), Theme :: get_common_image_path() . 'action_view_results.png', $this->browser->get_browse_survey_pages_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
-//            //        	$toolbar->add_item(new ToolbarItem(Translation :: get('ReportingFilter'), Theme :: get_common_image_path() . 'action_view_results.png', $this->browser->get_reporting_filter_survey_publication_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
-//        }
-//        if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_EXPORT_RESULT, $survey_publication->get_id(), SurveyRights :: TYPE_PUBLICATION, $user_id))
-//        {
-//            $toolbar->add_item(new ToolbarItem(Translation :: get('ExportToExcel'), Theme :: get_common_image_path() . 'export_excel.png', $this->browser->get_survey_publication_export_excel_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
-//        }
+        if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_EXPORT_RESULT, $survey_publication->get_id(), SurveyRights :: TYPE_PUBLICATION, $user_id))
+        {
+            $toolbar->add_item(new ToolbarItem(Translation :: get('ExportToExcel'), Theme :: get_common_image_path() . 'export_excel.png', $this->browser->get_survey_publication_export_excel_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
+        }
         
         return $toolbar->as_html();
     }

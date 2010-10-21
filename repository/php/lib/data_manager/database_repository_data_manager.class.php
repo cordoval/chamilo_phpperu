@@ -2070,11 +2070,11 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     
     function count_shared_content_objects(Condition $condition = null)
     {
-    	$query = $this->get_shared_objects_query();
+    	$query = $this->get_shared_objects_query(true);
     	return $this->count_result_set($query, ContentObject :: get_table_name(), $condition);
     }
 
-    private function get_shared_objects_query()
+    private function get_shared_objects_query($count = false)
     {
     	$content_object_table = $this->escape_table_name(ContentObject :: get_table_name());
     	$content_object_alias = $this->get_alias(ContentObject :: get_table_name());
@@ -2085,8 +2085,15 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     	$content_object_group_share_table = $this->escape_table_name(ContentObjectGroupShare :: get_table_name());
     	$content_object_group_share_alias = $this->get_alias(ContentObjectGroupShare :: get_table_name());
 
-    	$query = 'SELECT DISTINCT(' . $content_object_alias . '.id), ' . $content_object_alias . '.*, ' . $content_object_user_share_alias . '.right_id AS user_right, ' . $content_object_group_share_alias . '.right_id AS group_right';
-		$query .= ' FROM ' . $content_object_table . ' AS ' . $content_object_alias;
+    	if(!$count)
+    	{
+    	    $query = 'SELECT DISTINCT(' . $content_object_alias . '.id), ' . $content_object_alias . '.*, ' . $content_object_user_share_alias . '.right_id AS user_right, ' . $content_object_group_share_alias . '.right_id AS group_right';
+    	}
+    	else
+    	{
+    	    $query = 'SELECT COUNT(DISTINCT(' . $content_object_alias . '.id))';    
+    	}
+    	$query .= ' FROM ' . $content_object_table . ' AS ' . $content_object_alias;
         $query .= ' JOIN ' . $content_object_version_table . ' AS ' . $content_object_version_alias . ' ON '; 
         $query .=  $content_object_alias . '.' . ContentObject :: PROPERTY_ID . ' = ' . $content_object_version_alias . '.' . ContentObject :: PROPERTY_ID;
         $query .= ' LEFT JOIN ' . $content_object_user_share_table . '  AS ' . $content_object_user_share_alias . ' ON ';
