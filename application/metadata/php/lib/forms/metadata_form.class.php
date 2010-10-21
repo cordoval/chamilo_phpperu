@@ -1,6 +1,7 @@
 <?php
-require_once dirname(__FILE__) . '/../metadata_property_value.class.php';
-require_once dirname(__FILE__) . '/../metadata_property_attribute_value.class.php';
+namespace application\metadata;
+use common\libraries\FormValidator;
+
 /**
  * This class describes the form for a MetadataPropertyValue object.
  * @author Sven Vanpoucke
@@ -64,6 +65,9 @@ class MetadataForm extends FormValidator
         $group[] = $this->createElement('text', MetadataPropertyValue :: PROPERTY_VALUE, Translation :: get('PropertyValue'));
 
         $this->addGroup($group, '', Translation :: get('NewPropertyValue'));
+
+        //javascript
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'application/lib/metadata/javascript/set_metadata_defaults.js'));
 
         $this->build_metadata_property_values();
     }

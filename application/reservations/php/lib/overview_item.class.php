@@ -1,4 +1,9 @@
 <?php
+
+namespace reservations;
+
+use common\libraries\DataClass;
+use common\libraries\Utilities;
 /**
  * $Id: overview_item.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations
@@ -56,6 +61,6 @@ class OverviewItem extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
     }
 }

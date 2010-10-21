@@ -1,4 +1,10 @@
 <?php
+
+namespace reservations;
+
+use common\libraries\ObjectTableColumnModel;
+use common\libraries\StaticTableColumn;
+use common\libraries\ObjectTableColumn;
 /**
  * $Id: default_item_table_column_model.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations.tables.item_table

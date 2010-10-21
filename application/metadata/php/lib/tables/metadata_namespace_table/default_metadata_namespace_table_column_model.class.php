@@ -1,5 +1,6 @@
 <?php
-require_once dirname(__FILE__) . '/../../metadata_namespace.class.php';
+namespace application\metadata;
+use common\libraries\ObjectTableColumnModel;
 
 class DefaultMetadataNamespaceTableColumnModel extends ObjectTableColumnModel
 {

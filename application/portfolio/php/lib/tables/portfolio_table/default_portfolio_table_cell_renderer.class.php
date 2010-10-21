@@ -1,4 +1,7 @@
 <?php
+namespace application\portfolio;
+use common\libraries\ObjectTableCellRenderer;
+
 
 
 class DefaultPortfolioTableCellRenderer extends ObjectTableCellRenderer

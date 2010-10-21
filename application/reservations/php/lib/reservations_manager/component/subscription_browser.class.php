@@ -1,4 +1,14 @@
 <?php
+namespace reservations;
+
+use common\libraries\WebApplication;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
+use common\libraries\AndCondition;
+use common\libraries\EqualityCondition;
+use common\libraries\InequalityCondition;
+use common\libraries\OrCondition;
 /**
  * $Id: subscription_browser.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations.reservations_manager.component

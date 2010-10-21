@@ -1,4 +1,13 @@
 <?php
+
+namespace reservations;
+
+use common\libraries\Utilities;
+use common\libraries\OptionsMenuRenderer;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use common\libraries\TreeMenuRenderer;
+
 /**
  * $Id: reservations_menu.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations

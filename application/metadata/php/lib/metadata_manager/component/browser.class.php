@@ -1,8 +1,5 @@
 <?php
-/**
- * @package application.metadata.metadata.component
- */
-require_once dirname(__FILE__).'/../metadata_manager.class.php';
+namespace application\metadata;
 
 /**
  * Metadata component which allows the user to browse the metadata application

@@ -1,8 +1,9 @@
-<?php
+<?php 
+namespace application\metadata;
+use common\libraries\ObjectTableColumnModel;
 /**
  * @package metadata.tables.metadata_property_attribute_type_table
  */
-require_once dirname(__FILE__).'/../../metadata_property_attribute_type.class.php';
 
 /**
  * Default column model for the metadata_property_attribute_type table

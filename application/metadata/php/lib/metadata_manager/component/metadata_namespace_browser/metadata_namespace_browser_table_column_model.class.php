@@ -1,10 +1,6 @@
 <?php
-/**
- * $Id: user_browser_table_column_model.class.php 206 2009-11-13 13:08:01Z chellee $
- * @package application.portfolio.portfolio_manager.component.user_browser
- */
-require_once dirname(__FILE__) . '/../../../tables/metadata_namespace_table/default_metadata_namespace_table_column_model.class.php';
-require_once dirname(__FILE__).'/../../../metadata_namespace.class.php';
+namespace application\metadata;
+
 /**
  * Table column model for the user browser table
  */

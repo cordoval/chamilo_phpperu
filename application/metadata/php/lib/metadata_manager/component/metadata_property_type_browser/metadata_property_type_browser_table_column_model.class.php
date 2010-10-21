@@ -1,10 +1,5 @@
 <?php
-/**
- * @package metadata.tables.metadata_property_type_table
- */
-
-require_once dirname(__FILE__).'/../../../tables/metadata_property_type_table/default_metadata_property_type_table_column_model.class.php';
-require_once dirname(__FILE__).'/../../../metadata_property_type.class.php';
+namespace application\metadata;
 
 /**
  * Table column model for the metadata_property_type browser table

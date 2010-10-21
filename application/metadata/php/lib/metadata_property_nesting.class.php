@@ -1,4 +1,5 @@
-<?php 
+<?php namespace application\metadata;
+use common\libraries\DataClass;
 /**
  * metadata
  */

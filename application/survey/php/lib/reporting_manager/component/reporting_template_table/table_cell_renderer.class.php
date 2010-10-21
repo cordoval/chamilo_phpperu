@@ -1,4 +1,6 @@
-<?php
+<?php 
+namespace survey;
+use common\libraries\ObjectTableCellRenderer;
 
 require_once dirname(__FILE__) . '/table_column_model.class.php';
 require_once Path :: get_application_path() . 'lib/survey/tables/reporting_template_table/default_reporting_template_table_cell_renderer.class.php';

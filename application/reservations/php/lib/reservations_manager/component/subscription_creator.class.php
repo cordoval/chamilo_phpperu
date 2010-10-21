@@ -1,4 +1,12 @@
 <?php
+
+namespace reservations;
+
+use common\libraries\EqualityCondition;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
+use common\libraries\Display;
 /**
  * $Id: subscription_creator.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations.reservations_manager.component

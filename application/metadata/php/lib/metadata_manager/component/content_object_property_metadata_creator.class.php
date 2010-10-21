@@ -1,9 +1,5 @@
 <?php
-/**
- * @package application.metadata.metadata.component
- */
-require_once dirname(__FILE__).'/../metadata_manager.class.php';
-require_once dirname(__FILE__).'/../../forms/content_object_property_metadata_form.class.php';
+namespace application\metadata;
 
 /**
  * Component to create a new content_object_property_metadata object

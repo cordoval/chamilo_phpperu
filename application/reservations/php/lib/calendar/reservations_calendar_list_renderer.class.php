@@ -1,4 +1,12 @@
 <?php
+
+namespace reservations;
+
+use common\libraries\EqualityCondition;
+use common\libraries\InCondition;
+use common\libraries\PatternMatchCondition;
+use common\libraries\OrCondition;
+use common\libraries\AndCondition;
 /**
  * $Id: reservations_calendar_day_renderer.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.calendar

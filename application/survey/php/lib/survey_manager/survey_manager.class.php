@@ -1,10 +1,9 @@
-<?php
+<?php namespace survey;
 
 require_once Path :: get_application_path() . 'lib/survey/survey_data_manager.class.php';
 require_once Path :: get_application_path() . 'lib/survey/survey_rights.class.php';
 require_once Path :: get_application_path() . 'lib/survey/reporting_manager/reporting_manager.class.php';
 require_once Path :: get_application_path() . 'lib/survey/export_manager/export_manager.class.php';
-
 
 class SurveyManager extends WebApplication
 {
@@ -30,7 +29,6 @@ class SurveyManager extends WebApplication
     const ACTION_REPORTING_FILTER = 'reporting_filter';
     const ACTION_REPORTING = 'reporting';
     const ACTION_EXPORT = 'exporter';
-   
     
     const ACTION_SUBSCRIBE_USER = 'subscribe_user';
     const ACTION_SUBSCRIBE_GROUP = 'subscribe_group';
@@ -143,14 +141,14 @@ class SurveyManager extends WebApplication
 
     function get_survey_participant_publication_viewer_url($survey_participant_tracker)
     {
-        $survey_id = SurveyDataManager::get_instance()->retrieve_survey_publication($survey_participant_tracker->get_survey_publication_id())->get_content_object_id();
-    	return $this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_TAKE, SurveyManager :: PARAM_PUBLICATION_ID => $survey_participant_tracker->get_survey_publication_id(), SurveyManager :: PARAM_INVITEE_ID => $survey_participant_tracker->get_user_id(), self :: PARAM_SURVEY_ID => $survey_id));
+        $survey_id = SurveyDataManager :: get_instance()->retrieve_survey_publication($survey_participant_tracker->get_survey_publication_id())->get_content_object_id();
+        return $this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_TAKE, SurveyManager :: PARAM_PUBLICATION_ID => $survey_participant_tracker->get_survey_publication_id(), SurveyManager :: PARAM_INVITEE_ID => $survey_participant_tracker->get_user_id(), self :: PARAM_SURVEY_ID => $survey_id));
     }
 
     function get_survey_invitee_publication_viewer_url($publication_id, $user_id)
     {
-        $survey_id = SurveyDataManager::get_instance()->retrieve_survey_publication($publication_id)->get_content_object_id();
-    	return $this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_TAKE, SurveyManager :: PARAM_PUBLICATION_ID => $publication_id, SurveyManager :: PARAM_INVITEE_ID => $user_id, self :: PARAM_SURVEY_ID => $survey_id));
+        $survey_id = SurveyDataManager :: get_instance()->retrieve_survey_publication($publication_id)->get_content_object_id();
+        return $this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_TAKE, SurveyManager :: PARAM_PUBLICATION_ID => $publication_id, SurveyManager :: PARAM_INVITEE_ID => $user_id, self :: PARAM_SURVEY_ID => $survey_id));
     }
 
     function get_rights_editor_url($survey_publication)

@@ -1,4 +1,4 @@
-<?php
+<?php namespace survey;
 
 require_once Path :: get_application_path() . 'lib/survey/reporting_manager/component/browser.class.php';
 
@@ -26,7 +26,7 @@ class SurveyReportingManagerDeleterComponent extends SurveyReportingManager
                 foreach ($ids as $id)
                 {
                     $publication_rel_reporting_template_registration = SurveyDataManager :: get_instance()->retrieve_survey_publication_rel_reporting_template_registration_by_id($id);
-
+                    
                     if (! $publication_rel_reporting_template_registration->delete())
                     {
                         $failures ++;

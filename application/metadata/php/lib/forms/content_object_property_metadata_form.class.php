@@ -1,5 +1,6 @@
 <?php
-require_once dirname(__FILE__) . '/../content_object_property_metadata.class.php';
+namespace application\metadata;
+use common\libraries\FormValidator;
 
 /**
  * This class describes the form for a ContentObjectPropertyMetadata object.

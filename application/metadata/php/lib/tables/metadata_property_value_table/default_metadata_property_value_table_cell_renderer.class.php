@@ -1,7 +1,6 @@
-<?php
-/**
- * @package metadata.tables.metadata_property_value_table
- */
+<?php 
+namespace application\metadata;
+use common\libraries\ObjectTableCellRenderer;
 
 require_once dirname(__FILE__).'/../../metadata_property_value.class.php';
 

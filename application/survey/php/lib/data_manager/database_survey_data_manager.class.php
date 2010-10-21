@@ -1,9 +1,19 @@
-<?php
+<?php 
+namespace survey;
+use common\libraries\InequalityCondition;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use common\libraries\ConditionTranslator;
+use common\libraries\Database;
+use common\libraries\NotCondition;
+use common\libraries\InCondition;
 
-require_once dirname(__FILE__) . '/../survey_publication.class.php';
-require_once dirname(__FILE__) . '/../survey_publication_rel_reporting_template_registration.class.php';
+require_once WebApplication :: get_application_class_lib_path('survey') . 'survey_publication.class.php';
+require_once WebApplication :: get_application_class_lib_path('survey') . 'survey_publication_rel_reporting_template_registration.class.php';
 
 require_once dirname(__FILE__) . '/../survey_data_manager_interface.class.php';
+
+require_once 'MDB2.php';
 
 class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInterface
 {

@@ -1,4 +1,4 @@
-<?php
+<?php namespace survey;
 
 class SurveyManagerRightsEditorComponent extends SurveyManager implements DelegateComponent
 {

@@ -1,4 +1,4 @@
-<?php
+<?php namespace reservations;
 /**
  * $Id: subscription_browser_table_data_provider.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.reservations_manager.component.subscription_browser

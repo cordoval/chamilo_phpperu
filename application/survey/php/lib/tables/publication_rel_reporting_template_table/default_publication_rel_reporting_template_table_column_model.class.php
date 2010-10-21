@@ -1,4 +1,8 @@
-<?php
+<?php 
+namespace survey;
+
+use common\libraries\ObjectTableColumnModel;
+use common\libraries\ObjectTableColumn;
 
 /**
  * TODO: Add comment
@@ -24,10 +28,11 @@ class DefaultSurveyPublicationRelReportingTemplateTableColumnModel extends Objec
         
         $columns[] = new ObjectTableColumn(SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_NAME);
         $columns[] = new ObjectTableColumn(SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_DESCRIPTION);
-//        $columns[] = new ObjectTableColumn(SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_PUBLICATION_ID);
-//        $columns[] = new ObjectTableColumn(SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_REPORTING_TEMPLATE_REGISTRATION_ID);
-//        $columns[] = new ObjectTableColumn(ReportingTemplateRegistration :: PROPERTY_TEMPLATE);
+        //        $columns[] = new ObjectTableColumn(SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_PUBLICATION_ID);
+        //        $columns[] = new ObjectTableColumn(SurveyPublicationRelReportingTemplateRegistration :: PROPERTY_REPORTING_TEMPLATE_REGISTRATION_ID);
+        //        $columns[] = new ObjectTableColumn(ReportingTemplateRegistration :: PROPERTY_TEMPLATE);
         
+
         return $columns;
     }
 }

@@ -1,9 +1,6 @@
 <?php
-/**
- * @package metadata.tables.content_object_property_metadata_table
- */
-require_once dirname(__FILE__).'/../../content_object_property_metadata.class.php';
-
+namespace application\metadata;
+use common\libraries\ObjectTableColumnModel;
 /**
  * Default column model for the content_object_property_metadata table
  *

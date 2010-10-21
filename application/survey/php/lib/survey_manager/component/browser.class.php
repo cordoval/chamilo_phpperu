@@ -1,4 +1,4 @@
-<?php
+<?php namespace survey;
 require_once dirname(__FILE__) . '/../survey_manager.class.php';
 
 //require_once dirname(__FILE__) . '/../../survey_publication_category_menu.class.php';
@@ -12,12 +12,12 @@ class SurveyManagerBrowserComponent extends SurveyManager
     {
         
         $this->action_bar = $this->get_action_bar();
-  
+        
         $this->display_header();
         
         echo $this->action_bar->as_html();
         echo '<div id="action_bar_browser">';
-
+        
         echo $this->get_tables();
         echo '</div>';
         echo '</div>';
@@ -58,31 +58,28 @@ class SurveyManagerBrowserComponent extends SurveyManager
         $action_bar->set_search_url($this->get_url());
         
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-            
+        
         if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_PUBLISH, SurveyRights :: LOCATION_BROWSER, SurveyRights :: TYPE_COMPONENT, $this->get_user_id()))
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_create_survey_publication_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
         
-       
-
         return $action_bar;
     }
 
     function get_condition($type)
     {
-
-    	$query = $this->action_bar->get_query();
+        
+        $query = $this->action_bar->get_query();
         
         $user = $this->get_user();
-               
+        
         $publication_alias = SurveyPublication :: get_table_name();
-      
+        
         $conditions = array();
         
         $conditions[] = new EqualityCondition(SurveyPublication :: PROPERTY_TYPE, $type, $publication_alias);
-      
-
+        
         if (isset($query) && $query != '')
         {
             
@@ -100,28 +97,26 @@ class SurveyManagerBrowserComponent extends SurveyManager
         }
         else
         {
-                        
-//            $dates = array();
-//            $interval[] = new InequalityCondition(SurveyPublication :: PROPERTY_FROM_DATE, InequalityCondition :: LESS_THAN_OR_EQUAL, time(), $publication_alias);
-//            $interval[] = new InequalityCondition(SurveyPublication :: PROPERTY_TO_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, time(), $publication_alias);
-//            $dates[] = new AndCondition($interval);
-//            $dates[] = new AndCondition(array(new EqualityCondition(SurveyPublication :: PROPERTY_FROM_DATE, 0, $publication_alias), new EqualityCondition(SurveyPublication :: PROPERTY_TO_DATE, 0, $publication_alias)));
-//            $dates[] = new EqualityCondition(SurveyPublication :: PROPERTY_PUBLISHER, $this->get_user_id(), $publication_alias);
-//            $conditions[] = new OrCondition($dates);
-//            $conditions[] = new EqualityCondition(SurveyPublication :: PROPERTY_PUBLISHER, $this->get_user_id(), $publication_alias);
             
-        	 $user_rights_location_alias = RightsDataManager :: get_instance()->get_alias(UserRightLocation :: get_table_name());
-        	
-        	$conditions[] =  new EqualityCondition(UserRightLocation :: PROPERTY_USER_ID, $user->get_id(), $user_rights_location_alias, true);
-        	
+            //            $dates = array();
+            //            $interval[] = new InequalityCondition(SurveyPublication :: PROPERTY_FROM_DATE, InequalityCondition :: LESS_THAN_OR_EQUAL, time(), $publication_alias);
+            //            $interval[] = new InequalityCondition(SurveyPublication :: PROPERTY_TO_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, time(), $publication_alias);
+            //            $dates[] = new AndCondition($interval);
+            //            $dates[] = new AndCondition(array(new EqualityCondition(SurveyPublication :: PROPERTY_FROM_DATE, 0, $publication_alias), new EqualityCondition(SurveyPublication :: PROPERTY_TO_DATE, 0, $publication_alias)));
+            //            $dates[] = new EqualityCondition(SurveyPublication :: PROPERTY_PUBLISHER, $this->get_user_id(), $publication_alias);
+            //            $conditions[] = new OrCondition($dates);
+            //            $conditions[] = new EqualityCondition(SurveyPublication :: PROPERTY_PUBLISHER, $this->get_user_id(), $publication_alias);
+            
+
+            $user_rights_location_alias = RightsDataManager :: get_instance()->get_alias(UserRightLocation :: get_table_name());
+            
+            $conditions[] = new EqualityCondition(UserRightLocation :: PROPERTY_USER_ID, $user->get_id(), $user_rights_location_alias, true);
+            
             return new AndCondition($conditions);
-			
-        	
+        
         }
     
     }
-
-   
 
 }
 ?>

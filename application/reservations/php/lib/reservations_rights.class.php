@@ -1,4 +1,9 @@
-<?php
+<?php 
+
+namespace reservations;
+
+use rights\RightsUtilities;
+
 /**
  * $Id: reservations_rights.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations

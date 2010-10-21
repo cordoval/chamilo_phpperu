@@ -1,10 +1,15 @@
 <?php
-/**
- * $Id: portfolio_menu.class.php 206 2009-11-13 13:08:01Z chellee $
- * @package application.portfolio.portfolio_manager.component
- */
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
+namespace application\portfolio;
+use HTML_Menu;
+use HTML_Menu_ArrayRenderer;
+use user\UserDataManager;
+use repository\RepositoryDataManager;
+use common\libraries\EqualityCondition;
+use repository\ComplexContentObjectItem;
+use common\libraries\Translation;
+use common\libraries\Utilities;
+
+
 
 /**
  * This class provides a navigation menu to allow a user to browse through portfolio publications

@@ -1,4 +1,5 @@
-<?php
+<?php 
+namespace application\metadata;
 /**
  *	This is a skeleton for a data manager for the Metadata Application.
  *	Data managers must extend this class and implement its abstract methods.

@@ -1,11 +1,5 @@
 <?php
-/**
- * @package metadata.tables.metadata_property_type_table
- */
-require_once dirname(__FILE__).'/metadata_property_type_browser_table_column_model.class.php';
-require_once dirname(__FILE__).'/../../../tables/metadata_property_type_table/default_metadata_property_type_table_cell_renderer.class.php';
-require_once dirname(__FILE__).'/../../../metadata_property_type.class.php';
-require_once dirname(__FILE__).'/../../metadata_manager.class.php';
+namespace application\metadata;
 
 /**
  * Cell rendere for the learning object browser table
@@ -71,6 +65,13 @@ class MetadataPropertyTypeBrowserTableCellRenderer extends DefaultMetadataProper
         		Translation :: get('Associations'),
         		Theme :: get_common_image_path() . 'action_link.png',
         		$this->browser->get_edit_associations_url($metadata_property_type),
+        		ToolbarItem :: DISPLAY_ICON
+        ));
+
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('Defaults'),
+        		Theme :: get_common_image_path() . 'action_link.png',
+        		$this->browser->get_browse_metadata_default_values_url($metadata_property_type),
         		ToolbarItem :: DISPLAY_ICON
         ));
 

@@ -1,13 +1,7 @@
 <?php
-/**
- * @package metadata.tables.metadata_property_type_table
- */
-/**
- * Data provider for a metadata_property_type table
- *
- * @author Sven Vanpoucke
- * @author Jens Vanderheyden
- */
+namespace application\metadata;
+use common\libraries\ObjectTableDataProvider;
+
 class MetadataPropertyTypeBrowserTableDataProvider extends ObjectTableDataProvider
 {
   /**

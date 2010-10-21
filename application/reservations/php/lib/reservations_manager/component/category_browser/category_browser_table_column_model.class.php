@@ -1,4 +1,4 @@
-<?php
+<?php namespace reservations;
 /**
  * $Id: category_browser_table_column_model.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.reservations_manager.component.category_browser

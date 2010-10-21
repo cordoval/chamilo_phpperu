@@ -1,4 +1,5 @@
-<?php
+<?php 
+namespace application\metadata;
 Interface MetadataDataManagerInterface
 {
     function create_storage_unit($name, $properties, $indexes);
@@ -114,5 +115,17 @@ Interface MetadataDataManagerInterface
     function retrieve_metadata_property_nesting($id);
 
     function retrieve_metadata_property_nestings($condition = null, $offset = null, $max_objects = null, $order_by = null);
+
+    function retrieve_metadata_default_values($condition = null, $offset = null, $max_objects = null, $order_by = null);
+
+    function count_metadata_default_values($condition = null);
+
+    function retrieve_metadata_default_value($id);
+
+    function create_metadata_default_value(MetadataDefaultValue $metadata_default_value);
+
+    function update_metadata_default_value(MetadataDefaultValue $metadata_default_value);
+
+    function delete_metadata_default_value(MetadataDefaultValue $metadata_default_value);
 }
 ?>

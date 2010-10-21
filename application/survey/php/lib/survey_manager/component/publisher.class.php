@@ -1,4 +1,4 @@
-<?php
+<?php namespace survey;
 
 require_once dirname(__FILE__) . '/../survey_manager.class.php';
 
@@ -75,7 +75,7 @@ class SurveyManagerPublisherComponent extends SurveyManager implements RepoViewe
                     $tab = $form->get_publication_type();
                 }
                 
-                $this->redirect($message, (! $succes ? true : false), array(Application :: PARAM_ACTION => self  :: ACTION_BROWSE, DynamicTabsRenderer:: PARAM_SELECTED_TAB => $tab));
+                $this->redirect($message, (! $succes ? true : false), array(Application :: PARAM_ACTION => self :: ACTION_BROWSE, DynamicTabsRenderer :: PARAM_SELECTED_TAB => $tab));
             
             }
             else

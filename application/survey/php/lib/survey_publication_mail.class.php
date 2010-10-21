@@ -1,4 +1,9 @@
-<?php
+<?php 
+namespace survey;
+
+use common\libraries\Utilities;
+use common\libraries\Path;
+use rights\RightsUtilities;
 
 class SurveyPublicationMail extends DataClass
 {
@@ -23,7 +28,7 @@ class SurveyPublicationMail extends DataClass
     
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_FROM_ADDRES,self :: PROPERTY_FROM_ADDRES_NAME ,self ::PROPERTY_REPLY_ADDRES, self :: PROPERTY_REPLY_ADDRES_NAME ,self :: PROPERTY_MAIL_CONTENT, self :: PROPERTY_MAIL_HEADER, self :: PROPERTY_SENDER_USER_ID));
+        return parent :: get_default_property_names(array(self :: PROPERTY_FROM_ADDRES, self :: PROPERTY_FROM_ADDRES_NAME, self :: PROPERTY_REPLY_ADDRES, self :: PROPERTY_REPLY_ADDRES_NAME, self :: PROPERTY_MAIL_CONTENT, self :: PROPERTY_MAIL_HEADER, self :: PROPERTY_SENDER_USER_ID));
     }
 
     function get_data_manager()
@@ -84,8 +89,8 @@ class SurveyPublicationMail extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_FROM_ADDRES, $from_address);
     }
-	
-	function get_from_address_name()
+
+    function get_from_address_name()
     {
         return $this->get_default_property(self :: PROPERTY_FROM_ADDRES_NAME);
     }
@@ -98,9 +103,8 @@ class SurveyPublicationMail extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_FROM_ADDRES_NAME, $from_address_name);
     }
-    
-    
-/**
+
+    /**
      * Returns the reply_address of this SurveyPublicationMail.
      * @return the reply_address.
      */
@@ -118,7 +122,7 @@ class SurveyPublicationMail extends DataClass
         $this->set_default_property(self :: PROPERTY_REPLY_ADDRES, $reply_address);
     }
 
-/**
+    /**
      * Returns the reply_address of this SurveyPublicationMail.
      * @return the reply_address_name.
      */
@@ -135,9 +139,7 @@ class SurveyPublicationMail extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_REPLY_ADDRES_NAME, $reply_address_name);
     }
-    
-    
-    
+
     /**
      * Returns the sender_user_id of this SurveyPublicationMail.
      * @return the sender_user_id.

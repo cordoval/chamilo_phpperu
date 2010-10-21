@@ -1,7 +1,10 @@
-<?php
+<?php 
+namespace survey;
+
+use common\libraries\ObjectTableColumnModel;
+use common\libraries\ObjectTableColumn;
 
 require_once dirname(__FILE__) . '/../../survey_publication.class.php';
-
 
 class DefaultParticipantTableColumnModel extends ObjectTableColumnModel
 {

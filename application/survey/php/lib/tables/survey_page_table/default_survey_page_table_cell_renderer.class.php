@@ -1,4 +1,7 @@
-<?php
+<?php 
+namespace survey;
+
+use common\libraries\ObjectTableCellRenderer;
 
 class DefaultSurveyPageTableCellRenderer extends ObjectTableCellRenderer
 {
@@ -19,14 +22,14 @@ class DefaultSurveyPageTableCellRenderer extends ObjectTableCellRenderer
      */
     function render_cell($column, $survey_page)
     {
-  	    	
+        
         switch ($column->get_name())
         {
             case ContentObject :: PROPERTY_TITLE :
-                 return $survey_page->get_title();
+                return $survey_page->get_title();
             case ContentObject :: PROPERTY_DESCRIPTION :
                 $description = Utilities :: truncate_string($survey_page->get_description(), 200);
-                 return $description;
+                return $description;
             default :
                 return '&nbsp;';
         }

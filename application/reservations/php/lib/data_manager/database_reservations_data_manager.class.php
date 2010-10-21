@@ -1,4 +1,12 @@
 <?php
+
+namespace reservations;
+
+use common\libraries\Database;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use common\libraries\ConditionTranslator;
+use user\UserDataManager;
 /**
  * $Id: database_reservations_data_manager.class.php 230 2009-11-16 09:29:45Z vanpouckesven $
  * @package application.reservations.data_manager

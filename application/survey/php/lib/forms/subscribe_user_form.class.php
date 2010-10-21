@@ -1,4 +1,13 @@
-<?php
+<?php 
+namespace survey;
+
+use common\libraries\Utilities;
+use common\libraries\Path;
+use common\libraries\Translation;
+use common\libraries\FormValidator;
+
+use rights\RightsUtilities;
+use rights\RightsDataManager;
 
 class SurveySubscribeUserForm extends FormValidator
 {
@@ -63,7 +72,7 @@ class SurveySubscribeUserForm extends FormValidator
         $publication_id = $this->publication->get_id();
         
         $values = $this->exportValues();
-               
+        
         $succes = false;
         
         $location_id = SurveyRights :: get_location_id_by_identifier_from_surveys_subtree($publication_id, SurveyRights :: TYPE_PUBLICATION);
@@ -81,7 +90,7 @@ class SurveySubscribeUserForm extends FormValidator
                 {
                     if ($value == 1)
                     {
-                       $succes = RightsUtilities :: set_user_right_location_value($right, $user_id, $location_id, 1);
+                        $succes = RightsUtilities :: set_user_right_location_value($right, $user_id, $location_id, 1);
                     }
                 }
             
@@ -99,7 +108,7 @@ class SurveySubscribeUserForm extends FormValidator
                     {
                         if ($value == 1)
                         {
-                           $succes = RightsUtilities :: set_user_right_location_value($right, $user_id, $location_id, 1);
+                            $succes = RightsUtilities :: set_user_right_location_value($right, $user_id, $location_id, 1);
                         }
                     }
                 }

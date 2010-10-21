@@ -1,5 +1,15 @@
 <?php
 
+namespace reservations;
+
+use common\libraries\Configuration;
+use common\libraries\WebApplication;
+use common\libraries\AndCondition;
+use common\libraries\OrCondition;
+use common\libraries\NotCondition;
+use common\libraries\EqualityCondition;
+use common\libraries\InequalityCondition;
+
 /**
  * $Id: reservations_data_manager.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations
@@ -58,18 +68,18 @@ class ReservationsDataManager
         $or_conditions = array();
 
         $and_conditions = array();
-        $and_conditions[] = new InEqualityCondition(Reservation :: PROPERTY_START_DATE, InEqualityCondition :: GREATER_THAN, $startdate);
-        $and_conditions[] = new InEqualityCondition(Reservation :: PROPERTY_START_DATE, InEqualityCondition :: LESS_THAN, $enddate);
+        $and_conditions[] = new InequalityCondition(Reservation :: PROPERTY_START_DATE, InequalityCondition :: GREATER_THAN, $startdate);
+        $and_conditions[] = new InequalityCondition(Reservation :: PROPERTY_START_DATE, InequalityCondition :: LESS_THAN, $enddate);
         $or_conditions[] = new AndCondition($and_conditions);
 
         $and_conditions = array();
-        $and_conditions[] = new InEqualityCondition(Reservation :: PROPERTY_STOP_DATE, InEqualityCondition :: GREATER_THAN, $startdate);
-        $and_conditions[] = new InEqualityCondition(Reservation :: PROPERTY_STOP_DATE, InEqualityCondition :: LESS_THAN, $enddate);
+        $and_conditions[] = new InequalityCondition(Reservation :: PROPERTY_STOP_DATE, InequalityCondition :: GREATER_THAN, $startdate);
+        $and_conditions[] = new InequalityCondition(Reservation :: PROPERTY_STOP_DATE, InequalityCondition :: LESS_THAN, $enddate);
         $or_conditions[] = new AndCondition($and_conditions);
 
         $and_conditions = array();
-        $and_conditions[] = new InEqualityCondition(Reservation :: PROPERTY_START_DATE, InEqualityCondition :: LESS_THAN_OR_EQUAL, $startdate);
-        $and_conditions[] = new InEqualityCondition(Reservation :: PROPERTY_STOP_DATE, InEqualityCondition :: GREATER_THAN_OR_EQUAL, $enddate);
+        $and_conditions[] = new InequalityCondition(Reservation :: PROPERTY_START_DATE, InequalityCondition :: LESS_THAN_OR_EQUAL, $startdate);
+        $and_conditions[] = new InequalityCondition(Reservation :: PROPERTY_STOP_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, $enddate);
         $or_conditions[] = new AndCondition($and_conditions);
 
         $or_condition = new OrCondition($or_conditions);
@@ -94,18 +104,18 @@ class ReservationsDataManager
         $or_conditions = array();
 
         $and_conditions = array();
-        $and_conditions[] = new InEqualityCondition(Subscription :: PROPERTY_START_TIME, InEqualityCondition :: GREATER_THAN, $starttime);
-        $and_conditions[] = new InEqualityCondition(Subscription :: PROPERTY_START_TIME, InEqualityCondition :: LESS_THAN, $endtime);
+        $and_conditions[] = new InequalityCondition(Subscription :: PROPERTY_START_TIME, InequalityCondition :: GREATER_THAN, $starttime);
+        $and_conditions[] = new InequalityCondition(Subscription :: PROPERTY_START_TIME, InequalityCondition :: LESS_THAN, $endtime);
         $or_conditions[] = new AndCondition($and_conditions);
 
         $and_conditions = array();
-        $and_conditions[] = new InEqualityCondition(Subscription :: PROPERTY_STOP_TIME, InEqualityCondition :: GREATER_THAN, $starttime);
-        $and_conditions[] = new InEqualityCondition(Subscription :: PROPERTY_STOP_TIME, InEqualityCondition :: LESS_THAN, $endtime);
+        $and_conditions[] = new InequalityCondition(Subscription :: PROPERTY_STOP_TIME, InequalityCondition :: GREATER_THAN, $starttime);
+        $and_conditions[] = new InequalityCondition(Subscription :: PROPERTY_STOP_TIME, InequalityCondition :: LESS_THAN, $endtime);
         $or_conditions[] = new AndCondition($and_conditions);
 
         $and_conditions = array();
-        $and_conditions[] = new InEqualityCondition(Subscription :: PROPERTY_START_TIME, InEqualityCondition :: LESS_THAN_OR_EQUAL, $starttime);
-        $and_conditions[] = new InEqualityCondition(Subscription :: PROPERTY_STOP_TIME, InEqualityCondition :: GREATER_THAN_OR_EQUAL, $endtime);
+        $and_conditions[] = new InequalityCondition(Subscription :: PROPERTY_START_TIME, InequalityCondition :: LESS_THAN_OR_EQUAL, $starttime);
+        $and_conditions[] = new InequalityCondition(Subscription :: PROPERTY_STOP_TIME, InequalityCondition :: GREATER_THAN_OR_EQUAL, $endtime);
         $or_conditions[] = new AndCondition($and_conditions);
 
         $or_condition = new OrCondition($or_conditions);

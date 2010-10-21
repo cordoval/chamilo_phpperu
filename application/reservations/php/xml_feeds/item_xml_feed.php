@@ -1,4 +1,14 @@
-<?php
+<?php 
+
+namespace reservations;
+
+use common\libraries\WebApplication;
+use common\libraries\Authentication;
+use common\libraries\EqualityCondition;
+use common\libraries\PatternMatchCondition;
+use common\libraries\NotCondition;
+use common\libraries\AndCondition;
+
 /**
  * $Id: item_xml_feed.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations.xml_feeds

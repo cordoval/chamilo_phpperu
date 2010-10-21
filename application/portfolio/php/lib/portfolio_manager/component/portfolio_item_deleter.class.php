@@ -1,10 +1,9 @@
 <?php
-/**
- * $Id: portfolio_item_deleter.class.php 206 2009-11-13 13:08:01Z chellee $
- * @package application.portfolio.portfolio_manager.component
- */
-require_once dirname(__FILE__) . '/../portfolio_manager.class.php';
-require_once dirname(__FILE__) . '/../../rights/portfolio_rights.class.php';
+namespace application\portfolio;
+use common\libraries\Translation;
+use repository\RepositoryDataManager;
+
+
 
 /**
  * Component to delete portfolio_publications objects

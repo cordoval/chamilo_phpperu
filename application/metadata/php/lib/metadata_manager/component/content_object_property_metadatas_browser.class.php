@@ -1,11 +1,5 @@
 <?php
-
-/**
- * @package application.metadata.metadata.component
- */
-
-require_once dirname(__FILE__) . '/../metadata_manager.class.php';
-require_once dirname(__FILE__) . '/content_object_property_metadata_browser/content_object_property_metadata_browser_table.class.php';
+namespace application\metadata;
 
 /**
  * metadata component which allows the user to browse his content_object_property_metadatas

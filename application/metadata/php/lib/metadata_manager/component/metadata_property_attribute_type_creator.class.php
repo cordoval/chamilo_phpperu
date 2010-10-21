@@ -1,9 +1,5 @@
-<?php
-/**
- * @package application.metadata.metadata.component
- */
-require_once dirname(__FILE__).'/../metadata_manager.class.php';
-require_once dirname(__FILE__).'/../../forms/metadata_property_attribute_type_form.class.php';
+<?php 
+namespace application\metadata;
 
 /**
  * Component to create a new metadata_property_attribute_type object

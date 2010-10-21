@@ -1,10 +1,5 @@
 <?php
-/**
- * @package metadata.tables.content_object_property_metadata_table
- */
-
-require_once dirname(__FILE__).'/../../../tables/content_object_property_metadata_table/default_content_object_property_metadata_table_column_model.class.php';
-require_once dirname(__FILE__).'/../../../content_object_property_metadata.class.php';
+namespace application\metadata;
 
 /**
  * Table column model for the content_object_property_metadata browser table

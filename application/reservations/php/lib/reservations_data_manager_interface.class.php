@@ -1,4 +1,7 @@
 <?php
+
+namespace reservations;
+
 interface ReservationsDataManagerInterface
 {
 

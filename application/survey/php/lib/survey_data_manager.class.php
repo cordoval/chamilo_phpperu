@@ -1,11 +1,12 @@
-<?php
-/**
- * $Id: survey_data_manager.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.survey
- *
- * This is a skeleton for a data manager for the Survey Application.
- * Data managers must extend this class and implement its abstract methods.
- */
+<?php 
+namespace survey;
+
+use common\libraries\Utilities;
+use common\libraries\Configuration;
+use common\libraries\EqualityCondition;
+use common\libraries\DataManagerInterface;
+
+
 class SurveyDataManager
 {
     /**
