@@ -1,4 +1,14 @@
 <?php
+
+namespace reservations;
+
+use common\libraries\FormValidator;
+use common\libraries\EqualityCondition;
+use common\libraries\NotCondition;
+use common\libraries\AndCondition;
+use common\libraries\Translation;
+use user\UserDataManager;
+use group\GroupDataManager;
 /**
  * $Id: category_quota_box_form.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.forms

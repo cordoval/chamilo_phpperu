@@ -1,4 +1,16 @@
 <?php
+
+namespace reservations;
+
+use common\libraries\WebApplication;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
+use common\libraries\EqualityCondition;
+use common\libraries\ActionBarRenderer;
+use user\UserDataManager;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
 /**
  * $Id: subscription_user_browser.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations.reservations_manager.component

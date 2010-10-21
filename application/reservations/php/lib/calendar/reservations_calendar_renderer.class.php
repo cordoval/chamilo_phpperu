@@ -1,4 +1,8 @@
 <?php
+
+namespace reservations;
+
+use common\libraries\Translation;
 /**
  * $Id: reservations_calendar_renderer.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.calendar

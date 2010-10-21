@@ -1,4 +1,8 @@
-<?php
+<?php 
+
+namespace reservations;
+
+use common\libraries\Utilities;
 
 /**
  * $Id: reservations_changes_tracker.class.php 219 2009-11-13 14:28:13Z chellee $

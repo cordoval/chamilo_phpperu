@@ -1,4 +1,11 @@
 <?php
+
+namespace reservations;
+
+use common\libraries\Display;
+use common\libraries\Translation;
+use tracking\Event;
+use tracking\ChangesTracker;
 /**
  * $Id: quota_deleter.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations.reservations_manager.component

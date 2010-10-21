@@ -1,4 +1,11 @@
-<?php
+<?php 
+
+namespace reservations;
+
+use common\libraries\FormValidator;
+use common\libraries\Translation;
+use tracking\Event;
+use tracking\ChangesTracker;
 /**
  * $Id: item_form.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.forms

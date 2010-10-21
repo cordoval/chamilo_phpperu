@@ -1,4 +1,15 @@
 <?php
+
+namespace reservations;
+
+use common\libraries\FormValidator;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use common\libraries\DatetimeUtilities;
+use common\libraries\Translation;
+use common\libraries\Utilities;
+use tracking\Event;
+use tracking\ChangesTracker;
 /**
  * $Id: subscription_form.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.forms

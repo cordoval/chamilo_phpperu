@@ -1,4 +1,10 @@
 <?php
+
+namespace reservations;
+
+use common\libraries\EqualityCondition;
+use tracking\Event;
+use common\libraries\Translation;
 /**
  * $Id: subscription_deleter.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations.reservations_manager.component
