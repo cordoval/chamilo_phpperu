@@ -1,6 +1,6 @@
 <?php
 
-namespace PersonalCalendar;
+namespace personal_calendar;
 
 use common\libraries\Request;
 use common\libraries\Translation;

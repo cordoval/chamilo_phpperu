@@ -13,6 +13,7 @@ use reporting\ReportingTemplateRegistration;
 use reporting\Reporting;
 use webservice\WebserviceCategory;
 use webservice\WebserviceRegistration;
+
 /**
  * $Id: installer.class.php 198 2009-11-13 12:20:22Z vanpouckesven $
  * @package common
@@ -784,6 +785,7 @@ abstract class Installer
     static function factory($application, $values)
     {
         $class = Application :: determine_namespace($application) . '\\' . Application :: application_to_class($application) . 'Installer';
+        dump($class);
         $base_path = (WebApplication :: is_application($application) ? WebApplication :: get_application_class_path($application)  : CoreApplication :: get_application_class_path($application));
         
         require_once ($base_path . 'install/' . $application . '_installer.class.php');

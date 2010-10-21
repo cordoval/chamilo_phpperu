@@ -1,5 +1,5 @@
 <?php
-namespace PersonalCalendar;
+namespace personal_calendar;
 
 use common\libraries\Request;
 use repository\RepositoryDataManager;

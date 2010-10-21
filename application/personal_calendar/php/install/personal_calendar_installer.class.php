@@ -1,8 +1,9 @@
 <?php
 
-namespace PersonalCalendar;
+namespace personal_calendar;
 
 use common\libraries\Webapplication;
+use common\libraries\Installer;
 
 /**
  * $Id: personal_calendar_installer.class.php 201 2009-11-13 12:34:51Z chellee $
