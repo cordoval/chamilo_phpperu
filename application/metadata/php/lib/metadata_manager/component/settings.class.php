@@ -1,4 +1,5 @@
-<?php
+<?php 
+namespace application\metadata;
 class MetadataManagerSettingscomponent extends MetadataManager
 {
     function run()

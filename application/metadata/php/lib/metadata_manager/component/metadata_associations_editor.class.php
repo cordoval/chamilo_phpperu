@@ -1,9 +1,5 @@
 <?php
-/**
- * @package application.metadata.metadata.component
- */
-require_once dirname(__FILE__).'/../metadata_manager.class.php';
-require_once dirname(__FILE__).'/../../forms/metadata_associations_form.class.php';
+namespace application\metadata;
 
 /**
  * Component to edit an existing metadata_attribute_nesting object

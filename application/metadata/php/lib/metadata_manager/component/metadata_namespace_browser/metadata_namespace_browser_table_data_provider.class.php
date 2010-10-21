@@ -1,8 +1,6 @@
 <?php
-/**
- * $Id: user_browser_table_data_provider.class.php 206 2009-11-13 13:08:01Z chellee $
- * @package application.portfolio.portfolio_manager.component.user_browser
- */
+namespace application\metadata;
+use common\libraries\ObjectTableDataProvider;
 
 /**
  * Data provider for a user browser table.

@@ -1,4 +1,6 @@
 <?php 
+namespace application\metadata;
+use common\libraries\DataClass;
 /**
  * This class describes a MetadataPropertyType data object
  * @author Jens Vanderheyden
@@ -148,7 +150,9 @@ class MetadataPropertyType extends DataClass
             return false;
         }
     }
-
+    /*
+     * @return string ns_prefix + name
+     */
     function render_name()
     {
         $pref = $this->get_ns_prefix();

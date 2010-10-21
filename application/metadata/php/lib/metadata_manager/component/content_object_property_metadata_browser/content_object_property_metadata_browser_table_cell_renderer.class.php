@@ -1,11 +1,5 @@
 <?php
-/**
- * @package metadata.tables.content_object_property_metadata_table
- */
-require_once dirname(__FILE__).'/content_object_property_metadata_browser_table_column_model.class.php';
-require_once dirname(__FILE__).'/../../../tables/content_object_property_metadata_table/default_content_object_property_metadata_table_cell_renderer.class.php';
-require_once dirname(__FILE__).'/../../../content_object_property_metadata.class.php';
-require_once dirname(__FILE__).'/../../metadata_manager.class.php';
+namespace application\metadata;
 
 /**
  * Cell rendere for the learning object browser table

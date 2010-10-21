@@ -1,10 +1,6 @@
-<?php
-/**
- * @package application.lib.metadata.metadata_manager
- */
-require_once dirname(__FILE__).'/../metadata_data_manager.class.php';
-
-
+<?php 
+namespace application\metadata;
+use common\libraries\WebApplication;
 /**
  * A metadata manager
  *
@@ -15,55 +11,53 @@ require_once dirname(__FILE__).'/../metadata_data_manager.class.php';
     const APPLICATION_NAME = 'metadata';
 
     const PARAM_CONTENT_OBJECT = 'content_object';
-
     const PARAM_METADATA_ATTRIBUTE_NESTING = 'metadata_attribute_nesting';
+    const PARAM_METADATA_DEFAULT_VALUE = 'metadata_default_value';
+    const PARAM_METADATA_PROPERTY_NESTING = 'metadata_property_nesting';
+    const PARAM_METADATA_NAMESPACE = 'metadata_namespace';
+    const PARAM_CONTENT_OBJECT_PROPERTY_METADATA = 'content_object_property_metadata';
+    const PARAM_METADATA_PROPERTY_TYPE = 'metadata_property_type';
+    const PARAM_METADATA_PROPERTY_VALUE = 'metadata_property_value';
+    const PARAM_METADATA_PROPERTY_ATTRIBUTE_TYPE = 'metadata_property_attribute_type';
+    const PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE = 'metadata_property_attribute_value';
 
     const ACTION_EDIT_ASSOCIATIONS = 'metadata_associations_editor';
-
-    const PARAM_METADATA_PROPERTY_NESTING = 'metadata_property_nesting';
-
-    const PARAM_METADATA_NAMESPACE = 'metadata_namespace';
 
     const ACTION_DELETE_METADATA_NAMESPACE = 'metadata_namespace_deleter';
     const ACTION_EDIT_METADATA_NAMESPACE = 'metadata_namespace_updater';
     const ACTION_CREATE_METADATA_NAMESPACE = 'metadata_namespace_creator';
     const ACTION_BROWSE_METADATA_NAMESPACES = 'metadata_namespaces_browser';
 
-    const PARAM_CONTENT_OBJECT_PROPERTY_METADATA = 'content_object_property_metadata';
-
     const ACTION_DELETE_CONTENT_OBJECT_PROPERTY_METADATA = 'content_object_property_metadata_deleter';
     const ACTION_EDIT_CONTENT_OBJECT_PROPERTY_METADATA = 'content_object_property_metadata_updater';
     const ACTION_CREATE_CONTENT_OBJECT_PROPERTY_METADATA = 'content_object_property_metadata_creator';
     const ACTION_BROWSE_CONTENT_OBJECT_PROPERTY_METADATAS = 'content_object_property_metadatas_browser';
-
-    const PARAM_METADATA_PROPERTY_TYPE = 'metadata_property_type';
 
     const ACTION_DELETE_METADATA_PROPERTY_TYPE = 'metadata_property_type_deleter';
     const ACTION_EDIT_METADATA_PROPERTY_TYPE = 'metadata_property_type_updater';
     const ACTION_CREATE_METADATA_PROPERTY_TYPE = 'metadata_property_type_creator';
     const ACTION_BROWSE_METADATA_PROPERTY_TYPES = 'metadata_property_types_browser';
 
-    const PARAM_METADATA_PROPERTY_VALUE = 'metadata_property_value';
-
     const ACTION_DELETE_METADATA_PROPERTY_VALUE = 'metadata_property_value_deleter';
     const ACTION_EDIT_METADATA = 'metadata_editor';
 
     const ACTION_BROWSE_METADATA_PROPERTY_VALUES = 'metadata_property_values_browser';
-
-    const PARAM_METADATA_PROPERTY_ATTRIBUTE_TYPE = 'metadata_property_attribute_type';
 
     const ACTION_DELETE_METADATA_PROPERTY_ATTRIBUTE_TYPE = 'metadata_property_attribute_type_deleter';
     const ACTION_EDIT_METADATA_PROPERTY_ATTRIBUTE_TYPE = 'metadata_property_attribute_type_updater';
     const ACTION_CREATE_METADATA_PROPERTY_ATTRIBUTE_TYPE = 'metadata_property_attribute_type_creator';
     const ACTION_BROWSE_METADATA_PROPERTY_ATTRIBUTE_TYPES = 'metadata_property_attribute_types_browser';
 
-    const PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE = 'metadata_property_attribute_value';
-
     const ACTION_DELETE_METADATA_PROPERTY_ATTRIBUTE_VALUE = 'metadata_property_attribute_value_deleter';
 
+    const ACTION_BROWSE_METADATA_DEFAULT_VALUES = 'metadata_default_values_browser';
+    const ACTION_DELETE_METADATA_DEFAULT_VALUE = 'metadata_default_value_deleter';
+    const ACTION_EDIT_METADATA_DEFAULT_VALUE = 'metadata_default_value_updater';
+    const ACTION_CREATE_METADATA_DEFAULT_VALUE = 'metadata_default_value_creator';
+    
     const ACTION_METADATA_SETTINGS = 'settings';
 
-     const DEFAULT_ACTION = self::ACTION_BROWSE_METADATA_PROPERTY_VALUES;
+    const DEFAULT_ACTION = self::ACTION_BROWSE_METADATA_PROPERTY_VALUES;
 
     /**
      * Constructor
@@ -234,6 +228,54 @@ require_once dirname(__FILE__).'/../metadata_data_manager.class.php';
             return MetadataDataManager :: get_instance()->retrieve_metadata_property_attribute_value($id);
     }
 
+    function retrieve_metadata_default_values($condition = null, $offset = null, $count = null, $order_property = null)
+    {
+        return MetadataDataManager :: get_instance()->retrieve_metadata_default_values($condition = null, $offset = null, $count = null, $order_property = null);
+    }
+
+    function retrieve_metadata_default_value($id)
+    {
+        return MetadataDataManager :: get_instance()->retrieve_metadata_default_value($id);
+    }
+    
+    function count_metadata_default_values($condition = null)
+    {
+        return MetadataDataManager :: get_instance()->count_metadata_default_values($condition = null, $offset = null, $count = null, $order_property = null);
+    }
+
+    /*
+     * @param array conditions - equality conditons with MetadataAttributeNesting :: PROPERTY_PARENT_ID
+     * @return array allowed_metadata_property_attribute_types
+     */
+    function retrieve_allowed_metadata_property_attribute_types(array $conditions_allowed)
+    {
+        if(count($conditions_allowed))
+        {
+            $condition1 = (count($conditions_allowed) === 1) ? $conditions_allowed[0] : new OrCondition($conditions_allowed);
+            $type_condition = new EqualityCondition(MetadataAttributeNesting :: PROPERTY_CHILD_TYPE, MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_TYPE);
+            $condition = new AndCondition($condition1, $type_condition);
+
+            $allowed_metadata_property_attribute_types = $this->retrieve_metadata_attribute_nestings($condition);
+            return $this->format_allowed_metadata_property_attribute_types($allowed_metadata_property_attribute_types);
+        }
+        return array();
+    }
+
+    /*
+     * @param ArrayResultSet $allowed_metadata_property_attribute_types
+     * @return allowed_metadata_property_attribute_type_arr [parent_id][child_id]
+     */
+    function format_allowed_metadata_property_attribute_types(ArrayResultSet $allowed_metadata_property_attribute_types)
+    {
+        $allowed_metadata_property_attribute_type_arr = array();
+
+        while($allowed_metadata_property_attribute_type = $allowed_metadata_property_attribute_types->next_result())
+        {
+            $allowed_metadata_property_attribute_type_arr[$allowed_metadata_property_attribute_type->get_parent_id()][$allowed_metadata_property_attribute_type->get_child_id()] = $allowed_metadata_property_attribute_type->get_child_id();
+        }
+        return $allowed_metadata_property_attribute_type_arr;
+    }
+
     // Url Creation
 
     function get_edit_associations_url($metadata_property_type)
@@ -345,6 +387,28 @@ require_once dirname(__FILE__).'/../metadata_data_manager.class.php';
             return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_METADATA_PROPERTY_TYPES));
     }
 
+    function get_create_metadata_default_value_url()
+    {
+            return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_METADATA_DEFAULT_VALUE));
+    }
+
+    function get_update_metadata_default_value_url($metadata_default_value)
+    {
+            return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_METADATA_DEFAULT_VALUE,
+                                                                self :: PARAM_METADATA_DEFAULT_VALUE => $metadata_default_value->get_id()));
+    }
+
+    function get_delete_metadata_default_value_url(MetadataDefaultValue $metadata_default_value)
+    {
+            return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_METADATA_DEFAULT_VALUE,
+                                                                self :: PARAM_METADATA_DEFAULT_VALUE => $metadata_default_value->get_id()));
+    }
+
+    function get_browse_metadata_default_values_url(MetadataPropertyType $metadata_property_type)
+    {
+            return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_METADATA_DEFAULT_VALUES, MetadataManager :: PARAM_METADATA_PROPERTY_TYPE => $metadata_property_type->get_id()));
+    }
+
     function get_edit_metadata_property_values_url($content_object)
     {
             return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_METADATA,
@@ -400,6 +464,8 @@ require_once dirname(__FILE__).'/../metadata_data_manager.class.php';
             return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_METADATA_PROPERTY_ATTRIBUTE_VALUE,
                                                                 self :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE => $metadata_property_attribute_value->get_id()));
     }
+
+
 
     function get_browse_url()
     {

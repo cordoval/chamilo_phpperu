@@ -1,8 +1,6 @@
-<?php 
-/**
- * metadata
- */
-
+<?php
+namespace application\metadata;
+use common\libraries\DataClass;
 /**
  * This class describes a ContentObjectPropertyMetadata data object
  * @author Sven Vanpoucke

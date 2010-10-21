@@ -1,7 +1,7 @@
 <?php
-/**
- * @package metadata.tables.metadata_property_attribute_type_table
- */
+namespace application\metadata;
+use common\libraries\ObjectTableDataProvider;
+
 /**
  * Data provider for a metadata_property_attribute_type table
  *

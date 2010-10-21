@@ -1,11 +1,6 @@
 <?php
+namespace application\metadata;
 
-/**
- * @package application.metadata.metadata.component
- */
-
-require_once dirname(__FILE__) . '/../metadata_manager.class.php';
-require_once dirname(__FILE__) . '/metadata_property_attribute_type_browser/metadata_property_attribute_type_browser_table.class.php';
 /**
  * metadata component which allows the user to browse his metadata_property_attribute_types
  * @author Sven Vanpoucke

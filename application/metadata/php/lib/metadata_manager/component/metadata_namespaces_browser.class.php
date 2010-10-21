@@ -1,11 +1,5 @@
 <?php
-
-/**
- * @package application.metadata.metadata.component
- */
-
-require_once dirname(__FILE__).'/../metadata_manager.class.php';
-require_once dirname(__FILE__) . '/metadata_namespace_browser/metadata_namespace_browser_table.class.php';
+namespace application\metadata;
 
 /**
  * metadata component which allows the user to browse his metadata_namespaces

@@ -1,8 +1,6 @@
 <?php 
-/**
- * metadata
- */
-
+namespace application\metadata;
+use common\libraries\DataClass;
 /**
  * This class describes a MetadataAttributeNesting data object
  * @author Sven Vanpoucke

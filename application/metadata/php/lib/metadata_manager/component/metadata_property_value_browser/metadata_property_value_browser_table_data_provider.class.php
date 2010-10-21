@@ -1,8 +1,6 @@
 <?php
+namespace application\metadata;
 
-/**
- * @package metadata.tables.metadata_property_value_table
- */
 /**
  * Data provider for a metadata_property_value table
  *

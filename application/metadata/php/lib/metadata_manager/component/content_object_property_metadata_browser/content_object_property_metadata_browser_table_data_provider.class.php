@@ -1,7 +1,6 @@
 <?php
-/**
- * @package metadata.tables.content_object_property_metadata_table
- */
+namespace application\metadata;
+
 /**
  * Data provider for a content_object_property_metadata table
  *

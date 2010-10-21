@@ -1,17 +1,6 @@
 <?php
-/**
- * @package metadata.datamanager
- */
-require_once dirname(__FILE__).'/../metadata_attribute_nesting.class.php';
-require_once dirname(__FILE__).'/../metadata_namespace.class.php';
-require_once dirname(__FILE__).'/../content_object_property_metadata.class.php';
-require_once dirname(__FILE__).'/../metadata_property_nesting.class.php';
-require_once dirname(__FILE__).'/../metadata_property_type.class.php';
-require_once dirname(__FILE__).'/../metadata_property_value.class.php';
-require_once dirname(__FILE__).'/../metadata_property_attribute_type.class.php';
-require_once dirname(__FILE__).'/../metadata_property_attribute_value.class.php';
-require_once dirname(__FILE__).'/../metadata_data_manager_interface.class.php';
-require_once 'MDB2.php';
+namespace application\metadata;
+use common\libraries\Database;
 
 /**
  *	This is a data manager that uses a database for storage. It was written
@@ -365,7 +354,41 @@ class DatabaseMetadataDataManager extends Database implements MetadataDataManage
 
 	function retrieve_metadata_property_attribute_values($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
-		return $this->retrieve_objects(MetadataPropertyAttributeValue :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+            return $this->retrieve_objects(MetadataPropertyAttributeValue :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
+
+        function retrieve_metadata_default_values($condition = null, $offset = null, $max_objects = null, $order_by = null)
+        {
+            return $this->retrieve_objects(MetadataDefaultValue :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        }
+
+        function count_metadata_default_values($condition = null)
+        {
+            return $this->count_objects(MetadataDefaultValue :: get_table_name(), $condition);
+        }
+
+        function retrieve_metadata_default_value($id)
+        {
+            $condition = new EqualityCondition(MetadataDefaultValue :: PROPERTY_ID, $id);
+            return $this->retrieve_object(MetadataDefaultValue :: get_table_name(), $condition);
+        }
+
+        function create_metadata_default_value(MetadataDefaultValue $metadata_default_value)
+        {
+            return $this->create($metadata_default_value);
+        }
+
+        function update_metadata_default_value(MetadataDefaultValue $metadata_default_value)
+        {
+            $condition = new EqualityCondition(MetadataDefaultValue :: PROPERTY_ID, $metadata_default_value->get_id());
+            return $this->update($metadata_default_value, $condition);
+        }
+
+        function delete_metadata_default_value(MetadataDefaultValue $metadata_default_value)
+        {
+            $condition = new EqualityCondition(MetadataDefaultValue :: PROPERTY_ID, $metadata_default_value->get_id());
+            return $this->delete(MetadataDefaultValue :: get_table_name(), $condition);
+        }
+
 }
 ?>

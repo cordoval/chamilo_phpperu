@@ -1,5 +1,6 @@
 <?php
-require_once dirname(__FILE__) . '/../metadata_namespace.class.php';
+namespace application\metadata;
+use common\libraries\FormValidator;
 
 /**
  * This class describes the form for a MetadataNamespace object.

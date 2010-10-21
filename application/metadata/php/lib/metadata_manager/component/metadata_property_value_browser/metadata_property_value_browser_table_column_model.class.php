@@ -1,10 +1,5 @@
-<?php
-/**
- * @package metadata.tables.metadata_property_value_table
- */
-
-require_once Path :: get_repository_path() . 'lib/content_object_table/default_content_object_table_column_model.class.php';
-require_once dirname(__FILE__).'/../../../metadata_property_value.class.php';
+<?php 
+namespace application\metadata;
 
 /**
  * Table column model for the metadata_property_value browser table

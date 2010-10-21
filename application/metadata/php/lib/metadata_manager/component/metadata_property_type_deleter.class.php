@@ -1,9 +1,5 @@
-<?php
-/**
- * @package application.metadata.metadata.component
- */
-require_once dirname(__FILE__).'/../metadata_manager.class.php';
-
+<?php 
+namespace application\metadata;
 /**
  * Component to delete metadata_property_types objects
  * @author Sven Vanpoucke

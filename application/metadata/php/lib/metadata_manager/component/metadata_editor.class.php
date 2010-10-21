@@ -1,9 +1,5 @@
 <?php
-/**
- * @package application.metadata.metadata.component
- */
-require_once dirname(__FILE__).'/../metadata_manager.class.php';
-require_once dirname(__FILE__).'/../../forms/metadata_form.class.php';
+namespace application\metadata;
 
 /**
  * Component to edit an existing metadata_property_value object
@@ -52,6 +48,7 @@ class MetadataManagerMetadataEditorComponent extends MetadataManager
             $metadata_property_attribute_values = $this->format_metadata_property_attribute_values($metadata_property_attribute_values);
         }
 
+        //get allowed property attribute types
         $allowed_metadata_property_attribute_types = array();
 
         foreach($content_object_property_metadata as $id => $value)
@@ -62,17 +59,19 @@ class MetadataManagerMetadataEditorComponent extends MetadataManager
             }
         }
 
-        if(count($conditions_allowed))
-        {
-            $or_condition = new OrCondition($conditions_allowed);
-            $type_condition = new EqualityCondition(MetadataAttributeNesting :: PROPERTY_CHILD_TYPE, MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_TYPE);
-            $condition = new AndCondition($or_condition, $type_condition);
+//        if(count($conditions_allowed))
+//        {
+//            $or_condition = new OrCondition($conditions_allowed);
+//            $type_condition = new EqualityCondition(MetadataAttributeNesting :: PROPERTY_CHILD_TYPE, MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_TYPE);
+//            $condition = new AndCondition($or_condition, $type_condition);
+//
+//            $allowed_metadata_property_attribute_types = $this->retrieve_metadata_attribute_nestings($condition);
+//            $allowed_metadata_property_attribute_types = $this->format_allowed_metadata_property_attribute_types($allowed_metadata_property_attribute_types);
+//        }
+        $allowed_metadata_property_attribute_types = $this->retrieve_allowed_metadata_property_attribute_types($conditions_allowed);
 
-            $allowed_metadata_property_attribute_types = $this->retrieve_metadata_attribute_nestings($condition);
-            $allowed_metadata_property_attribute_types = $this->format_allowed_metadata_property_attribute_types($allowed_metadata_property_attribute_types);
-        }
-
-        $form = new MetadataForm(MetadataForm :: TYPE_EDIT, $content_object, $metadata_property_values, $content_object_property_metadata, $metadata_property_attribute_values, $allowed_metadata_property_attribute_types,$this->get_url(array(MetadataManager :: PARAM_CONTENT_OBJECT => $content_object->get_id())), $this->get_user(), $this);
+        
+        $form = new MetadataForm(MetadataForm :: TYPE_EDIT, $content_object, $metadata_property_values, $content_object_property_metadata, $metadata_property_attribute_values, $allowed_metadata_property_attribute_types, $this->get_url(array(MetadataManager :: PARAM_CONTENT_OBJECT => $content_object->get_id())), $this->get_user(), $this);
 
         if($form->validate())
         {
@@ -86,6 +85,8 @@ class MetadataManagerMetadataEditorComponent extends MetadataManager
                 $this->display_footer();
         }
     }
+
+
 
     function get_content_object_property_metadata_values($content_object)
     {
@@ -120,16 +121,15 @@ class MetadataManagerMetadataEditorComponent extends MetadataManager
         }
         return $metadata_property_attribute_value_arr;
     }
-
-    function format_allowed_metadata_property_attribute_types($allowed_metadata_property_attribute_types)
+    
+    function format_default_values($default_values)
     {
-        $allowed_metadata_property_attribute_type_arr = array();
-
-        while($allowed_metadata_property_attribute_type = $allowed_metadata_property_attribute_types->next_result())
+        $default_value_arr = array();
+        while($default_value = $default_values->next_result())
         {
-            $allowed_metadata_property_attribute_type_arr[$allowed_metadata_property_attribute_type->get_parent_id()][$allowed_metadata_property_attribute_type->get_child_id()] = $allowed_metadata_property_attribute_type->get_child_id();
+            $default_value_arr[$default_value->get_property_type_id()] = $default_value;
         }
-        return $allowed_metadata_property_attribute_type_arr;
+        return $default_value_arr;
     }
 }
 ?>

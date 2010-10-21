@@ -1,12 +1,6 @@
 <?php
-/**
- * $Id: user_browser_table.class.php 206 2009-11-13 13:08:01Z chellee $
- * @package application.portfolio.portfolio_manager.component.user_browser
- */
-require_once dirname(__FILE__) . '/metadata_namespace_browser_table_data_provider.class.php';
-require_once dirname(__FILE__) . '/metadata_namespace_browser_table_column_model.class.php';
-require_once dirname(__FILE__) . '/metadata_namespace_browser_table_cell_renderer.class.php';
-
+namespace application\metadata;
+use common\libraries\ObjectTable;
 
 /**
  * Table to display a set of users.

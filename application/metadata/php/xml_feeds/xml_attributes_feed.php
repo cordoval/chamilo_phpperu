@@ -1,4 +1,4 @@
-<?php
+<?php namespace application\metadata;
 //require_once dirname(__FILE) . '/../../../../common/database/data_class.class.php';
 //require_once dirname(__FILE) . '/../metadata_property_type.class.php';
 //require_once dirname(__FILE) . '/../metadata_property_attribute_type.class.php';

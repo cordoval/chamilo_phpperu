@@ -1,10 +1,5 @@
-<?php
-/**
- * @package application.metadata.metadata.component
- */
-require_once dirname(__FILE__).'/../metadata_manager.class.php';
-require_once dirname(__FILE__).'/../../forms/metadata_property_type_form.class.php';
-
+<?php 
+namespace application\metadata;
 /**
  * Component to edit an existing metadata_property_type object
  * @author Sven Vanpoucke
