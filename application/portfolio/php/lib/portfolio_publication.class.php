@@ -1,9 +1,9 @@
 <?php
-/**
- * $Id: portfolio_publication.class.php 206 2009-11-13 13:08:01Z chellee $
- * @package application.portfolio.portfolio_manager.component
- */
-require_once dirname(__FILE__) . '/rights/portfolio_rights.class.php';
+namespace application\portfolio;
+use common\libraries\DataClass;
+
+
+
 /**
  * This class describes a PortfolioPublication data object
  *

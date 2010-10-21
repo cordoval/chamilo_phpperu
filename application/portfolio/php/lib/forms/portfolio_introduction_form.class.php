@@ -1,10 +1,13 @@
 <?php
+namespace application\portfolio;
+use common\libraries\FormValidator;
+use common\libraries\Translation;
+
 /**
  * $Id: portfolio_publication_form.class.php 206 2009-11-13 13:08:01Z chellee $
  * @package application.portfolio.forms
  */
-require_once dirname(__FILE__) . '/../portfolio_publication.class.php';
-require_once dirname(__FILE__) . '/../rights/portfolio_rights.class.php';
+
 
 /**
  * This class describes the form for a PortfolioPublication object.

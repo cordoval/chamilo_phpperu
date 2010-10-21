@@ -1,4 +1,5 @@
 <?php
+namespace application\portfolio;
 
 /**
  * class to handle the different rights in the portfolio application

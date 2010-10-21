@@ -1,5 +1,7 @@
 <?php
-require_once dirname(__FILE__) . '/../handbook_publication.class.php';
+use common\libraries\FormValidator;
+
+require_once dirname(__FILE__) . '/../lib/handbook_publication.class.php';
 
 /**
  * This class describes the form for a HandbookPublication object.

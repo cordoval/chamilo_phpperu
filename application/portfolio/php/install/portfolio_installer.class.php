@@ -1,10 +1,7 @@
 <?php
-/**
- * $Id: portfolio_installer.class.php 206 2009-11-13 13:08:01Z chellee $
- * @package application.portfolio.install
- */
+namespace application\portfolio;
 
-require_once dirname(__FILE__) . '/../lib/portfolio_data_manager.class.php';
+use common\libraries\Installer;
 
 /**
  * This installer can be used to create the storage structure for the

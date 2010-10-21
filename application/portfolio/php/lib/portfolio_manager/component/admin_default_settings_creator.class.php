@@ -1,10 +1,11 @@
 <?php
-/**
- * $Id: portfolio_publication_creator.class.php 206 2009-11-13 13:08:01Z chellee $
- * @package application.portfolio.portfolio_manager.component
- */
-require_once dirname(__FILE__) . '/../portfolio_manager.class.php';
-require_once dirname(__FILE__) . '/../../forms/portfolio_publication_form.class.php';
+namespace application\portfolio;
+use common\libraries\Redirect;
+use common\libraries\Breadcrumb;
+use admin\AdminManager;
+use common\libraries\Translation;
+use common\libraries\Display;
+
 
 /**
  * Component to create a new portfolio_publication object

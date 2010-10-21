@@ -1,10 +1,12 @@
 <?php
-/**
- * $Id: user_menu.class.php 240 2009-11-16 14:34:39Z vanpouckesven $
- * @package application.portfolio.portfolio_manager.component
- */
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
+namespace application\portfolio;
+use HTML_Menu;
+use common\libraries\Translation;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\TreeMenuRenderer;
+
+
+
 /**
  * This class provides a navigation menu to allow a user to browse through users
  * @author Sven Vanpoucke

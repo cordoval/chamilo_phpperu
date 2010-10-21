@@ -1,4 +1,6 @@
 <?php
+use common\libraries\EqualityCondition;
+use repository\ComplexContentObjectItem;
 
 require_once 'HTML/Menu.php';
 require_once 'HTML/Menu/ArrayRenderer.php';

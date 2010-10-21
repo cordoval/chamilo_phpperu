@@ -1,4 +1,5 @@
-<?php 
+<?php
+use common\libraries\DataClass;
 /**
  * handbook
  */

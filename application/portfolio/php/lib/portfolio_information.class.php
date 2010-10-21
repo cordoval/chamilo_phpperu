@@ -1,8 +1,10 @@
 <?php
-/**
- * @package application.lib.portfolio
- */
-require_once dirname(__FILE__) . '/rights/portfolio_rights.class.php';
+namespace application\portfolio;
+use common\libraries\DataClass;
+use common\libraries\Translation;
+
+
+
 /**
  * This class describes information on the status of a user's portfolio publications
  *

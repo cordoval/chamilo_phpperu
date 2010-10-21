@@ -1,10 +1,23 @@
 <?php
-/**
- * $Id: portfolio_item_creator.class.php 206 2009-11-13 13:08:01Z chellee $
- * @package application.portfolio.portfolio_manager.component
- */
-require_once dirname(__FILE__) . '/../portfolio_manager.class.php';
-require_once dirname(__FILE__) . '/../../rights/portfolio_rights.class.php';
+namespace application\portfolio;
+use common\libraries\Request;
+use common\extensions\repo_viewer\RepoViewer;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use user\UserDataManager;
+use repository\ContentObject;
+use repository\RepositoryDataManager;
+use repository\content_object\portfolio_item\PortfolioItem;
+use repository\ComplexContentObjectItem;
+use common\libraries\Translation;
+use Document;
+use repository\content_object\link\Link;
+use common\libraries\EqualityCondition;
+use repository\content_object\youtube\Youtube;
+use repository\content_object\rss_feed\RssFeed;
+use repository\content_object\portfolio\Portfolio;
+
+
 /**
  * Component to create a new portfolio_publication object
  * @author Sven Vanpoucke

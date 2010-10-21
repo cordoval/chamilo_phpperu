@@ -1,14 +1,9 @@
 <?php
-/**
- * 
- * @package application.portfolio.data_manager
- */
+namespace application\portfolio;
 
-require_once dirname(__FILE__) . '/../portfolio_data_manager.interface.class.php';
-require_once dirname(__FILE__) . '/../portfolio_publication.class.php';
-require_once dirname(__FILE__) . '/../portfolio_information.class.php';
+use common\libraries\Database;
+use common\libraries\EqualityCondition;
 
-//require_once 'MDB2.php';
 
 /**
  *	This is a data manager that uses a database for storage. It was written
