@@ -1,4 +1,8 @@
 <?php
+
+namespace reservations;
+
+use common\libraries\CalendarTable;
 /**
  * $Id: mini_day_calendar.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.calendar

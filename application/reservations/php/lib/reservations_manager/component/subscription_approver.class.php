@@ -1,4 +1,12 @@
 <?php
+
+namespace reservations;
+
+use common\libraries\Display;
+use common\libraries\Translation;
+use common\libraries\EqualityCondition;
+use tracking\Event;
+use tracking\ChangesTracker;
 /**
  * $Id: subscription_approver.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations.reservations_manager.component

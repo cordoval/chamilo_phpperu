@@ -1,4 +1,9 @@
 <?php
+
+namespace reservations;
+
+use common\libraries\ObjectTableColumnModel;
+use common\libraries\ObjectTableColumn;
 /**
  * $Id: default_reservation_table_column_model.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations.tables.reservation_table

@@ -1,4 +1,4 @@
-<?php
+<?php namespace reservations;
 /**
  */
 require_once WebApplication :: get_application_class_lib_path('reservations') . 'calendar/reservations_calendar_week_renderer.class.php';

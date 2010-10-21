@@ -1,4 +1,10 @@
-<?php
+<?php 
+
+namespace reservations;
+
+use common\libraries\WebApplication;
+use rights\RightsUtilities;
+
 /**
  * $Id: reservations_installer.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.install

@@ -1,4 +1,8 @@
 <?php
+
+namespace reservations;
+
+use common\libraries\ObjectTableCellRenderer;
 /**
  * $Id: default_quota_box_table_cell_renderer.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations.tables.quota_box_table

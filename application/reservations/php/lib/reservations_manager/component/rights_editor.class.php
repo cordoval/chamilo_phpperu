@@ -1,4 +1,12 @@
 <?php
+
+namespace reservations;
+
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Translation;
+use common\libraries\Request;
+use common\extensions\rights_editor_manager\RightsEditorManager;
 /**
  * $Id: rights_editor.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations.reservations_manager.component
