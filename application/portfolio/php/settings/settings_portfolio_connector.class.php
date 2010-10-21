@@ -1,4 +1,6 @@
 <?php
+namespace application\portfolio;
+
 /**
  * $Id: settings_portfolio_connector.class.php 206 2009-11-13 13:08:01Z chellee $
  * @package application.portfolio.settings

@@ -1,13 +1,20 @@
 <?php
+namespace application\portfolio;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
+use common\libraries\Request;
+use user\UserMenu;
+use common\libraries\ActionBarSearchForm;
+use common\libraries\Application;
+use user\User;
+use common\libraries\PatternMatchCondition;
+use common\libraries\OrCondition;
+use common\libraries\SubselectCondition;
+use common\libraries\AndCondition;
+use common\libraries\ActionBarRenderer;
 
-/**
- * $Id: browser.class.php 240 2009-11-16 14:34:39Z vanpouckesven $
- * @package application.portfolio.portfolio_manager.component
- */
-require_once dirname(__FILE__) . '/../portfolio_manager.class.php';
-require_once dirname(__FILE__) . '/portfolio_browser/portfolio_browser_table.class.php';
-require_once dirname(__FILE__) . '/../../user_menu.class.php';
-require_once dirname(__FILE__) . '/../../portfolio_publication.class.php';
+
 
 /**
  * Portfolio component which allows the user to browse the portfolio application

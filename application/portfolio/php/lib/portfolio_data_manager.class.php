@@ -1,8 +1,9 @@
 <?php
-/**
- * $Id: portfolio_data_manager.class.php 206 2009-11-13 13:08:01Z chellee $
- * @package application.portfolio
- */
+namespace application\portfolio;
+use common\libraries\Utilities;
+use common\libraries\Configuration;
+
+
 /**
  *	This is a skeleton for a data manager for the Portfolio Application.
  *	Data managers must extend this class and implement its methods.

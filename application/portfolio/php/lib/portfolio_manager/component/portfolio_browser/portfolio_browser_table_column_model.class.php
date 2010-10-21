@@ -1,5 +1,8 @@
 <?php
-require_once   dirname(__FILE__) . '/../../../tables/portfolio_table/default_portfolio_table_column_model.class.php';
+namespace application\portfolio;
+use common\libraries\StaticTableColumn;
+
+
 
 
 class PortfolioBrowserTableColumnModel extends DefaultPortfolioTableColumnModel

@@ -1,7 +1,8 @@
 <?php
-//require_once   dirname(__FILE__) .  '/../../../../../../repository/lib/content_object/portfolio/portfolio.class.php';
-require_once   dirname(__FILE__) .  '/portfolio_browser_table_column_model.class.php';
-require_once   dirname(__FILE__) . '/../../../tables/portfolio_table/default_portfolio_table_cell_renderer.class.php';
+namespace application\portfolio;
+use common\libraries\Toolbar;
+use common\libraries\ToolbarItem;
+
 
 /**
  * Cell renderer for the portfolio object browser table
