@@ -113,7 +113,10 @@ class DefaultHomeRenderer extends HomeRenderer
 
                 while ($column = $columns->next_result())
                 {
+//                    dump($column);
                     $columns_position = $columns->position();
+                    
+//                    dump($columns_position);
 
                     $html[] = '<div class="column" id="column_' . $column->get_id() . '" style="width: ' . $column->get_width() . '%;' . ($columns_position != 'last' ? ' margin-right: 1%;' : '') . '">';
 

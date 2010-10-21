@@ -1,5 +1,8 @@
 <?php
 namespace user;
+
+use reporting\ReportingTemplate;
+
 /**
  * $Id: user_data_reporting_template.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.reporting.templates
@@ -14,7 +17,6 @@ require_once dirname (__FILE__) . '/../blocks/os_reporting_block.class.php';
 require_once dirname (__FILE__) . '/../blocks/countries_reporting_block.class.php';
 require_once dirname (__FILE__) . '/../blocks/providers_reporting_block.class.php';
 require_once dirname (__FILE__) . '/../blocks/referers_reporting_block.class.php';
-
 
 class UserDataReportingTemplate extends ReportingTemplate
 {

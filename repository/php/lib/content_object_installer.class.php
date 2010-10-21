@@ -6,8 +6,14 @@ use common\libraries\Path;
 use common\libraries\Configuration;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
+use common\libraries\Filesystem;
 
 use user\UserDataManager;
+
+use admin\Registration;
+use admin\PackageInfo;
+
+use DOMDocument;
 
 /**
  * $Id: installer.class.php 198 2009-11-13 12:20:22Z vanpouckesven $

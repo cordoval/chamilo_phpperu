@@ -1,5 +1,7 @@
 <?php
 namespace admin;
+
+use reporting\ReportingTemplate;
 /**
  * @author Michael Kyndt
  */

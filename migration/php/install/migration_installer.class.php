@@ -1,5 +1,7 @@
 <?php
 namespace migration;
+
+use common\libraries\Installer;
 /**
  * $Id: migration_installer.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package migration.install

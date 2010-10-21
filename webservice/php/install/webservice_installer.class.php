@@ -3,6 +3,7 @@ namespace webservice;
 
 use common\libraries\Utilities;
 use common\libraries\Translation;
+use common\libraries\Installer;
 
 use rights\RightsUtilities;
 /**

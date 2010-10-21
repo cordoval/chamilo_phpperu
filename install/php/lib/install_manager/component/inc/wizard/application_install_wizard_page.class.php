@@ -4,6 +4,9 @@ use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\WebApplication;
 use common\libraries\Translation;
+use common\libraries\Text;
+use XML_Unserializer;
+use PEAR;
 
 /**
  * $Id: application_install_wizard_page.class.php 225 2009-11-13 14:43:20Z vanpouckesven $
