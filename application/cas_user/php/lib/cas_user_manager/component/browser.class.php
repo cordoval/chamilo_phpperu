@@ -1,4 +1,6 @@
 <?php
+namespace application\cas_user;
+
 require_once dirname(__FILE__) . '/cas_user_request_browser/cas_user_request_browser_table.class.php';
 
 class CasUserManagerBrowserComponent extends CasUserManager

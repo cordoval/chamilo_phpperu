@@ -1,4 +1,6 @@
 <?php
+namespace application\cas_user;
+
 require_once dirname(__FILE__) . '/../../cas_account_manager/cas_account_manager.class.php';
 
 class CasUserManagerAccountComponent extends CasUserManager implements DelegateComponent

@@ -1,4 +1,6 @@
 <?php
+namespace application\cas_user;
+
 require_once dirname(__FILE__) . '/cas_account_browser_table_data_provider.class.php';
 require_once dirname(__FILE__) . '/cas_account_browser_table_column_model.class.php';
 require_once dirname(__FILE__) . '/cas_account_browser_table_cell_renderer.class.php';

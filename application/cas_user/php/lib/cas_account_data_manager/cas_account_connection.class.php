@@ -1,4 +1,6 @@
 <?php
+namespace application\cas_user;
+
 /**
  * This class represents the current CAS Account database connection.
  *

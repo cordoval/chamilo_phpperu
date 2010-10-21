@@ -1,4 +1,6 @@
 <?php
+namespace application\cas_user;
+
 /**
  * @author Hans De Bisschop
  */

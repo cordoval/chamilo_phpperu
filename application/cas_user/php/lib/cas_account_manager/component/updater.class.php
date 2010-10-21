@@ -1,4 +1,6 @@
 <?php
+namespace application\cas_user;
+
 require_once dirname(__FILE__) . '/../../forms/cas_account_form.class.php';
 
 /**

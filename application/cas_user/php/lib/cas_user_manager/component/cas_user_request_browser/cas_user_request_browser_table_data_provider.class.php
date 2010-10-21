@@ -1,4 +1,6 @@
 <?php
+namespace application\cas_user;
+
 /**
  * Data provider for a cas_user_request table
  *
