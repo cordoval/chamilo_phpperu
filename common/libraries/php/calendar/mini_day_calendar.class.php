@@ -1,5 +1,6 @@
 <?php
 namespace common\libraries;
+use HTML_Table;
 
 /**
  * $Id: mini_day_calendar.class.php
