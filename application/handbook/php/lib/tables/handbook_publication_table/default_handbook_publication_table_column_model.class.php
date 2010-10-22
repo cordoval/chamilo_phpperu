@@ -1,5 +1,8 @@
 <?php
+namespace application\handbook;
 use common\libraries\ObjectTableColumnModel;
+use common\libraries\StaticTableColumn;
+use common\libraries\ObjectTableColumn;
 
 
 

@@ -1,6 +1,15 @@
 <?php
+namespace application\handbook;
 use common\libraries\EqualityCondition;
 use repository\ComplexContentObjectItem;
+use HTML_Menu;
+use HTML_Menu_ArrayRenderer;
+use repository\RepositoryDataManager;
+use common\libraries\BreadcrumbTrail;
+use user\UserDataManager;
+use common\libraries\TreeMenuRenderer;
+use common\libraries\Breadcrumb;
+use common\libraries\Utilities;
 
 require_once 'HTML/Menu.php';
 require_once 'HTML/Menu/ArrayRenderer.php';

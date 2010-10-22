@@ -1,11 +1,17 @@
 <?php
+namespace application\handbook;
+use common\libraries\Request;
+use repository\RepositoryDataManager;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ToolbarItem;
+use common\libraries\Translation;
+use common\libraries\Path;
+use common\libraries\Theme;
+use common\libraries\Application;
+use application\context_linker\ContextLinkerManager;
 
 
 
-
-/**
- * @package application.handbook.handbook.component
- */
 require_once dirname(__FILE__).'/../handbook_manager.class.php';
 require_once dirname(__FILE__).'/../../handbook_menu.class.php';
 require_once dirname(__FILE__).'/../../../../../repository/lib/content_object/wiki_page/complex_wiki_page.class.php';

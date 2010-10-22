@@ -1,4 +1,6 @@
 <?php
+namespace application\handbook;
+use common\libraries\Translation;
 /**
  * @package application.handbook.handbook.component
  */

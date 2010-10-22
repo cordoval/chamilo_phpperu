@@ -1,12 +1,11 @@
 <?php
+namespace application\handbook;
 use common\libraries\DataClass;
-/**
- * handbook
- */
+use common\libraries\Utilities;
+
 
 /**
  * This class describes a HandbookPublication data object
- * @author Sven Vanpoucke
  * @author Nathalie Blocry
  */
 class HandbookPublication extends DataClass

@@ -1,4 +1,12 @@
 <?php
+namespace application\handbook;
+use common\libraries\Translation;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
+use common\libraries\ActionBarSearchForm;
+use common\libraries\Application;
+use common\libraries\PatternMatchCondition;
 /**
  * @package application.handbook.handbook.component
  */
