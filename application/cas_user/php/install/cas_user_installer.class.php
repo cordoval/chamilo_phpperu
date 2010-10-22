@@ -1,7 +1,7 @@
 <?php
 namespace application\cas_user;
 
-require_once dirname(__FILE__).'/../cas_user_data_manager.class.php';
+use common\libraries\Installer;
 
 /**
  * @author Hans De Bisschop
