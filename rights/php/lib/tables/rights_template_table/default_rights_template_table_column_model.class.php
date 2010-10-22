@@ -2,6 +2,7 @@
 namespace rights;
 
 use common\libraries\ObjectTableColumnModel;
+use common\libraries\ObjectTableColumn;
 
 /**
  * @package rights.lib.tables.rights_template_table

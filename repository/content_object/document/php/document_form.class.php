@@ -6,16 +6,18 @@ use common\libraries\Path;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\PlatformSetting;
+use common\libraries\StringUtilities;
 
 use repository\ContentObjectForm;
+use repository\RepositoryCategory;
+use repository\QuotaManager;
 
 use user\UserDataManager;
-
+use HTML_QuickForm_upload_or_create;
 /**
  * $Id: document_form.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.document
  */
-require_once dirname(__FILE__) . '/../../category_manager/repository_category.class.php';
 require_once dirname(__FILE__) . '/document.class.php';
 require_once Path :: get_library_path() . 'html/formvalidator/Rule/DiskQuota.php';
 /**

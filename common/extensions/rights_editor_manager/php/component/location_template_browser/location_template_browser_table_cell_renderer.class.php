@@ -1,4 +1,11 @@
 <?php
+namespace common\extensions\rights_editor_manager;
+
+use common\libraries\Path;
+use common\libraries\Translation;
+use common\libraries\Utilities;
+use rights\DefaultRightsTemplateTableCellRenderer;
+use rights\RightsUtilities;
 /**
  * $Id: location_template_browser_table_cell_renderer.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  */
