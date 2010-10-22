@@ -1,5 +1,8 @@
 <?php
 namespace application\handbook;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
 /**
  * @package application.handbook.handbook.component
  */

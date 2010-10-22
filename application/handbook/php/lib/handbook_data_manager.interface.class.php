@@ -1,9 +1,6 @@
 <?php
 namespace application\handbook;
-/**
- * $Id: handbook_data_manager.class.php 206 2009-11-13 13:08:01Z chellee $
- * @package application.handbook
- */
+
 /**
  *	This is a skeleton for a data manager for the Portfolio Application.
  *	Data managers must extend this class and implement its methods.

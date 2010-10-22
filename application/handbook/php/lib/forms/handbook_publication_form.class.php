@@ -1,8 +1,9 @@
 <?php
 namespace application\handbook;
 use common\libraries\FormValidator;
+use common\libraries\Translation;
 
-require_once dirname(__FILE__) . '/../lib/handbook_publication.class.php';
+require_once dirname(__FILE__) . '/../handbook_publication.class.php';
 
 /**
  * This class describes the form for a HandbookPublication object.

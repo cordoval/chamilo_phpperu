@@ -1,5 +1,7 @@
 <?php
 namespace application\handbook;
+use common\libraries\Configuration;
+use common\libraries\Utilities;
 /**
  *	This is a skeleton for a data manager for the Handbook Application.
  *	Data managers must extend this class and implement its abstract methods.
@@ -34,7 +36,7 @@ class HandbookDataManager
 		{
 			$type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
 			require_once dirname(__FILE__).'/data_manager/'.Utilities :: camelcase_to_underscores($type).'.class.php';
-			$class = $type.'HandbookDataManager';
+			$class = __NAMESPACE__ . '\\' . $type.'HandbookDataManager';
 			self :: $instance = new $class ();
 		}
 		return self :: $instance;

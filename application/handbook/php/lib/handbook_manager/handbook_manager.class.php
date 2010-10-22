@@ -2,9 +2,8 @@
 namespace application\handbook;
 use common\libraries\WebApplication;
 use common\libraries\EqualityCondition;
-/**
- * @package application.lib.handbook.handbook_manager
- */
+
+
 require_once dirname(__FILE__).'/../handbook_data_manager.class.php';
 require_once dirname(__FILE__).'/component/handbook_publication_browser/handbook_publication_browser_table.class.php';
 

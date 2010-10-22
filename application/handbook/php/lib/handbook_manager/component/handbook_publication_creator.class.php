@@ -1,8 +1,15 @@
 <?php
 namespace application\handbook;
-/**
- * @package application.handbook.handbook.component
- */
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use user\UserDataManager;
+use common\extensions\repo_viewer\RepoViewer;
+use common\libraries\Translation;
+use common\libraries\InCondition;
+use common\libraries\Theme;
+use repository\ContentObject;
+
+
 require_once dirname(__FILE__).'/../handbook_manager.class.php';
 require_once dirname(__FILE__).'/../../forms/handbook_publication_form.class.php';
 

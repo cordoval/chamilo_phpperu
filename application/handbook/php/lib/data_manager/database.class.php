@@ -5,6 +5,7 @@ use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\SubselectCondition;
 use repository\ContentObject;
+use repository\RepositoryDataManager;
 
 /**
  * @package handbook.datamanager
