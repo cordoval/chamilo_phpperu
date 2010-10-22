@@ -1,6 +1,6 @@
 <?php
 
-namespace personal_calendar;
+namespace application\personal_calendar;
 
 use common\libraries\WebApplication;
 use common\extensions\rights_editor_manager\RightsEditorManager;

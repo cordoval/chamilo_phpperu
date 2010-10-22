@@ -1,6 +1,6 @@
 <?php
 
-namespace personal_calendar;
+namespace application\personal_calendar;
 
 
 require_once dirname(__FILE__).'/publication_rss.class.php';

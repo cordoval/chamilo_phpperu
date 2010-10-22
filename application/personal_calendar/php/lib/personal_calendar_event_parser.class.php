@@ -1,6 +1,6 @@
 <?php
 
-namespace personal_calendar;
+namespace application\personal_calendar;
 
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;

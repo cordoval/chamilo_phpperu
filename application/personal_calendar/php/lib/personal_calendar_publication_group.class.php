@@ -1,6 +1,6 @@
 <?php
 
-namespace personal_calendar;
+namespace application\personal_calendar;
 /**
  * $Id: personal_calendar_publication_group.class.php 201 2009-11-13 12:34:51Z chellee $
  * @package application.personal_calendar

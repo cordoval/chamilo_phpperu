@@ -1,6 +1,6 @@
 <?php
 
-namespace personal_calendar;
+namespace application\personal_calendar;
 
 use common\libraries\Database;
 use common\libraries\EqualityCondition;
@@ -11,6 +11,7 @@ use common\libraries\Session;
 use common\libraries\ConditionTranslator;
 use repository\ContentObjectPublicationAttributes;
 use common\libraries\Utilities;
+
 /**
  * $Id: database_personal_calendar_data_manager.class.php 238 2009-11-16 14:10:27Z vanpouckesven $
  * @package application.personal_calendar.data_manager

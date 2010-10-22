@@ -1,5 +1,5 @@
 <?php
-namespace personal_calendar;
+namespace application\personal_calendar;
 
 use common\libraries\Translation;
 use common\libraries\ResourceManager;
