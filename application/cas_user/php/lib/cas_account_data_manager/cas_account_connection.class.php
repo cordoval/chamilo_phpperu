@@ -2,6 +2,9 @@
 namespace application\cas_user;
 
 use common\libraries\Connection;
+use common\libraries\PlatformSetting;
+
+use MDB2;
 
 /**
  * This class represents the current CAS Account database connection.
