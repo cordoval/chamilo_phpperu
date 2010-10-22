@@ -7,6 +7,7 @@ use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\DataClass;
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
 
 use DOMDocument;
 /**

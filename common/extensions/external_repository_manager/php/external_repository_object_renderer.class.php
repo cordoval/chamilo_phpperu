@@ -1,5 +1,8 @@
 <?php
 namespace common\extensions\external_repository_manager;
+
+use common\libraries\Utilities;
+
 abstract class ExternalRepositoryObjectRenderer
 {
     const TYPE_TABLE = 'table';
@@ -28,7 +31,7 @@ abstract class ExternalRepositoryObjectRenderer
 
         require_once $file;
 
-        $class = Utilities :: underscores_to_camelcase($type) . 'ExternalRepositoryObjectRenderer';
+        $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type) . 'ExternalRepositoryObjectRenderer';
         return new $class($external_repository_browser);
     }
 
