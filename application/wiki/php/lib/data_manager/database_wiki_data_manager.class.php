@@ -6,7 +6,7 @@ use common\libraries\EqualityCondition;
 use common\libraries\InCondition;
 use common\libraries\ConditionTranslator;
 use repository\RepositoryDataManager;
-use repository\ContentbjectPublicationAttributes;
+use repository\ContentObjectPublicationAttributes;
 use repository\ContentObject;
 
 /**
