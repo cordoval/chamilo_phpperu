@@ -13,7 +13,7 @@ use reporting\ReportingTemplateRegistration;
 use reporting\Reporting;
 use webservice\WebserviceCategory;
 use webservice\WebserviceRegistration;
-
+use admin\Registration;
 /**
  * $Id: installer.class.php 198 2009-11-13 12:20:22Z vanpouckesven $
  * @package common
@@ -49,6 +49,59 @@ abstract class Installer
      * Constructor
      */
     function Installer($form_values, $data_manager = null)
+    {
+        $this->form_values = $form_values;
+        $this->data_manager = $data_manager;
+        $this->message = array();
+    }
+
+    function install()
+    {
+        if (! $this->register_application())
+        {
+            return false;
+        }
+        
+        $dir = $this->get_path();
+        $files = Filesystem :: get_directory_content($dir, Filesystem :: LIST_FILES);
+        
+        foreach ($files as $file)
+        {
+            if ((substr($file, - 3) == 'xml'))
+            {
+                if (! $this->create_storage_unit($file))
+                {
+                    return false;
+                }
+            }
+        }
+        
+        if (! $this->configure_application())
+        {
+            return false;
+        }
+        
+        //		if (method_exists($this, 'install_extra'))
+        //		{
+        //			if (!$this->install_extra())
+        //			{
+        //				return false;
+        //			}
+        //		}
+        
+
+        return $this->installation_successful();
+    }
+
+    function get_application()
+    {
+        $application_class = $this->get_application_name();
+        $application = Utilities :: camelcase_to_underscores($application_class);
+        
+        return $application;
+    }
+
+    function get_application_name()
     {
         $this->form_values = $form_values;
         $this->data_manager = $data_manager;
