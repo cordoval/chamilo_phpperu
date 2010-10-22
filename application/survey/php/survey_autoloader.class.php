@@ -40,10 +40,17 @@ class SurveyAutoloader
 		'survey_publication_mailer_form' => 'survey_publication_mailer_form.class.php',
 		
         'survey_manager' => 'survey_manager/survey_manager.class.php',
+		'survey_publication_browser_table' => 'survey_manager/component/publication_browser/publication_browser_table.class.php',
+		
+		'default_survey_publication_table_cell_renderer' => 'tables/publication_table/default_survey_publication_table_cell_renderer.class.php',
+		'default_survey_publication_table_column_model' => 'tables/publication_table/default_survey_publication_table_column_model.class.php',
+		
 		
 		'survey_export_manager' => 'export_manager/export_manager.class.php',
 		
 		'survey_reporting_block' => '../reporting/survey_reporting_block.class.php',
+		'survey_level_reporting_template_interface' => '../reporting/survey_level_reporting_template_interface.class.php',
+		
 		
 		'survey_participant_mail_tracker' => '../trackers/survey_participant_mail_tracker.class.php',
 		'survey_participant_tracker' => '../trackers/survey_participant_tracker.class.php',

@@ -1,6 +1,8 @@
 <?php 
 namespace application\survey;
 
+use reporting\ReportingTemplate;
+
 //require_once PATH :: get_reporting_path() . '/lib/reporting_template.class.php';
 //require_once dirname(__FILE__) . '/../blocks/survey_question_reporting_block.class.php';
 

@@ -1,8 +1,22 @@
-<?php namespace application\survey;
-require_once dirname(__FILE__) . '/../survey_manager.class.php';
+<?php 
+namespace application\survey;
+
+use common\libraries\ActionBarRenderer;
+use common\libraries\ToolbarItem;
+use common\libraries\Translation;
+use common\libraries\Theme;
+use common\libraries\Utilities;
+use common\libraries\DynamicTabsRenderer;
+use common\libraries\DynamicContentTab;
+use common\libraries\ActionBarSearchForm;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+
+
+//require_once dirname(__FILE__) . '/../survey_manager.class.php';
 
 //require_once dirname(__FILE__) . '/../../survey_publication_category_menu.class.php';
-require_once dirname(__FILE__) . '/publication_browser/publication_browser_table.class.php';
+//require_once dirname(__FILE__) . '/publication_browser/publication_browser_table.class.php';
 
 class SurveyManagerBrowserComponent extends SurveyManager
 {
@@ -26,7 +40,7 @@ class SurveyManagerBrowserComponent extends SurveyManager
 
     function get_tables()
     {
-        $renderer_name = Utilities :: camelcase_to_underscores(get_class($this));
+        $renderer_name = Utilities :: get_classname_from_object($this, true);
         $tabs = new DynamicTabsRenderer($renderer_name);
         
         $parameters = $this->get_parameters();

@@ -1,9 +1,15 @@
-<?php namespace application\survey;
+<?php 
+namespace application\survey;
+
+use common\libraries\ObjectTable;
+use common\libraries\ObjectTableFormAction;
+use common\libraries\ObjectTableFormActions;
+use common\libraries\Translation;
+
 
 require_once dirname(__FILE__) . '/publication_browser_table_data_provider.class.php';
 require_once dirname(__FILE__) . '/publication_browser_table_column_model.class.php';
 require_once dirname(__FILE__) . '/publication_browser_table_cell_renderer.class.php';
-require_once dirname(__FILE__) . '/../../survey_manager.class.php';
 
 class SurveyPublicationBrowserTable extends ObjectTable
 {

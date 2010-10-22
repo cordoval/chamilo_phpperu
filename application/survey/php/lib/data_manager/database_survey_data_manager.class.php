@@ -9,13 +9,20 @@ use common\libraries\Database;
 use common\libraries\NotCondition;
 use common\libraries\InCondition;
 use common\libraries\WebApplication;
+use repository\RepositoryDataManager;
+use repository\ContentObject;
 
-require_once WebApplication :: get_application_class_lib_path('survey') . 'survey_publication.class.php';
-require_once WebApplication :: get_application_class_lib_path('survey') . 'survey_publication_rel_reporting_template_registration.class.php';
+use rights\RightsDataManager;
+use rights\Location;
+use rights\UserRightLocation;
 
-require_once dirname(__FILE__) . '/../survey_data_manager_interface.class.php';
 
-require_once 'MDB2.php';
+//require_once WebApplication :: get_application_class_lib_path('survey') . 'survey_publication.class.php';
+//require_once WebApplication :: get_application_class_lib_path('survey') . 'survey_publication_rel_reporting_template_registration.class.php';
+//
+//require_once dirname(__FILE__) . '/../survey_data_manager_interface.class.php';
+//
+//require_once 'MDB2.php';
 
 class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInterface
 {
