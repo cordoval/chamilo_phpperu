@@ -2,6 +2,7 @@
 namespace application\cas_user;
 
 use common\libraries\DataClass;
+use common\libraries\PlatformSetting;
 
 /**
  * @author Hans De Bisschop
