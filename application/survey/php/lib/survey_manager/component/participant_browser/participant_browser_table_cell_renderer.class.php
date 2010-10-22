@@ -3,8 +3,8 @@ namespace application\survey;
 use common\libraries\ObjectTableCellRenderer;
 
 require_once dirname(__FILE__) . '/participant_browser_table_column_model.class.php';
-require_once dirname(__FILE__) . '/../../../tables/participant_table/default_participant_table_cell_renderer.class.php';
-require_once dirname(__FILE__) . '/../../../trackers/survey_participant_tracker.class.php';
+//require_once dirname(__FILE__) . '/../../../tables/participant_table/default_participant_table_cell_renderer.class.php';
+//require_once dirname(__FILE__) . '/../../../trackers/survey_participant_tracker.class.php';
 //require_once dirname(__FILE__) . '/../../survey_manager.class.php';
 
 
