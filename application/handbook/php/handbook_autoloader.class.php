@@ -1,5 +1,5 @@
 <?php
-namespace application\portfolio;
+namespace application\handbook;
 use common\libraries\Utilities;
 
 class HandbookAutoloader

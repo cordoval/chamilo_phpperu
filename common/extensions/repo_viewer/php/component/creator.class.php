@@ -1,5 +1,18 @@
 <?php
 namespace common\extensions\repo_viewer;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\Theme;
+use common\libraries\FormValidator;
+use common\libraries\ResourceManager;
+use common\libraries\Path;
+use common\libraries\Utilities;
+
+use repository\ContentObject;
+use repository\RepositoryManager;
+use repository\ContentObjectForm;
+
 /**
  * $Id: creator.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.common.repo_viewer.component
@@ -76,7 +89,7 @@ class RepoViewerCreatorComponent extends RepoViewer
 
         foreach ($this->get_types() as $object_type)
         {
-            $selection_types[$object_type] = Translation :: get(ContentObject :: type_to_class($object_type) . 'TypeName');
+            $selection_types[$object_type] = Translation :: get(Utilities :: underscores_to_camelcase($object_type) . 'TypeName');
             $object_type_parameters = $this->get_parameters();
             $object_type_parameters[RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE] = $object_type;
 
