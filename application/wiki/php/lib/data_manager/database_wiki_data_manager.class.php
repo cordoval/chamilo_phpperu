@@ -1,8 +1,13 @@
 <?php
 namespace application\wiki;
 
+use common\libraries\Database;
+use common\libraries\EqualityCondition;
+use common\libraries\InCondition;
+use common\libraries\ConditionTranslator;
+use repository\RepositoryDataManager;
+use repository\ContentbjectPublicationAttributes;
 use repository\ContentObject;
-
 
 /**
  * $Id: database_wiki_data_manager.class.php 238 2009-11-16 14:10:27Z vanpouckesven $
