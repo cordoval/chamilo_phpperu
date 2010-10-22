@@ -1,4 +1,12 @@
-<?php namespace reservations;
+<?php
+
+namespace application\reservations;
+
+use common\libraries\Translation;
+use common\libraries\Display;
+use common\libraries\EqualityCondition;
+use tracking\ChangesTracker;
+use tracking\Event;
 /**
  * $Id: item_deleter.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.reservations_manager.component

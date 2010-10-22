@@ -1,6 +1,6 @@
 <?php
 
-namespace reservations;
+namespace application\reservations;
 
 use common\libraries\Configuration;
 use common\libraries\WebApplication;
@@ -35,7 +35,7 @@ class ReservationsDataManager
         {
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
             require_once WebApplication :: get_application_class_lib_path('reservations') . 'data_manager/' . strtolower($type) . '_reservations_data_manager.class.php';
-            $class = $type . 'ReservationsDataManager';
+            $class = __NAMESPACE__ . '\\' . $type . 'ReservationsDataManager';
             self :: $instance = new $class();
         }
         return self :: $instance;

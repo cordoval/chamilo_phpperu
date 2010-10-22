@@ -1,4 +1,11 @@
-<?php namespace reservations;
+<?php
+
+namespace application\reservations;
+
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
+use common\libraries\Display;
 /**
  * $Id: category_creator.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.reservations_manager.component
