@@ -9,6 +9,7 @@ use common\libraries\WebApplication;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\DatetimeUtilities;
+use common\libraries\Theme;
 /**
  * $Id: admin_subscription_browser.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.reservations_manager.component
@@ -81,7 +82,7 @@ class ReservationsManagerAdminSubscriptionBrowserComponent extends ReservationsM
         $html[] = '<div class="description">';
         $html[] = $item->get_description();
         $html[] = '<b>' . Translation :: get('Responsible') . '</b>: ' . $responsible;
-        $html[] = '<br /><b>' . Translation :: get('Type') . '</b>: ' . $this->get_type($reservation);
+        $html[] = '<br /><b>' . Translation :: get('Type') . '</b>: ' . $this->get_reservation_type($reservation);
         $html[] = '<br /><b>' . Translation :: get('Start') . '</b>: ' . DatetimeUtilities :: format_locale_date(null, $reservation->get_start_date());
         $html[] = '<br /><b>' . Translation :: get('End') . '</b>: ' . DatetimeUtilities :: format_locale_date(null, $reservation->get_stop_date());
         $html[] = '</div>';
@@ -89,7 +90,7 @@ class ReservationsManagerAdminSubscriptionBrowserComponent extends ReservationsM
         echo implode("\n", $html);
     }
 
-    function get_type($reservation)
+    function get_reservation_type($reservation)
     {
         switch ($reservation->get_type())
         {

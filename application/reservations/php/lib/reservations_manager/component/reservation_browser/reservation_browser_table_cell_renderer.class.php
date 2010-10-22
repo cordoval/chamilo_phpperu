@@ -9,6 +9,7 @@ use common\libraries\Translation;
 use common\libraries\Theme;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
+use common\libraries\Utilities;
 /**
  * $Id: reservation_browser_table_cell_renderer.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.reservations_manager.component.reservation_browser
@@ -78,7 +79,7 @@ class ReservationBrowserTableCellRenderer extends DefaultReservationTableCellRen
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
-        if (get_class($this->browser) == 'ReservationsManagerAdminReservationBrowserComponent' && (
+        if (Utilities :: get_classname_from_namespace(get_class($this->browser)) == 'ReservationsManagerAdminReservationBrowserComponent' && (
         	$this->browser->is_allowed_to_edit() ||
         	$this->browser->has_right(ReservationsRights :: TYPE_ITEM, $reservation->get_item(), ReservationsRights :: EDIT_RIGHT)))
         {

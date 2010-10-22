@@ -10,6 +10,7 @@ use common\libraries\Translation;
 use common\libraries\Utilities;
 use tracking\Event;
 use tracking\ChangesTracker;
+use common\libraries\Path;
 /**
  * $Id: subscription_form.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.forms
@@ -197,7 +198,7 @@ class SubscriptionForm extends FormValidator
         //					  $users, array('style' => 'width:200px;'));
 
 
-        $url = Path :: get(WEB_PATH) . 'user/xml_feeds/xml_user_feed.php';
+        $url = Path :: get(WEB_PATH) . 'user/php/xml_feeds/xml_user_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('AddUsers');
         $locale['Searching'] = Translation :: get('Searching');
