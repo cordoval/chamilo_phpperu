@@ -2,6 +2,7 @@
 namespace admin;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
+use common\libraries\MessageLogger;
  
  
 require_once dirname(__FILE__) . '/package_dependency.class.php';

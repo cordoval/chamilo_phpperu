@@ -3,6 +3,7 @@ namespace admin;
 use common\libraries\Translation;
 use common\libraries\Session;
 use common\libraries\Path;
+
 require_once dirname (__FILE__) . '/../admin_reporting_block.class.php';
 require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
 

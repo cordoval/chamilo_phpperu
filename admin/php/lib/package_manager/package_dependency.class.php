@@ -2,6 +2,7 @@
 namespace admin;
 use common\libraries\Utilities;
 use common\libraries\Translation;
+use common\libraries\MessageLogger;
 abstract class PackageDependency
 {
     const PROPERTY_ID = 'id';
@@ -32,7 +33,7 @@ abstract class PackageDependency
 
     static function factory($type, $dependency)
     {
-        $class = Utilities :: underscores_to_camelcase($type) . 'PackageDependency';
+        $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type) . 'PackageDependency';
         require_once dirname(__FILE__) . '/dependency/' . $type . '.class.php';
         return new $class($dependency);
     }

@@ -1,5 +1,7 @@
 <?php
 namespace admin;
+use common\libraries\Path;
+
 require_once Path :: get_admin_path() . 'lib/package_updater/package_updater_source.class.php';
 
 class PackageUpdaterArchiveSource extends PackageUpdaterSource

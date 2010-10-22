@@ -1,5 +1,6 @@
 <?php
 namespace application\photo_gallery;
+use common\libraries\Translation;
 
 /**
  * $Id: deleter.class.php 193 2009-11-13 11:53:37Z chellee $

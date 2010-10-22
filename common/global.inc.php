@@ -58,8 +58,7 @@ require_once dirname(__FILE__) . '/libraries/php/utilities.class.php';
 ini_set('include_path', realpath(Path :: get_plugin_path() . 'pear') . PATH_SEPARATOR . realpath(Path :: get_plugin_path() . 'google/library'));
 
 spl_autoload_register('common\libraries\Utilities::autoload_core');
-
-//spl_autoload_register('common\libraries\Utilities::autoload_web');
+spl_autoload_register('common\libraries\Utilities::autoload_web');
 
 require_once 'MDB2.php';
 
