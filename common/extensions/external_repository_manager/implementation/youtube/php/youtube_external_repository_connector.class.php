@@ -1,5 +1,11 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\youtube;
+
+use common\libraries\Path;
+use common\libraries\Request;
+use common\libraries\Utilities;
+use common\extensions\external_repository_manager\ExternalRepositoryConnector;
+
 require_once 'Zend/Loader.php';
 require_once dirname(__FILE__) . '/youtube_external_repository_object.class.php';
 require_once Path :: get_plugin_path() . 'getid3/getid3.php';

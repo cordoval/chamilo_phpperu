@@ -1,5 +1,7 @@
 <?php
 namespace common\extensions\external_repository_manager;
+
+use common\libraries\Utilities;
 /**
  * A form to configure external repository settings.
  *
