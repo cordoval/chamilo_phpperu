@@ -6,6 +6,8 @@ use common\libraries\MiniWeekCalendar;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\ObjectTableOrder;
+use common\libraries\Request;
+use common\libraries\Translation;
 /**
  * $Id: reservations_calendar_week_renderer.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.calendar
