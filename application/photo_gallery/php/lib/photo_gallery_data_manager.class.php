@@ -1,5 +1,6 @@
 <?php
 namespace application\photo_gallery;
+use common\libraries\Configuration;
 
 /**
  * $Id: photo_gallery_data_manager.class.php
@@ -33,7 +34,7 @@ class PhotoGalleryDataManager
         {
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
             require_once dirname(__FILE__) . '/data_manager/' . strtolower($type) . '_photo_gallery_data_manager.class.php';
-            $class = $type . 'PhotoGalleryDataManager';
+            $class = __NAMESPACE__ . '\\' . $type . 'PhotoGalleryDataManager';
             self :: $instance = new $class();
         }
         return self :: $instance;
