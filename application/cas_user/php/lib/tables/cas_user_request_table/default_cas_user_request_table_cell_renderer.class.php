@@ -1,6 +1,7 @@
 <?php
 namespace application\cas_user;
 
+use common\libraries\ObjectTableCellRenderer;
 
 require_once dirname(__FILE__) . '/../../cas_user_request.class.php';
 

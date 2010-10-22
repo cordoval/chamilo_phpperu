@@ -3,6 +3,8 @@ namespace application\cas_user;
 
 use common\libraries\DataClass;
 
+use user\UserDataManager;
+
 /**
  * @author Hans De Bisschop
  */

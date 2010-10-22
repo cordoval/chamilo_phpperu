@@ -1,6 +1,8 @@
 <?php
 namespace application\cas_user;
 
+use common\libraries\WebApplication;
+
 require_once dirname(__FILE__) . '/../cas_user_data_manager.class.php';
 require_once dirname(__FILE__) . '/../cas_user_request.class.php';
 
