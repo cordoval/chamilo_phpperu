@@ -1,12 +1,30 @@
-<?phpnamespace application\forum
+<?php
+
+namespace application\forum;
+
+use common\libraries\Translation;
+use common\libraries\Display;
+use HTML_Table;
+use common\libraries\EqualityCondition;
+use common\libraries\ObjectTableOrder;
+use user\UserDataManager;
+use repository\RepositoryDataManager;
+use repository\content_object\forum\Forum;
+use repository\ComplexDisplay;
+use repository\content_object\forum\ForumDisplay;
+use common\libraries\Utilities;
+use common\libraries\Theme;
+use common\libraries\Toolbar;
+use common\libraries\ToolbarItem;
+use common\libraries\ActionBarRenderer;
 /**
  * $Id: browser.class.php 195 2009-11-13 12:02:41Z chellee $
  * @package application.lib.forum.forum_manager.component
  */
-require_once Path :: get_repository_path() . '/lib/content_object/forum/forum.class.php';
-require_once Path :: get_repository_path() . '/lib/content_object/forum/display/forum_display.class.php';
+//require_once Path :: get_repository_path() . '/lib/content_object/forum/forum.class.php';
+//require_once Path :: get_repository_path() . '/lib/content_object/forum/display/forum_display.class.php';
 
-require_once 'HTML/Table.php';
+//require_once 'HTML/Table.php';
 
 class ForumManagerBrowserComponent extends ForumManager
 {
