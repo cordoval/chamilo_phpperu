@@ -1,6 +1,8 @@
 <?php
 namespace application\cas_user;
 
+use common\libraries\DataClass;
+
 /**
  * @author Hans De Bisschop
  */
