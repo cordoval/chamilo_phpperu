@@ -103,59 +103,6 @@ abstract class Installer
 
     function get_application_name()
     {
-        $this->form_values = $form_values;
-        $this->data_manager = $data_manager;
-        $this->message = array();
-    }
-
-    function install()
-    {
-        if (! $this->register_application())
-        {
-            return false;
-        }
-        
-        $dir = $this->get_path();
-        $files = Filesystem :: get_directory_content($dir, Filesystem :: LIST_FILES);
-        
-        foreach ($files as $file)
-        {
-            if ((substr($file, - 3) == 'xml'))
-            {
-                if (! $this->create_storage_unit($file))
-                {
-                    return false;
-                }
-            }
-        }
-        
-        if (! $this->configure_application())
-        {
-            return false;
-        }
-        
-        //		if (method_exists($this, 'install_extra'))
-        //		{
-        //			if (!$this->install_extra())
-        //			{
-        //				return false;
-        //			}
-        //		}
-        
-
-        return $this->installation_successful();
-    }
-
-    function get_application()
-    {
-        $application_class = $this->get_application_name();
-        $application = Utilities :: camelcase_to_underscores($application_class);
-        
-        return $application;
-    }
-
-    function get_application_name()
-    {
         $class = array_pop(explode('\\', get_class($this))); 
         $application_class = str_replace('Installer', '', $class);
         
@@ -838,7 +785,6 @@ abstract class Installer
     static function factory($application, $values)
     {
         $class = Application :: determine_namespace($application) . '\\' . Application :: application_to_class($application) . 'Installer';
-        dump($class);
         $base_path = (WebApplication :: is_application($application) ? WebApplication :: get_application_class_path($application)  : CoreApplication :: get_application_class_path($application));
         
         require_once ($base_path . 'install/' . $application . '_installer.class.php');
