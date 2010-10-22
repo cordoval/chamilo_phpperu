@@ -2,9 +2,9 @@
 namespace common\libraries;
 
 use repository\RepositoryAutoloader;
+use repository\ContentObject;
 use XML_Unserializer;
 use PEAR;
-use repository\ContentObject;
 
 /**
  * $Id: utilities.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
