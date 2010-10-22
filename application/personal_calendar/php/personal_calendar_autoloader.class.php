@@ -12,8 +12,25 @@ use common\libraries\Webapplication;
 
 class PersonalCalendarAutoloader
 {
+    public static $class_name;
+
 	static function load($classname)
 	{
+            $classname_parts = explode('\\', $classname);
+
+        if (count($classname_parts) == 1)
+        {
+            return false;
+        }
+        else
+        {
+            self :: $class_name = $classname_parts[count($classname_parts) - 1];
+            array_pop($classname_parts);
+            if (implode('\\', $classname_parts) != __NAMESPACE__)
+            {
+                return false;
+            }
+        }
 		$list = array(
         'personal_calendar_event' => 'personal_calendar_event.class.php', 
         'personal_calendar_data_manager' =>'personal_calendar_data_manager.class.php', 
@@ -29,7 +46,7 @@ class PersonalCalendarAutoloader
         'personal_calendar_renderer' => 'personal_calendar_renderer.class.php',
         'personal_calendar_manager' => 'personal_calendar_manager/personal_calendar_manager.class.php');
         
-        $lower_case = Utilities :: camelcase_to_underscores($classname);
+        $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
         
         if (key_exists($lower_case, $list))
         {

@@ -1,6 +1,8 @@
 <?php
 namespace common\libraries;
 
+use HTML_Table;
+
 /**
  * $Id: month_calendar.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.common

@@ -2,6 +2,8 @@
 
 namespace application\personal_calendar;
 
+use common\libraries\MonthCalendar;
+
 /**
  * $Id: personal_calendar_month_renderer.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.personal_calendar.renderer
