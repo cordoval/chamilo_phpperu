@@ -1,4 +1,8 @@
 <?php
+namespace repository\content_object\document;
+use repository\ContentObject;
+use common\libraries\Versionable;
+use common\libraries\Utilities;
 /**
  * $Id: document.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.document

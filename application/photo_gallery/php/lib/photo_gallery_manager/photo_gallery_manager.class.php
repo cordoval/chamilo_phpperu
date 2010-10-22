@@ -2,6 +2,8 @@
 namespace application\photo_gallery;
 
 use common\libraries\Utilities;
+use common\libraries\WebApplication;
+use common\libraries\Request;
 /**
  * $Id: photo_gallery_manager.class.php
  * @package application.photo_gallery
@@ -32,7 +34,7 @@ class PhotoGalleryManager extends WebApplication
     {
     	parent :: __construct($user);
         $this->set_parameter(self :: PARAM_RENDERER, $this->get_renderer());
-        spl_autoload_register('PhotoGalleryManager::__autoload');
+        //spl_autoload_register('PhotoGalleryManager::__autoload');
     
     }
 

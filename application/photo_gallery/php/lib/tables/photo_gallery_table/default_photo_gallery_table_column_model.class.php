@@ -1,6 +1,8 @@
 <?php
 namespace application\photo_gallery;
 
+use repository\ContentObject;
+use repository\RepositoryDataManager;
 
 class DefaultPhotoGalleryTableColumnModel extends ObjectTableColumnModel
 {

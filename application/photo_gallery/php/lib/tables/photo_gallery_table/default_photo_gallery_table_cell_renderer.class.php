@@ -1,8 +1,10 @@
 <?php
 namespace application\photo_gallery;
 
-
 use common\libraries\Utilities;
+
+use repository\ContentObject;
+
 class DefaultPhotoGalleryTableCellRenderer extends ObjectTableCellRenderer
 {
 
