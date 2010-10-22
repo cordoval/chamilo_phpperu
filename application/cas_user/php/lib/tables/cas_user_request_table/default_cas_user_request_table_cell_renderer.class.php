@@ -2,6 +2,7 @@
 namespace application\cas_user;
 
 use common\libraries\ObjectTableCellRenderer;
+use common\libraries\DatetimeUtilities;
 
 require_once dirname(__FILE__) . '/../../cas_user_request.class.php';
 

@@ -2,6 +2,7 @@
 namespace application\cas_user;
 
 use common\libraries\Database;
+use common\libraries\EqualityCondition;
 
 /**
  * @package cda.datamanager

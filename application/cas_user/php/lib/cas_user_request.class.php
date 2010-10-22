@@ -4,6 +4,7 @@ namespace application\cas_user;
 use common\libraries\DataClass;
 
 use user\UserDataManager;
+use user\User;
 
 /**
  * @author Hans De Bisschop

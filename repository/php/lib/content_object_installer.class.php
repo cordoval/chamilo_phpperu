@@ -9,9 +9,11 @@ use common\libraries\EqualityCondition;
 use common\libraries\Filesystem;
 
 use user\UserDataManager;
+use user\User;
 
 use admin\Registration;
 use admin\PackageInfo;
+use admin\Setting;
 
 use DOMDocument;
 
@@ -130,9 +132,11 @@ abstract class ContentObjectInstaller
 
     function get_content_object_name()
     {
-        $content_object_class = str_replace('ContentObjectInstaller', '', get_class($this));
+        $classname_parts = explode('\\', get_class($this));
+        array_pop($classname_parts);
+        $content_object_class = array_pop($classname_parts);
 
-        return $content_object_class;
+        return Utilities::underscores_to_camelcase($content_object_class);
     }
 
     /**
