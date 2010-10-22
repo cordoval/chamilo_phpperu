@@ -4,6 +4,7 @@ namespace common\libraries;
 use repository\RepositoryAutoloader;
 use XML_Unserializer;
 use PEAR;
+use repository\ContentObject;
 
 /**
  * $Id: utilities.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
@@ -581,7 +582,7 @@ class Utilities
     static function autoload_web($classname)
     {
     	$applications = WebApplication :: load_all_from_filesystem(false);
-        $applications = array('photo_gallery');
+        $applications = array('search_portal');
     	foreach ($applications as $application)
         {
             $path = WebApplication :: get_application_class_path($application) . $application . '_autoloader.class.php';
