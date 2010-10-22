@@ -4,6 +4,9 @@ namespace application\photo_gallery;
 use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\Path;
+
+use repository\ContentObject;
+use repository\RepositoryDataManager;
 /**
  * $Id: photo_gallery_publisher.class.php 201 2009-11-13 12:34:51Z chellee $
  * @package application.personal_calendar.publisher

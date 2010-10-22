@@ -2,6 +2,8 @@
 namespace application\photo_gallery;
 
 use common\libraries\Translation;
+use common\libraries\WebApplication;
+use common\libraries\Translation;
 /**
  * $Id: editor.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.photo_gallery.photo_gallery_manager.component
