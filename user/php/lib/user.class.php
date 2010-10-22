@@ -12,6 +12,7 @@ use common\libraries\InCondition;
 use common\libraries\PlatformSetting;
 
 use repository\RepositoryDataManager;
+use group\GroupDataManager;
 /**
  * $Id: user.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib
