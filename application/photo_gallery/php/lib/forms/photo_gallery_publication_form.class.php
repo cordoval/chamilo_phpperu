@@ -1,4 +1,8 @@
 <?php
+namespace application\photo_gallery;
+
+use common\libraries\Translation;
+use common\libraries\Path;
 /**
  * $Id: photo_gallery_publication_form.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.photo_gallery.forms

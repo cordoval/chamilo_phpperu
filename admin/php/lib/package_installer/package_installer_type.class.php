@@ -79,7 +79,7 @@ abstract class PackageInstallerType
      */
     static function factory($parent, $type, $source)
     {
-        $class = 'PackageInstaller' . Utilities :: underscores_to_camelcase($type) . 'Type';
+        $class = __NAMESPACE__ . '\\' . 'PackageInstaller' . Utilities :: underscores_to_camelcase($type) . 'Type';
         require_once dirname(__FILE__) . '/type/' . $type . '.class.php';
         return new $class($parent, $source);
     }

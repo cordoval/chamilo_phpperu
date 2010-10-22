@@ -1,4 +1,8 @@
 <?php
+namespace application\photo_gallery;
+
+use common\libraries\Utilities;
+use common\libraries\Translation;
 /**
  * $Id: browser.class.php
  * @package application.lib.photo_gallery.photo_gallery_manager.component

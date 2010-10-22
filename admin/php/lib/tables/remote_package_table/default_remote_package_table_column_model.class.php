@@ -1,5 +1,7 @@
 <?php
 namespace admin;
+
+use common\libraries\ObjectTableColumnModel;
 /**
  * $Id: default_remote_package_table_column_model.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package admin.lib.tables.remote_package_table

@@ -1,6 +1,7 @@
 <?php
 namespace admin;
 use common\libraries\Translation;
+use common\libraries\Path;
  
 /**
  * $Id: remote.class.php 126 2009-11-09 13:11:05Z vanpouckesven $

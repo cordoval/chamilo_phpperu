@@ -1,4 +1,6 @@
 <?php
+namespace application\photo_gallery;
+
 /**
  * $Id: table_content_object_publication_list_renderer.class.php
  */

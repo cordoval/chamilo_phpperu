@@ -7,6 +7,9 @@ use common\libraries\Translation;
 use common\libraries\Installer;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
+use common\libraries\Path;
+use menu\NavigationItem;
+
 require_once Path :: get_admin_path() . 'lib/package_installer/package_installer_type.class.php';
 
 /**

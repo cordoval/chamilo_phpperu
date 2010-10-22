@@ -1,4 +1,11 @@
 <?php
+use common\libraries\Request;
+use common\libraries\WebApplication;
+use common\libraries\Utilities;
+use common\libraries\Authentication;
+use common\libraries\Session;
+use common\libraries\Application;
+use user\UserDataManager;
 /**
  * This script will load the requested application and launch it.
  */

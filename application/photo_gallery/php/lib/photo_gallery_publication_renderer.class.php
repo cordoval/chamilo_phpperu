@@ -1,4 +1,11 @@
 <?php
+namespace application\photo_gallery;
+
+use common\libraries\Utilities;
+use common\libraries\Translation;
+use common\libraries\ActionBarSearchForm;
+use common\libraries\Path;
+
 require_once Path :: get_common_libraries_class_path() . 'html/action_bar/action_bar_search_form.class.php';
 
 abstract class PhotoGalleryPublicationRenderer
@@ -29,7 +36,7 @@ abstract class PhotoGalleryPublicationRenderer
         
         require_once $file;
         
-        $class = Utilities :: underscores_to_camelcase($type) . 'PhotoGalleryPublicationRenderer';
+        $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type) . 'PhotoGalleryPublicationRenderer';
         return new $class($browser);
     }
 

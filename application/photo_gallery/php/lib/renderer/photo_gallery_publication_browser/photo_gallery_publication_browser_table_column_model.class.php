@@ -1,4 +1,6 @@
 <?php
+namespace application\photo_gallery;
+
 /**
  * Table column model for the publication browser table
  */

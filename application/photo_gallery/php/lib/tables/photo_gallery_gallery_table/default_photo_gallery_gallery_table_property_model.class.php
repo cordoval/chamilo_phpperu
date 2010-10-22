@@ -1,4 +1,6 @@
 <?php
+namespace application\photo_gallery;
+
 class DefaultPhotoGalleryGalleryTablePropertyModel extends GalleryObjectTablePropertyModel
 {
 
