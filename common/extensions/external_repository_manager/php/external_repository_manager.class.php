@@ -3,6 +3,10 @@ namespace common\extensions\external_repository_manager;
 
 use common\libraries\SubManager;
 use common\libraries\Path;
+use common\libraries\Utilities;
+use common\libraries\Request;
+
+use repository\RepositoryManager;
 
 abstract class ExternalRepositoryManager extends SubManager
 {

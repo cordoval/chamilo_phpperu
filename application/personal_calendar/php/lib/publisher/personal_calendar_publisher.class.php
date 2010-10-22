@@ -7,6 +7,8 @@ use repository\RepositoryDataManager;
 use common\libraries\Translation;
 use common\libraries\Theme;
 use common\extensions\repo_viewer\RepoViewer;
+use repository\ContentObject;
+use common\libraries\Application;
 /**
  * $Id: personal_calendar_publisher.class.php 201 2009-11-13 12:34:51Z chellee $
  * @package application.personal_calendar.publisher

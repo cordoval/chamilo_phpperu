@@ -1,5 +1,12 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\youtube;
+
+use common\libraries\Path;
+use common\libraries\Request;
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
+use common\extensions\external_repository_manager\ExternalRepositoryObject;
+use repository\ExternalRepositorySetting;
+
 require_once dirname(__FILE__) . '/youtube_external_repository_connector.class.php';
 
 class YoutubeExternalRepositoryManager extends ExternalRepositoryManager

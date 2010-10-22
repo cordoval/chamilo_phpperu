@@ -145,7 +145,8 @@ class RepositoryAutoloader
 
                 'repository_manager' => 'repository_manager/repository_manager.class.php', 'repository_manager_component' => 'repository_manager/repository_manager_component.class.php',
                 'repository_search_form' => 'repository_manager/repository_search_form.class.php', 'publisher_wizard' => 'repository_manager/component/publisher_wizard/publisher_wizard.class.php',
-                'default_content_object_table_column_model' => 'content_object_table/default_content_object_table_column_model.class.php');
+                'default_content_object_table_column_model' => 'content_object_table/default_content_object_table_column_model.class.php',
+        		'default_content_object_table_cell_renderer' => 'content_object_table/default_content_object_table_cell_renderer.class.php');
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 

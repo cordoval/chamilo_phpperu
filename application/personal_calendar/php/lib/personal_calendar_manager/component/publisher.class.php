@@ -5,6 +5,8 @@ use common\libraries\WebApplication;
 use common\libraries\Display;
 use common\extensions\repo_viewer\RepoViewer;
 use repository\content_object\calendar_event\CalendarEvent;
+use repository\content_object\task\Task;
+use repository\content_object\external_calendar\ExternalCalendar;
 use common\libraries\Breadcrumb;
 use common\extensions\repo_viewer\RepoViewerInterface;
 use common\libraries\Application;
