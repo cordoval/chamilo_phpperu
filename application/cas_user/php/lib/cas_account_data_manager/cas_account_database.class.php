@@ -1,6 +1,8 @@
 <?php
 namespace application\cas_user;
 
+use common\libraries\Database;
+
 require_once dirname(__FILE__) . '/cas_account_connection.class.php';
 
 /**
