@@ -1,6 +1,13 @@
 <?php
 namespace application\cas_user;
 
+use common\libraries\BreadcrumbTrail;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ToolbarItem;
+use common\libraries\Translation;
+use common\libraries\Theme;
+use common\libraries\Application;
+
 require_once dirname(__FILE__) . '/cas_user_request_browser/cas_user_request_browser_table.class.php';
 
 class CasUserManagerBrowserComponent extends CasUserManager

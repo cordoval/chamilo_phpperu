@@ -1,6 +1,9 @@
 <?php
 namespace application\cas_user;
 
+use common\libraries\Request;
+use common\libraries\Translation;
+
 require_once dirname(__FILE__) . '/../../forms/cas_user_request_form.class.php';
 
 /**

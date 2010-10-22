@@ -176,7 +176,7 @@ abstract class ContentObjectImport
     public static function factory($type, $content_object_file, $user, $category)
     {
         $file = dirname(__FILE__) . '/' . $type . '/' . $type . '_import.class.php';
-        $class = Utilities :: underscores_to_camelcase($type) . 'Import';
+        $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type) . 'Import';
         if (file_exists($file))
         {
             require_once ($file);
