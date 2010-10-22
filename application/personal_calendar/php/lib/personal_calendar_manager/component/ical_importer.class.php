@@ -5,6 +5,14 @@ use common\libraries\WebApplication;
 use common\libraries\Display;
 use common\libraries\Translation;
 use common\extensions\repo_viewer\RepoViewer;
+use common\libraries\Breadcrumb;
+use common\libraries\Application;
+use common\libraries\FormValidator;
+use common\libraries\EqualityCondition;
+use repository\RepositoryCategory;
+use common\libraries\AndCondition;
+use repository\RepositoryDataManager;
+use repository\ContentObjectImport;
 /**
  * $Id: ical_importer.class.php 201 2009-11-13 12:34:51Z chellee $
  * @package application.personal_calendar.personal_calendar_manager.component

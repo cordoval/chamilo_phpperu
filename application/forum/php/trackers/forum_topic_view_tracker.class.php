@@ -1,4 +1,8 @@
 <?php
+
+namespace application\forum;
+
+use common\libraries\Utilities;
 /**
  * @package application.lib.weblcms.trackers
  */

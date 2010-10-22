@@ -1,9 +1,15 @@
 <?php
+
+namespace application\forum;
+
+use common\libraries\Path;
+use common\libraries\EqualityCondition;
+use common\extensions\category_manager\PlatformCategory;
 /**
  * $Id: forum_publication_category.class.php 195 2009-11-13 12:02:41Z chellee $
  * @package application.lib.forum.category_manager
  */
-require_once Path :: get_common_extensions_path() . 'category_manager/platform_category.class.php';
+//require_once Path :: get_common_extensions_path() . 'category_manager/platform_category.class.php';
 /**
  *	@author Sven Vanpoucke
  */

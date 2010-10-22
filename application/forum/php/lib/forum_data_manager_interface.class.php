@@ -1,4 +1,4 @@
-<?php
+<?phpnamespace application\forum
 interface ForumDataManagerInterface
 {
     function initialize();

@@ -1,4 +1,4 @@
-<?php
+<?phpnamespace application\forum
 /**
  * $Id: rights_editor.class.php 198 2009-11-13 12:20:22Z vanpouckesven $
  * @package webservices.lib.webservice_manager.component
