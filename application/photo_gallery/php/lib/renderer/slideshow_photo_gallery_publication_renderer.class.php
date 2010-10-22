@@ -1,4 +1,7 @@
 <?php
+namespace application\photo_gallery;
+use common\libraries\Translation;
+
 class SlideshowPhotoGalleryPublicationRenderer extends PhotoGalleryPublicationRenderer
 {
     const SLIDESHOW_INDEX = 'slideshow';

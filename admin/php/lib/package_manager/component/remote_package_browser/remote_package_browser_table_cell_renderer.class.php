@@ -2,6 +2,7 @@
 namespace admin;
 use common\libraries\Utilities;
 use common\libraries\Translation;
+use common\libraries\Path;
 /**
  * $Id: remote_package_browser_table_cell_renderer.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package admin.lib.package_manager.component.remote_package_browser

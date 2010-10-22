@@ -1,4 +1,6 @@
 <?php
+namespace application\photo_gallery;
+
 class PhotoGalleryPublication extends DataClass
 {
 	const CLASS_NAME = __CLASS__;
@@ -198,7 +200,8 @@ class PhotoGalleryPublication extends DataClass
 
     static function get_table_name()
     {
-        return self :: TABLE_NAME;
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 }
 ?>

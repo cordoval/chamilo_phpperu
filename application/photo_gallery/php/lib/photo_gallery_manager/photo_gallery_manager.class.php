@@ -1,4 +1,7 @@
 <?php
+namespace application\photo_gallery;
+
+use common\libraries\Utilities;
 /**
  * $Id: photo_gallery_manager.class.php
  * @package application.photo_gallery

@@ -1,11 +1,13 @@
 <?php
+namespace application\photo_gallery;
+use common\libraries\Installer;
+use application\photo_gallery\PhotoGalleryDataManager;
 /**
  * $Id: photo_gallery_installer.class.php
  * @package application.lib.photo_gallery.install
  */
 class PhotoGalleryInstaller extends Installer
 {
-
     /**
      * Constructor
      */

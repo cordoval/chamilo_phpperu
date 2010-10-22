@@ -581,13 +581,14 @@ class Utilities
     static function autoload_web($classname)
     {
     	$applications = WebApplication :: load_all_from_filesystem(false);
-        foreach ($applications as $application)
+        $applications = array('photo_gallery');
+    	foreach ($applications as $application)
         {
             $path = WebApplication :: get_application_class_path($application) . $application . '_autoloader.class.php';
             if (file_exists($path))
             {
                 require_once $path;
-                $class = Utilities :: underscores_to_camelcase($application) . 'Autoloader';
+                $class = Application::determine_namespace($application) . '\\' . Utilities :: underscores_to_camelcase($application) . 'Autoloader';
                 if ($class :: load($classname))
                     break;
             }
