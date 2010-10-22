@@ -1,4 +1,14 @@
 <?php
+namespace application\wiki;
+
+use common\libraries\WebApplication;
+use common\libraries\CoreApplication;
+use common\libraries\Translation;
+use repository\RepositoryDataManager;
+use user\userDataManager;
+use reporting\ReportingFormatter;
+use tracking\TrackingDataManager;
+
 require_once WebApplication :: get_application_class_path('wiki') . 'reporting/wiki_reporting_block.class.php';
 require_once  CoreApplication :: get_application_class_lib_path('reporting') . 'reporting_data.class.php';
 

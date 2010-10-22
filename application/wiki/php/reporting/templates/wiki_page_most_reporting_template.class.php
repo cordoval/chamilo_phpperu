@@ -1,4 +1,8 @@
 <?php
+namespace application\wiki;
+
+use common\libraries\WebApplication;
+
 /**
  * $Id: wiki_page_reporting_template.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.reporting.templates
@@ -28,7 +32,7 @@ class WikiPageMostReportingTemplate extends ReportingTemplate
 	
 	function get_application()
     {
-    	return WeblcmsManager::APPLICATION_NAME;
+    	return WikiManager::APPLICATION_NAME;
     }
     
     /**

@@ -1,4 +1,10 @@
 <?php
+namespace application\wiki;
+
+use common\libraries\Installer;
+use common\libraries\WebApplication;
+
+
 /**
  * $Id: wiki_installer.class.php 210 2009-11-13 13:18:50Z kariboe $
  * @package application.lib.wiki.install
