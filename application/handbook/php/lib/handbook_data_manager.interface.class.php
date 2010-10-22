@@ -1,4 +1,5 @@
 <?php
+namespace application\handbook;
 /**
  * $Id: handbook_data_manager.class.php 206 2009-11-13 13:08:01Z chellee $
  * @package application.handbook

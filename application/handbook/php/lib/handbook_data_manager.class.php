@@ -1,4 +1,5 @@
 <?php
+namespace application\handbook;
 /**
  *	This is a skeleton for a data manager for the Handbook Application.
  *	Data managers must extend this class and implement its abstract methods.

@@ -1,5 +1,5 @@
 <?php
-
+namespace application\handbook;
 require_once   dirname(__FILE__) .  '/handbook_publication_browser_table_column_model.class.php';
 require_once   dirname(__FILE__) . '/../../../tables/handbook_publication_table/default_handbook_publication_table_cell_renderer.class.php';
 

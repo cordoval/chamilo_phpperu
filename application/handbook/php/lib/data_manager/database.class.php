@@ -1,4 +1,5 @@
 <?php
+namespace application\handbook;
 use common\libraries\Database;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;

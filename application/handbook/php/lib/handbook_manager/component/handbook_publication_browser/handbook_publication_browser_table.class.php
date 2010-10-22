@@ -1,4 +1,5 @@
 <?php
+namespace application\handbook;
 use common\libraries\ObjectTable;
 
 require_once dirname(__FILE__) . '/handbook_publication_browser_table_data_provider.class.php';

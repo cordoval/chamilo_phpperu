@@ -1,4 +1,5 @@
 <?php
+namespace application\handbook;
 use common\libraries\WebApplication;
 use common\libraries\EqualityCondition;
 /**

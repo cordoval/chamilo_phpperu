@@ -1,4 +1,5 @@
 <?php
+namespace application\handbook;
 use common\libraries\FormValidator;
 
 require_once dirname(__FILE__) . '/../lib/handbook_publication.class.php';

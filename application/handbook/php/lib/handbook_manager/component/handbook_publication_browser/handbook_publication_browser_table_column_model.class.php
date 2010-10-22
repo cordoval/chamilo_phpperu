@@ -1,4 +1,6 @@
 <?php
+namespace application\handbook;
+
 require_once   dirname(__FILE__) . '/../../../tables/handbook_publication_table/default_handbook_publication_table_column_model.class.php';
 
 

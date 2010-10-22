@@ -1,4 +1,5 @@
 <?php
+namespace application\handbook;
 /**
  * @package application.handbook.handbook.component
  */
