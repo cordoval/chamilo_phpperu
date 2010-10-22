@@ -1,4 +1,6 @@
 <?php
+use common\libraries\ComplexContentObjectSupport;
+
 require_once dirname(__FILE__) . '/uuid.class.php';
 
 /**
