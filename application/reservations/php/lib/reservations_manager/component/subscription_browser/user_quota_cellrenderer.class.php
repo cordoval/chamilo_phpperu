@@ -1,4 +1,6 @@
-<?php namespace reservations;
+<?php
+
+namespace application\reservations;
 /**
  * $Id: user_quota_cellrenderer.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.reservations_manager.component.subscription_browser

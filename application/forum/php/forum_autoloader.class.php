@@ -1,4 +1,9 @@
 <?php
+namespace application\forum;
+
+use common\libraries\WebApplication;
+use common\libraries\Utilities;
+
 /**
  * $Id: user_autoloader.class.php 167 2009-11-12 11:17:52Z vanpouckesven $
  * @author vanpouckesven
@@ -7,8 +12,26 @@
 
 class ForumAutoloader
 {
+
+        public static $class_name;
+
 	static function load($classname)
 	{
+            $classname_parts = explode('\\', $classname);
+
+        if (count($classname_parts) == 1)
+        {
+            return false;
+        }
+        else
+        {
+            self :: $class_name = $classname_parts[count($classname_parts) - 1];
+            array_pop($classname_parts);
+            if (implode('\\', $classname_parts) != __NAMESPACE__)
+            {
+                return false;
+            }
+        }
 		$list = array(
 		'forum_rights' => 'forum_rights.class.php',
 		'forum_data_manager' => 'forum_data_manager.class.php',

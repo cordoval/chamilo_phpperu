@@ -1,6 +1,6 @@
 <?php
 
-namespace reservations;
+namespace application\reservations;
 
 use common\libraries\Display;
 use common\libraries\Translation;

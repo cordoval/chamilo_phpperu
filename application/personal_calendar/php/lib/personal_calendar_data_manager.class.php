@@ -1,4 +1,17 @@
 <?php
+
+namespace application\personal_calendar;
+
+use common\libraries\Configuration;
+use common\libraries\InCondition;
+use common\libraries\Utilities;
+use common\libraries\Filesystem;
+use common\libraries\EqualityCondition;
+use common\libraries\OrCondition;
+use common\libraries\Request;
+use common\libraries\WebApplication;
+
+
 /**
  * $Id: personal_calendar_data_manager.class.php 127 2009-11-09 13:11:56Z vanpouckesven $
  * @package application.personal_calendar
@@ -24,7 +37,7 @@ class PersonalCalendarDataManager
         $this->initialize();
     }
 
-    /**
+    /**-
      * Creates the shared instance of the configured data manager if
      * necessary and returns it. Uses a factory pattern.
      * @return PersonalCalendarDataManager The instance.
@@ -35,7 +48,7 @@ class PersonalCalendarDataManager
         {
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
             require_once dirname(__FILE__) . '/data_manager/' . strtolower($type) . '_personal_calendar_data_manager.class.php';
-            $class = Utilities :: underscores_to_camelcase($type) . 'PersonalCalendarDataManager';
+            $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type) . 'PersonalCalendarDataManager';
             self :: $instance = new $class();
         }
         return self :: $instance;

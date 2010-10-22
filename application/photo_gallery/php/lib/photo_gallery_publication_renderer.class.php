@@ -2,6 +2,7 @@
 namespace application\photo_gallery;
 
 use common\libraries\Utilities;
+use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\ActionBarSearchForm;
 use common\libraries\Path;

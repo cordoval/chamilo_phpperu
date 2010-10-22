@@ -1,6 +1,6 @@
 <?php
 
-namespace reservations;
+namespace application\reservations;
 
 use common\libraries\MiniMonthCalendar;
 use common\libraries\EqualityCondition;

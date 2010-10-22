@@ -1,5 +1,6 @@
 <?php
 namespace common\libraries;
+use HTML_Table;
 
 /**
  * $Id: day_calendar.class.php 205 2009-11-13 12:57:33Z vanpouckesven $

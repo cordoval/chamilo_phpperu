@@ -1,4 +1,9 @@
 <?php
+
+namespace application\personal_calendar;
+
+use user\UserDataManager;
+use group\GroupDataManager;
 /**
  * $Id: personal_calendar_publication_form.class.php 201 2009-11-13 12:34:51Z chellee $
  * @package application.personal_calendar

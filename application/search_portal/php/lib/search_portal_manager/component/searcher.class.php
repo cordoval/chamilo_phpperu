@@ -1,4 +1,14 @@
 <?php
+namespace application\search_portal;
+
+use common\libraries\WebApplication;
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Request;
+use common\libraries\FormValidator;
+use common\libraries\Translation;
+
+
 /**
  * $Id: search_portal_manager_searcher_component.class.php 222 2009-11-13 14:39:28Z chellee $
  * @package application.search_portal.search_portal_manager.component

@@ -1,4 +1,12 @@
-<?php namespace reservations;
+<?php
+
+namespace application\reservations;
+
+use common\libraries\WebApplication;
+use common\libraries\Toolbar;
+use common\libraries\ToolbarItem;
+use common\libraries\Translation;
+use common\libraries\Theme;
 /**
  * $Id: subscription_browser_table_cell_renderer.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.reservations_manager.component.subscription_browser

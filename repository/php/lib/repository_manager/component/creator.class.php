@@ -209,7 +209,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManager
                 $type_categories[$category] = array();
             }
 
-            $type_categories[$category][Translation :: get(Utilities :: underscores_to_camelcase($type) . 'TypeName')] = $type;
+            $type_categories[$category][Translation :: get(ContentObject :: type_to_class($type) . 'TypeName')] = $type;
 
             $count = $this->count_type_content_objects($type, $condition);
             $type_counts[$type] = $count;
@@ -232,7 +232,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManager
             {
                 $most_used_html[] = '<a href="' . $this->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE => $type)) . '"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/big/' . $type . '.png);">';
                 //                $most_used_html[] = '<a href="' . $this->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE => $type)) . '"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/' . $type . '.png);">';
-                $most_used_html[] = Translation :: get(Utilities :: underscores_to_camelcase($type) . 'TypeName');
+                $most_used_html[] = Translation :: get(ContentObject :: type_to_class($type) . 'TypeName');
                 $most_used_html[] = '</div></a>';
             }
         }

@@ -1,4 +1,6 @@
 <?php
+namespace application\personal_calendar;
+
 class PersonalCalendarEventTaskParser extends PersonalCalendarEventParser
 {
 	function get_events()

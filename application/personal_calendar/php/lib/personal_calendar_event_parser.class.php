@@ -1,4 +1,11 @@
 <?php
+
+namespace application\personal_calendar;
+
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Utilities;
+
 abstract class PersonalCalendarEventParser 
 {
 	private $publication;

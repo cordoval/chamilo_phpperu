@@ -1,13 +1,16 @@
 <?php
 namespace application\cas_user;
 
+use common\libraries\Toolbar;
+use common\libraries\ToolbarItem;
+use common\libraries\Translation;
+use common\libraries\Theme;
+
 /**
  * @package cda.tables.cas_user_request_table
  */
 require_once dirname(__FILE__) . '/cas_user_request_browser_table_column_model.class.php';
 require_once dirname(__FILE__) . '/../../../tables/cas_user_request_table/default_cas_user_request_table_cell_renderer.class.php';
-require_once dirname(__FILE__) . '/../../../cas_user_request.class.php';
-require_once dirname(__FILE__) . '/../../cas_user_manager.class.php';
 
 /**
  * Cell rendere for the learning object browser table

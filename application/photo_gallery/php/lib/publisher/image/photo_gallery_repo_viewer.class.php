@@ -1,6 +1,8 @@
 <?php
 namespace application\photo_gallery;
 
+  
+
 class PhotoGalleryRepoViewer extends RepoViewer
 {
 	function PhotoGalleryRepoViewer($parent, $types, $maximum_select = RepoViewer :: SELECT_MULTIPLE, $excluded_objects = array(), $parse_input = true)

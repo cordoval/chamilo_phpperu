@@ -1,8 +1,9 @@
 <?php 
 
-namespace reservations;
+namespace application\reservations;
 
 use common\libraries\Utilities;
+use tracking\ChangesTracker;
 
 /**
  * $Id: reservations_changes_tracker.class.php 219 2009-11-13 14:28:13Z chellee $

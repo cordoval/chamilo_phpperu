@@ -1,4 +1,10 @@
 <?php
+
+namespace application\personal_calendar;
+
+use IcalRecurrence;
+
+
 class PersonalCalendarEventExternalCalendarParser extends PersonalCalendarEventParser
 {
 

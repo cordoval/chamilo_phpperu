@@ -1,5 +1,7 @@
 <?php
 namespace common\libraries;
+
+use HTML_Table;
 /**
  * $Id: mini_week_calendar.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.common

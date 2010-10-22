@@ -1,6 +1,6 @@
 <?php 
 
-namespace reservations;
+namespace application\reservations;
 
 use common\libraries\Authentication;
 use common\libraries\EqualityCondition;

@@ -1,4 +1,8 @@
-<?php namespace reservations;
+<?php
+
+namespace application\reservations;
+
+use common\libraries\ObjectTableDataProvider;
 /**
  * $Id: quota_box_browser_table_data_provider.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.reservations_manager.component.quota_box_browser
