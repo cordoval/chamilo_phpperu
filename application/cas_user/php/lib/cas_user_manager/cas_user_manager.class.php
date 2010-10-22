@@ -25,7 +25,7 @@ class CasUserManager extends WebApplication
      * Constructor
      * @param int $user_id
      */
-    public function PhotoGalleryManager($user)
+    public function CasUserManager($user)
     {
         parent :: __construct($user);
     }
