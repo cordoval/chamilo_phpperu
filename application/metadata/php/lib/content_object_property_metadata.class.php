@@ -1,6 +1,9 @@
 <?php
 namespace application\metadata;
 use common\libraries\DataClass;
+use user\UserDataManager;
+use common\libraries\Utilities;
+use repository\ContentObject;
 /**
  * This class describes a ContentObjectPropertyMetadata data object
  * @author Sven Vanpoucke

@@ -1,5 +1,8 @@
-<?php 
+<?php
+
 namespace application\metadata;
+use repository\DefaultContentObjectTableColumnModel;
+use common\libraries\StaticTableColumn;
 
 /**
  * Table column model for the metadata_property_value browser table

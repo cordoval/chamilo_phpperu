@@ -1,5 +1,6 @@
 <?php
 namespace application\metadata;
+require_once dirname(__FILE__) . '../../../tables/metadata_property_attribute_type_table/default_metadata_property_attribute_type_table_column_model.class.php';
 
 /**
  * Table column model for the metadata_property_attribute_type browser table

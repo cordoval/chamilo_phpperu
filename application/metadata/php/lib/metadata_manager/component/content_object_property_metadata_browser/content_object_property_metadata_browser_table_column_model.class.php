@@ -1,5 +1,6 @@
 <?php
 namespace application\metadata;
+require_once dirname(__FILE_) . '../../../tables/content_object_property_metadata_table/default_content_object_property_metadata_table_column_model.class.php';
 
 /**
  * Table column model for the content_object_property_metadata browser table
