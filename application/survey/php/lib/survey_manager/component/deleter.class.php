@@ -1,5 +1,8 @@
-<?php namespace application\survey;
-require_once dirname(__FILE__) . '/../survey_manager.class.php';
+<?php 
+namespace application\survey;
+
+use common\libraries\Translation;
+use common\libraries\Request;
 
 class SurveyManagerDeleterComponent extends SurveyManager
 {

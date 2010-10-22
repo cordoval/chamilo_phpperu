@@ -1,4 +1,6 @@
-<?php namespace application\survey;
+<?php 
+namespace application\survey;
+
 class SurveyManagerInviterComponent extends SurveyManager
 {
 

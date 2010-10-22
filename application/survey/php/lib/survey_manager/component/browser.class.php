@@ -12,12 +12,6 @@ use common\libraries\ActionBarSearchForm;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 
-
-//require_once dirname(__FILE__) . '/../survey_manager.class.php';
-
-//require_once dirname(__FILE__) . '/../../survey_publication_category_menu.class.php';
-//require_once dirname(__FILE__) . '/publication_browser/publication_browser_table.class.php';
-
 class SurveyManagerBrowserComponent extends SurveyManager
 {
     private $action_bar;

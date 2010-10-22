@@ -1,6 +1,8 @@
-<?php namespace application\survey;
-//require_once dirname(__FILE__) . '/../survey_manager.class.php';
-require_once Path :: get_application_path() . 'lib/survey/survey_manager/component/participant_browser.class.php';
+<?php 
+namespace application\survey;
+
+use common\libraries\Translation;
+use common\libraries\Request;
 
 class SurveyManagerInvitationCancelerComponent extends SurveyManager
 {

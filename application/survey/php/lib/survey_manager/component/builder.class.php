@@ -1,8 +1,5 @@
 <?php namespace application\survey;
 
-require_once dirname(__FILE__) . '/../survey_manager.class.php';
-require_once dirname(__FILE__) . '/survey_publication_browser/survey_publication_browser_table.class.php';
-
 class SurveyManagerBuilderComponent extends SurveyManager
 {
     private $content_object;

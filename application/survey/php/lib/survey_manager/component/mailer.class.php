@@ -1,10 +1,8 @@
-<?php namespace application\survey;
+<?php 
+namespace application\survey;
 
-require_once dirname(__FILE__) . '/../survey_manager.class.php';
-
-require_once dirname(__FILE__) . '/../../forms/survey_publication_mailer_form.class.php';
-require_once dirname(__FILE__) . '/../../survey_publication_mail.class.php';
-require_once Path :: get_application_path() . 'lib/survey/trackers/survey_participant_mail_tracker.class.php';
+use common\libraries\Translation;
+use common\libraries\Request;
 
 class SurveyManagerMailerComponent extends SurveyManager
 {

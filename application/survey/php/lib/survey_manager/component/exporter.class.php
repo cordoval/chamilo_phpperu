@@ -1,4 +1,7 @@
 <?php
+namespace application\survey;
+
+use common\libraries\DelegateComponent;
 
 class SurveyManagerExporterComponent extends SurveyManager implements DelegateComponent
 {

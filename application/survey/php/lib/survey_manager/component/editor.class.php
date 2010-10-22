@@ -1,6 +1,11 @@
-<?php namespace application\survey;
+<?php 
+namespace application\survey;
 
-require_once Path :: get_application_path() . 'lib/survey/forms/survey_publication_form.class.php';
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
+use common\libraries\Request;
+use common\libraries\DynamicTabsRenderer;
 
 class SurveyManagerEditorComponent extends SurveyManager
 {
