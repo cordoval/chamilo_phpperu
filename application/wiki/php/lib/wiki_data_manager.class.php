@@ -1,4 +1,10 @@
 <?php
+namespace application\wiki;
+
+use common\libraries\Configuration;
+use common\libraries\Utilities;
+
+
 /**
  * $Id: wiki_data_manager.class.php 210 2009-11-13 13:18:50Z kariboe $
  * @package application.lib.wiki
@@ -36,7 +42,7 @@ class WikiDataManager
         {
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
             require_once dirname(__FILE__) . '/data_manager/' . Utilities :: camelcase_to_underscores($type) . '_wiki_data_manager.class.php';
-            $class = $type . 'WikiDataManager';
+            $class = __NAMESPACE__.'\\'.$type . 'WikiDataManager';
             self :: $instance = new $class();
         }
         return self :: $instance;

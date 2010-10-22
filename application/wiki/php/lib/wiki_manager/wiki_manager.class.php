@@ -1,4 +1,6 @@
 <?php
+namespace application\wiki;
+
 /**
  * $Id: wiki_manager.class.php 210 2009-11-13 13:18:50Z kariboe $
  * @package application.lib.wiki.wiki_manager

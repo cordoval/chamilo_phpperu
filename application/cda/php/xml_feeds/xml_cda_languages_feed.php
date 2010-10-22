@@ -1,11 +1,23 @@
 <?php
+
+namespace application\cda;
+
+use common\libraries\WebApplication;
+use common\libraries\Authentication;
+use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
+use common\libraries\NotCondition;
+use common\libraries\OrCondition;
+use common\libraries\AndCondition;
+use common\libraries\ObjectTableOrder;
+use common\libraries\Translation;
 /**
  * $Id: xml_cda_languages_feed.php 224 2009-11-13 14:40:30Z kariboe $
  * @package application.lib.cda.xml_feeds
  * @author Sven Vanpoucke
  * @author Hans De Bisschop
  */
-require_once dirname(__FILE__) . '/../../../../common/global.inc.php';
+require_once dirname(__FILE__) . '/../../../../../common/global.inc.php';
 require_once WebApplication :: get_application_class_lib_path('cda') . 'cda_data_manager.class.php';
 require_once WebApplication :: get_application_class_lib_path('cda') . 'cda_language.class.php';
 

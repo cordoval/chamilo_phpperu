@@ -1,4 +1,10 @@
 <?php
+
+namespace application\cda;
+
+use common\libraries\ObjectTableCellRenderer;
+use common\libraries\LocalSetting;
+use common\libraries\Translation;
 /**
  * @package cda.tables.variable_translation_table
  */

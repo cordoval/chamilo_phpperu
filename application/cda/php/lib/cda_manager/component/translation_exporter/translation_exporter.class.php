@@ -1,4 +1,4 @@
-<?php
+<?php namespace application\cda;
 /**
  * $Id: translation_exporter.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
  */
@@ -131,7 +131,7 @@ abstract class TranslationExporter
     
  	function write_file_header($handle)
     {
-    	fwrite($handle, "<?php\n");
+    	fwrite($handle, "<?php namespace application\cda;\n");
     }
     
 	function write_file_footer($handle)

@@ -1,4 +1,4 @@
-<?php
+<?php namespace application\cda;
 /**
  * $Id: exporter_wizard_process.class.php 204 2009-11-13 12:51:30Z kariboe $
  */

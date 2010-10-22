@@ -1,4 +1,10 @@
 <?php
+
+namespace application\cda;
+
+use common\libraries\ObjectTableCellRenderer;
+
+
 /**
  * @package cda.tables.language_pack_table
  */

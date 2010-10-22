@@ -1,4 +1,4 @@
-<?php
+<?php namespace application\cda;
 /*
  * @author Sven Vanpoucke
  */

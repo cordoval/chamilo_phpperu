@@ -1,4 +1,4 @@
-<?php
+<?php namespace application\cda;
 /**
  * @package cda.cda_manager.component.language_pack_browser
  */

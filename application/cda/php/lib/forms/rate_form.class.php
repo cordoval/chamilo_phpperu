@@ -1,4 +1,9 @@
 <?php
+
+namespace application\cda;
+
+use common\libraries\FormValidator;
+use common\libraries\Translation;
 /**
  * @package 
  * 
