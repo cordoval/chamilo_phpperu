@@ -1,5 +1,6 @@
 <?php
 namespace application\metadata;
+use common\libraries\ObjectTableDataProvider;
 
 /**
  * Data provider for a content_object_property_metadata table

@@ -1,5 +1,7 @@
 <?php
 namespace application\metadata;
+use common\libraries\ObjectTableDataProvider;
+use repository\RepositoryDataManager;
 
 /**
  * Data provider for a metadata_property_value table

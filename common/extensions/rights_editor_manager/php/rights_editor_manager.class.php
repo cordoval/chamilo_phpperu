@@ -3,7 +3,8 @@ namespace common\extensions\rights_editor_manager;
 use common\libraries\SubManager;
 use common\libraries\Session;
 use common\libraries\Request;
-use common\libraries\Path;
+use common\libraries\Path
+;use common\libraries\Utilities;
 
 /**
  * $Id: rights_editor_manager.class.php 191 2009-11-13 11:50:28Z chellee $

@@ -1,4 +1,12 @@
 <?php
+namespace common\extensions\rights_editor_manager;
+
+use common\libraries\Path;
+use common\libraries\Utilities;
+use common\libraries\StaticTableColumn;
+use common\libraries\Translation;
+use rights\DefaultRightsTemplateTableColumnModel;
+
 /**
  * $Id: location_template_browser_table_column_model.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  */

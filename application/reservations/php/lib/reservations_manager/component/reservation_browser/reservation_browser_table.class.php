@@ -8,6 +8,7 @@ use common\libraries\Utilities;
 use common\libraries\ObjectTableFormAction;
 use common\libraries\Request;
 use common\libraries\ObjectTable;
+use common\libraries\Translation;
 /**
  * $Id: reservation_browser_table.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.reservations_manager.component.reservation_browser
@@ -33,7 +34,7 @@ class ReservationBrowserTable extends ObjectTable
         parent :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
         $this->set_additional_parameters($parameters);
         
-        if (get_class($browser) == 'ReservationsManagerAdminReservationBrowserComponent' && $browser->get_user() && $browser->get_user()->is_platform_admin())
+        if (Utilities :: get_classname_from_namespace(get_class($browser)) == 'ReservationsManagerAdminReservationBrowserComponent' && $browser->get_user() && $browser->get_user()->is_platform_admin())
         {
             $actions = new ObjectTableFormActions();
             

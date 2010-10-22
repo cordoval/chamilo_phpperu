@@ -1,5 +1,7 @@
 <?php
+namespace application\handbook;
 use common\libraries\ObjectTableCellRenderer;
+use common\libraries\Theme;
 
 
 class DefaultHandbookPublicationTableCellRenderer extends ObjectTableCellRenderer

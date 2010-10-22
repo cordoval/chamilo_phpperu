@@ -3,7 +3,9 @@ namespace repository\content_object\document;
 
 use common\libraries\Path;
 use common\libraries\Utilities;
+use common\libraries\Filesystem;
 
+use repository\RepositoryManager;
 use repository\ContentObjectDisplay;
 
 /**
@@ -19,7 +21,7 @@ class DocumentDisplay extends ContentObjectDisplay
     //Inherited
     function get_description()
     {
-        $html = parent :: get_description();
+    	$html = parent :: get_description();
         $object = $this->get_content_object();
         $name = $object->get_filename();
 
@@ -29,7 +31,7 @@ class DocumentDisplay extends ContentObjectDisplay
         $extension = strtolower(substr($name, strrpos($name, '.') + 1));
         if (in_array($extension, $img_extensions))
         {
-            $html = preg_replace('|</div>\s*$|s', '<br /><a href="' . Utilities :: htmlentities($url) . '"><img style="max-width: 100%" src="' . $url . '" /></a></div>', $html);
+        	$html = preg_replace('|</div>\s*$|s', '<br /><a href="' . Utilities :: htmlentities($url) . '"><img style="max-width: 100%" src="' . $url . '" /></a></div>', $html);
         }
         else
         {

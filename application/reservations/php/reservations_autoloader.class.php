@@ -43,6 +43,7 @@ class ReservationsAutoloader
 		'quota_box' => 'quota_box.class.php',
 		'quota_rel_quota_box' => 'quota_rel_quota_box.class.php',
 		'quota_box_rel_category' => 'quota_box_rel_category.class.php',
+                'quota_box_rel_category_rel_user' => 'quota_box_rel_category_rel_user.class.php',
 		'quota_box_rel_category_rel_group' => 'quota_box_rel_category_rel_group.class.php',
 		'quota_box_rel_category_rel_groupquota_box_rel_category_rel_group' => 'quota_box_rel_category_rel_group.class.php',
 		'overview_item' => 'overview_item.class.php',

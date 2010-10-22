@@ -582,7 +582,7 @@ class Utilities
     static function autoload_web($classname)
     {
     	$applications = WebApplication :: load_all_from_filesystem(false);
-        $applications = array('search_portal', 'photo_gallery', 'reservations', 'cas_user', 'personal_calendar', 'survey');
+        $applications = array('photo_gallery', 'reservations', 'cas_user', 'personal_calendar', 'forum', 'survey', 'metadata', 'wiki', 'search_portal', 'portfolio', 'handbook');
     	foreach ($applications as $application)
         {
             $path = WebApplication :: get_application_class_path($application) . $application . '_autoloader.class.php';

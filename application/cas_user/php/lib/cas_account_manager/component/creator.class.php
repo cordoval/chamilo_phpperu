@@ -1,6 +1,8 @@
 <?php
 namespace application\cas_user;
 
+use common\libraries\Translation;
+
 require_once dirname(__FILE__) . '/../../forms/cas_account_form.class.php';
 
 class CasAccountManagerCreatorComponent extends CasAccountManager

@@ -1,5 +1,7 @@
 <?php
 namespace common\extensions\rights_editor_manager;
+use common\libraries\Utilities;
+use rights\RightsUtilities;
 /**
  * $Id: user_rights_setter.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.rights_editor_manager.component

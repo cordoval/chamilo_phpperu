@@ -1,5 +1,6 @@
 <?php
 namespace application\metadata;
+require_once dirname(__FILE__) . '../../../tables/metadata_namespace_table/default_metadata_namespace_table_column_model.class.php';
 
 /**
  * Table column model for the user browser table

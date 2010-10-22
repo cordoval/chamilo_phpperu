@@ -1,7 +1,11 @@
 <?php
-/**
- * @package application.handbook.handbook.component
- */
+namespace application\handbook;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Request;
+use common\libraries\Translation;
+
+
 require_once dirname(__FILE__).'/../handbook_manager.class.php';
 require_once dirname(__FILE__).'/../../forms/handbook_publication_form.class.php';
 

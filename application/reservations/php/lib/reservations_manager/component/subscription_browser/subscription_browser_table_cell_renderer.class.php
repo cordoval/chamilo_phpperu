@@ -7,6 +7,7 @@ use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use common\libraries\Translation;
 use common\libraries\Theme;
+use common\libraries\Utilities;
 /**
  * $Id: subscription_browser_table_cell_renderer.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.reservations_manager.component.subscription_browser
@@ -63,7 +64,7 @@ class SubscriptionBrowserTableCellRenderer extends DefaultSubscriptionTableCellR
         		true
         ));
         
-     	if (get_class($this->browser) == 'ReservationsManagerAdminSubscriptionBrowserComponent' && $subscription->get_accepted() == 0)
+     	if (Utilities :: get_classname_from_namespace(get_class($this->browser)) == 'ReservationsManagerAdminSubscriptionBrowserComponent' && $subscription->get_accepted() == 0)
         {
             $toolbar->add_item(new ToolbarItem(
 	        		Translation :: get('Accept'),
