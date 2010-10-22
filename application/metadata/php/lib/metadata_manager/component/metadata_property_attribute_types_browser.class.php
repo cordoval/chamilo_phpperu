@@ -1,5 +1,8 @@
 <?php
 namespace application\metadata;
+use common\libraries\Translation;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ToolbarItem;
 
 /**
  * metadata component which allows the user to browse his metadata_property_attribute_types

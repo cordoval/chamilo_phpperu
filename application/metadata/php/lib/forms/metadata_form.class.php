@@ -1,6 +1,7 @@
 <?php
 namespace application\metadata;
 use common\libraries\FormValidator;
+use common\libraries\Translation;
 
 /**
  * This class describes the form for a MetadataPropertyValue object.

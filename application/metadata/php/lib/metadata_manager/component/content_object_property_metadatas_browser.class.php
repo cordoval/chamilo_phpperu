@@ -1,5 +1,9 @@
 <?php
 namespace application\metadata;
+use common\libraries\Application;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
 
 /**
  * metadata component which allows the user to browse his content_object_property_metadatas

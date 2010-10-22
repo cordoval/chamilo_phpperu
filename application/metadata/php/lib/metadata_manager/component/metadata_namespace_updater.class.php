@@ -1,5 +1,7 @@
 <?php
 namespace application\metadata;
+use common\libraries\Translation;
+use common\libraries\Request;
 
 /**
  * Component to edit an existing metadata_namespace object

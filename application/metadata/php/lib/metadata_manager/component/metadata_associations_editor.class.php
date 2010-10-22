@@ -1,5 +1,7 @@
 <?php
 namespace application\metadata;
+use common\libraries\Request;
+use common\libraries\Translation;
 
 /**
  * Component to edit an existing metadata_attribute_nesting object

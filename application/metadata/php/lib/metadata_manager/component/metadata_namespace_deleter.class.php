@@ -1,5 +1,6 @@
 <?php
 namespace application\metadata;
+use common\libraries\Translation;
 
 /**
  * Component to delete metadata_namespaces objects
