@@ -13,6 +13,7 @@ use reporting\ReportingTemplateRegistration;
 use reporting\Reporting;
 use webservice\WebserviceCategory;
 use webservice\WebserviceRegistration;
+use admin\Registration;
 /**
  * $Id: installer.class.php 198 2009-11-13 12:20:22Z vanpouckesven $
  * @package common
