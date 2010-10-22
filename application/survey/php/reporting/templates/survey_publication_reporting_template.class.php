@@ -1,4 +1,4 @@
-<?php
+<?php namespace application\survey;
 require_once PATH :: get_reporting_path() . '/lib/reporting_template.class.php';
 require_once dirname(__FILE__) . '/../blocks/survey_participant_reporting_block.class.php';
 require_once dirname(__FILE__) . '/../blocks/survey_participant_mail_reporting_block.class.php';

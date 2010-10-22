@@ -34,7 +34,7 @@ class SurveyDataManager
         {
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
             require_once dirname(__FILE__) . '/data_manager/' . Utilities :: camelcase_to_underscores($type) . '_survey_data_manager.class.php';
-            $class = $type . 'SurveyDataManager';
+            $class = __NAMESPACE__.'\\'.$type . 'SurveyDataManager';
             self :: $instance = new $class();
         }
         return self :: $instance;

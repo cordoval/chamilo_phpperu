@@ -1,4 +1,4 @@
-<?php
+<?php namespace application\survey;
 require_once PATH :: get_reporting_path() . '/lib/reporting_template.class.php';
 require_once dirname(__FILE__) . '/../blocks/survey_context_question_reporting_block.class.php';
 require_once Path :: get_application_path() . 'lib/survey/wizards/survey_reporting_filter_wizard.class.php';

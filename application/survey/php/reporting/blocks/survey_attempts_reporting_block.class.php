@@ -1,6 +1,8 @@
-<?php
-require_once dirname (__FILE__) . '/../survey_reporting_block.class.php';
-require_once dirname (__FILE__) . '/../../survey_manager/survey_manager.class.php';
+<?php 
+namespace application\survey;
+
+//require_once dirname (__FILE__) . '/../survey_reporting_block.class.php';
+
 class SurveyAttemptsReportingBlock extends SurveyReportingBlock
 {
 	public function count_data()

@@ -1,4 +1,4 @@
-<?php
+<?php namespace application\survey;
 
 class SurveyQuestionResultsTemplate extends ReportingTemplate
 {

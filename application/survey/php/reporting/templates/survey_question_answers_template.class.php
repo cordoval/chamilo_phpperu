@@ -1,4 +1,4 @@
-<?php
+<?php namespace application\survey;
 /**
  * $Id: survey_attempts_template.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.survey.reporting.templates

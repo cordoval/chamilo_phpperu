@@ -1,4 +1,4 @@
-<?php
+<?php namespace application\survey;
 class SurveyManagerComponent 
 {
 	public function SurveyManagerComponent()

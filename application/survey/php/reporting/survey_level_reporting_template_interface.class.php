@@ -1,4 +1,6 @@
-<?php
+<?php 
+namespace application\survey;
+
 interface SurveyLevelReportingTemplateInterface
 {
 
