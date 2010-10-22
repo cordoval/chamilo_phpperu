@@ -1,4 +1,13 @@
 <?php
+
+namespace application\cda;
+
+use common\libraries\WebApplication;
+use common\libraries\DynamicAction;
+use common\libraries\Translation;
+use common\libraries\Theme;
+use common\libraries\Redirect;
+use common\libraries\ObjectTable;
 /**
  * @package application.lib.cda.cda_manager
  */

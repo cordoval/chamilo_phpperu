@@ -1,4 +1,14 @@
 <?php
+
+namespace application\cda;
+
+use common\libraries\FormValidator;
+use common\libraries\Translation;
+use common\libraries\Path;
+use rights\RightsUtilities;
+use user\UserDataManager;
+use common\libraries\ObjectTableOrder;
+use user\User;
 /**
  * This class describes the form for a CdaLanguage object.
  * @author Sven Vanpoucke

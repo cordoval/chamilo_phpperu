@@ -1,4 +1,8 @@
 <?php
+
+namespace application\cda;
+
+use common\libraries\WebApplication;
 /**
  * $Id: settings_cda_connector.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.cda.settings

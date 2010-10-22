@@ -1,4 +1,4 @@
-<?php
+<?php namespace application\cda;
 /**
  * @package cda.tables.cda_language_table
  */

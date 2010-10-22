@@ -1,4 +1,16 @@
 <?php
+
+namespace application\cda;
+
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
+use common\libraries\Display;
+use common\libraries\Request;
+use common\libraries\WebApplication;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use common\libraries\SubselectCondition;
 /**
  * @package application.cda.cda.component
  */
@@ -84,7 +96,7 @@ class CdaManagerVariableTranslationLockerComponent extends CdaManager
 	function handle_language_pack($language_id, $language_pack_id, $status)
 	{
 		$subcondition = new EqualityCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, $language_pack_id);
-		$conditions[] = new SubSelectCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, Variable :: PROPERTY_ID, Variable :: get_table_name(), $subcondition);
+		$conditions[] = new SubselectCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, Variable :: PROPERTY_ID, Variable :: get_table_name(), $subcondition);
 		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language_id);
 		$condition = new AndCondition($conditions);
 		

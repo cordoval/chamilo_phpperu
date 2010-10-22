@@ -1,4 +1,6 @@
 <?php
+
+namespace application\cda;
 /**
  * This is a skeleton for a data manager for the Cda Application.
  * Data managers must extend this class and implement its abstract methods.

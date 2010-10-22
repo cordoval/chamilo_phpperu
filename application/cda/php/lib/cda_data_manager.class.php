@@ -1,4 +1,10 @@
 <?php
+
+namespace application\cda;
+
+use common\libraries\Configuration;
+use common\libraries\WebApplication;
+use common\libraries\Utilities;
 /**
  *	This is a skeleton for a data manager for the Cda Application.
  *	Data managers must extend this class and implement its abstract methods.
@@ -9,27 +15,27 @@
 
 class CdaDataManager
 {
-	/**
-	 * Instance of this class for the singleton pattern.
-	 */
-	private static $instance;
+    /**
+     * Instance of this class for the singleton pattern.
+     */
+    private static $instance;
 
-	/**
-	 * Constructor.
-	 */
-	protected function CdaDataManager()
-	{
-		$this->initialize();
-	}
+    /**
+     * Constructor.
+     */
+    protected function CdaDataManager()
+    {
+            $this->initialize();
+    }
 
-	/**
-	 * Uses a singleton pattern and a factory pattern to return the data
-	 * manager. The configuration determines which data manager class is to
-	 * be instantiated.
-	 * @return CdaDataManager The data manager.
-	 */
-	static function get_instance()
-	{
+    /**
+     * Uses a singleton pattern and a factory pattern to return the data
+     * manager. The configuration determines which data manager class is to
+     * be instantiated.
+     * @return CdaDataManager The data manager.
+     */
+    static function get_instance()
+    {
         if (! isset(self :: $instance))
         {
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
@@ -38,6 +44,6 @@ class CdaDataManager
             self :: $instance = new $class();
         }
         return self :: $instance;
-	}
+    }
 }
 ?>

@@ -1,4 +1,13 @@
 <?php
+
+namespace application\cda;
+
+use common\libraries\Database;
+use common\libraries\EqualityCondition;
+use common\libraries\SubselectCondition;
+use common\libraries\AndCondition;
+use common\libraries\InCondition;
+use user\UserDataManager;
 /**
  * @package cda.datamanager
  */

@@ -1,4 +1,14 @@
 <?php
+
+namespace application\cda;
+
+use common\libraries\FormValidator;
+use common\libraries\Translation;
+use common\libraries\Session;
+use common\libraries\EqualityCondition;
+use common\libraries\SubselectCondition;
+use common\libraries\PatternMatchCondition;
+use common\libraries\AndCondition;
 /**
  * $Id: variable_translation_browser_filter_form.class.php 196 2009-11-13 12:19:18Z chellee $
  */

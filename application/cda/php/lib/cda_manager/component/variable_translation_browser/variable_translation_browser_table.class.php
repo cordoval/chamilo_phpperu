@@ -1,4 +1,4 @@
-<?php
+<?php namespace application\cda;
 /**
  * @package cda.cda_manager.component.variable_translation_browser
  */

@@ -1,4 +1,4 @@
-<?php
+<?php namespace application\cda;
 /**
  * $Id: exporter_wizard_display.class.php 225 2009-11-13 14:43:20Z vanpouckesven $
  * @package exporter.lib.exportermanager.component.inc.wizard

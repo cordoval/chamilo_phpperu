@@ -1,4 +1,9 @@
 <?php
+
+namespace application\cda;
+
+use common\libraries\ObjectTableColumnModel;
+use common\libraries\ObjectTableColumn;
 /**
  * @package cda.tables.variable_table
  */

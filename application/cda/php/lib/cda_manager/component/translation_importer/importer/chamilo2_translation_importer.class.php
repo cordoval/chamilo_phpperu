@@ -1,4 +1,4 @@
-<?php
+<?php namespace application\cda;
 
 class Chamilo2TranslationImporter extends TranslationImporter
 {

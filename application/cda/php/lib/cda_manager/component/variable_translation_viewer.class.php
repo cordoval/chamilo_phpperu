@@ -1,4 +1,17 @@
 <?php
+
+namespace application\cda;
+
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
+use common\libraries\Request;
+use common\libraries\WebApplication;
+use common\libraries\ActionBarRenderer;
+use common\libraries\Theme;
+use common\libraries\ToolbarItem;
+use user\UserDataManager;
+use common\libraries\EqualityCondition;
 /**
  * @package application.cda.cda.component
  */
