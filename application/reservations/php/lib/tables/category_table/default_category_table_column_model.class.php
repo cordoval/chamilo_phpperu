@@ -1,4 +1,10 @@
-<?php namespace reservations;
+<?php
+
+namespace application\reservations;
+
+use common\libraries\ObjectTableColumnModel;
+use common\libraries\ObjectTableColumn;
+use common\libraries\StaticTableColumn;
 /**
  * $Id: default_category_table_column_model.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations.tables.category_table

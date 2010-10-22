@@ -1,4 +1,16 @@
-<?php namespace reservations;
+<?php
+
+namespace application\reservations;
+
+use common\libraries\WebApplication;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
+use common\libraries\PatternMatchCondition;
+use common\libraries\OrCondition;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
 /**
  * $Id: quota_browser.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.reservations_manager.component

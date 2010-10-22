@@ -1,12 +1,13 @@
 <?php
 
-namespace reservations;
+namespace application\reservations;
 
 use common\libraries\WebApplication;
 use common\libraries\Theme;
 use common\libraries\Translation;
 use common\libraries\DynamicAction;
 use common\libraries\Redirect;
+use common\libraries\Path;
 /**
  * $Id: reservations_manager.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations.reservations_manager
