@@ -1,4 +1,4 @@
-<?php namespace survey;
+<?php namespace application\survey;
 
 require_once Path :: get_application_path() . 'lib/survey/survey_publication_rel_reporting_template_registration.class.php';
 

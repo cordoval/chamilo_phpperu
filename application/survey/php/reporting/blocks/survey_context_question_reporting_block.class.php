@@ -1,9 +1,13 @@
-<?php
-require_once dirname(__FILE__) . '/../survey_reporting_block.class.php';
-require_once dirname(__FILE__) . '/../../survey_manager/survey_manager.class.php';
-require_once (dirname(__FILE__) . '/../../trackers/survey_question_answer_tracker.class.php');
-require_once (dirname(__FILE__) . '/../../trackers/survey_participant_tracker.class.php');
-require_once Path :: get_repository_path() . 'lib/content_object/survey/analyzer/analyzer.class.php';
+<?php 
+namespace application\survey;
+
+//use common\libraries\Path;
+
+//require_once dirname(__FILE__) . '/../survey_reporting_block.class.php';
+//require_once dirname(__FILE__) . '/../../survey_manager/survey_manager.class.php';
+//require_once (dirname(__FILE__) . '/../../trackers/survey_question_answer_tracker.class.php');
+//require_once (dirname(__FILE__) . '/../../trackers/survey_participant_tracker.class.php');
+//require_once Path :: get_repository_path() . 'lib/content_object/survey/analyzer/analyzer.class.php';
 
 class SurveyContextQuestionReportingBlock extends SurveyReportingBlock
 {

@@ -2,6 +2,9 @@
 namespace application\metadata;
 use common\libraries\ObjectTable;
 
+require_once dirname(__FILE__) . 'metadata_namespace_browser_table_data_provider.class.php';
+require_once dirname(__FILE__) . 'metadata_namespace_browser_table_cell_renderer.class.php';
+require_once dirname(__FILE__) . 'metadata_namespace_browser_table_column_model.class.php';
 /**
  * Table to display a set of users.
  */

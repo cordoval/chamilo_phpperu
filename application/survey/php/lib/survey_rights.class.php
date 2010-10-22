@@ -1,12 +1,12 @@
 <?php 
-namespace survey;
+namespace application\survey;
 
 use common\libraries\Utilities;
 use common\libraries\Path;
 use rights\RightsUtilities;
 
-require_once Path :: get_rights_path() . 'lib/rights_utilities.class.php';
-require_once Path :: get_application_path() . 'lib/survey/survey_manager/survey_manager.class.php';
+//require_once Path :: get_rights_path() . 'lib/rights_utilities.class.php';
+//require_once Path :: get_application_path() . 'lib/survey/survey_manager/survey_manager.class.php';
 
 class SurveyRights
 {

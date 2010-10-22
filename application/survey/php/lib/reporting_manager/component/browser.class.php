@@ -1,4 +1,4 @@
-<?php namespace survey;
+<?php namespace application\survey;
 
 require_once dirname(__FILE__) . '/reporting_template_table/table.class.php';
 require_once dirname(__FILE__) . '/publication_rel_reporting_template_table/table.class.php';

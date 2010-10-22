@@ -1,4 +1,5 @@
-<?php
+<?php 
+namespace application\survey;
 /**
  * $Id: reporting_survey.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.survey.reporting
@@ -8,7 +9,7 @@
  */
 //require_once dirname(__FILE__) . '/../survey_data_manager.class.php';
 //require_once dirname(__FILE__) . '/../survey_manager/survey_manager.class.php';
-require_once dirname(__FILE__) . '/../trackers/survey_participant_tracker.class.php';
+//require_once dirname(__FILE__) . '/../trackers/survey_participant_tracker.class.php';
 
 class ReportingSurvey
 {

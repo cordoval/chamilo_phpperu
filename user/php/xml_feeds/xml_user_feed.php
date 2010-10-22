@@ -1,16 +1,20 @@
 <?php
+namespace user;
+
 use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\OrCondition;
 use common\libraries\NotCondition;
+use common\libraries\Authentication;
+use common\libraries\ObjectTableOrder;
 
 /**
  * $Id: xml_user_feed.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.xml_feeds
  */
-require_once dirname(__FILE__) . '/../../common/global.inc.php';
+require_once dirname(__FILE__) . '/../../../common/global.inc.php';
 
 Translation :: set_application('user');
 

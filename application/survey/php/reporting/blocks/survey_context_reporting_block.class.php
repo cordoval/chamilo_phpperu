@@ -1,11 +1,12 @@
-<?php
+<?php 
+namespace application\survey;
 
 /**
  * $Id: survey_context_reporting_block.class.php $Shoira Mukhsinova
  * @package application/lib/survey/reporting/blocks
  */
-require_once dirname ( __FILE__ ) . '/../survey_reporting_block.class.php';
-require_once dirname ( __FILE__ ) . '/../../survey_manager/survey_manager.class.php';
+//require_once dirname ( __FILE__ ) . '/../survey_reporting_block.class.php';
+//require_once dirname ( __FILE__ ) . '/../../survey_manager/survey_manager.class.php';
 
 
 class SurveyContextReportingBlock extends SurveyReportingBlock {

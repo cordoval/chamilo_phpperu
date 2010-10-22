@@ -1,5 +1,6 @@
 <?php 
 namespace application\metadata;
+use common\libraries\Application;
 /**
  * metadata component which allows the user to browse his metadata_property_values
  * @author Sven Vanpoucke

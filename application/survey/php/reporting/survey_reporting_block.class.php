@@ -1,5 +1,9 @@
-<?php
-require_once PATH :: get_reporting_path() . '/lib/reporting_block.class.php';
+<?php 
+namespace application\survey;
+
+use reporting\ReportingBlock;
+
+//require_once PATH :: get_reporting_path() . '/lib/reporting_block.class.php';
 
 abstract class SurveyReportingBlock extends ReportingBlock
 {

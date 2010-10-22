@@ -111,7 +111,7 @@ class RepositoryAutoloader
                 'recycle_bin_browser_table' => 'recycle_bin_browser/recycle_bin_browser_table.class.php', 'user_view_browser_table' => 'user_view_browser/user_view_browser_table.class.php',
                 'link_browser_table' => 'link_browser/link_browser_table.class.php', 'external_link_browser_table' => 'external_link_browser/external_link_browser_table.class.php',
                 'content_object_registration_browser_table' => 'content_object_registration_browser/content_object_registration_browser_table.class.php');
-
+                
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
         if (key_exists($lower_case, $list))
@@ -144,7 +144,8 @@ class RepositoryAutoloader
                 'external_repository_fedora' => 'external/external_repository_fedora.class.php', 'external_repository_google_docs' => 'external/external_repository_google_docs.class.php',
 
                 'repository_manager' => 'repository_manager/repository_manager.class.php', 'repository_manager_component' => 'repository_manager/repository_manager_component.class.php',
-                'repository_search_form' => 'repository_manager/repository_search_form.class.php', 'publisher_wizard' => 'repository_manager/component/publisher_wizard/publisher_wizard.class.php');
+                'repository_search_form' => 'repository_manager/repository_search_form.class.php', 'publisher_wizard' => 'repository_manager/component/publisher_wizard/publisher_wizard.class.php',
+                'default_content_object_table_column_model' => 'content_object_table/default_content_object_table_column_model.class.php');
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 

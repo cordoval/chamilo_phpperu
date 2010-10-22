@@ -1,9 +1,10 @@
 <?php 
-namespace survey;
+namespace application\survey;
 
 use common\libraries\Utilities;
 use common\libraries\Path;
 use rights\RightsUtilities;
+use common\libraries\DataClass;
 
 class SurveyPublicationMail extends DataClass
 {

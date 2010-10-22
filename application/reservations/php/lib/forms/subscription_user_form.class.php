@@ -46,7 +46,7 @@ class SubscriptionUserForm extends FormValidator
             $user_list[$user->get_id()] = array('id' => htmlentities($user->get_id(), ENT_COMPAT, 'UTF-8'), 'title' => htmlentities($user->get_fullname(), ENT_COMPAT, 'UTF-8'), 'description' => $user->get_fullname(), 'class' => 'user');
         }
         
-        $url = Path :: get(WEB_PATH) . 'user/xml_feeds/xml_user_feed.php';
+        $url = Path :: get(WEB_PATH) . 'user/php/xml_feeds/xml_user_feed.php';
         
         //$this->addElement('advmultiselect', 'users', Translation :: get('SelectUsers'), 
         //			  $users, array('style' => 'width:200px;'));

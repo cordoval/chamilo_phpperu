@@ -1,6 +1,15 @@
 <?php
 namespace application\cas_user;
 
+use common\libraries\BreadcrumbTrail;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ToolbarItem;
+use common\libraries\Translation;
+use common\libraries\Theme;
+use common\libraries\PatternMatchCondition;
+use common\libraries\OrCondition;
+use common\libraries\AndCondition;
+
 require_once dirname(__FILE__) . '/cas_account_browser/cas_account_browser_table.class.php';
 
 class CasAccountManagerBrowserComponent extends CasAccountManager

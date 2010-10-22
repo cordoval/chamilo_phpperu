@@ -1,5 +1,5 @@
 <?php 
-namespace survey;
+namespace application\survey;
 
 require_once dirname(__FILE__) . '/../survey_publication.class.php';
 require_once Path :: get_repository_path() . 'lib/content_object/survey/analyzer/analyzer.class.php';

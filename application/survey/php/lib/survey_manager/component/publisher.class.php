@@ -1,8 +1,12 @@
-<?php namespace survey;
+<?php 
+namespace application\survey;
 
-require_once dirname(__FILE__) . '/../survey_manager.class.php';
+use common\extensions\repo_viewer\RepoViewerInterface;
+use common\extensions\repo_viewer\RepoViewer;
 
-require_once dirname(__FILE__) . '/../../forms/survey_publication_form.class.php';
+
+//require_once dirname(__FILE__) . '/../survey_manager.class.php';
+//require_once dirname(__FILE__) . '/../../forms/survey_publication_form.class.php';
 
 class SurveyManagerPublisherComponent extends SurveyManager implements RepoViewerInterface
 {

@@ -1,4 +1,4 @@
-<?php namespace survey;
+<?php namespace application\survey;
 
 require_once dirname(__FILE__) . '/participant_browser/participant_browser_table.class.php';
 require_once dirname(__FILE__) . '/user_browser/user_browser_table.class.php';

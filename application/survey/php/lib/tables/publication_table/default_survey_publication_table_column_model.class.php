@@ -1,8 +1,11 @@
 <?php 
-namespace survey;
+namespace application\survey;
 
 use common\libraries\ObjectTableColumnModel;
 use common\libraries\ObjectTableColumn;
+use repository\RepositoryDataManager;
+use repository\ContentObject;
+
 
 /**
  * $Id: default_survey_publication_table_column_model.class.php 193 2009-11-13 11:53:37Z chellee $

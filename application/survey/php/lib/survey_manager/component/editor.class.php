@@ -1,4 +1,4 @@
-<?php namespace survey;
+<?php namespace application\survey;
 
 require_once Path :: get_application_path() . 'lib/survey/forms/survey_publication_form.class.php';
 

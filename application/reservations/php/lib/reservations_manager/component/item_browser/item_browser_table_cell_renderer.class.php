@@ -7,6 +7,7 @@ use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use common\libraries\Translation;
 use common\libraries\Theme;
+use common\libraries\Utilities;
 /**
  * $Id: item_browser_table_cell_renderer.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.reservations_manager.component.item_browser
@@ -55,7 +56,7 @@ class ItemBrowserTableCellRenderer extends DefaultItemTableCellRenderer
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
-    	if (get_class($this->browser) == 'ReservationsManagerAdminItemBrowserComponent')
+    	if (Utilities :: get_classname_from_namespace(get_class($this->browser)) == 'ReservationsManagerAdminItemBrowserComponent')
         {
             if ($this->browser->get_user_id() == $item->get_creator() || $this->browser->has_right(ReservationsRights :: TYPE_ITEM, $item->get_id(), ReservationsRights :: DELETE_RIGHT) || $item->get_responsible() == $this->browser->get_user_id())
             {
@@ -86,7 +87,7 @@ class ItemBrowserTableCellRenderer extends DefaultItemTableCellRenderer
             }
         }
         
-        if (get_class($this->browser) == 'ReservationsManagerAdminItemBrowserComponent')
+        if (Utilities :: get_classname_from_namespace(get_class($this->browser)) == 'ReservationsManagerAdminItemBrowserComponent')
         {
             $url = $this->browser->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_RESERVATIONS, ReservationsManager :: PARAM_ITEM_ID => $item->get_id()));
         }

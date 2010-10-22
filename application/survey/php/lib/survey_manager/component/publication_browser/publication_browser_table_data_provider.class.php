@@ -1,4 +1,8 @@
-<?php namespace survey;
+<?php 
+namespace application\survey;
+
+use common\libraries\ObjectTableDataProvider;
+ 
 
 class SurveyPublicationBrowserTableDataProvider extends ObjectTableDataProvider
 {

@@ -1,6 +1,8 @@
 <?php
 namespace application\cas_user;
 
+use common\libraries\SubManager;
+
 require_once dirname(__FILE__) . '/../cas_account_data_manager/cas_account_data_manager.class.php';
 require_once dirname(__FILE__) . '/../cas_account.class.php';
 
