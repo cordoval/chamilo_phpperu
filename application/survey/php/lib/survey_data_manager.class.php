@@ -1,5 +1,5 @@
 <?php 
-namespace survey;
+namespace application\survey;
 
 use common\libraries\Utilities;
 use common\libraries\Configuration;

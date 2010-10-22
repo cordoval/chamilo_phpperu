@@ -1,5 +1,5 @@
 <?php 
-namespace survey;
+namespace application\survey;
 use common\libraries\InequalityCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;

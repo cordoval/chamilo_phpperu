@@ -1,4 +1,4 @@
-<?php namespace survey;
+<?php namespace application\survey;
 //require_once Path :: get_application_path() . 'lib/survey/survey_publication_group.class.php';
 //Path :: get_application_path() . 'lib/survey/survey_publication_user.class.php';
 require_once (Path :: get_reporting_path() . 'lib/reporting_data.class.php');

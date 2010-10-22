@@ -1,4 +1,4 @@
-<?php namespace survey;
+<?php namespace application\survey;
 
 require_once Path :: get_application_path() . 'lib/survey/reporting_manager/component/browser.class.php';
 

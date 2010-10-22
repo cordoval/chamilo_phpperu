@@ -1,5 +1,5 @@
 <?php 
-namespace survey;
+namespace application\survey;
 use common\libraries\ObjectTableCellRenderer;
 
 require_once dirname(__FILE__) . '/table_column_model.class.php';

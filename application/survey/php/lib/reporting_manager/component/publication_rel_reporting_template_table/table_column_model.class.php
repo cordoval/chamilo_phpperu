@@ -1,5 +1,5 @@
 <?php 
-namespace survey;
+namespace application\survey;
 use common\libraries\ObjectTableColumnModel;
 use common\libraries\ObjectTableColumn;
 

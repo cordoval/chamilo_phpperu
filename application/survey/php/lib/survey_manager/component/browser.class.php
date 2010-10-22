@@ -1,4 +1,4 @@
-<?php namespace survey;
+<?php namespace application\survey;
 require_once dirname(__FILE__) . '/../survey_manager.class.php';
 
 //require_once dirname(__FILE__) . '/../../survey_publication_category_menu.class.php';

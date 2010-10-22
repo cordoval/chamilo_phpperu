@@ -1,4 +1,4 @@
-<?php namespace survey;
+<?php namespace application\survey;
 
 require_once dirname(__FILE__) . '/table_data_provider.class.php';
 require_once dirname(__FILE__) . '/table_column_model.class.php';

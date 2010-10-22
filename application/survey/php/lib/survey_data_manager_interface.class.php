@@ -1,5 +1,5 @@
 <?php 
-namespace survey;
+namespace application\survey;
 
 interface SurveyDataManagerInterface
 {
