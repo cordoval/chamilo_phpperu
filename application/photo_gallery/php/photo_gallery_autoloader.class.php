@@ -1,18 +1,17 @@
 <?php
 namespace application\photo_gallery;
 use common\libraries\WebApplication;
+use common\libraries\Utilities;
 /**
  * $Id: user_autoloader.class.php 167 2009-11-12 11:17:52Z vanpouckesven $
  * @author vanpouckesven
  * @package group
  */
-
-use common\libraries\Utilities;
 class PhotoGalleryAutoloader
 {
 	static function load($classname)
 	{
-	$classname_parts = explode('\\', $classname);
+		$classname_parts = explode('\\', $classname);
 
         if (count($classname_parts) == 1)
         {

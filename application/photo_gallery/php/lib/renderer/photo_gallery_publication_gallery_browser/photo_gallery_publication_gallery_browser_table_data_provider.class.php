@@ -1,6 +1,8 @@
 <?php
 namespace application\photo_gallery;
 
+use common\libraries\GalleryObjectTableDataProvider;
+
 class PhotoGalleryPublicationGalleryBrowserTableDataProvider extends GalleryObjectTableDataProvider
 {
     /**

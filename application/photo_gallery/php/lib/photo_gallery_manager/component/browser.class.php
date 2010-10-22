@@ -1,8 +1,21 @@
 <?php
 namespace application\photo_gallery;
+use repository\content_object\document\Document;
 
 use common\libraries\Utilities;
 use common\libraries\Translation;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
+use common\libraries\Application;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use common\libraries\SubselectCondition;
+
+use repository\RepositoryDataManager;
+use repository\ContentObject;
 /**
  * $Id: browser.class.php
  * @package application.lib.photo_gallery.photo_gallery_manager.component
