@@ -1,5 +1,8 @@
 <?php
 namespace common\extensions\external_repository_manager;
+
+use common\libraries\Utilities;
+
 abstract class ExternalRepositoryComponent extends SubManager
 {
     const BROWSER_COMPONENT = 'browser';
@@ -25,7 +28,7 @@ abstract class ExternalRepositoryComponent extends SubManager
         
         require_once $file;
         
-        $class = 'ExternalRepositoryComponent' . Utilities :: underscores_to_camelcase($type) . 'Component';
+        $class = __NAMESPACE__ . '\\' . 'ExternalRepositoryComponent' . Utilities :: underscores_to_camelcase($type) . 'Component';
         return new $class($application);
     }
 

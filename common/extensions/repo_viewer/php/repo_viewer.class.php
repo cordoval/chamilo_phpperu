@@ -1,5 +1,16 @@
 <?php
 namespace common\extensions\repo_viewer;
+
+use common\libraries\SubManager;
+use common\libraries\Request;
+use common\libraries\Path;
+use common\libraries\DynamicVisualTabsRenderer;
+use common\libraries\Translation;
+use common\libraries\Utilities;
+use common\libraries\DynamicVisualTab;
+use common\libraries\Theme;
+use common\libraries\Application;
+use common\libraries\Redirect;
 /**
  * $Id: repo_viewer.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.repo_viewer.component

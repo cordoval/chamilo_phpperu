@@ -23,7 +23,7 @@ class CalendarEvent extends ContentObject implements Versionable, AttachmentSupp
 
 	static function get_type_name()
 	{
-		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+	    return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
 	}
 
     /**
