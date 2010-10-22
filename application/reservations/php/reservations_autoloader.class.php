@@ -1,9 +1,8 @@
-<?php 
-
-namespace reservations;
+<?php
+namespace application\reservations;
 
 use common\libraries\Utilities;
-use common\libraries\WebAplication;
+use common\libraries\WebApplication;
 
 /**
  * $Id: user_autoloader.class.php 167 2009-11-12 11:17:52Z vanpouckesven $
@@ -15,7 +14,23 @@ class ReservationsAutoloader
 {
 	static function load($classname)
 	{
-		$list = array(
+            $classname_parts = explode('\\', $classname);
+
+            if (count($classname_parts) == 1)
+            {
+                return false;
+            }
+            else
+            {
+                $classname = $classname_parts[count($classname_parts) - 1];
+                array_pop($classname_parts);
+                if (implode('\\', $classname_parts) != __NAMESPACE__)
+                {
+                    return false;
+                }
+            }
+
+            $list = array(
 		'reservation' => 'reservation.class.php',
 		'reservations_data_manager' => 'reservations_data_manager.class.php',
 		'reservations_data_manager_interface' => 'reservations_data_manager_interface.class.php',
@@ -45,18 +60,18 @@ class ReservationsAutoloader
 		'category_quota_box_form' => 'forms/category_quota_box_form.class.php',
 		'credit_form' => 'forms/credit_form.class.php',
 		'reservations_calendar_renderer' => 'calendar/reservations_calendar_renderer.class.php'
-		);  
-		     
-        $lower_case = Utilities :: camelcase_to_underscores($classname);
-        
-        if (key_exists($lower_case, $list))
-        {
-            $url = $list[$lower_case];
-            require_once WebApplication :: get_application_class_lib_path('reservations') . $url;
-            return true;
-        }
-        
-        return false;
+            );
+
+            $lower_case = Utilities :: camelcase_to_underscores($classname);
+
+            if (key_exists($lower_case, $list))
+            {
+                $url = $list[$lower_case];
+                require_once WebApplication :: get_application_class_lib_path('reservations') . $url;
+                return true;
+            }
+
+            return false;
 	}
 }
 

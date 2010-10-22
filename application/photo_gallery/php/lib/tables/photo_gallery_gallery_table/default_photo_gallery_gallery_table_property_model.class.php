@@ -1,6 +1,12 @@
 <?php
 namespace application\photo_gallery;
 
+use common\libraries\GalleryObjectTablePropertyModel;
+use common\libraries\GalleryObjectTableProperty;
+
+use repository\ContentObject;
+use repository\RepositoryDataManager;
+
 class DefaultPhotoGalleryGalleryTablePropertyModel extends GalleryObjectTablePropertyModel
 {
 

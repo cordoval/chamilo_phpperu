@@ -1,6 +1,9 @@
 <?php
 namespace application\cas_user;
 
+use common\libraries\Request;
+use common\libraries\Translation;
+
 /**
  * @author Hans De Bisschop
  */
@@ -26,6 +29,8 @@ class CasUserManagerDeleterComponent extends CasUserManager
             foreach ($ids as $id)
             {
                 $cas_user_request = $cas_user_request = CasUserDataManager :: get_instance()->retrieve_cas_user_request($id);
+                
+                
 
                 if (! $cas_user_request->delete())
                 {

@@ -3,6 +3,8 @@ namespace application\photo_gallery;
 
 use common\libraries\Utilities;
 use common\libraries\Translation;
+
+use repository\ContentObject;
 /**
  * Cell renderer for the learning object browser table
  */

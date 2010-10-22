@@ -1,12 +1,16 @@
 <?php
 
-namespace reservations;
+namespace application\reservations;
 
 use common\libraries\Utilities;
 use common\libraries\OptionsMenuRenderer;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\TreeMenuRenderer;
+use HTML_Menu;
+use HTML_Menu_ArrayRenderer;
+use common\libraries\Translation;
+use common\libraries\ObjectTableOrder;
 
 /**
  * $Id: reservations_menu.class.php 219 2009-11-13 14:28:13Z chellee $

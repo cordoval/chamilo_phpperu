@@ -1,5 +1,5 @@
 <?php
-namespace reservations;
+namespace application\reservations;
 
 use common\libraries\WebApplication;
 use common\libraries\BreadcrumbTrail;

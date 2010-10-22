@@ -1,4 +1,14 @@
-<?php namespace reservations;
+<?php
+
+namespace application\reservations;
+
+use common\libraries\Translation;
+use common\libraries\Request;
+use common\libraries\Display;
+use common\libraries\EqualityCondition;
+use tracking\Event;
+use tracking\ChangesTracker;
+use common\libraries\AndCondition;
 /**
  * $Id: category_quota_box_deleter.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.reservations_manager.component

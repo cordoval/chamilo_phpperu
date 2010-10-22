@@ -1,9 +1,11 @@
 <?php 
 
-namespace reservations;
+namespace application\reservations;
 
 use common\libraries\WebApplication;
 use rights\RightsUtilities;
+use common\libraries\Installer;
+use common\libraries\Translation;
 
 /**
  * $Id: reservations_installer.class.php 217 2009-11-13 14:12:25Z chellee $

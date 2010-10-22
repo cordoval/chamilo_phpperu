@@ -1,6 +1,7 @@
 <?php
 namespace application\photo_gallery;
 use common\libraries\Translation;
+use common\libraries\Request;
 
 class SlideshowPhotoGalleryPublicationRenderer extends PhotoGalleryPublicationRenderer
 {

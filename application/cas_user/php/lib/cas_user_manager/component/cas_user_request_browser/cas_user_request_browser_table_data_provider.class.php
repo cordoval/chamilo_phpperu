@@ -1,6 +1,8 @@
 <?php
 namespace application\cas_user;
 
+use common\libraries\ObjectTableDataProvider;
+
 /**
  * Data provider for a cas_user_request table
  *

@@ -1,4 +1,9 @@
-<?php namespace reservations;
+<?php
+
+namespace application\reservations;
+
+use common\libraries\WebApplication;
+use user\UserDataManager;
 /**
  * $Id: subscription_overview_browser_table_cell_renderer.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.reservations_manager.component.subscription_overview_browser
