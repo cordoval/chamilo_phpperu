@@ -1,6 +1,9 @@
 <?php 
 namespace application\metadata;
 use common\libraries\WebApplication;
+use common\libraries\EqualityCondition;
+use common\libraries\OrCondition;
+use common\libraries\AndCondition;
 /**
  * A metadata manager
  *

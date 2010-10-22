@@ -1,6 +1,8 @@
 <?php 
 namespace application\metadata;
 use common\libraries\DataClass;
+use common\libraries\Utilities;
+
 class MetadataDefaultValue extends DataClass
 {
     const PROPERTY_PROPERTY_TYPE_ID = 'property_type_id';

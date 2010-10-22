@@ -2,6 +2,8 @@
 namespace application\metadata;
 use common\libraries\FormValidator;
 use common\libraries\Translation;
+use common\libraries\ResourceManager;
+use common\libraries\Path;
 
 /**
  * This class describes the form for a MetadataPropertyValue object.
@@ -309,7 +311,7 @@ class MetadataForm extends FormValidator
                 }
                 else
                 {
-                    $group[] = $this->createElement('select', $content_object_property . '_' . MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_VALUE .'_' . $id , Translation :: get('PropertyAttributeType'), $this->filter_allowed_property_attribute_types($metadata_property_attribute_value->get_property_attribute_type()));
+                    $group[] = $this->createElement('select', $content_object_property . '_' . MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_VALUE .'_' . $id , Translation :: get('PropertyAttributeType'), $this->filter_allowed_property_attribute_types($metadata_property_attribute_value->get_property_attribute_type_id()));
                 }
                 $group[] = $this->createElement('static', null, null, '<a href="' . $this->application->get_url(array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_DELETE_METADATA_PROPERTY_ATTRIBUTE_VALUE, MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE => $metadata_property_attribute_value->get_id(), MetadataManager :: PARAM_CONTENT_OBJECT => $this->content_object->get_id())). '">delete</a>');
 

@@ -1,6 +1,7 @@
 <?php 
 namespace application\metadata;
 use common\libraries\DataClass;
+use common\libraries\Utilities;
 /**
  * This class describes a MetadataPropertyType data object
  * @author Jens Vanderheyden
