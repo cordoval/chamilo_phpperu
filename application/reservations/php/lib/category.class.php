@@ -4,6 +4,7 @@ namespace application\reservations;
 
 use common\libraries\DataClass;
 use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
 /**
  * $Id: category.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations

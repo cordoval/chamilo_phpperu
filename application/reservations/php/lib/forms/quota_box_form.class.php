@@ -6,6 +6,7 @@ use common\libraries\FormValidator;
 use tracking\Event;
 use tracking\ChangesTracker;
 use common\libraries\EqualityCondition;
+use common\libraries\Translation;
 /**
  * $Id: quota_box_form.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.forms

@@ -5,6 +5,7 @@ namespace application\reservations;
 use common\libraries\ObjectTableColumnModel;
 use common\libraries\ObjectTableColumn;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 
 /**
@@ -33,8 +34,8 @@ class DefaultCategoryQuotaBoxTableColumnModel extends ObjectTableColumnModel
     private static function get_default_columns()
     {
         $columns = array();
-        $columns[] = new ObjectTableColumn(Translation :: get(Utilities :: underscores_to_camelcase(QuotaBox :: PROPERTY_NAME)), false);
-        $columns[] = new ObjectTableColumn(Translation :: get(Utilities :: underscores_to_camelcase(QuotaBox :: PROPERTY_DESCRIPTION)), false);
+        $columns[] = new ObjectTableColumn(QuotaBox :: PROPERTY_NAME, false);
+        $columns[] = new ObjectTableColumn(QuotaBox :: PROPERTY_DESCRIPTION, false);
         return $columns;
     }
 }
