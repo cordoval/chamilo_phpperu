@@ -1,4 +1,7 @@
 <?php
+namespace application\search_portal;
+
+use common\libraries\Path;
 /**
  * $Id: settings_search_portal_connector.class.php 222 2009-11-13 14:39:28Z chellee $
  * @package application.search_portal.settings

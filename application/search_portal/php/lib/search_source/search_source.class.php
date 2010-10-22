@@ -1,4 +1,9 @@
 <?php
+namespace application\search_portal;
+
+use common\libraries\Utilities;
+use common\libraries\WebApplication;
+use common\libraries\Translation;
 
 abstract class SearchSource
 {
@@ -18,7 +23,7 @@ abstract class SearchSource
 			if(file_exists($file))
 			{
 				require_once($file);
-				$class = Utilities :: underscores_to_camelcase($type) . 'SearchSource';
+				$class = __NAMESPACE__.'\\'.Utilities :: underscores_to_camelcase($type) . 'SearchSource';
 				self :: $instance = new $class();
 			}
 			else

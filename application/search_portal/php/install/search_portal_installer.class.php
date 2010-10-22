@@ -1,4 +1,9 @@
 <?php
+namespace application\search_portal;
+
+use common\libraries\Installer;
+
+
 /**
  * $Id: search_portal_installer.class.php 222 2009-11-13 14:39:28Z chellee $
  * @package application.search_portal.install

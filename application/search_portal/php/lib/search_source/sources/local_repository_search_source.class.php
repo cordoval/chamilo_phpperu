@@ -1,4 +1,16 @@
 <?php
+namespace application\search_portal;
+
+use common\libraries\Utilities;
+use common\libraries\PlatformSetting;
+use common\libraries\EqualityCondition;
+use common\libraries\OrCondition;
+use common\libraries\AndCondition;
+use repository\RepositoryManager;
+use repository\RepositoryDataManager;
+use repository\ContentObject;
+use repository\ContentObjectUserShare;
+use repository\ContentObjectGroupShare;
 /**
  * $Id: local_repository_search_source.class.php 222 2009-11-13 14:39:28Z chellee $
  * @package application.search_portal.search_source

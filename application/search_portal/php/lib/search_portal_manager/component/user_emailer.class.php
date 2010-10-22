@@ -1,4 +1,9 @@
 <?php
+namespace application\search_portal;
+
+use common\libraries\Utilities;
+use common\libraries\WebApplication;
+
 /**
  * $Id:
  * @package application.lib.search_portal.search_portal_manager

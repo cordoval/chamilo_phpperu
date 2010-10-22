@@ -1,4 +1,15 @@
 <?php
+
+namespace application\forum;
+
+use common\libraries\FormValidator;
+use user\UserDataManager;
+use group\GroupDataManager;
+use common\libraries\WebApplication;
+use common\libraries\PlatformSetting;
+use common\libraries\Translation;
+use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
 /**
  * $Id: forum_publication_form.class.php 195 2009-11-13 12:02:41Z chellee $
  * @package application.lib.forum.forms

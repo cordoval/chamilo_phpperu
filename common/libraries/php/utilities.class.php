@@ -2,6 +2,7 @@
 namespace common\libraries;
 
 use repository\RepositoryAutoloader;
+use repository\ContentObject;
 use XML_Unserializer;
 use PEAR;
 

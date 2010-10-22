@@ -1,4 +1,4 @@
-<?php
+<?phpnamespace application\forum
 require_once WebApplication :: get_application_class_lib_path('forum') . 'rss/publication_rss.class.php';
 
 $rss = new ForumPublicationRSS();
