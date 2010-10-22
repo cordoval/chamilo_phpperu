@@ -1,4 +1,10 @@
 <?php
+namespace application\wiki;
+
+use common\Configuration;
+use common\libraries\Utilities;
+
+
 /**
  * $Id: wiki_data_manager.class.php 210 2009-11-13 13:18:50Z kariboe $
  * @package application.lib.wiki
