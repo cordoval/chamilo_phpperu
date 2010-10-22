@@ -1,4 +1,16 @@
 <?php
+
+namespace application\personal_calendar;
+
+use common\libraries\Configuration;
+use common\libraries\InCondition;
+use common\libraries\Utilities;
+use common\libraries\Filesystem;
+use common\libraries\EqualityCondition;
+use common\libraries\OrCondition;
+use common\libraries\Request;
+
+
 /**
  * $Id: personal_calendar_data_manager.class.php 127 2009-11-09 13:11:56Z vanpouckesven $
  * @package application.personal_calendar

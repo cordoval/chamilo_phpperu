@@ -1,4 +1,11 @@
 <?php
+
+namespace application\personal_calendar;
+
+use common\libraries\WebApplication;
+use repository\RepositoryDataManager;
+use common\libraries\Application;
+
 require_once dirname(__FILE__).'/../../../../common/global.inc.php';
 require_once Path :: get_common_path().'/rss/publication_rss.class.php';
 require_once WebApplication :: get_application_class_lib_path('personal_calendar') . 'data_manager/database.class.php';

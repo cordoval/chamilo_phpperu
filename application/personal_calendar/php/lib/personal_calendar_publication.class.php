@@ -1,4 +1,9 @@
 <?php
+
+namespace application\personal_calendar;
+
+use repository\RepositoryDataManager;
+
 /**
  * $Id: personal_calendar_publication.class.php 201 2009-11-13 12:34:51Z chellee $
  * @package application.personal_calendar

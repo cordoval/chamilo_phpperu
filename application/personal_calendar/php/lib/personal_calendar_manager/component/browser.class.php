@@ -1,4 +1,16 @@
 <?php
+namespace application\personal_calendar;
+
+use common\libraries\WebApplication;
+use common\libraries\Request;
+use common\libraries\Display;
+use common\libraries\Translation;
+use common\libraries\Toolbar;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
+use common\libraries\ActionBarRenderer;
+use repository\ContentObjectDisplay;
+use common\libraries\Application;
 
 /**
  * $Id: browser.class.php 201 2009-11-13 12:34:51Z chellee $

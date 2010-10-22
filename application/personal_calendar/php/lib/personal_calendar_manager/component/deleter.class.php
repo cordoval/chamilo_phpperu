@@ -1,4 +1,13 @@
 <?php
+
+namespace application\personal_calendar;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\Application;
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
+
 /**
  * $Id: deleter.class.php 201 2009-11-13 12:34:51Z chellee $
  * @package application.personal_calendar.personal_calendar_manager.component

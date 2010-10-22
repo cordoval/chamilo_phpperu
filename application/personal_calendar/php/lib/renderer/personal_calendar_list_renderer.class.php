@@ -1,4 +1,12 @@
 <?php
+
+namespace application\personal_calendar;
+
+use common\libraries\Translation;
+use common\libraries\DatetimeUtilities;
+use common\libraries\Toolbar;
+use common\libraries\ToolbarItem;
+
 /**
  * $Id: personal_calendar_list_renderer.class.php 201 2009-11-13 12:34:51Z chellee $
  * @package application.personal_calendar.renderer

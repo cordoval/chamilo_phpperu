@@ -1,4 +1,6 @@
 <?php
+
+namespace application\personal_calendar;
 /**
  * $Id: personal_calendar_connector.class.php 127 2009-11-09 13:11:56Z vanpouckesven $
  * @package application.personal_calendar
