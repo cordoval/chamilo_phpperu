@@ -1,4 +1,9 @@
 <?php
+use common\libraries\Translation;
+use common\libraries\FormValidatorHtmlEditor;
+use common\libraries\LocalSetting;
+use common\libraries\FormValidatorHtmlEditorOptions;
+
 /**
  * @package common.html.formvalidator.Element
  */

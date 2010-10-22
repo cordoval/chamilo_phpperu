@@ -5,6 +5,8 @@ namespace application\reservations;
 use common\libraries\MiniMonthCalendar;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
+use common\libraries\Request;
+use common\libraries\Theme;
 /**
  * $Id: reservations_calendar_mini_month_renderer.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.calendar

@@ -1,11 +1,19 @@
 <?php
+
+namespace common\libraries;
+
+use group\GroupDataManager;
+use user\UserDataManager;
+use user\User;
+use group\Group;
+
 /**
  * $Id: xml_user_group_feed.php 170 2009-11-12 12:21:00Z vanpouckesven $
  * @package common.xml_feeds
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__) . '/../global.inc.php';
+require_once dirname(__FILE__) . '/../../../global.inc.php';
 
 if (Authentication :: is_valid())
 {

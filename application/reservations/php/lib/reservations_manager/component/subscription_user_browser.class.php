@@ -11,6 +11,7 @@ use common\libraries\ActionBarRenderer;
 use user\UserDataManager;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;
+use common\libraries\DatetimeUtilities;
 /**
  * $Id: subscription_user_browser.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations.reservations_manager.component
@@ -108,7 +109,7 @@ class ReservationsManagerSubscriptionUserBrowserComponent extends ReservationsMa
         $html[] = '<div class="description">';
         $html[] = $item->get_description();
         $html[] = '<b>' . Translation :: get('Responsible') . '</b>: ' . $responsible;
-        $html[] = '<br /><b>' . Translation :: get('Type') . '</b>: ' . $this->get_type($reservation);
+        $html[] = '<br /><b>' . Translation :: get('Type') . '</b>: ' . $this->get_reservation_type($reservation);
         $html[] = '<br /><b>' . Translation :: get('Start') . '</b>: ' . DatetimeUtilities :: format_locale_date(null, $start);
         $html[] = '<br /><b>' . Translation :: get('End') . '</b>: ' . DatetimeUtilities :: format_locale_date(null, $stop);
         $html[] = '<br /><b>' . Translation :: get('Reservator') . '</b>: ' . $sub_user;
@@ -117,7 +118,7 @@ class ReservationsManagerSubscriptionUserBrowserComponent extends ReservationsMa
         echo implode("\n", $html);
     }
 
-    function get_type($reservation)
+    function get_reservation_type($reservation)
     {
         switch ($reservation->get_type())
         {

@@ -38,10 +38,10 @@ class DatabaseReservationsDataManager extends Database implements ReservationsDa
     function delete_reservation($reservation)
     {
         $condition = new EqualityCondition(Reservation :: PROPERTY_ID, $reservation->get_id());
-        $succes1 = $this->delete('reservation', $condition);
+        $succes1 = $this->delete(Reservation :: get_table_name(), $condition);
 
         $condition = new EqualityCondition(Subscription :: PROPERTY_RESERVATION_ID, $reservation->get_id());
-        $succes2 = $this->delete('subscription', $condition);
+        $succes2 = $this->delete(Subscription :: get_table_name(), $condition);
 
         $succes = $succes1 & $succes2;
 
@@ -62,12 +62,12 @@ class DatabaseReservationsDataManager extends Database implements ReservationsDa
 
     function count_reservations($conditions = null)
     {
-        return $this->count_objects('reservation', $conditions);
+        return $this->count_objects(Reservation :: get_table_name(), $conditions);
     }
 
     function retrieve_reservations($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->retrieve_objects('reservation', $condition, $offset, $count, $order_property);
+        return $this->retrieve_objects(Reservation :: get_table_name(), $condition, $offset, $count, $order_property, Reservation :: CLASS_NAME);
     }
 
     function delete_category($category)
@@ -108,12 +108,12 @@ class DatabaseReservationsDataManager extends Database implements ReservationsDa
 
     function count_categories($conditions = null)
     {
-        return $this->count_objects('category', $conditions);
+        return $this->count_objects(Category :: get_table_name(), $conditions);
     }
 
     function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->retrieve_objects('category', $condition, $offset, $count, $order_property);
+        return $this->retrieve_objects(Category :: get_table_name(), $condition, $offset, $count, $order_property, Category :: CLASS_NAME);
     }
 
     function delete_item($item)
@@ -122,7 +122,7 @@ class DatabaseReservationsDataManager extends Database implements ReservationsDa
         $succes = $this->delete('item', $condition);
 
         $condition = new EqualityCondition(Reservation :: PROPERTY_ITEM, $item->get_id());
-        //$succes2 = $this->delete('reservation', $condition);
+        //$succes2 = $this->delete(Reservation :: get_table_name(), $condition);
         $reservations = $this->retrieve_reservations($condition);
         while ($reservation = $reservations->next_result())
             $succes &= $reservation->delete();
@@ -143,18 +143,18 @@ class DatabaseReservationsDataManager extends Database implements ReservationsDa
 
     function count_items($conditions = null)
     {
-        return $this->count_objects('item', $conditions);
+        return $this->count_objects(Item :: get_table_name(), $conditions);
     }
 
     function retrieve_items($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->retrieve_objects('item', $condition, $offset, $count, $order_property);
+        return $this->retrieve_objects(Item :: get_table_name(), $condition, $offset, $count, $order_property, Item :: CLASS_NAME);
     }
 
     function delete_quota($quota)
     {
         $condition = new EqualityCondition(Quota :: PROPERTY_ID, $quota->get_id());
-        return $this->delete('quota', $condition);
+        return $this->delete(Quota :: get_table_name(), $condition);
     }
 
     function update_quota($quota)
@@ -170,23 +170,23 @@ class DatabaseReservationsDataManager extends Database implements ReservationsDa
 
     function count_quotas($conditions = null)
     {
-        return $this->count_objects('quota', $conditions);
+        return $this->count_objects(Quota :: get_table_name(), $conditions);
     }
 
     function retrieve_quotas($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->retrieve_objects('quota', $condition, $offset, $count, $order_property);
+        return $this->retrieve_objects(Quota :: get_table_name(), $condition, $offset, $count, $order_property, Quota :: CLASS_NAME);
     }
 
     function delete_subscription($subscription)
     {
         $condition = new EqualityCondition(Subscription :: PROPERTY_ID, $subscription->get_id());
-        return $this->delete('subscription', $condition);
+        return $this->delete(Subscription :: get_table_name(), $condition);
     }
 
     function delete_subscriptions($condition)
     {
-        return $this->delete('subscription', $condition);
+        return $this->delete(Subscription :: get_table_name(), $condition);
     }
 
     function create_subscription($subscription)
@@ -218,7 +218,7 @@ class DatabaseReservationsDataManager extends Database implements ReservationsDa
             $conditions[] = new EqualityCondition(SubscriptionUser :: PROPERTY_ID, $subscription_user->get_user_id());
 
         $condition = new AndCondition($conditions);
-        return $this->delete('subscription_user', $condition);
+        return $this->delete(SubscriptionUser :: get_table_name(), $condition);
     }
 
     function create_subscription_user($subscription_user)
@@ -228,12 +228,12 @@ class DatabaseReservationsDataManager extends Database implements ReservationsDa
 
     function count_subscription_users($condition = null)
     {
-        return $this->count_objects('subscription_user', $condition);
+        return $this->count_objects(SubscriptionUser :: get_table_name(), $condition);
     }
 
     function retrieve_subscription_users($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->retrieve_objects('subscription_user', $condition, $offset, $count, $order_property);
+        return $this->retrieve_objects(SubscriptionUser :: get_table_name(), $condition, $offset, $count, $order_property, SubscriptionUser :: CLASS_NAME);
     }
 
     function select_next_display_order($parent_category_id)
@@ -285,7 +285,7 @@ class DatabaseReservationsDataManager extends Database implements ReservationsDa
     {
         $condition = new EqualityCondition(QuotaBox :: PROPERTY_ID, $quota_box->get_id());
         $this->delete_quota_from_quota_box($quota_box->get_id());
-        return $this->delete('quota_box', $condition);
+        return $this->delete(QuotaBox :: get_table_name(), $condition);
     }
 
     function update_quota_box($quota_box)
@@ -301,12 +301,12 @@ class DatabaseReservationsDataManager extends Database implements ReservationsDa
 
     function count_quota_boxes($conditions = null)
     {
-        return $this->count_objects('quota_box', $conditions);
+        return $this->count_objects(QuotaBox :: get_table_name(), $conditions);
     }
 
     function retrieve_quota_boxes($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->retrieve_objects('quota_box', $condition, $offset, $count, $order_property);
+        return $this->retrieve_objects(QuotaBox :: get_table_name(), $condition, $offset, $count, $order_property, QuotaBox :: CLASS_NAME);
     }
 
     function create_quota_rel_quota_box($quota_rel_quota_box)
@@ -320,19 +320,19 @@ class DatabaseReservationsDataManager extends Database implements ReservationsDa
         $conditions[] = new EqualityCondition(QuotaRelQuotaBox :: PROPERTY_QUOTA_BOX_ID, $quota_rel_quota_box->get_quota_box_id());
         $condition = new AndCondition($conditions);
 
-        return $this->delete('quota_rel_quota_box', $condition);
+        return $this->delete(QuotaRelQuotaBox :: get_table_name(), $condition);
     }
 
     function delete_quota_from_quota_box($quota_box_id)
     {
         $condition = new EqualityCondition(QuotaRelQuotaBox :: PROPERTY_QUOTA_BOX_ID, $quota_box_id);
 
-        return $this->delete('quota_rel_quota_box', $condition);
+        return $this->delete(QuotaRelQuotaBox :: get_table_name(), $condition);
     }
 
     function retrieve_quota_rel_quota_boxes($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->retrieve_objects('quota_rel_quota_box', $condition, $offset, $count, $order_property);
+        return $this->retrieve_objects(QuotaRelQuotaBox :: get_table_name(), $condition, $offset, $count, $order_property, QuotaRelQuotaBox :: CLASS_NAME);
     }
 
     function create_quota_box_rel_category($quota_rel_quota_box)
@@ -345,28 +345,28 @@ class DatabaseReservationsDataManager extends Database implements ReservationsDa
         $condition = new EqualityCondition(QuotaBoxRelCategory :: PROPERTY_ID, $quota_box_rel_category->get_id());
         $this->empty_quota_box_rel_category($quota_box_rel_category->get_id());
 
-        return $this->delete('quota_box_rel_category', $condition);
+        return $this->delete(QuotaBoxRelCategory :: get_table_name(), $condition);
     }
 
     function empty_quota_box_rel_category($quota_box_rel_category_id)
     {
         $condition = new EqualityCondition(QuotaBoxRelCategoryRelUser :: PROPERTY_QUOTA_BOX_REL_CATEGORY_ID, $quota_box_rel_category_id);
-        $succes = $this->delete('quota_box_rel_category_rel_user', $condition);
+        $succes = $this->delete(QuotaBoxRelCategoryRelUser :: get_table_name(), $condition);
 
         $condition = new EqualityCondition(QuotaBoxRelCategoryRelGroup :: PROPERTY_QUOTA_BOX_REL_CATEGORY_ID, $quota_box_rel_category_id);
-        $succes &= $this->delete('quota_box_rel_category_rel_group', $condition);
+        $succes &= $this->delete(QuotaBoxRelCategoryRelGroup :: get_table_name(), $condition);
 
         return $succes;
     }
 
     function retrieve_quota_box_rel_categories($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->retrieve_objects('quota_box_rel_category', $condition, $offset, $count, $order_property);
+        return $this->retrieve_objects(QuotaBoxRelCategory :: get_table_name(), $condition, $offset, $count, $order_property, QuotaBoxRelCategory :: CLASS_NAME);
     }
 
     function count_quota_box_rel_categories($condition = null)
     {
-        return $this->count_objects('quota_box_rel_category', $condition);
+        return $this->count_objects(QuotaBoxRelCategory :: get_table_name(), $condition);
     }
 
     function create_quota_box_rel_category_rel_user($quota_box_rel_category_rel_user)
@@ -380,17 +380,17 @@ class DatabaseReservationsDataManager extends Database implements ReservationsDa
         $conditions[] = new EqualityCondition(QuotaBoxRelCategoryRelUser :: PROPERTY_USER_ID, $quota_box_rel_category_rel_user->get_user_id());
         $condition = new AndCondition($conditions);
 
-        return $this->delete('quota_box_rel_category_rel_user', $condition);
+        return $this->delete(QuotaBoxRelCategoryRelUser :: get_table_name(), $condition);
     }
 
     function retrieve_quota_box_rel_category_rel_users($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->retrieve_objects('quota_box_rel_category_rel_user', $condition, $offset, $count, $order_property);
+        return $this->retrieve_objects(QuotaBoxRelCategoryRelUser :: get_table_name(), $condition, $offset, $count, $order_property, QuotaBoxRelCategoryRelUser :: CLASS_NAME);
     }
 
     function count_quota_box_rel_category_rel_users($condition = null)
     {
-        return $this->count_objects('quota_box_rel_category_rel_user', $condition);
+        return $this->count_objects(QuotaBoxRelCategoryRelUser :: get_table_name(), $condition);
     }
 
     function create_quota_box_rel_category_rel_group($quota_box_rel_category_rel_group)
@@ -404,17 +404,17 @@ class DatabaseReservationsDataManager extends Database implements ReservationsDa
         $conditions[] = new EqualityCondition(QuotaBoxRelCategoryRelGroup :: PROPERTY_GROUP_ID, $quota_box_rel_category_rel_group->get_group_id());
         $condition = new AndCondition($conditions);
 
-        return $this->delete('quota_box_rel_category_rel_group', $condition);
+        return $this->delete(QuotaBoxRelCategoryRelGroup :: get_table_name(), $condition);
     }
 
     function retrieve_quota_box_rel_category_rel_groups($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->retrieve_objects('quota_box_rel_category_rel_group', $condition, $offset, $count, $order_property);
+        return $this->retrieve_objects(QuotaBoxRelCategoryRelGroup :: get_table_name(), $condition, $offset, $count, $order_property, QuotaBoxRelCategoryRelGroup :: CLASS_NAME);
     }
 
     function count_quota_box_rel_category_rel_groups($condition = null)
     {
-        return $this->count_objects('quota_box_rel_category_rel_group', $condition);
+        return $this->count_objects(QuotaBoxRelCategoryRelGroup :: get_table_name(), $condition);
     }
 
     function create_overview_item($overview_item)
@@ -440,7 +440,7 @@ class DatabaseReservationsDataManager extends Database implements ReservationsDa
 
         $query = 'SELECT ' . $overview_item_alias . '.* FROM ' . $overview_item_table . ' AS ' . $overview_item_alias . ' JOIN ' . $item_table . ' AS ' . $item_alias . ' ON ' . $overview_item_alias . '.item_id=' . $item_alias . '.id';
 
-        return $this->retrieve_object_set($query, OverviewItem :: get_table_name(), $condition, $offset, $count, $order_property);
+        return $this->retrieve_object_set($query, OverviewItem :: get_table_name(), $condition, $offset, $count, $order_property, OverviewItem :: CLASS_NAME);
     }
 
 	function count_overview_items($condition)
@@ -542,7 +542,7 @@ class DatabaseReservationsDataManager extends Database implements ReservationsDa
 
         $query = 'SELECT ' . $sub_alias . '.* FROM ' . $sub_table . ' AS ' . $sub_alias . ' JOIN ' . $res_table . ' AS ' . $res_alias . ' ON ' . $sub_alias . '.reservation_id=' . $res_alias . '.id' . ' JOIN ' . $item_table . ' AS ' . $item_alias . ' ON ' . $res_alias . '.item_id=' . $item_alias . '.id' . ' JOIN ' . $user_table . ' AS ' . $user_alias . ' ON ' . $sub_alias . '.user_id=' . $user_alias . '.id';
 
-        return $this->retrieve_object_set($query, Subscription :: get_table_name(), $condition, $offset, $count, $order_property, Utilities :: underscores_to_camelcase(Subscription :: get_table_name()));
+        return $this->retrieve_object_set($query, Subscription :: get_table_name(), $condition, $offset, $count, $order_property, Subscription :: CLASS_NAME);
     }
 }
 ?>

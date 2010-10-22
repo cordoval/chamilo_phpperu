@@ -9,6 +9,9 @@ use common\libraries\AndCondition;
 use common\libraries\Translation;
 use user\UserDataManager;
 use group\GroupDataManager;
+use common\libraries\Path;
+use tracking\Event;
+use tracking\ChangesTracker;
 /**
  * $Id: category_quota_box_form.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.forms
@@ -110,7 +113,7 @@ class CategoryQuotaBoxForm extends FormValidator
         }
 
         //$url = Path :: get(WEB_PATH).'application/lib/reservations/xml_feeds/users_groups_xml_feed.php';
-        $url = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_user_group_feed.php';
+        $url = Path :: get(WEB_PATH) . 'common/libraries/php/xml_feeds/xml_user_group_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('SelectRecipients');
         $locale['Searching'] = Translation :: get('Searching');

@@ -2,6 +2,7 @@
 namespace rights;
 
 use common\libraries\Utilities;
+use common\libraries\DataClass;
 /**
  * $Id: rights_template_right_location.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib
@@ -93,7 +94,8 @@ class RightsTemplateRightLocation extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 }
 ?>

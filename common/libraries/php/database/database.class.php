@@ -733,7 +733,6 @@ class Database
 
         $this->set_limit(1);
         $res = $this->query($query);
-
         $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 
         $res->free();

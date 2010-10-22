@@ -1,6 +1,8 @@
 <?php
 namespace application\cas_user;
 
+use common\libraries\StaticTableColumn;
+
 /**
  * @package cda.tables.cas_account_table
  */

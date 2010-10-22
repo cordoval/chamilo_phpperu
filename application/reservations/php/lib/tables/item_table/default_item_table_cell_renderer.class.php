@@ -4,6 +4,7 @@ namespace application\reservations;
 
 use common\libraries\ObjectTableCellRenderer;
 use common\libraries\Translation;
+use common\libraries\Theme;
 /**
  * $Id: default_item_table_cell_renderer.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations.tables.item_table
