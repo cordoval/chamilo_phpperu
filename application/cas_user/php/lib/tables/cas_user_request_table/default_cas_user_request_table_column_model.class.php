@@ -1,6 +1,9 @@
 <?php
 namespace application\cas_user;
 
+use common\libraries\ObjectTableColumnModel;
+use common\libraries\ObjectTableColumn;
+
 require_once dirname(__FILE__) . '/../../cas_user_request.class.php';
 
 /**

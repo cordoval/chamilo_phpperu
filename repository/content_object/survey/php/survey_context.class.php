@@ -1,4 +1,5 @@
 <?php
+use common\libraries\DataClass;
 
 require_once (dirname(__FILE__) . '/context_data_manager/context_data_manager.class.php');
 
