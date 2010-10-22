@@ -1,4 +1,14 @@
 <?php
+namespace application\personal_calendar;
+
+use common\libraries\WebApplication;
+use common\libraries\Display;
+use common\extensions\repo_viewer\RepoViewer;
+use repository\content_object\calendar_event\CalendarEvent;
+use common\libraries\Breadcrumb;
+use common\extensions\repo_viewer\RepoViewerInterface;
+use common\libraries\Application;
+use common\libraries\Translation;
 /**
  * $Id: publisher.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.personal_calendar.personal_calendar_manager.component
