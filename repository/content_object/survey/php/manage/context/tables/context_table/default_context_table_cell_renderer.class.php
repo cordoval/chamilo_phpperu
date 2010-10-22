@@ -1,4 +1,4 @@
-<?php
+<?php namespace repository\content_object\survey;
 
 class DefaultSurveyContextTableCellRenderer extends ObjectTableCellRenderer
 {

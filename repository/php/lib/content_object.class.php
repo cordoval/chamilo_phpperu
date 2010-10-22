@@ -1124,7 +1124,9 @@ class ContentObject extends DataClass
             return null; //here is the problem with the repository
         }
 
+        dump($type);
         $class = self :: type_to_class($type);
+        dump($class);
         return new $class($defaultProperties, $additionalProperties);
     }
 

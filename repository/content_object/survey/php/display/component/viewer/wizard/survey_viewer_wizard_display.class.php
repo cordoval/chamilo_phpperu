@@ -1,4 +1,4 @@
-<?php
+<?php namespace repository\content_object\survey;
 
 require_once Path :: get_repository_path() . 'lib/content_object/survey/display/component/survey_menu.class.php';
 

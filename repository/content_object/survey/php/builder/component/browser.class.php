@@ -1,4 +1,4 @@
-<?php
+<?php namespace repository\content_object\survey;
 
 require_once dirname(__FILE__) . '/browser/survey_browser_table_cell_renderer.class.php';
 

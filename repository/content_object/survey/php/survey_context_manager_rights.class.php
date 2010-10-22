@@ -1,4 +1,6 @@
-<?php
+<?php 
+namespace repository\content_object\survey;
+
 use common\libraries\Path;
 
 require_once Path :: get_rights_path() . 'lib/rights_utilities.class.php';

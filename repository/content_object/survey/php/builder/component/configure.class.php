@@ -1,4 +1,4 @@
-<?php
+<?php namespace repository\content_object\survey;
 
 //require_once Path :: get_repository_path() . '/lib/content_object/survey/survey.class.php';
 require_once dirname ( __FILE__ ) . '/page_question_browser/question_browser_table.class.php';

@@ -1,4 +1,4 @@
-<?php
+<?php namespace repository\content_object\survey;
 
 require_once dirname(__FILE__) . '/inc/survey_question_display.class.php';
 

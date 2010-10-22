@@ -1,4 +1,4 @@
-<?php
+<?php namespace repository\content_object\survey;
 
 //require_once Path :: get_repository_path() . 'lib/data_manager/database_repository_data_manager.class.php';
 

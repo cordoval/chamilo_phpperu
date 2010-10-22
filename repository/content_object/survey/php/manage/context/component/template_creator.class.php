@@ -1,4 +1,4 @@
-<?php
+<?php namespace repository\content_object\survey;
 require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/forms/template_form.class.php';
 
 require_once Path :: get_repository_path() . 'lib/content_object/survey/survey_template.class.php';

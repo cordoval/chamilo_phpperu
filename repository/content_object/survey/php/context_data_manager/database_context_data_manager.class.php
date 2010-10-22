@@ -1,4 +1,4 @@
-<?php
+<?php namespace repository\content_object\survey;
 
 
 require_once (dirname(__FILE__) . '/../survey_context_template.class.php');

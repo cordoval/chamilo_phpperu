@@ -3,7 +3,7 @@ namespace application\survey;
 
 use common\extensions\repo_viewer\RepoViewerInterface;
 use common\extensions\repo_viewer\RepoViewer;
-
+use repository\content_object\survey\Survey;
 
 //require_once dirname(__FILE__) . '/../survey_manager.class.php';
 //require_once dirname(__FILE__) . '/../../forms/survey_publication_form.class.php';

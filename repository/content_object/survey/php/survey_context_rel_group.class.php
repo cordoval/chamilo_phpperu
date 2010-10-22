@@ -1,4 +1,4 @@
-<?php
+<?php namespace repository\content_object\survey;
 /**
  * This class describes a SurveyContextRelGroup data object
  * @author Sven Vanhoecke

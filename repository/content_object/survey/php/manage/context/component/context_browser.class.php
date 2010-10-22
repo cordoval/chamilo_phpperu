@@ -1,4 +1,4 @@
-<?php
+<?php namespace repository\content_object\survey;
 
 require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/component/context_template_rel_page_table/table.class.php';
 require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/component/page_table/table.class.php';
