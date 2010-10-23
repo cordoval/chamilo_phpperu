@@ -1,5 +1,16 @@
 <?php
 namespace common\extensions\repo_viewer;
+
+use common\libraries\Toolbar;
+use common\libraries\ToolbarItem;
+use common\libraries\Translation;
+use common\libraries\Theme;
+use common\libraries\Request;
+use common\libraries\FormValidator;
+use common\libraries\OptionsMenuRenderer;
+use repository\ContentObjectCategoryMenu;
+
+
 /**
  * $Id: browser.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.common.repo_viewer.component

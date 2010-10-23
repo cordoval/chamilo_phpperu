@@ -2,6 +2,11 @@
 namespace common\extensions\repo_viewer;
 
 use common\libraries\ObjectTable;
+use common\libraries\ObjectTableFormActions;
+use common\libraries\ObjectTableFormAction;
+use common\libraries\Translation;
+
+
 /**
  * $Id: content_object_table.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.repo_viewer.component.content_object_table

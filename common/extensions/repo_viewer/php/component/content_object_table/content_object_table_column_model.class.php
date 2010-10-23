@@ -2,6 +2,12 @@
 namespace common\extensions\repo_viewer;
 
 use common\libraries\ObjectTableColumnModel;
+use common\libraries\ObjectTableColumn;
+use repository\ContentObject;
+use common\libraries\StaticTableColumn;
+use common\libraries\Translation;
+
+
 /**
  * $Id: content_object_table_column_model.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.repo_viewer.component.content_object_table

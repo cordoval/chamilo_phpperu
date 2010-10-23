@@ -2,6 +2,22 @@
 namespace common\extensions\repo_viewer;
 
 use common\libraries\ObjectTableDataProvider;
+use repository\RepositoryDataManager;
+use common\libraries\EqualityCondition;
+use common\libraries\OrCondition;
+use common\libraries\PatternMatchCondition;
+use common\libraries\NotCondition;
+use common\libraries\AndCondition;
+use common\libraries\InEqualityCondition;
+use common\libraries\InCondition;
+use common\libraries\Request;
+
+use repository\ContentObject;
+use repository\ContentObjectShare;
+use repository\ContentObjectUserShare;
+use repository\ContentObjectGroupShare;
+
+
 /**
  * $Id: content_object_table_data_provider.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.repo_viewer.component.content_object_table
