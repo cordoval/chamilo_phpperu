@@ -1,4 +1,10 @@
-<?php namespace application\cda;
+<?php
+
+namespace application\cda;
+
+use common\libraries\WebApplication;
+use common\libraries\Display;
+use common\libraries\Translation;
 /**
  * @package application.cda.cda.component
  */
