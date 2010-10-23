@@ -1,4 +1,9 @@
-<?php namespace repository\content_object\survey;
+<?php 
+namespace repository\content_object\survey;
+
+use repository\ComplexBuilderComponent;
+use common\libraries\Path;
+
 
 require_once dirname(__FILE__) . '/browser/survey_browser_table_cell_renderer.class.php';
 

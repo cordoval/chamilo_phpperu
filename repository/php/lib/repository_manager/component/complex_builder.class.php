@@ -6,6 +6,9 @@ use common\libraries\Translation;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Application;
+use common\libraries\DelegateComponent;
+
+
 
 /**
  * $Id: complex_builder.class.php 204 2009-11-13 12:51:30Z kariboe $
@@ -39,8 +42,8 @@ class RepositoryManagerComplexBuilderComponent extends RepositoryManager impleme
 //                  	//$complex_builder = ComplexBuilder :: factory($this, $this->content_object->get_type());
 //        	//$complex_builder->run();
 //        }
-
-        if($this->content_object)
+		
+		if($this->content_object)
         {
             ComplexBuilder :: launch($this->content_object->get_type(), $this);
         	//$complex_builder = ComplexBuilder :: factory($this, $this->content_object->get_type());

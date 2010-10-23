@@ -19,16 +19,16 @@ class SurveyPage extends ContentObject implements ComplexContentObjectSupport
     const PROPERTY_FINISH_TEXT = 'finish_text';
     const PROPERTY_INTRODUCTION_TEXT = 'intro_text';
     const PROPERTY_CONFIG = 'config';
-
+    
     const FROM_VISIBLE_QUESTION_ID = 'from_visible_question_id';
     const TO_VISIBLE_QUESTIONS_IDS = 'to_visible_question_ids';
     const ANSWERMATCHES = 'answer_matches';
-
+    
     const CLASS_NAME = __CLASS__;
 
     static function get_type_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
     }
 
     static function get_additional_property_names()
@@ -80,33 +80,33 @@ class SurveyPage extends ContentObject implements ComplexContentObjectSupport
         $allowed_types[] = SurveySelectQuestion :: get_type_name();
         $allowed_types[] = SurveyMatrixQuestion :: get_type_name();
         $allowed_types[] = SurveyDescription :: get_type_name();
-
+        
         return $allowed_types;
     }
 
     function get_table()
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
-
+    
     }
 
     function get_questions($complex = false)
     {
-
+        
         $complex_content_objects = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexContentObjectItem :: get_table_name()));
-
+        
         if ($complex)
         {
             return $complex_content_objects;
         }
         $questions = array();
-
+        
         while ($complex_content_object = $complex_content_objects->next_result())
         {
             $questions[] = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_content_object->get_ref());
         }
         return $questions;
-
+    
     }
 
     function count_questions()
@@ -116,33 +116,35 @@ class SurveyPage extends ContentObject implements ComplexContentObjectSupport
 
     function get_question_ids($complex = false)
     {
-
+        
         $complex_content_objects = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexContentObjectItem :: get_table_name()));
         $question_ids = array();
-
+        
         if ($complex)
         {
             while ($complex_content_object = $complex_content_objects->next_result())
             {
                 $question_ids[] = $complex_content_object->get_id();
             }
-
+        
         }
         else
         {
             while ($complex_content_object = $complex_content_objects->next_result())
             {
                 $question = $this->get_data_manager()->retrieve_content_object($complex_content_object->get_ref());
-//                if ($question->get_type() != SurveyDescription::get_type_name())
-//                {
-                    $question_ids[] = $question->get_id();
-//                }
+                //                if ($question->get_type() != SurveyDescription::get_type_name())
+                //                {
+                $question_ids[] = $question->get_id();
+            
+     //                }
+            
 
             }
         }
-
+        
         return $question_ids;
-
+    
     }
 
 }

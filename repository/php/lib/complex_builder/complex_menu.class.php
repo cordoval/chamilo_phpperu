@@ -10,8 +10,9 @@ use common\libraries\EqualityCondition;
 use common\libraries\Application;
 use common\libraries\ComplexContentObjectSupport;
 use common\libraries\OptionsMenuRenderer;
-
 use repository\content_object\learning_path_item\LearningPathItem;
+use \HTML_Menu;
+use \HTML_Menu_ArrayRenderer;
 
 /**
  * $Id: complex_menu.class.php 200 2009-11-13 12:30:04Z kariboe $

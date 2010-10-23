@@ -1,18 +1,15 @@
 <?php
 namespace repository\content_object\survey;
 
-use repository\
-ContentObject;
-use common\libraries\
-ComplexContentObjectSupport;
-use common\libraries\
-Utilities;
-use common\libraries\
-EqualityCondition;
-use common\libraries\
-AndCondition;
-use common\libraries\
-InCondition;
+
+use repository\ContentObject;
+use common\libraries\ComplexContentObjectSupport;
+use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use common\libraries\InCondition;
+use repository\content_object\survey_page\SurveyPage;
+
 
 /**
  * $Id: survey.class.php 200 2009-11-13 12:30:04Z kariboe $

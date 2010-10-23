@@ -211,8 +211,8 @@ class ComplexContentObjectItem extends DataClass
     {
         if ($type)
         {
-            $class = 'Complex' . Utilities :: underscores_to_camelcase($type);
-            require_once dirname(__FILE__) . '/content_object/' . $type . '/complex_' . $type . '.class.php';
+            $class = __NAMESPACE__.'\content_object\\'.$type.'\Complex' . Utilities :: underscores_to_camelcase($type);
+            require_once dirname(__FILE__) . '/../../content_object/' . $type . '/php/complex_' . $type . '.class.php';
             return new $class($defaultProperties, $additionalProperties);
         }
         else

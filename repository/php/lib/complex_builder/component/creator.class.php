@@ -7,6 +7,8 @@ use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
+use common\extensions\repo_viewer\RepoViewerInterface;
+use common\extensions\repo_viewer\RepoViewer;
 
 /**
  * $Id: creator.class.php 200 2009-11-13 12:30:04Z kariboe $

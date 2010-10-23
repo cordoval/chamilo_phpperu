@@ -4,6 +4,8 @@ namespace repository;
 use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\Utilities;
+use common\libraries\SubManager;
+
 
 /**
  * $Id: complex_builder_component.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -36,8 +38,8 @@ abstract class ComplexBuilderComponent extends SubManager
     	}
 
     	require_once $file;
-
-    	$class = 'ComplexBuilderComponent' . Utilities :: underscores_to_camelcase($type) . 'Component';
+    	$class = __NAMESPACE__.'\\'.'ComplexBuilderComponent' . Utilities :: underscores_to_camelcase($type) . 'Component';
+    	
     	return new $class($application);
 	}
 

@@ -9,6 +9,12 @@ use common\libraries\EqualityCondition;
 use common\libraries\ResourceManager;
 use common\libraries\Theme;
 use common\libraries\BasicApplication;
+use common\libraries\SubManager;
+use \Exception;
+use admin\AdminDataManager;
+use admin\Registration;
+
+
 
 /**
  * $Id: complex_builder.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -84,7 +90,7 @@ abstract class ComplexBuilder extends SubManager
     static function factory($parent, $type)
     {
         //$file = Path :: get_repository_path() . 'lib/content_object/' . $type . '/builder/' . $type . '_builder.class.php';
-        $file = dirname(__FILE__) . '/../content_object/' . $type . '/builder/' . $type . '_builder.class.php';
+        $file = dirname(__FILE__) . '/../../../content_object/' . $type . '/php/builder/' . $type . '_builder.class.php';
         require_once $file;
         $class = Utilities :: underscores_to_camelcase($type) . 'Builder';
         return new $class($parent);
@@ -96,17 +102,19 @@ abstract class ComplexBuilder extends SubManager
      */
     static function launch($type, $application)
     {
-        $file = dirname(__FILE__) . '/../content_object/' . $type . '/builder/' . $type . '_builder.class.php';
+        $file = dirname(__FILE__) . '/../../../content_object/' . $type . '/php/builder/' . $type . '_builder.class.php';
+
+        
         if (! file_exists($file))
         {
             throw new Exception(Translation :: get('ComplexBuilderTypeDoesNotExist', array('type' => $type)));
         }
 
         require_once $file;
-
-        $class = Utilities :: underscores_to_camelcase($type) . 'Builder';
-
-        parent :: launch($class, $application);
+		//TODO just a hack needs some cleaner code ?
+        $name_space = __NAMESPACE__.'\\'.'content_object\\'.$type.'\\';
+        $class = $name_space.Utilities :: underscores_to_camelcase($type) . 'Builder';
+	    parent :: launch($class, $application);
     }
 
     protected function parse_input_from_table()
@@ -282,7 +290,8 @@ abstract class ComplexBuilder extends SubManager
 
         foreach ($types as $type)
         {
-            if(!RepositoryRights :: is_allowed_in_content_objects_subtree(RepositoryRights :: ADD_RIGHT, AdminDataManager :: get_registration($type, Registration :: TYPE_CONTENT_OBJECT)->get_id()))
+                 	
+        	if(!RepositoryRights :: is_allowed_in_content_objects_subtree(RepositoryRights :: ADD_RIGHT, AdminDataManager :: get_registration($type, Registration :: TYPE_CONTENT_OBJECT)->get_id()))
             {
             	continue;
             }
