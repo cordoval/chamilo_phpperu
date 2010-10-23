@@ -3,9 +3,9 @@ namespace application\survey;
 use common\libraries\ObjectTableCellRenderer;
 
 require_once dirname(__FILE__) . '/publication_browser_table_column_model.class.php';
-require_once dirname(__FILE__) . '/../../../tables/publication_table/default_survey_publication_table_cell_renderer.class.php';
-require_once dirname(__FILE__) . '/../../../survey_publication.class.php';
-require_once dirname(__FILE__) . '/../../survey_manager.class.php';
+//require_once dirname(__FILE__) . '/../../../tables/publication_table/default_survey_publication_table_cell_renderer.class.php';
+//require_once dirname(__FILE__) . '/../../../survey_publication.class.php';
+//require_once dirname(__FILE__) . '/../../survey_manager.class.php';
 
 class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublicationTableCellRenderer
 {

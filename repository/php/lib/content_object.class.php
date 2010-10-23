@@ -1119,15 +1119,13 @@ class ContentObject extends DataClass
      */
     static function factory($type, $defaultProperties = array(), $additionalProperties = array())
     {
-        if (! AdminDataManager :: is_registered($type, 'content_object'))
+       	if (! AdminDataManager :: is_registered($type, 'content_object'))
         {
-            return null; //here is the problem with the repository
+        	return null; //problem with the here is the prepository
         }
-
-        dump($type);
+       
         $class = self :: type_to_class($type);
-        dump($class);
-        return new $class($defaultProperties, $additionalProperties);
+       return new $class($defaultProperties, $additionalProperties);
     }
 
     /**

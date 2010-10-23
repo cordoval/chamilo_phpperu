@@ -1,13 +1,18 @@
 <?php
 namespace repository\content_object\survey;
 
-use repository\ContentObject;
-use common\libraries\ComplexContentObjectSupport;
-use common\libraries\Utilities;
-use common\libraries\EqualityCondition;
-use common\libraries\AndCondition;
-use common\libraries\InCondition;
-
+use repository\
+ContentObject;
+use common\libraries\
+ComplexContentObjectSupport;
+use common\libraries\
+Utilities;
+use common\libraries\
+EqualityCondition;
+use common\libraries\
+AndCondition;
+use common\libraries\
+InCondition;
 
 /**
  * $Id: survey.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -50,7 +55,7 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
 
     static function get_type_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
     }
 
     static function get_additional_property_names()
@@ -203,10 +208,11 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
         $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_SURVEY_ID, $this->get_id());
         $conditions[] = new InCondition(SurveyContextTemplateRelPage :: PROPERTY_TEMPLATE_ID, $context_template_ids);
         $condition = new AndCondition($conditions);
-        $survey_context_rel_pages = SurveyContextDataManager::get_instance()->retrieve_template_rel_pages($condition);
+        $survey_context_rel_pages = SurveyContextDataManager :: get_instance()->retrieve_template_rel_pages($condition);
         $pages = array();
-        while ($survey_context_rel_page = $survey_context_rel_pages->next_result()) {
-        	$pages[] = $survey_context_rel_page->get_page();
+        while ($survey_context_rel_page = $survey_context_rel_pages->next_result())
+        {
+            $pages[] = $survey_context_rel_page->get_page();
         }
         $questions = array();
         foreach ($pages as $page)
@@ -453,7 +459,8 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
                 //                        dump($questions_ids);
                 $page_ids[$page_id] = $questions_ids;
                 $context_path_tree[1][0][1][$page_id] = $page_ids;
-                //                dump($page_ids);
+            
+     //                dump($page_ids);
             }
             $context_path_tree[1][0]['context_' . 1] = 'NOCONTEXT';
         
