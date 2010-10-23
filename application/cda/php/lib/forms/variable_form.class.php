@@ -1,4 +1,10 @@
 <?php
+
+namespace application\cda;
+
+use common\libraries\FormValidator;
+use common\libraries\Translation;
+use common\libraries\EqualityCondition;
 /**
  * This class describes the form for a Variable object.
  * @author Sven Vanpoucke

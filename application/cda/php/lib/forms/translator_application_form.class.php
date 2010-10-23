@@ -1,4 +1,17 @@
 <?php
+
+namespace application\cda;
+
+use common\libraries\FormValidator;
+use common\libraries\Translation;
+use admin\AdminDataManager;
+use user\UserDataManager;
+use common\libraries\EqualityCondition;
+use common\libraries\NotCondition;
+use common\libraries\InCondition;
+use common\libraries\ObjectTableOrder;
+use common\libraries\LocalSetting;
+use common\libraries\Session;
 /**
  * $Id: language_pack_browser_filter_form.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.cda.forms

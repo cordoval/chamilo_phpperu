@@ -1,4 +1,9 @@
 <?php
+
+namespace application\cda;
+
+use common\libraries\FormValidator;
+use common\libraries\Translation;
 /**
  * This class describes the form for a LanguagePack object.
  * @author Sven Vanpoucke

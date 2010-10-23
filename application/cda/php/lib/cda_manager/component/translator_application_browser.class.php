@@ -1,4 +1,22 @@
 <?php
+
+namespace application\cda;
+
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
+use common\libraries\Display;
+use common\libraries\WebApplication;
+use common\libraries\Application;
+use common\libraries\InCondition;
+use user\User;
+use common\libraries\PatternMatchCondition;
+use common\libraries\OrCondition;
+use common\libraries\SubselectCondition;
+use common\libraries\AndCondition;
+use common\libraries\ActionBarRenderer;
+use common\libraries\Theme;
+use common\libraries\ToolbarItem;
 /**
  * @package application.cda.cda.component
  */
@@ -60,13 +78,13 @@ class CdaManagerTranslatorApplicationBrowserComponent extends CdaManager
 			$subconditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*' . $query . '*', User :: get_table_name());
 			$subconditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $query . '*', User :: get_table_name());
 			$subcondition = new OrCondition($subconditions);
-			$conditions[] = new SubSelectCondition(TranslatorApplication :: PROPERTY_USER_ID,
+			$conditions[] = new SubselectCondition(TranslatorApplication :: PROPERTY_USER_ID,
 												   User :: PROPERTY_ID, User :: get_table_name(), $subcondition, null, UserDataManager :: get_instance());
 			
 			$subcondition = new PatternMatchCondition(CdaLanguage :: PROPERTY_ENGLISH_NAME, '*' . $query . '*', CdaLanguage :: get_table_name());
-			$conditions[] = new SubSelectCondition(TranslatorApplication :: PROPERTY_SOURCE_LANGUAGE_ID,
+			$conditions[] = new SubselectCondition(TranslatorApplication :: PROPERTY_SOURCE_LANGUAGE_ID,
 												   CdaLanguage :: PROPERTY_ID, CdaLanguage :: get_table_name(), $subcondition);
-			$conditions[] = new SubSelectCondition(TranslatorApplication :: PROPERTY_DESTINATION_LANGUAGE_ID,
+			$conditions[] = new SubselectCondition(TranslatorApplication :: PROPERTY_DESTINATION_LANGUAGE_ID,
 												   CdaLanguage :: PROPERTY_ID, CdaLanguage :: get_table_name(), $subcondition);
 			
 			$orcondition = new OrCondition($conditions);

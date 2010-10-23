@@ -1,4 +1,6 @@
 <?php
+namespace application\wiki;
+
 interface WikiDataManagerInterface
 {
     function initialize();

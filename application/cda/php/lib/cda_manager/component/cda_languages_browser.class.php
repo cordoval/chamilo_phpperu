@@ -1,4 +1,12 @@
 <?php
+namespace application\cda;
+
+use common\libraries\WebApplication;
+use common\libraries\ActionBarRenderer;
+use common\libraries\Theme;
+use common\libraries\Translation;
+use common\libraries\ToolbarItem;
+use common\libraries\ConditionProperty;
 /**
  * @package application.cda.cda.component
  */

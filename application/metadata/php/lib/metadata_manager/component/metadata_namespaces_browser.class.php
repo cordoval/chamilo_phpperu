@@ -1,5 +1,9 @@
 <?php
 namespace application\metadata;
+use common\libraries\ToolbarItem;
+use common\libraries\Translation;
+use common\libraries\Application;
+use common\libraries\ActionBarRenderer;
 
 /**
  * metadata component which allows the user to browse his metadata_namespaces

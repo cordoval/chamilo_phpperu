@@ -45,7 +45,6 @@ class MetadataAutoloader
     'metadata_default_value_form' => 'forms/metadata_default_value_form.class.php.class.php',
     'metadata_form' => 'forms/metadata_form.class.php',
     'metadata_namespace_form' => 'forms/metadata_namespace_form.class.php',
-    'metadata_property_attribute_type' => 'forms/metadata_property_attribute_type.class.php',
     'metadata_property_type_form' => 'forms/metadata_property_type_form.class.php',
     'content_object_property_metadata_browser_table' => 'metadata_manager/component/content_object_property_metadata_browser/content_object_property_metadata_browser_table.class.php',
     'metadata_default_value_browser_table_' => 'metadata_manager/component/metadata_default_value_browser/metadata_default_value_browser_table.class.php',

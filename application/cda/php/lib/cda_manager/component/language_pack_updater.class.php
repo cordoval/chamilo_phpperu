@@ -1,4 +1,13 @@
 <?php
+
+namespace application\cda;
+
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
+use common\libraries\Display;
+use common\libraries\Request;
+use common\libraries\WebApplication;
 /**
  * @package application.cda.cda.component
  */

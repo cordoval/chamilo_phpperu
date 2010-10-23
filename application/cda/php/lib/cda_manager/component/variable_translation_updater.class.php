@@ -1,4 +1,19 @@
 <?php
+
+namespace application\cda;
+
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
+use common\libraries\Display;
+use common\libraries\Request;
+use common\libraries\WebApplication;
+use common\libraries\NotCondition;
+use common\libraries\InCondition;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use common\libraries\Path;
+use common\libraries\ResourceManager;
 /**
  * @package application.cda.cda.component
  */

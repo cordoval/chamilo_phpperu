@@ -1,4 +1,8 @@
 <?php
+namespace application\wiki;
+
+use repository\ContentObject;
+
 /**
  * $Id: wiki_pub_feedback.class.php 210 2009-11-13 13:18:50Z kariboe $
  * @package application.lib.wiki

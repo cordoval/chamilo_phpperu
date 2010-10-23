@@ -1,4 +1,11 @@
 <?php
+
+namespace application\cda;
+
+use common\libraries\WebApplication;
+use common\libraries\Installer;
+use common\libraries\Translation;
+use rights\RightsUtilities;
 /**
  * cda.install
  */

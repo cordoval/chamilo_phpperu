@@ -1,4 +1,10 @@
 <?php
+
+namespace application\cda;
+use common\libraries\EqualityCondition;
+use common\libraries\SubselectCondition;
+use common\libraries\AndCondition;
+
 class VariableScanner
 {
 	private $language_pack;

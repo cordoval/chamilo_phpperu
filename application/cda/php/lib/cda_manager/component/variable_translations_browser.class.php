@@ -1,4 +1,20 @@
 <?php
+
+namespace application\cda;
+
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
+use common\libraries\Request;
+use common\libraries\WebApplication;
+use common\libraries\Application;
+use common\libraries\EqualityCondition;
+use common\libraries\SubselectCondition;
+use common\libraries\PatternMatchCondition;
+use common\libraries\OrCondition;
+use common\libraries\AndCondition;
+use common\libraries\ToolbarItem;
+use common\libraries\ActionBarRenderer;
 /**
  * @package application.cda.cda.component
  */

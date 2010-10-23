@@ -1,4 +1,13 @@
-<?php 
+<?php
+
+namespace application\cda;
+
+use common\libraries\DataClass;
+use common\libraries\Utilities;
+use common\libraries\Theme;
+use user\UserDataManager;
+use admin\AdminDataManager;
+use rights\RightsUtilities;
 /**
  * cda
  */
@@ -104,7 +113,7 @@ class TranslatorApplication extends DataClass
 	
 	static function get_table_name()
 	{
-		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+		return Utilities :: underscores_to_camelcase(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
 	}
 	
     function get_user()

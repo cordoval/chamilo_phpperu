@@ -1,4 +1,9 @@
 <?php
+
+namespace application\cda;
+
+use ReflectionClass;
+use rights\RightsUtilities;
 /**
  * $Id: cda_rights.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.cda
