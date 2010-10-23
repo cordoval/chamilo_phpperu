@@ -1,4 +1,8 @@
-<?php namespace application\cda;
+<?php
+
+namespace application\cda;
+
+use common\libraries\ObjectTableDataProvider;
 /**
  * @package cda.tables.cda_language_table
  */

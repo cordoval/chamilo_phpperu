@@ -1,4 +1,11 @@
-<?php namespace application\cda;
+<?php
+
+namespace application\cda;
+
+use HTML_QuickForm_Action_Display;
+use HTML_QuickForm;
+use common\libraries\Translation;
+use common\libraries\BreadcrumbTrail;
 /**
  * $Id: exporter_wizard_display.class.php 225 2009-11-13 14:43:20Z vanpouckesven $
  * @package exporter.lib.exportermanager.component.inc.wizard

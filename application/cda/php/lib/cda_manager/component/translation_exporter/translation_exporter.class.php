@@ -1,4 +1,14 @@
-<?php namespace application\cda;
+<?php
+
+namespace application\cda;
+
+use Exception;
+use common\libraries\Path;
+use common\libraries\Filesystem;
+use common\libraries\Filecompression;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use common\libraries\SubselectCondition;
 /**
  * $Id: translation_exporter.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
  */
@@ -76,7 +86,7 @@ abstract class TranslationExporter
 		
 		if(!is_dir($directory))
 		{
-			Filesystem :: create_dir($directory);
+                    $create_dir = Filesystem :: create_dir($directory);
 		}
 		
 		foreach($this->get_languages() as $language)
@@ -131,7 +141,7 @@ abstract class TranslationExporter
     
  	function write_file_header($handle)
     {
-    	fwrite($handle, "<?php namespace application\cda;\n");
+    	fwrite($handle, "<?php\n");
     }
     
 	function write_file_footer($handle)
@@ -142,7 +152,7 @@ abstract class TranslationExporter
     function get_translations($language, $language_pack)
     {
     	$subselect_condition =  new EqualityCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, $language_pack->get_id());
-    	$conditions[] = new SubSelectcondition(VariableTranslation :: PROPERTY_VARIABLE_ID, 
+    	$conditions[] = new SubselectCondition(VariableTranslation :: PROPERTY_VARIABLE_ID,
     					Variable :: PROPERTY_ID, Variable :: get_table_name(), $subselect_condition);
     	$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language->get_id());
     	$condition = new AndCondition($conditions);

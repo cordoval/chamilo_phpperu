@@ -1,4 +1,14 @@
-<?php namespace application\cda;
+<?php
+
+namespace application\cda;
+
+use common\libraries\WebApplication;
+use HTML_QuickForm_Action;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Translation;
+use common\libraries\InCondition;
+use common\libraries\Display;
+use common\libraries\ObjectTableOrder;
 /**
  * $Id: exporter_wizard_process.class.php 204 2009-11-13 12:51:30Z kariboe $
  */
@@ -21,7 +31,7 @@ class ExporterWizardProcess extends HTML_QuickForm_Action
 
     function perform($page, $actionName)
     {
-    	$this->parent->display_header(BreadcrumbTrail :: get_instance(false));
+    	$display_header = $this->parent->display_header(BreadcrumbTrail :: get_instance(false));
     	
     	$values = $page->controller->exportValues();
     	
