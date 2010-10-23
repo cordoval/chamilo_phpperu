@@ -40,7 +40,7 @@ class CdaDataManager
         {
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
             require_once WebApplication :: get_application_class_lib_path('cda') . 'data_manager/' . strtolower($type) . '_cda_data_manager.class.php';
-            $class = Utilities :: underscores_to_camelcase($type) . 'CdaDataManager';
+            $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type) . 'CdaDataManager';
             self :: $instance = new $class();
         }
         return self :: $instance;

@@ -1,4 +1,6 @@
-<?php namespace application\cda;
+<?php
+
+namespace application\cda;
 
 class Chamilo1TranslationImporter extends TranslationImporter
 {
@@ -42,7 +44,7 @@ class Chamilo1TranslationImporter extends TranslationImporter
             $line = fgets($fh);
             if ($i == 0)
             {
-                $line = ltrim(str_replace('<?php namespace application\cda;', '', $line));
+                $line = ltrim(str_replace('<?php', '', $line));
                 if (substr($line, 0, 1) == '$')
                 {
                     $i++;

@@ -1,4 +1,8 @@
-<?php namespace application\cda;
+<?php
+
+namespace application\cda;
+
+use common\libraries\FormValidatorPage;
 /**
  * $Id: exporter_wizard_page.class.php 204 2009-11-13 12:51:30Z kariboe $
  */

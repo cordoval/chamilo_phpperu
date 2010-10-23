@@ -1,4 +1,13 @@
-<?php namespace application\cda;
+<?php
+
+namespace application\cda;
+
+use common\libraries\WebApplication;
+use common\libraries\Translation;
+use common\libraries\Theme;
+use common\libraries\Toolbar;
+use common\libraries\ToolbarItem;
+use common\libraries\Display;
 /**
  * @package cda.tables.variable_translation_table
  */

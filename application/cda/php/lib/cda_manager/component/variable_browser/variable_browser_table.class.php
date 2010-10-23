@@ -1,4 +1,12 @@
-<?php namespace application\cda;
+<?php
+
+namespace application\cda;
+
+use common\libraries\WebApplication;
+use common\libraries\ObjectTable;
+use common\libraries\ObjectTableFormActions;
+use common\libraries\ObjectTableFormAction;
+use common\libraries\Translation;
 /**
  * @package cda.cda_manager.component.variable_browser
  */

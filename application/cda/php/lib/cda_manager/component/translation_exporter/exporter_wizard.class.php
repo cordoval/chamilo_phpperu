@@ -1,4 +1,9 @@
-<?php namespace application\cda;
+<?php
+
+namespace application\cda;
+
+use common\libraries\WebApplication;
+use HTML_QuickForm_Controller;
 /**
  * $Id: exporter_wizard.class.php 225 2009-11-13 14:43:20Z vanpouckesven $
  */

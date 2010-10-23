@@ -1,4 +1,9 @@
-<?php namespace application\cda;
+<?php
+
+namespace application\cda;
+
+use common\libraries\WebApplication;
+use common\libraries\ObjectTable;
 /**
  * @package cda.cda_manager.component.translator_application_browser
  */

@@ -1,4 +1,9 @@
-<?php namespace application\cda;
+<?php
+
+namespace application\cda;
+
+use common\libraries\WebApplication;
+use common\libraries\StaticTableColumn;
 /**
  * @package cda.tables.language_pack_table
  */

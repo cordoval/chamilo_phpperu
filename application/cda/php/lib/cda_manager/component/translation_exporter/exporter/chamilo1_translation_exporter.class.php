@@ -1,4 +1,6 @@
-<?php namespace application\cda;
+<?php
+
+namespace application\cda;
 
 class Chamilo1TranslationExporter extends TranslationExporter
 {	
@@ -15,7 +17,7 @@ class Chamilo1TranslationExporter extends TranslationExporter
 	
 	function write_file_header($handle)
     {
-    	fwrite($handle, "<?php namespace application\cda;\n/*\nfor more information: see languages.txt in the lang folder.\n*/\n");
+    	fwrite($handle, "<?php\n/*\nfor more information: see languages.txt in the lang folder.\n*/\n");
     }
 }
 

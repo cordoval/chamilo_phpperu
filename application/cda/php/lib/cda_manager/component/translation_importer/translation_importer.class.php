@@ -1,4 +1,13 @@
-<?php namespace application\cda;
+<?php
+
+namespace application\cda;
+
+use Exception;
+use common\libraries\Translation;
+use common\libraries\Filesystem;
+use common\libraries\Filecompression;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
 /*
  * @author Sven Vanpoucke
  */

@@ -1,4 +1,12 @@
-<?php namespace application\cda;
+<?php
+
+namespace application\cda;
+
+use common\libraries\Translation;
+use common\libraries\ResourceManager;
+use common\libraries\ObjectTableOrder;
+
+
 /**
  * $Id: language_selecting_exporter_wizard_page.class.php 225 2009-11-13 14:43:20Z vanpouckesven $
  */
