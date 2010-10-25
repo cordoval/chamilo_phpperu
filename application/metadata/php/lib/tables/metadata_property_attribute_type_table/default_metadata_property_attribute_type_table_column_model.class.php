@@ -1,6 +1,7 @@
 <?php 
 namespace application\metadata;
 use common\libraries\ObjectTableColumnModel;
+use common\libraries\ObjectTableColumn;
 /**
  * @package metadata.tables.metadata_property_attribute_type_table
  */

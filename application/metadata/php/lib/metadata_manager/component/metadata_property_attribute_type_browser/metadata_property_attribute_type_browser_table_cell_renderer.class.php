@@ -3,7 +3,8 @@ namespace application\metadata;
 use common\libraries\Toolbar;
 use common\libraries\Translation;
 use common\libraries\Theme;
-use common\libraries\ToolbarItem;require_once dirname(__FILE__) . '../../../tables/metadata_property_attribute_type_table/default_metadata_property_attribute_type_table_cell_renderer.class.php';
+use common\libraries\ToolbarItem;
+require_once dirname(__FILE__) . '/../../../tables/metadata_property_attribute_type_table/default_metadata_property_attribute_type_table_cell_renderer.class.php';
 
 /**
  * Cell rendere for the learning object browser table

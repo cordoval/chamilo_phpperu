@@ -1,6 +1,7 @@
 <?php
 namespace application\metadata;
 use common\libraries\ObjectTableColumnModel;
+use common\libraries\ObjectTableColumn;
 /**
  * Default column model for the metadata_default_value table
  *
