@@ -1,5 +1,9 @@
 <?php
 namespace common\extensions\external_repository_manager;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+
 class ExternalRepositoryComponentImporterComponent extends ExternalRepositoryComponent
 {
 

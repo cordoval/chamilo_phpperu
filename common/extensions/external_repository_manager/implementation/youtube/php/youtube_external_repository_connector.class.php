@@ -4,7 +4,24 @@ namespace common\extensions\external_repository_manager\implementation\youtube;
 use common\libraries\Path;
 use common\libraries\Request;
 use common\libraries\Utilities;
+use common\libraries\Redirect;
+use common\libraries\Session;
+use common\libraries\PlatformSetting;
+use common\libraries\ArrayResultSet;
+use common\libraries\Translation;
+
 use common\extensions\external_repository_manager\ExternalRepositoryConnector;
+use common\extensions\external_repository_manager\ExternalRepositoryObject;
+
+
+use repository\ExternalRepositoryUserSetting;
+use repository\RepositoryDataManager;
+use repository\ExternalRepositorySetting;
+
+use Zend_Loader;
+use Zend_Gdata_AuthSub;
+use Zend_Gdata_YouTube;
+use Zend_Gdata_YouTube_VideoEntry;
 
 require_once 'Zend/Loader.php';
 require_once dirname(__FILE__) . '/youtube_external_repository_object.class.php';
