@@ -1,4 +1,9 @@
 <?php
+
+namespace application\profiler;
+
+use common\libraries\Configuration;
+use common\libraries\WebApplication;
 /**
  * $Id: profiler_data_manager.class.php 212 2009-11-13 13:38:35Z chellee $
  * @package application.profiler

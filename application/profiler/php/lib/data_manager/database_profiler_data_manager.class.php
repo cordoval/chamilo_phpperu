@@ -1,4 +1,4 @@
-<?php
+<?php namespace application\profiler
 /**
  * $Id: database_profiler_data_manager.class.php 238 2009-11-16 14:10:27Z vanpouckesven $
  * @package application.profiler.data_manager

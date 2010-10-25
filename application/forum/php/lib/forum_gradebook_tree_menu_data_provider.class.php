@@ -1,7 +1,17 @@
-<?phpnamespace application\forum
+<?php
+
+namespace application\forum;
+
+use common\libraries\EqualityCondition;
+use GradebookTreeMenuDataProvider;
+use common\libraries\TreeMenuItem;
+use common\libraries\Translation;
+
+/*
 require_once Path :: get_common_libraries_class_path() . '/html/menu/tree_menu/tree_menu_data_provider.class.php';
 require_once Path :: get_common_libraries_class_path() . '/html/menu/tree_menu/tree_menu.class.php';
 require_once Path :: get_common_libraries_class_path() . '/html/menu/tree_menu/tree_menu_item.class.php';
+*/
 
 class ForumGradebookTreeMenuDataProvider extends GradebookTreeMenuDataProvider
 {

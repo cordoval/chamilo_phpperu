@@ -1,5 +1,17 @@
 <?php
 
+namespace application\profiler;
+
+use rights\RightsUtilities;
+use user\UserDataManager;
+use common\libraries\Session;
+use group\GroupDataManager;
+use group\GroupRightsTemplate;
+use group\GroupRelUser;
+use group\Group;
+use common\libraries\ObjectResultSet;
+use common\libraries\Utilities;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.

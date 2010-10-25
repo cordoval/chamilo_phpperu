@@ -1,10 +1,8 @@
 <?php
-
 namespace application\forum;
 
 use common\libraries\Translation;
 use common\libraries\Display;
-use HTML_Table;
 use common\libraries\EqualityCondition;
 use common\libraries\ObjectTableOrder;
 use user\UserDataManager;
@@ -17,6 +15,8 @@ use common\libraries\Theme;
 use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use common\libraries\ActionBarRenderer;
+use HTML_Table;
+
 /**
  * $Id: browser.class.php 195 2009-11-13 12:02:41Z chellee $
  * @package application.lib.forum.forum_manager.component
@@ -24,7 +24,7 @@ use common\libraries\ActionBarRenderer;
 //require_once Path :: get_repository_path() . '/lib/content_object/forum/forum.class.php';
 //require_once Path :: get_repository_path() . '/lib/content_object/forum/display/forum_display.class.php';
 
-//require_once 'HTML/Table.php';
+require_once 'HTML/Table.php';
 
 class ForumManagerBrowserComponent extends ForumManager
 {

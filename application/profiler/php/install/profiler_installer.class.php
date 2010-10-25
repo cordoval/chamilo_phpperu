@@ -1,4 +1,11 @@
 <?php
+
+namespace application\profiler;
+
+use common\libraries\WebApplication;
+use common\libraries\Installer;
+use common\libraries\Translation;
+
 /**
  * $Id: profiler_installer.class.php 212 2009-11-13 13:38:35Z chellee $
  * @package application.profiler.install

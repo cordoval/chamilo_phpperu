@@ -1,4 +1,10 @@
-<?phpnamespace application\forum
+<?php
+
+namespace application\forum;
+
+use common\libraries\DataClass;
+use common\libraries\Utilities;
+
 /**
  * $Id: forum_publication.class.php 195 2009-11-13 12:02:41Z chellee $
  * @package application.lib.forum

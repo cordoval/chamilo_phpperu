@@ -1,4 +1,4 @@
-<?php
+<?php namespace application\profiler
 
 /**
  * $Id: browser.class.php 212 2009-11-13 13:38:35Z chellee $

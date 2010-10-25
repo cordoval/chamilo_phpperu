@@ -1,4 +1,6 @@
 <?php
+
+namespace application\profiler;
 /**
  * $Id: profiler_category_manager.class.php 212 2009-11-13 13:38:35Z chellee $
  * @package application.profiler.category_manager

@@ -1,5 +1,13 @@
-<?phpnamespace application\forum
-require_once WebApplication :: get_application_class_lib_path('gradebook') . 'evaluation_manager/evaluation_manager.class.php';
+<?php
+
+namespace application\forum;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+
+//require_once WebApplication :: get_application_class_lib_path('gradebook') . 'evaluation_manager/evaluation_manager.class.php';
 
 class ForumManagerForumEvaluationComponent extends ForumManager implements EvaluationManagerInterface
 {
