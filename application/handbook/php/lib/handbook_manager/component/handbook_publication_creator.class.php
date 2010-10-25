@@ -8,6 +8,7 @@ use common\libraries\Translation;
 use common\libraries\InCondition;
 use common\libraries\Theme;
 use repository\ContentObject;
+use repository\content_object\handbook\Handbook;
 
 
 require_once dirname(__FILE__).'/../handbook_manager.class.php';
