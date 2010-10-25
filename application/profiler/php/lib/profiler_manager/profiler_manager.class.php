@@ -1,4 +1,15 @@
 <?php
+
+namespace application\profiler;
+
+use common\libraries\WebApplication;
+use common\libraries\Request;
+use common\libraries\Display;
+use repository\content_object\profile\Profile;
+use common\libraries\Session;
+use common\libraries\Translation;
+use common\libraries\ObjectTable;
+
 /**
  * $Id: profiler_manager.class.php 212 2009-11-13 13:38:35Z chellee $
  * @package application.profiler.profiler_manager

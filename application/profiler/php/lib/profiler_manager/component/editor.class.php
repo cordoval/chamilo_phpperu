@@ -1,5 +1,17 @@
 <?php
 
+namespace application\profiler;
+
+use common\libraries\Request;
+use common\libraries\Display;
+use repository\ContentObjectForm;
+use common\libraries\Application;
+use common\libraries\EqualityCondition;
+use common\libraries\Translation;
+use repository\ContentObjectDisplay;
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
+
 /**
  * $Id: editor.class.php 212 2009-11-13 13:38:35Z chellee $
  * @package application.profiler.profiler_manager.component

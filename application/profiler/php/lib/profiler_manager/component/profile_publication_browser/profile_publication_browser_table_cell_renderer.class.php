@@ -1,4 +1,4 @@
-<?php
+<?php namespace application\profiler
 
 /**
  * $Id: profile_publication_browser_table_cell_renderer.class.php 212 2009-11-13 13:38:35Z chellee $

@@ -1,5 +1,12 @@
 <?php
 
+use user\User;
+namespace application\profiler;
+
+use common\libraries\DataClass;
+use repository\RepositoryDataManager;
+use user\UserDataManager;
+
 /**
  * $Id: profile_publication.class.php 212 2009-11-13 13:38:35Z chellee $
  * @package application.profiler
@@ -111,7 +118,11 @@ class ProfilePublication extends DataClass
         $rdm = RepositoryDataManager :: get_instance();
         return $rdm->retrieve_content_object($this->get_profile());
     }
-
+	
+    /**
+     * 
+     * @return User
+     */
     function get_publication_publisher()
     {
         $udm = UserDataManager :: get_instance();

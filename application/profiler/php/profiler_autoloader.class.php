@@ -1,4 +1,8 @@
 <?php
+namespace application\profiler;
+
+use common\libraries\WebApplication;
+use common\libraries\Utilities;
 /**
  * $Id: user_autoloader.class.php 167 2009-11-12 11:17:52Z vanpouckesven $
  * @author vanpouckesven
@@ -9,6 +13,21 @@ class ProfilerAutoloader
 {
 	static function load($classname)
 	{
+            $classname_parts = explode('\\', $classname);
+
+        if (count($classname_parts) == 1)
+        {
+            return false;
+        }
+        else
+        {
+            $classname = $classname_parts[count($classname_parts) - 1];
+            array_pop($classname_parts);
+            if (implode('\\', $classname_parts) != __NAMESPACE__)
+            {
+                return false;
+            }
+        }
 		$list = array(
 		'profiler_rights' => 'profiler_rights.class.php',
 		'profiler_data_manager' => 'profiler_data_manager.class.php',

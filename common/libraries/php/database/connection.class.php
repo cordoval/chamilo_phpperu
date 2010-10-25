@@ -2,6 +2,7 @@
 namespace common\libraries;
 
 use \MDB2;
+use \Exception;
 
 /**
  * $Id: connection.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
