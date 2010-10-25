@@ -1,4 +1,11 @@
 <?php
+
+namespace application\assessment;
+
+use common\libraries\DataClass;
+use common\libraries\EqualityCondition;
+use repository\RepositoryDataManager;
+use user\UserDataManager;
 /**
  * $Id: assessment_publication.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment

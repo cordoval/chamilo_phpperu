@@ -1,4 +1,12 @@
 <?php
+
+namespace application\assessment;
+
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
+use common\extensions\repo_viewer\RepoViewer;
+use common\extensions\RepoViewerInterface;
 /**
  * $Id: creator.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.lib.assessment.assessment_manager.component

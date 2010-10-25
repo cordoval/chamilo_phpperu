@@ -1,4 +1,10 @@
 <?php
+
+namespace application\assessment;
+
+use common\libraries\EqualityCondition;
+
+
 require_once dirname(__FILE__) . '/../trackers/assessment_assessment_attempts_tracker.class.php';
 
 class AssessmentGradebookConnector extends GradeBookConnector
