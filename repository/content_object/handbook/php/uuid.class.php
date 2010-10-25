@@ -1,4 +1,5 @@
 <?php
+namespace repository\content_object\handbook;
 /*-
  * Copyright (c) 2008 Fredrik Lindberg - http://www.shapeshifter.se
  * All rights reserved.

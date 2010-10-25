@@ -1,8 +1,13 @@
 <?php
+
+
 namespace application\handbook;
 use common\libraries\ObjectTableColumnModel;
 use common\libraries\StaticTableColumn;
 use common\libraries\ObjectTableColumn;
+use repository\content_object\handbook\Handbook;
+
+//require_once "../../../../../../repository/content_object/handbook/handbook.class.php";
 
 
 

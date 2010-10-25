@@ -1,5 +1,8 @@
 <?php
+namespace repository\content_object\handbook;
 use common\libraries\ComplexContentObjectSupport;
+use repository\ContentObject;
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/uuid.class.php';
 
@@ -15,7 +18,7 @@ class Handbook extends ContentObject implements ComplexContentObjectSupport {
     }
 
     static function get_type_name() {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities::get_classname_from_namespace(Utilities :: camelcase_to_underscores(self :: CLASS_NAME));
     }
     
     function get_allowed_types() {
