@@ -155,7 +155,7 @@ class AdminManager extends CoreApplication
         $applications = WebApplication :: load_all();
         foreach ($applications as $index => $application_name)
         {
-            $info[] = call_user_func(array(WebApplication :: get_application_class_name($application_name), 'get_application_platform_admin_links'));
+            $info[] = call_user_func(array('application\\' . $application_name . '\\' . WebApplication :: get_application_class_name($application_name), 'get_application_platform_admin_links'));
         }
 
         return $info;

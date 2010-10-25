@@ -7,6 +7,7 @@ use common\libraries\ObjectTable;
 use common\libraries\ObjectTableFormActions;
 use common\libraries\ObjectTableFormAction;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 /**
  * @package cda.cda_manager.component.language_pack_browser
  */
@@ -36,7 +37,7 @@ class LanguagePackBrowserTable extends ObjectTable
 		$this->set_additional_parameters($parameters);
 		$actions = array();
 
-		if(get_class($browser) != 'CdaManagerLanguagePacksBrowserComponent')
+		if(Utilities :: get_classname_from_namespace(get_class($browser)) != 'CdaManagerLanguagePacksBrowserComponent')
 		{
 			$actions[] = new ObjectTableFormAction(CdaManager :: PARAM_DELETE_SELECTED_LANGUAGE_PACKS, Translation :: get('RemoveSelected'));
 		}
