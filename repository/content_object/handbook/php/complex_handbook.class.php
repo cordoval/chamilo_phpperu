@@ -1,4 +1,8 @@
 <?php
+namespace repository\content_object\handbook;
+
+use repository\ComplexContentObjectItem;
+use HandbookItem;
 
 
 class ComplexHandbook extends ComplexContentObjectItem

@@ -1,8 +1,8 @@
 <?php
-/**
- * $Id: handbook_installer.class.php 200 2009-11-13 12:30:04Z kariboe $
- * @package repository.install
- */
+namespace repository\content_object\handbook;
+
+use repository\ContentObjectInstaller;
+
 class HandbookContentObjectInstaller extends ContentObjectInstaller
 {
     function get_path()

@@ -1,8 +1,7 @@
 <?php
-/**
- * $Id: handbook_difference_display.class.php 200 2009-11-13 12:30:04Z kariboe $
- * @package repository.lib.content_object.handbook
- */
+namespace repository\content_object\handbook;
+
+use repository\ContentObjectDifferenceDisplay;
 /**
  * This class can be used to display the difference between handbooks
  */

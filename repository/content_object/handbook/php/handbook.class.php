@@ -12,13 +12,15 @@ require_once dirname(__FILE__) . '/uuid.class.php';
 class Handbook extends ContentObject implements ComplexContentObjectSupport {
     const CLASS_NAME = __CLASS__;
     const PROPERTY_UUID = 'uuid';
+    const TYPE_NAME = 'handbook';
 
     static function get_additional_property_names() {
         return array(self :: PROPERTY_UUID);
     }
 
     static function get_type_name() {
-        return Utilities::get_classname_from_namespace(Utilities :: camelcase_to_underscores(self :: CLASS_NAME));
+//        return Utilities::get_classname_from_namespace(Utilities :: camelcase_to_underscores(self :: CLASS_NAME));
+        return self::TYPE_NAME;
     }
     
     function get_allowed_types() {

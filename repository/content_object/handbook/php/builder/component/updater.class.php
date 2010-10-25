@@ -1,8 +1,8 @@
 <?php
-/**
- * $Id: updater.class.php 200 2009-11-13 12:30:04Z kariboe $
- * @package repository.lib.complex_builder.handbook.component
- */
+namespace repository\content_object\handbook;
+
+use repository\ComplexBuilderComponent;
+use common\libraries\BreadcrumbTrail;
 
 class HandbookBuilderUpdaterComponent extends HandbookBuilder
 {

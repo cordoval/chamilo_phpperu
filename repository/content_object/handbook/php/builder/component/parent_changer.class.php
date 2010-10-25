@@ -1,8 +1,8 @@
 <?php
-/**
- * $Id: updater.class.php 200 2009-11-13 12:30:04Z kariboe $
- * @package repository.lib.complex_builder.component
- */
+namespace repository\content_object\handbook;
+
+use repository\ComplexBuilderComponent;
+
 require_once dirname(__FILE__) . '/../handbook_builder.class.php';
 
 class HandbookBuilderParentChangerComponent extends HandbookBuilder

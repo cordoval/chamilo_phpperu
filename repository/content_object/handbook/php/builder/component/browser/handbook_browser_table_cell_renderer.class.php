@@ -1,8 +1,10 @@
 <?php
-/**
- * $Id: handbook_browser_table_cell_renderer.class.php 200 2009-11-13 12:30:04Z kariboe $
- * @package repository.lib.complex_builder.handbook.component.browser
- */
+namespace repository\content_object\handbook;
+use repository\ComplexBrowserTableCellRenderer;
+use repository\RepositoryDataManager;
+
+
+
 require_once Path :: get_repository_path() . 'lib/repository_manager/component/complex_browser/complex_browser_table_cell_renderer.class.php';
 /**
  * Cell rendere for the learning object browser table

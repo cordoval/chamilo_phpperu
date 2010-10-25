@@ -1,8 +1,12 @@
 <?php
-/**
- * $Id: deleter.class.php 200 2009-11-13 12:30:04Z kariboe $
- * @package repository.lib.complex_builder.handbook.component
- */
+namespace repository\content_object\handbook;
+
+use HandbookBuilder;
+use common\libraries\Request;
+use repository\ComplexBuilderComponent;
+use repository\ComplexBuilder;
+use repository\RepositoryDataManager;
+use common\libraries\Translation;
 require_once dirname(__FILE__) . '/../handbook_builder.class.php';
 
 /**

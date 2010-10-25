@@ -1,8 +1,9 @@
 <?php
-/**
- * $Id: handbook_item_form.class.php 200 2009-11-13 12:30:04Z kariboe $
- * @package repository.lib.content_object.handbook_item
- */
+namespace repository\content_object\handbook_item;
+
+use repository\ContentObjectForm;
+use repository\ContentObject;
+use common\libraries\Translation;
 require_once dirname(__FILE__) . '/handbook_item.class.php';
 
 class HandbookItemForm extends ContentObjectForm

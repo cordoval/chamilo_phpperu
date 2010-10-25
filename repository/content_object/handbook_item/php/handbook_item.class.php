@@ -1,4 +1,8 @@
 <?php
+namespace repository\content_object\handbook_item;
+
+use repository\ContentObject;
+use common\libraries\Utilities;
 require_once dirname(__FILE__) . '/../handbook/uuid.class.php';
 
 

@@ -1,9 +1,17 @@
 <?php
+namespace repository\content_object\handbook;
 
-/**
- * $Id: item_creator.class.php 200 2009-11-13 12:30:04Z kariboe $
- * @package repository.lib.complex_builder.handbook.component
- */
+use HandbookBuilder;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Request;
+use repository\RepositoryDataManager;
+use common\extensions\repo_viewer\RepoViewer;
+use repository\ComplexBuilder;
+use HandbookItem;
+use common\libraries\Translation;
+use common\libraries\EqualityCondition;
+use repository\ComplexContentObjectItem;
+
 class HandbookBuilderItemCreatorComponent extends HandbookBuilder implements RepoViewerInterface
 {
 

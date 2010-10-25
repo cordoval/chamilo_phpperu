@@ -1,8 +1,25 @@
 <?php
-/**
- * $Id: browser.class.php 200 2009-11-13 12:30:04Z kariboe $
- * @package repository.lib.complex_builder.handbook.component
- */
+namespace repository\content_object\handbook;
+
+use common\libraries\BreadcrumbTrail;
+use repository\RepositoryDataManager;
+use repository\content_object\wiki_page\WikiPage;
+use repository\content_object\link\Link;
+use repository\content_object\document\Document;
+use repository\content_object\youtube\Youtube;
+use repository\content_object\glossary\Glossary;
+use repository\ContentObjectDisplay;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ToolbarItem;
+use common\libraries\Translation;
+use repository\RepositoryRights;
+use admin\AdminDataManager;
+use admin\Registration;
+use repository\ComplexBuilder;
+use HandbookBuilder;
+use common\libraries\ResourceManager;
+use common\libraries\Path;
+use repository\ContentObject;
 
 require_once dirname(__FILE__) . '/browser/handbook_browser_table_cell_renderer.class.php';
 
