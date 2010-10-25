@@ -2,6 +2,9 @@
 namespace common\extensions\external_repository_manager\implementation\youtube;
 use common\libraries\Path;
 use common\libraries\Request;
+use common\libraries\Redirect;
+
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
 
 require_once dirname(__FILE__) . '/../forms/youtube_external_repository_manager_form.class.php';
 

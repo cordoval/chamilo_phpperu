@@ -13,6 +13,8 @@ use common\libraries\Theme;
 use common\libraries\LauncherApplication;
 use common\libraries\ToolbarItem;
 
+use repository\ExternalRepositorySync;
+
 use repository\RepositoryManager;
 
 abstract class ExternalRepositoryManager extends SubManager

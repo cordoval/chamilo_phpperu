@@ -21,6 +21,7 @@ use repository\ExternalRepositorySetting;
 use Zend_Loader;
 use Zend_Gdata_AuthSub;
 use Zend_Gdata_YouTube;
+use Zend_Gdata_YouTube_VideoEntry;
 
 require_once 'Zend/Loader.php';
 require_once dirname(__FILE__) . '/youtube_external_repository_object.class.php';

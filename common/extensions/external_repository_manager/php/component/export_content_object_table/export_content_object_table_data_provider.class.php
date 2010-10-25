@@ -2,6 +2,12 @@
 namespace common\extensions\external_repository_manager;
 
 use common\libraries\Path;
+
+use common\extensions\repo_viewer\ContentObjectTableDataProvider;
+
+use repository\RepositoryDataManager;
+use repository\content_object\document\Document;
+
 /**
  * $Id: content_object_table_data_provider.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.repo_viewer.component.content_object_table
