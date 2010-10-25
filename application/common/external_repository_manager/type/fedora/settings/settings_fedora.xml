@@ -16,6 +16,10 @@
 					<validation rule="required" message="ThisFieldIsRequired" />
 				</validations>
 			</setting>
+			
+
+			<setting name="ContentAccessUrl" field="text" default="https://localhost/fedora/objects/$pid/datastreams/$dsId/content">
+			</setting>
 
 			<setting name="ClientCertificateFile" field="text" default="">
 			</setting>

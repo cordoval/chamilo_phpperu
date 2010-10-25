@@ -96,22 +96,28 @@ class FedoraExternalRepositoryManagerExternalSyncerComponent extends FedoraExter
 	function update_metadata($pid, $description, $data){
 		$meta = new fedora_object_meta();
 		$meta->pid = $pid;
-		$switch = new switch_object_meta();
 
+		$switch = new switch_object_meta();
 		foreach($data as $key=>$value){
 			$switch->{$key} = $data[$key];
 		}
 
+		$switch->aaiid = FedoraExternalRepositoryConnector::get_owner_id();
+		$switch->rights = isset($data['edit_rights']) ? $data['edit_rights'] : 'private';
+		$switch->accessRights = isset($data['access_rights']) ? $data['access_rights'] : 'private';
+		$switch->rightsHolder = $data['author'];
+		$switch->publisher = PlatformSetting::get('institution', 'admin');
 		$switch->discipline = $data['subject'];
 		$switch->discipline_text = $data['subject_dd']['subject_text'];
-		$switch->creator = isset($data['creator']) ? $data['creator'] : $this->get_user()->get_fullname();
+		$switch->creator = isset($data['author']) ? $data['author'] : $this->get_user()->get_fullname();
 		$switch->description = $description;
 		$switch->collections = $data['collection'];
+		$switch->source = $this->get_external_repository_connector()->get_datastream_content_url($meta->pid, 'DS1');
 
 		$connector = $this->get_external_repository_connector();
 		$fedora = $connector->get_fedora();
 
-		$content = SWITCH_get_rels_int($meta, $switch);
+		$content = SWITCH_get_rels_ext($meta, $switch);
 		$fedora->modify_datastream($pid, 'RELS-EXT', 'Relationships to other objects', $content, 'application/rdf+xml');
 		$content = SWITCH_get_chor_dc($meta, $switch);
 		$fedora->modify_datastream($pid, 'CHOR_DC', 'SWITCH CHOR_DC record for this object', $content, 'text/xml');

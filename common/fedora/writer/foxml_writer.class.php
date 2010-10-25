@@ -183,16 +183,6 @@ class FoxmlWriter extends XmlWriterBase{
 	/**
 	 * @return FoxmlWriter
 	 */
-	public function add_dc_aaid($value){
-		if(empty($value)){
-			return;
-		}
-		return $this->add_element('chor_dcterms:aaiid', $value);
-	}
-
-	/**
-	 * @return FoxmlWriter
-	 */
 	public function add_dc_creator($value){
 		if(empty($value)){
 			return;
@@ -214,14 +204,13 @@ class FoxmlWriter extends XmlWriterBase{
 		if(empty($value)){
 			return;
 		}
-		return $this->add_element('chor_dcterms:aaiid', $value);
+		return $this->add_element('dcterms:aaiid', $value);
 	}
 
 	/**
 	 * @return FoxmlWriter
 	 */
 	public function add_dc_accessRights($access, $value = ''){
-		$value = $value ? $value : $access;
 		$result = $this->add_element('dcterms:accessRights', $value);
 		$result->set_attribute('chor_dcterms:access', $access);
 		return $result;
@@ -231,7 +220,6 @@ class FoxmlWriter extends XmlWriterBase{
 	 * @return FoxmlWriter
 	 */
 	public function add_dc_rights($access, $value = ''){
-		$value = $value ? $value : $access;
 		$result = $this->add_element('dcterms:rights', $value);
 		$result->set_attribute('chor_dcterms:access', $access);
 		return $result;
@@ -252,7 +240,7 @@ class FoxmlWriter extends XmlWriterBase{
 	/**
 	 * @return FoxmlWriter
 	 */
-	public function add_dc_discipline($value){
+	public function add_dc_discipline($value, $text = ''){
 		if(empty($value)){
 			return;
 		}
@@ -263,7 +251,7 @@ class FoxmlWriter extends XmlWriterBase{
 			return;
 		}
 
-		$result = $this->add_element('dcterms:subject', $value);
+		$result = $this->add_element('dcterms:subject', $text);
 		$result->set_attribute('chor_dcterms:discipline', $value);
 		return $result;
 	}

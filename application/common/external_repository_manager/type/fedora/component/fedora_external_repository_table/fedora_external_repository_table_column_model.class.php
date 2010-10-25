@@ -17,7 +17,7 @@ class FedoraExternalRepositoryTableColumnModel extends ObjectTableColumnModel
      */
     function __construct()
     {
-        parent::__construct(self::get_default_columns(), 2);
+        parent::__construct(self::get_default_columns(), 2, SORT_DESC);
         //$this->set_default_order_column(1);
         $this->add_column(self::get_modification_column());
     }

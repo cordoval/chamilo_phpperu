@@ -37,28 +37,6 @@ class FedoraUnigeExporterComponent extends FedoraExternalRepositoryManagerExport
 		}
 	}
 
-	/**
-	 * Package content and metadata into a FOXML representation ready to be ingested into Fedora.
-	 *
-	 * @param string $content file's content
-	 * @param $meta basic Fedora metadata
-	 * @param array $data additional metadata
-	 */
-	protected function content_to_foxml($content, $meta, $data){
-		$switch = new switch_object_meta();
-		$keys = array_keys($data);
-		foreach($keys as $key){
-			if(isset($data[$key])){
-				$switch->{$key} = $data[$key];
-			}
-		}
-		$switch->discipline = $data['subject'];
-		$switch->discipline_text = $data['subject_dd']['subject_text'];
-		$switch->creator = $data['author'];
-		$switch->description = $data['description'];
-		$switch->collections = $data['collection'];
-		return SWITCH_content_to_foxml($content, $meta, $switch);
-	}
 
 }
 

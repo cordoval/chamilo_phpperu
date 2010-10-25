@@ -1,5 +1,9 @@
 <?php
 
+if(! defined('E_DEPRECATED')){
+	define('E_DEPRECATED', 8192); //suppress notice messages before php 5.3
+}
+
 if(!class_exists('DebugUtil2')){
 	/**
 	 * Helper class used for debuging

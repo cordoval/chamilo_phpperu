@@ -903,6 +903,7 @@ $lang['repository']['Mediamosa'] = 'Mediamosa';
 $lang['repository']['FileMissing'] = 'File is missing';
 
 $lang['repository']['ClientCertificateFile'] = 'Client certificate file';
+$lang['repository']['ContentAccessUrl'] = 'Content access url';
 $lang['repository']['ClientCertificateKeyFile'] = 'Client certificate key file';
 $lang['repository']['ClientCertificateKeyPassword'] = 'Client certificate key password';
 $lang['repository']['CheckTargetCertificate'] = 'Check target certificate';

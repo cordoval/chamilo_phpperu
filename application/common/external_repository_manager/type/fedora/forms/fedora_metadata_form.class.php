@@ -145,8 +145,14 @@ class FedoraMetadataForm extends FormValidator{
 			if($access_rights){
 				$this->addElement('select', FedoraExternalRepositoryObject::PROPERTY_ACCESS_RIGHTS, Translation::get('AccessRights'), $access_rights);
 			}
+			if($d = $this->default_access_rights()){
+				$defaults[FedoraExternalRepositoryObject::PROPERTY_ACCESS_RIGHTS] = $d;
+			}
 			if($edit_rights){
 				$this->addElement('select', FedoraExternalRepositoryObject::PROPERTY_EDIT_RIGHTS, Translation::get('Rights'), $edit_rights);
+			}
+			if($d = $this->default_edit_rights()){
+				$defaults[FedoraExternalRepositoryObject::PROPERTY_EDIT_RIGHTS] = $d;
 			}
 			$this->addElement('category');
 		}
@@ -273,6 +279,25 @@ class FedoraMetadataForm extends FormValidator{
 			return $this->get_user()->get_fullname();
 		}
 	}
+
+	function default_edit_rights(){
+		if(isset($this->data[FedoraExternalRepositoryObject::PROPERTY_EDIT_RIGHTS])){
+			return $this->data[FedoraExternalRepositoryObject::PROPERTY_EDIT_RIGHTS];
+		}else{
+			$rights = $this->get_edit_rights();
+			return count($rights)>0 ? reset($rights) : '';
+		}
+	}
+
+	function default_access_rights(){
+		if(isset($this->data[FedoraExternalRepositoryObject::PROPERTY_ACCESS_RIGHTS])){
+			return $this->data[FedoraExternalRepositoryObject::PROPERTY_ACCESS_RIGHTS];
+		}else{
+			$rights = $this->get_access_rights();
+			return count($rights)>0 ? reset($rights) : '';
+		}
+	}
+
 
 }
 

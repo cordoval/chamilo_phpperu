@@ -145,7 +145,7 @@ class FedoraUnigeExternalRepositoryConnectorExtender{
 
 	public function retrieve_collections($id=false){
 		$result = array();
-		$result['unigelom:learning_objects'] = 'Unige';
+		$result['info:fedora/unigelom:learning_objects'] = 'Unige';
 		if($key){
 			return isset($result[$id]) ? $result[$id] : false;
 		}else{
@@ -155,11 +155,14 @@ class FedoraUnigeExternalRepositoryConnectorExtender{
 
 	private $rights = false;
 	public function retrieve_rights($id=false){
-		if(empty($rights)){
+		if(empty($this->rights)){
 			$result = array();
-			$result['public'] = Translation::get('Public');
-			$result['institution'] = Translation::get('Institution');
-			$result['private'] = Translation::get('Private');
+			$fedora = $this->get_fedora();
+			$rights = $fedora->SWITCH_get_rights($id);
+			$lang = Translation::get_language();
+			foreach($rights as $key => $right){
+				$result[$key] = isset($right[$lang]) ? $right[$lang] : $right['eng'];
+			}
 			$this->rights = $result;
 		}
 		$result = $id ? $this->rights[$id] : $this->rights;

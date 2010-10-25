@@ -336,10 +336,19 @@ class FedoraExternalRepositoryManagerUploaderComponent extends FedoraExternalRep
 				$switch->{$key} = $data[$key];
 			}
 		}
+
+		$switch->aaiid = $meta->owner;
+		$switch->rights = isset($data['edit_rights']) ? $data['edit_rights'] : 'private';
+		$switch->accessRights = isset($data['access_rights']) ? $data['access_rights'] : 'private';
+		$switch->rightsHolder = $data['author'];
+		$switch->publisher = PlatformSetting::get('institution', 'admin');
 		$switch->discipline = $data['subject'];
 		$switch->discipline_text = $data['subject_dd']['subject_text'];
 		$switch->creator = $data['author'];
 		$switch->description = $data['description'];
+		$switch->collections = $data['collection'];
+		$switch->source = $this->get_external_repository_connector()->get_datastream_content_url($meta->pid, 'DS1');
+
 		return SWITCH_content_to_foxml($content, $meta, $switch);
 	}
 

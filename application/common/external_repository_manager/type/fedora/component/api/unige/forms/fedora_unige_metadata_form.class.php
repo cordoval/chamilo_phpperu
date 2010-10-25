@@ -104,7 +104,6 @@ class FedoraUnigeMetadataForm extends FedoraMetadataForm{
 		return $result;
 	}
 
-
 }
 
 

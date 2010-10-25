@@ -186,9 +186,29 @@ class FedoraExternalRepositoryConnector extends ExternalRepositoryConnector{
 		return $result;
 	}
 
+	/**
+	 * Returns the url used to access the datasream's content directly from Fedora.
+	 * Used for external access. I.e. harvester. Can be changed in ConnectorExtender.
+	 * Direct access to Fedora should not be provided to the end-user as it would bypass internal authentication.
+	 *
+	 * @param string $pid
+	 * @param string $dsID
+	 */
 	function get_datastream_content_url($pid, $dsID){
-		$fedora = $this->get_fedora();
-		return $fedora->get_datastream_content_url($pid, $dsID);
+		if($result = $this->call_api(__FUNCTION__, func_get_args())){
+			return $result;
+		}
+
+		$external_repository_id = $this->get_external_repository_instance_id();
+
+		if($url = ExternalRepositorySetting::get('ContentAccessUrl', $external_repository_id)){
+			$url = str_ireplace('$pid', $pid, $url);
+			$url = str_ireplace('$dsID', $dsID, $url);
+			return $url;
+		}else{
+			$fedora = $this->get_fedora();
+			return $fedora->get_datastream_content_url($pid, $dsID);
+		}
 	}
 
 	/**
@@ -318,11 +338,27 @@ class FedoraExternalRepositoryConnector extends ExternalRepositoryConnector{
 	}
 
 	/**
-	 * Delete an object on the server.
+	 * Mark an objec as deleted on the server.
 	 *
 	 * @param string $id
 	 */
 	function delete_external_repository_object($id){
+		$fedora = $this->get_fedora();
+		try{
+			$result = $fedora->delete_object($id);
+			return true;
+		}catch(Exception $e){
+			return false;
+		}
+	}
+
+	/**
+	 * Completely remove an object from the server.
+	 *
+	 *
+	 * @param unknown_type $id
+	 */
+	function purge_external_repository_object($id){
 		$fedora = $this->get_fedora();
 		try{
 			$result = $fedora->purge_object($id);

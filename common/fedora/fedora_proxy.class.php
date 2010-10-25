@@ -433,6 +433,44 @@ class FedoraProxy extends RestProxyBase{
 		return $result;
 	}
 
+	/**
+	 * Returns the list of rights in an array.
+	 *
+	 * @param string $id
+	 * @return either an array of all possible values or an array describing the right
+	 */
+	public function SWITCH_get_rights($id=false){
+		static $rights = false;
+		if($rights === false){
+
+			$bom = pack("CCC",0xef,0xbb,0xbf); //UTF8 Byte Order Mark
+			$content = file_get_contents(dirname(__FILE__) . '/resource/switch/rights.csv');
+			$content = substr($content, 0,3) == $bom ? substr($content, 3) : $content;
+
+			if($content){
+				$lines = explode("\n", $content);
+				foreach($lines as $line){
+					if(trim($line)){
+						$fields = explode(',', $line);
+						$record = array();
+						$record['id'] = $field_id = $fields[0];
+						$record['german'] = $fields[1];
+						$record['english'] = $fields[2];
+						$record['french'] = $fields[3];
+						$record['italian'] = $fields[4];
+						$rights[$field_id] = $record;
+					}
+				}
+			}
+		}
+		if($id){
+			$result = isset($rights[$id]) ? $rights[$id] : array();
+		}else{
+			$result = $rights;
+		}
+		return $result;
+	}
+
 	public function SWITCH_list_datastreams($pid){
 		$args = array();
 		$args['format'] = 'xml';
@@ -865,6 +903,17 @@ class FedoraProxy extends RestProxyBase{
 
 		$result = $this->execute_raw("objects/$pid", $args, 'DELETE');
 		return $result;
+	}
+
+
+	/**
+	 * Utility function. Mark an object as Deleted. Do not purge/remove the object from the server.
+	 *
+	 * @param unknown_type $pid
+	 * @param unknown_type $logMessage
+	 */
+	public function delete_object($pid, $logMessage = ''){
+		$this->modify_object($pid, false, false, 'D', $logMessage);
 	}
 
 	/**
