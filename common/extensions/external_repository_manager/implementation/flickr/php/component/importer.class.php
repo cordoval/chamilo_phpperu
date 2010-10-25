@@ -1,5 +1,20 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\flickr;
+
+use common\libraries\Redirect;
+use common\libraries\PlatformSetting;
+use common\libraries\StringUtilities;
+use common\libraries\Application;
+
+use common\extensions\external_repository_manager\ExternalRepositoryComponent;
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
+
+use repository\ContentObject;
+use repository\content_object\document\Document;
+use repository\ExternalRepositorySync;
+use repository\RepositoryManager;
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
+
 class FlickrExternalRepositoryManagerImporterComponent extends FlickrExternalRepositoryManager
 {
 
