@@ -355,7 +355,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     function retrieve_content_object_by_user($user_id)
     {
         $condition = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $user_id);
-        return $this->retrieve_objects(ContentObject :: get_table_name(), $condition);
+        return $this->retrieve_objects(ContentObject :: get_table_name(), $condition, array(), ContentObject :: CLASS_NAME);
     }
 
     function delete_content_object_by_id($object_id)
@@ -503,7 +503,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
      */
     function retrieve_attached_content_object_ids(Condition $condition)
     {
-        return $this->retrieve_distinct(ContentObjectAttachment :: get_table_name(), ContentObjectAttachment :: PROPERTY_ATTACHMENT_ID, $condition);
+        return $this->retrieve_distinct(ContentObjectAttachment :: get_table_name(), ContentObjectAttachment :: PROPERTY_ATTACHMENT_ID, $condition, array(), ContentObjectAttachment :: CLASS_NAME);
     }
 
     /**
@@ -555,7 +555,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
     function retrieve_content_object_attachments($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->retrieve_objects(ContentObjectAttachment :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(ContentObjectAttachment :: get_table_name(), $condition, $offset, $max_objects, $order_by, ContentObjectAttachment :: CLASS_NAME);
     }
 
     function count_objects_in_which_object_is_included($object)
@@ -580,7 +580,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         //return $this->retrieve_content_objects($condition)->as_array();;
 
 
-        return $this->retrieve_objects(ContentObject :: get_table_name(), $condition)->as_array();
+        return $this->retrieve_objects(ContentObject :: get_table_name(), $condition, array(), ContentObject :: CLASS_NAME)->as_array();
     }
 
     function is_content_object_included($object)
@@ -631,7 +631,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
     function retrieve_content_object_versions_resultset($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
     {
-        return $this->retrieve_objects(ContentObject :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(ContentObject :: get_table_name(), $condition, $offset, $max_objects, $order_by, ContentObject :: CLASS_NAME);
     }
 
     function count_content_object_versions_resultset($condition = null)
@@ -1420,7 +1420,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
     function retrieve_content_object_pub_feedback($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->retrieve_objects(ContentObjectPubFeedback :: get_table_name(), $condition, $offset, $count, $order_property);
+        return $this->retrieve_objects(ContentObjectPubFeedback :: get_table_name(), $condition, $offset, $count, $order_property, ContentObjectPubFeedback :: CLASS_NAME);
     }
 
     function delete_content_object_pub_feedback($content_object_pub_feedback)
@@ -1500,7 +1500,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
     function retrieve_content_object_metadata($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->retrieve_objects(ContentObjectMetadata :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(ContentObjectMetadata :: get_table_name(), $condition, $offset, $max_objects, $order_by, ContentObjectMetadata :: CLASS_NAME);
     }
 
     function retrieve_content_object_by_catalog_entry_values($catalog_name, $entry_value)
@@ -1563,7 +1563,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
     function retrieve_external_repository_condition($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->retrieve_objects(ExternalRepository :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(ExternalRepository :: get_table_name(), $condition, $offset, $max_objects, $order_by, ExternalRepository :: CLASS_NAME);
     }
 
     function retrieve_external_repository($external_repository_id)
@@ -1585,12 +1585,12 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     function retrieve_active_external_repository_types()
     {
         $condition = new EqualityCondition(ExternalRepository :: PROPERTY_ENABLED, 1);
-        return $this->retrieve_distinct(ExternalRepository :: get_table_name(), ExternalRepository :: PROPERTY_TYPE, $condition);
+        return $this->retrieve_distinct(ExternalRepository :: get_table_name(), ExternalRepository :: PROPERTY_TYPE, $condition, array(), ExternalRepository :: CLASS_NAME);
     }
 
     function retrieve_external_repository_fedora($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->retrieve_objects(ExternalRepositoryFedora :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(ExternalRepositoryFedora :: get_table_name(), $condition, $offset, $max_objects, $order_by, ExternalRepositoryFedora :: CLASS_NAME);
     }
 
     function retrieve_external_repository_user_quotum($user_id, $external_repository_id)
@@ -1599,7 +1599,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $condition1 = new EqualityCondition(ExternalRepositoryUserQuotum :: PROPERTY_EXTERNAL_REPOSITORY_ID, $external_repository_id);
 
         $condition = new AndCondition($condition1, $condition2);
-        return $this->retrieve_object(ExternalRepositoryUserQuotum :: get_table_name(), $condition);
+        return $this->retrieve_object(ExternalRepositoryUserQuotum :: get_table_name(), $condition, array(), ExternalRepositoryUserQuotum :: CLASS_NAME);
     }
 
     function retrieve_catalog($query, $table_name, $condition = null, $offset = null, $max_objects = null, $order_by = null)
@@ -1685,7 +1685,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
     function retrieve_external_repository_sync_info($conditions)
     {
-        return $this->retrieve_object(ExternalRepositorySyncInfo :: get_table_name(), $conditions);
+        return $this->retrieve_object(ExternalRepositorySyncInfo :: get_table_name(), $conditions, array(), ExternalRepositorySyncInfo :: CLASS_NAME);
     }
 
     function retrieve_external_repository_sync($condition)
@@ -1826,7 +1826,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     function retrieve_external_repository_setting($id)
     {
         $condition = new EqualityCondition(ExternalRepositorySetting :: PROPERTY_ID, $id);
-        return $this->retrieve_object(ExternalRepositorySetting :: get_table_name(), $condition);
+        return $this->retrieve_object(ExternalRepositorySetting :: get_table_name(), $condition, array(), ExternalRepositorySetting :: CLASS_NAME);
 
     }
 
@@ -1844,7 +1844,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     function retrieve_external_repository_user_setting($id)
     {
         $condition = new EqualityCondition(ExternalRepositoryUserSetting :: PROPERTY_ID, $id);
-        return $this->retrieve_object(ExternalRepositoryUserSetting :: get_table_name(), $condition);
+        return $this->retrieve_object(ExternalRepositoryUserSetting :: get_table_name(), $condition, array(), ExternalRepositoryUserSetting :: CLASS_NAME);
     }
 
     /* (non-PHPdoc)
@@ -1852,7 +1852,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
      */
     function retrieve_external_repository_user_settings($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
     {
-        return $this->retrieve_objects(ExternalRepositoryUserSetting :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(ExternalRepositoryUserSetting :: get_table_name(), $condition, $offset, $max_objects, $order_by, ExternalRepositoryUserSetting :: CLASS_NAME);
     }
 
     function retrieve_external_repository_setting_from_variable_name($variable, $external_repository_id)
@@ -1991,7 +1991,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
     function retrieve_content_object_user_shares(Condition $condition = null, $offset = null, $count = null, ObjectTableOrder $order_property = null)
     {
-    	return $this->retrieve_objects(ContentObjectUserShare :: get_table_name(), $condition, $offset, $count, $order_property);
+    	return $this->retrieve_objects(ContentObjectUserShare :: get_table_name(), $condition, $offset, $count, $order_property, ContentObjectUserShare :: CLASS_NAME);
     }
     
      /**
@@ -2059,7 +2059,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
     function retrieve_content_object_group_shares(Condition $condition = null, $offset = null, $count = null, ObjectTableOrder $order_property = null)
     {
-    	return $this->retrieve_objects(ContentObjectGroupShare :: get_table_name(), $condition, $offset, $count, $order_property);
+    	return $this->retrieve_objects(ContentObjectGroupShare :: get_table_name(), $condition, $offset, $count, $order_property, ContentObjectGroupShare :: CLASS_NAME);
     }
 
 	function retrieve_shared_content_objects(Condition $condition = null, $offset = null, $count = null, ObjectTableOrder $order_property = null)
@@ -2111,7 +2111,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     	$conditions[] = new EqualityCondition(ContentObjectUserShare :: PROPERTY_USER_ID, $user_id);
     	$condition = new AndCondition($conditions);
     	
-    	return $this->retrieve_object(ContentObjectUserShare :: get_table_name(), $condition);
+    	return $this->retrieve_object(ContentObjectUserShare :: get_table_name(), $condition, array(), ContentObjectUserShare :: CLASS_NAME);
     }
     
 	function retrieve_content_object_group_share($content_object_id, $group_id)
@@ -2121,7 +2121,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     	$conditions[] = new EqualityCondition(ContentObjectGroupShare :: PROPERTY_GROUP_ID, $group_id);
     	$condition = new AndCondition($conditions);
     	
-    	return $this->retrieve_object(ContentObjectGroupShare :: get_table_name(), $condition);
+    	return $this->retrieve_object(ContentObjectGroupShare :: get_table_name(), $condition, array(), ContentObjectGroupShare :: CLASS_NAME);
     }
 }
 ?>

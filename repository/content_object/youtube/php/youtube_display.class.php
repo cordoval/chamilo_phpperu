@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\youtube;
 
+use common\libraries\Text;
+
 use repository\ContentObjectDisplay;
 
 /**

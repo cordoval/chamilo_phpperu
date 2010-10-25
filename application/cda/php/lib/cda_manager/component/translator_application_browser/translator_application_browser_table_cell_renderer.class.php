@@ -7,6 +7,8 @@ use common\libraries\Translation;
 use common\libraries\Theme;
 use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
+use user\UserDataManager;
+use user\User;
 /**
  * @package cda.tables.translator_application_table
  */

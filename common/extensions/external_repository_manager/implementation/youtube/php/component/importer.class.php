@@ -1,5 +1,17 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\youtube;
+
+use common\libraries\Translation;
+use common\libraries\Application;
+use repository\RepositoryManager;
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
+
+use common\extensions\external_repository_manager\ExternalRepositoryComponent;
+
+use repository\ContentObject;
+use repository\ExternalRepositorySync;
+use repository\content_object\youtube\Youtube;
+
 class YoutubeExternalRepositoryManagerImporterComponent extends YoutubeExternalRepositoryManager
 {
 

@@ -9,6 +9,7 @@ use common\libraries\EqualityCondition;
 use common\libraries\SubselectCondition;
 use common\libraries\PatternMatchCondition;
 use common\libraries\AndCondition;
+use common\libraries\ObjectTableOrder;
 /**
  * $Id: variable_translation_browser_filter_form.class.php 196 2009-11-13 12:19:18Z chellee $
  */

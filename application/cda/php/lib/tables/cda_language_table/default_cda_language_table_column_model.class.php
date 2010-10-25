@@ -5,6 +5,7 @@ namespace application\cda;
 use common\libraries\ObjectTableColumnModel;
 use common\libraries\StaticTableColumn;
 use common\libraries\Translation;
+use common\libraries\ObjectTableColumn;
 
 /**
  * @package cda.tables.cda_language_table
@@ -36,8 +37,8 @@ class DefaultCdaLanguageTableColumnModel extends ObjectTableColumnModel
 		$columns[] = new ObjectTableColumn(CdaLanguage :: PROPERTY_ORIGINAL_NAME);
 		$columns[] = new ObjectTableColumn(CdaLanguage :: PROPERTY_ENGLISH_NAME);
 		$columns[] = new ObjectTableColumn(CdaLanguage :: PROPERTY_RTL);
-		$columns[] = new StaticTableColumn(Translation :: get('Status'));
-		$columns[] = new StaticTableColumn(Translation :: get('TranslationProgress'));
+		$columns[] = new StaticTableColumn('Status');
+		$columns[] = new StaticTableColumn('TranslationProgress');
 		return $columns;
 	}
 }

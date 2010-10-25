@@ -1,6 +1,7 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\flickr;
-use \ObjectTable;
+
+use common\libraries\ObjectTable;
 /**
  * Table to display a set of flickr external repository objects.
  */

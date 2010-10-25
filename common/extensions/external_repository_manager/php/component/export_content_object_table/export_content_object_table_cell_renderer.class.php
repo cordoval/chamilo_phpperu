@@ -1,5 +1,10 @@
 <?php
 namespace common\extensions\external_repository_manager;
+
+use common\libraries\Path;
+use common\libraries\Toolbar;
+
+use common\extensions\repo_viewer\ContentObjectTableCellRenderer;
 /**
  * $Id: export_content_object_table_cell_renderer.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.repo_viewer.component.content_object_table
