@@ -8,6 +8,7 @@ use common\libraries\Redirect;
 use common\libraries\Session;
 use common\libraries\PlatformSetting;
 use common\libraries\ArrayResultSet;
+use common\libraries\Translation;
 
 use common\extensions\external_repository_manager\ExternalRepositoryConnector;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;

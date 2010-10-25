@@ -3,6 +3,7 @@ namespace common\extensions\external_repository_manager;
 
 use common\libraries\Utilities;
 use common\libraries\TreeMenuRenderer;
+use common\libraries\Translation;
 
 use HTML_Menu;
 use HTML_Menu_ArrayRenderer;

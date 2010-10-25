@@ -1,10 +1,16 @@
 <?php
 namespace common\extensions\external_repository_manager;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\Toolbar;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
+
 require_once dirname(__FILE__) . '/../external_repository_object_display.class.php';
 
 class ExternalRepositoryComponentViewerComponent extends ExternalRepositoryComponent
 {
-
     function run()
     {
         $id = Request :: get(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID);

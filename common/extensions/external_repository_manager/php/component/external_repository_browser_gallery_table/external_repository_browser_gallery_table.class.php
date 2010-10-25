@@ -3,7 +3,6 @@ namespace common\extensions\external_repository_manager;
 
 use common\libraries\Utilities;
 use common\libraries\Path;
-use common\libraries\GalleryObjectTable;
 
 class ExternalRepositoryBrowserGalleryTable
 {

@@ -1,9 +1,14 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\youtube;
+
 use common\libraries\Path;
 use common\libraries\Utilities;
+use common\libraries\Translation;
+
+use common\extensions\external_repository_manager\StreamingMediaExternalRepositoryObjectDisplay;
 
 require_once Path::get_common_extensions_path () . 'external_repository_manager/php/general/streaming/streaming_media_external_repository_object_display.class.php';
+
 class YoutubeExternalRepositoryObjectDisplay extends StreamingMediaExternalRepositoryObjectDisplay {
 	function get_title() {
 		$object = $this->get_object ();
