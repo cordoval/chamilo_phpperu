@@ -1,5 +1,10 @@
 <?php
 
+namespace application\profiler;
+
+use tracking\ChangesTracker;
+use common\libraries\Utilities;
+
 /**
  * @package application.profiler.trackers
  */

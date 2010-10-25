@@ -1,4 +1,11 @@
-<?phpnamespace application\forum
+<?php
+
+namespace application\forum;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
 /**
  * $Id: mover.class.php 195 2009-11-13 12:02:41Z chellee $
  * @package application.lib.forum.forum_manager.component

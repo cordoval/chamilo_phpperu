@@ -1,4 +1,12 @@
 <?php
+
+namespace application\profiler;
+
+use common\libraries\Request;
+use common\libraries\Display;
+use common\libraries\Translation;
+use common\libraries\Application;
+use common\libraries\Breadcrumb;
 /**
  * $Id: deleter.class.php 212 2009-11-13 13:38:35Z chellee $
  * @package application.profiler.profiler_manager.component

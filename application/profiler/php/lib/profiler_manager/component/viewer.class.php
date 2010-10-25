@@ -1,4 +1,13 @@
 <?php
+
+namespace application\profiler;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+use repository\ContentObjectDisplay;
+use common\libraries\Breadcrumb;
+use common\libraries\Application;
+use common\libraries\BreadcrumbTrail;
 /**
  * $Id: viewer.class.php 212 2009-11-13 13:38:35Z chellee $
  * @package application.profiler.profiler_manager.component

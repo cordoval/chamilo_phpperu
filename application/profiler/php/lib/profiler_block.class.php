@@ -1,10 +1,14 @@
 <?php
+
+namespace application\profiler;
+
+use common\libraries\Block;
 /**
  * $Id: profiler_block.class.php 212 2009-11-13 13:38:35Z chellee $
  * @package application.profiler
  */
 
-require_once Path :: get_common_libraries_class_path() . 'block.class.php';
+//require_once Path :: get_common_libraries_class_path() . 'block.class.php';
 
 /**
 ==============================================================================
