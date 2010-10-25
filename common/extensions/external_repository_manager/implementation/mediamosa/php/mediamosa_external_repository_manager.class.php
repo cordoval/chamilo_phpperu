@@ -1,5 +1,15 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\mediamosa;
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
+use common\extensions\external_repository_manager\ExternalRepositoryObject;
+use common\extensions\external_repository_manager\ExternalRepositoryObjectRenderer;
+use repository\ExternalRepositorySetting;
+use common\libraries\Translation;
+use common\libraries\ActionBarSearchForm;
+use repository\RepositoryDataManager;
+use common\libraries\PatternMatchCondition;
+use common\libraries\Breadcrumb;
+use common\libraries\Path;
 
 /**
  * Description of mediamosa_external_repository_manager
@@ -41,7 +51,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
 
     function get_application_component_path()
     {
-        return Path :: get_common_extensions_path() . 'external_repository_manager/type/mediamosa/component/';
+        return Path :: get_common_extensions_path() . 'external_repository_manager/implementation/mediamosa/php/component/';
     }
 
     function retrieve_external_repository_server_object($id)
