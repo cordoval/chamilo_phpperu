@@ -1,5 +1,7 @@
 <?php
 namespace application\context_linker;
+use repository\DefaultContentObjectTableColumnModel;
+use common\libraries\StaticTableColumn;
 
 /**
  * Table column model for the content_object browser table

@@ -11,8 +11,8 @@ use common\libraries\WebApplication;
 class MetadataAutoloader
 {
     static function load($classname)
-	{
-		$classname_parts = explode('\\', $classname);
+    {
+        $classname_parts = explode('\\', $classname);
 
         if (count($classname_parts) == 1)
         {
@@ -27,7 +27,8 @@ class MetadataAutoloader
                 return false;
             }
         }
-     $list = array(
+
+        $list = array(
         'metadata_property_type' => 'metadata_property_type.class.php',
         'metadata_property_value' => 'metadata_property_value.class.php',
         'metadata_namespace' =>'metadata_namespace.class.php',
