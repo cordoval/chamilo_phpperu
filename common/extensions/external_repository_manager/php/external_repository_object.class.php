@@ -2,6 +2,13 @@
 namespace common\extensions\external_repository_manager;
 
 use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use common\libraries\Session;
+
+use repository\RepositoryDataManager;
+use repository\ContentObject;
+use repository\ExternalRepositorySync;
 
 abstract class ExternalRepositoryObject
 {
