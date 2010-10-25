@@ -73,12 +73,12 @@ class RequirementsInstallWizardPage extends InstallWizardPage
         }
 
         $version = phpversion();
-        $status = $version > '5.2' ? Diagnoser :: STATUS_OK : Diagnoser :: STATUS_ERROR;
+        $status = $version > '5.3' ? Diagnoser :: STATUS_OK : Diagnoser :: STATUS_ERROR;
         if($status == Diagnoser :: STATUS_ERROR)
         {
         	$this->fatal = true;
         }
-        $array[] = $diagnoser->build_setting($status, '[PHP]', 'phpversion()', 'http://www.php.net/manual/en/function.phpversion.php', phpversion(), '>= 5.2', null, Translation :: get('PHPVersionInfo'), $path);
+        $array[] = $diagnoser->build_setting($status, '[PHP]', 'phpversion()', 'http://www.php.net/manual/en/function.phpversion.php', phpversion(), '>= 5.3', null, Translation :: get('PHPVersionInfo'), $path);
 
 		$setting = ini_get('output_buffering');
 	    $req_setting = 0;
