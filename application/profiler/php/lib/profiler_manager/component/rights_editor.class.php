@@ -1,5 +1,14 @@
 <?php
 
+namespace application\profiler;
+
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Request;
+use common\libraries\Breadcrumb;
+use common\libraries\Display;
+use common\extensions\rights_editor_manager\RightsEditorManager;
+use common\libraries\Translation;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.

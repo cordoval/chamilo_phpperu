@@ -1,5 +1,12 @@
 <?php
-require_once dirname(__FILE__).'/../../../../common/global.inc.php';
+
+namespace application\profiler;
+
+use common\libraries\Path;
+use repository\RepositoryDataManager;
+use common\libraries\Redirect;
+
+require_once dirname(__FILE__).'/../../../../../common/global.inc.php';
 require_once Path :: get_common_libraries_class_path().'/rss/publication_rss.class.php';
 
 class ProfilerPublicationRSS extends PublicationRSS

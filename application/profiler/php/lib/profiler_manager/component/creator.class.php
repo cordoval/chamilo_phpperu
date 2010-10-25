@@ -1,5 +1,16 @@
 <?php
 
+namespace application\profiler;
+
+use common\libraries\Request;
+use common\libraries\Display;
+use common\libraries\Translation;
+use common\extensions\repo_viewer\RepoViewer;
+use repository\content_object\profile\Profile;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Application;
+
 /**
  * $Id: publisher.class.php 212 2009-11-13 13:38:35Z chellee $
  * @package application.profiler.profiler_manager.component

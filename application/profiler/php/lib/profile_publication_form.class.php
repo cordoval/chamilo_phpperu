@@ -1,4 +1,12 @@
 <?php
+
+namespace application\profiler;
+
+use common\libraries\Path;
+use common\libraries\FormValidator;
+use common\libraries\EqualityCondition;
+use common\libraries\Translation;
+
 /**
  * $Id: profile_publication_form.class.php 212 2009-11-13 13:38:35Z chellee $
  * @package application.profiler

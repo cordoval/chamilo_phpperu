@@ -1,4 +1,12 @@
-<?phpnamespace application\forum
+<?php
+
+namespace application\forum;
+
+use common\libraries\Request;
+use repository\RepositoryDataManager;
+use common\libraries\Translation;
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
 /**
  * $Id: sticky.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.forum.component

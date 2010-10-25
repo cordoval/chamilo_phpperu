@@ -1,9 +1,13 @@
 <?php
 
+namespace application\profiler;
+
+
 /**
  * $Id: profiler_category.class.php 212 2009-11-13 13:38:35Z chellee $
  * @package application.profiler.category_manager
  */
+
 require_once Path :: get_common_extensions_path() . 'category_manager/platform_category.class.php';
 /**
  * 	@author Sven Vanpoucke
@@ -15,6 +19,8 @@ class ProfilerCategory extends PlatformCategory
 
     function create()
     {
+    	$meh = UserDataManager::get_instance();
+    	
         $wdm = ProfilerDataManager :: get_instance();
         $this->set_display_order($wdm->select_next_category_display_order($this->get_parent()));
         if (!$wdm->create_category($this))

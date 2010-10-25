@@ -1,4 +1,10 @@
-<?phpnamespace application\forum
+<?php
+
+namespace application\forum;
+
+use common\libraries\Configuration;
+use common\libraries\Utilities;
+
 /**
  * $Id: forum_data_manager.class.php 195 2009-11-13 12:02:41Z chellee $
  * @package application.lib.forum
@@ -36,7 +42,7 @@ class ForumDataManager
         {
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
             require_once dirname(__FILE__) . '/data_manager/' . Utilities :: camelcase_to_underscores($type) . '_forum_data_manager.class.php';
-            $class = $type . 'ForumDataManager';
+            $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type) . 'ForumDataManager';
             self :: $instance = new $class();
         }
         return self :: $instance;

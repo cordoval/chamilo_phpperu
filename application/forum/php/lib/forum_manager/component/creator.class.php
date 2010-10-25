@@ -1,4 +1,9 @@
-<?phpnamespace application\forum
+<?php
+
+namespace application\forum;
+
+use common\extensions\repo_viewer\RepoViewer;
+use ForumPublicationPublisher;
 
 /**
  * $Id: creator.class.php 205 2009-11-13 12:57:33Z vanpouckesven $

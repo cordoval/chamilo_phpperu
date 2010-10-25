@@ -1,4 +1,16 @@
 <?php
+
+namespace application\profiler;
+
+use HTML_Menu;
+use HTML_Menu_ArrayRenderer;
+use common\libraries\Translation;
+use common\libraries\EqualityCondition;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\TreeMenuRenderer;
+use common\libraries\Utilities;
+
 /**
  * $Id: profiler_menu.class.php 212 2009-11-13 13:38:35Z chellee $
  * @package application.profiler

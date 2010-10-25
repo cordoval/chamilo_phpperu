@@ -1,7 +1,18 @@
-<?phpnamespace application\forum
-require_once dirname(__FILE__).'/../../../../common/global.inc.php';
-require_once Path :: get_common_libraries_class_path().'/rss/publication_rss.class.php';
-require_once Path :: get_repository_path() . 'lib/complex_display/forum/forum_display.class.php';
+<?php
+
+namespace application\forum;
+
+use common\libraries\PublicationRSS;
+use common\libraries\Application;
+use repository\ComplexDisplay;
+use repository\content_object\forum\ForumDisplay;
+use common\libraries\Path;
+use common\libraries\Redirect;
+use repository\RepositoryDataManager;
+
+//require_once dirname(__FILE__).'/../../../../common/global.inc.php';
+//require_once Path :: get_common_libraries_class_path().'/rss/publication_rss.class.php';
+//require_once Path :: get_repository_path() . 'lib/complex_display/forum/forum_display.class.php';
 
 class ForumPublicationRSS extends PublicationRSS
 {
