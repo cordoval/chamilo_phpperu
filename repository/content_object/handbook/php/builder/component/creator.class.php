@@ -1,7 +1,7 @@
 <?php
 namespace repository\content_object\handbook;
 
-use HandbookBuilder;
+
 use repository\ComplexBuilderComponent;
 require_once dirname(__FILE__) . '/../handbook_builder.class.php';
 

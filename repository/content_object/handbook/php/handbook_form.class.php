@@ -3,8 +3,8 @@ namespace repository\content_object\handbook;
 
 use repository\ContentObjectForm;
 use repository\ContentObject;
-use HandbookItem;
 use common\libraries\Translation;
+use repository\content_object\handbook_item\HandbookItem;
 require_once dirname(__FILE__) . '/handbook.class.php';
 /**
  * This class represents a form to create or update handbooks

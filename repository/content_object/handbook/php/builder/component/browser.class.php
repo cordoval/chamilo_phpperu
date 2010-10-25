@@ -16,10 +16,11 @@ use repository\RepositoryRights;
 use admin\AdminDataManager;
 use admin\Registration;
 use repository\ComplexBuilder;
-use HandbookBuilder;
+
 use common\libraries\ResourceManager;
 use common\libraries\Path;
 use repository\ContentObject;
+use common\libraries\Theme;
 
 require_once dirname(__FILE__) . '/browser/handbook_browser_table_cell_renderer.class.php';
 
@@ -116,10 +117,10 @@ class HandbookBuilderBrowserComponent extends HandbookBuilder
 
         foreach ($types as $type)
         {
-        	if(!RepositoryRights :: is_allowed_in_content_objects_subtree(RepositoryRights :: ADD_RIGHT, AdminDataManager :: get_registration($type, Registration :: TYPE_CONTENT_OBJECT)->get_id()))
-            {
-            	continue;	
-            }
+//        	if(!RepositoryRights :: is_allowed_in_content_objects_subtree(RepositoryRights :: ADD_RIGHT, AdminDataManager :: get_registration($type, Registration :: TYPE_CONTENT_OBJECT)->get_id()))
+//            {
+//            	continue;
+//            }
             
         	if ($type == Handbook :: get_type_name())
             {

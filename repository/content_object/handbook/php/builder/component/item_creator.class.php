@@ -1,16 +1,21 @@
 <?php
+
+
 namespace repository\content_object\handbook;
 
-use HandbookBuilder;
+
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Request;
 use repository\RepositoryDataManager;
 use common\extensions\repo_viewer\RepoViewer;
 use repository\ComplexBuilder;
-use HandbookItem;
+use repository\content_object\handbook_item\HandbookItem;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
 use repository\ComplexContentObjectItem;
+use common\extensions\repo_viewer\RepoViewerInterface;
+
+require_once dirname(__FILE__) . '/../../../../../../common/extensions/repo_viewer/php/repo_viewer_interface.class.php';
 
 class HandbookBuilderItemCreatorComponent extends HandbookBuilder implements RepoViewerInterface
 {

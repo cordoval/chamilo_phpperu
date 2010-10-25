@@ -1,7 +1,7 @@
 <?php
 namespace repository\content_object\handbook;
 
-use HandbookBuilder;
+
 use common\libraries\Request;
 use repository\ComplexBuilderComponent;
 use repository\ComplexBuilder;

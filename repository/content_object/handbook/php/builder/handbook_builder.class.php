@@ -2,6 +2,7 @@
 namespace repository\content_object\handbook;
 
 use repository\ComplexBuilder;
+use common\libraries\ComplexMenuSupport;
 
 class HandbookBuilder extends ComplexBuilder implements ComplexMenuSupport
 {

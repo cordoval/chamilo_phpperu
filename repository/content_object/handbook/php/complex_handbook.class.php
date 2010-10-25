@@ -2,7 +2,7 @@
 namespace repository\content_object\handbook;
 
 use repository\ComplexContentObjectItem;
-use HandbookItem;
+use repository\content_object\handbook_item\HandbookItem;
 
 
 class ComplexHandbook extends ComplexContentObjectItem

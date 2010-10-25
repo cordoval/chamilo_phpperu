@@ -1,11 +1,19 @@
 <?php
+
+
 namespace repository\content_object\handbook;
 use repository\ComplexBrowserTableCellRenderer;
 use repository\RepositoryDataManager;
+use common\libraries\Path;
+use repository\content_object\handbook_item\HandbookItem;
+use common\libraries\Translation;
+use common\libraries\Utilities;
+use repository\ContentObject;
 
 
 
-require_once Path :: get_repository_path() . 'lib/repository_manager/component/complex_browser/complex_browser_table_cell_renderer.class.php';
+require_once Path :: get_repository_path() . '/lib/repository_manager/component/complex_browser/complex_browser_table_cell_renderer.class.php';
+//require_once "../../../../../../php/lib/repository_manager/component/complex_browser/complex_browser_table_cell_renderer.class.php";
 /**
  * Cell rendere for the learning object browser table
  */

@@ -1,9 +1,18 @@
 <?php
+
+
+
+
 namespace repository\content_object\handbook_item;
 
 use repository\ContentObject;
 use common\libraries\Utilities;
-require_once dirname(__FILE__) . '/../handbook/uuid.class.php';
+use common\libraries\Versionable;
+use repository\content_object\handbook\UUID;
+
+require_once dirname(__FILE__) . '/../../handbook/php/uuid.class.php';
+//require_once dirname(__FILE__) . '/../../../../common/libraries/php/interface/versionable.class.php';
+
 
 
 class HandbookItem extends ContentObject implements Versionable
@@ -11,10 +20,12 @@ class HandbookItem extends ContentObject implements Versionable
     const PROPERTY_REFERENCE = 'reference_id';
     const PROPERTY_UUID = 'uuid';
 	const CLASS_NAME = __CLASS__;
+        const TYPE_NAME = 'handbook_item';
 
 	static function get_type_name()
 	{
-		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+//		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+                return self::TYPE_NAME;
 	}
 
     static function get_additional_property_names()
