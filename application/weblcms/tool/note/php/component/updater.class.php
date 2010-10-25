@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\note;
+
 class NoteToolUpdaterComponent extends NoteTool
 {
 

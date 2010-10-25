@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\link;
+
 class LinkToolMoverComponent extends LinkTool
 {
 

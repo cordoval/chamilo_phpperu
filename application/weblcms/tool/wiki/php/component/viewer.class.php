@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\wiki;
+
 
 class WikiToolViewerComponent extends WikiTool
 {

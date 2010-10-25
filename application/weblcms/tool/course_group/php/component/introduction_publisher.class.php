@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\course_group;
+
 
 class CourseGroupToolIntroductionPublisherComponent extends CourseGroupTool 
 {

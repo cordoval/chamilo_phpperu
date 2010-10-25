@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\rights;
+
 
 class RightsToolRightsEditorComponent extends RightsTool implements DelegateComponent
 {

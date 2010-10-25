@@ -1,4 +1,6 @@
-<?php 
+<?php
+namespace application\weblcms\tool\survey;
+ 
 
 class WeblcmsSurveyPublicationMailerForm extends FormValidator
 {

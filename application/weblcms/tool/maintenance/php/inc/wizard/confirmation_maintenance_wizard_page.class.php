@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\maintenance;
+
 /**
  * $Id: confirmation_maintenance_wizard_page.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.maintenance.inc.wizard

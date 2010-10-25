@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms;
+
 
 /**
  * $Id: reporting.class.php 218 2009-11-13 14:21:26Z kariboe $

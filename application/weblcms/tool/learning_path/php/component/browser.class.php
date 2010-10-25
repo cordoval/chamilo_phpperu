@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\learning_path;
+
 
 require_once dirname(__FILE__) . '/learning_path_browser/learning_path_cell_renderer.class.php';
 require_once dirname(__FILE__) . '/learning_path_browser/learning_path_column_model.class.php';

@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\link;
+
 
 class LinkToolRightsEditorComponent extends LinkTool implements DelegateComponent
 {

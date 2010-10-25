@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\survey;
+
 
 require_once Path :: get_application_path() . 'lib/survey/survey_menu.class.php';
 require_once Path :: get_repository_path() . 'lib/content_object/survey/context_data_manager/context_data_manager.class.php';

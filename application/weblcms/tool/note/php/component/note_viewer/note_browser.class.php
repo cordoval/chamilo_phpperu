@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\note;
+
 /**
  * $Id: note_browser.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.note.component.note_viewer

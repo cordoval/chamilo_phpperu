@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\streaming_video;
+
 
 class StreamingVideoToolPublisherComponent extends StreamingVideoTool
 {

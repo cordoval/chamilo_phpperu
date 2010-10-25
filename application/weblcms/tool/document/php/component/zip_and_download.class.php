@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\document;
+
 /**
  * $Id: document_zip_and_download.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.document.component

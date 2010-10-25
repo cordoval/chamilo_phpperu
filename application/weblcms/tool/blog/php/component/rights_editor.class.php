@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\blog;
+
 
 class BlogToolRightsEditorComponent extends BlogTool implements DelegateComponent
 {

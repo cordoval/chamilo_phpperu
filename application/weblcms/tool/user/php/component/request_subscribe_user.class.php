@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\user;
+
 
 /**
  * $Id: request.class.php 224 2010-04-06 14:40:30Z Yannick $

@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\assessment;
+
 require_once dirname(__FILE__) . '/assessment_browser/assessment_cell_renderer.class.php';
 require_once dirname(__FILE__) . '/assessment_browser/assessment_column_model.class.php';
 

@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\description;
+
 class DescriptionToolHidePublicationComponent extends DescriptionTool
 {
 

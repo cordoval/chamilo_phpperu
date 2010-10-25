@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\calendar;
+
 /**
  * $Id: calendar_list_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.calendar.component.calendar_viewer

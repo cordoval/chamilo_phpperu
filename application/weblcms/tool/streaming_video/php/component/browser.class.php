@@ -1,4 +1,6 @@
 q<?php
+namespace application\weblcms\tool\streaming_video;
+
 class StreamingVideoToolBrowserComponent extends StreamingVideoTool
 {
     const PARAM_FILTER = 'filter';

@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms;
+
 /**
  * $Id: default_course_type_table_cell_renderer.class.php 216 2010-03-12 14:08:06Z Yannick $
  * @package application.lib.weblcms.course_type.course_type_table

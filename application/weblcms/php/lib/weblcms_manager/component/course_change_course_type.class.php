@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms;
+
 
 /**
  * $Id: course_change_course_type.class.php 224 2010-04-06 14:40:30Z Yannick $

@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\course_sections;
+
 /**
  * $Id: course_sections_browser_table_column_model.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.course_sections.component.course_sections_browser

@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\calendar;
+
 
 class CalendarToolRightsEditorComponent extends CalendarTool implements DelegateComponent
 {

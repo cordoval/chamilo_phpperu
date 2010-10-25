@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\maintenance;
+
 
 require_once dirname(__FILE__) . '/../maintenance_wizard_process.class.php';
 

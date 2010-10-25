@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\glossary;
+
 
 class GlossaryToolIntroductionPublisherComponent extends GlossaryTool
 {

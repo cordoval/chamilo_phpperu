@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\assessment;
+
 
 class AssessmentToolRightsEditorComponent extends AssessmentTool implements DelegateComponent
 {

@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\home;
+
 class HomeTool extends Tool implements DelegateComponent
 {
     const PARAM_TOOL = 'target_tool';

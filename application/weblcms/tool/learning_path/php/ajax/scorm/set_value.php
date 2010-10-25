@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\learning_path;
+
 /**
  * $Id: set_value.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.learning_path.javascript.scorm.ajax

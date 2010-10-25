@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\geolocation;
+
 
 class GeolocationToolIntroductionPublisherComponent extends GeolocationTool
 {

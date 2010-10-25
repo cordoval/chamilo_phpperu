@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\wiki;
+
 /* 
  * To change this template, choose Tools | Templates
  * and open the template in the editor.

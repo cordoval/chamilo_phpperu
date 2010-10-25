@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\course_group;
+
 /**
  * $Id: course_group_unsubscribed_user_browser_table.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.course_group.component.user_table

@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\document;
+
 
 class DocumentToolRightsEditorComponent extends DocumentTool implements DelegateComponent
 {

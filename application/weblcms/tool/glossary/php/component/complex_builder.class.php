@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\glossary;
+
 
 /*
  * To change this template, choose Tools | Templates

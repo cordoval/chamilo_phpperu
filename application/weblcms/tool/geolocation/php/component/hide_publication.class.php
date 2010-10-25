@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\geolocation;
+
 class GeolocationToolHidePublicationComponent extends GeolocationTool
 {
 

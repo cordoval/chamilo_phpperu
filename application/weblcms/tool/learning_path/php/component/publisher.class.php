@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\learning_path;
+
 
 class LearningPathToolPublisherComponent extends LearningPathTool
 {

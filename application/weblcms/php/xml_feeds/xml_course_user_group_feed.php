@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms;
+
 /**
  * $Id: xml_course_user_group_feed.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms.xml_feeds

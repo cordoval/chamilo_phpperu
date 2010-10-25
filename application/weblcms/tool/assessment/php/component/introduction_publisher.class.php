@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\assessment;
+
 
 class AssessmentToolIntroductionPublisherComponent extends AssessmentTool
 {

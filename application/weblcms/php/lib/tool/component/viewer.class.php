@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms;
+
 
 /**
  * $Id: viewer.class.php 200 2009-11-13 12:30:04Z kariboe $

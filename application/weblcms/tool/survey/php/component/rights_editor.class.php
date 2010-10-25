@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\survey;
+
 
 class SurveyToolRightsEditorComponent extends SurveyTool implements DelegateComponent
 {

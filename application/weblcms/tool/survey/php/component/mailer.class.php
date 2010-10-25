@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\survey;
+
 require_once dirname(__FILE__) . '/../survey_publication_mailer_form.class.php';
 require_once Path :: get_application_path() . 'lib/weblcms/trackers/weblcms_survey_participant_mail_tracker.class.php';
 require_once Path :: get_application_path() . 'lib/weblcms/trackers/weblcms_survey_participant_tracker.class.php';

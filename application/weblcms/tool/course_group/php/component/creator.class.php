@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\course_group;
+
 
 /**
  * $Id: course_group_creator.class.php 216 2009-11-13 14:08:06Z kariboe $

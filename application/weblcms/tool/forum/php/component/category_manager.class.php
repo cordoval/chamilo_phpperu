@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\forum;
+
 
 require_once dirname(__FILE__) . '/../../../category_manager/content_object_publication_category_manager.class.php';
 

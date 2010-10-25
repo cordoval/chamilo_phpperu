@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\document;
+
 
 class DocumentToolReportingViewerComponent extends DocumentTool implements DelegateComponent
 {

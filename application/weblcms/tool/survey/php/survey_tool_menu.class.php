@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\survey;
+
 /**
  * $Id: survey_tool_menu.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package survey.lib

@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\learning_path;
+
 
 /**
  * $Id: learning_path_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $

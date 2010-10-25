@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\description;
+
 
 class DescriptionToolViewerComponent extends DescriptionTool
 {

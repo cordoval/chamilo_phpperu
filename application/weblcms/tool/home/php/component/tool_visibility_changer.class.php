@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\home;
+
 class HomeToolToolVisibilityChangerComponent extends HomeTool
 {
     function run()

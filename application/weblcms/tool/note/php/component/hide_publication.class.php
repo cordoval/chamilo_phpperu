@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\note;
+
 class NoteToolHidePublicationComponent extends NoteTool
 {
 

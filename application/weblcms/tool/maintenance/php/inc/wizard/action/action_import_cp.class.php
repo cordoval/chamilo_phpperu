@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\maintenance;
+
 
 require_once dirname(__FILE__) . '/../maintenance_wizard_process.class.php';
 require_once dirname(__FILE__) . '/../cp_import_selection_maintenance_wizard_page.class.php';

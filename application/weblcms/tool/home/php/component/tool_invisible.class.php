@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms\tool\home;
+
 require_once dirname(__FILE__) . '/tool_visibility_changer.class.php';
 
 class HomeToolToolInvisibleComponent extends HomeToolToolVisibilityChangerComponent
