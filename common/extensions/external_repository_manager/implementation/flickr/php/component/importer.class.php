@@ -13,7 +13,6 @@ use repository\ContentObject;
 use repository\content_object\document\Document;
 use repository\ExternalRepositorySync;
 use repository\RepositoryManager;
-use common\extensions\external_repository_manager\ExternalRepositoryManager;
 
 class FlickrExternalRepositoryManagerImporterComponent extends FlickrExternalRepositoryManager
 {

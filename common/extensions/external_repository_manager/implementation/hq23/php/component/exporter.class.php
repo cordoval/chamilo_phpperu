@@ -1,5 +1,11 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\hq23;
+
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
+use common\extensions\external_repository_manager\ExternalRepositoryComponent;
+
+use common\libraries\Translation;
+
 class Hq23ExternalRepositoryManagerExporterComponent extends Hq23ExternalRepositoryManager
 {
 

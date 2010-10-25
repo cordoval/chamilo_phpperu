@@ -1,5 +1,13 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\hq23;
+
+use common\extensions\external_repository_manager\ExternalRepositoryObject;
+
+use common\libraries\Translation;
+use common\libraries\ToolbarItem;
+use common\libraries\Utilities;
+use common\libraries\Theme;
+
 class Hq23ExternalRepositoryObject extends ExternalRepositoryObject
 {
     const OBJECT_TYPE = 'hq23';
