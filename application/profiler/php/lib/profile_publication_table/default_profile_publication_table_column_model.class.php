@@ -31,7 +31,7 @@ class DefaultProfilePublicationTableColumnModel extends ObjectTableColumnModel
         $user_alias = $udm->get_alias(User :: get_table_name());
 
         $columns = array();
-        $columns[] = new ObjectTableColumn(ProfilePublication :: PROPERTY_PROFILE);
+        $columns[] = new ObjectTableColumn(ProfilerPublication :: PROPERTY_PROFILE);
         $columns[] = new ObjectTableColumn(User :: PROPERTY_USERNAME, true, $user_alias);
         $columns[] = new ObjectTableColumn(User :: PROPERTY_LASTNAME, true, $user_alias);
         $columns[] = new ObjectTableColumn(User :: PROPERTY_FIRSTNAME, true, $user_alias);

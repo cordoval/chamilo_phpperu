@@ -10,6 +10,7 @@ use repository\ContentObject;
 use common\libraries\Session;
 use common\libraries\ConditionTranslator;
 use common\libraries\Translation;
+use repository\content_object\forum\Forum;
 
 /**
  * $Id: database_forum_data_manager.class.php 238 2009-11-16 14:10:27Z vanpouckesven $
@@ -56,12 +57,12 @@ class DatabaseForumDataManager extends Database implements ForumDataManagerInter
     function retrieve_forum_publication($id)
     {
         $condition = new EqualityCondition(ForumPublication :: PROPERTY_ID, $id);
-        return $this->retrieve_object(ForumPublication :: get_table_name(), $condition, null, Forum :: CLASS_NAME);
+        return $this->retrieve_object(ForumPublication :: get_table_name(), $condition, null, ForumPublication :: CLASS_NAME);
     }
 
     function retrieve_forum_publications($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->retrieve_objects(ForumPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(ForumPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by, ForumPublication :: CLASS_NAME);
     }
 
     function move_forum_publication($publication, $places)
@@ -109,7 +110,7 @@ class DatabaseForumDataManager extends Database implements ForumDataManagerInter
 
     function retrieve_forum_publication_categories($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->retrieve_objects(ForumPublicationCategory :: get_table_name(), $condition, $offset, $count, $order_property);
+        return $this->retrieve_objects(ForumPublicationCategory :: get_table_name(), $condition, $offset, $count, $order_property, ForumPublication :: CLASS_NAME);
     }
 
     function get_next_publication_display_order($parent_id)

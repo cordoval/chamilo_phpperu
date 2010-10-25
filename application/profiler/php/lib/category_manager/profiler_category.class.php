@@ -4,13 +4,12 @@ namespace application\profiler;
 
 use common\libraries\Path;
 use common\extensions\category_manager\PlatformCategory;
-
+use common\libraries\Utilities;
 
 /**
  * $Id: profiler_category.class.php 212 2009-11-13 13:38:35Z chellee $
  * @package application.profiler.category_manager
  */
-
 //require_once Path :: get_common_extensions_path() . 'category_manager/platform_category.class.php';
 /**
  * 	@author Sven Vanpoucke
@@ -22,8 +21,8 @@ class ProfilerCategory extends PlatformCategory
 
     function create()
     {
-    	$meh = UserDataManager::get_instance();
-    	
+        $meh = UserDataManager::get_instance();
+
         $wdm = ProfilerDataManager :: get_instance();
         $this->set_display_order($wdm->select_next_category_display_order($this->get_parent()));
         if (!$wdm->create_category($this))
@@ -56,7 +55,7 @@ class ProfilerCategory extends PlatformCategory
         else
         {
             $location = ProfilerRights :: get_location_by_identifier_from_profiler_subtree($this->get_id(), ProfilerRights :: TYPE_CATEGORY);
-            
+
             $new_parent = $this->get_parent();
 
             if ($new_parent == 0)
@@ -75,19 +74,19 @@ class ProfilerCategory extends PlatformCategory
     function delete()
     {
         $location = ProfilerRights :: get_location_by_identifier_from_profiler_subtree($this->get_id(), ProfilerRights :: TYPE_CATEGORY);
-    	if($location)
-    	{
-    		if(!$location->remove())
-    		{
-    			return false;
-    		}
-    	}
+        if ($location)
+        {
+            if (!$location->remove())
+            {
+                return false;
+            }
+        }
         return parent::delete();
     }
 
     static function get_table_name()
     {
-        return self :: TABLE_NAME;
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
     }
 
 }

@@ -33,25 +33,25 @@ class DatabaseProfilerDataManager extends Database implements ProfilerDataManage
     //Inherited.
     function count_profile_publications($condition = null)
     {
-        return $this->count_objects(ProfilePublication :: get_table_name(), $condition);
+        return $this->count_objects(ProfilerPublication :: get_table_name(), $condition);
     }
 
     //Inherited
     function retrieve_profile_publication($id)
     {
-        $condition = new EqualityCondition(ProfilePublication :: PROPERTY_ID, $id);
-        return $this->retrieve_object(ProfilePublication :: get_table_name(), $condition, array(), ProfilePublication :: CLASS_NAME);
+        $condition = new EqualityCondition(ProfilerPublication :: PROPERTY_ID, $id);
+        return $this->retrieve_object(ProfilerPublication :: get_table_name(), $condition, array(), ProfilerPublication :: CLASS_NAME);
     }
 
     //Inherited.
     function retrieve_profile_publications($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
     {
         $udm = UserDataManager :: get_instance();
-        $publication_alias = $this->get_alias(ProfilePublication :: get_table_name());
+        $publication_alias = $this->get_alias(ProfilerPublication :: get_table_name());
 
-        $query = 'SELECT ' . $publication_alias . '.* FROM ' . $this->escape_table_name(ProfilePublication :: get_table_name()) . ' AS ' . $publication_alias;
+        $query = 'SELECT ' . $publication_alias . '.* FROM ' . $this->escape_table_name(ProfilerPublication :: get_table_name()) . ' AS ' . $publication_alias;
         $query .= ' JOIN ' . $udm->escape_table_name(User :: get_table_name()) . ' AS ' . $udm->get_alias(User :: get_table_name());
-        $query .= ' ON ' . $this->escape_column_name(ProfilePublication :: PROPERTY_PUBLISHER, $publication_alias) . ' = ';
+        $query .= ' ON ' . $this->escape_column_name(ProfilerPublication :: PROPERTY_PUBLISHER, $publication_alias) . ' = ';
         $query .= $udm->escape_column_name(User :: PROPERTY_ID, $udm->get_alias(User :: get_table_name()));
 
         if (isset($condition))
@@ -78,38 +78,38 @@ class DatabaseProfilerDataManager extends Database implements ProfilerDataManage
         $this->set_limit(intval($max_objects), intval($offset));
         $res = $this->query($query);
 
-        return new ObjectResultSet($this, $res, ProfilePublication :: CLASS_NAME);
+        return new ObjectResultSet($this, $res, ProfilerPublication :: CLASS_NAME);
     }
 
     //Inherited.
     function update_profile_publication($profile_publication)
     {
-        $condition = new EqualityCondition(ProfilePublication :: PROPERTY_ID, $profile_publication->get_id());
+        $condition = new EqualityCondition(ProfilerPublication :: PROPERTY_ID, $profile_publication->get_id());
         return $this->update($profile_publication, $condition);
     }
 
     //Inherited
     function delete_profile_publication($profile_publication)
     {
-        $condition = new EqualityCondition(ProfilePublication :: PROPERTY_ID, $profile_publication->get_id());
-        return $this->delete(ProfilePublication :: get_table_name(), $condition);
+        $condition = new EqualityCondition(ProfilerPublication :: PROPERTY_ID, $profile_publication->get_id());
+        return $this->delete(ProfilerPublication :: get_table_name(), $condition);
     }
 
     //Inherited.
     function delete_profile_publications($object_id)
     {
-        $condition = new EqualityCondition(ProfilePublication :: PROPERTY_PROFILE, $object_id);
-        return $this->delete_objects(ProfilePublication :: get_table_name(), $condition);
+        $condition = new EqualityCondition(ProfilerPublication :: PROPERTY_PROFILE, $object_id);
+        return $this->delete_objects(ProfilerPublication :: get_table_name(), $condition);
     }
 
     //Inherited.
     function update_profile_publication_id($publication_attr)
     {
-        $where = $this->escape_column_name(ProfilePublication :: PROPERTY_ID) . '=' . $publication_attr->get_id();
+        $where = $this->escape_column_name(ProfilerPublication :: PROPERTY_ID) . '=' . $publication_attr->get_id();
         $props = array();
-        $props[$this->escape_column_name(ProfilePublication :: PROPERTY_PROFILE)] = $publication_attr->get_publication_object_id();
+        $props[$this->escape_column_name(ProfilerPublication :: PROPERTY_PROFILE)] = $publication_attr->get_publication_object_id();
         $this->get_connection()->loadModule('Extended');
-        if ($this->get_connection()->extended->autoExecute($this->get_table_name(ProfilePublication :: get_table_name()), $props, MDB2_AUTOQUERY_UPDATE, $where))
+        if ($this->get_connection()->extended->autoExecute($this->get_table_name(ProfilerPublication :: get_table_name()), $props, MDB2_AUTOQUERY_UPDATE, $where))
         {
             return true;
         }
@@ -122,15 +122,15 @@ class DatabaseProfilerDataManager extends Database implements ProfilerDataManage
     //Inherited.
     function any_content_object_is_published($object_ids)
     {
-        $condition = new InCondition(ProfilePublication :: PROPERTY_PROFILE, $object_ids);
-        return $this->count_objects(ProfilePublication :: get_table_name(), $condition) >= 1;
+        $condition = new InCondition(ProfilerPublication :: PROPERTY_PROFILE, $object_ids);
+        return $this->count_objects(ProfilerPublication :: get_table_name(), $condition) >= 1;
     }
 
     //Inherited.
     function content_object_is_published($object_id)
     {
-        $condition = new EqualityCondition(ProfilePublication :: PROPERTY_PROFILE, $object_id);
-        return $this->count_objects(ProfilePublication :: get_table_name(), $condition) >= 1;
+        $condition = new EqualityCondition(ProfilerPublication :: PROPERTY_PROFILE, $object_id);
+        return $this->count_objects(ProfilerPublication :: get_table_name(), $condition) >= 1;
     }
 
     //Inherited
@@ -142,15 +142,15 @@ class DatabaseProfilerDataManager extends Database implements ProfilerDataManage
             {
                 $rdm = RepositoryDataManager :: get_instance();
                 $co_alias = $rdm->get_alias(ContentObject :: get_table_name());
-                $pub_alias = $this->get_alias(ProfilePublication :: get_table_name());
+                $pub_alias = $this->get_alias(ProfilerPublication :: get_table_name());
 
             	$query = 'SELECT ' . $pub_alias . '.*, ' . $co_alias . '.' . $this->escape_column_name(ContentObject :: PROPERTY_TITLE) . ' FROM ' .
-                		 $this->escape_table_name(ProfilePublication :: get_table_name()) . ' AS ' . $pub_alias .
+                		 $this->escape_table_name(ProfilerPublication :: get_table_name()) . ' AS ' . $pub_alias .
                 		 ' JOIN ' . $rdm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $co_alias .
-                		 ' ON ' . $this->escape_column_name(ProfilePublication :: PROPERTY_PROFILE, $pub_alias) . '=' .
+                		 ' ON ' . $this->escape_column_name(ProfilerPublication :: PROPERTY_PROFILE, $pub_alias) . '=' .
                 		 $this->escape_column_name(ContentObject :: PROPERTY_ID, $co_alias);
 
-                $condition = new EqualityCondition(ProfilePublication :: PROPERTY_PUBLISHER, $user_id);
+                $condition = new EqualityCondition(ProfilerPublication :: PROPERTY_PUBLISHER, $user_id);
                 $translator = new ConditionTranslator($this);
                 $query .= $translator->render_query($condition);
 
@@ -182,8 +182,8 @@ class DatabaseProfilerDataManager extends Database implements ProfilerDataManage
         }
         else
         {
-             $query = 'SELECT * FROM ' . $this->escape_table_name(ProfilePublication :: get_table_name());
-           	$condition = new EqualityCondition(ProfilePublication :: PROPERTY_PROFILE, $object_id);
+             $query = 'SELECT * FROM ' . $this->escape_table_name(ProfilerPublication :: get_table_name());
+           	$condition = new EqualityCondition(ProfilerPublication :: PROPERTY_PROFILE, $object_id);
            	$translator = new ConditionTranslator($this);
            	$query .= $translator->render_query($condition);
         }
@@ -194,7 +194,7 @@ class DatabaseProfilerDataManager extends Database implements ProfilerDataManage
         $publication_attr = array();
         while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
         {
-            $publication = $this->record_to_object($record, ProfilePublication :: CLASS_NAME);
+            $publication = $this->record_to_object($record, ProfilerPublication :: CLASS_NAME);
 
             $info = new ContentObjectPublicationAttributes();
             $info->set_id($publication->get_id());
@@ -236,19 +236,19 @@ class DatabaseProfilerDataManager extends Database implements ProfilerDataManage
     {
         if(!$object_id)
         {
-    		$condition = new EqualityCondition(ProfilePublication :: PROPERTY_PUBLISHER, $user->get_id());
+    		$condition = new EqualityCondition(ProfilerPublication :: PROPERTY_PUBLISHER, $user->get_id());
         }
         else
         {
-        	$condition = new EqualityCondition(ProfilePublication :: PROPERTY_PROFILE, $object_id);
+        	$condition = new EqualityCondition(ProfilerPublication :: PROPERTY_PROFILE, $object_id);
         }
-        return $this->count_objects(ProfilePublication :: get_table_name(), $condition);
+        return $this->count_objects(ProfilerPublication :: get_table_name(), $condition);
     }
 
 	function delete_content_object_publication($publication_id)
     {
-        $condition = new EqualityCondition(ProfilePublication :: PROPERTY_ID, $publication_id);
-        return $this->delete(ProfilePublication :: get_table_name(), $condition);
+        $condition = new EqualityCondition(ProfilerPublication :: PROPERTY_ID, $publication_id);
+        return $this->delete(ProfilerPublication :: get_table_name(), $condition);
     }
 
     //Inherited.
@@ -288,12 +288,12 @@ class DatabaseProfilerDataManager extends Database implements ProfilerDataManage
 
     function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->retrieve_objects(ProfilerCategory :: get_table_name(), $condition, $offset, $count, $order_property, 'ProfilerCategory');
+        return $this->retrieve_objects(ProfilerCategory :: get_table_name(), $condition, $offset, $count, $order_property, ProfilerCategory::CLASS_NAME);
     }
 
     function select_next_category_display_order($parent_category_id)
     {
-        $query = 'SELECT MAX(' . ProfilerCategory :: PROPERTY_DISPLAY_ORDER . ') AS do FROM ' . $this->escape_table_name('category');
+        $query = 'SELECT MAX(' . ProfilerCategory :: PROPERTY_DISPLAY_ORDER . ') AS do FROM ' . $this->escape_table_name(ProfilerCategory::CLASS_NAME);
 
         $condition = new EqualityCondition(ProfilerCategory :: PROPERTY_PARENT, $parent_category_id);
         if (isset($condition))

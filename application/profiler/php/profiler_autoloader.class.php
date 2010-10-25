@@ -32,7 +32,7 @@ class ProfilerAutoloader
 		'profiler_rights' => 'profiler_rights.class.php',
 		'profiler_data_manager' => 'profiler_data_manager.class.php',
 		'profiler_data_manager_interface' => 'profiler_data_manager_interface.class.php',
-		'profile_publication' => 'profile_publication.class.php',
+		'profiler_publication' => 'profiler_publication.class.php',
 		'profiler_block.class.php' => 'profiler_block',
 		'profiler_menu' => 'profiler_menu.class.php',
 		'profile_publication_form' => 'profile_publication_form.class.php',

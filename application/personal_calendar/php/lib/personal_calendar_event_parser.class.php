@@ -5,6 +5,7 @@ namespace application\personal_calendar;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Utilities;
+use common\libraries\Application;
 
 abstract class PersonalCalendarEventParser 
 {
@@ -47,8 +48,7 @@ abstract class PersonalCalendarEventParser
             Display :: footer();
             exit();
         }
-        
-        $class = 'PersonalCalendarEvent' . Utilities :: underscores_to_camelcase($type) . 'Parser';
+        $class = __NAMESPACE__ . '\\' . 'PersonalCalendarEvent' . Utilities	::	underscores_to_camelcase($type)	. 'Parser';
         require_once $file;
         return new $class($parent, $publication, $start_date, $end_date);
 	}

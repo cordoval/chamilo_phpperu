@@ -118,12 +118,12 @@ class ProfilePublicationForm extends FormValidator
         //if(count($this->categories) > 1)
         {
             // More than one category -> let user select one
-            $this->addElement('select', ProfilePublication :: PROPERTY_CATEGORY, Translation :: get('Category'), $this->categories);
+            $this->addElement('select', ProfilerPublication :: PROPERTY_CATEGORY, Translation :: get('Category'), $this->categories);
         }
         /*else
 		{
 			// Only root category -> store object in root category
-			$this->addElement('hidden',ProfilePublication :: PROPERTY_CATEGORY,0);
+			$this->addElement('hidden',ProfilerPublication :: PROPERTY_CATEGORY,0);
 		}*/
     }
 
@@ -144,11 +144,11 @@ class ProfilePublicationForm extends FormValidator
     {
         $values = $this->exportValues();
         
-        $pub = new ProfilePublication();
+        $pub = new ProfilerPublication();
         $pub->set_profile($this->content_object->get_id());
         $pub->set_publisher($this->form_user->get_id());
         $pub->set_published(time());
-        $pub->set_category($values[ProfilePublication :: PROPERTY_CATEGORY]);
+        $pub->set_category($values[ProfilerPublication :: PROPERTY_CATEGORY]);
         
         if ($pub->create())
         {
@@ -168,11 +168,11 @@ class ProfilePublicationForm extends FormValidator
         
         foreach ($ids as $id)
         {
-            $pub = new ProfilePublication();
+            $pub = new ProfilerPublication();
             $pub->set_profile($id);
             $pub->set_publisher($this->form_user->get_id());
             $pub->set_published(time());
-            $pub->set_category($values[ProfilePublication :: PROPERTY_CATEGORY]);
+            $pub->set_category($values[ProfilerPublication :: PROPERTY_CATEGORY]);
             
             if (! $pub->create())
             {
@@ -189,7 +189,7 @@ class ProfilePublicationForm extends FormValidator
         $this->addElement('hidden', 'action');
         $defaults['action'] = 'edit';
         $defaults['prid'] = $profile_publication->get_id();
-        $defaults[ProfilePublication :: PROPERTY_CATEGORY] = $profile_publication->get_category();
+        $defaults[ProfilerPublication :: PROPERTY_CATEGORY] = $profile_publication->get_category();
         
         parent :: setDefaults($defaults);
     }
@@ -199,7 +199,7 @@ class ProfilePublicationForm extends FormValidator
         $values = $this->exportValues();
         
         $pub = $this->profile_publication;
-        $pub->set_category($values[ProfilePublication :: PROPERTY_CATEGORY]);
+        $pub->set_category($values[ProfilerPublication :: PROPERTY_CATEGORY]);
         
         if ($pub->update())
         {

@@ -3,7 +3,6 @@
 namespace application\forum;
 
 use common\libraries\Request;
-use ForumRights;
 use common\extensions\rights_editor_manager\RightsEditorManager;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;

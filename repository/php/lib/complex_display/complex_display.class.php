@@ -4,6 +4,7 @@ namespace repository;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Utilities;
+use common\libraries\SubManager;
 
 /**
  * $Id: complex_display.class.php 200 2009-11-13 12:30:04Z kariboe $

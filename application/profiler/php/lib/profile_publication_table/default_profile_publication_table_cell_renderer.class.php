@@ -31,7 +31,7 @@ class DefaultProfilePublicationTableCellRenderer extends ObjectTableCellRenderer
         $user = $profile_publication->get_publication_publisher();
         switch ($column->get_name())
         {
-            case ProfilePublication :: PROPERTY_PROFILE :
+            case ProfilerPublication :: PROPERTY_PROFILE :
                 return $profile_publication->get_publication_object()->get_title();
             case User :: PROPERTY_USERNAME :
                 return $user->get_username();

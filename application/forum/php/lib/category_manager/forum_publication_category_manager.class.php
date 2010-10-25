@@ -4,6 +4,7 @@ namespace application\forum;
 
 use common\libraries\EqualityCondition;
 use common\extensions\category_manager\PlatformCategory;
+use common\extensions\category_manager\CategoryManager;
 /**
  * $Id: forum_publication_category_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.lib.forum.category_manager

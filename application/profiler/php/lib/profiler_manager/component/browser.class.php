@@ -137,7 +137,7 @@ class ProfilerManagerBrowserComponent extends ProfilerManager
           }
 
           return $condition; */
-        $condition = new EqualityCondition(ProfilePublication :: PROPERTY_CATEGORY, $this->get_category());
+        $condition = new EqualityCondition(ProfilerPublication :: PROPERTY_CATEGORY, $this->get_category());
         $search = $this->action_bar->get_query();
 
         if (isset($search) && $search != '')

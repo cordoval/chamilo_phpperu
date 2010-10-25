@@ -317,7 +317,7 @@ class ProfilerManager extends WebApplication
 
     static function publish_content_object($content_object, $location)
     {
-        $publication = new ProfilePublication();
+        $publication = new ProfilerPublication();
         $publication->set_profile($content_object->get_id());
         $publication->set_publisher(Session :: get_user_id());
         $publication->set_published(time());
@@ -348,7 +348,7 @@ class ProfilerManager extends WebApplication
 
     /**
      * Gets the url for viewing a profile publication
-     * @param ProfilePublication
+     * @param ProfilerPublication
      * @return string The url
      */
     function get_publication_viewing_url($profile)
@@ -358,7 +358,7 @@ class ProfilerManager extends WebApplication
 
     /**
      * Gets the url for creating a profile publication
-     * @param ProfilePublication
+     * @param ProfilerPublication
      * @return string The url
      */
     function get_profile_creation_url()
@@ -368,7 +368,7 @@ class ProfilerManager extends WebApplication
 
     /**
      * Gets the HOME URL for a profile publication
-     * @param ProfilePublication
+     * @param ProfilerPublication
      * @return string The url
      */
     function get_profile_home_url()
