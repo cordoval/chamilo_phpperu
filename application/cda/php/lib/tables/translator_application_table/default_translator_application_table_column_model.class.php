@@ -5,6 +5,8 @@ namespace application\cda;
 use common\libraries\ObjectTableColumnModel;
 use common\libraries\ObjectTableColumn;
 use common\libraries\Translation;
+use user\UserDataManager;
+use user\User;
 /**
  * @package cda.tables.variable_table
  */
@@ -35,7 +37,7 @@ class DefaultTranslatorApplicationTableColumnModel extends ObjectTableColumnMode
 		$alias = CdaDataManager :: get_instance()->get_alias(CdaLanguage :: get_table_name());
 		$usr_alias = UserDataManager :: get_instance()->get_alias(User :: get_table_name());
 
-		$columns[] = new ObjectTableColumn(User :: PROPERTY_USERNAME, true, $usr_alias);
+    		$columns[] = new ObjectTableColumn(User :: PROPERTY_USERNAME, true, $usr_alias);
 		$columns[] = new ObjectTableColumn(User :: PROPERTY_FIRSTNAME, true, $usr_alias);
 
 		$column = new ObjectTableColumn(CdaLanguage :: PROPERTY_ENGLISH_NAME, true, $alias);

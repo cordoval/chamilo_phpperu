@@ -151,16 +151,15 @@ abstract class WebApplication extends BasicApplication
         $applications = $adm->retrieve_registrations($condition);
         $active_applications = array();
 
-//        while ($application = $applications->next_result())
-//        {
-//            dump($application);
-//            if ($include_application_classes)
-//            {
-//                require_once self :: get_application_manager_path($application->get_name());
-//            }
-//            $active_applications[] = $application->get_name();
-//
-//        }
+        while ($application = $applications->next_result())
+        {
+            if ($include_application_classes)
+            {
+                require_once self :: get_application_manager_path($application->get_name());
+            }
+            $active_applications[] = $application->get_name();
+
+        }
         return $active_applications;
     }
 

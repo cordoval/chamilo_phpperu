@@ -8,6 +8,8 @@ use common\libraries\Theme;
 use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use common\libraries\Display;
+use common\libraries\Utilities;
+use common\libraries\Request;
 /**
  * @package cda.tables.language_pack_table
  */
@@ -50,7 +52,7 @@ class LanguagePackBrowserTableCellRenderer extends DefaultLanguagePackTableCellR
 		{
 			case LanguagePack :: PROPERTY_NAME :
 
-				if(get_class($this->browser) == 'CdaManagerLanguagePacksBrowserComponent')
+				if(Utilities :: get_classname_from_namespace(get_class($this->browser)) == 'CdaManagerLanguagePacksBrowserComponent')
 				{
 					$url = $this->browser->get_browse_variable_translations_url(Request :: get(CdaManager :: PARAM_CDA_LANGUAGE), $language_pack->get_id());
 				}
@@ -86,7 +88,7 @@ class LanguagePackBrowserTableCellRenderer extends DefaultLanguagePackTableCellR
 
 		$toolbar = new Toolbar();
 
-		if(get_class($this->browser) != 'CdaManagerLanguagePacksBrowserComponent')
+		if(Utilities :: get_classname_from_namespace(get_class($this->browser)) != 'CdaManagerLanguagePacksBrowserComponent')
 		{
 			$can_edit = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, CdaRights :: LOCATION_LANGUAGE_PACKS, 'manager');
     		$can_delete = CdaRights :: is_allowed(CdaRights :: DELETE_RIGHT, CdaRights :: LOCATION_LANGUAGE_PACKS, 'manager');

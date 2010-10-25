@@ -94,7 +94,7 @@ abstract class TranslationImporter
 	public static function factory($branch, $user, $options = array())
     {
         $file = dirname(__FILE__) . '/importer/chamilo' . $branch . '_translation_importer.class.php';
-        $class = 'Chamilo' . $branch . 'TranslationImporter';
+        $class = __NAMESPACE__ . '\\Chamilo' . $branch . 'TranslationImporter';
         
         if (file_exists($file))
         {
