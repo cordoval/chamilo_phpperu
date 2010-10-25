@@ -435,6 +435,8 @@ class InstallWizardProcess extends HTML_QuickForm_Action
             {
             	$content_object->install();
             	$this->process_result($folder, $result, $content_object->retrieve_message());
+                unset($content_object);
+                flush();
             }
         }
 
