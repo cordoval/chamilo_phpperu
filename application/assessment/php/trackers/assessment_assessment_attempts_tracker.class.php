@@ -1,4 +1,10 @@
 <?php
+
+namespace application\assessment;
+
+use tracking\SimpleTracker;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
 /**
  * @package application.lib.assessment.trackers
  */

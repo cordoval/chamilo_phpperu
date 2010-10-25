@@ -1,4 +1,16 @@
 <?php
+
+namespace application\assessment;
+
+use common\libraries\InCondition;
+use repository\RepositoryDataManager;
+use common\libraries\Theme;
+use common\libraries\Translation;
+use repository\ContentObject;
+use common\extensions\repo_viewer\RepoViewer;
+use repository\content_object\assessment\Assessment;
+use repository\content_object\survey\Survey;
+use common\libraries\Application;
 /**
  * $Id: assessment_publisher.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.publisher

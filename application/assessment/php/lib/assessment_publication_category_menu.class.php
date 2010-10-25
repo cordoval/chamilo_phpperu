@@ -1,4 +1,15 @@
 <?php
+
+namespace application\assessment;
+
+use HTML_Menu;
+use HTML_Menu_ArrayRenderer;
+use common\libraries\Translation;
+use common\libraries\EqualityCondition;
+use common\libraries\ObjectTableOrder;
+use common\libraries\OptionsMenuRenderer;
+use common\libraries\TreeMenuRenderer;
+use common\libraries\Utilities;
 /**
  * $Id: assessment_publication_category_menu.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment
@@ -160,6 +171,6 @@ class AssessmentPublicationCategoryMenu extends HTML_Menu
     
     static function get_tree_name()
     {
-    	return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
+    	return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: TREE_NAME));
     }
 }

@@ -1,4 +1,10 @@
 <?php
+
+namespace application\assessment;
+
+use common\libraries\EqualityCondition;
+use repository\ComplexContentObjectItem;
+use common\libraries\AndCondition;
 /**
  * $Id: export_csv.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.assessment_manager.component.results_export_form.result_exporters

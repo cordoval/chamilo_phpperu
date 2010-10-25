@@ -1,9 +1,14 @@
 <?php
+
+namespace application\assessment;
+
+use common\libraries\Request;
+use common\libraries\EqualityCondition;
 /**
  * $Id: hotpotatoes_save_score.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.ajax
  */
-require_once dirname(__FILE__) . '/../../../../common/global.inc.php';
+require_once dirname(__FILE__) . '/../../../../../common/global.inc.php';
 require_once dirname(__FILE__) . '/../trackers/assessment_assessment_attempts_tracker.class.php';
 
 $id = Request :: post('id');

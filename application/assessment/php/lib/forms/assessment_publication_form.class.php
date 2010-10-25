@@ -1,4 +1,18 @@
 <?php
+
+namespace application\assessment;
+
+use common\libraries\FormValidator;
+use user\UserDataManager;
+use group\GroupDataManager;
+use common\libraries\Path;
+use common\libraries\Translation;
+use common\libraries\WebApplication;
+use common\libraries\PlatformSetting;
+use common\libraries\Utilities;
+use common\libraries\Request;
+
+
 require_once dirname(__FILE__) . '/../assessment_publication.class.php';
 /**
  * $Id: assessment_publication_form.class.php 193 2009-11-13 11:53:37Z chellee $

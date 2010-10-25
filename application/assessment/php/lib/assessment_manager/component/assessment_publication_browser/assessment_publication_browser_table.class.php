@@ -1,4 +1,13 @@
 <?php
+
+namespace application\assessment;
+
+use common\libraries\ObjectTable;
+use common\libraries\Utilities;
+use common\libraries\ObjectTableFormActions;
+use common\libraries\ObjectTableFormAction;
+use common\libraries\Translation;
+use common\libraries\Request;
 /**
  * $Id: assessment_publication_browser_table.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.assessment_manager.component.assessment_publication_browser

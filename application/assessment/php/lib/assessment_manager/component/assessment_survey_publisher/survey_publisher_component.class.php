@@ -1,4 +1,6 @@
 <?php
+
+namespace application\assessment;
 /**
  * $Id: survey_publisher_component.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.assessment_manager.component.assessment_survey_publisher

@@ -150,7 +150,7 @@ class TranslatorApplication extends DataClass
     		$source_user_setting->create();
     	}
     	
-   		$location = CdaRights :: get_location_id_by_identifier_from_languages_subtree('cda_language', $this->get_destination_language_id());
+   		$location = CdaRights :: get_location_id_by_identifier_from_languages_subtree(CdaRights :: TYPE_LANGUAGE, $this->get_destination_language_id());
     	$success = RightsUtilities :: set_user_right_location_value(CdaRights :: VIEW_RIGHT, $this->get_user_id(), $location, true);
     		
     	if (!$success)
@@ -172,7 +172,7 @@ class TranslatorApplication extends DataClass
     		$source_user_setting->delete();
     	}
     	
-    	$location = CdaRights :: get_location_id_by_identifier_from_languages_subtree('cda_language', $this->get_destination_language_id());
+    	$location = CdaRights :: get_location_id_by_identifier_from_languages_subtree(CdaRights :: TYPE_LANGUAGE, $this->get_destination_language_id());
     	$success = RightsUtilities :: set_user_right_location_value(CdaRights :: VIEW_RIGHT, $this->get_user_id(), $location, false);
     	
     	if (!$success)
