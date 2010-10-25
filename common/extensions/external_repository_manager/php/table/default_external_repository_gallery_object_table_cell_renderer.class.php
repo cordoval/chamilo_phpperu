@@ -3,6 +3,7 @@ namespace common\extensions\external_repository_manager;
 
 use common\libraries\GalleryObjectTableCellRenderer;
 
+
 abstract class DefaultExternalRepositoryGalleryObjectTableCellRenderer implements GalleryObjectTableCellRenderer
 {
 

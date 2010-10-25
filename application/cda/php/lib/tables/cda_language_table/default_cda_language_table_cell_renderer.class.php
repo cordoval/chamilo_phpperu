@@ -3,7 +3,6 @@
 namespace application\cda;
 
 use common\libraries\ObjectTableCellRenderer;
-use common\libraries\Translation;
 
 
 /**
@@ -45,7 +44,7 @@ class DefaultCdaLanguageTableCellRenderer extends ObjectTableCellRenderer
 				return $cda_language->get_isocode();
 			case CdaLanguage :: PROPERTY_RTL :
 				return $cda_language->get_rtl();
-			case Translation :: get('Status') :
+			case 'Status' :
 			    return $cda_language->get_status_icon();
 			default :
 				return '&nbsp;';

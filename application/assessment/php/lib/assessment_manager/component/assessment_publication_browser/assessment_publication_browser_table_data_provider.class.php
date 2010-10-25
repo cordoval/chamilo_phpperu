@@ -1,4 +1,8 @@
 <?php
+
+namespace application\assessment;
+
+use common\libraries\ObjectTableDataProvider;
 /**
  * $Id: assessment_publication_browser_table_data_provider.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.assessment_manager.component.assessment_publication_browser

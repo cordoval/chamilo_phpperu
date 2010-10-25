@@ -1,4 +1,13 @@
 <?php
+
+namespace application\assessment;
+
+use common\libraries\FormValidator;
+use common\libraries\Request;
+use common\libraries\EqualityCondition;
+use user\UserDataManager;
+use common\libraries\Theme;
+use common\libraries\Export;
 /**
  * $Id: results_export_form.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.assessment_manager.component.results_export_form

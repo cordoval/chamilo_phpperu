@@ -1,4 +1,10 @@
 <?php
+
+namespace application\assessment;
+
+use reporting\ReportingTemplate;
+use reporting\ReportingTemplateRegistration;
+use common\libraries\Request;
 /**
  * $Id: assessment_attempts_summary_template.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.reporting.templates

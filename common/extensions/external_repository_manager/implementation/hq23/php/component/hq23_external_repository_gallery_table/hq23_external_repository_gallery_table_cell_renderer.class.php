@@ -1,5 +1,13 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\hq23;
+
+use common\libraries\Toolbar;
+use common\libraries\Utilities;
+
+use common\extensions\external_repository_manager\ExternalRepositoryObject;
+use common\extensions\external_repository_manager\ExternalRepositoryObjectDisplay;
+use common\extensions\external_repository_manager\DefaultExternalRepositoryGalleryObjectTableCellRenderer;
+
 class Hq23ExternalRepositoryGalleryTableCellRenderer extends DefaultExternalRepositoryGalleryObjectTableCellRenderer
 {
     /**

@@ -4,6 +4,8 @@ namespace application\cda;
 
 use common\libraries\WebApplication;
 use common\libraries\StaticTableColumn;
+use common\libraries\Translation;
+use common\libraries\Utilities;
 /**
  * @package cda.tables.language_pack_table
  */
@@ -31,7 +33,7 @@ class LanguagePackBrowserTableColumnModel extends DefaultLanguagePackTableColumn
 		parent :: __construct();
 		$this->set_default_order_column(1);
 
-		if(get_class($browser) != 'CdaManagerAdminLanguagePacksBrowserComponent')
+		if(Utilities :: get_classname_from_namespace(get_class($browser)) != 'CdaManagerAdminLanguagePacksBrowserComponent')
 		{
 		    $this->add_column(new StaticTableColumn(Translation :: get('Status')));
 			$this->add_column(new StaticTableColumn(Translation :: get('TranslationProgress')));

@@ -3,6 +3,7 @@
 namespace application\cda;
 
 use common\libraries\ObjectTableCellRenderer;
+use common\libraries\DatetimeUtilities;
 /**
  * @package cda.tables.translator_application
  */
@@ -39,7 +40,7 @@ class DefaultTranslatorApplicationTableCellRenderer extends ObjectTableCellRende
 			case TranslatorApplication :: PROPERTY_DESTINATION_LANGUAGE_ID :
 				return $translator_application->get_destination_language()->get_english_name();
 			case TranslatorApplication :: PROPERTY_DATE :
-				return $translator_application->get_date();
+				return DatetimeUtilities :: format_locale_date(null, $translator_application->get_date());
 			case TranslatorApplication :: PROPERTY_STATUS :
 				return $translator_application->get_status_icon();
 			default :

@@ -7,6 +7,7 @@ use common\libraries\ToolbarItem;
 use common\libraries\Theme;
 
 use repository\content_object\document\Document;
+use repository\RepositoryDataManager;
 
 require_once dirname(__FILE__) . '/export_content_object_table/export_content_object_table.class.php';
 

@@ -6,6 +6,7 @@ use common\libraries\Translation;
 use common\libraries\ResourceManager;
 use common\libraries\EqualityCondition;
 use common\libraries\ObjectTableOrder;
+use common\libraries\Path;
 /**
  * $Id: language_pack_selecting_exporter_wizard_page.class.php 225 2009-11-13 14:43:20Z vanpouckesven $
  */
@@ -27,7 +28,7 @@ class LanguagePackSelectingExporterWizardPage extends ExporterWizardPage
     {
     	$this->_formBuilt = true;
     	
-    	$this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/cda_export.js'));
+    	$addElement = $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/cda_export.js'));
     	
     	$values = $this->get_parent()->exportValues();
     	

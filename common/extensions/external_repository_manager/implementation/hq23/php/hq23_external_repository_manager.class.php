@@ -1,5 +1,17 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\hq23;
+
+use common\libraries\Path;
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\ActionBarSearchForm;
+
+use common\extensions\external_repository_manager\ExternalRepositoryObject;
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
+use common\extensions\external_repository_manager\ExternalRepositoryObjectRenderer;
+
+use repository\ExternalRepositorySetting;
+
 require_once dirname(__FILE__) . '/hq23_external_repository_connector.class.php';
 
 /**

@@ -7,6 +7,8 @@ use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;
 
+use repository\ExternalRepositorySync;
+
 require_once dirname(__FILE__) . '/../external_repository_object_display.class.php';
 
 class ExternalRepositoryComponentViewerComponent extends ExternalRepositoryComponent
