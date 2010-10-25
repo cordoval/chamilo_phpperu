@@ -1,4 +1,16 @@
 <?php
+
+namespace application\assessment;
+
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
+use common\libraries\Request;
+use user\UserDataManager;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use common\libraries\PlatformSetting;
+use common\libraries\Mail;
 /**
  * $Id: survey_publisher.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.assessment_manager.component.assessment_survey_publisher

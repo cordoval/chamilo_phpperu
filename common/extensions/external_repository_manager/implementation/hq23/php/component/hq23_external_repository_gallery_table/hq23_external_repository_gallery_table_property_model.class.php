@@ -1,5 +1,9 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\hq23;
+
+use common\extensions\external_repository_manager\ExternalRepositoryConnector;
+use common\extensions\external_repository_manager\DefaultExternalRepositoryGalleryObjectTablePropertyModel;
+
 class Hq23ExternalRepositoryGalleryTablePropertyModel extends DefaultExternalRepositoryGalleryObjectTablePropertyModel
 {
     function Hq23ExternalRepositoryGalleryTablePropertyModel()

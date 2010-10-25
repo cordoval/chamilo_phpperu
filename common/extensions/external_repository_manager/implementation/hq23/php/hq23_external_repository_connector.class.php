@@ -1,5 +1,22 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\hq23;
+
+use common\libraries\Path;
+use common\libraries\Request;
+use common\libraries\Redirect;
+use common\libraries\Session;
+use common\libraries\ActionBarSearchForm;
+use common\libraries\ArrayResultSet;
+
+use common\extensions\external_repository_manager\ExternalRepositoryObject;
+use common\extensions\external_repository_manager\ExternalRepositoryConnector;
+
+use repository\RepositoryDataManager;
+use repository\ExternalRepositorySetting;
+use repository\ExternalRepositoryUserSetting;
+
+use php23;
+
 require_once Path :: get_plugin_path() . 'php23/php23.php';
 require_once dirname(__FILE__) . '/hq23_external_repository_object.class.php';
 /**

@@ -1,4 +1,13 @@
 <?php
+
+namespace application\assessment;
+
+use common\libraries\DelegateComponent;
+use common\libraries\Request;
+use common\extensions\rights_editor_manager\RightsEditorManager;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
 /**
  * $Id: rights_editor.class.php 198 2009-11-13 12:20:22Z vanpouckesven $
  * @package webservices.lib.webservice_manager.component

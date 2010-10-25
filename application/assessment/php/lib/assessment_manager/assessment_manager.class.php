@@ -1,4 +1,11 @@
 <?php
+
+namespace application\assessment;
+
+use common\libraries\WebApplication;
+use repository\content_object\assessment\Assessment;
+use repository\content_object\hotpotatoes\Hotpotatoes;
+use common\libraries\Translation;
 /**
  * $Id: assessment_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.lib.assessment.assessment_manager

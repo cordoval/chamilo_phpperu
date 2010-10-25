@@ -1,4 +1,11 @@
 <?php
+
+namespace application\assessment;
+
+use common\libraries\ObjectTableCellRenderer;
+use repository\ContentObject;
+use common\libraries\Utilities;
+use common\libraries\Translation;
 /**
  * $Id: default_assessment_publication_table_cell_renderer.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.tables.assessment_publication_table

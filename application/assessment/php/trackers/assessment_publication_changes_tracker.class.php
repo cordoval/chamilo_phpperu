@@ -1,5 +1,9 @@
 <?php
 
+namespace application\assessment;
+
+use tracking\ChangesTracker;
+
 /**
  * @package application.lib.assessment.trackers
  */

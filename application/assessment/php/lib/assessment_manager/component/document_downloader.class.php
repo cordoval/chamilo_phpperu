@@ -1,4 +1,14 @@
 <?php
+
+namespace application\assessment;
+
+use common\libraries\Request;
+use common\libraries\EqualityCondition;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
+use repository\RepositoryDataManager;
+use repository\OpenQuestion;
 /**
  * $Id: document_downloader.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.assessment_manager.component

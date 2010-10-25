@@ -1,4 +1,11 @@
 <?php
+
+namespace application\assessment;
+
+use common\libraries\ObjectTableColumnModel;
+use common\libraries\ObjectTableColumn;
+use repository\ContentObject;
+use repository\RepositoryDataManager;
 /**
  * $Id: default_assessment_publication_table_column_model.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.tables.assessment_publication_table
