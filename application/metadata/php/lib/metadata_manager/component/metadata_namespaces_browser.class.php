@@ -4,6 +4,7 @@ use common\libraries\ToolbarItem;
 use common\libraries\Translation;
 use common\libraries\Application;
 use common\libraries\ActionBarRenderer;
+use common\libraries\Theme;
 
 /**
  * metadata component which allows the user to browse his metadata_namespaces
