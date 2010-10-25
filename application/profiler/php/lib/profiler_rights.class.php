@@ -4,6 +4,7 @@ namespace application\profiler;
 
 use rights\RightsUtilities;
 use user\UserDataManager;
+use user\User;
 use common\libraries\Session;
 use group\GroupDataManager;
 use group\GroupRightsTemplate;

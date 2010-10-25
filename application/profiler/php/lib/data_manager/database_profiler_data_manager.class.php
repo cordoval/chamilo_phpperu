@@ -1,4 +1,21 @@
-<?php namespace application\profiler
+<?php
+
+namespace application\profiler;
+
+use common\libraries\Path;
+use common\libraries\EqualityCondition;
+use user\UserDataManager;
+use common\libraries\ConditionTranslator;
+use common\libraries\ObjectResultSet;
+use common\libraries\InCondition;
+use repository\RepositoryDataManager;
+use repository\ContentObject;
+use repository\ContentObjectPublicationAttributes;
+use common\libraries\Translation;
+use common\libraries\Database;
+use user\User;
+
+
 /**
  * $Id: database_profiler_data_manager.class.php 238 2009-11-16 14:10:27Z vanpouckesven $
  * @package application.profiler.data_manager

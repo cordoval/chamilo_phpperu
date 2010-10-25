@@ -1,8 +1,8 @@
 <?php
 
-use user\User;
 namespace application\profiler;
 
+use user\User;
 use common\libraries\DataClass;
 use repository\RepositoryDataManager;
 use user\UserDataManager;

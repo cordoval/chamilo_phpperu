@@ -2,13 +2,16 @@
 
 namespace application\profiler;
 
+use common\libraries\Path;
+use common\extensions\category_manager\PlatformCategory;
+
 
 /**
  * $Id: profiler_category.class.php 212 2009-11-13 13:38:35Z chellee $
  * @package application.profiler.category_manager
  */
 
-require_once Path :: get_common_extensions_path() . 'category_manager/platform_category.class.php';
+//require_once Path :: get_common_extensions_path() . 'category_manager/platform_category.class.php';
 /**
  * 	@author Sven Vanpoucke
  */

@@ -1,4 +1,11 @@
-<?php namespace application\profiler
+<?php
+namespace application\profiler;
+
+use common\libraries\DelegateComponent;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Application;
+use common\libraries\Translation;
 /**
  * $Id: category_manager.class.php 212 2009-11-13 13:38:35Z chellee $
  * @package application.profiler.profiler_manager.component
