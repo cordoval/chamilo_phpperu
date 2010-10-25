@@ -1,5 +1,10 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\picasa;
+
+use common\extensions\external_repository_manager\ExternalRepositoryObject;
+
+use common\libraries\Toolbar;
+use common\libraries\Utilities;
 /**
  * $Id: repository_browser_table_cell_renderer.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.browser

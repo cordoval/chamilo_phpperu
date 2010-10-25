@@ -1,5 +1,10 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\picasa;
+
+use common\libraries\Translation;
+
+use common\extensions\external_repository_manager\ExternalRepositoryObjectDisplay;
+
 class PicasaExternalRepositoryObjectDisplay extends ExternalRepositoryObjectDisplay
 {
 

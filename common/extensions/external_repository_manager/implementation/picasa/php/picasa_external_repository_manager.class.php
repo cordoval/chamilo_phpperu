@@ -1,5 +1,17 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\picasa;
+
+use common\libraries\Path;
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\ActionBarSearchForm;
+
+use repository\ExternalRepositorySetting;
+
+use common\extensions\external_repository_manager\ExternalRepositoryObject;
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
+use common\extensions\external_repository_manager\ExternalRepositoryObjectRenderer;
+
 require_once dirname(__FILE__) . '/picasa_external_repository_connector.class.php';
 
 /**
