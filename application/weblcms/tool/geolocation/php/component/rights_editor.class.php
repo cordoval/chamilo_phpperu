@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\geolocation;
 
+use application\weblcms\ToolComponent;
 
 class GeolocationToolRightsEditorComponent extends GeolocationTool implements DelegateComponent
 {

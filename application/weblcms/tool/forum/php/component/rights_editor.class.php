@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\forum;
 
+use application\weblcms\ToolComponent;
 
 class ForumToolRightsEditorComponent extends ForumTool implements DelegateComponent
 {

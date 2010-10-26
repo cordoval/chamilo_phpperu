@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\calendar;
 
+use application\weblcms\ToolComponent;
+
 class CalendarToolBrowserComponent extends CalendarTool
 {
     const PARAM_FILTER = 'filter';

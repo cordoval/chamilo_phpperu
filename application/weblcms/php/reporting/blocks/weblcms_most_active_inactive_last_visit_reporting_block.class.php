@@ -4,7 +4,7 @@ namespace application\weblcms;
 use common\libraries\Path;
 
 require_once dirname (__FILE__) . '/../weblcms_course_reporting_block.class.php';
-require_once PATH::get_reporting_path() . '/lib/reporting_data.class.php';
+require_once Path :: get_reporting_path() . '/lib/reporting_data.class.php';
 
 class WeblcmsMostActiveInactiveLastVisitReportingBlock extends WeblcmsCourseReportingBlock
 {

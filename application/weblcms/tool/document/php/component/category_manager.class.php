@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\document;
 
+use application\weblcms\ToolComponent;
 
 class DocumentToolCategoryManagerComponent extends DocumentTool implements DelegateComponent
 {
@@ -14,7 +15,7 @@ class DocumentToolCategoryManagerComponent extends DocumentTool implements Deleg
     {
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_BROWSE)), Translation :: get('DocumentToolBrowserComponent')));
     }
-    
+
     function  get_additional_parameters()
     {
         return array(CategoryManager::PARAM_CATEGORY_ID);

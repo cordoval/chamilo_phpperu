@@ -4,7 +4,7 @@ namespace application\weblcms;
 use common\libraries\Path;
 
 require_once dirname (__FILE__) . '/../weblcms_course_reporting_block.class.php';
-require_once PATH::get_reporting_path() . '/lib/reporting_data.class.php';
+require_once Path :: get_reporting_path() . '/lib/reporting_data.class.php';
 
 class WeblcmsUsersTrackingReportingBlock extends WeblcmsCourseReportingBlock
 {
@@ -14,7 +14,7 @@ class WeblcmsUsersTrackingReportingBlock extends WeblcmsCourseReportingBlock
 		$reporting_data->set_rows(array(Translation :: get('UserName'), Translation :: get('TimeOnCourse'), Translation :: get('LearningPathProgress'), Translation :: get('ExcerciseProgress'), Translation :: get('TotalPublications'), Translation :: get('UserDetail')));
 
 		require_once Path :: get_application_path() . '/lib/weblcms/weblcms_data_manager.class.php';
-        require_once PATH::get_user_path() . 'trackers/visit_tracker.class.php';
+        require_once Path :: get_user_path() . 'trackers/visit_tracker.class.php';
 
         $course_id = $this->get_course_id();
         $wdm = WeblcmsDataManager :: get_instance();

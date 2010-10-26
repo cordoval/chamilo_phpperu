@@ -1,8 +1,9 @@
 <?php
 namespace application\weblcms\tool\course_group;
 
+use application\weblcms\ToolComponent;
 
-class CourseGroupToolIntroductionPublisherComponent extends CourseGroupTool 
+class CourseGroupToolIntroductionPublisherComponent extends CourseGroupTool
 {
 
     function run()

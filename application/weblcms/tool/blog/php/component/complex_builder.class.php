@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\blog;
 
+use application\weblcms\ToolComponent;
 
 /*
  * To change this template, choose Tools | Templates

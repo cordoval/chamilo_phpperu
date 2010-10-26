@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use application\weblcms\ToolComponent;
 
 class LearningPathToolReportingViewerComponent extends LearningPathTool implements DelegateComponent
 {

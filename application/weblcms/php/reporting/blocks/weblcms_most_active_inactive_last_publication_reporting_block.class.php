@@ -2,7 +2,7 @@
 namespace application\weblcms;
 
 require_once dirname (__FILE__) . '/../weblcms_course_reporting_block.class.php';
-require_once PATH::get_reporting_path() . '/lib/reporting_data.class.php';
+require_once Path :: get_reporting_path() . '/lib/reporting_data.class.php';
 
 class WeblcmsMostActiveInactiveLastPublicationReportingBlock extends WeblcmsCourseReportingBlock
 {
@@ -70,20 +70,20 @@ class WeblcmsMostActiveInactiveLastPublicationReportingBlock extends WeblcmsCour
 		$reporting_data->add_data_category_row(Translation :: get('PastYear'), Translation :: get('count'), $arr[Translation :: get('PastYear')]);
 	    $reporting_data->add_data_category_row(Translation :: get('NothingPublished'), Translation :: get('count'), $arr[Translation :: get('NothingPublished')]);
 	    $reporting_data->add_data_category_row(Translation :: get('MoreThenOneYear'), Translation :: get('count'), $arr[Translation :: get('MoreThenOneYear')]);
-				
+
         return $reporting_data;
-	}	
-	
+	}
+
 	public function retrieve_data()
 	{
-		return $this->count_data();		
+		return $this->count_data();
 	}
-	
+
 	function get_application()
 	{
 		return WeblcmsManager::APPLICATION_NAME;
 	}
-	
+
 	public function get_available_displaymodes()
 	{
 		$modes = array();

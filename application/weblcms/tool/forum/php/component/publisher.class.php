@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\forum;
 
+use application\weblcms\ToolComponent;
 
 class ForumToolPublisherComponent extends ForumTool
 {

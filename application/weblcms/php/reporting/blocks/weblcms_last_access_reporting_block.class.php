@@ -1,7 +1,7 @@
 <?php
 namespace application\weblcms;
 
-require_once PATH::get_reporting_path() . '/lib/reporting_data.class.php';
+require_once Path :: get_reporting_path() . '/lib/reporting_data.class.php';
 require_once dirname (__FILE__) . '/../weblcms_tool_reporting_block.class.php';
 
 class WeblcmsLastAccessReportingBlock extends WeblcmsToolReportingBlock
@@ -9,7 +9,7 @@ class WeblcmsLastAccessReportingBlock extends WeblcmsToolReportingBlock
 	public function count_data()
 	{
 		$reporting_data = new ReportingData();
-		
+
 		$course_id = $this->get_course_id();
         $user_id = $this->get_user_id();
         $udm = UserDataManager :: get_instance();
@@ -29,15 +29,15 @@ class WeblcmsLastAccessReportingBlock extends WeblcmsToolReportingBlock
         $arr = self :: visit_tracker_to_array($condition, $user);
 
         $description['default_sort_column'] = 1;
-	
+
 		return $reporting_data;
-	}	
+	}
 
 	public function retrieve_data()
 	{
-		return $this->count_data();		
+		return $this->count_data();
 	}
-	
+
 	public function get_available_displaymodes()
 	{
 		$modes = array();

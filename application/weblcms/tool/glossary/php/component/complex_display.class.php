@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\glossary;
 
+use application\weblcms\ToolComponent;
 
 /**
  * $Id: glossary_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $

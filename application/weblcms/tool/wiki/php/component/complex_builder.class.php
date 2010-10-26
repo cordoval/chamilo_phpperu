@@ -1,7 +1,9 @@
 <?php
 namespace application\weblcms\tool\wiki;
 
-/* 
+use application\weblcms\ToolComponent;
+
+/*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */

@@ -2,7 +2,7 @@
 namespace application\weblcms;
 
 require_once dirname (__FILE__) . '/../weblcms_course_reporting_block.class.php';
-require_once PATH::get_reporting_path() . '/lib/reporting_data.class.php';
+require_once Path :: get_reporting_path() . '/lib/reporting_data.class.php';
 
 class WeblcmsCoursesPerCategoryReportingBlock extends WeblcmsCourseReportingBlock
 {
@@ -20,18 +20,18 @@ class WeblcmsCoursesPerCategoryReportingBlock extends WeblcmsCourseReportingBloc
             $condition = new EqualityCondition(Course :: PROPERTY_CATEGORY, $category->get_id());
 
             $reporting_data->add_category($category->get_name());
-            $reporting_data->add_data_category_row($category->get_name(), Translation :: get('count'), $wdm->count_courses($condition));       
+            $reporting_data->add_data_category_row($category->get_name(), Translation :: get('count'), $wdm->count_courses($condition));
         }
-       
+
         return $reporting_data;
-	}	
-	
-	public function retrieve_data()
-	{
-		return $this->count_data();		
 	}
 
-	
+	public function retrieve_data()
+	{
+		return $this->count_data();
+	}
+
+
 	public function get_available_displaymodes()
 	{
 		$modes = array();

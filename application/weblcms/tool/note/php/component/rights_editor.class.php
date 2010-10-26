@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\note;
 
+use application\weblcms\ToolComponent;
 
 class NoteToolRightsEditorComponent extends NoteTool implements DelegateComponent
 {

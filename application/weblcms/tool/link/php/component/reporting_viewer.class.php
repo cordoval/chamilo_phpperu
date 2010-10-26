@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\link;
 
+use application\weblcms\ToolComponent;
 
 class LinkToolReportingViewerComponent extends LinkTool implements DelegateComponent
 {

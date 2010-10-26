@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\document;
 
+use application\weblcms\ToolComponent;
 
 class DocumentToolUpdaterComponent extends DocumentTool
 {

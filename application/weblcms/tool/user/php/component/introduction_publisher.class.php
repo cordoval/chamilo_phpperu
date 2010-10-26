@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\user;
 
+use application\weblcms\ToolComponent;
 
 class UserToolIntroductionPublisherComponent extends UserTool
 {

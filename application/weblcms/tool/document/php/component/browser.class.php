@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\document;
 
+use application\weblcms\ToolComponent;
+
 require_once dirname(__FILE__) . '/document_browser/document_cell_renderer.class.php';
 
 class DocumentToolBrowserComponent extends DocumentTool
@@ -31,7 +33,7 @@ class DocumentToolBrowserComponent extends DocumentTool
     {
         $conditions = array();
         $filter = Request :: get(self :: PARAM_FILTER);
-        
+
         switch ($filter)
         {
             case self :: FILTER_TODAY :
@@ -47,7 +49,7 @@ class DocumentToolBrowserComponent extends DocumentTool
                 $conditions[] = new InequalityCondition(ContentObjectPublication :: PROPERTY_MODIFIED_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, $time);
                 break;
         }
-        
+
         $browser_type = $this->get_browser_type();
         if ($browser_type == ContentObjectPublicationListRenderer :: TYPE_GALLERY || $browser_type == ContentObjectPublicationListRenderer :: TYPE_SLIDESHOW)
         {
@@ -57,28 +59,28 @@ class DocumentToolBrowserComponent extends DocumentTool
             {
                 $image_conditions[] = new PatternMatchCondition(Document :: PROPERTY_FILENAME, '*.' . $image_type, Document :: get_type_name());
             }
-            
+
             $image_condition = new OrCondition($image_conditions);
-            
+
             $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, Document :: get_type_name(), $image_condition, null, RepositoryDataManager :: get_instance());
         }
-        
+
         return $conditions;
     }
 
     function convert_content_object_publication_to_calendar_event($publication, $from_time, $to_time)
     {
         $object = $publication->get_content_object();
-        
+
         $calendar_event = ContentObject :: factory(CalendarEvent :: get_type_name());
         $calendar_event->set_title($object->get_title());
         $calendar_event->set_description($object->get_description());
         $calendar_event->set_start_date($publication->get_modified_date());
         $calendar_event->set_end_date($publication->get_modified_date());
         $calendar_event->set_repeat_type(CalendarEvent :: REPEAT_TYPE_NONE);
-        
+
         $publication->set_content_object($calendar_event);
-        
+
         return $publication;
     }
 

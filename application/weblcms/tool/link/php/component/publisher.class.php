@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\link;
 
+use application\weblcms\ToolComponent;
 
 class LinkToolPublisherComponent extends LinkTool
 {

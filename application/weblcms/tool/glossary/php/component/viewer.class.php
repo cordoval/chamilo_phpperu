@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\glossary;
 
+use application\weblcms\ToolComponent;
 
 class GlossaryToolViewerComponent extends GlossaryTool
 {

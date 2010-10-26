@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\note;
 
+use application\weblcms\ToolComponent;
+
 class NoteToolMoverComponent extends NoteTool
 {
 

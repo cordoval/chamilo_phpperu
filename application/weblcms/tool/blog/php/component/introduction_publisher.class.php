@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\blog;
 
+use application\weblcms\ToolComponent;
 
 class BlogToolIntroductionPublisherComponent extends BlogTool
 {
@@ -15,6 +16,6 @@ class BlogToolIntroductionPublisherComponent extends BlogTool
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_BROWSE)), Translation :: get('BlogToolBrowserComponent')));
     }
 
-    
+
 }
 ?>

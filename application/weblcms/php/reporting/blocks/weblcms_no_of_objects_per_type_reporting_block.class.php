@@ -1,7 +1,7 @@
 <?php
 namespace application\weblcms;
 
-require_once PATH::get_reporting_path() . '/lib/reporting_data.class.php';
+require_once Path :: get_reporting_path() . '/lib/reporting_data.class.php';
 require_once dirname (__FILE__) . '/../weblcms_course_reporting_block.class.php';
 
 class WeblcmsNoOfObjectsPerTypeReportingBlock extends WeblcmsCourseReportingBlock
@@ -29,25 +29,25 @@ class WeblcmsNoOfObjectsPerTypeReportingBlock extends WeblcmsCourseReportingBloc
         }
 
         $description[0] = Translation :: get('Object');
-        
+
         $reporting_data->set_categories(array($list));
         $reporting_data->set_rows(array(Translation :: get('Object')));
 
         $reporting_data->add_data_category_row($content_object->get_type(), Translation :: get('Object'), $arr[$content_object->get_type()]);
         */
         return $reporting_data;
-	}	
-	
+	}
+
 	public function retrieve_data()
 	{
-		return $this->count_data();		
+		return $this->count_data();
 	}
-	
+
 	function get_application()
 	{
 		return WeblcmsManager::APPLICATION_NAME;
 	}
-	
+
 	public function get_available_displaymodes()
 	{
 		$modes = array();

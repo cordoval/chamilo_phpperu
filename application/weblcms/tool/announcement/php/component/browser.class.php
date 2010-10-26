@@ -1,4 +1,8 @@
 <?php
+namespace application\weblcms\tool\announcement;
+
+use application\weblcms\ToolComponent;
+
 class AnnouncementToolBrowserComponent extends AnnouncementTool
 {
     const PARAM_FILTER = 'filter';
@@ -62,6 +66,6 @@ class AnnouncementToolBrowserComponent extends AnnouncementTool
 
         return $publication;
     }
-    
+
 }
 ?>

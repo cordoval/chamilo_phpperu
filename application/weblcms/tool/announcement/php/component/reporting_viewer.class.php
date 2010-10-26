@@ -1,4 +1,7 @@
 <?php
+namespace application\weblcms\tool\announcement;
+
+use application\weblcms\ToolComponent;
 
 class AnnouncementToolReportingViewerComponent extends AnnouncementTool implements DelegateComponent
 {

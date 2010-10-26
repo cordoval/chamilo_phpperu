@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use application\weblcms\ToolComponent;
 
 class AssessmentToolReportingViewerComponent extends AssessmentTool implements DelegateComponent
 {

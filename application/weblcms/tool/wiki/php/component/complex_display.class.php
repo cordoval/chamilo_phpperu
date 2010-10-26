@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\wiki;
 
+use application\weblcms\ToolComponent;
+
 /**
  * $Id: wiki_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.wiki.component

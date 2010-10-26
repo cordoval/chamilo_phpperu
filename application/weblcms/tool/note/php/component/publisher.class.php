@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\note;
 
+use application\weblcms\ToolComponent;
 
 /**
  * $Id: note_publisher.class.php 216 2009-11-13 14:08:06Z kariboe $
