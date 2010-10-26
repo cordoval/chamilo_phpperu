@@ -3,6 +3,8 @@ namespace repository\content_object\assessment_rating_question;
 
 use common\libraries\Translation;
 use common\libraries\Path;
+use repository\RatingQuestionForm;
+use repository\RatingQuestion;
 
 /**
  * $Id: assessment_rating_question_form.class.php $

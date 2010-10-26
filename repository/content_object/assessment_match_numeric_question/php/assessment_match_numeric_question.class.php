@@ -22,7 +22,7 @@ class AssessmentMatchNumericQuestion extends ContentObject implements Versionabl
 	const TOLERANCE_TYPE_RELATIVE = 'relative';
 
 	public static function get_type_name() {
-		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+		return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
 	}
 
     public static function get_additional_property_names(){

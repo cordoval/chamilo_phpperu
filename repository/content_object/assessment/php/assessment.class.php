@@ -7,6 +7,18 @@ use common\libraries\EqualityCondition;
 use common\libraries\ComplexContentObjectSupport;
 
 use repository\ContentObject;
+use repository\content_object\assessment_rating_question\AssessmentRatingQuestion;
+use repository\content_object\assessment_open_question\AssessmentOpenQuestion;
+use repository\content_object\hotspot_question\HotspotQuestion;
+use repository\content_object\fill_in_blanks_question\FillInBlanksQuestion;
+use repository\content_object\assessment_multiple_choice_question\AssessmentMultipleChoiceQuestion;
+use repository\content_object\assessment_matching_question\AssessmentMatchingQuestion;
+use repository\content_object\assessment_select_question\AssessmentSelectQuestion;
+use repository\content_object\assessment_matrix_question\AssessmentMatrixQuestion;
+use repository\content_object\match_question\MatchQuestion;
+use repository\content_object\assessment_match_numeric_question\AssessmentMatchNumericQuestion;
+use repository\content_object\assessment_match_text_question\AssessmentMatchTextQuestion;
+use repository\content_object\ordering_question\OrderingQuestion;
 
 /**
  * $Id: assessment.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -35,7 +47,7 @@ class Assessment extends ContentObject implements ComplexContentObjectSupport
 
     static function get_type_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
     }
 
     static function get_additional_property_names()
