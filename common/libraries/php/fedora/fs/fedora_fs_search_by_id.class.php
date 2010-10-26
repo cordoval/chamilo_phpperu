@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 /**
  * Returns object based on his pid.

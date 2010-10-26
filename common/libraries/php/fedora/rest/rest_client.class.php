@@ -1,5 +1,7 @@
 <?php
-require_once dirname(__FILE__) . '/rest_result.class.php';
+namespace common\libraries;
+require_once dirname(__FILE__) . '/rest_result.class.<?php
+namespace common\libraries;';
 
 /**
  * This class can be used to send REST requests to a REST service

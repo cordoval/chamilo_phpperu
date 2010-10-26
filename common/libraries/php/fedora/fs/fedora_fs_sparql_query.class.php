@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 /**
  * Helper class for generating the text representation of a SPARQL query based on keywork search.

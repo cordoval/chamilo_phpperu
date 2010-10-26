@@ -1,17 +1,25 @@
 <?php
+namespace common\libraries;
 
 /**
  * Main entry point to use the library.
  */
 
-require_once dirname(__FILE__) . '/fedora_proxy.class.php';
-require_once dirname(__FILE__) . '/writer/foxml_writer.class.php';
-require_once dirname(__FILE__) . '/reader/foxml_reader.class.php';
-require_once dirname(__FILE__) . '/switch.php';
+require_once dirname(__FILE__) . '/fedora_proxy.class.<?php
+namespace common\libraries;';
+require_once dirname(__FILE__) . '/writer/foxml_writer.class.<?php
+namespace common\libraries;';
+require_once dirname(__FILE__) . '/reader/foxml_reader.class.<?php
+namespace common\libraries;';
+require_once dirname(__FILE__) . '/switch.<?php
+namespace common\libraries;';
 
-require_once(dirname(__FILE__).'/../mime/mime_type.php');
-require_once(dirname(__FILE__) . '/fs/lib.php');
-require_once(dirname(__FILE__) . '/util/util.php');
+require_once(dirname(__FILE__).'/../mime/mime_type.<?php
+namespace common\libraries;');
+require_once(dirname(__FILE__) . '/fs/lib.<?php
+namespace common\libraries;');
+require_once(dirname(__FILE__) . '/util/util.<?php
+namespace common\libraries;');
 
 
 /**

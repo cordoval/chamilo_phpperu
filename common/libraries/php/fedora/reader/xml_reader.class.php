@@ -1,6 +1,8 @@
 <?php
+namespace common\libraries;
 
-//require_once dirname(__FILE__) . '/xml_reader_empty.class.php';
+//require_once dirname(__FILE__) . '/xml_reader_empty.class.<?php
+namespace common\libraries;';
 
 /**
  * Helper class used to read an XML file.

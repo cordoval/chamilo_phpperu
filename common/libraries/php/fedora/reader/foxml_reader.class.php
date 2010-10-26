@@ -1,7 +1,10 @@
 <?php
+namespace common\libraries;
 
-require_once  dirname(__FILE__) . '/xml_reader.class.php';
-require_once  dirname(__FILE__) . '/xml_reader_empty.class.php';
+require_once  dirname(__FILE__) . '/xml_reader.class.<?php
+namespace common\libraries;';
+require_once  dirname(__FILE__) . '/xml_reader_empty.class.<?php
+namespace common\libraries;';
 
 /**
  *

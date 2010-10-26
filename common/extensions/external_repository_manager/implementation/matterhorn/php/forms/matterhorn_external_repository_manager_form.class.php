@@ -1,5 +1,9 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\matterhorn;
+
+use common\libraries\StringUtilities;
+use common\libraries\Translation;
+use common\libraries\FormValidator;
 /**
  * 
  * $Id: matterhorn_external_repository_manager_form.class.php 

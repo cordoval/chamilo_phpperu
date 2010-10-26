@@ -1,6 +1,8 @@
 <?php
+namespace common\libraries;
 
-require_once  dirname(__FILE__) .'/xml_writer_base.class.php';
+require_once  dirname(__FILE__) .'/xml_writer_base.class.<?php
+namespace common\libraries;';
 
 /**
  * Utility class used to generate LOM IEEE 1484.12.1 XML schemas.

@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 /**
  * Base class for folder FS objects. That is objects that returns other FS objects.

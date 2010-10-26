@@ -1,5 +1,9 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\matterhorn;
+
+use common\libraries\Utilities;
+use common\libraries\Translation;
+
 class MatterhornExternalRepositoryObjectTrack
 {
     private $id;

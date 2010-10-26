@@ -1,7 +1,10 @@
 <?php
+namespace common\libraries;
 
-require_once dirname(__FILE__) . '/rest_config.class.php';
-require_once dirname(__FILE__) . '/rest_client.class.php';
+require_once dirname(__FILE__) . '/rest_config.class.<?php
+namespace common\libraries;';
+require_once dirname(__FILE__) . '/rest_client.class.<?php
+namespace common\libraries;';
 
 /**
  * Base class for proxies calling REST web methods.

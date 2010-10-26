@@ -1,6 +1,8 @@
 <?php
+namespace common\libraries;
 
-require_once dirname(__FILE__) . '/rest/rest_proxy_base.class.php';
+require_once dirname(__FILE__) . '/rest/rest_proxy_base.class.<?php
+namespace common\libraries;';
 
 /**
  * A proxy to the fedora REST API. Transforms XML responses to arrays.

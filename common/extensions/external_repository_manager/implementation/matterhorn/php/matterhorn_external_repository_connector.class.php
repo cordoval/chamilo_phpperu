@@ -1,5 +1,18 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\matterhorn;
+
+use common\libraries\Utilities;
+use common\libraries\ArrayResultSet;
+
+use repository\ExternalRepositorySetting;
+
+use common\extensions\external_repository_manager\ExternalRepositoryConnector;
+use common\extensions\external_repository_manager\ExternalRepositoryObject;
+
+use DOMDocument;
+use XML_Unserializer;
+
+require_once 'XML/Unserializer.php';
 require_once dirname(__FILE__) . '/matterhorn_external_repository_object.class.php';
 require_once dirname(__FILE__) . '/matterhorn_external_repository_object_track.class.php';
 require_once dirname(__FILE__) . '/matterhorn_external_repository_object_track_video.class.php';
@@ -54,6 +67,7 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
     {
         $response = $this->request(MatterhornRestClient :: METHOD_GET, '/search/rest/episode', array('id' => $id));
         $xml = $this->get_xml($response->get_response_content());
+        
 
         if ($xml)
         {

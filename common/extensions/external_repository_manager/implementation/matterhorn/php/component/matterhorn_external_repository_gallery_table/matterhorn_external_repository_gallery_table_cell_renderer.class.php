@@ -1,5 +1,11 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\matterhorn;
+
+use common\libraries\Utilities;
+use common\extensions\external_repository_manager\StreamingMediaExternalRepositoryBrowserGalleryTableCellRenderer;
+use common\extensions\external_repository_manager\ExternalRepositoryObject;
+use common\extensions\external_repository_manager\ExternalRepositoryObjectDisplay;
+
 class MatterhornExternalRepositoryGalleryTableCellRenderer extends StreamingMediaExternalRepositoryBrowserGalleryTableCellRenderer
 {
     function get_cell_content(ExternalRepositoryObject $object)

@@ -1,6 +1,8 @@
 <?php
+namespace common\libraries;
 
-require_once  dirname(__FILE__) . '/id_factory.class.php';
+require_once  dirname(__FILE__) . '/id_factory.class.<?php
+namespace common\libraries;';
 
 /**
  * Base class for XML writers. Helper class create XML file.
