@@ -13,11 +13,12 @@ use common\libraries\Breadcrumb;
 use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\DelegateComponent;
+use common\libraries\WebApplication;
 /**
  * $Id: viewer.class.php 195 2009-11-13 12:02:41Z chellee $
  * @package application.lib.forum.forum_manager.component
  */
-//require_once WebApplication :: get_application_class_path('forum') . 'trackers/forum_topic_view_tracker.class.php';
+require_once WebApplication :: get_application_class_path('forum') . 'trackers/forum_topic_view_tracker.class.php';
 
 /**
  * Component to view a new forum_publication object

@@ -4,6 +4,7 @@ namespace repository\content_object\forum;
 use common\libraries\Translation;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
+use common\extensions\repo_viewer\RepoViewerInterface;
 
 /**
  * $Id: forum_post_creator.class.php 205 2009-11-13 12:57:33Z vanpouckesven $

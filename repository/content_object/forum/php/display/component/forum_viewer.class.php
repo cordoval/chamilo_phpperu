@@ -17,6 +17,7 @@ use repository\RepositoryDataManager;
 use repository\ComplexContentObjectItem;
 use repository\ComplexDisplay;
 use HTML_Table;
+use repository\content_object\forum_topic\ForumTopic;
 
 /**
  * $Id: forum_viewer.class.php 200 2009-11-13 12:30:04Z kariboe $
