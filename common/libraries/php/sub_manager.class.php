@@ -226,6 +226,10 @@ abstract class SubManager
      */
     static function get_component_path($sub_manager_class)
     {
+        dump($sub_manager_class);
+        if(class_exists($sub_manager_class))
+            dump("exists");
+
         return call_user_func(array($sub_manager_class, 'get_application_component_path'));
     }
 

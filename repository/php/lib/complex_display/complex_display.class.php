@@ -5,6 +5,7 @@ use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\SubManager;
+use Exception;
 
 /**
  * $Id: complex_display.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -75,7 +76,7 @@ abstract class ComplexDisplay extends SubManager
 
     static function factory($parent, $type)
     {
-        $file = dirname(__FILE__) . '/../content_object/' . $type . '/display/' . $type . '_display.class.php';
+        $file = dirname(__FILE__) . '/../../../content_object/' . $type . '/php/display/' . $type . '_display.class.php';
         require_once $file;
         $class = Utilities :: underscores_to_camelcase($type) . 'Display';
         return new $class($parent);
@@ -87,7 +88,7 @@ abstract class ComplexDisplay extends SubManager
      */
     static function launch($type, $application, $add_breadcrumb = true)
     {
-        $file = dirname(__FILE__) . '/../content_object/' . $type . '/display/' . $type . '_display.class.php';
+        $file = dirname(__FILE__) . '/../../../content_object/' . $type . '/php/display/' . $type . '_display.class.php';
         if (! file_exists($file))
         {
             throw new Exception(Translation :: get('ComplexDisplayTypeDoesNotExist', array('type' => $type)));
@@ -95,7 +96,7 @@ abstract class ComplexDisplay extends SubManager
 
         require_once $file;
 
-        $class = Utilities :: underscores_to_camelcase($type) . 'Display';
+        $class = 'repository\\content_object\\' . $type . '\\' . Utilities :: underscores_to_camelcase($type) . 'Display';
 
         parent :: launch($class, $application, $add_breadcrumb);
     }

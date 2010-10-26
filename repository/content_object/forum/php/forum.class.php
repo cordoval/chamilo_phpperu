@@ -6,6 +6,8 @@ use common\libraries\EqualityCondition;
 use common\libraries\ComplexContentObjectSupport;
 
 use repository\ContentObject;
+use repository\RepositoryDataManager;
+use repository\ComplexContentObjectItem;
 
 /**
  * $Id: forum.class.php 200 2009-11-13 12:30:04Z kariboe $

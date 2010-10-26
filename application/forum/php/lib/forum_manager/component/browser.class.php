@@ -1,6 +1,7 @@
 <?php
 namespace application\forum;
 
+use repository\content_object\forum\ForumDisplay;
 use common\libraries\Translation;
 use common\libraries\Display;
 use common\libraries\EqualityCondition;
@@ -9,13 +10,14 @@ use user\UserDataManager;
 use repository\RepositoryDataManager;
 use repository\content_object\forum\Forum;
 use repository\ComplexDisplay;
-use repository\content_object\forum\ForumDisplay;
 use common\libraries\Utilities;
 use common\libraries\Theme;
 use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use common\libraries\ActionBarRenderer;
 use HTML_Table;
+use common\libraries\WebApplication;
+
 
 /**
  * $Id: browser.class.php 195 2009-11-13 12:02:41Z chellee $
