@@ -4,8 +4,13 @@ namespace common\extensions\external_repository_manager\implementation\photobuck
 use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\Session;
+use common\libraries\Utilities;
+use common\libraries\ArrayResultSet;
 
 use common\extensions\external_repository_manager\ExternalRepositoryConnector;
+use common\extensions\external_repository_manager\ExternalRepositoryObject;
+
+use repository\RepositoryDataManager;
 use repository\ExternalRepositorySetting;
 use repository\ExternalRepositoryUserSetting;
 
@@ -69,6 +74,7 @@ class PhotobucketExternalRepositoryConnector extends ExternalRepositoryConnector
                 $session_array = serialize($session_array);
                 
                 $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('session', $this->get_external_repository_instance_id());
+                dump($setting);
                 $user_setting = new ExternalRepositoryUserSetting();
                 $user_setting->set_setting_id($setting->get_id());
                 $user_setting->set_user_id(Session :: get_user_id());
@@ -165,7 +171,7 @@ class PhotobucketExternalRepositoryConnector extends ExternalRepositoryConnector
 
     function set_photo_object($data)
     {
-        $object = new PhotobucketExternalRepositoryObject();
+    	$object = new PhotobucketExternalRepositoryObject();       
         $object->set_id(urlencode($data['url']));
         $object->set_title($data['title']);
         $object->set_description($data['description']);

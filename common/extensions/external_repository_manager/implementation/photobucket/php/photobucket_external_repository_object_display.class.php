@@ -2,6 +2,7 @@
 namespace common\extensions\external_repository_manager\implementation\photobucket;
 
 use common\libraries\Translation;
+use common\extensions\external_repository_manager\ExternalRepositoryObjectDisplay;
 
 class PhotobucketExternalRepositoryObjectDisplay extends ExternalRepositoryObjectDisplay
 {		
