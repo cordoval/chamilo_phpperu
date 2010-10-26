@@ -3,6 +3,9 @@ namespace repository\content_object\forum;
 
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
+use repository\RepositoryDataManager;
+use repository\ComplexDisplay;
+use repository\ComplexContentObjectItem;
 
 /**
  * $Id: forum_post_deleter.class.php 200 2009-11-13 12:30:04Z kariboe $

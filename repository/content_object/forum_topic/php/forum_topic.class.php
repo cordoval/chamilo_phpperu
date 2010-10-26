@@ -9,6 +9,9 @@ use common\libraries\ObjectTableOrder;
 use common\libraries\ComplexContentObjectSupport;
 
 use repository\ContentObject;
+use repository\RepositoryDataManager;
+use repository\ComplexContentObjectItem;
+use repository\content_object\forum_post\ForumPost;
 
 /**
  * $Id: forum_topic.class.php 200 2009-11-13 12:30:04Z kariboe $
