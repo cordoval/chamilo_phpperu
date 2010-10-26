@@ -7,6 +7,9 @@ use common\libraries\InCondition;
 use common\libraries\PatternMatchCondition;
 use common\libraries\OrCondition;
 use common\libraries\AndCondition;
+use common\libraries\InequalityCondition;
+use HTML_Table;
+use common\libraries\Theme;
 /**
  * $Id: reservations_calendar_day_renderer.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.calendar
