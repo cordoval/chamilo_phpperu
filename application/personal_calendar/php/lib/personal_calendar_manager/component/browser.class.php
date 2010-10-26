@@ -133,12 +133,12 @@ class PersonalCalendarManagerBrowserComponent extends PersonalCalendarManager
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         
-        if(PersonalCalendarRights :: is_allowed_in_personal_calendar_subtree(PersonalCalendarRights :: RIGHT_PUBLISH, PersonalCalendarRights :: get_personal_calendar_subtree_root()))
+        if(PersonalCalendarRights :: is_allowed(PersonalCalendarRights :: RIGHT_PUBLISH, PersonalCalendarRights :: get_root()))
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_CREATE_PUBLICATION))));
         }
         
-        if(PersonalCalendarRights :: is_allowed_in_personal_calendar_subtree(PersonalCalendarRights :: RIGHT_SHARE, PersonalCalendarRights :: get_personal_calendar_subtree_root()))
+        if(PersonalCalendarRights :: is_allowed(PersonalCalendarRights :: RIGHT_SHARE, PersonalCalendarRights :: get_root()))
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('ImportIcal'), Theme :: get_common_image_path() . 'action_import.png', $this->get_ical_import_url()));
         }
