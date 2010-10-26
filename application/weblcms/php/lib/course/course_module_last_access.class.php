@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\DataClass;
+
 /**
  * $Id: course_module_last_access.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.course
@@ -14,7 +16,7 @@ namespace application\weblcms;
 class CourseModuleLastAccess extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-
+    
     /**
      * CourseModuleLastAccess properties
      */

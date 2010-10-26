@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\document;
 
+use application\weblcms\ToolComponent;
+use common\libraries\Translation;
+
 /**
  * $Id: document_publisher.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.document.component
@@ -21,7 +24,7 @@ class DocumentToolPublisherComponent extends DocumentTool
 
     function get_additional_parameters()
     {
-        return array(RepoViewer::PARAM_ID, RepoViewer::PARAM_ACTION);
+        return array(RepoViewer :: PARAM_ID, RepoViewer :: PARAM_ACTION);
     }
 }
 ?>

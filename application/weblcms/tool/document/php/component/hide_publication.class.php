@@ -1,5 +1,8 @@
 <?php
+
 namespace application\weblcms\tool\document;
+
+use application\weblcms\ToolComponent;
 
 class DocumentToolHidePublicationComponent extends DocumentTool
 {

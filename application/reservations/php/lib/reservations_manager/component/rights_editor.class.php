@@ -29,7 +29,7 @@ class ReservationsManagerRightsEditorComponent extends ReservationsManager
         
         $type = Request :: get('type');
         
-        if ($type == 'category')
+        if ($type == ReservationsRights :: TYPE_CATEGORY)
         {
             $trail->add(new Breadcrumb(parent :: get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_CATEGORIES)), Translation :: get('ManageCategories')));
         }
@@ -55,7 +55,7 @@ class ReservationsManagerRightsEditorComponent extends ReservationsManager
         $type = Request :: get('type');
         $rights = array();
         
-        if ($type == 'category')
+        if ($type == ReservationsRights :: TYPE_CATEGORY)
         {
             $rights['VIEW_RIGHT'] = ReservationsRights :: VIEW_RIGHT;
             $rights['MAKE_RESERVATION_RIGHT'] = ReservationsRights :: MAKE_RESERVATION_RIGHT;

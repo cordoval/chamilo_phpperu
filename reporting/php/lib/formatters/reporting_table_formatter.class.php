@@ -2,6 +2,7 @@
 namespace reporting;
 
 use common\libraries\Request;
+use common\libraries\SortableTableFromArray;
 
 /**
  * $Id: reporting_table_formatter.class.php 215 2009-11-13 14:07:59Z vanpouckesven $

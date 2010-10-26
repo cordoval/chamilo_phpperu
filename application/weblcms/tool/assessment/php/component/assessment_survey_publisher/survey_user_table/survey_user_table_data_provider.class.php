@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use common\libraries\ObjectTableDataProvider;
+
 /**
  * $Id: survey_user_table_data_provider.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.assessment.component.assessment_survey_publisher.survey_user_table

@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\wiki;
 
+use application\weblcms\ToolComponent;
+use common\libraries\Translation;
 
 class WikiToolViewerComponent extends WikiTool
 {

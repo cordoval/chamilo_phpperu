@@ -1,11 +1,12 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\DataClass;
+
 /**
  * $Id: content_object_publication_course_group.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms
  */
-
 
 /**
  * This class describes a ContentObjectPublicationCourseGroup data object

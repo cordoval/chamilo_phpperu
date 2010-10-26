@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Translation;
+
 /**
  * $Id: course_category_browser_table_cell_renderer.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms.weblcms_manager.component.course_category_browser
@@ -8,7 +10,6 @@ namespace application\weblcms;
 require_once dirname(__FILE__) . '/course_category_browser_table_column_model.class.php';
 require_once dirname(__FILE__) . '/../../../course/course_category_table/default_course_category_table_cell_renderer.class.php';
 require_once dirname(__FILE__) . '/../../../course/course_category.class.php';
-require_once dirname(__FILE__) . '/../../weblcms_manager.class.php';
 /**
  * Cell rendere for the learning object browser table
  */
@@ -55,20 +56,9 @@ class CourseCategoryBrowserTableCellRenderer extends DefaultCourseCategoryTableC
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
-        $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Edit'),
-        		Theme :: get_common_image_path() . 'action_edit.png',
-        		$this->browser->get_course_category_edit_url($coursecategory),
-        		ToolbarItem :: DISPLAY_ICON
-        ));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_course_category_edit_url($coursecategory), ToolbarItem :: DISPLAY_ICON));
         
-        $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Delete'),
-        		Theme :: get_common_image_path() . 'action_delete.png',
-        		$this->browser->get_course_category_delete_url($coursecategory),
-        		ToolbarItem :: DISPLAY_ICON,
-        		true
-        ));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_course_category_delete_url($coursecategory), ToolbarItem :: DISPLAY_ICON, true));
         
         return $toolbar->as_html();
     }

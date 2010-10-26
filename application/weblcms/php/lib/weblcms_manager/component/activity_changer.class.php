@@ -1,12 +1,12 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Translation;
+
 /**
  * $Id: activity_changer.class.php 213 2009-11-13 13:38:50Z vanpouckesven $
  * @package weblcms.lib.weblcms_manager.component
  */
-
-require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
 
 /**
  * Component for change of activity
@@ -36,7 +36,7 @@ class WeblcmsManagerActivityChangerComponent extends WeblcmsManager
         //else
         if (($type == 'course_type' && $course_type_ids) || ($type == 'all'))
         {
-                    $this->change_course_type_activity($course_type_ids);
+            $this->change_course_type_activity($course_type_ids);
         }
         
         else
@@ -45,8 +45,9 @@ class WeblcmsManagerActivityChangerComponent extends WeblcmsManager
             $this->display_error_message(Translation :: get("NoCourseTypeSelected"));
             $this->display_footer();
         }
-        
+    
     }
+
     /**
      * Function to change the activity of course_types
      * @param Array of course_type_ids

@@ -1,11 +1,12 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Translation;
+
 /**
  * $Id: course_deleter.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms.weblcms_manager.component
  */
-require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
 
 /**
  * Repository manager component which provides functionality to delete a course
@@ -18,14 +19,13 @@ class WeblcmsManagerCourseDeleterComponent extends WeblcmsManager
      */
     function run()
     {
-    	$wdm = WeblcmsDataManager :: get_instance();
+        $wdm = WeblcmsDataManager :: get_instance();
         $course_codes = Request :: get(WeblcmsManager :: PARAM_COURSE);
         $failures = 0;
         
         if (! $this->get_user()->is_platform_admin())
         {
             $trail = BreadcrumbTrail :: get_instance();
-            
             
             $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed"));
@@ -83,7 +83,7 @@ class WeblcmsManagerCourseDeleterComponent extends WeblcmsManager
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-
+        
         $breadcrumbtrail->add_help('weblcms_course_deleter');
     }
 

@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\DataClass;
+
 /**
  * $Id: course_type_tool.class.php 216 2010-02-26 14:08:06Z Tristan $
  * @package application.lib.weblcms.course_type
@@ -97,7 +99,7 @@ class CourseTypeTool extends DataClass
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
-    
+
 }
 
 ?>

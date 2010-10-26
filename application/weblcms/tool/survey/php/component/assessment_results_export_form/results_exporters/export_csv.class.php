@@ -59,9 +59,11 @@ class ResultsCsvExport extends ResultsExport
         $this->data[] = $this->currentrow;
         $this->currentrow = array();
         $this->data[] = $this->currentrow;
-        $this->currentrow = array(self :: PROPERTY_USERNAME, self :: PROPERTY_RESULT, self :: PROPERTY_DATE_TIME_TAKEN, self :: PROPERTY_QUESTION_TITLE, self :: PROPERTY_QUESTION_DESCRIPTION, self :: PROPERTY_QUESTION_TYPE, self :: PROPERTY_WEIGHT, //self :: PROPERTY_FEEDBACK_TITLE,
-        //self :: PROPERTY_FEEDBACK_DESCRIPTION,
-        self :: PROPERTY_ANSWER, self :: PROPERTY_SCORE, 'feedback');
+        $this->currentrow = array(
+                self :: PROPERTY_USERNAME, self :: PROPERTY_RESULT, self :: PROPERTY_DATE_TIME_TAKEN, self :: PROPERTY_QUESTION_TITLE, self :: PROPERTY_QUESTION_DESCRIPTION, self :: PROPERTY_QUESTION_TYPE, self :: PROPERTY_WEIGHT, //self :: PROPERTY_FEEDBACK_TITLE,
+//self :: PROPERTY_FEEDBACK_DESCRIPTION,
+                self :: PROPERTY_ANSWER, self :: PROPERTY_SCORE, 
+                'feedback');
         $this->data[] = $this->currentrow;
         $this->currentrow = array();
     }

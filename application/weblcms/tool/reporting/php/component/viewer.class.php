@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\reporting;
 
+use common\libraries\Translation;
 
 /**
  * $Id: reporting_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -17,18 +18,18 @@ class ReportingToolViewerComponent extends ReportingTool
     {
         $trail = BreadcrumbTrail :: get_instance();
         $rtv = ReportingViewer :: construct($this);
-
+        
         $template_id = Request :: get(ReportingManager :: PARAM_TEMPLATE_ID);
-
-        if (!isset($template_id))
+        
+        if (! isset($template_id))
         {
-            $rtv->add_template_by_name('course_student_tracker_reporting_template', WeblcmsManager::APPLICATION_NAME);
+            $rtv->add_template_by_name('course_student_tracker_reporting_template', WeblcmsManager :: APPLICATION_NAME);
         }
         else
         {
             $rtv->add_template_by_id($template_id);
         }
-
+        
         $rtv->show_all_blocks();
         $rtv->run();
     }
@@ -45,7 +46,7 @@ class ReportingToolViewerComponent extends ReportingTool
 
       $this->set_parameters($parameters);
       } */
-
+    
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_BROWSE)), Translation :: get('ReportingToolBrowserComponent')));

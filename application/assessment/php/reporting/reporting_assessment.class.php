@@ -11,6 +11,7 @@ use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;
 use repository\content_object\assessment\Assessment;
+use common\libraries\DatetimeUtilities;
 /**
  * $Id: reporting_assessment.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.reporting
@@ -18,9 +19,9 @@ use repository\content_object\assessment\Assessment;
 /**
  * @author Sven Vanpoucke
  */
-require_once dirname(__FILE__) . '/../assessment_data_manager.class.php';
-require_once dirname(__FILE__) . '/../data_manager/database_assessment_data_manager.class.php';
-require_once dirname(__FILE__) . '/../assessment_manager/assessment_manager.class.php';
+require_once dirname(__FILE__) . '/../lib/assessment_data_manager.class.php';
+require_once dirname(__FILE__) . '/../lib/data_manager/database_assessment_data_manager.class.php';
+require_once dirname(__FILE__) . '/../lib/assessment_manager/assessment_manager.class.php';
 require_once dirname(__FILE__) . '/../trackers/assessment_assessment_attempts_tracker.class.php';
 
 class ReportingAssessment

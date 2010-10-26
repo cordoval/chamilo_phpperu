@@ -1,6 +1,10 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use common\libraries\Path;
+use common\libraries\ObjectTableColumnModel;
+use common\libraries\Translation;
+
 /**
  * $Id: assessment_results_table_overview_column_model.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.assessment.component.assessment_results_table_admin

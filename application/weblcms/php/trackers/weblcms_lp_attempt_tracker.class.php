@@ -7,7 +7,7 @@ namespace application\weblcms;
 class WeblcmsLpAttemptTracker extends SimpleTracker
 {
     const CLASS_NAME = __CLASS__;
-
+    
     const PROPERTY_USER_ID = 'user_id';
     const PROPERTY_COURSE_ID = 'course_id';
     const PROPERTY_LP_ID = 'lp_id';
@@ -72,23 +72,24 @@ class WeblcmsLpAttemptTracker extends SimpleTracker
     function delete()
     {
         $succes = parent :: delete();
-
+        
         $condition = new EqualityCondition(WeblcmsLpiAttemptTracker :: PROPERTY_LP_VIEW_ID, $this->get_id());
         $dummy = new WeblcmsLpiAttemptTracker();
         $trackers = $dummy->retrieve_tracker_items($condition);
-
+        
         foreach ($trackers as $tracker)
         {
             $succes &= $tracker->delete();
         }
-
+        
         return $succes;
     }
 
     static function get_table_name()
     {
         return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+    
+     //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 }
 ?>

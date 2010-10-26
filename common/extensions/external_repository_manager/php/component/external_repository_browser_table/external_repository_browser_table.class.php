@@ -2,8 +2,8 @@
 namespace common\extensions\external_repository_manager;
 
 use common\libraries\Utilities;
-use common\libraries\ObjectTable;
 use common\libraries\Path;
+use common\libraries\ObjectTable;
 
 class ExternalRepositoryBrowserTable extends ObjectTable
 {

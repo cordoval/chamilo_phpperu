@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\geolocation;
 
+use application\weblcms\ToolComponent;
+use common\libraries\Translation;
+
 /**
  * $Id: geolocation_publisher.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.geolocation.component
@@ -21,7 +24,7 @@ class GeolocationToolPublisherComponent extends GeolocationTool
 
     function get_additional_parameters()
     {
-        return array(RepoViewer::PARAM_ID, RepoViewer::PARAM_ACTION);
+        return array(RepoViewer :: PARAM_ID, RepoViewer :: PARAM_ACTION);
     }
 }
 ?>

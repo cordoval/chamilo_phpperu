@@ -1,4 +1,8 @@
 <?php
+namespace application\weblcms\tool\announcement;
+
+use application\weblcms\ToolComponent;
+
 class AnnouncementToolShowPublicationComponent extends AnnouncementTool
 {
 

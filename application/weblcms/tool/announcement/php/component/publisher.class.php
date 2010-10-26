@@ -1,4 +1,8 @@
 <?php
+namespace application\weblcms\tool\announcement;
+
+use application\weblcms\ToolComponent;
+use common\libraries\Translation;
 
 class AnnouncementToolPublisherComponent extends AnnouncementTool
 {
@@ -10,12 +14,12 @@ class AnnouncementToolPublisherComponent extends AnnouncementTool
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(AnnouncementToolPublisherComponent::PARAM_ACTION => AnnouncementToolPublisherComponent::ACTION_BROWSE)), Translation :: get('AnnouncementToolBrowserComponent')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(AnnouncementToolPublisherComponent :: PARAM_ACTION => AnnouncementToolPublisherComponent :: ACTION_BROWSE)), Translation :: get('AnnouncementToolBrowserComponent')));
     }
 
     function get_additional_parameters()
     {
-        return array(RepoViewer::PARAM_ID, RepoViewer::PARAM_ACTION);
+        return array(RepoViewer :: PARAM_ID, RepoViewer :: PARAM_ACTION);
     }
 
 }

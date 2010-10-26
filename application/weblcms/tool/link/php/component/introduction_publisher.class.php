@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\link;
 
+use application\weblcms\ToolComponent;
+use common\libraries\Translation;
 
 class LinkToolIntroductionPublisherComponent extends LinkTool
 {

@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use application\weblcms\ToolComponent;
+use common\libraries\DelegateComponent;
+use common\libraries\Translation;
 
 class AssessmentToolRightsEditorComponent extends AssessmentTool implements DelegateComponent
 {
@@ -20,7 +23,7 @@ class AssessmentToolRightsEditorComponent extends AssessmentTool implements Dele
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_BROWSE)), Translation :: get('AssessmentToolBrowserComponent')));
         if (Request :: get(WeblcmsManager :: PARAM_PUBLICATION))
         {
-            $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW, Tool :: PARAM_PUBLICATION_ID => Request::get(Tool :: PARAM_PUBLICATION_ID))), Translation :: get('AssessmentToolViewerComponent')));
+            $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW, Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), Translation :: get('AssessmentToolViewerComponent')));
         }
     }
 

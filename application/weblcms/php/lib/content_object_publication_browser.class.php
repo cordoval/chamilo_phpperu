@@ -10,9 +10,9 @@ require_once dirname(__FILE__) . '/browser/content_object_publication_category_t
 
 /**
 ==============================================================================
- *	This class allows the user to browse through learning object publications.
+ * This class allows the user to browse through learning object publications.
  *
- *	@author Tim De Pauw
+ * @author Tim De Pauw
 ==============================================================================
  */
 abstract class ContentObjectPublicationBrowser
@@ -22,34 +22,34 @@ abstract class ContentObjectPublicationBrowser
      * displayed.
      */
     private $types;
-
+    
     /**
      * The ID of the category that is currently active.
      */
     private $category;
-
+    
     /**
      * The list renderer used to display objects.
      */
     protected $listRenderer;
-
+    
     /**
      * The tree view used to display categories.
      */
     private $categoryTree;
-
+    
     /**
      * The tool that instantiated this browser.
      */
     private $parent;
-
+    
     private $publication_id;
 
     /**
      * Constructor.
      * @param Tool $parent The tool that instantiated this browser.
      * @param mixed $types The types of learning objects for which
-     *                     publications need to be displayed.
+     * publications need to be displayed.
      */
     function ContentObjectPublicationBrowser($parent, $types)
     {
@@ -223,7 +223,7 @@ abstract class ContentObjectPublicationBrowser
      * @param int $count The maximum number of publications to return.
      * @param int $column The index of the column to sort the table on.
      * @param int $direction The sorting direction; either SORT_ASC or
-     *                       SORT_DESC.
+     * SORT_DESC.
      * @return array The learning object publications.
      */
     abstract function get_publications($from, $count, $column, $direction);

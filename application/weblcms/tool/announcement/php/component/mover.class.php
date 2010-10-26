@@ -1,4 +1,8 @@
 <?php
+namespace application\weblcms\tool\announcement;
+
+use application\weblcms\ToolComponent;
+
 class AnnouncementToolMoverComponent extends AnnouncementTool
 {
 
@@ -9,7 +13,7 @@ class AnnouncementToolMoverComponent extends AnnouncementTool
 
     function get_move_direction()
     {
-        return Request::get(Tool::PARAM_MOVE_DIRECTION);
+        return Request :: get(Tool :: PARAM_MOVE_DIRECTION);
     }
 }
 ?>

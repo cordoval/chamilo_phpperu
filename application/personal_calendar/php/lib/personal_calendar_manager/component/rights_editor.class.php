@@ -24,7 +24,7 @@ class PersonalCalendarManagerRightsEditorComponent extends PersonalCalendarManag
     function run()
     {
         $locations = array();
-        $locations[] = PersonalCalendarRights :: get_personal_calendar_subtree_root();
+        $locations[] = PersonalCalendarRights :: get_root();
 
         if($this->get_user()->is_platform_admin())
         {

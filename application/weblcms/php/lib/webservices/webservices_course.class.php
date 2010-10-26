@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Translation;
+
 /**
  * $Id: webservices_course.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms.webservices
@@ -16,7 +18,7 @@ namespace application\weblcms;
  * get_course:
  *  -input: A Course object with the property 'visual_code' filled in.
  *  -output: The full corresponding Course object with all the available properties filled in.
- * 
+ *
  * delete_course:
  *  -input: A Course object with the property 'visual_code' filled in.
  *  -output: Nothing.
@@ -88,7 +90,6 @@ require_once dirname(__FILE__) . '/../../../../user/lib/data_manager/database.cl
 require_once dirname(__FILE__) . '/../data_manager/database.class.php';
 require_once dirname(__FILE__) . '/../../../../repository/lib/content_object.class.php';
 require_once dirname(__FILE__) . '/../content_object_publication.class.php';
-require_once dirname(__FILE__) . '/../weblcms_manager/weblcms_manager.class.php';
 
 ini_set('max_execution_time', - 1);
 ini_set('memory_limit', - 1);

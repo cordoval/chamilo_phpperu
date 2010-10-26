@@ -338,9 +338,12 @@ abstract class Installer
     function register_reporting()
     {
         $application = $this->get_application();
-        
-        $base_path = (WebApplication :: is_application($application) ? WebApplication :: get_application_class_path($application) : CoreApplication :: get_application_class_path($application));
-                
+
+        $is_web_application = WebApplication :: is_application($application);
+        $base_path = ($is_web_application ? WebApplication :: get_application_class_path($application) : CoreApplication :: get_application_class_path($application));
+        $namespace = $is_web_application ? 'application\\' . $application : $application;
+        $namespace .= '\\';
+
         $dirblock = $base_path . 'reporting/blocks';
         if (is_dir($dirblock))
         {
@@ -353,7 +356,7 @@ abstract class Installer
                     {
                         require_once ($file);
                         $bla = explode('.', basename($file));
-                        $classname = Utilities :: underscores_to_camelcase($bla[0]);
+                        $classname = $namespace . Utilities :: underscores_to_camelcase($bla[0]);
                         $block = $bla[0];
                         //$method = new ReflectionMethod($classname, 'get_properties');
                         //$props = $method->invoke(null);
@@ -386,7 +389,7 @@ abstract class Installer
                     {
                         require_once ($file);
                         $bla = explode('.', basename($file));
-                        $classname = Utilities :: underscores_to_camelcase($bla[0]);
+                        $classname = $namespace . Utilities :: underscores_to_camelcase($bla[0]);
                         $template = $bla[0];
                         $props = array();
                         $props[ReportingTemplateRegistration :: PROPERTY_PLATFORM] = call_user_func(array($classname, 'is_platform'));

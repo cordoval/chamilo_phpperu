@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Path;
+use common\libraries\Translation;
+
 /**
  * $Id: course_validator.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.validator
@@ -55,32 +58,32 @@ class CourseValidator extends Validator
     function validate_retrieve(&$courseProperties)
     {
         $this->errorSource = Translation :: get('ErrorRetreivingCourse');
-
+        
         if ($courseProperties[visual_code] == null)
         {
             $this->errorMessage = Translation :: get('CoursenameIsRequired');
             return false;
         }
-
+        
         return true;
     }
 
     function validate_create(&$courseProperties)
     {
         $this->errorSource = Translation :: get('ErrorCreatingCourse') . ': ' . $courseProperties[Course :: PROPERTY_VISUAL];
-
+        
         if (! $this->validate_properties($courseProperties, $this->get_required_course_property_names()))
             return false;
-
+        
         if (! $this->validate_property_names($courseProperties, Course :: get_default_property_names()))
             return false;
-
+        
         if (! $this->wdm->is_visual_code_available($courseProperties[Course :: PROPERTY_VISUAL]))
         {
             $this->errorMessage = Translation :: get('VisualCodeIsAlreadyUsed');
             return false; //visual code is required and must be different from existing values
         }
-
+        
         $var = $this->get_category_id($courseProperties[Course :: PROPERTY_CATEGORY]);
         if ($var === false) //checks type and contents
         {
@@ -91,7 +94,7 @@ class CourseValidator extends Validator
         {
             $courseProperties[Course :: PROPERTY_CATEGORY] = $var;
         }
-
+        
         $var = $this->get_person_id($courseProperties[Course :: PROPERTY_TITULAR]);
         if ($var === false)
         {
@@ -102,23 +105,23 @@ class CourseValidator extends Validator
         {
             $courseProperties[Course :: PROPERTY_TITULAR] = $var;
         }
-
+        
         if (! $this->check_quota($courseProperties))
             return false;
-
+        
         return true;
     }
 
     function validate_update(&$courseProperties)
     {
         $this->errorSource = Translation :: get('ErrorUpdatingCourse') . ': ' . $courseProperties[Course :: PROPERTY_VISUAL];
-
+        
         if (! $this->validate_properties($courseProperties, $this->get_required_course_property_names()))
             return false;
-
+        
         if (! $this->validate_property_names($courseProperties, Course :: get_default_property_names()))
             return false;
-
+        
         $var = $this->get_course_id($courseProperties[Course :: PROPERTY_VISUAL]);
         if ($var === false)
         {
@@ -129,7 +132,7 @@ class CourseValidator extends Validator
         {
             $courseProperties[Course :: PROPERTY_ID] = $var;
         }
-
+        
         $var = $this->get_person_id($courseProperties[Course :: PROPERTY_TITULAR]);
         if ($var === false)
         {
@@ -140,20 +143,20 @@ class CourseValidator extends Validator
         {
             $courseProperties[Course :: PROPERTY_TITULAR] = $var;
         }
-
+        
         if (! $this->check_quota($courseProperties))
             return false;
-
+        
         return true;
     }
 
     function validate_delete(&$courseProperties)
     {
         $this->errorSource = Translation :: get('ErrorDeletingCourse') . ': ' . $courseProperties[Course :: PROPERTY_VISUAL];
-
+        
         if (! $this->validate_property_names($courseProperties, Course :: get_default_property_names()))
             return false;
-
+        
         $var = $this->get_course_id($courseProperties[Course :: PROPERTY_VISUAL]);
         if ($var === false)
         {
@@ -164,20 +167,20 @@ class CourseValidator extends Validator
         {
             $courseProperties[Course :: PROPERTY_ID] = $var;
         }
-
+        
         return true;
     }
 
     function validate_subscribe_user(&$input_course_rel_user)
     {
         $this->errorSource = Translation :: get('ErrorSubscribingUser') . ' ' . $input_course_rel_user[user_id] . ' ' . Translation :: get('toCourse') . ' ' . $input_course_rel_user[CourseUserRelation :: PROPERTY_COURSE_GROUP];
-
+        
         if (! $this->validate_properties($input_course_rel_user, $this->get_required_course_rel_user_property_names()))
             return false;
-
+        
         if (! $this->validate_property_names($input_course_rel_user, CourseUserRelation :: get_default_property_names()))
             return false;
-
+        
         $var = $this->get_person_id($input_course_rel_user[user_id]);
         if ($var == false)
         {
@@ -186,7 +189,7 @@ class CourseValidator extends Validator
         }
         else
             $input_course_rel_user[user_id] = $var;
-
+        
         $var = $this->get_person_id($input_course_rel_user[tutor_id]);
         if ($var == false)
         {
@@ -195,7 +198,7 @@ class CourseValidator extends Validator
         }
         else
             $input_course_rel_user[tutor_id] = $var;
-
+        
         $var = $this->get_course_group_id($input_course_rel_user[CourseUserRelation :: PROPERTY_COURSE_GROUP]);
         if ($var == false)
         {
@@ -204,7 +207,7 @@ class CourseValidator extends Validator
         }
         else
             $input_course_rel_user[CourseUserRelation :: PROPERTY_COURSE_GROUP] = $var;
-
+        
         $var = $this->get_course_id($input_course_rel_user[course_code]);
         if ($var == false)
         {
@@ -213,20 +216,20 @@ class CourseValidator extends Validator
         }
         else
             $input_course_rel_user[course_code] = $var;
-
+        
         return $this->validate_subscribe($input_course_rel_user[course_code]);
     }
 
     function validate_unsubscribe_user(&$input_course_rel_user)
     {
         $this->errorSource = Translation :: get('ErrorSubscribingUser') . ' ' . $input_course_rel_user[user_id] . ' ' . Translation :: get('toCourse') . ' ' . $input_course_rel_user[CourseUserRelation :: PROPERTY_COURSE_GROUP];
-
+        
         if (! $this->validate_properties($input_course_rel_user, $this->get_required_course_rel_user_property_names()))
             return false;
-
+        
         if (! $this->validate_property_names($input_course_rel_user, CourseUserRelation :: get_default_property_names()))
             return false;
-
+        
         $var = $this->get_person_id($input_course_rel_user[user_id]);
         if ($var == false)
         {
@@ -235,7 +238,7 @@ class CourseValidator extends Validator
         }
         else
             $input_course_rel_user[user_id] = $var;
-
+        
         $var = $this->get_person_id($input_course_rel_user[tutor_id]);
         if ($var == false)
         {
@@ -244,7 +247,7 @@ class CourseValidator extends Validator
         }
         else
             $input_course_rel_user[tutor_id] = $var;
-
+        
         $var = $this->get_course_id($input_course_rel_user[course_code]);
         if ($var == false)
         {
@@ -253,21 +256,21 @@ class CourseValidator extends Validator
         }
         else
             $input_course_rel_user[course_code] = $var2;
-
+        
         return $this->validate_unsubscribe($input_course_rel_user[course_code]);
-
+    
     }
 
     function validate_subscribe_group(&$input_course_group)
     {
         $this->errorSource = Translation :: get('ErrorSubscribingGroup') . ' ' . $input_course_group[CourseGroup :: PROPERTY_NAME] . ' ' . Translation :: get('toCourse') . ' ' . $input_course_group[CourseGroup :: PROPERTY_COURSE_CODE];
-
+        
         if (! $this->validate_properties($input_course_group, $this->get_required_course_group_property_names()))
             return false;
-
+        
         if (! $this->validate_property_names($input_course_group, CourseGroup :: get_default_property_names()))
             return false;
-
+        
         $var = $this->get_course_id($input_course_group[course_code]);
         if ($var == false)
         {
@@ -276,20 +279,20 @@ class CourseValidator extends Validator
         }
         else
             $input_course_group[course_code] = $var;
-
+        
         return $this->validate_subscribe($input_course_group[course_code]);
     }
 
     function validate_unsubscribe_group(&$input_course_group)
     {
         $this->errorSource = Translation :: get('ErrorUnsubscribingGroup') . ' ' . $input_course_group[CourseGroup :: PROPERTY_NAME] . ' ' . Translation :: get('toCourse') . ' ' . $input_course_group[CourseGroup :: PROPERTY_COURSE_CODE];
-
+        
         if (! $this->validate_properties($input_course_group, $this->get_required_course_group_property_names()))
             return false;
-
+        
         if (! $this->validate_property_names($input_course_group, CourseGroup :: get_default_property_names()))
             return false;
-
+        
         $var = $this->get_course_id($input_course_group[course_code]);
         if ($var == false)
         {
@@ -298,7 +301,7 @@ class CourseValidator extends Validator
         }
         else
             $input_course_group[course_code] = $var;
-
+        
         $var = $this->get_course_group_id($input_course_group[name]);
         if ($var == false)
         {
@@ -307,7 +310,7 @@ class CourseValidator extends Validator
         }
         else
             $input_course_group[id] = $var;
-
+        
         return $this->validate_unsubscribe($input_course_group[course_code]);
     }
 
@@ -330,13 +333,13 @@ class CourseValidator extends Validator
         {
             return false;
         }
-
+    
     }
 
     private function validate_unsubscribe(&$course_code)
     {
         $course = $this->wdm->retrieve_course($course_code);
-
+        
         if (! empty($course))
         {
             $unsubscribe = $course->get_default_property('unsubscribe');
@@ -353,20 +356,20 @@ class CourseValidator extends Validator
         {
             return false;
         }
-
+    
     }
 
     function validate_get_user_courses(&$input_user)
     {
         if (empty($input_user[USER :: PROPERTY_USERNAME]))
             return false;
-
+        
         $user = $this->get_person_id($input_user[USER :: PROPERTY_USERNAME]);
         if ($user === false)
             return false;
         else
             $input_user[USER :: PROPERTY_ID] = $user;
-
+        
         return true;
     }
 
@@ -374,13 +377,13 @@ class CourseValidator extends Validator
     {
         if (empty($input_course[Course :: PROPERTY_VISUAL]))
             return false;
-
+        
         $course = $this->get_course_id($input_course[Course :: PROPERTY_VISUAL]);
         if ($course === false)
             return false;
         else
             $input_course[Course :: PROPERTY_ID] = $course;
-
+        
         return true;
     }
 
@@ -436,7 +439,7 @@ class CourseValidator extends Validator
     {
         if ($courseProperties[Course :: PROPERTY_DISK_QUOTA] < 0)
             return false;
-
+        
         return true;
     }
 
@@ -444,7 +447,7 @@ class CourseValidator extends Validator
     {
         if ($courseProperties[Course :: PROPERTY_LAST_EDIT] > time() || $courseProperties[Course :: PROPERTY_LAST_VISIT] > time() || $courseProperties[Course :: PROPERTY_CREATION_DATE] > time() || $courseProperties[Course :: PROPERTY_EXPIRATION_DATE] < time())
             return false;
-
+        
         return true;
     }
 

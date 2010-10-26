@@ -14,7 +14,7 @@ require_once 'HTML/Menu/ArrayRenderer.php';
  */
 class SubscribeGroupMenu extends HTML_Menu
 {
-    const TREE_NAME = __CLASS__; 
+    const TREE_NAME = __CLASS__;
     
     /**
      * The string passed to sprintf() to format category URLs
@@ -41,14 +41,14 @@ class SubscribeGroupMenu extends HTML_Menu
      * this menu.
      * @param int $current_category The ID of the current category in the menu.
      * @param string $url_format The format to use for the URL of a category.
-     *                           Passed to sprintf(). Defaults to the string
-     *                           "?category=%s".
+     * Passed to sprintf(). Defaults to the string
+     * "?category=%s".
      * @param array $extra_items An array of extra tree items, added to the
-     *                           root.
+     * root.
      */
     function SubscribeGroupMenu($course, $cur_category, $url_format = '?application=group&go=browse&group=%s', $include_root = true, $show_complete_tree = false, $hide_current_category = false)
     {
-    	$this->course = $course;
+        $this->course = $course;
         $this->include_root = $include_root;
         $this->show_complete_tree = $show_complete_tree;
         $this->hide_current_category = $hide_current_category;
@@ -91,6 +91,7 @@ class SubscribeGroupMenu extends HTML_Menu
             $menu_item['url'] = $this->get_url($group->get_id());
             //$menu_item['url'] = $this->get_home_url($group->get_id());
             
+
             $sub_menu_items = $this->get_menu_items($group->get_id());
             if (count($sub_menu_items) > 0)
             {
@@ -107,10 +108,10 @@ class SubscribeGroupMenu extends HTML_Menu
     /**
      * Returns the menu items.
      * @param array $extra_items An array of extra tree items, added to the
-     *                           root.
+     * root.
      * @return array An array with all menu items. The structure of this array
-     *               is the structure needed by PEAR::HTML_Menu, on which this
-     *               class is based.
+     * is the structure needed by PEAR::HTML_Menu, on which this
+     * class is based.
      */
     private function get_menu_items($parent_id = 0)
     {
@@ -169,7 +170,7 @@ class SubscribeGroupMenu extends HTML_Menu
     private function get_home_url($category)
     {
         // TODO: Put another class in charge of the htmlentities() invocation
-        return htmlentities(str_replace('&'.WeblcmsManager::PARAM_GROUP.'=%s', '', $this->urlFmt));
+        return htmlentities(str_replace('&' . WeblcmsManager :: PARAM_GROUP . '=%s', '', $this->urlFmt));
     }
 
     /**
@@ -198,9 +199,9 @@ class SubscribeGroupMenu extends HTML_Menu
         $this->render($renderer, 'sitemap');
         return $renderer->toHTML();
     }
-    
+
     static function get_tree_name()
     {
-    	return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
+        return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
     }
 }

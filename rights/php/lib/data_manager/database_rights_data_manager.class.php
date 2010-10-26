@@ -110,7 +110,7 @@ class DatabaseRightsDataManager extends Database implements RightsDataManagerInt
         $conditions[] = new EqualityCondition(RightsTemplateRightLocation :: PROPERTY_LOCATION_ID, $location_id);
         $condition = new AndCondition($conditions);
 
-        return $this->retrieve_object(RightsTemplateRightLocation :: get_table_name(), $condition);
+        return $this->retrieve_object(RightsTemplateRightLocation :: get_table_name(), $condition, array(), RightsTemplateRightLocation :: CLASS_NAME);
     }
 
     function retrieve_rights_templates($condition = null, $offset = null, $max_objects = null, $order_by = null)
@@ -569,7 +569,7 @@ class DatabaseRightsDataManager extends Database implements RightsDataManagerInt
         $conditions[] = new EqualityCondition(TypeTemplateRightLocation :: PROPERTY_TYPE, $type);
         $condition = new AndCondition($conditions);
 
-        return $this->retrieve_object(TypeTemplateRightLocation :: get_table_name(), $condition);
+        return $this->retrieve_object(TypeTemplateRightLocation :: get_table_name(), $condition, array(), TypeTemplateRightLocation :: CLASS_NAME);
     }
 
     function retrieve_type_template_right_locations($condition = null, $offset = null, $max_objects = null, $order_by = null)

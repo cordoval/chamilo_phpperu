@@ -1,5 +1,6 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\mediamosa;
+use common\libraries\GalleryObjectTable;
 require_once dirname(__file__) . '/mediamosa_external_repository_gallery_table_cell_renderer.class.php';
 require_once dirname(__file__) . '/mediamosa_external_repository_gallery_table_data_provider.class.php';
 require_once dirname(__file__) . '/mediamosa_external_repository_gallery_table_property_model.class.php';

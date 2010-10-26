@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\glossary;
 
+use application\weblcms\ToolComponent;
+use common\libraries\DelegateComponent;
+use common\libraries\Translation;
 
 class GlossaryToolRightsEditorComponent extends GlossaryTool implements DelegateComponent
 {
@@ -20,13 +23,13 @@ class GlossaryToolRightsEditorComponent extends GlossaryTool implements Delegate
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_BROWSE)), Translation :: get('GlossaryToolBrowserComponent')));
         if (Request :: get(WeblcmsManager :: PARAM_PUBLICATION))
         {
-            $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW, Tool :: PARAM_PUBLICATION_ID => Request::get(Tool :: PARAM_PUBLICATION_ID))), Translation :: get('GlossaryToolViewerComponent')));
+            $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW, Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), Translation :: get('GlossaryToolViewerComponent')));
         }
     }
 
     function get_additional_parameters()
     {
-        return array(RepoViewer::PARAM_ID, RepoViewer::PARAM_ACTION);
+        return array(RepoViewer :: PARAM_ID, RepoViewer :: PARAM_ACTION);
     }
 
 }

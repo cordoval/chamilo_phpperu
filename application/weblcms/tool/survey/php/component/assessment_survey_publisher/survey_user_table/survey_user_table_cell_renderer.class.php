@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use common\libraries\Path;
+use common\libraries\Translation;
+
 /**
  * $Id: survey_user_table_cell_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.assessment.component.assessment_survey_publisher.survey_user_table
@@ -78,13 +81,13 @@ class SurveyUserTableCellRenderer extends DefaultContentObjectTableCellRenderer
 	{
 		$toolbar_data = array();
 		$table_actions = $this->table_actions;
-		
+
 		foreach($table_actions as $table_action)
 		{
 			$table_action['href'] = sprintf($table_action['href'], $content_object->get_id());
 			$toolbar_data[] = $table_action;
 		}
-		
+
 		return Utilities :: build_ toolbar($toolbar_data);
 	}*/
 }

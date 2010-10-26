@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use application\weblcms\ToolComponent;
+use common\libraries\Translation;
 
 class AssessmentToolPublisherComponent extends AssessmentTool
 {
@@ -17,7 +19,7 @@ class AssessmentToolPublisherComponent extends AssessmentTool
 
     function get_additional_parameters()
     {
-        return array(RepoViewer::PARAM_ID, RepoViewer::PARAM_ACTION);
+        return array(RepoViewer :: PARAM_ID, RepoViewer :: PARAM_ACTION);
     }
 }
 ?>

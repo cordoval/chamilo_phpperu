@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\wiki;
 
+use application\weblcms\ToolComponent;
+use common\libraries\DelegateComponent;
+use common\libraries\Translation;
 
 class WikiToolRightsEditorComponent extends WikiTool implements DelegateComponent
 {
@@ -20,13 +23,13 @@ class WikiToolRightsEditorComponent extends WikiTool implements DelegateComponen
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_BROWSE)), Translation :: get('WikiToolBrowserComponent')));
         if (Request :: get(WeblcmsManager :: PARAM_PUBLICATION))
         {
-            $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW, Tool :: PARAM_PUBLICATION_ID => Request::get(Tool :: PARAM_PUBLICATION_ID))), Translation :: get('WikiToolViewerComponent')));
+            $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW, Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), Translation :: get('WikiToolViewerComponent')));
         }
     }
 
     function get_additional_parameters()
     {
-        return array(RepoViewer::PARAM_ID, RepoViewer::PARAM_ACTION);
+        return array(RepoViewer :: PARAM_ID, RepoViewer :: PARAM_ACTION);
     }
 
 }

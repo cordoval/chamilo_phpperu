@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Path;
+use common\libraries\Translation;
 
 /**
  * $Id: course_type_viewer.class.php 218 2010-03-26 14:21:26Z Yannick & Tristan $
@@ -11,26 +13,25 @@ require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.c
 
 class WeblcmsManagerCourseTypeViewerComponent extends WeblcmsManager
 {
-
+    
     private $course_type;
     private $ab;
 
     function run()
     {
         $breadcrumbtrail = BreadcrumbTrail :: get_instance();
-
+        
         $id = Request :: get(WeblcmsManager :: PARAM_COURSE_TYPE);
         if ($id)
         {
             $this->course_type = $this->retrieve_course_type($id);
             $course_type = $this->course_type;
-
-
+            
             $this->display_header();
             $this->ab = $this->get_action_bar();
-
+            
             echo $this->get_browser_html($course_type);
-
+            
             $this->display_footer();
         }
         else
@@ -64,32 +65,32 @@ class WeblcmsManagerCourseTypeViewerComponent extends WeblcmsManager
         $table = new AdminCourseBrowserTable($this, $parameters, $this->get_condition());
         $html = array();
         $html[] = $table->as_html();
-
+        
         return implode("\n", $html);
     }
 
     function get_condition()
     {
         $conditions = array();
-
+        
         $query = $this->ab->get_query();
-
+        
         if (isset($query) && $query != '')
         {
             $conditions = array();
             $conditions[] = new PatternMatchCondition(Course :: PROPERTY_NAME, '*' . $query . '*');
             $conditions[] = new PatternMatchCondition(Course :: PROPERTY_VISUAL, '*' . $query . '*');
             $conditions[] = new PatternMatchCondition(CourseSettings :: PROPERTY_LANGUAGE, '*' . $query . '*', CourseSettings :: get_table_name());
-
+            
             $search_conditions = new OrCondition($conditions);
         }
-
+        
         $condition = null;
-
+        
         if (isset($this->category))
         {
             $condition = new EqualityCondition(Course :: PROPERTY_CATEGORY, $this->category);
-
+            
             if (count($search_conditions))
             {
                 $condition = new AndCondition($condition, $search_conditions);
@@ -102,22 +103,22 @@ class WeblcmsManagerCourseTypeViewerComponent extends WeblcmsManager
                 $condition = $search_conditions;
             }
         }
-
+        
         $course_type_condition = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, $this->course_type->get_id());
-        if (!is_null($condition))
+        if (! is_null($condition))
             $condition = new AndCondition($condition, $course_type_condition);
         else
             $condition = $course_type_condition;
-
+        
         return $condition;
     }
 
     function get_action_bar()
     {
         $course_type = $this->course_type;
-
+        
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-
+        
         $action_bar->set_search_url($this->get_url(array(WeblcmsManager :: PARAM_COURSE_TYPE => $course_type->get_id())));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_course_type_editing_url($course_type), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_course_type_deleting_url($course_type), ToolbarItem :: DISPLAY_ICON_AND_LABEL, true));
@@ -127,7 +128,7 @@ class WeblcmsManagerCourseTypeViewerComponent extends WeblcmsManager
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-
+        
         if ($this->get_user()->is_platform_admin())
         {
             $breadcrumbtrail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));

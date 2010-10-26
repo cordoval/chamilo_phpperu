@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use common\libraries\Translation;
+
 /**
  * $Id: assessment_results_export.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.assessment.component
@@ -56,7 +58,7 @@ class AssessmentToolResultsExportComponent extends AssessmentToolComponent
     }
 
     function export($type, $id, $filetype)
-    {        
+    {
         $results_exporter = ResultsExport :: factory($filetype);
         
         $data = $results_exporter->export_results($type, $id);

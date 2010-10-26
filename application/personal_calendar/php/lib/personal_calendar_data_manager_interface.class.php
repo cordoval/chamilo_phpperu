@@ -55,7 +55,7 @@ interface PersonalCalendarDataManagerInterface
     /**
      * Retrieve a profile publication
      * @param int $id
-     * @return ProfilePublication
+     * @return ProfilerPublication
      */
     function retrieve_personal_calendar_publication($id);
 
@@ -71,14 +71,14 @@ interface PersonalCalendarDataManagerInterface
 
     /**
      * Update the publication
-     * @param ProfilePublication $profile_publication
+     * @param ProfilerPublication $profile_publication
      * @return boolean
      */
     function update_personal_calendar_publication($publication);
 
     /**
      * Delete the publication
-     * @param ProfilePublication $profile_publication
+     * @param ProfilerPublication $profile_publication
      * @return boolean
      */
     function delete_personal_calendar_publication($publication);

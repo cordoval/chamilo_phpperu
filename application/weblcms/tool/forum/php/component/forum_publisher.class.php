@@ -1,7 +1,6 @@
 <?php
 namespace application\weblcms\tool\forum;
 
-
 /**
  * $Id: forum_publisher.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.forum.component
@@ -16,16 +15,15 @@ class ForumToolPublisherComponent extends ForumToolComponent implements RepoView
 
     function run()
     {
-        if (!$this->is_allowed(WeblcmsRights :: ADD_RIGHT))
+        if (! $this->is_allowed(WeblcmsRights :: ADD_RIGHT))
         {
             Display :: not_allowed();
             exit();
         }
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses forum tool');
-
-
-        if (!ContentObjectRepoViewer::is_ready_to_be_published())
+        
+        if (! ContentObjectRepoViewer :: is_ready_to_be_published())
         {
             $pub = ContentObjectRepoViewer :: construct($this);
             $html[] = $pub->as_html();
@@ -34,9 +32,9 @@ class ForumToolPublisherComponent extends ForumToolComponent implements RepoView
         {
             //$html[] = 'ContentObject: ';
             $publisher = new ContentObjectPublisher($pub);
-            $html[] = $publisher->get_publications_form(ContentObjectRepoViewer::get_selected_objects());
+            $html[] = $publisher->get_publications_form(ContentObjectRepoViewer :: get_selected_objects());
         }
-
+        
         $this->display_header();
         echo implode("\n", $html);
         $this->display_footer();
@@ -46,7 +44,7 @@ class ForumToolPublisherComponent extends ForumToolComponent implements RepoView
     {
         return array(Forum :: get_type_name());
     }
-    
+
 }
 
 ?>

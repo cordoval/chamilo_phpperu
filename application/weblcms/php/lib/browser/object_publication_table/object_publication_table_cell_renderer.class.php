@@ -1,13 +1,16 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Path;
+use repository\DefaultContentObjectTableCellRenderer;
+use common\libraries\Translation;
+
 /**
  * $Id: object_publication_table_cell_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.browser.object_publication_table
  */
 require_once Path :: get_repository_path() . 'lib/content_object_table/default_content_object_table_cell_renderer.class.php';
 require_once dirname(__FILE__) . '/object_publication_table_column_model.class.php';
-require_once Path :: get_application_path() . 'lib/weblcms/trackers/weblcms_assessment_attempts_tracker.class.php';
 /**
  * This class is a cell renderer for a publication candidate table
  */
@@ -40,19 +43,19 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
         {
             return $this->get_actions($publication)->as_html();
         }
-
+        
         switch ($column->get_name())
         {
-            case ContentObject :: PROPERTY_TITLE:
-            	
-            	if($publication->get_content_object() instanceof ComplexContentObjectSupport)
-            	{
-            		$details_url = $this->table_renderer->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT));
-               	    return '<a href="'. $details_url .'">' . DefaultContentObjectTableCellRenderer :: render_cell($column, $publication->get_content_object()) . '</a>';
-            	}
-            	
+            case ContentObject :: PROPERTY_TITLE :
+                
+                if ($publication->get_content_object() instanceof ComplexContentObjectSupport)
+                {
+                    $details_url = $this->table_renderer->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT));
+                    return '<a href="' . $details_url . '">' . DefaultContentObjectTableCellRenderer :: render_cell($column, $publication->get_content_object()) . '</a>';
+                }
+                
                 $details_url = $this->table_renderer->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_VIEW));
-                return '<a href="'. $details_url .'">' . parent :: render_cell($column, $publication->get_content_object()) . '</a>';
+                return '<a href="' . $details_url . '">' . parent :: render_cell($column, $publication->get_content_object()) . '</a>';
                 break;
             case ContentObjectPublication :: PROPERTY_PUBLICATION_DATE :
                 $date_format = Translation :: get('dateTimeFormatLong');
@@ -65,16 +68,16 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
             case 'published_for' :
                 $data = $this->render_publication_targets($publication);
                 break;
-            case ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX:
-            	return $publication->get_display_order_index();
-
+            case ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX :
+                return $publication->get_display_order_index();
+        
         }
-
+        
         if (! $data)
         {
             $data = parent :: render_cell($column, $publication->get_content_object());
         }
-
+        
         if ($publication->is_hidden())
         {
             return '<span style="color: gray">' . $data . '</span>';
@@ -107,7 +110,7 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
                     $user = $this->retrieve_user($users[0]);
                     return $user->get_firstname() . ' ' . $user->get_lastname() . $email_suffix;
                 }
-                elseif(count($groups) == 1)
+                elseif (count($groups) == 1)
                 {
                     $gdm = GroupDataManager :: get_instance();
                     $group = $gdm->retrieve_group($groups[0]);

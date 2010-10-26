@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use common\libraries\Path;
+use common\libraries\Translation;
+
 /**
  * $Id: assessment_results_table_overview_cell_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.assessment.component.assessment_results_table_student
@@ -68,9 +71,9 @@ class AssessmentResultsTableOverviewStudentCellRenderer extends DefaultContentOb
 
     function get_actions($publication)
     {
-    	$toolbar = new Toolbar();
-
-        $toolbar->add_item(new ToolbarItem(Translation :: get('ViewResults'), Theme :: get_common_image_path() . 'action_view_results.png', $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())), ToolbarItem::DISPLAY_ICON ));        
+        $toolbar = new Toolbar();
+        
+        $toolbar->add_item(new ToolbarItem(Translation :: get('ViewResults'), Theme :: get_common_image_path() . 'action_view_results.png', $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
         
         return $toolbar->as_html();
     }
@@ -84,16 +87,17 @@ class AssessmentResultsTableOverviewStudentCellRenderer extends DefaultContentOb
     private function get_publish_links($content_object)
     {
         $toolbar = new Toolbar();
-
-        $toolbar->add_item(new ToolbarItem(Translation :: get('ViewResults'), Theme :: get_common_image_path() . 'action_view_results.png', $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())), ToolbarItem::DISPLAY_ICON ));        
-    	
+        
+        $toolbar->add_item(new ToolbarItem(Translation :: get('ViewResults'), Theme :: get_common_image_path() . 'action_view_results.png', $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
+        
         $table_actions = $this->table_actions;
         
         foreach ($table_actions as $table_action)
         {
             //$table_action['href'] = sprintf($table_action['href'], $content_object->get_id());
-            $toolbar->add_item(new ToolbarItem(null,null, sprintf($table_action['href'], $content_object->get_id()), ToolbarItem::DISPLAY_ICON ));
-            //$toolbar_data[] = $table_action;
+            $toolbar->add_item(new ToolbarItem(null, null, sprintf($table_action['href'], $content_object->get_id()), ToolbarItem :: DISPLAY_ICON));
+        
+     //$toolbar_data[] = $table_action;
         }
         
         return $toolbar->as_html();

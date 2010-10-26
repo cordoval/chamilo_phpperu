@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use application\weblcms\ToolComponent;
+
 class SurveyToolMoverComponent extends SurveyTool
 {
 
@@ -11,7 +13,7 @@ class SurveyToolMoverComponent extends SurveyTool
 
     function get_move_direction()
     {
-        return Request::get(Tool::PARAM_MOVE_DIRECTION);
+        return Request :: get(Tool :: PARAM_MOVE_DIRECTION);
     }
 }
 ?>

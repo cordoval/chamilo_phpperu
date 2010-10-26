@@ -16,6 +16,12 @@ use common\libraries\ObjectTableOrder;
 
 use user\UserDataManager;
 
+use repository\ComplexDisplay;
+use repository\RepositoryDataManager;
+use repository\ComplexContentObjectItem;
+use repository\content_object\forum_topic\ForumTopic;
+use HTML_Table;
+
 /**
  * $Id: topic_viewer.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.forum.component

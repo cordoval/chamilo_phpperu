@@ -1,24 +1,25 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\DataClass;
+
 /**
  * $Id: course_user_relation.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.course
  */
-require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
 
 /**
- *	This class represents a course user relation in the weblcms.
+ * This class represents a course user relation in the weblcms.
  *
- *	course user relations have a number of default properties:
- *	- course code: the code of the course;
- *	- user_id: the user's id;
- *	- status: the subscription status (teacher or student);
- *	- role: the user's role;
- *	- course_group_id: the course_group id;
- *  - tutor_id: the id of the tutor;
- *	- sort: the sort order;
- *	- category: the category in which the user has placed the course;
+ * course user relations have a number of default properties:
+ * - course code: the code of the course;
+ * - user_id: the user's id;
+ * - status: the subscription status (teacher or student);
+ * - role: the user's role;
+ * - course_group_id: the course_group id;
+ * - tutor_id: the id of the tutor;
+ * - sort: the sort order;
+ * - category: the category in which the user has placed the course;
  *
  * To access the values of the properties, this class and its subclasses
  * should provide accessor methods. The names of the properties should be

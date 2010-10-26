@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use common\libraries\Path;
+use common\libraries\Translation;
+
 /**
  * $Id: assessment_results_table_overview_cell_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.assessment.component.assessment_results_table_admin
@@ -71,12 +74,12 @@ class AssessmentResultsTableOverviewAdminCellRenderer extends DefaultContentObje
         $assessment = $publication->get_content_object();
         $toolbar = new Toolbar();
         $toolbar->add_item(new ToolbarItem(Translation :: get('ViewResults'), Theme :: get_common_image_path() . 'action_view_results.png', $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
-        $toolbar->add_item(new ToolbarItem(Translation :: get('DeleteAllResults'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_DELETE_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())), ToolbarItem :: DISPLAY_ICON,true));
-        
+        $toolbar->add_item(new ToolbarItem(Translation :: get('DeleteAllResults'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_DELETE_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())), ToolbarItem :: DISPLAY_ICON, true));
         
         if ($assessment->get_assessment_type() == Assessment :: TYPE_ASSIGNMENT)
         {
-			$toolbar->add_item(new ToolbarItem(Translation :: get('DownloadDocuments'), Theme :: get_common_image_path() . 'action_download.png', $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_SAVE_DOCUMENTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('DownloadDocuments'), Theme :: get_common_image_path() . 'action_download.png', $this->browser->get_url(array(
+                    Tool :: PARAM_ACTION => AssessmentTool :: ACTION_SAVE_DOCUMENTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
         }
         
         return $toolbar->as_html();
@@ -97,7 +100,8 @@ class AssessmentResultsTableOverviewAdminCellRenderer extends DefaultContentObje
         {
             $table_action['href'] = sprintf($table_action['href'], $content_object->get_id());
             $toolbar->add_item(new ToolbarItem(null, null, sprintf($table_action['href'], $content_object->get_id()), ToolbarItem :: DISPLAY_ICON));
-            //$toolbar_data[] = $table_action;
+        
+     //$toolbar_data[] = $table_action;
         }
         
         return $toolbar->as_html();

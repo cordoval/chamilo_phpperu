@@ -1,8 +1,9 @@
 <?php
 namespace application\metadata;
+use common\libraries\ToolbarItem;
+use common\libraries\Translation;
 use common\libraries\Application;
 use common\libraries\ActionBarRenderer;
-use common\libraries\ToolbarItem;
 use common\libraries\Theme;
 
 /**

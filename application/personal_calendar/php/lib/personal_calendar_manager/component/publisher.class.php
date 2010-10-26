@@ -26,7 +26,7 @@ class PersonalCalendarManagerPublisherComponent extends PersonalCalendarManager 
      */
     function run()
     {
-        if(! PersonalCalendarRights :: is_allowed_in_personal_calendar_subtree(PersonalCalendarRights :: RIGHT_PUBLISH, PersonalCalendarRights :: get_personal_calendar_subtree_root()))
+        if(! PersonalCalendarRights :: is_allowed(PersonalCalendarRights :: RIGHT_PUBLISH, PersonalCalendarRights :: get_root()))
         {
             $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed"));

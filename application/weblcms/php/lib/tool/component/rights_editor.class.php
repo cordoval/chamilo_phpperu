@@ -1,7 +1,6 @@
 <?php
 namespace application\weblcms;
 
-
 /**
  * $Id: reporting_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.component
@@ -23,21 +22,21 @@ class ToolComponentRightsEditorComponent extends ToolComponent
     {
         $trail = BreadcrumbTrail :: get_instance();
         $locations = array();
-
+        
         $course = $this->get_course_id();
         $course_module = $this->get_tool_id();
         $category_id = Request :: get(WeblcmsManager :: PARAM_CATEGORY);
         $publications = Request :: get(WeblcmsManager :: PARAM_PUBLICATION);
         $this->set_parameter(WeblcmsManager :: PARAM_PUBLICATION, $publications);
-
+        
         if ($publications)
         {
             $type = WeblcmsRights :: TYPE_PUBLICATION;
-            if (!is_array($publications))
+            if (! is_array($publications))
             {
                 $publications = array($publications);
             }
-
+            
             foreach ($publications as $publication)
             {
                 $locations[] = WeblcmsRights :: get_location_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_PUBLICATION, $publication, $course);
@@ -62,7 +61,7 @@ class ToolComponentRightsEditorComponent extends ToolComponent
                 }
             }
         }
-
+        
         $manager = new CoursesRightsEditorManager($this, $locations);
         $manager->exclude_users(array($this->get_user_id()));
         $manager->run();

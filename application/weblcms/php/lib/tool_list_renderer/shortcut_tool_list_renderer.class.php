@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Translation;
+
 /**
  * $Id: shortcut_tool_list_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool_list_renderer
@@ -12,6 +14,7 @@ require_once ('HTML/Table.php');
  */
 class ShortcutToolListRenderer extends ToolListRenderer
 {
+
     // Inherited
     function display()
     {

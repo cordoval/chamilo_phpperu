@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Translation;
+
 /**
  * $Id: course_user_relation_form.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.course
@@ -36,7 +38,7 @@ class CourseTypeUserCategoryRelCourseForm extends FormValidator
         }
         
         $this->addElement('select', CourseTypeUserCategoryRelCourse :: PROPERTY_COURSE_TYPE_USER_CATEGORY_ID, Translation :: get('Category'), $cat_options);
-
+        
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
         
@@ -51,20 +53,20 @@ class CourseTypeUserCategoryRelCourseForm extends FormValidator
         $current_category = $course_type_user_category_rel_course->get_course_type_user_category_id();
         $selected_category = $values[CourseTypeUserCategoryRelCourse :: PROPERTY_COURSE_TYPE_USER_CATEGORY_ID];
         
-        if($current_category != $selected_category)
+        if ($current_category != $selected_category)
         {
-	        if($current_category)
-	        {
-	        	$course_type_user_category_rel_course->delete();
-	        } 
-	        
-	        if($selected_category)
-	        {
-	        	$course_type_user_category_rel_course->set_course_type_user_category_id($selected_category);
-	        	return $course_type_user_category_rel_course->create();
-	        }
+            if ($current_category)
+            {
+                $course_type_user_category_rel_course->delete();
+            }
+            
+            if ($selected_category)
+            {
+                $course_type_user_category_rel_course->set_course_type_user_category_id($selected_category);
+                return $course_type_user_category_rel_course->create();
+            }
         }
-       
+        
         return true;
     }
 

@@ -1,6 +1,7 @@
 <?php
 namespace application\context_linker;
 use common\libraries\WebApplication;
+use common\libraries\ArrayResultSet;
 
 /**
  * A context_linker manager
@@ -45,22 +46,22 @@ use common\libraries\WebApplication;
         {
             switch ($_POST['action'])
             {
-                    case self :: PARAM_DELETE_SELECTED_CONTEXT_LINKS :
+                case self :: PARAM_DELETE_SELECTED_CONTEXT_LINKS :
 
-                            $selected_ids = $_POST[ContextLinkBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
+                        $selected_ids = $_POST[ContextLinkBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
 
-                            if (empty ($selected_ids))
-                            {
-                                    $selected_ids = array ();
-                            }
-                            elseif (!is_array($selected_ids))
-                            {
-                                    $selected_ids = array ($selected_ids);
-                            }
+                        if (empty ($selected_ids))
+                        {
+                                $selected_ids = array ();
+                        }
+                        elseif (!is_array($selected_ids))
+                        {
+                                $selected_ids = array ($selected_ids);
+                        }
 
-                            $this->set_action(self :: ACTION_DELETE_CONTEXT_LINK);
-                            $_GET[self :: PARAM_CONTEXT_LINK] = $selected_ids;
-                            break;
+                        $this->set_action(self :: ACTION_DELETE_CONTEXT_LINK);
+                        $_GET[self :: PARAM_CONTEXT_LINK] = $selected_ids;
+                        break;
             }
         }
     }

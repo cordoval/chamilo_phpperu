@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Translation;
+
 /**
  * $Id: unsubscribe_browser_table_cell_renderer.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms.weblcms_manager.component.unsubscribe_browser
@@ -8,7 +10,6 @@ namespace application\weblcms;
 require_once dirname(__FILE__) . '/unsubscribe_browser_table_column_model.class.php';
 require_once dirname(__FILE__) . '/../../../course/course_table/default_course_table_cell_renderer.class.php';
 require_once dirname(__FILE__) . '/../../../course/course.class.php';
-require_once dirname(__FILE__) . '/../../weblcms_manager.class.php';
 /**
  * Cell rendere for the unsubscribe browser table
  */
@@ -60,13 +61,8 @@ class UnsubscribeBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
         
         if ($current_right)
         {
-        	$course_unsubscription_url = $this->browser->get_course_unsubscription_url($course);
-            $toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('Unsubscribe'),
-	        		Theme :: get_common_image_path() . 'action_unsubscribe.png',
-	        		$course_unsubscription_url,
-	        		ToolbarItem :: DISPLAY_ICON
-	        ));           
+            $course_unsubscription_url = $this->browser->get_course_unsubscription_url($course);
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Unsubscribe'), Theme :: get_common_image_path() . 'action_unsubscribe.png', $course_unsubscription_url, ToolbarItem :: DISPLAY_ICON));
         }
         else
         {
@@ -76,12 +72,7 @@ class UnsubscribeBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
             }
             else
             {
-                $toolbar->add_item(new ToolbarItem(
-		        		Translation :: get('UnsubscribeNA'),
-		        		Theme :: get_common_image_path() . 'action_unsubscribe_na.png',
-		        		null,
-		        		ToolbarItem :: DISPLAY_ICON
-		        ));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('UnsubscribeNA'), Theme :: get_common_image_path() . 'action_unsubscribe_na.png', null, ToolbarItem :: DISPLAY_ICON));
             }
         }
         

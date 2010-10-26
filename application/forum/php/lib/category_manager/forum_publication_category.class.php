@@ -4,12 +4,14 @@ namespace application\forum;
 
 use common\libraries\Path;
 use common\libraries\EqualityCondition;
+
+use common\libraries\Utilities;
 use common\extensions\category_manager\PlatformCategory;
 /**
  * $Id: forum_publication_category.class.php 195 2009-11-13 12:02:41Z chellee $
  * @package application.lib.forum.category_manager
  */
-//require_once Path :: get_common_extensions_path() . 'category_manager/platform_category.class.php';
+require_once Path :: get_common_extensions_path() . 'category_manager/php/platform_category.class.php';
 /**
  *	@author Sven Vanpoucke
  */
@@ -87,6 +89,6 @@ class ForumPublicationCategory extends PlatformCategory
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
     }
 }

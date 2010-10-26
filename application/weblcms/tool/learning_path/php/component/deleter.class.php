@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use common\libraries\Translation;
+
 /**
  * $Id: learning_path_deleter.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.learning_path.component

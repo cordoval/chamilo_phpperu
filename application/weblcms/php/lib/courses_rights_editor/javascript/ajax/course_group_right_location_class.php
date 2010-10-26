@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Translation;
+
 /**
  * $Id: course_group_right_location_class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.ajax
@@ -36,7 +38,7 @@ if (isset($right_course_group) && isset($right) && isset($location))
     $rdm = RightsDataManager :: get_instance();
     $location = $rdm->retrieve_location($location);
     $locked_parent = $location->get_locked_parent();
-
+    
     if (isset($locked_parent))
     {
         // TODO: In theory this shouldn't happen, but what if someone else does lock a parent at the same time ? This affects the entire page ... not limited to this functionality.
@@ -46,13 +48,13 @@ if (isset($right_course_group) && isset($right) && isset($location))
     else
     {
         $value = WeblcmsRights :: get_course_group_right_location($right, $right_course_group, $location->get_id());
-
+        
         if (! $value)
         {
             if ($location->inherits())
             {
                 $inherited_value = WeblcmsRights :: is_allowed_for_course_group($right_course_group, $right, $location);
-
+                
                 if ($inherited_value)
                 {
                     echo 'rightInheritTrue';

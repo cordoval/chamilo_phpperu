@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use application\weblcms\ToolComponent;
+use common\libraries\Translation;
 
 class AssessmentToolIntroductionPublisherComponent extends AssessmentTool
 {

@@ -2,6 +2,13 @@
 namespace repository\content_object\forum;
 
 use common\libraries\Translation;
+use common\extensions\repo_viewer\RepoViewerInterface;
+use common\extensions\repo_viewer\RepoViewer;
+use repository\ComplexDisplay;
+use repository\content_object\forum_topic\ForumTopic;
+use repository\ComplexContentObjectItem;
+use repository\RepositoryDataManager;
+
 
 /**
  * $Id: forum_topic_creator.class.php 205 2009-11-13 12:57:33Z vanpouckesven $

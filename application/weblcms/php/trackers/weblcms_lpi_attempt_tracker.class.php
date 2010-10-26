@@ -7,7 +7,7 @@ namespace application\weblcms;
 class WeblcmsLpiAttemptTracker extends SimpleTracker
 {
     const CLASS_NAME = __CLASS__;
-
+    
     const PROPERTY_LP_ITEM_ID = 'lp_item_id';
     const PROPERTY_LP_VIEW_ID = 'lp_view_id';
     const PROPERTY_START_TIME = 'start_time';
@@ -39,8 +39,7 @@ class WeblcmsLpiAttemptTracker extends SimpleTracker
     static function get_default_property_names()
     {
         return parent :: get_default_property_names(array(
-                self :: PROPERTY_LP_VIEW_ID, self :: PROPERTY_START_TIME, self :: PROPERTY_LP_ITEM_ID, self :: PROPERTY_TOTAL_TIME, self :: PROPERTY_SCORE, self :: PROPERTY_STATUS, self :: PROPERTY_LESSON_LOCATION,
-                self :: PROPERTY_SUSPEND_DATA, self :: PROPERTY_MAX_SCORE, self :: PROPERTY_MIN_SCORE));
+                self :: PROPERTY_LP_VIEW_ID, self :: PROPERTY_START_TIME, self :: PROPERTY_LP_ITEM_ID, self :: PROPERTY_TOTAL_TIME, self :: PROPERTY_SCORE, self :: PROPERTY_STATUS, self :: PROPERTY_LESSON_LOCATION, self :: PROPERTY_SUSPEND_DATA, self :: PROPERTY_MAX_SCORE, self :: PROPERTY_MIN_SCORE));
     }
 
     function get_lp_view_id()
@@ -146,23 +145,24 @@ class WeblcmsLpiAttemptTracker extends SimpleTracker
     function delete()
     {
         $succes = parent :: delete();
-
+        
         $condition = new EqualityCondition(WeblcmsLearningPathQuestionAttemptsTracker :: PROPERTY_LPI_ATTEMPT_ID, $this->get_id());
         $dummy = new WeblcmsLearningPathQuestionAttemptsTracker();
         $trackers = $dummy->retrieve_tracker_items($condition);
-
+        
         foreach ($trackers as $tracker)
         {
             $succes &= $tracker->delete();
         }
-
+        
         return $succes;
     }
 
     static function get_table_name()
     {
         return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+    
+     //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 }
 ?>

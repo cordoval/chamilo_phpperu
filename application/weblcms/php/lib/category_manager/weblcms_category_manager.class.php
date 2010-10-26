@@ -5,7 +5,6 @@ namespace application\weblcms;
  * $Id: weblcms_category_manager.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.category_manager
  */
-require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
 require_once dirname(__FILE__) . '/course_category.class.php';
 
 class WeblcmsCategoryManager extends CategoryManager
@@ -50,6 +49,5 @@ class WeblcmsCategoryManager extends CategoryManager
         return $sort + 1;
     }
 
-    
 }
 ?>

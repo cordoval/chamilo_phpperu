@@ -1,7 +1,6 @@
 <?php
 namespace application\weblcms\tool\maintenance;
 
-
 require_once dirname(__FILE__) . '/../maintenance_wizard_process.class.php';
 
 /**
@@ -10,29 +9,21 @@ require_once dirname(__FILE__) . '/../maintenance_wizard_process.class.php';
  */
 class ActionBackup extends MaintenanceWizardProcess
 {
-	
-	public static function factory($parent){
-		$class = __CLASS__;
-		return new $class($parent);
-	}
 
-	function perform($page, $actionName)
-	{
-		$values = $page->controller->exportValues();
-		$_SESSION['maintenance_error_message'] = 'BACKUP: TODO';
-		$page->controller->container(true);
-		$page->controller->run();
-	}
+    public static function factory($parent)
+    {
+        $class = __CLASS__;
+        return new $class($parent);
+    }
+
+    function perform($page, $actionName)
+    {
+        $values = $page->controller->exportValues();
+        $_SESSION['maintenance_error_message'] = 'BACKUP: TODO';
+        $page->controller->container(true);
+        $page->controller->run();
+    }
 
 }
-
-
-
-
-
-
-
-
-
 
 ?>

@@ -1,11 +1,14 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Path;
+use common\libraries\DelegateComponent;
+use common\libraries\Translation;
+
 /**
  * $Id: home.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms.weblcms_manager.component
  */
-require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
 require_once dirname(__FILE__) . '/../../course/course_list_renderer/course_type_course_list_renderer.class.php';
 require_once dirname(__FILE__) . '/../../course/course_list_renderer/open_course_type_course_list_renderer.class.php';
 require_once dirname(__FILE__) . '/../../course/course_list_renderer/open_closed_course_type_course_list_renderer.class.php';
@@ -19,37 +22,36 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager implements DelegateComp
     const VIEW_MIXED = 0;
     const VIEW_OPEN_CLOSED = 1;
     const VIEW_OPEN = 2;
-    
+
     /**
      * Runs this component and displays its output.
      */
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-
+        
         $this->message = Request :: get('message');
         Request :: set_get('message', null);
         
         $view_state = LocalSetting :: get('view_state', WeblcmsManager :: APPLICATION_NAME);
         
-        switch($view_state)
+        switch ($view_state)
         {
-        	case self :: VIEW_MIXED:
-        		$renderer = new CourseTypeCourseListRenderer($this);
-        		break;
-        	case self :: VIEW_OPEN_CLOSED:
-        		$renderer = new OpenClosedCourseTypeCourseListRenderer($this);
-        		break;
-        	case self :: VIEW_OPEN:
-        		$renderer = new OpenCourseTypeCourseListRenderer($this);
-        		break;
+            case self :: VIEW_MIXED :
+                $renderer = new CourseTypeCourseListRenderer($this);
+                break;
+            case self :: VIEW_OPEN_CLOSED :
+                $renderer = new OpenClosedCourseTypeCourseListRenderer($this);
+                break;
+            case self :: VIEW_OPEN :
+                $renderer = new OpenCourseTypeCourseListRenderer($this);
+                break;
         }
         
         $renderer->show_new_publication_icons();
         $html[] = $renderer->as_html();
         
-        
-    	$html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/home_ajax.js' . '"></script>';
+        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/home_ajax.js' . '"></script>';
         $toolbar_state = Session :: retrieve('toolbar_state');
         if ($toolbar_state == 'hide')
         {
@@ -67,7 +69,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager implements DelegateComp
         
         echo '<div id="tool_browser_right">';
         echo implode("\n", $html);
-        echo  '</div>';
+        echo '</div>';
         
         $this->display_footer();
     }
@@ -174,10 +176,10 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager implements DelegateComp
         
         return implode($html, "\n");
     }
-    
+
     function get_course_user_category_actions(CourseUserCategory $course_user_category, CourseType $course_type, $offset, $count)
     {
-    	return '<a href="#" class="closeEl"><img class="visible" src="' . Theme :: get_common_image_path() . 'action_visible.png"/><img class="invisible" style="display: none;" src="' . Theme :: get_common_image_path() . 'action_invisible.png" /></a>';
+        return '<a href="#" class="closeEl"><img class="visible" src="' . Theme :: get_common_image_path() . 'action_visible.png"/><img class="invisible" style="display: none;" src="' . Theme :: get_common_image_path() . 'action_invisible.png" /></a>';
     }
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
@@ -187,7 +189,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager implements DelegateComp
 
     function get_additional_parameters()
     {
-    	return array();
+        return array();
     }
 }
 ?>

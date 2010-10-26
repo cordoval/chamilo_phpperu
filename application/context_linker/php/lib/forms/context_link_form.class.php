@@ -1,6 +1,9 @@
 <?php
 namespace application\context_linker;
 use common\libraries\FormValidator;
+use common\libraries\Translation;
+use application\metadata\MetadataDataManager;
+use application\metadata\MetadataPropertyValue;
 
 /**
  * This class describes the form for a ContextLink object.
@@ -41,8 +44,6 @@ class ContextLinkForm extends FormValidator
 
         $this->setDefaults();
     }
-
-    
 
     function build_basic_form()
     {

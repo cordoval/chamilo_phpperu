@@ -1,6 +1,10 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\mediamosa;
-require_once dirname(__FILE__) . '/../../../../table/default_external_repository_gallery_object_table_cell_renderer.class.php';
+use common\extensions\external_repository_manager\DefaultExternalRepositoryGalleryObjectTableCellRenderer;
+use common\extensions\external_repository_manager\ExternalRepositoryObject;
+use common\libraries\Utilities;
+use common\libraries\Toolbar;
+
 
 class MediamosaExternalRepositoryGalleryTableCellRenderer extends DefaultExternalRepositoryGalleryObjectTableCellRenderer
 {

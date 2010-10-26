@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\document;
 
+use common\libraries\Path;
+use common\libraries\Translation;
+
 /**
  * $Id: document_zip_and_download.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.document.component
@@ -45,14 +48,14 @@ class DocumentToolZipAndDownloadComponent extends DocumentTool
         }
         else
         {
-        	$user_id = $this->get_user_id();
+            $user_id = $this->get_user_id();
             $course_groups = $this->get_course_groups();
-                
+            
             $course_group_ids = array();
-                
-            foreach($course_groups as $course_group)
+            
+            foreach ($course_groups as $course_group)
             {
-             	$course_group_ids[] = $course_group->get_id();
+                $course_group_ids[] = $course_group->get_id();
             }
         }
         $target_path = current($category_folder_mapping);
@@ -72,28 +75,27 @@ class DocumentToolZipAndDownloadComponent extends DocumentTool
             {
                 $access[] = new InCondition('course_group_id', $course_group_ids, $datamanager->get_alias('content_object_publication_course_group'));
             }
-            
+
             $conditions[] = new OrCondition($access);*/
             
             $access = array();
-	        if($user_id)
-	        {
-	    		$access[] = new InCondition(ContentObjectPublicationUser :: PROPERTY_USER, $user_id, ContentObjectPublicationUser :: get_table_name());
-	        }
-	    	
-	    	if(count($course_group_ids) > 0)
-	    	{
-	        	$access[] = new InCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, $course_group_ids, ContentObjectPublicationCourseGroup :: get_table_name());
-	    	}
-	        	
-	        if (! empty($user_id) || ! empty($course_group_ids))
-	        {
-	            $access[] = new AndCondition(array(
-	            			new EqualityCondition(ContentObjectPublicationUser :: PROPERTY_USER, null, ContentObjectPublicationUser :: get_table_name()), 
-	            			new EqualityCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, null, ContentObjectPublicationCourseGroup :: get_table_name())));
-	        }
-	        
-	        $conditions[] = new OrCondition($access);
+            if ($user_id)
+            {
+                $access[] = new InCondition(ContentObjectPublicationUser :: PROPERTY_USER, $user_id, ContentObjectPublicationUser :: get_table_name());
+            }
+            
+            if (count($course_group_ids) > 0)
+            {
+                $access[] = new InCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, $course_group_ids, ContentObjectPublicationCourseGroup :: get_table_name());
+            }
+            
+            if (! empty($user_id) || ! empty($course_group_ids))
+            {
+                $access[] = new AndCondition(array(
+                        new EqualityCondition(ContentObjectPublicationUser :: PROPERTY_USER, null, ContentObjectPublicationUser :: get_table_name()), new EqualityCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, null, ContentObjectPublicationCourseGroup :: get_table_name())));
+            }
+            
+            $conditions[] = new OrCondition($access);
             
             $subselect_condition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Document :: get_type_name());
             $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition, null, RepositoryDataManager :: get_instance());

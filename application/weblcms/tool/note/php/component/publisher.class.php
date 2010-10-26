@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\note;
 
+use application\weblcms\ToolComponent;
+use common\libraries\Translation;
 
 /**
  * $Id: note_publisher.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -21,7 +23,7 @@ class NoteToolPublisherComponent extends NoteTool
 
     function get_additional_parameters()
     {
-        return array(RepoViewer::PARAM_ID, RepoViewer::PARAM_ACTION);
+        return array(RepoViewer :: PARAM_ID, RepoViewer :: PARAM_ACTION);
     }
 
 }
