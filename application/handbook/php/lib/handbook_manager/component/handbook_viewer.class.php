@@ -14,11 +14,11 @@ use application\context_linker\ContextLinkerManager;
 
 require_once dirname(__FILE__).'/../handbook_manager.class.php';
 require_once dirname(__FILE__).'/../../handbook_menu.class.php';
-require_once dirname(__FILE__).'/../../../../../repository/lib/content_object/wiki_page/complex_wiki_page.class.php';
-require_once dirname(__FILE__).'/../../../context_linker/context_link.class.php';
-require_once dirname(__FILE__).'/../../../context_linker/context_linker_data_manager.class.php';
-require_once dirname(__FILE__).'/../../../context_linker/context_linker_manager/context_linker_manager.class.php';
-require_once dirname(__FILE__).'/../../../metadata/metadata_manager/metadata_manager.class.php';
+
+//require_once dirname(__FILE__).'/../../../context_linker/php/context_link.class.php';
+//require_once dirname(__FILE__).'/../../../context_linker/php/context_linker_data_manager.class.php';
+//require_once dirname(__FILE__).'/../../../context_linker/php/context_linker_manager/context_linker_manager.class.php';
+//require_once dirname(__FILE__).'/../../../metadata/php/metadata_manager/metadata_manager.class.php';
 /**
  * Component to view a handbook and it's content
  * @author Nathalie Blocry

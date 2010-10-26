@@ -1,17 +1,21 @@
 <?php
 namespace repository\content_object\portfolio;
 
-use common\libraries\Request;
-use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\Request;
+use repository\RepositoryDataManager;
+use common\extensions\repo_viewer\RepoViewer;
+use repository\ComplexBuilder;
+
+use common\libraries\Translation;
 use common\libraries\EqualityCondition;
+use repository\ComplexContentObjectItem;
+use common\extensions\repo_viewer\RepoViewerInterface;
+
+require_once dirname(__FILE__) . '/../../../../../../common/extensions/repo_viewer/php/repo_viewer_interface.class.php';
 
 use repository\content_object\portfolio_item\PortfolioItem;
 
-/**
- * $Id: item_creator.class.php 200 2009-11-13 12:30:04Z kariboe $
- * @package repository.lib.complex_builder.portfolio.component
- */
 class PortfolioBuilderItemCreatorComponent extends PortfolioBuilder implements RepoViewerInterface
 {
 
