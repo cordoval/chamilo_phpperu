@@ -10,8 +10,7 @@ use common\libraries\TreeMenu;
 use common\libraries\TreeMenuItem;
 use common\libraries\TreeMenuDataProvider;
 
-use  application\GradebookTreeMenuDataProvider
-use  application\GradebookTreeMenuDataProvider
+use  application\GradebookTreeMenuDataProvider;
 
 require_once Path :: get_common_libraries_class_path() . '/html/menu/tree_menu/tree_menu_data_provider.class.php';
 require_once Path :: get_common_libraries_class_path() . '/html/menu/tree_menu/tree_menu.class.php';
