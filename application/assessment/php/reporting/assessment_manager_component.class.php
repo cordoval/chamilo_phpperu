@@ -1,5 +1,7 @@
 <?php
 
+namespace application\assessment;
+
 class AssessmentManagerComponent 
 {
 	public function AssessmentManagerComponent()

@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms;
+
 /**
  * $Id: course_type_tool.class.php 216 2010-02-26 14:08:06Z Tristan $
  * @package application.lib.weblcms.course_type

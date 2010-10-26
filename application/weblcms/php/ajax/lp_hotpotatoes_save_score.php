@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms;
+
 /**
  * $Id: lp_hotpotatoes_save_score.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.ajax

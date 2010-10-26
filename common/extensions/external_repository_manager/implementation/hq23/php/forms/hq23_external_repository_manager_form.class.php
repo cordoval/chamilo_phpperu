@@ -1,5 +1,12 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\hq23;
+
+use common\extensions\external_repository_manager\ExternalRepositoryObjectDisplay;
+
+use common\libraries\Translation;
+use common\libraries\Utilities;
+use common\libraries\StringUtilities;
+use common\libraries\FormValidator;
 /**
  * $Id: hq23_external_repository_manager_form.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package

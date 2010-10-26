@@ -1,5 +1,8 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\hq23;
+
+use common\libraries\GalleryObjectTable;
+
 require_once dirname(__file__) . '/hq23_external_repository_gallery_table_cell_renderer.class.php';
 require_once dirname(__file__) . '/hq23_external_repository_gallery_table_data_provider.class.php';
 require_once dirname(__file__) . '/hq23_external_repository_gallery_table_property_model.class.php';

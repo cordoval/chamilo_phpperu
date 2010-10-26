@@ -1,5 +1,8 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\flickr;
+
+use common\libraries\Redirect;
+
 class FlickrExternalRepositoryManagerInternalSyncerComponent extends FlickrExternalRepositoryManager
 {
 

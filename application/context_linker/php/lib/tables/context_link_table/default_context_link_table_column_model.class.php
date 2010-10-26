@@ -1,6 +1,7 @@
 <?php
 namespace application\context_linker;
 use common\libraries\ObjectTableColumnModel;
+use common\libraries\ObjectTableColumn;
 
 /**
  * Default column model for the context_link table

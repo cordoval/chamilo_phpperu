@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms;
+
 /**
  * $Id: admin_course_type_browser_table.class.php 218 2009-11-13 14:21:26Z Yannick $
  * @package application.lib.weblcms.weblcms_manager.component.admin_course_type_browser

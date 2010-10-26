@@ -46,16 +46,16 @@ class DefaultVariableTranslationTableColumnModel extends ObjectTableColumnModel
 
 		if ($english_id != $language_id)
 		{
-			$columns[] = new StaticTableColumn(Translation :: get('EnglishTranslation'));
+			$columns[] = new StaticTableColumn('EnglishTranslation');
 		}
 
 		if(($can_translate || $can_lock) && $source_id != $english_id)
 		{
-			$columns[] = new StaticTableColumn(Translation :: get('SourceTranslation'));
+			$columns[] = new StaticTableColumn('SourceTranslation');
 		}
 
 		$columns[] = new ObjectTableColumn(VariableTranslation :: PROPERTY_TRANSLATION);
-		$columns[] = new StaticTableColumn(Translation :: get('Status'));
+		$columns[] = new StaticTableColumn('Status');
 		$columns[] = new ObjectTableColumn(VariableTranslation :: PROPERTY_RATING);
 
 		return $columns;

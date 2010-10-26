@@ -1,4 +1,8 @@
 <?php
+
+namespace application\assessment;
+
+use common\libraries\DataClass;
 /**
  * $Id: survey_invitation.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment

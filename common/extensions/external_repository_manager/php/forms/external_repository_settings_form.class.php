@@ -2,6 +2,16 @@
 namespace common\extensions\external_repository_manager;
 
 use common\libraries\Utilities;
+use common\libraries\FormValidator;
+use common\libraries\Path;
+use common\libraries\Translation;
+
+use DOMDocument;
+
+use repository\RepositoryDataManager;
+
+use repository\ExternalRepositorySetting;
+
 /**
  * A form to configure external repository settings.
  *

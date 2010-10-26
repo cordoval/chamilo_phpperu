@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms;
+
 /**
  * $Id: group_move_form.class.php 224 2010-04-06 14:40:30Z yannick $
  * @package applicatie.lib.weblcms.course

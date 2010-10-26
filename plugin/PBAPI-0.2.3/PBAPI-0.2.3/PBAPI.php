@@ -1,4 +1,5 @@
 <?php
+use common\libraries\Path;
 /**
  * Photobucket API 
  * Fluent interface for PHP5
@@ -9,14 +10,14 @@
  * @copyright Copyright (c) 2008, Photobucket, Inc.
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  */
-require_once PATH :: get_plugin_path() . 'PBAPI-0.2.3/PBAPI-0.2.3/PBAPI/Exception.php';
+require_once Path :: get_plugin_path() . 'PBAPI-0.2.3/PBAPI-0.2.3/PBAPI/Exception.php';
 /**
  * Load Exceptions
  */
 /**
  * Load Response Exceptions
  */
-require_once PATH :: get_plugin_path() . 'PBAPI-0.2.3/PBAPI-0.2.3/PBAPI/Exception/Response.php';
+require_once Path :: get_plugin_path() . 'PBAPI-0.2.3/PBAPI-0.2.3/PBAPI/Exception/Response.php';
 
 /**
  * PBAPI Class
@@ -98,7 +99,7 @@ class PBAPI {
      * @param array $type_params [optional, default=none] Request class parameters
      */
     public function __construct($consumer_key, $consumer_secret, $type = null, $subdomain = 'api', $default_format = 'xml', $type_params = array()) {
-        $this->_loadMethodClass('base');
+    	$this->_loadMethodClass('base');
         
         $this->setRequest($type, $subdomain, $default_format, $type_params);
         $this->setOAuthConsumer($consumer_key, $consumer_secret);

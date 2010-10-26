@@ -5,6 +5,9 @@ namespace application\cda;
 use common\libraries\WebApplication;
 use common\libraries\Display;
 use common\libraries\Translation;
+use common\libraries\AdministrationComponent;
+use common\libraries\Breadcrumb;
+
 /**
  * @package application.cda.cda.component
  */

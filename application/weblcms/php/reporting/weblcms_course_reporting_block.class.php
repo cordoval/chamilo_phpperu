@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms;
+
 require_once dirname(__FILE__) . '/weblcms_reporting_block.class.php';
 
 abstract class WeblcmsCourseReportingBlock extends WeblcmsReportingBlock

@@ -1,5 +1,12 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\hq23;
+
+use common\libraries\Redirect;
+use common\libraries\Translation;
+use common\libraries\Path;
+
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
+
 require_once dirname(__FILE__) . '/../forms/hq23_external_repository_manager_form.class.php';
 
 class Hq23ExternalRepositoryManagerUploaderComponent extends Hq23ExternalRepositoryManager

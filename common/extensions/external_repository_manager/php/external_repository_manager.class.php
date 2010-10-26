@@ -5,6 +5,15 @@ use common\libraries\SubManager;
 use common\libraries\Path;
 use common\libraries\Utilities;
 use common\libraries\Request;
+use common\libraries\Application;
+use common\libraries\Translation;
+use common\libraries\DynamicVisualTabsRenderer;
+use common\libraries\DynamicVisualTab;
+use common\libraries\Theme;
+use common\libraries\LauncherApplication;
+use common\libraries\ToolbarItem;
+
+use repository\ExternalRepositorySync;
 
 use repository\RepositoryManager;
 

@@ -1,6 +1,7 @@
 <?php
 use common\libraries\Utilities;
 use common\libraries\Session;
+use common\libraries\Display;
 use user\UserDataManager;
 use home\HomeRenderer;
 

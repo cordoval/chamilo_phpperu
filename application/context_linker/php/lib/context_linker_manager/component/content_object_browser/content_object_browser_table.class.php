@@ -1,11 +1,12 @@
 <?php
 namespace application\context_linker;
 use common\libraries\ObjectTable;
-
+require_once dirname(__FILE__) . '/content_object_browser_table_data_provider.class.php';
+require_once dirname(__FILE__) . '/content_object_browser_table_cell_renderer.class.php';
+require_once dirname(__FILE__) . '/content_object_browser_table_column_model.class.php';
 /**
  * Table to display a list of content_objects
  *
- * @author Sven Vanpoucke
  * @author Jens Vanderheyden
  */
 class ContentObjectBrowserTable extends ObjectTable

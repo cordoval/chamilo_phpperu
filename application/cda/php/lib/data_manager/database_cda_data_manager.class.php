@@ -8,6 +8,7 @@ use common\libraries\SubselectCondition;
 use common\libraries\AndCondition;
 use common\libraries\InCondition;
 use user\UserDataManager;
+use user\User;
 /**
  * @package cda.datamanager
  */
@@ -63,19 +64,19 @@ class DatabaseCdaDataManager extends Database implements CdaDataManagerInterface
     function retrieve_cda_language($id)
     {
         $condition = new EqualityCondition(CdaLanguage :: PROPERTY_ID, $id);
-        return $this->retrieve_object(CdaLanguage :: get_table_name(), $condition);
+        return $this->retrieve_object(CdaLanguage :: get_table_name(), $condition, null, CdaLanguage :: CLASS_NAME);
     }
 
     function retrieve_cda_language_english()
     {
         $condition = new EqualityCondition(CdaLanguage :: PROPERTY_ENGLISH_NAME, 'english');
 
-        return $this->retrieve_objects(CdaLanguage :: get_table_name(), $condition, 0, 1)->next_result();
+        return $this->retrieve_objects(CdaLanguage :: get_table_name(), $condition, 0, 1, null, CdaLanguage :: CLASS_NAME)->next_result();
     }
 
     function retrieve_cda_languages($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->retrieve_objects(CdaLanguage :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(CdaLanguage :: get_table_name(), $condition, $offset, $max_objects, $order_by, CdaLanguage :: CLASS_NAME);
     }
 
     function get_next_language_pack_id()
@@ -108,12 +109,12 @@ class DatabaseCdaDataManager extends Database implements CdaDataManagerInterface
     function retrieve_language_pack($id)
     {
         $condition = new EqualityCondition(LanguagePack :: PROPERTY_ID, $id);
-        return $this->retrieve_object(LanguagePack :: get_table_name(), $condition);
+        return $this->retrieve_object(LanguagePack :: get_table_name(), $condition, null, LanguagePack :: CLASS_NAME);
     }
 
     function retrieve_language_packs($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->retrieve_objects(LanguagePack :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(LanguagePack :: get_table_name(), $condition, $offset, $max_objects, $order_by, LanguagePack :: CLASS_NAME);
     }
 
     function get_next_variable_id()
@@ -146,12 +147,12 @@ class DatabaseCdaDataManager extends Database implements CdaDataManagerInterface
     function retrieve_variable($id)
     {
         $condition = new EqualityCondition(Variable :: PROPERTY_ID, $id);
-        return $this->retrieve_object(Variable :: get_table_name(), $condition);
+        return $this->retrieve_object(Variable :: get_table_name(), $condition, null, Variable :: CLASS_NAME);
     }
 
     function retrieve_variables($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->retrieve_objects(Variable :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(Variable :: get_table_name(), $condition, $offset, $max_objects, $order_by, Variable :: CLASS_NAME);
     }
 
     function create_variable_translation($variable_translation)
@@ -184,7 +185,7 @@ class DatabaseCdaDataManager extends Database implements CdaDataManagerInterface
     function retrieve_variable_translation($variable_translation_id)
     {
         $condition = new EqualityCondition(VariableTranslation :: PROPERTY_ID, $variable_translation_id);
-        return $this->retrieve_object(VariableTranslation :: get_table_name(), $condition);
+        return $this->retrieve_object(VariableTranslation :: get_table_name(), $condition, null, VariableTranslation :: CLASS_NAME);
     }
 
     function retrieve_variable_translation_by_parameters($language_id, $variable_id)
@@ -203,7 +204,7 @@ class DatabaseCdaDataManager extends Database implements CdaDataManagerInterface
 
         $condition = new AndCondition($conditions);
 
-        return $this->retrieve_object(VariableTranslation :: get_table_name(), $condition);
+        return $this->retrieve_object(VariableTranslation :: get_table_name(), $condition, null, VariableTranslation :: CLASS_NAME);
     }
 
     function retrieve_variable_translations($condition = null, $offset = null, $max_objects = null, $order_by = null)
@@ -217,7 +218,7 @@ class DatabaseCdaDataManager extends Database implements CdaDataManagerInterface
         //$query = 'SELECT * FROM ' . $variable_translation_table . ' AS ' . $variable_translation_alias;
         $query .= ' JOIN ' . $variable_table . ' AS ' . $variable_alias . ' ON ' . $variable_translation_alias . '.variable_id = ' . $variable_alias . '.id';
 
-        return $this->retrieve_object_set($query, VariableTranslation :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_object_set($query, VariableTranslation :: get_table_name(), $condition, $offset, $max_objects, $order_by, VariableTranslation :: CLASS_NAME);
     }
 
     function retrieve_english_translation($variable_id)
@@ -227,7 +228,7 @@ class DatabaseCdaDataManager extends Database implements CdaDataManagerInterface
         $conditions[] = new SubSelectcondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, CdaLanguage :: PROPERTY_ID, CdaLanguage :: get_table_name(), $subcondition);
         $condition = new AndCondition($conditions);
 
-        return $this->retrieve_object(VariableTranslation :: get_table_name(), $condition);
+        return $this->retrieve_object(VariableTranslation :: get_table_name(), $condition, null, VariableTranslation :: CLASS_NAME);
     }
 
     function can_language_be_locked($language)
@@ -409,7 +410,7 @@ class DatabaseCdaDataManager extends Database implements CdaDataManagerInterface
     function retrieve_translator_application($id)
     {
         $condition = new EqualityCondition(TranslatorApplication :: PROPERTY_ID, $id);
-        return $this->retrieve_object(TranslatorApplication :: get_table_name(), $condition);
+        return $this->retrieve_object(TranslatorApplication :: get_table_name(), $condition, null, TranslatorApplication :: CLASS_NAME);
     }
 
     function retrieve_translator_applications($condition = null, $offset = null, $max_objects = null, $order_by = null)
@@ -428,7 +429,7 @@ class DatabaseCdaDataManager extends Database implements CdaDataManagerInterface
         $query .= ' JOIN ' . $cda_language_table . ' AS ' . $cda_language_alias . '2 ON ' . $translator_application_alias . '.destination_language_id = ' . $cda_language_alias . '2.id';
         $query .= ' JOIN ' . $user_table . ' AS ' . $user_alias . ' ON ' . $translator_application_alias . '.user_id = ' . $user_alias . '.id';
 
-        return $this->retrieve_object_set($query, TranslatorApplication :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_object_set($query, TranslatorApplication :: get_table_name(), $condition, $offset, $max_objects, $order_by, TranslatorApplication :: CLASS_NAME);
     }
 
     function get_number_of_translations_for_user($user_id)
@@ -484,12 +485,12 @@ class DatabaseCdaDataManager extends Database implements CdaDataManagerInterface
     function retrieve_historic_variable_translation($historic_variable_translation_id)
     {
         $condition = new EqualityCondition(HistoricVariableTranslation :: PROPERTY_ID, $historic_variable_translation_id);
-        return $this->retrieve_object(HistoricVariableTranslation :: get_table_name(), $condition);
+        return $this->retrieve_object(HistoricVariableTranslation :: get_table_name(), $condition, null, HistoricVariableTranslation :: CLASS_NAME);
     }
 
     function retrieve_historic_variable_translations($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->retrieve_objects(HistoricVariableTranslation :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(HistoricVariableTranslation :: get_table_name(), $condition, $offset, $max_objects, $order_by, HistoricVariableTranslation :: CLASS_NAME);
     }
 
     function retrieve_first_untranslated_variable_translation($language_id, $language_pack_id = null, $status = null)
@@ -512,7 +513,7 @@ class DatabaseCdaDataManager extends Database implements CdaDataManagerInterface
         }
 
         $condition = new AndCondition($conditions);
-        return $this->retrieve_objects(VariableTranslation :: get_table_name(), $condition, 0, 1)->next_result();
+        return $this->retrieve_objects(VariableTranslation :: get_table_name(), $condition, 0, 1, null, VariableTranslation :: CLASS_NAME)->next_result();
     }
 
     private function retrieve_variables_from_language_pack($language_pack_id)

@@ -8,6 +8,8 @@ use common\libraries\Theme;
 use user\UserDataManager;
 use admin\AdminDataManager;
 use rights\RightsUtilities;
+use common\libraries\Session;
+use user\UserSetting;
 /**
  * cda
  */
@@ -113,7 +115,7 @@ class TranslatorApplication extends DataClass
 	
 	static function get_table_name()
 	{
-		return Utilities :: underscores_to_camelcase(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
+		return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
 	}
 	
     function get_user()
@@ -148,7 +150,7 @@ class TranslatorApplication extends DataClass
     		$source_user_setting->create();
     	}
     	
-   		$location = CdaRights :: get_location_id_by_identifier_from_languages_subtree('cda_language', $this->get_destination_language_id());
+   		$location = CdaRights :: get_location_id_by_identifier_from_languages_subtree(CdaRights :: TYPE_LANGUAGE, $this->get_destination_language_id());
     	$success = RightsUtilities :: set_user_right_location_value(CdaRights :: VIEW_RIGHT, $this->get_user_id(), $location, true);
     		
     	if (!$success)
@@ -170,7 +172,7 @@ class TranslatorApplication extends DataClass
     		$source_user_setting->delete();
     	}
     	
-    	$location = CdaRights :: get_location_id_by_identifier_from_languages_subtree('cda_language', $this->get_destination_language_id());
+    	$location = CdaRights :: get_location_id_by_identifier_from_languages_subtree(CdaRights :: TYPE_LANGUAGE, $this->get_destination_language_id());
     	$success = RightsUtilities :: set_user_right_location_value(CdaRights :: VIEW_RIGHT, $this->get_user_id(), $location, false);
     	
     	if (!$success)

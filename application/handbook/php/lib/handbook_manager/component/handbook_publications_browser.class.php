@@ -7,6 +7,7 @@ use common\libraries\Theme;
 use common\libraries\ActionBarSearchForm;
 use common\libraries\Application;
 use common\libraries\PatternMatchCondition;
+use common\libraries\AndCondition;
 /**
  * @package application.handbook.handbook.component
  */

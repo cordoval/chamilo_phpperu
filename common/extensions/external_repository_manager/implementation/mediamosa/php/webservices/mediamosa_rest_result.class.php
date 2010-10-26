@@ -1,6 +1,11 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\mediamosa;
+use common\libraries\Path;
+use RestResult;
+use SimpleXMLElement;
 
+//require_once dirname(__FILE__) . '/../../../../../../../plugin/webservices/rest/client/rest_result.class.php';
+require_once Path :: get_plugin_path().'/webservices/rest/client/rest_result.class.php';
 /**
  * Description of mediamosa_rest_resultclass
  *
@@ -8,23 +13,17 @@ namespace common\extensions\external_repository_manager\implementation\mediamosa
  */
 class MediamosaRestResult extends RestResult {
 
-    
-    
     private $response_content_xml;
 
-   
-    
     function set_response_content_xml()
     {
-       
-            if($this->get_response_content())
+        if($this->get_response_content())
+        {
+            if($xml = simplexml_load_string($this->get_response_content()))
             {
-                if($xml = simplexml_load_string($this->get_response_content()))
-                {
-                    $this->response_content_xml = new SimpleXMLElement($this->get_response_content());
-                }
+                $this->response_content_xml = new SimpleXMLElement($this->get_response_content());
             }
-        
+        }
     }
     
     /**

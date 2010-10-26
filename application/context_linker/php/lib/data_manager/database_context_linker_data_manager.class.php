@@ -1,6 +1,13 @@
 <?php
 namespace application\context_linker;
 use common\libraries\Database;
+use common\libraries\EqualityCondition;
+use repository\RepositoryDataManager;
+use common\libraries\ConditionTranslator;
+use application\metadata\MetadataDataManager;
+use repository\ContentObject;
+use application\metadata\MetadataPropertyType;
+use application\metadata\MetadataPropertyValue;
 
 /**
  *	This is a data manager that uses a database for storage. It was written

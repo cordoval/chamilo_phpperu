@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms;
+
 /**
  * $Id: course_category_browser_table_data_provider.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms.weblcms_manager.component.course_category_browser

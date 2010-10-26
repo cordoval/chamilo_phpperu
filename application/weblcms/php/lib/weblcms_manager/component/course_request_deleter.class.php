@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms;
+
 /**
  * $Id: course_request_deleter.class.php 218 2010-03-15 10:30:26Z Yannick $
  * @package application.lib.weblcms.weblcms_manager.component

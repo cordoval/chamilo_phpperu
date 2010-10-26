@@ -1,5 +1,11 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\youtube;
+
+use common\libraries\Redirect;
+use common\libraries\Path;
+
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
+
 require_once dirname(__FILE__) . '/../forms/youtube_external_repository_manager_form.class.php';
 require_once dirname(__FILE__) . '/../forms/youtube_external_repository_manager_upload_form.class.php';
 
@@ -22,11 +28,11 @@ class YoutubeExternalRepositoryManagerUploaderComponent extends YoutubeExternalR
                 
                 if ($this->is_stand_alone())
                 {
-                    $platform_url = Redirect :: get_web_link(PATH :: get(WEB_PATH) . 'common/launcher/index.php', $parameters);
+                    $platform_url = Redirect :: get_web_link(Path :: get(WEB_PATH) . 'common/launcher/index.php', $parameters);
                 }
                 else
                 {
-                    $platform_url = Redirect :: get_web_link(PATH :: get(WEB_PATH) . 'core.php', $parameters);
+                    $platform_url = Redirect :: get_web_link(Path :: get(WEB_PATH) . 'core.php', $parameters);
                 }
                 
                 $next_url = $upload_token['url'] . '?nexturl=' . urlencode($platform_url);

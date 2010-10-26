@@ -12,6 +12,10 @@ use common\libraries\Request;
 use common\libraries\EqualityCondition;
 use common\libraries\ConditionProperty;
 use common\libraries\AndCondition;
+use common\libraries\AdministrationComponent;
+use common\libraries\Breadcrumb;
+use common\libraries\Application;
+
 /**
  * @package application.cda.cda.component
  */

@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms;
+
 /**
  * $Id: course_group_subscribe_right.class.php 216 2009-11-13 14:08:06Z Yannick & Tristan $
  * @package application.lib.weblcms.course

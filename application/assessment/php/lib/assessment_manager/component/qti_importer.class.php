@@ -1,4 +1,17 @@
 <?php
+
+namespace application\assessment;
+
+use common\libraries\Path;
+use common\libraries\FormValidator;
+use common\libraries\Translation;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Display;
+use repository\ContentObjectCategoryMenu;
+use common\libraries\Application;
+use common\extensions\repo_viewer\RepoViewer;
+use repository\ContentObjectImport;
 /**
  * $Id: qti_importer.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.assessment_manager.component

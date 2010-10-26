@@ -1,5 +1,7 @@
 <?php 
 namespace application\context_linker;
+use common\libraries\Configuration;
+use common\libraries\Utilities;
 /**
  *	This is a skeleton for a data manager for the ContextLinker Application.
  *	Data managers must extend this class and implement its abstract methods.
@@ -34,7 +36,7 @@ class ContextLinkerDataManager
         {
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
             require_once dirname(__FILE__).'/data_manager/'.Utilities :: camelcase_to_underscores($type).'_context_linker_data_manager.class.php';
-            $class = $type.'ContextLinkerDataManager';
+            $class = __NAMESPACE__ . '\\' . $type . 'ContextLinkerDataManager';
             self :: $instance = new $class ();
         }
         return self :: $instance;

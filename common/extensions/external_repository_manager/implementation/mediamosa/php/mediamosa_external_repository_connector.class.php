@@ -1,5 +1,11 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\mediamosa;
+use common\extensions\external_repository_manager\ExternalRepositoryConnector;
+use common\libraries\Translation;
+use repository\ExternalRepositorySetting;
+use repository\RepositoryDataManager;
+use RestClient;
+use common\libraries\PlatformSetting;
 /**
  * connection to mediamosa-server
  *
@@ -10,8 +16,8 @@ namespace common\extensions\external_repository_manager\implementation\mediamosa
  */
 
 require_once dirname(__FILE__) . '/webservices/mediamosa_rest_client.class.php';
-require_once dirname(__FILE__) . '/mediamosa_mediafile_object.class.php';
-require_once dirname(__FILE__) . '/mediamosa_external_repository_object.class.php';
+//require_once dirname(__FILE__) . '/mediamosa_mediafile_object.class.php';
+//require_once dirname(__FILE__) . '/mediamosa_external_repository_object.class.php';
 
 class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
 {

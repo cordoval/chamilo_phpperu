@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms;
+
 
 require_once dirname(__FILE__) . '/course_list_renderer.class.php';
 

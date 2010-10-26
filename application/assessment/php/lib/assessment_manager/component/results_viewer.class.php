@@ -1,11 +1,23 @@
 <?php
+
+namespace application\assessment;
+
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Request;
+use common\libraries\EqualityCondition;
+use common\libraries\Translation;
+use common\libraries\Breadcrumb;
+use repository\ComplexDisplay;
+use common\libraries\Path;
+use reporting\ReportingDataManager;
+use common\libraries\AndCondition;
 /**
  * $Id: results_viewer.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.assessment_manager.component
  */
 require_once dirname(__FILE__) . '/../assessment_manager.class.php';
-require_once dirname(__FILE__) . '/../../trackers/assessment_question_attempts_tracker.class.php';
-require_once dirname(__FILE__) . '/../../trackers/assessment_assessment_attempts_tracker.class.php';
+require_once dirname(__FILE__) . '/../../../trackers/assessment_question_attempts_tracker.class.php';
+require_once dirname(__FILE__) . '/../../../trackers/assessment_assessment_attempts_tracker.class.php';
 
 /**
  * Component to create a new assessment_publication object
@@ -107,7 +119,7 @@ class AssessmentManagerResultsViewerComponent extends AssessmentManager
 
     function display_summary_results()
     {
-        require_once (Path :: get_application_path() . 'lib/assessment/reporting/templates/assessment_attempts_summary_template.class.php');
+        require_once (Path :: get_application_path() . '/assessment/php/reporting/templates/assessment_attempts_summary_template.class.php');
         
         $current_category = Request :: get('category');
         $current_category = $current_category ? $current_category : 0;
@@ -121,7 +133,7 @@ class AssessmentManagerResultsViewerComponent extends AssessmentManager
 
     function display_assessment_results($pid)
     {
-        require_once (Path :: get_application_path() . 'lib/assessment/reporting/templates/assessment_attempts_template.class.php');
+        require_once (Path :: get_application_path() . '/assessment/php/reporting/templates/assessment_attempts_template.class.php');
         
         $url = $this->get_url(array(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION => $pid));
         $results_export_url = $this->get_results_exporter_url();

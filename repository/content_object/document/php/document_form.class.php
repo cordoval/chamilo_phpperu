@@ -14,6 +14,8 @@ use repository\QuotaManager;
 
 use user\UserDataManager;
 use HTML_QuickForm_upload_or_create;
+use common\libraries\Filesystem;
+use HTML_QuickForm_Rule_Required;
 /**
  * $Id: document_form.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.document

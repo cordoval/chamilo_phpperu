@@ -1,5 +1,12 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\flickr;
+
+use common\libraries\Redirect;
+use common\libraries\Translation;
+
+use common\extensions\external_repository_manager\ExternalRepositoryComponent;
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
+
 class FlickrExternalRepositoryManagerDeleterComponent extends FlickrExternalRepositoryManager
 {
 

@@ -1,6 +1,10 @@
 <?php
 namespace application\metadata;
-require_once dirname(__FILE__) . '../../../tables/metadata_default_value_table/default_metadata_default_value_table_cell_renderer.class.php';
+use common\libraries\ToolbarItem;
+use common\libraries\Translation;
+use common\libraries\Toolbar;
+use common\libraries\Theme;
+require_once dirname(__FILE__) . '/../../../tables/metadata_default_value_table/default_metadata_default_value_table_cell_renderer.class.php';
 
 /**
  * Cell rendere for the learning object browser table

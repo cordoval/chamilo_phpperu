@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms;
+
 
 /**
  * $Id: announcement_publisher.class.php 216 2009-11-13 14:08:06Z kariboe $

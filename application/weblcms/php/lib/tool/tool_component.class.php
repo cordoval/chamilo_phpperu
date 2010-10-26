@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms;
+
 /**
  * $Id: tool_component.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool

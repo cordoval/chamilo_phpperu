@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms;
+
 
 require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
 require_once dirname(__FILE__) . '/admin_request_browser.class.php';

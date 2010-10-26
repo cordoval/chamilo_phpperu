@@ -1,4 +1,14 @@
 <?php
+
+namespace application\assessment;
+
+use common\libraries\Database;
+use common\libraries\EqualityCondition;
+use repository\RepositoryDataManager;
+use repository\ContentObject;
+use common\libraries\ConditionTranslator;
+use common\libraries\InCondition;
+use repository\ContentObjectPublicationAttributes;
 /**
  * $Id: database_assessment_data_manager.class.php 237 2009-11-16 13:04:53Z vanpouckesven $
  * @package application.lib.assessment.data_manager
@@ -102,12 +112,12 @@ class DatabaseAssessmentDataManager extends Database implements AssessmentDataMa
     function retrieve_assessment_publication_category($id)
     {
         $condition = new EqualityCondition(AssessmentPublicationCategory :: PROPERTY_ID, $id);
-        return $this->retrieve_object(AssessmentPublicationCategory :: get_table_name(), $condition);
+        return $this->retrieve_object(AssessmentPublicationCategory :: get_table_name(), $condition, null, AssessmentPublicationCategory :: CLASS_NAME);
     }
 
     function retrieve_assessment_publication_categories($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->retrieve_objects(AssessmentPublicationCategory :: get_table_name(), $condition, $offset, $count, $order_property);
+        return $this->retrieve_objects(AssessmentPublicationCategory :: get_table_name(), $condition, $offset, $count, $order_property, AssessmentPublicationCategory :: CLASS_NAME);
     }
 
     function select_next_assessment_publication_category_display_order($parent)
@@ -242,12 +252,12 @@ class DatabaseAssessmentDataManager extends Database implements AssessmentDataMa
     function retrieve_survey_invitation($id)
     {
         $condition = new EqualityCondition(SurveyInvitation :: PROPERTY_ID, $id);
-        return $this->retrieve_object(SurveyInvitation :: get_table_name(), $condition);
+        return $this->retrieve_object(SurveyInvitation :: get_table_name(), $condition, null, SurveyInvitation :: CLASS_NAME);
     }
 
     function retrieve_survey_invitations($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->retrieve_objects(SurveyInvitation :: get_table_name(), $condition, $offset, $count, $order_property);
+        return $this->retrieve_objects(SurveyInvitation :: get_table_name(), $condition, $offset, $count, $order_property, SurveyInvitation :: CLASS_NAME);
     }
 
     function content_object_is_published($object_id)

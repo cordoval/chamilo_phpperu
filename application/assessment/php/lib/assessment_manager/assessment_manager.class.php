@@ -1,4 +1,11 @@
 <?php
+
+namespace application\assessment;
+
+use common\libraries\WebApplication;
+use repository\content_object\assessment\Assessment;
+use repository\content_object\hotpotatoes\Hotpotatoes;
+use common\libraries\Translation;
 /**
  * $Id: assessment_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.lib.assessment.assessment_manager
@@ -23,7 +30,7 @@ class AssessmentManager extends WebApplication
     const PARAM_CATEGORY = 'category';
 
     const ACTION_DELETE_ASSESSMENT_PUBLICATION = 'deleter';
-    const ACTION_EDIT_ASSESSMENT_PUBLICATION = 'editor';
+    const ACTION_EDIT_ASSESSMENT_PUBLICATION = 'updater';
     const ACTION_CREATE_ASSESSMENT_PUBLICATION = 'creator';
     const ACTION_BROWSE_ASSESSMENT_PUBLICATIONS = 'browser';
     const ACTION_MANAGE_ASSESSMENT_PUBLICATION_CATEGORIES = 'category_manager';

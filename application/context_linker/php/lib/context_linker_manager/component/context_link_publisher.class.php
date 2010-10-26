@@ -1,5 +1,9 @@
 <?php
 namespace application\context_linker;
+use common\libraries\Request;
+use common\libraries\Translation;
+use application\metadata\MetadataDataManager;
+use common\libraries\EqualityCondition;
 
 /**
  * Component to create a new context_link object
@@ -28,7 +32,7 @@ class ContextLinkerManagerContextLinkPublisherComponent extends ContextLinkerMan
         $metadata_property_values = $mdm->retrieve_full_metadata_property_values($condition);
         
         $params = array();
-        $params[ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID] = request :: get(ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID);
+        $params[ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID] = Request :: get(ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID);
         $params[ContextLinkerManager :: PARAM_ALTERNATIVE_CONTENT_OBJECT_ID] = Request ::get(ContextLinkerManager :: PARAM_ALTERNATIVE_CONTENT_OBJECT_ID);
 
         $form = new ContextLinkForm(ContextLinkForm :: TYPE_CREATE, $context_link, $metadata_property_values, $this->get_url($params), $this->get_user());

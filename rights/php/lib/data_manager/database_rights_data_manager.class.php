@@ -520,7 +520,7 @@ class DatabaseRightsDataManager extends Database implements RightsDataManagerInt
         $conditions[] = new EqualityCondition(UserRightLocation :: PROPERTY_LOCATION_ID, $location_id);
         $condition = new AndCondition($conditions);
 
-        return $this->retrieve_object(UserRightLocation :: get_table_name(), $condition);
+        return $this->retrieve_object(UserRightLocation :: get_table_name(), $condition, null, UserRightLocation :: CLASS_NAME);
     }
 
     function retrieve_group_right_location($right_id, $group_id, $location_id)
@@ -531,7 +531,7 @@ class DatabaseRightsDataManager extends Database implements RightsDataManagerInt
         $conditions[] = new EqualityCondition(GroupRightLocation :: PROPERTY_LOCATION_ID, $location_id);
         $condition = new AndCondition($conditions);
 
-        return $this->retrieve_object(GroupRightLocation :: get_table_name(), $condition);
+        return $this->retrieve_object(GroupRightLocation :: get_table_name(), $condition, null, GroupRightLocation :: CLASS_NAME);
     }
 
     function retrieve_user_right_locations($condition = null, $offset = null, $max_objects = null, $order_by = null)

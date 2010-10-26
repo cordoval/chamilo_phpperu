@@ -1,4 +1,8 @@
 <?php
+
+namespace application\assessment;
+
+use common\extensions\category_manager\CategoryManager;
 /**
  * $Id: assessment_publication_category_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.lib.assessment.category_manager

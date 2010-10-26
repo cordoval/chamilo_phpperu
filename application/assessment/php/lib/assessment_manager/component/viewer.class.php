@@ -1,11 +1,26 @@
 <?php
+
+namespace application\assessment;
+
+use common\libraries\Request;
+use repository\RepositoryDataManager;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use tracking\Tracker;
+use common\libraries\Path;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
+use tracking\Event;
+use repository\content_object\hotpotatoes\Hotpotatoes;
+use repository\ComplexDisplay;
 /**
  * $Id: viewer.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.assessment_manager.component
  */
 
-require_once Path :: get_application_path() . 'lib/assessment/trackers/assessment_assessment_attempts_tracker.class.php';
-require_once Path :: get_application_path() . 'lib/assessment/trackers/assessment_question_attempts_tracker.class.php';
+require_once Path :: get_application_path() . '/assessment/php/trackers/assessment_assessment_attempts_tracker.class.php';
+require_once Path :: get_application_path() . '/assessment/php/trackers/assessment_question_attempts_tracker.class.php';
 
 class AssessmentManagerViewerComponent extends AssessmentManager
 {
@@ -50,7 +65,7 @@ class AssessmentManagerViewerComponent extends AssessmentManager
         $conditions[] = new EqualityCondition(AssessmentAssessmentAttemptsTracker :: PROPERTY_USER_ID, $this->get_user_id());
         $condition = new AndCondition($conditions);
         
-        $trackers = Tracker :: get_data('assessment_assessment_attempts_tracker', AssessmentManager :: APPLICATION_NAME, $condition);
+        $trackers = Tracker :: get_data(AssessmentAssessmentAttemptsTracker :: CLASS_NAME, AssessmentManager :: APPLICATION_NAME, $condition);
         $count = $trackers->size();
         
         while ($tracker = $trackers->next_result())

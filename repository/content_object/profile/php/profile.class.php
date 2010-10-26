@@ -1,28 +1,27 @@
 <?php
-
 namespace repository\content_object\profile;
 
 use common\libraries\Utilities;
+
 use repository\ContentObject;
 
 /**
  * $Id: profile.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.profile
  */
-
 /**
  * This class represents a calendar event
  */
 class Profile extends ContentObject
 {
-    const CLASS_NAME = __CLASS__;
+	const CLASS_NAME = __CLASS__;
 
-    static function get_type_name()
-    {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-    }
+	static function get_type_name()
+	{
+		return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
+	}
 
-    /**
+	/**
      * The start date of the calendar event
      */
     const PROPERTY_COMPETENCES = 'competences';
@@ -188,7 +187,5 @@ class Profile extends ContentObject
     {
         return array(self :: PROPERTY_ADDRESS, self :: PROPERTY_AIM, self :: PROPERTY_COMPETENCES, self :: PROPERTY_DIPLOMAS, self :: PROPERTY_FAX, self :: PROPERTY_ICQ, self :: PROPERTY_MAIL, self :: PROPERTY_MSN, self :: PROPERTY_OPEN, self :: PROPERTY_PHONE, self :: PROPERTY_PICTURE, self :: PROPERTY_SKYPE, self :: PROPERTY_TEACHING, self :: PROPERTY_YIM);
     }
-
 }
-
 ?>

@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms;
+
 /**
  * $Id: survey_question_attempts_tracker.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.survey.trackers

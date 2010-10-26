@@ -1,9 +1,13 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\flickr;
-use \DefaultExternalRepositoryGalleryObjectTableCellRenderer;
-use \Toolbar;
-use \ExternalRepositoryObjectDisplay;
-use \Utilities;
+
+use common\libraries\Toolbar;
+use common\libraries\Utilities;
+
+use common\extensions\external_repository_manager\ExternalRepositoryObjectDisplay;
+use common\extensions\external_repository_manager\ExternalRepositoryObject;
+use common\extensions\external_repository_manager\DefaultExternalRepositoryGalleryObjectTableCellRenderer;
+
 class FlickrExternalRepositoryGalleryTableCellRenderer extends DefaultExternalRepositoryGalleryObjectTableCellRenderer
 {
     /**

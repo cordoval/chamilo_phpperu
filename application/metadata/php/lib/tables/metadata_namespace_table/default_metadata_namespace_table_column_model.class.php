@@ -1,6 +1,7 @@
 <?php
 namespace application\metadata;
 use common\libraries\ObjectTableColumnModel;
+use common\libraries\ObjectTableColumn;
 
 class DefaultMetadataNamespaceTableColumnModel extends ObjectTableColumnModel
 {
