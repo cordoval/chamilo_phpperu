@@ -1,6 +1,10 @@
 <?php
 namespace application\metadata;
 use common\libraries\FormValidator;
+use common\libraries\Translation;
+use common\libraries\EqualityCondition;
+use common\libraries\Path;
+use common\libraries\Utilities;
 
 /**
  * This class describes the form for a MetadataAttributeNesting object.

@@ -1,7 +1,7 @@
 <?php
 namespace application\metadata;
 use common\libraries\ObjectTableDataProvider;
-require_once dirname(__FILE__) . '../../../../../../../common/libraries/php/html/table/object_table/object_table_data_provider.class.php';
+require_once dirname(__FILE__) . '/../../../../../../../common/libraries/php/html/table/object_table/object_table_data_provider.class.php';
 
 /**
  * Data provider for a user browser table.

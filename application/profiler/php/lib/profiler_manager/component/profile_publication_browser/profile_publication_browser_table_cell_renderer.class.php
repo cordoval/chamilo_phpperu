@@ -1,10 +1,20 @@
-<?php namespace application\profiler
+<?php
+
+namespace application\profiler;
+
+use common\libraries\WebApplication;
+use common\libraries\DatetimeUtilities;
+use common\libraries\Translation;
+use common\libraries\Utilities;
+use common\libraries\Toolbar;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
 
 /**
  * $Id: profile_publication_browser_table_cell_renderer.class.php 212 2009-11-13 13:38:35Z chellee $
  * @package application.profiler.profiler_manager.component.profile_publication_browser
  */
-require_once WebApplication :: get_application_class_lib_path('profiler') . 'profiler_manager/component/profile_publication_browser/profile_publication_browser_table_column_model.class.php';
+//require_once WebApplication :: get_application_class_lib_path('profiler') . 'profiler_manager/component/profile_publication_browser/profile_publication_browser_table_column_model.class.php';
 require_once WebApplication :: get_application_class_lib_path('profiler') . 'profile_publication_table/default_profile_publication_table_cell_renderer.class.php';
 /**
  * Cell renderer for the learning object browser table
@@ -38,10 +48,10 @@ class ProfilePublicationBrowserTableCellRenderer extends DefaultProfilePublicati
         // Add special features here
         switch ($column->get_name())
         {
-            case ProfilePublication :: PROPERTY_PUBLISHED :
+            case ProfilerPublication :: PROPERTY_PUBLISHED :
                 return DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $profile->get_published());
                 break;
-            case ProfilePublication :: PROPERTY_PROFILE :
+            case ProfilerPublication :: PROPERTY_PROFILE :
                 $title = parent :: render_cell($column, $profile);
                 $title_short = $title;
                 //				if(strlen($title_short) > 53)
@@ -49,7 +59,7 @@ class ProfilePublicationBrowserTableCellRenderer extends DefaultProfilePublicati
                 //					$title_short = mb_substr($title_short,0,50).'&hellip;';
                 //				}
                 $title_short = Utilities :: truncate_string($title_short, 53, false);
-                return '<a href="' . htmlentities($this->browser->get_publication_viewing_url($profile)) . '" title="' . $title . '">' . $title_short . '</a>';
+                return '<a href="' . \htmlentities($this->browser->get_publication_viewing_url($profile)) . '" title="' . $title . '">' . $title_short . '</a>';
                 break;
         }
         return parent :: render_cell($column, $profile);

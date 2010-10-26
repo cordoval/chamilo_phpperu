@@ -5,6 +5,7 @@ use common\libraries\Path;
 use common\libraries\Database;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
+use common\libraries\InEqualityCondition;
 use common\libraries\NotCondition;
 use common\libraries\InCondition;
 use common\libraries\AndCondition;
@@ -17,6 +18,8 @@ use common\libraries\SubselectCondition;
 
 use repository\content_object\learning_path_item\LearningPathItem;
 use repository\content_object\portfolio_item\PortfolioItem;
+use repository\content_object\forum\Forum;
+use repository\content_object\forum_topic\ForumTopic;
 /**
  * $Id: database_repository_data_manager.class.php 234 2009-11-16 11:34:07Z vanpouckesven $
  * @package repository.lib.data_manager

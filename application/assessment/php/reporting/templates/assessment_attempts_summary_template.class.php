@@ -9,7 +9,7 @@ use common\libraries\Request;
  * $Id: assessment_attempts_summary_template.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.reporting.templates
  */
-require_once dirname(__FILE__) . '/../../assessment_publication_category_menu.class.php';
+require_once dirname(__FILE__) . '/../../lib/assessment_publication_category_menu.class.php';
 require_once dirname(__FILE__) . '/../blocks/assessment_attempts_summary_reporting_block.class.php';
 
 class AssessmentAttemptsSummaryTemplate extends ReportingTemplate

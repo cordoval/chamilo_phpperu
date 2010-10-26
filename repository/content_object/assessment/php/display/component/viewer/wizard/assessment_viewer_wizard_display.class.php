@@ -2,6 +2,7 @@
 namespace repository\content_object\assessment;
 
 use common\libraries\Translation;
+use HTML_QuickForm_Action_Display;
 
 /**
  * $Id: assessment_viewer_wizard_display.class.php 200 2009-11-13 12:30:04Z kariboe $

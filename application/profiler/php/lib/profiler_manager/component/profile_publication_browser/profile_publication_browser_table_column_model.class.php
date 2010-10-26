@@ -1,4 +1,8 @@
-<?php namespace application\profiler
+<?php
+namespace application\profiler;
+
+use common\libraries\WebApplication;
+use common\libraries\StaticTableColumn;
 /**
  * $Id: profile_publication_browser_table_column_model.class.php 212 2009-11-13 13:38:35Z chellee $
  * @package application.profiler.profiler_manager.component.profile_publication_browser

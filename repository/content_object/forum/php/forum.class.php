@@ -6,6 +6,8 @@ use common\libraries\EqualityCondition;
 use common\libraries\ComplexContentObjectSupport;
 
 use repository\ContentObject;
+use repository\RepositoryDataManager;
+use repository\ComplexContentObjectItem;
 
 /**
  * $Id: forum.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -25,7 +27,7 @@ class Forum extends ContentObject implements ComplexContentObjectSupport
 
 	static function get_type_name()
 	{
-		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+		return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
 	}
 
     function get_locked()

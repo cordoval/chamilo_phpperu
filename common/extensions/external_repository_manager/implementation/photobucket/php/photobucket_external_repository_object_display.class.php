@@ -1,5 +1,8 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\photobucket;
+
+use common\libraries\Translation;
+
 class PhotobucketExternalRepositoryObjectDisplay extends ExternalRepositoryObjectDisplay
 {		
 	function get_display_properties()

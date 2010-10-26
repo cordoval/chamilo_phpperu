@@ -2,6 +2,8 @@
 namespace repository\content_object\forum_post;
 
 use common\libraries\EqualityCondition;
+use repository\ComplexContentObjectItem;
+use repository\RepositoryDataManager;
 
 /**
  * @package repository.learningobject

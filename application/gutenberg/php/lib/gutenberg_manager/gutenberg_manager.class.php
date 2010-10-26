@@ -35,7 +35,7 @@ class GutenbergManager extends WebApplication
 
     /**
      * Gets the url for viewing a profile publication
-     * @param ProfilePublication
+     * @param ProfilerPublication
      * @return string The url
      */
     function get_publication_viewing_url($gutenberg_publication)

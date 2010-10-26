@@ -1,4 +1,5 @@
 <?php
+use common\libraries\Path;
 /**
  * Photobucket API 
  * Fluent interface for PHP5
@@ -14,7 +15,7 @@
 /**
  * Require OAuth Request Obj
  */
-require_once PATH :: get_plugin_path() . 'PEAR/OAuth/Request.php';
+require_once Path :: get_plugin_path() . 'PEAR/OAuth/Request.php';
 
 /**
  * Request method parent class

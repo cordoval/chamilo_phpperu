@@ -477,7 +477,7 @@ class Dokeos185User extends Dokeos185MigrationDataClass
         	$chamilo_repository_profile->create();
 
         	//Publish Profile
-        	$chamilo_profile_publication = new ProfilePublication();
+        	$chamilo_profile_publication = new ProfilerPublication();
         	$chamilo_profile_publication->set_profile($chamilo_repository_profile->get_id());
         	$chamilo_profile_publication->set_publisher($chamilo_user->get_id());
 

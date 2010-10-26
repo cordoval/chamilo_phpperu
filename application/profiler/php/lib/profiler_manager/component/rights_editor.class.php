@@ -8,6 +8,7 @@ use common\libraries\Breadcrumb;
 use common\libraries\Display;
 use common\extensions\rights_editor_manager\RightsEditorManager;
 use common\libraries\Translation;
+use common\libraries\Application;
 
 /*
  * To change this template, choose Tools | Templates

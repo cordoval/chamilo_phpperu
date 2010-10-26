@@ -53,7 +53,7 @@ interface PhrasesDataManagerInterface
     /**
      * Retrieve a profile publication
      * @param int $id
-     * @return ProfilePublication
+     * @return ProfilerPublication
      */
     function retrieve_phrases_publication($id);
 
@@ -69,14 +69,14 @@ interface PhrasesDataManagerInterface
 
     /**
      * Update the publication
-     * @param ProfilePublication $profile_publication
+     * @param ProfilerPublication $profile_publication
      * @return boolean
      */
     function update_phrases_publication($publication);
 
     /**
      * Delete the publication
-     * @param ProfilePublication $profile_publication
+     * @param ProfilerPublication $profile_publication
      * @return boolean
      */
     function delete_phrases_publication($publication);

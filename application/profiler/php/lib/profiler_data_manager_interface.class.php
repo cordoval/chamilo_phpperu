@@ -58,7 +58,7 @@ interface ProfilerDataManagerInterface
     /**
      * Retrieve a profile publication
      * @param int $id
-     * @return ProfilePublication
+     * @return ProfilerPublication
      */
     function retrieve_profile_publication($id);
 
@@ -74,14 +74,14 @@ interface ProfilerDataManagerInterface
 
     /**
      * Update the publication
-     * @param ProfilePublication $profile_publication
+     * @param ProfilerPublication $profile_publication
      * @return boolean
      */
     function update_profile_publication($profile_publication);
 
     /**
      * Delete the publication
-     * @param ProfilePublication $profile_publication
+     * @param ProfilerPublication $profile_publication
      * @return boolean
      */
     function delete_profile_publication($profile_publication);

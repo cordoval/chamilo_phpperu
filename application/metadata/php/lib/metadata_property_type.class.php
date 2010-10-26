@@ -2,6 +2,9 @@
 namespace application\metadata;
 use common\libraries\DataClass;
 use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use common\libraries\OrCondition;
 /**
  * This class describes a MetadataPropertyType data object
  * @author Jens Vanderheyden

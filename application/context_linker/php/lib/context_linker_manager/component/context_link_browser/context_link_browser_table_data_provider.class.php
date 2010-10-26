@@ -1,5 +1,6 @@
 <?php
 namespace application\context_linker;
+use common\libraries\ObjectTableDataProvider;
 
 /**
  * Data provider for a context_link table

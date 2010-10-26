@@ -1,5 +1,8 @@
 <?php
 namespace application\context_linker;
+use common\libraries\StaticTableColumn;
+require_once dirname(__FILE__) . '/../../../tables/context_link_table/default_context_link_table_column_model.class.php';
+
 
 /**
  * Table column model for the context_link browser table

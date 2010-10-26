@@ -87,8 +87,8 @@ class DatabaseMetadataDataManager extends Database implements MetadataDataManage
 
 	function retrieve_metadata_namespace($ns_prefix)
 	{
-		$condition = new EqualityCondition(MetadataNamespace :: PROPERTY_NS_PREFIX, $ns_prefix);
-		return $this->retrieve_object(MetadataNamespace :: get_table_name(), $condition, MetadataNamespace :: CLASS_NAME);
+            $condition = new EqualityCondition(MetadataNamespace :: PROPERTY_NS_PREFIX, $ns_prefix);
+            return $this->retrieve_object(MetadataNamespace :: get_table_name(), $condition, null, MetadataNamespace :: CLASS_NAME);
 	}
 
 	function retrieve_metadata_namespaces($condition = null, $offset = null, $max_objects = null, $order_by = null)
@@ -126,7 +126,7 @@ class DatabaseMetadataDataManager extends Database implements MetadataDataManage
 	function retrieve_metadata_property_nesting($id)
 	{
 		$condition = new EqualityCondition(MetadataPropertyNesting :: PROPERTY_ID, $id);
-		return $this->retrieve_object(MetadataPropertyNesting :: get_table_name(), $condition, MetadataPropertyNesting :: CLASS_NAME);
+		return $this->retrieve_object(MetadataPropertyNesting :: get_table_name(), $condition,  null, MetadataPropertyNesting :: CLASS_NAME);
 	}
 
 	function retrieve_metadata_property_nestings($condition = null, $offset = null, $max_objects = null, $order_by = null)
@@ -164,7 +164,7 @@ class DatabaseMetadataDataManager extends Database implements MetadataDataManage
 	function retrieve_content_object_property_metadata($id)
 	{
 		$condition = new EqualityCondition(ContentObjectPropertyMetadata :: PROPERTY_ID, $id);
-		return $this->retrieve_object(ContentObjectPropertyMetadata :: get_table_name(), $condition, ContentObjectPropertyMetadata :: CLASS_NAME);
+		return $this->retrieve_object(ContentObjectPropertyMetadata :: get_table_name(), $condition,  null, ContentObjectPropertyMetadata :: CLASS_NAME);
 	}
 
 	function retrieve_content_object_property_metadatas($condition = null, $offset = null, $max_objects = null, $order_by = null)
@@ -202,7 +202,7 @@ class DatabaseMetadataDataManager extends Database implements MetadataDataManage
 	function retrieve_metadata_property_type($id)
 	{
 		$condition = new EqualityCondition(MetadataPropertyType :: PROPERTY_ID, $id);
-		return $this->retrieve_object(MetadataPropertyType :: get_table_name(), $condition, MetadataPropertyType :: CLASS_NAME);
+		return $this->retrieve_object(MetadataPropertyType :: get_table_name(), $condition,  null, MetadataPropertyType :: CLASS_NAME);
 	}
 
 	function retrieve_metadata_property_types($condition = null, $offset = null, $max_objects = null, $order_by = null)
@@ -240,7 +240,7 @@ class DatabaseMetadataDataManager extends Database implements MetadataDataManage
 	function retrieve_metadata_property_value($id)
 	{
 		$condition = new EqualityCondition(MetadataPropertyValue :: PROPERTY_ID, $id);
-		return $this->retrieve_object(MetadataPropertyValue :: get_table_name(), null, $condition, MetadataPropertyValue :: CLASS_NAME);
+		return $this->retrieve_object(MetadataPropertyValue :: get_table_name(), $condition, null, MetadataPropertyValue :: CLASS_NAME);
 	}
 
 	function retrieve_metadata_property_values($condition = null, $offset = null, $max_objects = null, $order_by = null)
@@ -302,7 +302,7 @@ class DatabaseMetadataDataManager extends Database implements MetadataDataManage
 	function retrieve_metadata_property_attribute_type($id)
 	{
 		$condition = new EqualityCondition(MetadataPropertyAttributeType :: PROPERTY_ID, $id);
-		return $this->retrieve_object(MetadataPropertyAttributeType :: get_table_name(), $condition, MetadataPropertyAttributeType :: CLASS_NAME);
+		return $this->retrieve_object(MetadataPropertyAttributeType :: get_table_name(), $condition,  null, MetadataPropertyAttributeType :: CLASS_NAME);
 	}
 
 	function retrieve_metadata_property_attribute_types($condition = null, $offset = null, $max_objects = null, $order_by = null)
@@ -340,7 +340,7 @@ class DatabaseMetadataDataManager extends Database implements MetadataDataManage
 	function retrieve_metadata_property_attribute_value($id)
 	{
 		$condition = new EqualityCondition(MetadataPropertyAttributeValue :: PROPERTY_ID, $id);
-		return $this->retrieve_object(MetadataPropertyAttributeValue :: get_table_name(), null, $condition, MetadataPropertyAttributeValue :: CLASS_NAME);
+		return $this->retrieve_object(MetadataPropertyAttributeValue :: get_table_name(), $condition, null,  MetadataPropertyAttributeValue :: CLASS_NAME);
 	}
 
 	function retrieve_metadata_property_attribute_values($condition = null, $offset = null, $max_objects = null, $order_by = null)
@@ -361,7 +361,7 @@ class DatabaseMetadataDataManager extends Database implements MetadataDataManage
         function retrieve_metadata_default_value($id)
         {
             $condition = new EqualityCondition(MetadataDefaultValue :: PROPERTY_ID, $id);
-            return $this->retrieve_object(MetadataDefaultValue :: get_table_name(), $condition, MetadataDefaultValue :: CLASS_NAME);
+            return $this->retrieve_object(MetadataDefaultValue :: get_table_name(), $condition,  null, MetadataDefaultValue :: CLASS_NAME);
         }
 
         function create_metadata_default_value(MetadataDefaultValue $metadata_default_value)

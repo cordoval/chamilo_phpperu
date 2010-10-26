@@ -9,6 +9,9 @@ use common\libraries\ObjectTableOrder;
 use common\libraries\ComplexContentObjectSupport;
 
 use repository\ContentObject;
+use repository\RepositoryDataManager;
+use repository\ComplexContentObjectItem;
+use repository\content_object\forum_post\ForumPost;
 
 /**
  * $Id: forum_topic.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -27,7 +30,7 @@ class ForumTopic extends ContentObject implements Versionable, AttachmentSupport
 
     static function get_type_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
     }
 
     private $first_post;

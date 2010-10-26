@@ -158,21 +158,19 @@ abstract class Tracker extends DataClass
      * @param boolean $return_as_array
      * @return ObjectResultSet The tracker data resultset
      */
-    static function get_data($type, $application, $condition, $offset = null, $max_objects = null, $order_by = array())
+    static function get_data($class_name, $application, $condition, $offset = null, $max_objects = null, $order_by = array())
     {
-        self :: load_tracker($type, $application);
+        self :: load_tracker($class_name, $application);
 
-        $class_name = Utilities :: underscores_to_camelcase($type);
         $table_name = call_user_func(array($class_name, 'get_table_name'));
 
         return self :: get_data_manager()->retrieve_tracker_items($table_name, $condition, $offset, $max_objects, $order_by, $class_name);
     }
 
-    static function count_data($type, $application, $condition)
+    static function count_data($class_name, $application, $condition)
     {
-        self :: load_tracker($type, $application);
+        self :: load_tracker($class_name, $application);
 
-        $class_name = Utilities :: underscores_to_camelcase($type);
         $table_name = call_user_func(array($class_name, 'get_table_name'));
 
         return self :: get_data_manager()->count_tracker_items($table_name, $condition);
@@ -184,11 +182,10 @@ abstract class Tracker extends DataClass
      * @param Condition $condition
      * @return boolean
      */
-    static function remove_data($type, $application, $condition = null)
+    static function remove_data($class_name, $application, $condition = null)
     {
-        self :: load_tracker($type, $application);
+        self :: load_tracker($class_name, $application);
 
-        $class_name = Utilities :: underscores_to_camelcase($type);
         $table_name = call_user_func(array($class_name, 'get_table_name'));
 
         return self :: get_data_manager()->remove_tracker_items($table_name, $condition);
@@ -199,9 +196,10 @@ abstract class Tracker extends DataClass
      * @param string $type
      * @param string $application
      */
-    static function load_tracker($type, $application)
+    static function load_tracker($class_name, $application)
     {
         $application_path = BasicApplication :: get_application_class_path($application);
+        $type = Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace($class_name));
         require_once ($application_path . 'trackers/' . $type . '.class.php');
     }
 }

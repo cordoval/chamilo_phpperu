@@ -3,6 +3,8 @@
 namespace application\personal_calendar;
 
 use common\libraries\DayCalendar;
+use common\libraries\Translation;
+use common\libraries\Application;
 
 
 /**

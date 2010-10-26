@@ -3,7 +3,6 @@ namespace repository\content_object\assessment_rating_question;
 
 use common\libraries\Utilities;
 use common\libraries\Path;
-
 use repository\RatingQuestion;
 
 /**
@@ -22,7 +21,7 @@ class AssessmentRatingQuestion extends RatingQuestion
 
 	static function get_type_name()
 	{
-		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+		return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
 	}
 
     function get_correct()

@@ -1,12 +1,11 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\mediamosa;
+use common\extensions\external_repository_manager\ExternalRepositoryObject;
 /**
  * Description of mediamosa_streaming_video_objectclass
  *
  * @author jevdheyd
  */
-require_once dirname(__FILE__) . '/../../external_repository_object.class.php';
-
 class MediamosaExternalRepositoryObject extends ExternalRepositoryObject
 {
 

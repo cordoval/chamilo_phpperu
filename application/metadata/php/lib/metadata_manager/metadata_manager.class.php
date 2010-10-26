@@ -4,6 +4,10 @@ use common\libraries\WebApplication;
 use common\libraries\EqualityCondition;
 use common\libraries\OrCondition;
 use common\libraries\AndCondition;
+use common\libraries\DynamicAction;
+use common\libraries\ArrayResultSet;
+use common\libraries\Translation;
+use common\libraries\Application;
 /**
  * A metadata manager
  *

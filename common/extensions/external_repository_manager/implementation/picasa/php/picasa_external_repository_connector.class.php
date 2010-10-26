@@ -1,5 +1,28 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\picasa;
+
+use common\libraries\Request;
+use common\libraries\Redirect;
+use common\libraries\Session;
+use common\libraries\PlatformSetting;
+use common\libraries\Translation;
+use common\libraries\ArrayResultSet;
+
+use common\extensions\external_repository_manager\ExternalRepositoryObject;
+use common\extensions\external_repository_manager\ExternalRepositoryConnector;
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
+
+use repository\ExternalRepositoryUserSetting;
+use repository\RepositoryDataManager;
+
+use Zend_Loader;
+use Zend_Gdata_AuthSub;
+use Zend_Gdata_Photos;
+use Zend_Gdata_Photos_UserQuery;
+use Zend_Gdata_Photos_PhotoQuery;
+use Zend_Gdata_Media_Extension_MediaKeywords;
+use Zend_Gdata_Media_Extension_MediaGroup;
+
 require_once 'Zend/Loader.php';
 require_once dirname(__FILE__) . '/picasa_external_repository_object.class.php';
 
@@ -374,7 +397,7 @@ class PicasaExternalRepositoryConnector extends ExternalRepositoryConnector
         
         $album_query = $this->picasa->newAlbumQuery();
         $album_query->setUser($this->get_authenticated_user());
-        $album_query->setAlbumId($values[PicasaExternalRepositoryObject :: PROPERTY_ALBUM]);
+        $album_query->setAlbumId($values[PicasaExternalRepositoryObject :: PROPERTY_ALBUM_ID]);
         
         $entry = $this->picasa->insertPhotoEntry($entry, $album_query->getQueryUrl());
         return $this->get_authenticated_user() . ':' . $entry->getGphotoAlbumId()->getText() . ':' . $entry->getGphotoId()->getText();

@@ -550,7 +550,7 @@ class ComicBook extends ContentObject implements Versionable
 
     static function get_type_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
     }
 
     function get_extract($only_return_id = false)

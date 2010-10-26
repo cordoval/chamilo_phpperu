@@ -3,6 +3,10 @@
 namespace application\forum;
 
 use common\libraries\Display;
+use common\libraries\DelegateComponent;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
+use common\libraries\BreadcrumbTrail;
 
 /**
  * $Id: category_manager.class.php 195 2009-11-13 12:02:41Z chellee $

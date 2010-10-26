@@ -3,6 +3,7 @@
 namespace application\assessment;
 
 use common\libraries\Installer;
+use common\libraries\Translation;
 /**
  * $Id: assessment_installer.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.install

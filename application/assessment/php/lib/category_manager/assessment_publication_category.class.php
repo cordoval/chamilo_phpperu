@@ -4,6 +4,7 @@ namespace application\assessment;
 
 use common\extensions\category_manager\PlatformCategory;
 use common\libraries\Path;
+use common\libraries\Utilities;
 /**
  * $Id: assessment_publication_category.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.category_manager
@@ -20,7 +21,8 @@ require_once dirname(__FILE__) . '/../assessment_data_manager.class.php';
 
 class AssessmentPublicationCategory extends PlatformCategory
 {
-
+    const CLASS_NAME = __CLASS__;
+    
     function create()
     {
         $adm = AssessmentDataManager :: get_instance();

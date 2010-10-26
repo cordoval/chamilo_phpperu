@@ -39,7 +39,7 @@ class ValidationBrowserTableCellRend extends DefaultValidationTableCellRend
         // Add special features here
         switch ($column->get_name())
         {
-            /* case ProfilePublication :: PROPERTY_PUBLISHED :
+            /* case ProfilerPublication :: PROPERTY_PUBLISHED :
                 return DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $profile->get_published());
                 break;*/
             case User :: PROPERTY_USERNAME :
