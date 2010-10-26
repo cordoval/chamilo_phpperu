@@ -34,8 +34,6 @@ class QtiBuilderBase{
 				}
 			}
 		}
-		//debug('not found: ');
-		//debug($item->get_current());
 		return null;
 	}
 

@@ -16,23 +16,24 @@ if(! function_exists('today')){
 if(! function_exists('this_week')){
 	function this_week(){
 		$date = getdate();
+		$year = $date['year'];
+		$month = $date['mon'];
+		$mdays = $date['mday'];
 		$days = $date['wday'];
-		$interval = new DateInterval('P'.$days.'D');
-		$date = new DateTime();
-		$date->sub($interval);
-		return $date->getTimestamp();
+		$result = mktime(0, 0, 0, $month, $mdays - $days+1, $year);
+		return $result;
 	}
 }
 
 if(! function_exists('last_week')){
 	function last_week($week_count = 1){
-		$date = this_week();
-		$week = new DateInterval('P7D');
-		$date = new DateTime();
-		for($i = 0; $i<$week_count; $i++){
-			$date->sub($week);
-		}
-		return $date->getTimestamp();
+		$date = getdate(this_week());
+		$year = $date['year'];
+		$month = $date['mon'];
+		$mdays = $date['mday'];
+		$days = $date['wday'];
+		$result = mktime(0, 0, 0, $month, $mdays - 7*$week_count, $year);
+		return $result;
 	}
 }
 

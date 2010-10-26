@@ -109,7 +109,6 @@ class fedora_fs_folder extends fedora_fs_base{
 		}else{
 			$result = ($wa > $wb) ? -1 : 1;
 		}
-		//echo($wa  .' : '. $wb . ' : '. $result); echo "<br/>\n";
 		return $result;
 	}
 }

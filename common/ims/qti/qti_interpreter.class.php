@@ -244,7 +244,7 @@ class QtiInterpreter{
 				return null;
 
 			default:
-				debug('Unknown base type: '. $base_type);
+				//debug('Unknown base type: '. $base_type);
 				return null;
 		}
 	}
@@ -289,7 +289,7 @@ class QtiInterpreter{
 				break;
 
 			default:
-				debug('Unknown base type: '. $base_type);
+				//debug('Unknown base type: '. $base_type);
 				$result = $left == $right;;
 				break;
 		}
@@ -944,7 +944,7 @@ class QtiInterpreter{
 			$tolerance = empty($tolerance) ? array(0, 0) : $tolerance;
 			return $left * (1- $tolerance[0]/100) <= $right && $right <= $left * (1 + $tolerance[1]/100);
 		}else{
-			debug("Unknown tolerance type: $tolerance_type");
+			//debug("Unknown tolerance type: $tolerance_type");
 			return $left == $right;
 		}
 	}

@@ -17,8 +17,6 @@ if(! function_exists('require_once_all')){
 			foreach($files as $file){
 				require_once $file;
 			}
-		}else{
-			//debug($files);
 		}
 	}
 
@@ -64,7 +62,6 @@ if(! function_exists('html_trim_tag')){
 			}
 		}
 
-		//debug(htmlentities($result));
 		return $result;
 	}
 }

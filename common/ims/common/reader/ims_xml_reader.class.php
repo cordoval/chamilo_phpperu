@@ -126,9 +126,6 @@ class ImsXmlReader implements IteratorAggregate
     }
 
     public function get_default_namespace(){
-    	//if(empty($this->doc->documentElement)){
-    	//	echo DebugUtil2::print_backtrace_html();
-    	//}
     	return $this->doc->documentElement->getAttribute('xmlns');
     }
 
@@ -187,7 +184,7 @@ class ImsXmlReader implements IteratorAggregate
     	}elseif($parent_node = $this->current->parentNode){
     		return $this->copy($parent_node);
     	}else{
-    		debug('Alert');
+    		//debug('Alert');
     		return $this->get_default_result();
     	}
 

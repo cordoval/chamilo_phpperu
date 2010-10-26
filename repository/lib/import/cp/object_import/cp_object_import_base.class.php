@@ -121,11 +121,6 @@ class CpObjectImportBase{
 				if($result instanceof ContentObject && $result->has_errors()){
 					$errors = $result->get_errors();
 					$settings->get_log()->error($errors);
-
-					//debug(get_class($this));//@todo: remove that
-					//debug($errors);//@todo: remove that
-					//debug($settings);die;//@todo: remove that
-
 					return false;
 				}else{//i.e. an array
 					return $result;
@@ -242,67 +237,6 @@ class CpObjectImportBase{
 		}
 		return $result;
 	}
-
-
-	/*
-
-	protected function get_object($settings){
-	//@todo:see if we reimport existing object or if we create new?
-
-	return $this->object = $this->create_object('');
-
-	}
-
-	protected function create_object($type){
-	$result = ContentObject::factory($type);
-	$result = empty($result) && class_exists($type) ? new $type() : $result;
-	//object must be registered before loading children to avoid circular references
-	if($this->get_cache()->has($this->get_path())){
-	echo DebugUtil2::print_backtrace_html();
-	die;
-	}
-	$this->get_cache()->register($this->get_path(), $result);
-	return $result;
-	}
-
-	protected function parse_property($name, $value){
-	$names = array(	ContentObject::PROPERTY_CREATION_DATE,
-	ContentObject::PROPERTY_MODIFICATION_DATE,
-	ComplexContentObjectItem::PROPERTY_ADD_DATE,
-	Course::PROPERTY_CREATION_DATE,
-	Course::PROPERTY_EXPIRATION_DATE,
-	Course::PROPERTY_LAST_EDIT,
-	Course::PROPERTY_LAST_VISIT,
-	ContentObjectPublication::PROPERTY_PUBLICATION_DATE,
-	User::PROPERTY_ACTIVATION_DATE,
-	User::PROPERTY_EXPIRATION_DATE,
-	User::PROPERTY_REGISTRATION_DATE,
-	CalendarEvent::PROPERTY_START_DATE,
-	CalendarEvent::PROPERTY_END_DATE );
-
-	foreach($names as $property_name){
-	if($property_name == $name){
-	$result = ImsXmlReader::parse_date($value);
-	return $result;
-	}
-	}
-	return $value;
-	}
-
-	protected function read_properties(ImscpObjectReader $item, $filter_in = array()){
-	$result = array();
-	$children = $item->children();
-	foreach($children as $child){
-	$name = $child->name();
-	if(empty($filter_in) || in_array($name, $filter_in)){
-	$value = $child->is_leaf() ? $this->parse_property($name, $child->value()) : $item->get_inner_xml();
-	$result[$name] = $value;
-	}
-	}
-	return $result;
-	}
-	*/
-	//Images
 
 	protected function process_images($html){
 		$pattern = '~<img.*/>~';

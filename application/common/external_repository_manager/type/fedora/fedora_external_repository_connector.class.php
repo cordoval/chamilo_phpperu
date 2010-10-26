@@ -195,7 +195,7 @@ class FedoraExternalRepositoryConnector extends ExternalRepositoryConnector{
 	 * @param string $dsID
 	 */
 	function get_datastream_content_url($pid, $dsID){
-		if($result = $this->call_api(__FUNCTION__, func_get_args())){
+		if($result = $this->call_api(__FUNCTION__, array($pid, $dsID))){
 			return $result;
 		}
 
@@ -230,7 +230,7 @@ class FedoraExternalRepositoryConnector extends ExternalRepositoryConnector{
 	 * @return array
 	 */
 	public function retrieve_object_metadata($pid){
-		if($result = $this->call_api(__FUNCTION__, func_get_args())){
+		if($result = $this->call_api(__FUNCTION__, array($pid))){
 			return $result;
 		}
 
@@ -297,7 +297,7 @@ class FedoraExternalRepositoryConnector extends ExternalRepositoryConnector{
 	 */
 	public function retrieve_disciplines($id=false){
 		$default = $id ? false : array();
-		return $this->call_api(__FUNCTION__, func_get_args(), $default);
+		return $this->call_api(__FUNCTION__, array($id), $default);
 	}
 
 	/**
@@ -310,7 +310,7 @@ class FedoraExternalRepositoryConnector extends ExternalRepositoryConnector{
 	 */
 	public function retrieve_licenses($id=false){
 		$default = $id ? false : array();
-		return $this->call_api(__FUNCTION__, func_get_args(), $default);
+		return $this->call_api(__FUNCTION__, array($id), $default);
 	}
 
 	/**
@@ -323,7 +323,7 @@ class FedoraExternalRepositoryConnector extends ExternalRepositoryConnector{
 	 */
 	public function retrieve_rights($id=false){
 		$default = $id ? false : array();
-		$result =  $this->call_api(__FUNCTION__, func_get_args(), $default);
+		$result =  $this->call_api(__FUNCTION__, array($id), $default);
 		return $result;
 	}
 
@@ -334,7 +334,7 @@ class FedoraExternalRepositoryConnector extends ExternalRepositoryConnector{
 	 */
 	public function retrieve_collections($id=false){
 		$default = $id ? false : array();
-		return $this->call_api(__FUNCTION__, func_get_args(), $default);
+		return $this->call_api(__FUNCTION__, array($id), $default);
 	}
 
 	/**

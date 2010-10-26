@@ -176,8 +176,6 @@ class FedoraUnigeExternalRepositoryConnectorExtender{
 	 */
 	public function retrieve_object_metadata($pid){
 		$result =  $this->retrieve_object_rels_ext($pid);
-		debug($result);die;
-
 		return $result;
 	}
 
