@@ -2,6 +2,7 @@
 namespace application\weblcms\tool\document;
 
 use application\weblcms\ToolComponent;
+use common\libraries\Translation;
 
 class DocumentToolIntroductionPublisherComponent extends DocumentTool
 {

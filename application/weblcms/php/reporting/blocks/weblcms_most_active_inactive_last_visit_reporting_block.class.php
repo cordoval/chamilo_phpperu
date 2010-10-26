@@ -2,6 +2,7 @@
 namespace application\weblcms;
 
 use common\libraries\Path;
+use common\libraries\Translation;
 
 require_once dirname(__FILE__) . '/../weblcms_course_reporting_block.class.php';
 require_once Path :: get_reporting_path() . '/lib/reporting_data.class.php';
@@ -16,14 +17,14 @@ class WeblcmsMostActiveInactiveLastVisitReportingBlock extends WeblcmsCourseRepo
         $wdm = WeblcmsDataManager :: get_instance();
         $tracker = new VisitTracker();
         $courses = $wdm->retrieve_courses();
-        
+
         $arr[Translation :: get('Past24hr')] = 0;
         $arr[Translation :: get('PastWeek')] = 0;
         $arr[Translation :: get('PastMonth')] = 0;
         $arr[Translation :: get('PastYear')] = 0;
         $arr[Translation :: get('NeverAccessed')] = 0;
         $arr[Translation :: get('MoreThenOneYear')] = 0;
-        
+
         while ($course = $courses->next_result())
         {
             $lastaccess = 0;
@@ -33,27 +34,27 @@ class WeblcmsMostActiveInactiveLastVisitReportingBlock extends WeblcmsCourseRepo
             {
                 $lastaccess = $value->get_leave_date();
             }
-            
+
             if ($lastaccess == 0)
             {
                 $arr[Translation :: get('NeverAccessed')] ++;
             }
-            else 
+            else
                 if (strtotime($lastaccess) > time() - 86400)
                 {
                     $arr[Translation :: get('Past24hr')] ++;
                 }
-                else 
+                else
                     if (strtotime($lastaccess) > time() - 604800)
                     {
                         $arr[Translation :: get('PastWeek')] ++;
                     }
-                    else 
+                    else
                         if (strtotime($lastaccess) > time() - 18144000)
                         {
                             $arr[Translation :: get('PastMonth')] ++;
                         }
-                        else 
+                        else
                             if (strtotime($lastaccess) > time() - 31536000)
                             {
                                 $arr[Translation :: get('PastYear')] ++;
@@ -63,17 +64,17 @@ class WeblcmsMostActiveInactiveLastVisitReportingBlock extends WeblcmsCourseRepo
                                 $arr[Translation :: get('MoreThenOneYear')] ++;
                             }
         }
-        
+
         $reporting_data->set_categories(array(Translation :: get('Past24hr'), Translation :: get('PastWeek'), Translation :: get('PastMonth'), Translation :: get('PastYear'), Translation :: get('MoreThenOneYear'), Translation :: get('NeverAccessed')));
         $reporting_data->set_rows(array(Translation :: get('TimesAccessed')));
-        
+
         $reporting_data->add_data_category_row(Translation :: get('Past24hr'), Translation :: get('TimesAccessed'), $arr[Translation :: get('Past24hr')]);
         $reporting_data->add_data_category_row(Translation :: get('PastWeek'), Translation :: get('TimesAccessed'), $arr[Translation :: get('PastWeek')]);
         $reporting_data->add_data_category_row(Translation :: get('PastMonth'), Translation :: get('TimesAccessed'), $arr[Translation :: get('PastMonth')]);
         $reporting_data->add_data_category_row(Translation :: get('PastYear'), Translation :: get('TimesAccessed'), $arr[Translation :: get('PastYear')]);
         $reporting_data->add_data_category_row(Translation :: get('MoreThenOneYear'), Translation :: get('TimesAccessed'), $arr[Translation :: get('MoreThenOneYear')]);
         $reporting_data->add_data_category_row(Translation :: get('NeverAccessed'), Translation :: get('TimesAccessed'), $arr[Translation :: get('NeverAccessed')]);
-        
+
         return $reporting_data;
     }
 

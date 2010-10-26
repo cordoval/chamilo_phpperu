@@ -3,6 +3,7 @@ namespace application\weblcms\tool\announcement;
 
 use application\weblcms\ToolComponent;
 use common\libraries\DelegateComponent;
+use common\libraries\Translation;
 
 class AnnouncementToolReportingViewerComponent extends AnnouncementTool implements DelegateComponent
 {

@@ -3,6 +3,7 @@ namespace application\weblcms\tool\learning_path;
 
 use application\weblcms\ToolComponent;
 use common\libraries\DelegateComponent;
+use common\libraries\Translation;
 
 class LearningPathToolRightsEditorComponent extends LearningPathTool implements DelegateComponent
 {

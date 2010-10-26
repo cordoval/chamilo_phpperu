@@ -2,6 +2,7 @@
 namespace application\weblcms\tool\user;
 
 use common\libraries\DelegateComponent;
+use common\libraries\Translation;
 
 /**
  * $Id: user_details.class.php 216 2009-11-13 14:08:06Z kariboe $

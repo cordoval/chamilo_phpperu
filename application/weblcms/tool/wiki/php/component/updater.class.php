@@ -2,6 +2,7 @@
 namespace application\weblcms\tool\wiki;
 
 use application\weblcms\ToolComponent;
+use common\libraries\Translation;
 
 class WikiToolUpdaterComponent extends WikiTool
 {

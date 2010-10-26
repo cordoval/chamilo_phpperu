@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Translation;
+
 /**
  * $Id: delete.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.component
@@ -15,14 +17,14 @@ class ToolComponentDeleterComponent extends ToolComponent
                 $publication_ids = Request :: get(Tool :: PARAM_PUBLICATION_ID);
             else
                 $publication_ids = $_POST[Tool :: PARAM_PUBLICATION_ID];
-            
+
             if (! is_array($publication_ids))
             {
                 $publication_ids = array($publication_ids);
             }
-            
+
             $datamanager = WeblcmsDataManager :: get_instance();
-            
+
             foreach ($publication_ids as $index => $pid)
             {
                 $publication = $datamanager->retrieve_content_object_publication($pid);
@@ -42,7 +44,7 @@ class ToolComponentDeleterComponent extends ToolComponent
             {
                 $message = htmlentities(Translation :: get('ContentObjectPublicationDeleted'));
             }
-            
+
             $this->redirect($message, '', array(Tool :: PARAM_PUBLICATION_ID => null, 'tool_action' => null));
         }
     }

@@ -2,6 +2,7 @@
 namespace application\weblcms\tool\streaming_video;
 
 use application\weblcms\ToolComponent;
+use common\libraries\Translation;
 
 class StreamingVideoToolReportingViewerComponent extends StreamingVideoTool
 {

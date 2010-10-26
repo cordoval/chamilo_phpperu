@@ -2,6 +2,7 @@
 namespace application\weblcms;
 
 use common\libraries\Path;
+use common\libraries\Translation;
 
 require_once Path :: get_common_path() . '/html/menu/tree_menu/tree_menu.class.php';
 require_once Path :: get_common_path() . '/html/menu/tree_menu/tree_menu_item.class.php';

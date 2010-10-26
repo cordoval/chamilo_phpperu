@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use common\libraries\Translation;
+
 use common\libraries\Path;
 
 require_once dirname(__FILE__) . '/../survey_publication_mailer_form.class.php';

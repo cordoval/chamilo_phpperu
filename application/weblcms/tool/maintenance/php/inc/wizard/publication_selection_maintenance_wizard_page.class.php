@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\maintenance;
 
+use common\libraries\Translation;
+
 /**
  * $Id: publication_selection_maintenance_wizard_page.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.maintenance.inc.wizard
@@ -22,9 +24,9 @@ class PublicationSelectionMaintenanceWizardPage extends MaintenanceWizardPage
         {
             $publications[$publication->get_tool()][] = $publication;
         }
-        
+
         $this->addElement('html', '<h3>' . Translation :: get('Publications') . '</h3>');
-        
+
         foreach ($publications as $tool => $tool_publications)
         {
             foreach ($tool_publications as $index => $publication)
@@ -36,16 +38,16 @@ class PublicationSelectionMaintenanceWizardPage extends MaintenanceWizardPage
                 $defaults[$id] = true;
             }
         }
-        
+
         $this->addFormRule(array('PublicationSelectionMaintenanceWizardPage', 'count_selected_publications'));
-        
+
         $this->addElement('html', '<h3>' . Translation :: get('CourseSections') . '</h3>');
-        
+
         $condition = new EqualityCondition(CourseSection :: PROPERTY_COURSE_CODE, $this->get_parent()->get_course_id());
         $course_sections = $datamanager->retrieve_course_sections($condition);
-        
+
         $common_sections = array(Translation :: get('Disabled'), Translation :: get('CourseAdministration'), Translation :: get('Links'), Translation :: get('Tools'));
-        
+
         while ($course_section = $course_sections->next_result())
         {
             $label = $course_section->get_name();
@@ -55,11 +57,11 @@ class PublicationSelectionMaintenanceWizardPage extends MaintenanceWizardPage
                 $defaults[$id] = true;
             }
         }
-        
+
         $this->addElement('html', '<h3>' . Translation :: get('Other') . '</h3>');
         $this->addElement('checkbox', 'content_object_categories', Translation :: get('PublicationCategories'));
 		$defaults['content_object_categories'] = true;
-        
+
         $prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< ' . Translation :: get('Previous'));
         $prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next') . ' >>');
         $this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);

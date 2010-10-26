@@ -2,6 +2,7 @@
 namespace application\weblcms\tool\calendar;
 
 use application\weblcms\ToolComponent;
+use common\libraries\Translation;
 
 class CalendarToolUpdaterComponent extends CalendarTool
 {

@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\user;
 
+use common\libraries\Translation;
+
 /**
  * $Id: user_unsubscribe_browser.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.user.component
@@ -35,7 +37,7 @@ class UserToolUnsubscribeBrowserComponent extends UserTool
 
         $this->action_bar = $this->get_action_bar();
         $trail = BreadcrumbTrail :: get_instance();
-        
+
 
         $this->display_header();
 
@@ -49,7 +51,7 @@ class UserToolUnsubscribeBrowserComponent extends UserTool
 
         $this->display_footer();
 
-        
+
     }
 
     function display_users()
@@ -131,7 +133,7 @@ class UserToolUnsubscribeBrowserComponent extends UserTool
             {
             	return new EqualityCondition(User :: PROPERTY_ID, 0);
             }
-            
+
             $conditions = array();
             $conditions[] = new InCondition(User :: PROPERTY_ID, $users);
 

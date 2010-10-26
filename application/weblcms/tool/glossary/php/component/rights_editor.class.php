@@ -3,6 +3,7 @@ namespace application\weblcms\tool\glossary;
 
 use application\weblcms\ToolComponent;
 use common\libraries\DelegateComponent;
+use common\libraries\Translation;
 
 class GlossaryToolRightsEditorComponent extends GlossaryTool implements DelegateComponent
 {

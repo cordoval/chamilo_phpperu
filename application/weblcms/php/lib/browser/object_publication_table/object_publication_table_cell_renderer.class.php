@@ -3,6 +3,7 @@ namespace application\weblcms;
 
 use common\libraries\Path;
 use repository\DefaultContentObjectTableCellRenderer;
+use common\libraries\Translation;
 
 /**
  * $Id: object_publication_table_cell_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $

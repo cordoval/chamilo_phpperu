@@ -3,6 +3,7 @@ namespace application\weblcms\tool\calendar;
 
 use application\weblcms\ToolComponent;
 use common\libraries\DelegateComponent;
+use common\libraries\Translation;
 
 class CalendarToolReportingViewerComponent extends CalendarTool implements DelegateComponent
 {

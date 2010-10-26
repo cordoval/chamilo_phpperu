@@ -2,6 +2,7 @@
 namespace application\weblcms\tool\description;
 
 use application\weblcms\ToolComponent;
+use common\libraries\Translation;
 
 class DescriptionToolUpdaterComponent extends DescriptionTool
 {

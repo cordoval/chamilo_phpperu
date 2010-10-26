@@ -2,6 +2,7 @@
 namespace application\weblcms\tool\note;
 
 use application\weblcms\ToolComponent;
+use common\libraries\Translation;
 
 class NoteToolUpdaterComponent extends NoteTool
 {

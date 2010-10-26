@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\course_group;
 
+use common\libraries\Translation;
+
 /**
  * $Id: course_group_manage_subscriptions.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.course_group.component
@@ -20,23 +22,23 @@ class CourseGroupToolManageSubscriptionsComponent extends CourseGroupTool
             Display :: not_allowed();
             return;
         }
-        
+
         $course_group_id = Request :: get(CourseGroupTool :: PARAM_COURSE_GROUP);
         $wdm = WeblcmsDataManager :: get_instance();
         $course_group = $wdm->retrieve_course_group($course_group_id);
-        
+
         $trail = BreadcrumbTrail :: get_instance();
-                
+
         $form = new CourseGroupSubscriptionsForm($course_group, $this->get_url(array(CourseGroupTool :: PARAM_ACTION => CourseGroupTool :: ACTION_MANAGE_SUBSCRIPTIONS, CourseGroupTool :: PARAM_COURSE_GROUP => $course_group->get_id())), $this);
         if ($form->validate())
         {
             $succes = $form->update_course_group_subscriptions();
-            
+
             if ($succes)
                 $message = 'CourseGroupSubscriptionsUpdated';
             else
                 $message = 'MaximumAmountOfMembersReached';
-            
+
             $this->redirect(Translation :: get($message), ! $succes, array(CourseGroupTool :: PARAM_ACTION => CourseGroupTool :: ACTION_UNSUBSCRIBE, CourseGroupTool :: PARAM_COURSE_GROUP => $course_group->get_id()));
         }
         else
@@ -45,7 +47,7 @@ class CourseGroupToolManageSubscriptionsComponent extends CourseGroupTool
             $form->display();
             $this->display_footer();
         }
-    
+
     }
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)

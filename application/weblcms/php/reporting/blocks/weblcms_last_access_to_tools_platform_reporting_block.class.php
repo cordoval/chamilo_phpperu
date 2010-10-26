@@ -2,6 +2,7 @@
 namespace application\weblcms;
 
 use common\libraries\Path;
+use common\libraries\Translation;
 
 require_once Path :: get_reporting_path() . '/lib/reporting_data.class.php';
 require_once dirname(__FILE__) . '/../weblcms_course_reporting_block.class.php';
@@ -14,17 +15,17 @@ class WeblcmsLastAccessToToolsPlatformReportingBlock extends WeblcmsCourseReport
         $reporting_data = new ReportingData();
         $reporting_data->set_rows(array(Translation :: get('Tool'), Translation :: get('Clicks'), Translation :: get('Publications')));
         require_once Path :: get_user_path() . 'trackers/visit_tracker.class.php';
-        
+
         $wdm = WeblcmsDataManager :: get_instance();
         $tracker = new VisitTracker();
-        
+
         $tools = $wdm->get_all_course_modules();
         foreach ($tools as $name)
         {
             $image = '<img src="' . Theme :: get_image_path('weblcms') . 'tool_' . $name . '.png" style="vertical-align: middle;" /> ';
             $tool = Translation :: get(Utilities :: underscores_to_camelcase($name));
             $condition = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*tool=' . $name . '*');
-            
+
             $trackerdata = $tracker->retrieve_tracker_items($condition);
             $url = Reporting :: get_weblcms_reporting_url('ToolPublicationsDetailReportingTemplate', $params);
             $link = '<a href="' . $url . '">' . Translation :: get('ViewPublications') . '</a>';
@@ -33,7 +34,7 @@ class WeblcmsLastAccessToToolsPlatformReportingBlock extends WeblcmsCourseReport
             $reporting_data->add_data_category_row($tool, Translation :: get('Clicks'), count($trackerdata));
             $reporting_data->add_data_category_row($tool, Translation :: get('Publications'), $link);
         }
-        
+
         return $reporting_data;
     }
 

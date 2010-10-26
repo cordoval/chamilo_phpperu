@@ -2,6 +2,7 @@
 namespace application\weblcms\tool\forum;
 
 use application\weblcms\ToolComponent;
+use common\libraries\Translation;
 
 class ForumToolIntroductionPublisherComponent extends ForumTool
 {

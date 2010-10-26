@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Translation;
 
 /**
  * $Id: announcement_publisher.class.php 216 2009-11-13 14:08:06Z kariboe $

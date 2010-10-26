@@ -3,6 +3,7 @@ namespace application\weblcms\tool\streaming_video;
 
 use application\weblcms\ToolComponent;
 use common\libraries\DelegateComponent;
+use common\libraries\Translation;
 
 class StreamingVideoToolRightsEditorComponent extends StreamingVideoTool implements DelegateComponent
 {

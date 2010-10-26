@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Translation;
+
 /**
  * $Id: tool_list_renderer.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms
@@ -13,12 +15,12 @@ abstract class ToolListRenderer
     const TYPE_MENU = 'menu';
     const TYPE_SHORTCUT = 'shortcut';
     const TYPE_FIXED = 'fixed_location';
-    
+
     /**
      * The parent application
      */
     private $parent;
-    
+
     /**
      * The visible tools
      * @var Array Of Strings
@@ -44,12 +46,12 @@ abstract class ToolListRenderer
     {
         $type .= '_tool_list_renderer';
         $file = dirname(__FILE__) . '/tool_list_renderer/' . $type . '.class.php';
-        
+
         if(!file_exists($file))
         {
         	throw new exception(Translation :: get('CanNotLoadToolListRenderer'));
         }
-        
+
         require_once $file;
         $class = Utilities :: underscores_to_camelcase($type);
         return new $class($parent, $visible_tools);
@@ -63,7 +65,7 @@ abstract class ToolListRenderer
     {
         return $this->parent;
     }
-    
+
     function get_visible_tools()
     {
     	return $this->visible_tools;

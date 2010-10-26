@@ -2,6 +2,7 @@
 namespace application\weblcms;
 
 use common\libraries\Path;
+use common\libraries\Translation;
 
 /**
  * $Id: xml_course_user_group_feed.php 218 2009-11-13 14:21:26Z kariboe $

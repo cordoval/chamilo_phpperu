@@ -3,7 +3,7 @@ namespace application\weblcms\tool\forum;
 
 use common\libraries\Path;
 use common\libraries\DelegateComponent;
-
+use common\libraries\Translation;
 
 /**
  * $Id: forum_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $

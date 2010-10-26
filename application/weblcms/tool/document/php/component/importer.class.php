@@ -1,14 +1,15 @@
 <?php
 namespace application\weblcms\tool\document;
 
+use common\libraries\Translation;
 
 class DocumentToolImporterComponent extends DocumentTool{
 
-   
+
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-        
+
         $import_form = new ContentObjectImportForm('import', 'post', $this->get_url(), $this->get_parameter(RepositoryManager :: PARAM_CATEGORY_ID), $this->get_user());
 
         if ($import_form->validate())

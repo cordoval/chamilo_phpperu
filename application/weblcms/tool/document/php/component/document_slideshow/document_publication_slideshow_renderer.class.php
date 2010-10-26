@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\document;
 
+use common\libraries\Translation;
+
 /**
  * $Id: document_publication_slideshow_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.document.component.document_slideshow
@@ -46,7 +48,7 @@ class DocumentPublicationSlideshowRenderer extends ListContentObjectPublicationL
 				'href' => $this->get_url(array('tool_action' => 'slideshow','thumbnails'=>1)),
 				'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
 			$html[] = Utilities::build_toolbar($toolbar_data) . '<br /><br />';*/
-            
+
             $navigation[] = '<div style="text-align: center;">';
             $navigation[] = ($slideshow_index + 1) . ' / ' . count($publications);
             $navigation[] = '<div style="width=30%;text-align:left;float:left;">';
@@ -71,7 +73,7 @@ class DocumentPublicationSlideshowRenderer extends ListContentObjectPublicationL
             {
                 $navigation[] = '<img src="' . Theme :: get_common_image_path() . 'action_next_na.png" alt="' . Translation :: get('Next') . '"/>';
                 $navigation[] = '<img src="' . Theme :: get_common_image_path() . 'action_last_na.png" alt="' . Translation :: get('Last') . '"/>';
-            
+
             }
             $navigation[] = '</div>';
             $navigation[] = '<div style="clear:both;"></div>';
@@ -92,19 +94,19 @@ class DocumentPublicationSlideshowRenderer extends ListContentObjectPublicationL
         $html[] = $this->render_title($publication);
         $html[] = '</div>';
         $html[] = '<div style="text-align: center;">';
-        
+
         $resize = Session :: retrieve('slideshow_resize');
         if($resize)
         {
         	list($width, $height) = explode("|", $resize);
         	list($original_width, $original_height, $type, $attr) = getimagesize($url);
-        	
+
         	$aspect = $original_height / $original_width;
         	$width = round($height / $aspect);
-        	
-        	$aditionalstyles = 'width: ' . $width . 'px; height: ' . $height . 'px;'; 
+
+        	$aditionalstyles = 'width: ' . $width . 'px; height: ' . $height . 'px;';
         }
-        
+
 //        $html[] = '<a href="' . $url . '" target="about:blank"><img src="' . $url . '" alt="" style="max-width: 800px; border:1px solid black;padding:5px;' . $aditionalstyles . '"/></a>';
         $html[] = '<div class="description' . ($publication->is_visible_for_target_users() ? '' : ' invisible') . '">';
         $html[] = $this->render_description($publication);

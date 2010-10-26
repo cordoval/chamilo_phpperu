@@ -3,6 +3,7 @@ namespace application\weblcms;
 
 use common\libraries\Path;
 use common\libraries\ObjectTableColumnModel;
+use common\libraries\Translation;
 
 /**
  * $Id: location_course_group_browser_table_column_model.class.php 191 2009-11-13 11:50:28Z chellee $

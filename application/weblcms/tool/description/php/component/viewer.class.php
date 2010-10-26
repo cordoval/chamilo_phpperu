@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\description;
 
+use common\libraries\Translation;
 
 class DescriptionToolViewerComponent extends DescriptionTool
 {
@@ -10,8 +11,8 @@ function run()
 		$component = ToolComponent::factory(ToolComponent::ACTION_VIEW, $this);
 		$component->run();
 	}
-    
-    
+
+
 //    function run()
 //    {
 //        if (! $this->is_allowed(WeblcmsRights :: VIEW_RIGHT))
@@ -40,8 +41,8 @@ function run()
 //        if (Request :: get(Tool :: PARAM_PUBLICATION_ID) != null && Request :: get('tool_action') == 'view')
 //            $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), WebLcmsDataManager :: get_instance()->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID))->get_content_object()->get_title()));
 //
-//        $html = $browser->as_html();    
-//            
+//        $html = $browser->as_html();
+//
 //        $this->display_header();
 //
 //        //echo '<br /><a name="top"></a>';

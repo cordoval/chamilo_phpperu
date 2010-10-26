@@ -3,6 +3,7 @@ namespace application\weblcms\tool\rights;
 
 use application\weblcms\ToolComponent;
 use common\libraries\DelegateComponent;
+use common\libraries\Translation;
 
 class RightsToolRightsEditorComponent extends RightsTool implements DelegateComponent
 {

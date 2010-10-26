@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\user;
 
+use common\libraries\Translation;
+
 /**
  * $Id: user_group_subscribe_browser.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.user.component
@@ -102,7 +104,7 @@ class UserToolGroupSubscribeBrowserComponent extends UserTool
     }
 
     function get_condition()
-    {	
+    {
         $conditions[] = new EqualityCondition(Group :: PROPERTY_PARENT, $this->get_group());
 
         $query = $this->action_bar->get_query();

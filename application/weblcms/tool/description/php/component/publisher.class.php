@@ -2,6 +2,7 @@
 namespace application\weblcms\tool\description;
 
 use application\weblcms\ToolComponent;
+use common\libraries\Translation;
 
 /**
  * $Id: description_publisher.class.php 216 2009-11-13 14:08:06Z kariboe $

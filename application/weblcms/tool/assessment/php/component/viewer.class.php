@@ -2,6 +2,7 @@
 namespace application\weblcms\tool\assessment;
 
 use application\weblcms\ToolComponent;
+use common\libraries\Translation;
 
 class AssessmentToolViewerComponent extends AssessmentTool
 {

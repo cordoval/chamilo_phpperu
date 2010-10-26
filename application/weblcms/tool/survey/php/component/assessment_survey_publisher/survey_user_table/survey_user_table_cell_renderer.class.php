@@ -2,6 +2,7 @@
 namespace application\weblcms\tool\survey;
 
 use common\libraries\Path;
+use common\libraries\Translation;
 
 /**
  * $Id: survey_user_table_cell_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $

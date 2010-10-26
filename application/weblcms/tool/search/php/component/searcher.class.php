@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\search;
 
+use common\libraries\Translation;
+
 /**
  * $Id: search_searcher.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.search.component
@@ -24,7 +26,7 @@ class SearchToolSearcherComponent extends SearchTool
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-        
+
 
         $this->action_bar = $this->get_action_bar();
         $this->display_header();
@@ -59,27 +61,27 @@ class SearchToolSearcherComponent extends SearchTool
                 $access[] = new AndCondition(array(new EqualityCondition('user_id', null, $datamanager->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $datamanager->get_alias('content_object_publication_course_group'))));
             }
             $conditions[] = new OrCondition($access);*/
-            
+
             $access = array();
 	        if($user_id)
 	        {
 	    		$access[] = new InCondition(ContentObjectPublicationUser :: PROPERTY_USER, $user_id, ContentObjectPublicationUser :: get_table_name());
 	        }
-	    	
+
 	    	if(count($course_group_ids) > 0)
 	    	{
 	        	$access[] = new InCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, $course_group_ids, ContentObjectPublicationCourseGroup :: get_table_name());
 	    	}
-	        	
+
 	        if (! empty($user_id) || ! empty($course_group_ids))
 	        {
 	            $access[] = new AndCondition(array(
-	            			new EqualityCondition(ContentObjectPublicationUser :: PROPERTY_USER, null, ContentObjectPublicationUser :: get_table_name()), 
+	            			new EqualityCondition(ContentObjectPublicationUser :: PROPERTY_USER, null, ContentObjectPublicationUser :: get_table_name()),
 	            			new EqualityCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, null, ContentObjectPublicationCourseGroup :: get_table_name())));
 	        }
-	        
+
 	        $conditions[] = new OrCondition($access);
-            
+
             $condition = new AndCondition($conditions);
             $publications = $datamanager->retrieve_content_object_publications($condition);
             $tools = array();
@@ -124,7 +126,7 @@ class SearchToolSearcherComponent extends SearchTool
                         {
                         	$url = '#';
                         }
-                        
+
                         $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/' . $object->get_icon_name() . '.png);">';
                         $html[] = '<div class="title"><a href="' . $url . '">' . Text :: highlight($object->get_title(), $query, 'yellow') . '</a></div>';
                         $html[] = '<div class="description">' . Text :: highlight(strip_tags($object->get_description()), $query, 'yellow') . '</div>';
@@ -193,7 +195,7 @@ class SearchToolSearcherComponent extends SearchTool
         {
         	return null;
         }
-        
+
         return $query;
     }
 

@@ -2,6 +2,7 @@
 namespace application\weblcms\tool\course_group;
 
 use application\weblcms\ToolComponent;
+use common\libraries\Translation;
 
 class CourseGroupToolIntroductionPublisherComponent extends CourseGroupTool
 {

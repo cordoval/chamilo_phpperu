@@ -2,6 +2,7 @@
 namespace application\weblcms\tool\geolocation;
 
 use application\weblcms\ToolComponent;
+use common\libraries\Translation;
 
 /**
  * $Id: geolocation_publisher.class.php 216 2009-11-13 14:08:06Z kariboe $

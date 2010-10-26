@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\link;
 
+use common\libraries\Translation;
+
 /**
  * $Id: link_publisher.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.link.component
@@ -22,7 +24,7 @@ class LinkToolPublisherComponent extends LinkToolComponent implements RepoViewer
         }
 
         $trail = BreadcrumbTrail :: get_instance();
-        
+
 
         if (Request :: get('pcattree') != null)
         {
@@ -32,8 +34,8 @@ class LinkToolPublisherComponent extends LinkToolComponent implements RepoViewer
                     $trail->add(new Breadcrumb($this->get_url(), $breadcrumb->get_name()));
             }
         }
-        
-        
+
+
         if (!ContentObjectRepoViewer::is_ready_to_be_published())
         {
             $pub = new ContentObjectRepoViewer($this);

@@ -2,6 +2,7 @@
 namespace application\weblcms\tool\link;
 
 use common\libraries\Path;
+use common\libraries\Translation;
 
 /**
  * $Id: link_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $

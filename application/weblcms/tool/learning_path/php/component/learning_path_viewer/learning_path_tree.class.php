@@ -2,6 +2,7 @@
 namespace application\weblcms\tool\learning_path;
 
 use common\libraries\Path;
+use common\libraries\Translation;
 
 /**
  * $Id: learning_path_tree.class.php 216 2009-11-13 14:08:06Z kariboe $

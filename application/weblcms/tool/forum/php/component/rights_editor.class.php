@@ -3,6 +3,7 @@ namespace application\weblcms\tool\forum;
 
 use application\weblcms\ToolComponent;
 use common\libraries\DelegateComponent;
+use common\libraries\Translation;
 
 class ForumToolRightsEditorComponent extends ForumTool implements DelegateComponent
 {

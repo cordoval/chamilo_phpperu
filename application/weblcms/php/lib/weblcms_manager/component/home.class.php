@@ -3,6 +3,7 @@ namespace application\weblcms;
 
 use common\libraries\Path;
 use common\libraries\DelegateComponent;
+use common\libraries\Translation;
 
 /**
  * $Id: home.class.php 218 2009-11-13 14:21:26Z kariboe $

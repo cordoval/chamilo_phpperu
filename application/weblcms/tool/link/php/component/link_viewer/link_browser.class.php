@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\link;
 
+use common\libraries\Translation;
+
 /**
  * $Id: link_browser.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.link.component.link_viewer

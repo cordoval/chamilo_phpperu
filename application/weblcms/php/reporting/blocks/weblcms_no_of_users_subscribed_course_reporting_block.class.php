@@ -2,6 +2,7 @@
 namespace application\weblcms;
 
 use common\libraries\Path;
+use common\libraries\Translation;
 
 require_once dirname(__FILE__) . '/../weblcms_course_reporting_block.class.php';
 
@@ -13,13 +14,13 @@ class WeblcmsNoOfUsersSubscribedCourseReportingBlock extends WeblcmsCourseReport
         $reporting_data = new ReportingData();
         $udm = UserDataManager :: get_instance();
         $users = $udm->count_users();
-        
+
         $wdm = WeblcmsDataManager :: get_instance();
         $courses = $wdm->count_distinct_course_user_relations();
-        
+
         $reporting_data->set_categories(array(Translation :: get('UsersSubscribedToCourse'), Translation :: get('UsersNotSubscribedToCourse')));
         $reporting_data->set_rows(array(Translation :: get('count')));
-        
+
         $reporting_data->add_data_category_row(Translation :: get('UsersSubscribedToCourse'), Translation :: get('count'), $courses);
         $reporting_data->add_data_category_row(Translation :: get('UsersNotSubscribedToCourse'), Translation :: get('count'), $users - $courses);
         return $reporting_data;

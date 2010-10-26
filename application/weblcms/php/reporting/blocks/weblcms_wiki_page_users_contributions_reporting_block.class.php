@@ -2,6 +2,7 @@
 namespace application\weblcms;
 
 use common\libraries\Path;
+use common\libraries\Translation;
 
 require_once dirname(__FILE__) . '/../weblcms_tool_reporting_block.class.php';
 require_once Path :: get_reporting_path() . '/lib/reporting_data.class.php';
@@ -13,7 +14,7 @@ class WeblcmsWikiPageUsersContributionsReportingBlock extends WeblcmsToolReporti
     {
         $reporting_data = new ReportingData();
         $reporting_data->set_rows(array(Translation :: get('Username'), Translation :: get('NumberOfContributions')));
-        
+
         $dm = RepositoryDataManager :: get_instance();
         $complex_content_object_item = $dm->retrieve_complex_content_object_item(Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID));
         $wiki_page = $dm->retrieve_content_object($complex_content_object_item->get_ref());

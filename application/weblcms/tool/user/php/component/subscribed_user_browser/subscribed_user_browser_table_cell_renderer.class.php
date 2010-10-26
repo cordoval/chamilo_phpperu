@@ -2,6 +2,7 @@
 namespace application\weblcms\tool\user;
 
 use common\libraries\Path;
+use common\libraries\Translation;
 
 /**
  * $Id: subscribed_user_browser_table_cell_renderer.class.php 218 2009-11-13 14:21:26Z kariboe $

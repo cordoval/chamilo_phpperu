@@ -3,6 +3,7 @@ namespace application\weblcms\tool\wiki;
 
 use application\weblcms\ToolComponent;
 use common\libraries\DelegateComponent;
+use common\libraries\Translation;
 
 class WikiToolRightsEditorComponent extends WikiTool implements DelegateComponent
 {

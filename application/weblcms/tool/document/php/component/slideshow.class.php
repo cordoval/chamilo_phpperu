@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\document;
 
+use common\libraries\Translation;
+
 /**
  * $Id: document_slideshow.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.document.component
@@ -21,14 +23,14 @@ class DocumentToolSlideshowComponent extends DocumentTool
             Display :: not_allowed();
             return;
         }
-        
+
         $browser = new DocumentSlideshowBrowser($this);
         $this->action_bar = $this->get_action_bar();
-        
+
         $trail = BreadcrumbTrail :: get_instance();
-        
+
         $html = $browser->as_html();
-        
+
         $this->display_header();
         echo $this->action_bar->as_html();
         echo $html;
@@ -38,7 +40,7 @@ class DocumentToolSlideshowComponent extends DocumentTool
     function get_action_bar()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        
+
         if (Request :: get('thumbnails'))
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('Slideshow'), Theme :: get_common_image_path() . 'action_slideshow.png', $this->get_url(array('tool_action' => 'slideshow', 'thumbnails' => null)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
@@ -47,9 +49,9 @@ class DocumentToolSlideshowComponent extends DocumentTool
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('Thumbnails'), Theme :: get_common_image_path() . 'action_slideshow_thumbnail.png', $this->get_url(array('tool_action' => 'slideshow', 'thumbnails' => 1)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
-        
+
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('SlideshowSettings'), Theme :: get_common_image_path() . 'action_config.png', $this->get_url(array('tool_action' => DocumentTool :: ACTION_SLIDESHOW_SETTINGS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        
+
         return $action_bar;
     }
 

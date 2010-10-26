@@ -2,6 +2,7 @@
 namespace application\weblcms\tool\learning_path;
 
 use application\weblcms\ToolComponent;
+use common\libraries\Translation;
 
 class LearningPathToolIntroductionPublisherComponent extends LearningPathTool
 {

@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\document;
 
+use common\libraries\Translation;
+
 /**
  * $Id: document_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.document.component
@@ -18,7 +20,7 @@ class DocumentToolSlideshowSettingsComponent extends DocumentTool
             Display :: not_allowed();
             return;
         }
-         
+
         $form = new DocumentSlideshowSettingsForm($this->get_url(), $this->get_user_id());
         if($form->validate())
         {
@@ -30,12 +32,12 @@ class DocumentToolSlideshowSettingsComponent extends DocumentTool
 	        $trail = BreadcrumbTrail :: get_instance();
 	        $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => DocumentTool :: ACTION_SLIDESHOW)), Translation :: get('Slideshow')));
 	        $trail->add(new Breadcrumb($this->get_url(array()), Translation :: get('SlideshowSettings')));
-	        
+
 	        $this->display_header();
 	        $form->display();
 	        $this->display_footer();
         }
-        
+
     }
 }
 ?>

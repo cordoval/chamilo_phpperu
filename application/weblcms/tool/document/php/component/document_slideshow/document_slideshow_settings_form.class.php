@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\document;
 
+use common\libraries\Translation;
 
 class DocumentSlideshowSettingsForm extends FormValidator
 {

@@ -2,6 +2,7 @@
 namespace application\weblcms\tool\geolocation;
 
 use application\weblcms\ToolComponent;
+use common\libraries\Translation;
 
 class GeolocationToolIntroductionPublisherComponent extends GeolocationTool
 {

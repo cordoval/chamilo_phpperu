@@ -2,6 +2,7 @@
 namespace application\weblcms\tool\user;
 
 use common\libraries\ObjectTable;
+use common\libraries\Translation;
 
 /**
  * $Id: subscribed_user_browser_table.class.php 218 2009-11-13 14:21:26Z kariboe $

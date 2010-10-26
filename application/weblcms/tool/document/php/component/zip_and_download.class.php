@@ -2,6 +2,7 @@
 namespace application\weblcms\tool\document;
 
 use common\libraries\Path;
+use common\libraries\Translation;
 
 /**
  * $Id: document_zip_and_download.class.php 216 2009-11-13 14:08:06Z kariboe $

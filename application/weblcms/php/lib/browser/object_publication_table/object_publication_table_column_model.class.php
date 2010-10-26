@@ -2,6 +2,7 @@
 namespace application\weblcms;
 
 use common\libraries\ObjectTableColumnModel;
+use common\libraries\Translation;
 
 /**
  * $Id: object_publication_table_column_model.class.php 216 2009-11-13 14:08:06Z kariboe $

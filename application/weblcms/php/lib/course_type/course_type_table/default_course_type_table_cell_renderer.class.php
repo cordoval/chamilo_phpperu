@@ -2,6 +2,7 @@
 namespace application\weblcms;
 
 use common\libraries\ObjectTableCellRenderer;
+use common\libraries\Translation;
 
 /**
  * $Id: default_course_type_table_cell_renderer.class.php 216 2010-03-12 14:08:06Z Yannick $

@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use common\libraries\Translation;
 
 /**
  * $Id: assessment_results_export.class.php 216 2009-11-13 14:08:06Z kariboe $

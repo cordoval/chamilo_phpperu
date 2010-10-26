@@ -3,6 +3,7 @@ namespace application\weblcms\tool\note;
 
 use application\weblcms\ToolComponent;
 use common\libraries\DelegateComponent;
+use common\libraries\Translation;
 
 class NoteToolRightsEditorComponent extends NoteTool implements DelegateComponent
 {

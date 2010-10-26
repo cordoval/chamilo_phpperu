@@ -2,6 +2,7 @@
 namespace application\weblcms;
 
 use common\libraries\FormValidator;
+use common\libraries\Translation;
 
 /**
  * $Id: weblcms_search_form.class.php 218 2009-11-13 14:21:26Z kariboe $

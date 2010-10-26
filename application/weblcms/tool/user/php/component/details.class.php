@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\user;
 
+use common\libraries\Translation;
 
 /**
  * $Id: user_details.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -19,7 +20,7 @@ class UserToolDetailsComponent extends UserTool
             return;
         }
         $trail = BreadcrumbTrail :: get_instance();
-        
+
 
         if (Request :: get('users') != null)
         {

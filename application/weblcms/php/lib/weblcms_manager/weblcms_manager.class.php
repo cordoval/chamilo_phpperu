@@ -2,6 +2,7 @@
 namespace application\weblcms;
 
 use common\libraries\WebApplication;
+use common\libraries\Translation;
 
 /**
  * $Id: weblcms_manager.class.php 218 2009-11-13 14:21:26Z kariboe $

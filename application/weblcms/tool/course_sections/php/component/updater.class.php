@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\course_sections;
 
+use common\libraries\Translation;
+
 /**
  * $Id: course_sections_updater.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.course_sections.component
@@ -18,7 +20,7 @@ class CourseSectionsToolUpdaterComponent extends CourseSectionsTool
     {
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses sections');
-        
+
         if (! $this->get_course()->is_course_admin($this->get_parent()->get_user()))
         {
             $this->display_header();
@@ -26,14 +28,14 @@ class CourseSectionsToolUpdaterComponent extends CourseSectionsTool
             $this->display_footer();
             exit();
         }
-        
+
         $id = Request :: get(CourseSectionsTool :: PARAM_COURSE_SECTION_ID);
         if (! empty($id))
         {
             $course_section = WeblcmsDataManager :: get_instance()->retrieve_course_sections(new EqualityCondition('id', $id))->next_result();
-            
+
             $form = new CourseSectionForm(CourseSectionForm :: TYPE_EDIT, $course_section, $this->get_url(array(CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_UPDATE_COURSE_SECTION, CourseSectionsTool :: PARAM_COURSE_SECTION_ID => $id)));
-            
+
             if ($form->validate())
             {
                 $success = $form->update_course_section();

@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\course_group;
 
+use common\libraries\Translation;
+
 /**
  * $Id: course_group_unsubscribe_browser.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.course_group.component
@@ -30,7 +32,7 @@ class CourseGroupToolUnsubscribeBrowserComponent extends CourseGroupTool
 
         $this->action_bar = $this->get_action_bar();
         $html[] = '<div style="clear: both;">&nbsp;</div>';
-        
+
         if (Request :: get(WeblcmsManager :: PARAM_USERS))
         {
             $udm = UserDataManager :: get_instance();
@@ -69,7 +71,7 @@ class CourseGroupToolUnsubscribeBrowserComponent extends CourseGroupTool
         $html[] = $table->as_html();
         $html[] = '</div>';
         $trail = BreadcrumbTrail :: get_instance();
-       
+
         $this->display_header();
         echo implode($html, "\n");
         $this->display_footer();
