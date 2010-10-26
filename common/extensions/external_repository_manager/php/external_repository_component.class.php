@@ -2,6 +2,8 @@
 namespace common\extensions\external_repository_manager;
 
 use common\libraries\Utilities;
+use common\libraries\SubManager;
+use common\libraries\Path;
 
 abstract class ExternalRepositoryComponent extends SubManager
 {
