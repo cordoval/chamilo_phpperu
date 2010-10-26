@@ -1,5 +1,13 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\picasa;
+
+use common\extensions\external_repository_manager\DefaultExternalRepositoryGalleryObjectTableCellRenderer;
+use common\extensions\external_repository_manager\ExternalRepositoryObject;
+use common\extensions\external_repository_manager\ExternalRepositoryObjectDisplay;
+
+use common\libraries\Toolbar;
+use common\libraries\Utilities;
+
 class PicasaExternalRepositoryGalleryTableCellRenderer extends DefaultExternalRepositoryGalleryObjectTableCellRenderer
 {
     /**

@@ -1,4 +1,5 @@
 <?php
+use common\libraries\Path;
 /**
  * Photobucket API 
  * Fluent interface for PHP5
@@ -15,7 +16,7 @@
 /**
  * Load Request parent
  */
-require_once PATH :: get_plugin_path() . 'PBAPI-0.2.3/PBAPI-0.2.3/PBAPI/Request.php';
+require_once Path :: get_plugin_path() . 'PBAPI-0.2.3/PBAPI-0.2.3/PBAPI/Request.php';
 
 /**
  * fsockopen request strategy

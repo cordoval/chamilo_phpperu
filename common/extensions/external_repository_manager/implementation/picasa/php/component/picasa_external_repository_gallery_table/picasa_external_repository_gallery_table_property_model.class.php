@@ -1,5 +1,8 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\picasa;
+
+use common\extensions\external_repository_manager\DefaultExternalRepositoryGalleryObjectTablePropertyModel;
+
 class PicasaExternalRepositoryGalleryTablePropertyModel extends DefaultExternalRepositoryGalleryObjectTablePropertyModel
 {
     function PicasaExternalRepositoryGalleryTablePropertyModel()

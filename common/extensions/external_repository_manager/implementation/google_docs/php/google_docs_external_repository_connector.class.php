@@ -1,5 +1,24 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\google_docs;
+
+use common\libraries\Request;
+use common\libraries\Redirect;
+use common\libraries\Session;
+use common\libraries\PlatformSetting;
+use common\libraries\Translation;
+use common\libraries\ArrayResultSet;
+
+use common\extensions\external_repository_manager\ExternalRepositoryObject;
+use common\extensions\external_repository_manager\ExternalRepositoryConnector;
+
+use repository\ExternalRepositoryUserSetting;
+use repository\RepositoryDataManager;
+
+use Zend_Loader;
+use Zend_Gdata_AuthSub;
+use Zend_Gdata_Docs;
+use Zend_Gdata_Docs_Query;
+
 require_once 'Zend/Loader.php';
 require_once dirname(__FILE__) . '/google_docs_external_repository_object.class.php';
 require_once dirname(__FILE__) . '/google_docs_external_repository_object_acl.class.php';

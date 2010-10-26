@@ -1,6 +1,13 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\google_docs;
 
+use common\libraries\Path;
+use common\libraries\Translation;
+use common\libraries\DatetimeUtilities;
+use common\libraries\Filesystem;
+
+use common\extensions\external_repository_manager\ExternalRepositoryObjectDisplay;
+
 class GoogleDocsExternalRepositoryObjectDisplay extends ExternalRepositoryObjectDisplay
 {
 
