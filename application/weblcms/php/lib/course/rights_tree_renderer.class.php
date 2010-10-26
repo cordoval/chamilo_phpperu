@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms;
+
 /**
  * $Id: content_object_category_menu.class.php 204 2009-11-13 12:51:30Z tristan $
  * @package repository.lib

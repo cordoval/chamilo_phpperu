@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms;
+
 class WeblcmsSurveyParticipantMailTracker extends SimpleTracker
 {
     const CLASS_NAME = __CLASS__;

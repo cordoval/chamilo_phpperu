@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms;
+
 /**
  * $Id: object_publication_table.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.browser.object_publication_table

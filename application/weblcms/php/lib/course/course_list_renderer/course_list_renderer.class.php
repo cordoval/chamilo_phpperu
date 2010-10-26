@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms;
+
 
 /**
  * Course list renderer to render the course list (used in courses home, courses sorter, courses block...)

@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms;
+
 require_once dirname(__FILE__) . '/../trackers/weblcms_lp_attempt_tracker.class.php';
 class LearningPathToolGradebookConnector
 {

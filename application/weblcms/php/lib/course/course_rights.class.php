@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms;
+
 /**
  * $Id: course_rights.class.php 216 2009-11-13 14:08:06Z Tristan $
  * @package application.lib.weblcms.course

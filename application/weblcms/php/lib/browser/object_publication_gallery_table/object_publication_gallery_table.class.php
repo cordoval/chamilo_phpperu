@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms;
+
 require_once dirname(__FILE__) . '/object_publication_gallery_table_cell_renderer.class.php';
 require_once dirname(__FILE__) . '/object_publication_gallery_table_data_provider.class.php';
 require_once dirname(__FILE__) . '/object_publication_gallery_table_property_model.class.php';

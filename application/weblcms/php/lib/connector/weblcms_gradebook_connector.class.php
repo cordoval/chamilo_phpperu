@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms;
+
 require_once dirname(__FILE__) . '/assessment_tool_gradebook_connector.class.php';
 require_once dirname(__FILE__) . '/learning_path_tool_gradebook_connector.class.php';
 

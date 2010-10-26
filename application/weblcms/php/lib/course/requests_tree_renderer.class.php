@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms;
+
 /**
  * $Id: request_tree_renderer.class.php 204 2009-11-13 12:51:30Z tristan $
  */
