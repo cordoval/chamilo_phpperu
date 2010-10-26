@@ -2,6 +2,9 @@
 namespace repository\content_object\forum;
 
 use common\libraries\Translation;
+use repository\ComplexDisplay;
+use repository\RepositoryDataManager;
+use repository\ContentObjectForm;
 
 /**
  * $Id: forum_post_editor.class.php 200 2009-11-13 12:30:04Z kariboe $

@@ -2,6 +2,7 @@
 namespace repository\content_object\forum;
 
 use common\libraries\Translation;
+use repository\ComplexDisplay;
 
 /**
  * $Id: important.class.php 200 2009-11-13 12:30:04Z kariboe $

@@ -31,13 +31,13 @@ class ForumPublicationCategoryManager extends CategoryManager
 
     function retrieve_categories($condition, $offset, $count, $order_property)
     {
-        return ForumDataManager :: get_instance()->retrieve_forum_publication_categories($condition, $offset, $count, $order_property);
+        return ForumDataManager :: get_instance()->retrieve_forum_publication_categories($condition, $offset, $count, $order_property, ForumPublicationCategory :: CLASS_NAME);
     }
 
     function get_next_category_display_order($parent_id)
     {
         $condition = new EqualityCondition(PlatformCategory :: PROPERTY_PARENT, $parent_id);
-        $sort = ForumDataManager :: get_instance()->retrieve_max_sort_value(ForumPublicationCategory :: get_table_name(), PlatformCategory :: PROPERTY_DISPLAY_ORDER, $condition);
+        $sort = ForumDataManager :: get_instance()->retrieve_max_sort_value(ForumPublicationCategory :: get_table_name(), PlatformCategory :: PROPERTY_DISPLAY_ORDER, $condition, ForumPublicationCategory :: CLASS_NAME);
         return $sort + 1;
     }
 }
