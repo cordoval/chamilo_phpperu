@@ -3,7 +3,11 @@
 namespace application\forum;
 
 use common\extensions\repo_viewer\RepoViewer;
-use ForumPublicationPublisher;
+use common\extensions\repo_viewer\RepoViewerInterface;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
+use repository\content_object\forum\Forum;
 
 /**
  * $Id: creator.class.php 205 2009-11-13 12:57:33Z vanpouckesven $

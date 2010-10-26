@@ -8,6 +8,7 @@ use repository\RepositoryDataManager;
 use common\extensions\repo_viewer\RepoViewer;
 use common\libraries\Translation;
 use common\libraries\Application;
+use common\libraries\Theme;
 /**
  * $Id: profile_publisher.class.php 212 2009-11-13 13:38:35Z chellee $
  * @package application.profiler.publisher

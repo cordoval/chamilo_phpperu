@@ -1,6 +1,7 @@
 <?php
 namespace application\context_linker;
 use common\libraries\ObjectTableDataProvider;
+use repository\RepositoryDataManager;
 
 /**
  * Data provider for a content_object table

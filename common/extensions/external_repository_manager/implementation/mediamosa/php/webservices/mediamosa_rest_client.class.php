@@ -1,15 +1,17 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\mediamosa;
+use common\libraries\Cookie;
+use common\libraries\Path;
+use RestClient;
+use HTTP_Request;
 
+require_once Path::get_plugin_path().'webservices/rest/client/rest_client.class.php';
+require_once dirname(__FILE__).'/mediamosa_rest_result.class.php';
 /**
  * Description of mediamosa_rest_clientclass
  *
  * @author jevdheyd
  */
-
-require_once Path::get_plugin_path().'webservices/rest/client/rest_client.class.php';
-require_once dirname(__FILE__).'/mediamosa_rest_result.class.php';
-
 class MediamosaRestClient extends RestClient{
 
     private $mediamosa_url;

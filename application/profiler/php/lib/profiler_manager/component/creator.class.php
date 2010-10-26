@@ -2,6 +2,7 @@
 
 namespace application\profiler;
 
+use common\extensions\repo_viewer\RepoViewerInterface;
 use common\libraries\Request;
 use common\libraries\Display;
 use common\libraries\Translation;

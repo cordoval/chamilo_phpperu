@@ -1,28 +1,29 @@
 <?php
 
-use user\User;
 namespace application\profiler;
 
+use user\User;
 use common\libraries\DataClass;
 use repository\RepositoryDataManager;
 use user\UserDataManager;
+use common\libraries\Utilities;
 
 /**
  * $Id: profile_publication.class.php 212 2009-11-13 13:38:35Z chellee $
  * @package application.profiler
  */
 /**
- * 	This class represents a ProfilePublication.
+ * 	This class represents a ProfilerPublication.
  *
- * 	ProfilePublication objects have a number of default properties:
- * 	- id: the numeric ID of the ProfilePublication;
- * 	- profile: the numeric object ID of the ProfilePublication (from the repository);
- * 	- publisher: the publisher of the ProfilePublication;
- * 	- published: the date when the ProfilePublication was "posted";
+ * 	ProfilerPublication objects have a number of default properties:
+ * 	- id: the numeric ID of the ProfilerPublication;
+ * 	- profile: the numeric object ID of the ProfilerPublication (from the repository);
+ * 	- publisher: the publisher of the ProfilerPublication;
+ * 	- published: the date when the ProfilerPublication was "posted";
  * 	@author Hans de Bisschop
  * 	@author Dieter De Neef
  */
-class ProfilePublication extends DataClass
+class ProfilerPublication extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'publication';
@@ -50,7 +51,7 @@ class ProfilePublication extends DataClass
     }
 
     /**
-     * Returns the learning object id from this ProfilePublication object
+     * Returns the learning object id from this ProfilerPublication object
      * @return int The Profile ID
      */
     function get_profile()
@@ -59,7 +60,7 @@ class ProfilePublication extends DataClass
     }
 
     /**
-     * Returns the user of this ProfilePublication object
+     * Returns the user of this ProfilerPublication object
      * @return int the user
      */
     function get_publisher()
@@ -68,7 +69,7 @@ class ProfilePublication extends DataClass
     }
 
     /**
-     * Returns the published timestamp of this ProfilePublication object
+     * Returns the published timestamp of this ProfilerPublication object
      * @return Timestamp the published date
      */
     function get_published()
@@ -82,7 +83,7 @@ class ProfilePublication extends DataClass
     }
 
     /**
-     * Sets the learning object id of this ProfilePublication.
+     * Sets the learning object id of this ProfilerPublication.
      * @param Int $id the profile ID.
      */
     function set_profile($id)
@@ -91,7 +92,7 @@ class ProfilePublication extends DataClass
     }
 
     /**
-     * Sets the user of this ProfilePublication.
+     * Sets the user of this ProfilerPublication.
      * @param int $user the User.
      */
     function set_publisher($publisher)
@@ -100,7 +101,7 @@ class ProfilePublication extends DataClass
     }
 
     /**
-     * Sets the published date of this ProfilePublication.
+     * Sets the published date of this ProfilerPublication.
      * @param int $published the timestamp of the published date.
      */
     function set_published($published)
@@ -181,7 +182,7 @@ class ProfilePublication extends DataClass
 
     static function get_table_name()
     {
-        return self :: TABLE_NAME;
+        return 'profiler_publication';//Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME))); //doesnt work because the class is named wrong 
     }
 
 }

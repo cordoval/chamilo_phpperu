@@ -2,6 +2,9 @@
 namespace application\metadata;
 use common\libraries\DataClass;
 use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use common\libraries\OrCondition;
 /**
  * This class describes a MetadataPropertyAttributeType data object
  * @author Sven Vanpoucke
@@ -133,7 +136,7 @@ class MetadataPropertyAttributeType extends DataClass
                 $condition1 =  new EqualityCondition(MetadataAttributeNesting :: PROPERTY_PARENT_ID, $this->get_id());
 
                 $condition2 =  new EqualityCondition(MetadataAttributeNesting :: PROPERTY_CHILD_ID, $this->get_id());
-                $condition3 = new EqualityCondition(MetadataAttributeNesting :: PROPERTY_CHILD_TYPE, Utilities :: camelcase_to_underscores(self :: CLASS_NAME));
+                $condition3 = new EqualityCondition(MetadataAttributeNesting :: PROPERTY_CHILD_TYPE, Utilities :: get_classname_from_namespace(Utilities :: camelcase_to_underscores(self :: CLASS_NAME)));
                 $condition4 = new AndCondition($condition2, $condition3);
 
                 $condition = new OrCondition($condition1, $condition4);

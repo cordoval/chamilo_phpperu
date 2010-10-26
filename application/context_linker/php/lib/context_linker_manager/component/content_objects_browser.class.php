@@ -1,6 +1,7 @@
 <?php
 namespace application\context_linker;
-
+use common\libraries\Application;
+require_once dirname(__FILE__) . '/content_object_browser/content_object_browser_table.class.php';
 /**
  * context_linker component which allows the user to browse his context_links
  * @author Sven Vanpoucke

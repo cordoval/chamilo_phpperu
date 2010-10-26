@@ -2,6 +2,7 @@
 namespace repository\content_object\assessment_open_question;
 
 use common\libraries\Path;
+use repository\ComplexOpenQuestion;
 
 /**
  * $Id: complex_assessment_open_question.class.php 200 2009-11-13 12:30:04Z kariboe $

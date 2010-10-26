@@ -3,6 +3,7 @@ namespace repository\content_object\assessment_open_question;
 
 use common\libraries\Translation;
 use common\libraries\Path;
+use repository\ComplexOpenQuestionForm;
 
 /**
  * $Id: complex_assessment_open_question_form.class.php 200 2009-11-13 12:30:04Z kariboe $

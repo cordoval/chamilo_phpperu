@@ -1,4 +1,19 @@
-<?php namespace application\profiler
+<?php
+
+namespace application\profiler;
+
+use common\libraries\WebApplication;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ToolbarItem;
+use common\libraries\Translation;
+use common\libraries\Theme;
+use common\libraries\Request;
+use common\libraries\EqualityCondition;
+use common\libraries\PatternMatchCondition;
+use user\User;
+use common\libraries\AndCondition;
+use common\libraries\OrCondition;
+use common\libraries\BreadcrumbTrail;
 
 /**
  * $Id: browser.class.php 212 2009-11-13 13:38:35Z chellee $
@@ -122,7 +137,7 @@ class ProfilerManagerBrowserComponent extends ProfilerManager
           }
 
           return $condition; */
-        $condition = new EqualityCondition(ProfilePublication :: PROPERTY_CATEGORY, $this->get_category());
+        $condition = new EqualityCondition(ProfilerPublication :: PROPERTY_CATEGORY, $this->get_category());
         $search = $this->action_bar->get_query();
 
         if (isset($search) && $search != '')

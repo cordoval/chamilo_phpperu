@@ -12,6 +12,7 @@ use common\libraries\AndCondition;
 use common\libraries\Breadcrumb;
 use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\DelegateComponent;
 /**
  * $Id: viewer.class.php 195 2009-11-13 12:02:41Z chellee $
  * @package application.lib.forum.forum_manager.component
