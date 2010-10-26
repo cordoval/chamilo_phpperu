@@ -3,6 +3,7 @@ namespace application\wiki;
 
 use common\libraries\WebApplication;
 use common\libraries\ObjectTableColumn;
+use common\libraries\StaticTableColumn;
 use repository\ContentObject;
 
 /**

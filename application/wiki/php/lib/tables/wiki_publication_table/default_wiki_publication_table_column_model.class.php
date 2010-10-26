@@ -2,6 +2,7 @@
 namespace application\wiki;
 
 use common\libraries\ObjectTableColumn;
+use common\libraries\ObjectTableColumnModel;
 use repository\ContentObject;
 
 /**
