@@ -18,14 +18,14 @@ use common\libraries\DataClass;
  */
 class CourseTypeGroupCreationRight extends DataClass
 {
-
-	const CLASS_NAME = __CLASS__;
-
-	const PROPERTY_COURSE_TYPE_ID = "course_type_id";
-	const PROPERTY_GROUP_ID = "group_id";
-	const PROPERTY_CREATE = "creation_right";
-
-	const CREATE_NONE = 0;
+    
+    const CLASS_NAME = __CLASS__;
+    
+    const PROPERTY_COURSE_TYPE_ID = "course_type_id";
+    const PROPERTY_GROUP_ID = "group_id";
+    const PROPERTY_CREATE = "creation_right";
+    
+    const CREATE_NONE = 0;
     const CREATE_DIRECT = 2;
     const CREATE_REQUEST = 1;
 
@@ -43,18 +43,16 @@ class CourseTypeGroupCreationRight extends DataClass
      */
     static function get_default_property_names()
     {
-        return array( self :: PROPERTY_COURSE_TYPE_ID,
-        			  self :: PROPERTY_GROUP_ID,
-        		  	  self :: PROPERTY_CREATE);
+        return array(self :: PROPERTY_COURSE_TYPE_ID, self :: PROPERTY_GROUP_ID, self :: PROPERTY_CREATE);
     }
 
     /*
      * Getters
      */
-
+    
     function get_course_type_id()
     {
-    	return $this->get_default_property(self :: PROPERTY_COURSE_TYPE_ID);
+        return $this->get_default_property(self :: PROPERTY_COURSE_TYPE_ID);
     }
 
     function get_group_id()
@@ -70,25 +68,24 @@ class CourseTypeGroupCreationRight extends DataClass
     /*
      * Setters
      */
-
+    
     function set_course_type_id($course_type_id)
     {
-    	$this->set_default_property(self :: PROPERTY_COURSE_TYPE_ID, $course_type_id);
+        $this->set_default_property(self :: PROPERTY_COURSE_TYPE_ID, $course_type_id);
     }
 
-
-   	function set_group_id($group_id)
+    function set_group_id($group_id)
     {
-    	$this->set_default_property(self :: PROPERTY_GROUP_ID, $group_id);
+        $this->set_default_property(self :: PROPERTY_GROUP_ID, $group_id);
     }
 
     function set_create($create)
     {
-    	$this->set_default_property(self :: PROPERTY_CREATE, $create);
+        $this->set_default_property(self :: PROPERTY_CREATE, $create);
     }
 
-	static function get_table_name()
-	{
-		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
-	}
+    static function get_table_name()
+    {
+        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+    }
 }

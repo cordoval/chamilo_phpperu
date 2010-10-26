@@ -50,7 +50,7 @@ class SurveyUserTableCellRenderer extends DefaultContentObjectTableCellRenderer
                         return $user->get_fullname();
                     else
                         return Translation :: get('Anonymous');
-
+                
                 case SurveyInvitation :: PROPERTY_EMAIL :
                     return $survey_invitation->get_email();
                 case SurveyInvitation :: PROPERTY_VALID :
@@ -67,7 +67,7 @@ class SurveyUserTableCellRenderer extends DefaultContentObjectTableCellRenderer
     function get_actions($publication)
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
-
+        
         return $toolbar->as_html();
     }
 

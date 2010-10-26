@@ -23,13 +23,13 @@ class WeblcmsCourseList extends WeblcmsBlock
     {
         $html = array();
         $html[] = $this->display_header();
-
+        
         $renderer = new CourseListRenderer($this);
         $renderer->show_new_publication_icons();
         $html[] = $renderer->as_html();
-
+        
         $html[] = $this->display_footer();
-
+        
         return implode("\n", $html);
     }
 

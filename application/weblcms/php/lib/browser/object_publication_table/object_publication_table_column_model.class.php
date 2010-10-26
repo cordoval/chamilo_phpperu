@@ -32,7 +32,7 @@ class ObjectPublicationTableColumnModel extends ObjectTableColumnModel
         {
             parent :: __construct(self :: get_columns(), 5, SORT_ASC);
         }
-
+    
     }
 
     /**
@@ -50,7 +50,7 @@ class ObjectPublicationTableColumnModel extends ObjectTableColumnModel
     function get_basic_columns()
     {
         $wdm = WeblcmsDataManager :: get_instance();
-
+        
         $columns = array();
         $columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_TITLE, true, $wdm->get_alias(ContentObject :: get_table_name()));
         $columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_DESCRIPTION, true, $wdm->get_alias(ContentObject :: get_table_name()));

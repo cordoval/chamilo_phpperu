@@ -8,7 +8,6 @@ use common\libraries\DataClass;
  * @package application.lib.weblcms
  */
 
-
 /**
  * This class describes a ContentObjectPublicationCourseGroup data object
  *
@@ -17,7 +16,7 @@ use common\libraries\DataClass;
 class ContentObjectPublicationCourseGroup extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-
+    
     /**
      * ContentObjectPublicationCourseGroup properties
      */

@@ -37,7 +37,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
         {
             return $this->get_modification_links($user);
         }
-
+        
         // Add special features here
         switch ($column->get_name())
         {
@@ -82,24 +82,14 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
             $parameters[UserTool :: PARAM_USERS] = $user->get_id();
             $parameters[Tool :: PARAM_ACTION] = UserTool :: ACTION_SUBSCRIBE;
             $subscribe_url = $this->browser->get_url($parameters);
-
-            $toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('SubscribeAsStudent'),
-	        		Theme :: get_image_path($this->browser->get_application_name()) . 'action_subscribe_student.png',
-	        		$subscribe_url,
-	        		ToolbarItem :: DISPLAY_ICON
-	        ));
-
+            
+            $toolbar->add_item(new ToolbarItem(Translation :: get('SubscribeAsStudent'), Theme :: get_image_path($this->browser->get_application_name()) . 'action_subscribe_student.png', $subscribe_url, ToolbarItem :: DISPLAY_ICON));
+            
             $parameters = array();
             $parameters[UserTool :: PARAM_USERS] = $user->get_id();
             $parameters[Tool :: PARAM_ACTION] = UserTool :: ACTION_SUBSCRIBE_AS_ADMIN;
             $subscribe_url = $this->browser->get_url($parameters);
-            $toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('SubscribeAsTeacher'),
-	        		Theme :: get_image_path($this->browser->get_application_name()) . 'action_subscribe_teacher.png',
-	        		$subscribe_url,
-	        		ToolbarItem :: DISPLAY_ICON
-	        ));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('SubscribeAsTeacher'), Theme :: get_image_path($this->browser->get_application_name()) . 'action_subscribe_teacher.png', $subscribe_url, ToolbarItem :: DISPLAY_ICON));
         }
         else
         {
@@ -107,68 +97,43 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
             $parameters[Tool :: PARAM_ACTION] = UserTool :: ACTION_USER_DETAILS;
             $parameters[UserTool :: PARAM_USERS] = $user->get_id();
             $details_url = $this->browser->get_url($parameters);
-
-            $toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('Details'),
-	        		Theme :: get_common_image_path() . 'action_details.png',
-	        		$details_url,
-	        		ToolbarItem :: DISPLAY_ICON
-	        ));
-
-            if(PlatformSetting :: get('active_online_email_editor'))
+            
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Details'), Theme :: get_common_image_path() . 'action_details.png', $details_url, ToolbarItem :: DISPLAY_ICON));
+            
+            if (PlatformSetting :: get('active_online_email_editor'))
             {
-	            $parameters = array();
-	            $parameters[Tool :: PARAM_ACTION] = UserTool :: ACTION_EMAIL;
-	            $parameters[UserTool :: PARAM_USERS] = $user->get_id();
-	            $email_url = $this->browser->get_url($parameters);
-
-	            $toolbar->add_item(new ToolbarItem(
-		        		Translation :: get('Email'),
-		        		Theme :: get_common_image_path() . 'action_email.png',
-		        		$email_url,
-		        		ToolbarItem :: DISPLAY_ICON
-		        ));
+                $parameters = array();
+                $parameters[Tool :: PARAM_ACTION] = UserTool :: ACTION_EMAIL;
+                $parameters[UserTool :: PARAM_USERS] = $user->get_id();
+                $email_url = $this->browser->get_url($parameters);
+                
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Email'), Theme :: get_common_image_path() . 'action_email.png', $email_url, ToolbarItem :: DISPLAY_ICON));
             }
-
+            
             $group_id = Request :: get(WeblcmsManager :: PARAM_GROUP);
-
-            if ($user->get_id() != $this->browser->get_user()->get_id() && $this->browser->is_allowed(WeblcmsRights :: DELETE_RIGHT) && !isset($group_id))
+            
+            if ($user->get_id() != $this->browser->get_user()->get_id() && $this->browser->is_allowed(WeblcmsRights :: DELETE_RIGHT) && ! isset($group_id))
             {
                 $parameters = array();
                 $parameters[Tool :: PARAM_ACTION] = UserTool :: ACTION_UNSUBSCRIBE;
                 $parameters[UserTool :: PARAM_USERS] = $user->get_id();
                 $unsubscribe_url = $this->browser->get_url($parameters);
-
-                $toolbar->add_item(new ToolbarItem(
-		        		Translation :: get('Unsubscribe'),
-		        		Theme :: get_common_image_path() . 'action_unsubscribe.png',
-		        		$unsubscribe_url,
-		        		ToolbarItem :: DISPLAY_ICON
-		        ));
+                
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Unsubscribe'), Theme :: get_common_image_path() . 'action_unsubscribe.png', $unsubscribe_url, ToolbarItem :: DISPLAY_ICON));
             }
             else
             {
-                $toolbar->add_item(new ToolbarItem(
-		        		Translation :: get('UnsubscribeNotAvailable'),
-		        		Theme :: get_common_image_path() . 'action_unsubscribe_na.png',
-		        		null,
-		        		ToolbarItem :: DISPLAY_ICON
-		        ));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('UnsubscribeNotAvailable'), Theme :: get_common_image_path() . 'action_unsubscribe_na.png', null, ToolbarItem :: DISPLAY_ICON));
             }
-
+            
             if ($this->browser->is_allowed(WeblcmsRights :: EDIT_RIGHT))
             {
                 $params = array();
                 $params[UserTool :: PARAM_USERS] = $user->get_id();
-				$params[Tool :: PARAM_ACTION] = UserTool :: ACTION_REPORTING;
+                $params[Tool :: PARAM_ACTION] = UserTool :: ACTION_REPORTING;
                 $reporting_url = $this->browser->get_url($params);
-
-                $toolbar->add_item(new ToolbarItem(
-		        		Translation :: get('Report'),
-		        		Theme :: get_common_image_path() . 'action_reporting.png',
-		        		$reporting_url,
-		        		ToolbarItem :: DISPLAY_ICON
-		        ));
+                
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Report'), Theme :: get_common_image_path() . 'action_reporting.png', $reporting_url, ToolbarItem :: DISPLAY_ICON));
             }
         }
         return $toolbar->as_html();

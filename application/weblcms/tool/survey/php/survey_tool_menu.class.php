@@ -73,42 +73,42 @@ class SurveyToolMenu extends HTML_Menu
         $conditions[] = new EqualityCondition(WeblcmsSurveyParticipantTracker :: PROPERTY_PARENT_ID, 0);
         $condition = new AndCondition($conditions);
         $trackers = $track->retrieve_tracker_items($condition);
-
+        
         if (! $include_root)
         {
             $menu = array();
-        	foreach($trackers as $tracker)
+            foreach ($trackers as $tracker)
             {
-            	$menu = array_merge($this->get_menu_items($tracker->get_id()), $menu);
+                $menu = array_merge($this->get_menu_items($tracker->get_id()), $menu);
             }
-			return $menu;
+            return $menu;
         }
         else
         {
             $menu = array();
             
-            foreach($trackers as $tracker)
+            foreach ($trackers as $tracker)
             {
-	            $menu_item = array();
-	            $menu_item['title'] = $tracker->get_context_name();
-	            $menu_item['url'] = $this->get_url($tracker);
-	            
-	            $sub_menu_items = $this->get_menu_items($tracker->get_id());
-	            if (count($sub_menu_items) > 0)
-	            {
-	                $menu_item['sub'] = $sub_menu_items;
-	            }
-	            if ($tracker->get_status() == WeblcmsSurveyParticipantTracker :: STATUS_FINISHED)
-	            {
-	                $menu_item['class'] = 'survey_finished';
-	            }
-	            else
-	            {
-	                $menu_item['class'] = 'survey';
-	            }
-	            
-	            $menu_item[OptionsMenuRenderer :: KEY_ID] = $tracker->get_id();
-	            $menu[$tracker->get_id()] = $menu_item;
+                $menu_item = array();
+                $menu_item['title'] = $tracker->get_context_name();
+                $menu_item['url'] = $this->get_url($tracker);
+                
+                $sub_menu_items = $this->get_menu_items($tracker->get_id());
+                if (count($sub_menu_items) > 0)
+                {
+                    $menu_item['sub'] = $sub_menu_items;
+                }
+                if ($tracker->get_status() == WeblcmsSurveyParticipantTracker :: STATUS_FINISHED)
+                {
+                    $menu_item['class'] = 'survey_finished';
+                }
+                else
+                {
+                    $menu_item['class'] = 'survey';
+                }
+                
+                $menu_item[OptionsMenuRenderer :: KEY_ID] = $tracker->get_id();
+                $menu[$tracker->get_id()] = $menu_item;
             }
             return $menu;
         }
@@ -155,7 +155,7 @@ class SurveyToolMenu extends HTML_Menu
                 {
                     $menu_item['sub'] = $this->get_menu_items($participant->get_id());
                 }
-
+                
                 if ($participant->get_status() == WeblcmsSurveyParticipantTracker :: STATUS_FINISHED)
                 {
                     $menu_item['class'] = 'survey_finished';

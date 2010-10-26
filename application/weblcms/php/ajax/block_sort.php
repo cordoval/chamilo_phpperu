@@ -18,13 +18,13 @@ function unserialize_jquery($jquery)
 {
     $block_data = explode('&', $jquery);
     $blocks = array();
-
+    
     foreach ($block_data as $block)
     {
         $block_split = explode('=', $block);
         $blocks[] = $block_split[1];
     }
-
+    
     return $blocks;
 }
 
@@ -32,19 +32,19 @@ if (Authentication :: is_valid())
 {
     $section_id = explode($_POST['id']);
     $blocks = unserialize_jquery($_POST['order']);
-
+    
     $wdm = WeblcmsDataManager :: get_instance();
-	$wdm->change_module_course_section($source, $target);
-
+    $wdm->change_module_course_section($source, $target);
+    
     $i = 1;
     foreach ($blocks as $block_id)
     {
-	    $block = $wdm->retrieve_course_module($block_id);
+        $block = $wdm->retrieve_course_module($block_id);
         $block->set_sort($i);
         $block->update();
         $i ++;
     }
-
+    
     $json_result['success'] = '1';
     $json_result['message'] = Translation :: get('BlockAdded');
 }

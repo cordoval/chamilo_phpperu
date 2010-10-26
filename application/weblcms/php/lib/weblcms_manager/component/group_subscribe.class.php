@@ -26,19 +26,19 @@ class WeblcmsManagerGroupSubscribeComponent extends WeblcmsManager
         $this->category = Request :: get(WeblcmsManager :: PARAM_COURSE_CATEGORY_ID);
         $course_id = Request :: get(WeblcmsManager :: PARAM_COURSE);
         $group_ids = Request :: get(WeblcmsManager :: PARAM_GROUP);
-
+        
         if (isset($group_ids) && ! is_array($group_ids))
         {
             $group_ids = array($group_ids);
         }
-
+        
         if (isset($course_id))
         {
             $course = $this->retrieve_course($course_id);
             if (isset($group_ids) && count($group_ids) > 0 && ($this->get_course()->is_course_admin($this->get_user()) || $this->get_user()->is_platform_admin()))
             {
                 $failures = 0;
-
+                
                 foreach ($group_ids as $group_id)
                 {
                     if (! $this->subscribe_group_to_course($course, $group_id))
@@ -46,11 +46,11 @@ class WeblcmsManagerGroupSubscribeComponent extends WeblcmsManager
                         $failures ++;
                     }
                 }
-
+                
                 if ($failures == 0)
                 {
                     $success = true;
-
+                    
                     if (count($group_ids) == 1)
                     {
                         $message = 'GroupSubscribedToCourse';
@@ -63,7 +63,7 @@ class WeblcmsManagerGroupSubscribeComponent extends WeblcmsManager
                 elseif ($failures == count($group_ids))
                 {
                     $success = false;
-
+                    
                     if (count($group_ids) == 1)
                     {
                         $message = 'GroupNotSubscribedToCourse';
@@ -78,7 +78,7 @@ class WeblcmsManagerGroupSubscribeComponent extends WeblcmsManager
                     $success = false;
                     $message = 'PartialGroupsNotSubscribedToCourse';
                 }
-
+                
                 $this->redirect(Translation :: get($message), ($success ? false : true), array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_COURSE => $course_id, WeblcmsManager :: PARAM_TOOL => 'user'));
             }
             else

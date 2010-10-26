@@ -12,14 +12,14 @@ use common\libraries\Translation;
  * A form to search in the repository.
  * This form can have two representations
  * - A simple search form.
- *   This form only contains a text field and a submit
- *   button. The form will also contain a link to the advanced view of the
- *   search  form.
+ * This form only contains a text field and a submit
+ * button. The form will also contain a link to the advanced view of the
+ * search  form.
  * - An advanced search form.
- *   Using   the advanced search form, a user will be able to search on title,
- *   description,    type and has the choice in which part of the repository the
- *   system    should search (whole repository, current category, current
- *   category  + subcategories)
+ * Using   the advanced search form, a user will be able to search on title,
+ * description,    type and has the choice in which part of the repository the
+ * system    should search (whole repository, current category, current
+ * category  + subcategories)
  */
 class WeblcmsSearchForm extends FormValidator
 {
@@ -77,9 +77,9 @@ class WeblcmsSearchForm extends FormValidator
         $this->renderer = clone $this->defaultRenderer();
         $this->manager = $manager;
         $this->frozen_elements = array();
-
+        
         $this->build_simple_search_form();
-
+        
         $this->autofreeze();
         $this->accept($this->renderer);
     }
@@ -151,16 +151,16 @@ class WeblcmsSearchForm extends FormValidator
     private function get_search_conditions()
     {
         $values = $this->exportValues();
-
+        
         $query = $values[self :: PARAM_SIMPLE_SEARCH_QUERY];
-
+        
         if (isset($query) && $query != '')
         {
             $conditions = array();
             $conditions[] = new PatternMatchCondition(Course :: PROPERTY_ID, '*' . $values[self :: PARAM_SIMPLE_SEARCH_QUERY] . '*');
             $conditions[] = new PatternMatchCondition(Course :: PROPERTY_NAME, '*' . $values[self :: PARAM_SIMPLE_SEARCH_QUERY] . '*');
             $conditions[] = new PatternMatchCondition(CourseSettings :: PROPERTY_LANGUAGE, '*' . $values[self :: PARAM_SIMPLE_SEARCH_QUERY] . '*', CourseSettings :: get_table_name());
-
+            
             return new OrCondition($conditions);
         }
         else

@@ -36,7 +36,7 @@ class LocationCourseGroupBrowserTableColumnModel extends ObjectTableColumnModel
 
     function get_columns()
     {
-    	$columns = array();
+        $columns = array();
         $columns[] = new ObjectTableColumn(CourseGroup :: PROPERTY_NAME, true);
         $columns[] = new ObjectTableColumn(CourseGroup :: PROPERTY_DESCRIPTION, true);
         $columns[] = new StaticTableColumn(Translation :: get('Users'));
@@ -65,7 +65,7 @@ class LocationCourseGroupBrowserTableColumnModel extends ObjectTableColumnModel
     function add_rights_columns()
     {
         $rights = $this->browser->get_available_rights();
-
+        
         foreach ($rights as $right_name => $right_id)
         {
             $column_name = Utilities :: underscores_to_camelcase(strtolower($right_name));

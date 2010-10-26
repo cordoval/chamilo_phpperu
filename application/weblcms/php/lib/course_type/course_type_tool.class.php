@@ -16,7 +16,7 @@ use common\libraries\DataClass;
 class CourseTypeTool extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-
+    
     /**
      * CourseTypeTool properties
      */

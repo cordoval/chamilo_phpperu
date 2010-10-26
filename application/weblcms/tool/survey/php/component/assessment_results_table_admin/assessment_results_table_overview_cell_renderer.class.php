@@ -73,32 +73,17 @@ class AssessmentResultsTableOverviewAdminCellRenderer extends DefaultContentObje
     {
         $assessment = $publication->get_content_object();
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
-
-        $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('ViewResults'),
-        		Theme :: get_common_image_path() . 'action_view_results.png',
-        		$this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())),
-        		ToolbarItem :: DISPLAY_ICON
-        ));
-
-        $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('DeleteAllResults'),
-        		Theme :: get_common_image_path() . 'action_delete.png',
-        		$this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_DELETE_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())),
-        		ToolbarItem :: DISPLAY_ICON,
-        		true
-        ));
-
+        
+        $toolbar->add_item(new ToolbarItem(Translation :: get('ViewResults'), Theme :: get_common_image_path() . 'action_view_results.png', $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
+        
+        $toolbar->add_item(new ToolbarItem(Translation :: get('DeleteAllResults'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_DELETE_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())), ToolbarItem :: DISPLAY_ICON, true));
+        
         if ($assessment->get_assessment_type() == Assessment :: TYPE_ASSIGNMENT)
         {
-            $toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('DownloadDocuments'),
-	        		Theme :: get_common_image_path() . 'action_download.png',
-	        		$this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_SAVE_DOCUMENTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())),
-	        		ToolbarItem :: DISPLAY_ICON
-	        ));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('DownloadDocuments'), Theme :: get_common_image_path() . 'action_download.png', $this->browser->get_url(array(
+                    Tool :: PARAM_ACTION => AssessmentTool :: ACTION_SAVE_DOCUMENTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
         }
-
+        
         return $toolbar->as_html();
     }
 

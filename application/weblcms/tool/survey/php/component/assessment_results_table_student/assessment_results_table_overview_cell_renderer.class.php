@@ -72,14 +72,9 @@ class AssessmentResultsTableOverviewStudentCellRenderer extends DefaultContentOb
     function get_actions($publication)
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
-
-        $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('ViewResults'),
-        		Theme :: get_common_image_path() . 'action_view_results.png',
-        		$this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())),
-        		ToolbarItem :: DISPLAY_ICON
-        ));
-
+        
+        $toolbar->add_item(new ToolbarItem(Translation :: get('ViewResults'), Theme :: get_common_image_path() . 'action_view_results.png', $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
+        
         return $toolbar->as_html();
     }
 

@@ -5,6 +5,7 @@ use application\weblcms\ToolComponent;
 
 class GlossaryToolEvaluateComponent extends GlossaryTool
 {
+
     function run()
     {
         ToolComponent :: launch($this);

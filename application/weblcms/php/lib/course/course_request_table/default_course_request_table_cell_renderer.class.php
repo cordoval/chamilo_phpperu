@@ -12,20 +12,20 @@ require_once dirname(__FILE__) . '/../course_request.class.php';
 
 class DefaultCourseRequestTableCellRenderer extends ObjectTableCellRenderer
 {
-	const USER_NAME = 'user_name';
-	const COURSE_NAME = 'course_name';
-	const COURSE_TYPE_NAME = 'course_type_name';
-
-	/**
+    const USER_NAME = 'user_name';
+    const COURSE_NAME = 'course_name';
+    const COURSE_TYPE_NAME = 'course_type_name';
+    
+    /**
      * The repository browser component
      */
-
+    
     protected $browser;
 
     /**
      * Constructor
      */
-
+    
     function DefaultCourseRequestTableCellRenderer($browser)
     {
         $this->browser = $browser;
@@ -43,34 +43,34 @@ class DefaultCourseRequestTableCellRenderer extends ObjectTableCellRenderer
         switch ($column->get_name())
         {
             case self :: USER_NAME :
-            	return UserDataManager::get_instance()->retrieve_user($request->get_user_id())->get_fullname();
-
+                return UserDataManager :: get_instance()->retrieve_user($request->get_user_id())->get_fullname();
+            
             case self :: COURSE_NAME :
-            	if(get_class($request) == "CourseRequest")
-            		return $this->browser->retrieve_course($request->get_course_id())->get_name();
-            	else
-            		return $request->get_course_name();
-
+                if (get_class($request) == "CourseRequest")
+                    return $this->browser->retrieve_course($request->get_course_id())->get_name();
+                else
+                    return $request->get_course_name();
+            
             case self :: COURSE_TYPE_NAME :
-           		return $this->browser->retrieve_course_type($request->get_course_type_id())->get_name();
-
+                return $this->browser->retrieve_course_type($request->get_course_type_id())->get_name();
+            
             case CommonRequest :: PROPERTY_SUBJECT :
                 return $request->get_subject();
-
+            
             case CommonRequest :: PROPERTY_MOTIVATION :
-            	return $request->get_motivation();
-
+                return $request->get_motivation();
+            
             case CommonRequest :: PROPERTY_CREATION_DATE :
-            	return DatetimeUtilities :: format_locale_date(null,$request->get_creation_date());
-
+                return DatetimeUtilities :: format_locale_date(null, $request->get_creation_date());
+            
             case CommonRequest :: PROPERTY_DECISION_DATE :
-            	if($request->get_decision_date() != null)
-            	{
-            		return DatetimeUtilities :: format_locale_date(null,$request->get_decision_date());
-            	}
-            	else
-            		return $request->get_decision_date();
-
+                if ($request->get_decision_date() != null)
+                {
+                    return DatetimeUtilities :: format_locale_date(null, $request->get_decision_date());
+                }
+                else
+                    return $request->get_decision_date();
+            
             default :
                 return '&nbsp;';
         }

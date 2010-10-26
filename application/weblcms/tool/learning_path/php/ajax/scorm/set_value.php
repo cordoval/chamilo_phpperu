@@ -31,12 +31,12 @@ switch ($variable)
         $tracker->set_status('completed');
         $tracker->set_total_time($tracker->get_total_time() + (time() - $tracker->get_start_time()));
         $tracker->update();
-
+        
         $objs = $scorm_item->get_objectives();
         if ($objs)
         {
             $objectives = $objs->get_objectives();
-
+            
             foreach ($objectives as $index => $objective)
             {
                 if ($objective && $objective->get_contributes_to_rollup())
@@ -46,12 +46,12 @@ switch ($variable)
                     $parameters[WeblcmsLpiAttemptObjectiveTracker :: PROPERTY_OBJECTIVE_ID] = $objective->get_id();
                     $parameters[WeblcmsLpiAttemptObjectiveTracker :: PROPERTY_STATUS] = 'completed';
                     $parameters[WeblcmsLpiAttemptObjectiveTracker :: PROPERTY_DISPLAY_ORDER] = $index;
-
+                    
                     Event :: trigger('attempt_learning_path_item_objective', WeblcmsManager :: APPLICATION_NAME, $parameters);
                 }
             }
         }
-
+        
         break;
     case 'cmi.completion_status' :
         $tracker->set_status($value);

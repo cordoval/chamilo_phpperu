@@ -11,13 +11,12 @@ use common\libraries\Path;
 class CourseRequest extends CommonRequest
 {
     const CLASS_NAME = __CLASS__;
-
+    
     const PROPERTY_COURSE_ID = 'course_id';
 
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(
-        		  self :: PROPERTY_COURSE_ID));
+        return parent :: get_default_property_names(array(self :: PROPERTY_COURSE_ID));
     }
 
     function get_data_manager()
@@ -35,7 +34,7 @@ class CourseRequest extends CommonRequest
         return $this->set_default_property(self :: PROPERTY_COURSE_ID, $course_id);
     }
 
-	static function get_table_name()
+    static function get_table_name()
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }

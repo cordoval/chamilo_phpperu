@@ -18,9 +18,9 @@ class CourseSelectionMaintenanceWizardPage extends MaintenanceWizardPage
     {
         $dm = WeblcmsDatamanager :: get_instance();
         $course_user_relations = $dm->retrieve_course_list_of_user_as_course_admin($this->get_parent()->get_user_id());
-
+        
         $current_code = $this->get_parent()->get_course_id();
-
+        
         while ($course_user_relation = $course_user_relations->next_result())
         {
             if ($course_user_relation->get_course() != $current_code)
@@ -28,7 +28,7 @@ class CourseSelectionMaintenanceWizardPage extends MaintenanceWizardPage
                 $options[$course_user_relation->get_course()] = $dm->retrieve_course($course_user_relation->get_course())->get_name();
             }
         }
-
+        
         $this->addElement('select', 'course', Translation :: get('Course'), $options, array('multiple' => 'multiple', 'size' => '20', 'style' => 'width: 300px;'));
         $this->addRule('course', Translation :: get('ThisFieldIsRequired'), 'required');
         $prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< ' . Translation :: get('Previous'));

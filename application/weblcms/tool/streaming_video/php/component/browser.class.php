@@ -29,7 +29,7 @@ class StreamingVideoToolBrowserComponent extends StreamingVideoTool
     {
         $conditions = array();
         $filter = Request :: get(self :: PARAM_FILTER);
-
+        
         switch ($filter)
         {
             case self :: FILTER_TODAY :
@@ -45,23 +45,23 @@ class StreamingVideoToolBrowserComponent extends StreamingVideoTool
                 $conditions[] = new InequalityCondition(ContentObjectPublication :: PROPERTY_MODIFIED_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, $time);
                 break;
         }
-
+        
         return $conditions;
     }
 
     function convert_content_object_publication_to_calendar_event($publication, $from_time, $to_time)
     {
         $object = $publication->get_content_object();
-
+        
         $calendar_event = ContentObject :: factory(CalendarEvent :: get_type_name());
         $calendar_event->set_title($object->get_title());
         $calendar_event->set_description($object->get_description());
         $calendar_event->set_start_date($publication->get_modified_date());
         $calendar_event->set_end_date($publication->get_modified_date());
         $calendar_event->set_repeat_type(CalendarEvent :: REPEAT_TYPE_NONE);
-
+        
         $publication->set_content_object($calendar_event);
-
+        
         return $publication;
     }
 }

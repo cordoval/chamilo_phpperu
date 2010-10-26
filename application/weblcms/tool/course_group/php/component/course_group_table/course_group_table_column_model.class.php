@@ -23,13 +23,13 @@ class CourseGroupTableColumnModel
     /**
      * Constructor. Creates a new user table model.
      * @param array $columns The columns to use in the table. An array of
-     *                       UserTableColumn instances.
+     * UserTableColumn instances.
      * @param int $default_order_column The column to order objects by by
-     *                                  default, passed as the index of the
-     *                                  column in $columns.
+     * default, passed as the index of the
+     * column in $columns.
      * @param string $default_order_direction The default order direction.
-     *                                        Either the PHP constant SORT_ASC
-     *                                        or SORT_DESC.
+     * Either the PHP constant SORT_ASC
+     * or SORT_DESC.
      */
     function CourseGroupTableColumnModel($columns, $default_order_column = 0, $default_order_direction = SORT_ASC)
     {
@@ -87,7 +87,7 @@ class CourseGroupTableColumnModel
     /**
      * Gets the default order direction.
      * @return string The direction. Either the PHP constant SORT_ASC or
-     *                SORT_DESC.
+     * SORT_DESC.
      */
     function get_default_order_direction()
     {
@@ -97,7 +97,7 @@ class CourseGroupTableColumnModel
     /**
      * Sets the default order direction.
      * @param string $direction The direction. Either the PHP constant SORT_ASC
-     *                          or SORT_DESC.
+     * or SORT_DESC.
      */
     function set_default_order_direction($direction)
     {

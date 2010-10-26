@@ -13,7 +13,7 @@ require_once dirname(__FILE__) . '/inc/maintenance_wizard.class.php';
  * remove publications from the course, create & restore backups,...
  */
 class MaintenanceTool extends Tool
-{    
+{
     const DEFAULT_ACTION = self :: ACTION_VIEW;
 
     function get_application_component_path()

@@ -34,24 +34,24 @@ class DefaultCourseTypeTableCellRenderer extends ObjectTableCellRenderer
         {
             case CourseType :: PROPERTY_ID :
                 return $course_type->get_id();
-
+            
             case CourseType :: PROPERTY_NAME :
                 return $course_type->get_name();
-
+            
             case CourseType :: PROPERTY_DESCRIPTION :
-            	return $course_type->get_description();
-
+                return $course_type->get_description();
+            
             case CourseType :: PROPERTY_ACTIVE :
-            	//return $course_type->get_active();
-            	if($course_type->get_active())
-            	{
-            		Return Translation :: get('True');
-            	}
-            	else
-            	{
-            		Return Translation :: get('False');
-            	}
-
+                //return $course_type->get_active();
+                if ($course_type->get_active())
+                {
+                    Return Translation :: get('True');
+                }
+                else
+                {
+                    Return Translation :: get('False');
+                }
+            
             /*
             case Course :: PROPERTY_SUBSCRIBE_ALLOWED :
                 $sub = $course->get_subscribe_allowed();

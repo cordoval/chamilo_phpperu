@@ -22,12 +22,12 @@ class AssessmentToolDeleterComponent extends AssessmentToolComponent
                 $publication_ids = Request :: get(Tool :: PARAM_PUBLICATION_ID);
             else
                 $publication_ids = $_POST[Tool :: PARAM_PUBLICATION_ID];
-
+            
             if (! is_array($publication_ids))
             {
                 $publication_ids = array($publication_ids);
             }
-
+            
             $this->delete_publications($publication_ids);
         }
     }
@@ -41,7 +41,7 @@ class AssessmentToolDeleterComponent extends AssessmentToolComponent
             $track = new WeblcmsAssessmentAttemptsTracker();
             $condition = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $pid);
             $items = $track->retrieve_tracker_items();
-
+            
             if (count($items) == 0)
             {
                 $publication = $datamanager->retrieve_content_object_publication($pid);
@@ -52,7 +52,7 @@ class AssessmentToolDeleterComponent extends AssessmentToolComponent
                 $success = false;
             }
         }
-
+        
         if (count($publication_ids) > 1)
         {
             if ($success)
@@ -66,9 +66,9 @@ class AssessmentToolDeleterComponent extends AssessmentToolComponent
                 $message = htmlentities(Translation :: get('ContentObjectPublicationDeleted'));
             else
                 $message = htmlentities(Translation :: get('ContentObjectPublicationNotDeleted'));
-
+        
         }
-
+        
         $this->redirect($message, (! $success), array(Tool :: PARAM_PUBLICATION_ID => null));
     }
 }

@@ -25,23 +25,23 @@ class WeblcmsManagerCourseCategoryManagerComponent extends WeblcmsManager
     function run()
     {
         Header :: set_section('admin');
-
+        
         if (! $this->get_user()->is_platform_admin())
         {
             $trail = BreadcrumbTrail :: get_instance();
             $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CourseCategoryManager')));
             $trail->add_help('courses category manager');
-
+            
             $this->display_header();
             Display :: error_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
         }
-
+        
         $this->category = Request :: get(WeblcmsManager :: PARAM_COURSE_CATEGORY_ID);
-
+        
         $component_action = $this->get_parameter(WeblcmsManager :: PARAM_COMPONENT_ACTION);
-
+        
         switch ($component_action)
         {
             case 'edit' :
@@ -71,7 +71,7 @@ class WeblcmsManagerCourseCategoryManagerComponent extends WeblcmsManager
     function display_page_header($title)
     {
         $trail = BreadcrumbTrail :: get_instance();
-
+        
         $this->display_header();
     }
 
@@ -86,12 +86,12 @@ class WeblcmsManagerCourseCategoryManagerComponent extends WeblcmsManager
     function get_course_category_html()
     {
         $table = new CourseCategoryBrowserTable($this, null, null, $this->get_condition());
-
+        
         $html = array();
         $html[] = '<div style="float: right; width: 80%;">';
         $html[] = $table->as_html();
         $html[] = '</div>';
-
+        
         return implode($html, "\n");
     }
 
@@ -112,34 +112,34 @@ class WeblcmsManagerCourseCategoryManagerComponent extends WeblcmsManager
         {
             $search_url = null;
         }
-
+        
         $temp_replacement = '__CATEGORY_ID__';
         $url_format = $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_COURSE_CATEGORY_MANAGER, WeblcmsManager :: PARAM_COURSE_CATEGORY_ID => $temp_replacement));
         $url_format = str_replace($temp_replacement, '%s', $url_format);
         $category_menu = new CourseCategoryMenu($this->category, $url_format);
-
+        
         if (isset($search_url))
         {
             $category_menu->forceCurrentUrl($search_url, true);
         }
-
+        
         $html = array();
         $html[] = '<div style="float: left; width: 20%;">';
         $html[] = $category_menu->render_as_tree();
         $html[] = '</div>';
-
+        
         return implode($html, "\n");
     }
 
     function add_course_category()
     {
         $coursecategory = new CourseCategory();
-
+        
         $coursecategory->set_auth_cat_child(1);
         $coursecategory->set_auth_course_child(1);
-
+        
         $form = new CourseCategoryForm(CourseCategoryForm :: TYPE_CREATE, $coursecategory, $this->get_url());
-
+        
         if ($form->validate())
         {
             $success = $form->create_course_category();
@@ -159,9 +159,9 @@ class WeblcmsManagerCourseCategoryManagerComponent extends WeblcmsManager
     {
         $course_category_id = Request :: get(WeblcmsManager :: PARAM_COURSE_CATEGORY_ID);
         $course_category = $this->retrieve_course_category($course_category_id);
-
+        
         $form = new CourseCategoryForm(CourseCategoryForm :: TYPE_EDIT, $course_category, $this->get_url(array(WeblcmsManager :: PARAM_COURSE_CATEGORY_ID => $course_category_id)));
-
+        
         if ($form->validate())
         {
             $success = $form->update_course_category();
@@ -181,7 +181,7 @@ class WeblcmsManagerCourseCategoryManagerComponent extends WeblcmsManager
     {
         $course_category_id = Request :: get(WeblcmsManager :: PARAM_COURSE_CATEGORY_ID);
         $coursecategory = $this->retrieve_course_category($course_category_id);
-
+        
         $success = $coursecategory->delete();
         $this->redirect(Translation :: get($success ? 'CourseCategoryDeleted' : 'CourseCategoryNotDeleted'), ($success ? false : true), array(WeblcmsManager :: PARAM_COMPONENT_ACTION => 'view'));
     }
@@ -189,13 +189,9 @@ class WeblcmsManagerCourseCategoryManagerComponent extends WeblcmsManager
     function get_course_category_manager_modification_links()
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
-
-        $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('CreateCourseCategory'),
-        		Theme :: get_common_image_path() . 'action_create.png',
-        		$this->get_course_category_add_url()
-        ));
-
+        
+        $toolbar->add_item(new ToolbarItem(Translation :: get('CreateCourseCategory'), Theme :: get_common_image_path() . 'action_create.png', $this->get_course_category_add_url()));
+        
         return $toolbar->as_html();
     }
 
@@ -206,21 +202,22 @@ class WeblcmsManagerCourseCategoryManagerComponent extends WeblcmsManager
         {
             $condition = new EqualityCondition(CourseCategory :: PROPERTY_PARENT, $this->category);
         }
-
+        
         return $condition;
     }
+
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
         $breadcrumbtrail->add(new Breadcrumb($this->get_home_url(), Translation :: get('WeblcmsManagerHomeComponent')));
-
+        
         $trail->add(new Breadcrumb($this->get_url(), $title));
         $trail->add_help('courses category manager');
-
+    
     }
 
     function get_additional_parameters()
     {
-    	return array();
+        return array();
     }
 }
 ?>

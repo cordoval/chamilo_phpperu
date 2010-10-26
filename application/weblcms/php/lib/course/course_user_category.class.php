@@ -9,13 +9,13 @@ use common\libraries\DataClass;
  */
 
 /**
- *	This class represents a course user category in the weblcms.
+ * This class represents a course user category in the weblcms.
  *
- *	course user categories have a number of default properties:
- *	- id: the numeric course user category ID;
- *	- user: the course user category user;
- *	- sort: the course user category sort order;
- *	- title: the course user category title;
+ * course user categories have a number of default properties:
+ * - id: the numeric course user category ID;
+ * - user: the course user category user;
+ * - sort: the course user category sort order;
+ * - title: the course user category title;
  *
  * To access the values of the properties, this class and its subclasses
  * should provide accessor methods. The names of the properties should be
@@ -27,7 +27,7 @@ use common\libraries\DataClass;
 class CourseUserCategory extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-
+    
     const PROPERTY_TITLE = 'title';
 
     /**

@@ -20,7 +20,7 @@ class LinkToolCategoryManagerComponent extends LinkTool implements DelegateCompo
 
     function get_additional_parameters()
     {
-        return array(CategoryManager::PARAM_CATEGORY_ID);
+        return array(CategoryManager :: PARAM_CATEGORY_ID);
     }
 
 }

@@ -36,7 +36,7 @@ class AdminCourseBrowserTableDataProvider extends ObjectTableDataProvider
     function get_objects($offset, $count, $order_property = null)
     {
         $order_property = $this->get_order_property($order_property);
-
+        
         return $this->get_browser()->retrieve_courses($this->get_condition(), $offset, $count, $order_property);
     }
 

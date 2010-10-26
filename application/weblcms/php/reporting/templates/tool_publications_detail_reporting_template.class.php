@@ -23,7 +23,7 @@ class ToolPublicationsDetailReportingTemplate extends ReportingTemplate
 
     function display_context()
     {
-
+    
     }
 
     function get_application()
@@ -34,11 +34,11 @@ class ToolPublicationsDetailReportingTemplate extends ReportingTemplate
     function get_tool_publications()
     {
         $course_weblcms_block = new WeblcmsToolPublicationsReportingBlock($this);
-
+        
         $course_id = Request :: get(WeblcmsManager :: PARAM_COURSE);
         $user_id = Request :: get(WeblcmsManager :: PARAM_USERS);
         $tool = Request :: get(WeblcmsManager :: PARAM_TOOL);
-
+        
         if ($course_id)
         {
             $this->set_parameter(WeblcmsManager :: PARAM_COURSE, $course_id);

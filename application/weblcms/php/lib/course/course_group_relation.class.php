@@ -9,18 +9,18 @@ use common\libraries\DataClass;
  */
 
 /**
- *	This class represents a course group relation in the weblcms.
+ * This class represents a course group relation in the weblcms.
  *
- *	course group relations have a number of default properties:
- *	- course_id: the id of the course;
- *	- group_id: the group's id;
+ * course group relations have a number of default properties:
+ * - course_id: the id of the course;
+ * - group_id: the group's id;
  *
  */
 
 class CourseGroupRelation extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-
+    
     const PROPERTY_COURSE_ID = 'course_id';
     const PROPERTY_GROUP_ID = 'group_id';
 
@@ -95,7 +95,7 @@ class CourseGroupRelation extends DataClass
     {
         $wdm = WeblcmsDataManager :: get_instance();
         $success = $wdm->create_course_group_relation($this);
-
+        
         if (! $success)
         {
             return false;

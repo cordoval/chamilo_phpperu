@@ -37,7 +37,7 @@ class WeblcmsNoOfPublishedObjectsPerTypeReportingBlock extends WeblcmsCourseRepo
 
         }*/
         return $reporting_data;
-
+    
     }
 
     public function retrieve_data()

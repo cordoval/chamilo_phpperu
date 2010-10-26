@@ -36,7 +36,7 @@ class CourseGroupUnsubscribedUserBrowserTable extends ObjectTable
             //$actions[WeblcmsManager :: PARAM_SUBSCRIBE_SELECTED_AS_STUDENT] = Translation :: get('SubscribeSelectedAsStudent');
         //$actions[WeblcmsManager :: PARAM_SUBSCRIBE_SELECTED_AS_ADMIN] = Translation :: get('SubscribeSelectedAsAdmin');
         }
-
+        
         if ($browser->get_course()->is_course_admin($browser->get_user()))
         {
             //$this->set_form_actions($actions);

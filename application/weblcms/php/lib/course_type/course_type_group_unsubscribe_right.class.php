@@ -16,10 +16,10 @@ namespace application\weblcms;
  */
 class CourseTypeGroupUnsubscribeRight extends CourseGroupUnsubscribeRight
 {
-
-	const CLASS_NAME = __CLASS__;
-
-	const PROPERTY_COURSE_TYPE_ID = "course_type_id";
+    
+    const CLASS_NAME = __CLASS__;
+    
+    const PROPERTY_COURSE_TYPE_ID = "course_type_id";
 
     /**
      * inherited
@@ -35,30 +35,29 @@ class CourseTypeGroupUnsubscribeRight extends CourseGroupUnsubscribeRight
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(
-        		array(self :: PROPERTY_COURSE_TYPE_ID));
+        return parent :: get_default_property_names(array(self :: PROPERTY_COURSE_TYPE_ID));
     }
 
     /*
      * Getters
      */
-
+    
     function get_course_type_id()
     {
-    	return $this->get_default_property(self :: PROPERTY_COURSE_TYPE_ID);
+        return $this->get_default_property(self :: PROPERTY_COURSE_TYPE_ID);
     }
 
     /*
      * Setters
      */
-
+    
     function set_course_type_id($course_type_id)
     {
-    	$this->set_default_property(self :: PROPERTY_COURSE_TYPE_ID, $course_type_id);
+        $this->set_default_property(self :: PROPERTY_COURSE_TYPE_ID, $course_type_id);
     }
 
-	static function get_table_name()
-	{
-		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
-	}
+    static function get_table_name()
+    {
+        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+    }
 }

@@ -13,7 +13,7 @@ class GeolocationToolMoverComponent extends GeolocationTool
 
     function get_move_direction()
     {
-        return Request::get(Tool::PARAM_MOVE_DIRECTION);
+        return Request :: get(Tool :: PARAM_MOVE_DIRECTION);
     }
 
 }

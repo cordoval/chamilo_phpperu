@@ -20,7 +20,7 @@ use common\libraries\Translation;
 class CourseGroup extends NestedTreeNode
 {
     const CLASS_NAME = __CLASS__;
-
+    
     const PROPERTY_COURSE_CODE = 'course_id';
     const PROPERTY_NAME = 'name';
     const PROPERTY_MAX_NUMBER_OF_MEMBERS = 'max_number_of_members';
@@ -34,9 +34,7 @@ class CourseGroup extends NestedTreeNode
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(
-        		array(self :: PROPERTY_ID, self :: PROPERTY_COURSE_CODE, self :: PROPERTY_NAME, self :: PROPERTY_DESCRIPTION,
-        		self :: PROPERTY_MAX_NUMBER_OF_MEMBERS, self :: PROPERTY_SELF_REG, self :: PROPERTY_SELF_UNREG));
+        return parent :: get_default_property_names(array(self :: PROPERTY_ID, self :: PROPERTY_COURSE_CODE, self :: PROPERTY_NAME, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_MAX_NUMBER_OF_MEMBERS, self :: PROPERTY_SELF_REG, self :: PROPERTY_SELF_UNREG));
     }
 
     /**
@@ -226,57 +224,57 @@ class CourseGroup extends NestedTreeNode
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 
-	function get_data_manager()
-	{
-		return WeblcmsDataManager :: get_instance();
-	}
+    function get_data_manager()
+    {
+        return WeblcmsDataManager :: get_instance();
+    }
 
-	function create()
-	{
-		if(!$this->get_parent_id())
-		{
-			$root_group = WeblcmsDataManager :: get_instance()->retrieve_course_group_root($this->get_course_code());
-			if($root_group)
-			{
-				$this->set_parent_id($root_group->get_id());
-			}
-		}
+    function create()
+    {
+        if (! $this->get_parent_id())
+        {
+            $root_group = WeblcmsDataManager :: get_instance()->retrieve_course_group_root($this->get_course_code());
+            if ($root_group)
+            {
+                $this->set_parent_id($root_group->get_id());
+            }
+        }
+        
+        return parent :: create();
+    }
 
-		return parent :: create();
-	}
+    function update()
+    {
+        if ($this->check_before_save())
+        {
+            return parent :: update();
+        }
+        
+        return false;
+    }
 
-	function update()
-	{
-		if($this->check_before_save())
-		{
-			return parent :: update();
-		}
+    function check_before_save()
+    {
+        $children = WeblcmsDataManager :: get_instance()->count_course_group_users($this);
+        
+        if ($children > $this->get_max_number_of_members())
+        {
+            $this->add_error(Translation :: get('MaximumMembersToSmall'));
+            return false;
+        }
+        
+        return true;
+    }
 
-		return false;
-	}
+    function get_parents($include_self = true)
+    {
+        return parent :: get_parents($include_self, $this->get_nested_tree_node_condition());
+    }
 
-	function check_before_save()
-	{
-		$children = WeblcmsDataManager :: get_instance()->count_course_group_users($this);
-
-		if($children > $this->get_max_number_of_members())
-		{
-			$this->add_error(Translation :: get('MaximumMembersToSmall'));
-			return false;
-		}
-
-		return true;
-	}
-
-	function get_parents($include_self = true)
-	{
-		return parent :: get_parents($include_self, $this->get_nested_tree_node_condition());
-	}
-
-	function get_nested_tree_node_condition()
-	{
-	    return new EqualityCondition(CourseGroup :: PROPERTY_COURSE_CODE, $this->get_course_code());
-	}
+    function get_nested_tree_node_condition()
+    {
+        return new EqualityCondition(CourseGroup :: PROPERTY_COURSE_CODE, $this->get_course_code());
+    }
 
 }
 ?>

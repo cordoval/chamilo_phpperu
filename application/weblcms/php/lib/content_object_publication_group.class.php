@@ -16,7 +16,7 @@ use common\libraries\DataClass;
 class ContentObjectPublicationGroup extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-
+    
     /**
      * ContentObjectPublicationGroup properties
      */

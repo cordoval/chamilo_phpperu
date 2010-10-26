@@ -21,13 +21,12 @@ class WeblcmsManagerCourseCreateRequestCreatorComponent extends WeblcmsManager
         $course_code = Request :: get(WeblcmsManager :: PARAM_COURSE);
         $course = $this->retrieve_course($course_code);
         $failures = 0;
-
+        
         $trail = BreadcrumbTrail :: get_instance();
-
-
+        
         $request = new CourseCreateRequest();
         $form = new CourseRequestForm(CourseRequestForm :: TYPE_CREATE, $this->get_url(array(WeblcmsManager :: PARAM_COURSE => $course_code)), $course, $this, $request);
-
+        
         if ($form->validate())
         {
             $success_request = $form->create_request();
@@ -45,7 +44,7 @@ class WeblcmsManagerCourseCreateRequestCreatorComponent extends WeblcmsManager
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-
+        
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(null, array(Application :: PARAM_ACTION)), Translation :: get('MyCourses')));
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get('Create')));
         $breadcrumbtrail->add_help('weblcms_course_create_request');

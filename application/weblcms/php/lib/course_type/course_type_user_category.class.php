@@ -11,7 +11,7 @@ use common\libraries\DataClass;
 class CourseTypeUserCategory extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-
+    
     const PROPERTY_USER_ID = 'user_id';
     const PROPERTY_COURSE_USER_CATEGORY_ID = 'course_user_category_id';
     const PROPERTY_COURSE_TYPE_ID = 'course_type_id';
@@ -23,10 +23,7 @@ class CourseTypeUserCategory extends DataClass
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_ID, self :: PROPERTY_USER_ID,
-        			 self :: PROPERTY_COURSE_USER_CATEGORY_ID,
-        			 self :: PROPERTY_COURSE_TYPE_ID,
-        			 self :: PROPERTY_SORT);
+        return array(self :: PROPERTY_ID, self :: PROPERTY_USER_ID, self :: PROPERTY_COURSE_USER_CATEGORY_ID, self :: PROPERTY_COURSE_TYPE_ID, self :: PROPERTY_SORT);
     }
 
     /**
@@ -84,20 +81,20 @@ class CourseTypeUserCategory extends DataClass
     function create()
     {
         $wdm = WeblcmsDataManager :: get_instance();
-
+        
         $conditions = array();
         $conditions[] = new EqualityCondition(self :: PROPERTY_USER_ID, $this->get_user_id());
         $conditions[] = new EqualityCondition(self :: PROPERTY_COURSE_TYPE_ID, $this->get_course_type_id());
         $condition = new AndCondition($conditions);
         $sort = $wdm->retrieve_max_sort_value(self :: get_table_name(), self :: PROPERTY_SORT, $condition);
         $this->set_sort($sort + 1);
-
+        
         $success = $wdm->create_course_user_category($this);
         if (! $success)
         {
             return false;
         }
-
+        
         return true;
     }
 

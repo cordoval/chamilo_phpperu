@@ -11,9 +11,9 @@ require_once dirname(__FILE__) . '/../course_request.class.php';
 
 class DefaultCourseRequestTableColumnModel extends ObjectTableColumnModel
 {
-	const USER_NAME = 'user_name';
-	const COURSE_NAME = 'course_name';
-	const COURSE_TYPE_NAME = 'course_type_name';
+    const USER_NAME = 'user_name';
+    const COURSE_NAME = 'course_name';
+    const COURSE_TYPE_NAME = 'course_type_name';
 
     /**
      * Constructor
@@ -32,10 +32,10 @@ class DefaultCourseRequestTableColumnModel extends ObjectTableColumnModel
         $columns = array();
         $columns[] = new ObjectTableColumn(self :: USER_NAME, false);
         $columns[] = new ObjectTableColumn(self :: COURSE_NAME, false);
-        if($request_type == CommonRequest :: CREATION_REQUEST)
-        	$columns[] = new ObjectTableColumn(self :: COURSE_TYPE_NAME, false);
+        if ($request_type == CommonRequest :: CREATION_REQUEST)
+            $columns[] = new ObjectTableColumn(self :: COURSE_TYPE_NAME, false);
         $columns[] = new ObjectTableColumn(CourseRequest :: PROPERTY_SUBJECT);
-
+        
         return $columns;
     }
 }

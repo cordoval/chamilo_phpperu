@@ -15,9 +15,10 @@ use common\libraries\ObjectTableDataProvider;
  */
 class SubscribeGroupBrowserTableDataProvider extends ObjectTableDataProvider
 {
-
+    
     private $object_count;
     private $preloaded_result_set = null;
+
     /**
      * Constructor
      * @param RepositoryManagerComponent $browser
@@ -38,12 +39,12 @@ class SubscribeGroupBrowserTableDataProvider extends ObjectTableDataProvider
      */
     function get_objects($offset, $count, $order_property = null)
     {
-    	if(is_null($this->preloaded_result_set))
-    	{
-	        $order_property = $this->get_order_property($order_property);
-	        $this->preloaded_result_set = WeblcmsDataManager::get_instance()->retrieve_course_subscribe_groups_by_right(CourseGroupSubscribeRight :: SUBSCRIBE_DIRECT, parent::get_browser()->get_course(),$this->get_condition(), $offset, $count, $order_property);
-	        $this->object_count = $this->preloaded_result_set->size();
-    	}
+        if (is_null($this->preloaded_result_set))
+        {
+            $order_property = $this->get_order_property($order_property);
+            $this->preloaded_result_set = WeblcmsDataManager :: get_instance()->retrieve_course_subscribe_groups_by_right(CourseGroupSubscribeRight :: SUBSCRIBE_DIRECT, parent :: get_browser()->get_course(), $this->get_condition(), $offset, $count, $order_property);
+            $this->object_count = $this->preloaded_result_set->size();
+        }
         return $this->preloaded_result_set;
     }
 

@@ -16,21 +16,21 @@ class GeolocationBrowser extends ContentObjectPublicationBrowser
     function GeolocationBrowser($parent, $types)
     {
         parent :: __construct($parent, 'geolocation');
-
+        
         $this->set_publication_id(Request :: get(Tool :: PARAM_PUBLICATION_ID));
         $renderer = new GeolocationDetailsRenderer($this);
-
+        
         $this->set_publication_list_renderer($renderer);
     }
 
     function get_publications($from, $count, $column, $direction)
     {
-
+    
     }
 
     function get_publication_count()
     {
-
+    
     }
 }
 ?>

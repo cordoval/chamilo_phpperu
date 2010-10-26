@@ -9,18 +9,18 @@ namespace application\weblcms;
 class CourseGroupUserRelation
 {
     const CLASS_NAME = __CLASS__;
-
+    
     const PROPERTY_COURSE_GROUP = 'course_group_id';
     const PROPERTY_USER = 'user_id';
-
+    
     private $defaultProperties;
 
     /**
      * Creates a new course user relation object.
      * @param int $id The numeric ID of the course user relation object. May be omitted
-     *                if creating a new object.
+     * if creating a new object.
      * @param array $defaultProperties The default properties of the course user relation
-     *                object. Associative array.
+     * object. Associative array.
      */
     function CourseGroupUserRelation($defaultProperties = array ())
     {
@@ -125,7 +125,7 @@ class CourseGroupUserRelation
     {
         $wdm = WeblcmsDataManager :: get_instance();
         $success = $wdm->create_course_group_user_relation($this);
-
+        
         if (! $success)
         {
             return false;
@@ -145,7 +145,7 @@ class CourseGroupUserRelation
         {
             return false;
         }
-
+        
         return true;
     }
 

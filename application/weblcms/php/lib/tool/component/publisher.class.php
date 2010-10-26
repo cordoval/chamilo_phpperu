@@ -14,28 +14,29 @@ class ToolComponentPublisherComponent extends ToolComponent implements RepoViewe
 
     function run()
     {
-        if (!$this->is_allowed(WeblcmsRights :: ADD_RIGHT))
+        if (! $this->is_allowed(WeblcmsRights :: ADD_RIGHT))
         {
             Display :: not_allowed();
             return;
         }
-
+        
         //$trail = BreadcrumbTrail :: get_instance();
+        
 
-        if (!RepoViewer::is_ready_to_be_published())
+        if (! RepoViewer :: is_ready_to_be_published())
         {
             $repo_viewer = RepoViewer :: construct($this);
             $repo_viewer->run();
         }
         else
         {
-            $object = RepoViewer::get_selected_objects();
+            $object = RepoViewer :: get_selected_objects();
             $publisher = new ContentObjectPublisher($this);
             $publisher->get_publications_form($object);
         }
     }
 
-//    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    //    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
 //    {
 //        $tool = preg_replace('/Tool.*/',"",get_class($this->get_parent()));
 //

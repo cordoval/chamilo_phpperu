@@ -55,40 +55,40 @@ class WeblcmsDataManager implements DataManagerInterface
     static function get_tools($requested_section = 'all')
     {
         $course_modules = Array();
-
+        
         $options = array('forceEnum' => array('properties'));
-
+        
         $dir = dirname(__FILE__) . '/tool/';
         $tools = FileSystem :: get_directory_content($dir, FileSystem :: LIST_DIRECTORIES, false);
-        foreach($tools as $tool)
+        foreach ($tools as $tool)
         {
-        	$properties_file = $dir . $tool . '/properties.xml';
-        	if(!file_exists($properties_file))
-        	{
-        		continue;
-        	}
-
-        	$doc = new DOMDocument();
-
-	        $doc->load($properties_file);
-	        $xml_properties = $doc->getElementsByTagname('property');
-	        $properties = array();
-
-	        foreach ($xml_properties as $index => $property)
-	        {
-	            if($property->getAttribute('name') == 'section')
-	            {
-	            	$section = $property->getAttribute('value');
-	            	break;
-	            }
-	        }
-
-	        if ($section == $requested_section || $requested_section == 'all')
-	        {
-            	$course_modules[] = $tool;
-	        }
+            $properties_file = $dir . $tool . '/properties.xml';
+            if (! file_exists($properties_file))
+            {
+                continue;
+            }
+            
+            $doc = new DOMDocument();
+            
+            $doc->load($properties_file);
+            $xml_properties = $doc->getElementsByTagname('property');
+            $properties = array();
+            
+            foreach ($xml_properties as $index => $property)
+            {
+                if ($property->getAttribute('name') == 'section')
+                {
+                    $section = $property->getAttribute('value');
+                    break;
+                }
+            }
+            
+            if ($section == $requested_section || $requested_section == 'all')
+            {
+                $course_modules[] = $tool;
+            }
         }
-
+        
         return $course_modules;
     }
 
@@ -101,9 +101,9 @@ class WeblcmsDataManager implements DataManagerInterface
     static function course_subscription_allowed($course, $user)
     {
         $already_subscribed = self :: get_instance()->is_subscribed($course, $user);
-
+        
         $subscription_allowed = ($course->get_access() == 1 ? true : false);
-
+        
         if (! $already_subscribed && $subscription_allowed)
         {
             return true;
@@ -126,7 +126,7 @@ class WeblcmsDataManager implements DataManagerInterface
         {
             return false;
         }
-
+        
         $already_subscribed = self :: get_instance()->is_subscribed($course, $user);
         $unsubscription_allowed = ($course->get_unsubscribe_allowed() == 1 ? true : false);
         if ($already_subscribed && $unsubscription_allowed)
@@ -142,19 +142,19 @@ class WeblcmsDataManager implements DataManagerInterface
     static function get_user_course_groups($user, $course = null)
     {
         $course_groups = self :: get_instance()->retrieve_course_groups_from_user($user, $course)->as_array();
-
+        
         $course_groups_recursive = array();
-
+        
         foreach ($course_groups as $course_group)
         {
             if (! array_key_exists($course_group->get_id(), $course_groups_recursive))
             {
                 $course_groups_recursive[$course_group->get_id()] = $course_group;
             }
-
+            
             $parents = $course_group->get_parents(false);
-
-            while($parent = $parents->next_result())
+            
+            while ($parent = $parents->next_result())
             {
                 if (! array_key_exists($parent->get_id(), $course_groups_recursive))
                 {
@@ -162,43 +162,43 @@ class WeblcmsDataManager implements DataManagerInterface
                 }
             }
         }
-
+        
         return $course_groups_recursive;
     }
 
     static function is_course_code_available($code)
     {
-    	$condition = new EqualityCondition(Course :: PROPERTY_VISUAL, $code);
-    	return (self :: get_instance()->count_courses($condition) == 0);
+        $condition = new EqualityCondition(Course :: PROPERTY_VISUAL, $code);
+        return (self :: get_instance()->count_courses($condition) == 0);
     }
-
+    
     private static $new_publications;
 
-	/**
-	 * Determines if a tool has new publications  since the last time the
-	 * current user visited the tool.
-	 * @param string $tool
-	 * @param Course $course
-	 */
-	static function tool_has_new_publications($tool, User $user, Course $course = null)
-	{
-		if(!$course || $course->get_id() == 0)
-		{
-			return false;
-		}
-
-		if(is_null(self :: $new_publications[$course->get_id()]))
-		{
-			self :: $new_publications[$course->get_id()] = self :: get_instance()->count_new_publications_from_course($course, $user);
-		}
-
-		if(self :: $new_publications[$course->get_id()][$tool] && self :: $new_publications[$course->get_id()][$tool] > 0)
-		{
-			return true;
-		}
-
-		return false;
-	}
+    /**
+     * Determines if a tool has new publications  since the last time the
+     * current user visited the tool.
+     * @param string $tool
+     * @param Course $course
+     */
+    static function tool_has_new_publications($tool, User $user, Course $course = null)
+    {
+        if (! $course || $course->get_id() == 0)
+        {
+            return false;
+        }
+        
+        if (is_null(self :: $new_publications[$course->get_id()]))
+        {
+            self :: $new_publications[$course->get_id()] = self :: get_instance()->count_new_publications_from_course($course, $user);
+        }
+        
+        if (self :: $new_publications[$course->get_id()][$tool] && self :: $new_publications[$course->get_id()][$tool] > 0)
+        {
+            return true;
+        }
+        
+        return false;
+    }
 
 }
 ?>

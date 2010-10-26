@@ -20,28 +20,28 @@ class AssessmentToolResultsDeleterComponent extends AssessmentToolComponent
             Display :: not_allowed();
             return;
         }
-
+        
         if (Request :: get(AssessmentTool :: PARAM_USER_ASSESSMENT))
         {
             $uaid = Request :: get(AssessmentTool :: PARAM_USER_ASSESSMENT);
             $track = new WeblcmsAssessmentAttemptsTracker();
             $condition = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ID, $uaid);
             $items = $track->retrieve_tracker_items($condition);
-
+            
             if ($items[0] != null)
             {
                 $redirect_aid = $items[0]->get_assessment_id();
             }
             $this->delete_user_assessment_results($items[0]);
         }
-
+        
         if (Request :: get(AssessmentTool :: PARAM_ASSESSMENT))
         {
             $aid = Request :: get(AssessmentTool :: PARAM_ASSESSMENT);
             $redirect_aid = $aid;
             $this->delete_assessment_results($aid);
         }
-
+        
         $params = array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS);
         if (isset($redirect_aid))
             $params[AssessmentTool :: PARAM_ASSESSMENT] = $redirect_aid;
@@ -55,7 +55,7 @@ class AssessmentToolResultsDeleterComponent extends AssessmentToolComponent
             $track = new WeblcmsQuestionAttemptsTracker();
             $condition = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $user_assessment->get_id());
             $items = $track->retrieve_tracker_items();
-
+            
             foreach ($items as $question_attempt)
             {
                 $question_attempt->delete();

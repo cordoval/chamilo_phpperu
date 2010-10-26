@@ -11,15 +11,15 @@ require_once ('HTML/QuickForm/Rule.php');
  */
 class HTML_QuickForm_Rule_Max_Members extends HTML_QuickForm_Rule
 {
-	const UNLIMITED_MEMBERS = 'unlimited_members';
-	
-	function validate($values)
-	{
-		if($values[0][self :: UNLIMITED_MEMBERS] || (is_numeric($values[1]) && $values[1] > 0))
-			return true;
-		else
-			return false;
-	}
+    const UNLIMITED_MEMBERS = 'unlimited_members';
+
+    function validate($values)
+    {
+        if ($values[0][self :: UNLIMITED_MEMBERS] || (is_numeric($values[1]) && $values[1] > 0))
+            return true;
+        else
+            return false;
+    }
 }
 
 ?>

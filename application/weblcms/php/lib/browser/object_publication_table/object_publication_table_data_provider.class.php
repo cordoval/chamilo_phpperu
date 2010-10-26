@@ -12,6 +12,7 @@ use common\libraries\ObjectTableDataProvider;
  */
 class ObjectPublicationTableDataProvider extends ObjectTableDataProvider
 {
+
     /*
 	 * Inherited
 	 */

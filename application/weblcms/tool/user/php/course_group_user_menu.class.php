@@ -19,7 +19,7 @@ require_once 'HTML/Menu/ArrayRenderer.php';
 class CourseGroupUserMenu extends HTML_Menu
 {
     CONST TREE_NAME = __CLASS__;
-
+    
     /**
      * The string passed to sprintf() to format category URLs
      */
@@ -28,13 +28,13 @@ class CourseGroupUserMenu extends HTML_Menu
      * The array renderer used to determine the breadcrumbs.
      */
     private $array_renderer;
-
+    
     /**
      * The selected group
      * @var int
      */
     private $current_group;
-
+    
     /**
      * The current course
      * @var Course
@@ -47,8 +47,8 @@ class CourseGroupUserMenu extends HTML_Menu
      * this menu.
      * @param int $current_group The ID of the current group in the menu.
      * @param string $url_format The format to use for the URL of a category.
-     *                           Passed to sprintf(). Defaults to the string
-     *                           "?category=%s".
+     * Passed to sprintf(). Defaults to the string
+     * "?category=%s".
      */
     function CourseGroupUserMenu($course, $current_group, $url_format = '?application=weblcms&go=course_viewer&tool=user&course=%s&group=%s')
     {
@@ -60,10 +60,10 @@ class CourseGroupUserMenu extends HTML_Menu
         {
             $this->current_group = $current_group;
         }
-
+        
         $this->course = $course;
         $this->urlFmt = $url_format;
-
+        
         $menu = $this->get_menu();
         parent :: __construct($menu);
         $this->array_renderer = new HTML_Menu_ArrayRenderer();
@@ -74,50 +74,50 @@ class CourseGroupUserMenu extends HTML_Menu
     {
         $group_relations = $this->course->get_subscribed_groups();
         $menu = array();
-
+        
         $menu_item = array();
         $menu_item['title'] = Translation :: get('Course');
         $menu_item['url'] = $this->get_home_url();
         $menu_item['class'] = 'home';
-
+        
         $sub_menu_items = array();
-
-        foreach($group_relations as $group_relation)
+        
+        foreach ($group_relations as $group_relation)
         {
             $group = $group_relation->get_group_object();
             $sub_menu_items[] = $this->get_group_menu_item($group);
         }
-
-    	if(count($sub_menu_items) > 0)
+        
+        if (count($sub_menu_items) > 0)
         {
-        	$menu_item['sub'] = $sub_menu_items;
+            $menu_item['sub'] = $sub_menu_items;
         }
         $menu_item[OptionsMenuRenderer :: KEY_ID] = 0;
         $menu[0] = $menu_item;
-
+        
         return $menu;
     }
 
     function get_group_menu_item($group)
     {
-    	$sub_menu_item = array();
+        $sub_menu_item = array();
         $sub_menu_item['title'] = $group->get_name();
         $sub_menu_item['url'] = $this->get_url($group->get_id());
         $sub_menu_item['class'] = 'category';
         $sub_menu_item[OptionsMenuRenderer :: KEY_ID] = $group->get_id();
-
+        
         $sub_menu_items = array();
         $children = $group->get_children(false);
-        while($child = $children->next_result())
+        while ($child = $children->next_result())
         {
-        	$sub_menu_items[] = $this->get_group_menu_item($child);
+            $sub_menu_items[] = $this->get_group_menu_item($child);
         }
-
-        if(count($sub_menu_items) > 0)
+        
+        if (count($sub_menu_items) > 0)
         {
-        	$sub_menu_item['sub'] = $sub_menu_items;
+            $sub_menu_item['sub'] = $sub_menu_items;
         }
-
+        
         return $sub_menu_item;
     }
 
@@ -156,7 +156,7 @@ class CourseGroupUserMenu extends HTML_Menu
      * Renders the menu as a tree
      * @return string The HTML formatted tree
      */
-	function render_as_tree()
+    function render_as_tree()
     {
         $renderer = new TreeMenuRenderer($this->get_tree_name());
         $this->render($renderer, 'sitemap');
@@ -165,6 +165,6 @@ class CourseGroupUserMenu extends HTML_Menu
 
     static function get_tree_name()
     {
-    	return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
+        return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
     }
 }

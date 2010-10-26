@@ -25,7 +25,7 @@ class CourseUserReportingTemplate extends ReportingTemplate
     function CourseUserReportingTemplate($parent)
     {
         parent :: __construct($parent);
-
+        
         //$this->add_reporting_block($this->get_course_information());
         $this->add_reporting_block($this->get_course_user_learning_path_information());
         //$this->add_reporting_block($this->get_course_user_exercise_information());
@@ -35,7 +35,7 @@ class CourseUserReportingTemplate extends ReportingTemplate
 
     function display_context()
     {
-
+    
     }
 
     function get_application()
@@ -75,7 +75,7 @@ class CourseUserReportingTemplate extends ReportingTemplate
     	}
     	return $course_weblcms_block;
     }*/
-
+    
     function get_user_information()
     {
         $course_weblcms_block = new WeblcmsUserInformationReportingBlock($this);

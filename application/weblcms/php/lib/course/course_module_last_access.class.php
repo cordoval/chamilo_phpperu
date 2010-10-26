@@ -16,7 +16,7 @@ use common\libraries\DataClass;
 class CourseModuleLastAccess extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-
+    
     /**
      * CourseModuleLastAccess properties
      */

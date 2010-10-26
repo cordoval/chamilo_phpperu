@@ -15,7 +15,7 @@ class SurveyTool extends Tool
 {
     const ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT = 'taker';
     const ACTION_MAIL_SURVEY_PARTICIPANTS = 'mailer';
-
+    
     const PARAM_USER_ASSESSMENT = 'uaid';
     const PARAM_QUESTION_ATTEMPT = 'qaid';
     const PARAM_ASSESMENT = 'aid';

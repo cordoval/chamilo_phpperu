@@ -37,7 +37,7 @@ class UnsubscribeBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
         {
             return $this->get_modification_links($course);
         }
-
+        
         // Add special features here
         switch ($column->get_name())
         {
@@ -55,19 +55,14 @@ class UnsubscribeBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
     private function get_modification_links($course)
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
-
+        
         $course = WeblcmsDataManager :: get_instance()->retrieve_course($course->get_id());
         $current_right = $course->can_user_unsubscribe($this->browser->get_user());
-
+        
         if ($current_right)
         {
-        	$course_unsubscription_url = $this->browser->get_course_unsubscription_url($course);
-            $toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('Unsubscribe'),
-	        		Theme :: get_common_image_path() . 'action_unsubscribe.png',
-	        		$course_unsubscription_url,
-	        		ToolbarItem :: DISPLAY_ICON
-	        ));
+            $course_unsubscription_url = $this->browser->get_course_unsubscription_url($course);
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Unsubscribe'), Theme :: get_common_image_path() . 'action_unsubscribe.png', $course_unsubscription_url, ToolbarItem :: DISPLAY_ICON));
         }
         else
         {
@@ -77,17 +72,12 @@ class UnsubscribeBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
             }
             else
             {
-                $toolbar->add_item(new ToolbarItem(
-		        		Translation :: get('UnsubscribeNA'),
-		        		Theme :: get_common_image_path() . 'action_unsubscribe_na.png',
-		        		null,
-		        		ToolbarItem :: DISPLAY_ICON
-		        ));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('UnsubscribeNA'), Theme :: get_common_image_path() . 'action_unsubscribe_na.png', null, ToolbarItem :: DISPLAY_ICON));
             }
         }
-
+        
         return $toolbar->as_html();
-
+    
     }
 }
 ?>

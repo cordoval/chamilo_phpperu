@@ -24,7 +24,7 @@ class LearningPathAttemptsReportingTemplate extends ReportingTemplate
 
     function display_context()
     {
-
+    
     }
 
     function get_application()
@@ -41,12 +41,12 @@ class LearningPathAttemptsReportingTemplate extends ReportingTemplate
         {
             $this->set_parameter(WeblcmsManager :: PARAM_COURSE, $course_id);
         }
-
+        
         if ($pid)
         {
             $this->set_parameter(WeblcmsManager :: PARAM_PUBLICATION, $pid);
         }
-
+        
         $tool = Request :: get(WeblcmsManager :: PARAM_TOOL);
         if ($tool)
         {

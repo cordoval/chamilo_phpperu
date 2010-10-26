@@ -38,7 +38,7 @@ class CourseDataReportingTemplate extends ReportingTemplate
 
     function display_context()
     {
-
+    
     }
 
     function get_application()

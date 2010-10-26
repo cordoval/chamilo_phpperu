@@ -8,7 +8,6 @@ use common\libraries\DataClass;
  * @package application.lib.weblcms
  */
 
-
 /**
  * This class describes a ContentObjectPublicationUser data object
  *
@@ -17,7 +16,7 @@ use common\libraries\DataClass;
 class ContentObjectPublicationUser extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-
+    
     /**
      * ContentObjectPublicationUser properties
      */

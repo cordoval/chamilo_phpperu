@@ -15,10 +15,10 @@ class HotpotatoesDisplay extends LearningPathContentObjectDisplay
     function display_content_object($hp, $tracker_attempt_data)
     {
         $lpi_attempt_id = $tracker_attempt_data['active_tracker']->get_id();
-
+        
         $link = $hp->add_javascript(Path :: get(WEB_PATH) . 'application/weblcms/php/ajax/lp_hotpotatoes_save_score.php', null, $lpi_attempt_id);
         $html[] = $this->display_link($link);
-
+        
         return implode("\n", $html);
     }
 }

@@ -12,7 +12,7 @@ class WeblcmsCourseUserLearningPathInformationReportingBlock extends WeblcmsCour
     public function count_data()
     {
         $reporting_data = new ReportingData();
-
+        
         return $reporting_data;
     }
 

@@ -18,7 +18,7 @@ require_once dirname(__FILE__) . '/../category_manager/course_category.class.php
 class CourseCategoryMenu extends HTML_Menu
 {
     const TREE_NAME = __CLASS__;
-
+    
     /**
      * The string passed to sprintf() to format category URLs
      */
@@ -34,10 +34,10 @@ class CourseCategoryMenu extends HTML_Menu
      * this menu.
      * @param int $current_category The ID of the current category in the menu.
      * @param string $url_format The format to use for the URL of a category.
-     *                           Passed to sprintf(). Defaults to the string
-     *                           "?category=%s".
+     * Passed to sprintf(). Defaults to the string
+     * "?category=%s".
      * @param array $extra_items An array of extra tree items, added to the
-     *                           root.
+     * root.
      */
     function CourseCategoryMenu($current_category, $url_format = '?category=%s', $extra_items = array())
     {
@@ -51,10 +51,10 @@ class CourseCategoryMenu extends HTML_Menu
     /**
      * Returns the menu items.
      * @param array $extra_items An array of extra tree items, added to the
-     *                           root.
+     * root.
      * @return array An array with all menu items. The structure of this array
-     *               is the structure needed by PEAR::HTML_Menu, on which this
-     *               class is based.
+     * is the structure needed by PEAR::HTML_Menu, on which this
+     * class is based.
      */
     private function get_menu_items($extra_items)
     {
@@ -70,7 +70,7 @@ class CourseCategoryMenu extends HTML_Menu
         {
             $menu = array_merge($menu, $extra_items);
         }
-
+        
         $home = array();
         $home['title'] = Translation :: get('Home');
         $home['url'] = $this->get_home_url();
@@ -85,8 +85,8 @@ class CourseCategoryMenu extends HTML_Menu
      * @param array $categories The categories to include in this menu.
      * @param int $parent The parent category ID.
      * @return array An array with all menu items. The structure of this array
-     *               is the structure needed by PEAR::HTML_Menu, on which this
-     *               class is based.
+     * is the structure needed by PEAR::HTML_Menu, on which this
+     * class is based.
      */
     private function get_sub_menu_items($categories, $parent)
     {
@@ -94,10 +94,10 @@ class CourseCategoryMenu extends HTML_Menu
         foreach ($categories[$parent] as $index => $category)
         {
             $menu_item = array();
-
+            
             $wdm = WeblcmsDataManager :: get_instance();
             $count = $wdm->count_courses(new EqualityCondition(Course :: PROPERTY_CATEGORY, $category->get_id()));
-
+            
             $menu_item['title'] = $category->get_name() . ' (' . $count . ')';
             if (Request :: get(Application :: PARAM_ACTION) == WeblcmsManager :: ACTION_COURSE_CATEGORY_MANAGER)
             {
@@ -156,7 +156,7 @@ class CourseCategoryMenu extends HTML_Menu
      * Renders the menu as a tree
      * @return string The HTML formatted tree
      */
-	function render_as_tree()
+    function render_as_tree()
     {
         $renderer = new TreeMenuRenderer($this->get_tree_name());
         $this->render($renderer, 'sitemap');
@@ -165,6 +165,6 @@ class CourseCategoryMenu extends HTML_Menu
 
     static function get_tree_name()
     {
-    	return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
+        return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
     }
 }

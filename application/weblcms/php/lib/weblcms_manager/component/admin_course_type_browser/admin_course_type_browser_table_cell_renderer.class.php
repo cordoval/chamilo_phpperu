@@ -37,28 +37,28 @@ class AdminCourseTypeBrowserTableCellRenderer extends DefaultCourseTypeTableCell
         {
             return $this->get_modification_links($course_type);
         }
-
+        
         // Add special features here
         switch ($column->get_name())
         {
             // Exceptions that need post-processing go here ...
             case CourseType :: PROPERTY_NAME :
-				$name = parent :: render_cell($column, $course_type);
-				$name_short = $name;
-				if(strlen($name_short) > 53)
-				{
-					$name_short = mb_substr($name_short,0,50).'&hellip;';
-				}
-				return '<a href="'.htmlentities($this->browser->get_course_type_viewing_url($course_type)).'" title="'.$name.'">'.$name_short.'</a>';
-
+                $name = parent :: render_cell($column, $course_type);
+                $name_short = $name;
+                if (strlen($name_short) > 53)
+                {
+                    $name_short = mb_substr($name_short, 0, 50) . '&hellip;';
+                }
+                return '<a href="' . htmlentities($this->browser->get_course_type_viewing_url($course_type)) . '" title="' . $name . '">' . $name_short . '</a>';
+            
             case CourseType :: PROPERTY_DESCRIPTION :
-				$description = strip_tags(parent :: render_cell($column, $course_type));
-				if(strlen($description) > 175)
-				{
-					$description = mb_substr($description,0,170).'&hellip;';
-				}
-				return $description;
-			/*
+                $description = strip_tags(parent :: render_cell($column, $course_type));
+                if (strlen($description) > 175)
+                {
+                    $description = mb_substr($description, 0, 170) . '&hellip;';
+                }
+                return $description;
+            /*
             case CourseType :: PROPERTY_ACTIVE :
             	$active = parent :: render_cell($column, $course_type);
         		$active_short = $active;
@@ -69,7 +69,7 @@ class AdminCourseTypeBrowserTableCellRenderer extends DefaultCourseTypeTableCell
             	return '<a href"'.htmlentities($this->browser->get_course_type_changing_url($course_type)).'" title="'.$active.'">'.$active_short.'</a>';
             */
         }
-
+        
         return parent :: render_cell($column, $course_type);
     }
 
@@ -82,29 +82,13 @@ class AdminCourseTypeBrowserTableCellRenderer extends DefaultCourseTypeTableCell
     private function get_modification_links($course_type)
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
-
-        $toolbar->add_item(new ToolbarItem(
-        		($course_type->get_active() == 1) ? Translation :: get('Deactivate') : Translation :: get('Activate'),
-        		($course_type->get_active() == 1) ? Theme :: get_common_image_path() . 'action_visible.png' : Theme :: get_common_image_path() . 'action_invisible.png',
-        		$this->browser->get_change_active_url('course_type', $course_type->get_id()),
-        		ToolbarItem :: DISPLAY_ICON
-        ));
-
-        $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Edit'),
-        		Theme :: get_common_image_path() . 'action_edit.png',
-        		$this->browser->get_course_type_editing_url($course_type),
-        		ToolbarItem :: DISPLAY_ICON
-        ));
-
-        $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Delete'),
-        		Theme :: get_common_image_path() . 'action_delete.png',
-        		$this->browser->get_course_type_deleting_url($course_type),
-        		ToolbarItem :: DISPLAY_ICON,
-        		true
-        ));
-
+        
+        $toolbar->add_item(new ToolbarItem(($course_type->get_active() == 1) ? Translation :: get('Deactivate') : Translation :: get('Activate'), ($course_type->get_active() == 1) ? Theme :: get_common_image_path() . 'action_visible.png' : Theme :: get_common_image_path() . 'action_invisible.png', $this->browser->get_change_active_url('course_type', $course_type->get_id()), ToolbarItem :: DISPLAY_ICON));
+        
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_course_type_editing_url($course_type), ToolbarItem :: DISPLAY_ICON));
+        
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_course_type_deleting_url($course_type), ToolbarItem :: DISPLAY_ICON, true));
+        
         return $toolbar->as_html();
     }
 }

@@ -13,7 +13,7 @@ class WeblcmsAverageExerciseScoreReportingBlock extends WeblcmsCourseReportingBl
     public function count_data()
     {
         $reporting_data = new ReportingData();
-
+        
         return $reporting_data;
     }
 

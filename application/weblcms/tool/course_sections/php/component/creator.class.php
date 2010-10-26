@@ -21,7 +21,7 @@ class CourseSectionsToolCreatorComponent extends CourseSectionsTool
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses sections');
         $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => CourseSectionsTool :: ACTION_CREATE_COURSE_SECTION)), Translation :: get('Create')));
-
+        
         if (! $this->get_course()->is_course_admin($this->get_parent()->get_user()))
         {
             $this->display_header();
@@ -29,13 +29,13 @@ class CourseSectionsToolCreatorComponent extends CourseSectionsTool
             $this->display_footer();
             exit();
         }
-
+        
         $course_section = new CourseSection();
         $course_section->set_course_code($this->get_course_id());
         $course_section->set_type(CourseSection :: TYPE_TOOL);
-
+        
         $form = new CourseSectionForm(CourseSectionForm :: TYPE_CREATE, $course_section, $this->get_url(array(CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_CREATE_COURSE_SECTION)));
-
+        
         if ($form->validate())
         {
             $success = $form->create_course_section();

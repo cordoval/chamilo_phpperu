@@ -9,7 +9,6 @@ use common\libraries\DataClass;
  * @author Hans de Bisschop
  */
 
-
 class CourseGroupRightLocation extends DataClass
 {
     const CLASS_NAME = __CLASS__;

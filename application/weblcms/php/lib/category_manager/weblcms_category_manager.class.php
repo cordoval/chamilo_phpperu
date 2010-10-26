@@ -13,7 +13,7 @@ class WeblcmsCategoryManager extends CategoryManager
     function WeblcmsCategoryManager($parent)
     {
         $trail = BreadcrumbTrail :: get_instance();
-
+        
         parent :: __construct($parent, $trail);
     }
 
@@ -42,13 +42,12 @@ class WeblcmsCategoryManager extends CategoryManager
     function get_next_category_display_order($parent_id)
     {
         $wdm = WeblcmsDataManager :: get_instance();
-
+        
         $condition = new EqualityCondition(CourseCategory :: PROPERTY_PARENT, $parent_id);
         $sort = $wdm->retrieve_max_sort_value(CourseCategory :: get_table_name(), CourseCategory :: PROPERTY_DISPLAY_ORDER, $condition);
-
+        
         return $sort + 1;
     }
-
 
 }
 ?>

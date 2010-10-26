@@ -5,6 +5,7 @@ use application\weblcms\ToolComponent;
 
 class ForumToolEvaluateComponent extends ForumTool
 {
+
     function run()
     {
         ToolComponent :: launch($this);

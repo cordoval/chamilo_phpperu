@@ -21,7 +21,7 @@ class WikiPageReportingTemplate extends ReportingTemplate
     {
         $this->add_reporting_block(new WeblcmsWikiPageMostActiveUsersReportingBlock($this));
         $this->add_reporting_block(new WeblcmsWikiPageUsersContributionsReportingBlock($this));
-
+        
         parent :: __construct($parent);
     }
 
@@ -43,7 +43,7 @@ class WikiPageReportingTemplate extends ReportingTemplate
         $properties[ReportingTemplateRegistration :: PROPERTY_TITLE] = 'WeblcmsWikiPageReportingTemplate';
         $properties[ReportingTemplateRegistration :: PROPERTY_PLATFORM] = 0;
         $properties[ReportingTemplateRegistration :: PROPERTY_DESCRIPTION] = 'WeblcmsWikiPageReportingTemplate';
-
+        
         return $properties;
     }
 

@@ -42,7 +42,7 @@ class SettingsWeblcmsConnector
 
     function get_languages()
     {
-		return AdminDataManager :: get_languages();
+        return AdminDataManager :: get_languages();
     }
 }
 ?>

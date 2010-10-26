@@ -10,6 +10,7 @@ use common\libraries\Translation;
 require_once dirname(__FILE__) . '/../course_group_tool.class.php';
 //require_once dirname(__FILE__) . '/../course_group_tool_component.class.php';
 
+
 class CourseGroupToolSelfUnsubscriberComponent extends CourseGroupTool
 {
     private $action_bar;
@@ -21,7 +22,7 @@ class CourseGroupToolSelfUnsubscriberComponent extends CourseGroupTool
             Display :: not_allowed();
             return;
         }
-
+        
         $course_group = $this->get_course_group();
         $course_group->unsubscribe_users($this->get_user_id());
         $this->redirect(Translation :: get('UserUnsubscribed'), false, array('tool_action' => null));

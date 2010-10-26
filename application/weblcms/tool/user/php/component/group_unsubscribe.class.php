@@ -31,7 +31,7 @@ class UserToolGroupUnsubscribeComponent extends UserTool
             if (isset($group_ids) && $course->is_course_admin($this->get_user()))
             {
                 $failures = 0;
-
+                
                 foreach ($group_ids as $group_id)
                 {
                     if (! $this->get_parent()->unsubscribe_group_from_course($course, $group_id))
@@ -39,11 +39,11 @@ class UserToolGroupUnsubscribeComponent extends UserTool
                         $failures ++;
                     }
                 }
-
+                
                 if ($failures == 0)
                 {
                     $success = true;
-
+                    
                     if (count($group_ids) == 1)
                     {
                         $message = 'GroupUnsubscribedFromCourse';
@@ -56,7 +56,7 @@ class UserToolGroupUnsubscribeComponent extends UserTool
                 elseif ($failures == count($group_ids))
                 {
                     $success = false;
-
+                    
                     if (count($group_ids) == 1)
                     {
                         $message = 'GroupNotUnsubscribedFromCourse';
@@ -71,7 +71,7 @@ class UserToolGroupUnsubscribeComponent extends UserTool
                     $success = false;
                     $message = 'PartialGroupsNotUnsubscribedFromCourse';
                 }
-
+                
                 $this->redirect(Translation :: get($message), ($success ? false : true), array(Tool :: PARAM_ACTION => UserTool :: ACTION_SUBSCRIBE_GROUP_BROWSER));
             }
             else

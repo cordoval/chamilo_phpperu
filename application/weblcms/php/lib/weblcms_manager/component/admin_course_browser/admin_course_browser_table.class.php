@@ -28,10 +28,10 @@ class AdminCourseBrowserTable extends ObjectTable
         $data_provider = new AdminCourseBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, AdminCourseBrowserTable :: DEFAULT_NAME, $model, $renderer);
         $actions = array();
-
+        
         $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_REMOVE_SELECTED, Translation :: get('RemoveSelected'));
-        $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_CHANGE_COURSE_TYPE_SELECTED_COURSES, Translation :: get('ChangeCourseTypeSelected'),false);
-
+        $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_CHANGE_COURSE_TYPE_SELECTED_COURSES, Translation :: get('ChangeCourseTypeSelected'), false);
+        
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
     }

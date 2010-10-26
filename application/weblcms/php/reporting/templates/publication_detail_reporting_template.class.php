@@ -27,7 +27,7 @@ class PublicationDetailReportingTemplate extends ReportingTemplate
 
     function display_context()
     {
-
+    
     }
 
     function get_application()
@@ -42,7 +42,7 @@ class PublicationDetailReportingTemplate extends ReportingTemplate
         $user_id = Request :: get(WeblcmsManager :: PARAM_USERS);
         $tool = Request :: get(WeblcmsManager :: PARAM_TOOL);
         $pid = Request :: get(WeblcmsManager :: PARAM_PUBLICATION);
-
+        
         if ($course_id)
         {
             $this->set_parameter(WeblcmsManager :: PARAM_COURSE, $course_id);
@@ -69,7 +69,7 @@ class PublicationDetailReportingTemplate extends ReportingTemplate
         $user_id = Request :: get(WeblcmsManager :: PARAM_USERS);
         $tool = Request :: get(WeblcmsManager :: PARAM_TOOL);
         $pid = Request :: get(WeblcmsManager :: PARAM_PUBLICATION);
-
+        
         if ($course_id)
         {
             $this->set_parameter(WeblcmsManager :: PARAM_COURSE, $course_id);
@@ -96,7 +96,7 @@ class PublicationDetailReportingTemplate extends ReportingTemplate
         $user_id = Request :: get(WeblcmsManager :: PARAM_USERS);
         $tool = Request :: get(WeblcmsManager :: PARAM_TOOL);
         $pid = Request :: get(WeblcmsManager :: PARAM_PUBLICATION);
-
+        
         if ($course_id)
         {
             $this->set_parameter(WeblcmsManager :: PARAM_COURSE, $course_id);

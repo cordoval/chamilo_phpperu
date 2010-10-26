@@ -15,6 +15,7 @@ require_once Path :: get_application_path() . 'lib/weblcms/trackers/weblcms_lp_a
  */
 class LearningPathCellRenderer extends ObjectPublicationTableCellRenderer
 {
+
     function LearningPathCellRenderer($browser)
     {
         parent :: __construct($browser);
@@ -29,22 +30,22 @@ class LearningPathCellRenderer extends ObjectPublicationTableCellRenderer
         {
         	return $this->get_actions($publication)->as_html();
         }*/
-
+        
         switch ($column->get_name())
         {
             case 'progress' :
-            {
-                if(!$this->table_renderer->get_tool_browser()->get_parent()->is_empty_learning_path($publication))
                 {
-            		return $this->get_progress($publication);
+                    if (! $this->table_renderer->get_tool_browser()->get_parent()->is_empty_learning_path($publication))
+                    {
+                        return $this->get_progress($publication);
+                    }
+                    else
+                    {
+                        return Translation :: get('EmptyLearningPath');
+                    }
                 }
-                else
-                {
-                	return Translation :: get('EmptyLearningPath');
-                }
-            }
         }
-
+        
         return parent :: render_cell($column, $publication);
     }
 
@@ -55,11 +56,11 @@ class LearningPathCellRenderer extends ObjectPublicationTableCellRenderer
         $conditions[] = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_USER_ID, $this->table_renderer->get_user_id());
         //$conditions[] = new NotCondition(new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_PROGRESS, 100));
         $condition = new AndCondition($conditions);
-
+        
         $dummy = new WeblcmsLpAttemptTracker();
         $trackers = $dummy->retrieve_tracker_items($condition);
         $lp_tracker = $trackers[0];
-
+        
         if ($lp_tracker)
         {
             $progress = $lp_tracker->get_progress();
@@ -68,7 +69,7 @@ class LearningPathCellRenderer extends ObjectPublicationTableCellRenderer
         {
             $progress = 0;
         }
-
+        
         $bar = $this->get_progress_bar($progress);
         $url = $this->table_renderer->get_url(array(LearningPathTool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), 'lp_action' => 'view_progress'));
         return Text :: create_link($url, $bar);
@@ -80,7 +81,7 @@ class LearningPathCellRenderer extends ObjectPublicationTableCellRenderer
         $html[] = '<div style="background-color: lightblue; height: 14px; width:' . $progress . 'px; text-align: center;">';
         $html[] = '</div>';
         $html[] = '<div style="width: 100px; text-align: center; position: absolute; top: 0px;">' . round($progress) . '%</div></div>';
-
+        
         return implode("\n", $html);
     }
 

@@ -36,7 +36,7 @@ class AssessmentResultsTableDetailCellRenderer extends DefaultContentObjectTable
 	 */
     function render_cell($column, $user_assessment)
     {
-
+        
         if ($column === AssessmentResultsTableDetailColumnModel :: get_action_column())
         {
             return $this->get_actions($user_assessment);
@@ -60,7 +60,7 @@ class AssessmentResultsTableDetailCellRenderer extends DefaultContentObjectTable
                     //return $total.'/'.$max.' ('.$pct.'%)';
                     return $total . '%';
                 case Translation :: get(WeblcmsAssessmentAttemptsTracker :: PROPERTY_DATE) :
-                    return DatetimeUtilities :: format_locale_date(null,$user_assessment->get_date());
+                    return DatetimeUtilities :: format_locale_date(null, $user_assessment->get_date());
                 default :
                     return '';
             }
@@ -71,66 +71,39 @@ class AssessmentResultsTableDetailCellRenderer extends DefaultContentObjectTable
     {
         $pub = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($user_assessment->get_assessment_id());
         $assessment = $pub->get_content_object();
-
+        
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
-
+        
         if ($assessment->get_assessment_type() != Hotpotatoes :: TYPE_HOTPOTATOES)
         {
-            $toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('ViewResults'),
-	        		Theme :: get_common_image_path() . 'action_view_results.png',
-	        		$this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())),
-	        		ToolbarItem :: DISPLAY_ICON
-	        ));
-
-            $toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('ExportResults'),
-	        		Theme :: get_common_image_path() . 'action_export.png',
-	        		$this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())),
-	        		ToolbarItem :: DISPLAY_ICON
-	        ));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('ViewResults'), Theme :: get_common_image_path() . 'action_view_results.png', $this->browser->get_url(array(
+                    Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())), ToolbarItem :: DISPLAY_ICON));
+            
+            $toolbar->add_item(new ToolbarItem(Translation :: get('ExportResults'), Theme :: get_common_image_path() . 'action_export.png', $this->browser->get_url(array(
+                    Tool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())), ToolbarItem :: DISPLAY_ICON));
         }
         else
         {
-            $toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('ViewResultsNA'),
-	        		Theme :: get_common_image_path() . 'action_view_results_na.png',
-	        		null,
-	        		ToolbarItem :: DISPLAY_ICON
-	        ));
-
-            $toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('ExportResultsNA'),
-	        		Theme :: get_common_image_path() . 'action_export_na.png',
-	        		null,
-	        		ToolbarItem :: DISPLAY_ICON
-	        ));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('ViewResultsNA'), Theme :: get_common_image_path() . 'action_view_results_na.png', null, ToolbarItem :: DISPLAY_ICON));
+            
+            $toolbar->add_item(new ToolbarItem(Translation :: get('ExportResultsNA'), Theme :: get_common_image_path() . 'action_export_na.png', null, ToolbarItem :: DISPLAY_ICON));
         }
-
+        
         if ($this->browser->is_allowed(WeblcmsRights :: DELETE_RIGHT))
         {
-            $toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('DeleteResult'),
-	        		Theme :: get_common_image_path() . 'action_delete.png',
-	        		$this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_DELETE_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())),
-	        		ToolbarItem :: DISPLAY_ICON,
-	        		true
-	        ));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('DeleteResult'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_url(array(
+                    Tool :: PARAM_ACTION => AssessmentTool :: ACTION_DELETE_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())), ToolbarItem :: DISPLAY_ICON, true));
         }
-
+        
         if ($this->browser->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             if ($assessment->get_assessment_type() == Assessment :: TYPE_ASSIGNMENT)
             {
-                $toolbar->add_item(new ToolbarItem(
-		        		Translation :: get('DownloadDocuments'),
-		        		Theme :: get_common_image_path() . 'action_download.png',
-		        		$this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_SAVE_DOCUMENTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())),
-		        		ToolbarItem :: DISPLAY_ICON
-		        ));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('DownloadDocuments'), Theme :: get_common_image_path() . 'action_download.png', $this->browser->get_url(array(
+                        Tool :: PARAM_ACTION => AssessmentTool :: ACTION_SAVE_DOCUMENTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())), ToolbarItem :: DISPLAY_ICON));
             }
         }
-
+        
         return $toolbar->as_html();
     }
 

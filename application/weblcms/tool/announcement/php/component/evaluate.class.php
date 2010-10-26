@@ -5,6 +5,7 @@ use application\weblcms\ToolComponent;
 
 class AnnouncementToolEvaluateComponent extends AnnouncementTool
 {
+
     function run()
     {
         ToolComponent :: launch($this);
