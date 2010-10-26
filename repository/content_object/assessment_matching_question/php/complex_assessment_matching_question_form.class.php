@@ -3,6 +3,7 @@ namespace repository\content_object\assessment_matching_question;
 
 use common\libraries\Translation;
 use common\libraries\Path;
+use repository\ComplexMatchingQuestionForm;
 
 /**
  * $Id: complex_assessment_matching_question_form.class.php 200 2009-11-13 12:30:04Z kariboe $

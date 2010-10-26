@@ -5,6 +5,9 @@ use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\ResourceManager;
 use common\libraries\Theme;
+use repository\MatrixQuestionForm;
+use repository\MatrixQuestionOption;
+use repository\MatrixQuestion;
 
 /**
  * $Id: assessment_matrix_question_form.class.php $

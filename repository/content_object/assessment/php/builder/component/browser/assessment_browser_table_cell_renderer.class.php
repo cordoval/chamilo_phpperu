@@ -35,7 +35,7 @@ class AssessmentBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
 
         switch ($column->get_name())
         {
-            case Translation :: get('Weight') :
+            case 'weight' :
                 return $cloi->get_weight();
         }
 

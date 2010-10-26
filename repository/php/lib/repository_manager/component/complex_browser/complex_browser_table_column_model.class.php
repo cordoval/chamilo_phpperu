@@ -5,6 +5,7 @@ use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\ObjectTableColumnModel;
 use common\libraries\StaticTableColumn;
+use common\libraries\ObjectTableColumn;
 
 /**
  * $Id: complex_browser_table_column_model.class.php 204 2009-11-13 12:51:30Z kariboe $
@@ -45,13 +46,13 @@ class ComplexBrowserTableColumnModel extends ObjectTableColumnModel
     private static function get_default_columns($browser, $additional_columns = array())
     {
         $columns = array();
-        $columns[] = new StaticTableColumn(Translation :: get(Utilities :: underscores_to_camelcase(ContentObject :: PROPERTY_TYPE)));
-        $columns[] = new StaticTableColumn(Translation :: get(Utilities :: underscores_to_camelcase(ContentObject :: PROPERTY_TITLE)));
-        $columns[] = new StaticTableColumn(Translation :: get(Utilities :: underscores_to_camelcase(ContentObject :: PROPERTY_DESCRIPTION)));
+        $columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_TYPE, false);
+        $columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_TITLE, false);
+        $columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_DESCRIPTION, false);
 
         if ($browser instanceof ComplexMenuSupport)
         {
-            $columns[] = new StaticTableColumn(Translation :: get('Subitems'));
+            $columns[] = new ObjectTableColumn('subitems', false);
         }
 
         foreach ($additional_columns as $additional_column)

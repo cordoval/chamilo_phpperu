@@ -5,6 +5,8 @@ use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\ResourceManager;
 use common\libraries\Theme;
+use repository\MultipleChoiceQuestionForm;
+use repository\MultipleChoiceQuestionOption;
 
 /**
  * $Id: assessment_multiple_choice_question_form.class.php $

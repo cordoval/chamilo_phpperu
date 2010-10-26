@@ -3,6 +3,7 @@ namespace repository\content_object\assessment_matrix_question;
 
 use common\libraries\Translation;
 use common\libraries\Path;
+use repository\ComplexMatrixQuestionForm;
 
 /**
  * $Id: complex_assessment_matrix_question_form.class.php 200 2009-11-13 12:30:04Z kariboe $
