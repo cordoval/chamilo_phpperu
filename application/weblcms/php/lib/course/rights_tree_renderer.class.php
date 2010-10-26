@@ -1,6 +1,10 @@
 <?php
 namespace application\weblcms;
 
+use HTML_Menu;
+use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
+
 /**
  * $Id: content_object_category_menu.class.php 204 2009-11-13 12:51:30Z tristan $
  * @package repository.lib
@@ -11,14 +15,14 @@ require_once 'HTML/Menu/ArrayRenderer.php';
 class RightsTreeRenderer extends HTML_Menu
 {
     const TREE_NAME = __CLASS__;
-    
+
     private $data_manager;
-    
+
     private $groups;
 
     /**
      * @param array $extra_items An array of extra tree items, added to the
-     * root.                      
+     * root.
      */
     function RightsTreeRenderer($groups)
     {

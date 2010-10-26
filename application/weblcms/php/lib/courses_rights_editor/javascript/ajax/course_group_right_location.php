@@ -1,6 +1,11 @@
 <?php
 namespace application\weblcms;
 
+use user\UserDataManager;
+use common\libraries\Session;
+use common\libraries\Utilities;
+use common\libraries\Request;
+
 /**
  * $Id: group_right_location.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.ajax
@@ -38,14 +43,14 @@ $right_course_group = $rights['2'];
 if (isset($right_course_group) && isset($right) && isset($locations) && count($locations) > 0)
 {
     $success = true;
-    
+
     $rdm = RightsDataManager :: get_instance();
-    
+
     foreach ($locations as $location_id)
     {
         $success &= WeblcmsRights :: invert_course_group_right_location($right, $right_course_group, $location_id);
     }
-    
+
     if (! $success)
     {
         echo 0;

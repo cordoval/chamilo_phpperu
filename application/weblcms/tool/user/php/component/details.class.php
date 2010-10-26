@@ -1,6 +1,11 @@
 <?php
 namespace application\weblcms\tool\user;
 
+use user\UserDataManager;
+use common\libraries\Display;
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Request;
 use common\libraries\Translation;
 
 /**
@@ -20,16 +25,16 @@ class UserToolDetailsComponent extends UserTool
             return;
         }
         $trail = BreadcrumbTrail :: get_instance();
-        
+
         if (Request :: get('users') != null)
         {
             $user = UserDataManager :: get_instance()->retrieve_user(Request :: get('users'));
-        
+
      //$trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'user_details', 'users' => Request :: get('users'))), $user->get_firstname() . ' ' . $user->get_lastname()));
         }
         //$trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'user_details', 'users' => Request :: get('users'))), Translation :: get('Details')));
         $this->display_header();
-        
+
         $udm = UserDataManager :: get_instance();
         if (Request :: get(WeblcmsManager :: PARAM_USERS))
         {
@@ -46,7 +51,7 @@ class UserToolDetailsComponent extends UserTool
                 echo $details->toHtml();
             }
         }
-        
+
         $this->display_footer();
     }
 

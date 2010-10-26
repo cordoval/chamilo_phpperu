@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Display;
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
 use common\libraries\Translation;
 
 /**
@@ -19,9 +22,9 @@ class ToolComponentPublisherComponent extends ToolComponent implements RepoViewe
             Display :: not_allowed();
             return;
         }
-        
+
         //$trail = BreadcrumbTrail :: get_instance();
-        
+
 
         if (! RepoViewer :: is_ready_to_be_published())
         {

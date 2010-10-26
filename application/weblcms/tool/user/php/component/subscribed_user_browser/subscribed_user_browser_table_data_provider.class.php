@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\user;
 
+use user\UserDataManager;
 use common\libraries\ObjectTableDataProvider;
 
 /**

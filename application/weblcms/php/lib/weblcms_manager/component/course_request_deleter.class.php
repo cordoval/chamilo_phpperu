@@ -1,6 +1,11 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Display;
+use common\libraries\Application;
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Request;
 use common\libraries\Translation;
 
 /**
@@ -22,19 +27,19 @@ class WeblcmsManagerCourseRequestDeleterComponent extends WeblcmsManager
         $request_ids = Request :: get(WeblcmsManager :: PARAM_REQUEST);
         $request_type = Request :: get(WeblcmsManager :: PARAM_REQUEST_TYPE);
         $failures = 0;
-        
+
         if (! $this->get_user()->is_platform_admin())
         {
             $trail = BreadcrumbTrail :: get_instance();
             $trail->add(new Breadcrumb($this->get_url(), Translation :: get('DeleteRequest')));
             $trail->add_help('request delete');
-            
+
             Display :: error_message(Translation :: get("NotAllowed"));
             $this->display_header();
             $this->display_footer();
             exit();
         }
-        
+
         if (! empty($request_ids))
         {
             $wdm = WeblcmsDataManager :: get_instance();
@@ -42,11 +47,11 @@ class WeblcmsManagerCourseRequestDeleterComponent extends WeblcmsManager
             {
                 $request_ids = array($request_ids);
             }
-            
+
             foreach ($request_ids as $request_id)
             {
                 $request_method = null;
-                
+
                 switch ($request_type)
                 {
                     case CommonRequest :: SUBSCRIPTION_REQUEST :
@@ -56,15 +61,15 @@ class WeblcmsManagerCourseRequestDeleterComponent extends WeblcmsManager
                         $request_method = 'retrieve_course_create_request';
                         break;
                 }
-                
+
                 $request = $this->$request_method($request_id);
-                
+
                 if (! $request->delete())
                 {
                     $failures ++;
                 }
             }
-            
+
             if ($failures)
             {
                 if (count($request_ids) == 1)
@@ -87,7 +92,7 @@ class WeblcmsManagerCourseRequestDeleterComponent extends WeblcmsManager
                     $message = 'SelectedRequestsDeleted';
                 }
             }
-            
+
             $this->redirect(Translation :: get($message), ($failures ? true : false), array(
                     Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_REQUEST_BROWSER, WeblcmsManager :: PARAM_REQUEST => null, WeblcmsManager :: PARAM_REQUEST_TYPE => $request_type, WeblcmsManager :: PARAM_REQUEST_VIEW => Request :: get(WeblcmsManager :: PARAM_REQUEST_VIEW)));
         }

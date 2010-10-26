@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\link;
 
+use common\libraries\Request;
 use application\weblcms\ToolComponent;
 
 class LinkToolMoverComponent extends LinkTool

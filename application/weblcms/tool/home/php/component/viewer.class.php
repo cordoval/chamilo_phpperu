@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\home;
 
+use common\libraries\BreadcrumbTrail;
+
 class HomeToolViewerComponent extends HomeTool
 {
 
@@ -8,12 +10,12 @@ class HomeToolViewerComponent extends HomeTool
     {
         $trail = BreadcrumbTrail :: get_instance();
         $title = CourseLayout :: get_title($this->get_course());
-        
+
         $tools = $this->get_visible_tools();
         $this->display_header($tools, true);
-        
+
         echo $this->display_introduction_text($this->get_introduction_text());
-        
+
         $renderer = ToolListRenderer :: factory(ToolListRenderer :: TYPE_FIXED, $this, $tools);
         $renderer->display();
         echo '</div>';

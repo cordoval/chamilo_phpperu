@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Request;
 use common\libraries\ObjectTableColumnModel;
 
 /**
@@ -35,7 +36,7 @@ class DefaultCourseRequestTableColumnModel extends ObjectTableColumnModel
         if ($request_type == CommonRequest :: CREATION_REQUEST)
             $columns[] = new ObjectTableColumn(self :: COURSE_TYPE_NAME, false);
         $columns[] = new ObjectTableColumn(CourseRequest :: PROPERTY_SUBJECT);
-        
+
         return $columns;
     }
 }

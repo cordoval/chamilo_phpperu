@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Request;
+
 /**
  * $Id: admin_course_type_browser_table_column_model.class.php 218 2010-03-10 14:21:26Z yannick $
  * @package application.lib.weblcms.weblcms_manager.component.admin_course_type_browser
@@ -29,7 +31,7 @@ class AdminRequestBrowserTableColumnModel extends DefaultCourseRequestTableColum
         $this->add_column(new ObjectTableColumn(CourseRequest :: PROPERTY_DECISION_DATE));
         $this->set_default_order_column(0);
         $this->add_column(self :: get_modification_column());
-    
+
     }
 
     /**

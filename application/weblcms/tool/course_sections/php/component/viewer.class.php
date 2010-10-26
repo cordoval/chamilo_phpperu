@@ -1,6 +1,11 @@
 <?php
 namespace application\weblcms\tool\course_sections;
 
+use common\libraries\ToolbarItem;
+use common\libraries\Display;
+use common\libraries\Theme;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\EqualityCondition;
 use common\libraries\Translation;
 
 /**
@@ -17,7 +22,7 @@ class CourseSectionsToolViewerComponent extends CourseSectionsTool
     {
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses sections');
-        
+
         if (! $this->get_course()->is_course_admin($this->get_parent()->get_user()))
         {
             $this->display_header();
@@ -25,10 +30,10 @@ class CourseSectionsToolViewerComponent extends CourseSectionsTool
             $this->display_footer();
             exit();
         }
-        
+
         $this->action_bar = $this->get_action_bar();
         $table = $this->get_table_html();
-        
+
         $this->display_header();
         echo '<br />';
         echo $this->action_bar->as_html();
@@ -41,7 +46,7 @@ class CourseSectionsToolViewerComponent extends CourseSectionsTool
     function get_action_bar()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        
+
         $action_bar->set_search_url($this->get_url());
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('Create'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_CREATE_COURSE_SECTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
@@ -51,12 +56,12 @@ class CourseSectionsToolViewerComponent extends CourseSectionsTool
     function get_table_html()
     {
         $table = new CourseSectionsBrowserTable($this, array(), $this->get_condition());
-        
+
         $html = array();
         $html[] = '<div style="float: right; width: 100%;">';
         $html[] = $table->as_html();
         $html[] = '</div>';
-        
+
         return implode($html, "\n");
     }
 

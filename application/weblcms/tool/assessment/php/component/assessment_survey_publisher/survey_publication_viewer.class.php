@@ -1,6 +1,10 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use common\libraries\Display;
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Request;
 use common\libraries\Translation;
 
 /**
@@ -22,15 +26,15 @@ class SurveyPublicationViewer extends SurveyPublisherComponent
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->parent->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_PUBLISH_SURVEY, AssessmentTool :: PARAM_PUBLICATION_ACTION => AssessmentTool :: ACTION_VIEW, Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), Translation :: get('ViewInvitedUsers')));
         $toolbar = $this->parent->get_toolbar();
-        
+
         $wdm = WeblcmsDataManager :: get_instance();
-        
+
         $pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
         $publication = $wdm->retrieve_content_object_publication($pid);
         $survey = $publication->get_content_object();
-        
+
         $table = new SurveyUserTable($this, $this->get_user, $pid);
-        
+
         $this->parent->display_header();
         echo $toolbar->as_html();
         //echo '<br/><br/>'.Translation :: get('UsersInvitedToTakeSurvey').': <br/>';

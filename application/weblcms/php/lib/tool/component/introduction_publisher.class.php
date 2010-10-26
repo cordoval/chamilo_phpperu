@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Display;
+use common\libraries\Session;
+use common\libraries\BreadcrumbTrail;
 use common\libraries\Translation;
 
 /**
@@ -22,9 +25,9 @@ class ToolComponentIntroductionPublisherComponent extends ToolComponent implemen
             Display :: not_allowed();
             return;
         }
-        
+
         $trail = BreadcrumbTrail :: get_instance();
-        
+
         if (! RepoViewer :: is_ready_to_be_published())
         {
             $repo_viewer = RepoViewer :: construct($this);
@@ -36,7 +39,7 @@ class ToolComponentIntroductionPublisherComponent extends ToolComponent implemen
         {
             $dm = WeblcmsDataManager :: get_instance();
             $do = $dm->get_next_content_object_publication_display_order_index($this->get_course_id(), $this->get_tool_id(), 0);
-            
+
             $pub = new ContentObjectPublication();
             $pub->set_content_object_id(RepoViewer :: get_selected_objects());
             $pub->set_course_id($this->get_course_id());
@@ -53,12 +56,12 @@ class ToolComponentIntroductionPublisherComponent extends ToolComponent implemen
             $pub->set_display_order_index($do);
             $pub->set_email_sent(false);
             $pub->set_show_on_homepage(0);
-            
+
             $pub->create();
-            
+
             $parameters = $this->get_parameters();
             $parameters['tool_action'] = null;
-            
+
             $this->redirect(Translation :: get('IntroductionPublished'), (false), $parameters);
         }
     }

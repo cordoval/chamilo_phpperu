@@ -1,6 +1,10 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Display;
+use common\libraries\Application;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Request;
 use common\libraries\Translation;
 
 /**
@@ -21,27 +25,27 @@ class WeblcmsManagerCourseTypeCoursesDeleterComponent extends WeblcmsManager
     {
         $course_type_id = Request :: get(WeblcmsManager :: PARAM_COURSE_TYPE);
         $failures = 0;
-        
+
         if (! $this->get_user()->is_platform_admin())
         {
             $trail = BreadcrumbTrail :: get_instance();
-            
+
             $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed"));
             $this->display_footer();
             exit();
         }
-        
+
         if (! empty($course_type_id))
         {
-            
+
             $wdm = WeblcmsDataManager :: get_instance();
             $result = $wdm->delete_courses_by_course_type_id($course_type_id);
             if ($result)
                 $message = 'AllSelectedCoursesDeleted';
             else
                 $message = 'NotAllSelectedCoursesDeleted';
-            
+
             $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE_TYPE, WeblcmsManager :: PARAM_COURSE_TYPE => $course_type_id));
         }
         else
@@ -53,7 +57,7 @@ class WeblcmsManagerCourseTypeCoursesDeleterComponent extends WeblcmsManager
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
         $breadcrumbtrail->add_help('weblcms_course_type_courses_deleter');
-    
+
     }
 
     function get_additional_parameters()

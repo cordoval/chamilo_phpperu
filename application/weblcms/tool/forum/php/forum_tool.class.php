@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\forum;
 
+use common\libraries\EqualityCondition;
+
 /**
  * $Id: forum_tool.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.forum
@@ -25,7 +27,7 @@ class ForumTool extends Tool implements Categorizable
     static function get_subforum_parents($subforum_id)
     {
         $rdm = RepositoryDataManager :: get_instance();
-        
+
         $parent = $rdm->retrieve_complex_content_object_item($subforum_id);
         while (! empty($parent))
         {
@@ -34,7 +36,7 @@ class ForumTool extends Tool implements Categorizable
             $parent = $parent[0];
         }
         $parents = array_reverse($parents);
-        
+
         return $parents;
     }
 

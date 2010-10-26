@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use common\libraries\AndCondition;
+use common\libraries\EqualityCondition;
 use common\libraries\ObjectTableDataProvider;
 
 /**
@@ -24,9 +26,9 @@ class AssessmentResultsTableDetailDataProvider extends ObjectTableDataProvider
      * The search query, or null if none.
      */
     private $query;
-    
+
     private $parent;
-    
+
     private $pid;
 
     /**
@@ -58,7 +60,7 @@ class AssessmentResultsTableDetailDataProvider extends ObjectTableDataProvider
     function get_user_assessments($pub)
     {
         $condition = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $pub->get_id());
-        
+
         if (! $this->parent->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $conditions = array();
@@ -66,7 +68,7 @@ class AssessmentResultsTableDetailDataProvider extends ObjectTableDataProvider
             $conditions[] = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_USER_ID, $this->parent->get_user_id());
             $condition = new AndCondition($conditions);
         }
-        
+
         $track = new WeblcmsAssessmentAttemptsTracker();
         $user_assessments = $track->retrieve_tracker_items($condition);
         foreach ($user_assessments as $user_assessment)

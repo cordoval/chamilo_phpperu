@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\document;
 
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
 use common\libraries\Translation;
 
 /**

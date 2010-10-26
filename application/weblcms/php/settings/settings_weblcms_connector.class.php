@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use admin\AdminDataManager;
 use common\libraries\Path;
 
 /**

@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use user\UserDataManager;
+use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\Translation;
 
@@ -12,10 +14,10 @@ class WeblcmsWikiPageMostActiveUsersReportingBlock extends WeblcmsToolReportingB
 
     public function count_data()
     {
-        
+
         $reporting_data = new ReportingData();
         $reporting_data->set_rows(array(Translation :: get('MostActiveUser'), Translation :: get('NumberOfContributions')));
-        
+
         $dm = RepositoryDataManager :: get_instance();
         $complex_content_object_item = $dm->retrieve_complex_content_object_item(Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID));
         $wiki_page = $dm->retrieve_content_object($complex_content_object_item->get_ref());
@@ -28,12 +30,12 @@ class WeblcmsWikiPageMostActiveUsersReportingBlock extends WeblcmsToolReportingB
         arsort($users);
         $keys = array_keys($users);
         $user = UserDataManager :: get_instance()->retrieve_user($keys[0]);
-        
+
         $reporting_data->add_category(0);
         $reporting_data->add_data_category_row(0, Translation :: get('MostActiveUser'), $user->get_username());
         $reporting_data->add_data_category_row(0, Translation :: get('NumberOfContributions'), $users[$user->get_id()]);
         $reporting_data->hide_categories();
-        
+
         return $reporting_data;
     }
 

@@ -1,6 +1,10 @@
 <?php
 namespace application\weblcms;
 
+use HTML_Menu;
+use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
+use common\libraries\Request;
 use common\libraries\Translation;
 
 /**
@@ -12,7 +16,7 @@ require_once 'HTML/Menu/ArrayRenderer.php';
 class RequestsTreeRenderer extends HTML_Menu
 {
     const TREE_NAME = __CLASS__;
-    
+
     private $parent;
     private $current_item = 1;
 
@@ -39,7 +43,7 @@ class RequestsTreeRenderer extends HTML_Menu
     private function get_requests_array()
     {
         $sub_menu = array();
-        
+
         $menu_item = array();
         $menu_item['class'] = 'type type_request';
         $menu_item['title'] = Translation :: get('CreationRequests');
@@ -47,7 +51,7 @@ class RequestsTreeRenderer extends HTML_Menu
         $menu_item['url'] = '#';
         $menu_item['sub'] = $this->get_sub_division(CommonRequest :: CREATION_REQUEST);
         $sub_menu[] = $menu_item;
-        
+
         $menu_item = array();
         $menu_item['class'] = 'type type_request';
         $menu_item['title'] = Translation :: get('SubscriptionRequests');
@@ -61,7 +65,7 @@ class RequestsTreeRenderer extends HTML_Menu
     private function get_sub_division($request_type)
     {
         $sub_menu = array();
-        
+
         $request_database_method = null;
         switch ($request_type)
         {
@@ -72,11 +76,11 @@ class RequestsTreeRenderer extends HTML_Menu
                 $request_database_method = 'count_course_create_requests';
                 break;
         }
-        
+
         $request_view = null;
         $translation = null;
         $condition = null;
-        
+
         for($i = 0; $i < 3; $i ++)
         {
             switch ($i)
@@ -97,9 +101,9 @@ class RequestsTreeRenderer extends HTML_Menu
                     $condition = new EqualityCondition(CommonRequest :: PROPERTY_DECISION, CommonRequest :: DENIED_DECISION);
                     break;
             }
-            
+
             $count = $this->parent->$request_database_method($condition);
-            
+
             $menu_item = array();
             $menu_item['class'] = 'type type_request';
             $menu_item['title'] = Translation :: get($translation) . ' (' . $count . ')';

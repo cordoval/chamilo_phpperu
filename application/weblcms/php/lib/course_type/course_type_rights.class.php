@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Utilities;
+use common\libraries\AndCondition;
+use common\libraries\EqualityCondition;
 use common\libraries\Path;
 
 /**
@@ -11,16 +14,16 @@ use common\libraries\Path;
 class CourseTypeRights extends CourseRights
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_COURSE_TYPE_ID = 'course_type_id';
     const PROPERTY_DIRECT_SUBSCRIBE_FIXED = 'direct_subscribe_fixed';
     const PROPERTY_REQUEST_SUBSCRIBE_FIXED = 'request_subscribe_fixed';
     const PROPERTY_CODE_SUBSCRIBE_FIXED = 'code_subscribe_fixed';
     const PROPERTY_UNSUBSCRIBE_FIXED = 'unsubscribe_fixed';
-    
+
     const PROPERTY_CREATION_AVAILABLE = 'creation_available';
     const PROPERTY_CREATION_ON_REQUEST_AVAILABLE = 'creation_on_request_available';
-    
+
     private $group_creation_rights = array();
 
     /**
@@ -175,7 +178,7 @@ class CourseTypeRights extends CourseRights
                             $right->set_create(CourseTypeGroupCreationRight :: CREATE_DIRECT);
                             $validation = true;
                         }
-                        
+
                         $condition_right = new EqualityCondition(CourseTypeGroupCreationRight :: PROPERTY_CREATE, CourseTypeGroupCreationRight :: CREATE_REQUEST);
                         $condition = new AndCondition(array($condition_course_type_id, $condition_right));
                         $count = WeblcmsDatamanager :: get_instance()->count_course_type_group_creation_rights($condition);
@@ -187,11 +190,11 @@ class CourseTypeRights extends CourseRights
                         //if not, register group in the rightsarray with no right and return the right.
                         if (! $validation)
                             $right->set_create(CourseTypeGroupCreationRight :: CREATE_NONE);
-                        
+
                         $this->group_creation_rights[$group_id] = $right;
                         return $right->get_create();
                     }
-                
+
                 }
             }
         }
@@ -201,7 +204,8 @@ class CourseTypeRights extends CourseRights
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 
 }

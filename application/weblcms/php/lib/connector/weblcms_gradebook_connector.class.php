@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Utilities;
+use common\libraries\Request;
+
 require_once dirname(__FILE__) . '/assessment_tool_gradebook_connector.class.php';
 require_once dirname(__FILE__) . '/learning_path_tool_gradebook_connector.class.php';
 
@@ -38,7 +41,7 @@ class WeblcmsGradebookConnector extends GradeBookConnector
         return ($toolconnectorclass->get_tracker_date($publication_id));
     }
 
-    //	
+    //
 //	function get_tracker_id($publication_id, $tool = null)
 //	{
 //		if(!$tool)
@@ -49,6 +52,6 @@ class WeblcmsGradebookConnector extends GradeBookConnector
 //		$toolconnectorclass = new $toolconnector();
 //		return($toolconnectorclass->get_tracker_id($publication_id));
 //	}
-//	
+//
 }
 ?>

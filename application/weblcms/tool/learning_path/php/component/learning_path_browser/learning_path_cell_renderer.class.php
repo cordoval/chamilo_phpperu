@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use common\libraries\AndCondition;
+use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
 
@@ -30,7 +32,7 @@ class LearningPathCellRenderer extends ObjectPublicationTableCellRenderer
         {
         	return $this->get_actions($publication)->as_html();
         }*/
-        
+
         switch ($column->get_name())
         {
             case 'progress' :
@@ -45,7 +47,7 @@ class LearningPathCellRenderer extends ObjectPublicationTableCellRenderer
                     }
                 }
         }
-        
+
         return parent :: render_cell($column, $publication);
     }
 
@@ -56,11 +58,11 @@ class LearningPathCellRenderer extends ObjectPublicationTableCellRenderer
         $conditions[] = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_USER_ID, $this->table_renderer->get_user_id());
         //$conditions[] = new NotCondition(new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_PROGRESS, 100));
         $condition = new AndCondition($conditions);
-        
+
         $dummy = new WeblcmsLpAttemptTracker();
         $trackers = $dummy->retrieve_tracker_items($condition);
         $lp_tracker = $trackers[0];
-        
+
         if ($lp_tracker)
         {
             $progress = $lp_tracker->get_progress();
@@ -69,7 +71,7 @@ class LearningPathCellRenderer extends ObjectPublicationTableCellRenderer
         {
             $progress = 0;
         }
-        
+
         $bar = $this->get_progress_bar($progress);
         $url = $this->table_renderer->get_url(array(LearningPathTool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), 'lp_action' => 'view_progress'));
         return Text :: create_link($url, $bar);
@@ -81,7 +83,7 @@ class LearningPathCellRenderer extends ObjectPublicationTableCellRenderer
         $html[] = '<div style="background-color: lightblue; height: 14px; width:' . $progress . 'px; text-align: center;">';
         $html[] = '</div>';
         $html[] = '<div style="width: 100px; text-align: center; position: absolute; top: 0px;">' . round($progress) . '%</div></div>';
-        
+
         return implode("\n", $html);
     }
 

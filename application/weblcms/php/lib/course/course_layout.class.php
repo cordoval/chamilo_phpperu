@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Utilities;
 use common\libraries\DataClass;
 use common\libraries\Translation;
 
@@ -19,9 +20,9 @@ use common\libraries\Translation;
  */
 class CourseLayout extends DataClass
 {
-    
+
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_COURSE_ID = "course_id";
     const PROPERTY_INTRO_TEXT = "intro_text_visible";
     const PROPERTY_STUDENT_VIEW = "student_view_visible";
@@ -33,15 +34,15 @@ class CourseLayout extends DataClass
     const PROPERTY_COURSE_CODE_VISIBLE = "course_code_visible";
     const PROPERTY_COURSE_MANAGER_NAME_VISIBLE = "course_manager_name_visible";
     const PROPERTY_COURSE_LANGUAGES_VISIBLE = "course_languages_visible";
-    
+
     const LAYOUT_2_COLUMNS = 1;
     const LAYOUT_3_COLUMNS = 2;
     const LAYOUT_2_COLUMNS_GROUP_INACTIVE = 3;
     const LAYOUT_3_COLUMNS_GROUP_INACTIVE = 4;
-    
+
     const TOOL_SHORTCUT_OFF = 1;
     const TOOL_SHORTCUT_ON = 2;
-    
+
     const MENU_OFF = 1;
     const MENU_LEFT_ICON = 2;
     const MENU_LEFT_ICON_TEXT = 3;
@@ -49,7 +50,7 @@ class CourseLayout extends DataClass
     const MENU_RIGHT_ICON = 5;
     const MENU_RIGHT_ICON_TEXT = 6;
     const MENU_RIGHT_TEXT = 7;
-    
+
     const BREADCRUMB_TITLE = 1;
     const BREADCRUMB_CODE = 2;
     const BREADCRUMB_COURSE_HOME = 3;
@@ -65,7 +66,7 @@ class CourseLayout extends DataClass
     static function get_layouts()
     {
         return array(
-                self :: LAYOUT_2_COLUMNS => Translation :: get('TwoColumns'), self :: LAYOUT_3_COLUMNS => Translation :: get('ThreeColumns'), self :: LAYOUT_2_COLUMNS_GROUP_INACTIVE => Translation :: get('TwoColumnsGroupInactive'), 
+                self :: LAYOUT_2_COLUMNS => Translation :: get('TwoColumns'), self :: LAYOUT_3_COLUMNS => Translation :: get('ThreeColumns'), self :: LAYOUT_2_COLUMNS_GROUP_INACTIVE => Translation :: get('TwoColumnsGroupInactive'),
                 self :: LAYOUT_3_COLUMNS_GROUP_INACTIVE => Translation :: get('ThreeColumnsGroupInactive'));
     }
 
@@ -77,7 +78,7 @@ class CourseLayout extends DataClass
     static function get_menu_options()
     {
         return array(
-                self :: MENU_OFF => Translation :: get('Off'), self :: MENU_LEFT_ICON => Translation :: get('LeftIcon'), self :: MENU_LEFT_ICON_TEXT => Translation :: get('LeftIconText'), self :: MENU_LEFT_TEXT => Translation :: get('LeftText'), 
+                self :: MENU_OFF => Translation :: get('Off'), self :: MENU_LEFT_ICON => Translation :: get('LeftIcon'), self :: MENU_LEFT_ICON_TEXT => Translation :: get('LeftIconText'), self :: MENU_LEFT_TEXT => Translation :: get('LeftText'),
                 self :: MENU_RIGHT_ICON => Translation :: get('RightIcon'), self :: MENU_RIGHT_ICON_TEXT => Translation :: get('RightIconText'), self :: MENU_RIGHT_TEXT => Translation :: get('RightText'));
     }
 
@@ -114,14 +115,14 @@ class CourseLayout extends DataClass
         if (empty($extended_property_names))
             $extended_property_names = array(self :: PROPERTY_COURSE_ID);
         return array_merge($extended_property_names, array(
-                self :: PROPERTY_FEEDBACK, self :: PROPERTY_LAYOUT, self :: PROPERTY_TOOL_SHORTCUT, self :: PROPERTY_MENU, self :: PROPERTY_BREADCRUMB, self :: PROPERTY_INTRO_TEXT, self :: PROPERTY_STUDENT_VIEW, self :: PROPERTY_COURSE_CODE_VISIBLE, self :: PROPERTY_COURSE_MANAGER_NAME_VISIBLE, 
+                self :: PROPERTY_FEEDBACK, self :: PROPERTY_LAYOUT, self :: PROPERTY_TOOL_SHORTCUT, self :: PROPERTY_MENU, self :: PROPERTY_BREADCRUMB, self :: PROPERTY_INTRO_TEXT, self :: PROPERTY_STUDENT_VIEW, self :: PROPERTY_COURSE_CODE_VISIBLE, self :: PROPERTY_COURSE_MANAGER_NAME_VISIBLE,
                 self :: PROPERTY_COURSE_LANGUAGES_VISIBLE));
     }
 
     /*
      * Getters
      */
-    
+
     function get_course_id()
     {
         return $this->get_default_property(self :: PROPERTY_COURSE_ID);
@@ -180,7 +181,7 @@ class CourseLayout extends DataClass
     /*
      * Setters
      */
-    
+
     function set_course_id($course_id)
     {
         $this->set_default_property(self :: PROPERTY_COURSE_ID, $course_id);
@@ -238,6 +239,7 @@ class CourseLayout extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 }

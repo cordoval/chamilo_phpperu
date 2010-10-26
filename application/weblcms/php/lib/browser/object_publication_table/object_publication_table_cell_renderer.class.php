@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use user\UserDataManager;
+use common\libraries\Theme;
 use common\libraries\Path;
 use repository\DefaultContentObjectTableCellRenderer;
 use common\libraries\Translation;
@@ -43,17 +45,17 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
         {
             return $this->get_actions($publication)->as_html();
         }
-        
+
         switch ($column->get_name())
         {
             case ContentObject :: PROPERTY_TITLE :
-                
+
                 if ($publication->get_content_object() instanceof ComplexContentObjectSupport)
                 {
                     $details_url = $this->table_renderer->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT));
                     return '<a href="' . $details_url . '">' . DefaultContentObjectTableCellRenderer :: render_cell($column, $publication->get_content_object()) . '</a>';
                 }
-                
+
                 $details_url = $this->table_renderer->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_VIEW));
                 return '<a href="' . $details_url . '">' . parent :: render_cell($column, $publication->get_content_object()) . '</a>';
                 break;
@@ -70,14 +72,14 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
                 break;
             case ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX :
                 return $publication->get_display_order_index();
-        
+
         }
-        
+
         if (! $data)
         {
             $data = parent :: render_cell($column, $publication->get_content_object());
         }
-        
+
         if ($publication->is_hidden())
         {
             return '<span style="color: gray">' . $data . '</span>';

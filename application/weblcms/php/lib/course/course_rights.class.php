@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Utilities;
+use common\libraries\AndCondition;
+use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\DataClass;
 
@@ -12,14 +15,14 @@ use common\libraries\DataClass;
 class CourseRights extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_COURSE_ID = 'course_id';
     const PROPERTY_DIRECT_SUBSCRIBE_AVAILABLE = 'direct_subscribe_available';
     const PROPERTY_REQUEST_SUBSCRIBE_AVAILABLE = 'request_subscribe_available';
     const PROPERTY_CODE_SUBSCRIBE_AVAILABLE = 'code_subscribe_available';
     const PROPERTY_UNSUBSCRIBE_AVAILABLE = 'unsubscribe_available';
     const PROPERTY_CODE = 'code';
-    
+
     private $group_subscribe_rights = array();
     private $group_unsubscribe_rights = array();
 
@@ -104,7 +107,8 @@ class CourseRights extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 
     //Subscribe/Unsubscribe getters and setters
@@ -175,7 +179,7 @@ class CourseRights extends DataClass
                             $right->set_subscribe(CourseGroupSubscribeRight :: SUBSCRIBE_DIRECT);
                             $validation = true;
                         }
-                        
+
                         $condition_right = new EqualityCondition(CourseGroupSubscribeRight :: PROPERTY_SUBSCRIBE, CourseGroupSubscribeRight :: SUBSCRIBE_REQUEST);
                         $condition = new AndCondition(array($condition_course_id, $condition_right));
                         $count = WeblcmsDatamanager :: get_instance()->count_course_group_subscribe_rights($condition);
@@ -184,7 +188,7 @@ class CourseRights extends DataClass
                             $right->set_subscribe(CourseGroupSubscribeRight :: SUBSCRIBE_REQUEST);
                             $validation = true;
                         }
-                        
+
                         $condition_right = new EqualityCondition(CourseGroupSubscribeRight :: PROPERTY_SUBSCRIBE, CourseGroupSubscribeRight :: SUBSCRIBE_CODE);
                         $condition = new AndCondition(array($condition_course_id, $condition_right));
                         $count = WeblcmsDatamanager :: get_instance()->count_course_group_subscribe_rights($condition);
@@ -196,11 +200,11 @@ class CourseRights extends DataClass
                         //if not, register group in the rightsarray with no right and return the right.
                         if (! $validation)
                             $right->set_subscribe(CourseGroupSubscribeRight :: SUBSCRIBE_NONE);
-                        
+
                         $this->group_subscribe_rights[$group_id] = $right;
                         return $right->get_subscribe();
                     }
-                
+
                 }
             }
         }

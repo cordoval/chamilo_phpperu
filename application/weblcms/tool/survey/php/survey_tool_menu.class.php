@@ -1,6 +1,12 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use HTML_Menu;
+use common\libraries\Utilities;
+use common\libraries\ObjectTableOrder;
+use common\libraries\AndCondition;
+use common\libraries\EqualityCondition;
+
 /**
  * $Id: survey_tool_menu.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package survey.lib
@@ -15,7 +21,7 @@ require_once 'HTML/Menu/ArrayRenderer.php';
 class SurveyToolMenu extends HTML_Menu
 {
     const TREE_NAME = __CLASS__;
-    
+
     /**
      * The string passed to sprintf() to format category URLs
      */
@@ -24,13 +30,13 @@ class SurveyToolMenu extends HTML_Menu
      * The array renderer used to determine the breadcrumbs.
      */
     private $array_renderer;
-    
+
     private $include_root;
-    
+
     private $current_participant;
-    
+
     private $show_complete_tree;
-    
+
     private $hide_current_participant;
 
     /**
@@ -49,13 +55,13 @@ class SurveyToolMenu extends HTML_Menu
         $this->include_root = $include_root;
         $this->show_complete_tree = $show_complete_tree;
         $this->hide_current_participant = $hide_current_participant;
-        
+
         $track = new WeblcmsSurveyParticipantTracker();
         $condition = new EqualityCondition(WeblcmsSurveyParticipantTracker :: PROPERTY_ID, $current_participant);
         $trackers = $track->retrieve_tracker_items($condition);
-        
+
         $this->current_participant = $trackers[0];
-        
+
         $this->urlFmt = $url_format;
         $menu = $this->get_menu();
         parent :: __construct($menu);
@@ -66,14 +72,14 @@ class SurveyToolMenu extends HTML_Menu
     function get_menu()
     {
         $include_root = $this->include_root;
-        
+
         $track = new WeblcmsSurveyParticipantTracker();
         $conditions[] = new EqualityCondition(WeblcmsSurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->current_participant->get_survey_publication_id());
         $conditions[] = new EqualityCondition(WeblcmsSurveyParticipantTracker :: PROPERTY_USER_ID, $this->current_participant->get_user_id());
         $conditions[] = new EqualityCondition(WeblcmsSurveyParticipantTracker :: PROPERTY_PARENT_ID, 0);
         $condition = new AndCondition($conditions);
         $trackers = $track->retrieve_tracker_items($condition);
-        
+
         if (! $include_root)
         {
             $menu = array();
@@ -86,13 +92,13 @@ class SurveyToolMenu extends HTML_Menu
         else
         {
             $menu = array();
-            
+
             foreach ($trackers as $tracker)
             {
                 $menu_item = array();
                 $menu_item['title'] = $tracker->get_context_name();
                 $menu_item['url'] = $this->get_url($tracker);
-                
+
                 $sub_menu_items = $this->get_menu_items($tracker->get_id());
                 if (count($sub_menu_items) > 0)
                 {
@@ -106,7 +112,7 @@ class SurveyToolMenu extends HTML_Menu
                 {
                     $menu_item['class'] = 'survey';
                 }
-                
+
                 $menu_item[OptionsMenuRenderer :: KEY_ID] = $tracker->get_id();
                 $menu[$tracker->get_id()] = $menu_item;
             }
@@ -125,37 +131,37 @@ class SurveyToolMenu extends HTML_Menu
     private function get_menu_items($parent_id = 0)
     {
         $current_participant = $this->current_participant;
-        
+
         $show_complete_tree = $this->show_complete_tree;
         $hide_current_participant = $this->hide_current_participant;
-        
+
         $track = new WeblcmsSurveyParticipantTracker();
         $conditions[] = new EqualityCondition(WeblcmsSurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $current_participant->get_survey_publication_id());
         $conditions[] = new EqualityCondition(WeblcmsSurveyParticipantTracker :: PROPERTY_USER_ID, $current_participant->get_user_id());
         $conditions[] = new EqualityCondition(WeblcmsSurveyParticipantTracker :: PROPERTY_PARENT_ID, $parent_id);
         $condition = new AndCondition($conditions);
         $trackers = $track->retrieve_tracker_items($condition);
-        
+
         //        $condition = new EqualityCondition(Group :: PROPERTY_PARENT, $parent_id);
         //        $groups = GroupDataManager :: get_instance()->retrieve_groups($condition, null, null, new ObjectTableOrder(Group :: PROPERTY_NAME));
-        
+
 
         foreach ($trackers as $participant)
         {
             $participant_id = $participant->get_id();
-            
+
             if (! ($participant_id == $current_participant->get_id() && $hide_current_participant))
             {
-                
+
                 $menu_item = array();
                 $menu_item['title'] = $participant->get_context_name();
                 $menu_item['url'] = $this->get_url($participant);
-                
+
                 if ($participant->has_children())
                 {
                     $menu_item['sub'] = $this->get_menu_items($participant->get_id());
                 }
-                
+
                 if ($participant->get_status() == WeblcmsSurveyParticipantTracker :: STATUS_FINISHED)
                 {
                     $menu_item['class'] = 'survey_finished';
@@ -164,12 +170,12 @@ class SurveyToolMenu extends HTML_Menu
                 {
                     $menu_item['class'] = 'survey';
                 }
-                
+
                 $menu_item[OptionsMenuRenderer :: KEY_ID] = $participant->get_id();
                 $menu[$participant->get_id()] = $menu_item;
             }
         }
-        
+
         return $menu;
     }
 

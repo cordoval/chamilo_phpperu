@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Utilities;
 use common\libraries\ObjectTableColumnModel;
 use common\libraries\Translation;
 

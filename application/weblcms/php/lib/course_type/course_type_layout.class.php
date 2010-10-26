@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Utilities;
 use common\libraries\Path;
 
 /**
@@ -10,9 +11,9 @@ use common\libraries\Path;
 
 class CourseTypeLayout extends CourseLayout
 {
-    
+
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_COURSE_TYPE_ID = 'course_type_id';
     const PROPERTY_INTRO_TEXT_FIXED = 'intro_text_visible_fixed';
     const PROPERTY_STUDENT_VIEW_FIXED = 'student_view_visible_fixed';
@@ -40,7 +41,7 @@ class CourseTypeLayout extends CourseLayout
     static function get_default_property_names()
     {
         return parent :: get_default_property_names(Array(
-                self :: PROPERTY_COURSE_TYPE_ID, self :: PROPERTY_FEEDBACK_FIXED, self :: PROPERTY_LAYOUT_FIXED, self :: PROPERTY_TOOL_SHORTCUT_FIXED, self :: PROPERTY_MENU_FIXED, self :: PROPERTY_BREADCRUMB_FIXED, self :: PROPERTY_INTRO_TEXT_FIXED, self :: PROPERTY_STUDENT_VIEW_FIXED, 
+                self :: PROPERTY_COURSE_TYPE_ID, self :: PROPERTY_FEEDBACK_FIXED, self :: PROPERTY_LAYOUT_FIXED, self :: PROPERTY_TOOL_SHORTCUT_FIXED, self :: PROPERTY_MENU_FIXED, self :: PROPERTY_BREADCRUMB_FIXED, self :: PROPERTY_INTRO_TEXT_FIXED, self :: PROPERTY_STUDENT_VIEW_FIXED,
                 self :: PROPERTY_COURSE_CODE_VISIBLE_FIXED, self :: PROPERTY_COURSE_MANAGER_NAME_VISIBLE_FIXED, self :: PROPERTY_COURSE_LANGUAGES_VISIBLE_FIXED));
     }
 
@@ -166,6 +167,7 @@ class CourseTypeLayout extends CourseLayout
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 }

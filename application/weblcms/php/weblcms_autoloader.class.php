@@ -15,7 +15,7 @@ class WeblcmsAutoloader
     static function load($classname)
     {
         $classname_parts = explode('\\', $classname);
-        
+
         if (count($classname_parts) == 1)
         {
             return false;
@@ -30,19 +30,26 @@ class WeblcmsAutoloader
             }
         }
         $list = array(
-                'weblcms_data_manager' => 'weblcms_data_manager.class.php', 'content_object_publication' => 'content_object_publication.class.php', 'content_object_publication_user' => 'content_object_publication_user.class.php', 
-                'content_object_publication_group' => 'content_object_publication_group.class.php', 'weblcms_data_manager_interface' => 'weblcms_data_manager_interface.class.php', 'content_object_publication_form' => 'content_object_publication_form.class.php', 
-                'weblcms_manager' => 'weblcms_manager/weblcms_manager.class.php', 'course_layout' => 'course/course_layout.class.php', 'common_request' => 'course/common_request.class.php');
-        
+                'weblcms_data_manager' => 'weblcms_data_manager.class.php',
+                'content_object_publication' => 'content_object_publication.class.php',
+                'content_object_publication_user' => 'content_object_publication_user.class.php',
+                'content_object_publication_group' => 'content_object_publication_group.class.php',
+                'weblcms_data_manager_interface' => 'weblcms_data_manager_interface.class.php',
+                'content_object_publication_form' => 'content_object_publication_form.class.php',
+                'weblcms_manager' => 'weblcms_manager/weblcms_manager.class.php',
+                'course_layout' => 'course/course_layout.class.php',
+                'course_form' => 'course/course_form.class.php',
+                'common_request' => 'course/common_request.class.php');
+
         $lower_case = Utilities :: camelcase_to_underscores($classname);
-        
+
         if (key_exists($lower_case, $list))
         {
             $url = $list[$lower_case];
             require_once WebApplication :: get_application_class_lib_path('weblcms') . $url;
             return true;
         }
-        
+
         return false;
     }
 }

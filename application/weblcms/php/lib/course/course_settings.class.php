@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\DataClass;
 use common\libraries\Translation;
@@ -13,13 +14,13 @@ use common\libraries\Translation;
 class CourseSettings extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_COURSE_ID = 'course_id';
     const PROPERTY_LANGUAGE = 'language';
     const PROPERTY_VISIBILITY = 'visibility';
     const PROPERTY_ACCESS = 'access';
     const PROPERTY_MAX_NUMBER_OF_MEMBERS = 'max_number_of_members';
-    
+
     const ACCESS_CLOSED = 0;
     const ACCESS_OPEN = 1;
 
@@ -141,7 +142,7 @@ class CourseSettings extends DataClass
     //    {
     //            $this->set_default_property(self :: PROPERTY_MAX_NUMBER_OF_ADMIN, $max_number_of_admin);
     //    }
-    
+
 
     //    /**
     //     * Creates the course type object in persistent storage
@@ -193,7 +194,7 @@ class CourseSettings extends DataClass
     //        return $wdm->create_course_type_all($this);
     //    }
     //
-    
+
 
     //    /**
     //    * Determines if this course has a theme
@@ -203,11 +204,12 @@ class CourseSettings extends DataClass
     //    {
     //        return (! is_null($this->get_theme()) ? true : false);
     //    }
-    
+
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 
     //   /**

@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\forum;
 
+use common\libraries\Display;
+use common\libraries\BreadcrumbTrail;
+
 /**
  * $Id: forum_publisher.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.forum.component
@@ -22,7 +25,7 @@ class ForumToolPublisherComponent extends ForumToolComponent implements RepoView
         }
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses forum tool');
-        
+
         if (! ContentObjectRepoViewer :: is_ready_to_be_published())
         {
             $pub = ContentObjectRepoViewer :: construct($this);
@@ -34,7 +37,7 @@ class ForumToolPublisherComponent extends ForumToolComponent implements RepoView
             $publisher = new ContentObjectPublisher($pub);
             $html[] = $publisher->get_publications_form(ContentObjectRepoViewer :: get_selected_objects());
         }
-        
+
         $this->display_header();
         echo implode("\n", $html);
         $this->display_footer();

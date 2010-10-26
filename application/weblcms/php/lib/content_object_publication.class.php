@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms;
 
+use admin\AdminDataManager;
+use user\UserDataManager;
+use common\libraries\Utilities;
 use common\libraries\DataClass;
 
 /**
@@ -17,7 +20,7 @@ use common\libraries\DataClass;
 class ContentObjectPublication extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     /*     * #@+
      * Constant defining a property of the publication
      */
@@ -35,7 +38,7 @@ class ContentObjectPublication extends DataClass
     const PROPERTY_DISPLAY_ORDER_INDEX = 'display_order';
     const PROPERTY_EMAIL_SENT = 'email_sent';
     const PROPERTY_SHOW_ON_HOMEPAGE = 'show_on_homepage';
-    
+
     private $target_course_groups;
     private $target_users;
     private $target_groups;
@@ -45,7 +48,7 @@ class ContentObjectPublication extends DataClass
     static function get_default_property_names()
     {
         return parent :: get_default_property_names(array(
-                self :: PROPERTY_CONTENT_OBJECT_ID, self :: PROPERTY_COURSE_ID, self :: PROPERTY_TOOL, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CATEGORY_ID, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER_ID, 
+                self :: PROPERTY_CONTENT_OBJECT_ID, self :: PROPERTY_COURSE_ID, self :: PROPERTY_TOOL, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CATEGORY_ID, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER_ID,
                 self :: PROPERTY_PUBLICATION_DATE, self :: PROPERTY_MODIFIED_DATE, self :: PROPERTY_DISPLAY_ORDER_INDEX, self :: PROPERTY_EMAIL_SENT, self :: PROPERTY_SHOW_ON_HOMEPAGE));
     }
 
@@ -115,7 +118,7 @@ class ContentObjectPublication extends DataClass
             $wdm = WeblcmsDataManager :: get_instance();
             $this->target_users = $wdm->retrieve_content_object_publication_target_users($this);
         }
-        
+
         return $this->target_users;
     }
 
@@ -131,7 +134,7 @@ class ContentObjectPublication extends DataClass
             $wdm = WeblcmsDataManager :: get_instance();
             $this->target_course_groups = $wdm->retrieve_content_object_publication_target_course_groups($this);
         }
-        
+
         return $this->target_course_groups;
     }
 
@@ -147,7 +150,7 @@ class ContentObjectPublication extends DataClass
             $wdm = WeblcmsDataManager :: get_instance();
             $this->target_groups = $wdm->retrieve_content_object_publication_target_groups($this);
         }
-        
+
         return $this->target_groups;
     }
 
@@ -187,7 +190,7 @@ class ContentObjectPublication extends DataClass
             $rdm = RepositoryDataManager :: get_instance();
             $this->content_object = $rdm->retrieve_content_object($this->get_content_object_id());
         }
-        
+
         return $this->content_object;
     }
 
@@ -203,7 +206,7 @@ class ContentObjectPublication extends DataClass
             $udm = UserDataManager :: get_instance();
             $this->publisher = $udm->retrieve_user($this->get_publisher_id());
         }
-        
+
         return $this->publisher;
     }
 
@@ -351,7 +354,7 @@ class ContentObjectPublication extends DataClass
     }
 
     /*     * #@- */
-    
+
     /**
      * Toggles the visibility of this publication.
      */
@@ -377,12 +380,12 @@ class ContentObjectPublication extends DataClass
     function create()
     {
         $dm = WeblcmsDataManager :: get_instance();
-        
+
         if (is_null($this->get_category_id()))
         {
             $this->set_category_id(0);
         }
-        
+
         if ($this->get_content_object()->get_type() == 'introduction')
         {
             $display_order = 0;
@@ -391,15 +394,15 @@ class ContentObjectPublication extends DataClass
         {
             $display_order = $dm->get_next_content_object_publication_display_order_index($this->get_course_id(), $this->get_tool(), $this->get_category_id());
         }
-        
+
         $this->set_display_order_index($display_order);
-        
+
         $succes = $dm->create_content_object_publication($this);
         if (! $succes)
         {
             return false;
         }
-        
+
         if ($this->get_category_id())
         {
             $parent = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_COURSE_CATEGORY, $this->get_category_id(), $this->get_course_id());
@@ -417,7 +420,7 @@ class ContentObjectPublication extends DataClass
                 $parent = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_COURSE_MODULE, $course_module_id, $this->get_course_id());
             }
         }
-        
+
         return WeblcmsRights :: create_location_in_courses_subtree($this->get_content_object()->get_title(), WeblcmsRights :: TYPE_PUBLICATION, $this->get_id(), $parent, $this->get_course_id());
     }
 
@@ -443,12 +446,12 @@ class ContentObjectPublication extends DataClass
                 return false;
             }
         }
-        
+
         if (! parent :: delete())
         {
             return false;
         }
-        
+
         return AdminDataManager :: get_instance()->delete_feedback_from_publication(WeblcmsManager :: APPLICATION_NAME, $this->get_id());
     }
 
@@ -459,7 +462,8 @@ class ContentObjectPublication extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 
 }

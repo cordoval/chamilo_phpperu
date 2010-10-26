@@ -1,6 +1,13 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Redirect;
+use common\libraries\Application;
+use common\libraries\OrCondition;
+use common\libraries\InCondition;
+use common\libraries\Utilities;
+use common\libraries\AndCondition;
+use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
 
@@ -14,20 +21,20 @@ class WeblcmsToolPublicationsReportingBlock extends WeblcmsToolReportingBlock
     {
         $reporting_data = new ReportingData();
         $reporting_data->set_rows(array(Translation :: get('Title'), Translation :: get('Description'), Translation :: get('LastAccess'), Translation :: get('TotalTimesAccessed'), Translation :: get('PublicationDetails')));
-        
+
         require_once Path :: get_user_path() . 'trackers/visit_tracker.class.php';
-        
+
         $course_id = $this->get_course_id();
         $user_id = $this->get_user_id();
         $tool = $this->get_tool();
-        
+
         $tracker = new VisitTracker();
         $wdm = WeblcmsDataManager :: get_instance();
-        
+
         $conditions = array();
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $course_id);
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, $tool);
-        
+
         $access = array();
         $access[] = new InCondition('user_id', $user_id, $wdm->get_alias('content_object_publication_user'));
         if (! empty($user_id))
@@ -38,12 +45,12 @@ class WeblcmsToolPublicationsReportingBlock extends WeblcmsToolReportingBlock
         $condition = new AndCondition($conditions);
         $lops = $wdm->retrieve_content_object_publications($condition, $params['order_by']);
         $i = 1;
-        
+
         while ($lop = $lops->next_result())
         {
             $condition = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*course=' . $course_id . '*' . Tool :: PARAM_PUBLICATION_ID . '=' . $lop->get_id() . '*');
             $trackerdata = $tracker->retrieve_tracker_items($condition);
-            
+
             foreach ($trackerdata as $key => $value)
             {
                 if ($value->get_leave_date() > $lastaccess)
@@ -56,11 +63,11 @@ class WeblcmsToolPublicationsReportingBlock extends WeblcmsToolReportingBlock
             $params[WeblcmsManager :: PARAM_TOOL] = $tool;
             $params[WeblcmsManager :: PARAM_PUBLICATION] = $lop->get_id();
             $url = Redirect :: get_url($params);
-            
+
             $des = $lop->get_content_object()->get_description();
             $this->get_parent()->set_parameter($lop->get_id());
             $this->set_params($course_id, $user_id, $tool, $this->get_pid());
-            
+
             $params = $this->get_parent()->get_parameters();
             $params[ReportingManager :: PARAM_TEMPLATE_ID] = Reporting :: get_name_registration(Utilities :: camelcase_to_underscores('PublicationDetailReportingTemplate'), WeblcmsManager :: APPLICATION_NAME)->get_id();
             $params[WeblcmsManager :: PARAM_COURSE] = $course_id;
@@ -68,7 +75,7 @@ class WeblcmsToolPublicationsReportingBlock extends WeblcmsToolReportingBlock
             $params[WeblcmsManager :: PARAM_TOOL] = $tool;
             $params[WeblcmsManager :: PARAM_PUBLICATION] = $lop->get_id();
             $url_detail = ReportingManager :: get_reporting_template_registration_url_content($this->get_parent()->get_parent(), $params);
-            
+
             $reporting_data->add_category($i);
             $reporting_data->add_data_category_row($i, Translation :: get('Title'), '<a href="' . $url . '">' . $lop->get_content_object()->get_title() . '</a>');
             $reporting_data->add_data_category_row($i, Translation :: get('Description'), Utilities :: truncate_string($des, 50));

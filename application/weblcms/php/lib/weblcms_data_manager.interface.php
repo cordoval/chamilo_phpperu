@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use user\User;
+
 /**
  * $Id: weblcms_data_manager.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms
@@ -103,7 +105,7 @@ interface WeblcmsDataManagerInterface
     function count_content_object_publications($condition);
 
     //--Course_type_items--
-    
+
 
     /**
      * Count the number of course_types
@@ -211,7 +213,7 @@ interface WeblcmsDataManagerInterface
     function retrieve_course_type_user_category($condition = null);
 
     //-- END -- Course_type_items--
-    
+
 
     /**
      * Count the number of courses
@@ -380,7 +382,7 @@ interface WeblcmsDataManagerInterface
      * @param CourseUserRelation $courseuser The course user to make persistent.
      * @return boolean True if creation succceeded, false otherwise.
      */
-    
+
     function delete_course_user($courseuser);
 
     /**
@@ -474,7 +476,7 @@ interface WeblcmsDataManagerInterface
      * @return array The list of available course modules
      */
     /*    function get_course_modules($course_code);*/
-    
+
     /**
      * Gets all course modules
      * @return array The list of available course modules
@@ -513,10 +515,10 @@ interface WeblcmsDataManagerInterface
     function count_course_group_unsubscribe_rights($condition = null);
 
     //   function retrieve_course_type_group_subscribe_right($course_type_id, $group_id);
-    
+
 
     //   function retrieve_course_type_group_unsubscribe_right($course_type_id, $group_id);
-    
+
 
     function retrieve_course_type_group_rights_by_type($course_type_id, $type);
 

@@ -1,7 +1,10 @@
 <?php
 namespace application\weblcms\tool\document;
 
+use common\libraries\Application;
+use common\libraries\Breadcrumb;
 use common\libraries\Translation;
+use common\libraries\BreadcrumbTrail;
 
 class DocumentToolImporterComponent extends DocumentTool
 {
@@ -9,13 +12,13 @@ class DocumentToolImporterComponent extends DocumentTool
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-        
+
         $import_form = new ContentObjectImportForm('import', 'post', $this->get_url(), $this->get_parameter(RepositoryManager :: PARAM_CATEGORY_ID), $this->get_user());
-        
+
         if ($import_form->validate())
         {
             //$success = $import_form->import_content_object();
-            
+
 
             $messages = array();
             $errors = array();
@@ -27,7 +30,7 @@ class DocumentToolImporterComponent extends DocumentTool
             {
                 $errors[] = Translation :: translate('ContentObjectNotImported');
             }
-            
+
             $messages = array_merge($messages, $import_form->get_messages());
             $warnings = $import_form->get_warnings();
             $errors = array_merge($errors, $import_form->get_errors());
@@ -35,9 +38,9 @@ class DocumentToolImporterComponent extends DocumentTool
             $parameters[self :: PARAM_MESSAGE] = implode('<br/>', $messages);
             $parameters[self :: PARAM_WARNING_MESSAGE] = implode('<br/>', $warnings);
             $parameters[self :: PARAM_ERROR_MESSAGE] = implode('<br/>', $errors);
-            
+
             $this->simple_redirect($parameters);
-        
+
         }
         else
         {

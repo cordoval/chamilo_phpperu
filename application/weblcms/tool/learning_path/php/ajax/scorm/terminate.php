@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use common\libraries\EqualityCondition;
+use common\libraries\Request;
 use common\libraries\Path;
 
 /**
@@ -35,11 +37,11 @@ $tracker->update();
 if (! $scorm_item->get_objective_set_by_content())
 {
     $objs = $scorm_item->get_objectives();
-    
+
     if ($objs)
     {
         $objectives = $objs->get_objectives();
-        
+
         foreach ($objectives as $index => $objective)
         {
             if ($objective && $objective->get_contributes_to_rollup())
@@ -49,7 +51,7 @@ if (! $scorm_item->get_objective_set_by_content())
                 $parameters[WeblcmsLpiAttemptObjectiveTracker :: PROPERTY_OBJECTIVE_ID] = $objective->get_id();
                 $parameters[WeblcmsLpiAttemptObjectiveTracker :: PROPERTY_STATUS] = 'completed';
                 $parameters[WeblcmsLpiAttemptObjectiveTracker :: PROPERTY_DISPLAY_ORDER] = $index;
-                
+
                 Event :: trigger('attempt_learning_path_item_objective', WeblcmsManager :: APPLICATION_NAME, $parameters);
             }
         }

@@ -1,6 +1,15 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Header;
+use admin\AdminManager;
+use common\libraries\Redirect;
+use common\libraries\Display;
+use common\libraries\Application;
+use common\libraries\DynamicTabsRenderer;
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Request;
 use common\libraries\Translation;
 
 require_once dirname(__FILE__) . '/admin_request_browser.class.php';
@@ -12,7 +21,7 @@ require_once dirname(__FILE__) . '/../../course/course_request_form.class.php';
  */
 class WeblcmsManagerCourseRequestAllowComponent extends WeblcmsManager
 {
-    
+
     private $form;
     private $request_type;
 
@@ -24,14 +33,14 @@ class WeblcmsManagerCourseRequestAllowComponent extends WeblcmsManager
         $request_ids = Request :: get(WeblcmsManager :: PARAM_REQUEST);
         $this->request_type = Request :: get(WeblcmsManager :: PARAM_REQUEST_TYPE);
         $failures = 0;
-        
+
         if ($this->get_user()->is_platform_admin())
         {
             Header :: set_section('admin');
         }
-        
+
         $trail = BreadcrumbTrail :: get_instance();
-        
+
         if (! $this->get_user()->is_platform_admin())
         {
             $this->display_header();
@@ -39,9 +48,9 @@ class WeblcmsManagerCourseRequestAllowComponent extends WeblcmsManager
             $this->display_footer();
             exit();
         }
-        
+
         $request_method = null;
-        
+
         switch ($this->request_type)
         {
             case CommonRequest :: SUBSCRIPTION_REQUEST :
@@ -51,16 +60,16 @@ class WeblcmsManagerCourseRequestAllowComponent extends WeblcmsManager
                 $request_method = 'retrieve_course_create_request';
                 break;
         }
-        
+
         $request = $this->$request_method($request_ids[0]);
-        
+
         if (! is_null($request_ids) && $this->get_user()->is_platform_admin())
         {
             if (! is_array($request_ids))
             {
                 $request_ids = array($request_ids);
             }
-            
+
             foreach ($request_ids as $request_id)
             {
                 if (! $this->update_request($request_id))
@@ -91,7 +100,7 @@ class WeblcmsManagerCourseRequestAllowComponent extends WeblcmsManager
                 }
             }
             $this->redirect(Translation :: get($message), ($failures ? true : false), array(
-                    Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_REQUEST_BROWSER, WeblcmsManager :: PARAM_REQUEST => null, WeblcmsManager :: PARAM_REQUEST_TYPE => $this->request_type, 
+                    Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_REQUEST_BROWSER, WeblcmsManager :: PARAM_REQUEST => null, WeblcmsManager :: PARAM_REQUEST_TYPE => $this->request_type,
                     WeblcmsManager :: PARAM_REQUEST_VIEW => WeblcmsManagerAdminRequestBrowserComponent :: ALLOWED_REQUEST_VIEW));
         }
         else
@@ -102,9 +111,9 @@ class WeblcmsManagerCourseRequestAllowComponent extends WeblcmsManager
 
     function update_request($request_id)
     {
-        
+
         $request_method = null;
-        
+
         switch ($this->request_type)
         {
             case CommonRequest :: SUBSCRIPTION_REQUEST :
@@ -114,10 +123,10 @@ class WeblcmsManagerCourseRequestAllowComponent extends WeblcmsManager
                 $request_method = 'retrieve_course_create_request';
                 break;
         }
-        
+
         $wdm = WeblcmsDataManager :: get_instance();
         $request = $wdm->$request_method($request_id);
-        
+
         if ($this->request_type == CommonRequest :: CREATION_REQUEST)
         {
             $course = new Course();
@@ -125,14 +134,14 @@ class WeblcmsManagerCourseRequestAllowComponent extends WeblcmsManager
             $course->set_course_type_id($request->get_course_type_id());
             $course->set_titular($request->get_user_id());
             $course->set_visual(strtoupper(uniqid()));
-            
+
             if (! $course->create())
                 return false;
-            
+
             if (! $this->subscribe_user_to_course($course->get_id(), '1', '1', $request->get_user_id()))
                 return false;
         }
-        
+
         $request->set_decision_date(time());
         $request->set_decision(CommonRequest :: ALLOWED_DECISION);
         return $request->update($request);
@@ -140,7 +149,7 @@ class WeblcmsManagerCourseRequestAllowComponent extends WeblcmsManager
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        
+
         if ($this->get_user()->is_platform_admin())
         {
             $breadcrumbtrail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
@@ -151,7 +160,7 @@ class WeblcmsManagerCourseRequestAllowComponent extends WeblcmsManager
         {
             $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => null)), Translation :: get('Coursetypes')));
         }
-        
+
         $breadcrumbtrail->add_help('weblcms_course_request_allow');
     }
 

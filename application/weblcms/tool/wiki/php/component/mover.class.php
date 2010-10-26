@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\wiki;
 
+use common\libraries\Request;
 use application\weblcms\ToolComponent;
 
 class WikiToolMoverComponent extends WikiTool

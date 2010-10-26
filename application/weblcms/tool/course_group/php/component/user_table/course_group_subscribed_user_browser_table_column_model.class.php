@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\course_group;
 
+use user\User;
 use common\libraries\Path;
 
 /**

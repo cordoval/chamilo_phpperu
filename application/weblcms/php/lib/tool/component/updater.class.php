@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Request;
 use common\libraries\Translation;
 
 /**
@@ -17,15 +20,15 @@ class ToolComponentUpdaterComponent extends ToolComponent
         if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $pid = Request :: get(Tool :: PARAM_PUBLICATION_ID) ? Request :: get(Tool :: PARAM_PUBLICATION_ID) : $_POST[Tool :: PARAM_PUBLICATION_ID];
-            
+
             $datamanager = WeblcmsDataManager :: get_instance();
             $publication = $datamanager->retrieve_content_object_publication($pid);
             $content_object = $publication->get_content_object();
-            
+
             $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $content_object, 'edit', 'post', $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $pid)));
-            
+
             $trail = BreadcrumbTrail :: get_instance();
-            
+
             //            if (Request :: get('pcattree') > 0)
             //            {
             //                foreach (Tool :: get_pcattree_parents(Request :: get('pcattree')) as $breadcrumb)
@@ -41,7 +44,7 @@ class ToolComponentUpdaterComponent extends ToolComponent
             //            {
             //                $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => $pid)), $content_object->get_title()));
             //            }
-            
+
 
             if ($form->validate() || Request :: get('validated'))
             {
@@ -54,32 +57,32 @@ class ToolComponentUpdaterComponent extends ToolComponent
                         $publication->update();
                     }
                 }
-                
+
                 $publication_form = new ContentObjectPublicationForm(ContentObjectPublicationForm :: TYPE_SINGLE, $content_object, $this, false, $this->get_parent()->get_course(), false, array(Tool :: PARAM_PUBLICATION_ID => $pid, 'validated' => 1));
                 $publication_form->set_publication($publication);
-                
+
                 if ($publication_form->validate() || $content_object->get_type() == 'introduction')
                 {
                     $publication_form->update_content_object_publication();
                     $message = htmlentities(Translation :: get('ContentObjectUpdated'));
-                    
+
                     $show_details = Request :: get('details');
                     $tool = Request :: get('tool');
-                    
+
                     $params = array();
                     if ($show_details == 1)
                     {
                         $params[Tool :: PARAM_PUBLICATION_ID] = $pid;
                         $params[Tool :: PARAM_ACTION] = Tool :: ACTION_VIEW;
                     }
-                    
+
                     if ($tool == 'learning_path')
                     {
                         $params[Tool :: PARAM_ACTION] = null;
                         $params['display_action'] = 'view';
                         $params[Tool :: PARAM_PUBLICATION_ID] = Request :: get(Tool :: PARAM_PUBLICATION_ID);
                     }
-                    
+
                     if (! isset($show_details) && $tool != 'learning_path')
                     {
                         $filter = array('tool_action');
@@ -88,7 +91,7 @@ class ToolComponentUpdaterComponent extends ToolComponent
                     {
                         $filter = array();
                     }
-                    
+
                     $this->redirect($message, false, $params, $filter);
                 }
                 else

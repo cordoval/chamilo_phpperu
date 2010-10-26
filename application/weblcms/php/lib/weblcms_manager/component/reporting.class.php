@@ -1,6 +1,12 @@
 <?php
 namespace application\weblcms;
 
+use admin\AdminManager;
+use common\libraries\Redirect;
+use common\libraries\DynamicTabsRenderer;
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Request;
 use common\libraries\DelegateComponent;
 use common\libraries\Translation;
 
@@ -17,11 +23,11 @@ class WeblcmsManagerReportingComponent extends WeblcmsManager implements Delegat
     function run()
     {
         $template = Request :: get(ReportingManager :: PARAM_TEMPLATE_ID);
-        
+
         $params[ReportingManager :: PARAM_TEMPLATE_ID] = $template;
-        
+
         $trail = BreadcrumbTrail :: get_instance();
-        
+
         $rtv = ReportingViewer :: construct($this);
         if (isset($template))
         {
@@ -33,7 +39,7 @@ class WeblcmsManagerReportingComponent extends WeblcmsManager implements Delegat
         }
         $rtv->set_breadcrumb_trail($trail);
         $rtv->show_all_blocks();
-        
+
         $rtv->run();
     }
 
@@ -44,9 +50,9 @@ class WeblcmsManagerReportingComponent extends WeblcmsManager implements Delegat
             $breadcrumbtrail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
             $breadcrumbtrail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => WeblcmsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Courses')));
         }
-        
+
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER, WeblcmsManager :: PARAM_COURSE => null)), Translation :: get('CourseList')));
-    
+
      //        if ($breadcrumbtrail->get_last() != new Breadcrumb($this->get_reporting_url($params), Translation :: get('Reporting')))
     //        {
     //            $breadcrumbtrail->add(new Breadcrumb($this->get_reporting_url($params), Translation :: get('Reporting')));

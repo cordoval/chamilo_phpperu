@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Application;
+use common\libraries\Request;
 use common\libraries\Translation;
 
 /**
@@ -35,7 +37,7 @@ class WeblcmsManagerGroupUnsubscribeComponent extends WeblcmsManager
             if (isset($group_ids) && $this->get_course()->is_course_admin($this->get_user()))
             {
                 $failures = 0;
-                
+
                 foreach ($group_ids as $group_id)
                 {
                     if (! $this->unsubscribe_group_from_course($course, $group_id))
@@ -43,11 +45,11 @@ class WeblcmsManagerGroupUnsubscribeComponent extends WeblcmsManager
                         $failures ++;
                     }
                 }
-                
+
                 if ($failures == 0)
                 {
                     $success = true;
-                    
+
                     if (count($group_ids) == 1)
                     {
                         $message = 'GroupUnsubscribedFromCourse';
@@ -60,7 +62,7 @@ class WeblcmsManagerGroupUnsubscribeComponent extends WeblcmsManager
                 elseif ($failures == count($group_ids))
                 {
                     $success = false;
-                    
+
                     if (count($group_ids) == 1)
                     {
                         $message = 'GroupNotUnsubscribedFromCourse';
@@ -75,7 +77,7 @@ class WeblcmsManagerGroupUnsubscribeComponent extends WeblcmsManager
                     $success = false;
                     $message = 'PartialGroupsNotUnsubscribedFromCourse';
                 }
-                
+
                 $this->redirect(Translation :: get($message), ($success ? false : true), array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_COURSE => $course_code, WeblcmsManager :: PARAM_TOOL => 'user'));
             }
             else

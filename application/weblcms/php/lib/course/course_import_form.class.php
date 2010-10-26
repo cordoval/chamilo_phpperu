@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms;
 
+use user\UserDataManager;
+use common\libraries\FormValidator;
+use common\libraries\EqualityCondition;
 use common\libraries\Translation;
 
 /**
@@ -16,14 +19,14 @@ ini_set("memory_limit", - 1);
 class CourseImportForm extends FormValidator
 {
     const TYPE_IMPORT = 1;
-    
+
     private $failedcsv;
     private $udm;
 
     function CourseImportForm($form_type, $action)
     {
         parent :: __construct('course_import', 'post', $action);
-        
+
         $this->form_type = $form_type;
         $this->failedcsv = array();
         if ($this->form_type == self :: TYPE_IMPORT)
@@ -38,7 +41,7 @@ class CourseImportForm extends FormValidator
         //$this->addElement('submit', 'course_import', Translation :: get('Ok'));
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Import'), array('class' => 'positive import'));
         //	$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
-        
+
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -47,7 +50,7 @@ class CourseImportForm extends FormValidator
     {
         $csvcourses = Import :: csv_to_array($_FILES['file']['tmp_name']);
         $failures = 0;
-        
+
         foreach ($csvcourses as $csvcourse)
         {
             if (! $this->validate_data($csvcourse))
@@ -56,31 +59,31 @@ class CourseImportForm extends FormValidator
                 $this->failedcsv[] = Translation :: get('Invalid') . ': ' . implode($csvcourse, ';');
             }
         }
-        
+
         if ($failures > 0)
         {
             return false;
         }
-        
+
         $wdm = WeblcmsDataManager :: get_instance();
-        
+
         foreach ($csvcourses as $csvcourse)
         {
             $teacher_info = $this->get_teacher_info($csvcourse['teacher']);
             $cat = $wdm->retrieve_course_categories(new EqualityCondition('name', $csvcourse['category']))->next_result();
             $catid = $cat ? $cat->get_id() : 0;
             $action = strtoupper($csvcourse['action']);
-            
+
             if ($action == 'A')
             {
                 $course = new Course();
-                
+
                 $course->set_visual($csvcourse['code']);
                 $course->set_name($csvcourse[Course :: PROPERTY_NAME]);
                 $course->set_category($catid);
                 $course->set_titular($teacher_info->get_id());
                 $course->set_language('english');
-                
+
                 if ($course->create())
                 {
                     $wdm = WeblcmsDataManager :: get_instance();
@@ -113,7 +116,7 @@ class CourseImportForm extends FormValidator
             elseif ($action == 'D')
             {
                 $course = $wdm->retrieve_courses(new EqualityCondition(Course :: PROPERTY_VISUAL, $csvcourse['code']))->next_result();
-                
+
                 if (! $wdm->delete_course($course->get_id()))
                 {
                     $failures ++;
@@ -121,7 +124,7 @@ class CourseImportForm extends FormValidator
                 }
             }
         }
-        
+
         if ($failures > 0)
         {
             return false;
@@ -154,38 +157,38 @@ class CourseImportForm extends FormValidator
     function validate_data($csvcourse)
     {
         $failures = 0;
-        
+
         //1. Action valid ?
         $action = strtoupper($csvcourse['action']);
         if ($action != 'A' && $action != 'D' && $action != 'U')
         {
             $failures ++;
         }
-        
+
         //2. check if code isn't in use for create and if code exists for update / delete
         if (($action == 'A' && $this->is_course($csvcourse['code'])) || ($action != 'A' && ! $this->is_course($csvcourse['code'])))
         {
             $failures ++;
         }
-        
+
         if ($csvcourse['teacher'])
         {
             $csvcourse[Course :: PROPERTY_TITULAR] = $csvcourse['teacher'];
         }
-        
+
         //3. check if teacher exists
         $teacher_info = $this->get_teacher_info($csvcourse[Course :: PROPERTY_TITULAR]);
         if (! isset($teacher_info))
         {
             $failures ++;
         }
-        
+
         //4. check if category exists
         if (! $this->is_course_category($csvcourse['category']))
         {
             $failures ++;
         }
-        
+
         if ($failures > 0)
         {
             return false;
@@ -203,7 +206,7 @@ class CourseImportForm extends FormValidator
         {
             return true;
         }
-        
+
         return false;
     }
 
@@ -214,7 +217,7 @@ class CourseImportForm extends FormValidator
         {
             return true;
         }
-        
+
         return false;
     }
 }

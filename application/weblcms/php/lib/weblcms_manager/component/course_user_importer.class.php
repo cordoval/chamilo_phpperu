@@ -1,6 +1,12 @@
 <?php
 namespace application\weblcms;
 
+use admin\AdminManager;
+use common\libraries\Redirect;
+use common\libraries\Display;
+use common\libraries\DynamicTabsRenderer;
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
 use common\libraries\Translation;
 
 /**
@@ -21,7 +27,7 @@ class WeblcmsManagerCourseUserImporterComponent extends WeblcmsManager
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-        
+
         if (! $this->get_user()->is_platform_admin())
         {
             $this->display_header();
@@ -29,9 +35,9 @@ class WeblcmsManagerCourseUserImporterComponent extends WeblcmsManager
             $this->display_footer();
             exit();
         }
-        
+
         $form = new CourseUserImportForm(CourseUserImportForm :: TYPE_IMPORT, $this->get_url());
-        
+
         if ($form->validate())
         {
             $success = $form->import_course_users();
@@ -67,7 +73,7 @@ class WeblcmsManagerCourseUserImporterComponent extends WeblcmsManager
         $html[] = '<br />1: ' . Translation :: get('Teacher');
         $html[] = '<br />5: ' . Translation :: get('Student');
         $html[] = '</blockquote>';
-        
+
         echo implode($html, "\n");
     }
 
@@ -78,7 +84,7 @@ class WeblcmsManagerCourseUserImporterComponent extends WeblcmsManager
             $breadcrumbtrail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
             $breadcrumbtrail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => WeblcmsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Courses')));
         }
-        
+
         $breadcrumbtrail->add_help('weblcms_course_user_importer');
     }
 

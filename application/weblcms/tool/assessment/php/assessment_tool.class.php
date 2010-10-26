@@ -1,6 +1,10 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
+use common\libraries\AndCondition;
+use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
 
@@ -22,7 +26,7 @@ class AssessmentTool extends Tool implements Categorizable
     const ACTION_EXPORT_QTI = 'qti_exporter';
     const ACTION_IMPORT_QTI = 'qti_importer';
     const ACTION_TAKE_ASSESSMENT = 'complex_display';
-    
+
     const PARAM_USER_ASSESSMENT = 'uaid';
     const PARAM_QUESTION_ATTEMPT = 'qaid';
     const PARAM_ASSESSMENT = 'aid';
@@ -52,17 +56,17 @@ class AssessmentTool extends Tool implements Categorizable
     function get_content_object_publication_actions($publication)
     {
         $extra_toolbar_items = array();
-        
+
         $extra_toolbar_items[] = new ToolbarItem(Translation :: get('ViewResults'), Theme :: get_common_image_path() . 'action_view_results.png', $this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())), ToolbarItem :: DISPLAY_ICON);
-        
+
         if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $extra_toolbar_items[] = new ToolbarItem(Translation :: get('Export'), Theme :: get_common_image_path() . 'action_export.png', $this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_QTI, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON);
         }
-        
+
         return $extra_toolbar_items;
     }
-    
+
     private static $checked_publications = array();
 
     function is_content_object_attempt_possible($publication)
@@ -75,9 +79,9 @@ class AssessmentTool extends Tool implements Categorizable
             $condition_u = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_USER_ID, $this->get_user_id());
             $condition = new AndCondition(array($condition_t, $condition_u));
             $trackers = $track->retrieve_tracker_items($condition);
-            
+
             $count = count($trackers);
-            
+
             foreach ($trackers as $tracker)
             {
                 if ($tracker->get_status() == 'not attempted')
@@ -87,10 +91,10 @@ class AssessmentTool extends Tool implements Categorizable
                     break;
                 }
             }
-            
+
             self :: $checked_publications[$publication->get_id()] = ($assessment->get_maximum_attempts() == 0 || $count < $assessment->get_maximum_attempts());
         }
-        
+
         return self :: $checked_publications[$publication->get_id()];
     }
 

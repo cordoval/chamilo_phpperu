@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use common\libraries\Request;
+
 /**
  * $Id: forum.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.learning_path.component.learning_path_viewer.content_object_display
@@ -15,7 +17,7 @@ class ForumDisplay extends LearningPathContentObjectDisplay
         $html[] = $this->add_tracking_javascript();
         $link = $this->get_parent()->get_url(array(LearningPathTool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_CLO, Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID), LearningPathTool :: PARAM_OBJECT_ID => $forum->get_id()));
         $html[] = $this->display_link($link);
-        
+
         return implode("\n", $html);
     }
 }

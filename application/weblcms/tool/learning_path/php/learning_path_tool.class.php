@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
+use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
 
@@ -19,7 +22,7 @@ class LearningPathTool extends Tool implements Categorizable
     const ACTION_VIEW_CLO = 'clo_viewer';
     const ACTION_VIEW_ASSESSMENT_CLO = 'assessment_clo_viewer';
     const ACTION_VIEW_DOCUMENT = 'document_viewer';
-    
+
     const PARAM_OBJECT_ID = 'object_id';
     const PARAM_LEARNING_PATH = 'lp';
     const PARAM_LP_STEP = 'step';
@@ -47,7 +50,7 @@ class LearningPathTool extends Tool implements Categorizable
     function get_content_object_publication_actions($publication)
     {
         $allowed = $this->is_allowed(WeblcmsRights :: EDIT_RIGHT);
-        
+
         if (! $this->is_empty_learning_path($publication))
         {
             if ($allowed)
@@ -62,10 +65,10 @@ class LearningPathTool extends Tool implements Categorizable
                 $items[] = new ToolbarItem(Translation :: get('StatisticsNA'), Theme :: get_common_image_path() . 'action_statistics_na.png', null, ToolbarItem :: DISPLAY_ICON);
             }
         }
-        
+
         return $items;
     }
-    
+
     private static $checked_publications = array();
 
     function is_empty_learning_path($publication)
@@ -75,10 +78,10 @@ class LearningPathTool extends Tool implements Categorizable
             $object = $publication->get_content_object_id();
             $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $object);
             $count = RepositoryDataManager :: get_instance()->count_complex_content_object_items($condition);
-            
+
             self :: $checked_publications[$publication->get_id()] = $count == 0;
         }
-        
+
         return self :: $checked_publications[$publication->get_id()];
     }
 
