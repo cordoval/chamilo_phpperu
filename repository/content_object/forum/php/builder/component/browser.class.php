@@ -6,6 +6,14 @@ use common\libraries\Path;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
+use repository\RepositoryDataManager;
+use repository\ContentObjectDisplay;
+use repository\ComplexBuilder;
+use repository\ContentObject;
+use repository\content_object\forum_post\ForumPost;
+use repository\ComplexContentObjectItem;
+use repository\ComplexBrowserTable;
+use repository\content_object\forum_topic\ForumTopic;
 
 /**
  * $Id: browser.class.php 200 2009-11-13 12:30:04Z kariboe $

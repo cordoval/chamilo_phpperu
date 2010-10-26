@@ -5,6 +5,11 @@ use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
+use repository\ComplexBuilder;
+use repository\RepositoryDataManager;
+use repository\ComplexContentObjectItem;
+use repository\ContentObject;
+use repository\RepositoryManager;
 /**
  * $Id: browser.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.glossary.component
