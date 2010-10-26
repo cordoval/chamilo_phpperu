@@ -21,7 +21,8 @@ require_once dirname(__FILE__) . '/../assessment_data_manager.class.php';
 
 class AssessmentPublicationCategory extends PlatformCategory
 {
-
+    const CLASS_NAME = __CLASS__;
+    
     function create()
     {
         $adm = AssessmentDataManager :: get_instance();
