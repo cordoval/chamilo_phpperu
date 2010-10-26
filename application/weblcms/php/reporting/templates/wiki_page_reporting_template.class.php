@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use reporting\ReportingTemplate;
+
 /**
  * $Id: wiki_page_reporting_template.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.reporting.templates
@@ -22,17 +24,17 @@ class WikiPageReportingTemplate extends ReportingTemplate
         
         parent :: __construct($parent);
     }
-    
-	function display_context()
-	{
-		//publicatie, content_object, application ... 
-	}
-	
-	function get_application()
+
+    function display_context()
     {
-    	return WeblcmsManager::APPLICATION_NAME;
+        //publicatie, content_object, application ...
     }
-    
+
+    function get_application()
+    {
+        return WeblcmsManager :: APPLICATION_NAME;
+    }
+
     /**
      * @see ReportingTemplate -> get_properties()
      */
@@ -45,18 +47,18 @@ class WikiPageReportingTemplate extends ReportingTemplate
         return $properties;
     }
 
-    /**
-     * @see ReportingTemplate -> to_html()
-     */
-  /*  function to_html()
+/**
+ * @see ReportingTemplate -> to_html()
+ */
+/*  function to_html()
     {
         //template header
         $html[] = $this->get_header();
         $html[] = $this->get_visible_reporting_blocks();
-        
+
         //template footer
         $html[] = $this->get_footer();
-        
+
         return implode("\n", $html);
     }*/
 }

@@ -29,7 +29,12 @@ class PersonalCalendarRights extends RightsUtilities
 
     static function is_allowed($right, $location)
     {
-        return RightsUtilities :: is_allowed($right, $location, self :: TYPE_PERSONAL_CALENDAR, PersonalCalendarManager :: APPLICATION_NAME);
+        return RightsUtilities :: is_allowed($right, $location, null, PersonalCalendarManager :: APPLICATION_NAME);
+    }
+
+    static function get_root()
+    {
+        return parent :: get_root(PersonalCalendarManager :: APPLICATION_NAME);
     }
 
     static function create_location_in_personal_calendar_subtree($name, $identifier, $parent, $tree_identifier = 0)

@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\link;
 
+use application\weblcms\ToolComponent;
+
 class LinkToolMoverComponent extends LinkTool
 {
 
@@ -11,7 +13,7 @@ class LinkToolMoverComponent extends LinkTool
 
     function get_move_direction()
     {
-        return Request::get(Tool::PARAM_MOVE_DIRECTION);
+        return Request :: get(Tool :: PARAM_MOVE_DIRECTION);
     }
 }
 ?>

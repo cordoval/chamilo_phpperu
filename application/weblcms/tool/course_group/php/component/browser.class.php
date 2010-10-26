@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\course_group;
 
+use common\libraries\Translation;
+
 /**
  * $Id: course_group_browser.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.course_group.component
@@ -26,32 +28,33 @@ class CourseGroupToolBrowserComponent extends CourseGroupTool
             Display :: not_allowed();
             return;
         }
-
+        
         $conditions = array();
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'course_group');
-
+        
         $subselect_condition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Introduction :: get_type_name());
         $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition, null, RepositoryDataManager :: get_instance());
         $condition = new AndCondition($conditions);
-
+        
         $publications = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications($condition);
         $this->introduction_text = $publications->next_result();
-
+        
         $this->action_bar = $this->get_action_bar();
-
+        
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses group');
-
+        
         $this->display_header();
-
+        
         //echo '<br /><a name="top"></a>';
+        
 
         if ($this->get_course()->get_intro_text())
         {
             echo $this->display_introduction_text($this->introduction_text);
         }
-
+        
         echo $this->action_bar->as_html();
         
         echo $this->get_menu_html();
@@ -59,8 +62,8 @@ class CourseGroupToolBrowserComponent extends CourseGroupTool
         
         $this->display_footer();
     }
-    
-	function get_menu_html()
+
+    function get_menu_html()
     {
         $group_menu = new CourseGroupMenu($this->get_course(), $this->get_group_id());
         $html = array();
@@ -70,8 +73,8 @@ class CourseGroupToolBrowserComponent extends CourseGroupTool
         
         return implode($html, "\n");
     }
-    
-	function get_table_html()
+
+    function get_table_html()
     {
         //$table = new GroupBrowserTable($this, $this->get_parameters(), $this->get_condition());
         $course_group_table = new CourseGroupTable($this, new CourseGroupTableDataProvider($this));
@@ -88,7 +91,7 @@ class CourseGroupToolBrowserComponent extends CourseGroupTool
     function get_action_bar()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-
+        
         $action_bar->set_search_url($this->get_url());
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
@@ -98,46 +101,46 @@ class CourseGroupToolBrowserComponent extends CourseGroupTool
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('Create'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url($param_add_course_group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
-
+        
         if (! $this->introduction_text && $this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText'), Theme :: get_common_image_path() . 'action_introduce.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
-
+        
         return $action_bar;
     }
 
     function get_condition()
     {
-    	$conditions = array();
-    	
-    	if($this->get_group_id())
-    	{
-    		$group_id = $this->get_group_id();
-    	}
-    	else
-    	{
-    		$root_course_group = WeblcmsDataManager :: get_instance()->retrieve_course_group_root($this->get_course()->get_id());
-    		$group_id = $root_course_group->get_id();
-    	}
-    	
-    	$conditions[] = new EqualityCondition(CourseGroup :: PROPERTY_PARENT_ID, $group_id);
-    	
-    	$properties = array();
-    	$properties[] = new ConditionProperty(CourseGroup :: PROPERTY_NAME);
-    	$properties[] = new ConditionProperty(CourseGroup :: PROPERTY_DESCRIPTION);
-    	$query_condition = $this->action_bar->get_conditions($properties);
-
-    	if($query_condition)
-    	{
-    		$conditions[] = $query_condition;
-    	} 
-    	
-    	if(count($conditions)  > 0)
-    	{
-    		return new AndCondition($conditions);
-    	}
+        $conditions = array();
         
+        if ($this->get_group_id())
+        {
+            $group_id = $this->get_group_id();
+        }
+        else
+        {
+            $root_course_group = WeblcmsDataManager :: get_instance()->retrieve_course_group_root($this->get_course()->get_id());
+            $group_id = $root_course_group->get_id();
+        }
+        
+        $conditions[] = new EqualityCondition(CourseGroup :: PROPERTY_PARENT_ID, $group_id);
+        
+        $properties = array();
+        $properties[] = new ConditionProperty(CourseGroup :: PROPERTY_NAME);
+        $properties[] = new ConditionProperty(CourseGroup :: PROPERTY_DESCRIPTION);
+        $query_condition = $this->action_bar->get_conditions($properties);
+        
+        if ($query_condition)
+        {
+            $conditions[] = $query_condition;
+        }
+        
+        if (count($conditions) > 0)
+        {
+            return new AndCondition($conditions);
+        }
+    
     }
 
     /*function display_introduction_text()
@@ -145,13 +148,13 @@ class CourseGroupToolBrowserComponent extends CourseGroupTool
         $html = array();
 
         $introduction_text = $this->introduction_text;
-			
+
         $toolbar = new Toolbar();
-        
+
         if ($introduction_text)
         {
 			$toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())), ToolbarItem::DISPLAY_ICON ));
-        	
+
 			$toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())), ToolbarItem::DISPLAY_ICON, true ));
 
             $html[] = '<div class="content_object">';
@@ -168,7 +171,7 @@ class CourseGroupToolBrowserComponent extends CourseGroupTool
     
     function get_group_id()
     {
-    	return Request :: get(WeblcmsManager :: PARAM_COURSE_GROUP);
+        return Request :: get(WeblcmsManager :: PARAM_COURSE_GROUP);
     }
 }
 ?>

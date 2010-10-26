@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\ObjectTable;
+use common\libraries\Translation;
+
 /**
  * $Id: admin_request_browser_table.class.php 218 2009-11-13 14:21:26Z Yannick $
  * @package application.lib.weblcms.weblcms_manager.component.admin_request_browser
@@ -8,7 +11,6 @@ namespace application\weblcms;
 require_once dirname(__FILE__) . '/admin_request_browser_table_data_provider.class.php';
 require_once dirname(__FILE__) . '/admin_request_browser_table_column_model.class.php';
 require_once dirname(__FILE__) . '/admin_request_browser_table_cell_renderer.class.php';
-require_once dirname(__FILE__) . '/../../weblcms_manager.class.php';
 /**
  * Table to display a set of course_types.
  */
@@ -21,7 +23,7 @@ class AdminRequestBrowserTable extends ObjectTable
      */
     function AdminRequestBrowserTable($browser, $parameters, $condition, $request_type)
     {
-    	
+        
         $model = new AdminRequestBrowserTableColumnModel($request_type);
         $renderer = new AdminRequestBrowserTableCellRenderer($browser);
         $data_provider = new AdminRequestBrowserTableDataProvider($browser, $condition);
@@ -35,7 +37,7 @@ class AdminRequestBrowserTable extends ObjectTable
         
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
-        
+    
     }
 }
 ?>

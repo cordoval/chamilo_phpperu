@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use common\libraries\Translation;
+
 /**
  * $Id: assessment_qti_import.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.assessment.component

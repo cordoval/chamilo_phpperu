@@ -14,6 +14,8 @@ use common\libraries\WebApplication;
 use user\UserDataManager;
 use user\User;
 use rights\RightsUtilities;
+use XML_Unserializer;
+use PEAR;
 /**
  * $Id: rights_utilities.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib
@@ -99,8 +101,8 @@ class RightsUtilities
 
     static function parse_locations_file($application)
     {
-        $base_path = (WebApplication :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
-        $file = $base_path . $application . '/rights/' . $application . '_locations.xml';
+        $base_path = (WebApplication :: is_application($application) ? Path :: get_application_path() : Path :: get(SYS_PATH));
+        $file = $base_path . $application . '/php/rights/' . $application . '_locations.xml';
 
         if (file_exists($file))
         {

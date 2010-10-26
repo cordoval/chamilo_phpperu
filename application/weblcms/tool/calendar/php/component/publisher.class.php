@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\calendar;
 
+use application\weblcms\ToolComponent;
+use common\libraries\Translation;
 
 class CalendarToolPublisherComponent extends CalendarTool
 {
@@ -17,7 +19,7 @@ class CalendarToolPublisherComponent extends CalendarTool
 
     function get_additional_parameters()
     {
-        return array(RepoViewer::PARAM_ID, RepoViewer::PARAM_ACTION);
+        return array(RepoViewer :: PARAM_ID, RepoViewer :: PARAM_ACTION);
     }
 }
 ?>

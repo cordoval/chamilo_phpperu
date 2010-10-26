@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Translation;
+
 /**
  * $Id: introduction_publisher.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.component
@@ -20,13 +22,10 @@ class ToolComponentIntroductionPublisherComponent extends ToolComponent implemen
             Display :: not_allowed();
             return;
         }
-
+        
         $trail = BreadcrumbTrail :: get_instance();
         
-
-        
-
-        if (!RepoViewer::is_ready_to_be_published())
+        if (! RepoViewer :: is_ready_to_be_published())
         {
             $repo_viewer = RepoViewer :: construct($this);
             $repo_viewer->set_maximum_select(RepoViewer :: SELECT_SINGLE);
@@ -37,9 +36,9 @@ class ToolComponentIntroductionPublisherComponent extends ToolComponent implemen
         {
             $dm = WeblcmsDataManager :: get_instance();
             $do = $dm->get_next_content_object_publication_display_order_index($this->get_course_id(), $this->get_tool_id(), 0);
-
+            
             $pub = new ContentObjectPublication();
-            $pub->set_content_object_id(RepoViewer::get_selected_objects());
+            $pub->set_content_object_id(RepoViewer :: get_selected_objects());
             $pub->set_course_id($this->get_course_id());
             $pub->set_tool($this->get_tool_id());
             $pub->set_category_id(0);
@@ -54,12 +53,12 @@ class ToolComponentIntroductionPublisherComponent extends ToolComponent implemen
             $pub->set_display_order_index($do);
             $pub->set_email_sent(false);
             $pub->set_show_on_homepage(0);
-
+            
             $pub->create();
-
+            
             $parameters = $this->get_parameters();
             $parameters['tool_action'] = null;
-
+            
             $this->redirect(Translation :: get('IntroductionPublished'), (false), $parameters);
         }
     }

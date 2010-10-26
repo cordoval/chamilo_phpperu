@@ -5,6 +5,8 @@ namespace application\reservations;
 use common\libraries\CalendarTable;
 use HTML_Table;
 use common\libraries\Path;
+use common\libraries\Theme;
+use common\libraries\Translation;
 /**
  * $Id: mini_day_calendar.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.calendar

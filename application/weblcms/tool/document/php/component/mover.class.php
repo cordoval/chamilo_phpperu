@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\document;
 
+use application\weblcms\ToolComponent;
 
 class DocumentToolMoverComponent extends DocumentTool
 {
@@ -12,7 +13,7 @@ class DocumentToolMoverComponent extends DocumentTool
 
     function get_move_direction()
     {
-        return Request::get(Tool::PARAM_MOVE_DIRECTION);
+        return Request :: get(Tool :: PARAM_MOVE_DIRECTION);
     }
 
 }

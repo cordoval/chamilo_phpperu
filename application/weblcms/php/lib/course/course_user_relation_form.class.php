@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Translation;
+
 /**
  * $Id: course_user_relation_form.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.course
@@ -41,7 +43,7 @@ class CourseUserRelationForm extends FormValidator
         
         $conditions = array();
         $conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_USER_ID, $this->user->get_id(), CourseTypeUserCategory :: get_table_name());
-        $conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_TYPE_ID, $course->get_course_type_id(),  CourseTypeUserCategory :: get_table_name());
+        $conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_TYPE_ID, $course->get_course_type_id(), CourseTypeUserCategory :: get_table_name());
         $condition = new AndCondition($conditions);
         $categories = $wdm->retrieve_course_user_categories_by_course_type($condition);
         $cat_options['0'] = Translation :: get('NoCategory');
@@ -85,24 +87,24 @@ class CourseUserRelationForm extends FormValidator
         $succes = $course_user_relation->update();
         
         $course = $wdm->retrieve_course($course_user_relation->get_course());
-    	$subcondition = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, $course->get_course_type_id());
-    	$conditions[] = new SubselectCondition(CourseUserRelation :: PROPERTY_COURSE, Course :: PROPERTY_ID, Course :: get_table_name(), $subcondition);
-    	$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $course_user_relation->get_user());
-    	$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $old_category);
+        $subcondition = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, $course->get_course_type_id());
+        $conditions[] = new SubselectCondition(CourseUserRelation :: PROPERTY_COURSE, Course :: PROPERTY_ID, Course :: get_table_name(), $subcondition);
+        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $course_user_relation->get_user());
+        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $old_category);
         $conditions[] = new InEqualityCondition(CourseUserRelation :: PROPERTY_SORT, InEqualityCondition :: GREATER_THAN, $counter);
-    	$condition = new AndCondition($conditions);
-
-    	$course_user_relations = $wdm->retrieve_course_user_relations($condition, null, null, new ObjectTableOrder(CourseUserRelation :: PROPERTY_SORT));
+        $condition = new AndCondition($conditions);
         
-        while($relation = $course_user_relations->next_result())
+        $course_user_relations = $wdm->retrieve_course_user_relations($condition, null, null, new ObjectTableOrder(CourseUserRelation :: PROPERTY_SORT));
+        
+        while ($relation = $course_user_relations->next_result())
         {
-        	$relation->set_sort($counter);
-        	$succes &= $relation->update();
-        	$counter++;
+            $relation->set_sort($counter);
+            $succes &= $relation->update();
+            $counter ++;
         }
         
         return $succes;
-        
+    
     }
 
     /**

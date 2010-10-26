@@ -1,12 +1,12 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Translation;
+
 /**
  * $Id: admin_course_browser.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms.weblcms_manager.component
  */
-require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
-
 require_once dirname(__FILE__) . '/../../course/course_category_menu.class.php';
 require_once dirname(__FILE__) . '/admin_course_browser/admin_course_browser_table.class.php';
 /**
@@ -27,8 +27,6 @@ class WeblcmsManagerAdminCourseBrowserComponent extends WeblcmsManager
         $this->category = Request :: get(WeblcmsManager :: PARAM_COURSE_CATEGORY_ID);
         
         $trail = BreadcrumbTrail :: get_instance();
-        
-        
         
         /*if (! $this->get_user()->is_platform_admin())
         {
@@ -56,7 +54,7 @@ class WeblcmsManagerAdminCourseBrowserComponent extends WeblcmsManager
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         
         $action_bar->set_search_url($this->get_url(array('category' => Request :: get('category'))));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path().'action_add.png', $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_CREATE_COURSE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path() . 'action_add.png', $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_CREATE_COURSE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array('category' => Request :: get('category'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         return $action_bar;
     }
@@ -65,9 +63,9 @@ class WeblcmsManagerAdminCourseBrowserComponent extends WeblcmsManager
     {
         $parameters = $this->get_parameters();
         $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
-    	$table = new AdminCourseBrowserTable($this, $parameters, $this->get_condition());
-
-    	$html = array();
+        $table = new AdminCourseBrowserTable($this, $parameters, $this->get_condition());
+        
+        $html = array();
         $html[] = '<div style="float: right; width: 80%;">';
         $html[] = $table->as_html();
         $html[] = '</div>';
@@ -141,31 +139,31 @@ class WeblcmsManagerAdminCourseBrowserComponent extends WeblcmsManager
             {
                 $condition = $search_conditions;
             }
-        }        
+        }
         return $condition;
     }
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-
+        
         if ($this->get_user()->is_platform_admin())
         {
             $breadcrumbtrail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
             $breadcrumbtrail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => WeblcmsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Courses')));
         }
-
+        
         if ($this->category)
         {
             $category = WeblcmsDataManager :: get_instance()->retrieve_course_category($this->category);
             $trail->add(new Breadcrumb($this->get_url(), $category->get_name()));
         }
-
+        
         $breadcrumbtrail->add_help('weblcms_course_browser');
     }
 
     function get_additional_parameters()
     {
-    	return array();
+        return array();
     }
 }
 ?>

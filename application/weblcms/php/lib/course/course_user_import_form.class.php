@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Translation;
+
 /**
  * $Id: course_user_import_form.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.course
@@ -50,22 +52,22 @@ class CourseUserImportForm extends FormValidator
         
         foreach ($csvcourses as $csvcourse)
         {
-            if (!$this->validate_data($csvcourse))
+            if (! $this->validate_data($csvcourse))
             {
-            	$failures ++;
+                $failures ++;
                 $this->failedcsv[] = Translation :: get('Invalid') . ': ' . implode($csvcourse, ';');
             }
         }
         
-    	if ($failures > 0)
+        if ($failures > 0)
         {
             return false;
         }
         
-        foreach($csvcourses as $csvcourse)
+        foreach ($csvcourses as $csvcourse)
         {
-       		$user_info = $this->get_user_info($csvcourse['username']);
-                
+            $user_info = $this->get_user_info($csvcourse['username']);
+            
             $code = $csvcourse['coursecode'];
             $course = WeblcmsDataManager :: get_instance()->retrieve_courses(new EqualityCondition('visual_code', $code))->next_result();
             $status = $csvcourse[CourseUserRelation :: PROPERTY_STATUS];
@@ -74,24 +76,24 @@ class CourseUserImportForm extends FormValidator
             
             $wdm = WeblcmsDataManager :: get_instance();
             
-            if($action == 'D' || $action == 'U')
+            if ($action == 'D' || $action == 'U')
             {
-           	 	if (!$wdm->unsubscribe_user_from_course($course, $user_info->get_id()))
-	            {
-	                $failures ++;
-	                $this->failedcsv[] = Translation :: get('Failed') . ': ' . implode($csvcourse, ';');
-	                continue;
-	            }
+                if (! $wdm->unsubscribe_user_from_course($course, $user_info->get_id()))
+                {
+                    $failures ++;
+                    $this->failedcsv[] = Translation :: get('Failed') . ': ' . implode($csvcourse, ';');
+                    continue;
+                }
             }
             
-            if($action == 'A' || $action == 'U')
+            if ($action == 'A' || $action == 'U')
             {
-	            if (! $wdm->subscribe_user_to_course($course, $status, $tutor, $user_info->get_id()))
-	            {
-	                $failures ++;
-	                $this->failedcsv[] = Translation :: get('Failed') . ': ' . implode($csvcourse, ';');
-	                continue;
-	            }
+                if (! $wdm->subscribe_user_to_course($course, $status, $tutor, $user_info->get_id()))
+                {
+                    $failures ++;
+                    $this->failedcsv[] = Translation :: get('Failed') . ': ' . implode($csvcourse, ';');
+                    continue;
+                }
             }
         }
         
@@ -155,9 +157,9 @@ class CourseUserImportForm extends FormValidator
         
         //4. Action valid ?
         $action = strtoupper($csvcourse['action']);
-        if($action != 'A' && $action != 'D' && $action != 'U')
+        if ($action != 'A' && $action != 'D' && $action != 'U')
         {
-        	$failures++;
+            $failures ++;
         }
         
         if ($failures > 0)

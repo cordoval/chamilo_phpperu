@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use common\libraries\Path;
+use common\libraries\Translation;
 
 /**
  * $Id: assessment_tester.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -119,8 +121,8 @@ class AssessmentToolComplexDisplayComponent extends AssessmentTool
     function create_tracker()
     {
         $arguments = array(
-                WeblcmsAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID => $this->publication_id, WeblcmsAssessmentAttemptsTracker :: PROPERTY_USER_ID => $this->get_user_id(), 
-                WeblcmsAssessmentAttemptsTracker :: PROPERTY_COURSE_ID => $this->get_course_id(), WeblcmsAssessmentAttemptsTracker :: PROPERTY_TOTAL_SCORE => 0);
+                WeblcmsAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID => $this->publication_id, WeblcmsAssessmentAttemptsTracker :: PROPERTY_USER_ID => $this->get_user_id(), WeblcmsAssessmentAttemptsTracker :: PROPERTY_COURSE_ID => $this->get_course_id(), 
+                WeblcmsAssessmentAttemptsTracker :: PROPERTY_TOTAL_SCORE => 0);
         $tracker = Event :: trigger('attempt_assessment', 'weblcms', $arguments);
         return $tracker[0];
     }

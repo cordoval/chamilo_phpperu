@@ -29,7 +29,7 @@ class PersonalCalendarManagerIcalExporterComponent extends PersonalCalendarManag
             $calendar_event_publication = $this->retrieve_personal_calendar_publication($id);
             $content_object = $calendar_event_publication->get_publication_object();
 
-            if(! PersonalCalendarRights :: is_allowed_in_personal_calendar_subtree(PersonalCalendarRights :: RIGHT_SHARE, PersonalCalendarRights :: get_personal_calendar_subtree_root()))
+            if(! PersonalCalendarRights :: is_allowed(PersonalCalendarRights :: RIGHT_SHARE, PersonalCalendarRights :: get_root()))
             {
                 $this->display_header();
                 Display :: error_message(Translation :: get("NotAllowed"));

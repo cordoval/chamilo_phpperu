@@ -1,12 +1,13 @@
 <?php
 namespace application\weblcms\tool\description;
 
+use common\libraries\Path;
+use common\libraries\Translation;
+
 /**
  * $Id: description_browser.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.description.component.description_viewer
  */
-//require_once dirname(__FILE__).'/../../weblcms_data_manager.class.php';
-require_once dirname(__FILE__) . '/../../../../weblcms_data_manager.class.php';
 require_once dirname(__FILE__) . '/../../../../content_object_publication.class.php';
 require_once dirname(__FILE__) . '/../../../../content_object_publication_browser.class.php';
 require_once dirname(__FILE__) . '/../../../../browser/list_renderer/content_object_publication_details_renderer.class.php';
@@ -35,9 +36,10 @@ class DescriptionBrowser extends ContentObjectPublicationBrowser
             $renderer = new ListContentObjectPublicationListRenderer($this);
             //$actions = array(Tool :: ACTION_DELETE => Translation :: get('DeleteSelected'), Tool :: ACTION_HIDE => Translation :: get('Hide'), Tool :: ACTION_SHOW => Translation :: get('Show'));
             
+
             $actions[] = new ObjectTableFormAction(Tool :: ACTION_DELETE, Translation :: get('DeleteSelected'));
-        	$actions[] = new ObjectTableFormAction(Tool :: ACTION_HIDE, Translation :: get('Hide'), false);
-        	$actions[] = new ObjectTableFormAction(Tool :: ACTION_SHOW, Translation :: get('Show'), false);
+            $actions[] = new ObjectTableFormAction(Tool :: ACTION_HIDE, Translation :: get('Hide'), false);
+            $actions[] = new ObjectTableFormAction(Tool :: ACTION_SHOW, Translation :: get('Show'), false);
             
             $renderer->set_actions($actions);
         }
@@ -52,7 +54,7 @@ class DescriptionBrowser extends ContentObjectPublicationBrowser
     {
         $datamanager = WeblcmsDataManager :: get_instance();
         
-    	if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
+        if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $user_id = array();
             $course_group_ids = array();
@@ -61,12 +63,12 @@ class DescriptionBrowser extends ContentObjectPublicationBrowser
         {
             $user_id = $this->get_user_id();
             $course_groups = $this->get_course_groups();
-              
+            
             $course_group_ids = array();
-                
-            foreach($course_groups as $course_group)
+            
+            foreach ($course_groups as $course_group)
             {
-             	$course_group_ids[] = $course_group->get_id();
+                $course_group_ids[] = $course_group->get_id();
             }
         }
         
@@ -86,21 +88,20 @@ class DescriptionBrowser extends ContentObjectPublicationBrowser
         $conditions[] = new OrCondition($access);*/
         
         $access = array();
-        if($user_id)
+        if ($user_id)
         {
-    		$access[] = new InCondition(ContentObjectPublicationUser :: PROPERTY_USER, $user_id, ContentObjectPublicationUser :: get_table_name());
+            $access[] = new InCondition(ContentObjectPublicationUser :: PROPERTY_USER, $user_id, ContentObjectPublicationUser :: get_table_name());
         }
-    	
-    	if(count($course_group_ids) > 0)
-    	{
-        	$access[] = new InCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, $course_group_ids, ContentObjectPublicationCourseGroup :: get_table_name());
-    	}
-        	
+        
+        if (count($course_group_ids) > 0)
+        {
+            $access[] = new InCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, $course_group_ids, ContentObjectPublicationCourseGroup :: get_table_name());
+        }
+        
         if (! empty($user_id) || ! empty($course_group_ids))
         {
             $access[] = new AndCondition(array(
-            			new EqualityCondition(ContentObjectPublicationUser :: PROPERTY_USER, null, ContentObjectPublicationUser :: get_table_name()), 
-            			new EqualityCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, null, ContentObjectPublicationCourseGroup :: get_table_name())));
+                    new EqualityCondition(ContentObjectPublicationUser :: PROPERTY_USER, null, ContentObjectPublicationUser :: get_table_name()), new EqualityCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, null, ContentObjectPublicationCourseGroup :: get_table_name())));
         }
         
         $conditions[] = new OrCondition($access);

@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\document;
 
+use common\libraries\Translation;
+
 /**
  * $Id: document_publication_slideshow_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.document.component.document_slideshow
@@ -94,18 +96,18 @@ class DocumentPublicationSlideshowRenderer extends ListContentObjectPublicationL
         $html[] = '<div style="text-align: center;">';
         
         $resize = Session :: retrieve('slideshow_resize');
-        if($resize)
+        if ($resize)
         {
-        	list($width, $height) = explode("|", $resize);
-        	list($original_width, $original_height, $type, $attr) = getimagesize($url);
-        	
-        	$aspect = $original_height / $original_width;
-        	$width = round($height / $aspect);
-        	
-        	$aditionalstyles = 'width: ' . $width . 'px; height: ' . $height . 'px;'; 
+            list($width, $height) = explode("|", $resize);
+            list($original_width, $original_height, $type, $attr) = getimagesize($url);
+            
+            $aspect = $original_height / $original_width;
+            $width = round($height / $aspect);
+            
+            $aditionalstyles = 'width: ' . $width . 'px; height: ' . $height . 'px;';
         }
         
-//        $html[] = '<a href="' . $url . '" target="about:blank"><img src="' . $url . '" alt="" style="max-width: 800px; border:1px solid black;padding:5px;' . $aditionalstyles . '"/></a>';
+        //        $html[] = '<a href="' . $url . '" target="about:blank"><img src="' . $url . '" alt="" style="max-width: 800px; border:1px solid black;padding:5px;' . $aditionalstyles . '"/></a>';
         $html[] = '<div class="description' . ($publication->is_visible_for_target_users() ? '' : ' invisible') . '">';
         $html[] = $this->render_description($publication);
         $html[] = $this->render_attachments($publication);

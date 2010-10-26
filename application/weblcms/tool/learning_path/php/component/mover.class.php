@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use application\weblcms\ToolComponent;
+
 class LearningPathToolMoverComponent extends LearningPathTool
 {
 
@@ -11,7 +13,7 @@ class LearningPathToolMoverComponent extends LearningPathTool
 
     function get_move_direction()
     {
-        return Request::get(Tool::PARAM_MOVE_DIRECTION);
+        return Request :: get(Tool :: PARAM_MOVE_DIRECTION);
     }
 }
 ?>

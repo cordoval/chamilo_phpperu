@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\course_group;
 
+use common\libraries\ObjectTable;
+use common\libraries\Translation;
+
 /**
  * $Id: course_group_subscribed_user_browser_table.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.course_group.component.user_table
@@ -34,13 +37,14 @@ class CourseGroupSubscribedUserBrowserTable extends ObjectTable
         //$actions[WeblcmsManager :: PARAM_SUBSCRIBE_SELECTED_AS_ADMIN] = Translation :: get('SubscribeSelectedAsAdmin');
         }*/
         
-        if($browser->is_allowed(WeblcmsRights :: EDIT_RIGHT))
+        if ($browser->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
-        	$actions[] = new ObjectTableFormAction(CourseGroupTool :: PARAM_UNSUBSCRIBE_USERS, Translation :: get('UnsubscribeUsers'));
+            $actions[] = new ObjectTableFormAction(CourseGroupTool :: PARAM_UNSUBSCRIBE_USERS, Translation :: get('UnsubscribeUsers'));
         }
         
         //$this->set_form_actions($actions);
         
+
         if ($browser->get_course()->is_course_admin($browser->get_user()))
         {
             //$this->set_form_actions($actions);

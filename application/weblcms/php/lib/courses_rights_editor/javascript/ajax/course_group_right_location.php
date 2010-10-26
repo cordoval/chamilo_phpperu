@@ -37,15 +37,15 @@ $right_course_group = $rights['2'];
 
 if (isset($right_course_group) && isset($right) && isset($locations) && count($locations) > 0)
 {
-	$success = true;
-
-	$rdm = RightsDataManager :: get_instance();
-
-    foreach($locations as $location_id)
+    $success = true;
+    
+    $rdm = RightsDataManager :: get_instance();
+    
+    foreach ($locations as $location_id)
     {
-    	$success &= WeblcmsRights :: invert_course_group_right_location($right, $right_course_group, $location_id);
+        $success &= WeblcmsRights :: invert_course_group_right_location($right, $right_course_group, $location_id);
     }
-
+    
     if (! $success)
     {
         echo 0;

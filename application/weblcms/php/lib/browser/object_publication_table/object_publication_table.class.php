@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\ObjectTable;
+
 /**
  * $Id: object_publication_table.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.browser.object_publication_table
@@ -14,6 +16,7 @@ require_once dirname(__FILE__) . '/object_publication_table_cell_renderer.class.
  */
 class ObjectPublicationTable extends ObjectTable
 {
+
     function ObjectPublicationTable($table_renderer, $condition, $cell_renderer = null, $column_model = null)
     {
         $data_provider = new ObjectPublicationTableDataProvider($table_renderer, $condition);
@@ -35,8 +38,8 @@ class ObjectPublicationTable extends ObjectTable
         
         $this->set_form_actions($actions);
     }
-    
-	static function handle_table_action()
+
+    static function handle_table_action()
     {
         $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
         Request :: set_get(Tool :: PARAM_PUBLICATION_ID, $ids);

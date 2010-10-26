@@ -74,7 +74,7 @@ class CategoryBrowserTableCellRenderer extends DefaultCategoryTableCellRenderer
         $toolbar->add_item(new ToolbarItem(
         		Translation :: get('ModifyRights'),
         		Theme :: get_common_image_path() . 'action_rights.png',
-        		$this->browser->get_modify_rights_url('category', $category->get_id()),
+        		$this->browser->get_modify_rights_url(ReservationsRights :: TYPE_CATEGORY, $category->get_id()),
         		ToolbarItem :: DISPLAY_ICON
         ));
         

@@ -1,4 +1,8 @@
 <?php
+namespace application\weblcms\tool\announcement;
+
+use application\weblcms\ToolComponent;
+use common\libraries\Translation;
 
 class AnnouncementToolViewerComponent extends AnnouncementTool
 {
@@ -8,10 +12,11 @@ class AnnouncementToolViewerComponent extends AnnouncementTool
         ToolComponent :: launch($this);
     }
 
-    function  add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_BROWSE)), Translation :: get('AnnouncementToolBrowserComponent')));
     }
+
     function get_additional_parameters()
     {
         return array(Tool :: PARAM_PUBLICATION_ID);

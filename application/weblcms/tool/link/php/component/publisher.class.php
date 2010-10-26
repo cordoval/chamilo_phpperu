@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\link;
 
+use application\weblcms\ToolComponent;
+use common\libraries\Translation;
 
 class LinkToolPublisherComponent extends LinkTool
 {
@@ -17,7 +19,7 @@ class LinkToolPublisherComponent extends LinkTool
 
     function get_additional_parameters()
     {
-        return array(RepoViewer::PARAM_ID, RepoViewer::PARAM_ACTION);
+        return array(RepoViewer :: PARAM_ID, RepoViewer :: PARAM_ACTION);
     }
 
 }

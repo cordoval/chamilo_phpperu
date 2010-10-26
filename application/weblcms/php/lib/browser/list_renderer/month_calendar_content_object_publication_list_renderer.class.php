@@ -22,20 +22,20 @@ class MonthCalendarContentObjectPublicationListRenderer extends CalendarContentO
         $start_time = $calendar_table->get_start_time();
         $end_time = $calendar_table->get_end_time();
         $table_date = $start_time;
-
+        
         $publications = $this->get_calendar_events($start_time, $end_time);
-
+        
         while ($table_date <= $end_time)
         {
             $next_table_date = strtotime('+1 Day', $table_date);
-
+            
             foreach ($publications as $index => $publication)
             {
                 $object = $publication->get_content_object();
-
+                
                 $start_date = $object->get_start_date();
                 $end_date = $object->get_end_date();
-
+                
                 if ($table_date < $start_date && $start_date < $next_table_date || $table_date <= $end_date && $end_date <= $next_table_date || $start_date <= $table_date && $next_table_date <= $end_date)
                 {
                     $cell_contents = $this->render_publication($publication, $table_date);
@@ -69,11 +69,11 @@ class MonthCalendarContentObjectPublicationListRenderer extends CalendarContentO
             $color_cache[$event->get_id()]['fade'] = 'rgb(' . $rgb['fr'] . ',' . $rgb['fg'] . ',' . $rgb['fb'] . ')';
         }
         $html[] = '';
-
+        
         $from_date = strtotime(date('Y-m-1', $this->get_display_time()));
         //		echo date('r', $from_date);
         $to_date = strtotime('-1 Second', strtotime('Next Month', $this->get_display_time()));
-
+        
         $html[] = '<div class="event' . ($start_date < $from_date || $start_date > $to_date ? ' event_fade' : '') . '" style="border-right: 4px solid ' . $color_cache[$event->get_id()][($start_date < $from_date || $start_date > $to_date ? 'fade' : 'full')] . ';">';
         if ($start_date > $table_date && $start_date <= strtotime('+1 Day', $table_date))
         {

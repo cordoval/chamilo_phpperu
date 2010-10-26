@@ -29,7 +29,8 @@ class ObjectPublicationGalleryTable extends GalleryObjectTable
         
         parent :: __construct($data_provider, self :: DEFAULT_NAME, $cell_renderer, $property_model);
         $this->set_additional_parameters($table_renderer->get_tool_browser()->get_parameters());
-//        $this->set_order_directions_enabled($table_renderer->get_tool_browser()->is_gallery_table_sorting_direction_enabled());
+    
+     //        $this->set_order_directions_enabled($table_renderer->get_tool_browser()->is_gallery_table_sorting_direction_enabled());
     }
 }
 ?>

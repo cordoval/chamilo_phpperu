@@ -1,4 +1,8 @@
 <?php
+namespace application\weblcms\tool\announcement;
+
+use application\weblcms\ToolComponent;
+use common\libraries\Translation;
 
 class AnnouncementToolIntroductionPublisherComponent extends AnnouncementTool
 {

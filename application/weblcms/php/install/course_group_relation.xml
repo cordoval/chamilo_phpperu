@@ -2,8 +2,7 @@
 <object name="course_group_relation">
 	<properties>
 		<property name="course_id" type="integer" notnull="1" />
-		<property name="group_id" type="integer" unsigned="1"
-			default="0" />
+		<property name="group_id" type="integer" unsigned="1" default="0" />
 	</properties>
 	<index name="course_id" type="primary">
 		<indexproperty name="course_id" />

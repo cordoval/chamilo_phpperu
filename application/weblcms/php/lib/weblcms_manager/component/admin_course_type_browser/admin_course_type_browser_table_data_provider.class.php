@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\ObjectTableDataProvider;
+
 /**
  * $Id: admin_course_type_browser_table_data_provider.class.php 218 2010-03-10 14:21:26Z yannick $
  * @package application.lib.weblcms.weblcms_manager.component.admin_course_type_browser

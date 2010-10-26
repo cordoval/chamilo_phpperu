@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Path;
+use common\libraries\Translation;
+
 /**
  * $Id: block_sort.php 227 2009-11-13 14:45:05Z kariboe $
  * @package application.weblcms.ajax
@@ -8,8 +11,6 @@ namespace application\weblcms;
 $this_section = 'weblcms';
 
 require_once dirname(__FILE__) . '/../../../../common/global.inc.php';
-require_once Path :: get_application_path() . 'lib/weblcms/weblcms_manager/weblcms_manager.class.php';
-require_once Path :: get_application_path() . 'lib/weblcms/weblcms_data_manager.class.php';
 
 Utilities :: set_application($this_section);
 
@@ -33,12 +34,12 @@ if (Authentication :: is_valid())
     $blocks = unserialize_jquery($_POST['order']);
     
     $wdm = WeblcmsDataManager :: get_instance();
-	$wdm->change_module_course_section($source, $target);
-	
+    $wdm->change_module_course_section($source, $target);
+    
     $i = 1;
     foreach ($blocks as $block_id)
     {
-	    $block = $wdm->retrieve_course_module($block_id);
+        $block = $wdm->retrieve_course_module($block_id);
         $block->set_sort($i);
         $block->update();
         $i ++;

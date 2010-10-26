@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\blog;
 
+use application\weblcms\ToolComponent;
 
 class BlogToolMoverComponent extends BlogTool
 {
@@ -12,7 +13,7 @@ class BlogToolMoverComponent extends BlogTool
 
     function get_move_direction()
     {
-        return Request::get(Tool::PARAM_MOVE_DIRECTION);
+        return Request :: get(Tool :: PARAM_MOVE_DIRECTION);
     }
 
 }

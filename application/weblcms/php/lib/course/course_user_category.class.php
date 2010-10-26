@@ -1,20 +1,21 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\DataClass;
+
 /**
  * $Id: course_user_category.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.course
  */
-require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
 
 /**
- *	This class represents a course user category in the weblcms.
+ * This class represents a course user category in the weblcms.
  *
- *	course user categories have a number of default properties:
- *	- id: the numeric course user category ID;
- *	- user: the course user category user;
- *	- sort: the course user category sort order;
- *	- title: the course user category title;
+ * course user categories have a number of default properties:
+ * - id: the numeric course user category ID;
+ * - user: the course user category user;
+ * - sort: the course user category sort order;
+ * - title: the course user category title;
  *
  * To access the values of the properties, this class and its subclasses
  * should provide accessor methods. The names of the properties should be
@@ -26,7 +27,7 @@ require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
 class CourseUserCategory extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-
+    
     const PROPERTY_TITLE = 'title';
 
     /**

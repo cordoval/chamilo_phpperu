@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\forum;
 
+use application\weblcms\ToolComponent;
+use common\libraries\Translation;
 
 class ForumToolPublisherComponent extends ForumTool
 {
@@ -17,7 +19,7 @@ class ForumToolPublisherComponent extends ForumTool
 
     function get_additional_parameters()
     {
-        return array(RepoViewer::PARAM_ID, RepoViewer::PARAM_ACTION);
+        return array(RepoViewer :: PARAM_ID, RepoViewer :: PARAM_ACTION);
     }
 }
 ?>

@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\course_group;
 
+use common\libraries\Translation;
+
 /**
  * $Id: course_group_table_column.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.course_group.component.course_group_table
@@ -24,7 +26,7 @@ class CourseGroupTableColumn extends ObjectTableColumn
      * Constructor. Either defines a column that displays a default property
      * of course_groups, or arbitrary content.
      * @param string $property_name_or_column_title If the column contains arbitrary content, the title of the column. If
-     *   it displays a user property, that particular property, a User::PROPERTY_* constant.
+     * it displays a user property, that particular property, a User::PROPERTY_* constant.
      * @param boolean $contains_user_property True if the column displays a user property, false otherwise.
      */
     function CourseGroupTableColumn($property_name_or_column_title, $contains_course_group_property = false)
@@ -45,7 +47,7 @@ class CourseGroupTableColumn extends ObjectTableColumn
     /**
      * Gets the course_group property that this column displays.
      * @return string The property name, or null if the column contains
-     *                arbitrary content.
+     * arbitrary content.
      */
     function get_course_group_property()
     {
@@ -64,7 +66,7 @@ class CourseGroupTableColumn extends ObjectTableColumn
     /**
      * Determine if the table's contents may be sorted by this column.
      * @return boolean True if sorting by this column is allowed, false
-     *                 otherwise.
+     * otherwise.
      */
     function is_sortable()
     {
@@ -83,7 +85,7 @@ class CourseGroupTableColumn extends ObjectTableColumn
     /**
      * Sets whether or not the table's contents may be sorted by this column.
      * @param boolean $sortable True if sorting by this column should be
-     *                          allowed, false otherwise.
+     * allowed, false otherwise.
      */
     function set_sortable($sortable)
     {

@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Path;
+use common\libraries\Translation;
+
 /**
  * $Id: list_content_object_publication_list_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.browser.list_renderer
@@ -45,12 +48,12 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
         if ($this->get_actions() && count($publications) > 0 && $this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $table_name = Utilities :: camelcase_to_underscores(__CLASS__);
-        	foreach ($_GET as $parameter => $value)
+            foreach ($_GET as $parameter => $value)
             {
-                if($parameter == 'message')
-                	continue;
-                	
-            	$html[] = '<input type="hidden" name="' . $parameter . '" value="' . $value . '" />';
+                if ($parameter == 'message')
+                    continue;
+                
+                $html[] = '<input type="hidden" name="' . $parameter . '" value="' . $value . '" />';
             }
             $html[] = '<script type="text/javascript">
 							/* <![CDATA[ */
@@ -74,7 +77,7 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
                 $html[] = '<option value="' . $form_action->get_action() . '" class="' . ($form_action->get_confirm() ? 'confirm' : '') . '">' . $form_action->get_title() . '</option>';
             }
             $html[] = '</select>';
-            $html[] = '<input type="hidden" name="'. $table_name .'_action_name" value="' . $this->get_actions()->get_action() . '"/>';
+            $html[] = '<input type="hidden" name="' . $table_name . '_action_name" value="' . $this->get_actions()->get_action() . '"/>';
             $html[] = '<input type="hidden" name="table_name" value="' . $table_name . '"/>';
             $html[] = ' <input type="submit" value="' . Translation :: get('Ok') . '"/>';
             $html[] = '</div>';
@@ -84,11 +87,11 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
         
         return implode("\n", $html);
     }
-    
-	static function handle_table_action()
-    {
-    	$selected_ids = Request :: post(WeblcmsManager :: PARAM_PUBLICATION);
 
+    static function handle_table_action()
+    {
+        $selected_ids = Request :: post(WeblcmsManager :: PARAM_PUBLICATION);
+        
         if (empty($selected_ids))
         {
             $selected_ids = array();
@@ -148,17 +151,18 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
             case 1 :
                 $level = 'level_2';
                 break;
-            //case 2: $level = 'level_3'; break;
+        
+     //case 2: $level = 'level_3'; break;
         //case 3: $level = 'level_4'; break;
         }
-            
-    	if($publication->get_content_object() instanceof ComplexContentObjectSupport)
+        
+        if ($publication->get_content_object() instanceof ComplexContentObjectSupport)
         {
             $title_url = $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT));
         }
         else
         {
-        	$title_url = $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION =>  Tool :: ACTION_VIEW), array(), true);
+            $title_url = $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_VIEW), array(), true);
         }
         
         $html[] = '<div class="announcements ' . $level . '" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/' . $publication->get_content_object()->get_icon_name() . $icon_suffix . '.png);">';
@@ -184,7 +188,7 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
         $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
         $html[] = '</div><br />';
-
+        
         return implode("\n", $html);
     }
 }

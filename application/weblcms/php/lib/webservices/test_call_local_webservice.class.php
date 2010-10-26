@@ -179,9 +179,11 @@ class TestCallLocalWebservice
 		 * 
 		 */
         
-        $course = array('layout' => '1', 'vissual_code' => 'KITT', 'category' => 'language skills', //required
+        $course = array(
+                'layout' => '1', 'vissual_code' => 'KITT', 'category' => 'language skills', //required
 'title' => 'Kennisintensieve Toepassingennnn', //required
-'show_score' => '1', 'titular' => 'Soliber', 'course_language' => 'english', 'department_url' => '', 'department_name' => '', 'visibility' => '1', 'subscribe' => '1', 'unsubscribe' => '1', 'theme' => '1', 'tool_shortcut' => '1', 'menu' => '1', 'breadcrumb' => '1', 'allow_feedback' => '1', 'disk_quota' => '200');
+'show_score' => '1', 'titular' => 'Soliber', 'course_language' => 'english', 'department_url' => '', 'department_name' => '', 'visibility' => '1', 
+                'subscribe' => '1', 'unsubscribe' => '1', 'theme' => '1', 'tool_shortcut' => '1', 'menu' => '1', 'breadcrumb' => '1', 'allow_feedback' => '1', 'disk_quota' => '200');
         
         $wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
         $functions = array();

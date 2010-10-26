@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\course_group;
 
+use common\libraries\Path;
+use common\libraries\Translation;
+
 /**
  * $Id: course_group_subscribed_user_browser_table_cell_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.course_group.component.user_table
@@ -43,26 +46,26 @@ class CourseGroupSubscribedUserBrowserTableCellRenderer extends DefaultUserTable
      */
     private function get_modification_links($user)
     {
-    	$toolbar = new Toolbar();
-        if($this->browser->is_allowed(WeblcmsRights :: EDIT_RIGHT))
+        $toolbar = new Toolbar();
+        if ($this->browser->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $parameters = array();
             $parameters[CourseGroupTool :: PARAM_COURSE_GROUP_ACTION] = CourseGroupTool :: ACTION_UNSUBSCRIBE;
             $parameters[WeblcmsManager :: PARAM_USERS] = $user->get_id();
             $parameters[CourseGroupTool :: PARAM_COURSE_GROUP] = $this->browser->get_course_group()->get_id();
             $unsubscribe_url = $this->browser->get_url($parameters);
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Unsubscribe'), Theme :: get_common_image_path() . 'action_unsubscribe.png', $unsubscribe_url, ToolbarItem::DISPLAY_ICON ));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Unsubscribe'), Theme :: get_common_image_path() . 'action_unsubscribe.png', $unsubscribe_url, ToolbarItem :: DISPLAY_ICON));
         }
         
         $course_group = $this->browser->get_course_group();
         
-    	if (!$this->browser->is_allowed(WeblcmsRights :: EDIT_RIGHT) && $course_group->is_self_unregistration_allowed() && $course_group->is_member($user) && $this->browser->get_user()->get_id() == $user->get_id())
+        if (! $this->browser->is_allowed(WeblcmsRights :: EDIT_RIGHT) && $course_group->is_self_unregistration_allowed() && $course_group->is_member($user) && $this->browser->get_user()->get_id() == $user->get_id())
         {
             $parameters = array();
             $parameters[WeblcmsManager :: PARAM_COURSE_GROUP] = $course_group->get_id();
             $parameters[CourseGroupTool :: PARAM_COURSE_GROUP_ACTION] = CourseGroupTool :: ACTION_USER_SELF_UNSUBSCRIBE;
             $unsubscribe_url = $this->browser->get_url($parameters);
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Unsubscribe'), Theme :: get_common_image_path() . 'action_unsubscribe.png', $unsubscribe_url, ToolbarItem::DISPLAY_ICON ));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Unsubscribe'), Theme :: get_common_image_path() . 'action_unsubscribe.png', $unsubscribe_url, ToolbarItem :: DISPLAY_ICON));
         }
         
         return $toolbar->as_html();

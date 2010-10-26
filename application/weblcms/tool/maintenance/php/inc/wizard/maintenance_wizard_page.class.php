@@ -6,7 +6,6 @@ namespace application\weblcms\tool\maintenance;
  * @package application.lib.weblcms.tool.maintenance.inc.wizard
  */
 
-
 /**
  * This abstract class defines a page which is used in a maintenance wizard.
  */

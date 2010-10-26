@@ -1,6 +1,10 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Path;
+use common\libraries\ObjectTableColumnModel;
+use common\libraries\Translation;
+
 /**
  * $Id: location_course_group_browser_table_column_model.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.rights_editor_manager.component.location_course_group_bowser
@@ -29,10 +33,10 @@ class LocationCourseGroupBrowserTableColumnModel extends ObjectTableColumnModel
         $this->add_rights_columns();
         $this->set_default_order_column(1);
     }
-    
+
     function get_columns()
     {
-    	$columns = array();
+        $columns = array();
         $columns[] = new ObjectTableColumn(CourseGroup :: PROPERTY_NAME, true);
         $columns[] = new ObjectTableColumn(CourseGroup :: PROPERTY_DESCRIPTION, true);
         $columns[] = new StaticTableColumn(Translation :: get('Users'));

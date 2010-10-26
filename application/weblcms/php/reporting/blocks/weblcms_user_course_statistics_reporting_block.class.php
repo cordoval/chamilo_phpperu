@@ -1,19 +1,23 @@
 <?php
 namespace application\weblcms;
 
-require_once dirname (__FILE__) . '/../weblcms_tool_reporting_block.class.php';
-require_once PATH::get_reporting_path() . '/lib/reporting_data.class.php';
+use common\libraries\Path;
+use common\libraries\Translation;
+
+require_once dirname(__FILE__) . '/../weblcms_tool_reporting_block.class.php';
+require_once Path :: get_reporting_path() . '/lib/reporting_data.class.php';
 
 class WeblcmsUserCourseStatisticsReportingBlock extends WeblcmsToolReportingBlock
 {
-	public function count_data()
-	{
-		$reporting_data = new ReportingData();
+
+    public function count_data()
+    {
+        $reporting_data = new ReportingData();
         $course_id = $this->get_course_id();
         $user_id = $this->get_user_id();
-        require_once PATH::get_user_path() . 'trackers/visit_tracker.class.php';
+        require_once Path :: get_user_path() . 'trackers/visit_tracker.class.php';
         $tracker = new VisitTracker();
-
+        
         $conditions[] = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*&course=' . $course_id . '*');
         $conditions[] = new EqualityCondition(VisitTracker :: PROPERTY_USER_ID, $user_id);
         $condition = new AndCondition($conditions);
@@ -39,33 +43,33 @@ class WeblcmsUserCourseStatisticsReportingBlock extends WeblcmsToolReportingBloc
         $reporting_data->set_categories(array(Translation :: get('FirstAccessToCourse'), Translation :: get('LastAccessToCourse'), Translation :: get('TimeOnCourse'), Translation :: get('TotalTimesAccessed')));
         $reporting_data->set_rows(array(Translation :: get('count')));
         
-        $reporting_data->add_data_category_row(Translation :: get('FirstAccessToCourse'), Translation :: get('count'), DatetimeUtilities :: format_locale_date(null,$firstconnection));
-        $reporting_data->add_data_category_row(Translation :: get('LastAccessToCourse'), Translation :: get('count'), DatetimeUtilities :: format_locale_date(null,$lastconnection));
+        $reporting_data->add_data_category_row(Translation :: get('FirstAccessToCourse'), Translation :: get('count'), DatetimeUtilities :: format_locale_date(null, $firstconnection));
+        $reporting_data->add_data_category_row(Translation :: get('LastAccessToCourse'), Translation :: get('count'), DatetimeUtilities :: format_locale_date(null, $lastconnection));
         $reporting_data->add_data_category_row(Translation :: get('TimeOnCourse'), Translation :: get('count'), $this->get_total_time($trackerdata));
         $reporting_data->add_data_category_row(Translation :: get('TotalTimesAccessed'), Translation :: get('count'), $count);
-
+        
         return $reporting_data;
-	}
-	
-	public static function greaterDate($start_date, $end_date)
+    }
+
+    public static function greaterDate($start_date, $end_date)
     {
         if ($start_date - $end_date > 0)
             return 1;
         else
             return 0;
-    }		
-		
-	public function retrieve_data()
-	{
-		return $this->count_data();		
-	}
-	
-	public function get_available_displaymodes()
-	{
-		$modes = array();
-		//$modes[ReportingFormatter::DISPLAY_TEXT] = Translation :: get('Text');
-        $modes[ReportingFormatter::DISPLAY_TABLE] = Translation :: get('Table');
+    }
+
+    public function retrieve_data()
+    {
+        return $this->count_data();
+    }
+
+    public function get_available_displaymodes()
+    {
+        $modes = array();
+        //$modes[ReportingFormatter::DISPLAY_TEXT] = Translation :: get('Text');
+        $modes[ReportingFormatter :: DISPLAY_TABLE] = Translation :: get('Table');
         return $modes;
-	}
+    }
 }
 ?>

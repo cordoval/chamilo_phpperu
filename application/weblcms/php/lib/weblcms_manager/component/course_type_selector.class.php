@@ -1,13 +1,12 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Translation;
 
 /**
  * $Id: course_type_selector.class.php 218 2010-03-26 14:21:26Z Yannick & Tristan $
  * @package application.lib.weblcms.weblcms_manager.component
  */
-require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
-
 require_once dirname(__FILE__) . '/../../course_type/course_type_select_form.class.php';
 
 /**
@@ -21,18 +20,18 @@ class WeblcmsManagerCourseTypeSelectorComponent extends WeblcmsManager
      */
     function run()
     {
-
-        if (!WeblcmsDataManager :: get_instance()->count_course_types())
+        
+        if (! WeblcmsDataManager :: get_instance()->count_course_types())
             $this->simple_redirect(array('go' => WeblcmsManager :: ACTION_CREATE_COURSE));
-
+        
         if ($this->get_user()->is_platform_admin())
         {
             Header :: set_section('admin');
         }
-
+        
         $trail = BreadcrumbTrail :: get_instance();
-
-        if (!$this->get_user()->is_teacher() && !$this->get_user()->is_platform_admin())
+        
+        if (! $this->get_user()->is_teacher() && ! $this->get_user()->is_platform_admin())
         {
             $this->display_header();
             echo '<div class="clear"></div><br />';
@@ -40,10 +39,10 @@ class WeblcmsManagerCourseTypeSelectorComponent extends WeblcmsManager
             $this->display_footer();
             exit();
         }
-
+        
         $course_type_id = $this->get_course_type()->get_id();
         $form = new CourseTypeSelectForm($this->get_url());
-
+        
         if ($form->validate() || $form->get_size() == 1)
         {
             $this->simple_redirect(array('go' => WeblcmsManager :: ACTION_CREATE_COURSE, 'course_type' => $form->get_selected_id()));
@@ -59,7 +58,7 @@ class WeblcmsManagerCourseTypeSelectorComponent extends WeblcmsManager
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-
+        
         if ($this->get_user()->is_platform_admin())
         {
             $breadcrumbtrail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));

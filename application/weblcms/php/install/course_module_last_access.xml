@@ -3,12 +3,9 @@
 	<properties>
 		<property name="course_id" type="integer" notnull="1" />
 		<property name="user_id" type="integer" unsigned="1" notnull="1" />
-		<property name="module_name" type="text" length="50" fixed="true"
-			notnull="0" />
-		<property name="category_id" type="integer" unsigned="1"
-			notnull="1" />
-		<property name="access_date" type="integer" unsigned="1"
-			notnull="1" />
+		<property name="module_name" type="text" length="50" fixed="true" notnull="0" />
+		<property name="category_id" type="integer" unsigned="1" notnull="1" />
+		<property name="access_date" type="integer" unsigned="1" notnull="1" />
 	</properties>
 	<index name="course_module" type="primary">
 		<indexproperty name="course_id" />

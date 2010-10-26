@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use application\weblcms\ToolComponent;
+use common\libraries\Translation;
+
 require_once dirname(__FILE__) . '/assessment_browser/assessment_cell_renderer.class.php';
 require_once dirname(__FILE__) . '/assessment_browser/assessment_column_model.class.php';
 
@@ -15,7 +18,7 @@ class AssessmentToolBrowserComponent extends AssessmentTool
     function get_tool_actions()
     {
         $tool_actions = array();
-
+        
         if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $tool_actions[] = new ToolbarItem(Translation :: get('ImportQti'), Theme :: get_common_image_path() . 'action_import.png', $this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_IMPORT_QTI)), ToolbarItem :: DISPLAY_ICON_AND_LABEL);

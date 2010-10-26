@@ -5,7 +5,6 @@ namespace application\weblcms;
  * $Id: course_group_user_relation.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.course_group
  */
-require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
 
 class CourseGroupUserRelation
 {
@@ -19,9 +18,9 @@ class CourseGroupUserRelation
     /**
      * Creates a new course user relation object.
      * @param int $id The numeric ID of the course user relation object. May be omitted
-     *                if creating a new object.
+     * if creating a new object.
      * @param array $defaultProperties The default properties of the course user relation
-     *                object. Associative array.
+     * object. Associative array.
      */
     function CourseGroupUserRelation($defaultProperties = array ())
     {

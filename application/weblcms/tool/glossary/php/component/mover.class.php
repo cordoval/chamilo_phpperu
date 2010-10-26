@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\glossary;
 
+use application\weblcms\ToolComponent;
 
 class GlossaryToolMoverComponent extends GlossaryTool
 {
@@ -12,7 +13,7 @@ class GlossaryToolMoverComponent extends GlossaryTool
 
     function get_move_direction()
     {
-        return Request::get(Tool::PARAM_MOVE_DIRECTION);
+        return Request :: get(Tool :: PARAM_MOVE_DIRECTION);
     }
 
 }

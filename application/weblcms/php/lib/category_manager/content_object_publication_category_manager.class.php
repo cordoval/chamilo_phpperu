@@ -1,11 +1,12 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Translation;
+
 /**
  * $Id: content_object_publication_category_manager.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.category_manager
  */
-require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
 require_once dirname(__FILE__) . '/content_object_publication_category.class.php';
 
 class ContentObjectPublicationCategoryManager extends CategoryManager
