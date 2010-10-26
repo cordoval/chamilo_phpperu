@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Request;
 use reporting\ReportingTemplate;
 
 /**
@@ -30,7 +31,7 @@ class WikiReportingTemplate extends ReportingTemplate
 
     function display_context()
     {
-    
+
     }
 
     function get_application()

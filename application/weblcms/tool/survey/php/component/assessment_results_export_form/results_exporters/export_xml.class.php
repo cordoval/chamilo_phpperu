@@ -1,6 +1,10 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use user\UserDataManager;
+use common\libraries\AndCondition;
+use common\libraries\EqualityCondition;
+
 /**
  * $Id: export_xml.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.assessment.component.assessment_results_export_form.results_exporters
@@ -57,7 +61,7 @@ class ResultsXmlExport extends ResultsExport
         $data['total_score'] = $user_assessment->get_total_score();
         $data['date_time_taken'] = $user_assessment->get_date();
         $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $assessment_id, ComplexContentObjectItem :: get_table_name());
-        
+
         $clo_questions = $this->rdm->retrieve_complex_content_object_items($condition);
         while ($clo_question = $clo_questions->next_result())
         {
@@ -70,7 +74,7 @@ class ResultsXmlExport extends ResultsExport
     function export_user($userid)
     {
         $user = UserDataManager :: get_instance()->retrieve_user($userid);
-        
+
         $data['id'] = $userid;
         $data['fullname'] = htmlspecialchars($user->get_fullname());
         return $data;
@@ -84,17 +88,17 @@ class ResultsXmlExport extends ResultsExport
         $data['description'] = htmlspecialchars($question->get_description());
         $data['type'] = htmlspecialchars($question->get_type());
         $data['weight'] = $clo_question->get_weight();
-        
+
         $track = new WeblcmsQuestionAttemptsTracker();
         $condition_q = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_QUESTION_CID, $clo_question->get_id());
         $condition_a = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $user_assessment->get_id());
         $condition = new AndCondition(array($condition_q, $condition_a));
         $user_answers = $track->retrieve_tracker_items($condition);
         $user_answer = $user_answers[0];
-        
+
         if ($user_answer->get_feedback() != null && $user_answer->get_feedback() > 0)
             $data['feedback'] = $this->export_feedback($user_answer->get_feedback());
-        
+
         $answers = unserialize($user_answer->get_answer());
         foreach ($answers as $answer)
         {
@@ -110,7 +114,7 @@ class ResultsXmlExport extends ResultsExport
                 $data['answers'][] = htmlspecialchars($answer);
             }
         }
-        
+
         $data['feedback'] = htmlspecialchars($user_answer->get_feedback());
         $data['score'] = $user_answer->get_score();
         return $data;

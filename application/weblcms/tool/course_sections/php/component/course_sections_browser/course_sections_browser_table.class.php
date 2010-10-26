@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\course_sections;
 
+use common\libraries\ObjectTableFormAction;
 use common\libraries\ObjectTable;
 use common\libraries\Translation;
 
@@ -27,14 +28,14 @@ class CourseSectionsBrowserTable extends ObjectTable
         $renderer = new CourseSectionsBrowserTableCellRenderer($browser);
         $data_provider = new CourseSectionsBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, CourseSectionsBrowserTable :: DEFAULT_NAME, $model, $renderer);
-        
+
         $actions = array();
-        
+
         $actions[] = new ObjectTableFormAction(CourseSectionsTool :: PARAM_REMOVE_SELECTED, Translation :: get('RemoveSelected'));
-        
+
         $actions[CourseSectionsTool :: PARAM_REMOVE_SELECTED] = Translation :: get('RemoveSelected');
         //$this->set_form_actions($actions);
-        
+
 
         $this->set_default_row_count(20);
     }

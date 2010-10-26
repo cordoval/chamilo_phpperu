@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use common\libraries\Toolbar;
+use user\UserDataManager;
+use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Translation;
 
@@ -50,7 +53,7 @@ class SurveyUserTableCellRenderer extends DefaultContentObjectTableCellRenderer
                         return $user->get_fullname();
                     else
                         return Translation :: get('Anonymous');
-                
+
                 case SurveyInvitation :: PROPERTY_EMAIL :
                     return $survey_invitation->get_email();
                 case SurveyInvitation :: PROPERTY_VALID :
@@ -67,7 +70,7 @@ class SurveyUserTableCellRenderer extends DefaultContentObjectTableCellRenderer
     function get_actions($publication)
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
-        
+
         return $toolbar->as_html();
     }
 

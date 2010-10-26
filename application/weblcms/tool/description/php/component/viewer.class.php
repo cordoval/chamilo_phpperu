@@ -1,6 +1,19 @@
 <?php
 namespace application\weblcms\tool\description;
 
+use repository\ContentObject;
+use common\libraries\ActionBarRenderer;
+use common\libraries\SubselectCondition;
+use repository\RepositoryDataManager;
+use common\libraries\ToolbarItem;
+use common\libraries\Display;
+use common\libraries\Theme;
+use common\libraries\OrCondition;
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\AndCondition;
+use common\libraries\EqualityCondition;
+use common\libraries\Request;
 use common\libraries\Translation;
 
 class DescriptionToolViewerComponent extends DescriptionTool
@@ -64,7 +77,7 @@ class DescriptionToolViewerComponent extends DescriptionTool
     //
     //        $this->display_footer();
     //    }
-    
+
 
     //    function add_actionbar_item($item)
     //    {
@@ -111,7 +124,7 @@ class DescriptionToolViewerComponent extends DescriptionTool
     //
     //        return null;
     //    }
-    
+
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {

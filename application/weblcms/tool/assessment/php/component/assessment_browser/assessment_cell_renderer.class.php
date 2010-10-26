@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
 use common\libraries\Translation;
 
 /**
@@ -18,7 +20,7 @@ class AssessmentCellRenderer extends ObjectPublicationTableCellRenderer
     /*
      * Inherited
      */
-    
+
     function render_cell($column, $publication)
     {
         if ($column === ObjectPublicationTableColumnModel :: get_action_column())
@@ -27,7 +29,7 @@ class AssessmentCellRenderer extends ObjectPublicationTableCellRenderer
             //$actions->prepend_item(new ToolbarItem(Translation :: get('TakeAssessment'), Theme :: get_common_image_path() . 'action_next.png', $this->table_renderer->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
             return $actions->as_html();
         }
-        
+
         switch ($column->get_name())
         {
             case Assessment :: PROPERTY_ASSESSMENT_TYPE :
@@ -41,7 +43,7 @@ class AssessmentCellRenderer extends ObjectPublicationTableCellRenderer
                     return $type;
                 }
         }
-        
+
         return parent :: render_cell($column, $publication);
     }
 

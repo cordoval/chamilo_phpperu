@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\blog;
 
+use common\libraries\Request;
 use application\weblcms\ToolComponent;
 
 class BlogToolMoverComponent extends BlogTool

@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use common\libraries\EqualityCondition;
 use common\libraries\ObjectTableDataProvider;
 
 /**
@@ -20,7 +21,7 @@ class SurveyUserTableDataProvider extends ObjectTableDataProvider
      * The possible types of learning objects which can be selected.
      */
     private $pid;
-    
+
     private $parent;
 
     /**

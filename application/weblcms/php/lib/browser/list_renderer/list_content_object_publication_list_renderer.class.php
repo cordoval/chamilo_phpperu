@@ -1,6 +1,12 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\ResourceManager;
+use admin\AdminDataManager;
+use common\libraries\Display;
+use common\libraries\Theme;
+use common\libraries\Utilities;
+use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\Translation;
 
@@ -22,21 +28,21 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
     function as_html()
     {
         $publications = $this->get_publications();
-        
+
         if (count($publications) == 0)
         {
             return Display :: normal_message(Translation :: get('NoPublicationsAvailable'), true);
         }
-        
+
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/publications_list.js');
-        
+
         if ($this->get_actions() && $this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $html[] = '<div style="clear: both;">';
             $html[] = '<form class="publication_list" name="publication_list" action="' . $this->get_url() . '" method="POST" >';
         }
         $i = 0;
-        
+
         foreach ($publications as $index => $publication)
         {
             $first = ($index == 0);
@@ -44,7 +50,7 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
             $html[] = $this->render_publication($publication, $first, $last, $i);
             $i ++;
         }
-        
+
         if ($this->get_actions() && count($publications) > 0 && $this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $table_name = Utilities :: camelcase_to_underscores(__CLASS__);
@@ -52,7 +58,7 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
             {
                 if ($parameter == 'message')
                     continue;
-                
+
                 $html[] = '<input type="hidden" name="' . $parameter . '" value="' . $value . '" />';
             }
             $html[] = '<script type="text/javascript">
@@ -67,7 +73,7 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
 							}
 							/* ]]> */
 							</script>';
-            
+
             $html[] = '<div style="text-align: right;">';
             $html[] = '<a href="?" onclick="setCheckbox(\'publication_list\', true); return false;">' . Translation :: get('SelectAll') . '</a>';
             $html[] = '- <a href="?" onclick="setCheckbox(\'publication_list\', false); return false;">' . Translation :: get('UnSelectAll') . '</a><br />';
@@ -84,14 +90,14 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
             $html[] = '</form>';
             $html[] = '</div>';
         }
-        
+
         return implode("\n", $html);
     }
 
     static function handle_table_action()
     {
         $selected_ids = Request :: post(WeblcmsManager :: PARAM_PUBLICATION);
-        
+
         if (empty($selected_ids))
         {
             $selected_ids = array();
@@ -141,7 +147,7 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
                 }
             }
         }
-        
+
         $left = $position % 2;
         switch ($left)
         {
@@ -151,11 +157,11 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
             case 1 :
                 $level = 'level_2';
                 break;
-        
+
      //case 2: $level = 'level_3'; break;
         //case 3: $level = 'level_4'; break;
         }
-        
+
         if ($publication->get_content_object() instanceof ComplexContentObjectSupport)
         {
             $title_url = $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT));
@@ -164,7 +170,7 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
         {
             $title_url = $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_VIEW), array(), true);
         }
-        
+
         $html[] = '<div class="announcements ' . $level . '" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/' . $publication->get_content_object()->get_icon_name() . $icon_suffix . '.png);">';
         $html[] = '<div class="title' . ($publication->is_visible_for_target_users() ? '' : ' invisible') . '">';
         $html[] = '<a href="' . $title_url . '">' . $this->render_title($publication) . '</a>';
@@ -188,7 +194,7 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
         $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
         $html[] = '</div><br />';
-        
+
         return implode("\n", $html);
     }
 }

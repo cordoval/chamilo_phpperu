@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\glossary;
 
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Request;
 use application\weblcms\ToolComponent;
 use common\libraries\DelegateComponent;
 use common\libraries\Translation;
@@ -27,7 +30,7 @@ class GlossaryToolComplexBuilderComponent extends GlossaryTool implements Delega
     {
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_BROWSE)), Translation :: get('GlossaryToolBrowserComponent')));
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW, Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), Translation :: get('GlossaryToolViewerComponent')));
-    
+
     }
 
     function get_additional_parameters()

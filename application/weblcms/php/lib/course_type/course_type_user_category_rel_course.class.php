@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
 use common\libraries\DataClass;
 
 /**
@@ -11,7 +13,7 @@ use common\libraries\DataClass;
 class CourseTypeUserCategoryRelCourse extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_COURSE_TYPE_USER_CATEGORY_ID = 'course_type_user_category_id';
     const PROPERTY_COURSE_ID = 'course_id';
     const PROPERTY_USER_ID = 'user_id';
@@ -81,35 +83,36 @@ class CourseTypeUserCategoryRelCourse extends DataClass
     function create()
     {
         $wdm = WeblcmsDataManager :: get_instance();
-        
+
         $condition = new EqualityCondition(self :: PROPERTY_COURSE_TYPE_USER_CATEGORY_ID, $this->get_course_type_user_category_id());
         $sort = $wdm->retrieve_max_sort_value(self :: get_table_name(), self :: PROPERTY_SORT, $condition);
         $this->set_sort($sort + 1);
-        
+
         $success = $wdm->create_course_type_user_category_rel_course($this);
         if (! $success)
         {
             return false;
         }
-        
+
         return true;
     }
 
     function delete()
     {
         $succes = parent :: delete();
-        
+
         if (! $succes)
         {
             return false;
         }
-        
+
         return $this->get_data_manager()->clean_course_type_user_category_rel_course_sort($this->get_sort(), $this->get_course_type_user_category_id());
     }
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 }
 ?>

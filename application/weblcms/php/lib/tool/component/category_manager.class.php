@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Display;
+
 /**
  * $Id: category_manager.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.component
@@ -17,10 +19,10 @@ class ToolComponentCategoryManagerComponent extends ToolComponent
             Display :: not_allowed();
             return;
         }
-        
+
         $category_manager = new ContentObjectPublicationCategoryManager($this);
         $category_manager->run();
-    
+
     }
 }
 ?>

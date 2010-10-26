@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\FormValidator;
 use common\libraries\Translation;
 
 /**
@@ -25,9 +26,9 @@ class CourseCodeForm extends FormValidator
         $this->course = $course;
         $this->user = $user;
         $wdm = WeblcmsDataManager :: get_instance();
-        
+
         $this->build_creating_form();
-        
+
         $this->setDefaults();
         $this->add_progress_bar(2);
     }
@@ -35,25 +36,25 @@ class CourseCodeForm extends FormValidator
     function build_creating_form()
     {
         $this->build_code_form();
-        
+
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Subscribe'), array('class' => 'positive update'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
-        
+
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
     function build_code_form()
     {
         $this->addElement('category', Translation :: get('CourseCodeProperties'));
-        
+
         $course_name = $this->course->get_name();
         $this->addElement('static', 'course', Translation :: get('Course'), $course_name);
-        
+
         $user_name = $this->user->get_fullname();
         $this->addElement('static', 'user', Translation :: get('User'), $user_name);
-        
+
         $this->add_textfield(self :: TEMP_CODE, Translation :: get('Code'));
-        
+
         $this->addElement('category');
     }
 
@@ -61,7 +62,7 @@ class CourseCodeForm extends FormValidator
     {
         $temp_code = $this->exportValue(self :: TEMP_CODE);
         $code = $this->course->get_code();
-        
+
         if ($temp_code == $code)
             return true;
         else

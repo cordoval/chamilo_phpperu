@@ -1,8 +1,12 @@
 <?php
 namespace application\weblcms\tool\user;
 
+use common\libraries\Utilities;
+use common\libraries\Request;
 use common\libraries\ObjectTable;
 use common\libraries\Translation;
+use common\libraries\ObjectTableFormActions;
+use common\libraries\ObjectTableFormAction;
 
 /**
  * $Id: subscribe_group_browser_table.class.php 218 2009-11-13 14:21:26Z kariboe $
@@ -30,9 +34,9 @@ class SubscribeGroupBrowserTable extends ObjectTable
         parent :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
         $this->set_additional_parameters($parameters);
         $actions = new ObjectTableFormActions(Tool :: PARAM_ACTION);
-        
+
         $actions->add_form_action(new ObjectTableFormAction(UserTool :: ACTION_SUBSCRIBE_GROUPS, Translation :: get('SubscribeSelected'), false));
-        
+
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
     }

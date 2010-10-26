@@ -1,6 +1,15 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\DatetimeUtilities;
+use common\libraries\NotCondition;
+use common\libraries\Redirect;
+use common\libraries\Application;
+use common\libraries\Theme;
+use common\libraries\Session;
+use common\libraries\Utilities;
+use common\libraries\AndCondition;
+use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
 
@@ -30,28 +39,28 @@ class WeblcmsLearningPathAttemptProgressDetailsReportingBlock extends WeblcmsToo
         {
             $reporting_data->add_row(Translation :: get('Action'));
         }
-        
+
         $parent_id = $this->get_parent_id();
-        
+
         $attempt_id = $this->get_attempt_id();
         $tracker = $this->retrieve_tracker($attempt_id);
         $attempt_data = $this->retrieve_tracker_items($tracker);
-        
+
         $tool = $this->get_tool();
         $user_id = $this->get_user_id();
-        
+
         $pid = $this->get_pid();
         $publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($pid);
-        
+
         $data = array();
         $menu = new LearningPathTree($publication->get_content_object_id(), null, null, $attempt_data);
         $objects = $menu->get_objects();
-        
+
         $total = 0;
-        
+
         $object = $objects[$parent_id];
         $tracker_datas = $attempt_data[$parent_id];
-        
+
         $i = 1;
         foreach ($tracker_datas['trackers'] as $tracker)
         {
@@ -59,20 +68,20 @@ class WeblcmsLearningPathAttemptProgressDetailsReportingBlock extends WeblcmsToo
                 {
                     $data[' '][] = '<a href="' . $url . '&cid=' . $course_id . '&details=' . $tracker->get_id() . '">' . Theme :: get_common_image('action_view_results') . '</a>';
                 }*/
-            
+
             $data[Translation :: get('LastStartTime')] = DatetimeUtilities :: format_locale_date(null, $tracker->get_start_time());
             $data[Translation :: get('Status')] = Translation :: get($tracker->get_status() == 'completed' ? 'Completed' : 'Incomplete');
             $data[Translation :: get('Score')] = $tracker->get_score() . '%';
             $data[Translation :: get('Time')] = Utilities :: format_seconds_to_hours($tracker->get_total_time());
             $total += $tracker->get_total_time();
-            
+
             $category_name = $i;
             $reporting_data->add_category($category_name);
             $reporting_data->add_data_category_row($category_name, Translation :: get('LastStartTime'), DatetimeUtilities :: format_locale_date(null, $tracker->get_start_time()));
             $reporting_data->add_data_category_row($category_name, Translation :: get('Status'), Translation :: get($tracker->get_status() == 'completed' ? 'Completed' : 'Incomplete'));
             $reporting_data->add_data_category_row($category_name, Translation :: get('Score'), $tracker->get_score() . '%');
             $reporting_data->add_data_category_row($category_name, Translation :: get('Time'), Utilities :: format_seconds_to_hours($tracker->get_total_time()));
-            
+
             if ($this->get_parent()->get_parameter(Tool :: PARAM_ACTION) == LearningPathTool :: ACTION_VIEW_STATISTICS)
             {
                 $params = $this->get_parent()->get_parameters();
@@ -82,7 +91,7 @@ class WeblcmsLearningPathAttemptProgressDetailsReportingBlock extends WeblcmsToo
                 $params[LearningPathToolStatisticsViewerComponent :: PARAM_STAT] = LearningPathToolStatisticsViewerComponent :: ACTION_DELETE_LPI_ATTEMPT;
                 $params[LearningPathToolStatisticsViewerComponent :: PARAM_DELETE_ID] = $tracker->get_id();
                 $url = Redirect :: get_url($params);
-                
+
                 $reporting_data->add_data_category_row($category_name, Translation :: get('Action'), Text :: create_link($url, Theme :: get_common_image('action_delete')));
             }
             $i ++;
@@ -93,7 +102,7 @@ class WeblcmsLearningPathAttemptProgressDetailsReportingBlock extends WeblcmsToo
         $reporting_data->add_data_category_row($category, Translation :: get('Status'), '<span style="font-weight: bold;">' . Translation :: get('TotalTime') . '</span>');
         $reporting_data->add_data_category_row($category, Translation :: get('Score'), '');
         $reporting_data->add_data_category_row($category, Translation :: get('Time'), '<span style="font-weight: bold;">' . Utilities :: format_seconds_to_hours($total) . '</span>');
-        
+
         $reporting_data->hide_categories();
         return $reporting_data;
     }
@@ -124,23 +133,23 @@ class WeblcmsLearningPathAttemptProgressDetailsReportingBlock extends WeblcmsToo
         {
             $pid = $this->get_pid();
             $publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($pid);
-            
+
             $conditions[] = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_COURSE_ID, $this->get_course_id());
             $conditions[] = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_LP_ID, $publication->get_content_object_id());
             $conditions[] = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_USER_ID, Session :: get_user_id());
             //$conditions[] = new NotCondition(new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_PROGRESS, 100));
             $condition = new AndCondition($conditions);
-            
+
             $dummy = new WeblcmsLpAttemptTracker();
             $trackers = $dummy->retrieve_tracker_items($condition);
             $lp_tracker = $trackers[0];
-            
+
             if (! $lp_tracker)
             {
                 $return = Event :: trigger('attempt_learning_path', 'weblcms', array('user_id' => Session :: get_user_id(), 'course_id' => $this->get_course_id(), 'lp_id' => $publication->get_content_object_id()));
                 $lp_tracker = $return[0];
             }
-            
+
             return $lp_tracker;
         }
     }
@@ -148,12 +157,12 @@ class WeblcmsLearningPathAttemptProgressDetailsReportingBlock extends WeblcmsToo
     private function retrieve_tracker_items($lp_tracker)
     {
         $lpi_attempt_data = array();
-        
+
         $condition = new EqualityCondition(WeblcmsLpiAttemptTracker :: PROPERTY_LP_VIEW_ID, $lp_tracker->get_id());
-        
+
         $dummy = new WeblcmsLpiAttemptTracker();
         $trackers = $dummy->retrieve_tracker_items($condition);
-        
+
         foreach ($trackers as $tracker)
         {
             $item_id = $tracker->get_lp_item_id();
@@ -162,13 +171,13 @@ class WeblcmsLearningPathAttemptProgressDetailsReportingBlock extends WeblcmsToo
                 $lpi_attempt_data[$item_id]['score'] = 0;
                 $lpi_attempt_data[$item_id]['time'] = 0;
             }
-            
+
             $lpi_attempt_data[$item_id]['trackers'][] = $tracker;
             $lpi_attempt_data[$item_id]['size'] ++;
             $lpi_attempt_data[$item_id]['score'] += $tracker->get_score();
             if ($tracker->get_total_time())
                 $lpi_attempt_data[$item_id]['time'] += $tracker->get_total_time();
-            
+
             if ($tracker->get_status() == 'completed')
                 $lpi_attempt_data[$item_id]['completed'] = 1;
             else
@@ -176,7 +185,7 @@ class WeblcmsLearningPathAttemptProgressDetailsReportingBlock extends WeblcmsToo
         }
         //dump($lpi_attempt_data);
         return $lpi_attempt_data;
-    
+
     }
 }
 ?>

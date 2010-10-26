@@ -1,6 +1,15 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Header;
+use admin\AdminManager;
+use common\libraries\Redirect;
+use common\libraries\Display;
+use common\libraries\DynamicTabsRenderer;
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\EqualityCondition;
+use common\libraries\Request;
 use common\libraries\DelegateComponent;
 use common\libraries\Translation;
 
@@ -18,18 +27,18 @@ class WeblcmsManagerCourseCreatorComponent extends WeblcmsManager implements Del
     /**
      * Runs this component and displays its output.
      */
-    
+
     function run()
     {
         $course_codes = Request :: get(WeblcmsManager :: PARAM_COURSE);
-        
+
         if ($this->get_user()->is_platform_admin())
         {
             Header :: set_section('admin');
         }
-        
+
         $trail = BreadcrumbTrail :: get_instance();
-        
+
         if (! $this->get_user()->is_teacher() && ! $this->get_user()->is_platform_admin())
         {
             $this->display_header();
@@ -38,19 +47,19 @@ class WeblcmsManagerCourseCreatorComponent extends WeblcmsManager implements Del
             $this->display_footer();
             exit();
         }
-        
+
         $course = $this->get_course();
         $id = $course->get_id();
         $parameters = array();
         $course_type_id = Request :: get('course_type');
-        
+
         if (! is_null($course_type_id))
         {
             $parameters = array('course_type' => $course_type_id);
         }
-        
+
         $url = $this->get_url($parameters);
-        
+
         if (empty($id))
         {
             $form = new CourseForm(CourseForm :: TYPE_CREATE, $course, $this->get_user(), $url, $this);
@@ -59,7 +68,7 @@ class WeblcmsManagerCourseCreatorComponent extends WeblcmsManager implements Del
         {
             $form = new CourseForm(CourseForm :: TYPE_EDIT, $course, $this->get_user(), $url, $this);
         }
-        
+
         if ($form->validate())
         {
             if ($form->get_form_type() == CourseForm :: TYPE_CREATE && WebLcmsDataManager :: get_instance()->retrieve_courses(new EqualityCondition(Course :: PROPERTY_VISUAL, $form->exportValue(Course :: PROPERTY_VISUAL)))->next_result())
@@ -98,16 +107,16 @@ class WeblcmsManagerCourseCreatorComponent extends WeblcmsManager implements Del
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
         $breadcrumbtrail->add_help('weblcms_course_creator');
-        
+
         if ($this->get_user()->is_platform_admin())
         {
             $breadcrumbtrail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
             $breadcrumbtrail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => WeblcmsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Courses')));
         }
-        
+
         $course = $this->get_course();
         $id = $course->get_id();
-        
+
         if (! $id)
         {
             $breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get('Create')));

@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\ObjectTableFormAction;
 use common\libraries\ObjectTable;
 use common\libraries\Translation;
 
@@ -23,21 +24,21 @@ class AdminRequestBrowserTable extends ObjectTable
      */
     function AdminRequestBrowserTable($browser, $parameters, $condition, $request_type)
     {
-        
+
         $model = new AdminRequestBrowserTableColumnModel($request_type);
         $renderer = new AdminRequestBrowserTableCellRenderer($browser);
         $data_provider = new AdminRequestBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, AdminRequestBrowserTable :: DEFAULT_NAME, $model, $renderer);
         $this->set_additional_parameters($parameters);
-        
+
         $actions = array();
         $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_REMOVE_SELECTED_REQUESTS, Translation :: get('RemoveSelected'));
         $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_ALLOW_SELECTED_REQUESTS, Translation :: get('AllowSelected'));
         $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_REFUSE_SELECTED_REQUESTS, Translation :: get('RefuseSelected'));
-        
+
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
-    
+
     }
 }
 ?>

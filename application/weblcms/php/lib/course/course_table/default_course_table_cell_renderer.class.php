@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use user\UserDataManager;
 use common\libraries\ObjectTableCellRenderer;
 use common\libraries\Translation;
 

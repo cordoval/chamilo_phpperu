@@ -1,6 +1,10 @@
 <?php
 namespace application\weblcms\tool\course_group;
 
+use common\libraries\ObjectTableFormAction;
+use common\libraries\ObjectTableFormActions;
+use common\libraries\Utilities;
+use common\libraries\Request;
 use common\libraries\Translation;
 
 /**
@@ -46,7 +50,7 @@ class CourseGroupTable
      * The form actions to use in this table
      */
     private $form_actions;
-    
+
     private $parent;
 
     /**
@@ -68,7 +72,7 @@ class CourseGroupTable
         $this->set_cell_renderer(isset($cell_renderer) ? $cell_renderer : new DefaultCourseGroupTableCellRenderer($data_provider->get_parent()));
         $this->set_default_row_count(10);
         $this->set_additional_parameters($this->determine_additional_parameters());
-        
+
         $actions = new ObjectTableFormActions(CourseGroupTool :: PARAM_ACTION);
         if ($parent->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
@@ -80,7 +84,7 @@ class CourseGroupTable
     function handle_table_action()
     {
         $selected_ids = Request :: post(Utilities :: camelcase_to_underscores(self :: DEFAULT_NAME) . self :: CHECKBOX_NAME_SUFFIX);
-        
+
         if (empty($selected_ids))
         {
             $selected_ids = array();
@@ -89,7 +93,7 @@ class CourseGroupTable
         {
             $selected_ids = array($selected_ids);
         }
-        
+
         Request :: set_get(CourseGroupTool :: PARAM_COURSE_GROUP, $selected_ids);
     }
 

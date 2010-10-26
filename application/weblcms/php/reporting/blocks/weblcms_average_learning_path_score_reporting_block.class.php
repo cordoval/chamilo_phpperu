@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
 
@@ -14,29 +15,29 @@ class WeblcmsAverageLearningPathScoreReportingBlock extends WeblcmsCourseReporti
     {
         $reporting_data = new ReportingData();
         $reporting_data->set_rows(array(Translation :: get('LearningPath')));
-        
+
         $course_id = $this->get_course_id();
         $wdm = WeblcmsDataManager :: get_instance();
-        
+
         $course = $wdm->retrieve_course($course_id);
         $conditions = array();
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $course->get_id());
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'learning_path');
         $lops = $wdm->retrieve_content_object_publications($condition, $params['order_by']);
-        
+
         while ($lop = $lops->next_result())
         {
             $lpo = $lop->get_content_object();
             //$arr[$lpo->get_title()] = 0;
             $reporting_data->add_data_category_row(Translation :: get('LearningPath'), Translation :: get('Average'), $arr[$lpo->get_title()]);
         }
-        
+
         //$datadescription[0] = Translation :: get('LearningPath');
         //$datadescription[1] = Translation :: get('Average');
-        
+
 
         //$reporting_data->add_category($learn);
-        
+
 
         return $reporting_data;
     }

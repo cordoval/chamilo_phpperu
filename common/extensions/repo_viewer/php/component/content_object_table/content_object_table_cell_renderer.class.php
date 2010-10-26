@@ -1,6 +1,8 @@
 <?php
 namespace common\extensions\repo_viewer;
 
+use common\libraries\Toolbar;
+
 use repository\DefaultContentObjectTableCellRenderer;
 use common\libraries\Toolbar;
 /**

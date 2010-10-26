@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\user;
 
+use HTML_Menu;
+use common\libraries\Utilities;
 use common\libraries\Translation;
 
 /**
@@ -19,7 +21,7 @@ require_once 'HTML/Menu/ArrayRenderer.php';
 class CourseGroupUserMenu extends HTML_Menu
 {
     CONST TREE_NAME = __CLASS__;
-    
+
     /**
      * The string passed to sprintf() to format category URLs
      */
@@ -28,13 +30,13 @@ class CourseGroupUserMenu extends HTML_Menu
      * The array renderer used to determine the breadcrumbs.
      */
     private $array_renderer;
-    
+
     /**
      * The selected group
      * @var int
      */
     private $current_group;
-    
+
     /**
      * The current course
      * @var Course
@@ -60,10 +62,10 @@ class CourseGroupUserMenu extends HTML_Menu
         {
             $this->current_group = $current_group;
         }
-        
+
         $this->course = $course;
         $this->urlFmt = $url_format;
-        
+
         $menu = $this->get_menu();
         parent :: __construct($menu);
         $this->array_renderer = new HTML_Menu_ArrayRenderer();
@@ -74,27 +76,27 @@ class CourseGroupUserMenu extends HTML_Menu
     {
         $group_relations = $this->course->get_subscribed_groups();
         $menu = array();
-        
+
         $menu_item = array();
         $menu_item['title'] = Translation :: get('Course');
         $menu_item['url'] = $this->get_home_url();
         $menu_item['class'] = 'home';
-        
+
         $sub_menu_items = array();
-        
+
         foreach ($group_relations as $group_relation)
         {
             $group = $group_relation->get_group_object();
             $sub_menu_items[] = $this->get_group_menu_item($group);
         }
-        
+
         if (count($sub_menu_items) > 0)
         {
             $menu_item['sub'] = $sub_menu_items;
         }
         $menu_item[OptionsMenuRenderer :: KEY_ID] = 0;
         $menu[0] = $menu_item;
-        
+
         return $menu;
     }
 
@@ -105,19 +107,19 @@ class CourseGroupUserMenu extends HTML_Menu
         $sub_menu_item['url'] = $this->get_url($group->get_id());
         $sub_menu_item['class'] = 'category';
         $sub_menu_item[OptionsMenuRenderer :: KEY_ID] = $group->get_id();
-        
+
         $sub_menu_items = array();
         $children = $group->get_children(false);
         while ($child = $children->next_result())
         {
             $sub_menu_items[] = $this->get_group_menu_item($child);
         }
-        
+
         if (count($sub_menu_items) > 0)
         {
             $sub_menu_item['sub'] = $sub_menu_items;
         }
-        
+
         return $sub_menu_item;
     }
 

@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Request;
 use application\weblcms\ToolComponent;
 use common\libraries\Translation;
 

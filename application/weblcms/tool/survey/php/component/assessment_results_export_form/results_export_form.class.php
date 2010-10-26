@@ -1,6 +1,12 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use repository\RepositoryDataManager;
+use user\UserDataManager;
+use common\libraries\FormValidator;
+use common\libraries\Theme;
+use common\libraries\EqualityCondition;
+use common\libraries\Request;
 use common\libraries\Translation;
 
 /**
@@ -22,7 +28,7 @@ class AssessmentResultsExportForm extends FormValidator
     {
         $wdm = WeblcmsDataManager :: get_instance();
         $rdm = RepositoryDataManager :: get_instance();
-        
+
         if (Request :: get(AssessmentTool :: PARAM_USER_ASSESSMENT))
         {
             $uaid = Request :: get(AssessmentTool :: PARAM_USER_ASSESSMENT);
@@ -33,33 +39,33 @@ class AssessmentResultsExportForm extends FormValidator
             $publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($user_assessment->get_assessment_id());
             $assessment = $publication->get_content_object();
             $user = UserDataManager :: get_instance()->retrieve_user($user_assessment->get_user_id());
-            
+
             //$this->addElement('html', '<h3>Assessment: '.$assessment->get_title().'</h3><br/>');
             $this->addElement('html', '<h3>Export results for user ' . $user->get_fullname() . '</h3><br />');
-            
+
             $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/assessment.png);">';
             $html[] = '<div class="title">';
             $html[] = $assessment->get_title();
             $html[] = '</div>';
             $html[] = $assessment->get_description();
             $html[] = '</div><br />';
-            
+
             $this->addElement('html', implode("\n", $html));
         }
-        else 
+        else
             if (Request :: get(AssessmentTool :: PARAM_PUBLICATION_ID))
             {
                 $aid = Request :: get(AssessmentTool :: PARAM_PUBLICATION_ID);
                 $publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($aid);
-                
+
                 $this->addElement('html', '<h3>Assessment: ' . $publication->get_content_object()->get_title() . '</h3><br/>');
                 $this->addElement('html', '<h3>Export results for user ' . $user->get_fullname() . '</h3><br />');
             }
-        
+
         $options = Export :: get_supported_filetypes(array('ical'));
         $this->addElement('select', 'filetype', 'Export to filetype:', $options);
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Export'), array('class' => 'positive export'));
-        
+
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 }

@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
 use application\weblcms\ToolComponent;
 use common\libraries\Translation;
 
@@ -14,7 +16,7 @@ class AssessmentToolViewerComponent extends AssessmentTool
 
     function get_content_object_publication_renderer()
     {
-    
+
     }
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)

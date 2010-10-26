@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\maintenance;
 
+use common\libraries\InCondition;
+use common\libraries\EqualityCondition;
 use common\libraries\Translation;
 
 require_once dirname(__FILE__) . '/../maintenance_wizard_process.class.php';
@@ -21,9 +23,9 @@ class ActionCopy extends MaintenanceWizardProcess
     function perform($page, $actionName)
     {
         $values = $page->controller->exportValues();
-        
+
         $dm = WeblcmsDataManager :: get_instance();
-        
+
         $course_section_ids = array_keys($values['course_sections']);
         $condition = new InCondition(CourseSection :: PROPERTY_ID, $course_section_ids);
         $course_sections = $dm->retrieve_course_sections($condition);
@@ -37,9 +39,9 @@ class ActionCopy extends MaintenanceWizardProcess
                 $course_section->create();
             }
         }
-        
+
         $category_ids = array();
-        
+
         if ($values['content_object_categories'] == 1)
         {
             $condition = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_COURSE, $this->get_parent()->get_course_id());
@@ -50,51 +52,51 @@ class ActionCopy extends MaintenanceWizardProcess
                 {
                     continue;
                 }
-                
+
                 $courses = $values['course'];
                 $parent = $category->get_parent();
                 $id = $category->get_id();
-                
+
                 foreach ($courses as $course_code)
                 {
-                    
+
                     $category->set_id(null);
                     $category->set_course($course_code);
-                    
+
                     if ($parent != 0)
                     {
                         $category->set_parent($category_ids[$parent]['course_code']);
                     }
-                    
+
                     $category->create();
                     $category_ids[$id]['course_code'] = $category->get_id();
                 }
             }
         }
-        
+
         $publication_ids = array_keys($values['publications']);
         foreach ($publication_ids as $id)
         {
             $publication = $dm->retrieve_content_object_publication($id);
             $courses = $values['course'];
             $parent = $publication->get_category_id();
-            
+
             foreach ($courses as $course_code)
             {
                 $publication->set_id(null);
                 $publication->set_course_id($course_code);
-                
+
                 if ($parent != 0)
                 {
                     $publication->set_category_id($category_ids[$parent]['course_code']);
                 }
-                
+
                 $publication->create();
             }
         }
-        
+
         $_SESSION['maintenance_message'] = Translation :: get('CopyFinished');
-        
+
         $page->controller->container(true);
         $page->controller->run();
     }

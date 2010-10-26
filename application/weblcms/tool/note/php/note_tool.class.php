@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\note;
 
+use application\weblcms\Tool;
+
 /**
  * $Id: note_tool.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.note

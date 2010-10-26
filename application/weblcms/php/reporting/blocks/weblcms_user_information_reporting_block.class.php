@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use user\UserDataManager;
 use common\libraries\Path;
 use common\libraries\Translation;
 
@@ -13,11 +14,11 @@ class WeblcmsUserInformationReportingBlock extends WeblcmsToolReportingBlock
     {
         $reporting_data = new ReportingData();
         $uid = $this->get_user_id();
-        
+
         require_once Path :: get_admin_path() . '/trackers/online_tracker.class.php';
         $udm = UserDataManager :: get_instance();
         $tracking = new OnlineTracker();
-        
+
         $items = $tracking->retrieve_tracker_items();
         foreach ($items as $item)
         {
@@ -26,17 +27,17 @@ class WeblcmsUserInformationReportingBlock extends WeblcmsToolReportingBlock
                 $online = 1;
             }
         }
-        
+
         $user = $udm->retrieve_user($uid);
-        
+
         $reporting_data->set_categories(array(Translation :: get('Name'), Translation :: get('Email'), Translation :: get('Phone'), Translation :: get('Online')));
         $reporting_data->set_rows(array(Translation :: get('count')));
-        
+
         $reporting_data->add_data_category_row(Translation :: get('Name'), Translation :: get('count'), $user->get_fullname());
         $reporting_data->add_data_category_row(Translation :: get('Email'), Translation :: get('count'), '<a href="mailto:' . $user->get_email() . '" >' . $user->get_email() . '</a>');
         $reporting_data->add_data_category_row(Translation :: get('Phone'), Translation :: get('count'), $user->get_phone());
         $reporting_data->add_data_category_row(Translation :: get('Online'), Translation :: get('count'), ($online) ? Translation :: get('Online') : Translation :: get('Offline'));
-        
+
         return $reporting_data;
     }
 

@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\maintenance;
 
+use common\libraries\Filesystem;
+use common\libraries\Session;
 use common\libraries\Path;
 use common\libraries\Translation;
 
@@ -36,16 +38,16 @@ class ActionExportCp extends MaintenanceWizardProcess
         }
         $exporter = ContentObjectExport :: factory('cp', $objects);
         $path = $exporter->export_content_object();
-        
+
         //$exporter = ContentObjectExport::factory('cp', $course);
         //$path = $exporter->export_content_object();
-        
+
 
         Filesystem :: copy_file($path, Path :: get(SYS_TEMP_PATH) . Session :: get_user_id() . '/course.zip', true);
         $webpath = Path :: get(WEB_TEMP_PATH) . Session :: get_user_id() . '/course.zip';
-        
+
         $_SESSION['maintenance_message'] = '<a href="' . $webpath . '">' . Translation :: get('Download') . '</a>';
-        
+
         $page->controller->container(true);
         $page->controller->run();
     }

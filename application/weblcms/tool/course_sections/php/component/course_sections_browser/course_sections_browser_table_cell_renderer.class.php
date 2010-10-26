@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\course_sections;
 
+use common\libraries\Toolbar;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
 use common\libraries\Translation;
 
 /**
@@ -40,7 +43,7 @@ class CourseSectionsBrowserTableCellRenderer extends DefaultCourseSectionsTableC
         {
             return $this->get_modification_links($course_section);
         }
-        
+
         // Add special features here
         switch ($column->get_name())
         {
@@ -58,20 +61,20 @@ class CourseSectionsBrowserTableCellRenderer extends DefaultCourseSectionsTableC
     private function get_modification_links($course_section)
     {
         $toolbar = new Toolbar();
-        
+
         $array = array(Translation :: get('Disabled'), Translation :: get('CourseAdministration'), Translation :: get('Links'), Translation :: get('Tools'));
-        
+
         if (! in_array($course_section->get_name(), $array))
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_url(array(
                     CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_UPDATE_COURSE_SECTION, CourseSectionsTool :: PARAM_COURSE_SECTION_ID => $course_section->get_id())), ToolbarItem :: DISPLAY_ICON));
-            
+
             $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_url(array(
                     CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_REMOVE_COURSE_SECTION, CourseSectionsTool :: PARAM_COURSE_SECTION_ID => $course_section->get_id())), ToolbarItem :: DISPLAY_ICON, true));
-            
+
             $toolbar->add_item(new ToolbarItem(Translation :: get('SelectTools'), Theme :: get_common_image_path() . 'action_move.png', $this->browser->get_url(array(
                     CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_SELECT_TOOLS_COURSE_SECTION, CourseSectionsTool :: PARAM_COURSE_SECTION_ID => $course_section->get_id())), ToolbarItem :: DISPLAY_ICON));
-        
+
         }
         else
         {
@@ -79,9 +82,9 @@ class CourseSectionsBrowserTableCellRenderer extends DefaultCourseSectionsTableC
             $toolbar->add_item(new ToolbarItem(Translation :: get('DeleteNA'), Theme :: get_common_image_path() . 'action_delete_na.png', null, ToolbarItem :: DISPLAY_ICON));
             $toolbar->add_item(new ToolbarItem(Translation :: get('SelectToolsNA'), Theme :: get_common_image_path() . 'action_move_na.png', null, ToolbarItem :: DISPLAY_ICON));
         }
-        
+
         $order = $course_section->get_display_order();
-        
+
         if ($order == 1)
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUpNA'), Theme :: get_common_image_path() . 'action_up_na.png', null, ToolbarItem :: DISPLAY_ICON));
@@ -91,7 +94,7 @@ class CourseSectionsBrowserTableCellRenderer extends DefaultCourseSectionsTableC
             $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUp'), Theme :: get_common_image_path() . 'action_up.png', $this->browser->get_url(array(
                     CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_MOVE_COURSE_SECTION, CourseSectionsTool :: PARAM_COURSE_SECTION_ID => $course_section->get_id(), CourseSectionsTool :: PARAM_DIRECTION => - 1)), ToolbarItem :: DISPLAY_ICON));
         }
-        
+
         if ($order == $this->count)
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDownNA'), Theme :: get_common_image_path() . 'action_down_na.png', null, ToolbarItem :: DISPLAY_ICON));
@@ -101,7 +104,7 @@ class CourseSectionsBrowserTableCellRenderer extends DefaultCourseSectionsTableC
             $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDown'), Theme :: get_common_image_path() . 'action_down.png', $this->browser->get_url(array(
                     CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_MOVE_COURSE_SECTION, CourseSectionsTool :: PARAM_COURSE_SECTION_ID => $course_section->get_id(), CourseSectionsTool :: PARAM_DIRECTION => 1)), ToolbarItem :: DISPLAY_ICON));
         }
-        
+
         if ($course_section->get_name() != Translation :: get('CourseAdministration'))
         {
             if ($course_section->get_visible())
@@ -115,9 +118,9 @@ class CourseSectionsBrowserTableCellRenderer extends DefaultCourseSectionsTableC
                         CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_CHANGE_COURSE_SECTION_VISIBILITY, CourseSectionsTool :: PARAM_COURSE_SECTION_ID => $course_section->get_id())), ToolbarItem :: DISPLAY_ICON));
             }
         }
-        
+
         return $toolbar->as_html();
-    
+
     }
 }
 ?>

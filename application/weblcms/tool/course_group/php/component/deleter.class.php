@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\course_group;
 
+use common\libraries\Display;
+use common\libraries\Request;
 use common\libraries\Translation;
 
 /**
@@ -21,30 +23,30 @@ class CourseGroupToolDeleterComponent extends CourseGroupTool
             Display :: not_allowed();
             return;
         }
-        
+
         $ids = Request :: get(CourseGroupTool :: PARAM_COURSE_GROUP);
         if ($ids)
         {
             if (! is_array($ids))
                 $ids = array($ids);
-            
+
             $wdm = WeblcmsDataManager :: get_instance();
-            
+
             foreach ($ids as $group_id)
             {
                 $cg = $wdm->retrieve_course_group($group_id);
                 $cg->delete();
             }
-            
+
             $message = Translation :: get('CourseGroupsDeleted');
             $this->redirect($message, '', array('course_group' => null, CourseGroupTool :: PARAM_ACTION => null));
-        
+
         }
         else
         {
             Display :: error_message('NoObjectSelected');
         }
-    
+
     }
 
 }

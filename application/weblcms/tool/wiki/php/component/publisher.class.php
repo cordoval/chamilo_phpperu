@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\wiki;
 
+use common\extensions\repo_viewer\RepoViewer;
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
 use application\weblcms\ToolComponent;
 use common\libraries\Translation;
 

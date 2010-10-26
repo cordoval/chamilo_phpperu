@@ -1,13 +1,15 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Utilities;
+
 /**
  * @package application.lib.weblcms.trackers
  */
 class WeblcmsLpiAttemptInteractionTracker extends SimpleTracker
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_LPI_VIEW_ID = 'lpi_view_id';
     const PROPERTY_INTERACTION_ID = 'interaction_id';
     const PROPERTY_INTERACTION_TYPE = 'interaction_type';
@@ -36,7 +38,7 @@ class WeblcmsLpiAttemptInteractionTracker extends SimpleTracker
     static function get_default_property_names()
     {
         return parent :: get_default_property_names(array(
-                self :: PROPERTY_LPI_VIEW_ID, self :: PROPERTY_INTERACTION_ID, self :: PROPERTY_INTERACTION_TYPE, self :: PROPERTY_WEIGHT, self :: PROPERTY_COMPLETION_TIME, self :: PROPERTY_CORRECT_RESPONSES, self :: PROPERTY_STUDENT_RESPONSES, self :: PROPERTY_RESULT, self :: PROPERTY_LATENCY, 
+                self :: PROPERTY_LPI_VIEW_ID, self :: PROPERTY_INTERACTION_ID, self :: PROPERTY_INTERACTION_TYPE, self :: PROPERTY_WEIGHT, self :: PROPERTY_COMPLETION_TIME, self :: PROPERTY_CORRECT_RESPONSES, self :: PROPERTY_STUDENT_RESPONSES, self :: PROPERTY_RESULT, self :: PROPERTY_LATENCY,
                 self :: PROPERTY_DISPLAY_ORDER));
     }
 
@@ -143,8 +145,7 @@ class WeblcmsLpiAttemptInteractionTracker extends SimpleTracker
     static function get_table_name()
     {
         return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-    
-     //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 }
 ?>

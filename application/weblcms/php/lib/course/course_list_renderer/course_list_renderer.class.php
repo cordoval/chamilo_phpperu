@@ -1,6 +1,10 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Theme;
+use common\libraries\OrCondition;
+use common\libraries\InCondition;
+use common\libraries\EqualityCondition;
 use common\libraries\Translation;
 
 /**
@@ -13,7 +17,7 @@ class CourseListRenderer
      * The parent on which the course list renderer is running
      */
     private $parent;
-    
+
     /**
      * Show the what's new icons or not
      * @var boolean
@@ -65,7 +69,7 @@ class CourseListRenderer
             {
                 $course_type_id = $course_type->get_id();
             }
-            
+
             return $this->get_parent()->get_course_type_user_category_actions($course_type_user_category, $course_type_id, $offset, $count);
         }
     }
@@ -83,7 +87,7 @@ class CourseListRenderer
             {
                 $course_type_id = $course_type->get_id();
             }
-            
+
             return $this->get_parent()->get_course_actions($course_type_user_category, $course, $course_type_id, $offset, $count);
         }
     }
@@ -112,7 +116,7 @@ class CourseListRenderer
         $access_conditions = array();
         $access_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_parent()->get_user_id(), CourseUserRelation :: get_table_name());
         $access_conditions[] = new InCondition(CourseGroupRelation :: PROPERTY_GROUP_ID, $this->get_parent()->get_user()->get_groups(true), CourseGroupRelation :: get_table_name());
-        
+
         $condition = new OrCondition($access_conditions);
         return WeblcmsDataManager :: get_instance()->retrieve_user_courses($condition);
     }
@@ -124,7 +128,7 @@ class CourseListRenderer
     {
         $html = array();
         $courses = $this->retrieve_courses();
-        
+
         if ($courses->size() > 0)
         {
             $html[] = '<ul style="padding: 0px; margin: 0px 0px 0px 15px;">';
@@ -134,16 +138,16 @@ class CourseListRenderer
                 {
                     continue;
                 }
-                
+
                 $html[] = '<li><a href="' . $this->get_course_url($course) . '">' . $course->get_name() . '</a>';
-                
+
                 if ($this->get_new_publication_icons())
                 {
                     $html[] = $this->display_new_publication_icons($course);
                 }
-                
+
                 $html[] = '</li>';
-            
+
             }
             $html[] = '</ul>';
         }
@@ -158,7 +162,7 @@ class CourseListRenderer
     {
         $tools = WeblcmsDataManager :: get_instance()->get_course_modules($course->get_id());
         $html = array();
-        
+
         foreach ($tools as $index => $tool)
         {
             if ($tool->visible && WeblcmsDataManager :: tool_has_new_publications($tool->name, $this->get_user(), $course))

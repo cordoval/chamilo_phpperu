@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\maintenance;
 
+use common\libraries\Display;
+use common\libraries\BreadcrumbTrail;
 use common\libraries\Translation;
 
 /**
@@ -18,7 +20,7 @@ class MaintenanceToolViewerComponent extends MaintenanceTool
     {
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses maintenance');
-        
+
         if (! $this->get_course()->is_course_admin($this->get_parent()->get_user()))
         {
             $this->display_header();
@@ -26,7 +28,7 @@ class MaintenanceToolViewerComponent extends MaintenanceTool
             $this->display_footer();
             exit();
         }
-        
+
         $wizard = new MaintenanceWizard($this);
         $wizard->run();
     }

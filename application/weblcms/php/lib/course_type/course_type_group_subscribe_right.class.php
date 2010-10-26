@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Utilities;
+
 /**
  * $Id: course_group_subscribe_right.class.php 216 2009-11-13 14:08:06Z Yannick & Tristan $
  * @package application.lib.weblcms.course
@@ -16,9 +18,9 @@ namespace application\weblcms;
  */
 class CourseTypeGroupSubscribeRight extends CourseGroupSubscribeRight
 {
-    
+
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_COURSE_TYPE_ID = "course_type_id";
 
     /**
@@ -41,7 +43,7 @@ class CourseTypeGroupSubscribeRight extends CourseGroupSubscribeRight
     /*
      * Getters
      */
-    
+
     function get_course_type_id()
     {
         return $this->get_default_property(self :: PROPERTY_COURSE_TYPE_ID);
@@ -50,7 +52,7 @@ class CourseTypeGroupSubscribeRight extends CourseGroupSubscribeRight
     /*
      * Setters
      */
-    
+
     function set_course_type_id($course_type_id)
     {
         $this->set_default_property(self :: PROPERTY_COURSE_TYPE_ID, $course_type_id);
@@ -58,6 +60,7 @@ class CourseTypeGroupSubscribeRight extends CourseGroupSubscribeRight
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 }

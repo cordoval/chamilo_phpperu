@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Request;
 use reporting\ReportingTemplate;
 
 /**
@@ -38,7 +39,7 @@ class CourseDataReportingTemplate extends ReportingTemplate
 
     function display_context()
     {
-    
+
     }
 
     function get_application()

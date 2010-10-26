@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use common\libraries\Request;
 use application\weblcms\ToolComponent;
 
 class LearningPathToolMoverComponent extends LearningPathTool

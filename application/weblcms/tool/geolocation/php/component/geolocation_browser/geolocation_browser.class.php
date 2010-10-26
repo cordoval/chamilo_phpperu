@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\geolocation;
 
+use common\libraries\Request;
+
 /**
  * $Id: geolocation_browser.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.geolocation.component.geolocation_browser
@@ -16,21 +18,21 @@ class GeolocationBrowser extends ContentObjectPublicationBrowser
     function GeolocationBrowser($parent, $types)
     {
         parent :: __construct($parent, 'geolocation');
-        
+
         $this->set_publication_id(Request :: get(Tool :: PARAM_PUBLICATION_ID));
         $renderer = new GeolocationDetailsRenderer($this);
-        
+
         $this->set_publication_list_renderer($renderer);
     }
 
     function get_publications($from, $count, $column, $direction)
     {
-    
+
     }
 
     function get_publication_count()
     {
-    
+
     }
 }
 ?>

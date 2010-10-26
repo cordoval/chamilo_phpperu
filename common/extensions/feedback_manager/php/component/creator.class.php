@@ -1,5 +1,9 @@
 <?php
 namespace common\extensions\feedback_manager;
+
+use admin\FeedbackPublication;
+use repository\content_object\feedback\Feedback;
+use common\libraries\Translation;
 /**
  * $Id: creator.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.common.feedback_manager.component
@@ -20,7 +24,7 @@ class FeedbackManagerCreatorComponent extends FeedbackManager implements RepoVie
         $publication_id = $this->get_publication_id();
         $complex_wrapper_id = $this->get_complex_wrapper_id();
         $action = $this->get_action();
-        
+
 
         if (!RepoViewer :: is_ready_to_be_published())
         {

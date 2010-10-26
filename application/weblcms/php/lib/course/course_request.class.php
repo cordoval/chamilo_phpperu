@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Utilities;
 use common\libraries\Path;
 
 /**
@@ -11,7 +12,7 @@ use common\libraries\Path;
 class CourseRequest extends CommonRequest
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_COURSE_ID = 'course_id';
 
     static function get_default_property_names()
@@ -36,7 +37,8 @@ class CourseRequest extends CommonRequest
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 }
 ?>

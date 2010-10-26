@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\PlatformSetting;
+use common\libraries\Session;
+use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
 
@@ -19,10 +22,10 @@ class WeblcmsGradebookTreeMenuDataProvider extends GradebookTreeMenuDataProvider
         $menu_item->set_id(0);
         $menu_item->set_url($this->get_url());
         $menu_item->set_class('home');
-        
+
         $condition = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, Session :: get_user_id(), CourseUserRelation :: get_table_name());
         $courses = WeblcmsDataManager :: get_instance()->retrieve_user_courses($condition);
-        
+
         while ($course = $courses->next_result())
         {
             $course_item = new TreeMenuItem();

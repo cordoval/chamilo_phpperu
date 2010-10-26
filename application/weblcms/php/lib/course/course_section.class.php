@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
 use common\libraries\DataClass;
 
 /**
@@ -11,12 +13,12 @@ use common\libraries\DataClass;
 class CourseSection extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const TYPE_DISABLED = '0';
     const TYPE_TOOL = '1';
     const TYPE_LINK = '2';
     const TYPE_ADMIN = '3';
-    
+
     const PROPERTY_COURSE_CODE = 'course_id';
     const PROPERTY_NAME = 'name';
     const PROPERTY_TYPE = 'type';
@@ -93,17 +95,18 @@ class CourseSection extends DataClass
     function create()
     {
         $wdm = WeblcmsDataManager :: get_instance();
-        
+
         $condition = new EqualityCondition(self :: PROPERTY_COURSE_CODE, $this->get_course_code());
         $sort = $wdm->retrieve_max_sort_value(self :: get_table_name(), self :: PROPERTY_DISPLAY_ORDER, $condition);
         $this->set_display_order($sort + 1);
-        
+
         return $wdm->create_course_section($this);
     }
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 }
 ?>

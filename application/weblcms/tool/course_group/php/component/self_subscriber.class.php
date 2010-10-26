@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\course_group;
 
+use common\libraries\Display;
 use common\libraries\Translation;
 
 /**
@@ -22,7 +23,7 @@ class CourseGroupToolSelfSubscriberComponent extends CourseGroupTool
             Display :: not_allowed();
             return;
         }
-        
+
         $course_group = $this->get_course_group();
         $course_group->subscribe_users($this->get_user_id());
         $this->redirect(Translation :: get('UserSubscribed'), false, array(Tool :: PARAM_ACTION => CourseGroupTool :: ACTION_UNSUBSCRIBE, CourseGroupTool :: PARAM_COURSE_GROUP => $course_group->get_id()));

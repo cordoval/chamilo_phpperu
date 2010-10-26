@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use common\libraries\EqualityCondition;
+use common\libraries\Request;
 use common\libraries\Translation;
 
 /**
@@ -23,24 +25,24 @@ class LearningPathToolDeleterComponent extends LearningPathTool
                 $publication_ids = Request :: get(Tool :: PARAM_PUBLICATION_ID);
             else
                 $publication_ids = $_POST[Tool :: PARAM_PUBLICATION_ID];
-            
+
             if (! is_array($publication_ids))
             {
                 $publication_ids = array($publication_ids);
             }
-            
+
             $datamanager = WeblcmsDataManager :: get_instance();
-            
+
             foreach ($publication_ids as $pid)
             {
                 $publication = $datamanager->retrieve_content_object_publication($pid);
-                
+
                 $condition = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_LP_ID, $pid);
                 $dummy = new WeblcmsLpAttemptTracker();
                 $trackers = $dummy->retrieve_tracker_items($condition);
                 foreach ($trackers as $tracker)
                     $tracker->delete();
-                
+
                 $publication->delete();
             }
             if (count($publication_ids) > 1)
@@ -51,7 +53,7 @@ class LearningPathToolDeleterComponent extends LearningPathTool
             {
                 $message = htmlentities(Translation :: get('ContentObjectPublicationDeleted'));
             }
-            
+
             $this->redirect($message, '', array('tool_action' => null, Tool :: PARAM_PUBLICATION_ID => null));
         }
     }
