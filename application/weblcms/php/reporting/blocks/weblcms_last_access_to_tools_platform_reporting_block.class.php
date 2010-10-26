@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Path;
+
 require_once PATH::get_reporting_path() . '/lib/reporting_data.class.php';
 require_once dirname (__FILE__) . '/../weblcms_course_reporting_block.class.php';
 
@@ -30,15 +32,15 @@ class WeblcmsLastAccessToToolsPlatformReportingBlock extends WeblcmsCourseReport
 			$reporting_data->add_data_category_row($tool, Translation :: get('Clicks'), count($trackerdata));
 			$reporting_data->add_data_category_row($tool, Translation :: get('Publications'), $link);
         }
-		
+
 		return $reporting_data;
-	}	
-	
+	}
+
 	public function retrieve_data()
 	{
-		return $this->count_data();		
+		return $this->count_data();
 	}
-	
+
 	public function get_available_displaymodes()
 	{
 		$modes = array();

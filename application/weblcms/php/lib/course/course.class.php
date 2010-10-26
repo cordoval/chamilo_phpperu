@@ -1,14 +1,13 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Path;
+use common\libraries\DataClass;
 
 /**
  * $Id: course.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.course
  */
-require_once Path :: get_application_path() . 'lib/weblcms/weblcms_data_manager.class.php';
-require_once Path :: get_application_path() . 'lib/weblcms/weblcms_manager/weblcms_manager.class.php';
-require_once Path :: get_application_path() . 'lib/weblcms/course_group/course_group.class.php';
 
 /**
  * 	This class represents a course in the weblcms.

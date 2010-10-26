@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Path;
+
 require_once dirname (__FILE__) . '/../weblcms_course_reporting_block.class.php';
 require_once PATH::get_reporting_path() . '/lib/reporting_data.class.php';
 
@@ -10,7 +12,7 @@ class WeblcmsUsersTrackingReportingBlock extends WeblcmsCourseReportingBlock
 	{
 		$reporting_data = new ReportingData();
 		$reporting_data->set_rows(array(Translation :: get('UserName'), Translation :: get('TimeOnCourse'), Translation :: get('LearningPathProgress'), Translation :: get('ExcerciseProgress'), Translation :: get('TotalPublications'), Translation :: get('UserDetail')));
-				
+
 		require_once Path :: get_application_path() . '/lib/weblcms/weblcms_data_manager.class.php';
         require_once PATH::get_user_path() . 'trackers/visit_tracker.class.php';
 
@@ -32,7 +34,7 @@ class WeblcmsUsersTrackingReportingBlock extends WeblcmsCourseReportingBlock
 
             $trackerdata = $tracker->retrieve_tracker_items($condition);
             $user = $udm->retrieve_user($user_id);
-            
+
             $params = $this->get_parent()->get_parameters();
         	$params[ReportingManager::PARAM_TEMPLATE_ID] = Reporting::get_name_registration(Utilities::camelcase_to_underscores('CourseStudentTrackerDetailReportingTemplate'), WeblcmsManager::APPLICATION_NAME)->get_id();
         	$params[WeblcmsManager::PARAM_USERS] = $user->get_id();
@@ -40,7 +42,7 @@ class WeblcmsUsersTrackingReportingBlock extends WeblcmsCourseReportingBlock
         	$url = $this->get_parent()->get_url($params);
 
         	$reporting_data->add_category($user->get_fullname());
-         
+
 	       	$reporting_data->add_data_category_row($user->get_fullname(), Translation :: get('UserName'), $user->get_username());
 	        $reporting_data->add_data_category_row($user->get_fullname(), Translation :: get('TimeOnCourse'), self :: get_total_time($trackerdata));
 	        $reporting_data->add_data_category_row($user->get_fullname(), Translation :: get('LearningPathProgress'), 0);
@@ -54,13 +56,13 @@ class WeblcmsUsersTrackingReportingBlock extends WeblcmsCourseReportingBlock
                 $reporting_data->add_data_category_row($user->get_fullname(), Translation :: get('TotalPublications'), $wdm->count_content_object_publications($publication_condition));
 
                 $reporting_data->add_data_category_row($user->get_fullname(), Translation :: get('UserDetail'), '<a href="' . $url . '">' . Translation :: get('Detail') . '</a>');
-         } 
+         }
         return $reporting_data;
-    }	
-	
+    }
+
 	public function retrieve_data()
 	{
-		return $this->count_data();		
+		return $this->count_data();
 	}
 
 	public function get_available_displaymodes()

@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Path;
+
 require_once dirname (__FILE__) . '/../weblcms_course_reporting_block.class.php';
 
 class WeblcmsNoOfUsersSubscribedCourseReportingBlock extends WeblcmsCourseReportingBlock
@@ -21,18 +23,18 @@ class WeblcmsNoOfUsersSubscribedCourseReportingBlock extends WeblcmsCourseReport
         $reporting_data->add_data_category_row(Translation :: get('UsersSubscribedToCourse'), Translation :: get('count'), $courses);
 		$reporting_data->add_data_category_row(Translation :: get('UsersNotSubscribedToCourse'), Translation :: get('count'), $users - $courses);
         return $reporting_data;
-	}	
-	
+	}
+
 	public function retrieve_data()
 	{
-		return $this->count_data();		
+		return $this->count_data();
 	}
-	
+
 	function get_application()
 	{
 		return WeblcmsManager::APPLICATION_NAME;
 	}
-	
+
 	public function get_available_displaymodes()
 	{
 		$modes = array();
@@ -41,7 +43,7 @@ class WeblcmsNoOfUsersSubscribedCourseReportingBlock extends WeblcmsCourseReport
      	$modes[ReportingChartFormatter::DISPLAY_PIE] = Translation :: get('Chart:Pie');
         $modes[ReportingChartFormatter::DISPLAY_BAR] = Translation :: get('Chart:Bar');
         $modes[ReportingChartFormatter::DISPLAY_LINE] = Translation :: get('Chart:Line');
-        $modes[ReportingChartFormatter::DISPLAY_FILLED_CUBIC] = Translation :: get('Chart:FilledCubic');  
+        $modes[ReportingChartFormatter::DISPLAY_FILLED_CUBIC] = Translation :: get('Chart:FilledCubic');
         return $modes;
 	}
 }

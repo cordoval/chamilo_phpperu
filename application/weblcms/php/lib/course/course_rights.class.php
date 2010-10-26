@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Path;
+
 /**
  * $Id: course_rights.class.php 216 2009-11-13 14:08:06Z Tristan $
  * @package application.lib.weblcms.course
@@ -21,7 +23,7 @@ class CourseRights extends DataClass
 
     private $group_subscribe_rights = array();
     private $group_unsubscribe_rights = array();
-    
+
     /**
      * Get the default properties of all courses.
      * @return array The property names.
@@ -35,7 +37,7 @@ class CourseRights extends DataClass
         			  self :: PROPERTY_CODE_SUBSCRIBE_AVAILABLE,
         			  self :: PROPERTY_UNSUBSCRIBE_AVAILABLE));
     }
-    
+
     /**
      * inherited
      */
@@ -57,18 +59,18 @@ class CourseRights extends DataClass
     function get_request_subscribe_available()
     {
         return $this->get_default_property(self :: PROPERTY_REQUEST_SUBSCRIBE_AVAILABLE);
-    } 
-    
+    }
+
     function get_code_subscribe_available()
     {
         return $this->get_default_property(self :: PROPERTY_CODE_SUBSCRIBE_AVAILABLE);
     }
-    
+
     function get_unsubscribe_available()
     {
         return $this->get_default_property(self :: PROPERTY_UNSUBSCRIBE_AVAILABLE);
-    } 
-    
+    }
+
     function get_code()
     {
         return $this->get_default_property(self :: PROPERTY_CODE);
@@ -87,28 +89,28 @@ class CourseRights extends DataClass
     function set_request_subscribe_available($request_subscribe_available)
     {
         return $this->set_default_property(self :: PROPERTY_REQUEST_SUBSCRIBE_AVAILABLE, $request_subscribe_available);
-    } 
-    
+    }
+
     function set_code_subscribe_available($code_subscribe_available)
     {
         return $this->set_default_property(self :: PROPERTY_CODE_SUBSCRIBE_AVAILABLE, $code_subscribe_available);
-    } 
-    
+    }
+
     function set_unsubscribe_available($unsubscribe_available)
     {
         return $this->set_default_property(self :: PROPERTY_UNSUBSCRIBE_AVAILABLE, $unsubscribe_available);
-    } 
-    
+    }
+
     function set_code($code)
     {
         return $this->set_default_property(self :: PROPERTY_CODE, $code);
-    } 
-    
+    }
+
     static function get_table_name()
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
-    
+
     //Subscribe/Unsubscribe getters and setters
 	function can_group_subscribe($group_id)
 	{
@@ -171,7 +173,7 @@ class CourseRights extends DataClass
 						//check for the everybody right
 						$condition_course_id = new EqualityCondition(CourseGroupSubscribeRight :: PROPERTY_COURSE_ID, $this->get_course_id());
 						$condition_right = new EqualityCondition(CourseGroupSubscribeRight :: PROPERTY_SUBSCRIBE, CourseGroupSubscribeRight :: SUBSCRIBE_DIRECT);
-						$condition = new AndCondition(array($condition_course_id, $condition_right));	
+						$condition = new AndCondition(array($condition_course_id, $condition_right));
 						$count =  WeblcmsDatamanager::get_instance()->count_course_group_subscribe_rights($condition);
 						if($count == 0 && $this->get_direct_subscribe_available())
 						{
@@ -180,16 +182,16 @@ class CourseRights extends DataClass
 						}
 
 						$condition_right = new EqualityCondition(CourseGroupSubscribeRight :: PROPERTY_SUBSCRIBE, CourseGroupSubscribeRight :: SUBSCRIBE_REQUEST);
-						$condition = new AndCondition(array($condition_course_id, $condition_right));	
+						$condition = new AndCondition(array($condition_course_id, $condition_right));
 						$count =  WeblcmsDatamanager::get_instance()->count_course_group_subscribe_rights($condition);
 						if($count == 0 && $this->get_request_subscribe_available() && !$validation)
 						{
 							$right->set_subscribe(CourseGroupSubscribeRight :: SUBSCRIBE_REQUEST);
 							$validation = true;
 						}
-						
+
 						$condition_right = new EqualityCondition(CourseGroupSubscribeRight :: PROPERTY_SUBSCRIBE, CourseGroupSubscribeRight :: SUBSCRIBE_CODE);
-						$condition = new AndCondition(array($condition_course_id, $condition_right));	
+						$condition = new AndCondition(array($condition_course_id, $condition_right));
 						$count =  WeblcmsDatamanager::get_instance()->count_course_group_subscribe_rights($condition);
 						if($count == 0 && $this->get_code_subscribe_available() && !$validation)
 						{
@@ -199,7 +201,7 @@ class CourseRights extends DataClass
 						//if not, register group in the rightsarray with no right and return the right.
 						if(!$validation)
 							$right->set_subscribe(CourseGroupSubscribeRight :: SUBSCRIBE_NONE);
-						
+
 						$this->group_subscribe_rights[$group_id] = $right;
 						return $right->get_subscribe();
 					}
@@ -209,7 +211,7 @@ class CourseRights extends DataClass
 		}
 		else return CourseGroupSubscribeRight :: SUBSCRIBE_NONE;
 	}
-	
+
 	function can_group_unsubscribe($group_id)
 	{
 		if($this->get_unsubscribe_available())

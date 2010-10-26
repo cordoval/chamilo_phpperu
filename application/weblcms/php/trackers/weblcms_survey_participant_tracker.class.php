@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Path;
+
 /**
  * @package application.lib.survey.trackers
  */

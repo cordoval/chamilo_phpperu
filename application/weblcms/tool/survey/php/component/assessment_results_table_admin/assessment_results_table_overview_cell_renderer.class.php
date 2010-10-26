@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use common\libraries\Path;
+
 /**
  * $Id: assessment_results_table_overview_cell_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.assessment.component.assessment_results_table_admin
@@ -70,14 +72,14 @@ class AssessmentResultsTableOverviewAdminCellRenderer extends DefaultContentObje
     {
         $assessment = $publication->get_content_object();
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
-        
+
         $toolbar->add_item(new ToolbarItem(
         		Translation :: get('ViewResults'),
         		Theme :: get_common_image_path() . 'action_view_results.png',
         		$this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())),
         		ToolbarItem :: DISPLAY_ICON
         ));
-        
+
         $toolbar->add_item(new ToolbarItem(
         		Translation :: get('DeleteAllResults'),
         		Theme :: get_common_image_path() . 'action_delete.png',
@@ -85,7 +87,7 @@ class AssessmentResultsTableOverviewAdminCellRenderer extends DefaultContentObje
         		ToolbarItem :: DISPLAY_ICON,
         		true
         ));
-        
+
         if ($assessment->get_assessment_type() == Assessment :: TYPE_ASSIGNMENT)
         {
             $toolbar->add_item(new ToolbarItem(
@@ -95,7 +97,7 @@ class AssessmentResultsTableOverviewAdminCellRenderer extends DefaultContentObje
 	        		ToolbarItem :: DISPLAY_ICON
 	        ));
         }
-        
+
         return $toolbar->as_html();
     }
 
@@ -109,13 +111,13 @@ class AssessmentResultsTableOverviewAdminCellRenderer extends DefaultContentObje
     {
         /*$toolbar_data = array();
         $table_actions = $this->table_actions;
-        
+
         foreach ($table_actions as $table_action)
         {
             $table_action['href'] = sprintf($table_action['href'], $content_object->get_id());
             $toolbar_data[] = $table_action;
         }
-        
+
         return Utiliti es :: build_toolbar($toolbar_data);*/
     }
 }

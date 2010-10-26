@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use common\libraries\Path;
+
 /**
  * $Id: survey_taker.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.assessment.component
@@ -15,9 +17,9 @@ require_once Path :: get_repository_path() . 'lib/content_object/survey/context_
 
 class SurveyToolTakerComponent extends SurveyToolComponent
 {
-    
+
     private $datamanager;
-    
+
     private $pub;
     private $survey;
     private $pages;
@@ -31,10 +33,10 @@ class SurveyToolTakerComponent extends SurveyToolComponent
 
     function run()
     {
-        
+
         // Retrieving survey
         $this->datamanager = WeblcmsDataManager :: get_instance();
-        
+
         if (Request :: get(SurveyTool :: PARAM_SURVEY_PARTICIPANT))
         {
             $this->participant_id = Request :: get(SurveyTool :: PARAM_SURVEY_PARTICIPANT);
@@ -42,35 +44,35 @@ class SurveyToolTakerComponent extends SurveyToolComponent
             $condition = new EqualityCondition(WeblcmsSurveyParticipantTracker :: PROPERTY_ID, $this->participant_id);
             $trackers = $track->retrieve_tracker_items($condition);
             $this->active_tracker = $trackers[0];
-            
+
             $this->set_parameter(SurveyTool :: PARAM_SURVEY_PARTICIPANT, $this->participant_id);
             $this->set_publication_variables($this->active_tracker->get_survey_publication_id());
-            
+
             $track = new WeblcmsSurveyParticipantTracker();
             $conditions[] = new EqualityCondition(WeblcmsSurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->pid);
             $conditions[] = new EqualityCondition(WeblcmsSurveyParticipantTracker :: PROPERTY_USER_ID, $this->active_tracker->get_user_id());
             $condition = new AndCondition($conditions);
-            
+
             $this->trackers = $track->retrieve_tracker_items($condition);
         }
         else
         {
             if (Request :: get(SurveyTool :: PARAM_PUBLICATION_ID))
             {
-                
+
                 $this->set_publication_variables(Request :: get(SurveyTool :: PARAM_PUBLICATION_ID));
-                
+
                 $track = new WeblcmsSurveyParticipantTracker();
                 $conditions[] = new EqualityCondition(WeblcmsSurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->pid);
                 $conditions[] = new EqualityCondition(WeblcmsSurveyParticipantTracker :: PROPERTY_USER_ID, $this->get_user_id());
                 $condition = new AndCondition($conditions);
                 $this->trackers = $track->retrieve_tracker_items($condition);
-                
+
                 if (count($this->trackers) === 0)
                 {
                     Display :: not_allowed($trail, false);
                 }
-                
+
                 else
                 {
                     $this->active_tracker = $this->trackers[0];
@@ -78,7 +80,7 @@ class SurveyToolTakerComponent extends SurveyToolComponent
                 }
             }
         }
-        
+
         //        $this->trail = BreadcrumbTrail :: get_instance();
         //        if ($this->pub->is_test())
         //        {
@@ -97,13 +99,13 @@ class SurveyToolTakerComponent extends SurveyToolComponent
         //        {
         //            $this->not_allowed($trail, false);
         //        }
-        
+
 
         $db = SurveyContextDataManager :: get_instance();
         $context = $db->retrieve_survey_context_by_id($this->active_tracker->get_context_id());
-        
+
         $this->survey->set_context_instance($context);
-        
+
         $this->get_survey_html();
     }
 
@@ -113,15 +115,15 @@ class SurveyToolTakerComponent extends SurveyToolComponent
         {
             $this->trail->merge($trail);
         }
-        
+
         parent :: display_header();
-        
+
         if (count($this->trackers) > 1)
         {
             $this->with_menu = true;
             echo $this->get_menu_html();
         }
-        
+
         if ($this->with_menu)
         {
             $width = 80;
@@ -137,7 +139,7 @@ class SurveyToolTakerComponent extends SurveyToolComponent
     {
         echo '<div class="clear"></div>';
         echo '</div>';
-        
+
         parent :: display_footer();
     }
 
@@ -191,13 +193,13 @@ class SurveyToolTakerComponent extends SurveyToolComponent
 
     function save_answer($complex_question_id, $answer)
     {
-        
+
         $dummy = new WeblcmsSurveyQuestionAnswerTracker();
         $conditions[] = new EqualityCondition(WeblcmsSurveyQuestionAnswerTracker :: PROPERTY_SURVEY_PARTICIPANT_ID, $this->active_tracker->get_id());
         $conditions[] = new EqualityCondition(WeblcmsSurveyQuestionAnswerTracker :: PROPERTY_QUESTION_CID, $complex_question_id);
         $condition = new AndCondition($conditions);
         $trackers = $dummy->retrieve_tracker_items($condition);
-        
+
         if (count($trackers) === 1)
         {
             $trackers[0]->set_answer($answer);
@@ -210,11 +212,11 @@ class SurveyToolTakerComponent extends SurveyToolComponent
             $parameters[WeblcmsSurveyQuestionAnswerTracker :: PROPERTY_CONTEXT_ID] = $this->active_tracker->get_context_id();
             $parameters[WeblcmsSurveyQuestionAnswerTracker :: PROPERTY_QUESTION_CID] = $complex_question_id;
             $parameters[WeblcmsSurveyQuestionAnswerTracker :: PROPERTY_ANSWER] = $answer;
-            
+
             Event :: trigger('weblcms_attempt_question', 'weblcms', $parameters);
         }
         //test for better tracing of setting status of trackers.
-    
+
 
     }
 
@@ -228,7 +230,7 @@ class SurveyToolTakerComponent extends SurveyToolComponent
         }
         $tracker->set_total_time($tracker->get_total_time() + (time() - $tracker->get_start_time()));
         $tracker->update();
-        
+
         //        $track = new SurveyParticipantTracker();
         //        $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->pid);
         //        $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_USER_ID, $this->active_tracker->get_user_id());
@@ -266,9 +268,9 @@ class SurveyToolTakerComponent extends SurveyToolComponent
                 $tracker->set_status(WeblcmsSurveyParticipantTracker :: STATUS_STARTED);
                 $tracker->update();
             }
-        
+
         }
-    
+
     }
 
     function get_current_attempt_id()
@@ -283,16 +285,16 @@ class SurveyToolTakerComponent extends SurveyToolComponent
 
     function parse($value)
     {
-        
+
         $context = $this->survey->get_context_instance();
         $explode = explode('$V{', $value);
-        
+
         $new_value = array();
         foreach ($explode as $part)
         {
-            
+
             $vars = explode('}', $part);
-            
+
             if (count($vars) == 1)
             {
                 $new_value[] = $vars[0];
@@ -300,12 +302,12 @@ class SurveyToolTakerComponent extends SurveyToolComponent
             else
             {
                 $var = $vars[0];
-                
+
                 $replace = $context->get_additional_property($var);
-                
+
                 $new_value[] = $replace . ' ' . $vars[1];
             }
-        
+
         }
         return implode(' ', $new_value);
     }
@@ -313,11 +315,11 @@ class SurveyToolTakerComponent extends SurveyToolComponent
     //    function get_total_questions(){
     //    	return $this->survey->count_pages();
     //    }
-    //    
+    //
     //	function get_total_pages(){
     //    	return $this->survey->count_pages();
     //    }
-    
+
 
     function get_survey()
     {
@@ -331,7 +333,7 @@ class SurveyToolTakerComponent extends SurveyToolComponent
         $conditions[] = new EqualityCondition(WeblcmsSurveyQuestionAnswerTracker :: PROPERTY_QUESTION_CID, $question->get_id());
         $condition = new AndCondition($conditions);
         $trackers = $dummy->retrieve_tracker_items($condition);
-        
+
         if (count($trackers) != 0)
         {
             return $trackers[0]->get_answer();

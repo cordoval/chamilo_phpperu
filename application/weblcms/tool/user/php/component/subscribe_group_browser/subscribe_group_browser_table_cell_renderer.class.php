@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\user;
 
+use common\libraries\Path;
+
 /**
  * $Id: subscribe_group_browser_table_cell_renderer.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms.weblcms_manager.component.subscribe_group_browser
@@ -77,44 +79,44 @@ class SubscribeGroupBrowserTableCellRenderer extends DefaultGroupTableCellRender
     private function get_modification_links(Group $group)
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
-        
+
         $conditions[] = new EqualityCondition(CourseGroupRelation :: PROPERTY_COURSE_ID, $this->browser->get_course_id());
         $conditions[] = new EqualityCondition(CourseGroupRelation :: PROPERTY_GROUP_ID, $group->get_id());
         $condition = new AndCondition($conditions);
-        
+
         $count = WeblcmsDataManager :: get_instance()->count_course_group_relations($condition);
-        
+
         $parent_ids = array();
         $parents = $group->get_parents(false);
         while($parent = $parents->next_result())
         {
         	$parent_ids[] = $parent->get_id();
         }
-        
+
         $conditions = array();
         $conditions[] = new EqualityCondition(CourseGroupRelation :: PROPERTY_COURSE_ID, $this->browser->get_course_id());
         $conditions[] = new InCondition(CourseGroupRelation :: PROPERTY_GROUP_ID, $parent_ids);
         $condition = new AndCondition($conditions);
-        
+
         $count_parents = WeblcmsDataManager :: get_instance()->count_course_group_relations($condition);
-        
+
         if($count == 0)
         {
 	    	if($count_parents == 0)
 	    	{
 	        	$parameters[Tool :: PARAM_ACTION] = UserTool :: ACTION_SUBSCRIBE_USERS_FROM_GROUP;
 		        $parameters[UserTool :: PARAM_GROUPS] = $group->get_id();
-		
+
 		        $toolbar->add_item(new ToolbarItem(
 		        		Translation :: get('SubscribeUsersFromGroup'),
 		        		Theme :: get_common_image_path() . 'action_copy.png',
 		        		$this->browser->get_url($parameters),
 		        		ToolbarItem :: DISPLAY_ICON
 		        ));
-		        
+
 		        $parameters[Tool :: PARAM_ACTION] = UserTool :: ACTION_SUBSCRIBE_GROUPS;
 		        $parameters[UserTool :: PARAM_GROUPS] = $group->get_id();
-		        
+
 		        $toolbar->add_item(new ToolbarItem(
 		        		Translation :: get('SubscribeGroup'),
 		        		Theme :: get_common_image_path() . 'action_subscribe.png',
@@ -136,7 +138,7 @@ class SubscribeGroupBrowserTableCellRenderer extends DefaultGroupTableCellRender
         {
 	        $parameters[Tool :: PARAM_ACTION] = UserTool :: ACTION_UNSUBSCRIBE_GROUPS;
 	        $parameters[UserTool :: PARAM_GROUPS] = $group->get_id();
-	        
+
 	        $toolbar->add_item(new ToolbarItem(
 	        		Translation :: get('UnsubscribeGroup'),
 	        		Theme :: get_common_image_path() . 'action_unsubscribe.png',
@@ -144,7 +146,7 @@ class SubscribeGroupBrowserTableCellRenderer extends DefaultGroupTableCellRender
 	        		ToolbarItem :: DISPLAY_ICON
 	        ));
         }
-        
+
         return $toolbar->as_html();
     }
 }

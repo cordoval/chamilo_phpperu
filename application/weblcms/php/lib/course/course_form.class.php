@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Path;
+
 /**
  * $Id: course_form.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.course
@@ -794,7 +796,7 @@ class CourseForm extends CommonForm
         {
             $course->set_visual(strtoupper(uniqid()));
         }
-        
+
         if($course->get_category() != $values[Course :: PROPERTY_CATEGORY])
         {
         	if($values[Course :: PROPERTY_CATEGORY])
@@ -805,14 +807,14 @@ class CourseForm extends CommonForm
         	{
         		$new_parent_id = WeblcmsRights :: get_courses_subtree_root_id($course->get_id());
         	}
-        	
+
         	$location =  WeblcmsRights :: get_location_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_COURSE, $course->get_id(), $course->get_id());
         	if($location)
         	{
         		$location->move($new_parent_id);
         	}
         }
-        
+
         $course->set_name($values[Course :: PROPERTY_NAME]);
         $course->set_category($values[Course :: PROPERTY_CATEGORY]);
         $course->set_titular($values[Course :: PROPERTY_TITULAR]);

@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Path;
+
 /**
  * $Id: course_rights.class.php 216 2009-11-13 14:08:06Z Tristan $
  * @package application.lib.weblcms.course
@@ -18,12 +20,12 @@ class CourseTypeRights extends CourseRights
     const PROPERTY_REQUEST_SUBSCRIBE_FIXED = 'request_subscribe_fixed';
     const PROPERTY_CODE_SUBSCRIBE_FIXED = 'code_subscribe_fixed';
     const PROPERTY_UNSUBSCRIBE_FIXED = 'unsubscribe_fixed';
-    
+
     const PROPERTY_CREATION_AVAILABLE = 'creation_available';
     const PROPERTY_CREATION_ON_REQUEST_AVAILABLE = 'creation_on_request_available';
 
     private $group_creation_rights = array();
-    
+
     /**
      * Get the default properties of all courses.
      * @return array The property names.
@@ -39,7 +41,7 @@ class CourseTypeRights extends CourseRights
         			  self :: PROPERTY_CREATION_AVAILABLE,
         			  self :: PROPERTY_CREATION_ON_REQUEST_AVAILABLE));
     }
-    
+
     /**
      * inherited
      */
@@ -61,28 +63,28 @@ class CourseTypeRights extends CourseRights
     function get_request_subscribe_fixed()
     {
         return $this->get_default_property(self :: PROPERTY_REQUEST_SUBSCRIBE_FIXED);
-    } 
-    
+    }
+
     function get_code_subscribe_fixed()
     {
         return $this->get_default_property(self :: PROPERTY_CODE_SUBSCRIBE_FIXED);
     }
-    
+
     function get_unsubscribe_fixed()
     {
         return $this->get_default_property(self :: PROPERTY_UNSUBSCRIBE_FIXED);
-    } 
-    
+    }
+
     function get_creation_available()
     {
         return $this->get_default_property(self :: PROPERTY_CREATION_AVAILABLE);
     }
-    
+
     function get_creation_on_request_available()
     {
         return $this->get_default_property(self :: PROPERTY_CREATION_ON_REQUEST_AVAILABLE);
-    } 
-    
+    }
+
     function set_course_type_id($course_type_id)
     {
         return $this->set_default_property(self :: PROPERTY_COURSE_TYPE_ID, $course_type_id);
@@ -96,28 +98,28 @@ class CourseTypeRights extends CourseRights
     function set_request_subscribe_fixed($request_subscribe_fixed)
     {
         return $this->set_default_property(self :: PROPERTY_REQUEST_SUBSCRIBE_FIXED, $request_subscribe_fixed);
-    } 
-    
+    }
+
     function set_code_subscribe_fixed($code_subscribe_fixed)
     {
         return $this->set_default_property(self :: PROPERTY_CODE_SUBSCRIBE_FIXED, $code_subscribe_fixed);
-    } 
-    
+    }
+
     function set_unsubscribe_fixed($unsubscribe_fixed)
     {
         return $this->set_default_property(self :: PROPERTY_UNSUBSCRIBE_FIXED, $unsubscribe_fixed);
-    } 
-    
+    }
+
      function set_creation_available($creation_available)
     {
         return $this->set_default_property(self :: PROPERTY_CREATION_AVAILABLE, $creation_available);
-    } 
-    
+    }
+
     function set_creation_on_request_available($creation_on_request_available)
     {
         return $this->set_default_property(self :: PROPERTY_CREATION_ON_REQUEST_AVAILABLE, $creation_on_request_available);
     }
-    
+
     //creation
 	function can_group_create($group_id)
 	{
@@ -176,7 +178,7 @@ class CourseTypeRights extends CourseRights
 						//check for the everybody right
 						$condition_course_type_id = new EqualityCondition(CourseTypeGroupCreationRight :: PROPERTY_COURSE_TYPE_ID, $this->get_course_type_id());
 						$condition_right = new EqualityCondition(CourseTypeGroupCreationRight :: PROPERTY_CREATE, CourseTypeGroupCreationRight :: CREATE_DIRECT);
-						$condition = new AndCondition(array($condition_course_type_id, $condition_right));	
+						$condition = new AndCondition(array($condition_course_type_id, $condition_right));
 						$count =  WeblcmsDatamanager::get_instance()->count_course_type_group_creation_rights($condition);
 						if($count == 0 && $this->get_creation_available())
 						{
@@ -185,7 +187,7 @@ class CourseTypeRights extends CourseRights
 						}
 
 						$condition_right = new EqualityCondition(CourseTypeGroupCreationRight :: PROPERTY_CREATE, CourseTypeGroupCreationRight :: CREATE_REQUEST);
-						$condition = new AndCondition(array($condition_course_type_id, $condition_right));	
+						$condition = new AndCondition(array($condition_course_type_id, $condition_right));
 						$count =  WeblcmsDatamanager::get_instance()->count_course_type_group_creation_rights($condition);
 						if($count == 0 && $this->get_creation_on_request_available() && !$validation)
 						{
@@ -195,7 +197,7 @@ class CourseTypeRights extends CourseRights
 						//if not, register group in the rightsarray with no right and return the right.
 						if(!$validation)
 							$right->set_create(CourseTypeGroupCreationRight :: CREATE_NONE);
-						
+
 						$this->group_creation_rights[$group_id] = $right;
 						return $right->get_create();
 					}
@@ -205,7 +207,7 @@ class CourseTypeRights extends CourseRights
 		}
 		else return CourseTypeGroupCreationRight :: CREATE_NONE;
 	}
- 
+
     static function get_table_name()
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);

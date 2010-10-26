@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Path;
+
 /**
  * $Id: menu_tool_list_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool_list_renderer
@@ -58,7 +60,7 @@ class MenuToolListRenderer extends ToolListRenderer
         $html[] = '<ul>';
 
         $show_search = false;
-        
+
         foreach ($tools as $index => $tool)
         {
             $sections = WeblcmsDataManager :: get_instance()->retrieve_course_sections(new EqualityCondition('id', $tool->section));
@@ -75,10 +77,10 @@ class MenuToolListRenderer extends ToolListRenderer
             {
               	$show_search = true;
             }
-                
+
             $html[] = $this->display_tool($tool);
         }
-        
+
         if (count($admin_tools) && $this->is_course_admin)
         {
             $html[] = '<div style="margin: 10px 0 10px 0; border-bottom: 1px dotted #4271B5; height: 0px;"></div>';

@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Path;
 
 require_once dirname (__FILE__) . '/../weblcms_tool_reporting_block.class.php';
 require_once PATH::get_reporting_path() . '/lib/reporting_data.class.php';
@@ -10,7 +11,7 @@ class WeblcmsUserInformationReportingBlock extends WeblcmsToolReportingBlock
 	{
 		$reporting_data = new ReportingData();
 		$uid = $this->get_user_id();
-        
+
 		require_once Path :: get_admin_path() . '/trackers/online_tracker.class.php';
         $udm = UserDataManager :: get_instance();
         $tracking = new OnlineTracker();
@@ -23,7 +24,7 @@ class WeblcmsUserInformationReportingBlock extends WeblcmsToolReportingBlock
                 $online = 1;
             }
         }
-        
+
         $user = $udm->retrieve_user($uid);
 
         $reporting_data->set_categories(array(Translation :: get('Name'), Translation :: get('Email'), Translation :: get('Phone'), Translation :: get('Online')));
@@ -33,13 +34,13 @@ class WeblcmsUserInformationReportingBlock extends WeblcmsToolReportingBlock
         $reporting_data->add_data_category_row(Translation :: get('Email'), Translation :: get('count'), '<a href="mailto:' . $user->get_email() . '" >' . $user->get_email() . '</a>');
         $reporting_data->add_data_category_row(Translation :: get('Phone'), Translation :: get('count'), $user->get_phone());
         $reporting_data->add_data_category_row(Translation :: get('Online'), Translation :: get('count'), ($online) ? Translation :: get('Online') : Translation :: get('Offline'));
-        
+
         return $reporting_data;
-    }	
-	
+    }
+
 	public function retrieve_data()
 	{
-		return $this->count_data();		
+		return $this->count_data();
 	}
 
 	public function get_available_displaymodes()

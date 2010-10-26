@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use common\libraries\Path;
+
 /**
  * $Id: assessment_results_table_detail_cell_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.assessment.component.assessment_results_table_admin
@@ -33,7 +35,7 @@ class AssessmentResultsTableDetailCellRenderer extends DefaultContentObjectTable
 	 */
     function render_cell($column, $user_assessment)
     {
-        
+
         if ($column === AssessmentResultsTableDetailColumnModel :: get_action_column())
         {
             return $this->get_actions($user_assessment);
@@ -68,9 +70,9 @@ class AssessmentResultsTableDetailCellRenderer extends DefaultContentObjectTable
     {
         $pub = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($user_assessment->get_assessment_id());
         $assessment = $pub->get_content_object();
-        
+
         $toolbar = new Toolbar();
-        
+
         if ($assessment->get_assessment_type() != Hotpotatoes :: TYPE_HOTPOTATOES)
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('ViewResults'), Theme :: get_common_image_path() . 'action_view_results.png', $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())), ToolbarItem :: DISPLAY_ICON));
@@ -81,12 +83,12 @@ class AssessmentResultsTableDetailCellRenderer extends DefaultContentObjectTable
             $toolbar->add_item(new ToolbarItem(Translation :: get('ViewResultsNA'), Theme :: get_common_image_path() . 'action_view_results_na.png', null, ToolbarItem :: DISPLAY_ICON));
            //$toolbar->add_item(new ToolbarItem(Translation :: get('ExportResultsNA'), Theme :: get_common_image_path() . 'action_export_na.png', null, ToolbarItem :: DISPLAY_ICON));
         }
-        
+
         if ($this->browser->is_allowed(WeblcmsRights :: DELETE_RIGHT))
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('DeleteResult'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_DELETE_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())), ToolbarItem :: DISPLAY_ICON, true));
         }
-        
+
         if ($this->browser->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             if ($assessment->get_assessment_type() == Assessment :: TYPE_ASSIGNMENT)
@@ -108,14 +110,14 @@ class AssessmentResultsTableDetailCellRenderer extends DefaultContentObjectTable
         $toolbar = new Toolbar();
         //$toolbar_data = array();
         $table_actions = $this->table_actions;
-        
+
         foreach ($table_actions as $table_action)
         {
             //$table_action['href'] = sprintf($table_action['href'], $content_object->get_id());
             $toolbar->add_item(new ToolbarItem(null, null, sprintf($table_action['href'], $content_object->get_id())));
             //$toolbar_data[] = $table_action;
         }
-        
+
         return $toolbar->as_html();
     }
 }

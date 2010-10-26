@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Path;
+use common\extensions\category_manager\PlatformCategory;
+
 /**
  * $Id: content_object_publication_category.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.category_manager
@@ -9,7 +12,6 @@ namespace application\weblcms;
  *	@author Sven Vanpoucke
  */
 
-require_once Path :: get_common_extensions_path() . 'category_manager/platform_category.class.php';
 require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
 
 class ContentObjectPublicationCategory extends PlatformCategory
@@ -36,7 +38,7 @@ class ContentObjectPublicationCategory extends PlatformCategory
         {
         	return false;
         }
-        
+
         if($this->get_parent())
         {
         	$parent = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_COURSE_CATEGORY, $this->get_parent(), $this->get_course());
@@ -47,7 +49,7 @@ class ContentObjectPublicationCategory extends PlatformCategory
         	$parent = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_COURSE_MODULE, $course_module_id, $this->get_course());
         }
 
-        return WeblcmsRights :: create_location_in_courses_subtree($this->get_name(), WeblcmsRights :: TYPE_COURSE_CATEGORY, $this->get_id(), 
+        return WeblcmsRights :: create_location_in_courses_subtree($this->get_name(), WeblcmsRights :: TYPE_COURSE_CATEGORY, $this->get_id(),
     			    $parent, $this->get_course());
     }
 
@@ -69,7 +71,7 @@ class ContentObjectPublicationCategory extends PlatformCategory
         {
         	return false;
         }
-        
+
         if($move)
         {
         	if($this->get_parent())
@@ -79,17 +81,17 @@ class ContentObjectPublicationCategory extends PlatformCategory
         	else
         	{
         		$course_module_id = WeblcmsDataManager :: get_instance()->retrieve_course_module_by_name($this->get_course(), $this->get_tool())->get_id();
-        		$new_parent_id = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_COURSE_MODULE, $course_module_id, $this->get_course());	
+        		$new_parent_id = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_COURSE_MODULE, $course_module_id, $this->get_course());
         	}
-        	
+
         	$location =  WeblcmsRights :: get_location_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_COURSE_CATEGORY, $this->get_id(), $this->get_course());
         	if($location)
         	{
         		return $location->move($new_parent_id);
         	}
         }
-        
-    	return true; 
+
+    	return true;
     }
 
     function delete()
@@ -102,7 +104,7 @@ class ContentObjectPublicationCategory extends PlatformCategory
 				return false;
 			}
 		}
-		
+
     	return WeblcmsDataManager :: get_instance()->delete_content_object_publication_category($this);
     }
 

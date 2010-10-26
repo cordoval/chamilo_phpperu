@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Path;
+
 /**
  * $Id: course_settings.class.php 216 2010-02-25 11:06:00Z Yannick & Tristan$
  * @package application.lib.weblcms.course
@@ -11,7 +13,7 @@ require_once Path :: get_application_path() . 'lib/weblcms/weblcms_manager/weblc
 class CourseSettings extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_COURSE_ID = 'course_id';
     const PROPERTY_LANGUAGE = 'language';
     const PROPERTY_VISIBILITY = 'visibility';
@@ -42,7 +44,7 @@ class CourseSettings extends DataClass
     {
         return WeblcmsDataManager :: get_instance();
     }
-    
+
     /**
      * Returns the language of this course object
      * @return array() the languages
@@ -51,7 +53,7 @@ class CourseSettings extends DataClass
     {
         return $this->get_default_property(self :: PROPERTY_LANGUAGE);
     }
-    
+
     /**
      * Returns the course id of this course object
      * @return int the course id
@@ -60,7 +62,7 @@ class CourseSettings extends DataClass
     {
         return $this->get_default_property(self :: PROPERTY_COURSE_ID);
     }
-    
+
     /**
      * Returns the visibility of this course object
      * @return boolean the visibility
@@ -69,7 +71,7 @@ class CourseSettings extends DataClass
     {
         return $this->get_default_property(self :: PROPERTY_VISIBILITY);
     }
-    
+
     /**
      * Returns the acces of this course object
      * @return boolean the acces Code
@@ -78,7 +80,7 @@ class CourseSettings extends DataClass
     {
         return $this->get_default_property(self :: PROPERTY_ACCESS);
     }
-    
+
     /**
      * Returns the max number of members of this course object
      * @return int the max number of members
@@ -87,7 +89,7 @@ class CourseSettings extends DataClass
     {
         return $this->get_default_property(self :: PROPERTY_MAX_NUMBER_OF_MEMBERS);
     }
-    
+
     /**
      * Sets the course id of this course object
      * @param int $course_id the course id
@@ -96,7 +98,7 @@ class CourseSettings extends DataClass
     {
         return $this->set_default_property(self :: PROPERTY_COURSE_ID, $course_id);
     }
-    
+
     /**
      * Sets the language of this course object
      * @param array $language the language
@@ -105,7 +107,7 @@ class CourseSettings extends DataClass
     {
         return $this->set_default_property(self :: PROPERTY_LANGUAGE, $language);
     }
-       
+
     /**
      * Sets the visibility of this course object
      * @param Boolean $visibility the visibility
@@ -114,7 +116,7 @@ class CourseSettings extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_VISIBILITY, $visibility);
     }
-    
+
     /**
      * Sets the access of this course object
      * @param Boolean $access the access
@@ -122,7 +124,7 @@ class CourseSettings extends DataClass
     function set_access($access)
     {
         $this->set_default_property(self :: PROPERTY_ACCESS, $access);
-    }   
+    }
 
     /**
      * Sets the the max number of members of this course object
@@ -132,12 +134,12 @@ class CourseSettings extends DataClass
     {
             $this->set_default_property(self :: PROPERTY_MAX_NUMBER_OF_MEMBERS, $max_number_of_members);
     }
-    
+
     static function get_access_states()
     {
     	return array(self :: ACCESS_OPEN => Translation :: get('Open'), self :: ACCESS_CLOSED => Translation :: get('Closed'));
     }
-    
+
 //    function set_max_number_of_admin($max_number_of_admin)
 //    {
 //            $this->set_default_property(self :: PROPERTY_MAX_NUMBER_OF_ADMIN, $max_number_of_admin);
@@ -192,7 +194,7 @@ class CourseSettings extends DataClass
 //        $wdm = WeblcmsDataManager :: get_instance();
 //        return $wdm->create_course_type_all($this);
 //    }
-//    
+//
 
 //    /**
 //    * Determines if this course has a theme
@@ -202,12 +204,12 @@ class CourseSettings extends DataClass
 //    {
 //        return (! is_null($this->get_theme()) ? true : false);
 //    }
-    
+
 	static function get_table_name()
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
-    
+
 //   /**
 //     * Checks whether the given user is a course admin in this course
 //     * @param User $user

@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Path;
+
 /**
  * $Id: course_category.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.category_manager
@@ -27,7 +29,7 @@ class CourseCategory extends PlatformCategory
         {
             return false;
         }
-        
+
     	if (!WeblcmsRights :: create_location_in_courses_subtree($this->get_name(), WeblcmsRights :: TYPE_CATEGORY, $this->get_id(), WeblcmsRights :: get_courses_subtree_root_id()))
         {
             return false;
@@ -43,7 +45,7 @@ class CourseCategory extends PlatformCategory
         {
         	return false;
         }
-        
+
         if($move)
         {
         	if($this->get_parent())
@@ -52,17 +54,17 @@ class CourseCategory extends PlatformCategory
         	}
         	else
         	{
-        		$new_parent_id = WeblcmsRights :: get_courses_subtree_root_id(0);	
+        		$new_parent_id = WeblcmsRights :: get_courses_subtree_root_id(0);
         	}
-        	
+
         	$location =  WeblcmsRights :: get_location_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_CATEGORY, $this->get_id(), 0);
         	if($location)
         	{
         		return $location->move($new_parent_id);
         	}
         }
-        
-    	return true; 
+
+    	return true;
     }
 
     function delete()
@@ -75,7 +77,7 @@ class CourseCategory extends PlatformCategory
 				return false;
 			}
 		}
-		
+
     	return WeblcmsDataManager :: get_instance()->delete_category($this);
     }
 

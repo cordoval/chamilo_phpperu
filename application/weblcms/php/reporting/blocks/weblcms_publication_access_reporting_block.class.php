@@ -1,7 +1,9 @@
 <?php
 namespace application\weblcms;
 
-require_once PATH::get_reporting_path() . '/lib/reporting_data.class.php';
+use common\libraries\Path;
+
+require_once Path :: get_reporting_path() . '/lib/reporting_data.class.php';
 require_once dirname (__FILE__) . '/../weblcms_tool_reporting_block.class.php';
 
 class WeblcmsPublicationAccessReportingBlock extends WeblcmsToolReportingBlock
@@ -13,7 +15,7 @@ class WeblcmsPublicationAccessReportingBlock extends WeblcmsToolReportingBlock
 		require_once Path :: get_user_path() . 'trackers/visit_tracker.class.php';
 
         $course_id = $this->get_course_id();
-        $user_id = $this->get_user_id();      
+        $user_id = $this->get_user_id();
         $tool = $this->get_tool();
         $pid = $this->get_pid();
 
@@ -32,14 +34,14 @@ class WeblcmsPublicationAccessReportingBlock extends WeblcmsToolReportingBlock
         $user = $udm->retrieve_user($user_id);
 
         $arr = self :: visit_tracker_to_array($condition, $user);
-		
+
         $i = 1;
         foreach ($arr[Translation :: get('User')] as $category)
 		{
 			$reporting_data->add_category($i);
 			$i++;
 		}
-		
+
 		foreach ($arr as $row_name => $row_data)
 		{
 			foreach ($row_data as $category_id => $category_value)
@@ -49,18 +51,18 @@ class WeblcmsPublicationAccessReportingBlock extends WeblcmsToolReportingBlock
 		}
 
         return $reporting_data;
-	}	
-	
+	}
+
 	public function retrieve_data()
 	{
-		return $this->count_data();		
+		return $this->count_data();
 	}
-	
+
 	function get_application()
 	{
 		return WeblcmsManager::APPLICATION_NAME;
 	}
-	
+
 	public function get_available_displaymodes()
 	{
 		$modes = array();

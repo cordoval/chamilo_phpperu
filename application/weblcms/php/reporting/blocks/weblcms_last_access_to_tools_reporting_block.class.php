@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Path;
+
 require_once dirname (__FILE__) . '/../weblcms_tool_reporting_block.class.php';
 require_once PATH::get_reporting_path() . '/lib/reporting_data.class.php';
 
@@ -10,7 +12,7 @@ class WeblcmsLastAccessToToolsReportingBlock extends WeblcmsToolReportingBlock
 	{
 		$reporting_data = new ReportingData();
         $reporting_data->set_rows(array(Translation :: get('Tool'), Translation :: get('LastAccess'), Translation :: get('Clicks'), Translation :: get('Publications')));
-		
+
 		require_once Path :: get_user_path() . 'trackers/visit_tracker.class.php';
 
         $wdm = WeblcmsDataManager :: get_instance();
@@ -29,7 +31,7 @@ class WeblcmsLastAccessToToolsReportingBlock extends WeblcmsToolReportingBlock
             $params[Application::PARAM_APPLICATION] = WeblcmsManager::APPLICATION_NAME;
             $params[WeblcmsManager::PARAM_COURSE] = $this->get_course_id();
             $params[WeblcmsManager::PARAM_TOOL] = $name;
-            
+
             $link = ' <a href="' . Redirect::get_url($params) . '">' . Translation :: get('access') . '</a>';
             $date = $wdm->get_last_visit_date_per_course($course_id, $name);
             if ($date)
@@ -65,7 +67,7 @@ class WeblcmsLastAccessToToolsReportingBlock extends WeblcmsToolReportingBlock
         	$params[WeblcmsManager::PARAM_TOOL] = $name;
             //$url = ReportingManager :: get_reporting_template_registration_url_content($this->get_parent()->get_parent(), $params);
             $url = $this->get_parent()->get_url($params);
-            
+
             $link_pub = '<a href="' . $url . '">' . Translation :: get('ViewPublications') . '</a>';
             $reporting_data->add_category($tool);
             $reporting_data->add_data_category_row($tool, Translation :: get('Tool'), $link);
@@ -74,13 +76,13 @@ class WeblcmsLastAccessToToolsReportingBlock extends WeblcmsToolReportingBlock
         	$reporting_data->add_data_category_row($tool, Translation :: get('Publications'), $link_pub);
         }
         return $reporting_data;
-	}	
-	
+	}
+
 	public function retrieve_data()
 	{
-		return $this->count_data();		
+		return $this->count_data();
 	}
-	
+
 	public function get_available_displaymodes()
 	{
 		$modes = array();

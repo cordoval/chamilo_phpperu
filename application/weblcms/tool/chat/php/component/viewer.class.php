@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\chat;
 
+use common\libraries\Path;
+
 /**
  * $Id: chat_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.chat.component
@@ -18,16 +20,16 @@ class ChatToolViewerComponent extends ChatTool
             Display :: not_allowed();
             return;
         }
-        
+
         $course = $this->get_course();
         $user = $this->get_user();
         $course_rel_user = WeblcmsDataManager :: get_instance()->retrieve_course_user_relation($course->get_id(), $user->get_id());
-        
+
         $params = array();
-        
+
         if (($course_rel_user && $course_rel_user->get_status() == 1) || $user->is_platform_admin())
             $params["isadmin"] = true;
-        
+
         $params["data_public_url"] = Path :: get(WEB_PATH) . 'plugin/phpfreechat/data/public';
         $params["data_public_path"] = Path :: get(SYS_PATH) . 'plugin/phpfreechat/data/public';
         $params["server_script_url"] = $_SERVER['REQUEST_URI'];
@@ -44,16 +46,16 @@ class ChatToolViewerComponent extends ChatTool
         $params["btn_sh_whosonline"] = false;
         $params["btn_sh_smileys"] = false;
         $params["displaytabimage"] = false;
-        
+
         $chat = new phpFreeChat($params);
-        
+
         $trail = BreadcrumbTrail :: get_instance();
-        
-        
+
+
         $this->display_header();
         if (! function_exists('filemtime'))
             echo Translation :: get('FileMTimeWarning');
-        
+
         $chat->printChat();
         $this->display_footer();
     }

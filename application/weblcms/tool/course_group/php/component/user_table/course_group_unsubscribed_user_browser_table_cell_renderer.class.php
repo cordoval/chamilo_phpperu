@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\course_group;
 
+use common\libraries\Path;
+
 /**
  * $Id: course_group_unsubscribed_user_browser_table_cell_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.course_group.component.user_table
@@ -24,7 +26,7 @@ class CourseGroupUnsubscribedUserBrowserTableCellRenderer extends DefaultUserTab
         {
             return $this->get_modification_links($user);
         }
-        
+
         // Add special features here
         switch ($column->get_name())
         {
@@ -49,7 +51,7 @@ class CourseGroupUnsubscribedUserBrowserTableCellRenderer extends DefaultUserTab
         $parameters[CourseGroupTool :: PARAM_COURSE_GROUP_ACTION] = CourseGroupTool :: ACTION_SUBSCRIBE;
         $unsubscribe_url = $this->browser->get_url($parameters);
         $toolbar->add_item(new ToolbarItem(Translation :: get('Subscribe'), Theme :: get_common_image_path() . 'action_subscribe.png', $unsubscribe_url, ToolbarItem::DISPLAY_ICON ));
-        
+
         $parameters = array();
         /*$parameters[WeblcmsManager :: PARAM_TOOL_ACTION] = UserTool::USER_DETAILS;
 			$parameters[WeblcmsManager :: PARAM_USERS] = $user->get_id();

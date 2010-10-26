@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Path;
+
 
 require_once dirname(__FILE__) . '/../../../../common/global.inc.php';
 require_once Path :: get_application_path() . 'lib/weblcms/weblcms_manager/weblcms_manager.class.php';
@@ -57,7 +59,7 @@ for($i=1;$i<6;$i++)
 				$rights->create();
 				break;
 	}
-	
+
 	if($i==1 || $i==2)
 	{
 		for($j=1;$j<4;$j++)
@@ -69,7 +71,7 @@ for($i=1;$i<6;$i++)
 			$group->create();
 			$child_child_id = $group->get_id();
 			$registered_group_id[$group->get_id()] = CourseTypeGroupCreationRight::CREATE_NONE;
-			
+
 			if($i == 1)
 				$registered_group_id[$group->get_id()] = CourseTypeGroupCreationRight::CREATE_DIRECT;
 			else
@@ -99,7 +101,7 @@ for($i=1;$i<6;$i++)
 							break;
 				}
 			}
-	
+
 			if($j == 1)
 			{
 				$group = new Group();
@@ -111,7 +113,7 @@ for($i=1;$i<6;$i++)
 					$registered_group_id[$group->get_id()] = CourseTypeGroupCreationRight::CREATE_DIRECT;
 				else
 					$registered_group_id[$group->get_id()] = CourseTypeGroupCreationRight::CREATE_REQUEST;
-				
+
 			}
 		}
 	}

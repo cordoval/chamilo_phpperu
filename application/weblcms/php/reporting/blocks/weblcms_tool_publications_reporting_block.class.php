@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Path;
+
 require_once dirname (__FILE__) . '/../weblcms_tool_reporting_block.class.php';
 require_once PATH::get_reporting_path() . '/lib/reporting_data.class.php';
 
@@ -10,7 +12,7 @@ class WeblcmsToolPublicationsReportingBlock extends WeblcmsToolReportingBlock
 	{
 		$reporting_data = new ReportingData();
         $reporting_data->set_rows(array(Translation :: get('Title'), Translation :: get('Description'), Translation :: get('LastAccess'), Translation :: get('TotalTimesAccessed'), Translation :: get('PublicationDetails')));
-		
+
 		require_once Path :: get_user_path() . 'trackers/visit_tracker.class.php';
 
 		$course_id = $this->get_course_id();
@@ -34,7 +36,7 @@ class WeblcmsToolPublicationsReportingBlock extends WeblcmsToolReportingBlock
         $condition = new AndCondition($conditions);
         $lops = $wdm->retrieve_content_object_publications($condition, $params['order_by']);
 		$i = 1;
-        
+
         while ($lop = $lops->next_result())
         {
             $condition = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*course=' . $course_id . '*' . Tool::PARAM_PUBLICATION_ID . '=' . $lop->get_id() . '*');
@@ -50,34 +52,34 @@ class WeblcmsToolPublicationsReportingBlock extends WeblcmsToolReportingBlock
             $params[Application::PARAM_APPLICATION] = WeblcmsManager::APPLICATION_NAME;
             $params[WeblcmsManager::PARAM_COURSE] = $course_id;
             $params[WeblcmsManager::PARAM_TOOL] = $tool;
-            $params[WeblcmsManager::PARAM_PUBLICATION] = $lop->get_id();           
+            $params[WeblcmsManager::PARAM_PUBLICATION] = $lop->get_id();
             $url = Redirect::get_url($params);
-            
+
             $des = $lop->get_content_object()->get_description();
             $this->get_parent()->set_parameter($lop->get_id());
             $this->set_params($course_id, $user_id, $tool, $this->get_pid());
 
-			$params = $this->get_parent()->get_parameters();	
+			$params = $this->get_parent()->get_parameters();
             $params[ReportingManager::PARAM_TEMPLATE_ID] = Reporting::get_name_registration(Utilities::camelcase_to_underscores('PublicationDetailReportingTemplate'), WeblcmsManager::APPLICATION_NAME)->get_id();
             $params[WeblcmsManager::PARAM_COURSE] = $course_id;
             $params[WeblcmsManager::PARAM_USERS] = $user_id;
             $params[WeblcmsManager::PARAM_TOOL] = $tool;
-            $params[WeblcmsManager::PARAM_PUBLICATION] = $lop->get_id();   
+            $params[WeblcmsManager::PARAM_PUBLICATION] = $lop->get_id();
             $url_detail = ReportingManager :: get_reporting_template_registration_url_content($this->get_parent()->get_parent(), $params);
-                        
+
             $reporting_data->add_category($i);
             $reporting_data->add_data_category_row($i, Translation :: get('Title'), '<a href="' . $url . '">' . $lop->get_content_object()->get_title() . '</a>');
 		    $reporting_data->add_data_category_row($i, Translation :: get('Description'), Utilities :: truncate_string($des, 50));
 		    $reporting_data->add_data_category_row($i, Translation :: get('LastAccess'), $lastaccess);
 		    $reporting_data->add_data_category_row($i, Translation :: get('TotalTimesAccessed'), count($trackerdata));
-		    $reporting_data->add_data_category_row($i, Translation :: get('PublicationDetails'), '<a href="' . $url_detail . '">' . Translation :: get('AccessDetails') . '</a>');	     
-        }	
+		    $reporting_data->add_data_category_row($i, Translation :: get('PublicationDetails'), '<a href="' . $url_detail . '">' . Translation :: get('AccessDetails') . '</a>');
+        }
         return $reporting_data;
-	}	
-	
+	}
+
 	public function retrieve_data()
 	{
-		return $this->count_data();		
+		return $this->count_data();
 	}
 
 	public function get_available_displaymodes()

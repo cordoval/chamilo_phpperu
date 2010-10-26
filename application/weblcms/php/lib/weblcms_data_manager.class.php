@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\DataManagerInterface;
+
 /**
  * $Id: weblcms_data_manager.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms
@@ -52,9 +54,9 @@ class WeblcmsDataManager implements DataManagerInterface
     static function get_tools($requested_section = 'all')
     {
         $course_modules = Array();
-        
+
         $options = array('forceEnum' => array('properties'));
-        
+
         $dir = dirname(__FILE__) . '/tool/';
         $tools = FileSystem :: get_directory_content($dir, FileSystem :: LIST_DIRECTORIES, false);
         foreach($tools as $tool)
@@ -64,13 +66,13 @@ class WeblcmsDataManager implements DataManagerInterface
         	{
         		continue;
         	}
-        	
+
         	$doc = new DOMDocument();
 
 	        $doc->load($properties_file);
 	        $xml_properties = $doc->getElementsByTagname('property');
 	        $properties = array();
-	
+
 	        foreach ($xml_properties as $index => $property)
 	        {
 	            if($property->getAttribute('name') == 'section')
@@ -79,13 +81,13 @@ class WeblcmsDataManager implements DataManagerInterface
 	            	break;
 	            }
 	        }
-	
+
 	        if ($section == $requested_section || $requested_section == 'all')
 	        {
             	$course_modules[] = $tool;
 	        }
         }
-        
+
         return $course_modules;
     }
 
@@ -162,15 +164,15 @@ class WeblcmsDataManager implements DataManagerInterface
 
         return $course_groups_recursive;
     }
-    
+
     static function is_course_code_available($code)
     {
     	$condition = new EqualityCondition(Course :: PROPERTY_VISUAL, $code);
     	return (self :: get_instance()->count_courses($condition) == 0);
     }
-    
+
     private static $new_publications;
-    
+
 	/**
 	 * Determines if a tool has new publications  since the last time the
 	 * current user visited the tool.
@@ -183,17 +185,17 @@ class WeblcmsDataManager implements DataManagerInterface
 		{
 			return false;
 		}
-		
+
 		if(is_null(self :: $new_publications[$course->get_id()]))
 		{
 			self :: $new_publications[$course->get_id()] = self :: get_instance()->count_new_publications_from_course($course, $user);
 		}
-		
+
 		if(self :: $new_publications[$course->get_id()][$tool] && self :: $new_publications[$course->get_id()][$tool] > 0)
 		{
 			return true;
 		}
-		
+
 		return false;
 	}
 

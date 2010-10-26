@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Path;
+
 require_once dirname (__FILE__) . '/../weblcms_course_reporting_block.class.php';
 require_once PATH::get_reporting_path() . '/lib/reporting_data.class.php';
 
@@ -10,14 +12,14 @@ class WeblcmsMostActiveInactiveLastDetailReportingBlock extends WeblcmsCourseRep
 	{
 		$reporting_data = new ReportingData();
         $reporting_data->set_rows(array(Translation :: get('LastVisit'), Translation :: get('LastPublication')));
-        
+
 		require_once Path :: get_user_path() . 'trackers/visit_tracker.class.php';
         $wdm = WeblcmsDataManager :: get_instance();
         $tracker = new VisitTracker();
         $courses = $wdm->retrieve_courses();
         while ($course = $courses->next_result())
         {
-            
+
         	$lastaccess = Translation :: get('NeverAccessed');
             $lastpublication = Translation :: get('NothingPublished');
 
@@ -43,18 +45,18 @@ class WeblcmsMostActiveInactiveLastDetailReportingBlock extends WeblcmsCourseRep
 			$reporting_data->add_data_category_row($course->get_name(), Translation :: get('LastPublication'), $lastpublication);
         }
         return $reporting_data;
-	}	
-	
+	}
+
 	public function retrieve_data()
 	{
-		return $this->count_data();		
+		return $this->count_data();
 	}
-	
+
 	function get_application()
 	{
 		return WeblcmsManager::APPLICATION_NAME;
 	}
-	
+
 	public function get_available_displaymodes()
 	{
 		$modes = array();

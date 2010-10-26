@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Path;
+
 /**
  * $Id: course_type_settings.class.php 216 2010-02-25 11:06:00Z Yannick & Tristan$
  * @package application.lib.weblcms.course_type
@@ -33,7 +35,7 @@ class CourseTypeSettings extends CourseSettings
 			self :: PROPERTY_VISIBILITY_FIXED,
 			self :: PROPERTY_ACCESS_FIXED,
 			self :: PROPERTY_MAX_NUMBER_OF_MEMBERS_FIXED));
-	}	
+	}
 
 	/**
 	 * inherited
@@ -60,7 +62,7 @@ class CourseTypeSettings extends CourseSettings
 	{
 		return $this->get_default_property(self :: PROPERTY_TITULAR_FIXED);
 	}
-	
+
 	/**
 	 * Returns the languages fixed of this coursetype object
 	 * @return Boolean the languages fixed
@@ -114,7 +116,7 @@ class CourseTypeSettings extends CourseSettings
 	{
 		return $this->set_default_property(self :: PROPERTY_TITULAR_FIXED, $titular_fixed);
 	}
-	
+
 	/**
 	 * Sets the languages fixed of this coursetype object
 	 * @param Boolean $languages_fixed the languages fixed

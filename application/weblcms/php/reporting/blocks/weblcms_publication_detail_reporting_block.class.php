@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Path;
+
 require_once PATH::get_reporting_path() . '/lib/reporting_data.class.php';
 require_once dirname (__FILE__) . '/../weblcms_tool_reporting_block.class.php';
 
@@ -9,7 +11,7 @@ class WeblcmsPublicationDetailReportingBlock extends WeblcmsToolReportingBlock
 	public function count_data()
 	{
 		$reporting_data = new ReportingData();
-		
+
 		require_once Path :: get_user_path() . 'trackers/visit_tracker.class.php';
 
 		$course_id = $this->get_course_id();
@@ -21,7 +23,7 @@ class WeblcmsPublicationDetailReportingBlock extends WeblcmsToolReportingBlock
         $wdm = WeblcmsDataManager :: get_instance();
         $condition = new EqualityCondition(WeblcmsManager :: PARAM_TOOL, $tool);
         $lop = $wdm->retrieve_content_object_publication($pid);
-        
+
         if (empty($lop))
         {
             $lop = RepositoryDataManager :: get_instance()->retrieve_content_object($pid);
@@ -45,7 +47,7 @@ class WeblcmsPublicationDetailReportingBlock extends WeblcmsToolReportingBlock
                 $lastaccess = $value->get_leave_date();
         }
         $url = 'run.php?go='.WeblcmsManager :: ACTION_VIEW_COURSE.'&course=' . $course_id . '&tool=' . $tool . '&application=weblcms&' . Tool::PARAM_PUBLICATION_ID . '=' . $id . '&tool_action=' . Tool :: ACTION_VIEW;
-        
+
         /*$arr[Translation :: get('Title')][] = '<a href="' . $url . '">' . $title . '</a>';
         $arr[Translation :: get('Description')][] = Utilities :: truncate_string($descr, 50);
         $arr[Translation :: get('LastAccess')][] = $lastaccess;
@@ -58,20 +60,20 @@ class WeblcmsPublicationDetailReportingBlock extends WeblcmsToolReportingBlock
         $reporting_data->add_data_category_row(Translation :: get('Description'), Translation :: get('count'), Utilities :: truncate_string($descr, 50));
         $reporting_data->add_data_category_row(Translation :: get('LastAccess'), Translation :: get('count'), DatetimeUtilities :: format_locale_date(null, $lastaccess));
         $reporting_data->add_data_category_row(Translation :: get('TotalTimesAccessed'), Translation :: get('count'), count($trackerdata));
-        
+
         return $reporting_data;
-	}	
-	
+	}
+
 	public function retrieve_data()
 	{
-		return $this->count_data();		
+		return $this->count_data();
 	}
-	
+
 	function get_application()
 	{
 		return WeblcmsManager::APPLICATION_NAME;
 	}
-	
+
 	public function get_available_displaymodes()
 	{
 		$modes = array();

@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Path;
+
 /**
  * $Id: weblcms_rights.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms
@@ -81,7 +83,7 @@ class WeblcmsRights extends RightsUtilities
     {
     	return parent :: get_location_id_by_identifier(WeblcmsManager :: APPLICATION_NAME, $type, $identifier, $tree_identifier, WeblcmsRights :: TREE_TYPE_COURSE);
     }
-    
+
 	static function get_location_by_identifier_from_courses_subtree($type, $identifier, $tree_identifier = 0)
     {
     	return parent :: get_location_by_identifier(WeblcmsManager :: APPLICATION_NAME, $type, $identifier, $tree_identifier, WeblcmsRights :: TREE_TYPE_COURSE);
@@ -91,11 +93,11 @@ class WeblcmsRights extends RightsUtilities
     {
     	 return self :: is_allowed($right, $location, $type, null, $tree_identifier, WeblcmsRights :: TREE_TYPE_COURSE);
     }
-    
+
     /**
      * Functions used for course_group_right_location
      */
-    
+
 	static function invert_course_group_right_location($right, $course_group, $location)
     {
         if (! empty($course_group) && ! empty($right) && ! empty($location))
@@ -130,7 +132,7 @@ class WeblcmsRights extends RightsUtilities
             return false;
         }
     }
-    
+
 	static function set_course_group_right_location_value($right, $course_group, $location, $value)
     {
         if (! empty($course_group) && ! empty($right) && ! empty($location) && isset($value))
@@ -172,7 +174,7 @@ class WeblcmsRights extends RightsUtilities
             return false;
         }
     }
-    
+
 	static function get_course_group_right_location($right_id, $course_group_id, $location_id)
     {
         $wdm = WeblcmsDataManager :: get_instance();
@@ -187,7 +189,7 @@ class WeblcmsRights extends RightsUtilities
             return 0;
         }
     }
-    
+
 	static function is_allowed_for_course_group($course_group, $right, $location)
     {
         $parents = $location->get_parents();
@@ -209,7 +211,7 @@ class WeblcmsRights extends RightsUtilities
 
         return false;
     }
-    
+
 	static function get_course_group_rights_icon($location_url, $rights_url, $locked_parent, $right, $object, $location)
     {
         $html[] = '<div id="r_' . $right . '_' . $object->get_id() . '_' . $location->get_id() . '" style="float: left; width: 24%; text-align: center;">';
@@ -251,9 +253,9 @@ class WeblcmsRights extends RightsUtilities
 
         return implode("\n", $html);
     }
-    
+
     // Rewrite of is_allowed and get_right to check for course groups as well
-    
+
 	static function is_allowed($right, $location = 0, $type = self :: TYPE_ROOT, $user_id = null, $tree_identifier = 0, $tree_type = self :: TREE_TYPE_ROOT)
     {
     	// Determine the user_id of the user we're checking a right for
@@ -270,7 +272,7 @@ class WeblcmsRights extends RightsUtilities
 
         return self :: $is_allowed_cache[$cache_id];
     }
-    
+
 	/**
      * @param int $right
      * @param int $location

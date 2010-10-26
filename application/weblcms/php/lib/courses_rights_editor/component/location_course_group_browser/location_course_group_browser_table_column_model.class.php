@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Path;
+
 /**
  * $Id: location_course_group_browser_table_column_model.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.rights_editor_manager.component.location_course_group_bowser
@@ -29,7 +31,7 @@ class LocationCourseGroupBrowserTableColumnModel extends ObjectTableColumnModel
         $this->add_rights_columns();
         $this->set_default_order_column(1);
     }
-    
+
     function get_columns()
     {
     	$columns = array();
@@ -61,7 +63,7 @@ class LocationCourseGroupBrowserTableColumnModel extends ObjectTableColumnModel
     function add_rights_columns()
     {
         $rights = $this->browser->get_available_rights();
-        
+
         foreach ($rights as $right_name => $right_id)
         {
             $column_name = Utilities :: underscores_to_camelcase(strtolower($right_name));

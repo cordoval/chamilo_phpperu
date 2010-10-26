@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use common\libraries\Path;
+
 /**
  * $Id: assessment_document_saver.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.assessment.component
@@ -31,7 +33,7 @@ class AssessmentToolDocumentSaverComponent extends AssessmentTool
                 $filenames = $this->save_user_assessment_docs($user_assessments[0]);
             }
         }
-        
+
         if (count($filenames) > 0)
         {
             $this->send_files($filenames, $id);
@@ -66,7 +68,7 @@ class AssessmentToolDocumentSaverComponent extends AssessmentTool
         $assessment = $publication->get_content_object();
         $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $assessment->get_id(), ComplexContentObjectItem :: get_table_name());
         $clo_questions = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items($condition);
-        
+
         while ($clo_question = $clo_questions->next_result())
         {
             $question = RepositoryDataManager :: get_instance()->retrieve_content_object($clo_question->get_ref());
@@ -79,7 +81,7 @@ class AssessmentToolDocumentSaverComponent extends AssessmentTool
                 }
             }
         }
-        
+
         foreach ($questions as $i => $question)
         {
             $clo_question = $c_questions[$i];
@@ -89,7 +91,7 @@ class AssessmentToolDocumentSaverComponent extends AssessmentTool
             $condition = new AndCondition(array($conditiona, $conditionq));
             $user_questions = $track->retrieve_tracker_items($condition);
             //print_r($condition);
-            //dump($user_questions); 
+            //dump($user_questions);
             if ($question->get_question_type() == OpenQuestion :: TYPE_DOCUMENT)
             {
                 $user_question = $user_questions[0];
@@ -98,7 +100,7 @@ class AssessmentToolDocumentSaverComponent extends AssessmentTool
             {
                 $user_question = $user_questions[1];
             }
-            
+
             if ($user_question != null)
             {
                 $answer = unserialize($user_question->get_answer());
@@ -106,7 +108,7 @@ class AssessmentToolDocumentSaverComponent extends AssessmentTool
                 $filenames[] = Path :: get(SYS_REPO_PATH) . $document->get_path();
             }
         }
-        
+
         return $filenames;
     }
 
@@ -123,25 +125,25 @@ class AssessmentToolDocumentSaverComponent extends AssessmentTool
         {
             mkdir($temp_dir, '0777', true);
         }
-        
+
         foreach ($filenames as $filename)
         {
             $newfile = $temp_dir . basename($filename);
             Filesystem :: copy_file($filename, $newfile);
         }
-        
+
         $zip = Filecompression :: factory();
         $zip->set_filename('assessment_documents', 'zip');
         $path = $zip->create_archive($temp_dir);
-        
+
         Filesystem :: remove($temp_dir);
-        
+
         header('Expires: Wed, 01 Jan 1990 00:00:00 GMT');
         header('Cache-Control: public');
         header('Pragma: no-cache');
         header('Content-type: application/octet-stream');
         header('Content-length: ' . filesize($path));
-        
+
         if (preg_match("/MSIE 5.5/", $_SERVER['HTTP_USER_AGENT']))
         {
             header('Content-Disposition: filename= ' . basename($path));
@@ -150,14 +152,14 @@ class AssessmentToolDocumentSaverComponent extends AssessmentTool
         {
             header('Content-Disposition: attachment; filename= ' . basename($path));
         }
-        
+
         if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE'))
         {
             header('Pragma: ');
             header('Cache-Control: ');
             header('Cache-Control: public'); // IE cannot download from sessions without a cache
         }
-        
+
         header('Content-Description: ' . basename($path));
         header('Content-transfer-encoding: binary');
         $fp = fopen($path, 'r');

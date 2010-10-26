@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\FormValidator;
+
 /**
  * $Id: weblcms_search_form.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms.weblcms_manager
@@ -76,9 +78,9 @@ class WeblcmsSearchForm extends FormValidator
         $this->renderer = clone $this->defaultRenderer();
         $this->manager = $manager;
         $this->frozen_elements = array();
-        
+
         $this->build_simple_search_form();
-        
+
         $this->autofreeze();
         $this->accept($this->renderer);
     }
@@ -150,16 +152,16 @@ class WeblcmsSearchForm extends FormValidator
     private function get_search_conditions()
     {
         $values = $this->exportValues();
-        
+
         $query = $values[self :: PARAM_SIMPLE_SEARCH_QUERY];
-        
+
         if (isset($query) && $query != '')
         {
             $conditions = array();
             $conditions[] = new PatternMatchCondition(Course :: PROPERTY_ID, '*' . $values[self :: PARAM_SIMPLE_SEARCH_QUERY] . '*');
             $conditions[] = new PatternMatchCondition(Course :: PROPERTY_NAME, '*' . $values[self :: PARAM_SIMPLE_SEARCH_QUERY] . '*');
             $conditions[] = new PatternMatchCondition(CourseSettings :: PROPERTY_LANGUAGE, '*' . $values[self :: PARAM_SIMPLE_SEARCH_QUERY] . '*', CourseSettings :: get_table_name());
-            
+
             return new OrCondition($conditions);
         }
         else

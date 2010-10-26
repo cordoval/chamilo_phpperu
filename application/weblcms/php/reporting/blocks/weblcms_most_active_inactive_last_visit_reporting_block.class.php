@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Path;
+
 require_once dirname (__FILE__) . '/../weblcms_course_reporting_block.class.php';
 require_once PATH::get_reporting_path() . '/lib/reporting_data.class.php';
 
@@ -60,30 +62,30 @@ class WeblcmsMostActiveInactiveLastVisitReportingBlock extends WeblcmsCourseRepo
 	                                $arr[Translation :: get('MoreThenOneYear')] ++;
 	                            }
         }
-        
+
         $reporting_data->set_categories(array(Translation :: get('Past24hr'), Translation :: get('PastWeek'), Translation :: get('PastMonth'), Translation :: get('PastYear'),Translation :: get('MoreThenOneYear'), Translation :: get('NeverAccessed')));
         $reporting_data->set_rows(array(Translation :: get('TimesAccessed')));
-		
+
 		$reporting_data->add_data_category_row(Translation :: get('Past24hr'), Translation :: get('TimesAccessed'), $arr[Translation :: get('Past24hr')]);
 		$reporting_data->add_data_category_row(Translation :: get('PastWeek'), Translation :: get('TimesAccessed'), $arr[Translation :: get('PastWeek')]);
 		$reporting_data->add_data_category_row(Translation :: get('PastMonth'), Translation :: get('TimesAccessed'), $arr[Translation :: get('PastMonth')]);
 		$reporting_data->add_data_category_row(Translation :: get('PastYear'), Translation :: get('TimesAccessed'), $arr[Translation :: get('PastYear')]);
 		$reporting_data->add_data_category_row(Translation :: get('MoreThenOneYear'), Translation :: get('TimesAccessed'), $arr[Translation :: get('MoreThenOneYear')]);
 		$reporting_data->add_data_category_row(Translation :: get('NeverAccessed'), Translation :: get('TimesAccessed'), $arr[Translation :: get('NeverAccessed')]);
-	    
+
         return $reporting_data;
-	}	
-	
+	}
+
 	public function retrieve_data()
 	{
-		return $this->count_data();		
+		return $this->count_data();
 	}
-	
+
 	function get_application()
 	{
 		return WeblcmsManager::APPLICATION_NAME;
 	}
-	
+
 	public function get_available_displaymodes()
 	{
 		$modes = array();

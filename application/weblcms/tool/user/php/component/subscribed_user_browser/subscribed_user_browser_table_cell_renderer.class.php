@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\user;
 
+use common\libraries\Path;
+
 /**
  * $Id: subscribed_user_browser_table_cell_renderer.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms.weblcms_manager.component.subscribe_user_browser
@@ -86,7 +88,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 	        		$subscribe_url,
 	        		ToolbarItem :: DISPLAY_ICON
 	        ));
-            
+
             $parameters = array();
             $parameters[UserTool :: PARAM_USERS] = $user->get_id();
             $parameters[Tool :: PARAM_ACTION] = UserTool :: ACTION_SUBSCRIBE_AS_ADMIN;
@@ -104,7 +106,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
             $parameters[Tool :: PARAM_ACTION] = UserTool :: ACTION_USER_DETAILS;
             $parameters[UserTool :: PARAM_USERS] = $user->get_id();
             $details_url = $this->browser->get_url($parameters);
-            
+
             $toolbar->add_item(new ToolbarItem(
 	        		Translation :: get('Details'),
 	        		Theme :: get_common_image_path() . 'action_details.png',
@@ -118,7 +120,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 	            $parameters[Tool :: PARAM_ACTION] = UserTool :: ACTION_EMAIL;
 	            $parameters[UserTool :: PARAM_USERS] = $user->get_id();
 	            $email_url = $this->browser->get_url($parameters);
-	            
+
 	            $toolbar->add_item(new ToolbarItem(
 		        		Translation :: get('Email'),
 		        		Theme :: get_common_image_path() . 'action_email.png',
@@ -135,7 +137,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
                 $parameters[Tool :: PARAM_ACTION] = UserTool :: ACTION_UNSUBSCRIBE;
                 $parameters[UserTool :: PARAM_USERS] = $user->get_id();
                 $unsubscribe_url = $this->browser->get_url($parameters);
-                
+
                 $toolbar->add_item(new ToolbarItem(
 		        		Translation :: get('Unsubscribe'),
 		        		Theme :: get_common_image_path() . 'action_unsubscribe.png',
@@ -159,7 +161,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
                 $params[UserTool :: PARAM_USERS] = $user->get_id();
 				$params[Tool :: PARAM_ACTION] = UserTool :: ACTION_REPORTING;
                 $reporting_url = $this->browser->get_url($params);
-                
+
                 $toolbar->add_item(new ToolbarItem(
 		        		Translation :: get('Report'),
 		        		Theme :: get_common_image_path() . 'action_reporting.png',

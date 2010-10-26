@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use common\libraries\Path;
+
 /**
  * $Id: learning_path_content_object_display.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.learning_path.component.learning_path_viewer
@@ -14,7 +16,7 @@ class LearningPathContentObjectDisplay
     {
         $class = ContentObject :: type_to_class($type) . 'Display';
         $file = dirname(__FILE__) . '/content_object_display/' . $type . '.class.php';
-        
+
         if (file_exists($file))
         {
             require_once $file;
@@ -46,12 +48,12 @@ class LearningPathContentObjectDisplay
         $tracker_id = $trackers['lpi_tracker']->get_id();
         $trackers['lpi_tracker']->set_status('completed');
         $trackers['lpi_tracker']->update();
-        
+
         $html[] = '<script languages="JavaScript">';
         $html[] = '    var tracker_id = ' . $tracker_id . ';';
         $html[] = '</script>';
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_APP_PATH) . 'lib/weblcms/tool/learning_path/javascript/learning_path_item.js');
-        
+
         return implode("\n", $html);
     }
 
@@ -59,7 +61,7 @@ class LearningPathContentObjectDisplay
     {
         $html[] = '<iframe frameborder="0" class="link_iframe" src="' . $link . '" width="100%" height="700px">';
         $html[] = '<p>Your browser does not support iframes.</p></iframe>';
-        
+
         return implode("\n", $html);
     }
 

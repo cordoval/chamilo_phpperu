@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Path;
+
 /**
  * $Id: application.lib.weblcms.xml_feeds.xml_course_type_feed.php 224 2009-11-13 14:40:30Z kariboe $
  * @package application.lib.weblcms.xml_feeds
@@ -68,7 +70,7 @@ if (Authentication :: is_valid())
        	if($courses_count > 0)*/
 			$course_types[$course_type->get_id()] = $course_type->get_name();
     }
-        
+
    	$conditions = array();
     $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, Session :: get_user_id(), CourseUserRelation :: get_table_name());
     $conditions[] = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, 0);
