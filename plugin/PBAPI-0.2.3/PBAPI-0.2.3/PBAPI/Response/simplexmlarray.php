@@ -1,4 +1,5 @@
 <?php
+use common\libraries\Path;
 /**
  * Photobucket API 
  * Fluent interface for PHP5
@@ -19,8 +20,8 @@
 /**
  * base class for SimpleXML
  */
-require_once PATH :: get_plugin_path() . 'PBAPI-0.2.3/PBAPI-0.2.3/PBAPI/Response.php';
-require_once PATH :: get_plugin_path() . 'PBAPI-0.2.3/PBAPI-0.2.3/PBAPI/Response/simplexml.php';
+require_once Path :: get_plugin_path() . 'PBAPI-0.2.3/PBAPI-0.2.3/PBAPI/Response.php';
+require_once Path :: get_plugin_path() . 'PBAPI-0.2.3/PBAPI-0.2.3/PBAPI/Response/simplexml.php';
 
 /**
  * Response XML parser using SimpleXML

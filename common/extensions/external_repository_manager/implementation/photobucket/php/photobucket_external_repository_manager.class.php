@@ -3,10 +3,11 @@ namespace common\extensions\external_repository_manager\implementation\photobuck
 
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\Path;
 
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
-
+use common\extensions\external_repository_manager\ExternalRepositoryObjectRenderer;
 
 /**
  * 

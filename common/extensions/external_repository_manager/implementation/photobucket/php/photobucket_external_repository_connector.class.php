@@ -2,10 +2,18 @@
 namespace common\extensions\external_repository_manager\implementation\photobucket;
 
 use common\libraries\Request;
+use common\libraries\Path;
+use common\libraries\Session;
+
+use common\extensions\external_repository_manager\ExternalRepositoryConnector;
+use repository\ExternalRepositorySetting;
+use repository\ExternalRepositoryUserSetting;
+
+use PBAPI;
 
 require_once dirname(__FILE__) . '/photobucket_external_repository_object.class.php';
 require_once 'OAuth/Request.php';
-require_once PATH :: get_plugin_path() . 'PBAPI-0.2.3/PBAPI-0.2.3/PBAPI.php';
+require_once Path :: get_plugin_path() . 'PBAPI-0.2.3/PBAPI-0.2.3/PBAPI.php';
 /**
  * 
  * @author magali.gillard
