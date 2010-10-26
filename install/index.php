@@ -35,7 +35,7 @@ function dump($variable)
     //ini_set('display_errors', '0');
     
     spl_autoload_register('common\libraries\Utilities::autoload_core');
-    //spl_autoload_register('common\libraries\Utilities::autoload_web');
+    spl_autoload_register('common\libraries\Utilities::autoload_web');
     require_once dirname(__FILE__) . '/php/lib/install_manager/install_manager.class.php';
     
     Request :: set_get('install_running', 1);
