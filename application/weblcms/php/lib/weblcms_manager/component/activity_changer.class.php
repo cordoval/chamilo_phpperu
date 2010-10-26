@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms;
+
 /**
  * $Id: activity_changer.class.php 213 2009-11-13 13:38:50Z vanpouckesven $
  * @package weblcms.lib.weblcms_manager.component

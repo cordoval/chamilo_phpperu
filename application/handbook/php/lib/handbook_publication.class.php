@@ -11,6 +11,7 @@ use common\libraries\Utilities;
 class HandbookPublication extends DataClass
 {
 	const CLASS_NAME = __CLASS__;
+        const TABLE_NAME = 'handbook_publication';
 
 	/**
 	 * HandbookPublication properties
@@ -128,7 +129,11 @@ class HandbookPublication extends DataClass
 
 	static function get_table_name()
 	{
-		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+//		return Utilities::get_classname_from_namespace(Utilities :: camelcase_to_underscores(self :: CLASS_NAME));
+
+            return self :: TABLE_NAME;
+
+
 	}
 }
 

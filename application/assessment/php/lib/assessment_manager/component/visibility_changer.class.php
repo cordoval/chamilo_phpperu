@@ -1,4 +1,11 @@
 <?php
+
+namespace application\assessment;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
 /**
  * $Id: visibility_changer.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.assessment_manager.component

@@ -1,5 +1,8 @@
 <?php
 namespace common\extensions\external_repository_manager;
+
+use common\libraries\GalleryObjectTableDataProvider;
+
 class DefaultExternalRepositoryGalleryObjectTableDataProvider extends GalleryObjectTableDataProvider
 {
 

@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms;
+
 /**
  * $Id: webservices_course.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms.webservices

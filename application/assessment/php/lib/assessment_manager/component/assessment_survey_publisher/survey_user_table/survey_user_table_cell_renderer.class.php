@@ -1,4 +1,11 @@
 <?php
+
+namespace application\assessment;
+
+use repository\DefaultContentObjectTableCellRenderer;
+use user\UserDataManager;
+use common\libraries\Translation;
+use common\libraries\Toolbar;
 /**
  * $Id: survey_user_table_cell_renderer.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.assessment_manager.component.assessment_survey_publisher.survey_user_table

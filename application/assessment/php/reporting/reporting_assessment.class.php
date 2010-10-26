@@ -1,4 +1,16 @@
 <?php
+
+namespace application\assessment;
+
+use common\libraries\EqualityCondition;
+use reporting\ReportingData;
+use common\libraries\Translation;
+use user\UserDataManager;
+use repository\content_object\hotpotatoes\Hotpotatoes;
+use common\libraries\Toolbar;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
+use repository\content_object\assessment\Assessment;
 /**
  * $Id: reporting_assessment.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.reporting
@@ -32,7 +44,7 @@ class ReportingAssessment
         $assessment = $pub->get_publication_object();
        	
         $reporting_data = new ReportingData();
-		$reporting_data->set_rows(array(Translation :: get('User'), Translation :: get('Date'), Translation :: get('TotalScore'), Translation :: get('Action')));
+		$set_rows = $reporting_data->set_rows(array(Translation :: get('User'), Translation :: get('Date'), Translation :: get('TotalScore'), Translation :: get('Action')));
 
         foreach ($trackers as $index => $tracker)
         {

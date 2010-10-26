@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms;
+
 
 class CoursesRightsEditorManager extends RightsEditorManager
 {

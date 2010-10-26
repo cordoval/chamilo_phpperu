@@ -1,5 +1,12 @@
 <?php
 
+namespace application\assessment;
+
+use common\libraries\WebApplication;
+use common\libraries\Path;
+use reporting\ReportingFormatter;
+use common\libraries\Translation;
+
 require_once dirname(__FILE__) . '/../assessment_reporting_block.class.php';
 
 class AssessmentAttemptsReportingBlock extends AssessmentReportingBlock

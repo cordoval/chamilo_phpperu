@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms;
+
 /**
  * $Id: application.lib.weblcms.xml_feeds.xml_course_type_feed.php 224 2009-11-13 14:40:30Z kariboe $
  * @package application.lib.weblcms.xml_feeds

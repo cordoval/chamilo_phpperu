@@ -1,5 +1,14 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\hq23;
+
+use common\extensions\external_repository_manager\ExternalRepositoryObject;
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
+use common\extensions\external_repository_manager\ExternalRepositoryComponent;
+
+use common\libraries\Translation;
+use common\libraries\StringUtilities;
+use common\libraries\PlatformSetting;
+
 class Hq23ExternalRepositoryManagerInternalSyncerComponent extends Hq23ExternalRepositoryManager
 {
 

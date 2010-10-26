@@ -1,6 +1,8 @@
-
 <?php
 namespace common\extensions\external_repository_manager\implementation\google_docs;
+
+use common\libraries\Translation;
+
 class GoogleDocsExternalRepositoryObjectAcl
 {
     const ACL_OWNER = 'owner';

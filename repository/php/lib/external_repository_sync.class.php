@@ -4,6 +4,7 @@ namespace repository;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
+use common\libraries\StringUtilities;
 
 /**
  * @author Hans De Bisschop

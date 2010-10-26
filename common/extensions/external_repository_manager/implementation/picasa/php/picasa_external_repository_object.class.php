@@ -1,5 +1,14 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\picasa;
+
+use common\libraries\Translation;
+use common\libraries\ToolbarItem;
+use common\libraries\Utilities;
+use common\libraries\Theme;
+
+use common\extensions\external_repository_manager\ExternalRepositoryObject;
+use common\extensions\external_repository_manager\ExternalRepositoryObjectDisplay;
+
 class PicasaExternalRepositoryObject extends ExternalRepositoryObject
 {
     const OBJECT_TYPE = 'picasa';

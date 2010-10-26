@@ -374,7 +374,7 @@ class SurveyContextTemplateForm extends FormValidator
         
         $context_class[] = 'static function get_table_name()';
         $context_class[] = '{';
-        $context_class[] = '  return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);';
+        $context_class[] = '  return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));';
         $context_class[] = '}';
         
         $context_class[] = '}';

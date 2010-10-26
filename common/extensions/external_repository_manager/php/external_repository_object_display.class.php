@@ -1,7 +1,13 @@
 <?php
 namespace common\extensions\external_repository_manager;
 
+use common\libraries;
+
 use common\libraries\Utilities;
+use common\libraries\Translation;
+use common\libraries\DatetimeUtilities;
+use common\libraries\PropertiesTable;
+use common\libraries\Theme;
 
 abstract class ExternalRepositoryObjectDisplay
 {

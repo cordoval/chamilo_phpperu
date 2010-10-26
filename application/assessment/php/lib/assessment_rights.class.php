@@ -1,5 +1,9 @@
 <?php
 
+namespace application\assessment;
+
+use rights\RightsUtilities;
+
 /**
  * $Id: user_rights.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package user
@@ -26,7 +30,7 @@ class AssessmentRights
     	return array('Publish' => self :: PUBLISH_RIGHT);
     }
     
-	static function create_location_in_assessments_subtree($name, $identifier, $parent, $type)
+    static function create_location_in_assessments_subtree($name, $identifier, $parent, $type)
     {
     	return RightsUtilities :: create_location($name, AssessmentManager :: APPLICATION_NAME, $type, $identifier, 1, $parent, 0, 0, self :: TREE_TYPE_ASSESSMENT);
     }
@@ -36,7 +40,7 @@ class AssessmentRights
     	return RightsUtilities :: get_root(AssessmentManager :: APPLICATION_NAME, self :: TREE_TYPE_ASSESSMENT, 0);
     }
     
-	static function get_assessments_subtree_root_id()
+    static function get_assessments_subtree_root_id()
     {
     	return RightsUtilities :: get_root_id(AssessmentManager :: APPLICATION_NAME, self :: TREE_TYPE_ASSESSMENT, 0);
     }
@@ -46,12 +50,12 @@ class AssessmentRights
     	return RightsUtilities :: get_location_id_by_identifier(AssessmentManager :: APPLICATION_NAME, $type, $identifier, 0, self :: TREE_TYPE_ASSESSMENT);
     }
     
-	static function get_location_by_identifier_from_assessments_subtree($identifier, $type)
+    static function get_location_by_identifier_from_assessments_subtree($identifier, $type)
     {
     	return RightsUtilities :: get_location_by_identifier(AssessmentManager :: APPLICATION_NAME, $type, $identifier, 0, self :: TREE_TYPE_ASSESSMENT);
     }
     
-	static function is_allowed_in_assessments_subtree($right, $location, $type)
+    static function is_allowed_in_assessments_subtree($right, $location, $type)
     {
     	 return RightsUtilities :: is_allowed($right, $location, $type, AssessmentManager :: APPLICATION_NAME, null, 0, self :: TREE_TYPE_ASSESSMENT);
     }

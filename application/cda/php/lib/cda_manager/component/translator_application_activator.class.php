@@ -6,6 +6,8 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Translation;
 use common\libraries\Request;
+use user\UserDataManager;
+use common\libraries\Mail;
 /**
  * @package application.cda.cda.component
  */
@@ -34,7 +36,7 @@ class CdaManagerTranslatorApplicationActivatorComponent extends CdaManager
 			foreach ($ids as $id)
 			{
 				$translator_application = $this->retrieve_translator_application($id);
-				$can_activate = CdaRights :: is_allowed_in_languages_subtree(CdaRights :: EDIT_RIGHT, $translator_application->get_destination_language_id(), 'cda_language');
+				$can_activate = CdaRights :: is_allowed_in_languages_subtree(CdaRights :: EDIT_RIGHT, $translator_application->get_destination_language_id(), CdaRights :: TYPE_LANGUAGE);
 
 				if (!$can_activate)
 				{

@@ -1,4 +1,13 @@
 <?php
+
+namespace application\assessment;
+
+use common\libraries\Request;
+use repository\RepositoryDataManager;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use tracking\Tracker;
+use common\libraries\Path;
 /**
  * $Id: viewer.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.assessment_manager.component

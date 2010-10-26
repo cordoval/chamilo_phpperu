@@ -7,6 +7,8 @@ use common\libraries\Path;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\EqualityCondition;
+use repository\RepositoryDataManager;
+use repository\ComplexContentObjectItem;
 /**
  * $Id: question_selecter.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.assessment.component

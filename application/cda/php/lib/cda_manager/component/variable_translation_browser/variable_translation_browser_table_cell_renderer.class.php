@@ -50,7 +50,7 @@ class VariableTranslationBrowserTableCellRenderer extends DefaultVariableTransla
 
 		switch ($column->get_name())
 		{
-			case Translation :: get('EnglishTranslation') :
+			case 'EnglishTranslation' :
 				$translation = $this->browser->retrieve_english_translation($variable_translation->get_variable_id());
 				return $translation ? $translation->get_translation() : '';
 

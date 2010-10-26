@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms;
+
 class ObjectPublicationGalleryTableCellRenderer implements GalleryObjectTableCellRenderer
 {
     private $table_renderer;

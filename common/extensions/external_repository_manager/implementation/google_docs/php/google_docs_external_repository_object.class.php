@@ -1,6 +1,10 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\google_docs;
 
+use common\extensions\external_repository_manager\ExternalRepositoryObject;
+
+use repository\RepositoryDataManager;
+
 class GoogleDocsExternalRepositoryObject extends ExternalRepositoryObject
 {
     const OBJECT_TYPE = 'google_docs';

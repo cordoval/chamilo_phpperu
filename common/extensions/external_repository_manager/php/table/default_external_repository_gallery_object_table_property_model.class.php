@@ -1,5 +1,8 @@
 <?php
 namespace common\extensions\external_repository_manager;
+
+use common\libraries\GalleryObjectTablePropertyModel;
+
 /**
  * $Id: default_content_object_table_column_model.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object_table

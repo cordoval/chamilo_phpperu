@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms;
+
 /**
  * $Id: block_sort.php 227 2009-11-13 14:45:05Z kariboe $
  * @package application.weblcms.ajax

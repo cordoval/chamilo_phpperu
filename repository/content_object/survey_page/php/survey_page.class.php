@@ -86,7 +86,7 @@ class SurveyPage extends ContentObject implements ComplexContentObjectSupport
 
     function get_table()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
     
     }
 

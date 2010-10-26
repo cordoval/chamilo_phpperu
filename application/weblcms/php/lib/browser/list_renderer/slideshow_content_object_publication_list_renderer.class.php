@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms;
+
 require_once dirname(__FILE__) . '/../content_object_publication_list_renderer.class.php';
 
 class SlideshowContentObjectPublicationListRenderer extends ContentObjectPublicationListRenderer

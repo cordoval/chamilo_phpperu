@@ -7,6 +7,7 @@ use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\Session;
 use common\libraries\AndCondition;
+use common\libraries\DataClass;
 
 /**
  * $Id: external_repository_user_setting.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
@@ -77,7 +78,8 @@ class ExternalRepositoryUserSetting extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 
     static function get_class_name()

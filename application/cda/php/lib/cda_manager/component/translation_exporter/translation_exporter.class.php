@@ -37,7 +37,7 @@ abstract class TranslationExporter
     public static function factory($branch, $user, $languages, $language_packs)
     {
         $file = dirname(__FILE__) . '/exporter/chamilo' . $branch . '_translation_exporter.class.php';
-        $class = 'Chamilo' . $branch . 'TranslationExporter';
+        $class = __NAMESPACE__ . '\\Chamilo' . $branch . 'TranslationExporter';
         
         if (file_exists($file))
         {

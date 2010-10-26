@@ -1,4 +1,6 @@
 <?php
+namespace application\weblcms;
+
 /**
  * @package application.lib.weblcms.install
  */

@@ -7,6 +7,8 @@ use common\libraries\Breadcrumb;
 use common\libraries\Translation;
 use common\libraries\Display;
 use common\libraries\Request;
+use common\libraries\AdministrationComponent;
+
 /**
  * @package application.cda.cda.component
  */

@@ -1,9 +1,15 @@
 <?php
+
+namespace application\assessment;
+
+use common\extensions\category_manager\PlatformCategory;
+use common\libraries\Path;
+use common\libraries\Utilities;
 /**
  * $Id: assessment_publication_category.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.category_manager
  */
-require_once Path :: get_common_extensions_path() . 'category_manager/platform_category.class.php';
+require_once Path :: get_common_extensions_path() . 'category_manager/php/platform_category.class.php';
 require_once dirname(__FILE__) . '/../assessment_data_manager.class.php';
 
 /**
@@ -83,6 +89,6 @@ class AssessmentPublicationCategory extends PlatformCategory
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(__CLASS__);
+        return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(__CLASS__));
     }
 }

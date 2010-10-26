@@ -13,6 +13,7 @@ use common\libraries\OptionsMenuRenderer;
 use repository\content_object\learning_path_item\LearningPathItem;
 use \HTML_Menu;
 use \HTML_Menu_ArrayRenderer;
+use common\libraries\TreeMenuRenderer;
 
 /**
  * $Id: complex_menu.class.php 200 2009-11-13 12:30:04Z kariboe $

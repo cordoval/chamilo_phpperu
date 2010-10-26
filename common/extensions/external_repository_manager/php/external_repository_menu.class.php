@@ -2,6 +2,11 @@
 namespace common\extensions\external_repository_manager;
 
 use common\libraries\Utilities;
+use common\libraries\TreeMenuRenderer;
+use common\libraries\Translation;
+
+use HTML_Menu;
+use HTML_Menu_ArrayRenderer;
 /**
  * $Id: category_menu.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.category_manager

@@ -1,5 +1,12 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\picasa;
+
+use common\libraries\Path;
+use common\libraries\Request;
+use common\libraries\Redirect;
+
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
+
 require_once dirname(__FILE__) . '/../forms/picasa_external_repository_manager_form.class.php';
 
 class PicasaExternalRepositoryManagerEditorComponent extends PicasaExternalRepositoryManager

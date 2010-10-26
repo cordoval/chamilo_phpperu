@@ -1,5 +1,7 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\google_docs;
+
+use common\libraries\ObjectTable;
 /**
  * Table to display a set of google_docs external repository objects.
  */

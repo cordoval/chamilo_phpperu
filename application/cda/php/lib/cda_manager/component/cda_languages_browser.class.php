@@ -7,6 +7,7 @@ use common\libraries\Theme;
 use common\libraries\Translation;
 use common\libraries\ToolbarItem;
 use common\libraries\ConditionProperty;
+use common\libraries\Application;
 /**
  * @package application.cda.cda.component
  */
