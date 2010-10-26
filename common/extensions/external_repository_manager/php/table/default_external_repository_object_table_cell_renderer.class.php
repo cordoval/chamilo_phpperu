@@ -2,6 +2,10 @@
 namespace common\extensions\external_repository_manager;
 
 use common\libraries\Utilities;
+use common\libraries\ObjectTableCellRenderer;
+use common\libraries\DatetimeUtilities;
+
+use repository\ContentObject;
 
 class DefaultExternalRepositoryObjectTableCellRenderer extends ObjectTableCellRenderer
 {
