@@ -1,4 +1,10 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\fedora;
+
+use common\libraries\Path;
+use common\libraries\Translation;
+use common\libraries\Request;
+use common\libraries\Redirect;
 
 require_once Path::get_application_path() .'/lib/weblcms/course/course.class.php';
 require_once dirname(__FILE__) . '/fedora_tree.class.php';

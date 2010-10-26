@@ -1,5 +1,4 @@
 <?php
-namespace common\libraries;
 
 /**
  * @link http://www.switch.ch/

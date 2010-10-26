@@ -1,4 +1,10 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\fedora;
+
+use common\libraries\Path;
+use common\libraries\Translation;
+use common\libraries\Request;
+use common\libraries\Session;
 
 /**
  * Synchronize a Fedora object by writing Fedora's content to Chamilo.

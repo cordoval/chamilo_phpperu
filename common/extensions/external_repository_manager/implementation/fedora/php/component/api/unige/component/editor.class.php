@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\fedora;
 
 require_once dirname(__FILE__) . '/../forms/fedora_unige_edit_form.class.php';
 

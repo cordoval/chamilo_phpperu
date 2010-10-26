@@ -1,8 +1,7 @@
 <?php
 namespace common\libraries;
 
-require_once  dirname(__FILE__) .'/xml_writer_base.class.<?php
-namespace common\libraries;';
+require_once  dirname(__FILE__) .'/xml_writer_base.class.php';
 
 /**
  * Utility class used to generate FOXML XML schemas.

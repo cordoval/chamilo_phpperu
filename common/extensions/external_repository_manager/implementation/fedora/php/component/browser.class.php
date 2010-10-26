@@ -1,4 +1,9 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\fedora;
+
+use common\libraries\Request;
+
+use common\extensions\external_repository_manager\ExternalRepositoryComponent;
 
 /**
  * Browse Fedora's objects.

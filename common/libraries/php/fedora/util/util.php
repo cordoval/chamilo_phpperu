@@ -1,5 +1,4 @@
 <?php
-namespace common\libraries;
 
 if(! function_exists('today')){
 	/**

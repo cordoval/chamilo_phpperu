@@ -1,8 +1,8 @@
 <?php
 namespace common\libraries;
+use Iterator;
 
-require_once dirname(__FILE__) . '/xml_reader.class.<?php
-namespace common\libraries;';
+require_once dirname(__FILE__) . '/xml_reader.class.php';
 
 /**
  * Empty object pattern for xml reader.

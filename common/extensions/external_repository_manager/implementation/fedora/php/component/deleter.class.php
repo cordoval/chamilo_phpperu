@@ -1,5 +1,7 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\fedora;
 
+use common\libraries\Translation;
 /**
  * Delete - purge - an object from Fedora.
  *

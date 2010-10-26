@@ -1,4 +1,7 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\fedora;
+
+use common\libraries\Translation;
 
 require_once dirname(__FILE__) . '/../../../../forms/fedora_confirm_form.class.php';
 
