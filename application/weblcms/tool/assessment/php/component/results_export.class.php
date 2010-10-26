@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use common\libraries\Translation;
 
 /**
  * $Id: assessment_results_export.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -11,13 +12,13 @@ require_once dirname(__FILE__) . '/assessment_results_export_form/export.class.p
 
 class AssessmentToolResultsExportComponent extends AssessmentTool
 {
-
+    
     private $rdm;
     private $wdm;
 
     function run()
     {
-        if (!$this->is_allowed(WeblcmsRights :: VIEW_RIGHT) || !$this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
+        if (! $this->is_allowed(WeblcmsRights :: VIEW_RIGHT) || ! $this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             Display :: not_allowed();
             return;
@@ -25,7 +26,7 @@ class AssessmentToolResultsExportComponent extends AssessmentTool
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses assessment tool');
         $toolbar = $this->get_toolbar();
-
+        
         if (Request :: get(AssessmentTool :: PARAM_USER_ASSESSMENT))
         {
             $id = Request :: get(AssessmentTool :: PARAM_USER_ASSESSMENT);
@@ -40,7 +41,7 @@ class AssessmentToolResultsExportComponent extends AssessmentTool
             $type = Assessment :: get_type_name();
             $export_form = new AssessmentResultsExportForm($this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_RESULTS, AssessmentTool :: PARAM_PUBLICATION_ID => $id)));
         }
-
+        
         if ($export_form->validate())
         {
             $values = $export_form->exportValues();
@@ -59,7 +60,7 @@ class AssessmentToolResultsExportComponent extends AssessmentTool
     function export($type, $id, $filetype)
     {
         $results_exporter = ResultsExport :: factory($filetype);
-
+        
         $data = $results_exporter->export_results($type, $id);
         $exporter = Export :: factory($filetype, $data);
         $exporter->set_filename('export_' . $type . $id);
@@ -69,20 +70,20 @@ class AssessmentToolResultsExportComponent extends AssessmentTool
     function get_toolbar($search = false)
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-
+        
         //public functions
         if ($search)
         {
             $action_bar->set_search_url($this->get_url());
         }
-
+        
         if ($this->is_allowed(WeblcmsRights :: ADD_RIGHT))
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
-
+        
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('Browse'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_ASSESSMENTS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-
+        
         //results
         if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
@@ -93,19 +94,19 @@ class AssessmentToolResultsExportComponent extends AssessmentTool
             $action_name = Translation :: get('ViewResults');
         }
         $action_bar->add_tool_action(new ToolbarItem($action_name, Theme :: get_common_image_path() . 'action_view_results.png', $this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-
+        
         //admin only functions
         if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ImportQti'), Theme :: get_common_image_path() . 'action_import.png', $this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_IMPORT_QTI)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
-
+        
         return $action_bar;
     }
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-
+    
     }
 
 }

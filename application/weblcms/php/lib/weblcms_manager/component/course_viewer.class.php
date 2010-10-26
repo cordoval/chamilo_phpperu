@@ -1,12 +1,13 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\DelegateComponent;
+use common\libraries\Translation;
+
 /**
  * $Id: course_viewer.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms.weblcms_manager.component
  */
-require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
-
 /**
  * Weblcms component which provides the course page
  */
@@ -58,11 +59,13 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager implements Dele
             
             if ($studentview == 1)
             {
-                $trail->add_extra(new ToolbarItem(Translation :: get('TeacherView'), Theme :: get_image_path() . 'action_teacher_view.png', $this->get_url(array(WeblcmsManager :: PARAM_TOOL => Request :: get(WeblcmsManager :: PARAM_TOOL), 'studentview' => '0', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+                $trail->add_extra(new ToolbarItem(Translation :: get('TeacherView'), Theme :: get_image_path() . 'action_teacher_view.png', $this->get_url(array(
+                        WeblcmsManager :: PARAM_TOOL => Request :: get(WeblcmsManager :: PARAM_TOOL), 'studentview' => '0', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
             }
             else
             {
-                $trail->add_extra(new ToolbarItem(Translation :: get('StudentView'), Theme :: get_image_path() . 'action_student_view.png', $this->get_url(array(WeblcmsManager :: PARAM_TOOL => Request :: get(WeblcmsManager :: PARAM_TOOL), 'studentview' => '1', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+                $trail->add_extra(new ToolbarItem(Translation :: get('StudentView'), Theme :: get_image_path() . 'action_student_view.png', $this->get_url(array(
+                        WeblcmsManager :: PARAM_TOOL => Request :: get(WeblcmsManager :: PARAM_TOOL), 'studentview' => '1', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
             }
         }
         
@@ -202,17 +205,17 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager implements Dele
         
         return $this->is_teacher;
     }
-    
+
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
         $title = CourseLayout :: get_title($this->get_course());
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_CATEGORY => null , WeblcmsManager :: PARAM_ACTION => Request :: get(WeblcmsManager :: PARAM_ACTION), WeblcmsManager :: PARAM_COURSE => Request :: get(WeblcmsManager :: PARAM_COURSE))), $title));
-
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_CATEGORY => null, WeblcmsManager :: PARAM_ACTION => Request :: get(WeblcmsManager :: PARAM_ACTION), WeblcmsManager :: PARAM_COURSE => Request :: get(WeblcmsManager :: PARAM_COURSE))), $title));
+    
     }
 
     function get_additional_parameters()
     {
-    	return array(self :: PARAM_COURSE);
+        return array(self :: PARAM_COURSE);
     }
 }
 ?>

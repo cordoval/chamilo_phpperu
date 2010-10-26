@@ -1,7 +1,6 @@
 <?php
 namespace application\weblcms;
 
-
 /**
  * $Id: viewer.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.assessment.component
@@ -10,7 +9,7 @@ require_once dirname(__FILE__) . '/../../browser/list_renderer/content_object_pu
 
 class ToolComponentViewerComponent extends ToolComponent
 {
-
+    
     private $action_bar;
     private $html;
 
@@ -21,7 +20,7 @@ class ToolComponentViewerComponent extends ToolComponent
         $this->action_bar = $this->get_action_bar();
         $renderer = new ContentObjectPublicationDetailsRenderer($this);
         $this->html = $renderer->as_html();
-
+        
         if ($this->get_course()->get_feedback())
         {
             $feedback_manager = new FeedbackManager($this, WeblcmsManager :: APPLICATION_NAME, $this->get_publication_id());
@@ -56,12 +55,12 @@ class ToolComponentViewerComponent extends ToolComponent
     function get_action_bar()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-
+        
         if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $action_bar->add_common_action($this->get_access_details_toolbar_item($this));
         }
-
+        
         return $action_bar;
     }
 

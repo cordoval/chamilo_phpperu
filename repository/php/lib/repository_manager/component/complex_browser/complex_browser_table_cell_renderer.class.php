@@ -68,12 +68,12 @@ class ComplexBrowserTableCellRenderer extends DefaultContentObjectTableCellRende
 
         switch ($column->get_name())
         {
-            case Translation :: get(Utilities :: underscores_to_camelcase(ContentObject :: PROPERTY_TYPE)) :
+            case ContentObject :: PROPERTY_TYPE :
                 $type = $content_object->get_type();
                 $icon = $content_object->get_icon_name();
                 $url = '<img src="' . Theme :: get_common_image_path() . 'content_object/' . $icon . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($type) . 'TypeName')) . '"/>';
                 return $url; //'<a href="'.htmlentities($this->browser->get_type_filter_url($content_object->get_type())).'">'.$url.'</a>';
-            case Translation :: get(Utilities :: underscores_to_camelcase(ContentObject :: PROPERTY_TITLE)) :
+            case ContentObject :: PROPERTY_TITLE :
                 $title = htmlspecialchars($content_object->get_title());
                 $title_short = $title;
                 $title_short = Utilities :: truncate_string($title_short, 53, false);
@@ -88,10 +88,10 @@ class ComplexBrowserTableCellRenderer extends DefaultContentObjectTableCellRende
                 }
 
                 return $title_short; //'<a href="'.htmlentities($this->browser->get_content_object_viewing_url($content_object)).'" title="'.$title.'">'.$title_short.'</a>';
-            case Translation :: get(Utilities :: underscores_to_camelcase(ContentObject :: PROPERTY_DESCRIPTION)) :
+            case ContentObject :: PROPERTY_DESCRIPTION :
                 $description = $content_object->get_description();
                 return Utilities :: truncate_string($description, 75);
-            case Translation :: get('Subitems') :
+            case 'subitems':
                 if ($cloi->is_complex())
                 {
                     $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $cloi->get_ref(), ComplexContentObjectItem :: get_table_name());

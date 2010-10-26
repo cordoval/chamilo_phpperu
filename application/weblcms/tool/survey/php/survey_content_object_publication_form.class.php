@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use common\libraries\Path;
+use common\libraries\Translation;
+
 /**
  * $Id: content_object_publication_form.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms
@@ -320,7 +323,8 @@ class SurveyContentObjectPublicationForm extends FormValidator
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
         
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
-        //$this->addElement('submit', 'submit', Translation :: get('Ok'));
+    
+     //$this->addElement('submit', 'submit', Translation :: get('Ok'));
     }
 
     /**

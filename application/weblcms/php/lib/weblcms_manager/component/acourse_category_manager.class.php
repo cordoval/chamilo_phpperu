@@ -1,12 +1,13 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Translation;
+
 /**
  * $Id: acourse_category_manager.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms.weblcms_manager.component
  */
 require_once dirname(__FILE__) . '/course_category_browser/course_category_browser_table.class.php';
-require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
 
 require_once dirname(__FILE__) . '/../../course/course_category_form.class.php';
 require_once dirname(__FILE__) . '/../../course/course_category_menu.class.php';
@@ -189,11 +190,7 @@ class WeblcmsManagerCourseCategoryManagerComponent extends WeblcmsManager
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
-        $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('CreateCourseCategory'),
-        		Theme :: get_common_image_path() . 'action_create.png',
-        		$this->get_course_category_add_url()
-        ));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('CreateCourseCategory'), Theme :: get_common_image_path() . 'action_create.png', $this->get_course_category_add_url()));
         
         return $toolbar->as_html();
     }
@@ -208,18 +205,19 @@ class WeblcmsManagerCourseCategoryManagerComponent extends WeblcmsManager
         
         return $condition;
     }
+
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
         $breadcrumbtrail->add(new Breadcrumb($this->get_home_url(), Translation :: get('WeblcmsManagerHomeComponent')));
-
+        
         $trail->add(new Breadcrumb($this->get_url(), $title));
         $trail->add_help('courses category manager');
-
+    
     }
 
     function get_additional_parameters()
     {
-    	return array();
+        return array();
     }
 }
 ?>

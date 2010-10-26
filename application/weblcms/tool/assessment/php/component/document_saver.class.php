@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use common\libraries\Path;
+use common\libraries\Translation;
+
 /**
  * $Id: assessment_document_saver.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.assessment.component
@@ -89,7 +92,7 @@ class AssessmentToolDocumentSaverComponent extends AssessmentTool
             $condition = new AndCondition(array($conditiona, $conditionq));
             $user_questions = $track->retrieve_tracker_items($condition);
             //print_r($condition);
-            //dump($user_questions); 
+            //dump($user_questions);
             if ($question->get_question_type() == OpenQuestion :: TYPE_DOCUMENT)
             {
                 $user_question = $user_questions[0];

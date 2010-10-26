@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\description;
 
+use application\weblcms\ToolComponent;
+use common\libraries\Translation;
+
 /**
  * $Id: description_publisher.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.description.component
@@ -16,6 +19,7 @@ class DescriptionToolPublisherComponent extends DescriptionTool
     {
         ToolComponent :: launch($this);
     }
+
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_BROWSE)), Translation :: get('DescriptionToolBrowserComponent')));
@@ -23,7 +27,7 @@ class DescriptionToolPublisherComponent extends DescriptionTool
 
     function get_additional_parameters()
     {
-        return array(RepoViewer::PARAM_ID, RepoViewer::PARAM_ACTION);
+        return array(RepoViewer :: PARAM_ID, RepoViewer :: PARAM_ACTION);
     }
 }
 ?>

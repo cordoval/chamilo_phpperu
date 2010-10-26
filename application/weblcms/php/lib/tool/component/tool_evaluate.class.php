@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Translation;
+
 require_once dirname(__FILE__) . '/../../../gradebook/evaluation_manager/evaluation_manager.class.php';
 
 class ToolComponentToolEvaluateComponent extends ToolComponent implements EvaluationManagerInterface

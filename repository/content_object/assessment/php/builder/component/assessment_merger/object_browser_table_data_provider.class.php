@@ -2,6 +2,7 @@
 namespace repository\content_object\assessment;
 
 use common\libraries\ObjectTableDataProvider;
+use repository\RepositoryDataManager;
 
 /**
  * $Id: object_browser_table_data_provider.class.php 200 2009-11-13 12:30:04Z kariboe $

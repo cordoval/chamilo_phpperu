@@ -4,6 +4,8 @@ namespace application\reservations;
 
 use common\libraries\WebApplication;
 use common\libraries\StaticTableColumn;
+use common\libraries\ObjectTableColumn;
+use user\User;
 
 /**
  * $Id: subscription_overview_browser_table_column_model.class.php 217 2009-11-13 14:12:25Z chellee $

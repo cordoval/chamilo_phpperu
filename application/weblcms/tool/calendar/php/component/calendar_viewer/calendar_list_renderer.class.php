@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\calendar;
 
+use common\libraries\Translation;
+
 /**
  * $Id: calendar_list_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.calendar.component.calendar_viewer
@@ -19,25 +21,25 @@ class CalendarListRenderer extends ListContentObjectPublicationListRenderer
         {
             $html[] = Display :: normal_message(Translation :: get('NoPublicationsAvailable'), true);
         }
-
+        
         if ($this->get_actions() && $this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $html[] = '<form name="publication_list" action="' . $this->get_url(array('view' => Request :: get('view'))) . '" method="get" >';
         }
-
+        
         foreach ($publications as $index => $publication)
         {
             $object = $publication->get_content_object();
-
+            
             if ($object->repeats())
             {
                 $repeats = $object->get_repeats();
-
+                
                 foreach ($repeats as $repeat)
                 {
                     $the_publication = clone $publication;
                     $the_publication->set_content_object($repeat);
-
+                    
                     $rendered_publications[$publication->get_content_object()->get_start_date()][] = $this->render_publication($the_publication, false, false);
                 }
             }
@@ -45,8 +47,8 @@ class CalendarListRenderer extends ListContentObjectPublicationListRenderer
             {
                 $rendered_publications[$publication->get_content_object()->get_start_date()][] = $this->render_publication($publication, false, false);
             }
-
-        //			$first = $index == 0;
+        
+     //			$first = $index == 0;
         //			$last = $index == count($publications) - 1;
         //			$rendered_publications[$publication->get_content_object()->get_start_date()][] = $this->render_publication($publication, $first, $last);
         }
@@ -61,14 +63,14 @@ class CalendarListRenderer extends ListContentObjectPublicationListRenderer
             }
             $html[] = implode("\n", $rendered_publication_start_time);
         }
-
+        
         if ($this->get_actions() && count($publications) > 0 && $this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             foreach ($_GET as $parameter => $value)
             {
                 $html[] = '<input type="hidden" name="' . $parameter . '" value="' . $value . '" />';
             }
-
+            
             $html[] = '<script type="text/javascript">
 							/* <![CDATA[ */
 							function setCheckbox(formName, value) {
@@ -81,7 +83,7 @@ class CalendarListRenderer extends ListContentObjectPublicationListRenderer
 							}
 							/* ]]> */
 							</script>';
-
+            
             $html[] = '<div style="text-align: right;">';
             $html[] = '<a href="?" onclick="setCheckbox(\'publication_list\', true); return false;">' . Translation :: get('SelectAll') . '</a>';
             $html[] = '- <a href="?" onclick="setCheckbox(\'publication_list\', false); return false;">' . Translation :: get('UnSelectAll') . '</a><br />';

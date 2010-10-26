@@ -9,6 +9,7 @@ require_once dirname(__FILE__) . '/../object_publication_table/object_publicatio
 
 class ObjectPublicationGalleryTableDataProvider extends ObjectPublicationTableDataProvider
 {
+
     function get_objects($offset, $count, $order_property = null)
     {
         return parent :: get_objects($offset, $count, $order_property);

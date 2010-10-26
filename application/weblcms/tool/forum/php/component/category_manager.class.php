@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\forum;
 
+use common\libraries\DelegateComponent;
+use common\libraries\Translation;
 
 require_once dirname(__FILE__) . '/../../../category_manager/content_object_publication_category_manager.class.php';
 
@@ -9,12 +11,12 @@ class ForumToolCategoryManagerComponent extends ForumTool implements DelegateCom
 
     function run()
     {
-        if (!$this->is_allowed(WeblcmsRights :: VIEW_RIGHT))
+        if (! $this->is_allowed(WeblcmsRights :: VIEW_RIGHT))
         {
             Display :: not_allowed();
             return;
         }
-
+        
         $category_manager = new ContentObjectPublicationCategoryManager($this, null, false);
         $category_manager->run();
     }
@@ -26,7 +28,7 @@ class ForumToolCategoryManagerComponent extends ForumTool implements DelegateCom
 
     function get_additional_parameters()
     {
-        return array(CategoryManager::PARAM_CATEGORY_ID);
+        return array(CategoryManager :: PARAM_CATEGORY_ID);
     }
 
 }

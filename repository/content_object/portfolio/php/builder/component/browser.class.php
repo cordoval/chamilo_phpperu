@@ -9,6 +9,23 @@ use common\libraries\ActionBarRenderer;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;
 use common\libraries\BasicApplication;
+use repository\content_object\announcement\Announcement;
+use repository\content_object\blog_item\BlogItem;
+use repository\content_object\calendar_event\CalendarEvent;
+use repository\content_object\description\Description;
+use repository\content_object\document\Document;
+use repository\content_object\link\Link;
+use repository\content_object\note\Note;
+use repository\content_object\rss_feed\RssFeed;
+use repository\content_object\profile\Profile;
+use repository\content_object\youtube\Youtube;
+use repository\RepositoryRights;
+use repository\RepositoryDataManager;
+use admin\AdminDataManager;
+use admin\Registration;
+use repository\ContentObject;
+use repository\RepositoryManager;
+use repository\ComplexBuilder;
 
 /**
  * $Id: browser.class.php 200 2009-11-13 12:30:04Z kariboe $

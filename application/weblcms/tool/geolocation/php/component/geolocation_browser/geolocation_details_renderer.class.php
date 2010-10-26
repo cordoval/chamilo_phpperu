@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\geolocation;
 
+use common\libraries\Path;
+
 /**
  * $Id: geolocation_details_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.geolocation.component.geolocation_browser

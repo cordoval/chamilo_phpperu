@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\DataClass;
 
 /**
  * $Id: content_object_publication.class.php 218 2009-11-13 14:21:26Z kariboe $
@@ -16,7 +17,7 @@ namespace application\weblcms;
 class ContentObjectPublication extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-
+    
     /*     * #@+
      * Constant defining a property of the publication
      */
@@ -34,7 +35,7 @@ class ContentObjectPublication extends DataClass
     const PROPERTY_DISPLAY_ORDER_INDEX = 'display_order';
     const PROPERTY_EMAIL_SENT = 'email_sent';
     const PROPERTY_SHOW_ON_HOMEPAGE = 'show_on_homepage';
-
+    
     private $target_course_groups;
     private $target_users;
     private $target_groups;
@@ -43,7 +44,9 @@ class ContentObjectPublication extends DataClass
 
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_CONTENT_OBJECT_ID, self :: PROPERTY_COURSE_ID, self :: PROPERTY_TOOL, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CATEGORY_ID, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER_ID, self :: PROPERTY_PUBLICATION_DATE, self :: PROPERTY_MODIFIED_DATE, self :: PROPERTY_DISPLAY_ORDER_INDEX, self :: PROPERTY_EMAIL_SENT, self :: PROPERTY_SHOW_ON_HOMEPAGE));
+        return parent :: get_default_property_names(array(
+                self :: PROPERTY_CONTENT_OBJECT_ID, self :: PROPERTY_COURSE_ID, self :: PROPERTY_TOOL, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CATEGORY_ID, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER_ID, 
+                self :: PROPERTY_PUBLICATION_DATE, self :: PROPERTY_MODIFIED_DATE, self :: PROPERTY_DISPLAY_ORDER_INDEX, self :: PROPERTY_EMAIL_SENT, self :: PROPERTY_SHOW_ON_HOMEPAGE));
     }
 
     /**
@@ -107,12 +110,12 @@ class ContentObjectPublication extends DataClass
      */
     function get_target_users()
     {
-        if (!isset($this->target_users))
+        if (! isset($this->target_users))
         {
             $wdm = WeblcmsDataManager :: get_instance();
             $this->target_users = $wdm->retrieve_content_object_publication_target_users($this);
         }
-
+        
         return $this->target_users;
     }
 
@@ -123,12 +126,12 @@ class ContentObjectPublication extends DataClass
      */
     function get_target_course_groups()
     {
-        if (!isset($this->target_course_groups))
+        if (! isset($this->target_course_groups))
         {
             $wdm = WeblcmsDataManager :: get_instance();
             $this->target_course_groups = $wdm->retrieve_content_object_publication_target_course_groups($this);
         }
-
+        
         return $this->target_course_groups;
     }
 
@@ -139,12 +142,12 @@ class ContentObjectPublication extends DataClass
      */
     function get_target_groups()
     {
-        if (!isset($this->target_groups))
+        if (! isset($this->target_groups))
         {
             $wdm = WeblcmsDataManager :: get_instance();
             $this->target_groups = $wdm->retrieve_content_object_publication_target_groups($this);
         }
-
+        
         return $this->target_groups;
     }
 
@@ -179,12 +182,12 @@ class ContentObjectPublication extends DataClass
 
     function get_content_object()
     {
-        if (!isset($this->content_object))
+        if (! isset($this->content_object))
         {
             $rdm = RepositoryDataManager :: get_instance();
             $this->content_object = $rdm->retrieve_content_object($this->get_content_object_id());
         }
-
+        
         return $this->content_object;
     }
 
@@ -195,12 +198,12 @@ class ContentObjectPublication extends DataClass
 
     function get_publication_publisher()
     {
-        if (!isset($this->publisher))
+        if (! isset($this->publisher))
         {
             $udm = UserDataManager :: get_instance();
             $this->publisher = $udm->retrieve_user($this->get_publisher_id());
         }
-
+        
         return $this->publisher;
     }
 
@@ -259,7 +262,7 @@ class ContentObjectPublication extends DataClass
 
     function is_visible_for_target_users()
     {
-        return (!$this->is_hidden()) && ($this->is_forever() || ($this->get_from_date() <= time() && time() <= $this->get_to_date()));
+        return (! $this->is_hidden()) && ($this->is_forever() || ($this->get_from_date() <= time() && time() <= $this->get_to_date()));
     }
 
     function get_display_order_index()
@@ -348,13 +351,13 @@ class ContentObjectPublication extends DataClass
     }
 
     /*     * #@- */
-
+    
     /**
      * Toggles the visibility of this publication.
      */
     function toggle_visibility()
     {
-        $this->set_hidden(!$this->is_hidden());
+        $this->set_hidden(! $this->is_hidden());
     }
 
     function get_show_on_homepage()
@@ -374,12 +377,12 @@ class ContentObjectPublication extends DataClass
     function create()
     {
         $dm = WeblcmsDataManager :: get_instance();
-
+        
         if (is_null($this->get_category_id()))
         {
             $this->set_category_id(0);
         }
-
+        
         if ($this->get_content_object()->get_type() == 'introduction')
         {
             $display_order = 0;
@@ -388,15 +391,15 @@ class ContentObjectPublication extends DataClass
         {
             $display_order = $dm->get_next_content_object_publication_display_order_index($this->get_course_id(), $this->get_tool(), $this->get_category_id());
         }
-
+        
         $this->set_display_order_index($display_order);
-
+        
         $succes = $dm->create_content_object_publication($this);
-        if (!$succes)
+        if (! $succes)
         {
             return false;
         }
-
+        
         if ($this->get_category_id())
         {
             $parent = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_COURSE_CATEGORY, $this->get_category_id(), $this->get_course_id());
@@ -406,8 +409,7 @@ class ContentObjectPublication extends DataClass
             if ($this->get_tool() == 'home') //not a real tool, so we make a location directly under the course
             {
                 $parent = WeblcmsRights :: get_location_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_COURSE, $this->get_course_id());
-                return WeblcmsRights :: create_location_in_courses_subtree($this->get_content_object()->get_title(), WeblcmsRights :: TYPE_PUBLICATION, $this->get_id(),
-                        $parent->get_id(), 0);
+                return WeblcmsRights :: create_location_in_courses_subtree($this->get_content_object()->get_title(), WeblcmsRights :: TYPE_PUBLICATION, $this->get_id(), $parent->get_id(), 0);
             }
             else
             {
@@ -415,17 +417,16 @@ class ContentObjectPublication extends DataClass
                 $parent = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_COURSE_MODULE, $course_module_id, $this->get_course_id());
             }
         }
-
-        return WeblcmsRights :: create_location_in_courses_subtree($this->get_content_object()->get_title(), WeblcmsRights :: TYPE_PUBLICATION, $this->get_id(),
-                $parent, $this->get_course_id());
+        
+        return WeblcmsRights :: create_location_in_courses_subtree($this->get_content_object()->get_title(), WeblcmsRights :: TYPE_PUBLICATION, $this->get_id(), $parent, $this->get_course_id());
     }
 
     /**
      * Moves the publication up or down in the list.
      * @param $places The number of places to move the publication down. A
-     *                negative number moves it up.
+     * negative number moves it up.
      * @return int The number of places that the publication was moved
-     *             down.
+     * down.
      */
     function move($places)
     {
@@ -437,17 +438,17 @@ class ContentObjectPublication extends DataClass
         $location = WeblcmsRights :: get_location_by_identifier(WeblcmsRights :: TYPE_PUBLICATION, $this->get_id());
         if ($location)
         {
-            if (!$location->remove())
+            if (! $location->remove())
             {
                 return false;
             }
         }
-
-        if (!parent :: delete())
+        
+        if (! parent :: delete())
         {
             return false;
         }
-
+        
         return AdminDataManager :: get_instance()->delete_feedback_from_publication(WeblcmsManager :: APPLICATION_NAME, $this->get_id());
     }
 

@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\glossary;
 
+use application\weblcms\ToolComponent;
+use common\libraries\Translation;
 
 class GlossaryToolPublisherComponent extends GlossaryTool
 {
@@ -17,7 +19,7 @@ class GlossaryToolPublisherComponent extends GlossaryTool
 
     function get_additional_parameters()
     {
-        return array(RepoViewer::PARAM_ID, RepoViewer::PARAM_ACTION);
+        return array(RepoViewer :: PARAM_ID, RepoViewer :: PARAM_ACTION);
     }
 }
 ?>

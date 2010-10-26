@@ -5,12 +5,18 @@ use common\libraries\Translation;
 use common\libraries\Path;
 
 use user\UserDataManager;
+use repository\RepositoryDataManager;
+use repository\ContentObject;
+use repository\content_object\forum_post\ForumPost;
+use repository\ComplexDisplay;
+use repository\ContentObjectForm;
+use repository\ComplexContentObjectItem;
 
 /**
  * $Id: forum_post_quoter.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.forum.component
  */
-require_once Path :: get_application_path() . 'lib/weblcms/content_object_repo_viewer.class.php';
+//require_once Path :: get_application_path() . 'weblcms/php/lib/content_object_repo_viewer.class.php';
 require_once dirname(__FILE__) . '/../forum_display.class.php';
 
 class ForumDisplayForumPostQuoterComponent extends ForumDisplay

@@ -11,13 +11,20 @@ use common\libraries\ActionBarRenderer;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;
 use common\libraries\SubselectCondition;
+use common\extensions\repo_viewer\RepoViewerInterface;
+use repository\ComplexBuilder;
+use common\extensions\repo_viewer\RepoViewer;
+use repository\RepositoryDataManager;
+use repository\ContentObjectDisplay;
+use repository\ComplexContentObjectItem;
+use repository\ContentObject;
 
 /**
  * $Id: assessment_merger.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.assessment.component
  */
 require_once dirname(__FILE__) . '/assessment_merger/object_browser_table.class.php';
-require_once Path :: get_repository_path() . '/lib/content_object/assessment/assessment.class.php';
+require_once Path :: get_repository_path() . '/../content_object/assessment/php/assessment.class.php';
 
 class AssessmentBuilderAssessmentMergerComponent extends AssessmentBuilder implements RepoViewerInterface
 {

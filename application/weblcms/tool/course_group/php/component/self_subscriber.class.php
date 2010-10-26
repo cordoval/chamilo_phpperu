@@ -1,12 +1,15 @@
 <?php
 namespace application\weblcms\tool\course_group;
 
+use common\libraries\Translation;
+
 /**
  * $Id: course_group_self_subscriber.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.course_group.component
  */
 require_once dirname(__FILE__) . '/../course_group_tool.class.php';
 //require_once dirname(__FILE__) . '/../course_group_tool_component.class.php';
+
 
 class CourseGroupToolSelfSubscriberComponent extends CourseGroupTool
 {

@@ -4,6 +4,10 @@ namespace repository\content_object\assessment;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
 use common\libraries\InCondition;
+use HTML_QuickForm_Action;
+use common\libraries\Security;
+use repository\RepositoryDataManager;
+use repository\ComplexContentObjectItem;
 
 /**
  * $Id: assessment_viewer_wizard_process.class.php 200 2009-11-13 12:30:04Z kariboe $

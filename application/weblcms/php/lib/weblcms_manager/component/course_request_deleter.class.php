@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Translation;
+
 /**
  * $Id: course_request_deleter.class.php 218 2010-03-15 10:30:26Z Yannick $
  * @package application.lib.weblcms.weblcms_manager.component
@@ -18,15 +20,14 @@ class WeblcmsManagerCourseRequestDeleterComponent extends WeblcmsManager
     function run()
     {
         $request_ids = Request :: get(WeblcmsManager :: PARAM_REQUEST);
-		$request_type = Request :: get(WeblcmsManager:: PARAM_REQUEST_TYPE);
+        $request_type = Request :: get(WeblcmsManager :: PARAM_REQUEST_TYPE);
         $failures = 0;
-
+        
         if (! $this->get_user()->is_platform_admin())
         {
             $trail = BreadcrumbTrail :: get_instance();
             $trail->add(new Breadcrumb($this->get_url(), Translation :: get('DeleteRequest')));
             $trail->add_help('request delete');
-            
             
             Display :: error_message(Translation :: get("NotAllowed"));
             $this->display_header();
@@ -34,27 +35,31 @@ class WeblcmsManagerCourseRequestDeleterComponent extends WeblcmsManager
             exit();
         }
         
-        if (!empty($request_ids))
+        if (! empty($request_ids))
         {
-        	$wdm = WeblcmsDataManager::get_instance();
+            $wdm = WeblcmsDataManager :: get_instance();
             if (! is_array($request_ids))
             {
                 $request_ids = array($request_ids);
             }
             
             foreach ($request_ids as $request_id)
-            {                
-		        $request_method = null;
-		        
-		        switch($request_type)
-		        {
-		        	case CommonRequest :: SUBSCRIPTION_REQUEST: $request_method = 'retrieve_request'; break;
-		        	case CommonRequest :: CREATION_REQUEST: $request_method = 'retrieve_course_create_request'; break;
-		        }
-		        		
-				$request = $this->$request_method($request_id);
-		            
-            	if (!$request->delete())
+            {
+                $request_method = null;
+                
+                switch ($request_type)
+                {
+                    case CommonRequest :: SUBSCRIPTION_REQUEST :
+                        $request_method = 'retrieve_request';
+                        break;
+                    case CommonRequest :: CREATION_REQUEST :
+                        $request_method = 'retrieve_course_create_request';
+                        break;
+                }
+                
+                $request = $this->$request_method($request_id);
+                
+                if (! $request->delete())
                 {
                     $failures ++;
                 }
@@ -83,7 +88,8 @@ class WeblcmsManagerCourseRequestDeleterComponent extends WeblcmsManager
                 }
             }
             
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_REQUEST_BROWSER, WeblcmsManager :: PARAM_REQUEST => null,WeblcmsManager :: PARAM_REQUEST_TYPE => $request_type, WeblcmsManager :: PARAM_REQUEST_VIEW => Request :: get(WeblcmsManager:: PARAM_REQUEST_VIEW)));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(
+                    Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_REQUEST_BROWSER, WeblcmsManager :: PARAM_REQUEST => null, WeblcmsManager :: PARAM_REQUEST_TYPE => $request_type, WeblcmsManager :: PARAM_REQUEST_VIEW => Request :: get(WeblcmsManager :: PARAM_REQUEST_VIEW)));
         }
         else
         {
@@ -91,6 +97,5 @@ class WeblcmsManagerCourseRequestDeleterComponent extends WeblcmsManager
         }
     }
 
-    
 }
 ?>

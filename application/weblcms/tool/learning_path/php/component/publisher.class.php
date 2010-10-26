@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use application\weblcms\ToolComponent;
+use common\libraries\Translation;
 
 class LearningPathToolPublisherComponent extends LearningPathTool
 {
@@ -17,7 +19,7 @@ class LearningPathToolPublisherComponent extends LearningPathTool
 
     function get_additional_parameters()
     {
-        return array(RepoViewer::PARAM_ID, RepoViewer::PARAM_ACTION);
+        return array(RepoViewer :: PARAM_ID, RepoViewer :: PARAM_ACTION);
     }
 }
 ?>

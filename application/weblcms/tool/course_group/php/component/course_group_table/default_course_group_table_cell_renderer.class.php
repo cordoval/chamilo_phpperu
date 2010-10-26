@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\course_group;
 
+use common\libraries\Translation;
+
 /**
  * $Id: default_course_group_table_cell_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.course_group.component.course_group_table
@@ -91,31 +93,31 @@ class DefaultCourseGroupTableCellRenderer implements CourseGroupTableCellRendere
             $parameters[CourseGroupTool :: PARAM_COURSE_GROUP] = $course_group->get_id();
             $parameters[CourseGroupTool :: PARAM_COURSE_GROUP_ACTION] = CourseGroupTool :: ACTION_EDIT_COURSE_GROUP;
             $edit_url = $this->course_group_tool->get_url($parameters);
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $edit_url, ToolbarItem::DISPLAY_ICON ));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $edit_url, ToolbarItem :: DISPLAY_ICON));
             
             $parameters = array();
             $parameters[WeblcmsManager :: PARAM_COURSE_GROUP] = $course_group->get_id();
             $parameters[CourseGroupTool :: PARAM_COURSE_GROUP_ACTION] = CourseGroupTool :: ACTION_DELETE_COURSE_GROUP;
             $delete_url = $this->course_group_tool->get_url($parameters);
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $delete_url, ToolbarItem::DISPLAY_ICON, true ));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $delete_url, ToolbarItem :: DISPLAY_ICON, true));
         }
         
         $user = $this->course_group_tool->get_user();
         
-        if (!$this->course_group_tool->is_allowed(WeblcmsRights :: EDIT_RIGHT))
+        if (! $this->course_group_tool->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
-        	if($course_group->is_self_registration_allowed())
-	        {
-	            if (! $course_group->is_member($user))
-	            {
-	                $parameters = array();
-	                $parameters[WeblcmsManager :: PARAM_COURSE_GROUP] = $course_group->get_id();
-	                $parameters[CourseGroupTool :: PARAM_COURSE_GROUP_ACTION] = CourseGroupTool :: ACTION_USER_SELF_SUBSCRIBE;
-	                $subscribe_url = $this->course_group_tool->get_url($parameters);
-	                $toolbar->add_item(new ToolbarItem(Translation :: get('Subscribe'), Theme :: get_common_image_path() . 'action_subscribe.png', $subscribe_url, ToolbarItem::DISPLAY_ICON ));
-
-	            }
-	        }
+            if ($course_group->is_self_registration_allowed())
+            {
+                if (! $course_group->is_member($user))
+                {
+                    $parameters = array();
+                    $parameters[WeblcmsManager :: PARAM_COURSE_GROUP] = $course_group->get_id();
+                    $parameters[CourseGroupTool :: PARAM_COURSE_GROUP_ACTION] = CourseGroupTool :: ACTION_USER_SELF_SUBSCRIBE;
+                    $subscribe_url = $this->course_group_tool->get_url($parameters);
+                    $toolbar->add_item(new ToolbarItem(Translation :: get('Subscribe'), Theme :: get_common_image_path() . 'action_subscribe.png', $subscribe_url, ToolbarItem :: DISPLAY_ICON));
+                
+                }
+            }
         }
         else
         {
@@ -123,16 +125,16 @@ class DefaultCourseGroupTableCellRenderer implements CourseGroupTableCellRendere
             $parameters[WeblcmsManager :: PARAM_COURSE_GROUP] = $course_group->get_id();
             $parameters[CourseGroupTool :: PARAM_COURSE_GROUP_ACTION] = CourseGroupTool :: ACTION_MANAGE_SUBSCRIPTIONS;
             $subscribe_url = $this->course_group_tool->get_url($parameters);
-            $toolbar->add_item(new ToolbarItem(Translation :: get('$subscribe_url'), Theme :: get_common_image_path() . 'action_subscribe.png', $subscribe_url, ToolbarItem::DISPLAY_ICON ));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('$subscribe_url'), Theme :: get_common_image_path() . 'action_subscribe.png', $subscribe_url, ToolbarItem :: DISPLAY_ICON));
         }
         
-        if (!$this->course_group_tool->is_allowed(WeblcmsRights :: EDIT_RIGHT) && $course_group->is_self_unregistration_allowed() && $course_group->is_member($user))
+        if (! $this->course_group_tool->is_allowed(WeblcmsRights :: EDIT_RIGHT) && $course_group->is_self_unregistration_allowed() && $course_group->is_member($user))
         {
             $parameters = array();
             $parameters[WeblcmsManager :: PARAM_COURSE_GROUP] = $course_group->get_id();
             $parameters[CourseGroupTool :: PARAM_COURSE_GROUP_ACTION] = CourseGroupTool :: ACTION_USER_SELF_UNSUBSCRIBE;
             $unsubscribe_url = $this->course_group_tool->get_url($parameters);
-            $toolbar->add_item(new ToolbarItem(Translation :: get('$Unsubscribe'), Theme :: get_common_image_path() . 'action_unsubscribe.png', $unsubscribe_url, ToolbarItem::DISPLAY_ICON ));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('$Unsubscribe'), Theme :: get_common_image_path() . 'action_unsubscribe.png', $unsubscribe_url, ToolbarItem :: DISPLAY_ICON));
         }
         /*else
 		{

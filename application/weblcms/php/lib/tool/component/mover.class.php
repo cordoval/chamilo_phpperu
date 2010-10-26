@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Translation;
+
 /**
  * $Id: move.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.component
@@ -15,8 +17,8 @@ class ToolComponentMoverComponent extends ToolComponent
     {
         if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
-                   	
-        	$move = $this->get_parent()->get_move_direction();
+            
+            $move = $this->get_parent()->get_move_direction();
             
             $datamanager = WeblcmsDataManager :: get_instance();
             $publication = $datamanager->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID));
@@ -24,10 +26,12 @@ class ToolComponentMoverComponent extends ToolComponent
             {
                 $message = htmlentities(Translation :: get('ContentObjectPublicationMoved'));
             }
-
-            $this->redirect($message, false, array(Tool :: PARAM_ACTION => null, Tool :: PARAM_BROWSER_TYPE => Request :: get(Tool :: PARAM_BROWSER_TYPE)));
-            //$this->redirect($message, false, array(Tool :: PARAM_ACTION => null, Tool :: PARAM_BROWSER_TYPE => Request :: get(Tool :: PARAM_BROWSER_TYPE)));
             
+            $this->redirect($message, false, array(Tool :: PARAM_ACTION => null, Tool :: PARAM_BROWSER_TYPE => Request :: get(Tool :: PARAM_BROWSER_TYPE)));
+        
+     //$this->redirect($message, false, array(Tool :: PARAM_ACTION => null, Tool :: PARAM_BROWSER_TYPE => Request :: get(Tool :: PARAM_BROWSER_TYPE)));
+        
+
         }
     }
 }

@@ -785,7 +785,7 @@ abstract class Application
         
         if (! $component instanceof DelegateComponent && !$component instanceof InstallManager)
         {
-            $trail->add(new Breadcrumb($component->get_url(array(self :: PARAM_ACTION => $action)), Translation :: get(get_class($component))));
+            $trail->add(new Breadcrumb($component->get_url(array(self :: PARAM_ACTION => $action)), Translation :: get(Utilities :: get_classname_from_namespace(get_class($component)))));
         }
         
         return $component;

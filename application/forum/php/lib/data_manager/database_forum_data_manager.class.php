@@ -110,7 +110,7 @@ class DatabaseForumDataManager extends Database implements ForumDataManagerInter
 
     function retrieve_forum_publication_categories($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->retrieve_objects(ForumPublicationCategory :: get_table_name(), $condition, $offset, $count, $order_property, ForumPublication :: CLASS_NAME);
+        return $this->retrieve_objects(ForumPublicationCategory :: get_table_name(), $condition, $offset, $count, $order_property, ForumPublicationCategory :: CLASS_NAME);
     }
 
     function get_next_publication_display_order($parent_id)

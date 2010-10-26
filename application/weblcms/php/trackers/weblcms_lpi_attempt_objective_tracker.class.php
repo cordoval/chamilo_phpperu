@@ -7,7 +7,7 @@ namespace application\weblcms;
 class WeblcmsLpiAttemptObjectiveTracker extends SimpleTracker
 {
     const CLASS_NAME = __CLASS__;
-
+    
     const PROPERTY_LPI_VIEW_ID = 'lpi_view_id';
     const PROPERTY_OBJECTIVE_ID = 'objective_id';
     const PROPERTY_SCORE_RAW = 'score_raw';
@@ -108,7 +108,8 @@ class WeblcmsLpiAttemptObjectiveTracker extends SimpleTracker
     static function get_table_name()
     {
         return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+    
+     //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 }
 ?>

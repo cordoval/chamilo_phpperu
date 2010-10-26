@@ -7,6 +7,7 @@ use common\libraries\ToolbarItem;
 use common\libraries\Translation;
 use common\libraries\Theme;
 use reporting\ReportingTemplateRegistration;
+use repository\content_object\assessment\Assessment;
 /**
  * $Id: assessment_attempts_template.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.reporting.templates

@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Path;
+use common\libraries\Translation;
+
 /**
  * $Id: course_group_subscriptions_form.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.course_group
@@ -65,9 +68,7 @@ class CourseGroupSubscriptionsForm extends FormValidator
         {
             while ($course_group_user = $course_group_users->next_result())
             {
-                $current[$course_group_user->get_id()] = array(
-                        'id' => 'user_' . $course_group_user->get_id(), 'title' => htmlspecialchars($course_group_user->get_username()), 
-                        'description' => htmlspecialchars($course_group_user->get_fullname()), 'classes' => 'type type_user');
+                $current[$course_group_user->get_id()] = array('id' => 'user_' . $course_group_user->get_id(), 'title' => htmlspecialchars($course_group_user->get_username()), 'description' => htmlspecialchars($course_group_user->get_fullname()), 'classes' => 'type type_user');
                 $defaults[$course_group_user->get_id()] = array('title' => $course_group_user->get_username(), 'description' => $course_group_user->get_fullname(), 'class' => 'user');
             }
         }

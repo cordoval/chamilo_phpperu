@@ -23,9 +23,9 @@ class DocumentCellRenderer extends ObjectPublicationTableCellRenderer
                 $content_object = $publication->get_content_object();
                 $details_url = $this->table_renderer->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_VIEW));
                 $download_url = RepositoryManager :: get_document_downloader_url($content_object->get_id());
-
+                
                 $data = array();
-
+                
                 if ($publication->is_hidden())
                 {
                     $icon = 'action_download_na';
@@ -35,23 +35,23 @@ class DocumentCellRenderer extends ObjectPublicationTableCellRenderer
                 {
                     $icon = 'action_download';
                 }
-
+                
                 $data[] = '<div style="float: left;" title="' . $content_object->get_title() . '">';
                 $data[] = '<a href="' . $details_url . '">' . Utilities :: truncate_string($content_object->get_title(), 50) . '</a>';
                 $data[] = '</div> ';
                 $data[] = '<div style="float: right;">';
                 $data[] = '<a href="' . $download_url . '">' . Theme :: get_common_image($icon) . '</a>';
                 $data[] = '</div>';
-
+                
                 if ($publication->is_hidden())
                 {
                     $data[] = '</div>';
                 }
-
+                
                 return implode("\n", $data);
                 break;
         }
-
+        
         return parent :: render_cell($column, $publication);
     }
 }

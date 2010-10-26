@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use common\libraries\Path;
+use common\libraries\Translation;
+
 /**
  * $Id: assessment_results_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.assessment.component
@@ -133,6 +136,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentTool
         //$trail->add(new Breadcrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $this->user_assessment->get_assessment_id())), Translation :: get('AssessmentResults')));
         //$trail->add(new Breadcrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $uaid)), Translation :: get('Details')));
         
+
         $publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($this->user_assessment->get_assessment_id());
         $object = $publication->get_content_object();
         
@@ -196,11 +200,11 @@ class AssessmentToolResultsViewerComponent extends AssessmentTool
                 return false;
             }
         }
-//        $trail = BreadcrumbTrail :: get_instance();
-//        foreach ($breadcrumbs as $breadcrumb)
-//        {
-//            $trail->add($breadcrumb);
-//        }
+        //        $trail = BreadcrumbTrail :: get_instance();
+        //        foreach ($breadcrumbs as $breadcrumb)
+        //        {
+        //            $trail->add($breadcrumb);
+        //        }
         parent :: display_header();
         
         $this->action_bar = $this->get_toolbar();
@@ -233,11 +237,12 @@ class AssessmentToolResultsViewerComponent extends AssessmentTool
         return $this->object;
     }
 
-    function  add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_BROWSE)), Translation :: get('AssessmentToolBrowserComponent')));
     }
-    function  get_additional_parameters()
+
+    function get_additional_parameters()
     {
         return array(AssessmentTool :: PARAM_ASSESSMENT);
     }

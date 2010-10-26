@@ -81,7 +81,7 @@ class ItemBrowserTableCellRenderer extends DefaultItemTableCellRenderer
                 $toolbar->add_item(new ToolbarItem(
 		        		Translation :: get('ModifyRights'),
 		        		Theme :: get_common_image_path() . 'action_rights.png',
-		        		$this->browser->get_modify_rights_url('item', $item->get_id()),
+		        		$this->browser->get_modify_rights_url(ReservationsRights :: TYPE_ITEM, $item->get_id()),
 		        		ToolbarItem :: DISPLAY_ICON
 		        ));
             }

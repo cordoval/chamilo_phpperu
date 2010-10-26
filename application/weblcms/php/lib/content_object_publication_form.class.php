@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Path;
+use common\libraries\Translation;
+
 /**
  * $Id: content_object_publication_form.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms
@@ -88,8 +91,7 @@ class ContentObjectPublicationForm extends FormValidator
                 else
                 {
                     //$parameters = array_merge($pub_param, array(ContentObjectRepoViewer :: PARAM_ID => $content_object->get_id(), Tool :: PARAM_ACTION => $in_repo_viewer ? Tool :: ACTION_PUBLISH : null));
-                    $parameters = array_merge($pub_param, array(
-                            ContentObjectRepoViewer :: PARAM_ID => $content_object->get_id()));
+                    $parameters = array_merge($pub_param, array(ContentObjectRepoViewer :: PARAM_ID => $content_object->get_id()));
                 }
                 break;
             case self :: TYPE_MULTI :
@@ -331,7 +333,8 @@ class ContentObjectPublicationForm extends FormValidator
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
         
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
-        //$this->addElement('submit', 'submit', Translation :: get('Ok'));
+    
+     //$this->addElement('submit', 'submit', Translation :: get('Ok'));
     }
 
     /**

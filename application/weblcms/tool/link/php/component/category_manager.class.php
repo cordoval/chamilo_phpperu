@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\link;
 
+use application\weblcms\ToolComponent;
+use common\libraries\DelegateComponent;
+use common\libraries\Translation;
 
 class LinkToolCategoryManagerComponent extends LinkTool implements DelegateComponent
 {
@@ -17,7 +20,7 @@ class LinkToolCategoryManagerComponent extends LinkTool implements DelegateCompo
 
     function get_additional_parameters()
     {
-        return array(CategoryManager::PARAM_CATEGORY_ID);
+        return array(CategoryManager :: PARAM_CATEGORY_ID);
     }
 
 }

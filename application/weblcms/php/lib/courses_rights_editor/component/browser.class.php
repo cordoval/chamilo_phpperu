@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Path;
+use common\libraries\Translation;
+
 /**
  * $Id: browser.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.rights_editor_manager.component
@@ -25,12 +28,12 @@ class CoursesRightsEditorManagerBrowserComponent extends RightsEditorManagerBrow
         {
             $html[] = $this->display_location_user_browser();
         }
-        elseif($this->type == self :: TYPE_GROUP)
+        elseif ($this->type == self :: TYPE_GROUP)
         {
             //$html[] = $this->display_location_group_browser();
             $html[] = $this->display_location_course_group_browser();
         }
-   		else
+        else
         {
             $html[] = $this->display_location_template_browser();
         }

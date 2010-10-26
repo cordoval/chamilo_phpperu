@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\chat;
 
+use common\libraries\Path;
+use common\libraries\Translation;
+
 /**
  * $Id: chat_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.chat.component
@@ -49,7 +52,6 @@ class ChatToolViewerComponent extends ChatTool
         
         $trail = BreadcrumbTrail :: get_instance();
         
-        
         $this->display_header();
         if (! function_exists('filemtime'))
             echo Translation :: get('FileMTimeWarning');
@@ -58,10 +60,11 @@ class ChatToolViewerComponent extends ChatTool
         $this->display_footer();
     }
 
-    function  add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
         $breadcrumbtrail->add_help('weblcms_tool_chat_viewer');
     }
+
     function get_additional_parameters()
     {
         return array(Tool :: PARAM_PUBLICATION_ID);

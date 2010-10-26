@@ -25,7 +25,7 @@ class ObjectPublicationGalleryTableCellRenderer implements GalleryObjectTableCel
         $html[] = '<h3>' . Utilities :: truncate_string($object->get_title(), 25) . '</h3>';
         $details_url = $this->table_renderer->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_VIEW));
         $display = ContentObjectDisplay :: factory($object);
-        $html[] = '<a href="'. $details_url .'">' . $display->get_preview(true) . '</a>';
+        $html[] = '<a href="' . $details_url . '">' . $display->get_preview(true) . '</a>';
         return implode("\n", $html);
     }
 

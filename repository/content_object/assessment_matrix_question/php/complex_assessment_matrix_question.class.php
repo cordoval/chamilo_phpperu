@@ -2,6 +2,7 @@
 namespace repository\content_object\assessment_matrix_question;
 
 use common\libraries\Path;
+use repository\ComplexMatrixQuestion;
 
 /**
  * $Id: complex_assessment_matrix_question.class.php 200 2009-11-13 12:30:04Z kariboe $

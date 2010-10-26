@@ -7,8 +7,9 @@ namespace application\weblcms;
  */
 require_once dirname(__FILE__) . '/../../category_manager/content_object_publication_category_manager.class.php';
 
-class ToolComponentCategoryManagerComponent extends ToolComponent 
+class ToolComponentCategoryManagerComponent extends ToolComponent
 {
+
     function run()
     {
         if (! $this->is_allowed(WeblcmsRights :: VIEW_RIGHT))

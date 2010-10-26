@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\document;
 
+use application\weblcms\ToolComponent;
+use common\libraries\Translation;
+
 require_once dirname(__FILE__) . '/document_browser/document_cell_renderer.class.php';
 
 class DocumentToolBrowserComponent extends DocumentTool

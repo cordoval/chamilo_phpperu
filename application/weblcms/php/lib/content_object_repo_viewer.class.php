@@ -20,7 +20,7 @@ class ContentObjectRepoViewer extends RepoViewer
     /**
      * The default learning objects, which are used for form defaults.
      */
-
+    
     function ContentObjectRepoViewer($parent, $types, $maximum_select = RepoViewer :: SELECT_MULTIPLE, $action = TOOL :: ACTION_PUBLISH)
     {
         parent :: __construct($parent, $types, $maximum_select, array(), false);
@@ -35,12 +35,13 @@ class ContentObjectRepoViewer extends RepoViewer
         {
             $this->set_parameter(Tool :: PARAM_ACTION, $action);
         }
-
+        
         if (Request :: get(Tool :: PARAM_PUBLICATION_ID) != null)
         {
             $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, Request :: get(Tool :: PARAM_PUBLICATION_ID));
         }
-        //$this->parse_input_from_table();
+    
+     //$this->parse_input_from_table();
     }
 
     /**

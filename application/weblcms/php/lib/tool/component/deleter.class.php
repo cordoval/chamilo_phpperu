@@ -1,16 +1,19 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Translation;
+
 /**
  * $Id: delete.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.component
  */
 class ToolComponentDeleterComponent extends ToolComponent
 {
+
     function run()
     {
         if ($this->is_allowed(WeblcmsRights :: DELETE_RIGHT))
-		{
+        {
             if (Request :: get(Tool :: PARAM_PUBLICATION_ID))
                 $publication_ids = Request :: get(Tool :: PARAM_PUBLICATION_ID);
             else
@@ -26,12 +29,12 @@ class ToolComponentDeleterComponent extends ToolComponent
             foreach ($publication_ids as $index => $pid)
             {
                 $publication = $datamanager->retrieve_content_object_publication($pid);
-	            if(WebApplication :: is_active('gradebook'))
-       			{
-       				require_once dirname(__FILE__) . '/../../../gradebook/gradebook_utilities.class.php';
-			    	if(!GradebookUtilities :: move_internal_item_to_external_item(WeblcmsManager :: APPLICATION_NAME, $publication->get_id()))
-			    		$message = 'failed to move internal evaluation to external evaluation';
-       			}
+                if (WebApplication :: is_active('gradebook'))
+                {
+                    require_once dirname(__FILE__) . '/../../../gradebook/gradebook_utilities.class.php';
+                    if (! GradebookUtilities :: move_internal_item_to_external_item(WeblcmsManager :: APPLICATION_NAME, $publication->get_id()))
+                        $message = 'failed to move internal evaluation to external evaluation';
+                }
                 $publication->delete();
             }
             if (count($publication_ids) > 1)

@@ -19,14 +19,15 @@ class GalleryTableContentObjectPublicationListRenderer extends ContentObjectPubl
      */
     function as_html()
     {
-//        if (method_exists($this->get_tool_browser()->get_parent(), 'get_content_object_publication_table_cell_renderer'))
-//        {
-//            $object_publication_table_cell_renderer = $this->get_tool_browser()->get_parent()->get_content_object_publication_table_cell_renderer($this);
-//        }
-//        else
-//        {
-            $object_publication_table_cell_renderer = null;
-//        }
+        //        if (method_exists($this->get_tool_browser()->get_parent(), 'get_content_object_publication_table_cell_renderer'))
+        //        {
+        //            $object_publication_table_cell_renderer = $this->get_tool_browser()->get_parent()->get_content_object_publication_table_cell_renderer($this);
+        //        }
+        //        else
+        //        {
+        $object_publication_table_cell_renderer = null;
+        //        }
+        
 
         $table = new ObjectPublicationGalleryTable($this, $this->get_publication_conditions(), $object_publication_table_cell_renderer);
         return $table->as_html();

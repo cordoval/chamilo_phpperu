@@ -1,26 +1,30 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use common\libraries\Translation;
+
+use common\libraries\Path;
+
 require_once dirname(__FILE__) . '/../survey_publication_mailer_form.class.php';
 require_once Path :: get_application_path() . 'lib/weblcms/trackers/weblcms_survey_participant_mail_tracker.class.php';
 require_once Path :: get_application_path() . 'lib/weblcms/trackers/weblcms_survey_participant_tracker.class.php';
 
 class SurveyToolMailerComponent extends SurveyTool
 {
-	private $not_started;
+    private $not_started;
     private $started;
     private $finished;
     private $mail_send = true;
 
     function run()
-    {        
+    {
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
         //        $trail->add(new Breadcrumb($this->get_mail_survey_participant_url(), Translation :: get('MailParticipants')));
         
 
         $ids = Request :: get(SurveyTool :: PARAM_PUBLICATION_ID);
-               
+        
         if (! empty($ids))
         {
             if (! is_array($ids))
@@ -43,7 +47,7 @@ class SurveyToolMailerComponent extends SurveyTool
             foreach ($ids as $id)
             {
                 $survey_publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($id);
-                $surveys[] = $survey_publication->get_content_object();            
+                $surveys[] = $survey_publication->get_content_object();
             }
             
             $condition = new InCondition(WeblcmsSurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $ids);
@@ -196,7 +200,7 @@ class SurveyToolMailerComponent extends SurveyTool
             $email_reply_address = $values[WeblcmsSurveyPublicationMailerForm :: REPLY_ADDRESS];
             $email_from_address_name = $values[WeblcmsSurveyPublicationMailerForm :: FROM_ADDRESS_NAME];
             $email_reply_address_name = $values[WeblcmsSurveyPublicationMailerForm :: REPLY_ADDRESS_NAME];
-                   
+            
             $email = new SurveyPublicationMail();
             $email->set_mail_haeder($email_header);
             $email->set_mail_content($email_content);
@@ -205,8 +209,9 @@ class SurveyToolMailerComponent extends SurveyTool
             $email->set_from_address_name($email_from_address_name);
             $email->set_reply_address($email_reply_address);
             $email->set_reply_address_name($email_reply_address_name);
-//            $email->create();
+            //            $email->create();
             
+
             foreach ($mail_users as $user_id => $survey_ids)
             {
                 
@@ -230,8 +235,8 @@ class SurveyToolMailerComponent extends SurveyTool
 
     function send_mail($user_id, $to_email, $email, $survey_ids)
     {
-    	
-    	$fullbody = array();
+        
+        $fullbody = array();
         $parameters = array();
         
         $unique_surveys = array_unique($survey_ids);
@@ -274,7 +279,8 @@ class SurveyToolMailerComponent extends SurveyTool
         $args[WeblcmsSurveyParticipantMailTracker :: PROPERTY_SURVEY_PUBLICATION_MAIL_ID] = $email->get_id();
         
         $from = array();
-        $from[Mail :: NAME] = $email->get_from_address_name();;
+        $from[Mail :: NAME] = $email->get_from_address_name();
+        ;
         $from[Mail :: EMAIL] = $email->get_from_address();
         
         $mail = Mail :: factory($email->get_mail_header(), implode("\n", $fullbody), $to_email, $from);

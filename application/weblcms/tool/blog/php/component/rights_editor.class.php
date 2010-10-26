@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\blog;
 
+use application\weblcms\ToolComponent;
+use common\libraries\DelegateComponent;
+use common\libraries\Translation;
 
 class BlogToolRightsEditorComponent extends BlogTool implements DelegateComponent
 {
@@ -20,7 +23,7 @@ class BlogToolRightsEditorComponent extends BlogTool implements DelegateComponen
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_BROWSE)), Translation :: get('BlogToolBrowserComponent')));
         if (Request :: get(WeblcmsManager :: PARAM_PUBLICATION))
         {
-            $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW, Tool :: PARAM_PUBLICATION_ID => Request::get(Tool :: PARAM_PUBLICATION_ID))), Translation :: get('BlogToolViewerComponent')));
+            $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW, Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), Translation :: get('BlogToolViewerComponent')));
         }
     }
 

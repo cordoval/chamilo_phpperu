@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use application\weblcms\ToolComponent;
+
 require_once dirname(__FILE__) . '/survey_browser/survey_cell_renderer.class.php';
 require_once dirname(__FILE__) . '/survey_browser/survey_column_model.class.php';
 

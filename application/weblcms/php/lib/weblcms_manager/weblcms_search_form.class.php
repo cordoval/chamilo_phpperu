@@ -1,24 +1,25 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\FormValidator;
+use common\libraries\Translation;
+
 /**
  * $Id: weblcms_search_form.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms.weblcms_manager
  */
-require_once dirname(__FILE__) . '/weblcms_manager.class.php';
-require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
 /**
  * A form to search in the repository.
  * This form can have two representations
  * - A simple search form.
- *   This form only contains a text field and a submit
- *   button. The form will also contain a link to the advanced view of the
- *   search  form.
+ * This form only contains a text field and a submit
+ * button. The form will also contain a link to the advanced view of the
+ * search  form.
  * - An advanced search form.
- *   Using   the advanced search form, a user will be able to search on title,
- *   description,    type and has the choice in which part of the repository the
- *   system    should search (whole repository, current category, current
- *   category  + subcategories)
+ * Using   the advanced search form, a user will be able to search on title,
+ * description,    type and has the choice in which part of the repository the
+ * system    should search (whole repository, current category, current
+ * category  + subcategories)
  */
 class WeblcmsSearchForm extends FormValidator
 {

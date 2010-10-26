@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\course_sections;
 
+use common\libraries\Translation;
+
 /**
  * $Id: course_section_tool_selector_form.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.course_sections
@@ -45,8 +47,8 @@ class CourseSectionToolSelectorForm extends FormValidator
         {
             if ($module->section == $admin_section->get_id())
                 continue;
-                
-            //if($module->section != $this->course_section->get_id())
+            
+     //if($module->section != $this->course_section->get_id())
             $tools[$module->id] = $module->name;
         }
         
@@ -89,12 +91,14 @@ class CourseSectionToolSelectorForm extends FormValidator
             if (in_array($module->id, $values['tools']))
             {
                 $wdm->change_module_course_section($module->id, $course_section->get_id());
-                //echo $module->id . '<br />';
+            
+     //echo $module->id . '<br />';
             }
             elseif ($this->course_section->get_id() == $module->section)
             {
                 $wdm->change_module_course_section($module->id, $main_section->get_id());
-                //echo 'main:' . $main_section->get_id() . ' ' . $module->id . '<br />';
+            
+     //echo 'main:' . $main_section->get_id() . ' ' . $module->id . '<br />';
             }
         
         }
@@ -103,7 +107,7 @@ class CourseSectionToolSelectorForm extends FormValidator
     }
 
     /**
-     * Sets default values. 
+     * Sets default values.
      * @param array $defaults Default values for this form's parameters.
      */
     function setDefaults($defaults = array ())

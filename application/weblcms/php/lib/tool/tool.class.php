@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\SubManager;
+use common\libraries\Translation;
+
 /**
  * $Id: tool.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool
@@ -27,9 +30,9 @@ abstract class Tool extends SubManager
     const PARAM_OBJECT_ID = 'object_id';
     const PARAM_BROWSER_TYPE = 'browser';
     const PARAM_TEMPLATE_NAME = 'template_name';
-
+    
     const PARAM_MOVE_DIRECTION = 'move_direction';
-    const PARAM_MOVE_DIRECTION_UP = -1;
+    const PARAM_MOVE_DIRECTION_UP = - 1;
     const PARAM_MOVE_DIRECTION_DOWN = 1;
     
     const ACTION_BROWSE = 'browser';
@@ -227,7 +230,7 @@ abstract class Tool extends SubManager
 
     function display_course_menus($tools, $show_introduction_text = false)
     {
-    	$shortcuts_visible = false;
+        $shortcuts_visible = false;
         $menu_style = $this->get_course()->get_menu();
         if ($menu_style != CourseLayout :: MENU_OFF && count($tools) > 0)
         {

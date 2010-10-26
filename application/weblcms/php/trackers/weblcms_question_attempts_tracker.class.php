@@ -8,7 +8,7 @@ namespace application\weblcms;
 class WeblcmsQuestionAttemptsTracker extends SimpleTracker
 {
     const CLASS_NAME = __CLASS__;
-
+    
     const PROPERTY_ASSESSMENT_ATTEMPT_ID = 'assessment_attempt_id';
     const PROPERTY_QUESTION_CID = 'question_cid';
     const PROPERTY_ANSWER = 'answer';
@@ -85,7 +85,8 @@ class WeblcmsQuestionAttemptsTracker extends SimpleTracker
     static function get_table_name()
     {
         return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+    
+     //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 }
 ?>

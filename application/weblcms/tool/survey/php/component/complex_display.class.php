@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use common\libraries\Path;
+use common\libraries\Translation;
 
 require_once Path :: get_application_path() . 'lib/survey/survey_menu.class.php';
 require_once Path :: get_repository_path() . 'lib/content_object/survey/context_data_manager/context_data_manager.class.php';
@@ -66,8 +68,8 @@ class SurveyToolComplexDisplayComponent extends SurveyTool
                 if (count($this->trackers) === 0)
                 {
                     $this->redirect(Translation :: get('NotInvitedUsers'), false, array(SurveyTool :: PARAM_ACTION => SurveyTool :: ACTION_BROWSE));
-                    
-                //                	$this->not_allowed($trail, false);
+                
+     //                	$this->not_allowed($trail, false);
                 }
                 
                 else
@@ -97,8 +99,8 @@ class SurveyToolComplexDisplayComponent extends SurveyTool
         if ($this->pub && ! $this->pub->is_visible_for_target_user($this->get_user()))
         {
             $this->redirect(Translation :: get('YoureNotInvited'), false, array(SurveyTool :: PARAM_ACTION => SurveyTool :: ACTION_BROWSE));
-            
-        //        	$this->not_allowed($trail, false);
+        
+     //        	$this->not_allowed($trail, false);
         }
         
         $db = SurveyContextDataManager :: get_instance();
@@ -214,7 +216,8 @@ class SurveyToolComplexDisplayComponent extends SurveyTool
             
             Event :: trigger('attempt_question', 'survey', $parameters);
         }
-        //test for better tracing of setting status of trackers.
+    
+     //test for better tracing of setting status of trackers.
     }
 
     function get_answer($question)
@@ -330,7 +333,7 @@ class SurveyToolComplexDisplayComponent extends SurveyTool
     //    function get_total_questions(){
     //    	return $this->survey->count_pages();
     //    }
-    //    
+    //
     //	function get_total_pages(){
     //    	return $this->survey->count_pages();
     //    }

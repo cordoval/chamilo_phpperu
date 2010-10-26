@@ -13,7 +13,7 @@ use repository\ComplexContentObjectItem;
  * $Id: question_selecter.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.assessment.component
  */
-require_once Path :: get_repository_path() . '/lib/content_object/assessment/assessment.class.php';
+require_once Path :: get_repository_path() . '/../content_object/assessment/php/assessment.class.php';
 
 class AssessmentBuilderQuestionSelecterComponent extends AssessmentBuilder
 {

@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\ObjectTable;
+use common\libraries\Translation;
+
 /**
  * $Id: admin_course_browser_table.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms.weblcms_manager.component.admin_course_browser
@@ -8,7 +11,6 @@ namespace application\weblcms;
 require_once dirname(__FILE__) . '/admin_course_browser_table_data_provider.class.php';
 require_once dirname(__FILE__) . '/admin_course_browser_table_column_model.class.php';
 require_once dirname(__FILE__) . '/admin_course_browser_table_cell_renderer.class.php';
-require_once dirname(__FILE__) . '/../../weblcms_manager.class.php';
 /**
  * Table to display a set of courses.
  */
@@ -28,7 +30,7 @@ class AdminCourseBrowserTable extends ObjectTable
         $actions = array();
         
         $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_REMOVE_SELECTED, Translation :: get('RemoveSelected'));
-        $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_CHANGE_COURSE_TYPE_SELECTED_COURSES, Translation :: get('ChangeCourseTypeSelected'),false);
+        $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_CHANGE_COURSE_TYPE_SELECTED_COURSES, Translation :: get('ChangeCourseTypeSelected'), false);
         
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);

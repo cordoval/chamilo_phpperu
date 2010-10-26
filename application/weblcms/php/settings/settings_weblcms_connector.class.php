@@ -1,11 +1,12 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Path;
+
 /**
  * $Id: settings_weblcms_connector.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.reporting.settings
  */
-require_once Path :: get_application_path() . 'lib/weblcms/weblcms_data_manager.class.php';
 require_once Path :: get_application_path() . 'lib/weblcms/course/course.class.php';
 require_once Path :: get_library_path() . 'utilities.class.php';
 require_once Path :: get_library_path() . 'filesystem/path.class.php';
@@ -41,7 +42,7 @@ class SettingsWeblcmsConnector
 
     function get_languages()
     {
-		return AdminDataManager :: get_languages();
+        return AdminDataManager :: get_languages();
     }
 }
 ?>

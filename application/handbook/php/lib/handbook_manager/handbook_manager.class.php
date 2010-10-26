@@ -2,6 +2,10 @@
 namespace application\handbook;
 use common\libraries\WebApplication;
 use common\libraries\EqualityCondition;
+use common\libraries\Translation;
+use group\Group;
+use group\GroupDataManager;
+use common\libraries\ObjectTableOrder;
 
 
 require_once dirname(__FILE__).'/../handbook_data_manager.class.php';

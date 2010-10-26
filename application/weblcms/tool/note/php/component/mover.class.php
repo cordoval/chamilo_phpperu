@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\note;
 
+use application\weblcms\ToolComponent;
+
 class NoteToolMoverComponent extends NoteTool
 {
 
@@ -11,7 +13,7 @@ class NoteToolMoverComponent extends NoteTool
 
     function get_move_direction()
     {
-        return Request::get(Tool::PARAM_MOVE_DIRECTION);
+        return Request :: get(Tool :: PARAM_MOVE_DIRECTION);
     }
 }
 ?>

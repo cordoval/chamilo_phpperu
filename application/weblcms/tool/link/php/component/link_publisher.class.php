@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\link;
 
+use common\libraries\Translation;
+
 /**
  * $Id: link_publisher.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.link.component
@@ -20,10 +22,9 @@ class LinkToolPublisherComponent extends LinkToolComponent implements RepoViewer
             Display :: not_allowed();
             return;
         }
-
+        
         $trail = BreadcrumbTrail :: get_instance();
         
-
         if (Request :: get('pcattree') != null)
         {
             foreach (Tool :: get_pcattree_parents(Request :: get('pcattree')) as $breadcrumb)
@@ -33,8 +34,7 @@ class LinkToolPublisherComponent extends LinkToolComponent implements RepoViewer
             }
         }
         
-        
-        if (!ContentObjectRepoViewer::is_ready_to_be_published())
+        if (! ContentObjectRepoViewer :: is_ready_to_be_published())
         {
             $pub = new ContentObjectRepoViewer($this);
             $html[] = $pub->as_html();
@@ -44,7 +44,7 @@ class LinkToolPublisherComponent extends LinkToolComponent implements RepoViewer
             $publisher = new ContentObjectPublisher($pub);
             $html[] = $publisher->get_publications_form($pub->get_selected_objects());
         }
-
+        
         $this->display_header();
         echo implode("\n", $html);
         $this->display_footer();
@@ -63,7 +63,7 @@ class LinkToolPublisherComponent extends LinkToolComponent implements RepoViewer
 
     function get_additional_parameters()
     {
-        return array(RepoViewer::PARAM_ID, RepoViewer::PARAM_ACTION);
+        return array(RepoViewer :: PARAM_ID, RepoViewer :: PARAM_ACTION);
     }
 }
 ?>

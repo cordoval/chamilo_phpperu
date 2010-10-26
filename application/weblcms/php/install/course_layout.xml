@@ -10,10 +10,8 @@
 		<property name="breadcrumb" type="boolean" default="1" />
 		<property name="feedback" type="boolean" default="1" />
 		<property name="course_code_visible" type="boolean" default="1" />
-		<property name="course_manager_name_visible" type="boolean"
-			default="1" />
-		<property name="course_languages_visible" type="boolean"
-			default="1" />
+		<property name="course_manager_name_visible" type="boolean" default="1" />
+		<property name="course_languages_visible" type="boolean" default="1" />
 	</properties>
 	<index name="course_id" type="primary">
 		<indexproperty name="course_id" />

@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use application\weblcms\ToolComponent;
 
 class AssessmentToolMoverComponent extends AssessmentTool
 {
@@ -12,7 +13,7 @@ class AssessmentToolMoverComponent extends AssessmentTool
 
     function get_move_direction()
     {
-        return Request::get(Tool::PARAM_MOVE_DIRECTION);
+        return Request :: get(Tool :: PARAM_MOVE_DIRECTION);
     }
 
 }

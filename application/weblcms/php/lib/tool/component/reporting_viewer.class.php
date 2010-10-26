@@ -1,7 +1,6 @@
 <?php
 namespace application\weblcms;
 
-
 /**
  * $Id: reporting_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.component
@@ -12,7 +11,7 @@ namespace application\weblcms;
  *
  * @author Soliber
  */
-class ToolComponentReportingViewerComponent extends ToolComponent 
+class ToolComponentReportingViewerComponent extends ToolComponent
 {
 
     /**
@@ -22,22 +21,16 @@ class ToolComponentReportingViewerComponent extends ToolComponent
     {
         $classname = Request :: get(ReportingManager :: PARAM_TEMPLATE_NAME);
         $this->set_parameter(ReportingManager :: PARAM_TEMPLATE_NAME, $classname);
-
-        $trail = BreadcrumbTrail :: get_instance();
-
-
-
-        $user = Request :: get('user_id');
-
-
-
         
-
+        $trail = BreadcrumbTrail :: get_instance();
+        
+        $user = Request :: get('user_id');
+        
         $rtv = ReportingViewer :: construct($this);
         $rtv->add_template_by_name($classname, WeblcmsManager :: APPLICATION_NAME);
         $rtv->set_breadcrumb_trail($trail);
         $rtv->show_all_blocks();
-
+        
         $rtv->run();
     }
 
@@ -63,23 +56,21 @@ class ToolComponentReportingViewerComponent extends ToolComponent
         {
             $this->add_pcattree_breadcrumbs(Request :: get('pcattree'), $breadcrumbtrail);
         }
-        if (!empty($user) && Request :: get(Tool::PARAM_TEMPLATE_NAME) == 'course_student_tracker_detail_reporting_template')
+        if (! empty($user) && Request :: get(Tool :: PARAM_TEMPLATE_NAME) == 'course_student_tracker_detail_reporting_template')
         {
             $user = DatabaseUserDataManager :: get_instance()->retrieve_user($user);
             $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'user_details', 'users' => $user)), $user->get_firstname() . ' ' . $user->get_lastname()));
         }
-
+        
         if (Request :: get('cid') != null)
         {
             $cloi = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item(Request :: get('cid'));
             $wp = RepositoryDataManager :: get_instance()->retrieve_content_object($cloi->get_ref());
-            $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Request :: get('tool') == 'learning_path' ? 'view_clo' : 'view', 'display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID), Tool :: PARAM_COMPLEX_ID => Request :: get('cid'))), $wp->get_title()));
+            $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                    Tool :: PARAM_ACTION => Request :: get('tool') == 'learning_path' ? 'view_clo' : 'view', 'display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID), Tool :: PARAM_COMPLEX_ID => Request :: get('cid'))), $wp->get_title()));
         }
         $breadcrumbtrail->add_help('weblcms_tool_reporting_viewer');
     }
-
-    
-
 
 }
 
