@@ -3,6 +3,7 @@ namespace application\weblcms;
 
 use common\libraries\Path;
 use common\libraries\DataClass;
+use common\libraries\Translation;
 
 /**
  * $Id: course_settings.class.php 216 2010-02-25 11:06:00Z Yannick & Tristan$

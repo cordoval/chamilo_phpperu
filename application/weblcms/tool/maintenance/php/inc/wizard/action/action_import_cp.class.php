@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\maintenance;
 
+use common\libraries\Translation;
 
 require_once dirname(__FILE__) . '/../maintenance_wizard_process.class.php';
 require_once dirname(__FILE__) . '/../cp_import_selection_maintenance_wizard_page.class.php';
@@ -31,7 +32,7 @@ class ActionImportCp extends MaintenanceWizardProcess
 			$course = $this->get_course();
 			$importer->publish($course, $result);
 		}
-		
+
 		$notice = array();
 
 		$messages = $importer->get_messages();

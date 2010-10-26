@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Translation;
+
 /**
  * $Id: content_object_publication_category_tree.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.browser

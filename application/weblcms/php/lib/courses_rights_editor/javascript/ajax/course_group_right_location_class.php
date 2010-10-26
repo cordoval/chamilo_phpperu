@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Translation;
+
 /**
  * $Id: course_group_right_location_class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.ajax

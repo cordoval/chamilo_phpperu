@@ -3,6 +3,7 @@ namespace application\weblcms;
 
 use common\libraries\Path;
 use common\extensions\category_manager\PlatformCategory;
+use common\libraries\Translation;
 
 /**
  * $Id: content_object_publication_category.class.php 216 2009-11-13 14:08:06Z kariboe $

@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\user;
 
+use common\libraries\Translation;
+
 /**
  * $Id: group_menu.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package group.lib
@@ -17,7 +19,7 @@ require_once 'HTML/Menu/ArrayRenderer.php';
 class CourseGroupUserMenu extends HTML_Menu
 {
     CONST TREE_NAME = __CLASS__;
-    
+
     /**
      * The string passed to sprintf() to format category URLs
      */
@@ -86,7 +88,7 @@ class CourseGroupUserMenu extends HTML_Menu
             $sub_menu_items[] = $this->get_group_menu_item($group);
         }
 
-    	if(count($sub_menu_items) > 0) 
+    	if(count($sub_menu_items) > 0)
         {
         	$menu_item['sub'] = $sub_menu_items;
         }
@@ -95,7 +97,7 @@ class CourseGroupUserMenu extends HTML_Menu
 
         return $menu;
     }
-    
+
     function get_group_menu_item($group)
     {
     	$sub_menu_item = array();
@@ -103,19 +105,19 @@ class CourseGroupUserMenu extends HTML_Menu
         $sub_menu_item['url'] = $this->get_url($group->get_id());
         $sub_menu_item['class'] = 'category';
         $sub_menu_item[OptionsMenuRenderer :: KEY_ID] = $group->get_id();
-        
+
         $sub_menu_items = array();
         $children = $group->get_children(false);
         while($child = $children->next_result())
         {
         	$sub_menu_items[] = $this->get_group_menu_item($child);
         }
-        
-        if(count($sub_menu_items) > 0) 
+
+        if(count($sub_menu_items) > 0)
         {
         	$sub_menu_item['sub'] = $sub_menu_items;
         }
-        
+
         return $sub_menu_item;
     }
 
@@ -160,7 +162,7 @@ class CourseGroupUserMenu extends HTML_Menu
         $this->render($renderer, 'sitemap');
         return $renderer->toHTML();
     }
-    
+
     static function get_tree_name()
     {
     	return Utilities :: camelcase_to_underscores(self :: TREE_NAME);

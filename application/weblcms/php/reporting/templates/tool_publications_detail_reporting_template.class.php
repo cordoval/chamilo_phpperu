@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use reporting\ReportingTemplate;
+
 /**
  * $Id: tool_publications_detail_reporting_template.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.reporting.templates
@@ -21,7 +23,7 @@ class ToolPublicationsDetailReportingTemplate extends ReportingTemplate
 
     function display_context()
     {
-    
+
     }
 
     function get_application()
@@ -32,11 +34,11 @@ class ToolPublicationsDetailReportingTemplate extends ReportingTemplate
     function get_tool_publications()
     {
         $course_weblcms_block = new WeblcmsToolPublicationsReportingBlock($this);
-        
+
         $course_id = Request :: get(WeblcmsManager :: PARAM_COURSE);
         $user_id = Request :: get(WeblcmsManager :: PARAM_USERS);
         $tool = Request :: get(WeblcmsManager :: PARAM_TOOL);
-        
+
         if ($course_id)
         {
             $this->set_parameter(WeblcmsManager :: PARAM_COURSE, $course_id);

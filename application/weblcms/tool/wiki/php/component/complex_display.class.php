@@ -3,6 +3,7 @@ namespace application\weblcms\tool\wiki;
 
 use application\weblcms\ToolComponent;
 use common\libraries\DelegateComponent;
+use common\libraries\Translation;
 
 /**
  * $Id: wiki_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $

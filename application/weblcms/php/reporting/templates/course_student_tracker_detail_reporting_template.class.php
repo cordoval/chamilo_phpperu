@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use reporting\ReportingTemplate;
+
 /**
  * $Id: course_student_tracker_detail_reporting_template.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.reporting.templates
@@ -22,7 +24,7 @@ class CourseStudentTrackerDetailReportingTemplate extends ReportingTemplate
     function CourseStudentTrackerDetailReportingTemplate($parent)
     {
         parent :: __construct($parent);
-        
+
         $this->add_reporting_block($this->get_user_information());
         $this->add_reporting_block($this->get_user_course_statistics());
         $this->add_reporting_block($this->get_course_information());
@@ -66,7 +68,7 @@ class CourseStudentTrackerDetailReportingTemplate extends ReportingTemplate
         {
             $this->set_parameter(WeblcmsManager :: PARAM_COURSE, $course_id);
         }
-        
+
         $user_id = request :: get(WeblcmsManager :: PARAM_USERS);
         if ($user_id)
         {
@@ -129,7 +131,7 @@ class CourseStudentTrackerDetailReportingTemplate extends ReportingTemplate
         {
             $this->set_parameter(WeblcmsManager :: PARAM_COURSE, $course_id);
         }
-        
+
         $user_id = Request :: get(WeblcmsManager :: PARAM_USERS);
         if ($user_id)
         {

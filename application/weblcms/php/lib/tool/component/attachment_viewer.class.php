@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Translation;
+
 /**
  * $Id: attachment_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.component
@@ -19,25 +21,25 @@ class ToolComponentAttachmentViewerComponent extends ToolComponent
             Display :: not_allowed();
             return;
         }
-        
+
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses general');
-        
+
         $object_id = Request :: get('object_id');
         if ($object_id)
         {
             $trail->add(new Breadcrumb($this->get_url(array('object' => $object_id)), Translation :: get('ViewAttachment')));
             $this->display_header();
-            
+
             echo '<a href="javascript:history.go(-1)">' . Translation :: get('Back') . '</a><br /><br />';
-            
+
             $object = RepositoryDataManager :: get_instance()->retrieve_content_object($object_id);
             $display = ContentObjectDisplay :: factory($object);
-            
+
             echo $display->get_full_html();
-            
+
             $this->display_footer();
-        
+
         }
         else
         {
@@ -45,7 +47,7 @@ class ToolComponentAttachmentViewerComponent extends ToolComponent
             $this->display_error_message('NoObjectSelected');
             $this->display_footer();
         }
-    
+
     }
 }
 ?>

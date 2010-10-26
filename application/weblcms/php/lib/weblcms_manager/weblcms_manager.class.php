@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\WebApplication;
+
 /**
  * $Id: weblcms_manager.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms.weblcms_manager

@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\calendar;
 
+use common\libraries\Translation;
+
 /**
  * $Id: calendar_browser.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.calendar.component.calendar_viewer

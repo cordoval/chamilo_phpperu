@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Translation;
+
 /**
  * $Id: viewer.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.assessment.component
@@ -106,14 +108,14 @@ class ToolComponentBrowserComponent extends ToolComponent
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
-        
+
         if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
         	$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_RIGHTS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
 
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => null)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        
+
 
         if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT) && $this->get_parent() instanceof Categorizable)
         {
@@ -244,16 +246,16 @@ class ToolComponentBrowserComponent extends ToolComponent
 
         return null;
     }
-    
+
 	function count_tool_categories()
     {
     	$conditions = array();
     	$conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_TOOL, $this->get_tool_id());
     	$conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_COURSE, $this->get_course_id());
 		$condition = new AndCondition($conditions);
-	
+
 		return WeblcmsDataManager :: get_instance()->count_content_object_publication_categories($condition);
     }
-    
+
 }
 ?>

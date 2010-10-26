@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use common\libraries\Translation;
 
 /**
  * $Id: assessment_cell_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $

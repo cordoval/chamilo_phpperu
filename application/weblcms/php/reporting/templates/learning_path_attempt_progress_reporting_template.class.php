@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use reporting\ReportingTemplate;
+
 /**
  * $Id: learning_path_attempt_progress_reporting_template.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.reporting.templates
@@ -38,13 +40,13 @@ class LearningPathAttemptProgressReportingTemplate extends ReportingTemplate
         {
             $this->set_parameter(WeblcmsManager :: PARAM_COURSE, $course_id);
         }
-        
+
         $tool = Request :: get(WeblcmsManager :: PARAM_TOOL);
         $this->set_parameter(WeblcmsManager :: PARAM_TOOL, $tool);
-        
+
         $user_id = Request :: get(WeblcmsManager :: PARAM_USERS);
         $this->set_parameter(WeblcmsManager :: PARAM_USERS, $user_id);
-        
+
         $attempt_id = Request :: get(LearningPathTool :: PARAM_ATTEMPT_ID);
         if ($attempt_id)
         {
@@ -54,10 +56,10 @@ class LearningPathAttemptProgressReportingTemplate extends ReportingTemplate
         {
             $this->set_parameter('lp_action', 'view_progress');
         }
-        
+
         $pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
         $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, $pid);
-        
+
         return $course_weblcms_block;
     }
 }

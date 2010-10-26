@@ -3,6 +3,7 @@ namespace application\weblcms\tool\glossary;
 
 use application\weblcms\ToolComponent;
 use common\libraries\DelegateComponent;
+use common\libraries\Translation;
 
 /**
  * $Id: glossary_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $

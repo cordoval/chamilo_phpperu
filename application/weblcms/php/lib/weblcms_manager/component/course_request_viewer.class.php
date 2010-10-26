@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Translation;
+
 require_once dirname(__FILE__) . '/../../course/course_request_form.class.php';
 
 /**

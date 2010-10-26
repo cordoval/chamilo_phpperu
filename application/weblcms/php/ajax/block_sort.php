@@ -2,6 +2,7 @@
 namespace application\weblcms;
 
 use common\libraries\Path;
+use common\libraries\Translation;
 
 /**
  * $Id: block_sort.php 227 2009-11-13 14:45:05Z kariboe $

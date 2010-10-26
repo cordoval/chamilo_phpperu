@@ -2,6 +2,7 @@
 namespace application\weblcms;
 
 use common\libraries\Installer;
+use rights\RightsUtilities;
 
 /**
  * @package application.lib.weblcms.install
@@ -38,20 +39,20 @@ class WeblcmsInstaller extends Installer
 			$this->add_message(self :: TYPE_NORMAL, Translation :: get('CoursesTreeCreated'));
 		}
 
-		if (! $this->create_default_categories_in_weblcms())
-		{
-			return false;
-		}
-
-		if (! $this->create_course_types())
-		{
-			return false;
-		}
-
-		if (! $this->create_course())
-		{
-			return false;
-		}
+//		if (! $this->create_default_categories_in_weblcms())
+//		{
+//			return false;
+//		}
+//
+//		if (! $this->create_course_types())
+//		{
+//			return false;
+//		}
+//
+//		if (! $this->create_course())
+//		{
+//			return false;
+//		}
 
 		return true;
 	}

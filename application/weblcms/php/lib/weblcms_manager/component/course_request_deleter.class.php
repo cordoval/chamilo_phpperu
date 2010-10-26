@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Translation;
+
 /**
  * $Id: course_request_deleter.class.php 218 2010-03-15 10:30:26Z Yannick $
  * @package application.lib.weblcms.weblcms_manager.component
@@ -26,14 +28,14 @@ class WeblcmsManagerCourseRequestDeleterComponent extends WeblcmsManager
             $trail = BreadcrumbTrail :: get_instance();
             $trail->add(new Breadcrumb($this->get_url(), Translation :: get('DeleteRequest')));
             $trail->add_help('request delete');
-            
-            
+
+
             Display :: error_message(Translation :: get("NotAllowed"));
             $this->display_header();
             $this->display_footer();
             exit();
         }
-        
+
         if (!empty($request_ids))
         {
         	$wdm = WeblcmsDataManager::get_instance();
@@ -41,25 +43,25 @@ class WeblcmsManagerCourseRequestDeleterComponent extends WeblcmsManager
             {
                 $request_ids = array($request_ids);
             }
-            
+
             foreach ($request_ids as $request_id)
-            {                
+            {
 		        $request_method = null;
-		        
+
 		        switch($request_type)
 		        {
 		        	case CommonRequest :: SUBSCRIPTION_REQUEST: $request_method = 'retrieve_request'; break;
 		        	case CommonRequest :: CREATION_REQUEST: $request_method = 'retrieve_course_create_request'; break;
 		        }
-		        		
+
 				$request = $this->$request_method($request_id);
-		            
+
             	if (!$request->delete())
                 {
                     $failures ++;
                 }
             }
-            
+
             if ($failures)
             {
                 if (count($request_ids) == 1)
@@ -82,7 +84,7 @@ class WeblcmsManagerCourseRequestDeleterComponent extends WeblcmsManager
                     $message = 'SelectedRequestsDeleted';
                 }
             }
-            
+
             $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_REQUEST_BROWSER, WeblcmsManager :: PARAM_REQUEST => null,WeblcmsManager :: PARAM_REQUEST_TYPE => $request_type, WeblcmsManager :: PARAM_REQUEST_VIEW => Request :: get(WeblcmsManager:: PARAM_REQUEST_VIEW)));
         }
         else
@@ -91,6 +93,6 @@ class WeblcmsManagerCourseRequestDeleterComponent extends WeblcmsManager
         }
     }
 
-    
+
 }
 ?>

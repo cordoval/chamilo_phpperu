@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Translation;
 
 /**
  * $Id: course_change_course_type.class.php 224 2010-04-06 14:40:30Z Yannick $

@@ -2,6 +2,7 @@
 namespace application\weblcms;
 
 use common\libraries\DelegateComponent;
+use common\libraries\Translation;
 
 /**
  * $Id: course_viewer.class.php 218 2009-11-13 14:21:26Z kariboe $

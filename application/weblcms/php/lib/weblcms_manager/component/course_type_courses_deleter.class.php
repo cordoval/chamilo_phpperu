@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Translation;
 
 /**
  * $Id: course_type_deleter.class.php 218 2010-03-15 10:30:26Z Yannick $

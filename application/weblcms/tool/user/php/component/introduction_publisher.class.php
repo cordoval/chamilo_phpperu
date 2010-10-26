@@ -2,6 +2,7 @@
 namespace application\weblcms\tool\user;
 
 use application\weblcms\ToolComponent;
+use common\libraries\Translation;
 
 class UserToolIntroductionPublisherComponent extends UserTool
 {

@@ -2,6 +2,7 @@
 namespace application\weblcms;
 
 use common\libraries\ObjectTable;
+use common\libraries\Translation;
 
 /**
  * $Id: admin_course_type_browser_table.class.php 218 2009-11-13 14:21:26Z Yannick $

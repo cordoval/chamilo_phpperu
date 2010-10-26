@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Translation;
+
 /**
  * $Id: course_category_menu.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.course
@@ -16,7 +18,7 @@ require_once dirname(__FILE__) . '/../category_manager/course_category.class.php
 class CourseCategoryMenu extends HTML_Menu
 {
     const TREE_NAME = __CLASS__;
-    
+
     /**
      * The string passed to sprintf() to format category URLs
      */
@@ -68,7 +70,7 @@ class CourseCategoryMenu extends HTML_Menu
         {
             $menu = array_merge($menu, $extra_items);
         }
-        
+
         $home = array();
         $home['title'] = Translation :: get('Home');
         $home['url'] = $this->get_home_url();
@@ -92,10 +94,10 @@ class CourseCategoryMenu extends HTML_Menu
         foreach ($categories[$parent] as $index => $category)
         {
             $menu_item = array();
-            
+
             $wdm = WeblcmsDataManager :: get_instance();
             $count = $wdm->count_courses(new EqualityCondition(Course :: PROPERTY_CATEGORY, $category->get_id()));
-            
+
             $menu_item['title'] = $category->get_name() . ' (' . $count . ')';
             if (Request :: get(Application :: PARAM_ACTION) == WeblcmsManager :: ACTION_COURSE_CATEGORY_MANAGER)
             {
@@ -160,7 +162,7 @@ class CourseCategoryMenu extends HTML_Menu
         $this->render($renderer, 'sitemap');
         return $renderer->toHTML();
     }
-    
+
     static function get_tree_name()
     {
     	return Utilities :: camelcase_to_underscores(self :: TREE_NAME);

@@ -7,7 +7,6 @@ use common\libraries\Path;
  * $Id: course_rights.class.php 216 2009-11-13 14:08:06Z Tristan $
  * @package application.lib.weblcms.course
  */
-require_once Path :: get_application_path() . 'lib/weblcms/course/course_rights.class.php';
 
 class CourseTypeRights extends CourseRights
 {

@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Translation;
+
 /**
  * $Id: admin_course_type_creator.class.php 1 2010-02-25 11:44:26Z Tristan $
  * @package application.lib.weblcms.weblcms_manager.component

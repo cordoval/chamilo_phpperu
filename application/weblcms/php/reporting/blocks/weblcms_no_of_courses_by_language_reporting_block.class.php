@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Path;
+
 require_once dirname(__FILE__) . '/../weblcms_course_reporting_block.class.php';
 require_once Path :: get_reporting_path() . '/lib/reporting_data.class.php';
 
@@ -27,7 +29,7 @@ class WeblcmsNoOfCoursesByLanguageReportingBlock extends WeblcmsCourseReportingB
         }
         $reporting_data->set_categories(array('english'));
         $reporting_data->set_rows(array(Translation :: get('count')));
-        
+
         $reporting_data->add_data_category_row('english', Translation :: get('count'), $arr['english']);
         return $reporting_data;
     }

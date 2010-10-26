@@ -2,7 +2,7 @@
 namespace application\weblcms;
 
 use common\libraries\Path;
-
+use common\libraries\Translation;
 
 /**
  * $Id: course_type_viewer.class.php 218 2010-03-26 14:21:26Z Yannick & Tristan $

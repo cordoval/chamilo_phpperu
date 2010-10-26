@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Translation;
+
 /**
  * $Id: active_changer.class.php 211 2010-03-23 13:28:39Z Yannick $
  * @package weblcms.lib.weblcms_manager.component

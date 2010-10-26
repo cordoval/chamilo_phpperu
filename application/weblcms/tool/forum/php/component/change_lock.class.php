@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\forum;
 
+use common\libraries\Translation;
+
 /**
  * $Id: sticky.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.forum.component
@@ -22,10 +24,10 @@ class ForumToolChangeLockComponent extends ForumTool
         {
         	$message= Translation :: get('LockNotChanged');
         }
-        
+
         $params = array();
         $params[ForumTool :: PARAM_ACTION] = ForumTool :: ACTION_BROWSE_FORUMS;
-        
+
         $this->redirect($message, !$succes, $params);
     }
 }

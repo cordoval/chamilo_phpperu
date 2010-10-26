@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\course_group;
 
+use common\libraries\Translation;
+
 /**
  * $Id: course_group_table.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.course_group.component.course_group_table
@@ -46,7 +48,7 @@ class CourseGroupTable
     private $form_actions;
 
     private $parent;
-    
+
     /**
      * Constructor. Creates a course_group table.
      * @param CourseGroupTableDataProvider $data_provider The data provider, which
@@ -66,7 +68,7 @@ class CourseGroupTable
         $this->set_cell_renderer(isset($cell_renderer) ? $cell_renderer : new DefaultCourseGroupTableCellRenderer($data_provider->get_parent()));
         $this->set_default_row_count(10);
         $this->set_additional_parameters($this->determine_additional_parameters());
-        
+
         $actions = new ObjectTableFormActions(CourseGroupTool :: PARAM_ACTION);
         if($parent->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
@@ -74,7 +76,7 @@ class CourseGroupTable
 	    	$this->set_form_actions($actions);
         }
     }
-    
+
     function handle_table_action()
     {
     	$selected_ids = Request :: post(Utilities :: camelcase_to_underscores(self :: DEFAULT_NAME) . self :: CHECKBOX_NAME_SUFFIX);
@@ -87,7 +89,7 @@ class CourseGroupTable
         {
             $selected_ids = array($selected_ids);
         }
-        
+
          Request :: set_get(CourseGroupTool :: PARAM_COURSE_GROUP, $selected_ids);
     }
 

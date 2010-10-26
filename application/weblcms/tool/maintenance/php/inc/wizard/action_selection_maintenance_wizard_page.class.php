@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\maintenance;
 
+use common\libraries\Translation;
+
 /**
  * $Id: action_selection_maintenance_wizard_page.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.maintenance.inc.wizard
@@ -49,7 +51,7 @@ class ActionSelectionMaintenanceWizardPage extends MaintenanceWizardPage
 		$this->addElement('radio', 'action', Translation :: get('ExportCpThisCourse'), Translation :: get('ExportCpThisCourseInformation'), self :: ACTION_EXPORT_CP, $available);
 		$available = $this->is_available(self :: ACTION_IMPORT_CP) ? null : 'disabled';
 		$this->addElement('radio', 'action', Translation :: get('ImportCpThisCourse'), Translation :: get('ImportCpThisCourseInformation'), self :: ACTION_IMPORT_CP, $available);
-		
+
 		$this->addElement('radio', 'action', Translation :: get('DeleteThisCourse'), Translation :: get('DeleteThisCourseInformation'), self :: ACTION_DELETE);
 		$this->addRule('action', Translation :: get('ThisFieldIsRequired'), 'required');
 		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next') . ' >>');

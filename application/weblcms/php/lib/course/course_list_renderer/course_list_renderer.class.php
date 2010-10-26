@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Translation;
 
 /**
  * Course list renderer to render the course list (used in courses home, courses sorter, courses block...)
@@ -12,44 +13,44 @@ class CourseListRenderer
 	 * The parent on which the course list renderer is running
 	 */
 	private $parent;
-	
+
 	/**
 	 * Show the what's new icons or not
 	 * @var boolean
 	 */
 	private $new_publication_icons;
-	
+
 	function CourseListRenderer($parent)
 	{
 		$this->parent = $parent;
 		$this->new_publication_icons = false;
 	}
-	
+
 	function get_parent()
 	{
 		return $this->parent;
 	}
-	
+
 	function set_parent($parent)
 	{
 		$this->parent = $parent;
 	}
-	
+
 	function get_user()
 	{
 		return $this->get_parent()->get_user();
 	}
-	
+
 	function show_new_publication_icons()
 	{
 		$this->new_publication_icons = true;
 	}
-	
+
 	function get_new_publication_icons()
 	{
 		return $this->new_publication_icons;
 	}
-	
+
 	/**
 	 * Retrieves the actions for the given course user category
 	 * @param CourseUserCategory $course_user_category
@@ -64,11 +65,11 @@ class CourseListRenderer
 			{
 				$course_type_id = $course_type->get_id();
 			}
-			
+
 			return $this->get_parent()->get_course_type_user_category_actions($course_type_user_category, $course_type_id, $offset, $count);
 		}
 	}
-	
+
 	/**
 	 * Retrieves the actions for the given course
 	 * @param Course $course
@@ -82,11 +83,11 @@ class CourseListRenderer
 			{
 				$course_type_id = $course_type->get_id();
 			}
-			
+
 			return $this->get_parent()->get_course_actions($course_type_user_category, $course, $course_type_id, $offset, $count);
 		}
 	}
-	
+
 	/**
 	 * Renders the course list
 	 */
@@ -94,7 +95,7 @@ class CourseListRenderer
 	{
 		echo $this->as_html();
 	}
-	
+
 	/**
 	 * Returns the course list as html
 	 */
@@ -102,7 +103,7 @@ class CourseListRenderer
 	{
 		return $this->display_courses();
 	}
-	
+
 	/**
 	 * Retrieves the courses for the user
 	 */
@@ -111,11 +112,11 @@ class CourseListRenderer
 		$access_conditions = array();
     	$access_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_parent()->get_user_id(), CourseUserRelation :: get_table_name());
     	$access_conditions[] = new InCondition(CourseGroupRelation :: PROPERTY_GROUP_ID, $this->get_parent()->get_user()->get_groups(true), CourseGroupRelation :: get_table_name());
-    	
+
     	$condition = new OrCondition($access_conditions);
         return WeblcmsDataManager :: get_instance()->retrieve_user_courses($condition);
 	}
-	
+
 	/**
 	 * Displays the courses
 	 */
@@ -123,7 +124,7 @@ class CourseListRenderer
 	{
 		$html = array();
         $courses = $this->retrieve_courses();
-        
+
         if ($courses->size() > 0)
         {
             $html[] = '<ul style="padding: 0px; margin: 0px 0px 0px 15px;">';
@@ -133,22 +134,22 @@ class CourseListRenderer
 				{
 					continue;
 				}
-		
+
             	$html[] = '<li><a href="' . $this->get_course_url($course) . '">' . $course->get_name() . '</a>';
-            	
+
             	if($this->get_new_publication_icons())
                 {
 	                $html[] = $this->display_new_publication_icons($course);
                 }
-                
+
                 $html[] = '</li>';
-            
+
             }
             $html[] = '</ul>';
         }
         return implode($html, "\n");
 	}
-	
+
 	/**
 	 * Displays the what's new icons
 	 * @param Course $course
@@ -157,7 +158,7 @@ class CourseListRenderer
 	{
 		$tools = WeblcmsDataManager :: get_instance()->get_course_modules($course->get_id());
 		$html = array();
-		
+
 		foreach ($tools as $index => $tool)
         {
             if ($tool->visible && WeblcmsDataManager :: tool_has_new_publications($tool->name, $this->get_user(), $course))
@@ -167,7 +168,7 @@ class CourseListRenderer
         }
         return implode($html, "\n");
 	}
-	
+
 	/**
 	 * Gets the url from the given course
 	 * @param Course $course
@@ -180,7 +181,7 @@ class CourseListRenderer
 		$parameters[WeblcmsManager :: PARAM_COURSE] = $course->get_id();
         return $this->get_parent()->get_link($parameters);
 	}
-	
+
 	/**
 	 * Gets the url from the given tool in the given course
 	 * @param String $tool

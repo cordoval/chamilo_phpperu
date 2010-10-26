@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Translation;
+
 /**
  * $Id: request.class.php 224 2010-04-06 14:40:30Z Yannick $
  * @package applicatie.lib.weblcms.weblcms_manager.component

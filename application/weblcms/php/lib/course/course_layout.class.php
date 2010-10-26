@@ -2,6 +2,7 @@
 namespace application\weblcms;
 
 use common\libraries\DataClass;
+use common\libraries\Translation;
 
 /**
  * $Id: course_layout.class.php 216 2009-11-13 14:08:06Z Yannick & Tristan $

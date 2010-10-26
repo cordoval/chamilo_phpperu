@@ -3,6 +3,7 @@ namespace application\weblcms;
 
 use common\libraries\Path;
 use common\libraries\DataClass;
+use common\libraries\Translation;
 
 /**
  * $Id: course.class.php 216 2009-11-13 14:08:06Z kariboe $

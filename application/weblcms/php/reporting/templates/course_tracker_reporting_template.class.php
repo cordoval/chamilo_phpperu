@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use reporting\ReportingTemplate;
+
 /**
  * $Id: course_tracker_reporting_template.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.reporting.templates
@@ -18,16 +20,16 @@ class CourseTrackerReportingTemplate extends ReportingTemplate
     function CourseTrackerReportingTemplate($parent)
     {
         parent :: __construct($parent);
-        
+
         $this->add_reporting_block($this->get_last_access_to_tool());
         $this->add_reporting_block($this->get_average_learning_path_score());
-    
+
      //$this->add_reporting_block($this->get_average_exercise_score());
     }
 
     function display_context()
     {
-    
+
     }
 
     function get_application()

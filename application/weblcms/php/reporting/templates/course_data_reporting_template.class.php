@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use reporting\ReportingTemplate;
+
 /**
  * $Id: course_data_reporting_template.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.reporting.templates
@@ -36,7 +38,7 @@ class CourseDataReportingTemplate extends ReportingTemplate
 
     function display_context()
     {
-    
+
     }
 
     function get_application()

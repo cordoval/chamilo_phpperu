@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Path;
+
 require_once Path :: get_reporting_path() . '/lib/reporting_data.class.php';
 require_once dirname(__FILE__) . '/../weblcms_tool_reporting_block.class.php';
 
@@ -10,11 +12,11 @@ class WeblcmsLastAccessReportingBlock extends WeblcmsToolReportingBlock
     public function count_data()
     {
         $reporting_data = new ReportingData();
-        
+
         $course_id = $this->get_course_id();
         $user_id = $this->get_user_id();
         $udm = UserDataManager :: get_instance();
-        
+
         if (isset($user_id))
         {
             $conditions[] = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*course=' . $course_id . '*');
@@ -25,12 +27,12 @@ class WeblcmsLastAccessReportingBlock extends WeblcmsToolReportingBlock
         {
             $condition = new PattenMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*&course=' . $course_id . '*');
         }
-        
+
         $user = $udm->retrieve_user($user_id);
         $arr = self :: visit_tracker_to_array($condition, $user);
-        
+
         $description['default_sort_column'] = 1;
-        
+
         return $reporting_data;
     }
 

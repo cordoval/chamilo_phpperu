@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Translation;
+
 /**
  * $Id: move_selected_to_category.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.component
@@ -38,7 +40,7 @@ class ToolComponentCategoryMoverComponent extends ToolComponent
                     $publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($publication_id);
                     $publication->set_category_id($form->exportValue('category'));
                     $publication->update();
-                    
+
 		        	if($publication->get_category_id())
 		        	{
 		        		$new_parent_id = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_COURSE_CATEGORY, $publication->get_category_id(), $publication->get_course_id());
@@ -46,9 +48,9 @@ class ToolComponentCategoryMoverComponent extends ToolComponent
 		        	else
 		        	{
 		        		$course_module_id = WeblcmsDataManager :: get_instance()->retrieve_course_module_by_name($publication->get_course_id(), $publication->get_tool())->get_id();
-		        		$new_parent_id = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_COURSE_MODULE, $course_module_id, $publication->get_course_id());	
+		        		$new_parent_id = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_COURSE_MODULE, $course_module_id, $publication->get_course_id());
 		        	}
-		        	
+
 		        	$location =  WeblcmsRights :: get_location_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_PUBLICATION, $publication->get_id(), $publication->get_course_id());
 		        	if($location)
 		        	{

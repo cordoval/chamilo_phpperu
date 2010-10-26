@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Translation;
+
 /**
  * $Id: content_object_publication_details_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.browser.list_renderer
@@ -59,23 +61,23 @@ class ContentObjectPublicationDetailsRenderer extends ContentObjectPublicationLi
         {
             $title_url = $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT));
         }
-        
+
         $html[] = '<div class="announcements level_1" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/' . $publication->get_content_object()->get_icon_name() . $icon_suffix . '.png);">';
-        
+
         if($title_url)
         {
         	$html[] = '<a href="' . $title_url . '">';
         }
-        
+
         $html[] = '<div class="title' . ($publication->is_visible_for_target_users() ? '' : ' invisible') . '">';
         $html[] = $this->render_title($publication);
         $html[] = '</div>';
-        
+
 		if($title_url)
 		{
 			$html[] = '</a>';
-		}        
-        
+		}
+
         $html[] = '<div style="padding-top: 1px;" class="description' . ($publication->is_visible_for_target_users() ? '' : ' invisible') . '">';
         $html[] = $this->render_description($publication);
         //$html[] = $this->render_attachments($publication);

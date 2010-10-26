@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Translation;
 
 /**
  * $Id: content_object_publication_list_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -155,7 +156,7 @@ abstract class ContentObjectPublicationListRenderer
                     }
                 }
             }
-            
+
             $target_list = array();
             $target_list[] = '<select>';
             foreach ($users as $index => $user_id)
@@ -163,21 +164,21 @@ abstract class ContentObjectPublicationListRenderer
                 $user = $this->tool_browser->get_parent()->get_user_info($user_id);
                 if($user)
                 {
-                	$name = $user->get_fullname();	
+                	$name = $user->get_fullname();
                 }
                 else
                 {
                 	$name = Translation :: get('UserUnknown');
                 }
-                
+
                 $target_list[] = '<option>' . $name . '</option>';
             }
-            
+
             foreach ($course_groups as $index => $course_group_id)
             {
                 $wdm = WeblcmsDataManager :: get_instance();
                 $course_group = $wdm->retrieve_course_group($course_group_id);
-                
+
                 if($course_group)
                 {
                 	$name = $course_group->get_name();
@@ -186,15 +187,15 @@ abstract class ContentObjectPublicationListRenderer
                 {
                 	$name = Translation :: get('GroupUnknown');
                 }
-                
+
                 $target_list[] = '<option>' . $name . '</option>';
             }
-            
+
             foreach ($groups as $index => $group_id)
             {
                 $gdm = GroupDataManager :: get_instance();
                 $group = $gdm->retrieve_group($group_id);
-                
+
                 if($group)
                 {
                 	$name = $group->get_name();
@@ -203,10 +204,10 @@ abstract class ContentObjectPublicationListRenderer
                 {
                 	$name = Translation :: get('CourseGroupUnknown');
                 }
-                
+
                 $target_list[] = '<option>' . $name . '</option>';
             }
-            
+
             $target_list[] = '</select>';
             return implode("\n", $target_list) . $email_suffix;
         }
