@@ -1,5 +1,13 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\mediamosa;
+use common\extensions\external_repository_manager\ExternalRepositoryObjectDisplay;
+use common\libraries\Translation;
+use common\libraries\DatetimeUtilities;
+use repository\RepositoryDataManager;
+use common\libraries\Request;
+use common\libraries\Theme;
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
+use common\extensions\external_repository_manager\ExternalRepositoryObject;
 /**
  * Description of mediamosa_external_repository_displayclass
  *

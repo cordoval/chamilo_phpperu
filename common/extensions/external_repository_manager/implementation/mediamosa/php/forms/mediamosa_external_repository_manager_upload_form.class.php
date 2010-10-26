@@ -1,5 +1,10 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\mediamosa;
+use common\libraries\FormValidator;
+use repository\ExternalRepositorySetting;
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
+use common\libraries\Path;
+use common\libraries\Translation;
 /**
  * Description of mediamosa_external_repository_upload_form
  *
@@ -63,7 +68,7 @@ class MediamosaExternalRepositoryManagerUploadForm extends FormValidator {
 
           
 
-           if($this->connector->mediamosa_put_upload(Path::get(WEB_PATH) . 'application/common/external_repository_manager/type/mediamosa/test/mvi_5988.avi',  $this->upload_ticket['action'], $params))
+           if($this->connector->mediamosa_put_upload(Path :: get(WEB_PATH) . 'application/common/external_repository_manager/type/mediamosa/test/mvi_5988.avi',  $this->upload_ticket['action'], $params))
            {
                 $this->application->redirect(Translation :: get('succes'), 0, $this->params);
            }

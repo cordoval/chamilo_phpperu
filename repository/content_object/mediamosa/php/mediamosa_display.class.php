@@ -5,8 +5,11 @@ use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\EqualityCondition;
-
 use repository\ContentObjectDisplay;
+use repository\RepositoryDataManager;
+use repository\ExternalRepositorySync;
+use common\extensions\external_repository_manager\implementation\mediamosa\MediamosaExternalRepositoryConnector;
+use common\extensions\external_repository_manager\implementation\mediamosa\MediamosaExternalRepositoryObject;
 
 /**
  * Description of MediamosaDisplay class
@@ -15,7 +18,7 @@ use repository\ContentObjectDisplay;
  */
 //require_once Path :: get_application_path() . 'common/external_repository_manager/type/mediamosa/mediamosa_external_repository_server_object.class.php';
 //require_once Path :: get_application_path() . 'common/external_repository_manager/type/mediamosa/mediamosa_external_repository_data_manager.class.php';
-require_once Path :: get_application_path() . 'common/external_repository_manager/type/mediamosa/mediamosa_external_repository_connector.class.php';
+require_once Path :: get_common_extensions_path() . '/external_repository_manager/implementation/mediamosa/php/mediamosa_external_repository_connector.class.php';
 //require_once Path :: get_application_path() . 'common/external_repository_manager/type/mediamosa/mediamosa_external_repository_object.class.php';
 
 class MediamosaDisplay extends ContentObjectDisplay
