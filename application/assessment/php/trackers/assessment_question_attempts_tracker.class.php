@@ -3,6 +3,7 @@
 namespace application\assessment;
 
 use tracking\SimpleTracker;
+use common\libraries\Utilities;
 /**
  * $Id: assessment_question_attempts_tracker.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.trackers

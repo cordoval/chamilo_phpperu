@@ -4,6 +4,8 @@ namespace repository\content_object\assessment;
 use common\libraries\FormValidator;
 use common\libraries\Translation;
 use common\libraries\InCondition;
+use repository\RepositoryDataManager;
+use repository\ComplexContentObjectItem;
 /**
  * $Id: result_viewer.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.assessment.component

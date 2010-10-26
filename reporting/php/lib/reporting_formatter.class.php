@@ -3,6 +3,7 @@ namespace reporting;
 
 use common\libraries\Utilities;
 use common\libraries\Path;
+use Pager;
 /**
  * $Id: reporting_formatter.class.php 215 2009-11-13 14:07:59Z vanpouckesven $
  * @package reporting.lib
@@ -36,7 +37,7 @@ abstract class ReportingFormatter
         $display_mode = explode('_', $display_mode);
         $type = self::get_type_name($display_mode[0]);
         require_once dirname(__FILE__) . '/formatters/reporting_' . strtolower($type) . '_formatter.class.php';
-        $class = 'Reporting' . Utilities::underscores_to_camelcase($type) . 'Formatter';
+        $class = __NAMESPACE__ . '\\Reporting' . Utilities::underscores_to_camelcase($type) . 'Formatter';
 
         return new $class($reporting_block);
     }
