@@ -6,7 +6,9 @@ use common\libraries\CoreApplication;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\ComplexDisplay;
+use repository\RepositoryData;
 use repository\RepositoryDataManager;
+use repository\ContentObject;
 use user\userDataManager;
 use reporting\ReportingFormatter;
 

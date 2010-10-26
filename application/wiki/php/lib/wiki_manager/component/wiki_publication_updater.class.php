@@ -1,4 +1,10 @@
 <?php
+namespace application\wiki;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+use repository\ContentObjectForm;
+
 /**
  * $Id: wiki_publication_updater.class.php 210 2009-11-13 13:18:50Z kariboe $
  * @package application.lib.wiki.wiki_manager.component

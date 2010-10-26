@@ -1,4 +1,10 @@
 <?php
+namespace application\wiki;
+
+use common\libraries\WebApplication;
+use common\libraries\ObjectTableDataProvider;
+use repository\ContentObject;
+
 /**
  * $Id: wiki_publication_browser_table_data_provider.class.php 210 2009-11-13 13:18:50Z kariboe $
  * @package application.lib.wiki.wiki_manager.component.wiki_publication_browser
