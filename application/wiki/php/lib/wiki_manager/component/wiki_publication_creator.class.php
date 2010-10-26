@@ -1,4 +1,11 @@
 <?php
+namespace application\wiki;
+
+use common\libraries\WebApplication;
+use common\libraries\Breadcrumb;
+use common\libraries\Utilities;
+use repository\RepoViewer;
+
 /**
  * $Id: wiki_publication_creator.class.php 210 2009-11-13 13:18:50Z kariboe $
  * @package application.lib.wiki.wiki_manager.component

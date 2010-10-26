@@ -1,4 +1,16 @@
 <?php
+namespace application\wiki;
+
+use common\libraries\WebApplication;
+use common\libraries\Translation;
+use common\libraries\Utilities;
+use common\libraries\Theme;
+use common\libraries\Toolbar;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
+use repository\ContentObject;
+
+use application\gradebook;
 /**
  * $Id: wiki_publication_browser_table_cell_renderer.class.php 210 2009-11-13 13:18:50Z kariboe $
  * @package application.lib.wiki.wiki_manager.component.wiki_publication_browser

@@ -1,6 +1,8 @@
 <?php
 namespace application\wiki;
 
+use common\libraries\Translation;
+
 /**
  * $Id: wiki_publication_publisher.class.php 210 2009-11-13 13:18:50Z kariboe $
  * @package application.lib.wiki.publisher

@@ -2,6 +2,7 @@
 namespace application\wiki;
 
 use common\libraries\WebApplication;
+use common\libraries\Request;
 use reporting\ReportingTemplate;
 
 /**
