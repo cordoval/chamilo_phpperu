@@ -2,6 +2,7 @@
 namespace application\weblcms\tool\blog;
 
 use application\weblcms\ToolComponent;
+use common\libraries\DelegateComponent;
 
 class BlogToolCategoryManagerComponent extends BlogTool implements DelegateComponent
 {

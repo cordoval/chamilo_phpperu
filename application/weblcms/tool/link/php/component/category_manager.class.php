@@ -2,6 +2,7 @@
 namespace application\weblcms\tool\link;
 
 use application\weblcms\ToolComponent;
+use common\libraries\DelegateComponent;
 
 class LinkToolCategoryManagerComponent extends LinkTool implements DelegateComponent
 {

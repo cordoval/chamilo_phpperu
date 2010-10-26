@@ -1,8 +1,10 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Path;
+
 require_once dirname(__FILE__) . '/../weblcms_tool_reporting_block.class.php';
-require_once PATH :: get_reporting_path() . '/lib/reporting_data.class.php';
+require_once Path :: get_reporting_path() . '/lib/reporting_data.class.php';
 
 class WeblcmsWikiPageMostActiveUsersReportingBlock extends WeblcmsToolReportingBlock
 {
@@ -13,7 +15,7 @@ class WeblcmsWikiPageMostActiveUsersReportingBlock extends WeblcmsToolReportingB
         $reporting_data = new ReportingData();
         $reporting_data->set_rows(array(Translation :: get('MostActiveUser'), Translation :: get('NumberOfContributions')));
         
-    	$dm = RepositoryDataManager :: get_instance();
+        $dm = RepositoryDataManager :: get_instance();
         $complex_content_object_item = $dm->retrieve_complex_content_object_item(Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID));
         $wiki_page = $dm->retrieve_content_object($complex_content_object_item->get_ref());
         $versions = $dm->retrieve_content_object_versions($wiki_page);
@@ -25,7 +27,7 @@ class WeblcmsWikiPageMostActiveUsersReportingBlock extends WeblcmsToolReportingB
         arsort($users);
         $keys = array_keys($users);
         $user = UserDataManager :: get_instance()->retrieve_user($keys[0]);
-		
+        
         $reporting_data->add_category(0);
         $reporting_data->add_data_category_row(0, Translation :: get('MostActiveUser'), $user->get_username());
         $reporting_data->add_data_category_row(0, Translation :: get('NumberOfContributions'), $users[$user->get_id()]);

@@ -2,6 +2,7 @@
 namespace application\weblcms\tool\learning_path;
 
 use application\weblcms\ToolComponent;
+use common\libraries\DelegateComponent;
 
 class LearningPathToolReportingViewerComponent extends LearningPathTool implements DelegateComponent
 {

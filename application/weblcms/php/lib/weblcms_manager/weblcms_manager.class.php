@@ -6,7 +6,6 @@ namespace application\weblcms;
  * @package application.lib.weblcms.weblcms_manager
  */
 require_once dirname(__FILE__) . '/weblcms_search_form.class.php';
-require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
 require_once dirname(__FILE__) . '/../category_manager/content_object_publication_category.class.php';
 require_once dirname(__FILE__) . '/../tool/tool.class.php';
 require_once dirname(__FILE__) . '/../tool/tool_component.class.php';

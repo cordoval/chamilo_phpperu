@@ -12,8 +12,6 @@ use common\extensions\category_manager\PlatformCategory;
  *	@author Sven Vanpoucke
  */
 
-require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
-
 class ContentObjectPublicationCategory extends PlatformCategory
 {
     const CLASS_NAME = __CLASS__;

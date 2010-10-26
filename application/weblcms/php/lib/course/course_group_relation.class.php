@@ -1,11 +1,12 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\DataClass;
+
 /**
  * $Id: course_group_relation.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.course
  */
-require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
 
 /**
  *	This class represents a course group relation in the weblcms.

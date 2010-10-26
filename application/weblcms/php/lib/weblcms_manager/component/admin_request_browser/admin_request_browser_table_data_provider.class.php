@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\ObjectTableDataProvider;
+
 /**
  * $Id: admin_course_type_browser_table_data_provider.class.php 218 2010-03-10 14:21:26Z yannick $
  * @package application.lib.weblcms.weblcms_manager.component.admin_course_type_browser
@@ -31,28 +33,28 @@ class AdminRequestBrowserTableDataProvider extends ObjectTableDataProvider
      * @param string $order_property
      * @return ResultSet A set of matching coursetypes.
      */
-    
+
     function get_objects($offset, $count, $order_property = null)
     {
         $order_property = $this->get_order_property($order_property);
-        
+
         $request_method = null;
-        
+
         switch($this->get_browser()->get_request_type())
         {
         	case CommonRequest :: SUBSCRIPTION_REQUEST: $request_method = 'retrieve_requests'; break;
         	case CommonRequest :: CREATION_REQUEST: $request_method = 'retrieve_course_create_requests'; break;
         }
-        
+
         return $this->get_browser()->$request_method($this->get_condition(), $offset, $count, $order_property);
     }
-    
+
 
     /**
      * Gets the number of coursetypes in the table
      * @return int
      */
-    
+
     function get_object_count()
     {
         $request_method = null;
@@ -63,6 +65,6 @@ class AdminRequestBrowserTableDataProvider extends ObjectTableDataProvider
         }
         return $this->get_browser()->$request_method($this->get_condition());
     }
-    
+
 }
 ?>

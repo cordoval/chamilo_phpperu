@@ -2,14 +2,12 @@
 namespace application\weblcms;
 
 use common\libraries\Path;
+use common\libraries\DataClass;
 
 /**
  * $Id: course_type.class.php 216 2010-02-25 11:06:00Z Yannick & Tristan$
  * @package application.lib.weblcms.course_type
  */
-require_once Path :: get_application_path() . 'lib/weblcms/weblcms_data_manager.class.php';
-require_once Path :: get_application_path() . 'lib/weblcms/weblcms_manager/weblcms_manager.class.php';
-require_once Path :: get_application_path() . 'lib/weblcms/course/course_settings.class.php';
 
 class CourseType extends DataClass
 {

@@ -1,20 +1,22 @@
 <?php
 namespace application\weblcms\tool\home;
 
+use common\libraries\DelegateComponent;
+
 class HomeTool extends Tool implements DelegateComponent
 {
     const PARAM_TOOL = 'target_tool';
-    
+
     const ACTION_CHANGE_TOOL_VISIBILITY = 'tool_visibility_changer';
     const ACTION_MAKE_TOOL_VISIBLE = 'tool_visible';
     const ACTION_MAKE_TOOL_INVISIBLE = 'tool_invisible';
     const ACTION_DELETE_LINKS = 'links_deleter';
-    
+
     const DEFAULT_ACTION = self :: ACTION_VIEW;
 
     function set_optional_parameters()
     {
-    
+
     }
 
     function get_application_component_path()

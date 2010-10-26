@@ -7,8 +7,6 @@ use common\libraries\FormValidator;
  * $Id: weblcms_search_form.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms.weblcms_manager
  */
-require_once dirname(__FILE__) . '/weblcms_manager.class.php';
-require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
 /**
  * A form to search in the repository.
  * This form can have two representations

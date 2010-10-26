@@ -6,7 +6,6 @@ namespace application\weblcms;
  * $Id: request.class.php 224 2010-04-06 14:40:30Z Yannick $
  * @package applicatie.lib.weblcms.weblcms_manager.component
  */
-require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
 require_once dirname(__FILE__) . '/../../course/course_create_request.class.php';
 require_once dirname(__FILE__) . '/../../course/course_request_form.class.php';
 

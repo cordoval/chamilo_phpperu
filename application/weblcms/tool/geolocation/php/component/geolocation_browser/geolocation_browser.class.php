@@ -5,7 +5,6 @@ namespace application\weblcms\tool\geolocation;
  * $Id: geolocation_browser.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.geolocation.component.geolocation_browser
  */
-require_once dirname(__FILE__) . '/../../../../weblcms_data_manager.class.php';
 require_once dirname(__FILE__) . '/../../../../content_object_publication_browser.class.php';
 require_once dirname(__FILE__) . '/geolocation_details_renderer.class.php';
 require_once dirname(__FILE__) . '/../../../../browser/content_object_publication_category_tree.class.php';

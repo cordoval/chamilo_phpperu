@@ -1,11 +1,12 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\DataClass;
+
 /**
  * $Id: course_layout.class.php 216 2009-11-13 14:08:06Z Yannick & Tristan $
  * @package application.lib.weblcms.course
  */
-require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
 /**
  * This class represents a course_layout for a cours in the weblcms.
  *
@@ -19,7 +20,7 @@ class CourseLayout extends DataClass
 {
 
 	const CLASS_NAME = __CLASS__;
-	
+
 	const PROPERTY_COURSE_ID = "course_id";
 	const PROPERTY_INTRO_TEXT = "intro_text_visible";
 	const PROPERTY_STUDENT_VIEW = "student_view_visible";
@@ -51,7 +52,7 @@ class CourseLayout extends DataClass
     const BREADCRUMB_TITLE = 1;
     const BREADCRUMB_CODE = 2;
     const BREADCRUMB_COURSE_HOME = 3;
-    
+
     /**
      * inherited
      */
@@ -59,7 +60,7 @@ class CourseLayout extends DataClass
     {
         return WeblcmsDataManager :: get_instance();
     }
-    
+
     static function get_layouts()
     {
         return array(self :: LAYOUT_2_COLUMNS => Translation :: get('TwoColumns'), self :: LAYOUT_3_COLUMNS => Translation :: get('ThreeColumns'), self :: LAYOUT_2_COLUMNS_GROUP_INACTIVE => Translation :: get('TwoColumnsGroupInactive'), self :: LAYOUT_3_COLUMNS_GROUP_INACTIVE => Translation :: get('ThreeColumnsGroupInactive'));
@@ -79,7 +80,7 @@ class CourseLayout extends DataClass
     {
         return array(self :: BREADCRUMB_TITLE => Translation :: get('Title'), self :: BREADCRUMB_CODE => Translation :: get('Code'), self :: BREADCRUMB_COURSE_HOME => Translation :: get('CourseHome'));
     }
-    
+
     static function get_title($course)
     {
         switch ($course->get_breadcrumb())
@@ -117,126 +118,126 @@ class CourseLayout extends DataClass
         		  self :: PROPERTY_COURSE_MANAGER_NAME_VISIBLE,
         		  self :: PROPERTY_COURSE_LANGUAGES_VISIBLE));
     }
-    
+
     /*
      * Getters
      */
-    
+
     function get_course_id()
     {
     	return $this->get_default_property(self :: PROPERTY_COURSE_ID);
     }
-    
+
     function get_intro_text()
     {
         return $this->get_default_property(self :: PROPERTY_INTRO_TEXT);
     }
-    
+
     function get_student_view()
     {
         return $this->get_default_property(self :: PROPERTY_STUDENT_VIEW);
     }
-    
+
     function get_layout()
     {
         return $this->get_default_property(self :: PROPERTY_LAYOUT);
     }
-    
+
     function get_tool_shortcut()
     {
         return $this->get_default_property(self :: PROPERTY_TOOL_SHORTCUT);
     }
-    
+
  	function get_menu()
     {
         return $this->get_default_property(self :: PROPERTY_MENU);
     }
-    
+
     function get_breadcrumb()
     {
         return $this->get_default_property(self :: PROPERTY_BREADCRUMB);
     }
-    
+
     function get_feedback()
     {
         return $this->get_default_property(self :: PROPERTY_FEEDBACK);
     }
-    
+
     function get_course_code_visible()
     {
         return $this->get_default_property(self :: PROPERTY_COURSE_CODE_VISIBLE);
     }
-    
+
     function get_course_manager_name_visible()
     {
     	return $this->get_default_property(self :: PROPERTY_COURSE_MANAGER_NAME_VISIBLE);
     }
-    
+
     function get_course_languages_visible()
 	{
     	return $this->get_default_property(self :: PROPERTY_COURSE_LANGUAGES_VISIBLE);
     }
-    
+
     /*
      * Setters
      */
-    
+
     function set_course_id($course_id)
     {
     	$this->set_default_property(self :: PROPERTY_COURSE_ID, $course_id);
-    } 
-    
-    
+    }
+
+
    	function set_feedback($feedback)
     {
     	$this->set_default_property(self :: PROPERTY_FEEDBACK, $feedback);
-    } 
-    
+    }
+
     function set_layout($layout)
     {
     	$this->set_default_property(self :: PROPERTY_LAYOUT, $layout);
     }
-    
+
     function set_tool_shortcut($tool_shortcut)
     {
     	$this->set_default_property(self :: PROPERTY_TOOL_SHORTCUT, $tool_shortcut);
     }
-    
+
     function set_menu($menu)
     {
     	$this->set_default_property(self :: PROPERTY_MENU, $menu);
     }
-    
+
     function set_breadcrumb($breadcrumb)
     {
     	$this->set_default_property(self :: PROPERTY_BREADCRUMB, $breadcrumb);
     }
-    
+
     function set_intro_text($intro_text)
     {
     	$this->set_default_property(self  :: PROPERTY_INTRO_TEXT, $intro_text);
     }
-    
+
     function set_student_view($student_view)
     {
     	$this->set_default_property(self :: PROPERTY_STUDENT_VIEW, $student_view);
     }
-    
+
     function set_course_code_visible($course_code_visible)
     {
     	$this->set_default_property(self :: PROPERTY_COURSE_CODE_VISIBLE, $course_code_visible);
     }
-    
+
     function set_course_manager_name_visible($course_manager_name_visible)
     {
     	$this->set_default_property(self :: PROPERTY_COURSE_MANAGER_NAME_VISIBLE, $course_manager_name_visible);
     }
-    
+
     function set_course_languages_visible($course_languages_visible)
     {
     	$this->set_default_property(self :: PROPERTY_COURSE_LANGUAGES_VISIBLE, $course_languages_visible);
     }
-    
+
 	static function get_table_name()
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);

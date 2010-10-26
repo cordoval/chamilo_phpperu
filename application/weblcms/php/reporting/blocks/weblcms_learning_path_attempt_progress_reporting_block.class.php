@@ -1,14 +1,17 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Path;
+
 require_once dirname(__FILE__) . '/../weblcms_tool_reporting_block.class.php';
-require_once PATH :: get_reporting_path() . '/lib/reporting_data.class.php';
+require_once Path :: get_reporting_path() . '/lib/reporting_data.class.php';
 
 class WeblcmsLearningPathAttemptProgressReportingBlock extends WeblcmsToolReportingBlock
 {
+
     public function get_attempt_id()
     {
-        return $this->get_parent()->get_parameter(LearningPathTool::PARAM_ATTEMPT_ID);
+        return $this->get_parent()->get_parameter(LearningPathTool :: PARAM_ATTEMPT_ID);
     }
 
     public function count_data()
@@ -16,7 +19,7 @@ class WeblcmsLearningPathAttemptProgressReportingBlock extends WeblcmsToolReport
         $reporting_data = new ReportingData();
         
         $reporting_data->set_rows(array(Translation :: get('Type'), Translation :: get('Title'), Translation :: get('Status'), Translation :: get('Score'), Translation :: get('Time')));
-        if ($this->get_parent()->get_parameter(Application::PARAM_ACTION) == LearningPathTool :: ACTION_VIEW_STATISTICS)
+        if ($this->get_parent()->get_parameter(Application :: PARAM_ACTION) == LearningPathTool :: ACTION_VIEW_STATISTICS)
         {
             $reporting_data->add_row(Translation :: get('Action'));
         }
@@ -38,9 +41,9 @@ class WeblcmsLearningPathAttemptProgressReportingBlock extends WeblcmsToolReport
             
             $params = $this->get_parent()->get_parameters();
             $params[LearningPathTool :: PARAM_ATTEMPT_ID] = $tracker->get_id();
-            $params[Tool::PARAM_COMPLEX_ID] = $wrapper_id;
+            $params[Tool :: PARAM_COMPLEX_ID] = $wrapper_id;
             
-            $url = Redirect :: get_url($params, array(ReportingManager::PARAM_TEMPLATE_ID));
+            $url = Redirect :: get_url($params, array(ReportingManager :: PARAM_TEMPLATE_ID));
             
             $title = '<a href="' . $url . '">' . $object->get_title() . '</a>';
             $category = $i;
@@ -64,18 +67,18 @@ class WeblcmsLearningPathAttemptProgressReportingBlock extends WeblcmsToolReport
             $reporting_data->add_data_category_row($category, Translation :: get('Status'), $status);
             $reporting_data->add_data_category_row($category, Translation :: get('Score'), $score);
             $reporting_data->add_data_category_row($category, Translation :: get('Time'), $time);
-    
-            if ($this->get_parent()->get_parameter(Application::PARAM_ACTION) == LearningPathTool :: ACTION_VIEW_STATISTICS)
+            
+            if ($this->get_parent()->get_parameter(Application :: PARAM_ACTION) == LearningPathTool :: ACTION_VIEW_STATISTICS)
             {
                 $params = array_merge($this->get_parent()->get_parameters(), $this->get_parent()->get_parent()->get_parameters());
-	        	$params[Application::PARAM_ACTION] = WeblcmsManager::ACTION_VIEW_COURSE;
-	            $params[Application::PARAM_APPLICATION] = WeblcmsManager::APPLICATION_NAME;
-	            $params[Tool::PARAM_ACTION] = LearningPathTool::ACTION_VIEW_STATISTICS;            
-	            $params[LearningPathToolStatisticsViewerComponent::PARAM_STAT] = LearningPathToolStatisticsViewerComponent::ACTION_DELETE_LPI_ATTEMPTS;
-	            $params[LearningPathToolStatisticsViewerComponent::PARAM_ITEM_ID] = $wrapper_id;
-	            $url = Redirect :: get_url($params);
-	            
-            	$reporting_data->add_data_category_row($category, Translation :: get('Action'), Text :: create_link($url, Theme :: get_common_image('action_delete')));
+                $params[Application :: PARAM_ACTION] = WeblcmsManager :: ACTION_VIEW_COURSE;
+                $params[Application :: PARAM_APPLICATION] = WeblcmsManager :: APPLICATION_NAME;
+                $params[Tool :: PARAM_ACTION] = LearningPathTool :: ACTION_VIEW_STATISTICS;
+                $params[LearningPathToolStatisticsViewerComponent :: PARAM_STAT] = LearningPathToolStatisticsViewerComponent :: ACTION_DELETE_LPI_ATTEMPTS;
+                $params[LearningPathToolStatisticsViewerComponent :: PARAM_ITEM_ID] = $wrapper_id;
+                $url = Redirect :: get_url($params);
+                
+                $reporting_data->add_data_category_row($category, Translation :: get('Action'), Text :: create_link($url, Theme :: get_common_image('action_delete')));
             }
             $i ++;
         }

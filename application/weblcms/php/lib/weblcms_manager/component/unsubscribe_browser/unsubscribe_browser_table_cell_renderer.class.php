@@ -8,7 +8,6 @@ namespace application\weblcms;
 require_once dirname(__FILE__) . '/unsubscribe_browser_table_column_model.class.php';
 require_once dirname(__FILE__) . '/../../../course/course_table/default_course_table_cell_renderer.class.php';
 require_once dirname(__FILE__) . '/../../../course/course.class.php';
-require_once dirname(__FILE__) . '/../../weblcms_manager.class.php';
 /**
  * Cell rendere for the unsubscribe browser table
  */
@@ -36,7 +35,7 @@ class UnsubscribeBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
         {
             return $this->get_modification_links($course);
         }
-        
+
         // Add special features here
         switch ($column->get_name())
         {
@@ -54,10 +53,10 @@ class UnsubscribeBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
     private function get_modification_links($course)
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
-        
+
         $course = WeblcmsDataManager :: get_instance()->retrieve_course($course->get_id());
         $current_right = $course->can_user_unsubscribe($this->browser->get_user());
-        
+
         if ($current_right)
         {
         	$course_unsubscription_url = $this->browser->get_course_unsubscription_url($course);
@@ -66,7 +65,7 @@ class UnsubscribeBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
 	        		Theme :: get_common_image_path() . 'action_unsubscribe.png',
 	        		$course_unsubscription_url,
 	        		ToolbarItem :: DISPLAY_ICON
-	        ));           
+	        ));
         }
         else
         {
@@ -84,9 +83,9 @@ class UnsubscribeBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
 		        ));
             }
         }
-        
+
         return $toolbar->as_html();
-    
+
     }
 }
 ?>

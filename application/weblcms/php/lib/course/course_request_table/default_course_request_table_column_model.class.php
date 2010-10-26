@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\ObjectTableColumnModel;
+
 /**
  * $Id: default_course_request_table_column_model.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.course.course_request_table

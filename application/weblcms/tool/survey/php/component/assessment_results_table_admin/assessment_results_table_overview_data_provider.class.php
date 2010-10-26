@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use common\libraries\ObjectTableDataProvider;
+
 /**
  * $Id: assessment_results_table_overview_data_provider.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.assessment.component.assessment_results_table_admin
@@ -22,9 +24,9 @@ class AssessmentResultsTableOverviewAdminDataProvider extends ObjectTableDataPro
      * The search query, or null if none.
      */
     private $query;
-    
+
     private $parent;
-    
+
     private $pid;
 
     /**
@@ -49,7 +51,7 @@ class AssessmentResultsTableOverviewAdminDataProvider extends ObjectTableDataPro
     function get_objects($offset, $count, $order_property = null)
     {
         $order_property = $this->get_order_property($order_property);
-        
+
         if ($this->pid == null)
         {
             $publications = $this->get_publications($offset, $count, $order_property);
@@ -88,20 +90,20 @@ class AssessmentResultsTableOverviewAdminDataProvider extends ObjectTableDataPro
         {
             $user_id = $this->parent->get_user_id();
             $course_groups = $this->parent->get_course_groups();
-            
+
         	$course_group_ids = array();
-               
+
             foreach($course_groups as $course_group)
             {
               	$course_group_ids[] = $course_group->get_id();
             }
         }
         $course = $this->parent->get_course_id();
-        
+
         $conditions = array();
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $course);
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'assessment');
-        
+
         /*$access = array();
         if (! empty($user_id) || ! empty($course_group_ids))
         {
@@ -110,27 +112,27 @@ class AssessmentResultsTableOverviewAdminDataProvider extends ObjectTableDataPro
             $access[] = new AndCondition(array(new EqualityCondition('user_id', null, $datamanager->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $datamanager->get_alias('content_object_publication_course_group'))));
             $conditions[] = new OrCondition($access);
         }*/
-        
+
    		$access = array();
         if($user_id)
         {
     		$access[] = new InCondition(ContentObjectPublicationUser :: PROPERTY_USER, $user_id, ContentObjectPublicationUser :: get_table_name());
         }
-    	
+
     	if(count($course_group_ids) > 0)
     	{
         	$access[] = new InCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, $course_group_ids, ContentObjectPublicationCourseGroup :: get_table_name());
     	}
-        	
+
         if (! empty($user_id) || ! empty($course_group_ids))
         {
             $access[] = new AndCondition(array(
-            			new EqualityCondition(ContentObjectPublicationUser :: PROPERTY_USER, null, ContentObjectPublicationUser :: get_table_name()), 
+            			new EqualityCondition(ContentObjectPublicationUser :: PROPERTY_USER, null, ContentObjectPublicationUser :: get_table_name()),
             			new EqualityCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, null, ContentObjectPublicationCourseGroup :: get_table_name())));
         }
-        
+
         $conditions[] = new OrCondition($access);
-        
+
         $subselect_conditions = array();
         $subselect_conditions[] = $this->get_condition();
         /*if($this->parent->get_condition())
@@ -138,10 +140,10 @@ class AssessmentResultsTableOverviewAdminDataProvider extends ObjectTableDataPro
 			$subselect_conditions[] = $this->parent->get_condition();
 		}*/
         $subselect_condition = new AndCondition($subselect_conditions);
-        
+
         $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition, null, RepositoryDataManager :: get_instance());
         $condition = new AndCondition($conditions);
-        
+
         $publications = $datamanager->retrieve_content_object_publications($condition);
         while ($publication = $publications->next_result())
         {
@@ -171,13 +173,13 @@ class AssessmentResultsTableOverviewAdminDataProvider extends ObjectTableDataPro
     function get_condition()
     {
         $owner = $this->owner;
-        
+
         $conds = array();
         $parent = $this->parent;
         $category = $parent->get_parameter(WeblcmsManager :: PARAM_CATEGORY);
         $category = $category ? $category : 0;
         $conds[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_CATEGORY_ID, $category, ContentObjectPublication :: get_table_name());
-        
+
         $type_cond = array();
         $types = array(Assessment :: get_type_name(), Survey :: get_type_name(), Hotpotatoes :: get_type_name());
         foreach ($types as $type)

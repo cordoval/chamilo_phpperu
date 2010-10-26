@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\DataClass;
+
 /**
  * $Id: course_module.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.course
@@ -14,7 +16,7 @@ namespace application\weblcms;
 class CourseModule extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     /**
      * CourseModule properties
      */
@@ -31,9 +33,9 @@ class CourseModule extends DataClass
     static function get_default_property_names()
     {
         return parent :: get_default_property_names(
-        	   array(self :: PROPERTY_COURSE_CODE, 
-        			 self :: PROPERTY_NAME, 
-        			 self :: PROPERTY_VISIBLE, 
+        	   array(self :: PROPERTY_COURSE_CODE,
+        			 self :: PROPERTY_NAME,
+        			 self :: PROPERTY_VISIBLE,
         			 self :: PROPERTY_SECTION,
         			 self :: PROPERTY_SORT));
     }
@@ -135,12 +137,12 @@ class CourseModule extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_SORT, $sort);
     }
-    
+
     static function get_table_name()
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
-    
+
     static function convert_tools($tools, $course_code = null, $course_type_tools = false, $form = null)
     {
 		$tools_array = array();
@@ -151,7 +153,7 @@ class CourseModule extends DataClass
 			{
 				$tool = $tool->get_name();
 			}
-			
+
 			$element_default = $tool . "elementdefault";
 			$course_module = new CourseModule();
 			$course_module->set_course_code($course_code);
@@ -163,7 +165,7 @@ class CourseModule extends DataClass
 		}
 		return $tools_array;
 	}
-	
+
 	function create()
 	{
 		$succes = parent :: create();
@@ -171,11 +173,11 @@ class CourseModule extends DataClass
 		{
 			return false;
 		}
-		
-		return WeblcmsRights :: create_location_in_courses_subtree($this->get_name(), WeblcmsRights :: TYPE_COURSE_MODULE, $this->get_id(), 
+
+		return WeblcmsRights :: create_location_in_courses_subtree($this->get_name(), WeblcmsRights :: TYPE_COURSE_MODULE, $this->get_id(),
     			    WeblcmsRights :: get_courses_subtree_root_id($this->get_course_code()), $this->get_course_code());
 	}
-	
+
 	function delete()
 	{
 		$location = WeblcmsRights :: get_location_by_identifier(WeblcmsRights :: TYPE_COURSE_MODULE, $this->get_id());

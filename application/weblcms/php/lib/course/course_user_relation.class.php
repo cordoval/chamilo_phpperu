@@ -1,11 +1,12 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\DataClass;
+
 /**
  * $Id: course_user_relation.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.course
  */
-require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
 
 /**
  *	This class represents a course user relation in the weblcms.
@@ -30,7 +31,7 @@ require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
 class CourseUserRelation extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_COURSE = 'course_id';
     const PROPERTY_USER = 'user_id';
     const PROPERTY_STATUS = 'status';

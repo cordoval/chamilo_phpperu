@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use common\libraries\ObjectTableColumnModel;
+
 /**
  * $Id: assessment_results_table_detail_column_model.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.assessment.component.assessment_results_table_admin

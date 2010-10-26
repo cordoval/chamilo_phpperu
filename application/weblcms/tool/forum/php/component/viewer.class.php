@@ -2,6 +2,7 @@
 namespace application\weblcms\tool\forum;
 
 use common\libraries\Path;
+use common\libraries\DelegateComponent;
 
 
 /**

@@ -8,7 +8,6 @@ use common\libraries\Path;
  * @package application.lib.weblcms.xml_feeds
  */
 require_once dirname(__FILE__) . '/../../../../common/global.inc.php';
-require_once Path :: get_application_path() . 'lib/weblcms/weblcms_data_manager.class.php';
 require_once Path :: get_application_path() . 'lib/weblcms/course_group/course_group.class.php';
 
 if (Authentication :: is_valid())

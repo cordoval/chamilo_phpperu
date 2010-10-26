@@ -1,19 +1,19 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\DelegateComponent;
+
 /**
  * $Id: course_viewer.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms.weblcms_manager.component
  */
-require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
-
 /**
  * Weblcms component which provides the course page
  */
 class WeblcmsManagerCourseViewerComponent extends WeblcmsManager implements DelegateComponent
 {
     private $rights;
-    
+
     /**
      * The tools that this application offers.
      */
@@ -29,7 +29,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager implements Dele
     function run()
     {
         //$this->load_rights();
-        
+
 
         if ($this->is_teacher())
         {
@@ -38,7 +38,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager implements Dele
             {
                 $studentview = Session :: retrieve('studentview');
             }
-            
+
             if ($studentview == 1)
             {
                 Session :: register('studentview', 1);
@@ -48,14 +48,14 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager implements Dele
                 Session :: unregister('studentview');
             }
         }
-        
+
         $trail = BreadcrumbTrail :: get_instance();
         $tool_action = Request :: get(Tool :: PARAM_ACTION);
-        
+
         if ($this->is_teacher() && $this->get_course()->get_student_view() == 1 && ! isset($tool_action))
         {
             $studentview = Session :: retrieve('studentview');
-            
+
             if ($studentview == 1)
             {
                 $trail->add_extra(new ToolbarItem(Translation :: get('TeacherView'), Theme :: get_image_path() . 'action_teacher_view.png', $this->get_url(array(WeblcmsManager :: PARAM_TOOL => Request :: get(WeblcmsManager :: PARAM_TOOL), 'studentview' => '0', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
@@ -65,7 +65,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager implements Dele
                 $trail->add_extra(new ToolbarItem(Translation :: get('StudentView'), Theme :: get_image_path() . 'action_student_view.png', $this->get_url(array(WeblcmsManager :: PARAM_TOOL => Request :: get(WeblcmsManager :: PARAM_TOOL), 'studentview' => '1', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
             }
         }
-        
+
         if (! $this->is_teacher() && (! $this->is_subscribed($this->get_course(), $this->get_user()) || ! $this->get_course()->get_access()))
         {
             $this->display_header($trail, false, true, false);
@@ -73,7 +73,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager implements Dele
             $this->display_footer();
             exit();
         }
-        
+
         if (! $this->is_course())
         {
             $this->display_header($trail, false, true, false);
@@ -81,32 +81,32 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager implements Dele
             $this->display_footer();
             exit();
         }
-        
+
         if ($studentview && $this->get_course()->get_student_view() != 1)
         {
             if ($this->is_teacher())
                 $this->redirect(Translation :: get('StudentViewNotAvailable'), true, array('studentview' => 0));
-            
+
             $this->display_header($trail, false, false, false);
             Display :: error_message(Translation :: get("StudentViewNotAvailable"));
             $this->display_footer();
             exit();
         }
-        
+
         $this->load_course_theme();
         $this->load_course_language();
-        
+
         /**
          * Here we set the rights depending on the user status in the course.
          * This completely ignores the roles-rights library.
          * TODO: WORK NEEDED FOR PROPPER ROLES-RIGHTS LIBRARY
          */
-        
+
         $user = $this->get_user();
         $course = $this->get_course();
         if ($user != null && $course != null)
             $relation = $this->retrieve_course_user_relation($course->get_id(), $user->get_id());
-            
+
         /*if(!$user->is_platform_admin() && (!$relation || ($relation->get_status() != 5 && $relation->get_status() != 1)))
 		 //TODO: Roles & Rights
 		 //if(!$this->is_allowed(WeblcmsRights :: VIEW_RIGHT) && !$this->get_user()->is_platform_admin())
@@ -116,46 +116,46 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager implements Dele
 			$this->display_footer();
 			exit;
 			}*/
-        
+
         $course = Request :: get(WeblcmsManager :: PARAM_COURSE);
         $tool = Request :: get(WeblcmsManager :: PARAM_TOOL);
         if (! $tool)
         {
             $tool = 'home';
         }
-        
+
         $action = Request :: get(Application :: PARAM_ACTION);
         $category = Request :: get(WeblcmsManager :: PARAM_CATEGORY);
-        
+
         if (! $category)
         {
             $category = 0;
         }
-        
+
         if ($course)
         {
             if ($tool)
             {
                 $title = CourseLayout :: get_title($this->get_course());
-                
+
                 if ($tool != 'course_group')
                 {
                     $this->set_parameter('course_group', null);
                 }
-                
+
                 $this->set_parameter(self :: PARAM_TOOL, $tool);
-                
+
                 if ($tool != 'home')
                 {
                     //$trail->add(new Breadcrumb($this->get_url(), Translation :: get(Utilities :: underscores_to_camelcase($tool) . 'Title')));
                 }
-                
+
                 $wdm = WeblcmsDataManager :: get_instance();
                 $class = Tool :: type_to_class($tool);
-                
+
                 $this->set_tool_class($class);
                 $wdm->log_course_module_access($this->get_course_id(), $this->get_user_id(), $tool, $category);
-                
+
                 Tool :: launch($tool, $this);
             }
         }
@@ -175,7 +175,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager implements Dele
     {
         $course_can_have_theme = $this->get_platform_setting('allow_course_theme_selection');
         $course = $this->get_course();
-        
+
         if ($course_can_have_theme && $course->has_theme())
         {
             Theme :: set_theme($course->get_theme());
@@ -187,7 +187,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager implements Dele
         $course = $this->get_course();
         Translation :: set_language($course->get_language());
     }
-    
+
     private $is_teacher;
 
     function is_teacher()
@@ -196,13 +196,13 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager implements Dele
         {
             $user = $this->get_user();
             $course = $this->get_course();
-            
+
             $this->is_teacher = parent :: is_teacher($course, $user);
         }
-        
+
         return $this->is_teacher;
     }
-    
+
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
         $title = CourseLayout :: get_title($this->get_course());

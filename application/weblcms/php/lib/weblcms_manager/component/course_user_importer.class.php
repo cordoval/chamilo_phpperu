@@ -5,8 +5,6 @@ namespace application\weblcms;
  * $Id: course_user_importer.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms.weblcms_manager.component
  */
-require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
-
 require_once dirname(__FILE__) . '/../../course/course_user_import_form.class.php';
 
 /**
@@ -21,8 +19,8 @@ class WeblcmsManagerCourseUserImporterComponent extends WeblcmsManager
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-    	
-        
+
+
         if (! $this->get_user()->is_platform_admin())
         {
             $this->display_header();
@@ -30,9 +28,9 @@ class WeblcmsManagerCourseUserImporterComponent extends WeblcmsManager
             $this->display_footer();
             exit();
         }
-        
+
         $form = new CourseUserImportForm(CourseUserImportForm :: TYPE_IMPORT, $this->get_url());
-        
+
         if ($form->validate())
         {
             $success = $form->import_course_users();
@@ -68,7 +66,7 @@ class WeblcmsManagerCourseUserImporterComponent extends WeblcmsManager
         $html[] = '<br />1: ' . Translation :: get('Teacher');
         $html[] = '<br />5: ' . Translation :: get('Student');
         $html[] = '</blockquote>';
-        
+
         echo implode($html, "\n");
     }
 

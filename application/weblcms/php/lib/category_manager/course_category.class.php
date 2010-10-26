@@ -2,6 +2,7 @@
 namespace application\weblcms;
 
 use common\libraries\Path;
+use common\extensions\category_manager\PlatformCategory;
 
 /**
  * $Id: course_category.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -10,8 +11,6 @@ use common\libraries\Path;
 /**
  *	@author Sven Vanpoucke
  */
-require_once Path :: get_common_extensions_path() . 'category_manager/platform_category.class.php';
-require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
 
 class CourseCategory extends PlatformCategory
 {

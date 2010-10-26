@@ -1,11 +1,12 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\DataClass;
+
 /**
  * $Id: course_type_user_category.class.php 216 2009-11-13 14:08:06Z Tristan $
  * @package application.lib.weblcms.course_type
  */
-require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
 
 class CourseTypeUserCategory extends DataClass
 {
@@ -40,17 +41,17 @@ class CourseTypeUserCategory extends DataClass
     {
         return $this->get_default_property(self :: PROPERTY_USER_ID);
     }
-    
+
     function get_course_user_category_id()
     {
         return $this->get_default_property(self :: PROPERTY_COURSE_USER_CATEGORY_ID);
     }
-    
+
     function get_course_type_id()
     {
         return $this->get_default_property(self :: PROPERTY_COURSE_TYPE_ID);
     }
-    
+
     function get_sort()
     {
         return $this->get_default_property(self :: PROPERTY_SORT);
@@ -60,7 +61,7 @@ class CourseTypeUserCategory extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
     }
-    
+
     function set_course_user_category_id($course_user_category_id)
     {
         $this->set_default_property(self :: PROPERTY_COURSE_USER_CATEGORY_ID, $course_user_category_id);
@@ -75,7 +76,7 @@ class CourseTypeUserCategory extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_SORT, $sort);
     }
-    
+
     /**
      * Creates the course user category object in persistent storage
      * @return boolean
@@ -83,7 +84,7 @@ class CourseTypeUserCategory extends DataClass
     function create()
     {
         $wdm = WeblcmsDataManager :: get_instance();
-		
+
         $conditions = array();
         $conditions[] = new EqualityCondition(self :: PROPERTY_USER_ID, $this->get_user_id());
         $conditions[] = new EqualityCondition(self :: PROPERTY_COURSE_TYPE_ID, $this->get_course_type_id());
@@ -99,7 +100,7 @@ class CourseTypeUserCategory extends DataClass
 
         return true;
     }
-    
+
     static function get_table_name()
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);

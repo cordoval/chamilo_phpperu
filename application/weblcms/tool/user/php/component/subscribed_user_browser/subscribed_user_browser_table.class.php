@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\user;
 
+use common\libraries\ObjectTable;
+
 /**
  * $Id: subscribed_user_browser_table.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms.weblcms_manager.component.subscribe_user_browser
@@ -48,7 +50,7 @@ class SubscribedUserBrowserTable extends ObjectTable
         }
         $this->set_default_row_count(20);
     }
-    
+
     function handle_table_action()
     {
     	$ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));

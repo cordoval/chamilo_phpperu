@@ -6,8 +6,6 @@ namespace application\weblcms;
  * $Id: course_change_course_type.class.php 224 2010-04-06 14:40:30Z Yannick $
  * @package applicatie.lib.weblcms.weblcms_manager.component
  */
-require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
-
 require_once dirname(__FILE__) . '/../../course/course_change_course_type_form.class.php';
 
 class WeblcmsManagerCourseChangeCourseTypeComponent extends WeblcmsManager

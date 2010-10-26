@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\ObjectTableDataProvider;
+
 /**
  * $Id: location_course_group_browser_table_data_provider.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.rights_editor_manager.component.location_course_group_bowser

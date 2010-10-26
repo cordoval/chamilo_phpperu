@@ -7,8 +7,6 @@ use common\libraries\Path;
  * $Id: course_type_layout.class.php 216 2010-02-26 14:08:06Z Yannick & Tristan $
  * @package application.lib.weblcms.course_type
  */
-require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
-require_once Path :: get_application_path() . 'lib/weblcms/course/course_layout.class.php';
 
 class CourseTypeLayout extends CourseLayout
 {

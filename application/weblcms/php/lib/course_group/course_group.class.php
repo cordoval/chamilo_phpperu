@@ -1,11 +1,12 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\NestedTreeNode;
+
 /**
  * $Id: course_group.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.course_group
  */
-require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
 /**
  * This class represents a course_group of users in a course in the weblcms.
  *
@@ -242,17 +243,17 @@ class CourseGroup extends NestedTreeNode
 
 		return parent :: create();
 	}
-	
+
 	function update()
 	{
 		if($this->check_before_save())
 		{
 			return parent :: update();
 		}
-		
+
 		return false;
 	}
-	
+
 	function check_before_save()
 	{
 		$children = WeblcmsDataManager :: get_instance()->count_course_group_users($this);
@@ -262,7 +263,7 @@ class CourseGroup extends NestedTreeNode
 			$this->add_error(Translation :: get('MaximumMembersToSmall'));
 			return false;
 		}
-		
+
 		return true;
 	}
 
@@ -270,7 +271,7 @@ class CourseGroup extends NestedTreeNode
 	{
 		return parent :: get_parents($include_self, $this->get_nested_tree_node_condition());
 	}
-	
+
 	function get_nested_tree_node_condition()
 	{
 	    return new EqualityCondition(CourseGroup :: PROPERTY_COURSE_CODE, $this->get_course_code());

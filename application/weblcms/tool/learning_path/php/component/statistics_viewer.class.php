@@ -2,6 +2,7 @@
 namespace application\weblcms\tool\learning_path;
 
 use common\libraries\Path;
+use common\libraries\DelegateComponent;
 
 
 /**

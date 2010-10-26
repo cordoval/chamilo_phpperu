@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\course_sections;
 
+use common\libraries\ObjectTableDataProvider;
+
 /**
  * $Id: course_sections_browser_table_data_provider.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.course_sections.component.course_sections_browser
@@ -34,7 +36,7 @@ class CourseSectionsBrowserTableDataProvider extends ObjectTableDataProvider
     function get_objects($offset, $count, $order_property = null)
     {
         $order_property = $this->get_order_property($order_property);
-        
+
         $wdm = WeblcmsDataManager :: get_instance();
         return $wdm->retrieve_course_sections($this->get_condition(), $offset, $count, $order_property);
     }

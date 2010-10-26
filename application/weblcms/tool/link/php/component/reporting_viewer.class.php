@@ -2,6 +2,7 @@
 namespace application\weblcms\tool\link;
 
 use application\weblcms\ToolComponent;
+use common\libraries\DelegateComponent;
 
 class LinkToolReportingViewerComponent extends LinkTool implements DelegateComponent
 {

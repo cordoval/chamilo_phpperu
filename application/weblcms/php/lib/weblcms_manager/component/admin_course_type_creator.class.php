@@ -5,8 +5,6 @@ namespace application\weblcms;
  * $Id: admin_course_type_creator.class.php 1 2010-02-25 11:44:26Z Tristan $
  * @package application.lib.weblcms.weblcms_manager.component
  */
-require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
-
 require_once dirname(__FILE__) . '/../../course_type/course_type_form.class.php';
 
 /**
@@ -26,7 +24,7 @@ class WeblcmsManagerAdminCourseTypeCreatorComponent extends WeblcmsManager
         }
 
         $trail = BreadcrumbTrail :: get_instance();
-        
+
         if (! $this->get_user()->is_platform_admin())
         {
             $this->display_header();
@@ -35,7 +33,7 @@ class WeblcmsManagerAdminCourseTypeCreatorComponent extends WeblcmsManager
             $this->display_footer();
             exit();
         }
-        
+
         $coursetype = $this->get_course_type();
         $parameter =array();
         $course_type_id = Request :: get("course_type");
@@ -45,12 +43,12 @@ class WeblcmsManagerAdminCourseTypeCreatorComponent extends WeblcmsManager
         if(is_null($course_type_id))
         {
 	        $form = new CourseTypeForm(CourseTypeForm :: TYPE_CREATE, $coursetype, $this->get_url($parameter), $this);
-        }	        
+        }
         else
         {
 	        $form = new CourseTypeForm(CourseTypeForm :: TYPE_EDIT, $coursetype, $this->get_url($parameter), $this);
         }
-	        
+
         if ($form->validate())
         {
 	        $success = $form->save();

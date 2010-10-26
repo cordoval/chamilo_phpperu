@@ -1,13 +1,10 @@
 <?php
 namespace application\weblcms;
 
-
 /**
  * $Id: course_type_deleter.class.php 218 2010-03-15 10:30:26Z Yannick $
  * @package application.lib.weblcms.weblcms_manager.component
  */
-require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
-
 /**
  * Repository manager component which provides functionality to delete a course_type
  */

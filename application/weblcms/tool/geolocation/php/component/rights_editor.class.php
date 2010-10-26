@@ -2,6 +2,7 @@
 namespace application\weblcms\tool\geolocation;
 
 use application\weblcms\ToolComponent;
+use common\libraries\DelegateComponent;
 
 class GeolocationToolRightsEditorComponent extends GeolocationTool implements DelegateComponent
 {

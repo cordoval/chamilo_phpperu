@@ -6,8 +6,6 @@ namespace application\weblcms;
  * $Id: course_type_selector.class.php 218 2010-03-26 14:21:26Z Yannick & Tristan $
  * @package application.lib.weblcms.weblcms_manager.component
  */
-require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
-
 require_once dirname(__FILE__) . '/../../course_type/course_type_select_form.class.php';
 
 /**

@@ -2,6 +2,7 @@
 namespace application\weblcms\tool\assessment;
 
 use application\weblcms\ToolComponent;
+use common\libraries\DelegateComponent;
 
 class AssessmentToolCategoryManagerComponent extends AssessmentTool implements DelegateComponent
 {

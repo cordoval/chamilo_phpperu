@@ -2,6 +2,7 @@
 namespace application\weblcms\tool\document;
 
 use application\weblcms\ToolComponent;
+use common\libraries\DelegateComponent;
 
 class DocumentToolCategoryManagerComponent extends DocumentTool implements DelegateComponent
 {

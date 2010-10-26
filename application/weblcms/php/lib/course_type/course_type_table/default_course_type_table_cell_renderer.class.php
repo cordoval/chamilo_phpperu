@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\ObjectTableCellRenderer;
+
 /**
  * $Id: default_course_type_table_cell_renderer.class.php 216 2010-03-12 14:08:06Z Yannick $
  * @package application.lib.weblcms.course_type.course_type_table
@@ -31,13 +33,13 @@ class DefaultCourseTypeTableCellRenderer extends ObjectTableCellRenderer
         {
             case CourseType :: PROPERTY_ID :
                 return $course_type->get_id();
-            
+
             case CourseType :: PROPERTY_NAME :
                 return $course_type->get_name();
-                
+
             case CourseType :: PROPERTY_DESCRIPTION :
             	return $course_type->get_description();
-            	
+
             case CourseType :: PROPERTY_ACTIVE :
             	//return $course_type->get_active();
             	if($course_type->get_active())
@@ -48,7 +50,7 @@ class DefaultCourseTypeTableCellRenderer extends ObjectTableCellRenderer
             	{
             		Return Translation :: get('False');
             	}
-            	
+
             /*
             case Course :: PROPERTY_SUBSCRIBE_ALLOWED :
                 $sub = $course->get_subscribe_allowed();

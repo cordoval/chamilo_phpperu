@@ -2,6 +2,7 @@
 namespace application\weblcms\tool\calendar;
 
 use application\weblcms\ToolComponent;
+use common\libraries\DelegateComponent;
 
 class CalendarToolRightsEditorComponent extends CalendarTool implements DelegateComponent
 {

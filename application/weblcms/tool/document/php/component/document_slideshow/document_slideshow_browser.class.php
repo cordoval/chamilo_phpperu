@@ -7,7 +7,6 @@ use common\libraries\Path;
  * $Id: document_slideshow_browser.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.document.component.document_slideshow
  */
-require_once dirname(__FILE__) . '/../../../../weblcms_data_manager.class.php';
 require_once dirname(__FILE__) . '/../../../../content_object_publication_browser.class.php';
 require_once dirname(__FILE__) . '/../../../../browser/content_object_publication_category_tree.class.php';
 require_once dirname(__FILE__) . '/document_publication_slideshow_renderer.class.php';

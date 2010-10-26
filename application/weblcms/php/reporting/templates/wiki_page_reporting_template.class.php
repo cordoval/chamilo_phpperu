@@ -22,17 +22,17 @@ class WikiPageReportingTemplate extends ReportingTemplate
         
         parent :: __construct($parent);
     }
-    
-	function display_context()
-	{
-		//publicatie, content_object, application ... 
-	}
-	
-	function get_application()
+
+    function display_context()
     {
-    	return WeblcmsManager::APPLICATION_NAME;
+        //publicatie, content_object, application ... 
     }
-    
+
+    function get_application()
+    {
+        return WeblcmsManager :: APPLICATION_NAME;
+    }
+
     /**
      * @see ReportingTemplate -> get_properties()
      */
@@ -45,10 +45,10 @@ class WikiPageReportingTemplate extends ReportingTemplate
         return $properties;
     }
 
-    /**
-     * @see ReportingTemplate -> to_html()
-     */
-  /*  function to_html()
+/**
+ * @see ReportingTemplate -> to_html()
+ */
+/*  function to_html()
     {
         //template header
         $html[] = $this->get_header();

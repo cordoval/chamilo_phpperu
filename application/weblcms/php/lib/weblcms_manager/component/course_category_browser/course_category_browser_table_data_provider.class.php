@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\ObjectTableDataProvider;
+
 /**
  * $Id: course_category_browser_table_data_provider.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms.weblcms_manager.component.course_category_browser
@@ -34,7 +36,7 @@ class CourseCategoryBrowserTableDataProvider extends ObjectTableDataProvider
     function get_objects($offset, $count, $order_property = null)
     {
         $order_property = $this->get_order_property($order_property);
-        
+
         return $this->get_browser()->retrieve_course_categories($this->get_condition(), $offset, $count, $order_property);
     }
 

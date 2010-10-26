@@ -5,7 +5,6 @@ namespace application\weblcms;
  * $Id: course_importer.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms.weblcms_manager.component
  */
-require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
 
 require_once dirname(__FILE__) . '/../../course/course_import_form.class.php';
 
@@ -21,7 +20,7 @@ class WeblcmsManagerCourseImporterComponent extends WeblcmsManager
     function run()
     {
         Header :: set_section('admin');
-        
+
         $trail = BreadcrumbTrail :: get_instance();
 //        if ($this->get_user()->is_platform_admin())
 //        {
@@ -34,8 +33,8 @@ class WeblcmsManagerCourseImporterComponent extends WeblcmsManager
 //        	$trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => null)), Translation :: get('Courses')));
 //        }
 //        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CourseImportCSV')));
-//        
-        
+//
+
         if (! $this->get_user()->is_platform_admin())
         {
             $this->display_header();
@@ -44,7 +43,7 @@ class WeblcmsManagerCourseImporterComponent extends WeblcmsManager
             $this->display_footer();
             exit();
         }
-        
+
         $form = new CourseImportForm(CourseImportForm :: TYPE_IMPORT, $this->get_url());
 
         if ($form->validate())
@@ -79,7 +78,7 @@ class WeblcmsManagerCourseImporterComponent extends WeblcmsManager
         $html[] = '<br />U: ' . Translation :: get('Update');
         $html[] = '<br />D: ' . Translation :: get('Delete');
         $html[] = '</blockquote>';
-        
+
         echo implode($html, "\n");
     }
 

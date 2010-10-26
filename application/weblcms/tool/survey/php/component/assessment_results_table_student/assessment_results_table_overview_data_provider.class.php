@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use common\libraries\ObjectTableDataProvider;
+
 /**
  * $Id: assessment_results_table_overview_data_provider.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.assessment.component.assessment_results_table_student
@@ -22,9 +24,9 @@ class AssessmentResultsTableOverviewStudentDataProvider extends ObjectTableDataP
      * The search query, or null if none.
      */
     private $query;
-    
+
     private $parent;
-    
+
     private $pid;
 
     /**
@@ -49,7 +51,7 @@ class AssessmentResultsTableOverviewStudentDataProvider extends ObjectTableDataP
     function get_objects($offset, $count, $order_property = null)
     {
         $order_property = $this->get_order_property($order_property);
-        
+
         if ($this->pid == null)
         {
             $publications = $this->get_publications($offset, $count, $order_property);
@@ -59,7 +61,7 @@ class AssessmentResultsTableOverviewStudentDataProvider extends ObjectTableDataP
             $publications = $this->get_publication($this->pid);
         }
         //return $this->get_user_assessments($publications);
-        
+
 
         return $publications;
     }
@@ -80,7 +82,7 @@ class AssessmentResultsTableOverviewStudentDataProvider extends ObjectTableDataP
         $datamanager = WeblcmsDataManager :: get_instance();
         $tool_condition = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'assessment');
         $condition = $tool_condition;
-        
+
         if ($this->parent->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $user_id = null;
@@ -92,11 +94,11 @@ class AssessmentResultsTableOverviewStudentDataProvider extends ObjectTableDataP
             $course_groups = $this->parent->get_course_groups();
         }
         $course = $this->parent->get_course_id();
-        
+
         $conditions = array();
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $course);
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'assessment');
-        
+
         /*$access = array();
 		if (!empty($user_id))
 		{
@@ -109,20 +111,20 @@ class AssessmentResultsTableOverviewStudentDataProvider extends ObjectTableDataP
 		}
 
 		$conditions[] = new OrCondition($access);*/
-        
+
         $subselect_condition = $this->get_condition();
-        
+
         $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition, null, RepositoryDataManager :: get_instance());
-        
+
         $parent = $this->parent;
         $category = $parent->get_parameter(WeblcmsManager :: PARAM_CATEGORY);
         $category = $category ? $category : 0;
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_CATEGORY_ID, $category, ContentObjectPublication :: get_table_name());
-        
+
         $condition = new AndCondition($conditions);
-        
+
         $publications = $datamanager->retrieve_content_object_publications($condition);
-        
+
         while ($publication = $publications->next_result())
         {
             // If the results is hidden and the user is not allowed to DELETE or EDIT, don't show this results
@@ -151,7 +153,7 @@ class AssessmentResultsTableOverviewStudentDataProvider extends ObjectTableDataP
     function get_condition()
     {
         $conds = array();
-        
+
         $type_cond = array();
         $types = array(Assessment :: get_type_name(), Survey :: get_type_name());
         foreach ($types as $type)

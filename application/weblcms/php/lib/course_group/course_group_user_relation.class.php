@@ -5,15 +5,14 @@ namespace application\weblcms;
  * $Id: course_group_user_relation.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.course_group
  */
-require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
 
 class CourseGroupUserRelation
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_COURSE_GROUP = 'course_group_id';
     const PROPERTY_USER = 'user_id';
-    
+
     private $defaultProperties;
 
     /**
@@ -126,7 +125,7 @@ class CourseGroupUserRelation
     {
         $wdm = WeblcmsDataManager :: get_instance();
         $success = $wdm->create_course_group_user_relation($this);
-        
+
         if (! $success)
         {
             return false;
@@ -146,7 +145,7 @@ class CourseGroupUserRelation
         {
             return false;
         }
-        
+
         return true;
     }
 

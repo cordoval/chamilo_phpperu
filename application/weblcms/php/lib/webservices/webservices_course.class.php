@@ -16,7 +16,7 @@ namespace application\weblcms;
  * get_course:
  *  -input: A Course object with the property 'visual_code' filled in.
  *  -output: The full corresponding Course object with all the available properties filled in.
- * 
+ *
  * delete_course:
  *  -input: A Course object with the property 'visual_code' filled in.
  *  -output: Nothing.
@@ -88,7 +88,6 @@ require_once dirname(__FILE__) . '/../../../../user/lib/data_manager/database.cl
 require_once dirname(__FILE__) . '/../data_manager/database.class.php';
 require_once dirname(__FILE__) . '/../../../../repository/lib/content_object.class.php';
 require_once dirname(__FILE__) . '/../content_object_publication.class.php';
-require_once dirname(__FILE__) . '/../weblcms_manager/weblcms_manager.class.php';
 
 ini_set('max_execution_time', - 1);
 ini_set('memory_limit', - 1);
@@ -110,39 +109,39 @@ class WebServicesCourse
     function run()
     {
         $functions = array();
-        
+
         $functions['get_course'] = array('input' => new Course(), 'output' => new Course());
-        
+
         $functions['delete_course'] = array('input' => new Course());
-        
+
         $functions['delete_courses'] = array('array_input' => true, 'input' => array(new Course()));
-        
+
         $functions['update_course'] = array('input' => new Course());
-        
+
         $functions['update_courses'] = array('array_input' => true, 'input' => array(new Course()));
-        
+
         $functions['create_course'] = array('input' => new Course());
-        
+
         $functions['create_courses'] = array('array_input' => true, 'input' => array(new Course()));
-        
+
         $functions['subscribe_user'] = array('input' => new CourseUserRelation());
-        
+
         $functions['subscribe_users'] = array('array_input' => true, 'input' => array(new CourseUserRelation()));
-        
+
         $functions['unsubscribe_user'] = array('input' => new CourseUserRelation());
-        
+
         $functions['unsubscribe_users'] = array('array_input' => true, 'input' => array(new CourseUserRelation()));
-        
+
         $functions['subscribe_group'] = array('input' => new CourseGroup());
-        
+
         $functions['subscribe_groups'] = array('array_input' => true, 'input' => array(new CourseGroup()));
-        
+
         $functions['unsubscribe_group'] = array('input' => new CourseGroup());
-        
+
         $functions['unsubscribe_groups'] = array('array_input' => true, 'input' => array(new CourseGroup()));
-        
+
         $this->webservice->provide_webservice($functions);
-    
+
     }
 
     function get_course($input_course)
@@ -275,7 +274,7 @@ class WebServicesCourse
             {
                 return $this->webservice->raise_error($this->validator->get_error_message(), null, Translation :: get('Client'), $this->validator->get_error_source());
             }
-        
+
         }
         else
         {
@@ -324,7 +323,7 @@ class WebServicesCourse
             {
                 return $this->webservice->raise_error($this->validator->get_error_message(), null, Translation :: get('Client'), $this->validator->get_error_source());
             }
-        
+
         }
         else
         {
@@ -352,7 +351,7 @@ class WebServicesCourse
                 }
             }
             return $this->webservice->raise_message(Translation :: get('UsersSubscribed') . '.');
-        
+
         }
         else
         {

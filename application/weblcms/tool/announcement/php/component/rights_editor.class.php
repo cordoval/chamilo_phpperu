@@ -2,6 +2,7 @@
 namespace application\weblcms\tool\announcement;
 
 use application\weblcms\ToolComponent;
+use common\libraries\DelegateComponent;
 
 class AnnouncementToolRightsEditorComponent extends AnnouncementTool implements DelegateComponent
 {

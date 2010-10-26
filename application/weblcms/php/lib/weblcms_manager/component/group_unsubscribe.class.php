@@ -5,8 +5,6 @@ namespace application\weblcms;
  * $Id: unsubscribe.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms.weblcms_manager.component
  */
-require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
-
 require_once dirname(__FILE__) . '/../../course/course_category_menu.class.php';
 require_once dirname(__FILE__) . '/unsubscribe_browser/unsubscribe_browser_table.class.php';
 /**

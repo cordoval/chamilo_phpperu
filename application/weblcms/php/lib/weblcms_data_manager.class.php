@@ -2,6 +2,7 @@
 namespace application\weblcms;
 
 use common\libraries\DataManagerInterface;
+use common\libraries\Configuration;
 
 /**
  * $Id: weblcms_data_manager.class.php 218 2009-11-13 14:21:26Z kariboe $
@@ -42,7 +43,7 @@ class WeblcmsDataManager implements DataManagerInterface
         {
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
             require_once dirname(__FILE__) . '/data_manager/' . strtolower($type) . '_weblcms_data_manager.class.php';
-            $class = $type . 'WeblcmsDataManager';
+            $class = __NAMESPACE__ . '\\' . $type . 'WeblcmsDataManager';
             self :: $instance = new $class();
         }
         return self :: $instance;
