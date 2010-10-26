@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\geolocation;
 
+use application\weblcms\ContentObjectPublicationListRenderer;
+use application\weblcms\Tool;
+
 /**
  * $Id: geolocation_tool.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.geolocation

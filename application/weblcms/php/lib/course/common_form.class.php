@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use group\GroupDataManager;
 use common\libraries\ResourceManager;
 use common\libraries\FormValidator;
 use common\libraries\Utilities;

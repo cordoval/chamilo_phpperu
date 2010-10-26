@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\extensions\feedback_manager\FeedbackManager;
+use common\libraries\ActionBarRenderer;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Request;
 

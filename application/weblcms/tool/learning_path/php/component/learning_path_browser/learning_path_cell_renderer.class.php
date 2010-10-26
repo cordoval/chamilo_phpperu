@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use common\libraries\NotCondition;
 use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Path;

@@ -1,6 +1,10 @@
 <?php
 namespace application\weblcms\tool\calendar;
 
+use repository\ContentObject;
+use common\libraries\ObjectTableFormAction;
+use common\libraries\SubselectCondition;
+use repository\RepositoryDataManager;
 use user\User;
 use user\UserDataManager;
 use common\libraries\FormValidator;

@@ -1,5 +1,17 @@
 <?php
 namespace common\extensions\feedback_manager;
+
+use repository\ContentObjectDisplay;
+use common\libraries\DatetimeUtilities;
+use repository\RepositoryDataManager;
+use common\libraries\Path;
+use common\libraries\Theme;
+use common\libraries\ToolbarItem;
+use admin\AdminDataManager;
+use common\libraries\Translation;
+use common\libraries\Utilities;
+use user\UserManager;
+use common\libraries\BbcodeParser;
 /**
  * $Id: browser.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.feedback_manager.component
@@ -16,16 +28,16 @@ require_once dirname(__FILE__) . '/../feedback_form.class.php';
 
 class FeedbackManagerBrowserComponent extends FeedbackManager
 {
-    
+
     const TITLE_MARKER = '<!-- /title -->';
     const DESCRIPTION_MARKER = '<!-- /description -->';
-    
+
     private $html;
 
     function run()
     {
         $html = $this->as_html();
-        
+
     	$this->display_header();
     	echo $html;
     	$this->display_footer();
@@ -82,13 +94,13 @@ class FeedbackManagerBrowserComponent extends FeedbackManager
         }
 
         $this->html = $html;
-        
+
         return implode("\n", $this->html);
     }
 
     function render_feedback($feedback)
     {
-        
+
         $id = $feedback->get_fid();
         $feedback_object = RepositoryDataManager :: get_instance()->retrieve_content_object($id);
         $html = array();
@@ -100,7 +112,7 @@ class FeedbackManagerBrowserComponent extends FeedbackManager
         $html[] = '</div>';
         $html[] = self :: TITLE_MARKER;
         $html[] = $this->get_description($feedback_object);
-        
+
         if ($this->get_user()->get_id() == $feedback_object->get_owner_id())
         {
             $html[] = '<div class="publication_actions">';
@@ -108,11 +120,11 @@ class FeedbackManagerBrowserComponent extends FeedbackManager
             $html[] = $this->render_update_action($feedback);
             $html[] = '</div>';
         }
-        
+
         $html[] = '</div>';
-        
+
         return implode("\n", $html);
-    
+
     }
 
     function get_description($feedback)

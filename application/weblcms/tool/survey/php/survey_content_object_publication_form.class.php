@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use group\GroupDataManager;
+use repository\RepositoryDataManager;
 use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use user\UserDataManager;
@@ -14,6 +16,7 @@ use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\Translation;
+use common\extensions\repo_viewer\RepoViewer;
 
 /**
  * $Id: content_object_publication_form.class.php 218 2009-11-13 14:21:26Z kariboe $

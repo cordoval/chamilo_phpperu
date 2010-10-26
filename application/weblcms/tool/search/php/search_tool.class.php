@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\search;
 
+use application\weblcms\Tool;
+
 /**
  * $Id: search_tool.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.search
@@ -12,7 +14,7 @@ namespace application\weblcms\tool\search;
 class SearchTool extends Tool
 {
     const ACTION_SEARCH = 'searcher';
-    
+
     const DEFAULT_ACTION = self :: ACTION_SEARCH;
 
     function get_application_component_path()

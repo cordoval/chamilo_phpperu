@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use repository\RepositoryDataManager;
 use admin\AdminDataManager;
 use user\UserDataManager;
 use common\libraries\Utilities;

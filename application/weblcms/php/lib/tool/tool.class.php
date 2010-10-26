@@ -1,6 +1,10 @@
 <?php
 namespace application\weblcms;
 
+use reporting\ReportingManager;
+use common\libraries\SubselectCondition;
+use Exception;
+use repository\RepositoryDataManager;
 use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use common\libraries\FormValidator;
@@ -12,6 +16,8 @@ use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\SubManager;
 use common\libraries\Translation;
+use repository\ContentObject;
+use repository\content_object\introduction\Introduction;
 
 /**
  * $Id: tool.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -378,7 +384,7 @@ abstract class Tool extends SubManager
      */
     static function type_to_class($tool)
     {
-        return Utilities :: underscores_to_camelcase($tool) . 'Tool';
+        return __NAMESPACE__ . '\tool\\'. $tool .'\\' . Utilities :: underscores_to_camelcase($tool) . 'Tool';
     }
 
     /**
@@ -554,7 +560,7 @@ abstract class Tool extends SubManager
      */
     static function launch($type, $application)
     {
-        $file = dirname(__FILE__) . '/' . $type . '/' . $type . '_tool.class.php';
+        $file = dirname(__FILE__) . '/../../../tool/' . $type . '/php/' . $type . '_tool.class.php';
         if (! file_exists($file))
         {
             throw new Exception(Translation :: get('ToolTypeDoesNotExist', array('type' => $type)));

@@ -1,6 +1,10 @@
 <?php
 namespace application\weblcms\tool\course_group;
 
+use repository\ContentObject;
+use common\libraries\ActionBarRenderer;
+use common\libraries\SubselectCondition;
+use repository\RepositoryDataManager;
 use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use common\libraries\Display;

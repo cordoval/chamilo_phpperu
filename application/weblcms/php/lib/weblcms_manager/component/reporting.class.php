@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use reporting\ReportingManager;
 use admin\AdminManager;
 use common\libraries\Redirect;
 use common\libraries\DynamicTabsRenderer;

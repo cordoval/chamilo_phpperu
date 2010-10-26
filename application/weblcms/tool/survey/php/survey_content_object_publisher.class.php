@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use repository\ContentObject;
+use repository\RepositoryDataManager;
 use common\libraries\Theme;
 use common\libraries\InCondition;
 use common\libraries\Utilities;

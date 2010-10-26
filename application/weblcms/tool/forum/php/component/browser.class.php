@@ -1,6 +1,12 @@
 <?php
 namespace application\weblcms\tool\forum;
 
+use common\libraries\DatetimeUtilities;
+use repository\ContentObject;
+use common\libraries\ActionBarRenderer;
+use HTML_Table;
+use common\libraries\SubselectCondition;
+use repository\RepositoryDataManager;
 use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use user\User;

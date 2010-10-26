@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\course_group;
 
+use common\libraries\ActionBarRenderer;
 use common\libraries\ToolbarItem;
 use user\User;
 use user\UserDataManager;

@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use repository\ContentObjectDisplay;
 use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use common\libraries\Display;

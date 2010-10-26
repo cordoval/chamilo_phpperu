@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use repository\ContentObject;
+use repository\RepositoryDataManager;
 use user\UserDataManager;
 use common\libraries\Request;
 use common\libraries\Path;

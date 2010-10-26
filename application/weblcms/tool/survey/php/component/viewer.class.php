@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use repository\ContentObject;
+use repository\RepositoryDataManager;
 use common\libraries\ToolbarItem;
 use common\libraries\Display;
 use common\libraries\Theme;
@@ -10,6 +12,7 @@ use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\SubselectCondition;
 
 /**
  * $Id: survey_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $

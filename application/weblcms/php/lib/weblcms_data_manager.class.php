@@ -5,6 +5,7 @@ use common\libraries\Filesystem;
 use common\libraries\EqualityCondition;
 use common\libraries\DataManagerInterface;
 use common\libraries\Configuration;
+use DOMDocument;
 
 /**
  * $Id: weblcms_data_manager.class.php 218 2009-11-13 14:21:26Z kariboe $
@@ -60,11 +61,11 @@ class WeblcmsDataManager implements DataManagerInterface
 
         $options = array('forceEnum' => array('properties'));
 
-        $dir = dirname(__FILE__) . '/tool/';
+        $dir = dirname(__FILE__) . '/../../tool/';
         $tools = Filesystem :: get_directory_content($dir, Filesystem :: LIST_DIRECTORIES, false);
         foreach ($tools as $tool)
         {
-            $properties_file = $dir . $tool . '/properties.xml';
+            $properties_file = $dir . $tool . '/php/properties.xml';
             if (! file_exists($properties_file))
             {
                 continue;

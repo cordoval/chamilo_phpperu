@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\document;
 
+use common\libraries\ActionBarRenderer;
 use common\libraries\ToolbarItem;
 use common\libraries\Display;
 use common\libraries\Theme;

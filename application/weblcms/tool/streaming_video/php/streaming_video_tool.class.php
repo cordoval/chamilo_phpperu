@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\streaming_video;
 
+use application\weblcms\ContentObjectPublicationListRenderer;
+use application\weblcms\Tool;
+
 /**
  * $Id: announcement_tool.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.announcement.component

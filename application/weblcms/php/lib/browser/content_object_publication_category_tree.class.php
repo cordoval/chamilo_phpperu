@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\SubselectCondition;
+use repository\RepositoryDataManager;
 use user\User;
 use HTML_Menu;
 use common\libraries\OrCondition;
@@ -10,6 +12,8 @@ use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Translation;
+use repository\ContentObject;
+use common\libraries\OptionsMenuRenderer;
 
 /**
  * $Id: content_object_publication_category_tree.class.php 216 2009-11-13 14:08:06Z kariboe $

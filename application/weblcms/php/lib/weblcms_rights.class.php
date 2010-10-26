@@ -7,6 +7,7 @@ use common\libraries\Session;
 use common\libraries\Path;
 use rights\RightsUtilities;
 use common\libraries\Translation;
+use ReflectionClass;
 
 /**
  * $Id: weblcms_rights.class.php 218 2009-11-13 14:21:26Z kariboe $

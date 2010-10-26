@@ -1,8 +1,10 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\StaticTableColumn;
 use common\libraries\Utilities;
 use common\libraries\Path;
+use common\libraries\ObjectTableColumn;
 use common\libraries\ObjectTableColumnModel;
 use common\libraries\Translation;
 

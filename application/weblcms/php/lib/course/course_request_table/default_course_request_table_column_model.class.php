@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\ObjectTableColumn;
 use common\libraries\Request;
 use common\libraries\ObjectTableColumnModel;
 

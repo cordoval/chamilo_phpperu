@@ -54,7 +54,7 @@ abstract class ToolListRenderer
         }
 
         require_once $file;
-        $class = Utilities :: underscores_to_camelcase($type);
+        $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type);
         return new $class($parent, $visible_tools);
     }
 

@@ -1,6 +1,12 @@
 <?php
 namespace application\weblcms;
 
+use repository\ContentObject;
+use common\libraries\ObjectTableFormAction;
+use common\libraries\ObjectTableFormActions;
+use common\libraries\ActionBarRenderer;
+use common\libraries\SubselectCondition;
+use repository\RepositoryDataManager;
 use common\libraries\ToolbarItem;
 use user\User;
 use common\libraries\Theme;

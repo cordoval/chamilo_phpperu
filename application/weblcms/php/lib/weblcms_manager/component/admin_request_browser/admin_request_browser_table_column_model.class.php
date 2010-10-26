@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\StaticTableColumn;
+use common\libraries\ObjectTableColumn;
 use common\libraries\Request;
 
 /**

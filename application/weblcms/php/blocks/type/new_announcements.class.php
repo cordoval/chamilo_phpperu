@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms;
 
+use repository\ContentObject;
+use common\libraries\SubselectCondition;
+use repository\RepositoryDataManager;
 use common\libraries\WebApplication;
 use common\libraries\ObjectTableOrder;
 use common\libraries\AndCondition;

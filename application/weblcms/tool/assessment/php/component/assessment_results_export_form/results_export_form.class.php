@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use repository\RepositoryDataManager;
 use user\UserDataManager;
 use common\libraries\FormValidator;
 use common\libraries\Theme;

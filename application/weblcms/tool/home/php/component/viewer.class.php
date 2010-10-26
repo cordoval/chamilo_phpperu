@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\home;
 
+use application\weblcms\Tool;
+use application\weblcms\CourseLayout;
+use application\weblcms\ToolListRenderer;
 use common\libraries\BreadcrumbTrail;
 
 class HomeToolViewerComponent extends HomeTool

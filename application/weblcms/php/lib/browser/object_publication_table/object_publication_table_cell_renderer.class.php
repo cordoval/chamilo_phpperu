@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms;
 
+use group\GroupDataManager;
+use common\libraries\DatetimeUtilities;
+use repository\ContentObject;
 use user\UserDataManager;
 use common\libraries\Theme;
 use common\libraries\Path;

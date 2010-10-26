@@ -2,6 +2,7 @@
 namespace application\weblcms;
 
 use common\libraries\EqualityCondition;
+use common\extensions\rights_editor_manager\RightsEditorManager;
 
 class CoursesRightsEditorManager extends RightsEditorManager
 {

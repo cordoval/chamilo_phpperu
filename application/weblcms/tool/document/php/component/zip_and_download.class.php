@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\document;
 
+use repository\ContentObject;
+use repository\RepositoryDataManager;
 use common\libraries\Filesystem;
 use user\User;
 use common\libraries\Display;
@@ -11,6 +13,7 @@ use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
+use common\libraries\SubselectCondition;
 
 /**
  * $Id: document_zip_and_download.class.php 216 2009-11-13 14:08:06Z kariboe $

@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use common\libraries\ActionBarRenderer;
 use common\libraries\ToolbarItem;
 use common\libraries\FormValidator;
 use common\libraries\Display;

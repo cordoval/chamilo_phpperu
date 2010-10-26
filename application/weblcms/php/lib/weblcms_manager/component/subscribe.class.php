@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use reporting\ReportingManager;
+use common\libraries\ActionBarRenderer;
 use common\libraries\ToolbarItem;
 use common\libraries\Application;
 use common\libraries\Theme;

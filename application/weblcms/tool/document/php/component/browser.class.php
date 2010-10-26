@@ -1,6 +1,10 @@
 <?php
 namespace application\weblcms\tool\document;
 
+use repository\ContentObject;
+use application\weblcms\ContentObjectPublicationListRenderer;
+use common\libraries\SubselectCondition;
+use repository\RepositoryDataManager;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;
 use common\libraries\OrCondition;

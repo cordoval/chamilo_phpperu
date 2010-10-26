@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use repository\ContentObject;
+use repository\RepositoryDataManager;
 use common\libraries\Theme;
 use common\libraries\InCondition;
 use common\libraries\Path;

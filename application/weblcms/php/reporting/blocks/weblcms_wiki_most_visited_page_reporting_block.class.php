@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use repository\RepositoryDataManager;
 use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Path;

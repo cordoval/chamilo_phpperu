@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\search;
 
+use repository\ContentObject;
+use common\libraries\ActionBarRenderer;
 use user\User;
 use common\libraries\Theme;
 use common\libraries\OrCondition;

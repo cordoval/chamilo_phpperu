@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use common\libraries\NotCondition;
 use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use common\libraries\Display;

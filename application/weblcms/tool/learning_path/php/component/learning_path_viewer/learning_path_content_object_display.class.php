@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use repository\ContentObjectDisplay;
+use repository\ContentObject;
 use common\libraries\ResourceManager;
 use common\libraries\Path;
 

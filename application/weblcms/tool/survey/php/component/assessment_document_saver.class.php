@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use repository\RepositoryDataManager;
 use common\libraries\Filesystem;
 use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;

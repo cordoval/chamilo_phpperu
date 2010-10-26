@@ -1,6 +1,11 @@
 <?php
 namespace application\weblcms;
 
+use group\GroupDataManager;
+use common\libraries\DatetimeUtilities;
+use repository\ContentObjectDisplay;
+use repository\ContentObject;
+use Exception;
 use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use common\libraries\WebApplication;
@@ -623,7 +628,7 @@ abstract class ContentObjectPublicationListRenderer
 
         require_once $file;
 
-        $class = Utilities :: underscores_to_camelcase($type) . 'ContentObjectPublicationListRenderer';
+        $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type) . 'ContentObjectPublicationListRenderer';
         return new $class($tool_browser);
     }
 

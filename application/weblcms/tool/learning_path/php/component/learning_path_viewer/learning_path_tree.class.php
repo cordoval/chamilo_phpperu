@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use repository\RepositoryDataManager;
 use HTML_Menu;
 use common\libraries\Theme;
 use common\libraries\Breadcrumb;

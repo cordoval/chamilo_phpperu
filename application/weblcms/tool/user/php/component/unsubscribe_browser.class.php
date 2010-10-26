@@ -1,6 +1,11 @@
 <?php
 namespace application\weblcms\tool\user;
 
+use group\GroupDataManager;
+use repository\ContentObject;
+use common\libraries\ActionBarRenderer;
+use common\libraries\SubselectCondition;
+use repository\RepositoryDataManager;
 use common\libraries\ToolbarItem;
 use user\User;
 use common\libraries\Display;

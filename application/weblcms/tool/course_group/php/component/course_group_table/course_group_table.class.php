@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\course_group;
 
+use common\libraries\ObjectTableFormAction;
+use common\libraries\ObjectTableFormActions;
 use common\libraries\Utilities;
 use common\libraries\Request;
 use common\libraries\Translation;

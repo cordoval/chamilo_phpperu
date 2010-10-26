@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use repository\ContentObjectDisplay;
+use repository\RepositoryDataManager;
 use common\libraries\Display;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;

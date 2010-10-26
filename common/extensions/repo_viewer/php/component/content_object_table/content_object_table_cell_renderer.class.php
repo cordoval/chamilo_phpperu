@@ -1,6 +1,8 @@
 <?php
 namespace common\extensions\repo_viewer;
 
+use common\libraries\Toolbar;
+
 use repository\DefaultContentObjectTableCellRenderer;
 /**
  * $Id: content_object_table_cell_renderer.class.php 191 2009-11-13 11:50:28Z chellee $

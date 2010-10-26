@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\ActionBarRenderer;
 use common\libraries\ToolbarItem;
 use admin\AdminManager;
 use common\libraries\Redirect;

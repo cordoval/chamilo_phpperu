@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use application\weblcms\ContentObjectPublicationListRenderer;
+use application\weblcms\Tool;
+use repository\RepositoryDataManager;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;
 use common\libraries\EqualityCondition;

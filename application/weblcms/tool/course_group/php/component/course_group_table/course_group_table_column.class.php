@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\course_group;
 
+use common\libraries\ObjectTableColumn;
 use common\libraries\Translation;
 
 /**

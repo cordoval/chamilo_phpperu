@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use group\GroupDataManager;
 use common\libraries\EqualityCondition;
 use common\libraries\Path;
 

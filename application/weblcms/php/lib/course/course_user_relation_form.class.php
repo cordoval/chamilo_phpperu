@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\SubselectCondition;
 use common\libraries\FormValidator;
 use common\libraries\ObjectTableOrder;
 use common\libraries\AndCondition;

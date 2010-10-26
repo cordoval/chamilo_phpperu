@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use repository\RepositoryDataManager;
 use user\UserDataManager;
 use common\libraries\Session;
 use common\libraries\EqualityCondition;

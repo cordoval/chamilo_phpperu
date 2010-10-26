@@ -1,6 +1,7 @@
 q<?php
 namespace application\weblcms\tool\streaming_video;
 
+use repository\ContentObject;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;
 use common\libraries\InequalityCondition;

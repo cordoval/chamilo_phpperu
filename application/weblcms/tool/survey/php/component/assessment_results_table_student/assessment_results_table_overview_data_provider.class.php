@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use repository\ContentObject;
+use common\libraries\SubselectCondition;
+use repository\RepositoryDataManager;
 use common\libraries\OrCondition;
 use common\libraries\InCondition;
 use common\libraries\Utilities;

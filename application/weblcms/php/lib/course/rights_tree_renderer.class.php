@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use group\GroupDataManager;
 use HTML_Menu;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;

@@ -1,6 +1,10 @@
 <?php
 namespace application\weblcms;
 
+use reporting\ReportingManager;
+use common\libraries\DatetimeUtilities;
+use repository\ContentObject;
+use repository\RepositoryDataManager;
 use user\UserDataManager;
 use common\libraries\Redirect;
 use common\libraries\Theme;

@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use reporting\ReportingManager;
+use common\libraries\NotCondition;
 use common\libraries\Redirect;
 use common\libraries\Application;
 use common\libraries\Theme;

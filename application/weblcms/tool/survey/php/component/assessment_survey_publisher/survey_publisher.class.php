@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use repository\RepositoryDataManager;
 use user\UserDataManager;
 use common\libraries\Display;
 use common\libraries\Breadcrumb;

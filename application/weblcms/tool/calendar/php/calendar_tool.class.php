@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\calendar;
 
+use application\weblcms\ContentObjectPublicationListRenderer;
+use application\weblcms\Tool;
+
 class CalendarTool extends Tool
 {
 

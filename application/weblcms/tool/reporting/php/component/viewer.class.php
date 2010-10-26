@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\reporting;
 
+use reporting\ReportingManager;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Request;

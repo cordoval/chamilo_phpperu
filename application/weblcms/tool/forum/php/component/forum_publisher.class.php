@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\forum;
 
+use common\extensions\repo_viewer\RepoViewerInterface;
+use common\extensions\repo_viewer\RepoViewer;
 use common\libraries\Display;
 use common\libraries\BreadcrumbTrail;
 

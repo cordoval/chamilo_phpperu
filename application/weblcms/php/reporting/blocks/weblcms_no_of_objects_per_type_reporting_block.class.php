@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use repository\RepositoryDataManager;
 use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Translation;

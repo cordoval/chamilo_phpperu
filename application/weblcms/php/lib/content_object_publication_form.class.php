@@ -1,6 +1,10 @@
 <?php
 namespace application\weblcms;
 
+use group\GroupDataManager;
+use repository\ContentObjectDisplay;
+use common\extensions\repo_viewer\RepoViewer;
+use repository\RepositoryDataManager;
 use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use admin\AdminDataManager;

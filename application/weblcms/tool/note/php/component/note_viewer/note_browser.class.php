@@ -1,6 +1,10 @@
 <?php
 namespace application\weblcms\tool\note;
 
+use repository\ContentObject;
+use application\weblcms\ContentObjectPublicationListRenderer;
+use common\libraries\SubselectCondition;
+use repository\RepositoryDataManager;
 use user\User;
 use common\libraries\OrCondition;
 use common\libraries\InCondition;
@@ -10,6 +14,7 @@ use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\Translation;
+use common\libraries\ObjectTableFormAction;
 
 /**
  * $Id: note_browser.class.php 216 2009-11-13 14:08:06Z kariboe $

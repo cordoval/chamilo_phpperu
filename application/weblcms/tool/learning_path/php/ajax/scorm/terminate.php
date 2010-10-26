@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use repository\RepositoryDataManager;
 use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Path;

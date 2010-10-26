@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use Exception;
 use common\libraries\Utilities;
 use common\libraries\SubManager;
 use common\libraries\Translation;

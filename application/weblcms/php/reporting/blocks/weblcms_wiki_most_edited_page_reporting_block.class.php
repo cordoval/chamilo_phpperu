@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use repository\RepositoryDataManager;
 use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Translation;

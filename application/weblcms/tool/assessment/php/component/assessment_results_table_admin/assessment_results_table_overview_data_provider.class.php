@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use repository\ContentObject;
+use common\libraries\SubselectCondition;
+use repository\RepositoryDataManager;
 use user\User;
 use common\libraries\OrCondition;
 use common\libraries\InCondition;

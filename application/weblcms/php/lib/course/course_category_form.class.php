@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\NotCondition;
 use common\libraries\FormValidator;
 use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;

@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\WeekCalendar;
 use common\libraries\Request;
 
 /**

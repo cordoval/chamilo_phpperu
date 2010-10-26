@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\extensions\repo_viewer\RepoViewer;
 use common\libraries\Request;
 
 /**

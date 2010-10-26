@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\forum;
 
+use application\weblcms\Tool;
+use repository\RepositoryDataManager;
 use common\libraries\EqualityCondition;
 
 /**

@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\document;
 
+use common\extensions\repo_viewer\RepoViewer;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use application\weblcms\ToolComponent;

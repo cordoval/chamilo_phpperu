@@ -1,12 +1,16 @@
 <?php
 namespace application\weblcms\tool\announcement;
 
+use repository\content_object\calendar_event\CalendarEvent;
+use repository\ContentObject;
+use application\weblcms\ContentObjectPublicationListRenderer;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;
 use common\libraries\InequalityCondition;
 use common\libraries\Request;
 use application\weblcms\ToolComponent;
 use common\libraries\Translation;
+use application\weblcms\Tool;
 
 class AnnouncementToolBrowserComponent extends AnnouncementTool
 {
