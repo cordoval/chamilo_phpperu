@@ -4,6 +4,7 @@ namespace application\personal_messenger;
 
 use common\libraries\Request;
 use common\extensions\repo_viewer\RepoViewer;
+use common\extensions\repo_viewer\RepoViewerInterface;
 use repository\RepositoryDataManager;
 use repository\content_object\personal_message\PersonalMessage;
 use common\libraries\Breadcrumb;
