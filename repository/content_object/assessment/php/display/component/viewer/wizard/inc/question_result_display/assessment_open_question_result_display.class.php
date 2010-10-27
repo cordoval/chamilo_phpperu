@@ -1,6 +1,7 @@
 <?php
 namespace repository\content_object\assessment;
 
+use repository\RepositoryDataManager;
 use common\libraries\Translation;
 
 /**

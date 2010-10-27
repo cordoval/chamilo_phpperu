@@ -1,6 +1,7 @@
 <?php
 namespace repository\content_object\glossary;
 
+use repository\RepositoryDataManager;
 use common\libraries\Translation;
 use common\libraries\ToolbarItem;
 use common\libraries\Toolbar;

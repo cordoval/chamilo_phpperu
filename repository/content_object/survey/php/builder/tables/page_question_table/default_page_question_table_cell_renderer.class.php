@@ -1,6 +1,7 @@
 <?php namespace repository\content_object\survey;
 namespace repository\content_object\survey;
 
+use repository\RepositoryDataManager;
 use common\libraries\Translation;
 use common\libraries\ObjectTableCellRenderer;
 

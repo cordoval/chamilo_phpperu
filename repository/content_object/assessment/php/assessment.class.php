@@ -6,6 +6,7 @@ use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\ComplexContentObjectSupport;
 
+use repository\RepositoryDataManager;
 use repository\ContentObject;
 use repository\content_object\assessment_rating_question\AssessmentRatingQuestion;
 use repository\content_object\assessment_open_question\AssessmentOpenQuestion;

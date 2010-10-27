@@ -1,8 +1,10 @@
-<?php namespace repository\content_object\survey;
+<?php
+namespace repository\content_object\survey;
+
+use repository\RepositoryDataManager;
 
 require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/component/context_template_rel_page_table/table.class.php';
 require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/component/page_table/table.class.php';
-
 require_once Path :: get_repository_path() . 'lib/content_object/survey/manage/context/component/context_template_menu.class.php';
 require_once Path :: get_repository_path() . 'lib/content_object/survey/survey_context_template_rel_page.class.php';
 
@@ -117,17 +119,17 @@ class SurveyContextManagerContextBrowserComponent extends SurveyContextManager
             $page_ids[] = $page->get_id();
         }
 
-
         $conditions = array();
-//        $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_TEMPLATE_ID, $this->context_template_id);
+        //        $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_TEMPLATE_ID, $this->context_template_id);
         $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_SURVEY_ID, $this->survey_id);
-        $context_rel_pages = SurveyContextDataManager::get_instance()->retrieve_template_rel_pages(new AndCondition($conditions));
+        $context_rel_pages = SurveyContextDataManager :: get_instance()->retrieve_template_rel_pages(new AndCondition($conditions));
         $context_template_rel_page_ids = array();
-        while($context_rel_page = $context_rel_pages->next_result()){
-        	$context_template_rel_page_ids = $context_rel_page->get_page_id();
+        while ($context_rel_page = $context_rel_pages->next_result())
+        {
+            $context_template_rel_page_ids = $context_rel_page->get_page_id();
         }
 
-        $diff = array_diff($page_ids, $context_template_rel_page_ids );
+        $diff = array_diff($page_ids, $context_template_rel_page_ids);
 
         $condition = new InCondition(SurveyPage :: PROPERTY_ID, $diff);
         //
@@ -153,7 +155,7 @@ class SurveyContextManagerContextBrowserComponent extends SurveyContextManager
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-        $action_bar->set_search_url($this->get_url(array(self :: PARAM_CONTEXT_TEMPLATE_ID => $this->contex_template_id, DynamicTabsRenderer::PARAM_SELECTED_TAB => Request :: get(DynamicTabsRenderer::PARAM_SELECTED_TAB))));
+        $action_bar->set_search_url($this->get_url(array(self :: PARAM_CONTEXT_TEMPLATE_ID => $this->contex_template_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => Request :: get(DynamicTabsRenderer :: PARAM_SELECTED_TAB))));
 
         return $action_bar;
     }

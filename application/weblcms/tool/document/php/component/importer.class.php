@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\document;
 
+use repository\RepositoryManager;
 use application\weblcms\Tool;
 use common\libraries\Application;
 use common\libraries\Breadcrumb;

@@ -1,6 +1,7 @@
-<?php namespace repository\content_object\survey;
+<?php
 namespace repository\content_object\survey;
 
+use repository\RepositoryDataManager;
 use common\libraries\Path;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;

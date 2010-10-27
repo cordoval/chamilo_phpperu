@@ -1,5 +1,7 @@
 <?php
 namespace repository\content_object\document;
+
+use repository\RepositoryDataManager;
 use repository\ContentObject;
 use common\libraries\Versionable;
 use common\libraries\Utilities;

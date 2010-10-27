@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\document;
 
+use repository\content_object\calendar_event\CalendarEvent;
+use repository\content_object\document\Document;
 use application\weblcms\ContentObjectPublication;
 use application\weblcms\WeblcmsManager;
 use application\weblcms\Tool;

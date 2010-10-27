@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\document;
 
+use repository\RepositoryManager;
 use application\weblcms\ObjectPublicationTableCellRenderer;
 use application\weblcms\Tool;
 use repository\ContentObject;

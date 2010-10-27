@@ -8,7 +8,9 @@ use common\libraries\EqualityCondition;
 use common\libraries\PlatformSetting;
 use common\libraries\StringUtilities;
 use common\libraries\Filecompression;
+use common\libraries\Text;
 
+use repository\RepositoryDataManager;
 use repository\ContentObjectForm;
 use repository\RepositoryCategory;
 use repository\QuotaManager;

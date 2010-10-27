@@ -102,16 +102,19 @@ class RepositoryManagerCreatorComponent extends RepositoryManager
                     if (is_array($object))
                     {
                         $parent = $object[0]->get_parent_id();
+                        $type_name = $object[0]->get_type_name();
                     }
                     else
                     {
                         $parent = $object->get_parent_id();
+                        $type_name = $object->get_type_name();
                     }
 
                     $parameters = array();
                     $parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS;
                     $parameters[RepositoryManager :: PARAM_CATEGORY_ID] = $parent;
-                    $message = Utilities :: underscores_to_camelcase($object->get_type()) . 'TypeNameCreated';
+
+                    $message = Utilities :: underscores_to_camelcase($type_name) . 'TypeNameCreated';
                     $this->redirect(Translation :: get($message), false, $parameters);
                 }
             }
