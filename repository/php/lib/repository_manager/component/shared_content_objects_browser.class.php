@@ -18,7 +18,9 @@ use common\libraries\BasicApplication;
 use common\libraries\InCondition;
 use common\libraries\AndCondition;
 use common\libraries\OrCondition;
+use common\libraries\NotCondition;
 use common\libraries\PatternMatchCondition;
+use common\libraries\ConditionProperty;
 
 /**
  * $Id: shared_content_objects_browser.class.php 204 2009-11-13 12:51:30Z kariboe $
