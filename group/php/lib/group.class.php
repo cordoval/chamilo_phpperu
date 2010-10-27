@@ -6,6 +6,7 @@ use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\DataClass;
 use common\libraries\InCondition;
+use common\libraries\ObjectTableOrder;
 
 require_once dirname(__FILE__) . "/group_rights.class.php";
 /**

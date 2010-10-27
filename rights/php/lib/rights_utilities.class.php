@@ -16,6 +16,11 @@ use user\User;
 use rights\RightsUtilities;
 use XML_Unserializer;
 use PEAR;
+use group\GroupDataManager;
+use group\GroupRelUser;
+use group\Group;
+use group\GroupRightsTemplate;
+use common\libraries\ObjectResultSet;
 /**
  * $Id: rights_utilities.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib
@@ -42,7 +47,7 @@ class RightsUtilities
     protected static $is_allowed_cache;
     private static $constants;
 
-    protected static $user_cache;
+//    protected static $user_cache;
 
     static function create_location($name, $application, $type = self :: TYPE_ROOT, $identifier = 0, $inherit = 0, $parent = 0, $locked = 0, $tree_identifier = 0, $tree_type = self :: TREE_TYPE_ROOT, $return_location = false)
     {
@@ -173,14 +178,30 @@ class RightsUtilities
         }
     }
 
-    //eduard changed second param $location  for $identifier
+    /**
+     * Added some caching to the is_allowed methods
+     * Optimized for checking multiple locations
+     * @author Pieterjan Broekaert
+     * @todo some cleanup + move query to datamanager
+     */
+
+    static $user_cache;
+    static $group_cache;
+    static $template_cache;
+    static $location_cache;
+    static $location_parents_cache;
+    static $right_granted_by_parent_cache;
+    static $tree_identifier_cache;
+    static $tree_type_cache;
+    static $direct_parent_location_id_cache;
+
     static function is_allowed($right, $identifier = 0, $type = self :: TYPE_ROOT, $application = 'admin', $user_id = null, $tree_identifier = 0, $tree_type = self :: TREE_TYPE_ROOT)
     {
         // Determine the user_id of the user we're checking a right for
         $udm = UserDataManager :: get_instance();
         $user_id = $user_id ? $user_id : Session :: get_user_id();
 
-        if (! self :: $user_cache[$user_id])
+        if (!self :: $user_cache[$user_id])
         {
             $user = $udm->retrieve_user($user_id);
             self :: $user_cache[$user_id] = $user;
@@ -190,119 +211,219 @@ class RightsUtilities
             $user = self :: $user_cache[$user_id];
         }
 
-        if (! $user)
+        if (!$user)
         {
             return false;
         }
 
-        $cache_id = md5(serialize(array($right, $identifier, $type, $application, $user_id, $tree_identifier, $tree_type)));
-
-        if (! isset(self :: $is_allowed_cache[$cache_id]))
-        {
-            self :: $is_allowed_cache[$cache_id] = self :: get_right($right, $identifier, $type, $application, $user, $tree_identifier, $tree_type);
-        }
-
-        return self :: $is_allowed_cache[$cache_id];
+        return self :: get_right($right, $identifier, $type, $application, $user, $tree_identifier, $tree_type);
     }
 
-    /**
-     * @param int $right
-     * @param int $location
-     eduard: changed second param $location for $identifier
-     * @param string $type
-     * @param string $application
-     * @param User $user
-     * @param int $tree_identifier
-     * @param string $tree_type
-     * @return boolean
-     */
     static function get_right($right, $identifier, $type, $application, $user, $tree_identifier, $tree_type)
     {
+        //if another location tree is checked, the location and right caching must be flushed
+        if (is_null(self :: $tree_identifier_cache) || is_null(self :: $tree_type_cache))
+        {
+            self :: $tree_identifier_cache = $tree_identifier;
+            self :: $tree_type_cache = $tree_type;
+        }
+        else
+        {
+            if (self :: $tree_identifier_cache != $tree_identifier || self :: $tree_type_cache != $tree_type)
+            {
+                self :: $location_parents_cache = array();
+                self :: $right_granted_by_parent_cache = array();
+                self :: $location_cache = array();
+                self :: $tree_identifier_cache = $tree_identifier;
+                self :: $tree_type_cache = $tree_type;
+            }
+        }
+
 
         if ($user instanceof User && $user->is_platform_admin())
         {
             return true;
         }
 
-        $location = self :: get_location_by_identifier($application, $type, $identifier, $tree_identifier, $tree_type);
-        if (! $location)
+        if (!self :: $location_cache[$identifier])
         {
-            return false;
-        }
-
-        $locked_parent = $location->get_locked_parent();
-        if (isset($locked_parent))
-        {
-            $location = $locked_parent;
-        }
-
-        if (isset($user))
-        {
-            // Check right for the user's groups
-            $user_groups = $user->get_groups();
-
-            if (! is_null($user_groups))
+            $location = RightsUtilities :: get_location_by_identifier($application, $type, $identifier, $tree_identifier, $tree_type);
+            if(!$location)
             {
-                while ($group = $user_groups->next_result())
+                throw new \ErrorException("RightsError: The requested location doesnt exist: " . $application .';type=' . $type .';location_id='. $identifier . ';tree_id='. $tree_identifier .';tree_type='. $tree_type);
+            }
+            $locked_parent = $location->get_locked_parent();
+
+            if (isset($locked_parent))
+            {
+                $location = $locked_parent;
+            }
+            self :: $location_cache[$identifier] = $location;
+
+            if (self :: $direct_parent_location_id_cache != $location->get_parent()) //not a sibling with previous checked location? => flush cache optimalisations for siblings
+            {
+                self :: $right_granted_by_parent_cache = array();
+            }
+
+            self :: $direct_parent_location_id_cache = $location->get_parent();
+        }
+        else
+        {
+            $location = self :: $location_cache[$identifier];
+        }
+
+        if (self :: $right_granted_by_parent_cache[$right] == 1 && $location->inherits())
+        {
+            return true;
+        }
+        //has the user been given a direct right for this location?
+        if (self :: is_allowed_for_user($user->get_id(), $right, $location))
+        {
+            return true;
+        }
+
+        if (!self :: $group_cache[$user->get_id()]) //todo: if a user is not subscribed in any group, this check should also return true (avoid query with empty results)
+        {
+           $gdm = GroupDataManager::get_instance();
+           ;
+            $query = 'select a.group_id,c.id as parent_id, d.rights_template_id
+from `'. $gdm->get_prefix() .  (GroupRelUser :: get_table_name()) . '` as a
+join `'. $gdm->get_prefix() .  (Group :: get_table_name()) . '` as b on a.group_id = b.id
+join `'. $gdm->get_prefix() .  (Group :: get_table_name()) . '` as c on c.left_value < b.left_value and c.right_value > b.right_value
+left join `'. $gdm->get_prefix() .  (GroupRightsTemplate :: get_table_name()) . '` as d on d.group_id = a.group_id or c.id = d.group_id
+where a.user_id = ' . $user->get_id();
+
+            $groups_and_templates = new ObjectResultSet($user->get_data_manager(), $user->get_data_manager()->query($query), $class_name = GroupRightsTemplate :: CLASS_NAME);
+
+            while ($record = $groups_and_templates->next_result())
+            {
+                if ($groups[$record->get_group_id()] != 1) //already processed?
                 {
-                    $group_templates = $group->get_rights_templates();
-
-                    while ($group_template = $group_templates->next_result())
+                    $groups[$record->get_group_id()] = 1;
+                    if (self :: is_allowed_for_group($record->get_group_id(), $right, $location))
                     {
-                        if (self :: is_allowed_for_rights_template($group_template->get_rights_template_id(), $right, $location))
-                                                {
-                            return true;
-                        }
+                        return true;
                     }
-
-                    if (self :: is_allowed_for_group($group->get_id(), $right, $location))
+                }
+                if ($groups[$record->get_optional_property('parent_id')] != 1) //already processed?
+                {
+                    $groups[$record->get_optional_property('parent_id')] = 1;
+                    if (self :: is_allowed_for_group($record->get_optional_property('parent_id'), $right, $location))
+                    {
+                        return true;
+                    }
+                }
+                if (!is_null($record->get_rights_template_id()) && $templates[$record->get_rights_template_id()] != 1)
+                {
+                    $templates[$record->get_rights_template_id()] = 1;
+                    if (self :: is_allowed_for_rights_template($record->get_rights_template_id(), $right, $location))
                     {
                         return true;
                     }
                 }
             }
 
-            // Check right for the individual user's configured templates
             $user_templates = $user->get_rights_templates();
-
-            while ($user_template = $user_templates->next_result())
+            while ($template = $user_templates->next_result())
             {
-                if (self :: is_allowed_for_rights_template($user_template->get_rights_template_id(), $right, $location))
+                if ($templates[$template->get_rights_template_id()] != 1)
                 {
-                    return true;
+                    $templates[$template->get_rights_template_id()] = 1;
+                    if (self :: is_allowed_for_rights_template($template->get_rights_template_id(), $right, $location))
+                    {
+                        return true;
+                    }
                 }
             }
 
-            if (self :: is_allowed_for_user($user->get_id(), $right, $location))
-            {
-                return true;
-            }
+            self :: $group_cache[$user->get_id()] = $groups;
+            self :: $template_cache[$user->get_id()] = $templates;
         }
         else
         {
-            // TODO: Use anonymous user for this, he may or may not have some rights too
-            return false;
-        }
+            $groups = self :: $group_cache[$user->get_id()];
+            $templates = self :: $template_cache[$user->get_id()];
 
-        return false;
+            foreach ($templates as $template => $value)
+            {
+                if (self :: $right_granted_by_parent_cache[$right] == -1) //the right wasnt granted in a previous run, this means that the parent locations will never grant the right
+                {
+                    if (RightsUtilities :: get_rights_template_right_location($right, $template, $location->get_id()))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (self :: is_allowed_for_rights_template($template, $right, $location))
+                    {
+                        return true;
+                    }
+                }
+            }
+            foreach ($groups as $group => $value)
+            {
+                if (self :: $right_granted_by_parent_cache[$right] == -1) //the right wasnt granted in a previous run, this means that only the base location should be checked
+                {
+                    if (RightsUtilities :: get_rights_template_right_location($right, $group, $location->get_id()))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (self :: is_allowed_for_group($group, $right, $location))
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+        //if after the algorithm, the right_cache isnt set, this is saved for future requests on other sibling locations
+        if (is_null(self :: $right_granted_by_parent_cache[$right]))
+        {
+            self :: $right_granted_by_parent_cache[$right] = -1;
+        }
     }
 
     static function is_allowed_for_rights_template($rights_template, $right, $location)
     {
         $rdm = RightsDataManager :: get_instance();
 
-        $parents = $location->get_parents();
+        if (!self :: $location_parents_cache[$location])
+        {
+            $parents = $location->get_parents();
+            self :: $location_parents_cache[$location] = $parents;
+        }
+        else
+        {
+            $parents = self :: $location_parents_cache[$location];
+        }
 
         while ($parent = $parents->next_result())
         {
-            $has_right = self :: get_rights_template_right_location($right, $rights_template, $parent->get_id());
+            $has_right = RightsUtilities :: get_rights_template_right_location($right, $rights_template, $parent->get_id());
 
             if ($has_right)
             {
+
+                if ($parent->get_id() != $location->get_id()) //right is granted by parent locations
+                {
+                    self :: $right_granted_by_parent_cache[$right] = 1;
+                }
+
                 return true;
             }
 
-            if (! $parent->inherits())
+            if (!$parent->inherits())
             {
                 return false;
             }
@@ -311,20 +432,35 @@ class RightsUtilities
         return false;
     }
 
-    static function is_allowed_for_user($user, $right, $location)
+    static function is_allowed_for_user($user_id, $right, $location)
     {
-        $parents = $location->get_parents();
+        if (!self :: $location_parents_cache[$location])
+        {
+            $parents = $location->get_parents();
+            self :: $location_parents_cache[$location] = $parents;
+        }
+        else
+        {
+            $parents = self :: $location_parents_cache[$location];
+        }
 
         while ($parent = $parents->next_result())
         {
-            $has_right = self :: get_user_right_location($right, $user, $parent->get_id());
+
+            $has_right = RightsUtilities :: get_user_right_location($right, $user_id, $parent->get_id());
 
             if ($has_right)
             {
+
+                if ($parent->get_id() != $location->get_id()) //right is granted by parent locations
+                {
+                    self :: $right_granted_by_parent_cache[$right] = 1;
+                }
+
                 return true;
             }
 
-            if (! $parent->inherits())
+            if (!$parent->inherits())
             {
                 return false;
             }
@@ -333,20 +469,33 @@ class RightsUtilities
         return false;
     }
 
-    static function is_allowed_for_group($group, $right, $location)
+    static function is_allowed_for_group($group_id, $right, $location)
     {
-        $parents = $location->get_parents();
+        if (!self :: $location_parents_cache[$location])
+        {
+            $parents = $location->get_parents();
+            self :: $location_parents_cache[$location] = $parents;
+        }
+        else
+        {
+            $parents = self :: $location_parents_cache[$location];
+        }
 
         while ($parent = $parents->next_result())
         {
-            $has_right = self :: get_group_right_location($right, $group, $parent->get_id());
+            $has_right = RightsUtilities :: get_group_right_location($right, $group_id, $parent->get_id());
 
             if ($has_right)
             {
+
+                if ($parent->get_id() != $location->get_id()) //right is granted by parent locations
+                {
+                    self :: $right_granted_by_parent_cache[$right] = 1;
+                }
                 return true;
             }
 
-            if (! $parent->inherits())
+            if (!$parent->inherits())
             {
                 return false;
             }
@@ -355,6 +504,189 @@ class RightsUtilities
         return false;
     }
 
+
+//    //eduard changed second param $location  for $identifier
+//    static function is_allowed($right, $identifier = 0, $type = self :: TYPE_ROOT, $application = 'admin', $user_id = null, $tree_identifier = 0, $tree_type = self :: TREE_TYPE_ROOT)
+//    {
+//        // Determine the user_id of the user we're checking a right for
+//        $udm = UserDataManager :: get_instance();
+//        $user_id = $user_id ? $user_id : Session :: get_user_id();
+//
+//        if (! self :: $user_cache[$user_id])
+//        {
+//            $user = $udm->retrieve_user($user_id);
+//            self :: $user_cache[$user_id] = $user;
+//        }
+//        else
+//        {
+//            $user = self :: $user_cache[$user_id];
+//        }
+//
+//        if (! $user)
+//        {
+//            return false;
+//        }
+//
+//        $cache_id = md5(serialize(array($right, $identifier, $type, $application, $user_id, $tree_identifier, $tree_type)));
+//
+//        if (! isset(self :: $is_allowed_cache[$cache_id]))
+//        {
+//            self :: $is_allowed_cache[$cache_id] = self :: get_right($right, $identifier, $type, $application, $user, $tree_identifier, $tree_type);
+//        }
+//
+//        return self :: $is_allowed_cache[$cache_id];
+//    }
+//
+//    /**
+//     * @param int $right
+//     * @param int $location
+//     eduard: changed second param $location for $identifier
+//     * @param string $type
+//     * @param string $application
+//     * @param User $user
+//     * @param int $tree_identifier
+//     * @param string $tree_type
+//     * @return boolean
+//     */
+//    static function get_right($right, $identifier, $type, $application, $user, $tree_identifier, $tree_type)
+//    {
+//
+//        if ($user instanceof User && $user->is_platform_admin())
+//        {
+//            return true;
+//        }
+//
+//        $location = self :: get_location_by_identifier($application, $type, $identifier, $tree_identifier, $tree_type);
+//        if (! $location)
+//        {
+//            return false;
+//        }
+//
+//        $locked_parent = $location->get_locked_parent();
+//        if (isset($locked_parent))
+//        {
+//            $location = $locked_parent;
+//        }
+//
+//        if (isset($user))
+//        {
+//            // Check right for the user's groups
+//            $user_groups = $user->get_groups();
+//
+//            if (! is_null($user_groups))
+//            {
+//                while ($group = $user_groups->next_result())
+//                {
+//                    $group_templates = $group->get_rights_templates();
+//
+//                    while ($group_template = $group_templates->next_result())
+//                    {
+//                        if (self :: is_allowed_for_rights_template($group_template->get_rights_template_id(), $right, $location))
+//                                                {
+//                            return true;
+//                        }
+//                    }
+//
+//                    if (self :: is_allowed_for_group($group->get_id(), $right, $location))
+//                    {
+//                        return true;
+//                    }
+//                }
+//            }
+//
+//            // Check right for the individual user's configured templates
+//            $user_templates = $user->get_rights_templates();
+//
+//            while ($user_template = $user_templates->next_result())
+//            {
+//                if (self :: is_allowed_for_rights_template($user_template->get_rights_template_id(), $right, $location))
+//                {
+//                    return true;
+//                }
+//            }
+//
+//            if (self :: is_allowed_for_user($user->get_id(), $right, $location))
+//            {
+//                return true;
+//            }
+//        }
+//        else
+//        {
+//            // TODO: Use anonymous user for this, he may or may not have some rights too
+//            return false;
+//        }
+//
+//        return false;
+//    }
+//
+//    static function is_allowed_for_rights_template($rights_template, $right, $location)
+//    {
+//        $rdm = RightsDataManager :: get_instance();
+//
+//        $parents = $location->get_parents();
+//
+//        while ($parent = $parents->next_result())
+//        {
+//            $has_right = self :: get_rights_template_right_location($right, $rights_template, $parent->get_id());
+//
+//            if ($has_right)
+//            {
+//                return true;
+//            }
+//
+//            if (! $parent->inherits())
+//            {
+//                return false;
+//            }
+//        }
+//
+//        return false;
+//    }
+//
+//    static function is_allowed_for_user($user, $right, $location)
+//    {
+//        $parents = $location->get_parents();
+//
+//        while ($parent = $parents->next_result())
+//        {
+//            $has_right = self :: get_user_right_location($right, $user, $parent->get_id());
+//
+//            if ($has_right)
+//            {
+//                return true;
+//            }
+//
+//            if (! $parent->inherits())
+//            {
+//                return false;
+//            }
+//        }
+//
+//        return false;
+//    }
+//
+//    static function is_allowed_for_group($group, $right, $location)
+//    {
+//        $parents = $location->get_parents();
+//
+//        while ($parent = $parents->next_result())
+//        {
+//            $has_right = self :: get_group_right_location($right, $group, $parent->get_id());
+//
+//            if ($has_right)
+//            {
+//                return true;
+//            }
+//
+//            if (! $parent->inherits())
+//            {
+//                return false;
+//            }
+//        }
+//
+//        return false;
+//    }
+//
     static function move_multiple($locations, $new_parent_id, $new_previous_id = 0)
     {
         $rdm = RightsDataManager :: get_instance();

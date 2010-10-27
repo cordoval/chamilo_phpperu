@@ -273,7 +273,8 @@ class RepositoryManagerCreatorComponent extends RepositoryManager
         foreach ($types as $index => $type)
         {
             $registration = AdminDataManager :: get_registration($type, Registration :: TYPE_CONTENT_OBJECT);
-            if (!$registration || !$registration->is_active() || ! RepositoryRights :: is_allowed_in_content_objects_subtree(RepositoryRights :: ADD_RIGHT, $registration->get_id()))
+            //if (!$registration || !$registration->is_active() || ! RepositoryRights :: is_allowed_in_content_objects_subtree(RepositoryRights :: ADD_RIGHT, $registration->get_id()))
+            if (!$registration || !$registration->is_active())
             {
                 unset($types[$index]);
             }

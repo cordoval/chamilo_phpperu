@@ -208,7 +208,6 @@ where a.user_id = ' . $user->get_id();
                     $groups[$record->get_group_id()] = 1;
                     if (self :: is_allowed_for_group($record->get_group_id(), $right, $location))
                     {
-//                        self :: $right_cache[$right] = 1;
                         return true;
                     }
                 }
@@ -217,7 +216,6 @@ where a.user_id = ' . $user->get_id();
                     $groups[$record->get_optional_property('parent_id')] = 1;
                     if (self :: is_allowed_for_group($record->get_optional_property('parent_id'), $right, $location))
                     {
-//                        self :: $right_cache[$right] = 1;
                         return true;
                     }
                 }
@@ -226,7 +224,6 @@ where a.user_id = ' . $user->get_id();
                     $templates[$record->get_rights_template_id()] = 1;
                     if (self :: is_allowed_for_rights_template($record->get_rights_template_id(), $right, $location))
                     {
-//                        self :: $right_cache[$right] = 1;
                         return true;
                     }
                 }
@@ -240,7 +237,6 @@ where a.user_id = ' . $user->get_id();
                     $templates[$template->get_rights_template_id()] = 1;
                     if (self :: is_allowed_for_rights_template($template->get_rights_template_id(), $right, $location))
                     {
-//                        self :: $right_cache[$right] = 1;
                         return true;
                     }
                 }

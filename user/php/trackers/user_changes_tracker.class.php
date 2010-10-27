@@ -2,6 +2,7 @@
 namespace user;
 
 use common\libraries\Utilities;
+use tracking\ChangesTracker;
 /**
  * $Id: user_changes_tracker.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package users.lib.trackers

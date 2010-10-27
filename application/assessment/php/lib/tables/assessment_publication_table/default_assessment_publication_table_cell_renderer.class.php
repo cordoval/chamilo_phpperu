@@ -7,11 +7,11 @@ use repository\ContentObject;
 use common\libraries\Utilities;
 use common\libraries\Translation;
 use repository\content_object\assessment\Assessment;
+
 /**
  * $Id: default_assessment_publication_table_cell_renderer.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.tables.assessment_publication_table
  */
-
 require_once dirname(__FILE__) . '/../../assessment_publication.class.php';
 
 /**
@@ -23,11 +23,14 @@ require_once dirname(__FILE__) . '/../../assessment_publication.class.php';
 class DefaultAssessmentPublicationTableCellRenderer extends ObjectTableCellRenderer
 {
 
+    private static $publication_object_cache;
+
     /**
      * Constructor
      */
     function DefaultAssessmentPublicationTableCellRenderer()
     {
+
     }
 
     /**
@@ -39,26 +42,33 @@ class DefaultAssessmentPublicationTableCellRenderer extends ObjectTableCellRende
      */
     function render_cell($column, $assessment_publication)
     {
-        $content_object = $assessment_publication->get_publication_object();
-        
+        if (!self :: $publication_object_cache)
+        {
+            $content_object = $assessment_publication->get_publication_object();
+            self :: $publication_object_cache = $content_object;
+        }
+        else
+        {
+            $content_object = self :: $publication_object_cache;
+        }
         switch ($column->get_name())
         {
             case ContentObject :: PROPERTY_TITLE :
-                
+
                 if ($assessment_publication->get_hidden())
                 {
                     return '<span style="color: #999999;">' . $content_object->get_title() . '</span>';
                 }
-                
+
                 return $content_object->get_title();
             case ContentObject :: PROPERTY_DESCRIPTION :
                 $description = Utilities :: truncate_string($content_object->get_description(), 200);
-                
+
                 if ($assessment_publication->get_hidden())
                 {
                     return '<span style="color: #999999;">' . $description . '</span>';
                 }
-                
+
                 return $description;
             case ContentObject :: PROPERTY_TYPE :
                 $type = Translation :: get($content_object->get_type());
@@ -66,12 +76,12 @@ class DefaultAssessmentPublicationTableCellRenderer extends ObjectTableCellRende
                 {
                     $type = $content_object->get_assessment_type();
                 }
-                
+
                 if ($assessment_publication->get_hidden())
                 {
                     return '<span style="color: #999999;">' . $type . '</span>';
                 }
-                
+
                 return $type;
             case AssessmentPublication :: PROPERTY_FROM_DATE :
                 return $assessment_publication->get_from_date();
@@ -88,5 +98,7 @@ class DefaultAssessmentPublicationTableCellRenderer extends ObjectTableCellRende
     {
         return $object->get_id();
     }
+
 }
+
 ?>

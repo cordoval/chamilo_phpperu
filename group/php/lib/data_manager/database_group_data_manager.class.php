@@ -119,7 +119,7 @@ class DatabaseGroupDataManager extends Database implements GroupDataManagerInter
     function retrieve_user_groups($user_id)
     {
         $condition = new EqualityCondition(GroupRelUser :: PROPERTY_USER_ID, $user_id);
-        return $this->retrieve_objects(GroupRelUser :: get_table_name(), $condition, array(), GroupRelUser :: CLASS_NAME);
+        return $this->retrieve_objects(GroupRelUser :: get_table_name(), $condition, array() ,array(),array(), GroupRelUser :: CLASS_NAME);
     }
 
     function retrieve_group($id)

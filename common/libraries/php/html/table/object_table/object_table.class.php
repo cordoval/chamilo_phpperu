@@ -150,7 +150,6 @@ class ObjectTable
             $column = $this->get_column_model()->get_column($i);
             $table->set_header(($this->has_form_actions() ? $i + 1 : $i), Security::remove_XSS($column->get_title()), $column->is_sortable());
         }
-
         return $table->as_html();
     }
 

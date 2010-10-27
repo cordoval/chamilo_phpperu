@@ -14,6 +14,8 @@ use common\libraries\PlatformSetting;
 use repository\RepositoryDataManager;
 
 use group\GroupDataManager;
+use group\Group;
+
 /**
  * $Id: user.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib
@@ -645,7 +647,6 @@ class User extends DataClass
         $gdm = GroupDataManager :: get_instance();
 
         $user_groups = $gdm->retrieve_user_groups($this->get_id());
-
         $group_ids = array();
         while ($user_group = $user_groups->next_result())
         {

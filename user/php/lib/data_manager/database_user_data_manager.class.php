@@ -224,7 +224,7 @@ class DatabaseUserDataManager extends Database implements UserDataManagerInterfa
         $conditions[] = new EqualityCondition(User :: PROPERTY_APPROVED, 0);
         $condition = new AndCondition($conditions);
 
-        return $this->retrieve_objects(User :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(User :: get_table_name(), $condition, $offset, $max_objects, $order_by, User :: CLASS_NAME);
     }
 
     //Inherited.
@@ -336,7 +336,7 @@ class DatabaseUserDataManager extends Database implements UserDataManagerInterfa
 
     function retrieve_buddy_list_categories($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->retrieve_objects(BuddyListCategory :: get_table_name(), $condition, $offset, $count, $order_property);
+        return $this->retrieve_objects(BuddyListCategory :: get_table_name(), $condition, $offset, $count, $order_property, BuddyListCategory :: CLASS_NAME);
     }
 
     function create_buddy_list_item($buddy_list_item)
@@ -366,7 +366,7 @@ class DatabaseUserDataManager extends Database implements UserDataManagerInterfa
 
     function retrieve_buddy_list_items($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->retrieve_objects(BuddyListItem :: get_table_name(), $condition, $offset, $count, $order_property);
+        return $this->retrieve_objects(BuddyListItem :: get_table_name(), $condition, $offset, $count, $order_property, BuddyListItem :: CLASS_NAME);
     }
 
     function create_chat_message($chat_message)
@@ -388,7 +388,7 @@ class DatabaseUserDataManager extends Database implements UserDataManagerInterfa
 
     function retrieve_chat_messages($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->retrieve_objects(ChatMessage :: get_table_name(), $condition, $offset, $count, $order_property);
+        return $this->retrieve_objects(ChatMessage :: get_table_name(), $condition, $offset, $count, $order_property, ChatMessage :: CLASS_NAME);
     }
 
     function retrieve_user_by_fullname($fullname)

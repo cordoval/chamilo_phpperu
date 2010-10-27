@@ -16,6 +16,7 @@ use common\libraries\InCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\InequalityCondition;
 /**
  * $Id: browser.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.assessment_manager.component
@@ -77,8 +78,17 @@ class AssessmentManagerBrowserComponent extends AssessmentManager
         
         $current_category = Request :: get(self :: PARAM_CATEGORY);
         $current_category = $current_category ? $current_category : 0;
-        
-        if(AssessmentRights :: is_allowed_in_assessments_subtree(AssessmentRights :: PUBLISH_RIGHT, $current_category, AssessmentRights :: TYPE_CATEGORY))
+
+        if ($current_category == 0 )
+        {
+            $RIGHT_PUBLISH = AssessmentRights::is_allowed_in_assessments_subtree(AssessmentRights::PUBLISH_RIGHT, 0, 0);
+        }
+        else
+        {
+            $RIGHT_PUBLISH = AssessmentRights::is_allowed_in_assessments_subtree(AssessmentRights::PUBLISH_RIGHT, $current_category, AssessmentRights::TYPE_CATEGORY);
+        }
+
+        if($RIGHT_PUBLISH)
         {
         	$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_create_assessment_publication_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         	$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ImportQTI'), Theme :: get_common_image_path() . 'action_import.png', $this->get_import_qti_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
