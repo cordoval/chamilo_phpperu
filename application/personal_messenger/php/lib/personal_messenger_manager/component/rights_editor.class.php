@@ -1,4 +1,12 @@
 <?php
+
+namespace application\personal_messenger;
+
+use common\extensions\rights_editor_manager\RightsEditorManager;
+use common\libraries\Display;
+use common\libraries\Translation;
+use common\libraries\Breadcrumb;
+use common\libraries\Application;
 /**
  * $Id: deleter.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package group.lib.group_manager.component

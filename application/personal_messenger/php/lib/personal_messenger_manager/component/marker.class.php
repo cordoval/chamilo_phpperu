@@ -1,4 +1,11 @@
 <?php
+
+namespace application\personal_messenger;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\Application;
+use common\libraries\Breadcrumb;
 /**
  * $Id: marker.class.php 203 2009-11-13 12:46:38Z chellee $
  * @package application.personal_messenger.personal_messenger_manager.component

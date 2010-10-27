@@ -1,4 +1,8 @@
 <?php
+namespace application\personal_messenger;
+
+use common\libraries\WebApplication;
+use common\libraries\StaticTableColumn;
 /**
  * $Id: pm_publication_browser_table_column_model.class.php 203 2009-11-13 12:46:38Z chellee $
  * @package application.personal_messenger.personal_messenger_manager.component.pm_publication_browser
@@ -27,7 +31,7 @@ class PmPublicationBrowserTableColumnModel extends DefaultPmPublicationTableColu
 
     /**
      * Gets the modification column
-     * @return PersonalMessagePublicationTableColumn
+     * @return PersonalMessengerPublicationTableColumn
      */
     static function get_modification_column()
     {

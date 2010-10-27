@@ -1,4 +1,14 @@
 <?php
+
+namespace application\personal_messenger;
+
+use common\libraries\WebApplication;
+use common\libraries\DatetimeUtilities;
+use common\libraries\Translation;
+use common\libraries\Theme;
+use common\libraries\Utilities;
+use common\libraries\Toolbar;
+use common\libraries\ToolbarItem;
 /**
  * $Id: pm_publication_browser_table_cell_renderer.class.php 203 2009-11-13 12:46:38Z chellee $
  * @package application.personal_messenger.personal_messenger_manager.component.pm_publication_browser
@@ -36,10 +46,10 @@ class PmPublicationBrowserTableCellRenderer extends DefaultPmPublicationTableCel
         // Add special features here
         switch ($column->get_name())
         {
-            case PersonalMessagePublication :: PROPERTY_PUBLISHED :
+            case PersonalMessengerPublication :: PROPERTY_PUBLISHED :
                 return DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $personal_message->get_published());
                 break;
-            case PersonalMessagePublication :: PROPERTY_STATUS :
+            case PersonalMessengerPublication :: PROPERTY_STATUS :
                 if ($personal_message->get_status() == 1)
                 {
                     return '<img src="' . Theme :: get_common_image_path() . 'content_object/personal_message_new.png" />';
@@ -49,7 +59,7 @@ class PmPublicationBrowserTableCellRenderer extends DefaultPmPublicationTableCel
                     return '<img src="' . Theme :: get_common_image_path() . 'content_object/personal_message.png" />';
                 }
                 break;
-            case PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE :
+            case PersonalMessengerPublication :: PROPERTY_PERSONAL_MESSAGE :
                 $title = parent :: render_cell($column, $personal_message);
                 $title_short = $title;
                 //				if(strlen($title_short) > 53)

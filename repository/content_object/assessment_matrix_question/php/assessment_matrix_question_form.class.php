@@ -21,13 +21,13 @@ class AssessmentMatrixQuestionForm extends MatrixQuestionForm
     protected function build_creation_form()
     {
         parent :: build_creation_form();
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/assessment_matrix_question.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/assessment_matrix_question/resources/javascript/assessment_matrix_question.js'));
     }
 
     protected function build_editing_form()
     {
         parent :: build_editing_form();
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/assessment_matrix_question.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/assessment_matrix_question/resources/javascript/assessment_matrix_question.js'));
     }
 
     function setDefaults($defaults = array ())

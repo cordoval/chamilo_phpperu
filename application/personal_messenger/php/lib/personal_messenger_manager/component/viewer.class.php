@@ -1,11 +1,27 @@
 <?php
+
+namespace application\personal_messenger;
+
+use common\libraries\Request;
+use common\libraries\Display;
+use common\libraries\Translation;
+use common\libraries\Display;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
+use common\libraries\DatetimeUtilities;
+use common\libraries\Utilities;
+use repository\ContentObjectDisplay;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Application;
 /**
  * $Id: viewer.class.php 203 2009-11-13 12:46:38Z chellee $
  * @package application.personal_messenger.personal_messenger_manager.component
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once Path :: get_common_libraries_class_path() . 'utilities.class.php';
+
 
 class PersonalMessengerManagerViewerComponent extends PersonalMessengerManager
 {

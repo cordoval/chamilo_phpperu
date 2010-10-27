@@ -1,5 +1,10 @@
 <?php
 
+namespace application\personal_messenger;
+
+use tracking\ChangesTracker;
+use common\libraries\Utilities;
+
 /**
  * $Id: personal_messenger_publication_changes_tracker.class.php 203 2009-11-13 12:46:38Z chellee $
  * @package application.personal_messenger.trackers

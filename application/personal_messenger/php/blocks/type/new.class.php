@@ -1,10 +1,16 @@
 <?php
+
+namespace application\personal_messenger;
+
+use common\libraries\WebApplication;
+use common\libraries\Translation;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
 /**
  * $Id: new.class.php 203 2009-11-13 12:46:38Z chellee $
  * @package application.personal_messenger.block
  */
 require_once WebApplication :: get_application_class_path('personal_messenger') . 'blocks/personal_messenger_block.class.php';
-require_once Path :: get_common_libraries_class_path() . 'utilities.class.php';
 /**
  * This class represents a calendar publisher component which can be used
  * to browse through the possible learning objects to publish.
@@ -49,9 +55,9 @@ class PersonalMessengerNew extends PersonalMessengerBlock
     function get_condition()
     {
         $conditions = array();
-        $conditions[] = new EqualityCondition(PersonalMessagePublication :: PROPERTY_STATUS, '1');
-        $conditions[] = new EqualityCondition(PersonalMessagePublication :: PROPERTY_RECIPIENT, $this->get_user_id());
-        $conditions[] = new EqualityCondition(PersonalMessagePublication :: PROPERTY_USER, $this->get_user_id());
+        $conditions[] = new EqualityCondition(PersonalMessengerPublication :: PROPERTY_STATUS, '1');
+        $conditions[] = new EqualityCondition(PersonalMessengerPublication :: PROPERTY_RECIPIENT, $this->get_user_id());
+        $conditions[] = new EqualityCondition(PersonalMessengerPublication :: PROPERTY_USER, $this->get_user_id());
         return new AndCondition($conditions);
     }
 }

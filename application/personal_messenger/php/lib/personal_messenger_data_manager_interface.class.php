@@ -1,4 +1,7 @@
 <?php
+
+namespace application\personal_messenger;
+
 interface PersonalMessengerDataManagerInterface
 {
     /**
@@ -60,7 +63,7 @@ interface PersonalMessengerDataManagerInterface
     /**
      * Retrieve a personal message publication
      * @param int $id
-     * @return PersonalMessagePublication
+     * @return PersonalMessengerPublication
      */
     function retrieve_personal_message_publication($id);
 
@@ -70,20 +73,20 @@ interface PersonalMessengerDataManagerInterface
      * @param array $order_by
      * @param int $offset
      * @param int $max_objects
-     * @return PersonalMessagePublicationResultSet
+     * @return PersonalMessengerPublicationResultSet
      */
     function retrieve_personal_message_publications($condition = null, $order_by = array (), $offset = 0, $max_objects = -1);
 
     /**
      * Update the publication
-     * @param PersonalMessagePublication $personal_message_publication
+     * @param PersonalMessengerPublication $personal_message_publication
      * @return boolean
      */
     function update_personal_message_publication($personal_message_publication);
 
     /**
      * Delete the publication
-     * @param PersonalMessagePublication $personal_message_publication
+     * @param PersonalMessengerPublication $personal_message_publication
      * @return boolean
      */
     function delete_personal_message_publication($personal_message_publication);
@@ -104,7 +107,7 @@ interface PersonalMessengerDataManagerInterface
 
     /**
      * Create a publication
-     * @param PersonalMessagePublication $publication
+     * @param PersonalMessengerPublication $publication
      * @return boolean
      */
     function create_personal_message_publication($publication);

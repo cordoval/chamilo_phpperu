@@ -2,6 +2,14 @@
 namespace common\extensions\repo_viewer;
 
 use common\libraries\Toolbar;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
+use common\libraries\Theme;
+use repository\ContentObjectDisplay;
+use repository\RepositoryDataManager;
+use common\libraries\Request;
+use common\libraries\ToolbarItem;
 /**
  * $Id: viewer.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.repo_viewer.component
