@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\search;
 
+use application\weblcms\ContentObjectPublicationUser;
+use application\weblcms\ContentObjectPublicationGroup;
+use application\weblcms\ContentObjectPublicationCourseGroup;
 use repository\content_object\introduction\Introduction;
 use application\weblcms\ContentObjectPublication;
 use application\weblcms\WeblcmsDataManager;
