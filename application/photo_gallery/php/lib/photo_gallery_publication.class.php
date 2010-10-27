@@ -9,7 +9,7 @@ class PhotoGalleryPublication extends DataClass
 	const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'publication';
 
-    const PROPERTY_CONTENT_OBJECT_ID = 'content_object_id';
+    const PROPERTY_CONTENT_OBJECT = 'content_object_id';
     const PROPERTY_PUBLISHER = 'publisher_id';
     const PROPERTY_PUBLISHED = 'published';
 
@@ -22,7 +22,7 @@ class PhotoGalleryPublication extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_CONTENT_OBJECT_ID, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED));
+        return parent :: get_default_property_names(array(self :: PROPERTY_CONTENT_OBJECT, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED));
     }
 
     /**
@@ -37,9 +37,9 @@ class PhotoGalleryPublication extends DataClass
      * Returns the learning object id from this CalendarEventPublication object
      * @return int The CalendarEvent ID
      */
-    function get_content_object_id()
+    function get_content_object()
     {
-        return $this->get_default_property(self :: PROPERTY_CONTENT_OBJECT_ID);
+        return $this->get_default_property(self :: PROPERTY_CONTENT_OBJECT);
     }
 
     /**
@@ -64,11 +64,11 @@ class PhotoGalleryPublication extends DataClass
      * Sets the learning object id of this CalendarEventPublication.
      * @param Int $id the calendar_event ID.
      */
-    function set_content_object_id($id)
+    function set_content_object($content_object)
     {
-        $this->set_default_property(self :: PROPERTY_CONTENT_OBJECT_ID, $id);
+        $this->set_default_property(self :: PROPERTY_CONTENT_OBJECT, $content_object);
     }
-
+    
     /**
      * Sets the user of this CalendarEventPublication.
      * @param int $user the User.
@@ -92,7 +92,7 @@ class PhotoGalleryPublication extends DataClass
     	if (! isset($this->publication_object))
         {
     	$rdm = RepositoryDataManager :: get_instance();
-       	$this->publication_object = $rdm->retrieve_content_object($this->get_content_object_id());
+       	$this->publication_object = $rdm->retrieve_content_object($this->get_content_object());
         }
         return $this->publication_object;
     }

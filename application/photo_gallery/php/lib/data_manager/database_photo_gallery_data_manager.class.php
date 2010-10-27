@@ -158,7 +158,7 @@ class DatabasePhotoGalleryDataManager extends Database implements PhotoGalleryDa
         $object_alias = $this->get_alias(ContentObject :: get_table_name());
         
         $query = 'SELECT COUNT(*) FROM ' . $this->escape_table_name(PhotoGalleryPublication :: get_table_name()) . ' AS ' . $publication_alias;
-        $query .= ' JOIN ' . $rdm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $object_alias . ' ON ' . $this->escape_column_name(PhotoGalleryPublication :: PROPERTY_CONTENT_OBJECT_ID, $publication_alias) . ' = ' . $rdm->escape_column_name(ContentObject :: PROPERTY_ID, $object_alias);
+        $query .= ' JOIN ' . $rdm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $object_alias . ' ON ' . $this->escape_column_name(PhotoGalleryPublication :: PROPERTY_CONTENT_OBJECT, $publication_alias) . ' = ' . $rdm->escape_column_name(ContentObject :: PROPERTY_ID, $object_alias);
         $query .= ' LEFT JOIN ' . $this->escape_table_name(PhotoGalleryPublicationUser :: get_table_name()) . ' AS ' . $publication_user_alias . ' ON ' . $this->escape_column_name(PhotoGalleryPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->escape_column_name(PhotoGalleryPublicationUser :: PROPERTY_PUBLICATION, $publication_user_alias);
         $query .= ' LEFT JOIN ' . $this->escape_table_name(PhotoGalleryPublicationGroup :: get_table_name()) . ' AS ' . $publication_group_alias . ' ON ' . $this->escape_column_name(PhotoGalleryPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->escape_column_name(PhotoGalleryPublicationGroup :: PROPERTY_PUBLICATION, $publication_group_alias);
         
@@ -207,7 +207,7 @@ class DatabasePhotoGalleryDataManager extends Database implements PhotoGalleryDa
         $object_alias = RepositoryDataManager :: get_instance()->get_alias(ContentObject :: get_table_name());
         
         $query = 'SELECT DISTINCT ' . $publication_alias . '.* FROM ' . $this->escape_table_name(PhotoGalleryPublication :: get_table_name()) . ' AS ' . $publication_alias;
-        $query .= ' JOIN ' . $rdm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $object_alias . ' ON ' . $this->escape_column_name(PhotoGalleryPublication :: PROPERTY_CONTENT_OBJECT_ID, $publication_alias) . ' = ' . $rdm->escape_column_name(ContentObject :: PROPERTY_ID, $object_alias);
+        $query .= ' JOIN ' . $rdm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $object_alias . ' ON ' . $this->escape_column_name(PhotoGalleryPublication :: PROPERTY_CONTENT_OBJECT, $publication_alias) . ' = ' . $rdm->escape_column_name(ContentObject :: PROPERTY_ID, $object_alias);
         $query .= ' LEFT JOIN ' . $this->escape_table_name('publication_user') . ' AS ' . $this->get_alias('publication_user') . ' ON ' . $this->get_alias(PhotoGalleryPublication :: get_table_name()) . '.id = ' . $this->get_alias('publication_user') . '.publication_id';
         $query .= ' LEFT JOIN ' . $this->escape_table_name('publication_group') . ' AS ' . $this->get_alias('publication_group') . ' ON ' . $this->get_alias(PhotoGalleryPublication :: get_table_name()) . '.id = ' . $this->get_alias('publication_group') . '.publication_id';
         

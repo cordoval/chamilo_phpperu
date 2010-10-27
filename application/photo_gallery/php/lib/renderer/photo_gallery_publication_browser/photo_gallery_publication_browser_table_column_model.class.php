@@ -1,6 +1,7 @@
 <?php
 namespace application\photo_gallery;
 
+use common\libraries\StaticTableColumn;
 /**
  * Table column model for the publication browser table
  */

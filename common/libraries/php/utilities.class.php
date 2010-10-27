@@ -591,9 +591,21 @@ class Utilities
                 require_once $path;
                 $class = Application::determine_namespace($application) . '\\' . Utilities :: underscores_to_camelcase($application) . 'Autoloader';
                 if ($class :: load($classname))
-                    break;
+                    return true;
             }
         }
+        //Display :: error_page(Translation :: get('FailedAutoload') . ':' . $classname . '<br/>' . self :: get_backtrace());
+    }
+    
+    static function get_backtrace()
+    {
+    	$html = array();
+    	$backtraces = debug_backtrace();
+    	foreach($backtraces as $backtrace)
+    	{
+    		$html[] = implode(' ', $backtrace);
+    	}
+    	return implode('<br/>', $html);
     }
 
     static function get_namespace_classname($namespace, $classname)

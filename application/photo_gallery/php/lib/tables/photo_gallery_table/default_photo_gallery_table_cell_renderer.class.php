@@ -2,6 +2,7 @@
 namespace application\photo_gallery;
 
 use common\libraries\Utilities;
+use common\libraries\ObjectTableCellRenderer;
 
 use repository\ContentObject;
 
