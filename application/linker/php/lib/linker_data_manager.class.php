@@ -1,4 +1,8 @@
 <?php
+namespace application\linker;
+
+use common\libraries\Configuration;
+use common\libraries\WebApplication;
 /**
  * $Id: linker_data_manager.class.php 199 2009-11-13 12:23:04Z chellee $
  * @package application.lib.linker
