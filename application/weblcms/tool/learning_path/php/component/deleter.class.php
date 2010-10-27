@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use application\weblcms\WeblcmsDataManager;
+use application\weblcms\WeblcmsRights;
 use application\weblcms\Tool;
 use common\libraries\EqualityCondition;
 use common\libraries\Request;

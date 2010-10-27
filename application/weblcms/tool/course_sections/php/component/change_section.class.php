@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\course_sections;
 
+use application\weblcms\WeblcmsDataManager;
+use application\weblcms\WeblcmsManager;
 use application\weblcms\Tool;
 use common\libraries\Theme;
 use common\libraries\EqualityCondition;

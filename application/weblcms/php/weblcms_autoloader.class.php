@@ -39,6 +39,9 @@ class WeblcmsAutoloader
                 'weblcms_manager' => 'weblcms_manager/weblcms_manager.class.php',
                 'course_layout' => 'course/course_layout.class.php',
                 'course_form' => 'course/course_form.class.php',
+                'course_group' => 'course_group/course_group.class.php',
+        		'course_group_form' => 'course_group/course_group_form.class.php',
+        		'course_group_subscriptions_form' => 'course_group/course_group_subscriptions_form.class.php',
                 'common_request' => 'course/common_request.class.php');
 
         $lower_case = Utilities :: camelcase_to_underscores($classname);

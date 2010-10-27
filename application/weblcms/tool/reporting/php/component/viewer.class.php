@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\reporting;
 
+use application\weblcms\WeblcmsManager;
 use common\extensions\reporting_viewer\ReportingViewer;
 use application\weblcms\Tool;
 use reporting\ReportingManager;

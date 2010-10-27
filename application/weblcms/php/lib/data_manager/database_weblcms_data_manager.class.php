@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\ArrayResultSet;
 use group\GroupDataManager;
 use common\libraries\SubselectCondition;
 use common\libraries\ConditionTranslator;
@@ -580,7 +581,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
 
     function retrieve_course_module_accesses($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->retrieve_objects(CourseModuleLastAccess :: get_table_name(), $condition, $offset, $max_objects, $order_by, CourseModuleLastAccess::CLASS_NAME);
+        return $this->retrieve_objects(CourseModuleLastAccess :: get_table_name(), $condition, $offset, $max_objects, $order_by, CourseModuleLastAccess :: CLASS_NAME);
     }
 
     function log_course_module_access($course_code, $user_id, $module_name = null, $category_id = 0)
@@ -723,7 +724,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         if (empty($course))
             return false;
 
-     //$this->redirect(Translation :: get('CourseDoesntExist'), true, array('go' => WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME),array(),false,Redirect::TYPE_LINK);
+        //$this->redirect(Translation :: get('CourseDoesntExist'), true, array('go' => WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME),array(),false,Redirect::TYPE_LINK);
         return $course;
     }
 
@@ -1652,7 +1653,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
 
         return $bool;
 
-     //return $bool;
+    //return $bool;
 
 
     //$condition_layout = new EqualityCondition(CourseLayout :: PROPERTY_COURSE_ID, $course);
@@ -1719,7 +1720,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
 
         return $bool;
 
-     //return $bool;
+    //return $bool;
     }
 
     function delete_course_type_group_creation_right($course_type_creation_right)
@@ -1988,7 +1989,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         if (empty($course_type))
             return $this->retrieve_empty_course_type();
 
-     //$this->redirect(Translation :: get('CourseTypeDoesntExist'), true, array('go' => WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME),array(),false,Redirect::TYPE_LINK);
+        //$this->redirect(Translation :: get('CourseTypeDoesntExist'), true, array('go' => WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME),array(),false,Redirect::TYPE_LINK);
 
 
         $course_type_settings = $this->retrieve_course_type_settings($id);
@@ -2135,7 +2136,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     function retrieve_course_group_user_ids($course_group)
     {
         $condition = new EqualityCondition(CourseGroupUserRelation :: PROPERTY_COURSE_GROUP, $course_group->get_id());
-        $relations = $this->retrieve_objects(CourseGroupUserRelation :: get_table_name(), $condition, null, null, array(), CourseGroup :: CLASS_NAME);
+        $relations = $this->retrieve_objects(CourseGroupUserRelation :: get_table_name(), $condition, null, null, array(), CourseGroupUserRelation :: CLASS_NAME);
         $user_ids = array();
 
         while ($relation = $relations->next_result())
@@ -2149,13 +2150,13 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     function retrieve_course_group_subscribe_rights($course_id)
     {
         $condition = new EqualityCondition(CourseGroupSubscribeRight :: PROPERTY_COURSE_ID, $course_id);
-        return $this->retrieve_objects(CourseGroupSubscribeRight :: get_table_name(), $condition, null, null, array(), CourseGroupSubscribeRight::CLASS_NAME);
+        return $this->retrieve_objects(CourseGroupSubscribeRight :: get_table_name(), $condition, null, null, array(), CourseGroupSubscribeRight :: CLASS_NAME);
     }
 
     function retrieve_course_group_unsubscribe_rights($course_id)
     {
         $condition = new EqualityCondition(CourseGroupUnsubscribeRight :: PROPERTY_COURSE_ID, $course_id);
-        return $this->retrieve_objects(CourseGroupUnsubscribeRight :: get_table_name(), $condition, null, null, array(), CourseGroupUnsubscribeRight::CLASS_NAME);
+        return $this->retrieve_objects(CourseGroupUnsubscribeRight :: get_table_name(), $condition, null, null, array(), CourseGroupUnsubscribeRight :: CLASS_NAME);
     }
 
     function retrieve_course_type_group_rights_by_type($course_type_id, $type)
@@ -2721,7 +2722,8 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
             if (! empty($user) || ! empty($course_groups))
             {
                 $access[] = new AndCondition(array(
-                        new EqualityCondition(ContentObjectPublicationUser :: PROPERTY_USER, null, ContentObjectPublicationUser :: get_table_name()), new EqualityCondition(ContentObjectPublicationGroup :: PROPERTY_GROUP_ID, null, ContentObjectPublicationGroup :: get_table_name())));
+                        new EqualityCondition(ContentObjectPublicationUser :: PROPERTY_USER, null, ContentObjectPublicationUser :: get_table_name()),
+                        new EqualityCondition(ContentObjectPublicationGroup :: PROPERTY_GROUP_ID, null, ContentObjectPublicationGroup :: get_table_name())));
             }
 
             $conditions[] = new OrCondition($access);

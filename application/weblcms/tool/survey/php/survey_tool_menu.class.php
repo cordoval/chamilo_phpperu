@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use HTML_Menu_ArrayRenderer;
+use common\libraries\OptionsMenuRenderer;
 use common\libraries\TreeMenuRenderer;
 use group\GroupDataManager;
 use HTML_Menu;

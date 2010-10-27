@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\user;
 
+use application\weblcms\CourseUserRelation;
+use application\weblcms\WeblcmsRights;
 use application\weblcms\Tool;
 use common\libraries\PatternMatchCondition;
 use common\libraries\ActionBarRenderer;

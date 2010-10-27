@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use application\weblcms\WeblcmsRights;
 use repository\ContentObject;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;

@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\announcement;
 
+use application\weblcms\ContentObjectPublication;
 use application\weblcms\Tool;
 use repository\content_object\calendar_event\CalendarEvent;
 use repository\ContentObject;

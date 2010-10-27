@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use application\weblcms\WeblcmsRights;
 use repository\content_object\learning_path\LearningPath;
 use common\libraries\Categorizable;
 use application\weblcms\ContentObjectPublicationListRenderer;

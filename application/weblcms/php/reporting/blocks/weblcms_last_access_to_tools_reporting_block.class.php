@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use reporting\Reporting;
 use user\VisitTracker;
 use reporting\ReportingData;
 use reporting\ReportingFormatter;

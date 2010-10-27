@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\course_group;
 
+use common\libraries\SortableTable;
+use application\weblcms\WeblcmsRights;
 use common\libraries\ObjectTableFormAction;
 use common\libraries\ObjectTableFormActions;
 use common\libraries\Utilities;

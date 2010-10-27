@@ -1,6 +1,10 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use application\weblcms\ContentObjectPublication;
+use application\weblcms\WeblcmsDataManager;
+use application\weblcms\WeblcmsRights;
+use application\weblcms\WeblcmsManager;
 use repository\ContentObject;
 use common\libraries\SubselectCondition;
 use repository\RepositoryDataManager;

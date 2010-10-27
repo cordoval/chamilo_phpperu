@@ -1,6 +1,10 @@
 <?php
 namespace application\weblcms\tool\search;
 
+use repository\content_object\introduction\Introduction;
+use application\weblcms\ContentObjectPublication;
+use application\weblcms\WeblcmsDataManager;
+use application\weblcms\WeblcmsManager;
 use application\weblcms\Tool;
 use common\libraries\PatternMatchCondition;
 use repository\ContentObject;

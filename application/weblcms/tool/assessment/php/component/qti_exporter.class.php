@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use application\weblcms\WeblcmsDataManager;
 use common\libraries\Filesystem;
 use common\libraries\Request;
 

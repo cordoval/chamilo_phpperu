@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\maintenance;
 
+use application\weblcms\ContentObjectPublication;
+use application\weblcms\WeblcmsDataManager;
 use common\libraries\ObjectTableOrder;
 use common\libraries\EqualityCondition;
 use common\libraries\Translation;

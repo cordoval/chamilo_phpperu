@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use application\weblcms\WeblcmsDataManager;
+use application\weblcms\WeblcmsRights;
+use application\weblcms\WeblcmsManager;
 use common\extensions\reporting_viewer\ReportingViewer;
 use application\weblcms\Tool;
 use common\libraries\NotCondition;

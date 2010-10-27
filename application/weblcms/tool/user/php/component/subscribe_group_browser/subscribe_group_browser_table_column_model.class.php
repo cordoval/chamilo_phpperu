@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\user;
 
+use group\DefaultGroupTableColumnModel;
 use common\libraries\StaticTableColumn;
 use common\libraries\Path;
 

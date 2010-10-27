@@ -1,6 +1,10 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use repository\content_object\introduction\Introduction;
+use application\weblcms\ContentObjectPublication;
+use application\weblcms\WeblcmsDataManager;
+use application\weblcms\WeblcmsManager;
 use application\weblcms\Tool;
 use group\GroupDataManager;
 use repository\RepositoryDataManager;
@@ -99,7 +103,7 @@ class SurveyContentObjectPublicationForm extends FormValidator
         switch ($this->form_type)
         {
             case self :: TYPE_SINGLE :
-                if (get_class($content_object) == 'Introduction')
+                if ($content_object instanceof Introduction)
                 {
                     $parameters = array_merge($pub_param, array(ContentObjectRepoViewer :: PARAM_ID => $content_object->get_id(), Tool :: PARAM_ACTION => $in_repo_viewer ? Tool :: ACTION_PUBLISH_INTRODUCTION : null));
                 }

@@ -1,22 +1,24 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use application\weblcms\WeblcmsDataManager;
+
 /**
  * $Id: survey_invitation.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.assessment
  */
 class SurveyInvitation
 {
-    
+
     const PROPERTY_ID = 'id';
     const PROPERTY_USER_ID = 'user_id';
     const PROPERTY_SURVEY_ID = 'survey_id';
     const PROPERTY_INVITATION_CODE = 'invitation_code';
     const PROPERTY_EMAIL = 'email';
     const PROPERTY_VALID = 'valid';
-    
+
     const TABLE_NAME = 'survey_invitation';
-    
+
     private $default_properties;
 
     function SurveyInvitation($id = null, $default_properties = array())

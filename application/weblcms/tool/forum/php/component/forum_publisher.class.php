@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\forum;
 
+use application\weblcms\WeblcmsRights;
 use common\extensions\repo_viewer\RepoViewerInterface;
 use common\extensions\repo_viewer\RepoViewer;
 use common\libraries\Display;

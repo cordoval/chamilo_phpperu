@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\wiki;
 
+use application\weblcms\WeblcmsRights;
+use application\weblcms\WeblcmsManager;
 use application\weblcms\Tool;
 use common\extensions\repo_viewer\RepoViewer;
 use common\libraries\Breadcrumb;

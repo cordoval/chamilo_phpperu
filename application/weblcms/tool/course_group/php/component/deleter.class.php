@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\course_group;
 
+use application\weblcms\CourseGroup;
+use application\weblcms\WeblcmsDataManager;
+use application\weblcms\WeblcmsRights;
 use common\libraries\Display;
 use common\libraries\Request;
 use common\libraries\Translation;
@@ -11,7 +14,6 @@ use common\libraries\Translation;
  */
 require_once dirname(__FILE__) . '/../course_group_tool.class.php';
 //require_once dirname(__FILE__) . '/../course_group_tool_component.class.php';
-require_once dirname(__FILE__) . '/../../../course_group/course_group.class.php';
 
 class CourseGroupToolDeleterComponent extends CourseGroupTool
 {

@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use application\weblcms\WeblcmsDataManager;
 use common\libraries\StaticTableColumn;
 use common\libraries\ObjectTableColumnModel;
 use common\libraries\Translation;

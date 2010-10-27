@@ -1,6 +1,11 @@
 <?php
 namespace application\weblcms\tool\forum;
 
+use repository\content_object\introduction\Introduction;
+use application\weblcms\ContentObjectPublication;
+use application\weblcms\WeblcmsDataManager;
+use application\weblcms\WeblcmsRights;
+use application\weblcms\WeblcmsManager;
 use application\weblcms\Tool;
 use common\libraries\DatetimeUtilities;
 use repository\ContentObject;

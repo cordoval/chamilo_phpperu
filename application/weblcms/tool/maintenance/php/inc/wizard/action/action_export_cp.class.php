@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\maintenance;
 
+use application\weblcms\WeblcmsDataManager;
 use common\libraries\Filesystem;
 use common\libraries\Session;
 use common\libraries\Path;

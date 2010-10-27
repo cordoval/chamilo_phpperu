@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\course_sections;
 
+use application\weblcms\WeblcmsDataManager;
 use common\libraries\FormValidator;
 use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;

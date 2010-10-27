@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use application\weblcms\WeblcmsRights;
+use application\weblcms\WeblcmsManager;
 use application\weblcms\Tool;
 use common\extensions\repo_viewer\RepoViewer;
 use common\libraries\Breadcrumb;

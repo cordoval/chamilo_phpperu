@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\user;
 
+use application\weblcms\CourseGroupSubscribeRight;
+use application\weblcms\WeblcmsDataManager;
 use common\libraries\ObjectTableDataProvider;
 
 /**
@@ -15,7 +17,7 @@ use common\libraries\ObjectTableDataProvider;
  */
 class SubscribeGroupBrowserTableDataProvider extends ObjectTableDataProvider
 {
-    
+
     private $object_count;
     private $preloaded_result_set = null;
 

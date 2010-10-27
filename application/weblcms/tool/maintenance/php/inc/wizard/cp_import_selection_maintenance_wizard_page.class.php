@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\maintenance;
 
+use common\libraries\OptionsMenuRenderer;
 use common\libraries\Session;
 use common\libraries\Translation;
 

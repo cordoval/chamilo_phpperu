@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use admin\OnlineTracker;
 use reporting\ReportingData;
 use reporting\ReportingFormatter;
 use user\UserDataManager;

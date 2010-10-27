@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\user;
 
+use application\weblcms\CourseGroupSubscribeRight;
+use application\weblcms\WeblcmsDataManager;
 use user\UserDataManager;
 use common\libraries\ObjectTableDataProvider;
 

@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\document;
 
+use application\weblcms\ContentObjectPublication;
+use application\weblcms\WeblcmsManager;
 use application\weblcms\Tool;
 use common\libraries\PatternMatchCondition;
 use repository\ContentObject;

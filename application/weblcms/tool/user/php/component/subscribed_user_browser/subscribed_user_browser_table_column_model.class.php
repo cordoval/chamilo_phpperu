@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\user;
 
+use user\DefaultUserTableColumnModel;
+use application\weblcms\WeblcmsManager;
 use common\libraries\StaticTableColumn;
 use common\libraries\ObjectTableColumn;
 use user\User;

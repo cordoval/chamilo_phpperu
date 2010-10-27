@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use application\weblcms\CourseUserRelation;
+use application\weblcms\WeblcmsDataManager;
 use common\libraries\FormValidator;
 use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;

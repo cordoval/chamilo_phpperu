@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\user;
 
+use application\weblcms\WeblcmsManager;
 use application\weblcms\Tool;
 use group\GroupDataManager;
 use user\User;

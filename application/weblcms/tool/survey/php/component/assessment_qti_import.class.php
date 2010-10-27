@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use application\weblcms\WeblcmsRights;
 use common\libraries\FormValidator;
 use common\libraries\Display;
 use common\libraries\Breadcrumb;

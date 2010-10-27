@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use application\weblcms\tool\course_group\CourseGroupMenu;
 use common\libraries\PatternMatchCondition;
 use common\libraries\ResourceManager;
 use common\libraries\Theme;
@@ -22,6 +23,7 @@ use rights\RightsUtilities;
 
 require_once Path :: get_common_extensions_path() . 'rights_editor_manager/php/component/browser.class.php';
 require_once dirname(__FILE__) . '/location_course_group_browser/location_course_group_browser_table.class.php';
+require_once dirname(__FILE__) . '/../../../../tool/course_group/php/course_group_menu.class.php';
 
 class CoursesRightsEditorManagerBrowserComponent extends RightsEditorManagerBrowserComponent
 {

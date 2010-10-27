@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\forum;
 
+use application\weblcms\WeblcmsRights;
+use application\weblcms\WeblcmsManager;
 use application\weblcms\Tool;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;

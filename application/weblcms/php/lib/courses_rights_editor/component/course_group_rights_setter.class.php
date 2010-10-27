@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\extensions\rights_editor_manager\RightsEditorManager;
 use common\libraries\Request;
 use common\libraries\Translation;
 

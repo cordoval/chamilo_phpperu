@@ -1,6 +1,10 @@
 <?php
 namespace application\weblcms\tool\note;
 
+use application\weblcms\CourseGroup;
+use application\weblcms\ContentObjectPublication;
+use application\weblcms\WeblcmsDataManager;
+use application\weblcms\WeblcmsRights;
 use application\weblcms\Tool;
 use repository\ContentObject;
 use application\weblcms\ContentObjectPublicationListRenderer;

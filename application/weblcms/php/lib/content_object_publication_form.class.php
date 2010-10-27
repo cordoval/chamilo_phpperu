@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use repository\content_object\introduction\Introduction;
 use group\GroupDataManager;
 use repository\ContentObjectDisplay;
 use common\extensions\repo_viewer\RepoViewer;
@@ -100,7 +101,7 @@ class ContentObjectPublicationForm extends FormValidator
         switch ($this->form_type)
         {
             case self :: TYPE_SINGLE :
-                if (get_class($content_object) == 'Introduction')
+                if ($content_object instanceof Introduction)
                 {
                     $parameters = array_merge($pub_param, array(ContentObjectRepoViewer :: PARAM_ID => $content_object->get_id(), Tool :: PARAM_ACTION => $in_repo_viewer ? Tool :: ACTION_PUBLISH_INTRODUCTION : null));
                 }

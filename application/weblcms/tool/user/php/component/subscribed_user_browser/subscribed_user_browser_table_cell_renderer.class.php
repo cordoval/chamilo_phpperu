@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\user;
 
+use user\DefaultUserTableCellRenderer;
+use application\weblcms\WeblcmsRights;
+use application\weblcms\WeblcmsManager;
 use application\weblcms\Tool;
 use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
