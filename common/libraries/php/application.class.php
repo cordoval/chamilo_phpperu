@@ -816,7 +816,7 @@ abstract class Application
         {
             if (LauncherApplication :: exists($application))
             {
-                return LauncherApplication :: CLASS_NAME;
+            	return LauncherApplication :: CLASS_NAME;
             }
             else
             {

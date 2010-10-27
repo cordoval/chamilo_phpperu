@@ -1,6 +1,8 @@
 <?php
 namespace common\libraries;
 
+use DOMXPath;
+
 require_once dirname(__FILE__) . '/rest/rest_proxy_base.class.php';
 
 /**

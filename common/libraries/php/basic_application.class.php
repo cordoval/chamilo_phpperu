@@ -201,7 +201,7 @@ abstract class BasicApplication extends Application
         }
         elseif (CoreApplication :: exists($application))
         {
-            return CoreApplication :: CLASS_NAME;
+        	return CoreApplication :: CLASS_NAME;
         }
         else
         {
