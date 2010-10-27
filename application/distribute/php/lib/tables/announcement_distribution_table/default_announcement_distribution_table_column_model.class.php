@@ -1,4 +1,8 @@
 <?php
+namespace application\distribute;
+
+use common\libraries\ObjectTableColumnModel;
+use common\libraries\ObjectTableColumn;
 /**
  * $Id: default_announcement_distribution_table_column_model.class.php 194 2009-11-13 11:54:13Z chellee $
  * @package application.lib.distribute.tables.announcement_distribution_table

@@ -1,5 +1,9 @@
 <?php
 
+namespace application\distribute;
+
+use common\libraries\ObjectTableDataProvider;
+
 /**
  * $Id: announcement_distribution_browser_table_data_provider.class.php 194 2009-11-13 11:54:13Z chellee $
  * @package application.lib.distribute.distribute_manager.component.announcement_distribution_browser
