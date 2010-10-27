@@ -1,4 +1,6 @@
 <?php
+namespace repository;
+
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Utilities;
@@ -9,12 +11,14 @@ use common\libraries\AndCondition;
 use common\libraries\ObjectTableOrder;
 use common\libraries\OrCondition;
 use common\libraries\PatternMatchCondition;
+use common\libraries\Authentication;
+use repository\content_object\document\Document;
 /**
  * @package repository.xml_feeds
  */
-require_once dirname(__FILE__) . '/../../common/global.inc.php';
+require_once dirname(__FILE__) . '/../../../common/global.inc.php';
 require_once dirname(__FILE__) . '/../lib/category_manager/repository_category.class.php';
-require_once dirname(__FILE__) . '/../lib/content_object/document/document.class.php';
+require_once dirname(__FILE__) . '/../../content_object/document/php/document.class.php';
 
 Translation :: set_application('repository');
 
@@ -46,7 +50,7 @@ if (Authentication :: is_valid())
 
     foreach ($image_types as $type)
     {
-        $image_type_conditions[] = new PatternMatchCondition(Document :: PROPERTY_FILENAME, '*.' . $type);
+        $image_type_conditions[] = new PatternMatchCondition(Document :: PROPERTY_FILENAME, '*.' . $type, Document :: get_type_name());
     }
 
     $conditions[] = new OrCondition($image_type_conditions);

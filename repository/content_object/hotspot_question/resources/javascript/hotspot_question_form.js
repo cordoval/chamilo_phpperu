@@ -173,7 +173,7 @@ $(function ()
 		
 		rows = $('tr', tableBody);
 		
-		doAjaxPost("./common/javascript/ajax/mc_question.php", { action: 'skip_option', value: id });
+		doAjaxPost("./common/libraries/resources/javascript/ajax/mc_question.php", { action: 'skip_option', value: id });
 		
 		rows.each(function ()
 		{
@@ -238,7 +238,7 @@ $(function ()
 			imageProperties;
 		$('input[name="image_object"]').val(learningObjectId);
 		
-		imageProperties = doAjaxPost("./common/javascript/ajax/image_properties.php", { content_object: learningObjectId });
+		imageProperties = doAjaxPost("./common/libraries/resources/javascript/ajax/image_properties.php", { content_object: learningObjectId });
 		imageProperties = eval('(' + imageProperties + ')');
 		
 		$('#hotspot_image').css('width', imageProperties.width + 'px');
@@ -262,12 +262,12 @@ $(function ()
 		// We've got JavaScript so we hide the warning message
 		$('#hotspot_javascript').hide();
 		$('#hotspot_select').show();
-		
+
 		// Initialize the uploadify plugin
 		$('#uploadify').uploadify ({
-			'uploader': getPath('WEB_LAYOUT_PATH') + getTheme() + '/plugin/jquery/uploadify2/uploadify.swf',
-			'script': getPath('WEB_PATH') + 'common/javascript/ajax/upload_image.php',
-			'cancelImg': getPath('WEB_LAYOUT_PATH') + getTheme() + '/plugin/jquery/uploadify2/cancel.png',
+			'uploader': getPath('WEB_PATH') + '/common/libraries/resources/images/' + getTheme() + '/plugin/jquery/uploadify2/uploadify.swf',
+			'script': getPath('WEB_PATH') + 'common/libraries/php/ajax/upload_image.php',
+			'cancelImg': getPath('WEB_PATH') + '/common/libraries/resources/images/' + getTheme() + '/plugin/jquery/uploadify2/cancel.png',
 			'buttonText': getTranslation('Browse', 'repository').toUpperCase(),
 			'folder': 'not_important',
 			'auto': true,
@@ -288,9 +288,9 @@ $(function ()
 		});
 		
 		var value = $('input[name="image_object"]').val();
-		if(value != 'Image object')
+		if(value != 'Image object' && value != 'ImageObject')
 		{
-			imageProperties = doAjaxPost("./common/javascript/ajax/image_properties.php", { content_object: value });
+			imageProperties = doAjaxPost("./common/libraries/php/ajax/image_properties.php", { content_object: value });
 			imageProperties = eval('(' + imageProperties + ')');
 			
 			$('#hotspot_image').css('width', imageProperties.width + 'px');

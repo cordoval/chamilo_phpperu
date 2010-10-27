@@ -5,6 +5,7 @@ use common\libraries\Translation;
 use common\libraries\Application;
 use common\libraries\Path;
 use common\libraries\ExternalRepositoryLauncher;
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
 
 use repository\ContentObjectForm;
 
@@ -20,7 +21,7 @@ class PhotobucketForm extends ContentObjectForm
         parent :: build_creation_form();
         $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
         $this->addElement('static', null, null, '<a class="button normal_button upload_button" onclick="javascript:openPopup(\'' . $link . '\');"> ' . Translation :: get('BrowseStreamingVideo') . '</a>');
-        $this->add_textfield(Photobucket :: PROPERTY_PHOTOBUCKET_ID, Translation :: get('PhotobucketId'), true, array('size' => '255'));
+        //$this->add_textfield(Photobucket :: PROPERTY_PHOTOBUCKET_ID, Translation :: get('PhotobucketId'), true, array('size' => '255'));
         $this->add_textfield(Photobucket :: PROPERTY_WIDTH, Translation :: get('Width'), true, array('size' => '5'));
         $this->add_textfield(Photobucket :: PROPERTY_HEIGHT, Translation :: get('Height'), true, array('size' => '5'));
         $this->add_textfield(Photobucket :: PROPERTY_THUMBNAIL, Translation :: get('Thumbnail'), true, array('size' => '255'));
@@ -43,7 +44,7 @@ class PhotobucketForm extends ContentObjectForm
         parent :: build_creation_form();
         $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
         $this->addElement('static', null, null, '<a class="button normal_button upload_button" onclick="javascript:openPopup(\'' . $link . '\');"> ' . Translation :: get('BrowseStreamingVideo') . '</a>');
-        $this->add_textfield(Photobucket :: PROPERTY_PHOTOBUCKET_ID, Translation :: get('PhotobucketId'), true, array('size' => '255'));
+        //$this->add_textfield(Photobucket :: PROPERTY_PHOTOBUCKET_ID, Translation :: get('PhotobucketId'), true, array('size' => '255'));
         $this->add_textfield(Photobucket :: PROPERTY_WIDTH, Translation :: get('Width'), true, array('size' => '5'));
         $this->add_textfield(Photobucket :: PROPERTY_HEIGHT, Translation :: get('Height'), true, array('size' => '5'));
         $this->add_textfield(Photobucket :: PROPERTY_THUMBNAIL, Translation :: get('Thumbnail'), true, array('size' => '255'));
@@ -83,7 +84,7 @@ class PhotobucketForm extends ContentObjectForm
     function create_content_object()
     {
         $object = new Photobucket();
-        $object->set_photobucket_id($this->exportValue(Photobucket :: PROPERTY_PHOTOBUCKET_ID));
+        //$object->set_photobucket_id($this->exportValue(Photobucket :: PROPERTY_PHOTOBUCKET_ID));
         $object->set_height($this->exportValue(Photobucket :: PROPERTY_HEIGHT));
         $object->set_width($this->exportValue(Photobucket :: PROPERTY_WIDTH));
         $object->set_thumbnail($this->exportValue(Photobucket :: PROPERTY_THUMBNAIL));

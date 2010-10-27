@@ -6,7 +6,7 @@ $(function ()
 	{
 		var title = $("#title").attr("value");
 
-		$.post("./repository/ajax/title_exists.php", {title: title}, function (data) 
+		$.post("./repository/php/ajax/title_exists.php", {title: title}, function (data)
 		{
 			if(data)
 			{
@@ -29,9 +29,9 @@ $(function ()
 		if(typeof support_attachments != 'undefined')
 		{
 			$('#uploadify').uploadify ({
-				'uploader': getPath('WEB_LAYOUT_PATH') + getTheme() + '/plugin/jquery/uploadify2/uploadify.swf',
-				'script': getPath('WEB_PATH') + 'common/javascript/ajax/upload_image.php',
-				'cancelImg': getPath('WEB_LAYOUT_PATH') + getTheme() + '/plugin/jquery/uploadify2/cancel.png',
+				'uploader': getPath('WEB_PATH') + '/common/libraries/resources/images/' + getTheme() + '/plugin/jquery/uploadify2/uploadify.swf',
+				'script': getPath('WEB_PATH') + 'common/libraries/php/ajax/upload_image.php',
+				'cancelImg': getPath('WEB_PATH') + '/common/libraries/resources/images/' + getTheme() + '/plugin/jquery/uploadify2/cancel.png',
 				'folder': 'not_important',
 				'auto': true,
 				'displayData': 'percentage',

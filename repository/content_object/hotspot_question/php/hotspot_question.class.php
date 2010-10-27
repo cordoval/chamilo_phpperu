@@ -5,6 +5,7 @@ use common\libraries\Utilities;
 use common\libraries\Versionable;
 
 use repository\ContentObject;
+use repository\RepositoryDataManager;
 
 /**
  * $Id: hotspot_question.class.php 200 2009-11-13 12:30:04Z kariboe $

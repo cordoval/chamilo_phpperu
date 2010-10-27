@@ -1,5 +1,8 @@
 <?php
-require_once dirname(__FILE__) . '/../../global.inc.php';
+
+namespace common\libraries;
+
+require_once dirname(__FILE__) . '/../../../../global.inc.php';
 
 // Getting some properties from the Ajax post
 $name = Request :: post('name');
