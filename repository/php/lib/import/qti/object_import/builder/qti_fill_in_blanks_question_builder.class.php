@@ -1,5 +1,5 @@
 <?php
-
+use common\libraries\QtiRendererBase;
 /**
  * Question builder for Fillinblansk questions.
  *

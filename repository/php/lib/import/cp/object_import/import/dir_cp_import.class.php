@@ -28,7 +28,7 @@ class DirCpImport extends CpObjectImportAggregate{
 			if(strpos($file, '.class.php') !== false){
 				include_once($path);
 				$class = str_replace('.class.php', '', $file);
-				$class = Utilities::underscores_to_camelcase($class);
+				$class = __NAMESPACE__ . '\\' . Utilities::underscores_to_camelcase($class);
 				$importer = new $class($this);
 				$this->add($importer);
 			}

@@ -1,7 +1,8 @@
 <?php
+use common\libraries\Path; 
 
-require_once Path :: get_repository_path() . 'lib/content_object/survey/survey.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/survey_page/complex_survey_page.class.php';
+require_once Path :: get_repository_content_object_path() . 'survey/php/survey.class.php';
+require_once Path :: get_repository_content_object_path() . 'survey_page/php/complex_survey_page.class.php';
 
 /**
  * Survey builder.

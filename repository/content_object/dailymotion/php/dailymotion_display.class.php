@@ -2,6 +2,7 @@
 namespace repository\content_object\dailymotion;
 
 use repository\ContentObjectDisplay;
+use common\libraries\Text;
 
 /**
  * $Id: dailymotion_display.class.php 2010-06-08
