@@ -59,7 +59,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManager
             $registration = AdminDataManager :: get_registration($type, Registration :: TYPE_CONTENT_OBJECT);
             if ($registration && $registration->is_active())
             {
-                $type_options[$type] = Translation :: get(Utilities :: underscores_to_camelcase($type) . 'TypeName');
+                $type_options[$type] = Translation :: get(Utilities :: get_classname_from_namespace(Utilities :: underscores_to_camelcase($type)) . 'TypeName');
             }
         }
 
@@ -254,7 +254,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManager
             {
                 $types_html[] = '<a href="' . $this->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE => $type)) . '"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/big/' . $type . '.png);">';
                 //                $types_html[] = '<a href="' . $this->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE => $type)) . '"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/' . $type . '.png);">';
-                $types_html[] = $name;
+                $types_html[] = Translation :: get(Utilities :: get_classname_from_namespace($name));
                 $types_html[] = '</div></a>';
             }
 
