@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\FormValidator;
+use common\libraries\PlatformSetting;
 use common\libraries\Path;
 use common\libraries\Translation;
 
@@ -25,19 +27,19 @@ class CourseChangeCourseTypeForm extends FormValidator
         $this->course = $course;
         $this->allow_no_course_type = $user->is_platform_admin() || PlatformSetting :: get('allow_course_creation_without_coursetype', 'weblcms');
         $this->wdm = WeblcmsDataManager :: get_instance();
-        
+
         $this->build_form();
     }
 
     function build_form()
     {
         $this->addElement('hidden', Course :: PROPERTY_ID);
-        
+
         $this->addElement('select', self :: SELECT_COURSE_TYPE, Translation :: get('NewCourseType'), $this->get_course_types());
         $this->addRule('CourseType', Translation :: get('ThisFieldIsRequired'), 'required');
-        
+
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('ChangeCourseType'), array('class' => 'positive move'));
-        
+
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
@@ -59,7 +61,7 @@ class CourseChangeCourseTypeForm extends FormValidator
             $count = 0;
             while ($course_type = $course_type_objects->next_result())
                 $course_types[$course_type->get_id()] = $course_type->get_name();
-            
+
             if (is_null($this->course_type_id) && count == 0 && ! $this->allow_no_course_type)
             {
                 $parameters = array('go' => WeblcmsManager :: ACTION_COURSE_CHANGE_COURSETYPE, 'course' => $course->get_id());

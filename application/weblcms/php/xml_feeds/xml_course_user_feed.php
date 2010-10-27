@@ -1,6 +1,12 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\NotCondition;
+use user\User;
+use user\UserDataManager;
+use common\libraries\AndCondition;
+use common\libraries\EqualityCondition;
+use common\libraries\Request;
 use common\libraries\Path;
 
 /**
@@ -13,47 +19,47 @@ require_once Path :: get_application_path() . 'lib/weblcms/course_group/course_g
 if (Authentication :: is_valid())
 {
     $course = Request :: get('course');
-    
+
     if ($course)
     {
         $wdm = WeblcmsDataManager :: get_instance();
         $course = $wdm->retrieve_course($course);
-        
+
         $query = Request :: get('query');
         $exclude = Request :: get('exclude');
-        
+
         $user_conditions = array();
-        
+
         if ($query)
         {
             $q = '*' . $query . '*';
-            
+
             $user_conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, $q);
         }
-        
+
         if ($exclude)
         {
             if (! is_array($exclude))
             {
                 $exclude = array($exclude);
             }
-            
+
             $exclude_conditions = array();
-            
+
             foreach ($exclude as $id)
             {
                 $id = explode('_', $id);
                 $condition = new NotCondition(new EqualityCondition(User :: PROPERTY_ID, $id[1]));
-                
+
                 $exclude_conditions[] = $condition;
             }
-            
+
             if (count($exclude_conditions) > 0)
             {
                 $user_conditions[] = new AndCondition($exclude_conditions);
             }
         }
-        
+
         //if ($user_conditions)
         if (count($user_conditions) > 0)
         {
@@ -63,20 +69,20 @@ if (Authentication :: is_valid())
         {
             $user_condition = null;
         }
-        
+
         $udm = UserDataManager :: get_instance();
         $wdm = WeblcmsDataManager :: get_instance();
-        
+
         $user_result_set = $udm->retrieve_users($user_condition);
         $relation_condition = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $course);
         $course_user_relation_result_set = $wdm->retrieve_course_user_relations();
-        
+
         $user_ids = array();
         while ($course_user = $course_user_relation_result_set->next_result())
         {
             $user_ids[] = $course_user->get_user();
         }
-        
+
         $users = array();
         while ($user = $user_result_set->next_result())
         {

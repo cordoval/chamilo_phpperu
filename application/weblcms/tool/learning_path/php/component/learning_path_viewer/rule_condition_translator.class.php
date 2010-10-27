@@ -1,6 +1,10 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use common\libraries\InCondition;
+use common\libraries\AndCondition;
+use common\libraries\EqualityCondition;
+
 /**
  * $Id: rule_condition_translator.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.learning_path.component.learning_path_viewer
@@ -18,10 +22,10 @@ class RuleConditionTranslator
     {
         if ($this->stop_forward_traversing)
             return 'disabled';
-        
+
         if (($rules = $object->get_condition_rules()) == null)
             return 'enabled';
-        
+
         if (($objectives = $object->get_objectives()) != null)
         {
             if (($primary_objective = $objectives->get_primary_objective()) == null)
@@ -33,7 +37,7 @@ class RuleConditionTranslator
                 $ids = array();
                 foreach ($tracker_data['trackers'] as $tracker)
                     $ids[] = $tracker->get_id();
-                
+
                 if (count($ids) == 0)
                 {
                     $objective_trackers = null;
@@ -45,7 +49,7 @@ class RuleConditionTranslator
                     $condition = new AndCondition($conditions);
                     $dummy = new WeblcmsLpiAttemptObjectiveTracker();
                     $objective_trackers = $dummy->retrieve_tracker_items($condition);
-                
+
                 }
             }
         }
@@ -53,7 +57,7 @@ class RuleConditionTranslator
         {
             $objective_trackers = null;
         }
-        
+
         $pre_condition_rules = $rules->get_precondition_rules();
         foreach ($pre_condition_rules as $pre_condition_rule)
         {
@@ -67,7 +71,7 @@ class RuleConditionTranslator
                 case "any" :
                     $status = false;
             }
-            
+
             foreach ($rules as $rule)
             {
                 switch ($rule->get_condition())
@@ -82,10 +86,10 @@ class RuleConditionTranslator
                         $condition_status = $this->check_for_completed($tracker_data);
                         break;
                 }
-                
+
                 if ($rule->get_not_condition())
                     $condition_status = ! $condition_status;
-                
+
                 switch ($operator)
                 {
                     case "all" :
@@ -96,7 +100,7 @@ class RuleConditionTranslator
                         break;
                 }
             }
-            
+
             if ($status)
             {
                 if ($action == 'stopFowardTraversal')
@@ -104,14 +108,14 @@ class RuleConditionTranslator
                     $this->stop_forward_traversing = true;
                     return 'enabled';
                 }
-                
+
                 return $action;
             }
-        
+
         }
-        
+
         return 'enabled';
-    
+
     }
 
     private function check_for_satisfied($objective_trackers, $tracker_data)
@@ -136,7 +140,7 @@ class RuleConditionTranslator
                 }
             }
         }
-        
+
         return false;
     }
 

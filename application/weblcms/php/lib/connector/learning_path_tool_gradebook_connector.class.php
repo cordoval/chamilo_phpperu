@@ -1,20 +1,22 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\EqualityCondition;
+
 require_once dirname(__FILE__) . '/../trackers/weblcms_lp_attempt_tracker.class.php';
 class LearningPathToolGradebookConnector
 {
 
     function LearningPathToolGradebookConnector()
     {
-    
+
     }
 
     function get_tracker_score($publication_id)
     {
         $dummy = new WeblcmsLpAttemptTracker();
         $condition = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_LP_ID, $publication_id);
-        
+
         $trackers = $dummy->retrieve_tracker_items($condition);
         if (! $trackers)
             return false;
@@ -29,7 +31,7 @@ class LearningPathToolGradebookConnector
     {
         $dummy = new WeblcmsLpAttemptTracker();
         $condition = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_LP_ID, $publication_id);
-        
+
         $trackers = $dummy->retrieve_tracker_items($condition);
         if (! $trackers)
             return false;
@@ -44,19 +46,19 @@ class LearningPathToolGradebookConnector
     {
         //		$dummy = new WeblcmsLpAttemptTracker();
         //        $condition = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_LP_ID, $publication_id);
-        //        
+        //
         //        $trackers = $dummy->retrieve_tracker_items($condition);
         //        if(!$trackers)
         //        	return false;
         return null;
     }
 
-    //	
+    //
 //	function get_tracker_id($publication_id)
 //	{
 //		$dummy = new WeblcmsAssessmentAttemptsTracker();
 //        $condition = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $publication_id);
-//        
+//
 //        $trackers = $dummy->retrieve_tracker_items($condition);
 //        if(!$trackers)
 //        	return false;

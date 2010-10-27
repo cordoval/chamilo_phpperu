@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use common\libraries\Toolbar;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
 use common\libraries\Path;
 use common\libraries\Translation;
 
@@ -75,13 +78,13 @@ class AssessmentResultsTableOverviewAdminCellRenderer extends DefaultContentObje
         $toolbar = new Toolbar();
         $toolbar->add_item(new ToolbarItem(Translation :: get('ViewResults'), Theme :: get_common_image_path() . 'action_view_results.png', $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
         $toolbar->add_item(new ToolbarItem(Translation :: get('DeleteAllResults'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_DELETE_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())), ToolbarItem :: DISPLAY_ICON, true));
-        
+
         if ($assessment->get_assessment_type() == Assessment :: TYPE_ASSIGNMENT)
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('DownloadDocuments'), Theme :: get_common_image_path() . 'action_download.png', $this->browser->get_url(array(
                     Tool :: PARAM_ACTION => AssessmentTool :: ACTION_SAVE_DOCUMENTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
         }
-        
+
         return $toolbar->as_html();
     }
 
@@ -95,15 +98,15 @@ class AssessmentResultsTableOverviewAdminCellRenderer extends DefaultContentObje
     {
         $toolbar = new Toolbar();
         $table_actions = $this->table_actions;
-        
+
         foreach ($table_actions as $table_action)
         {
             $table_action['href'] = sprintf($table_action['href'], $content_object->get_id());
             $toolbar->add_item(new ToolbarItem(null, null, sprintf($table_action['href'], $content_object->get_id()), ToolbarItem :: DISPLAY_ICON));
-        
+
      //$toolbar_data[] = $table_action;
         }
-        
+
         return $toolbar->as_html();
     }
 }

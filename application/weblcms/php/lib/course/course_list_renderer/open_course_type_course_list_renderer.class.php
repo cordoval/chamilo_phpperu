@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\AndCondition;
+use common\libraries\EqualityCondition;
+
 require_once dirname(__FILE__) . '/course_type_course_list_renderer.class.php';
 
 /**
@@ -18,7 +21,7 @@ class OpenCourseTypeCourseListRenderer extends CourseTypeCourseListRenderer
         $conditions = array();
         $conditions[] = parent :: get_retrieve_courses_condition();
         $conditions[] = new EqualityCondition(CourseSettings :: PROPERTY_ACCESS, CourseSettings :: ACCESS_OPEN, CourseSettings :: get_table_name());
-        
+
         return new AndCondition($conditions);
     }
 }

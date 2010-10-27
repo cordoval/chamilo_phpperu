@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use user\UserDataManager;
+use common\libraries\Utilities;
 use common\libraries\DataClass;
 
 /**
@@ -31,7 +33,7 @@ use common\libraries\DataClass;
 class CourseUserRelation extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_COURSE = 'course_id';
     const PROPERTY_USER = 'user_id';
     const PROPERTY_STATUS = 'status';
@@ -121,7 +123,8 @@ class CourseUserRelation extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 }
 ?>

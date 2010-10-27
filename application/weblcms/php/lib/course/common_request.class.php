@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\DataClass;
 
@@ -12,14 +13,14 @@ use common\libraries\DataClass;
 class CommonRequest extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const ALLOWED_DECISION = 2;
     const DENIED_DECISION = 1;
     const NO_DECISION = 0;
-    
+
     const SUBSCRIPTION_REQUEST = 'subscription_request';
     const CREATION_REQUEST = 'creation_request';
-    
+
     const PROPERTY_USER_ID = 'user_id';
     const PROPERTY_SUBJECT = 'subject';
     const PROPERTY_MOTIVATION = 'motivation';
@@ -99,7 +100,8 @@ class CommonRequest extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 }
 ?>

@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\geolocation;
 
+use common\libraries\Request;
 use application\weblcms\ToolComponent;
 
 class GeolocationToolMoverComponent extends GeolocationTool

@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms;
 
+use user\UserDataManager;
+use common\libraries\AndCondition;
+use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
 
@@ -13,11 +16,11 @@ class WeblcmsLastAccessReportingBlock extends WeblcmsToolReportingBlock
     public function count_data()
     {
         $reporting_data = new ReportingData();
-        
+
         $course_id = $this->get_course_id();
         $user_id = $this->get_user_id();
         $udm = UserDataManager :: get_instance();
-        
+
         if (isset($user_id))
         {
             $conditions[] = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*course=' . $course_id . '*');
@@ -28,12 +31,12 @@ class WeblcmsLastAccessReportingBlock extends WeblcmsToolReportingBlock
         {
             $condition = new PattenMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*&course=' . $course_id . '*');
         }
-        
+
         $user = $udm->retrieve_user($user_id);
         $arr = self :: visit_tracker_to_array($condition, $user);
-        
+
         $description['default_sort_column'] = 1;
-        
+
         return $reporting_data;
     }
 

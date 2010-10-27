@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\chat;
 
+use application\weblcms\Tool;
+
 /**
  * $Id: chat_tool.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.chat
@@ -11,7 +13,7 @@ namespace application\weblcms\tool\chat;
 class ChatTool extends Tool
 {
     const ACTION_VIEW_CHAT = 'viewer';
-    
+
     const DEFAULT_ACTION = self :: ACTION_VIEW_CHAT;
 
     function get_application_component_path()

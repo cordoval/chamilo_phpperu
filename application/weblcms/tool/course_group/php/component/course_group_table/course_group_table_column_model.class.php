@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\course_group;
 
+use common\libraries\ObjectTableColumn;
+use common\libraries\ObjectTableOrder;
+
 /**
  * $Id: course_group_table_column_model.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.course_group.component.course_group_table
@@ -107,7 +110,7 @@ class CourseGroupTableColumnModel
     function get_order_column($column_number, $order_direction)
     {
         $column = $this->get_column($column_number);
-        
+
         // If it's an ObjectTableColumn AND sorting is allowed for it, then return the property
         if ($column && $column instanceof ObjectTableColumn && $column->is_sortable())
         {
@@ -117,7 +120,7 @@ class CourseGroupTableColumnModel
         else
         {
             $default_column = $this->get_column($this->get_default_order_column());
-            
+
             // Make sure the default order column is actually an ObjectTableColumn AND sortabele
             if ($default_column instanceof ObjectTableColumn && $default_column->is_sortable())
             {

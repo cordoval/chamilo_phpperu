@@ -1,6 +1,13 @@
 <?php
 namespace application\weblcms;
 
+use reporting\ReportingManager;
+use repository\RepositoryDataManager;
+use user\UserDataManager;
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Request;
+
 /**
  * $Id: reporting_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.component
@@ -21,16 +28,16 @@ class ToolComponentReportingViewerComponent extends ToolComponent
     {
         $classname = Request :: get(ReportingManager :: PARAM_TEMPLATE_NAME);
         $this->set_parameter(ReportingManager :: PARAM_TEMPLATE_NAME, $classname);
-        
+
         $trail = BreadcrumbTrail :: get_instance();
-        
+
         $user = Request :: get('user_id');
-        
+
         $rtv = ReportingViewer :: construct($this);
         $rtv->add_template_by_name($classname, WeblcmsManager :: APPLICATION_NAME);
         $rtv->set_breadcrumb_trail($trail);
         $rtv->show_all_blocks();
-        
+
         $rtv->run();
     }
 
@@ -61,7 +68,7 @@ class ToolComponentReportingViewerComponent extends ToolComponent
             $user = DatabaseUserDataManager :: get_instance()->retrieve_user($user);
             $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'user_details', 'users' => $user)), $user->get_firstname() . ' ' . $user->get_lastname()));
         }
-        
+
         if (Request :: get('cid') != null)
         {
             $cloi = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item(Request :: get('cid'));

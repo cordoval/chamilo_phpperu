@@ -1,4 +1,15 @@
 <?php
+namespace application\wiki;
+
+use common\libraries\WebApplication;
+use common\libraries\ObjectTable;
+use common\libraries\ObjectTableColumn;
+use common\libraries\ObjectTableFormAction;
+use common\libraries\ObjectTableFormActions;
+use common\libraries\Translation;
+use common\libraries\Utilities;
+use repository\ContentObject;
+
 /**
  * $Id: wiki_publication_browser_table.class.php 210 2009-11-13 13:18:50Z kariboe $
  * @package application.lib.wiki.wiki_manager.component.wiki_publication_browser

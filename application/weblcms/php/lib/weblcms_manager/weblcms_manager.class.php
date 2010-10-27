@@ -1,6 +1,18 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Filesystem;
+use user\UserDataManager;
+use common\libraries\Redirect;
+use common\libraries\Display;
+use common\libraries\Application;
+use common\libraries\Theme;
+use common\libraries\Session;
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
+use common\libraries\Request;
 use common\libraries\WebApplication;
 use common\libraries\Translation;
 
@@ -51,7 +63,7 @@ require_once dirname(__FILE__) . '/../course_type/course_type_user_category.clas
 class WeblcmsManager extends WebApplication
 {
     const APPLICATION_NAME = 'weblcms';
-    
+
     const PARAM_REQUEST_TYPE = 'request_type';
     const PARAM_REQUEST_VIEW = 'request_view';
     const PARAM_REQUEST = 'request';
@@ -86,7 +98,7 @@ class WeblcmsManager extends WebApplication
     const PARAM_PUBLICATION = 'publication';
     const PARAM_ALLOW_SELECTED_REQUESTS = 'allow_selected_requests';
     const PARAM_REFUSE_SELECTED_REQUESTS = 'refuse_selected_requests';
-    
+
     const ACTION_SUBSCRIBE = 'subscribe';
     const ACTION_CHANGE_COURSE_TYPE_FROM_COURSE = 'course_change_course_type';
     const ACTION_SUBSCRIBE_GROUP = 'group_subscribe';
@@ -124,11 +136,11 @@ class WeblcmsManager extends WebApplication
     const ACTION_REPORTING = 'reporting';
     const ACTION_COURSE_CODE = 'course_code_subscriber';
     const ACTION_COURSE_CREATE_REQUEST_CREATOR = 'course_create_request_creator';
-    
+
     const ACTION_RENDER_BLOCK = 'block';
-    
+
     const DEFAULT_ACTION = self :: ACTION_VIEW_WEBLCMS_HOME;
-    
+
     /**
      * The tools that this course offers.
      */
@@ -141,26 +153,26 @@ class WeblcmsManager extends WebApplication
      * The class of the tool currently active in this application
      */
     private $tool_class;
-    
+
     /**
      * The course object of the course currently active in this application
      */
     private $course;
-    
+
     /**
      * The course_type object of the course currently active in this application
      */
     private $course_type;
-    
+
     /**
      * The course_group object of the course_group currently active in this application
      */
     private $course_group;
-    
+
     private $search_form;
-    
+
     private $request;
-    
+
     /**
      * The new publications for each tool are cached here
      * @var Array[tool] = new publications count
@@ -175,18 +187,18 @@ class WeblcmsManager extends WebApplication
     function WeblcmsManager($user)
     {
         parent :: __construct($user);
-        
+
         //        $this->set_parameter(self :: PARAM_ACTION, Request :: get(self :: PARAM_ACTION));
         //        $this->set_parameter(self :: PARAM_CATEGORY, Request :: get(self :: PARAM_CATEGORY));
         //        $this->set_parameter(self :: PARAM_COURSE, Request :: get(self :: PARAM_COURSE));
         //$this->parse_input_from_table();
-        
+
 
         $this->course_type = $this->load_course_type();
         $this->tools = array();
         $this->course = new Course();
         $this->load_course();
-        
+
         $this->course_group = null;
         $this->load_course_group();
         $this->sections = array();
@@ -228,7 +240,7 @@ class WeblcmsManager extends WebApplication
         $parameters[self :: PARAM_ACTION] = self :: ACTION_CHANGE_ACTIVE;
         $parameters[self :: PARAM_TYPE] = $type;
         $parameters[self :: PARAM_COURSE_TYPE] = $course_type_id;
-        
+
         return $this->get_url($parameters);
     }
 
@@ -274,7 +286,7 @@ class WeblcmsManager extends WebApplication
     //{
     //	$this->course_type = $course_type;
     //}
-    
+
 
     /**
      * Returns the identifier of the course that is being used.
@@ -284,7 +296,7 @@ class WeblcmsManager extends WebApplication
     {
         if ($this->course == null)
             return 0;
-        
+
         return $this->course->get_id();
     }
 
@@ -297,7 +309,7 @@ class WeblcmsManager extends WebApplication
 		return $this->course_type->get_id();
 	}
 	*/
-    
+
     /**
      * Returns the course_group that is being used.
      * @return string The course_group.
@@ -496,7 +508,7 @@ class WeblcmsManager extends WebApplication
 
 		echo '<div class="clear">&nbsp;</div>';
 	}*/
-    
+
     /**
      * Displays the footer of this application
      */
@@ -537,7 +549,7 @@ class WeblcmsManager extends WebApplication
         {
             $wdm = WeblcmsDataManager :: get_instance();
             $this->tools = $wdm->get_course_modules($this->get_course_id());
-        
+
      //            foreach ($this->tools as $index => $tool)
         //            {
         //                require_once dirname(__FILE__) . '/../tool/' . $tool->name . '/' . $tool->name . '_tool.class.php';
@@ -703,7 +715,7 @@ class WeblcmsManager extends WebApplication
     {
         $locations = array();
         $type = $content_object->get_type();
-        
+
         //$courses = $this->retrieve_courses($user->get_id());
         $courses = WeblcmsDataManager :: get_instance()->retrieve_user_courses(new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $user->get_id(), CourseUserRelation :: get_table_name()));
         while ($course = $courses->next_result())
@@ -711,16 +723,16 @@ class WeblcmsManager extends WebApplication
             if ($course->is_course_admin($user) || $content_object->get_type() == 'document') //u can only publish in the course of u are course admin/ also documents in dropboxes
                 $c[] = $course;
         }
-        
+
         $directory = dirname(__FILE__) . '/../tool/';
         $tools = Filesystem :: get_directory_content($directory, Filesystem :: LIST_DIRECTORIES, false);
         foreach ($tools as $tool)
         {
             $path = $directory . $tool . '/' . $tool . '_tool.class.php';
-            
+
             if (! file_exists($path))
                 continue;
-            
+
             require_once $path;
             $class = Utilities :: underscores_to_camelcase($tool) . 'Tool';
             $obj = new $class(new self());
@@ -731,7 +743,7 @@ class WeblcmsManager extends WebApplication
             if (in_array($type, $allowed_types))
             {
                 $user = Session :: get_user_id();
-                
+
                 foreach ($c as $course)
                     $locations[$course->get_id() . '-' . $tool] = 'Course: ' . $course->get_name() . ' - Tool: ' . $tool;
             }
@@ -746,7 +758,7 @@ class WeblcmsManager extends WebApplication
         $tool = $location_split[1]; //echo $location;
         $dm = WeblcmsDataManager :: get_instance();
         $do = $dm->get_next_content_object_publication_display_order_index($course, $tool, 0);
-        
+
         $pub = new ContentObjectPublication();
         $pub->set_content_object_id($content_object->get_id());
         $pub->set_course_id($course);
@@ -755,21 +767,21 @@ class WeblcmsManager extends WebApplication
         $pub->set_display_order_index($do);
         $pub->set_publication_date(time());
         $pub->set_modified_date(time());
-        
+
         $pub->set_hidden($attributes[ContentObjectPublication :: PROPERTY_HIDDEN]);
         if (is_null($pub->is_hidden()))
             $pub->set_hidden(0);
-        
+
         if ($attributes['forever'] == 0)
         {
             $pub->set_from_date(Utilities :: time_from_datepicker($attributes['from_date']));
             $pub->set_to_date(Utilities :: time_from_datepicker($attributes['to_date']));
         }
-        
+
         $pub->create();
-        
+
         $course = $dm->retrieve_course($course);
-        
+
         return Translation :: get('PublicationCreated') . ': <b>' . Translation :: get('Course') . '</b>: ' . $course->get_name() . ' - <b>' . Translation :: get('Tool') . '</b>: ' . $tool;
     }
 
@@ -780,7 +792,7 @@ class WeblcmsManager extends WebApplication
         $form->add_forever_or_timewindow('PublicationPeriod', self :: APPLICATION_NAME . '_opt_');
         $form->addElement('category');
         $form->addElement('html', '<br />');
-        
+
         $defaults[self :: APPLICATION_NAME . '_opt_forever'] = 1;
         $form->setDefaults($defaults);
     }
@@ -1058,7 +1070,7 @@ class WeblcmsManager extends WebApplication
         {
             $course = $this->get_course();
         }
-        
+
         return WeblcmsDataManager :: tool_has_new_publications($tool, $this->get_user(), $course);
     }
 
@@ -1135,7 +1147,7 @@ class WeblcmsManager extends WebApplication
     function get_course_request_form_url($course)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COURSE_SUBSCRIBE_CREATE_REQUEST, self :: PARAM_COURSE => $course->get_id()));
-    
+
     }
 
     function get_course_code_url($course)
@@ -1233,7 +1245,7 @@ class WeblcmsManager extends WebApplication
         {
             $course_type_user_category_id = $course_type_user_category->get_id();
         }
-        
+
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT, self :: PARAM_COMPONENT_ACTION => 'assign', self :: PARAM_COURSE => $course->get_id(), self :: PARAM_COURSE_TYPE_USER_CATEGORY_ID => $course_type_user_category_id));
     }
 
@@ -1285,12 +1297,12 @@ class WeblcmsManager extends WebApplication
         if ($user != null && $course != null)
         {
             $relation = $this->retrieve_course_user_relation($course->get_id(), $user->get_id());
-            
+
             if (($relation && $relation->get_status() == 1) || $user->is_platform_admin())
                 return true;
-        
+
         }
-        
+
         return false;
     }
 
@@ -1350,11 +1362,11 @@ class WeblcmsManager extends WebApplication
     private function parse_input_from_table()
     {
         $action = $_POST['action'];
-        
+
         if (isset($action))
         {
             $action = $_POST['action'];
-            
+
             $selected_request_id = $_POST[AdminRequestBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
             if (empty($selected_request_id))
             {
@@ -1364,7 +1376,7 @@ class WeblcmsManager extends WebApplication
             {
                 $selected_request_id = array($selected_request_id);
             }
-            
+
             $selected_course_ids = $_POST[AdminCourseBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
             if (empty($selected_course_ids))
             {
@@ -1374,7 +1386,7 @@ class WeblcmsManager extends WebApplication
             {
                 $selected_course_ids = array($selected_course_ids);
             }
-            
+
             $selected_user_ids = $_POST[SubscribedUserBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
             if (empty($selected_user_ids))
             {
@@ -1384,7 +1396,7 @@ class WeblcmsManager extends WebApplication
             {
                 $selected_user_ids = array($selected_user_ids);
             }
-            
+
             $selected_group_ids = $_POST[SubscribeGroupBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
             if (empty($selected_group_ids))
             {
@@ -1394,42 +1406,42 @@ class WeblcmsManager extends WebApplication
             {
                 $selected_group_ids = array($selected_group_ids);
             }
-            
+
             $selected_course_type_ids = $_POST[AdminCourseTypeBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
             if (empty($selected_course_type_ids))
             {
                 $selected_course_type_ids = array();
             }
-            
+
             elseif (! is_array($selected_course_type_ids))
             {
                 $selected_course_type_ids = array($selected_course_type_ids);
             }
-            
+
             $selected_course_type_id = $_POST[AdminCourseTypeBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
             if ($action == 'enable' || $action == 'disable')
             {
                 $this->redirect('url', null, null, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_CHANGE_ACTIVE, WeblcmsManager :: PARAM_COURSE_TYPE => $selected_course_type_id, WeblcmsManager :: PARAM_TYPE => 'course_type', WeblcmsManager :: PARAM_EXTRA => $action));
             }
-            
+
             switch ($action)
             {
                 case self :: PARAM_REMOVE_SELECTED :
                     $this->set_action(self :: ACTION_DELETE_COURSE);
                     Request :: set_get(self :: PARAM_COURSE, $selected_course_ids);
                     break;
-                
+
                 case self :: PARAM_UNSUBSCRIBE_SELECTED :
                     $this->set_action(self :: ACTION_MANAGER_UNSUBSCRIBE);
                     Request :: set_get(self :: PARAM_USERS, $selected_user_ids);
                     break;
-                
+
                 case self :: PARAM_SUBSCRIBE_SELECTED_AS_STUDENT :
                     $this->set_action(self :: ACTION_MANAGER_SUBSCRIBE);
                     Request :: set_get(self :: PARAM_USERS, $selected_user_ids);
                     Request :: set_get(self :: PARAM_STATUS, 5);
                     break;
-                
+
                 case self :: PARAM_SUBSCRIBE_SELECTED_AS_ADMIN :
                     $this->set_action(self :: ACTION_MANAGER_SUBSCRIBE);
                     Request :: set_get(self :: PARAM_USERS, $selected_user_ids);
@@ -1544,7 +1556,7 @@ class WeblcmsManager extends WebApplication
         $links[] = new DynamicAction(Translation :: get('CourseCategoryManagement'), Translation :: get('CourseCategoryManagementDescription'), Theme :: get_image_path() . 'browse_category.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
                 Application :: PARAM_ACTION => WeblcmsManager :: ACTION_COURSE_CATEGORY_MANAGER)));
         $links[] = new DynamicAction(Translation :: get('UserImport'), Translation :: get('UserImportDescription'), Theme :: get_image_path() . 'browse_import.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSE_USERS)));
-        
+
         $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
         $info['links'] = $links;
         $info['search'] = Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER));
@@ -1560,7 +1572,7 @@ class WeblcmsManager extends WebApplication
         $links = array();
         $links[] = array('name' => Translation :: get('ImportCourses'), 'description' => Translation :: get('ImportCoursesDescription'), 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSES)));
         $links[] = array('name' => Translation :: get('ImportCourseUsers'), 'description' => Translation :: get('ImportCourseUsersDescription'), 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSE_USERS)));
-        
+
         return $links;
     }
 
@@ -1594,25 +1606,25 @@ class WeblcmsManager extends WebApplication
     function get_additional_user_information($user)
     {
         $html = array();
-        
+
         $table = new Html_Table(array('class' => 'data_table'));
-        
+
         $table->setHeaderContents(0, 0, Translation :: get('Courses'));
         $table->setCellAttributes(0, 0, array('colspan' => 2, 'style' => 'text-align: center;'));
-        
+
         $table->setHeaderContents(1, 0, Translation :: get('CourseCode'));
         $table->setHeaderContents(1, 1, Translation :: get('CourseName'));
-        
+
         $courses = $this->retrieve_user_courses(new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $user->get_id(), CourseUserRelation :: get_table_name()));
-        
+
         if ($courses->size() == 0)
         {
             $table->setCellContents(2, 0, Translation :: get('NoCourses'));
             $table->setCellAttributes(2, 0, array('colspan' => 2, 'style' => 'text-align: center;'));
         }
-        
+
         $i = 2;
-        
+
         while ($course = $courses->next_result())
         {
             $url = '<a href="' . $this->get_course_viewing_link($course) . '">';
@@ -1621,11 +1633,11 @@ class WeblcmsManager extends WebApplication
             $table->setCellContents($i, 1, $url . $course->get_name() . '</a>');
             $i ++;
         }
-        
+
         $table->altRowAttributes(1, array('class' => 'row_odd'), array('class' => 'row_even'), true);
-        
+
         $html[] = $table->toHtml();
-        
+
         return implode("\n", $html);
     }
 

@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\DataClass;
 
@@ -12,17 +14,17 @@ use common\libraries\DataClass;
 class CourseType extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_NAME = 'name';
     const PROPERTY_DESCRIPTION = 'description';
     const PROPERTY_ACTIVE = 'active';
-    
+
     private $settings;
-    
+
     private $layout;
-    
+
     private $tools;
-    
+
     private $rights;
 
     /**
@@ -178,7 +180,7 @@ class CourseType extends DataClass
     {
         if ($user->is_platform_admin())
             return CourseTypeGroupCreationRight :: CREATE_DIRECT;
-        
+
         $current_right = $this->get_rights()->can_group_create(0);
         $group_ids = $user->get_groups(true);
         foreach ($group_ids as $group_id)
@@ -201,7 +203,7 @@ class CourseType extends DataClass
         {
             return false;
         }
-        
+
         //        require_once (dirname(__FILE__) . '/../category_manager/content_object_publication_category.class.php');
         //        $dropbox = new ContentObjectPublicationCategory();
         //        $dropbox->create_dropbox($this->get_id());
@@ -229,7 +231,7 @@ class CourseType extends DataClass
         //        {
         //            return false;
         //        }
-        
+
 
         return true;
     }
@@ -241,11 +243,12 @@ class CourseType extends DataClass
     //        return $wdm->create_course_type_all($this);
     //    }
     //
-    
+
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 
     /**

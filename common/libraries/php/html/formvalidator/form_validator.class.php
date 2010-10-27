@@ -636,7 +636,7 @@ EOT;
     {
         $this->with_progress_bar = true;
         $this->updateAttributes("onsubmit=\"javascript: myUpload.start('dynamic_div','" . Theme :: get_common_image_path() . "action_progress_bar.gif','" . Translation :: get('PleaseStandBy') . "','" . $this->getAttribute('id') . "');\"");
-        $this->addElement('html', '<script src="' . Path :: get(WEB_LIB_PATH) . 'javascript/upload.js" type="text/javascript"></script>');
+        $this->addElement('html', '<script src="' . Path :: get(WEB_LIB_PATH) . 'libraries/resources/javascript/upload.js" type="text/javascript"></script>');
         $this->addElement('html', '<script type="text/javascript">var myUpload = new upload(' . (abs(intval($delay)) * 1000) . ');</script>');
     }
 

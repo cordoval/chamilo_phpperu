@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use repository\RepositoryDataManager;
+
 /**
  * $Id: export.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.assessment.component.assessment_results_export_form
@@ -14,7 +16,7 @@ abstract class ResultsExport
     const FILETYPE_CSV = 'csv';
     const FILETYPE_PDF = 'pdf';
     const FILETYPE_XML = 'xml';
-    
+
     protected $wdm;
     protected $rdm;
 

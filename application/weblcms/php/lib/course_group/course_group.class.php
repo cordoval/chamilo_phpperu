@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
 use common\libraries\NestedTreeNode;
 use common\libraries\Translation;
 
@@ -20,7 +22,7 @@ use common\libraries\Translation;
 class CourseGroup extends NestedTreeNode
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_COURSE_CODE = 'course_id';
     const PROPERTY_NAME = 'name';
     const PROPERTY_MAX_NUMBER_OF_MEMBERS = 'max_number_of_members';
@@ -221,7 +223,8 @@ class CourseGroup extends NestedTreeNode
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 
     function get_data_manager()
@@ -239,7 +242,7 @@ class CourseGroup extends NestedTreeNode
                 $this->set_parent_id($root_group->get_id());
             }
         }
-        
+
         return parent :: create();
     }
 
@@ -249,20 +252,20 @@ class CourseGroup extends NestedTreeNode
         {
             return parent :: update();
         }
-        
+
         return false;
     }
 
     function check_before_save()
     {
         $children = WeblcmsDataManager :: get_instance()->count_course_group_users($this);
-        
+
         if ($children > $this->get_max_number_of_members())
         {
             $this->add_error(Translation :: get('MaximumMembersToSmall'));
             return false;
         }
-        
+
         return true;
     }
 

@@ -1,5 +1,17 @@
 <?php
 namespace common\extensions\feedback_manager;
+
+use common\libraries\BbcodeParser;
+use repository\ContentObjectDisplay;
+use common\libraries\DatetimeUtilities;
+use user\UserManager;
+use common\libraries\Utilities;
+use repository\RepositoryDataManager;
+use common\libraries\Path;
+use common\libraries\Theme;
+use common\libraries\ToolbarItem;
+use admin\AdminDataManager;
+use common\libraries\Translation;
 /**
  * $Id: browser.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.feedback_manager.component
@@ -13,22 +25,21 @@ namespace common\extensions\feedback_manager;
 
 require_once dirname(__FILE__) . '/../feedback_form.class.php';
 
-
 class FeedbackManagerBrowserOnlyComponent extends FeedbackManager
 {
-    
+
     const TITLE_MARKER = '<!-- /title -->';
     const DESCRIPTION_MARKER = '<!-- /description -->';
-    
+
     private $html;
 
     function run()
     {
         $html = $this->as_html();
-        
-    	$this->display_header();
-    	echo $html;
-    	$this->display_footer();
+
+        $this->display_header();
+        echo $html;
+        $this->display_footer();
     }
 
     function as_html()
@@ -39,13 +50,8 @@ class FeedbackManagerBrowserOnlyComponent extends FeedbackManager
         $action = $this->get_action();
         $html = array();
 
-        
-
-
-
         $feedbackpublications = $this->retrieve_feedback_publications($publication_id, $complex_wrapper_id, $application);
         $feedback_count = AdminDataManager :: get_instance()->count_feedback_publications($publication_id, $complex_wrapper_id, $application);
-
 
         $counter = 0;
         while ($feedback = $feedbackpublications->next_result())
@@ -67,20 +73,16 @@ class FeedbackManagerBrowserOnlyComponent extends FeedbackManager
             $html[] = '</div>';
         }
 
-
-
         $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/feedback_list.js' . '"></script>';
 
-        
-        
         $this->html = $html;
-        
+
         return implode("\n", $this->html);
     }
 
     function render_feedback($feedback)
     {
-        
+
         $id = $feedback->get_fid();
         $feedback_object = RepositoryDataManager :: get_instance()->retrieve_content_object($id);
         $html = array();
@@ -92,7 +94,7 @@ class FeedbackManagerBrowserOnlyComponent extends FeedbackManager
         $html[] = '</div>';
         $html[] = self :: TITLE_MARKER;
         $html[] = $this->get_description($feedback_object);
-        
+
         if ($this->get_user()->get_id() == $feedback_object->get_owner_id())
         {
             $html[] = '<div class="publication_actions">';
@@ -100,11 +102,11 @@ class FeedbackManagerBrowserOnlyComponent extends FeedbackManager
             $html[] = $this->render_update_action($feedback);
             $html[] = '</div>';
         }
-        
+
         $html[] = '</div>';
-        
+
         return implode("\n", $html);
-    
+
     }
 
     function get_description($feedback)
@@ -117,7 +119,7 @@ class FeedbackManagerBrowserOnlyComponent extends FeedbackManager
 
     function render_delete_action($feedback)
     {
-        $delete_url = $this->get_url(array(FeedbackManager :: PARAM_ACTION => FeedbackManager :: ACTION_DELETE_FEEDBACK,  FeedbackManager :: PARAM_FEEDBACK_ID => $feedback->get_id(), FeedbackManager :: PARAM_OLD_ACTION => $this->get_action()));
+        $delete_url = $this->get_url(array(FeedbackManager :: PARAM_ACTION => FeedbackManager :: ACTION_DELETE_FEEDBACK, FeedbackManager :: PARAM_FEEDBACK_ID => $feedback->get_id(), FeedbackManager :: PARAM_OLD_ACTION => $this->get_action()));
         $delete_link = '<a href="' . $delete_url . '" onclick="return confirm(\'' . addslashes(Translation :: get('ConfirmYourChoice')) . '\');"><img src="' . Theme :: get_common_image_path() . 'action_delete.png"  alt=""/></a>';
         return $delete_link;
     }

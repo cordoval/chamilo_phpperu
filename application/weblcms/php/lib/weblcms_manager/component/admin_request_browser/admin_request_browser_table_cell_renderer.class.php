@@ -1,6 +1,10 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Toolbar;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
+use common\libraries\Request;
 use common\libraries\Translation;
 
 /**
@@ -32,11 +36,11 @@ class AdminRequestBrowserTableCellRenderer extends DefaultCourseRequestTableCell
         {
             return $this->get_modification_links($request);
         }
-        
+
         // Add special features here
         switch ($column->get_name())
         {
-            
+
             case CommonRequest :: PROPERTY_MOTIVATION :
                 $motivation = strip_tags(parent :: render_cell($column, $request));
                 if (strlen($motivation) > 175)
@@ -44,7 +48,7 @@ class AdminRequestBrowserTableCellRenderer extends DefaultCourseRequestTableCell
                     $motivation = mb_substr($motivation, 0, 200) . '&hellip;';
                 }
                 return $motivation;
-        
+
      //case Course::PROPERTY_COURSE_TYPE_ID: return WeblcmsDatamanager::get_instance()->retrieve_course_type($course->get_course_type_id())->get_name();
         // Exceptions that need post-processing go here ...
         }
@@ -60,19 +64,19 @@ class AdminRequestBrowserTableCellRenderer extends DefaultCourseRequestTableCell
     private function get_modification_links($request)
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
-        
+
         $check_item = $request->get_decision();
         if ($check_item == CommonRequest :: NO_DECISION)
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('Allow'), Theme :: get_common_image_path() . 'action_confirm.png', $this->browser->get_course_request_allowing_url($request, $this->browser->get_request_type(), $this->browser->get_request_view()), ToolbarItem :: DISPLAY_ICON));
-            
+
             $toolbar->add_item(new ToolbarItem(Translation :: get('Refuse'), Theme :: get_common_image_path() . 'action_refuse.png', $this->browser->get_course_request_refuse_url($request, $this->browser->get_request_type(), $this->browser->get_request_view()), ToolbarItem :: DISPLAY_ICON));
         }
-        
+
         $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_course_request_deleting_url($request, $this->browser->get_request_type(), $this->browser->get_request_view()), ToolbarItem :: DISPLAY_ICON, true));
-        
+
         $toolbar->add_item(new ToolbarItem(Translation :: get('View'), Theme :: get_common_image_path() . 'action_view.png', $this->browser->get_course_request_viewing_url($request, $this->browser->get_request_type(), $this->browser->get_request_view()), ToolbarItem :: DISPLAY_ICON));
-        
+
         return $toolbar->as_html();
     }
 }

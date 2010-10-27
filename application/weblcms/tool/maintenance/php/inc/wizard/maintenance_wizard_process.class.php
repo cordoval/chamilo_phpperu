@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\maintenance;
 
+use Exception;
+
 /**
  * $Id: maintenance_wizard_process.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.maintenance.inc.wizard
@@ -20,7 +22,7 @@ namespace application\weblcms\tool\maintenance;
  */
 class MaintenanceWizardProcess extends HTML_QuickForm_Action
 {
-    
+
     /**
      * The repository tool in which the wizard runs.
      */
@@ -65,7 +67,7 @@ class MaintenanceWizardProcess extends HTML_QuickForm_Action
             case ActionSelectionMaintenanceWizardPage :: ACTION_IMPORT_CP :
                 ActionImportCp :: factory($this->get_parent())->perform($page, $actionName);
                 break;
-            
+
             default :
                 throw new Exception('Case not implemented');
         }

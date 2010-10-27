@@ -1,6 +1,11 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\FormValidator;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\AndCondition;
+use common\libraries\EqualityCondition;
+use common\libraries\Request;
 use common\libraries\Translation;
 
 /**
@@ -23,7 +28,7 @@ class ToolComponentCategoryMoverComponent extends ToolComponent
                 $this->display_error_message('CategoryFormCouldNotBeBuild');
                 $this->display_footer();
             }
-            
+
             $publication_ids = Request :: get(Tool :: PARAM_PUBLICATION_ID);
             if (! is_array($publication_ids))
             {
@@ -40,7 +45,7 @@ class ToolComponentCategoryMoverComponent extends ToolComponent
                     $publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($publication_id);
                     $publication->set_category_id($form->exportValue('category'));
                     $publication->update();
-                    
+
                     if ($publication->get_category_id())
                     {
                         $new_parent_id = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_COURSE_CATEGORY, $publication->get_category_id(), $publication->get_course_id());
@@ -50,13 +55,13 @@ class ToolComponentCategoryMoverComponent extends ToolComponent
                         $course_module_id = WeblcmsDataManager :: get_instance()->retrieve_course_module_by_name($publication->get_course_id(), $publication->get_tool())->get_id();
                         $new_parent_id = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_COURSE_MODULE, $course_module_id, $publication->get_course_id());
                     }
-                    
+
                     $location = WeblcmsRights :: get_location_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_PUBLICATION, $publication->get_id(), $publication->get_course_id());
                     if ($location)
                     {
                         $location->move($new_parent_id);
                     }
-                
+
                 }
                 if (count($publication_ids) == 1)
                 {
@@ -73,14 +78,14 @@ class ToolComponentCategoryMoverComponent extends ToolComponent
                 //$message = $form->toHtml();
                 $trail = BreadcrumbTrail :: get_instance();
                 $trail->add_help('courses general');
-                
+
                 $this->display_header();
                 $form->display();
                 $this->display_footer();
             }
         }
     }
-    
+
     private $tree;
 
     function build_move_to_category_form()
@@ -90,7 +95,7 @@ class ToolComponentCategoryMoverComponent extends ToolComponent
         {
             $publication_ids = array($publication_ids);
         }
-        
+
         if (count($publication_ids) > 0)
         {
             $pub = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($publication_ids[0]);
@@ -105,14 +110,14 @@ class ToolComponentCategoryMoverComponent extends ToolComponent
                 //$form->addElement('submit', 'submit', Translation :: get('Ok'));
                 $buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Move'), array('class' => 'positive move'));
                 $buttons[] = $form->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
-                
+
                 $form->addGroup($buttons, 'buttons', null, '&nbsp;', false);
                 return $form;
-            
+
             }
         }
     }
-    
+
     private $level = 1;
 
     function build_category_tree($parent_id, $exclude)
@@ -123,7 +128,7 @@ class ToolComponentCategoryMoverComponent extends ToolComponent
         $conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_TOOL, $this->get_tool_id());
         $condition = new AndCondition($conditions);
         $categories = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication_categories($condition);
-        
+
         $tree = array();
         while ($cat = $categories->next_result())
         {

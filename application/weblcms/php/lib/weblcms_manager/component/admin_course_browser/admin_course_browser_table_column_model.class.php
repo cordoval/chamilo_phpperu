@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\StaticTableColumn;
+use common\libraries\ObjectTableColumn;
+
 /**
  * $Id: admin_course_browser_table_column_model.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms.weblcms_manager.component.admin_course_browser

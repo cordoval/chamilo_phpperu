@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\rights;
 
+use application\weblcms\Tool;
+
 /**
  * $Id: rights_tool.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.rights
@@ -11,7 +13,7 @@ namespace application\weblcms\tool\rights;
  */
 class RightsTool extends Tool
 {
-    
+
     const DEFAULT_ACTION = self :: ACTION_EDIT_RIGHTS;
 
     function get_application_component_path()

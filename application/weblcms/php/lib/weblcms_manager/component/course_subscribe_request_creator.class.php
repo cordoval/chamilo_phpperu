@@ -1,6 +1,11 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Display;
+use common\libraries\Application;
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Request;
 use common\libraries\Translation;
 
 /**
@@ -20,7 +25,7 @@ class WeblcmsManagerCourseSubscribeRequestCreatorComponent extends WeblcmsManage
     {
         $course_code = Request :: get(WeblcmsManager :: PARAM_COURSE);
         $failures = 0;
-        
+
         $trail = BreadcrumbTrail :: get_instance();
         /*
         if (! $this->get_user()->is_platform_admin())
@@ -34,7 +39,7 @@ class WeblcmsManagerCourseSubscribeRequestCreatorComponent extends WeblcmsManage
         $course = $this->retrieve_course($course_code);
         $request = new CourseRequest();
         $form = new CourseRequestForm(CourseRequestForm :: TYPE_CREATE, $this->get_url(array(WeblcmsManager :: PARAM_COURSE => $course_code)), $course, $this, $request, true);
-        
+
         if ($form->validate())
         {
             $success_request = $form->create_request();
@@ -52,11 +57,11 @@ class WeblcmsManagerCourseSubscribeRequestCreatorComponent extends WeblcmsManage
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        
+
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(null, array(Application :: PARAM_ACTION, WeblcmsManager :: PARAM_COURSE)), Translation :: get('MyCourses')));
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_SUBSCRIBE), array(WeblcmsManager :: PARAM_COURSE)), Translation :: get('CourseSubscribe')));
         $breadcrumbtrail->add_help('course request');
-        
+
         $breadcrumbtrail->add_help('update request');
     }
 

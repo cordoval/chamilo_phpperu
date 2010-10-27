@@ -339,7 +339,7 @@ EOT;
                 $defaults[$lo->get_id()] = array('title' => $lo->get_title(), 'description', $lo->get_description(), 'class' => $lo->get_type());
             }
 
-            $url = $this->get_path(WEB_PATH) . 'repository/xml_feed.php';
+            $url = $this->get_path(WEB_PATH) . 'repository/php/xml_feed.php';
             $locale = array();
             $locale['Display'] = Translation :: get('AddAttachments');
             $locale['Searching'] = Translation :: get('Searching');
@@ -383,7 +383,7 @@ EOT;
             }
         }
 
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/content_object_form.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/libraries/resources/javascript/content_object_form.js'));
 
         $buttons = array();
 

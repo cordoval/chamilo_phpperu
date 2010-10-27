@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use repository\RepositoryDataManager;
+use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Translation;
 
@@ -37,7 +39,7 @@ class WeblcmsNoOfPublishedObjectsPerTypeReportingBlock extends WeblcmsCourseRepo
 
         }*/
         return $reporting_data;
-    
+
     }
 
     public function retrieve_data()

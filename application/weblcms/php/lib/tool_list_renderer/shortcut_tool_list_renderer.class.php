@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Application;
+use common\libraries\Theme;
+use common\libraries\EqualityCondition;
 use common\libraries\Translation;
 
 /**
@@ -30,27 +33,27 @@ class ShortcutToolListRenderer extends ToolListRenderer
     {
         $parent = $this->get_parent();
         $course = $parent->get_course();
-        
+
         $tools_shown = array();
-        
+
         foreach ($tools as $index => $tool)
         {
             $sections = WeblcmsDataManager :: get_instance()->retrieve_course_sections(new EqualityCondition(CourseSection :: PROPERTY_ID, $tool->section));
             $section = $sections->next_result();
-            
+
             $new = '';
             if ($parent->tool_has_new_publications($tool->name))
             {
                 $new = '_new';
             }
-            
+
             $tool_image = 'tool_mini_' . $tool->name . $new . '.png';
             $title = htmlspecialchars(Translation :: get(Tool :: type_to_class($tool->name) . 'Title'));
             $html[] = '<a href="' . $parent->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_TOOL => $tool->name), array(), true) . '" title="' . $title . '">';
             $html[] = '<img src="' . Theme :: get_image_path() . $tool_image . '" style="vertical-align: middle;" alt="' . $title . '"/> ';
             $html[] = '</a>';
         }
-        
+
         echo implode("\n", $html);
     }
 }

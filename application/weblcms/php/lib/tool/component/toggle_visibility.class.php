@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Request;
 use common\libraries\Translation;
 
 /**
@@ -22,20 +23,20 @@ class ToolComponentToggleVisibilityComponent extends ToolComponent
             {
                 $publication_ids = $_POST[Tool :: PARAM_PUBLICATION_ID];
             }
-            
+
             if (isset($publication_ids))
             {
                 if (! is_array($publication_ids))
                 {
                     $publication_ids = array($publication_ids);
                 }
-                
+
                 $datamanager = WeblcmsDataManager :: get_instance();
-                
+
                 foreach ($publication_ids as $index => $pid)
                 {
                     $publication = $datamanager->retrieve_content_object_publication($pid);
-                    
+
                     if (get_class($this) != 'ToolComponentToggleVisibilityComponent')
                     {
                         $publication->set_hidden($this->get_hidden());
@@ -44,10 +45,10 @@ class ToolComponentToggleVisibilityComponent extends ToolComponent
                     {
                         $publication->toggle_visibility();
                     }
-                    
+
                     $publication->update();
                 }
-                
+
                 if (count($publication_ids) > 1)
                 {
                     $message = htmlentities(Translation :: get('ContentObjectPublicationsVisibilityChanged'));
@@ -56,7 +57,7 @@ class ToolComponentToggleVisibilityComponent extends ToolComponent
                 {
                     $message = htmlentities(Translation :: get('ContentObjectPublicationVisibilityChanged'));
                 }
-                
+
                 $params = array();
                 $params['tool_action'] = null;
                 if (Request :: get('details') == 1)
@@ -64,9 +65,9 @@ class ToolComponentToggleVisibilityComponent extends ToolComponent
                     $params[Tool :: PARAM_PUBLICATION_ID] = $pid;
                     $params['tool_action'] = 'view';
                 }
-                
+
                 //$this->redirect($message, '', $params);
-                
+
 
                 $this->redirect($message, false, $params);
             }

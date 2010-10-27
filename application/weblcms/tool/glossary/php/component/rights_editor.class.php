@@ -1,6 +1,10 @@
 <?php
 namespace application\weblcms\tool\glossary;
 
+use common\extensions\repo_viewer\RepoViewer;
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Request;
 use application\weblcms\ToolComponent;
 use common\libraries\DelegateComponent;
 use common\libraries\Translation;

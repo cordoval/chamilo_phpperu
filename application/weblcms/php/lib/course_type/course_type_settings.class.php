@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Utilities;
 use common\libraries\Path;
 
 /**
@@ -11,7 +12,7 @@ use common\libraries\Path;
 class CourseTypeSettings extends CourseSettings
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_COURSE_TYPE_ID = "course_type_id";
     const PROPERTY_TITULAR_FIXED = "titular_fixed";
     const PROPERTY_LANGUAGE_FIXED = 'language_fixed';
@@ -148,7 +149,7 @@ class CourseTypeSettings extends CourseSettings
     //    {
     //            $this->set_default_property(self :: PROPERTY_MAX_NUMBER_OF_ADMIN, $max_number_of_admin);
     //    }
-    
+
 
     //    /**
     //     * Creates the course type object in persistent storage
@@ -157,12 +158,12 @@ class CourseTypeSettings extends CourseSettings
     function create()
     {
         $wdm = WeblcmsDataManager :: get_instance();
-        
+
         if (! $wdm->create_course_type_settings($this))
         {
             return false;
         }
-        
+
         return true;
     }
 
@@ -173,11 +174,12 @@ class CourseTypeSettings extends CourseSettings
     //        return $wdm->create_course_type_all($this);
     //    }
     //
-    
+
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 
     /**

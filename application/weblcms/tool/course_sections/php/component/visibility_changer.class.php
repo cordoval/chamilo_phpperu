@@ -1,6 +1,10 @@
 <?php
 namespace application\weblcms\tool\course_sections;
 
+use common\libraries\Display;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\EqualityCondition;
+use common\libraries\Request;
 use common\libraries\Translation;
 
 /**
@@ -18,7 +22,7 @@ class CourseSectionsToolVisibilityChangerComponent extends CourseSectionsTool
     function run()
     {
         $user = $this->get_user();
-        
+
         if (! $user->is_platform_admin())
         {
             $trail = BreadcrumbTrail :: get_instance();
@@ -28,28 +32,28 @@ class CourseSectionsToolVisibilityChangerComponent extends CourseSectionsTool
             $this->display_footer();
             exit();
         }
-        
+
         $ids = Request :: get(CourseSectionsTool :: PARAM_COURSE_SECTION_ID);
         $failures = 0;
-        
+
         if (! empty($ids))
         {
             if (! is_array($ids))
             {
                 $ids = array($ids);
             }
-            
+
             foreach ($ids as $id)
             {
                 $course_section = WeblcmsDataManager :: get_instance()->retrieve_course_sections(new EqualityCondition('id', $id))->next_result();
                 $course_section->set_visible(! $course_section->get_visible());
-                
+
                 if (! $course_section->update())
                 {
                     $failures ++;
                 }
             }
-            
+
             if ($failures)
             {
                 if (count($ids) == 1)
@@ -72,7 +76,7 @@ class CourseSectionsToolVisibilityChangerComponent extends CourseSectionsTool
                     $message = 'SelectedCourseSectionsVisibilityChanged';
                 }
             }
-            
+
             $this->redirect(Translation :: get($message), ($failures != 0 ? true : false), array(CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_VIEW_COURSE_SECTIONS));
         }
         else

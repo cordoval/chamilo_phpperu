@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\document;
 
+use common\libraries\Display;
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
 use common\libraries\Translation;
 
 /**
@@ -21,7 +24,7 @@ class DocumentToolSlideshowSettingsComponent extends DocumentTool
             Display :: not_allowed();
             return;
         }
-        
+
         $form = new DocumentSlideshowSettingsForm($this->get_url(), $this->get_user_id());
         if ($form->validate())
         {
@@ -33,12 +36,12 @@ class DocumentToolSlideshowSettingsComponent extends DocumentTool
             $trail = BreadcrumbTrail :: get_instance();
             $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => DocumentTool :: ACTION_SLIDESHOW)), Translation :: get('Slideshow')));
             $trail->add(new Breadcrumb($this->get_url(array()), Translation :: get('SlideshowSettings')));
-            
+
             $this->display_header();
             $form->display();
             $this->display_footer();
         }
-    
+
     }
 }
 ?>

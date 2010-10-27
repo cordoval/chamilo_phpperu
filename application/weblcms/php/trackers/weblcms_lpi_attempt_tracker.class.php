@@ -1,13 +1,16 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
+
 /**
  * @package application.lib.weblcms.trackers
  */
 class WeblcmsLpiAttemptTracker extends SimpleTracker
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_LP_ITEM_ID = 'lp_item_id';
     const PROPERTY_LP_VIEW_ID = 'lp_view_id';
     const PROPERTY_START_TIME = 'start_time';
@@ -145,24 +148,23 @@ class WeblcmsLpiAttemptTracker extends SimpleTracker
     function delete()
     {
         $succes = parent :: delete();
-        
+
         $condition = new EqualityCondition(WeblcmsLearningPathQuestionAttemptsTracker :: PROPERTY_LPI_ATTEMPT_ID, $this->get_id());
         $dummy = new WeblcmsLearningPathQuestionAttemptsTracker();
         $trackers = $dummy->retrieve_tracker_items($condition);
-        
+
         foreach ($trackers as $tracker)
         {
             $succes &= $tracker->delete();
         }
-        
+
         return $succes;
     }
 
     static function get_table_name()
     {
         return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-    
-     //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 }
 ?>

@@ -1,8 +1,12 @@
 <?php
 namespace application\weblcms\tool\user;
 
+use common\libraries\Utilities;
+use common\libraries\Request;
 use common\libraries\ObjectTable;
 use common\libraries\Translation;
+use common\libraries\ObjectTableFormActions;
+use common\libraries\ObjectTableFormAction;
 
 /**
  * $Id: subscribed_user_browser_table.class.php 218 2009-11-13 14:21:26Z kariboe $
@@ -29,9 +33,9 @@ class SubscribedUserBrowserTable extends ObjectTable
         parent :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
         $this->set_additional_parameters($parameters);
         $actions = new ObjectTableFormActions(Tool :: PARAM_ACTION);
-        
+
         $group_id = Request :: get(WeblcmsManager :: PARAM_GROUP);
-        
+
         if (! isset($group_id))
         {
             if (Request :: get(WeblcmsManager :: PARAM_TOOL_ACTION) != UserTool :: ACTION_SUBSCRIBE_USER_BROWSER)
@@ -44,7 +48,7 @@ class SubscribedUserBrowserTable extends ObjectTable
                 $actions->add_form_action(new ObjectTableFormAction(UserTool :: ACTION_SUBSCRIBE_AS_ADMIN, Translation :: get('SubscribeSelectedAsAdmin'), false));
             }
         }
-        
+
         if ($browser->get_course()->is_course_admin($browser->get_user()))
         {
             $this->set_form_actions($actions);

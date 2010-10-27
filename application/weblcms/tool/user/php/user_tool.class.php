@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\user;
 
+use application\weblcms\Tool;
+
 /**
  * $Id: user_tool.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.user.component
@@ -27,9 +29,9 @@ class UserTool extends Tool
     const ACTION_USER_DETAILS = 'details';
     const ACTION_EMAIL = 'emailer';
     const ACTION_REPORTING = 'reporting_viewer';
-    
+
     const DEFAULT_ACTION = self :: ACTION_UNSUBSCRIBE_USER_BROWSER;
-    
+
     const PARAM_USERS = 'users';
     const PARAM_GROUPS = 'groups';
     const PARAM_STATUS = 'status';

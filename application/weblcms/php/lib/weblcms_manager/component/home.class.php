@@ -1,9 +1,17 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\RssIconGenerator;
+use common\libraries\PlatformSetting;
+use common\libraries\Application;
+use common\libraries\Theme;
+use common\libraries\Session;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\DelegateComponent;
 use common\libraries\Translation;
+use common\libraries\LocalSetting;
 
 /**
  * $Id: home.class.php 218 2009-11-13 14:21:26Z kariboe $
@@ -29,12 +37,12 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager implements DelegateComp
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-        
+
         $this->message = Request :: get('message');
         Request :: set_get('message', null);
-        
+
         $view_state = LocalSetting :: get('view_state', WeblcmsManager :: APPLICATION_NAME);
-        
+
         switch ($view_state)
         {
             case self :: VIEW_MIXED :
@@ -47,10 +55,10 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager implements DelegateComp
                 $renderer = new OpenCourseTypeCourseListRenderer($this);
                 break;
         }
-        
+
         $renderer->show_new_publication_icons();
         $html[] = $renderer->as_html();
-        
+
         $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/home_ajax.js' . '"></script>';
         $toolbar_state = Session :: retrieve('toolbar_state');
         if ($toolbar_state == 'hide')
@@ -61,33 +69,33 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager implements DelegateComp
         {
             $html[] = '<script type="text/javascript">var hide = "false";</script>';
         }
-        
+
         $this->display_header();
         echo '<div class="clear"></div>';
-        
+
         echo $this->display_menu();
-        
+
         echo '<div id="tool_browser_right">';
         echo implode("\n", $html);
         echo '</div>';
-        
+
         $this->display_footer();
     }
 
     function display_menu()
     {
         $html = array();
-        
+
         $html[] = '<div id="tool_bar" class="tool_bar tool_bar_right">';
-        
+
         $html[] = '<div id="tool_bar_hide_container" class="hide">';
         $html[] = '<a id="tool_bar_hide" href="#"><img src="' . Theme :: get_common_image_path() . 'action_action_bar_right_hide.png" /></a>';
         $html[] = '<a id="tool_bar_show" href="#"><img src="' . Theme :: get_common_image_path() . 'action_action_bar_right_show.png" /></a>';
         $html[] = '</div>';
-        
+
         $html[] = '<div class="tool_menu">';
         $html[] = '<ul>';
-        
+
         if ($this->get_user()->is_platform_admin())
         {
             $html[] = '<li class="tool_list_menu title" style="font-weight: bold">' . Translation :: get('CourseManagement') . '</li><br />';
@@ -106,12 +114,12 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager implements DelegateComp
                 }
             }
         }
-        
+
         $html[] = '<li class="tool_list_menu title" style="font-weight: bold">' . Translation :: get('UserCourseManagement') . '</li><br />';
         $html[] = $this->display_edit_course_list_links();
         $html[] = '</ul>';
         $html[] = '</div>';
-        
+
         $html[] = '</div>';
         $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/tool_bar.js' . '"></script>';
         $html[] = '<div class="clear"></div>';
@@ -122,7 +130,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager implements DelegateComp
     {
         $html = array();
         $wdm = WeblcmsDataManager :: get_instance();
-        
+
         $count_direct = count($wdm->retrieve_course_types_by_user_right($this->get_user(), CourseTypeGroupCreationRight :: CREATE_DIRECT));
         if (PlatformSetting :: get('allow_course_creation_without_coursetype', 'weblcms'))
         {
@@ -132,13 +140,13 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager implements DelegateComp
         {
             $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_create.png)"><a style="top: -3px; position: relative;" href="' . $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_CREATE_COURSE)) . '">' . Translation :: get('CourseCreate') . '</a></li>';
         }
-        
+
         $count_request = count($wdm->retrieve_course_types_by_user_right($this->get_user(), CourseTypeGroupCreationRight :: CREATE_REQUEST));
         if ($count_request)
         {
             $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_create.png)"><a style="top: -3px; position: relative;" href="' . $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_COURSE_CREATE_REQUEST_CREATOR)) . '">' . Translation :: get('CourseRequest') . '</a></li>';
         }
-        
+
         if ($count_direct + $count_request)
         {
             return implode("\n", $html);
@@ -153,13 +161,13 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager implements DelegateComp
     {
         $html = array();
         $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_reset.png)"><a style="top: -3px; position: relative;" href="' . $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_MANAGER_SORT)) . '">' . Translation :: get('SortMyCourses') . '</a></li>';
-        
+
         if (PlatformSetting :: get('show_subscribe_button_on_course_home', 'weblcms'))
         {
             $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_subscribe.png)"><a style="top: -3px; position: relative;" href="' . $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_MANAGER_SUBSCRIBE)) . '">' . Translation :: get('CourseSubscribe') . '</a></li>';
             $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_unsubscribe.png)"><a style="top: -3px; position: relative;" href="' . $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_MANAGER_UNSUBSCRIBE)) . '">' . Translation :: get('CourseUnsubscribe') . '</a></li>';
         }
-        
+
         $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'treemenu_types/rss_feed.png)"><a style="top: -3px; position: relative;" href="' . RssIconGenerator :: generate_rss_url(WeblcmsManager :: APPLICATION_NAME, 'publication', $this->get_user()) . '">' . Translation :: get('RssFeed') . '</a></li>';
         return implode($html, "\n");
     }
@@ -173,7 +181,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager implements DelegateComp
         $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_move.png)"><a style="top: -3px; position: relative;" href="' . $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_COURSE_CATEGORY_MANAGER)) . '">' . Translation :: get('CourseCategoryManagement') . '</a></li>';
         $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_add.png)"><a style="top: -3px; position: relative;" href="' . $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSES)) . '">' . Translation :: get('ImportCourseCSV') . '</a></li>';
         $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_add.png)"><a style="top: -3px; position: relative;" href="' . $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSE_USERS)) . '">' . Translation :: get('ImportUsersForCourseCSV') . '</a></li>';
-        
+
         return implode($html, "\n");
     }
 

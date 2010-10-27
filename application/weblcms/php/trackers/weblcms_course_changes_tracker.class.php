@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Utilities;
+
 /**
  * $Id: weblcms_course_changes_tracker.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.trackers
@@ -8,7 +10,7 @@ namespace application\weblcms;
 class WeblcmsCourseChangesTracker extends ChangesTracker
 {
     const CLASS_NAME = __CLASS__;
-    
+
     // Can be used for subscribsion of users / classes
     const PROPERTY_TARGET_REFERENCE_ID = 'target_reference_id';
 
@@ -28,7 +30,7 @@ class WeblcmsCourseChangesTracker extends ChangesTracker
     function validate_parameters(array $parameters = array())
     {
         parent :: validate_parameters($parameters);
-        
+
         if ($parameters[self :: PROPERTY_TARGET_REFERENCE_ID])
         {
             $this->set_target_reference_id($parameters[self :: PROPERTY_TARGET_REFERENCE_ID]);
@@ -52,8 +54,7 @@ class WeblcmsCourseChangesTracker extends ChangesTracker
     static function get_table_name()
     {
         return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-    
-     //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 }
 ?>

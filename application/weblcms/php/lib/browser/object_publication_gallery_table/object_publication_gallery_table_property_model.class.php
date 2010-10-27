@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use repository\ContentObject;
+
 /**
  * $Id: object_publication_gallery_table_property_model.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.browser.object_publication_table
@@ -28,7 +30,7 @@ class ObjectPublicationGalleryTablePropertyModel extends GalleryObjectTablePrope
     function get_properties()
     {
         $wdm = WeblcmsDataManager :: get_instance();
-        
+
         $properties = array();
         $properties[] = new GalleryObjectTableProperty(ContentObject :: PROPERTY_TITLE, $wdm->get_alias(ContentObject :: get_table_name()));
         $properties[] = new GalleryObjectTableProperty(ContentObject :: PROPERTY_DESCRIPTION, $wdm->get_alias(ContentObject :: get_table_name()));

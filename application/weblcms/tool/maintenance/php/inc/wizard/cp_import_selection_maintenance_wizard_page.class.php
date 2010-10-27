@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\maintenance;
 
+use common\libraries\Session;
 use common\libraries\Translation;
 
 require_once dirname(__FILE__) . '/maintenance_wizard_page.class.php';
@@ -22,10 +23,10 @@ class CpImportSelectionMaintenanceWizardPage extends MaintenanceWizardPage
     function buildForm()
     {
         $this->add_select(self :: CATEGORY_ID, Translation :: get('CategoryTypeName'), $this->get_categories());
-        
+
         $this->addElement('file', self :: IMPORT_FILE_NAME, Translation :: get('FileName'));
         $this->addRule(self :: IMPORT_FILE_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
-        
+
         $prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< ' . Translation :: get('Previous'));
         $prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Import'));
         $this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);

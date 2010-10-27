@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\user;
 
+use common\libraries\Request;
 use common\libraries\Translation;
 
 /**
@@ -29,7 +30,7 @@ class UserToolSubscribeComponent extends UserTool
             if (isset($users) && count($users) > 0 && ($course->is_course_admin($this->get_user()) || $this->get_user()->is_platform_admin()))
             {
                 $failures = 0;
-                
+
                 foreach ($users as $user_id)
                 {
                     //if ($user_id != $this->get_user_id())
@@ -41,11 +42,11 @@ class UserToolSubscribeComponent extends UserTool
                         }
                     }
                 }
-                
+
                 if ($failures == 0)
                 {
                     $success = true;
-                    
+
                     if (count($users) == 1)
                     {
                         $message = 'UserSubscribedToCourse';
@@ -58,7 +59,7 @@ class UserToolSubscribeComponent extends UserTool
                 elseif ($failures == count($users))
                 {
                     $success = false;
-                    
+
                     if (count($users) == 1)
                     {
                         $message = 'UserNotSubscribedToCourse';
@@ -73,7 +74,7 @@ class UserToolSubscribeComponent extends UserTool
                     $success = false;
                     $message = 'PartialUsersNotSubscribedToCourse';
                 }
-                
+
                 $this->redirect(Translation :: get($message), ($success ? false : true), array(Tool :: PARAM_ACTION => UserTool :: ACTION_SUBSCRIBE_USER_BROWSER));
             }
         }

@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\maintenance;
 
+use common\libraries\ObjectTableOrder;
+use common\libraries\EqualityCondition;
 use common\libraries\Translation;
 
 require_once dirname(__FILE__) . '/maintenance_wizard_page.class.php';
@@ -28,9 +30,9 @@ class CpExportSelectionMaintenanceWizardPage extends MaintenanceWizardPage
         {
             $publications[$publication->get_tool()][] = $publication;
         }
-        
+
         $this->addElement('html', '<h3>' . Translation :: get('Publications') . '</h3>');
-        
+
         foreach ($publications as $tool => $tool_publications)
         {
             $label = Translation :: get(ucfirst($tool) . 'ToolTitle');
@@ -44,9 +46,9 @@ class CpExportSelectionMaintenanceWizardPage extends MaintenanceWizardPage
                 $defaults[$id] = $accept;
             }
         }
-        
+
         $this->addFormRule(array('PublicationSelectionMaintenanceWizardPage', 'count_selected_publications'));
-        
+
         $prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< ' . Translation :: get('Previous'));
         $prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next') . ' >>');
         $this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);

@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Application;
+use common\libraries\Request;
 use common\libraries\Translation;
 
 require_once dirname(__FILE__) . '/admin_request_browser.class.php';
@@ -21,18 +23,18 @@ class WeblcmsManagerCourseRequestRefuseComponent extends WeblcmsManager
         $request_ids = Request :: get(WeblcmsManager :: PARAM_REQUEST);
         $request_type = Request :: get(WeblcmsManager :: PARAM_REQUEST_TYPE);
         $failures = 0;
-        
+
         if (! is_null($request_ids) && $this->get_user()->is_platform_admin())
         {
             if (! is_array($request_ids))
             {
                 $request_ids = array($request_ids);
             }
-            
+
             foreach ($request_ids as $request_id)
             {
                 $request_method = null;
-                
+
                 switch ($request_type)
                 {
                     case CommonRequest :: SUBSCRIPTION_REQUEST :
@@ -42,11 +44,11 @@ class WeblcmsManagerCourseRequestRefuseComponent extends WeblcmsManager
                         $request_method = 'retrieve_course_create_request';
                         break;
                 }
-                
+
                 $request = $this->$request_method($request_id);
                 $request->set_decision_date(time());
                 $request->set_decision(CommonRequest :: DENIED_DECISION);
-                
+
                 if (! $request->update())
                 {
                     $failures ++;

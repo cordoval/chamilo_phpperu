@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms;
 
+use user\UserDataManager;
+use common\libraries\FormValidator;
+use common\libraries\EqualityCondition;
 use common\libraries\Translation;
 
 /**
@@ -15,15 +18,15 @@ ini_set("memory_limit", - 1);
 
 class CourseUserImportForm extends FormValidator
 {
-    
+
     const TYPE_IMPORT = 1;
-    
+
     private $failedcsv;
 
     function CourseUserImportForm($form_type, $action)
     {
         parent :: __construct('course_user_import', 'post', $action);
-        
+
         $this->form_type = $form_type;
         $this->failedcsv = array();
         if ($this->form_type == self :: TYPE_IMPORT)
@@ -38,7 +41,7 @@ class CourseUserImportForm extends FormValidator
         //$this->addElement('submit', 'course_user_import', Translation :: get('Ok'));
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Ok'), array('class' => 'positive'));
         //$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
-        
+
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -46,10 +49,10 @@ class CourseUserImportForm extends FormValidator
     function import_course_users()
     {
         $course = $this->course;
-        
+
         $csvcourses = Import :: csv_to_array($_FILES['file']['tmp_name']);
         $failures = 0;
-        
+
         foreach ($csvcourses as $csvcourse)
         {
             if (! $this->validate_data($csvcourse))
@@ -58,24 +61,24 @@ class CourseUserImportForm extends FormValidator
                 $this->failedcsv[] = Translation :: get('Invalid') . ': ' . implode($csvcourse, ';');
             }
         }
-        
+
         if ($failures > 0)
         {
             return false;
         }
-        
+
         foreach ($csvcourses as $csvcourse)
         {
             $user_info = $this->get_user_info($csvcourse['username']);
-            
+
             $code = $csvcourse['coursecode'];
             $course = WeblcmsDataManager :: get_instance()->retrieve_courses(new EqualityCondition('visual_code', $code))->next_result();
             $status = $csvcourse[CourseUserRelation :: PROPERTY_STATUS];
             $tutor = ($csvcourse[CourseUserRelation :: PROPERTY_STATUS] == 1 ? 1 : 0);
             $action = strtoupper($csvcourse['action']);
-            
+
             $wdm = WeblcmsDataManager :: get_instance();
-            
+
             if ($action == 'D' || $action == 'U')
             {
                 if (! $wdm->unsubscribe_user_from_course($course, $user_info->get_id()))
@@ -85,7 +88,7 @@ class CourseUserImportForm extends FormValidator
                     continue;
                 }
             }
-            
+
             if ($action == 'A' || $action == 'U')
             {
                 if (! $wdm->subscribe_user_to_course($course, $status, $tutor, $user_info->get_id()))
@@ -96,7 +99,7 @@ class CourseUserImportForm extends FormValidator
                 }
             }
         }
-        
+
         if ($failures > 0)
         {
             return false;
@@ -129,7 +132,7 @@ class CourseUserImportForm extends FormValidator
     function validate_data($csvcourse)
     {
         $failures = 0;
-        
+
         //1. check if user exists
         // TODO: Change to appropriate property once the user-class is operational
         $user_info = $this->get_user_info($csvcourse['username']);
@@ -137,31 +140,31 @@ class CourseUserImportForm extends FormValidator
         {
             $failures ++;
         }
-        
+
         if ($csvcourse['coursecode'])
         {
             $csvcourse['course'] = $csvcourse['coursecode'];
         }
-        
+
         //2. check if course code exists
         if (! $this->is_course($csvcourse['course']))
         {
             $failures ++;
         }
-        
+
         //3. Status valid ?
         if ($csvcourse[CourseUserRelation :: PROPERTY_STATUS] != 1 && $csvcourse[CourseUserRelation :: PROPERTY_STATUS] != 5)
         {
             $failures ++;
         }
-        
+
         //4. Action valid ?
         $action = strtoupper($csvcourse['action']);
         if ($action != 'A' && $action != 'D' && $action != 'U')
         {
             $failures ++;
         }
-        
+
         if ($failures > 0)
         {
             return false;
@@ -175,10 +178,10 @@ class CourseUserImportForm extends FormValidator
     function is_course($course_code)
     {
         $course = WeblcmsDataManager :: get_instance()->retrieve_courses(new EqualityCondition('visual_code', $course_code))->next_result();
-        
+
         if ($course)
             return true;
-        
+
         return false;
     }
 }

@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use common\libraries\Request;
 use application\weblcms\ToolComponent;
 
 class SurveyToolMoverComponent extends SurveyTool

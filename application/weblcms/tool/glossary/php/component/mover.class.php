@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\glossary;
 
+use common\libraries\Request;
 use application\weblcms\ToolComponent;
 
 class GlossaryToolMoverComponent extends GlossaryTool

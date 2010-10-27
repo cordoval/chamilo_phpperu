@@ -1,6 +1,12 @@
 <?php
 namespace application\weblcms\tool\announcement;
 
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Request;
+use application\weblcms\WeblcmsRights;
+use application\weblcms\WeblcmsManager;
+use application\weblcms\Tool;
 use application\weblcms\ToolComponent;
 use common\libraries\DelegateComponent;
 use common\libraries\Translation;

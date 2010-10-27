@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Utilities;
 use common\libraries\DataClass;
 
 /**
@@ -18,13 +19,13 @@ use common\libraries\DataClass;
  */
 class CourseTypeGroupCreationRight extends DataClass
 {
-    
+
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_COURSE_TYPE_ID = "course_type_id";
     const PROPERTY_GROUP_ID = "group_id";
     const PROPERTY_CREATE = "creation_right";
-    
+
     const CREATE_NONE = 0;
     const CREATE_DIRECT = 2;
     const CREATE_REQUEST = 1;
@@ -49,7 +50,7 @@ class CourseTypeGroupCreationRight extends DataClass
     /*
      * Getters
      */
-    
+
     function get_course_type_id()
     {
         return $this->get_default_property(self :: PROPERTY_COURSE_TYPE_ID);
@@ -68,7 +69,7 @@ class CourseTypeGroupCreationRight extends DataClass
     /*
      * Setters
      */
-    
+
     function set_course_type_id($course_type_id)
     {
         $this->set_default_property(self :: PROPERTY_COURSE_TYPE_ID, $course_type_id);
@@ -86,6 +87,7 @@ class CourseTypeGroupCreationRight extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 }

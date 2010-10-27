@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Utilities;
 use common\libraries\DataClass;
 
 /**
@@ -18,9 +19,9 @@ use common\libraries\DataClass;
  */
 class CourseGroupUnsubscribeRight extends DataClass
 {
-    
+
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_COURSE_ID = "course_id";
     const PROPERTY_GROUP_ID = "group_id";
     const PROPERTY_UNSUBSCRIBE = "unsubscribe";
@@ -47,7 +48,7 @@ class CourseGroupUnsubscribeRight extends DataClass
     /*
      * Getters
      */
-    
+
     function get_course_id()
     {
         return $this->get_default_property(self :: PROPERTY_COURSE_ID);
@@ -66,7 +67,7 @@ class CourseGroupUnsubscribeRight extends DataClass
     /*
      * Setters
      */
-    
+
     function set_course_id($course_id)
     {
         $this->set_default_property(self :: PROPERTY_COURSE_ID, $course_id);
@@ -84,7 +85,8 @@ class CourseGroupUnsubscribeRight extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 
     static function convert_course_type_right_to_course_right($course_type_right, $course_id)

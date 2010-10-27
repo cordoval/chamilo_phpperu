@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\reporting;
 
+use application\weblcms\Tool;
+
 /**
  * $Id: reporting_tool.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.reporting
@@ -10,7 +12,7 @@ namespace application\weblcms\tool\reporting;
 class ReportingTool extends Tool
 {
     const ACTION_VIEW_REPORT = 'viewer';
-    
+
     const DEFAULT_ACTION = self :: ACTION_VIEW_REPORT;
 
     function get_application_component_path()

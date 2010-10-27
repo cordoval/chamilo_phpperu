@@ -1,6 +1,16 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Header;
+use admin\AdminManager;
+use common\libraries\Redirect;
+use common\libraries\Display;
+use common\libraries\Application;
+use common\libraries\DynamicTabsRenderer;
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\EqualityCondition;
+use common\libraries\Request;
 use common\libraries\Translation;
 
 /**
@@ -11,7 +21,7 @@ require_once dirname(__FILE__) . '/../../course/course_change_course_type_form.c
 
 class WeblcmsManagerCourseChangeCourseTypeComponent extends WeblcmsManager
 {
-    
+
     private $form;
 
     /**
@@ -21,14 +31,14 @@ class WeblcmsManagerCourseChangeCourseTypeComponent extends WeblcmsManager
     {
         $course_codes = Request :: get(WeblcmsManager :: PARAM_COURSE);
         $course_type_code = Request :: get(WeblcmsManager :: PARAM_COURSE_TYPE);
-        
+
         if ($this->get_user()->is_platform_admin())
         {
             Header :: set_section('admin');
         }
-        
+
         $trail = BreadcrumbTrail :: get_instance();
-        
+
         if (! $this->get_user()->is_platform_admin())
         {
             $this->display_header();
@@ -37,13 +47,13 @@ class WeblcmsManagerCourseChangeCourseTypeComponent extends WeblcmsManager
             $this->display_footer();
             exit();
         }
-        
+
         $failures = 0;
-        
+
         $course = $this->retrieve_courses(new EqualityCondition(COURSE :: PROPERTY_ID, Request :: get(WeblcmsManager :: PARAM_COURSE)))->next_result();
-        
+
         $this->form = new CourseChangeCourseTypeForm($this->get_url(array(WeblcmsManager :: PARAM_COURSE => $course_codes)), $course, $this->get_user());
-        
+
         if ($this->form->validate())
         {
             if (! empty($course_codes))
@@ -52,7 +62,7 @@ class WeblcmsManagerCourseChangeCourseTypeComponent extends WeblcmsManager
                 {
                     $course_codes = array($course_codes);
                 }
-                
+
                 foreach ($course_codes as $course_code)
                 {
                     if (! $this->move_course($course_code))
@@ -60,7 +70,7 @@ class WeblcmsManagerCourseChangeCourseTypeComponent extends WeblcmsManager
                         $failures ++;
                     }
                 }
-                
+
                 if ($failures)
                 {
                     if (count($course_codes) == 1)
@@ -111,7 +121,7 @@ class WeblcmsManagerCourseChangeCourseTypeComponent extends WeblcmsManager
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        
+
         if ($this->get_user()->is_platform_admin())
         {
             $breadcrumbtrail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
@@ -122,7 +132,7 @@ class WeblcmsManagerCourseChangeCourseTypeComponent extends WeblcmsManager
         {
             $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => null)), Translation :: get('Courselist')));
         }
-        
+
         $breadcrumbtrail->add_help('weblcms_change_course_type');
     }
 
