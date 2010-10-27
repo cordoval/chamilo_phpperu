@@ -8,7 +8,7 @@
 		if (typeof tracker != 'undefined') {
 			var response = $.ajax( {
 				type : "POST",
-				url : "./user/ajax/leave.php",
+				url : "./user/php/ajax/leave.php",
 				data : {
 					'tracker' : tracker
 				}

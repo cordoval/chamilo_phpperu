@@ -1,10 +1,14 @@
 <?php
+
+namespace user;
+
 use common\libraries\Request;
+use tracking\Event;
 
 /**
  * @package user.ajax
  */
-require_once dirname(__FILE__) . '/../../common/global.inc.php';
+require_once dirname(__FILE__) . '/../../../common/global.inc.php';
 
 if (strpos($_SERVER['REQUEST_URI'], 'leave.php') !== false && strpos($_SERVER['REQUEST_URI'], 'ajax') !== false)
 {
