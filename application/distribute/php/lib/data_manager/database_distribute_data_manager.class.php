@@ -1,4 +1,16 @@
 <?php
+
+namespace application\distribute;
+
+use common\libraries\Database;
+use common\libraries\EqualityCondition;
+use common\libraries\InCondition;
+use repository\RepositoryDataManager;
+use repository\ContentObject;
+use common\libraries\Session;
+use common\libraries\ConditionTranslator;
+use repository\ContentObjectPublicationAttributes;
+use common\libraries\Translation;
 /**
  * $Id: database_distribute_data_manager.class.php 238 2009-11-16 14:10:27Z vanpouckesven $
  * @package application.lib.distribute.database
@@ -75,12 +87,12 @@ class DatabaseDistributeDataManager extends Database implements DistributeDataMa
     function retrieve_announcement_distribution($id)
     {
         $condition = new EqualityCondition(AnnouncementDistribution :: PROPERTY_ID, $id);
-        return $this->retrieve_object(AnnouncementDistribution :: get_table_name(), $condition);
+        return $this->retrieve_object(AnnouncementDistribution :: get_table_name(), $condition, AnnouncementDistribution :: CLASS_NAME);
     }
 
     function retrieve_announcement_distributions($condition = null, $offset = null, $max_objects = null, $order_by = array())
     {
-        return $this->retrieve_objects(AnnouncementDistribution :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(AnnouncementDistribution :: get_table_name(), $condition, $offset, $max_objects, $order_by, AnnouncementDistribution :: CLASS_NAME);
     }
 
     function retrieve_announcement_distribution_target_groups($announcement_distribution)

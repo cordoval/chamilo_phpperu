@@ -13,7 +13,7 @@ class AssessmentAttemptsReportingBlock extends AssessmentReportingBlock
 {
 	public function count_data()
 	{	
-        $file = WebApplication :: get_application_class_path($this->get_application()) . 'reporting/reporting_' . $this->get_application() . '.class.php';
+        $file = WebApplication :: get_application_class_path($this->get_application()) . '/reporting/reporting_' . $this->get_application() . '.class.php';
         require_once $file;
         return ReportingAssessment :: getAssessmentAttempts($this->get_function_parameters());
         //return call_user_func('ReportingAssessment :: getAssessmentAttempts', $this->get_function_parameters());

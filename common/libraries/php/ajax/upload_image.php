@@ -1,4 +1,9 @@
 <?php
+
+namespace common\libraries;
+
+use repository\content_object\document\Document;
+use repository\ContentObject;
 /**
  * $Id: upload_image.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common.javascript.ajax

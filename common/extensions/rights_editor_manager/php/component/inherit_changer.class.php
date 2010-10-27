@@ -1,5 +1,9 @@
 <?php
 namespace common\extensions\rights_editor_manager;
+
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
 /**
  * $Id: inheriter.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.location_manager.component

@@ -26,7 +26,7 @@ class ComplexBrowserTable extends ObjectTable
      */
     function ComplexBrowserTable($browser, $parameters, $condition, $show_subitems_column = true, $model = null, $renderer = null, $name = null)
     {
-        $name = (Utilities :: camelcase_to_underscores(__CLASS__));
+        $name = (Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(__CLASS__)));
 
         if (! $model)
             $model = new ComplexBrowserTableColumnModel($browser);

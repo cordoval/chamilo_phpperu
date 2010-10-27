@@ -1,4 +1,12 @@
 <?php
+
+namespace application\distribute;
+
+use common\libraries\DataClass;
+use common\libraries\Utilities;
+use common\libraries\Theme;
+use common\libraries\Translation;
+use common\libraries\ToolbarItem;
 /**
  * $Id: announcement_distribution.class.php 194 2009-11-13 11:54:13Z chellee $
  * @package application.lib.distribute
