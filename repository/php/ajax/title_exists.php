@@ -1,16 +1,19 @@
 <?php
+namespace repository;
+
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
 use common\libraries\Session;
 use common\libraries\InCondition;
 use common\libraries\AndCondition;
+use common\libraries\Authentication;
 
 /**
  * $Id: title_exists.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.ajax
  */
-require_once dirname(__FILE__) . '/../../common/global.inc.php';
+require_once dirname(__FILE__) . '/../../../common/global.inc.php';
 
 if (Authentication :: is_valid())
 {
