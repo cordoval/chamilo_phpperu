@@ -77,7 +77,7 @@ class ReportingAssessment
         $data = array();
         $category = $params['category'];
         $url = $params['url'];
-        
+      
         $adm = AssessmentDataManager :: get_instance();
         $condition = new EqualityCondition(AssessmentPublication :: PROPERTY_CATEGORY, $category);
         $publications = $adm->retrieve_assessment_publications($condition);
@@ -108,9 +108,9 @@ class ReportingAssessment
             $toolbar = new Toolbar();
             if (!array_key_exists('export',$params))
             {
-            	$toolbar->add_item(new ToolbarItem(Translation :: get('ViewResults', Theme :: get_common_image_path() . 'action_view_results.png'), $url . '&' . AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION . '=' . $publication->get_id(), ToolbarItem::DISPLAY_ICON));
+            	$toolbar->add_item(new ToolbarItem(Translation :: get('ViewResults'), Theme :: get_common_image_path() . 'action_view_results.png', $url . '&' . AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION . '=' . $publication->get_id(), ToolbarItem::DISPLAY_ICON));
 	            
-            	$toolbar->add_item(new ToolbarItem(Translation :: get('DeleteResults', Theme :: get_common_image_path() . 'action_delete.png'), $url . '&delete=aid_' . $publication->get_id(), ToolbarItem::DISPLAY_ICON, true));
+            	$toolbar->add_item(new ToolbarItem(Translation :: get('DeleteResults'), Theme :: get_common_image_path() . 'action_delete.png', $url . '&delete=aid_' . $publication->get_id(), ToolbarItem::DISPLAY_ICON, true));
 	            
 	            $reporting_data->add_data_category_row($lo->get_id(), Translation :: get('Action'), $toolbar->as_html());
             }

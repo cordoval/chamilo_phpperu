@@ -12,12 +12,13 @@ use repository\ContentObjectCategoryMenu;
 use common\libraries\Application;
 use common\extensions\repo_viewer\RepoViewer;
 use repository\ContentObjectImport;
+use common\libraries\OptionsMenuRenderer;
 /**
  * $Id: qti_importer.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.assessment_manager.component
  */
 require_once dirname(__FILE__) . '/../assessment_manager.class.php';
-require_once Path::get_application_path() . 'lib/weblcms/tool/assessment/assessment_tool.class.php';
+//require_once Path::get_application_path() . 'lib/weblcms/tool/assessment/assessment_tool.class.php';
 
 /**
  * Component to create a new assessment_publication object
@@ -54,7 +55,7 @@ class AssessmentManagerQtiImporterComponent extends AssessmentManager
 	 */
 	function build_importing_form()
 	{
-		$url = $this->get_url(array(AssessmentTool::PARAM_ACTION => AssessmentTool::ACTION_IMPORT_QTI));
+		$url = $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_IMPORT_QTI));
 		$form = new FormValidator('qti_import', 'post', $url);
 		$form->addElement('html', '<b>Import assessment from QTI</b><br/><br/>');
 		$form->addElement('html', '<em>' . Translation::get('FileMustContainAllAssessmentXML') . '</em>');
