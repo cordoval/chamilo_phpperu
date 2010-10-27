@@ -4,6 +4,9 @@ namespace repository\content_object\matterhorn;
 use common\libraries\Translation;
 use common\libraries\Application;
 use common\libraries\Path;
+use common\libraries\ExternalRepositoryLauncher;
+
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
 
 use repository\ContentObjectForm;
 
@@ -82,7 +85,7 @@ class MatterhornForm extends ContentObjectForm
     function create_content_object()
     {
         $object = new Matterhorn();
-        $object->set_matterhorn_id($this->exportValue(Matterhorn :: PROPERTY_MATTERHORN_ID));
+        //$object->set_matterhorn_id($this->exportValue(Matterhorn :: PROPERTY_MATTERHORN_ID));
         $object->set_height($this->exportValue(Matterhorn :: PROPERTY_HEIGHT));
         $object->set_width($this->exportValue(Matterhorn :: PROPERTY_WIDTH));
         $object->set_thumbnail($this->exportValue(Matterhorn :: PROPERTY_THUMBNAIL));
@@ -93,7 +96,7 @@ class MatterhornForm extends ContentObjectForm
     function update_content_object()
     {
         $object = $this->get_content_object();
-        $object->set_url($this->exportValue(Matterhorn :: PROPERTY_MATTERHORN_ID));
+        $object->set_matterhorn_id($this->exportValue(Matterhorn :: PROPERTY_MATTERHORN_ID));
         $object->set_height($this->exportValue(Matterhorn :: PROPERTY_HEIGHT));
         $object->set_width($this->exportValue(Matterhorn :: PROPERTY_WIDTH));
         $object->set_thumbnail($this->exportValue(Matterhorn :: PROPERTY_THUMBNAIL));

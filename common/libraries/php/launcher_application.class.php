@@ -14,6 +14,11 @@ abstract class LauncherApplication extends Application
     {
         return self :: get_application_path($application_name) . $application_name . '/' . $application_name . '_launcher.class.php';
     }
+    
+    static function get_application_web_path($application_name)
+    {
+    	
+    }
 
     static function get_application_class_name($application)
     {

@@ -7,6 +7,7 @@ use common\libraries\Versionable;
 use common\libraries\AndCondition;
 
 use repository\ContentObject;
+use repository\ExternalRepositorySetting;
 
 class Matterhorn extends ContentObject implements Versionable
 {
