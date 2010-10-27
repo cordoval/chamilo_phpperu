@@ -7,7 +7,14 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\Request;
 use common\libraries\FormValidator;
 use common\libraries\Translation;
+use common\libraries\Text;
+use common\libraries\Theme;
+use common\libraries\PlatformSetting;
+use common\libraries\DatetimeUtilities;
 
+use Pager;
+
+use user\UserDataManager;
 
 /**
  * $Id: search_portal_manager_searcher_component.class.php 222 2009-11-13 14:39:28Z chellee $

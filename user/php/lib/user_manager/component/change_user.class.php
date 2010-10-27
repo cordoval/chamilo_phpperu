@@ -6,6 +6,7 @@ use common\libraries\Request;
 use common\libraries\Display;
 use common\libraries\AdministrationComponent;
 use common\libraries\Breadcrumb;
+use common\libraries\Session;
 use common\libraries\BreadcrumbTrail;
 
 /**
