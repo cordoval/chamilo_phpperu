@@ -1,8 +1,15 @@
 <?php
+
+namespace application\alexia;
+
+use common\libraries\DataClass;
+use common\libraries\Utilities;
+
 /**
  * $Id: alexia_publication_group.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.alexia
  */
+
 /**
  * This class describes a AlexiaPublicationGroup data object
  *
@@ -12,7 +19,7 @@ class AlexiaPublicationGroup extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'publication_group';
-    
+
     /**
      * AlexiaPublicationGroup properties
      */
@@ -80,7 +87,9 @@ class AlexiaPublicationGroup extends DataClass
 
     static function get_table_name()
     {
-        return self :: TABLE_NAME;
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
     }
+
 }
+
 ?>

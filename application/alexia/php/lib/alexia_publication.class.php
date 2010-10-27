@@ -1,8 +1,18 @@
 <?php
+
+namespace application\alexia;
+
+use common\libraries\EqualityCondition;
+use user\UserDataManager;
+use repository\RepositoryDataManager;
+use common\libraries\DataClass;
+use common\libraries\Utilities;
+
 /**
  * $Id: alexia_publication.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.alexia
  */
+
 /**
  * This class describes an AlexiaPublication data object
  *
@@ -12,7 +22,7 @@ class AlexiaPublication extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'publication';
-    
+
     /**
      * AlexiaPublication properties
      */
@@ -22,7 +32,7 @@ class AlexiaPublication extends DataClass
     const PROPERTY_HIDDEN = 'hidden';
     const PROPERTY_PUBLISHER = 'publisher_id';
     const PROPERTY_PUBLISHED = 'published';
-    
+
     private $target_groups;
     private $target_users;
 
@@ -172,56 +182,56 @@ class AlexiaPublication extends DataClass
 
     function get_target_groups()
     {
-        if (! $this->target_groups)
+        if (!$this->target_groups)
         {
             $condition = new EqualityCondition(AlexiaPublicationGroup :: PROPERTY_PUBLICATION, $this->get_id());
             $groups = AlexiaDataManager :: get_instance()->retrieve_alexia_publication_groups($condition);
-            
+
             while ($group = $groups->next_result())
             {
                 $this->target_groups[] = $group->get_group_id();
             }
         }
-        
+
         return $this->target_groups;
     }
 
     function get_target_users()
     {
-        if (! $this->target_users)
+        if (!$this->target_users)
         {
             $condition = new EqualityCondition(AlexiaPublicationUser :: PROPERTY_PUBLICATION, $this->get_id());
             $users = AlexiaDataManager :: get_instance()->retrieve_alexia_publication_users($condition);
-            
+
             while ($user = $users->next_result())
             {
                 $this->target_users[] = $user->get_user();
             }
         }
-        
+
         return $this->target_users;
     }
 
     function is_visible_for_target_user($user_id)
     {
         $user = UserDataManager :: get_instance()->retrieve_user($user_id);
-        
+
         if ($user->is_platform_admin() || $user_id == $this->get_publisher())
             return true;
-        
+
         if ($this->get_target_groups() || $this->get_target_users())
         {
             $allowed = false;
-            
+
             if (in_array($user_id, $this->get_target_users()))
             {
                 $allowed = true;
             }
-            
-            if (! $allowed)
+
+            if (!$allowed)
             {
                 $user_groups = $user->get_groups();
-                
+
                 while ($user_group = $user_groups->next_result())
                 {
                     if (in_array($user_group->get_id(), $this->get_target_groups()))
@@ -231,31 +241,31 @@ class AlexiaPublication extends DataClass
                     }
                 }
             }
-            
-            if (! $allowed)
+
+            if (!$allowed)
             {
                 return false;
             }
         }
-        
+
         if ($this->get_hidden())
         {
             return false;
         }
-        
+
         $time = time();
-        
+
         if ($time < $this->get_from_date() || $time > $this->get_to_date())
         {
             return false;
         }
-        
+
         return true;
     }
 
     static function get_table_name()
     {
-        return self :: TABLE_NAME;
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
     }
 
     function get_publication_object()
@@ -269,5 +279,7 @@ class AlexiaPublication extends DataClass
         $udm = UserDataManager :: get_instance();
         return $udm->retrieve_user($this->get_publisher());
     }
+
 }
+
 ?>

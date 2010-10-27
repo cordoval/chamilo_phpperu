@@ -1,4 +1,16 @@
 <?php
+
+namespace application\alexia;
+
+use common\libraries\Database;
+use common\libraries\EqualityCondition;
+use repository\RepositoryDataManager;
+use repository\ContentObject;
+use common\libraries\InCondition;
+use common\libraries\Session;
+use common\libraries\ConditionTranslator;
+use repository\ContentObjectPublicationAttributes;
+use common\libraries\Translation;
 /**
  * $Id: database_alexia_data_manager.class.php 238 2009-11-16 14:10:27Z vanpouckesven $
  * @package application.lib.alexia.data_manager

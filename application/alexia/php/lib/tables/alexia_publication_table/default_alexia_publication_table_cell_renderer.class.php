@@ -1,4 +1,10 @@
 <?php
+
+namespace application\alexia;
+
+use common\libraries\ObjectTableCellRenderer;
+use repository\ContentObject;
+use common\libraries\Utilities;
 /**
  * $Id: default_alexia_publication_table_cell_renderer.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.alexia.tables.alexia_publication_table
