@@ -31,21 +31,21 @@ class DefaultPmPublicationTableCellRenderer extends ObjectTableCellRenderer
     {
         switch ($column->get_name())
         {
-            case PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE :
+            case PersonalMessengerPublication :: PROPERTY_PERSONAL_MESSAGE :
                 return $personal_message_publication->get_publication_object()->get_title();
-            case PersonalMessagePublication :: PROPERTY_SENDER :
+            case PersonalMessengerPublication :: PROPERTY_SENDER :
                 $user = $personal_message_publication->get_publication_sender();
                 if ($user)
                     return $user->get_firstname() . '&nbsp;' . $user->get_lastname();
                 return Translation :: get('SenderUnknown');
-            case PersonalMessagePublication :: PROPERTY_RECIPIENT :
+            case PersonalMessengerPublication :: PROPERTY_RECIPIENT :
                 $user = $personal_message_publication->get_publication_recipient();
                 if ($user)
                     return $user->get_firstname() . '&nbsp;' . $user->get_lastname();
                 return Translation :: get('RecipientUnknown');
-            case PersonalMessagePublication :: PROPERTY_PUBLISHED :
+            case PersonalMessengerPublication :: PROPERTY_PUBLISHED :
                 return $personal_message_publication->get_published();
-            case PersonalMessagePublication :: PROPERTY_STATUS :
+            case PersonalMessengerPublication :: PROPERTY_STATUS :
                 return $personal_message_publication->get_status();
             default :
                 return '&nbsp;';

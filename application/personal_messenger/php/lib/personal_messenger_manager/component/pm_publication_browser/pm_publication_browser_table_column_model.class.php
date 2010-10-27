@@ -31,7 +31,7 @@ class PmPublicationBrowserTableColumnModel extends DefaultPmPublicationTableColu
 
     /**
      * Gets the modification column
-     * @return PersonalMessagePublicationTableColumn
+     * @return PersonalMessengerPublicationTableColumn
      */
     static function get_modification_column()
     {

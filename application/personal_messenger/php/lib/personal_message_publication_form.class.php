@@ -20,7 +20,7 @@ require_once Path :: get_plugin_path() . 'html2text/class.html2text.inc';
  * The form allows the user to set some properties of the publication
  * (publication dates, target users, visibility, ...)
  */
-class PersonalMessagePublicationForm extends FormValidator
+class PersonalMessengerPublicationForm extends FormValidator
 {
     /**#@+
      * Constant defining a form parameter
@@ -47,8 +47,8 @@ class PersonalMessagePublicationForm extends FormValidator
      * @param boolean $email_option Add option in form to send the learning
      * object by email to the receivers
      */
-    //function PersonalMessagePublicationForm($content_object, $publication = null, $form_user, $action)
-    function PersonalMessagePublicationForm($content_object, $form_user, $action)
+    //function PersonalMessengerPublicationForm($content_object, $publication = null, $form_user, $action)
+    function PersonalMessengerPublicationForm($content_object, $form_user, $action)
     {
         parent :: __construct('publish', 'post', $action);
         $this->content_object = $content_object;
@@ -174,7 +174,7 @@ class PersonalMessagePublicationForm extends FormValidator
 
     private function send_to_recipient($recip)
     {
-        $sender_pub = new PersonalMessagePublication();
+        $sender_pub = new PersonalMessengerPublication();
         $sender_pub->set_personal_message($this->content_object->get_id());
         $sender_pub->set_recipient($recip);
         $sender_pub->set_published(time());
@@ -184,7 +184,7 @@ class PersonalMessagePublicationForm extends FormValidator
         
         if ($sender_pub->create())
         {
-            $recipient_pub = new PersonalMessagePublication();
+            $recipient_pub = new PersonalMessengerPublication();
             $recipient_pub->set_personal_message($this->content_object->get_id());
             $recipient_pub->set_recipient($recip);
             $recipient_pub->set_published(time());

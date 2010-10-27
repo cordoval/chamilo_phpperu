@@ -68,23 +68,23 @@ class PersonalMessengerManagerBrowserComponent extends PersonalMessengerManager
             switch ($folder)
             {
                 case PersonalMessengerManager :: FOLDER_INBOX :
-                    $folder_condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_RECIPIENT, $this->get_user_id());
+                    $folder_condition = new EqualityCondition(PersonalMessengerPublication :: PROPERTY_RECIPIENT, $this->get_user_id());
                     break;
                 case PersonalMessengerManager :: FOLDER_OUTBOX :
-                    $folder_condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_SENDER, $this->get_user_id());
+                    $folder_condition = new EqualityCondition(PersonalMessengerPublication :: PROPERTY_SENDER, $this->get_user_id());
                     break;
                 default :
-                    $folder_condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_RECIPIENT, $this->get_user_id());
+                    $folder_condition = new EqualityCondition(PersonalMessengerPublication :: PROPERTY_RECIPIENT, $this->get_user_id());
             }
         }
         else
         {
-            $folder_condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_RECIPIENT, $this->get_user_id());
+            $folder_condition = new EqualityCondition(PersonalMessengerPublication :: PROPERTY_RECIPIENT, $this->get_user_id());
         }
         
         $condition = $folder_condition;
         
-        $user_condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_USER, $this->get_user_id());
+        $user_condition = new EqualityCondition(PersonalMessengerPublication :: PROPERTY_USER, $this->get_user_id());
         return new AndCondition($condition, $user_condition);
     }
 

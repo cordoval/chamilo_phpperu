@@ -5,6 +5,7 @@ namespace application\personal_messenger;
 use common\libraries\WebApplication;
 use common\libraries\ObjectTableFormAction;
 use common\libraries\Translation;
+use common\libraries\ObjectTable;
 /**
  * $Id: pm_publication_browser_table.class.php 203 2009-11-13 12:46:38Z chellee $
  * @package application.personal_messenger.personal_messenger_manager.component.pm_publication_browser

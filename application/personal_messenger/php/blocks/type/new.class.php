@@ -55,9 +55,9 @@ class PersonalMessengerNew extends PersonalMessengerBlock
     function get_condition()
     {
         $conditions = array();
-        $conditions[] = new EqualityCondition(PersonalMessagePublication :: PROPERTY_STATUS, '1');
-        $conditions[] = new EqualityCondition(PersonalMessagePublication :: PROPERTY_RECIPIENT, $this->get_user_id());
-        $conditions[] = new EqualityCondition(PersonalMessagePublication :: PROPERTY_USER, $this->get_user_id());
+        $conditions[] = new EqualityCondition(PersonalMessengerPublication :: PROPERTY_STATUS, '1');
+        $conditions[] = new EqualityCondition(PersonalMessengerPublication :: PROPERTY_RECIPIENT, $this->get_user_id());
+        $conditions[] = new EqualityCondition(PersonalMessengerPublication :: PROPERTY_USER, $this->get_user_id());
         return new AndCondition($conditions);
     }
 }

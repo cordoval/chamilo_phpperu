@@ -27,62 +27,62 @@ class DatabasePersonalMessengerDataManager extends Database implements PersonalM
     // Inherited.
     function count_personal_message_publications($condition = null)
     {
-        return $this->count_objects(PersonalMessagePublication :: get_table_name(), $condition);
+        return $this->count_objects(PersonalMessengerPublication :: get_table_name(), $condition);
     }
 
     // Inherited.
     function count_unread_personal_message_publications($user)
     {
         $conditions = array();
-        $conditions[] = new EqualityCondition(PersonalMessagePublication :: PROPERTY_USER, $user);
-        $conditions[] = new EqualityCondition(PersonalMessagePublication :: PROPERTY_STATUS, 1);
+        $conditions[] = new EqualityCondition(PersonalMessengerPublication :: PROPERTY_USER, $user);
+        $conditions[] = new EqualityCondition(PersonalMessengerPublication :: PROPERTY_STATUS, 1);
         $condition = new AndCondition($conditions);
 
-        return $this->count_objects(PersonalMessagePublication :: get_table_name(), $condition);
+        return $this->count_objects(PersonalMessengerPublication :: get_table_name(), $condition);
     }
 
     // Inherited.
     function retrieve_personal_message_publication($id)
     {
-        $condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_ID, $id);
-        return $this->retrieve_object(PersonalMessagePublication :: get_table_name(), $condition, array(), PersonalMessagePublication :: CLASS_NAME);
+        $condition = new EqualityCondition(PersonalMessengerPublication :: PROPERTY_ID, $id);
+        return $this->retrieve_object(PersonalMessengerPublication :: get_table_name(), $condition, array(), PersonalMessengerPublication :: CLASS_NAME);
     }
 
     // Inherited.
     function retrieve_personal_message_publications($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
     {
-        return $this->retrieve_objects(PersonalMessagePublication :: get_table_name(), $condition, $offset, $max_objects, $order_by, PersonalMessagePublication :: CLASS_NAME);
+        return $this->retrieve_objects(PersonalMessengerPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by, PersonalMessengerPublication :: CLASS_NAME);
     }
 
     // Inherited.
     function update_personal_message_publication($personal_message_publication)
     {
-        $condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_ID, $personal_message_publication->get_id());
+        $condition = new EqualityCondition(PersonalMessengerPublication :: PROPERTY_ID, $personal_message_publication->get_id());
         return $this->update($personal_message_publication, $condition);
     }
 
     // Inherited.
     function delete_personal_message_publication($personal_message_publication)
     {
-        $condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_ID, $personal_message_publication->get_id());
-        return $this->delete(PersonalMessagePublication :: get_table_name(), $condition);
+        $condition = new EqualityCondition(PersonalMessengerPublication :: PROPERTY_ID, $personal_message_publication->get_id());
+        return $this->delete(PersonalMessengerPublication :: get_table_name(), $condition);
     }
 
     // Inherited.
     function delete_personal_message_publications($object_id)
     {
-        $condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE, $object_id);
-        return $this->delete_objects(PersonalMessagePublication :: get_table_name(), $condition);
+        $condition = new EqualityCondition(PersonalMessengerPublication :: PROPERTY_PERSONAL_MESSAGE, $object_id);
+        return $this->delete_objects(PersonalMessengerPublication :: get_table_name(), $condition);
     }
 
     // Inherited.
     function update_personal_message_publication_id($publication_attr)
     {
-        $where = $this->escape_column_name(PersonalMessagePublication :: PROPERTY_ID) . '=' . $publication_attr->get_id();
+        $where = $this->escape_column_name(PersonalMessengerPublication :: PROPERTY_ID) . '=' . $publication_attr->get_id();
         $props = array();
-        $props[$this->escape_column_name(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE)] = $publication_attr->get_publication_object_id();
+        $props[$this->escape_column_name(PersonalMessengerPublication :: PROPERTY_PERSONAL_MESSAGE)] = $publication_attr->get_publication_object_id();
         $this->get_connection()->loadModule('Extended');
-        if ($this->get_connection()->extended->autoExecute($this->get_table_name(PersonalMessagePublication :: get_table_name()), $props, MDB2_AUTOQUERY_UPDATE, $where))
+        if ($this->get_connection()->extended->autoExecute($this->get_table_name(PersonalMessengerPublication :: get_table_name()), $props, MDB2_AUTOQUERY_UPDATE, $where))
         {
             return true;
         }
@@ -95,14 +95,14 @@ class DatabasePersonalMessengerDataManager extends Database implements PersonalM
     // Inherited.
     public function any_content_object_is_published($object_ids)
     {
-        $condition = new InCondition(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE, $object_ids);
-        return $this->count_objects(PersonalMessagePublication :: get_table_name(), $condition) >= 1;
+        $condition = new InCondition(PersonalMessengerPublication :: PROPERTY_PERSONAL_MESSAGE, $object_ids);
+        return $this->count_objects(PersonalMessengerPublication :: get_table_name(), $condition) >= 1;
     }
 
     // Inherited.
     public function content_object_is_published($object_id)
     {
-        $condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE, $object_id);
+        $condition = new EqualityCondition(PersonalMessengerPublication :: PROPERTY_PERSONAL_MESSAGE, $object_id);
         return $this->count_objects(CalendarEventPublication :: get_table_name(), $condition) >= 1;
     }
 
@@ -115,15 +115,15 @@ class DatabasePersonalMessengerDataManager extends Database implements PersonalM
             {
                 $rdm = RepositoryDataManager :: get_instance();
                 $co_alias = $rdm->get_alias(ContentObject :: get_table_name());
-                $pub_alias = $this->get_alias(PersonalMessagePublication :: get_table_name());
+                $pub_alias = $this->get_alias(PersonalMessengerPublication :: get_table_name());
 
             	$query = 'SELECT ' . $pub_alias . '.*, ' . $co_alias . '.' . $this->escape_column_name(ContentObject :: PROPERTY_TITLE) . ' FROM ' .
-                		 $this->escape_table_name(PersonalMessagePublication :: get_table_name()) . ' AS ' . $pub_alias .
+                		 $this->escape_table_name(PersonalMessengerPublication :: get_table_name()) . ' AS ' . $pub_alias .
                 		 ' JOIN ' . $rdm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $co_alias .
-                		 ' ON ' . $this->escape_column_name(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE, $pub_alias) . '=' .
+                		 ' ON ' . $this->escape_column_name(PersonalMessengerPublication :: PROPERTY_PERSONAL_MESSAGE, $pub_alias) . '=' .
                 		 $this->escape_column_name(ContentObject :: PROPERTY_ID, $co_alias);
 
-                $condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_SENDER, Session :: get_user_id());
+                $condition = new EqualityCondition(PersonalMessengerPublication :: PROPERTY_SENDER, Session :: get_user_id());
                 $translator = new ConditionTranslator($this);
                 $query .= $translator->render_query($condition);
 
@@ -154,8 +154,8 @@ class DatabasePersonalMessengerDataManager extends Database implements PersonalM
         }
         else
         {
-            $query = 'SELECT * FROM ' . $this->escape_table_name(PersonalMessagePublication :: get_table_name());
-           	$condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE, $object_id);
+            $query = 'SELECT * FROM ' . $this->escape_table_name(PersonalMessengerPublication :: get_table_name());
+           	$condition = new EqualityCondition(PersonalMessengerPublication :: PROPERTY_PERSONAL_MESSAGE, $object_id);
            	$translator = new ConditionTranslator($this);
            	$query .= $translator->render_query($condition);
         }
@@ -166,7 +166,7 @@ class DatabasePersonalMessengerDataManager extends Database implements PersonalM
         $publication_attr = array();
         while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
         {
-            $publication = $this->record_to_object($record, PersonalMessagePublication :: CLASS_NAME);
+            $publication = $this->record_to_object($record, PersonalMessengerPublication :: CLASS_NAME);
 
             $info = new ContentObjectPublicationAttributes();
             $info->set_id($publication->get_id());
@@ -240,21 +240,21 @@ class DatabasePersonalMessengerDataManager extends Database implements PersonalM
 
 	function delete_content_object_publication($publication_id)
     {
-        $condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_ID, $publication_id);
-        return $this->delete(PersonalMessagePublication :: get_table_name(), $condition);
+        $condition = new EqualityCondition(PersonalMessengerPublication :: PROPERTY_ID, $publication_id);
+        return $this->delete(PersonalMessengerPublication :: get_table_name(), $condition);
     }
 
 	function count_publication_attributes($user_id = null, $object_id = null, $condition = null)
     {
         if(!$object_id)
         {
-    		$condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_USER, $user_id);
+    		$condition = new EqualityCondition(PersonalMessengerPublication :: PROPERTY_USER, $user_id);
         }
         else
         {
-        	$condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE, $object_id);
+        	$condition = new EqualityCondition(PersonalMessengerPublication :: PROPERTY_PERSONAL_MESSAGE, $object_id);
         }
-        return $this->count_objects(PersonalMessagePublication :: get_table_name(), $condition);
+        return $this->count_objects(PersonalMessengerPublication :: get_table_name(), $condition);
     }
 
     // Inherited.

@@ -21,7 +21,7 @@ use repository\content_object\learning_path_item\LearningPathItem;
 use repository\content_object\portfolio_item\PortfolioItem;
 use repository\content_object\forum\Forum;
 use repository\content_object\forum_topic\ForumTopic;
-use Exception;
+
 /**
  * $Id: database_repository_data_manager.class.php 234 2009-11-16 11:34:07Z vanpouckesven $
  * @package repository.lib.data_manager

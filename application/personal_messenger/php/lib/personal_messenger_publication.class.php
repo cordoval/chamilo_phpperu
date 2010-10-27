@@ -5,6 +5,7 @@ namespace application\personal_messenger;
 use common\libraries\DataClass;
 use repository\RepositoryDataManager;
 use user\UserDataManager;
+use common\libraries\Utilities;
 
 /**
  * $Id: personal_message_publication.class.php 203 2009-11-13 12:46:38Z chellee $
@@ -26,7 +27,7 @@ use user\UserDataManager;
  * 	@author Hans de Bisschop
  * 	@author Dieter De Neef
  */
-class PersonalMessagePublication extends DataClass
+class PersonalMessengerPublication extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'publication';

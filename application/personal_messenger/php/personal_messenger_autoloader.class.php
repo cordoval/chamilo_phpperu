@@ -33,7 +33,7 @@ class PersonalMessengerAutoloader
 
             $list = array(
                 'personal_messenger_manager' => 'personal_messenger_manager/personal_messenger_manager.class.php',
-                'personal_message_publication' => 'personal_message_publication.class.php',
+                'personal_messenger_publication' => 'personal_messenger_publication.class.php',
                 'personal_messenger_data_manager_interface' => 'personal_messenger_data_manager_interface.class.php',
                 'personal_messenger_data_manager' => 'personal_messenger_data_manager.class.php',
                 'personal_messenger_menu' => 'personal_messenger_menu.class.php',

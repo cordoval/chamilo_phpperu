@@ -44,7 +44,7 @@ class PersonalMessagePublisher
         $user = Request :: get(PersonalMessengerManager :: PARAM_USER_ID);
 
         $form_action_parameters = array_merge($this->parent->get_parameters(), array(RepoViewer :: PARAM_ID => $content_object->get_id(), RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_PUBLISHER));
-        $form = new PersonalMessagePublicationForm($content_object, $this->parent->get_user(), $this->parent->get_url($form_action_parameters));
+        $form = new PersonalMessengerPublicationForm($content_object, $this->parent->get_user(), $this->parent->get_url($form_action_parameters));
         if ($form->validate() || ($edit && (isset($user) && ! empty($user))))
         {
             $failures = 0;
