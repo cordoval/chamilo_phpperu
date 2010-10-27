@@ -1,4 +1,7 @@
 <?php
+namespace application\alexia;
+
+use common\libraries\ObjectTableDataProvider;
 /**
  * $Id: alexia_publication_browser_table_data_provider.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.alexiar.alexiar_manager.component.alexiapublicationbrowser

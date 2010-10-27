@@ -1,4 +1,13 @@
 <?php
+namespace application\alexia;
+
+use common\libraries\WebApplication;
+use repository\ContentObject;
+use common\libraries\Utilities;
+use common\libraries\ToolbarItem;
+use common\libraries\Translation;
+use common\libraries\Theme;
+use common\libraries\Toolbar;
 /**
  * $Id: alexia_publication_browser_table_cell_renderer.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.alexiar.alexiar_manager.component.alexiapublicationbrowser

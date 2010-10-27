@@ -1,4 +1,9 @@
 <?php
+
+namespace application\alexia;
+
+use common\libraries\WebApplication;
+use common\libraries\StaticTableColumn;
 /**
  * $Id: alexia_publication_browser_table_column_model.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.alexiar.alexiar_manager.component.alexiapublicationbrowser

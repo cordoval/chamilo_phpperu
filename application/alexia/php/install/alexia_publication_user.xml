@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<object name="publication_user">
+<object name="alexia_publication_user">
 	<properties>
 		<property name="publication_id" type="integer" unsigned="1"
 			notnull="1" />

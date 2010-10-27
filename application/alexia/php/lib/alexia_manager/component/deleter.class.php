@@ -1,5 +1,11 @@
 <?php
 
+namespace application\alexia;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\Application;
+
 /**
  * $Id: deleter.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.alexia.alexia_manager.component
@@ -24,7 +30,7 @@ class AlexiaManagerDeleterComponent extends AlexiaManager
             
             foreach ($ids as $id)
             {
-                $publication = $this->get_parent()->retrieve_alexia_publication($id);
+                $publication = $this->retrieve_alexia_publication($id);
                 
                 if (! $publication->delete())
                 {
