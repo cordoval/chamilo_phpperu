@@ -2,12 +2,13 @@
 namespace application\weblcms;
 
 use repository\ContentObject;
+use common\libraries\GalleryObjectTablePropertyModel;
+use common\libraries\GalleryObjectTableProperty;
 
 /**
  * $Id: object_publication_gallery_table_property_model.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.browser.object_publication_table
  */
-require_once dirname(__FILE__) . '/../../content_object_publication.class.php';
 /**
  * This class represents a column model for a publication candidate table
  */

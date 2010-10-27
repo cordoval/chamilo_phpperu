@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use application\weblcms\WeblcmsDataManager;
+use application\weblcms\WeblcmsRights;
+use application\weblcms\Tool;
 use common\libraries\DatetimeUtilities;
 use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;

@@ -1,6 +1,7 @@
 <?php
 namespace common\extensions\reporting_viewer;
 
+use common\libraries\BreadcrumbTrail;
 use common\libraries\SubManager;
 use common\libraries\Path;
 use common\libraries\Request;

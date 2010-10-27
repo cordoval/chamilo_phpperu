@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\maintenance;
 
+use application\weblcms\WeblcmsDataManager;
 use user\UserDataManager;
 use common\libraries\Session;
 use common\libraries\Translation;

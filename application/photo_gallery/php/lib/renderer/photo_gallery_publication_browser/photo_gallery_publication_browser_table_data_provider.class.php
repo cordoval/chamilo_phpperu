@@ -1,6 +1,8 @@
 <?php
 namespace application\photo_gallery;
 
+use common\libraries\ObjectTableDataProvider;
+
 /**
  * Data provider for a photo_gallery browser table.
  *

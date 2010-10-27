@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use user\VisitTracker;
 use common\libraries\DatetimeUtilities;
 use user\UserDataManager;
 use common\libraries\ObjectTableOrder;

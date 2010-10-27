@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use application\weblcms\WeblcmsDataManager;
+use application\weblcms\Tool;
 use repository\RepositoryDataManager;
 use common\libraries\Filesystem;
 use common\libraries\AndCondition;

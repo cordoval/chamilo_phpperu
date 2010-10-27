@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\maintenance;
 
+use application\weblcms\CourseUserRelation;
+use application\weblcms\ContentObjectPublication;
 use common\libraries\EqualityCondition;
 use common\libraries\Translation;
 

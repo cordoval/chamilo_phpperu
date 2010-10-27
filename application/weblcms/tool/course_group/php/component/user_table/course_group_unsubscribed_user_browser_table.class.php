@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\course_group;
 
+use application\weblcms\WeblcmsManager;
 use common\libraries\Request;
 use common\libraries\ObjectTable;
 use common\libraries\Translation;

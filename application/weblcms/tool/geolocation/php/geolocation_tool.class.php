@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\geolocation;
 
+use repository\content_object\physical_location\PhysicalLocation;
 use application\weblcms\ContentObjectPublicationListRenderer;
 use application\weblcms\Tool;
 

@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\PatternMatchCondition;
 use common\libraries\NotCondition;
 use common\libraries\Session;
 use common\libraries\ObjectTableOrder;

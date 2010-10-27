@@ -3,8 +3,12 @@ namespace application\photo_gallery;
 
 use common\libraries\Utilities;
 use common\libraries\WebApplication;
+use common\libraries\Toolbar;
 
+use repository\ContentObjectDisplay;
 use repository\ContentObject;
+
+use application\photo_gallery\DefaultPhotoGalleryGalleryTableCellRenderer;
 
 require_once WebApplication :: get_application_class_lib_path('photo_gallery') . 'tables/photo_gallery_gallery_table/default_photo_gallery_gallery_table_cell_renderer.class.php';
 /**

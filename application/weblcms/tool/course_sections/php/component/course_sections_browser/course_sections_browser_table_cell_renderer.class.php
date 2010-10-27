@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\course_sections;
 
+use application\weblcms\WeblcmsDataManager;
 use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;

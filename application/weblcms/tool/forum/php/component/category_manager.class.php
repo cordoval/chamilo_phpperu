@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\forum;
 
+use application\weblcms\WeblcmsRights;
+use common\extensions\category_manager\CategoryManager;
+use application\weblcms\Tool;
 use common\libraries\Display;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;

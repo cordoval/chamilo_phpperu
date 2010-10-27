@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\note;
 
+use repository\content_object\note\Note;
 use application\weblcms\Tool;
 
 /**

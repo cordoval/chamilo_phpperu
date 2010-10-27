@@ -7,6 +7,7 @@ use common\libraries\Display;
 use common\libraries\Session;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Translation;
+use repository\content_object\introduction\Introduction;
 
 /**
  * $Id: introduction_publisher.class.php 216 2009-11-13 14:08:06Z kariboe $

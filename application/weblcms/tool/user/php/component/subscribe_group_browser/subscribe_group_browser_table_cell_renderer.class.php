@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\user;
 
+use group\DefaultGroupTableCellRenderer;
+use application\weblcms\WeblcmsDataManager;
+use application\weblcms\Tool;
 use group\GroupDataManager;
 use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;

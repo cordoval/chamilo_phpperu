@@ -8,11 +8,11 @@ use common\libraries\DynamicTabsRenderer;
 use common\libraries\AndCondition;
 use common\libraries\AdministrationComponent;
 use common\libraries\ActionBarRenderer;
-use common\libraries\ToolbarItem; 
-use common\libraries\Toolbar; 
-use common\libraries\Theme; 
-use common\libraries\TreeMenu; 
-use common\libraries\ActionBarSearchForm;  
+use common\libraries\ToolbarItem;
+use common\libraries\Toolbar;
+use common\libraries\Theme;
+use common\libraries\TreeMenu;
+use common\libraries\ActionBarSearchForm;
 use common\libraries\DynamicContentTab;
 
 require_once dirname(__FILE__) . "/../../group_rights.class.php";
@@ -84,7 +84,7 @@ class GroupManagerBrowserComponent extends GroupManager implements Administratio
         $html = array();
         $html[] = '<div style="float: right; width: 80%;">';
 
-        $renderer_name = Utilities :: camelcase_to_underscores(get_class($this));
+        $renderer_name = Utilities :: get_classname_from_object($this, true);
         $tabs = new DynamicTabsRenderer($renderer_name);
 
         $subgroup_count = $this->count_groups($this->get_subgroups_condition());
@@ -285,7 +285,7 @@ class GroupManagerBrowserComponent extends GroupManager implements Administratio
 
         return implode("\n", $html);
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add_help('group general');

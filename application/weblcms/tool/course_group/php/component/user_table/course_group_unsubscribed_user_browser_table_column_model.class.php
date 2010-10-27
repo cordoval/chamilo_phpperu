@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\course_group;
 
+use user\DefaultUserTableColumnModel;
 use common\libraries\StaticTableColumn;
 use common\libraries\ObjectTableColumn;
 use user\User;

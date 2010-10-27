@@ -240,7 +240,7 @@ class RepositoryManagerViewerComponent extends RepositoryManager
                     $rights_url = $this->get_content_object_rights_editing_url($object);
                     $action_bar->add_common_action(new ToolbarItem(Translation :: get('Rights'), Theme :: get_common_image_path() . 'action_rights.png', $rights_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
                     $action_bar->add_common_action(new ToolbarItem(Translation :: get('Share'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_content_object_share_create_url($object->get_id()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-                    
+
                     if ($object instanceof ComplexContentObjectSupport)
                     {
                         $clo_url = $this->get_browse_complex_content_object_url($object);
@@ -267,7 +267,7 @@ class RepositoryManagerViewerComponent extends RepositoryManager
 
     function add_links_to_content_object_tabs($content_object)
     {
-        $renderer_name = Utilities :: camelcase_to_underscores(get_class($this));
+        $renderer_name = Utilities :: get_classname_from_object($this, true);
         $tabs = new DynamicTabsRenderer($renderer_name);
         $parameters = array(RepositoryManager :: PARAM_APPLICATION => RepositoryManager :: APPLICATION_NAME, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $this->object->get_id(), RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS);
 

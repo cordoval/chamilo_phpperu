@@ -1,6 +1,7 @@
 <?php
 namespace repository\content_object\glossary;
 
+use repository\RepositoryDataManager;
 use common\libraries\ObjectTableColumnModel;
 use common\libraries\ObjectTableColumn;
 use common\libraries\StaticTableColumn;

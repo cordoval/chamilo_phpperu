@@ -1,6 +1,11 @@
 <?php
 namespace application\weblcms\tool\course_group;
 
+use HTML_Menu_ArrayRenderer;
+use common\libraries\OptionsMenuRenderer;
+use application\weblcms\CourseGroup;
+use application\weblcms\WeblcmsDataManager;
+use common\libraries\TreeMenuRenderer;
 use HTML_Menu;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;

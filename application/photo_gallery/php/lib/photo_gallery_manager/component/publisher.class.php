@@ -3,6 +3,8 @@ namespace application\photo_gallery;
 
 use common\libraries\Translation;
 use common\libraries\WebApplication;
+use common\extensions\repo_viewer\RepoViewerInterface;
+use repository\content_object\document\Document;
   
 /**
  * $Id: publisher.class.php 205 2009-11-13 12:57:33Z vanpouckesven $

@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use common\libraries;
+
 use common\libraries\FormValidator;
 use common\libraries\Translation;
 use common\libraries\Path;
@@ -621,7 +623,7 @@ EOT;
 
         if ($form_variant)
         {
-            $class = ContentObject :: type_to_class($type) . ContentObject :: type_to_class($form_variant) . 'Form';
+            $class = ContentObject :: type_to_class($type) /*. ContentObject :: type_to_class($form_variant) */. Utilities :: underscores_to_camelcase($form_variant) . 'Form';
             require_once Path :: get_repository_content_object_path() . $type . '/php/' . $type  . '_' . $form_variant . '_form.class.php';
         }
         else

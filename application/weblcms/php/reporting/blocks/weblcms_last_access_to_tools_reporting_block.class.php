@@ -1,6 +1,11 @@
 <?php
 namespace application\weblcms;
 
+use reporting\Reporting;
+use user\VisitTracker;
+use reporting\ReportingData;
+use reporting\ReportingFormatter;
+use common\libraries\PatternMatchCondition;
 use reporting\ReportingManager;
 use common\libraries\Redirect;
 use common\libraries\Application;

@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use application\weblcms\WeblcmsDataManager;
 use user\UserDataManager;
 use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;

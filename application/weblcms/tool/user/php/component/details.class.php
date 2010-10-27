@@ -1,6 +1,10 @@
 <?php
 namespace application\weblcms\tool\user;
 
+use common\libraries\UserDetails;
+use application\weblcms\WeblcmsRights;
+use application\weblcms\WeblcmsManager;
+use application\weblcms\Tool;
 use user\UserDataManager;
 use common\libraries\Display;
 use common\libraries\Breadcrumb;

@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use common\extensions\category_manager\CategoryManager;
+use application\weblcms\Tool;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use application\weblcms\ToolComponent;

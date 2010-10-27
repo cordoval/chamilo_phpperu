@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\home;
 
+use application\weblcms\WeblcmsDataManager;
+use application\weblcms\Tool;
 use common\libraries\Request;
 use common\libraries\Translation;
 

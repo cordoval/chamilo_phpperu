@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\extensions\reporting_viewer\ReportingViewer;
 use reporting\ReportingManager;
 use admin\AdminManager;
 use common\libraries\Redirect;

@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use application\weblcms\WeblcmsDataManager;
 use common\libraries\StaticTableColumn;
 use common\libraries\ObjectTableColumnModel;
 use common\libraries\Translation;

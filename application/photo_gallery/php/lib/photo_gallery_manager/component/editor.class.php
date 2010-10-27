@@ -3,9 +3,12 @@ namespace application\photo_gallery;
 
 use common\libraries\Translation;
 use common\libraries\WebApplication;
-use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
+use common\libraries\Request;
+use common\libraries\Application;
+
+use repository\ContentObjectForm;
 /**
  * $Id: editor.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.photo_gallery.photo_gallery_manager.component
@@ -40,7 +43,7 @@ class PhotoGalleryManagerEditorComponent extends PhotoGalleryManager
             $content_object = $photo_gallery_publication->get_publication_object();
             
             $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $content_object, 'edit', 'post', $this->get_url(array(Application :: PARAM_ACTION => PhotoGalleryManager :: ACTION_EDIT, PhotoGalleryManager :: PARAM_PHOTO_GALLERY_ID => $publication)));
-            
+
             if ($form->validate() || Request :: get('validated'))
             {
                 if (! Request :: get('validated'))
@@ -51,7 +54,7 @@ class PhotoGalleryManagerEditorComponent extends PhotoGalleryManager
                 if ($form->is_version())
                 {
                     $photo_gallery_publication->set_content_object($content_object->get_latest_version());
-                    $photo_gallery_publication->update();
+                    $form->update_content_object_publication();/*$photo_gallery_publication->update();*/
                 }
                 
                 $publication_form = new PhotoGalleryPublicationForm(PhotoGalleryPublicationForm :: TYPE_SINGLE, $content_object, $this->get_user(), $this->get_url(array(PhotoGalleryManager :: PARAM_PHOTO_GALLERY_ID => $publication, 'validated' => 1)));

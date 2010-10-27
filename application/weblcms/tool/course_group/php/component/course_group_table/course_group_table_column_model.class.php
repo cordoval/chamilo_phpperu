@@ -114,7 +114,7 @@ class CourseGroupTableColumnModel
         // If it's an ObjectTableColumn AND sorting is allowed for it, then return the property
         if ($column && $column instanceof ObjectTableColumn && $column->is_sortable())
         {
-            return new ObjectTableOrder($column->get_title(), $order_direction, $column->get_storage_unit_alias());
+            return new ObjectTableOrder($column->get_course_group_property(), $order_direction, $column->get_storage_unit_alias());
         }
         // If not, return the default order property
         else
@@ -124,7 +124,7 @@ class CourseGroupTableColumnModel
             // Make sure the default order column is actually an ObjectTableColumn AND sortabele
             if ($default_column instanceof ObjectTableColumn && $default_column->is_sortable())
             {
-                return new ObjectTableOrder($default_column->get_title(), $order_direction, $default_column->get_storage_unit_alias());
+                return new ObjectTableOrder($default_column->get_course_group_property(), $order_direction, $default_column->get_storage_unit_alias());
             }
             // If not, just don't sort (probably a table with display orders)
             else

@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\document;
 
+use application\weblcms\ContentObjectPublication;
+use application\weblcms\WeblcmsDataManager;
+use application\weblcms\WeblcmsRights;
 use repository\ContentObject;
 use common\libraries\SubselectCondition;
 use repository\RepositoryDataManager;

@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use application\weblcms\WeblcmsDataManager;
+use application\weblcms\WeblcmsRights;
 use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\ObjectTableDataProvider;

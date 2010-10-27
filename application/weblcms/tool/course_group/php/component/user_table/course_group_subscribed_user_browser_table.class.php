@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\course_group;
 
+use application\weblcms\WeblcmsRights;
 use common\libraries\ObjectTableFormAction;
 use common\libraries\Request;
 use common\libraries\ObjectTable;

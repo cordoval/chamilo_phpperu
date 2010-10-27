@@ -1,6 +1,7 @@
 <?php
 namespace repository\content_object\forum;
 
+use repository\RepositoryDataManager;
 use common\libraries\EqualityCondition;
 use common\libraries\ObjectTableDataProvider;
 

@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\course_group;
 
+use application\weblcms\WeblcmsDataManager;
 use common\libraries\ObjectTableDataProvider;
 
 /**
@@ -32,7 +33,7 @@ class CourseGroupUnsubscribedUserBrowserTableDataprovider extends ObjectTableDat
     function get_objects($offset, $count, $order_property = null)
     {
         $order_property = $this->get_order_property($order_property);
-        
+
         return $this->wdm->retrieve_possible_course_group_users($this->get_browser()->get_course_group(), $this->get_condition(), $offset, $count, $order_property);
     }
 

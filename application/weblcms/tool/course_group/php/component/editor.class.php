@@ -1,6 +1,10 @@
 <?php
 namespace application\weblcms\tool\course_group;
 
+use application\weblcms\CourseGroupForm;
+use application\weblcms\WeblcmsDataManager;
+use application\weblcms\WeblcmsRights;
+use application\weblcms\Tool;
 use common\libraries\Display;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
@@ -13,7 +17,6 @@ use common\libraries\Translation;
  */
 require_once dirname(__FILE__) . '/../course_group_tool.class.php';
 //require_once dirname(__FILE__) . '/../course_group_tool_component.class.php';
-require_once dirname(__FILE__) . '/../../../course_group/course_group_form.class.php';
 
 class CourseGroupToolEditorComponent extends CourseGroupTool
 {

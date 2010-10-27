@@ -1,6 +1,7 @@
 <?php
 namespace repository\content_object\blog;
 
+use repository\RepositoryDataManager;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;

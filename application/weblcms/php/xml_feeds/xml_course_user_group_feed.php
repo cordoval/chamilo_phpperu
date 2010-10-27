@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\PatternMatchCondition;
 use common\libraries\NotCondition;
 use user\User;
 use user\UserDataManager;
@@ -11,13 +12,13 @@ use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\Authentication;
 
 /**
  * $Id: xml_course_user_group_feed.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms.xml_feeds
  */
 require_once dirname(__FILE__) . '/../../../../common/global.inc.php';
-require_once Path :: get_application_path() . 'lib/weblcms/course_group/course_group.class.php';
 
 if (Authentication :: is_valid())
 {
@@ -150,7 +151,7 @@ if (Authentication :: is_valid())
         if ($show_groups)
         {
             $groups = array();
-            $group_result_set = WeblcmsDataManager :: get_instance()->retrieve_course_groups($group_condition, null, null, array(new ObjectTableOrder(Group :: PROPERTY_NAME)));
+            $group_result_set = WeblcmsDataManager :: get_instance()->retrieve_course_groups($group_condition, null, null, array(new ObjectTableOrder(CourseGroup :: PROPERTY_NAME)));
             while ($group = $group_result_set->next_result())
             {
 

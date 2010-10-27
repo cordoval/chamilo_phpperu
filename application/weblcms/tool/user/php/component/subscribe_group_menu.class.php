@@ -1,6 +1,11 @@
 <?php
 namespace application\weblcms\tool\user;
 
+use application\weblcms\CourseGroupSubscribeRight;
+use HTML_Menu_ArrayRenderer;
+use common\libraries\OptionsMenuRenderer;
+use application\weblcms\WeblcmsManager;
+use common\libraries\TreeMenuRenderer;
 use group\GroupDataManager;
 use HTML_Menu;
 use common\libraries\Utilities;

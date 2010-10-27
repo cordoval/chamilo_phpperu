@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use application\weblcms\Tool;
 use common\libraries\Request;
 use application\weblcms\ToolComponent;
 

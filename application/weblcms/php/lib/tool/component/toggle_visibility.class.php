@@ -37,7 +37,7 @@ class ToolComponentToggleVisibilityComponent extends ToolComponent
                 {
                     $publication = $datamanager->retrieve_content_object_publication($pid);
 
-                    if (get_class($this) != 'ToolComponentToggleVisibilityComponent')
+                    if (! $this instanceof ToolComponentToggleVisibilityComponent)
                     {
                         $publication->set_hidden($this->get_hidden());
                     }
@@ -65,9 +65,6 @@ class ToolComponentToggleVisibilityComponent extends ToolComponent
                     $params[Tool :: PARAM_PUBLICATION_ID] = $pid;
                     $params['tool_action'] = 'view';
                 }
-
-                //$this->redirect($message, '', $params);
-
 
                 $this->redirect($message, false, $params);
             }

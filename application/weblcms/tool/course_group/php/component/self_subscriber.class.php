@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\course_group;
 
+use application\weblcms\WeblcmsRights;
+use application\weblcms\Tool;
 use common\libraries\Display;
 use common\libraries\Translation;
 

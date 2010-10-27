@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\calendar;
 
+use application\weblcms\WeblcmsRights;
 use common\libraries\Display;
 use common\libraries\Request;
 use common\libraries\Translation;

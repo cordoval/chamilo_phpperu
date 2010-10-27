@@ -250,7 +250,7 @@ EOT;
      */
     function add_tabs($tabs, $selected_tab)
     {
-        //        $renderer_name = Utilities :: camelcase_to_underscores(get_class($this));
+        //        $renderer_name = Utilities :: get_classname_from_object($this, true);
         //        $course_tabs = new DynamicTabsRenderer($renderer_name);
         //
         //        foreach ($tabs as $index => $tab)
@@ -460,7 +460,7 @@ EOT;
 					/* ]]> */
 					</script>\n");
     }
-    
+
     function add_element_finder_with_legend($elementName, $elementLabel, $attributes, $legend = null)
     {
     	$element_finder = $this->createElement('user_group_finder', $elementName . '_elements', $elementLabel, $attributes['search_url'], $attributes['locale'], $attributes['defaults'], $attributes['options']);

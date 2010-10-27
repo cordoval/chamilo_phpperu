@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\blog;
 
+use repository\content_object\blog\Blog;
+use common\libraries\Categorizable;
 use application\weblcms\ContentObjectPublicationListRenderer;
 use application\weblcms\Tool;
 

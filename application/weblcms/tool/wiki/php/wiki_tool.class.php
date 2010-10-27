@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\wiki;
 
+use repository\content_object\wiki\Wiki;
 use application\weblcms\Tool;
 use application\weblcms\ContentObjectPublicationListRenderer;
 

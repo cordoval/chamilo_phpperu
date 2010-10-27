@@ -4,6 +4,7 @@ namespace application\weblcms;
 use repository\ContentObjectDisplay;
 use common\libraries\Toolbar;
 use common\libraries\Utilities;
+use common\libraries\GalleryObjectTableCellRenderer;
 
 class ObjectPublicationGalleryTableCellRenderer implements GalleryObjectTableCellRenderer
 {

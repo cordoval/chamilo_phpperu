@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\user;
 
+use application\weblcms\WeblcmsManager;
+use application\weblcms\Tool;
 use common\libraries\Utilities;
 use common\libraries\Request;
 use common\libraries\ObjectTable;

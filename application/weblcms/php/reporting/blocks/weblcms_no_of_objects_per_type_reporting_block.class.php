@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms;
 
+use reporting\ReportingData;
+use reporting\ReportingChartFormatter;
+use reporting\ReportingFormatter;
 use repository\RepositoryDataManager;
 use common\libraries\Utilities;
 use common\libraries\Path;

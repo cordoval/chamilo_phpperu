@@ -34,7 +34,12 @@ class PhotoGalleryAutoloader
 			'photo_gallery_publication_group' => 'photo_gallery_publication_group.class.php',
 			'photo_gallery_data_manager' => 'photo_gallery_data_manager.class.php', 
 			'photo_gallery_publication_renderer' => 'photo_gallery_publication_renderer.class.php',
-			'photo_gallery_manager' => 'photo_gallery_manager/photo_gallery_manager.class.php');       
+			'photo_gallery_manager' => 'photo_gallery_manager/photo_gallery_manager.class.php',
+			'default_photo_gallery_table_column_model' => 'tables/photo_gallery_table/default_photo_gallery_table_column_model.class.php',
+			'default_photo_gallery_table_cell_renderer' => 'tables/photo_gallery_table/default_photo_gallery_table_cell_renderer.class.php',
+			'default_photo_gallery_gallery_table_property_model' => 'tables/photo_gallery_gallery_table/default_photo_gallery_gallery_table_property_model.class.php',
+			'default_photo_gallery_gallery_table_cell_renderer' => 'tables/photo_gallery_gallery_table/default_photo_gallery_gallery_table_cell_renderer.class.php');
+		       
         $lower_case = Utilities :: camelcase_to_underscores($classname);
         if (key_exists($lower_case, $list))
         {

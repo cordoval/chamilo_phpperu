@@ -4,6 +4,9 @@ namespace application\photo_gallery;
 use repository\ContentObject;
 use repository\RepositoryDataManager;
 
+use common\libraries\ObjectTableColumn;
+use common\libraries\ObjectTableColumnModel;
+
 class DefaultPhotoGalleryTableColumnModel extends ObjectTableColumnModel
 {
 

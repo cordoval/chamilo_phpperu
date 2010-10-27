@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use application\weblcms\Tool;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;
 use application\weblcms\ToolComponent;

@@ -742,12 +742,12 @@ class Database
         {
             dump($res);
         }
-        
+
         if (MDB2 :: isError($record))
         {
         	dump($record);
         }
-        
+
         if ($record)
         {
             return $record;

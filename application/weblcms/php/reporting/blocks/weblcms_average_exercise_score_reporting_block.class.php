@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms;
 
+use reporting\ReportingData;
+use reporting\ReportingChartFormatter;
+use reporting\ReportingFormatter;
 use common\libraries\Path;
 use common\libraries\Translation;
 
@@ -13,7 +16,7 @@ class WeblcmsAverageExerciseScoreReportingBlock extends WeblcmsCourseReportingBl
     public function count_data()
     {
         $reporting_data = new ReportingData();
-        
+
         return $reporting_data;
     }
 

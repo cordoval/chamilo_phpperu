@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\extensions\category_manager\CategoryManager;
 use common\libraries\InCondition;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;

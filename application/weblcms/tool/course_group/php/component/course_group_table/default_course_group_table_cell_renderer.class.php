@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\course_group;
 
+use application\weblcms\CourseGroup;
+use application\weblcms\WeblcmsRights;
+use application\weblcms\WeblcmsManager;
 use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;

@@ -6,6 +6,7 @@ use common\libraries\ResourceManager;
 use common\libraries\Theme;
 use common\libraries\Path;
 
+use repository\RepositoryDataManager;
 use repository\ContentObjectForm;
 
 /**

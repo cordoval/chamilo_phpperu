@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use application\weblcms\WeblcmsRights;
+use repository\content_object\assessment\Assessment;
+use common\libraries\Categorizable;
 use application\weblcms\ContentObjectPublicationListRenderer;
 use application\weblcms\Tool;
 use common\libraries\ToolbarItem;

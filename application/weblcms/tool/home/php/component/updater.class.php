@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\home;
 
+use application\weblcms\Tool;
 use application\weblcms\ToolComponent;
 
 class HomeToolUpdaterComponent extends HomeTool

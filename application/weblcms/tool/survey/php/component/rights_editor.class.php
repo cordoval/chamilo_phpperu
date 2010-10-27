@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use application\weblcms\WeblcmsRights;
 use application\weblcms\ToolComponent;
 use common\libraries\DelegateComponent;
 

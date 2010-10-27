@@ -6,6 +6,8 @@ use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\ActionBarSearchForm;
 use common\libraries\Path;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
 
 require_once Path :: get_common_libraries_class_path() . 'html/action_bar/action_bar_search_form.class.php';
 

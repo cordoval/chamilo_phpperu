@@ -1,6 +1,8 @@
 <?php
 namespace application\photo_gallery;
+
 use common\libraries\GalleryObjectTableCellRenderer;
+use application\photo_gallery\PhotoGalleryPublication;
 
 abstract class DefaultPhotoGalleryGalleryTableCellRenderer implements GalleryObjectTableCellRenderer
 {

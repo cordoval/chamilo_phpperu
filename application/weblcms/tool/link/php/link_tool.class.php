@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\link;
 
+use repository\content_object\link\Link;
+use common\libraries\Categorizable;
 use application\weblcms\Tool;
 
 /**

@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\OptionsMenuRenderer;
+use application\weblcms\tool\course_group\CourseGroupMenu;
 use common\libraries\FormValidator;
 use common\libraries\Translation;
 
@@ -9,7 +11,7 @@ use common\libraries\Translation;
  * @package application.lib.weblcms.course_group
  */
 require_once dirname(__FILE__) . '/course_group.class.php';
-require_once dirname(__FILE__) . '/../tool/course_group/course_group_menu.class.php';
+require_once dirname(__FILE__) . '/../../../tool/course_group/php/course_group_menu.class.php';
 
 class CourseGroupForm extends FormValidator
 {

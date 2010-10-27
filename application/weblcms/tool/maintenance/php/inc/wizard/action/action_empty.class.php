@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\maintenance;
 
+use application\weblcms\WeblcmsDataManager;
 use common\libraries\InCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Translation;

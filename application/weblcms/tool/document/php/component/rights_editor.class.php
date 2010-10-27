@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\document;
 
+use application\weblcms\WeblcmsRights;
+use application\weblcms\WeblcmsManager;
+use application\weblcms\Tool;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Request;

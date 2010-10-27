@@ -66,7 +66,7 @@ class PhotoGalleryManagerBrowserComponent extends PhotoGalleryManager
         }
         
         $subselect_condition = new AndCondition($subselect_conditions);
-        $conditions[] = new SubselectCondition(PhotoGalleryPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition, null, RepositoryDataManager :: get_instance());
+        $conditions[] = new SubselectCondition(PhotoGalleryPublication :: PROPERTY_CONTENT_OBJECT, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition, null, RepositoryDataManager :: get_instance());
         
         if (! $user->is_platform_admin())
         {

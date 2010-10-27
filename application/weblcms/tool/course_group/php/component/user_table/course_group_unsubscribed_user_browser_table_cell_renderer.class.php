@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\course_group;
 
+use user\DefaultUserTableCellRenderer;
+use application\weblcms\WeblcmsManager;
 use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use user\User;

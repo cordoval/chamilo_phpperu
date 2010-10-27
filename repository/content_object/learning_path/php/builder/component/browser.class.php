@@ -1,6 +1,7 @@
 <?php
 namespace repository\content_object\learning_path;
 
+use repository\RepositoryDataManager;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;

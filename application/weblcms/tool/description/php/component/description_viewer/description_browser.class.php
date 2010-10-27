@@ -1,6 +1,10 @@
 <?php
 namespace application\weblcms\tool\description;
 
+use application\weblcms\ContentObjectPublication;
+use application\weblcms\WeblcmsDataManager;
+use application\weblcms\WeblcmsRights;
+use application\weblcms\Tool;
 use repository\ContentObject;
 use common\libraries\ObjectTableFormAction;
 use common\libraries\SubselectCondition;

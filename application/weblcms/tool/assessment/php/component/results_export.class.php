@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use application\weblcms\WeblcmsRights;
+use application\weblcms\Tool;
 use common\libraries\ActionBarRenderer;
 use common\libraries\ToolbarItem;
 use common\libraries\Display;

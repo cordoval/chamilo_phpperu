@@ -2,6 +2,11 @@
 namespace application\photo_gallery;
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\Toolbar;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
+
+use repository\ContentObjectDisplay;
 
 class SlideshowPhotoGalleryPublicationRenderer extends PhotoGalleryPublicationRenderer
 {

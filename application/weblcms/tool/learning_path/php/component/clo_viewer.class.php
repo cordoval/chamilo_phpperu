@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use application\weblcms\WeblcmsDataManager;
+use application\weblcms\Tool;
 use repository\RepositoryDataManager;
 use common\libraries\Display;
 use common\libraries\Request;

@@ -1,6 +1,10 @@
 <?php
 namespace application\weblcms\tool\user;
 
+use application\weblcms\WeblcmsRights;
+use application\weblcms\WeblcmsManager;
+use application\weblcms\Tool;
+use common\libraries\PatternMatchCondition;
 use group\GroupDataManager;
 use common\libraries\ActionBarRenderer;
 use common\libraries\ToolbarItem;

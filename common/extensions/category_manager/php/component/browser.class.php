@@ -1,5 +1,8 @@
 <?php
 namespace common\extensions\category_manager;
+
+use common\libraries\PatternMatchCondition;
+use common\libraries\OrCondition;
 use common\libraries\Request;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
@@ -31,13 +34,13 @@ class CategoryManagerBrowserComponent extends CategoryManagerComponent
     	$trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('category_manager_browser');
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CategoryManagerBrowserComponent')));
-        
+
     	$this->ab = $this->get_action_bar(); //new ActionBarRenderer($this->get_left_toolbar_data(), array(), );
         $menu = new CategoryMenu(Request :: get(CategoryManager :: PARAM_CATEGORY_ID), $this->get_parent());
 
         echo $this->display_header();
         echo $this->ab->as_html() . '<br />';
-        
+
         if($this->get_subcategories_allowed())
         {
         	echo '<div style="float: left; padding-right: 20px; width: 18%; overflow: auto; height: 100%;">' . $menu->render_as_tree() . '</div>';
@@ -52,7 +55,7 @@ class CategoryManagerBrowserComponent extends CategoryManagerComponent
         $table = new CategoryBrowserTable($this, $parameters, $this->get_condition());
 
         $html = array();
-        
+
         if($this->get_subcategories_allowed())
         {
         	$html[] = '<div style="float: right; width: 80%;">';

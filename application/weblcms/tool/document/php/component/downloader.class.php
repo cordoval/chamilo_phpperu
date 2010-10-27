@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\document;
 
+use application\weblcms\WeblcmsDataManager;
+use application\weblcms\WeblcmsRights;
+use application\weblcms\Tool;
 use common\libraries\Display;
 use common\libraries\Request;
 

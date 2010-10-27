@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use application\weblcms\WeblcmsDataManager;
 use common\libraries\EqualityCondition;
 use common\libraries\ObjectTableDataProvider;
 
