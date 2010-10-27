@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\course_group;
 
+use application\weblcms\Tool;
 use common\libraries\Display;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;

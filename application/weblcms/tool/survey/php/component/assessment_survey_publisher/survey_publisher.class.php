@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use application\weblcms\Tool;
 use repository\RepositoryDataManager;
 use user\UserDataManager;
 use common\libraries\Display;

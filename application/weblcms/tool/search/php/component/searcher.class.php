@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\search;
 
+use application\weblcms\Tool;
+use common\libraries\PatternMatchCondition;
 use repository\ContentObject;
 use common\libraries\ActionBarRenderer;
 use user\User;

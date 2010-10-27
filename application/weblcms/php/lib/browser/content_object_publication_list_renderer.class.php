@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Categorizable;
 use group\GroupDataManager;
 use common\libraries\DatetimeUtilities;
 use repository\ContentObjectDisplay;

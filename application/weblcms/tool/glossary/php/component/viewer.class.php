@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\glossary;
 
+use application\weblcms\Tool;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use application\weblcms\ToolComponent;

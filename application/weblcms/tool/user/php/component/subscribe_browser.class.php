@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\user;
 
+use application\weblcms\Tool;
+use common\libraries\PatternMatchCondition;
 use common\libraries\ActionBarRenderer;
 use common\libraries\NotCondition;
 use common\libraries\ToolbarItem;

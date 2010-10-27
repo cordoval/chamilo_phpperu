@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use repository\content_object\learning_path\LearningPath;
+use common\libraries\Categorizable;
 use application\weblcms\ContentObjectPublicationListRenderer;
 use application\weblcms\Tool;
 use repository\RepositoryDataManager;

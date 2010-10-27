@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use repository\content_object\survey\Survey;
 use application\weblcms\ContentObjectPublicationListRenderer;
 use common\libraries\Path;
 use application\weblcms\Tool;

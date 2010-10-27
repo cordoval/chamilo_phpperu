@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\document;
 
+use application\weblcms\Tool;
 use repository\ContentObject;
 use common\libraries\Theme;
 use common\libraries\Utilities;

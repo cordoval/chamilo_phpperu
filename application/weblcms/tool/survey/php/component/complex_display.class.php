@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use application\weblcms\Tool;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\AndCondition;

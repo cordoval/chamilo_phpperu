@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use application\weblcms\Tool;
+use common\libraries\PatternMatchCondition;
 use repository\ContentObject;
 use common\libraries\ActionBarRenderer;
 use common\libraries\SubselectCondition;

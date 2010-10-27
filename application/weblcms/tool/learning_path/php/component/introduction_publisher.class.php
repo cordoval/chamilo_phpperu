@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use application\weblcms\Tool;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use application\weblcms\ToolComponent;

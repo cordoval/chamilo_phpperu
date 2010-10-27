@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\link;
 
+use application\weblcms\Tool;
 use common\extensions\repo_viewer\RepoViewerInterface;
 use common\extensions\repo_viewer\RepoViewer;
 use common\libraries\Display;

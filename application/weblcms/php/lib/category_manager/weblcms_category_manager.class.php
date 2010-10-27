@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\extensions\category_manager\CategoryManager;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\EqualityCondition;
 

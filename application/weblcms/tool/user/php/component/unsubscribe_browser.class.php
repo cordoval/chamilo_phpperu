@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\user;
 
+use application\weblcms\Tool;
+use common\libraries\PatternMatchCondition;
 use group\GroupDataManager;
 use repository\ContentObject;
 use common\libraries\ActionBarRenderer;

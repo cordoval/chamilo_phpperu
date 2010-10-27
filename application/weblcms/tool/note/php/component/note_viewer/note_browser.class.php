@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\note;
 
+use application\weblcms\Tool;
 use repository\ContentObject;
 use application\weblcms\ContentObjectPublicationListRenderer;
 use common\libraries\SubselectCondition;

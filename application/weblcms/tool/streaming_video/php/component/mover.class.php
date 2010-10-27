@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\streaming_video;
 
+use application\weblcms\Tool;
 use common\libraries\Request;
 use application\weblcms\ToolComponent;
 

@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use application\weblcms\Tool;
 use group\GroupDataManager;
 use repository\RepositoryDataManager;
 use common\libraries\Toolbar;

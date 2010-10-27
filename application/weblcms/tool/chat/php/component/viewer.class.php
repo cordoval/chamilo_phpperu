@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\chat;
 
+use application\weblcms\Tool;
 use common\libraries\Display;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Path;

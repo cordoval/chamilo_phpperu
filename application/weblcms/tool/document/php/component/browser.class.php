@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\document;
 
+use application\weblcms\Tool;
+use common\libraries\PatternMatchCondition;
 use repository\ContentObject;
 use application\weblcms\ContentObjectPublicationListRenderer;
 use common\libraries\SubselectCondition;

@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\user;
 
+use application\weblcms\Tool;
 use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use user\User;

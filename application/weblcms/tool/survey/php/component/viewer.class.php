@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use application\weblcms\Tool;
+use common\libraries\PatternMatchCondition;
 use repository\ContentObject;
 use repository\RepositoryDataManager;
 use common\libraries\ToolbarItem;

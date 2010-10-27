@@ -1,6 +1,7 @@
 q<?php
 namespace application\weblcms\tool\streaming_video;
 
+use application\weblcms\Tool;
 use repository\ContentObject;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;

@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\PatternMatchCondition;
 use repository\RepositoryDataManager;
 use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;

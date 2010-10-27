@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\course_group;
 
+use application\weblcms\Tool;
+use common\libraries\PatternMatchCondition;
 use common\libraries\ActionBarRenderer;
 use common\libraries\ToolbarItem;
 use user\User;

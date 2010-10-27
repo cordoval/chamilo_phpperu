@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\user;
 
+use application\weblcms\Tool;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Utilities;

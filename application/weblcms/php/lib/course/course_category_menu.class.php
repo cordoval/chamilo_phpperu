@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\TreeMenuRenderer;
 use HTML_Menu;
 use common\libraries\Application;
 use common\libraries\Utilities;

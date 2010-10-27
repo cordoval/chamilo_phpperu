@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\description;
 
+use application\weblcms\Tool;
+use common\libraries\PatternMatchCondition;
 use repository\ContentObject;
 use common\libraries\ActionBarRenderer;
 use common\libraries\SubselectCondition;

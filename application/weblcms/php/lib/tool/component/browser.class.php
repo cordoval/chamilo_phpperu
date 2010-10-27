@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Categorizable;
+use common\libraries\PatternMatchCondition;
 use repository\ContentObject;
 use common\libraries\ObjectTableFormAction;
 use common\libraries\ObjectTableFormActions;

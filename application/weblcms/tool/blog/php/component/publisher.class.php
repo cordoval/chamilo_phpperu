@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\blog;
 
+use application\weblcms\Tool;
 use common\extensions\repo_viewer\RepoViewer;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;

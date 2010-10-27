@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\glossary;
 
+use repository\content_object\glossary\Glossary;
 use application\weblcms\ContentObjectPublicationListRenderer;
 use application\weblcms\Tool;
 

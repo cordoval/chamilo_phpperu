@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use application\weblcms\Tool;
 use common\libraries\Display;
 use common\libraries\EqualityCondition;
 use common\libraries\Request;

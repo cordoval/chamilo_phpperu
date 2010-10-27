@@ -1,6 +1,10 @@
 <?php
 namespace application\weblcms\tool\streaming_video;
 
+use repository\content_object\youtube\Youtube;
+use repository\content_object\mediamosa\Mediamosa;
+use repository\content_object\dailymotion\Dailymotion;
+use repository\content_object\vimeo\Vimeo;
 use application\weblcms\ContentObjectPublicationListRenderer;
 use application\weblcms\Tool;
 

@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use application\weblcms\Tool;
 use common\libraries\ActionBarRenderer;
 use common\libraries\ToolbarItem;
 use common\libraries\Display;

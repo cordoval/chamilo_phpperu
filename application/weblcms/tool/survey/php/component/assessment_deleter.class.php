@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use application\weblcms\Tool;
 use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Path;

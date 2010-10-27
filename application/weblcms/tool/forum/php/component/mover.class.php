@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\forum;
 
+use application\weblcms\Tool;
 use common\libraries\Request;
 use application\weblcms\ToolComponent;
 

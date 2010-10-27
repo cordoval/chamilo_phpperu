@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\PatternMatchCondition;
 use common\libraries\Theme;
 use common\libraries\Utilities;
 use common\libraries\Path;

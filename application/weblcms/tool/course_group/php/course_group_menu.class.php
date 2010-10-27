@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\course_group;
 
+use common\libraries\TreeMenuRenderer;
 use HTML_Menu;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;

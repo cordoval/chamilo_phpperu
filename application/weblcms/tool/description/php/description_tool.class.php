@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\description;
 
+use repository\content_object\description\Description;
 use application\weblcms\Tool;
 
 /**

@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\link;
 
+use application\weblcms\Tool;
 use repository\ContentObject;
 use common\libraries\ObjectTableFormAction;
 use common\libraries\SubselectCondition;

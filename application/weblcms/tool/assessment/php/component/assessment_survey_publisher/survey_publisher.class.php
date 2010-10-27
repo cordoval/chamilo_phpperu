@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\assessment;
 
+use application\weblcms\Tool;
 use repository\RepositoryDataManager;
 use user\UserDataManager;
 use common\libraries\Display;

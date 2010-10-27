@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\PatternMatchCondition;
 use user\UserDataManager;
 use common\libraries\ObjectTableOrder;
 use common\libraries\AndCondition;

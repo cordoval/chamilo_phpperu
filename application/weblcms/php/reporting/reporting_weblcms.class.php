@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\PatternMatchCondition;
 use reporting\ReportingManager;
 use common\libraries\DatetimeUtilities;
 use repository\ContentObject;

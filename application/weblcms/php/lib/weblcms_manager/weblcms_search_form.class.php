@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\PatternMatchCondition;
 use common\libraries\OrCondition;
 use common\libraries\Request;
 use common\libraries\FormValidator;

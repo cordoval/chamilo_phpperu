@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\TreeMenuRenderer;
 use common\libraries\SubselectCondition;
 use repository\RepositoryDataManager;
 use user\User;
