@@ -290,13 +290,7 @@ abstract class ComplexBuilder extends SubManager
 
         foreach ($types as $type)
         {
-                 	
-        	if(!RepositoryRights :: is_allowed_in_content_objects_subtree(RepositoryRights :: ADD_RIGHT, AdminDataManager :: get_registration($type, Registration :: TYPE_CONTENT_OBJECT)->get_id()))
-            {
-            	continue;
-            }
-
-        	$url = $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM, self :: PARAM_TYPE => $type, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
+            $url = $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM, self :: PARAM_TYPE => $type, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
 
             $html[] = '<a href="' . $url . '"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/big/' . $type . '.png);">';
             $html[] = Translation :: get(Utilities :: get_classname_from_namespace(ContentObject :: type_to_class($type)) . 'TypeName');
