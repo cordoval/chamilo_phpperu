@@ -7,6 +7,7 @@ use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\PlatformSetting;
 use common\libraries\StringUtilities;
+use common\libraries\Filecompression;
 
 use repository\ContentObjectForm;
 use repository\RepositoryCategory;

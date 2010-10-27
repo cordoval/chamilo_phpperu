@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\document;
 
+use application\weblcms\ObjectPublicationTableCellRenderer;
 use application\weblcms\Tool;
 use repository\ContentObject;
 use common\libraries\Theme;
@@ -10,7 +11,6 @@ use common\libraries\Utilities;
  * $Id: document_cell_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.document.component.document_viewer
  */
-require_once dirname(__FILE__) . '/../../../../browser/object_publication_table/object_publication_table_cell_renderer.class.php';
 /**
  * This class is a cell renderer for a publication candidate table
  */

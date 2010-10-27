@@ -7,7 +7,7 @@ require_once WebApplication :: get_application_class_lib_path('internship_organi
 
 class InternshipOrganizerAgreementManagerBrowserComponent extends InternshipOrganizerAgreementManager
 {
-    
+
     const TAB_ADD_LOCATION = 1;
     const TAB_TO_APPROVE = 2;
     const TAB_APPROVED = 3;
@@ -15,13 +15,13 @@ class InternshipOrganizerAgreementManagerBrowserComponent extends InternshipOrga
     const TAB_COORDINATOR = 5;
     const TAB_STUDENT = 6;
     const TAB_MENTOR = 7;
-    
+
     private $action_bar;
     private $user_id;
 
     function run()
     {
-        
+
         if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, InternshipOrganizerRights :: LOCATION_AGREEMENT, InternshipOrganizerRights :: TYPE_COMPONENT))
         {
             $this->display_header();
@@ -29,26 +29,26 @@ class InternshipOrganizerAgreementManagerBrowserComponent extends InternshipOrga
             $this->display_footer();
             exit();
         }
-             
+
         $this->user_id = $this->get_user_id();
-        
+
         $this->action_bar = $this->get_action_bar();
-        
+
         $this->display_header();
-        
+
         echo $this->action_bar->as_html();
         echo '<div id="action_bar_browser">';
-        
+
         echo '<div>';
-        
-        $renderer_name = Utilities :: camelcase_to_underscores(get_class($this));
+
+        $renderer_name = Utilities :: get_classname_from_object($this, true);
         $tabs = new DynamicTabsRenderer($renderer_name);
-        
+
         $parameters = $this->get_parameters();
         $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
         $dm = InternshipOrganizerDataManager :: get_instance();
-        
-        
+
+
         $coordinator = InternshipOrganizerUserType :: COORDINATOR;
         $coordinator_count = $dm->count_agreements($this->get_condition(InternshipOrganizerAgreement :: STATUS_APPROVED, $coordinator));
         if ($coordinator_count > 0)
@@ -56,7 +56,7 @@ class InternshipOrganizerAgreementManagerBrowserComponent extends InternshipOrga
             $table = $this->get_table(InternshipOrganizerAgreement :: STATUS_APPROVED,$coordinator);
             $tabs->add_tab(new DynamicContentTab(self :: TAB_COORDINATOR, Translation :: get('InternshipOrganizerCoordinator'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
         }
-        
+
         $coach = InternshipOrganizerUserType :: COACH;
         $coach_count = $dm->count_agreements($this->get_condition(InternshipOrganizerAgreement :: STATUS_APPROVED, $coach));
         if ($coach_count > 0)
@@ -64,7 +64,7 @@ class InternshipOrganizerAgreementManagerBrowserComponent extends InternshipOrga
             $table = $this->get_table(InternshipOrganizerAgreement :: STATUS_APPROVED, $coach);
             $tabs->add_tab(new DynamicContentTab(self :: TAB_COACH, Translation :: get('InternshipOrganizerCoach'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
         }
-        
+
         $student = InternshipOrganizerUserType :: STUDENT;
         $student_count = $dm->count_agreements($this->get_condition(InternshipOrganizerAgreement :: STATUS_APPROVED, $student));
         if ($student_count > 0)
@@ -72,7 +72,7 @@ class InternshipOrganizerAgreementManagerBrowserComponent extends InternshipOrga
             $table = $this->get_table(InternshipOrganizerAgreement :: STATUS_APPROVED, $student);
             $tabs->add_tab(new DynamicContentTab(self :: TAB_STUDENT, Translation :: get('InternshipOrganizerStudent'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
         }
-        
+
         $mentor = InternshipOrganizerUserType :: MENTOR;
         $mentor_count = $dm->count_agreements($this->get_condition(InternshipOrganizerAgreement :: STATUS_APPROVED, $mentor));
         if ($mentor_count > 0)
@@ -80,24 +80,24 @@ class InternshipOrganizerAgreementManagerBrowserComponent extends InternshipOrga
             $table = $this->get_table(InternshipOrganizerAgreement :: STATUS_APPROVED, $mentor);
             $tabs->add_tab(new DynamicContentTab(self :: TAB_MENTOR, Translation :: get('InternshipOrganizerMentor'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
         }
-        
+
         $coordinator_coach_student = array(InternshipOrganizerUserType :: COACH, InternshipOrganizerUserType :: COORDINATOR, InternshipOrganizerUserType :: STUDENT);
-        
+
         $coordinator_coach_count = $dm->count_agreements($this->get_condition(InternshipOrganizerAgreement :: STATUS_ADD_LOCATION, $coordinator_coach_student));
         if ($coordinator_coach_count > 0)
         {
             $table = $this->get_table(InternshipOrganizerAgreement :: STATUS_ADD_LOCATION, $coordinator_coach_student);
             $tabs->add_tab(new DynamicContentTab(self :: TAB_ADD_LOCATION, InternshipOrganizerAgreement :: get_status_name(InternshipOrganizerAgreement :: STATUS_ADD_LOCATION), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
         }
-        
+
         $coordinator_coach_count = $dm->count_agreements($this->get_condition(InternshipOrganizerAgreement :: STATUS_TO_APPROVE, $coordinator_coach_student));
         if ($coordinator_coach_count > 0)
         {
             $table = $this->get_table(InternshipOrganizerAgreement :: STATUS_TO_APPROVE, $coordinator_coach_student);
             $tabs->add_tab(new DynamicContentTab(self :: TAB_TO_APPROVE, InternshipOrganizerAgreement :: get_status_name(InternshipOrganizerAgreement :: STATUS_TO_APPROVE), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
-        
+
         }
-        
+
         echo $tabs->render();
         echo '</div>';
         echo '</div>';
@@ -114,29 +114,29 @@ class InternshipOrganizerAgreementManagerBrowserComponent extends InternshipOrga
     function get_action_bar()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        
+
         if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_PUBLISH, InternshipOrganizerRights :: LOCATION_AGREEMENT, InternshipOrganizerRights :: TYPE_COMPONENT))
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishInAgreements'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_agreements_publish_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
-        
+
         if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_ADD, InternshipOrganizerRights :: LOCATION_AGREEMENT, InternshipOrganizerRights :: TYPE_COMPONENT))
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateInternshipOrganizerAgreement'), Theme :: get_common_image_path() . 'action_create.png', $this->get_create_agreement_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
-        
+
         if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, InternshipOrganizerRights :: LOCATION_REPORTING, InternshipOrganizerRights :: TYPE_COMPONENT))
         {
             $action_bar->add_tool_action(new ToolbarItem(Translation :: get('Reporting'), Theme :: get_common_image_path() . 'action_view_results.png', $this->get_agreement_reporting_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
         $action_bar->set_search_url($this->get_url());
-        
+
         return $action_bar;
     }
 
     function get_condition($agreement_type, $user_types)
     {
-        
+
         $conditions = array();
         $agreement_ids = $this->get_agreement_ids($user_types);
         if (count($agreement_ids) > 0)
@@ -144,7 +144,7 @@ class InternshipOrganizerAgreementManagerBrowserComponent extends InternshipOrga
             $conditions[] = new InCondition(InternshipOrganizerAgreement :: PROPERTY_ID, $agreement_ids);
             $conditions[] = new InCondition(InternshipOrganizerAgreementRelUser :: PROPERTY_USER_TYPE, InternshipOrganizerUserType :: STUDENT, InternshipOrganizerAgreementRelUser :: get_table_name());
             $conditions[] = new EqualityCondition(InternshipOrganizerAgreement :: PROPERTY_STATUS, $agreement_type);
-            
+
             $query = $this->action_bar->get_query();
             if (isset($query) && $query != '')
             {
@@ -157,26 +157,26 @@ class InternshipOrganizerAgreementManagerBrowserComponent extends InternshipOrga
                 $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, '*' . $query . '*', $user_alias, true);
                 $search_conditions[] = new PatternMatchCondition(InternshipOrganizerPeriod :: PROPERTY_NAME, '*' . $query . '*', InternshipOrganizerPeriod :: get_table_name());
                 $conditions[] = new OrCondition($search_conditions);
-            
+
             }
-            
+
             return new AndCondition($conditions);
         }
         else
         {
             return new EqualityCondition(InternshipOrganizerAgreement :: PROPERTY_ID, 0);
         }
-    
+
     }
 
     function get_agreement_ids($user_types)
     {
-        
+
         if (! is_array($user_types))
         {
             $user_types = array($user_types);
         }
-        
+
         $conditions = array();
         $user_alias = UserDataManager :: get_instance()->get_alias(User :: get_table_name());
         $conditions[] = new EqualityCondition(User :: PROPERTY_ID, $this->user_id, $user_alias, true);
@@ -188,10 +188,10 @@ class InternshipOrganizerAgreementManagerBrowserComponent extends InternshipOrga
         {
             $agreement_ids[] = $agreement->get_id();
         }
-        
+
         if (in_array(InternshipOrganizerUserType :: MENTOR, $user_types))
         {
-            
+
             $user_alias = UserDataManager :: get_instance()->get_alias(User :: get_table_name());
             $condition = new EqualityCondition(User :: PROPERTY_ID, $this->user_id, $user_alias, true);
             $agreements = InternshipOrganizerDataManager :: get_instance()->retrieve_mentor_agreements($condition);
@@ -200,7 +200,7 @@ class InternshipOrganizerAgreementManagerBrowserComponent extends InternshipOrga
                 $agreement_ids[] = $agreement->get_id();
             }
         }
-        
+
         return array_unique($agreement_ids);
     }
 

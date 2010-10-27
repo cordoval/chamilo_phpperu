@@ -3,7 +3,6 @@ namespace application\weblcms\tool\document;
 
 use repository\content_object\document\Document;
 use common\libraries\Categorizable;
-use application\weblcms\Tool;
 use application\weblcms\ContentObjectPublicationListRenderer;
 use application\weblcms\Tool;
 use common\libraries\ToolbarItem;

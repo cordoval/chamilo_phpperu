@@ -8,12 +8,12 @@ require_once WebApplication :: get_application_class_lib_path('internship_organi
 
 class InternshipOrganizerPeriodManagerAgreementViewerComponent extends InternshipOrganizerPeriodManager
 {
-    
+
     const TAB_COORDINATOR = 1;
     const TAB_COACH = 2;
     const TAB_STUDENT = 3;
     const TAB_DETAIL = 4;
-    
+
     private $action_bar;
     private $agreement;
     private $period;
@@ -24,11 +24,11 @@ class InternshipOrganizerPeriodManagerAgreementViewerComponent extends Internshi
      */
     function run()
     {
-        
+
         $agreement_id = $_GET[self :: PARAM_AGREEMENT_ID];
         $this->agreement = InternshipOrganizerDataManager :: get_instance()->retrieve_agreement($agreement_id);
         $period_id = $this->agreement->get_period_id();
-        
+
         if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, $agreement_id, InternshipOrganizerRights :: TYPE_AGREEMENT))
         {
             $this->display_header();
@@ -36,16 +36,16 @@ class InternshipOrganizerPeriodManagerAgreementViewerComponent extends Internshi
             $this->display_footer();
             exit();
         }
-        
+
         $this->period = InternshipOrganizerDataManager :: get_instance()->retrieve_period($period_id);
-        
+
         $this->action_bar = $this->get_action_bar();
-        
+
         $this->display_header($trail);
-        
+
         echo $this->action_bar->as_html();
         echo '<div id="action_bar_browser">';
-        
+
         echo '<div>';
         echo $this->get_tabs();
         echo '</div>';
@@ -55,40 +55,40 @@ class InternshipOrganizerPeriodManagerAgreementViewerComponent extends Internshi
 
     function get_tabs()
     {
-        
+
         $html = array();
         $html[] = '<div>';
-        
-        $renderer_name = Utilities :: camelcase_to_underscores(get_class($this));
+
+        $renderer_name = Utilities :: get_classname_from_object($this, true);
         $tabs = new DynamicTabsRenderer($renderer_name);
-        
+
         $parameters = $this->get_parameters();
         $parameters[self :: PARAM_AGREEMENT_ID] = $this->agreement->get_id();
-        
+
         // Coordinators
         $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_COORDINATOR;
         $table = new InternshipOrganizerPeriodAgreementUserBrowserTable($this, $parameters, $this->get_users_condition(InternshipOrganizerUserType :: COORDINATOR), InternshipOrganizerUserType :: COORDINATOR);
         $tabs->add_tab(new DynamicContentTab(self :: TAB_COORDINATOR, Translation :: get('InternshipOrganizerCoordinators'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
-        
+
         // Coaches
         $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_COACH;
         $table = new InternshipOrganizerPeriodAgreementUserBrowserTable($this, $parameters, $this->get_users_condition(InternshipOrganizerUserType :: COACH), InternshipOrganizerUserType :: COACH);
         $tabs->add_tab(new DynamicContentTab(self :: TAB_COACH, Translation :: get('InternshipOrganizerCoaches'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
-        
+
         // Student
         $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_STUDENT;
         $table = new InternshipOrganizerPeriodAgreementUserBrowserTable($this, $parameters, $this->get_users_condition(InternshipOrganizerUserType :: STUDENT), InternshipOrganizerUserType :: STUDENT);
         $tabs->add_tab(new DynamicContentTab(self :: TAB_STUDENT, Translation :: get('InternshipOrganizerStudent'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
-        
+
         // Detail tab
         $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_DETAIL;
         $tabs->add_tab(new DynamicContentTab(self :: TAB_DETAIL, Translation :: get('InternshipOrganizerDetail'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $this->get_detail()));
-        
+
         $html[] = $tabs->render();
-        
+
         $html[] = '</div>';
         $html[] = '<div class="clear"></div>';
-        
+
         return implode($html, "\n");
     }
 
@@ -96,14 +96,14 @@ class InternshipOrganizerPeriodManagerAgreementViewerComponent extends Internshi
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         $action_bar->set_search_url($this->get_url(array(self :: PARAM_AGREEMENT_ID => $this->agreement->get_id())));
-        
+
         if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: SUBSCRIBE_AGREEMENT_USER_RIGHT, $this->period->get_id(), InternshipOrganizerRights :: TYPE_PERIOD))
         {
             $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddCoördinaters'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_subscribe_agreement_rel_user_url($this->agreement, InternshipOrganizerUserType :: COORDINATOR), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
             $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddCoaches'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_subscribe_agreement_rel_user_url($this->agreement, InternshipOrganizerUserType :: COACH), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        
+
         }
-        
+
         return $action_bar;
     }
 
@@ -111,9 +111,9 @@ class InternshipOrganizerPeriodManagerAgreementViewerComponent extends Internshi
     {
         $query = $this->action_bar->get_query();
         $conditions = array();
-        
+
         $user_ids = $this->agreement->get_user_ids($user_type);
-        
+
         if (count($user_ids))
         {
             $conditions[] = new InCondition(User :: PROPERTY_ID, $user_ids);
@@ -122,7 +122,7 @@ class InternshipOrganizerPeriodManagerAgreementViewerComponent extends Internshi
         {
             $conditions[] = new EqualityCondition(User :: PROPERTY_ID, 0);
         }
-        
+
         if (isset($query) && $query != '')
         {
             $search_conditions = array();
@@ -141,14 +141,14 @@ class InternshipOrganizerPeriodManagerAgreementViewerComponent extends Internshi
         $html[] = '<div class="title">' . Translation :: get('Details') . '</div>';
         $html[] = '<b>' . Translation :: get('Name') . '</b>: ' . $this->agreement->get_name() . '<br /> ';
         $html[] = '<b>' . Translation :: get('Description') . '</b>: ' . $this->agreement->get_description() . '<br /> ';
-        
+
         $student = $this->get_student();
-        
+
         $html[] = '<div class="title">' . Translation :: get('Student') . '</div>';
         $html[] = '<b>' . Translation :: get('Firstname') . '</b>: ' . $student->get_firstname();
         $html[] = '<br /><b>' . Translation :: get('Lastname') . '</b>: ' . $student->get_lastname();
         $html[] = '<br /><b>' . Translation :: get('InternshipOrganizerEmail') . '</b>: ' . $student->get_email();
-        
+
         $html[] = '<div class="clear">&nbsp;</div>';
         $html[] = '</div>';
         return implode($html, "\n");
@@ -160,7 +160,7 @@ class InternshipOrganizerPeriodManagerAgreementViewerComponent extends Internshi
         $dm = UserDataManager :: get_instance();
         $student = $dm->retrieve_user($student_id[0]);
         return $student;
-    
+
     }
 
     function get_agreement()
@@ -177,7 +177,7 @@ class InternshipOrganizerPeriodManagerAgreementViewerComponent extends Internshi
     {
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PERIODS, self :: PARAM_PERIOD_ID => Request :: get(self :: PARAM_PERIOD_ID))), Translation :: get('BrowseInternshipOrganizerPeriods')));
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_PERIOD, self :: PARAM_PERIOD_ID => Request :: get(self :: PARAM_PERIOD_ID), DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerPeriodManagerViewerComponent :: TAB_AGREEMENT)), Translation :: get('ViewInternshipOrganizerPeriod')));
-    
+
     }
 
     function get_additional_parameters()

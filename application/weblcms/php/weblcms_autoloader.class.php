@@ -42,7 +42,9 @@ class WeblcmsAutoloader
                 'course_group' => 'course_group/course_group.class.php',
         		'course_group_form' => 'course_group/course_group_form.class.php',
         		'course_group_subscriptions_form' => 'course_group/course_group_subscriptions_form.class.php',
-                'common_request' => 'course/common_request.class.php');
+                'common_request' => 'course/common_request.class.php',
+        		'object_publication_table_cell_renderer.class' => 'browser/object_publication_table/object_publication_table_cell_renderer.class.php'
+        );
 
         $lower_case = Utilities :: camelcase_to_underscores($classname);
 

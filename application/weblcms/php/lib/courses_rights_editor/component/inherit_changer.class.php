@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\extensions\rights_editor_manager\RightsEditorManagerInheritChangerComponent;
 use common\libraries\Path;
 
 /**
@@ -8,7 +9,7 @@ use common\libraries\Path;
  * @package rights.lib.location_manager.component
  */
 
-require_once Path :: get_common_extensions_path() . 'rights_editor_manager/component/inherit_changer.class.php';
+require_once Path :: get_common_extensions_path() . 'rights_editor_manager/php/component/inherit_changer.class.php';
 
 class CoursesRightsEditorManagerInheritChangerComponent extends RightsEditorManagerInheritChangerComponent
 {
