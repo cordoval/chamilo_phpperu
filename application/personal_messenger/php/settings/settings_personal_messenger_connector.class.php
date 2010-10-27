@@ -1,4 +1,8 @@
 <?php
+
+namespace application\personal_messenger;
+
+use common\libraries\Path;
 /**
  * $Id: settings_personal_messenger_connector.class.php 203 2009-11-13 12:46:38Z chellee $
  * @package application.personal_messenger.settings

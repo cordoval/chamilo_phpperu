@@ -1,4 +1,9 @@
 <?php
+
+namespace application\personal_messenger;
+
+use common\libraries\ObjectTableColumnModel;
+use common\libraries\ObjectTableColumn;
 /**
  * $Id: default_pm_publication_table_column_model.class.php 203 2009-11-13 12:46:38Z chellee $
  * @package application.personal_messenger.pm_publication_table

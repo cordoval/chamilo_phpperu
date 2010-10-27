@@ -1,4 +1,17 @@
 <?php
+
+namespace application\personal_messenger;
+
+use common\libraries\Database;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use common\libraries\InCondition;
+use repository\RepositoryDataManager;
+use repository\ContentObject;
+use common\libraries\Session;
+use common\libraries\ConditionTranslator;
+use repository\ContentObjectPublicationAttributes;
+use common\libraries\Translation;
 /**
  * $Id: database_personal_messenger_data_manager.class.php 238 2009-11-16 14:10:27Z vanpouckesven $
  * @package application.personal_messenger.data.manager

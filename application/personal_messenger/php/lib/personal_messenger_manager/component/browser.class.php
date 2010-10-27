@@ -1,5 +1,19 @@
 <?php
 
+namespace application\personal_messenger;
+
+use common\libraries\WebApplication;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
+use common\libraries\Display;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
+use common\libraries\Application;
+use common\libraries\ActionBarRenderer;
+
 /**
  * $Id: browser.class.php 203 2009-11-13 12:46:38Z chellee $
  * @package application.personal_messenger.personal_messenger_manager.component

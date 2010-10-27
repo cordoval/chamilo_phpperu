@@ -1,4 +1,14 @@
 <?php
+
+namespace application\personal_messenger;
+
+use common\libraries\Request;
+use common\extensions\repo_viewer\RepoViewer;
+use repository\RepositoryDataManager;
+use repository\content_object\personal_message\PersonalMessage;
+use common\libraries\Breadcrumb;
+use common\libraries\Application;
+use common\libraries\Translation;
 /**
  * $Id: publisher.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.personal_messenger.personal_messenger_manager.component

@@ -1,4 +1,7 @@
 <?php
+
+namespace application\personal_messenger;
+
 interface PersonalMessengerDataManagerInterface
 {
     /**

@@ -1,4 +1,9 @@
 <?php
+namespace application\personal_messenger;
+
+use common\libraries\ObjectTableCellRenderer;
+use common\libraries\Translation;
+
 /**
  * $Id: default_pm_publication_table_cell_renderer.class.php 203 2009-11-13 12:46:38Z chellee $
  * @package application.personal_messenger.pm_publication_table

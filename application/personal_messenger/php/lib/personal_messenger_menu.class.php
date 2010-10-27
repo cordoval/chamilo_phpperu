@@ -1,4 +1,11 @@
 <?php
+
+namespace application\personal_messenger;
+
+use HTML_Menu;
+use common\libraries\Translation;
+use common\libraries\TreeMenuRenderer;
+use common\libraries\Utilities;
 /**
  * $Id: personal_messenger_menu.class.php 203 2009-11-13 12:46:38Z chellee $
  * @package application.personal_messenger

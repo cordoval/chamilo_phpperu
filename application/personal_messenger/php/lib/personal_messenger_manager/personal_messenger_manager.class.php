@@ -1,4 +1,13 @@
 <?php
+
+namespace application\personal_messenger;
+
+use common\libraries\WebApplication;
+use common\libraries\Request;
+use PersonalMessengerBlock;
+use common\libraries\Translation;
+use common\libraries\Application;
+use common\libraries\Session;
 /**
  * $Id: personal_messenger_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.personal_messenger.personal_messenger_manager

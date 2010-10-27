@@ -1,4 +1,13 @@
 <?php
+namespace application\personal_messenger;
+
+use common\libraries\WebApplication;
+use common\libraries\Path;
+use common\libraries\Translation;
+use common\libraries\Theme;
+use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
 /**
  * $Id: view_messages.class.php 203 2009-11-13 12:46:38Z chellee $
  * @package application.personal_messenger.block

@@ -1,4 +1,12 @@
 <?php
+
+namespace application\personal_messenger;
+
+use common\libraries\Path;
+use common\libraries\FormValidator;
+use common\libraries\Translation;
+use group\GroupDataManager;
+use common\libraries\EqualityCondition;
 /**
  * $Id: personal_message_publication_form.class.php 203 2009-11-13 12:46:38Z chellee $
  * @package application.personal_messenger
