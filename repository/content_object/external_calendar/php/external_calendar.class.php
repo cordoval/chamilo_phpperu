@@ -7,6 +7,7 @@ use common\libraries\Path;
 use common\libraries\Filesystem;
 
 use vcalendar;
+use IcalRecurrence;
 
 use repository\ContentObject;
 
