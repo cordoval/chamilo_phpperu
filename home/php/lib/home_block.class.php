@@ -220,8 +220,8 @@ class HomeBlock extends DataClass
     {
         $application = $this->get_application();
 
-        $base_path = (WebApplication :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
-        $file = $base_path . $application . '/block/' . $application . '_' . $this->get_component() . '.xml';
+        $base_path = (WebApplication :: is_application($application) ? Path :: get_application_path() : Path :: get(SYS_PATH));
+        $file = $base_path . $application . '/php/blocks/type/' . $this->get_component() . '.xml';
 
         if (file_exists($file))
         {

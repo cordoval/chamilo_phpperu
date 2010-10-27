@@ -7,7 +7,7 @@ $(function () {
 	function translation(string, application) {		
 		var translated_string = $.ajax({
 			type: "POST",
-			url: "./common/javascript/ajax/translation.php",
+			url: "./common/libraries/php/ajax/translation.php",
 			data: { string: string, application: application },
 			async: false
 		}).responseText;

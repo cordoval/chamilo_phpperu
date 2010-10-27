@@ -12,7 +12,7 @@ use common\libraries\BreadcrumbTrail;
 /**
  * Repository manager component to edit an existing learning object.
  */
-class HomeManagerConfigurerComponent extends HomeManager implements AdministrationComponent
+class HomeManagerConfigurerComponent extends HomeManager
 {
 
     /**
@@ -22,13 +22,13 @@ class HomeManagerConfigurerComponent extends HomeManager implements Administrati
     {
         $id = Request :: get(HomeManager :: PARAM_HOME_ID);
         
-        if (! $this->get_user()->is_platform_admin())
+        /*if (! $this->get_user()->is_platform_admin())
         {
             $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed"));
             $this->display_footer();
             exit();
-        }
+        }*/
         
         if ($id)
         {
