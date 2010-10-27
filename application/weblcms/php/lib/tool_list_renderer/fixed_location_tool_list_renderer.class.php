@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries;
+
 use common\libraries\Theme;
 use common\libraries\DynamicContentTab;
 use common\libraries\DynamicTabsRenderer;
@@ -8,6 +10,7 @@ use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use application\weblcms\tool\home\HomeTool;
 use HTML_Table;
 
@@ -172,7 +175,9 @@ class FixedLocationToolListRenderer extends ToolListRenderer
                 }
 
                 // Show tool-icon + name
-                $cell_contents[] = '<a href="' . $parent->get_url(array('tool_action' => null, WeblcmsManager :: PARAM_COMPONENT_ACTION => null, WeblcmsManager :: PARAM_TOOL => $publication->get_tool(), Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true) . '" ' . $link_class . '>';
+                $cell_contents[] = '<a href="' . $parent->get_url(array(
+                        'tool_action' => null, WeblcmsManager :: PARAM_COMPONENT_ACTION => null, WeblcmsManager :: PARAM_TOOL => $publication->get_tool(),
+                        Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true) . '" ' . $link_class . '>';
                 $cell_contents[] = '<img src="' . Theme :: get_image_path() . $tool_image . '" style="vertical-align: middle;" alt="' . $title . '"/>';
                 $cell_contents[] = '&nbsp;';
                 $cell_contents[] = $title;
@@ -256,7 +261,8 @@ class FixedLocationToolListRenderer extends ToolListRenderer
                 $tool_image = 'tool_' . $tool->name . '_na.png';
                 $link_class = ' class="invisible"';
             }
-            $title = htmlspecialchars(Translation :: get(Tool :: type_to_class($tool->name) . 'Title'));
+
+            $title = htmlspecialchars(Translation :: get(Utilities:: underscores_to_camelcase($tool->name) . 'Title'));
             $row = $count / $this->number_of_columns;
             $col = $count % $this->number_of_columns;
             //$html = array();
