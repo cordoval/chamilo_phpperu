@@ -28,7 +28,6 @@ class MediamosaExternalRepositoryObjectDisplay extends ExternalRepositoryObjectD
         {
             $properties[Translation :: get('Description')] = $object->get_description();
         }
-
         $properties[Translation :: get('UploadedOn')] = DatetimeUtilities :: format_locale_date(null, $object->get_created());
         if ($object->get_created() != $object->get_modified())
         {

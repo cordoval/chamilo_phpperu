@@ -23,6 +23,7 @@ class MetadataPropertyAttributeValue extends DataClass
     const PROPERTY_RELATION = 'relation';
     const PROPERTY_VALUE = 'value';
     const PROPERTY_VALUE_TYPE = 'value_type';
+    const PROPERTY_CONTENT_OBJECT_ID = 'content_object_id';
 
     const VALUE_TYPE_NONE = '0';
     const VALUE_TYPE_ID = '1';
@@ -125,6 +126,16 @@ class MetadataPropertyAttributeValue extends DataClass
     function set_relation($relation)
     {
             $this->set_default_property(self :: PROPERTY_RELATION, $relation);
+    }
+
+    function get_content_object_id()
+    {
+            return $this->get_default_property(self :: PROPERTY_CONTENT_OBJECT_ID);
+    }
+
+    function set_content_object_id($content_object_id)
+    {
+            $this->set_default_property(self :: PROPERTY_CONTENT_OBJECT_ID, $content_object_id);
     }
 
     static function get_table_name()

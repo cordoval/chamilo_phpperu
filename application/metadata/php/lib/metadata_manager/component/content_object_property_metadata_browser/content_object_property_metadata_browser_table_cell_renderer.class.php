@@ -34,10 +34,10 @@ class ContentObjectPropertyMetadataBrowserTableCellRenderer extends DefaultConte
 	function render_cell($column, $content_object_property_metadata)
 	{
 
-            if($column->get_name() == ContentObjectPropertyMetadata :: PROPERTY_PROPERTY_TYPE_ID)
+            if($column->get_name() == DefaultContentObjectPropertyMetadataTableColumnModel :: COLUMN_TYPE_PROPERTY_TYPE)
             {
                 $metadata_property_type = $this->browser->retrieve_metadata_property_type($content_object_property_metadata->get_property_type_id());
-                return $metadata_property_type->get_ns_prefix() . ':' . $metadata_property_type->get_name();
+                return $metadata_property_type->render_name();
             }
 
             if ($column === ContentObjectPropertyMetadataBrowserTableColumnModel :: get_modification_column())

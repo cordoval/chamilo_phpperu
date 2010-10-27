@@ -8,6 +8,8 @@ use common\libraries\DynamicAction;
 use common\libraries\ArrayResultSet;
 use common\libraries\Translation;
 use common\libraries\Application;
+use common\libraries\Theme;
+use common\libraries\Redirect;
 /**
  * A metadata manager
  *

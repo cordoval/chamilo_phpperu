@@ -5,6 +5,9 @@ use common\libraries\Translation;
 use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Utilities;
+use common\libraries\ToolbarItem;
+use common\libraries\Toolbar;
+use common\libraries\Theme;
 
 /**
  * This class describes the form for a MetadataAttributeNesting object.
@@ -54,7 +57,7 @@ class MetadataAssociationsForm extends FormValidator
         //        $this->addRule(MetadataAttributeNesting :: PROPERTY_CHILD_ID, Translation :: get('ThisFieldIsRequired'), 'required');
         //
         //        $this->addElement('text', MetadataAttributeNesting :: PROPERTY_CHILD_TYPE, Translation :: get('ChildType'));
-        //        $this->addRule(MetadataAttributeNesting :: PROPERTY_CHILD_TYPE, Translation :: get('ThisFieldIsRequired'), 'required');
+      //        $this->addRule(MetadataAttributeNesting :: PROPERTY_CHILD_TYPE, Translation :: get('ThisFieldIsRequired'), 'required');
         
 
         $condition = new EqualityCondition(MetadataAttributeNesting :: PROPERTY_PARENT_ID, $this->metadata_property_type->get_id());
@@ -66,20 +69,20 @@ class MetadataAssociationsForm extends FormValidator
         
         $defaults = array();
         $attributes = array();
-        
+
         while ($nesting = $metadata_attribute_nestings->next_result())
-        {
-            $propName = ($nesting->get_child_type() == MetadataManager :: PARAM_METADATA_PROPERTY_TYPE) ? self :: PARAM_PROPERTY : self :: PARAM_ATTRIBUTE;
+       {
+           $propName = ($nesting->get_child_type() == MetadataManager :: PARAM_METADATA_PROPERTY_TYPE) ? self :: PARAM_PROPERTY : self :: PARAM_ATTRIBUTE;
             $element = array();
-            
+
             $element['classes'] = 'type type_cda_language';
             $element['id'] = $propName . '_' . $nesting->get_child_id();
-            
+
             switch ($nesting->get_child_type())
             {
                 case MetadataManager :: PARAM_METADATA_PROPERTY_TYPE :
-                    $property_type = $this->application->retrieve_metadata_property_type($nesting->get_child_id());
-                    $name = $property_type->get_ns_prefix() . ':' . $property_type->get_name() . ' (property)';
+                   $property_type = $this->application->retrieve_metadata_property_type($nesting->get_child_id());
+                   $name = $property_type->get_ns_prefix() . ':' . $property_type->get_name() . ' (property)';
                     break;
                 case MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_TYPE :
                     $property_attribute_type = $this->application->retrieve_metadata_property_attribute_type($nesting->get_child_id());
@@ -92,28 +95,33 @@ class MetadataAssociationsForm extends FormValidator
         
         $attributes['defaults'] = $defaults;
         $attributes['exclude'] = array();
-        $attributes['locale']['Display'] = 'Select attributes';
-        $attributes['locale']['Error'] = 'Error';
-        $attributes['locale']['NoResults'] = 'No results found';
-        $attributes['locale']['Searching'] = 'Searching';
+        $attributes['nodesSelectable'] = true;
+        $attributes['locale']['Display'] = Translation :: get('SelectAttributes');
+        $locale['Searching'] = Translation :: get('Searching');
+        $locale['NoResults'] = Translation :: get('NoResults');
+        $locale['Error'] = Translation :: get('Error');
         //$attributes['options'] = '';
         $attributes['search_url'] = Path :: get(WEB_PATH) . 'application/metadata/php/xml_feeds/xml_attributes_feed.php';
-        $element_finder = $this->createElement('element_finder', MetadataAttributeNesting :: CLASS_NAME, Translation :: get('SelectAttributes'), $attributes['search_url'], $attributes['locale'], $attributes['defaults'], $attributes['options']);
+       
+
+
+        $element_finder = $this->createElement('element_finder', MetadataManager :: PARAM_METADATA_ATTRIBUTE_NESTING, Translation :: get('SelectAttributes'), $attributes['search_url'], $attributes['locale'], $attributes['defaults'], $attributes['options']);
+        $element_finder->excludeElements($attributes['exclude']);
         $this->addElement($element_finder);
         
         $properties = array();
         
         $attributes = array();
         $defaults = array();
-        
+
         while ($nesting = $metadata_property_nestings->next_result())
         {
             $propName = ($nesting->get_child_type() == MetadataManager :: PARAM_METADATA_PROPERTY_TYPE) ? self :: PARAM_PROPERTY : self :: PARAM_ATTRIBUTE;
             $element = array();
-            
+
             $element['classes'] = 'type type_cda_language';
             $element['id'] = $propName . '_' . $nesting->get_child_id();
-            
+
             switch ($nesting->get_child_type())
             {
                 case MetadataManager :: PARAM_METADATA_PROPERTY_TYPE :
@@ -128,15 +136,16 @@ class MetadataAssociationsForm extends FormValidator
             $element['title'] = $name;
             $defaults[] = $element;
         }
-        
+
         $attributes['defaults'] = $defaults;
-        $attributes['exclude'] = array();
+        $attributes['nodesSelectable'] = true;
+        $attributes['exclude'] = array('lala');
         $attributes['locale']['Display'] = 'Select attributes';
         $attributes['locale']['Error'] = 'Error';
         $attributes['locale']['NoResults'] = 'No results found';
         $attributes['locale']['Searching'] = 'Searching';
         $attributes['search_url'] = Path :: get(WEB_PATH) . 'application/metadata/php/xml_feeds/xml_attributes_feed.php';
-        $element_finder = $this->createElement('element_finder', MetadataPropertyNesting :: CLASS_NAME, Translation :: get('SelectProperties'), $attributes['search_url'], $attributes['locale'], $attributes['defaults'], $attributes['options']);
+        $element_finder = $this->createElement('element_finder', MetadataManager :: PARAM_METADATA_PROPERTY_NESTING, Translation :: get('SelectProperties'), $attributes['search_url'], $attributes['locale'], $attributes['defaults'], $attributes['options']);
         $this->addElement($element_finder);
     }
 
@@ -168,9 +177,9 @@ class MetadataAssociationsForm extends FormValidator
         $fails = 0;
         $values = $this->exportValues();
         
-        $this->application->delete_metadata_attribute_nestings(Utilities :: camelcase_to_underscores(MetadataAttributeNesting :: CLASS_NAME), $this->metadata_property_type);
+        $this->application->delete_metadata_attribute_nestings(Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(MetadataAttributeNesting :: CLASS_NAME)), $this->metadata_property_type);
         
-        foreach ($values[MetadataAttributeNesting :: CLASS_NAME] as $type => $elements)
+        foreach ($values[MetadataManager :: PARAM_METADATA_ATTRIBUTE_NESTING] as $type => $elements)
         {
             foreach ($elements as $id)
             {
@@ -187,9 +196,9 @@ class MetadataAssociationsForm extends FormValidator
         
         }
         
-        $this->application->delete_metadata_property_nestings(Utilities :: camelcase_to_underscores(MetadataPropertyNesting :: CLASS_NAME), $this->metadata_property_type);
+        $this->application->delete_metadata_property_nestings(Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(MetadataPropertyNesting :: CLASS_NAME)), $this->metadata_property_type);
         
-        foreach ($values[MetadataPropertyNesting :: CLASS_NAME] as $type => $elements)
+        foreach ($values[MetadataManager :: PARAM_METADATA_PROPERTY_NESTING] as $type => $elements)
         {
             foreach ($elements as $id)
             {
