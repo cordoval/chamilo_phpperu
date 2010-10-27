@@ -2,6 +2,8 @@
 namespace repository\content_object\forum;
 
 use common\libraries\Request;
+use repository\RepositoryDataManager;
+use repository\ComplexBuilder;
 /**
  * $Id: sticky.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.forum.component

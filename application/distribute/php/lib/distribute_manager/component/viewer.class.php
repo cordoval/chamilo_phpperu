@@ -1,4 +1,13 @@
 <?php
+namespace application\distribute;
+
+use common\libraries\Request;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Application;
+use common\libraries\Translation;
+use repository\ContentObjectDisplay;
+use common\libraries\ActionBarRenderer;
 /**
  * $Id: viewer.class.php 194 2009-11-13 11:54:13Z chellee $
  * @package application.lib.distribute.distribute_manager.component

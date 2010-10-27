@@ -1,4 +1,9 @@
 <?php
+
+namespace application\distribute;
+
+use common\libraries\DataClass;
+use common\libraries\Utilities;
 /**
  * $Id: group_moderator.class.php 194 2009-11-13 11:54:13Z chellee $
  * @package application.lib.distribute

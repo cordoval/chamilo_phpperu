@@ -1,4 +1,16 @@
 <?php
+
+namespace application\distribute;
+
+use common\libraries\WebApplication;
+use common\extensions\repo_viewer\RepoViewerInterface;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Application;
+use common\libraries\Translation;
+use common\extensions\repo_viewer\RepoViewer;
+use repository\content_object\announcement\Announcement;
+
 /**
  * $Id: distributor.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.lib.distribute.distribute_manager.component

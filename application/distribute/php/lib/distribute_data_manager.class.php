@@ -1,4 +1,10 @@
 <?php
+
+namespace application\distribute;
+
+use common\libraries\Configuration;
+use common\libraries\WebApplication;
+use common\libraries\Utilities;
 /**
  * $Id: distribute_data_manager.class.php 194 2009-11-13 11:54:13Z chellee $
  * @package application.lib.distribute
@@ -36,7 +42,7 @@ class DistributeDataManager
         {
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
             require_once WebApplication :: get_application_class_lib_path('distribute') . 'data_manager/' . strtolower($type) . '_distribute_data_manager.class.php';
-            $class = Utilities :: underscores_to_camelcase($type) . 'DistributeDataManager';
+            $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type) . 'DistributeDataManager';
             self :: $instance = new $class();
         }
         return self :: $instance;
