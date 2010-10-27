@@ -2,6 +2,7 @@
 namespace application\portfolio;
 use common\libraries\DataClass;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 
 
@@ -21,6 +22,7 @@ class PortfolioInformation extends DataClass
     const PROPERTY_LAST_ACTION ="last_action" ;
     const PROPERTY_INTRODUCTION_TEXT = "introduction";
 
+    const TABLE_NAME = 'portfolio_information';
 
 
     //possible actions to be logged on portfolio
@@ -71,7 +73,8 @@ class PortfolioInformation extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+//        return Utilities::get_classname_from_namespace(Utilities :: camelcase_to_underscores(self :: CLASS_NAME));
+        return self::TABLE_NAME;
     }
 
     function get_introduction()

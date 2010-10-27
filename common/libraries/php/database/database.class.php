@@ -733,10 +733,16 @@ class Database
 
         $this->set_limit(1);
         $res = $this->query($query);
-        $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
-
-        $res->free();
-
+        if(!MDB2 :: isError($res))
+        {
+            $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+            $res->free();
+        }
+        else
+        {
+            dump($res);
+        }
+        
         if (MDB2 :: isError($record))
         {
         	dump($record);

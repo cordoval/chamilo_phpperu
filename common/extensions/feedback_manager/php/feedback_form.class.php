@@ -1,9 +1,11 @@
 <?php
 namespace common\extensions\feedback_manager;
-/**
- * $Id: feedback_form.class.php 191 2009-11-13 11:50:28Z chellee $
- * @package application.common.feedback_manager
- */
+
+use common\libraries\FormValidator;
+use common\libraries\Translation;
+use repository\content_object\feedback\Feedback;
+use admin\FeedbackPublication;
+
 
 /**
  * Description of feeback_text_formclass

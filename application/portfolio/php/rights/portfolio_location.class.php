@@ -1,6 +1,13 @@
 <?php
 namespace application\portfolio;
 
+use common\libraries\DataClass;
+use common\libraries\InequalityCondition;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use common\libraries\ObjectTableOrder;
+use common\libraries\Utilities;
+
 /**
  * $Id: location.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib
@@ -323,7 +330,7 @@ class PortfolioLocation extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(Utilities::get_classname_from_namespace(self :: CLASS_NAME));
     }
 
     public function get_data_manager() {
