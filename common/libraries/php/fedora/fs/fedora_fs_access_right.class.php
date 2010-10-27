@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 /**
  * Returns objects having specific access rights

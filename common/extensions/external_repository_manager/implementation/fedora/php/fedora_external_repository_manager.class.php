@@ -1,4 +1,12 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\fedora;
+
+use common\libraries\Path;
+
+use repository\ExternalRepositorySetting;
+
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
+use common\extensions\external_repository_manager\ExternalRepositoryObject;
 
 require_once dirname(__FILE__) . '/fedora_external_repository_connector.class.php';
 

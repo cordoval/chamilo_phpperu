@@ -810,13 +810,13 @@ abstract class Application
         return array();
     }
 
-    static function get_type($application)
+    /*static*/ function get_type($application)
     {
         if (! BasicApplication :: exists($application))
         {
             if (LauncherApplication :: exists($application))
             {
-                return LauncherApplication :: CLASS_NAME;
+            	return LauncherApplication :: CLASS_NAME;
             }
             else
             {

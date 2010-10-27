@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\course_settings;
 
+use common\libraries\Display;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Request;
 use common\libraries\Translation;
 
 /**
@@ -16,7 +19,7 @@ class CourseSettingsToolUpdaterComponent extends CourseSettingsTool
     {
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses settings');
-        
+
         if (! $this->get_course()->is_course_admin($this->get_parent()->get_user()))
         {
             $this->display_header();
@@ -24,17 +27,17 @@ class CourseSettingsToolUpdaterComponent extends CourseSettingsTool
             $this->display_footer();
             exit();
         }
-        
+
         $course_type_id = Request :: get('course_type');
-        
+
         if (! is_null($course_type_id))
         {
             $parameters['course_type'] = $course_type_id;
         }
-        
+
         $url = $this->get_url($parameters);
         $form = new CourseForm(CourseForm :: TYPE_EDIT, $this->get_course(), $this->get_user(), $url, $this);
-        
+
         if ($form->validate())
         {
             $success = $form->update();

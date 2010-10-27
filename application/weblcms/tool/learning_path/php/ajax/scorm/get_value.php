@@ -1,6 +1,11 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use repository\RepositoryDataManager;
+use user\UserDataManager;
+use common\libraries\Session;
+use common\libraries\EqualityCondition;
+use common\libraries\Request;
 use common\libraries\Path;
 
 /**
@@ -28,14 +33,14 @@ if (substr($variable, 0, 15) == 'cmi.objectives.')
 {
     $left = substr($variable, 15, strlen($variable) - 15);
     $objectives = $scorm_item->get_objectives();
-    
+
     $first_char = substr($left, 0, 1);
     if (is_numeric($first_char))
     {
         $objective = $objectives->get_objective(intval($first_char));
         $left = substr($left, 2, strlen($left) - 2);
     }
-    
+
     switch ($left)
     {
         case '_count' :
@@ -49,7 +54,7 @@ if (substr($variable, 0, 15) == 'cmi.objectives.')
 elseif (substr($variable, 0, 9) == 'cmi.core.')
 {
     $left = substr($variable, 9);
-    
+
     switch ($left)
     {
         case '_children' :
@@ -125,7 +130,7 @@ else
         case 'cmi.suspend_data' :
             $value = $tracker->get_suspend_data();
             break;
-    
+
     }
 }
 

@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\WebApplication;
+
 /**
  * $Id: course_list.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.block
@@ -23,13 +25,13 @@ class WeblcmsCourseList extends WeblcmsBlock
     {
         $html = array();
         $html[] = $this->display_header();
-        
+
         $renderer = new CourseListRenderer($this);
         $renderer->show_new_publication_icons();
         $html[] = $renderer->as_html();
-        
+
         $html[] = $this->display_footer();
-        
+
         return implode("\n", $html);
     }
 

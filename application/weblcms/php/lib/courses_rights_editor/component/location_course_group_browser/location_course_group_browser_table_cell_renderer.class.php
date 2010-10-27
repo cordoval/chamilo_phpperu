@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Toolbar;
+use common\libraries\Utilities;
 use common\libraries\ObjectTableCellRenderer;
 use common\libraries\Translation;
 
@@ -35,12 +37,12 @@ class LocationCourseGroupBrowserTableCellRenderer extends ObjectTableCellRendere
         {
             return $this->get_modification_links($course_group);
         }
-        
+
         if (LocationCourseGroupBrowserTableColumnModel :: is_rights_column($column))
         {
             return $this->get_rights_column_value($column, $course_group);
         }
-        
+
         // Add special features here
         switch ($column->get_name())
         {
@@ -54,7 +56,7 @@ class LocationCourseGroupBrowserTableCellRenderer extends ObjectTableCellRendere
             case Translation :: get('Subgroups') :
                 return $course_group->count_children(true);
         }
-    
+
     }
 
     /**
@@ -76,9 +78,9 @@ class LocationCourseGroupBrowserTableCellRenderer extends ObjectTableCellRendere
         $locked_parent = $locations[0]->get_locked_parent();
         $rights = $this->browser->get_available_rights();
         $course_group_id = $course_group->get_id();
-        
+
         $location_url = $browser->get_url(array('application' => $this->application, 'location' => ($locked_parent ? $locked_parent->get_id() : $locations[0]->get_id())));
-        
+
         foreach ($rights as $right_name => $right_id)
         {
             $column_name = Translation :: get(Utilities :: underscores_to_camelcase(strtolower($right_name)));

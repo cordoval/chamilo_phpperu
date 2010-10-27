@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 /**
  * Main entry point to use the library.
  */

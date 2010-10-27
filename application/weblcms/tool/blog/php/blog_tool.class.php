@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\blog;
 
+use application\weblcms\ContentObjectPublicationListRenderer;
+use application\weblcms\Tool;
+
 /**
  * $Id: blog_tool.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.blog

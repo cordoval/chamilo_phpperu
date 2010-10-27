@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Request;
+
 /**
  * $Id: content_object_publication_feedback.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms
@@ -44,7 +46,7 @@ class ContentObjectPublicationFeedback extends ContentObjectPublication
      */
     function ContentObjectPublicationFeedback($id, $learningObject, $course, $tool, $parent_id, $repo_viewer, $publicationDate, $modifiedDate, $hidden, $emailSent)
     {
-        
+
         parent :: ContentObjectPublication($id, $learningObject, $course, $tool, 0, array(), array(), 0, 0, $repo_viewer, $publicationDate, $modifiedDate, $hidden, 0, $emailSent);
         $this->set_parent_id($parent_id);
         $this->set_modified_date(time());
@@ -56,7 +58,7 @@ class ContentObjectPublicationFeedback extends ContentObjectPublication
     * See constructor for detailed information about the property.
     * @see ContentObjectPublicationFeedback()
  	*/
-    
+
     function set_category_id($category)
     {
         parent :: set_category(0);

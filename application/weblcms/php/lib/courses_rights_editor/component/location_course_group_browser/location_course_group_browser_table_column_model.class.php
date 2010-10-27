@@ -1,7 +1,10 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\StaticTableColumn;
+use common\libraries\Utilities;
 use common\libraries\Path;
+use common\libraries\ObjectTableColumn;
 use common\libraries\ObjectTableColumnModel;
 use common\libraries\Translation;
 
@@ -65,7 +68,7 @@ class LocationCourseGroupBrowserTableColumnModel extends ObjectTableColumnModel
     function add_rights_columns()
     {
         $rights = $this->browser->get_available_rights();
-        
+
         foreach ($rights as $right_name => $right_id)
         {
             $column_name = Utilities :: underscores_to_camelcase(strtolower($right_name));

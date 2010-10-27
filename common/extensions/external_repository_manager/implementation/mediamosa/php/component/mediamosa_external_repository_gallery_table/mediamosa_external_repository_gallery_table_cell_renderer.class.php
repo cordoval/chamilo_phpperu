@@ -1,10 +1,10 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\mediamosa;
+
 use common\extensions\external_repository_manager\DefaultExternalRepositoryGalleryObjectTableCellRenderer;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
 use common\libraries\Utilities;
 use common\libraries\Toolbar;
-
 
 class MediamosaExternalRepositoryGalleryTableCellRenderer extends DefaultExternalRepositoryGalleryObjectTableCellRenderer
 {

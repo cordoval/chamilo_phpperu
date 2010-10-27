@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 /**
  * Returns the last N modified objects belonging to the current user

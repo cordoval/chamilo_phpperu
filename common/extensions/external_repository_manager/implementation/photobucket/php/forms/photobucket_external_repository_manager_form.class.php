@@ -2,7 +2,12 @@
 namespace common\extensions\external_repository_manager\implementation\photobucket;
 
 use common\libraries\Translation;
+use common\libraries\Utilities;
+use common\libraries\StringUtilities;
+use common\libraries\FormValidator;
 
+use common\extensions\external_repository_manager\ExternalRepositoryObject;
+use common\extensions\external_repository_manager\ExternalRepositoryObjectDisplay;
 /**
  * $Id: photobucket_external_repository_manager_form.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package

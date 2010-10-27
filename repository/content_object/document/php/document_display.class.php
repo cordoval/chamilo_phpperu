@@ -1,13 +1,15 @@
 <?php
 namespace repository\content_object\document;
 
+use common\libraries;
+
 use common\libraries\Path;
 use common\libraries\Utilities;
 use common\libraries\Filesystem;
+use common\libraries\ImageManipulation;
 
 use repository\RepositoryManager;
 use repository\ContentObjectDisplay;
-
 /**
  * $Id: document_display.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.document

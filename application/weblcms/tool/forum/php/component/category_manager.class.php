@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\forum;
 
+use common\libraries\Display;
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
 use common\libraries\DelegateComponent;
 use common\libraries\Translation;
 
@@ -16,7 +19,7 @@ class ForumToolCategoryManagerComponent extends ForumTool implements DelegateCom
             Display :: not_allowed();
             return;
         }
-        
+
         $category_manager = new ContentObjectPublicationCategoryManager($this, null, false);
         $category_manager->run();
     }

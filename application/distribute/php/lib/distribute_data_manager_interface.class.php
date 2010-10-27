@@ -1,4 +1,6 @@
 <?php
+
+namespace application\distribute;
 /**
  * $Id: distribute_data_manager.class.php 194 2009-11-13 11:54:13Z chellee $
  * @package application.lib.distribute

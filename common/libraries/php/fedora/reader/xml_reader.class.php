@@ -1,7 +1,8 @@
 <?php
+namespace common\libraries;
 
-//require_once dirname(__FILE__) . '/xml_reader_empty.class.php';
-
+use IteratorAggregate;
+use Iterator;
 /**
  * Helper class used to read an XML file.
  * Provides magic methods:

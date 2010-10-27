@@ -1,6 +1,13 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\ResourceManager;
+use common\libraries\Toolbar;
+use common\libraries\ToolbarItem;
+use common\libraries\SortableTableFromArray;
+use admin\AdminDataManager;
+use common\libraries\Theme;
+use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
 
@@ -13,11 +20,11 @@ require_once dirname(__FILE__) . '/../course/common_form.class.php';
 
 class CourseTypeForm extends CommonForm
 {
-    
+
     const CREATION_TARGET = 'creation_groups';
     const CREATION_ELEMENTS = 'creation_groups_elements';
     const CREATION_OPTION = 'creation_groups_option';
-    
+
     const CREATION_ON_REQUEST_TARGET = 'creationrequest_groups';
     const CREATION_ON_REQUEST_ELEMENTS = 'creationrequest_groups_elements';
     const CREATION_ON_REQUEST_OPTION = 'creationrequest_groups_option';
@@ -36,7 +43,7 @@ class CourseTypeForm extends CommonForm
         $tabs[] = new FormValidatorTab('build_tools_form', 'Tools');
         $tabs[] = new FormValidatorTab('build_rights_form', 'RightsManagement');
         $tabs[] = new FormValidatorTab('build_creation_rights_form', 'CreationRightsManagement');
-        
+
         $this->add_tabs($tabs, 0);
     }
 
@@ -47,14 +54,14 @@ class CourseTypeForm extends CommonForm
         $data = array();
         //Tools defaults
         $course_type_tools = $this->object->get_tools();
-        
+
         foreach ($tools as $index => $tool)
         {
             $tool_data = array();
-            
+
             $element_name_arr = array('class' => 'iphone ' . $tool);
             $element_default_arr = array('class' => 'viewablecheckbox', 'style' => 'width=80%');
-            
+
             if ($this->form_type == self :: TYPE_CREATE)
             {
                 $element_name_arr['checked'] = "checked";
@@ -72,29 +79,29 @@ class CourseTypeForm extends CommonForm
                     }
                 }
             }
-            
+
             $tool_image_src = Theme :: get_image_path() . 'tool_mini_' . $tool . '.png';
             $tool_image = $tool . "_image";
             $title = htmlspecialchars(Translation :: get(Tool :: type_to_class($tool) . 'Title'));
             $element_name = $tool . "element";
             $element_default = $tool . "elementdefault";
-            
+
             $tool_data[] = '<img class="' . $tool_image . '" src="' . $tool_image_src . '" style="vertical-align: middle;" alt="' . $title . '"/>';
             $tool_data[] = $title;
             $tool_data[] = '<div  style="margin: 0 auto; width: 50px;">' . $this->createElement('checkbox', $element_name, $title, '', $element_name_arr)->toHtml() . '</div>';
             $tool_data[] = '<div class="' . $element_default . '"/>' . $this->createElement('checkbox', $element_default, Translation :: get('IsVisible'), '', $element_default_arr)->toHtml() . '</div>';
             $count ++;
-            
+
             $data[] = $tool_data;
         }
-        
+
         $table = new SortableTableFromArray($data);
         $table->set_header(0, '', false);
         $table->set_header(1, Translation :: get('Tool'), false);
         $table->set_header(2, Translation :: get('IsToolAvailable'), false, null, array('style' => 'width: 35%;'));
         $table->set_header(3, Translation :: get('IsToolVisible'), false, null, array('style' => 'width: 20%; text-align: center;'));
         $this->addElement('html', '<div style="width:70%; margin-left: 15%;">' . $table->as_html() . '</div>');
-        
+
         $this->addElement('html', "<script type=\"text/javascript\">
 					/* <![CDATA[ */
 					var image_path = '" . Theme :: get_image_path() . "';
@@ -110,7 +117,7 @@ class CourseTypeForm extends CommonForm
         $this->addElement('select', CourseTypeLayout :: PROPERTY_MENU, Translation :: get('Menu'), CourseTypeLayout :: get_menu_options());
         $this->addElement('select', CourseTypeLayout :: PROPERTY_BREADCRUMB, Translation :: get('Breadcrumb'), CourseTypeLayout :: get_breadcrumb_options());
         $this->addElement('category');
-        
+
         $this->addElement('category', Translation :: get('Functionality'));
         $this->addElement('checkbox', CourseTypeLayout :: PROPERTY_FEEDBACK, Translation :: get('AllowFeedback'));
         $this->addElement('checkbox', CourseTypeLayout :: PROPERTY_INTRO_TEXT, Translation :: get('AllowIntroduction'));
@@ -119,14 +126,14 @@ class CourseTypeForm extends CommonForm
         $this->addElement('checkbox', CourseTypeLayout :: PROPERTY_COURSE_MANAGER_NAME_VISIBLE, Translation :: get('CourseManagerNameTitleVisible'));
         $this->addElement('checkbox', CourseTypeLayout :: PROPERTY_COURSE_LANGUAGES_VISIBLE, Translation :: get('CourseLanguageVisible'));
         $this->addElement('category');
-        
+
         $this->addElement('category', Translation :: get('LockedFunctionality'));
         $this->add_information_message('', '', Translation :: get('LockedFunctionalityLayout'), true);
         $this->addElement('checkbox', CourseTypeLayout :: PROPERTY_LAYOUT_FIXED, Translation :: get('Layout'));
         $this->addElement('checkbox', CourseTypeLayout :: PROPERTY_TOOL_SHORTCUT_FIXED, Translation :: get('ToolShortcut'));
         $this->addElement('checkbox', CourseTypeLayout :: PROPERTY_MENU_FIXED, Translation :: get('Menu'));
         $this->addElement('checkbox', CourseTypeLayout :: PROPERTY_BREADCRUMB_FIXED, Translation :: get('Breadcrumb'));
-        
+
         $this->add_information_message('', '', Translation :: get('LockedFunctionalityDescription'), true);
         $this->addElement('checkbox', CourseTypeLayout :: PROPERTY_FEEDBACK_FIXED, Translation :: get('AllowFeedback'));
         $this->addElement('checkbox', CourseTypeLayout :: PROPERTY_INTRO_TEXT_FIXED, Translation :: get('AllowIntroduction'));
@@ -145,21 +152,21 @@ class CourseTypeForm extends CommonForm
         $this->add_html_editor(CourseType :: PROPERTY_DESCRIPTION, Translation :: get('CourseTypeDescription'), true, array(FormValidatorHtmlEditorOptions :: OPTION_TOOLBAR => 'BasicMarkup'));
         $this->addElement('checkbox', CourseType :: PROPERTY_ACTIVE, Translation :: get('CourseTypeActive'));
         $this->addElement('category');
-        
+
         // Course settings
         $this->addElement('category', Translation :: get('CourseTypeDefaultProperties'));
-        
+
         $lang_options = AdminDataManager :: get_languages();
         $this->addElement('select', CourseTypeSettings :: PROPERTY_LANGUAGE, Translation :: get('CourseTypeLanguage'), $lang_options);
-        
+
         $this->addElement('checkbox', CourseTypeSettings :: PROPERTY_VISIBILITY, Translation :: get('CourseTypeVisibility'));
-        
+
         //Accessibility
         $choices = array();
         $choices[] = $this->createElement('radio', CourseTypeSettings :: PROPERTY_ACCESS, '', Translation :: get('Open'), 1);
         $choices[] = $this->createElement('radio', CourseTypeSettings :: PROPERTY_ACCESS, '', Translation :: get('Closed'), 0);
         $this->addGroup($choices, 'access_choices', Translation :: get('CourseTypeAccess'), '<br />', false);
-        
+
         // Number of members
         $choices = array();
         $choices[] = $this->createElement('radio', self :: UNLIMITED_MEMBERS, '', Translation :: get('Unlimited'), 1, array('onclick' => 'javascript:window_hide(\'' . self :: UNLIMITED_MEMBERS . '_window\')', 'id' => self :: UNLIMITED_MEMBERS));
@@ -170,9 +177,9 @@ class CourseTypeForm extends CommonForm
         $this->registerRule('max_members', null, 'HTML_QuickForm_Rule_Max_Members', dirname(__FILE__) . '/max_members_rule.class.php');
         $this->addRule(Array('choices', CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS), Translation :: get('IncorrectNumber'), 'max_members');
         $this->addElement('html', '</div>');
-        
+
         $this->addElement('category');
-        
+
         $this->addElement('category', Translation :: get('CourseTypeLockedProperties'));
         $this->add_information_message('', '', Translation :: get('LockedFunctionalityDescription'), true);
         $this->addElement('checkbox', CourseTypeSettings :: PROPERTY_TITULAR_FIXED, Translation :: get('CourseTypeTitularCannotSelect'));
@@ -181,7 +188,7 @@ class CourseTypeForm extends CommonForm
         $this->addElement('checkbox', CourseTypeSettings :: PROPERTY_ACCESS_FIXED, Translation :: get('CourseTypeAccess'));
         $this->addElement('checkbox', CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS_FIXED, Translation :: get('MaximumNumberOfMembers'));
         $this->addElement('category');
-        
+
         $this->addElement('html', "<script type=\"text/javascript\">
 					/* <![CDATA[ */
 					var " . self :: UNLIMITED_MEMBERS . " = document.getElementById('" . self :: UNLIMITED_MEMBERS . "');
@@ -214,16 +221,16 @@ class CourseTypeForm extends CommonForm
         $attributes['locale'] = $locale;
         // $attributes['exclude'] = array('user_' . $this->tool->get_user_id());
         $attributes['defaults'] = array();
-        
+
         $legend_items = array();
         //$legend_items[] = new ToolbarItem(Translation :: get('CourseUser'), Theme :: get_common_image_path() . 'treemenu/user.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'legend');
         //$legend_items[] = new ToolbarItem(Translation :: get('LinkedUser'), Theme :: get_common_image_path() . 'treemenu/user_platform.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'legend');
         $legend_items[] = new ToolbarItem(Translation :: get('UserGroup'), Theme :: get_common_image_path() . 'treemenu/group.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'legend');
-        
+
         $legend = new Toolbar();
         $legend->set_items($legend_items);
         $legend->set_type(Toolbar :: TYPE_HORIZONTAL);
-        
+
         $this->addElement('category', Translation :: get('Subscribe'));
         $this->addElement('checkbox', CourseTypeRights :: PROPERTY_DIRECT_SUBSCRIBE_AVAILABLE, Translation :: get('DirectSubscribeAvailable'), '', array('class' => 'available direct'));
         $this->addElement('html', '<div id="directBlock">');
@@ -244,7 +251,7 @@ class CourseTypeForm extends CommonForm
         $this->add_receivers(self :: UNSUBSCRIBE_TARGET, Translation :: get('UnsubscribeFor'), $attributes, 'Everybody');
         $this->addElement('html', '</div>');
         $this->addElement('category');
-        
+
         $this->addElement('category', Translation :: get('CourseTypeLockedProperties'));
         $this->add_information_message('', '', Translation :: get('LockedFunctionalityDescription'), true);
         $this->addElement('checkbox', CourseTypeRights :: PROPERTY_DIRECT_SUBSCRIBE_FIXED, Translation :: get('DirectSubscribe'));
@@ -266,16 +273,16 @@ class CourseTypeForm extends CommonForm
         $attributes['locale'] = $locale;
         // $attributes['exclude'] = array('user_' . $this->tool->get_user_id());
         $attributes['defaults'] = array();
-        
+
         $legend_items = array();
         //$legend_items[] = new ToolbarItem(Translation :: get('CourseUser'), Theme :: get_common_image_path() . 'treemenu/user.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'legend');
         //$legend_items[] = new ToolbarItem(Translation :: get('LinkedUser'), Theme :: get_common_image_path() . 'treemenu/user_platform.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'legend');
         $legend_items[] = new ToolbarItem(Translation :: get('UserGroup'), Theme :: get_common_image_path() . 'treemenu/group.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'legend');
-        
+
         $legend = new Toolbar();
         $legend->set_items($legend_items);
         $legend->set_type(Toolbar :: TYPE_HORIZONTAL);
-        
+
         $this->addElement('category', Translation :: get('CreationRights'));
         $this->addElement('checkbox', CourseTypeRights :: PROPERTY_CREATION_AVAILABLE, Translation :: get('CreationAvailable'), '', array('class' => 'available creation'));
         $this->addElement('html', '<div id="creationBlock">');
@@ -291,18 +298,18 @@ class CourseTypeForm extends CommonForm
     function update()
     {
         $course_type = $this->fill_general_settings();
-        
+
         if (! $course_type->update())
         {
             return false;
         }
-        
+
         $course_type->set_rights($this->fill_rights());
         if (! $course_type->get_rights()->update())
         {
             return false;
         }
-        
+
         $wdm = WeblcmsDataManager :: get_instance();
         $previous_rights = null;
         $course_type_rights = null;
@@ -348,18 +355,18 @@ class CourseTypeForm extends CommonForm
                     return false;
             }
         }
-        
+
         $course_type->set_settings($this->fill_settings());
-        
+
         if (! $course_type->get_settings()->update())
         {
             return false;
         }
-        
+
         $tools = WeblcmsDataManager :: get_tools('basic');
         $selected_tools = $this->fill_tools($tools);
         $default_tools = $this->object->get_tools();
-        
+
         foreach ($selected_tools as $tool)
         {
             $sub_validation = false;
@@ -380,15 +387,15 @@ class CourseTypeForm extends CommonForm
                     return false;
             }
         }
-        
+
         foreach ($default_tools as $tool)
         {
             if (! $tool->delete())
                 return false;
         }
-        
+
         $course_type->set_layout_settings($this->fill_layout());
-        
+
         if ($course_type->get_layout_settings()->update())
         {
             if ($course_type->get_active() == 0)
@@ -424,65 +431,65 @@ class CourseTypeForm extends CommonForm
     function create()
     {
         $course_type = $this->fill_general_settings();
-        
+
         if (! $course_type->create())
         {
             return false;
         }
-        
+
         $course_type_rights = $this->fill_rights();
-        
+
         if (! $course_type_rights->create())
         {
             return false;
         }
-        
+
         $course_type_subscribe_rights = $this->fill_subscribe_rights();
         foreach ($course_type_subscribe_rights as $right)
         {
             if (! $right->create())
                 return false;
         }
-        
+
         $course_type_unsubscribe_rights = $this->fill_unsubscribe_rights();
         foreach ($course_type_unsubscribe_rights as $right)
         {
             if (! $right->create())
                 return false;
         }
-        
+
         $course_type_create_rights = $this->fill_creation_rights();
         foreach ($course_type_create_rights as $right)
         {
             if (! $right->create())
                 return false;
         }
-        
+
         $course_type_settings = $this->fill_settings();
-        
+
         if (! $course_type_settings->create())
         {
             return false;
         }
-        
+
         $wdm = WeblcmsDataManager :: get_instance();
         $tools = WeblcmsDataManager :: get_tools('basic');
         $selected_tools = $this->fill_tools($tools);
         $validation = true;
-        
+
         foreach ($selected_tools as $tool)
         {
             if (! $tool->create())
                 $validation = false;
         }
-        
+
         if (! $validation)
         {
             return false;
         }
-        
+
         $course_type_layout = $this->fill_layout();
-        
+
         if ($course_type_layout->create())
         {
             // TODO: Temporary function pending revamped roles&rights system
@@ -543,7 +550,7 @@ class CourseTypeForm extends CommonForm
         {
             $element_name = $tool . "element";
             $element_default = $tool . "elementdefault";
-            
+
             if ($this->parse_checkbox_value($this->getSubmitValue($element_name)))
             {
                 $course_type_tool = new CourseTypeTool();
@@ -575,7 +582,7 @@ class CourseTypeForm extends CommonForm
         $values = $this->exportValues();
         $groups_array = array();
         $group_key_check = array();
-        
+
         for($i = 0; $i < 2; $i ++)
         {
             $option = null;
@@ -633,14 +640,14 @@ class CourseTypeForm extends CommonForm
         $defaults[CourseType :: PROPERTY_NAME] = $course_type->get_name();
         $defaults[CourseType :: PROPERTY_DESCRIPTION] = $course_type->get_description();
         $defaults[CourseType :: PROPERTY_ACTIVE] = $course_type->get_active();
-        
+
         $course_type_settings = $this->object->get_settings();
         $defaults[CourseTypeSettings :: PROPERTY_TITULAR_FIXED] = $course_type_settings->get_titular_fixed();
         $defaults[CourseTypeSettings :: PROPERTY_LANGUAGE_FIXED] = $course_type_settings->get_language_fixed();
         $defaults[CourseTypeSettings :: PROPERTY_VISIBILITY_FIXED] = $course_type_settings->get_visibility_fixed();
         $defaults[CourseTypeSettings :: PROPERTY_ACCESS_FIXED] = $course_type_settings->get_access_fixed();
         $defaults[CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS_FIXED] = $course_type_settings->get_max_number_of_members_fixed();
-        
+
         $course_type_rights = $this->object->get_rights();
         $defaults[CourseTypeRights :: PROPERTY_DIRECT_SUBSCRIBE_FIXED] = $course_type_rights->get_direct_subscribe_fixed();
         $defaults[CourseTypeRights :: PROPERTY_REQUEST_SUBSCRIBE_FIXED] = $course_type_rights->get_request_subscribe_fixed();
@@ -648,16 +655,16 @@ class CourseTypeForm extends CommonForm
         $defaults[CourseTypeRights :: PROPERTY_UNSUBSCRIBE_FIXED] = $course_type_rights->get_unsubscribe_fixed();
         $defaults[CourseTypeRights :: PROPERTY_CREATION_AVAILABLE] = ! is_null($course_type_rights->get_creation_available()) ? $course_type_rights->get_creation_available() : 1;
         $defaults[CourseTypeRights :: PROPERTY_CREATION_ON_REQUEST_AVAILABLE] = ! is_null($course_type_rights->get_creation_on_request_available()) ? $course_type_rights->get_creation_on_request_available() : 0;
-        
+
         $defaults[self :: CREATION_OPTION] = '0';
         $defaults[self :: CREATION_ON_REQUEST_OPTION] = '0';
-        
+
         if (! is_null($course_type->get_id()))
         {
             $wdm = WeblcmsDataManager :: get_instance();
-            
+
             $group_create_rights = $wdm->retrieve_course_type_group_creation_rights($course_type->get_id());
-            
+
             while ($right = $group_create_rights->next_result())
             {
                 if ($right->get_group_id() != 0)
@@ -672,61 +679,61 @@ class CourseTypeForm extends CommonForm
                             $element = self :: CREATION_ON_REQUEST_ELEMENTS;
                             break;
                     }
-                    
+
                     $selected_group = $this->get_group_array($right->get_group_id());
                     $defaults[$element][$selected_group['id']] = $selected_group;
                 }
             }
-            
+
             if (count($defaults[self :: CREATION_ELEMENTS]) > 0)
             {
                 $defaults[self :: CREATION_OPTION] = '1';
                 $active = $this->getElement(self :: CREATION_ELEMENTS);
                 $active->setValue($defaults[self :: CREATION_ELEMENTS]);
             }
-            
+
             if (count($defaults[self :: CREATION_ON_REQUEST_ELEMENTS]) > 0)
             {
                 $defaults[self :: CREATION_ON_REQUEST_OPTION] = '1';
                 $active = $this->getElement(self :: CREATION_ON_REQUEST_ELEMENTS);
                 $active->setValue($defaults[self :: CREATION_ON_REQUEST_ELEMENTS]);
             }
-        
+
         }
-        
+
         //Layout defaults.
         $course_type_id = $this->object->get_layout_settings()->get_course_type_id();
-        
+
         $student_view_fixed = $this->object->get_layout_settings()->get_student_view_fixed();
         $defaults[CourseTypeLayout :: PROPERTY_STUDENT_VIEW_FIXED] = $student_view_fixed;
-        
+
         $layout_fixed = $this->object->get_layout_settings()->get_layout_fixed();
         $defaults[CourseTypeLayout :: PROPERTY_LAYOUT_FIXED] = $layout_fixed;
-        
+
         $tool_shortcut_fixed = $this->object->get_layout_settings()->get_tool_shortcut_fixed();
         $defaults[CourseTypeLayout :: PROPERTY_TOOL_SHORTCUT_FIXED] = $tool_shortcut_fixed;
-        
+
         $menu_fixed = $this->object->get_layout_settings()->get_menu_fixed();
         $defaults[CourseTypeLayout :: PROPERTY_MENU_FIXED] = $menu_fixed;
-        
+
         $breadcrumb_fixed = $this->object->get_layout_settings()->get_breadcrumb_fixed();
         $defaults[CourseTypeLayout :: PROPERTY_BREADCRUMB_FIXED] = $breadcrumb_fixed;
-        
+
         $feedback_fixed = $this->object->get_layout_settings()->get_feedback_fixed();
         $defaults[CourseTypeLayout :: PROPERTY_FEEDBACK_FIXED] = $feedback_fixed;
-        
+
         $enable_introduction_text_fixed = $this->object->get_layout_settings()->get_intro_text_fixed();
         $defaults[CourseTypeLayout :: PROPERTY_INTRO_TEXT_FIXED] = $enable_introduction_text_fixed;
-        
+
         $course_code_visible_fixed = $this->object->get_layout_settings()->get_course_code_visible_fixed();
         $defaults[CourseTypeLayout :: PROPERTY_COURSE_CODE_VISIBLE_FIXED] = $course_code_visible_fixed;
-        
+
         $course_manager_name_visible_fixed = $this->object->get_layout_settings()->get_course_manager_name_visible_fixed();
         $defaults[CourseTypeLayout :: PROPERTY_COURSE_MANAGER_NAME_VISIBLE_FIXED] = $course_manager_name_visible_fixed;
-        
+
         $course_languages_visible_fixed = $this->object->get_layout_settings()->get_course_languages_visible_fixed();
         $defaults[CourseTypeLayout :: PROPERTY_COURSE_LANGUAGES_VISIBLE_FIXED] = $course_languages_visible_fixed;
-        
+
         parent :: setDefaults($defaults);
     }
 }

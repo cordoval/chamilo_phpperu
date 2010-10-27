@@ -1,8 +1,9 @@
 <?php
-namespace application\search_portal;
+namespace application\wiki;
 
 use common\libraries\Utilities;
-use common\libraries\WebApplication;
+use common\libraries\DataClass;
+
 /**
  * $Id: wiki_publication.class.php 210 2009-11-13 13:18:50Z kariboe $
  * @package application.lib.wiki
@@ -261,7 +262,7 @@ class WikiPublication extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+       return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
     }
 }
 

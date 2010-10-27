@@ -1,9 +1,15 @@
 <?php
 namespace application\weblcms;
 
+use user\UserDataManager;
+use common\libraries\Session;
+use common\libraries\Utilities;
+use common\libraries\ObjectTableOrder;
+use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\DataClass;
 use common\libraries\Translation;
+use rights\RightsUtilities;
 
 /**
  * $Id: course.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -34,7 +40,7 @@ use common\libraries\Translation;
 class Course extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_COURSE_TYPE_ID = 'course_type_id';
     const PROPERTY_VISUAL = 'visual_code';
     const PROPERTY_NAME = 'title';
@@ -42,13 +48,13 @@ class Course extends DataClass
     const PROPERTY_EXTLINK_URL = 'department_url';
     const PROPERTY_EXTLINK_NAME = 'department_name';
     const PROPERTY_CATEGORY = 'category_id';
-    
+
     // Remnants from the old Chamilo system
     const PROPERTY_LAST_VISIT = 'last_visit';
     const PROPERTY_LAST_EDIT = 'last_edit';
     const PROPERTY_CREATION_DATE = 'creation_date';
     const PROPERTY_EXPIRATION_DATE = 'expiration_date';
-    
+
     private $settings;
     private $layout;
     private $tools;
@@ -68,7 +74,7 @@ class Course extends DataClass
     static function get_default_property_names()
     {
         return parent :: get_default_property_names(array(
-                self :: PROPERTY_COURSE_TYPE_ID, self :: PROPERTY_VISUAL, self :: PROPERTY_CATEGORY, self :: PROPERTY_NAME, self :: PROPERTY_TITULAR, self :: PROPERTY_EXTLINK_URL, self :: PROPERTY_EXTLINK_NAME, self :: PROPERTY_CREATION_DATE, self :: PROPERTY_EXPIRATION_DATE, 
+                self :: PROPERTY_COURSE_TYPE_ID, self :: PROPERTY_VISUAL, self :: PROPERTY_CATEGORY, self :: PROPERTY_NAME, self :: PROPERTY_TITULAR, self :: PROPERTY_EXTLINK_URL, self :: PROPERTY_EXTLINK_NAME, self :: PROPERTY_CREATION_DATE, self :: PROPERTY_EXPIRATION_DATE,
                 self :: PROPERTY_LAST_EDIT, self :: PROPERTY_LAST_VISIT));
     }
 
@@ -131,7 +137,7 @@ class Course extends DataClass
     function get_titular_string()
     {
         $titular_id = $this->get_titular();
-        
+
         if (! is_null($titular_id))
         {
             $udm = UserDataManager :: get_instance();
@@ -227,7 +233,7 @@ class Course extends DataClass
         {
             $wdm = WeblcmsDataManager :: get_instance();
             $this->tools = $wdm->get_course_modules($this->get_id());
-            
+
             if ($require)
             {
                 foreach ($this->tools as $index => $tool)
@@ -236,7 +242,7 @@ class Course extends DataClass
                 }
             }
         }
-        
+
         return $this->tools;
     }
 
@@ -411,7 +417,7 @@ class Course extends DataClass
     /*
      * Getters and validation whether or not the property is readable from the course's own settings
      */
-    
+
     function get_language()
     {
         if (! $this->get_language_fixed())
@@ -778,7 +784,7 @@ class Course extends DataClass
     /*
      * Getters and validation whether or not the property is readable from the course's own settings
      */
-    
+
     function can_user_subscribe($user)
     {
         $max_members = $this->get_max_number_of_members();
@@ -795,7 +801,7 @@ class Course extends DataClass
         foreach ($group_ids as $group_id)
         {
             $right = $this->can_group_subscribe($group_id);
-            
+
             if ($right > $current_right)
                 $current_right = $right;
         }
@@ -810,7 +816,7 @@ class Course extends DataClass
         foreach ($group_ids as $group_id)
         {
             $right = $this->can_group_unsubscribe($group_id);
-            
+
             if ($right > $current_right)
                 $current_right = $right;
         }
@@ -974,35 +980,35 @@ class Course extends DataClass
             $this->set_creation_date($now);
             $this->set_expiration_date($now);
         }
-        
+
         $wdm = WeblcmsDataManager :: get_instance();
-        
+
         if (! $wdm->create_course($this))
             return false;
-        
+
         $settings = $this->get_settings();
         $settings->set_course_id($this->get_id());
         if (! $settings->create())
             return false;
-        
+
         $layout = $this->get_layout_settings();
         $layout->set_course_id($this->get_id());
         if (! $layout->create())
             return false;
-        
+
         $rights = $this->get_rights();
         $rights->set_course_id($this->get_id());
         if (! $rights->create())
             return false;
-        
+
         if (! $this->initialize_course_sections())
             return false;
-        
+
         if (! $this->create_location())
         {
             return false;
         }
-        
+
         if (! $this->tools)
         {
             $course_type_id = $this->get_course_type_id();
@@ -1016,19 +1022,19 @@ class Course extends DataClass
             foreach ($this->tools as $tool)
                 $tool->set_course_code($this->get_id());
         }
-        
+
         if (! $wdm->create_course_modules($this->tools, $this->get_id()))
             return false;
-        
+
         require_once (dirname(__FILE__) . '/../category_manager/content_object_publication_category.class.php');
         $dropbox = new ContentObjectPublicationCategory();
         $dropbox->create_dropbox($this->get_id());
-        
+
         if (! $this->create_root_course_group())
         {
             return false;
         }
-        
+
         return true;
     }
 
@@ -1044,13 +1050,13 @@ class Course extends DataClass
         {
             $parent_id = WeblcmsRights :: get_courses_subtree_root_id(0);
         }
-        
+
         $succes = WeblcmsRights :: create_location_in_courses_subtree($this->get_name(), WeblcmsRights :: TYPE_COURSE, $this->get_id(), $parent_id, 0);
         if (! $succes)
         {
             return false;
         }
-        
+
         return RightsUtilities :: create_subtree_root_location(WeblcmsManager :: APPLICATION_NAME, $this->get_id(), WeblcmsRights :: TREE_TYPE_COURSE);
     }
 
@@ -1064,7 +1070,7 @@ class Course extends DataClass
                 return false;
             }
         }
-        
+
         $dm = $this->get_data_manager();
         return $dm->delete_course($this->get_id());
     }
@@ -1077,12 +1083,12 @@ class Course extends DataClass
     function is_course_admin($user)
     {
         $studentview = Session :: retrieve('studentview');
-        
+
         if ($studentview)
         {
             return false;
         }
-        
+
         if ($user->is_platform_admin())
         {
             return true;
@@ -1146,7 +1152,8 @@ class Course extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 
     function initialize_course_sections()
@@ -1156,7 +1163,7 @@ class Course extends DataClass
         $sections[] = array('name' => Translation :: get('Links'), 'type' => 2, 'order' => 2);
         $sections[] = array('name' => Translation :: get('Disabled'), 'type' => 0, 'order' => 3);
         $sections[] = array('name' => Translation :: get('CourseAdministration'), 'type' => 3, 'order' => 4);
-        
+
         foreach ($sections as $section)
         {
             $course_section = new CourseSection();
@@ -1169,7 +1176,7 @@ class Course extends DataClass
                 return false;
             }
         }
-        
+
         return true;
     }
 
@@ -1186,7 +1193,7 @@ class Course extends DataClass
         if (is_numeric($course_type))
             $course_type = $this->get_data_manager()->retrieve_course_type($course_type);
         $this->course_type = $course_type;
-        
+
         $this->set_course_type_id($course_type->get_id());
         if (! $this->update())
             return false;
@@ -1199,11 +1206,11 @@ class Course extends DataClass
         $this->fill_rights($course_type);
         if (! $this->get_rights()->update())
             return false;
-        
+
         $selected_tools = $course_type->get_tools();
         $course_tools = $this->get_tools();
         $course_modules = array();
-        
+
         foreach ($selected_tools as $tool)
         {
             $sub_validation = false;
@@ -1226,16 +1233,16 @@ class Course extends DataClass
                 $course_modules[] = $course_module;
             }
         }
-        
+
         foreach ($course_tools as $tool)
         {
             if (! $this->get_data_manager()->delete_course_module($tool->course_id, $tool->name))
                 return false;
         }
-        
+
         if (! $this->get_data_manager()->create_course_modules($course_modules, $this->get_id()))
             return false;
-        
+
         for($i = 0; $i < 4; $i ++)
         {
             $method = null;
@@ -1279,7 +1286,7 @@ class Course extends DataClass
                     if ($validation)
                         $course_type_rights_to_add[] = $course_type_right;
                 }
-                
+
                 foreach ($course_type_rights_to_add as $course_type_right)
                 {
                     if ($right != CourseGroupSubscribeRight :: UNSUBSCRIBE)
@@ -1291,7 +1298,7 @@ class Course extends DataClass
                     else
                         $this->get_data_manager()->create_course_group_unsubscribe_right(CourseGroupUnsubscribeRight :: convert_course_type_right_to_course_right($course_type_right, $this->get_id()));
                 }
-                
+
                 foreach ($course_rights as $right)
                 {
                     if ($right != CourseGroupSubscribeRight :: UNSUBSCRIBE)
@@ -1301,7 +1308,7 @@ class Course extends DataClass
                 }
             }
         }
-        
+
         return true;
     }
 

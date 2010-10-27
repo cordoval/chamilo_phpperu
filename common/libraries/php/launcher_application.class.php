@@ -1,5 +1,6 @@
 <?php
 namespace common\libraries;
+
 abstract class LauncherApplication extends Application
 {
     const CLASS_NAME = __CLASS__;
@@ -12,6 +13,11 @@ abstract class LauncherApplication extends Application
     static function get_application_manager_path($application_name)
     {
         return self :: get_application_path($application_name) . $application_name . '/' . $application_name . '_launcher.class.php';
+    }
+    
+    static function get_application_web_path($application_name)
+    {
+    	
     }
 
     static function get_application_class_name($application)

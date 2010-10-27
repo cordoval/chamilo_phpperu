@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use group\GroupDataManager;
+use common\libraries\EqualityCondition;
 use common\libraries\Path;
 
 require_once dirname(__FILE__) . '/../../../../common/global.inc.php';
@@ -62,7 +64,7 @@ for($i = 1; $i < 6; $i ++)
             $rights->create();
             break;
     }
-    
+
     if ($i == 1 || $i == 2)
     {
         for($j = 1; $j < 4; $j ++)
@@ -74,7 +76,7 @@ for($i = 1; $i < 6; $i ++)
             $group->create();
             $child_child_id = $group->get_id();
             $registered_group_id[$group->get_id()] = CourseGroupSubscribeRight :: SUBSCRIBE_NONE;
-            
+
             if ($i == 1)
                 $registered_group_id[$group->get_id()] = CourseGroupSubscribeRight :: SUBSCRIBE_DIRECT;
             else
@@ -107,7 +109,7 @@ for($i = 1; $i < 6; $i ++)
                         break;
                 }
             }
-            
+
             if ($j == 1)
             {
                 $group = new Group();
@@ -119,7 +121,7 @@ for($i = 1; $i < 6; $i ++)
                     $registered_group_id[$group->get_id()] = CourseGroupSubscribeRight :: SUBSCRIBE_DIRECT;
                 else
                     $registered_group_id[$group->get_id()] = CourseGroupSubscribeRight :: SUBSCRIBE_REQUEST;
-            
+
             }
         }
     }
@@ -190,7 +192,7 @@ for($i = 1; $i < 4; $i ++)
             $rights->create();
             break;
     }
-    
+
     if ($i == 2)
     {
         for($j = 1; $j < 3; $j ++)
@@ -201,7 +203,7 @@ for($i = 1; $i < 4; $i ++)
             $group->set_code("ChildChildGroup" + $i + "" + $j);
             $group->create();
             $child_child_id = $group->get_id();
-            
+
             switch ($j)
             {
                 case 1 :
@@ -216,7 +218,7 @@ for($i = 1; $i < 4; $i ++)
                     $rights->create();
                     break;
             }
-            
+
             if ($j == 2)
             {
                 $group = new Group();

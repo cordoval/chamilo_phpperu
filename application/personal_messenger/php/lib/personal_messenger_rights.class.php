@@ -1,5 +1,9 @@
 <?php
 
+namespace application\personal_messenger;
+
+use rights\RightsUtilities;
+
 class PersonalMessengerRights extends RightsUtilities
 {
 

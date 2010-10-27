@@ -1,4 +1,15 @@
 <?php
+
+namespace application\distribute;
+
+use common\libraries\WebApplication;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
+use common\libraries\Application;
 /**
  * $Id: browser.class.php 194 2009-11-13 11:54:13Z chellee $
  * @package application.lib.distribute.distribute_manager.component

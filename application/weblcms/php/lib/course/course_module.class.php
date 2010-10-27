@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Utilities;
 use common\libraries\DataClass;
 
 /**
@@ -16,7 +17,7 @@ use common\libraries\DataClass;
 class CourseModule extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     /**
      * CourseModule properties
      */
@@ -135,20 +136,21 @@ class CourseModule extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 
     static function convert_tools($tools, $course_code = null, $course_type_tools = false, $form = null)
     {
         $tools_array = array();
-        
+
         foreach ($tools as $index => $tool)
         {
             if ($course_type_tools)
             {
                 $tool = $tool->get_name();
             }
-            
+
             $element_default = $tool . "elementdefault";
             $course_module = new CourseModule();
             $course_module->set_course_code($course_code);
@@ -168,7 +170,7 @@ class CourseModule extends DataClass
         {
             return false;
         }
-        
+
         return WeblcmsRights :: create_location_in_courses_subtree($this->get_name(), WeblcmsRights :: TYPE_COURSE_MODULE, $this->get_id(), WeblcmsRights :: get_courses_subtree_root_id($this->get_course_code()), $this->get_course_code());
     }
 

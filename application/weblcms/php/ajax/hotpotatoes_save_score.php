@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\EqualityCondition;
+use common\libraries\Request;
+
 /**
  * $Id: hotpotatoes_save_score.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.ajax

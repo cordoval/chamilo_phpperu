@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Utilities;
+use common\libraries\Request;
 use common\libraries\ObjectTable;
 
 /**
@@ -20,22 +22,22 @@ class ObjectPublicationTable extends ObjectTable
     function ObjectPublicationTable($table_renderer, $condition, $cell_renderer = null, $column_model = null)
     {
         $data_provider = new ObjectPublicationTableDataProvider($table_renderer, $condition);
-        
+
         if (! $column_model)
         {
             $column_model = new ObjectPublicationTableColumnModel();
         }
-        
+
         if (! $cell_renderer)
         {
             $cell_renderer = new ObjectPublicationTableCellRenderer($table_renderer);
         }
-        
+
         parent :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $column_model, $cell_renderer);
-        
+
         $cell_renderer->set_object_count($this->get_object_count());
         $actions = $table_renderer->get_actions();
-        
+
         $this->set_form_actions($actions);
     }
 

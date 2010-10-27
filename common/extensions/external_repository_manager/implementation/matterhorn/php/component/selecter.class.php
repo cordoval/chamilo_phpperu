@@ -1,5 +1,8 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\matterhorn;
+
+use common\libraries\Request;
+
 class MatterhornExternalRepositoryManagerSelecterComponent extends MatterhorneExternalRepositoryManager
 {
 

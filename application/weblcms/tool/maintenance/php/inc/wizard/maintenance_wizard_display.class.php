@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\maintenance;
 
+use common\libraries\Display;
+use common\libraries\BreadcrumbTrail;
+
 /**
  * $Id: maintenance_wizard_display.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.maintenance.inc.wizard
@@ -33,7 +36,7 @@ class MaintenanceWizardDisplay extends HTML_QuickForm_Action_Display
     function _renderForm($current_page)
     {
         $trail = BreadcrumbTrail :: get_instance();
-        
+
         $this->parent->display_header();
         if (isset($_SESSION['maintenance_message']))
         {

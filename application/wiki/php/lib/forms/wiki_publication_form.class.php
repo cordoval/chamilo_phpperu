@@ -1,6 +1,14 @@
 <?php
 namespace application\wiki;
 
+use common\libraries\FormValidator;
+use common\libraries\Translation;
+use common\libraries\Path;
+use common\libraries\Webapplication;
+use common\libraries\PlatformSetting;
+
+use application\GradebookInternalItemForm;
+
 /**
  * $Id: wiki_publication_form.class.php 210 2009-11-13 13:18:50Z kariboe $
  * @package application.lib.wiki.forms

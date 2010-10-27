@@ -5,11 +5,17 @@ use common\libraries\WebApplication;
 use common\libraries\CoreApplication;
 use common\libraries\Translation;
 use common\libraries\Request;
-use common\libraries\ComplexDisplay;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use common\libraries\PatternMatchCondition;
+use repository\ComplexDisplay;
+use repository\ComplexContentObjectItem;
 use repository\RepositoryDataManager;
 use user\userDataManager;
+use reporting\ReportingData;
 use reporting\ReportingFormatter;
 use tracking\TrackingDataManager;
+use tracking\VisitTracker;
 
 require_once WebApplication :: get_application_class_path('wiki') . 'reporting/wiki_reporting_block.class.php';
 require_once  CoreApplication :: get_application_class_lib_path('reporting') . 'reporting_data.class.php';

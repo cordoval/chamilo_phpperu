@@ -1,5 +1,19 @@
 <?php
 
+namespace application\personal_messenger;
+
+use common\libraries\WebApplication;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
+use common\libraries\Display;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
+use common\libraries\Application;
+use common\libraries\ActionBarRenderer;
+
 /**
  * $Id: browser.class.php 203 2009-11-13 12:46:38Z chellee $
  * @package application.personal_messenger.personal_messenger_manager.component
@@ -54,23 +68,23 @@ class PersonalMessengerManagerBrowserComponent extends PersonalMessengerManager
             switch ($folder)
             {
                 case PersonalMessengerManager :: FOLDER_INBOX :
-                    $folder_condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_RECIPIENT, $this->get_user_id());
+                    $folder_condition = new EqualityCondition(PersonalMessengerPublication :: PROPERTY_RECIPIENT, $this->get_user_id());
                     break;
                 case PersonalMessengerManager :: FOLDER_OUTBOX :
-                    $folder_condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_SENDER, $this->get_user_id());
+                    $folder_condition = new EqualityCondition(PersonalMessengerPublication :: PROPERTY_SENDER, $this->get_user_id());
                     break;
                 default :
-                    $folder_condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_RECIPIENT, $this->get_user_id());
+                    $folder_condition = new EqualityCondition(PersonalMessengerPublication :: PROPERTY_RECIPIENT, $this->get_user_id());
             }
         }
         else
         {
-            $folder_condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_RECIPIENT, $this->get_user_id());
+            $folder_condition = new EqualityCondition(PersonalMessengerPublication :: PROPERTY_RECIPIENT, $this->get_user_id());
         }
         
         $condition = $folder_condition;
         
-        $user_condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_USER, $this->get_user_id());
+        $user_condition = new EqualityCondition(PersonalMessengerPublication :: PROPERTY_USER, $this->get_user_id());
         return new AndCondition($condition, $user_condition);
     }
 

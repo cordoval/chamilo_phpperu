@@ -1,6 +1,10 @@
 <?php
 namespace application\weblcms\tool\user;
 
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Utilities;
+use common\libraries\Request;
 use common\libraries\DelegateComponent;
 use common\libraries\Translation;
 
@@ -25,7 +29,7 @@ class UserToolReportingViewerComponent extends UserTool implements DelegateCompo
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => UserTool :: ACTION_UNSUBSCRIBE_USER_BROWSER)), Translation :: get('UserToolUnsubscribeUserBrowserComponent')));
-        
+
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => UserTool :: ACTION_USER_DETAILS, UserTool :: PARAM_USERS => Request :: get(UserTool :: PARAM_USERS))), Translation :: get('UserToolDetailsComponent')));
     }
 

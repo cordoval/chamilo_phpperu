@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\WeekCalendar;
+use common\libraries\Request;
+
 /**
  * $Id: week_calendar_content_object_publication_list_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.browser.list_renderer
@@ -24,28 +27,28 @@ class WeekCalendarContentObjectPublicationListRenderer extends CalendarContentOb
         $calendar_table = new WeekCalendar($this->get_display_time());
         $start_time = $calendar_table->get_start_time();
         $end_time = $calendar_table->get_end_time();
-        
+
         $publications = $this->get_calendar_events($start_time, $end_time);
-        
+
         $table_date = $start_time;
         while ($table_date <= $end_time)
         {
             $next_table_date = strtotime('+' . $calendar_table->get_hour_step() . ' Hours', $table_date);
-            
+
             foreach ($publications as $index => $publication)
             {
                 $object = $publication->get_content_object();
-                
+
                 $start_date = $object->get_start_date();
                 $end_date = $object->get_end_date();
-                
+
                 if ($table_date < $start_date && $start_date < $next_table_date || $table_date < $end_date && $end_date < $next_table_date || $start_date <= $table_date && $next_table_date <= $end_date)
                 {
                     $cell_contents = $this->render_publication($publication, $table_date, $calendar_table->get_hour_step());
                     $calendar_table->add_event($table_date, $cell_contents);
                 }
             }
-            
+
             $table_date = $next_table_date;
         }
         $url_format = $this->get_url(array('time' => '-TIME-', 'view' => Request :: get('view')));

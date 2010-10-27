@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\fedora;
 
 /**
  * If the current API provides a specialization for this component launch it instead.

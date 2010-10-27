@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms;
 
+use user\UserDataManager;
+use common\libraries\Utilities;
+
 /**
  * $Id: course_group_user_relation.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.course_group
@@ -9,10 +12,10 @@ namespace application\weblcms;
 class CourseGroupUserRelation
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_COURSE_GROUP = 'course_group_id';
     const PROPERTY_USER = 'user_id';
-    
+
     private $defaultProperties;
 
     /**
@@ -125,7 +128,7 @@ class CourseGroupUserRelation
     {
         $wdm = WeblcmsDataManager :: get_instance();
         $success = $wdm->create_course_group_user_relation($this);
-        
+
         if (! $success)
         {
             return false;
@@ -145,13 +148,14 @@ class CourseGroupUserRelation
         {
             return false;
         }
-        
+
         return true;
     }
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 }
 ?>

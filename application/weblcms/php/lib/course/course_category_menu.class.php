@@ -1,6 +1,11 @@
 <?php
 namespace application\weblcms;
 
+use HTML_Menu;
+use common\libraries\Application;
+use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
+use common\libraries\Request;
 use common\libraries\Translation;
 
 /**
@@ -18,7 +23,7 @@ require_once dirname(__FILE__) . '/../category_manager/course_category.class.php
 class CourseCategoryMenu extends HTML_Menu
 {
     const TREE_NAME = __CLASS__;
-    
+
     /**
      * The string passed to sprintf() to format category URLs
      */
@@ -70,7 +75,7 @@ class CourseCategoryMenu extends HTML_Menu
         {
             $menu = array_merge($menu, $extra_items);
         }
-        
+
         $home = array();
         $home['title'] = Translation :: get('Home');
         $home['url'] = $this->get_home_url();
@@ -94,10 +99,10 @@ class CourseCategoryMenu extends HTML_Menu
         foreach ($categories[$parent] as $index => $category)
         {
             $menu_item = array();
-            
+
             $wdm = WeblcmsDataManager :: get_instance();
             $count = $wdm->count_courses(new EqualityCondition(Course :: PROPERTY_CATEGORY, $category->get_id()));
-            
+
             $menu_item['title'] = $category->get_name() . ' (' . $count . ')';
             if (Request :: get(Application :: PARAM_ACTION) == WeblcmsManager :: ACTION_COURSE_CATEGORY_MANAGER)
             {

@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\course_group;
 
+use application\weblcms\Tool;
+use common\libraries\Request;
+
 /**
  * $Id: course_group_tool.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.course_group
@@ -15,7 +18,7 @@ class CourseGroupTool extends Tool
     const PARAM_COURSE_GROUP_ACTION = 'tool_action';
     const PARAM_DELETE_COURSE_GROUPS = 'delete_course_groups';
     const PARAM_UNSUBSCRIBE_USERS = 'unsubscribe_users';
-    
+
     const ACTION_SUBSCRIBE = 'subscribe_browser';
     const ACTION_UNSUBSCRIBE = 'unsubscribe_browser';
     const ACTION_ADD_COURSE_GROUP = 'creator';
@@ -25,14 +28,14 @@ class CourseGroupTool extends Tool
     const ACTION_USER_SELF_UNSUBSCRIBE = 'self_unsubscriber';
     const ACTION_VIEW_GROUPS = 'browser';
     const ACTION_MANAGE_SUBSCRIPTIONS = 'manage_subscriptions';
-    
+
     const PARAM_COURSE_GROUP = 'course_group';
 
     function CourseGroupTool($parent)
     {
         parent :: __construct($parent);
         $this->set_parameter(self :: PARAM_COURSE_GROUP, Request :: get(self :: PARAM_COURSE_GROUP));
-    
+
     }
 
     function get_course_group()

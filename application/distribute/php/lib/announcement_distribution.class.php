@@ -1,4 +1,12 @@
 <?php
+
+namespace application\distribute;
+
+use common\libraries\DataClass;
+use common\libraries\Utilities;
+use common\libraries\Theme;
+use common\libraries\Translation;
+use common\libraries\ToolbarItem;
 /**
  * $Id: announcement_distribution.class.php 194 2009-11-13 11:54:13Z chellee $
  * @package application.lib.distribute
@@ -120,7 +128,7 @@ class AnnouncementDistribution extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
     }
 
     function get_distribution_object()

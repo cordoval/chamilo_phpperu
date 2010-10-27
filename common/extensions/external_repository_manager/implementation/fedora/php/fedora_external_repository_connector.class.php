@@ -1,7 +1,27 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\fedora;
+
+use common\libraries;
+
+use common\libraries\Path;
+use common\libraries\Translation;
+use common\libraries\Request;
+use common\libraries\Session;
+use common\libraries\fedora_fs_store;
+use common\libraries\fedora_fs_mystuff;
+use common\libraries\fedora_fs_history;
+use common\libraries\fedora_fs_lastobjects;
+use common\libraries\FedoraProxy;
+use common\libraries\RestConfig;
+use common\libraries\ArrayResultSet;
+
+use common\extensions\external_repository_manager\ExternalRepositoryConnector;
+
+use repository\ExternalRepositorySetting;
+use user\UserDataManager;
 
 require_once dirname(__FILE__) . '/fedora_external_repository_object.class.php';
-require_once Path::get_common_path() . '/fedora/lib.php';
+require_once Path::get_common_libraries_path() . 'php/fedora/lib.php';
 
 /**
  * Main object to connect Chamilo to the Fedora repository.
@@ -70,7 +90,6 @@ class FedoraExternalRepositoryConnector extends ExternalRepositoryConnector{
 
 	public function get_default_store(){
 		$owner = self::get_owner_id();
-
 		$today = today();
 		$this_week = this_week();
 		$last_week = last_week();

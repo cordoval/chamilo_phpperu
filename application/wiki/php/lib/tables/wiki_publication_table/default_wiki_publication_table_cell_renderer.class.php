@@ -1,6 +1,11 @@
 <?php
 namespace application\wiki;
 
+
+use common\libraries\WebApplication;
+use common\libraries\ObjectTableCellRenderer;
+use repository\ContentObject;
+
 /**
  * $Id: default_wiki_publication_table_cell_renderer.class.php 210 2009-11-13 13:18:50Z kariboe $
  * @package application.lib.wiki.tables.wiki_publication_table

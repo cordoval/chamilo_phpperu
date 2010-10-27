@@ -1,5 +1,15 @@
 <?php
 namespace common\extensions\repo_viewer;
+
+use common\libraries\Toolbar;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
+use common\libraries\Theme;
+use repository\ContentObjectDisplay;
+use repository\RepositoryDataManager;
+use common\libraries\Request;
+use common\libraries\ToolbarItem;
 /**
  * $Id: viewer.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.repo_viewer.component
@@ -40,13 +50,13 @@ class RepoViewerViewerComponent extends RepoViewer
             $this->display_footer();
         }
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
    		$breadcrumbtrail->add_help('repo_viewer_viewer');
    		$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_BROWSER)), Translation :: get('RepoViewerBrowserComponent')));
     }
-   
+
     function get_additional_parameters()
     {
     	return array(RepoViewer :: PARAM_ID);

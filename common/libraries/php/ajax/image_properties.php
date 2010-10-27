@@ -1,4 +1,11 @@
 <?php
+
+namespace common\libraries;
+
+use repository\RepositoryDataManager;
+use repository\content_object\document\Document;
+use repository\ContentObject;
+
 /**
  * $Id: image_properties.php 155 2009-11-10 13:20:56Z vanpouckesven $
  * @package common.javascript.ajax
@@ -6,7 +13,7 @@
 require_once dirname(__FILE__) . '/../../../global.inc.php';
 require_once Path :: get_repository_content_object_path() . 'document/php/document.class.php';
 
-$object = Request :: post('content_object');
+$object = Request :: post('content_object'); dump($object);
 $object = RepositoryDataManager :: get_instance()->retrieve_content_object($object);
 
 $full_path = $object->get_full_path();

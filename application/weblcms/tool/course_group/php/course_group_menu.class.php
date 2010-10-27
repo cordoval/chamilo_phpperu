@@ -1,6 +1,10 @@
 <?php
 namespace application\weblcms\tool\course_group;
 
+use HTML_Menu;
+use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
+
 /**
  * $Id: group_menu.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package group.lib
@@ -17,7 +21,7 @@ require_once 'HTML/Menu/ArrayRenderer.php';
 class CourseGroupMenu extends HTML_Menu
 {
     const TREE_NAME = __CLASS__;
-    
+
     /**
      * The string passed to sprintf() to format category URLs
      */
@@ -26,13 +30,13 @@ class CourseGroupMenu extends HTML_Menu
      * The array renderer used to determine the breadcrumbs.
      */
     private $array_renderer;
-    
+
     /**
      * The selected group
      * @var int
      */
     private $current_group;
-    
+
     /**
      * The current course
      * @var Course
@@ -58,10 +62,10 @@ class CourseGroupMenu extends HTML_Menu
         {
             $this->current_group = WeblcmsDataManager :: get_instance()->retrieve_course_group($current_group);
         }
-        
+
         $this->course = $course;
         $this->urlFmt = $url_format;
-        
+
         $menu = $this->get_menu();
         parent :: __construct($menu);
         $this->array_renderer = new HTML_Menu_ArrayRenderer();
@@ -71,19 +75,19 @@ class CourseGroupMenu extends HTML_Menu
     function get_menu()
     {
         $course_group = WeblcmsDataManager :: get_instance()->retrieve_course_group_root($this->course->get_id());
-        
+
         $menu = array();
-        
+
         $menu_item = array();
         $menu_item['title'] = $course_group->get_name();
         $menu_item['url'] = $this->get_home_url();
-        
+
         $sub_menu_items = $this->get_menu_items($course_group->get_id());
         if (count($sub_menu_items) > 0)
         {
             $menu_item['sub'] = $sub_menu_items;
         }
-        
+
         $menu_item['class'] = 'home';
         $menu_item[OptionsMenuRenderer :: KEY_ID] = $course_group->get_id();
         $menu[$course_group->get_id()] = $menu_item;
@@ -102,25 +106,25 @@ class CourseGroupMenu extends HTML_Menu
     {
         $condition = new EqualityCondition(CourseGroup :: PROPERTY_PARENT_ID, $parent_id);
         $groups = WeblcmsDataManager :: get_instance()->retrieve_course_groups($condition);
-        
+
         $current_group = $this->current_group;
-        
+
         while ($group = $groups->next_result())
         {
             $menu_item = array();
             $menu_item['title'] = $group->get_name();
             $menu_item['url'] = $this->get_url($group->get_id());
-            
+
             if ($group->has_children())
             {
                 $menu_item['sub'] = $this->get_menu_items($group->get_id());
             }
-            
+
             $menu_item['class'] = 'category';
             $menu_item[OptionsMenuRenderer :: KEY_ID] = $group->get_id();
             $menu[$group->get_id()] = $menu_item;
         }
-        
+
         return $menu;
     }
 

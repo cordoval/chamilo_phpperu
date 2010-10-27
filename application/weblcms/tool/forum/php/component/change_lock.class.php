@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\forum;
 
+use common\libraries\Request;
 use common\libraries\Translation;
 
 /**
@@ -24,10 +25,10 @@ class ForumToolChangeLockComponent extends ForumTool
         {
             $message = Translation :: get('LockNotChanged');
         }
-        
+
         $params = array();
         $params[ForumTool :: PARAM_ACTION] = ForumTool :: ACTION_BROWSE_FORUMS;
-        
+
         $this->redirect($message, ! $succes, $params);
     }
 }

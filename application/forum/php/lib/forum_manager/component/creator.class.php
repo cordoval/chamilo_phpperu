@@ -42,17 +42,18 @@ class ForumManagerCreatorComponent extends ForumManager implements RepoViewerInt
     {
         return array(Forum :: get_type_name());
     }
-    
-	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('ForumManagerBrowserComponent')));
-    	$breadcrumbtrail->add_help('forum_publisher');
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('ForumManagerBrowserComponent')));
+        $breadcrumbtrail->add_help('forum_publisher');
     }
 
     function get_additional_parameters()
     {
-    	return array(RepoViewer :: PARAM_ACTION, RepoViewer :: PARAM_ID);
+        return array(RepoViewer :: PARAM_ACTION, RepoViewer :: PARAM_ID);
     }
+
 }
 
 ?>

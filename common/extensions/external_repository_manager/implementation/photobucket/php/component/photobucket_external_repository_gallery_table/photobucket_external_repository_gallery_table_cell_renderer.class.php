@@ -1,5 +1,13 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\photobucket;
+
+use common\libraries\Utilities;
+use common\libraries\Toolbar;
+
+use common\extensions\external_repository_manager\DefaultExternalRepositoryGalleryObjectTableCellRenderer;
+use common\extensions\external_repository_manager\ExternalRepositoryObject;
+use common\extensions\external_repository_manager\ExternalRepositoryObjectDisplay;
+
 class PhotobucketExternalRepositoryGalleryTableCellRenderer extends DefaultExternalRepositoryGalleryObjectTableCellRenderer
 {
     /**

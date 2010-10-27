@@ -1,4 +1,6 @@
 <?php
+namespace common\libraries;
+use Iterator;
 
 require_once dirname(__FILE__) . '/xml_reader.class.php';
 

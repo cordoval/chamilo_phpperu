@@ -1,4 +1,10 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\fedora;
+
+use common\libraries\Path;
+use common\libraries\Translation;
+use common\libraries\Request;
+use common\libraries\Session;
 
 require_once Path::get_repository_path() . '/lib/import/content_object_import.class.php';
 require_once dirname(__FILE__) . '/../forms/fedora_import_form.class.php';

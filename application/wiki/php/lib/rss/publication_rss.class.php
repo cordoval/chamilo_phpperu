@@ -1,6 +1,10 @@
 <?php
 namespace application\wiki;
 
+use common\libraries\Translation;
+use common\libraries\Path;
+use common\libraries\PublicationRSS
+
 require_once dirname(__FILE__).'/../../../../common/global.inc.php';
 require_once Path :: get_common_libraries_class_path().'/rss/publication_rss.class.php';
 

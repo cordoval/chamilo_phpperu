@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Toolbar;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
 use common\libraries\Translation;
 
 /**
@@ -37,7 +40,7 @@ class CourseCategoryBrowserTableCellRenderer extends DefaultCourseCategoryTableC
         {
             return $this->get_modification_links($coursecategory);
         }
-        
+
         // Add special features here
         switch ($column->get_name())
         {
@@ -55,11 +58,11 @@ class CourseCategoryBrowserTableCellRenderer extends DefaultCourseCategoryTableC
     private function get_modification_links($coursecategory)
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
-        
+
         $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_course_category_edit_url($coursecategory), ToolbarItem :: DISPLAY_ICON));
-        
+
         $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_course_category_delete_url($coursecategory), ToolbarItem :: DISPLAY_ICON, true));
-        
+
         return $toolbar->as_html();
     }
 }

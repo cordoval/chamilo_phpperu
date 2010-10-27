@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\description;
 
+use application\weblcms\Tool;
+
 /**
  * $Id: description_tool.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.description

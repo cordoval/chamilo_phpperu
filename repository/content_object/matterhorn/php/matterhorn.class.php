@@ -7,6 +7,7 @@ use common\libraries\Versionable;
 use common\libraries\AndCondition;
 
 use repository\ContentObject;
+use repository\ExternalRepositorySetting;
 
 class Matterhorn extends ContentObject implements Versionable
 {
@@ -18,7 +19,7 @@ class Matterhorn extends ContentObject implements Versionable
 
 	static function get_type_name()
 	{
-		return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
+		return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
 	}
 
     function get_matterhorn_id()

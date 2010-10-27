@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\document;
 
+use common\libraries\Display;
+use common\libraries\Request;
+
 /**
  * $Id: document_downloader.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.document.component
@@ -18,7 +21,7 @@ class DocumentToolDownloaderComponent extends DocumentTool
             Display :: not_allowed();
             return;
         }
-        
+
         $dm = WeblcmsDataManager :: get_instance();
         $publication_id = Request :: get(Tool :: PARAM_PUBLICATION_ID);
         $publication = $dm->retrieve_content_object_publication($publication_id);

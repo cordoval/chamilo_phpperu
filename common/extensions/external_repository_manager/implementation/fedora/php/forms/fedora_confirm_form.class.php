@@ -1,4 +1,9 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\fedora;
+
+use common\libraries\Translation;
+use common\libraries\Request;
+use common\libraries\Redirect;
 
 /**
  * Default form to confirm the transmission of a file to Fedora. Display metadata.

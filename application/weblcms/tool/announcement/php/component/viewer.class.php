@@ -1,8 +1,11 @@
 <?php
 namespace application\weblcms\tool\announcement;
 
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
 use application\weblcms\ToolComponent;
 use common\libraries\Translation;
+use application\weblcms\Tool;
 
 class AnnouncementToolViewerComponent extends AnnouncementTool
 {

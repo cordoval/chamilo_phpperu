@@ -8,6 +8,7 @@ use common\libraries\AndCondition;
 use common\libraries\ConditionTranslator;
 use common\libraries\SubselectCondition;
 use common\libraries\InCondition;
+use common\libraries\ObjectTableOrder;
 
 use common\extensions\dynamic_form_manager;
 use common\extensions\dynamic_form_manager\DynamicForm;
@@ -465,7 +466,7 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
         $condition = new AndCondition($conditions);
         $order_by[] = new ObjectTableOrder(FeedbackPublication :: PROPERTY_ID, SORT_DESC);
 
-        return $this->retrieve_objects(FeedbackPublication :: get_table_name(), $condition, null, null, $order_by);
+        return $this->retrieve_objects(FeedbackPublication :: get_table_name(), $condition, null, null, $order_by, FeedbackPublication :: CLASS_NAME);
     }
 
     /* function retrieve_validations($pid,$cid,$application)
@@ -483,7 +484,7 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
     function retrieve_feedback_publication($id)
     {
         $condition = new EqualityCondition(FeedbackPublication :: PROPERTY_ID, $id);
-        return $this->retrieve_object(FeedbackPublication :: get_table_name(), $condition);
+        return $this->retrieve_object(FeedbackPublication :: get_table_name(), $condition, array(), FeedbackPublication :: CLASS_NAME);
     }
 
     function retrieve_validation($id)
@@ -494,7 +495,7 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
 
     function update_feedback_publication($feedback_publication)
     {
-        $condition = new EqualityCondition(Feedback :: PROPERTY_ID, $feedback_publication->get_id());
+        $condition = new EqualityCondition(FeedbackPublication :: PROPERTY_ID, $feedback_publication->get_id());
         return $this->update($feedback_publication, $condition);
     }
 
@@ -630,7 +631,7 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
 
     function retrieve_dynamic_form_element_options($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->retrieve_objects(DynamicFormElementOption :: get_table_name(), $condition, $offset, $count, $order_property, DynamicFormElementOption::CLASS_NAME);
+        return $this->retrieve_objects(DynamicFormElementOption :: get_table_name(), $condition, $offset, $count, $order_property, DynamicFormElementOption :: CLASS_NAME);
     }
 
     function select_next_dynamic_form_element_option_order($dynamic_form_element_id)
@@ -716,11 +717,11 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
 
     function delete_feedback_from_publication($application, $publication_id)
     {
-    	$conditions[] = new EqualityCondition(FeedbackPublication :: PROPERTY_APPLICATION, $application);
-    	$conditions[] = new EqualityCondition(FeedbackPublication :: PROPERTY_PID, $publication_id);
-    	$condition = new AndCondition($conditions);
+        $conditions[] = new EqualityCondition(FeedbackPublication :: PROPERTY_APPLICATION, $application);
+        $conditions[] = new EqualityCondition(FeedbackPublication :: PROPERTY_PID, $publication_id);
+        $condition = new AndCondition($conditions);
 
-    	return $this->delete(FeedbackPublication :: get_table_name(), $condition);
+        return $this->delete(FeedbackPublication :: get_table_name(), $condition);
     }
 }
 ?>

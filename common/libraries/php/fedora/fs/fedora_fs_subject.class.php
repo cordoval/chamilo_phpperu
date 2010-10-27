@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 /**
  * Returns objects belonging to a subject

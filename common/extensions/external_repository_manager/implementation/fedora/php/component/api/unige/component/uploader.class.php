@@ -1,4 +1,5 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\fedora;
 require_once dirname(__FILE__) . '/../forms/fedora_unige_metadata_form.class.php';
 require_once dirname(__FILE__) . '/../forms/fedora_unige_confirm_form.class.php';
 

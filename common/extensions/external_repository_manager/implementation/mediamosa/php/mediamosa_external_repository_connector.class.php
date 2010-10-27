@@ -1,11 +1,22 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\mediamosa;
+
+use common\extensions\external_repository_manager\implementation\mediamosa\MediamosaMediafileObject;
 use common\extensions\external_repository_manager\ExternalRepositoryConnector;
+
 use common\libraries\Translation;
+use common\libraries\Request;
+use common\libraries\PlatformSetting;
+use common\libraries\Session;
+
+use group\GroupDataManager;
+use user\UserDataManager;
+
 use repository\ExternalRepositorySetting;
 use repository\RepositoryDataManager;
+
 use RestClient;
-use common\libraries\PlatformSetting;
+
 /**
  * connection to mediamosa-server
  *
@@ -1026,7 +1037,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
                 if ($response->check_result())
                 {
                     $profiles = array();
-
+ 
                     foreach ($response->get_response_content_xml()->items->item as $profile) {
                         $profiles[(string) $profile->profile_id] = array(MediamosaMediafileObject :: PROPERTY_TITLE => (string) $profile->profile, MediamosaMediafileObject :: PROPERTY_IS_DEFAULT => (string) $profile->default);
                     }

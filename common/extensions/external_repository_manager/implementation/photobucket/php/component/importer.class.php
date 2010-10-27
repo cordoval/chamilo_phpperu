@@ -1,9 +1,18 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\photobucket;
 
+use common\libraries\StringUtilities;
 use common\libraries\Translation;
-use common\extensions\external_repository_manager\ExternalRepositoryManager;
+use common\libraries\PlatformSetting;
+use common\libraries\Application;
 
+use repository\ContentObject;
+use repository\RepositoryManager;
+use repository\ExternalRepositorySync;
+use repository\content_object\document\Document;
+
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
+use common\extensions\external_repository_manager\ExternalRepositoryComponent;
 
 class PhotobucketExternalRepositoryManagerImporterComponent extends PhotobucketExternalRepositoryManager
 {

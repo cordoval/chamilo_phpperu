@@ -1,6 +1,10 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use common\libraries\Display;
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Request;
 use common\libraries\Translation;
 
 /**
@@ -12,7 +16,7 @@ require_once dirname(__FILE__) . '/assessment_results_export_form/export.class.p
 
 class AssessmentToolResultsExportComponent extends AssessmentToolComponent
 {
-    
+
     private $rdm;
     private $wdm;
 
@@ -26,7 +30,7 @@ class AssessmentToolResultsExportComponent extends AssessmentToolComponent
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses assessment tool');
         $toolbar = $this->get_toolbar();
-        
+
         if (Request :: get(AssessmentTool :: PARAM_USER_ASSESSMENT))
         {
             $id = Request :: get(AssessmentTool :: PARAM_USER_ASSESSMENT);
@@ -41,7 +45,7 @@ class AssessmentToolResultsExportComponent extends AssessmentToolComponent
             $type = Assessment :: get_type_name();
             $export_form = new AssessmentResultsExportForm($this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_RESULTS, AssessmentTool :: PARAM_PUBLICATION_ID => $id)));
         }
-        
+
         if ($export_form->validate())
         {
             $values = $export_form->exportValues();
@@ -60,7 +64,7 @@ class AssessmentToolResultsExportComponent extends AssessmentToolComponent
     function export($type, $id, $filetype)
     {
         $results_exporter = ResultsExport :: factory($filetype);
-        
+
         $data = $results_exporter->export_results($type, $id);
         $exporter = Export :: factory($filetype, $data);
         $exporter->set_filename('export_' . $type . $id);

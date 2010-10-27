@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Translation;
 
@@ -18,13 +19,13 @@ function unserialize_jquery($jquery)
 {
     $block_data = explode('&', $jquery);
     $blocks = array();
-    
+
     foreach ($block_data as $block)
     {
         $block_split = explode('=', $block);
         $blocks[] = $block_split[1];
     }
-    
+
     return $blocks;
 }
 
@@ -32,10 +33,10 @@ if (Authentication :: is_valid())
 {
     $section_id = explode($_POST['id']);
     $blocks = unserialize_jquery($_POST['order']);
-    
+
     $wdm = WeblcmsDataManager :: get_instance();
     $wdm->change_module_course_section($source, $target);
-    
+
     $i = 1;
     foreach ($blocks as $block_id)
     {
@@ -44,7 +45,7 @@ if (Authentication :: is_valid())
         $block->update();
         $i ++;
     }
-    
+
     $json_result['success'] = '1';
     $json_result['message'] = Translation :: get('BlockAdded');
 }

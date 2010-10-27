@@ -1,6 +1,17 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\DatetimeUtilities;
+use repository\RepositoryDataManager;
+use user\UserDataManager;
+use common\libraries\Redirect;
+use common\libraries\Application;
+use common\libraries\OrCondition;
+use common\libraries\InCondition;
+use common\libraries\Utilities;
+use common\libraries\ObjectTableOrder;
+use common\libraries\AndCondition;
+use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
 
@@ -39,14 +50,14 @@ class WeblcmsPublicationRSS extends PublicationRSS
         {
             $co = RepositoryDataManager :: get_instance()->retrieve_content_object($co);
         }
-        
+
         $title = $co->get_title();
         $description = '<b>' . Translation :: get('Course') . ': </b>' . $course->get_name() . '<br />';
         $description .= '<b>' . Translation :: get('Tool') . ': </b>' . Translation :: get(Utilities :: underscores_to_camelcase($publication->get_tool())) . '<br />';
         $description .= '<b>' . Translation :: get('Published') . ': </b>' . DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $publication->get_publication_date()) . '<br />';
         $description .= '<b>' . Translation :: get('Publisher') . ': </b>' . UserDataManager :: get_instance()->retrieve_user($publication->get_publisher_id())->get_fullname() . '<br />';
         $description .= '<br />' . $co->get_description();
-        
+
         $channel->add_item(htmlspecialchars($title), htmlspecialchars($this->get_url($publication)), htmlspecialchars($description));
     }
 
@@ -64,26 +75,26 @@ class WeblcmsPublicationRSS extends PublicationRSS
         {
             return true;
         }
-        
+
         if ($pub->is_hidden())
         {
             return false;
         }
-        
+
         $time = time();
-        
+
         if ($time < $pub->get_from_date() || $time > $pub->get_to_date())
         {
             return false;
         }
-        
+
         return true;
     }
 
     private function get_access_condition($user)
     {
         $wdm = WeblcmsDataManager :: get_instance();
-        
+
         if ($user->is_platform_admin())
         {
             $user_id = array();
@@ -93,32 +104,32 @@ class WeblcmsPublicationRSS extends PublicationRSS
         {
             $user_id = $user->get_id();
             $course_groups = $this->get_user_groups();
-            
+
             $course_group_ids = array();
-            
+
             foreach ($course_groups as $course_group)
             {
                 $course_group_ids[] = $course_group->get_id();
             }
         }
-        
+
         $access = array();
-        
+
         if (! empty($user_id))
         {
             $access[] = new InCondition('user_id', $user_id, $wdm->get_alias('content_object_publication_user'));
         }
-        
+
         if (! empty($course_group_ids))
         {
             $access[] = new InCondition('course_group_id', $course_group_ids, $wdm->get_alias('content_object_publication_course_group'));
         }
-        
+
         if (! empty($user_id) || ! empty($course_groups))
         {
             $access[] = new AndCondition(array(new EqualityCondition('user_id', null, $wdm->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $wdm->get_alias('content_object_publication_course_group'))));
         }
-        
+
         if (! empty($access))
         {
             return new OrCondition($access);

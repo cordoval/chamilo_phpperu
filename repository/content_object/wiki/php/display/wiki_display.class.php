@@ -13,6 +13,8 @@ use common\libraries\Theme;
 use common\libraries\AndCondition;
 use common\libraries\Breadcrumb;
 
+use repository\ComplexDisplay;
+
 /**
  * $Id: wiki_display.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.wiki

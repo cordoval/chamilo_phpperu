@@ -13,9 +13,9 @@ class AssessmentAttemptsSummaryReportingBlock extends AssessmentReportingBlock
 {
 	public function count_data()
 	{	
-		$base_path = (WebApplication :: is_application($this->get_application()) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
+		$base_path = (WebApplication :: is_application($this->get_application()) ? Path :: get_application_path() : Path :: get(SYS_PATH));
         
-        $file = $base_path . $this->get_application() . '/reporting/reporting_' . $this->get_application() . '.class.php';
+        $file = $base_path . $this->get_application() . '/php/reporting/reporting_' . $this->get_application() . '.class.php';
         require_once $file;
         return ReportingAssessment :: getSummaryAssessmentAttempts($this->get_function_parameters());
 	}

@@ -1,4 +1,13 @@
 <?php
+namespace application\wiki;
+
+use common\libraries\WebApplication;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
+use repository\RepoViewer;
+
+use application\GradebookUtilities;
+
 /**
  * $Id: wiki_publication_deleter.class.php 210 2009-11-13 13:18:50Z kariboe $
  * @package application.lib.wiki.wiki_manager.component

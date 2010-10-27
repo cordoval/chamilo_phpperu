@@ -1,6 +1,10 @@
 <?php
 namespace application\wiki;
 
+use common\libraries\ObjectTableColumn;
+use common\libraries\ObjectTableColumnModel;
+use repository\ContentObject;
+
 /**
  * $Id: default_wiki_publication_table_column_model.class.php 210 2009-11-13 13:18:50Z kariboe $
  * @package application.lib.wiki.tables.wiki_publication_table

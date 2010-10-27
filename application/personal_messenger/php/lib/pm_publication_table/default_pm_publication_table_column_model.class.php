@@ -1,4 +1,9 @@
 <?php
+
+namespace application\personal_messenger;
+
+use common\libraries\ObjectTableColumnModel;
+use common\libraries\ObjectTableColumn;
 /**
  * $Id: default_pm_publication_table_column_model.class.php 203 2009-11-13 12:46:38Z chellee $
  * @package application.personal_messenger.pm_publication_table
@@ -24,22 +29,22 @@ class DefaultPmPublicationTableColumnModel extends ObjectTableColumnModel
     private static function get_default_columns($folder)
     {
         $columns = array();
-        $columns[] = new ObjectTableColumn(PersonalMessagePublication :: PROPERTY_STATUS);
-        $columns[] = new ObjectTableColumn(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE);
+        $columns[] = new ObjectTableColumn(PersonalMessengerPublication :: PROPERTY_STATUS);
+        $columns[] = new ObjectTableColumn(PersonalMessengerPublication :: PROPERTY_PERSONAL_MESSAGE);
         
         switch ($folder)
         {
             case PersonalMessengerManager :: FOLDER_INBOX :
-                $columns[] = new ObjectTableColumn(PersonalMessagePublication :: PROPERTY_SENDER);
+                $columns[] = new ObjectTableColumn(PersonalMessengerPublication :: PROPERTY_SENDER);
                 break;
             case PersonalMessengerManager :: FOLDER_OUTBOX :
-                $columns[] = new ObjectTableColumn(PersonalMessagePublication :: PROPERTY_RECIPIENT);
+                $columns[] = new ObjectTableColumn(PersonalMessengerPublication :: PROPERTY_RECIPIENT);
                 break;
             default :
-                $columns[] = new ObjectTableColumn(PersonalMessagePublication :: PROPERTY_SENDER);
+                $columns[] = new ObjectTableColumn(PersonalMessengerPublication :: PROPERTY_SENDER);
         }
         
-        $columns[] = new ObjectTableColumn(PersonalMessagePublication :: PROPERTY_PUBLISHED);
+        $columns[] = new ObjectTableColumn(PersonalMessengerPublication :: PROPERTY_PUBLISHED);
         return $columns;
     }
 }

@@ -1,5 +1,11 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\matterhorn;
+
+use common\libraries\Toolbar;
+use common\libraries\ToolbarItem;
+use common\libraries\Utilities;
+use common\libraries\Theme;
+
 class MatterhornExternalRepositoryObjectAttachment
 {
     private $ref;

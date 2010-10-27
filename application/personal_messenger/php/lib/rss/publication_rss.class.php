@@ -1,4 +1,15 @@
 <?php
+
+namespace application\personal_messenger;
+
+use common\libraries\BasicApplication;
+use common\libraries\WebApplication;
+use common\libraries\PublicationRSS;
+use common\libraries\Path;
+use repository\RepositoryDataManager;
+use common\libraries\Application;
+use common\libraries\Redirect;
+
 require_once dirname(__FILE__).'/../../../../common/global.inc.php';
 require_once BasicApplication :: get_common_libraries() . 'rss/publication_rss.class.php';
 require_once WebApplication :: get_application_class_lib_path('personal_messenger') . 'data_manager/database.class.php';

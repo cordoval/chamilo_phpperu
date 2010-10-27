@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\extensions\category_manager\PlatformCategory;
 
@@ -19,21 +21,21 @@ class CourseCategory extends PlatformCategory
     function create()
     {
         $wdm = WeblcmsDataManager :: get_instance();
-        
+
         $condition = new EqualityCondition(PlatformCategory :: PROPERTY_PARENT, $this->get_parent());
         $sort = $wdm->retrieve_max_sort_value(self :: get_table_name(), PlatformCategory :: PROPERTY_DISPLAY_ORDER, $condition);
         $this->set_display_order($sort + 1);
-        
+
         if (! $wdm->create_category($this))
         {
             return false;
         }
-        
+
         if (! WeblcmsRights :: create_location_in_courses_subtree($this->get_name(), WeblcmsRights :: TYPE_CATEGORY, $this->get_id(), WeblcmsRights :: get_courses_subtree_root_id()))
         {
             return false;
         }
-        
+
         return true;
     }
 
@@ -44,7 +46,7 @@ class CourseCategory extends PlatformCategory
         {
             return false;
         }
-        
+
         if ($move)
         {
             if ($this->get_parent())
@@ -55,14 +57,14 @@ class CourseCategory extends PlatformCategory
             {
                 $new_parent_id = WeblcmsRights :: get_courses_subtree_root_id(0);
             }
-            
+
             $location = WeblcmsRights :: get_location_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_CATEGORY, $this->get_id(), 0);
             if ($location)
             {
                 return $location->move($new_parent_id);
             }
         }
-        
+
         return true;
     }
 
@@ -76,12 +78,13 @@ class CourseCategory extends PlatformCategory
                 return false;
             }
         }
-        
+
         return WeblcmsDataManager :: get_instance()->delete_category($this);
     }
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 }

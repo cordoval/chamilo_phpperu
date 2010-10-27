@@ -1,6 +1,12 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\NotCondition;
+use common\libraries\Session;
+use common\libraries\ObjectTableOrder;
+use common\libraries\AndCondition;
+use common\libraries\EqualityCondition;
+use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\Translation;
 
@@ -19,37 +25,37 @@ if (Authentication :: is_valid())
 {
     $query = Request :: get('query');
     $exclude = Request :: get('exclude');
-    
+
     $course_type_conditions = array();
-    
+
     if ($query)
     {
         $q = '*' . $query . '*';
         $course_type_conditions[] = new PatternMatchCondition(CourseType :: PROPERTY_NAME, $q);
     }
-    
+
     if ($exclude)
     {
         if (! is_array($exclude))
         {
             $exclude = array($exclude);
         }
-        
+
         $exclude_conditions = array();
         $exclude_conditions['coursetype'] = array();
-        
+
         foreach ($exclude as $id)
         {
             $id = explode('_', $id);
-            
+
             if ($id[0] == 'coursetype')
             {
                 $condition = new NotCondition(new EqualityCondition(CourseType :: PROPERTY_ID, $id[1]));
             }
-            
+
             $exclude_conditions[$id[0]][] = $condition;
         }
-        
+
         if (count($exclude_conditions['coursetype']) > 0)
         {
             $course_type_conditions[] = new AndCondition($exclude_conditions['coursetype']);
@@ -57,7 +63,7 @@ if (Authentication :: is_valid())
     }
     $course_type_conditions[] = new EqualityCondition(CourseType :: PROPERTY_ACTIVE, 1);
     $course_type_condition = new AndCondition($course_type_conditions);
-    
+
     $course_types = array();
     $course_types_result_set = WeblcmsDataManager :: get_instance()->retrieve_course_types($course_type_condition, null, null, array(new ObjectTableOrder(CourseType :: PROPERTY_NAME)));
     while ($course_type = $course_types_result_set->next_result())
@@ -70,7 +76,7 @@ if (Authentication :: is_valid())
        	if($courses_count > 0)*/
         $course_types[$course_type->get_id()] = $course_type->get_name();
     }
-    
+
     $conditions = array();
     $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, Session :: get_user_id(), CourseUserRelation :: get_table_name());
     $conditions[] = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, 0);

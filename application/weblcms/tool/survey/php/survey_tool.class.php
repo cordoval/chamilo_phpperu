@@ -1,7 +1,9 @@
 <?php
 namespace application\weblcms\tool\survey;
 
+use application\weblcms\ContentObjectPublicationListRenderer;
 use common\libraries\Path;
+use application\weblcms\Tool;
 
 /**
  * $Id: survey_tool.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -15,7 +17,7 @@ class SurveyTool extends Tool
 {
     const ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT = 'taker';
     const ACTION_MAIL_SURVEY_PARTICIPANTS = 'mailer';
-    
+
     const PARAM_USER_ASSESSMENT = 'uaid';
     const PARAM_QUESTION_ATTEMPT = 'qaid';
     const PARAM_ASSESMENT = 'aid';

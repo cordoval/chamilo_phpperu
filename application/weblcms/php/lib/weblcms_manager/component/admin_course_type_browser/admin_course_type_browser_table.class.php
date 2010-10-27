@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\ObjectTableFormAction;
 use common\libraries\ObjectTable;
 use common\libraries\Translation;
 
@@ -28,13 +29,13 @@ class AdminCourseTypeBrowserTable extends ObjectTable
         $data_provider = new AdminCourseTypeBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, AdminCourseTypeBrowserTable :: DEFAULT_NAME, $model, $renderer);
         $actions = array();
-        
+
         //$actions[] = new ObjectTableFormAction('enable', Translation :: get('EnableSelectedCourseTypes'), false);
         //$actions[] = new ObjectTableFormAction('disable', Translation :: get('DisableSelectedCourseTypes'), false);
         $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_REMOVE_SELECTED_COURSE_TYPES, Translation :: get('RemoveSelected'));
         $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_ACTIVATE_SELECTED_COURSE_TYPES, Translation :: get('ActivateSelected'));
         $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_DEACTIVATE_SELECTED_COURSE_TYPES, Translation :: get('DeactivateSelected'));
-        
+
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
     }

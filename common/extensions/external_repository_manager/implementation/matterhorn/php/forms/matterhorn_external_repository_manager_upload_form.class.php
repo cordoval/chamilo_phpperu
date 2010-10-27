@@ -1,5 +1,9 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\matterhorn;
+
+use common\libraries\Translation;
+use common\libraries\FormValidator;
+
 class MatterhornExternalRepositoryManagerUploadForm extends FormValidator
 {
 

@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 /**
  * Contains configuration parameters used by the rest_client class.

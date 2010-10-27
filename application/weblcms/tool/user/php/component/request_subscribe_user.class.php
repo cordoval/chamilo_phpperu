@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\user;
 
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
 use common\libraries\Translation;
 
 /**
@@ -18,13 +20,13 @@ class UserToolRequestSubscribeUserComponent extends UserTool
     function run()
     {
         $failures = 0;
-        
+
         $trail = BreadcrumbTrail :: get_instance();
-        
+
         $course = $this->get_course();
         $request = new CourseRequest();
         $form = new CourseRequestForm(CourseRequestForm :: TYPE_CREATE, $this->get_url(), $course, $this, $request, true);
-        
+
         if ($form->validate())
         {
             $success_request = $form->create_request();
@@ -42,7 +44,7 @@ class UserToolRequestSubscribeUserComponent extends UserTool
     {
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => UserTool :: ACTION_UNSUBSCRIBE_USER_BROWSER)), Translation :: get('UserToolUnsubscribeBrowserComponent')));
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => UserTool :: ACTION_SUBSCRIBE_USER_BROWSER)), Translation :: get('UserToolSubscribeBrowserComponent')));
-        
+
         $breadcrumbtrail->add_help('weblcms_user_request_subscribe_user');
     }
 

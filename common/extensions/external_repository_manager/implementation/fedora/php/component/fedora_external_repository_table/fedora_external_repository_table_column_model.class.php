@@ -1,6 +1,14 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\fedora;
 
-require_once Path::get_common_path() . '/html/table/object_table/object_table_column_model.class.php';
+use common\libraries\Path;
+use common\libraries\ObjectTableColumnModel;
+use common\libraries\ObjectTableColumn;
+use common\libraries\StaticTableColumn;
+
+use common\extensions\external_repository_manager\ExternalRepositoryObject;
+
+require_once Path::get_common_libraries_path() . 'php/html/table/object_table/object_table_column_model.class.php';
 
 /**
  * Table column model for the repository browser table

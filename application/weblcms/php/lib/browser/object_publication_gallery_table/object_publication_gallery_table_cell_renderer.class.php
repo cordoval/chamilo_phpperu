@@ -1,6 +1,10 @@
 <?php
 namespace application\weblcms;
 
+use repository\ContentObjectDisplay;
+use common\libraries\Toolbar;
+use common\libraries\Utilities;
+
 class ObjectPublicationGalleryTableCellRenderer implements GalleryObjectTableCellRenderer
 {
     private $table_renderer;
@@ -17,7 +21,7 @@ class ObjectPublicationGalleryTableCellRenderer implements GalleryObjectTableCel
     function render_cell($publication)
     {
         $object = $publication->get_content_object();
-        
+
         $html = array();
         $html[] = '<div style="width:20px;float:right;">';
         $html[] = $this->get_modification_links($publication);

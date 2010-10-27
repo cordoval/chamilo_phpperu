@@ -1,4 +1,12 @@
 <?php
+
+namespace application\personal_messenger;
+
+use common\libraries\DataClass;
+use repository\RepositoryDataManager;
+use user\UserDataManager;
+use common\libraries\Utilities;
+
 /**
  * $Id: personal_message_publication.class.php 203 2009-11-13 12:46:38Z chellee $
  * @package application.personal_messenger
@@ -7,19 +15,19 @@
  */
 
 /**
- *	This class represents a personal message.
+ * 	This class represents a personal message.
  *
- *	personal message (PM) objects have a number of default properties:
- *	- id: the numeric ID of the PM;
- *	- content_object: the numeric object ID of the PM (from the repository);
- *	- status: the status of the PM: read/unread/...;
- *	- recipient: the recipient of the PM;
- *	- publisher: the publisher of the PM;
- *	- published: the date when the PM was "posted";
- *	@author Hans de Bisschop
- *	@author Dieter De Neef
+ * 	personal message (PM) objects have a number of default properties:
+ * 	- id: the numeric ID of the PM;
+ * 	- content_object: the numeric object ID of the PM (from the repository);
+ * 	- status: the status of the PM: read/unread/...;
+ * 	- recipient: the recipient of the PM;
+ * 	- publisher: the publisher of the PM;
+ * 	- published: the date when the PM was "posted";
+ * 	@author Hans de Bisschop
+ * 	@author Dieter De Neef
  */
-class PersonalMessagePublication extends DataClass
+class PersonalMessengerPublication extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'publication';
@@ -194,7 +202,9 @@ class PersonalMessagePublication extends DataClass
 
     static function get_table_name()
     {
-        return self :: TABLE_NAME;
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
     }
+
 }
+
 ?>

@@ -1,4 +1,9 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\fedora;
+
+use common\libraries\Path;
+use common\libraries\Translation;
+use common\libraries\Request;
 
 require_once dirname(__FILE__) . '/../forms/fedora_edit_form.class.php';
 

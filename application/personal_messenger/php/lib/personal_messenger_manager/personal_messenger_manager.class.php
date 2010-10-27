@@ -1,4 +1,13 @@
 <?php
+
+namespace application\personal_messenger;
+
+use common\libraries\WebApplication;
+use common\libraries\Request;
+use PersonalMessengerBlock;
+use common\libraries\Translation;
+use common\libraries\Application;
+use common\libraries\Session;
 /**
  * $Id: personal_messenger_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.personal_messenger.personal_messenger_manager
@@ -220,7 +229,7 @@ class PersonalMessengerManager extends WebApplication
     /**
      * Retrieve a personal message publication
      * @param int $id
-     * @return PersonalMessagePublication
+     * @return PersonalMessengerPublication
      */
     function retrieve_personal_message_publication($id)
     {
@@ -234,7 +243,7 @@ class PersonalMessengerManager extends WebApplication
      * @param array $order_by
      * @param int $offset
      * @param int $max_objects
-     * @return PersonalMessagePublicationResultSet
+     * @return PersonalMessengerPublicationResultSet
      */
     function retrieve_personal_message_publications($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
     {
@@ -257,7 +266,7 @@ class PersonalMessengerManager extends WebApplication
 
     /**
      * Gets the url for deleting a personal message publication
-     * @param PersonalMessagePublication
+     * @param PersonalMessengerPublication
      * @return string The url
      */
     function get_publication_deleting_url($personal_message)
@@ -267,7 +276,7 @@ class PersonalMessengerManager extends WebApplication
 
     /**
      * Gets the url for viewing a personal message publication
-     * @param PersonalMessagePublication
+     * @param PersonalMessengerPublication
      * @return string The url
      */
     function get_publication_viewing_url($personal_message)
@@ -282,7 +291,7 @@ class PersonalMessengerManager extends WebApplication
 
     /**
      * Gets the url for creating a personal message publication
-     * @param PersonalMessagePublication
+     * @param PersonalMessengerPublication
      * @return string The url
      */
     function get_personal_message_creation_url()

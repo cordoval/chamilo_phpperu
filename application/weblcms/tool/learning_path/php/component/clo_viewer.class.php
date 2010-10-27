@@ -1,6 +1,10 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use repository\RepositoryDataManager;
+use common\libraries\Display;
+use common\libraries\Request;
+
 /**
  * $Id: learning_path_clo_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.learning_path.component
@@ -15,11 +19,11 @@ class LearningPathToolCloViewerComponent extends LearningPathTool
         $publication_id = Request :: get(Tool :: PARAM_PUBLICATION_ID);
         $this->publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($publication_id);
         $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, $publication_id);
-        
+
         $object_id = Request :: get(LearningPathTool :: PARAM_OBJECT_ID);
         $this->object = RepositoryDataManager :: get_instance()->retrieve_content_object($object_id);
         $this->set_parameter(LearningPathTool :: PARAM_OBJECT_ID, $object_id);
-        
+
         ComplexDisplay :: launch($this->object->get_type(), $this);
     }
 

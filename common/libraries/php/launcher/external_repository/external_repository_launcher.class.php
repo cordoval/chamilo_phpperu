@@ -1,9 +1,13 @@
 <?php
 namespace common\libraries;
+
+use common\libraries\Request;
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
+
 class ExternalRepositoryLauncher extends LauncherApplication
 {
-    const APPLICATION_NAME = 'external_repository';
-
+	const APPLICATION_NAME = 'external_repository';
+    
     function ExternalRepositoryLauncher($user)
     {
         parent :: __construct($user);
@@ -20,7 +24,7 @@ class ExternalRepositoryLauncher extends LauncherApplication
 
     function get_type()
     {
-        return Request :: get(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY);
+    	return Request :: get(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY);
     }
 
     public function get_link($parameters = array (), $filter = array(), $encode_entities = false, $application_type = Redirect :: TYPE_APPLICATION)

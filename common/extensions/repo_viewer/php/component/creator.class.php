@@ -12,6 +12,7 @@ use common\libraries\Utilities;
 use repository\ContentObject;
 use repository\RepositoryManager;
 use repository\ContentObjectForm;
+use repository\RepositoryDataManager;
 
 /**
  * $Id: creator.class.php 205 2009-11-13 12:57:33Z vanpouckesven $

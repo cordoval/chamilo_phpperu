@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use user\UserDataManager;
 use common\libraries\Path;
 use reporting\ReportingBlock;
 

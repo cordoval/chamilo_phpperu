@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\course_group;
 
+use common\libraries\StaticTableColumn;
+use common\libraries\ObjectTableColumn;
+use user\User;
 use common\libraries\Path;
 
 /**

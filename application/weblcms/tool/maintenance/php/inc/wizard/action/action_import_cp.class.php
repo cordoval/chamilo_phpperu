@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\maintenance;
 
+use user\UserDataManager;
+use common\libraries\Session;
 use common\libraries\Translation;
 
 require_once dirname(__FILE__) . '/../maintenance_wizard_process.class.php';
@@ -27,7 +29,7 @@ class ActionImportCp extends MaintenanceWizardProcess
         $category_id = $values[CpImportSelectionMaintenanceWizardPage :: CATEGORY_ID];
         $file = $_FILES[CpImportSelectionMaintenanceWizardPage :: IMPORT_FILE_NAME];
         $user = $this->get_user();
-        
+
         $importer = ContentObjectImport :: factory('cp', $file, $user, $category_id);
         $result = $importer->import_content_object();
         if ($result)
@@ -35,13 +37,13 @@ class ActionImportCp extends MaintenanceWizardProcess
             $course = $this->get_course();
             $importer->publish($course, $result);
         }
-        
+
         $notice = array();
-        
+
         $messages = $importer->get_messages();
         $warnings = $importer->get_warnings();
         $errors = $importer->get_errors();
-        
+
         if ($result)
         {
             $messages[] = Translation :: translate('ContentObjectImported');
@@ -50,7 +52,7 @@ class ActionImportCp extends MaintenanceWizardProcess
         {
             $errors[] = Translation :: translate('ContentObjectNotImported');
         }
-        
+
         if (count($messages) > 0)
         {
             $notice = implode('<br/>', $messages);
@@ -66,10 +68,10 @@ class ActionImportCp extends MaintenanceWizardProcess
             $notice = implode('<br/>', $errors);
             Session :: register('maintenance_error_message', $notice);
         }
-        
+
         $page->controller->container(true);
         $page->controller->run();
-        
+
         return $result;
     }
 

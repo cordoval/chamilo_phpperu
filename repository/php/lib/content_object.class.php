@@ -12,6 +12,7 @@ use common\libraries\AndCondition;
 use common\libraries\AttachmentSupport;
 use common\libraries\ComplexContentObjectSupport;
 
+use repository\ExternalRepositorySync;
 use admin\AdminDataManager;
 
 use user\UserDataManager;
@@ -1197,10 +1198,11 @@ class ContentObject extends DataClass
         {
             $sync_conditions = array();
             $sync_conditions[] = new EqualityCondition(ExternalRepositorySync :: PROPERTY_CONTENT_OBJECT_ID, $this->get_id());
-            $sync_conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, Session :: get_user_id(), ContentObject :: get_table_name());
+            $sync_conditions[] = new EqualityCondition(self :: PROPERTY_OWNER_ID, Session :: get_user_id(), self :: get_table_name());
             $sync_condition = new AndCondition($sync_conditions);
 
             $this->synchronization_data = RepositoryDataManager :: get_instance()->retrieve_external_repository_syncs($sync_condition)->next_result();
+
         }
 
         return $this->synchronization_data;

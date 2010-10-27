@@ -5,6 +5,8 @@ use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\ResourceManager;
 use common\libraries\Theme;
+use repository\MultipleChoiceQuestionForm;
+use repository\MultipleChoiceQuestionOption;
 
 /**
  * $Id: assessment_multiple_choice_question_form.class.php $
@@ -19,13 +21,13 @@ class AssessmentMultipleChoiceQuestionForm extends MultipleChoiceQuestionForm
     protected function build_creation_form()
     {
         parent :: build_creation_form();
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/assessment_multiple_choice_question.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/assessment_multiple_choice_question/resources/javascript/assessment_multiple_choice_question.js'));
     }
 
     protected function build_editing_form()
     {
         parent :: build_editing_form();
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/assessment_multiple_choice_question.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/assessment_multiple_choice_question/resources/javascript/assessment_multiple_choice_question.js'));
     }
 
     function setDefaults($defaults = array ())

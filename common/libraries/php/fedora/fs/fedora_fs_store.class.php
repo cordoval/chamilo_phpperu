@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 /**
  * A FS - file system - store. Used to put together several FS objects such as queries.

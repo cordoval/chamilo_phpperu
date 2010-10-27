@@ -1,5 +1,7 @@
 <?php
-require_once dirname(__FILE__) . '/../../external_repository_object.class.php';
+namespace common\extensions\external_repository_manager\implementation\fedora;
+
+use common\extensions\external_repository_manager\ExternalRepositoryObject;
 
 /**
  * Describes a Fedora object located in the Fedora repository.

@@ -1,4 +1,9 @@
 <?php
+
+namespace application\distribute;
+
+use common\libraries\WebApplication;
+use common\libraries\StaticTableColumn;
 /**
  * $Id: announcement_distribution_browser_table_column_model.class.php 194 2009-11-13 11:54:13Z chellee $
  * @package application.lib.distribute.distribute_manager.component.announcement_distribution_browser

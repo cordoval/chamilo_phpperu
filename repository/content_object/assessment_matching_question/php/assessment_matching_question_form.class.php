@@ -5,6 +5,8 @@ use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\ResourceManager;
 use common\libraries\Theme;
+use repository\MatchingQuestionForm;
+use repository\MatchingQuestionOption;
 
 /**
  * $Id: assessment_matching_question_form.class.php $
@@ -18,13 +20,13 @@ class AssessmentMatchingQuestionForm extends MatchingQuestionForm
     protected function build_creation_form()
     {
         parent :: build_creation_form();
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/assessment_matching_question.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/assessment_matching_question/resources/javascript/assessment_matching_question.js'));
     }
 
     protected function build_editing_form()
     {
         parent :: build_editing_form();
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/assessment_matching_question.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/assessment_matching_question/resources/javascript/assessment_matching_question.js'));
     }
 
     function setDefaults($defaults = array ())

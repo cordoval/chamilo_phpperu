@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
 use application\weblcms\ToolComponent;
 use common\libraries\Translation;
 
@@ -18,7 +20,7 @@ class LearningPathToolBrowserComponent extends LearningPathTool
     function get_tool_actions()
     {
         $actions[] = new ToolbarItem(Translation :: get('ImportScorm'), Theme :: get_common_image_path() . 'action_import.png', $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_IMPORT_SCORM)));
-        
+
         return $actions;
     }
 

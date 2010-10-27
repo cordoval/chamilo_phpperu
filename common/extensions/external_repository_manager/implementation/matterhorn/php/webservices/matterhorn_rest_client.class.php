@@ -1,6 +1,9 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\matterhorn;
 
+use common\libraries\Path;
+use RestClient;
+
 /**
  * Description of mediamosa_rest_clientclass
  *

@@ -5,6 +5,7 @@ use common\libraries\Translation;
 use repository\ComplexBuilderComponent;
 use repository\ComplexBuilder;
 use repository\ContentObject;
+use common\libraries\Utilities;
 
 /**
  * $Id: browser.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -27,7 +28,7 @@ class AssessmentBuilderBrowserComponent extends AssessmentBuilder
     {
         $link['type'] = 'Assessment';
         $link['url'] = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => AssessmentBuilder :: ACTION_MERGE_ASSESSMENT));
-        $link['title'] = Translation :: get('Merge' . ContentObject :: type_to_class('Assessment') . 'TypeName');
+        $link['title'] = Translation :: get('Merge' . Utilities :: get_classname_from_namespace(ContentObject :: type_to_class('Assessment')) . 'TypeName');
 
         $links[] = $link;
 

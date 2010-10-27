@@ -1,4 +1,8 @@
 <?php
+
+namespace application\distribute;
+
+use common\libraries\WebApplication;
 /**
  * $Id: distribute_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.lib.distribute.distribute_manager

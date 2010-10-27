@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\maintenance;
 
+use common\libraries\InCondition;
+use common\libraries\EqualityCondition;
 use common\libraries\Translation;
 
 require_once dirname(__FILE__) . '/../maintenance_wizard_process.class.php';
@@ -24,7 +26,7 @@ class ActionEmpty extends MaintenanceWizardProcess
         $publication_ids = array_keys($values['publications']);
         $dm = WeblcmsDataManager :: get_instance();
         $succes = true;
-        
+
         foreach ($publication_ids as $id)
         {
             $publication = $dm->retrieve_content_object_publication($id);
@@ -33,7 +35,7 @@ class ActionEmpty extends MaintenanceWizardProcess
                 $succes = false;
             }
         }
-        
+
         $course_section_ids = array_keys($values['course_sections']);
         $condition = new InCondition(CourseSection :: PROPERTY_ID, $course_section_ids);
         $course_sections = $dm->retrieve_course_sections($condition);
@@ -44,7 +46,7 @@ class ActionEmpty extends MaintenanceWizardProcess
                 $succes = false;
             }
         }
-        
+
         if ($values['content_object_categories'] == 1)
         {
             $condition = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_COURSE, $this->get_parent()->get_course_id());
@@ -55,14 +57,14 @@ class ActionEmpty extends MaintenanceWizardProcess
                 {
                     continue;
                 }
-                
+
                 if (! $category->delete())
                 {
                     $succes = false;
                 }
             }
         }
-        
+
         if ($succes)
         {
             $_SESSION['maintenance_message'] = Translation :: get('AllSelectedObjectsRemoved');

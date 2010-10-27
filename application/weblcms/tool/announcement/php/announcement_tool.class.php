@@ -1,6 +1,10 @@
 <?php
 namespace application\weblcms\tool\announcement;
 
+use application\weblcms\ContentObjectPublicationListRenderer;
+use application\weblcms\Tool;
+use repository\content_object\announcement\Announcement;
+
 /**
  * $Id: announcement_tool.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.announcement.component

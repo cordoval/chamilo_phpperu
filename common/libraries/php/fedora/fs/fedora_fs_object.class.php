@@ -1,4 +1,5 @@
 <?php
+namespace common\libraries;
 
 /**
  * Represent a Fedora objects. Returns the list of non-system datastreams belonging to this object.

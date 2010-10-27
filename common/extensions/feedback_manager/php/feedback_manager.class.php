@@ -42,7 +42,7 @@ class FeedbackManager extends SubManager
         $this->complex_wrapper_id = $complex_wrapper_id;
 
         $action = Request :: get(self :: PARAM_ACTION);
-        
+
         if ($optional_action != null && $action != FeedbackManager :: ACTION_DELETE_FEEDBACK && $action != FeedbackManager :: ACTION_UPDATE_FEEDBACK)
         {
             $this->set_parameter(self :: PARAM_ACTION, $optional_action);

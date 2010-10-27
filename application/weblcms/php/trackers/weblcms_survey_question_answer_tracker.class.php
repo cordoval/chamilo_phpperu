@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\Utilities;
+
 /**
  * $Id: survey_question_attempts_tracker.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.survey.trackers
@@ -9,7 +11,7 @@ namespace application\weblcms;
 class WeblcmsSurveyQuestionAnswerTracker extends SimpleTracker
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_SURVEY_PARTICIPANT_ID = 'survey_participant_id';
     const PROPERTY_CONTEXT_ID = 'context_id';
     const PROPERTY_QUESTION_CID = 'question_cid';
@@ -63,7 +65,7 @@ class WeblcmsSurveyQuestionAnswerTracker extends SimpleTracker
 
     function get_answer()
     {
-        
+
         if ($result = unserialize($this->get_default_property(self :: PROPERTY_ANSWER)))
         {
             return $result;
@@ -79,8 +81,7 @@ class WeblcmsSurveyQuestionAnswerTracker extends SimpleTracker
     static function get_table_name()
     {
         return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-    
-     //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 }
 ?>
