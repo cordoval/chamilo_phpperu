@@ -1,4 +1,13 @@
 <?php
+
+namespace application\alexia;
+
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Application;
+use common\libraries\Translation;
+use common\libraries\Request;
+use repository\ContentObjectForm;
 /**
  * $Id: reintroducer.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.alexia.alexia_manager.component

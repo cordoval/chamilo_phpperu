@@ -1,4 +1,27 @@
 <?php
+
+namespace application\alexia;
+
+use common\libraries\WebApplication;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
+use common\libraries\EqualityCondition;
+use repository\ContentObject;
+use repository\content_object\link\Link;
+use common\libraries\PatternMatchCondition;
+use common\libraries\OrCondition;
+use common\libraries\AndCondition;
+use common\libraries\InequalityCondition;
+use common\libraries\InCondition;
+use repository\content_object\introduction\Introduction;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
+use common\libraries\Application;
+use common\libraries\Toolbar;
+use common\libraries\SubselectCondition;
+use repository\RepositoryDataManager;
 /**
  * $Id: browser.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.alexia.alexia_manager.component

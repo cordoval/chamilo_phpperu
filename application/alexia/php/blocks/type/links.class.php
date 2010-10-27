@@ -1,4 +1,21 @@
 <?php
+
+namespace application\alexia;
+
+use common\libraries\WebApplication;
+use common\libraries\ObjectTableOrder;
+use common\libraries\Translation;
+use common\libraries\Theme;
+use common\libraries\Redirect;
+use common\libraries\EqualityCondition;
+use repository\ContentObject;
+use repository\content_object\link\Link;
+use common\libraries\SubselectCondition;
+use repository\RepositoryDataManager;
+use common\libraries\InCondition;
+use common\libraries\AndCondition;
+use common\libraries\OrCondition;
+use common\libraries\InequalityCondition;
 /**
  * $Id: links.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.alexia.block
