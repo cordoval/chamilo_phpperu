@@ -1,9 +1,12 @@
 <?php
+
+
 namespace application\portfolio;
 
 use common\libraries\Database;
 use common\libraries\EqualityCondition;
 
+require_once dirname(__FILE__). '/../portfolio_data_manager.interface.class.php';
 
 /**
  *	This is a data manager that uses a database for storage. It was written

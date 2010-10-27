@@ -1,6 +1,10 @@
 <?php
 namespace application\portfolio;
 use common\libraries\FormValidator;
+use common\libraries\Path;
+use common\libraries\Translation;
+use group\GroupDataManager;
+use user\UserDataManager;
 
 /**
  * This class describes the form for a PortfolioPublication object.

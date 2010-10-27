@@ -1,6 +1,12 @@
 <?php
 namespace application\portfolio;
 
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use user\UserDataManager;
+use repository\RepositoryDataManager;
+use repository\content_object\portfolio\Portfolio;
+
 /**
  * class to handle the different rights in the portfolio application
  *
@@ -20,7 +26,7 @@ namespace application\portfolio;
 require_once dirname(__FILE__) . '/portfolio_group_right_location.class.php';
 require_once dirname(__FILE__) . '/portfolio_location.class.php';
 require_once dirname(__FILE__) . '/portfolio_user_right_location.class.php';
-require_once dirname(__FILE__) . '/../forms/portfolio_publication_form.class.php';
+require_once dirname(__FILE__) . '/../lib/forms/portfolio_publication_form.class.php';
 
 
 

@@ -1,12 +1,11 @@
 <?php
+
+
 namespace application\portfolio;
 
-/**
- * $Id: group_right_location.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
- * @package rights.lib
- * @author Hans de Bisschop
- */
-
+use common\libraries\DataClass;
+use common\libraries\Utilities;
+require_once dirname(__FILE__). '/../lib/portfolio_data_manager.class.php';
 
 class PortfolioGroupRightLocation extends DataClass
 {
@@ -65,7 +64,7 @@ class PortfolioGroupRightLocation extends DataClass
     
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(Utilities::get_classname_from_namespace(self :: CLASS_NAME));
     }
 }
 ?>

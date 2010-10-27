@@ -1,4 +1,8 @@
 <?php
+
+
+
+
 namespace application\portfolio;
 use common\extensions\repo_viewer\RepoViewerInterface;
 use common\libraries\Breadcrumb;
@@ -9,8 +13,10 @@ use common\extensions\repo_viewer\RepoViewer;
 use common\libraries\InCondition;
 use common\libraries\Theme;
 use repository\ContentObject;
-
-
+use repository\content_object\portfolio\Portfolio;
+use repository\RepositoryDataManager;
+require_once dirname(__FILE__) . '/../../forms/portfolio_publication_form.class.php';
+require_once dirname(__FILE__) . '/../../../rights/portfolio_rights.class.php';
 
 /**
  * Component to create a new portfolio_publication object

@@ -1,13 +1,10 @@
 <?php
 namespace common\extensions\feedback_manager;
 
-use admin\AdminDataManager;
 use common\libraries\SubManager;
 use common\libraries\Request;
-/**
- * $Id: feedback_manager.class.php 191 2009-11-13 11:50:28Z chellee $
- * @package application.common.feedback_manager
- */
+use admin\AdminDataManager;
+
 
 /**
  * Description of feedback_manager
