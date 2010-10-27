@@ -1,7 +1,7 @@
 <?php
-
 namespace reporting;
 
+use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\FormValidator;

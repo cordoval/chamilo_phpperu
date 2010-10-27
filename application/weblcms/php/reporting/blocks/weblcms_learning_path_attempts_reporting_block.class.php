@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use reporting\ReportingData;
+use reporting\ReportingFormatter;
 use reporting\ReportingManager;
 use user\UserDataManager;
 use common\libraries\Redirect;

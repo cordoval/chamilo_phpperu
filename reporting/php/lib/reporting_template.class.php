@@ -3,6 +3,7 @@ namespace reporting;
 
 use common\libraries\Utilities;
 use common\libraries\Path;
+use common\libraries\Application;
 use common\libraries\CoreApplication;
 use common\libraries\WebApplication;
 use common\libraries\Redirect;
@@ -43,7 +44,7 @@ abstract class ReportingTemplate
         $base_path = (WebApplication :: is_application($application) ? WebApplication :: get_application_class_path($application) : CoreApplication :: get_application_class_path($application));
         $file = $base_path . 'reporting/templates/' . Utilities :: camelcase_to_underscores($registration->get_template()) . '.class.php';
         require_once ($file);
-        $new_template = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($registration->get_template());
+        $new_template = Application :: determine_namespace($registration->get_application()) . '\\' . Utilities :: underscores_to_camelcase($registration->get_template());
         return new $new_template($parent);
     }
 
@@ -74,7 +75,7 @@ abstract class ReportingTemplate
     public function to_html()
     {
         $display_all = $this->get_parent()->are_all_blocks_visible();
-        
+
         if ($display_all)
         {
             $html[] = $this->display_header();
@@ -133,17 +134,17 @@ public function render_block($id)
             $html[] = $this->get_menu();
             $html[] = '<div id="tool_browser_left" style="position: relative; float: right; width: 80%; margin-left: 0px;">';
         }
-        
+
         $html[] = $this->display_header();
         $html[] = $this->display_filter();
-        
+
         if ($this->get_current_block())
         {
             $html[] = $this->get_current_block()->to_html();
         }
-        
+
         $html[] = $this->display_footer();
-        
+
         if ($this->get_number_of_reporting_blocks() > 1)
         {
             $html[] = '</div>';
@@ -211,20 +212,20 @@ public function render_block($id)
             return implode("\n", $html);
         }
     }
-    
+
     public function display_filter_body()
     {
-    
+
     }
 
     function reporting_filter_header()
     {
         $html = array();
-        
+
         $html[] = '<div style="clear: both; height: 0px; line-height: 0px;">&nbsp;</div>';
         $html[] = '<div id="reporting_filter" class="reporting_filter">';
         $html[] = '<div class="bevel">';
-        
+
         $html[] = '<div class="clear"></div>';
         return implode("\n", $html);
     }
@@ -232,21 +233,21 @@ public function render_block($id)
     function reporting_filter_footer()
     {
         $html = array();
-        
+
         $html[] = '<div class="clear"></div>';
         $html[] = '<div id="reporting_filter_hide_container" class="reporting_filter_hide_container">';
         $html[] = '<a id="reporting_filter_hide_link" class="reporting_filter_hide" href="#"><img src="' . Theme :: get_common_image_path() . 'action_ajax_hide.png" /></a>';
         $html[] = '</div>';
         $html[] = '</div>';
         $html[] = '</div>';
-        
+
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/reporting_filter_horizontal.js');
-        
+
         $html[] = '<div class="clear"></div>';
-        
+
         return implode("\n", $html);
     }
-    
+
 
     public function get_parent()
     {

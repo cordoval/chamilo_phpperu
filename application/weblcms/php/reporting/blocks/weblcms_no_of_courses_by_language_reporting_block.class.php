@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms;
 
+use reporting\ReportingData;
+use reporting\ReportingChartFormatter;
+use reporting\ReportingFormatter;
 use common\libraries\Path;
 use common\libraries\Translation;
 
@@ -30,7 +33,7 @@ class WeblcmsNoOfCoursesByLanguageReportingBlock extends WeblcmsCourseReportingB
         }
         $reporting_data->set_categories(array('english'));
         $reporting_data->set_rows(array(Translation :: get('count')));
-        
+
         $reporting_data->add_data_category_row('english', Translation :: get('count'), $arr['english']);
         return $reporting_data;
     }

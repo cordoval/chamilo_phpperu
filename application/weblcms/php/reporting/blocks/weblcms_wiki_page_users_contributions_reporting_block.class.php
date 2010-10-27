@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use reporting\ReportingData;
+use reporting\ReportingFormatter;
 use repository\ContentObject;
 use repository\RepositoryDataManager;
 use user\UserDataManager;

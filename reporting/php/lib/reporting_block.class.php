@@ -1,6 +1,8 @@
 <?php
 namespace reporting;
 
+use common\extensions\reporting_viewer\ReportingViewer;
+use common\libraries\Export;
 use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Redirect;
@@ -30,7 +32,7 @@ abstract class ReportingBlock
 	const CLASS_NAME = __CLASS__;
     const PARAM_DISPLAY_MODE = "display_mode";
 
-    
+
     private $id, $data, $params, $parent;
 
 	function ReportingBlock($parent)
@@ -53,7 +55,7 @@ abstract class ReportingBlock
 	public abstract function retrieve_data();
 
 	public abstract function get_data_manager();
-	
+
 	public function get_title(){
 		return Translation::get(get_class($this));
 	}
@@ -119,7 +121,7 @@ abstract class ReportingBlock
 	function get_id()
     {
         return $this->id;
-    	
+
     	$conditions = array();
         $conditions[] = new EqualityCondition(ReportingBlockRegistration::PROPERTY_APPLICATION, $this->get_application());
         $conditions[] = new EqualityCondition(ReportingBlockRegistration::PROPERTY_BLOCK, $this->get_name());
@@ -135,12 +137,12 @@ abstract class ReportingBlock
 			throw new Exception(Translation :: get('RegistrationCannotBeNull'));;
 		}
     }
-	
+
     function set_id($id){
-    	
+
     	$this->id = $id;
     }
-    
+
 	public function export()
 	{
 		$html[] = '<b>' . Utilities::underscores_to_camelcase_with_spaces($this->get_name()) . '</b><br />';

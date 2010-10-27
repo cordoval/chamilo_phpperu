@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\extensions\reporting_viewer\ReportingViewer;
 use reporting\ReportingManager;
 use repository\RepositoryDataManager;
 use user\UserDataManager;

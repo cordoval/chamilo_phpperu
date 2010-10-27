@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms;
 
+use user\VisitTracker;
+use reporting\ReportingData;
+use reporting\ReportingFormatter;
 use common\libraries\PatternMatchCondition;
 use repository\RepositoryDataManager;
 use common\libraries\AndCondition;

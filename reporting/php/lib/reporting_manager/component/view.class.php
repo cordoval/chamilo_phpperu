@@ -1,6 +1,7 @@
 <?php
 namespace reporting;
 
+use common\extensions\reporting_viewer\ReportingViewer;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\AdministrationComponent;

@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use reporting\ReportingData;
+use reporting\ReportingFormatter;
 use repository\RepositoryDataManager;
 use common\libraries\EqualityCondition;
 use common\libraries\Path;

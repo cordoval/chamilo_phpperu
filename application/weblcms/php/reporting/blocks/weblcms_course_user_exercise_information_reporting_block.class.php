@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use reporting\ReportingData;
+use reporting\ReportingFormatter;
 use common\libraries\Path;
 use common\libraries\Translation;
 
@@ -12,7 +14,7 @@ class WeblcmsCourseUserExerciseInformationReportingBlock extends WeblcmsCourseRe
     public function count_data()
     {
         $reporting_data = new ReportingData();
-        
+
         return $reporting_data;
     }
 
