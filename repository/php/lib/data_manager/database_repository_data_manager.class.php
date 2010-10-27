@@ -15,6 +15,7 @@ use common\libraries\OrCondition;
 use common\libraries\DataClass;
 use common\libraries\SubselectCondition;
 
+use Exception;
 
 use repository\content_object\learning_path_item\LearningPathItem;
 use repository\content_object\portfolio_item\PortfolioItem;

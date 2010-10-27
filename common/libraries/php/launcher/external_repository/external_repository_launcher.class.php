@@ -15,7 +15,6 @@ class ExternalRepositoryLauncher extends LauncherApplication
 
     function run()
     {
-    	echo('test');
         $type = $this->get_type();
         $this->external_repository = RepositoryDataManager :: get_instance()->retrieve_external_repository($type);
         $this->set_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY, $type);

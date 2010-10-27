@@ -810,7 +810,7 @@ abstract class Application
         return array();
     }
 
-    static function get_type($application)
+    /*static*/ function get_type($application)
     {
         if (! BasicApplication :: exists($application))
         {

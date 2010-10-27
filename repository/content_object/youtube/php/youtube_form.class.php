@@ -5,6 +5,7 @@ use common\libraries\Translation;
 use common\libraries\Application;
 use common\libraries\Path;
 use common\libraries\ExternalRepositoryLauncher;
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use repository\ContentObjectForm;
 
 /**
