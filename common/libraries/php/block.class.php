@@ -179,7 +179,7 @@ class Block
 
         foreach ($applications as $application)
         {
-            $application_path = WebApplication :: get_application_class_path($application) . 'blocks/';
+            $application_path = WebApplication :: get_application_class_path($application) . 'blocks/type/';
             if ($handle = opendir($application_path))
             {
                 while (false !== ($file = readdir($handle)))
@@ -202,7 +202,7 @@ class Block
 
         foreach ($core_applications as $core_application)
         {
-            $application_path = CoreApplication :: get_application_class_path($core_application) . 'blocks/';
+            $application_path = CoreApplication :: get_application_class_path($core_application) . 'blocks/type/';
             if ($handle = opendir($application_path))
             {
                 while (false !== ($file = readdir($handle)))

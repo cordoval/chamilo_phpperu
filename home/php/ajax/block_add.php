@@ -4,6 +4,8 @@ use common\libraries\Utilities;
 use common\libraries\Session;
 use common\libraries\Block;
 use common\libraries\Authentication;
+use common\libraries\PlatformSetting;
+use user\UserDataManager;
 
 /**
  * $Id: block_add.php 227 2009-11-13 14:45:05Z kariboe $

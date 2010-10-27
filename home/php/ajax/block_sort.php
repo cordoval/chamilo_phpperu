@@ -3,6 +3,7 @@ namespace home;
 use common\libraries\Translation;
 use common\libraries\Session;
 use common\libraries\Authentication;
+use common\libraries\PlatformSetting;
 /**
  * $Id: block_sort.php 227 2009-11-13 14:45:05Z kariboe $
  * @package home.ajax
