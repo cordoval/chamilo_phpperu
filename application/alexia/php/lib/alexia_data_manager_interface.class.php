@@ -1,4 +1,6 @@
 <?php
+
+namespace application\alexia;
 /**
  * $Id: alexia_data_manager.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.alexia

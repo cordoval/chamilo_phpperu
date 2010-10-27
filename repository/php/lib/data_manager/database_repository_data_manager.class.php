@@ -1353,7 +1353,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $conditions[] = new EqualityCondition(RepositoryCategory :: PROPERTY_USER_ID, $user_id);
         $condition = new AndCondition($conditions);
 
-        return $this->retrieve_next_sort_value(RepositoryCategory :: get_table_name(), RepositoryCategory :: PROPERTY_DISPLAY_ORDER, $condition);
+        return $this->retrieve_next_sort_value(RepositoryCategory :: get_table_name(), RepositoryCategory :: PROPERTY_DISPLAY_ORDER, $condition, RepositoryCategory :: CLASS_NAME);
     }
 
     function delete_user_view($user_view)
@@ -1385,7 +1385,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
     function retrieve_user_views($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->retrieve_objects(UserView :: get_table_name(), $condition, $offset, $count, $order_property);
+        return $this->retrieve_objects(UserView :: get_table_name(), $condition, $offset, $count, $order_property, UserView :: CLASS_NAME);
     }
 
     function update_user_view_rel_content_object($user_view_rel_content_object)
@@ -1420,7 +1420,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
     function retrieve_user_view_rel_content_objects($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->retrieve_objects(UserViewRelContentObject :: get_table_name(), $condition, $offset, $count, $order_property);
+        return $this->retrieve_objects(UserViewRelContentObject :: get_table_name(), $condition, $offset, $count, $order_property, UserViewRelContentObject :: CLASS_NAME);
     }
 
     function retrieve_content_object_pub_feedback($condition = null, $offset = null, $count = null, $order_property = null)
@@ -2070,7 +2070,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 	function retrieve_shared_content_objects(Condition $condition = null, $offset = null, $count = null, ObjectTableOrder $order_property = null)
     {
     	$query = $this->get_shared_objects_query();
-    	return $this->retrieve_object_set($query, ContentObject :: get_table_name(), $condition, $offset, $count, $order_property);
+    	return $this->retrieve_object_set($query, ContentObject :: get_table_name(), $condition, $offset, $count, $order_property, ContentObject :: CLASS_NAME);
     }
     
     function count_shared_content_objects(Condition $condition = null)

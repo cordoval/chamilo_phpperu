@@ -20,7 +20,7 @@ require_once Path :: get_plugin_path() . 'html2text/class.html2text.inc';
  * The form allows the user to set some properties of the publication
  * (publication dates, target users, visibility, ...)
  */
-class PersonalMessengerPublicationForm extends FormValidator
+class PersonalMessagePublicationForm extends FormValidator
 {
     /**#@+
      * Constant defining a form parameter
@@ -48,7 +48,7 @@ class PersonalMessengerPublicationForm extends FormValidator
      * object by email to the receivers
      */
     //function PersonalMessengerPublicationForm($content_object, $publication = null, $form_user, $action)
-    function PersonalMessengerPublicationForm($content_object, $form_user, $action)
+    function PersonalMessagePublicationForm($content_object, $form_user, $action)
     {
         parent :: __construct('publish', 'post', $action);
         $this->content_object = $content_object;
@@ -90,7 +90,7 @@ class PersonalMessengerPublicationForm extends FormValidator
         //    	}
         
 
-        $url = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_user_group_feed.php';
+        $url = Path :: get(WEB_PATH) . 'common/libraries/php/xml_feeds/xml_user_group_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('SelectRecipients');
         $locale['Searching'] = Translation :: get('Searching');

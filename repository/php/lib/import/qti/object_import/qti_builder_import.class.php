@@ -1,4 +1,6 @@
 <?php
+use repository\QtiImport;
+
 require_once dirname(__FILE__) .'/qti_question_builder.class.php';
 
 /**

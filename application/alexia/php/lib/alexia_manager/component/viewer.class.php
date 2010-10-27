@@ -1,9 +1,20 @@
 <?php
+
+namespace application\alexia;
+
+use common\libraries\Request;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Application;
+use common\libraries\Translation;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
+use repository\ContentObjectDisplay;
 /**
  * $Id: viewer.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.alexia.alexia_manager
  */
-require_once Path :: get_common_libraries_class_path() . 'utilities.class.php';
 
 class AlexiaManagerViewerComponent extends AlexiaManager
 {

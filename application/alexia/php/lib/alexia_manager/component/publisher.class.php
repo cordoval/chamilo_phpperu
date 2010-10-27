@@ -1,4 +1,15 @@
 <?php
+
+namespace application\alexia;
+
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Application;
+use common\libraries\Translation;
+use common\extensions\repo_viewer\RepoViewer;
+use common\extensions\repo_viewer\RepoViewerInterface;
+
+use repository\content_object\link\Link;
 /**
  * $Id: publisher.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.lib.alexia.alexia_manager.component

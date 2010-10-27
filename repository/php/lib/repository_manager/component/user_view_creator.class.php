@@ -4,6 +4,7 @@ namespace repository;
 use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
+use common\libraries\Application;
 
 /**
  * $Id: user_view_creator.class.php 204 2009-11-13 12:51:30Z kariboe $
@@ -29,7 +30,6 @@ class RepositoryManagerUserViewCreatorComponent extends RepositoryManager
         $user_view = new UserView();
         $user_view->set_user_id($this->get_user_id());
         $form = new UserViewForm(UserViewForm :: TYPE_CREATE, $user_view, $this->get_url());
-
         if ($form->validate())
         {
             $success = $form->create_user_view();

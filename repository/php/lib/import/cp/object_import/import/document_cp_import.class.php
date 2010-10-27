@@ -1,6 +1,9 @@
 <?php
 namespace repository;
 
+use repository\content_object\document\Document;
+use common\libraries\Filesystem;
+
 /**
  * Import a file as a Document object. Accept all kind of files. Called last.
  *

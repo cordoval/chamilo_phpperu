@@ -1,6 +1,7 @@
 <?php
+use common\libraries\Path;
 
-require_once Path :: get_repository_path() . 'lib/content_object/assessment/assessment.class.php';
+require_once Path :: get_repository_content_object_path() . 'assessment/php/assessment.class.php';
 
 /**
  * Assessment builder.

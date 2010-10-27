@@ -1,10 +1,11 @@
 <?php
+use common\libraries;
 use common\libraries\Path;
 
-require_once Path :: get_repository_path() . 'lib/content_object/assessment_multiple_choice_question/assessment_multiple_choice_question_option.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/assessment_matching_question/assessment_matching_question_option.class.php';
+require_once Path :: get_repository_content_object_path() . 'assessment_multiple_choice_question/php/assessment_multiple_choice_question_option.class.php';
+require_once Path :: get_repository_content_object_path() . 'assessment_matching_question/php/assessment_matching_question_option.class.php';
 
-require_once  Path::get_common_path() .'ims/main.php';
+require_once  Path::get_common_libraries_path() .'php/ims/main.php';
 
 require_once dirname(__FILE__) . '/qti_import.class.php';
 

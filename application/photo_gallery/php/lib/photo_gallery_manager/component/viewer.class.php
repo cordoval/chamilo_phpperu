@@ -6,6 +6,12 @@ use common\libraries\Path;
 use common\libraries\Request;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
+use common\libraries\Application;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
+
+use repository\ContentObjectDisplay;
 /**
  * $Id: viewer.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.photo_gallery.photo_gallery_manager

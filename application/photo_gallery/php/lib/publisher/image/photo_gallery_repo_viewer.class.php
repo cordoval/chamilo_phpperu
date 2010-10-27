@@ -1,7 +1,8 @@
 <?php
 namespace application\photo_gallery;
 
-  
+use common\extensions\repo_viewer\RepoViewer;
+use common\libraries\SubManager;
 
 class PhotoGalleryRepoViewer extends RepoViewer
 {

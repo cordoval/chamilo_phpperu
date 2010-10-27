@@ -1,10 +1,24 @@
 <?php
 namespace application\portfolio;
 
-/**
- * $Id: portfolio_manager.class.php 206 2009-11-13 13:08:01Z chellee $
- * @package application.portfolio.portfolio_manager.component
- */
+use common\libraries\WebApplication;
+use common\libraries\DynamicAction;
+use common\libraries\Translation;
+use common\libraries\Theme;
+use common\libraries\Redirect;
+use repository\RepositoryDataManager;
+use repository\content_object\portfolio\Portfolio;
+use common\libraries\Session;
+use repository\content_object\portfolio_item\PortfolioItem;
+use common\extensions\repo_viewer\ContentObjectTable;
+use common\libraries\ObjectTable;
+use common\libraries\Path;
+use admin\AdminDataManager;
+use common\libraries\PlatformSetting;
+use common\libraries\Request;
+use common\libraries\Application;
+
+
 require_once dirname(__FILE__) . '/../portfolio_data_manager.class.php';
 require_once dirname(__FILE__) . '/../portfolio_publication.class.php';
 require_once dirname(__FILE__) . '/../portfolio_information.class.php';

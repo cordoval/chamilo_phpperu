@@ -5,7 +5,6 @@ namespace application\personal_messenger;
 use common\libraries\Request;
 use common\libraries\Display;
 use common\libraries\Translation;
-use common\libraries\Display;
 use common\libraries\ActionBarRenderer;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;

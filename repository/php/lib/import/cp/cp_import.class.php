@@ -2,6 +2,7 @@
 namespace repository;
 
 use common\libraries\Application;
+use common\libraries\ObjectImportSettings;
 
 require_once 'main.php';
 

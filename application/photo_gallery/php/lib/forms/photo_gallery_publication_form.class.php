@@ -3,6 +3,10 @@ namespace application\photo_gallery;
 
 use common\libraries\Translation;
 use common\libraries\Path;
+use common\libraries\FormValidator;
+
+use user\UserDataManager;
+use group\GroupDataManager;
 /**
  * $Id: photo_gallery_publication_form.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.photo_gallery.forms
@@ -131,7 +135,7 @@ class PhotoGalleryPublicationForm extends FormValidator
         $groups = $values[self :: PARAM_SHARE_ELEMENTS]['group'];
 
         $pub = new PersonalCalendarPublication();
-        $pub->set_content_object_id($this->content_object->get_id());
+        $pub->set_content_object($this->content_object->get_id());
         $pub->set_publisher($this->form_user->get_id());
         $pub->set_published(time());
         $pub->set_target_users($users);
@@ -159,7 +163,7 @@ class PhotoGalleryPublicationForm extends FormValidator
         foreach ($ids as $id)
         {
             $pub = new PhotoGalleryPublication();
-            $pub->set_content_object_id($id);
+            $pub->set_content_object($id);
             $pub->set_publisher($this->form_user->get_id());
             $pub->set_published(time());
             $pub->set_target_users($users);

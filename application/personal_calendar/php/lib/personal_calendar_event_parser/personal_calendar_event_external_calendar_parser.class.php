@@ -2,6 +2,8 @@
 
 namespace application\personal_calendar;
 
+use common\libraries\Application;
+use repository\content_object\external_calendar\ExternalCalendar;
 use IcalRecurrence;
 
 

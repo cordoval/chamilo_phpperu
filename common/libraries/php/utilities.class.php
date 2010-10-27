@@ -582,7 +582,7 @@ class Utilities
     static function autoload_web($classname)
     {
     	$applications = WebApplication :: load_all_from_filesystem(false);
-        $applications = array('search_portal', 'photo_gallery', 'reservations', 'cas_user', 'personal_calendar','wiki', 'handbook', 'survey', 'cda', 'metadata', 'context_linker', 'forum', 'profiler', 'weblcms', 'distribute', 'personal_messenger');
+        $applications = array('search_portal', 'portfolio', 'photo_gallery', 'reservations', 'cas_user', 'personal_calendar','wiki', 'handbook', 'survey', 'cda', 'metadata', 'context_linker', 'forum', 'profiler', 'weblcms', 'personal_messenger', 'distribute', 'alexia');
     	foreach ($applications as $application)
         {
             $path = WebApplication :: get_application_class_path($application) . $application . '_autoloader.class.php';
@@ -591,9 +591,21 @@ class Utilities
                 require_once $path;
                 $class = Application::determine_namespace($application) . '\\' . Utilities :: underscores_to_camelcase($application) . 'Autoloader';
                 if ($class :: load($classname))
-                    break;
+                    return true;
             }
         }
+        //Display :: error_page(Translation :: get('FailedAutoload') . ':' . $classname . '<br/>' . self :: get_backtrace());
+    }
+    
+    static function get_backtrace()
+    {
+    	$html = array();
+    	$backtraces = debug_backtrace();
+    	foreach($backtraces as $backtrace)
+    	{
+    		$html[] = implode(' ', $backtrace);
+    	}
+    	return implode('<br/>', $html);
     }
 
     static function get_namespace_classname($namespace, $classname)

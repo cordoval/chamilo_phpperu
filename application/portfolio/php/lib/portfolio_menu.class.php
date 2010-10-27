@@ -1,4 +1,8 @@
 <?php
+
+
+
+
 namespace application\portfolio;
 use HTML_Menu;
 use HTML_Menu_ArrayRenderer;
@@ -8,9 +12,16 @@ use common\libraries\EqualityCondition;
 use repository\ComplexContentObjectItem;
 use common\libraries\Translation;
 use common\libraries\Utilities;
+use common\libraries\TreeMenuRenderer;
+use common\libraries\Breadcrumb;
+use repository\content_object\portfolio_item\PortfolioItem;
+use repository\content_object\portfolio\Portfolio;
+use common\libraries\BreadcrumbTrail;
 
 
 
+require_once dirname(__FILE__) . '/../../../../plugin/pear/HTML/Menu.php';
+require_once dirname(__FILE__) . '/../../../../plugin/pear/HTML/Menu/ArrayRenderer.php';
 /**
  * This class provides a navigation menu to allow a user to browse through portfolio publications
  * @author Sven Vanpoucke

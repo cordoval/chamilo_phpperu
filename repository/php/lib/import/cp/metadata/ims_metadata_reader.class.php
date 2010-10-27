@@ -1,5 +1,6 @@
 <?php
 namespace repository;
+use common\libraries\ImsXmlReader;
 
 class ImsMetadataReader extends  ImsXmlReader
 {
