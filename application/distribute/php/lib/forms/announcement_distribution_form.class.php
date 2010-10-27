@@ -92,7 +92,7 @@ class AnnouncementDistributionForm extends FormValidator
     {
         $shares = array();
 
-        $url = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_user_group_feed.php';
+        $url = Path :: get(WEB_PATH) . 'common/libraries/php/xml_feeds/xml_user_group_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('ShareWith');
         $locale['Searching'] = Translation :: get('Searching');
