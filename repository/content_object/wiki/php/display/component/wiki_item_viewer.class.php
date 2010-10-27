@@ -6,6 +6,10 @@ use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
+use repository\ComplexDisplay;
+use repository\RepositoryManager;
+use repository\RepositoryDataManager;
+use MediawikiParser;
 
 /**
  * $Id: wiki_item_viewer.class.php 200 2009-11-13 12:30:04Z kariboe $

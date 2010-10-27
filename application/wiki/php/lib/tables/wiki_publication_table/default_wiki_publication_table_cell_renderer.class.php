@@ -5,6 +5,7 @@ namespace application\wiki;
 use common\libraries\WebApplication;
 use common\libraries\ObjectTableCellRenderer;
 use repository\ContentObject;
+use repository\content_object\wiki\WikiDisplay;
 
 /**
  * $Id: default_wiki_publication_table_cell_renderer.class.php 210 2009-11-13 13:18:50Z kariboe $

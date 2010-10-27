@@ -14,7 +14,10 @@ use common\libraries\AndCondition;
 use common\libraries\Breadcrumb;
 
 use repository\ComplexDisplay;
-
+use repository\content_object\wiki_page\ComplexWikiPage;
+use repository\RepositoryDataManager;
+use repository\RepositoryManager;
+use common\extensions\repo_viewer\RepoViewer;
 /**
  * $Id: wiki_display.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.wiki
@@ -63,7 +66,8 @@ class WikiDisplay extends ComplexDisplay
 
     static function get_wiki_homepage($wiki_id)
     {
-        require_once Path :: get_repository_path() . '/lib/content_object/wiki_page/complex_wiki_page.class.php';
+        require_once Path :: get_repository_content_object_path() . '/wiki_page/php/complex_wiki_page.class.php';
+        
         $conditions[] = new EqualityCondition(ComplexWikiPage :: PROPERTY_PARENT, $wiki_id);
         $conditions[] = new EqualityCondition(ComplexWikiPage :: PROPERTY_IS_HOMEPAGE, 1, 'complex_wiki_page');
         $complex_wiki_homepage = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new AndCondition($conditions), array(), 0, 1, 'complex_wiki_page');
@@ -78,28 +82,28 @@ class WikiDisplay extends ComplexDisplay
         $action_bar->set_search_url($parent->get_url());
 
         //PAGE ACTIONS
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateWikiPage'), Theme :: get_common_image_path() . 'action_create.png', $parent->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_CREATE_PAGE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateWikiPage'), Theme :: get_common_image_path() . 'action_create.png', $parent->get_url(array(self :: PARAM_DISPLAY_ACTION => self :: ACTION_CREATE_PAGE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         if (! empty($selected_complex_content_object_item))
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $parent->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $selected_complex_content_object_item)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $parent->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $selected_complex_content_object_item)), ToolbarItem :: DISPLAY_ICON_AND_LABEL, true));
 
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Discuss'), Theme :: get_common_image_path() . 'action_users.png', $parent->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_DISCUSS, 'wiki_publication' => Request :: get('wiki_publication'), ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $selected_complex_content_object_item)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Discuss'), Theme :: get_common_image_path() . 'action_users.png', $parent->get_url(array(self :: PARAM_DISPLAY_ACTION => self :: ACTION_DISCUSS, 'wiki_publication' => Request :: get('wiki_publication'), ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $selected_complex_content_object_item)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('BrowseWiki'), Theme :: get_common_image_path() . 'action_browser.png', $parent->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('BrowseWiki'), Theme :: get_common_image_path() . 'action_browser.png', $parent->get_url(array(self :: PARAM_DISPLAY_ACTION => self :: ACTION_VIEW_WIKI)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
             //INFORMATION
-            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('History'), Theme :: get_common_image_path() . 'action_versions.png', $parent->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_HISTORY, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $selected_complex_content_object_item)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('History'), Theme :: get_common_image_path() . 'action_versions.png', $parent->get_url(array(self :: PARAM_DISPLAY_ACTION => self :: ACTION_HISTORY, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $selected_complex_content_object_item)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
             if ($this->get_parent()->is_allowed(EDIT_RIGHT))
             {
-                $action_bar->add_tool_action(new ToolbarItem(Translation :: get('Statistics'), Theme :: get_common_image_path() . 'action_reporting.png', $parent->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_PAGE_STATISTICS, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $selected_complex_content_object_item)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+                $action_bar->add_tool_action(new ToolbarItem(Translation :: get('Statistics'), Theme :: get_common_image_path() . 'action_reporting.png', $parent->get_url(array(self :: PARAM_DISPLAY_ACTION => self :: ACTION_PAGE_STATISTICS, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $selected_complex_content_object_item)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
             }
         }
         else
         {
-            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('WikiStatistics'), Theme :: get_common_image_path() . 'action_reporting.png', $parent->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_STATISTICS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('WikiStatistics'), Theme :: get_common_image_path() . 'action_reporting.png', $parent->get_url(array(self :: PARAM_DISPLAY_ACTION => self :: ACTION_STATISTICS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
 
         $links = $content_object->get_links();
@@ -122,11 +126,11 @@ class WikiDisplay extends ComplexDisplay
 
                 if (substr_count($link, 'class="does_not_exist"'))
                 {
-                    $action_bar->add_navigation_link(new ToolbarItem($title, null, $parent->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_CREATE_PAGE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL, null, 'does_not_exist'));
+                    $action_bar->add_navigation_link(new ToolbarItem($title, null, $parent->get_url(array(self :: PARAM_DISPLAY_ACTION => self :: ACTION_CREATE_PAGE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL, null, 'does_not_exist'));
                 }
                 else
                 {
-                    $action_bar->add_navigation_link(new ToolbarItem($title, null, $parent->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $p->get_complex_id_from_url($link))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+                    $action_bar->add_navigation_link(new ToolbarItem($title, null, $parent->get_url(array(self :: PARAM_DISPLAY_ACTION => self :: ACTION_VIEW_WIKI_PAGE, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $p->get_complex_id_from_url($link))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
                 }
                 $i ++;
             }
@@ -143,36 +147,36 @@ class WikiDisplay extends ComplexDisplay
         {
             case ComplexDisplay :: ACTION_VIEW_COMPLEX_CONTENT_OBJECT :
                 break;
-            case WikiDisplay :: ACTION_CREATE_PAGE :
-                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_CREATE_PAGE)), Translation :: get('CreateWikiPage')));
+            case self :: ACTION_CREATE_PAGE :
+                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => self :: ACTION_CREATE_PAGE)), Translation :: get('CreateWikiPage')));
                 break;
-            case WikiDisplay :: ACTION_UPDATE_CONTENT_OBJECT :
-                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_UPDATE_CONTENT_OBJECT)), Translation :: get('Edit')));
+            case self :: ACTION_UPDATE_CONTENT_OBJECT :
+                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => self :: ACTION_UPDATE_CONTENT_OBJECT)), Translation :: get('Edit')));
                 break;
-            case WikiDisplay :: ACTION_STATISTICS :
-                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_STATISTICS, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID))), Translation :: get('Reporting')));
+            case self :: ACTION_STATISTICS :
+                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => self :: ACTION_STATISTICS, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID))), Translation :: get('Reporting')));
                 break;
-            case WikiDisplay :: ACTION_ACCESS_DETAILS :
-                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_ACCESS_DETAILS, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID))), Translation :: get('Reporting')));
+            case self :: ACTION_ACCESS_DETAILS :
+                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => self :: ACTION_ACCESS_DETAILS, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID))), Translation :: get('Reporting')));
                 break;
-            case WikiDisplay :: ACTION_VIEW_WIKI_PAGE :
-                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID))), $this->get_content_object_from_complex_id(Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID))->get_title()));
+            case self :: ACTION_VIEW_WIKI_PAGE :
+                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => self :: ACTION_VIEW_WIKI_PAGE, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID))), $this->get_content_object_from_complex_id(Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID))->get_title()));
                 break;
-            case WikiDisplay :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM :
-                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID))), $this->get_content_object_from_complex_id(Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID))->get_title()));
-                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID))), Translation :: get('Edit')));
+            case self :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM :
+                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => self :: ACTION_VIEW_WIKI_PAGE, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID))), $this->get_content_object_from_complex_id(Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID))->get_title()));
+                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => self :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID))), Translation :: get('Edit')));
                 break;
-            case WikiDisplay :: ACTION_DISCUSS :
-                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID))), $this->get_content_object_from_complex_id(Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID))->get_title()));
+            case self :: ACTION_DISCUSS :
+                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => self :: ACTION_VIEW_WIKI_PAGE, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID))), $this->get_content_object_from_complex_id(Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID))->get_title()));
                 $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => Request :: get(ComplexDisplay :: PARAM_DISPLAY_ACTION), ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID))), Translation :: get('Discuss')));
                 break;
-            case WikiDisplay :: ACTION_HISTORY :
-                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID))), $this->get_content_object_from_complex_id(Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID))->get_title()));
+            case self :: ACTION_HISTORY :
+                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => self :: ACTION_VIEW_WIKI_PAGE, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID))), $this->get_content_object_from_complex_id(Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID))->get_title()));
                 $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => Request :: get(ComplexDisplay :: PARAM_DISPLAY_ACTION), ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID))), Translation :: get('History')));
                 break;
-            case WikiDisplay :: ACTION_PAGE_STATISTICS :
-                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID))), $this->get_content_object_from_complex_id(Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID))->get_title()));
-                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_PAGE_STATISTICS, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID))), Translation :: get('Reporting')));
+            case self :: ACTION_PAGE_STATISTICS :
+                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => self :: ACTION_VIEW_WIKI_PAGE, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID))), $this->get_content_object_from_complex_id(Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID))->get_title()));
+                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => self :: ACTION_PAGE_STATISTICS, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID))), Translation :: get('Reporting')));
                 break;
         }
         return $trail;
@@ -205,16 +209,16 @@ class WikiDisplay extends ComplexDisplay
 
         $html[] = '<div class="wiki-menu-section">';
         $toolbar = new Toolbar(Toolbar :: TYPE_VERTICAL);
-        $toolbar->add_item(new ToolbarItem(Translation :: get('MainPage'), Theme :: get_common_image_path() . 'action_home.png', $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => null)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Contents'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_BROWSE_WIKI)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Statistics'), Theme :: get_common_image_path() . 'action_statistics.png', $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_STATISTICS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('MainPage'), Theme :: get_common_image_path() . 'action_home.png', $this->get_url(array(self :: PARAM_DISPLAY_ACTION => self :: ACTION_VIEW_WIKI, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => null)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Contents'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(self :: PARAM_DISPLAY_ACTION => self :: ACTION_BROWSE_WIKI)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Statistics'), Theme :: get_common_image_path() . 'action_statistics.png', $this->get_url(array(self :: PARAM_DISPLAY_ACTION => self :: ACTION_STATISTICS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $html[] = $toolbar->as_html();
         $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
 
         $html[] = '<div class="wiki-menu-section">';
         $toolbar = new Toolbar(Toolbar :: TYPE_VERTICAL);
-        $toolbar->add_item(new ToolbarItem(Translation :: get('AddWikiPage'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_CREATE_PAGE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('AddWikiPage'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(self :: PARAM_DISPLAY_ACTION => self :: ACTION_CREATE_PAGE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $html[] = $toolbar->as_html();
         $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
@@ -233,9 +237,9 @@ class WikiDisplay extends ComplexDisplay
 
             if ($complex_wiki_page)
             {
-                $read_url = $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_wiki_page->get_id()));
-                $discuss_url = $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_DISCUSS, 'wiki_publication' => Request :: get('wiki_publication'), ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_wiki_page->get_id()));
-                $statistics_url = $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_PAGE_STATISTICS, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_wiki_page->get_id()));
+                $read_url = $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => self :: ACTION_VIEW_WIKI_PAGE, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_wiki_page->get_id()));
+                $discuss_url = $this->get_url(array(self :: PARAM_DISPLAY_ACTION => self :: ACTION_DISCUSS, 'wiki_publication' => Request :: get('wiki_publication'), ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_wiki_page->get_id()));
+                $statistics_url = $this->get_url(array(self :: PARAM_DISPLAY_ACTION => self :: ACTION_PAGE_STATISTICS, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_wiki_page->get_id()));
 
                 $html[] = '<li><a' . ($this->get_action() != self :: ACTION_DISCUSS && $this->get_action() != self :: ACTION_PAGE_STATISTICS ? ' class="current"' : '') . ' href="' . $read_url . '">' . Translation :: get('WikiArticle') . '</a></li>';
                 $html[] = '<li><a' . ($this->get_action() == self :: ACTION_DISCUSS ? ' class="current"' : '') . ' href="' . $discuss_url . '">' . Translation :: get('WikiDiscuss') . '</a></li>';
@@ -258,7 +262,7 @@ class WikiDisplay extends ComplexDisplay
             if ($complex_wiki_page)
             {
                 $delete_url = $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_wiki_page->get_id()));
-                $history_url = $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_HISTORY, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_wiki_page->get_id()));
+                $history_url = $this->get_url(array(self :: PARAM_DISPLAY_ACTION => self :: ACTION_HISTORY, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_wiki_page->get_id()));
                 $edit_url = $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_wiki_page->get_id()));
 
                 $html[] = '<li><a' . (in_array($this->get_action(), array(self :: ACTION_VIEW_WIKI, self :: ACTION_VIEW_WIKI_PAGE)) && ! Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID) ? ' class="current"' : '') . ' href="' . $read_url . '">' . Translation :: get('WikiRead') . '</a></li>';

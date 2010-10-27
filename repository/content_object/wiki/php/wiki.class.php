@@ -8,6 +8,7 @@ use common\libraries\ComplexContentObjectSupport;
 use common\libraries\SubselectCondition;
 
 use repository\ContentObject;
+use repository\content_object\wiki_page\WikiPage;
 
 /**
  * $Id: wiki.class.php 200 2009-11-13 12:30:04Z kariboe $

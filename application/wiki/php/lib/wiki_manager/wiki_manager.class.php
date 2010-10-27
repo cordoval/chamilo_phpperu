@@ -181,7 +181,7 @@ class WikiManager extends WebApplication
     static function publish_content_object($content_object, $location)
     {
         $publication = new WikiPublication();
-        $publication->set_content_object($content_object->get_id());
+        $publication->set_content_object_id($content_object->get_id());
         $publication->set_publisher(Session :: get_user_id());
         $publication->set_published(time());
         $publication->set_hidden(0);

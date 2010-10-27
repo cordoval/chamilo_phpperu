@@ -4,6 +4,7 @@ namespace repository\content_object\wiki;
 use common\libraries\Request;
 use common\libraries\Translation;
 
+use repository\ContentObject;
 use repository\ContentObjectForm;
 
 /**

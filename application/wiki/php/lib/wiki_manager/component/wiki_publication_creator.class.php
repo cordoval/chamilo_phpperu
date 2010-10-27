@@ -4,14 +4,17 @@ namespace application\wiki;
 use common\libraries\WebApplication;
 use common\libraries\Breadcrumb;
 use common\libraries\Utilities;
-use common\extensions\RepoViewer;
-use common\extensions\RepoViewerInterface;
+use common\libraries\Translation;
+use common\extensions\repo_viewer\RepoViewer;
+use common\extensions\repo_viewer\RepoViewerInterface;
+use repository\content_object\wiki\Wiki;
 
 /**
  * $Id: wiki_publication_creator.class.php 210 2009-11-13 13:18:50Z kariboe $
  * @package application.lib.wiki.wiki_manager.component
  */
-require_once WebApplication :: get_application_class_lib_path('weblcms') .'content_object_repo_viewer.class.php';
+//require_once WebApplication :: get_application_class_lib_path('weblcms') .'content_object_repo_viewer.class.php';
+
 
 /**
  * Component to create a new wiki_publication object
@@ -29,30 +32,29 @@ class WikiManagerWikiPublicationCreatorComponent extends WikiManager implements 
          *  We make use of the ContentObjectRepoViewer setting the type to wiki
          */
         
-
         /*
          *  If no page was created you'll be redirected to the wiki_browser page, otherwise we'll get publications from the object
          */
-
-        if (!RepoViewer::is_ready_to_be_published())
+        
+        if (! RepoViewer :: is_ready_to_be_published())
         {
             $repo_viewer = RepoViewer :: construct($this);
             $repo_viewer->run();
         }
         else
         {
-            $objects = RepoViewer::get_selected_objects();
-        	$form = new WikiPublicationForm(WikiPublicationForm :: TYPE_CREATE, null, $this->get_url(array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_PUBLISHER, RepoViewer :: PARAM_ID => $objects)), $this->get_user());
+            $objects = RepoViewer :: get_selected_objects();
+            $form = new WikiPublicationForm(WikiPublicationForm :: TYPE_CREATE, null, $this->get_url(array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_PUBLISHER, RepoViewer :: PARAM_ID => $objects)), $this->get_user());
             if ($form->validate())
             {
                 $values = $form->exportValues();
                 $failures = 0;
-
+                
                 if (! is_array($objects))
                 {
                     $objects = array($objects);
                 }
-
+                
                 foreach ($objects as $object)
                 {
                     if (! $form->create_wiki_publication($object, $values))
@@ -74,11 +76,11 @@ class WikiManagerWikiPublicationCreatorComponent extends WikiManager implements 
     {
         return array(Wiki :: get_type_name());
     }
-    
-	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$breadcrumbtrail->add_help('wiki_publication_creator');
-    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_BROWSE_WIKI_PUBLICATIONS)), Translation :: get('WikiManagerWikiPublicationsBrowserComponent')));
+        $breadcrumbtrail->add_help('wiki_publication_creator');
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_BROWSE_WIKI_PUBLICATIONS)), Translation :: get('WikiManagerWikiPublicationsBrowserComponent')));
     }
 }
 ?>

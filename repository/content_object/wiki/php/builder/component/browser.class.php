@@ -4,12 +4,12 @@ namespace repository\content_object\wiki;
 use common\libraries\Path;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
+use repository\ContentObjectDisplay;
 
 /**
  * $Id: browser.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.wiki.component
  */
-require_once Path :: get_repository_path() . '/lib/content_object/wiki/wiki.class.php';
 require_once dirname(__FILE__) . '/browser/wiki_browser_table_cell_renderer.class.php';
 
 class WikiBuilderBrowserComponent extends WikiBuilder

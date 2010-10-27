@@ -53,14 +53,14 @@ class DatabaseWikiDataManager extends Database implements WikiDataManagerInterfa
     function retrieve_wiki_publication($id)
     {
         $condition = new EqualityCondition(WikiPublication :: PROPERTY_ID, $id);
-        $object = $this->retrieve_object(WikiPublication :: get_table_name(), $condition);
-        $object->set_default_property('content_object_id', RepositoryDataManager :: get_instance()->retrieve_content_object($object->get_default_property('content_object_id')));
-        return $object;
+        return $this->retrieve_object(WikiPublication :: get_table_name(), $condition, array(), WikiPublication :: CLASS_NAME);
+//        $object->set_default_property('content_object_id', RepositoryDataManager :: get_instance()->retrieve_content_object($object->get_default_property('content_object_id')));
+//        return $object;
     }
 
     function retrieve_wiki_publications($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->retrieve_objects(WikiPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(WikiPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by, WikiPublication :: CLASS_NAME);
     }
 
     function retrieve_wiki_pub_feedback($id)
@@ -102,7 +102,7 @@ class DatabaseWikiDataManager extends Database implements WikiDataManagerInterfa
 
     function any_content_object_is_published($object_ids)
     {
-        $condition = new InCondition(WikiPublication :: PROPERTY_CONTENT_OBJECT, $object_ids);
+        $condition = new InCondition(WikiPublication :: PROPERTY_CONTENT_OBJECT_ID, $object_ids);
         return $this->count_objects(WikiPublication :: get_table_name(), $condition) >= 1;
     }
 
@@ -119,7 +119,7 @@ class DatabaseWikiDataManager extends Database implements WikiDataManagerInterfa
             	$query = 'SELECT ' . $pub_alias . '.*, ' . $co_alias . '.' . $this->escape_column_name(ContentObject :: PROPERTY_TITLE) . ' FROM ' .
                 		 $this->escape_table_name(WikiPublication :: get_table_name()) . ' AS ' . $pub_alias .
                 		 ' JOIN ' . $rdm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $co_alias .
-                		 ' ON ' . $this->escape_column_name(WikiPublication :: PROPERTY_CONTENT_OBJECT, $pub_alias) . '=' .
+                		 ' ON ' . $this->escape_column_name(WikiPublication :: PROPERTY_CONTENT_OBJECT_ID, $pub_alias) . '=' .
                 		 $this->escape_column_name(ContentObject :: PROPERTY_ID, $co_alias);
 
                 $condition = new EqualityCondition(WikiPublication :: PROPERTY_PUBLISHER, Session :: get_user_id());
@@ -155,7 +155,7 @@ class DatabaseWikiDataManager extends Database implements WikiDataManagerInterfa
         else
         {
             $query = 'SELECT * FROM ' . $this->escape_table_name(WikiPublication :: get_table_name());
-           	$condition = new EqualityCondition(WikiPublication :: PROPERTY_CONTENT_OBJECT, $object_id);
+           	$condition = new EqualityCondition(WikiPublication :: PROPERTY_CONTENT_OBJECT_ID, $object_id);
            	$translator = new ConditionTranslator($this);
            	$query .= $translator->render_query($condition);
 
@@ -174,7 +174,7 @@ class DatabaseWikiDataManager extends Database implements WikiDataManagerInterfa
             //TODO: i8n location string
             $info->set_location(Translation :: get('Wiki'));
             $info->set_url('run.php?application=wiki&go='.WikiManager::ACTION_VIEW_WIKI.'&wiki_publication=' . $record[WikiPublication :: PROPERTY_ID]);
-            $info->set_publication_object_id($record[WikiPublication :: PROPERTY_CONTENT_OBJECT]);
+            $info->set_publication_object_id($record[WikiPublication :: PROPERTY_CONTENT_OBJECT_ID]);
 
             $publication_attr[] = $info;
         }
@@ -201,7 +201,7 @@ class DatabaseWikiDataManager extends Database implements WikiDataManagerInterfa
         //TODO: i8n location string
         $publication_attr->set_location(Translation :: get('Wiki'));
         $publication_attr->set_url('run.php?application=wiki&go=browse');
-        $publication_attr->set_publication_object_id($record[WikiPublication :: PROPERTY_CONTENT_OBJECT]);
+        $publication_attr->set_publication_object_id($record[WikiPublication :: PROPERTY_CONTENT_OBJECT_ID]);
 
         $res->free();
 
@@ -216,14 +216,14 @@ class DatabaseWikiDataManager extends Database implements WikiDataManagerInterfa
         }
         else
         {
-        	$condition = new EqualityCondition(WikiPublication :: PROPERTY_CONTENT_OBJECT, $object_id);
+        	$condition = new EqualityCondition(WikiPublication :: PROPERTY_CONTENT_OBJECT_ID, $object_id);
         }
         return $this->count_objects(WikiPublication :: get_table_name(), $condition);
     }
 
     function delete_content_object_publications($object_id)
     {
-        $condition = new EqualityCondition(WikiPublication :: PROPERTY_CONTENT_OBJECT, $object_id);
+        $condition = new EqualityCondition(WikiPublication :: PROPERTY_CONTENT_OBJECT_ID, $object_id);
         $publications = $this->retrieve_wiki_publications($condition);
 
         $succes = true;
@@ -246,7 +246,7 @@ class DatabaseWikiDataManager extends Database implements WikiDataManagerInterfa
     {
         $where = $this->escape_column_name(WikiPublication :: PROPERTY_ID) . '=' . $publication_attr->get_id();
         $props = array();
-        $props[$this->escape_column_name(WikiPublication :: PROPERTY_CONTENT_OBJECT)] = $publication_attr->get_publication_object_id();
+        $props[$this->escape_column_name(WikiPublication :: PROPERTY_CONTENT_OBJECT_ID)] = $publication_attr->get_publication_object_id();
         $this->get_connection()->loadModule('Extended');
         if ($this->get_connection()->extended->autoExecute($this->get_table_name(WikiPublication :: get_table_name()), $props, MDB2_AUTOQUERY_UPDATE, $where))
         {

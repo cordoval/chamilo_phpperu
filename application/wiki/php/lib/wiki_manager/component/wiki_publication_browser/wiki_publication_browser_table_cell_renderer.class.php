@@ -8,6 +8,7 @@ use common\libraries\Theme;
 use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use repository\ContentObject;
+use repository\content_object\wiki\WikiDisplay;
 
 use application\gradebook;
 /**

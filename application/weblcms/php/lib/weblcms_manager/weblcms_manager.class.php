@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\DynamicAction;
 use common\libraries\Filesystem;
 use user\UserDataManager;
 use common\libraries\Redirect;

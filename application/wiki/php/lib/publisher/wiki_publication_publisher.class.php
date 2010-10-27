@@ -23,7 +23,7 @@ class WikiPublicationPublisher
         $date = mktime(date());
         
         $pb = new WikiPublication();
-        $pb->set_content_object($object);
+        $pb->set_content_object_id($object);
         $pb->set_parent_id($author);
         $pb->set_category(0);
         $pb->set_published($date);

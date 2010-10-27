@@ -4,6 +4,12 @@ namespace repository\content_object\wiki;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Path;
+use common\extensions\repo_viewer\RepoViewerInterface;
+use common\extensions\repo_viewer\RepoViewer;
+use repository\ComplexDisplay;
+use repository\ComplexContentObjectItem;
+use repository\RepositoryDataManager;
+use repository\content_object\wiki_page\WikiPage;
 
 /**
  * $Id: wiki_page_creator.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
@@ -16,18 +22,14 @@ use common\libraries\Path;
  * Author: Nick De Feyter
  */
 
-require_once Path :: get_application_path() . 'lib/weblcms/content_object_repo_viewer.class.php';
-require_once Path :: get_application_path() . 'lib/weblcms/publisher/content_object_publisher.class.php';
-
 class WikiDisplayWikiPageCreatorComponent extends WikiDisplay implements RepoViewerInterface
 {
     private $publisher;
 
     function run()
     {
-
-
-        if (!RepoViewer::is_ready_to_be_published())
+        
+        if (! RepoViewer :: is_ready_to_be_published())
         {
             $this->repo_viewer = RepoViewer :: construct($this);
             $this->repo_viewer->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, WikiDisplay :: ACTION_CREATE_PAGE);
@@ -35,13 +37,13 @@ class WikiDisplayWikiPageCreatorComponent extends WikiDisplay implements RepoVie
         }
         else
         {
-            $objects = RepoViewer::get_selected_objects();
-
+            $objects = RepoViewer :: get_selected_objects();
+            
             if (! is_array($objects))
             {
                 $objects = array($objects);
             }
-
+            
             foreach ($objects as $object)
             {
                 $complex_content_object_item = ComplexContentObjectItem :: factory(WikiPage :: get_type_name());
@@ -52,19 +54,18 @@ class WikiDisplayWikiPageCreatorComponent extends WikiDisplay implements RepoVie
                 $complex_content_object_item->set_is_homepage(0);
                 $result = $complex_content_object_item->create();
             }
-
-            $this->redirect(Translation :: get('WikiItemCreated'), '', array(
-                    WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id()));
+            
+            $this->redirect(Translation :: get('WikiItemCreated'), '', array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id()));
         }
-
+    
     }
 
     function display_header()
     {
         parent :: display_header();
-
+        
         $repo_viewer_action = Request :: get(RepoViewer :: PARAM_ACTION);
-
+        
         switch ($repo_viewer_action)
         {
             case RepoViewer :: ACTION_BROWSER :
@@ -80,7 +81,7 @@ class WikiDisplayWikiPageCreatorComponent extends WikiDisplay implements RepoVie
                 $title = 'CreateWikiPage';
                 break;
         }
-
+        
         $html = array();
         $html[] = '<div class="wiki-pane-content-title">' . Translation :: get($title) . '</div>';
         $html[] = '<div class="wiki-pane-content-subtitle">' . Translation :: get('In') . ' ' . $this->get_root_content_object()->get_title() . '</div>';
