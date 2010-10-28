@@ -1,5 +1,13 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\mediamosa;
+use common\extensions\external_repository_manager\ExternalRepositoryComponent;
+use repository\ContentObject;
+use repository\ExternalRepositorySync;
+use common\libraries\Application;
+use common\libraries\Translation;
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
+use repository\content_object\mediamosa\Mediamosa;
+use repository\RepositoryManager;
 /**
  * Description of importerclass
  *

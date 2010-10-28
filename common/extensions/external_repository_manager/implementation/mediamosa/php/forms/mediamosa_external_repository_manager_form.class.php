@@ -1,5 +1,9 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\mediamosa;
+use common\libraries\FormValidator;
+use user\UserDataManager;
+use common\libraries\Translation;
+use common\libraries\Session;
 
 /**
  * Description of mediamosa_external_repository_manager_formclass
@@ -109,7 +113,7 @@ class MediamosaExternalRepositoryManagerForm extends FormValidator{
 
         foreach($this->mediafiles as $mediafile)
         {
-            $this->addElement('checkbox' , $mediafile->get_id(). '_' . MediamosaExternalRepositoryObject :: PROPERTY_IS_DOWNLOADABLE , $mediafile->get_title() . Translation :: get('Is downloadable'));
+            $addElement = $this->addElement('checkbox' , $mediafile->get_id(). '_' . MediamosaExternalRepositoryObject :: PROPERTY_IS_DOWNLOADABLE , $mediafile->get_title() . Translation :: get('Is downloadable'));
         }
 
         $buttons[] = $this->createElement('style_submit_button', 'edit', Translation :: get('Create'), array('class' => 'positive update'));

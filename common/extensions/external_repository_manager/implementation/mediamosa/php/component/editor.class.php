@@ -1,5 +1,9 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\mediamosa;
+use common\libraries\Request;
+use common\libraries\Redirect;
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
+use common\libraries\Path;
 /* 
  * To change this template, choose Tools | Templates
  * and open the template in the editor.

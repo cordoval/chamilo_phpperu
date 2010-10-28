@@ -1,5 +1,13 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\mediamosa;
+use common\extensions\external_repository_manager\ExternalRepositoryObjectDisplay;
+use common\libraries\Translation;
+use common\libraries\DatetimeUtilities;
+use repository\RepositoryDataManager;
+use common\libraries\Request;
+use common\libraries\Theme;
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
+use common\extensions\external_repository_manager\ExternalRepositoryObject;
 /**
  * Description of mediamosa_external_repository_displayclass
  *
@@ -20,7 +28,6 @@ class MediamosaExternalRepositoryObjectDisplay extends ExternalRepositoryObjectD
         {
             $properties[Translation :: get('Description')] = $object->get_description();
         }
-
         $properties[Translation :: get('UploadedOn')] = DatetimeUtilities :: format_locale_date(null, $object->get_created());
         if ($object->get_created() != $object->get_modified())
         {

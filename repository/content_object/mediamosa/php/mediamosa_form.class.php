@@ -6,6 +6,10 @@ use common\libraries\Path;
 use common\libraries\Application;
 
 use repository\ContentObjectForm;
+use common\libraries\ExternalRepositoryLauncher;
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
+use repository\ExternalRepositorySync;
+use common\extensions\external_repository_manager\ExternalRepositoryObject;
 
 /**
  * Description of MediamosaForm class
@@ -13,7 +17,7 @@ use repository\ContentObjectForm;
  * @author jevdheyd
  */
 
-require_once Path :: get_application_path() . 'common/external_repository_manager/type/mediamosa/mediamosa_external_repository_object.class.php';
+require_once Path :: get_common_extensions_path() . 'external_repository_manager/implementation/mediamosa/php/mediamosa_external_repository_object.class.php';
 
 class MediamosaForm extends ContentObjectForm
 {

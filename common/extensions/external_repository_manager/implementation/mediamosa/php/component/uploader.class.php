@@ -1,5 +1,11 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\mediamosa;
+use repository\RepositoryDataManager;
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\Path;
+use common\libraries\Session;
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
 /**
  * Description of uploaderclass
  *

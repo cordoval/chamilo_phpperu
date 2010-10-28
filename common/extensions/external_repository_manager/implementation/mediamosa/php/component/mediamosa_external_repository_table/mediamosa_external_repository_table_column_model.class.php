@@ -1,10 +1,12 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\mediamosa;
+use common\libraries\StaticTableColumn;
+use common\extensions\external_repository_manager\DefaultExternalRepositoryObjectTableColumnModel;
 /**
  * $Id: repository_browser_table_column_model.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.browser
  */
-require_once dirname(__FILE__) . '/../../../../table/default_external_repository_object_table_column_model.class.php';
+//require_once dirname(__FILE__) . '/../../../../table/default_external_repository_object_table_column_model.class.php';
 /**
  * Table column model for the repository browser table
  */

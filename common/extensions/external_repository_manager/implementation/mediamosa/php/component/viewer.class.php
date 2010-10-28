@@ -1,12 +1,13 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\mediamosa;
+use common\extensions\external_repository_manager\ExternalRepositoryComponent;
 /**
  * Description of viewerclass
  *
  * @author jevdheyd
  */
 
-require_once dirname(__FILE__) . '/../../../external_repository_object_display.class.php';
+//require_once dirname(__FILE__) . '/../../../external_repository_object_display.class.php';
 
 class MediamosaExternalRepositoryManagerViewerComponent extends MediamosaExternalRepositoryManager
 {

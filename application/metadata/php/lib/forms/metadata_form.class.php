@@ -58,19 +58,23 @@ class MetadataForm extends FormValidator
 
     function build_basic_form()
     {
+        $this->addElement('html', '<h3>' .Translation :: get('Predefined').'</h3>');
+        
         $this->addElement('hidden', MetadataPropertyValue :: PROPERTY_CONTENT_OBJECT_ID);
 
         $this->build_content_object_property_metadata_values();
 
+        $this->addElement('html', '<h3>' .Translation :: get('Additional').'</h3>');
+
         $group = array();
 
         $group[] = $this->createElement('select', MetadataPropertyValue :: PROPERTY_PROPERTY_TYPE_ID, Translation :: get('PropertyType'), $this->property_types);
-        $group[] = $this->createElement('text', MetadataPropertyValue :: PROPERTY_VALUE, Translation :: get('PropertyValue'));
+        $group[] = $this->createElement('text', MetadataPropertyValue :: PROPERTY_VALUE, Translation :: get('PropertyValue'), array('id' => MetadataManager :: PARAM_METADATA_PROPERTY_VALUE));
 
         $this->addGroup($group, '', Translation :: get('NewPropertyValue'));
 
         //javascript
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'application/lib/metadata/javascript/set_metadata_defaults.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'application/metadata/resources/javascript/set_metadata_defaults.js'));
 
         $this->build_metadata_property_values();
     }
@@ -116,11 +120,11 @@ class MetadataForm extends FormValidator
         //update existing property values
         foreach($this->metadata_property_values as $metadata_property_value)
         {
-            $cond = $values[MetadataPropertyValue :: PROPERTY_PROPERTY_TYPE_ID] != $this->_defaults[MetadataPropertyValue :: PROPERTY_PROPERTY_TYPE_ID . '_' . $metadata_property_value->get_id()];
-            $cond |= $values[MetadataPropertyValue :: PROPERTY_VALUE] != $this->_defaults[MetadataPropertyValue :: PROPERTY_VALUE . '_' . $metadata_property_value->get_id()];
+            //$cond = $values[MetadataPropertyValue :: PROPERTY_PROPERTY_TYPE_ID . '_' . $metadata_property_value->get_id()] != $this->_defaults[MetadataPropertyValue :: PROPERTY_PROPERTY_TYPE_ID . '_' . $metadata_property_value->get_id()];
+            $cond = $values[MetadataPropertyValue :: PROPERTY_VALUE . '_' . $metadata_property_value->get_id()] != $this->_defaults[MetadataPropertyValue :: PROPERTY_VALUE . '_' . $metadata_property_value->get_id()];
             if($cond)
             {
-                $metadata_property_value->set_content_object_id($values[MetadataPropertyValue :: PROPERTY_CONTENT_OBJECT_ID]);
+                //$metadata_property_value->set_content_object_id($values[MetadataPropertyValue :: PROPERTY_CONTENT_OBJECT_ID]);
                 //$metadata_property_value->set_property_type_id($values[MetadataPropertyValue :: PROPERTY_PROPERTY_TYPE_ID . '_' . $metadata_property_value->get_id()]);
                 $metadata_property_value->set_value($values[MetadataPropertyValue :: PROPERTY_VALUE . '_' . $metadata_property_value->get_id()]);
 
@@ -155,44 +159,58 @@ class MetadataForm extends FormValidator
                 }
             }
 
-            //update existing content object property metadata attributes
-            foreach($this->metadata_property_attribute_values[MetadataPropertyAttributeValue :: RELATION_CONTENT_OBJECT_PROPERTY][$this->content_object->get_id()] as $id => $metadata_property_attribute_value)
-            {
-                foreach($this->content_object_property_metadata_values as $id => $content_object_property_metadata)
-                {
-                    //check if changes occurred
-                    if($metadata_property_attribute_value->get_value() != $values[$content_object_property_metadata->get_id() . '_' . MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_VALUE . '_' . $metadata_property_value->get_id() . '_' . $metadata_property_attribute_value->get_id()])
-                    {
-                       $metadata_property_attribute_value->set_value($values[$content_object_property_metadata->get_id() . '_' . MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_VALUE . '_' . $metadata_property_value->get_id() . '_' . $metadata_property_attribute_value->get_id()]);
-                       $metadata_property_attribute_value->update();
-                    }
-                }
+            
+        }
 
+        //update existing content object property metadata attributes
+        foreach($this->content_object_property_metadata_values as $id => $content_object_property_metadata)
+        {
+            foreach($this->metadata_property_attribute_values[MetadataPropertyAttributeValue :: RELATION_CONTENT_OBJECT_PROPERTY][$content_object_property_metadata->get_id()] as $id => $metadata_property_attribute_value)
+            {
+                $prop= $content_object_property_metadata->get_content_object_property();
+                $val =$metadata_property_attribute_value->get_value();
+
+                //check if changes occurred
+                if($metadata_property_attribute_value->get_value() != $values[$content_object_property_metadata->get_content_object_property() . '_' . MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_VALUE . '_' . $metadata_property_attribute_value->get_id()])
+                {
+                   $metadata_property_attribute_value->set_value($values[$content_object_property_metadata->get_id() . '_' . MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_VALUE . '_' . $metadata_property_value->get_id() . '_' . $metadata_property_attribute_value->get_id()]);
+                   $metadata_property_attribute_value->update();
+                }
             }
         }
+
 
         //create content object metadata_attribute_values
         foreach($this->content_object_property_metadata_values as $id => $content_object_property)
         {
+            //create new one if an attribute type is selected
             if($values[$content_object_property->get_content_object_property() . '_' . MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_PROPERTY_ATTRIBUTE_TYPE_ID] != self :: OPTION_BLANK)
             {
-                $metadata_property_attribute_value = new MetadataPropertyAttributeValue();
+                //do not continue if no value type is selected
+                if($values[$content_object_property->get_content_object_property() . '_' . MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_VALUE_TYPE] != self :: OPTION_BLANK)
+                {
+                    $metadata_property_attribute_value = new MetadataPropertyAttributeValue();
 
-                $metadata_property_attribute_value->set_parent_id($this->content_object->get_id());
-                $metadata_property_attribute_value->set_property_attribute_type_id($values[$content_object_property->get_content_object_property() . '_' . MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_PROPERTY_ATTRIBUTE_TYPE_ID]);
-                $metadata_property_attribute_value->set_relation(MetadataPropertyAttributeValue :: RELATION_CONTENT_OBJECT_PROPERTY);
-                $metadata_property_attribute_value->set_value_type($values[$content_object_property->get_content_object_property() . '_' . MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_VALUE_TYPE]);
+                    //id of the content object property metadata
+                    $metadata_property_attribute_value->set_parent_id($content_object_property->get_id());
+                    //content_object id
+                    $metadata_property_attribute_value->set_content_object_id($this->content_object->get_id());
 
-                $appendix = ($metadata_property_attribute_value->get_value_type() == MetadataPropertyAttributeValue :: VALUE_TYPE_ID) ? '_2' : '';
-                $metadata_property_attribute_value->set_value($values[$content_object_property->get_content_object_property() . '_' . MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_VALUE]);
+                    $metadata_property_attribute_value->set_property_attribute_type_id($values[$content_object_property->get_content_object_property() . '_' . MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_PROPERTY_ATTRIBUTE_TYPE_ID]);
+                    $metadata_property_attribute_value->set_relation(MetadataPropertyAttributeValue :: RELATION_CONTENT_OBJECT_PROPERTY);
+                    $metadata_property_attribute_value->set_value_type($values[$content_object_property->get_content_object_property() . '_' . MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_VALUE_TYPE]);
 
-                if(!$metadata_property_attribute_value->create()) $fails ++;
+                    $appendix = ($metadata_property_attribute_value->get_value_type() == MetadataPropertyAttributeValue :: VALUE_TYPE_ID) ? '_2' : '';
+                    $metadata_property_attribute_value->set_value($values[$content_object_property->get_content_object_property() . '_' . MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_VALUE . $appendix]);
+
+                    if(!$metadata_property_attribute_value->create()) $fails ++;
+                }
+            }
+            else
+            {
+                $fails ++;
             }
         }
-
-
-
-
         return ($fails) ? false : true;
     }
 
@@ -226,7 +244,7 @@ class MetadataForm extends FormValidator
 
     function build_content_object_property_metadata_values()
     {
-        $this->addElement('html', '<h3>' .Translation :: get('Predefined').'</h3>');
+        
         foreach($this->content_object_property_metadata_values as $id => $content_object_property)
         {
             $function_name = 'get_' . $content_object_property->get_content_object_property();
@@ -235,6 +253,8 @@ class MetadataForm extends FormValidator
             $this->addElement('static','',$this->property_types[$content_object_property->get_property_type_id()], $content_object_property->format_content_object_property_according_to_source($this->content_object));
 
             $allowed_property_types = $this->filter_allowed_property_attribute_types($content_object_property->get_property_type_id());
+
+            //if there are any allowed attributes for this property value
             if(isset($this->allowed_metadata_property_attribute_types[$content_object_property->get_property_type_id()]))
             {
                 //new empty attribute_value
@@ -267,7 +287,7 @@ class MetadataForm extends FormValidator
 
     function build_metadata_property_values()
     {
-        $this->addElement('html', '<h3>' .Translation :: get('Additional').'</h3>');
+        
         foreach($this->metadata_property_values as $metadata_property_value)
         {
             $this->addElement('category', Translation :: get('PropertyValue'));
@@ -297,6 +317,11 @@ class MetadataForm extends FormValidator
         }
     }
 
+    /*
+     * takes attribute values with RELATION_CONTENT_OBJECT_PROPERTY
+     * @param string property_type_id
+     * @param string content_object_property
+     */
     function build_content_object_property_metadata_attribute_values($property_type_id, $content_object_property)
     {
         foreach($this->metadata_property_attribute_values[MetadataPropertyAttributeValue :: RELATION_CONTENT_OBJECT_PROPERTY][$this->content_object->get_id()] as $id => $metadata_property_attribute_value)
@@ -311,7 +336,7 @@ class MetadataForm extends FormValidator
                 }
                 else
                 {
-                    $group[] = $this->createElement('select', $content_object_property . '_' . MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_VALUE .'_' . $id , Translation :: get('PropertyAttributeType'), $this->filter_allowed_property_attribute_types($metadata_property_attribute_value->get_property_attribute_type_id()));
+                    $group[] = $this->createElement('select', $content_object_property . '_' . MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_VALUE .'_' . $id , Translation :: get('PropertyAttributeType'),  $this->property_attribute_types);
                 }
                 $group[] = $this->createElement('static', null, null, '<a href="' . $this->application->get_url(array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_DELETE_METADATA_PROPERTY_ATTRIBUTE_VALUE, MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE => $metadata_property_attribute_value->get_id(), MetadataManager :: PARAM_CONTENT_OBJECT => $this->content_object->get_id())). '">delete</a>');
 

@@ -6,10 +6,17 @@ use common\libraries\Path;
 use common\libraries\EqualityCondition;
 use common\libraries\Session;
 use common\libraries\AndCondition;
-
+use common\extensions\rights_editor_manager\RightsEditorManager;
+use common\extensions\external_repository_manager\implementation\mediamosa\MediamosaExternalRepositoryConnector;
 use user\UserDataManager;
+use repository\ExternalRepositorySetting;
+use repository\RepositoryDataManager;
+use repository\ExternalRepositorySync;
+use rights\RightsDataManager;
+use rights\UserRightLocation;
 
-require_once Path :: get_application_path() . 'common/external_repository_manager/type/mediamosa/mediamosa_external_repository_connector.class.php';
+
+require_once Path :: get_common_extensions_path() . 'external_repository_manager/implementation/mediamosa/php/mediamosa_external_repository_connector.class.php';
 
 class MediamosaRightsEditorManager extends RightsEditorManager
 {
