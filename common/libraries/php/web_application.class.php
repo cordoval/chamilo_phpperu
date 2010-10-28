@@ -117,12 +117,12 @@ abstract class WebApplication extends BasicApplication
     {
         $applications = array();
         $path = Path :: get_application_path();
+
         $directories = Filesystem :: get_directory_content($path, Filesystem :: LIST_DIRECTORIES, false);
 
         foreach ($directories as $directory)
         {
             $application_name = basename($directory);
-
             if ($only_registered_applications && ! AdminDataManager :: is_registered($application_name))
             {
                 continue;
