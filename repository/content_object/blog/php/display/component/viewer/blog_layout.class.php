@@ -10,6 +10,8 @@ use common\libraries\Toolbar;
 use common\libraries\Theme;
 use common\libraries\ObjectTableOrder;
 
+use repository\ComplexContentObjectItem;
+
 /**
  * Abstract class to define a blog layout so users are able to define new blog layouts and choose between them in the local settings
  * @author Sven Vanpoucke
@@ -55,7 +57,7 @@ abstract class BlogLayout
 
 		require_once $file;
 
-		$class = Utilities :: underscores_to_camelcase($type) . 'BlogLayout';
+		$class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type) . 'BlogLayout';
 		return new $class($parent, $blog);
 	}
 
