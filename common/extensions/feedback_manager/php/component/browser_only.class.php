@@ -140,13 +140,9 @@ class FeedbackManagerBrowserOnlyComponent extends FeedbackManager
 
     function render_publication_information($feedback)
     {
-        $user = UserManager :: retrieve_user($feedback->get_owner_id());
         $html = array();
         $html[] = '(';
-        $html[] = $user->get_lastname();
-        ;
-        $html[] = $user->get_firstname();
-        ;
+        $html[] = $feedback->get_owner_fullname();
         $html[] = ' - ';
         $html[] = $this->format_date($feedback->get_creation_date());
         $html[] = ')';

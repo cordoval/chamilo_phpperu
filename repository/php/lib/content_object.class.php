@@ -205,6 +205,19 @@ class ContentObject extends DataClass
         return $this->get_default_property(self :: PROPERTY_OWNER_ID);
     }
 
+    function get_owner_fullname()
+    {
+        $owner = UserDataManager :: get_instance()->retrieve_user($this->get_owner_id());
+        if(!$owner)
+        {
+            return Translation :: get('OwnerUnknown');
+        }
+        else
+        {
+            return $owner->get_fullname();
+        }
+    }
+
     /**
      * Returns the title of this learning object.
      * @return string The title.
