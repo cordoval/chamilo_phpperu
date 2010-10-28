@@ -2,15 +2,18 @@
 namespace application\weblcms\tool\description;
 
 use repository\content_object\introduction\Introduction;
+use repository\ContentObject;
+use repository\RepositoryDataManager;
+
 use application\weblcms\ContentObjectPublication;
 use application\weblcms\WeblcmsDataManager;
 use application\weblcms\WeblcmsRights;
 use application\weblcms\Tool;
+use application\weblcms\ToolComponent;
+
 use common\libraries\PatternMatchCondition;
-use repository\ContentObject;
 use common\libraries\ActionBarRenderer;
 use common\libraries\SubselectCondition;
-use repository\RepositoryDataManager;
 use common\libraries\ToolbarItem;
 use common\libraries\Display;
 use common\libraries\Theme;

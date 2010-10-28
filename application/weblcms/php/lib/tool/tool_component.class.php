@@ -48,7 +48,7 @@ abstract class ToolComponent extends SubManager
 
         require_once $file;
 
-        $class = 'ToolComponent' . Utilities :: underscores_to_camelcase($type) . 'Component';
+        $class = __NAMESPACE__ . '\\' . 'ToolComponent' . Utilities :: underscores_to_camelcase($type) . 'Component';
         return new $class($tool_component);
     }
 

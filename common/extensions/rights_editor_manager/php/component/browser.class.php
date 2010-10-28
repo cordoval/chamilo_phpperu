@@ -350,7 +350,6 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
         if(count($locations) == 1)
         {
         	$location = $locations[0];
-
         	if($location->get_parent())
         	{
 	        	$url = $this->get_url(array(RightsEditorManager :: PARAM_RIGHTS_EDITOR_ACTION => RightsEditorManager :: ACTION_CHANGE_INHERIT));
