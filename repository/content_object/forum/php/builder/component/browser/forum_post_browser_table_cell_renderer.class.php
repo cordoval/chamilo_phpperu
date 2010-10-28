@@ -4,6 +4,8 @@ namespace repository\content_object\forum;
 use common\libraries\Translation;
 use common\libraries\DatetimeUtilities;
 use common\libraries\Path;
+use repository\ComplexBrowserTableCellRenderer;
+use repository\ComplexBrowserTableColumnModel;
 
 /**
  * $Id: forum_post_browser_table_cell_renderer.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -30,7 +32,7 @@ class ForumPostBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
     {
      	if ($column === ComplexBrowserTableColumnModel :: get_modification_column())
         {
-            return $this->get_modification_links($complex_content_object_item);
+            return $this->get_modification_links($complex_content_object_item)->as_html();
         }
     	switch ($column->get_name())
         {
@@ -43,7 +45,7 @@ class ForumPostBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
 
  	function get_modification_links($complex_content_object_item)
     {
-        return parent :: get_modification_links($complex_content_object_item, array(), true);
+        return parent :: get_modification_links($complex_content_object_item, true);
     }
 }
 ?>
