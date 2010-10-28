@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms\tool\forum;
 
+use common\libraries;
+use repository\ComplexDisplay;
 use application\weblcms\WeblcmsDataManager;
 use application\weblcms\WeblcmsRights;
 use application\weblcms\WeblcmsManager;
@@ -14,13 +16,16 @@ use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\DelegateComponent;
 use common\libraries\Translation;
+use common\libraries\WebApplication;
+use repository\content_object\forum\Forum;
+use application\weblcms\WeblcmsForumTopicViewsTracker;
+use tracking\Event;
 
 /**
  * $Id: forum_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.forum.component
  */
 require_once dirname(__FILE__) . '/../forum_tool.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/forum/display/forum_display.class.php';
 
 class ForumToolViewerComponent extends ForumTool implements DelegateComponent
 {
@@ -71,7 +76,7 @@ class ForumToolViewerComponent extends ForumTool implements DelegateComponent
 
     function topic_viewed($complex_topic_id)
     {
-        require_once dirname(__FILE__) . '/../../../trackers/weblcms_forum_topic_views_tracker.class.php';
+        require_once WebApplication :: get_application_class_path(WeblcmsManager :: APPLICATION_NAME) . 'trackers/weblcms_forum_topic_views_tracker.class.php';
 
         $parameters = array();
         $parameters[WeblcmsForumTopicViewsTracker :: PROPERTY_USER_ID] = $this->get_user_id();
@@ -83,7 +88,7 @@ class ForumToolViewerComponent extends ForumTool implements DelegateComponent
 
     function count_topic_views($complex_topic_id)
     {
-        require_once dirname(__FILE__) . '/../../../trackers/weblcms_forum_topic_views_tracker.class.php';
+        require_once WebApplication :: get_application_class_path(WeblcmsManager :: APPLICATION_NAME) . 'trackers/weblcms_forum_topic_views_tracker.class.php';
 
         $conditions[] = new EqualityCondition(WeblcmsForumTopicViewsTracker :: PROPERTY_PUBLICATION_ID, $this->publication_id);
         $conditions[] = new EqualityCondition(WeblcmsForumTopicViewsTracker :: PROPERTY_FORUM_TOPIC_ID, $complex_topic_id);

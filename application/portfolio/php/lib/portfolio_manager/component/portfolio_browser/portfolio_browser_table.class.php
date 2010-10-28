@@ -1,7 +1,11 @@
 <?php
+
 namespace application\portfolio;
 use common\libraries\ObjectTable;
 
+require_once dirname(__FILE__) . '/portfolio_browser_table_data_provider.class.php';
+require_once dirname(__FILE__) . '/portfolio_browser_table_cell_renderer.class.php';
+require_once dirname(__FILE__) . '/portfolio_browser_table_column_model.class.php';
 
 
 

@@ -1,4 +1,6 @@
 <?php
+
+
 namespace application\portfolio;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
@@ -14,7 +16,7 @@ use common\libraries\SubselectCondition;
 use common\libraries\AndCondition;
 use common\libraries\ActionBarRenderer;
 
-
+require_once dirname(__FILE__) . '/portfolio_browser/portfolio_browser_table.class.php';
 
 /**
  * Portfolio component which allows the user to browse the portfolio application

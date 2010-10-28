@@ -1,4 +1,6 @@
 <?php
+
+
 namespace application\portfolio;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
@@ -6,6 +8,7 @@ use user\UserDataManager;
 use common\libraries\Translation;
 use common\extensions\repo_viewer\RepoViewer;
 
+require_once dirname(__FILE__) . '/../../forms/portfolio_introduction_form.class.php';
 
 /**
  * Component to create a new portfolio_publication object
