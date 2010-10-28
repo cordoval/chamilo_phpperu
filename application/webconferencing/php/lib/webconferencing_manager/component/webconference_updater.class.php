@@ -1,4 +1,10 @@
 <?php
+
+namespace application\webconferencing;
+
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
 /**
  * $Id: webconference_updater.class.php 220 2009-11-13 14:33:52Z kariboe $
  * @package application.lib.webconferencing.webconferencing_manager.component
