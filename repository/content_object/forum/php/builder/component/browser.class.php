@@ -1,6 +1,7 @@
 <?php
 namespace repository\content_object\forum;
 
+use common\libraries\SubselectCondition;
 use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\BreadcrumbTrail;
@@ -14,13 +15,13 @@ use repository\content_object\forum_post\ForumPost;
 use repository\ComplexContentObjectItem;
 use repository\ComplexBrowserTable;
 use repository\content_object\forum_topic\ForumTopic;
+use repository\content_object\forum_topic\ComplexForumTopic;
 
 /**
  * $Id: browser.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.forum.component
  */
 
-require_once Path :: get_repository_path() . '/lib/content_object/forum/forum.class.php';
 require_once dirname(__FILE__) . '/browser/forum_browser_table_cell_renderer.class.php';
 require_once dirname(__FILE__) . '/browser/forum_browser_table_column_model.class.php';
 require_once dirname(__FILE__) . '/browser/forum_post_browser_table_cell_renderer.class.php';
@@ -71,12 +72,12 @@ class ForumBuilderBrowserComponent extends ForumBuilder
             $parameters[ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID] = $this->get_complex_content_object_item()->get_id();
         }
 
-        if(get_class($this->get_complex_content_object_item()) == 'ComplexForumTopic')
+        if($this->get_complex_content_object_item() instanceof ComplexForumTopic)
         {
         	$conditions = array();
 	        $conditions[] = $this->get_complex_content_object_table_condition();
 	        $subcondition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, ForumPost :: get_type_name());
-	        $conditions[] = new SubSelectcondition(ComplexContentObjectItem :: PROPERTY_REF, ContentObject :: PROPERTY_ID, 'content_object', $subcondition);
+	        $conditions[] = new SubselectCondition(ComplexContentObjectItem :: PROPERTY_REF, ContentObject :: PROPERTY_ID, 'content_object', $subcondition);
 	        $condition = new AndCondition($conditions);
 
 	        $html[] = '<h3>' . Translation :: get('Posts') . '</h3>';
@@ -88,7 +89,7 @@ class ForumBuilderBrowserComponent extends ForumBuilder
 	        $conditions = array();
 	        $conditions[] = $this->get_complex_content_object_table_condition();
 	        $subcondition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Forum :: get_type_name());
-	        $conditions[] = new SubSelectcondition(ComplexContentObjectItem :: PROPERTY_REF, ContentObject :: PROPERTY_ID, 'content_object', $subcondition);
+	        $conditions[] = new SubselectCondition(ComplexContentObjectItem :: PROPERTY_REF, ContentObject :: PROPERTY_ID, 'content_object', $subcondition);
 	        $condition = new AndCondition($conditions);
 
 	        $html[] = '<h3>' . Translation :: get('Forums') . '</h3>';
@@ -98,7 +99,7 @@ class ForumBuilderBrowserComponent extends ForumBuilder
 	        $conditions = array();
 	        $conditions[] = $this->get_complex_content_object_table_condition();
 	        $subcondition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, ForumTopic :: get_type_name());
-	        $conditions[] = new SubSelectcondition(ComplexContentObjectItem :: PROPERTY_REF, ContentObject :: PROPERTY_ID, 'content_object', $subcondition);
+	        $conditions[] = new SubselectCondition(ComplexContentObjectItem :: PROPERTY_REF, ContentObject :: PROPERTY_ID, 'content_object', $subcondition);
 	        $condition = new AndCondition($conditions);
 
 	        $html[] = '<br /><h3>' . Translation :: get('ForumTopics') . '</h3>';

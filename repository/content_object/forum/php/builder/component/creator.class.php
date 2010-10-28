@@ -10,6 +10,7 @@ use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use repository\ComplexBuilder;
 use common\extensions\repo_viewer\RepoViewer;
+use common\extensions\repo_viewer\RepoViewerInterface;
 use repository\ComplexContentObjectItem;
 
 /**

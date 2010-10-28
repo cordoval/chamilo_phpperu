@@ -8,6 +8,7 @@ use common\libraries\ComplexContentObjectSupport;
 use repository\ContentObject;
 use repository\RepositoryDataManager;
 use repository\ComplexContentObjectItem;
+use repository\content_object\forum_topic\ForumTopic;
 
 /**
  * $Id: forum.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -23,12 +24,12 @@ class Forum extends ContentObject implements ComplexContentObjectSupport
     const PROPERTY_TOTAL_POSTS = 'total_posts';
     const PROPERTY_LAST_POST = 'last_post_id';
 
-	const CLASS_NAME = __CLASS__;
+    const CLASS_NAME = __CLASS__;
 
-	static function get_type_name()
-	{
-		return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
-	}
+    static function get_type_name()
+    {
+        return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
+    }
 
     function get_locked()
     {
@@ -191,78 +192,77 @@ class Forum extends ContentObject implements ComplexContentObjectSupport
 
     function delete_links()
     {
-    	$success = parent :: delete_links();
-    	if($success)
-    	{
-    		$this->set_total_posts(0);
-    		$this->set_total_topics(0);
-    		$success = $this->update();
-    	}
-    	return $success;
+        $success = parent :: delete_links();
+        if ($success)
+        {
+            $this->set_total_posts(0);
+            $this->set_total_topics(0);
+            $success = $this->update();
+        }
+        return $success;
     }
 
     function delete_complex_wrapper($object_id, $link_ids)
     {
-    	$rdm = RepositoryDataManager :: get_instance();
-    	$failures = 0;
+        $rdm = RepositoryDataManager :: get_instance();
+        $failures = 0;
 
-    	foreach($link_ids as $link_id)
-    	{
-    		$item = $rdm->retrieve_complex_content_object_item($link_id);
-    		$object = $rdm->retrieve_content_object($item->get_ref());
+        foreach ($link_ids as $link_id)
+        {
+            $item = $rdm->retrieve_complex_content_object_item($link_id);
+            $object = $rdm->retrieve_content_object($item->get_ref());
 
-    		if($object->get_type() == Forum :: get_type_name())
-    		{
-    			$this->set_total_topics($this->get_total_topics() - $object->get_total_topics());
-    		}
+            if ($object->get_type() == Forum :: get_type_name())
+            {
+                $this->set_total_topics($this->get_total_topics() - $object->get_total_topics());
+            }
 
-    		$this->set_total_posts($this->get_total_post() - $object->get_total_post());
+            $this->set_total_posts($this->get_total_post() - $object->get_total_post());
 
-    		if(!$item->delete())
-    		{
-    			$failures++;
-    			continue;
-    		}
+            if (! $item->delete())
+            {
+                $failures ++;
+                continue;
+            }
 
-    	}
+        }
 
-    	if(!$this->update())
-    		$failures++;
+        if (! $this->update())
+            $failures ++;
 
-    	$message = $this->get_result($failures, count($link_ids), 'ComplexContentObjectItemNotDeleted', 'ComplexContentObjectItemsNotDeleted',
-    							     'ComplexContentObjectItemDeleted', 'ComplexContentObjectItemsDeleted');
+        $message = $this->get_result($failures, count($link_ids), 'ComplexContentObjectItemNotDeleted', 'ComplexContentObjectItemsNotDeleted', 'ComplexContentObjectItemDeleted', 'ComplexContentObjectItemsDeleted');
 
-    	return array($message, ($failures > 0));
+        return array($message, ($failures > 0));
     }
 
-	function is_locked()
+    function is_locked()
     {
-    	if($this->get_locked())
-    	{
-    		return true;
-    	}
+        if ($this->get_locked())
+        {
+            return true;
+        }
 
-    	$rdm = RepositoryDataManager :: get_instance();
+        $rdm = RepositoryDataManager :: get_instance();
 
-    	$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_REF, $this->get_id());
+        $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_REF, $this->get_id());
         $parents = $rdm->retrieve_complex_content_object_items($condition);
 
         while ($parent = $parents->next_result())
         {
             $content_object = $rdm->retrieve_content_object($parent->get_parent());
-            if($content_object->is_locked())
+            if ($content_object->is_locked())
             {
-            	return true;
+                return true;
             }
         }
 
-    	return false;
+        return false;
     }
 
     function invert_locked()
     {
-    	$this->set_locked(!$this->get_locked());
-    	return $this->update();
+        $this->set_locked(! $this->get_locked());
+        return $this->update();
     }
 }
 ?>
