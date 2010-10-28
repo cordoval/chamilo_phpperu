@@ -3,6 +3,7 @@ namespace repository\content_object\forum;
 
 use repository\ComplexContentObjectItem;
 use repository\RepositoryDataManager;
+use repository\content_object\forum_topic\ForumTopic;
 
 /**
  * $Id: complex_forum.class.php 200 2009-11-13 12:30:04Z kariboe $

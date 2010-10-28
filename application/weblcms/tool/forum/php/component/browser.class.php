@@ -1,7 +1,10 @@
 <?php
 namespace application\weblcms\tool\forum;
 
+use repository\content_object\forum\ForumDisplay;
+use repository\content_object\forum\Forum;
 use repository\content_object\introduction\Introduction;
+use application\weblcms\ContentObjectPublicationCategory;
 use application\weblcms\ContentObjectPublication;
 use application\weblcms\WeblcmsDataManager;
 use application\weblcms\WeblcmsRights;
@@ -27,15 +30,12 @@ use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
+use repository\ComplexDisplay;
 
 /**
  * $Id: forum_browser.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.forum.component
  */
-require_once dirname(__FILE__) . '/../forum_tool.class.php';
-
-require_once Path :: get_repository_path() . '/lib/content_object/forum/forum.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/forum/display/forum_display.class.php';
 require_once 'HTML/Table.php';
 
 class ForumToolBrowserComponent extends ForumTool

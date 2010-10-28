@@ -4,6 +4,7 @@ namespace repository;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
+
 use common\extensions\repo_viewer\RepoViewerInterface;
 use common\extensions\repo_viewer\RepoViewer;
 
@@ -21,12 +22,14 @@ class ComplexDisplayComponentCreatorComponent extends ComplexDisplayComponent im
     function run()
     {
 
+
+
         if ($this->is_allowed(ADD_RIGHT))
         {
             $complex_content_object_item_id = $this->get_complex_content_object_item_id();
             $complex_content_object_item = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($complex_content_object_item_id);
 
-            if (! $this->get_root_content_object())
+            if (!$this->get_root_content_object())
             {
                 $this->display_header();
                 $this->display_error_message(Translation :: get('NoParentSelected'));
@@ -36,7 +39,7 @@ class ComplexDisplayComponentCreatorComponent extends ComplexDisplayComponent im
 
             $type = Request :: get('type');
 
-            if (! RepoViewer :: is_ready_to_be_published())
+            if (!RepoViewer::is_ready_to_be_published())
             {
                 $repo_viewer = RepoViewer :: construct($this);
                 $repo_viewer->set_maximum_select(RepoViewer :: SELECT_SINGLE);
@@ -49,7 +52,7 @@ class ComplexDisplayComponentCreatorComponent extends ComplexDisplayComponent im
             {
                 $cloi = ComplexContentObjectItem :: factory($type);
 
-                $cloi->set_ref(RepoViewer :: get_selected_objects());
+                $cloi->set_ref(RepoViewer::get_selected_objects());
                 $cloi->set_user_id($this->get_user_id());
 
                 if ($complex_content_object_item_id)

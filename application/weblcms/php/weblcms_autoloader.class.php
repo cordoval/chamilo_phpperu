@@ -46,6 +46,7 @@ class WeblcmsAutoloader
                 'content_object_publication_user' => 'content_object_publication_user.class.php',
         		'content_object_publication_group' => 'content_object_publication_group.class.php',
         		'content_object_publication_course_group' => 'content_object_publication_course_group.class.php',
+				'content_object_publication_category_manager' => 'category_manager/content_object_publication_category_manager.class.php',
         		'object_publication_table_cell_renderer.class' => 'browser/object_publication_table/object_publication_table_cell_renderer.class.php'
         );
 

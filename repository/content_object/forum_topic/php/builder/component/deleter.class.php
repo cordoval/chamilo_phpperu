@@ -5,6 +5,8 @@ use repository\RepositoryDataManager;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
+use repository\ComplexBuilder;
+use repository\ContentObject;
 /**
  * $Id: deleter.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.component
@@ -79,13 +81,13 @@ class ForumTopicBuilderDeleterComponent extends ForumTopicBuilder
 
             $count = $repositor_data_manager->count_content_objects(new EqualityCondition(ContentObject :: PROPERTY_ID, $this->get_root_content_object_id()));
 
-            if($count == 1)
+            if ($count == 1)
             {
-            	$this->redirect(Translation :: get($message), $failures ? true : false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE));
+                $this->redirect(Translation :: get($message), $failures ? true : false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE));
             }
             else
             {
-            	$this->redirect_away_from_complex_builder(Translation :: get($message), $failures ? true : false);
+                $this->redirect_away_from_complex_builder(Translation :: get($message), $failures ? true : false);
             }
         }
         else
