@@ -1,6 +1,7 @@
 <?php
 namespace repository\content_object\forum;
 
+use common\libraries\SubselectCondition;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
@@ -34,7 +35,7 @@ class ForumBuilderMoverComponent extends ForumBuilder
             $conditions = array();
             $conditions[] = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $parent);
             $subcondition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Forum :: get_type_name());
-	        $conditions[] = new SubSelectcondition(ComplexContentObjectItem :: PROPERTY_REF, ContentObject :: PROPERTY_ID, 'content_object', $subcondition);
+	        $conditions[] = new SubselectCondition(ComplexContentObjectItem :: PROPERTY_REF, ContentObject :: PROPERTY_ID, 'content_object', $subcondition);
 	        $condition = new AndCondition($conditions);
             $max = $rdm->count_complex_content_object_items($condition);
 
@@ -46,7 +47,7 @@ class ForumBuilderMoverComponent extends ForumBuilder
                 $conditions[] = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_DISPLAY_ORDER, $new_place, ComplexContentObjectItem :: get_table_name());
                 $conditions[] = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $parent, ComplexContentObjectItem :: get_table_name());
                 $subcondition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Forum :: get_type_name());
-	            $conditions[] = new SubSelectcondition(ComplexContentObjectItem :: PROPERTY_REF, ContentObject :: PROPERTY_ID, 'content_object', $subcondition);
+	            $conditions[] = new SubselectCondition(ComplexContentObjectItem :: PROPERTY_REF, ContentObject :: PROPERTY_ID, 'content_object', $subcondition);
 	            $condition = new AndCondition($conditions);
                 $items = $rdm->retrieve_complex_content_object_items($condition);
                 $new_complex_content_object_item = $items->next_result();

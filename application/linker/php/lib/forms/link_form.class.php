@@ -1,4 +1,8 @@
 <?php
+namespace application\linker;
+
+use common\libraries\FormValidator;
+use common\libraries\Translation;
 /**
  * $Id: link_form.class.php 199 2009-11-13 12:23:04Z chellee $
  * @package application.lib.linker.forms

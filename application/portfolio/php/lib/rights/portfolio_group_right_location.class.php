@@ -5,7 +5,7 @@ namespace application\portfolio;
 
 use common\libraries\DataClass;
 use common\libraries\Utilities;
-require_once dirname(__FILE__). '/../lib/portfolio_data_manager.class.php';
+require_once dirname(__FILE__). '/../portfolio_data_manager.class.php';
 
 class PortfolioGroupRightLocation extends DataClass
 {

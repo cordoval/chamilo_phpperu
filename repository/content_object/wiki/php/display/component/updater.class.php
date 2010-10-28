@@ -3,6 +3,10 @@ namespace repository\content_object\wiki;
 
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\DelegateComponent;
+use repository\ComplexDisplayComponent;
+use repository\ComplexDisplay;
+use repository\RepositoryDataManager;
 
 /**
  * $Id: browser.class.php 200 2009-11-13 12:30:04Z kariboe $

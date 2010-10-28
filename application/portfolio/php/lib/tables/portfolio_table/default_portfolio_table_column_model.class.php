@@ -1,6 +1,8 @@
 <?php
 namespace application\portfolio;
 use common\libraries\ObjectTableColumnModel;
+use common\libraries\ObjectTableColumn;
+use user\User;
 
 
 

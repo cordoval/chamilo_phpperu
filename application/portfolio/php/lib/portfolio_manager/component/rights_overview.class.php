@@ -1,6 +1,14 @@
 <?php
 namespace application\portfolio;
 
+use repository\RepositoryDataManager;
+use common\libraries\EqualityCondition;
+use common\libraries\Translation;
+use repository\ComplexContentObjectItem;
+use repository\content_object\portfolio_item\PortfolioItem;
+use repository\content_object\portfolio\Portfolio;
+use common\libraries\Theme;
+
 /* 
  * To change this template, choose Tools | Templates
  * and open the template in the editor.

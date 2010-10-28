@@ -1,6 +1,8 @@
 <?php
 namespace application\portfolio;
 use common\libraries\ObjectTableCellRenderer;
+use user\User;
+use common\libraries\Theme;
 
 
 

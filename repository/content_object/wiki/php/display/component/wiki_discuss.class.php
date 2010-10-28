@@ -4,6 +4,10 @@ namespace repository\content_object\wiki;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Path;
+use repository\ComplexDisplay;
+use repository\RepositoryDataManager;
+use common\extensions\feedback_manager\FeedbackManager;
+use MediawikiParser;
 
 /**
  * $Id: wiki_discuss.class.php 200 2009-11-13 12:30:04Z kariboe $

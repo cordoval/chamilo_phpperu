@@ -4,6 +4,7 @@ namespace application\wiki;
 use common\libraries\WebApplication;
 use common\libraries\ObjectTableDataProvider;
 use repository\ContentObject;
+use repository\RepositoryDataManager;
 
 /**
  * $Id: wiki_publication_browser_table_data_provider.class.php 210 2009-11-13 13:18:50Z kariboe $
@@ -37,12 +38,7 @@ class WikiPublicationBrowserTableDataProvider extends ObjectTableDataProvider
     {
         $order_property = $this->get_order_property($order_property);
         
-        $publications = $this->get_browser()->retrieve_wiki_publications($this->get_condition(), $offset, $count)->as_array();
-        foreach ($publications as &$publication)
-        {
-            $publication->set_content_object(RepositoryDataManager :: get_instance()->retrieve_content_object($publication->get_content_object()));
-        }
-        return $publications;
+        return $this->get_browser()->retrieve_wiki_publications($this->get_condition(), $offset, $count)->as_array();
     }
 
     /**

@@ -1,4 +1,6 @@
 <?php
+namespace application\linker;
+
 interface LinkerDataManagerInterface
 {
     function initialize();

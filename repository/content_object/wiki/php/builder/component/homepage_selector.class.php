@@ -1,6 +1,7 @@
 <?php
 namespace repository\content_object\wiki;
 
+use repository\ComplexBuilder;
 use repository\RepositoryDataManager;
 use common\libraries\Request;
 use common\libraries\Translation;

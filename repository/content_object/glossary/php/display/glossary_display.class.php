@@ -1,8 +1,11 @@
 <?php
 namespace repository\content_object\glossary;
+
+use repository\ComplexDisplay;
+
 /**
  * @package repository.lib.complex_display.glossary
- * 
+ *
  * This tool allows a user to publish glossarys in his or her course.
  */
 

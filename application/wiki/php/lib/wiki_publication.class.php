@@ -3,12 +3,12 @@ namespace application\wiki;
 
 use common\libraries\Utilities;
 use common\libraries\DataClass;
+use repository\RepositoryDataManager;
 
 /**
  * $Id: wiki_publication.class.php 210 2009-11-13 13:18:50Z kariboe $
  * @package application.lib.wiki
  */
-
 
 /**
  * This class describes a WikiPublication data object
@@ -22,7 +22,7 @@ class WikiPublication extends DataClass
     /**
      * WikiPublication properties
      */
-    const PROPERTY_CONTENT_OBJECT = 'content_object_id';
+    const PROPERTY_CONTENT_OBJECT_ID = 'content_object_id';
     const PROPERTY_PARENT_ID = 'parent_id';
     const PROPERTY_CATEGORY = 'category_id';
     const PROPERTY_FROM_DATE = 'from_date';
@@ -40,7 +40,7 @@ class WikiPublication extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_CONTENT_OBJECT, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CATEGORY, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED, self :: PROPERTY_MODIFIED, self :: PROPERTY_DISPLAY_ORDER, self :: PROPERTY_EMAIL_SENT));
+        return parent :: get_default_property_names(array(self :: PROPERTY_CONTENT_OBJECT_ID, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CATEGORY, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED, self :: PROPERTY_MODIFIED, self :: PROPERTY_DISPLAY_ORDER, self :: PROPERTY_EMAIL_SENT));
     }
 
     /**
@@ -52,21 +52,33 @@ class WikiPublication extends DataClass
     }
 
     /**
-     * Returns the content_object of this WikiPublication.
-     * @return the content_object.
+     * Gets the learning object.
+     * @return ContentObject
      */
-    function get_content_object()
+    function get_content_object_id()
     {
-        return $this->get_default_property(self :: PROPERTY_CONTENT_OBJECT);
+        return $this->get_default_property(self :: PROPERTY_CONTENT_OBJECT_ID);
     }
 
-    /**
-     * Sets the content_object of this WikiPublication.
-     * @param content_object
-     */
+    function set_content_object_id($content_object_id)
+    {
+        $this->set_default_property(self :: PROPERTY_CONTENT_OBJECT_ID, $content_object_id);
+    }
+
+    function get_content_object()
+    {
+        if (! isset($this->content_object))
+        {
+            $rdm = RepositoryDataManager :: get_instance();
+            $this->content_object = $rdm->retrieve_content_object($this->get_content_object_id());
+        }
+        
+        return $this->content_object;
+    }
+
     function set_content_object($content_object)
     {
-        $this->set_default_property(self :: PROPERTY_CONTENT_OBJECT, $content_object);
+        $this->content_object = $content_object;
     }
 
     /**
@@ -113,7 +125,7 @@ class WikiPublication extends DataClass
     {
         return $this->get_default_property(self :: PROPERTY_FROM_DATE);
     }
-    
+
     /**
      * Determines whether this publication is available forever
      * @return boolean True if the publication is available forever
@@ -262,7 +274,7 @@ class WikiPublication extends DataClass
 
     static function get_table_name()
     {
-       return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
     }
 }
 

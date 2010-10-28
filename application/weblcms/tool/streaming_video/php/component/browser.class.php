@@ -1,4 +1,4 @@
-q<?php
+<?php
 namespace application\weblcms\tool\streaming_video;
 
 use application\weblcms\ContentObjectPublication;

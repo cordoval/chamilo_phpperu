@@ -3,14 +3,13 @@ namespace application\weblcms\tool\forum;
 
 use application\weblcms\WeblcmsRights;
 use common\extensions\category_manager\CategoryManager;
+use application\weblcms\ContentObjectPublicationCategoryManager;
 use application\weblcms\Tool;
 use common\libraries\Display;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\DelegateComponent;
 use common\libraries\Translation;
-
-require_once dirname(__FILE__) . '/../../../category_manager/content_object_publication_category_manager.class.php';
 
 class ForumToolCategoryManagerComponent extends ForumTool implements DelegateComponent
 {

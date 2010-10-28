@@ -1,10 +1,11 @@
 <?php
-
-
 namespace application\portfolio;
 
 use common\libraries\Database;
 use common\libraries\EqualityCondition;
+use repository\ComplexContentObjectItem;
+use repository\RepositoryDataManager;
+use repository\RepositoryManager;
 
 require_once dirname(__FILE__). '/../portfolio_data_manager.interface.class.php';
 
@@ -108,7 +109,7 @@ class DatabasePortfolioDataManager extends Database implements PortfolioDataMana
         $conditions[] = new EqualityCondition(PortfolioUserRightLocation :: PROPERTY_LOCATION_ID, $location_id);
         $condition = new AndCondition($conditions);
 
-        return $this->retrieve_object(PortfolioUserRightLocation :: get_table_name(), $condition);
+        return $this->retrieve_object(PortfolioUserRightLocation :: get_table_name(), $condition, null, PortfolioUserRightLocation::CLASS_NAME);
     }
 
     function retrieve_group_right_location($right_id, $group_id, $location_id)
@@ -119,17 +120,17 @@ class DatabasePortfolioDataManager extends Database implements PortfolioDataMana
         $conditions[] = new EqualityCondition(PortfolioGroupRightLocation :: PROPERTY_LOCATION_ID, $location_id);
         $condition = new AndCondition($conditions);
 
-        return $this->retrieve_object(PortfolioGroupRightLocation :: get_table_name(), $condition);
+        return $this->retrieve_object(PortfolioGroupRightLocation :: get_table_name(), $condition, null, PortfolioGroupRightLocation::CLASS_NAME);
     }
 
     function retrieve_user_right_locations($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->retrieve_objects(PortfolioUserRightLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(PortfolioUserRightLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by, PortfolioUserRightLocation::CLASS_NAME);
     }
 
     function retrieve_group_right_locations($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->retrieve_objects(PortfolioGroupRightLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(PortfolioGroupRightLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by, PortfolioGroupRightLocation::CLASS_NAME);
     }
 
 	function delete_portfolio_publication($portfolio_publication)
@@ -150,65 +151,65 @@ class DatabasePortfolioDataManager extends Database implements PortfolioDataMana
 	function retrieve_portfolio_publication($id)
 	{
 		$condition = new EqualityCondition(PortfolioPublication :: PROPERTY_ID, $id);
-		return $this->retrieve_object(PortfolioPublication :: get_table_name(), $condition);
+		return $this->retrieve_object(PortfolioPublication :: get_table_name(), $condition, null, PortfolioPublication::CLASS_NAME);
 	}
 
 	function retrieve_portfolio_information_by_user($user_id)
 	{
         $condition = new EqualityCondition(PortfolioInformation::PROPERTY_USER_ID, $user_id);
-        return $this->retrieve_object(PortfolioInformation::get_table_name(), $condition);
+        return $this->retrieve_object(PortfolioInformation::get_table_name(), $condition, null, PortfolioInformation::CLASS_NAME                                            );
 	}
 
 	function retrieve_portfolio_publications($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
-		return $this->retrieve_objects(PortfolioPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+		return $this->retrieve_objects(PortfolioPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by, PortfolioPublication::CLASS_NAME);
 	}
     function retrieve_locations($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->retrieve_objects(PortfolioLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(PortfolioLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by, PortfolioLocation::CLASS_NAME);
     }
 
-	function create_portfolio_publication_group($portfolio_publication_group)
-	{
-		return $this->create($portfolio_publication_group);
-	}
-
-	function delete_portfolio_publication_group($portfolio_publication_group)
-	{
-		$condition = new EqualityCondition(PortfolioPublicationGroup :: PROPERTY_ID, $portfolio_publication_group->get_id());
-		return $this->delete($portfolio_publication_group->get_table_name(), $condition);
-	}
-
-	function count_portfolio_publication_groups($condition = null)
-	{
-		return $this->count_objects(PortfolioPublicationGroup :: get_table_name(), $condition);
-	}
-
-	function retrieve_portfolio_publication_groups($condition = null, $offset = null, $max_objects = null, $order_by = null)
-	{
-		return $this->retrieve_objects(PortfolioPublicationGroup :: get_table_name(), $condition, $offset, $max_objects, $order_by);
-	}
-
-	function create_portfolio_publication_user($portfolio_publication_user)
-	{
-		return $this->create($portfolio_publication_user);
-	}
-
-	function delete_portfolio_publication_user($portfolio_publication_user)
-	{
-		$condition = new EqualityCondition(PortfolioPublicationUser :: PROPERTY_ID, $portfolio_publication_user->get_id());
-		return $this->delete($portfolio_publication_user->get_table_name(), $condition);
-	}
-
-	function count_portfolio_publication_users($condition = null)
-	{
-		return $this->count_objects(PortfolioPublicationUser :: get_table_name(), $condition);
-	}
-
-	function retrieve_portfolio_publication_users($condition = null, $offset = null, $max_objects = null, $order_by = null)
-	{
-		return $this->retrieve_objects(PortfolioPublicationUser :: get_table_name(), $condition, $offset, $max_objects, $order_by);
-	}
+//	function create_portfolio_publication_group($portfolio_publication_group)
+//	{
+//		return $this->create($portfolio_publication_group);
+//	}
+//
+//	function delete_portfolio_publication_group($portfolio_publication_group)
+//	{
+//		$condition = new EqualityCondition(PortfolioPublicationGroup :: PROPERTY_ID, $portfolio_publication_group->get_id());
+//		return $this->delete($portfolio_publication_group->get_table_name(), $condition);
+//	}
+//
+//	function count_portfolio_publication_groups($condition = null)
+//	{
+//		return $this->count_objects(PortfolioPublicationGroup :: get_table_name(), $condition);
+//	}
+//
+//	function retrieve_portfolio_publication_groups($condition = null, $offset = null, $max_objects = null, $order_by = null)
+//	{
+//		return $this->retrieve_objects(PortfolioPublicationGroup :: get_table_name(), $condition, $offset, $max_objects, $order_by, PortfolioPublication::CLASS_NAME);
+//	}
+//
+//	function create_portfolio_publication_user($portfolio_publication_user)
+//	{
+//		return $this->create($portfolio_publication_user);
+//	}
+//
+//	function delete_portfolio_publication_user($portfolio_publication_user)
+//	{
+//		$condition = new EqualityCondition(PortfolioPublicationUser :: PROPERTY_ID, $portfolio_publication_user->get_id());
+//		return $this->delete($portfolio_publication_user->get_table_name(), $condition);
+//	}
+//
+//	function count_portfolio_publication_users($condition = null)
+//	{
+//		return $this->count_objects(PortfolioPublicationUser :: get_table_name(), $condition);
+//	}
+//
+//	function retrieve_portfolio_publication_users($condition = null, $offset = null, $max_objects = null, $order_by = null)
+//	{
+//		return $this->retrieve_objects(PortfolioPublicationUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, PortfolioPublicationUs);
+//	}
 
     function content_object_is_published($object_id)
     {
@@ -422,7 +423,7 @@ class DatabasePortfolioDataManager extends Database implements PortfolioDataMana
     public function retrieve_portfolio_publication_id_by_content_object($object_id)
     {
         $condition = new EqualityCondition(PortfolioPublication::PROPERTY_CONTENT_OBJECT, $object_id);
-        $item = $this->retrieve_object(PortfolioPublication :: get_table_name(), $condition);
+        $item = $this->retrieve_object(PortfolioPublication :: get_table_name(), $condition, null, PortfolioPublication::CLASS_NAME);
         if($item)
         {
             return $item;
@@ -441,7 +442,7 @@ class DatabasePortfolioDataManager extends Database implements PortfolioDataMana
      function retrieve_portfolio_publication_publisher($pid)
 	{
 		$condition = new EqualityCondition(PortfolioPublication :: PROPERTY_ID, $pid);
-		$item = $this->retrieve_object(PortfolioPublication :: get_table_name(), $condition);
+		$item = $this->retrieve_object(PortfolioPublication :: get_table_name(), $condition, null, PortfolioPublication::CLASS_NAME);
 		return $item->get_publisher();
 	}
 	/**
@@ -452,7 +453,7 @@ class DatabasePortfolioDataManager extends Database implements PortfolioDataMana
 	function retrieve_portfolio_publication_owner($pid)
 	{
 		$condition = new EqualityCondition(PortfolioPublication :: PROPERTY_ID, $pid);
-		$item = $this->retrieve_object(PortfolioPublication :: get_table_name(), $condition);
+		$item = $this->retrieve_object(PortfolioPublication :: get_table_name(), $condition, null, PortfolioPublication::CLASS_NAME);
 		return $item->get_owner();
 	}
 
@@ -460,7 +461,7 @@ class DatabasePortfolioDataManager extends Database implements PortfolioDataMana
 	{
 		$condition = new EqualityCondition(ComplexContentObjectItem::PROPERTY_PARENT, $content_object_id);
 		$rdm = RepositoryDataManager::get_instance();
-		$object_set = $rdm->retrieve_objects(ComplexContentObjectItem::get_table_name(), $condition);
+		$object_set = $rdm->retrieve_objects(ComplexContentObjectItem::get_table_name(), $condition, null, null, null, ComplexContentObjectItem::CLASS_NAME);
 		return $object_set;
         }
 

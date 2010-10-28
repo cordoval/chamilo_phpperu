@@ -1,9 +1,10 @@
 <?php
 namespace application\wiki;
 
+use repository\ComplexDisplay;
+use repository\content_object\wiki\Wiki;
 use common\libraries\Path;
 use common\libraries\Display;
-use common\libraries\ComplexDisplay;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Request;
@@ -12,7 +13,6 @@ use common\libraries\Translation;
  * $Id: wiki_viewer.class.php 210 2009-11-13 13:18:50Z kariboe $
  * @package application.lib.wiki.wiki_manager.component
  */
-require_once Path :: get_repository_path() . 'lib/content_object/wiki/display/wiki_display.class.php';
 
 class WikiManagerWikiViewerComponent extends WikiManager
 {

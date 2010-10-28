@@ -5,6 +5,8 @@ use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\BreadcrumbTrail;
+use repository\ComplexDisplay;
+use MediawikiParser;
 
 /**
  * $Id: wiki_viewer.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -20,7 +22,6 @@ use common\libraries\BreadcrumbTrail;
 
 require_once dirname(__FILE__) . '/wiki_page_table/wiki_page_table.class.php';
 require_once dirname(__FILE__) . '/../wiki_parser.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/wiki/display/wiki_display.class.php';
 require_once Path :: get_plugin_path() . 'wiki/mediawiki_parser.class.php';
 
 class WikiDisplayViewerComponent extends WikiDisplay

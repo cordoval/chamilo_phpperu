@@ -6,6 +6,9 @@ use common\libraries\Path;
 use common\libraries\Utilities;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;
+use repository\ComplexBrowserTableCellRenderer;
+use repository\ComplexBrowserTableColumnModel;
+use repository\ContentObject;
 
 /**
  * $Id: wiki_browser_table_cell_renderer.class.php 200 2009-11-13 12:30:04Z kariboe $

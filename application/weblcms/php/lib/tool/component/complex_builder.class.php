@@ -2,6 +2,7 @@
 namespace application\weblcms;
 
 use common\libraries\Request;
+use repository\ComplexBuilder;
 
 /**
  * $Id: complex_builder.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -22,9 +23,6 @@ class ToolComponentComplexBuilderComponent extends ToolComponent
             $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, $pid);
 
             ComplexBuilder :: launch($this->content_object->get_type(), $this);
-
-     //$complex_builder = ComplexBuilder :: factory($this, $this->content_object->get_type());
-        //$complex_builder->run();
         }
     }
 

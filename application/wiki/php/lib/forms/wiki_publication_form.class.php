@@ -58,7 +58,7 @@ class WikiPublicationForm extends FormValidator
     function build_basic_form()
     {
         $attributes = array();
-        $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_user_group_feed.php';
+        $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/libraries/php/xml_feeds/xml_user_group_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('SelectRecipients');
         $locale['Searching'] = Translation :: get('Searching');
@@ -109,7 +109,7 @@ class WikiPublicationForm extends FormValidator
     function update_wiki_publication()
     {
         $wiki_publication = $this->wiki_publication;
-        $wiki_publication->set_content_object($wiki_publication->get_content_object()->get_id());
+        $wiki_publication->set_content_object_id($wiki_publication->get_content_object_id());
 
         $values = $this->exportValues();
 
@@ -136,7 +136,7 @@ class WikiPublicationForm extends FormValidator
     function create_wiki_publication($object, $values)
     {
     	$wiki_publication = new WikiPublication();
-		$wiki_publication->set_content_object($object);
+		$wiki_publication->set_content_object_id($object);
 		
         if ($values['forever'] != 0)
         {

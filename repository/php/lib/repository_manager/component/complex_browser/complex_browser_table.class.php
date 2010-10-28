@@ -20,6 +20,7 @@ require_once dirname(__FILE__) . '/complex_browser_table_cell_renderer.class.php
  */
 class ComplexBrowserTable extends ObjectTable
 {
+
     /**
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
@@ -29,9 +30,14 @@ class ComplexBrowserTable extends ObjectTable
         $name = (Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(__CLASS__)));
 
         if (! $model)
+        {
             $model = new ComplexBrowserTableColumnModel($browser);
+        }
+
         if (! $renderer)
+        {
             $renderer = new ComplexBrowserTableCellRenderer($browser, $condition);
+        }
 
         $data_provider = new ComplexBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, $name, $model, $renderer);
@@ -39,16 +45,18 @@ class ComplexBrowserTable extends ObjectTable
         $actions = new ObjectTableFormActions(ComplexBuilder :: PARAM_BUILDER_ACTION);
 
         $action = ComplexBuilder :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM;
-//        if ($name != self :: DEFAULT_NAME)
-//            $action = ComplexBuilder :: PARAM_DELETE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM . '_' . $name;
+        //        if ($name != self :: DEFAULT_NAME)
+        //            $action = ComplexBuilder :: PARAM_DELETE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM . '_' . $name;
+
 
         $actions->add_form_action(new ObjectTableFormAction($action, Translation :: get('RemoveSelected')));
 
         if ($browser instanceof ComplexMenuSupport)
         {
             $action = ComplexBuilder :: ACTION_MOVE_COMPLEX_CONTENT_OBJECT_ITEM;
-//            if ($name != self :: DEFAULT_NAME)
-//                $action = ComplexBuilder :: PARAM_MOVE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM . '_' . $name;
+            //            if ($name != self :: DEFAULT_NAME)
+            //                $action = ComplexBuilder :: PARAM_MOVE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM . '_' . $name;
+
 
             $actions->add_form_action(new ObjectTableFormAction($action, Translation :: get('MoveSelected'), false));
         }
@@ -59,8 +67,8 @@ class ComplexBrowserTable extends ObjectTable
 
     static function handle_table_action()
     {
-    	$ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
-    	Request :: set_get(ComplexBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID, $ids);
+        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+        Request :: set_get(ComplexBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID, $ids);
     }
 }
 ?>

@@ -1,6 +1,7 @@
 <?php
 namespace repository\content_object\wiki_page;
 
+use repository\ComplexContentObjectItem;
 use repository\RepositoryDataManager;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;

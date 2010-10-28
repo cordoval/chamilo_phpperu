@@ -1,4 +1,9 @@
 <?php
+namespace application\linker;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\Application;
 /**
  * $Id: deleter.class.php 199 2009-11-13 12:23:04Z chellee $
  * @package application.lib.linker.linker_manager.component

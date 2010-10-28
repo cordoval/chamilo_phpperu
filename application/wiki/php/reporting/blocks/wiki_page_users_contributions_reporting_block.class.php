@@ -11,6 +11,7 @@ use repository\ContentObjectVersions;
 use repository\RepositoryDataManager;
 use user\userDataManager;
 use reporting\ReportingFormatter;
+use reporting\ReportingData;
 
 require_once WebApplication :: get_application_class_path('wiki') . 'reporting/wiki_reporting_block.class.php';
 require_once CoreApplication :: get_application_class_lib_path('reporting') . 'reporting_data.class.php';
@@ -19,10 +20,10 @@ class WikiPageUsersContributionsReportingBlock extends WikiReportingBlock
 {
 
     public function count_data()
-    {        
+    {
         $reporting_data = new ReportingData();
         $reporting_data->set_rows(array(Translation :: get('Username'), Translation :: get('NumberOfContributions')));
-        
+
     	$dm = RepositoryDataManager :: get_instance();
         $complex_content_object_item = $dm->retrieve_complex_content_object_item(Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID));
         $wiki_page = $dm->retrieve_content_object($complex_content_object_item->get_ref());
@@ -44,7 +45,7 @@ class WikiPageUsersContributionsReportingBlock extends WikiReportingBlock
             	$reporting_data->hide_categories();
                 $count ++;
             }
-        }        
+        }
         return $reporting_data;
     }
 

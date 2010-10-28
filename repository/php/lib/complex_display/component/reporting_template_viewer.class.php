@@ -2,6 +2,7 @@
 namespace repository;
 
 use common\libraries\Path;
+use common\extensions\reporting_viewer\ReportingViewer;
 
 /**
  * $Id: reporting_template_viewer.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -13,8 +14,6 @@ use common\libraries\Path;
  *
  * @author Soliber
  */
-
-require_once Path :: get_application_path() . '/lib/weblcms/weblcms_manager/weblcms_manager.class.php';
 
 class ComplexDisplayComponentReportingTemplateViewerComponent extends ComplexDisplayComponent
 {

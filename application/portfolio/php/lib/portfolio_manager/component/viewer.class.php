@@ -3,6 +3,8 @@
 
 
 
+
+
 namespace application\portfolio;
 
 use common\libraries\Request;
@@ -20,6 +22,9 @@ use repository\ContentObjectDisplay;
 use common\extensions\feedback_manager\FeedbackManager;
 use repository\ContentObjectForm;
 use repository\content_object\portfolio\Portfolio;
+use admin\AdminDataManager;
+use repository\content_object\portfolio_item\PortfolioItem;
+
 
 /**
  * $Id: viewer.class.php 206 2009-11-13 13:08:01Z chellee $
@@ -31,7 +36,8 @@ require_once dirname(__FILE__) . '/../../portfolio_menu.class.php';
 require_once dirname(__FILE__) . '/../../forms/portfolio_publication_form.class.php';
 require_once dirname(__FILE__) . '/../../../../../../common/extensions/feedback_manager/php/feedback_manager.class.php';
 require_once dirname(__FILE__) . '/../../../../../../common/extensions/feedback_manager/php/component/browser.class.php';
-require_once dirname(__FILE__) . '/../../../rights/portfolio_rights.class.php';
+require_once dirname(__FILE__) . '/../../rights/portfolio_rights.class.php';
+
 
 /**
  * portfolio component which allows the user to browse his portfolio_publications

@@ -3,8 +3,8 @@ namespace repository\content_object\glossary;
 
 use common\libraries\Utilities;
 use common\libraries\ComplexContentObjectSupport;
-
 use repository\ContentObject;
+use repository\content_object\glossary_item\GlossaryItem;
 
 /**
  * $Id: glossary.class.php 200 2009-11-13 12:30:04Z kariboe $

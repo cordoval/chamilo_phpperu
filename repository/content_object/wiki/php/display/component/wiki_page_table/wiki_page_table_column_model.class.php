@@ -5,6 +5,7 @@ use common\libraries\Translation;
 use common\libraries\ObjectTableColumnModel;
 use common\libraries\ObjectTableColumn;
 use common\libraries\StaticTableColumn;
+use repository\ContentObject;
 
 /**
  * $Id: wiki_page_table_column_model.class.php 200 2009-11-13 12:30:04Z kariboe $

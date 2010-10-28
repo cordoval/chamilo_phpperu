@@ -4,6 +4,7 @@ namespace repository\content_object\wiki_page;
 use common\libraries\Request;
 
 use repository\ContentObjectForm;
+use repository\ContentObject;
 
 /**
  * $Id: wiki_page_form.class.php 200 2009-11-13 12:30:04Z kariboe $
