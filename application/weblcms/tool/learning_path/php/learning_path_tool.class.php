@@ -7,6 +7,7 @@ use common\libraries\Categorizable;
 use application\weblcms\ContentObjectPublicationListRenderer;
 use application\weblcms\Tool;
 use repository\RepositoryDataManager;
+use repository\ComplexContentObjectItem;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;
 use common\libraries\EqualityCondition;

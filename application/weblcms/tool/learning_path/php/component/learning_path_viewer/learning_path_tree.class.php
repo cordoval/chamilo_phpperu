@@ -1,6 +1,9 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use repository\content_object\learning_path\LearningPath;
+use repository\content_object\learning_path_item\LearningPathItem;
+use repository\ComplexContentObjectItem;
 use HTML_Menu_ArrayRenderer;
 use common\libraries\OptionsMenuRenderer;
 use common\libraries\TreeMenuRenderer;

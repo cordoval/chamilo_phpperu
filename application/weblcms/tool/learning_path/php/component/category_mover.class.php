@@ -1,9 +1,9 @@
 <?php
-namespace application\weblcms\tool\document;
+namespace application\weblcms\tool\learning_path;
 
 use application\weblcms\ToolComponent;
 
-class DocumentToolCategoryMovercomponent extends DocumentTool
+class LearningPathToolCategoryMovercomponent extends LearningPathTool
 {
 
     function run()

@@ -6,13 +6,18 @@ use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
+use common\libraries\WebApplication;
+use common\libraries\Text;
+use application\weblcms\WeblcmsManager;
+use application\weblcms\ObjectPublicationTableCellRenderer;
+use application\weblcms\WeblcmsLpAttemptTracker;
+use application\weblcms\Tool;
 
 /**
  * $Id: learning_path_cell_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.learning_path.component.learning_path_browser
  */
-require_once dirname(__FILE__) . '/../../../../browser/object_publication_table/object_publication_table_cell_renderer.class.php';
-require_once Path :: get_application_path() . 'lib/weblcms/trackers/weblcms_lp_attempt_tracker.class.php';
+require_once WebApplication :: get_application_class_path(WeblcmsManager :: APPLICATION_NAME) . 'trackers/weblcms_lp_attempt_tracker.class.php';
 /**
  * This class is a cell renderer for a publication candidate table
  */
