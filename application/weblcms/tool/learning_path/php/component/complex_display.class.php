@@ -537,5 +537,4 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool
     }
 
 }
-
 ?>
