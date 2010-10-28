@@ -3,31 +3,31 @@
 namespace application\cda;
 
 use common\libraries\WebApplication;
+use common\libraries\Path;
 
 require_once dirname(__FILE__) . '/../../../../../common/global.inc.php';
-require_once WebApplication :: get_application_class_lib_path('cda') . 'util/variable_scanner/variable_scanner.class.php';
+require_once WebApplication :: get_application_class_lib_path('cda') . 'util/variable_scanner/file_variable_scanner.class.php';
 
 set_time_limit(0);
 
-$root_path = Path :: get(SYS_PATH);
-$root_app_path = $root_path . 'application/';
+$scanner = new FileVariableScanner();
 
-$scanner = new VariableScanner();
+$core_applications = array('admin', 'common', 'group', 'help', 'home', 'install', 'menu', 'migration', 'reporting', 'repository', 'rights', 'tracking', 'user', 'webservice');
+$web_applications = WebApplication :: load_all_from_filesystem(false, false);
+$applications = array_merge($core_applications, $web_applications);
 
-$core_language_packs = array('admin', 'common', 'group', 'help', 'home', 'install', 'menu', 'migration', 'reporting', 'repository', 'rights', 'tracking', 'user', 'webservice');
+$start = microtime(true);
 
-foreach ($core_language_packs as $core_language_pack)
+foreach ($applications as $application)
 {
-    $scanner->scan_language_pack($root_path . $core_language_pack, $core_language_pack, LanguagePack :: TYPE_CORE);
+    if($application == 'lib') continue;
+
+    echo 'Scanning application: ' . $application . '<br />';
+    $scanner->scan_application($application, true);
 }
 
-$scanner->scan_language_pack($root_path . 'application/common', 'application_common', LanguagePack :: TYPE_CORE);
+$end = microtime(true);
+$total = $end - $start;
 
-$optional_language_packs = array('alexia', 'assessment', 'cda', 'distribute', 'forum', 'laika', 'linker', 'personal_calendar', 'personal_messenger', 'portfolio', 'profiler', 'reservations', 'search_portal', 'webconferencing', 'weblcms', 'wiki');
-
-foreach ($optional_language_packs as $optional_language_pack)
-{
-    $scanner->scan_language_pack($root_app_path . $optional_language_pack, $optional_language_pack, LanguagePack :: TYPE_APPLICATION);
-}
-
+echo 'Time: ' . $total . 's';
 ?>
