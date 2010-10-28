@@ -197,15 +197,15 @@ class Translation
         $called_class = explode('\\', $context);
         if (count($called_class) > 1)
         {
-            array_pop($called_class);
-            $path = Path :: get(SYS_PATH) . '/' . implode('/', $called_class) . '/resources/i18n/' . $language . '.i18n';
+            $path = Path :: get(SYS_PATH) . implode('/', $called_class) . '/resources/i18n/' . $language . '.i18n';
         }
         else
         {
             $path = BasicApplication :: get_application_resources_i18n_path($context) . $language . '.i18n';
 
         }
-        $strings = parse_ini_file($path);
+        
+        $strings = parse_ini_file($path); 
 
         $instance = self :: get_instance();
         $instance->strings[$language][$context] = $strings;
