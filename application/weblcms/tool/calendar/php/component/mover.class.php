@@ -1,11 +1,11 @@
 <?php
-namespace application\weblcms\tool\description;
+namespace application\weblcms\tool\calendar;
 
 use application\weblcms\Tool;
 use common\libraries\Request;
 use application\weblcms\ToolComponent;
 
-class DescriptionToolMoverComponent extends DescriptionTool
+class CalendarToolMoverComponent extends CalendarTool
 {
 
     function run()
