@@ -3,10 +3,11 @@ namespace repository\content_object\blog;
 
 use common\libraries\Translation;
 use common\libraries\Utilities;
+use common\libraries\Filesystem;
 use common\libraries\ComplexContentObjectSupport;
 
+use repository\content_object\blog_item\BlogItem;
 use repository\ContentObject;
-
 /**
  * $Id: blog.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.blog
@@ -22,7 +23,7 @@ class Blog extends ContentObject implements ComplexContentObjectSupport
 
 	static function get_type_name()
 	{
-		return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
+		return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
 	}
 
 	function get_allowed_types()

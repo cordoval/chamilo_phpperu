@@ -4,6 +4,9 @@ namespace repository\content_object\blog;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 
+use repository\ComplexDisplay;
+use repository\ComplexDisplayComponent;
+
 /**
  * $Id: browser.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.blog.component

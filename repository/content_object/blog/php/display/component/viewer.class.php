@@ -7,6 +7,11 @@ use common\libraries\Breadcrumb;
 use common\libraries\ActionBarRenderer;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;
+use common\libraries\DelegateComponent;
+
+use repository\content_object\blog_item\BlogItem;
+
+use repository\ComplexDisplay;
 
 /**
  * $Id: blog_viewer.class.php 200 2009-11-13 12:30:04Z kariboe $
