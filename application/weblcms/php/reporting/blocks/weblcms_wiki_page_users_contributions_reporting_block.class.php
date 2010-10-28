@@ -9,6 +9,7 @@ use user\UserDataManager;
 use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\Translation;
+use repository\ComplexDisplay;
 
 require_once dirname(__FILE__) . '/../weblcms_tool_reporting_block.class.php';
 require_once Path :: get_reporting_path() . '/lib/reporting_data.class.php';

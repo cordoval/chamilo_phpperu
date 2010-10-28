@@ -1,17 +1,20 @@
 <?php
 namespace repository\content_object\glossary;
 
+use common\libraries;
 use repository\RepositoryDataManager;
+use repository\ContentObject;
 use common\libraries\ObjectTableColumnModel;
 use common\libraries\ObjectTableColumn;
 use common\libraries\StaticTableColumn;
 use common\libraries\Path;
+use repository\content_object\glossary_item\GlossaryItem;
 
 /**
  * $Id: glossary_viewer_table_column_model.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.glossary.component.glossary_viewer
  */
-require_once Path :: get_repository_path() . 'lib/content_object/glossary_item/glossary_item.class.php';
+require_once Path :: get_repository_content_object_path() . 'glossary_item/php/glossary_item.class.php';
 /**
  * This class represents a column model for a publication candidate table
  */

@@ -10,6 +10,10 @@ use common\libraries\ActionBarRenderer;
 use common\libraries\ToolbarItem;
 use common\libraries\Toolbar;
 use common\libraries\Theme;
+use repository\ComplexDisplay;
+use repository\RepositoryDataManager;
+use repository\content_object\glossary_item\GlossaryItem;
+use repository\ComplexContentObjectItem;
 
 /**
  * $Id: glossary_viewer.class.php 200 2009-11-13 12:30:04Z kariboe $

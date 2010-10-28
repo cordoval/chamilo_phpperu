@@ -16,6 +16,7 @@ use common\libraries\ObjectTableOrder;
 use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Translation;
+use common\libraries\ComplexContentObjectSupport;
 
 /**
  * $Id: content_object_publication_list_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $

@@ -2,6 +2,7 @@
 namespace repository\content_object\glossary;
 
 use repository\RepositoryDataManager;
+use repository\DefaultContentObjectTableCellRenderer;
 use common\libraries\Translation;
 use common\libraries\ToolbarItem;
 use common\libraries\Toolbar;
