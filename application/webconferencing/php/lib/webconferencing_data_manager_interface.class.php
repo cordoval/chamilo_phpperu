@@ -1,4 +1,7 @@
 <?php
+
+namespace application\webconferencing;
+
 interface WebconferencingDataManagerInterface
 {
     function initialize();

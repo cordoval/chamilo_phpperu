@@ -1,4 +1,8 @@
 <?php
+
+namespace application\webconferencing;
+
+use common\libraries\ObjectTableCellRenderer;
 /**
  * $Id: default_webconference_table_cell_renderer.class.php 220 2009-11-13 14:33:52Z kariboe $
  * @package application.lib.webconferencing.tables.webconference_table

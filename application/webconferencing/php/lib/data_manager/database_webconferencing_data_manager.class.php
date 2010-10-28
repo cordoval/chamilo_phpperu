@@ -1,4 +1,9 @@
 <?php
+
+namespace application\webconferencing;
+
+use common\libraries\Database;
+use common\libraries\EqualityCondition;
 /**
  * $Id: database_webconferencing_data_manager.class.php 230 2009-11-16 09:29:45Z vanpouckesven $
  * @package application.lib.webconferencing.data_manager
@@ -71,7 +76,7 @@ class DatabaseWebconferencingDataManager extends Database implements Webconferen
         $query .= ' LEFT JOIN ' . $this->escape_table_name(WebconferenceUser :: get_table_name()) . ' AS ' . $webconference_user_alias . ' ON ' . $this->escape_column_name(Webconference :: PROPERTY_ID, $webconference_alias) . '  = ' . $this->escape_column_name(WebconferenceUser :: PROPERTY_WEBCONFERENCE, $webconference_user_alias);
         $query .= ' LEFT JOIN ' . $this->escape_table_name(WebconferenceGroup :: get_table_name()) . ' AS ' . $webconference_group_alias . ' ON ' . $this->escape_column_name(Webconference :: PROPERTY_ID, $webconference_alias) . '  = ' . $this->escape_column_name(WebconferenceGroup :: PROPERTY_WEBCONFERENCE, $webconference_group_alias);
 
-        return $this->count_result_set($query, Webconference :: get_table_name(), $condition);
+        return $this->count_result_set($query, Webconference :: get_table_name(), $condition, null, Webconference :: CLASS_NAME);
     }
 
     function retrieve_webconference($id)
@@ -124,12 +129,12 @@ class DatabaseWebconferencingDataManager extends Database implements Webconferen
     function retrieve_webconference_option($id)
     {
         $condition = new EqualityCondition(WebconferenceOption :: PROPERTY_ID, $id);
-        return $this->retrieve_object(WebconferenceOption :: get_table_name(), $condition);
+        return $this->retrieve_object(WebconferenceOption :: get_table_name(), $condition, null, WebconferenceOption :: CLASS_NAME);
     }
 
     function retrieve_webconference_options($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->retrieve_objects(WebconferenceOption :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(WebconferenceOption :: get_table_name(), $condition, $offset, $max_objects, $order_by, WebconferenceOption :: CLASS_NAME);
     }
 
     function retrieve_webconference_groups($condition = null, $offset = null, $max_objects = null, $order_by = null)

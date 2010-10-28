@@ -1,4 +1,9 @@
 <?php
+
+namespace application\webconferencing;
+
+use common\libraries\DataClass;
+use common\libraries\Utilities;
 /**
  * $Id: webconference.class.php 220 2009-11-13 14:33:52Z kariboe $
  * @package application.lib.webconferencing
@@ -303,7 +308,7 @@ class Webconference extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
     }
 }
 
