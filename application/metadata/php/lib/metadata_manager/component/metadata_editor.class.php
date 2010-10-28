@@ -77,7 +77,7 @@ class MetadataManagerMetadataEditorComponent extends MetadataManager
         $allowed_metadata_property_attribute_types = $this->retrieve_allowed_metadata_property_attribute_types($conditions_allowed);
 
         
-        $form = new MetadataForm(MetadataForm :: TYPE_EDIT, $content_object, $metadata_property_values, $content_object_property_metadata, $metadata_property_attribute_values, $allowed_metadata_property_attribute_types, $this->get_url(array(MetadataManager :: PARAM_CONTENT_OBJECT => $content_object->get_id())), $this->get_user(), $this);
+        $form = new MetadataEditorForm(MetadataForm :: TYPE_EDIT, $content_object, $metadata_property_values, $content_object_property_metadata, $metadata_property_attribute_values, $allowed_metadata_property_attribute_types, $this->get_url(array(MetadataManager :: PARAM_CONTENT_OBJECT => $content_object->get_id())), $this->get_user(), $this);
 
         if($form->validate())
         {
@@ -91,8 +91,6 @@ class MetadataManagerMetadataEditorComponent extends MetadataManager
                 $this->display_footer();
         }
     }
-
-
 
     function get_content_object_property_metadata_values($content_object)
     {
