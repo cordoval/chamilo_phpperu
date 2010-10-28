@@ -7,6 +7,8 @@ use repository\ComplexDisplay;
  */
 class LearningPathDisplay extends ComplexDisplay
 {
+    const ACTION_VIEW_PROGRESS = 'progress_viewer';
+
     const DEFAULT_ACTION = self :: ACTION_VIEW_COMPLEX_CONTENT_OBJECT;
 
     function get_application_component_path()

@@ -9,201 +9,225 @@ require_once dirname(__FILE__) . '/../rule_condition_translator.class.php';
 
 class LearningPathDisplayViewerComponent extends LearningPathDisplay
 {
-//
-//    private $pid;
-//    private $trackers;
-//    private $lpi_attempt_data;
-//    private $cloi;
+    //
+    //    private $pid;
+    private $learning_path_trackers;
+    //    private $lpi_attempt_data;
+        private $complex_content_object_item;
     private $learning_path_menu;
-//    private $navigation;
-//    private $empty_learning_path;
-//    private $root_content_object;
+    //    private $navigation;
+    //    private $empty_learning_path;
+    //    private $root_content_object;
+
+
+    const TRACKER_LEARNING_PATH = 'tracker_learning_path';
 
     function run()
     {
         $learning_path = $this->get_parent()->get_root_content_object();
 
-        if (!$learning_path)
+        if (! $learning_path)
         {
             $this->display_header();
             $this->display_error_message(Translation :: get('NoObjectSelected'));
             $this->display_footer();
         }
 
-        $this->learning_path_menu = $this->get_menu($learning_path->get_id(), $this->get_selected_complex_content_object_item_id(), $pid, $lpi_attempt_data);
+        // Process some tracking
+        $this->trackers[self :: TRACKER_LEARNING_PATH] = $this->get_parent()->retrieve_learning_path_tracker();
+        $learning_path_item_attempt_data = $this->get_parent()->retrieve_tracker_items($this->trackers[self :: TRACKER_LEARNING_PATH]);
 
+        // Retrieve the learning path tree menu
+        if (Request :: get(self :: PARAM_DISPLAY_ACTION) == self :: ACTION_VIEW_PROGRESS)
+        {
+            $step = null;
+        }
+        else
+        {
+            $step = Request :: get(self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID) ? Request :: get(self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID) : 1;
+        }
+
+        $this->learning_path_menu = new LearningPathTree($learning_path->get_id(), $this->get_selected_complex_content_object_item_id(), $this->get_parent()->get_learning_path_tree_menu_url(), $learning_path_item_attempt_data);
+
+        $object = $this->learning_path_menu->get_current_object();
+        $this->complex_content_object_item = $this->learning_path_menu->get_current_cloi();
+
+//        dump($this->complex_content_object_item);
+
+        // Update the main tracker
+        $this->trackers[self :: TRACKER_LEARNING_PATH]->set_progress($this->learning_path_menu->get_progress());
+        $this->trackers[self :: TRACKER_LEARNING_PATH]->update();
 
         $this->display_header();
         echo 'LP content goes here';
         $this->display_footer();
 
-
-        exit;
+        exit();
     }
 
-//        // Check for rights
-//        if (! $this->is_allowed(WeblcmsRights :: VIEW_RIGHT))
-//        {
-//            Display :: not_allowed();
-//            return;
-//        }
-//
-//        $trail = BreadcrumbTrail :: get_instance();
-//        $trail->add_help('courses learnpath tool');
-//
-//        // Check and retrieve publication
-//        $pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
-//        $this->pid = $pid;
-//
-//        if (! $pid)
-//        {
-//            $this->display_header();
-//            $this->display_error_message(Translation :: get('NoObjectSelected'));
-//            $this->display_footer();
-//        }
-//
-//        $dm = WeblcmsDataManager :: get_instance();
-//        $publication = $dm->retrieve_content_object_publication($pid);
-//        $root_object = $publication->get_content_object();
-//
-//        // Do tracking stuff
-//        $this->trackers['lp_tracker'] = $this->retrieve_lp_tracker($publication);
-//        $lpi_attempt_data = $this->retrieve_tracker_items($this->trackers['lp_tracker']);
-//
-//        // Retrieve tree menu
-//        if (Request :: get('lp_action') == 'view_progress')
-//        {
-//            $step = null;
-//        }
-//        else
-//        {
-//            $step = Request :: get(LearningPathTool :: PARAM_LP_STEP) ? Request :: get(LearningPathTool :: PARAM_LP_STEP) : 1;
-//        }
-//
-//        $this->menu = $this->get_menu($root_object->get_id(), $step, $pid, $lpi_attempt_data);
-//        $object = $this->menu->get_current_object();
-//        $cloi = $this->menu->get_current_cloi();
-//        $this->cloi = $cloi;
-//
-//        // Update main tracker
-//        $this->trackers['lp_tracker']->set_progress($this->menu->get_progress());
-//        $this->trackers['lp_tracker']->update();
-//
-//        //$trail->merge($this->menu->get_breadcrumbs());
-//
-//
-//        $this->navigation = $this->get_navigation_menu($this->menu->count_steps(), $step, $object, $this->menu);
-//        $objects = $this->menu->get_objects();
-//
-//        // Retrieve correct display and show it on screen
-//        if (Request :: get('lp_action') == 'view_progress')
-//        {
-//            $url = $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT, Tool :: PARAM_PUBLICATION_ID => $pid, 'lp_action' => 'view_progress'));
-//            require_once WebApplication :: get_application_class_path(WeblcmsManager :: APPLICATION_NAME) . 'reporting/templates/learning_path_attempt_progress_reporting_template.class.php';
-//            require_once WebApplication :: get_application_class_path(WeblcmsManager :: APPLICATION_NAME) . 'reporting/templates/learning_path_attempt_progress_details_reporting_template.class.php';
-//
-//            $cid = Request :: get('cid');
-//            $details = Request :: get('details');
-//
-//            if ($cid)
-//            {
-//                $trail->add(new Breadcrumb($this->get_url(array(
-//                        Tool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT, Tool :: PARAM_PUBLICATION_ID => $pid, 'lp_action' => 'view_progress', 'cid' => $cid,
-//                        'attempt_id' => Request :: get('attempt_id'))), Translation :: get('ItemDetails')));
-//            }
-//
-//            if ($details)
-//            {
-//                $trail->add(new Breadcrumb($this->get_url(array(
-//                        Tool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT, Tool :: PARAM_PUBLICATION_ID => $pid, 'lp_action' => 'view_progress', 'cid' => $cid,
-//                        'details' => $details)), Translation :: get('AssessmentResult')));
-//
-//                $this->set_parameter('tool_action', 'view');
-//                $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, $pid);
-//                $this->set_parameter('lp_action', 'view_progress');
-//                $this->set_parameter('cid', $cid);
-//                $this->set_parameter('details', $details);
-//                $_GET['display_action'] = 'view_result';
-//
-//                $object = $objects[$cid];
-//
-//                $this->root_content_object = $object;
-//                ComplexDisplay :: launch($object->get_type(), $this);
-//            }
-//            else
-//            {
-//                $rtv = ReportingViewer :: construct($this);
-//                $rtv->set_breadcrumb_trail($trail);
-//                $rtv->show_all_blocks();
-//                if ($cid)
-//                {
-//                    $rtv->add_template_by_name('learning_path_attempt_progress_details_reporting_template', WeblcmsManager :: APPLICATION_NAME);
-//                }
-//                else
-//                {
-//
-//                    $rtv->add_template_by_name('learning_path_attempt_progress_reporting_template', WeblcmsManager :: APPLICATION_NAME);
-//                }
-//                $rtv->run();
-//            }
-//        }
-//        else
-//        {
-//            if ($cloi && $cloi instanceof ComplexLearningPathItem)
-//            {
-//
-//                if ($root_object->get_version() != 'SCORM2004')
-//                {
-//                    $translator = new PrerequisitesTranslator($lpi_attempt_data, $objects, $root_object->get_version());
-//                    if (! $translator->can_execute_item($cloi))
-//                    {
-//                        $this->display_header();
-//                        $display = '<div class="error-message">' . Translation :: get('NotYetAllowedToView') . '</div>';
-//                        $this->display_footer();
-//                        exit();
-//                    }
-//                }
-//
-//                $lpi_tracker = $this->menu->get_current_tracker();
-//                if (! $lpi_tracker)
-//                {
-//                    $lpi_tracker = $this->create_lpi_tracker($this->trackers['lp_tracker'], $cloi);
-//                    $lpi_attempt_data[$cloi->get_id()]['active_tracker'] = $lpi_tracker;
-//                }
-//                else
-//                {
-//                    $lpi_tracker->set_start_time(time());
-//                    $lpi_tracker->update();
-//                }
-//
-//                $this->trackers['lpi_tracker'] = $lpi_tracker;
-//
-//                $this->display_header();
-//                echo LearningPathContentObjectDisplay :: factory($this, $object->get_type())->display_content_object($object, $lpi_attempt_data[$cloi->get_id()], $this->menu->get_continue_url(), $this->menu->get_previous_url(), $this->menu->get_jump_urls());
-//                $this->display_footer();
-//            }
-//            else
-//            {
-//                $this->display_header();
-//                $this->display_error_message(Translation :: get('EmptyLearningPath'));
-//                $this->display_footer();
-//            }
-//        }
-//    }
-//
+    //        // Check for rights
+    //        if (! $this->is_allowed(WeblcmsRights :: VIEW_RIGHT))
+    //        {
+    //            Display :: not_allowed();
+    //            return;
+    //        }
+    //
+    //        $trail = BreadcrumbTrail :: get_instance();
+    //        $trail->add_help('courses learnpath tool');
+    //
+    //        // Check and retrieve publication
+    //        $pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
+    //        $this->pid = $pid;
+    //
+    //        if (! $pid)
+    //        {
+    //            $this->display_header();
+    //            $this->display_error_message(Translation :: get('NoObjectSelected'));
+    //            $this->display_footer();
+    //        }
+    //
+    //        $dm = WeblcmsDataManager :: get_instance();
+    //        $publication = $dm->retrieve_content_object_publication($pid);
+    //        $root_object = $publication->get_content_object();
+    //
+    //        // Do tracking stuff
+    //        $this->trackers['lp_tracker'] = $this->retrieve_lp_tracker($publication);
+    //        $lpi_attempt_data = $this->retrieve_tracker_items($this->trackers['lp_tracker']);
+    //
+    //        // Retrieve tree menu
+    //        if (Request :: get('lp_action') == 'view_progress')
+    //        {
+    //            $step = null;
+    //        }
+    //        else
+    //        {
+    //            $step = Request :: get(LearningPathTool :: PARAM_LP_STEP) ? Request :: get(LearningPathTool :: PARAM_LP_STEP) : 1;
+    //        }
+    //
+    //        $this->menu = $this->get_menu($root_object->get_id(), $step, $pid, $lpi_attempt_data);
+    //        $object = $this->menu->get_current_object();
+    //        $cloi = $this->menu->get_current_cloi();
+    //        $this->cloi = $cloi;
+    //
+    //        // Update main tracker
+    //        $this->trackers['lp_tracker']->set_progress($this->menu->get_progress());
+    //        $this->trackers['lp_tracker']->update();
+    //
+    //        //$trail->merge($this->menu->get_breadcrumbs());
+    //
+    //
+    //        $this->navigation = $this->get_navigation_menu($this->menu->count_steps(), $step, $object, $this->menu);
+    //        $objects = $this->menu->get_objects();
+    //
+    //        // Retrieve correct display and show it on screen
+    //        if (Request :: get('lp_action') == 'view_progress')
+    //        {
+    //            $url = $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT, Tool :: PARAM_PUBLICATION_ID => $pid, 'lp_action' => 'view_progress'));
+    //            require_once WebApplication :: get_application_class_path(WeblcmsManager :: APPLICATION_NAME) . 'reporting/templates/learning_path_attempt_progress_reporting_template.class.php';
+    //            require_once WebApplication :: get_application_class_path(WeblcmsManager :: APPLICATION_NAME) . 'reporting/templates/learning_path_attempt_progress_details_reporting_template.class.php';
+    //
+    //            $cid = Request :: get('cid');
+    //            $details = Request :: get('details');
+    //
+    //            if ($cid)
+    //            {
+    //                $trail->add(new Breadcrumb($this->get_url(array(
+    //                        Tool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT, Tool :: PARAM_PUBLICATION_ID => $pid, 'lp_action' => 'view_progress', 'cid' => $cid,
+    //                        'attempt_id' => Request :: get('attempt_id'))), Translation :: get('ItemDetails')));
+    //            }
+    //
+    //            if ($details)
+    //            {
+    //                $trail->add(new Breadcrumb($this->get_url(array(
+    //                        Tool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT, Tool :: PARAM_PUBLICATION_ID => $pid, 'lp_action' => 'view_progress', 'cid' => $cid,
+    //                        'details' => $details)), Translation :: get('AssessmentResult')));
+    //
+    //                $this->set_parameter('tool_action', 'view');
+    //                $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, $pid);
+    //                $this->set_parameter('lp_action', 'view_progress');
+    //                $this->set_parameter('cid', $cid);
+    //                $this->set_parameter('details', $details);
+    //                $_GET['display_action'] = 'view_result';
+    //
+    //                $object = $objects[$cid];
+    //
+    //                $this->root_content_object = $object;
+    //                ComplexDisplay :: launch($object->get_type(), $this);
+    //            }
+    //            else
+    //            {
+    //                $rtv = ReportingViewer :: construct($this);
+    //                $rtv->set_breadcrumb_trail($trail);
+    //                $rtv->show_all_blocks();
+    //                if ($cid)
+    //                {
+    //                    $rtv->add_template_by_name('learning_path_attempt_progress_details_reporting_template', WeblcmsManager :: APPLICATION_NAME);
+    //                }
+    //                else
+    //                {
+    //
+    //                    $rtv->add_template_by_name('learning_path_attempt_progress_reporting_template', WeblcmsManager :: APPLICATION_NAME);
+    //                }
+    //                $rtv->run();
+    //            }
+    //        }
+    //        else
+    //        {
+    //            if ($cloi && $cloi instanceof ComplexLearningPathItem)
+    //            {
+    //
+    //                if ($root_object->get_version() != 'SCORM2004')
+    //                {
+    //                    $translator = new PrerequisitesTranslator($lpi_attempt_data, $objects, $root_object->get_version());
+    //                    if (! $translator->can_execute_item($cloi))
+    //                    {
+    //                        $this->display_header();
+    //                        $display = '<div class="error-message">' . Translation :: get('NotYetAllowedToView') . '</div>';
+    //                        $this->display_footer();
+    //                        exit();
+    //                    }
+    //                }
+    //
+    //                $lpi_tracker = $this->menu->get_current_tracker();
+    //                if (! $lpi_tracker)
+    //                {
+    //                    $lpi_tracker = $this->create_lpi_tracker($this->trackers['lp_tracker'], $cloi);
+    //                    $lpi_attempt_data[$cloi->get_id()]['active_tracker'] = $lpi_tracker;
+    //                }
+    //                else
+    //                {
+    //                    $lpi_tracker->set_start_time(time());
+    //                    $lpi_tracker->update();
+    //                }
+    //
+    //                $this->trackers['lpi_tracker'] = $lpi_tracker;
+    //
+    //                $this->display_header();
+    //                echo LearningPathContentObjectDisplay :: factory($this, $object->get_type())->display_content_object($object, $lpi_attempt_data[$cloi->get_id()], $this->menu->get_continue_url(), $this->menu->get_previous_url(), $this->menu->get_jump_urls());
+    //                $this->display_footer();
+    //            }
+    //            else
+    //            {
+    //                $this->display_header();
+    //                $this->display_error_message(Translation :: get('EmptyLearningPath'));
+    //                $this->display_footer();
+    //            }
+    //        }
+    //    }
+    //
     function display_header()
     {
         parent :: display_header();
         echo '<div style="width: 17%; overflow: auto; float: left;">';
         echo $this->learning_path_menu->render_as_tree() . '<br /><br />';
-//        echo $this->get_progress_bar($this->menu->get_progress());
-//        echo $this->navigation . '<br /><br />';
+        //        echo $this->get_progress_bar($this->menu->get_progress());
+        //        echo $this->navigation . '<br /><br />';
         echo '</div>';
         echo '<div style="width: 82%; float: right; padding-left: 10px; min-height: 500px;">';
-//        if (Request :: get('lp_action') == 'view_progress')
-//        {
-//
-//        }
+        //        if (Request :: get('lp_action') == 'view_progress')
+    //        {
+    //
+    //        }
     }
 
     function display_footer()
@@ -212,23 +236,7 @@ class LearningPathDisplayViewerComponent extends LearningPathDisplay
         echo '<div class="clear">&nbsp;</div>';
         parent :: display_footer();
     }
-
-    /**
-     * Creates the tree menu for the learning path
-     *
-     * @param int $root_object_id
-     * @param int $selected_object_id
-     * @param int $pid
-     * @param LearningPathAttemptTracker $lp_tracker
-     * @return HTML code of the menu
-     */
-    private function get_menu($root_object_id, $selected_object_id, $pid, $lp_tracker)
-    {
-        $this->menu = new LearningPathTree($root_object_id, $selected_object_id, Path :: get(WEB_PATH) . 'run.php?go=course_viewer&course=' . Request :: get('course') . '&application=weblcms&tool=learning_path&tool_action=complex_display&publication=' . $pid . '&' . self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID . '=%s', $lp_tracker);
-
-        return $this->menu;
-    }
-//
+    //
 //    // Getters & Setters
 //
 //
@@ -532,6 +540,7 @@ class LearningPathDisplayViewerComponent extends LearningPathDisplay
 //    {
 //        return array(Tool :: PARAM_PUBLICATION_ID);
 //    }
+
 
 }
 ?>

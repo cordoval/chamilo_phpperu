@@ -9,5 +9,10 @@ namespace repository\content_object\learning_path;
  */
 interface LearningPathComplexDisplaySupport
 {
+    function retrieve_learning_path_tracker();
+
+    function retrieve_tracker_items($learning_path_tracker);
+
+    function get_learning_path_tree_menu_url();
 }
 ?>
