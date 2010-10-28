@@ -189,7 +189,7 @@ class DatabasePersonalMessengerDataManager extends Database implements PersonalM
                 $info->set_location(Translation :: get('UnknownLocation'));
             }
 
-            if ($publication->get_user() == $user->get_id())
+            if ($publication->get_user() == $user)
             {
                 $info->set_url('run.php?application=personal_messenger&amp;go='.PersonalMessengerManager::ACTION_VIEW_PUBLICATION.'&pm=' . $publication->get_id());
             }
