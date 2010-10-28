@@ -2,6 +2,11 @@
 namespace application\linker;
 
 use common\libraries\Database;
+use common\libraries\Path;
+use common\libraries\EqualityCondition;
+use common\libraries\Translation;
+
+//require_once Path :: get_application_lib_path('linker') . 'linker_data_manager_interface.class.php';
 /**
  * $Id: database_linker_data_manager.class.php 199 2009-11-13 12:23:04Z chellee $
  * @package application.lib.linker.data_manager
@@ -50,13 +55,13 @@ class DatabaseLinkerDataManager extends Database implements LinkerDataManagerInt
 
     function retrieve_links($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->retrieve_objects(Linker :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(Linker :: get_table_name(), $condition, $offset, $max_objects, $order_by, Linker :: CLASS_NAME);
     }
 
     function retrieve_link($id)
     {
         $condition = new EqualityCondition(Linker :: PROPERTY_ID, $id);
-        return $this->retrieve_object(Linker :: get_table_name(), $condition);
+        return $this->retrieve_object(Linker :: get_table_name(), $condition, array(), Linker :: CLASS_NAME);
     }
 }
 ?>

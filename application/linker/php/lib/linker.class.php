@@ -1,5 +1,8 @@
 <?php
 namespace application\linker;
+
+use common\libraries\DataClass;
+use common\libraries\Utilities;
 /**
  * $Id: linker.class.php 199 2009-11-13 12:23:04Z chellee $
  * @package application.lib.linker
@@ -87,9 +90,10 @@ class Linker extends DataClass
         $this->set_default_property(self :: PROPERTY_URL, $url);
     }
 
-    static function get_table_name()
+   static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 
 }

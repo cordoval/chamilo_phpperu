@@ -39,8 +39,8 @@ class LinkerDataManager
         if (! isset(self :: $instance))
         {
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
-            require_once WebApplication :: get_application_class_lib_path('linker') . '/data_manager/' . strtolower($type) . '_linker_data_manager.class.php';
-            $class = $type . 'LinkerDataManager';
+            require_once WebApplication :: get_application_class_lib_path('linker') . 'data_manager/' . strtolower($type) . '_linker_data_manager.class.php';
+            $class = __NAMESPACE__ . '\\' . $type . 'LinkerDataManager';
             self :: $instance = new $class();
         }
         return self :: $instance;

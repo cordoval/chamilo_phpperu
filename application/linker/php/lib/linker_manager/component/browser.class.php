@@ -1,5 +1,9 @@
 <?php
 namespace application\linker;
+
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
 /**
  * $Id: browser.class.php 199 2009-11-13 12:23:04Z chellee $
  * @package application.lib.linker.linker_manager.component

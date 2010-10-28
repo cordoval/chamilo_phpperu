@@ -1,5 +1,8 @@
 <?php
 namespace application\linker;
+
+use common\libraries\WebApplication;
+use common\libraries\Request;
 /**
  * $Id: linker_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.lib.linker.linker_manager
@@ -17,7 +20,7 @@ class LinkerManager extends WebApplication
     const PARAM_LINK_ID = 'profile';
 
     const ACTION_DELETE_LINK = 'deleter';
-    const ACTION_EDIT_LINK = 'editor';
+    const ACTION_EDIT_LINK = 'updater';
     const ACTION_CREATE_LINK = 'creator';
     const ACTION_BROWSE_LINKS = 'browser';
 
