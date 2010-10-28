@@ -5,8 +5,8 @@ use common\libraries\WebApplication;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\Theme;
-//use common\libraries\Toolbar;
-//use common\libraries\ToolbarItem;
+use common\libraries\Toolbar;
+use common\libraries\ToolbarItem;
 use repository\ContentObject;
 
 use application\gradebook;

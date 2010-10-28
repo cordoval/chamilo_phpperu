@@ -4,8 +4,10 @@ namespace application\wiki;
 use common\libraries\WebApplication;
 use common\libraries\Breadcrumb;
 use common\libraries\Utilities;
-//use common\extensions\RepoViewer;
-//use common\extensions\RepoViewerInterface;
+use common\libraries\Translation;
+use common\extensions\repo_viewer\RepoViewer;
+use common\extensions\repo_viewer\RepoViewerInterface;
+use repository\content_object\wiki\Wiki;
 
 /**
  * $Id: wiki_publication_creator.class.php 210 2009-11-13 13:18:50Z kariboe $

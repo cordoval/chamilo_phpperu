@@ -6,6 +6,7 @@ use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\Webapplication;
 use common\libraries\PlatformSetting;
+use common\libraries\Session;
 
 use application\GradebookInternalItemForm;
 
