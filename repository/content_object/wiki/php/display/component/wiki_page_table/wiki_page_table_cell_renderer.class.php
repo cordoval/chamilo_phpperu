@@ -1,9 +1,17 @@
 <?php
 namespace repository\content_object\wiki;
 
+use common\libraries\Translation;
+use common\libraries\Request;
 use common\libraries\Path;
+use common\libraries\Utilities;
+use common\libraries\Toolbar;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
 use repository\DefaultContentObjectTableCellRenderer;
 use repository\RepositoryDataManager;
+use repository\ContentObject;
+use repository\ComplexDisplay;
 
 /**
  * $Id: wiki_page_table_cell_renderer.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -46,17 +54,17 @@ class WikiPageTableCellRenderer extends DefaultContentObjectTableCellRenderer
         {
             return $this->get_actions($publication);
         }
-        
+
         $this->publication_id = Request :: get('publication_id');
-        
+
         $wiki_page = $this->get_publication_from_complex_content_object_item($publication);
         $this->complex_id = $publication->get_id();
-        
+
         if ($publication->get_additional_property('is_homepage') == 1)
         {
             $homepage = ' (' . Translation :: get('homepage') . ')';
         }
-        
+
         if (isset($wiki_page))
         {
             if ($property = $column->get_name())
@@ -72,7 +80,7 @@ class WikiPageTableCellRenderer extends DefaultContentObjectTableCellRenderer
                         return Utilities :: truncate_string($description, 50);
                 }
             }
-            
+
             return parent :: render_cell($column, $wiki_page);
         }
     }
@@ -84,11 +92,11 @@ class WikiPageTableCellRenderer extends DefaultContentObjectTableCellRenderer
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON, true));
         }
-        
+
         if ($this->browser->get_parent()->is_allowed(EDIT_RIGHT))
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
-            
+
             if (($publication->get_additional_property('is_homepage') == 0))
             {
                 $toolbar->add_item(new ToolbarItem(Translation :: get('SetAsHomepage'), Theme :: get_common_image_path() . 'action_home.png', $this->browser->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_SET_AS_HOMEPAGE, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->complex_id)), ToolbarItem :: DISPLAY_ICON));
@@ -98,7 +106,7 @@ class WikiPageTableCellRenderer extends DefaultContentObjectTableCellRenderer
                 $toolbar->add_item(new ToolbarItem(Translation :: get('SetAsHomepage'), Theme :: get_common_image_path() . 'action_home_na.png', null, ToolbarItem :: DISPLAY_ICON));
             }
         }
-        
+
         return $toolbar->as_html();
     }
 

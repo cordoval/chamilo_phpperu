@@ -1,6 +1,7 @@
 <?php
 namespace repository\content_object\wiki;
 
+use common\libraries;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Path;
@@ -9,14 +10,19 @@ use common\libraries\ResourceManager;
 use common\libraries\BasicApplication;
 use common\libraries\ObjectTableFormActions;
 use common\libraries\ObjectTableFormAction;
+use repository\ComplexDisplay;
+use repository\RepositoryDataManager;
+use repository\RepositoryVersionBrowserTable;
+use repository\ContentObject;
+use repository\RepositoryManager;
 
 /**
  * $Id: wiki_history.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.wiki.component
  */
 
-require_once Path :: get_repository_path() . 'lib/content_object/wiki/display/wiki_parser.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/wiki/display/wiki_display.class.php';
+require_once Path :: get_repository_content_object_path() . 'wiki/php/display/wiki_parser.class.php';
+require_once Path :: get_repository_content_object_path() . 'wiki/php/display/wiki_display.class.php';
 
 class WikiDisplayWikiHistoryComponent extends WikiDisplay
 {

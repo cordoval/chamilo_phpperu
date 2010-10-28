@@ -63,7 +63,7 @@ class WikiMostVisitedPageReportingBlock extends WikiReportingBlock
         }
 
         $url = 'run.php?go=view&application=wiki&' . WikiManager :: PARAM_WIKI_PUBLICATION . '=' . $this->get_publication_id() . '&display_action=view_item&selected_cloi=' . $most_visited_page->get_id();
-        
+
         $reporting_data->add_category(0);
         $reporting_data->add_data_category_row(0, Translation :: get('MostVisitedPage'), '<a href="' . $url . '">' . $most_visited_page->get_ref_object()->get_title() . '</a>');
         $reporting_data->add_data_category_row(0, Translation :: get('NumberOfVisits'), $most_visits);

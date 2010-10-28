@@ -67,7 +67,7 @@ class WikiDisplay extends ComplexDisplay
     static function get_wiki_homepage($wiki_id)
     {
         require_once Path :: get_repository_content_object_path() . '/wiki_page/php/complex_wiki_page.class.php';
-        
+
         $conditions[] = new EqualityCondition(ComplexWikiPage :: PROPERTY_PARENT, $wiki_id);
         $conditions[] = new EqualityCondition(ComplexWikiPage :: PROPERTY_IS_HOMEPAGE, 1, 'complex_wiki_page');
         $complex_wiki_homepage = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new AndCondition($conditions), array(), 0, 1, 'complex_wiki_page');
@@ -211,7 +211,7 @@ class WikiDisplay extends ComplexDisplay
         $toolbar = new Toolbar(Toolbar :: TYPE_VERTICAL);
         $toolbar->add_item(new ToolbarItem(Translation :: get('MainPage'), Theme :: get_common_image_path() . 'action_home.png', $this->get_url(array(self :: PARAM_DISPLAY_ACTION => self :: ACTION_VIEW_WIKI, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => null)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $toolbar->add_item(new ToolbarItem(Translation :: get('Contents'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(self :: PARAM_DISPLAY_ACTION => self :: ACTION_BROWSE_WIKI)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Statistics'), Theme :: get_common_image_path() . 'action_statistics.png', $this->get_url(array(self :: PARAM_DISPLAY_ACTION => self :: ACTION_STATISTICS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        //$toolbar->add_item(new ToolbarItem(Translation :: get('Statistics'), Theme :: get_common_image_path() . 'action_statistics.png', $this->get_url(array(self :: PARAM_DISPLAY_ACTION => self :: ACTION_STATISTICS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $html[] = $toolbar->as_html();
         $html[] = '<div class="clear"></div>';
         $html[] = '</div>';

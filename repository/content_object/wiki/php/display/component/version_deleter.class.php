@@ -3,6 +3,9 @@ namespace repository\content_object\wiki;
 
 use common\libraries\Request;
 use common\libraries\Translation;
+use repository\ComplexDisplay;
+use repository\RepositoryManager;
+use repository\RepositoryDataManager;
 
 /**
  * $Id: wiki_item_viewer.class.php 200 2009-11-13 12:30:04Z kariboe $
