@@ -6,6 +6,8 @@ use common\libraries\AndCondition;
 use user\UserDataManager;
 use repository\RepositoryDataManager;
 use repository\content_object\portfolio\Portfolio;
+use common\libraries\InequalityCondition;
+use common\libraries\OrCondition;
 
 /**
  * class to handle the different rights in the portfolio application
@@ -26,7 +28,7 @@ use repository\content_object\portfolio\Portfolio;
 require_once dirname(__FILE__) . '/portfolio_group_right_location.class.php';
 require_once dirname(__FILE__) . '/portfolio_location.class.php';
 require_once dirname(__FILE__) . '/portfolio_user_right_location.class.php';
-require_once dirname(__FILE__) . '/../lib/forms/portfolio_publication_form.class.php';
+require_once dirname(__FILE__) . '/../forms/portfolio_publication_form.class.php';
 
 
 
@@ -166,6 +168,7 @@ class PortfolioRights {
      */
     static function get_all_publication_rights($location)
     {
+        $class = $location.\get_class();
         if($location)
         {
             $inherits = $location->get_inherit();
@@ -1148,7 +1151,8 @@ class PortfolioRights {
                
                 if($children_set)
                 {
-                    $location_id = $location->get_id();while($complex_child = $children_set->next_result())
+                    $location_id = $location->get_id();
+                    while($complex_child = $children_set->next_result())
                     {
                         $object_id = PortfolioManager::get_co_id_from_complex_wrapper($complex_child->get_id(), $complex_child);
                         $rdm = RepositoryDataManager::get_instance();

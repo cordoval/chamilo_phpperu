@@ -5,6 +5,7 @@ use common\libraries\Path;
 use common\libraries\Translation;
 use group\GroupDataManager;
 use user\UserDataManager;
+use common\libraries\Request;
 
 /**
  * This class describes the form for a PortfolioPublication object.
@@ -83,7 +84,7 @@ class PortfolioPublicationForm extends FormValidator
     {
        
         $attributes1 = array();
-        $attributes1['search_url'] = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_user_group_feed.php';
+        $attributes1['search_url'] = Path :: get(WEB_PATH) . 'common/libraries/php/xml_feeds/xml_user_group_feed.php';
         $locale1 = array();
         $locale1['Display'] = Translation :: get('SelectRecipients');
         $locale1['Searching'] = Translation :: get('Searching');

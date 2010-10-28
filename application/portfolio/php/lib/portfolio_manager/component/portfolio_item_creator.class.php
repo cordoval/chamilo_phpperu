@@ -10,12 +10,13 @@ use repository\RepositoryDataManager;
 use repository\content_object\portfolio_item\PortfolioItem;
 use repository\ComplexContentObjectItem;
 use common\libraries\Translation;
-use Document;
 use repository\content_object\link\Link;
 use common\libraries\EqualityCondition;
 use repository\content_object\youtube\Youtube;
 use repository\content_object\rss_feed\RssFeed;
 use repository\content_object\portfolio\Portfolio;
+use common\extensions\repo_viewer\RepoViewerInterface;
+use repository\content_object\document\Document;
 
 
 /**
