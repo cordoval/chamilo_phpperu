@@ -36,7 +36,7 @@ class ContextLinkerAutoloader
             'context_link_table_cell_renderer' => 'context_linker_manager/component/tables/context_link_table/context_link_table/context_link_table_cell_renderer.class.php',
             'context_link_table_data_provider' => 'context_linker_manager/component/tables/context_link_table/context_link_table/context_link_table_data_provider.class.php',
             'context_link_table_column_model' => 'context_linker_manager/component/tables/context_link_table/context_link_table/context_link_table_column_model.class.php',
-            'context_linker_manager' => 'context_linker_manager/.class.php',
+            'context_linker_manager' => 'context_linker_manager/context_linker_manager.class.php',
             'browser' => 'context_linker_manager/component/browser.class.php',
             'content_objects_browser' => 'context_linker_manager/component/.content_objects_browserclass.php',
             'content_link_creator' => 'context_linker_manager/component/content_link_creator.class.php',

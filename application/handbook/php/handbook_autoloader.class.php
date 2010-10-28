@@ -24,6 +24,8 @@ class HandbookAutoloader
 
         $list = array(
            'handbook_data_manager' => 'handbook_data_manager.class.php',
+            'handbook_publication' => 'handbook_publication.class.php',
+            'handbook_manager' => '/handbook_manager/handbook_manager.class.php'
             );
 
 

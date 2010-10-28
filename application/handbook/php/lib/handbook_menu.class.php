@@ -10,6 +10,8 @@ use user\UserDataManager;
 use common\libraries\TreeMenuRenderer;
 use common\libraries\Breadcrumb;
 use common\libraries\Utilities;
+use repository\content_object\handbook_item\HandbookItem;
+use repository\content_object\handbook\Handbook;
 
 require_once 'HTML/Menu.php';
 require_once 'HTML/Menu/ArrayRenderer.php';
