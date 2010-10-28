@@ -1,21 +1,20 @@
 <?php
-namespace application\weblcms\tool\learning_path;
+namespace repository\content_object\learning_path;
 
 /**
- * $Id: prerequisites_translator.class.php 216 2009-11-13 14:08:06Z kariboe $
- * @package application.lib.weblcms.tool.learning_path.component.learning_path_viewer
+ * @package repository.content_object.learning_path
  */
 class PrerequisitesTranslator
 {
-    private $lpi_tracker_data;
-    private $objects;
+    private $learning_path_item_attempt_data;
+    private $content_objects;
     private $items;
     private $version;
 
-    function PrerequisitesTranslator($lpi_tracker_data, $objects, $version)
+    function PrerequisitesTranslator($learning_path_item_attempt_data, $content_objects, $version)
     {
-        $this->lpi_tracker_data = $lpi_tracker_data;
-        $this->objects = $objects;
+        $this->learning_path_item_attempt_data = $learning_path_item_attempt_data;
+        $this->content_objects = $content_objects;
         $this->version = $version;
     }
 
@@ -24,9 +23,13 @@ class PrerequisitesTranslator
         $prerequisites = $item->get_prerequisites();
         
         if ($prerequisites)
+        {
             $executable = $this->prerequisite_completed($prerequisites);
+        }
         else
+        {
             return true;
+        }
         
         return $executable;
     }
@@ -43,24 +46,33 @@ class PrerequisitesTranslator
             if ($match)
             {
                 if (! in_array($match, $items))
+                {
                     $items[] = $match;
+                }
             }
         }
         
         foreach ($items as $item)
         {
-            if ($item == - 1) //if an empty box was selected, the prerequisite is automatically completed
+            //if an empty box was selected, the prerequisite is automatically completed
+            if ($item == - 1)
+            {
                 $value = 1;
+            }
             else
             {
                 if ($this->version == 'SCORM1.2')
+                {
                     $real_id = $this->retrieve_real_id_from_prerequisite_identifier($item);
+                }
                 else
+                {
                     $real_id = $item;
+                }
                 
                 $value = 0;
                 
-                foreach ($this->lpi_tracker_data[$real_id]['trackers'] as $tracker_data)
+                foreach ($this->learning_path_item_attempt_data[$real_id]['trackers'] as $tracker_data)
                 {
                     if ($tracker_data->get_status() == 'completed' || $tracker_data->get_status() == 'passed')
                     {
@@ -76,17 +88,17 @@ class PrerequisitesTranslator
         $prerequisites = str_replace('~', '!', $prerequisites);
         $prerequisites = '$value = ' . $prerequisites . ';';
         
-        eval($prerequisites);
-        
-        return $value;
+        return eval($prerequisites);
     }
 
     function retrieve_real_id_from_prerequisite_identifier($identifier)
     {
-        foreach ($this->objects as $cid => $object)
+        foreach ($this->content_objects as $cid => $content_object)
         {
-            if ($object->get_identifier() == $identifier)
+            if ($content_object->get_identifier() == $identifier)
+            {
                 return $cid;
+            }
         }
         
         return - 1;

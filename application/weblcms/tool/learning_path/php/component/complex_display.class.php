@@ -108,8 +108,6 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool
         if (Request :: get('lp_action') == 'view_progress')
         {
             $url = $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT, Tool :: PARAM_PUBLICATION_ID => $pid, 'lp_action' => 'view_progress'));
-            require_once WebApplication :: get_application_class_path(WeblcmsManager :: APPLICATION_NAME) . 'reporting/templates/learning_path_attempt_progress_reporting_template.class.php';
-            require_once WebApplication :: get_application_class_path(WeblcmsManager :: APPLICATION_NAME) . 'reporting/templates/learning_path_attempt_progress_details_reporting_template.class.php';
 
             $cid = Request :: get('cid');
             $details = Request :: get('details');

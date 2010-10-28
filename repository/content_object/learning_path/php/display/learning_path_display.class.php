@@ -8,6 +8,9 @@ use repository\ComplexDisplay;
 class LearningPathDisplay extends ComplexDisplay
 {
     const ACTION_VIEW_PROGRESS = 'progress_viewer';
+    const PARAM_STEP = 'step';
+    const PARAM_SHOW_PROGRESS = 'show_progress';
+    const PARAM_DETAILS = 'details';
 
     const DEFAULT_ACTION = self :: ACTION_VIEW_COMPLEX_CONTENT_OBJECT;
 
