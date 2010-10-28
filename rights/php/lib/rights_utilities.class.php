@@ -288,10 +288,25 @@ class RightsUtilities
         {
             return true;
         }
+        
         //has the user been given a direct right for this location?
-        if (self :: is_allowed_for_user($user->get_id(), $right, $location))
+        if (self :: $right_granted_by_parent_cache[$right] == -1) //the right wasnt granted in a previous run, this means that only the base location should be checked
         {
-            return true;
+            if (RightsUtilities :: get_user_right_location($right, $user->get_id(), $location->get_id()))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            if (self :: is_allowed_for_user($user->get_id(), $right, $location))
+            {
+                return true;
+            }
         }
 
         if (!self :: $group_cache[$user->get_id()]) //todo: if a user is not subscribed in any group, this check should also return true (avoid query with empty results)
