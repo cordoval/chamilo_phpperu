@@ -4,6 +4,9 @@ namespace user;
 use common\libraries\Translation;
 
 use common\libraries\Utilities;
+use HTML_Menu;
+use HTML_Menu_ArrayRenderer;
+use common\libraries\TreeMenuRenderer;
 /**
  * $Id: user_menu.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib
