@@ -9,6 +9,7 @@ use common\libraries\Path;
 use common\libraries\Theme;
 use common\libraries\Application;
 use application\context_linker\ContextLinkerManager;
+use repository\content_object\handbook_item\HandbookItem;
 
 
 
