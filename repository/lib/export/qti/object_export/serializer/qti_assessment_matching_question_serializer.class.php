@@ -72,10 +72,11 @@ class QtiAssessmentMatchingQuestionSerializer extends QtiQuestionSerializer{
 		$answers = $result->add_simpleMatchSet();
 
 		foreach($options as $index => $option){
-			$question_id = "Q_$index";
+			$id = "Q_$index";
 			$text = $this->translate_text($option->get_value());
         	$feedback = $this->translate_text($option->get_feedback());
-			$choice = $questions->add_simpleAssociableChoice($question_id, false, array(), 1)->add_flow($text);
+			$choice = $questions->add_simpleAssociableChoice($id, false, array(), 1)->add_flow($text);
+			//always display feedback
 			$choice->add_feedbackInline(Qti::FEEDBACK, Qti::FEEDBACK_SHOW, Qti::FEEDBACK_SHOW)->add_flow($feedback);
 		}
 

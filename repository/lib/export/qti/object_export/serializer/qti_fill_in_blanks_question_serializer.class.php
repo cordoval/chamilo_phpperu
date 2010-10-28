@@ -1,7 +1,5 @@
 <?php
 
-//@todo: review logic when question is working
-
 /**
  * Serializer for fill in the blanks questions.
  *
@@ -82,8 +80,8 @@ class QtiFillInBlanksQuestionSerializer extends QtiQuestionSerializer{
 
 	protected function add_body(ImsQtiWriter $item, FillInBlanksQuestion $question){
 		$result = $item->add_itemBody();
-		//$description = $this->translate_text($question->get_description(), $question);
-		//$result->add_rubricBlock(Qti::VIEW_ALL, self::CLASS_DESCRIPTION)->add_flow($description);
+		$description = $this->translate_text($question->get_description(), $question);
+		$result->add_rubricBlock(Qti::VIEW_ALL, self::CLASS_DESCRIPTION)->add_flow($description);
 		$text = $question->get_answer_text();
 		$parts = preg_split(FillInBlanksQuestionAnswer::CLOZE_REGEX, $text);
         $count = $question->get_number_of_questions();

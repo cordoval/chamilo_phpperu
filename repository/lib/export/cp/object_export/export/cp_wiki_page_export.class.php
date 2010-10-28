@@ -18,7 +18,7 @@ class CpWikiPageExport extends CpObjectExport{
 			return NULL;
 		}
 	}
-	
+
 	public static function accept($object){
 		if(! $object instanceof ContentObject){
 			return false;
@@ -41,11 +41,12 @@ class CpWikiPageExport extends CpObjectExport{
 			return false;
 		}
 	}
-	
+
 	protected function format($object){
 		$css = $this->get_main_css();
 		$title = $object->get_title();
 		$description = $object->get_description();
+		$description = $this->translate_text($description);
 		$result = "<html><head>$css<title>$title</title></head><body>";
 		$result .= '<div class="title">'.$title.'</div>';
 		$result .= '<div class="description">'. $description . '</div>';

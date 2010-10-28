@@ -52,6 +52,7 @@ class QtiFillInBlanksQuestionBuilder extends QtiQuestionBuilder{
 	public function build(ImsXmlReader $item){
 		$result = $this->create_question();
         $result->set_title($item->get_title());
+        $result->set_description($this->get_description($item));
         $result->set_answer_text($this->get_answer_text($item));
         $result->set_question_type($this->get_question_type($item));
 		return $result;
@@ -60,6 +61,16 @@ class QtiFillInBlanksQuestionBuilder extends QtiQuestionBuilder{
 	protected function get_answer_text($item){
 		$renderer = new FillInBlanksQuestionRenderer($this->get_strategy(), $item);
 		$result = $renderer->to_text($item);
+		return $result;
+	}
+
+	protected function get_description(ImsXmlReader $item){
+		$result = '';
+		$blocks = $item->all_rubricBlock();
+		foreach($blocks as $block){
+			$result .= $block->get_inner_xml();
+		}
+		$result = $this->translate_images($result);
 		return $result;
 	}
 

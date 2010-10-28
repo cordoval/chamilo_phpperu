@@ -108,25 +108,25 @@ class QtiBuilderBase{
 	}
 
 	protected function translate_images($text){
-        $tags = Text::fetch_tag_into_array($text, '<img>');
-        $tags = empty($tags) ? array() : $tags;
-        $file_path = $this->get_source_root();
-        $target_directory = Path::get(SYS_PATH) . 'files/repository/' . $this->get_user()->get_id() . '/';
+		$tags = Text::fetch_tag_into_array($text, '<img>');
+		$tags = empty($tags) ? array() : $tags;
+		$file_path = $this->get_settings()->get_directory();
 
-        //@todo: check image import when question works. See if we import the image as document object or not.
-        $files = array();
-        foreach($tags as $tag){
-            $filename = basename($tag['src']);
-            $files[$filename] = $file_path .$tag['src'];
-            $text = str_replace($tag['src'], $filename, $text);
-        }
-        foreach($files as $new => $original){
-        	$from = $original;
-        	$to = $target_directory.$new;
-	    	$result = Filesystem::copy_file($from, $to, true);
-        }
-        return $text;
-    }
+		$translate = array();
+		foreach($tags as $tag){
+			$src = $tag['src'];
+			if(substr($src, 0, 4) !== 'http' ){
+				if(! isset($translate[$src]) ){
+					$path = $file_path . $tag['src'];
+					$doc = $this->create_document($path);
+					$new_src = 'core.php?go=document_downloader&display=1&object='. $doc->get_id() .'&application=repository';
+					$translate[$src] = $new_src;
+				}
+				$text = str_replace($src, $translate[$src], $text);
+			}
+		}
+		return $text;
+	}
 
 	protected function get_feedback(ImsQtiReader $item, ImsQtiReader $interaction, $answer, $filter_out = array()){
 		$result =  $this->get_feedbacks($item, $interaction, $answer, $filter_out);
@@ -135,19 +135,32 @@ class QtiBuilderBase{
 	}
 
 	protected function create_document($path){
-		$ext = pathinfo($path, PATHINFO_EXTENSION);
-		$name = basename($path, ".$ext");
-    	$result = new Document();
-    	$result->set_owner_id($this->get_user()->get_id());
-    	$result->set_parent_id($this->get_category());
-    	$result->set_temporary_file_path($path);
-    	$result->set_filename($name);
-    	$result->set_filesize(Filesystem::get_disk_space($path));
-    	$result->set_hash(md5($name));
-    	$result->set_description($name);
-    	$result->set_title($name);
-    	$sucess = $result->create();
-    	return $result;
+		$owner_id = $this->get_user()->get_id();
+		$category = $this->get_category();
+		$ext = end(explode('.', $path));
+		$title = basename($path, ".$ext");
+
+		if(! is_file($path)){//i.e. the file has already been imported. Note that creating a Document remove the temp file.
+			$conditions[] = new EqualityCondition(ContentObject::PROPERTY_TITLE, $title);
+			$conditions[] = new EqualityCondition(ContentObject::PROPERTY_OWNER_ID, $owner_id);
+			$conditions[] = new EqualityCondition(ContentObject::PROPERTY_PARENT_ID, $category);
+			$condition = new AndCondition($conditions);
+
+			$objects = RepositoryDataManager::get_instance()->retrieve_content_objects($condition);
+			$result = $objects->is_empty() ? null : $objects->next_result();
+		}else{
+			$result = new Document();
+			$result->set_owner_id($owner_id);
+			$result->set_parent_id($category);
+			$result->set_temporary_file_path($path);
+			$result->set_filename($title . '.' . $ext);
+			$result->set_filesize(Filesystem::get_disk_space($path));
+			$result->set_hash(md5($title));
+			$result->set_description($title);
+			$result->set_title($title);
+			$result->create();
+		}
+		return $result;
 	}
 
 	protected function get_instruction(ImsQtiReader $item, $role = Qti::VIEW_ALL){

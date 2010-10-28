@@ -24,7 +24,6 @@ class QtiAssessmentMatrixQuestionSerializer extends QtiQuestionSerializer{
 	}
 
     protected function get_question_score(AssessmentMatrixQuestion $question){
-    	//@todo: check if score is for all entries, per entry, etc
     	$result = 0;
         $answers = $question->get_options();
         foreach($answers as $answer){
@@ -45,9 +44,10 @@ class QtiAssessmentMatrixQuestionSerializer extends QtiQuestionSerializer{
 
         $answers = $question->get_options();
 		foreach($answers as $index => $answer){
-			$question_id = "Q_$index";
+			$question_id = "ID_$index";
 			$matches = $answer->get_matches();
 			$matches = is_array($matches) ? $matches : array($matches);
+
 			$score = $answer->get_score();
 			foreach($matches as $match){
 				$answer_id = "A_$match" ;
@@ -56,6 +56,7 @@ class QtiAssessmentMatrixQuestionSerializer extends QtiQuestionSerializer{
 			}
 			$correct_response->add_value($key);
 		}
+
 		return $result;
 	}
 
@@ -76,10 +77,11 @@ class QtiAssessmentMatrixQuestionSerializer extends QtiQuestionSerializer{
         $options = $question->get_options();
         $match_max = $question->get_matrix_type() == MatrixQuestion::MATRIX_TYPE_RADIO ? 1 : 0;
 		foreach($options as $index => $option){
-			$question_id = "Q_$index";
+			$id = "ID_$index";
 			$text = $this->translate_text($option->get_value());
         	$feedback = $this->translate_text($option->get_feedback());
-			$choice = $questions->add_simpleAssociableChoice($question_id, false, array(), $match_max)->add_flow($text);
+			$choice = $questions->add_simpleAssociableChoice($id, false, array(), $match_max)->add_flow($text);
+			//always display feedback
 			$choice->add_feedbackInline(Qti::FEEDBACK, Qti::FEEDBACK_SHOW, Qti::FEEDBACK_SHOW)->add_flow($feedback);
 		}
 

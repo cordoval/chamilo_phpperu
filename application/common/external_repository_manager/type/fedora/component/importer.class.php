@@ -118,6 +118,7 @@ class FedoraExternalRepositoryManagerImporterComponent extends FedoraExternalRep
 		$form->display();
 		$this->display_footer();
 	}
+
 	/**
 	 * Returns true if $file is an IMS CP zip file. False otherwise
 	 *
@@ -134,9 +135,11 @@ class FedoraExternalRepositoryManagerImporterComponent extends FedoraExternalRep
 			$items = Filesystem::get_directory_content($result, Filesystem::LIST_FILES, false);
 			foreach($items as $item){
 				if(strtolower($item) == 'imsmanifest.xml'){
+					Filesystem::remove($result);
 					return true;
 				}
 			}
+			Filesystem::remove($result);
 			return false;
 		}
 	}

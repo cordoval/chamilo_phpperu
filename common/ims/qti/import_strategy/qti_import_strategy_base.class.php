@@ -547,7 +547,7 @@ class QtiImportStrategyBase{
 			case Qti::BASETYPE_INTEGER:
 				return 15000 * $seed;
 			default:
-				debug('Unknown base type: ' . $base_type);
+				throw new Exception('Unknown base type: ' . $base_type);
 		}
 	}
 

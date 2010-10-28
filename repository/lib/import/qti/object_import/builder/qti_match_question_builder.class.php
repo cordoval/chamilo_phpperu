@@ -1,16 +1,20 @@
 <?php
 
 /**
- * Question builder for match text questions.
+ * Question builder for match questions.
+ * Only accept match questions that have been exported by Chamilo.
+ * Other questions will go to MatchTextQuestion.
+ *
+ * Note that MatchTextQuestion with UseWildcards = false and IgnoreCase = false provides the same functionalities as match question
  *
  * @copyright (c) 2010 University of Geneva
  * @author laurent.opprecht@unige.ch
  *
  */
-class QtiAssessmentMatchTextQuestionBuilder extends QtiQuestionBuilder{
+class QtiMatchQuestionBuilder extends QtiQuestionBuilder{
 
 	static function factory($item, $settings){
-		if(	!class_exists('AssessmentMatchTextQuestion') ||
+		if(	!class_exists('MatchQuestion') ||
 			$item->has_templateDeclaration() ||
 			count($item->list_interactions())!=1 ||
 			!self::has_score($item)){
@@ -25,7 +29,7 @@ class QtiAssessmentMatchTextQuestionBuilder extends QtiQuestionBuilder{
 			return null;
 		}
 
-		//reject questions exported by MatchQuestion
+		//only accept questions that have been exported by Chamilo
 		if($item->toolName == Qti::get_tool_name()){
 			$label = $main->label;
 			$pairs = explode(';', $label);
@@ -34,19 +38,18 @@ class QtiAssessmentMatchTextQuestionBuilder extends QtiQuestionBuilder{
 				if(count($entry)==2){
 					$key = reset($entry);
 					$value = trim($entry[1]);
-					if($key=='display' && $value =='MatchQuestion'){
+					if($key=='display' && $value !='MatchQuestion'){
 						return false;
 					}
 				}
 			}
 		}
 
-
 		return new self($settings);
 	}
 
 	public function create_question(){
-		$result = new AssessmentMatchTextQuestion();
+		$result = new MatchQuestion();
         return $result;
 	}
 
@@ -55,60 +58,27 @@ class QtiAssessmentMatchTextQuestionBuilder extends QtiQuestionBuilder{
         $result->set_title($item->get_title());
         $result->set_description($this->get_question_text($item));
 
-        $use_wildcards = false;
-        $ignore_case = true;
+
 		$interaction = self::get_main_interaction($item);
     	$answers = $this->get_possible_responses($item, $interaction);
     	foreach($answers as $answer){
-    		//@todo: a better approach would be to generate an answer from the regex to get score, feedback, etc.
-    		//currently general feedbacks - i.e. always true feedbacks - will not be imported
 
-    		//@todo: it would be better to check if the regex pattern is a wildcard pattern
-    		//@todo: move is case sensitive and use wildcard from question to option?
-    		//@todo: add regex has an option on top of wildcards for the question?
-    		$use_wildcards = $use_wildcards || $this->is_regex($answer);
-			$ignore_case = $ignore_case && !$this->is_case_sensitive($answer);
     		$value = $this->get_response_text($item, $answer);
     		$score = $this->get_score($item, $interaction, $answer);
     		$feedback = $this->get_feedback($item, $interaction, $answer);
-    		$option = new AssessmentMatchTextQuestionOption($value, $score, $feedback);
+    		$option = new MatchQuestionOption($value, $score, $feedback);
             $result->add_option($option);
     	}
-		$result->set_use_wildcards($use_wildcards);
-		$result->set_ignore_case($ignore_case);
 		return $result;
 	}
 
 	protected function get_response_text($item, $response){
 		if(! $response instanceof ImsXmlReader){
 			$result = $response;
-		}else if($response->is_patternMatch()){
-			$result = Wildcard::from_regex($response->pattern);
 		}else{
 			$result = $this->execute_formula($item, $response);
 		}
 
 		return $result;
 	}
-
-	protected function is_regex($response){
-		return $response instanceof ImsXmlReader && $response->is_patternMatch();
-	}
-
-	protected function is_case_sensitive($response){
-		if(!is_object($response)){
-			return true;
-		}else if(! ($response instanceof ImsXmlReader)){
-			return true;
-		}else if($response->is_patternMatch()){
-			return Wildcard::is_case_sensitive($response->pattern);
-		}else if($response->is_stringMatch()){
-			return $response->caseSensitive=='true';
-		}else if($response->get_parent()->is_stringMatch()){
-			return $response->get_parent()->caseSensitive=='true';
-		}else{
-			return true;
-		}
-	}
-
 }

@@ -32,16 +32,18 @@ class LocationCpImport extends CpObjectImportBase{
 	protected function get_location(ObjectImportSettings $settings){
 		return $this->get_meta($settings, 'location');
 	}
-	
+
 	protected function get_description(ObjectImportSettings $settings, $default = ''){
 		if($doc = $settings->get_dom()){
 			$list = $doc->getElementsByTagName('div');
 			foreach($list as $div){
 				if(strtolower($div->getAttribute('class')) == 'description'){
 					$result = $this->get_innerhtml($div);
+					$result = $this->translate_text($settings, $result);
 					return $result;
 				}
 			}
+			return $body;
 		}
 		return $default;
 	}

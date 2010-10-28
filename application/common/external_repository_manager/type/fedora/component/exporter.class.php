@@ -373,7 +373,7 @@ class FedoraExternalRepositoryManagerExporterComponent extends FedoraExternalRep
 		}
 
 		if($pid){
-			$connector->delete_external_repository_object($pid);
+			$connector->purge_external_repository_object($pid);
 		}
 		$foxml = $this->content_to_foxml($content, $meta, $data);
 		$result = $connector->ingest($foxml, $meta->pid, $meta->label, $meta->owner);

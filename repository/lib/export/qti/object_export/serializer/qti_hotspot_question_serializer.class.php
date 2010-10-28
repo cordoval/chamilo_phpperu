@@ -22,7 +22,6 @@ class QtiHotspotQuestionSerializer extends QtiQuestionSerializer{
 	}
 
 	protected function get_question_score(HotspotQuestion $question){
-		//@todo: check the hotspot logic: multiple selection, ordered or not
 		$multiple = true;
 		if($multiple){
 	    	$result = 0;
@@ -49,7 +48,6 @@ class QtiHotspotQuestionSerializer extends QtiQuestionSerializer{
 			$response = $item->add_responseDeclaration($id, Qti::CARDINALITY_SINGLE, Qti::BASETYPE_POINT);
     		$mapping = $response->add_areaMapping(0, $score, 0);
 
-			//@todo: move unserialize to get_hotspot_coordinates?
             $coordinates = unserialize($answer->get_hotspot_coordinates());
         	$coordinates = $this->serialize_coordinates($coordinates);
         	$mapping->add_areaMapEntry(Qti::SHAPE_POLY, $coordinates, $score);

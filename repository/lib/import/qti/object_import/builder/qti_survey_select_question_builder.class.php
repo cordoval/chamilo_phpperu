@@ -44,7 +44,6 @@ class QtiSurveySelectQuestionBuilder extends QtiQuestionBuilder{
 
 	protected function get_answer_type($item){
 		$interaction = self::get_main_interaction($item);
-		//@todo: make that constants
 		$result = $interaction->maxChoices == 1 ? 'radio' : 'checkbox';
 		return $result;
 	}

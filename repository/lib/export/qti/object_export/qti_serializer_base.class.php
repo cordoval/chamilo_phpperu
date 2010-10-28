@@ -199,7 +199,6 @@ class QtiSerializerBase{
     	$this->translate_nodes($node->childNodes);
 	}
 
-
 	private function translate_nodes($nodes){
 		if(empty($nodes)){
 			return;

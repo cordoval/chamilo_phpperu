@@ -11,7 +11,6 @@ require_once Path :: get_repository_path() . 'lib/content_object/survey_page/com
  *
  */
 
-//@todo: test when survey is working serializer
 class QtiSurveyBuilder extends QtiBuilderBase{
 
 	const CLASS_DESCRIPTION = 'description';
@@ -65,7 +64,6 @@ class QtiSurveyBuilder extends QtiBuilderBase{
     	$description = '';
 		$blocks = $section->list_rubricBlock();
 		foreach($blocks as $block){
-			//@todo: change serializer
 			if($block->class == 'description'){
 				$description = $this->to_html($block);
 			}

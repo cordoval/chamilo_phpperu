@@ -184,7 +184,6 @@ class ImsXmlReader implements IteratorAggregate
     	}elseif($parent_node = $this->current->parentNode){
     		return $this->copy($parent_node);
     	}else{
-    		//debug('Alert');
     		return $this->get_default_result();
     	}
 

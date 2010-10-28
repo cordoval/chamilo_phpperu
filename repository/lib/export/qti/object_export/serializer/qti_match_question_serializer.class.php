@@ -87,7 +87,8 @@ class QtiMatchQuestionSerializer extends QtiQuestionSerializer{
 
 	protected function add_interaction(ImsQtiWriter $body, $question){
 		$expectedLength = $this->get_answer_max_length($question);
-		$result = $body->add_extendedTextInteraction(Qti::RESPONSE, $expectedLength, 1, 1);
+		$label = 'display=MatchQuestion';
+		$result = $body->add_extendedTextInteraction(Qti::RESPONSE, $expectedLength, 1, 1, '', '', '', '', $label);
 		return $result;
 	}
 

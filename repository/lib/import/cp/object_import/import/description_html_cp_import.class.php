@@ -34,6 +34,7 @@ class DescriptionHtmlCpImport extends CpObjectImportBase{
 			foreach($list as $div){
 				if(strtolower($div->getAttribute('class')) == 'description'){
 					$result = $this->get_innerhtml($div);
+					$result = $this->translate_text($settings, $result);
 					return $result;
 				}
 			}
@@ -45,10 +46,12 @@ class DescriptionHtmlCpImport extends CpObjectImportBase{
 			}else{
 				$body = '';
 			}
+			$body = $this->translate_text($settings, $body);
+			return $body;
 		}
 		return $default;
 	}
-	
+
 }
 
 

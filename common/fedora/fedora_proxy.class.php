@@ -563,7 +563,7 @@ class FedoraProxy extends RestProxyBase{
 	 *
 	 * @param string $label the object's label to search for
 	 * @param string $owner if provided search only for objects belonging to this owner
-	 * @param string $collection  if provided search only for objects belonging to this collection @todo not yet implemented
+	 * @param string $collection if provided search only for objects belonging to this collection @todo not yet implemented
 	 * @return false|array If found returns the object's id. If not found returns false.
 	 */
 	public function get_object_by_label($label, $owner='', $collection=''){

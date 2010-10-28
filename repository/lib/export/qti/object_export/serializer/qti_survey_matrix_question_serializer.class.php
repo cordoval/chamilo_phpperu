@@ -46,7 +46,6 @@ class QtiSurveyMatrixQuestionSerializer extends QtiQuestionSerializer{
 		foreach($options as $index => $option){
 			$question_id = "Q_$index";
 			$text = $this->translate_text($option->get_value());
-			//@todo: check if one question can map to one answer or multiple
 			$choice = $questions->add_simpleAssociableChoice($question_id, false, array(), 1)->add_flow($text);
 		}
 

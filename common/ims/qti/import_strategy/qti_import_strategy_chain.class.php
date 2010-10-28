@@ -39,7 +39,6 @@ class QtiImportStrategyChain extends QtiImportStrategyBase{
 						return $result;
 					}
 				}catch(Exception $e){
-					//debug($e);
 					throw $e;
 				}
 			}

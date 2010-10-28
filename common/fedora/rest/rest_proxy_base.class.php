@@ -176,7 +176,6 @@ abstract class RestProxyBase  {
 			$result =  $this->get_rest_response($url, $http_method, $data_to_send, $mime_type);
 			return $result;
 		}catch(Exception $e){
-			//debug(htmlentities($url));debug($e);die;
 			throw $e;
 		}
 	}

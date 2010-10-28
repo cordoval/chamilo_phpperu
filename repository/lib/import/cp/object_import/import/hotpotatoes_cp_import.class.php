@@ -23,7 +23,7 @@ class HotpotatoesCpImport extends CpObjectImportBase{
 
 	protected function process_import(ObjectImportSettings $settings){
 		$path = $settings->get_path();
-			
+
 		//for whatever reason unzipping replaces __ , ___ , ____ , ... with _
 		//@todo: fix unzipping instead of compensating here
 		if(!file_exists($path)){
@@ -32,7 +32,7 @@ class HotpotatoesCpImport extends CpObjectImportBase{
 			$path = str_replace('__', '_', $path); //...
 			$path = str_replace('__', '_', $path);
 		}
-			
+
 		$filename = $settings->get_filename();
 		$ext = $settings->get_extention();
 		$result = new Hotpotatoes();
@@ -43,7 +43,6 @@ class HotpotatoesCpImport extends CpObjectImportBase{
 		$this->save($settings, $result);
 		return $result;
 	}
-
 
 	/**
 	 *
@@ -67,7 +66,7 @@ class HotpotatoesCpImport extends CpObjectImportBase{
 			}else{
 				$destination = '';
 			}
-				
+
 		}
 		return $destination;
 	}

@@ -48,7 +48,6 @@ class QtiAssessmentBuilder extends QtiBuilderBase{
 
     function import_testpart($part, $assessment){
         $maximum_attempts = $part->get_itemSessionControl()->maxAttempts;
-        //@todo: update serializer
         if(!empty($maximum_attempts)){
             $assessment->set_maximum_attempts($maximum_attempts);
         }

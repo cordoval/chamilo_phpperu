@@ -35,7 +35,6 @@ class QtiCpImport extends CpObjectImportBase{
         return $result;
     }
 
-
 	/**
 	 * Log a warning  message. Ensure the same message is not sent twice.
 	 * The problem is that some importers - zip - recall 'import' on the root after they have performed their work.

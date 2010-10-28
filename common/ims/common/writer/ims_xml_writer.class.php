@@ -45,7 +45,6 @@ class ImsXmlWriter
     		$this->doc = $this->create_doc();
         	$this->id_factory = new ImsIdFactory();
     	}else{
-    		//debug($item);
     		throw new Exception('Unknown type');
     	}
     	if(!empty($prefix)){

@@ -390,7 +390,6 @@ class QtiImportStrategyGeneric extends QtiImportStrategyBase{
 	 */
 	public function get_partial_responses(ImsXmlReader $item, ImsXmlReader $interaction){
 		if(!$interaction->is_sliderInteraction()){
-			//debug('Not implemented');
 			return array();
 		}
 		$base_type = $this->head()->get_response_declaration($item, $interaction)->baseType;

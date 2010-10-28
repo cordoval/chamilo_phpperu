@@ -42,7 +42,6 @@ class QtiExportResourceManager extends QtiResourceManagerBase{
 
     	$basename = $this->url_basename($path);
     	$result = $this->get_target_root() . $basename;
-    	//debug($basename. ' '. $result);
     	$this->register($result, $path);
     	return $result;
     }

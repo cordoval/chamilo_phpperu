@@ -108,7 +108,6 @@ class shape{
 			$m2 = self::middle($h, $m2);
 		}
 
-		//debug('not found');
 		return array();
 	}
 

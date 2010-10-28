@@ -24,7 +24,7 @@ class FedoraExternalRepositoryManager extends ExternalRepositoryManager
 	/**
 	 * @param Application $application
 	 */
-	function __construct($external_repository, $application=null){//@todo: switch names?
+	function __construct($external_repository, $application=null){
 		parent::__construct($external_repository, $application);
 	}
 

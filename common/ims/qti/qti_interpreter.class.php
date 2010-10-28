@@ -39,7 +39,6 @@ class QtiInterpreter{
 		}
 
 		if(empty($name)){
-			debug($key->get_current());
 			throw new Exception('Invalid key (empty)');
 		}
 
@@ -48,7 +47,6 @@ class QtiInterpreter{
 		}else if(is_array($value) && count($value) == 1){
 			$result = reset($value);
 		}else if(is_array($value)){
-			//@todo: confirm why this. Clashes with points
 			$result = array();
 			foreach($value as $val){
 				$result[$val] = $val;
@@ -244,7 +242,6 @@ class QtiInterpreter{
 				return null;
 
 			default:
-				//debug('Unknown base type: '. $base_type);
 				return null;
 		}
 	}
@@ -289,7 +286,6 @@ class QtiInterpreter{
 				break;
 
 			default:
-				//debug('Unknown base type: '. $base_type);
 				$result = $left == $right;;
 				break;
 		}
@@ -944,7 +940,6 @@ class QtiInterpreter{
 			$tolerance = empty($tolerance) ? array(0, 0) : $tolerance;
 			return $left * (1- $tolerance[0]/100) <= $right && $right <= $left * (1 + $tolerance[1]/100);
 		}else{
-			//debug("Unknown tolerance type: $tolerance_type");
 			return $left == $right;
 		}
 	}

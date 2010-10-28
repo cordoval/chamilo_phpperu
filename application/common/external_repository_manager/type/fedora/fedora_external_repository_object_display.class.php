@@ -91,6 +91,7 @@ class FedoraExternalRepositoryObjectDisplay extends ExternalRepositoryObjectDisp
 				$result[] = $print;
 			}
 		}
+		/*
 		$split = true;
 		foreach($system_streams as $ds){
 			if($split){
@@ -100,6 +101,7 @@ class FedoraExternalRepositoryObjectDisplay extends ExternalRepositoryObjectDisp
 				$result[] = $print;
 			}
 		}
+		*/
 		$result[] = '<div class="clear">&nbsp;</div>';
 		$result[] = '</div>';
 		return implode('', $result);

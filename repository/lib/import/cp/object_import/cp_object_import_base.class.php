@@ -238,52 +238,30 @@ class CpObjectImportBase{
 		return $result;
 	}
 
-	protected function process_images($html){
-		$pattern = '~<img.*/>~';
-		$result = preg_replace_callback($pattern, array($this, 'process_img'), $html);
+	protected function translate_text($settings, $html){
+		$result = $html;
+		$images = Text::fetch_tag_into_array($html, '<img>');
+		foreach($images as $image){
+			$src = $image['src'];
+			$old_src = 'src="' . $src . '"';
+			$new_src = $this->translate_path($settings, $src);
+			$new_src = 'src="' . $new_src . '"';
+			$result = str_replace($old_src, $new_src, $result);
+		}
 		return $result;
 	}
 
-	private function process_img($tags){
-		foreach($tags as $tag){
-			$pattern = '~src="[^"]*"~';
-			$matches = array();
-			preg_match_all($pattern, $tag, $matches);
-			if($src = reset(reset($matches))){
-				$src = str_replace('src="', '', $src);
-				$src = str_replace('"', '', $src);
-				$src = $this->translate_path($src);
-				$src = 'src="' . $src . '"';
-				$result = preg_replace($pattern, $src, $tag);
-				return $result;
-			}else{
-				return $tag;
-			}
-		}
-	}
-
-	private function translate_path($path){
-		$settings = $this->get_settings();
+	private function translate_path($settings, $path){
 		$file_path = $settings->get_directory() . $path;
 		$object_settings = $settings->copy($file_path);
-		if($id = CpImport::object_factory($object_settings)->import_content_object()){
+		if($object = $this->get_root()->import($object_settings)){
+			$id = $object->get_id();
 			$result = "core.php?go=document_downloader&amp;display=1&amp;object=$id&amp;application=repository";
 			return $result;
 		}else{
 			return $path;
 		}
 	}
-
-	//delegate to $settings
-	/*
-	 public function __call($name, $arguments){
-		$f = array($this->settings, $name);
-		if(is_callable($f)){
-		return call_user_func_array($f, $arguments);
-		}else{
-		return false;
-		}
-		}*/
 
 }
 

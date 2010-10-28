@@ -1,20 +1,20 @@
 <?php
 
 /**
- * Export Content Objects. 
+ * Export Content Objects.
  * Write object's properties to an xml file
  * Children, attachments, includes are exported as separate files.
- * Only the links to the children's files are stored. 
- * 
- * 
- * @copyright (c) 2010 University of Geneva 
- * 
+ * Only the links to the children's files are stored.
+ *
+ *
+ * @copyright (c) 2010 University of Geneva
+ *
  * @license GNU General Public License
  * @author laurent.opprecht@unige.ch
  *
  */
 class CpContentObjectExport extends CpeObjectExportBase{
-	
+
 	public static function factory($settings){
 		$object = $settings->get_object();
 		if($object instanceof ContentObject){
@@ -22,18 +22,18 @@ class CpContentObjectExport extends CpeObjectExportBase{
 		}else{
 			return null;
 		}
-	} 
+	}
 
 	public function get_type(){
 		return ImscpObjectWriter::get_format_full_name() . '#ContentObject';
-	} 
-	
-    protected function add_object(ImscpObjectWriter $writer, DataClass $object){   
+	}
+
+    protected function add_object(ImscpObjectWriter $writer, DataClass $object){
     	$catalog = chamilo::get_local_catalogue_name();
     	$id = $object->get_id();
     	$type = $this->get_object_type($object);
         $writer = $writer->get_objects()->add_object($catalog, $id, $type);
-        
+
         $this->add_identifiers($writer, $object);
         $this->add_default_properties($writer, $object);
         $this->add_additional_properties($writer, $object);
@@ -42,7 +42,7 @@ class CpContentObjectExport extends CpeObjectExportBase{
         $this->add_attachments($writer, $object);
         $this->add_includes($writer, $object);
     }
-    
+
     protected function add_children($writer, ContentObject $object){
     	if(! is_callable(array($object, 'is_complex_content_object'))){
     		return;
@@ -50,7 +50,7 @@ class CpContentObjectExport extends CpeObjectExportBase{
     	if(! $object->is_complex_content_object()){
     		return;
     	}
-    	
+
         $children = chamilo::retrieve_children($object);
         $sub_items = ($children->size() > 0) ? $writer->add_subItems() : null;
         while($child = $children->next_result()){
@@ -77,7 +77,7 @@ class CpContentObjectExport extends CpeObjectExportBase{
 	        foreach($properties as $name => $value){
 	        	$extended->add($name)->add_xml($value);
 	        }
-	        
+
         }
     }
 
@@ -93,7 +93,7 @@ class CpContentObjectExport extends CpeObjectExportBase{
         	$writer->add_attachment($href, $id);
         }
     }
-    
+
     protected function add_includes($writer, ContentObject $object){
     	if(! is_callable(array($object, 'get_included_content_objects'))){
     		return;
@@ -103,8 +103,7 @@ class CpContentObjectExport extends CpeObjectExportBase{
         foreach($includes as $include){
         	$id = $include->get_id();
         	//force reloads by passing id instead of object
-        	//@todo: get_included_content_objects do not return proper object type - i.e. document
-	    	$href = $this->export_child($id); 
+	    	$href = $this->export_child($id);
         	$writer->add_includes($href, $id);
         }
     }

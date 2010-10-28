@@ -40,9 +40,6 @@ class QtiAssessmentSerializer extends QtiSerializerBase{
 	            $filename = basename($path);
 	            $ref = $writer->add_assessmentItemRef('ID_'.$child->get_id(), $filename, '', $required = true);
 	            $ref->add_weight(null, $child->get_weight());
-            }else{
-            	debug('Unknow type ');
-            	debug($child_object);
             }
         }
 	}

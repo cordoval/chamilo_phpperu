@@ -57,9 +57,6 @@ class QtiSurveySerializer extends QtiSerializerBase{
 	            $path = $exporter->export_content_object();
 	            $filename = basename($path);
 	            $ref = $writer->add_assessmentItemRef('ID_'.$child->get_id(), $filename, '', $required = true);
-            }else{
-            	debug('Unknow type ');
-            	debug($child_object);
             }
         }
 	}
