@@ -1,7 +1,6 @@
 <?php
 namespace repository\content_object\learning_path;
 
-use repository\RepositoryDataManager;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
@@ -11,6 +10,28 @@ use common\libraries\ToolbarItem;
 use common\libraries\Theme;
 use common\libraries\BasicApplication;
 use common\libraries\Path;
+
+use repository\content_object\learning_path\LearningPath;
+use repository\content_object\announcement\Announcement;
+use repository\content_object\assessment\Assessment;
+use repository\content_object\blog_item\BlogItem;
+use repository\content_object\calendar_event\CalendarEvent;
+use repository\content_object\description\Description;
+use repository\content_object\document\Document;
+use repository\content_object\forum\Forum;
+use repository\content_object\glossary\Glossary;
+use repository\content_object\hotpotatoes\Hotpotatoes;
+use repository\content_object\link\Link;
+use repository\content_object\note\Note;
+use repository\content_object\wiki\Wiki;
+
+use repository\RepositoryDataManager;
+use repository\RepositoryRights;
+use repository\ComplexBuilder;
+use repository\ContentObject;
+use repository\RepositoryManager;
+use admin\AdminDataManager;
+use admin\Registration;
 
 /**
  * $Id: browser.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -51,9 +72,9 @@ class LearningPathBuilderBrowserComponent extends LearningPathBuilder
         if ($content_object->get_version() == 'chamilo')
         {
             echo '<br />';
-            $types = array(LearningPath :: get_type_name(), Announcement :: get_type_name(), Assessment :: get_type_name(), BlogItem :: get_type_name(), CalendarEvent :: get_type_name(),
-            			  Description :: get_type_name(), Document :: get_type_name(), Forum :: get_type_name(), Glossary :: get_type_name(), Hotpotatoes :: get_type_name(), Link :: get_type_name(),
-            			  Note :: get_type_name(), Wiki :: get_type_name());
+            $types = array(
+                    LearningPath :: get_type_name(), Announcement :: get_type_name(), Assessment :: get_type_name(), BlogItem :: get_type_name(), CalendarEvent :: get_type_name(), Description :: get_type_name(),
+                    Document :: get_type_name(), Forum :: get_type_name(), Glossary :: get_type_name(), Hotpotatoes :: get_type_name(), Link :: get_type_name(), Note :: get_type_name(), Wiki :: get_type_name());
             echo $this->get_creation_links($content_object, $types);
             echo '<div class="clear">&nbsp;</div><br />';
         }
@@ -114,18 +135,22 @@ class LearningPathBuilderBrowserComponent extends LearningPathBuilder
 
         foreach ($types as $type)
         {
-        	if(!RepositoryRights :: is_allowed_in_content_objects_subtree(RepositoryRights :: ADD_RIGHT, AdminDataManager :: get_registration($type, Registration :: TYPE_CONTENT_OBJECT)->get_id()))
+            if (! RepositoryRights :: is_allowed_in_content_objects_subtree(RepositoryRights :: ADD_RIGHT, AdminDataManager :: get_registration($type, Registration :: TYPE_CONTENT_OBJECT)->get_id()))
             {
-            	continue;
+                continue;
             }
 
-        	if ($type == LearningPath :: get_type_name())
+            if ($type == LearningPath :: get_type_name())
             {
-                $url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
+                $url = $this->get_url(array(
+                        ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM, ComplexBuilder :: PARAM_TYPE => $type,
+                        ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
             }
             else
             {
-                $url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => LearningPathBuilder :: ACTION_CREATE_LP_ITEM, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
+                $url = $this->get_url(array(
+                        ComplexBuilder :: PARAM_BUILDER_ACTION => LearningPathBuilder :: ACTION_CREATE_LP_ITEM, ComplexBuilder :: PARAM_TYPE => $type,
+                        ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
             }
 
             $html[] = '<a href="' . $url . '"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/big/' . $type . '.png);">';
@@ -135,7 +160,7 @@ class LearningPathBuilderBrowserComponent extends LearningPathBuilder
         }
 
         $html[] = '<div class="clear">&nbsp;</div>';
-        $html[] = ResourceManager :: get_instance()->get_resource_html(BasicApplication :: get_application_web_resources_javascript_path(RepositoryManager::APPLICATION_NAME) . 'repository.js');
+        $html[] = ResourceManager :: get_instance()->get_resource_html(BasicApplication :: get_application_web_resources_javascript_path(RepositoryManager :: APPLICATION_NAME) . 'repository.js');
         $html[] = '</div>';
         $html[] = '<div class="clear">&nbsp;</div>';
         $html[] = '</div>';

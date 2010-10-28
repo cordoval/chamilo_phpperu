@@ -5,6 +5,7 @@ use repository\ContentObjectDisplay;
 use repository\ContentObject;
 use common\libraries\ResourceManager;
 use common\libraries\Path;
+use common\libraries\Utilities;
 
 /**
  * $Id: learning_path_content_object_display.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -17,7 +18,8 @@ class LearningPathContentObjectDisplay
 
     public static function factory($parent, $type)
     {
-        $class = ContentObject :: type_to_class($type) . 'Display';
+        $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type) . 'Display';
+
         $file = dirname(__FILE__) . '/content_object_display/' . $type . '.class.php';
 
         if (file_exists($file))

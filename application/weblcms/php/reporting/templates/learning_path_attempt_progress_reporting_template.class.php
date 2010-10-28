@@ -3,6 +3,7 @@ namespace application\weblcms;
 
 use common\libraries\Request;
 use reporting\ReportingTemplate;
+use application\weblcms\tool\learning_path\LearningPathTool;
 
 /**
  * $Id: learning_path_attempt_progress_reporting_template.class.php 216 2009-11-13 14:08:06Z kariboe $

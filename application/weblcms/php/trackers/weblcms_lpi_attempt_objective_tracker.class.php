@@ -2,6 +2,7 @@
 namespace application\weblcms;
 
 use common\libraries\Utilities;
+use tracking\SimpleTracker;
 
 /**
  * @package application.lib.weblcms.trackers

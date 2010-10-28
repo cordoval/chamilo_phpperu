@@ -1,9 +1,9 @@
 <?php
-namespace application\weblcms\tool\document;
+namespace application\weblcms\tool\link;
 
 use application\weblcms\ToolComponent;
 
-class DocumentToolCategoryMovercomponent extends DocumentTool
+class LinkToolCategoryMovercomponent extends LinkTool
 {
 
     function run()
