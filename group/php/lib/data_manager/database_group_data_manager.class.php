@@ -1,5 +1,7 @@
 <?php
+
 namespace group;
+
 use common\libraries\InequalityCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
@@ -7,6 +9,7 @@ use common\libraries\ConditionTranslator;
 use common\libraries\Database;
 use common\libraries\NotCondition;
 use common\libraries\InCondition;
+use GroupUseGroup;
 
 /**
  * $Id: database_group_data_manager.class.php 232 2009-11-16 10:11:48Z vanpouckesven $
@@ -16,7 +19,7 @@ require_once 'MDB2.php';
 require_once dirname(__FILE__) . '/../group_data_manager_interface.class.php';
 
 /**
-==============================================================================
+  ==============================================================================
  * This is a data manager that uses a database for storage. It was written
  * for MySQL, but should be compatible with most SQL flavors.
  *
@@ -24,9 +27,8 @@ require_once dirname(__FILE__) . '/../group_data_manager_interface.class.php';
  * @author Bart Mollet
  * @author Sven Vanpoucke
  * @author Hans De Bisschop
-==============================================================================
+  ==============================================================================
  */
-
 class DatabaseGroupDataManager extends Database implements GroupDataManagerInterface
 {
 
@@ -57,7 +59,6 @@ class DatabaseGroupDataManager extends Database implements GroupDataManagerInter
         $this->truncate_group($group);
 
         return $bool;
-
     }
 
     function truncate_group($group)
@@ -98,7 +99,7 @@ class DatabaseGroupDataManager extends Database implements GroupDataManagerInter
 
     function retrieve_groups($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-    	return $this->retrieve_objects(Group :: get_table_name(), $condition, $offset, $max_objects, $order_by, Group :: CLASS_NAME);
+        return $this->retrieve_objects(Group :: get_table_name(), $condition, $offset, $max_objects, $order_by, Group :: CLASS_NAME);
     }
 
     function retrieve_group_rel_users($condition = null, $offset = null, $max_objects = null, $order_by = null)
@@ -119,7 +120,7 @@ class DatabaseGroupDataManager extends Database implements GroupDataManagerInter
     function retrieve_user_groups($user_id)
     {
         $condition = new EqualityCondition(GroupRelUser :: PROPERTY_USER_ID, $user_id);
-        return $this->retrieve_objects(GroupRelUser :: get_table_name(), $condition, array() ,array(),array(), GroupRelUser :: CLASS_NAME);
+        return $this->retrieve_objects(GroupRelUser :: get_table_name(), $condition, array(), array(), array(), GroupRelUser :: CLASS_NAME);
     }
 
     function retrieve_group($id)
@@ -172,7 +173,7 @@ class DatabaseGroupDataManager extends Database implements GroupDataManagerInter
         $condition = new AndCondition($conditions);
 
         $success = $this->delete(GroupRightsTemplate :: get_table_name(), $condition);
-        if (! $success)
+        if (!$success)
         {
             return false;
         }
@@ -190,9 +191,9 @@ class DatabaseGroupDataManager extends Database implements GroupDataManagerInter
         // Add the new links
         foreach ($rights_templates as $rights_template)
         {
-            if (! in_array($rights_template, $existing_rights_templates))
+            if (!in_array($rights_template, $existing_rights_templates))
             {
-                if (! $this->add_rights_template_link($group, $rights_template))
+                if (!$this->add_rights_template_link($group, $rights_template))
                 {
                     return false;
                 }
@@ -214,7 +215,7 @@ class DatabaseGroupDataManager extends Database implements GroupDataManagerInter
             $condition = new AndCondition($conditions);
         }
 
-        return ! ($this->count_objects(Group :: get_table_name(), $condition) == 1);
+        return!($this->count_objects(Group :: get_table_name(), $condition) == 1);
     }
 
     function add_nested_values($previous_visited, $number_of_elements = 1)
@@ -324,7 +325,7 @@ class DatabaseGroupDataManager extends Database implements GroupDataManagerInter
 
         // Update the nested values so we can actually add the element
         // Return false if this failed
-        if (! $this->add_nested_values($previous_visited, $number_of_elements))
+        if (!$this->add_nested_values($previous_visited, $number_of_elements))
         {
             return false;
         }
@@ -333,14 +334,12 @@ class DatabaseGroupDataManager extends Database implements GroupDataManagerInter
         // Return false if this failed
         $group = $this->retrieve_group($group->get_id());
         $group->set_parent($new_parent_id);
-        if (! $group->update())
+        if (!$group->update())
         {
             return false;
         }
 
         // Update the left/right values of those elements that are being moved
-
-
         // First get the offset we need to add to the left/right values
         // if $newPrevId is given we need to get the right value,
         // otherwise the left since the left/right has changed
@@ -365,8 +364,6 @@ class DatabaseGroupDataManager extends Database implements GroupDataManagerInter
 
         $group = $this->retrieve_group($group->get_id());
         // TODO: What if $group doesn't exist ? Return error.
-
-
         // Calculate the offset of the element to to the spot where it should go
         // correct the offset by one, since it needs to go inbetween!
         $offset = $calculate_width - $group->get_left_value() + 1;
@@ -388,7 +385,7 @@ class DatabaseGroupDataManager extends Database implements GroupDataManagerInter
         $res->free();
 
         // Remove the subtree where the group was before
-        if (! $this->delete_nested_values($group))
+        if (!$this->delete_nested_values($group))
         {
             return false;
         }
@@ -451,5 +448,25 @@ class DatabaseGroupDataManager extends Database implements GroupDataManagerInter
         $condition = new EqualityCondition(GroupUseGroup :: PROPERTY_ID, $id);
         return $this->retrieve_object(GroupUseGroup :: get_table_name(), $condition);
     }
+
+    function retrieve_all_groups_and_templates($user_id)
+    {
+        $condition = new EqualityCondition(GroupRelUser :: PROPERTY_USER_ID, $user_id);
+        $group_rel_user_alias = $this->get_alias(GroupRelUser :: get_table_name());
+        $group_rights_template_alias = $this->get_alias(GroupRightsTemplate::get_table_name());
+
+        $query = 'SELECT ' . $this->escape_column_name(GroupRelUser :: PROPERTY_GROUP_ID, $group_rel_user_alias) . ', c.' . $this->escape_column_name(Group :: PROPERTY_ID) .' as '. $this->escape_column_name(Group::PROPERTY_PARENT). ', ' . $this->escape_column_name(GroupRightsTemplate::PROPERTY_RIGHTS_TEMPLATE_ID, $group_rights_template_alias);
+        $query .=' FROM ' . $this->escape_table_name(GroupRelUser :: get_table_name()) . ' as ' . $group_rel_user_alias;
+        $query .=' JOIN ' . $this->escape_table_name(Group :: get_table_name()) . ' as b on ' . $this->escape_column_name(GroupRelUser::PROPERTY_GROUP_ID, $group_rel_user_alias) . ' = '. 'b.' . $this->escape_column_name(Group :: PROPERTY_ID);
+        $query .= ' JOIN ' . $this->escape_table_name(Group :: get_table_name()) . ' as c on c.' . $this->escape_column_name(Group :: PROPERTY_LEFT_VALUE) . ' < b. ' . $this->escape_column_name(Group :: PROPERTY_RIGHT_VALUE) . ' and c.' . $this->escape_column_name(Group :: PROPERTY_RIGHT_VALUE). ' > b.'.$this->escape_column_name(Group :: PROPERTY_RIGHT_VALUE);
+        $query .= ' LEFT JOIN ' . $this->escape_table_name(GroupRightsTemplate :: get_table_name()) . ' as ' . $group_rights_template_alias . ' on ' . $this->escape_column_name(GroupRightsTemplate::PROPERTY_GROUP_ID, $group_rights_template_alias) . ' = ' . $this->escape_column_name(GroupRelUser::PROPERTY_GROUP_ID, $group_rel_user_alias) . ' or c. '. $this->escape_column_name(Group::PROPERTY_ID) . ' = '. $this->escape_column_name(GroupRightsTemplate::PROPERTY_GROUP_ID, $group_rights_template_alias);
+
+
+        return $this->retrieve_object_set($query, GroupRelUser :: get_table_name(), $condition, null, null, null, Group :: CLASS_NAME);
+
+        //   $groups_and_templates = new ObjectResultSet($user->get_data_manager(), $user->get_data_manager()->query($query), $class_name = GroupRightsTemplate :: CLASS_NAME);
+    }
+
 }
+
 ?>

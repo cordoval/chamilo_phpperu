@@ -576,5 +576,6 @@ class DatabaseRightsDataManager extends Database implements RightsDataManagerInt
     {
         return $this->retrieve_objects(TypeTemplateRightLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by, TypeTemplateRightLocation :: CLASS_NAME);
     }
+
 }
 ?>
