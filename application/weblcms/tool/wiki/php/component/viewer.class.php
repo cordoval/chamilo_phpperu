@@ -6,8 +6,11 @@ use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use application\weblcms\ToolComponent;
 use common\libraries\Translation;
+use repository\content_object\wiki\WikiComplexDisplaySupport;
 
-class WikiToolViewerComponent extends WikiTool
+require_once Path :: get_repository_content_object_path() . 'wiki/php/display/wiki_complex_display_support.class.php';
+
+class WikiToolViewerComponent extends WikiTool implements WikiComplexDisplaySupport
 {
 
     function run()
@@ -24,7 +27,6 @@ class WikiToolViewerComponent extends WikiTool
     {
         return array(Tool :: PARAM_PUBLICATION_ID);
     }
-
 }
 
 ?>

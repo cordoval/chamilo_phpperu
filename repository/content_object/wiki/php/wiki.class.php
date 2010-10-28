@@ -8,6 +8,8 @@ use common\libraries\ComplexContentObjectSupport;
 use common\libraries\SubselectCondition;
 
 use repository\ContentObject;
+use repository\ComplexContentObjectItem;
+use repository\RepositoryDataManager;
 use repository\content_object\wiki_page\WikiPage;
 
 /**
