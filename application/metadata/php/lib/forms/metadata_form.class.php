@@ -69,12 +69,12 @@ class MetadataForm extends FormValidator
         $group = array();
 
         $group[] = $this->createElement('select', MetadataPropertyValue :: PROPERTY_PROPERTY_TYPE_ID, Translation :: get('PropertyType'), $this->property_types);
-        $group[] = $this->createElement('text', MetadataPropertyValue :: PROPERTY_VALUE, Translation :: get('PropertyValue'));
+        $group[] = $this->createElement('text', MetadataPropertyValue :: PROPERTY_VALUE, Translation :: get('PropertyValue'), array('id' => MetadataManager :: PARAM_METADATA_PROPERTY_VALUE));
 
         $this->addGroup($group, '', Translation :: get('NewPropertyValue'));
 
         //javascript
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'application/lib/metadata/javascript/set_metadata_defaults.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'application/metadata/resources/javascript/set_metadata_defaults.js'));
 
         $this->build_metadata_property_values();
     }

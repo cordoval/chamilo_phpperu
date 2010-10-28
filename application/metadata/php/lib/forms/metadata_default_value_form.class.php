@@ -28,8 +28,8 @@ class MetadataDefaultValueForm extends FormValidator
         $this->metadata_property_type = $metadata_property_type;
         
         //add option blank and make it the first one
-        $attribute_types = array_merge($metadata_property_attribute_types, array(self :: OPTION_BLANK => '--'));
-        $this->metadata_property_attribute_types = array_reverse($attribute_types);
+        $metadata_property_attribute_types[self :: OPTION_BLANK] = '--';
+        $this->metadata_property_attribute_types = $metadata_property_attribute_types;
 
         if ($this->form_type == self :: TYPE_EDIT)
         {

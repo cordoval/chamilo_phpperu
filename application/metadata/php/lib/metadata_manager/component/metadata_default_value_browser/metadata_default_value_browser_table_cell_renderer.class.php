@@ -39,6 +39,7 @@ class MetadataDefaultValueBrowserTableCellRenderer extends DefaultMetadataDefaul
             }
             if($column->get_name() == MetadataDefaultValue :: PROPERTY_PROPERTY_ATTRIBUTE_TYPE_ID)
             {
+                if($metadata_default_value->get_property_attribute_type_id() === '0') return Translation :: get('Error');
                 if(!is_null($metadata_default_value->get_property_attribute_type_id()))
                 {
                     return $this->browser->retrieve_metadata_property_attribute_type($metadata_default_value->get_property_attribute_type_id())->render_name();
