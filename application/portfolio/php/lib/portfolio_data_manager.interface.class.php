@@ -32,21 +32,21 @@ interface PortfolioDataManagerInterface
     function retrieve_portfolio_publication($id);
   
     function create_portfolio_information($portfolio_publication);
-    function create_portfolio_publication_group($portfolio_publication_group);
+//    function create_portfolio_publication_group($portfolio_publication_group);
 
-    function delete_portfolio_publication_group($portfolio_publication_group);
+//    function delete_portfolio_publication_group($portfolio_publication_group);
 
-    function count_portfolio_publication_groups($conditions = null);
+//    function count_portfolio_publication_groups($conditions = null);
 
-    function retrieve_portfolio_publication_groups($condition = null, $offset = null, $count = null, $order_property = null);
+//    function retrieve_portfolio_publication_groups($condition = null, $offset = null, $count = null, $order_property = null);
 
-    function create_portfolio_publication_user($portfolio_publication_user);
-
-    function delete_portfolio_publication_user($portfolio_publication_user);
-
-    function count_portfolio_publication_users($conditions = null);
-
-    function retrieve_portfolio_publication_users($condition = null, $offset = null, $count = null, $order_property = null);
+//    function create_portfolio_publication_user($portfolio_publication_user);
+//
+//    function delete_portfolio_publication_user($portfolio_publication_user);
+//
+//    function count_portfolio_publication_users($conditions = null);
+//
+//    function retrieve_portfolio_publication_users($condition = null, $offset = null, $count = null, $order_property = null);
 
     function content_object_is_published($object_id);
 

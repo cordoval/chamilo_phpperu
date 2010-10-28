@@ -16,7 +16,7 @@ use repository\ContentObject;
 use repository\content_object\portfolio\Portfolio;
 use repository\RepositoryDataManager;
 require_once dirname(__FILE__) . '/../../forms/portfolio_publication_form.class.php';
-require_once dirname(__FILE__) . '/../../../rights/portfolio_rights.class.php';
+//require_once dirname(__FILE__) . '/../../../rights/portfolio_rights.class.php';
 
 /**
  * Component to create a new portfolio_publication object

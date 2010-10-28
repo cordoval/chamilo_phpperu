@@ -1,12 +1,17 @@
 <?php
+
+
 namespace application\portfolio;
 use common\libraries\Redirect;
 use common\libraries\Breadcrumb;
 use admin\AdminManager;
 use common\libraries\Translation;
 use common\libraries\Display;
+use common\libraries\Header;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\DynamicTabsRenderer;
 
-
+require_once dirname(__FILE__) . '/../../forms/portfolio_publication_form.class.php';
 /**
  * Component to create a new portfolio_publication object
  * @author Sven Vanpoucke

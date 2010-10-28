@@ -2,6 +2,7 @@
 namespace application\portfolio;
 use common\libraries\Translation;
 use repository\RepositoryDataManager;
+use repository\content_object\portfolio_item\PortfolioItem;
 
 
 
