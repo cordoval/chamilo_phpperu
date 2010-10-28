@@ -68,7 +68,7 @@ class RightsEditorManager extends SubManager
             if (file_exists($file))
             {
                 require_once $file;
-                $class = Utilities :: underscores_to_camelcase($type) . 'RightsEditorManager';
+                $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type) . 'RightsEditorManager';
                 $manager = new $class($parent, $locations);
 
                 return $manager;
