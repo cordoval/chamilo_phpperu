@@ -12,14 +12,22 @@ set_time_limit(0);
 
 $scanner = new FileVariableScanner();
 
-/*$applications = array('admin', 'common', 'group', 'help', 'home', 'install', 'menu', 'migration', 'reporting', 'repository', 'rights', 'tracking', 'user', 'webservice',
-        'alexia', 'assessment', 'cda', 'distribute', 'forum', 'laika', 'linker', 'personal_calendar', 'personal_messenger', 'portfolio', 'profiler', 'reservations', 'search_portal', 'webconferencing', 'weblcms', 'wiki');*/
+$core_applications = array('admin', 'common', 'group', 'help', 'home', 'install', 'menu', 'migration', 'reporting', 'repository', 'rights', 'tracking', 'user', 'webservice');
+$web_applications = WebApplication :: load_all_from_filesystem(false, false);
+$applications = array_merge($core_applications, $web_applications);
 
-$applications = array('common');
+$start = microtime(true);
 
 foreach ($applications as $application)
 {
+    if($application == 'lib') continue;
+
+    echo 'Scanning application: ' . $application . '<br />';
     $scanner->scan_application($application, true);
 }
 
+$end = microtime(true);
+$total = $end - $start;
+
+echo 'Time: ' . $total . 's';
 ?>

@@ -19,7 +19,7 @@ abstract class VariableScanner
         }
         else
         {
-            $directory = WebApplication :: is_application($application) ? WebApplication :: get_application_class_lib_path($application) : Path :: get(SYS_PATH) . $application . '/php/';
+            $directory = Path :: get(SYS_PATH) . (WebApplication :: is_application($application) ? '/application/'  : '') . $application;
         }
         $this->scan_files($directory);
     }
