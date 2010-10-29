@@ -8,6 +8,11 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\EqualityCondition;
 
 use repository\content_object\learning_path_item\LearningPathItem;
+use common\extensions\repo_viewer\RepoViewerInterface;
+use common\extensions\repo_viewer\RepoViewer;
+use repository\ComplexBuilder;
+use repository\RepositoryDataManager;
+use repository\ComplexContentObjectItem;
 
 /**
  * $Id: item_creator.class.php 200 2009-11-13 12:30:04Z kariboe $

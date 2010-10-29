@@ -1,4 +1,9 @@
 <?php
+
+namespace application\webconferencing;
+
+use common\libraries\Configuration;
+use common\libraries\Utilities;
 /**
  * $Id: webconferencing_data_manager.class.php 220 2009-11-13 14:33:52Z kariboe $
  * @package application.lib.webconferencing
@@ -36,7 +41,7 @@ class WebconferencingDataManager
         {
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
             require_once dirname(__FILE__) . '/data_manager/' . Utilities :: camelcase_to_underscores($type) . '_webconferencing_data_manager.class.php';
-            $class = $type . 'WebconferencingDataManager';
+            $class = __NAMESPACE__ . '\\' . $type . 'WebconferencingDataManager';
             self :: $instance = new $class();
         }
         return self :: $instance;

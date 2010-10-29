@@ -14,6 +14,9 @@ use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
+use application\weblcms\tool\learning_path\LearningPathTool;
+use repository\content_object\learning_path\LearningPathTree;
+use repository\ComplexDisplay;
 
 require_once dirname(__FILE__) . '/../weblcms_tool_reporting_block.class.php';
 require_once Path :: get_reporting_path() . '/lib/reporting_data.class.php';
@@ -53,7 +56,7 @@ class WeblcmsLearningPathAttemptProgressReportingBlock extends WeblcmsToolReport
 
             $params = $this->get_parent()->get_parameters();
             $params[LearningPathTool :: PARAM_ATTEMPT_ID] = $tracker->get_id();
-            $params[Tool :: PARAM_COMPLEX_ID] = $wrapper_id;
+            $params[ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID] = $wrapper_id;
 
             $url = Redirect :: get_url($params, array(ReportingManager :: PARAM_TEMPLATE_ID));
 

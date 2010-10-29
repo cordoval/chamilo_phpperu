@@ -1,8 +1,12 @@
 <?php
 namespace application\weblcms;
 
+use repository\content_object\learning_path;
+
 use common\libraries\Request;
 use reporting\ReportingTemplate;
+use application\weblcms\tool\learning_path\LearningPathTool;
+use repository\content_object\learning_path\LearningPathDisplay;
 
 /**
  * $Id: learning_path_attempt_progress_reporting_template.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -55,7 +59,7 @@ class LearningPathAttemptProgressReportingTemplate extends ReportingTemplate
         }
         else
         {
-            $this->set_parameter('lp_action', 'view_progress');
+            $this->set_parameter(LearningPathDisplay :: PARAM_SHOW_PROGRESS, 'true');
         }
 
         $pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);

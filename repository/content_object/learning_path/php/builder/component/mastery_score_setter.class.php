@@ -5,6 +5,11 @@ use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\FormValidator;
+
+use repository\RepositoryDataManager;
+use repository\ComplexBuilder;
+
 /**
  * $Id: mastery_score_setter.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.learning_path.component

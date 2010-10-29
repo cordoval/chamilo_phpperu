@@ -9,6 +9,10 @@ use common\libraries\Path;
 use common\libraries\Theme;
 use common\libraries\Application;
 use application\context_linker\ContextLinkerManager;
+use repository\content_object\handbook_item\HandbookItem;
+use repository\content_object\handbook\Handbook;
+use application\metadata\MetadataManager;
+use repository\ContentObjectDisplay;
 
 
 
@@ -122,7 +126,7 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
                 $html[] = '</div>';
             $html[] = '</div>';
 
-            $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/tool_bar.js' . '"></script>';
+            $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'libraries/resources/javascript/tool_bar.js' . '"></script>';
             $html[] = '<div class="clear"></div>';
 
             return implode ("\n", $html);

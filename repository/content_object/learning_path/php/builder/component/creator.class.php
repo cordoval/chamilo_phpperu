@@ -2,6 +2,7 @@
 namespace repository\content_object\learning_path;
 
 use common\libraries\Path;
+use repository\ComplexBuilderComponent;
 
 /**
  * $Id: deleter.class.php 200 2009-11-13 12:30:04Z kariboe $

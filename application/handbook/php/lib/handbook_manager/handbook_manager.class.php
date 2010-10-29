@@ -6,6 +6,18 @@ use common\libraries\Translation;
 use group\Group;
 use group\GroupDataManager;
 use common\libraries\ObjectTableOrder;
+use application\context_linker\ContextLinkerDataManager;
+use repository\RepositoryDataManager;
+use application\context_linker\ContextLink;
+use repository\ContentObjectDisplay;
+use repository\content_object\handbook\Handbook;
+use repository\content_object\document\Document;
+use repository\content_object\youtube\Youtube;
+use repository\content_object\link\Link;
+use repository\content_object\wiki_page\WikiPage;
+use application\metadata\MetadataManager;
+use repository\content_object\handbook_item\HandbookItem;
+use application\metadata\MetadataPropertyValue;
 
 
 require_once dirname(__FILE__).'/../handbook_data_manager.class.php';
@@ -201,7 +213,7 @@ require_once dirname(__FILE__).'/component/handbook_publication_browser/handbook
         $handbooks = array();
         $rdm = RepositoryDataManager::get_instance();
 
-        while ($item = $context_links_resultset->next_result())
+        while ($context_links_resultset != false && $item = $context_links_resultset->next_result())
              {
                  $alternative_co = $rdm->retrieve_content_object($item[ContentObject :: PROPERTY_ID]);
                  $display = ContentObjectDisplay :: factory($alternative_co);

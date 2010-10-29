@@ -445,6 +445,16 @@ class Document extends ContentObject implements Versionable
         $extension = $this->get_extension();
         return in_array($extension, $this->get_image_types());
     }
+    
+    /**
+     * Determines if this document is showable in a regular browser
+     * @return boolean True if the document is showable in a regular browser
+     */
+    function is_showable()
+    {
+        $extension = $this->get_extension();
+        return in_array($extension, $this->get_showable_types()) || in_array($extension, $this->get_image_types());
+    }
 
     /**
      * Determines if this document is a flash movie
@@ -541,7 +551,6 @@ class Document extends ContentObject implements Versionable
         $audio_types[] = 'm4a';
         $audio_types[] = 'midi';
         $audio_types[] = 'wav';
-//        $audio_types[] = '';
         $audio_types[] = 'MP3';
         $audio_types[] = 'WMA';
         $audio_types[] = 'OGG';
@@ -549,9 +558,21 @@ class Document extends ContentObject implements Versionable
         $audio_types[] = 'M4A';
         $audio_types[] = 'MIDI';
         $audio_types[] = 'WAV';
-//        $audio_types[] = '';
 
-//        $audio_types[] = '';
+        return $audio_types;
+    }
+    
+    static function get_showable_types()
+    {
+        $showable_types = array();
+        $showable_types[] = 'html';
+        $showable_types[] = 'htm';
+        $showable_types[] = 'txt';
+        $showable_types[] = 'pdf';
+        $showable_types[] = 'HTML';
+        $showable_types[] = 'HTM';
+        $showable_types[] = 'TXT';
+        $showable_types[] = 'PDF';
 
         return $audio_types;
     }

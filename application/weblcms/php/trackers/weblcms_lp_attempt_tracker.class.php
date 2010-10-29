@@ -3,6 +3,7 @@ namespace application\weblcms;
 
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
+use tracking\SimpleTracker;
 
 /**
  * @package application.lib.weblcms.trackers

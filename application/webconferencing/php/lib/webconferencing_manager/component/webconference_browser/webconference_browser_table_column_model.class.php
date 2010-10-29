@@ -1,4 +1,8 @@
 <?php
+
+namespace application\webconferencing;
+
+use common\libraries\StaticTableColumn;
 /**
  * $Id: webconference_browser_table_column_model.class.php 220 2009-11-13 14:33:52Z kariboe $
  * @package application.lib.webconferencing.webconferencing_manager.component.webconference_browser

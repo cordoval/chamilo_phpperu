@@ -1,6 +1,10 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use repository\content_object\learning_path_item\ComplexLearningPathItem;
+use application\weblcms\WeblcmsLpiAttemptTracker;
+use tracking\Event;
+use application\weblcms\WeblcmsLpAttemptTracker;
 use application\weblcms\WeblcmsDataManager;
 use application\weblcms\WeblcmsRights;
 use application\weblcms\WeblcmsManager;
@@ -18,18 +22,18 @@ use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\Translation;
+use common\libraries\WebApplication;
 
 /**
  * $Id: learning_path_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.learning_path.component
  */
-require_once dirname(__FILE__) . '/../../../content_object_repo_viewer.class.php';
 require_once dirname(__FILE__) . '/learning_path_viewer/learning_path_tree.class.php';
 require_once dirname(__FILE__) . '/learning_path_viewer/learning_path_content_object_display.class.php';
-require_once dirname(__FILE__) . '/../../../trackers/weblcms_lp_attempt_tracker.class.php';
-require_once dirname(__FILE__) . '/../../../trackers/weblcms_lpi_attempt_tracker.class.php';
-require_once dirname(__FILE__) . '/../../../trackers/weblcms_lpi_attempt_objective_tracker.class.php';
-require_once dirname(__FILE__) . '/../../../trackers/weblcms_learning_path_question_attempts_tracker.class.php';
+require_once WebApplication :: get_application_class_path(WeblcmsManager :: APPLICATION_NAME) . 'trackers/weblcms_lp_attempt_tracker.class.php';
+require_once WebApplication :: get_application_class_path(WeblcmsManager :: APPLICATION_NAME) . 'trackers/weblcms_lpi_attempt_tracker.class.php';
+require_once WebApplication :: get_application_class_path(WeblcmsManager :: APPLICATION_NAME) . 'trackers/weblcms_lpi_attempt_objective_tracker.class.php';
+require_once WebApplication :: get_application_class_path(WeblcmsManager :: APPLICATION_NAME) . 'trackers/weblcms_learning_path_question_attempts_tracker.class.php';
 require_once dirname(__FILE__) . '/learning_path_viewer/prerequisites_translator.class.php';
 
 class LearningPathToolComplexDisplayComponent extends LearningPathTool
@@ -104,8 +108,6 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool
         if (Request :: get('lp_action') == 'view_progress')
         {
             $url = $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT, Tool :: PARAM_PUBLICATION_ID => $pid, 'lp_action' => 'view_progress'));
-            require_once (Path :: get_application_path() . 'lib/weblcms/reporting/templates/learning_path_attempt_progress_reporting_template.class.php');
-            require_once (Path :: get_application_path() . 'lib/weblcms/reporting/templates/learning_path_attempt_progress_details_reporting_template.class.php');
 
             $cid = Request :: get('cid');
             $details = Request :: get('details');
@@ -150,7 +152,7 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool
         }
         else
         {
-            if ($cloi && get_class($cloi) == "ComplexLearningPathItem")
+            if ($cloi && $cloi instanceof ComplexLearningPathItem)
             {
 
                 if ($root_object->get_version() != 'SCORM2004')
@@ -533,5 +535,4 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool
     }
 
 }
-
 ?>
