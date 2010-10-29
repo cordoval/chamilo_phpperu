@@ -26,7 +26,7 @@ class MetadataDefaultValue extends DataClass
     }
 
     /**
-     * Returns the property_type_id of this MetadataPropertyValue.
+     * Returns the property_type_id of this MetadataDefaultValue.
      * @return the property_type_id.
      */
     function get_property_type_id()
@@ -35,7 +35,7 @@ class MetadataDefaultValue extends DataClass
     }
 
     /**
-     * Sets the property_type_id of this MetadataPropertyValue.
+     * Sets the property_type_id of this MetadataDefaultValue.
      * @param property_type_id
      */
     function set_property_type_id($property_type_id)
@@ -44,7 +44,7 @@ class MetadataDefaultValue extends DataClass
     }
 
     /**
-     * Returns the value of this MetadataPropertyValue.
+     * Returns the value of this MetadataDefaultValue.
      * @return the value.
      */
     function get_value()
@@ -53,7 +53,7 @@ class MetadataDefaultValue extends DataClass
     }
 
     /**
-     * Sets the value of this MetadataPropertyValue.
+     * Sets the value of this MetadataDefaultValue.
      * @param value
      */
     function set_value($value)

@@ -12,7 +12,7 @@ use common\libraries\Translation;
  * @author Sven Vanpoucke
  * @author Jens Vanderheyden
  */
-class MetadataManagerMetadataEditorComponent extends MetadataManager
+class MetadataManagerContentObjectMetadataEditorComponent extends MetadataManager
 {
     /**
      * Runs this component and displays its output.
@@ -24,9 +24,9 @@ class MetadataManagerMetadataEditorComponent extends MetadataManager
 
         $content_object_property_metadata = $this->get_content_object_property_metadata_values($content_object);
 
-        $condition = new EqualityCondition(MetadataPropertyValue :: PROPERTY_CONTENT_OBJECT_ID, $content_object->get_id());
-        $metadata_property_values = $this->retrieve_metadata_property_values($condition);
-        $metadata_property_values = $this->format_metadata_property_values($metadata_property_values);
+        $condition = new EqualityCondition(ContentObjectMetadataPropertyValue :: PROPERTY_CONTENT_OBJECT_ID, $content_object->get_id());
+        $content_object_metadata_property_values = $this->retrieve_content_object_metadata_property_values($condition);
+        $content_object_metadata_property_values = $this->format_metadata_property_values($content_object_metadata_property_values);
 
         $content_object_condition1 =  new EqualityCondition(MetadataPropertyAttributeValue :: PROPERTY_PARENT_ID, Request :: get(MetadataManager :: PARAM_CONTENT_OBJECT));
         $content_object_condition2 = new EqualityCondition(MetadataPropertyAttributeValue :: PROPERTY_RELATION, MetadataPropertyAttributeValue :: RELATION_CONTENT_OBJECT_PROPERTY);
@@ -34,7 +34,7 @@ class MetadataManagerMetadataEditorComponent extends MetadataManager
 
         $property_value_conditions = array();
 
-        foreach($metadata_property_values as $id => $metadata_property_value)
+        foreach($content_object_metadata_property_values as $id => $metadata_property_value)
         {
             $property_value_conditions[] = new EqualityCondition(MetadataPropertyAttributeValue :: PROPERTY_PARENT_ID, $metadata_property_value->get_id());
             $conditions_allowed[] = new EqualityCondition(MetadataAttributeNesting :: PROPERTY_PARENT_ID, $metadata_property_value->get_property_type_id());
@@ -59,7 +59,7 @@ class MetadataManagerMetadataEditorComponent extends MetadataManager
 
         foreach($content_object_property_metadata as $id => $value)
         {
-            if(!isset($metadata_property_values[$id]))
+            if(!isset($content_object_metadata_property_values[$id]))
             {
                 $conditions_allowed[] = new EqualityCondition(MetadataAttributeNesting :: PROPERTY_PARENT_ID, $id);
             }
@@ -77,12 +77,12 @@ class MetadataManagerMetadataEditorComponent extends MetadataManager
         $allowed_metadata_property_attribute_types = $this->retrieve_allowed_metadata_property_attribute_types($conditions_allowed);
 
         
-        $form = new MetadataEditorForm(MetadataForm :: TYPE_EDIT, $content_object, $metadata_property_values, $content_object_property_metadata, $metadata_property_attribute_values, $allowed_metadata_property_attribute_types, $this->get_url(array(MetadataManager :: PARAM_CONTENT_OBJECT => $content_object->get_id())), $this->get_user(), $this);
+        $form = new ContentObjectMetadataEditorForm($content_object, $content_object_metadata_property_values, $content_object_property_metadata, $metadata_property_attribute_values, $allowed_metadata_property_attribute_types, $this->get_url(array(MetadataManager :: PARAM_CONTENT_OBJECT => $content_object->get_id())), $this->get_user(), $this);
 
         if($form->validate())
         {
                 $success = $form->edit_metadata();
-                $this->redirect($success ? Translation :: get('MetadataUpdated') : Translation :: get('MetadataUpdated'), !$success, array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_EDIT_METADATA, MetadataManager :: PARAM_CONTENT_OBJECT => $content_object->get_id()));
+                $this->redirect($success ? Translation :: get('MetadataUpdated') : Translation :: get('MetadataUpdated'), !$success, array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_EDIT_CONTENT_OBJECT_METADATA, MetadataManager :: PARAM_CONTENT_OBJECT => $content_object->get_id()));
         }
         else
         {

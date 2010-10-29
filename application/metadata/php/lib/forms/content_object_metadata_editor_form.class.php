@@ -11,13 +11,12 @@ use common\libraries\Translation;
 use common\libraries\ResourceManager;
 use common\libraries\Path;
 
-class MetadataEditorForm extends MetadataForm
+class ContentObjectMetadataEditorForm extends MetadataForm
 {
-    const TYPE_CREATE = 1;
-    const TYPE_EDIT = 2;
-
     const OPTION_BLANK = 'blank';
     const PARAM_FIXED = 'fixed';
+
+    const TYPE = 'content_object';
 
     private $metadata_property_values = array();
     private $user;
@@ -28,9 +27,9 @@ class MetadataEditorForm extends MetadataForm
     private $metadata_property_attribute_values = array();
     private $allowed_metadata_property_attribute_types = array();
 
-    function MetadataForm($form_type,  $content_object, $metadata_property_values, $content_object_property_metadata_values, $metadata_property_attribute_values, $allowed_metadata_property_attribute_types,$action, $user, $application)
+    function ContentObjectMetadataEditorForm($content_object, $metadata_property_values, $content_object_property_metadata_values, $metadata_property_attribute_values, $allowed_metadata_property_attribute_types,$action, $user, $application)
     {
-    	parent :: __construct('metadata_property_value_settings', 'post', $action);
+    	parent :: __construct('content_object_metadata_property_value_settings', 'post', $action);
 
     	$this->content_object = $content_object;
         $this->content_object_property_metadata_values = $content_object_property_metadata_values;
@@ -43,15 +42,8 @@ class MetadataEditorForm extends MetadataForm
 
         $this->get_property_attribute_types();
 
-        if ($this->form_type == self :: TYPE_EDIT)
-        {
-                $this->build_editing_form();
-        }
-        elseif ($this->form_type == self :: TYPE_CREATE)
-        {
-                $this->build_creation_form();
-        }
-
+        $this->build_creation_form();
+        
         $this->setDefaults();
     }
 
@@ -72,15 +64,15 @@ class MetadataEditorForm extends MetadataForm
 
     
 
-    function build_editing_form()
-    {
-    	$this->build_basic_form();
-
-    	$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
-
-        $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
-    }
+//    function build_editing_form()
+//    {
+//    	$this->build_basic_form();
+//
+//    	$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
+//        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+//
+//        $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+//    }
 
     function build_creation_form()
     {
@@ -107,7 +99,7 @@ class MetadataEditorForm extends MetadataForm
 //            $metadata_property_value->set_property_type_id($values[MetadataPropertyValue :: PROPERTY_PROPERTY_TYPE_ID]);
 //            $metadata_property_value->set_value($values[MetadataPropertyValue :: PROPERTY_VALUE]);
 
-            if(!$this->create_metadata_property_value())$fails++;
+            if(!$this->create_metadata_property_value(self :: TYPE))$fails++;
         }
 
         //update existing property values
@@ -292,7 +284,8 @@ class MetadataEditorForm extends MetadataForm
             $group = array();
             
             $group[] = $this->createElement('text', MetadataPropertyValue :: PROPERTY_VALUE . '_' . $metadata_property_value->get_id(), Translation :: get('PropertyValue'));
-            $group[] = $this->createElement('static', null, null, '<a href="' . $this->application->get_url(array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_DELETE_METADATA_PROPERTY_VALUE, MetadataManager :: PARAM_METADATA_PROPERTY_VALUE => $metadata_property_value->get_id(), MetadataManager :: PARAM_CONTENT_OBJECT => $this->content_object->get_id())). '">delete</a>');
+
+            $group[] = $this->createElement('static', null, null, '<a href="' . $this->application->get_url(array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_DELETE_CONTENT_OBJECT_METADATA_PROPERTY_VALUE, MetadataManager :: PARAM_METADATA_PROPERTY_VALUE => $metadata_property_value->get_id(), MetadataManager :: PARAM_CONTENT_OBJECT => $this->content_object->get_id())). '">delete</a>');
 
             $property_types = $this->get_property_types();
 

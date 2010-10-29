@@ -26,7 +26,7 @@ class DefaultMetadataPropertyValueTableColumnModel extends ObjectTableColumnMode
 	{
 		$columns = array();
 
-		$columns[] = new ObjectTableColumn(MetadataPropertyValue :: PROPERTY_CONTENT_OBJECT_ID);
+		//$columns[] = new ObjectTableColumn(MetadataPropertyValue :: PROPERTY_CONTENT_OBJECT_ID);
 		$columns[] = new ObjectTableColumn(MetadataPropertyValue :: PROPERTY_PROPERTY_TYPE_ID);
 		$columns[] = new ObjectTableColumn(MetadataPropertyValue :: PROPERTY_VALUE);
 

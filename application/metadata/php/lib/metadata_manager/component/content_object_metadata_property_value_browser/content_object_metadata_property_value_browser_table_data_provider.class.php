@@ -9,14 +9,14 @@ use repository\RepositoryDataManager;
  * @author Sven Vanpoucke
  * @author Jens Vanderheyden
  */
-class MetadataPropertyValueBrowserTableDataProvider extends ObjectTableDataProvider
+class ContentObjectMetadataPropertyValueBrowserTableDataProvider extends ObjectTableDataProvider
 {
   /**
    * Constructor
    * @param ApplicationComponent $browser
    * @param Condition $condition
    */
-  function MetadataPropertyValueBrowserTableDataProvider($browser, $condition)
+  function ContentObjectMetadataPropertyValueBrowserTableDataProvider($browser, $condition)
   {
 		parent :: __construct($browser, $condition);
   }

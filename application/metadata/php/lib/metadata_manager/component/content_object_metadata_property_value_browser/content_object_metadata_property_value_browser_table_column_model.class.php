@@ -3,6 +3,7 @@
 namespace application\metadata;
 use repository\DefaultContentObjectTableColumnModel;
 use common\libraries\StaticTableColumn;
+use common\libraries\ObjectTableColumn;
 
 /**
  * Table column model for the metadata_property_value browser table
@@ -11,7 +12,7 @@ use common\libraries\StaticTableColumn;
  * @author Jens Vanderheyden
  */
 
-class MetadataPropertyValueBrowserTableColumnModel extends DefaultContentObjectTableColumnModel
+class ContentObjectMetadataPropertyValueBrowserTableColumnModel extends DefaultContentObjectTableColumnModel
 {
 	/**
 	 * The tables modification column
@@ -21,9 +22,10 @@ class MetadataPropertyValueBrowserTableColumnModel extends DefaultContentObjectT
 	/**
 	 * Constructor
 	 */
-	function MetadataPropertyValueBrowserTableColumnModel()
+	function ContentObjectMetadataPropertyValueBrowserTableColumnModel()
 	{
-		parent :: __construct();
+		$this->add_column(new ObjectTableColumn(MetadataPropertyValue :: PROPERTY_CONTENT_OBJECT_ID));
+                parent :: __construct();
 		$this->set_default_order_column(1);
 		$this->add_column(self :: get_modification_column());
 	}

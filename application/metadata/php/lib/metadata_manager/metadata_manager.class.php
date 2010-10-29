@@ -47,10 +47,12 @@ use common\libraries\Redirect;
     const ACTION_CREATE_METADATA_PROPERTY_TYPE = 'metadata_property_type_creator';
     const ACTION_BROWSE_METADATA_PROPERTY_TYPES = 'metadata_property_types_browser';
 
-    const ACTION_DELETE_METADATA_PROPERTY_VALUE = 'metadata_property_value_deleter';
-    const ACTION_EDIT_METADATA = 'metadata_editor';
+    const ACTION_DELETE_CONTENT_OBJECT_METADATA_PROPERTY_VALUE = 'content_object_metadata_property_value_deleter';
+    const ACTION_DELETE_USER_METADATA_PROPERTY_VALUE = 'user_metadata_property_value_deleter';
+    const ACTION_EDIT_CONTENT_OBJECT_METADATA = 'content_object_metadata_editor';
+    const ACTION_EDIT_USER_METADATA = 'user_metadata_editor';
 
-    const ACTION_BROWSE_METADATA_PROPERTY_VALUES = 'metadata_property_values_browser';
+    const ACTION_BROWSE_CONTENT_OBJECT_METADATA_PROPERTY_VALUES = 'content_object_metadata_property_values_browser';
 
     const ACTION_DELETE_METADATA_PROPERTY_ATTRIBUTE_TYPE = 'metadata_property_attribute_type_deleter';
     const ACTION_EDIT_METADATA_PROPERTY_ATTRIBUTE_TYPE = 'metadata_property_attribute_type_updater';
@@ -66,7 +68,7 @@ use common\libraries\Redirect;
     
     const ACTION_METADATA_SETTINGS = 'settings';
 
-    const DEFAULT_ACTION = self::ACTION_BROWSE_METADATA_PROPERTY_VALUES;
+    const DEFAULT_ACTION = self::ACTION_BROWSE_CONTENT_OBJECT_METADATA_PROPERTY_VALUES;
 
     /**
      * Constructor
@@ -91,8 +93,7 @@ use common\libraries\Redirect;
      */
     function get_default_action() {
         return self :: DEFAULT_ACTION;
-
-    }
+}
 	
 
     function get_application_name()
@@ -170,15 +171,35 @@ use common\libraries\Redirect;
             return MetadataDataManager :: get_instance()->retrieve_metadata_property_type($id);
     }
 
-    function count_metadata_property_values($condition)
+    function count_content_object_metadata_property_values($condition)
     {
-            return MetadataDataManager :: get_instance()->count_metadata_property_values($condition);
+            return MetadataDataManager :: get_instance()->count_content_object_metadata_property_values($condition);
     }
 
-    static function retrieve_metadata_property_values($condition = null, $offset = null, $count = null, $order_property = null)
+    static function retrieve_content_object_metadata_property_values($condition = null, $offset = null, $count = null, $order_property = null)
     {
-            return MetadataDataManager :: get_instance()->retrieve_metadata_property_values($condition, $offset, $count, $order_property);
+            return MetadataDataManager :: get_instance()->retrieve_content_object_metadata_property_values($condition, $offset, $count, $order_property);
     }
+
+    function retrieve_content_object_metadata_property_value($id)
+    {
+            return MetadataDataManager :: get_instance()->retrieve_content_object_metadata_property_value($id);
+    }
+
+//    function count_metadata_property_values($condition)
+//    {
+//            return MetadataDataManager :: get_instance()->count_metadata_property_values($condition);
+//    }
+//
+//    static function retrieve_metadata_property_values($condition = null, $offset = null, $count = null, $order_property = null)
+//    {
+//            return MetadataDataManager :: get_instance()->retrieve_metadata_property_values($condition, $offset, $count, $order_property);
+//    }
+//
+//    function retrieve_metadata_property_value($id)
+//    {
+//            return MetadataDataManager :: get_instance()->retrieve_metadata_property_value($id);
+//    }
 
     /**
      * Returns an array with all the metadata for a content-object
@@ -202,10 +223,7 @@ use common\libraries\Redirect;
 
     }
 
-    function retrieve_metadata_property_value($id)
-    {
-            return MetadataDataManager :: get_instance()->retrieve_metadata_property_value($id);
-    }
+    
 
     function count_metadata_property_attribute_types($condition)
     {
@@ -222,7 +240,7 @@ use common\libraries\Redirect;
             return MetadataDataManager :: get_instance()->retrieve_metadata_property_attribute_type($id);
     }
 
-    function count_metadata_property_attribute_values($condition)
+    function count_content_object_metadata_property_attribute_values($condition)
     {
             return MetadataDataManager :: get_instance()->count_metadata_property_attribute_values($condition);
     }
@@ -236,6 +254,21 @@ use common\libraries\Redirect;
     {
             return MetadataDataManager :: get_instance()->retrieve_metadata_property_attribute_value($id);
     }
+
+//    function count_metadata_property_attribute_values($condition)
+//    {
+//            return MetadataDataManager :: get_instance()->count_metadata_property_attribute_values($condition);
+//    }
+//
+//    function retrieve_metadata_property_attribute_values($condition = null, $offset = null, $count = null, $order_property = null)
+//    {
+//            return MetadataDataManager :: get_instance()->retrieve_metadata_property_attribute_values($condition, $offset, $count, $order_property);
+//    }
+//
+//    function retrieve_metadata_property_attribute_value($id)
+//    {
+//            return MetadataDataManager :: get_instance()->retrieve_metadata_property_attribute_value($id);
+//    }
 
     function retrieve_metadata_default_values($condition = null, $offset = null, $count = null, $order_property = null)
     {
@@ -418,22 +451,39 @@ use common\libraries\Redirect;
             return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_METADATA_DEFAULT_VALUES, MetadataManager :: PARAM_METADATA_PROPERTY_TYPE => $metadata_property_type->get_id()));
     }
 
-    function get_edit_metadata_property_values_url($content_object)
+    function get_edit_content_object_metadata_property_values_url($content_object)
     {
-            return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_METADATA,
+            return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_CONTENT_OBJECT_METADATA,
                                                                 self :: PARAM_CONTENT_OBJECT => $content_object->get_id()));
     }
 
-    function get_delete_metadata_property_value_url($metadata_property_value)
+    function get_delete_content_object_metadata_property_value_url($content_object_metadata_property_value)
     {
             return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_METADATA_PROPERTY_VALUE,
-                                                                self :: PARAM_METADATA_PROPERTY_VALUE => $metadata_property_value->get_id()));
+                                                                self :: PARAM_METADATA_PROPERTY_VALUE => $content_object_metadata_property_value->get_id()));
     }
 
-    function get_browse_metadata_property_values_url()
+    function get_browse_content_object_metadata_property_values_url()
     {
-            return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_METADATA_PROPERTY_VALUES));
+            return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTENT_OBJECT_METADATA_PROPERTY_VALUES));
     }
+
+//    function get_edit_metadata_property_values_url($content_object)
+//    {
+//            return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_METADATA,
+//                                                                self :: PARAM_CONTENT_OBJECT => $content_object->get_id()));
+//    }
+//
+//    function get_delete_metadata_property_value_url($metadata_property_value)
+//    {
+//            return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_METADATA_PROPERTY_VALUE,
+//                                                                self :: PARAM_METADATA_PROPERTY_VALUE => $metadata_property_value->get_id()));
+//    }
+//
+//    function get_browse_metadata_property_values_url()
+//    {
+//            return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_METADATA_PROPERTY_VALUES));
+//    }
 
     function get_create_metadata_property_attribute_type_url()
     {

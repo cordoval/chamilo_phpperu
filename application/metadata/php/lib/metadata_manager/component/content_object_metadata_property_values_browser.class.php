@@ -10,7 +10,7 @@ use common\libraries\Theme;
  * @author Sven Vanpoucke
  * @author Jens Vanderheyden
  */
-class MetadataManagerMetadataPropertyValuesBrowserComponent extends MetadataManager
+class MetadataManagerContentObjectMetadataPropertyValuesBrowserComponent extends MetadataManager
 {
 
     function run()
@@ -26,9 +26,9 @@ class MetadataManagerMetadataPropertyValuesBrowserComponent extends MetadataMana
     {
         $parameters = $this->get_parameters(true);
         $parameters[Application :: PARAM_APPLICATION] = 'metadata';
-        $parameters[Application :: PARAM_ACTION] =  MetadataManager::ACTION_BROWSE_METADATA_PROPERTY_VALUES;
+        $parameters[Application :: PARAM_ACTION] =  MetadataManager::ACTION_BROWSE_CONTENT_OBJECT_METADATA_PROPERTY_VALUES;
 
-        $table = new MetadataPropertyValueBrowserTable($this, $parameters, $condition);
+        $table = new ContentObjectMetadataPropertyValueBrowserTable($this, $parameters, $condition);
 
         return $table->as_html();
     }

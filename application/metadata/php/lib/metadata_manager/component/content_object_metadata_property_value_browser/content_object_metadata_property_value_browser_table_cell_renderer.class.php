@@ -15,7 +15,7 @@ require_once dirname(__FILE__) . '/../../../../../../../repository/php/lib/conte
  * @author Jens Vanderheyden
  */
 
-class MetadataPropertyValueBrowserTableCellRenderer extends DefaultContentObjectTableCellRenderer
+class ContentObjectMetadataPropertyValueBrowserTableCellRenderer extends DefaultContentObjectTableCellRenderer
 {
 	/**
 	 * The browser component
@@ -26,7 +26,7 @@ class MetadataPropertyValueBrowserTableCellRenderer extends DefaultContentObject
 	 * Constructor
 	 * @param ApplicationComponent $browser
 	 */
-	function MetadataPropertyValueBrowserTableCellRenderer($browser)
+	function ContentObjectMetadataPropertyValueBrowserTableCellRenderer($browser)
 	{
 		parent :: __construct();
 		$this->browser = $browser;
@@ -35,7 +35,7 @@ class MetadataPropertyValueBrowserTableCellRenderer extends DefaultContentObject
 	// Inherited
 	function render_cell($column, $content_object)
 	{
-		if ($column === MetadataPropertyValueBrowserTableColumnModel :: get_modification_column())
+		if ($column === ContentObjectMetadataPropertyValueBrowserTableColumnModel :: get_modification_column())
 		{
 			return $this->get_modification_links($content_object);
 		}
@@ -56,7 +56,7 @@ class MetadataPropertyValueBrowserTableCellRenderer extends DefaultContentObject
                 $toolbar->add_item(new ToolbarItem(
         		Translation :: get('Edit'),
         		Theme :: get_common_image_path() . 'action_edit.png',
-        		$this->browser->get_edit_metadata_property_values_url($content_object),
+        		$this->browser->get_edit_content_object_metadata_property_values_url($content_object),
         		ToolbarItem :: DISPLAY_ICON
         ));
 

@@ -60,19 +60,37 @@ Interface MetadataDataManagerInterface
 
     function retrieve_metadata_property_types($condition = null, $offset = null, $max_objects = null, $order_by = null);
 
-    function get_next_metadata_property_value_id();
+    function get_next_content_object_metadata_property_value_id();
 
-    function create_metadata_property_value($metadata_property_value);
+    function create_content_object_metadata_property_value($metadata_property_value);
 
-    function update_metadata_property_value($metadata_property_value);
+    function update_content_object_metadata_property_value($metadata_property_value);
 
-    function delete_metadata_property_value($metadata_property_value);
+    function delete_content_object_metadata_property_value($metadata_property_value);
 
-    function count_metadata_property_values($condition = null);
+    function count_content_object_metadata_property_values($condition = null);
 
-    function retrieve_metadata_property_value($id);
+    function retrieve_content_object_metadata_property_value($id);
 
-    function retrieve_metadata_property_values($condition = null, $offset = null, $max_objects = null, $order_by = null);
+    function retrieve_content_object_metadata_property_values($condition = null, $offset = null, $max_objects = null, $order_by = null);
+
+    function retrieve_full_content_object_metadata_property_values($condition = null, $offset = null, $max_objects = null, $order_by = null);
+
+//    function get_next_metadata_property_value_id();
+//
+//    function create_metadata_property_value($metadata_property_value);
+//
+//    function update_metadata_property_value($metadata_property_value);
+//
+//    function delete_metadata_property_value($metadata_property_value);
+//
+//    function count_metadata_property_values($condition = null);
+//
+//    function retrieve_metadata_property_value($id);
+//
+//    function retrieve_metadata_property_values($condition = null, $offset = null, $max_objects = null, $order_by = null);
+
+
 
     function get_next_metadata_property_attribute_type_id();
 

@@ -5,10 +5,14 @@ use common\libraries\FormValidator;
 use common\libraries\Translation;
 use common\libraries\ResourceManager;
 use common\libraries\Path;
+use common\libraries\Utilities;
 
 class MetadataForm extends FormValidator
 {
     private $property_types = array();
+
+    const PARENT_USER = 'user';
+    const PARENT_CONTENT_OBJECT = 'content_object';
     
     function MetadataForm($name, $method, $action)
     {
@@ -46,13 +50,25 @@ class MetadataForm extends FormValidator
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'application/metadata/resources/javascript/set_metadata_defaults.js'));
     }
 
-    function create_metadata_property_value()
+    function create_metadata_property_value($parent_type)
     {
         $values = $this->exportValues();
 
-        $metadata_property_value = new MetadataPropertyValue();
+        $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($parent_type) . 'MetadataPropertyValue';
 
-        $metadata_property_value->set_content_object_id($values[MetadataPropertyValue :: PROPERTY_CONTENT_OBJECT_ID]);
+        require_once dirname(__FILE__) . '/../' . $parent_type . '_metadata_property_value.class.php';
+
+        $metadata_property_value = new $class();
+        
+        if($parent_type == self :: PARENT_CONTENT_OBJECT)
+        {
+            $metadata_property_value->set_content_object_id($values[ContentObjectMetadataPropertyValue :: PROPERTY_CONTENT_OBJECT_ID]);
+        }
+        elseif($parent_type == self :: PARENT_USER)
+        {
+            $metadata_property_value->set_user_id($values[UserMetadataPropertyValue :: PROPERTY_USER_ID]);
+        }
+        
         $metadata_property_value->set_property_type_id($values[MetadataPropertyValue :: PROPERTY_PROPERTY_TYPE_ID]);
         $metadata_property_value->set_value($values[MetadataPropertyValue :: PROPERTY_VALUE]);
 
