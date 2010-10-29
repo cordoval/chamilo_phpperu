@@ -1,18 +1,21 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use application\weblcms\WeblcmsLpiAttemptTracker;
 use application\weblcms\WeblcmsManager;
 use repository\RepositoryDataManager;
 use common\libraries\Display;
 use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Path;
+use common\libraries\WebApplication;
+use repository\ComplexDisplay;
 
 /**
  * $Id: learning_path_assessment_clo_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.learning_path.component
  */
-require_once Path :: get_application_path() . 'lib/weblcms/trackers/weblcms_lpi_attempt_tracker.class.php';
+require_once WebApplication :: get_application_class_path(WeblcmsManager :: APPLICATION_NAME) . 'trackers/weblcms_lpi_attempt_tracker.class.php';
 
 class LearningPathToolAssessmentCloViewerComponent extends LearningPathTool
 {

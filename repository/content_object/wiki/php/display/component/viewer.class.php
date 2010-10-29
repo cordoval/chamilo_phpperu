@@ -21,7 +21,6 @@ use MediawikiParser;
  */
 
 require_once dirname(__FILE__) . '/wiki_page_table/wiki_page_table.class.php';
-require_once dirname(__FILE__) . '/../wiki_parser.class.php';
 require_once Path :: get_plugin_path() . 'wiki/mediawiki_parser.class.php';
 
 class WikiDisplayViewerComponent extends WikiDisplay
@@ -44,15 +43,12 @@ class WikiDisplayViewerComponent extends WikiDisplay
 
                 $wiki_homepage = $complex_wiki_homepage->get_ref_object();
 
-                //                $parser = new WikiParser($this, $this->get_root_content_object()->get_id(), $wiki_homepage->get_description(), $complex_wiki_homepage->get_id());
                 $parser = new MediawikiParser($this, $wiki_homepage);
 
                 $html[] = '<div class="wiki-pane-content-title">' . $wiki_homepage->get_title() . '</div>';
                 $html[] = '<div class="wiki-pane-content-subtitle">' . Translation :: get('From') . ' ' . $this->get_root_content_object()->get_title() . '</div>';
 
                 $html[] = '<div class="wiki-pane-content-body">';
-                //                $html[] = $parser->parse_wiki_text();
-                //                $html[] = $parser->get_wiki_text();
                 $html[] = $parser->parse();
                 $html[] = '<div class="clear"></div>';
                 $html[] = '</div>';

@@ -7,6 +7,9 @@ use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 
 use repository\content_object\learning_path_item\LearningPathItem;
+use repository\RepositoryDataManager;
+use repository\ComplexContentObjectItemForm;
+use repository\ContentObjectForm;
 
 /**
  * $Id: updater.class.php 200 2009-11-13 12:30:04Z kariboe $

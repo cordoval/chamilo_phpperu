@@ -13,8 +13,14 @@ use common\libraries\AndCondition;
 use common\libraries\ComplexContentObjectSupport;
 use common\libraries\Path;
 use common\libraries\SubselectCondition;
-
 use repository\content_object\learning_path_item\LearningPathItem;
+use repository\content_object\assessment\Assessment;
+use repository\ComplexBrowserTableCellRenderer;
+use repository\ContentObject;
+use repository\ComplexContentObjectItem;
+use repository\RepositoryDataManager;
+use repository\RepositoryManager;
+use repository\ComplexBrowserTableColumnModel;
 
 /**
  * $Id: learning_path_browser_table_cell_renderer.class.php 200 2009-11-13 12:30:04Z kariboe $

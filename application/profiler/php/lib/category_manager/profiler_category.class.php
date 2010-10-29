@@ -5,6 +5,7 @@ namespace application\profiler;
 use common\libraries\Path;
 use common\extensions\category_manager\PlatformCategory;
 use common\libraries\Utilities;
+use user\UserDataManager;
 
 /**
  * $Id: profiler_category.class.php 212 2009-11-13 13:38:35Z chellee $
