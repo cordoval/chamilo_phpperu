@@ -127,7 +127,7 @@ class DatabaseUserDataManager extends Database implements UserDataManagerInterfa
     function retrieve_user($id)
     {
         $condition = new EqualityCondition(User :: PROPERTY_ID, $id);
-        return $this->retrieve_object(User :: get_table_name(), $condition, array(), User :: CLASS_NAME);
+        return $this->retrieve_object(User :: get_table_name(), $condition, array());
     }
 
     function retrieve_user_by_username($username)

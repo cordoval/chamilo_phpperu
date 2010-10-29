@@ -227,10 +227,10 @@ abstract class Installer
     function create_storage_unit($path)
     { //print_r($path);
         $storage_unit_info = self :: parse_xml_file($path);
-        $this->add_message(self :: TYPE_NORMAL, Translation :: get('StorageUnitCreation') . ': <em>' . $storage_unit_info['name'] . '</em>');
+        $this->add_message(self :: TYPE_NORMAL, Translation :: get('StorageUnitCreation', null, 'install') . ': <em>' . $storage_unit_info['name'] . '</em>');
         if (! $this->data_manager->create_storage_unit($storage_unit_info['name'], $storage_unit_info['properties'], $storage_unit_info['indexes']))
         {
-            return $this->installation_failed(Translation :: get('StorageUnitCreationFailed') . ': <em>' . $storage_unit_info['name'] . '</em>');
+            return $this->installation_failed(Translation :: get('StorageUnitCreationFailed', null, 'install') . ': <em>' . $storage_unit_info['name'] . '</em>');
         }
         else
         {
@@ -246,10 +246,10 @@ abstract class Installer
     {
         $tdm = TrackingDataManager :: get_instance();
         $storage_unit_info = self :: parse_xml_file($path);
-        $this->add_message(self :: TYPE_NORMAL, Translation :: get('StorageUnitCreation') . ': <em>' . $storage_unit_info['name'] . '</em>');
+        $this->add_message(self :: TYPE_NORMAL, Translation :: get('StorageUnitCreation', null, 'install') . ': <em>' . $storage_unit_info['name'] . '</em>');
         if (! $tdm->create_storage_unit($storage_unit_info['name'], $storage_unit_info['properties'], $storage_unit_info['indexes']))
         {
-            return $this->installation_failed(Translation :: get('TrackingStorageUnitCreationFailed') . ': <em>' . $storage_unit_info['name'] . '</em>');
+            return $this->installation_failed(Translation :: get('TrackingStorageUnitCreationFailed', null, 'install') . ': <em>' . $storage_unit_info['name'] . '</em>');
         }
         else
         {
@@ -369,7 +369,7 @@ abstract class Installer
                         }
                         else
                         {
-                            $this->installation_failed(Translation :: get('ReportingBlockRegistrationFailed') . ': <em>' . $props[ReportingBlockRegistration :: PROPERTY_BLOCK] . '</em>');
+                            $this->installation_failed(Translation :: get('ReportingBlockRegistrationFailed', null, 'install') . ': <em>' . $props[ReportingBlockRegistration :: PROPERTY_BLOCK] . '</em>');
                         }
                     }
                 }
@@ -401,7 +401,7 @@ abstract class Installer
                         }
                         else
                         {
-                            $this->installation_failed(Translation :: get('ReportingTemplateRegistrationFailed') . ': <em>' . $props[ReportingTemplateRegistration :: PROPERTY_TEMPLATE] . '</em>');
+                            $this->installation_failed(Translation :: get('ReportingTemplateRegistrationFailed', null, 'install') . ': <em>' . $props[ReportingTemplateRegistration :: PROPERTY_TEMPLATE] . '</em>');
                         }
                     }
                 }
@@ -459,7 +459,7 @@ abstract class Installer
                     
                     if (! $the_event->create())
                     {
-                        $this->installation_failed(Translation :: get('EventCreationFailed') . ': <em>' . $event_properties['name'] . '</em>');
+                        $this->installation_failed(Translation :: get('EventCreationFailed', null, 'install') . ': <em>' . $event_properties['name'] . '</em>');
                     }
                     
                     foreach ($event_properties['trackers'] as $tracker_name => $tracker_properties)
@@ -472,7 +472,7 @@ abstract class Installer
                             
                             if (! $the_tracker->create())
                             {
-                                $this->installation_failed(Translation :: get('TrackerRegistrationFailed') . ': <em>' . $tracker_properties['name'] . '</em>');
+                                $this->installation_failed(Translation :: get('TrackerRegistrationFailed', null, 'install') . ': <em>' . $tracker_properties['name'] . '</em>');
                             }
                             
                             $registered_trackers[$tracker_properties['name']] = $the_tracker;
@@ -484,24 +484,24 @@ abstract class Installer
                         $rel->set_active(true);
                         if ($rel->create())
                         {
-                            $this->add_message(self :: TYPE_NORMAL, Translation :: get('TrackersRegisteredToEvent') . ': <em>' . $event_properties['name'] . ' + ' . $tracker_properties['name'] . '</em>');
+                            $this->add_message(self :: TYPE_NORMAL, Translation :: get('TrackersRegisteredToEvent', null, 'install') . ': <em>' . $event_properties['name'] . ' + ' . $tracker_properties['name'] . '</em>');
                         }
                         else
                         {
-                            $this->installation_failed(Translation :: get('TrackerRegistrationToEventFailed') . ': <em>' . $event_properties['name'] . '</em>');
+                            $this->installation_failed(Translation :: get('TrackerRegistrationToEventFailed', null, 'install') . ': <em>' . $event_properties['name'] . '</em>');
                         }
                     }
                 }
             }
             elseif (count($files) > 0)
             {
-                $warning_message = Translation :: get('UnlinkedTrackers') . ': <em>' . Translation :: get('Check') . ' ' . $path . '</em>';
+                $warning_message = Translation :: get('UnlinkedTrackers', null, 'install') . ': <em>' . Translation :: get('Check', null, 'install') . ' ' . $path . '</em>';
                 $this->add_message(self :: TYPE_WARNING, $warning_message);
             }
         }
         elseif (count($files) > 0)
         {
-            $warning_message = Translation :: get('UnlinkedTrackers') . ': <em>' . Translation :: get('Check') . ' ' . $path . '</em>';
+            $warning_message = Translation :: get('UnlinkedTrackers', null, 'install') . ': <em>' . Translation :: get('Check', null, 'install') . ' ' . $path . '</em>';
             $this->add_message(self :: TYPE_WARNING, $warning_message);
         }
         
@@ -536,7 +536,7 @@ abstract class Installer
                 
                 if (! $setting->create())
                 {
-                    $message = Translation :: get('ApplicationConfigurationFailed');
+                    $message = Translation :: get('ApplicationConfigurationFailed', null, 'install');
                     $this->installation_failed($message);
                 }
             }
@@ -552,7 +552,7 @@ abstract class Installer
         
         if (WebApplication :: is_application($application))
         {
-            $this->add_message(self :: TYPE_NORMAL, Translation :: get('RegisteringApplication'));
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('RegisteringApplication', null, 'install'));
             
             $application_registration = new Registration();
             $application_registration->set_type(Registration :: TYPE_APPLICATION);
@@ -561,7 +561,7 @@ abstract class Installer
             
             if (! $application_registration->create())
             {
-                return $this->installation_failed(Translation :: get('ApplicationRegistrationFailed'));
+                return $this->installation_failed(Translation :: get('ApplicationRegistrationFailed', null, 'install'));
             }
             else
             {
@@ -619,10 +619,10 @@ abstract class Installer
             $webserviceCategory = new WebserviceCategory();
             $webserviceCategory->set_name($categories['name']);
             $webserviceCategory->set_parent($parent);
-            $this->add_message(self :: TYPE_NORMAL, Translation :: get('WebserviceCategoryCreation') . ' : <em>' . $categories['name'] . '</em>');
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('WebserviceCategoryCreation', null, 'install') . ' : <em>' . $categories['name'] . '</em>');
             if (! $webserviceCategory->create())
             {
-                return $this->installation_failed(Translation :: get('WebserviceCategoryCreationFailed') . ' : <em>' . $categories['name'] . '</em>');
+                return $this->installation_failed(Translation :: get('WebserviceCategoryCreationFailed', null, 'install') . ' : <em>' . $categories['name'] . '</em>');
             }
             $catparent = $webserviceCategory->get_id();
             $this->parse_webservices($categories, $catparent);
@@ -638,10 +638,10 @@ abstract class Installer
                     $webserviceCategory = new WebserviceCategory();
                     $webserviceCategory->set_name($element['name']);
                     $webserviceCategory->set_parent($parent);
-                    $this->add_message(self :: TYPE_NORMAL, Translation :: get('WebserviceCategoryCreation') . ' : <em>' . $element['name'] . '</em>');
+                    $this->add_message(self :: TYPE_NORMAL, Translation :: get('WebserviceCategoryCreation', null, 'install') . ' : <em>' . $element['name'] . '</em>');
                     if (! $webserviceCategory->create())
                     {
-                        return $this->installation_failed(Translation :: get('WebserviceCategoryCreationFailed') . ' : <em>' . $element['name'] . '</em>');
+                        return $this->installation_failed(Translation :: get('WebserviceCategoryCreationFailed', null, 'install') . ' : <em>' . $element['name'] . '</em>');
                     }
                     $catparent = $webserviceCategory->get_id();
                     $this->parse_webservices($element, $catparent);
@@ -659,10 +659,10 @@ abstract class Installer
             $webservice->set_active(1);
             $webservice->set_parent($parent);
             $webservice->set_application('webservice');
-            $this->add_message(self :: TYPE_NORMAL, Translation :: get('WebserviceRegistration') . ' : <em>' . $webservices['name'] . '</em>');
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('WebserviceRegistration', null, 'install') . ' : <em>' . $webservices['name'] . '</em>');
             if (! $webservice->create())
             {
-                return $this->installation_failed(Translation :: get('WebserviceRegistrationFailed') . ' : <em>' . $webservices['name'] . '</em>');
+                return $this->installation_failed(Translation :: get('WebserviceRegistrationFailed', null, 'install') . ' : <em>' . $webservices['name'] . '</em>');
             }
             $this->parse_webservices($webservices, $parent);
         
@@ -680,10 +680,10 @@ abstract class Installer
                     $webservice->set_active(1);
                     $webservice->set_parent($parent);
                     $webservice->set_application('webservice');
-                    $this->add_message(self :: TYPE_NORMAL, Translation :: get('WebserviceRegistration') . ' : <em>' . $element['name'] . '</em>');
+                    $this->add_message(self :: TYPE_NORMAL, Translation :: get('WebserviceRegistration', null, 'install') . ' : <em>' . $element['name'] . '</em>');
                     if (! $webservice->create())
                     {
-                        return $this->installation_failed(Translation :: get('WebserviceRegistrationFailed') . ' : <em>' . $element['name'] . '</em>');
+                        return $this->installation_failed(Translation :: get('WebserviceRegistrationFailed', null, 'install') . ' : <em>' . $element['name'] . '</em>');
                     }
                     $this->parse_webservices($element, $parent);
                 }
@@ -698,14 +698,14 @@ abstract class Installer
         $application = $this->get_application();
         
         // Parse the Locations XML of the application
-        $this->add_message(self :: TYPE_NORMAL, '<span class="subtitle">' . Translation :: get('Rights') . '</span>');
+        $this->add_message(self :: TYPE_NORMAL, '<span class="subtitle">' . Translation :: get('Rights', null, 'install') . '</span>');
         if (! RightsUtilities :: create_application_root_location($application))
         {
-            return $this->installation_failed(Translation :: get('LocationsFailed'));
+            return $this->installation_failed(Translation :: get('LocationsFailed', null, 'install'));
         }
         else
         {
-            $this->add_message(self :: TYPE_NORMAL, Translation :: get('LocationsAdded'));
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('LocationsAdded', null, 'install'));
         }
         $this->add_message(self :: TYPE_NORMAL, '');
         
@@ -714,52 +714,52 @@ abstract class Installer
         
 
         // VARIOUS #1: Tracking
-        $this->add_message(self :: TYPE_NORMAL, '<span class="subtitle">' . Translation :: get('Tracking') . '</span>');
+        $this->add_message(self :: TYPE_NORMAL, '<span class="subtitle">' . Translation :: get('Tracking', null, 'install') . '</span>');
         if (! $this->register_trackers())
         {
-            return $this->installation_failed(Translation :: get('TrackingFailed'));
+            return $this->installation_failed(Translation :: get('TrackingFailed', null, 'install'));
         }
         else
         {
-            $this->add_message(self :: TYPE_NORMAL, Translation :: get('TrackingAdded'));
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('TrackingAdded', null, 'install'));
         }
         $this->add_message(self :: TYPE_NORMAL, '');
         
         // VARIOUS #2: Reporting
-        $this->add_message(self :: TYPE_NORMAL, '<span class="subtitle">' . Translation :: get('Reporting') . '</span>');
+        $this->add_message(self :: TYPE_NORMAL, '<span class="subtitle">' . Translation :: get('Reporting', null, 'install') . '</span>');
         if (! $this->register_reporting())
         {
-            return $this->installation_failed(Translation :: get('ReportingFailed'));
+            return $this->installation_failed(Translation :: get('ReportingFailed', null, 'install'));
         }
         else
         {
-            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ReportingAdded'));
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ReportingAdded', null, 'install'));
         }
         $this->add_message(self :: TYPE_NORMAL, '');
         
         // VARIOUS #3: Webservices
-        $this->add_message(self :: TYPE_NORMAL, '<span class="subtitle">' . Translation :: get('Webservice') . '</span>');
+        $this->add_message(self :: TYPE_NORMAL, '<span class="subtitle">' . Translation :: get('Webservice', null, 'install') . '</span>');
         if (! $this->register_webservices())
         {
-            return $this->installation_failed(Translation :: get('WebserviceFailed'));
+            return $this->installation_failed(Translation :: get('WebserviceFailed', null, 'install'));
         }
         else
         {
-            $this->add_message(self :: TYPE_NORMAL, Translation :: get('WebserviceSucces'));
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('WebserviceSucces', null, 'install'));
         }
         $this->add_message(self :: TYPE_NORMAL, '');
         
         // VARIOUS #4: The rest
         if (method_exists($this, 'install_extra'))
         {
-            $this->add_message(self :: TYPE_NORMAL, '<span class="subtitle">' . Translation :: get('Various') . '</span>');
+            $this->add_message(self :: TYPE_NORMAL, '<span class="subtitle">' . Translation :: get('Various', null, 'install') . '</span>');
             if (! $this->install_extra())
             {
-                return $this->installation_failed(Translation :: get('VariousFailed'));
+                return $this->installation_failed(Translation :: get('VariousFailed', null, 'install'));
             }
             else
             {
-                $this->add_message(self :: TYPE_NORMAL, Translation :: get('VariousFinished'));
+                $this->add_message(self :: TYPE_NORMAL, Translation :: get('VariousFinished', null, 'install'));
             }
             $this->add_message(self :: TYPE_NORMAL, '');
         }
@@ -769,14 +769,14 @@ abstract class Installer
     function installation_failed($error_message)
     {
         $this->add_message(self :: TYPE_ERROR, $error_message);
-        $this->add_message(self :: TYPE_ERROR, Translation :: get('ApplicationInstallFailed'));
-        $this->add_message(self :: TYPE_ERROR, Translation :: get('PlatformInstallFailed'));
+        $this->add_message(self :: TYPE_ERROR, Translation :: get('ApplicationInstallFailed', null, 'install'));
+        $this->add_message(self :: TYPE_ERROR, Translation :: get('PlatformInstallFailed', null, 'install'));
         return false;
     }
 
     function installation_successful()
     {
-        $this->add_message(self :: TYPE_CONFIRM, Translation :: get('InstallSuccess'));
+        $this->add_message(self :: TYPE_CONFIRM, Translation :: get('InstallSuccess', null, 'install'));
         return true;
     }
 

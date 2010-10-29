@@ -627,7 +627,10 @@ class Database
 
         if (is_null($class_name))
         {
-            $class_name = Utilities :: underscores_to_camelcase($table_name);
+            $called_class = get_called_class();
+            $namespace = Utilities :: get_namespace_from_classname($called_class);
+
+            $class_name = $namespace . '\\' . Utilities :: underscores_to_camelcase($table_name);
         }
 
         return new ObjectResultSet($this, $res, $class_name);
@@ -763,7 +766,10 @@ class Database
         $record = $this->retrieve_record($table_name, $condition, $order_by);
         if (is_null($class_name))
         {
-            $class_name = Utilities :: underscores_to_camelcase($table_name);
+            $called_class = get_called_class();
+            $namespace = Utilities :: get_namespace_from_classname($called_class);
+
+            $class_name = $namespace . '\\' . Utilities :: underscores_to_camelcase($table_name);
         }
 
         if ($record)
