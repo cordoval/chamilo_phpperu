@@ -9,7 +9,7 @@ use common\libraries\Utilities;
  * @author vanpouckesven
  * @package webservice
  */
-class WebserviceAutoloader
+class Autoloader
 {
 
     public static $class_name;
