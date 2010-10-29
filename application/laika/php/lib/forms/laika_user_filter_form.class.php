@@ -4,8 +4,13 @@ namespace application\laika;
 use common\libraries\Utilities;
 use common\libraries\Request;
 use common\libraries\Translation;
-use common\libraries\Webapplication;
+use common\libraries\WebApplication;
 use common\libraries\FormValidator;
+use common\libraries\OptionsMenuRenderer;
+use common\libraries\InequalityCondition;
+use common\libraries\AndCondition;
+
+use group\GroupMenu;
 /**
  * $Id: laika_user_filter_form.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika.forms

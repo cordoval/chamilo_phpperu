@@ -4,6 +4,7 @@ use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\Path;
+use common\libraries\Theme;
 
 require_once Path :: get_admin_path() . 'lib/package_manager/package_dependency_verifier.class.php';
 require_once Path :: get_admin_path() . 'lib/package_installer/source/package_info/package_info.class.php';
@@ -77,7 +78,7 @@ abstract class PackageRemover
      */
     static function factory($type, $parent)
     {
-        $class = 'Package' . Utilities :: underscores_to_camelcase($type) . 'Remover';
+        $class = __NAMESPACE__ . '\\' . 'Package' . Utilities :: underscores_to_camelcase($type) . 'Remover';
         require_once dirname(__FILE__) . '/type/' . $type . '.class.php';
         return new $class($parent);
     }

@@ -4,6 +4,24 @@ use common\libraries\Path;
 use common\libraries\WebApplication;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
+use common\libraries\Database;
+use common\libraries\Filesystem;
+
+use DOMDocument;
+
+use tracking\Event;
+use tracking\TrackingDataManager;
+use tracking\TrackerRegistration;
+
+use menu\MenuDataManager;
+use menu\NavigationItem;
+
+use webservice\WebserviceDataManager;
+use webservice\WebserviceRegistration;
+
+use rights\RightsDataManager;
+use rights\Location;
+
 /**
  * $Id: application.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package admin.lib.package_remover.type
