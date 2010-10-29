@@ -1,5 +1,14 @@
 <?php
 
+namespace application\gradebook;
+
+use common\libraries\WebApplication;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use user\UserDataManager;
+use repository\RepositoryDataManager;
+use common\libraries\Database;
+
 require_once WebApplication :: get_application_class_lib_path('gradebook') . 'internal_item_instance.class.php';
 require_once WebApplication :: get_application_class_lib_path('gradebook') . 'external_item_instance.class.php';
 
@@ -27,12 +36,12 @@ class DatabaseGradebookDataManager extends Database implements GradebookDataMana
     function retrieve_all_active_evaluation_formats()
     {
         $condition = new EqualityCondition(Format :: PROPERTY_ACTIVE, Format :: EVALUATION_FORMAT_ACTIVE);
-        return $this->retrieve_objects(Format :: get_table_name(), $condition);
+        return $this->retrieve_objects(Format :: get_table_name(), $condition, null, Format :: CLASS_NAME);
     }
 
     function retrieve_evaluation_formats($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->retrieve_objects(Format :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(Format :: get_table_name(), $condition, $offset, $max_objects, $order_by, Format :: CLASS_NAME);
     }
 
     function count_evaluation_formats()
@@ -43,7 +52,7 @@ class DatabaseGradebookDataManager extends Database implements GradebookDataMana
     function retrieve_evaluation_format($id)
     {
         $condition = new EqualityCondition(Format :: PROPERTY_ID, $id);
-        return $this->retrieve_object(Format :: get_table_name(), $condition);
+        return $this->retrieve_object(Format :: get_table_name(), $condition, null, Format :: CLASS_NAME);
     }
 
     // gradebook internal item
@@ -58,25 +67,25 @@ class DatabaseGradebookDataManager extends Database implements GradebookDataMana
         $conditions[] = new EqualityCondition(InternalItem :: PROPERTY_APPLICATION, $application);
         $conditions[] = new EqualityCondition(InternalItem :: PROPERTY_PUBLICATION_ID, $publication_id);
         $condition = new AndCondition($conditions);
-        return $this->retrieve_object(InternalItem :: get_table_name(), $condition);
+        return $this->retrieve_object(InternalItem :: get_table_name(), $condition, null, InternalItem :: CLASS_NAME);
     }
 
     function retrieve_internal_item($id)
     {
         $condition = new EqualityCondition(InternalItem :: PROPERTY_ID, $id);
-        return $this->retrieve_object(InternalItem :: get_table_name(), $condition);
+        return $this->retrieve_object(InternalItem :: get_table_name(), $condition, null, InternalItem :: CLASS_NAME);
     }
 
     function retrieve_internal_item_by_internal_item_instance($internal_item_instance_id)
     {
         $condition = new EqualityCondition(InternalItem :: PROPERTY_ID, $internal_item_instance_id);
-        return $this->retrieve_object(InternalItem :: get_table_name(), $condition);
+        return $this->retrieve_object(InternalItem :: get_table_name(), $condition, null, InternalItem :: CLASS_NAME);
     }
 
     function delete_internal_item($internal_item)
     {
         $condition = new EqualityCondition(InternalItem :: PROPERTY_ID, $internal_item->get_id());
-        return $this->delete(InternalItem :: get_table_name(), $condition);
+        return $this->delete(InternalItem :: get_table_name(), $condition, null, InternalItem :: CLASS_NAME);
     }
 
     function retrieve_categories_by_application($application)
@@ -91,7 +100,7 @@ class DatabaseGradebookDataManager extends Database implements GradebookDataMana
     function delete_internal_item_instance($internal_item_instance)
     {
         $condition = new EqualityCondition(InternalItemInstance :: PROPERTY_ID, $internal_item_instance->get_id());
-        return $this->delete(InternalItemInstance :: get_table_name(), $condition);
+        return $this->delete(InternalItemInstance :: get_table_name(), $condition, null, InternalItemInstance :: CLASS_NAME);
     }
 
     function retrieve_evaluation_ids_by_internal_item_id($internal_item_id)
@@ -106,12 +115,12 @@ class DatabaseGradebookDataManager extends Database implements GradebookDataMana
     function retrieve_internal_item_instance_by_evaluation($evaluation_id)
     {
         $condition = new EqualityCondition(InternalItemInstance :: PROPERTY_EVALUATION_ID, $evaluation_id);
-        return $this->retrieve_object(InternalItemInstance :: get_table_name(), $condition);
+        return $this->retrieve_object(InternalItemInstance :: get_table_name(), $condition, null, InternalItemInstance :: CLASS_NAME);
     }
     
     function retrieve_internal_item_instance($condition)
     {
-    	return $this->retrieve_object(InternalItemInstance :: get_table_name(), $condition);
+    	return $this->retrieve_object(InternalItemInstance :: get_table_name(), $condition, null, InternalItemInstance :: CLASS_NAME);
     }
     
     function count_internal_item_instance($condition)
@@ -232,12 +241,12 @@ class DatabaseGradebookDataManager extends Database implements GradebookDataMana
     function retrieve_evaluation($id)
     {
         $condition = new EqualityCondition(Evaluation :: PROPERTY_ID, $id);
-        return $this->retrieve_object(Evaluation :: get_table_name(), $condition);
+        return $this->retrieve_object(Evaluation :: get_table_name(), $condition, null, Evaluation :: CLASS_NAME);
     }
 
     function retrieve_evaluations($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->retrieve_objects(Evaluation :: get_table_name(), $condition, $offset, $count, $order_property);
+        return $this->retrieve_objects(Evaluation :: get_table_name(), $condition, $offset, $count, $order_property, Evaluation :: CLASS_NAME);
     }
 
     function create_evaluation_object_from_data($content_object_publication, $user, $date)
@@ -258,7 +267,7 @@ class DatabaseGradebookDataManager extends Database implements GradebookDataMana
     function retrieve_format_id_by_format_name($format_name)
     {
         $condition = new EqualityCondition(Format :: PROPERTY_TITLE, $format_name);
-        return $this->retrieve_object(Format :: get_table_name(), $condition)->get_id();
+        return $this->retrieve_object(Format :: get_table_name(), $condition, null, Format :: CLASS_NAME)->get_id();
     }
 
     //gradebook grade evaluation
@@ -269,7 +278,7 @@ class DatabaseGradebookDataManager extends Database implements GradebookDataMana
 
     function retrieve_grade_evaluation($condition)
     {
-        return $this->retrieve_object(GradeEvaluation :: get_table_name(), $condition);
+        return $this->retrieve_object(GradeEvaluation :: get_table_name(), $condition, null, GradeEvaluation :: CLASS_NAME);
     }
 
     function delete_grade_evaluation($grade_evaluation)
@@ -322,13 +331,13 @@ class DatabaseGradebookDataManager extends Database implements GradebookDataMana
     
     function retrieve_external_items($condition, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->retrieve_objects(ExternalItem :: get_table_name(), $condition, $offset, $count, $order_property);
+        return $this->retrieve_objects(ExternalItem :: get_table_name(), $condition, $offset, $count, $order_property, ExternalItem :: CLASS_NAME);
     }
     
     function retrieve_external_item($id)
     {
         $condition = new EqualityCondition(ExternalItem :: PROPERTY_ID, $id);
-        return $this->retrieve_object(ExternalItem :: get_table_name(), $condition);
+        return $this->retrieve_object(ExternalItem :: get_table_name(), $condition, null, ExternalItem :: CLASS_NAME);
     }
     
     function count_external_items($condition)
@@ -392,12 +401,12 @@ class DatabaseGradebookDataManager extends Database implements GradebookDataMana
 
     function retrieve_external_item_instance($condition)
     {
-    	return $this->retrieve_object(ExternalItemInstance :: get_table_name(), $condition);
+    	return $this->retrieve_object(ExternalItemInstance :: get_table_name(), $condition, null, ExternalItemInstance :: CLASS_NAME);
     }
 
     function retrieve_external_item_instances($condition)
     {
-    	return $this->retrieve_objects(ExternalItemInstance :: get_table_name(), $condition);
+    	return $this->retrieve_objects(ExternalItemInstance :: get_table_name(), $condition, null, null, null, ExternalItemInstance :: CLASS_NAME);
     }
     // applications
     function retrieve_internal_item_applications()
@@ -413,12 +422,12 @@ class DatabaseGradebookDataManager extends Database implements GradebookDataMana
 
     function retrieve_internal_items_by_application($condition, $offset = null, $count = null, $order_property = null)
     {
-        return $this->retrieve_objects(InternalItem :: get_table_name(), $condition, $offset, $count, $order_property);
+        return $this->retrieve_objects(InternalItem :: get_table_name(), $condition, $offset, $count, $order_property, InternalItem :: CLASS_NAME);
     }
 
     function count_internal_items_by_application($condition)
     {
-        return $this->count_objects(InternalItem :: get_table_name(), $condition);
+        return $this->count_objects(InternalItem :: get_table_name(), $condition, null, InternalItem :: CLASS_NAME);
     }
 }
 ?>

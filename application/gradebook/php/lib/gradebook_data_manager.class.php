@@ -1,4 +1,10 @@
 <?php
+
+namespace application\gradebook;
+
+use common\libraries\Configuration;
+use common\libraries\Utilities;
+
 /**
  * This abstract class provides the necessary functionality to connect a
  * gradebook to a storage system.
@@ -34,7 +40,7 @@ class GradebookDataManager
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
 
             require_once dirname(__FILE__) . '/data_manager/' . Utilities :: camelcase_to_underscores($type) . '_gradebook_data_manager.class.php';
-            $class = $type . 'GradebookDataManager';
+            $class = __NAMESPACE__ . '\\' . $type . 'GradebookDataManager';
 
             self :: $instance = new $class();
 

@@ -1,5 +1,12 @@
 <?php
 
+namespace application\gradebook;
+
+use common\libraries\WebApplication;
+use common\libraries\ObjectTableCellRenderer;
+use repository\ContentObject;
+use common\libraries\Utilities;
+
 require_once WebApplication :: get_application_class_lib_path('gradebook') . 'format.class.php';
 
 class DefaultGradebookPublicationTableCellRenderer extends ObjectTableCellRenderer

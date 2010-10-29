@@ -1,4 +1,10 @@
 <?php
+
+namespace application\gradebook;
+
+use common\libraries\Path;
+use common\libraries\TreeMenuDataProvider;
+
 require_once Path :: get_common_libraries_class_path() . '/html/menu/tree_menu/tree_menu_data_provider.class.php';
 
 abstract class GradebookTreeMenuDataProvider extends TreeMenuDataProvider
@@ -31,5 +37,6 @@ abstract class GradebookTreeMenuDataProvider extends TreeMenuDataProvider
     {
     	return self :: PARAM_ID;
     }
+
 }
 ?>

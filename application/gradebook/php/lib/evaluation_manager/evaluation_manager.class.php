@@ -1,24 +1,30 @@
 <?php
+
+namespace application\gradebook;
+
+use common\libraries\SubManager;
+use common\libraries\Path;
+
 class EvaluationManager extends SubManager
 {
     const APPLICATION_NAME = 'evaluation';
-    
+
     const PARAM_EVALUATION_ACTION = 'evaluation_action';
     const PARAM_EVALUATION_ID = 'evaluation_id';
-    
+
     const PARAM_PUBLICATION_ID = 'publication_id';
     const PARAM_PUBLISHER_ID = 'publisher_id';
     const PARAM_CONTENT_OBJECT_ID = 'content_object_id';
-    
+
     const ACTION_BROWSE = 'browser';
     const ACTION_CREATE = 'creator';
     const ACTION_UPDATE = 'updater';
     const ACTION_DELETE = 'deleter';
-    
+
     const DEFAULT_ACTION = self :: ACTION_BROWSE;
-    
+
     const TYPE_INTERNAL_ITEM = 'internal_item';
-    
+
     private $publisher_id;
     private $publication_id;
     private $trail;
@@ -142,5 +148,7 @@ class EvaluationManager extends SubManager
     {
         parent :: launch(__CLASS__, $application);
     }
+
 }
+
 ?>

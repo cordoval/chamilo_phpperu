@@ -1,4 +1,11 @@
 <?php
+
+namespace application\gradebook;
+
+use common\libraries\Translation;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+
 class EvaluationManagerCreatorComponent extends EvaluationManager
 {
 
@@ -10,11 +17,11 @@ class EvaluationManagerCreatorComponent extends EvaluationManager
         $evaluation = new Evaluation();
         $grade_evaluation = new GradeEvaluation();
         $form = new EvaluationForm(EvaluationForm :: TYPE_CREATE, $evaluation, $grade_evaluation, $publication_id, $publisher_id, $this->get_url(array(EvaluationManager :: PARAM_EVALUATION_ACTION => EvaluationManager :: ACTION_CREATE)), $this->get_user());
-        
+
         if ($form->validate())
         {
             $success = $form->create_evaluation();
-            $this->redirect($success ? Translation :: get('EvaluationCreated') : Translation :: get('EvaluationNotCreated'), ! $success, array(EvaluationManager :: PARAM_EVALUATION_ACTION => EvaluationManager :: ACTION_BROWSE));
+            $this->redirect($success ? Translation :: get('EvaluationCreated') : Translation :: get('EvaluationNotCreated'), !$success, array(EvaluationManager :: PARAM_EVALUATION_ACTION => EvaluationManager :: ACTION_BROWSE));
         }
         else
         {
@@ -25,7 +32,7 @@ class EvaluationManagerCreatorComponent extends EvaluationManager
             $this->display_footer();
         }
         $values = $form->getSubmitValues();
-        if (! empty($values))
+        if (!empty($values))
         {
             $form->set_allow_creation(true);
         }
@@ -34,5 +41,7 @@ class EvaluationManagerCreatorComponent extends EvaluationManager
             $form->set_allow_creation(false);
         }
     }
+
 }
+
 ?>

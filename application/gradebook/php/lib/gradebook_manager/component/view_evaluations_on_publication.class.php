@@ -1,11 +1,19 @@
 <?php
+
+namespace application\gradebook;
+
+use common\libraries\WebApplication;
+use common\extensions\reporting_viewer\ReportingViewer;
+use common\libraries\Request;
+
 require_once WebApplication :: get_application_class_path('gradebook') . 'reporting/templates/publication_evaluations_template.class.php';
 
 class GradebookManagerViewEvaluationsOnPublicationComponent extends GradebookManager
 {
-	function run()
-	{
-		$trail = $this->get_general_breadcrumbs();
+
+    function run()
+    {
+        $trail = $this->get_general_breadcrumbs();
 
         $rtv = ReportingViewer :: construct($this);
         $rtv->add_template_by_name('publication_evaluations_template', GradebookManager :: APPLICATION_NAME);
@@ -16,6 +24,8 @@ class GradebookManagerViewEvaluationsOnPublicationComponent extends GradebookMan
         $rtv->show_all_blocks();
 
         $rtv->run();
-	}
+    }
+
 }
+
 ?>
