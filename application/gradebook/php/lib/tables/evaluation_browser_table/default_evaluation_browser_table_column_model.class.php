@@ -1,4 +1,11 @@
 <?php
+
+namespace application\gradebook;
+
+use common\libraries\WebApplication;
+use common\libraries\ObjectTableColumnModel;
+use common\libraries\ObjectTableColumn;
+
 require_once WebApplication :: get_application_class_lib_path('gradebook') . 'evaluation.class.php';
 require_once WebApplication :: get_application_class_lib_path('gradebook') . 'grade_evaluation.class.php';
 

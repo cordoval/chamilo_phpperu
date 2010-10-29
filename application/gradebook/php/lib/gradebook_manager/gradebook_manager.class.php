@@ -1,4 +1,17 @@
 <?php
+
+namespace application\gradebook;
+
+use common\libraries\Path;
+use common\libraries\WebApplication;
+use common\libraries\DynamicAction;
+use common\libraries\Translation;
+use common\libraries\Theme;
+use common\libraries\Redirect;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Request;
+
 require_once Path :: get_common_libraries_class_path() . 'configuration/configuration.class.php';
 require_once Path :: get_common_libraries_class_path() . 'utilities.class.php';
 require_once WebApplication :: get_application_class_lib_path('gradebook') . 'data_provider/gradebook_tree_menu_data_provider.class.php';
@@ -11,8 +24,8 @@ class GradebookManager extends WebApplication
     const PARAM_ACTION = 'go';
 
     /*
-	 * Gradebook administration actions
-	 */
+     * Gradebook administration actions
+     */
     const ACTION_BROWSE_GRADEBOOK = 'gradebook_browser';
     const ACTION_ADMIN_BROWSE_EVALUATION_FORMATS = 'admin_evaluation_formats_browser';
     const ACTION_EDIT_EVALUATION_FORMAT = 'admin_edit_evaluation_format';
@@ -26,8 +39,8 @@ class GradebookManager extends WebApplication
     const DEFAULT_ACTION = self :: ACTION_BROWSE_GRADEBOOK;
 
     /*
-	 * Gradebook parameters
-	 */
+     * Gradebook parameters
+     */
     const PARAM_ACTIVATE_SELECTED_EVALUATION_FORMAT = 'activate_selected_evaluation_format';
     const PARAM_DEACTIVATE_SELECTED_EVALUATION_FORMAT = 'deactivate_selected_evaluation_format';
     const PARAM_DELETE_SELECTED_EXTERNAL_EVALUATION = 'delete_selected_external_evaluation';
@@ -48,7 +61,7 @@ class GradebookManager extends WebApplication
     {
         $links = array();
         $links[] = new DynamicAction(Translation :: get('EvaluationFormatTypeList'), Translation :: get('EvaluationFormatTypeListDescription'), Theme :: get_image_path() . 'browse_list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
-                self :: PARAM_ACTION => self :: ACTION_ADMIN_BROWSE_EVALUATION_FORMATS)));
+                            self :: PARAM_ACTION => self :: ACTION_ADMIN_BROWSE_EVALUATION_FORMATS)));
 
         $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
         $info['links'] = $links;
@@ -79,7 +92,7 @@ class GradebookManager extends WebApplication
             {
                 $selected_ids = array();
             }
-            elseif (! is_array($selected_ids))
+            elseif (!is_array($selected_ids))
             {
                 $selected_ids = array($selected_ids);
             }
@@ -275,5 +288,7 @@ class GradebookManager extends WebApplication
     {
         return self :: DEFAULT_ACTION;
     }
+
 }
+
 ?>

@@ -1,4 +1,12 @@
 <?php
+
+namespace application\gradebook;
+
+use common\libraries\CoreApplication;
+use ReflectionClass;
+use rights\RightsUtilities;
+
+
 require_once CoreApplication :: get_application_class_lib_path('rights') . 'rights_utilities.class.php';
 
 class GradebookRights

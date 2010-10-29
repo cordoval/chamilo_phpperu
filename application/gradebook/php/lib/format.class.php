@@ -1,4 +1,9 @@
 <?php
+
+namespace application\gradebook;
+
+use common\libraries\DataClass;
+
 /*
  * @author Johan Janssens
  */
@@ -66,14 +71,5 @@ class Format extends DataClass
         return self :: TABLE_NAME;
     }
     
-	function create()
-    {
-    	if(!parent :: create())
-    	{
-    		return false;
-    	}
-    	
-    	return true;
-    }
 }
 ?>

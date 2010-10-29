@@ -1,4 +1,10 @@
 <?php
+
+namespace application\gradebook;
+
+use common\libraries\DataClass;
+
+
 /*
  * @author Ben Vanmassenhove
  */
@@ -74,12 +80,6 @@ class InternalItem extends DataClass
     {
         return self :: TABLE_NAME;
     }
-    
-    function create()
-    {
-    	if(!parent :: create())
-    		return false;
-    	return true;
-    }
+
 }
 ?>
