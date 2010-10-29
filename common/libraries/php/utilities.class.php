@@ -552,48 +552,6 @@ class Utilities
         return Theme :: get_common_image('mimetype/' . $mimetype_image, 'png', $mimetype, '', ToolbarItem :: DISPLAY_ICON);
     }
 
-    static function autoload_core($classname)
-    {
-//        $classname_parts = explode('\\', $classname);
-//
-//        if (count($classname_parts) == 1)
-//        {
-//            return false;
-//        }
-//        else
-//        {
-//            $core_application = $classname_parts[0];
-//            array_pop($classname_parts);
-//            $full_namespace = implode('\\', $classname_parts);
-//        }
-//
-//        $autoloaders = array(
-//            'common' => array('common\libraries' => Path :: get_common_libraries_class_path() . 'libraries_autoloader.class.php', 'common\extensions' => Path :: get_common_extensions_path() . 'extensions_autoloader.class.php'),
-//            'repository' => array('repository' => Path :: get_repository_path() . 'repository_autoloader.class.php'),
-//            'user' => array('user' => Path :: get_user_path() . 'user_autoloader.class.php'),
-//            'admin' => array('admin' => Path :: get_admin_path() . 'admin_autoloader.class.php'),
-//            'group' => array('group' => Path :: get_group_path() . 'group_autoloader.class.php'),
-//            'help' => array('help' => Path :: get_help_path() . 'help_autoloader.class.php'),
-//            'home' => array('home' => Path :: get_home_path() . 'home_autoloader.class.php'),
-//            'menu' => array('menu' => Path :: get_menu_path() . 'menu_autoloader.class.php'),
-//            'migration' => array('migration' => Path :: get_migration_path() . 'migration_autoloader.class.php'),
-//            'reporting' => array('reporting' => Path :: get_reporting_path() . 'reporting_autoloader.class.php'),
-//            'rights' => array('rights' => Path :: get_rights_path() . 'rights_autoloader.class.php'),
-//            'tracking' => array('tracking' => Path :: get_tracking_path() . 'tracking_autoloader.class.php'),
-//            'webservice' => array('webservice' => Path :: get_webservice_path() . 'webservice_autoloader.class.php'));
-//        $autoloader = $autoloaders[$core_application];
-//
-//        foreach ($autoloader as $core_namespace => $autoloader_path)
-//        {
-//            require_once $autoloader_path;
-//
-//            $classn = substr(basename($autoloader_path), 0, - 10);
-//            $classname_upp = $core_namespace . '\\' . Utilities :: underscores_to_camelcase($classn);
-//            if ($classname_upp :: load($classname))
-//                break;
-//        }
-    }
-
     static function autoload($classname)
     {
         $classname_parts = explode('\\', $classname);

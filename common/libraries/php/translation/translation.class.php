@@ -175,14 +175,15 @@ class Translation
 
                 //return '[=' . $variable . '=] ' . $link;
 
-                if (PlatformSetting :: get('hide_dcda_markup'))
-                {
-                    return $variable;
-                }
-                else
-                {
+                //pj: doesn't install because it tries to access the database before the config file is written
+//                if (PlatformSetting :: get('hide_dcda_markup'))
+//                {
+//                    return $variable;
+//                }
+//                else
+//                {
                     return '[CDA context={'. $context .'}]' . $variable . '[/CDA]';
-                }
+//                }
             }
         }
 

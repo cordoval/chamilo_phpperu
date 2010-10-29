@@ -12,21 +12,7 @@ class Autoloader
 {
     static function load($classname)
     {
-        $classname_parts = explode('\\', $classname);
-
-        if (count($classname_parts) == 1)
-        {
-            return false;
-        }
-        else
-        {
-            $classname = $classname_parts[count($classname_parts) - 1];
-            array_pop($classname_parts);
-            if (implode('\\', $classname_parts) != __NAMESPACE__)
-            {
-                return false;
-            }
-        }
+        
 
         $list = array(
         'metadata_property_type' => 'metadata_property_type.class.php',

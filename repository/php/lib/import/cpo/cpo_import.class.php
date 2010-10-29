@@ -222,8 +222,8 @@ class CpoImport extends ContentObjectImport
 
             foreach ($files as $f)
             {
-                dirname = Filesystem :: create_unique_name($new_dir, $f);
-                Filesystem :: recurse_copy($dir . 'hotpotatoes/' . $f, $new_dir . dirname, false);
+                $dirname = Filesystem :: create_unique_name($new_dir, $f);
+                Filesystem :: recurse_copy($dir . 'hotpotatoes/' . $f, $new_dir . $dirname, false);
                 $this->hp_files[$f] = dirname;
             }
         }
@@ -236,8 +236,8 @@ class CpoImport extends ContentObjectImport
 
             foreach ($files as $f)
             {
-                dirname = Filesystem :: create_unique_name($new_dir, $f);
-                Filesystem :: recurse_copy($dir . 'scorm/' . $f, $new_dir . dirname, false);
+                $dirname = Filesystem :: create_unique_name($new_dir, $f);
+                Filesystem :: recurse_copy($dir . 'scorm/' . $f, $new_dir . $dirname, false);
                 $this->scorm_files[$f] = dirname;
             }
         }

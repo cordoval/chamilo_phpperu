@@ -78,7 +78,7 @@ class Autoloader
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
         if (in_array($lower_case, $list))
-        {
+        {            
             require_once dirname(__FILE__) . '/' . $lower_case . '/' . $lower_case . '.class.php';
             return true;
         }
