@@ -146,7 +146,7 @@ abstract class QuestionResultDisplay
 
         require_once $file;
 
-        $class = Utilities :: underscores_to_camelcase($type) . 'ResultDisplay';
+        $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type) . 'ResultDisplay';
         $question_result_display = new $class($complex_content_object_question, $question_nr, $answers, $score);
         return $question_result_display;
     }

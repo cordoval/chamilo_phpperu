@@ -66,7 +66,7 @@ abstract class ScoreCalculator
 
         require_once $file;
 
-        $class = Utilities :: underscores_to_camelcase($type) . 'ScoreCalculator';
+        $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type) . 'ScoreCalculator';
         $score_calculator = new $class($question, $answer, $weight);
         return $score_calculator;
     }

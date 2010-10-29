@@ -1,13 +1,19 @@
 <?php
 namespace repository\content_object\learning_path;
 
+use common\libraries\Path;
+use repository\content_object\assessment\AssessmentComplexDisplaySupport;
+
+require Path :: get_repository_content_object_path() . 'assessment/php/display/assessment_complex_display_support.class.php';
+
 /**
  * A class implements the <code>LearningPathComplexDisplaySupport</code> interface to
- * indicate that it will serve as a launch base for a WikiComplexDisplay.
+ * indicate that it will serve as a launch base for a LearningPathComplexDisplay.
  *
  * @author  Hans De Bisschop
  */
-interface LearningPathComplexDisplaySupport
+
+interface LearningPathComplexDisplaySupport extends AssessmentComplexDisplaySupport
 {
 
     /**

@@ -24,7 +24,7 @@ class LearningPathDisplayViewerComponent extends LearningPathDisplay
 {
     private $learning_path_trackers;
     //    private $lpi_attempt_data;
-    private $complex_content_object_item;
+//    private $complex_content_object_item;
     private $learning_path_menu;
     private $navigation;
     //    private $empty_learning_path;
@@ -64,7 +64,7 @@ class LearningPathDisplayViewerComponent extends LearningPathDisplay
 
         // Get the currently displayed content object
         $current_content_object = $this->learning_path_menu->get_current_object();
-        $this->complex_content_object_item = $this->learning_path_menu->get_current_cloi();
+        $this->set_complex_content_object_item($this->learning_path_menu->get_current_cloi());
 
         // Update the main tracker
         $this->learning_path_trackers[self :: TRACKER_LEARNING_PATH]->set_progress($this->learning_path_menu->get_progress());
@@ -125,12 +125,12 @@ class LearningPathDisplayViewerComponent extends LearningPathDisplay
         }
         else
         {
-            if ($this->complex_content_object_item && $this->complex_content_object_item instanceof ComplexLearningPathItem)
+            if ($this->get_complex_content_object_item() && $this->get_complex_content_object_item() instanceof ComplexLearningPathItem)
             {
                 if ($learning_path->get_version() != 'SCORM2004')
                 {
                     $translator = new PrerequisitesTranslator($learning_path_item_attempt_data, $content_objects, $learning_path->get_version());
-                    if (! $translator->can_execute_item($this->complex_content_object_item))
+                    if (! $translator->can_execute_item($this->get_complex_content_object_item()))
                     {
                         $this->display_header();
                         $display = '<div class="error-message">' . Translation :: get('NotYetAllowedToView') . '</div>';
@@ -142,8 +142,8 @@ class LearningPathDisplayViewerComponent extends LearningPathDisplay
                 $learning_path_item_tracker = $this->learning_path_menu->get_current_tracker();
                 if (! $learning_path_item_tracker)
                 {
-                    $learning_path_item_tracker = $this->get_parent()->create_learning_path_item_tracker($this->learning_path_trackers[self :: TRACKER_LEARNING_PATH], $this->complex_content_object_item);
-                    $learning_path_item_attempt_data[$this->complex_content_object_item->get_id()]['active_tracker'] = $learning_path_item_tracker;
+                    $learning_path_item_tracker = $this->get_parent()->create_learning_path_item_tracker($this->learning_path_trackers[self :: TRACKER_LEARNING_PATH], $this->get_complex_content_object_item());
+                    $learning_path_item_attempt_data[$this->get_complex_content_object_item_id()]['active_tracker'] = $learning_path_item_tracker;
                 }
                 else
                 {
@@ -154,7 +154,7 @@ class LearningPathDisplayViewerComponent extends LearningPathDisplay
                 $this->learning_path_trackers[self :: TRACKER_LEARNING_PATH_ITEM] = $learning_path_item_tracker;
 
                 $this->display_header();
-                echo LearningPathContentObjectDisplay :: factory($this, $current_content_object->get_type())->display_content_object($current_content_object, $learning_path_item_attempt_data[$this->complex_content_object_item->get_id()], $this->learning_path_menu->get_continue_url(), $this->learning_path_menu->get_previous_url(), $this->learning_path_menu->get_jump_urls());
+                echo LearningPathContentObjectDisplay :: factory($this, $current_content_object->get_type())->display_content_object($current_content_object, $learning_path_item_attempt_data[$this->get_complex_content_object_item_id()], $this->learning_path_menu->get_continue_url(), $this->learning_path_menu->get_previous_url(), $this->learning_path_menu->get_jump_urls());
                 $this->display_footer();
             }
             else

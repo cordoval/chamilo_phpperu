@@ -125,6 +125,14 @@ abstract class ComplexDisplay extends SubManager
         return $this->complex_content_object_item;
     }
 
+    /**
+     * @param ComplexContentObjectItem $complex_content_object_item
+     */
+    function set_complex_content_object_item(ComplexContentObjectItem $complex_content_object_item)
+    {
+        $this->complex_content_object_item = $complex_content_object_item;
+    }
+
     function get_selected_complex_content_object_item()
     {
         return $this->selected_complex_content_object_item;

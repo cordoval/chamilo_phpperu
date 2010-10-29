@@ -3,6 +3,7 @@ namespace repository\content_object\assessment;
 
 use common\libraries\Utilities;
 use common\libraries\Theme;
+use repository\RepositoryDataManager;
 
 /**
  * $Id: question_display.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -143,7 +144,7 @@ abstract class QuestionDisplay
 
         require_once $file;
 
-        $class = Utilities :: underscores_to_camelcase($type) . 'Display';
+        $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type) . 'Display';
         $question_display = new $class($formvalidator, $complex_content_object_question, $question_nr, $question);
         return $question_display;
     }

@@ -3,10 +3,13 @@ namespace repository\content_object\learning_path;
 
 use repository\ContentObjectDisplay;
 use repository\ContentObject;
+use repository\ComplexDisplay;
 use common\libraries\ResourceManager;
 use common\libraries\Path;
 use common\libraries\Utilities;
 use common\libraries\Request;
+
+require_once dirname(__FILE__) . '/learning_path_display.class.php';
 
 /**
  * @package application.lib.weblcms.tool.learning_path.component.learning_path_viewer
@@ -21,7 +24,6 @@ class LearningPathContentObjectDisplay
     public static function factory($parent, $type)
     {
         $class = __NAMESPACE__ . '\\LearningPath' . Utilities :: underscores_to_camelcase($type) . 'ContentObjectDisplay';
-
         $file = dirname(__FILE__) . '/content_object_display/' . $type . '.class.php';
 
         if (file_exists($file))
@@ -45,10 +47,22 @@ class LearningPathContentObjectDisplay
         return $this->parent;
     }
 
-    function display_content_object($object)
+    /**
+     * @param ContentObject $content_object
+     * @param unknown_type $learning_path_item_attempt_data
+     * @param string $continue_url
+     * @param string $previous_url
+     * @param array $jump_urls
+     */
+    function display_content_object($content_object, $learning_path_item_attempt_data, $continue_url, $previous_url, $jump_urls)
     {
-        $display = ContentObjectDisplay :: factory($object);
-        return $display->get_full_html() . "\n" . $this->add_tracking_javascript();
+        $content_object_display = ContentObjectDisplay :: factory($content_object);
+
+        $html = array();
+        $html[] = $content_object_display->get_full_html();
+        $html[] = $this->add_tracking_javascript();
+
+        return implode("\n", $html);
     }
 
     function add_tracking_javascript()
@@ -83,7 +97,14 @@ class LearningPathContentObjectDisplay
 
     static function get_embedded_content_object_id()
     {
-        return Request :: get(self :: PARAM_EMBEDDED_CONTENT_OBJECT_ID);
+        if (Request :: get(ComplexDisplay :: PARAM_DISPLAY_ACTION) != LearningPathDisplay :: ACTION_EMBED)
+        {
+            return Request :: get(self :: PARAM_EMBEDDED_CONTENT_OBJECT_ID);
+        }
+        else
+        {
+            return false;
+        }
     }
 }
 ?>

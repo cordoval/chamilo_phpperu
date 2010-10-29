@@ -23,6 +23,7 @@ use application\weblcms\WeblcmsDataManager;
 use application\weblcms\WeblcmsManager;
 use application\weblcms\WeblcmsLpAttemptTracker;
 use application\weblcms\WeblcmsLpiAttemptTracker;
+use application\weblcms\WeblcmsLearningPathQuestionAttemptsTracker;
 
 use tracking\Event;
 
@@ -42,6 +43,11 @@ class LearningPathToolTestComponent extends LearningPathTool implements Learning
     {
         $publication_id = Request :: get(Tool :: PARAM_PUBLICATION_ID);
         $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, $publication_id);
+
+        // TODO: This should be handled better and differently
+        $this->set_parameter('lpi_attempt_id', Request :: get('lpi_attempt_id'));
+        $this->set_parameter(ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID, Request :: get(ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID));
+
         $this->publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($publication_id);
 
         ComplexDisplay :: launch($this->get_root_content_object()->get_type(), $this);
@@ -251,6 +257,63 @@ class LearningPathToolTestComponent extends LearningPathTool implements Learning
     function get_learning_path_template_application_name()
     {
         return WeblcmsManager :: APPLICATION_NAME;
+    }
+
+    function save_answer($complex_question_id, $answer, $score)
+    {
+        $learning_path_item_attempt_id = Request :: get('lpi_attempt_id');
+
+        $tracker = $this->retrieve_learning_path_tracker();
+        $items = $this->retrieve_tracker_items($tracker);
+
+        $parameters = array();
+        $parameters[WeblcmsLearningPathQuestionAttemptsTracker :: PROPERTY_LPI_ATTEMPT_ID] = $learning_path_item_attempt_id;
+        $parameters[WeblcmsLearningPathQuestionAttemptsTracker :: PROPERTY_QUESTION_CID] = $complex_question_id;
+        $parameters[WeblcmsLearningPathQuestionAttemptsTracker :: PROPERTY_ANSWER] = $answer;
+        $parameters[WeblcmsLearningPathQuestionAttemptsTracker :: PROPERTY_SCORE] = $score;
+        $parameters[WeblcmsLearningPathQuestionAttemptsTracker :: PROPERTY_FEEDBACK] = '';
+
+        Event :: trigger('attempt_learning_path_question', WeblcmsManager :: APPLICATION_NAME, $parameters);
+    }
+
+    function finish_assessment($total_score)
+    {
+        $learning_path_item_attempt_id = Request :: get('lpi_attempt_id');
+
+        $condition = new EqualityCondition(WeblcmsLpiAttemptTracker :: PROPERTY_ID, $learning_path_item_attempt_id);
+
+        $dummy = new WeblcmsLpiAttemptTracker();
+        $trackers = $dummy->retrieve_tracker_items($condition);
+        $lpi_tracker = $trackers[0];
+
+        $lpi_tracker->set_score($total_score);
+        $lpi_tracker->set_total_time($lpi_tracker->get_total_time() + (time() - $lpi_tracker->get_start_time()));
+
+        $cloi = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item(Request :: get(ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID));
+        $lp_item = RepositoryDataManager :: get_instance()->retrieve_content_object($cloi->get_ref());
+        $mastery_score = $lp_item->get_mastery_score();
+
+        if ($mastery_score)
+        {
+            $status = ($total_score >= $mastery_score) ? 'passed' : 'failed';
+        }
+        else
+        {
+            $status = 'completed';
+        }
+
+        $lpi_tracker->set_status($status);
+        $lpi_tracker->update();
+    }
+
+    function get_current_attempt_id()
+    {
+        return Request :: get('lpi_attempt_id');
+    }
+
+    function get_go_back_url()
+    {
+        return null;
     }
 }
 ?>
