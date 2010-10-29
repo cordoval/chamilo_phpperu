@@ -103,47 +103,22 @@ class HandbookBuilderBrowserComponent extends HandbookBuilder
             return $action_bar;
         }
     }
-
-    function get_creation_links($content_object, $types = array())
+    
+    function get_content_object_type_creation_url($type)
     {
-        $html[] = '<div class="select_complex_element">';
-        $html[] = '<span class="title">' . Theme :: get_common_image('place_content_objects') . Translation :: get('HandbookAddContentObject') . '</span>';
-        $html[] = '<div id="content_object_selection">';
-
-        if (count($types) == 0)
+        if ($type == Handbook :: get_type_name())
         {
-            $types = $content_object->get_allowed_types();
+            return $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => ($this->get_complex_content_object_item() ? $this->get_complex_content_object_item()->get_id() : null)));
         }
-
-        foreach ($types as $type)
+        else
         {
-//        	if(!RepositoryRights :: is_allowed_in_content_objects_subtree(RepositoryRights :: ADD_RIGHT, AdminDataManager :: get_registration($type, Registration :: TYPE_CONTENT_OBJECT)->get_id()))
-//            {
-//            	continue;
-//            }
-            
-        	if ($type == Handbook :: get_type_name())
-            {
-                $url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => ($this->get_complex_content_object_item() ? $this->get_complex_content_object_item()->get_id() : null)));
-            }
-            else
-            {
-                $url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => HandbookBuilder :: ACTION_CREATE_PORTFOLIO_ITEM, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
-            }
-
-            $html[] = '<a href="' . $url . '"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/big/' . $type . '.png);">';
-            $html[] = Translation :: get(ContentObject :: type_to_class($type) . 'TypeName');
-            $html[] = '<div class="clear">&nbsp;</div>';
-            $html[] = '</div></a>';
+            $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => HandbookBuilder :: ACTION_CREATE_PORTFOLIO_ITEM, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
         }
-
-        $html[] = '<div class="clear">&nbsp;</div>';
-        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/repository.js');
-        $html[] = '</div>';
-        $html[] = '<div class="clear">&nbsp;</div>';
-        $html[] = '</div>';
-
-        return implode("\n", $html);
+    }
+    
+    function is_allowed_to_create($type)
+    {
+        return true;
     }
 }
 

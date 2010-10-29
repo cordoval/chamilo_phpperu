@@ -130,19 +130,6 @@ class LearningPathBuilderBrowserComponent extends LearningPathBuilder implements
         }
     }
 
-    function get_creation_links($content_object, $types = array())
-    {
-        if (count($types) == 0)
-        {
-            $types = $content_object->get_allowed_types();
-        }
-        
-        $type_selector = new ContentObjectTypeSelector($this, $types);
-        $html[] = $type_selector->as_html();
-
-        return implode("\n", $html);
-    }
-
     function get_content_object_type_creation_url($type)
     {
         if ($type == LearningPath :: get_type_name())
