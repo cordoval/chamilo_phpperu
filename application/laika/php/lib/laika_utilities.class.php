@@ -6,6 +6,9 @@ use common\libraries\Theme;
 use common\libraries\Application;
 use common\libraries\Path;
 use common\libraries\EqualityCondition;
+use common\libraries\ObjectTableOrder;
+use common\libraries\ResourceManager;
+use common\libraries\AndCondition;
 /**
  * $Id: laika_utilities.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika
@@ -63,7 +66,6 @@ class LaikaUtilities
                 $calculated_result_conditions[] = new EqualityCondition(LaikaCalculatedResult :: PROPERTY_SCALE_ID, $scale->get_id());
                 
                 $calculated_result_condition = new AndCondition($calculated_result_conditions);
-                
                 $calculated_result = $ldm->retrieve_laika_calculated_results($calculated_result_condition, null, 1)->next_result();
                 
                 $percentile_code = $calculated_result->get_percentile_code();

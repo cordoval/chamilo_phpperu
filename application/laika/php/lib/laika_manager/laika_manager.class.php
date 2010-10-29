@@ -2,7 +2,8 @@
 namespace application\laika;
 
 use common\libraries\Translation;
-use common\libraries\Webapplication;
+use common\libraries\WebApplication;
+use common\libraries\Application;
 
 require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_manager/component/laika_calculated_result_browser/laika_calculated_result_browser_table.class.php';
 

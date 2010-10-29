@@ -1,6 +1,7 @@
 <?php
 namespace application\laika;
 
+use common\libraries\ObjectTableDataProvider;
 /**
  * $Id: laika_user_browser_table_data_provider.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika.laika_manager.component.laika_user_browser

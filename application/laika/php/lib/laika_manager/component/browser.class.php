@@ -2,7 +2,7 @@
 namespace application\laika;
 
 use common\libraries\Translation;
-use common\libraries\Webapplication;
+use common\libraries\WebApplication;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Application;

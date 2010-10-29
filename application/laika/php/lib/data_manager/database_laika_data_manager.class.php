@@ -4,6 +4,7 @@ namespace application\laika;
 use common\libraries\WebApplication;
 use common\libraries\Database;
 use common\libraries\EqualityCondition;
+use common\libraries\InCondition;
 
 use user\UserDataManager;
 use user\User;
@@ -89,7 +90,7 @@ class DatabaseLaikaDatamanager extends Database implements LaikaDatamanagerInter
     function retrieve_laika_result($id)
     {
         $condition = new EqualityCondition(LaikaResult :: PROPERTY_ID, $id);
-        return $this->retrieve_object(LaikaResult :: get_table_name(), $condition);
+        return $this->retrieve_object(LaikaResult :: get_table_name(), $condition, array(), LaikaResult :: CLASS_NAME);
     }
 
     function has_taken_laika($user)
@@ -191,7 +192,7 @@ class DatabaseLaikaDatamanager extends Database implements LaikaDatamanagerInter
 
     function retrieve_percentile_codes($condition = null)
     {
-        return $this->retrieve_distinct(LaikaResult :: get_table_name(), LaikaResult :: PROPERTY_PERCENTILE_CODE, $condition);
+        return $this->retrieve_distinct(LaikaResult :: get_table_name(), LaikaResult :: PROPERTY_PERCENTILE_CODE, $condition, LaikaResult :: CLASS_NAME);
     }
 
     function retrieve_statistical_attempts($users = array(), $type = SORT_ASC)
@@ -235,7 +236,7 @@ class DatabaseLaikaDatamanager extends Database implements LaikaDatamanagerInter
 
     function retrieve_distinct_laika_users($condition = null)
     {
-        return $this->retrieve_distinct(LaikaAttempt :: get_table_name(), LaikaAttempt :: PROPERTY_USER_ID, $condition);
+        return $this->retrieve_distinct(LaikaAttempt :: get_table_name(), LaikaAttempt :: PROPERTY_USER_ID, $condition, LaikaAttempt :: CLASS_NAME);
     }
 
     function retrieve_laika_users($condition = null, $offset = null, $count = null, $order_property = null)
