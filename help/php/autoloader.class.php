@@ -1,13 +1,13 @@
 <?php
 
-namespace reporting;
+namespace help;
 
 use common\libraries\Utilities;
 
 /**
- * $Id: reporting_autoloader.class.php 236 2009-11-16 12:56:59Z scaramanga $
+ * $Id: user_autoloader.class.php 170 2009-11-12 12:21:00Z vanpouckesven $
  * @author vanpouckesven
- * @package reporting
+ * @package user
  */
 class Autoloader
 {
@@ -44,9 +44,7 @@ class Autoloader
 
     static function check_for_general_files()
     {
-        $list = array(
-            'reporting_block_layout', 'reporting_block', 'reporting_blocks', 'reporting_data_manager', 'reporting_exporter', 'reporting_formatter', 'reporting_template_registration', 'reporting_block_registration',
-            'reporting_template', 'reporting_templates', 'reporting', 'reporting_template_viewer');
+        $list = array('help_item', 'help_data_manager');
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
@@ -61,7 +59,7 @@ class Autoloader
 
     static function check_for_form_files()
     {
-        $list = array('reporting_template_registration_form');
+        $list = array('help_item_form');
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
@@ -76,14 +74,14 @@ class Autoloader
 
     static function check_for_tables()
     {
-        $list = array('reporting_template_registration_browser_table' => 'reporting_template_registration_browser_table/reporting_template_registration_browser_table.class.php');
+        $list = array('help_item_browser_table' => 'help_item_browser_table/help_item_browser_table.class.php');
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
         if (key_exists($lower_case, $list))
         {
             $url = $list[$lower_case];
-            require_once dirname(__FILE__) . '/lib/reporting_manager/component/' . $url;
+            require_once dirname(__FILE__) . '/lib/help_manager/component/' . $url;
             return true;
         }
 
@@ -92,7 +90,7 @@ class Autoloader
 
     static function check_for_special_files()
     {
-        $list = array('reporting_manager' => 'reporting_manager/reporting_manager.class.php', 'reporting_validator' => '../validator/reporting_validator.class.php', 'reporting_chart_formatter' => 'formatters/reporting_chart_formatter.class.php');
+        $list = array('help_manager' => 'help_manager/help_manager.class.php', 'help_manager_component' => 'help_manager/help_manager_component.class.php');
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 

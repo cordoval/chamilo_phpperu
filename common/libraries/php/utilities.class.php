@@ -1,4 +1,5 @@
 <?php
+
 namespace common\libraries;
 
 use repository\RepositoryAutoloader;
@@ -42,11 +43,11 @@ class Utilities
         $matches = array();
         preg_match_all('/(?:"([^"]+)"|""|(\S+))/', $pattern, $matches);
         $parts = array();
-        for($i = 1; $i <= 2; $i ++)
+        for ($i = 1; $i <= 2; $i++)
         {
             foreach ($matches[$i] as $m)
             {
-                if (! is_null($m) && strlen($m) > 0)
+                if (!is_null($m) && strlen($m) > 0)
                     $parts[] = $m;
             }
         }
@@ -69,9 +70,9 @@ class Utilities
      * string instead of an array.
      * @return Condition The condition.
      */
-    static function query_to_condition($query, $properties = array (ContentObject :: PROPERTY_TITLE, ContentObject :: PROPERTY_DESCRIPTION))
+    static function query_to_condition($query, $properties = array(ContentObject :: PROPERTY_TITLE, ContentObject :: PROPERTY_DESCRIPTION))
     {
-        if (! is_array($properties))
+        if (!is_array($properties))
         {
             $properties = array($properties);
         }
@@ -186,7 +187,7 @@ class Utilities
      */
     static function underscores_to_camelcase($string)
     {
-        if (! isset(self :: $us_camel_map[$string]))
+        if (!isset(self :: $us_camel_map[$string]))
         {
             self :: $us_camel_map[$string] = ucfirst(preg_replace('/_([a-z])/e', 'strtoupper("\1")', $string));
         }
@@ -195,7 +196,7 @@ class Utilities
 
     static function underscores_to_camelcase_with_spaces($string)
     {
-        if (! isset(self :: $us_camel_map_with_spaces[$string]))
+        if (!isset(self :: $us_camel_map_with_spaces[$string]))
         {
             self :: $us_camel_map_with_spaces[$string] = ucfirst(preg_replace('/_([a-z])/e', '" " . strtoupper("\1")', $string));
         }
@@ -209,7 +210,7 @@ class Utilities
      */
     static function camelcase_to_underscores($string)
     {
-        if (! isset(self :: $camel_us_map[$string]))
+        if (!isset(self :: $camel_us_map[$string]))
         {
             self :: $camel_us_map[$string] = preg_replace(array('/^([A-Z])/e', '/([A-Z])/e'), array('strtolower("\1")', '"_".strtolower("\1")'), $string);
         }
@@ -302,7 +303,7 @@ class Utilities
 
         if (isset($id))
         {
-            if (! isset($message))
+            if (!isset($message))
             {
                 $message = self :: underscores_to_camelcase($id);
             }
@@ -331,7 +332,7 @@ class Utilities
         if (is_array($array))
         {
             echo "Array (<br />";
-            for($i = 0; $i < count($array); $i ++)
+            for ($i = 0; $i < count($array); $i++)
             {
                 if (is_array($array[$i]))
                 {
@@ -355,13 +356,13 @@ class Utilities
     static function DisplayInlineArray($inlinearray, $depth, $element)
     {
         $spaces = null;
-        for($j = 0; $j < $depth - 1; $j ++)
+        for ($j = 0; $j < $depth - 1; $j++)
         {
             $spaces .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
         }
         echo $spaces . "[" . $element . "]" . "Array (<br />";
         $spaces .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-        for($i = 0; $i < count($inlinearray); $i ++)
+        for ($i = 0; $i < count($inlinearray); $i++)
         {
             $key = key($inlinearray);
             if (is_array($inlinearray[$i]))
@@ -552,65 +553,82 @@ class Utilities
 
     static function autoload_core($classname)
     {
-    	$autoloaders = array(
-                'common\libraries' => Path :: get_common_libraries_class_path() . 'libraries_autoloader.class.php',
-                'repository' => Path :: get_repository_path() . 'repository_autoloader.class.php',
-                'user' => Path :: get_user_path() . 'user_autoloader.class.php',
-                'admin' => Path :: get_admin_path() . 'admin_autoloader.class.php',
-                'group' => Path :: get_group_path() . 'group_autoloader.class.php',
-                'help' => Path :: get_help_path() . 'help_autoloader.class.php',
-                'home' => Path :: get_home_path() . 'home_autoloader.class.php',
-                'menu' => Path :: get_menu_path() . 'menu_autoloader.class.php',
-                'migration' => Path :: get_migration_path() . 'migration_autoloader.class.php',
-                'reporting' => Path :: get_reporting_path() . 'reporting_autoloader.class.php',
-                'rights' => Path :: get_rights_path() . 'rights_autoloader.class.php',
-                'tracking' => Path :: get_tracking_path() . 'tracking_autoloader.class.php',
-                'webservice' => Path :: get_webservice_path() . 'webservice_autoloader.class.php',
-                'common\extensions' => Path :: get_common_extensions_path() . 'extensions_autoloader.class.php');
-
-        foreach ($autoloaders as $namespace => $autoloader)
-        {
-            require_once $autoloader;
-
-            $classn = substr(basename($autoloader), 0, - 10);
-            $classname_upp = $namespace . '\\' . Utilities :: underscores_to_camelcase($classn);
-            if ($classname_upp :: load($classname))
-                    break;
-        }
+//        $classname_parts = explode('\\', $classname);
+//
+//        if (count($classname_parts) == 1)
+//        {
+//            return false;
+//        }
+//        else
+//        {
+//            $core_application = $classname_parts[0];
+//            array_pop($classname_parts);
+//            $full_namespace = implode('\\', $classname_parts);
+//        }
+//
+//        $autoloaders = array(
+//            'common' => array('common\libraries' => Path :: get_common_libraries_class_path() . 'libraries_autoloader.class.php', 'common\extensions' => Path :: get_common_extensions_path() . 'extensions_autoloader.class.php'),
+//            'repository' => array('repository' => Path :: get_repository_path() . 'repository_autoloader.class.php'),
+//            'user' => array('user' => Path :: get_user_path() . 'user_autoloader.class.php'),
+//            'admin' => array('admin' => Path :: get_admin_path() . 'admin_autoloader.class.php'),
+//            'group' => array('group' => Path :: get_group_path() . 'group_autoloader.class.php'),
+//            'help' => array('help' => Path :: get_help_path() . 'help_autoloader.class.php'),
+//            'home' => array('home' => Path :: get_home_path() . 'home_autoloader.class.php'),
+//            'menu' => array('menu' => Path :: get_menu_path() . 'menu_autoloader.class.php'),
+//            'migration' => array('migration' => Path :: get_migration_path() . 'migration_autoloader.class.php'),
+//            'reporting' => array('reporting' => Path :: get_reporting_path() . 'reporting_autoloader.class.php'),
+//            'rights' => array('rights' => Path :: get_rights_path() . 'rights_autoloader.class.php'),
+//            'tracking' => array('tracking' => Path :: get_tracking_path() . 'tracking_autoloader.class.php'),
+//            'webservice' => array('webservice' => Path :: get_webservice_path() . 'webservice_autoloader.class.php'));
+//        $autoloader = $autoloaders[$core_application];
+//
+//        foreach ($autoloader as $core_namespace => $autoloader_path)
+//        {
+//            require_once $autoloader_path;
+//
+//            $classn = substr(basename($autoloader_path), 0, - 10);
+//            $classname_upp = $core_namespace . '\\' . Utilities :: underscores_to_camelcase($classn);
+//            if ($classname_upp :: load($classname))
+//                break;
+//        }
     }
 
-    static function autoload_web($classname)
+    static function autoload($classname)
     {
-    	$applications = WebApplication :: load_all_from_filesystem(false);
-        $applications = array('search_portal', 'linker', 'portfolio', 'photo_gallery', 'reservations', 'cas_user', 'personal_calendar','wiki', 'handbook', 'survey', 'cda', 'metadata', 'context_linker', 'forum', 'profiler', 'weblcms', 'personal_messenger', 'distribute', 'alexia', 'phrases', 'gradebook', 'laika');
-    	foreach ($applications as $application)
+        $classname_parts = explode('\\', $classname);
+
+        if (count($classname_parts) == 1)
         {
-            $path = WebApplication :: get_application_class_path($application) . $application . '_autoloader.class.php';
-            if (file_exists($path))
-            {
-                require_once $path;
-                $class = Application::determine_namespace($application) . '\\' . Utilities :: underscores_to_camelcase($application) . 'Autoloader';
-                if ($class :: load($classname))
-                    return true;
-            }
+            throw new Exception("error: trying to load class without namespace: " . $classname);
         }
-        //Display :: error_page(Translation :: get('FailedAutoload') . ':' . $classname . '<br/>' . self :: get_backtrace());
+
+        $unqualified_class_name = $classname_parts[count($classname_parts) - 1];
+        array_pop($classname_parts);
+        $autoloader_path = Path :: get(SYS_PATH) . implode('/', $classname_parts) . '/' . 'php/autoloader.class.php';
+
+        if (file_exists($autoloader_path))
+        {
+            require_once $autoloader_path;
+            $autoloader_class = implode('\\', $classname_parts) . '\\Autoloader';
+            if ($autoloader_class :: load($unqualified_class_name))
+                return true;
+        }
     }
-    
+
     static function get_backtrace()
     {
-    	$html = array();
-    	$backtraces = debug_backtrace();
-    	foreach($backtraces as $backtrace)
-    	{
-    		$html[] = implode(' ', $backtrace);
-    	}
-    	return implode('<br/>', $html);
+        $html = array();
+        $backtraces = debug_backtrace();
+        foreach ($backtraces as $backtrace)
+        {
+            $html[] = implode(' ', $backtrace);
+        }
+        return implode('<br/>', $html);
     }
 
     static function get_namespace_classname($namespace, $classname)
     {
-    	$classname_parts = explode('\\', $classname);
+        $classname_parts = explode('\\', $classname);
 
         if (count($classname_parts) == 1)
         {
@@ -626,7 +644,7 @@ class Utilities
             }
             else
             {
-            	return $class_name;
+                return $class_name;
             }
         }
     }
@@ -655,5 +673,7 @@ class Utilities
         array_pop($namespace_parts);
         return implode('\\', $namespace_parts);
     }
+
 }
+
 ?>
