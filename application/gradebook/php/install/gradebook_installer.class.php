@@ -1,4 +1,14 @@
 <?php
+
+namespace application\gradebook;
+
+use common\libraries\WebApplication;
+use common\libraries\Path;
+use common\libraries\Installer;
+use common\libraries\Filesystem;
+use common\libraries\Text;
+use common\libraries\Translation;
+
 require_once WebApplication :: get_application_class_lib_path('gradebook') . 'gradebook_data_manager.class.php';
 require_once Path :: get_common_libraries_class_path() . 'installer.class.php';
 

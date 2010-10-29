@@ -1,4 +1,9 @@
 <?php
+
+namespace application\gradebook;
+
+use common\libraries\DataClass;
+
 /*
  * @author Johan Janssens
  */

@@ -1,4 +1,10 @@
 <?php
+
+namespace application\gradebook;
+
+use common\libraries\DataClass;
+use common\libraries\EqualityCondition;
+
 /*
  * @author Johan Janssens
  */
@@ -91,13 +97,6 @@ class Evaluation extends DataClass
     function set_evaluation_date($evaluation_date)
     {
     	$this->set_default_property(self :: PROPERTY_EVALUATION_DATE, $evaluation_date);
-    }
-    
-    function create()
-    {
-    	if (!parent :: create())
-    		return false;
-    	return true;
     }
     
     function delete()
