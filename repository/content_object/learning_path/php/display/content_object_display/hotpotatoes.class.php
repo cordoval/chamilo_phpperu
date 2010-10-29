@@ -9,14 +9,12 @@ use common\libraries\Path;
  */
 require_once dirname(__FILE__) . '/../learning_path_content_object_display.class.php';
 
-class HotpotatoesDisplay extends LearningPathContentObjectDisplay
+class LearningPathHotpotatoesContentObjectDisplay extends LearningPathContentObjectDisplay
 {
 
-    function display_content_object($hp, $tracker_attempt_data)
+    function display_content_object($content_object, $learning_path_item_attempt_data, $continue_url, $previous_url, $jump_urls)
     {
-        $lpi_attempt_id = $tracker_attempt_data['active_tracker']->get_id();
-        
-        $link = $hp->add_javascript(Path :: get(WEB_PATH) . 'application/weblcms/php/ajax/lp_hotpotatoes_save_score.php', null, $lpi_attempt_id);
+        $link = $content_object->add_javascript(Path :: get(WEB_PATH) . 'application/weblcms/php/ajax/lp_hotpotatoes_save_score.php', null, $learning_path_item_attempt_data['active_tracker']->get_id());
         $html[] = $this->display_link($link);
         
         return implode("\n", $html);
