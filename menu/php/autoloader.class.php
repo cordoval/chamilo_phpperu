@@ -1,13 +1,13 @@
 <?php
 
-namespace reporting;
+namespace menu;
 
 use common\libraries\Utilities;
 
 /**
- * $Id: reporting_autoloader.class.php 236 2009-11-16 12:56:59Z scaramanga $
+ * $Id: menu_autoloader.class.php 236 2009-11-16 12:56:59Z scaramanga $
  * @author vanpouckesven
- * @package reporting
+ * @package menu
  */
 class Autoloader
 {
@@ -44,9 +44,7 @@ class Autoloader
 
     static function check_for_general_files()
     {
-        $list = array(
-            'reporting_block_layout', 'reporting_block', 'reporting_blocks', 'reporting_data_manager', 'reporting_exporter', 'reporting_formatter', 'reporting_template_registration', 'reporting_block_registration',
-            'reporting_template', 'reporting_templates', 'reporting', 'reporting_template_viewer');
+        $list = array('menu_data_manager', 'navigation_item_menu', 'navigation_item');
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
@@ -61,7 +59,7 @@ class Autoloader
 
     static function check_for_form_files()
     {
-        $list = array('reporting_template_registration_form');
+        $list = array('navigation_item_form', 'navigation_item_category_form');
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
@@ -76,14 +74,14 @@ class Autoloader
 
     static function check_for_tables()
     {
-        $list = array('reporting_template_registration_browser_table' => 'reporting_template_registration_browser_table/reporting_template_registration_browser_table.class.php');
+        $list = array('navigation_item_browser_table' => 'navigation_item_browser/navigation_item_browser_table.class.php');
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
         if (key_exists($lower_case, $list))
         {
             $url = $list[$lower_case];
-            require_once dirname(__FILE__) . '/lib/reporting_manager/component/' . $url;
+            require_once dirname(__FILE__) . '/lib/menu_manager/component/' . $url;
             return true;
         }
 
@@ -92,7 +90,7 @@ class Autoloader
 
     static function check_for_special_files()
     {
-        $list = array('reporting_manager' => 'reporting_manager/reporting_manager.class.php', 'reporting_validator' => '../validator/reporting_validator.class.php', 'reporting_chart_formatter' => 'formatters/reporting_chart_formatter.class.php');
+        $list = array('menu_manager' => 'menu_manager/menu_manager.class.php', 'menu_manager_component' => 'menu_manager/menu_manager_component.class.php', 'menu_renderer' => 'menu_renderer/menu_renderer.class.php');
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 

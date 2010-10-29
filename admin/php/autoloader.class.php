@@ -1,13 +1,13 @@
 <?php
 
-namespace reporting;
+namespace admin;
 
 use common\libraries\Utilities;
 
 /**
- * $Id: reporting_autoloader.class.php 236 2009-11-16 12:56:59Z scaramanga $
+ * $Id: admin_autoloader.class.php 236 2009-11-16 12:56:59Z scaramanga $
  * @author vanpouckesven
- * @package reporting
+ * @package admin
  */
 class Autoloader
 {
@@ -18,13 +18,7 @@ class Autoloader
     {
         self :: $class_name = $classname;
 
-
         if (self :: check_for_general_files())
-        {
-            return true;
-        }
-
-        if (self :: check_for_form_files())
         {
             return true;
         }
@@ -45,8 +39,8 @@ class Autoloader
     static function check_for_general_files()
     {
         $list = array(
-            'reporting_block_layout', 'reporting_block', 'reporting_blocks', 'reporting_data_manager', 'reporting_exporter', 'reporting_formatter', 'reporting_template_registration', 'reporting_block_registration',
-            'reporting_template', 'reporting_templates', 'reporting', 'reporting_template_viewer');
+            'admin_block', 'admin_data_manager', 'admin_rights', 'configuration_form', 'feedback_publication', 'language_form', 'language', 'registration', 'remote_package', 'setting', 'system_announcement_publication_form',
+            'system_announcement_publication', 'validation');
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
@@ -59,31 +53,16 @@ class Autoloader
         return false;
     }
 
-    static function check_for_form_files()
-    {
-        $list = array('reporting_template_registration_form');
-
-        $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
-
-        if (in_array($lower_case, $list))
-        {
-            require_once dirname(__FILE__) . '/lib/forms/' . $lower_case . '.class.php';
-            return true;
-        }
-
-        return false;
-    }
-
     static function check_for_tables()
     {
-        $list = array('reporting_template_registration_browser_table' => 'reporting_template_registration_browser_table/reporting_template_registration_browser_table.class.php');
+        $list = array('system_announcement_publication_browser_table' => 'system_announcement_publication_browser/system_announcement_publication_browser_table.class.php', 'whois_online_table' => 'whois_online_table/whois_online_table.class.php');
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
         if (key_exists($lower_case, $list))
         {
             $url = $list[$lower_case];
-            require_once dirname(__FILE__) . '/lib/reporting_manager/component/' . $url;
+            require_once dirname(__FILE__) . '/lib/admin_manager/component/' . $url;
             return true;
         }
 
@@ -92,7 +71,11 @@ class Autoloader
 
     static function check_for_special_files()
     {
-        $list = array('reporting_manager' => 'reporting_manager/reporting_manager.class.php', 'reporting_validator' => '../validator/reporting_validator.class.php', 'reporting_chart_formatter' => 'formatters/reporting_chart_formatter.class.php');
+        $list = array(
+            'admin_manager' => 'admin_manager/admin_manager.class.php', 'admin_manager_component' => 'admin_manager/admin_manager_component.class.php', 'admin_search_form' => 'admin_manager/admin_search_form.class.php',
+            'system_announcer_multipublisher' => 'announcer/system_announcement_multipublisher.class.php', 'admin_category_manager' => 'category_manager/admin_category_manager.class.php',
+            'package_installer' => 'package_installer/package_installer.class.php', 'package_updater' => 'package_updater/package_updater.class.php', 'package_manager' => 'package_manager/package_manager.class.php',
+            'package_remover' => 'package_remover/package_remover.class.php');
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 

@@ -1,34 +1,22 @@
 <?php
+
 namespace webservice;
 
 use common\libraries\Utilities;
+
 /**
  * $Id: webservice_autoloader.class.php 236 2009-11-16 12:56:59Z scaramanga $
  * @author vanpouckesven
  * @package webservice
  */
-
 class WebserviceAutoloader
 {
+
     public static $class_name;
 
     static function load($classname)
     {
-        $classname_parts = explode('\\', $classname);
-
-        if (count($classname_parts) == 1)
-        {
-            return false;
-        }
-        else
-        {
-            self :: $class_name = $classname_parts[count($classname_parts) - 1];
-            array_pop($classname_parts);
-            if (implode('\\', $classname_parts) != __NAMESPACE__)
-            {
-                return false;
-            }
-        }
+        self :: $class_name = $classname;
 
         if (self :: check_for_general_files())
         {
@@ -94,6 +82,7 @@ class WebserviceAutoloader
 
         return false;
     }
+
 }
 
 ?>
