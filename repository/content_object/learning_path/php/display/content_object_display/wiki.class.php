@@ -1,26 +1,29 @@
 <?php
-namespace application\weblcms\tool\learning_path;
+namespace repository\content_object\learning_path;
 
-use application\weblcms\Tool;
 use common\libraries\Request;
+use repository\ComplexDisplay;
+
+require_once dirname(__FILE__) . '/../learning_path_display_embedder.class.php';
 
 /**
- * $Id: wiki.class.php 216 2009-11-13 14:08:06Z kariboe $
- * @package application.lib.weblcms.tool.learning_path.component.learning_path_viewer.content_object_display
+ * @package repository.content_object.learning_path
  */
-require_once dirname(__FILE__) . '/../learning_path_content_object_display.class.php';
 
-class WikiDisplay extends LearningPathContentObjectDisplay
+class LearningPathWikiContentObjectDisplay extends LearningPathContentObjectDisplay
 {
 
     function display_content_object($wiki)
     {
+        $parameters = array();
+        $parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = LearningPathDisplay :: ACTION_EMBED;
+        $parameters[LearningPathDisplayEmbedder :: PARAM_EMBEDDER_ACTION] = LearningPathDisplayEmbedder :: ACTION_COMPLEX_CONTENT_OBJECT;
+        $parameters[self :: PARAM_EMBEDDED_CONTENT_OBJECT_ID] = $wiki->get_id();
+
         $html[] = $this->add_tracking_javascript();
-        $link = $this->get_parent()->get_url(array(LearningPathTool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_CLO, Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID), LearningPathTool :: PARAM_OBJECT_ID => $wiki->get_id()));
-        $html[] = $this->display_link($link);
+        $html[] = $this->display_link($this->get_parent()->get_url($parameters));
 
         return implode("\n", $html);
     }
 }
-
 ?>

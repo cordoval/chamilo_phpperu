@@ -171,7 +171,15 @@ class Translation
                 //$link = Theme :: get_common_image('action_translate_mini', 'png', null, $url, ToolbarItem::DISPLAY_ICON);
 
                 //return '[=' . $variable . '=] ' . $link;
-                return '[CDA context={'. $context .'}]' . $variable . '[/CDA]';
+
+                if (PlatformSetting :: get('hide_dcda_markup'))
+                {
+                    return $variable;
+                }
+                else
+                {
+                    return '[CDA context={'. $context .'}]' . $variable . '[/CDA]';
+                }
             }
         }
 
@@ -204,8 +212,8 @@ class Translation
             $path = BasicApplication :: get_application_resources_i18n_path($context) . $language . '.i18n';
 
         }
-        
-        $strings = parse_ini_file($path); 
+
+        $strings = parse_ini_file($path);
 
         $instance = self :: get_instance();
         $instance->strings[$language][$context] = $strings;

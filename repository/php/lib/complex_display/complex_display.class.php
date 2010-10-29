@@ -8,11 +8,10 @@ use common\libraries\SubManager;
 use Exception;
 
 /**
- * $Id: complex_display.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display
- */
-/**
- * @author Michael Kyndt
+ *
+ * @author Hans De Bisschop
+ * @author Sven Vanpoucke
  */
 
 require_once dirname(__FILE__) . '/../complex_builder/complex_menu.class.php';
@@ -181,12 +180,16 @@ abstract class ComplexDisplay extends SubManager
 
     function get_complex_content_object_item_update_url($complex_content_object_item)
     {
-        return $this->get_url(array(self :: PARAM_DISPLAY_ACTION => self :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM, self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id(), self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
+        return $this->get_url(array(
+                self :: PARAM_DISPLAY_ACTION => self :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM, self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id(),
+                self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
     }
 
     function get_complex_content_object_item_delete_url($complex_content_object_item)
     {
-        return $this->get_url(array(self :: PARAM_DISPLAY_ACTION => self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM, self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id(), self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
+        return $this->get_url(array(
+                self :: PARAM_DISPLAY_ACTION => self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM, self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id(),
+                self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
     }
 
     protected function parse_input_from_table()
