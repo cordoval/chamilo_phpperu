@@ -1,4 +1,7 @@
 <?php
+
+use common\libraries\Translation;
+use common\libraries\EqualityCondition;
 /**
  * $Id: xml_feed_recipients.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika.xml_feeds

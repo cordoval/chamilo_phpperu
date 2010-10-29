@@ -1,4 +1,13 @@
 <?php
+namespace application\laika;
+
+use common\libraries\WebApplication;
+use common\libraries\Database;
+use common\libraries\EqualityCondition;
+
+use user\UserDataManager;
+use user\User;
+
 /**
  * $Id: database_laika_data_manager.class.php 230 2009-11-16 09:29:45Z vanpouckesven $
  * @package application.lib.laika.data_manager

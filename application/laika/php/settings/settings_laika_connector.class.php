@@ -1,4 +1,6 @@
 <?php
+namespace application\laika;
+
 /**
  * $Id: settings_laika_connector.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika.settings

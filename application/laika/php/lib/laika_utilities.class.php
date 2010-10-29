@@ -1,4 +1,11 @@
 <?php
+namespace application\laika;
+
+use common\libraries\Translation;
+use common\libraries\Theme;
+use common\libraries\Application;
+use common\libraries\Path;
+use common\libraries\EqualityCondition;
 /**
  * $Id: laika_utilities.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika
