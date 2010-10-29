@@ -1,10 +1,25 @@
 <?php
+
+namespace application\peer_assessment;
+
+use common\libraries\FormValidator;
+use common\libraries\Path;
+use common\libraries\Translation;
+use repository\RepositoryDataManager;
+use common\libraries\EqualityCondition;
+use repository\content_object\criteria\Criteria;
+use common\libraries\Utilities;
+use user\UserDataManager;
+use group\GroupDataManager;
+use repository\ContentObject;
+use common\libraries\Session;
+
 require_once dirname(__FILE__) . '/../peer_assessment_publication.class.php';
 
 /**
  * This class describes the form for a PeerAssessmentPublication object.
  * @author Nick Van Loocke
- **/
+ * */
 class PeerAssessmentPublicationForm extends FormValidator
 {
     const TYPE_CREATE = 1;
@@ -24,7 +39,6 @@ class PeerAssessmentPublicationForm extends FormValidator
     private $publication;
     private $user;
 
-    
     function PeerAssessmentPublicationForm($form_type, $content_object, $user, $action)
     {
         parent :: __construct('peer_assessment_publication_settings', 'post', $action);
@@ -32,7 +46,7 @@ class PeerAssessmentPublicationForm extends FormValidator
         $this->content_object = $content_object;
         $this->user = $user;
         $this->form_type = $form_type;
-        
+
         if ($this->form_type == self :: TYPE_EDIT)
         {
             $this->build_editing_form();
@@ -45,12 +59,11 @@ class PeerAssessmentPublicationForm extends FormValidator
         $this->setDefaults();
     }
 
-    
     function build_basic_form()
     {
         $attributes = array();
-		$attributes['search_url'] = Path :: get(WEB_PATH).'common/xml_feeds/xml_user_group_feed.php';
-      
+        $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/libraries/php/xml_feeds/xml_user_group_feed.php';
+
         $locale = array();
         $locale['Display'] = Translation :: get('SelectRecipients');
         $locale['Searching'] = Translation :: get('Searching');
@@ -59,32 +72,32 @@ class PeerAssessmentPublicationForm extends FormValidator
         $attributes['locale'] = $locale;
         //$attributes['exclude'] = array('user_' . $this->user->get_id());
         $attributes['defaults'] = array();
-        
-        
+
+
         // Select criteria score that is already created
         $criteria_scores = array();
         $criteria_scores[0] = Translation :: get('ChooseCriteria');
-      
-    	$rdm = RepositoryDataManager :: get_instance();
+
+        $rdm = RepositoryDataManager :: get_instance();
         $condition = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, Session :: get_user_id());
         $objects = $rdm->retrieve_type_content_objects(Criteria :: get_type_name(), $condition);
-        			       	
-    	while ($object = $objects->next_result())
+
+        while ($object = $objects->next_result())
         {
-         	$criteria_scores[$object->get_id()] = $object->get_title();
+            $criteria_scores[$object->get_id()] = $object->get_title();
         }
-        
+
         $select = $this->addElement('select', self :: PARAM_CRITERIA_SCORE, Translation :: get('SelectCriteriaScore'), $criteria_scores);
-   		        
+
         // Update: set the criteria that is in the database
-        /*$publication_criteria_id = '';
-        
-		if($publication_criteria_id != null)
-		{
-			$criteria_content_object_id = $publication_criteria_id->get_criteria_content_object_id();
-			$select->setSelected();
-		}*/
-        
+        /* $publication_criteria_id = '';
+
+          if($publication_criteria_id != null)
+          {
+          $criteria_content_object_id = $publication_criteria_id->get_criteria_content_object_id();
+          $select->setSelected();
+          } */
+
         // Add rule doesn't work with criteria
         //$this->addRule(Criteria :: PROPERTY_ID, Translation :: get('ThisFieldIsRequired'), 'required');               
 
@@ -92,10 +105,9 @@ class PeerAssessmentPublicationForm extends FormValidator
         //$this->add_indicators(self :: PARAM_TARGET, Translation :: get('PublishFor'), $attributes);
 
         $this->add_forever_or_timewindow();
-        $this->addElement('checkbox', self :: PARAM_HIDDEN, Translation :: get('Hidden'));    
+        $this->addElement('checkbox', self :: PARAM_HIDDEN, Translation :: get('Hidden'));
     }
 
-    
     function build_editing_form()
     {
         $this->build_basic_form();
@@ -106,7 +118,6 @@ class PeerAssessmentPublicationForm extends FormValidator
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
-    
 
     function build_creation_form()
     {
@@ -118,11 +129,10 @@ class PeerAssessmentPublicationForm extends FormValidator
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
-    
-    
-	function create_content_object_publication()
+
+    function create_content_object_publication()
     {
-    	$values = $this->exportValues();
+        $values = $this->exportValues();
         if ($values[self :: PARAM_FOREVER] != 0)
         {
             $from = $to = 0;
@@ -136,13 +146,13 @@ class PeerAssessmentPublicationForm extends FormValidator
 
         $users = $values[self :: PARAM_TARGET_ELEMENTS]['user'];
         $groups = $values[self :: PARAM_TARGET_ELEMENTS]['group'];
-        
+
         $criteria = $values[self :: PARAM_CRITERIA_SCORE];
-             
-    	$rdm = RepositoryDataManager :: get_instance();
+
+        $rdm = RepositoryDataManager :: get_instance();
         $condition = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, Session :: get_user_id());
         $objects = $rdm->retrieve_type_content_objects(Criteria :: get_type_name(), $condition);
-        
+
         $pub = new PeerAssessmentPublication();
         $pub->set_content_object($this->content_object);
         $pub->set_publisher($this->user->get_id());
@@ -153,23 +163,22 @@ class PeerAssessmentPublicationForm extends FormValidator
         $pub->set_target_users($users);
         $pub->set_target_groups($groups);
         $pub->set_criteria_content_object_id($criteria);
-        
-    	if (! $pub->create())
+
+        if (!$pub->create())
         {
             return false;
         }
         else
         {
             return true;
-        } 
+        }
     }
-        
 
     function update_content_object()
     {
-        $content_object = $this->content_object;     
+        $content_object = $this->content_object;
         $content_object->set_content_object($content_object->get_content_object()->get_id());
-        
+
         $values = $this->exportValues();
         if ($values[self :: PARAM_FOREVER] != 0)
         {
@@ -181,27 +190,27 @@ class PeerAssessmentPublicationForm extends FormValidator
             $content_object->set_from_date(Utilities :: time_from_datepicker($values[self :: PARAM_FROM_DATE]));
             $content_object->set_to_date(Utilities :: time_from_datepicker($values[self :: PARAM_TO_DATE]));
         }
-        
+
         $hidden = ($values[self :: PARAM_HIDDEN] ? 1 : 0);
-        
+
         $users = $values[self :: PARAM_TARGET_ELEMENTS]['user'];
         $groups = $values[self :: PARAM_TARGET_ELEMENTS]['group'];
-        
+
 
         $criterias = $values[self :: PARAM_CRITERIA_SCORE];
-        
-    	$rdm = RepositoryDataManager :: get_instance();
+
+        $rdm = RepositoryDataManager :: get_instance();
         $condition = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, Session :: get_user_id());
         $objects = $rdm->retrieve_type_content_objects(Criteria :: get_type_name(), $condition);
 
-    	while ($object = $objects->next_result())
+        while ($object = $objects->next_result())
         {
-         	$all_criterias[] = $object->get_id();
+            $all_criterias[] = $object->get_id();
         }
         $criteria = $all_criterias[$criterias - 1];
-        
-        
-        $content_object->set_hidden($hidden);      
+
+
+        $content_object->set_hidden($hidden);
         $content_object->set_target_users($users);
         $content_object->set_target_groups($groups);
         $content_object->set_publisher($this->user->get_id());
@@ -209,16 +218,15 @@ class PeerAssessmentPublicationForm extends FormValidator
         $content_object->set_modified(time());
         $content_object->set_display_order(0);
         $content_object->set_criteria_content_object_id($criteria);
-        
-        return $content_object->update();       
+
+        return $content_object->update();
     }
-    
- 	
+
     // Set the default values in update
-    
-	function set_publication_values($publication)
+
+    function set_publication_values($publication)
     {
-    	
+
         $this->publication = $publication;
         $this->addElement('hidden', 'pid');
         $this->addElement('hidden', 'action');
@@ -286,5 +294,7 @@ class PeerAssessmentPublicationForm extends FormValidator
         $defaults[self :: PARAM_FOREVER] = 1;
         parent :: setDefaults($defaults);
     }
+
 }
+
 ?>
