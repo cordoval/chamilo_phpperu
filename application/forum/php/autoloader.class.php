@@ -10,7 +10,7 @@ use common\libraries\Utilities;
  * @author vanpouckesven
  * @package group
  */
-class ForumAutoloader
+class Autoloader
 {
 
     static function load($classname)

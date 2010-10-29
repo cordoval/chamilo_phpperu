@@ -18,6 +18,8 @@ class Autoloader
 
     static function load($classname)
     {
+
+        self :: $class_name = $classname;
         if (self :: check_for_general_files())
         {
             return true;

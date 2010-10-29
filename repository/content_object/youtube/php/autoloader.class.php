@@ -20,7 +20,7 @@ class Autoloader
         if (key_exists($lower_case, $list))
         {
             $url = $list[$lower_case];
-            require_once $dirname(__FILE__) . '/' . $url;
+            require_once dirname(__FILE__) . '/' . $url;
             return true;
         }
 

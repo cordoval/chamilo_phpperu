@@ -15,14 +15,14 @@ class Autoloader
     static function load($classname)
     {
         $list = array('assessment' => 'assessment.class.php',
-            'assessment_builder' => 'builder/assessment_builder',
-            'assessment_display' => 'display/assessment_display');
+            'assessment_builder' => 'builder/assessment_builder.class.php',
+            'assessment_display' => 'display/assessment_display.class.php');
         $lower_case = Utilities :: camelcase_to_underscores($classname);
 
         if (key_exists($lower_case, $list))
         {
             $url = $list[$lower_case];
-            require_once $dirname(__FILE__) . '/' . $url;
+            require_once dirname(__FILE__) . '/' . $url;
             return true;
         }
 

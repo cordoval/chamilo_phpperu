@@ -15,14 +15,14 @@ class Autoloader
     static function load($classname)
     {
         $list = array('forum' => 'forum.class.php',
-            'forum_builder' => 'builder/forum_builder',
-            'forum_display' => 'display/forum_display');
+            'forum_builder' => 'builder/forum_builder.class.php',
+            'forum_display' => 'display/forum_display.class.php');
         $lower_case = Utilities :: camelcase_to_underscores($classname);
 
         if (key_exists($lower_case, $list))
         {
             $url = $list[$lower_case];
-            require_once $dirname(__FILE__) . '/' . $url;
+            require_once dirname(__FILE__) . '/' . $url;
             return true;
         }
 
