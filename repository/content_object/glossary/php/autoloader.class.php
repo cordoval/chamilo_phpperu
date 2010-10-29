@@ -15,8 +15,8 @@ class Autoloader
     static function load($classname)
     {
         $list = array('glossary' => 'glossary.class.php',
-            'glossary_builder' => 'builder/glossary_builder',
-            'glossary_display' => 'display/glossary_display');
+            'glossary_builder' => 'builder/glossary_builder.class.php',
+            'glossary_display' => 'display/glossary_display.class.php');
         $lower_case = Utilities :: camelcase_to_underscores($classname);
 
         if (key_exists($lower_case, $list))

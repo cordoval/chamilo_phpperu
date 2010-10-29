@@ -15,8 +15,8 @@ class Autoloader
     static function load($classname)
     {
         $list = array('handbook' => 'handbook.class.php',
-            'handbook_builder' => 'builder/handbook_builder',
-            'handbook_display' => 'display/handbook_display');
+            'handbook_builder' => 'builder/handbook_builder.class.php',
+            'handbook_display' => 'display/handbook_display.class.php');
         $lower_case = Utilities :: camelcase_to_underscores($classname);
 
         if (key_exists($lower_case, $list))

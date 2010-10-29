@@ -15,8 +15,8 @@ class Autoloader
     static function load($classname)
     {
         $list = array('portfolio' => 'portfolio.class.php',
-            'portfolio_builder' => 'builder/portfolio_builder',
-            'portfolio_display' => 'display/portfolio_display');
+            'portfolio_builder' => 'builder/portfolio_builder.class.php',
+            'portfolio_display' => 'display/portfolio_display.class.php');
         $lower_case = Utilities :: camelcase_to_underscores($classname);
 
         if (key_exists($lower_case, $list))

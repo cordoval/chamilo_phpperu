@@ -15,8 +15,8 @@ class Autoloader
     static function load($classname)
     {
         $list = array('wiki' => 'wiki.class.php',
-            'wiki_builder' => 'builder/wiki_builder',
-            'wiki_display' => 'display/wiki_display');
+            'wiki_builder' => 'builder/wiki_builder.class.php',
+            'wiki_display' => 'display/wiki_display.class.php');
         $lower_case = Utilities :: camelcase_to_underscores($classname);
 
         if (key_exists($lower_case, $list))

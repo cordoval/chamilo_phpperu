@@ -15,7 +15,7 @@ class Autoloader
     static function load($classname)
     {
         $list = array('indicator' => 'indicator.class.php',
-            'indicator_builder' => 'builder/indicator_builder');
+            'indicator_builder' => 'builder/indicator_builder.class.php');
         $lower_case = Utilities :: camelcase_to_underscores($classname);
 
         if (key_exists($lower_case, $list))

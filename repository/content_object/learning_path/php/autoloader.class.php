@@ -15,8 +15,8 @@ class Autoloader
     static function load($classname)
     {
         $list = array('learning_path' => 'learning_path.class.php',
-            'learning_path_builder' => 'builder/learning_path_builder',
-            'learning_path_display' => 'display/learning_path_display');
+            'learning_path_builder' => 'builder/learning_path_builder.class.php',
+            'learning_path_display' => 'display/learning_path_display.class.php');
         $lower_case = Utilities :: camelcase_to_underscores($classname);
 
         if (key_exists($lower_case, $list))

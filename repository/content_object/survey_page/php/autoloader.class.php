@@ -15,7 +15,7 @@ class Autoloader
     static function load($classname)
     {
         $list = array('survey_page' => 'survey_page.class.php',
-            'survey_page_builder' => 'builder/survey_page_builder');
+            'survey_page_builder' => 'builder/survey_page_builder.class.php');
         $lower_case = Utilities :: camelcase_to_underscores($classname);
 
         if (key_exists($lower_case, $list))

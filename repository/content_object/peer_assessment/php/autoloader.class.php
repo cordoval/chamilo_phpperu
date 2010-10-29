@@ -15,8 +15,8 @@ class Autoloader
     static function load($classname)
     {
         $list = array('peer_assessment' => 'peer_assessment.class.php',
-            'peer_assessment_builder' => 'builder/peer_assessment_builder',
-            'peer_assessment_display' => 'display/peer_assessment_display');
+            'peer_assessment_builder' => 'builder/peer_assessment_builder.class.php',
+            'peer_assessment_display' => 'display/peer_assessment_display.class.php');
         $lower_case = Utilities :: camelcase_to_underscores($classname);
 
         if (key_exists($lower_case, $list))
