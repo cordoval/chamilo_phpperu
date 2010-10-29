@@ -91,7 +91,7 @@ class PersonalCalendarDataManager
             {
                 $file_class = split('.class.php', $file);
                 require_once $path . $file;
-                $class = Utilities :: underscores_to_camelcase($file_class[0]);
+                $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($file_class[0]);
 
                 $connector = new $class();
                 $events = array_merge($events, $connector->get_events($parent->get_user(), $from_date, $to_date));

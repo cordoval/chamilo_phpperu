@@ -600,8 +600,7 @@ class Utilities
 
         if (count($classname_parts) == 1)
         {
-            //return false;
-            throw new Exception("error: trying to load class without namespace: " . $classname);
+            return false;
         }
 
         $unqualified_class_name = $classname_parts[count($classname_parts) - 1];
