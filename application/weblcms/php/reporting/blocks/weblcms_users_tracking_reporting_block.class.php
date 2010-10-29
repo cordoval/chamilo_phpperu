@@ -13,6 +13,7 @@ use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\Utilities;
+use reporting\Reporting;
 
 require_once dirname(__FILE__) . '/../weblcms_course_reporting_block.class.php';
 require_once Path :: get_reporting_path() . '/lib/reporting_data.class.php';

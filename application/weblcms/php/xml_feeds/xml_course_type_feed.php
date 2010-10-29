@@ -10,15 +10,16 @@ use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\Translation;
+use common\libraries\Authentication;
 
 /**
  * $Id: application.lib.weblcms.xml_feeds.xml_course_type_feed.php 224 2009-11-13 14:40:30Z kariboe $
  * @package application.lib.weblcms.xml_feeds
  */
 require_once dirname(__FILE__) . '/../../../../common/global.inc.php';
-require_once Path :: get_application_path() . 'lib/weblcms/course_type/course_type.class.php';
-require_once Path :: get_application_path() . 'lib/weblcms/course/course.class.php';
-require_once Path :: get_application_path() . 'lib/weblcms/course/course_user_relation.class.php';
+require_once Path :: get_application_path() . 'weblcms/php/lib/course_type/course_type.class.php';
+require_once Path :: get_application_path() . 'weblcms/php/lib/course/course.class.php';
+require_once Path :: get_application_path() . 'weblcms/php/lib/course/course_user_relation.class.php';
 
 Translation :: set_application('weblcms');
 
