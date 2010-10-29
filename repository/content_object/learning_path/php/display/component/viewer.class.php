@@ -153,6 +153,11 @@ class LearningPathDisplayViewerComponent extends LearningPathDisplay
 
                 $this->learning_path_trackers[self :: TRACKER_LEARNING_PATH_ITEM] = $learning_path_item_tracker;
 
+                $this->set_parameter('lpi_attempt_id', $learning_path_item_attempt_data[$this->get_complex_content_object_item_id()]['active_tracker']->get_id());
+                $this->set_parameter(self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID, $this->get_complex_content_object_item_id());
+
+                dump($this->get_parameters());
+
                 $this->display_header();
                 echo LearningPathContentObjectDisplay :: factory($this, $current_content_object->get_type())->display_content_object($current_content_object, $learning_path_item_attempt_data[$this->get_complex_content_object_item_id()], $this->learning_path_menu->get_continue_url(), $this->learning_path_menu->get_previous_url(), $this->learning_path_menu->get_jump_urls());
                 $this->display_footer();

@@ -263,6 +263,9 @@ class LearningPathToolTestComponent extends LearningPathTool implements Learning
     {
         $learning_path_item_attempt_id = Request :: get('lpi_attempt_id');
 
+        var_dump($learning_path_item_attempt_id);
+        exit;
+
         $tracker = $this->retrieve_learning_path_tracker();
         $items = $this->retrieve_tracker_items($tracker);
 
