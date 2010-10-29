@@ -12,7 +12,6 @@ use repository\ContentObjectForm;
  * @package repository.lib.content_object.wiki
  */
 require_once dirname(__FILE__) . '/wiki.class.php';
-require_once dirname(__FILE__) . '/display/wiki_parser.class.php';
 
 class WikiForm extends ContentObjectForm
 {
@@ -67,7 +66,6 @@ class WikiForm extends ContentObjectForm
 
     function setDefaults($defaults = array ())
     {
-        $parser = new WikiParser();
 
         $lo = $this->get_content_object();
         if (isset($lo))

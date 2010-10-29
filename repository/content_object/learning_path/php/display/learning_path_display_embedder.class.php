@@ -1,23 +1,22 @@
 <?php
 namespace repository\content_object\learning_path;
 
-use repository\ComplexDisplay;
-/**
- * @package repository.content_object.learning_path.display
- */
-class LearningPathDisplay extends ComplexDisplay
-{
-    const ACTION_EMBED = 'embedder';
-    const ACTION_VIEW_PROGRESS = 'progress_viewer';
-    const PARAM_STEP = 'step';
-    const PARAM_SHOW_PROGRESS = 'show_progress';
-    const PARAM_DETAILS = 'details';
+use common\libraries\SubManager;
 
-    const DEFAULT_ACTION = self :: ACTION_VIEW_COMPLEX_CONTENT_OBJECT;
+class LearningPathDisplayEmbedder extends SubManager
+{
+    const ACTION_DOCUMENT = 'document';
+    const ACTION_COMPLEX_CONTENT_OBJECT = 'complex_content_object';
+    const ACTION_ASSESSMENT = 'assessment';
+    const ACTION_CONTENT_OBJECT = 'content_object';
+
+    const PARAM_EMBEDDER_ACTION = 'embedder';
+
+    const DEFAULT_ACTION = self :: ACTION_CONTENT_OBJECT;
 
     function get_application_component_path()
     {
-        return dirname(__FILE__) . '/component/';
+        return dirname(__FILE__) . '/embedder/';
     }
 
     /**
@@ -47,7 +46,15 @@ class LearningPathDisplay extends ComplexDisplay
      */
     static function get_action_parameter()
     {
-        return self :: PARAM_DISPLAY_ACTION;
+        return self :: PARAM_EMBEDDER_ACTION;
+    }
+
+    /**
+     * @param Application $application
+     */
+    static function launch($application)
+    {
+        self :: construct(__CLASS__, $application)->run();
     }
 }
 ?>

@@ -2,20 +2,23 @@
 namespace application\weblcms\tool\learning_path;
 
 use application\weblcms\WeblcmsDataManager;
+use application\weblcms\WeblcmsManager;
 use application\weblcms\WeblcmsRights;
 use application\weblcms\Tool;
+use application\weblcms\WeblcmsLpAttemptTracker;
 use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\WebApplication;
 
 /**
  * $Id: learning_path_deleter.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.learning_path.component
  */
-require_once dirname(__FILE__) . '/../../../trackers/weblcms_lp_attempt_tracker.class.php';
-require_once dirname(__FILE__) . '/../../../trackers/weblcms_lpi_attempt_tracker.class.php';
-//require_once dirname(__FILE__).'/../../../trackers/weblcms_learning_path_assessment_attempts_tracker.class.php';
-require_once dirname(__FILE__) . '/../../../trackers/weblcms_learning_path_question_attempts_tracker.class.php';
+require_once WebApplication :: get_application_class_path(WeblcmsManager :: APPLICATION_NAME) . 'trackers/weblcms_lp_attempt_tracker.class.php';
+require_once WebApplication :: get_application_class_path(WeblcmsManager :: APPLICATION_NAME) . 'trackers/weblcms_lpi_attempt_tracker.class.php';
+require_once WebApplication :: get_application_class_path(WeblcmsManager :: APPLICATION_NAME) . 'trackers/weblcms_lpi_attempt_objective_tracker.class.php';
+require_once WebApplication :: get_application_class_path(WeblcmsManager :: APPLICATION_NAME) . 'trackers/weblcms_learning_path_question_attempts_tracker.class.php';
 
 class LearningPathToolDeleterComponent extends LearningPathTool
 {
