@@ -12,21 +12,21 @@ class AssessmentMatchingScoreCalculator extends ScoreCalculator
     function calculate_score()
     {
         $user_answers = $this->get_answer();
-
+        
         $answers = $this->get_question()->get_options();
         $score = 0;
         $total_weight = 0;
-
+        
         foreach ($answers as $i => $answer)
         {
             if ($user_answers[$i] == $answer->get_match())
             {
                 $score += $answer->get_score();
             }
-
+            
             $total_weight += $answer->get_score();
         }
-
+        
         return $this->make_score_relative($score, $total_weight);
     }
 }

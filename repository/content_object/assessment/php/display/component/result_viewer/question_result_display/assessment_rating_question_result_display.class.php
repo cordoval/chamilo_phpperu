@@ -22,17 +22,17 @@ class AssessmentRatingQuestionResultDisplay extends QuestionResultDisplay
         $html[] = '</tr>';
         $html[] = '</thead>';
         $html[] = '<tbody>';
-
+        
         $answers = $this->get_answers();
-
+        
         $html[] = '<tr>';
         $html[] = '<td>' . $answers[0] . '</td>';
         $html[] = '<td>' . $this->get_question()->get_correct() . '</td>';
         $html[] = '</tr>';
-
+        
         $html[] = '</tbody>';
         $html[] = '</table>';
-
+        
         return implode("\n", $html);
     }
 }
