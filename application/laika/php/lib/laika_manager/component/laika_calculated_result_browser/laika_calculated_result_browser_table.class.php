@@ -2,7 +2,7 @@
 namespace application\laika;
 
 use common\libraries\Translation;
-use common\libraries\Webapplication;
+use common\libraries\WebApplication;
 use common\libraries\ObjectTable;
 use common\libraries\ObjectTableFormAction;
 /**

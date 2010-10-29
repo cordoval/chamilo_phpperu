@@ -1,7 +1,7 @@
 <?php
 namespace application\laika;
 
-use common\libraries\Webapplication;
+use common\libraries\WebApplication;
 
 /**
  * $Id: laika_attempt_browser_table_column_model.class.php 196 2009-11-13 12:19:18Z chellee $

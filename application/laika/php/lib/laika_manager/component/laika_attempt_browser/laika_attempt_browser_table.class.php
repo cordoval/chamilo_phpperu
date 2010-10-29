@@ -2,7 +2,7 @@
 namespace application\laika;
 
 use common\libraries\Translation;
-use common\libraries\Webapplication;
+use common\libraries\WebApplication;
 use common\libraries\ObjectTable;
 /**
  * $Id: laika_attempt_browser_table.class.php 196 2009-11-13 12:19:18Z chellee $

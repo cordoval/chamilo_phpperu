@@ -2,7 +2,7 @@
 namespace application\laika;
 
 use common\libraries\Utilities;
-use common\libraries\Webapplication;
+use common\libraries\WebApplication;
 /**
  * $Id: user_autoloader.class.php 167 2009-11-12 11:17:52Z vanpouckesven $
  * @author vanpouckesven

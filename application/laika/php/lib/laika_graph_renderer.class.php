@@ -4,6 +4,7 @@ namespace application\laika;
 use common\libraries\Translation;
 use common\libraries\Theme;
 use common\libraries\EqualityCondition;
+use common\libraries\Path;
 /**
  * $Id: laika_graph_renderer.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika
