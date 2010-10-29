@@ -1,4 +1,8 @@
 <?php
+namespace application\phrases;
+
+use common\libraries\Translation;
+use common\libraries\FormValidator;
 /**
  * This class describes the form for a PhrasesMasteryLevel object.
  * @author Hans De Bisschop

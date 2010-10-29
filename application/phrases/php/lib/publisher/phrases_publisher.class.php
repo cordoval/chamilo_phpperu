@@ -1,4 +1,16 @@
 <?php
+namespace application\phrases;
+
+use common\libraries\Translation;
+use common\libraries\Application;
+use common\libraries\Theme;
+use common\libraries\InCondition;
+
+use common\extensions\repo_viewer\RepoViewer;
+
+use repository\ContentObject;
+use repository\RepositoryDataManager;
+
 /**
  * $Id: phrases_publisher.class.php 201 2009-11-13 12:34:51Z chellee $
  * @package application.personal_calendar.publisher

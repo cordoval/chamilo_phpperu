@@ -1,4 +1,8 @@
 <?php
+namespace application\phrases;
+use common\libraries\Request;
+use common\libraries\WebApplication;
+
 /**
  * @package application.lib.assessment.assessment_manager.component
  * @author Hans De Bisschop

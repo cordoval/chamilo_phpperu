@@ -1,4 +1,10 @@
 <?php
+namespace application\phrases;
+
+use common\libraries\DataClass;
+
+use repository\RepositoryDataManager;
+
 /**
  * $Id: phrases_publication.class.php 201 2009-11-13 12:34:51Z chellee $
  * @package application.personal_calendar

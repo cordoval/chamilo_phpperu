@@ -1,4 +1,9 @@
 <?php
+namespace application\phrases;
+
+use common\libraries\WebApplication;
+use common\libraries\Installer;
+
 /**
  * $Id: phrases_installer.class.php 201 2009-11-13 12:34:51Z chellee $
  * @package application.personal_calendar.install

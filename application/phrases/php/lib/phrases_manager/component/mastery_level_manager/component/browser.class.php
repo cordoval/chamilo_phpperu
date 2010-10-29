@@ -1,4 +1,15 @@
 <?php
+namespace application\phrases;
+
+use common\libraries\Translation;
+use common\libraries\Redirect;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\WebApplication;
+use common\libraries\Application;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
 /**
  * $Id: browser.class.php 126 2009-11-09 13:11:05Z vanpouckesven $
  * @package admin.lib.package_manager.component

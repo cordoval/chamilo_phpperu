@@ -1,4 +1,14 @@
 <?php
+namespace application\phrases;
+
+use common\libraries\Translation;
+use common\libraries\Utilities;
+use common\libraries\ObjectTableCellRenderer;
+
+use admin\Language;
+use admin\AdminDataManager;
+
+use repository\ContentObject;
 /**
  * $Id: default_phrases_publication_table_cell_renderer.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.tables.assessment_publication_table

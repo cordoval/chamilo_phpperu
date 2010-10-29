@@ -1,4 +1,8 @@
 <?php
+namespace application\phrases;
+
+use common\libraries\Translation;
+use common\libraries\ObjectTableCellRenderer;
 /**
  * $Id: default_phrases_mastery_level_table_cell_renderer.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.tables.assessment_mastery_level_table

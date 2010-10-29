@@ -1,4 +1,15 @@
 <?php
+namespace application\phrases;
+
+use common\libraries\Translation;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Application;
+
+use repository\content_object\assessment\Assessment;
+
+use common\extensions\repo_viewer\RepoViewerInterface;
+use common\extensions\repo_viewer\RepoViewer;
 /**
  * $Id: publisher.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.personal_calendar.personal_calendar_manager.component

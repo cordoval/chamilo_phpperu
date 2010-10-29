@@ -1,4 +1,15 @@
 <?php
+namespace application\phrases;
+
+use common\libraries\Translation;
+use common\libraries\ObjectTableColumnModel;
+use common\libraries\ObjectTableColumn;
+use common\libraries\StaticTableColumn;
+
+use repository\RepositoryDataManager;
+use repository\ContentObject;
+
+use admin\Language;
 /**
  * $Id: default_phrases_publication_table_column_model.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.tables.phrases_publication_table
