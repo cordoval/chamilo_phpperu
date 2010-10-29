@@ -1,4 +1,8 @@
 <?php
+namespace application\laika;
+
+use common\libraries\Installer;
+
 /**
  * $Id: laika_installer.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika.install
