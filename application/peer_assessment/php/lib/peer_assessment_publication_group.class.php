@@ -1,4 +1,9 @@
 <?php
+
+namespace application\peer_assessment;
+
+use common\libraries\DataClass;
+
 /**
  * This class describes a PeerAssessmentPublicationGroup data object
  * @author Sven Vanpoucke
@@ -8,7 +13,7 @@ class PeerAssessmentPublicationGroup extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'publication_group';
-    
+
     /**
      * PeerAssessmentPublicationGroup properties
      */
@@ -74,5 +79,7 @@ class PeerAssessmentPublicationGroup extends DataClass
     {
         return self :: TABLE_NAME;
     }
+
 }
+
 ?>

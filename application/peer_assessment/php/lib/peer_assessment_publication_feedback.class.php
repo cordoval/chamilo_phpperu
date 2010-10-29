@@ -1,4 +1,10 @@
 <?php
+
+namespace application\peer_assessment;
+
+use repository\ContentObject;
+use common\libraries\Utilities;
+
 require_once Path :: get_application_path() . 'lib/peer_assessment/data_manager/database.class.php';
 
 class PeerAssessmentPubFeedback extends ContentObject
@@ -15,7 +21,7 @@ class PeerAssessmentPubFeedback extends ContentObject
      */
     private $defaultProperties;
 
-    function ContentObjectPubFeedback($peer_assessment_publication_id = 0, $cloi_id = 0, $feedback_id = 0, $defaultProperties = array ())
+    function ContentObjectPubFeedback($peer_assessment_publication_id = 0, $cloi_id = 0, $feedback_id = 0, $defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }
@@ -106,7 +112,7 @@ class PeerAssessmentPubFeedback extends ContentObject
     {
         $wdm = PeerAssessmentDataManager :: get_instance();
         $success = $wdm->update_peer_assessment_pub_feedback($this);
-        if (! $success)
+        if (!$success)
         {
             return false;
         }
@@ -116,7 +122,9 @@ class PeerAssessmentPubFeedback extends ContentObject
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
     }
+
 }
+
 ?>

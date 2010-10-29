@@ -1,8 +1,17 @@
 <?php
+
+namespace application\peer_assessment;
+
+use common\extensions\repo_viewer\RepoViewerInterface;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
+use common\extensions\repo_viewer\RepoViewer;
+use repository\content_object\peer_assessment\PeerAssessment;
+
 require_once dirname(__FILE__) . '/../peer_assessment_manager.class.php';
 require_once dirname(__FILE__) . '/../../forms/peer_assessment_publication_form.class.php';
 require_once dirname(__FILE__) . '/../../publisher/peer_assessment_publication_publisher.class.php';
-require_once Path :: get_application_path() . '/lib/weblcms/content_object_repo_viewer.class.php';
 
 /**
  * Component to create a new peer_assessment_publication object
@@ -17,7 +26,7 @@ class PeerAssessmentManagerCreatorComponent extends PeerAssessmentManager implem
         $trail->add(new Breadcrumb($this->get_url(array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS)), Translation :: get('PeerAssessment')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('PublishPeerAssessment')));
 
-        
+
         $form = new PeerAssessmentPublicationForm(PeerAssessmentPublicationForm :: TYPE_CREATE, null, $this->get_url(array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_PUBLISHER)), $this->get_user());
 
         if (!RepoViewer :: is_ready_to_be_published())
@@ -34,7 +43,7 @@ class PeerAssessmentManagerCreatorComponent extends PeerAssessmentManager implem
                 $content_object_id = RepoViewer :: get_selected_objects();
                 $published = $publisher->publish_content_object($content_object_id);
 
-                if (! $published)
+                if (!$published)
                 {
                     $message = Translation :: get('ObjectNotPublished');
                 }
@@ -54,8 +63,8 @@ class PeerAssessmentManagerCreatorComponent extends PeerAssessmentManager implem
                     else
                     {
                         $this->redirect($message, null, array(
-                                PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BUILD_PEER_ASSESSMENT_PUBLICATION,
-                                'peer_assessment_publication' => $peer_assessment_publication->get_id()));
+                            PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BUILD_PEER_ASSESSMENT_PUBLICATION,
+                            'peer_assessment_publication' => $peer_assessment_publication->get_id()));
                     }
                 }
             }
@@ -73,5 +82,7 @@ class PeerAssessmentManagerCreatorComponent extends PeerAssessmentManager implem
     {
         return array(PeerAssessment :: get_type_name());
     }
+
 }
+
 ?>

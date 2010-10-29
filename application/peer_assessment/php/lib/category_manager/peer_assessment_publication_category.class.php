@@ -1,10 +1,18 @@
 <?php
-require_once Path :: get_common_extensions_path() . 'category_manager/platform_category.class.php';
-require_once dirname(__FILE__) . '/../peer_assessment_data_manager.class.php';
-/**
- *	@author Nick Van Loocke
- */
 
+namespace application\peer_assessment;
+
+use common\extensions\category_manager\PlatformCategory;
+use common\libraries\EqualityCondition;
+use common\libraries\Utilities;
+use common\libraries\Path;
+
+require_once Path :: get_common_extensions_path() . 'category_manager/php/platform_category.class.php';
+require_once dirname(__FILE__) . '/../peer_assessment_data_manager.class.php';
+
+/**
+ * 	@author Nick Van Loocke
+ */
 class PeerAssessmentPublicationCategory extends PlatformCategory
 {
     const CLASS_NAME = __CLASS__;
@@ -31,6 +39,7 @@ class PeerAssessmentPublicationCategory extends PlatformCategory
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
     }
+
 }

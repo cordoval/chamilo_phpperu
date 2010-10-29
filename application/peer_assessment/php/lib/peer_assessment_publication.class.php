@@ -1,4 +1,13 @@
 <?php
+
+namespace application\peer_assessment;
+
+use common\libraries\DataClass;
+use common\libraries\EqualityCondition;
+use repository\RepositoryDataManager;
+use user\UserDataManager;
+use common\libraries\Utilities;
+
 /**
  * This class describes a PeerAssessmentPublication data object
  *
@@ -7,7 +16,7 @@
 class PeerAssessmentPublication extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     /**
      * PeerAssessmentPublication properties
      */
@@ -22,9 +31,9 @@ class PeerAssessmentPublication extends DataClass
     const PROPERTY_MODIFIED = 'modified';
     const PROPERTY_DISPLAY_ORDER = 'display_order';
     const PROPERTY_CRITERIA_CONTENT_OBJECT_ID = 'criteria_content_object_id';
-    
+
     const PROPERTY_SELECT_USER = 'select_user';
-    
+
     private $target_users;
     private $target_groups;
 
@@ -107,7 +116,7 @@ class PeerAssessmentPublication extends DataClass
     {
         return $this->get_default_property(self :: PROPERTY_FROM_DATE);
     }
-    
+
     /**
      * Determines whether this publication is available forever
      * @return boolean True if the publication is available forever
@@ -235,9 +244,8 @@ class PeerAssessmentPublication extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_DISPLAY_ORDER, $display_order);
     }
-    
 
-	/**
+    /**
      * Returns the criteria_content_object_id of this PeerAssessmentPublication.
      * @return the criteria_content_object_id.
      */
@@ -254,41 +262,41 @@ class PeerAssessmentPublication extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_CRITERIA_CONTENT_OBJECT_ID, $criteria_content_object_id);
     }
-    
+
     /**
      * Sets the target_groups of this PeerAssessmentPublication.
      * @param target_groups
      */
-	function set_target_groups($target_groups)
+    function set_target_groups($target_groups)
     {
         $this->target_groups = $target_groups;
     }
- 
+
     /**
      * Gets the target_groups of this PeerAssessmentPublication.
      * @param target_groups
      */
-	function get_target_groups()
+    function get_target_groups()
     {
-        if (! $this->target_groups)
+        if (!$this->target_groups)
         {
             $condition = new EqualityCondition(PeerAssessmentPublicationGroup :: PROPERTY_PEER_ASSESSMENT_PUBLICATION, $this->get_id());
             $groups = $this->get_data_manager()->retrieve_peer_assessment_publication_groups($condition);
-            
+
             while ($group = $groups->next_result())
             {
                 $this->target_groups[] = $group->get_group_id();
             }
         }
-        
+
         return $this->target_groups;
     }
-    
+
     /**
      * Sets the target_users of this PeerAssessmentPublication.
      * @param target_users
      */
-	function set_target_users($target_users)
+    function set_target_users($target_users)
     {
         $this->target_users = $target_users;
     }
@@ -299,29 +307,29 @@ class PeerAssessmentPublication extends DataClass
      */
     function get_target_users()
     {
-        if (! $this->target_users)
+        if (!$this->target_users)
         {
             $condition = new EqualityCondition(PeerAssessmentPublicationUser :: PROPERTY_PEER_ASSESSMENT_PUBLICATION, $this->get_id());
             $users = $this->get_data_manager()->retrieve_peer_assessment_publication_users($condition);
-            
+
             while ($user = $users->next_result())
             {
                 $this->target_users[] = $user->get_user();
             }
         }
-        
+
         return $this->target_users;
     }
-    
+
     /**
      * Swtiches the visibility.
-     */   
-	function toggle_visibility()
+     */
+    function toggle_visibility()
     {
-        $this->set_hidden(! $this->get_hidden());
+        $this->set_hidden(!$this->get_hidden());
     }
-    
-	/**
+
+    /**
      * Determines whether this publication is hidden or not
      * @return boolean True if the publication is hidden.
      */
@@ -332,30 +340,29 @@ class PeerAssessmentPublication extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
     }
-    
-    
-	function is_visible_for_target_user($user)
+
+    function is_visible_for_target_user($user)
     {
         if ($user->is_platform_admin() || $user->get_id() == $this->get_publisher())
         {
             return true;
         }
-        
+
         if ($this->get_target_groups() || $this->get_target_users())
         {
             $allowed = false;
-            
+
             if (in_array($user->get_id(), $this->get_target_users()))
             {
                 $allowed = true;
             }
-            
-            if (! $allowed)
+
+            if (!$allowed)
             {
                 $user_groups = $user->get_groups();
-                
+
                 while ($user_group = $user_groups->next_result())
                 {
                     if (in_array($user_group->get_id(), $this->get_target_groups()))
@@ -365,29 +372,29 @@ class PeerAssessmentPublication extends DataClass
                     }
                 }
             }
-            
-            if (! $allowed)
+
+            if (!$allowed)
             {
                 return false;
             }
         }
-        
+
         if ($this->get_hidden())
         {
             return false;
         }
-        
+
         $time = time();
-        
+
         if ($time < $this->get_from_date() || $time > $this->get_to_date() && !$this->is_forever())
         {
             return false;
         }
-        
+
         return true;
     }
-    
-	function get_publication_object()
+
+    function get_publication_object()
     {
         $rdm = RepositoryDataManager :: get_instance();
         return $rdm->retrieve_content_object($this->get_content_object());
@@ -400,4 +407,5 @@ class PeerAssessmentPublication extends DataClass
     }
 
 }
+
 ?>
