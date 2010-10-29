@@ -77,7 +77,7 @@ class Translation
      *
      * @return Translation The instance.
      */
-    function get($variable, $context, $parameters = array())
+    function get($variable, $parameters = array(), $context = null)
     {
         $instance = self :: get_instance();
         self :: $called_class = get_called_class();
@@ -126,7 +126,7 @@ class Translation
      * @param string $name The parameter name.
      * @return mixed The parameter value.
      */
-    function translate($variable, $context)
+    function translate($variable, $context = null)
     {
         $instance = self :: get_instance();
 
@@ -137,9 +137,12 @@ class Translation
         //
         $value = '';
 
-        if (count(explode('\\', self :: $called_class)) > 1)
+        if(!$context)
         {
-            $context = Utilities :: get_namespace_from_classname(self :: $called_class);
+            if (count(explode('\\', self :: $called_class)) > 1)
+            {
+                $context = Utilities :: get_namespace_from_classname(self :: $called_class);
+            }
         }
 
         if (! isset($strings[$language]))
