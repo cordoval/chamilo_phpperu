@@ -6,6 +6,7 @@ use common\libraries\EqualityCondition;
 use repository\ComplexContentObjectItem;
 use repository\RepositoryDataManager;
 use repository\RepositoryManager;
+use common\libraries\InCondition;
 
 require_once dirname(__FILE__). '/../portfolio_data_manager.interface.class.php';
 

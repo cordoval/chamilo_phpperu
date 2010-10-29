@@ -1,6 +1,6 @@
 <?php
 
-namespace repository\content_object\matternhorn;
+namespace repository\content_object\matterhorn;
 
 use common\libraries\Utilities;
 

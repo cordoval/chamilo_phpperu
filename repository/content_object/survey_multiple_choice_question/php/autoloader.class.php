@@ -1,6 +1,6 @@
 <?php
 
-namespace repository\content_object\survey_multiple_choice_qeustion;
+namespace repository\content_object\survey_multiple_choice_question;
 
 use common\libraries\Utilities;
 

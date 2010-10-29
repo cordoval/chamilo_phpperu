@@ -17,13 +17,13 @@ class Autoloader
 
     static function load($classname)
     {
-       
+       self :: $class_name = $classname;
         $list = array(
             'personal_calendar_event' => 'personal_calendar_event.class.php',
             'personal_calendar_data_manager' => 'personal_calendar_data_manager.class.php',
             'personal_calendar_event_parser' => 'personal_calendar_event_parser.class.php',
             'personal_calendar_connector' => 'personal_calendar_connector.class.php',
-            'personal_calendar_connector' => 'connector/personal_calendar_weblcms_connector.class.php',
+            'personal_calendar_weblcms_connector' => 'connector/personal_calendar_weblcms_connector.class.php',
             'personal_calendar_data_manager' => 'personal_calendar_data_manager.class.php',
             'personal_calendar_publication' => 'personal_calendar_publication.class.php',
             'personal_calendar_publication_user' => 'personal_calendar_publication_user.class.php',
