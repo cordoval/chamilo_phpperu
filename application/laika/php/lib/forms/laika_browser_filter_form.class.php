@@ -1,4 +1,15 @@
 <?php
+namespace application\laika;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\Webapplication;
+use common\libraries\EqualityCondition;
+use common\libraries\FormValidator;
+use common\libraries\ObjectTableOrder;
+use common\libraries\OptionsMenuRenderer;
+
+use group\GroupMenu;
 /**
  * $Id: laika_browser_filter_form.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika.forms

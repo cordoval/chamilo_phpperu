@@ -44,7 +44,6 @@ class PhrasesManagerTakerComponent extends PhrasesManager
         $conditions[] = new EqualityCondition(PhrasesAssessmentAttemptsTracker :: PROPERTY_USER_ID, $this->get_user_id());
         $condition = new AndCondition($conditions);
         $trackers = $track->retrieve_tracker_items($condition);
-        dump($trackers);
         $count = count($trackers);
         
         foreach ($trackers as $tracker)

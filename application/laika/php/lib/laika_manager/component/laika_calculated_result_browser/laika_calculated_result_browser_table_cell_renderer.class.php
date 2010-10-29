@@ -1,4 +1,10 @@
 <?php
+namespace application\laika;
+
+use common\libraries\Translation;
+use common\libraries\Webapplication;
+use common\libraries\Theme;
+
 /**
  * $Id: laika_calculated_result_browser_table_cell_renderer.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika.laika_manager.component.laika_calculated_result_browser
