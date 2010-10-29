@@ -16,6 +16,7 @@ use repository\RepositoryRights;
 use admin\AdminDataManager;
 use admin\Registration;
 use repository\ComplexBuilder;
+use repository\ContentObjectTypeSelectorSupport;
 
 use common\libraries\ResourceManager;
 use common\libraries\Path;
@@ -24,7 +25,7 @@ use common\libraries\Theme;
 
 require_once dirname(__FILE__) . '/browser/handbook_browser_table_cell_renderer.class.php';
 
-class HandbookBuilderBrowserComponent extends HandbookBuilder
+class HandbookBuilderBrowserComponent extends HandbookBuilder implements ContentObjectTypeSelectorSupport
 {
     
 

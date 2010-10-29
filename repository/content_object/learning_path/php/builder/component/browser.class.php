@@ -47,7 +47,6 @@ use admin\PackageInfo;
  * @package repository.lib.complex_builder.learning_path.component
  */
 require_once dirname(__FILE__) . '/browser/learning_path_browser_table_cell_renderer.class.php';
-require_once Path :: get_admin_path() . 'lib/package_installer/source/package_info/package_info.class.php';
 
 class LearningPathBuilderBrowserComponent extends LearningPathBuilder implements ContentObjectTypeSelectorSupport
 {
