@@ -1,4 +1,6 @@
 <?php
+namespace application\laika;
+
 interface LaikaDataManagerInterface
 {
     /**

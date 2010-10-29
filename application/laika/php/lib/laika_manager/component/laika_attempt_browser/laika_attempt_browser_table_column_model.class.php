@@ -1,4 +1,8 @@
 <?php
+namespace application\laika;
+
+use common\libraries\Webapplication;
+
 /**
  * $Id: laika_attempt_browser_table_column_model.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika.laika_manager.component.laika_attempt_browser

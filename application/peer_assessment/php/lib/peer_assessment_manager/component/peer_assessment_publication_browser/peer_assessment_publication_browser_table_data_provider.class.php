@@ -1,4 +1,10 @@
 <?php
+
+namespace application\peer_assessment;
+
+use common\libraries\ObjectTableDataProvider;
+use repository\RepositoryDataManager;
+
 /**
  * Data provider for a peer_assessment_publication table
  * @author Nick Van Loocke
@@ -26,7 +32,7 @@ class PeerAssessmentPublicationBrowserTableDataProvider extends ObjectTableDataP
     function get_objects($offset, $count, $order_property = null)
     {
         $order_property = $this->get_order_property($order_property);
-        
+
         $publications = $this->get_browser()->retrieve_peer_assessment_publications($this->get_condition(), $offset, $count)->as_array();
         foreach ($publications as &$publication)
         {
@@ -43,5 +49,7 @@ class PeerAssessmentPublicationBrowserTableDataProvider extends ObjectTableDataP
     {
         return $this->get_browser()->count_peer_assessment_publications($this->get_condition());
     }
+
 }
+
 ?>

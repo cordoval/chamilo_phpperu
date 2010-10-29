@@ -1,4 +1,11 @@
 <?php
+namespace application\laika;
+
+use common\libraries\Utilities;
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\Webapplication;
+use common\libraries\FormValidator;
 /**
  * $Id: laika_user_filter_form.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika.forms

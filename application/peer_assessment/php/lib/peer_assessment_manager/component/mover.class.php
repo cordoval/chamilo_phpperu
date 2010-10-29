@@ -1,4 +1,17 @@
 <?php
+
+namespace application\peer_assessment;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\FormValidator;
+use common\libraries\NotCondition;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use common\libraries\InCondition;
+
 require_once dirname(__FILE__) . '/../peer_assessment_manager.class.php';
 require_once dirname(__FILE__) . '/../../category_manager/peer_assessment_publication_category.class.php';
 
@@ -16,26 +29,26 @@ class PeerAssessmentManagerMoverComponent extends PeerAssessmentManager
     function run()
     {
         $pid = Request :: get('peer_assessment_publication');
-        if (! $pid || (is_array($pid) && count($pid) == 0))
+        if (!$pid || (is_array($pid) && count($pid) == 0))
         {
             $this->not_allowed();
             exit();
         }
         $pids = $pid;
-        
+
         if (is_array($pids))
         {
             $pid = $pids[0];
         }
-        
-        $publication = $this->retrieve_peer_assessment_publication($pid);      
-        if (! $publication->is_visible_for_target_user($this->get_user()))
+
+        $publication = $this->retrieve_peer_assessment_publication($pid);
+        if (!$publication->is_visible_for_target_user($this->get_user()))
         {
             $this->not_allowed($trail, false);
         }
-        
+
         $parent = $publication->get_category();
-        
+
         $form = $this->build_move_form($parent, $pids);
         if ($form->validate())
         {
@@ -47,9 +60,9 @@ class PeerAssessmentManagerMoverComponent extends PeerAssessmentManager
             $trail = BreadcrumbTrail :: get_instance();
             $trail->add(new Breadcrumb($this->get_url(array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowsePeerAssessmentPublications')));
             $trail->add(new Breadcrumb($this->get_url(array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_MOVE_PEER_ASSESSMENT_PUBLICATION, PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION => $pid)), Translation :: get('MovePeerAssessmentPublication')));
-            
+
             $this->display_header($trail, true);
-            
+
             echo $form->toHtml();
             $this->display_footer();
         }
@@ -59,14 +72,14 @@ class PeerAssessmentManagerMoverComponent extends PeerAssessmentManager
     {
         $url = $this->get_url(array(PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION => $pids));
         $form = new FormValidator('peer_assessment_publication_mover', 'post', $url);
-        
+
         $this->categories = array();
         $this->categories[0] = Translation :: get('Root');
-        
+
         $this->retrieve_categories_recursive(0, $exclude_category);
-        
+
         $form->addElement('select', PeerAssessmentPublication :: PROPERTY_CATEGORY, Translation :: get('SelectCategory'), $this->categories);
-        
+
         $buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Move'), array('class' => 'positive finish'));
 
         $form->addGroup($buttons, 'buttons', null, '&nbsp;', false);
@@ -78,7 +91,7 @@ class PeerAssessmentManagerMoverComponent extends PeerAssessmentManager
         $conditions[] = new NotCondition(new EqualityCondition(PeerAssessmentPublicationCategory :: PROPERTY_ID, $exclude_category));
         $conditions[] = new EqualityCondition(PeerAssessmentPublicationCategory :: PROPERTY_PARENT, $parent);
         $condition = new AndCondition($conditions);
-        
+
         $cats = PeerAssessmentDataManager :: get_instance()->retrieve_peer_assessment_publication_categories($condition);
         while ($cat = $cats->next_result())
         {
@@ -90,10 +103,10 @@ class PeerAssessmentManagerMoverComponent extends PeerAssessmentManager
     function move_publications_to_category($form, $pids)
     {
         $category = $form->exportValue(PeerAssessmentPublication :: PROPERTY_CATEGORY);
-        
-        if (! is_array($pids))
+
+        if (!is_array($pids))
             $pids = array($pids);
-        
+
         $condition = new InCondition(PeerAssessmentPublication :: PROPERTY_ID, $pids);
         $publications = PeerAssessmentDataManager :: get_instance()->retrieve_peer_assessment_publications($condition);
 
@@ -102,8 +115,10 @@ class PeerAssessmentManagerMoverComponent extends PeerAssessmentManager
             $publication->set_category($category);
             $publication->update();
         }
-        
+
         return $category;
     }
+
 }
+
 ?>

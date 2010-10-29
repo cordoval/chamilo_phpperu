@@ -1,4 +1,9 @@
 <?php
+namespace application\laika;
+
+use common\libraries\Utilities;
+use common\libraries\Translation;
+use common\libraries\Webapplication;
 /**
  * $Id: laika_group_browser_table_cell_renderer.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika.laika_manager.component.laika_group_browser

@@ -1,4 +1,11 @@
 <?php
+
+namespace application\peer_assessment;
+
+use common\libraries\ObjectTableCellRenderer;
+use repository\ContentObject;
+use repository\content_object\peer_assessment\PeerAssessmentDisplay;
+
 require_once dirname(__FILE__) . '/../../peer_assessment_publication.class.php';
 //require_once Path :: get_repository_path() . 'lib/complex_display/peer_assessment/peer_assessment_display.class.php';
 
@@ -14,6 +21,7 @@ class DefaultPeerAssessmentPublicationTableCellRenderer extends ObjectTableCellR
      */
     function DefaultPeerAssessmentPublicationTableCellRenderer()
     {
+
     }
 
     /**
@@ -23,7 +31,7 @@ class DefaultPeerAssessmentPublicationTableCellRenderer extends ObjectTableCellR
      * @param PeerAssessmentPublication $peer_assessment_publication - The peer_assessment_publication
      * @return string A HTML representation of the rendered table cell
      */
-	function render_cell($column, $peer_assessment_publication)
+    function render_cell($column, $peer_assessment_publication)
     {
         switch ($column->get_name())
         {
@@ -41,5 +49,7 @@ class DefaultPeerAssessmentPublicationTableCellRenderer extends ObjectTableCellR
     {
         return $object->get_id();
     }
+
 }
+
 ?>

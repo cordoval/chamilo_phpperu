@@ -1,4 +1,11 @@
 <?php
+
+namespace application\peer_assessment;
+
+use common\libraries\ObjectTableColumnModel;
+use common\libraries\ObjectTableColumn;
+use repository\ContentObject;
+
 require_once dirname(__FILE__) . '/../../peer_assessment_publication.class.php';
 
 /**
@@ -23,11 +30,13 @@ class DefaultPeerAssessmentPublicationTableColumnModel extends ObjectTableColumn
     private static function get_default_columns()
     {
         $columns = array();
-    
+
         $columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_TITLE);
         $columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_DESCRIPTION);
-        
+
         return $columns;
     }
+
 }
+
 ?>

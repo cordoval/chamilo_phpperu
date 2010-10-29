@@ -75,7 +75,7 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
 
     function retrieve_registrations($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
     {
-        return $this->retrieve_objects(Registration :: get_table_name(), $condition, $offset, $max_objects, $order_by, Registration :: CLASS_NAME);
+        return $this->retrieve_objects(Registration :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 
     function retrieve_language_from_english_name($english_name)

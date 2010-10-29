@@ -1,10 +1,17 @@
 <?php
+
+namespace application\peer_assessment;
+
+use common\extensions\category_manager\CategoryManager;
+use common\libraries\EqualityCondition;
+use common\extensions\category_manager\PlatformCategory;
+
 require_once dirname(__FILE__) . '/../peer_assessment_data_manager.class.php';
 require_once dirname(__FILE__) . '/peer_assessment_publication_category.class.php';
-/**
- *	@author Nick Van Loocke
- */
 
+/**
+ * 	@author Nick Van Loocke
+ */
 class PeerAssessmentPublicationCategoryManager extends CategoryManager
 {
 
@@ -34,5 +41,7 @@ class PeerAssessmentPublicationCategoryManager extends CategoryManager
         $sort = PeerAssessmentDataManager :: get_instance()->retrieve_max_sort_value(PeerAssessmentPublicationCategory :: get_table_name(), PlatformCategory :: PROPERTY_DISPLAY_ORDER, $condition);
         return $sort + 1;
     }
+
 }
+
 ?>

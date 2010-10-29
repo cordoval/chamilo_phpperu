@@ -1,4 +1,17 @@
 <?php
+
+namespace application\peer_assessment;
+
+use common\libraries\Database;
+use common\libraries\EqualityCondition;
+use repository\RepositoryDataManager;
+use common\libraries\InCondition;
+use common\libraries\ConditionTranslator;
+use repository\ContentObjectPublicationAttributes;
+use common\libraries\Translation;
+use common\libraries\AndCondition;
+use repository\content_object\criteria\Criteria;
+
 require_once dirname(__FILE__) . '/../peer_assessment_publication.class.php';
 require_once dirname(__FILE__) . '/../peer_assessment_publication_group.class.php';
 require_once dirname(__FILE__) . '/../peer_assessment_publication_user.class.php';
@@ -12,7 +25,6 @@ require_once dirname(__FILE__) . '/../peer_assessment_data_manager_interface.cla
  *
  * @author Nick Van Loocke
  */
-
 class DatabasePeerAssessmentDataManager extends Database implements PeerAssessmentDataManagerInterface
 {
 
@@ -22,9 +34,8 @@ class DatabasePeerAssessmentDataManager extends Database implements PeerAssessme
         $this->set_prefix('peer_assessment_');
     }
 
-    
     // Publish
-    
+
     function create_peer_assessment_publication($peer_assessment_publication)
     {
         // Create general info
@@ -38,7 +49,6 @@ class DatabasePeerAssessmentDataManager extends Database implements PeerAssessme
         return $success;
     }
 
-    
     // Import users in the database for a specific publish
 
     private function create_peer_assessment_publication_users($peer_assessment_publication)
@@ -51,7 +61,7 @@ class DatabasePeerAssessmentDataManager extends Database implements PeerAssessme
             $peer_assessment_publication_user->set_peer_assessment_publication($peer_assessment_publication->get_id());
             $peer_assessment_publication_user->set_user($user_id);
 
-            if (! $peer_assessment_publication_user->create())
+            if (!$peer_assessment_publication_user->create())
             {
                 return false;
             }
@@ -60,7 +70,6 @@ class DatabasePeerAssessmentDataManager extends Database implements PeerAssessme
         return true;
     }
 
-    
     // Import groups in the database for a specific publish
 
     private function create_peer_assessment_publication_groups($peer_assessment_publication)
@@ -73,7 +82,7 @@ class DatabasePeerAssessmentDataManager extends Database implements PeerAssessme
             $peer_assessment_publication_group->set_peer_assessment_publication($peer_assessment_publication->get_id());
             $peer_assessment_publication_group->set_group_id($group_id);
 
-            if (! $peer_assessment_publication_group->create())
+            if (!$peer_assessment_publication_group->create())
             {
                 return false;
             }
@@ -82,7 +91,6 @@ class DatabasePeerAssessmentDataManager extends Database implements PeerAssessme
         return true;
     }
 
-    
     // Update a publication with all the properties
 
     function update_peer_assessment_publication($peer_assessment_publication)
@@ -93,12 +101,12 @@ class DatabasePeerAssessmentDataManager extends Database implements PeerAssessme
         $this->delete_objects('publication_group', $condition);
 
         // Add updated target users and groups
-        if (! $this->create_peer_assessment_publication_users($peer_assessment_publication))
+        if (!$this->create_peer_assessment_publication_users($peer_assessment_publication))
         {
             return false;
         }
 
-        if (! $this->create_peer_assessment_publication_groups($peer_assessment_publication))
+        if (!$this->create_peer_assessment_publication_groups($peer_assessment_publication))
         {
             return false;
         }
@@ -108,7 +116,6 @@ class DatabasePeerAssessmentDataManager extends Database implements PeerAssessme
         return $this->update($peer_assessment_publication, $condition);
     }
 
-    
     // Delete a publication with all the properties
 
     function delete_peer_assessment_publication($peer_assessment_publication)
@@ -131,7 +138,7 @@ class DatabasePeerAssessmentDataManager extends Database implements PeerAssessme
     function retrieve_peer_assessment_publication($id)
     {
         $condition = new EqualityCondition(PeerAssessmentPublication :: PROPERTY_ID, $id);
-        $object = $this->retrieve_object(PeerAssessmentPublication :: get_table_name(), $condition);
+        $object = $this->retrieve_object(PeerAssessmentPublication :: get_table_name(), $condition, null, PeerAssessmentPublication :: CLASS_NAME);
         $object->set_default_property('content_object_id', RepositoryDataManager :: get_instance()->retrieve_content_object($object->get_default_property('content_object_id')));
         return $object;
     }
@@ -139,16 +146,15 @@ class DatabasePeerAssessmentDataManager extends Database implements PeerAssessme
     function retrieve_peer_assessment_publication_via_content_object($content_object_id)
     {
         $condition = new EqualityCondition(PeerAssessmentPublication :: PROPERTY_CONTENT_OBJECT, $content_object_id);
-        $object = $this->retrieve_object(PeerAssessmentPublication :: get_table_name(), $condition);
+        $object = $this->retrieve_object(PeerAssessmentPublication :: get_table_name(), $condition, null, PeerAssessmentPublication :: CLASS_NAME);
         return $object;
     }
 
     function retrieve_peer_assessment_publications($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->retrieve_objects(PeerAssessmentPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(PeerAssessmentPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by, PeerAssessmentPublication :: CLASS_NAME);
     }
 
-    
     // Categories
 
     function create_peer_assessment_publication_category($peer_assessment_publication_category)
@@ -175,7 +181,7 @@ class DatabasePeerAssessmentDataManager extends Database implements PeerAssessme
 
     function retrieve_peer_assessment_publication_categories($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->retrieve_objects(PeerAssessmentPublicationCategory :: get_table_name(), $condition, $offset, $count, $order_property);
+        return $this->retrieve_objects(PeerAssessmentPublicationCategory :: get_table_name(), $condition, $offset, $count, $order_property, PeerAssessmentPublicationCategory :: CLASS_NAME);
     }
 
     function retrieve_max_sort_value($table_name, $column, $condition)
@@ -183,7 +189,6 @@ class DatabasePeerAssessmentDataManager extends Database implements PeerAssessme
         return parent :: retrieve_max_sort_value($table_name, $column, $condition);
     }
 
-    
     // Publication attributes
 
     function content_object_is_published($object_id)
@@ -236,7 +241,6 @@ class DatabasePeerAssessmentDataManager extends Database implements PeerAssessme
 
                 if (count($order) > 0)
                     $query .= ' ORDER BY ' . implode(', ', $order);
-
             }
         }
         else
@@ -245,7 +249,6 @@ class DatabasePeerAssessmentDataManager extends Database implements PeerAssessme
             $condition = new EqualityCondition(PeerAssessmentPublication :: PROPERTY_CONTENT_OBJECT, $object_id);
             $translator = new ConditionTranslator($this);
             $query .= $translator->render_query($condition);
-
         }
 
         $this->set_limit($offset, $count);
@@ -297,7 +300,7 @@ class DatabasePeerAssessmentDataManager extends Database implements PeerAssessme
 
     function count_publication_attributes($user = null, $object_id = null, $condition = null)
     {
-        if (! $object_id)
+        if (!$object_id)
         {
             $condition = new EqualityCondition(PeerAssessmentPublication :: PROPERTY_PUBLISHER, $user->get_id());
         }
@@ -345,7 +348,6 @@ class DatabasePeerAssessmentDataManager extends Database implements PeerAssessme
         }
     }
 
-    
     // Group
 
     function create_peer_assessment_publication_group($peer_assessment_publication_group)
@@ -381,7 +383,6 @@ class DatabasePeerAssessmentDataManager extends Database implements PeerAssessme
         return $this->retrieve_objects(PeerAssessmentPublicationGroup :: get_table_name(), $condition, $offset, $max_objects, $order_by, PeerAssessmentPublicationGroup :: CLASS_NAME);
     }
 
-    
     // User
 
     function create_peer_assessment_publication_user($peer_assessment_publication_user)
@@ -417,7 +418,6 @@ class DatabasePeerAssessmentDataManager extends Database implements PeerAssessme
         return $this->retrieve_objects(PeerAssessmentPublicationUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, PeerAssessmentPublicationUser :: CLASS_NAME);
     }
 
-    
     // Results
 
     function create_peer_assessment_publication_results($peer_assessment_publication)
@@ -452,7 +452,6 @@ class DatabasePeerAssessmentDataManager extends Database implements PeerAssessme
         return $this->retrieve_objects(PeerAssessmentPublicationResults :: get_table_name(), $condition, $offset, $max_objects, $order_by, PeerAssessmentPublicationResults :: CLASS_NAME);
     }
 
-    
     // Criteria
 
     function retrieve_peer_assessment_publication_criteria($criteria_id)
@@ -462,4 +461,5 @@ class DatabasePeerAssessmentDataManager extends Database implements PeerAssessme
     }
 
 }
+
 ?>
