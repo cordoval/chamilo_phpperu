@@ -1,4 +1,13 @@
 <?php
+use common\libraries\EqualityCondition;
+use common\libraries\OrCondition;
+use common\libraries\AndCondition;
+use common\libraries\Request;
+use repository\ContentObject;
+use repository\ComplexDisplay;
+use repository\RepositoryDataManager;
+use repository\ComplexContentObjectItem;
+use repository\content_object\wiki\WikiDisplay;
 
 class MediawikiLinkHolderArray
 {
