@@ -65,17 +65,17 @@ class ContentObjectTypeSelector
         
         if (count($this->content_object_types) > 15)
         {
-            $tabs->add_tab(new DynamicContentTab(self :: TAB_MOST_USED, Translation :: get('MostUsed'), Theme :: get_image_path() . 'place_mini_most_used.png', $this->render_most_used()));
+            $tabs->add_tab(new DynamicContentTab(self :: TAB_MOST_USED, Translation :: get('MostUsed'), Theme :: get_image_path('repository') . 'place_mini_most_used.png', $this->render_most_used()));
         }
         
         foreach ($this->categories as $category => $category_name)
         {
-            $tabs->add_tab(new DynamicContentTab($category, $category_name, Theme :: get_image_path() . 'place_mini_' . $category . '.png', $this->render_category($category)));
+            $tabs->add_tab(new DynamicContentTab($category, $category_name, Theme :: get_image_path('repository') . 'place_mini_' . $category . '.png', $this->render_category($category)));
         }
         
         if (count($this->additional_links) > 0)
         {
-            $tabs->add_tab(new DynamicContentTab(self :: TAB_EXTRA, Translation :: get('Extra'), Theme :: get_image_path() . 'place_mini_extra.png', $this->render_additional_links()));
+            $tabs->add_tab(new DynamicContentTab(self :: TAB_EXTRA, Translation :: get('Extra'), Theme :: get_image_path('repository') . 'place_mini_extra.png', $this->render_additional_links()));
         }
         
         return $tabs->render();
