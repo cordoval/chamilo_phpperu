@@ -966,6 +966,7 @@ $lang['repository']['EditMetadata'] = 'Edit metadata';
 $lang['repository']['Api'] = 'Api';
 $lang['repository']['Data'] = 'Data';
 $lang['repository']['SelectCategory'] = 'Select category';
+$lang['repository']['ViewSystemDatastreams'] = 'View system datastreams'
 
 
 

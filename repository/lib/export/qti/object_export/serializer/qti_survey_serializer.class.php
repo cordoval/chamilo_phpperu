@@ -24,7 +24,7 @@ class QtiSurveySerializer extends QtiSerializerBase{
 	public function serialize(Survey $survey){
         $writer = new ImsQtiWriter();
         $survey_id = self::get_identifier($survey);
-        $test = $writer->add_assessmentTest($survey_id, $survey->get_title(), Qti::get_tool_name(), Qti::get_tool_version());
+        $test = $writer->add_assessmentTest($survey_id, $survey->get_title(), self::get_tool_name(), Qti::get_tool_version());
         $part = $test->add_testPart(null, Qti::NAVIGATION_MODE_LINEAR, Qti::SUBMISSION_MODE_INDIVIDUAL);
         $part->add_itemSessionControl(0, true, true, true, true, true, false);
         $section = $part->add_assessmentSection(null, $survey->get_title(), false);

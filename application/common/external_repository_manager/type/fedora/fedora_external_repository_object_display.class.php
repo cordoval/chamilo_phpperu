@@ -91,17 +91,19 @@ class FedoraExternalRepositoryObjectDisplay extends ExternalRepositoryObjectDisp
 				$result[] = $print;
 			}
 		}
-		/*
-		$split = true;
-		foreach($system_streams as $ds){
-			if($split){
-				$split = false;
-			}
-			if($print = $this->format_datastream($ds)){
-				$result[] = $print;
+
+		if($this->display_system_datastreams($object)){
+			$split = true;
+			foreach($system_streams as $ds){
+				if($split){
+					$split = false;
+				}
+				if($print = $this->format_datastream($ds)){
+					$result[] = $print;
+				}
 			}
 		}
-		*/
+
 		$result[] = '<div class="clear">&nbsp;</div>';
 		$result[] = '</div>';
 		return implode('', $result);
@@ -193,6 +195,10 @@ class FedoraExternalRepositoryObjectDisplay extends ExternalRepositoryObjectDisp
 			$result = '';
 		}
 		return $result;
+	}
+
+	protected function display_system_datastreams(FedoraExternalRepositoryObject $object){
+		return ExternalRepositorySetting::get('ViewSystemDatastreams', $object->get_external_repository_id());
 	}
 
 }

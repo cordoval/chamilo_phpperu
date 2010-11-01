@@ -4,28 +4,28 @@ require_once Path::get_application_path() . 'lib/weblcms/content_object_publicat
 require_once Path::get_application_path() . 'lib/weblcms/weblcms_data_manager.class.php';
 
 /**
- * 
+ *
  * Facade for chamilo.
- * 
- * @copyright (c) 2010 University of Geneva 
- * 
+ *
+ * @copyright (c) 2010 University of Geneva
+ *
  * @license GNU General Public License
  * @author laurent.opprecht@unige.ch
  *
  */
 class Chamilo{
-	
+
     public static function get_local_catalogue_name(){
     	return PlatformSetting :: get('institution_url', 'admin');
     }
-    
+
     public static function get_default_property_names(){
     	return ContentObject::get_default_property_names();
     }
-    
+
     public static function retrieve_local_object($catalogue, $id){
     	if(empty($catalogue) || $catalogue == self::get_local_catalogue_name()){
-    		return ContentObject::get_by_id($id);	
+    		return ContentObject::get_by_id($id);
     	}else{
     		return ContentObjectMetadata::get_by_catalog_entry_values($catalogue, $id);
     	}
@@ -36,20 +36,20 @@ class Chamilo{
     	$rdm = RepositoryDataManager :: get_instance();
         return $rdm->retrieve_complex_content_object_items($condition);
     }
-    
+
     public static function retrieve_category($id){
     	$condition = new EqualityCondition(RepositoryCategory :: PROPERTY_ID, $id);
     	$rdm = RepositoryDataManager :: get_instance();
-    	return $rdm->retrieve_categories($condition)->next_result(); 
+    	return $rdm->retrieve_categories($condition)->next_result();
     }
-    
+
     public static function retrieve_metadata($co){
     	$id = $co->get_id();
         $condition = new EqualityCondition(ContentObjectMetadata :: PROPERTY_CONTENT_OBJECT, $id);
     	$rdm = RepositoryDataManager :: get_instance();
         return $rdm->retrieve_content_object_metadata($condition);
     }
-    
+
     public static function retrieve_identifiers($co){
     	$result = array();
     	$ids = array();
@@ -72,14 +72,14 @@ class Chamilo{
     		$result[$id['catalog']]=$id['entry'];
     	}
     	$result[self::get_local_catalogue_name()]=$co->get_id();
-    	
+
     	return $result;
     }
 
     public static function retrieve_content_object($id){
         return RepositoryDataManager :: get_instance()->retrieve_content_object($id);
     }
-    
+
     public static function get_category_by_name($name, $parent = 0){
     	$condition_1 = new EqualityCondition(RepositoryCategory::PROPERTY_NAME, $name);
     	$condition_2 = new EqualityCondition(RepositoryCategory::PROPERTY_PARENT, $parent);
@@ -91,7 +91,7 @@ class Chamilo{
         }
         return false;
     }
-    
+
     public static function get_course_content_objects($course_id){
     	$result = array();
         $condition = new EqualityCondition(ContentObjectPublication::PROPERTY_COURSE_ID, $course_id);
@@ -112,7 +112,7 @@ class Chamilo{
         }
         return $result;
     }
-    
+
     public static function get_course_user_relations($course_id){
     	$result = array();
         $condition = new EqualityCondition(CourseUserRelation::PROPERTY_COURSE, $course_id);
@@ -122,7 +122,7 @@ class Chamilo{
         }
         return $result;
     }
-    
+
     public static function retrieve_course($course_id){
     	return WeblcmsDataManager::get_instance()->retrieve_course($course_id);
     }

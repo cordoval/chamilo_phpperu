@@ -21,7 +21,7 @@ class QtiAssessmentSelectQuestionBuilder extends QtiQuestionBuilder{
 			return null;
 		}
 
-		if($item->toolName == Qti::get_tool_name()){
+		if($item->toolName == self::get_tool_name()){
 			$label = $main->label;
 			$pairs = explode(';', $label);
 			foreach($pairs as $pair){

@@ -2,15 +2,15 @@
 
 /**
  * Helper class. Contains constants, tags and helper functions.
- * 
- * @copyright (c) 2010 University of Geneva 
+ *
+ * @copyright (c) 2010 University of Geneva
  * @author laurent.opprecht@unige.ch
  *
  */
 class Qti{
-	
+
 	const BASETYPE_IDENTIFIER =	'identifier'; //The set of identifier values is the same as the set of values defined by the identifier class
-	const BASETYPE_BOOLEAN = 'boolean'; //The set of boolean values is the same as the set of values defined by the boolean class. 
+	const BASETYPE_BOOLEAN = 'boolean'; //The set of boolean values is the same as the set of values defined by the boolean class.
 	const BASETYPE_INTEGER = 'integer'; //The set of integer values is the same as the set of values defined by the integer class.
 	const BASETYPE_FLOAT = 'float'; //The set of float values is the same as the set of values defined by the float class.
 	const BASETYPE_STRING = 'string'; //The set of string values is the same as the set of values defined by the string class.
@@ -20,46 +20,46 @@ class Qti{
 	const BASETYPE_DURATION = 'duration'; //A duration value specifies a distance (in time) between two time points. In other words, a time period as defined by [ISO8601]. Durations are measured in seconds and may have a fractional part.
 	const BASETYPE_FILE = 'file'; //A file value is any sequence of octets (bytes) qualified by a content-type and an optional filename given to the file (for example, by the candidate when uploading it as part of an interaction). The content type of the file is one of the MIME types defined by [RFC2045].
 	const BASETYPE_URI = 'uri'; //A URI value is a Uniform Resource Identifier
-	
+
 	const CARDINALITY_SINGLE = 'single';
 	const CARDINALITY_MULTIPLE = 'multiple';
 	const CARDINALITY_ORDERED = 'ordered';
 	const CARDINALITY_RECORD = 'record';
-	
+
 	const TOLERANCE_MODE_EXACT = 'exact';
 	const TOLERANCE_MODE_ABSOLUTE = 'absolute';
 	const TOLERANCE_MODE_RELATIVE = 'relative';
-	
+
 	const SCORE = 'SCORE';
 	const RESPONSE = 'RESPONSE';
 	const FEEDBACK = 'FEEDBACK';
 	const FEEDBACK_SHOW = 'show';
 	const FEEDBACK_HIDE = 'hide';
-	
+
 	const VIEW_AUTHOR = 'author';
 	const VIEW_CANDIDATE = 'candidate';
 	const VIEW_PROCTOR = 'proctor';
 	const VIEW_SCORER = 'scorer';
 	const VIEW_TUTOR = 'tutor';
 	const VIEW_ALL = 'author candidate proctor scorer tutor';
-	
+
 	const ORIENTATION_VERTICAL = 'vertical';
-	const ORIENTATION_HORIZONTAL = 'horizontal';	
-	
+	const ORIENTATION_HORIZONTAL = 'horizontal';
+
 	const SUBMISSION_MODE_INDIVIDUAL = 'individual';
 	const SUBMISSION_MODE_SIMULTANEOUS = 'simultaneous';
-	
+
 	const NAVIGATION_MODE_LINEAR = 'linear';
 	const NAVIGATION_MODE_NON_LINEAR = 'nonlinear';
-	
+
 	const SHAPE_POLY = 'poly';
 	const SHAPE_CIRCLE = 'circle';
 	const SHAPE_RECT = 'rect';
 	const SHAPE_DEFAULT = 'default';
 	const SHAPE_ELLIPSE = 'ellipse'; //DEPRECATED
-	
+
 	private static $tags = null;
-	
+
 	public static function get_tags(){
 		if(empty(self::$tags)){
 			$result['a'] = 'a';
@@ -297,8 +297,8 @@ class Qti{
 			$result['uploadInteraction'] = 'uploadInteraction';
 		    $result['associateInteraction'] = 'associateInteraction';
 		    $result['inlineChoiceInteraction'] = 'inlineChoiceInteraction';
-		    $result['textEntryInteraction'] = 'textEntryInteraction'; 
-		    $result['positionObjectInteraction'] = 'positionObjectInteraction'; 
+		    $result['textEntryInteraction'] = 'textEntryInteraction';
+		    $result['positionObjectInteraction'] = 'positionObjectInteraction';
 	        self::$interactions = $result;
 		}
 		return self::$interactions;
@@ -316,24 +316,24 @@ class Qti{
 			$result['modalFeedback'] = 'modalFeedback';
 			self::$feedbacks = $result;
 		}
-		
+
 		return self::$feedbacks;
 	}
-	
+
 	public static function is_interaction($name){
 		$tags = self::get_interactions();
-		return isset($tags[$name]);  
+		return isset($tags[$name]);
 	}
 
 	public static function is_feedback($name){
 		$tags = self::get_feedbacks();
-		return isset($tags[$name]);  
+		return isset($tags[$name]);
 	}
 
-	public static function get_tool_name(){
-		return 'imsqti:unige:chamilo';
+	public static function get_tool_name($name = ''){
+		return 'imsqti:unige' . (empty($name) ? '' : ':' . $name);
 	}
-	
+
 	public static function get_tool_version(){
 		return '20100422';
 	}
@@ -367,9 +367,9 @@ class Qti{
 				return true;
 			}
 		}
-		return false;	
+		return false;
 	}
-	
+
 	public static function is_question_file($path, $n1 = 'http://www.imsglobal.org/xsd/imsqti_v2p0', $n2 = 'http://www.imsglobal.org/xsd/imsqti_v2p1'){
 		if(!self::is_qti_file($path, $n1, $n2)){
 			return false;
@@ -379,7 +379,7 @@ class Qti{
 		$root = $doc->documentElement;
 		return $root->tagName == 'assessmentItem';
 	}
-	
+
 	public static function is_test_file($path, $n1 = 'http://www.imsglobal.org/xsd/imsqti_v2p0', $n2 = 'http://www.imsglobal.org/xsd/imsqti_v2p1'){
 		if(!self::is_qti_file($path, $n1, $n2)){
 			return false;
@@ -389,7 +389,7 @@ class Qti{
 		$root = $doc->documentElement;
 		return $root->tagName == 'assessmentTest';
 	}
-	
+
 }
 
 

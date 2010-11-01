@@ -19,7 +19,7 @@ class QtiAssessmentSerializer extends QtiSerializerBase{
 	public function serialize(Assessment $assessment){
         $writer = new ImsQtiWriter();
         $assessment_id = self::get_identifier($assessment);
-        $test = $writer->add_assessmentTest($assessment_id, $assessment->get_title(), Qti::get_tool_name(), Qti::get_tool_version());
+        $test = $writer->add_assessmentTest($assessment_id, $assessment->get_title(), self::get_tool_name(), Qti::get_tool_version());
         $part = $test->add_testPart(null, Qti::NAVIGATION_MODE_LINEAR, Qti::SUBMISSION_MODE_INDIVIDUAL);
         $part->add_itemSessionControl(0, true, true, true, true, true, false);
         $section = $part->add_assessmentSection(null, $assessment->get_title(), false);

@@ -8,7 +8,7 @@ require_once dirname(__FILE__) . '/rest_client.class.php';
  *
  * @copyright (c) 2010 University of Geneva
  * @license GNU General Public License - http://www.gnu.org/copyleft/gpl.html
- * @author laurent.opprecht@unige.ch, Nicolas Rod
+ * @author Nicolas Rod, laurent.opprecht@unige.ch
  *
  */
 abstract class RestProxyBase  {
@@ -52,27 +52,6 @@ abstract class RestProxyBase  {
 		}
 		return mktime($hour, $minute, $second, $month, $day, $year);
 	}
-
-	/*
-	const GET_NEW_UID_NOT_IMPLEMENTED = 'GET_NEW_UID_NOT_IMPLEMENTED';
-	const SESSION_MISSING_FIELDS      = 'SESSION_MISSING_FIELDS';
-	const OBJECT_ID                = 'object_id';
-	const OBJECT_TITLE             = 'object_title';
-	const OBJECT_SYNC_STATE        = 'object_sync_state';
-	const OBJECT_OWNER_ID          = 'object_owner_id';
-	const OBJECT_CREATION_DATE     = 'object_creation_date';
-	const OBJECT_MODIFICATION_DATE = 'object_modification_date';
-	const OBJECT_DESCRIPTION       = 'object_description';
-
-	const EXTERNAL_OBJECT_KEY      = 'external_object';
-	const SYNC_INFO                = 'sync_info';
-
-	const SYNC_STATE               = 'sync_state';
-	const SYNC_NEVER_SYNCHRONIZED  = 'never_synchronized';
-	const SYNC_IDENTICAL           = 'sync_synchronized';
-	const SYNC_NEWER_IN_CHAMILO    = 'newer_in_chamilo';
-	const SYNC_OLDER_IN_CHAMILO    = 'older_in_chamilo';
-*/
 
 	/**
 	 * @var RestClient

@@ -456,6 +456,7 @@ class QtiImportStrategyGeneric extends QtiImportStrategyBase{
 	public function get_rubricBlock(ImsXmlReader $item, $role = QTI::VIEW_ALL){
 		$result = array();
 		$interpreter = new QtiInterpreter($role);
+		$interpreter->init($item);
 		$interpreter->execute($item);
 		$this->get_renderer()->init($interpreter);
 		$rubrics = $item->query('.//def:rubricBlock');

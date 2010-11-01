@@ -19,7 +19,7 @@ class QtiBuilderBase{
 	 * @param ImsQtiReader $item
 	 * @return QtiQuestionBuilder
 	 */
-	static function factory($item, $settings){
+	public static function factory($item, $settings){
 		$args = func_get_args();
 		$directory = dirname(__FILE__).'/builder/';
 		$files = scandir($directory);
@@ -37,8 +37,16 @@ class QtiBuilderBase{
 		return null;
 	}
 
-	static function has_score($item){
+	public static function has_score($item){
 		return QtiImportStrategyBase::has_score($item);
+	}
+
+	/**
+	 * Returns the tool name used to generate qti files.
+	 * Mostly used to identify if a file is a reimport.
+	 */
+	public static function get_tool_name(){
+		return Qti::get_tool_name('chamilo');
 	}
 
 	/**

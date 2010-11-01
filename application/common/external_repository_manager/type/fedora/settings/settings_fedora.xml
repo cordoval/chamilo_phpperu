@@ -17,7 +17,6 @@
 				</validations>
 			</setting>
 			
-
 			<setting name="ContentAccessUrl" field="text" default="https://localhost/fedora/objects/$pid/datastreams/$dsId/content">
 			</setting>
 
@@ -46,6 +45,11 @@
 			</setting>
 
 			<setting name="Password" field="password" default="">
+			</setting>
+			<setting name="ViewSystemDatastreams" field="checkbox" default="0">
+				<options type="static">
+					<option name="ViewSystemDatastreams" value="True" />
+				</options>
 			</setting>
 		</category>
 	</settings>

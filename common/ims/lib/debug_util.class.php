@@ -1,10 +1,11 @@
 <?php
 
 if(! defined('E_DEPRECATED')){
-	define('E_DEPRECATED', 8192); //suppress notice messages before php 5.3
+	define('E_DEPRECATED', 8192); //suppress notice messages for php < 5.3
 }
 
 if(!class_exists('DebugUtil2')){
+
 	/**
 	 * Helper class used for debuging
 	 *
@@ -197,14 +198,6 @@ if(!class_exists('DebugUtil2')){
 		}
 
 		public static function set_default_error_handler(){
-			$filter = '#C:\wamp\www\chamilo\repository\lib\content_object.class.php.*#';
-			$filter = str_replace('\\', '\\\\', $filter);
-			self::$filters[] = $filter;
-
-			$filter = '#C:\wamp\www\chamilo\common\.*#';
-			$filter = str_replace('\\', '\\\\', $filter);
-			self::$filters[] = $filter;
-
 			$flag = (E_ALL) & ~(E_DEPRECATED);
 			$result = set_error_handler(array(__CLASS__, 'default_error_handler'), $flag);
 			$result = set_exception_handler(array(__CLASS__, 'default_exception_handler'));
