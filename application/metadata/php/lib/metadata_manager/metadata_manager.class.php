@@ -220,6 +220,20 @@ use common\libraries\Redirect;
 //            return MetadataDataManager :: get_instance()->retrieve_metadata_property_value($id);
 //    }
 
+    static function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
+    {
+        return MetadataDataManager :: get_instance()->get_content_object_publication_attributes($object_id, $type, $offset, $count, $order_property);
+    }
+
+    static function get_content_object_publication_attribute($publication_id)
+    {
+        return MetadataDataManager :: get_instance()->get_content_object_publication_attribute($publication_id);
+    }
+
+    static function count_publication_attributes($user = null, $object_id = null, $condition = null)
+    {
+        return MetadataDataManager :: get_instance()->count_publication_attributes($user, $object_id, $condition);
+    }
     /**
      * Returns an array with all the metadata for a content-object
      * array key = metadata_property-namespace:metadata_property-name
