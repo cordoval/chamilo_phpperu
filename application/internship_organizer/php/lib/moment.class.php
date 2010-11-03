@@ -1,6 +1,11 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\DataClass;
+use common\libraries\AttachmentSupport;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+
 use rights\RightsUtilities;
 
 /**

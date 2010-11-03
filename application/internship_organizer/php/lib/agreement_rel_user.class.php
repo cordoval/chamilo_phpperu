@@ -1,6 +1,7 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\DataClass;
 /**
  * This class describes a InternshipAgreementRelUser data object
  * @author Sven Vanhoecke

@@ -2,6 +2,7 @@
 namespace application\internship_organizer;
 
 use common\libraries\Utilities;
+use tracking\SimpleTracker;
 
 class InternshipOrganizerChangesTracker extends SimpleTracker
 {

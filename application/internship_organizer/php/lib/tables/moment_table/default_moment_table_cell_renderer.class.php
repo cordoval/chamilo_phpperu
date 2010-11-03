@@ -1,6 +1,8 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\ObjectTableCellRenderer;
+use common\libraries\Translation;
 
 require_once dirname(__FILE__) . '/../../moment.class.php';
 

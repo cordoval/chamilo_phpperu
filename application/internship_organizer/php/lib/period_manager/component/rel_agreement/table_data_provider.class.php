@@ -1,6 +1,7 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\ObjectTableDataProvider;
 
 class InternshipOrganizerPeriodRelAgreementBrowserTableDataProvider extends ObjectTableDataProvider
 {

@@ -1,5 +1,5 @@
 <?php
-
+namespace application\internship_organizer;
 interface InternshipOrganizerDataManagerInterface
 {
 

@@ -2,6 +2,9 @@
 namespace application\internship_organizer;
 
 use common\libraries\Utilities;
+use common\libraries\ObjectTableCellRenderer;
+
+use user\User;
 
 require_once dirname(__FILE__) . '/../../agreement.class.php';
 

@@ -1,6 +1,9 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\ObjectTableColumnModel;
+use common\libraries\ObjectTableColumn;
+use common\libraries\Translation;
 
 class DefaultInternshipOrganizerMentorRelLocationTableColumnModel extends ObjectTableColumnModel
 {

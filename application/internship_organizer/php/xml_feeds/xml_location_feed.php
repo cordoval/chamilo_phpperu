@@ -3,6 +3,9 @@
 use common\libraries\WebApplication;
 use common\libraries\CoreApplication;
 use common\libraries\Utilities;
+use common\libraries\Translation;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
 
 require_once dirname(__FILE__) . '/../../../../common/global.inc.php';
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'internship_organizer_data_manager.class.php';

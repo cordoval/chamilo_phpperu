@@ -1,8 +1,12 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\WebApplication;
+use common\libraries\Translation;
+
 require_once dirname ( __FILE__ ) . '/../period_reporting_block.class.php';
-require_once dirname ( __FILE__ ) . '/../../internship_organizer_manager/internship_organizer_manager.class.php';
+require_once WebApplication :: get_application_path('internship_organizer') . 'php/lib/internship_organizer_manager/internship_organizer_manager.class.php';
+
 class InternshipOrganizerPeriodUserTypeCountReportingBlock extends InternshipOrganizerPeriodReportingBlock {
 	
 	public function count_data() {

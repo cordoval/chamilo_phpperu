@@ -1,6 +1,11 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\ObjectTableColumnModel;
+use common\libraries\ObjectTableColumn;
+
+use user\UserDataManager;
+use user\User;
 
 class DefaultInternshipOrganizerMentorRelUserTableColumnModel extends ObjectTableColumnModel
 {

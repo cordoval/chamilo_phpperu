@@ -1,6 +1,8 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\Translation;
+use common\libraries\StaticTableColumn;
 
 require_once dirname(__FILE__) . '/../../../tables/region_table/default_region_table_column_model.class.php';
 

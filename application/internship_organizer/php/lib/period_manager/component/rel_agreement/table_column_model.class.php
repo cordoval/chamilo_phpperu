@@ -1,6 +1,7 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\StaticTableColumn;
 
 require_once dirname(__FILE__) . '/../../../tables/period_rel_agreement_table/default_period_rel_agreement_table_column_model.class.php';
 require_once dirname(__FILE__) . '/../../../agreement.class.php';

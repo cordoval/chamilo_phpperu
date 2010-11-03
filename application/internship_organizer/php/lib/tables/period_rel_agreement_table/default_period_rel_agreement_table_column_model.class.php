@@ -1,6 +1,11 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\ObjectTableColumnModel;
+use common\libraries\ObjectTableColumn;
+
+use user\UserDataManager;
+use user\User;
 
 require_once dirname ( __FILE__ ) . '/../../agreement.class.php';
 

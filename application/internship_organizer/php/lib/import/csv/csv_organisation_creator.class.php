@@ -1,6 +1,8 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
 
 class CsvOrganisationCreator
 {

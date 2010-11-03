@@ -2,6 +2,8 @@
 namespace application\internship_organizer;
 
 use common\libraries\WebApplication;
+use common\libraries\Translation;
+
 use rights\RightsUtilities;
 
 

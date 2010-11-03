@@ -3,6 +3,7 @@ namespace application\internship_organizer;
 
 use common\libraries\WebApplication;
 use common\libraries\Installer;
+use common\libraries\Translation;
 /**
  * internship_organizer.install
  */

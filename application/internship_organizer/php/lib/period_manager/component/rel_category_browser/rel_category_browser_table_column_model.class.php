@@ -1,6 +1,7 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\StaticTableColumn;
 
 require_once dirname(__FILE__) . '/../../../tables/category_rel_period_table/default_category_rel_period_table_column_model.class.php';
 

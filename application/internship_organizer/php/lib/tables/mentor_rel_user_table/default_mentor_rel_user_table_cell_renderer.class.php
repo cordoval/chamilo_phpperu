@@ -1,6 +1,10 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\ObjectTableCellRenderer;
+
+use user\UserDataManager;
+use user\User;
 
 class DefaultInternshipOrganizerMentorRelUserTableCellRenderer extends ObjectTableCellRenderer
 {

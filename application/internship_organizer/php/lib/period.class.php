@@ -3,6 +3,10 @@ namespace application\internship_organizer;
 
 use common\libraries\WebApplication;
 use common\libraries\NestedTreeNode;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+
+use user\User;
 
 use rights\RightsUtilities;
 /**

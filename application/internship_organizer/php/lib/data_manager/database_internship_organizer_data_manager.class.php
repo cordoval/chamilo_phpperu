@@ -2,6 +2,15 @@
 namespace application\internship_organizer;
 
 use common\libraries\WebApplication;
+use common\libraries\Database;
+use common\libraries\Translation;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+
+use user\UserDataManager;
+use user\User;
+
+use application\internship_organizer\InternshipOrganizerDataManagerInterface;
 /**
  * @package internship_organizer.datamanager
  */

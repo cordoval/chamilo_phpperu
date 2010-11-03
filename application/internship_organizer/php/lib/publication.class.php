@@ -1,6 +1,10 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\DataClass;
+
+use user\UserDataManager;
+
 use rights\RightsUtilities;
 
 class InternshipOrganizerPublication extends DataClass

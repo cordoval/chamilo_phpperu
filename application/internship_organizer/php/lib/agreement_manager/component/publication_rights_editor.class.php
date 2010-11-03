@@ -2,6 +2,8 @@
 namespace application\internship_organizer;
 
 use common\libraries\WebApplication;
+use common\libraries\Translation;
+use common\libraries\DynamicTabsRenderer;
 
 require_once require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'agreement_manager/component/viewer.class.php';
 require_once require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'agreement_manager/component/moment_viewer.class.php';

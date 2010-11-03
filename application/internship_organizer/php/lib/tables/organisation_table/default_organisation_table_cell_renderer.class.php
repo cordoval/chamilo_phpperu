@@ -1,6 +1,8 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\ObjectTableCellRenderer;
+
 
 require_once dirname(__FILE__) . '/../../organisation.class.php';
 

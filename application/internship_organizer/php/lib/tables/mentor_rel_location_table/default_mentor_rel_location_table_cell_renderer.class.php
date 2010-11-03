@@ -1,6 +1,7 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\ObjectTableCellRenderer;
 
 class DefaultInternshipOrganizerMentorRelLocationTableCellRenderer extends ObjectTableCellRenderer
 {

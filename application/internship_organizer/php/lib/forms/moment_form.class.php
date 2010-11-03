@@ -1,6 +1,7 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\Translation;
 use common\libraries\WebApplication;
 use common\libraries\Utilities;
 

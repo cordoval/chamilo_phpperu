@@ -4,6 +4,8 @@ namespace application\internship_organizer;
 use common\libraries\WebApplication;
 use common\libraries\CoreApplication;
 
+use reporting\ReportingTemplate;
+
 require_once CoreApplication :: get_application_class_lib_path('reporting'). 'reporting_template.class.php';
 
 require_once WebApplication :: get_application_class_path('internship_organizer') . 'reporting/blocks/internship_organizer_agreement_coordinator_reporting_block.class.php';

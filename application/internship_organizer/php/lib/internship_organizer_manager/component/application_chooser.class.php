@@ -2,6 +2,12 @@
 namespace application\internship_organizer;
 
 use common\libraries\Utilities;
+use common\libraries\Translation;
+use common\libraries\DelegateComponent;
+use common\libraries\DynamicAction;
+use common\libraries\DynamicActionsTab;
+use common\libraries\DynamicTabsRenderer;
+use common\libraries\Theme;
 
 class InternshipOrganizerManagerApplicationChooserComponent extends InternshipOrganizerManager implements DelegateComponent
 {
