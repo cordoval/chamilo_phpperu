@@ -1,5 +1,5 @@
 <?php
-
+namespace repository;
 /**
  *
  * @copyright (c) 2010 University of Geneva

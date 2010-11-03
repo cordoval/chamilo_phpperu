@@ -6,6 +6,7 @@ use application\weblcms\WeblcmsDataManager;
 use common\libraries\ObjectTableOrder;
 use common\libraries\EqualityCondition;
 use common\libraries\Translation;
+use application\weblcms\CourseSection;
 
 /**
  * $Id: publication_selection_maintenance_wizard_page.class.php 216 2009-11-13 14:08:06Z kariboe $

@@ -20,6 +20,7 @@ use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\Translation;
+use application\gradebook\GradebookInternalItemForm;
 
 /**
  * $Id: content_object_publication_form.class.php 218 2009-11-13 14:21:26Z kariboe $
@@ -284,7 +285,7 @@ class ContentObjectPublicationForm extends FormValidator
         {
             if (PlatformSetting :: get_instance()->get('allow_evaluate_' . Request :: get(WeblcmsManager :: PARAM_TOOL), 'gradebook'))
             {
-                require_once dirname(__FILE__) . '/../gradebook/forms/gradebook_internal_item_form.class.php';
+                require_once dirname(__FILE__) . '/../../../gradebook/php/lib/forms/gradebook_internal_item_form.class.php';
                 $gradebook_internal_item_form = new GradebookInternalItemForm();
                 $gradebook_internal_item_form->build_evaluation_question($this);
             }

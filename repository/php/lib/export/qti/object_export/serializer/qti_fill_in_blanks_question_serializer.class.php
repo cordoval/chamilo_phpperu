@@ -1,5 +1,5 @@
 <?php
-
+namespace repository;
 //@todo: review logic when question is working
 
 /**

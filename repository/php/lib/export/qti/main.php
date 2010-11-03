@@ -1,7 +1,7 @@
 <?php
 use common\libraries\Path;
 
-require_once  Path::get_common_path() .'ims/main.php';
+require_once  Path::get_common_libraries_path() .'php/ims/main.php';
 
 require_once_all(dirname(__FILE__) .'/*.class.php');
 

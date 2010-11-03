@@ -1,5 +1,5 @@
 <?php
-
+namespace repository;
 /**
  * Serializer for Select questions
  *

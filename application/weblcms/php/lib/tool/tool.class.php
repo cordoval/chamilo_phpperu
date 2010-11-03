@@ -18,6 +18,7 @@ use common\libraries\SubManager;
 use common\libraries\Translation;
 use repository\ContentObject;
 use repository\content_object\introduction\Introduction;
+use rights\RightsUtilities;
 
 /**
  * $Id: tool.class.php 216 2009-11-13 14:08:06Z kariboe $

@@ -4,6 +4,7 @@ namespace application\weblcms;
 use common\libraries\WebApplication;
 use common\libraries\Request;
 use common\libraries\Translation;
+use application\gradebook\GradebookUtilities;
 
 /**
  * $Id: delete.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -33,7 +34,7 @@ class ToolComponentDeleterComponent extends ToolComponent
                 $publication = $datamanager->retrieve_content_object_publication($pid);
                 if (WebApplication :: is_active('gradebook'))
                 {
-                    require_once dirname(__FILE__) . '/../../../gradebook/gradebook_utilities.class.php';
+                    require_once dirname(__FILE__) . '/../../../../../gradebook/php/lib/gradebook_utilities.class.php';
                     if (! GradebookUtilities :: move_internal_item_to_external_item(WeblcmsManager :: APPLICATION_NAME, $publication->get_id()))
                         $message = 'failed to move internal evaluation to external evaluation';
                 }

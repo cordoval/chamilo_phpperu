@@ -4,8 +4,9 @@ namespace application\weblcms\tool\maintenance;
 use common\libraries\OptionsMenuRenderer;
 use common\libraries\Session;
 use common\libraries\Translation;
+use common\libraries\Path;
 
-require_once dirname(__FILE__) . '/maintenance_wizard_page.class.php';
+//require_once dirname(__FILE__) . '/maintenance_wizard_page.class.php';
 require_once Path :: get_repository_path() . '/lib/export/cp/cp_export.class.php';
 
 /**

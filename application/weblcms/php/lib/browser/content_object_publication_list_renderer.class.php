@@ -17,6 +17,7 @@ use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Translation;
 use common\libraries\ComplexContentObjectSupport;
+use application\gradebook\EvaluationManager;
 
 /**
  * $Id: content_object_publication_list_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -373,7 +374,6 @@ abstract class ContentObjectPublicationListRenderer
 
     function render_evaluation_action($publication)
     {
-        require_once dirname(__FILE__) . '/../../gradebook/evaluation_manager/evaluation_manager.class.php';
         if (EvaluationManager :: retrieve_internal_item_by_publication(WeblcmsManager :: APPLICATION_NAME, $publication->get_id()))
         {
             $evaluation_url = $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_EVALUATE_TOOL_PUBLICATION), array(), true);
@@ -751,7 +751,7 @@ abstract class ContentObjectPublicationListRenderer
 
         if (WebApplication :: is_active('gradebook'))
         {
-            require_once dirname(__FILE__) . '/../../gradebook/evaluation_manager/evaluation_manager.class.php';
+            require_once dirname(__FILE__) . '/../../../../gradebook/php/lib/evaluation_manager/evaluation_manager.class.php';
             $internal_item = EvaluationManager :: retrieve_internal_item_by_publication(WeblcmsManager :: APPLICATION_NAME, $publication->get_id());
             if ($internal_item && $internal_item->get_calculated() != 1)
             {
