@@ -1,5 +1,7 @@
 <?php
 namespace rights;
+
+use common\libraries\StaticTableColumn;
 /**
  * $Id: rights_template_browser_table_column_model.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.rights_template_manager.component.rights_template_browser_table

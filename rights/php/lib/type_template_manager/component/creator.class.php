@@ -4,6 +4,7 @@ namespace rights;
 use common\libraries\Translation;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\Application;
 
 /**
  * $Id: creator.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
