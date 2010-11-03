@@ -250,11 +250,11 @@ class DatabaseMetadataDataManager extends Database implements MetadataDataManage
 
         function retrieve_full_content_object_metadata_property_values($condition = null, $offset = null, $max_objects = null, $order_by = null)
         {
-            $type_alias = $this->get_alias(ContentObjectMetadataPropertyType :: get_table_name());
+            $type_alias = $this->get_alias(MetadataPropertyType :: get_table_name());
             $value_alias = $this->get_alias(ContentObjectMetadataPropertyValue :: get_table_name());
 
             $query = 'SELECT ' . $value_alias . '.' . MetadataPropertyValue :: PROPERTY_ID . ', ' . $value_alias . '.' . MetadataPropertyValue :: PROPERTY_VALUE . ', ' .$type_alias . '.' . MetadataPropertyType :: PROPERTY_NS_PREFIX . ', ' . $type_alias . '.' . MetadataPropertyType :: PROPERTY_NAME;
-            $query .= ' FROM ' . $this->escape_table_name(MetadataPropertyValue :: get_table_name()) . ' AS ' . $value_alias;
+            $query .= ' FROM ' . $this->escape_table_name(ContentObjectMetadataPropertyValue :: get_table_name()) . ' AS ' . $value_alias;
             $query .= ' LEFT JOIN ' . $this->escape_table_name(MetadataPropertyType :: get_table_name()) . ' AS ' . $type_alias;
             $query .= ' ON ' . $this->escape_column_name(MetadataPropertyValue :: PROPERTY_PROPERTY_TYPE_ID, $value_alias) . ' = '. $this->escape_column_name(MetadataPropertyType :: PROPERTY_ID, $type_alias);
         

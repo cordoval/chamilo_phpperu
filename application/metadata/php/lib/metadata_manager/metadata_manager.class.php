@@ -20,6 +20,7 @@ use common\libraries\Redirect;
     const APPLICATION_NAME = 'metadata';
 
     const PARAM_CONTENT_OBJECT = 'content_object';
+    const PARAM_USER = 'user';
     const PARAM_METADATA_ATTRIBUTE_NESTING = 'metadata_attribute_nesting';
     const PARAM_METADATA_DEFAULT_VALUE = 'metadata_default_value';
     const PARAM_METADATA_PROPERTY_NESTING = 'metadata_property_nesting';
@@ -184,6 +185,21 @@ use common\libraries\Redirect;
     function retrieve_content_object_metadata_property_value($id)
     {
             return MetadataDataManager :: get_instance()->retrieve_content_object_metadata_property_value($id);
+    }
+
+    function count_user_metadata_property_values($condition)
+    {
+            return MetadataDataManager :: get_instance()->count_user_metadata_property_values($condition);
+    }
+
+    static function retrieve_user_metadata_property_values($condition = null, $offset = null, $count = null, $order_property = null)
+    {
+            return MetadataDataManager :: get_instance()->retrieve_user_metadata_property_values($condition, $offset, $count, $order_property);
+    }
+
+    function retrieve_user_metadata_property_value($id)
+    {
+            return MetadataDataManager :: get_instance()->retrieve_user_metadata_property_value($id);
     }
 
 //    function count_metadata_property_values($condition)
@@ -466,6 +482,23 @@ use common\libraries\Redirect;
     function get_browse_content_object_metadata_property_values_url()
     {
             return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTENT_OBJECT_METADATA_PROPERTY_VALUES));
+    }
+
+    function get_edit_user_metadata_property_values_url($user)
+    {
+            return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_USER_METADATA,
+                                                                self :: PARAM_USER => $user->get_id()));
+    }
+
+    function get_delete_user_metadata_property_value_url($user_metadata_property_value)
+    {
+            return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_USER_METADATA_PROPERTY_VALUE,
+                                                                self :: PARAM_USER_METADATA_PROPERTY_VALUE => $user_metadata_property_value->get_id()));
+    }
+
+    function get_browse_user_metadata_property_values_url()
+    {
+            return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_USER_METADATA_PROPERTY_VALUES));
     }
 
 //    function get_edit_metadata_property_values_url($content_object)

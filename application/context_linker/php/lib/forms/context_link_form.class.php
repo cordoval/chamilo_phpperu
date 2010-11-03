@@ -16,13 +16,17 @@ class ContextLinkForm extends MetadataForm
     const TYPE_ORIGINAL = 1; // for original content object
     const TYPE_ALTERNATIVE = 2; // for ...
 
+    const TYPE = 'content_object';
+
     private $context_link;
     private $user;
     private $metadata_property_values;
         
     function ContextLinkForm($name, $form_type, $context_link, $metadata_property_values = array(), $action)
     {
-    	parent :: __construct($name, 'post', $action);
+    	$this->set_parent_type(self :: TYPE);
+
+        parent :: __construct($name, 'post', $action);
 
     	$this->context_link = $context_link;
     	$this->metadata_property_values = $metadata_property_values;
@@ -107,12 +111,7 @@ class ContextLinkForm extends MetadataForm
 
         if(!empty($values[MetadataPropertyValue :: PROPERTY_VALUE]))
         {
-            $metadata_property_value = new MetadataPropertyValue();
-            $metadata_property_value->set_content_object_id($values[ContextLink :: PROPERTY_ALTERNATIVE_CONTENT_OBJECT_ID]);
-            $metadata_property_value->set_property_type_id($values[MetadataPropertyValue :: PROPERTY_PROPERTY_TYPE_ID]);
-            $metadata_property_value->set_value($values[MetadataPropertyValue :: PROPERTY_VALUE]);
-
-            if(!$metadata_property_value->create())
+            if(! $metadata_property_value = $this->create_metadata_property_value())
             {
                 return 0;
             }

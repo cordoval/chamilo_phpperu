@@ -125,15 +125,5 @@ class MetadataManagerContentObjectMetadataEditorComponent extends MetadataManage
         }
         return $metadata_property_attribute_value_arr;
     }
-    
-    function format_default_values($default_values)
-    {
-        $default_value_arr = array();
-        while($default_value = $default_values->next_result())
-        {
-            $default_value_arr[$default_value->get_property_type_id()] = $default_value;
-        }
-        return $default_value_arr;
-    }
 }
 ?>

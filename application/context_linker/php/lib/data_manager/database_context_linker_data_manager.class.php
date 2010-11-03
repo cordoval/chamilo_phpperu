@@ -8,6 +8,7 @@ use application\metadata\MetadataDataManager;
 use repository\ContentObject;
 use application\metadata\MetadataPropertyType;
 use application\metadata\MetadataPropertyValue;
+use application\metadata\ContentObjectMetadataPropertyValue;
 
 /**
  *	This is a data manager that uses a database for storage. It was written
@@ -77,7 +78,7 @@ class DatabaseContextLinkerDataManager extends Database implements ContextLinker
         $orig_content_object_alias = $rdm->get_alias(ContentObject::get_table_name());
         $alt_content_object_alias = $rdm->get_alias(ContentObject::get_table_name()) . '_2';
         $property_type_alias = $mdm->get_alias(MetadataPropertyType :: get_table_name());
-        $property_value_alias = $mdm->get_alias(MetadataPropertyValue :: get_table_name());
+        $property_value_alias = $mdm->get_alias(ContentObjectMetadataPropertyValue :: get_table_name());
         $context_link_alias = $this->get_alias(ContextLink :: get_table_name());
 
         $query = 'SELECT ' . $context_link_alias . '.' . ContextLink :: PROPERTY_ID . ',' . $context_link_alias . '.' . ContextLink :: PROPERTY_DATE . ',
@@ -89,7 +90,7 @@ class DatabaseContextLinkerDataManager extends Database implements ContextLinker
         $query .= ' ON ' . $this->escape_column_name(ContextLink :: PROPERTY_ORIGINAL_CONTENT_OBJECT_ID, $orig_context_link_alias) . ' = ' . $rdm->escape_column_name(ContentObject :: PROPERTY_ID, $orig_content_object_alias);
         $query .= ' LEFT JOIN ' . $rdm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $alt_content_object_alias;
         $query .= ' ON ' . $this->escape_column_name(ContextLink :: PROPERTY_ALTERNATIVE_CONTENT_OBJECT_ID, $alt_context_link_alias) . ' = ' . $rdm->escape_column_name(ContentObject :: PROPERTY_ID, $alt_content_object_alias);
-        $query .= ' LEFT JOIN ' . $mdm->escape_table_name(MetadataPropertyValue :: get_table_name()) . ' AS ' . $property_value_alias;
+        $query .= ' LEFT JOIN ' . $mdm->escape_table_name(ContentObjectMetadataPropertyValue :: get_table_name()) . ' AS ' . $property_value_alias;
         $query .= ' ON '. $this->escape_column_name(ContextLink :: PROPERTY_METADATA_PROPERTY_VALUE_ID, $context_link_alias).' = ' . $mdm->escape_column_name(MetadataPropertyValue :: PROPERTY_ID, $property_value_alias);
         $query .= ' LEFT JOIN ' .  $mdm->escape_table_name(MetadataPropertyType :: get_table_name()) . ' AS ' . $property_type_alias;
         $query .= ' ON  ' . $mdm->escape_column_name(MetadataPropertyValue :: PROPERTY_PROPERTY_TYPE_ID, $property_value_alias) . '=' . $mdm->escape_column_name(MetadataPropertyType :: PROPERTY_ID, $property_type_alias);

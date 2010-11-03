@@ -13,8 +13,6 @@ use common\libraries\Path;
 
 class ContentObjectMetadataEditorForm extends MetadataForm
 {
-    const OPTION_BLANK = 'blank';
-    const PARAM_FIXED = 'fixed';
 
     const TYPE = 'content_object';
 
@@ -29,7 +27,9 @@ class ContentObjectMetadataEditorForm extends MetadataForm
 
     function ContentObjectMetadataEditorForm($content_object, $metadata_property_values, $content_object_property_metadata_values, $metadata_property_attribute_values, $allowed_metadata_property_attribute_types,$action, $user, $application)
     {
-    	parent :: __construct('content_object_metadata_property_value_settings', 'post', $action);
+    	$this->set_parent_type(self :: TYPE);
+
+        parent :: __construct('content_object_metadata_property_value_settings', 'post', $action);
 
     	$this->content_object = $content_object;
         $this->content_object_property_metadata_values = $content_object_property_metadata_values;
@@ -99,7 +99,7 @@ class ContentObjectMetadataEditorForm extends MetadataForm
 //            $metadata_property_value->set_property_type_id($values[MetadataPropertyValue :: PROPERTY_PROPERTY_TYPE_ID]);
 //            $metadata_property_value->set_value($values[MetadataPropertyValue :: PROPERTY_VALUE]);
 
-            if(!$this->create_metadata_property_value(self :: TYPE))$fails++;
+            if(!$this->create_metadata_property_value())$fails++;
         }
 
         //update existing property values

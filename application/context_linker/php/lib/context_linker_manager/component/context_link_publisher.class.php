@@ -5,6 +5,7 @@ use common\libraries\Translation;
 use application\metadata\MetadataDataManager;
 use common\libraries\EqualityCondition;
 use application\metadata\MetadataPropertyValue;
+use application\metadata\ContentObjectMetadataPropertyValue;
 
 /**
  * Component to create a new context_link object
@@ -29,8 +30,8 @@ class ContextLinkerManagerContextLinkPublisherComponent extends ContextLinkerMan
 
         $mdm = MetadataDataManager :: get_instance();
 
-        $condition = new EqualityCondition(MetadataPropertyValue :: PROPERTY_CONTENT_OBJECT_ID, Request :: get(ContextLinkerManager :: PARAM_ALTERNATIVE_CONTENT_OBJECT_ID));
-        $metadata_property_values = $mdm->retrieve_full_metadata_property_values($condition);
+        $condition = new EqualityCondition(ContentObjectMetadataPropertyValue :: PROPERTY_CONTENT_OBJECT_ID, Request :: get(ContextLinkerManager :: PARAM_ALTERNATIVE_CONTENT_OBJECT_ID));
+        $metadata_property_values = $mdm->retrieve_full_content_object_metadata_property_values($condition);
         
         $params = array();
         $params[ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID] = Request :: get(ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID);
@@ -70,7 +71,7 @@ class ContextLinkerManagerContextLinkPublisherComponent extends ContextLinkerMan
         $mdm = MetadataDataManager :: get_instance();
 
         $condition = new EqualityCondition(MetadataPropertyValue :: PROPERTY_CONTENT_OBJECT_ID, $content_object_id);
-        $metadata_property_values = $mdm->retrieve_full_metadata_property_values($condition);
+        $metadata_property_values = $mdm->retrieve_full_content_object_metadata_property_values($condition);
 
         foreach($metadata_property_values as $id => $value)
         {
