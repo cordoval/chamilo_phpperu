@@ -1,8 +1,8 @@
 <?php
-/**
- * $Id: browser.class.php 200 2009-11-13 12:30:04Z kariboe $
- * @package repository.lib.complex_builder.learning_path.component
- */
+namespace repository\content_object\survey_page;
+
+use repository\ComplexBuilderComponent;
+
 require_once dirname(__FILE__) . '/browser/survey_page_browser_table_cell_renderer.class.php';
 
 class SurveyPageBuilderBrowserComponent extends SurveyPageBuilder

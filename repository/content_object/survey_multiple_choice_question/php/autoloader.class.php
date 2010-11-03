@@ -14,7 +14,7 @@ class Autoloader
 
     static function load($classname)
     {
-        $list = array('survey_multiple_choice_qeustion' => 'survey_multiple_choice_qeustion.class.php');
+        $list = array('survey_multiple_choice_question' => 'survey_multiple_choice_question.class.php');
         $lower_case = Utilities :: camelcase_to_underscores($classname);
 
         if (key_exists($lower_case, $list))

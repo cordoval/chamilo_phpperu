@@ -1,4 +1,4 @@
-<?php namespace repository\content_object\survey;
+<?php 
 namespace repository\content_object\survey;
 
 use common\libraries\Utilities;
@@ -163,7 +163,7 @@ abstract class SurveyQuestionDisplay
 
         require_once $file;
 
-        $class = Utilities :: underscores_to_camelcase($type) . 'Display';
+        $class = __NAMESPACE__ . '\\' .Utilities :: underscores_to_camelcase($type) . 'Display';
         $question_display = new $class($formvalidator, $clo_question, $question_nr, $question, $survey, $page_nr);
         return $question_display;
     }

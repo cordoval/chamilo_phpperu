@@ -3,6 +3,7 @@ namespace repository\content_object\survey_multiple_choice_question;
 
 use common\libraries\Path;
 use common\libraries\ResourceManager;
+use repository\MultipleChoiceQuestionForm;
 
 /**
  * $Id: survey_multiple_choice_question_form.class.php $

@@ -1,10 +1,13 @@
 <?php
-/**
- * @package application.lib.survey.trackers
- */
+namespace application\survey;
 
-require_once Path :: get_application_path() . 'lib/survey/trackers/survey_question_answer_tracker.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/survey/context_data_manager/database_context_data_manager.class.php';
+use common\libraries\Path;
+use tracking\SimpleTracker;
+use common\libraries\Utilities;
+
+
+//require_once Path :: get_application_path() . 'php/lib/survey/trackers/survey_question_answer_tracker.class.php';
+require_once Path :: get_repository_content_object_path() . 'survey/php/context_data_manager/database_context_data_manager.class.php';
 
 class SurveyParticipantTracker extends SimpleTracker
 {

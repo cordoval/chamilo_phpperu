@@ -1,7 +1,23 @@
-<?php namespace application\survey;
+<?php 
+namespace application\survey;
 
-require_once Path :: get_application_path() . 'lib/survey/trackers/survey_participant_tracker.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/survey/display/component/viewer/survey_viewer_wizard.class.php';
+use common\libraries\Path;
+use repository\content_object\survey\SurveyViewerWizard;
+use repository\content_object\survey\Survey;
+
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
+use common\libraries\Theme;
+use common\libraries\Request;
+use repository\ComplexDisplay;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use tracking\Tracker;
+use tracking\Event;
+
+
+//require_once Path :: get_application_path() . 'lib/survey/trackers/survey_participant_tracker.class.php';
+require_once Path :: get_repository_content_object_path() . '/survey/php/display/component/viewer/survey_viewer_wizard.class.php';
 
 class SurveyManagerTakerComponent extends SurveyManager
 {

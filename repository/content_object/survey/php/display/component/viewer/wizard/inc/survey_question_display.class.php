@@ -1,4 +1,8 @@
-<?php namespace repository\content_object\survey;
+<?php 
+namespace repository\content_object\survey;
+
+use repository\RepositoryDataManager;
+
 
 abstract class SurveyQuestionDisplay
 {

@@ -1,7 +1,6 @@
 <?php
 namespace repository\content_object\survey;
 
-
 use repository\ContentObject;
 use common\libraries\ComplexContentObjectSupport;
 use common\libraries\Utilities;
@@ -9,6 +8,8 @@ use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\InCondition;
 use repository\content_object\survey_page\SurveyPage;
+use repository\RepositoryDataManager;
+use repository\ComplexContentObjectItem;
 
 
 /**

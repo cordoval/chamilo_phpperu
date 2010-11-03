@@ -5,6 +5,8 @@ use common\libraries\Utilities;
 use common\libraries\Path;
 use rights\RightsUtilities;
 use common\libraries\DataClass;
+use repository\RepositoryDataManager;
+
 
 class SurveyPublication extends DataClass
 {

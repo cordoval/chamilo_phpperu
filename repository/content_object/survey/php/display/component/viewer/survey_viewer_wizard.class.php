@@ -1,4 +1,11 @@
-<?php namespace repository\content_object\survey;
+<?php 
+namespace repository\content_object\survey;
+
+use common\libraries\Path;
+use repository\RepositoryDataManager;
+use HTML_QuickForm_Controller;
+use common\libraries\Request;
+
 
 require_once 'HTML/QuickForm/Controller.php';
 require_once 'HTML/QuickForm/Rule.php';

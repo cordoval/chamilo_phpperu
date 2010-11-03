@@ -1,13 +1,8 @@
-<?php namespace repository\content_object\survey;
+<?php 
 namespace repository\content_object\survey;
-/**
- * $Id: survey_display.class.php 200 2009-11-13 12:30:04Z kariboe $
- * @package repository.lib.complex_display.survey
- */
 
-/**
- * This tool allows a user to publish surveys in his or her course.
- */
+use repository\ComplexDisplay;
+
 class SurveyDisplay extends ComplexDisplay
 {
     const ACTION_VIEW_SURVEY = 'survey_viewer';

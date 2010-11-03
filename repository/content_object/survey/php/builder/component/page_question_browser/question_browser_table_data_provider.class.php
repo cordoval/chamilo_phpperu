@@ -1,7 +1,8 @@
-<?php namespace repository\content_object\survey;
+<?php
 namespace repository\content_object\survey;
 
 use common\libraries\ObjectTableDataProvider;
+use repository\RepositoryDataManager;
 
 class SurveyPageQuestionBrowserTableDataProvider extends ObjectTableDataProvider
 {

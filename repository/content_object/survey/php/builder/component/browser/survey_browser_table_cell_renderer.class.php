@@ -1,14 +1,26 @@
 <?php 
 namespace repository\content_object\survey;
 
+
+use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\ComplexContentObjectSupport;
 use repository\ComplexBrowserTableCellRenderer;
+use common\libraries\Path;
+use common\libraries\Theme;
+use repository\ComplexBrowserTableColumnModel;
+use repository\ContentObject;
+use common\libraries\ToolbarItem;
+use common\libraries\Toolbar;
+use repository\RepositoryDataManager;
+use repository\RepositoryManager;
+use repository\content_object\survey_page\SurveyPage;
 
 /**
  * $Id: learning_path_browser_table_cell_renderer.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.learning_path.component.browser
  */
-//require_once Path :: get_repository_path() . 'lib/repository_manager/component/complex_browser/complex_browser_table_cell_renderer.class.php';
+require_once Path :: get_repository_path() . 'lib/repository_manager/component/complex_browser/complex_browser_table_cell_renderer.class.php';
 /**
  * Cell rendere for the learning object browser table
  */

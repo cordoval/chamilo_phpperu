@@ -4,6 +4,16 @@ namespace repository\content_object\survey_page;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\ComplexContentObjectSupport;
+use repository\ComplexContentObjectItem;
+
+use repository\content_object\survey_rating_question\SurveyRatingQuestion;
+use repository\content_object\survey_open_question\SurveyOpenQuestion;
+use repository\content_object\survey_multiple_choice_question\SurveyMultipleChoiceQuestion;
+use repository\content_object\survey_matching_question\SurveyMatchingQuestion;
+use repository\content_object\survey_select_question\SurveySelectQuestion;
+use repository\content_object\survey_matrix_question\SurveyMatrixQuestion;
+use repository\content_object\survey_description\SurveyDescription;
+use repository\RepositoryDataManager;
 
 use repository\ContentObject;
 

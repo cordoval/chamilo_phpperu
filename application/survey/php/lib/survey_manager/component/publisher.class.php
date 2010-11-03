@@ -4,9 +4,15 @@ namespace application\survey;
 use common\extensions\repo_viewer\RepoViewerInterface;
 use common\extensions\repo_viewer\RepoViewer;
 use repository\content_object\survey\Survey;
+use common\libraries\Incondition;
+use repository\ContentObject;
+use repository\RepositoryDataManager;
+use common\libraries\Translation;
+use common\libraries\Theme;
+use common\libraries\Application;
+use common\libraries\DynamicTabsRenderer;
+use common\libraries\DynamicContentTab;
 
-//require_once dirname(__FILE__) . '/../survey_manager.class.php';
-//require_once dirname(__FILE__) . '/../../forms/survey_publication_form.class.php';
 
 class SurveyManagerPublisherComponent extends SurveyManager implements RepoViewerInterface
 {
