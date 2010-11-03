@@ -5,6 +5,11 @@ use common\libraries\Translation;
 use common\libraries\EqualityCondition;
 
 use common\libraries\Utilities;
+use HTML_Menu;
+use common\libraries\ObjectTableOrder;
+use common\libraries\OptionsMenuRenderer;
+use HTML_Menu_ArrayRenderer;
+use common\libraries\TreeMenuRenderer;
 /**
  * $Id: location_menu.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib

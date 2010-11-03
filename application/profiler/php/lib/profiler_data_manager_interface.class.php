@@ -84,7 +84,7 @@ interface ProfilerDataManagerInterface
      * @param ProfilerPublication $profile_publication
      * @return boolean
      */
-    function delete_profile_publication($profile_publication);
+    function delete_profiler_publication($profile_publication);
 
     /**
      * Delete the publications

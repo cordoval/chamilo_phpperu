@@ -5,7 +5,7 @@
  */
 $this_section = 'rights';
 
-require_once dirname(__FILE__) . '/../../../../../common/global.inc.php';
+require_once dirname(__FILE__) . '/../../../../common/global.inc.php';
 
 Utilities :: set_application($this_section);
 

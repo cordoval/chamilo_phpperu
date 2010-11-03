@@ -1,5 +1,6 @@
 <?php
 namespace common\extensions\rights_editor_manager;
+
 use common\libraries\Utilities;
 use rights\RightsUtilities;
 use common\libraries\Request;
@@ -13,7 +14,7 @@ use common\libraries\Breadcrumb;
 
 class RightsEditorManagerTemplateRightsSetterComponent extends RightsEditorManager
 {
-	const PARAM_TEMPLATE_ID = 'template_id';
+	const PARAM_TEMPLATE_ID = 'rights_template_id';
 	const PARAM_RIGHT_ID = 'right_id';
 	
     /**

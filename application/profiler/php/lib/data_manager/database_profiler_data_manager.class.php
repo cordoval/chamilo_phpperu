@@ -89,7 +89,7 @@ class DatabaseProfilerDataManager extends Database implements ProfilerDataManage
     }
 
     //Inherited
-    function delete_profile_publication($profile_publication)
+    function delete_profiler_publication($profile_publication)
     {
         $condition = new EqualityCondition(ProfilerPublication :: PROPERTY_ID, $profile_publication->get_id());
         return $this->delete(ProfilerPublication :: get_table_name(), $condition);

@@ -47,7 +47,7 @@ class ProfilerManagerEditorComponent extends ProfilerManager
 
             $content_object = $profile_publication->get_publication_object();
 
-            if (ProfilerRights::is_allowed_in_profiler_subtree(ProfilerRights::RIGHT_EDIT, $content_object->get_id(), ProfilerRights::TYPE_PUBLICATION))
+            if (!ProfilerRights::is_allowed_in_profiler_subtree(ProfilerRights::RIGHT_EDIT, $content_object->get_id(), ProfilerRights::TYPE_PUBLICATION))
             {
                 Display :: not_allowed();
                 exit();
