@@ -36,27 +36,27 @@ require_once Path :: get_repository_content_object_path() . 'learning_path/php/d
 
 class LearningPathToolTestComponent extends LearningPathTool implements LearningPathComplexDisplaySupport
 {
-
+    
     private $publication;
 
     function run()
     {
         $publication_id = Request :: get(Tool :: PARAM_PUBLICATION_ID);
         $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, $publication_id);
-
+        
         // TODO: This should be handled better and differently
-        $this->set_parameter('lpi_attempt_id', Request :: get('lpi_attempt_id'));
+        $this->set_parameter(LearningPathDisplay :: PARAM_LEARNING_PATH_ITEM_ID, Request :: get(LearningPathDisplay :: PARAM_LEARNING_PATH_ITEM_ID));
         $this->set_parameter(ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID, Request :: get(ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID));
-
+        
         $this->publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($publication_id);
-
+        
         ComplexDisplay :: launch($this->get_root_content_object()->get_type(), $this);
     }
 
     function get_root_content_object()
     {
         $embedded_content_object_id = LearningPathContentObjectDisplay :: get_embedded_content_object_id();
-
+        
         if ($embedded_content_object_id)
         {
             $this->set_parameter(LearningPathContentObjectDisplay :: PARAM_EMBEDDED_CONTENT_OBJECT_ID, $embedded_content_object_id);
@@ -71,7 +71,7 @@ class LearningPathToolTestComponent extends LearningPathTool implements Learning
     function display_header()
     {
         $embedded_content_object_id = LearningPathContentObjectDisplay :: get_embedded_content_object_id();
-
+        
         if ($embedded_content_object_id)
         {
             Display :: small_header();
@@ -85,7 +85,7 @@ class LearningPathToolTestComponent extends LearningPathTool implements Learning
     function display_footer()
     {
         $embedded_content_object_id = LearningPathContentObjectDisplay :: get_embedded_content_object_id();
-
+        
         if ($embedded_content_object_id)
         {
             Display :: small_footer();
@@ -118,11 +118,11 @@ class LearningPathToolTestComponent extends LearningPathTool implements Learning
         $conditions[] = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_LP_ID, $this->get_publication()->get_id());
         $conditions[] = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_USER_ID, $this->get_user_id());
         $condition = new AndCondition($conditions);
-
+        
         $dummy = new WeblcmsLpAttemptTracker();
         $trackers = $dummy->retrieve_tracker_items($condition);
         $learning_path_tracker = $trackers[0];
-
+        
         if (! $learning_path_tracker)
         {
             $parameters = array();
@@ -130,42 +130,42 @@ class LearningPathToolTestComponent extends LearningPathTool implements Learning
             $parameters[WeblcmsLpAttemptTracker :: PROPERTY_COURSE_ID] = $this->get_course_id();
             $parameters[WeblcmsLpAttemptTracker :: PROPERTY_LP_ID] = $this->get_publication()->get_id();
             $parameters[WeblcmsLpAttemptTracker :: PROPERTY_PROGRESS] = 0;
-
+            
             $return = Event :: trigger('attempt_learning_path', WeblcmsManager :: APPLICATION_NAME, $parameters);
             $learning_path_tracker = $return[0];
         }
-
+        
         return $learning_path_tracker;
     }
 
     function retrieve_tracker_items($learning_path_tracker)
     {
         $learning_path_item_attempt_data = array();
-
+        
         $condition = new EqualityCondition(WeblcmsLpiAttemptTracker :: PROPERTY_LP_VIEW_ID, $learning_path_tracker->get_id());
-
+        
         $dummy = new WeblcmsLpiAttemptTracker();
         $trackers = $dummy->retrieve_tracker_items($condition);
-
+        
         foreach ($trackers as $tracker)
         {
             $item_id = $tracker->get_lp_item_id();
-
+            
             if (! $learning_path_item_attempt_data[$item_id])
             {
                 $learning_path_item_attempt_data[$item_id]['score'] = 0;
                 $learning_path_item_attempt_data[$item_id]['time'] = 0;
             }
-
+            
             $learning_path_item_attempt_data[$item_id]['trackers'][] = $tracker;
             $learning_path_item_attempt_data[$item_id]['size'] ++;
             $learning_path_item_attempt_data[$item_id]['score'] += $tracker->get_score();
-
+            
             if ($tracker->get_total_time())
             {
                 $learning_path_item_attempt_data[$item_id]['time'] += $tracker->get_total_time();
             }
-
+            
             if ($tracker->get_status() == 'completed' || $tracker->get_status() == 'passed')
             {
                 $learning_path_item_attempt_data[$item_id]['completed'] = 1;
@@ -175,7 +175,7 @@ class LearningPathToolTestComponent extends LearningPathTool implements Learning
                 $learning_path_item_attempt_data[$item_id]['active_tracker'] = $tracker;
             }
         }
-
+        
         return $learning_path_item_attempt_data;
     }
 
@@ -210,7 +210,7 @@ class LearningPathToolTestComponent extends LearningPathTool implements Learning
         $parameters[WeblcmsLpiAttemptTracker :: PROPERTY_MIN_SCORE] = 0;
         $parameters[WeblcmsLpiAttemptTracker :: PROPERTY_MAX_SCORE] = 0;
         $parameters[WeblcmsLpiAttemptTracker :: PROPERTY_STATUS] = 'not attempted';
-
+        
         $result = Event :: trigger('attempt_learning_path_item', WeblcmsManager :: APPLICATION_NAME, $parameters);
         return $result[0];
     }
@@ -220,9 +220,7 @@ class LearningPathToolTestComponent extends LearningPathTool implements Learning
      */
     function get_learning_path_content_object_item_details_url($complex_content_object_id)
     {
-        return $this->get_url(array(
-                Tool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT, Tool :: PARAM_PUBLICATION_ID => $this->publication->get_id(), LearningPathDisplay :: PARAM_SHOW_PROGRESS => 'true',
-                ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_id, 'attempt_id' => Request :: get('attempt_id')));
+        return $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT, Tool :: PARAM_PUBLICATION_ID => $this->publication->get_id(), LearningPathDisplay :: PARAM_SHOW_PROGRESS => 'true', ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_id, 'attempt_id' => Request :: get('attempt_id')));
     }
 
     /**
@@ -233,9 +231,7 @@ class LearningPathToolTestComponent extends LearningPathTool implements Learning
      */
     function get_learning_path_content_object_assessment_result_url($complex_content_object_id, $details)
     {
-        return $this->get_url(array(
-                Tool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT, Tool :: PARAM_PUBLICATION_ID => $this->publication->get_id(), LearningPathDisplay :: PARAM_SHOW_PROGRESS => 'true',
-                ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_id, LearningPathDisplay :: PARAM_DETAILS => $details));
+        return $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT, Tool :: PARAM_PUBLICATION_ID => $this->publication->get_id(), LearningPathDisplay :: PARAM_SHOW_PROGRESS => 'true', ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_id, LearningPathDisplay :: PARAM_DETAILS => $details));
     }
 
     /**
@@ -261,41 +257,34 @@ class LearningPathToolTestComponent extends LearningPathTool implements Learning
 
     function save_answer($complex_question_id, $answer, $score)
     {
-        $learning_path_item_attempt_id = Request :: get('lpi_attempt_id');
-
-        var_dump($learning_path_item_attempt_id);
-        exit;
-
         $tracker = $this->retrieve_learning_path_tracker();
         $items = $this->retrieve_tracker_items($tracker);
-
+        
         $parameters = array();
-        $parameters[WeblcmsLearningPathQuestionAttemptsTracker :: PROPERTY_LPI_ATTEMPT_ID] = $learning_path_item_attempt_id;
+        $parameters[WeblcmsLearningPathQuestionAttemptsTracker :: PROPERTY_LPI_ATTEMPT_ID] = $this->get_parameter(LearningPathDisplay :: PARAM_LEARNING_PATH_ITEM_ID);
         $parameters[WeblcmsLearningPathQuestionAttemptsTracker :: PROPERTY_QUESTION_CID] = $complex_question_id;
         $parameters[WeblcmsLearningPathQuestionAttemptsTracker :: PROPERTY_ANSWER] = $answer;
         $parameters[WeblcmsLearningPathQuestionAttemptsTracker :: PROPERTY_SCORE] = $score;
         $parameters[WeblcmsLearningPathQuestionAttemptsTracker :: PROPERTY_FEEDBACK] = '';
-
+        
         Event :: trigger('attempt_learning_path_question', WeblcmsManager :: APPLICATION_NAME, $parameters);
     }
 
     function finish_assessment($total_score)
     {
-        $learning_path_item_attempt_id = Request :: get('lpi_attempt_id');
-
-        $condition = new EqualityCondition(WeblcmsLpiAttemptTracker :: PROPERTY_ID, $learning_path_item_attempt_id);
-
+        $condition = new EqualityCondition(WeblcmsLpiAttemptTracker :: PROPERTY_ID, $this->get_parameter(LearningPathDisplay :: PARAM_LEARNING_PATH_ITEM_ID));
+        
         $dummy = new WeblcmsLpiAttemptTracker();
         $trackers = $dummy->retrieve_tracker_items($condition);
         $lpi_tracker = $trackers[0];
-
+        
         $lpi_tracker->set_score($total_score);
         $lpi_tracker->set_total_time($lpi_tracker->get_total_time() + (time() - $lpi_tracker->get_start_time()));
-
+        
         $cloi = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item(Request :: get(ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID));
         $lp_item = RepositoryDataManager :: get_instance()->retrieve_content_object($cloi->get_ref());
         $mastery_score = $lp_item->get_mastery_score();
-
+        
         if ($mastery_score)
         {
             $status = ($total_score >= $mastery_score) ? 'passed' : 'failed';
@@ -304,14 +293,14 @@ class LearningPathToolTestComponent extends LearningPathTool implements Learning
         {
             $status = 'completed';
         }
-
+        
         $lpi_tracker->set_status($status);
         $lpi_tracker->update();
     }
 
     function get_current_attempt_id()
     {
-        return Request :: get('lpi_attempt_id');
+        return $this->get_parameter(LearningPathDisplay :: PARAM_LEARNING_PATH_ITEM_ID);
     }
 
     function get_go_back_url()

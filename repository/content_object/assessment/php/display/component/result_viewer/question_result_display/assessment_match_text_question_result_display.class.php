@@ -4,12 +4,11 @@ namespace repository\content_object\assessment;
 use common\libraries\Translation;
 
 /**
- * $Id: match_question_result_display.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.assessment.component.viewer.wizard.inc.question_result_display
  */
 require_once dirname(__FILE__) . '/../question_result_display.class.php';
 
-class MatchQuestionResultDisplay extends QuestionResultDisplay
+class AssessmentMatchTextQuestionResultDisplay extends QuestionResultDisplay
 {
 
     function display_question_result()
@@ -43,14 +42,13 @@ class MatchQuestionResultDisplay extends QuestionResultDisplay
         {
             $html[] = '<tr class="' . ($i % 2 == 0 ? 'row_even' : 'row_odd') . '">';
             $html[] = '<td>' . $answer->get_value() . '</td>';
-            $html[] = '<td>' . $answer->get_comment() . '</td>';
+            $html[] = '<td>' . $answer->get_feedback() . '</td>';
             $html[] = '</tr>';
         }
         
         $html[] = '</tbody>';
         $html[] = '</table>';
         
-        echo implode("\n", $html);
+        return implode("\n", $html);
     }
 }
-?>

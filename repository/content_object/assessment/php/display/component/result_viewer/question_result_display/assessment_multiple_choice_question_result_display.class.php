@@ -2,6 +2,7 @@
 namespace repository\content_object\assessment;
 
 use common\libraries\Translation;
+use repository\MultipleChoiceQuestion;
 
 /**
  * $Id: assessment_multiple_choice_question_result_display.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -23,15 +24,15 @@ class AssessmentMultipleChoiceQuestionResultDisplay extends QuestionResultDispla
         $html[] = '</tr>';
         $html[] = '</thead>';
         $html[] = '<tbody>';
-
+        
         $answers = $this->get_answers();
         $options = $this->get_question()->get_options();
         $type = $this->get_question()->get_answer_type();
-
+        
         foreach ($options as $i => $option)
         {
             $html[] = '<tr class="' . ($i % 2 == 0 ? 'row_even' : 'row_odd') . '">';
-
+            
             if ($type == MultipleChoiceQuestion :: ANSWER_TYPE_RADIO)
             {
                 if (in_array($i, $answers))
@@ -42,7 +43,7 @@ class AssessmentMultipleChoiceQuestionResultDisplay extends QuestionResultDispla
                 {
                     $selected = "";
                 }
-
+                
                 $html[] = '<td>' . '<input type="radio" name="yourchoice_' . $this->get_complex_content_object_question()->get_id() . '" value="' . $i . '" disabled' . $selected . '/>' . '</td>';
             }
             else
@@ -55,10 +56,10 @@ class AssessmentMultipleChoiceQuestionResultDisplay extends QuestionResultDispla
                 {
                     $selected = "";
                 }
-
+                
                 $html[] = '<td>' . '<input type="checkbox" name="yourchoice' . $i . '" disabled' . $selected . '/>' . '</td>';
             }
-
+            
             if ($option->is_correct())
             {
                 $selected = " checked ";
@@ -67,7 +68,7 @@ class AssessmentMultipleChoiceQuestionResultDisplay extends QuestionResultDispla
             {
                 $selected = "";
             }
-
+            
             if ($type == 'radio')
             {
                 $html[] = '<td>' . '<input type="radio" name="correctchoice_' . $this->get_complex_content_object_question()->get_id() . '" value="' . $i . '" disabled' . $selected . '/>' . '</td>';
@@ -76,14 +77,14 @@ class AssessmentMultipleChoiceQuestionResultDisplay extends QuestionResultDispla
             {
                 $html[] = '<td>' . '<input type="checkbox" name="correctchoice_' . $i . '" disabled' . $selected . '/>' . '</td>';
             }
-
+            
             $html[] = '<td>' . $option->get_value() . '</td>';
             $html[] = '</tr>';
         }
-
+        
         $html[] = '</tbody>';
         $html[] = '</table>';
-
+        
         return implode("\n", $html);
     }
 }

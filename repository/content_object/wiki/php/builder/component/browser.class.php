@@ -5,6 +5,7 @@ use common\libraries\Path;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use repository\ContentObjectDisplay;
+use repository\ContentObjectTypeSelectorSupport;
 
 /**
  * $Id: browser.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -12,7 +13,7 @@ use repository\ContentObjectDisplay;
  */
 require_once dirname(__FILE__) . '/browser/wiki_browser_table_cell_renderer.class.php';
 
-class WikiBuilderBrowserComponent extends WikiBuilder
+class WikiBuilderBrowserComponent extends WikiBuilder implements ContentObjectTypeSelectorSupport
 {
 
     function run()

@@ -10,11 +10,9 @@ use common\libraries\ResourceManager;
 use common\libraries\Theme;
 use common\libraries\BasicApplication;
 use common\libraries\SubManager;
-use \Exception;
+use Exception;
 use admin\AdminDataManager;
 use admin\Registration;
-
-
 
 /**
  * $Id: complex_builder.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -39,7 +37,7 @@ abstract class ComplexBuilder extends SubManager
     const PARAM_MOVE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM = 'move_selected_cloi';
     const PARAM_TYPE = 'type';
     const PARAM_DIRECTION = 'direction';
-
+    
     const ACTION_BROWSE = 'browser';
     const ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM = 'deleter';
     const ACTION_VIEW_COMPLEX_CONTENT_OBJECT_ITEM = 'viewer';
@@ -47,17 +45,17 @@ abstract class ComplexBuilder extends SubManager
     const ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM = 'creator';
     const ACTION_MOVE_COMPLEX_CONTENT_OBJECT_ITEM = 'mover';
     const ACTION_CHANGE_PARENT = 'parent_changer';
-
+    
     const DEFAULT_ACTION = self :: ACTION_BROWSE;
-
+    
     protected $menu;
-
+    
     /**
      * The current item in treemenu to determine where we are in the structure
      * @var ComplexContentObjectItem
      */
     private $complex_content_object_item;
-
+    
     /**
      * The item we select to execute an action like update / delete / move etc
      * @var ComplexContentObjectItem
@@ -67,23 +65,23 @@ abstract class ComplexBuilder extends SubManager
     function ComplexBuilder($parent)
     {
         parent :: __construct($parent);
-
+        
         $complex_content_object_item_id = Request :: get(self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
         if ($complex_content_object_item_id)
         {
             $this->complex_content_object_item = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($complex_content_object_item_id);
         }
-
+        
         $selected_complex_content_object_item_id = Request :: get(self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID);
         if ($selected_complex_content_object_item_id)
         {
             $this->selected_complex_content_object_item = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($selected_complex_content_object_item_id);
         }
-
+        
         $this->set_action(Request :: get(self :: PARAM_BUILDER_ACTION));
         $this->parse_input_from_table();
     }
-
+    
     //Singleton
     private static $instance;
 
@@ -103,18 +101,17 @@ abstract class ComplexBuilder extends SubManager
     static function launch($type, $application)
     {
         $file = dirname(__FILE__) . '/../../../content_object/' . $type . '/php/builder/' . $type . '_builder.class.php';
-
         
         if (! file_exists($file))
         {
             throw new Exception(Translation :: get('ComplexBuilderTypeDoesNotExist', array('type' => $type)));
         }
-
+        
         require_once $file;
-		//TODO just a hack needs some cleaner code ?
-        $name_space = __NAMESPACE__.'\\'.'content_object\\'.$type.'\\';
-        $class = $name_space.Utilities :: underscores_to_camelcase($type) . 'Builder';
-	    parent :: launch($class, $application);
+        //TODO just a hack needs some cleaner code ?
+        $name_space = __NAMESPACE__ . '\\' . 'content_object\\' . $type . '\\';
+        $class = $name_space . Utilities :: underscores_to_camelcase($type) . 'Builder';
+        parent :: launch($class, $application);
     }
 
     protected function parse_input_from_table()
@@ -193,12 +190,12 @@ abstract class ComplexBuilder extends SubManager
     /**
      * Common functionality
      */
-
+    
     function get_complex_content_object_table_html($show_subitems_column = true, $model = null, $renderer = null)
     {
         $parameters = $this->get_parameters();
         $parameters[self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID] = $this->get_complex_content_object_item_id();
-
+        
         $table = new ComplexBrowserTable($this, $parameters, $this->get_complex_content_object_table_condition(), $show_subitems_column, $model, $renderer);
         return $table->as_html();
     }
@@ -236,11 +233,11 @@ abstract class ComplexBuilder extends SubManager
     }
 
     //url building
-
+    
 
     function get_complex_content_object_item_edit_url($selected_content_object_item_id)
     {
-
+        
         return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM, self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $selected_content_object_item_id, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
     }
 
@@ -279,39 +276,26 @@ abstract class ComplexBuilder extends SubManager
         return array();
     }
 
-    function get_creation_links($content_object, $types = array(), $additional_links = array())
+    function get_content_object_type_creation_url($type)
     {
-        $html[] = '<div class="category_form"><div id="content_object_selection">';
+        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM, self :: PARAM_TYPE => $type, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
+    }
 
+    function is_allowed_to_create($type)
+    {
+        return true;
+    }
+
+    function get_creation_links($content_object, $types = array())
+    {
         if (count($types) == 0)
         {
             $types = $content_object->get_allowed_types();
         }
-
-        foreach ($types as $type)
-        {
-            $url = $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM, self :: PARAM_TYPE => $type, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
-
-            $html[] = '<a href="' . $url . '"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/big/' . $type . '.png);">';
-            $html[] = Translation :: get(Utilities :: get_classname_from_namespace(ContentObject :: type_to_class($type)) . 'TypeName');
-            $html[] = '<div class="clear">&nbsp;</div>';
-            $html[] = '</div></a>';
-        }
-
-        foreach ($this->get_additional_links() as $link)
-        {
-            $type = $link['type'];
-            $html[] = '<a href="' . $link['url'] . '"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/big/' . $type . '.png);">';
-            $html[] = $link['title'];
-            $html[] = '<div class="clear">&nbsp;</div>';
-            $html[] = '</div></a>';
-        }
-
-        $html[] = ResourceManager :: get_instance()->get_resource_html(BasicApplication :: get_application_web_resources_javascript_path(RepositoryManager::APPLICATION_NAME) . 'repository.js');
-        $html[] = '</div>';
-        $html[] = '<div class="clear">&nbsp;</div>';
-        $html[] = '</div>';
-
+        
+        $type_selector = new ContentObjectTypeSelector($this, $types, $this->get_additional_links());
+        $html[] = $type_selector->as_html();
+        
         return implode("\n", $html);
     }
 

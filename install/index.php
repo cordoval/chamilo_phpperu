@@ -1,5 +1,4 @@
 <?php
-
 use common\libraries\Utilities;
 use common\libraries\Application;
 use common\libraries\Path;
@@ -34,6 +33,7 @@ ini_set("max_execution_time", "7200");
 //error_reporting(E_ALL);
 error_reporting(E_ALL & ~ E_NOTICE & ~ E_DEPRECATED & ~ E_WARNING);
 //ini_set('display_errors', '0');
+
 
 spl_autoload_register('common\libraries\Utilities::autoload');
 require_once dirname(__FILE__) . '/php/lib/install_manager/install_manager.class.php';

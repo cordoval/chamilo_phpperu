@@ -1,5 +1,4 @@
 <?php
-
 namespace repository\content_object\learning_path;
 
 use common\libraries\Utilities;
@@ -30,5 +29,4 @@ class Autoloader
     }
 
 }
-
 ?>

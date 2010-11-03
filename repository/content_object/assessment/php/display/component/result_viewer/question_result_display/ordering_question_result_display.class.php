@@ -23,10 +23,10 @@ class OrderingQuestionResultDisplay extends QuestionResultDisplay
         $html[] = '</tr>';
         $html[] = '</thead>';
         $html[] = '<tbody>';
-
+        
         $answers = $this->get_question()->get_options();
         $user_answers = $this->get_answers();
-
+        
         foreach ($answers as $i => $answer)
         {
             $html[] = '<tr class="' . ($i % 2 == 0 ? 'row_even' : 'row_odd') . '">';
@@ -35,10 +35,10 @@ class OrderingQuestionResultDisplay extends QuestionResultDisplay
             $html[] = '<td>' . $answer->get_value() . '</td>';
             $html[] = '</tr>';
         }
-
+        
         $html[] = '</tbody>';
         $html[] = '</table>';
-
+        
         return implode("\n", $html);
     }
 }

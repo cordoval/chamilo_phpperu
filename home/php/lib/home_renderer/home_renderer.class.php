@@ -1,11 +1,17 @@
 <?php
 namespace home;
+
 use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\Request;
-use home\DefaultHomeRenderer;
 use common\libraries\Display;
 use common\libraries\Redirect;
+use common\libraries\Session;
+use common\libraries\PlatformSetting;
+use common\libraries\Authentication;
+
+use user\UserDataManager;
+
 /**
  * @author Hans De Bisschop
  */

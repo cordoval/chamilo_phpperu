@@ -1,13 +1,15 @@
 <?php
 namespace home;
+
 use common\libraries\BasicApplication;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
-use common\libraries\Authentication;
-use common\libraries\PlatformSetting;
 use common\libraries\Theme;
 use common\libraries\Block;
+use common\libraries\PlatformSetting;
+
+use user\User;
 /**
  * @author Hans De Bisschop
  */
@@ -19,8 +21,10 @@ class DefaultHomeRenderer extends HomeRenderer
      */
     function render()
     {
+        $homepage = $this->render_homepage();
+        
         $this->display_header();
-        echo $this->render_homepage();
+        echo $homepage;
         $this->display_footer();
     }
 
@@ -28,11 +32,10 @@ class DefaultHomeRenderer extends HomeRenderer
     {
         $current_tab = $this->get_current_tab();
         $user = $this->get_user();
-
         $user_home_allowed = PlatformSetting :: get('allow_user_home', HomeManager :: APPLICATION_NAME);
 
         // Get user id
-        if ($user_home_allowed && Authentication :: is_valid())
+        if ($user_home_allowed && $user instanceof User)
         {
             $user_id = $user->get_id();
         }
@@ -47,7 +50,7 @@ class DefaultHomeRenderer extends HomeRenderer
         // If the homepage can be personalised but we have no rows, get the
         // default (to prevent lockouts) and display a warning / notification
         // which tells the user he can personalise his homepage
-        if ($user_home_allowed && Authentication :: is_valid() && $tabs->size() == 0)
+        if ($user_home_allowed && $user instanceof User && $tabs->size() == 0)
         {
             $this->create_user_home();
 
@@ -73,7 +76,7 @@ class DefaultHomeRenderer extends HomeRenderer
         }
         $html[] = '</ul>';
 
-        if ($user_home_allowed && Authentication :: is_valid())
+        if ($user_home_allowed && $user instanceof User)
         {
             $html[] = '<div id="tab_actions">';
             $html[] = '<a class="addTab" href="#"><img src="' . Theme :: get_image_path() . 'action_add_tab.png" />&nbsp;' . Translation :: get('NewTab') . '</a>';
@@ -154,7 +157,7 @@ class DefaultHomeRenderer extends HomeRenderer
 
         $html[] = '<div style="clear: both; height: 0px; line-height: 0px;">&nbsp;</div>';
 
-        if ($user_home_allowed && Authentication :: is_valid())
+        if ($user_home_allowed && $user instanceof User)
         {
             $html[] = '<script type="text/javascript" src="' . BasicApplication :: get_application_web_resources_javascript_path(HomeManager :: APPLICATION_NAME) . 'home_ajax.js' . '"></script>';
         }
