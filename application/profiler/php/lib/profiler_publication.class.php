@@ -182,7 +182,7 @@ class ProfilerPublication extends DataClass
 
     static function get_table_name()
     {
-        return 'profiler_publication';//Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME))); //doesnt work because the class is named wrong 
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME))); 
     }
 
 }
