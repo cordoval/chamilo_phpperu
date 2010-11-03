@@ -1,4 +1,9 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\DataManagerInterface;
+use common\libraries\Configuration;
+use common\libraries\Utilities;
 
 class InternshipOrganizerDataManager implements DataManagerInterface
 {
@@ -27,7 +32,7 @@ class InternshipOrganizerDataManager implements DataManagerInterface
         {
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
             require_once dirname(__FILE__) . '/data_manager/' . Utilities :: camelcase_to_underscores($type) . '_internship_organizer_data_manager.class.php';
-            $class = $type . 'InternshipOrganizerDataManager';
+            $class = __NAMESPACE__ . '\\' . $type . 'InternshipOrganizerDataManager';
             self :: $instance = new $class();
         }
         return self :: $instance;

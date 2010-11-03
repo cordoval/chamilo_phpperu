@@ -1,4 +1,7 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\WebApplication;
 
 WebApplication :: get_application_class_lib_path('internship_organizer') .'tables/location_table/default_location_table_column_model.class.php';
 

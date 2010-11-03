@@ -1,4 +1,6 @@
 <?php
+namespace application\internship_organizer;
+
 /**
  * This class describes a InternshipAgreementRelUser data object
  * @author Sven Vanhoecke

@@ -1,4 +1,6 @@
 <?php
+namespace application\internship_organizer;
+
 
 require_once dirname(__FILE__) . '/table_column_model.class.php';
 require_once dirname(__FILE__) . '/../../../tables/period_rel_agreement_table/default_period_rel_agreement_table_cell_renderer.class.php';

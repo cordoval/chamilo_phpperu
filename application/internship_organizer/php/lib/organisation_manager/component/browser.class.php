@@ -1,4 +1,8 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\WebApplication;
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/../organisation_manager.class.php';
 require_once dirname(__FILE__) . '/browser/browser_table.class.php';

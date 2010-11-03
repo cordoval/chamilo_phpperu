@@ -1,4 +1,8 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\Utilities;
+
 require_once dirname(__FILE__) . '/../period_manager.class.php';
 
 class InternshipOrganizerPeriodManagerBrowserComponent extends InternshipOrganizerPeriodManager

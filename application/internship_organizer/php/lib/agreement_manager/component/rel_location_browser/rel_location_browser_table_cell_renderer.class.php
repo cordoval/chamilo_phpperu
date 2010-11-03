@@ -1,4 +1,7 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\WebApplication;
 
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'agreement_manager/component/rel_location_browser/rel_location_browser_table_column_model.class.php';
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'tables/agreement_rel_location_table/default_agreement_rel_location_table_cell_renderer.class.php';

@@ -1,4 +1,8 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\WebApplication;
+use common\libraries\Utilities;
 
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'organisation_manager/component/location_browser/browser_table.class.php';
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'organisation_manager/component/mentor_browser/browser_table.class.php';

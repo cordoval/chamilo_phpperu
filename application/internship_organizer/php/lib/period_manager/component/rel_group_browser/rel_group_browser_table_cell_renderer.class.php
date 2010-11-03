@@ -1,4 +1,6 @@
 <?php
+namespace application\internship_organizer;
+
 
 require_once dirname(__FILE__) . '/rel_group_browser_table_column_model.class.php';
 require_once dirname(__FILE__) . '/../../../tables/period_rel_group_table/default_period_rel_group_table_cell_renderer.class.php';

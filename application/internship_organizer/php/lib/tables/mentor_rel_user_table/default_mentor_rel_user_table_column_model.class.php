@@ -1,4 +1,6 @@
 <?php
+namespace application\internship_organizer;
+
 
 class DefaultInternshipOrganizerMentorRelUserTableColumnModel extends ObjectTableColumnModel
 {

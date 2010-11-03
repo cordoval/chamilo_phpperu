@@ -1,4 +1,10 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\WebApplication;
+use common\libraries\NestedTreeNode;
+
+use rights\RightsUtilities;
 /**
  * internship_organizer
  */

@@ -1,4 +1,6 @@
 <?php
+namespace application\internship_organizer;
+
 
 require_once dirname(__FILE__) . '/rel_mentor_browser_table_data_provider.class.php';
 require_once dirname(__FILE__) . '/rel_mentor_browser_table_column_model.class.php';

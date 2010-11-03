@@ -1,4 +1,7 @@
 <?php
+namespace application\internship_organizer;
+
+use rights\RightsUtilities;
 
 /**
  * This class describes a InternshipMoment data object

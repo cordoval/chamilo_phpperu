@@ -1,4 +1,6 @@
 <?php
+namespace application\internship_organizer;
+
 /**
  * This class describes a InternshipCategoryRelPeriod data object
  * @author Sven Vanhoecke

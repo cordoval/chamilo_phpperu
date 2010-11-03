@@ -1,4 +1,7 @@
 <?php
+namespace application\internship_organizer;
+
+use rights\RightsUtilities;
 
 /** @author Steven Willaert */
 

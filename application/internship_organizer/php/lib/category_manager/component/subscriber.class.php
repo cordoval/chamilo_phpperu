@@ -1,4 +1,6 @@
 <?php
+namespace application\internship_organizer;
+
 /**
  * $Id: subscriber.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package category.lib.category_manager.component
