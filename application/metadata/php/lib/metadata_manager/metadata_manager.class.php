@@ -31,6 +31,8 @@ use common\libraries\Redirect;
     const PARAM_METADATA_PROPERTY_ATTRIBUTE_TYPE = 'metadata_property_attribute_type';
     const PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE = 'metadata_property_attribute_value';
 
+    const ACTION_BROWSE_METADATA_TYPES = 'metadata_types_browser';
+
     const ACTION_EDIT_ASSOCIATIONS = 'metadata_associations_editor';
 
     const ACTION_DELETE_METADATA_NAMESPACE = 'metadata_namespace_deleter';
@@ -54,6 +56,7 @@ use common\libraries\Redirect;
     const ACTION_EDIT_USER_METADATA = 'user_metadata_editor';
 
     const ACTION_BROWSE_CONTENT_OBJECT_METADATA_PROPERTY_VALUES = 'content_object_metadata_property_values_browser';
+    const ACTION_BROWSE_USER_METADATA_PROPERTY_VALUES = 'user_metadata_property_values_browser';
 
     const ACTION_DELETE_METADATA_PROPERTY_ATTRIBUTE_TYPE = 'metadata_property_attribute_type_deleter';
     const ACTION_EDIT_METADATA_PROPERTY_ATTRIBUTE_TYPE = 'metadata_property_attribute_type_updater';
@@ -69,7 +72,7 @@ use common\libraries\Redirect;
     
     const ACTION_METADATA_SETTINGS = 'settings';
 
-    const DEFAULT_ACTION = self::ACTION_BROWSE_CONTENT_OBJECT_METADATA_PROPERTY_VALUES;
+    const DEFAULT_ACTION = self::ACTION_BROWSE_METADATA_TYPES;
 
     /**
      * Constructor

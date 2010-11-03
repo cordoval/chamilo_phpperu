@@ -15,6 +15,8 @@ class ContentObjectMetadataEditorForm extends MetadataForm
 {
 
     const TYPE = 'content_object';
+    const OPTION_BLANK = 'blank';
+    const PARAM_FIXED = 'fixed';
 
     private $metadata_property_values = array();
     private $user;

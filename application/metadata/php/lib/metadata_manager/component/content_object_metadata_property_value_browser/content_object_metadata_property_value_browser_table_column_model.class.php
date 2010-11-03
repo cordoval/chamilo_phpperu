@@ -5,8 +5,6 @@ use repository\DefaultContentObjectTableColumnModel;
 use common\libraries\StaticTableColumn;
 use common\libraries\ObjectTableColumn;
 
-Path :: get_user_path() . 'php/lib/tables/user_browser_table_column_model.class.php';
-
 /**
  * Table column model for the metadata_property_value browser table
  *
