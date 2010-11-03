@@ -1,4 +1,9 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\Translation;
+use common\libraries\ObjectTableColumnModel;
+use common\libraries\ObjectTableColumn;
 /**
  * $Id: default_category_rel_location_table_column_model.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package category.lib.category_rel_location_table

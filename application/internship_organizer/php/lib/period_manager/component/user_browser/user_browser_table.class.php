@@ -1,4 +1,10 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\Utilities;
+use common\libraries\ObjectTable;
+use common\libraries\Translation;
+use common\libraries\ObjectTableFormAction;
 
 require_once dirname(__FILE__) . '/user_browser_table_data_provider.class.php';
 require_once dirname(__FILE__) . '/user_browser_table_column_model.class.php';

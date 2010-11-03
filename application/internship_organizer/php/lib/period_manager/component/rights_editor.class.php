@@ -1,4 +1,7 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\Translation;
 
 class InternshipOrganizerPeriodManagerRightsEditorComponent extends InternshipOrganizerPeriodManager
 {

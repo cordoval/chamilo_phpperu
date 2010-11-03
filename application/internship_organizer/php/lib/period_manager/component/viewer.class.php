@@ -1,4 +1,20 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\Translation;
+use common\libraries\WebApplication;
+use common\libraries\Utilities;
+use common\libraries\DatetimeUtilities;
+use common\libraries\Theme;
+use common\libraries\ActionBarRenderer;
+use common\libraries\DynamicTabsRenderer;
+use common\libraries\ActionBarSearchForm;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use common\libraries\DynamicContentTab;
+
+use user\UserDataManager;
+use user\User;
 
 require_once dirname(__FILE__) . '/rel_user_browser/rel_user_browser_table.class.php';
 require_once dirname(__FILE__) . '/rel_group_browser/rel_group_browser_table.class.php';

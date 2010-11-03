@@ -1,4 +1,8 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\ObjectTableColumnModel;
+use common\libraries\ObjectTableColumn;
 /**
  * $Id: default_category_table_column_model.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package category.lib.category_table

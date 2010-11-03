@@ -1,4 +1,7 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\DelegateComponent;
 
 class InternshipOrganizerManagerOrganisationComponent extends InternshipOrganizerManager implements DelegateComponent
 {

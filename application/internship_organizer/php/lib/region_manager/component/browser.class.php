@@ -1,4 +1,16 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\Utilities;
+use common\libraries\Translation;
+use common\libraries\Theme;
+use common\libraries\ActionBarRenderer;
+use common\libraries\DynamicTabsRenderer;
+use common\libraries\ActionBarSearchForm;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use common\libraries\DynamicContentTab;
+
 require_once dirname(__FILE__) . '/../region_manager.class.php';
 require_once dirname(__FILE__) . '/browser/browser_table.class.php';
 

@@ -1,4 +1,12 @@
 <?php
+namespace application\internship_organizer;
+
+use rights\RightsUtilities;
+
+use common\libraries\DataClass;
+use common\libraries\Translation;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
 
 class InternshipOrganizerAgreement extends DataClass
 {

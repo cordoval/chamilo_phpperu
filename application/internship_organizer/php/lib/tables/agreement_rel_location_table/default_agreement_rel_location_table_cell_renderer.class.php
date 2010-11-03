@@ -1,4 +1,8 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\ObjectTableCellRenderer;
+use common\libraries\ObjectTableColumn;
 /**
  * $Id: default_agreement_rel_location_table_cell_renderer.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package agreement.lib.agreement_rel_location_table

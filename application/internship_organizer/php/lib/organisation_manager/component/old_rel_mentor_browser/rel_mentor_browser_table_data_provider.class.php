@@ -1,4 +1,7 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\ObjectTableDataProvider;
 
 class oldInternshipOrganizerMentorRelLocationBrowserTableDataProvider extends ObjectTableDataProvider
 {

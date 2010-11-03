@@ -1,4 +1,10 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
+
+use HTML_Menu;
 /**
  * $Id: group_menu.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package group.lib

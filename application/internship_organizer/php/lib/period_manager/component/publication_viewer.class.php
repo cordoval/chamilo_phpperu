@@ -1,4 +1,9 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\WebApplication;
+use common\libraries\Translation;
+use common\libraries\DynamicTabsRenderer;
 
 require_once dirname(__FILE__) . '/../period_manager.class.php';
 

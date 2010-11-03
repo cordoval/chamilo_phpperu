@@ -1,4 +1,19 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\Utilities;
+use common\libraries\Translation;
+use common\libraries\Theme;
+use common\libraries\ActionBarRenderer;
+use common\libraries\DynamicTabsRenderer;
+use common\libraries\ActionBarSearchForm;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use common\libraries\DynamicContentTab;
+
+use user\UserDataManager;
+use user\User;
+
 require_once dirname(__FILE__) . '/../period_manager.class.php';
 
 class InternshipOrganizerPeriodManagerBrowserComponent extends InternshipOrganizerPeriodManager

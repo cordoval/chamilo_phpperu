@@ -1,4 +1,12 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+
+use user\UserDataManager;
+use user\User;
+
 require_once dirname(__FILE__) . '/internship_organizer_reporting_block.class.php';
 
 abstract class InternshipOrganizerAgreementReportingBlock extends InternshipOrganizerReportingBlock

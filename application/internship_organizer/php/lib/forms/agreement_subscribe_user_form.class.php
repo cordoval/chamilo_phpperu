@@ -1,4 +1,11 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\Translation;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+
+use user\User;
 
 class InternshipOrganizerAgreementSubscribeUserForm extends FormValidator
 {

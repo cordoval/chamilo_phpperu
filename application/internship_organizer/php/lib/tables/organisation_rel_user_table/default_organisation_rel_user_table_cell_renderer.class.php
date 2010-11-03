@@ -1,4 +1,9 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\ObjectTableCellRenderer;
+
+use user\User;
 
 class DefaultInternshipOrganizerOrganisationRelUserTableCellRenderer extends ObjectTableCellRenderer
 {

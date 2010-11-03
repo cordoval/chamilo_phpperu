@@ -1,4 +1,8 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\WebApplication;
+use common\libraries\StaticTableColumn;
 
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'tables/publication_table/default_publication_table_column_model.class.php';
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'publication.class.php';

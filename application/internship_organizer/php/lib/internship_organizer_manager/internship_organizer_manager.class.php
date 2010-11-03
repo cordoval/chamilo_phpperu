@@ -1,4 +1,7 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\WebApplication;
 /**
  * @package application.lib.internship_organizer.internship_organizer_manager
  */

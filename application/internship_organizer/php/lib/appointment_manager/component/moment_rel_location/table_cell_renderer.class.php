@@ -1,4 +1,10 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\WebApplication;
+use common\libraries\Translation;
+use common\libraries\Theme;
+use common\libraries\EqualityCondition;
 
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'appointment_manager/component/moment_rel_location/table_column_model.class.php';
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'tables/moment_rel_location_table/default_moment_rel_location_table_cell_renderer.class.php';

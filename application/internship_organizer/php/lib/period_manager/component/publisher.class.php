@@ -1,4 +1,8 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\Translation;
+use common\libraries\DynamicTabsRenderer;
 
 require_once dirname(__FILE__) . '/../../publisher/period_publisher.class.php';
 

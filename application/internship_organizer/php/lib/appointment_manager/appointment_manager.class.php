@@ -1,4 +1,8 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\WebApplication;
+use common\libraries\SubManager;
 
 class InternshipOrganizerAppointmentManager extends SubManager
 {

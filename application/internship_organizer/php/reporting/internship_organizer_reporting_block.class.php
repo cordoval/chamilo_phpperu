@@ -1,4 +1,11 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\CoreApplication;
+use common\libraries\Translation;
+
+use reporting\ReportingBlock;
+
 require_once CoreApplication :: get_application_class_lib_path('reporting') .'reporting_block.class.php';
 
 abstract class InternshipOrganizerReportingBlock extends ReportingBlock

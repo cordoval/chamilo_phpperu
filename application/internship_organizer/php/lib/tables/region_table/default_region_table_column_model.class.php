@@ -1,4 +1,9 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\ObjectTableColumnModel;
+use common\libraries\ObjectTableColumn;
+use common\libraries\Translation;
 /**
  * $Id: default_region_table_column_model.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package region.lib.region_table

@@ -1,4 +1,10 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\DataClass;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+
 /**
  * This class describes a InternshipAgreementRelLocation data object
  * @author Sven Vanhoecke

@@ -1,4 +1,10 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\Translation;
+use common\libraries\Theme;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
 
 require_once dirname(__FILE__) . '/../../../tables/user_table/default_user_table_cell_renderer.class.php';
 require_once Path :: get_user_path() . '/lib/user_table/default_user_table_cell_renderer.class.php';

@@ -1,4 +1,7 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\ObjectTableCellRenderer;
 /**
  * $Id: default_category_table_cell_renderer.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package category.lib.category_table

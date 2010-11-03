@@ -1,4 +1,8 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\ObjectTableColumnModel;
+use common\libraries\ObjectTableColumn;
 
 require_once dirname ( __FILE__ ) . '/../../appointment.class.php';
 

@@ -1,4 +1,12 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\WebApplication;
+use common\libraries\Utilities;
+use common\libraries\Translation;
+
+use rights\RightsUtilities;
+
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'agreement.class.php';
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'agreement_rel_user.class.php';
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'user_type.class.php';
