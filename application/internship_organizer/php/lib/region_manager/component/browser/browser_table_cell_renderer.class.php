@@ -1,4 +1,7 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/browser_table_column_model.class.php';
 require_once dirname(__FILE__) . '/../../../tables/region_table/default_region_table_cell_renderer.class.php';

@@ -1,4 +1,7 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\WebApplication;
 
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'tables/agreement_rel_mentor_table/default_agreement_rel_mentor_table_column_model.class.php';
 

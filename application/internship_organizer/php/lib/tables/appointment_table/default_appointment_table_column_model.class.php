@@ -1,4 +1,6 @@
 <?php
+namespace application\internship_organizer;
+
 
 require_once dirname ( __FILE__ ) . '/../../appointment.class.php';
 

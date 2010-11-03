@@ -1,4 +1,6 @@
 <?php
+namespace application\internship_organizer;
+
 
 require_once dirname(__FILE__) . '/../../../tables/organisation_rel_user_table/default_organisation_rel_user_table_column_model.class.php';
 

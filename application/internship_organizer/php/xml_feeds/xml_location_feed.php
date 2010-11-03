@@ -1,4 +1,9 @@
 <?php
+
+use common\libraries\WebApplication;
+use common\libraries\CoreApplication;
+use common\libraries\Utilities;
+
 require_once dirname(__FILE__) . '/../../../../common/global.inc.php';
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'internship_organizer_data_manager.class.php';
 require_once Path :: get_common_libraries_class_path() . 'utilities.class.php';

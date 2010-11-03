@@ -1,4 +1,7 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\WebApplication;
 
 require_once dirname(__FILE__) . '/../period_manager.class.php';
 

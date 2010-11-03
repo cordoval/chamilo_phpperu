@@ -1,4 +1,7 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\WebApplication;
 
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'forms/agreement_subscribe_user_form.class.php';
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'period_manager/component/agreement_viewer.class.php';

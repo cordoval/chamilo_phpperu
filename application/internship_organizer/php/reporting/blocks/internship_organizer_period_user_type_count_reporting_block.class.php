@@ -1,4 +1,6 @@
 <?php
+namespace application\internship_organizer;
+
 require_once dirname ( __FILE__ ) . '/../period_reporting_block.class.php';
 require_once dirname ( __FILE__ ) . '/../../internship_organizer_manager/internship_organizer_manager.class.php';
 class InternshipOrganizerPeriodUserTypeCountReportingBlock extends InternshipOrganizerPeriodReportingBlock {

@@ -1,4 +1,8 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\WebApplication;
+use common\libraries\Utilities;
 
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'category_manager/component/browser/browser_table_column_model.class.php';
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'tables/category_table/default_category_table_cell_renderer.class.php';

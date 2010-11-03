@@ -1,4 +1,7 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\WebApplication;
 
 require_once require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'internship_organizer_manager/internship_organizer_manager.class.php';
 require_once require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'forms/moment_form.class.php';

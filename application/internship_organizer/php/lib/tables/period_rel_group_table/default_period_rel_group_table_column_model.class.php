@@ -1,4 +1,6 @@
 <?php
+namespace application\internship_organizer;
+
 
 class DefaultInternshipOrganizerPeriodRelGroupTableColumnModel extends ObjectTableColumnModel
 {

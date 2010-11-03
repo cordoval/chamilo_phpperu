@@ -1,7 +1,10 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\WebApplication;
+use common\libraries\Utilities;
 
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'agreement_manager.class.php';
-
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'agreement_manager/component/moment_browser/browser_table.class.php';
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'agreement_manager/component/rel_location_browser/rel_location_browser_table.class.php';
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'agreement_manager/component/user_browser/user_browser_table.class.php';

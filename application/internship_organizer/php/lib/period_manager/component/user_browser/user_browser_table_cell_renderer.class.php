@@ -1,4 +1,6 @@
 <?php
+namespace application\internship_organizer;
+
 
 require_once dirname(__FILE__) . '/../../../tables/user_table/default_user_table_cell_renderer.class.php';
 require_once Path :: get_user_path() . '/lib/user_table/default_user_table_cell_renderer.class.php';

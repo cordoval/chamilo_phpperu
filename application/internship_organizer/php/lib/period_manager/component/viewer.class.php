@@ -1,4 +1,9 @@
 <?php
+namespace application\internship_organizer;
+
+use common\libraries\WebApplication;
+use common\libraries\Utilities;
+use common\libraries\DatetimeUtilities;
 
 require_once dirname(__FILE__) . '/rel_user_browser/rel_user_browser_table.class.php';
 require_once dirname(__FILE__) . '/rel_group_browser/rel_group_browser_table.class.php';
