@@ -7,6 +7,7 @@ use common\libraries\DataClass;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
+use common\libraries\InCondition;
 
 class InternshipOrganizerAgreement extends DataClass
 {

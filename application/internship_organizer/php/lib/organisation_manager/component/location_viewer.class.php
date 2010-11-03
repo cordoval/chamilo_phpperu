@@ -10,6 +10,7 @@ use common\libraries\DynamicTabsRenderer;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\DynamicContentTab;
+use common\libraries\ToolbarItem;
 
 use user\UserDataManager;
 use user\User;

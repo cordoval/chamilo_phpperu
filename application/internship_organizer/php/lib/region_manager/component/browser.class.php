@@ -10,6 +10,7 @@ use common\libraries\ActionBarSearchForm;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\DynamicContentTab;
+use common\libraries\ToolbarItem;
 
 require_once dirname(__FILE__) . '/../region_manager.class.php';
 require_once dirname(__FILE__) . '/browser/browser_table.class.php';

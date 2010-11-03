@@ -5,7 +5,9 @@ use common\libraries\WebApplication;
 use common\libraries\Translation;
 use common\libraries\DynamicTabsRenderer;
 
-require_once require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'publisher/agreement_publisher.class.php';
+use common\extensions\repo_viewer\RepoViewerInterface;
+
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'publisher/agreement_publisher.class.php';
 
 class InternshipOrganizerAgreementManagerPublisherComponent extends InternshipOrganizerAgreementManager implements RepoViewerInterface
 {

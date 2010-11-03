@@ -4,6 +4,7 @@ namespace application\internship_organizer;
 use common\libraries\WebApplication;
 use common\libraries\Utilities;
 use common\libraries\Translation;
+use common\libraries\FormValidator;
 
 use rights\RightsUtilities;
 
