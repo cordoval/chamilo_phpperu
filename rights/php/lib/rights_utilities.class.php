@@ -334,7 +334,7 @@ class RightsUtilities
                 }
                 if (!is_null($record->get_optional_property('rights_template_id')) && $templates[$record->get_optional_property('rights_template_id')] != 1)
                 {
-                    $templates[$record->$record->get_optional_property('rights_template_id')] = 1;
+                    $templates[$record->get_optional_property('rights_template_id')] = 1;
                     if (self :: is_allowed_for_rights_template($record->get_optional_property('rights_template_id'), $right, $location))
                     {
                         return true;

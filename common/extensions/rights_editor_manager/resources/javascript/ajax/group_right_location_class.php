@@ -1,11 +1,20 @@
 <?php
+
+namespace common\extensions;
+
+use common\libraries\Utilities;
+use common\libraries\Authentication;
+use user\UserDataManager;
+use common\libraries\Session;
+use rights\RightsDataManager;
+use rights\RightsUtilities;
 /**
  * $Id: group_right_location_class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.ajax
  */
 $this_section = 'rights';
 
-require_once dirname(__FILE__) . '/../../../../../common/global.inc.php';
+require_once dirname(__FILE__) . '/../../../../../global.inc.php';
 
 Utilities :: set_application($this_section);
 

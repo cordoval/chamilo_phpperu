@@ -133,7 +133,7 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
         $html[] = '<div style="overflow: auto;">';
         $html[] = $table->as_html();
         $html[] = '</div>';
-        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'application/common/rights_editor_manager/javascript/configure_user.js');
+        //$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/extensions/rights_editor_manager/resources/javascript/configure_user.js');
 
         return implode("\n", $html);
     }
@@ -149,7 +149,7 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
         $html[] = '<div style="overflow: auto;">';
         $html[] = $table->as_html();
         $html[] = '</div>';
-        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'application/common/rights_editor_manager/javascript/configure_template.js');
+        //$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/extensions/rights_editor_manager/resources/javascript/configure_template.js');
 
         return implode("\n", $html);
     }
@@ -187,7 +187,7 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
 
         $html[] = $tabs->render();
         $html[] = '</div>';
-        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'application/common/rights_editor_manager/javascript/configure_group.js');
+        //$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/extensions/rights_editor_manager/resources/javascript/configure_group.js');
 
         return implode("\n", $html);
     }
@@ -197,7 +197,7 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
         $types = $this->get_types();
 
         $html = array();
-        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/application.js');
+        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'libraries/resources/javascript/application.js');
         $html[] = '<div class="application_selecter">';
 
         if (in_array(self :: TYPE_USER, $types))

@@ -15,7 +15,7 @@ class Autoloader
 
     static function load($classname)
     {
-        $list = array('rights_editor_manager' => 'rights_editor_manager.class.php');
+        $list = array('rights_editor_manager' => 'rights_editor_manager.class.php', 'rights_editor_manager_browser_component' => 'component/browser.class.php');
         $lower_case = Utilities :: camelcase_to_underscores($classname);
 
         if (key_exists($lower_case, $list))

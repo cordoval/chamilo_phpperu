@@ -1,4 +1,13 @@
 <?php
+
+namespace common\extensions;
+
+use common\libraries\Utilities;
+use common\libraries\Request;
+use user\UserDataManager;
+use common\libraries\Session;
+use rights\RightsDataManager;
+use rights\RightsUtilities;
 /**
  * $Id: group_right_location.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.ajax

@@ -92,6 +92,9 @@ class RightsEditorManager extends SubManager
             case self :: ACTION_SET_GROUP_RIGHTS :
                 $component = $this->create_component('GroupRightsSetter');
                 break;
+            case self :: ACTION_SET_TEMPLATE_RIGHTS:
+                $component = $this->create_component('TemplateRightsSetter');
+                break;
             case self :: ACTION_CHANGE_INHERIT:
                 $component = $this->create_component('InheritChanger');
                 break;
