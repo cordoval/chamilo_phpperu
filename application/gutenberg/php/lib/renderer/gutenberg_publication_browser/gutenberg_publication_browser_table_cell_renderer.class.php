@@ -1,4 +1,11 @@
 <?php
+namespace application\gutenberg;
+
+use common\libraries\WebApplication;
+use common\libraries\Translation;
+use common\libraries\ToolbarItem;
+use common\libraries\Toolbar;
+use common\libraries\Theme;
 /**
  * $Id: gutenberg_publication_browser_table_cell_renderer.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.gutenbergr.gutenbergr_manager.component.gutenbergpublicationbrowser

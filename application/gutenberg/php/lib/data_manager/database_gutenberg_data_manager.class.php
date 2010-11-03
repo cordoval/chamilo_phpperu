@@ -1,4 +1,13 @@
 <?php
+namespace application\gutenberg;
+
+use common\libraries\Database;
+use common\libraries\Translation;
+use common\libraries\EqualityCondition;
+use common\libraries\InCondition;
+
+use repository\ContentObject;
+use repository\RepositoryDataManager;
 /**
  * $Id: database_gutenberg_data_manager.class.php 238 2009-11-16 14:10:27Z vanpouckesven $
  * @package application.lib.gutenberg.data_manager

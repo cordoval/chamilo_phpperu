@@ -1,4 +1,23 @@
 <?php
+namespace application\gutenberg;
+
+use common\libraries\Utilities;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
+use common\libraries\Application;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use common\libraries\SubselectCondition;
+
+use repository\ContentObject;
+use repository\content_object\comic_book\ComicBook;
+use repository\RepositoryDataManager;
+
+
 /**
  * $Id: browser.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.gutenberg.gutenberg_manager.component

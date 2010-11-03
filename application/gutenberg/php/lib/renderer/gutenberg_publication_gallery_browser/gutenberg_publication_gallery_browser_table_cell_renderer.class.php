@@ -1,4 +1,11 @@
 <?php
+namespace application\gutenberg;
+
+use common\libraries\WebApplication;
+use common\libraries\Utilities;
+use common\libraries\Toolbar;
+
+use repository\ContentObjectDisplay;
 /**
  * $Id: gutenberg_publication_gallery_browser_table_cell_renderer.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.browser

@@ -1,4 +1,7 @@
 <?php
+namespace application\gutenberg;
+
+use common\libraries\WebApplication;
 require_once WebApplication :: get_application_class_lib_path('gutenberg') . 'renderer/gutenberg_publication_browser/gutenberg_publication_browser_table.class.php';
 
 class TableGutenbergPublicationRenderer extends GutenbergPublicationRenderer

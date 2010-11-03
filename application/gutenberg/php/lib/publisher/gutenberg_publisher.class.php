@@ -1,4 +1,15 @@
 <?php
+namespace application\gutenberg;
+
+use common\libraries\Translation;
+use common\libraries\Theme;
+use common\libraries\Application;
+use common\libraries\InCondition;
+
+use common\extensions\repo_viewer\RepoViewer;
+
+use repository\RepositoryDataManager;
+use repository\ContentObject;
 /**
  * $Id: gutenberg_publisher.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.gutenberg.publisher

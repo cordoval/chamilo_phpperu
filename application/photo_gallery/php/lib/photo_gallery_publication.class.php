@@ -1,5 +1,6 @@
 <?php
 namespace application\photo_gallery;
+
 use common\libraries\DataClass;
 use repository\RepositoryDataManager;
 use common\libraries\Utilities;

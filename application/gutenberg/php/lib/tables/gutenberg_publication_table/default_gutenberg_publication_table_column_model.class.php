@@ -1,4 +1,13 @@
 <?php
+namespace application\gutenberg;
+
+use common\libraries\ObjectTableColumnModel;
+use common\libraries\ObjectTableColumn;
+
+use repository\ContentObject;
+use repository\RepositoryDataManager;
+
+
 /**
  * $Id: default_gutenberg_publication_table_column_model.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.gutenberg.tables.gutenberg_publication_table

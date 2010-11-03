@@ -1,4 +1,13 @@
 <?php
+namespace application\gutenberg;
+
+use common\libraries\Utilities;
+use common\libraries\Path;
+use common\libraries\Translation;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
+use common\libraries\ActionBarSearchForm;
+
 require_once Path :: get_common_libraries_class_path(). 'html/action_bar/action_bar_search_form.class.php';
 
 abstract class GutenbergPublicationRenderer
@@ -29,7 +38,7 @@ abstract class GutenbergPublicationRenderer
         
         require_once $file;
         
-        $class = Utilities :: underscores_to_camelcase($type) . 'GutenbergPublicationRenderer';
+        $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type) . 'GutenbergPublicationRenderer';
         return new $class($browser);
     }
 

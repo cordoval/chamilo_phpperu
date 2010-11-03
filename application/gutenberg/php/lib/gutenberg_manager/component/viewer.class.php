@@ -1,4 +1,19 @@
 <?php
+namespace application\gutenberg;
+
+use common\libraries\Request;
+use common\libraries\Path;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
+use common\libraries\Application;
+
+use repository\ContentObject;
+use repository\ContentObjectDisplay;
+
 /**
  * $Id: viewer.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.gutenberg.gutenberg_manager

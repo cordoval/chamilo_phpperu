@@ -1,4 +1,17 @@
 <?php
+namespace application\gutenberg;
+
+use common\libraries\WebApplication;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
+use common\libraries\Application;
+
+use common\extensions\repo_viewer\RepoViewerInterface;
+use common\extensions\repo_viewer\RepoViewer;
+
+use repository\content_object\comic_book\ComicBook;
+
 /**
  * $Id: publisher.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.lib.gutenberg.gutenberg_manager.component

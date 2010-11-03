@@ -1,4 +1,14 @@
 <?php
+namespace application\gutenberg;
+
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\ToolbarItem;
+use common\libraries\Toolbar;
+use common\libraries\Theme;
+
+use repository\ContentObjectDisplay;
+
 class SlideshowGutenbergPublicationRenderer extends GutenbergPublicationRenderer
 {
     const SLIDESHOW_INDEX = 'slideshow';

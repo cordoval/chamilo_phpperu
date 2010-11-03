@@ -1,4 +1,9 @@
 <?php
+namespace application\gutenberg;
+
+use common\libraries\DataClass;
+
+use repository\RepositoryDataManager;
 /**
  * This class describes an GutenbergPublication data object
  *

@@ -1,4 +1,9 @@
 <?php
+namespace application\gutenberg;
+
+use common\libraries\WebApplication;
+use common\libraries\Installer;
+
 /**
  * $Id: gutenberg_installer.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application
