@@ -210,51 +210,51 @@ class DatabaseMetadataDataManager extends Database implements MetadataDataManage
 		return $this->retrieve_objects(MetadataPropertyType :: get_table_name(), $condition, $offset, $max_objects, $order_by, MetadataPropertyType :: CLASS_NAME);
 	}
 
-	function get_next_metadata_property_value_id()
+	function get_next_content_object_metadata_property_value_id()
 	{
-		return $this->get_next_id(MetadataPropertyValue :: get_table_name());
+		return $this->get_next_id(ContentObjectMetadataPropertyValue :: get_table_name());
 	}
 
-	function create_metadata_property_value($metadata_property_value)
+	function create_content_object_metadata_property_value($content_object_metadata_property_value)
 	{
-		return $this->create($metadata_property_value);
+		return $this->create($content_object_metadata_property_value);
 	}
 
-	function update_metadata_property_value($metadata_property_value)
+	function update_content_object_metadata_property_value($content_object_metadata_property_value)
 	{
-		$condition = new EqualityCondition(MetadataPropertyValue :: PROPERTY_ID, $metadata_property_value->get_id());
-		return $this->update($metadata_property_value, $condition);
+		$condition = new EqualityCondition(MetadataPropertyValue :: PROPERTY_ID, $content_object_metadata_property_value->get_id());
+		return $this->update($content_object_metadata_property_value, $condition);
 	}
 
-	function delete_metadata_property_value($metadata_property_value)
+	function delete_content_object_metadata_property_value($content_object_metadata_property_value)
 	{
-		$condition = new EqualityCondition(MetadataPropertyValue :: PROPERTY_ID, $metadata_property_value->get_id());
-		return $this->delete($metadata_property_value->get_table_name(), $condition);
+		$condition = new EqualityCondition(MetadataPropertyValue :: PROPERTY_ID, $content_object_metadata_property_value->get_id());
+		return $this->delete($content_object_metadata_property_value->get_table_name(), $condition);
 	}
 
-	function count_metadata_property_values($condition = null)
+	function count_content_object_metadata_property_values($condition = null)
 	{
-		return $this->count_objects(MetadataPropertyValue :: get_table_name(), $condition);
+		return $this->count_objects(ContentObjectMetadataPropertyValue :: get_table_name(), $condition);
 	}
 
-	function retrieve_metadata_property_value($id)
+	function retrieve_content_object_metadata_property_value($id)
 	{
 		$condition = new EqualityCondition(MetadataPropertyValue :: PROPERTY_ID, $id);
-		return $this->retrieve_object(MetadataPropertyValue :: get_table_name(), $condition, null, MetadataPropertyValue :: CLASS_NAME);
+		return $this->retrieve_object(ContentObjectMetadataPropertyValue :: get_table_name(), $condition, null, ContentObjectMetadataPropertyValue :: CLASS_NAME);
 	}
 
-	function retrieve_metadata_property_values($condition = null, $offset = null, $max_objects = null, $order_by = null)
+	function retrieve_content_object_metadata_property_values($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
-		return $this->retrieve_objects(MetadataPropertyValue :: get_table_name(), $condition, $offset, $max_objects, $order_by, MetadataPropertyValue :: CLASS_NAME);
+		return $this->retrieve_objects(ContentObjectMetadataPropertyValue :: get_table_name(), $condition, $offset, $max_objects, $order_by, ContentObjectMetadataPropertyValue :: CLASS_NAME);
 	}
 
-        function retrieve_full_metadata_property_values($condition = null, $offset = null, $max_objects = null, $order_by = null)
+        function retrieve_full_content_object_metadata_property_values($condition = null, $offset = null, $max_objects = null, $order_by = null)
         {
             $type_alias = $this->get_alias(MetadataPropertyType :: get_table_name());
-            $value_alias = $this->get_alias(MetadataPropertyValue :: get_table_name());
+            $value_alias = $this->get_alias(ContentObjectMetadataPropertyValue :: get_table_name());
 
             $query = 'SELECT ' . $value_alias . '.' . MetadataPropertyValue :: PROPERTY_ID . ', ' . $value_alias . '.' . MetadataPropertyValue :: PROPERTY_VALUE . ', ' .$type_alias . '.' . MetadataPropertyType :: PROPERTY_NS_PREFIX . ', ' . $type_alias . '.' . MetadataPropertyType :: PROPERTY_NAME;
-            $query .= ' FROM ' . $this->escape_table_name(MetadataPropertyValue :: get_table_name()) . ' AS ' . $value_alias;
+            $query .= ' FROM ' . $this->escape_table_name(ContentObjectMetadataPropertyValue :: get_table_name()) . ' AS ' . $value_alias;
             $query .= ' LEFT JOIN ' . $this->escape_table_name(MetadataPropertyType :: get_table_name()) . ' AS ' . $type_alias;
             $query .= ' ON ' . $this->escape_column_name(MetadataPropertyValue :: PROPERTY_PROPERTY_TYPE_ID, $value_alias) . ' = '. $this->escape_column_name(MetadataPropertyType :: PROPERTY_ID, $type_alias);
         
@@ -271,6 +271,68 @@ class DatabaseMetadataDataManager extends Database implements MetadataDataManage
             $res->free();
             return $property_values;
         }
+
+//        function get_next_metadata_property_value_id()
+//	{
+//		return $this->get_next_id(MetadataPropertyValue :: get_table_name());
+//	}
+//
+//	function create_metadata_property_value($metadata_property_value)
+//	{
+//		return $this->create($metadata_property_value);
+//	}
+//
+//	function update_metadata_property_value($metadata_property_value)
+//	{
+//		$condition = new EqualityCondition(MetadataPropertyValue :: PROPERTY_ID, $metadata_property_value->get_id());
+//		return $this->update($metadata_property_value, $condition);
+//	}
+//
+//	function delete_metadata_property_value($metadata_property_value)
+//	{
+//		$condition = new EqualityCondition(MetadataPropertyValue :: PROPERTY_ID, $metadata_property_value->get_id());
+//		return $this->delete($metadata_property_value->get_table_name(), $condition);
+//	}
+//
+//	function count_metadata_property_values($condition = null)
+//	{
+//		return $this->count_objects(MetadataPropertyValue :: get_table_name(), $condition);
+//	}
+//
+//	function retrieve_metadata_property_value($id)
+//	{
+//		$condition = new EqualityCondition(MetadataPropertyValue :: PROPERTY_ID, $id);
+//		return $this->retrieve_object(MetadataPropertyValue :: get_table_name(), $condition, null, MetadataPropertyValue :: CLASS_NAME);
+//	}
+//
+//	function retrieve_metadata_property_values($condition = null, $offset = null, $max_objects = null, $order_by = null)
+//	{
+//		return $this->retrieve_objects(MetadataPropertyValue :: get_table_name(), $condition, $offset, $max_objects, $order_by, MetadataPropertyValue :: CLASS_NAME);
+//	}
+//
+//        function retrieve_full_metadata_property_values($condition = null, $offset = null, $max_objects = null, $order_by = null)
+//        {
+//            $type_alias = $this->get_alias(MetadataPropertyType :: get_table_name());
+//            $value_alias = $this->get_alias(MetadataPropertyValue :: get_table_name());
+//
+//            $query = 'SELECT ' . $value_alias . '.' . MetadataPropertyValue :: PROPERTY_ID . ', ' . $value_alias . '.' . MetadataPropertyValue :: PROPERTY_VALUE . ', ' .$type_alias . '.' . MetadataPropertyType :: PROPERTY_NS_PREFIX . ', ' . $type_alias . '.' . MetadataPropertyType :: PROPERTY_NAME;
+//            $query .= ' FROM ' . $this->escape_table_name(MetadataPropertyValue :: get_table_name()) . ' AS ' . $value_alias;
+//            $query .= ' LEFT JOIN ' . $this->escape_table_name(MetadataPropertyType :: get_table_name()) . ' AS ' . $type_alias;
+//            $query .= ' ON ' . $this->escape_column_name(MetadataPropertyValue :: PROPERTY_PROPERTY_TYPE_ID, $value_alias) . ' = '. $this->escape_column_name(MetadataPropertyType :: PROPERTY_ID, $type_alias);
+//
+//            $translator = new ConditionTranslator($this);
+//            $query .= $translator->render_query($condition);
+//
+//            $res = $this->query($query);
+//
+//            $property_values = array();
+//            while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+//            {
+//                $property_values[$record[MetadataPropertyValue :: PROPERTY_ID]] = $record[MetadataPropertyType :: PROPERTY_NS_PREFIX] . ':' . $record[MetadataPropertyType :: PROPERTY_NAME] . '=' .$record[MetadataPropertyValue :: PROPERTY_VALUE];
+//            }
+//            $res->free();
+//            return $property_values;
+//        }
 
 	function get_next_metadata_property_attribute_type_id()
 	{

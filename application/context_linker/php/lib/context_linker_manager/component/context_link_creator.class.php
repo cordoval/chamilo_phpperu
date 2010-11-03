@@ -17,10 +17,8 @@ class ContextLinkerManagerContextLinkCreatorComponent extends ContextLinkerManag
     /**
      * Runs this component and displays its output.
      */
-
     private $content_object;
     
-
     function run()
     {
         $rdm = RepositoryDataManager :: get_instance();
@@ -61,10 +59,5 @@ class ContextLinkerManagerContextLinkCreatorComponent extends ContextLinkerManag
     {
         return array(Document :: get_type_name(), Youtube :: get_type_name(), $this->content_object->get_type());
     }
-
-
-    
-    
-
 }
 ?>

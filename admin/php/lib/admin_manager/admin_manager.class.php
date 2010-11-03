@@ -141,7 +141,7 @@ class AdminManager extends CoreApplication
 
         $info[] = RepositoryManager :: get_application_platform_admin_links();
         $info[] = UserManager :: get_application_platform_admin_links();
-        //$info[] = RightsManager :: get_application_platform_admin_links();
+        $info[] = RightsManager :: get_application_platform_admin_links();
         $info[] = GroupManager :: get_application_platform_admin_links();
         $info[] = WebserviceManager :: get_application_platform_admin_links();
         $info[] = TrackingManager :: get_application_platform_admin_links();

@@ -7,7 +7,7 @@ use common\libraries\Request;
  * @author Sven Vanpoucke
  * @author Jens Vanderheyden
  */
-class MetadataManagerMetadataPropertyValueDeleterComponent extends MetadataManager
+class MetadataManagerContentObjectMetadataPropertyValueDeleterComponent extends MetadataManager
 {
     /**
      * Runs this component and displays its output.
@@ -19,9 +19,9 @@ class MetadataManagerMetadataPropertyValueDeleterComponent extends MetadataManag
 
         if (!empty ($id))
         {
-            $metadata_property_value = $this->retrieve_metadata_property_value($id);
+            $content_object_metadata_property_value = $this->retrieve_content_object_metadata_property_value($id);
 
-            if(!$metadata_property_value->delete())
+            if(!$content_object_metadata_property_value->delete())
             {
                 $message = 'SelectedMetadataPropertyValueNotDeleted';
                 $fail = true;
@@ -31,7 +31,7 @@ class MetadataManagerMetadataPropertyValueDeleterComponent extends MetadataManag
                 $message = 'SelectedMetadataPropertyValueDeleted';
             }
 
-            $this->redirect(Translation :: get($message), ($fail ? true : false), array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_EDIT_METADATA, MetadataManager :: PARAM_CONTENT_OBJECT => Request :: get(MetadataManager :: PARAM_CONTENT_OBJECT)));
+            $this->redirect(Translation :: get($message), ($fail ? true : false), array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_EDIT_CONTENT_OBJECT_METADATA, MetadataManager :: PARAM_CONTENT_OBJECT => Request :: get(MetadataManager :: PARAM_CONTENT_OBJECT)));
         }
         else
         {
