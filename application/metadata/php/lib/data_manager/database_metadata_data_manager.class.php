@@ -482,5 +482,10 @@ class DatabaseMetadataDataManager extends Database implements MetadataDataManage
             return $this->delete(MetadataDefaultValue :: get_table_name(), $condition);
         }
 
+        function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_properties = null){}
+
+        function get_content_object_publication_attribute($publication_id){}
+
+        function count_publication_attributes($user = null, $object_id = null, $condition = null){}
 }
 ?>

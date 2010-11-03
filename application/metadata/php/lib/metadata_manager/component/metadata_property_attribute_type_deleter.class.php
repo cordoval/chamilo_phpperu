@@ -25,7 +25,9 @@ class MetadataManagerMetadataPropertyAttributeTypeDeleterComponent extends Metad
             if (!$metadata_property_attribute_type->delete())
             {
                 $fail = true;
+                
                 $message = 'MetadataPropertyAttributeTypeNotDeleted';
+                if($metadata_property_attribute_type->has_errors()) $message .= implode("\n", $metadata_property_attribute_type->get_errors());
             }
             else
             {

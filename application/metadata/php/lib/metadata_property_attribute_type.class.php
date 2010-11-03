@@ -5,6 +5,7 @@ use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\OrCondition;
+use common\libraries\Translation;
 /**
  * This class describes a MetadataPropertyAttributeType data object
  * @author Sven Vanpoucke
@@ -103,6 +104,25 @@ class MetadataPropertyAttributeType extends DataClass
         $pref = $this->get_ns_prefix();
         $prefix = (empty($pref)) ? '' : $this->get_ns_prefix() . ':';
         return $prefix . $this->get_name();
+    }
+
+    /*
+     * object creation if name + ns_prfix are unique
+     * return MetadaPropertyattributeType or false
+     */
+    function create()
+    {
+        $condition1 = new EqualityCondition(MetadataPropertyAttributeType :: PROPERTY_NAME, $this->get_name());
+        $condition2 = new EqualityCondition(MetadataPropertyAttributeType :: PROPERTY_NS_PREFIX, $this->get_ns_prefix());
+
+        $condition =  new AndCondition($condition1, $condition2);
+
+        if($this->get_data_manager()->count_metadata_property_attribute_types($condition) >= 1)
+        {
+            $this->add_error(Translation :: get('ObjectAlreadyExists'));
+            return false;
+        }
+        return parent :: create();
     }
 
     function delete()
