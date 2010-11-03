@@ -1,4 +1,12 @@
 <?php
+namespace application\phrases;
+
+use common\libraries\Path;
+use common\libraries\Translation;
+use common\libraries\FormValidator;
+use common\libraries\ObjectTableOrder;
+
+use admin\AdminDataManager;
 /**
  * $Id: phrases_publication_form.class.php 201 2009-11-13 12:34:51Z chellee $
  * @package application.personal_calendar

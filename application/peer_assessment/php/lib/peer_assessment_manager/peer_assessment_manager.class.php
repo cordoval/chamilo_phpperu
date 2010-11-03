@@ -1,4 +1,10 @@
 <?php
+
+namespace application\peer_assessment;
+
+use common\libraries\WebApplication;
+use common\libraries\Translation;
+
 require_once dirname(__FILE__) . '/../peer_assessment_data_manager.class.php';
 require_once dirname(__FILE__) . '/component/peer_assessment_publication_browser/peer_assessment_publication_browser_table.class.php';
 
@@ -44,6 +50,7 @@ class PeerAssessmentManager extends WebApplication
     /*
      * Switch statement for the dropdown box function under the table (Remove selected/ Move selected)
      */
+
     private function parse_input_from_table()
     {
         if (isset($_POST['action']))
@@ -58,7 +65,7 @@ class PeerAssessmentManager extends WebApplication
                     {
                         $selected_ids = array();
                     }
-                    elseif (! is_array($selected_ids))
+                    elseif (!is_array($selected_ids))
                     {
                         $selected_ids = array($selected_ids);
                     }
@@ -75,7 +82,7 @@ class PeerAssessmentManager extends WebApplication
                     {
                         $selected_ids = array();
                     }
-                    elseif (! is_array($selected_ids))
+                    elseif (!is_array($selected_ids))
                     {
                         $selected_ids = array($selected_ids);
                     }
@@ -84,7 +91,6 @@ class PeerAssessmentManager extends WebApplication
                     $_GET[self :: PARAM_PEER_ASSESSMENT_PUBLICATION] = $selected_ids;
                     break;
             }
-
         }
     }
 
@@ -263,5 +269,7 @@ class PeerAssessmentManager extends WebApplication
     {
         return self :: DEFAULT_ACTION;
     }
+
 }
+
 ?>

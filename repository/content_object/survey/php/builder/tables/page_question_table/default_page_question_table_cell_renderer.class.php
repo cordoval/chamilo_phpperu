@@ -4,6 +4,8 @@ namespace repository\content_object\survey;
 use repository\RepositoryDataManager;
 use common\libraries\Translation;
 use common\libraries\ObjectTableCellRenderer;
+use repository\ContentObject; 
+
 
 class DefaultSurveyPageQuestionTableCellRenderer extends ObjectTableCellRenderer
 {

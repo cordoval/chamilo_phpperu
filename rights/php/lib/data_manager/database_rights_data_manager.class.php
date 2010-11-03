@@ -9,6 +9,10 @@ use common\libraries\InequalityCondition;
 use common\libraries\NotCondition;
 use common\libraries\SubselectCondition;
 use common\libraries\InCondition;
+use user\UserDataManager;
+use user\UserRightsTemplate;
+use group\GroupDataManager;
+use group\GroupRightsTemplate;
 /**
  * $Id: database_rights_data_manager.class.php 235 2009-11-16 12:08:00Z scaramanga $
  * @package rights.lib.data_manager
@@ -576,5 +580,6 @@ class DatabaseRightsDataManager extends Database implements RightsDataManagerInt
     {
         return $this->retrieve_objects(TypeTemplateRightLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by, TypeTemplateRightLocation :: CLASS_NAME);
     }
+
 }
 ?>

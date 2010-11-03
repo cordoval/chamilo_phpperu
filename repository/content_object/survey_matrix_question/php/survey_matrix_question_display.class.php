@@ -2,6 +2,8 @@
 namespace repository\content_object\survey_matrix_question;
 
 use common\libraries\Path;
+use repository\MatrixQuestionDisplay;
+
 
 /**
  * $Id: survey_matching_question_display.class.php $

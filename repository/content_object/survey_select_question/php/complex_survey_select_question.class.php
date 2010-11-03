@@ -1,8 +1,10 @@
 <?php
-/**
- * $Id: complex_survey_select_question.class.php 200 2009-11-13 12:30:04Z kariboe $
- * @package repository.lib.content_object.survey_select_question
- */
+namespace repository\content_object\survey_select_question;
+
+use common\libraries\Path;
+use repository\ComplexSelectQuestion;
+
+
 require_once PATH :: get_repository_path() . '/question_types/select_question/complex_select_question.class.php';
 
 /**

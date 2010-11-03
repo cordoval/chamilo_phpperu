@@ -23,7 +23,7 @@ class AssessmentMatchingQuestionResultDisplay extends QuestionResultDisplay
         $html[] = '</tr>';
         $html[] = '</thead>';
         $html[] = '<tbody>';
-
+        
         $label = 'A';
         $matches = $this->get_question()->get_matches();
         foreach ($matches as $i => $match)
@@ -34,10 +34,10 @@ class AssessmentMatchingQuestionResultDisplay extends QuestionResultDisplay
             $html[] = '</tr>';
             $label ++;
         }
-
+        
         $html[] = '</tbody>';
         $html[] = '</table>';
-
+        
         $html[] = '<table class="data_table take_assessment">';
         $html[] = '<thead>';
         $html[] = '<tr>';
@@ -47,9 +47,9 @@ class AssessmentMatchingQuestionResultDisplay extends QuestionResultDisplay
         $html[] = '</tr>';
         $html[] = '</thead>';
         $html[] = '<tbody>';
-
+        
         $answers = $this->get_answers();
-
+        
         $options = $this->get_question()->get_options();
         foreach ($options as $i => $option)
         {
@@ -59,10 +59,10 @@ class AssessmentMatchingQuestionResultDisplay extends QuestionResultDisplay
             $html[] = '<td>' . $option->get_value() . '</td>';
             $html[] = '</tr>';
         }
-
+        
         $html[] = '</tbody>';
         $html[] = '</table>';
-
+        
         return implode("\n", $html);
     }
 }

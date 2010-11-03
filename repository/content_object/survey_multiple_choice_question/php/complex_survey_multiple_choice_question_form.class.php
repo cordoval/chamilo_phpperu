@@ -3,6 +3,7 @@ namespace repository\content_object\survey_multiple_choice_question;
 
 use common\libraries\Translation;
 use common\libraries\Path;
+use repository\ComplexMultipleChoiceQuestionForm;
 
 /**
  * $Id: complex_survey_multiple_choice_question_form.class.php 200 2009-11-13 12:30:04Z kariboe $

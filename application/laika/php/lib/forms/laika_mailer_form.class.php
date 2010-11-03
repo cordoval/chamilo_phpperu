@@ -1,4 +1,12 @@
 <?php
+namespace application\laika;
+
+use common\libraries\Translation;
+use common\libraries\FormValidator;
+use common\libraries\Path;
+use common\libraries\Mail;
+
+use user\UserDataManager;
 /**
  * $Id: laika_mailer_form.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika.forms

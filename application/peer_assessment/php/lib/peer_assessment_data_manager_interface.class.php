@@ -1,4 +1,7 @@
 <?php
+
+namespace application\peer_assessment;
+
 interface PeerAssessmentDataManagerInterface
 {
 
@@ -27,6 +30,6 @@ interface PeerAssessmentDataManagerInterface
     function count_peer_assessment_publication_categories($conditions = null);
 
     function retrieve_peer_assessment_publication_categories($condition = null, $offset = null, $count = null, $order_property = null);
-
 }
+
 ?>

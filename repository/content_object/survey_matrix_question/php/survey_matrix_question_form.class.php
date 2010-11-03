@@ -3,6 +3,8 @@ namespace repository\content_object\survey_matrix_question;
 
 use common\libraries\Path;
 use common\libraries\ResourceManager;
+use repository\MatrixQuestionForm;
+
 
 /**
  * $Id: survey_matrix_question_form.class.php

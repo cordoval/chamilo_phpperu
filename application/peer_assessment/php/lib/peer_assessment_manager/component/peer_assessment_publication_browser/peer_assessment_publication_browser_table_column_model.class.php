@@ -1,4 +1,11 @@
 <?php
+
+namespace application\peer_assessment;
+
+use common\libraries\StaticTableColumn;
+use common\libraries\ObjectTableColumn;
+use repository\ContentObject;
+
 require_once dirname(__FILE__) . '/../../../tables/peer_assessment_publication_table/default_peer_assessment_publication_table_column_model.class.php';
 require_once dirname(__FILE__) . '/../../../peer_assessment_publication.class.php';
 
@@ -6,9 +13,9 @@ require_once dirname(__FILE__) . '/../../../peer_assessment_publication.class.ph
  * Table column model for the peer_assessment_publication browser table
  * @author Nick Van Loocke
  */
-
 class PeerAssessmentPublicationBrowserTableColumnModel extends DefaultPeerAssessmentPublicationTableColumnModel
 {
+
     /**
      * The tables modification column
      */
@@ -30,7 +37,7 @@ class PeerAssessmentPublicationBrowserTableColumnModel extends DefaultPeerAssess
      */
     static function get_modification_column()
     {
-        if (! isset(self :: $modification_column))
+        if (!isset(self :: $modification_column))
         {
             self :: $modification_column = new StaticTableColumn('');
         }
@@ -44,5 +51,7 @@ class PeerAssessmentPublicationBrowserTableColumnModel extends DefaultPeerAssess
         $columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_DESCRIPTION);
         return $columns;
     }
+
 }
+
 ?>

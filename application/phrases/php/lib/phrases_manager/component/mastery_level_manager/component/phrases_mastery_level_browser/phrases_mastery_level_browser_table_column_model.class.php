@@ -1,4 +1,9 @@
 <?php
+namespace application\phrases;
+
+use common\libraries\WebApplication;
+use common\libraries\StaticTableColumn;
+
 /**
  * $Id: phrases_mastery_level_browser_table_column_model.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.phrases.phrases_manager.component.phrases_mastery_level_browser

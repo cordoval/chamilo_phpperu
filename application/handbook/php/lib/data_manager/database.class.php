@@ -68,7 +68,7 @@ class DatabaseHandbookDataManager extends Database implements HandbookDataManage
                 $conditions[] = new EqualityCondition(ContentObject::PROPERTY_TYPE, 'handbook');
                 $condition = new AndCondition($conditons);
 
-		return $this->retrieve_objects(ContentObject:: get_table_name(), $condition, $offset, $max_objects, $order_by);
+		return $this->retrieve_objects(ContentObject:: get_table_name(), $condition, $offset, $max_objects, $order_by, ContentObject::CLASS_NAME);
 	}
 
         function retrieve_published_handbooks($search_condition = null, $offset = null, $max_objects = null, $order_by = null)
@@ -80,7 +80,7 @@ class DatabaseHandbookDataManager extends Database implements HandbookDataManage
 
                 $condition = new AndCondition($conditions);
 
-		return RepositoryDataManager::get_instance()->retrieve_objects(ContentObject:: get_table_name(), $condition, $offset, $max_objects, $order_by);
+		return RepositoryDataManager::get_instance()->retrieve_objects(ContentObject:: get_table_name(), $condition, $offset, $max_objects, $order_by, ContentObject::CLASS_NAME);
 	}
 
 
@@ -95,12 +95,12 @@ class DatabaseHandbookDataManager extends Database implements HandbookDataManage
 	function retrieve_handbook_publication($id)
 	{
 		$condition = new EqualityCondition(HandbookPublication :: PROPERTY_ID, $id);
-		return $this->retrieve_object(HandbookPublication :: get_table_name(), $condition);
+		return $this->retrieve_object(HandbookPublication :: get_table_name(), $condition, null, HandbookPublication::CLASS_NAME);
 	}
 
 	function retrieve_handbook_publications($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
-		return $this->retrieve_objects(HandbookPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+		return $this->retrieve_objects(HandbookPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by, HandbookPublication::CLASS_NAME);
 	}
         
             public function any_content_object_is_published($object_ids) {

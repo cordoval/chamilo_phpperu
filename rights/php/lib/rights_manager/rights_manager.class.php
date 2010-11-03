@@ -6,6 +6,7 @@ use common\libraries\CoreApplication;
 use common\libraries\Redirect;
 use common\libraries\Translation;
 use common\libraries\Theme;
+use common\libraries\DynamicAction;
 
 /**
  * $Id: rights_manager.class.php 214 2009-11-13 13:57:37Z vanpouckesven $

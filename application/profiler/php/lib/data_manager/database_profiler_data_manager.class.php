@@ -293,7 +293,7 @@ class DatabaseProfilerDataManager extends Database implements ProfilerDataManage
 
     function select_next_category_display_order($parent_category_id)
     {
-        $query = 'SELECT MAX(' . ProfilerCategory :: PROPERTY_DISPLAY_ORDER . ') AS do FROM ' . $this->escape_table_name(ProfilerCategory::CLASS_NAME);
+        $query = 'SELECT MAX(' . ProfilerCategory :: PROPERTY_DISPLAY_ORDER . ') AS do FROM ' . $this->escape_table_name(ProfilerCategory::get_table_name());
 
         $condition = new EqualityCondition(ProfilerCategory :: PROPERTY_PARENT, $parent_category_id);
         if (isset($condition))

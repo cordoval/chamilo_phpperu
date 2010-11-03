@@ -2,12 +2,12 @@
 namespace application\weblcms\tool\learning_path;
 
 use common\libraries\ObjectTableColumn;
+use application\weblcms\ObjectPublicationTableColumnModel;
 
 /**
  * $Id: learning_path_column_model.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.learning_path.component.learning_path_browser
  */
-require_once dirname(__FILE__) . '/../../../../browser/object_publication_table/object_publication_table_column_model.class.php';
 /**
  * This class is a cell renderer for a publication candidate table
  */

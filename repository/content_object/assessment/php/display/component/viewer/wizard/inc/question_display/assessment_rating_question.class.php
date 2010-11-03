@@ -4,6 +4,7 @@ namespace repository\content_object\assessment;
 use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\ResourceManager;
+use repository\content_object\assessment_rating_question\AssessmentRatingQuestion;
 
 /**
  * $Id: rating_question.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -20,16 +21,16 @@ class AssessmentRatingQuestionDisplay extends QuestionDisplay
         $renderer = $this->get_renderer();
         $clo_question = $this->get_complex_content_object_question();
         $question = $this->get_question();
-
+        
         $min = $question->get_low();
         $max = $question->get_high();
         $question_name = $this->get_complex_content_object_question()->get_id() . '_0';
-
+        
         for($i = $min; $i <= $max; $i ++)
         {
             $scores[$i] = $i;
         }
-
+        
         $element_template = array();
         $element_template[] = '<div><!-- BEGIN error --><span class="form_error">{error}</span><br /><!-- END error -->	{element}';
         $element_template[] = '<div class="clear">&nbsp;</div>';
@@ -37,7 +38,7 @@ class AssessmentRatingQuestionDisplay extends QuestionDisplay
         $element_template[] = '<div class="clear">&nbsp;</div>';
         $element_template[] = '</div>';
         $element_template = implode("\n", $element_template);
-
+        
         $formvalidator->addElement('select', $question_name, Translation :: get('Rating') . ': ', $scores, 'class="rating_slider"');
         $renderer->setElementTemplate($element_template, $question_name);
         $formvalidator->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/rating_question.js'));
@@ -52,7 +53,7 @@ class AssessmentRatingQuestionDisplay extends QuestionDisplay
     {
         $instruction = array();
         $question = $this->get_question();
-
+        
         if ($question->has_description())
         {
             $instruction[] = '<div class="splitter">';
@@ -63,7 +64,7 @@ class AssessmentRatingQuestionDisplay extends QuestionDisplay
         {
             $instruction = array();
         }
-
+        
         return implode("\n", $instruction);
     }
 }

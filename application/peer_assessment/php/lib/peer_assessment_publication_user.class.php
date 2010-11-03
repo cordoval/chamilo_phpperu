@@ -1,4 +1,9 @@
 <?php
+
+namespace application\peer_assessment;
+
+use common\libraries\DataClass;
+
 /**
  * This class describes a PeerAssessmentPublicationUser data object
  * @author Sven Vanpoucke
@@ -8,7 +13,7 @@ class PeerAssessmentPublicationUser extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'publication_user';
-    
+
     /**
      * PeerAssessmentPublicationUser properties
      */
@@ -67,13 +72,14 @@ class PeerAssessmentPublicationUser extends DataClass
 
     function create()
     {
-		return $this->get_data_manager()->create_peer_assessment_publication_user($this);
+        return $this->get_data_manager()->create_peer_assessment_publication_user($this);
     }
-    
-    
+
     static function get_table_name()
     {
         return self :: TABLE_NAME;
     }
+
 }
+
 ?>

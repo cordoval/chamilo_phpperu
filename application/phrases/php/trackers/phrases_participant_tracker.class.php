@@ -1,4 +1,7 @@
 <?php
+namespace application\phrases;
+use common\libraries\Utilities;
+
 /**
  * @package application.lib.survey.trackers
  */

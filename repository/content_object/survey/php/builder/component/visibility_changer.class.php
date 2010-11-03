@@ -1,4 +1,9 @@
-<?php namespace repository\content_object\survey;
+<?php 
+namespace repository\content_object\survey;
+
+use repository\RepositoryDataManager;
+use common\libraries\Request;
+use common\libraries\Translation;
 
 
 class SurveyBuilderVisibilityChangerComponent extends SurveyBuilder

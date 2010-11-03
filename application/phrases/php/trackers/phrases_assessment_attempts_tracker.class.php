@@ -1,4 +1,9 @@
 <?php
+namespace application\phrases;
+use common\libraries\Utilities;
+
+use tracking\SimpleTracker;
+
 /**
  * @package application.lib.assessment.trackers
  */

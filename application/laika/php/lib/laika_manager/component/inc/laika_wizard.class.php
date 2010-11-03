@@ -1,4 +1,10 @@
 <?php
+namespace application\laika;
+
+use common\libraries\WebApplication;
+
+use \HTML_QuickForm_Controller;
+
 /**
  * $Id: laika_wizard.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika.laika_manager.component.inc

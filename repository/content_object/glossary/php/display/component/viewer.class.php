@@ -63,7 +63,7 @@ class GlossaryDisplayViewerComponent extends GlossaryDisplay
             }
         }
 
-    	$this->display_footer();
+        $this->display_footer();
     }
 
     function display_content_object($content_object, $complex_content_object_item)
@@ -86,26 +86,15 @@ class GlossaryDisplayViewerComponent extends GlossaryDisplay
 
     function get_actions($complex_content_object_item)
     {
-    	$toolbar = new Toolbar();
-        if ($this->get_parent()->get_parent()->is_allowed(EDIT_RIGHT))
+        $toolbar = new Toolbar();
+        if ($this->get_parent()->is_allowed(EDIT_RIGHT))
         {
-            $toolbar->add_item(new ToolbarItem(
-        			Translation :: get('Edit'),
-        			Theme :: get_common_image_path().'action_edit.png',
-					$this->get_complex_content_object_item_update_url($complex_content_object_item),
-				 	ToolbarItem :: DISPLAY_ICON
-			));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_complex_content_object_item_update_url($complex_content_object_item), ToolbarItem :: DISPLAY_ICON));
         }
 
-        if ($this->get_parent()->get_parent()->is_allowed(DELETE_RIGHT))
+        if ($this->get_parent()->is_allowed(DELETE_RIGHT))
         {
-        	$toolbar->add_item(new ToolbarItem(
-        			Translation :: get('Delete'),
-        			Theme :: get_common_image_path().'action_delete.png',
-					$this->get_complex_content_object_item_delete_url($complex_content_object_item),
-				 	ToolbarItem :: DISPLAY_ICON,
-				 	true
-			));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_complex_content_object_item_delete_url($complex_content_object_item), ToolbarItem :: DISPLAY_ICON, true));
         }
 
         return $toolbar->as_html();
@@ -115,7 +104,9 @@ class GlossaryDisplayViewerComponent extends GlossaryDisplay
     {
         $view = Request :: get(self :: PARAM_VIEW);
         if (! $view)
+        {
             $view = self :: VIEW_TABLE;
+        }
 
         return $view;
     }
@@ -124,8 +115,12 @@ class GlossaryDisplayViewerComponent extends GlossaryDisplay
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-        if($this->get_parent()->is_allowed(ADD_RIGHT))
-        	$action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateItem'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM, ComplexDisplay :: PARAM_TYPE => GlossaryItem :: get_type_name(), self :: PARAM_VIEW => self :: VIEW_TABLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        if ($this->get_parent()->is_allowed(ADD_RIGHT))
+        {
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateItem'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(
+                    ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM, ComplexDisplay :: PARAM_TYPE => GlossaryItem :: get_type_name(),
+                    self :: PARAM_VIEW => self :: VIEW_TABLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
 
         $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ShowAsTable'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(self :: PARAM_VIEW => self :: VIEW_TABLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ShowAsList'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(self :: PARAM_VIEW => self :: VIEW_LIST)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));

@@ -110,13 +110,13 @@ class TableSort
                 $compare_function = 'return strip_tags($a['.$column.']) '.$compare_operator.' strip_tags($b['.$column.']);';
                 break;
             case SORT_IMAGE :
-                $compare_function = 'return strnatcmp(TableSort::orderingstring(strip_tags($a['.$column.'], "<img>")), TableSort::orderingstring(strip_tags($b['.$column.'], "<img>"))) '.$compare_operator.' 0;';
+                $compare_function = 'return strnatcmp(common\libraries\TableSort::orderingstring(strip_tags($a['.$column.'], "<img>")), common\libraries\TableSort::orderingstring(strip_tags($b['.$column.'], "<img>"))) '.$compare_operator.' 0;';
                 break;
             case SORT_DATE :
                 $compare_function = 'return strtotime(strip_tags($a['.$column.'])) '.$compare_operator.' strtotime(strip_tags($b['.$column.']));';
             case SORT_STRING :
             default :
-                $compare_function = 'return strnatcmp(TableSort::orderingstring(strip_tags($a['.$column.'])), TableSort::orderingstring(strip_tags($b['.$column.']))) '.$compare_operator.' 0;';
+                $compare_function = 'return strnatcmp(common\libraries\TableSort::orderingstring(strip_tags($a['.$column.'])), common\libraries\TableSort::orderingstring(strip_tags($b['.$column.']))) '.$compare_operator.' 0;';
                 break;
         }
 

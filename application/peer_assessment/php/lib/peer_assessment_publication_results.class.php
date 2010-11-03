@@ -1,4 +1,10 @@
 <?php
+
+namespace application\peer_assessment;
+
+use common\libraries\DataClass;
+use common\libraries\Utilities;
+
 /**
  * This class describes the PeerAssessmentPublicationResults data object
  *
@@ -7,7 +13,7 @@
 class PeerAssessmentPublicationResults extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     /**
      * PeerAssessmentPublicationResults properties
      */
@@ -19,7 +25,6 @@ class PeerAssessmentPublicationResults extends DataClass
     const PROPERTY_SCORE = 'score';
     const PROPERTY_FEEDBACK = 'feedback';
     const PROPERTY_FINISHED = 'finished';
-
 
     /**
      * Get the default properties
@@ -99,7 +104,7 @@ class PeerAssessmentPublicationResults extends DataClass
     function get_user_id()
     {
         return $this->get_default_property(self :: PROPERTY_USER_ID);
-    }   
+    }
 
     /**
      * Sets the from_date of this PeerAssessmentPublicationResults.
@@ -127,8 +132,8 @@ class PeerAssessmentPublicationResults extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_GRADED_USER_ID, $graded_user_id);
     }
-    
-	/**
+
+    /**
      * Returns the score of this PeerAssessmentPublicationResults.
      * @return the score.
      */
@@ -145,8 +150,8 @@ class PeerAssessmentPublicationResults extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_SCORE, $score);
     }
-    
-	/**
+
+    /**
      * Returns the feedback of this PeerAssessmentPublicationResults.
      * @return the feedback.
      */
@@ -180,17 +185,17 @@ class PeerAssessmentPublicationResults extends DataClass
     function set_finished($finished)
     {
         $this->set_default_property(self :: PROPERTY_FINISHED, $finished);
-    }    
-    
+    }
+
     /**
      * Swtiches the finished function.
-     */   
-	function toggle_finished()
+     */
+    function toggle_finished()
     {
-        $this->set_finished(! $this->get_finished());
+        $this->set_finished(!$this->get_finished());
     }
-    
-	/**
+
+    /**
      * Determines whether this publication is finished or not
      * @return boolean True if the publication is finished.
      */
@@ -199,10 +204,11 @@ class PeerAssessmentPublicationResults extends DataClass
         return $this->get_default_property(self :: PROPERTY_FINISHED);
     }
 
-    
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
     }
+
 }
+
 ?>

@@ -1,4 +1,11 @@
 <?php
+namespace application\phrases;
+
+use common\libraries\Translation;
+use common\libraries\Redirect;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\WebApplication;
 /**
  * @package application.cda.cda.component
  */

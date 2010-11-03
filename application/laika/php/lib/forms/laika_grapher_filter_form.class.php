@@ -1,4 +1,15 @@
 <?php
+namespace application\laika;
+
+use common\libraries\Translation;
+use common\libraries\WebApplication;
+use common\libraries\PlatformSetting;
+use common\libraries\FormValidator;
+use common\libraries\Path;
+use common\libraries\ObjectTableOrder;
+use common\libraries\OptionsMenuRenderer;
+
+use group\GroupMenu;
 /**
  * $Id: laika_grapher_filter_form.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika.forms
@@ -6,7 +17,7 @@
 require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_manager/laika_manager.class.php';
 require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_data_manager.class.php';
 require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_graph_renderer.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/document/document.class.php';
+require_once Path :: get_repository_content_object_path() . 'document/php/document.class.php';
 
 class LaikaGrapherFilterForm extends FormValidator
 {

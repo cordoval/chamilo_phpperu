@@ -1,4 +1,8 @@
 <?php
+namespace application\laika;
+
+use \HTML_QuickForm_Page;
+
 /**
  * $Id: laika_wizard_page.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika.laika_manager.component.inc.wizard

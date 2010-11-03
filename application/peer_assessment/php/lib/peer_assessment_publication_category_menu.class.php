@@ -1,9 +1,23 @@
 <?php
+
+namespace application\peer_assessment;
+
+use HTML_Menu;
+use HTML_Menu_ArrayRenderer;
+use common\libraries\Translation;
+use common\libraries\OptionsMenuRenderer;
+use common\libraries\EqualityCondition;
+use common\libraries\ObjectTableOrder;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\TreeMenuRenderer;
+
 require_once 'HTML/Menu.php';
 require_once 'HTML/Menu/ArrayRenderer.php';
 
 require_once dirname(__FILE__) . '/category_manager/peer_assessment_publication_category.class.php';
 require_once dirname(__FILE__) . '/peer_assessment_data_manager.class.php';
+
 /**
  * This class provides a navigation menu to allow a user to browse through
  * categories of courses.
@@ -11,6 +25,7 @@ require_once dirname(__FILE__) . '/peer_assessment_data_manager.class.php';
  */
 class PeerAssessmentPublicationCategoryMenu extends HTML_Menu
 {
+
     /**
      * The string passed to sprintf() to format category URLs
      */
@@ -39,10 +54,10 @@ class PeerAssessmentPublicationCategoryMenu extends HTML_Menu
     {
         $this->current_category = $current_category;
         $this->urlFmt = $url_format;
-        
+
         $menu = $this->get_menu();
         parent :: __construct($menu);
-        
+
         $this->array_renderer = new HTML_Menu_ArrayRenderer();
         $this->forceCurrentUrl($this->get_url($current_category));
     }
@@ -51,10 +66,10 @@ class PeerAssessmentPublicationCategoryMenu extends HTML_Menu
     {
         $menu = array();
         $menu_item = array();
-        
+
         $menu_item['title'] = Translation :: get('Root') . ' (' . $this->get_publication_count(0) . ')';
-        $menu_item['url'] = $this->get_url(0);        
-    	$sub_menu_items = $this->get_menu_items(0);
+        $menu_item['url'] = $this->get_url(0);
+        $sub_menu_items = $this->get_menu_items(0);
         if (count($sub_menu_items) > 0)
         {
             $menu_item['sub'] = $sub_menu_items;
@@ -63,8 +78,8 @@ class PeerAssessmentPublicationCategoryMenu extends HTML_Menu
         $menu_item['class'] = 'home';
         $menu_item[OptionsMenuRenderer :: KEY_ID] = 0;
         $menu[0] = $menu_item;
-               
-        return $menu;   
+
+        return $menu;
     }
 
     /**
@@ -79,25 +94,25 @@ class PeerAssessmentPublicationCategoryMenu extends HTML_Menu
     {
         $condition = new EqualityCondition(PeerAssessmentPublicationCategory :: PROPERTY_PARENT, $parent_id);
         $categories = PeerAssessmentDataManager :: get_instance()->retrieve_peer_assessment_publication_categories($condition, null, null, new ObjectTableOrder(PeerAssessmentPublicationCategory :: PROPERTY_DISPLAY_ORDER));
-        
+
         while ($category = $categories->next_result())
         {
             $menu_item = array();
-            
+
             $menu_item['title'] = $category->get_name() . ' (' . $this->get_publication_count($category->get_id()) . ')';
             $menu_item['url'] = $this->get_url($category->get_id());
-            $sub_menu_items = $this->get_menu_items($category->get_id());   
+            $sub_menu_items = $this->get_menu_items($category->get_id());
 
             if (count($sub_menu_items) > 0)
             {
                 $menu_item['sub'] = $sub_menu_items;
             }
-            
+
             $menu_item['class'] = 'category';
             $menu_item[OptionsMenuRenderer :: KEY_ID] = $category->get_id();
             $menu[$category->get_id()] = $menu_item;
         }
-        
+
         return $menu;
     }
 
@@ -132,10 +147,10 @@ class PeerAssessmentPublicationCategoryMenu extends HTML_Menu
         {
             if ($i == 0)
             {
-                $i ++;
+                $i++;
                 continue;
             }
-            
+
             $trail->add(new Breadcrumb($crumb['url'], substr($crumb['title'], 0, strpos($crumb['title'], '(') - 1)));
         }
         return $trail;
@@ -151,4 +166,5 @@ class PeerAssessmentPublicationCategoryMenu extends HTML_Menu
         $this->render($renderer, 'sitemap');
         return $renderer->toHTML();
     }
+
 }

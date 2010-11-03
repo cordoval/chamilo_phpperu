@@ -1,4 +1,9 @@
 <?php
+use common\libraries\Utilities;
+use common\libraries\Request;
+use common\libraries\Translation;
+use common\libraries\WebApplication;
+
 /**
  * $Id: scale_information.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika.ajax

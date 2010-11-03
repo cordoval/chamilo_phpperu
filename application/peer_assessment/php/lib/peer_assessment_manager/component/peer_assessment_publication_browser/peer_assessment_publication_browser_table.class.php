@@ -1,4 +1,11 @@
 <?php
+
+namespace application\peer_assessment;
+
+use common\libraries\ObjectTable;
+use common\libraries\ObjectTableFormAction;
+use common\libraries\Translation;
+
 require_once dirname(__FILE__) . '/peer_assessment_publication_browser_table_data_provider.class.php';
 require_once dirname(__FILE__) . '/peer_assessment_publication_browser_table_column_model.class.php';
 require_once dirname(__FILE__) . '/peer_assessment_publication_browser_table_cell_renderer.class.php';
@@ -23,10 +30,10 @@ class PeerAssessmentPublicationBrowserTable extends ObjectTable
         parent :: __construct($data_provider, self :: DEFAULT_NAME, $model, $renderer);
         $this->set_additional_parameters($parameters);
         $actions = array();
-        
+
         $actions[] = new ObjectTableFormAction(PeerAssessmentManager :: PARAM_DELETE_SELECTED_PEER_ASSESSMENT_PUBLICATIONS, Translation :: get('RemoveSelected'));
         $actions[] = new ObjectTableFormAction(PeerAssessmentManager :: PARAM_MOVE_SELECTED_PEER_ASSESSMENT_PUBLICATIONS, Translation :: get('MoveSelected'));
-        
+
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
     }
@@ -44,14 +51,15 @@ class PeerAssessmentPublicationBrowserTable extends ObjectTable
                 $row[] = $this->get_cell_renderer()->render_id_cell($object);
                 //$row[] = $object->get_id();
             }
-            for($i = 0; $i < $column_count; $i ++)
+            for ($i = 0; $i < $column_count; $i++)
             {
                 $row[] = $this->get_cell_renderer()->render_cell($this->get_column_model()->get_column($i), $object);
             }
             $table_data[] = $row;
         }
         return $table_data;
-    
     }
+
 }
+
 ?>

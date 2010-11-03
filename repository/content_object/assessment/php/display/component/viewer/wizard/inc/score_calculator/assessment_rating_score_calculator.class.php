@@ -13,7 +13,7 @@ class AssessmentRatingScoreCalculator extends ScoreCalculator
     {
         $user_answers = $this->get_answer();
         $question = $this->get_question();
-
+        
         if ($question->get_correct() == $user_answers[0])
         {
             $score = 1;
@@ -22,7 +22,7 @@ class AssessmentRatingScoreCalculator extends ScoreCalculator
         {
             $score = 0;
         }
-
+        
         return $this->make_score_relative($score, 1);
     }
 }

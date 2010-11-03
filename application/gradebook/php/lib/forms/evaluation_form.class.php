@@ -1,4 +1,13 @@
 <?php
+
+namespace application\gradebook;
+
+use common\libraries\FormValidator;
+use common\libraries\Path;
+use common\libraries\Translation;
+use common\libraries\Request;
+use common\libraries\PlatformSetting;
+
 require_once Path :: get_plugin_path() . 'pear/HTML/QuickForm/Rule.php';
 
 class EvaluationForm extends FormValidator

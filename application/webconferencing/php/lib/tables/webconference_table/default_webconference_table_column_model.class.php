@@ -1,4 +1,9 @@
 <?php
+
+namespace application\webconferencing;
+
+use common\libraries\ObjectTableColumnModel;
+use common\libraries\ObjectTableColumn;
 /**
  * $Id: default_webconference_table_column_model.class.php 220 2009-11-13 14:33:52Z kariboe $
  * @package application.lib.webconferencing.tables.webconference_table

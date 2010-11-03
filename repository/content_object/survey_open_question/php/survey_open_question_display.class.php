@@ -2,6 +2,8 @@
 namespace repository\content_object\survey_open_question;
 
 use common\libraries\Path;
+use repository\OpenQuestionDisplay;
+
 
 /**
  * $Id: survey_open_question_display.class.php $

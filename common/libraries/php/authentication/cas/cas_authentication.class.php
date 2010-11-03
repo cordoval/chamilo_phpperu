@@ -1,5 +1,10 @@
 <?php
 namespace common\libraries;
+
+use phpCAS;
+use user\UserDataManager;
+use user\User;
+use tracking\Event;
 /**
  * $Id: cas_authentication.class.php 166 2009-11-12 11:03:06Z vanpouckesven $
  * @package common.authentication.cas
@@ -58,11 +63,11 @@ class CasAuthentication extends Authentication implements UserRegistrationSuppor
             $user = $this->register_new_user($user_id);
         }
 
-        if (get_class($user) == 'User')
+        if ($user instanceof User)
         {
             Session :: register('_uid', $user->get_id());
             Event :: trigger('login', 'user', array('server' => $_SERVER, 'user' => $user));
-            
+
             /*
              * TODO: Temporarily always just return true.
              * In theory we should try to determine whether the user made a specific request.
@@ -71,7 +76,7 @@ class CasAuthentication extends Authentication implements UserRegistrationSuppor
              * in any case.
              */
             return true;
-            
+
 //            $request_uri = Session :: retrieve('request_uri');
 //
 //            if ($request_uri)
@@ -291,7 +296,7 @@ class CasAuthentication extends Authentication implements UserRegistrationSuppor
 
             $uri = ($settings['uri'] ? $settings['uri'] : '');
 
-            phpCAS :: client(SAML_VERSION_1_1, $settings['host'], (int) $settings['port'], (string) $settings['uri'], true);
+            phpCAS :: client(SAML_VERSION_1_1, $settings['host'], (int) $settings['port'], (string) $settings['uri'], false);
 
             // SSL validation for the CAS server
             $crt_path = $settings['certificate'];

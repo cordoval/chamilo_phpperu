@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries;
+
 use HTML_Menu_ArrayRenderer;
 use common\libraries\TreeMenuRenderer;
 use common\libraries\SubselectCondition;
@@ -68,7 +70,7 @@ class ContentObjectPublicationCategoryTree extends HTML_Menu
 
     static function get_tree_name()
     {
-        return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
+        return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: TREE_NAME));
     }
 
     /**

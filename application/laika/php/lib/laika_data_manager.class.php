@@ -1,4 +1,8 @@
 <?php
+namespace application\laika;
+
+use common\libraries\Configuration;
+
 /**
  * $Id: laika_data_manager.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika
@@ -30,7 +34,7 @@ abstract class LaikaDataManager
         {
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
             require_once dirname(__FILE__) . '/data_manager/' . strtolower($type) . '_laika_data_manager.class.php';
-            $class = $type . 'LaikaDataManager';
+            $class = __NAMESPACE__  . '\\' . $type . 'LaikaDataManager';
             self :: $instance = new $class();
         }
         return self :: $instance;

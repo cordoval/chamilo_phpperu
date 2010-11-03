@@ -165,7 +165,7 @@ class RepositoryDataManager
         $result = false;
         foreach ($applications as $index => $application_name)
         {
-            $result = call_user_func(array(WebApplication :: get_application_class_name($application_name), 'any_content_object_is_published'), $ids);
+            $result = call_user_func(array('application\\'. $application_name .'\\' . WebApplication :: get_application_class_name($application_name), 'any_content_object_is_published'), $ids);
             if ($result)
             {
                 return true;

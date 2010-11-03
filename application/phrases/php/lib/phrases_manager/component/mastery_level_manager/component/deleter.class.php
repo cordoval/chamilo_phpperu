@@ -1,4 +1,8 @@
 <?php
+namespace application\phrases;
+
+use common\libraries\Translation;
+use common\libraries\Request;
 /**
  * $Id: deleter.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.assessment_manager.component

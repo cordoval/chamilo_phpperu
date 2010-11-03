@@ -1,4 +1,11 @@
 <?php
+namespace application\phrases;
+
+use common\libraries\Translation;
+use common\libraries\WebApplication;
+use common\libraries\ToolbarItem;
+use common\libraries\Toolbar;
+use common\libraries\Theme;
 /**
  * $Id: phrases_publication_browser_table_cell_renderer.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.phrases.phrases_manager.component.phrases_publication_browser

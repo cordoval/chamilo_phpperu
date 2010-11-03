@@ -53,7 +53,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManager
         $type_options[''] = '-- ' . Translation :: get('SelectObject') . ' --';
         $extra_params = array();
         $this->forbidden_types = array(PortfolioItem :: get_type_name(), LearningPathItem :: get_type_name(), ScormItem :: get_type_name());
-
+        
         foreach ($this->get_allowed_content_object_types() as $type)
         {
             $registration = AdminDataManager :: get_registration($type, Registration :: TYPE_CONTENT_OBJECT);
@@ -62,35 +62,35 @@ class RepositoryManagerCreatorComponent extends RepositoryManager
                 $type_options[$type] = Translation :: get(Utilities :: get_classname_from_namespace(Utilities :: underscores_to_camelcase($type)) . 'TypeName');
             }
         }
-
+        
         $type_form = new FormValidator('create_type', 'post', $this->get_url($extra_params));
-
+        
         asort($type_options);
         $type_form->addElement('select', RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE, Translation :: get('CreateANew'), $type_options, array('class' => 'learning-object-creation-type postback'));
         $type_form->addElement('style_submit_button', 'submit', Translation :: get('Select'), array('class' => 'normal select'));
         $type_form->addElement('html', '<br /><br />' . ResourceManager :: get_instance()->get_resource_html(Path :: get_web_common_libraries_path() . 'resources/javascript/postback.js'));
-
+        
         $type = ($type_form->validate() ? $type_form->exportValue(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE) : Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE));
-
+        
         if ($type)
         {
             $category = Request :: get(RepositoryManager :: PARAM_CATEGORY_ID);
-
+            
             $object = ContentObject :: factory($type);
             $object->set_owner_id($this->get_user_id());
             $object->set_parent_id($category);
-
+            
             $content_object_form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_CREATE, $object, 'create', 'post', $this->get_url(array_merge($extra_params, array(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE => $type))), null);
-
+            
             if ($content_object_form->validate())
             {
                 $object = $content_object_form->create_content_object();
-
+                
                 if (! $object)
                 {
                     $this->redirect(Translation :: get('FileCouldNotBeUploaded'), true, array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_CREATE_CONTENT_OBJECTS, 'type' => $type));
                 }
-
+                
                 if (! is_array($object) && ($object instanceof ComplexContentObjectSupport || count($extra_params) == 2 || count($extra_params) == 3))
                 {
                     $parameters = array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BUILD_COMPLEX_CONTENT_OBJECT, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $object->get_id());
@@ -109,11 +109,11 @@ class RepositoryManagerCreatorComponent extends RepositoryManager
                         $parent = $object->get_parent_id();
                         $type_name = $object->get_type_name();
                     }
-
+                    
                     $parameters = array();
                     $parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS;
                     $parameters[RepositoryManager :: PARAM_CATEGORY_ID] = $parent;
-
+                    
                     $message = Utilities :: underscores_to_camelcase($type_name) . 'TypeNameCreated';
                     $this->redirect(Translation :: get($message), false, $parameters);
                 }
@@ -130,7 +130,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManager
                 {
                     $this->display_header(null, false, true);
                 }
-
+                
                 $content_object_form->display();
                 $this->display_footer();
             }
@@ -148,7 +148,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManager
             //                    //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Create')));
             //                }
             }
-
+            
             if (Request :: get('publish'))
             {
                 $this->display_header(null, false, true);
@@ -157,10 +157,10 @@ class RepositoryManagerCreatorComponent extends RepositoryManager
             {
                 $this->display_header(null, false, true);
             }
-
+            
             //echo $extra;
             $quotamanager = new QuotaManager($this->get_user());
-
+            
             if ($quotamanager->get_available_database_space() <= 0)
             {
                 Display :: warning_message(htmlentities(Translation :: get('MaxNumberOfContentObjectsReached')));
@@ -171,7 +171,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManager
                 $renderer->setElementTemplate('{label}&nbsp;{element}&nbsp;');
                 $type_form->accept($renderer);
                 echo $renderer->toHTML();
-
+                
                 $user_objects = $quotamanager->get_used_database_space();
                 echo $this->get_content_object_type_counts(($user_objects == 0));
             }
@@ -181,93 +181,23 @@ class RepositoryManagerCreatorComponent extends RepositoryManager
 
     function get_content_object_type_counts($use_general_statistics = false)
     {
-        $type_categories = array();
-        $type_counts = array();
-        $categories = array();
-        $most_used_type_count = 0;
-
-        if (! $use_general_statistics)
-        {
-            $condition = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->get_user_id());
-        }
-        else
-        {
-            $condition = null;
-        }
-
-        foreach ($this->get_allowed_content_object_types() as $type)
-        {
-            $package_info = PackageInfo :: factory(Registration :: TYPE_CONTENT_OBJECT, $type);
-            $package_info = $package_info->get_package_info();
-            $category = $package_info['package']['category'];
-            $category_name = Translation :: get(Utilities :: underscores_to_camelcase($category));
-
-            if (! in_array($category, array_keys($categories)))
-            {
-                $categories[$category] = $category_name;
-            }
-
-            if (! is_array($type_categories[$category]))
-            {
-                $type_categories[$category] = array();
-            }
-
-            $type_categories[$category][Translation :: get(Utilities :: get_classname_from_namespace(ContentObject :: type_to_class($type)) . 'TypeName')] = $type;
-
-            $count = $this->count_type_content_objects($type, $condition);
-            $type_counts[$type] = $count;
-            if ($count > $most_used_type_count)
-            {
-                $most_used_type_count = $count;
-            }
-        }
-
-        arsort($type_counts, SORT_STRING);
-
-        $limit = round($most_used_type_count / 2);
-        $type_counts = array_slice($type_counts, 0, 10);
-
-        $most_used_html = array();
-
-        foreach ($type_counts as $type => $count)
-        {
-            if ($count > 0)
-            {
-                $most_used_html[] = '<a href="' . $this->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE => $type)) . '"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/big/' . $type . '.png);">';
-                //                $most_used_html[] = '<a href="' . $this->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE => $type)) . '"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/' . $type . '.png);">';
-                $most_used_html[] = Translation :: get(Utilities :: get_classname_from_namespace(ContentObject :: type_to_class($type) . 'TypeName'));
-                $most_used_html[] = '</div></a>';
-            }
-        }
-
-        asort($categories);
-
-        $renderer_name = Utilities :: get_classname_from_object($this, true);
-        $tabs = new DynamicTabsRenderer($renderer_name);
-        $tabs->add_tab(new DynamicContentTab(self :: TAB_MOST_USED, Translation :: get('MostUsed'), Theme :: get_image_path() . 'place_mini_most_used.png', implode("\n", $most_used_html)));
-
-        foreach ($categories as $category => $category_name)
-        {
-            $types = $type_categories[$category];
-            ksort($types);
-
-            $types_html = array();
-
-            foreach ($types as $name => $type)
-            {
-                $types_html[] = '<a href="' . $this->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE => $type)) . '"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/big/' . $type . '.png);">';
-                //                $types_html[] = '<a href="' . $this->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE => $type)) . '"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/' . $type . '.png);">';
-                $types_html[] = $name;
-                $types_html[] = '</div></a>';
-            }
-
-            $tabs->add_tab(new DynamicContentTab($category, $category_name, Theme :: get_image_path() . 'place_mini_' . $category . '.png', implode("\n", $types_html)));
-        }
-
-        $html[] = $tabs->render();
+        $type_selector = new ContentObjectTypeSelector($this, $this->get_allowed_content_object_types(), array(), $use_general_statistics);
+        
+        $html = array();
+        $html[] = $type_selector->as_html();
         $html[] = ResourceManager :: get_instance()->get_resource_html(BasicApplication :: get_application_web_resources_javascript_path(RepositoryManager :: APPLICATION_NAME) . 'repository.js');
-
+        
         return implode("\n", $html);
+    }
+
+    function get_content_object_type_creation_url($type)
+    {
+        return $this->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE => $type));
+    }
+
+    function is_allowed_to_create($type)
+    {
+        return true;
     }
 
     function get_allowed_content_object_types()
@@ -277,12 +207,12 @@ class RepositoryManagerCreatorComponent extends RepositoryManager
         {
             $registration = AdminDataManager :: get_registration($type, Registration :: TYPE_CONTENT_OBJECT);
             //if (!$registration || !$registration->is_active() || ! RepositoryRights :: is_allowed_in_content_objects_subtree(RepositoryRights :: ADD_RIGHT, $registration->get_id()))
-            if (!$registration || !$registration->is_active())
+            if (! $registration || ! $registration->is_active())
             {
                 unset($types[$index]);
             }
         }
-
+        
         return $types;
     }
 

@@ -1,4 +1,9 @@
 <?php
+
+namespace application\peer_assessment;
+
+use common\libraries\Translation;
+
 require_once dirname(__FILE__) . '/../peer_assessment_manager.class.php';
 
 /**
@@ -16,24 +21,24 @@ class PeerAssessmentManagerDeleterComponent extends PeerAssessmentManager
         $ids = $_GET[PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION];
 
         $failures = 0;
-        
-        if (! empty($ids))
+
+        if (!empty($ids))
         {
-            if (! is_array($ids))
+            if (!is_array($ids))
             {
                 $ids = array($ids);
             }
-            
+
             foreach ($ids as $id)
             {
                 $peer_assessment_publication = $this->retrieve_peer_assessment_publication($id);
-                
-                if (! $peer_assessment_publication->delete())
+
+                if (!$peer_assessment_publication->delete())
                 {
-                    $failures ++;
+                    $failures++;
                 }
             }
-            
+
             if ($failures)
             {
                 if (count($ids) == 1)
@@ -55,13 +60,15 @@ class PeerAssessmentManagerDeleterComponent extends PeerAssessmentManager
                 {
                     $message = 'SelectedPeerAssessmentPublicationsDeleted';
                 }
-            }          
+            }
             $this->redirect(Translation :: get($message), ($failures ? true : false), array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS, 'category' => $category_id));
-		}
+        }
         else
         {
             $this->display_error_page(htmlentities(Translation :: get('NoPeerAssessmentPublicationsSelected')));
         }
     }
+
 }
+
 ?>

@@ -7,7 +7,7 @@ use common\libraries\Translation;
 
 
 require_once dirname(__FILE__). '/../lib/portfolio_data_manager.class.php';
-require_once dirname(__FILE__). '/../rights/portfolio_rights.class.php';
+require_once dirname(__FILE__). '/../lib/rights/portfolio_rights.class.php';
 /**
  * This installer can be used to create the storage structure for the
  * portfolio application.

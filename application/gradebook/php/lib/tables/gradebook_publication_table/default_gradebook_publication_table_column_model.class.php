@@ -1,5 +1,11 @@
 <?php
 
+namespace application\gradebook;
+
+use common\libraries\ObjectTableColumnModel;
+use common\libraries\ObjectTableColumn;
+use repository\ContentObject;
+
 class DefaultGradebookPublicationTableColumnModel extends ObjectTableColumnModel
 {
 	/**

@@ -1,6 +1,11 @@
-<?php namespace repository\content_object\survey;
+<?php 
+namespace repository\content_object\survey;
 
-require_once Path :: get_repository_path() . 'lib/content_object/survey/display/component/survey_menu.class.php';
+use common\libraries\Path;
+use common\libraries\Translation;
+use HTML_QuickForm_Action_Display;
+
+require_once Path :: get_repository_content_object_path() . '/survey/php/display/component/survey_menu.class.php';
 
 class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
 {

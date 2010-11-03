@@ -1,4 +1,10 @@
 <?php
+
+namespace application\gradebook;
+
+use common\libraries\DataClass;
+use common\libraries\EqualityCondition;
+
 /*
  * @author Ben Vanmassenhove
  */

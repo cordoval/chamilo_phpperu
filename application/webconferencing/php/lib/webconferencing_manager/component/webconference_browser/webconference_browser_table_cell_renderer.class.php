@@ -1,4 +1,13 @@
 <?php
+
+namespace application\webconferencing;
+
+use common\libraries\PlatformSetting;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use common\libraries\Toolbar;
+use common\libraries\Translation;
+use common\libraries\Theme;
 /**
  * $Id: webconference_browser_table_cell_renderer.class.php 220 2009-11-13 14:33:52Z kariboe $
  * @package application.lib.webconferencing.webconferencing_manager.component.webconference_browser

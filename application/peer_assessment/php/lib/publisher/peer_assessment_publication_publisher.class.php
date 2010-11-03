@@ -1,4 +1,14 @@
 <?php
+
+namespace application\peer_assessment;
+
+use common\libraries\InCondition;
+use repository\ContentObject;
+use repository\RepositoryDataManager;
+use common\libraries\Translation;
+use common\libraries\Theme;
+use common\extensions\repo_viewer\RepoViewer;
+
 /**
  * author: Nick Van Loocke
  */
@@ -6,6 +16,7 @@ require_once dirname(__FILE__) . '/../forms/peer_assessment_publication_form.cla
 
 class PeerAssessmentPublicationPublisher
 {
+
     private $parent;
 
     function PeerAssessmentPublicationPublisher($parent)
@@ -22,7 +33,7 @@ class PeerAssessmentPublicationPublisher
         if (is_null($object))
             return '';
 
-        if (! is_array($object))
+        if (!is_array($object))
         {
             $ids = array($object);
         }
@@ -72,4 +83,5 @@ class PeerAssessmentPublicationPublisher
     }
 
 }
+
 ?>

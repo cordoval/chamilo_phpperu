@@ -2,6 +2,7 @@
 namespace application\handbook;
 use common\libraries\ObjectTableCellRenderer;
 use common\libraries\Theme;
+use repository\content_object\handbook\Handbook;
 
 
 class DefaultHandbookPublicationTableCellRenderer extends ObjectTableCellRenderer

@@ -1,4 +1,9 @@
 <?php
+namespace application\laika;
+
+use common\libraries\Translation;
+use common\libraries\WebApplication;
+
 /**
  * $Id: introduction_laika_wizard_page.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika.laika_manager.component.inc.wizard

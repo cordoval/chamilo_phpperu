@@ -1,4 +1,9 @@
 <?php
+namespace application\phrases;
+
+use common\libraries\Translation;
+use common\libraries\WebApplication;
+use common\libraries\ObjectTable;
 /**
  * $Id: phrases_mastery_level_browser_table.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.phrases.phrases_manager.component.phrases_mastery_level_browser

@@ -6,15 +6,19 @@ namespace repository\content_object\assessment;
  */
 require_once dirname(__FILE__) . '/../score_calculator.class.php';
 
-class FillInBlanksScoreCalculator extends ScoreCalculator{
+class FillInBlanksScoreCalculator extends ScoreCalculator
+{
 
-    function calculate_score(){
+    function calculate_score()
+    {
         $options = $this->get_question()->get_answers();
         $user_answers = $this->get_answer();
         
         $score = 0;
-        foreach($options as $option){
-            if ($option->get_value() == $user_answers[$option->get_position()]){
+        foreach ($options as $option)
+        {
+            if ($option->get_value() == $user_answers[$option->get_position()])
+            {
                 $score += $option->get_weight();
             }
         }

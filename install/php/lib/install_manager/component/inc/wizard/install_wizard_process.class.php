@@ -10,6 +10,7 @@ use HTML_QuickForm_Action;
 use MDB2;
 use common\libraries\Connection;
 use repository\ContentObjectInstaller;
+
 /**
  * $Id: install_wizard_process.class.php 225 2009-11-13 14:43:20Z vanpouckesven $
  * @package install.lib.installmanager.component.inc.wizard
@@ -47,9 +48,13 @@ class InstallWizardProcess extends HTML_QuickForm_Action
         if(array_key_exists('config_file', $_FILES))
         {
         	$values = array();
-
-        	require_once($_FILES['config_file']['tmp_name']);
+			
+        	//TODO check why this gives install errors for missing path ??
+        	if($_FILES['config_file']['tmp_name']){
+        		require_once($_FILES['config_file']['tmp_name']);
         	$this->values = $values;
+        	}
+        	
         }
         else
         {

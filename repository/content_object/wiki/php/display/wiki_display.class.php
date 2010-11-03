@@ -24,7 +24,6 @@ use common\extensions\repo_viewer\RepoViewer;
  */
 
 require_once dirname(__FILE__) . '/wiki_actionbar.class.php';
-require_once dirname(__FILE__) . '/wiki_parser.class.php';
 /**
  * This tool allows a user to publish wikis in his or her course.
  */

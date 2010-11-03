@@ -1,4 +1,8 @@
 <?php
+namespace application\phrases;
+
+use common\libraries\ObjectTableDataProvider;
+use common\libraries\ObjectTableOrder;
 /**
  * $Id: phrases_mastery_level_browser_table_data_provider.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.assessment_manager.component.assessment_mastery_level_browser

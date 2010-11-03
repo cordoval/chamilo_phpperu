@@ -18,6 +18,8 @@ class AnnouncementForm extends ContentObjectForm
     // Inherited
     function create_content_object()
     {
+        dump($_POST);
+        exit;
         $object = new Announcement();
         $this->set_content_object($object);
         return parent :: create_content_object();

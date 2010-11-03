@@ -1,4 +1,5 @@
-<?php namespace repository\content_object\survey;
+<?php 
+namespace repository\content_object\survey;
 
 use \common\libraries\Path;
 use \common\libraries\NestedTreeNode;

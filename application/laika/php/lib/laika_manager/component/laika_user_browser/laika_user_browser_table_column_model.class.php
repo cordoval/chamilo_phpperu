@@ -1,4 +1,12 @@
 <?php
+namespace application\laika;
+
+use common\libraries\Application;
+use common\libraries\CoreApplication;
+use common\libraries\StaticTableColumn;
+
+use user\DefaultUserTableColumnModel;
+
 /**
  * $Id: laika_user_browser_table_column_model.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika.laika_manager.component.laika_user_browser

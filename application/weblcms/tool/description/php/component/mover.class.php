@@ -5,7 +5,7 @@ use application\weblcms\Tool;
 use common\libraries\Request;
 use application\weblcms\ToolComponent;
 
-class DescriptionToolMoveDownComponent extends DescriptionTool
+class DescriptionToolMoverComponent extends DescriptionTool
 {
 
     function run()

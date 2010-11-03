@@ -16,6 +16,7 @@ use repository\ComplexContentObjectItem;
 use repository\ComplexBrowserTable;
 use repository\content_object\forum_topic\ForumTopic;
 use repository\content_object\forum_topic\ComplexForumTopic;
+use repository\ContentObjectTypeSelectorSupport;
 
 /**
  * $Id: browser.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -27,7 +28,7 @@ require_once dirname(__FILE__) . '/browser/forum_browser_table_column_model.clas
 require_once dirname(__FILE__) . '/browser/forum_post_browser_table_cell_renderer.class.php';
 require_once dirname(__FILE__) . '/browser/forum_post_browser_table_column_model.class.php';
 
-class ForumBuilderBrowserComponent extends ForumBuilder
+class ForumBuilderBrowserComponent extends ForumBuilder implements ContentObjectTypeSelectorSupport
 {
 
     function run()

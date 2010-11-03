@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use repository\content_object\scorm_item\ScormItem;
+
 use common\libraries\Path;
 use common\libraries\EqualityCondition;
 use common\libraries\Filecompression;
@@ -11,7 +13,9 @@ use repository\content_object\learning_path_item\LearningPathItem;
 use repository\content_object\portfolio_item\PortfolioItem;
 use repository\content_object\document\Document;
 use repository\content_object\hotspot_question\HotspotQuestion;
-
+use repository\content_object\hotpotatoes\Hotpotatoes;
+use repository\content_object\learning_path\LearningPath;
+use repository\content_object\scorm_item\ScormIteme;
 use DOMDocument;
 
 /**
@@ -224,7 +228,7 @@ class CpoImport extends ContentObjectImport
             {
                 $dirname = Filesystem :: create_unique_name($new_dir, $f);
                 Filesystem :: recurse_copy($dir . 'hotpotatoes/' . $f, $new_dir . $dirname, false);
-                $this->hp_files[$f] = $dirname;
+                $this->hp_files[$f] = dirname;
             }
         }
 
@@ -238,7 +242,7 @@ class CpoImport extends ContentObjectImport
             {
                 $dirname = Filesystem :: create_unique_name($new_dir, $f);
                 Filesystem :: recurse_copy($dir . 'scorm/' . $f, $new_dir . $dirname, false);
-                $this->scorm_files[$f] = $dirname;
+                $this->scorm_files[$f] = dirname;
             }
         }
     }

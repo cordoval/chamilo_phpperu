@@ -8,28 +8,28 @@ class Translation
 {
     const PACKAGE_DELIMITER = '.';
     const PACKAGE_COMMON = 'common';
-
+    
     /**
      * Instance of this class for the singleton pattern.
      */
     private static $instance;
     private static $called_class;
-
+    
     /**
      * Language strings defined in the language-files. Stored as an associative array.
      */
     private $strings;
-
+    
     /**
      * The language we're currently translating too
      */
     private $language;
-
+    
     /**
      * The application we're currently translating
      */
     private $application;
-
+    
     /**
      * To determine wether we should show the variable in a tooltip window or not (used for translation purposes)
      */
@@ -77,13 +77,13 @@ class Translation
      *
      * @return Translation The instance.
      */
-    function get($variable, $context, $parameters = array())
+    function get($variable, $parameters = array(), $context = null)
     {
         $instance = self :: get_instance();
         self :: $called_class = get_called_class();
-
+        
         $translation = $instance->translate($variable, $context);
-
+        
         if (empty($parameters))
         {
             return $translation;
@@ -126,22 +126,23 @@ class Translation
      * @param string $name The parameter name.
      * @return mixed The parameter value.
      */
-    function translate($variable, $context)
+    function translate($variable, $context = null)
     {
         $instance = self :: get_instance();
-
+        
         $language = $instance->language;
-        // Modified by Ivan Tcholakov, 31-MAR-2010, see BUG #743
-        //$strings = $instance->strings;
         $strings = & $instance->strings;
-        //
+        
         $value = '';
-
-        if (count(explode('\\', self :: $called_class)) > 1)
+        
+        if (! $context)
         {
-            $context = Utilities :: get_namespace_from_classname(self :: $called_class);
+            if (count(explode('\\', self :: $called_class)) > 1)
+            {
+                $context = Utilities :: get_namespace_from_classname(self :: $called_class);
+            }
         }
-
+        
         if (! isset($strings[$language]))
         {
             $instance->add_context_internationalization($language, $context);
@@ -150,36 +151,36 @@ class Translation
         {
             $instance->add_context_internationalization($language, $context);
         }
-
+        
         if (isset($strings[$language][$context][$variable]))
         {
             $value = $strings[$language][$context][$variable];
         }
-
+        
         if (! $value || $value == '' || $value == ' ')
-        {
-            if ((Request :: get('install_running') != 1 && file_exists(dirname(__FILE__) . '/../../configuration/configuration.php')) && PlatformSetting :: get('hide_dcda_markup'))
+        {            
+            if (Request :: get('install_running') == 1)
             {
                 return $variable;
             }
             else
             {
-                //$url = PlatformSetting :: get('cda_url') . 'run.php?application=cda&go=edit_variable_translation&variable=' . urlencode($variable) . '&context=' . urlencode($context);
-                //$image = '<img src="' . Theme :: get_common_image_path() . 'action_translate.png" style="width: 6px; height: 6px;" />';
-                //$link = '<a href="' . $url . '" style="display: inline; clear: none; height: auto; padding-left: none;">' . $image . '</a>';
-                //$link = $image;
-                //$link = Theme :: get_common_image('action_translate_mini', 'png', null, $url, ToolbarItem::DISPLAY_ICON);
-
-                //return '[=' . $variable . '=] ' . $link;
-                return '[CDA context={'. $context .'}]' . $variable . '[/CDA]';
+                if (PlatformSetting :: get('hide_dcda_markup'))
+                {
+                    return $variable;
+                }
+                else
+                {
+                    return '[CDA context={' . $context . '}]' . $variable . '[/CDA]';
+                }
             }
         }
-
+        
         if ($this->show_variable_in_translation)
         {
             return '<span title="' . $context . ' - ' . $variable . '">' . $value . '</span>';
         }
-
+        
         return $value;
     }
 
@@ -195,18 +196,17 @@ class Translation
     function add_context_internationalization($language, $context)
     {
         $called_class = explode('\\', $context);
-        if (count($called_class) > 1)
-        {
-            array_pop($called_class);
-            $path = Path :: get(SYS_PATH) . '/' . implode('/', $called_class) . '/resources/i18n/' . $language . '.i18n';
-        }
-        else
-        {
-            $path = BasicApplication :: get_application_resources_i18n_path($context) . $language . '.i18n';
-
-        }
+//        if (count($called_class) > 1)
+//        {
+            $path = Path :: get(SYS_PATH) . implode('/', $called_class) . '/resources/i18n/' . $language . '.i18n';
+//        }
+//        else
+//        {
+//            $path = BasicApplication :: get_application_resources_i18n_path($context) . $language . '.i18n';
+//        }
+        
         $strings = parse_ini_file($path);
-
+        
         $instance = self :: get_instance();
         $instance->strings[$language][$context] = $strings;
     }

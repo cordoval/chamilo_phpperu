@@ -1,6 +1,8 @@
 <?php
 namespace admin;
 use common\libraries\Utilities;
+
+use rights\RightsUtilities;
 /**
  * $Id: admin_rights.class.php 184 2009-11-13 09:51:32Z vanpouckesven $
  * @package admin.lib

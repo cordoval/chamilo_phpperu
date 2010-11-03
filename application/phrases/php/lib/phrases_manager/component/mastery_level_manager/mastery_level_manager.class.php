@@ -1,4 +1,9 @@
 <?php
+namespace application\phrases;
+
+use common\libraries\Request;
+use common\libraries\SubManager;
+
 /**
  * @package admin.lib.package_manager
  * @author Hans De Bisschop

@@ -2,6 +2,10 @@
 namespace application\survey;
 
 use common\libraries\ObjectTableCellRenderer;
+use repository\ContentObject;
+use common\libraries\Utilities;
+use common\libraries\Translation;
+
 
 /**
  * $Id: default_survey_publication_table_cell_renderer.class.php 193 2009-11-13 11:53:37Z chellee $

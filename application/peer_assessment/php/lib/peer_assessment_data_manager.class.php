@@ -1,12 +1,19 @@
 <?php
+
+namespace application\peer_assessment;
+
+use common\libraries\Configuration;
+use common\libraries\Utilities;
+
 /**
- *	This is a skeleton for a data manager for the PeerAssessment Application.
- *	Data managers must extend this class and implement its abstract methods.
+ * 	This is a skeleton for a data manager for the PeerAssessment Application.
+ * 	Data managers must extend this class and implement its abstract methods.
  *
- *	@author Nick Van Loocke
+ * 	@author Nick Van Loocke
  */
 class PeerAssessmentDataManager
 {
+
     /**
      * Instance of this class for the singleton pattern.
      */
@@ -28,15 +35,16 @@ class PeerAssessmentDataManager
      */
     static function get_instance()
     {
-        if (! isset(self :: $instance))
+        if (!isset(self :: $instance))
         {
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
             require_once dirname(__FILE__) . '/data_manager/' . Utilities :: camelcase_to_underscores($type) . '_peer_assessment_data_manager.class.php';
-            $class = $type . 'PeerAssessmentDataManager';
+            $class = __NAMESPACE__ . '\\' . $type . 'PeerAssessmentDataManager';
             self :: $instance = new $class();
         }
         return self :: $instance;
     }
 
 }
+
 ?>

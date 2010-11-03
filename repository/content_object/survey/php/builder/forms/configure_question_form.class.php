@@ -7,8 +7,13 @@ use common\libraries\FormValidator;
 use common\libraries\Translation;
 use common\libraries\Configuration;
 use common\libraries\Utilities;
+use common\libraries\Path;
+use repository\content_object\survey_page\SurveyPage;
 
-require_once dirname ( __FILE__ ) . '/../component/inc/survey_question_display.class.php';
+
+require_once Path :: get_repository_content_object_path() . 'survey/php/builder/component/inc/survey_question_display.class.php';
+
+//require_once dirname ( __FILE__ ) . '/../component/inc/survey_question_display.class.php';
 
 class ConfigureQuestionForm extends FormValidator {
 

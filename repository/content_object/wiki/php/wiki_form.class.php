@@ -12,7 +12,6 @@ use repository\ContentObjectForm;
  * @package repository.lib.content_object.wiki
  */
 require_once dirname(__FILE__) . '/wiki.class.php';
-require_once dirname(__FILE__) . '/display/wiki_parser.class.php';
 
 class WikiForm extends ContentObjectForm
 {
@@ -30,7 +29,6 @@ class WikiForm extends ContentObjectForm
     function create_content_object()
     {
         $object = new Wiki();
-        $parser = new WikiParser($this, Request :: get('pid'), Request :: get('course'));
         $object->set_locked($this->exportValue(Wiki :: PROPERTY_LOCKED));
         $object->set_links($this->exportValue(Wiki :: PROPERTY_LINKS));
         $this->set_content_object($object);
@@ -39,7 +37,6 @@ class WikiForm extends ContentObjectForm
 
     function update_content_object()
     {
-        $parser = new WikiParser($this, Request :: get('pid'), Request :: get('course'));
         $object = $this->get_content_object();
         $object->set_locked($this->exportValue(Wiki :: PROPERTY_LOCKED));
         $object->set_links($this->exportValue(Wiki :: PROPERTY_LINKS));
@@ -67,19 +64,18 @@ class WikiForm extends ContentObjectForm
 
     function setDefaults($defaults = array ())
     {
-        $parser = new WikiParser();
-
+        
         $lo = $this->get_content_object();
         if (isset($lo))
         {
             $defaults[ContentObject :: PROPERTY_ID] = $lo->get_id();
-
+            
             $defaults[ContentObject :: PROPERTY_TITLE] = $lo->get_title();
             $defaults[ContentObject :: PROPERTY_DESCRIPTION] = $lo->get_description();
             $defaults[Wiki :: PROPERTY_LOCKED] = $lo->get_locked();
             $defaults[Wiki :: PROPERTY_LINKS] = $lo->get_links();
         }
-
+        
         parent :: setDefaults($defaults);
     }
 

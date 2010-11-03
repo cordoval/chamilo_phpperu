@@ -1,4 +1,11 @@
 <?php
+namespace application\phrases;
+
+use common\libraries\Translation;
+use common\libraries\Request;
+use common\libraries\WebApplication;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
 /**
  * $Id: manager.class.php 201 2009-11-13 12:34:51Z chellee $
  * @package application.personal_calendar.personal_calendar_manager.component
@@ -19,7 +26,7 @@ class PhrasesManagerTakerComponent extends PhrasesManager
      */
     function run()
     {
-        dump($_POST);
+        //dump($_POST);
         $this->datamanager = PhrasesDataManager :: get_instance();
         $publication_id = Request :: get(PhrasesPublicationManager :: PARAM_PHRASES_PUBLICATION_ID);
         if ($publication_id)
@@ -30,14 +37,13 @@ class PhrasesManagerTakerComponent extends PhrasesManager
             $this->assessment = $this->publication->get_publication_object();
             $this->set_parameter(PhrasesPublicationManager :: PARAM_PHRASES_PUBLICATION_ID, $this->publication_id);
         }
-        
         // Checking statistics
+        
         $track = new PhrasesAssessmentAttemptsTracker();
         $conditions[] = new EqualityCondition(PhrasesAssessmentAttemptsTracker :: PROPERTY_PUBLICATION_ID, $this->publication_id);
         $conditions[] = new EqualityCondition(PhrasesAssessmentAttemptsTracker :: PROPERTY_USER_ID, $this->get_user_id());
         $condition = new AndCondition($conditions);
         $trackers = $track->retrieve_tracker_items($condition);
-        
         $count = count($trackers);
         
         foreach ($trackers as $tracker)

@@ -1,4 +1,16 @@
 <?php
+namespace application\phrases;
+
+use common\libraries\Database;
+use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
+use common\libraries\InequalityCondition;
+use common\libraries\ObjectTableOrder;
+
+use application\phrases\PhrasesDataManagerInterface;
+
+use repository\RepositoryDataManager;
+use repository\ContentObject;
 /**
  * $Id: database_phrases_data_manager.class.php 238 2009-11-16 14:10:27Z vanpouckesven $
  * @package application.personal_calendar.data_manager
@@ -305,7 +317,7 @@ class DatabasePhrasesDatamanager extends Database implements PhrasesDataManagerI
             return false;
         }
 
-        $condition = new EqualityCondition(PROPERTY_DISPLAY_ORDER :: PROPERTY_ID, $mastery_level->get_id());
+        $condition = new EqualityCondition(PhrasesMasteryLevel :: PROPERTY_ID, $mastery_level->get_id());
         $properties[PhrasesMasteryLevel :: PROPERTY_DISPLAY_ORDER] = $old_index - $places;
         return $this->update_objects(PhrasesMasteryLevel :: get_table_name(), $properties, $condition, null, 1);
     }
