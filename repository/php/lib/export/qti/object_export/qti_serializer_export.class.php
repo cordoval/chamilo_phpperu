@@ -1,5 +1,5 @@
 <?php
-
+namespace repository;
 /**
  * Adapter between serializer and exporter.
  *

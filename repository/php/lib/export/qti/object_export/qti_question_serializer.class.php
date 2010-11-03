@@ -1,5 +1,5 @@
 <?php
-
+namespace repository;
 /**
  * Base class for question serializers.
  *

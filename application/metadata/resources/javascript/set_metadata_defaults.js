@@ -10,7 +10,7 @@ $(function () {
 
         if(defaults.length > 1){
 
-            var select_string = '<select name="value" id="metadata_property_value">';
+            var select_string = select_input();
 
             $.each(defaults, function(index, value){
                 select_string += '<option value="'+value+'">'+value+'</option>';
@@ -21,12 +21,20 @@ $(function () {
 
     }else {
 
-            target_element.append('<input id="metadata_property_value" type="text" name="value" />');
+            target_element.append(text_input());
             if(defaults.length == 1){
                 $('#metadata_property_value').val(defaults[0]);
             }
         }
    });
+   
+   var text_input = function (){
+       return '<input id="metadata_property_value" type="text" name="value"/>';
+   };
+   
+   var select_input = function(){
+        return '<select name="value" id="metadata_property_value">';
+   };
 });
 
 

@@ -5,6 +5,7 @@ use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\OrCondition;
+use common\libraries\Translation;
 /**
  * This class describes a MetadataPropertyType data object
  * @author Jens Vanderheyden
@@ -94,15 +95,36 @@ class MetadataPropertyType extends DataClass
             return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
     }
 
+
+    /*
+     * object creation if name + ns_prfix are unique
+     * return MetadaPropertyType or false
+     */
+    function create()
+    {
+        $condition1 = new EqualityCondition(MetadataPropertyType :: PROPERTY_NAME, $this->get_name());
+        $condition2 = new EqualityCondition(MetadataPropertyType :: PROPERTY_NS_PREFIX, $this->get_ns_prefix());
+
+        $condition =  new AndCondition($condition1, $condition2);
+
+        if($this->get_data_manager()->count_metadata_property_types($condition) >= 1)
+        {
+           $this->add_error(Translation :: get('ObjectAlreadyExists'));
+           return false;
+        }
+        return parent :: create();
+    }
+
     function delete()
     {
         //check dependencies before deleting
-        //property_values
+        //if any property_values delete is not possible
         $mdm = $this->get_data_manager();
 
         $condition = new EqualityCondition(MetadataPropertyValue :: PROPERTY_PROPERTY_TYPE_ID, $this->get_id());
 
-        $count = $mdm->count_metadata_property_values($condition);
+        $count = $mdm->count_content_object_metadata_property_values($condition);
+        $count += $mdm->count_user_metadata_property_values($condition);
 
         if($count === 0)
         {
@@ -117,7 +139,7 @@ class MetadataPropertyType extends DataClass
 
                 $condition = new OrCondition($condition1, $condition4);
 
-                $metadata_property_nestings = $mdm->retrieve_property_nestings($condition);
+                $metadata_property_nestings = $mdm->retrieve_metadata_property_nestings($condition);
 
                 while($metadata_property_nesting = $metadata_property_nestings->next_result())
                 {
@@ -132,7 +154,7 @@ class MetadataPropertyType extends DataClass
 
                 $condition = new OrCondition($condition1, $condition4);
 
-                $metadata_attribute_nestings = $mdm->retrieve_Attribute_nestings($condition);
+                $metadata_attribute_nestings = $mdm->retrieve_metadata_attribute_nestings($condition);
 
                 while($metadata_attribute_nesting = $metadata_attribute_nestings->next_result())
                 {
@@ -147,12 +169,23 @@ class MetadataPropertyType extends DataClass
                 {
                     $content_object_property_metadata->delete();
                 }
+
+                //default_values
+                $condition = new EqualityCondition(MetadataDefaultValue :: PROPERTY_PROPERTY_TYPE_ID, $this->get_id());
+                $metadata_default_values = $mdm->retrieve_metadata_default_values($condition);
+
+                while($metadata_default_value = $metadata_default_values->next_result())
+                {
+                    $metadata_default_value->delete();
+                }
             }
         }
         else
         {
+            $this->add_error(Translation :: get('ChildrenExist'));
             return false;
         }
+        return true;
     }
     /*
      * @return string ns_prefix + name

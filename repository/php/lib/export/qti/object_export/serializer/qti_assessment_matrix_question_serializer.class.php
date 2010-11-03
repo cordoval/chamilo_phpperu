@@ -1,6 +1,8 @@
 <?php
+namespace repository;
 
-require_once Path::get_repository_path(). 'lib/content_object/assessment_matrix_question/assessment_matrix_question_option.class.php';
+use common\libraries\Path;
+require_once Path::get_repository_content_object_path() . 'assessment_matrix_question/php/assessment_matrix_question_option.class.php';
 
 /**
  * Serializer for matrix questions.

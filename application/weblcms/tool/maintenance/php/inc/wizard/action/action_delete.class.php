@@ -1,6 +1,10 @@
 <?php
 namespace application\weblcms\tool\maintenance;
 
+use application\weblcms\WeblcmsDataManager;
+
+
+
 require_once dirname(__FILE__) . '/../maintenance_wizard_process.class.php';
 
 /**

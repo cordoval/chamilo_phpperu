@@ -2,6 +2,7 @@
 namespace application\weblcms\tool\maintenance;
 
 use common\libraries\Translation;
+use HTML_QuickForm_Controller;
 
 /**
  * $Id: maintenance_wizard.class.php 216 2009-11-13 14:08:06Z kariboe $

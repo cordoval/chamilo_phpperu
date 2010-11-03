@@ -5,6 +5,7 @@ use application\weblcms\WeblcmsDataManager;
 use user\UserDataManager;
 use common\libraries\Session;
 use common\libraries\Translation;
+use common\libraries\Path;
 
 require_once dirname(__FILE__) . '/../maintenance_wizard_process.class.php';
 require_once dirname(__FILE__) . '/../cp_import_selection_maintenance_wizard_page.class.php';

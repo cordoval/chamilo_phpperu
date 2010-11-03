@@ -3,6 +3,7 @@ namespace application\weblcms\tool\maintenance;
 
 use common\libraries\Display;
 use common\libraries\BreadcrumbTrail;
+use HTML_QuickForm_Action_Display;
 
 /**
  * $Id: maintenance_wizard_display.class.php 216 2009-11-13 14:08:06Z kariboe $

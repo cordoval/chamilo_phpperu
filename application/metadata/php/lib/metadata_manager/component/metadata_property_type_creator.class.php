@@ -18,10 +18,16 @@ class MetadataManagerMetadataPropertyTypeCreatorComponent extends MetadataManage
 
 		if($form->validate())
 		{
-			$success = $form->create_metadata_property_type();
-			$this->redirect($success ? Translation :: get('MetadataPropertyTypeCreated') : Translation :: get('MetadataPropertyTypeNotCreated'), !$success, array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_EDIT_ASSOCIATIONS, MetadataManager :: PARAM_METADATA_PROPERTY_TYPE => $success->get_id()));
-		}
-		else
+                    if($success = $form->create_metadata_property_type())
+                    {
+                        $this->redirect(Translation :: get('MetadataPropertyTypeCreated'), false,array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_EDIT_ASSOCIATIONS, MetadataManager :: PARAM_METADATA_PROPERTY_TYPE => $success->get_id()));
+                    }
+                    else
+                    {
+                        $this->redirect(Translation :: get('MetadataPropertyTypeNotCreated'), true);
+                    }
+                }
+                else
 		{
 			$this->display_header();
 			$form->display();

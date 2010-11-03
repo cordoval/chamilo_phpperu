@@ -1,6 +1,8 @@
 <?php
+namespace repository;
 
-require_once Path::get_repository_path(). 'lib/content_object/assessment_select_question/assessment_select_question_option.class.php';
+use common\libraries\Path;
+require_once Path::get_repository_content_object_path() . 'assessment_select_question/php/assessment_select_question_option.class.php';
 
 /**
  *

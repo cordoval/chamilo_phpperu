@@ -3,6 +3,7 @@ namespace application\metadata;
 use common\libraries\DataClass;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
+use common\libraries\Translation;
 /**
  * metadata
  */
@@ -96,7 +97,23 @@ class MetadataNamespace extends DataClass
     {
             return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
     }
-    
+
+    /*
+     * object creation if ns_prefix is unique
+     * return MetadaNamespace or false
+     */
+    function create()
+    {
+        $condition = new EqualityCondition(MetadataNamespace :: PROPERTY_NS_PREFIX, $this->get_ns_prefix());
+
+        if($this->get_data_manager()->count_metadata_namespaces($condition) >= 1)
+        {
+            $this->add_error(Translation :: get('ObjectAlreadyExists'));
+           return false;
+        }
+        return  parent :: create();
+    }
+
     function delete()
     {
         //only deletes if 0 children
@@ -114,6 +131,7 @@ class MetadataNamespace extends DataClass
         }
         else
         {
+            $this->add_error(Translation :: get('childrenExist'));
             return false;
         }
     }

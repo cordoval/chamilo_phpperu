@@ -424,7 +424,6 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
             $condition = new EqualityCondition(ContentObject :: PROPERTY_ID, $object->get_id());
             $this->delete_objects('content_object_version', $condition);
         }
-
         return true;
     }
 

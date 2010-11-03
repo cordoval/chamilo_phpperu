@@ -29,6 +29,7 @@ class MetadataManagerMetadataPropertyTypeDeleterComponent extends MetadataManage
             {
                     $fail = true;
                     $message = 'SelectedMetadataPropertyTypeNotDeleted';
+                    if($metadata_property_type->has_errors()) $message .= implode("\n", $metadata_property_type->get_errors());
             }
             else
             {

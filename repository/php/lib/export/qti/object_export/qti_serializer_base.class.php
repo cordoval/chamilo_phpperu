@@ -1,5 +1,5 @@
 <?php
-
+namespace repository;
 /**
  * Base class for serializers.
  * Includes resources management and path translation.

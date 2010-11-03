@@ -24,6 +24,7 @@ class MetadataManagerMetadataNamespaceDeleterComponent extends MetadataManager
                     {
                         $fail = true;
                         $message = 'MetadataNamespaceNotDeleted';
+                        if($metadata_namespace->has_errors()) $message .= implode("\n", $metadata_namespace->get_errors());
                     }
                     else
                     {

@@ -1,5 +1,9 @@
 <?php
-require_once Path::get_repository_path(). 'lib/content_object/assessment_matching_question/assessment_matching_question_option.class.php';
+namespace repository;
+
+use common\libraries\Path;
+
+require_once Path::get_repository_content_object_path() . 'assessment_matching_question/php/assessment_matching_question_option.class.php';
 
 /**
  * Serializer for matching questions.
