@@ -7,6 +7,11 @@ use common\libraries\Theme;
 use common\libraries\DynamicTabsRenderer;
 use common\libraries\InCondition;
 
+use common\extensions\repo_viewer\RepoViewer;
+
+use repository\RepositoryDataManager;
+use repository\ContentObject;
+
 require_once dirname(__FILE__) . '/../forms/period_publication_form.class.php';
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'period_manager/component/viewer.class.php';
 

@@ -3,6 +3,8 @@ namespace application\internship_organizer;
 
 use common\libraries\Translation;
 use common\libraries\WebApplication;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
 
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'forms/organisation_import_form.class.php';
 

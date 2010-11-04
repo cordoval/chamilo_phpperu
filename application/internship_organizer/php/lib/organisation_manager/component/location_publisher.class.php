@@ -1,6 +1,10 @@
 <?php
 namespace application\internship_organizer;
 
+use common\extensions\repo_viewer\RepoViewer;
+use common\extensions\repo_viewer\RepoViewerInterface;
+
+use repository\content_object\document\Document;
 
 require_once dirname(__FILE__) . '/../../publisher/moment_publisher.class.php';
 

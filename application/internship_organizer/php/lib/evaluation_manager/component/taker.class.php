@@ -1,7 +1,10 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\Path;
 use common\libraries\WebApplication;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Request;
 
 require_once WebApplication :: get_application_class_lib_path('survey') . 'trackers/survey_participant_tracker.class.php';
 require_once Path :: get_repository_path() . 'lib/content_object/survey/display/component/viewer/survey_viewer_wizard.class.php';

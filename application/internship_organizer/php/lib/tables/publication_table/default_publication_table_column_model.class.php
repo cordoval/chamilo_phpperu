@@ -4,6 +4,9 @@ namespace application\internship_organizer;
 use common\libraries\ObjectTableColumnModel;
 use common\libraries\ObjectTableColumn;
 
+use repository\RepositoryDataManager;
+use repository\ContentObject;
+
 require_once dirname(__FILE__) . '/../../publication.class.php';
 
 /**

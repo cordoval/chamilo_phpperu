@@ -1,4 +1,5 @@
 <?php
+use common\libraries\Path;
 use common\libraries\WebApplication;
 use common\libraries\CoreApplication;
 use common\libraries\Translation;

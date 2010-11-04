@@ -11,6 +11,10 @@ use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\DynamicContentTab;
 use common\libraries\ToolbarItem;
+use common\libraries\Request;
+
+use group\Group;
+use group\GroupDataManager;
 
 use user\UserDataManager;
 use user\User;

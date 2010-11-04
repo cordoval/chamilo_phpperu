@@ -12,6 +12,7 @@ use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\DynamicContentTab;
 use common\libraries\ToolbarItem;
+use common\libraries\Request;
 
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'category_manager/category_manager.class.php';
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'category_manager/component/browser/browser_table.class.php';
