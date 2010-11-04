@@ -47,8 +47,8 @@ class DatabaseContextLinkerDataManager extends Database implements ContextLinker
 
     function delete_context_link($context_link)
     {
-            $condition = new EqualityCondition(ContextLink :: PROPERTY_ID, $context_link->get_id());
-            return $this->delete($context_link->get_table_name(), $condition);
+        $condition = new EqualityCondition(ContextLink :: PROPERTY_ID, $context_link->get_id());
+        return $this->delete($context_link->get_table_name(), $condition);
     }
 
     function count_context_links($condition = null)
@@ -59,12 +59,12 @@ class DatabaseContextLinkerDataManager extends Database implements ContextLinker
     function retrieve_context_link($id)
     {
             $condition = new EqualityCondition(ContextLink :: PROPERTY_ID, $id);
-            return $this->retrieve_object(ContextLink :: get_table_name(), $condition);
+            return $this->retrieve_object(ContextLink :: get_table_name(), $condition, null, ContextLink :: CLASS_NAME);
     }
 
     function retrieve_context_links($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-            return $this->retrieve_objects(ContextLink :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+            return $this->retrieve_objects(ContextLink :: get_table_name(), $condition, $offset, $max_objects, $order_by, ContextLink :: CLASS_NAME);
     }
 
     /*

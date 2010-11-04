@@ -21,6 +21,27 @@ class ContextLink extends DataClass
 	const PROPERTY_METADATA_PROPERTY_VALUE_ID = 'metadata_property_value_id';
 	const PROPERTY_DATE = 'date';
 
+         /**
+         * Returns the id of this data class
+         * @return int The id.
+         */
+        function get_id()
+        {
+            return $this->get_default_property(self :: PROPERTY_ID);
+        }
+
+        /**
+         * Sets id of the data class
+         * @param int $id
+         */
+        function set_id($id)
+        {
+            if (isset($id) && strlen($id) > 0)
+            {
+                $this->set_default_property(self :: PROPERTY_ID, $id);
+            }
+        }
+
 	/**
 	 * Get the default properties
 	 * @return array The property names.
