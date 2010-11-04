@@ -11,7 +11,7 @@
 	{
         var response = $.ajax({
 			type: "POST",
-			url: "./application/weblcms/php/tool/learning_path/javascript/ajax/leave_item.php",
+			url: "./application/weblcms/tool/learning_path/php/ajax/leave_item.php",
 			data: { tracker_id: tracker_id},
 			async: false
 		}).responseText;
