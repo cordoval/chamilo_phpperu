@@ -45,7 +45,7 @@ class WikiDisplayViewerComponent extends WikiDisplay
 
                 $wiki_homepage = $complex_wiki_homepage->get_ref_object();
 
-                $parser = new MediawikiParser(new MediawikiParserContext($wiki_homepage->get_title(), $wiki_homepage->get_description(), $this->get_parameters()));
+                $parser = new MediawikiParser(new MediawikiParserContext($this->get_root_content_object(), $wiki_homepage->get_title(), $wiki_homepage->get_description(), $this->get_parameters()));
 
                 $html[] = '<div class="wiki-pane-content-title">' . $wiki_homepage->get_title() . '</div>';
                 $html[] = '<div class="wiki-pane-content-subtitle">' . Translation :: get('From') . ' ' . $this->get_root_content_object()->get_title() . '</div>';

@@ -1,6 +1,14 @@
 <?php
+use repository\content_object\wiki\Wiki;
+
 class MediawikiParserContext
 {
+    /**
+     * The Wiki object which should be used as a reference to resolve a.o. links
+     * @var Wiki
+     */
+    private $wiki;
+
     /**
      * The title of the wiki element to be parsed
      * @var string
@@ -22,15 +30,33 @@ class MediawikiParserContext
 
     /**
      * Construct a new MediawikiParserContext
+     * @param Wiki $wiki
      * @param string $title
      * @param string $body
      * @param array $parameters
      */
-    function MediawikiParserContext($title, $body, $parameters)
+    function MediawikiParserContext(Wiki $wiki, $title, $body, $parameters)
     {
+        $this->wiki = $wiki;
         $this->title = $title;
         $this->body = $body;
         $this->parameters = $parameters;
+    }
+
+    /**
+     * @return the $wiki
+     */
+    public function get_wiki()
+    {
+        return $this->wiki;
+    }
+
+    /**
+     * @param Wiki $wiki
+     */
+    public function set_wiki($wiki)
+    {
+        $this->wiki = $wiki;
     }
 
     /**

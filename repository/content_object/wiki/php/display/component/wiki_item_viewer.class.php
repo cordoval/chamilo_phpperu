@@ -74,7 +74,7 @@ class WikiDisplayWikiItemViewerComponent extends WikiDisplay
                 $html[] = '<div class="wiki-pane-content-version">' . Translation :: get('WikiOldVersion') . '</div>';
             }
 
-            $parser = new MediawikiParser(new MediawikiParserContext($display_wiki_page->get_title(), $display_wiki_page->get_description(), $this->get_parameters()));
+            $parser = new MediawikiParser(new MediawikiParserContext($this->get_root_content_object(), $display_wiki_page->get_title(), $display_wiki_page->get_description(), $this->get_parameters()));
 
             $html[] = '<div class="wiki-pane-content-body">';
             $html[] = $parser->parse();

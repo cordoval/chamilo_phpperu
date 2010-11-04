@@ -216,8 +216,7 @@ class WikiDisplay extends ComplexDisplay
 
         if (! empty($links))
         {
-            Request :: set_get(self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID, $this->get_current_page_complex_id());
-            $parser = new MediawikiParser(new MediawikiParserContext('', $links, $this->get_parameters()));
+            $parser = new MediawikiParser(new MediawikiParserContext($this->get_root_content_object(), '', $links, $this->get_parameters()));
 
             $html[] = '<div class="wiki-menu-section">';
             $html[] = $parser->parse();
