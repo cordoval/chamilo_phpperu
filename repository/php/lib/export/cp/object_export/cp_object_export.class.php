@@ -87,7 +87,7 @@ class CpObjectExport
 
         if ($result instanceof ContentObject)
         {
-            if (get_class($result) == 'ContentObject')
+            if ($result instanceof ContentObject)
             {
                 $result = RepositoryDataManager :: get_instance()->retrieve_content_object($result->get_id(), $result->get_type());
             }
@@ -122,7 +122,7 @@ class CpObjectExport
         }
         if ($child instanceof ContentObject)
         {
-            if (get_class($child) == 'ContentObject')
+            if ($child instanceof ContentObject)
             {
                 $child = RepositoryDataManager :: get_instance()->retrieve_content_object($child->get_id(), $child->get_type());
             }

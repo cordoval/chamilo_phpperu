@@ -1,6 +1,8 @@
 <?php
 namespace common\extensions\video_conferencing_manager;
+
 use common\libraries\LauncherApplication;
+use common\libraries\Utilities;
 
 abstract class VideoConferencingyManager extends SubManager
 {
@@ -10,14 +12,15 @@ abstract class VideoConferencingyManager extends SubManager
     const ACTION_EXPORT_EXTERNAL_REPOSITORY = 'exporter';
     const ACTION_IMPORT_EXTERNAL_REPOSITORY = 'importer';
     const ACTION_BROWSE_VIDEO_CONFERENCING = 'browser';
-//    const ACTION_DOWNLOAD_EXTERNAL_REPOSITORY = 'downloader';
-//    const ACTION_UPLOAD_EXTERNAL_REPOSITORY = 'uploader';
-//    const ACTION_SELECT_EXTERNAL_REPOSITORY = 'selecter';
+    //    const ACTION_DOWNLOAD_EXTERNAL_REPOSITORY = 'downloader';
+    //    const ACTION_UPLOAD_EXTERNAL_REPOSITORY = 'uploader';
+    //    const ACTION_SELECT_EXTERNAL_REPOSITORY = 'selecter';
     const ACTION_EDIT_VIDEO_CONFERENCING = 'editor';
     const ACTION_DELETE_VIDEO_CONFERENCING = 'deleter';
     const ACTION_CONFIGURE_VIDEO_CONFERENCING = 'configurer';
-//    const ACTION_SYNCHRONIZE_EXTERNAL_REPOSITORY = 'external_syncer';
-//    const ACTION_SYNCHRONIZE_INTERNAL_REPOSITORY = 'internal_syncer';
+    //    const ACTION_SYNCHRONIZE_EXTERNAL_REPOSITORY = 'external_syncer';
+    //    const ACTION_SYNCHRONIZE_INTERNAL_REPOSITORY = 'internal_syncer';
+
 
     const DEFAULT_ACTION = self :: ACTION_BROWSE_VIDEO_CONFERENCING;
 
@@ -26,7 +29,8 @@ abstract class VideoConferencingyManager extends SubManager
     const PARAM_QUERY = 'query';
     const PARAM_RENDERER = 'renderer';
     const PARAM_FOLDER = 'folder';
-//    const PARAM_USER_QUOTUM = 'default_user_quotum';
+    //    const PARAM_USER_QUOTUM = 'default_user_quotum';
+
 
     const CLASS_NAME = __CLASS__;
 
@@ -177,7 +181,7 @@ abstract class VideoConferencingyManager extends SubManager
             $video_conferencing_actions[] = self :: ACTION_VIEW_VIDEO_CONFERENCING;
         }
 
-        $tabs = new DynamicVisualTabsRenderer(Utilities :: camelcase_to_underscores(get_class($this)));
+        $tabs = new DynamicVisualTabsRenderer(Utilities :: get_classname_from_object($this, true));
 
         foreach ($video_conferencing_actions as $video_conferencing_action)
         {
@@ -218,6 +222,7 @@ abstract class VideoConferencingyManager extends SubManager
         $actions = array();
         $actions[] = self :: ACTION_BROWSE_VIDEO_CONFERENCING;
         //$actions[] = self :: ACTION_UPLOAD_EXTERNAL_REPOSITORY;
+
 
         $is_platform = $this->get_user()->is_platform_admin() && (count($this->get_settings()) > 0);
 
@@ -317,14 +322,15 @@ abstract class VideoConferencingyManager extends SubManager
         return $this->get_video_conferencing_connector()->delete_video_conferencing_object($id);
     }
 
-//    /**
-//     * @param string $id
-//     * @return boolean
-//     */
-//    function export_external_repository_object($id)
-//    {
-//        return $this->get_external_repository_connector()->export_external_repository_object($id);
-//    }
+    //    /**
+    //     * @param string $id
+    //     * @return boolean
+    //     */
+    //    function export_external_repository_object($id)
+    //    {
+    //        return $this->get_external_repository_connector()->export_external_repository_object($id);
+    //    }
+
 
     /**
      * @param VideoConferencingObject $object
@@ -332,7 +338,7 @@ abstract class VideoConferencingyManager extends SubManager
      */
     function get_video_conferencing_object_actions(ExternalRepositoryObject $object)
     {
-    	$toolbar_items = array();
+        $toolbar_items = array();
 
         if ($object->is_editable())
         {
@@ -346,39 +352,39 @@ abstract class VideoConferencingyManager extends SubManager
         if ($object->is_usable())
         {
 
-//        	if ($this->is_stand_alone())
-//            {
-//                $toolbar_items[] = new ToolbarItem(Translation :: get('Select'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(self :: PARAM_VIDEO_CONFERENCING_MANAGER_ACTION => self :: ACTION_SELECT_VIDEO_CONFERENCING, self :: PARAM_VIDEO_CONFERENCING_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
-//            }
-//            else
-//            {
-                if ($object->is_importable())
-                {
-                	$toolbar_items[self :: ACTION_IMPORT_VIDEO_CONFERENCING] = new ToolbarItem(Translation :: get('Import'), Theme :: get_common_image_path() . 'action_import.png', $this->get_url(array(self :: PARAM_VIDEO_CONFERENCING_MANAGER_ACTION => self :: ACTION_IMPORT_VIDEO_CONFERENCING, self :: PARAM_VIDEO_CONFERENCING_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
-//                }
-//                else
-//                {
-//                    switch ($object->get_synchronization_status())
-//                    {
-//                        case ExternalRepositorySync :: SYNC_STATUS_INTERNAL :
-//                            $toolbar_items[self :: ACTION_SYNCHRONIZE_INTERNAL_REPOSITORY] = new ToolbarItem(Translation :: get('UpdateContentObject'), Theme :: get_common_image_path() . 'action_synchronize.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SYNCHRONIZE_INTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
-//                            break;
-//                        case ExternalRepositorySync :: SYNC_STATUS_EXTERNAL :
-//                            if ($object->is_editable())
-//                            {
-//                                $toolbar_items[self :: ACTION_SYNCHRONIZE_EXTERNAL_REPOSITORY] = new ToolbarItem(Translation :: get('UpdateExternalRepositoryObject'), Theme :: get_common_image_path() . 'external_repository/' . $object->get_object_type() . '/logo/16.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SYNCHRONIZE_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
-//                            }
-//                            break;
-//                        case ExternalRepositorySync :: SYNC_STATUS_CONFLICT :
-//                            $toolbar_items[self :: ACTION_SYNCHRONIZE_INTERNAL_REPOSITORY] = new ToolbarItem(Translation :: get('UpdateContentObject'), Theme :: get_common_image_path() . 'action_synchronize.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SYNCHRONIZE_INTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
-//                            if ($object->is_editable())
-//                            {
-//                                $toolbar_items[self :: ACTION_SYNCHRONIZE_EXTERNAL_REPOSITORY] = new ToolbarItem(Translation :: get('UpdateExternalRepositoryObject'), Theme :: get_common_image_path() . 'external_repository/' . $object->get_object_type() . '/logo/16.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SYNCHRONIZE_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
-//                            }
-//                            break;
-//                    }
-                }
-//            }
+            //        	if ($this->is_stand_alone())
+            //            {
+            //                $toolbar_items[] = new ToolbarItem(Translation :: get('Select'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(self :: PARAM_VIDEO_CONFERENCING_MANAGER_ACTION => self :: ACTION_SELECT_VIDEO_CONFERENCING, self :: PARAM_VIDEO_CONFERENCING_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
+            //            }
+            //            else
+            //            {
+            if ($object->is_importable())
+            {
+                $toolbar_items[self :: ACTION_IMPORT_VIDEO_CONFERENCING] = new ToolbarItem(Translation :: get('Import'), Theme :: get_common_image_path() . 'action_import.png', $this->get_url(array(self :: PARAM_VIDEO_CONFERENCING_MANAGER_ACTION => self :: ACTION_IMPORT_VIDEO_CONFERENCING, self :: PARAM_VIDEO_CONFERENCING_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
+                //                }
+            //                else
+            //                {
+            //                    switch ($object->get_synchronization_status())
+            //                    {
+            //                        case ExternalRepositorySync :: SYNC_STATUS_INTERNAL :
+            //                            $toolbar_items[self :: ACTION_SYNCHRONIZE_INTERNAL_REPOSITORY] = new ToolbarItem(Translation :: get('UpdateContentObject'), Theme :: get_common_image_path() . 'action_synchronize.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SYNCHRONIZE_INTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
+            //                            break;
+            //                        case ExternalRepositorySync :: SYNC_STATUS_EXTERNAL :
+            //                            if ($object->is_editable())
+            //                            {
+            //                                $toolbar_items[self :: ACTION_SYNCHRONIZE_EXTERNAL_REPOSITORY] = new ToolbarItem(Translation :: get('UpdateExternalRepositoryObject'), Theme :: get_common_image_path() . 'external_repository/' . $object->get_object_type() . '/logo/16.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SYNCHRONIZE_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
+            //                            }
+            //                            break;
+            //                        case ExternalRepositorySync :: SYNC_STATUS_CONFLICT :
+            //                            $toolbar_items[self :: ACTION_SYNCHRONIZE_INTERNAL_REPOSITORY] = new ToolbarItem(Translation :: get('UpdateContentObject'), Theme :: get_common_image_path() . 'action_synchronize.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SYNCHRONIZE_INTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
+            //                            if ($object->is_editable())
+            //                            {
+            //                                $toolbar_items[self :: ACTION_SYNCHRONIZE_EXTERNAL_REPOSITORY] = new ToolbarItem(Translation :: get('UpdateExternalRepositoryObject'), Theme :: get_common_image_path() . 'external_repository/' . $object->get_object_type() . '/logo/16.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SYNCHRONIZE_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
+            //                            }
+            //                            break;
+            //                    }
+            }
+            //            }
         }
 
         return $toolbar_items;

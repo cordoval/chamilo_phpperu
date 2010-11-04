@@ -5,6 +5,7 @@ use repository\content_object\learning_path\LearningPath;
 use repository\content_object\hotpotatoes\Hotpotatoes;
 use application\weblcms\Course;
 use common\libraries\Path;
+use common\libraries\Utilities;
 
 require_once (dirname(__FILE__) . '/cp_object_export.class.php');
 
@@ -83,9 +84,7 @@ class CpeObjectExportBase extends CpObjectExport
     protected function format_properties($properties)
     {
         $result = $properties;
-        $names = array(
-                ContentObject :: PROPERTY_CREATION_DATE, ContentObject :: PROPERTY_MODIFICATION_DATE, ComplexContentObjectItem :: PROPERTY_ADD_DATE, Course :: PROPERTY_CREATION_DATE, Course :: PROPERTY_EXPIRATION_DATE, Course :: PROPERTY_LAST_EDIT, Course :: PROPERTY_LAST_VISIT,
-                ContentObjectPublication :: PROPERTY_PUBLICATION_DATE, User :: PROPERTY_ACTIVATION_DATE, User :: PROPERTY_EXPIRATION_DATE, User :: PROPERTY_REGISTRATION_DATE, CalendarEvent :: PROPERTY_START_DATE, CalendarEvent :: PROPERTY_END_DATE);
+        $names = array(ContentObject :: PROPERTY_CREATION_DATE, ContentObject :: PROPERTY_MODIFICATION_DATE, ComplexContentObjectItem :: PROPERTY_ADD_DATE, Course :: PROPERTY_CREATION_DATE, Course :: PROPERTY_EXPIRATION_DATE, Course :: PROPERTY_LAST_EDIT, Course :: PROPERTY_LAST_VISIT, ContentObjectPublication :: PROPERTY_PUBLICATION_DATE, User :: PROPERTY_ACTIVATION_DATE, User :: PROPERTY_EXPIRATION_DATE, User :: PROPERTY_REGISTRATION_DATE, CalendarEvent :: PROPERTY_START_DATE, CalendarEvent :: PROPERTY_END_DATE);
 
         foreach ($names as $name)
         {
@@ -117,7 +116,7 @@ class CpeObjectExportBase extends CpObjectExport
         }
         else
         {
-            return get_class($object);
+            return Utilities :: get_classname_from_object($object);
         }
     }
 

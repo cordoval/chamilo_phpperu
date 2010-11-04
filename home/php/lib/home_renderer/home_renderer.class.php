@@ -154,7 +154,6 @@ abstract class HomeRenderer
      */
     function set_parameter($name, $value)
     {
-        //dump(get_class($this) . ' | ' . $name);
         $this->parameters[$name] = $value;
     }
 

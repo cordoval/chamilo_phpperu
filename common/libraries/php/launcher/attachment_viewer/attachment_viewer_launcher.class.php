@@ -12,19 +12,19 @@ class AttachmentViewerLauncher extends LauncherApplication
     function run()
     {
         $this->display_header();
-        
+
         $object_id = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
         if ($object_id)
         {
-        	$object = RepositoryDataManager :: get_instance()->retrieve_content_object($object_id);
+            $object = RepositoryDataManager :: get_instance()->retrieve_content_object($object_id);
             $display = ContentObjectDisplay :: factory($object);
             echo $display->get_full_html();
         }
         else
         {
-        	$this->display_error_message('NoObjectSelected');
+            $this->display_error_message('NoObjectSelected');
         }
-        
+
         $this->display_footer();
     }
 

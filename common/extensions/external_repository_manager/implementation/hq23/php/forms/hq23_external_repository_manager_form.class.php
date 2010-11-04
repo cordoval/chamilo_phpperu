@@ -27,7 +27,7 @@ class Hq23ExternalRepositoryManagerForm extends FormValidator
 
     function Hq23ExternalRepositoryManagerForm($form_type, $action, $application)
     {
-        parent :: __construct(Utilities :: camelcase_to_underscores(get_class($this)), 'post', $action);
+        parent :: __construct(Utilities :: get_classname_from_object($this, true), 'post', $action);
 
         $this->application = $application;
 

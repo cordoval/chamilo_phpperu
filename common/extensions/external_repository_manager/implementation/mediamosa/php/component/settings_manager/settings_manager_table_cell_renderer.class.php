@@ -61,13 +61,13 @@ class SettingsManagerTableCellRenderer extends ObjectTableCellRenderer
             case ExternalRepositoryServerObject :: PROPERTY_IS_UPLOAD_POSSIBLE :
                 return $server_setting->get_is_upload_possible();
                 break;
-            case ExternalRepositoryServerObject :: PROPERTY_VERSION:
+            case ExternalRepositoryServerObject :: PROPERTY_VERSION :
                 return $server_setting->get_version();
                 break;
-            case ExternalRepositoryServerObject :: PROPERTY_IS_DEFAULT:
+            case ExternalRepositoryServerObject :: PROPERTY_IS_DEFAULT :
                 return $server_setting->get_is_default();
                 break;
-            case ExternalRepositoryServerObject :: PROPERTY_DEFAULT_USER_QUOTUM:
+            case ExternalRepositoryServerObject :: PROPERTY_DEFAULT_USER_QUOTUM :
                 return $server_setting->get_default_user_quotum();
                 break;
             default :
@@ -88,7 +88,7 @@ class SettingsManagerTableCellRenderer extends ObjectTableCellRenderer
      */
     private function get_modification_links($server_setting)
     {
-        if (get_class($this->component) == 'MediamosaExternalRepositoryManagerSettingsManagerComponent')
+        if ($this->component instanceof MediamosaExternalRepositoryManagerSettingsManagerComponent)
         {
             $toolbar = new Toolbar();
 
@@ -154,7 +154,7 @@ class SettingsManagerTableCellRenderer extends ObjectTableCellRenderer
             }*/
             return $toolbar->as_html();
         }
-        elseif (get_class($this->component) == 'MediamosaExternalRepositoryManagerSettingsManagerComponent')
+        elseif ($this->component instanceof MediamosaExternalRepositoryManagerSettingsManagerComponent)
         {
             $toolbar = new Toolbar();
 

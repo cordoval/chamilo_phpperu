@@ -1,6 +1,8 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries;
+
 use group\GroupDataManager;
 use common\libraries\ResourceManager;
 use common\libraries\FormValidator;
@@ -123,7 +125,7 @@ abstract class CommonForm extends FormValidator
     {
         $object = $this->object;
         $values = $this->exportValues();
-        if (get_class($this->object) == "CourseType")
+        if ($this->object instanceof CourseType)
             $object = $object->get_settings();
         $object->set_language($values[CourseSettings :: PROPERTY_LANGUAGE]);
         $object->set_visibility($this->parse_checkbox_value($values[CourseSettings :: PROPERTY_VISIBILITY]));
@@ -133,7 +135,7 @@ abstract class CommonForm extends FormValidator
         else
             $members = $values[CourseSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS];
         $object->set_max_number_of_members($members);
-        if (get_class($this->object) == "CourseType")
+        if ($this->object instanceof CourseType)
             return $object;
         else
         {
@@ -146,7 +148,7 @@ abstract class CommonForm extends FormValidator
     {
         $object = $this->object;
         $values = $this->exportValues();
-        if (get_class($this->object) == "CourseType")
+        if ($this->object instanceof CourseType)
             $object = $object->get_layout_settings();
         $object->set_intro_text($this->parse_checkbox_value($values[CourseLayout :: PROPERTY_INTRO_TEXT]));
         $object->set_student_view($this->parse_checkbox_value($values[CourseLayout :: PROPERTY_STUDENT_VIEW]));
@@ -158,7 +160,7 @@ abstract class CommonForm extends FormValidator
         $object->set_course_code_visible($this->parse_checkbox_value($values[CourseLayout :: PROPERTY_COURSE_CODE_VISIBLE]));
         $object->set_course_manager_name_visible($this->parse_checkbox_value($values[CourseLayout :: PROPERTY_COURSE_MANAGER_NAME_VISIBLE]));
         $object->set_course_languages_visible($this->parse_checkbox_value($values[CourseLayout :: PROPERTY_COURSE_LANGUAGES_VISIBLE]));
-        if (get_class($this->object) == "CourseType")
+        if ($this->object instanceof CourseType)
             return $object;
         else
         {
@@ -173,13 +175,13 @@ abstract class CommonForm extends FormValidator
     {
         $object = $this->object;
         $values = $this->exportValues();
-        if (get_class($this->object) == "CourseType")
+        if ($this->object instanceof CourseType)
             $object = $object->get_rights();
         $object->set_direct_subscribe_available($this->parse_checkbox_value($values[CourseRights :: PROPERTY_DIRECT_SUBSCRIBE_AVAILABLE]));
         $object->set_request_subscribe_available($this->parse_checkbox_value($values[CourseRights :: PROPERTY_REQUEST_SUBSCRIBE_AVAILABLE]));
         $object->set_code_subscribe_available($this->parse_checkbox_value($values[CourseRights :: PROPERTY_CODE_SUBSCRIBE_AVAILABLE]));
         $object->set_unsubscribe_available($this->parse_checkbox_value($values[CourseRights :: PROPERTY_UNSUBSCRIBE_AVAILABLE]));
-        if (get_class($this->object) == "CourseType")
+        if ($this->object instanceof CourseType)
             return $object;
         else
         {
@@ -197,7 +199,7 @@ abstract class CommonForm extends FormValidator
         $wdm = WeblcmsDataManager :: get_instance();
 
         $class = get_class($this->object) . "GroupSubscribeRight";
-        $id_method = "set_" . Utilities :: camelcase_to_underscores(get_class($this->object)) . "_id";
+        $id_method = "set_" . Utilities :: get_classname_from_object($this->object, true) . "_id";
 
         for($i = 0; $i < 3; $i ++)
         {
@@ -272,7 +274,7 @@ abstract class CommonForm extends FormValidator
         $values = $this->exportValues();
         $groups_array = array();
         $class = get_class($this->object) . "GroupUnsubscribeRight";
-        $id_method = "set_" . Utilities :: camelcase_to_underscores(get_class($this->object)) . "_id";
+        $id_method = "set_" . Utilities :: get_classname_from_object($this->object, true) . "_id";
         if ($values[self :: UNSUBSCRIBE_TARGET_OPTION])
         {
             foreach ($values[self :: UNSUBSCRIBE_TARGET_ELEMENTS]['group'] as $value)
@@ -308,7 +310,7 @@ abstract class CommonForm extends FormValidator
     {
         $object = $this->object;
         $settings = $object;
-        if (get_class($object) == "CourseType")
+        if ($this->object instanceof CourseType)
             $settings = $object->get_settings();
         elseif (is_null($this->object->get_id()))
             $settings = $this->object->get_course_type()->get_settings();
@@ -319,7 +321,7 @@ abstract class CommonForm extends FormValidator
         $defaults[self :: UNLIMITED_MEMBERS] = ($settings->get_max_number_of_members() == 0) ? 1 : 0;
 
         $layout = $object;
-        if (get_class($object) == "CourseType")
+        if ($this->object instanceof CourseType)
             $layout = $object->get_layout_settings();
         elseif (is_null($this->object->get_id()))
             $layout = $this->object->get_course_type()->get_layout_settings();
@@ -335,7 +337,7 @@ abstract class CommonForm extends FormValidator
         $defaults[CourseLayout :: PROPERTY_COURSE_LANGUAGES_VISIBLE] = ! is_null($layout->get_course_languages_visible()) ? $layout->get_course_languages_visible() : 1;
 
         $rights = $object;
-        if (get_class($object) == "CourseType")
+        if ($this->object instanceof CourseType)
             $rights = $object->get_rights();
         elseif (is_null($this->object->get_id()))
             $rights = $this->object->get_course_type()->get_rights();
@@ -349,7 +351,7 @@ abstract class CommonForm extends FormValidator
         $defaults[self :: SUBSCRIBE_CODE_TARGET_OPTION] = '0';
         $defaults[self :: UNSUBSCRIBE_TARGET_OPTION] = '0';
 
-        if (! is_null($object->get_id()) || (get_class($object) == "Course" && ! is_null($object->get_course_type()->get_id())))
+        if (! is_null($object->get_id()) || ($object instanceof Course && ! is_null($object->get_course_type()->get_id())))
         {
             $wdm = WeblcmsDataManager :: get_instance();
 
@@ -363,10 +365,10 @@ abstract class CommonForm extends FormValidator
                     case 1 :
                         $retrieve_subscribe_method = "retrieve_course_type_group_subscribe_rights";
                         $retrieve_unsubscribe_method = "retrieve_course_type_group_unsubscribe_rights";
-                        if (get_class($object) == "Course")
+                        if ($object instanceof Course)
                             break;
                     case 2 :
-                        if (get_class($object) == "CourseType")
+                        if ($object instanceof CourseType)
                             continue;
                         $retrieve_subscribe_method = "retrieve_course_group_subscribe_rights";
                         $retrieve_unsubscribe_method = "retrieve_course_group_unsubscribe_rights";
@@ -374,7 +376,7 @@ abstract class CommonForm extends FormValidator
                 }
 
                 $id = $object->get_id();
-                if ($i == 1 && get_class($object) == "Course")
+                if ($i == 1 && $object instanceof Course)
                     $id = $object->get_course_type()->get_id();
                 $group_subscribe_rights = $wdm->$retrieve_subscribe_method($id);
                 $group_unsubscribe_rights = $wdm->$retrieve_unsubscribe_method($id);
@@ -400,7 +402,7 @@ abstract class CommonForm extends FormValidator
                                 $check_fixed = "get_code_subscribe_fixed";
                                 break;
                         }
-                        if (get_class($object) == "CourseType" || ($i == 1 && ($object->$check_fixed() || $this->get_form_type() == self :: TYPE_CREATE)) || ($i == 2 && ! $object->$check_fixed()))
+                        if ($object instanceof CourseType || ($i == 1 && ($object->$check_fixed() || $this->get_form_type() == self :: TYPE_CREATE)) || ($i == 2 && ! $object->$check_fixed()))
                         {
                             $selected_group = $this->get_group_array($right->get_group_id());
                             $defaults[$element][$selected_group['id']] = $selected_group;
@@ -412,7 +414,7 @@ abstract class CommonForm extends FormValidator
                 {
                     if ($right->get_group_id() != 0)
                     {
-                        if (get_class($object) == "CourseType" || ($i == 1 && ($object->get_unsubscribe_fixed() || $this->get_form_type() == self :: TYPE_CREATE)) || ($i == 2 && ! $object->get_unsubscribe_fixed()))
+                        if ($object instanceof CourseType || ($i == 1 && ($object->get_unsubscribe_fixed() || $this->get_form_type() == self :: TYPE_CREATE)) || ($i == 2 && ! $object->get_unsubscribe_fixed()))
                         {
                             $element = self :: UNSUBSCRIBE_TARGET_ELEMENTS;
                             $selected_group = $this->get_group_array($right->get_group_id());
@@ -421,28 +423,28 @@ abstract class CommonForm extends FormValidator
                     }
                 }
             }
-            if (count($defaults[self :: SUBSCRIBE_DIRECT_TARGET_ELEMENTS]) > 0 && ! (get_class($object) == "Course" && $object->get_direct_subscribe_fixed()))
+            if (count($defaults[self :: SUBSCRIBE_DIRECT_TARGET_ELEMENTS]) > 0 && ! ($object instanceof Course && $object->get_direct_subscribe_fixed()))
             {
                 $defaults[self :: SUBSCRIBE_DIRECT_TARGET_OPTION] = '1';
                 $active = $this->getElement(self :: SUBSCRIBE_DIRECT_TARGET_ELEMENTS);
                 $active->setValue($defaults[self :: SUBSCRIBE_DIRECT_TARGET_ELEMENTS]);
             }
 
-            if (count($defaults[self :: SUBSCRIBE_REQUEST_TARGET_ELEMENTS]) > 0 && ! (get_class($object) == "Course" && $object->get_request_subscribe_fixed()))
+            if (count($defaults[self :: SUBSCRIBE_REQUEST_TARGET_ELEMENTS]) > 0 && ! ($object instanceof Course && $object->get_request_subscribe_fixed()))
             {
                 $defaults[self :: SUBSCRIBE_REQUEST_TARGET_OPTION] = '1';
                 $active = $this->getElement(self :: SUBSCRIBE_REQUEST_TARGET_ELEMENTS);
                 $active->setValue($defaults[self :: SUBSCRIBE_REQUEST_TARGET_ELEMENTS]);
             }
 
-            if (count($defaults[self :: SUBSCRIBE_CODE_TARGET_ELEMENTS]) > 0 && ! (get_class($object) == "Course" && $object->get_code_subscribe_fixed()))
+            if (count($defaults[self :: SUBSCRIBE_CODE_TARGET_ELEMENTS]) > 0 && ! ($object instanceof Course && $object->get_code_subscribe_fixed()))
             {
                 $defaults[self :: SUBSCRIBE_CODE_TARGET_OPTION] = '1';
                 $active = $this->getElement(self :: SUBSCRIBE_CODE_TARGET_ELEMENTS);
                 $active->setValue($defaults[self :: SUBSCRIBE_CODE_TARGET_ELEMENTS]);
             }
 
-            if (count($defaults[self :: UNSUBSCRIBE_TARGET_ELEMENTS]) > 0 && ! (get_class($object) == "Course" && $object->get_unsubscribe_fixed()))
+            if (count($defaults[self :: UNSUBSCRIBE_TARGET_ELEMENTS]) > 0 && ! ($object instanceof Course && $object->get_unsubscribe_fixed()))
             {
                 $defaults[self :: UNSUBSCRIBE_TARGET_OPTION] = '1';
                 $active = $this->getElement(self :: UNSUBSCRIBE_TARGET_ELEMENTS);

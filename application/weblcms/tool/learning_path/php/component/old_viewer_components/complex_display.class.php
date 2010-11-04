@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use repository\content_object\scorm_item\ScormItem;
 use repository\content_object\learning_path_item\ComplexLearningPathItem;
 use application\weblcms\WeblcmsLpiAttemptTracker;
 use tracking\Event;
@@ -270,7 +271,7 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool
         else
         {
 
-            if (get_class($object) == 'ScormItem')
+            if ($object instanceof ScormItem)
             {
                 $hide_lms_ui = $object->get_hide_lms_ui();
             }

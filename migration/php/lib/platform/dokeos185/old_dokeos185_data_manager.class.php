@@ -122,7 +122,7 @@ class OldDokeos185DataManager
     static function handle_error($error)
     {
         die(__FILE__ . ':' . __LINE__ . ': ' . $error->getMessage() . // For debugging only. May create a security hazard.
-        ' (' . $error->getDebugInfo() . ')');
+' (' . $error->getDebugInfo() . ')');
     }
 
     /**
@@ -214,9 +214,9 @@ class OldDokeos185DataManager
         $old_path = $this->append_full_path(false, $old_rel_path);
         $new_path = $this->append_full_path(true, $new_rel_path);
 
-        if(!$new_filename)
-        	$new_filename = $filename;
-        
+        if (! $new_filename)
+            $new_filename = $filename;
+
         $old_file = $old_path . $filename;
         $new_file = $new_path . $new_filename;
 
@@ -437,7 +437,7 @@ class OldDokeos185DataManager
 
     function count_records($database, $table, $condition = null)
     {
-    	$this->set_database($database);
+        $this->set_database($database);
         /*$querycheck = 'SHOW table status like \'' . $table . '\''; dump($querycheck);
         $result = $this->db->query($querycheck);
         if (MDB2 :: isError($result) || $result->numRows() == 0)
@@ -464,9 +464,9 @@ class OldDokeos185DataManager
 
     function quote($value)
     {
-    	return $this->db->quote($value);
+        return $this->db->quote($value);
     }
-    
+
     static function is_date_column($name)
     {
         return false;

@@ -620,6 +620,11 @@ class Utilities
         }
     }
 
+    static function get_namespace_from_object($object)
+    {
+        return self :: get_namespace_from_classname(get_class($object));
+    }
+
     static function get_classname_from_namespace($classname)
     {
         $classname_parts = explode('\\', $classname);

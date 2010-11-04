@@ -49,7 +49,7 @@ class DefaultCourseRequestTableCellRenderer extends ObjectTableCellRenderer
                 return UserDataManager :: get_instance()->retrieve_user($request->get_user_id())->get_fullname();
 
             case self :: COURSE_NAME :
-                if (get_class($request) == "CourseRequest")
+                if ($request instanceof CourseRequest)
                     return $this->browser->retrieve_course($request->get_course_id())->get_name();
                 else
                     return $request->get_course_name();

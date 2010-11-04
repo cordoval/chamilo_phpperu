@@ -5,6 +5,7 @@ namespace application\reservations;
 use common\libraries\ObjectTableCellRenderer;
 use common\libraries\Translation;
 use common\libraries\Theme;
+use common\libraries\Utilities;
 /**
  * $Id: default_item_table_cell_renderer.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations.tables.item_table
@@ -41,7 +42,6 @@ class DefaultItemTableCellRenderer extends ObjectTableCellRenderer
                 case Item :: PROPERTY_NAME :
                     return $item->get_name();
                 case Item :: PROPERTY_DESCRIPTION :
-                    //if(get_class($item) == 'Category') return null;
                     $description = strip_tags($item->get_description());
                     if (strlen($description) > 175)
                     {
@@ -53,18 +53,17 @@ class DefaultItemTableCellRenderer extends ObjectTableCellRenderer
                     //return $user->get_fullname();
                     return $item->get_responsible();
                 case Item :: PROPERTY_CREDITS :
-                    //if(get_class($item) == 'Category') return null;
                     return $item->get_credits() . ' ' . Translation :: get('per_hour');
             }
         }
-        
+
         $title = $column->get_title();
         if ($title == '')
         {
             $img = Theme :: get_common_image_path() . 'treemenu_types/document.png';
-            return '<img src="' . $img . '"alt="' . get_class($item) . '" />';
+            return '<img src="' . $img . '"alt="' . Utilities :: get_classname_from_object($item, true) . '" />';
         }
-        
+
         return '&nbsp;';
     }
 

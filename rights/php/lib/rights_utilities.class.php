@@ -1,6 +1,8 @@
 <?php
 namespace rights;
 
+use common\libraries;
+
 use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Application;
@@ -1120,7 +1122,7 @@ class RightsUtilities
 
     static function get_rights_icon($location_url, $rights_url, $locked_parent, $right, $object, $location)
     {
-        $type = Utilities :: camelcase_to_underscores(array_pop(explode('\\', get_class($object))));
+        $type = Utilities :: get_classname_from_object($object, true);
         $get_function = 'get_' . $type . '_right_location';
         $allowed_function = 'is_allowed_for_' . $type;
 

@@ -1,6 +1,10 @@
 <?php
 namespace common\extensions\category_manager;
 
+use repository\RepositoryCategoryManager;
+use admin\AdminCategoryManager;
+use application\weblcms\ContentObjectPublicationCategoryManager;
+
 use common\libraries\PatternMatchCondition;
 use common\libraries\OrCondition;
 use common\libraries\Request;
@@ -31,19 +35,19 @@ class CategoryManagerBrowserComponent extends CategoryManagerComponent
     function run()
     {
         $this->set_parameter(CategoryManager :: PARAM_CATEGORY_ID, Request :: get(CategoryManager :: PARAM_CATEGORY_ID));
-    	$trail = BreadcrumbTrail :: get_instance();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('category_manager_browser');
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CategoryManagerBrowserComponent')));
 
-    	$this->ab = $this->get_action_bar(); //new ActionBarRenderer($this->get_left_toolbar_data(), array(), );
+        $this->ab = $this->get_action_bar(); //new ActionBarRenderer($this->get_left_toolbar_data(), array(), );
         $menu = new CategoryMenu(Request :: get(CategoryManager :: PARAM_CATEGORY_ID), $this->get_parent());
 
         echo $this->display_header();
         echo $this->ab->as_html() . '<br />';
 
-        if($this->get_subcategories_allowed())
+        if ($this->get_subcategories_allowed())
         {
-        	echo '<div style="float: left; padding-right: 20px; width: 18%; overflow: auto; height: 100%;">' . $menu->render_as_tree() . '</div>';
+            echo '<div style="float: left; padding-right: 20px; width: 18%; overflow: auto; height: 100%;">' . $menu->render_as_tree() . '</div>';
         }
         echo $this->get_user_html();
         echo $this->display_footer();
@@ -56,16 +60,16 @@ class CategoryManagerBrowserComponent extends CategoryManagerComponent
 
         $html = array();
 
-        if($this->get_subcategories_allowed())
+        if ($this->get_subcategories_allowed())
         {
-        	$html[] = '<div style="float: right; width: 80%;">';
-        	$html[] = $table->as_html();
-        	$html[] = '</div>';
+            $html[] = '<div style="float: right; width: 80%;">';
+            $html[] = $table->as_html();
+            $html[] = '</div>';
         }
-       	else
-       	{
-       		$html[] = $table->as_html();
-       	}
+        else
+        {
+            $html[] = $table->as_html();
+        }
 
         return implode($html, "\n");
     }
@@ -104,8 +108,7 @@ class CategoryManagerBrowserComponent extends CategoryManagerComponent
 
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_category_url(Request :: get(CategoryManager :: PARAM_CATEGORY_ID)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-        $not_allowed = array('ContentObjectPublicationCategoryManager', 'AdminCategoryManager', 'RepositoryCategoryManager');
-        if (! in_array(get_class($this->get_parent()), $not_allowed))
+        if (! $this->get_parent instanceof ContentObjectPublicationCategoryManager && ! $this->get_parent instanceof AdminCategoryManager && ! $this->get_parent instanceof RepositoryCategoryManager)
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('CopyGeneralCategories'), Theme :: get_common_image_path() . 'treemenu_types/exercise.png', $this->get_copy_general_categories_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }

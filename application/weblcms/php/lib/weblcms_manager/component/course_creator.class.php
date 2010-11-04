@@ -84,7 +84,7 @@ class WeblcmsManagerCourseCreatorComponent extends WeblcmsManager implements Del
                 $array_filter = array(WeblcmsManager :: PARAM_COURSE);
                 $array_type = array();
                 $array_type['go'] = WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME;
-                if (get_class($success) == 'Course')
+                if ($success instanceof Course)
                 {
                     $array_type['course'] = $course->get_id();
                     $array_type['go'] = WeblcmsManager :: ACTION_COURSE_CREATE_REQUEST_CREATOR;

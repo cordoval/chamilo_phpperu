@@ -29,7 +29,7 @@ class CategoryManagerParentChangerComponent extends CategoryManagerComponent
 
         $ids = Request :: get(CategoryManager :: PARAM_CATEGORY_ID);
 
-    	$trail = BreadcrumbTrail :: get_instance();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('category_manager_parent_changer');
         $trail->add(new Breadcrumb($this->get_url(array(CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_BROWSE_CATEGORIES)), Translation :: get('CategoryManagerBrowserComponent')));
         $this->set_parameter(CategoryManager :: PARAM_CATEGORY_ID, Request :: get(CategoryManager :: PARAM_CATEGORY_ID));
@@ -59,7 +59,7 @@ class CategoryManagerParentChangerComponent extends CategoryManagerComponent
 
             $categories = array();
 
-        	foreach ($ids as $id)
+            foreach ($ids as $id)
             {
                 $categories[] = $this->retrieve_categories(new EqualityCondition(PlatformCategory :: PROPERTY_ID, $id))->next_result();
             }
@@ -76,9 +76,6 @@ class CategoryManagerParentChangerComponent extends CategoryManagerComponent
 
                 $this->clean_display_order_old_parent($parent);
 
-                /*if(get_class($this->get_parent()) == 'RepositoryCategoryManager')
-					$this->repository_redirect(RepositoryManager :: ACTION_MANAGE_CATEGORIES, Translation :: get($success ? 'CategoryCreated' : 'CategoryNotCreated'), 0, ($success ? false : true), array(CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_BROWSE_CATEGORIES, CategoryManager :: PARAM_CATEGORY_ID => $parent));
-				else*/
                 $this->redirect(Translation :: get($success ? 'CategoryMoved' : 'CategoryNotMoved'), ($success ? false : true), array(CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_BROWSE_CATEGORIES, CategoryManager :: PARAM_CATEGORY_ID => $parent));
             }
             else
@@ -93,7 +90,7 @@ class CategoryManagerParentChangerComponent extends CategoryManagerComponent
 
                 foreach ($categories as $category)
                 {
-                	echo '<li>' . $category->get_name() . '</li>';
+                    echo '<li>' . $category->get_name() . '</li>';
                 }
 
                 echo '</ul></div><div class="clear"></div></div>';
@@ -159,7 +156,7 @@ class CategoryManagerParentChangerComponent extends CategoryManagerComponent
         {
             $cat->set_display_order($i);
             $cat->update();
-            $i++;
+            $i ++;
         }
     }
 

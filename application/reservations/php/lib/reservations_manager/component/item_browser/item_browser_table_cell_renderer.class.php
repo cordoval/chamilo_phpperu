@@ -42,7 +42,7 @@ class ItemBrowserTableCellRenderer extends DefaultItemTableCellRenderer
         {
             return $this->get_modification_links($item);
         }
-        
+
         return parent :: render_cell($column, $item);
     }
 
@@ -55,39 +55,23 @@ class ItemBrowserTableCellRenderer extends DefaultItemTableCellRenderer
     private function get_modification_links($item)
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
-        
-    	if (Utilities :: get_classname_from_namespace(get_class($this->browser)) == 'ReservationsManagerAdminItemBrowserComponent')
+
+        if ($this->browser instanceof ReservationsManagerAdminItemBrowserComponent)
         {
             if ($this->browser->get_user_id() == $item->get_creator() || $this->browser->has_right(ReservationsRights :: TYPE_ITEM, $item->get_id(), ReservationsRights :: DELETE_RIGHT) || $item->get_responsible() == $this->browser->get_user_id())
             {
-                $toolbar->add_item(new ToolbarItem(
-		        		Translation :: get('Delete'),
-		        		Theme :: get_common_image_path() . 'action_delete.png',
-		        		$this->browser->get_delete_item_url($item->get_id(), $this->browser->get_category()),
-		        		ToolbarItem :: DISPLAY_ICON,
-		        		true
-		        ));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_item_url($item->get_id(), $this->browser->get_category()), ToolbarItem :: DISPLAY_ICON, true));
             }
-            
+
             if ($this->browser->get_user_id() == $item->get_creator() || $this->browser->has_right(ReservationsRights :: TYPE_ITEM, $item->get_id(), ReservationsRights :: EDIT_RIGHT) || $item->get_responsible() == $this->browser->get_user_id())
             {
-                $toolbar->add_item(new ToolbarItem(
-		        		Translation :: get('Edit'),
-		        		Theme :: get_common_image_path() . 'action_edit.png',
-		        		$this->browser->get_update_item_url($item->get_id(), $this->browser->get_category()),
-		        		ToolbarItem :: DISPLAY_ICON
-		        ));
-                
-                $toolbar->add_item(new ToolbarItem(
-		        		Translation :: get('ModifyRights'),
-		        		Theme :: get_common_image_path() . 'action_rights.png',
-		        		$this->browser->get_modify_rights_url(ReservationsRights :: TYPE_ITEM, $item->get_id()),
-		        		ToolbarItem :: DISPLAY_ICON
-		        ));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_item_url($item->get_id(), $this->browser->get_category()), ToolbarItem :: DISPLAY_ICON));
+
+                $toolbar->add_item(new ToolbarItem(Translation :: get('ModifyRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->browser->get_modify_rights_url(ReservationsRights :: TYPE_ITEM, $item->get_id()), ToolbarItem :: DISPLAY_ICON));
             }
         }
-        
-        if (Utilities :: get_classname_from_namespace(get_class($this->browser)) == 'ReservationsManagerAdminItemBrowserComponent')
+
+        if ($this->browser instanceof ReservationsManagerAdminItemBrowserComponent)
         {
             $url = $this->browser->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_RESERVATIONS, ReservationsManager :: PARAM_ITEM_ID => $item->get_id()));
         }
@@ -95,15 +79,10 @@ class ItemBrowserTableCellRenderer extends DefaultItemTableCellRenderer
         {
             $url = $this->browser->get_browse_reservations_url($item->get_id());
         }
-        
+
         if ($this->browser->get_user_id() == $item->get_creator() || $this->browser->has_right(ReservationsRights :: TYPE_ITEM, $item->get_id(), ReservationsRights :: VIEW_RIGHT))
         {
-            $toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('BrowseReservations'),
-	        		Theme :: get_common_image_path() . 'action_browser.png',
-	        		$url,
-	        		ToolbarItem :: DISPLAY_ICON
-	        ));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('BrowseReservations'), Theme :: get_common_image_path() . 'action_browser.png', $url, ToolbarItem :: DISPLAY_ICON));
         }
 
         return $toolbar->as_html();

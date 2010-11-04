@@ -1,6 +1,8 @@
 <?php
 namespace reporting;
 
+use common\libraries;
+
 use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Application;
@@ -40,7 +42,7 @@ abstract class ReportingTemplate
 
     public static function factory($registration, $parent)
     {
-    	$application = $registration->get_application();
+        $application = $registration->get_application();
         $base_path = (WebApplication :: is_application($application) ? WebApplication :: get_application_class_path($application) : CoreApplication :: get_application_class_path($application));
         $file = $base_path . 'reporting/templates/' . Utilities :: camelcase_to_underscores($registration->get_template()) . '.class.php';
         require_once ($file);
@@ -69,7 +71,7 @@ abstract class ReportingTemplate
 
     function get_name()
     {
-        return Utilities :: camelcase_to_underscores(get_class($this));
+        return Utilities :: get_classname_from_object($this, true);
     }
 
     public function to_html()
@@ -88,10 +90,10 @@ abstract class ReportingTemplate
         }
         else
         {
-//            $html[] = $this->display_header();
-//            $html[] = $this->display_filter();
+            //            $html[] = $this->display_header();
+            //            $html[] = $this->display_filter();
             $html[] = $this->render_block();
-//            $html[] = $this->display_footer();
+            //            $html[] = $this->display_footer();
         }
         return implode("\n", $html);
     }
@@ -126,7 +128,7 @@ abstract class ReportingTemplate
         return implode($html, "\n");
     }
 
-public function render_block($id)
+    public function render_block($id)
     {
         $html = array();
         if ($this->get_number_of_reporting_blocks() > 1)
@@ -155,7 +157,7 @@ public function render_block($id)
 
     public function get_current_block()
     {
-    	$block = Request :: get(ReportingManager :: PARAM_REPORTING_BLOCK_ID);
+        $block = Request :: get(ReportingManager :: PARAM_REPORTING_BLOCK_ID);
         if (isset($block))
         {
             return $this->get_reporting_block($block);
@@ -163,7 +165,7 @@ public function render_block($id)
         else
         {
             $keys = array_keys($this->get_reporting_blocks());
-        	if (count($keys))
+            if (count($keys))
             {
                 return $this->get_reporting_block($keys[0]);
             }
@@ -203,7 +205,7 @@ public function render_block($id)
 
     public function display_filter()
     {
-    	$body = $this->display_filter_body();
+        $body = $this->display_filter_body();
         if ($body)
         {
             $html[] = $this->reporting_filter_header();
@@ -248,18 +250,17 @@ public function render_block($id)
         return implode("\n", $html);
     }
 
-
     public function get_parent()
     {
         return $this->parent;
     }
 
-	function get_url($parameters = array (), $filter = array(), $encode_entities = false)
+    function get_url($parameters = array (), $filter = array(), $encode_entities = false)
     {
         return $this->get_parent()->get_url($parameters, $filter, $encode_entities);
     }
 
-	public function set_parent($parent)
+    public function set_parent($parent)
     {
         $this->parent = $parent;
     }
@@ -276,8 +277,9 @@ public function render_block($id)
 
     public function add_reporting_block($block)
     {
-		$block->set_id(count($this->blocks));
-        $this->blocks[] = $block;    }
+        $block->set_id(count($this->blocks));
+        $this->blocks[] = $block;
+    }
 
     public function get_parameters()
     {
@@ -286,7 +288,7 @@ public function render_block($id)
 
     public function get_parameter($key)
     {
-    	return $this->get_parent()->get_parameter($key);
+        return $this->get_parent()->get_parameter($key);
     }
 
     public function set_parameters($parameters)
@@ -299,18 +301,19 @@ public function render_block($id)
         $this->get_parent()->set_parameter($key, $value);
     }
 
-//    public function add_parameters($key, $value)
-//    {
-//        $this->parameters[$key] = $value;
-//    }
+    //    public function add_parameters($key, $value)
+    //    {
+    //        $this->parameters[$key] = $value;
+    //    }
+
 
     public abstract function display_context();
 
-function get_action_bar()
+    function get_action_bar()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         $parameters = $this->get_parameters();
-        $parameters[ReportingViewer::PARAM_REPORTING_VIEWER_ACTION] = ReportingViewer::ACTION_EXPORT_TEMPLATE;
+        $parameters[ReportingViewer :: PARAM_REPORTING_VIEWER_ACTION] = ReportingViewer :: ACTION_EXPORT_TEMPLATE;
         $parameters[ReportingManager :: PARAM_TEMPLATE_ID] = $this->get_id();
         /*$parameters[ReportingManager :: PARAM_EXPORT_TYPE] = 'pdf';
 

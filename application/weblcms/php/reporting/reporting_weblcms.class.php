@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use repository\content_object\assessment\Assessment;
 use user\VisitTracker;
 use common\libraries\PatternMatchCondition;
 use reporting\ReportingManager;
@@ -629,9 +630,7 @@ class ReportingWeblcms
                 if (in_array($key, array_keys($cloi_refs)))
                 {
                     $page = RepositoryDataManager :: get_instance()->retrieve_content_object($cloi_refs[$key]);
-                    $url = (Redirect :: get_url(array(
-                            'go' => WeblcmsManager :: ACTION_VIEW_COURSE, 'course' => $params['course_id'], 'tool' => 'wiki', 'application' => 'weblcms', 'tool_action' => $tool_action, 'display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => $params[Tool :: PARAM_PUBLICATION_ID],
-                            'selected_cloi' => $keys[0])));
+                    $url = (Redirect :: get_url(array('go' => WeblcmsManager :: ACTION_VIEW_COURSE, 'course' => $params['course_id'], 'tool' => 'wiki', 'application' => 'weblcms', 'tool_action' => $tool_action, 'display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => $params[Tool :: PARAM_PUBLICATION_ID], 'selected_cloi' => $keys[0])));
                     $arr[Translation :: get('MostVisitedPage')][] = '<a href="' . $url . '">' . htmlspecialchars($page->get_title()) . '</a>';
                     $arr[Translation :: get('NumberOfVisits')][] = $visits[$keys[0]];
                     break;
@@ -664,8 +663,7 @@ class ReportingWeblcms
         }
         arsort($edits);
         $keys = array_keys($edits);
-        $url = (Redirect :: get_url(array(
-                'go' => WeblcmsManager :: ACTION_VIEW_COURSE, 'course' => $params['course_id'], 'tool' => 'wiki', 'application' => 'weblcms', 'tool_action' => Tool :: ACTION_VIEW, 'display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => $wiki->get_id(), 'cid' => $page_ids[$keys[0]])));
+        $url = (Redirect :: get_url(array('go' => WeblcmsManager :: ACTION_VIEW_COURSE, 'course' => $params['course_id'], 'tool' => 'wiki', 'application' => 'weblcms', 'tool_action' => Tool :: ACTION_VIEW, 'display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => $wiki->get_id(), 'cid' => $page_ids[$keys[0]])));
         $arr[Translation :: get('MostEditedPage')][] = '<a href="' . $url . '">' . htmlspecialchars($keys[0]) . '</a>';
         $arr[Translation :: get('NumberOfEdits')][] = $edits[$keys[0]];
         return Reporting :: getSerieArray($arr);
@@ -895,7 +893,7 @@ class ReportingWeblcms
 
             foreach ($tracker_datas['trackers'] as $tracker)
             {
-                if (get_class($object) == 'Assessment')
+                if ($object instanceof Assessment)
                 {
                     $data[' '][] = '<a href="' . $url . '&cid=' . $cid . '&details=' . $tracker->get_id() . '">' . Theme :: get_common_image('action_view_results') . '</a>';
                 }

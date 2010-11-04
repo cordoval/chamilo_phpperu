@@ -66,11 +66,6 @@ class WeblcmsLearningPathAttemptProgressDetailsReportingBlock extends WeblcmsToo
         $i = 1;
         foreach ($tracker_datas['trackers'] as $tracker)
         {
-            /*if (get_class($object) == 'Assessment')
-                {
-                    $data[' '][] = '<a href="' . $url . '&cid=' . $course_id . '&details=' . $tracker->get_id() . '">' . Theme :: get_common_image('action_view_results') . '</a>';
-                }*/
-
             $data[Translation :: get('LastStartTime')] = DatetimeUtilities :: format_locale_date(null, $tracker->get_start_time());
             $data[Translation :: get('Status')] = Translation :: get($tracker->get_status() == 'completed' ? 'Completed' : 'Incomplete');
             $data[Translation :: get('Score')] = $tracker->get_score() . '%';

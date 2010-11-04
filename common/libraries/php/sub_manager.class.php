@@ -309,31 +309,30 @@ abstract class SubManager
         $component = self :: component($sub_manager_class, $action, $application);
         $component->set_parameter($action_parameter, $action);
 
-        $context = get_class($component);
-        $context = Utilities :: get_namespace_from_classname($context);
+        $context = Utilities :: get_namespace_from_object($component);
 
         $trail = BreadcrumbTrail :: get_instance();
-        
+
     	$component->add_additional_breadcrumbs($trail);
-        
+
         $parameters = $component->get_additional_parameters();
         foreach($parameters as $parameter)
         {
        		$component->set_parameter($parameter, Request :: get($parameter));
         }
-        
+
         if ($add_breadcrumb && !$component instanceof DelegateComponent)
         {
-            $trail->add(new Breadcrumb($component->get_url(), Translation :: get(Utilities :: get_classname_from_namespace(get_class($component)), null, $context)));
+            $trail->add(new Breadcrumb($component->get_url(), Translation :: get(Utilities :: get_classname_from_object(component), null, $context)));
         }
 
         return $component;
     }
-    
+
     // Dummy functions for breadcrumbtrail
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	
+
     }
 
     function get_additional_parameters()

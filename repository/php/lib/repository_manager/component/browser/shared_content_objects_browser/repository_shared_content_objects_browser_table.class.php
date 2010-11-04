@@ -19,6 +19,7 @@ require_once dirname(__FILE__) . '/repository_shared_content_objects_browser_tab
  */
 class RepositorySharedContentObjectsBrowserTable extends ObjectTable
 {
+
     /**
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
@@ -29,7 +30,7 @@ class RepositorySharedContentObjectsBrowserTable extends ObjectTable
         $renderer = new RepositorySharedContentObjectsBrowserTableCellRenderer($browser);
         $data_provider = new RepositorySharedContentObjectsBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
-        if (get_class($browser) == 'RepositoryManagerBrowserComponent')
+        if ($browser instanceof RepositoryManagerBrowserComponent)
         {
             $actions = array();
             //$actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_RECYCLE_SELECTED, Translation :: get('RemoveSelected'));
@@ -42,7 +43,7 @@ class RepositorySharedContentObjectsBrowserTable extends ObjectTable
         $this->set_default_row_count(20);
     }
 
-	static function handle_table_action()
+    static function handle_table_action()
     {
         $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
         Request :: set_get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID, $ids);

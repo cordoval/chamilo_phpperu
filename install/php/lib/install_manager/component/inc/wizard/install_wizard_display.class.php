@@ -1,8 +1,8 @@
 <?php
 namespace install;
 use common\libraries\Translation;
-use \HTML_QuickForm_Action_Display;
-use \HTML_QuickForm;
+use HTML_QuickForm_Action_Display;
+use HTML_QuickForm;
 /**
  * $Id: install_wizard_display.class.php 225 2009-11-13 14:43:20Z vanpouckesven $
  * @package install.lib.installmanager.component.inc.wizard
@@ -88,12 +88,12 @@ EOT;
 
         $total_number_of_pages = count($all_pages) + 1;
 
-    	if(get_class($current_page) == 'LanguageInstallWizardPage')
+        if ($current_page instanceof LanguageInstallWizardPage)
         {
             $total_number_of_pages = 1;
         }
 
-    	if(get_class($current_page) == 'PreconfiguredInstallWizardPage')
+        if ($current_page instanceof PreconfiguredInstallWizardPage)
         {
             $total_number_of_pages = 3;
         }
@@ -103,28 +103,28 @@ EOT;
         echo '<ul id="progresstrail">';
         foreach ($all_pages as $index => $page)
         {
-        	if(get_class($current_page) == 'LanguageInstallWizardPage' && get_class($page) != 'LanguageInstallWizardPage')
+            if ($current_page instanceof LanguageInstallWizardPage && ! $page instanceof LanguageInstallWizardPage)
             {
-            	continue;
+                continue;
             }
 
-        	if(get_class($current_page) == 'PreconfiguredInstallWizardPage')
+            if ($current_page instanceof PreconfiguredInstallWizardPage)
             {
-            	if(get_class($page) != 'PreconfiguredInstallWizardPage' && get_class($page) != 'LanguageInstallWizardPage')
-            	{
-            		continue;
-            	}
+                if (! $page instanceof PreconfiguredInstallWizardPage && ! $page instanceof LanguageInstallWizardPage)
+                {
+                    continue;
+                }
             }
 
-        	if(get_class($page) == 'PreconfiguredInstallWizardPage')
+            if ($page instanceof PreconfiguredInstallWizardPage)
             {
-            	if(get_class($current_page) != 'PreconfiguredInstallWizardPage')
-            	{
-            		continue;
-            	}
+                if (! $current_page instanceof PreconfiguredInstallWizardPage)
+                {
+                    continue;
+                }
             }
 
-        	$page_number ++;
+            $page_number ++;
 
             if ($page->get_title() == $current_page->get_title())
             {
@@ -135,28 +135,28 @@ EOT;
         $page_number = 0;
         foreach ($all_pages as $index => $page)
         {
-        	if(get_class($current_page) == 'LanguageInstallWizardPage' && get_class($page) != 'LanguageInstallWizardPage')
+            if ($current_page instanceof LanguageInstallWizardPage && ! $page instanceof LanguageInstallWizardPage)
             {
-            	continue;
+                continue;
             }
 
-        	if(get_class($current_page) == 'PreconfiguredInstallWizardPage')
+            if ($current_page instanceof PreconfiguredInstallWizardPage)
             {
-            	if(get_class($page) != 'PreconfiguredInstallWizardPage' && get_class($page) != 'LanguageInstallWizardPage')
-            	{
-            		continue;
-            	}
+                if (! $page instanceof PreconfiguredInstallWizardPage && ! $page instanceof LanguageInstallWizardPage)
+                {
+                    continue;
+                }
             }
 
-        	if(get_class($page) == 'PreconfiguredInstallWizardPage')
+            if ($page instanceof PreconfiguredInstallWizardPage)
             {
-            	if(get_class($current_page) != 'PreconfiguredInstallWizardPage')
-            	{
-            		continue;
-            	}
+                if (! $current_page instanceof PreconfiguredInstallWizardPage)
+                {
+                    continue;
+                }
             }
 
-        	$page_number ++;
+            $page_number ++;
 
             if ($page_number <= $current_page_number)
             {
@@ -167,10 +167,10 @@ EOT;
                 echo '<li><a href="#">' . $page_number . '.&nbsp;&nbsp;' . $page->get_title() . '</a></li>';
             }
         }
-        
-        if(get_class($current_page) != 'LanguageInstallWizardPage')
+
+        if (! $current_page instanceof LanguageInstallWizardPage)
         {
-        	echo '<li><a href="#">' . $total_number_of_pages . '.&nbsp;&nbsp;' . Translation :: get('Installation') . '</a></li>';
+            echo '<li><a href="#">' . $total_number_of_pages . '.&nbsp;&nbsp;' . Translation :: get('Installation') . '</a></li>';
         }
 
         echo '</ul>';

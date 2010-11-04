@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use repository\content_object\assessment\AssessmentDisplay;
 use application\weblcms\WeblcmsDataManager;
 use application\weblcms\WeblcmsManager;
 use common\extensions\reporting_viewer\ReportingViewer;
@@ -150,7 +151,7 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathTool impleme
             exit();
         }
 
-        if (get_class($display) == 'AssessmentDisplay')
+        if ($display instanceof AssessmentDisplay)
         {
             $display->run();
         }
@@ -310,7 +311,7 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathTool impleme
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_BROWSE)), Translation :: get('AnnouncementToolBrowserComponent')));
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW, Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), Translation :: get('AnnouncementToolViewerComponent')));
 
-     //$breadcrumbtrail->add(new Breadcrumb($url, Translation :: get('Statistics') . ' ' . Translation :: get('of') . ' ' . $root_object->get_title()));
+    //$breadcrumbtrail->add(new Breadcrumb($url, Translation :: get('Statistics') . ' ' . Translation :: get('of') . ' ' . $root_object->get_title()));
     }
 
     function get_additional_parameters()

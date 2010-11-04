@@ -77,7 +77,8 @@ class ReportingTemplateMenu
         $reporting_template = $this->reporting_template;
 
         $html[] = '<ul>';
-        //$html[] = '<li class="tool_list_menu title">' . Translation :: get(get_class($reporting_template)) . '</li>';
+        //$html[] = '<li class="tool_list_menu title">' . Translation :: get(Utilities :: get_classname_from_object($reporting_template)) . '</li>';
+
 
         $parameters = $reporting_template->get_parameters();
 
@@ -94,7 +95,7 @@ class ReportingTemplateMenu
         }
 
         $html[] = '</ul>';
-        
+
         return implode("\n", $html);
     }
 
@@ -134,7 +135,7 @@ class ReportingTemplateMenu
      * Renders the menu as a tree
      * @return string The HTML formatted tree
      */
-	function render_as_tree()
+    function render_as_tree()
     {
         $renderer = new TreeMenuRenderer($this->get_tree_name());
         $this->render($renderer, 'sitemap');
@@ -143,7 +144,7 @@ class ReportingTemplateMenu
 
     static function get_tree_name()
     {
-    	return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
+        return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
     }
 
     function as_html()
@@ -159,9 +160,9 @@ class ReportingTemplateMenu
         $html[] = $this->get_menu_items();
         $html[] = '</div>';
 
-//        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/tool_bar.js' . '"></script>';
+        //        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/tool_bar.js' . '"></script>';
         $html[] = '</div>';
-        
+
         return implode("\n", $html);
     }
 }

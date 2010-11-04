@@ -1,5 +1,4 @@
 <?php
-
 namespace application\cda;
 
 use common\libraries\WebApplication;
@@ -8,7 +7,6 @@ use common\libraries\ObjectTableFormActions;
 use common\libraries\ObjectTableFormAction;
 use common\libraries\Translation;
 use common\libraries\Utilities;
-
 
 /**
  * @package cda.cda_manager.component.cda_language_browser
@@ -25,27 +23,27 @@ require_once WebApplication :: get_application_class_lib_path('cda') . 'cda_mana
  */
 class CdaLanguageBrowserTable extends ObjectTable
 {
-	const DEFAULT_NAME = 'cda_language_browser_table';
+    const DEFAULT_NAME = 'cda_language_browser_table';
 
-	/**
-	 * Constructor
-	 */
-	function CdaLanguageBrowserTable($browser, $parameters, $condition)
-	{
-		$model = new CdaLanguageBrowserTableColumnModel();
-		$renderer = new CdaLanguageBrowserTableCellRenderer($browser);
-		$data_provider = new CdaLanguageBrowserTableDataProvider($browser, $condition);
-		parent :: __construct($data_provider, self :: DEFAULT_NAME, $model, $renderer);
-		$this->set_additional_parameters($parameters);
-		$actions = array();
-		
-		if(Utilities :: get_classname_from_namespace(get_class($browser)) != 'CdaManagerCdaLanguagesBrowserComponent')
-		{
-			$actions[] = new ObjectTableFormAction(CdaManager :: PARAM_DELETE_SELECTED_CDA_LANGUAGES, Translation :: get('RemoveSelected'));
-		}
+    /**
+     * Constructor
+     */
+    function CdaLanguageBrowserTable($browser, $parameters, $condition)
+    {
+        $model = new CdaLanguageBrowserTableColumnModel();
+        $renderer = new CdaLanguageBrowserTableCellRenderer($browser);
+        $data_provider = new CdaLanguageBrowserTableDataProvider($browser, $condition);
+        parent :: __construct($data_provider, self :: DEFAULT_NAME, $model, $renderer);
+        $this->set_additional_parameters($parameters);
+        $actions = array();
 
-		$this->set_form_actions($actions);
-		$this->set_default_row_count(20);
-	}
+        if (! $browser instanceof CdaManagerCdaLanguagesBrowserComponent)
+        {
+            $actions[] = new ObjectTableFormAction(CdaManager :: PARAM_DELETE_SELECTED_CDA_LANGUAGES, Translation :: get('RemoveSelected'));
+        }
+
+        $this->set_form_actions($actions);
+        $this->set_default_row_count(20);
+    }
 }
 ?>

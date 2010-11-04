@@ -200,7 +200,7 @@ class CpoExport extends ContentObjectExport
             return;
         }
 
-        if (get_class($content_object) == 'ContentObject')
+        if ($content_object instanceof ContentObject)
         {
             $content_object = RepositoryDataManager :: get_instance()->retrieve_content_object($content_object->get_id(), $content_object->get_type());
         }

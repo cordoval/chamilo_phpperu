@@ -14,7 +14,7 @@ class VideoConferencingLauncher extends LauncherApplication
         $type = $this->get_type();
         $this->external_repository = RepositoryDataManager :: get_instance()->retrieve_video_conferencing($type);
         $this->set_parameter(VideoConferencingManager :: PARAM_VIDEO_CONFERENCING, $type);
-        
+
         VideoConferencingManager :: launch($this);
     }
 

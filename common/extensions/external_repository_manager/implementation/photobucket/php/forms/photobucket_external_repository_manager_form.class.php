@@ -18,7 +18,7 @@ class PhotobucketExternalRepositoryManagerForm extends FormValidator
 
     const TYPE_CREATE = 1;
     const TYPE_EDIT = 2;
-    
+
     const PREVIEW = 'preview';
     const FILE = 'file';
 
@@ -28,7 +28,7 @@ class PhotobucketExternalRepositoryManagerForm extends FormValidator
 
     function PhotobucketExternalRepositoryManagerForm($form_type, $action, $application)
     {
-        parent :: __construct(Utilities :: camelcase_to_underscores(get_class($this)), 'post', $action);
+        parent :: __construct(Utilities :: get_classname_from_object($this, true), 'post', $action);
 
         $this->application = $application;
 
@@ -49,15 +49,15 @@ class PhotobucketExternalRepositoryManagerForm extends FormValidator
     public function set_external_repository_object(PhotobucketExternalRepositoryObject $external_repository_object)
     {
         $this->external_repository_object = $external_repository_object;
-        
+
         $defaults[PhotobucketExternalRepositoryObject :: PROPERTY_ID] = $external_repository_object->get_id();
         $defaults[PhotobucketExternalRepositoryObject :: PROPERTY_TITLE] = $external_repository_object->get_title();
         $defaults[PhotobucketExternalRepositoryObject :: PROPERTY_DESCRIPTION] = $external_repository_object->get_description();
-        $defaults[PhotobucketExternalRepositoryObject :: PROPERTY_TAGS] = $external_repository_object->get_tags_string(false);       
-        
-		$display = ExternalRepositoryObjectDisplay :: factory($external_repository_object);
-        $defaults[self :: PREVIEW] = $display->get_preview();        
-        
+        $defaults[PhotobucketExternalRepositoryObject :: PROPERTY_TAGS] = $external_repository_object->get_tags_string(false);
+
+        $display = ExternalRepositoryObjectDisplay :: factory($external_repository_object);
+        $defaults[self :: PREVIEW] = $display->get_preview();
+
         parent :: setDefaults($defaults);
     }
 
@@ -80,8 +80,8 @@ class PhotobucketExternalRepositoryManagerForm extends FormValidator
     function build_editing_form()
     {
         $this->addElement('static', self :: PREVIEW);
-        
-    	$this->build_basic_form();
+
+        $this->build_basic_form();
 
         $this->addElement('hidden', PhotobucketExternalRepositoryObject :: PROPERTY_ID);
 
@@ -91,7 +91,7 @@ class PhotobucketExternalRepositoryManagerForm extends FormValidator
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
-	function update_photo()
+    function update_photo()
     {
         return $this->application->get_external_repository_connector()->update_external_repository_object($this->exportValues());
     }
@@ -107,11 +107,11 @@ class PhotobucketExternalRepositoryManagerForm extends FormValidator
             return false;
         }
     }
-    
+
     function build_creation_form()
     {
         $this->build_basic_form();
-        
+
         $this->addElement('file', self :: FILE, Translation :: get('FileName'));
 
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));

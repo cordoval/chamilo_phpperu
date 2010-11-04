@@ -136,7 +136,7 @@ function dump_tree($tree, $objects)
             continue;
         }
         $id = $node['obj']->get_id();
-        if (get_class($node['obj']) == 'RepositoryCategory')
+        if ($node['obj'] instanceof RepositoryCategory)
             $title = $node['obj']->get_name();
         else
             $title = $node['obj']->get_title();

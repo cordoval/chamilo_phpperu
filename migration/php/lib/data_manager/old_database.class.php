@@ -12,9 +12,9 @@ require_once 'MDB2.php';
 
 /**
 ==============================================================================
- *	This is a data manager that uses a database for storage. It was written
- *	for MySQL, but should be compatible with most SQL flavors.
- *  @author Sven Vanpoucke
+ * This is a data manager that uses a database for storage. It was written
+ * for MySQL, but should be compatible with most SQL flavors.
+ * @author Sven Vanpoucke
 ==============================================================================
  */
 class DatabaseMigrationDataManager extends MigrationDataManager

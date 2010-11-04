@@ -19,7 +19,7 @@ class SurveyViewerWizardNext extends HTML_QuickForm_Action
     function perform($page, $actionName)
     {
 
-    	// save the form values and validation status to the session
+        // save the form values and validation status to the session
         $page->isFormBuilt() or $page->buildForm();
         $pageName = $page->getAttribute('id');
         $data = & $page->controller->container();
@@ -84,7 +84,7 @@ class SurveyViewerWizardNext extends HTML_QuickForm_Action
                 while ($question_ccoi = $questions_ccoi->next_result())
                 {
 
-                    if (get_class($question_ccoi) != 'ComplexSurvey')
+                    if (! $question_ccoi instanceof ComplexSurvey)
                     {
                         $answers = $values[$question_ccoi->get_id()];
 
@@ -102,7 +102,8 @@ class SurveyViewerWizardNext extends HTML_QuickForm_Action
 
             $total_questions = $this->parent->get_total_questions();
             $percent = $count_questions / $total_questions * 100;
-//            $this->parent->get_parent()->finish_survey($percent);
+            //            $this->parent->get_parent()->finish_survey($percent);
+
 
             $next = & $page->controller->getPage($nextName);
             return $next->handle('jump');

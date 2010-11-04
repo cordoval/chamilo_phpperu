@@ -14,10 +14,10 @@ class SurveyViewerWizardProcess extends HTML_QuickForm_Action
 
     public function SurveyViewerWizardProcess($parent)
     {
-//        dump($parent);
-//        exit;
-//    	$this->parent = $parent->get_parent();
-    	$this->parent = $parent;
+        //        dump($parent);
+        //        exit;
+        //    	$this->parent = $parent->get_parent();
+        $this->parent = $parent;
     }
 
     function perform($page, $actionName)
@@ -28,20 +28,21 @@ class SurveyViewerWizardProcess extends HTML_QuickForm_Action
         $html[] = '<div class="assessment">';
         $html[] = '<h2>' . $this->parent->get_survey()->get_title() . '</h2>';
 
-//        if ($this->parent->get_survey()->has_description())
-//        {
-//
-//            $description = $this->parent->get_survey()->get_description();
-//            $html[] = '<div class="description">';
-//            $html[] = $this->parent->get_parent()->parse($description);
-//            $html[] = '<div class="clear"></div>';
-//            $html[] = '</div>';
-//        }
+        //        if ($this->parent->get_survey()->has_description())
+        //        {
+        //
+        //            $description = $this->parent->get_survey()->get_description();
+        //            $html[] = '<div class="description">';
+        //            $html[] = $this->parent->get_parent()->parse($description);
+        //            $html[] = '<div class="clear"></div>';
+        //            $html[] = '</div>';
+        //        }
         $html[] = '</div>';
 
         $survey_values = $page->controller->exportValues();
 
-//        dump($survey_values);
+        //        dump($survey_values);
+
 
         $values = array();
 
@@ -74,15 +75,17 @@ class SurveyViewerWizardProcess extends HTML_QuickForm_Action
         }
 
         //$question_numbers = $_SESSION['questions'];
-//        dump($values);
+        //        dump($values);
+
 
         $keys = array_keys($values);
 
-//        dump($keys);
+        //        dump($keys);
+
 
         $count_questions = 0;
 
-         if (count($keys) > 0)
+        if (count($keys) > 0)
         {
             $rdm = RepositoryDataManager :: get_instance();
 
@@ -92,7 +95,7 @@ class SurveyViewerWizardProcess extends HTML_QuickForm_Action
             while ($question_ccoi = $questions_ccoi->next_result())
             {
 
-                if (get_class($question_ccoi) != 'ComplexSurvey')
+                if (! $question_ccoi instanceof ComplexSurvey)
                 {
                     $answers = $values[$question_ccoi->get_id()];
 
@@ -108,22 +111,23 @@ class SurveyViewerWizardProcess extends HTML_QuickForm_Action
             }
         }
 
-
-
         $total_questions = $this->parent->get_total_questions();
 
-//        dump($total_questions);
-//
-//        dump($count_questions);
+        //        dump($total_questions);
+        //
+        //        dump($count_questions);
 
-//        $percent = $count_questions / $total_questions * 100;
 
-	//before we make questions required, sending the answers makes the survey finished;
+        //        $percent = $count_questions / $total_questions * 100;
+
+
+        //before we make questions required, sending the answers makes the survey finished;
         $percent = 100;
         $this->parent->get_parent()->finish_survey($percent);
 
-//        dump($percent);
-//        exit;
+        //        dump($percent);
+        //        exit;
+
 
         //reset the controller !
         $page->controller->container(true);
@@ -135,9 +139,10 @@ class SurveyViewerWizardProcess extends HTML_QuickForm_Action
 
         $html[] = '</div></div>';
 
-//        $back_url = $this->parent->get_parent()->get_go_back_url();
-//
-//        $html[] = '<a href="' . $back_url . '">' . Translation :: get('GoBack') . '</a>';
+        //        $back_url = $this->parent->get_parent()->get_go_back_url();
+        //
+        //        $html[] = '<a href="' . $back_url . '">' . Translation :: get('GoBack') . '</a>';
+
 
         echo implode("\n", $html);
 
