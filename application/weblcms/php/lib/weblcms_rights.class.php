@@ -16,10 +16,9 @@ use ReflectionClass;
 
 class WeblcmsRights extends RightsUtilities
 {
-    const VIEW_RIGHT = '1';
-    const ADD_RIGHT = '2';
-    const EDIT_RIGHT = '3';
-    const DELETE_RIGHT = '4';
+    const ADD_RIGHT = '1';
+    const EDIT_RIGHT = '2';
+    const DELETE_RIGHT = '3';
 
     const LOCATION_BROWSER = 1;
     const LOCATION_HOME = 2;
