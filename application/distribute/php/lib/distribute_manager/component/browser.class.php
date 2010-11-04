@@ -25,9 +25,6 @@ class DistributeManagerBrowserComponent extends DistributeManager
 
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseDistribute')));
-        
         $this->display_header($trail);
         echo '<a name="top"></a>';
         echo $this->get_action_bar_html() . '';
