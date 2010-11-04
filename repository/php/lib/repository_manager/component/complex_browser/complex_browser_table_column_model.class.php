@@ -1,6 +1,7 @@
 <?php
 namespace repository;
 
+use common\libraries\ComplexMenuSupport;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\ObjectTableColumnModel;

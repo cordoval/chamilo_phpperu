@@ -2,6 +2,7 @@
 namespace application\weblcms;
 
 use user\UserDataManager;
+use user\User;
 use common\libraries\Theme;
 use common\libraries\Session;
 use common\libraries\Path;

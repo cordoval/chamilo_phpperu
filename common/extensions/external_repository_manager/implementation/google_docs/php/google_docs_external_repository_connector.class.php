@@ -18,6 +18,7 @@ use Zend_Loader;
 use Zend_Gdata_AuthSub;
 use Zend_Gdata_Docs;
 use Zend_Gdata_Docs_Query;
+use Zend_Gdata_App_Extension_Link;
 
 require_once 'Zend/Loader.php';
 require_once dirname(__FILE__) . '/google_docs_external_repository_object.class.php';

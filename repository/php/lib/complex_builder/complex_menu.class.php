@@ -11,8 +11,8 @@ use common\libraries\Application;
 use common\libraries\ComplexContentObjectSupport;
 use common\libraries\OptionsMenuRenderer;
 use repository\content_object\learning_path_item\LearningPathItem;
-use \HTML_Menu;
-use \HTML_Menu_ArrayRenderer;
+use HTML_Menu;
+use HTML_Menu_ArrayRenderer;
 use common\libraries\TreeMenuRenderer;
 
 /**
@@ -28,7 +28,7 @@ require_once 'HTML/Menu/ArrayRenderer.php';
  */
 class ComplexMenu extends HTML_Menu
 {
-	const TREE_NAME = __CLASS__;
+    const TREE_NAME = __CLASS__;
 
     private $cloi;
     private $root;
@@ -64,10 +64,10 @@ class ComplexMenu extends HTML_Menu
      * this menu.
      * @param int $current_category The ID of the current category in the menu.
      * @param string $url_format The format to use for the URL of a category.
-     *                           Passed to sprintf(). Defaults to the string
-     *                           "?category=%s".
+     * Passed to sprintf(). Defaults to the string
+     * "?category=%s".
      * @param array $extra_items An array of extra tree items, added to the
-     *                           root.
+     * root.
      */
     function ComplexMenu($root, $cloi, $url_format = '?application=repository&go=build_complex&builder_action=browse', $view_entire_structure = false, $show_url = true)
     {
@@ -101,8 +101,8 @@ class ComplexMenu extends HTML_Menu
         $menu_item = array();
         $menu_item['title'] = $lo->get_title();
 
-        if($this->show_url)
-        	$menu_item['url'] = $this->get_cloi_url();
+        if ($this->show_url)
+            $menu_item['url'] = $this->get_cloi_url();
 
         $sub_menu_items = $this->get_menu_items($root->get_id());
         if (count($sub_menu_items) > 0)
@@ -120,10 +120,10 @@ class ComplexMenu extends HTML_Menu
     /**
      * Returns the menu items.
      * @param array $extra_items An array of extra tree items, added to the
-     *                           root.
+     * root.
      * @return array An array with all menu items. The structure of this array
-     *               is the structure needed by PEAR::HTML_Menu, on which this
-     *               class is based.
+     * is the structure needed by PEAR::HTML_Menu, on which this
+     * class is based.
      */
     private function get_menu_items($parent_id)
     {
@@ -133,30 +133,30 @@ class ComplexMenu extends HTML_Menu
 
         while ($cloi = $clois->next_result())
         {
-        	$lo = $datamanager->retrieve_content_object($cloi->get_ref());
-        	$url = null;
+            $lo = $datamanager->retrieve_content_object($cloi->get_ref());
+            $url = null;
 
-            if($lo->get_type() == LearningPathItem :: get_type_name())
+            if ($lo->get_type() == LearningPathItem :: get_type_name())
             {
                 $lo = $datamanager->retrieve_content_object($lo->get_reference());
                 $url = $this->get_build_complex_url($lo);
             }
 
-        	if ($lo instanceof ComplexContentObjectSupport || $this->view_entire_structure)
+            if ($lo instanceof ComplexContentObjectSupport || $this->view_entire_structure)
             {
                 $menu_item = array();
                 $menu_item['title'] = $lo->get_title();
 
-                if($this->show_url)
+                if ($this->show_url)
                 {
-                	if($url)
-                	{
-                		$menu_item['onclick'] = 'javascript:openPopup(\'' . $url . '\'); return false;';
-                	}
-                	else
-                	{
-                		$menu_item['url'] = $this->get_cloi_url($cloi);
-                	}
+                    if ($url)
+                    {
+                        $menu_item['onclick'] = 'javascript:openPopup(\'' . $url . '\'); return false;';
+                    }
+                    else
+                    {
+                        $menu_item['url'] = $this->get_cloi_url($cloi);
+                    }
                 }
 
                 $sub_menu_items = $this->get_menu_items($cloi->get_ref());
@@ -187,7 +187,7 @@ class ComplexMenu extends HTML_Menu
 
     private function get_build_complex_url($object)
     {
-    	return Path :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=complex_builder&' . RepositoryManager :: PARAM_CONTENT_OBJECT_ID . '=' . $object->get_id();
+        return Path :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=complex_builder&' . RepositoryManager :: PARAM_CONTENT_OBJECT_ID . '=' . $object->get_id();
     }
 
     /**
@@ -210,7 +210,7 @@ class ComplexMenu extends HTML_Menu
      * Renders the menu as a tree
      * @return string The HTML formatted tree
      */
-	function render_as_tree()
+    function render_as_tree()
     {
         $renderer = new TreeMenuRenderer($this->get_tree_name());
         $this->render($renderer, 'sitemap');

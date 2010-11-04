@@ -1,6 +1,7 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\fedora;
 
+use common\libraries\fedora_fs_store;
 use common\libraries\Path;
 
 use repository\ExternalRepositorySetting;

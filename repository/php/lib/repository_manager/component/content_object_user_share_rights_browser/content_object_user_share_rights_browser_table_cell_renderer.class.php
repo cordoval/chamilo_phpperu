@@ -1,9 +1,15 @@
 <?php
+namespace repository;
 
-require_once dirname (__FILE__) . '/share_right_column.class.php';
+use user\UserDataManager;
+use common\libraries\Translation;
+use common\libraries\ToolbarItem;
+use common\libraries\Toolbar;
+use common\libraries\Theme;
+use common\libraries\Path;
 
+require_once dirname(__FILE__) . '/share_right_column.class.php';
 require_once dirname(__FILE__) . '/action_column.php';
-
 require_once dirname(__FILE__) . '/content_object_user_share_rights_browser_table_column_model.class.php';
 require_once Path :: get_user_path() . 'lib/user_table/default_user_table_cell_renderer.class.php';
 
@@ -19,6 +25,7 @@ class ContentObjectUserShareRightsBrowserTableCellRenderer extends ObjectTableCe
     {
         $this->browser = $browser;
     }
+
     /**
      *
      * @param StaticTableColumn $column
@@ -28,9 +35,9 @@ class ContentObjectUserShareRightsBrowserTableCellRenderer extends ObjectTableCe
     function render_cell($column, $user_share)
     {
         if ($column instanceof ShareRightColumn)
-        { 
-            if($user_share->has_right($column->get_right_id()))
-            {   
+        {
+            if ($user_share->has_right($column->get_right_id()))
+            {
                 return Theme :: get_common_image('action_setting_true', 'png');
             }
             else
@@ -38,27 +45,18 @@ class ContentObjectUserShareRightsBrowserTableCellRenderer extends ObjectTableCe
                 return Theme :: get_common_image('action_setting_false', 'png');
             }
         }
-        else if ($column instanceof ActionColumn)
-        {
-            $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
-            $toolbar->add_item(new ToolbarItem(
-                            Translation :: get('ContentObjectUserShareEditor'),
-                            Theme :: get_common_image_path() . 'action_edit.png',
-                            $this->browser->get_content_object_share_editor_url(Request::get(RepositoryManager::PARAM_CONTENT_OBJECT_ID), $user_share->get_user_id(), null),
-                            ToolbarItem :: DISPLAY_ICON
-            ));
-            $toolbar->add_item(new ToolbarItem(
-                            Translation :: get('ContentObjectUserShareDeleter'),
-                            Theme :: get_common_image_path() . 'action_delete.png',
-                            $this->browser->get_content_object_share_deleter_url(Request::get(RepositoryManager::PARAM_CONTENT_OBJECT_ID), $user_share->get_user_id(), null),
-                            ToolbarItem :: DISPLAY_ICON
-            ));
-            return $toolbar->as_html();
-        }
-        else //display the username
-        {
-            return UserDataManager :: get_instance()->retrieve_user($user_share->get_user_id())->get_username();
-        }
+        else
+            if ($column instanceof ActionColumn)
+            {
+                $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
+                $toolbar->add_item(new ToolbarItem(Translation :: get('ContentObjectUserShareEditor'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_content_object_share_editor_url(Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID), $user_share->get_user_id(), null), ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('ContentObjectUserShareDeleter'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_content_object_share_deleter_url(Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID), $user_share->get_user_id(), null), ToolbarItem :: DISPLAY_ICON));
+                return $toolbar->as_html();
+            }
+            else //display the username
+            {
+                return UserDataManager :: get_instance()->retrieve_user($user_share->get_user_id())->get_username();
+            }
 
     }
 

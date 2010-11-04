@@ -1,5 +1,6 @@
 <?php
 namespace common\libraries;
+use user\User;
 /**
  * @author Hans De Bisschop
  */

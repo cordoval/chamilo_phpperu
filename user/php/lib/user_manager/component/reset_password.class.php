@@ -1,6 +1,7 @@
 <?php
 namespace user;
 
+use common\libraries\ChangeablePassword;
 use common\libraries\Authentication;
 use common\libraries\Translation;
 use common\libraries\Request;

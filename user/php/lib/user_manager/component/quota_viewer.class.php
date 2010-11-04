@@ -1,6 +1,7 @@
 <?php
 namespace user;
 
+use common\libraries\Versionable;
 use common\libraries\Filesystem;
 use common\libraries\Translation;
 use common\libraries\Request;
