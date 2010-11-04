@@ -9,6 +9,7 @@ use common\libraries\Breadcrumb;
 use common\libraries\Request;
 
 use repository\content_object\document\Document;
+use repository\content_object\survey\Survey;
 
 use common\extensions\repo_viewer\RepoViewer;
 use common\extensions\repo_viewer\RepoViewerInterface;

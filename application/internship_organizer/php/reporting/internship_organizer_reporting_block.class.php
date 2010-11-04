@@ -5,6 +5,8 @@ use common\libraries\CoreApplication;
 use common\libraries\Translation;
 
 use reporting\ReportingBlock;
+use reporting\ReportingFormatter;
+use reporting\ReportingChartFormatter;
 
 require_once CoreApplication :: get_application_class_lib_path('reporting') .'reporting_block.class.php';
 

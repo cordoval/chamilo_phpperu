@@ -21,7 +21,7 @@ abstract class ReportingExporter
     public static function factory($type, $template)
     {
         require_once dirname(__FILE__) . '/exporters/reporting_' . $type . '_exporter.class.php';
-        $class = 'Reporting' . Utilities::underscores_to_camelcase($type) . 'Exporter';
+        $class = __NAMESPACE__ . '\\' . 'Reporting' . Utilities::underscores_to_camelcase($type) . 'Exporter';
 
         return new $class($template);
     }

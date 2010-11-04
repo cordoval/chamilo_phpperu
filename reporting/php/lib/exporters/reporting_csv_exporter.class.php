@@ -1,5 +1,9 @@
 <?php
 namespace reporting;
+
+use common\libraries\Export;
+use common\libraries\Translation;
+
 class ReportingCsvExporter extends ReportingExporter
 {
 	function export()

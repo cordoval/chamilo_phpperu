@@ -1,5 +1,23 @@
 <?php
 namespace common\extensions\reporting_viewer;
+
+use reporting\ReportingTemplate;
+use reporting\ReportingManager;
+use reporting\ReportingExporter;
+use reporting\ReportingFormatterForm;
+
+use repository\content_object\document\Document;
+
+use common\libraries\Request;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use common\libraries\Path;
+use common\libraries\Utilities;
+use common\libraries\Translation;
+
+use admin\Registration;
+use admin\AdminDataManager;
+
 class ReportingViewerSaverComponent extends ReportingViewer
 {
 
@@ -21,7 +39,7 @@ class ReportingViewerSaverComponent extends ReportingViewer
         $registration = AdminDataManager :: get_instance()->count_registrations($condition);
         if ($registration > 0)
         {        
-            require_once PATH :: get_repository_path() . 'lib/content_object/document/document.class.php';
+            require_once Path :: get_repository_content_object_path() . 'document/php/document.class.php';
             $html_object = new Document();
             $html_object->set_title(Utilities :: underscores_to_camelcase_with_spaces($template->get_name()));
             $html_object->set_description(Utilities :: underscores_to_camelcase_with_spaces($template->get_name()));

@@ -7,6 +7,8 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Request;
 
+use common\extensions\reporting_viewer\ReportingViewer;
+
 class InternshipOrganizerAgreementManagerReportingComponent extends InternshipOrganizerAgreementManager implements DelegateComponent
 {
 

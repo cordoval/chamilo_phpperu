@@ -20,6 +20,7 @@ use common\libraries\Request;
 use repository\RepositoryDataManager;
 use repository\ContentObject;
 use repository\content_object\document\Document;
+use repository\content_object\survey\Survey;
 
 use user\UserDataManager;
 

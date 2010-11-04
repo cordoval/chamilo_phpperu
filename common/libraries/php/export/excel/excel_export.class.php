@@ -1,5 +1,9 @@
 <?php
 namespace common\libraries;
+
+use PHPExcel;
+use PHPExcel_IOFactory;
+use reporting\ReportingManager;
 /**
  * $Id: excel_export.class.php 128 2010-05-21 13:56:20Z David Hosse $
  * @package common.export.excel
@@ -75,7 +79,6 @@ class ExcelExport extends Export
 					}
 		
 				}
-				
 			}
 			else
 			{

@@ -6,6 +6,8 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Request;
 
+use common\extensions\rights_editor_manager\RightsEditorManager;
+
 class InternshipOrganizerAgreementManagerRightsEditorComponent extends InternshipOrganizerAgreementManager
 {
 

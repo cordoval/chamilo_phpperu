@@ -6,6 +6,9 @@ use common\libraries\WebApplication;
 
 use user\User;
 
+use reporting\ReportingFormatter;
+use reporting\ReportingData;
+
 require_once dirname(__FILE__) . '/../agreement_reporting_block.class.php';
 require_once WebApplication :: get_application_path('internship_organizer') . 'php/lib/internship_organizer_manager/internship_organizer_manager.class.php';
 class InternshipOrganizerAgreementAddLocationReportingBlock extends InternshipOrganizerAgreementReportingBlock

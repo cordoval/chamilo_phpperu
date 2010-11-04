@@ -6,6 +6,8 @@ use common\libraries\WebApplication;
 use common\libraries\DynamicTabsRenderer;
 use common\libraries\Request;
 
+use tracking\Event;
+
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'agreement_manager/component/viewer.class.php';
 
 class InternshipOrganizerAgreementManagerSubscriberComponent extends InternshipOrganizerAgreementManager

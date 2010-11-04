@@ -8,8 +8,9 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Request;
 
-require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'period_manager/component/viewer.class.php';
+use common\extensions\rights_editor_manager\RightsEditorManager;
 
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'period_manager/component/viewer.class.php';
 
 class InternshipOrganizerPeriodManagerPublicationRightsEditorComponent extends InternshipOrganizerPeriodManager
 {

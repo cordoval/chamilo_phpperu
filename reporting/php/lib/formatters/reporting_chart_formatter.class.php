@@ -41,7 +41,7 @@ class ReportingChartFormatter extends ReportingFormatter
         $chartformatter = 'Pchart';
 
         require_once dirname(__FILE__) . '/' . strtolower($chartformatter) . '/' . strtolower($chartformatter) . '_reporting_chart_formatter.class.php';
-        $class = $chartformatter . 'ReportingChartFormatter';
+        $class = __NAMESPACE__ .  '\\' . $chartformatter . 'ReportingChartFormatter';
         $this->instance = new $class($this->get_block());
         //}
         return $this->instance;
