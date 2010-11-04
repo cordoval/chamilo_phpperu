@@ -1338,7 +1338,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
     function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        if (is_a($order_property, 'common\libraries\ObjectTableOrder'))
+        if ($order_property instanceof ObjectTableOrder)
         {
             $order_property = array($order_property);
         }

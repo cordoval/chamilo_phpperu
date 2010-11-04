@@ -1,5 +1,7 @@
 <?php
 namespace common\libraries;
+
+use user\User;
 /**
  * $Id: platform_authentication.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common.authentication.platform
@@ -44,7 +46,7 @@ class PlatformAuthentication extends Authentication implements ChangeablePasswor
     function change_password($user, $old_password, $new_password)
     {
         // Check whether we have an actual User object
-        if (!is_a($user, User :: CLASS_NAME))
+        if (!$user instanceof User)
         {
             return false;
         }

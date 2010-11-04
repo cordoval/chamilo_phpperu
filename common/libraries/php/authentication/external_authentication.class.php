@@ -1,5 +1,7 @@
 <?php
 namespace common\libraries;
+
+use user\User;
 /**
  * @package common.authentication
  */
@@ -14,8 +16,6 @@ require_once Path :: get_rights_path() . 'lib/rights_manager/component/right_req
  */
 abstract class ExternalAuthentication extends Authentication
 {
-    const USER_OBJECT_CLASSNAME = 'User';
-
     const AUTHENTICATION_SOURCE_NAME = 'AUTHENTICATION_METHOD_NAME';
     const ALLOW_AUTOMATIC_REGISTRATION = 'ALLOW_AUTOMATIC_REGISTRATION';
     const ALLOW_USER_REGISTRATION_WITHOUT_ROLE = 'ALLOW_USER_REGISTRATION_WITHOUT_ROLE';
@@ -447,7 +447,7 @@ abstract class ExternalAuthentication extends Authentication
      */
     protected function login($user, $redirect_to_homepage = true)
     {
-        if (is_a($user, self :: USER_OBJECT_CLASSNAME))
+        if (ObjectTableOrder)
         {
             Session :: register('_uid', $user->get_id());
 
@@ -602,7 +602,7 @@ abstract class ExternalAuthentication extends Authentication
             $user = $udm->retrieve_user_by_username($username);
         }
 
-        if (isset($user) && is_a($user, self :: USER_OBJECT_CLASSNAME))
+        if (isset($user) && $user instanceof User)
         {
             $suffix_number = isset($suffix_number) ? ++ $suffix_number : 2;
             return $this->complete_username_until_available($username, $suffix_number);
@@ -627,7 +627,7 @@ abstract class ExternalAuthentication extends Authentication
             $udm = UserDataManager :: get_instance();
             $user = $udm->retrieve_user_by_external_uid($external_uid);
 
-            if (isset($user) && is_a($user, self :: USER_OBJECT_CLASSNAME))
+            if (isset($user) && $user instanceof User)
             {
                 return $user;
             }

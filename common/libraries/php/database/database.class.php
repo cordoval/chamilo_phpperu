@@ -181,7 +181,7 @@ class Database
 
         $object->set_default_properties($default_properties);
 
-        if (count($record) > 0 && is_a($object, DataClass :: CLASS_NAME))
+        if (count($record) > 0 && $object instanceof DataClass)
         {
             foreach ($record as $optional_property_name => $optional_property_value)
             {

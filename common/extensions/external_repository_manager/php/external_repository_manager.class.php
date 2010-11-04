@@ -107,7 +107,7 @@ abstract class ExternalRepositoryManager extends SubManager
      */
     function is_stand_alone()
     {
-        return is_a($this->get_parent(), LauncherApplication :: CLASS_NAME);
+        return $this->get_parent() instanceof LauncherApplication;
     }
 
     /**
