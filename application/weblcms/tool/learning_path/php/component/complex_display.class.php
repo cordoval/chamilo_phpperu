@@ -39,7 +39,7 @@ require_once Path :: get_repository_content_object_path() . 'learning_path/php/d
 require_once Path :: get_repository_content_object_path() . 'assessment/php/display/assessment_complex_display_support.class.php';
 require_once Path :: get_repository_content_object_path() . 'forum/php/display/forum_complex_display_support.class.php';
 
-class LearningPathToolTestComponent extends LearningPathTool implements LearningPathComplexDisplaySupport, AssessmentComplexDisplaySupport, ForumComplexDisplaySupport
+class LearningPathToolComplexDisplayComponent extends LearningPathTool implements LearningPathComplexDisplaySupport, AssessmentComplexDisplaySupport, ForumComplexDisplaySupport
 {
 
     private $publication;
@@ -48,11 +48,6 @@ class LearningPathToolTestComponent extends LearningPathTool implements Learning
     {
         $publication_id = Request :: get(Tool :: PARAM_PUBLICATION_ID);
         $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, $publication_id);
-
-        // TODO: This should be handled better and differently
-//        $this->set_parameter(LearningPathDisplay :: PARAM_LEARNING_PATH_ITEM_ID, Request :: get(LearningPathDisplay :: PARAM_LEARNING_PATH_ITEM_ID));
-//        $this->set_parameter(ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID, Request :: get(ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID));
-
         $this->publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($publication_id);
 
         ComplexDisplay :: launch($this->get_root_content_object()->get_type(), $this);
