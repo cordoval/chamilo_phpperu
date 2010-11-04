@@ -9,6 +9,8 @@ use common\libraries\Request;
 
 use common\extensions\reporting_viewer\ReportingViewer;
 
+use user\UserManager;
+
 class InternshipOrganizerAgreementManagerReportingComponent extends InternshipOrganizerAgreementManager implements DelegateComponent
 {
 

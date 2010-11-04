@@ -7,6 +7,7 @@ use common\libraries\InCondition;
 
 use user\UserDataManager;
 use user\User;
+use user\UserManager;
 
 require_once dirname(__FILE__) . '/internship_organizer_reporting_block.class.php';
 
