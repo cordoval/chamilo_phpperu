@@ -35,7 +35,7 @@ class ForumTopicForm extends ContentObjectForm
     function build_creation_form($default_content_object = null)
     {
         parent :: build_creation_form();
-        $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
+        $this->addElement('category', Translation :: get('Properties'));
         $this->addElement('checkbox', 'locked', Translation :: get('Locked'));
         $this->addElement('category');
     }
@@ -43,7 +43,7 @@ class ForumTopicForm extends ContentObjectForm
     function build_editing_form($object)
     {
         parent :: build_editing_form();
-        $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
+        $this->addElement('category', Translation :: get('Properties'));
         $this->addElement('checkbox', 'locked', Translation :: get('Locked'));
         $this->addElement('category');
     }

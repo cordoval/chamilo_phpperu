@@ -20,7 +20,7 @@ class MatterhornForm extends ContentObjectForm
     {
         $link = Path :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=' . ExternalRepositoryLauncher :: APPLICATION_NAME . '&' . ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '=1' . Matterhorn :: get_type_name();
         parent :: build_creation_form();
-        $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
+        $this->addElement('category', Translation :: get('Properties'));
         $this->addElement('static', null, null, '<a class="button normal_button upload_button" onclick="javascript:openPopup(\'' . $link . '\');"> ' . Translation :: get('BrowseStreamingVideo') . '</a>');
         $this->add_textfield(Matterhorn :: PROPERTY_MATTERHORN_ID, Translation :: get('MatterhornId'), true, array('size' => '255'));
         $this->add_textfield(Matterhorn :: PROPERTY_WIDTH, Translation :: get('Width'), true, array('size' => '5'));
@@ -43,7 +43,7 @@ class MatterhornForm extends ContentObjectForm
     {
         $link = Path :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=' . ExternalRepositoryLauncher :: APPLICATION_NAME . '&' . ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '=1' . Matterhorn :: get_type_name();
         parent :: build_creation_form();
-        $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
+        $this->addElement('category', Translation :: get('Properties'));
         $this->addElement('static', null, null, '<a class="button normal_button upload_button" onclick="javascript:openPopup(\'' . $link . '\');"> ' . Translation :: get('BrowseStreamingVideo') . '</a>');
         $this->add_textfield(Matterhorn :: PROPERTY_MATTERHORN_ID, Translation :: get('URL'), true, array('size' => '255'));
         $this->add_textfield(Matterhorn :: PROPERTY_WIDTH, Translation :: get('Width'), true, array('size' => '5'));

@@ -1,19 +1,20 @@
 <?php
 namespace repository\content_object\handbook;
 
-
+use repository\content_object\handbook_item\ComplexHandbookItem;
 use common\libraries\Request;
 use repository\ComplexBuilderComponent;
 use repository\ComplexBuilder;
 use repository\RepositoryDataManager;
 use common\libraries\Translation;
+
 require_once dirname(__FILE__) . '/../handbook_builder.class.php';
 
 /**
  */
 class HandbookBuilderDeleterComponent extends HandbookBuilder
 {
-
+    
     private $complex_builder_deleter_component;
 
     /**
@@ -21,7 +22,7 @@ class HandbookBuilderDeleterComponent extends HandbookBuilder
      */
     function run()
     {
-        $this->complex_builder_deleter_component = ComplexBuilderComponent::factory(ComplexBuilderComponent::DELETER_COMPONENT, $this);
+        $this->complex_builder_deleter_component = ComplexBuilderComponent :: factory(ComplexBuilderComponent :: DELETER_COMPONENT, $this);
         $ids = Request :: get(ComplexBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID);
         $root = $this->get_root_content_object();
         $parent_complex_content_object = Request :: get(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
@@ -52,7 +53,7 @@ class HandbookBuilderDeleterComponent extends HandbookBuilder
                         }
                         else
                         {
-                            if (get_class($complex_content_object_item) == 'ComplexHandbookItem')
+                            if ($complex_content_object_item instanceof ComplexHandbookItem)
                             {
                                 $rdm->delete_content_object_by_id($complex_content_object_item->get_ref());
                             }

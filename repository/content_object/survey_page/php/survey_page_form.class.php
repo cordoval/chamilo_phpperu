@@ -37,7 +37,7 @@ class SurveyPageForm extends ContentObjectForm
         
         //    	parent :: build_creation_form($html_editor_options);
         parent :: build_creation_form();
-        $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
+        $this->addElement('category', Translation :: get('Properties'));
         //        $this->add_html_editor(SurveyPage :: PROPERTY_INTRODUCTION_TEXT, Translation :: get('SurveyPageHeaderText'), false, $html_editor_options);
         //        $this->add_html_editor(SurveyPage :: PROPERTY_FINISH_TEXT, Translation :: get('SurveyPageFooterText'), false, $html_editor_options);
         $this->add_html_editor(SurveyPage :: PROPERTY_INTRODUCTION_TEXT, Translation :: get('SurveyPageHeaderText'), false);
@@ -56,7 +56,7 @@ class SurveyPageForm extends ContentObjectForm
     	//    	parent :: build_creation_form($html_editor_options);
     	
         parent :: build_creation_form();
-        $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
+        $this->addElement('category', Translation :: get('Properties'));
         //        $this->add_html_editor(SurveyPage :: PROPERTY_INTRODUCTION_TEXT, Translation :: get('SurveyPageHeaderText'), false, $html_editor_options);
         //        $this->add_html_editor(SurveyPage :: PROPERTY_FINISH_TEXT, Translation :: get('SurveyPageFooterText'), false, $html_editor_options);
         $this->add_html_editor(SurveyPage :: PROPERTY_INTRODUCTION_TEXT, Translation :: get('SurveyPageHeaderText'), false);

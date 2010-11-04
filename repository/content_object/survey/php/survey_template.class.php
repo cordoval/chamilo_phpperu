@@ -1,21 +1,19 @@
-<?php 
+<?php
 namespace repository\content_object\survey;
 
-use \common\libraries\DataClass;
-
-
+use common\libraries\DataClass;
 
 require_once (dirname(__FILE__) . '/context_data_manager/context_data_manager.class.php');
 
 abstract class SurveyTemplate extends DataClass
 {
-    
+
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_TYPE = 'type';
     const PROPERTY_USER_ID = 'user_id';
     const PROPERTY_CONTEXT_TEMPLATE_ID = 'context_template_id';
-    
+
     private $additionalProperties;
 
     public function SurveyTemplate($defaultProperties = array (), $additionalProperties = null)
@@ -25,7 +23,7 @@ abstract class SurveyTemplate extends DataClass
         {
             $this->additionalProperties = $additionalProperties;
         }
-    
+
     }
 
     abstract static function get_additional_property_names($with_context_type = false);
@@ -33,7 +31,7 @@ abstract class SurveyTemplate extends DataClass
     public function create()
     {
         $dm = SurveyContextDataManager :: get_instance();
-        
+
         if (! $dm->create_survey_template($this))
         {
             return false;
@@ -42,14 +40,14 @@ abstract class SurveyTemplate extends DataClass
         {
             return true;
         }
-    
+
     }
 
     public function delete()
     {
-        
+
         $dm = SurveyContextDataManager :: get_instance();
-        
+
         if (! $dm->delete_survey_template($this))
         {
             return false;
@@ -62,9 +60,9 @@ abstract class SurveyTemplate extends DataClass
 
     public function update()
     {
-        
+
         $dm = SurveyContextDataManager :: get_instance();
-        
+
         if (! $dm->update_survey_template($this))
         {
             return false;
@@ -104,7 +102,7 @@ abstract class SurveyTemplate extends DataClass
 
     function get_type()
     {
-        return self :: class_to_type(get_class($this));
+        return self :: class_to_type(Utilities :: get_classname_from_object($this));
     }
 
     function get_context_template_id()

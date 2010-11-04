@@ -30,7 +30,7 @@ class TaskForm extends ContentObjectForm
     protected function build_creation_form()
     {
         parent :: build_creation_form();
-        $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
+        $this->addElement('category', Translation :: get('Properties'));
 
         $options_priority = Task :: get_priority_options();
         $choices_priority = array();
@@ -85,7 +85,7 @@ class TaskForm extends ContentObjectForm
     protected function build_editing_form()
     {
         parent :: build_creation_form();
-        $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
+        $this->addElement('category', Translation :: get('Properties'));
 
         $options_priority = Task :: get_priority_options();
         $choices_priority = array();

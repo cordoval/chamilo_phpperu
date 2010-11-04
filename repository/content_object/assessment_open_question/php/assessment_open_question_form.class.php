@@ -16,6 +16,7 @@ require_once Path :: get_repository_path() . '/question_types/open_question/open
  */
 class AssessmentOpenQuestionForm extends OpenQuestionForm
 {
+
     function setDefaults($defaults = array ())
     {
         $object = $this->get_content_object();
@@ -27,14 +28,14 @@ class AssessmentOpenQuestionForm extends OpenQuestionForm
         {
             $defaults[AssessmentOpenQuestion :: PROPERTY_QUESTION_TYPE] = AssessmentOpenQuestion :: TYPE_OPEN;
         }
-
+        
         parent :: setDefaults($defaults);
     }
 
     function build_creation_form()
     {
         parent :: build_creation_form();
-        $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
+        $this->addElement('category', Translation :: get('Properties'));
         $types = AssessmentOpenQuestion :: get_types();
         $choices = array();
         foreach ($types as $type_id => $type_label)
@@ -49,7 +50,7 @@ class AssessmentOpenQuestionForm extends OpenQuestionForm
     function build_editing_form()
     {
         parent :: build_editing_form();
-        $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
+        $this->addElement('category', Translation :: get('Properties'));
         $types = AssessmentOpenQuestion :: get_types();
         $choices = array();
         foreach ($types as $type_id => $type_label)
@@ -64,10 +65,10 @@ class AssessmentOpenQuestionForm extends OpenQuestionForm
     function create_content_object()
     {
         $object = new AssessmentOpenQuestion();
-
+        
         $values = $this->exportValues();
         $object->set_question_type($values[AssessmentOpenQuestion :: PROPERTY_QUESTION_TYPE]);
-
+        
         $this->set_content_object($object);
         return parent :: create_content_object($object);
     }
@@ -75,10 +76,10 @@ class AssessmentOpenQuestionForm extends OpenQuestionForm
     function update_content_object()
     {
         $object = $this->get_content_object();
-
+        
         $values = $this->exportValues();
         $object->set_question_type($values[AssessmentOpenQuestion :: PROPERTY_QUESTION_TYPE]);
-
+        
         $this->set_content_object($object);
         return parent :: update_content_object();
     }

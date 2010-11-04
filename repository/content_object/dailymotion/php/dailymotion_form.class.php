@@ -19,7 +19,7 @@ class DailymotionForm extends ContentObjectForm
     protected function build_creation_form()
     {
         parent :: build_creation_form();
-        $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
+        $this->addElement('category', Translation :: get('Properties'));
         $this->add_textfield(Dailymotion :: PROPERTY_URL, Translation :: get('URL'), true, array('size' => '100'));
         $this->add_textfield(Dailymotion :: PROPERTY_WIDTH, Translation :: get('Width'), true, array('size' => '5'));
         $this->add_textfield(Dailymotion :: PROPERTY_HEIGHT, Translation :: get('Height'), true, array('size' => '5'));
@@ -29,7 +29,7 @@ class DailymotionForm extends ContentObjectForm
     protected function build_editing_form()
     {
         parent :: build_editing_form();
-        $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
+        $this->addElement('category', Translation :: get('Properties'));
         $this->add_textfield(Dailymotion :: PROPERTY_URL, Translation :: get('URL'), true, array('size' => '100'));
         $this->add_textfield(Dailymotion :: PROPERTY_WIDTH, Translation :: get('Width'), true, array('size' => '5'));
         $this->add_textfield(Dailymotion :: PROPERTY_HEIGHT, Translation :: get('Height'), true, array('size' => '5'));
