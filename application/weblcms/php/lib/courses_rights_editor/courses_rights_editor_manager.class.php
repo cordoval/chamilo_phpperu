@@ -6,7 +6,7 @@ use common\extensions\rights_editor_manager\RightsEditorManager;
 
 class CoursesRightsEditorManager extends RightsEditorManager
 {
-    const PARAM_COURSE_GROUP = 'course_group';
+    const PARAM_COURSE_GROUP = 'course_group_id';
     const ACTION_SET_COURSE_GROUP_RIGHTS = 'set_course_group_rights';
 
     function __construct($parent, $locations)
@@ -30,8 +30,9 @@ class CoursesRightsEditorManager extends RightsEditorManager
 
         switch ($action)
         {
-            case self :: ACTION_SET_GROUP_RIGHTS :
+            case self :: ACTION_SET_COURSE_GROUP_RIGHTS :
                 $component = $this->create_component('CourseGroupRightsSetter');
+                $component->run();
                 return;
         }
 

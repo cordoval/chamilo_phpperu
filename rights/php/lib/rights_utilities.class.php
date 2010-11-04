@@ -197,15 +197,7 @@ class RightsUtilities
 
     static function is_allowed($right, $identifier = 0, $type = self :: TYPE_ROOT, $application = 'admin', $user_id = null, $tree_identifier = 0, $tree_type = self :: TREE_TYPE_ROOT)
     {
-//        dump(self :: $user_cache);
-//        dump(self :: $group_cache);
-//        dump(self :: $template_cache);
-//        dump(self :: $location_cache);
-//        dump(self :: $location_parents_cache);
-//        dump(self :: $right_granted_by_parent_cache);
-//        dump(self :: $tree_identifier_cache);
-//        dump(self::$tree_type_cache);
-//        dump(self :: $direct_parent_location_id_cache);
+
         // Determine the user_id of the user we're checking a right for
         $udm = UserDataManager :: get_instance();
         $user_id = $user_id ? $user_id : Session :: get_user_id();
