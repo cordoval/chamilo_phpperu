@@ -16,6 +16,8 @@ class LearningPathForumContentObjectDisplay extends LearningPathContentObjectDis
     function display_content_object($content_object, $learning_path_item_attempt_data, $continue_url, $previous_url, $jump_urls)
     {
         $parameters = array();
+        $parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = null;
+        $parameters[ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID] = null;
         $parameters[self :: PARAM_EMBEDDED_CONTENT_OBJECT_ID] = $content_object->get_id();
 
         $html[] = $this->add_tracking_javascript();

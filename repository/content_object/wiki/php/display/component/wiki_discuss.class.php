@@ -8,6 +8,7 @@ use repository\ComplexDisplay;
 use repository\RepositoryDataManager;
 use common\extensions\feedback_manager\FeedbackManager;
 use MediawikiParser;
+use MediawikiParserContext;
 
 /**
  * $Id: wiki_discuss.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -19,6 +20,7 @@ use MediawikiParser;
  * Author: Nick De Feyter
  */
 require_once Path :: get_plugin_path() . 'wiki/mediawiki_parser.class.php';
+require_once Path :: get_plugin_path() . 'wiki/mediawiki_parser_context.class.php';
 
 class WikiDisplayWikiDiscussComponent extends WikiDisplay
 {
@@ -52,7 +54,7 @@ class WikiDisplayWikiDiscussComponent extends WikiDisplay
 
         parent :: display_header($complex_wiki_page);
 
-        $parser = new MediawikiParser($this, $wiki_page);
+        $parser = new MediawikiParser(new MediawikiParserContext($this->get_root_content_object(), $wiki_page->get_title(), $wiki_page->get_description(), $this->get_parameters()));
 
         $html[] = '<div class="wiki-pane-content-title">' . Translation :: get('Discuss') . ' ' . $wiki_page->get_title() . '</div>';
         $html[] = '<div class="wiki-pane-content-subtitle">' . Translation :: get('From') . ' ' . $this->get_root_content_object()->get_title() . '</div>';

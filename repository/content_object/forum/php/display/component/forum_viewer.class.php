@@ -255,7 +255,7 @@ class ForumDisplayForumViewerComponent extends ForumDisplay
             $table->setCellContents($row, 3, ($count > 0) ? $count - 1 : $count);
             $table->setCellAttributes($row, 3, array('align' => 'center', 'class' => 'row1'));
 
-            $views = $this->count_topic_views($topic->get_id());
+            $views = $this->forum_count_topic_views($topic->get_id());
 
             $table->setCellContents($row, 4, $views);
             $table->setCellAttributes($row, 4, array('align' => 'center', 'class' => 'row2'));

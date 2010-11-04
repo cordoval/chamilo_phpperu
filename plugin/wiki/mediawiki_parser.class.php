@@ -11,6 +11,7 @@ require_once dirname(__FILE__) . '/mediawiki/LinkCache.php';
 require_once dirname(__FILE__) . '/mediawiki/Defines.php';
 require_once dirname(__FILE__) . '/mediawiki/ParserOutput.php';
 require_once dirname(__FILE__) . '/mediawiki/Namespace.php';
+require_once dirname(__FILE__) . '/mediawiki_parser_context.class.php';
 
 function wfUrlProtocols()
 {
@@ -167,13 +168,16 @@ class MediawikiParser
     const PTD_FOR_INCLUSION = 1;
 
     private $mUniqPrefix;
-    private $wiki_page;
-    private $complex_wiki_display;
+    /**
+     * The context of the MediawikiParser
+     *
+     * @var MediawikiParserContext
+     */
+    private $mediawiki_parser_context;
 
-    function MediawikiParser($complex_wiki_display, $wiki_page)
+    function MediawikiParser(MediaWikiParserContext $mediawiki_parser_context)
     {
-        $this->complex_wiki_display = $complex_wiki_display;
-        $this->wiki_page = $wiki_page;
+        $this->mediawiki_parser_context = $mediawiki_parser_context;
         $this->mUniqPrefix = "\x7fUNIQ" . self :: getRandomString();
         $this->mLinkID = 0;
         $this->mOutput = new MediawikiParserOutput();
@@ -181,9 +185,9 @@ class MediawikiParser
         $this->mLinkHolders = new MediawikiLinkHolderArray($this);
     }
 
-    function get_complex_display()
+    function get_mediawiki_parser_context()
     {
-        return $this->complex_wiki_display;
+        return $this->mediawiki_parser_context;
     }
 
     /**
@@ -199,7 +203,7 @@ class MediawikiParser
 
     function parse()
     {
-        $text = $this->wiki_page->get_description();
+        $text = $this->mediawiki_parser_context->get_body();
         $text = $this->internalParse($text);
 
         # Clean up special characters, only run once, next-to-last before doBlockLevels
@@ -1635,7 +1639,7 @@ class MediawikiParser
 
         $prefix = '';
 
-        $selflink = array($this->wiki_page->get_title());
+        $selflink = array($this->mediawiki_parser_context->get_title());
 
         # Loop for each link
         for(; $line !== false && $line !== null; $a->next(), $line = $a->current())

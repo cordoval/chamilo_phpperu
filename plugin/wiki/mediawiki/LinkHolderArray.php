@@ -204,10 +204,11 @@ class MediawikiLinkHolderArray
 
         $title_condition = new OrCondition($title_conditions);
 
-        $complex_wiki_page_id = Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID);
-        $complex_wiki_page = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($complex_wiki_page_id);
+//        $complex_wiki_page_id = Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID);
+//        $complex_wiki_page = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($complex_wiki_page_id);
 
-        $wiki = $complex_wiki_page->get_parent_object();
+        $wiki = $this->parent->get_mediawiki_parser_context()->get_wiki();
+//        $wiki = $complex_wiki_page->get_parent_object();
         $wiki_pages = $wiki->get_wiki_pages_by_title($title_condition);
         $wiki_complex_ids = array();
 
@@ -242,11 +243,11 @@ class MediawikiLinkHolderArray
                     $linkCache->addBadLinkObj($title);
                     $colours[$pdbk] = 'new';
                     $output->addLink($title, 0);
-                    $replacePairs[$searchkey] = MediawikiLinker :: makeBrokenLinkObj($title, $entry['text'], $this->parent->get_complex_display()->get_parameters());
+                    $replacePairs[$searchkey] = MediawikiLinker :: makeBrokenLinkObj($title, $entry['text'], $this->parent->get_mediawiki_parser_context()->get_parameters());
                 }
                 else
                 {
-                    $query_parameters = $this->parent->get_complex_display()->get_parameters();
+                    $query_parameters = $this->parent->get_mediawiki_parser_context()->get_parameters();
                     $query_parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = WikiDisplay :: ACTION_VIEW_WIKI_PAGE;
                     $query_parameters[ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID] = $wiki_complex_ids[$pdbk];
 

@@ -2,9 +2,9 @@
 namespace repository\content_object\learning_path;
 
 use common\libraries\Path;
-use repository\content_object\assessment\AssessmentComplexDisplaySupport;
+//use repository\content_object\assessment\AssessmentComplexDisplaySupport;
 
-require Path :: get_repository_content_object_path() . 'assessment/php/display/assessment_complex_display_support.class.php';
+//require Path :: get_repository_content_object_path() . 'assessment/php/display/assessment_complex_display_support.class.php';
 
 /**
  * A class implements the <code>LearningPathComplexDisplaySupport</code> interface to
@@ -13,7 +13,7 @@ require Path :: get_repository_content_object_path() . 'assessment/php/display/a
  * @author  Hans De Bisschop
  */
 
-interface LearningPathComplexDisplaySupport extends AssessmentComplexDisplaySupport
+interface LearningPathComplexDisplaySupport
 {
 
     /**

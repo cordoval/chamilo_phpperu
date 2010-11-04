@@ -87,7 +87,7 @@ class ForumDisplayTopicViewerComponent extends ForumDisplay
 
         $this->display_footer();
 
-        $this->topic_viewed($this->get_complex_content_object_item_id());
+        $this->forum_topic_viewed($this->get_complex_content_object_item_id());
     }
 
     private function retrieve_children_trail($forum)

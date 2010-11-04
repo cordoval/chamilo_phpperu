@@ -10,6 +10,7 @@ use repository\ComplexDisplay;
 use repository\RepositoryManager;
 use repository\RepositoryDataManager;
 use MediawikiParser;
+use MediawikiParserContext;
 
 /**
  * $Id: wiki_item_viewer.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -26,6 +27,7 @@ use MediawikiParser;
 //require_once dirname(__FILE__) . '/../wiki_tool_component.class.php';
 require_once dirname(__FILE__) . '/wiki_page_table/wiki_page_table.class.php';
 require_once Path :: get_plugin_path() . 'wiki/mediawiki_parser.class.php';
+require_once Path :: get_plugin_path() . 'wiki/mediawiki_parser_context.class.php';
 
 class WikiDisplayWikiItemViewerComponent extends WikiDisplay
 {
@@ -72,11 +74,8 @@ class WikiDisplayWikiItemViewerComponent extends WikiDisplay
                 $html[] = '<div class="wiki-pane-content-version">' . Translation :: get('WikiOldVersion') . '</div>';
             }
 
-            //                $parser = new WikiParser($this, $this->get_root_content_object()->get_id(), $wiki_page->get_description(), $complex_wiki_page->get_id());
-            $parser = new MediawikiParser($this, $display_wiki_page);
+            $parser = new MediawikiParser(new MediawikiParserContext($this->get_root_content_object(), $display_wiki_page->get_title(), $display_wiki_page->get_description(), $this->get_parameters()));
 
-            //                $html[] = $parser->parse_wiki_text();
-            //                $html[] = $parser->get_wiki_text();
             $html[] = '<div class="wiki-pane-content-body">';
             $html[] = $parser->parse();
             $html[] = '<div class="clear"></div>';
@@ -94,7 +93,7 @@ class WikiDisplayWikiItemViewerComponent extends WikiDisplay
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(ComplexDisplay::PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_VIEW_COMPLEX_CONTENT_OBJECT)), $this->get_root_content_object()->get_title()));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_VIEW_COMPLEX_CONTENT_OBJECT)), $this->get_root_content_object()->get_title()));
     }
 
 }
