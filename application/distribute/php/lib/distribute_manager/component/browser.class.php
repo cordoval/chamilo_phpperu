@@ -86,5 +86,11 @@ class DistributeManagerBrowserComponent extends DistributeManager
     //		$user_condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_USER, $this->get_user_id());
     //		return new AndCondition($condition, $user_condition);
     }
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('distribute_browser');
+    }
+
 }
 ?>

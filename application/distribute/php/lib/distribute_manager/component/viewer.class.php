@@ -27,11 +27,6 @@ class DistributeManagerViewerComponent extends DistributeManager
         {
             $announcement_distribution = $this->retrieve_announcement_distribution($id);
             
-            $trail = BreadcrumbTrail :: get_instance();
-            $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => DistributeManager :: ACTION_BROWSE_ANNOUNCEMENT_DISTRIBUTIONS)), Translation :: get('Distribute')));
-            $trail->add(new Breadcrumb($this->get_url(array(DistributeManager :: PARAM_ANNOUNCEMENT_DISTRIBUTION => $id)), $announcement_distribution->get_distribution_object()->get_title()));
-            $trail->add_help('distribute general');
-            
             $this->action_bar = $this->get_action_bar();
             $output = $this->get_distribution_as_html($announcement_distribution);
             
@@ -74,6 +69,17 @@ class DistributeManagerViewerComponent extends DistributeManager
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         return $action_bar;
+    }
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION =>  self :: ACTION_BROWSE_ANNOUNCEMENT_DISTRIBUTIONS)), Translation :: get('DistributeManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('distribute_viewer');
+    }
+
+    function get_additional_parameters()
+    {
+    	return array(self :: PARAM_ANNOUNCEMENT_DISTRIBUTION);
     }
 }
 ?>
