@@ -23,11 +23,6 @@ class UserToolDetailsComponent extends UserTool
 
     function run()
     {
-        if (! $this->is_allowed(WeblcmsRights :: VIEW_RIGHT))
-        {
-            Display :: not_allowed();
-            return;
-        }
         $trail = BreadcrumbTrail :: get_instance();
 
         if (Request :: get('users') != null)

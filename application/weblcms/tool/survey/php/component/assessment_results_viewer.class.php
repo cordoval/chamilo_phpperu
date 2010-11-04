@@ -214,14 +214,6 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 
     function display_header($breadcrumbs = array())
     {
-        if (! Request :: get(AssessmentTool :: PARAM_INVITATION_ID))
-        {
-            if (! $this->is_allowed(WeblcmsRights :: VIEW_RIGHT))
-            {
-                Display :: not_allowed();
-                return false;
-            }
-        }
         $trail = BreadcrumbTrail :: get_instance();
         foreach ($breadcrumbs as $breadcrumb)
         {

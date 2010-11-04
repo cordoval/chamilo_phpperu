@@ -348,7 +348,7 @@ abstract class Tool extends SubManager
         $studentview = Session :: retrieve('studentview');
         if ($studentview == 1)
         {
-            return ($right == WeblcmsRights :: VIEW_RIGHT);
+            return false;
         }
 
         if ($this->get_parent()->is_teacher())

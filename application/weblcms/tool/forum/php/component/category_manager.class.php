@@ -16,7 +16,7 @@ class ForumToolCategoryManagerComponent extends ForumTool implements DelegateCom
 
     function run()
     {
-        if (! $this->is_allowed(WeblcmsRights :: VIEW_RIGHT))
+        if (! $this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             Display :: not_allowed();
             return;
