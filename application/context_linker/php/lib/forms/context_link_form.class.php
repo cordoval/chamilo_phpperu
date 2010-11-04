@@ -53,8 +53,6 @@ class ContextLinkForm extends MetadataForm
         $this->addElement('hidden', ContextLink :: PROPERTY_ALTERNATIVE_CONTENT_OBJECT_ID, Translation :: get('AlternativeContentObjectId'));
         //$this->addRule(ContextLink :: PROPERTY_ALTERNATIVE_CONTENT_OBJECT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
 
-        
-
         $this->build_empty_property_value();
 
         $this->addElement('hidden', ContextLink :: PROPERTY_DATE, Translation :: get('Date'));
@@ -138,7 +136,7 @@ class ContextLinkForm extends MetadataForm
     {
         $context_link = $this->context_link;
 
-        $defaults[ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID] = $context_link->get_original_content_object_id();
+        $defaults[parent :: PARENT_ID] = $context_link->get_original_content_object_id();
         $defaults[ContextLink :: PROPERTY_ALTERNATIVE_CONTENT_OBJECT_ID] = $context_link->get_alternative_content_object_id();
         $defaults[ContextLink :: PROPERTY_METADATA_PROPERTY_VALUE_ID] = $context_link->get_metadata_property_value_id();
         $defaults[ContextLink :: PROPERTY_DATE] = $context_link->get_date();
