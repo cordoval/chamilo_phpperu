@@ -453,6 +453,7 @@ require_once dirname(__FILE__).'/component/handbook_publication_browser/handbook
              //no "most suitable" found by metadata & preferences: pick first one as most suitable
              //todo: get rid of double!
              $alternatives[$label.'_main'] = current($array_to_check);
+             unset($array_to_check[key($array_to_check)]);
              $alternatives[$label] = array_merge($alternatives[$label],  $array_to_check);
          }
          $alternatives[$label] = array_merge($alternatives[$label],  $array_to_check);

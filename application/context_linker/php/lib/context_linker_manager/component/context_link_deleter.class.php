@@ -1,6 +1,12 @@
 <?php
 namespace application\context_linker;
 
+use common\libraries\Request;
+use common\libraries\Translation;
+use repository\RepositoryDataManager;
+use common\libraries\EqualityCondition;
+use common\libraries\OrCondition;
+
 /**
  * Component to delete context_links objects
  * @author Sven Vanpoucke
