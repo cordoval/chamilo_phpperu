@@ -50,12 +50,6 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool
 
     function run()
     {
-        // Check for rights
-        if (! $this->is_allowed(WeblcmsRights :: VIEW_RIGHT))
-        {
-            Display :: not_allowed();
-            return;
-        }
 
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses learnpath tool');

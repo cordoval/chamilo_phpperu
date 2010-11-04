@@ -6,6 +6,7 @@ use common\libraries\ToolbarItem;
 use common\libraries\Theme;
 use application\weblcms\ToolComponent;
 use common\libraries\Translation;
+use application\weblcms\WeblcmsRights;
 
 require_once dirname(__FILE__) . '/learning_path_browser/learning_path_cell_renderer.class.php';
 require_once dirname(__FILE__) . '/learning_path_browser/learning_path_column_model.class.php';
@@ -20,7 +21,10 @@ class LearningPathToolBrowserComponent extends LearningPathTool
 
     function get_tool_actions()
     {
-        $actions[] = new ToolbarItem(Translation :: get('ImportScorm'), Theme :: get_common_image_path() . 'action_import.png', $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_IMPORT_SCORM)));
+        if($this->is_allowed(WeblcmsRights :: ADD_RIGHT))
+        {
+            $actions[] = new ToolbarItem(Translation :: get('ImportScorm'), Theme :: get_common_image_path() . 'action_import.png', $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_IMPORT_SCORM)));
+        }
 
         return $actions;
     }

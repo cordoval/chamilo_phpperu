@@ -27,11 +27,6 @@ class DocumentToolSlideshowComponent extends DocumentTool
 
     function run()
     {
-        if (! $this->is_allowed(WeblcmsRights :: VIEW_RIGHT))
-        {
-            Display :: not_allowed();
-            return;
-        }
 
         $browser = new DocumentSlideshowBrowser($this);
         $this->action_bar = $this->get_action_bar();

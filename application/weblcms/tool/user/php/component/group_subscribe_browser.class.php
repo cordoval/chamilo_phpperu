@@ -34,11 +34,6 @@ class UserToolGroupSubscribeBrowserComponent extends UserTool
 
     function run()
     {
-        if (! $this->is_allowed(WeblcmsRights :: VIEW_RIGHT))
-        {
-            Display :: not_allowed();
-            return;
-        }
 
         $this->action_bar = $this->get_action_bar();
         $trail = BreadcrumbTrail :: get_instance();
