@@ -9,6 +9,9 @@ use common\libraries\DynamicTabsRenderer;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\ToolbarItem;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Request;
 
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'category_manager/component/subscribe_location_browser/subscribe_location_browser_table.class.php';
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'category_manager/component/browser.class.php';

@@ -4,8 +4,15 @@ namespace application\internship_organizer;
 use common\libraries\WebApplication;
 use common\libraries\Translation;
 use common\libraries\DynamicTabsRenderer;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Request;
 
+use common\extensions\repo_viewer\RepoViewer;
 use common\extensions\repo_viewer\RepoViewerInterface;
+
+use repository\content_object\document\Document;
+use repository\content_object\survey\Survey;
 
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'publisher/agreement_publisher.class.php';
 

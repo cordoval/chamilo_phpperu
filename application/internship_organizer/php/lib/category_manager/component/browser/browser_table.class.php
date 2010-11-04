@@ -6,6 +6,8 @@ use common\libraries\Utilities;
 use common\libraries\ObjectTable;
 use common\libraries\Translation;
 use common\libraries\ObjectTableFormAction;
+use common\libraries\ObjectTableFormActions;
+use common\libraries\Request;
 
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'category_manager/component/browser/browser_table_data_provider.class.php';
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'category_manager/component/browser/browser_table_column_model.class.php';

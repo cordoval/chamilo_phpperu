@@ -2,6 +2,7 @@
 namespace application\internship_organizer;
 
 use common\libraries\ObjectTable;
+use common\libraries\ObjectTableFormActions;
 
 /**
  * $Id: publication_browser_table.class.php 193 2009-11-13 11:53:37Z chellee $

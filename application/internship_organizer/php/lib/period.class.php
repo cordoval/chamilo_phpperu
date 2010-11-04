@@ -9,6 +9,8 @@ use common\libraries\InCondition;
 
 use user\User;
 
+use group\GroupDataManager;
+
 use rights\RightsUtilities;
 /**
  * internship_organizer

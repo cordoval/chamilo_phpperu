@@ -2,6 +2,7 @@
 namespace application\internship_organizer;
 
 use common\libraries\Translation;
+use common\libraries\Request;
 /**
  * $Id: unsubscriber.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package category.lib.category_manager.component

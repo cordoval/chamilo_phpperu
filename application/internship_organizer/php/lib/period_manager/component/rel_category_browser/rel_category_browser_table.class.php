@@ -5,6 +5,8 @@ use common\libraries\Utilities;
 use common\libraries\ObjectTable;
 use common\libraries\Translation;
 use common\libraries\ObjectTableFormAction;
+use common\libraries\ObjectTableFormActions;
+use common\libraries\Request;
 
 require_once dirname(__FILE__) . '/rel_category_browser_table_data_provider.class.php';
 require_once dirname(__FILE__) . '/rel_category_browser_table_column_model.class.php';

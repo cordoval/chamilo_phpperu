@@ -8,8 +8,14 @@ use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\InCondition;
 
+use repository\RepositoryDataManager;
+use repository\ContentObject;
+
 use user\UserDataManager;
 use user\User;
+
+use group\Group;
+use group\GroupDataManager;
 
 use application\internship_organizer\InternshipOrganizerDataManagerInterface;
 /**

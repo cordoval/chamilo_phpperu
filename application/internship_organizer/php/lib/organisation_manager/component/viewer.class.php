@@ -12,6 +12,11 @@ use common\libraries\AndCondition;
 use common\libraries\DynamicContentTab;
 use common\libraries\ToolbarItem;
 use common\libraries\InCondition;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+
+use repository\RepositoryDataManager;
+use repository\ContentObject;
 
 use user\UserDataManager;
 use user\User;

@@ -1,6 +1,8 @@
 <?php
 namespace application\internship_organizer;
+
 use common\libraries\Translation;
+use common\libraries\Request;
 
 /**
  * $Id: subscriber.class.php 224 2009-11-13 14:40:30Z kariboe $
