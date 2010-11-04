@@ -183,7 +183,7 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool implement
 
     function get_learning_path_tree_menu_url()
     {
-        return Path :: get(WEB_PATH) . 'run.php?go=course_viewer&course=' . Request :: get('course') . '&application=weblcms&tool=learning_path&tool_action=test&publication=' . $this->publication->get_id() . '&' . LearningPathDisplay :: PARAM_STEP . '=%s';
+        return Path :: get(WEB_PATH) . 'run.php?go=course_viewer&course=' . Request :: get('course') . '&application=weblcms&tool=learning_path&tool_action=complex_display&publication=' . $this->publication->get_id() . '&' . LearningPathDisplay :: PARAM_STEP . '=%s';
     }
 
     /**
