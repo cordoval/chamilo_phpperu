@@ -2,6 +2,7 @@
 namespace application\internship_organizer;
 
 use common\libraries\Translation;
+use common\libraries\Request;
 
 class InternshipOrganizerOrganisationManagerPublicationDeleterComponent extends InternshipOrganizerOrganisationManager
 {

@@ -4,6 +4,7 @@ namespace application\internship_organizer;
 use common\libraries\DataClass;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
+use common\libraries\InCondition;
 
 /**
  * This class describes a InternshipAgreementRelLocation data object

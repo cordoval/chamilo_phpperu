@@ -18,6 +18,8 @@ use repository\content_object\wiki_page\WikiPage;
 use application\metadata\MetadataManager;
 use repository\content_object\handbook_item\HandbookItem;
 use application\metadata\MetadataPropertyValue;
+use repository\content_object\handbook_topic\HandbookTopic;
+use repository\ContentObject;
 
 
 require_once dirname(__FILE__).'/../handbook_data_manager.class.php';
@@ -213,52 +215,72 @@ require_once dirname(__FILE__).'/component/handbook_publication_browser/handbook
         $handbooks = array();
         $rdm = RepositoryDataManager::get_instance();
 
-        while ($context_links_resultset != false && $item = $context_links_resultset->next_result())
+        $count = count($context_links_resultset);
+
+        while ($context_links_resultset != false && (count($context_links_resultset) > 0) && $item = each($context_links_resultset))
              {
                  $alternative_co = $rdm->retrieve_content_object($item[ContentObject :: PROPERTY_ID]);
-                 $display = ContentObjectDisplay :: factory($alternative_co);
+                 
 
-                 if($alternative_co->get_type() == Handbook::get_type_name())
-                    {
-                        $handbooks[] = $alternative_co;
-                    }
-                 else if($alternative_co->get_type() == Document::get_type_name())
+                 if($alternative_co)
                  {
-                     if($alternative_co->is_image())
+                    $display = ContentObjectDisplay :: factory($alternative_co);
+                     if($alternative_co->get_type() == Handbook::get_type_name())
+                        {
+                            $handbooks[] = $alternative_co;
+                        }
+                       else if($alternative_co->get_type() == HandbookTopic::get_type_name())
+                        {
+
+                            $texts[] = $alternative_co;
+                        }
+                     else if($alternative_co->get_type() == Document::get_type_name())
                      {
-                        $images[] = $alternative_co;
-                     }
-                      else if($alternative_co->is_flash() || $alternative_co->is_video() || $alternative_co->is_audio())
-                      {
-                        $videos[] = $alternative_co;
-                      }
-                      else
-                      {
-                          $texts[] = $alternative_co;
-                      }
-                    }
-                    else if($alternative_co->get_type() == Youtube::get_type_name())
-                    {
-                        $videos[] = $alternative_co;
-                    }
-                    else if($alternative_co->get_type() == Link::get_type_name())
-                    {
-                        $links[] = $alternative_co;
-                    }
-                    else if($alternative_co->get_type() == WikiPage::get_type_name())
-                    {
-                        $texts[] = $alternative_co;
-                    }
-                    else
-                    {
-                        $others[] = $alternative_co;
-                    }
+                         if($alternative_co->is_image())
+                         {
+                            $images[] = $alternative_co;
+                         }
+                          else if($alternative_co->is_flash() || $alternative_co->is_video() || $alternative_co->is_audio())
+                          {
+                            $videos[] = $alternative_co;
+                          }
+                          else if($alternative_co->is_showable())
+                          {
+                              $texts[] = $alternative_co;
+                          }
+                          else
+                          {
+                              $others[] = $alternative_co;
+                          }
+                        }
+                        else if($alternative_co->get_type() == Youtube::get_type_name())
+                        {
+                            $videos[] = $alternative_co;
+                        }
+                        else if($alternative_co->get_type() == Link::get_type_name())
+                        {
+                            $links[] = $alternative_co;
+                        }
+                        else if($alternative_co->get_type() == WikiPage::get_type_name())
+                        {
+                            $texts[] = $alternative_co;
+                        }
+                        else
+                        {
+                            $others[] = $alternative_co;
+                        }
+                 }
              }
 
             if($selected_object->get_type() == Handbook::get_type_name())
             {
                 $handbooks[] = $selected_object;
             }
+            else if($selected_object->get_type() == HandbookTopic::get_type_name())
+                    {
+
+                        $texts[] = $selected_object;
+                    }
              else if($selected_object->get_type() == Document::get_type_name())
              {
                  if($selected_object->is_image())

@@ -4,7 +4,7 @@
 		<name>Handbook</name>
 		<code>handbook</code>
 		<section>content_object</section>
-		<category>collaboration</category>
+		<category>handbook</category>
 		<author></author>
 		<version>1.0.0</version>
 		<filename>pool/main/objects/p/handbook/handbook-1.0.0.zip</filename>

@@ -1,4 +1,3 @@
-TEST = 
 Update = 
 Reset = 
 Create = 
@@ -22,4 +21,5 @@ ShowAllImageAlternatives =
 HideAllImageAlternatives = 
 ShowAllVideoAlternatives = 
 HideAllVideoAlternatives = 
-MyHandbook = 
+MyHandbook =
+HandbookManagerHandbookPublicationsBrowserComponent = "Browse Handbook Publications"

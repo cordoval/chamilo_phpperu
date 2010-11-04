@@ -25,9 +25,6 @@ class DistributeManagerBrowserComponent extends DistributeManager
 
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseDistribute')));
-        
         $this->display_header($trail);
         echo '<a name="top"></a>';
         echo $this->get_action_bar_html() . '';
@@ -89,5 +86,11 @@ class DistributeManagerBrowserComponent extends DistributeManager
     //		$user_condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_USER, $this->get_user_id());
     //		return new AndCondition($condition, $user_condition);
     }
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('distribute_browser');
+    }
+
 }
 ?>

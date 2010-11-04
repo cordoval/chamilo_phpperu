@@ -2,6 +2,8 @@
 namespace application\internship_organizer;
 
 use common\libraries\Translation;
+use common\libraries\FormValidator;
+use common\libraries\OptionsMenuRenderer;
 
 class InternshipOrganizerCategoryForm extends FormValidator
 {

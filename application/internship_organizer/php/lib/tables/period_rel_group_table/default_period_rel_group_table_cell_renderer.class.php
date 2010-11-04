@@ -3,6 +3,8 @@ namespace application\internship_organizer;
 
 use common\libraries\ObjectTableCellRenderer;
 
+use group\Group;
+
 class DefaultInternshipOrganizerPeriodRelGroupTableCellRenderer extends ObjectTableCellRenderer
 {
 

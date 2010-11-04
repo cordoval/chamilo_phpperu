@@ -4,6 +4,9 @@ namespace application\internship_organizer;
 use common\libraries\ObjectTableColumnModel;
 use common\libraries\ObjectTableColumn;
 
+use group\GroupDataManager;
+use group\Group;
+
 class DefaultInternshipOrganizerPeriodRelGroupTableColumnModel extends ObjectTableColumnModel
 {
 	/**

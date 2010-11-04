@@ -1,6 +1,7 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\Path;
 use common\libraries\ObjectTableCellRenderer;
 
 use user\User;

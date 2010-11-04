@@ -25,13 +25,6 @@ class DistributeManagerDistributorComponent extends DistributeManager implements
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => DistributeManager :: ACTION_BROWSE_ANNOUNCEMENT_DISTRIBUTIONS)), Translation :: get('Distribute')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Compose')));
-        $trail->add_help('distribute general');
-
-        
-
         if (!RepoViewer::is_ready_to_be_published())
         {
             $repo_viewer = RepoViewer :: construct($this);
@@ -47,6 +40,17 @@ class DistributeManagerDistributorComponent extends DistributeManager implements
     function get_allowed_content_object_types()
     {
         return array(Announcement :: get_type_name());
+    }
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => self :: ACTION_BROWSE_ANNOUNCEMENT_DISTRIBUTIONS)), Translation :: get('DistributeManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('distribute_distributor');
+    }
+
+    function get_additional_parameters()
+    {
+    	return array(RepoViewer :: PARAM_ACTION, RepoViewer :: PARAM_ID);
     }
 }
 ?>

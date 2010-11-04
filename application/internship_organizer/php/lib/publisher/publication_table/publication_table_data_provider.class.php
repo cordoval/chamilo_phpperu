@@ -1,6 +1,7 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\ObjectTableDataProvider;
 /**
  * $Id: publication_browser_table_data_provider.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.survey.survey_manager.component.publication_browser

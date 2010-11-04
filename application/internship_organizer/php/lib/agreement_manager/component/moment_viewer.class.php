@@ -11,6 +11,16 @@ use common\libraries\DynamicTabsRenderer;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\DynamicContentTab;
+use common\libraries\ToolbarItem;
+use common\libraries\InCondition;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Request;
+
+use repository\RepositoryDataManager;
+use repository\ContentObject;
+use repository\content_object\document\Document;
+use repository\content_object\survey\Survey;
 
 use user\UserDataManager;
 

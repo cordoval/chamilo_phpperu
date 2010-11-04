@@ -7,6 +7,8 @@ use user\UserDataManager;
 
 use rights\RightsUtilities;
 
+use repository\RepositoryDataManager;
+
 class InternshipOrganizerPublication extends DataClass
 {
     const CLASS_NAME = __CLASS__;

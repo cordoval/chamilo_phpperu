@@ -1,7 +1,9 @@
 <?php
 namespace application\internship_organizer;
 
+use common\libraries\Path;
 use common\libraries\Utilities;
+use common\libraries\Filesystem;
 
 abstract class InternshipOrganizerImport
 {
@@ -177,7 +179,7 @@ abstract class InternshipOrganizerImport
         
     	
     	$file = dirname(__FILE__) . '/' . $type . '/' . $type .'_'. $object_type.'_import.class.php';
-        $class = Utilities :: underscores_to_camelcase($type.'_'. $object_type) . 'Import';
+        $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type.'_'. $object_type) . 'Import';
         
         if (file_exists($file))
         {

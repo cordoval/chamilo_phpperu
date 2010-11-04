@@ -4,6 +4,9 @@ namespace application\internship_organizer;
 use common\libraries\WebApplication;
 use common\libraries\Translation;
 use common\libraries\DynamicTabsRenderer;
+use common\libraries\Request;
+
+use tracking\Event;
 
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'organisation_manager/component/mentor_viewer.class.php';
 

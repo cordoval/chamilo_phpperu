@@ -15,6 +15,7 @@ use admin\AdminManager;
 
 use repository\content_object\learning_path_item\LearningPathItem;
 use repository\content_object\portfolio_item\PortfolioItem;
+use repository\content_object\portfolio_item\HandbookItem;
 
 use home\HomeDataManager;
 /**

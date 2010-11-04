@@ -357,7 +357,8 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
                     //TEXT
                     //MAIN
                     $display = ContentObjectDisplay :: factory($alternatives_array['text_main']);
-                    $html[] = $display->get_description();
+                    $html[] = $display->get_full_html();
+                    $html[] = $alternatives_array['text_main']->get_text();
                     $html[] = '</div>';
                     //ALTERNATIVES
                     if(count($alternatives_array['text'])>0 )
@@ -370,7 +371,7 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
                          {
                              $html[] = $this->print_metadata($value->get_id());
                              $display = ContentObjectDisplay :: factory($value);
-                             $html[] = $display->get_description();
+                             $html[] = $display->get_full_html();
                              $html[] = '</div>';
                          }
                          $html[] = '</div>';
@@ -458,7 +459,9 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
                  while(list($key, $value)= each($alternatives_array['other']))
                  {
                      $html[] = $this->print_metadata($value->get_id());
+
                      $display = ContentObjectDisplay :: factory($value);
+                     
                      $html[] = $display->get_full_html();
                      $html[] = '</div>';
                  }

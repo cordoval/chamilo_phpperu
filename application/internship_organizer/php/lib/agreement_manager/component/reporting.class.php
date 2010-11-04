@@ -3,6 +3,13 @@ namespace application\internship_organizer;
 
 use common\libraries\Translation;
 use common\libraries\DelegateComponent;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Request;
+
+use common\extensions\reporting_viewer\ReportingViewer;
+
+use user\UserManager;
 
 class InternshipOrganizerAgreementManagerReportingComponent extends InternshipOrganizerAgreementManager implements DelegateComponent
 {

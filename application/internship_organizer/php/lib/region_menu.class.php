@@ -3,8 +3,12 @@ namespace application\internship_organizer;
 
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
+use common\libraries\OptionsMenuRenderer;
+use common\libraries\ObjectTableOrder;
+use common\libraries\TreeMenuRenderer;
 
 use HTML_Menu;
+use HTML_Menu_ArrayRenderer;
 /**
  * $Id: group_menu.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package group.lib

@@ -3,6 +3,14 @@ namespace application\internship_organizer;
 
 use common\libraries\Translation;
 use common\libraries\DynamicTabsRenderer;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Request;
+
+use repository\content_object\document\Document;
+
+use common\extensions\repo_viewer\RepoViewer;
+use common\extensions\repo_viewer\RepoViewerInterface;
 
 require_once dirname(__FILE__) . '/../../publisher/period_publisher.class.php';
 

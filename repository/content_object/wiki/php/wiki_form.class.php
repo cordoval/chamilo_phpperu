@@ -49,7 +49,8 @@ class WikiForm extends ContentObjectForm
         parent :: build_creation_form();
         $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
         $this->addElement('checkbox', 'locked', Translation :: get('WikiLocked'));
-        $this->addElement('textarea', 'links', Translation :: get('WikiToolBoxLinks'), array('rows' => 5, 'cols' => 100));
+        $this->add_html_editor('links', Translation :: get('WikiToolBoxLinks'), false);
+        //$this->addElement('textarea', 'links', Translation :: get('WikiToolBoxLinks'), array('rows' => 5, 'cols' => 100));
         $this->addElement('category');
     }
 
@@ -58,24 +59,25 @@ class WikiForm extends ContentObjectForm
         parent :: build_editing_form();
         $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
         $this->addElement('checkbox', 'locked', Translation :: get('WikiLocked'));
-        $this->addElement('textarea', 'links', Translation :: get('WikiToolBoxLinks'), array('rows' => 5, 'cols' => 100));
+        $this->add_html_editor('links', Translation :: get('WikiToolBoxLinks'), false);
+        //$this->addElement('textarea', 'links', Translation :: get('WikiToolBoxLinks'), array('rows' => 5, 'cols' => 100));
         $this->addElement('category');
     }
 
     function setDefaults($defaults = array ())
     {
-        
+
         $lo = $this->get_content_object();
         if (isset($lo))
         {
             $defaults[ContentObject :: PROPERTY_ID] = $lo->get_id();
-            
+
             $defaults[ContentObject :: PROPERTY_TITLE] = $lo->get_title();
             $defaults[ContentObject :: PROPERTY_DESCRIPTION] = $lo->get_description();
             $defaults[Wiki :: PROPERTY_LOCKED] = $lo->get_locked();
             $defaults[Wiki :: PROPERTY_LINKS] = $lo->get_links();
         }
-        
+
         parent :: setDefaults($defaults);
     }
 

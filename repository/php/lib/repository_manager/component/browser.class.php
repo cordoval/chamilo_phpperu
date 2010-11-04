@@ -22,6 +22,7 @@ use common\libraries\PatternMatchCondition;
 
 use repository\content_object\learning_path_item\LearningPathItem;
 use repository\content_object\portfolio_item\PortfolioItem;
+use repository\content_object\handbook_item\HandbookItem;
 /**
  * $Id: browser.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component
@@ -138,7 +139,7 @@ class RepositoryManagerBrowserComponent extends RepositoryManager
         $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_PARENT_ID, $this->get_parent_id());
         $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->get_user_id());
 
-        $types = array(LearningPathItem :: get_type_name(), PortfolioItem :: get_type_name());
+        $types = array(HandbookItem::get_type_name(), LearningPathItem :: get_type_name(), PortfolioItem :: get_type_name());
 
         foreach ($types as $type)
         {

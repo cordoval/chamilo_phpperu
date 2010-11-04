@@ -71,7 +71,7 @@ class PchartReportingChartFormatter extends ReportingChartFormatter
             $type = self :: get_type_name($display_mode[0] . '_' . $display_mode[1]);
 
             require_once dirname(__FILE__) . '/' . strtolower($type) . '_pchart_reporting_chart_formatter.class.php';
-            $class = Utilities :: underscores_to_camelcase($type) . 'PchartReportingChartFormatter';
+            $class = __NAMESPACE__ . '\\' . Utilities :: underscores_to_camelcase($type) . 'PchartReportingChartFormatter';
             $this->instance = new $class($this->get_block()); // (self :: $charttype);
         }
         return $this->instance;

@@ -4,8 +4,9 @@ namespace application\internship_organizer;
 use common\libraries\WebApplication;
 use common\libraries\Translation;
 use common\libraries\Theme;
+use common\libraries\ToolbarItem;
 
-require_once WebApplication :: get_component_path('internship_organizer') .'browser/browser_table_column_model.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer')  .'agreement_manager/component/browser/browser_table_column_model.class.php';
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'tables/agreement_table/default_agreement_table_cell_renderer.class.php';
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'agreement.class.php';
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'agreement_manager/agreement_manager.class.php';

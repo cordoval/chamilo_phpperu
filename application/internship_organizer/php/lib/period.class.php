@@ -5,8 +5,11 @@ use common\libraries\WebApplication;
 use common\libraries\NestedTreeNode;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
+use common\libraries\InCondition;
 
 use user\User;
+
+use group\GroupDataManager;
 
 use rights\RightsUtilities;
 /**

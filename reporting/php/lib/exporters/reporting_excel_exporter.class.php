@@ -1,5 +1,8 @@
 <?php
 namespace reporting;
+
+use common\libraries\Export;
+
 class ReportingExcelExporter extends ReportingExporter
 {
 	function export()

@@ -5,6 +5,7 @@ use common\libraries\Path;
 
 use repository\content_object\learning_path_item\LearningPathItem;
 use repository\content_object\portfolio_item\PortfolioItem;
+use repository\content_object\handbook_item\HandbookItem;
 
 /**
  * Export Content Objects.
@@ -62,7 +63,7 @@ class CpContentObjectExport extends CpeObjectExportBase{
         while($child = $children->next_result()){
 	        $properties = $child->get_default_properties();
     		$child_object = Chamilo::retrieve_content_object($child->get_ref());
-	        if($child_object instanceof LearningPathItem  || $child_object instanceof PortfolioItem){
+	        if($child_object instanceof LearningPathItem  || $child_object instanceof PortfolioItem || $child_object instanceof HandbookItem){
 	    		$child_object = Chamilo::retrieve_content_object($child_object->get_reference());
 	    	}
     		$properties[ContentObject::PROPERTY_TITLE] = $child_object->get_title();

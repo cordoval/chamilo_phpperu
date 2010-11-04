@@ -4,6 +4,11 @@ namespace application\internship_organizer;
 use common\libraries\Translation;
 use common\libraries\WebApplication;
 use common\libraries\Theme;
+use common\libraries\ToolbarItem;
+use common\libraries\Toolbar;
+
+use repository\ContentObject;
+use repository\content_object\survey\Survey;
 
 require_once dirname(__FILE__) . '/publication_table_column_model.class.php';
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'tables/publication_table/default_publication_table_cell_renderer.class.php';

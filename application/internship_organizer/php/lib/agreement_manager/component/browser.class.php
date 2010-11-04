@@ -10,10 +10,14 @@ use common\libraries\ActionBarSearchForm;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\DynamicContentTab;
+use common\libraries\ToolbarItem;
+use common\libraries\DynamicTabsRenderer;
+use common\libraries\InCondition;
 
 use user\UserDataManager;
+use user\User;
 
-require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'agreement_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'agreement_manager/agreement_manager.class.php';
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'agreement_manager/component/browser/browser_table.class.php';
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'user_type.class.php';
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'agreement_rel_user.class.php';
