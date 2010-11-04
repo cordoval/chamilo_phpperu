@@ -37,7 +37,7 @@ class UserMetadataEditorForm extends MetadataForm
 
     function build_basic_form()
     {
-        $this->addElement('hidden', UserMetadataPropertyValue :: PROPERTY_USER_ID);
+        $this->addElement('hidden', parent :: PARENT_ID);
 
         $this->build_empty_property_value();
 
@@ -88,7 +88,7 @@ class UserMetadataEditorForm extends MetadataForm
      */
     function setDefaults($defaults = array ())
     {
-        $defaults[UserMetadataPropertyValue :: PROPERTY_USER_ID] = $this->user->get_id();
+        $defaults[parent :: PARENT_ID] = $this->user->get_id();
 
         //metadata property values
         foreach($this->metadata_property_values as $metadata_property_value)

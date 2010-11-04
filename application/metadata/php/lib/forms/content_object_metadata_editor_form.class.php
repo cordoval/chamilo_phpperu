@@ -53,7 +53,7 @@ class ContentObjectMetadataEditorForm extends MetadataForm
     {
         $this->addElement('html', '<h3>' .Translation :: get('Predefined').'</h3>');
         
-        $this->addElement('hidden', MetadataPropertyValue :: PROPERTY_CONTENT_OBJECT_ID);
+        $this->addElement('hidden', parent :: PARENT_ID);
 
         $this->build_content_object_property_metadata_values();
 
@@ -209,7 +209,7 @@ class ContentObjectMetadataEditorForm extends MetadataForm
      */
     function setDefaults($defaults = array ())
     {
-        $defaults[MetadataPropertyValue :: PROPERTY_CONTENT_OBJECT_ID] = $this->content_object->get_id();
+        $defaults[parent :: PARENT_ID] = $this->content_object->get_id();
 
         //content object property attribute values
         foreach($this->metadata_property_attribute_values[MetadataPropertyAttributeValue :: RELATION_CONTENT_OBJECT_PROPERTY][$this->content_object->get_id()] as $id => $metadata_property_attribute_value)

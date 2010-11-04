@@ -272,7 +272,7 @@ class DatabaseMetadataDataManager extends Database implements MetadataDataManage
             return $property_values;
         }
 
-         function get_next_user_metadata_property_value_id()
+        function get_next_user_metadata_property_value_id()
 	{
 		return $this->get_next_id(UserMetadataPropertyValue :: get_table_name());
 	}
@@ -308,6 +308,46 @@ class DatabaseMetadataDataManager extends Database implements MetadataDataManage
 	function retrieve_user_metadata_property_values($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
 		return $this->retrieve_objects(UserMetadataPropertyValue :: get_table_name(), $condition, $offset, $max_objects, $order_by, UserMetadataPropertyValue :: CLASS_NAME);
+	}
+
+
+
+        function get_next_group_metadata_property_value_id()
+	{
+		return $this->get_next_id(GroupMetadataPropertyValue :: get_table_name());
+	}
+
+	function create_group_metadata_property_value($group_metadata_property_value)
+	{
+		return $this->create($group_metadata_property_value);
+	}
+
+	function update_group_metadata_property_value($group_metadata_property_value)
+	{
+		$condition = new EqualityCondition(MetadataPropertyValue :: PROPERTY_ID, $group_metadata_property_value->get_id());
+		return $this->update($group_metadata_property_value, $condition);
+	}
+
+	function delete_group_metadata_property_value($group_metadata_property_value)
+	{
+		$condition = new EqualityCondition(MetadataPropertyValue :: PROPERTY_ID, $group_metadata_property_value->get_id());
+		return $this->delete($group_metadata_property_value->get_table_name(), $condition);
+	}
+
+	function count_group_metadata_property_values($condition = null)
+	{
+		return $this->count_objects(GroupMetadataPropertyValue :: get_table_name(), $condition);
+	}
+
+	function retrieve_group_metadata_property_value($id)
+	{
+		$condition = new EqualityCondition(MetadataPropertyValue :: PROPERTY_ID, $id);
+		return $this->retrieve_object(GroupMetadataPropertyValue :: get_table_name(), $condition, null, GroupMetadataPropertyValue :: CLASS_NAME);
+	}
+
+	function retrieve_group_metadata_property_values($condition = null, $offset = null, $max_objects = null, $order_by = null)
+	{
+		return $this->retrieve_objects(GroupMetadataPropertyValue :: get_table_name(), $condition, $offset, $max_objects, $order_by, GroupMetadataPropertyValue :: CLASS_NAME);
 	}
 
 
@@ -482,10 +522,10 @@ class DatabaseMetadataDataManager extends Database implements MetadataDataManage
             return $this->delete(MetadataDefaultValue :: get_table_name(), $condition);
         }
 
-        function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_properties = null){}
-
-        function get_content_object_publication_attribute($publication_id){}
-
-        function count_publication_attributes($user = null, $object_id = null, $condition = null){}
+//        function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_properties = null){}
+//
+//        function get_content_object_publication_attribute($publication_id){}
+//
+//        function count_publication_attributes($user = null, $object_id = null, $condition = null){}
 }
 ?>
