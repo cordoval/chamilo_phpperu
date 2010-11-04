@@ -39,12 +39,14 @@ class HandbookPublicationBrowserTableDataProvider extends ObjectTableDataProvide
     }
 
     /**
-     * Gets the number of users in the table
+     * Gets the number of handbooks in the table
      * @return int
      */
     function get_object_count()
     {
-        return HandbookDataManager :: get_instance()->count_handbooks($this->get_condition());
+//        return 1;
+        $condition = $this->get_condition();
+        return HandbookDataManager :: get_instance()->count_handbook_publications($condition);
     }
 }
 ?>

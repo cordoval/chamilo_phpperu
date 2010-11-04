@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <packages>
 	<package>
-		<name>Handbook</name>
-		<code>handbook</code>
+		<name>HandbookTopic</name>
+		<code>handbook_topic</code>
 		<section>content_object</section>
 		<category>handbook</category>
 		<author></author>
 		<version>1.0.0</version>
-		<filename>pool/main/objects/p/handbook/handbook-1.0.0.zip</filename>
+		<filename>pool/main/objects/h/handbook_topic/handbook_topic-1.0.0.zip</filename>
 		<size></size>
 		<md5></md5>
 		<sha1></sha1>
@@ -24,13 +24,6 @@
 					<severity>1</severity>
 				</dependency>
 			</server>
-			<content_objects>
-				<dependency>
-		  			<id>handbook_item</id>
-		  			<version type="4">1.0.0</version>
-		  			<severity>1</severity>
-				</dependency>
-			</content_objects>
 		</dependencies>
 	</package>
 </packages>

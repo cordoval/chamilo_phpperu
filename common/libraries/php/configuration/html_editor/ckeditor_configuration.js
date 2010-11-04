@@ -9,7 +9,7 @@ CKEDITOR.editorConfig = function( config )
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
 	
-    config.extraPlugins = 'chamiloflash,chamiloyoutube,chamilovideo,chamiloaudio,chamilodailymotion,chamilovimeo,latex';
+    config.extraPlugins = 'chamiloflash,chamiloyoutube,chamilovideo,chamiloaudio,chamilodailymotion,chamilovimeo,latex,chamiloHandbookLink';
 	config.removePlugins = 'flash,elementspath,resize';
 	config.menu_groups = config.menu_groups + ',chamiloflash,chamiloyoutube,chamilovideo,chamiloaudio,chamilodailymotion,chamilovimeo,latex';
 	
@@ -51,6 +51,11 @@ CKEDITOR.editorConfig = function( config )
 	config.toolbar_WikiPage =
 		[
 		 	['Source','-','Maximize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','Link','Unlink','-','TextColor','BGColor','-','HorizontalRule','-','Image','Chamiloflash','-','Templates']
+		];
+
+        config.toolbar_HandbookItem =
+		[
+		 	['Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','TextColor','BGColor','-','HorizontalRule','-','chamiloHandbookLink','-','latex','-', 'Source','-','Maximize']
 		];
 
 	config.toolbar_RepositoryQuestion =
