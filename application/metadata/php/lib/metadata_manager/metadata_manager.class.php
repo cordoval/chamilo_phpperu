@@ -243,7 +243,7 @@ use common\libraries\Redirect;
     static function retrieve_metadata_for_content_object($co_id)
     {
          $condition = new EqualityCondition(MetadataPropertyValue :: PROPERTY_CONTENT_OBJECT_ID, $co_id);
-         $metadata_property_values = MetadataManager::retrieve_metadata_property_values($condition);
+         $metadata_property_values = MetadataManager::retrieve_content_object_metadata_property_values($condition);
          $metadata = array();
          while($mpv = $metadata_property_values->next_result())
         {

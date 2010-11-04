@@ -3,6 +3,12 @@ namespace repository\content_object\handbook;
 
 use repository\ComplexBuilderComponent;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\Request;
+use repository\RepositoryDataManager;
+use repository\ComplexContentObjectItemForm;
+use repository\content_object\handbook_item\HandbookItem;
+use repository\ContentObjectForm;
+use common\libraries\Translation;
 
 class HandbookBuilderUpdaterComponent extends HandbookBuilder
 {

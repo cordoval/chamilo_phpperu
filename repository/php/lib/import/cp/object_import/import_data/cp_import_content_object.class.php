@@ -5,6 +5,7 @@ use common\libraries\Path;
 
 use repository\content_object\learning_path_item\LearningPathItem;
 use repository\content_object\portfolio_item\PortfolioItem;
+use repository\content_object\portfolio_item\HandbookItem;
 
 /**
  *
@@ -158,10 +159,17 @@ class CpImportContentObject extends CpObjectImportBase{
                 	$child->set_reference($child->get_id());
                 	$child->save();
                 }
+                if($object instanceof Handbook && !($child instanceof Handbook)){
+                	$child = new HandbookItem();
+                	$child->set_reference($child->get_id());
+                	$child->save();
+                }
                 if($object instanceof LearningPath){
                 	$cloi = new ComplexLearningPathItem();
                 }else if($object instanceof Portfolio){
                 	$cloi = new ComplexPortfolioItem();
+                }else if($object instanceof Handbook){
+                	$cloi = new ComplexHandbookItem();
                 }else{
 	                $cloi = ComplexContentObjectItem::factory($child->get_type());
                 }

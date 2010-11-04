@@ -55,10 +55,10 @@ class DatabaseHandbookDataManager extends Database implements HandbookDataManage
 		return $this->delete($handbook_publication->get_table_name(), $condition);
 	}
 
-        function count_handbooks($condition = null)
-	{
-		return $this->count_objects(HandbookPublication :: get_table_name(), $condition);
-	}
+//        function count_handbooks($condition = null)
+//	{
+//		return $this->count_objects(HandbookPublication :: get_table_name(), $condition);
+//	}
 
 
 	function retrieve_handbooks($search_condition = null, $offset = null, $max_objects = null, $order_by = null)
@@ -74,7 +74,7 @@ class DatabaseHandbookDataManager extends Database implements HandbookDataManage
         function retrieve_published_handbooks($search_condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
                 $conditons = array();
-//                $conditions[] = $search_condition;
+                $conditions[] = $search_condition;
 //                $conditions[] = new EqualityCondition(ContentObject::PROPERTY_TYPE, 'handbook');
                  $conditions[] = new SubselectCondition(ContentObject::PROPERTY_ID, HandbookPublication::PROPERTY_CONTENT_OBJECT_ID, HandbookPublication::get_table_name(), null, null, HandbookDataManager::get_instance());
 
@@ -86,8 +86,21 @@ class DatabaseHandbookDataManager extends Database implements HandbookDataManage
 
 
 
-	function count_handbook_publications($condition = null)
+	function count_handbook_publications($search_condition = null)
 	{
+            $test= $search_condition->get_conditions();
+            if($test)
+            {
+                $conditons = array();
+                $conditions[] = $search_condition;
+                $conditions[] = new SubselectCondition(ContentObject::PROPERTY_ID, HandbookPublication::PROPERTY_CONTENT_OBJECT_ID, HandbookPublication::get_table_name(), null, null, HandbookDataManager::get_instance());
+
+                $condition = new AndCondition($conditions);
+            }
+            else
+            {
+                $search_condition = null;
+            }
 		return $this->count_objects(HandbookPublication :: get_table_name(), $condition);
 	}
         

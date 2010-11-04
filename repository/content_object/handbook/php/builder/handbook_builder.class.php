@@ -6,7 +6,7 @@ use common\libraries\ComplexMenuSupport;
 
 class HandbookBuilder extends ComplexBuilder implements ComplexMenuSupport
 {
-    const ACTION_CREATE_PORTFOLIO_ITEM = 'item_creator';
+    const ACTION_CREATE_HANDBOOK_ITEM = 'item_creator';
 
     function get_application_component_path()
     {
