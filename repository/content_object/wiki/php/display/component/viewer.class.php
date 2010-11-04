@@ -7,6 +7,7 @@ use common\libraries\Path;
 use common\libraries\BreadcrumbTrail;
 use repository\ComplexDisplay;
 use MediawikiParser;
+use MediawikiParserContext;
 
 /**
  * $Id: wiki_viewer.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -22,6 +23,7 @@ use MediawikiParser;
 
 require_once dirname(__FILE__) . '/wiki_page_table/wiki_page_table.class.php';
 require_once Path :: get_plugin_path() . 'wiki/mediawiki_parser.class.php';
+require_once Path :: get_plugin_path() . 'wiki/mediawiki_parser_context.class.php';
 
 class WikiDisplayViewerComponent extends WikiDisplay
 {
@@ -43,7 +45,7 @@ class WikiDisplayViewerComponent extends WikiDisplay
 
                 $wiki_homepage = $complex_wiki_homepage->get_ref_object();
 
-                $parser = new MediawikiParser($this, $wiki_homepage);
+                $parser = new MediawikiParser(new MediawikiParserContext($wiki_homepage->get_title(), $wiki_homepage->get_description(), $this->get_parameters()));
 
                 $html[] = '<div class="wiki-pane-content-title">' . $wiki_homepage->get_title() . '</div>';
                 $html[] = '<div class="wiki-pane-content-subtitle">' . Translation :: get('From') . ' ' . $this->get_root_content_object()->get_title() . '</div>';

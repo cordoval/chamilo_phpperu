@@ -242,11 +242,11 @@ class MediawikiLinkHolderArray
                     $linkCache->addBadLinkObj($title);
                     $colours[$pdbk] = 'new';
                     $output->addLink($title, 0);
-                    $replacePairs[$searchkey] = MediawikiLinker :: makeBrokenLinkObj($title, $entry['text'], $this->parent->get_complex_display()->get_parameters());
+                    $replacePairs[$searchkey] = MediawikiLinker :: makeBrokenLinkObj($title, $entry['text'], $this->parent->get_mediawiki_parser_context()->get_parameters());
                 }
                 else
                 {
-                    $query_parameters = $this->parent->get_complex_display()->get_parameters();
+                    $query_parameters = $this->parent->get_mediawiki_parser_context()->get_parameters();
                     $query_parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = WikiDisplay :: ACTION_VIEW_WIKI_PAGE;
                     $query_parameters[ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID] = $wiki_complex_ids[$pdbk];
 
