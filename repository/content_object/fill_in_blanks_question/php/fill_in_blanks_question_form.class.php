@@ -17,7 +17,8 @@ require_once dirname(__FILE__) . '/fill_in_blanks_question_answer.class.php';
 class FillInBlanksQuestionForm extends ContentObjectForm
 {
 
-    protected function build_creation_form(){
+    protected function build_creation_form()
+    {
         parent :: build_creation_form();
         $this->addElement('category', Translation :: get('AnswerOptions'));
 
@@ -34,7 +35,8 @@ class FillInBlanksQuestionForm extends ContentObjectForm
         $this->addElement('category');
     }
 
-    protected function build_editing_form(){
+    protected function build_editing_form()
+    {
         parent :: build_editing_form();
         $this->addElement('category', Translation :: get('AnswerOptions'));
 
@@ -52,19 +54,24 @@ class FillInBlanksQuestionForm extends ContentObjectForm
         $this->addElement('category');
     }
 
-    function setDefaults($defaults = array ()){
-        if (! $this->isSubmitted()){
+    function setDefaults($defaults = array ())
+    {
+        if (! $this->isSubmitted())
+        {
             $object = $this->get_content_object();
-            if ($object->get_number_of_questions() != 0){
+            if ($object->get_number_of_questions() != 0)
+            {
                 //$options = $object->get_answers();
                 $defaults['answer'] = $object->get_answer_text();
-                $defaults[FillInBlanksQuestion::PROPERTY_QUESTION_TYPE] = $object->get_question_type();
-            }else{
+                $defaults[FillInBlanksQuestion :: PROPERTY_QUESTION_TYPE] = $object->get_question_type();
+            }
+            else
+            {
                 $defaults['answer'] = '';
-                $defaults[FillInBlanksQuestion::PROPERTY_QUESTION_TYPE] = FillInBlanksQuestion::TYPE_TEXT;
+                $defaults[FillInBlanksQuestion :: PROPERTY_QUESTION_TYPE] = FillInBlanksQuestion :: TYPE_TEXT;
             }
 
-            parent::setDefaults($defaults);
+            parent :: setDefaults($defaults);
             return;
         }
     }
@@ -75,7 +82,7 @@ class FillInBlanksQuestionForm extends ContentObjectForm
         $object = new FillInBlanksQuestion();
         $this->set_content_object($object);
         $object->set_answer_text($values['answer']);
-        $object->set_question_type($values[FillInBlanksQuestion::PROPERTY_QUESTION_TYPE]);
+        $object->set_question_type($values[FillInBlanksQuestion :: PROPERTY_QUESTION_TYPE]);
         return parent :: create_content_object();
     }
 
@@ -84,8 +91,8 @@ class FillInBlanksQuestionForm extends ContentObjectForm
         $values = $this->exportValues();
         $object = $this->get_content_object();
         $object->set_answer_text($values['answer']);
-        $object->set_question_type($values[FillInBlanksQuestion::PROPERTY_QUESTION_TYPE]);
-        return parent::update_content_object();
+        $object->set_question_type($values[FillInBlanksQuestion :: PROPERTY_QUESTION_TYPE]);
+        return parent :: update_content_object();
     }
 
     function validate()
@@ -101,16 +108,17 @@ class FillInBlanksQuestionForm extends ContentObjectForm
      * Adds the form-fields to the form to provide the possible options for this
      * multiple choice question
      */
-    private function add_options(){
+    private function add_options()
+    {
         $values = $this->exportValues();
-        $answers = FillInBlanksQuestionAnswer::parse($values['answer']);
+        $answers = FillInBlanksQuestionAnswer :: parse($values['answer']);
 
         $style = (count($answers) == 0) ? 'style="display: none;"' : '';
 
         $html = array();
         $html[] = '<div id="answers_table" class="row" ' . $style . '">';
         $html[] = '<div class="label">';
-        $html[] = Translation::get('Answers');
+        $html[] = Translation :: get('Answers');
         $html[] = '</div>';
         $html[] = '<div class="formw">';
         $html[] = '<div class="element">';
@@ -127,17 +135,19 @@ class FillInBlanksQuestionForm extends ContentObjectForm
 
         $position = 0;
         $css_class = 'row_even';
-        foreach($answers as $answer){
-			if($answer->get_position() != $position){
-				$position = $answer->get_position();
-				$css_class = $css_class == 'row_even' ? 'row_odd' : 'row_even';
-			}
-			$html[] = '<tr class="'. $css_class .'">';
-			$html[] = '<td>' . ($answer->get_position()+1) . '</td>';
-			$html[] = '<td>' . str_replace("\n", '<br/>', $answer->get_value()) . '</td>';
-			$html[] = '<td>' . str_replace("\n", '<br/>', $answer->get_comment()) . ' </td>';
-			$html[] = '<td>' . $answer->get_weight() . '</td>';
-			$html[] = '</tr>';
+        foreach ($answers as $answer)
+        {
+            if ($answer->get_position() != $position)
+            {
+                $position = $answer->get_position();
+                $css_class = $css_class == 'row_even' ? 'row_odd' : 'row_even';
+            }
+            $html[] = '<tr class="' . $css_class . '">';
+            $html[] = '<td>' . ($answer->get_position() + 1) . '</td>';
+            $html[] = '<td>' . str_replace("\n", '<br/>', $answer->get_value()) . '</td>';
+            $html[] = '<td>' . str_replace("\n", '<br/>', $answer->get_comment()) . ' </td>';
+            $html[] = '<td>' . $answer->get_weight() . '</td>';
+            $html[] = '</tr>';
         }
 
         $html[] = '</tbody>';
