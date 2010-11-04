@@ -17,7 +17,10 @@ use common\libraries\Path;
 use common\libraries\DelegateComponent;
 use common\libraries\Translation;
 use common\libraries\WebApplication;
+
 use repository\content_object\forum\Forum;
+use repository\content_object\forum\ForumComplexDisplaySupport;
+
 use application\weblcms\WeblcmsForumTopicViewsTracker;
 use tracking\Event;
 
@@ -26,8 +29,9 @@ use tracking\Event;
  * @package application.lib.weblcms.tool.forum.component
  */
 require_once dirname(__FILE__) . '/../forum_tool.class.php';
+require_once Path :: get_repository_content_object_path() . 'forum/php/display/forum_complex_display_support.class.php';
 
-class ForumToolViewerComponent extends ForumTool implements DelegateComponent
+class ForumToolViewerComponent extends ForumTool implements DelegateComponent, ForumComplexDisplaySupport
 {
 
     private $trail;
@@ -74,7 +78,7 @@ class ForumToolViewerComponent extends ForumTool implements DelegateComponent
         return parent :: display_header();
     }
 
-    function topic_viewed($complex_topic_id)
+    function forum_topic_viewed($complex_topic_id)
     {
         require_once WebApplication :: get_application_class_path(WeblcmsManager :: APPLICATION_NAME) . 'trackers/weblcms_forum_topic_views_tracker.class.php';
 
@@ -86,7 +90,7 @@ class ForumToolViewerComponent extends ForumTool implements DelegateComponent
         Event :: trigger('view_forum_topic', WeblcmsManager :: APPLICATION_NAME, $parameters);
     }
 
-    function count_topic_views($complex_topic_id)
+    function forum_count_topic_views($complex_topic_id)
     {
         require_once WebApplication :: get_application_class_path(WeblcmsManager :: APPLICATION_NAME) . 'trackers/weblcms_forum_topic_views_tracker.class.php';
 

@@ -40,14 +40,14 @@ class ForumDisplay extends ComplexDisplay
         return dirname(__FILE__) . '/component/';
     }
 
-    function topic_viewed($complex_topic_id)
+    function forum_topic_viewed($complex_topic_id)
     {
-        return $this->get_parent()->topic_viewed($complex_topic_id);
+        return $this->get_parent()->forum_topic_viewed($complex_topic_id);
     }
 
-    function count_topic_views($complex_topic_id)
+    function forum_count_topic_views($complex_topic_id)
     {
-        return $this->get_parent()->count_topic_views($complex_topic_id);
+        return $this->get_parent()->forum_count_topic_views($complex_topic_id);
     }
 
     /**
@@ -66,6 +66,7 @@ class ForumDisplay extends ComplexDisplay
         if ($complex_content_object_item_id)
         {
             $complex_content_object_item = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($complex_content_object_item_id);
+
             if ($complex_content_object_item instanceof ComplexForumTopic)
             {
                 return self :: ACTION_VIEW_TOPIC;
@@ -77,7 +78,7 @@ class ForumDisplay extends ComplexDisplay
         }
         else
         {
-            return self :: DEFAULT_ACTION;
+            return self :: ACTION_VIEW_FORUM;
         }
     }
 
