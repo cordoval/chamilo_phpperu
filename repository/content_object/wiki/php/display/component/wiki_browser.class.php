@@ -19,7 +19,6 @@ use common\libraries\PatternMatchCondition;
  */
 
 require_once dirname(__FILE__) . '/wiki_page_table/wiki_page_table.class.php';
-require_once dirname(__FILE__) . '/../wiki_parser.class.php';
 require_once Path :: get_plugin_path() . 'wiki/mediawiki_parser.class.php';
 
 class WikiDisplayWikiBrowserComponent extends WikiDisplay
