@@ -7,6 +7,7 @@ use common\libraries\Translation;
 use common\libraries\Theme;
 use common\libraries\EqualityCondition;
 use common\libraries\ToolbarItem;
+use common\libraries\Toolbar;
 
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'category_manager/component/browser/browser_table_column_model.class.php';
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'tables/category_table/default_category_table_cell_renderer.class.php';

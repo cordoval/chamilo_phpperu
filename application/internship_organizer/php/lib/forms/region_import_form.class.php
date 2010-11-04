@@ -5,6 +5,7 @@ use common\libraries\WebApplication;
 use common\libraries\Translation;
 use common\libraries\FormValidator;
 use common\libraries\OptionsMenuRenderer;
+use common\libraries\Filesystem;
 
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'import/internship_organizer_import.class.php';
 
