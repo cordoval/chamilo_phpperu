@@ -1,8 +1,9 @@
 <?php
-
 namespace application\reservations;
 
 use common\libraries\Translation;
+use common\libraries\Request;
+
 use tracking\Event;
 use tracking\ChangesTracker;
 /**
