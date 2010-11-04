@@ -40,6 +40,14 @@ class MetadataManagerContentObjectMetadataEditorComponent extends MetadataManage
             $conditions_allowed[] = new EqualityCondition(MetadataAttributeNesting :: PROPERTY_PARENT_ID, $metadata_property_value->get_property_type_id());
         }
 
+        foreach ($content_object_property_metadata as $id => $object)
+        {
+            $condition1 = new EqualityCondition(MetadataPropertyAttributeValue :: PROPERTY_PARENT_ID, $object->get_id());
+            $condition2 = new EqualityCondition(MetadataPropertyAttributeValue :: PROPERTY_CONTENT_OBJECT_ID, $content_object->get_id());
+            $property_value_conditions[] = new AndCondition($condition1, $condition2);
+            $conditions_allowed[] = new EqualityCondition(MetadataAttributeNesting :: PROPERTY_PARENT_ID, $object->get_property_type_id());
+        }
+
         $metadata_property_attribute_values = array();
 
         if(count($property_value_conditions))

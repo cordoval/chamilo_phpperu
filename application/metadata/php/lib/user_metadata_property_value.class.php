@@ -36,7 +36,7 @@ class UserMetadataPropertyValue extends MetadataPropertyValue
      */
     function get_user_id()
     {
-            return $this->get_default_property(self :: PROPERTY_user_ID);
+            return $this->get_default_property(self :: PROPERTY_USER_ID);
     }
 
     /**

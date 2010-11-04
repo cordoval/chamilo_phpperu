@@ -20,11 +20,6 @@ class CourseGroupToolSelfSubscriberComponent extends CourseGroupTool
 
     function run()
     {
-        if (! $this->is_allowed(WeblcmsRights :: VIEW_RIGHT))
-        {
-            Display :: not_allowed();
-            return;
-        }
 
         $course_group = $this->get_course_group();
         $course_group->subscribe_users($this->get_user_id());

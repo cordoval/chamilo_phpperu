@@ -76,6 +76,35 @@ Interface MetadataDataManagerInterface
 
     function retrieve_full_content_object_metadata_property_values($condition = null, $offset = null, $max_objects = null, $order_by = null);
 
+    function get_next_user_metadata_property_value_id();
+
+    function create_user_metadata_property_value($user_metadata_property_value);
+
+    function update_user_metadata_property_value($user_metadata_property_value);
+
+    function delete_user_metadata_property_value($user_metadata_property_value);
+
+    function count_user_metadata_property_values($condition = null);
+
+    function retrieve_user_metadata_property_value($id);
+
+    function retrieve_group_metadata_property_values($condition = null, $offset = null, $max_objects = null, $order_by = null);
+
+    function get_next_group_metadata_property_value_id();
+
+    function create_group_metadata_property_value($group_metadata_property_value);
+
+    function update_group_metadata_property_value($group_metadata_property_value);
+
+    function delete_group_metadata_property_value($group_metadata_property_value);
+
+    function count_group_metadata_property_values($condition = null);
+
+    function retrieve_group_metadata_property_value($id);
+//
+//    function retrieve_metadata_property_values($condition = null, $offset = null, $max_objects = null, $order_by = null);
+//
+//    function retrieve_metadata_property_values($condition = null, $offset = null, $max_objects = null, $order_by = null);
 //    function get_next_metadata_property_value_id();
 //
 //    function create_metadata_property_value($metadata_property_value);

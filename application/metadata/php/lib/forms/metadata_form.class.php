@@ -14,7 +14,8 @@ class MetadataForm extends FormValidator
 
     const PARENT_USER = 'user';
     const PARENT_CONTENT_OBJECT = 'content_object';
-    
+    const PARENT_ID = 'parent_id';
+
     function MetadataForm($name, $method, $action)
     {
         $this->retrieve_property_types();
@@ -75,14 +76,18 @@ class MetadataForm extends FormValidator
 
         $metadata_property_value = new $class();
         
-        if($this->parent_type == self :: PARENT_CONTENT_OBJECT)
-        {
-            $metadata_property_value->set_content_object_id($values[ContentObjectMetadataPropertyValue :: PROPERTY_CONTENT_OBJECT_ID]);
-        }
-        elseif($this->parent_type == self :: PARENT_USER)
-        {
-            $metadata_property_value->set_user_id($values[UserMetadataPropertyValue :: PROPERTY_USER_ID]);
-        }
+//        if($this->parent_type == self :: PARENT_CONTENT_OBJECT)
+//        {
+//            $metadata_property_value->set_content_object_id($values[ContentObjectMetadataPropertyValue :: PROPERTY_CONTENT_OBJECT_ID]);
+//        }
+//        elseif($this->parent_type == self :: PARENT_USER)
+//        {
+//            $metadata_property_value->set_user_id($values[UserMetadataPropertyValue :: PROPERTY_USER_ID]);
+//        }
+
+        $function = 'set_' . $this->get_parent_type() . '_id';
+
+        $metadata_property_value->$function($values[self :: PARENT_ID]);
         
         $metadata_property_value->set_property_type_id($values[MetadataPropertyValue :: PROPERTY_PROPERTY_TYPE_ID]);
         $metadata_property_value->set_value($values[MetadataPropertyValue :: PROPERTY_VALUE]);

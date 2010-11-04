@@ -36,24 +36,26 @@ class ContextLinkForm extends MetadataForm
         if ($this->form_type == self :: TYPE_ORIGINAL)
         {
                 $this->build_basic_form();
+                $this->setDefaults(array(parent :: PARENT_ID => $context_link->get_original_content_object_id()));
         }
         elseif ($this->form_type == self :: TYPE_ALTERNATIVE)
         {
                 $this->build_alternative_form();
+                $this->setDefaults(array(parent :: PARENT_ID => $context_link->get_alternative_content_object_id()));
         }
 
-        $this->setDefaults();
+        
     }
 
     function build_basic_form()
     {
-        $this->addElement('hidden', ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID, Translation :: get('OriginalContentObjectId'));
+        $this->addElement('hidden', parent :: PARENT_ID);
+
+        $this->addElement('hidden', ContextLink :: PROPERTY_ORIGINAL_CONTENT_OBJECT_ID);
         //$this->addRule(ContextLink :: PROPERTY_ORIGINAL_CONTENT_OBJECT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
 
-        $this->addElement('hidden', ContextLink :: PROPERTY_ALTERNATIVE_CONTENT_OBJECT_ID, Translation :: get('AlternativeContentObjectId'));
+        $this->addElement('hidden', ContextLink :: PROPERTY_ALTERNATIVE_CONTENT_OBJECT_ID);
         //$this->addRule(ContextLink :: PROPERTY_ALTERNATIVE_CONTENT_OBJECT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
-
-        
 
         $this->build_empty_property_value();
 
@@ -64,7 +66,6 @@ class ContextLinkForm extends MetadataForm
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
-
     }
 
 //    function build_editing_form()
@@ -79,7 +80,7 @@ class ContextLinkForm extends MetadataForm
 //        $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 //    }
 
-
+   
     function build_alternative_form()
     {
     	if(count($this->metadata_property_values))
@@ -122,7 +123,7 @@ class ContextLinkForm extends MetadataForm
             $context_link->set_metadata_property_value_id($values[ContextLink :: PROPERTY_METADATA_PROPERTY_VALUE_ID]);
         }
 
-    	$context_link->set_original_content_object_id($values[ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID]);
+    	$context_link->set_original_content_object_id($values[ContextLink :: PROPERTY_ORIGINAL_CONTENT_OBJECT_ID]);
     	$context_link->set_alternative_content_object_id($values[ContextLink :: PROPERTY_ALTERNATIVE_CONTENT_OBJECT_ID]);
     	
     	$context_link->set_date($values[ContextLink :: PROPERTY_DATE]);
@@ -138,7 +139,7 @@ class ContextLinkForm extends MetadataForm
     {
         $context_link = $this->context_link;
 
-        $defaults[ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID] = $context_link->get_original_content_object_id();
+        $defaults[ContextLink :: PROPERTY_ORIGINAL_CONTENT_OBJECT_ID] = $context_link->get_original_content_object_id();
         $defaults[ContextLink :: PROPERTY_ALTERNATIVE_CONTENT_OBJECT_ID] = $context_link->get_alternative_content_object_id();
         $defaults[ContextLink :: PROPERTY_METADATA_PROPERTY_VALUE_ID] = $context_link->get_metadata_property_value_id();
         $defaults[ContextLink :: PROPERTY_DATE] = $context_link->get_date();

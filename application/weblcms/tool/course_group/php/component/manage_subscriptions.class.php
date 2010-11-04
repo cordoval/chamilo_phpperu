@@ -24,11 +24,6 @@ class CourseGroupToolManageSubscriptionsComponent extends CourseGroupTool
 
     function run()
     {
-        if (! $this->is_allowed(WeblcmsRights :: VIEW_RIGHT))
-        {
-            Display :: not_allowed();
-            return;
-        }
 
         $course_group_id = Request :: get(CourseGroupTool :: PARAM_COURSE_GROUP);
         $wdm = WeblcmsDataManager :: get_instance();
