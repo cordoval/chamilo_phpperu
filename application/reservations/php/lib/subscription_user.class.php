@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace application\reservations;
 
@@ -11,17 +11,17 @@ use common\libraries\DataClass;
  */
 
 /**
- *	@author Sven Vanpoucke
+ * @author Sven Vanpoucke
  */
 
 class SubscriptionUser extends DataClass
 {
     const PROPERTY_SUBSCRIPTION_ID = 'subscription_id';
     const PROPERTY_USER_ID = 'user_id';
-    
+
     const GROUP = 1;
     const USER = 2;
-    
+
     const CLASS_NAME = __CLASS__;
 
     /**
@@ -65,6 +65,7 @@ class SubscriptionUser extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 }
+?>

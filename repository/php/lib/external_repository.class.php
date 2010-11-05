@@ -9,7 +9,7 @@ use common\libraries\EqualityCondition;
 class ExternalRepository extends RepositoryDataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_TITLE = 'title';
     const PROPERTY_DESCRIPTION = 'description';
     const PROPERTY_TYPE = 'type';
@@ -17,9 +17,9 @@ class ExternalRepository extends RepositoryDataClass
     const PROPERTY_METADATA_XSL_FILENAME = 'metadata_xsl_filename';
     const PROPERTY_TYPED_EXTERNAL_REPOSITORY_ID = 'typed_external_repository_id';
     const PROPERTY_ENABLED = 'enabled';
-    
+
     const CATALOG_REPOSITORY_LIST = 'repository_list';
-    
+
     /**
      * Contains a list of already required export types
      * Allow to spare some business logic processing
@@ -34,7 +34,7 @@ class ExternalRepository extends RepositoryDataClass
     }
 
     /*************************************************************************/
-    
+
     function set_title($title)
     {
         if (isset($title) && strlen($title) > 0)
@@ -52,7 +52,7 @@ class ExternalRepository extends RepositoryDataClass
     }
 
     /*************************************************************************/
-    
+
     function set_description($description)
     {
         if (isset($description) && strlen($description) > 0)
@@ -87,7 +87,7 @@ class ExternalRepository extends RepositoryDataClass
     }
 
     /*************************************************************************/
-    
+
     function set_catalog_name($catalog_name)
     {
         if (isset($catalog_name) && strlen($catalog_name) > 0)
@@ -105,7 +105,7 @@ class ExternalRepository extends RepositoryDataClass
     }
 
     /*************************************************************************/
-    
+
     function set_metadata_xsl_filename($metadata_xsl_filename)
     {
         if (isset($metadata_xsl_filename) && strlen($metadata_xsl_filename) > 0)
@@ -123,7 +123,7 @@ class ExternalRepository extends RepositoryDataClass
     }
 
     /*************************************************************************/
-    
+
     function set_typed_external_repository_id($id)
     {
         if (isset($id) && strlen($id) > 0)
@@ -141,7 +141,7 @@ class ExternalRepository extends RepositoryDataClass
     }
 
     /*************************************************************************/
-    
+
     function set_enabled($enabled)
     {
         if (isset($enabled) && is_bool($enabled))
@@ -164,7 +164,7 @@ class ExternalRepository extends RepositoryDataClass
     }
 
     /*************************************************************************/
-    
+
     static function get_default_property_names($extended_property_names = array())
     {
         $extended_property_names[] = self :: PROPERTY_TITLE;
@@ -174,18 +174,17 @@ class ExternalRepository extends RepositoryDataClass
         $extended_property_names[] = self :: PROPERTY_METADATA_XSL_FILENAME;
         $extended_property_names[] = self :: PROPERTY_TYPED_EXTERNAL_REPOSITORY_ID;
         $extended_property_names[] = self :: PROPERTY_ENABLED;
-        
+
         return parent :: get_default_property_names($extended_property_names);
     }
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 
     /*************************************************************************/
-    
+
     /**
      * Load the object properties from the datasource if the object instance has already an ID set.
      *
@@ -196,21 +195,21 @@ class ExternalRepository extends RepositoryDataClass
         if ($this->is_identified())
         {
             $dm = RepositoryDataManager :: get_instance();
-            
+
             $condition = new EqualityCondition(self :: PROPERTY_ID, $this->get_id());
-            
+
             $result_set = $dm->retrieve_external_repository_condition($condition);
             $object = $result_set->next_result();
-            
+
             if (isset($object))
             {
                 $this->set_default_properties($object->get_default_properties());
-                
+
                 //	            foreach (self :: get_default_property_names() as $property_name)
                 //	            {
                 //	            	$this->set_default_property($property_name, $object->get_default_property($property_name));
                 //	            }
-                
+
 
                 return true;
             }
@@ -238,11 +237,11 @@ class ExternalRepository extends RepositoryDataClass
             if (ExternalRepository :: require_once_external_repository_class_file($type))
             {
                 $class_name = 'ExternalRepository' . Utilities :: underscores_to_camelcase($type);
-                
+
                 $typed_repository = new $class_name();
-                
+
                 $typed_repository->set_id($this->get_typed_external_repository_id());
-                
+
                 if ($typed_repository->get())
                 {
                     return $typed_repository;
@@ -272,20 +271,20 @@ class ExternalRepository extends RepositoryDataClass
     function get_by_typed_external_repository_id()
     {
         $typed_external_repository_id = $this->get_typed_external_repository_id();
-        
+
         if (isset($typed_external_repository_id) && $typed_external_repository_id != DataClass :: NO_UID)
         {
             $dm = RepositoryDataManager :: get_instance();
-            
+
             $condition = new EqualityCondition(self :: PROPERTY_TYPED_EXTERNAL_REPOSITORY_ID, $typed_external_repository_id);
-            
+
             $result_set = $dm->retrieve_external_repository_condition($condition);
             $object = $result_set->next_result();
-            
+
             if (isset($object))
             {
                 $this->set_default_properties($object->get_default_properties());
-                
+
                 return true;
             }
             else
@@ -300,7 +299,7 @@ class ExternalRepository extends RepositoryDataClass
     }
 
     /*************************************************************************/
-    
+
     /**
      * Removes the trailing slash from a string if it exists
      *
@@ -336,11 +335,11 @@ class ExternalRepository extends RepositoryDataClass
             $camel_type = ucfirst(strtolower($type));
             $class_name = 'ExternalRepository' . $camel_type;
             $file_name = Utilities :: camelcase_to_underscores($class_name) . '.class.php';
-           
+
             require_once dirname(__FILE__) . '/external/' . $file_name;
-            
+
             self :: $already_required_types[] = $type;
-            
+
             return true;
         }
         elseif (in_array($type, self :: $already_required_types))
@@ -356,7 +355,7 @@ class ExternalRepository extends RepositoryDataClass
     /*************************************************************************
      * Fat model methods
      *************************************************************************/
-    
+
     /**
      * Get the list of existing exports to external repositories,
      * and require_once the needed model classes
@@ -372,18 +371,18 @@ class ExternalRepository extends RepositoryDataClass
              */
             $condition = new EqualityCondition('enabled', 1);
         }
-        
+
         $dm = RepositoryDataManager :: get_instance();
         $result_set = $dm->retrieve_external_repository_condition($condition);
-        
+
         $objects = array();
         while ($object = $result_set->next_result())
         {
             $objects[] = $object->get_typed_repository_object();
-            
+
             ExternalRepository :: require_once_external_repository_class_file($object->get_type());
         }
-        
+
         return $objects;
     }
 
@@ -400,13 +399,13 @@ class ExternalRepository extends RepositoryDataClass
                 return false;
             }
         }
-        
-    	$succes = RepositoryRights :: create_location_in_external_repositories_subtree($this->get_title(), $this->get_id(), RepositoryRights :: get_external_repositories_subtree_root_id());
-        if(!$succes)
+
+        $succes = RepositoryRights :: create_location_in_external_repositories_subtree($this->get_title(), $this->get_id(), RepositoryRights :: get_external_repositories_subtree_root_id());
+        if (! $succes)
         {
             return false;
         }
-        
+
         return true;
     }
 
@@ -420,25 +419,25 @@ class ExternalRepository extends RepositoryDataClass
         {
             $condition = new EqualityCondition(ExternalRepositorySetting :: PROPERTY_EXTERNAL_REPOSITORY_ID, $this->get_id());
             $settings = $this->get_data_manager()->retrieve_external_repository_settings($condition);
-            
-            while($setting = $settings->next_result())
+
+            while ($setting = $settings->next_result())
             {
-                if (!$setting->delete())
+                if (! $setting->delete())
                 {
                     return false;
                 }
             }
         }
-        
+
         $location = RepositoryRights :: get_location_by_identifier_from_external_repositories_subtree($this->get_id());
-        if($location)
+        if ($location)
         {
-        	if(!$location->remove())
-        	{
-        		return false;
-        	}
+            if (! $location->remove())
+            {
+                return false;
+            }
         }
-        
+
         return true;
     }
 

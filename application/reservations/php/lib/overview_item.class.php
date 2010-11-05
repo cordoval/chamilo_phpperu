@@ -9,14 +9,14 @@ use common\libraries\Utilities;
  * @package application.reservations
  */
 /**
- *	@author Sven Vanpoucke
+ * @author Sven Vanpoucke
  */
 
 class OverviewItem extends DataClass
 {
     const PROPERTY_ITEM_ID = 'item_id';
     const PROPERTY_USER_ID = 'user_id';
-    
+
     const CLASS_NAME = __CLASS__;
 
     /**
@@ -61,6 +61,6 @@ class OverviewItem extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 }

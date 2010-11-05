@@ -122,7 +122,7 @@ class DatabaseContextLinkerDataManager extends Database implements ContextLinker
     /*
      * @return array
      */
-    function retrieve_full_context_links_recursive($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    function retrieve_full_context_links_recursive($condition = null, $offset = null, $max_objects = null, $order_by = null, $ids = array())
     {
         
         $context_links = $this->retrieve_full_context_links($condition, $offset, $max_objects, $order_by);
@@ -132,8 +132,9 @@ class DatabaseContextLinkerDataManager extends Database implements ContextLinker
             foreach($context_links as $context_link)
             {
                 $condition = new EqualityCondition(ContextLink :: PROPERTY_ORIGINAL_CONTENT_OBJECT_ID, $context_link['alt_' . ContentObject :: PROPERTY_ID]);
+                $ids[$context_link['alt_' . ContentObject :: PROPERTY_ID]] = 1;
                 $result[] = $context_link;
-                $result = array_merge($result, $this->retrieve_full_context_links_recursive($condition, $offset, $max_objects, $order_by));
+                $result = array_merge($result, $this->retrieve_full_context_links_recursive($condition, $offset, $max_objects, $order_by, $ids));
             }
         }
         else

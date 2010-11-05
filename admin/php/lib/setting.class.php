@@ -9,11 +9,10 @@ use common\libraries\EqualityCondition;
  * @author Hans De Bisschop
  */
 
-
 class Setting extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_APPLICATION = 'application';
     const PROPERTY_VARIABLE = 'variable';
     const PROPERTY_VALUE = 'value';
@@ -25,8 +24,7 @@ class Setting extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_APPLICATION, self :: PROPERTY_VARIABLE, self :: PROPERTY_VALUE,
-        												  self :: PROPERTY_USER_SETTING));
+        return parent :: get_default_property_names(array(self :: PROPERTY_APPLICATION, self :: PROPERTY_VARIABLE, self :: PROPERTY_VALUE, self :: PROPERTY_USER_SETTING));
     }
 
     /**
@@ -90,8 +88,8 @@ class Setting extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_VALUE, $value);
     }
-    
-	/**
+
+    /**
      * Returns the user_setting of this setting object
      * @return string the user_setting
      */
@@ -99,8 +97,8 @@ class Setting extends DataClass
     {
         return $this->get_default_property(self :: PROPERTY_USER_SETTING);
     }
-    
-	/**
+
+    /**
      * Sets the user_setting of this setting.
      * @param string $user_setting the user_setting.
      */
@@ -111,35 +109,34 @@ class Setting extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
-    
-    
+
     function delete()
     {
-    	if (! parent :: delete())
-    	{
-    		return false;
-    	}
-    	else {
-    		if ($this->get_user_setting())
-			{
-	    		$condition = new EqualityCondition(UserSetting::PROPERTY_SETTING_ID, $this->get_id());
-	    		if (! UserDataManager::get_instance()->delete_user_settings($condition))
-	    		{
-	    			return false;
-	    		}
-	    		else 
-	    		{
-	    			return true;
-	    		}
-			}
-			else 
-			{
-				return true;
-			}
-    	}
+        if (! parent :: delete())
+        {
+            return false;
+        }
+        else
+        {
+            if ($this->get_user_setting())
+            {
+                $condition = new EqualityCondition(UserSetting :: PROPERTY_SETTING_ID, $this->get_id());
+                if (! UserDataManager :: get_instance()->delete_user_settings($condition))
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                return true;
+            }
+        }
     }
 }
 ?>

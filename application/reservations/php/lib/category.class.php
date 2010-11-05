@@ -10,7 +10,7 @@ use common\libraries\EqualityCondition;
  * @package application.reservations
  */
 /**
- *	@author Sven Vanpoucke
+ * @author Sven Vanpoucke
  */
 
 class Category extends DataClass
@@ -113,7 +113,7 @@ class Category extends DataClass
 
         return $succes;
     }
-    
+
     function get_data_manager()
     {
         return ReservationsDataManager :: get_instance();
@@ -121,16 +121,16 @@ class Category extends DataClass
 
     function delete()
     {
-    	$location = ReservationsRights :: get_location_by_identifier_from_reservations_subtree(ReservationsRights :: TYPE_CATEGORY, $this->get_id());
-    	if($location)
-    	{
-    		if(!$location->remove())
-    		{
-    			return false;
-    		}
-    	}
-    	
-    	$succes = parent :: delete();
+        $location = ReservationsRights :: get_location_by_identifier_from_reservations_subtree(ReservationsRights :: TYPE_CATEGORY, $this->get_id());
+        if ($location)
+        {
+            if (! $location->remove())
+            {
+                return false;
+            }
+        }
+
+        $succes = parent :: delete();
         $categories = $this->retrieve_sub_categories($this->get_id(), true);
         foreach ($categories as $category)
         {
@@ -164,6 +164,6 @@ class Category extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 }

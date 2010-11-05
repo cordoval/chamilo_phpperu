@@ -8,13 +8,13 @@ use common\libraries\Utilities;
  * @package application.lib.linker
  */
 /**
- *  @author Sven Vanpoucke
+ * @author Sven Vanpoucke
  */
 
 class Linker extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_NAME = 'name';
     const PROPERTY_DESCRIPTION = 'description';
     const PROPERTY_URL = 'url';
@@ -90,10 +90,9 @@ class Linker extends DataClass
         $this->set_default_property(self :: PROPERTY_URL, $url);
     }
 
-   static function get_table_name()
+    static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 
 }

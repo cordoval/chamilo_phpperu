@@ -2,7 +2,7 @@
 namespace admin;
 use common\libraries\Utilities;
 use common\libraries\DataClass;
-/* 
+/*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -14,11 +14,10 @@ use common\libraries\DataClass;
  * @author Pieter Hens
  */
 
-
 class FeedbackPublication extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_APPLICATION = 'application';
     const PROPERTY_PID = 'publication_id';
     const PROPERTY_CID = 'complex_id';
@@ -40,8 +39,7 @@ class FeedbackPublication extends DataClass
 	 */
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 
     /**
@@ -123,8 +121,8 @@ class FeedbackPublication extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_FID, $fid);
     }
-    
-	/**
+
+    /**
      * Returns creation_date
      * @return integer the creation_date
      */
@@ -132,8 +130,8 @@ class FeedbackPublication extends DataClass
     {
         return $this->get_default_property(self :: PROPERTY_CREATION_DATE);
     }
-    
- 	/**
+
+    /**
      * Sets the creation_date of this feedback.
      * @param integer $creation_date the creation_date.
      */
@@ -141,8 +139,8 @@ class FeedbackPublication extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_CREATION_DATE, $creation_date);
     }
-    
-	/**
+
+    /**
      * Returns modification_date
      * @return integer the modification_date
      */
@@ -150,8 +148,8 @@ class FeedbackPublication extends DataClass
     {
         return $this->get_default_property(self :: PROPERTY_MODIFICATION_DATE);
     }
-    
- 	/**
+
+    /**
      * Sets the modification_date of this feedback.
      * @param integer $modification_date the modification_date.
      */

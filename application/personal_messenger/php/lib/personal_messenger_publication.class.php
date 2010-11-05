@@ -15,17 +15,17 @@ use common\libraries\Utilities;
  */
 
 /**
- * 	This class represents a personal message.
+ * This class represents a personal message.
  *
- * 	personal message (PM) objects have a number of default properties:
- * 	- id: the numeric ID of the PM;
- * 	- content_object: the numeric object ID of the PM (from the repository);
- * 	- status: the status of the PM: read/unread/...;
- * 	- recipient: the recipient of the PM;
- * 	- publisher: the publisher of the PM;
- * 	- published: the date when the PM was "posted";
- * 	@author Hans de Bisschop
- * 	@author Dieter De Neef
+ * personal message (PM) objects have a number of default properties:
+ * - id: the numeric ID of the PM;
+ * - content_object: the numeric object ID of the PM (from the repository);
+ * - status: the status of the PM: read/unread/...;
+ * - recipient: the recipient of the PM;
+ * - publisher: the publisher of the PM;
+ * - published: the date when the PM was "posted";
+ * @author Hans de Bisschop
+ * @author Dieter De Neef
  */
 class PersonalMessengerPublication extends DataClass
 {
@@ -202,7 +202,7 @@ class PersonalMessengerPublication extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 
 }

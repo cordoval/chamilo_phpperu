@@ -9,14 +9,14 @@ use common\libraries\Utilities;
  * @package application.reservations
  */
 /**
- *	@author Sven Vanpoucke
+ * @author Sven Vanpoucke
  */
 
 class QuotaRelQuotaBox extends DataClass
 {
     const PROPERTY_QUOTA_ID = 'quota_id';
     const PROPERTY_QUOTA_BOX_ID = 'quota_box_id';
-    
+
     const CLASS_NAME = __CLASS__;
 
     /**
@@ -74,6 +74,6 @@ class QuotaRelQuotaBox extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 }

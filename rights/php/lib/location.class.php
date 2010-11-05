@@ -39,10 +39,9 @@ class Location extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_LOCATION, self :: PROPERTY_LEFT_VALUE, self :: PROPERTY_RIGHT_VALUE, self :: PROPERTY_PARENT,
-        												  self :: PROPERTY_APPLICATION, self :: PROPERTY_TYPE, self :: PROPERTY_IDENTIFIER,
-        												  self :: PROPERTY_TREE_IDENTIFIER, self :: PROPERTY_TREE_TYPE,
-        												  self :: PROPERTY_INHERIT, self :: PROPERTY_LOCKED));
+        return parent :: get_default_property_names(array(
+                self :: PROPERTY_LOCATION, self :: PROPERTY_LEFT_VALUE, self :: PROPERTY_RIGHT_VALUE, self :: PROPERTY_PARENT, self :: PROPERTY_APPLICATION, self :: PROPERTY_TYPE, self :: PROPERTY_IDENTIFIER, self :: PROPERTY_TREE_IDENTIFIER, self :: PROPERTY_TREE_TYPE, self :: PROPERTY_INHERIT,
+                self :: PROPERTY_LOCKED));
     }
 
     /**
@@ -138,7 +137,7 @@ class Location extends DataClass
         $this->set_default_property(self :: PROPERTY_INHERIT, $inherit);
     }
 
-	function get_tree_identifier()
+    function get_tree_identifier()
     {
         return $this->get_default_property(self :: PROPERTY_TREE_IDENTIFIER);
     }
@@ -148,7 +147,7 @@ class Location extends DataClass
         $this->set_default_property(self :: PROPERTY_TREE_IDENTIFIER, $tree_identifier);
     }
 
-	function get_tree_type()
+    function get_tree_type()
     {
         return $this->get_default_property(self :: PROPERTY_TREE_TYPE);
     }
@@ -443,7 +442,7 @@ class Location extends DataClass
                 $node = $rdm->retrieve_location($previous_id);
                 $parent_id = $node->get_parent();
 
-            // TODO: If $node is invalid, what then ?
+     // TODO: If $node is invalid, what then ?
             }
             else
             {
@@ -484,8 +483,7 @@ class Location extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 }
 ?>

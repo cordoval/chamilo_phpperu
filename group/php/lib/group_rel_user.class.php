@@ -8,14 +8,14 @@ use common\libraries\DataClass;
  * @package group.lib
  */
 /**
- *	@author Hans de Bisschop
- *	@author Dieter De Neef
+ * @author Hans de Bisschop
+ * @author Dieter De Neef
  */
 
 class GroupRelUser extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_GROUP_ID = 'group_id';
     const PROPERTY_USER_ID = 'user_id';
 
@@ -61,11 +61,10 @@ class GroupRelUser extends DataClass
         $gdm = $this->get_data_manager();
         return $gdm->create_group_rel_user($this);
     }
-    
+
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 }
 ?>

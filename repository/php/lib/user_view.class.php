@@ -13,7 +13,7 @@ use common\libraries\AndCondition;
  * @package repository.lib
  */
 /**
- *  @author Sven Vanpoucke
+ * @author Sven Vanpoucke
  */
 
 class UserView extends DataClass
@@ -91,12 +91,12 @@ class UserView extends DataClass
     {
         $rdm = $this->get_data_manager();
 
-    	$condition = new EqualityCondition(self :: PROPERTY_NAME, $this->get_name());
+        $condition = new EqualityCondition(self :: PROPERTY_NAME, $this->get_name());
         $views = $rdm->count_user_views($condition);
         if ($views > 0)
         {
             $this->add_error(Translation :: get('UserViewNameNotUnique'));
-        	return false;
+            return false;
         }
 
         $success = $rdm->create_user_view($this);
@@ -121,17 +121,17 @@ class UserView extends DataClass
 
     function update($values)
     {
-    	$rdm = RepositoryDataManager :: get_instance();
+        $rdm = RepositoryDataManager :: get_instance();
 
-    	$conditions[] = new EqualityCondition(self :: PROPERTY_NAME, $this->get_name());
-    	$conditions[] = new NotCondition(new EqualityCondition(self :: PROPERTY_ID, $this->get_id()));
-    	$condition = new AndCondition($conditions);
+        $conditions[] = new EqualityCondition(self :: PROPERTY_NAME, $this->get_name());
+        $conditions[] = new NotCondition(new EqualityCondition(self :: PROPERTY_ID, $this->get_id()));
+        $condition = new AndCondition($conditions);
 
         $views = $rdm->count_user_views($condition);
         if ($views > 0)
         {
             $this->add_error(Translation :: get('UserViewNameNotUnique'));
-        	return false;
+            return false;
         }
 
         return parent :: update();
@@ -139,8 +139,7 @@ class UserView extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 }
 ?>

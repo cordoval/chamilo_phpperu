@@ -91,9 +91,9 @@ class User extends DataClass
     static function get_default_property_names()
     {
         return parent :: get_default_property_names(array(
-                self :: PROPERTY_LASTNAME, self :: PROPERTY_FIRSTNAME, self :: PROPERTY_USERNAME, self :: PROPERTY_PASSWORD, self :: PROPERTY_AUTH_SOURCE, self :: PROPERTY_EXTERNAL_UID, self :: PROPERTY_EMAIL, self :: PROPERTY_STATUS,
-                self :: PROPERTY_PLATFORMADMIN, self :: PROPERTY_PHONE, self :: PROPERTY_OFFICIAL_CODE, self :: PROPERTY_PICTURE_URI, self :: PROPERTY_CREATOR_ID, self :: PROPERTY_DISK_QUOTA, self :: PROPERTY_DATABASE_QUOTA,
-                self :: PROPERTY_VERSION_QUOTA, self :: PROPERTY_ACTIVATION_DATE, self :: PROPERTY_EXPIRATION_DATE, self :: PROPERTY_REGISTRATION_DATE, self :: PROPERTY_ACTIVE, self :: PROPERTY_SECURITY_TOKEN, self :: PROPERTY_APPROVED));
+                self :: PROPERTY_LASTNAME, self :: PROPERTY_FIRSTNAME, self :: PROPERTY_USERNAME, self :: PROPERTY_PASSWORD, self :: PROPERTY_AUTH_SOURCE, self :: PROPERTY_EXTERNAL_UID, self :: PROPERTY_EMAIL, self :: PROPERTY_STATUS, self :: PROPERTY_PLATFORMADMIN, self :: PROPERTY_PHONE,
+                self :: PROPERTY_OFFICIAL_CODE, self :: PROPERTY_PICTURE_URI, self :: PROPERTY_CREATOR_ID, self :: PROPERTY_DISK_QUOTA, self :: PROPERTY_DATABASE_QUOTA, self :: PROPERTY_VERSION_QUOTA, self :: PROPERTY_ACTIVATION_DATE, self :: PROPERTY_EXPIRATION_DATE,
+                self :: PROPERTY_REGISTRATION_DATE, self :: PROPERTY_ACTIVE, self :: PROPERTY_SECURITY_TOKEN, self :: PROPERTY_APPROVED));
     }
 
     /**
@@ -638,8 +638,7 @@ class User extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 
     function get_groups($only_retrieve_ids = false)

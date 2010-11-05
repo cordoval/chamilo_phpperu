@@ -18,7 +18,7 @@ use repository\RepositoryDataManager;
 class WikiPublication extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     /**
      * WikiPublication properties
      */
@@ -72,7 +72,7 @@ class WikiPublication extends DataClass
             $rdm = RepositoryDataManager :: get_instance();
             $this->content_object = $rdm->retrieve_content_object($this->get_content_object_id());
         }
-        
+
         return $this->content_object;
     }
 
@@ -274,7 +274,7 @@ class WikiPublication extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 }
 
