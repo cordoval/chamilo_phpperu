@@ -1,6 +1,8 @@
 <?php
 namespace application\gutenberg;
 
+use common\libraries\GalleryObjectTableCellRenderer;
+
 abstract class DefaultGutenbergPublicationGalleryTableCellRenderer implements GalleryObjectTableCellRenderer
 {
 
