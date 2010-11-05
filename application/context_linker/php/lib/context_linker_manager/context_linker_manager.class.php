@@ -31,6 +31,7 @@ use common\libraries\ArrayResultSet;
     const PARAM_PROPERTY_VALUE = 'property_value';
 
     const PROPERTY_ALT_ID = 'alt_id';
+    const PROPERTY_ORIG_ID = 'orig_id';
     
     /**
      * Constructor

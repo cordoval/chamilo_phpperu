@@ -127,16 +127,31 @@ class DatabaseContextLinkerDataManager extends Database implements ContextLinker
      */
     function retrieve_full_context_links_recursive($condition = null, $offset = null, $max_objects = null, $order_by = null, $ids = array())
     {
-        
         $context_links = $this->retrieve_full_context_links($condition, $offset, $max_objects, $order_by);
+
         if(count($context_links))
         {
             foreach($context_links as $context_link)
             {
-                $condition = new EqualityCondition(ContextLink :: PROPERTY_ORIGINAL_CONTENT_OBJECT_ID, $context_link[ContextLinkerManager::PROPERTY_ALT_ID]);
-                $ids[$context_link['alt_' . ContentObject :: PROPERTY_ID]] = 1;
+                $condition_orig = new EqualityCondition(ContextLink :: PROPERTY_ORIGINAL_CONTENT_OBJECT_ID, $context_link[ContextLinkerManager::PROPERTY_ALT_ID]);
+                $condition_alt = new EqualityCondition(ContextLink :: PROPERTY_ALTERNATIVE_CONTENT_OBJECT_ID, $context_link[ContextLinkerManager::PROPERTY_ORIG_ID]);
+
                 $result[] = $context_link;
-                $result = array_merge($result, $this->retrieve_full_context_links_recursive($condition, $offset, $max_objects, $order_by, $ids));
+
+                //if parent is not used as child (endless loop protection)
+		if(!isset($ids[$context_link[ContextLinkerManager::PROPERTY_ALT_ID]]))
+                {
+                    $ids[$context_link[ContextLinkerManager::PROPERTY_ALT_ID]] = 1;
+                    $result = array_merge($result, $this->retrieve_full_context_links_recursive($condition_orig, $offset, $max_objects, $order_by, $ids));
+
+                }
+
+                //if child is not used as parent (endless loop protection)
+                if(!isset($ids[$context_link[ContextLinkerManager::PROPERTY_ORIG_ID]]))
+                {
+                    $ids[$context_link[ContextLinkerManager::PROPERTY_ORIG_ID]] = 1;
+                    $result = array_merge($this->retrieve_full_context_links_recursive($condition_alt, $offset, $max_objects, $order_by, $ids), $result);
+                }
             }
         }
         else
