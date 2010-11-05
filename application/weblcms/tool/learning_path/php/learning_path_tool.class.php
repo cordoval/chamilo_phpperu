@@ -54,7 +54,7 @@ class LearningPathTool extends Tool implements Categorizable
         return dirname(__FILE__) . '/component/';
     }
 
-    function get_content_object_publication_actions($publication)
+    function add_content_object_publication_actions($toolbar, $publication)
     {
         $allowed = $this->is_allowed(WeblcmsRights :: EDIT_RIGHT);
 
@@ -62,18 +62,16 @@ class LearningPathTool extends Tool implements Categorizable
         {
             if ($allowed)
             {
-                $items[] = new ToolbarItem(Translation :: get('Statistics'), Theme :: get_common_image_path() . 'action_statistics.png', $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_STATISTICS, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON);
+                 $toolbar->add_item(new ToolbarItem(Translation :: get('Statistics'), Theme :: get_common_image_path() . 'action_statistics.png', $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_STATISTICS, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
             }
         }
         else
         {
             if ($allowed)
             {
-                $items[] = new ToolbarItem(Translation :: get('StatisticsNA'), Theme :: get_common_image_path() . 'action_statistics_na.png', null, ToolbarItem :: DISPLAY_ICON);
+                 $toolbar->add_item(new ToolbarItem(Translation :: get('StatisticsNA'), Theme :: get_common_image_path() . 'action_statistics_na.png', null, ToolbarItem :: DISPLAY_ICON));
             }
         }
-
-        return $items;
     }
 
     private static $checked_publications = array();
