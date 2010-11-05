@@ -130,7 +130,7 @@ class WeblcmsManagerCourseCreatorComponent extends WeblcmsManager implements Del
 
     function get_additional_parameters()
     {
-        return array();
+        return array(self :: PARAM_COURSE);
     }
 }
 ?>
