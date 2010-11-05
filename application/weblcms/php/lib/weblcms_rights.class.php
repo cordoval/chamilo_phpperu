@@ -253,7 +253,14 @@ class WeblcmsRights extends RightsUtilities
     {
         $user = parent :: retrieve_user();
         $templates = parent :: retrieve_templates($user);
-        $groups = self :: get_course_groups();
+        if ($tree_type != self :: TREE_TYPE_COURSE || $tree_identifier == 0)
+        {
+            $groups = parent :: get_platform_groups();
+        }
+        else
+        {
+            $groups = self :: get_course_groups();
+        }
         return parent :: get_right($right, $identifier, $type, 'weblcms', $user, $templates, $groups, $tree_identifier, $tree_type);
     }
 
@@ -270,7 +277,14 @@ class WeblcmsRights extends RightsUtilities
      */
     static function get_group_right_location($right, $group_id, $parent_id)
     {
-        return self :: get_course_group_right_location($right, $group_id, $parent_id);
+        if ($tree_type != self :: TREE_TYPE_COURSE || $tree_identifier == 0)
+        {
+            return parent :: get_group_right_location($right, $group_id, $parent_id);
+        }
+        else
+        {
+            return self :: get_course_group_right_location($right, $group_id, $parent_id);
+        }
     }
 
     // Rewrite of is_allowed and get_right to check for course groups as well
