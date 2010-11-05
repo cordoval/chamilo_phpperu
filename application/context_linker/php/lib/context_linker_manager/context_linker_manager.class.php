@@ -29,6 +29,8 @@ use common\libraries\ArrayResultSet;
     const PARAM_CONTENT_OBJECT_ID = 'content_object_id';
     const PARAM_ALTERNATIVE_CONTENT_OBJECT_ID = 'alternative_content_object_id';
     const PARAM_PROPERTY_VALUE = 'property_value';
+
+    const PROPERTY_ALT_ID = 'alt_id';
     
     /**
      * Constructor

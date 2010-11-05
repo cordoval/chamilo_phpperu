@@ -20,6 +20,7 @@ use repository\content_object\handbook_item\HandbookItem;
 use application\metadata\MetadataPropertyValue;
 use repository\content_object\handbook_topic\HandbookTopic;
 use repository\ContentObject;
+use application\context_linker\ContextLinkerManager;
 
 
 require_once dirname(__FILE__).'/../handbook_data_manager.class.php';
@@ -215,11 +216,12 @@ require_once dirname(__FILE__).'/component/handbook_publication_browser/handbook
         $handbooks = array();
         $rdm = RepositoryDataManager::get_instance();
 
-        $count = count($context_links_resultset);
-
-        while ($context_links_resultset != false && (count($context_links_resultset) > 0) && $item = each($context_links_resultset))
+//        $count = count($context_links_resultset);
+        
+        while ($context_links_resultset != false && (count($context_links_resultset) > 0) && list($key, $item) = each($context_links_resultset))
              {
-                 $alternative_co = $rdm->retrieve_content_object($item[ContentObject :: PROPERTY_ID]);
+            
+                 $alternative_co = $rdm->retrieve_content_object($item[ContextLinkerManager::PROPERTY_ALT_ID]);
                  
 
                  if($alternative_co)
@@ -328,12 +330,12 @@ require_once dirname(__FILE__).'/component/handbook_publication_browser/handbook
                  $alternatives['link'] = $links;
 //                 $alternatives['handbook'] = $handbooks;
 
-                 //TODO: Determine most relevant ones (Voorlopig is gewoon de eerste de "main" en zit die ook nog eens bij de alternatives)
-                 //
+                
                  //GET USER & PUBLICATION PREFERENCES
                  $preferences = self::get_preferences($publication_id);
 
-                 //determine wich preferences are more important: this array could/should be a parameter
+                 //determine wich preferences are more important:
+                 //TODO this array could/should be a parameter
                  $preference_importance = array();
                  $preference_importance[1] = array('user'=> self::PARAM_LANGUAGE);
                  $preference_importance[2] = array('handbook'=> self::PARAM_LANGUAGE);
@@ -454,7 +456,7 @@ require_once dirname(__FILE__).'/component/handbook_publication_browser/handbook
              //todo: get rid of double!
              $alternatives[$label.'_main'] = current($array_to_check);
              unset($array_to_check[key($array_to_check)]);
-             $alternatives[$label] = array_merge($alternatives[$label],  $array_to_check);
+//             $alternatives[$label] = array_merge($alternatives[$label],  $array_to_check);
          }
          $alternatives[$label] = array_merge($alternatives[$label],  $array_to_check);
 
