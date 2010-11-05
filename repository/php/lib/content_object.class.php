@@ -1115,7 +1115,7 @@ class ContentObject extends DataClass
      */
     static function class_to_type($class)
     {
-        return Utilities :: get_classname_from_namespace($class, true);
+        return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace($class));
     }
 
     /**
