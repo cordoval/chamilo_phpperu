@@ -14,6 +14,8 @@ use repository\content_object\handbook\Handbook;
 use application\metadata\MetadataManager;
 use repository\ContentObjectDisplay;
 use repository\content_object\document\Document;
+use repository\RepositoryManager;
+use common\libraries\Utilities;
 
 
 
@@ -221,8 +223,8 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
 
          if($alternatives_array['image_main'] != null|| $alternatives_array['video_main'] != null)
          {
-             $text_width = '65%';
-             $visual_width = '30%';
+             $text_width = '67%';
+             $visual_width = '33%';
          }
          else
          {
@@ -231,17 +233,22 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
          }
 
          //OUTPUT HTML
-        $html[] = '<div class = "handbook_item" style="float:left; width:'.$text_width.'; padding:10px;">';
+        $html[] = '<div class = "handbook_item" style="float:left; background:green; padding:10px;">';
 
-            $html[] = '<div class = "handbook_item_primary_info" style="float:left; width:100%;">';
+            $html[] = '<div class = "handbook_item_primary_info" style="float:left; background:pink; width:'.$text_width.';">';
                 if($alternatives_array['text_main'] != null)
                 {
                     $html[] = '<div class = "handbook_item_text" style="float:left; width:'.'100%'.';">';
                     //TEXT
                     //MAIN
                     $display = ContentObjectDisplay :: factory($alternatives_array['text_main']);
-                    $html[] = $display->get_full_html();
+//                    $html[] = $display->get_full_html();
+                    $html[] = '<div class="main_title">';
+                    $html[] = $alternatives_array['text_main']->get_title();
+                     $html[] = '</div>';
+                    $html[] = '<div class="main_text">';
                     $html[] = $alternatives_array['text_main']->get_text();
+                     $html[] = '</div>';
                     $html[] = '</div>';
                     //ALTERNATIVES
                     if(count($alternatives_array['text'])>0 )
@@ -252,48 +259,43 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
 
                         while(list($key, $value)= each($alternatives_array['text']))
                          {
+                            $html[] = '<div class="alternative_metadata">';
                              $html[] = $this->print_metadata($value->get_id());
+                             $html[] = '</div>';
                              $display = ContentObjectDisplay :: factory($value);
-                             $html[] = $display->get_full_html();
+//                             $html[] = $display->get_full_html();
+                             $html[] = '<div class="alternative_title">';
+                             $html[] = $value->get_title();
+                             $html[] = '</div>';
+                             $html[] = '<div class="alternative_text">';
+                            $html[] = $value->get_text();
+                            $html[] = '</div>';
                              $html[] = '</div>';
                          }
                          $html[] = '</div>';
                     }
-                    $html[] = '</div>';
+//                    $html[] = '</div>';
                 }
 
-                $html[] = '<div class = "handbook_item_visual" style="float:left; width:'.$visual_width.'">';
+
+               //IMAGES START
+                $html[] = '<div class = "handbook_item_visual" style="float:left; background:blue; width:'.$visual_width.'">';
                 if($alternatives_array['image_main'] != null)
                 {
                     $html[] = '<div class = "handbook_item_images" style="padding: 10px;">';
                     //IMAGES
                     //MAIN
-//                    $display = ContentObjectDisplay :: factory($alternatives_array['image_main']);
-//                    $html[] = $display->get_description();
-
                     $object = $alternatives_array['image_main'];
-                    if ($object instanceof AttachmentSupport)
-                    {
-                        $attachments = $object->get_attached_content_objects();
-                        if (count($attachments))
-                        {
-                            $html[] = '<div class="attachments" style="margin-top: 1em;">';
-                        
-                $html[] = '<div class="attachments_title">' . htmlentities(Translation :: get('Attachments')) . '</div>';
-                Utilities :: order_content_objects_by_title($attachments);
-                $html[] = '<ul class="attachments_list">';
-                foreach ($attachments as $attachment)
-                {
-                    $url = Path :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=attachment_viewer&' . RepositoryManager :: PARAM_CONTENT_OBJECT_ID . '=' . $attachment->get_id();
-                    $url = 'javascript:openPopup(\'' . $url . '\'); return false;';
-                    $html[] = '<li><a href="#" onClick="' . $url . '"><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $attachment->get_type() . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($attachment->get_type()) . 'TypeName')) . '"/> ' . $attachment->get_title() . '</a></li>';
-                }
-                $html[] = '</ul>';
-                $html[] = '</div>';
-
-
-
+                    $url = Path :: get(WEB_PATH) . RepositoryManager :: get_document_downloader_url($object->get_id());
+                    //TODO SHOW POPUP WITH LARGER PIC ON CLICK INSTEAD OF DOWNLOAD
+                   $html[] = '<div>';
+                    $html[] = '<a href="'.$url.'"><img style = "max-width:100%" src="'.$url.'"></a>';
                     $html[] = '</div>';
+                   
+                    
+
+
+                    
                     //ALTERNATIVES
                     if(count($alternatives_array['image'])>0)
                     {
@@ -307,7 +309,7 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
                              $display = ContentObjectDisplay :: factory($value);
                              $html[] = $display->get_description();
                          }
-//                         $html[] = '</div>';
+                         $html[] = '</div>';
                     $html[] = '</div>';
                     }
                 }
@@ -338,10 +340,12 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
                     }
                 }
                 $html[] = '</div>';
+//                $html[] = '</div>';
+//            $html[] = '</div>';
+//            $html[] = '</div>';
 
-            $html[] = '</div>';
-
-            $html[] = '<div class = "handbook_item_secondary_info">';
+            $html[] = '<div class = "handbook_item_secondary_info" style="float:left; background:red;">';
+            $html[] = 'secondary';
             if(count($alternatives_array['link'])>0)
             {
               //SHOW LINKS
