@@ -4,6 +4,7 @@ namespace application\weblcms;
 use common\extensions\rights_editor_manager\RightsEditorManager;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\extensions\rights_editor_manager\RightsEditorManagerBrowserComponent;
 
 /**
  * $Id: group_rights_setter.class.php 191 2009-11-13 11:50:28Z chellee $
