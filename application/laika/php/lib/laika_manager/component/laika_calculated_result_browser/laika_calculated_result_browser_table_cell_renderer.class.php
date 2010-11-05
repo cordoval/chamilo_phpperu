@@ -4,6 +4,8 @@ namespace application\laika;
 use common\libraries\Translation;
 use common\libraries\WebApplication;
 use common\libraries\Theme;
+use common\libraries\Toolbar;
+use common\libraries\ToolbarItem;
 
 /**
  * $Id: laika_calculated_result_browser_table_cell_renderer.class.php 196 2009-11-13 12:19:18Z chellee $

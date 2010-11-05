@@ -10,15 +10,18 @@ use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\Translation;
+use application\weblcms\WeblcmsAssessmentAttemptsTracker;
+use repository\content_object\hotpotatoes\Hotpotatoes;
+use tracking\Event;
+use repository\ComplexDisplay;
 
 /**
  * $Id: assessment_tester.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.assessment.component
  */
-require_once Path :: get_repository_path() . 'lib/content_object/survey/survey.class.php';
 require_once dirname(__FILE__) . '/../survey_invitation.class.php';
-require_once Path :: get_application_path() . 'lib/weblcms/trackers/weblcms_assessment_attempts_tracker.class.php';
-require_once Path :: get_application_path() . 'lib/weblcms/trackers/weblcms_question_attempts_tracker.class.php';
+require_once Path :: get_application_path() . '/weblcms/php/trackers/weblcms_assessment_attempts_tracker.class.php';
+require_once Path :: get_application_path() . '/weblcms/php/trackers/weblcms_question_attempts_tracker.class.php';
 
 class AssessmentToolComplexDisplayComponent extends AssessmentTool
 {

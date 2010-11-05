@@ -3,6 +3,7 @@ namespace application\gutenberg;
 
 use common\libraries\ObjectTableDataProvider;
 
+
 /**
  * $Id: gutenberg_publication_browser_table_data_provider.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.gutenbergr.gutenbergr_manager.component.gutenbergpublicationbrowser

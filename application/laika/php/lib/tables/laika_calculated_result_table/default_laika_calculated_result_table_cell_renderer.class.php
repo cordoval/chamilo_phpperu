@@ -3,6 +3,7 @@ namespace application\laika;
 
 use common\libraries\ObjectTableCellRenderer;
 
+use user\User;
 /**
  * $Id: default_laika_calculated_result_table_cell_renderer.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika.tables.laika_calculated_result_table

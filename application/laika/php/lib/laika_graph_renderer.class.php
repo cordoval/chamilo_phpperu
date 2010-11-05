@@ -4,7 +4,17 @@ namespace application\laika;
 use common\libraries\Translation;
 use common\libraries\Theme;
 use common\libraries\EqualityCondition;
+use common\libraries\InEqualityCondition;
+use common\libraries\InCondition;
+use common\libraries\AndCondition;
 use common\libraries\Path;
+use common\libraries\ObjectTableOrder;
+use common\libraries\Session;
+use common\libraries\SortableTableFromArray;
+
+use group\GroupDataManager;
+
+use pChart;
 /**
  * $Id: laika_graph_renderer.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika

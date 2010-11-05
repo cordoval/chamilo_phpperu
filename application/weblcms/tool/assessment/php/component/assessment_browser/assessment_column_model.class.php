@@ -2,12 +2,14 @@
 namespace application\weblcms\tool\assessment;
 
 use common\libraries\ObjectTableColumn;
+use application\weblcms\ObjectPublicationTableColumnModel;
+use repository\content_object\assessment\Assessment;
 
 /**
  * $Id: assessment_column_model.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.assessment.component.assessment_browser
  */
-require_once dirname(__FILE__) . '/../../../../browser/object_publication_table/object_publication_table_column_model.class.php';
+require_once dirname(__FILE__) . '/../../../../../php/lib/browser/object_publication_table/object_publication_table_column_model.class.php';
 /**
  * This class is a cell renderer for a publication candidate table
  */

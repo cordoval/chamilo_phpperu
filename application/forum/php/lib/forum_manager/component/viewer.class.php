@@ -8,6 +8,7 @@ use repository\content_object\forum\ForumComplexDisplaySupport;
 use repository\RepositoryDataManager;
 
 use common\libraries\Request;
+use common\libraries\Path;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\Breadcrumb;

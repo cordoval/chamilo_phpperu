@@ -49,7 +49,7 @@ class UserRightsTemplateManagerForm extends FormValidator
             $defaults[$rights_template->get_id()] = array('title' => $rights_template->get_name(), 'description', $rights_template->get_description(), 'class' => 'rights_template');
         }
 
-        $url = Path :: get(WEB_PATH) . 'rights/xml_feeds/xml_rights_template_feed.php';
+        $url = Path :: get(WEB_PATH) . 'rights/php/xml_feeds/xml_rights_template_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('AddRightsTemplates');
         $locale['Searching'] = Translation :: get('Searching');

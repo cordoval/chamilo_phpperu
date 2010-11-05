@@ -21,6 +21,7 @@ use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Text;
 
 /**
  * $Id: search_searcher.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -137,7 +138,7 @@ class SearchToolSearcherComponent extends SearchTool
                         $object = $pub->get_content_object();
                         if ($object->get_type() != Introduction :: get_type_name())
                         {
-                            $url = $this->get_url(array(WeblcmsManager :: PARAM_TOOL => $tool, Tool :: PARAM_PUBLICATION_ID => $pub->get_id(), Tool :: PARAM_ACTION => 'view'));
+                            $url = $this->get_url(array(WeblcmsManager :: PARAM_TOOL => $tool, Tool :: PARAM_PUBLICATION_ID => $pub->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_VIEW));
                         }
                         else
                         {

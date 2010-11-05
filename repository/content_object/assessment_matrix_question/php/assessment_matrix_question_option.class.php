@@ -34,7 +34,7 @@ class AssessmentMatrixQuestionOption extends MatrixQuestionOption
     {
 		parent :: MatrixQuestionOption($value);
         $this->score = $score;
-        $this->comment = $feedback;
+        $this->feedback = $feedback;
         $this->matches = $matches;
     }
     /**

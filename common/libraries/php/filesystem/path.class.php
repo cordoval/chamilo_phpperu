@@ -167,7 +167,7 @@ class Path
             case SYS_LAUNCH_APP_PATH :
                 return self :: $path[$path_type] = self :: get_library_path() . 'launcher/';
             case WEB_LAUNCH_APP_PATH :
-                return self :: $path[$path_type] = self :: get(WEB_LIB_PATH) . 'libraries/php/launcher/';
+                return self :: $path[$path_type] = self :: get_web_common_libraries_path() . 'php/launcher/';
 
             // Application-paths
             case SYS_APP_LIB_PATH :

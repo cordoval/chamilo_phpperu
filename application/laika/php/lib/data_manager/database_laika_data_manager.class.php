@@ -5,6 +5,7 @@ use common\libraries\WebApplication;
 use common\libraries\Database;
 use common\libraries\EqualityCondition;
 use common\libraries\InCondition;
+use common\libraries\ObjectResultSet;
 
 use user\UserDataManager;
 use user\User;

@@ -2,6 +2,7 @@
 namespace application\gutenberg;
 
 use common\libraries\WebApplication;
+
 /**
  * $Id: gutenberg_publication_gallery_browser_property_model.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.browser
