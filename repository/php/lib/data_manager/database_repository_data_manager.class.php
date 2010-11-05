@@ -1970,10 +1970,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
      */
     function delete_all_content_object_user_shares_by_content_object_id($content_object_id)
     {
-        $conditions = array();
-        $conditions[] = new EqualityCondition(ContentObjectUserShare :: PROPERTY_CONTENT_OBJECT_ID, $content_object_id);
-        //$conditions[] = new EqualityCondition(ContentObjectUserShare :: PROPERTY_USER_ID, $user_id);
-        $condition = new AndCondition($conditions);
+        $condition = new EqualityCondition(ContentObjectUserShare :: PROPERTY_CONTENT_OBJECT_ID, $content_object_id);
 
         return $this->delete(ContentObjectUserShare :: get_table_name(), $condition);
     }
@@ -2025,10 +2022,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
      */
     function delete_all_content_object_group_shares_by_content_object_id($content_object_id)
     {
-        $conditions = array();
-        $conditions[] = new EqualityCondition(ContentObjectGroupShare :: PROPERTY_CONTENT_OBJECT_ID, $content_object_id);
-        //$conditions[] = new EqualityCondition(ContentObjectGroupShare :: PROPERTY_GROUP_ID, $content_object_group_share->get_group_id());
-        $condition = new AndCondition($conditions);
+        $condition = new EqualityCondition(ContentObjectGroupShare :: PROPERTY_CONTENT_OBJECT_ID, $content_object_id);
 
         return $this->delete(ContentObjectGroupShare :: get_table_name(), $condition);
     }
