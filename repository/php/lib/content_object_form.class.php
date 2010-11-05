@@ -620,6 +620,7 @@ EOT;
     static function factory($form_type, $content_object, $form_name, $method = 'post', $action = null, $extra = null, $additional_elements = array(), $allow_new_version = true, $form_variant = null)
     {
         $type = $content_object->get_type();
+        $type = Utilities :: camelcase_to_underscores($type);
 
         if ($form_variant)
         {
