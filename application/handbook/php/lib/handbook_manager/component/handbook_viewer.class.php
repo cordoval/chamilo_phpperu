@@ -125,7 +125,6 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
                     $html[] = $menu->render_as_tree();
                 $html[] = '</div>';
             $html[] = '</div>';
-
             $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'libraries/resources/javascript/tool_bar.js' . '"></script>';
             $html[] = '<div class="clear"></div>';
 
@@ -189,124 +188,7 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
 
     }
 
-//    function determine_relevant_alternatives($context_links_resultset)
-//    {
-//        $texts = array();
-//        $images = array();
-//        $videos = array();
-//        $links = array();
-//        $others = array();
-//        $handbooks = array();
-//        $rdm = RepositoryDataManager::get_instance();
-//
-//        while ($item = $context_links_resultset->next_result())
-//             {
-//                 $alternative_co = $rdm->retrieve_content_object($item[ContentObject :: PROPERTY_ID]);
-//                 $display = ContentObjectDisplay :: factory($alternative_co);
-//
-//                 if($alternative_co->get_type() == Handbook::get_type_name())
-//                    {
-//                        $handbooks[] = $alternative_co;
-//                    }
-//                 else if($alternative_co->get_type() == Document::get_type_name())
-//                 {
-//                     if($alternative_co->is_image())
-//                     {
-//                        $images[] = $alternative_co;
-//                     }
-//                      else if($alternative_co->is_flash() || $alternative_co->is_video() || $alternative_co->is_audio())
-//                      {
-//                        $videos[] = $alternative_co;
-//                      }
-//                      else
-//                      {
-//                          $texts[$item[MetadataPropertyValue :: PROPERTY_VALUE]] = $alternative_co;
-//                      }
-//                    }
-//                    else if($alternative_co->get_type() == Youtube::get_type_name())
-//                    {
-//                        $videos[] = $alternative_co;
-//                    }
-//                    else if($alternative_co->get_type() == Link::get_type_name())
-//                    {
-//                        $links[] = $alternative_co;
-//                    }
-//                    else if($alternative_co->get_type() == WikiPage::get_type_name())
-//                    {
-//                        $texts[] = $alternative_co;
-//                    }
-//                    else
-//                    {
-//                        $others[] = $alternative_co;
-//                    }
-//             }
-//
-//            if($this->selected_object->get_type() == Handbook::get_type_name())
-//            {
-//                $handbooks[] = $this->selected_object;
-//            }
-//             else if($this->selected_object->get_type() == Document::get_type_name())
-//             {
-//                 if($this->selected_object->is_image())
-//                 {
-//                    $images[] = $alternative_co;
-//                 }
-//                  else if($this->selected_object->is_flash() || $this->selected_object->is_video() || $this->selected_object->is_audio())
-//                  {
-//                    $videos[] = $alternative_co;
-//                  }
-//                  else
-//                  {
-//                      $condition = new EqualityCondition(MetadataPropertyValue :: PROPERTY_CONTENT_OBJECT_ID, $this->selected_object->get_id());
-//                      $metadata_property_values = MetadataManager::retrieve_metadata_property_values($condition);
-//
-//                      $metadata_array = array();
-//
-//                      while($metadata = $metadata_property_values->next_result())
-//                      {
-//                          $metadata_array[$metadata->get_property_type_id()]= $metadata->get_value();
-//                      }
-//                      $texts['original'] = $this->selected_object;
-//                  }
-//            }
-//            else if($this->selected_object->get_type() == Youtube::get_type_name())
-//            {
-//                $videos[] = $this->selected_object;
-//            }
-//            else if($this->selected_object->get_type() == Link::get_type_name())
-//            {
-//                $links[] = $this->selected_object;
-//            }
-//            else if($this->selected_object->get_type() == WikiPage::get_type_name())
-//            {
-//                $texts[] = $this->selected_object;
-//            }
-//            else
-//            {
-//                $others[] = $this->selected_object;
-//            }
-//                 $alternatives['text'] = $texts;
-//                 $alternatives['image'] = $images;
-//                 $alternatives['video'] = $videos;
-//                 $alternatives['other'] = $others;
-//                 $alternatives['link'] = $links;
-//                 $alternatives['handbook'] = $handbooks;
-//
-//                 //TODO: Determine most relevant ones (Voorlopig is gewoon de eerste de "main" en zit die ook nog eens bij de alternatives)
-//                 //TEXT
-//                 //1. user language 2. publication language
-//                 //3. user institution 4. publication institution
-//                 $alternatives['text_main'] = current($alternatives['text']);
-//                 $alternatives['handbook_main'] = current($alternatives['handbook']);
-//
-//                 //IMAGE & VIDEO
-//                 //1. user language 2. publication language
-//                 //3. user institution 4. publication institution
-//                 $alternatives['image_main'] = current($alternatives['image']);
-//                 $alternatives['video_main'] = current($alternatives['video']);
-//
-//                 return $alternatives;
-//    }
+
 
     /**
      * retrieve all the glossary's in this handbook publication and combine them in one
@@ -470,7 +352,7 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
             $html[] = '</div>';
 
         $html[] = '</div>';
-        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/handbook_alternatives.js' . '"></script>';
+        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_PATH) . $this->get_application_name() . '/resources/javascript/handbook_alternatives.js' . '"></script>';
 
         return implode ("\n", $html);
 

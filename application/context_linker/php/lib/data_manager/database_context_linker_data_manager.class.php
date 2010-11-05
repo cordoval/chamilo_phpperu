@@ -20,6 +20,9 @@ use application\metadata\ContentObjectMetadataPropertyValue;
 
 class DatabaseContextLinkerDataManager extends Database implements ContextLinkerDataManagerInterface
 {
+
+    
+
     function initialize()
     {
 //            $aliases = array();
@@ -108,7 +111,7 @@ class DatabaseContextLinkerDataManager extends Database implements ContextLinker
                                     'orig_' . ContentObject :: PROPERTY_ID => $record['orig_id'],
                                     'orig_' . ContentObject :: PROPERTY_TYPE => $record['orig_type'],
                                     'orig_' . ContentObject :: PROPERTY_TITLE => $record['orig_title'],
-                                    'alt_' . ContentObject :: PROPERTY_ID => $record['alt_id'],
+                                    'alt_' . ContentObject :: PROPERTY_ID => $record[ContextLinkerManager::PROPERTY_ALT_ID],
                                     'alt_' . ContentObject :: PROPERTY_TYPE => $record['alt_type'],
                                     'alt_' . ContentObject :: PROPERTY_TITLE => $record['alt_title'],
                                     MetadataPropertyType :: PROPERTY_NS_PREFIX => $record[MetadataPropertyType :: PROPERTY_NS_PREFIX],
@@ -131,7 +134,7 @@ class DatabaseContextLinkerDataManager extends Database implements ContextLinker
         {
             foreach($context_links as $context_link)
             {
-                $condition = new EqualityCondition(ContextLink :: PROPERTY_ORIGINAL_CONTENT_OBJECT_ID, $context_link['alt_' . ContentObject :: PROPERTY_ID]);
+                $condition = new EqualityCondition(ContextLink :: PROPERTY_ORIGINAL_CONTENT_OBJECT_ID, $context_link[ContextLinkerManager::PROPERTY_ALT_ID]);
                 $result[] = $context_link;
                 $result = array_merge($result, $this->retrieve_full_context_links_recursive($condition, $offset, $max_objects, $order_by));
             }
