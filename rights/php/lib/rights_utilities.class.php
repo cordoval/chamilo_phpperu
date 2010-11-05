@@ -300,7 +300,7 @@ class RightsUtilities
             return true;
         }
 
-        if (! self :: $location_cache[$identifier])
+        if (! self :: $location_cache[$identifier][$type])
         {
             $location = self :: get_location_by_identifier($application, $type, $identifier, $tree_identifier, $tree_type);
             if (!$location)
@@ -313,7 +313,7 @@ class RightsUtilities
             {
                 $location = $locked_parent;
             }
-            self :: $location_cache[$identifier] = $location;
+            self :: $location_cache[$identifier][$type] = $location;
 
             $parent_location = $location->get_parent();
 
@@ -327,7 +327,7 @@ class RightsUtilities
         }
         else
         {
-            $location = self :: $location_cache[$identifier];
+            $location = self :: $location_cache[$identifier][$type];
         }
 
         if (self :: $right_granted_by_parent_cache[$right] == 1 && $location->inherits())
