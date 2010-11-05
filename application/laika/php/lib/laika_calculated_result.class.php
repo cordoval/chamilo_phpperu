@@ -1,6 +1,7 @@
 <?php
 namespace application\laika;
 
+use user\UserDataManager;
 /**
  * $Id: laika_calculated_result.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika
