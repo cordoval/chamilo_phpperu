@@ -44,6 +44,7 @@ class MetadataManagerMetadataDefaultValuesBrowserComponent extends MetadataManag
         $parameters[Application :: PARAM_APPLICATION] = 'metadata';
 //        $parameters['curriculum_courses_browser_column'] = '2';
         $parameters[Application :: PARAM_ACTION] =  MetadataManager::ACTION_BROWSE_METADATA_DEFAULT_VALUES;
+        $parameters[MetadataManager :: PARAM_METADATA_PROPERTY_TYPE] = Request :: get(MetadataManager :: PARAM_METADATA_PROPERTY_TYPE);
 
         $condition = new EqualityCondition(MetadataManager :: PARAM_METADATA_PROPERTY_TYPE, $metadata_property_type_id);
         $table = new MetadataDefaultValueBrowserTable($this, $parameters, $condition);
@@ -56,6 +57,7 @@ class MetadataManagerMetadataDefaultValuesBrowserComponent extends MetadataManag
 
         $actions = array();
         $actions[] = new ToolbarItem(Translation :: get('CreateMetadataDefaultValue'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_CREATE_METADATA_DEFAULT_VALUE, MetadataManager :: PARAM_METADATA_PROPERTY_TYPE => Request :: get(MetadataManager :: PARAM_METADATA_PROPERTY_TYPE))));
+        $actions[] = new ToolbarItem(Translation :: get('ImportMetadataDefaultValue'), Theme :: get_common_image_path() . 'action_import.png', $this->get_url(array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_IMPORT_METADATA_DEFAULT_VALUE, MetadataManager :: PARAM_METADATA_PROPERTY_TYPE => Request :: get(MetadataManager :: PARAM_METADATA_PROPERTY_TYPE))));
 
         $action_bar->set_common_actions($actions);
         $action_bar->set_search_url($this->get_url());

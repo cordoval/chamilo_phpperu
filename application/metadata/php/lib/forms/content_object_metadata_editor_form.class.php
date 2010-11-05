@@ -298,7 +298,7 @@ class ContentObjectMetadataEditorForm extends MetadataForm
                 $group = array();
 
                 $group[] = $this->createElement('select', MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_PROPERTY_ATTRIBUTE_TYPE_ID . '_' . $metadata_property_value->get_id(), Translation :: get('PropertyAttributeType'), $this->filter_allowed_property_attribute_types($metadata_property_value->get_property_type_id()));
-                $group[] = $this->createElement('select', MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_VALUE_TYPE . '_' . $metadata_property_value->get_id(), Translation :: get('ValueType'),$this->get_value_types(),array('class'=>'attribute_value'));
+                $group[] = $this->createElement('select', MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_VALUE_TYPE . '_' . $metadata_property_value->get_id(), Translation :: get('ValueType'),$this->get_value_types(),array('class'=>'attribute_value', 'id' => $metadata_property_value->get_id()));
                 
                 $group[] = $this->createElement('text', MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_VALUE . '_' . $metadata_property_value->get_id(), Translation :: get('Value'));
                 $group[] = $this->createElement('select', MetadataManager :: PARAM_METADATA_PROPERTY_ATTRIBUTE_VALUE . '_' . MetadataPropertyAttributeValue :: PROPERTY_VALUE . '_n_' . $metadata_property_value->get_id(), Translation :: get('Value'), $this->property_attribute_types);
