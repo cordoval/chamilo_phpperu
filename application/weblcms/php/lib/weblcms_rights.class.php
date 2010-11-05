@@ -1,4 +1,5 @@
 <?php
+
 namespace application\weblcms;
 
 use user\UserDataManager;
@@ -8,12 +9,13 @@ use common\libraries\Path;
 use rights\RightsUtilities;
 use common\libraries\Translation;
 use ReflectionClass;
+use group\GroupDataManager;
+use common\libraries\Request;
 
 /**
  * $Id: weblcms_rights.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms
  */
-
 class WeblcmsRights extends RightsUtilities
 {
     const VIEW_RIGHT = '1';
@@ -102,10 +104,9 @@ class WeblcmsRights extends RightsUtilities
     /**
      * Functions used for course_group_right_location
      */
-
     static function invert_course_group_right_location($right, $course_group, $location)
     {
-        if (! empty($course_group) && ! empty($right) && ! empty($location))
+        if (!empty($course_group) && !empty($right) && !empty($location))
         {
             $wdm = WeblcmsDataManager :: get_instance();
             $course_group_right_location = $wdm->retrieve_course_group_right_location($right, $course_group, $location);
@@ -140,7 +141,7 @@ class WeblcmsRights extends RightsUtilities
 
     static function set_course_group_right_location_value($right, $course_group, $location, $value)
     {
-        if (! empty($course_group) && ! empty($right) && ! empty($location) && isset($value))
+        if (!empty($course_group) && !empty($right) && !empty($location) && isset($value))
         {
             $wdm = WeblcmsDataManager :: get_instance();
             $course_group_right_location = $wdm->retrieve_course_group_right_location($right, $course_group, $location);
@@ -208,7 +209,7 @@ class WeblcmsRights extends RightsUtilities
                 return true;
             }
 
-            if (! $parent->inherits())
+            if (!$parent->inherits())
             {
                 return false;
             }
@@ -229,7 +230,7 @@ class WeblcmsRights extends RightsUtilities
         {
             $value = self :: get_course_group_right_location($right, $object->get_id(), $location->get_id());
 
-            if (! $value)
+            if (!$value)
             {
                 if ($location->inherits())
                 {
@@ -259,98 +260,121 @@ class WeblcmsRights extends RightsUtilities
         return implode("\n", $html);
     }
 
-    // Rewrite of is_allowed and get_right to check for course groups as well
-
-
-    static function is_allowed($right, $location = 0, $type = self :: TYPE_ROOT, $user_id = null, $tree_identifier = 0, $tree_type = self :: TREE_TYPE_ROOT)
+    static function is_allowed($right, $identifier = 0, $type = self :: TYPE_ROOT, $user_id = null, $tree_identifier = 0, $tree_type = self :: TREE_TYPE_ROOT)
     {
-        // Determine the user_id of the user we're checking a right for
+        $user = parent :: retrieve_user();
+        $templates = parent :: retrieve_templates($user);
+        $groups = self :: get_course_groups();
+        return parent :: get_right($right, $identifier, $type, 'weblcms', $user, $templates, $groups, $tree_identifier, $tree_type);
+    }
+
+    static function get_course_groups()
+    {
         $udm = UserDataManager :: get_instance();
         $user_id = $user_id ? $user_id : Session :: get_user_id();
         $user = $udm->retrieve_user($user_id);
-
-        $cache_id = md5(serialize(array($right, $location, $type, WeblcmsManager :: APPLICATION_NAME, $user_id, $tree_identifier, $tree_type)));
-
-        if (! isset(self :: $is_allowed_cache[$cache_id]))
-        {
-            self :: $is_allowed_cache[$cache_id] = self :: get_right($right, $location, $type, $user, $tree_identifier, $tree_type);
-        }
-
-        return self :: $is_allowed_cache[$cache_id];
+        return WeblcmsDataManager :: get_user_course_groups($user, WeblcmsDataManager :: get_instance()->retrieve_course(Request :: get(WeblcmsManager::PARAM_COURSE)));
     }
 
-    /**
-     * @param int $right
-     * @param int $location
-     * @param string $type
-     * @param string $application
-     * @param User $user
-     * @param int $tree_identifier
-     * @param string $tree_type
-     * @return boolean
+    /*
+     * Overwrites the rightsutilities function to retrieve the correct type of groups.
      */
-    static function get_right($right, $location, $type, $user, $tree_identifier, $tree_type)
+    static function get_group_right_location($right, $group_id, $parent_id)
     {
-        $application = WeblcmsManager :: APPLICATION_NAME;
-
-        if ($tree_type != self :: TREE_TYPE_COURSE || $tree_identifier == 0)
-        {
-            return parent :: get_right($right, $location, $type, $application, $user, $tree_identifier, $tree_type);
-        }
-
-        if ($user instanceof User && $user->is_platform_admin())
-        {
-            return true;
-        }
-
-        $location = parent :: get_location_by_identifier($application, $type, $location, $tree_identifier, $tree_type);
-        if (! $location)
-        {
-            return false;
-        }
-
-        $locked_parent = $location->get_locked_parent();
-        if (isset($locked_parent))
-        {
-            $location = $locked_parent;
-        }
-
-        if (isset($user))
-        {
-            // Check right for the user's groups
-            //$user_groups = $user->get_groups();
-            $course_groups = WeblcmsDataManager :: get_user_course_groups($user, WeblcmsDataManager :: get_instance()->retrieve_course($tree_identifier));
-            foreach ($course_groups as $course_group_id => $course_group)
-            {
-                if (self :: is_allowed_for_course_group($course_group_id, $right, $location))
-                {
-                    return true;
-                }
-            }
-
-            // Check right for the individual user's configured templates
-            $user_templates = $user->get_rights_templates();
-
-            while ($user_template = $user_templates->next_result())
-            {
-                if (self :: is_allowed_for_rights_template($user_template->get_id(), $right, $location))
-                {
-                    return true;
-                }
-            }
-
-            if (self :: is_allowed_for_user($user->get_id(), $right, $location))
-            {
-                return true;
-            }
-        }
-        else
-        {
-            // TODO: Use anonymous user for this, he may or may not have some rights too
-            return false;
-        }
-
-        return false;
+        return self :: get_course_group_right_location($right, $group_id, $parent_id);
     }
+
+    // Rewrite of is_allowed and get_right to check for course groups as well
+//    static function is_allowed($right, $location = 0, $type = self :: TYPE_ROOT, $user_id = null, $tree_identifier = 0, $tree_type = self :: TREE_TYPE_ROOT)
+//    {
+//        // Determine the user_id of the user we're checking a right for
+//        $udm = UserDataManager :: get_instance();
+//        $user_id = $user_id ? $user_id : Session :: get_user_id();
+//        $user = $udm->retrieve_user($user_id);
+//
+//        $cache_id = md5(serialize(array($right, $location, $type, WeblcmsManager :: APPLICATION_NAME, $user_id, $tree_identifier, $tree_type)));
+//
+//        if (! isset(self :: $is_allowed_cache[$cache_id]))
+//        {
+//            self :: $is_allowed_cache[$cache_id] = self :: get_right($right, $location, $type, $user, $tree_identifier, $tree_type);
+//        }
+//
+//        return self :: $is_allowed_cache[$cache_id];
+//    }
+//
+//    /**
+//     * @param int $right
+//     * @param int $location
+//     * @param string $type
+//     * @param string $application
+//     * @param User $user
+//     * @param int $tree_identifier
+//     * @param string $tree_type
+//     * @return boolean
+//     */
+//    static function get_right($right, $location, $type, $user, $tree_identifier, $tree_type)
+//    {
+//        $application = WeblcmsManager :: APPLICATION_NAME;
+//
+//        if ($tree_type != self :: TREE_TYPE_COURSE || $tree_identifier == 0)
+//        {
+//            return parent :: get_right($right, $location, $type, $application, $user, $tree_identifier, $tree_type);
+//        }
+//
+//        if ($user instanceof User && $user->is_platform_admin())
+//        {
+//            return true;
+//        }
+//
+//        $location = parent :: get_location_by_identifier($application, $type, $location, $tree_identifier, $tree_type);
+//        if (! $location)
+//        {
+//            return false;
+//        }
+//
+//        $locked_parent = $location->get_locked_parent();
+//        if (isset($locked_parent))
+//        {
+//            $location = $locked_parent;
+//        }
+//
+//        if (isset($user))
+//        {
+//            // Check right for the user's groups
+//            //$user_groups = $user->get_groups();
+//            $course_groups = WeblcmsDataManager :: get_user_course_groups($user, WeblcmsDataManager :: get_instance()->retrieve_course($tree_identifier));
+//            foreach ($course_groups as $course_group_id => $course_group)
+//            {
+//                if (self :: is_allowed_for_course_group($course_group_id, $right, $location))
+//                {
+//                    return true;
+//                }
+//            }
+//
+//            // Check right for the individual user's configured templates
+//            $user_templates = $user->get_rights_templates();
+//
+//            while ($user_template = $user_templates->next_result())
+//            {
+//                if (self :: is_allowed_for_rights_template($user_template->get_id(), $right, $location))
+//                {
+//                    return true;
+//                }
+//            }
+//
+//            if (self :: is_allowed_for_user($user->get_id(), $right, $location))
+//            {
+//                return true;
+//            }
+//        }
+//        else
+//        {
+//            // TODO: Use anonymous user for this, he may or may not have some rights too
+//            return false;
+//        }
+//
+//        return false;
+//    }
 }
+
 ?>
