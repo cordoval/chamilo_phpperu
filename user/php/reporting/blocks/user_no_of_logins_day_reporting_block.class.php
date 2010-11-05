@@ -6,6 +6,12 @@ use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\Path;
 
+use reporting\ReportingData;
+use reporting\ReportingFormatter;
+use reporting\ReportingChartFormatter;
+
+use tracking\Tracker;
+
 require_once dirname(__FILE__) . '/../user_reporting_block.class.php';
 require_once Path :: get_reporting_path() . '/lib/reporting_data.class.php';
 

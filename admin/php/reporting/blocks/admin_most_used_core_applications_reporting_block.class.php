@@ -3,6 +3,15 @@ namespace admin;
 use common\libraries\CoreApplication;
 use common\libraries\Translation;
 use common\libraries\Path;
+use common\libraries\PatternMatchCondition;
+
+use reporting\ReportingData;
+use reporting\ReportingFormatter;
+
+use tracking\Tracker;
+
+use user\VisitTracker;
+use user\UserManager;
 
 require_once dirname(__FILE__) . '/../admin_reporting_block.class.php';
 require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';

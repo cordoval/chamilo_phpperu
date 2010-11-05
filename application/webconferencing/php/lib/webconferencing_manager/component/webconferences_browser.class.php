@@ -2,6 +2,7 @@
 
 namespace application\webconferencing;
 
+use common\libraries\Application;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\ActionBarRenderer;

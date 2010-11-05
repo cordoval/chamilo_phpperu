@@ -1139,8 +1139,8 @@ class ContentObject extends DataClass
         {
         	return null; //problem with the here is the prepository
         }
-
         $class = self :: type_to_class($type);
+
         return new $class($defaultProperties, $additionalProperties);
     }
 

@@ -3,6 +3,7 @@ namespace repository\content_object\vimeo;
 
 use common\libraries\Utilities;
 use common\libraries\Versionable;
+use common\libraries\Text;
 
 use repository\ContentObject;
 

@@ -620,7 +620,8 @@ EOT;
     static function factory($form_type, $content_object, $form_name, $method = 'post', $action = null, $extra = null, $additional_elements = array(), $allow_new_version = true, $form_variant = null)
     {
         $type = $content_object->get_type();
-
+        $type = Utilities::camelcase_to_underscores($type);
+        
         if ($form_variant)
         {
             $class = ContentObject :: type_to_class($type) /*. ContentObject :: type_to_class($form_variant) */. Utilities :: underscores_to_camelcase($form_variant) . 'Form';
@@ -629,6 +630,7 @@ EOT;
         else
         {
             $class = ContentObject :: type_to_class($type) . 'Form';
+
             require_once Path :: get_repository_content_object_path() . $type . '/php/' . $type . '_form.class.php';
         }
 

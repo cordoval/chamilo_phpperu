@@ -126,7 +126,6 @@ class DatabaseContextLinkerDataManager extends Database implements ContextLinker
     {
         
         $context_links = $this->retrieve_full_context_links($condition, $offset, $max_objects, $order_by);
-        
         if(count($context_links))
         {
             foreach($context_links as $context_link)
