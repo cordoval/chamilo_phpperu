@@ -85,8 +85,8 @@ class QtiImportStrategyGeneric extends QtiImportStrategyBase{
 		$result = array();
 		for($i = 0; $i<count($feedbacks); $i++){
 			if(	$null_feedbacks[$i]==$correct_feedbacks[$i]
-				&& $correct_feedbacks[$i]==$incorrect_feedbacks[$i]
-				&& !empty($correct_feedbacks[$i])){
+			&& $correct_feedbacks[$i]==$incorrect_feedbacks[$i]
+			&& !empty($correct_feedbacks[$i])){
 				$result[]= $correct_feedbacks[$i];
 			}
 		}
@@ -241,7 +241,7 @@ class QtiImportStrategyGeneric extends QtiImportStrategyBase{
 			return 0;
 		}
 
-		if($normal_maximum = $score_declaration->normalMaximum){
+		if($normal_maximum = $score_declaration->normalMaximum && empty($interaction)){
 			return $normal_maximum;
 		}else if(empty($interaction)){
 			$answers = $this->get_maximum_score_possible_answers($item);
@@ -267,7 +267,7 @@ class QtiImportStrategyGeneric extends QtiImportStrategyBase{
 			}
 			$cardinality = $this->head()->get_response_declaration($item, $interaction)->cardinality;
 			if($cardinality == qti::CARDINALITY_MULTIPLE){
-    			$answers = $this->combine($answers);
+				$answers = $this->combine($answers);
 			}
 			$result[$interaction->responseIdentifier] = $answers;
 		}
@@ -290,26 +290,27 @@ class QtiImportStrategyGeneric extends QtiImportStrategyBase{
 			$responses = $this->head()->get_possible_responses($item, $interaction);
 			foreach($responses as $response){
 				$response_penalty = $this->get_penalty($item, $interaction, $response);
-				$max_penatly = max($response_penalty, $max_penalty);
+				$max_penalty = max(floatval($response_penalty), floatval($max_penalty));
 			}
 			$result = $max_penalty;
 		}else{
 			$interpreter = new QtiInterpreter();
 			$interpreter->init($item);
 			$interpreter->add_response($interaction->responseIdentifier, $response);
-			$interpreter->execute($item);
+			$interpreter->response($item);
 			$score_without_penalty = $interpreter->get_outcome(Qti::SCORE);
 
 			$interpreter = new QtiInterpreter();
 			$interpreter->init($item);
-			$interpreter->execute($item);
+			$interpreter->response($item);
 			$interpreter->add_response($interaction->responseIdentifier, $response);
-			$interpreter->execute($item);
+			$interpreter->response($item);
 			$score_with_penalty = $interpreter->get_outcome(Qti::SCORE);
 
 			$result = abs($score_without_penalty - $score_with_penalty);
 		}
-		return empty($result) ? 0 : $result;
+
+		return empty($result) ? 0 : (float)$result;
 	}
 
 
@@ -318,8 +319,8 @@ class QtiImportStrategyGeneric extends QtiImportStrategyBase{
 
 	public function get_tolerance(ImsXmlReader $item, ImsXmlReader $interaction=null, $answer=''){
 		if(	!$interaction->is_sliderInteraction() &&
-			!$interaction->is_textEntryInteraction() &&
-			!!$interaction->is_extendedTextEntryInteraction()){
+		!$interaction->is_textEntryInteraction() &&
+		!!$interaction->is_extendedTextEntryInteraction()){
 			return false;
 		}
 
@@ -366,8 +367,8 @@ class QtiImportStrategyGeneric extends QtiImportStrategyBase{
 
 	public function get_tolerance_type(ImsXmlReader $item, ImsXmlReader $interaction=null, $answer=''){
 		if(	!$interaction->is_sliderInteraction() &&
-			!$interaction->is_textEntryInteraction() &&
-			!$interaction->is_extendedTextInteraction()){
+		!$interaction->is_textEntryInteraction() &&
+		!$interaction->is_extendedTextInteraction()){
 			return false;
 		}
 		if($this->head()->is_formula($answer)){
@@ -414,23 +415,23 @@ class QtiImportStrategyGeneric extends QtiImportStrategyBase{
 			}
 		}
 		/*
-		$result = array();
-		$start = $stop = $current_score = false;
-		foreach($scores as $value => $score){
+		 $result = array();
+		 $start = $stop = $current_score = false;
+		 foreach($scores as $value => $score){
 			if($current_score === false || $current_score != $score){
-				if($current_score !== false){
-					$middle = ($start+$stop) / 2;
-					$middle = $base_type == 'integer' ? round($middle) : $middle;
-					$result[] = $middle;
-				}
-				$start = $stop = $value;
-				$current_score = $core;
-			}else{
-				$start = min($value, $start);
-				$end = max($value, $end);
+			if($current_score !== false){
+			$middle = ($start+$stop) / 2;
+			$middle = $base_type == 'integer' ? round($middle) : $middle;
+			$result[] = $middle;
 			}
-		}
-		*/
+			$start = $stop = $value;
+			$current_score = $core;
+			}else{
+			$start = min($value, $start);
+			$end = max($value, $end);
+			}
+			}
+			*/
 		return $result;
 	}
 
@@ -718,6 +719,7 @@ class QtiImportStrategyGeneric extends QtiImportStrategyBase{
 		//if(empty($result) && $answers = $this->head()->get_correct_responses($item, $interaction)){
 		//	$result = $answers;
 		//}
+
 		if(empty($result)){
 			$result = $this->head()->get_score_formulas($item, $interaction);
 		}
@@ -740,27 +742,6 @@ class QtiImportStrategyGeneric extends QtiImportStrategyBase{
 		}
 		return $result;
 	}
-/*
-	protected function set_correct_responses(ImsXmlReader $item, $interpreter){
-		$interactions = $item->list_interactions();
-		foreach($interactions as $interaction){
-			$correct_responses = $this->head()->get_correct_responses($item, $interaction);
-			$id = $interaction->responseIdentifier;
-			$cardinality = $this->head()->get_response_declaration($item, $interaction)->cardinality;
-			$correct_responses = $cardinality == Qti::CARDINALITY_MULTIPLE ? $correct_responses : reset($correct_responses);
-			$interpreter->add_response($id, $correct_responses);
-		}
-	}
-
-	protected function set_incorrect_responses(ImsXmlReader $item, $interpreter){
-		$interactions = $item->list_interactions();
-		foreach($interactions as $interaction){
-			$incorrect_response = $this->head()->get_incorrect_response($item, $interaction);
-			$id = $interaction->responseIdentifier;
-			$interpreter->add_response($id, $incorrect_response);
-		}
-	}
-	*/
 
 	protected function get_incorrect_response(ImsXmlReader $item, $interaction){
 		$correct_responses = $this->head()->get_correct_responses($item, $interaction);

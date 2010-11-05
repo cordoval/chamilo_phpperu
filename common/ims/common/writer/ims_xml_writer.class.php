@@ -181,7 +181,7 @@ class ImsXmlWriter
     }
 
     public function add_xml($xml){
-    	if(empty($xml)){
+    	if(trim($xml) === ''){
     		return $this;
     	}
 

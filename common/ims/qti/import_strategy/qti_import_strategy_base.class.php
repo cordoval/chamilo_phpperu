@@ -483,9 +483,6 @@ class QtiImportStrategyBase{
 		return false;
 	}
 
-
-
-
 	//END FORMULAS
 
 	//CORRECT-INCORRECT METHODS

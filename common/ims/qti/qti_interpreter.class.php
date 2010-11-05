@@ -721,8 +721,8 @@ class QtiInterpreter{
 
 	protected function process_mapping(ImsXmlReader $item, $response, $base_type){
 		$default = $item->defaultValue;
-		$max = $item->upperBound;
-		$min = $item->lowerBound;
+		$max = $item->upperBound === '' ? 1000000 : $item->upperBound;
+		$min = $item->lowerBound === '' ? -1000000 : $item->lowerBound;
 
 		$result = '';
 		$entries = $item->list_mapEntry();
