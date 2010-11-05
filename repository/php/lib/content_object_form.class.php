@@ -65,13 +65,13 @@ abstract class ContentObjectForm extends FormValidator
      */
     protected function __construct($form_type, $content_object, $form_name, $method = 'post', $action = null, $extra = null, $additional_elements, $allow_new_version = true)
     {
-    	/*$registration = AdminDataManager :: get_registration($content_object->get_type(), Registration :: TYPE_CONTENT_OBJECT);
+        /*$registration = AdminDataManager :: get_registration($content_object->get_type(), Registration :: TYPE_CONTENT_OBJECT);
         if(!RepositoryRights :: is_allowed_in_content_objects_subtree(RepositoryRights :: ADD_RIGHT, $registration->get_id()))
         {
         	throw new Exception('YouCanNotCreateAContentObjectOfThisType');
         }*/
 
-    	parent :: __construct($form_name, $method, $action);
+        parent :: __construct($form_name, $method, $action);
         $this->form_type = $form_type;
 
         $this->content_object = $content_object;
@@ -298,7 +298,7 @@ EOT;
         //$this->add_textfield(ContentObject :: PROPERTY_TITLE, Translation :: get('Title'), true, 'size="100" style="width: 100%"');
         //$this->add_textfield(ContentObject :: PROPERTY_TITLE, Translation :: get('Title'), true, array('size' => '100'));
         $this->addElement('html', '<div id="message"></div>');
-        $this->add_textfield(ContentObject :: PROPERTY_TITLE, Translation :: get(array_pop(explode('\\', get_class($this))) . 'Title'), true, array('size' => '100', 'id' => 'title', 'style' => 'width: 95%'));
+        $this->add_textfield(ContentObject :: PROPERTY_TITLE, Translation :: get('Title', array(), Utilities :: get_namespace_from_object($this)), true, array('size' => '100', 'id' => 'title', 'style' => 'width: 95%'));
         if ($this->allows_category_selection())
         {
             $select = $this->add_select(ContentObject :: PROPERTY_PARENT_ID, Translation :: get('CategoryTypeName'), $this->get_categories());
@@ -306,7 +306,7 @@ EOT;
         }
         $value = PlatformSetting :: get('description_required', 'repository');
         $required = ($value == 1) ? true : false;
-        $this->add_html_editor(ContentObject :: PROPERTY_DESCRIPTION, Translation :: get(array_pop(explode('\\', get_class($this))) . 'Description'), $required, $htmleditor_options);
+        $this->add_html_editor(ContentObject :: PROPERTY_DESCRIPTION, Translation :: get('Description', array(), Utilities :: get_namespace_from_object($this)), $required, $htmleditor_options);
     }
 
     /**
@@ -624,7 +624,7 @@ EOT;
         if ($form_variant)
         {
             $class = ContentObject :: type_to_class($type) /*. ContentObject :: type_to_class($form_variant) */. Utilities :: underscores_to_camelcase($form_variant) . 'Form';
-            require_once Path :: get_repository_content_object_path() . $type . '/php/' . $type  . '_' . $form_variant . '_form.class.php';
+            require_once Path :: get_repository_content_object_path() . $type . '/php/' . $type . '_' . $form_variant . '_form.class.php';
         }
         else
         {

@@ -22,11 +22,6 @@ class UserToolEmailerComponent extends UserTool
 
     function run()
     {
-        if (! $this->is_allowed(WeblcmsRights :: VIEW_RIGHT))
-        {
-            Display :: not_allowed();
-            return;
-        }
 
         $ids = Request :: get(WeblcmsManager :: PARAM_USERS);
         $udm = UserDataManager :: get_instance();

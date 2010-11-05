@@ -1,9 +1,16 @@
 <?php
+namespace repository;
+
+use common\libraries\ToolbarItem;
+use common\libraries\Toolbar;
+use common\libraries\Theme;
+use common\libraries\Path;
+use common\libraries\Translation;
+use group\GroupDataManager;
+use group\Group;
 
 require_once dirname(__FILE__) . '/../content_object_user_share_rights_browser/share_right_column.class.php';
-
 require_once dirname(__FILE__) . '/../content_object_user_share_rights_browser/action_column.php';
-
 require_once dirname(__FILE__) . '/content_object_group_share_rights_browser_table_column_model.class.php';
 require_once Path :: get_group_path() . 'lib/group_table/default_group_table_cell_renderer.class.php';
 

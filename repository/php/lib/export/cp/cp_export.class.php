@@ -60,7 +60,7 @@ class CpExport extends ContentObjectExport
         }
         else
         {
-            return get_class($object);
+            return Utilities :: get_classname_from_object($object);
         }
     }
 

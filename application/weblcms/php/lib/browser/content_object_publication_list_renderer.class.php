@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\AttachmentSupport;
 use common\libraries\Categorizable;
 use group\GroupDataManager;
 use common\libraries\DatetimeUtilities;
@@ -677,10 +678,6 @@ abstract class ContentObjectPublicationListRenderer
     function get_publication_actions($publication, $show_move = true)
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
-        if ($publication->get_tool() == 'assessment')
-        {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('TakeAssessment'), Theme :: get_common_image_path() . 'action_next.png', $this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
-        }
 
         $details_url = $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_VIEW));
         $toolbar->add_item(new ToolbarItem(Translation :: get('Details'), Theme :: get_common_image_path() . 'action_details.png', $details_url, ToolbarItem :: DISPLAY_ICON));
@@ -761,11 +758,10 @@ abstract class ContentObjectPublicationListRenderer
             }
         }
 
-        if (method_exists($this->get_tool_browser()->get_parent(), 'get_content_object_publication_actions'))
+        if (method_exists($this->get_tool_browser()->get_parent(), 'add_content_object_publication_actions'))
         {
 
-            $content_object_publication_actions = $this->get_tool_browser()->get_parent()->get_content_object_publication_actions($publication);
-            $toolbar->add_items($content_object_publication_actions);
+            $content_object_publication_actions = $this->get_tool_browser()->get_parent()->add_content_object_publication_actions($toolbar, $publication);
         }
 
         return $toolbar;

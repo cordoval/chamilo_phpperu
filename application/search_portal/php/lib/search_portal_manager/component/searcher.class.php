@@ -13,6 +13,7 @@ use common\libraries\PlatformSetting;
 use common\libraries\DatetimeUtilities;
 
 use Pager;
+use Exception;
 
 use user\UserDataManager;
 
@@ -26,7 +27,7 @@ require_once 'Pager/Pager.php';
 
 class SearchPortalManagerSearcherComponent extends SearchPortalManager
 {
-    const PARAM_QUERY = 'query';    
+    const PARAM_QUERY = 'query';
     const CONTENT_OBJECTS_PER_PAGE = 10;
 
     /*
@@ -35,36 +36,36 @@ class SearchPortalManagerSearcherComponent extends SearchPortalManager
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-        
+
         $query = trim(Request :: get('query'));
-        
+
         if ($query && $query != '')
         {
             $trail->add(new Breadcrumb($this->get_url(array('query' => Request :: get('query'), 'submit' => 'Search')), Translation :: get('SearchResultsFor') . ' ' . $query));
         }
-            
+
         $this->display_header();
-        
+
         $form = new FormValidator('search_simple', 'get', $this->get_url(), '', null, false);
-        
+
         $form->addElement('text', self :: PARAM_QUERY, '', 'size="40" class="search_query_no_icon" id="search_query"');
         $buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Search'), array('class' => 'normal search'));
         $form->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         $form->addElement('hidden', 'application');
-        
+
         $renderer = clone $form->defaultRenderer();
         $renderer->setElementTemplate('{label} {element} ');
-        
+
         $form->accept($renderer);
         $form->setDefaults(array('application' => 'search_portal'));
-        
+
         $html[] = '<div style="text-align: center; margin: 0 0 2em 0;">';
-        
+
         $html[] = $renderer->toHTML();
         $html[] = '</div>';
-        
+
         echo implode("\n", $html);
-         
+
         if ($form->validate())
         {
             $form_values = $form->exportValues();
@@ -74,14 +75,14 @@ class SearchPortalManagerSearcherComponent extends SearchPortalManager
                $this->search($query);
             }
         }
-        
+
     	$this->display_footer();
     }
 
     private function search($query)
     {
         $search_source = SearchSource :: factory('local_repository');
-        
+
         if ($search_source instanceof Exception)
         {
             $this->report_exception($search_source);
@@ -91,29 +92,29 @@ class SearchPortalManagerSearcherComponent extends SearchPortalManager
         	$count = $search_source->count_search_results($query, $this->get_user());
             if ($count)
             {
-            	$pager = $this->create_pager($count, self :: CONTENT_OBJECTS_PER_PAGE);  
+            	$pager = $this->create_pager($count, self :: CONTENT_OBJECTS_PER_PAGE);
                 $pager_links = $this->get_pager_links($pager);
                 $offset = $pager->getOffsetByPageId();
                 $first = $offset[0] - 1;
-                
+
                 $str = htmlentities(str_ireplace(array('%first%', '%last%', '%total%'), array($offset[0], $offset[1], $count), Translation :: get('Results_Through_Of_From_')));
-                
+
                 $html[] = '<h3>' . $str . '</h3>';
                 $html[] = $pager_links;
-                
+
                 $i = 0;
                 $html[] = '<ul class="portal_search_results">';
-                
+
                 $results = $search_source->retrieve_search_results($query, $first, self :: CONTENT_OBJECTS_PER_PAGE, $this->get_user());
-                
+
                 foreach($results as $result)
                 {
                 	$html[] = $this->display_result($result);
                 }
-                
+
                 $html[] = '</ul>';
                 $html[] = $pager_links;
-                
+
                 echo implode("\n", $html);
             }
             else
@@ -143,22 +144,22 @@ class SearchPortalManagerSearcherComponent extends SearchPortalManager
         {
         	$fullname = Translation :: get('UserUnknown');
         }
-        
+
         $html = array();
         $html[] = '<li class="portal_search_result" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/' . $object->get_type() . '.png);">';
         $html[] = '<div class="portal_search_result_title">' . $object->get_title() . '</div>';
         $html[] = '<div class="portal_search_result_type">' . str_replace('_', ' ', $object->get_type()) . '</div>';
         $html[] = '<div class="portal_search_result_description">' . $object->get_description() . '</div>';
         $html[] = '<div class="portal_search_result_owner">'. Translation :: get('ObjectOwner') . ': ' . $fullname . '</div>';
-        
+
     	if(PlatformSetting :: get('active_online_email_editor'))
         {
         	$html[] = '<div style="float: right;"><a href="' . $this->get_email_user_url($object->get_owner_id()) . '"><img src="' . Theme :: get_common_image_path() . 'action_email.png" title="' . Translation :: get('EmailUser') . '"/></a></div>';
         }
-        
+
         $html[] = '<div class="portal_search_result_date">'. Translation :: get('LastModification') . ': ' . DatetimeUtilities :: format_locale_date(null, $object->get_modification_date()) . '</div>';
         $html[] = '</li>';
-        
+
         return implode("\n", $html);
     }
 
@@ -175,7 +176,7 @@ class SearchPortalManagerSearcherComponent extends SearchPortalManager
         $params['totalItems'] = $total;
         return Pager :: factory($params);
     }
-    
+
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add_help('search_portal_searcher');

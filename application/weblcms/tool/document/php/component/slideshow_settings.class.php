@@ -21,11 +21,6 @@ class DocumentToolSlideshowSettingsComponent extends DocumentTool
 
     function run()
     {
-        if (! $this->is_allowed(WeblcmsRights :: VIEW_RIGHT))
-        {
-            Display :: not_allowed();
-            return;
-        }
 
         $form = new DocumentSlideshowSettingsForm($this->get_url(), $this->get_user_id());
         if ($form->validate())

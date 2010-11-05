@@ -31,7 +31,7 @@ class RdpublicationForm extends ContentObjectForm
     protected function build_creation_form()
     {
         parent :: build_creation_form();
-        $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
+        $this->addElement('category', Translation :: get('Properties'));
         $this->add_textfield(Rdpublication :: PROPERTY_REF_ID, Translation :: get('REFERENCE'), true, array('size' => '100'));
         $this->add_textfield(Rdpublication :: PROPERTY_PUB_TYPE, Translation :: get('TYPE'), true, array('size' => '100'));
         $this->addElement('category');

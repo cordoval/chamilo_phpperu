@@ -6,15 +6,16 @@ namespace migration;
  * @author Sven Vanpoucke
  */
 
-class MigrationDatabase Extends Database
+class MigrationDatabase extends Database
 {
-	function initialize($connection_string)
+
+    function initialize($connection_string)
     {
         $connection = new MigrationDatabaseConnection($connection_string);
         $connection = $connection->get_connection();
         $connection->setOption('debug_handler', array(get_class($this), 'debug'));
         $connection->setCharset('utf8');
-        
+
         $this->set_connection($connection);
     }
 }

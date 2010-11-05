@@ -231,7 +231,7 @@ class CalendarBrowser extends ContentObjectPublicationBrowser
             //style="margin-left: 0px; float: right; width: 70%;"
             $html[] = '<div class="normal_calendar">';
 
-            if ($this->get_parent()->is_allowed(WeblcmsRights :: EDIT_RIGHT) && get_class(parent :: get_publication_list_renderer()) == 'CalendarListRenderer')
+            if ($this->get_parent()->is_allowed(WeblcmsRights :: EDIT_RIGHT) && parent :: get_publication_list_renderer() instanceof CalendarListRenderer)
             {
                 $html[] = '<div style="float: right;">';
 

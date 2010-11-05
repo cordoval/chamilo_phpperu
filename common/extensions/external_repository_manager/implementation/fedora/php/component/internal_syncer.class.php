@@ -1,6 +1,7 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\fedora;
 
+use repository\content_object\document\Document;
 use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\Request;

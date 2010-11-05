@@ -1,6 +1,7 @@
 <?php
 namespace user;
 
+use common\libraries\Versionable;
 use common\libraries;
 use common\libraries\Path;
 use common\libraries\Translation;
@@ -18,7 +19,6 @@ use repository\RepositoryDataManager;
  */
 require_once Path :: get_repository_path() . 'lib/external_repository_user_quotum.class.php';
 require_once Path :: get_common_extensions_path() . 'external_repository_manager/php/external_repository_connector.class.php';
-
 
 class UserQuotaForm extends FormValidator
 {
@@ -72,22 +72,22 @@ class UserQuotaForm extends FormValidator
 
         $rdm = RepositoryDataManager :: get_instance();
 
-        if(count($this->get_active_external_repositories()))
+        if (count($this->get_active_external_repositories()))
         {
             $this->addElement('category', Translation :: get('ExternalRepositories'));
 
-            foreach($this->active_external_repositories as $repository)
+            foreach ($this->active_external_repositories as $repository)
             {
                 $this->addElement('text', ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '_' . $repository['data']->get_id(), $repository['data']->get_title());
             }
             $this->addElement('category');
         }
 
-
         // Submit button
         //$this->addElement('submit', 'quota_settings', 'OK');
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
         //$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -135,24 +135,23 @@ class UserQuotaForm extends FormValidator
 
         $rdm = RepositoryDataManager :: get_instance();
 
-
-        foreach($this->get_active_external_repositories() as $repository)
+        foreach ($this->get_active_external_repositories() as $repository)
         {
-            if($values[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '_' . $repository['data']->get_id()] != $repository['settings']->get_value())
+            if ($values[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '_' . $repository['data']->get_id()] != $repository['settings']->get_value())
             {
                 $connector = ExternalRepositoryConnector :: get_instance($repository['data']);
 
-                if($user_quotum = $rdm->retrieve_external_repository_user_quotum($user->get_id(), $repository['data']->get_id()))
+                if ($user_quotum = $rdm->retrieve_external_repository_user_quotum($user->get_id(), $repository['data']->get_id()))
                 {
-                   $user_quotum->set_quotum($values[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '_' . $repository['data']->get_id()]);
+                    $user_quotum->set_quotum($values[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '_' . $repository['data']->get_id()]);
 
-                    if(!$user_quotum->update())
+                    if (! $user_quotum->update())
                     {
                         $failures ++;
                     }
                     else
                     {
-                        $connector->set_mediamosa_user_quotum($user->get_id(),$values[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '_' . $repository['data']->get_id()]);
+                        $connector->set_mediamosa_user_quotum($user->get_id(), $values[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '_' . $repository['data']->get_id()]);
                     }
                 }
                 else
@@ -162,29 +161,29 @@ class UserQuotaForm extends FormValidator
                     $user_quotum->set_external_repository_id($repository['data']->get_id());
                     $user_quotum->set_quotum($values[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '_' . $repository['data']->get_id()]);
 
-                    if(!$user_quotum->create())
+                    if (! $user_quotum->create())
                     {
                         $failures ++;
                     }
                     else
                     {
-                        $connector->set_mediamosa_user_quotum($user->get_id(),$values[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '_' . $repository['data']->get_id()]);
+                        $connector->set_mediamosa_user_quotum($user->get_id(), $values[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '_' . $repository['data']->get_id()]);
                     }
                 }
             }
             else
             {
-                if($user_quotum = $rdm->retrieve_external_repository_user_quotum($user->get_id(), $repository['data']->get_id()))
+                if ($user_quotum = $rdm->retrieve_external_repository_user_quotum($user->get_id(), $repository['data']->get_id()))
                 {
                     $user_quotum->set_quotum($values[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '_' . $repository['data']->get_id()]);
 
-                    if(!$user_quotum->delete())
+                    if (! $user_quotum->delete())
                     {
                         $failures ++;
                     }
                     else
                     {
-                        $connector->set_mediamosa_user_quotum($user->get_id(),$values[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '_' . $repository['data']->get_id()]);
+                        $connector->set_mediamosa_user_quotum($user->get_id(), $values[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '_' . $repository['data']->get_id()]);
                     }
                 }
             }
@@ -221,9 +220,9 @@ class UserQuotaForm extends FormValidator
 
         $rdm = RepositoryDataManager :: get_instance();
 
-        foreach($this->get_active_external_repositories() as $repository)
+        foreach ($this->get_active_external_repositories() as $repository)
         {
-            if($user_quotum = $rdm->retrieve_external_repository_user_quotum($user->get_id(), $repository['settings']->get_external_repository_id()))
+            if ($user_quotum = $rdm->retrieve_external_repository_user_quotum($user->get_id(), $repository['settings']->get_external_repository_id()))
 
             {
                 $defaults[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '_' . $repository['settings']->get_external_repository_id()] = $user_quotum->get_quotum();
@@ -262,13 +261,13 @@ class UserQuotaForm extends FormValidator
 
     function get_active_external_repositories()
     {
-        if(! $this->active_repositories_searched)
+        if (! $this->active_repositories_searched)
         {
             $rdm = RepositoryDataManager :: get_instance();
 
             $condition2 = new EqualityCondition(ExternalRepositorySetting :: PROPERTY_VARIABLE, ExternalRepositoryManager :: PARAM_USER_QUOTUM);
             $settings = $rdm->retrieve_external_repository_settings($condition2);
-            while($setting = $settings->next_result())
+            while ($setting = $settings->next_result())
             {
                 $tempSettings[$setting->get_external_repository_id()] = $setting;
             }
@@ -276,9 +275,9 @@ class UserQuotaForm extends FormValidator
             $condition = new EqualityCondition(ExternalRepository :: PROPERTY_ENABLED, 1);
             $active_external_repositories = $rdm->retrieve_external_repositories($condition);
 
-            while($active_external_repository = $active_external_repositories->next_result())
+            while ($active_external_repository = $active_external_repositories->next_result())
             {
-                if($tempSettings[$active_external_repository->get_id()])
+                if ($tempSettings[$active_external_repository->get_id()])
                 {
                     $this->active_external_repositories[$active_external_repository->get_id()]['settings'] = $tempSettings[$active_external_repository->get_id()];
                     $this->active_external_repositories[$active_external_repository->get_id()]['data'] = $active_external_repository;

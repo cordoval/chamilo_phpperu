@@ -52,7 +52,7 @@ class ContentObjectDifferenceDisplay
 
         foreach ($diff->get_difference() as $d)
         {
-            if (get_class($d) == 'Difference_Engine_Op_change')
+            if ($d instanceof Difference_Engine_Op_change)
             {
                 $td = new Difference_Engine(explode(" ", $d->get_orig()), explode(" ", $d->get_final()));
 

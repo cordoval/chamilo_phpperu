@@ -1,7 +1,7 @@
 <?php
 namespace common\libraries;
-use \HTML_Table;
-use \Pager;
+use HTML_Table;
+use Pager;
 
 require_once "HTML/Table.php";
 require_once "Pager/Pager.php";
@@ -289,14 +289,14 @@ class SortableTable extends HTML_Table
                 $html[] = '<select id="actions_' . $this->table_name . '" name="' . $this->table_name . '_action_value">';
                 foreach ($this->form_actions->get_form_actions() as $form_action)
                 {
-                    if (get_class($form_action) == __NAMESPACE__ . '\ObjectTableFormAction')
+                    if ($form_action instanceof ObjectTableFormAction)
                     {
                         $html[] = '<option value="' . $form_action->get_action() . '" class="' . ($form_action->get_confirm() ? 'confirm' : '') . '">' . $form_action->get_title() . '</option>';
                     }
                 }
                 $html[] = '</select>';
 
-                $html[] = '<input type="hidden" name="'. $this->table_name .'_action_name" value="' . $this->form_actions->get_action() . '"/>';
+                $html[] = '<input type="hidden" name="' . $this->table_name . '_action_name" value="' . $this->form_actions->get_action() . '"/>';
                 $html[] = '<input type="hidden" name="table_name" value="' . $this->table_name . '"/>';
                 //                $html[] = '<button class="normal start" type="submit" value="' . Translation :: get('Ok') . '">' . Translation :: get('Ok') . '</button>';
                 $html[] = ' <input type="submit" value="' . Translation :: get('Ok') . '"/>';

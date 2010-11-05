@@ -1,8 +1,7 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\fedora;
 
-use common\libraries;
-
+use common\libraries\fedora_fs_object;
 use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\Request;

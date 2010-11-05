@@ -24,26 +24,21 @@ class SettingsManagerTable extends ObjectTable
         $renderer = new SettingsManagerTableCellRenderer($browser);
         $data_provider = new SettingsManagerTableDataProvider($browser);
         parent :: __construct($data_provider, SettingsManagerTable :: DEFAULT_NAME, $model, $renderer);
-        if (get_class($browser) == 'MediamosaExternalRepositoryManagerSettingsManagerComponent')
+        if ($browser instanceof MediamosaExternalRepositoryManagerSettingsManagerComponent)
         {
             $actions = array();
             /*$actions[RepositoryManager :: PARAM_RECYCLE_SELECTED] = Translation :: get('RemoveSelected');
 			$actions[RepositoryManager :: PARAM_MOVE_SELECTED] = Translation :: get('MoveSelected');
 			$actions[RepositoryManager :: PARAM_PUBLISH_SELECTED] = Translation :: get('PublishSelected');*/
-            
-            $actions[] = new ObjectTableFormAction(MediamosaExternalRepositoryManager:: ACTION_ADD_SETTING, Translation :: get('Add'));
+
+            $actions[] = new ObjectTableFormAction(MediamosaExternalRepositoryManager :: ACTION_ADD_SETTING, Translation :: get('Add'));
         }
-        /*if (get_class($browser) == 'SettingsManagerComplexBrowserComponent')
-        {
-            $actions = array();
-            $actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_ADD_OBJECTS, Translation :: get('AddObjects'), false);
-        }*/
+
         $this->set_additional_parameters($parameters);
         $this->set_form_actions($actions);
-        //$this->set_default_row_count(20);
     }
-    
-    /*static function handle_table_action()
+
+/*static function handle_table_action()
     {
         $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
         Request :: set_get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID, $ids);

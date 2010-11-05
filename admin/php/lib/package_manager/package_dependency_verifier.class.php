@@ -1,10 +1,13 @@
 <?php
 namespace admin;
+
+use common\libraries;
+
+use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
 use common\libraries\MessageLogger;
- 
- 
+
 require_once dirname(__FILE__) . '/package_dependency.class.php';
 require_once dirname(__FILE__) . '/../package_installer/source/package_info/package_info.class.php';
 /**
@@ -16,14 +19,14 @@ class PackageDependencyVerifier
 {
     private $package;
     protected $logger;
-    
+
     const TYPE_REMOVE = 'remove';
     const TYPE_UPDATE = 'update';
 
     function PackageDependencyVerifier($package)
     {
         $this->package = $package;
-        $this->logger = MessageLogger :: get_instance(get_class($this));
+        $this->logger = MessageLogger :: get_instance(Utilities :: get_classname_from_object($this));
     }
 
     function get_package()
@@ -74,16 +77,16 @@ class PackageDependencyVerifier
         $conditions[] = new NotCondition(new EqualityCondition(Registration :: PROPERTY_TYPE, $this->get_package()->get_section()));
         $conditions[] = new NotCondition(new EqualityCondition(Registration :: PROPERTY_NAME, $this->get_package()->get_code()));
         $condition = new OrCondition($conditions);
-        
+
         $registrations = AdminDataManager :: get_instance()->retrieve_registrations($condition);
-        
+
         $failures = 0;
-        
+
         while ($registration = $registrations->next_result())
         {
             $package_info = PackageInfo :: factory($registration->get_type(), $registration->get_name());
             $package_data = $package_info->get_package();
-            
+
             if ($package_data)
             {
                 switch ($this->get_package()->get_section())
@@ -97,9 +100,9 @@ class PackageDependencyVerifier
                     default :
                         return true;
                 }
-                
+
                 $dependencies = unserialize($package_data->get_dependencies());
-                
+
                 if (isset($dependencies[$dependency_type]))
                 {
                     foreach ($dependencies[$dependency_type]['dependency'] as $dependency)
@@ -114,22 +117,23 @@ class PackageDependencyVerifier
                             }
                             elseif ($type == self :: TYPE_UPDATE)
                             {
-                            	$package_dependency = PackageDependency::factory($dependency_type, $dependency);
-                            	$result = PackageDependency::version_compare($package_dependency->get_operator(), $package_dependency->get_version_number(),  $this->get_package()->get_version());
-                            	$message = '<em>' . $package_data->get_name() . ' (' . $package_data->get_code() . ') ' . $package_dependency->get_operator_name($package_dependency->get_operator()) . ' ' . $package_dependency->get_version_number() .'</em>';
-                            	
-                            	if (! $result && $package_dependency->is_severe())
-                            	{
-                            		$failures ++;
-                            		$this->logger->add_message($message, MessageLogger::TYPE_ERROR);
-                            	}
-                            	elseif (! $result && ! $package_dependency->is_severe())
-                            	{
-                            		$this->logger->add_message($message, MessageLogger::TYPE_WARNING);
-                            	}
-                            	else {
-                            		$this->logger->add_message($message);
-                            	}
+                                $package_dependency = PackageDependency :: factory($dependency_type, $dependency);
+                                $result = PackageDependency :: version_compare($package_dependency->get_operator(), $package_dependency->get_version_number(), $this->get_package()->get_version());
+                                $message = '<em>' . $package_data->get_name() . ' (' . $package_data->get_code() . ') ' . $package_dependency->get_operator_name($package_dependency->get_operator()) . ' ' . $package_dependency->get_version_number() . '</em>';
+
+                                if (! $result && $package_dependency->is_severe())
+                                {
+                                    $failures ++;
+                                    $this->logger->add_message($message, MessageLogger :: TYPE_ERROR);
+                                }
+                                elseif (! $result && ! $package_dependency->is_severe())
+                                {
+                                    $this->logger->add_message($message, MessageLogger :: TYPE_WARNING);
+                                }
+                                else
+                                {
+                                    $this->logger->add_message($message);
+                                }
                             }
                             else
                             {
@@ -140,17 +144,17 @@ class PackageDependencyVerifier
                 }
             }
         }
-        
+
         if ($failures > 0)
         {
             $message = Translation :: get('VerificationFailed');
-            $this->logger->add_message($message, MessageLogger::TYPE_ERROR);
-        	return false;
+            $this->logger->add_message($message, MessageLogger :: TYPE_ERROR);
+            return false;
         }
         else
         {
-        	$message = Translation :: get('VerificationSuccess');
-            $this->logger->add_message($message, MessageLogger::TYPE_CONFIRM);
+            $message = Translation :: get('VerificationSuccess');
+            $this->logger->add_message($message, MessageLogger :: TYPE_CONFIRM);
             return true;
         }
     }

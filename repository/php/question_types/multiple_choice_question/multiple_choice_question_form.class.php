@@ -17,7 +17,7 @@ class MultipleChoiceQuestionForm extends ContentObjectForm
     protected function build_creation_form()
     {
         parent :: build_creation_form();
-        $this->addElement('category', Translation :: get(get_class($this) . 'Options'));
+        $this->addElement('category', Translation :: get('Options'));
         $this->add_options();
         $this->addElement('category');
     }
@@ -25,7 +25,7 @@ class MultipleChoiceQuestionForm extends ContentObjectForm
     protected function build_editing_form()
     {
         parent :: build_editing_form();
-        $this->addElement('category', Translation :: get(get_class($this) . 'Options'));
+        $this->addElement('category', Translation :: get('Options'));
         $this->add_options();
         $this->addElement('category');
     }

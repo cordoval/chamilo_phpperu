@@ -95,7 +95,7 @@ class CourseRequestForm extends FormValidator
                 $this->addElement('static', 'user', Translation :: get('User'), $user_name);
             }
 
-            if (get_class($this->request) == "CourseCreateRequest")
+            if ($this->request instanceof CourseCreateRequest)
             {
                 $wdm = WeblcmsDataManager :: get_instance();
                 $course_type_objects = $wdm->retrieve_course_types_by_user_right($this->parent->get_user(), CourseTypeGroupCreationRight :: CREATE_REQUEST);
@@ -121,12 +121,12 @@ class CourseRequestForm extends FormValidator
 
         if ($this->form_type == self :: TYPE_VIEW)
         {
-            $this->addElement('category', Translation :: get(get_class($this->request)));
+            $this->addElement('category', Translation :: get(Utilities :: get_classname_from_object($this->request)));
 
             $name_user = UserDataManager :: get_instance()->retrieve_user($this->request->get_user_id())->get_fullname();
             $this->addElement('static', 'request', Translation :: get('User'), $name_user);
 
-            if (get_class($this->request) == 'CourseCreateRequest')
+            if ($this->request instanceof CourseCreateRequest)
             {
                 $this->addElement('static', 'request', Translation :: get('CourseName'), $this->parent->retrieve_course_type($this->request->get_course_type_id())->get_name());
                 $request_name = $this->request->get_course_name();
@@ -172,7 +172,7 @@ class CourseRequestForm extends FormValidator
         $course = $this->course;
         $request = $this->request;
 
-        if (get_class($this->request) == "CourseCreateRequest")
+        if ($this->request instanceof CourseCreateRequest)
         {
             $request->set_course_name($values[CourseCreateRequest :: PROPERTY_COURSE_NAME]);
             $request->set_course_type_id($values[CourseCreateRequest :: PROPERTY_COURSE_TYPE_ID]);
@@ -203,7 +203,7 @@ class CourseRequestForm extends FormValidator
         $request = $this->request;
         $user = $this->user;
 
-        if (get_class($this->request) == "CourseCreateRequest")
+        if ($this->request instanceof CourseCreateRequest)
             $defaults[CourseCreateRequest :: PROPERTY_COURSE_NAME] = $request->get_course_name();
         else
             $defaults[CourseRequest :: PROPERTY_COURSE_ID] = $request->get_course_id();

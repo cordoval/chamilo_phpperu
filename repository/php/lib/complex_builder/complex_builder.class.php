@@ -1,6 +1,7 @@
 <?php
 namespace repository;
 
+use common\libraries\ComplexMenuSupport;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Path;
@@ -37,7 +38,7 @@ abstract class ComplexBuilder extends SubManager
     const PARAM_MOVE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM = 'move_selected_cloi';
     const PARAM_TYPE = 'type';
     const PARAM_DIRECTION = 'direction';
-    
+
     const ACTION_BROWSE = 'browser';
     const ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM = 'deleter';
     const ACTION_VIEW_COMPLEX_CONTENT_OBJECT_ITEM = 'viewer';
@@ -45,17 +46,17 @@ abstract class ComplexBuilder extends SubManager
     const ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM = 'creator';
     const ACTION_MOVE_COMPLEX_CONTENT_OBJECT_ITEM = 'mover';
     const ACTION_CHANGE_PARENT = 'parent_changer';
-    
+
     const DEFAULT_ACTION = self :: ACTION_BROWSE;
-    
+
     protected $menu;
-    
+
     /**
      * The current item in treemenu to determine where we are in the structure
      * @var ComplexContentObjectItem
      */
     private $complex_content_object_item;
-    
+
     /**
      * The item we select to execute an action like update / delete / move etc
      * @var ComplexContentObjectItem
@@ -65,23 +66,23 @@ abstract class ComplexBuilder extends SubManager
     function ComplexBuilder($parent)
     {
         parent :: __construct($parent);
-        
+
         $complex_content_object_item_id = Request :: get(self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
         if ($complex_content_object_item_id)
         {
             $this->complex_content_object_item = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($complex_content_object_item_id);
         }
-        
+
         $selected_complex_content_object_item_id = Request :: get(self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID);
         if ($selected_complex_content_object_item_id)
         {
             $this->selected_complex_content_object_item = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($selected_complex_content_object_item_id);
         }
-        
+
         $this->set_action(Request :: get(self :: PARAM_BUILDER_ACTION));
         $this->parse_input_from_table();
     }
-    
+
     //Singleton
     private static $instance;
 
@@ -101,12 +102,12 @@ abstract class ComplexBuilder extends SubManager
     static function launch($type, $application)
     {
         $file = dirname(__FILE__) . '/../../../content_object/' . $type . '/php/builder/' . $type . '_builder.class.php';
-        
+
         if (! file_exists($file))
         {
             throw new Exception(Translation :: get('ComplexBuilderTypeDoesNotExist', array('type' => $type)));
         }
-        
+
         require_once $file;
         //TODO just a hack needs some cleaner code ?
         $name_space = __NAMESPACE__ . '\\' . 'content_object\\' . $type . '\\';
@@ -190,12 +191,12 @@ abstract class ComplexBuilder extends SubManager
     /**
      * Common functionality
      */
-    
+
     function get_complex_content_object_table_html($show_subitems_column = true, $model = null, $renderer = null)
     {
         $parameters = $this->get_parameters();
         $parameters[self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID] = $this->get_complex_content_object_item_id();
-        
+
         $table = new ComplexBrowserTable($this, $parameters, $this->get_complex_content_object_table_condition(), $show_subitems_column, $model, $renderer);
         return $table->as_html();
     }
@@ -233,11 +234,11 @@ abstract class ComplexBuilder extends SubManager
     }
 
     //url building
-    
+
 
     function get_complex_content_object_item_edit_url($selected_content_object_item_id)
     {
-        
+
         return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM, self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $selected_content_object_item_id, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
     }
 
@@ -292,10 +293,10 @@ abstract class ComplexBuilder extends SubManager
         {
             $types = $content_object->get_allowed_types();
         }
-        
+
         $type_selector = new ContentObjectTypeSelector($this, $types, $this->get_additional_links());
         $html[] = $type_selector->as_html();
-        
+
         return implode("\n", $html);
     }
 

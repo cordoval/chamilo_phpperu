@@ -7,7 +7,7 @@ use common\libraries\ComplexContentObjectSupport;
 use common\libraries\Filecompression;
 use common\libraries\Filesystem;
 
-use \DOMDocument;
+use DOMDocument;
 
 use repository\content_object\document\Document;
 use repository\content_object\hotpotatoes\Hotpotatoes;
@@ -89,7 +89,7 @@ class CpoExport extends ContentObjectExport
     {
         $this->export_categories = $export_categories;
 
-    	$content_objects = $this->get_content_object();
+        $content_objects = $this->get_content_object();
         $this->doc = new DOMDocument('1.0', 'UTF-8');
         $this->doc->formatOutput = true;
 
@@ -99,10 +99,10 @@ class CpoExport extends ContentObjectExport
         $this->root = $this->doc->createElement('content_objects');
         $parent->appendChild($this->root);
 
-        if($this->export_categories)
+        if ($this->export_categories)
         {
-        	$this->cat_root = $this->doc->createElement('categories');
-        	$parent->appendChild($this->cat_root);
+            $this->cat_root = $this->doc->createElement('categories');
+            $parent->appendChild($this->cat_root);
         }
 
         $user = null;
@@ -156,16 +156,16 @@ class CpoExport extends ContentObjectExport
         if ($content_object->get_type() == LearningPathItem :: get_type_name() || $content_object->get_type() == PortfolioItem :: get_type_name())
         {
             $id = $content_object->get_reference();
-        	if($id)
+            if ($id)
             {
-            	$this->render_content_object($this->rdm->retrieve_content_object($id));
-            	$content_object->set_reference('object' . $id);
+                $this->render_content_object($this->rdm->retrieve_content_object($id));
+                $content_object->set_reference('object' . $id);
             }
         }
 
-        if($content_object->get_type() == HotspotQuestion :: get_type_name())
+        if ($content_object->get_type() == HotspotQuestion :: get_type_name())
         {
-        	$content_object->set_image('object' . $content_object->get_image());
+            $content_object->set_image('object' . $content_object->get_image());
         }
     }
 
@@ -195,32 +195,32 @@ class CpoExport extends ContentObjectExport
      */
     function render_content_object($content_object, $is_version = false)
     {
-    	if (in_array($content_object->get_id(), $this->exported_content_objects))
-    	{
+        if (in_array($content_object->get_id(), $this->exported_content_objects))
+        {
             return;
-    	}
+        }
 
-    	if(get_class($content_object) == 'ContentObject')
-    	{
-    		$content_object = RepositoryDataManager :: get_instance()->retrieve_content_object($content_object->get_id(), $content_object->get_type());
-    	}
+        if ($content_object instanceof ContentObject)
+        {
+            $content_object = RepositoryDataManager :: get_instance()->retrieve_content_object($content_object->get_id(), $content_object->get_type());
+        }
 
-    	//First we export the versions so the last version will always be imported last
-        if($content_object->is_latest_version())
+        //First we export the versions so the last version will always be imported last
+        if ($content_object->is_latest_version())
         {
             $versions = $this->rdm->retrieve_content_object_versions($content_object, false);
-	        foreach($versions as $version)
-	        {
-	        	$this->render_content_object($version, true);
-	        }
+            foreach ($versions as $version)
+            {
+                $this->render_content_object($version, true);
+            }
         }
-    	else
+        else
         {
-        	if(!$is_version)
-        	{
-        		$this->render_content_object($content_object->get_latest_version());
-        		return;
-        	}
+            if (! $is_version)
+            {
+                $this->render_content_object($content_object->get_latest_version());
+                return;
+            }
         }
 
         $this->exported_content_objects[] = $content_object->get_id();
@@ -237,13 +237,13 @@ class CpoExport extends ContentObjectExport
         $id_value = $doc->createTextNode('object' . $content_object->get_id());
         $id->appendChild($id_value);
 
-        if($content_object->is_latest_version())
+        if ($content_object->is_latest_version())
         {
-        	$last_version = $doc->createAttribute('last_version');
-        	$lo->appendChild($last_version);
+            $last_version = $doc->createAttribute('last_version');
+            $lo->appendChild($last_version);
 
-        	$last_version_value = $doc->createTextNode('1');
-        	$last_version->appendChild($last_version_value);
+            $last_version_value = $doc->createTextNode('1');
+            $last_version->appendChild($last_version_value);
         }
 
         $export_prop = array(ContentObject :: PROPERTY_TYPE, ContentObject :: PROPERTY_OBJECT_NUMBER, ContentObject :: PROPERTY_TITLE, ContentObject :: PROPERTY_DESCRIPTION, ContentObject :: PROPERTY_COMMENT, ContentObject :: PROPERTY_CREATION_DATE, ContentObject :: PROPERTY_MODIFICATION_DATE);
@@ -260,23 +260,23 @@ class CpoExport extends ContentObjectExport
             $text = $property->appendChild($text);
         }
 
-        if($this->export_categories)
+        if ($this->export_categories)
         {
-        	$parent = $content_object->get_parent_id();
-        	if(!in_array($parent, $this->exported_categories) && $parent != 0)
-        	{
-        		$category = RepositoryDataManager :: get_instance()->retrieve_categories(new EqualityCondition(RepositoryCategory :: PROPERTY_ID, $parent))->next_result();
-        		if(!$category)
-        		{
-        			$parent = 0;
-        		}
-        		else
-        		{
-        			$this->export_category($category);
-        		}
-        	}
+            $parent = $content_object->get_parent_id();
+            if (! in_array($parent, $this->exported_categories) && $parent != 0)
+            {
+                $category = RepositoryDataManager :: get_instance()->retrieve_categories(new EqualityCondition(RepositoryCategory :: PROPERTY_ID, $parent))->next_result();
+                if (! $category)
+                {
+                    $parent = 0;
+                }
+                else
+                {
+                    $this->export_category($category);
+                }
+            }
 
-        	$parent_property = $doc->createElement('parent');
+            $parent_property = $doc->createElement('parent');
             $general->appendChild($parent_property);
 
             $cat_id = $doc->createTextNode('category' . $parent);
@@ -351,7 +351,7 @@ class CpoExport extends ContentObjectExport
         }
 
         //Attachments
-        $condition = new EqualityCondition(ContentObjectAttachment::PROPERTY_CONTENT_OBJECT_ID, $content_object->get_id());
+        $condition = new EqualityCondition(ContentObjectAttachment :: PROPERTY_CONTENT_OBJECT_ID, $content_object->get_id());
         $content_object_attachments = RepositoryDataManager :: get_instance()->retrieve_content_object_attachments($condition);
         $attachments = $content_object->get_attached_content_objects();
         if ($content_object_attachments->size() > 0)
@@ -407,9 +407,9 @@ class CpoExport extends ContentObjectExport
 
     function export_category($category)
     {
-    	$cat = $this->doc->createElement('category');
+        $cat = $this->doc->createElement('category');
 
-    	$id = $this->doc->createAttribute('id');
+        $id = $this->doc->createAttribute('id');
         $cat->appendChild($id);
         $id_value = $this->doc->createTextNode('category' . $category->get_id());
         $id->appendChild($id_value);
@@ -419,8 +419,8 @@ class CpoExport extends ContentObjectExport
         $name_value = $this->doc->createTextNode($category->get_name());
         $name->appendChild($name_value);
 
-        if(!in_array($category->get_parent(), $this->exported_categories) && $category->get_parent() != 0)
-        		$this->export_category(RepositoryDataManager :: get_instance()->retrieve_categories(new EqualityCondition(RepositoryCategory :: PROPERTY_ID, $category->get_parent()))->next_result());
+        if (! in_array($category->get_parent(), $this->exported_categories) && $category->get_parent() != 0)
+            $this->export_category(RepositoryDataManager :: get_instance()->retrieve_categories(new EqualityCondition(RepositoryCategory :: PROPERTY_ID, $category->get_parent()))->next_result());
 
         $parent = $this->doc->createAttribute('parent');
         $cat->appendChild($parent);

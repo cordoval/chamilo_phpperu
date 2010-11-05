@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\ComplexContentObjectSupport;
 use common\libraries\ResourceManager;
 use admin\AdminDataManager;
 use common\libraries\Display;

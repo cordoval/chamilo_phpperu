@@ -29,12 +29,12 @@ class DefaultSubscriptionTableColumnModel extends ObjectTableColumnModel
     private static function get_default_columns($browser)
     {
         $columns = array();
-        
-        if (get_class($browser) == 'ReservationsManagerAdminSubscriptionBrowserComponent')
+
+        if ($browser instanceof ReservationsManagerAdminSubscriptionBrowserComponent)
         {
             $columns[] = new ObjectTableColumn(Subscription :: PROPERTY_USER_ID, true);
         }
-        elseif (get_class($browser) == 'ReservationsManagerSubscriptionBrowserComponent')
+        elseif ($browser instanceof ReservationsManagerSubscriptionBrowserComponent)
         {
             $columns[] = new ObjectTableColumn(Subscription :: PROPERTY_RESERVATION_ID, true);
         }

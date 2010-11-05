@@ -1,5 +1,7 @@
 <?php
 namespace repository;
+use common\libraries;
+
 use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\Database;
@@ -393,10 +395,10 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $this->delete_objects('content_object_include', $condition);
 
         //Delete extended properties record
-        if (RepositoryDataManager :: is_extended_type(Utilities :: camelcase_to_underscores(get_class($object))))
+        if (RepositoryDataManager :: is_extended_type(Utilities :: get_classname_from_object($object, true)))
         {
             $condition = new EqualityCondition(ContentObject :: PROPERTY_ID, $object->get_id());
-            $this->delete_objects(Utilities :: camelcase_to_underscores(get_class($object)), $condition);
+            $this->delete_objects(Utilities :: get_classname_from_object($object, true), $condition);
         }
 
         //Delete associated metadata
@@ -1338,7 +1340,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
     function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        if (is_a($order_property, 'common\libraries\ObjectTableOrder'))
+        if ($order_property instanceof ObjectTableOrder)
         {
             $order_property = array($order_property);
         }

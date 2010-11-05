@@ -1,6 +1,8 @@
 <?php
 namespace rights;
 
+use common\libraries;
+
 use common\libraries\Utilities;
 use common\libraries\DataClass;
 use common\libraries\EqualityCondition;
@@ -113,7 +115,7 @@ class Location extends DataClass
 
     function set_type_from_object($object)
     {
-        $this->set_type(Utilities :: camelcase_to_underscores(get_class($object)));
+        $this->set_type(Utilities :: get_classname_from_object($object, true));
     }
 
     function get_identifier()

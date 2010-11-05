@@ -47,7 +47,7 @@ class WikiForm extends ContentObjectForm
     function build_creation_form()
     {
         parent :: build_creation_form();
-        $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
+        $this->addElement('category', Translation :: get('Properties'));
         $this->addElement('checkbox', 'locked', Translation :: get('WikiLocked'));
         $this->add_html_editor('links', Translation :: get('WikiToolBoxLinks'), false);
         //$this->addElement('textarea', 'links', Translation :: get('WikiToolBoxLinks'), array('rows' => 5, 'cols' => 100));
@@ -57,7 +57,7 @@ class WikiForm extends ContentObjectForm
     function build_editing_form()
     {
         parent :: build_editing_form();
-        $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
+        $this->addElement('category', Translation :: get('Properties'));
         $this->addElement('checkbox', 'locked', Translation :: get('WikiLocked'));
         $this->add_html_editor('links', Translation :: get('WikiToolBoxLinks'), false);
         //$this->addElement('textarea', 'links', Translation :: get('WikiToolBoxLinks'), array('rows' => 5, 'cols' => 100));

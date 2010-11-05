@@ -6,8 +6,8 @@ use common\extensions\external_repository_manager\ExternalRepositoryManager;
 
 class ExternalRepositoryLauncher extends LauncherApplication
 {
-	const APPLICATION_NAME = 'external_repository';
-    
+    const APPLICATION_NAME = 'external_repository';
+
     function ExternalRepositoryLauncher($user)
     {
         parent :: __construct($user);
@@ -18,13 +18,13 @@ class ExternalRepositoryLauncher extends LauncherApplication
         $type = $this->get_type();
         $this->external_repository = RepositoryDataManager :: get_instance()->retrieve_external_repository($type);
         $this->set_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY, $type);
-        
+
         ExternalRepositoryManager :: launch($this);
     }
 
     function get_type()
     {
-    	return Request :: get(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY);
+        return Request :: get(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY);
     }
 
     public function get_link($parameters = array (), $filter = array(), $encode_entities = false, $application_type = Redirect :: TYPE_APPLICATION)

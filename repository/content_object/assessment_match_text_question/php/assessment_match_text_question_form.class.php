@@ -9,16 +9,17 @@ use common\libraries\Theme;
 use repository\ContentObjectForm;
 
 /**
-  * @package repository.lib.content_object.match_text_question
+ * @package repository.lib.content_object.match_text_question
  */
 require_once dirname(__FILE__) . '/main.php';
 
 class AssessmentMatchTextQuestionForm extends ContentObjectForm
 {
+
     protected function build_creation_form()
     {
         parent :: build_creation_form();
-        $this->addElement('category', Translation :: get(get_class($this) . 'Options'));
+        $this->addElement('category', Translation :: get('Options'));
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/match_question.js'));
         $this->add_options();
         $this->addElement('category');
@@ -27,11 +28,11 @@ class AssessmentMatchTextQuestionForm extends ContentObjectForm
     protected function build_editing_form()
     {
         parent :: build_editing_form();
-        $this->addElement('category', Translation :: get(get_class($this) . 'Options'));
+        $this->addElement('category', Translation :: get('Options'));
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/match_question.js'));
         $this->add_options();
         $this->addElement('category');
-
+    
     }
 
     function setDefaults($defaults = array ())
@@ -56,7 +57,7 @@ class AssessmentMatchTextQuestionForm extends ContentObjectForm
                 $defaults['use_wildcards'] = true;
                 $defaults['ignore_case'] = true;
                 $number_of_options = intval($_SESSION['match_number_of_options']);
-
+                
                 for($option_number = 0; $option_number < $number_of_options; $option_number ++)
                 {
                     $defaults['option_weight'][$option_number] = 1;
@@ -86,7 +87,8 @@ class AssessmentMatchTextQuestionForm extends ContentObjectForm
         $object = $this->get_content_object();
         $values = $this->exportValues();
         $options = array();
-        foreach ($values['option'] as $option_id => $value){
+        foreach ($values['option'] as $option_id => $value)
+        {
             $score = $values['option_weight'][$option_id];
             $feedback = $values['comment'][$option_id];
             $options[] = new AssessmentMatchTextQuestionOption($value, $score, $feedback);
@@ -112,7 +114,7 @@ class AssessmentMatchTextQuestionForm extends ContentObjectForm
     private function add_options()
     {
         $renderer = $this->defaultRenderer();
-
+        
         if (! $this->isSubmitted())
         {
             unset($_SESSION['match_number_of_options']);
@@ -141,28 +143,28 @@ class AssessmentMatchTextQuestionForm extends ContentObjectForm
             $_SESSION['match_number_of_options'] = $object->get_number_of_options();
         }
         $number_of_options = intval($_SESSION['match_number_of_options']);
-
+        
         $this->addElement('hidden', 'match_number_of_options', $_SESSION['match_number_of_options'], array('id' => 'match_number_of_options'));
-
+        
         $use_wildcard_group = array();
-        $use_wildcard_group[] = & $this->createElement('checkbox', AssessmentMatchTextQuestion::PROPERTY_USE_WILDCARDS, Translation::get('UseWildcards'));//, '', array('class' => MultipleChoiceQuestionOption :: PROPERTY_VALUE, 'id' => AssessmentMultipleChoiceQuestionOption :: PROPERTY_CORRECT . '[' . $option_number . ']'));
-        $this->addGroup($use_wildcard_group, 'use_wildcards', Translation::get('UseWildcards'), '', false);
-
+        $use_wildcard_group[] = & $this->createElement('checkbox', AssessmentMatchTextQuestion :: PROPERTY_USE_WILDCARDS, Translation :: get('UseWildcards')); //, '', array('class' => MultipleChoiceQuestionOption :: PROPERTY_VALUE, 'id' => AssessmentMultipleChoiceQuestionOption :: PROPERTY_CORRECT . '[' . $option_number . ']'));
+        $this->addGroup($use_wildcard_group, 'use_wildcards', Translation :: get('UseWildcards'), '', false);
+        
         $use_wildcard_group = array();
-        $use_wildcard_group[] = & $this->createElement('checkbox', AssessmentMatchTextQuestion::PROPERTY_IGNORE_CASE, Translation::get('IgnoreCase'));//, '', array('class' => MultipleChoiceQuestionOption :: PROPERTY_VALUE, 'id' => AssessmentMultipleChoiceQuestionOption :: PROPERTY_CORRECT . '[' . $option_number . ']'));
-        $this->addGroup($use_wildcard_group, 'ignore_case', Translation::get('IgnoreCase'), '', false);
-
+        $use_wildcard_group[] = & $this->createElement('checkbox', AssessmentMatchTextQuestion :: PROPERTY_IGNORE_CASE, Translation :: get('IgnoreCase')); //, '', array('class' => MultipleChoiceQuestionOption :: PROPERTY_VALUE, 'id' => AssessmentMultipleChoiceQuestionOption :: PROPERTY_CORRECT . '[' . $option_number . ']'));
+        $this->addGroup($use_wildcard_group, 'ignore_case', Translation :: get('IgnoreCase'), '', false);
+        
         $buttons = array();
         //Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
         $buttons[] = $this->createElement('style_button', 'add[]', Translation :: get('AddItem'), array('class' => 'normal add', 'id' => 'add_option'));
         $this->addGroup($buttons, 'question_buttons', null, '', false);
-
+        
         $html_editor_options = array();
         $html_editor_options['width'] = '100%';
         $html_editor_options['height'] = '65';
         $html_editor_options['collapse_toolbar'] = true;
         $html_editor_options['toolbar'] = 'RepositoryQuestion';
-
+        
         $table_header = array();
         $table_header[] = '<table class="data_table">';
         $table_header[] = '<thead>';
@@ -176,10 +178,10 @@ class AssessmentMatchTextQuestionForm extends ContentObjectForm
         $table_header[] = '</thead>';
         $table_header[] = '<tbody>';
         $this->addElement('html', implode("\n", $table_header));
-
+        
         $textarea_height = $html_editor_options['height'];
         $textarea_width = $html_editor_options['width'];
-
+        
         if (strpos($textarea_height, '%') === false)
         {
             $textarea_height .= 'px';
@@ -188,20 +190,20 @@ class AssessmentMatchTextQuestionForm extends ContentObjectForm
         {
             $textarea_width .= 'px';
         }
-
+        
         $i = 1;
-
+        
         for($option_number = 0; $option_number < $number_of_options; $option_number ++)
         {
             if (! in_array($option_number, $_SESSION['match_skip_options']))
             {
                 $group = array();
-
+                
                 $group[] = & $this->createElement('static', null, null, $i . '.');
                 $group[] = $this->createElement('textarea', "option[$option_number]", Translation :: get('Answer'), array('style' => 'width: 100%; height:' . $textarea_height));
                 $group[] = $this->create_html_editor("comment[$option_number]", Translation :: get('Comment'), $html_editor_options);
                 $group[] = & $this->createElement('text', "option_weight[$option_number]", Translation :: get('Weight'), 'size="2"  class="input_numeric"');
-
+                
                 if ($number_of_options - count($_SESSION['match_skip_options']) > 2)
                 {
                     $group[] = & $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('class' => 'remove_option', 'id' => $option_number));
@@ -210,28 +212,28 @@ class AssessmentMatchTextQuestionForm extends ContentObjectForm
                 {
                     $group[] = & $this->createElement('static', null, null, '<img src="' . Theme :: get_common_image_path() . 'action_delete_na.png" class="remove_option" />');
                 }
-
+                
                 $this->addGroup($group, 'option_' . $option_number, null, '', false);
-
+                
                 $renderer->setElementTemplate('<tr id="option_' . $option_number . '" class="' . ($option_number % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', 'option_' . $option_number);
                 $renderer->setGroupElementTemplate('<td>{element}</td>', 'option_' . $option_number);
-
+                
                 $i ++;
             }
         }
-
+        
         $table_footer[] = '</tbody>';
         $table_footer[] = '</table>';
         $this->addElement('html', implode("\n", $table_footer));
-
+        
         $renderer->setElementTemplate('<div style="margin: 10px 0px 10px 0px;">{element}<div class="clear"></div></div>', 'question_buttons');
         $renderer->setGroupElementTemplate('<div style="float:left; text-align: center; margin-right: 10px;">{element}</div>', 'question_buttons');
-
+        
         $buttons = array();
         //Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
         $buttons[] = $this->createElement('style_button', 'add[]', Translation :: get('AddItem'), array('class' => 'normal add', 'id' => 'add_option'));
         $this->addGroup($buttons, 'question_buttons', null, '', false);
-
+        
         $this->setDefaults($defaults);
     }
 }

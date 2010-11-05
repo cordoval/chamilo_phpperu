@@ -2,6 +2,7 @@
 
 namespace application\assessment;
 
+use repository\content_object\assessment\Assessment;
 use common\libraries\Path;
 use common\libraries\FormValidator;
 use common\libraries\Translation;

@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\learning_path;
 
+use repository\content_object\scorm_item\ScormItem;
 use repository\content_object\learning_path\LearningPath;
 use repository\content_object\learning_path_item\LearningPathItem;
 use repository\ComplexContentObjectItem;
@@ -174,7 +175,7 @@ class LearningPathTree extends HTML_Menu
                 $this->step_urls[$this->step] = $this->get_url($this->step);
                 $status = 'enabled';
 
-                if (get_class($lo) == 'ScormItem')
+                if ($lo instanceof ScormItem)
                 {
                     if ($this->lp->get_version() == 'SCORM2004')
                     {

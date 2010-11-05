@@ -8,7 +8,8 @@ class HtmlEditorFileLauncher extends LauncherApplication
     const PARAM_PLUGIN = 'plugin';
     const APPLICATION_NAME = 'html_editor_file';
 
-    private $content_object_types;
+    //private $content_object_types;
+
 
     function HtmlEditorFileLauncher($user)
     {
@@ -23,18 +24,16 @@ class HtmlEditorFileLauncher extends LauncherApplication
         $plugin = $this->get_plugin();
         $this->set_parameter(self :: PARAM_PLUGIN, $plugin);
 
-        
-
-        if (!RepoViewer::is_ready_to_be_published())
+        if (! RepoViewer :: is_ready_to_be_published())
         {
             $repo_viewer = HtmlEditorRepoViewer :: construct($plugin, $this);
             $repo_viewer->set_maximum_select(RepoViewer :: SELECT_SINGLE);
-            $this->content_object_types = call_user_func(array(get_class($repo_viewer)));
+            //$this->content_object_types = call_user_func(array(get_class($repo_viewer)));
             $repo_viewer->run();
         }
         else
         {
-            $processor = HtmlEditorProcessor :: factory($plugin, $this, RepoViewer::get_selected_objects());
+            $processor = HtmlEditorProcessor :: factory($plugin, $this, RepoViewer :: get_selected_objects());
 
             $this->display_header();
             $processor->run();

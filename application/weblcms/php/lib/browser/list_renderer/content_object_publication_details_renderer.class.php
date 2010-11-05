@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms;
 
+use common\libraries\ComplexContentObjectSupport;
 use common\libraries\Theme;
 use common\libraries\Translation;
 

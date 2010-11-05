@@ -12,13 +12,13 @@ use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
+use repository\content_object\hotpotatoes\Hotpotatoes;
 
 /**
  * $Id: assessment_tool.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.assessment
  */
-require_once Path :: get_application_path() . 'lib/weblcms/tool/tool.class.php';
-require_once Path :: get_application_path() . 'lib/weblcms/trackers/weblcms_assessment_attempts_tracker.class.php';
+require_once Path :: get_application_path() . '/weblcms/php/trackers/weblcms_assessment_attempts_tracker.class.php';
 /**
  * This tool allows a user to publish assessments in his or her course.
  */
@@ -58,15 +58,16 @@ class AssessmentTool extends Tool implements Categorizable
         return $browser_types;
     }
 
-    function get_content_object_publication_actions($publication)
+    function add_content_object_publication_actions($toolbar, $publication)
     {
-        $extra_toolbar_items = array();
+        $items = $toolbar->get_items();
+        $items[1]->set_image(Theme :: get_common_image_path() . 'action_next.png');
 
-        $extra_toolbar_items[] = new ToolbarItem(Translation :: get('ViewResults'), Theme :: get_common_image_path() . 'action_view_results.png', $this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())), ToolbarItem :: DISPLAY_ICON);
+        $toolbar->add_item(new ToolbarItem(Translation :: get('ViewResults'), Theme :: get_common_image_path() . 'action_view_results.png', $this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
 
         if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
-            $extra_toolbar_items[] = new ToolbarItem(Translation :: get('Export'), Theme :: get_common_image_path() . 'action_export.png', $this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_QTI, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON);
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Export'), Theme :: get_common_image_path() . 'action_export.png', $this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_QTI, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
         }
 
         return $extra_toolbar_items;

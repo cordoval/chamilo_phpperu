@@ -1,8 +1,10 @@
 <?php
 namespace admin;
+
 use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\MessageLogger;
+
 abstract class PackageDependency
 {
     const PROPERTY_ID = 'id';
@@ -42,9 +44,9 @@ abstract class PackageDependency
     {
         $this->set_id($dependency['id']);
         $this->set_severity($dependency['severity']);
-        $this->logger = MessageLogger :: get_instance(get_class($this));
+        $this->logger = MessageLogger :: get_instance(Utilities :: get_classname_from_object($this));
     }
-    
+
     function get_logger()
     {
         return $this->logger;
@@ -69,7 +71,7 @@ abstract class PackageDependency
 
     public function get_operator_name($operator)
     {
-    	switch ($operator)
+        switch ($operator)
         {
             case self :: COMPARE_EQUAL :
                 return Translation :: get('Equal');
@@ -91,7 +93,7 @@ abstract class PackageDependency
                 break;
         }
     }
-    
+
     /**
      * @param $id the $id to set
      */

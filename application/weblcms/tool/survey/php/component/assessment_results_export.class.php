@@ -24,7 +24,7 @@ class AssessmentToolResultsExportComponent extends AssessmentToolComponent
 
     function run()
     {
-        if (! $this->is_allowed(WeblcmsRights :: VIEW_RIGHT) || ! $this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
+        if (! $this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             Display :: not_allowed();
             return;

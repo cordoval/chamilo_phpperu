@@ -19,11 +19,6 @@ class DocumentToolDownloaderComponent extends DocumentTool
 
     function run()
     {
-        if (! $this->is_allowed(WeblcmsRights :: VIEW_RIGHT))
-        {
-            Display :: not_allowed();
-            return;
-        }
 
         $dm = WeblcmsDataManager :: get_instance();
         $publication_id = Request :: get(Tool :: PARAM_PUBLICATION_ID);

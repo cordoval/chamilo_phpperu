@@ -21,7 +21,7 @@ class SurveyRatingQuestionForm extends RatingQuestionForm
     function build_creation_form()
     {
         parent :: build_creation_form();
-        $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
+        $this->addElement('category', Translation :: get('Properties'));
 
         $elem[] = $this->createElement('radio', 'ratingtype', null, Translation :: get('Percentage') . ' (0-100)', 0, array('onclick' => 'javascript:hide_controls(\'buttons\')'));
         $elem[] = $this->createElement('radio', 'ratingtype', null, Translation :: get('Rating'), 1, array('onclick' => 'javascript:show_controls(\'buttons\')'));
@@ -54,7 +54,7 @@ class SurveyRatingQuestionForm extends RatingQuestionForm
     function build_editing_form()
     {
         parent :: build_editing_form();
-        $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
+        $this->addElement('category', Translation :: get('Properties'));
 
         $elem[] = $this->createElement('radio', 'ratingtype', null, Translation :: get('Percentage'), 0, array('onclick' => 'javascript:hide_controls(\'buttons\')', 'id' => 'ratingtype_percentage'));
         $elem[] = $this->createElement('radio', 'ratingtype', null, Translation :: get('Rating'), 1, array('onclick' => 'javascript:show_controls(\'buttons\')'));

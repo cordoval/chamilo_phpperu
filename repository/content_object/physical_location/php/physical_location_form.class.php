@@ -44,7 +44,7 @@ class PhysicalLocationForm extends ContentObjectForm
     protected function build_creation_form()
     {
         parent :: build_creation_form();
-        $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
+        $this->addElement('category', Translation :: get('Properties'));
         $this->add_textfield(PhysicalLocation :: PROPERTY_LOCATION, Translation :: get('Location'), true, array('size' => '100'));
         $this->addElement('category');
     }
@@ -52,7 +52,7 @@ class PhysicalLocationForm extends ContentObjectForm
     protected function build_editing_form()
     {
         parent :: build_editing_form();
-        $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
+        $this->addElement('category', Translation :: get('Properties'));
         $this->add_textfield(PhysicalLocation :: PROPERTY_LOCATION, Translation :: get('Location'), true, array('size' => '100'));
         $this->addElement('category');
     }

@@ -19,7 +19,7 @@ class OrderingQuestionForm extends ContentObjectForm
     protected function build_creation_form()
     {
         parent :: build_creation_form();
-        $this->addElement('category', Translation :: get(get_class($this) . 'Items'));
+        $this->addElement('category', Translation :: get('Items'));
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/ordering_question.js'));
         $this->add_options();
         $this->addElement('category');
@@ -28,7 +28,7 @@ class OrderingQuestionForm extends ContentObjectForm
     protected function build_editing_form()
     {
         parent :: build_editing_form();
-        $this->addElement('category', Translation :: get(get_class($this) . 'Items'));
+        $this->addElement('category', Translation :: get('Items'));
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/ordering_question.js'));
         $this->add_options();
         $this->addElement('category');

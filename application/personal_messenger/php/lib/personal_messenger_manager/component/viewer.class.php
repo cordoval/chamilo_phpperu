@@ -2,6 +2,7 @@
 
 namespace application\personal_messenger;
 
+use common\libraries\AttachmentSupport;
 use common\libraries\Request;
 use common\libraries\Display;
 use common\libraries\Translation;
@@ -152,13 +153,13 @@ class PersonalMessengerManagerViewerComponent extends PersonalMessengerManager
 
         return implode("\n", $html);
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => self :: ACTION_BROWSE_MESSAGES)), Translation :: get('PersonalMessengerManagerBrowserComponent')));
     	$breadcrumbtrail->add_help('personal_messenger_viewer');
     }
-    
+
     function get_additional_parameters()
     {
     	return array(self :: PARAM_PERSONAL_MESSAGE_ID);

@@ -46,11 +46,9 @@ class DocumentTool extends Tool implements Categorizable
         return $browser_types;
     }
 
-    function get_content_object_publication_actions($publication)
+    function add_content_object_publication_actions($toolbar, $publication)
     {
-        $extra_toolbar_items = array();
-        $extra_toolbar_items[] = new ToolbarItem(Translation :: get('Download'), Theme :: get_common_image_path() . 'action_download.png', $this->get_url(array(Tool :: PARAM_ACTION => DocumentTool :: ACTION_DOWNLOAD, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON);
-        return $extra_toolbar_items;
+         $toolbar->add_item(new ToolbarItem(Translation :: get('Download'), Theme :: get_common_image_path() . 'action_download.png', $this->get_url(array(Tool :: PARAM_ACTION => DocumentTool :: ACTION_DOWNLOAD, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
     }
 
     /**

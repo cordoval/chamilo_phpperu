@@ -88,39 +88,37 @@ abstract class ContentObjectInstaller
 
         if (! $this->import_content_object())
         {
-        	return false;
+            return false;
         }
 
         return $this->installation_successful();
     }
 
-	public function import_content_object()
+    public function import_content_object()
     {
         $type = $this->get_content_object();
-    	$file = Path :: get_repository_content_object_path() . $type . '/php/install/example.cpo';
+        $file = Path :: get_repository_content_object_path() . $type . '/php/install/example.cpo';
 
-    	if (file_exists($file))
-    	{
-	    	$condition = new EqualityCondition(User::PROPERTY_PLATFORMADMIN, 1);
-	        $user = UserDataManager::get_instance()->retrieve_users($condition)->next_result();
-	        $category = RepositoryDataManager::get_instance();
+        if (file_exists($file))
+        {
+            $condition = new EqualityCondition(User :: PROPERTY_PLATFORMADMIN, 1);
+            $user = UserDataManager :: get_instance()->retrieve_users($condition)->next_result();
+            $category = RepositoryDataManager :: get_instance();
 
-
-	    	$import = ContentObjectImport::factory('cpo', array('tmp_name' => $file), $user, 0);
-	        if (! $import->import_content_object())
-	        {
-	        	$message = Translation :: get('ContentObjectImportFailed');
+            $import = ContentObjectImport :: factory('cpo', array('tmp_name' => $file), $user, 0);
+            if (! $import->import_content_object())
+            {
+                $message = Translation :: get('ContentObjectImportFailed');
                 $this->installation_failed($message);
                 return false;
-	        }
-	        else
-	        {
-	        	$this->add_message(self :: TYPE_NORMAL, Translation :: get('ImportSuccessfull'));
-	        }
-    	}
-    	return true;
+            }
+            else
+            {
+                $this->add_message(self :: TYPE_NORMAL, Translation :: get('ImportSuccessfull'));
+            }
+        }
+        return true;
     }
-
 
     function get_content_object()
     {
@@ -136,7 +134,7 @@ abstract class ContentObjectInstaller
         array_pop($classname_parts);
         $content_object_class = array_pop($classname_parts);
 
-        return Utilities::underscores_to_camelcase($content_object_class);
+        return Utilities :: underscores_to_camelcase($content_object_class);
     }
 
     /**
@@ -330,9 +328,9 @@ abstract class ContentObjectInstaller
         }
 
         $succes = RepositoryRights :: create_location_in_content_objects_subtree($this->get_content_object(), $content_object_registration->get_id(), RepositoryRights :: get_content_objects_subtree_root_id());
-        if(!$succes)
+        if (! $succes)
         {
-        	return $this->installation_failed(Translation :: get('ContentObjectLocationRegistrationFailed'));
+            return $this->installation_failed(Translation :: get('ContentObjectLocationRegistrationFailed'));
         }
 
         return true;

@@ -29,11 +29,6 @@ class CasAccountBrowserTable extends ObjectTable
         $this->set_additional_parameters($parameters);
         $actions = array();
 
-//        if (get_class($browser) != 'CasUserManagerCasAccountsBrowserComponent')
-//        {
-//            $actions[] = new ObjectTableFormAction(CdaManager :: PARAM_DELETE_SELECTED_CDA_LANGUAGES, Translation :: get('RemoveSelected'));
-//        }
-
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
     }

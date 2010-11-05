@@ -1,6 +1,7 @@
 <?php
 namespace repository;
 
+use common\libraries\ComplexMenuSupport;
 use common\libraries\Translation;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;

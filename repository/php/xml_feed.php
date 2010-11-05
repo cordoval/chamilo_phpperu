@@ -1,4 +1,6 @@
 <?php
+namespace repository;
+
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Utilities;
@@ -9,6 +11,7 @@ use common\libraries\InCondition;
 use common\libraries\AndCondition;
 use common\libraries\ObjectTableOrder;
 use common\libraries\OrCondition;
+use repository\RepositoryCategory;
 /**
  * @package repository
  */
@@ -49,7 +52,7 @@ if (Authentication :: is_valid())
     $dm = RepositoryDataManager :: get_instance();
     $order_property[] = new ObjectTableOrder(ContentObject :: PROPERTY_TITLE);
     $objects = $dm->retrieve_content_objects($condition, $order_property);
-	$objects_by_cat = array();
+    $objects_by_cat = array();
 
     while ($lo = $objects->next_result())
     {
@@ -127,7 +130,7 @@ function dump_tree($tree, $objects)
             continue;
         }
         $id = $node['obj']->get_id();
-        if (get_class($node['obj']) == 'RepositoryCategory')
+        if ($node['obj'] instanceof RepositoryCategory)
         {
             $title = $node['obj']->get_name();
         }

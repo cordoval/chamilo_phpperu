@@ -7,42 +7,47 @@ namespace repository;
  * @author laurent.opprecht@unige.ch
  *
  */
-class QtiSurveyOpenQuestionSerializer extends QtiQuestionSerializer{
+use repository\content_object\survey_open_question\SurveyOpenQuestion;
 
-	static function factory($question, $target_root, $directory, $manifest, $toc){
-		if($question instanceof SurveyOpenQuestion){
-			return new self($target_root, $directory, $manifest, $toc);
-		}else{
-			return null;
-		}
-	}
+class QtiSurveyOpenQuestionSerializer extends QtiQuestionSerializer
+{
 
-	protected function has_answer_feedback($question){
-		return false;
-	}
+    static function factory($question, $target_root, $directory, $manifest, $toc)
+    {
+        if ($question instanceof SurveyOpenQuestion)
+        {
+            return new self($target_root, $directory, $manifest, $toc);
+        }
+        else
+        {
+            return null;
+        }
+    }
 
-	protected function add_response_processing($item, $question){
-		return null;
-	}
+    protected function has_answer_feedback($question)
+    {
+        return false;
+    }
 
-	protected function add_score_declaration(ImsQtiWriter $item, $question){
-		return null;
-	}
+    protected function add_response_processing($item, $question)
+    {
+        return null;
+    }
 
-	protected function add_response_declaration(ImsQtiWriter $item, $question){
-		$item->add_responseDeclaration(Qti::RESPONSE, Qti::CARDINALITY_SINGLE, Qti::BASETYPE_STRING);
-	}
+    protected function add_score_declaration(ImsQtiWriter $item, $question)
+    {
+        return null;
+    }
 
-	protected function add_interaction(ImsQtiWriter $body, ContentObject $question){
-		$body->add_extendedTextInteraction(Qti::RESPONSE, 800, 10);
-	}
+    protected function add_response_declaration(ImsQtiWriter $item, $question)
+    {
+        $item->add_responseDeclaration(Qti :: RESPONSE, Qti :: CARDINALITY_SINGLE, Qti :: BASETYPE_STRING);
+    }
+
+    protected function add_interaction(ImsQtiWriter $body, ContentObject $question)
+    {
+        $body->add_extendedTextInteraction(Qti :: RESPONSE, 800, 10);
+    }
 }
-
-
-
-
-
-
-
 
 ?>

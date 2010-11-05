@@ -39,7 +39,7 @@ class HandbookItemForm extends ContentObjectForm
     function build_creation_form($default_content_object = null)
     {
         parent :: build_creation_form();
-        $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
+        $this->addElement('category', Translation :: get('Properties'));
         $this->addElement('text', HandbookItem :: PROPERTY_REFERENCE, Translation :: get('Reference'));
         $this->addElement('text', HandbookItem :: PROPERTY_UUID, Translation :: get('Uuid'));
         $this->addElement('category');
@@ -48,7 +48,7 @@ class HandbookItemForm extends ContentObjectForm
     function build_editing_form($object)
     {
         parent :: build_editing_form();
-        $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
+        $this->addElement('category', Translation :: get('Properties'));
         $this->addElement('text', HandbookItem :: PROPERTY_REFERENCE, Translation :: get('Reference'));
         $this->addElement('category');
     }

@@ -7,42 +7,47 @@ namespace repository;
  * @author laurent.opprecht@unige.ch
  *
  */
-class QtiSurveyDescriptionSerializer extends QtiQuestionSerializer{
+use repository\content_object\survey_description\SurveyDescription;
 
-	static function factory($question, $target_root, $directory, $manifest, $toc){
-		if($question instanceof SurveyDescription){
-			return new self($target_root, $directory, $manifest, $toc);
-		}else{
-			return null;
-		}
-	}
+class QtiSurveyDescriptionSerializer extends QtiQuestionSerializer
+{
 
-	protected function has_answer_feedback($question){
-		return false;
-	}
+    static function factory($question, $target_root, $directory, $manifest, $toc)
+    {
+        if ($question instanceof SurveyDescription)
+        {
+            return new self($target_root, $directory, $manifest, $toc);
+        }
+        else
+        {
+            return null;
+        }
+    }
 
-	protected function add_response_processing($item, $question){
-		return null;
-	}
+    protected function has_answer_feedback($question)
+    {
+        return false;
+    }
 
-	protected function add_score_declaration(ImsQtiWriter $item, $question){
-		return null;
-	}
+    protected function add_response_processing($item, $question)
+    {
+        return null;
+    }
 
-	protected function add_response_declaration(ImsQtiWriter $item, $question){
-		return null;
-	}
+    protected function add_score_declaration(ImsQtiWriter $item, $question)
+    {
+        return null;
+    }
 
-	protected function add_interaction(ImsQtiWriter $body, ContentObject $question){
-		return null;
-	}
+    protected function add_response_declaration(ImsQtiWriter $item, $question)
+    {
+        return null;
+    }
+
+    protected function add_interaction(ImsQtiWriter $body, ContentObject $question)
+    {
+        return null;
+    }
 }
-
-
-
-
-
-
-
 
 ?>

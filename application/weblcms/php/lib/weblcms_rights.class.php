@@ -2,6 +2,7 @@
 namespace application\weblcms;
 
 use user\UserDataManager;
+use user\User;
 use common\libraries\Theme;
 use common\libraries\Session;
 use common\libraries\Path;
@@ -16,9 +17,10 @@ use ReflectionClass;
 
 class WeblcmsRights extends RightsUtilities
 {
-    const ADD_RIGHT = '1';
-    const EDIT_RIGHT = '2';
-    const DELETE_RIGHT = '3';
+    const VIEW_RIGHT = '1';
+    const ADD_RIGHT = '2';
+    const EDIT_RIGHT = '3';
+    const DELETE_RIGHT = '4';
 
     const LOCATION_BROWSER = 1;
     const LOCATION_HOME = 2;
@@ -33,19 +35,7 @@ class WeblcmsRights extends RightsUtilities
 
     static function get_available_rights()
     {
-        $reflect = new ReflectionClass(__CLASS__);
-
-        $rights = $reflect->getConstants();
-
-        foreach ($rights as $key => $right)
-        {
-            if (substr(strtolower($key), - 5) != 'right' || $key == 'CONSTANT_RIGHT')
-            {
-                unset($rights[$key]);
-            }
-        }
-
-        return $rights;
+        return array(Translation :: get('AddRight') => self :: ADD_RIGHT, Translation :: get('EditRight') => self :: EDIT_RIGHT, Translation :: get('DeleteRight') => self :: DELETE_RIGHT);
     }
 
     static function get_location_by_identifier($type, $identifier)

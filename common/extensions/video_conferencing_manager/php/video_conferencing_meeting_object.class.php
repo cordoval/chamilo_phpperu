@@ -1,5 +1,7 @@
 <?php
 namespace common\extensions\video_conferencing_manager;
+use repository\ExternalRepositorySync;
+
 abstract class VideoConferencingMeetingObject
 {
     /**
@@ -24,7 +26,7 @@ abstract class VideoConferencingMeetingObject
 //    const RIGHT_DELETE = 2;
 //    const RIGHT_USE = 3;
 //    const RIGHT_DOWNLOAD = 4;
-//	
+//
     /**
      * @param array $default_properties
      */
@@ -100,23 +102,23 @@ abstract class VideoConferencingMeetingObject
     public function get_start_date()
     {
         return $this->get_default_property(self :: PROPERTY_START_DATE);
-    }   
-    
+    }
+
     public function get_end_time()
     {
         return $this->get_default_property(self :: PROPERTY_END_TIME);
     }
-    
+
     public function get_end_date()
     {
         return $this->get_default_property(self :: PROPERTY_END_DATE);
     }
-    
+
     public function get_participants()
     {
         return $this->get_default_property(self :: PROPERTY_PARTICIPANTS);
     }
-    
+
     /**
      * @return array
      */
@@ -163,8 +165,8 @@ abstract class VideoConferencingMeetingObject
         $this->set_default_property(self :: PROPERTY_DESCRIPTION, $description);
     }
 
-	
-    
+
+
 //    /**
 //     * @param array $rights
 //     */
@@ -191,7 +193,7 @@ abstract class VideoConferencingMeetingObject
     {
         $this->set_default_property(self :: PROPERTY_START_TIME, $start_time);
     }
-    
+
 	/**
      * @param string $start_date
      */
@@ -199,31 +201,31 @@ abstract class VideoConferencingMeetingObject
     {
         $this->set_default_property(self :: PROPERTY_START_DATE, $start_date);
     }
-    
+
 	/**
      * @param string $end_date
      */
     public function set_end_date($end_date)
     {
         $this->set_default_property(self :: PROPERTY_END_DATE, $end_date);
-    }    
-    
+    }
+
 	/**
      * @param string $end_time
      */
     public function set_end_time($end_time)
     {
         $this->set_default_property(self :: PROPERTY_END_TIME, $end_time);
-    }    
-    
+    }
+
 	/**
      * @param string $participants
      */
     public function set_participants($participants)
     {
         $this->set_default_property(self :: PROPERTY_PARTICIPANTS, $participants);
-    }    
-    
+    }
+
     /**
      * @return string
      */
@@ -279,7 +281,7 @@ abstract class VideoConferencingMeetingObject
 //
 //        return $this->synchronization_data;
 //    }
-//    
+//
 //    /**
 //     * @return int
 //     */

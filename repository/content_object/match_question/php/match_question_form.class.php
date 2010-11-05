@@ -19,7 +19,7 @@ class MatchQuestionForm extends ContentObjectForm
     protected function build_creation_form()
     {
         parent :: build_creation_form();
-        $this->addElement('category', Translation :: get(get_class($this) . 'Options'));
+        $this->addElement('category', Translation :: get('Options'));
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/match_question.js'));
         $this->add_options();
         $this->addElement('category');
@@ -28,7 +28,7 @@ class MatchQuestionForm extends ContentObjectForm
     protected function build_editing_form()
     {
         parent :: build_editing_form();
-        $this->addElement('category', Translation :: get(get_class($this) . 'Options'));
+        $this->addElement('category', Translation :: get('Options'));
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/match_question.js'));
         $this->add_options();
         $this->addElement('category');

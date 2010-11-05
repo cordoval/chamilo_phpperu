@@ -1,6 +1,5 @@
-<?php 
+<?php
 namespace repository\content_object\survey;
-
 
 use common\libraries\Translation;
 use common\libraries\Utilities;
@@ -15,6 +14,7 @@ use common\libraries\Toolbar;
 use repository\RepositoryDataManager;
 use repository\RepositoryManager;
 use repository\content_object\survey_page\SurveyPage;
+use repository\ComplexBuilder;
 
 /**
  * $Id: learning_path_browser_table_cell_renderer.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -73,7 +73,7 @@ class SurveyBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
         $toolbar = new Toolbar();
         $parent = RepositoryDataManager :: get_instance()->retrieve_content_object($cloi->get_parent());
 
-        if ($cloi->is_extended() || get_parent_class($this->browser) == 'ComplexBuilder')
+        if ($cloi->is_extended() || $this->browser instanceof ComplexBuilder)
         {
             $toolbar->add_item(new ToolbarItem(
         			Translation :: get('Edit'),

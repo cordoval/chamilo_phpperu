@@ -23,24 +23,22 @@ class CategoryManagerUpdaterComponent extends CategoryManagerComponent
     {
         $category_id = Request :: get(CategoryManager :: PARAM_CATEGORY_ID);
         $user = $this->get_user();
-        
+
         $categories = $this->retrieve_categories(new EqualityCondition(PlatformCategory :: PROPERTY_ID, $category_id));
         $category = $categories->next_result();
-        
-    	$trail = BreadcrumbTrail :: get_instance();
+
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('category_manager_updater');
         $trail->add(new Breadcrumb($this->get_url(array(CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_BROWSE_CATEGORIES)), Translation :: get('CategoryManagerBrowserComponent')));
         $this->set_parameter(CategoryManager :: PARAM_CATEGORY_ID, Request :: get(CategoryManager :: PARAM_CATEGORY_ID));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CategoryManagerUpdaterComponent')));
-        
+
         $form = new CategoryForm(CategoryForm :: TYPE_EDIT, $this->get_url(array(CategoryManager :: PARAM_CATEGORY_ID => $category->get_id())), $category, $user, $this);
-        
+
         if ($form->validate())
         {
             $success = $form->update_category();
-            /*if(get_class($this->get_parent()) == 'RepositoryCategoryManager')
-				$this->repository_redirect(RepositoryManager :: ACTION_MANAGE_CATEGORIES, Translation :: get($success ? 'CategoryCreated' : 'CategoryNotCreated'), 0, ($success ? false : true), array(CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_BROWSE_CATEGORIES, CategoryManager :: PARAM_CATEGORY_ID => $category->get_parent()));
-			else*/
+
             $this->redirect(Translation :: get($success ? 'CategoryUpdated' : 'CategoryNotUpdated'), ($success ? false : true), array(CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_BROWSE_CATEGORIES, CategoryManager :: PARAM_CATEGORY_ID => $category->get_parent()));
         }
         else

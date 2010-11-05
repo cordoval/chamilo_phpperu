@@ -167,7 +167,7 @@ abstract class DataClass
 
     function get_object_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', get_class($this))));
+        return Utilities :: get_classname_from_object($this, true);
     }
 
     function create()

@@ -21,11 +21,6 @@ class ChatToolViewerComponent extends ChatTool
 
     function run()
     {
-        if (! $this->is_allowed(WeblcmsRights :: VIEW_RIGHT))
-        {
-            Display :: not_allowed();
-            return;
-        }
 
         $course = $this->get_course();
         $user = $this->get_user();

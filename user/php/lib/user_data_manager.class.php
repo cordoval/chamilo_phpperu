@@ -1,6 +1,7 @@
 <?php
 namespace user;
 
+use common\libraries\UserRegistrationSupport;
 use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Authentication;

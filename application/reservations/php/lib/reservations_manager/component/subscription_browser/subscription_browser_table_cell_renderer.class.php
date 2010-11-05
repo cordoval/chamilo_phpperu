@@ -42,7 +42,7 @@ class SubscriptionBrowserTableCellRenderer extends DefaultSubscriptionTableCellR
         {
             return $this->get_modification_links($subscription);
         }
-        
+
         return parent :: render_cell($column, $subscription);
     }
 
@@ -55,32 +55,16 @@ class SubscriptionBrowserTableCellRenderer extends DefaultSubscriptionTableCellR
     private function get_modification_links($subscription)
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
-        
-        $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Delete'),
-        		Theme :: get_common_image_path() . 'action_delete.png',
-        		$this->browser->get_delete_subscription_url($subscription->get_id()),
-        		ToolbarItem :: DISPLAY_ICON,
-        		true
-        ));
-        
-     	if (Utilities :: get_classname_from_namespace(get_class($this->browser)) == 'ReservationsManagerAdminSubscriptionBrowserComponent' && $subscription->get_accepted() == 0)
+
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_subscription_url($subscription->get_id()), ToolbarItem :: DISPLAY_ICON, true));
+
+        if ($this->browser instanceof ReservationsManagerAdminSubscriptionBrowserComponent && $subscription->get_accepted() == 0)
         {
-            $toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('Accept'),
-	        		Theme :: get_common_image_path() . 'thumbs_up.png',
-	        		$this->browser->get_approve_subscription_url($subscription->get_id()),
-	        		ToolbarItem :: DISPLAY_ICON
-	        ));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Accept'), Theme :: get_common_image_path() . 'thumbs_up.png', $this->browser->get_approve_subscription_url($subscription->get_id()), ToolbarItem :: DISPLAY_ICON));
         }
-        
-        $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Details'),
-        		Theme :: get_common_image_path() . 'action_browser.png',
-        		 $this->browser->get_subscription_user_browser_url($subscription->get_id()),
-        		ToolbarItem :: DISPLAY_ICON
-        ));
-        
+
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Details'), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_subscription_user_browser_url($subscription->get_id()), ToolbarItem :: DISPLAY_ICON));
+
         return $toolbar->as_html();
     }
 }

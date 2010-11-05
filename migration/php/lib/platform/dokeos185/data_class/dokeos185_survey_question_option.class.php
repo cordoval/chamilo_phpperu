@@ -14,7 +14,7 @@ class Dokeos185SurveyQuestionOption extends Dokeos185CourseDataMigrationDataClas
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'survey_question_option';
-    
+
     /**
      * Dokeos185SurveyQuestionOption properties
      */
@@ -23,7 +23,7 @@ class Dokeos185SurveyQuestionOption extends Dokeos185CourseDataMigrationDataClas
     const PROPERTY_SURVEY_ID = 'survey_id';
     const PROPERTY_OPTION_TEXT = 'option_text';
     const PROPERTY_SORT = 'sort';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -131,12 +131,12 @@ class Dokeos185SurveyQuestionOption extends Dokeos185CourseDataMigrationDataClas
     /**
      * Checks if surveyquestionoption is valid
      * @param Array $array
-     * @return Boolean 
+     * @return Boolean
      */
     function is_valid()
     {
-        
-        if (! $this->get_option_text() || !$this->get_id_reference($this->get_question_id(), $this->get_database_name() . '.survey_question'))
+
+        if (! $this->get_option_text() || ! $this->get_id_reference($this->get_question_id(), $this->get_database_name() . '.survey_question'))
         {
             $this->create_failed_element($this->get_id());
             $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'survey_question_option', 'ID' => $this->get_question_id())));
@@ -154,17 +154,17 @@ class Dokeos185SurveyQuestionOption extends Dokeos185CourseDataMigrationDataClas
     {
         //retrieve the refered survey question
         $survey_question_id = $this->get_id_reference($this->get_question_id(), $this->get_database_name() . '.survey_question');
-        $survey_question = RepositoryDataManager::get_instance()->retrieve_content_object($survey_question_id);
+        $survey_question = RepositoryDataManager :: get_instance()->retrieve_content_object($survey_question_id);
 
         //only multiple choice and select have non standard options. These need to be added
         switch (get_class($survey_question))
         {
-            case SurveyMultipleChoiceQuestion::CLASS_NAME:
+            case SurveyMultipleChoiceQuestion :: CLASS_NAME :
                 $option = new SurveyMultipleChoiceQuestionOption($this->get_option_text());
                 $survey_question->add_option($option);
                 $survey_question->update();
                 break;
-            case SurveySelectQuestion::CLASS_NAME:
+            case SurveySelectQuestion :: CLASS_NAME :
                 $option = new SurveySelectQuestionOption($this->get_option_text());
                 $survey_question->add_option($option);
                 $survey_question->update();
@@ -173,7 +173,7 @@ class Dokeos185SurveyQuestionOption extends Dokeos185CourseDataMigrationDataClas
 
         return $survey_question;
     }
-    
+
     public static function get_class_name()
     {
         return self :: CLASS_NAME;

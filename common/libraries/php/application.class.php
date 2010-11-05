@@ -2,14 +2,10 @@
 
 namespace common\libraries;
 
-use admin\
-AdminManager;
-use repository\
-RepositoryManagerContentObjectShareRightsCreatorComponent;
-use common\libraries\
-BreadcrumbTrail;
-use install\
-InstallManager;
+use admin\AdminManager;
+use repository\RepositoryManagerContentObjectShareRightsCreatorComponent;
+use common\libraries\BreadcrumbTrail;
+use install\InstallManager;
 
 /**
  * $Id: application.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
@@ -39,16 +35,16 @@ abstract class Application
         $this->search_parameters = array();
         $this->breadcrumbs = array();
 
-        //        $action = Request :: get(self :: PARAM_ACTION);
-        //        if ($action)
-        //        {
-        //            $this->set_action(Request :: get(self :: PARAM_ACTION));
-        //        }
-        //
-        //        if (Request :: get(self :: PARAM_APPLICATION) == $this->get_application_name())
-        //        {
-        //        $this->handle_table_action();
-        //        }
+    //        $action = Request :: get(self :: PARAM_ACTION);
+    //        if ($action)
+    //        {
+    //            $this->set_action(Request :: get(self :: PARAM_ACTION));
+    //        }
+    //
+    //        if (Request :: get(self :: PARAM_APPLICATION) == $this->get_application_name())
+    //        {
+    //        $this->handle_table_action();
+    //        }
     }
 
     function handle_table_action()
@@ -86,6 +82,7 @@ abstract class Application
     }
 
     //abstract static function get_application_class_name($application);
+
 
     /**
      * Creates a new instance of the given application
@@ -145,7 +142,7 @@ abstract class Application
      */
     function redirect($message = '', $error_message = false, $parameters = array(), $filter = array(), $encode_entities = false, $redirect_type = Redirect :: TYPE_URL, $application_type = Redirect :: TYPE_APPLICATION)
     {
-        if (!$error_message)
+        if (! $error_message)
         {
             $parameters[self :: PARAM_MESSAGE] = $message;
         }
@@ -506,7 +503,7 @@ abstract class Application
 
         $file = $application_component_path . Utilities :: camelcase_to_underscores($type) . '.class.php';
 
-        if (!file_exists($file) || !is_file($file))
+        if (! file_exists($file) || ! is_file($file))
         {
             $message = array();
             $message[] = Translation :: get('ComponentFailedToLoad') . '<br /><br />';
@@ -678,7 +675,7 @@ abstract class Application
 
         $file = $application_component_path . Utilities :: camelcase_to_underscores($type) . '.class.php';
 
-        if (!file_exists($file) || !is_file($file))
+        if (! file_exists($file) || ! is_file($file))
         {
             $message = array();
             $message[] = Translation :: get('ComponentFailedToLoad') . '<br /><br />';
@@ -706,8 +703,7 @@ abstract class Application
     static function determine_namespace($application_name)
     {
         $application_type = self :: get_type($application_name);
-        return $application_type::
-        get_application_namespace($application_name);
+        return $application_type :: get_application_namespace($application_name);
     }
 
     /**
@@ -732,7 +728,7 @@ abstract class Application
         $default_action = call_user_func(array($manager_class, 'get_default_action'));
 
         $action = Request :: get(self :: PARAM_ACTION);
-        $action = !isset($action) ? $default_action : $action;
+        $action = ! isset($action) ? $default_action : $action;
 
         $table_action = self :: process_table_action();
         if ($table_action)
@@ -750,19 +746,16 @@ abstract class Application
     static function construct($application_name, $user)
     {
         $type = self :: get_type($application_name);
-        require_once $type ::
-                get_application_manager_path($application_name);
+        require_once $type :: get_application_manager_path($application_name);
 
         $action = self :: get_component_action($application_name);
 
         $component = self :: component($application_name, $user, $action);
-
         $component->set_parameter(self :: PARAM_APPLICATION, $application_name);
 
-        $context = get_class($component);
-        $context = Utilities :: get_namespace_from_classname($context);
+        $context = Utilities :: get_namespace_from_object($context);
 
-        if (!$component instanceof InstallManager)
+        if (! $component instanceof InstallManager)
         {
             $trail = BreadcrumbTrail :: get_instance();
             if ($component instanceof AdministrationComponent)
@@ -786,7 +779,7 @@ abstract class Application
 
         $component->set_action($action);
 
-        if (!$component instanceof DelegateComponent && !$component instanceof InstallManager)
+        if (! $component instanceof DelegateComponent && ! $component instanceof InstallManager)
         {
             $trail->add(new Breadcrumb($component->get_url(array(self :: PARAM_ACTION => $action)), Translation :: get(Utilities :: get_classname_from_namespace(get_class($component)), null, $context)));
         }
@@ -817,7 +810,7 @@ abstract class Application
 
     function get_type($application)
     {
-        if (!BasicApplication :: exists($application))
+        if (! BasicApplication :: exists($application))
         {
             if (LauncherApplication :: exists($application))
             {

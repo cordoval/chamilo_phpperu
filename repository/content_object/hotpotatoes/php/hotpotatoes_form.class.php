@@ -45,7 +45,7 @@ class HotpotatoesForm extends ContentObjectForm
     protected function build_creation_form()
     {
         parent :: build_creation_form();
-        $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
+        $this->addElement('category', Translation :: get('Properties'));
         $this->add_textfield(Assessment :: PROPERTY_MAXIMUM_ATTEMPTS, Translation :: get('MaximumAttempts'));
         $this->addElement('html', Translation :: get('NoMaximumAttemptsFillIn0'));
         $this->addElement('file', 'file', Translation :: get('UploadHotpotatoes'));
@@ -57,7 +57,7 @@ class HotpotatoesForm extends ContentObjectForm
     protected function build_editing_form()
     {
         parent :: build_editing_form();
-        $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
+        $this->addElement('category', Translation :: get('Properties'));
         $this->add_textfield(Hotpotatoes :: PROPERTY_MAXIMUM_ATTEMPTS, Translation :: get('MaximumAttempts'));
         $this->addElement('html', Translation :: get('NoMaximumAttemptsFillIn0'));
         $this->addElement('file', 'file', Translation :: get('ChangeHotpotatoes'));

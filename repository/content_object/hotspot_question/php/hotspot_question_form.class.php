@@ -44,14 +44,14 @@ class HotspotQuestionForm extends ContentObjectForm
         //$this->add_warning_message('hotspot_javascript', Translation :: get('HotspotJavascriptWarning'), Translation :: get('HotspotJavascriptRequired'), true);
 
         $this->addElement('html', '<div id="hotspot_select" style="display: none;">');
-        $this->addElement('category', Translation :: get(get_class($this) . 'Hotspots'));
+        $this->addElement('category', Translation :: get('Hotspots'));
         $this->addElement('static', 'uploadify', Translation :: get('UploadImage'), '<div id="uploadify"></div>');
         $this->addElement('element_finder', 'image', Translation :: get('SelectImage'), $url, $locale, array());
         $this->addElement('category');
         $this->addElement('html', '</div>');
 
         $this->addElement('html', '<div id="hotspot_options" style="display: none;">');
-        $this->addElement('category', Translation :: get(get_class($this) . 'Hotspots'));
+        $this->addElement('category', Translation :: get('Hotspots'));
         $this->add_options();
         $this->addElement('hidden', 'image_object', Translation :: get('ImageObject'));
         $this->addElement('category');
@@ -66,7 +66,7 @@ class HotspotQuestionForm extends ContentObjectForm
     {
         parent :: build_creation_form();
 
-        $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
+        $this->addElement('category', Translation :: get('Properties'));
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/jquery.draw.js'));
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/serializer.pack.js'));
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/hotspot_question/resources/javascript/hotspot_question_form.js'));

@@ -19,7 +19,7 @@ class PhotobucketForm extends ContentObjectForm
     {
         $link = Path :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=' . ExternalRepositoryLauncher :: APPLICATION_NAME . '&' . ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '=1' . Photobucket :: get_type_name();
         parent :: build_creation_form();
-        $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
+        $this->addElement('category', Translation :: get('Properties'));
         $this->addElement('static', null, null, '<a class="button normal_button upload_button" onclick="javascript:openPopup(\'' . $link . '\');"> ' . Translation :: get('BrowseStreamingVideo') . '</a>');
         //$this->add_textfield(Photobucket :: PROPERTY_PHOTOBUCKET_ID, Translation :: get('PhotobucketId'), true, array('size' => '255'));
         $this->add_textfield(Photobucket :: PROPERTY_WIDTH, Translation :: get('Width'), true, array('size' => '5'));
@@ -42,7 +42,7 @@ class PhotobucketForm extends ContentObjectForm
     {
         $link = Path :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=' . ExternalRepositoryLauncher :: APPLICATION_NAME . '&' . ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '=1' . Photobucket :: get_type_name();
         parent :: build_creation_form();
-        $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
+        $this->addElement('category', Translation :: get('Properties'));
         $this->addElement('static', null, null, '<a class="button normal_button upload_button" onclick="javascript:openPopup(\'' . $link . '\');"> ' . Translation :: get('BrowseStreamingVideo') . '</a>');
         //$this->add_textfield(Photobucket :: PROPERTY_PHOTOBUCKET_ID, Translation :: get('PhotobucketId'), true, array('size' => '255'));
         $this->add_textfield(Photobucket :: PROPERTY_WIDTH, Translation :: get('Width'), true, array('size' => '5'));

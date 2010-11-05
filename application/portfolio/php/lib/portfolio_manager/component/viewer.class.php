@@ -101,7 +101,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager
             $this->portfolio_identifier = self::PROPERTY_ROOT;
         }
 
-        if(is_a($this->get_user(), User::CLASS_NAME))
+        if($this->get_user() instanceof User)
         {
             $this->current_user_id = $this->get_user_id();
         }
@@ -111,7 +111,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager
             $this->current_user_id = 1;
         }
 
-        
+
         if($this->portfolio_identifier != self::PROPERTY_ROOT)
         {
             $rights = PortfolioRights::get_rights($this->current_user_id, $this->portfolio_identifier, $possible_types);
@@ -123,7 +123,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager
             $this->permission_setting_right = $rights[PortfolioRights::SET_PERMISSIONS_RIGHT];
 
 
-    	
+
     	if($this->portfolio_identifier == self::PROPERTY_ROOT && $this->current_user_id != 1)
         {
             //root can be seen by every user
@@ -206,7 +206,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager
         }
 
 
-         if(is_a($this->get_user(), User::CLASS_NAME))
+         if($this->get_user() instanceof User)
         {
             $this->current_user_id = $this->get_user_id();
         }
@@ -218,7 +218,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager
 
 
 
-        
+
 
         if ($this->owner_user_id == $this->current_user_id || ($this->get_user() && $this->get_user()->is_platform_admin()))
         {
@@ -275,7 +275,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager
 
     function display_footer()
     {
-//        if(is_a($this->get_user(), User::CLASS_NAME))
+//        if($this->get_user() instanceof User))
 //        {
 //            $this->current_user_id = $this->get_user_id();
 //        }
@@ -295,10 +295,10 @@ class PortfolioManagerViewerComponent extends PortfolioManager
         $html[]= '</div>';
         $html[]= '</div>';
 
-       
+
             $trail = new BreadcrumbTrail;
-        
-        
+
+
 
 
         $udm = UserDataManager::get_instance();
@@ -456,7 +456,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager
         {
             $this->specific_html = implode("\n", $html);
         }
-        
+
         $feedback_manager;
         switch ($my_right)
         {

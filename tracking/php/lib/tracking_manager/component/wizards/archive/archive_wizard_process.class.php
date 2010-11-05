@@ -1,6 +1,8 @@
 <?php
 namespace tracking;
 
+use common\libraries;
+
 use common\libraries\Utilities;
 use common\libraries\BasicApplication;
 use common\libraries\Translation;
@@ -82,7 +84,7 @@ class ArchiveWizardProcess extends HTML_QuickForm_Action
 
                         $tracker = Tracker :: factory($trackerregistration->get_tracker(), $trackerregistration->get_application());
 
-                        echo (' &nbsp; &nbsp; ' . Translation :: get('Archiving_tracker') . ': ' . get_class($tracker) . '<br />');
+                        echo (' &nbsp; &nbsp; ' . Translation :: get('Archiving_tracker') . ': ' . Utilities :: get_classname_from_object($tracker) . '<br />');
 
                         $application_path = BasicApplication :: get_application_path($trackerregistration->get_application());
                         $path = $application_path . 'trackers/tracker_tables/' . $tracker->get_table() . '.xml';

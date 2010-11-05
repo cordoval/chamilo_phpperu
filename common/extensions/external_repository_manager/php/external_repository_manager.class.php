@@ -14,7 +14,6 @@ use common\libraries\LauncherApplication;
 use common\libraries\ToolbarItem;
 
 use repository\ExternalRepositorySync;
-
 use repository\RepositoryManager;
 
 abstract class ExternalRepositoryManager extends SubManager
@@ -56,7 +55,7 @@ abstract class ExternalRepositoryManager extends SubManager
      */
     function ExternalRepositoryManager($application)
     {
-    	parent :: __construct($application);
+        parent :: __construct($application);
         $this->external_repository = $application->get_external_repository();
 
         $external_repository_manager_action = Request :: get(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION);
@@ -107,7 +106,7 @@ abstract class ExternalRepositoryManager extends SubManager
      */
     function is_stand_alone()
     {
-        return is_a($this->get_parent(), LauncherApplication :: CLASS_NAME);
+        return $this->get_parent() instanceof LauncherApplication;
     }
 
     /**
@@ -196,7 +195,7 @@ abstract class ExternalRepositoryManager extends SubManager
             $external_repository_actions[] = self :: ACTION_VIEW_EXTERNAL_REPOSITORY;
         }
 
-        $tabs = new DynamicVisualTabsRenderer(Utilities :: camelcase_to_underscores(get_class($this)));
+        $tabs = new DynamicVisualTabsRenderer(Utilities :: get_classname_from_object($this, true));
 
         foreach ($external_repository_actions as $external_repository_action)
         {
@@ -351,7 +350,7 @@ abstract class ExternalRepositoryManager extends SubManager
      */
     function get_external_repository_object_actions(ExternalRepositoryObject $object)
     {
-    	$toolbar_items = array();
+        $toolbar_items = array();
 
         if ($object->is_editable())
         {
@@ -365,7 +364,7 @@ abstract class ExternalRepositoryManager extends SubManager
         if ($object->is_usable())
         {
 
-        	if ($this->is_stand_alone())
+            if ($this->is_stand_alone())
             {
                 $toolbar_items[] = new ToolbarItem(Translation :: get('Select'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SELECT_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
             }
@@ -373,7 +372,7 @@ abstract class ExternalRepositoryManager extends SubManager
             {
                 if ($object->is_importable())
                 {
-                	$toolbar_items[self :: ACTION_IMPORT_EXTERNAL_REPOSITORY] = new ToolbarItem(Translation :: get('Import'), Theme :: get_common_image_path() . 'action_import.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_IMPORT_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
+                    $toolbar_items[self :: ACTION_IMPORT_EXTERNAL_REPOSITORY] = new ToolbarItem(Translation :: get('Import'), Theme :: get_common_image_path() . 'action_import.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_IMPORT_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
                 }
                 else
                 {
@@ -497,11 +496,11 @@ abstract class ExternalRepositoryManager extends SubManager
 
     static function get_i18n_context($type = null)
     {
-    	if ($type == null)
-    	{
-    		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
-    	}
-    	return Utilities :: camelcase_to_underscores(self :: CLASS_NAME) . Translation :: PACKAGE_DELIMITER . $type;
+        if ($type == null)
+        {
+            return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        }
+        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME) . Translation :: PACKAGE_DELIMITER . $type;
     }
 }
 ?>

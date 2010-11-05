@@ -1,5 +1,7 @@
 <?php
 namespace repository;
+use common\libraries;
+
 use common\libraries\DataClass;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
@@ -1113,7 +1115,7 @@ class ContentObject extends DataClass
      */
     static function class_to_type($class)
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', $class)));
+        return Utilities :: get_classname_from_namespace($class, true);
     }
 
     /**
@@ -1137,7 +1139,7 @@ class ContentObject extends DataClass
         {
         	return null; //problem with the here is the prepository
         }
-       
+
         $class = self :: type_to_class($type);
         return new $class($defaultProperties, $additionalProperties);
     }

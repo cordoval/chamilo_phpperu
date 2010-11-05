@@ -4,6 +4,7 @@ namespace repository\content_object\forum;
 use common\libraries\Request;
 use repository\ComplexDisplay;
 use repository\RepositoryDataManager;
+use repository\content_object\forum_topic\ComplexForumTopic;
 /**
  * $Id: forum_display.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.forum
