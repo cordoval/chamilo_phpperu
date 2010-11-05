@@ -183,7 +183,6 @@ class RightsUtilities
      * Added some caching to the is_allowed methods
      * Optimized for checking multiple locations
      * @author Pieterjan Broekaert
-     * @todo some cleanup + move query to datamanager
      */
     static $user_cache;
     static $group_cache;
@@ -240,7 +239,6 @@ class RightsUtilities
             }
         }
 
-
         if ($user instanceof User && $user->is_platform_admin())
         {
             return true;
@@ -248,7 +246,7 @@ class RightsUtilities
 
         if (!self :: $location_cache[$identifier])
         {
-            $location = RightsUtilities :: get_location_by_identifier($application, $type, $identifier, $tree_identifier, $tree_type);
+            $location = self :: get_location_by_identifier($application, $type, $identifier, $tree_identifier, $tree_type);
             if (!$location)
             {
                 throw new \ErrorException("RightsError: The requested location doesnt exist: " . $application . ';type=' . $type . ';location_id=' . $identifier . ';tree_id=' . $tree_identifier . ';tree_type=' . $tree_type);
@@ -280,17 +278,13 @@ class RightsUtilities
         {
             return true;
         }
-        
+
         //has the user been given a direct right for this location?
         if (self :: $right_granted_by_parent_cache[$right] == -1) //the right wasnt granted in a previous run, this means that only the base location should be checked
         {
-            if (RightsUtilities :: get_user_right_location($right, $user->get_id(), $location->get_id()))
+            if (self :: get_user_right_location($right, $user->get_id(), $location->get_id()))
             {
                 return true;
-            }
-            else
-            {
-                return false;
             }
         }
         else
@@ -303,7 +297,6 @@ class RightsUtilities
 
         if (!self :: $group_cache[$user->get_id()]) //todo: if a user is not subscribed in any group, this check should also return true (avoid query with empty results)
         {
-
 
             $groups_and_templates = GroupDataManager::get_instance()->retrieve_all_groups_and_templates($user->get_id());
             while ($record = $groups_and_templates->next_result())
@@ -354,55 +347,48 @@ class RightsUtilities
         {
             $groups = self :: $group_cache[$user->get_id()];
             $templates = self :: $template_cache[$user->get_id()];
-
-            foreach ($templates as $template => $value)
+        }
+        foreach ($templates as $template => $value)
+        {
+            if (self :: $right_granted_by_parent_cache[$right] == -1) //the right wasnt granted in a previous run, this means that the parent locations will never grant the right
             {
-                if (self :: $right_granted_by_parent_cache[$right] == -1) //the right wasnt granted in a previous run, this means that the parent locations will never grant the right
+                if (self :: get_rights_template_right_location($right, $template, $location->get_id()))
                 {
-                    if (RightsUtilities :: get_rights_template_right_location($right, $template, $location->get_id()))
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-                else
-                {
-                    if (self :: is_allowed_for_rights_template($template, $right, $location))
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
-            foreach ($groups as $group => $value)
+            else
             {
-                if (self :: $right_granted_by_parent_cache[$right] == -1) //the right wasnt granted in a previous run, this means that only the base location should be checked
+                if (self :: is_allowed_for_rights_template($template, $right, $location))
                 {
-                    if (RightsUtilities :: get_rights_template_right_location($right, $group, $location->get_id()))
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-                else
-                {
-                    if (self :: is_allowed_for_group($group, $right, $location))
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
         }
+        foreach ($groups as $group => $value)
+        {
+            if (self :: $right_granted_by_parent_cache[$right] == -1) //the right wasnt granted in a previous run, this means that only the base location should be checked
+            {
+                if (self :: get_group_right_location($right, $group, $location->get_id()))
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                if (self :: is_allowed_for_group($group, $right, $location))
+                {
+                    return true;
+                }
+            }
+        }
+        
         //if after the algorithm, the right_cache isnt set, this is saved for future requests on other sibling locations
         if (is_null(self :: $right_granted_by_parent_cache[$right]))
         {
             self :: $right_granted_by_parent_cache[$right] = -1;
         }
+        return false;
     }
 
     static function is_allowed_for_rights_template($rights_template, $right, $location)
@@ -420,7 +406,7 @@ class RightsUtilities
 
         foreach ($parents as $parent)
         {
-            $has_right = RightsUtilities :: get_rights_template_right_location($right, $rights_template, $parent->get_id());
+            $has_right = self :: get_rights_template_right_location($right, $rights_template, $parent->get_id());
 
             if ($has_right)
             {
@@ -457,7 +443,7 @@ class RightsUtilities
         foreach ($parents as $parent)
         {
 
-            $has_right = RightsUtilities :: get_user_right_location($right, $user_id, $parent->get_id());
+            $has_right = self :: get_user_right_location($right, $user_id, $parent->get_id());
 
             if ($has_right)
             {
@@ -477,7 +463,7 @@ class RightsUtilities
         }
     }
 
-    function is_allowed_for_group($group_id, $right, $location)
+    static function is_allowed_for_group($group_id, $right, $location)
     {
         if (self :: $location_parents_cache[$location->get_id()] == 0)
         {
@@ -491,7 +477,7 @@ class RightsUtilities
 
         foreach ($parents as $parent)
         {
-            $has_right = RightsUtilities :: get_group_right_location($right, $group_id, $parent->get_id());
+            $has_right = self :: get_group_right_location($right, $group_id, $parent->get_id());
 
             if ($has_right)
             {
@@ -510,6 +496,16 @@ class RightsUtilities
         }
 
         return false;
+    }
+
+    /*
+     * Function that returns the groups that ought to be checked, if an application doesnt want to check the platform groups for rights
+     * default: return null => check the platform groups
+     */
+
+    static function get_relevant_groups()
+    {
+        return null;
     }
 
 //    //eduard changed second param $location  for $identifier
