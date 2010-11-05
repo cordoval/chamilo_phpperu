@@ -44,11 +44,11 @@ class Utilities
         $matches = array();
         preg_match_all('/(?:"([^"]+)"|""|(\S+))/', $pattern, $matches);
         $parts = array();
-        for ($i = 1; $i <= 2; $i++)
+        for($i = 1; $i <= 2; $i ++)
         {
             foreach ($matches[$i] as $m)
             {
-                if (!is_null($m) && strlen($m) > 0)
+                if (! is_null($m) && strlen($m) > 0)
                     $parts[] = $m;
             }
         }
@@ -73,7 +73,7 @@ class Utilities
      */
     static function query_to_condition($query, $properties = array(ContentObject :: PROPERTY_TITLE, ContentObject :: PROPERTY_DESCRIPTION))
     {
-        if (!is_array($properties))
+        if (! is_array($properties))
         {
             $properties = array($properties);
         }
@@ -188,7 +188,7 @@ class Utilities
      */
     static function underscores_to_camelcase($string)
     {
-        if (!isset(self :: $us_camel_map[$string]))
+        if (! isset(self :: $us_camel_map[$string]))
         {
             self :: $us_camel_map[$string] = ucfirst(preg_replace('/_([a-z])/e', 'strtoupper("\1")', $string));
         }
@@ -197,7 +197,7 @@ class Utilities
 
     static function underscores_to_camelcase_with_spaces($string)
     {
-        if (!isset(self :: $us_camel_map_with_spaces[$string]))
+        if (! isset(self :: $us_camel_map_with_spaces[$string]))
         {
             self :: $us_camel_map_with_spaces[$string] = ucfirst(preg_replace('/_([a-z])/e', '" " . strtoupper("\1")', $string));
         }
@@ -211,7 +211,7 @@ class Utilities
      */
     static function camelcase_to_underscores($string)
     {
-        if (!isset(self :: $camel_us_map[$string]))
+        if (! isset(self :: $camel_us_map[$string]))
         {
             self :: $camel_us_map[$string] = preg_replace(array('/^([A-Z])/e', '/([A-Z])/e'), array('strtolower("\1")', '"_".strtolower("\1")'), $string);
         }
@@ -304,7 +304,7 @@ class Utilities
 
         if (isset($id))
         {
-            if (!isset($message))
+            if (! isset($message))
             {
                 $message = self :: underscores_to_camelcase($id);
             }
@@ -333,7 +333,7 @@ class Utilities
         if (is_array($array))
         {
             echo "Array (<br />";
-            for ($i = 0; $i < count($array); $i++)
+            for($i = 0; $i < count($array); $i ++)
             {
                 if (is_array($array[$i]))
                 {
@@ -357,13 +357,13 @@ class Utilities
     static function DisplayInlineArray($inlinearray, $depth, $element)
     {
         $spaces = null;
-        for ($j = 0; $j < $depth - 1; $j++)
+        for($j = 0; $j < $depth - 1; $j ++)
         {
             $spaces .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
         }
         echo $spaces . "[" . $element . "]" . "Array (<br />";
         $spaces .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-        for ($i = 0; $i < count($inlinearray); $i++)
+        for($i = 0; $i < count($inlinearray); $i ++)
         {
             $key = key($inlinearray);
             if (is_array($inlinearray[$i]))
@@ -460,7 +460,7 @@ class Utilities
             foreach ($extra_options as $op => $value)
                 $unserializer->setOption($op, $value);
 
-            // userialize the document
+     // userialize the document
             $status = $unserializer->unserialize($file, true);
             if (PEAR :: isError($status))
             {
@@ -610,14 +610,7 @@ class Utilities
 
     static function get_classname_from_object($object, $convert_to_underscores = false)
     {
-        if ($convert_to_underscores)
-        {
-            return self :: camelcase_to_underscores(self :: get_classname_from_namespace(get_class($object)));
-        }
-        else
-        {
-            return self :: get_classname_from_namespace(get_class($object));
-        }
+        return self :: get_classname_from_namespace(get_class($object), $convert_to_underscores);
     }
 
     static function get_namespace_from_object($object)
@@ -625,10 +618,16 @@ class Utilities
         return self :: get_namespace_from_classname(get_class($object));
     }
 
-    static function get_classname_from_namespace($classname)
+    static function get_classname_from_namespace($classname, $convert_to_underscores = false)
     {
-        $classname_parts = explode('\\', $classname);
-        return $classname_parts[count($classname_parts) - 1];
+        $classname = array_pop(explode('\\', $classname));
+
+        if ($convert_to_underscores)
+        {
+            $classname = self :: camelcase_to_underscores($classname);
+        }
+
+        return $classname;
     }
 
     static function get_namespace_from_classname($namespace)
@@ -639,5 +638,4 @@ class Utilities
     }
 
 }
-
 ?>

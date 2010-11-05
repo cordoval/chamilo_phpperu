@@ -21,7 +21,7 @@ class Description extends ContentObject implements Versionable
 
     static function get_type_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 }
 

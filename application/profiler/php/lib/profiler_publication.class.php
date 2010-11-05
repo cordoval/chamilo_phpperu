@@ -13,15 +13,15 @@ use common\libraries\Utilities;
  * @package application.profiler
  */
 /**
- * 	This class represents a ProfilerPublication.
+ * This class represents a ProfilerPublication.
  *
- * 	ProfilerPublication objects have a number of default properties:
- * 	- id: the numeric ID of the ProfilerPublication;
- * 	- profile: the numeric object ID of the ProfilerPublication (from the repository);
- * 	- publisher: the publisher of the ProfilerPublication;
- * 	- published: the date when the ProfilerPublication was "posted";
- * 	@author Hans de Bisschop
- * 	@author Dieter De Neef
+ * ProfilerPublication objects have a number of default properties:
+ * - id: the numeric ID of the ProfilerPublication;
+ * - profile: the numeric object ID of the ProfilerPublication (from the repository);
+ * - publisher: the publisher of the ProfilerPublication;
+ * - published: the date when the ProfilerPublication was "posted";
+ * @author Hans de Bisschop
+ * @author Dieter De Neef
  */
 class ProfilerPublication extends DataClass
 {
@@ -119,9 +119,9 @@ class ProfilerPublication extends DataClass
         $rdm = RepositoryDataManager :: get_instance();
         return $rdm->retrieve_content_object($this->get_profile());
     }
-	
+
     /**
-     * 
+     *
      * @return User
      */
     function get_publication_publisher()
@@ -129,6 +129,7 @@ class ProfilerPublication extends DataClass
         $udm = UserDataManager :: get_instance();
         return $udm->retrieve_user($this->get_publisher());
     }
+
     /**
      * Instructs the data manager to create the personal message publication, making it
      * persistent. Also assigns a unique ID to the publication and sets
@@ -140,7 +141,7 @@ class ProfilerPublication extends DataClass
         $now = time();
         $this->set_published($now);
         $pmdm = ProfilerDataManager :: get_instance();
-        if (!$pmdm->create_profile_publication($this))
+        if (! $pmdm->create_profile_publication($this))
         {
             return false;
         }
@@ -168,21 +169,21 @@ class ProfilerPublication extends DataClass
      */
     function delete()
     {
-    	$location = ProfilerRights :: get_location_by_identifier_from_profiler_subtree($this->get_id(), ProfilerRights :: TYPE_PUBLICATION);
-    	if($location)
-    	{
-    		if(!$location->remove())
-    		{
-    			return false;
-    		}
-    	}
+        $location = ProfilerRights :: get_location_by_identifier_from_profiler_subtree($this->get_id(), ProfilerRights :: TYPE_PUBLICATION);
+        if ($location)
+        {
+            if (! $location->remove())
+            {
+                return false;
+            }
+        }
 
-    	return parent :: delete();
+        return parent :: delete();
     }
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME))); 
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 
 }

@@ -24,7 +24,7 @@ class ExternalCalendar extends ContentObject implements Versionable
     const PROPERTY_URL = 'url';
     const CACHE_TIME = 3600;
     const CLASS_NAME = __CLASS__;
-    
+
     const REPEAT_TYPE_NONE = 'NONE';
     const REPEAT_TYPE_DAY = 'DAILY';
     const REPEAT_TYPE_WEEK = 'WEEKLY';
@@ -32,9 +32,9 @@ class ExternalCalendar extends ContentObject implements Versionable
     const REPEAT_TYPE_YEAR = 'YEARLY';
     const REPEAT_START = 'start';
     const REPEAT_END = 'end';
-    
+
     const PARAM_EVENT_ID = 'event_id';
-    
+
     private $calendar;
 
     function get_url()
@@ -57,7 +57,7 @@ class ExternalCalendar extends ContentObject implements Versionable
         $ical_id = md5('ical_' . serialize($this->get_url()));
         $path = Path :: get(SYS_FILE_PATH) . 'temp/ical/' . $ical_id . '.ics';
         $timedif = @(time() - filemtime($path));
-        
+
         //if (! file_exists($path) || $timedif > self :: CACHE_TIME)
         //{
         if ($f = @fopen($this->get_url(), 'r'))
@@ -71,7 +71,7 @@ class ExternalCalendar extends ContentObject implements Versionable
         }
         Filesystem :: write_to_file($path, $calendar_content);
         //}
-        
+
 
         if (! isset($this->calendar))
         {
@@ -79,7 +79,7 @@ class ExternalCalendar extends ContentObject implements Versionable
             $calendar->parse($path);
             $calendar->sort();
         }
-        
+
         return $calendar;
     }
 
@@ -116,7 +116,7 @@ class ExternalCalendar extends ContentObject implements Versionable
 
     function get_occurences(vevent $event, $start_date, $end_date)
     {
-        
+
         $ical_recurrence = new IcalRecurrence($event, $start_date, $end_date);
         $test = $ical_recurrence->get_occurences();
         return $test;
@@ -124,7 +124,7 @@ class ExternalCalendar extends ContentObject implements Versionable
 
     static function get_type_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 }
 ?>

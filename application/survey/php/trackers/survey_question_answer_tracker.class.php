@@ -6,9 +6,9 @@ use common\libraries\Path;
 class SurveyQuestionAnswerTracker extends SimpleTracker
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const SAVE_QUESTION_ANSWER_EVENT = 'save_question_answer';
-    
+
     const PROPERTY_SURVEY_PARTICIPANT_ID = 'survey_participant_id';
     const PROPERTY_CONTEXT_ID = 'context_id';
     const PROPERTY_COMPLEX_QUESTION_ID = 'question_cid';
@@ -81,7 +81,7 @@ class SurveyQuestionAnswerTracker extends SimpleTracker
     function get_answer()
     {
         $answer = unserialize($this->get_default_property(self :: PROPERTY_ANSWER));
-        
+
         if ($answer)
         {
             return $answer;
@@ -90,7 +90,7 @@ class SurveyQuestionAnswerTracker extends SimpleTracker
         {
             return array();
         }
-    
+
     }
 
     function set_answer($answer)
@@ -130,8 +130,7 @@ class SurveyQuestionAnswerTracker extends SimpleTracker
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 }
 ?>

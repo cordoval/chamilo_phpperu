@@ -210,7 +210,7 @@ class ContentObject extends DataClass
     function get_owner_fullname()
     {
         $owner = UserDataManager :: get_instance()->retrieve_user($this->get_owner_id());
-        if(!$owner)
+        if (! $owner)
         {
             return Translation :: get('OwnerUnknown');
         }
@@ -832,18 +832,18 @@ class ContentObject extends DataClass
         $this->set_parent_id($new_parent_id);
         $dm = RepositoryDataManager :: get_instance();
         $succes = $dm->update_content_object($this);
-        if(!$succes)
+        if (! $succes)
         {
-        	return false;
+            return false;
         }
 
-        if($new_parent_id == 0)
+        if ($new_parent_id == 0)
         {
-        	$new_parent = RepositoryRights :: get_user_root_id();
+            $new_parent = RepositoryRights :: get_user_root_id();
         }
         else
         {
-        	$new_parent = RepositoryRights :: get_location_id_by_identifier_from_user_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $new_parent_id, $this->get_owner_id());
+            $new_parent = RepositoryRights :: get_location_id_by_identifier_from_user_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $new_parent_id, $this->get_owner_id());
         }
 
         $location = RepositoryRights :: get_location_by_identifier_from_users_subtree(RepositoryRights :: TYPE_USER_CONTENT_OBJECT, $this->get_id(), $this->get_owner_id());
@@ -902,15 +902,15 @@ class ContentObject extends DataClass
      */
     function delete()
     {
-		$location = RepositoryRights :: get_location_by_identifier_from_users_subtree(RepositoryRights :: TYPE_USER_CONTENT_OBJECT, $this->get_id(), $this->get_owner_id());
-		if($location)
-		{
-			if(!$location->remove())
-			{
-				return false;
-			}
-		}
-    	return RepositoryDataManager :: get_instance()->delete_content_object($this);
+        $location = RepositoryRights :: get_location_by_identifier_from_users_subtree(RepositoryRights :: TYPE_USER_CONTENT_OBJECT, $this->get_id(), $this->get_owner_id());
+        if ($location)
+        {
+            if (! $location->remove())
+            {
+                return false;
+            }
+        }
+        return RepositoryDataManager :: get_instance()->delete_content_object($this);
     }
 
     function delete_version()
@@ -1062,7 +1062,9 @@ class ContentObject extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_OWNER_ID, self :: PROPERTY_TYPE, self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CREATION_DATE, self :: PROPERTY_MODIFICATION_DATE, self :: PROPERTY_OBJECT_NUMBER, self :: PROPERTY_STATE, self :: PROPERTY_COMMENT, self :: PROPERTY_CONTENT_HASH));
+        return parent :: get_default_property_names(array(
+                self :: PROPERTY_OWNER_ID, self :: PROPERTY_TYPE, self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CREATION_DATE, self :: PROPERTY_MODIFICATION_DATE, self :: PROPERTY_OBJECT_NUMBER, self :: PROPERTY_STATE, self :: PROPERTY_COMMENT,
+                self :: PROPERTY_CONTENT_HASH));
     }
 
     static function get_additional_property_names()
@@ -1135,9 +1137,9 @@ class ContentObject extends DataClass
      */
     static function factory($type, $defaultProperties = array(), $additionalProperties = array())
     {
-    	if (! AdminDataManager :: is_registered($type, 'content_object'))
+        if (! AdminDataManager :: is_registered($type, 'content_object'))
         {
-        	return null; //problem with the here is the prepository
+            return null; //problem with the here is the prepository
         }
 
         $class = self :: type_to_class($type);
@@ -1181,8 +1183,7 @@ class ContentObject extends DataClass
      */
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 
     /**
@@ -1227,7 +1228,7 @@ class ContentObject extends DataClass
     {
         $is_external = $this->get_synchronization_data();
 
-    	return isset($is_external);
+        return isset($is_external);
     }
 
     static function get_content_object_type_namespace($type)

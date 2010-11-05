@@ -9,17 +9,16 @@ use common\libraries\DataClass;
  */
 
 /**
- *	This class represents the different quota values for a user. (for each learning object type)
+ * This class represents the different quota values for a user. (for each learning object type)
  *
- *	User quota objects have a number of default properties:
- *	- user_id: the user_id;
- *	- learning object type: the learning object type;
- *	- user_quota: the user quota:
+ * User quota objects have a number of default properties:
+ * - user_id: the user_id;
+ * - learning object type: the learning object type;
+ * - user_quota: the user quota:
  *
- *	@author Hans de Bisschop
- *	@author Dieter De Neef
+ * @author Hans de Bisschop
+ * @author Dieter De Neef
  */
-
 
 class UserQuota extends DataClass
 {
@@ -108,8 +107,7 @@ class UserQuota extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 }
 ?>

@@ -11,7 +11,7 @@ use tracking\SimpleTracker;
 class PhrasesAssessmentAttemptsTracker extends SimpleTracker
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_USER_ID = 'user_id';
     const PROPERTY_PUBLICATION_ID = 'publication_id';
     const PROPERTY_DATE = 'date';
@@ -23,16 +23,16 @@ class PhrasesAssessmentAttemptsTracker extends SimpleTracker
     function validate_parameters(array $parameters = array())
     {
         $status = $parameters[self :: PROPERTY_STATUS];
-        
+
         $this->set_user_id($parameters[self :: PROPERTY_USER_ID]);
         $this->set_publication_id($parameters[self :: PROPERTY_PUBLICATION_ID]);
         $this->set_start_time(time());
-        
+
         if ($status)
         {
             $this->set_status($status);
         }
-        
+
         $this->set_date(time());
         $this->set_total_score($parameters[self :: PROPERTY_TOTAL_SCORE]);
     }
@@ -118,7 +118,7 @@ class PhrasesAssessmentAttemptsTracker extends SimpleTracker
     function get_times_taken($publication, $user_id = null)
     {
         $condition = new EqualityCondition(self :: PROPERTY_PUBLICATION_ID, $publication->get_id());
-        
+
         if ($user_id)
         {
             $conditions = array();
@@ -126,7 +126,7 @@ class PhrasesAssessmentAttemptsTracker extends SimpleTracker
             $conditions[] = new EqualityCondition(self :: PROPERTY_USER_ID, $user_id);
             $condition = new AndCondition($conditions);
         }
-        
+
         $trackers = $this->retrieve_tracker_items($condition);
         return count($trackers);
     }
@@ -134,10 +134,10 @@ class PhrasesAssessmentAttemptsTracker extends SimpleTracker
     function delete()
     {
         parent :: delete();
-        
+
         $condition = new EqualityCondition(AssessmentQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $this->get_id());
         $trackers = $this->get_data_manager()->retrieve_tracker_items(AssessmentQuestionAttemptsTracker :: get_table_name(), AssessmentQuestionAttemptsTracker :: CLASS_NAME, $condition);
-        
+
         foreach ($trackers as $tracker)
         {
             $tracker->delete();
@@ -147,7 +147,7 @@ class PhrasesAssessmentAttemptsTracker extends SimpleTracker
     function get_average_score($publication, $user_id = null)
     {
         $condition = new EqualityCondition(self :: PROPERTY_PUBLICATION_ID, $publication->get_id());
-        
+
         if ($user_id)
         {
             $conditions = array();
@@ -155,24 +155,23 @@ class PhrasesAssessmentAttemptsTracker extends SimpleTracker
             $conditions[] = new EqualityCondition(self :: PROPERTY_USER_ID, $user_id);
             $condition = new AndCondition($conditions);
         }
-        
+
         $trackers = $this->retrieve_tracker_items($condition);
         $num = count($trackers);
-        
+
         foreach ($trackers as $tracker)
         {
             $total_score += $tracker->get_total_score();
         }
-        
+
         $total_score = round($total_score / $num, 2);
         return $total_score;
-    
+
     }
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 }
 ?>

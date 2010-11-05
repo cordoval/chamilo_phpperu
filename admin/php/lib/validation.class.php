@@ -10,11 +10,10 @@ use common\libraries\DataClass;
  * $Id: validation.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  */
 
-
 class Validation extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_APPLICATION = 'application';
     const PROPERTY_PID = 'publication_id';
     const PROPERTY_CID = 'complex_id';
@@ -122,8 +121,7 @@ class Validation extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 
     function get_validation_publisher()

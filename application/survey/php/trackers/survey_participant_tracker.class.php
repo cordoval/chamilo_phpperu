@@ -5,16 +5,15 @@ use common\libraries\Path;
 use tracking\SimpleTracker;
 use common\libraries\Utilities;
 
-
 //require_once Path :: get_application_path() . 'php/lib/survey/trackers/survey_question_answer_tracker.class.php';
 require_once Path :: get_repository_content_object_path() . 'survey/php/context_data_manager/database_context_data_manager.class.php';
 
 class SurveyParticipantTracker extends SimpleTracker
 {
     const CLASS_NAME = __CLASS__;
-	
+
     const CREATE_PARTICIPANT_EVENT = 'create_survey_participant';
-    
+
     const PROPERTY_USER_ID = 'user_id';
     const PROPERTY_SURVEY_PUBLICATION_ID = 'survey_publication_id';
     const PROPERTY_DATE = 'date';
@@ -26,7 +25,7 @@ class SurveyParticipantTracker extends SimpleTracker
     const PROPERTY_CONTEXT_ID = 'context_id';
     const PROPERTY_PARENT_ID = 'parent_id';
     const PROPERTY_CONTEXT_TEMPLATE_ID = 'context_template_id';
-    
+
     const STATUS_STARTED = 'started';
     const STATUS_NOTSTARTED = 'notstarted';
     const STATUS_FINISHED = 'finished';
@@ -58,8 +57,8 @@ class SurveyParticipantTracker extends SimpleTracker
     static function get_default_property_names()
     {
         return parent :: get_default_property_names(array(
-                self :: PROPERTY_USER_ID, self :: PROPERTY_SURVEY_PUBLICATION_ID, self :: PROPERTY_DATE, self :: PROPERTY_PROGRESS, self :: PROPERTY_STATUS, self :: PROPERTY_PARENT_ID, self :: PROPERTY_START_TIME,
-                self :: PROPERTY_TOTAL_TIME, self :: PROPERTY_CONTEXT_ID, self :: PROPERTY_CONTEXT_TEMPLATE_ID, self :: PROPERTY_CONTEXT_NAME));
+                self :: PROPERTY_USER_ID, self :: PROPERTY_SURVEY_PUBLICATION_ID, self :: PROPERTY_DATE, self :: PROPERTY_PROGRESS, self :: PROPERTY_STATUS, self :: PROPERTY_PARENT_ID, self :: PROPERTY_START_TIME, self :: PROPERTY_TOTAL_TIME, self :: PROPERTY_CONTEXT_ID,
+                self :: PROPERTY_CONTEXT_TEMPLATE_ID, self :: PROPERTY_CONTEXT_NAME));
     }
 
     function get_user_id()
@@ -222,8 +221,7 @@ class SurveyParticipantTracker extends SimpleTracker
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 }
 ?>

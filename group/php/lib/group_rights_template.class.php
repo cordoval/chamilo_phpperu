@@ -7,14 +7,14 @@ use common\libraries\DataClass;
  * @package group.lib
  */
 /**
- *	@author Hans de Bisschop
- *	@author Dieter De Neef
+ * @author Hans de Bisschop
+ * @author Dieter De Neef
  */
 
 class GroupRightsTemplate extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_GROUP_ID = 'group_id';
     const PROPERTY_RIGHTS_TEMPLATE_ID = 'rights_template_id';
 
@@ -63,8 +63,7 @@ class GroupRightsTemplate extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 }
 ?>

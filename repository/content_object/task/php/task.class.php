@@ -17,7 +17,7 @@ use repository\ContentObject;
  */
 class Task extends ContentObject implements Versionable, AttachmentSupport
 {
-	/**
+    /**
      * The start date of the calendar event
      */
     const PROPERTY_START_DATE = 'start_date';
@@ -25,11 +25,11 @@ class Task extends ContentObject implements Versionable, AttachmentSupport
      * The end date of the calendar event
      */
     const PROPERTY_END_DATE = 'end_date';
-     /**
+    /**
      * The type of the task
      */
     const PROPERTY_TASK_TYPE = 'task_type';
-     /**
+    /**
      * The priority of the task
      */
     const PROPERTY_TASK_PRIORITY = 'priority';
@@ -82,20 +82,20 @@ class Task extends ContentObject implements Versionable, AttachmentSupport
     const PRIORITY_NORMAL = '1';
     const PRIORITY_HIGH = '2';
 
-	const CLASS_NAME = __CLASS__;
+    const CLASS_NAME = __CLASS__;
 
-	static function get_type_name()
-	{
-		return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-	}
+    static function get_type_name()
+    {
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
+    }
 
-	/**
- 	* Gets the type of this task
- 	* @return int task type
- 	*/
+    /**
+     * Gets the type of this task
+     * @return int task type
+     */
     function get_task_type()
     {
-    	return $this->get_additional_property(self :: PROPERTY_TASK_TYPE);
+        return $this->get_additional_property(self :: PROPERTY_TASK_TYPE);
     }
 
     /**
@@ -104,16 +104,16 @@ class Task extends ContentObject implements Versionable, AttachmentSupport
      */
     function set_task_type($task_type)
     {
-    	return $this->set_additional_property(self :: PROPERTY_TASK_TYPE, $task_type);
+        return $this->set_additional_property(self :: PROPERTY_TASK_TYPE, $task_type);
     }
 
-   /**
- 	* Gets the priority of this task
- 	* @return String task priority
- 	*/
+    /**
+     * Gets the priority of this task
+     * @return String task priority
+     */
     function get_task_priority()
     {
-    	return $this->get_additional_property(self :: PROPERTY_TASK_PRIORITY);
+        return $this->get_additional_property(self :: PROPERTY_TASK_PRIORITY);
     }
 
     /**
@@ -122,10 +122,10 @@ class Task extends ContentObject implements Versionable, AttachmentSupport
      */
     function set_task_priority($task_priority)
     {
-    	return $this->set_additional_property(self :: PROPERTY_TASK_PRIORITY, $task_priority);
+        return $this->set_additional_property(self :: PROPERTY_TASK_PRIORITY, $task_priority);
     }
 
-	/**
+    /**
      * Gets the start date of this calendar event
      * @return int The start date
      */
@@ -387,7 +387,7 @@ class Task extends ContentObject implements Versionable, AttachmentSupport
         return $options;
     }
 
-	static function get_types_options()
+    static function get_types_options()
     {
         $types = array();
 
@@ -437,7 +437,7 @@ class Task extends ContentObject implements Versionable, AttachmentSupport
         return $string;
     }
 
-	/**
+    /**
      * Return the task-type as a string
      */
     function get_task_type_as_string()
@@ -479,10 +479,10 @@ class Task extends ContentObject implements Versionable, AttachmentSupport
             case self :: TYPE_IDEAS :
                 $string = Translation :: get('Ideas');
                 break;
-             case self :: TYPE_PUBLIC_HOLIDAY :
+            case self :: TYPE_PUBLIC_HOLIDAY :
                 $string = Translation :: get('PublicHoliday');
                 break;
-             case self :: TYPE_PRIVATE :
+            case self :: TYPE_PRIVATE :
                 $string = Translation :: get('Private');
                 break;
             case self :: TYPE_FAVORITE :

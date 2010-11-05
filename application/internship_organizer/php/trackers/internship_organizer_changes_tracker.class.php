@@ -7,17 +7,17 @@ use tracking\SimpleTracker;
 class InternshipOrganizerChangesTracker extends SimpleTracker
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const CREATE_EVENT = 'create';
     const UPDATE_EVENT = 'update';
     const DELETE_EVENT = 'delete';
-    
+
     const PROPERTY_USER_ID = 'user_id';
     const PROPERTY_OBJECT_ID = 'object_id';
     const PROPERTY_OBJECT_TYPE = 'object_type';
     const PROPERTY_EVENT_TYPE = 'event_type';
     const PROPERTY_CREATED = 'created';
-    
+
     const TYPE_AGREEMENT = 1;
     const TYPE_AGREEMENT_REL_LOCATION = 2;
     const TYPE_AGREEMENT_REL_MENTOR = 3;
@@ -53,7 +53,8 @@ class InternshipOrganizerChangesTracker extends SimpleTracker
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_USER_ID, self :: PROPERTY_CREATED, self :: PROPERTY_EVENT_TYPE, self :: PROPERTY_OBJECT_ID, self :: PROPERTY_OBJECT_TYPE));    }
+        return parent :: get_default_property_names(array(self :: PROPERTY_USER_ID, self :: PROPERTY_CREATED, self :: PROPERTY_EVENT_TYPE, self :: PROPERTY_OBJECT_ID, self :: PROPERTY_OBJECT_TYPE));
+    }
 
     function get_user_id()
     {
@@ -107,8 +108,7 @@ class InternshipOrganizerChangesTracker extends SimpleTracker
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 }
 ?>
