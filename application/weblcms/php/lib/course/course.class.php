@@ -238,7 +238,7 @@ class Course extends DataClass
             {
                 foreach ($this->tools as $index => $tool)
                 {
-                    require_once dirname(__FILE__) . '/../tool/' . $tool->name . '/' . $tool->name . '_tool.class.php';
+                    require_once Path :: get_application_path() . 'weblcms/tool/' . $tool->name . '/php/' . $tool->name . '_tool.class.php';
                 }
             }
         }

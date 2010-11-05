@@ -1,8 +1,7 @@
 <?php
 namespace tracking;
 
-use common\libraries;
-
+use common\libraries\Application;
 use common\libraries\Utilities;
 use common\libraries\BasicApplication;
 use common\libraries\Translation;
@@ -11,6 +10,7 @@ use common\libraries\BreadcrumbTrail;
 
 use admin\AdminDataManager;
 
+use HTML_QuickForm_Action;
 /**
  * $Id: archive_wizard_process.class.php 213 2009-11-13 13:38:50Z vanpouckesven $
  * @package tracking.lib.tracking_manager.component.wizards.archive

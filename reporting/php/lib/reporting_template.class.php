@@ -192,8 +192,8 @@ abstract class ReportingTemplate
         $parameters = array();
         $parameters[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS] = Request :: get(ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS);
 
-        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/reporting_charttype.js' . '"></script>';
-        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/reporting_template_ajax.js' . '"></script>';
+        $html[] = '<script type="text/javascript" src="' . BasicApplication :: get_application_resources_javascript_path(ReportingManager :: APPLICATION_NAME) . 'reporting_charttype.js' . '"></script>';
+        $html[] = '<script type="text/javascript" src="' . BasicApplication :: get_application_resources_javascript_path(ReportingManager :: APPLICATION_NAME) . 'reporting_template_ajax.js' . '"></script>';
         return implode("\n", $html);
     }
 
@@ -243,7 +243,7 @@ abstract class ReportingTemplate
         $html[] = '</div>';
         $html[] = '</div>';
 
-        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/reporting_filter_horizontal.js');
+        $html[] = ResourceManager :: get_instance()->get_resource_html(BasicApplication :: get_application_resources_javascript_path(ReportingManager :: APPLICATION_NAME) . 'reporting_filter_horizontal.js');
 
         $html[] = '<div class="clear"></div>';
 

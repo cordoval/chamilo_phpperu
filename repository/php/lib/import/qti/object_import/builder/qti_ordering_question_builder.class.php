@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 class QtiOrderingQuestionBuilder extends QtiQuestionBuilder{
 

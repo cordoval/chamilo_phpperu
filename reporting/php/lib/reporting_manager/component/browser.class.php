@@ -2,6 +2,7 @@
 namespace reporting;
 
 use common\libraries\Path;
+use common\libraries\BasicApplication;
 use common\libraries\CoreApplication;
 use common\libraries\WebApplication;
 use common\libraries\Request;
@@ -87,10 +88,14 @@ class ReportingManagerBrowserComponent extends ReportingManager implements Admin
 
         $html = array();
 
-        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/reporting_menu.js' . '"></script>';
-        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/reporting_menu_interface.js' . '"></script>';
-        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/reporting_dock.js' . '"></script>';
-
+//        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/reporting_menu.js' . '"></script>';
+//        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/reporting_menu_interface.js' . '"></script>';
+//        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/reporting_dock.js' . '"></script>';
+        
+        $html[] = '<script type="text/javascript" src="' . BasicApplication :: get_application_resources_javascript_path(ReportingManager :: APPLICATION_NAME) . 'reporting_menu.js' . '"></script>';
+        $html[] = '<script type="text/javascript" src="' . BasicApplication :: get_application_resources_javascript_path(ReportingManager :: APPLICATION_NAME) . 'reporting_menu_interface.js' . '"></script>';
+        $html[] = '<script type="text/javascript" src="' . BasicApplication :: get_application_resources_javascript_path(ReportingManager :: APPLICATION_NAME) . 'reporting_dock.js' . '"></script>';
+        
         $html[] = '<div class="dock" id="dock">';
         $html[] = '<div class="dock-container"> ';
         $links = $this->get_application_platform_admin_links();
@@ -165,7 +170,7 @@ class ReportingManagerBrowserComponent extends ReportingManager implements Admin
         }
         $html[] = '</div>';
 
-        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/reporting_browser.js' . '"></script>';
+        $html[] = '<script type="text/javascript" src="' . BasicApplication :: get_application_resources_javascript_path(ReportingManager :: APPLICATION_NAME) . 'reporting_browser.js' . '"></script>';
         return implode("\n", $html);
     }
 

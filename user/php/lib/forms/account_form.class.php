@@ -8,6 +8,7 @@ use common\libraries\Translation;
 use common\libraries\FormValidator;
 use common\libraries\PlatformSetting;
 use common\libraries\ResourceManager;
+use common\libraries\Path;
 
 use admin\AdminDataManager;
 use tracking\Event;

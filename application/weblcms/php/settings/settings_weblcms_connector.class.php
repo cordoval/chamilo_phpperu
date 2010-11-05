@@ -8,7 +8,7 @@ use common\libraries\Path;
  * $Id: settings_weblcms_connector.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.reporting.settings
  */
-require_once Path :: get_application_path() . 'lib/weblcms/course/course.class.php';
+require_once Path :: get_application_path() . 'weblcms/php/lib/course/course.class.php';
 require_once Path :: get_library_path() . 'utilities.class.php';
 require_once Path :: get_library_path() . 'filesystem/path.class.php';
 

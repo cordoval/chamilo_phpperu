@@ -1,6 +1,7 @@
 <?php
 namespace tracking;
 
+use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\Theme;
 use common\libraries\ResourceManager;
@@ -65,11 +66,13 @@ class TrackersSelectionArchiveWizardPage extends ArchiveWizardPage
             $defaults[$event->get_name() . 'event'] = 1;
 
             $trackers = $this->get_parent()->retrieve_trackers_from_event($event->get_id());
-
             foreach ($trackers as $tracker)
             {
-                $this->addElement('checkbox', $event->get_block() . '_' . $event->get_name() . '_event_' . $tracker->get_id(), '', $tracker->get_class(), 'onclick=\'tracker_clicked("' . $event->get_block() . '_' . $event->get_name() . '_event", this)\' style=\'margin-left: 20px;\' class="chckbox"');
-                $defaults[$event->get_name() . 'event' . $tracker->get_id()] = 1;
+//                $this->addElement('checkbox', $event->get_block() . '_' . $event->get_name() . '_event_' . $tracker->get_id(), '', $tracker->get_class(), 'onclick=\'tracker_clicked("' . $event->get_block() . '_' . $event->get_name() . '_event", this)\' style=\'margin-left: 20px;\' class="chckbox"');
+               $this->addElement('checkbox', $event->get_block() . '_' . $event->get_name() . '_event_' . $tracker->get_id(), '', $tracker->get_application(), 'onclick=\'tracker_clicked("' . $event->get_block() . '_' . $event->get_name() . '_event", this)\' style=\'margin-left: 20px;\' class="chckbox"');
+            	
+            	$defaults[$event->get_name() . 'event' . $tracker->get_id()] = 1;
+                
             }
         }
 

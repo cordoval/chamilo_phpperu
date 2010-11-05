@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 use common\libraries\Path; 
 
 require_once Path :: get_repository_content_object_path() . 'survey/php/survey.class.php';
