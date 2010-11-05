@@ -78,7 +78,7 @@ class Path
         {
             return self :: $path[$path_type];
         }
-        
+
         switch ($path_type)
         {
             case WEB_PATH :
@@ -87,7 +87,7 @@ class Path
                 {
                     $dir .= '/';
                 }
-                
+
                 //Temporary fix for things that are launched from the common folder
                 $possible_launchers = array('common', 'home');
                 foreach ($possible_launchers as $possible_launcher)
@@ -98,9 +98,9 @@ class Path
                         break;
                     }
                 }
-                
+
                 $protocol = empty($_SERVER['HTTPS']) ? 'http://' : 'https://';
-                
+
                 return self :: $path[$path_type] = $protocol . $_SERVER['HTTP_HOST'] . $dir;
             //return self :: $path[$path_type] = Configuration :: get_instance()->get_parameter('general', 'root_web');
             case SYS_PATH :
@@ -108,7 +108,7 @@ class Path
             case REL_PATH :
                 $url_append = Configuration :: get_instance()->get_parameter('general', 'url_append');
                 return self :: $path[$path_type] = (substr($url_append, - 1) === '/' ? $url_append : $url_append . '/');
-            
+
             // Platform-level paths
             case WEB_LIB_PATH :
                 return self :: $path[$path_type] = self :: get(WEB_PATH) . 'common/';
@@ -132,7 +132,7 @@ class Path
                 return self :: $path[$path_type] = self :: get(WEB_PATH) . 'languages/';
             case SYS_LANG_PATH :
                 return self :: $path[$path_type] = self :: get(SYS_PATH) . 'languages/';
-            
+
             // Some paths for the LCMS applications
             case SYS_APP_PATH :
                 return self :: $path[$path_type] = self :: get(SYS_PATH) . 'application/';
@@ -167,12 +167,12 @@ class Path
             case SYS_LAUNCH_APP_PATH :
                 return self :: $path[$path_type] = self :: get_library_path() . 'launcher/';
             case WEB_LAUNCH_APP_PATH :
-                return self :: $path[$path_type] = self :: get(WEB_LIB_PATH) . 'launcher/';
-            
+                return self :: $path[$path_type] = self :: get(WEB_LIB_PATH) . 'libraries/php/launcher/';
+
             // Application-paths
             case SYS_APP_LIB_PATH :
                 return self :: $path[$path_type] = self :: get(SYS_APP_PATH) . 'common/';
-            
+
             // Files-paths
             case WEB_ARCHIVE_PATH :
                 return self :: $path[$path_type] = self :: get(WEB_FILE_PATH) . 'archive/';
@@ -226,12 +226,12 @@ class Path
     {
         return self :: get_common_libraries_path() .'php/';
     }
-    
+
     public static function get_common_libraries_path()
     {
         return self :: get(SYS_LIB_PATH) . 'libraries/';
     }
-    
+
     public static function get_web_common_libraries_path()
 	{
         return self :: get(WEB_LIB_PATH) . 'libraries/';
@@ -241,7 +241,7 @@ class Path
     {
         return self :: get(SYS_APP_REPOSITORY_PATH) . 'php/';
     }
-    
+
     public static function get_repository_content_object_path()
     {
     	return self :: get(SYS_APP_REPOSITORY_PATH) . 'content_object/';
