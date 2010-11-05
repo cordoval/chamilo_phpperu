@@ -74,6 +74,7 @@ use common\libraries\Redirect;
     const ACTION_DELETE_METADATA_DEFAULT_VALUE = 'metadata_default_value_deleter';
     const ACTION_EDIT_METADATA_DEFAULT_VALUE = 'metadata_default_value_updater';
     const ACTION_CREATE_METADATA_DEFAULT_VALUE = 'metadata_default_value_creator';
+    const ACTION_IMPORT_METADATA_DEFAULT_VALUE = 'metadata_default_value_importer';
     
     const ACTION_METADATA_SETTINGS = 'settings';
 
