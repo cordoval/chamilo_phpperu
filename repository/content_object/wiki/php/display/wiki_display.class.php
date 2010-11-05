@@ -196,7 +196,7 @@ class WikiDisplay extends ComplexDisplay
 
     function display_header(ComplexWikiPage $complex_wiki_page = null)
     {
-        parent :: display_header();
+        parent :: display_header(null, false);
 
         $html = array();
 
