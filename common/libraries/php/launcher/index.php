@@ -1,5 +1,10 @@
 <?php
-require_once dirname(__FILE__) . '/../global.inc.php';
+
+namespace common\libraries;
+
+use user\UserDataManager;
+
+require_once dirname(__FILE__) . '/../../../global.inc.php';
 
 $application_name = Request :: get('application');
 $this_section = $application_name;
