@@ -5,6 +5,7 @@ use common\libraries\Path;
 use common\libraries\Theme;
 use common\libraries\ToolbarItem;
 use common\libraries\Toolbar;
+use common\libraries\Translation;
 
 /**
  * $Id: reporting_template_registration_browser_table_cell_renderer.class.php 215 2009-11-13 14:07:59Z vanpouckesven $

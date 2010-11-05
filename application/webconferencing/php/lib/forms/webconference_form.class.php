@@ -7,6 +7,7 @@ use common\libraries\Translation;
 use common\libraries\PlatformSetting;
 use common\libraries\Path;
 use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
 /**
  * $Id: webconference_form.class.php 220 2009-11-13 14:33:52Z kariboe $
  * @package application.lib.webconferencing.forms

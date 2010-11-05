@@ -1,4 +1,6 @@
 <?php
+namespace reporting;
+
 use common\libraries\Translation;
 use common\libraries\FormValidator;
 

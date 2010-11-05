@@ -839,7 +839,6 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         {
             $additionalProp = null;
         }
-
         $content_object->set_additional_properties($additionalProp);
 
         return $content_object;

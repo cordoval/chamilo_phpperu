@@ -1,5 +1,6 @@
 <?php
 namespace common\libraries;
+
 /**
  * $Id: core_application.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common

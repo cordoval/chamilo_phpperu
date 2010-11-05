@@ -133,6 +133,7 @@ class ContextLink extends DataClass
 	{
 		return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
 	}
+	
 }
 
 ?>

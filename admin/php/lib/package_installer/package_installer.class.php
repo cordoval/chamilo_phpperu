@@ -33,6 +33,7 @@ class PackageInstaller
     function run()
     {
     	$installer_source = PackageInstallerSource :: factory($this, $this->source);
+
         if (! $installer_source->process())
         {
             return $this->installation_failed('source', Translation :: get('PackageRetrievalFailed'));
@@ -48,6 +49,7 @@ class PackageInstaller
         	$this->process_result('Source');
 
             $attributes = $installer_source->get_attributes();
+
             $package = PackageInstallerType :: factory($this, $attributes->get_section(), $installer_source);
             if (! $package->install())
             {

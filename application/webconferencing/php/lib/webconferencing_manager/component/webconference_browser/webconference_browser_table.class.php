@@ -2,6 +2,7 @@
 
 namespace application\webconferencing;
 
+use common\libraries\Translation;
 use common\libraries\ObjectTable;
 use common\libraries\ObjectTableFormAction;
 /**

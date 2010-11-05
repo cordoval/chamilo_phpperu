@@ -7,6 +7,9 @@ use common\libraries\Display;
 use common\libraries\AdministrationComponent;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\Application;
+
+use reporting\ReportingTemplateRegistrationForm;
 
 /**
  * $Id: edit.class.php 215 2009-11-13 14:07:59Z vanpouckesven $
