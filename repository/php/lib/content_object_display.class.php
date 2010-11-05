@@ -142,7 +142,7 @@ abstract class ContentObjectDisplay
     {
         $description = $this->get_content_object()->get_description();
         $parsed_description = BbcodeParser :: get_instance()->parse($description);
-
+        
         $html[] = '<div class="description">';
         $html[] = $parsed_description;
         $html[] = '<div class="clear"></div>';
