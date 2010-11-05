@@ -44,6 +44,7 @@ class MetadataManagerMetadataDefaultValuesBrowserComponent extends MetadataManag
         $parameters[Application :: PARAM_APPLICATION] = 'metadata';
 //        $parameters['curriculum_courses_browser_column'] = '2';
         $parameters[Application :: PARAM_ACTION] =  MetadataManager::ACTION_BROWSE_METADATA_DEFAULT_VALUES;
+        $parameters[MetadataManager :: PARAM_METADATA_PROPERTY_TYPE] = Request :: get(MetadataManager :: PARAM_METADATA_PROPERTY_TYPE);
 
         $condition = new EqualityCondition(MetadataManager :: PARAM_METADATA_PROPERTY_TYPE, $metadata_property_type_id);
         $table = new MetadataDefaultValueBrowserTable($this, $parameters, $condition);
