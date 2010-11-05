@@ -62,7 +62,7 @@ class RecycleBinBrowserTableCellRenderer extends DefaultContentObjectTableCellRe
                 {
                     $category = RepositoryDataManager :: get_instance()->retrieve_categories(new EqualityCondition(RepositoryCategory :: PROPERTY_ID, $pid))->next_result();
 
-                    $this->parent_title_cache[$pid] = '<a href="' . htmlentities($this->browser->get_url(array('category' => $pid, 'go' => 'browse'))) . '" title="' . htmlentities(Translation :: get('BrowseThisCategory')) . '">' . ($category ? $category->get_name() : Translation :: get('Root')) . '</a>';
+                    $this->parent_title_cache[$pid] = '<a href="' . htmlentities($this->browser->get_url(array(RepositoryManager :: PARAM_CATEGORY_ID => $pid, RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS))) . '" title="' . htmlentities(Translation :: get('BrowseThisCategory')) . '">' . ($category ? $category->get_name() : Translation :: get('Root')) . '</a>';
                 }
                 return $this->parent_title_cache[$pid];
         }
