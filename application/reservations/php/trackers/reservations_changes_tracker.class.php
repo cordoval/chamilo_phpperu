@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace application\reservations;
 
@@ -9,7 +9,6 @@ use tracking\ChangesTracker;
  * $Id: reservations_changes_tracker.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations.trackers
  */
-
 
 /**
  * This class tracks the login that a user uses
@@ -60,8 +59,7 @@ class ReservationsChangesTracker extends ChangesTracker
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 }
 ?>

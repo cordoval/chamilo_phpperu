@@ -9,7 +9,7 @@ use common\libraries\Utilities;
  * @package application.reservations
  */
 /**
- *	@author Sven Vanpoucke
+ * @author Sven Vanpoucke
  */
 
 class Reservation extends DataClass
@@ -43,7 +43,9 @@ class Reservation extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_ITEM, self :: PROPERTY_TYPE, self :: PROPERTY_START_DATE, self :: PROPERTY_STOP_DATE, self :: PROPERTY_START_SUBSCRIPTION, self :: PROPERTY_STOP_SUBSCRIPTION, self :: PROPERTY_MAX_USERS, self :: PROPERTY_NOTES, self :: PROPERTY_TIMEPICKER_MIN, self :: PROPERTY_TIMEPICKER_MAX, self :: PROPERTY_AUTO_ACCEPT, self :: PROPERTY_STATUS));
+        return parent :: get_default_property_names(array(
+                self :: PROPERTY_ITEM, self :: PROPERTY_TYPE, self :: PROPERTY_START_DATE, self :: PROPERTY_STOP_DATE, self :: PROPERTY_START_SUBSCRIPTION, self :: PROPERTY_STOP_SUBSCRIPTION, self :: PROPERTY_MAX_USERS, self :: PROPERTY_NOTES, self :: PROPERTY_TIMEPICKER_MIN,
+                self :: PROPERTY_TIMEPICKER_MAX, self :: PROPERTY_AUTO_ACCEPT, self :: PROPERTY_STATUS));
     }
 
     function get_data_manager()
@@ -309,6 +311,6 @@ class Reservation extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 }

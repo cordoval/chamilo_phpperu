@@ -10,7 +10,6 @@ use common\libraries\AndCondition;
  * @author Hans De Bisschop
  */
 
-
 class Registration extends DataClass
 {
     const CLASS_NAME = __CLASS__;
@@ -120,15 +119,15 @@ class Registration extends DataClass
     {
         return $this->get_status();
     }
-    
+
     function activate()
     {
-    	$this->set_status(true);
+        $this->set_status(true);
     }
-    
+
     function deactivate()
     {
-    	$this->set_status(false);
+        $this->set_status(false);
     }
 
     function toggle_status()
@@ -138,21 +137,19 @@ class Registration extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
-    
 
     function is_up_to_date()
     {
         if ($this->get_type() != self :: TYPE_APPLICATION && $this->get_type() != self :: TYPE_CONTENT_OBJECT)
         {
-        	return true;
+            return true;
         }
-        
-    	$conditions = array();
-        $conditions[] = new EqualityCondition(RemotePackage::PROPERTY_CODE, $this->get_name());
-        $conditions[] = new EqualityCondition(RemotePackage::PROPERTY_SECTION, $this->get_type());
+
+        $conditions = array();
+        $conditions[] = new EqualityCondition(RemotePackage :: PROPERTY_CODE, $this->get_name());
+        $conditions[] = new EqualityCondition(RemotePackage :: PROPERTY_SECTION, $this->get_type());
         $condition = new AndCondition($conditions);
 
         $remote_package = $this->get_data_manager()->retrieve_remote_packages($condition, array(), null, 1);
@@ -174,22 +171,22 @@ class Registration extends DataClass
             return true;
         }
     }
-    
+
     function delete()
     {
-    	if($this->get_type() == self :: TYPE_CONTENT_OBJECT)
-    	{
-	    	$location = RepositoryRights :: get_location_by_identifier_from_content_objects_subtree($this->get_id());
-	        if($location)
-	        {
-	        	if(!$location->remove())
-	        	{
-	        		return false;
-	        	}
-	        }	
-    	}
-    	
-    	return parent :: delete();
+        if ($this->get_type() == self :: TYPE_CONTENT_OBJECT)
+        {
+            $location = RepositoryRights :: get_location_by_identifier_from_content_objects_subtree($this->get_id());
+            if ($location)
+            {
+                if (! $location->remove())
+                {
+                    return false;
+                }
+            }
+        }
+
+        return parent :: delete();
     }
 }
 ?>

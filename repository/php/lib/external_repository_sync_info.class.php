@@ -9,10 +9,10 @@ class ExternalRepositorySyncInfo extends RepositoryDataClass
 {
     const CLASS_NAME = __CLASS__;
 
-    const PROPERTY_CONTENT_OBJECT               = 'content_object_id';
-    const PROPERTY_EXTERNAL_REPOSITORY          = 'external_repository_id';
-    const PROPERTY_EXTERNAL_OBJECT_UID          = 'external_object_uid';
-    const PROPERTY_UTC_SYNCHRONIZED             = 'utc_synchronized';
+    const PROPERTY_CONTENT_OBJECT = 'content_object_id';
+    const PROPERTY_EXTERNAL_REPOSITORY = 'external_repository_id';
+    const PROPERTY_EXTERNAL_OBJECT_UID = 'external_object_uid';
+    const PROPERTY_UTC_SYNCHRONIZED = 'utc_synchronized';
     const PROPERTY_SYNCHRONIZED_OBJECT_DATETIME = 'synchronized_object_datetime';
 
     /*************************************************************************/
@@ -21,7 +21,6 @@ class ExternalRepositorySyncInfo extends RepositoryDataClass
     {
         parent :: __construct($defaultProperties);
     }
-
 
     /*************************************************************************/
 
@@ -38,7 +37,7 @@ class ExternalRepositorySyncInfo extends RepositoryDataClass
         return $this->get_default_property(self :: PROPERTY_CONTENT_OBJECT);
     }
 
-	/*************************************************************************/
+    /*************************************************************************/
 
     function set_external_object_uid($external_uid)
     {
@@ -68,17 +67,16 @@ class ExternalRepositorySyncInfo extends RepositoryDataClass
         return $this->get_default_property(self :: PROPERTY_UTC_SYNCHRONIZED);
     }
 
-
     /*************************************************************************/
 
     function set_synchronized_object_datetime($synchronized_objet_datetime)
     {
-        if(is_numeric($synchronized_objet_datetime))
+        if (is_numeric($synchronized_objet_datetime))
         {
             $synchronized_objet_datetime = date('Y-m-d H:i:s', $synchronized_objet_datetime);
         }
 
-        if(StringUtilities :: has_value($synchronized_objet_datetime))
+        if (StringUtilities :: has_value($synchronized_objet_datetime))
         {
             $this->set_default_property(self :: PROPERTY_SYNCHRONIZED_OBJECT_DATETIME, $synchronized_objet_datetime);
         }
@@ -89,8 +87,7 @@ class ExternalRepositorySyncInfo extends RepositoryDataClass
         return $this->get_default_property(self :: PROPERTY_SYNCHRONIZED_OBJECT_DATETIME);
     }
 
-
-	/*************************************************************************/
+    /*************************************************************************/
 
     function set_external_repository_id($external_repository_id)
     {
@@ -104,7 +101,6 @@ class ExternalRepositorySyncInfo extends RepositoryDataClass
     {
         return $this->get_default_property(self :: PROPERTY_EXTERNAL_REPOSITORY);
     }
-
 
     /*************************************************************************/
 
@@ -121,8 +117,7 @@ class ExternalRepositorySyncInfo extends RepositoryDataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 
     function create()
@@ -134,7 +129,7 @@ class ExternalRepositorySyncInfo extends RepositoryDataClass
 
     function update()
     {
-        if (!$this->is_identified())
+        if (! $this->is_identified())
         {
             throw new Exception('ExternalRepositorySyncInfo object could not be saved as its identity is not set');
         }
@@ -150,8 +145,8 @@ class ExternalRepositorySyncInfo extends RepositoryDataClass
     }
 
     /*************************************************************************
-	* Fat model methods
-	*************************************************************************/
+     * Fat model methods
+     *************************************************************************/
 
     /**
      *
@@ -167,7 +162,7 @@ class ExternalRepositorySyncInfo extends RepositoryDataClass
         return $dm->retrieve_external_repository_sync_info($conditions);
     }
 
-	/**
+    /**
      *
      * @param int $content_object_id
      * @return ExternalRepositorySyncInfo
@@ -185,12 +180,11 @@ class ExternalRepositorySyncInfo extends RepositoryDataClass
         return $dm->retrieve_external_repository_sync_info($conditions);
     }
 
-
     /**
      *
-	 * @param integer $external_object_id
-	 * @param integer $repository_id
-	 * @return ExternalRepositorySyncInfo
+     * @param integer $external_object_id
+     * @param integer $repository_id
+     * @return ExternalRepositorySyncInfo
      */
     public static function get_by_external_uid_and_repository($external_object_id, $repository_id)
     {

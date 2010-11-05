@@ -4,7 +4,7 @@ use common\libraries\Utilities;
 use common\libraries\DataClass;
 /**
  * This class describes a Package data object
- * 
+ *
  * $Id: remote_package.class.php 126 2009-11-09 13:11:05Z vanpouckesven $
  * @package admin.lib
  * @author Hans De Bisschop
@@ -12,7 +12,7 @@ use common\libraries\DataClass;
 class RemotePackage extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     /**
      * Package properties
      */
@@ -38,7 +38,9 @@ class RemotePackage extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_CODE, self :: PROPERTY_NAME, self :: PROPERTY_SECTION, self :: PROPERTY_AUTHOR, self :: PROPERTY_VERSION, self :: PROPERTY_FILENAME, self :: PROPERTY_SIZE, self :: PROPERTY_MD5, self :: PROPERTY_SHA1, self :: PROPERTY_SHA256, self :: PROPERTY_SHA512, self :: PROPERTY_TAGLINE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_HOMEPAGE, self :: PROPERTY_DEPENDENCIES));
+        return parent :: get_default_property_names(array(
+                self :: PROPERTY_CODE, self :: PROPERTY_NAME, self :: PROPERTY_SECTION, self :: PROPERTY_AUTHOR, self :: PROPERTY_VERSION, self :: PROPERTY_FILENAME, self :: PROPERTY_SIZE, self :: PROPERTY_MD5, self :: PROPERTY_SHA1, self :: PROPERTY_SHA256, self :: PROPERTY_SHA512,
+                self :: PROPERTY_TAGLINE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_HOMEPAGE, self :: PROPERTY_DEPENDENCIES));
     }
 
     /**
@@ -321,8 +323,7 @@ class RemotePackage extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 }
 

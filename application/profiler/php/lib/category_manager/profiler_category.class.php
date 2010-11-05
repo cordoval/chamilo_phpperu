@@ -13,7 +13,7 @@ use user\UserDataManager;
  */
 //require_once Path :: get_common_extensions_path() . 'category_manager/platform_category.class.php';
 /**
- * 	@author Sven Vanpoucke
+ * @author Sven Vanpoucke
  */
 class ProfilerCategory extends PlatformCategory
 {
@@ -22,11 +22,11 @@ class ProfilerCategory extends PlatformCategory
 
     function create()
     {
-        $meh = UserDataManager::get_instance();
+        $meh = UserDataManager :: get_instance();
 
         $wdm = ProfilerDataManager :: get_instance();
         $this->set_display_order($wdm->select_next_category_display_order($this->get_parent()));
-        if (!$wdm->create_category($this))
+        if (! $wdm->create_category($this))
         {
             return false;
         }
@@ -49,7 +49,7 @@ class ProfilerCategory extends PlatformCategory
 
     function update()
     {
-        if (!ProfilerDataManager :: get_instance()->update_category($this))
+        if (! ProfilerDataManager :: get_instance()->update_category($this))
         {
             return false;
         }
@@ -77,17 +77,17 @@ class ProfilerCategory extends PlatformCategory
         $location = ProfilerRights :: get_location_by_identifier_from_profiler_subtree($this->get_id(), ProfilerRights :: TYPE_CATEGORY);
         if ($location)
         {
-            if (!$location->remove())
+            if (! $location->remove())
             {
                 return false;
             }
         }
-        return parent::delete();
+        return parent :: delete();
     }
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 
 }

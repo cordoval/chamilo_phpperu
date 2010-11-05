@@ -113,16 +113,16 @@ class Event extends DataClass
     {
         $trkdmg = TrackingDataManager :: get_instance();
         $succes = $trkdmg->create_event($this);
-        if(!$succes)
+        if (! $succes)
         {
-        	return false;
+            return false;
         }
 
         $parent = TrackingRights :: get_tracking_subtree_root_id();
-        if(!$parent)
+        if (! $parent)
         {
-        	TrackingRights :: create_tracking_subtree_root_location();
-        	$parent = TrackingRights :: get_tracking_subtree_root_id();
+            TrackingRights :: create_tracking_subtree_root_location();
+            $parent = TrackingRights :: get_tracking_subtree_root_id();
         }
 
         return TrackingRights :: create_location_in_tracking_subtree($this->get_name(), $this->get_id(), $parent);
@@ -130,8 +130,7 @@ class Event extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 
     /**

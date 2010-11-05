@@ -8,10 +8,9 @@ use common\libraries\DataClass;
  * @package user.lib
  */
 /**
- *	@author Hans de Bisschop
- *	@author Dieter De Neef
+ * @author Hans de Bisschop
+ * @author Dieter De Neef
  */
-
 
 class UserRightsTemplate extends DataClass
 {
@@ -65,8 +64,7 @@ class UserRightsTemplate extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 }
 ?>

@@ -156,14 +156,14 @@ class ComplexContentObjectItem extends DataClass
     {
         $rdm = RepositoryDataManager :: get_instance();
 
-        if(!$this->get_add_date())
+        if (! $this->get_add_date())
         {
-        	$this->set_add_date(time());
+            $this->set_add_date(time());
         }
 
-        if(!$this->get_display_order())
+        if (! $this->get_display_order())
         {
-        	$this->set_display_order($rdm->select_next_display_order($this->get_parent()));
+            $this->set_display_order($rdm->select_next_display_order($this->get_parent()));
         }
         return $rdm->create_complex_content_object_item($this);
     }
@@ -211,8 +211,8 @@ class ComplexContentObjectItem extends DataClass
     {
         if ($type)
         {
-            $type = Utilities::get_classname_from_namespace($type);
-            $class = __NAMESPACE__.'\content_object\\'.$type.'\Complex' . Utilities :: underscores_to_camelcase($type);
+            $type = Utilities :: get_classname_from_namespace($type);
+            $class = __NAMESPACE__ . '\content_object\\' . $type . '\Complex' . Utilities :: underscores_to_camelcase($type);
             require_once dirname(__FILE__) . '/../../content_object/' . $type . '/php/complex_' . $type . '.class.php';
             return new $class($defaultProperties, $additionalProperties);
         }
@@ -224,8 +224,7 @@ class ComplexContentObjectItem extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 
 }

@@ -31,7 +31,7 @@ class UserRights
 
     function get_available_rights()
     {
-        $reflect = new ReflectionClass('UserRights');
+        $reflect = new ReflectionClass('user\UserRights');
 
 	    $rights = $reflect->getConstants();
 

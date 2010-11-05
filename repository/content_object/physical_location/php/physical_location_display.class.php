@@ -45,7 +45,7 @@ class PhysicalLocationDisplay extends ContentObjectDisplay
         $html = array();
 
         $html[] = '<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>';
-        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/google_maps.js');
+        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/libraries/resources/javascript/google_maps.js');
         $html[] = '<div id="map_canvas" style="width:100%; border: 1px solid black; height:500px"></div>';
         $html[] = '<script type="text/javascript">';
         $html[] = 'initialize(12);';

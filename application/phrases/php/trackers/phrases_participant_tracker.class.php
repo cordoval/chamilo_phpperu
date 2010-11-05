@@ -9,7 +9,7 @@ use common\libraries\Utilities;
 class PhrasesParticipantTracker extends SimpleTracker
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_USER_ID = 'user_id';
     const PROPERTY_LANGUAGE_ID = 'language_id';
     const PROPERTY_MASTERY_LEVEL_ID = 'mastery_level_id';
@@ -108,8 +108,7 @@ class PhrasesParticipantTracker extends SimpleTracker
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 }
 ?>

@@ -15,12 +15,12 @@ class Matterhorn extends ContentObject implements Versionable
     const PROPERTY_HEIGHT = 'height';
     const PROPERTY_WIDTH = 'width';
     const PROPERTY_THUMBNAIL = 'thumbnail';
-	const CLASS_NAME = __CLASS__;
+    const CLASS_NAME = __CLASS__;
 
-	static function get_type_name()
-	{
-		return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-	}
+    static function get_type_name()
+    {
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
+    }
 
     function get_matterhorn_id()
     {
@@ -52,7 +52,7 @@ class Matterhorn extends ContentObject implements Versionable
         return $this->set_additional_property(self :: PROPERTY_WIDTH, $width);
     }
 
- 	function get_thumbnail()
+    function get_thumbnail()
     {
         return $this->get_additional_property(self :: PROPERTY_THUMBNAIL);
     }
@@ -70,16 +70,16 @@ class Matterhorn extends ContentObject implements Versionable
     function get_video_url()
     {
         $conditions = array();
-    	$conditions[] = new EqualityCondition(ExternalRepositorySetting::PROPERTY_VARIABLE, 'url');
-      	$conditions[] = new EqualityCondition(ExternalRepositorySetting::PROPERTY_EXTERNAL_REPOSITORY_ID, $this->get_synchronization_data()->get_external_repository_id());
+        $conditions[] = new EqualityCondition(ExternalRepositorySetting :: PROPERTY_VARIABLE, 'url');
+        $conditions[] = new EqualityCondition(ExternalRepositorySetting :: PROPERTY_EXTERNAL_REPOSITORY_ID, $this->get_synchronization_data()->get_external_repository_id());
         $condition = new AndCondition($conditions);
         $settings = $this->get_data_manager()->retrieve_external_repository_settings($condition);
-    	if ($settings->size() == 1)
-    	{
-    		$settings = $settings->next_result();
-    		$url = $settings->get_value();
-    	}
-    	return $url . '/engage/ui/embed.html?id=' . $this->get_matterhorn_id();
+        if ($settings->size() == 1)
+        {
+            $settings = $settings->next_result();
+            $url = $settings->get_value();
+        }
+        return $url . '/engage/ui/embed.html?id=' . $this->get_matterhorn_id();
     }
 }
 ?>

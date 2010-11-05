@@ -4,6 +4,9 @@ namespace repository;
 use common\libraries\EqualityCondition;
 
 use repository\ContentObject;
+use common\libraries\Filecompression;
+use common\libraries\Filesystem;
+use repository\content_object\document\Document;
 
 /**
  * $Id: csv_import.class.php 204 2009-11-13 12:51:30Z kariboe $

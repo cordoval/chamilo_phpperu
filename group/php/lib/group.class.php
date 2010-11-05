@@ -45,8 +45,7 @@ class Group extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 
     /**
@@ -262,7 +261,7 @@ class Group extends DataClass
     {
         return ! ($this->get_left_value() == ($this->get_right_value() - 1));
 
-    //		$gdm = $this->get_data_manager();
+     //		$gdm = $this->get_data_manager();
     //		$children_condition = new EqualityCondition(Location :: PROPERTY_PARENT, $this->get_id());
     //		return ($gdm->count_groups($children_condition) > 0);
     }
@@ -358,7 +357,7 @@ class Group extends DataClass
                 $node = $gdm->retrieve_group($previous_id);
                 $parent_id = $node->get_parent();
 
-            // TODO: If $node is invalid, what then ?
+     // TODO: If $node is invalid, what then ?
             }
             else
             {
@@ -519,7 +518,7 @@ class Group extends DataClass
     function get_allowed_groups()
     {
         $conditions = array();
-        $conditions[] = new EqualityCondition(GroupUseGroup::PROPERTY_REQUEST_GROUP_ID, $this->get_id(), GroupUseGroup::get_table_name());
+        $conditions[] = new EqualityCondition(GroupUseGroup :: PROPERTY_REQUEST_GROUP_ID, $this->get_id(), GroupUseGroup :: get_table_name());
         $condition = new AndCondition($conditions);
 
         $groups_result = array();

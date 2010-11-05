@@ -7,6 +7,7 @@ use admin\AdminDataManager;
 
 //use admin\AdminDataManager;
 
+
 /**
  * $Id: dynamic_form.class.php 227 2009-11-13 14:45:05Z kariboe $
  * @package application.common.dynamic_form_manager
@@ -19,74 +20,75 @@ class DynamicForm extends DataClass
 
     const PROPERTY_NAME = 'name';
     const PROPERTY_APPLICATION = 'application';
-    
+
     private $elements;
-    
+
     function DynamicForm($defaultProperties)
     {
-    	parent :: DataClass($defaultProperties);
-    	//$this->elements = array();
+        parent :: DataClass($defaultProperties);
+
+     //$this->elements = array();
     }
-    
+
     function get_name()
     {
-    	return $this->get_default_property(self :: PROPERTY_NAME);
+        return $this->get_default_property(self :: PROPERTY_NAME);
     }
-    
+
     function set_name($name)
     {
-    	$this->set_default_property(self :: PROPERTY_NAME, $name);
+        $this->set_default_property(self :: PROPERTY_NAME, $name);
     }
-    
-	function get_application()
+
+    function get_application()
     {
-    	return $this->get_default_property(self :: PROPERTY_APPLICATION);
+        return $this->get_default_property(self :: PROPERTY_APPLICATION);
     }
-    
+
     function set_application($application)
     {
-    	$this->set_default_property(self :: PROPERTY_APPLICATION, $application);
+        $this->set_default_property(self :: PROPERTY_APPLICATION, $application);
     }
-    
+
     function get_elements()
     {
-    	if(!$this->elements)
-    		$this->load_elements();
-    		
-    	return $this->elements;
+        if (! $this->elements)
+            $this->load_elements();
+
+        return $this->elements;
     }
-    
+
     function get_element($index)
     {
-    	return $this->elements[$index];
+        return $this->elements[$index];
     }
-    
+
     function set_elements($elements)
     {
-    	$this->elements = $elements;
+        $this->elements = $elements;
     }
-    
+
     function add_elements($elements)
     {
-    	if(!is_array($elements))
-    	{
-    		$elements = array($elements);
-    	}
-    		
-    	foreach($elements as $element)
-    	{
-    		$this->elements[] = $element;
-    	}
+        if (! is_array($elements))
+        {
+            $elements = array($elements);
+        }
+
+        foreach ($elements as $element)
+        {
+            $this->elements[] = $element;
+        }
     }
-    
+
     function load_elements()
     {
-    	require_once dirname(__FILE__) . '/dynamic_form_element.class.php';
-    	$condition = new EqualityCondition(DynamicFormElement :: PROPERTY_DYNAMIC_FORM_ID, $this->get_id());
-    	$elements = AdminDataManager :: get_instance()->retrieve_dynamic_form_elements($condition);
-    	$this->set_elements($elements->as_array());
-    	
-    	return $this->elements;
+        require_once dirname(__FILE__) . '/dynamic_form_element.class.php';
+        $condition = new EqualityCondition(DynamicFormElement :: PROPERTY_DYNAMIC_FORM_ID, $this->get_id());
+        $elements = AdminDataManager :: get_instance()->retrieve_dynamic_form_elements($condition);
+        $this->set_elements($elements->as_array());
+
+        return $this->elements;
     }
 
     /**
@@ -108,8 +110,7 @@ class DynamicForm extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 }
 ?>

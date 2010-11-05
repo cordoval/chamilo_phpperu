@@ -6,12 +6,13 @@ use common\libraries\Display;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Request;
 use common\libraries\Translation;
+use application\weblcms\CourseForm;
 
 /**
  * $Id: course_settings_updater.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.course_settings.component
  */
-require_once dirname(__FILE__) . '/../../../course/course_form.class.php';
+require_once dirname(__FILE__) . '/../../../../php/lib/course/course_form.class.php';
 
 class CourseSettingsToolUpdaterComponent extends CourseSettingsTool
 {

@@ -69,7 +69,7 @@ class ContentObjectShareForm extends FormValidator
         $this->build_basic_form();
 
         $attributes = array();
-        $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_user_group_feed.php';
+        $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/libraries/php/xml_feeds/xml_user_group_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('SelectUsersGroups');
         $locale['Searching'] = Translation :: get('Searching');

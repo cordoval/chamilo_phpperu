@@ -1,5 +1,11 @@
 <?php
 
+namespace repository;
+
+use common\libraries\Request;
+use common\libraries\Application;
+use common\libraries\Translation;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -23,13 +29,13 @@ class RepositoryManagerContentObjectShareRightsDeleterComponent extends Reposito
         $is_in_shared_objects_browser = false; //to redirect to the right page
 
         $user_ids = Request :: get(RepositoryManager :: PARAM_TARGET_USER);
-        if (!is_array($user_ids) && !is_null($user_ids))
+        if (!is_null($user_ids) && !is_array($user_ids))
         {
             $user_ids = array($user_ids);
         }
 
         $group_ids = Request :: get(RepositoryManager :: PARAM_TARGET_GROUP);
-        if (!is_array($group_ids) && !is_null($group_ids))
+        if (!is_null($group_ids) && !is_array($group_ids))
         {
             $group_ids = array($group_ids);
         }
@@ -59,7 +65,7 @@ class RepositoryManagerContentObjectShareRightsDeleterComponent extends Reposito
             $is_in_shared_objects_browser = true;
             if (!is_array($content_object_id))
             {
-                $ids = array($content_object_id);
+                $content_object_id = array($content_object_id);
             }
             foreach ($content_object_id as $id)
             {

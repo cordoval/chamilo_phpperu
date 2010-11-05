@@ -12,7 +12,6 @@ use repository\content_object\survey_page\SurveyPage;
 use repository\RepositoryDataManager;
 use repository\ComplexContentObjectItem;
 
-
 /**
  * $Id: survey.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.survey
@@ -54,7 +53,7 @@ class Survey extends ContentObject implements ComplexContentObjectSupport
 
     static function get_type_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 
     static function get_additional_property_names()

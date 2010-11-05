@@ -80,7 +80,7 @@ class LearningPathBrowserTableCellRenderer extends ComplexBrowserTableCellRender
 
         switch ($column->get_name())
         {
-            case Translation :: get(Utilities :: underscores_to_camelcase(ContentObject :: PROPERTY_TITLE)) :
+            case ContentObject :: PROPERTY_TITLE :
                 $title = htmlspecialchars($content_object->get_title());
                 $title_short = $title;
 

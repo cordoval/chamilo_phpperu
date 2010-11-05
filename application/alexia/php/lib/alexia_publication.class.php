@@ -182,7 +182,7 @@ class AlexiaPublication extends DataClass
 
     function get_target_groups()
     {
-        if (!$this->target_groups)
+        if (! $this->target_groups)
         {
             $condition = new EqualityCondition(AlexiaPublicationGroup :: PROPERTY_PUBLICATION, $this->get_id());
             $groups = AlexiaDataManager :: get_instance()->retrieve_alexia_publication_groups($condition);
@@ -198,7 +198,7 @@ class AlexiaPublication extends DataClass
 
     function get_target_users()
     {
-        if (!$this->target_users)
+        if (! $this->target_users)
         {
             $condition = new EqualityCondition(AlexiaPublicationUser :: PROPERTY_PUBLICATION, $this->get_id());
             $users = AlexiaDataManager :: get_instance()->retrieve_alexia_publication_users($condition);
@@ -228,7 +228,7 @@ class AlexiaPublication extends DataClass
                 $allowed = true;
             }
 
-            if (!$allowed)
+            if (! $allowed)
             {
                 $user_groups = $user->get_groups();
 
@@ -242,7 +242,7 @@ class AlexiaPublication extends DataClass
                 }
             }
 
-            if (!$allowed)
+            if (! $allowed)
             {
                 return false;
             }
@@ -265,7 +265,7 @@ class AlexiaPublication extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 
     function get_publication_object()
