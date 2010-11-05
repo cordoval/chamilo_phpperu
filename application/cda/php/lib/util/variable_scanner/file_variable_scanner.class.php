@@ -15,7 +15,7 @@ class FileVariableScanner extends VariableScanner
         if($this->used_variables[$context][$variable_name])
             return;
 
-        $dir = dirname(__FILE__) . '/translations/' . str_replace('\\', '//', $context) . '/resources/i18n/';
+        $dir = dirname(__FILE__) . '/../translations/' . str_replace('\\', '//', $context) . '/resources/i18n/';
         if (!file_exists($dir))
         {
             Filesystem :: create_dir($dir);
