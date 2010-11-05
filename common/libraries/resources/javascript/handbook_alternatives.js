@@ -41,8 +41,8 @@
 
 	$(document).ready( function()
 	{
-//		$("#textlist").toggle();
-//		$("#showtext").toggle();
+		$("#textlist").toggle();
+		$("#showtext").toggle();
 
                 $("#imagelist").toggle();
 		$("#showimage").toggle();
