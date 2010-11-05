@@ -1,6 +1,8 @@
 <?php
 namespace group;
 use common\libraries\Translation;
+use common\libraries\FormValidator;
+use common\libraries\OptionsMenuRenderer;
 /**
  * $Id: group_move_form.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package groups.lib.forms
@@ -42,7 +44,7 @@ class GroupMoveForm extends FormValidator
     {
         $new_parent = $this->exportValue(self :: PROPERTY_LOCATION);
         $this->group->set_parent($new_parent);
-        return $this->group->update();
+        return $this->group->move($new_parent);
     }
 
     function get_new_parent()
