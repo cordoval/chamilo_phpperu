@@ -13,6 +13,7 @@ use repository\content_object\handbook_item\HandbookItem;
 use repository\content_object\handbook\Handbook;
 use application\metadata\MetadataManager;
 use repository\ContentObjectDisplay;
+use repository\content_object\document\Document;
 
 
 
@@ -125,7 +126,6 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
                     $html[] = $menu->render_as_tree();
                 $html[] = '</div>';
             $html[] = '</div>';
-
             $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'libraries/resources/javascript/tool_bar.js' . '"></script>';
             $html[] = '<div class="clear"></div>';
 
@@ -189,124 +189,7 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
 
     }
 
-//    function determine_relevant_alternatives($context_links_resultset)
-//    {
-//        $texts = array();
-//        $images = array();
-//        $videos = array();
-//        $links = array();
-//        $others = array();
-//        $handbooks = array();
-//        $rdm = RepositoryDataManager::get_instance();
-//
-//        while ($item = $context_links_resultset->next_result())
-//             {
-//                 $alternative_co = $rdm->retrieve_content_object($item[ContentObject :: PROPERTY_ID]);
-//                 $display = ContentObjectDisplay :: factory($alternative_co);
-//
-//                 if($alternative_co->get_type() == Handbook::get_type_name())
-//                    {
-//                        $handbooks[] = $alternative_co;
-//                    }
-//                 else if($alternative_co->get_type() == Document::get_type_name())
-//                 {
-//                     if($alternative_co->is_image())
-//                     {
-//                        $images[] = $alternative_co;
-//                     }
-//                      else if($alternative_co->is_flash() || $alternative_co->is_video() || $alternative_co->is_audio())
-//                      {
-//                        $videos[] = $alternative_co;
-//                      }
-//                      else
-//                      {
-//                          $texts[$item[MetadataPropertyValue :: PROPERTY_VALUE]] = $alternative_co;
-//                      }
-//                    }
-//                    else if($alternative_co->get_type() == Youtube::get_type_name())
-//                    {
-//                        $videos[] = $alternative_co;
-//                    }
-//                    else if($alternative_co->get_type() == Link::get_type_name())
-//                    {
-//                        $links[] = $alternative_co;
-//                    }
-//                    else if($alternative_co->get_type() == WikiPage::get_type_name())
-//                    {
-//                        $texts[] = $alternative_co;
-//                    }
-//                    else
-//                    {
-//                        $others[] = $alternative_co;
-//                    }
-//             }
-//
-//            if($this->selected_object->get_type() == Handbook::get_type_name())
-//            {
-//                $handbooks[] = $this->selected_object;
-//            }
-//             else if($this->selected_object->get_type() == Document::get_type_name())
-//             {
-//                 if($this->selected_object->is_image())
-//                 {
-//                    $images[] = $alternative_co;
-//                 }
-//                  else if($this->selected_object->is_flash() || $this->selected_object->is_video() || $this->selected_object->is_audio())
-//                  {
-//                    $videos[] = $alternative_co;
-//                  }
-//                  else
-//                  {
-//                      $condition = new EqualityCondition(MetadataPropertyValue :: PROPERTY_CONTENT_OBJECT_ID, $this->selected_object->get_id());
-//                      $metadata_property_values = MetadataManager::retrieve_metadata_property_values($condition);
-//
-//                      $metadata_array = array();
-//
-//                      while($metadata = $metadata_property_values->next_result())
-//                      {
-//                          $metadata_array[$metadata->get_property_type_id()]= $metadata->get_value();
-//                      }
-//                      $texts['original'] = $this->selected_object;
-//                  }
-//            }
-//            else if($this->selected_object->get_type() == Youtube::get_type_name())
-//            {
-//                $videos[] = $this->selected_object;
-//            }
-//            else if($this->selected_object->get_type() == Link::get_type_name())
-//            {
-//                $links[] = $this->selected_object;
-//            }
-//            else if($this->selected_object->get_type() == WikiPage::get_type_name())
-//            {
-//                $texts[] = $this->selected_object;
-//            }
-//            else
-//            {
-//                $others[] = $this->selected_object;
-//            }
-//                 $alternatives['text'] = $texts;
-//                 $alternatives['image'] = $images;
-//                 $alternatives['video'] = $videos;
-//                 $alternatives['other'] = $others;
-//                 $alternatives['link'] = $links;
-//                 $alternatives['handbook'] = $handbooks;
-//
-//                 //TODO: Determine most relevant ones (Voorlopig is gewoon de eerste de "main" en zit die ook nog eens bij de alternatives)
-//                 //TEXT
-//                 //1. user language 2. publication language
-//                 //3. user institution 4. publication institution
-//                 $alternatives['text_main'] = current($alternatives['text']);
-//                 $alternatives['handbook_main'] = current($alternatives['handbook']);
-//
-//                 //IMAGE & VIDEO
-//                 //1. user language 2. publication language
-//                 //3. user institution 4. publication institution
-//                 $alternatives['image_main'] = current($alternatives['image']);
-//                 $alternatives['video_main'] = current($alternatives['video']);
-//
-//                 return $alternatives;
-//    }
+
 
     /**
      * retrieve all the glossary's in this handbook publication and combine them in one
@@ -338,7 +221,7 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
 
          if($alternatives_array['image_main'] != null|| $alternatives_array['video_main'] != null)
          {
-             $text_width = '70%';
+             $text_width = '65%';
              $visual_width = '30%';
          }
          else
@@ -348,12 +231,12 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
          }
 
          //OUTPUT HTML
-        $html[] = '<div class = "handbook_item" style="float:left; width:100%; padding:10px;">';
+        $html[] = '<div class = "handbook_item" style="float:left; width:'.$text_width.'; padding:10px;">';
 
             $html[] = '<div class = "handbook_item_primary_info" style="float:left; width:100%;">';
                 if($alternatives_array['text_main'] != null)
                 {
-                    $html[] = '<div class = "handbook_item_text" style="float:left; width:'.$text_width.';">';
+                    $html[] = '<div class = "handbook_item_text" style="float:left; width:'.'100%'.';">';
                     //TEXT
                     //MAIN
                     $display = ContentObjectDisplay :: factory($alternatives_array['text_main']);
@@ -363,9 +246,9 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
                     //ALTERNATIVES
                     if(count($alternatives_array['text'])>0 )
                     {
-                        $html[] = '<br /><a href="#" id="showtext" style="display:none; float:left;">' . Translation :: get('ShowAllTextAlternatives') . '</a><br><br>';
+                        $html[] = '<br /><a href="#" id="showtext" style="display:block; float:left;">' . Translation :: get('ShowAllTextAlternatives') . '</a><br><br>';
                         $html[] = '<a href="#" id="hidetext" style="display:none; font-size: 80%; font-weight: normal;">(' . Translation :: get('HideAllTextAlternatives') . ')</a>';
-                        $html[] = '<div id="textlist">';
+                        $html[] = '<div id="textlist" style="display:none;">';
 
                         while(list($key, $value)= each($alternatives_array['text']))
                          {
@@ -385,8 +268,31 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
                     $html[] = '<div class = "handbook_item_images" style="padding: 10px;">';
                     //IMAGES
                     //MAIN
-                    $display = ContentObjectDisplay :: factory($alternatives_array['image_main']);
-                    $html[] = $display->get_description();
+//                    $display = ContentObjectDisplay :: factory($alternatives_array['image_main']);
+//                    $html[] = $display->get_description();
+
+                    $object = $alternatives_array['image_main'];
+                    if ($object instanceof AttachmentSupport)
+                    {
+                        $attachments = $object->get_attached_content_objects();
+                        if (count($attachments))
+                        {
+                            $html[] = '<div class="attachments" style="margin-top: 1em;">';
+                        
+                $html[] = '<div class="attachments_title">' . htmlentities(Translation :: get('Attachments')) . '</div>';
+                Utilities :: order_content_objects_by_title($attachments);
+                $html[] = '<ul class="attachments_list">';
+                foreach ($attachments as $attachment)
+                {
+                    $url = Path :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=attachment_viewer&' . RepositoryManager :: PARAM_CONTENT_OBJECT_ID . '=' . $attachment->get_id();
+                    $url = 'javascript:openPopup(\'' . $url . '\'); return false;';
+                    $html[] = '<li><a href="#" onClick="' . $url . '"><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $attachment->get_type() . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($attachment->get_type()) . 'TypeName')) . '"/> ' . $attachment->get_title() . '</a></li>';
+                }
+                $html[] = '</ul>';
+                $html[] = '</div>';
+
+
+
                     $html[] = '</div>';
                     //ALTERNATIVES
                     if(count($alternatives_array['image'])>0)
@@ -446,7 +352,7 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
                      $html[] = $this->print_metadata($value->get_id());
                      $display = ContentObjectDisplay :: factory($value);
                      $html[] = $display->get_description();
-                     $html[] = '</div>';
+//                     $html[] = '</div>';
 
                  }
                  $html[] = '</div>';
@@ -470,7 +376,8 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
             $html[] = '</div>';
 
         $html[] = '</div>';
-        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/handbook_alternatives.js' . '"></script>';
+        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_PATH) .'application/'. $this->get_application_name() . '/resources/javascript/handbook_alternatives.js' . '"></script>';
+//        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_PATH) . 'common/resources/javascript/handbook_alternatives.js' . '"></script>';
 
         return implode ("\n", $html);
 

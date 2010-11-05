@@ -101,6 +101,13 @@ ul.tree-menu li div a.profile {
 	background-image: url(../../images/aqua/treemenu_types/profile.png);
 }
 
+ul.tree-menu li div a.handbook {
+	background-image: url(../../images/aqua/treemenu_types/handbook.png);
+}
+ul.tree-menu li div a.handbook_topic {
+	background-image: url(../../images/aqua/treemenu_types/handbook_topic.png);
+}
+
 /*****************************
  * External repository types *
  *****************************/

@@ -38,7 +38,7 @@ class ContextLinkerManagerContextLinkPublisherComponent extends ContextLinkerMan
         $params[ContextLinkerManager :: PARAM_ALTERNATIVE_CONTENT_OBJECT_ID] = Request ::get(ContextLinkerManager :: PARAM_ALTERNATIVE_CONTENT_OBJECT_ID);
 
         $original_form = new ContextLinkForm('context_link_form_original', ContextLinkForm :: TYPE_ORIGINAL, $context_link, null, $this->get_url($params));
-        $alternative_form = new ContextLinkForm('context_link_form_alternative', ContextLinkForm :: TYPE_ALTERNATIVE, $context_link, $metadata_property_values, $this->get_url($params));
+        $alternative_form = new ContextLinkForm('context_link_form_alternative', ContextLinkForm :: TYPE_ALTERNATIVE, &$context_link, $metadata_property_values, $this->get_url($params));
 
         if($alternative_form->validate())
         {
@@ -47,9 +47,14 @@ class ContextLinkerManagerContextLinkPublisherComponent extends ContextLinkerMan
         }
         elseif($original_form->validate())
         {
-            $success = $original_form->create_metadata_property_value();
-            $this->redirect('MetadataPropertyValueCreated', false, $params);
-
+            if($success = $original_form->create_metadata_property_value())
+            {
+                $this->redirect(Translation :: get('MetadataPropertyValueCreated'), false, $params);
+            }
+            else
+            {
+                $this->redirect(Translation :: get('MetadataPropertyValueNotCreated') . implode("\n", $context_link->get_errors()), true, $params);
+            }
         }
         else
         {

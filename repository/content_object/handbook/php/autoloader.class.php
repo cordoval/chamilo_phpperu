@@ -16,6 +16,7 @@ class Autoloader
     {
         $list = array('handbook' => 'handbook.class.php',
             'handbook_builder' => 'builder/handbook_builder.class.php',
+            'handbook_form' => 'handbook_form.class.php',
             'handbook_display' => 'display/handbook_display.class.php');
         $lower_case = Utilities :: camelcase_to_underscores($classname);
 

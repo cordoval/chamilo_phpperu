@@ -68,7 +68,7 @@ class ContextLinkerManagerContextLinkDeleterComponent extends ContextLinkerManag
             
 //            if($continue)
 //            {
-
+                $content_object_id = $context_link->get_original_content_object_id();
                 if (!$context_link->delete())
                 {
                     $message .= Translation :: get('ContextLinkNotDeleted');
@@ -81,7 +81,7 @@ class ContextLinkerManagerContextLinkDeleterComponent extends ContextLinkerManag
 //            }
            
 
-            $this->redirect(Translation :: get($message), ($fail ? true : false), array(ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_BROWSE_CONTEXT_LINKS, ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => $context_link->get_original_content_object_id()));
+            $this->redirect(Translation :: get($message), ($fail ? true : false), array(ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_BROWSE_CONTEXT_LINKS, ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => $content_object_id));
 //        }
 //        else
 //        {
