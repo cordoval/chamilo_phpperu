@@ -53,7 +53,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManager
         $user_objects = $quotamanager->get_used_database_space();
         $type_selector = new ContentObjectTypeSelector($this, $this->get_allowed_content_object_types(), array(), $user_objects == 0);
 
-        $type = ($type_selector->get_selection() ? $type_selector->get_selection() : Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE));
+        $type = ($type_selector->get_selection() ? $type_selector->get_selection() : Request :: get(ContentObjectTypeSelector :: PARAM_CONTENT_OBJECT_TYPE));
 
         if ($type)
         {
@@ -135,8 +135,8 @@ class RepositoryManagerCreatorComponent extends RepositoryManager
             else
             {
                 echo $type_selector->as_html();
-//                $html[] = ResourceManager :: get_instance()->get_resource_html(BasicApplication :: get_application_web_resources_javascript_path(RepositoryManager :: APPLICATION_NAME) . 'repository.js');
-//                echo implode("\n", $html);
+                //                $html[] = ResourceManager :: get_instance()->get_resource_html(BasicApplication :: get_application_web_resources_javascript_path(RepositoryManager :: APPLICATION_NAME) . 'repository.js');
+            //                echo implode("\n", $html);
             }
             $this->display_footer();
         }
