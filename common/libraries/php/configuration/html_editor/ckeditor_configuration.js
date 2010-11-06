@@ -73,13 +73,13 @@ CKEDITOR.editorConfig = function( config )
 		 	['Maximize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','TextColor','BGColor']
 		] ;
 	
-	config.filebrowserImageBrowseUrl = web_path + 'common/launcher/index.php?application=html_editor_file&plugin=image&repoviewer_action=browser';
-	config.filebrowserChamiloflashBrowseUrl = web_path + 'common/launcher/index.php?application=html_editor_file&plugin=flash&repoviewer_action=browser';
-	config.filebrowserChamiloyoutubeBrowseUrl = web_path + 'common/launcher/index.php?application=html_editor_file&plugin=youtube&repoviewer_action=browser';
-	config.filebrowserChamilovideoBrowseUrl = web_path + 'common/launcher/index.php?application=html_editor_file&plugin=video&repoviewer_action=browser';
-	config.filebrowserChamiloaudioBrowseUrl = web_path + 'common/launcher/index.php?application=html_editor_file&plugin=audio&repoviewer_action=browser';
-	config.filebrowserChamilodailymotionBrowseUrl = web_path + 'common/launcher/index.php?application=html_editor_file&plugin=dailymotion&repoviewer_action=browser';
-	config.filebrowserChamilovimeoBrowseUrl = web_path + 'common/launcher/index.php?application=html_editor_file&plugin=vimeo&repoviewer_action=browser';
+	config.filebrowserImageBrowseUrl = web_path + 'common/libraries/php/launcher/index.php?application=html_editor_file&plugin=image&repoviewer_action=browser';
+	config.filebrowserChamiloflashBrowseUrl = web_path + 'common/libraries/php/launcher/index.php?application=html_editor_file&plugin=flash&repoviewer_action=browser';
+	config.filebrowserChamiloyoutubeBrowseUrl = web_path + 'common/libraries/php/launcher/index.php?application=html_editor_file&plugin=youtube&repoviewer_action=browser';
+	config.filebrowserChamilovideoBrowseUrl = web_path + 'common/libraries/php/launcher/index.php?application=html_editor_file&plugin=video&repoviewer_action=browser';
+	config.filebrowserChamiloaudioBrowseUrl = web_path + 'common/libraries/php/launcher/index.php?application=html_editor_file&plugin=audio&repoviewer_action=browser';
+	config.filebrowserChamilodailymotionBrowseUrl = web_path + 'common/libraries/php/launcher/index.php?application=html_editor_file&plugin=dailymotion&repoviewer_action=browser';
+	config.filebrowserChamilovimeoBrowseUrl = web_path + 'common/libraries/php/launcher/index.php?application=html_editor_file&plugin=vimeo&repoviewer_action=browser';
 	config.latexDialogUrl = web_path + 'plugin/html_editor/ckeditor/plugins/latex/dialogs/latex.html?a=b';
 	
 	

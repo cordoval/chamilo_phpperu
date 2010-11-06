@@ -1,8 +1,9 @@
-PossibleAnswer = 
-Tolerance = 
-AddItem = 
-Feedback = 
-Score = 
-Answer = 
-Comment = 
-Weight = 
+TypeName = "Numeric matching question"
+PossibleAnswer = ""
+Tolerance = ""
+AddItem = ""
+Feedback = ""
+Score = ""
+Answer = ""
+Comment = ""
+Weight = ""

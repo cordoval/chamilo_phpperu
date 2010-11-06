@@ -1,6 +1,7 @@
-HeaderRequiredForFeaturedItems = 
-Searching = 
-NoResults = 
-Error = 
-SelectHeaderImage = 
-HeaderImage = 
+TypeName = "Story"
+HeaderRequiredForFeaturedItems = ""
+Searching = ""
+NoResults = ""
+Error = ""
+SelectHeaderImage = ""
+HeaderImage = ""

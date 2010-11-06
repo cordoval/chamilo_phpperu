@@ -2,6 +2,8 @@
 
 namespace common\libraries;
 
+use repository;
+
 use repository\RepositoryAutoloader;
 use repository\ContentObject;
 use XML_Unserializer;
@@ -177,7 +179,7 @@ class Utilities
         $return['id'] = 'lo_' . $object->get_id();
         $return['classes'] = 'type type_' . $type;
         $return['title'] = $object->get_title();
-        $return['description'] = Translation :: get(ContentObject :: type_to_class($type) . 'TypeName') . ' (' . $date . ')';
+        $return['description'] = Translation :: get('TypeName', array(), ContentObject :: get_content_object_type_namespace($type)) . ' (' . $date . ')';
         return $return;
     }
 

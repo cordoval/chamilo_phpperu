@@ -1,6 +1,8 @@
 <?php
 namespace common\extensions\repo_viewer;
 
+use repository;
+
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Theme;
@@ -61,7 +63,7 @@ class RepoViewerCreatorComponent extends RepoViewer
     function get_type()
     {
         $types = $this->get_types();
-        
+
         if (count($types) > 1)
         {
             $type = Request :: post(RepoViewer :: PARAM_CONTENT_OBJECT_TYPE);
@@ -69,7 +71,7 @@ class RepoViewerCreatorComponent extends RepoViewer
             {
                 $type = Request :: get(RepoViewer :: PARAM_CONTENT_OBJECT_TYPE);
             }
-            
+
             return $type;
         }
         else
@@ -85,20 +87,20 @@ class RepoViewerCreatorComponent extends RepoViewer
     protected function get_type_selector()
     {
         $selection_types = array();
-        
+
         foreach ($this->get_types() as $object_type)
         {
-            $selection_types[$object_type] = Translation :: get(Utilities :: underscores_to_camelcase($object_type) . 'TypeName');
+            $selection_types[$object_type] = Translation :: get('TypeName', array(), ContentObject :: get_content_object_type_namespace($object_type));
         }
-        
+
         $type_selector = new ContentObjectTypeSelector($this, $this->get_types());
-        
+
         $html = array();
         $html[] = '<div class="content_object_selection">';
         $html[] = $type_selector->as_html();
         $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
-        
+
         $form = new FormValidator('select_type', 'post', $this->get_url($this->get_parameters()));
         $form->addElement('hidden', 'tool');
         $form->addElement('hidden', RepoViewer :: PARAM_ACTION);
@@ -107,7 +109,7 @@ class RepoViewerCreatorComponent extends RepoViewer
         $form->addElement('style_submit_button', 'submit', Translation :: get('Select'), array('class' => 'normal select'));
         $form->addElement('html', '<br /><br />' . ResourceManager :: get_instance()->get_resource_html(Path :: get_web_common_libraries_path() . 'resources/javascript/postback.js'));
         $form->setDefaults(array(RepoViewer :: PARAM_ACTION => Request :: get(RepoViewer :: PARAM_ACTION)));
-        
+
         if ($form->validate())
         {
             $values = $form->exportValues();
@@ -145,15 +147,15 @@ class RepoViewerCreatorComponent extends RepoViewer
     {
         $default_object = ContentObject :: factory($type);
         $default_object->set_owner_id($this->get_user_id());
-        
+
         $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_CREATE, $default_object, 'create', 'post', $this->get_url(array_merge(array(RepoViewer :: PARAM_CONTENT_OBJECT_TYPE => $type), $this->get_parameters())), null, array(), true, $this->get_object_form_variant());
-        
+
         $creation_defaults = $this->get_creation_defaults();
         if ($creation_defaults)
         {
             $form->setParentDefaults($creation_defaults);
         }
-        
+
         return $this->handle_form($form, ContentObjectForm :: TYPE_CREATE);
     }
 
@@ -183,7 +185,7 @@ class RepoViewerCreatorComponent extends RepoViewer
             {
                 $content_object = $form->create_content_object();
             }
-            
+
             if (is_array($content_object))
             {
                 $content_object_ids = array();
@@ -196,13 +198,13 @@ class RepoViewerCreatorComponent extends RepoViewer
             {
                 $content_object_ids = $content_object->get_id();
             }
-            
+
             $redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_PUBLISHER, RepoViewer :: PARAM_ID => $content_object_ids));
             $this->redirect(null, false, $redirect_params);
         }
         else
         {
-            
+
             $this->display_header();
             echo $form->toHtml();
             $this->display_footer();

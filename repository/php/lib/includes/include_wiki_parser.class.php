@@ -23,9 +23,9 @@ class IncludeWikiParser extends ContentObjectIncludeParser
         $base_path = Path :: get(WEB_REPO_PATH);
         $html_editors = $form->get_html_editors();
 
-        if(!$html_editors)
+        if (! $html_editors)
         {
-        	return;
+            return;
         }
 
         /*
@@ -37,9 +37,10 @@ class IncludeWikiParser extends ContentObjectIncludeParser
             {
                 $tags = Text :: fetch_tag_into_array($values[$html_editor], '[wikilink=]'); //bvb wikilink
 
-                if(!$tags)
+
+                if (! $tags)
                 {
-                	return;
+                    return;
                 }
 
                 foreach ($tags as $tag)

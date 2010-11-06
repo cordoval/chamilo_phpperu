@@ -1,6 +1,7 @@
-Weight = 
-PutAnswersCorrectOrder = 
-AddItem = 
-Item = 
-Order = 
-Rank = 
+TypeName = "Ordering question"
+Weight = ""
+PutAnswersCorrectOrder = ""
+AddItem = ""
+Item = ""
+Order = ""
+Rank = ""

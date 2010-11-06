@@ -11,11 +11,13 @@ use common\libraries\InCondition;
 use common\libraries\AndCondition;
 use common\libraries\ObjectTableOrder;
 use common\libraries\OrCondition;
+use common\libraries\Authentication;
+
 use repository\RepositoryCategory;
 /**
  * @package repository
  */
-require_once dirname(__FILE__) . '/../common/global.inc.php';
+require_once dirname(__FILE__) . '/../../common/global.inc.php';
 require_once dirname(__FILE__) . '/lib/category_manager/repository_category.class.php';
 
 Translation :: set_application('repository');

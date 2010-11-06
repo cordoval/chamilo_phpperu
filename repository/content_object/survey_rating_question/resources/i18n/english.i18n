@@ -1,5 +1,6 @@
-Visible = 
-Percentage = 
-Rating = 
-SurveyRatingType = 
-ValueShouldBeNumeric = 
+TypeName = "Rating question"
+Visible = ""
+Percentage = ""
+Rating = ""
+SurveyRatingType = ""
+ValueShouldBeNumeric = ""

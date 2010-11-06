@@ -17,6 +17,7 @@ use repository\content_object\learning_path_item\LearningPathItem;
 use repository\content_object\assessment\Assessment;
 use repository\ComplexBrowserTableCellRenderer;
 use repository\ContentObject;
+use repository\ComplexBuilder;
 use repository\ComplexContentObjectItem;
 use repository\RepositoryDataManager;
 use repository\RepositoryManager;

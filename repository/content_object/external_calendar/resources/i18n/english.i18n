@@ -1,6 +1,7 @@
-dateTimeFormatLong = 
-From = 
-Until = 
-Description = 
-URL = 
-URLOfIcal = 
+TypeName = "External calendar"
+dateTimeFormatLong = ""
+From = ""
+Until = ""
+Description = ""
+URL = ""
+URLOfIcal = ""

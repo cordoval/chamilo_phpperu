@@ -1,4 +1,4 @@
-BrowserTitle = 'Browser'
-UploaderTitle = 'Uploader'
-ExporterTitle = 'Exporter'
-ConfigurerTitle = 'Configurer'
+BrowserTitle = ""'Browser'
+UploaderTitle = ""'Uploader'
+ExporterTitle = ""'Exporter'
+ConfigurerTitle = ""'Configurer'

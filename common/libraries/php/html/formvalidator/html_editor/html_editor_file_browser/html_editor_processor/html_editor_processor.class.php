@@ -1,5 +1,8 @@
 <?php
 namespace common\libraries;
+
+use repository\RepositoryManager;
+
 /**
  * @package common.html.formvalidator.html_editor.html_editor_file_browser.html_editor_processor
  * @author Hans De Bisschop
@@ -15,7 +18,7 @@ abstract class HtmlEditorProcessor
     {
         $editor = LocalSetting :: get('html_editor');
         $file = dirname(__FILE__) . '/' . $editor . '/html_editor_' . $editor . '_' . $type . '_processor.class.php';
-        $class = 'HtmlEditor' . Utilities :: underscores_to_camelcase($editor) . Utilities :: underscores_to_camelcase($type) . 'Processor';
+        $class = __NAMESPACE__ . '\HtmlEditor' . Utilities :: underscores_to_camelcase($editor) . Utilities :: underscores_to_camelcase($type) . 'Processor';
 
         if (file_exists($file))
         {

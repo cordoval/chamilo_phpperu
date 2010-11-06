@@ -1,8 +1,8 @@
-DeleteSelected = 
-Hide = 
-Show = 
-DescriptionToolBrowserComponent = 
-DescriptionToolViewerComponent = 
-Publish = 
-ShowAll = 
-PublishIntroductionText = 
+DeleteSelected = ""
+Hide = ""
+Show = ""
+DescriptionToolBrowserComponent = ""
+DescriptionToolViewerComponent = ""
+Publish = ""
+ShowAll = ""
+PublishIntroductionText = ""

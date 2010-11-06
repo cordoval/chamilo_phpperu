@@ -1,7 +1,8 @@
-PossibleAnswer = 
-AddItem = 
-Feedback = 
-Score = 
-Answer = 
-Comment = 
-Weight = 
+TypeName = "Text matching question"
+PossibleAnswer = ""
+AddItem = ""
+Feedback = ""
+Score = ""
+Answer = ""
+Comment = ""
+Weight = ""

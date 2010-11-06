@@ -1,5 +1,6 @@
-MaximumAttempts = 
-NoMaximumAttemptsFillIn0 = 
-UploadHotpotatoes = 
-ThisFileIsRequired = 
-ChangeHotpotatoes = 
+TypeName = "Hotpotatoes"
+MaximumAttempts = ""
+NoMaximumAttemptsFillIn0 = ""
+UploadHotpotatoes = ""
+ThisFileIsRequired = ""
+ChangeHotpotatoes = ""

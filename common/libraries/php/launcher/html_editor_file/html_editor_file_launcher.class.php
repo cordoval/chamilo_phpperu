@@ -1,5 +1,8 @@
 <?php
 namespace common\libraries;
+
+use common\extensions\repo_viewer\RepoViewer;
+
 require_once PATH :: get_library_path() . 'html/formvalidator/html_editor/html_editor_file_browser/html_editor_repo_viewer/html_editor_repo_viewer.class.php';
 require_once PATH :: get_library_path() . 'html/formvalidator/html_editor/html_editor_file_browser/html_editor_processor/html_editor_processor.class.php';
 
@@ -53,7 +56,7 @@ class HtmlEditorFileLauncher extends LauncherApplication
 
     function get_allowed_content_object_types()
     {
-        $class = 'HtmlEditor' . Utilities :: underscores_to_camelcase($this->get_plugin()) . 'RepoViewer';
+        $class = __NAMESPACE__ . '\HtmlEditor' . Utilities :: underscores_to_camelcase($this->get_plugin()) . 'RepoViewer';
         return call_user_func(array($class, 'get_allowed_content_object_types'));
     }
 }

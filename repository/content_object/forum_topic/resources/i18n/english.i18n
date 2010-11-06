@@ -1,5 +1,5 @@
-NoObjectSelected = 
-None = 
-Sticky = 
-Important = 
-Locked = 
+TypeName = "Forum topic"
+NoObjectSelected = ""
+Sticky = ""
+Important = ""
+Locked = ""

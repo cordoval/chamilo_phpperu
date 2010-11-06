@@ -1,7 +1,8 @@
-BlogLayout = 
-AuthorUnknown = 
-Attachments = 
-BlogLayoutNotExists = 
-Edit = 
-Delete = 
-CreateItem = 
+TypeName = "Blog"
+BlogLayout = ""
+AuthorUnknown = ""
+Attachments = ""
+BlogLayoutNotExists = ""
+Edit = ""
+Delete = ""
+CreateItem = ""

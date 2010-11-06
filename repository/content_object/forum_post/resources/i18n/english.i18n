@@ -1,1 +1,2 @@
-reply_on_post = 
+TypeName = "Forum post"
+reply_on_post = ""

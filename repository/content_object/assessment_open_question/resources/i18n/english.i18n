@@ -1,6 +1,7 @@
-OpenQuestion = 
-OpenQuestionWithDocument = 
-DocumentQuestion = 
-Type = 
-OpenQuestionQuestionType = 
-Weight = 
+TypeName = "Open question"
+OpenQuestion = ""
+OpenQuestionWithDocument = ""
+DocumentQuestion = ""
+Type = ""
+OpenQuestionQuestionType = ""
+Weight = ""

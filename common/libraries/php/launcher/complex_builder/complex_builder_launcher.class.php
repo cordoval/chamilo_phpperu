@@ -1,5 +1,10 @@
 <?php
 namespace common\libraries;
+
+use repository\RepositoryManager;
+use repository\RepositoryDataManager;
+use repository\ComplexBuilder;
+
 class ComplexBuilderLauncher extends LauncherApplication
 {
     const APPLICATION_NAME = 'complex_builder';

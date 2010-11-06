@@ -1,5 +1,6 @@
-NoQuestionsSelected = 
-QuestionsAdded = 
-QuestionsNotAdded = 
-SurveyPageHeaderText = 
-SurveyPageFooterText = 
+TypeName = "Page"
+NoQuestionsSelected = ""
+QuestionsAdded = ""
+QuestionsNotAdded = ""
+SurveyPageHeaderText = ""
+SurveyPageFooterText = ""

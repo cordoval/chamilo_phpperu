@@ -1,6 +1,7 @@
-BrowseStreamingVideo = 
-MatterhornId = 
-Width = 
-Height = 
-Thumbnail = 
-URL = 
+TypeName = "Matterhorn"
+BrowseStreamingVideo = ""
+MatterhornId = ""
+Width = ""
+Height = ""
+Thumbnail = ""
+URL = ""

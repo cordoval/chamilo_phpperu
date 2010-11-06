@@ -1,4 +1,5 @@
-BrowseStreamingVideo = 
-URL = 
-Width = 
-Height = 
+BrowseStreamingVideo = ""
+URL = ""
+Width = ""
+Height = ""
+TypeName = "YouTube"

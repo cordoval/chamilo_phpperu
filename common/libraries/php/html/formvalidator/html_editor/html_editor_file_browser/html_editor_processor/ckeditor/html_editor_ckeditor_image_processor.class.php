@@ -1,7 +1,12 @@
 <?php
 namespace common\libraries;
+
+use repository\RepositoryDataManager;
+use repository\RepositoryManager;
+
 class HtmlEditorCkeditorImageProcessor extends HtmlEditorProcessor
 {
+
     function run()
     {
         $selected_object = $this->get_selected_content_objects();

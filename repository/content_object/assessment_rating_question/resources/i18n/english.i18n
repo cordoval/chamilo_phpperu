@@ -1,6 +1,7 @@
-Percentage = 
-Rating = 
-type = 
-CorrectValue = 
-ValueShouldBeNumeric = 
-Weight = 
+TypeName = "Rating question"
+Percentage = ""
+Rating = ""
+type = ""
+CorrectValue = ""
+ValueShouldBeNumeric = ""
+Weight = ""

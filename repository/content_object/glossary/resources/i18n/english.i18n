@@ -1,5 +1,6 @@
-Edit = 
-Delete = 
-CreateItem = 
-ShowAsTable = 
-ShowAsList = 
+TypeName = "Glossary"
+Edit = ""
+Delete = ""
+CreateItem = ""
+ShowAsTable = ""
+ShowAsList = ""

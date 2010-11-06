@@ -1,8 +1,9 @@
-VideoNotAvailable = 
-Versions = 
-PublishedBy = 
-CreatedBy = 
-ConnectionLost = 
-Browse = 
-NotOriginalPublisher = 
-CannotEditOriginalRights = 
+TypeName = "MediaMosa"
+VideoNotAvailable = ""
+Versions = ""
+PublishedBy = ""
+CreatedBy = ""
+ConnectionLost = ""
+Browse = ""
+NotOriginalPublisher = ""
+CannotEditOriginalRights = ""
