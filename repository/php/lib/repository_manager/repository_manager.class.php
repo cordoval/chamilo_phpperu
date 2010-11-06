@@ -1,5 +1,7 @@
 <?php
 namespace repository;
+
+use common\libraries\ComplexDisplayPreviewLauncher;
 use common\libraries\CoreApplication;
 use common\libraries\DynamicAction;
 use common\libraries\Translation;
@@ -16,6 +18,7 @@ use common\libraries\InCondition;
 use common\libraries\ObjectTableOrder;
 use common\libraries\OrCondition;
 use common\libraries\OptionsMenuRenderer;
+use common\libraries\Path;
 
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 
@@ -1134,6 +1137,11 @@ class RepositoryManager extends CoreApplication
     function get_browse_complex_content_object_url($object)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BUILD_COMPLEX_CONTENT_OBJECT, self :: PARAM_CONTENT_OBJECT_ID => $object->get_id()));
+    }
+
+    function get_preview_complex_content_object_url($object)
+    {
+        return Path :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=' . ComplexDisplayPreviewLauncher::APPLICATION_NAME . '&' . RepositoryManager :: PARAM_CONTENT_OBJECT_ID . '=' . $object->get_id();
     }
 
     function get_add_existing_content_object_url($root_id, $complex_content_object_id)

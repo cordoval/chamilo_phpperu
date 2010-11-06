@@ -1,10 +1,7 @@
 <?php
 namespace repository\content_object\learning_path;
 
-use common\libraries\Path;
-//use repository\content_object\assessment\AssessmentComplexDisplaySupport;
-
-//require Path :: get_repository_content_object_path() . 'assessment/php/display/assessment_complex_display_support.class.php';
+use repository\ComplexDisplaySupport;
 
 /**
  * A class implements the <code>LearningPathComplexDisplaySupport</code> interface to
@@ -13,7 +10,7 @@ use common\libraries\Path;
  * @author  Hans De Bisschop
  */
 
-interface LearningPathComplexDisplaySupport
+interface LearningPathComplexDisplaySupport extends ComplexDisplaySupport
 {
 
     /**
@@ -23,7 +20,6 @@ interface LearningPathComplexDisplaySupport
      */
     function retrieve_learning_path_tracker();
 
-
     /**
      * Retrieve all learning path item attempt trackers for
      * a specific learning path tracker
@@ -31,7 +27,7 @@ interface LearningPathComplexDisplaySupport
      * @param LearningPathTracker $learning_path_tracker
      * @return array
      */
-    function retrieve_tracker_items($learning_path_tracker);
+    function retrieve_learning_path_tracker_items($learning_path_tracker);
 
     /**
      * Render the url for the learning path tree menu
@@ -92,22 +88,5 @@ interface LearningPathComplexDisplaySupport
      * @return string
      */
     function get_learning_path_template_application_name();
-
-
-    /**
-     * Determine the complex content object that should be displayed
-     * with the learning path itself being the default.
-     *
-     * @return ContentObject
-     */
-    function get_root_content_object();
-
-    /**
-     * Determine whether a user has the necessary permissions
-     *
-     * @param int $right
-     * @return boolean
-     */
-    function is_allowed($right);
 }
 ?>

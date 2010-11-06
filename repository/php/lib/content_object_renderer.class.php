@@ -37,7 +37,8 @@ abstract class ContentObjectRenderer
         $file = dirname(__FILE__) . '/renderer/' . $type . '_content_object_renderer.class.php';
         if (! file_exists($file))
         {
-            throw new Exception(Translation :: get('ContentObjectRendererTypeDoesNotExist', array('type' => $type)));
+            throw new Exception(Translation :: get('ContentObjectRendererTypeDoesNotExist', array(
+                    'type' => $type)));
         }
 
         require_once $file;
@@ -115,7 +116,6 @@ abstract class ContentObjectRenderer
             $actions[] = new ToolbarItem(Translation :: get('Move'), Theme :: get_common_image_path() . 'action_move.png', $this->get_repository_browser()->get_content_object_moving_url($content_object), ToolbarItem :: DISPLAY_ICON);
         }
 
-        //$actions[] = new ToolbarItem(Translation :: get('Move'), Theme :: get_common_image_path() . 'action_move.png', $this->get_repository_browser()->get_content_object_moving_url($content_object), ToolbarItem :: DISPLAY_ICON);
         $actions[] = new ToolbarItem(Translation :: get('Metadata'), Theme :: get_common_image_path() . 'action_metadata.png', $this->get_repository_browser()->get_content_object_metadata_editing_url($content_object), ToolbarItem :: DISPLAY_ICON);
         $actions[] = new ToolbarItem(Translation :: get('Share'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_repository_browser()->get_content_object_share_create_url($content_object->get_id()), ToolbarItem :: DISPLAY_ICON);
         $actions[] = new ToolbarItem(Translation :: get('Export'), Theme :: get_common_image_path() . 'action_export.png', $this->get_repository_browser()->get_content_object_exporting_url($content_object), ToolbarItem :: DISPLAY_ICON);
@@ -129,6 +129,10 @@ abstract class ContentObjectRenderer
         if ($content_object instanceof ComplexContentObjectSupport)
         {
             $actions[] = new ToolbarItem(Translation :: get('BrowseComplex'), Theme :: get_common_image_path() . 'action_build.png', $this->get_repository_browser()->get_browse_complex_content_object_url($content_object), ToolbarItem :: DISPLAY_ICON);
+
+            $preview_url = $this->get_repository_browser()->get_preview_complex_content_object_url($content_object);
+            $onclick = '" onclick="javascript:openPopup(\'' . $preview_url . '\'); return false;';
+            $actions[] = new ToolbarItem(Translation :: get('Preview'), Theme :: get_common_image_path() . 'action_preview.png', $preview_url, ToolbarItem :: DISPLAY_ICON, false, $onclick, '_blank');
         }
 
         if ($content_object->get_type() == Document :: get_type_name())

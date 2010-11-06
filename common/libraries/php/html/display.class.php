@@ -67,6 +67,18 @@ class Display
     }
 
     /**
+     * Display a page which contains a normal message
+     * @param string $message
+     */
+    public static function normal_message_page($message)
+    {
+        self :: header();
+        self :: normal_message($message);
+        self :: footer();
+        exit();
+    }
+
+    /**
      * Displays a message. It is recommended to use this function
      * to display any confirmation or error messages.
      *
@@ -96,6 +108,10 @@ class Display
         echo implode("\n", $html);
     }
 
+    /**
+     * Display a page which contains an error message
+     * @param string $message
+     */
     public static function error_page($message)
     {
         self :: header();
@@ -189,10 +205,11 @@ class Display
      */
     public static function header($breadcrumbtrail)
     {
-//        if (! $breadcrumbtrail instanceof BreadcrumbTrail)
-//        {
-//            $breadcrumbtrail = BreadcrumbTrail :: get_instance();
-//        }
+        //        if (! $breadcrumbtrail instanceof BreadcrumbTrail)
+        //        {
+        //            $breadcrumbtrail = BreadcrumbTrail :: get_instance();
+        //        }
+
 
         global $language_interface, $adm, $httpHeadXtra, $htmlHeadXtra, $text_dir, $plugins, $interbreadcrumb, $charset, $noPHP_SELF;
         include (Path :: get_common_libraries_class_path() . 'html/header.inc.php');
@@ -263,12 +280,19 @@ class Display
         $renderer->setElementTemplate('<div class="row">{element}</div>');
         //$renderer->setElementTemplate('<div>{element}</div>','submitAuth');
         $form->setRequiredNote(null);
-        $form->addElement('text', 'login', Translation :: get('UserName'), array('size' => 20, 'onclick' => 'this.value=\'\';'));
+        $form->addElement('text', 'login', Translation :: get('UserName'), array(
+                'size' => 20,
+                'onclick' => 'this.value=\'\';'));
         $form->addRule('login', Translation :: get('ThisFieldIsRequired'), 'required');
-        $form->addElement('password', 'password', Translation :: get('Pass'), array('size' => 20, 'onclick' => 'this.value=\'\';'));
+        $form->addElement('password', 'password', Translation :: get('Pass'), array(
+                'size' => 20,
+                'onclick' => 'this.value=\'\';'));
         $form->addRule('password', Translation :: get('ThisFieldIsRequired'), 'required');
-        $form->addElement('style_submit_button', 'submitAuth', Translation :: get('Login'), array('class' => 'positive login'));
-        $form->setDefaults(array('login' => Translation :: get('Username'), 'password' => '*******'));
+        $form->addElement('style_submit_button', 'submitAuth', Translation :: get('Login'), array(
+                'class' => 'positive login'));
+        $form->setDefaults(array(
+                'login' => Translation :: get('Username'),
+                'password' => '*******'));
         return $form->toHtml();
     }
 

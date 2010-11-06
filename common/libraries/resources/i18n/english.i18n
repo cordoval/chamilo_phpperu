@@ -1,3 +1,4 @@
+PreviewModeWarning = "This is a preview of an object. Tracking has not been enabled and progress will not be saved. Please publish the object to enable these features."
 ComponentFailedToLoad = ""
 File = ""
 Stacktrace = ""

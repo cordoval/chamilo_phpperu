@@ -1,5 +1,4 @@
 <?php
-
 namespace application\assessment;
 
 use common\libraries\Request;
@@ -14,6 +13,8 @@ use common\libraries\Translation;
 use tracking\Event;
 use repository\content_object\hotpotatoes\Hotpotatoes;
 use repository\ComplexDisplay;
+use repository\content_object\assessment\AssessmentComplexDisplaySupport;
+
 /**
  * $Id: viewer.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.assessment_manager.component
@@ -22,10 +23,11 @@ use repository\ComplexDisplay;
 require_once Path :: get_application_path() . '/assessment/php/trackers/assessment_assessment_attempts_tracker.class.php';
 require_once Path :: get_application_path() . '/assessment/php/trackers/assessment_question_attempts_tracker.class.php';
 
-class AssessmentManagerViewerComponent extends AssessmentManager
+class AssessmentManagerViewerComponent extends AssessmentManager implements
+        AssessmentComplexDisplaySupport
 {
     private $datamanager;
-    
+
     private $pub;
     private $assessment;
     private $pid;
@@ -43,31 +45,31 @@ class AssessmentManagerViewerComponent extends AssessmentManager
             $assessment_id = $this->pub->get_content_object();
             $this->assessment = RepositoryDataManager :: get_instance()->retrieve_content_object($assessment_id);
         }
-        
+
         if (Request :: get(AssessmentManager :: PARAM_INVITATION_ID))
         {
             $condition = new EqualityCondition(SurveyInvitation :: PROPERTY_INVITATION_CODE, Request :: get(AssessmentManager :: PARAM_INVITATION_ID));
             $invitation = $this->datamanager->retrieve_survey_invitations($condition)->next_result();
-            
+
             $this->pid = $invitation->get_survey_id();
             $this->pub = $this->datamanager->retrieve_assessment_publication($this->pid);
             $assessment_id = $this->pub->get_content_object();
             $this->assessment = RepositoryDataManager :: get_instance()->retrieve_content_object($assessment_id);
         }
-        
+
         if ($this->pub && ! $this->pub->is_visible_for_target_user($this->get_user()))
         {
             $this->not_allowed(null, false);
         }
-        
+
         // Checking statistics
         $conditions[] = new EqualityCondition(AssessmentAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $this->pid);
         $conditions[] = new EqualityCondition(AssessmentAssessmentAttemptsTracker :: PROPERTY_USER_ID, $this->get_user_id());
         $condition = new AndCondition($conditions);
-        
+
         $trackers = Tracker :: get_data(AssessmentAssessmentAttemptsTracker :: CLASS_NAME, AssessmentManager :: APPLICATION_NAME, $condition);
         $count = $trackers->size();
-        
+
         while ($tracker = $trackers->next_result())
         {
             if ($tracker->get_status() == 'not attempted')
@@ -77,7 +79,7 @@ class AssessmentManagerViewerComponent extends AssessmentManager
                 break;
             }
         }
-        
+
         if ($this->assessment->get_maximum_attempts() != 0 && $count >= $this->assessment->get_maximum_attempts())
         {
             $this->display_header();
@@ -85,17 +87,17 @@ class AssessmentManagerViewerComponent extends AssessmentManager
             $this->display_footer();
             return;
         }
-        
+
         if (! $this->active_tracker)
         {
             $this->active_tracker = $this->create_tracker();
         }
-        
+
         // Executing assessment
         if ($this->assessment->get_assessment_type() == Hotpotatoes :: TYPE_HOTPOTATOES)
         {
             $this->display_header();
-            
+
             $path = $this->assessment->add_javascript(Path :: get(WEB_PATH) . 'application/assessment/php/ajax/hotpotatoes_save_score.php', $this->get_browse_assessment_publications_url(), $this->active_tracker->get_id());
             echo '<iframe src="' . $path . '" width="100%" height="600">
   				 <p>Your browser does not support iframes.</p>
@@ -108,18 +110,21 @@ class AssessmentManagerViewerComponent extends AssessmentManager
         {
             ComplexDisplay :: launch($this->assessment->get_type(), $this);
         }
-    
+
     }
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
         $breadcrumbtrail->add_help('assessment_viewer');
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('AssessmentManagerBrowserComponent')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('AssessmentManagerBrowserComponent')));
     }
 
     function get_additional_parameters()
     {
-        return array(self :: PARAM_ASSESSMENT_PUBLICATION, self :: PARAM_INVITATION_ID);
+        return array(
+                self :: PARAM_ASSESSMENT_PUBLICATION,
+                self :: PARAM_INVITATION_ID);
     }
 
     function get_root_content_object()
@@ -133,18 +138,21 @@ class AssessmentManagerViewerComponent extends AssessmentManager
         {
             $this->trail->merge($trail);
         }
-        
+
         parent :: display_header($this->trail);
     }
 
     function create_tracker()
     {
-        $parameters = array(AssessmentAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID => $this->pid, AssessmentAssessmentAttemptsTracker :: PROPERTY_USER_ID => $this->get_user_id(), AssessmentAssessmentAttemptsTracker :: PROPERTY_TOTAL_SCORE => 0);
+        $parameters = array(
+                AssessmentAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID => $this->pid,
+                AssessmentAssessmentAttemptsTracker :: PROPERTY_USER_ID => $this->get_user_id(),
+                AssessmentAssessmentAttemptsTracker :: PROPERTY_TOTAL_SCORE => 0);
         $tracker = Event :: trigger('attempt_assessment', AssessmentManager :: APPLICATION_NAME, $parameters);
         return $tracker[0];
     }
 
-    function save_answer($complex_question_id, $answer, $score)
+    function save_assessment_answer($complex_question_id, $answer, $score)
     {
         $parameters = array();
         $parameters[AssessmentQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID] = $this->active_tracker->get_id();
@@ -152,28 +160,38 @@ class AssessmentManagerViewerComponent extends AssessmentManager
         $parameters[AssessmentQuestionAttemptsTracker :: PROPERTY_ANSWER] = $answer;
         $parameters[AssessmentQuestionAttemptsTracker :: PROPERTY_SCORE] = $score;
         $parameters[AssessmentQuestionAttemptsTracker :: PROPERTY_FEEDBACK] = '';
-        
+
         Event :: trigger('attempt_question', AssessmentManager :: APPLICATION_NAME, $parameters);
     }
 
-    function finish_assessment($total_score)
+    function save_assessment_result($total_score)
     {
         $tracker = $this->active_tracker;
-        
+
         $tracker->set_total_score($total_score);
         $tracker->set_total_time($tracker->get_total_time() + (time() - $tracker->get_start_time()));
         $tracker->set_status('completed');
         $tracker->update();
     }
 
-    function get_current_attempt_id()
+    function get_assessment_current_attempt_id()
     {
         return $this->active_tracker->get_id();
     }
 
-    function get_go_back_url()
+    function get_assessment_go_back_url()
     {
-        return $this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS, AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION => null));
+        return $this->get_url(array(
+                AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS,
+                AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION => null));
+    }
+
+    /**
+     * Unused for assessments
+     */
+    function is_allowed($right)
+    {
+        return true;
     }
 }
 ?>

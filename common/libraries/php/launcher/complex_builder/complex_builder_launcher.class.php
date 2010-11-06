@@ -22,8 +22,6 @@ class ComplexBuilderLauncher extends LauncherApplication
         if ($content_object)
         {
             ComplexBuilder :: launch($content_object->get_type(), $this);
-            //$complex_builder = ComplexBuilder :: factory($this, $this->content_object->get_type());
-        //$complex_builder->run();
         }
         else
         {

@@ -47,7 +47,7 @@ class WikiManagerWikiViewerComponent extends WikiManager implements WikiComplexD
         return $this->publication->get_content_object();
     }
 
-    function get_publication()
+    function get_wiki_publication()
     {
         return $this->publication;
     }
@@ -63,12 +63,12 @@ class WikiManagerWikiViewerComponent extends WikiManager implements WikiComplexD
     	return array(self :: PARAM_WIKI_PUBLICATION);
     }
 
-    function get_page_statistics_reporting_template_name()
+    function get_wiki_page_statistics_reporting_template_name()
     {
         return 'wiki_page_most_reporting_template';
     }
 
-    function get_statistics_reporting_template_name()
+    function get_wiki_statistics_reporting_template_name()
     {
         return 'wiki_most_reporting_template';
     }

@@ -38,14 +38,14 @@ class PhrasesManagerTakerComponent extends PhrasesManager
             $this->set_parameter(PhrasesPublicationManager :: PARAM_PHRASES_PUBLICATION_ID, $this->publication_id);
         }
         // Checking statistics
-        
+
         $track = new PhrasesAssessmentAttemptsTracker();
         $conditions[] = new EqualityCondition(PhrasesAssessmentAttemptsTracker :: PROPERTY_PUBLICATION_ID, $this->publication_id);
         $conditions[] = new EqualityCondition(PhrasesAssessmentAttemptsTracker :: PROPERTY_USER_ID, $this->get_user_id());
         $condition = new AndCondition($conditions);
         $trackers = $track->retrieve_tracker_items($condition);
         $count = count($trackers);
-        
+
         foreach ($trackers as $tracker)
         {
             if ($tracker->get_status() == 'not attempted')
@@ -55,7 +55,7 @@ class PhrasesManagerTakerComponent extends PhrasesManager
                 break;
             }
         }
-        
+
         if ($this->assessment->get_maximum_attempts() != 0 && $count >= $this->assessment->get_maximum_attempts())
         {
             $this->display_header();
@@ -63,17 +63,17 @@ class PhrasesManagerTakerComponent extends PhrasesManager
             $this->display_footer();
             return;
         }
-        
+
         if (! $this->active_tracker)
         {
             $this->active_tracker = $this->create_tracker();
         }
-        
+
         // Executing assessment
         ComplexDisplay :: launch($this->assessment->get_type(), $this);
     }
 
-    function get_current_attempt_id()
+    function get_assessment_current_attempt_id()
     {
         return $this->active_tracker->get_id();
     }
@@ -89,13 +89,13 @@ class PhrasesManagerTakerComponent extends PhrasesManager
         $arguments[PhrasesAssessmentAttemptsTracker :: PROPERTY_PUBLICATION_ID] = $this->publication_id;
         $arguments[PhrasesAssessmentAttemptsTracker :: PROPERTY_USER_ID] = $this->get_user_id();
         $arguments[PhrasesAssessmentAttemptsTracker :: PROPERTY_TOTAL_SCORE] = 0;
-        
+
         $tracker = Event :: trigger('attempt_assessment', PhrasesManager :: APPLICATION_NAME, $arguments);
-        
+
         return $tracker[0];
     }
 
-    function save_answer($complex_question_id, $answer, $score)
+    function save_assessment_answer($complex_question_id, $answer, $score)
     {
         $parameters = array();
         $parameters['assessment_attempt_id'] = $this->active_tracker->get_id();
@@ -103,21 +103,21 @@ class PhrasesManagerTakerComponent extends PhrasesManager
         $parameters['answer'] = $answer;
         $parameters['score'] = $score;
         $parameters['feedback'] = '';
-        
+
         Event :: trigger('attempt_question', PhrasesManager :: APPLICATION_NAME, $parameters);
     }
 
-    function finish_assessment($total_score)
+    function save_assessment_result($total_score)
     {
         $tracker = $this->active_tracker;
-        
+
         $tracker->set_total_score($total_score);
         $tracker->set_total_time($tracker->get_total_time() + (time() - $tracker->get_start_time()));
         $tracker->set_status('completed');
         $tracker->update();
     }
 
-    function get_go_back_url()
+    function get_assessment_go_back_url()
     {
         return $this->get_url(array(PhrasesManager :: PARAM_ACTION => PhrasesManager :: ACTION_VIEW_START, PhrasesPublicationManager :: PARAM_PHRASES_PUBLICATION_ID => null));
     }

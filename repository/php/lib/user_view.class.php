@@ -30,7 +30,10 @@ class UserView extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_NAME, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_USER_ID));
+        return parent :: get_default_property_names(array(
+                self :: PROPERTY_NAME,
+                self :: PROPERTY_DESCRIPTION,
+                self :: PROPERTY_USER_ID));
     }
 
     /**

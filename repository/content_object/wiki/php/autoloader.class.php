@@ -14,15 +14,17 @@ class Autoloader
 
     static function load($classname)
     {
-        $list = array('wiki' => 'wiki.class.php',
-            'wiki_builder' => 'builder/wiki_builder.class.php',
-            'wiki_display' => 'display/wiki_display.class.php');
+        $list = array('wiki' => 'wiki',
+                'wiki_builder' => 'builder/wiki_builder',
+                'wiki_complex_display_support' => 'display/wiki_complex_display_support',
+                'wiki_complex_display_preview' => 'display/wiki_complex_display_preview',
+                'wiki_display' => 'display/wiki_display');
         $lower_case = Utilities :: camelcase_to_underscores($classname);
 
         if (key_exists($lower_case, $list))
         {
             $url = $list[$lower_case];
-            require_once dirname(__FILE__) . '/' . $url;
+            require_once dirname(__FILE__) . '/' . $url . '.class.php';
             return true;
         }
 

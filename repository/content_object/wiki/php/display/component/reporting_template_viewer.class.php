@@ -23,10 +23,10 @@ class WikiDisplayReportingTemplateViewerComponent extends WikiDisplay
         switch ($action)
         {
             case self :: ACTION_PAGE_STATISTICS :
-                $browser->set_template_name($this->get_parent()->get_page_statistics_reporting_template_name());
+                $browser->set_template_name($this->get_parent()->get_wiki_page_statistics_reporting_template_name());
                 break;
             case self :: ACTION_STATISTICS :
-                $browser->set_template_name($this->get_parent()->get_statistics_reporting_template_name());
+                $browser->set_template_name($this->get_parent()->get_wiki_statistics_reporting_template_name());
                 break;
             case self :: ACTION_ACCESS_DETAILS :
                 $browser->set_template_name('publication_detail_reporting_template');

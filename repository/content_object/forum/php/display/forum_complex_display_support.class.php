@@ -1,7 +1,7 @@
 <?php
 namespace repository\content_object\forum;
 
-use common\libraries\Path;
+use repository\ComplexDisplaySupport;
 
 /**
  * A class implements the <code>ForumComplexDisplaySupport</code> interface to
@@ -10,7 +10,7 @@ use common\libraries\Path;
  * @author  Hans De Bisschop
  */
 
-interface ForumComplexDisplaySupport
+interface ForumComplexDisplaySupport extends ComplexDisplaySupport
 {
 
     /**

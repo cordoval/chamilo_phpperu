@@ -38,7 +38,7 @@ class WikiDisplayWikiItemViewerComponent extends WikiDisplay
 
         if ($complex_wiki_page_id)
         {
-            $version_object_id = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
+            $version_object_id = Request :: get(self :: PARAM_WIKI_VERSION_ID);
             $complex_wiki_page = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($complex_wiki_page_id);
             $wiki_page = $complex_wiki_page->get_ref_object();
 
@@ -56,7 +56,7 @@ class WikiDisplayWikiItemViewerComponent extends WikiDisplay
 
                 if ($wiki_page->get_id() == $version_object_id)
                 {
-                    Request :: set_get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID, null);
+                    Request :: set_get(self :: PARAM_WIKI_VERSION_ID, null);
                 }
             }
             else
