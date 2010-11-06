@@ -1,5 +1,9 @@
 <?php
 namespace common\libraries;
+
+use repository\content_object\dailymotion\Dailymotion;
+use common\extensions\repo_viewer\RepoViewer;
+
 class HtmlEditorDailymotionRepoViewer extends HtmlEditorRepoViewer
 {
 

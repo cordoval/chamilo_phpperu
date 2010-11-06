@@ -17,7 +17,6 @@ use repository\ContentObjectShare;
 use repository\ContentObjectUserShare;
 use repository\ContentObjectGroupShare;
 
-
 /**
  * $Id: content_object_table_data_provider.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.repo_viewer.component.content_object_table
@@ -65,13 +64,13 @@ class ContentObjectTableDataProvider extends ObjectTableDataProvider
         $order_property = $this->get_order_property($order_property);
         $dm = RepositoryDataManager :: get_instance();
 
-        if (!$this->get_parent()->is_shared_object_browser())
+        if (! $this->get_parent()->is_shared_object_browser())
         {
-        	return $dm->retrieve_content_objects($this->get_condition(), $order_property, $offset, $count);
+            return $dm->retrieve_content_objects($this->get_condition(), $order_property, $offset, $count);
         }
         else
         {
-        	return $dm->retrieve_shared_content_objects($this->get_condition(), $offset, $count, $order_property);
+            return $dm->retrieve_shared_content_objects($this->get_condition(), $offset, $count, $order_property);
         }
     }
 
@@ -81,16 +80,16 @@ class ContentObjectTableDataProvider extends ObjectTableDataProvider
     function get_object_count()
     {
         $dm = RepositoryDataManager :: get_instance();
-        
-    	if (!$this->get_parent()->is_shared_object_browser())
+
+        if (! $this->get_parent()->is_shared_object_browser())
         {
-        	return $dm->count_content_objects($this->get_condition());
+            return $dm->count_content_objects($this->get_condition());
         }
         else
         {
-        	return $dm->count_shared_content_objects($this->get_condition());
+            return $dm->count_shared_content_objects($this->get_condition());
         }
-        
+
     }
 
     /**
@@ -112,7 +111,12 @@ class ContentObjectTableDataProvider extends ObjectTableDataProvider
         }
 
         $conditions[] = new OrCondition($type_conditions);
-        
+
+        if ($this->get_type_conditions())
+        {
+            $conditions[] = $this->get_type_conditions();
+        }
+
         $query = $this->get_query();
 
         if (isset($query) && $query != '')
@@ -121,8 +125,8 @@ class ContentObjectTableDataProvider extends ObjectTableDataProvider
             $or_conditions[] = new PatternMatchCondition(ContentObject :: PROPERTY_DESCRIPTION, '*' . $query . '*');
             $conditions[] = new OrCondition($or_conditions);
         }
-        
-        if (!$this->get_parent()->is_shared_object_browser())
+
+        if (! $this->get_parent()->is_shared_object_browser())
         {
             $category = Request :: get('category');
             $category = $category ? $category : 0;
@@ -139,30 +143,25 @@ class ContentObjectTableDataProvider extends ObjectTableDataProvider
         else
         {
             $subconditions = array();
-            
-	    	$subconditions[] = new AndCondition(array(
-	    			new EqualityCondition(ContentObjectUserShare :: PROPERTY_USER_ID, $this->get_parent()->get_user_id(), ContentObjectUserShare :: get_table_name()),
-	    			new InEqualityCondition(ContentObjectUserShare :: PROPERTY_RIGHT_ID, InequalityCondition :: GREATER_THAN_OR_EQUAL, ContentObjectShare :: USE_RIGHT, ContentObjectUserShare :: get_table_name())));
-			
-			$group_ids = array();
-	    	$groups = $this->get_parent()->get_user()->get_groups();
-	    	if($groups)
-	    	{
-	    		while($group = $groups->next_result())
-	    		{
-	    			$group_ids[] = $group->get_id();
-	    		}
-	    	
-				$subconditions[] = new AndCondition(array(
-	    			new InCondition(ContentObjectGroupShare :: PROPERTY_GROUP_ID, $group_ids, ContentObjectGroupShare :: get_table_name()),
-	    			new InEqualityCondition(ContentObjectGroupShare :: PROPERTY_RIGHT_ID, InequalityCondition :: GREATER_THAN_OR_EQUAL, ContentObjectShare :: USE_RIGHT, ContentObjectGroupShare :: get_table_name())));
-	    	}
-			
-	    	$conditions[] = new OrCondition($subconditions);
-	    
+
+            $subconditions[] = new AndCondition(array(new EqualityCondition(ContentObjectUserShare :: PROPERTY_USER_ID, $this->get_parent()->get_user_id(), ContentObjectUserShare :: get_table_name()), new InEqualityCondition(ContentObjectUserShare :: PROPERTY_RIGHT_ID, InequalityCondition :: GREATER_THAN_OR_EQUAL, ContentObjectShare :: USE_RIGHT, ContentObjectUserShare :: get_table_name())));
+
+            $group_ids = array();
+            $groups = $this->get_parent()->get_user()->get_groups();
+            if ($groups)
+            {
+                while ($group = $groups->next_result())
+                {
+                    $group_ids[] = $group->get_id();
+                }
+
+                $subconditions[] = new AndCondition(array(new InCondition(ContentObjectGroupShare :: PROPERTY_GROUP_ID, $group_ids, ContentObjectGroupShare :: get_table_name()), new InEqualityCondition(ContentObjectGroupShare :: PROPERTY_RIGHT_ID, InequalityCondition :: GREATER_THAN_OR_EQUAL, ContentObjectShare :: USE_RIGHT, ContentObjectGroupShare :: get_table_name())));
+            }
+
+            $conditions[] = new OrCondition($subconditions);
+
         }
-        
-        
+
         return new AndCondition($conditions);
     }
 

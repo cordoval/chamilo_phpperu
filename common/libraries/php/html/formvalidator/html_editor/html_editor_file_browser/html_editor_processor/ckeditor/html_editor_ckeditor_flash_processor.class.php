@@ -1,15 +1,20 @@
 <?php
 namespace common\libraries;
+
+use repository\RepositoryDataManager;
+use repository\RepositoryManager;
+
 require_once Path :: get_plugin_path() . 'getid3/getid3.php';
 
 class HtmlEditorCkeditorFlashProcessor extends HtmlEditorProcessor
 {
+
     function run()
     {
         $selected_object = $this->get_selected_content_objects();
         $object = RepositoryDataManager :: get_instance()->retrieve_content_object($selected_object);
 
-        $flash_include_path = /*Path :: get(WEB_PATH) . */ $this->get_repository_document_display_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $object->get_id()));
+        $flash_include_path = $this->get_repository_document_display_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $object->get_id()));
         $flash_getid3 = new getID3();
         $flash_info = $flash_getid3->analyze($object->get_full_path());
 

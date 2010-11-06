@@ -1,5 +1,7 @@
 <?php
 namespace common\libraries;
+
+use common\extensions\repo_viewer\RepoViewer;
 /**
  * $Id: content_object_table.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.repo_viewer.component.content_object_table

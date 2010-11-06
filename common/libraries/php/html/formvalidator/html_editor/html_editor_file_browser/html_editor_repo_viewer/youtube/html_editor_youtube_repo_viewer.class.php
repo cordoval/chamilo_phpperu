@@ -1,5 +1,9 @@
 <?php
 namespace common\libraries;
+
+use repository\content_object\youtube\Youtube;
+use common\extensions\repo_viewer\RepoViewer;
+
 class HtmlEditorYoutubeRepoViewer extends HtmlEditorRepoViewer
 {
 
@@ -7,7 +11,7 @@ class HtmlEditorYoutubeRepoViewer extends HtmlEditorRepoViewer
     {
         parent :: __construct($parent, $types, $maximum_select, $excluded_objects, $parse_input);
     }
-
+    
     function get_application_component_path()
     {
         return dirname(__FILE__) . '/component/';

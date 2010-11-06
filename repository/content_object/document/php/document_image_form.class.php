@@ -1,7 +1,6 @@
 <?php
 namespace repository\content_object\document;
 
-//use common\libraries;
 use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\PlatformSetting;
@@ -16,8 +15,6 @@ use user\UserDataManager;
  * $Id: document_form.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.document
  */
-require_once Path :: get_repository_path() . 'lib/category_manager/repository_category.class.php';
-require_once dirname(__FILE__) . '/document.class.php';
 require_once Path :: get_common_libraries_path() . 'php/html/formvalidator/Rule/DiskQuota.php';
 /**
  * A form to create/update a document.
