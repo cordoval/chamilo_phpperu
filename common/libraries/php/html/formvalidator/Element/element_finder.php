@@ -206,17 +206,6 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
         $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
 
-        // Buttons
-        //		$html[] = '<div class="element_finder_buttons" style="height: '.$this->getHeight().'px;">';
-        //		$html[] = '<div class="button_elements" style="margin-top: '. (($this->height - 46) / 2) .'px">';
-        //		$html[] = $this->_elements[2]->toHTML();
-        //		$html[] = '<br />';
-        //		$html[] = $this->_elements[3]->toHTML();
-        //		$html[] = '</div>';
-        //		$html[] = '<div class="clear"></div>';
-        //		$html[] = '</div>';
-
-
         // Active
         $html[] = '<div class="element_finder_active">';
         $html[] = '<div id="elf_' . $this->getName() . '_active" class="active_elements" style="height: ' . $this->getHeight() . 'px; width: ' . $this->getWidth() . 'px; overflow: auto;"></div>';
@@ -248,7 +237,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
         $html[] = 'var ' . $this->getName() . '_excluded = new Array(' . implode(',', $exclude_ids) . ');';
 
         $load_elements = $this->options['load_elements'];
-        $load_elements = (isset($load_elements) && $load_elements == false ? ', loadElements: false' : ', loadElements: true');
+        $load_elements = (isset($load_elements) && $load_elements == true ? ', loadElements: true' : ', loadElements: false');
 
         $default_query = $this->options['default_query'];
         $default_query = (isset($default_query) && ! empty($default_query) ? ', defaultQuery: "' . $default_query . '"' : '');

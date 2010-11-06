@@ -80,13 +80,16 @@ class ContentObjectTypeSelector
     function as_tree()
     {
         $type_options = array();
-        $type_options[''] = '-- ' . Translation :: get('SelectObject') . ' --';
+        $type_options[] = '-- ' . Translation :: get('SelectAContentObjectType') . ' --';
 
         $prefix = (count($this->categories) > 1 ? '&mdash; ' : '');
 
         foreach ($this->categories as $category => $category_name)
         {
-            $type_options[] = $category_name;
+            if (count($this->categories) > 1)
+            {
+                $type_options[] = $category_name;
+            }
 
             $types = $this->content_object_type_categories[$category];
             ksort($types);

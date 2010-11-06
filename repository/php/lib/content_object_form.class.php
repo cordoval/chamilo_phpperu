@@ -73,7 +73,6 @@ abstract class ContentObjectForm extends FormValidator
 
         parent :: __construct($form_name, $method, $action);
         $this->form_type = $form_type;
-
         $this->content_object = $content_object;
         $this->owner_id = $content_object->get_owner_id();
         $this->extra = $extra;
@@ -243,21 +242,6 @@ EOT;
         if (isset($this->extra['version_data']))
         {
             $object = $this->content_object;
-
-            //            if ($object->is_latest_version())
-            //            {
-            //                $html[] = '<div class="versions" style="margin-top: 1em;">';
-            //            }
-            //            else
-            //            {
-            //                $html[] = '<div class="versions_na" style="margin-top: 1em;">';
-            //            }
-
-
-            //            $html[] = '<div class="versions_title">' . htmlentities(Translation :: get('Versions')) . '</div>';
-
-
-            //            $this->addElement('html', implode("\n", $html));
             $this->add_element_hider('script_radio', $object);
 
             $i = 0;
@@ -279,11 +263,8 @@ EOT;
                 $i ++;
             }
 
-            //$this->addElement('submit', 'submit', Translation :: get('CompareVersions'));
             $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('CompareVersions'), array('class' => 'normal compare'));
             $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
-
-        //            $this->addElement('html', '</div>');
         }
     }
 
@@ -295,8 +276,6 @@ EOT;
      */
     private function build_basic_form($htmleditor_options = array())
     {
-        //$this->add_textfield(ContentObject :: PROPERTY_TITLE, Translation :: get('Title'), true, 'size="100" style="width: 100%"');
-        //$this->add_textfield(ContentObject :: PROPERTY_TITLE, Translation :: get('Title'), true, array('size' => '100'));
         $this->addElement('html', '<div id="message"></div>');
         $this->add_textfield(ContentObject :: PROPERTY_TITLE, Translation :: get('Title', array(), Utilities :: get_namespace_from_object($this)), true, array('size' => '100', 'id' => 'title', 'style' => 'width: 95%'));
         if ($this->allows_category_selection())
@@ -315,8 +294,6 @@ EOT;
     protected function add_footer()
     {
         $object = $this->content_object;
-        //$elem = $this->addElement('advmultiselect', 'ihsTest', 'Hierarchical select:', array("test"), array('style' => 'width: 20em;'), '<br />');
-
 
         if ($object instanceof AttachmentSupport)
         {
@@ -362,7 +339,6 @@ EOT;
             {
                 $elem->excludeElements(array($object->get_id()));
             }
-            //$elem->setDefaultCollapsed(count($attachments) == 0);
         }
 
         if (count($this->additional_elements) > 0)
@@ -620,8 +596,8 @@ EOT;
     static function factory($form_type, $content_object, $form_name, $method = 'post', $action = null, $extra = null, $additional_elements = array(), $allow_new_version = true, $form_variant = null)
     {
         $type = $content_object->get_type();
-        $type = Utilities::camelcase_to_underscores($type);
-        
+        $type = Utilities :: camelcase_to_underscores($type);
+
         if ($form_variant)
         {
             $class = ContentObject :: type_to_class($type) /*. ContentObject :: type_to_class($form_variant) */. Utilities :: underscores_to_camelcase($form_variant) . 'Form';

@@ -304,7 +304,8 @@ class RepositorySearchForm extends FormValidator
         else
         {
             $key = ContentObjectTypeSelector :: PARAM_CONTENT_OBJECT_TYPE;
-            $types = isset(Request :: post($key)) ? Request :: post($key) : null;
+            $post_value = Request :: post($key);
+            $types = isset($post_value) ? $post_value : null;
         }
         return (is_array($types) && count($types) ? $types : null);
     }
