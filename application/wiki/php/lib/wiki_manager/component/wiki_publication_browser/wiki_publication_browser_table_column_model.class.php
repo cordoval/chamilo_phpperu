@@ -1,7 +1,6 @@
 <?php
 namespace application\wiki;
 
-use common\libraries\WebApplication;
 use common\libraries\ObjectTableColumn;
 use common\libraries\StaticTableColumn;
 use repository\ContentObject;
@@ -10,8 +9,6 @@ use repository\ContentObject;
  * $Id: wiki_publication_browser_table_column_model.class.php 210 2009-11-13 13:18:50Z kariboe $
  * @package application.lib.wiki.wiki_manager.component.wiki_publication_browser
  */
-
-require_once WebApplication :: get_application_class_lib_path('wiki') . 'tables/wiki_publication_table/default_wiki_publication_table_column_model.class.php';
 
 /**
  * Table column model for the wiki_publication browser table

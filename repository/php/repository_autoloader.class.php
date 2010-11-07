@@ -224,7 +224,7 @@ class RepositoryAutoloader
 
     static function check_for_content_object_complex_display($path)
     {
-        $list = array('forum_display');
+        $list = array('forum_display','wiki_display');
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
         if (in_array($lower_case, $list))
         {

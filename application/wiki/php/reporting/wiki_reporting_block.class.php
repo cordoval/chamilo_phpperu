@@ -1,10 +1,7 @@
 <?php
 namespace application\wiki;
 
-use common\libraries\CoreApplication;
 use reporting\ReportingBlock;
-
-require_once CoreApplication :: get_application_class_lib_path('reporting') . 'reporting_block.class.php';
 
 abstract class WikiReportingBlock extends ReportingBlock
 {
