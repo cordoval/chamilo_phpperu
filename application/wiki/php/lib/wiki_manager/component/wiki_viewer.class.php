@@ -73,5 +73,15 @@ class WikiManagerWikiViewerComponent extends WikiManager implements WikiComplexD
         return 'wiki_most_reporting_template';
     }
 
+    /**
+     * Unused for the wiki
+     *
+     * @param $right
+     */
+    function is_allowed($right)
+    {
+        return true;
+    }
+
 }
 ?>
