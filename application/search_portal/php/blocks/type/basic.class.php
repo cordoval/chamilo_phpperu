@@ -1,7 +1,6 @@
 <?php
 namespace application\search_portal;
 
-use common\libraries\WebApplication;
 use common\libraries\Translation;
 use common\libraries\FormValidator;
 
@@ -9,7 +8,6 @@ use common\libraries\FormValidator;
  * $Id: basic.class.php 222 2009-11-13 14:39:28Z chellee $
  * @package application.search_portal.block
  */
-require_once WebApplication :: get_application_class_path('search_portal') . 'blocks/search_portal_block.class.php';
 
 /**
  * This class represents a calendar publisher component which can be used

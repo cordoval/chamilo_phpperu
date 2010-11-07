@@ -7,7 +7,6 @@ use common\libraries\WebApplication;
  * $Id: search_portal_manager.class.php 222 2009-11-13 14:39:28Z chellee $
  * @package application.search_portal.search_portal_manager
  */
-require_once WebApplication :: get_application_class_path('search_portal') . 'blocks/search_portal_block.class.php';
 
 class SearchPortalManager extends WebApplication
 {
