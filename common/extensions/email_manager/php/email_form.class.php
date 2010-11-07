@@ -4,7 +4,7 @@ namespace common\extensions\email_manager;
 use user\User;
 use common\libraries\FormValidator;
 use common\libraries\Translation;
-
+use common\libraries\Mail;
 
 /**
  * $Id: email_form.class.php 191 2009-11-13 11:50:28Z chellee $
