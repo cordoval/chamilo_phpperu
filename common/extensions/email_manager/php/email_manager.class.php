@@ -1,5 +1,10 @@
 <?php
 namespace common\extensions\email_manager;
+
+use common\libraries\SubManager;
+use common\libraries\Path;
+use common\libraries\Request;
+
 /**
  * $Id: email_manager.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.email_manager
