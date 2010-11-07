@@ -74,7 +74,7 @@ abstract class ComplexDisplayPreview extends SubManager
     function not_available($message)
     {
         $this->display_header();
-        Display :: normal_message('ImpossibleInPreviewMode');
+        Display :: normal_message($message);
         $this->display_footer();
         exit();
     }

@@ -25,12 +25,12 @@ class Feedback extends ContentObject implements Versionable, AttachmentSupport
     const ICON_RIGHT = 4;
     const ICON_INFORMATIVE = 5;
 
-	const CLASS_NAME = __CLASS__;
+    const CLASS_NAME = __CLASS__;
 
-	static function get_type_name()
-	{
-		return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
-	}
+    static function get_type_name()
+    {
+        return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
+    }
 
     function get_icon()
     {
@@ -42,21 +42,23 @@ class Feedback extends ContentObject implements Versionable, AttachmentSupport
         return $this->set_additional_property(self :: PROPERTY_ICON, $icon);
     }
 
-    function get_icon_name()
+    function get_icon_name($size = Theme :: ICON_SMALL)
     {
         switch ($this->get_icon())
         {
             case self :: ICON_THUMBS_UP :
-                return 'thumbs_up';
+                $icon = 'thumbs_up';
             case self :: ICON_THUMBS_DOWN :
-                return 'thumbs_down';
+                $icon = 'thumbs_down';
             case self :: ICON_RIGHT :
-                return 'right';
+                $icon = 'right';
             case self :: ICON_WRONG :
-                return 'wrong';
+                $icon = 'wrong';
             case self :: ICON_INFORMATIVE :
-                return 'informative';
+                $icon = 'informative';
         }
+
+        return $size . '_' . $icon;
     }
 
     static function get_possible_icons()

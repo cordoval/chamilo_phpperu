@@ -172,7 +172,7 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
             $title_url = $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_VIEW), array(), true);
         }
 
-        $html[] = '<div class="announcements ' . $level . '" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/' . $publication->get_content_object()->get_icon_name() . $icon_suffix . '.png);">';
+        $html[] = '<div class="announcements ' . $level . '" style="background-image: url(' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($publication->get_content_object()->get_type())) . 'logo/' . $publication->get_content_object()->get_icon_name() . $icon_suffix . '.png);">';
         $html[] = '<div class="title' . ($publication->is_visible_for_target_users() ? '' : ' invisible') . '">';
         $html[] = '<a href="' . $title_url . '">' . $this->render_title($publication) . '</a>';
         $html[] = '</div>';

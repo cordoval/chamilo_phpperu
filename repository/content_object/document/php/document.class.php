@@ -111,25 +111,171 @@ class Document extends ContentObject implements Versionable
         //all mime types in an array (from 1.6, this is the authorative source)
         //please keep this alphabetical if you add something to this list!!!
         $mime_types = array(
-                "aac" => "audio/aac", "ai" => "application/postscript", "aif" => "audio/x-aiff", "aifc" => "audio/x-aiff", "aiff" => "audio/x-aiff", "asf" => "video/x-ms-asf", "asc" => "text/plain", "au" => "audio/basic", "avi" => "video/x-msvideo", "bcpio" => "application/x-bcpio",
-                "bin" => "application/octet-stream", "bmp" => "image/bmp", "cdf" => "application/x-netcdf", "class" => "application/octet-stream", "cpio" => "application/x-cpio", "cpt" => "application/mac-compactpro", "csh" => "application/x-csh", "css" => "text/css",
-                "dcr" => "application/x-director", "dir" => "application/x-director", "djv" => "image/vnd.djvu", "djvu" => "image/vnd.djvu", "dll" => "application/octet-stream", "dmg" => "application/x-diskcopy", "dms" => "application/octet-stream", "doc" => "application/msword",
-                "dvi" => "application/x-dvi", "dwg" => "application/vnd.dwg", "dxf" => "application/vnd.dxf", "dxr" => "application/x-director", "eps" => "application/postscript", "etx" => "text/x-setext", "exe" => "application/octet-stream", "ez" => "application/andrew-inset", "gif" => "image/gif",
-                "gtar" => "application/x-gtar", "gz" => "application/x-gzip", "hdf" => "application/x-hdf", "hqx" => "application/mac-binhex40", "htm" => "text/html", "html" => "text/html", "ice" => "x-conference-xcooltalk", "ief" => "image/ief", "iges" => "model/iges", "igs" => "model/iges",
-                "jar" => "application/java-archiver", "jpe" => "image/jpeg", "jpeg" => "image/jpeg", "jpg" => "image/jpeg", "js" => "application/x-javascript", "kar" => "audio/midi", "latex" => "application/x-latex", "lha" => "application/octet-stream", "lzh" => "application/octet-stream",
-                "m1a" => "audio/mpeg", "m2a" => "audio/mpeg", "m3u" => "audio/x-mpegurl", "m4a" => "audio/x-m4a", "man" => "application/x-troff-man", "me" => "application/x-troff-me", "mesh" => "model/mesh", "mid" => "audio/midi", "midi" => "audio/midi", "mov" => "video/quicktime",
-                "movie" => "video/x-sgi-movie", "mp2" => "audio/mpeg", "mp3" => "audio/mpeg", "mp4" => "video/mpeg4-generic", "mpa" => "audio/mpeg", "mpe" => "video/mpeg", "mpeg" => "video/mpeg", "mpg" => "video/mpeg", "mpga" => "audio/mpeg", "ms" => "application/x-troff-ms", "msh" => "model/mesh",
-                "mxu" => "video/vnd.mpegurl", "nc" => "application/x-netcdf", "oda" => "application/oda", "ogg" => "audio/ogg", "pbm" => "image/x-portable-bitmap", "pct" => "image/pict", "pdb" => "chemical/x-pdb", "pdf" => "application/pdf", "pgm" => "image/x-portable-graymap",
-                "pgn" => "application/x-chess-pgn", "pict" => "image/pict", "png" => "image/png", "pnm" => "image/x-portable-anymap", "ppm" => "image/x-portable-pixmap", "ppt" => "application/vnd.ms-powerpoint", "pps" => "application/vnd.ms-powerpoint", "ps" => "application/postscript",
-                "qt" => "video/quicktime", "ra" => "audio/x-realaudio", "ram" => "audio/x-pn-realaudio", "rar" => "image/x-rar-compressed", "ras" => "image/x-cmu-raster", "rgb" => "image/x-rgb", "rm" => "audio/x-pn-realaudio", "roff" => "application/x-troff", "rpm" => "audio/x-pn-realaudio-plugin",
-                "rtf" => "text/rtf", "rtx" => "text/richtext", "sgm" => "text/sgml", "sgml" => "text/sgml", "sh" => "application/x-sh", "shar" => "application/x-shar", "silo" => "model/mesh", "sib" => "application/X-Sibelius-Score", "sit" => "application/x-stuffit", "skd" => "application/x-koan",
-                "skm" => "application/x-koan", "skp" => "application/x-koan", "skt" => "application/x-koan", "smi" => "application/smil", "smil" => "application/smil", "snd" => "audio/basic", "so" => "application/octet-stream", "spl" => "application/x-futuresplash",
-                "src" => "application/x-wais-source", "sv4cpio" => "application/x-sv4cpio", "sv4crc" => "application/x-sv4crc", "svf" => "application/vnd.svf", "swf" => "application/x-shockwave-flash", "sxc" => "application/vnd.sun.xml.calc", "sxi" => "application/vnd.sun.xml.impress",
-                "sxw" => "application/vnd.sun.xml.writer", "t" => "application/x-troff", "tar" => "application/x-tar", "tcl" => "application/x-tcl", "tex" => "application/x-tex", "texi" => "application/x-texinfo", "texinfo" => "application/x-texinfo", "tga" => "image/x-targa", "tif" => "image/tif",
-                "tiff" => "image/tiff", "tr" => "application/x-troff", "tsv" => "text/tab-seperated-values", "txt" => "text/plain", "ustar" => "application/x-ustar", "vcd" => "application/x-cdlink", "vrml" => "model/vrml", "wav" => "audio/x-wav", "wbmp" => "image/vnd.wap.wbmp",
-                "wbxml" => "application/vnd.wap.wbxml", "wml" => "text/vnd.wap.wml", "wmlc" => "application/vnd.wap.wmlc", "wmls" => "text/vnd.wap.wmlscript", "wmlsc" => "application/vnd.wap.wmlscriptc", "wma" => "video/x-ms-wma", "wmv" => "audio/x-ms-wmv", "wrl" => "model/vrml",
-                "xbm" => "image/x-xbitmap", "xht" => "application/xhtml+xml", "xhtml" => "application/xhtml+xml", "xls" => "application/vnd.ms-excel", "xml" => "text/xml", "xpm" => "image/x-xpixmap", "xsl" => "text/xml", "xwd" => "image/x-windowdump", "xyz" => "chemical/x-xyz",
-                "zip" => "application/zip", "xlsx" => "application/vnd.openxmlformats", "docx" => "application/vnd.openxmlformats", "pptx" => "application/vnd.openxmlformats");
+                "aac" => "audio/aac",
+                "ai" => "application/postscript",
+                "aif" => "audio/x-aiff",
+                "aifc" => "audio/x-aiff",
+                "aiff" => "audio/x-aiff",
+                "asf" => "video/x-ms-asf",
+                "asc" => "text/plain",
+                "au" => "audio/basic",
+                "avi" => "video/x-msvideo",
+                "bcpio" => "application/x-bcpio",
+                "bin" => "application/octet-stream",
+                "bmp" => "image/bmp",
+                "cdf" => "application/x-netcdf",
+                "class" => "application/octet-stream",
+                "cpio" => "application/x-cpio",
+                "cpt" => "application/mac-compactpro",
+                "csh" => "application/x-csh",
+                "css" => "text/css",
+                "dcr" => "application/x-director",
+                "dir" => "application/x-director",
+                "djv" => "image/vnd.djvu",
+                "djvu" => "image/vnd.djvu",
+                "dll" => "application/octet-stream",
+                "dmg" => "application/x-diskcopy",
+                "dms" => "application/octet-stream",
+                "doc" => "application/msword",
+                "dvi" => "application/x-dvi",
+                "dwg" => "application/vnd.dwg",
+                "dxf" => "application/vnd.dxf",
+                "dxr" => "application/x-director",
+                "eps" => "application/postscript",
+                "etx" => "text/x-setext",
+                "exe" => "application/octet-stream",
+                "ez" => "application/andrew-inset",
+                "gif" => "image/gif",
+                "gtar" => "application/x-gtar",
+                "gz" => "application/x-gzip",
+                "hdf" => "application/x-hdf",
+                "hqx" => "application/mac-binhex40",
+                "htm" => "text/html",
+                "html" => "text/html",
+                "ice" => "x-conference-xcooltalk",
+                "ief" => "image/ief",
+                "iges" => "model/iges",
+                "igs" => "model/iges",
+                "jar" => "application/java-archiver",
+                "jpe" => "image/jpeg",
+                "jpeg" => "image/jpeg",
+                "jpg" => "image/jpeg",
+                "js" => "application/x-javascript",
+                "kar" => "audio/midi",
+                "latex" => "application/x-latex",
+                "lha" => "application/octet-stream",
+                "lzh" => "application/octet-stream",
+                "m1a" => "audio/mpeg",
+                "m2a" => "audio/mpeg",
+                "m3u" => "audio/x-mpegurl",
+                "m4a" => "audio/x-m4a",
+                "man" => "application/x-troff-man",
+                "me" => "application/x-troff-me",
+                "mesh" => "model/mesh",
+                "mid" => "audio/midi",
+                "midi" => "audio/midi",
+                "mov" => "video/quicktime",
+                "movie" => "video/x-sgi-movie",
+                "mp2" => "audio/mpeg",
+                "mp3" => "audio/mpeg",
+                "mp4" => "video/mpeg4-generic",
+                "mpa" => "audio/mpeg",
+                "mpe" => "video/mpeg",
+                "mpeg" => "video/mpeg",
+                "mpg" => "video/mpeg",
+                "mpga" => "audio/mpeg",
+                "ms" => "application/x-troff-ms",
+                "msh" => "model/mesh",
+                "mxu" => "video/vnd.mpegurl",
+                "nc" => "application/x-netcdf",
+                "oda" => "application/oda",
+                "ogg" => "audio/ogg",
+                "pbm" => "image/x-portable-bitmap",
+                "pct" => "image/pict",
+                "pdb" => "chemical/x-pdb",
+                "pdf" => "application/pdf",
+                "pgm" => "image/x-portable-graymap",
+                "pgn" => "application/x-chess-pgn",
+                "pict" => "image/pict",
+                "png" => "image/png",
+                "pnm" => "image/x-portable-anymap",
+                "ppm" => "image/x-portable-pixmap",
+                "ppt" => "application/vnd.ms-powerpoint",
+                "pps" => "application/vnd.ms-powerpoint",
+                "ps" => "application/postscript",
+                "qt" => "video/quicktime",
+                "ra" => "audio/x-realaudio",
+                "ram" => "audio/x-pn-realaudio",
+                "rar" => "image/x-rar-compressed",
+                "ras" => "image/x-cmu-raster",
+                "rgb" => "image/x-rgb",
+                "rm" => "audio/x-pn-realaudio",
+                "roff" => "application/x-troff",
+                "rpm" => "audio/x-pn-realaudio-plugin",
+                "rtf" => "text/rtf",
+                "rtx" => "text/richtext",
+                "sgm" => "text/sgml",
+                "sgml" => "text/sgml",
+                "sh" => "application/x-sh",
+                "shar" => "application/x-shar",
+                "silo" => "model/mesh",
+                "sib" => "application/X-Sibelius-Score",
+                "sit" => "application/x-stuffit",
+                "skd" => "application/x-koan",
+                "skm" => "application/x-koan",
+                "skp" => "application/x-koan",
+                "skt" => "application/x-koan",
+                "smi" => "application/smil",
+                "smil" => "application/smil",
+                "snd" => "audio/basic",
+                "so" => "application/octet-stream",
+                "spl" => "application/x-futuresplash",
+                "src" => "application/x-wais-source",
+                "sv4cpio" => "application/x-sv4cpio",
+                "sv4crc" => "application/x-sv4crc",
+                "svf" => "application/vnd.svf",
+                "swf" => "application/x-shockwave-flash",
+                "sxc" => "application/vnd.sun.xml.calc",
+                "sxi" => "application/vnd.sun.xml.impress",
+                "sxw" => "application/vnd.sun.xml.writer",
+                "t" => "application/x-troff",
+                "tar" => "application/x-tar",
+                "tcl" => "application/x-tcl",
+                "tex" => "application/x-tex",
+                "texi" => "application/x-texinfo",
+                "texinfo" => "application/x-texinfo",
+                "tga" => "image/x-targa",
+                "tif" => "image/tif",
+                "tiff" => "image/tiff",
+                "tr" => "application/x-troff",
+                "tsv" => "text/tab-seperated-values",
+                "txt" => "text/plain",
+                "ustar" => "application/x-ustar",
+                "vcd" => "application/x-cdlink",
+                "vrml" => "model/vrml",
+                "wav" => "audio/x-wav",
+                "wbmp" => "image/vnd.wap.wbmp",
+                "wbxml" => "application/vnd.wap.wbxml",
+                "wml" => "text/vnd.wap.wml",
+                "wmlc" => "application/vnd.wap.wmlc",
+                "wmls" => "text/vnd.wap.wmlscript",
+                "wmlsc" => "application/vnd.wap.wmlscriptc",
+                "wma" => "video/x-ms-wma",
+                "wmv" => "audio/x-ms-wmv",
+                "wrl" => "model/vrml",
+                "xbm" => "image/x-xbitmap",
+                "xht" => "application/xhtml+xml",
+                "xhtml" => "application/xhtml+xml",
+                "xls" => "application/vnd.ms-excel",
+                "xml" => "text/xml",
+                "xpm" => "image/x-xpixmap",
+                "xsl" => "text/xml",
+                "xwd" => "image/x-windowdump",
+                "xyz" => "chemical/x-xyz",
+                "zip" => "application/zip",
+                "xlsx" => "application/vnd.openxmlformats",
+                "docx" => "application/vnd.openxmlformats",
+                "pptx" => "application/vnd.openxmlformats");
 
         $filename = $this->get_filename();
 
@@ -151,7 +297,7 @@ class Document extends ContentObject implements Versionable
         if (isset($mime_types[$extension]))
             return $mime_types[$extension];
 
-     //else return octet-stream
+        //else return octet-stream
         return "application/octet-stream";
     }
 
@@ -176,19 +322,20 @@ class Document extends ContentObject implements Versionable
         return Path :: get(SYS_REPO_PATH) . $this->get_path();
     }
 
-    function get_icon_name()
+    function get_icon_name($size = Theme :: ICON_SMALL)
     {
         $filename = $this->get_filename();
         $parts = explode('.', $filename);
-        $icon_name = $parts[count($parts) - 1];
-        $icon_path = Theme :: get_common_image_system_path() . 'content_object/document_' . $icon_name . '.png';
+        $icon_name = strtolower($parts[count($parts) - 1]);
+        $icon_name = $size . '_' . $icon_name;
+        $icon_path = Theme :: get_image_system_path(ContentObject :: get_content_object_type_namespace($this->get_type())) . 'logo/' . $icon_name . '.png';
 
         if (! file_exists($icon_path))
         {
-            return 'document';
+            return $size;
         }
 
-        return 'document_' . $icon_name;
+        return $icon_name;
     }
 
     static function get_disk_space_properties()
@@ -464,7 +611,10 @@ class Document extends ContentObject implements Versionable
 
     static function get_additional_property_names()
     {
-        return array(self :: PROPERTY_FILENAME, self :: PROPERTY_FILESIZE, self :: PROPERTY_PATH, self :: PROPERTY_HASH);
+        return array(self :: PROPERTY_FILENAME,
+                self :: PROPERTY_FILESIZE,
+                self :: PROPERTY_PATH,
+                self :: PROPERTY_HASH);
     }
 
     /**
@@ -571,7 +721,7 @@ class Document extends ContentObject implements Versionable
                     {
                         Filesystem :: remove(Path :: get(SYS_REPO_PATH) . $current_path);
 
-     //DebugUtilities :: show('delete : ' . Path :: get(SYS_REPO_PATH) . $current_path);
+                    //DebugUtilities :: show('delete : ' . Path :: get(SYS_REPO_PATH) . $current_path);
                     }
                 }
 

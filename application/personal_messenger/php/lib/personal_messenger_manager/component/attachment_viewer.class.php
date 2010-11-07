@@ -69,7 +69,7 @@ class PersonalMessengerManagerAttachmentViewerComponent extends PersonalMessenge
                 {
                     $display = ContentObjectDisplay :: factory($attachment);
                     $html[] = $display->get_full_html();
-                    //					$html[] = '<div class="content_object" style="background-image: url('.Theme :: get_common_image_path().'content_object/'.$attachment->get_icon_name().'.png);">';
+                    //					$html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($attachment->get_type())) . 'logo/' . $attachment->get_icon_name() . '.png);">';
                 //					$html[] = '<div class="title">'. $attachment->get_title() .'</div>';
                 //					$html[] = $attachment->get_description();
                 //					$html[] = '</div>';
@@ -80,16 +80,20 @@ class PersonalMessengerManagerAttachmentViewerComponent extends PersonalMessenge
         return implode("\n", $html);
     }
 
-	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => self :: ACTION_BROWSE_MESSAGES)), Translation :: get('PersonalMessengerManagerBrowserComponent')));
-    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => self :: ACTION_VIEW_PUBLICATION, self :: PARAM_PERSONAL_MESSAGE_ID => Request :: get(self :: PARAM_PERSONAL_MESSAGE_ID))), Translation :: get('PersonalMessengerManagerViewerComponent')));
-    	$breadcrumbtrail->add_help('personal_messenger_attachment_viewer');
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                Application :: PARAM_ACTION => self :: ACTION_BROWSE_MESSAGES)), Translation :: get('PersonalMessengerManagerBrowserComponent')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                Application :: PARAM_ACTION => self :: ACTION_VIEW_PUBLICATION,
+                self :: PARAM_PERSONAL_MESSAGE_ID => Request :: get(self :: PARAM_PERSONAL_MESSAGE_ID))), Translation :: get('PersonalMessengerManagerViewerComponent')));
+        $breadcrumbtrail->add_help('personal_messenger_attachment_viewer');
     }
 
     function get_additional_parameters()
     {
-    	return array(self :: PARAM_PERSONAL_MESSAGE_ID);
+        return array(
+                self :: PARAM_PERSONAL_MESSAGE_ID);
     }
 }
 ?>

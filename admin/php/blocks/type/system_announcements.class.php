@@ -1,7 +1,10 @@
 <?php
 namespace admin;
+use common\libraries;
+
 use common\libraries\Application;
 use common\libraries\Translation;
+use common\libraries\Theme;
 use common\libraries\CoreApplication;
 /**
  * @package admin.block
@@ -55,8 +58,9 @@ class AdminSystemAnnouncements extends AdminBlock
             if ($announcement->is_visible_for_target_users())
             {
                 $object = $announcement->get_publication_object();
-                $html[] = '<li style="margin-bottom: 2px;"><img style="vertical-align: middle;" src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $object->get_icon_name() . '.png" />&nbsp;&nbsp;<a href="' . $this->get_parent()->get_link(array(
-                        Application :: PARAM_ACTION => AdminManager :: ACTION_VIEW_SYSTEM_ANNOUNCEMENT, AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $announcement->get_id())) . '">' . $object->get_title() . '</a></li>';
+                $html[] = '<li style="margin-bottom: 2px;"><img style="vertical-align: middle;" src="' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($object->get_type())) . 'logo/' . $object->get_icon_name(Theme :: ICON_MINI) . '.png" />&nbsp;&nbsp;<a href="' . $this->get_parent()->get_link(array(
+                        Application :: PARAM_ACTION => AdminManager :: ACTION_VIEW_SYSTEM_ANNOUNCEMENT,
+                        AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $announcement->get_id())) . '">' . $object->get_title() . '</a></li>';
             }
         }
 

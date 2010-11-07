@@ -14,6 +14,12 @@ define('SYS_CSS_PATH', 'SYS_CSS_PATH');
 
 class Theme
 {
+    const ICON_MINI = 16;
+    const ICON_SMALL = 22;
+    const ICON_MEDIUM = 32;
+    const ICON_BIG = 48;
+    const ICON_HUGE = 64;
+
     /**
      * Instance of this class for the singleton pattern.
      */
@@ -44,7 +50,8 @@ class Theme
     {
         $this->theme = PlatformSetting :: get('theme');
         $this->template = new Phpbb2TemplateWrapper($this->theme);
-//        $this->template = ChamiloTemplate :: get_instance($this->theme);
+        //        $this->template = ChamiloTemplate :: get_instance($this->theme);
+
 
         $this->path = array();
     }
@@ -55,7 +62,7 @@ class Theme
      */
     static function get_template()
     {
-    	return self :: get_instance()->template;
+        return self :: get_instance()->template;
     }
 
     static function get_theme()
@@ -88,10 +95,10 @@ class Theme
 
     function get_path($path_type)
     {
-    	if (isset($this->path[$path_type]))
-    	{
-    		return $this->path[$path_type];
-    	}
+        if (isset($this->path[$path_type]))
+        {
+            return $this->path[$path_type];
+        }
 
         switch ($path_type)
         {
@@ -134,27 +141,49 @@ class Theme
     static function get_common_css_path()
     {
         $instance = self :: get_instance();
-        return Path :: get_web_common_libraries_path() . 'resources/css/' . $instance->get_theme() . '/' . $instance->get_theme() . '.css'; 
+        return Path :: get_web_common_libraries_path() . 'resources/css/' . $instance->get_theme() . '/' . $instance->get_theme() . '.css';
     }
 
     /**
      * Get the path to the application's image folder
      */
-    static function get_image_path($application = null)
+    static function get_image_path($context = null)
     {
         $instance = self :: get_instance();
-        $application = (is_null($application) ? $instance->get_application() : $application);
-        return BasicApplication :: get_application_web_resources_images_path($application) . $instance->get_theme() . '/';       
+
+        if (! $context)
+        {
+            $backtrace = debug_backtrace();
+            //$called_class = $backtrace[1]['class'];
+            $called_class = get_called_class();
+            $context = Utilities :: get_namespace_from_classname($called_class);
+        }
+
+        $called_class = explode('\\', $context);
+        return Path :: get(WEB_PATH) . implode('/', $called_class) . '/resources/images/' . $instance->get_theme() . '/';
     }
 
     /**
      * Get the system path to the application's image folder
      */
-    static function get_image_system_path($application = null)
+    static function get_image_system_path($context = null)
     {
-    	$instance = self :: get_instance();
-        $application = (is_null($application) ? $instance->get_application() : $application);
-        return BasicApplication :: get_application_resources_images_path($application) . $instance->get_theme() . '/';
+        $instance = self :: get_instance();
+
+        if (! $context)
+        {
+            $backtrace = debug_backtrace();
+            //$called_class = $backtrace[1]['class'];
+            $called_class = get_called_class();
+            $context = Utilities :: get_namespace_from_classname($called_class);
+        }
+
+        $called_class = explode('\\', $context);
+        return Path :: get(SYS_PATH) . implode('/', $called_class) . '/resources/images/' . $instance->get_theme() . '/';
+
+//        $instance = self :: get_instance();
+//        $application = (is_null($application) ? $instance->get_application() : $application);
+//        return BasicApplication :: get_application_resources_images_path($application) . $instance->get_theme() . '/';
     }
 
     /**
@@ -162,8 +191,8 @@ class Theme
      */
     static function get_common_image_path()
     {
-    	$instance = self :: get_instance();
-        return Path :: get_web_common_libraries_path() . 'resources/images/' . $instance->get_theme() . '/'; 
+        $instance = self :: get_instance();
+        return Path :: get_web_common_libraries_path() . 'resources/images/' . $instance->get_theme() . '/';
     }
 
     /**
@@ -171,7 +200,7 @@ class Theme
      */
     static function get_common_image_system_path()
     {
-    	$instance = self :: get_instance();
+        $instance = self :: get_instance();
         return Path :: get_common_libraries_path() . 'resources/images/' . $instance->get_theme() . '/';
     }
 

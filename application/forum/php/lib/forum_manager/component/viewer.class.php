@@ -1,5 +1,4 @@
 <?php
-
 namespace application\forum;
 
 use repository\ComplexDisplay;
@@ -29,7 +28,9 @@ require_once Path :: get_repository_content_object_path() . 'forum/php/display/f
  * Component to view a new forum_publication object
  * @author Michael Kyndt
  */
-class ForumManagerViewerComponent extends ForumManager implements DelegateComponent, ForumComplexDisplaySupport
+class ForumManagerViewerComponent extends ForumManager implements
+        DelegateComponent,
+        ForumComplexDisplaySupport
 {
     private $trail;
     private $publication_id;
@@ -77,15 +78,17 @@ class ForumManagerViewerComponent extends ForumManager implements DelegateCompon
         return $dummy->count_tracker_items($condition);
     }
 
-	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('ForumManagerBrowserComponent')));
-    	$breadcrumbtrail->add_help('forum_viewer');
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('ForumManagerBrowserComponent')));
+        $breadcrumbtrail->add_help('forum_viewer');
     }
 
     function get_additional_parameters()
     {
-    	return array(self :: PARAM_PUBLICATION_ID);
+        return array(
+                self :: PARAM_PUBLICATION_ID);
     }
 
 }

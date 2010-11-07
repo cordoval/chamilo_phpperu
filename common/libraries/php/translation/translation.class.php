@@ -8,28 +8,28 @@ class Translation
 {
     const PACKAGE_DELIMITER = '.';
     const PACKAGE_COMMON = 'common';
-    
+
     /**
      * Instance of this class for the singleton pattern.
      */
     private static $instance;
     private static $called_class;
-    
+
     /**
      * Language strings defined in the language-files. Stored as an associative array.
      */
     private $strings;
-    
+
     /**
      * The language we're currently translating too
      */
     private $language;
-    
+
     /**
      * The application we're currently translating
      */
     private $application;
-    
+
     /**
      * To determine wether we should show the variable in a tooltip window or not (used for translation purposes)
      */
@@ -81,9 +81,9 @@ class Translation
     {
         $instance = self :: get_instance();
         self :: $called_class = get_called_class();
-        
+
         $translation = $instance->translate($variable, $context);
-        
+
         if (empty($parameters))
         {
             return $translation;
@@ -129,12 +129,12 @@ class Translation
     function translate($variable, $context = null)
     {
         $instance = self :: get_instance();
-        
+
         $language = $instance->language;
         $strings = & $instance->strings;
-        
+
         $value = '';
-        
+
         if (! $context)
         {
             if (count(explode('\\', self :: $called_class)) > 1)
@@ -142,7 +142,7 @@ class Translation
                 $context = Utilities :: get_namespace_from_classname(self :: $called_class);
             }
         }
-        
+
         if (! isset($strings[$language]))
         {
             $instance->add_context_internationalization($language, $context);
@@ -151,14 +151,14 @@ class Translation
         {
             $instance->add_context_internationalization($language, $context);
         }
-        
+
         if (isset($strings[$language][$context][$variable]))
         {
             $value = $strings[$language][$context][$variable];
         }
-        
+
         if (! $value || $value == '' || $value == ' ')
-        {            
+        {
             if (Request :: get('install_running') == 1)
             {
                 return $variable;
@@ -175,12 +175,12 @@ class Translation
                 }
             }
         }
-        
+
         if ($this->show_variable_in_translation)
         {
             return '<span title="' . $context . ' - ' . $variable . '">' . $value . '</span>';
         }
-        
+
         return $value;
     }
 
@@ -196,17 +196,10 @@ class Translation
     function add_context_internationalization($language, $context)
     {
         $called_class = explode('\\', $context);
-//        if (count($called_class) > 1)
-//        {
-            $path = Path :: get(SYS_PATH) . implode('/', $called_class) . '/resources/i18n/' . $language . '.i18n';
-//        }
-//        else
-//        {
-//            $path = BasicApplication :: get_application_resources_i18n_path($context) . $language . '.i18n';
-//        }
-        
+        $path = Path :: get(SYS_PATH) . implode('/', $called_class) . '/resources/i18n/' . $language . '.i18n';
+
         $strings = parse_ini_file($path);
-        
+
         $instance = self :: get_instance();
         $instance->strings[$language][$context] = $strings;
     }

@@ -364,15 +364,15 @@ class Task extends ContentObject implements Versionable, AttachmentSupport
         return array(self :: PROPERTY_TASK_TYPE, self :: PROPERTY_TASK_PRIORITY, self :: PROPERTY_START_DATE, self :: PROPERTY_END_DATE, self :: PROPERTY_REPEAT_TYPE, self :: PROPERTY_REPEAT_TO);
     }
 
-    function get_icon_name()
+    function get_icon_name($size = Theme :: ICON_SMALL)
     {
         if ($this->repeats())
         {
-            return $this->get_type() . '_repeat';
+            return $size . '_repeat';
         }
         else
         {
-            return $this->get_type();
+            return $size;
         }
     }
 

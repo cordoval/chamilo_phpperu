@@ -86,7 +86,7 @@ class FeedbackManagerBrowserOnlyComponent extends FeedbackManager
         $id = $feedback->get_fid();
         $feedback_object = RepositoryDataManager :: get_instance()->retrieve_content_object($id);
         $html = array();
-        $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/' . $feedback_object->get_icon_name() . ($feedback_object->is_latest_version() ? '' : '_na') . '.png);">';
+        $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($feedback_object->get_type())) . 'logo/' . $feedback_object->get_icon_name() . ($feedback_object->is_latest_version() ? '' : '_na') . '.png);">';
         $html[] = '<div class="title">' . Utilities :: htmlentities($feedback_object->get_title());
         $html[] = '<span class="publication_info">';
         $html[] = $this->render_publication_information($feedback_object);

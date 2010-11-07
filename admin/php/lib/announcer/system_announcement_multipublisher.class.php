@@ -49,7 +49,7 @@ class SystemAnnouncerMultipublisher
 
             while ($content_object = $content_objects->next_result())
             {
-                $html[] = '<li><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $content_object->get_icon_name() . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($content_object->get_type()) . 'TypeName')) . '"/> ' . $content_object->get_title() . '</li>';
+                $html[] = '<li><img src="' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($content_object->get_type())) . 'logo/' . $content_object->get_icon_name(Theme :: ICON_MINI) . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($content_object->get_type()) . 'TypeName')) . '"/> ' . $content_object->get_title() . '</li>';
             }
 
             $html[] = '</ul>';
@@ -75,7 +75,8 @@ class SystemAnnouncerMultipublisher
                 $message = Translation :: get('ObjectPublished');
             }
 
-            $this->parent->redirect($message, (! $publication ? true : false), array(Application :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS));
+            $this->parent->redirect($message, (! $publication ? true : false), array(
+                    Application :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS));
         }
         else
         {

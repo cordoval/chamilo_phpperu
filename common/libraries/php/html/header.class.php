@@ -13,6 +13,13 @@ use repository\RepositoryManager;
 class Header
 {
     /**
+     * Singleton
+     *
+     * @var Header
+     */
+    private static $instance;
+
+    /**
      * The http headers which will be send to the browser using php's header
      * (...) function.
      */
@@ -37,6 +44,16 @@ class Header
         $this->language_code = $language_code;
     }
 
+    static function get_instance()
+    {
+        if (self :: $instance == null)
+        {
+            self :: $instance = new Header();
+        }
+
+        return self :: $instance;
+    }
+
     /**
      * Adds some default headers to the output
      */
@@ -45,7 +62,8 @@ class Header
         $this->add_http_header('Content-Type: text/html; charset=UTF-8');
         $this->add_css_file_header(Theme :: get_common_css_path());
         $this->add_css_file_header(Theme :: get_css_path());
-        $this->add_css_file_header(Theme :: get_css_path(RepositoryManager::APPLICATION_NAME));
+        $this->add_css_file_header(Theme :: get_css_path(RepositoryManager :: APPLICATION_NAME));
+        $this->add_css_file_header(Path :: get_repository_path(true) . 'css_content_object.inc.php');
         //$this->add_css_file_header($this->get_path(WEB_CSS_PATH) .'print.css','print');
         $this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH) . 'jquery/jquery.min.js');
         $this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH) . 'jquery/jquery.dimensions.min.js');
@@ -73,7 +91,7 @@ class Header
         $this->add_javascript_file_header(Path :: get_web_common_libraries_path() . 'resources/javascript/visit.js');
         $this->add_link_header($this->get_path(WEB_PATH) . 'index.php', 'top');
         //$this->add_link_header($this->get_path(WEB_PATH). 'index_user.php?go=account','account',htmlentities(Translation :: get('ModifyProfile')));
-        $this->add_link_header('http://www.chamilo.org/documentation.php', 'help');
+        $this->add_link_header('http://help.chamilo.org/', 'help');
         $this->add_html_header('<link rel="shortcut icon" href="' . Theme :: get_theme_path() . 'favicon.ico" type="image/x-icon" />');
         $this->add_html_header('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />');
     }

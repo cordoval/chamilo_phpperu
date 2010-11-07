@@ -21,7 +21,7 @@ class LinkDifferenceDisplay extends ContentObjectDifferenceDisplay
 
         $html = array();
 
-        $html[] = '<div class="difference" style="background-image: url(' . Theme :: get_common_image_path() . $diff->get_object()->get_icon_name() . '.png);">';
+        $html[] = '<div class="difference" style="background-image: url(' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($diff->get_object()->get_type())) . 'logo/' . $diff->get_object()->get_icon_name() . '.png);">';
         $html[] = '<div class="titleleft">';
         $html[] = $diff->get_object()->get_title();
         $html[] = date(" (d M Y, H:i:s O)", $diff->get_object()->get_creation_date());

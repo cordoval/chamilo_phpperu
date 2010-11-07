@@ -210,9 +210,11 @@ class ContentObjectTypeSelector
         {
             if ($count > 0)
             {
+                $namespace = ContentObject :: get_content_object_type_namespace($type);
+
                 $html[] = '<a href="' . $this->get_parent()->get_content_object_type_creation_url($type) . '">';
-                $html[] = '<div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/big/' . $type . '.png);">';
-                $html[] = Translation :: get('TypeName', array(), ContentObject :: get_content_object_type_namespace($type));
+                $html[] = '<div class="create_block" style="background-image: url(' . Theme :: get_image_path($namespace) . 'logo/48.png);">';
+                $html[] = Translation :: get('TypeName', array(), $namespace);
                 $html[] = '</div>';
                 $html[] = '</a>';
             }
@@ -230,8 +232,10 @@ class ContentObjectTypeSelector
 
         foreach ($types as $name => $type)
         {
+            $namespace = ContentObject :: get_content_object_type_namespace($type);
+
             $html[] = '<a href="' . $this->get_parent()->get_content_object_type_creation_url($type) . '">';
-            $html[] = '<div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/big/' . $type . '.png);">';
+            $html[] = '<div class="create_block" style="background-image: url(' . Theme :: get_image_path($namespace) . 'logo/48.png);">';
             $html[] = $name;
             $html[] = '</div>';
             $html[] = '</a>';
