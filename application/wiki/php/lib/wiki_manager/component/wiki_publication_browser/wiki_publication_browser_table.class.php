@@ -1,7 +1,6 @@
 <?php
 namespace application\wiki;
 
-use common\libraries\WebApplication;
 use common\libraries\ObjectTable;
 use common\libraries\ObjectTableColumn;
 use common\libraries\ObjectTableFormAction;
@@ -14,9 +13,6 @@ use repository\ContentObject;
  * $Id: wiki_publication_browser_table.class.php 210 2009-11-13 13:18:50Z kariboe $
  * @package application.lib.wiki.wiki_manager.component.wiki_publication_browser
  */
-require_once WebApplication :: get_application_class_lib_path('wiki') . 'wiki_manager/component/wiki_publication_browser/wiki_publication_browser_table_data_provider.class.php';
-require_once WebApplication :: get_application_class_lib_path('wiki') . 'wiki_manager/component/wiki_publication_browser/wiki_publication_browser_table_column_model.class.php';
-require_once WebApplication :: get_application_class_lib_path('wiki') . 'wiki_manager/component/wiki_publication_browser/wiki_publication_browser_table_cell_renderer.class.php';
 
 /**
  * Table to display a list of wiki_publications

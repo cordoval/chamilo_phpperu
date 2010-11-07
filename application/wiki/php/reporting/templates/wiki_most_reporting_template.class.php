@@ -1,7 +1,6 @@
 <?php
 namespace application\wiki;
 
-use common\libraries\WebApplication;
 use common\libraries\Request;
 use reporting\ReportingTemplate;
 
@@ -9,9 +8,6 @@ use reporting\ReportingTemplate;
  * $Id: wiki_reporting_template.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.reporting.templates
  */
-
-require_once WebApplication :: get_application_class_path('wiki') . 'reporting/blocks/wiki_most_visited_page_reporting_block.class.php';
-require_once WebApplication :: get_application_class_path('wiki') . 'reporting/blocks/wiki_most_edited_page_reporting_block.class.php';
 
 class WikiMostReportingTemplate extends ReportingTemplate
 {

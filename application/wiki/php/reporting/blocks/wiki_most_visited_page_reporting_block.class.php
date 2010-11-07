@@ -1,8 +1,6 @@
 <?php
 namespace application\wiki;
 
-use common\libraries\WebApplication;
-use common\libraries\CoreApplication;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\EqualityCondition;
@@ -16,9 +14,6 @@ use reporting\ReportingData;
 use reporting\ReportingFormatter;
 use tracking\TrackingDataManager;
 use tracking\VisitTracker;
-
-require_once WebApplication :: get_application_class_path('wiki') . 'reporting/wiki_reporting_block.class.php';
-require_once  CoreApplication :: get_application_class_lib_path('reporting') . 'reporting_data.class.php';
 
 class WikiMostVisitedPageReportingBlock extends WikiReportingBlock
 {

@@ -1,6 +1,7 @@
 <?php
 namespace application\wiki;
 
+use common\libraries\Utilities;
 use common\libraries\FormValidator;
 use common\libraries\Translation;
 use common\libraries\Path;
