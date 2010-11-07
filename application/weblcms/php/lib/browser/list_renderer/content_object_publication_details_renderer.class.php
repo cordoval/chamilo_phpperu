@@ -63,10 +63,12 @@ class ContentObjectPublicationDetailsRenderer extends ContentObjectPublicationLi
 
         if ($publication->get_content_object() instanceof ComplexContentObjectSupport)
         {
-            $title_url = $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT));
+            $title_url = $this->get_url(array(
+                    Tool :: PARAM_PUBLICATION_ID => $publication->get_id(),
+                    Tool :: PARAM_ACTION => Tool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT));
         }
 
-        $html[] = '<div class="announcements level_1" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/' . $publication->get_content_object()->get_icon_name() . $icon_suffix . '.png);">';
+        $html[] = '<div class="announcements level_1" style="background-image: url(' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($publication->get_content_object()->get_type())) . 'logo/' . $publication->get_content_object()->get_icon_name() . $icon_suffix . '.png);">';
 
         if ($title_url)
         {

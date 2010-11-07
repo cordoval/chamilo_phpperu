@@ -84,7 +84,7 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 
 	function display_content_object($content_object)
 	{
-		$html[] = '<div class="content_object" style="background-image: url('. Theme :: get_common_image_path(). 'content_object/' .$content_object->get_icon_name().'.png);">';
+		$html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($content_object->get_type())) . 'logo/' . $content_object->get_icon_name() . '.png);">';
 		$html[] = '<div class="title">';
 		$html[] = $content_object->get_title();
 		$html[] = '</div>';

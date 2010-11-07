@@ -19,18 +19,18 @@ use common\libraries\Theme;
  * columns:
  *
  * - The ID of the learning object
- *   Displays the ID.
+ * Displays the ID.
  * - The type of the learning object
- *   Displays the icon that corresponds to the learning object type.
+ * Displays the icon that corresponds to the learning object type.
  * - The title of the learning object
- *   Displays the title.
+ * Displays the title.
  * - The description of the learning object
- *   Strips HTML tags from the description of the learning object and displays
- *   the first 200 characters of the resulting string.
+ * Strips HTML tags from the description of the learning object and displays
+ * the first 200 characters of the resulting string.
  * - The date when the learning object was created
- *   Displays a localized version of the date.
+ * Displays a localized version of the date.
  * - The date when the learning object was last modified
- *   Displays a localized version of the date.
+ * Displays a localized version of the date.
  *
  * Any other column type will result in an empty cell.
  *
@@ -65,7 +65,7 @@ class DefaultSharedContentObjectTableCellRenderer extends ObjectTableCellRendere
             case ContentObject :: PROPERTY_TYPE :
                 $type = $content_object->get_type();
                 $icon = $content_object->get_icon_name();
-                return '<img src="' . Theme :: get_common_image_path() . 'content_object/' . $icon . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($type) . 'TypeName')) . '"/>';
+                return '<img src="' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($type)) . 'logo/' . $icon . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($type) . 'TypeName')) . '"/>';
             case ContentObject :: PROPERTY_TITLE :
                 return htmlspecialchars($content_object->get_title());
             case ContentObject :: PROPERTY_DESCRIPTION :

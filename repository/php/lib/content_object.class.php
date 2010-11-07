@@ -1038,7 +1038,7 @@ class ContentObject extends DataClass
 
     function get_icon_image($size = Theme :: ICON_SMALL)
     {
-        $src = Theme :: get_common_image_path() . 'content_object/' . $this->get_icon_name($size) . '.png';
+        $src = Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($this->get_type())) . 'logo/' . $this->get_icon_name($size) . '.png';
         return '<img src="' . $src . '" alt="' . $this->get_type() . '" />';
     }
 

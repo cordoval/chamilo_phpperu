@@ -85,7 +85,7 @@ abstract class ContentObjectDisplay
         // TODO: split this into several methods, don't use marker
         $object = $this->get_content_object();
         $html = array();
-        $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/' . $object->get_icon_name() . ($object->is_latest_version() ? '' : '_na') . '.png);">';
+        $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($object->get_type())) . 'logo/' . $object->get_icon_name() . ($object->is_latest_version() ? '' : '_na') . '.png);">';
         $html[] = '<div class="title">' . $object->get_title() . '</div>';
         $html[] = self :: TITLE_MARKER;
         $html[] = '<div class="description" style="overflow: auto;">';
@@ -142,7 +142,7 @@ abstract class ContentObjectDisplay
     {
         $description = $this->get_content_object()->get_description();
         $parsed_description = BbcodeParser :: get_instance()->parse($description);
-        
+
         $html[] = '<div class="description">';
         $html[] = $parsed_description;
         $html[] = '<div class="clear"></div>';
