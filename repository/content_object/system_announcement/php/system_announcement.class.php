@@ -41,7 +41,7 @@ class SystemAnnouncement extends ContentObject implements Versionable
         return $this->set_additional_property(self :: PROPERTY_ICON, $icon);
     }
 
-    function get_icon_name()
+    function get_icon_name($size = Theme :: ICON_SMALL)
     {
         switch ($this->get_icon())
         {
@@ -65,7 +65,7 @@ class SystemAnnouncement extends ContentObject implements Versionable
                 break;
         }
 
-        return 'system_announcement_' . $icon;
+        return $size . '_' . $icon;
     }
 
     static function get_possible_icons()

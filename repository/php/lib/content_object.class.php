@@ -1031,15 +1031,15 @@ class ContentObject extends DataClass
     /**
      * Gets the name of the icon corresponding to this learning object.
      */
-    function get_icon_name()
+    function get_icon_name($size = Theme :: ICON_SMALL)
     {
-        return $this->get_type();
+        return $size;
     }
 
-    function get_icon_image()
+    function get_icon_image($size = Theme :: ICON_SMALL)
     {
-        $src = Theme :: get_common_image_path() . 'content_object/' . $this->get_icon_name() . '.png';
-        return '<img src="' . $src . '" alt="' . $this->get_icon_name() . '" />';
+        $src = Theme :: get_common_image_path() . 'content_object/' . $this->get_icon_name($size) . '.png';
+        return '<img src="' . $src . '" alt="' . $this->get_type() . '" />';
     }
 
     /**
