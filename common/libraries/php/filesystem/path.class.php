@@ -33,6 +33,7 @@ define('SYS_APP_RIGHTS_PATH', 'SYS_APP_RIGHTS_PATH');
 define('SYS_APP_INSTALL_PATH', 'SYS_APP_INSTALL_PATH');
 define('SYS_APP_MIGRATION_PATH', 'SYS_APP_MIGRATION_PATH');
 define('SYS_APP_REPOSITORY_PATH', 'SYS_APP_REPOSITORY_PATH');
+define('WEB_APP_REPOSITORY_PATH', 'WEB_APP_REPOSITORY_PATH');
 define('SYS_APP_USER_PATH', 'SYS_APP_USER_PATH');
 define('SYS_APP_MENU_PATH', 'SYS_APP_MENU_PATH');
 define('SYS_APP_HOME_PATH', 'SYS_APP_HOME_PATH');
@@ -89,7 +90,9 @@ class Path
                 }
 
                 //Temporary fix for things that are launched from the common folder
-                $possible_launchers = array('common', 'home');
+                $possible_launchers = array(
+                        'common',
+                        'home');
                 foreach ($possible_launchers as $possible_launcher)
                 {
                     if (strpos($dir, $possible_launcher . '/') !== false)
@@ -152,6 +155,8 @@ class Path
                 return self :: $path[$path_type] = self :: get(SYS_PATH) . 'migration/';
             case SYS_APP_REPOSITORY_PATH :
                 return self :: $path[$path_type] = self :: get(SYS_PATH) . 'repository/';
+            case WEB_APP_REPOSITORY_PATH :
+                return self :: $path[$path_type] = self :: get(WEB_PATH) . 'repository/';
             case SYS_APP_USER_PATH :
                 return self :: $path[$path_type] = self :: get(SYS_PATH) . 'user/';
             case SYS_APP_MENU_PATH :
@@ -224,7 +229,7 @@ class Path
 
     public static function get_common_libraries_class_path()
     {
-        return self :: get_common_libraries_path() .'php/';
+        return self :: get_common_libraries_path() . self :: CLASS_PATH . '/';
     }
 
     public static function get_common_libraries_path()
@@ -233,58 +238,58 @@ class Path
     }
 
     public static function get_web_common_libraries_path()
-	{
+    {
         return self :: get(WEB_LIB_PATH) . 'libraries/';
     }
 
-    public static function get_repository_path()
+    public static function get_repository_path($web = false)
     {
-        return self :: get(SYS_APP_REPOSITORY_PATH) . 'php/';
+        return ($web ? self :: get(WEB_APP_REPOSITORY_PATH) : self :: get(SYS_APP_REPOSITORY_PATH)) . self :: CLASS_PATH . '/';
     }
 
-    public static function get_repository_content_object_path()
+    public static function get_repository_content_object_path($web = false)
     {
-    	return self :: get(SYS_APP_REPOSITORY_PATH) . 'content_object/';
+        return ($web ? self :: get(WEB_APP_REPOSITORY_PATH) : self :: get(SYS_APP_REPOSITORY_PATH)) . 'content_object/';
     }
 
     public static function get_user_path()
     {
-        return self :: get(SYS_APP_USER_PATH) . 'php/';
+        return self :: get(SYS_APP_USER_PATH) . self :: CLASS_PATH . '/';
     }
 
     public static function get_home_path()
     {
-        return self :: get(SYS_APP_HOME_PATH) . 'php/';
+        return self :: get(SYS_APP_HOME_PATH) . self :: CLASS_PATH . '/';
     }
 
     public static function get_menu_path()
     {
-        return self :: get(SYS_APP_MENU_PATH) . 'php/';
+        return self :: get(SYS_APP_MENU_PATH) . self :: CLASS_PATH . '/';
     }
 
     public static function get_group_path()
     {
-        return self :: get(SYS_APP_CLASS_GROUP_PATH) . 'php/';
+        return self :: get(SYS_APP_CLASS_GROUP_PATH) . self :: CLASS_PATH . '/';
     }
 
     public static function get_help_path()
     {
-        return self :: get(SYS_APP_HELP_PATH) . 'php/';
+        return self :: get(SYS_APP_HELP_PATH) . self :: CLASS_PATH . '/';
     }
 
     public static function get_rights_path()
     {
-        return self :: get(SYS_APP_RIGHTS_PATH) . 'php/';
+        return self :: get(SYS_APP_RIGHTS_PATH) . self :: CLASS_PATH . '/';
     }
 
     public static function get_migration_path()
     {
-        return self :: get(SYS_APP_MIGRATION_PATH) . 'php/';
+        return self :: get(SYS_APP_MIGRATION_PATH) . self :: CLASS_PATH . '/';
     }
 
     public static function get_admin_path()
     {
-        return self :: get(SYS_APP_ADMIN_PATH) . 'php/';
+        return self :: get(SYS_APP_ADMIN_PATH) . self :: CLASS_PATH . '/';
     }
 
     public static function get_plugin_path()
@@ -299,7 +304,7 @@ class Path
 
     public static function get_tracking_path()
     {
-        return self :: get(SYS_APP_TRACKING_PATH) . 'php/';
+        return self :: get(SYS_APP_TRACKING_PATH) . self :: CLASS_PATH . '/';
     }
 
     public static function get_application_path()
@@ -314,21 +319,17 @@ class Path
 
     public static function get_launcher_application_path($web = false)
     {
-        if ($web)
-        {
-            return self :: get(WEB_LAUNCH_APP_PATH);
-        }
-        return self :: get(SYS_LAUNCH_APP_PATH);
+        return ($web ? self :: get(WEB_LAUNCH_APP_PATH) : self :: get(SYS_LAUNCH_APP_PATH));
     }
 
     public static function get_reporting_path()
     {
-        return self :: get(SYS_APP_REPORTING_PATH) . 'php/';
+        return self :: get(SYS_APP_REPORTING_PATH) . self :: CLASS_PATH . '/';
     }
 
     public static function get_webservice_path()
     {
-        return self :: get(SYS_APP_WEBSERVICE_PATH) . 'php/';
+        return self :: get(SYS_APP_WEBSERVICE_PATH) . self :: CLASS_PATH . '/';
     }
 
     public static function get_common_path()
@@ -343,7 +344,7 @@ class Path
 
     public static function get_web_application_component_path($application_name)
     {
-        return self :: get_web_application_path($application_name) . 'php/' . $application_name . '_manager/component/';
+        return self :: get_web_application_path($application_name) . self :: CLASS_PATH . '/' . $application_name . '_manager/component/';
     }
 
     public static function get_temp_path()

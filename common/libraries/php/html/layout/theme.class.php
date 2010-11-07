@@ -134,7 +134,7 @@ class Theme
     static function get_common_css_path()
     {
         $instance = self :: get_instance();
-        return Path :: get_web_common_libraries_path() . 'resources/css/' . $instance->get_theme() . '/' . $instance->get_theme() . '.css'; 
+        return Path :: get_web_common_libraries_path() . 'resources/css/' . $instance->get_theme() . '/' . $instance->get_theme() . '.css';
     }
 
     /**
@@ -144,7 +144,7 @@ class Theme
     {
         $instance = self :: get_instance();
         $application = (is_null($application) ? $instance->get_application() : $application);
-        return BasicApplication :: get_application_web_resources_images_path($application) . $instance->get_theme() . '/';       
+        return BasicApplication :: get_application_web_resources_images_path($application) . $instance->get_theme() . '/';
     }
 
     /**
@@ -163,7 +163,7 @@ class Theme
     static function get_common_image_path()
     {
     	$instance = self :: get_instance();
-        return Path :: get_web_common_libraries_path() . 'resources/images/' . $instance->get_theme() . '/'; 
+        return Path :: get_web_common_libraries_path() . 'resources/images/' . $instance->get_theme() . '/';
     }
 
     /**

@@ -17,6 +17,8 @@ class Autoloader
         $list = array(
                 'forum_topic' => 'forum_topic',
                 'forum_topic_builder' => 'builder/forum_topic_builder',
+                'forum_topic_complex_display_support' => 'display/forum_topic_complex_display_support',
+                'forum_topic_complex_display_preview' => 'display/forum_topic_complex_display_preview',
                 'forum_topic_display' => 'display/forum_topic_display');
         $lower_case = Utilities :: camelcase_to_underscores($classname);
 

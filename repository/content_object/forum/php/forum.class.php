@@ -25,6 +25,7 @@ class Forum extends ContentObject implements ComplexContentObjectSupport
     const PROPERTY_LAST_POST = 'last_post_id';
 
     const CLASS_NAME = __CLASS__;
+    const NAME_SPACE = __NAMESPACE__;
 
     static function get_type_name()
     {
