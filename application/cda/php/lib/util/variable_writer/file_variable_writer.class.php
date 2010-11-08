@@ -4,9 +4,9 @@ namespace application\cda;
 
 use common\libraries\Filesystem;
 
-require_once dirname(__FILE__) . '/variable_scanner.class.php';
+require_once dirname(__FILE__) . '/variable_writer.class.php';
 
-class FileVariableScanner extends VariableScanner
+class FileVariableWriter extends VariableWriter
 {
     private $used_variables;
 
