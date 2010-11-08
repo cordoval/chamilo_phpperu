@@ -42,42 +42,46 @@ class AdminManagerSystemAnnouncementHiderComponent extends AdminManager implemen
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedPublicationVisibilityNotToggled';
+                    $message = 'ContentObjectNotToggled';
+                    $parameter = array('OBJECT' => 'PublicationVisibility');
                 }
                 else
                 {
-                    $message = 'SelectedPublicationsVisibilityNotToggled';
+                    $message = 'ContentObjectsNotToggled';
+                    $parameter = array('OBJECTS' => 'PublicationsVisibility');
                 }
             }
             else
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedPublicationVisibilityToggled';
+                    $message = 'ContentObjectToggled';
+                    $parameter = array('OBJECT' => 'PublicationsVisibility');
                 }
                 else
                 {
-                    $message = 'SelectedPublicationsVisibilityToggled';
+                    $message = 'ContentObjectsToggled';
+                    $parameter = array('OBJECTS' => 'PublicationsVisibility');
                 }
             }
 
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS));
+            $this->redirect(Translation :: get($message, $parameter, Utilities :: COMMON_UTILITIES), ($failures ? true : false), array(Application :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoPublicationSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => 'Publication'), Utilities :: COMMON_UTILITIES)));
         }
     }
-    
-	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS)), Translation :: get('AdminManagerSystemAnnouncementBrowserComponent')));
-    	$breadcrumbtrail->add_help('admin_system_announcements_hider');
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS)), Translation :: get('AdminManagerSystemAnnouncementBrowserComponent')));
+        $breadcrumbtrail->add_help('admin_system_announcements_hider');
     }
-    
+
     function get_additional_parameters()
     {
-    	return array(AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID);
+        return array(AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID);
     }
 }
 ?>

@@ -36,7 +36,7 @@ class RemotePackageBrowserTableCellRenderer extends DefaultRemotePackageTableCel
         {
             return $this->get_modification_links($remote_package);
         }
-        
+
         // Add special features here
         switch ($column->get_name())
         {
@@ -44,7 +44,7 @@ class RemotePackageBrowserTableCellRenderer extends DefaultRemotePackageTableCel
                 $description = strip_tags(parent :: render_cell($column, $remote_package));
                 return Utilities :: truncate_string($description);
         }
-        
+
         return parent :: render_cell($column, $remote_package);
     }
 
@@ -57,10 +57,10 @@ class RemotePackageBrowserTableCellRenderer extends DefaultRemotePackageTableCel
     private function get_modification_links($remote_package)
     {
         $toolbar = new Toolbar();
-        
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Install'), Theme :: get_common_image_path().'action_install.png', 
-					$this->browser->get_remote_package_installation_url($remote_package), ToolbarItem :: DISPLAY_ICON));	
-        
+
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Install', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path().'action_install.png',
+					$this->browser->get_remote_package_installation_url($remote_package), ToolbarItem :: DISPLAY_ICON));
+
         return $toolbar->as_html();
     }
 }

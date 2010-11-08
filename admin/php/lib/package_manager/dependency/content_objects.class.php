@@ -33,7 +33,7 @@ class ContentObjectsPackageDependency extends PackageDependency
     {
     	return $this->version['type'];
     }
-    
+
     public function get_version_number()
     {
     	return $this->version['_content'];
@@ -49,13 +49,13 @@ class ContentObjectsPackageDependency extends PackageDependency
     function as_html()
     {
         $version = $this->get_version();
-        return Translation :: get(Utilities :: underscores_to_camelcase($this->get_id()) . 'TypeName') . ', ' . Translation :: get('Version') . ': ' . $version['_content'];
+        return Translation :: get(Utilities :: underscores_to_camelcase($this->get_id()) . 'TypeName') . ', ' . Translation :: get('Version', array(), Utilities :: COMMON_LIBRARIES) . ': ' . $version['_content'];
     }
 
     function check()
     {
         $version = $this->get_version();
-        $message = Translation :: get('DependencyCheckContentObject') . ': ' . $this->as_html() . ' ' . Translation :: get('Found') . ': ';
+        $message = Translation :: get('DependencyCheckContentObject') . ': ' . $this->as_html() . ' ' . Translation :: get('Found', array(), Utilities :: COMMON_LIBRARIES) . ': ';
 
         $conditions = array();
         $conditions[] = new EqualityCondition(Registration :: PROPERTY_NAME, $this->get_id());
@@ -66,7 +66,7 @@ class ContentObjectsPackageDependency extends PackageDependency
 
         if ($registrations->size() === 0)
         {
-            $message .= '--' . Translation :: get('Nothing') . '--';
+            $message .= '--' . Translation :: get('Nothing', array(), Utilities :: COMMON_LIBRARIES) . '--';
             $this->logger->add_message($message);
             return false;
         }
@@ -77,7 +77,7 @@ class ContentObjectsPackageDependency extends PackageDependency
             $content_object_version = $this->version_compare($version['type'], $version['_content'], $registration->get_version());
             if (! $content_object_version)
             {
-                $message .= '--' . Translation :: get('WrongVersion') . '--';
+                $message .= '--' . Translation :: get('WrongVersion', array(), Utilities :: COMMON_LIBRARIES) . '--';
                 $this->logger->add_message($message);
                 $this->logger->add_message(Translation :: get('DependencyObjectWrongVersion'), MessageLogger :: TYPE_WARNING);
                 return false;
@@ -86,7 +86,7 @@ class ContentObjectsPackageDependency extends PackageDependency
             {
                 if (! $registration->is_active())
                 {
-                    $message .= '--' . Translation :: get('InactiveObject') . '--';
+                    $message .= '--' . Translation :: get('InactiveObject', array(), Utilities :: COMMON_LIBRARIES) . '--';
                     $this->logger->add_message($message);
                     $this->logger->add_message(Translation :: get('DependencyActivateObjectWarning'), MessageLogger :: TYPE_WARNING);
                 }

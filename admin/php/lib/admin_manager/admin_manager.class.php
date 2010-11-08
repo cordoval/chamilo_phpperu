@@ -415,7 +415,7 @@ class AdminManager extends CoreApplication
         $pub->set_publisher($content_object->get_owner_id());
         $pub->create();
 
-        return Translation :: get('PublicationCreated');
+        return Translation :: get('ObjectCreated', array('OBJECT' => Translation :: get('Publication')), Utilities :: COMMON_LIBRARIES);
     }
 
     static function add_publication_attributes_elements()

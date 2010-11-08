@@ -39,7 +39,7 @@ class DefaultRegistrationTableCellRenderer extends ObjectTableCellRenderer
                 return $registration->get_version();
             case Registration :: PROPERTY_STATUS :
                 $is_active = $registration->is_active();
-                return '<span class="' . ($is_active ? 'active' : 'inactive') . '">' . Translation :: get($is_active ? 'Active' : 'Inactive') . '</span>';
+                return '<span class="' . ($is_active ? 'active' : 'inactive') . '">' . Translation :: get($is_active ? 'Active' : 'Inactive', array(), Utilities :: COMMON_LIBRARIES) . '</span>';
             default :
                 return '&nbsp;';
         }

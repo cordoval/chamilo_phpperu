@@ -25,11 +25,11 @@ class AdminManagerConfigurerComponent extends AdminManager
     function run()
     {
         $application = $this->get_application();
-        
+
 //        if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW, AdminRights :: LOCATION_SETTINGS, AdminRights :: TYPE_ADMIN_COMPONENT))
 //        {
 //            $this->display_header();
-//            $this->display_error_message(Translation :: get('NotAllowed'));
+//            $this->display_error_message(Translation :: get('NotAllowed', array(), Utilities :: COMMON_LIBRARIES));
 //            $this->display_footer();
 //            exit();
 //        }
@@ -39,7 +39,7 @@ class AdminManagerConfigurerComponent extends AdminManager
         if ($form->validate())
         {
             $success = $form->update_configuration();
-            $this->redirect(Translation :: get($success ? 'ConfigurationUpdated' : 'ConfigurationNotUpdated'), ($success ? false : true), array(Application :: PARAM_ACTION => AdminManager :: ACTION_CONFIGURE_PLATFORM, AdminManager :: PARAM_WEB_APPLICATION => $application));
+            $this->redirect(Translation :: get($success ? 'ObjectUpdated' : 'ObjectNotUpdated', array('OBJECT' => Translation :: get('Setting')), Utilities :: COMMON_LIBRARIES), ($success ? false : true), array(Application :: PARAM_ACTION => AdminManager :: ACTION_CONFIGURE_PLATFORM, AdminManager :: PARAM_WEB_APPLICATION => $application));
         }
         else
         {
@@ -49,30 +49,30 @@ class AdminManagerConfigurerComponent extends AdminManager
             $form->display();
             echo '<script type="text/javascript">';
             echo '$(document).ready(function() {';
-            echo '$(\':checkbox\').iphoneStyle({ checkedLabel: \'' . Translation :: get('On') . '\', uncheckedLabel: \'' . Translation :: get('Off') . '\'});';
+            echo '$(\':checkbox\').iphoneStyle({ checkedLabel: \'' . Translation :: get('On', array(), Utilities :: COMMON_LIBRARIES) . '\', uncheckedLabel: \'' . Translation :: get('Off', array(), Utilities :: COMMON_LIBRARIES) . '\'});';
             echo '});';
             echo '</script>';
             $this->display_footer();
         }
     }
-    
+
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
         $application = $this->get_application();
-        
+
     	$breadcrumbtrail->truncate(true);
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => null)), Translation :: get('Administration')));
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => $application)), Translation :: get(Utilities :: underscores_to_camelcase($application))));
         //$breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get('AdminManagerConfigurerComponent')));
-        
+
     	$breadcrumbtrail->add_help('admin_configurer');
     }
-    
+
 	function get_additional_parameters()
     {
     	return array(AdminManager :: PARAM_WEB_APPLICATION);
     }
-    
+
     function get_application()
     {
     	$application = $this->application = Request :: get(AdminManager :: PARAM_WEB_APPLICATION);
@@ -80,7 +80,7 @@ class AdminManagerConfigurerComponent extends AdminManager
         {
             $application = $this->application = 'admin';
         }
-    	
+
         return $application;
     }
 }
