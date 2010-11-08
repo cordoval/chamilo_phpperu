@@ -49,7 +49,7 @@ class ExternalRepositoryComponentViewerComponent extends ExternalRepositoryCompo
             $html[] = $display->as_html();
             
             $toolbar = new Toolbar();
-            $toolbar_item = new ToolbarItem(Translation :: get('Back'), Theme :: get_common_image_path() . 'action_prev.png', 'javascript:history.back();');
+            $toolbar_item = new ToolbarItem(Translation :: get('Back', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_prev.png', 'javascript:history.back();');
             $toolbar->add_item($toolbar_item);
             
             $type_actions = $this->get_external_repository_object_actions($object);
@@ -66,7 +66,7 @@ class ExternalRepositoryComponentViewerComponent extends ExternalRepositoryCompo
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoExternalObjectSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('ExternalObject')), Utilities :: COMMON_LIBRARIES)));
         }
     
     }

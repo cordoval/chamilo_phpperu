@@ -69,8 +69,8 @@ class PicasaExternalRepositoryManagerForm extends FormValidator
 
     function build_basic_form()
     {
-        $this->addElement('text', PicasaExternalRepositoryObject :: PROPERTY_TITLE, Translation :: get('Title'), array('size' => '50'));
-        $this->addRule(PicasaExternalRepositoryObject :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addElement('text', PicasaExternalRepositoryObject :: PROPERTY_TITLE, Translation :: get('Title', null, Utilities :: COMMON_LIBRARIES), array('size' => '50'));
+        $this->addRule(PicasaExternalRepositoryObject :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
 
         $albums = $this->application->get_external_repository_connector()->get_authenticated_user_albums();
 
@@ -98,8 +98,8 @@ class PicasaExternalRepositoryManagerForm extends FormValidator
 
         $this->addElement('hidden', PicasaExternalRepositoryObject :: PROPERTY_ID);
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Edit'), array('class' => 'positive update'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive update'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

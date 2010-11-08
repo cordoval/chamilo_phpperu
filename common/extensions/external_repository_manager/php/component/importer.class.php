@@ -20,11 +20,11 @@ class ExternalRepositoryComponentImporterComponent extends ExternalRepositoryCom
 
         if ($succes)
         {
-            $this->redirect(Translation :: get('Succes'), false, $params);
+            $this->redirect(Translation :: get('Succes', null, Utilities :: COMMON_LIBRARIES), false, $params);
         }
         else
         {
-            $this->redirect(Translation :: get('Failed'), true, $params);
+            $this->redirect(Translation :: get('Failed', null, Utilities :: COMMON_LIBRARIES), true, $params);
         }
     }
 }

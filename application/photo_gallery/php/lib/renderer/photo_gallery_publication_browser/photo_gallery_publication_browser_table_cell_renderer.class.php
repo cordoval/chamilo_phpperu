@@ -63,7 +63,7 @@ class PhotoGalleryPublicationBrowserTableCellRenderer extends DefaultPhotoGaller
         
         $viewing_url = $this->browser->get_publication_viewing_url($photo_gallery);
         
-        $toolbar->add_item(new ToolbarItem(Translation :: get('View'), Theme :: get_common_image_path() . 'action_details.png', $viewing_url, ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('View', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_details.png', $viewing_url, ToolbarItem :: DISPLAY_ICON));
         
 //        if ($this->browser->get_user()->is_platform_admin() || $photo_gallery->get_publisher() == $this->browser->get_user()->get_id())
 //        {
