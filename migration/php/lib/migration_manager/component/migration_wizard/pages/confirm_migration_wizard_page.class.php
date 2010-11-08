@@ -2,6 +2,8 @@
 namespace migration;
 
 use common\libraries\PlatformSetting;
+use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: system_migration_wizard_page.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
@@ -78,7 +80,7 @@ class ConfirmMigrationWizardPage extends MigrationWizardPage
 
     	$this->setDefaults($this->defaults);
 
-    	$button = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next') . ' >>', array('class' => 'normal next'));
+    	$button = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next', null, Utilities :: COMMON_LIBRARIES) . ' >>', array('class' => 'normal next'));
 
    	 	if (!$this->is_valid)
         {
@@ -105,7 +107,7 @@ class ConfirmMigrationWizardPage extends MigrationWizardPage
 
     		if(is_numeric($value))
     		{
-    			$value = ($value == 1) ? Translation :: get('True') : Translation :: get('False');
+    			$value = ($value == 1) ? Translation :: get('ConfirmTrue', null, Utilities :: COMMON_LIBRARIES) : Translation :: get('ConfirmFalse', null, Utilities :: COMMON_LIBRARIES);
     		}
 
     		$this->addElement('static', $setting, Translation :: get(Utilities :: underscores_to_camelcase($setting)));

@@ -4,6 +4,8 @@ namespace migration;
 use common\libraries\FormValidator;
 
 use admin\AdminDataManager;
+use common\libraries\Utilities;
+use common\libraries\Translation;
 
 /**
  * $Id: group_form.class.php 224 2009-11-13 14:40:30Z kariboe $
@@ -36,10 +38,10 @@ class MigrationForm extends FormValidator
     	$this->addElement('category', Translation :: get('General'));
 
     	$this->addElement('select', self :: SETTING_PLATFORM, Translation :: get('Platform'), $this->get_platforms());
-        $this->addRule(self :: SETTING_PLATFORM, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(self :: SETTING_PLATFORM, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
 
     	$this->addElement('text', self :: SETTING_PLATFORM_PATH, Translation :: get('PlatformPath'), array("size" => "50"));
-        $this->addRule(self :: SETTING_PLATFORM_PATH, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(self :: SETTING_PLATFORM_PATH, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
 
 		$this->addElement('checkbox', self :: SETTING_MOVE_FILES, null, Translation :: get('MoveFiles'));
 		$this->addElement('checkbox', self :: SETTING_MIGRATE_DELETED_FILES, null, Translation :: get('MigrateDeletedFiles'));
@@ -71,7 +73,7 @@ class MigrationForm extends FormValidator
 			$buttons[] = $this->createElement('style_submit_button', self :: PARAM_SUBMIT, Translation :: get('Migrate'), array('class' => 'positive update', 'style' => 'display: none;'));
 		}
 
-        $buttons[] = $this->createElement('style_reset_button', self :: PARAM_RESET, Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_reset_button', self :: PARAM_RESET, Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
