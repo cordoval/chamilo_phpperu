@@ -44,7 +44,7 @@ class ObjectExportFactory {
     	}
     		
     	$file_name = basename($settings->get_path());
-    	$settings->get_log()->error(Translation::translate('ContentObjectNotExported'). ': ' .$file_name);
+    	$settings->get_log()->error(Translation :: get('ObjectNotExported', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES). ': ' .$file_name);
     	return EmptyObjectImport::get_instance();
 	}
 	

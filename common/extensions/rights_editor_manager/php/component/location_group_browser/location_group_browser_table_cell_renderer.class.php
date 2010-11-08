@@ -65,9 +65,9 @@ class LocationGroupBrowserTableCellRenderer extends DefaultGroupTableCellRendere
                 //					$description = mb_substr($description,0,170).'&hellip;';
                 //				}
                 return Utilities :: truncate_string($description);
-            case Translation :: get('Users') :
+            case Translation :: get('Users', null, 'user') :
                 return $group->count_users();
-            case Translation :: get('Subgroups') :
+            case Translation :: get('Subgroups', null, 'group') :
                 return $group->count_subgroups(true);
         }
         

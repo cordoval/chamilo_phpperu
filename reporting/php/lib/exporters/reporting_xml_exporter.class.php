@@ -37,7 +37,7 @@ class ReportingXmlExporter extends ReportingCsvExporter
             $category_array = array();
             if ($data->is_categories_visible())
             {
-                $category_array[str_replace(' ', '_', strtolower(Translation :: get('Category')))] = $category_name;
+                $category_array[str_replace(' ', '_', strtolower(Translation :: get('Category', null, Utilities :: COMMON_LIBRARIES)))] = $category_name;
             }
             foreach ($data->get_rows() as $row_id => $row_name)
             {
