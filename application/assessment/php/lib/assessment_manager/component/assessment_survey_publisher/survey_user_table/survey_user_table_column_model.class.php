@@ -6,6 +6,7 @@ use common\libraries\ObjectTableColumnModel;
 use common\libraries\ObjectTableColumn;
 use common\libraries\StaticTableColumn;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 /**
  * $Id: survey_user_table_column_model.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.assessment_manager.component.assessment_survey_publisher.survey_user_table
@@ -51,7 +52,7 @@ class SurveyUserTableColumnModel extends ObjectTableColumnModel
     {
         if (! isset(self :: $action_column))
         {
-            self :: $action_column = new StaticTableColumn(Translation :: get('Actions'));
+            self :: $action_column = new StaticTableColumn(Translation :: get('Actions', null, Utilities :: COMMON_LIBRARIES));
         }
         return self :: $action_column;
     }

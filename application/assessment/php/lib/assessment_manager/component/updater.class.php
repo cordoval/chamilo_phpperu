@@ -8,6 +8,7 @@ use common\libraries\Application;
 use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
+use common\libraries\Utilities;
 /**
  * $Id: updater.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.assessment_manager.component
@@ -62,9 +63,11 @@ class AssessmentManagerUpdaterComponent extends AssessmentManager
                 if ($publication_form->validate())
                 {
                     $success = $publication_form->update_content_object_publication();
-                    $message = ($success ? 'ContentObjectUpdated' : 'ContentObjectNotUpdated');
+                    $object = Translation :: get('ContentObject', null, 'repository');
+                    $message = $success ? Translation :: get('ObjectUpdated', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES) :
+                                          Translation :: get('ObjectNotUpdated', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES);
                     
-                    $this->redirect(Translation :: get($message), ! $success, array(Application :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS), array(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION));
+                    $this->redirect($message, ! $success, array(Application :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS), array(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION));
                 }
                 else
                 {
@@ -82,7 +85,7 @@ class AssessmentManagerUpdaterComponent extends AssessmentManager
         }
         else
         {
-            $this->redirect(Translation :: get('NoPublicationSelected'), true, array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS));
+            $this->redirect(Translation :: get('NoObjectsSelected', null, Utilities :: COMMON_LIBRARIES), true, array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS));
         }
     }
     

@@ -51,7 +51,7 @@ class SurveyUserTableCellRenderer extends DefaultContentObjectTableCellRenderer
                     if ($user != null)
                         return $user->get_fullname();
                     else
-                        return Translation :: get('Anonymous');
+                        return Translation :: get('Anonymous', null, 'user');
                 
                 case SurveyInvitation :: PROPERTY_EMAIL :
                     return $survey_invitation->get_email();
