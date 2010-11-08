@@ -14,6 +14,7 @@ use common\libraries\Application;
 use common\extensions\repo_viewer\RepoViewer;
 use repository\ContentObjectImport;
 use common\libraries\OptionsMenuRenderer;
+use common\libraries\Utilities;
 /**
  * $Id: qti_importer.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.assessment_manager.component
@@ -82,7 +83,7 @@ class AssessmentManagerQtiImporterComponent extends AssessmentManager
         $allowed_upload_types = array('zip');
         $form->addRule('file', Translation :: get('OnlyZipAllowed'), 'filetype', $allowed_upload_types);
 
-        $buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Import'), array('class' => 'positive import'));
+        $buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Import', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive import'));
 
         $form->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         return $form;
@@ -145,7 +146,7 @@ class AssessmentManagerQtiImporterComponent extends AssessmentManager
         $element = $form->addElement('select', $name, $label, $values, $attributes);
         if ($required)
         {
-            $form->addRule($name, Translation :: get('ThisFieldIsRequired'), 'required');
+            $form->addRule($name, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         }
         return $element;
     }

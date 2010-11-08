@@ -12,6 +12,7 @@ use repository\content_object\assessment\Assessment;
 use repository\content_object\survey\Survey;
 use common\libraries\Application;
 use common\libraries\Request;
+use common\libraries\Utilities;
 /**
  * $Id: assessment_publisher.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.publisher
@@ -51,13 +52,13 @@ class AssessmentPublisher
 
 
             $html[] = '<div class="content_object padding_10">';
-            $html[] = '<div class="title">' . Translation :: get('SelectedContentObjects') . '</div>';
+            $html[] = '<div class="title">' . Translation :: get('SelectedContentObjects', null, 'repository') . '</div>';
             $html[] = '<div class="description">';
             $html[] = '<ul class="attachments_list">';
 
             while ($content_object = $content_objects->next_result())
             {
-                $html[] = '<li><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $content_object->get_type() . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($content_object->get_type()) . 'TypeName')) . '"/> ' . $content_object->get_title() . '</li>';
+                $html[] = '<li><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $content_object->get_type() . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($content_object->get_type()) . 'TypeName', null, 'repository\content_object\\' . $content_object->get_type())) . '"/> ' . $content_object->get_title() . '</li>';
             }
 
             $html[] = '</ul>';
@@ -76,11 +77,11 @@ class AssessmentPublisher
 
             if (! $publication)
             {
-                $message = Translation :: get('ObjectNotPublished');
+                $message = Translation :: get('ObjectNotPublished', null, Utilities :: COMMON_LIBRARIES);
             }
             else
             {
-                $message = Translation :: get('ObjectPublished');
+                $message = Translation :: get('ObjectPublished', null, Utilities :: COMMON_LIBRARIES);
             }
 
             if(count($ids) == 1 && !is_null(Request :: post('publish_and_build')))
