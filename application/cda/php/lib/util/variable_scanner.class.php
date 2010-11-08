@@ -11,8 +11,23 @@ use common\libraries\Filesystem;
  * @author Sven Vanpoucke
  */
 
-abstract class FilesScanner
+require_once dirname(__FILE__) . '/variable_writer/variable_writer.class.php';
+require_once dirname(__FILE__) . '/file_scanner/file_scanner.class.php';
+
+class VariableScanner
 {
+    private $scanners;
+    private $variable_writer;
+
+    function VariableScanner($scanners = array('translations'), $variable_writer_type = 'file')
+    {
+        foreach($scanners as $scanner)
+        {
+            $this->scanners[] = FileScanner :: factory($scanner);
+        }
+        $this->variable_writer = VariableWriter :: factory($variable_writer_type);
+    }
+
     function scan_application($application)
     {
         if($application == 'common')
@@ -51,7 +66,13 @@ abstract class FilesScanner
         }
     }
 
-    abstract function scan_file($file, $contents, $namespace);
+    function scan_file($file, $contents, $namespace)
+    {
+        foreach($this->scanners as $scanner)
+        {
+            $scanner->scan_file($file, $contents, $namespace, $this->variable_writer);
+        }
+    }
 }
 
 ?>
