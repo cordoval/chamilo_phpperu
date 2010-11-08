@@ -30,8 +30,8 @@ class WikiDisplayUpdaterComponent extends WikiDisplay implements DelegateCompone
         parent :: display_header($complex_wiki_page);
 
         $html = array();
-        $html[] = '<div class="wiki-pane-content-title">' . Translation :: get('Edit') . ' ' . $wiki_page->get_title() . '</div>';
-        $html[] = '<div class="wiki-pane-content-subtitle">' . Translation :: get('From') . ' ' . $this->get_root_content_object()->get_title() . '</div>';
+        $html[] = '<div class="wiki-pane-content-title">' . Translation :: get('Edit', null , Utilities :: COMMON_LIBRARIES) . ' ' . $wiki_page->get_title() . '</div>';
+        $html[] = '<div class="wiki-pane-content-subtitle">' . Translation :: get('From', null , Utilities :: COMMON_LIBRARIES) . ' ' . $this->get_root_content_object()->get_title() . '</div>';
         echo implode("\n", $html);
     }
 }

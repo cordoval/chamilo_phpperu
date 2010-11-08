@@ -28,7 +28,7 @@ class CalendarEventDisplay extends ContentObjectDisplay
     {
         $description = parent :: get_description();
         $object = $this->get_content_object();
-        $date_format = Translation :: get('dateTimeFormatLong');
+        $date_format = Translation :: get('DateTimeFormatLong', null , Utilities :: COMMON_LIBRARIES);
 
         $prepend = array();
 
@@ -41,7 +41,7 @@ class CalendarEventDisplay extends ContentObjectDisplay
             $prepend[] = ' ';
             $prepend[] = strtolower($object->get_repeat_as_string());
             $prepend[] = ' ';
-            $prepend[] = Translation :: get('Until');
+            $prepend[] = Translation :: get('Until', null , Utilities :: COMMON_LIBRARIES);
             $prepend[] = ' ';
             $prepend[] = DatetimeUtilities :: format_locale_date($date_format, $object->get_repeat_to());
             $prepend[] = '</div>';
@@ -49,12 +49,12 @@ class CalendarEventDisplay extends ContentObjectDisplay
         else
         {
             $prepend[] = '<div class="calendar_event_range" style="font-weight: bold;">';
-            $prepend[] = Translation :: get('From');
+            $prepend[] = Translation :: get('From', null , Utilities :: COMMON_LIBRARIES);
             $prepend[] = ' ';
             //$prepend[] = DatetimeUtilities :: format_locale_date($date_format, $object->get_start_date());
             $prepend[] = DatetimeUtilities :: format_locale_date($date_format, $object->get_start_date());
             $prepend[] = ' ';
-            $prepend[] = Translation :: get('Until');
+            $prepend[] = Translation :: get('Until', null , Utilities :: COMMON_LIBRARIES);
             $prepend[] = ' ';
             //$prepend[] = DatetimeUtilities :: format_locale_date($date_format, $object->get_end_date());
             $prepend[] = DatetimeUtilities :: format_locale_date($date_format, $object->get_end_date());

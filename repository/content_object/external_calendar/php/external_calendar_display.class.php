@@ -24,15 +24,15 @@ class ExternalCalendarDisplay extends ContentObjectDisplay
         {
             $event = $object->get_event($event_id);
             $ical_recurrence = new IcalRecurrence($event);
-            $date_format = Translation :: get('dateTimeFormatLong');
+            $date_format = Translation :: get('DateTimeFormatLong', null , Utilities :: COMMON_LIBRARIES);
             $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($object->get_type())) . 'logo/' . $object->get_icon_name() . ($object->is_latest_version() ? '' : '_na') . '.png);">';
             $html[] = '<div class="title">' . $event->summary['value'] . '</div>';
             $html[] = '<div class="calendar_event_range" style="font-weight: bold;">';
-            $html[] = Translation :: get('From');
+            $html[] = Translation :: get('From', null , Utilities :: COMMON_LIBRARIES);
             $html[] = ' ';
             $html[] = DatetimeUtilities :: format_locale_date($date_format, $ical_recurrence->get_start_date());
             $html[] = ' ';
-            $html[] = Translation :: get('Until');
+            $html[] = Translation :: get('Until', null , Utilities :: COMMON_LIBRARIES);
             $html[] = ' ';
             $html[] = DatetimeUtilities :: format_locale_date($date_format, $ical_recurrence->get_end_date());
             $html[] = '</div>';
@@ -46,7 +46,7 @@ class ExternalCalendarDisplay extends ContentObjectDisplay
         else
         {
             $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($object->get_type())) . 'logo/' . $object->get_icon_name() . ($object->is_latest_version() ? '' : '_na') . '.png);">';
-            $html[] = '<div class="title">' . Translation :: get('Description') . '</div>';
+            $html[] = '<div class="title">' . Translation :: get('Description', null , Utilities :: COMMON_LIBRARIES) . '</div>';
             $html[] = $this->get_description();
             $html[] = '<div class="link_url" style="margin-top: 1em;"><a href="' . htmlentities($object->get_url()) . '">' . htmlentities($object->get_url()) . '</a></div>';
 

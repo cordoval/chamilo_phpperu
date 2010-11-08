@@ -30,7 +30,7 @@ class WikiDiscussBrowser extends ContentObjectPubFeedbackBrowser
         parent :: __construct($parent, 'wiki');
 
         $renderer = new ListContentObjectPublicationListRenderer($this);
-        $actions = array(Tool :: ACTION_DELETE => Translation :: get('DeleteSelected'), Tool :: ACTION_HIDE => Translation :: get('Hide'), Tool :: ACTION_SHOW => Translation :: get('Show'));
+        $actions = array(Tool :: ACTION_DELETE => Translation :: get('DeleteSelected', null , Utilities :: COMMON_LIBRARIES), Tool :: ACTION_HIDE => Translation :: get('Hide', null , Utilities :: COMMON_LIBRARIES), Tool :: ACTION_SHOW => Translation :: get('Show', null , Utilities :: COMMON_LIBRARIES));
         $renderer->set_actions($actions);
 
         $this->set_publication_list_renderer($renderer);

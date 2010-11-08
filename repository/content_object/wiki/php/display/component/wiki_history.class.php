@@ -53,7 +53,7 @@ class WikiDisplayWikiHistoryComponent extends WikiDisplay
 
             $html = array();
             $html[] = '<div class="wiki-pane-content-title">' . Translation :: get('RevisionHistory') . ': ' . $wiki_page->get_title() . '</div>';
-            $html[] = '<div class="wiki-pane-content-subtitle">' . Translation :: get('From') . ' ' . $this->get_root_content_object()->get_title() . '</div>';
+            $html[] = '<div class="wiki-pane-content-subtitle">' . Translation :: get('From', null , Utilities :: COMMON_LIBRARIES) . ' ' . $this->get_root_content_object()->get_title() . '</div>';
             $html[] = '<div class="wiki-pane-content-history">';
             $html[] = $version_browser->as_html();
             $html[] = ResourceManager :: get_instance()->get_resource_html(BasicApplication :: get_application_web_resources_javascript_path(RepositoryManager::APPLICATION_NAME) . 'repository.js');

@@ -46,7 +46,7 @@ class WikiDisplayReportingTemplateViewerComponent extends WikiDisplay
 
         $html = array();
         $html[] = '<div class="wiki-pane-content-title">' . Translation :: get('Statistics') . ' ' . $wiki_page->get_title() . '</div>';
-        $html[] = '<div class="wiki-pane-content-subtitle">' . Translation :: get('From') . ' ' . $this->get_root_content_object()->get_title() . '</div>';
+        $html[] = '<div class="wiki-pane-content-subtitle">' . Translation :: get('From', null , Utilities :: COMMON_LIBRARIES) . ' ' . $this->get_root_content_object()->get_title() . '</div>';
         echo implode("\n", $html);
     }
 }
