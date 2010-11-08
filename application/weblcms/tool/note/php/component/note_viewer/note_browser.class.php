@@ -54,9 +54,9 @@ class NoteBrowser extends ContentObjectPublicationBrowser
             //$actions = array(Tool :: ACTION_DELETE => Translation :: get('DeleteSelected'), Tool :: ACTION_HIDE => Translation :: get('Hide'), Tool :: ACTION_SHOW => Translation :: get('Show'));
 
 
-            $actions[] = new ObjectTableFormAction(Tool :: ACTION_DELETE, Translation :: get('DeleteSelected'));
-            $actions[] = new ObjectTableFormAction(Tool :: ACTION_HIDE, Translation :: get('Hide'), false);
-            $actions[] = new ObjectTableFormAction(Tool :: ACTION_SHOW, Translation :: get('Show'), false);
+            $actions[] = new ObjectTableFormAction(Tool :: ACTION_DELETE, Translation :: get('RemoveSelected', null, Utilities :: COMMON_LIBRARIES));
+            $actions[] = new ObjectTableFormAction(Tool :: ACTION_HIDE, Translation :: get('Hide', null, Utilities :: COMMON_LIBRARIES), false);
+            $actions[] = new ObjectTableFormAction(Tool :: ACTION_SHOW, Translation :: get('Show', null, Utilities :: COMMON_LIBRARIES), false);
 
             $renderer->set_actions($actions);
         }
