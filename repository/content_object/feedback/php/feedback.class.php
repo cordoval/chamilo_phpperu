@@ -5,6 +5,7 @@ use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\Versionable;
 use common\libraries\AttachmentSupport;
+use common\libraries\Theme;
 
 use repository\ContentObject;
 

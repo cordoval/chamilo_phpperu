@@ -29,6 +29,8 @@ class Utilities
     const TOOLBAR_DISPLAY_LABEL = 2;
     const TOOLBAR_DISPLAY_ICON_AND_LABEL = 3;
 
+    const COMMON_LIBRARIES = __NAMESPACE__;
+
     private static $us_camel_map = array();
     private static $us_camel_map_with_spaces = array();
     private static $camel_us_map = array();
