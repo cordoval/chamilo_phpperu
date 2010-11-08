@@ -125,7 +125,7 @@ abstract class ContentObjectPublicationListRenderer
         }
         if ($publication->is_for_everybody())
         {
-            return htmlentities(Translation :: get('Everybody')) . $email_suffix;
+            return htmlentities(Translation :: get('Everybody', null, Utilities :: COMMON_LIBRARIES )) . $email_suffix;
         }
         else
         {
@@ -143,7 +143,7 @@ abstract class ContentObjectPublicationListRenderer
                     }
                     else
                     {
-                        return Translation :: get('UserUnknown');
+                        return Translation :: get('UserUnknown', null, 'user' );
                     }
                 }
                 elseif (count($groups) == 1)
@@ -156,7 +156,7 @@ abstract class ContentObjectPublicationListRenderer
                     }
                     else
                     {
-                        return Translation :: get('GroupUnknown');
+                        return Translation :: get('GroupUnknown', null, 'group' );
                     }
                 }
                 else
@@ -185,7 +185,7 @@ abstract class ContentObjectPublicationListRenderer
                 }
                 else
                 {
-                    $name = Translation :: get('UserUnknown');
+                    $name = Translation :: get('UserUnknown', null, 'user' );
                 }
 
                 $target_list[] = '<option>' . $name . '</option>';
@@ -202,7 +202,7 @@ abstract class ContentObjectPublicationListRenderer
                 }
                 else
                 {
-                    $name = Translation :: get('GroupUnknown');
+                    $name = Translation :: get('GroupUnknown', null, 'group' );
                 }
 
                 $target_list[] = '<option>' . $name . '</option>';
@@ -241,7 +241,7 @@ abstract class ContentObjectPublicationListRenderer
         {
             return htmlentities(Translation :: get('Forever'));
         }
-        return htmlentities(Translation :: get('From') . ' ' . $this->format_date($publication->get_from_date()) . ' ' . Translation :: get('Until') . ' ' . $this->format_date($publication->get_to_date()));
+        return htmlentities(Translation :: get('From', null, Utilities :: COMMON_LIBRARIES ) . ' ' . $this->format_date($publication->get_from_date()) . ' ' . Translation :: get('Until') . ' ' . $this->format_date($publication->get_to_date()));
     }
 
     /**
@@ -254,8 +254,8 @@ abstract class ContentObjectPublicationListRenderer
         $repo_viewer = $this->tool_browser->get_parent()->get_user_info($publication->get_publisher_id());
         $html = array();
         $html[] = htmlentities(Translation :: get('PublishedOn')) . ' ' . $this->render_publication_date($publication);
-        $html[] = htmlentities(Translation :: get('By')) . ' ' . $this->render_repo_viewer($publication);
-        $html[] = htmlentities(Translation :: get('For')) . ' ' . $this->render_publication_targets($publication);
+        $html[] = htmlentities(Translation :: get('By', null, Utilities :: COMMON_LIBRARIES )) . ' ' . $this->render_repo_viewer($publication);
+        $html[] = htmlentities(Translation :: get('For', null, Utilities :: COMMON_LIBRARIES )) . ' ' . $this->render_publication_targets($publication);
         if (! $publication->is_forever())
         {
             $html[] = '(' . $this->render_publication_period($publication) . ')';
@@ -710,11 +710,11 @@ abstract class ContentObjectPublicationListRenderer
 
         if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT, $publication->get_id()))
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_url(array(
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES ), Theme :: get_common_image_path() . 'action_edit.png', $this->get_url(array(
                     Tool :: PARAM_ACTION => Tool :: ACTION_UPDATE,
                     Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
 
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_url(array(
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES ), Theme :: get_common_image_path() . 'action_delete.png', $this->get_url(array(
                     Tool :: PARAM_ACTION => Tool :: ACTION_DELETE,
                     Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON, true));
 
@@ -731,26 +731,26 @@ abstract class ContentObjectPublicationListRenderer
             {
                 if ($publication->get_display_order_index() > 1)
                 {
-                    $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUp'), Theme :: get_common_image_path() . 'action_up.png', $this->get_url(array(
+                    $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUp', null, Utilities :: COMMON_LIBRARIES ), Theme :: get_common_image_path() . 'action_up.png', $this->get_url(array(
                             Tool :: PARAM_ACTION => Tool :: ACTION_MOVE,
                             Tool :: PARAM_PUBLICATION_ID => $publication->get_id(),
                             Tool :: PARAM_MOVE_DIRECTION => Tool :: PARAM_MOVE_DIRECTION_UP)), ToolbarItem :: DISPLAY_ICON));
                 }
                 else
                 {
-                    $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUpNA'), Theme :: get_common_image_path() . 'action_up_na.png', null, ToolbarItem :: DISPLAY_ICON));
+                    $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUpNA', null, Utilities :: COMMON_LIBRARIES ), Theme :: get_common_image_path() . 'action_up_na.png', null, ToolbarItem :: DISPLAY_ICON));
                 }
 
                 if ($publication->get_display_order_index() < $this->get_publication_count())
                 {
-                    $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDown'), Theme :: get_common_image_path() . 'action_down.png', $this->get_url(array(
+                    $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDown', null, Utilities :: COMMON_LIBRARIES ), Theme :: get_common_image_path() . 'action_down.png', $this->get_url(array(
                             Tool :: PARAM_ACTION => Tool :: ACTION_MOVE,
                             Tool :: PARAM_PUBLICATION_ID => $publication->get_id(),
                             Tool :: PARAM_MOVE_DIRECTION => Tool :: PARAM_MOVE_DIRECTION_DOWN)), ToolbarItem :: DISPLAY_ICON));
                 }
                 else
                 {
-                    $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDownNA'), Theme :: get_common_image_path() . 'action_down_na.png', null, ToolbarItem :: DISPLAY_ICON));
+                    $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDownNA', null, Utilities :: COMMON_LIBRARIES ), Theme :: get_common_image_path() . 'action_down_na.png', null, ToolbarItem :: DISPLAY_ICON));
                 }
             }
 
@@ -771,11 +771,11 @@ abstract class ContentObjectPublicationListRenderer
                 $visibility_url = '#';
             }
 
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Visible'), Theme :: get_common_image_path() . $visibility_image, $visibility_url, ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Visible', null, Utilities :: COMMON_LIBRARIES ), Theme :: get_common_image_path() . $visibility_image, $visibility_url, ToolbarItem :: DISPLAY_ICON));
 
             if ($this->get_tool_browser()->get_parent() instanceof Categorizable)
             {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('Move'), Theme :: get_common_image_path() . 'action_move.png', $this->get_url(array(
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Move', null, Utilities :: COMMON_LIBRARIES ), Theme :: get_common_image_path() . 'action_move.png', $this->get_url(array(
                         Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_TO_CATEGORY,
                         Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
             }
@@ -791,7 +791,7 @@ abstract class ContentObjectPublicationListRenderer
                         Tool :: PARAM_ACTION => Tool :: ACTION_EVALUATE_TOOL_PUBLICATION,
                         Tool :: PARAM_PUBLICATION_ID => $publication->get_id()));
 
-                $toolbar->add_item(new ToolbarItem(Translation :: get('Evaluate'), Theme :: get_common_image_path() . 'action_evaluation.png', $evaluate_url, ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Evaluate', null, Utilities :: COMMON_LIBRARIES ), Theme :: get_common_image_path() . 'action_evaluation.png', $evaluate_url, ToolbarItem :: DISPLAY_ICON));
             }
         }
 

@@ -90,7 +90,7 @@ class CourseTypeForm extends CommonForm
             $tool_data[] = '<img class="' . $tool_image . '" src="' . $tool_image_src . '" style="vertical-align: middle;" alt="' . $title . '"/>';
             $tool_data[] = $title;
             $tool_data[] = '<div  style="margin: 0 auto; width: 50px;">' . $this->createElement('checkbox', $element_name, $title, '', $element_name_arr)->toHtml() . '</div>';
-            $tool_data[] = '<div class="' . $element_default . '"/>' . $this->createElement('checkbox', $element_default, Translation :: get('IsVisible'), '', $element_default_arr)->toHtml() . '</div>';
+            $tool_data[] = '<div class="' . $element_default . '"/>' . $this->createElement('checkbox', $element_default, Translation :: get('IsVisible', null, Utilities :: COMMON_LIBRARIES ), '', $element_default_arr)->toHtml() . '</div>';
             $count ++;
 
             $data[] = $tool_data;
@@ -112,8 +112,8 @@ class CourseTypeForm extends CommonForm
 
     function build_layout_form()
     {
-        $this->addElement('category', Translation :: get('Layout'));
-        $this->addElement('select', CourseTypeLayout :: PROPERTY_LAYOUT, Translation :: get('Layout'), CourseTypeLayout :: get_layouts());
+        $this->addElement('category', Translation :: get('Layout', null, Utilities :: COMMON_LIBRARIES ));
+        $this->addElement('select', CourseTypeLayout :: PROPERTY_LAYOUT, Translation :: get('Layout', null, Utilities :: COMMON_LIBRARIES ), CourseTypeLayout :: get_layouts());
         $this->addElement('select', CourseTypeLayout :: PROPERTY_TOOL_SHORTCUT, Translation :: get('ToolShortcut'), CourseTypeLayout :: get_tool_shortcut_options());
         $this->addElement('select', CourseTypeLayout :: PROPERTY_MENU, Translation :: get('Menu'), CourseTypeLayout :: get_menu_options());
         $this->addElement('select', CourseTypeLayout :: PROPERTY_BREADCRUMB, Translation :: get('Breadcrumb'), CourseTypeLayout :: get_breadcrumb_options());
@@ -164,8 +164,8 @@ class CourseTypeForm extends CommonForm
 
         //Accessibility
         $choices = array();
-        $choices[] = $this->createElement('radio', CourseTypeSettings :: PROPERTY_ACCESS, '', Translation :: get('Open'), 1);
-        $choices[] = $this->createElement('radio', CourseTypeSettings :: PROPERTY_ACCESS, '', Translation :: get('Closed'), 0);
+        $choices[] = $this->createElement('radio', CourseTypeSettings :: PROPERTY_ACCESS, '', Translation :: get('Open', null, Utilities :: COMMON_LIBRARIES ), 1);
+        $choices[] = $this->createElement('radio', CourseTypeSettings :: PROPERTY_ACCESS, '', Translation :: get('Closed', null, Utilities :: COMMON_LIBRARIES ), 0);
         $this->addGroup($choices, 'access_choices', Translation :: get('CourseTypeAccess'), '<br />', false);
 
         // Number of members

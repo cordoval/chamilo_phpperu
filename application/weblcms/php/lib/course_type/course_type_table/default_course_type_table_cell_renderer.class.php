@@ -45,11 +45,11 @@ class DefaultCourseTypeTableCellRenderer extends ObjectTableCellRenderer
                 //return $course_type->get_active();
                 if ($course_type->get_active())
                 {
-                    Return Translation :: get('True');
+                    Return Translation :: get('ConfirmTrue', null, Utilities :: COMMON_LIBRARIES );
                 }
                 else
                 {
-                    Return Translation :: get('False');
+                    Return Translation :: get('ConfirmFalse', null, Utilities :: COMMON_LIBRARIES );
                 }
             
             /*

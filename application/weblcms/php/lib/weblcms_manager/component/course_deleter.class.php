@@ -32,7 +32,7 @@ class WeblcmsManagerCourseDeleterComponent extends WeblcmsManager
             $trail = BreadcrumbTrail :: get_instance();
 
             $this->display_header();
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
         }

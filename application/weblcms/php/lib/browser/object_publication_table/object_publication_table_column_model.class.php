@@ -72,7 +72,7 @@ class ObjectPublicationTableColumnModel extends ObjectTableColumnModel
     {
         if (! isset(self :: $action_column))
         {
-            self :: $action_column = new StaticTableColumn(Translation :: get('Actions'));
+            self :: $action_column = new StaticTableColumn(Translation :: get('Actions', null, Utilities :: COMMON_LIBRARIES ));
         }
         return self :: $action_column;
     }

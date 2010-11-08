@@ -1,0 +1,17 @@
+<?php
+/**
+==============================================================================
+ * This is the configuration file. You'll probably want to modify the values.
+ * $Id: configuration.dist.php 128 2009-11-09 13:13:20Z vanpouckesven $
+ * @package common.configuration.html_editor
+==============================================================================
+ */
+$configuration = array();
+$configuration['general']['data_manager'] = 'Database';
+$configuration['database']['connection_string'] = 'mysqli://root:@localhost/chamilo';
+$configuration['general']['root_web'] = 'http://localhost/Chamilo2/';
+$configuration['general']['url_append'] = '/Chamilo2';
+$configuration['general']['security_key'] = '6cf914a96e33ef267244090ee3eab511';
+$configuration['general']['hashing_algorithm'] = 'sha1';
+$configuration['general']['install_date'] = '1287750334';
+?>

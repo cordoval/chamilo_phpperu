@@ -289,17 +289,17 @@ class CourseForm extends CommonForm
         {
             $access = $this->object->get_access();
             if ($access)
-                $access_name = Translation :: get('Open');
+                $access_name = Translation :: get('Open', null, Utilities :: COMMON_LIBRARIES );
             else
-                $access_name = Translation :: get('Closed');
+                $access_name = Translation :: get('Closed', null, Utilities :: COMMON_LIBRARIES );
             $this->addElement('static', 'static_member', Translation :: get('CourseTypeAccess'), $access_name);
             $this->addElement('hidden', CourseTypeSettings :: PROPERTY_ACCESS, $access);
         }
         else
         {
             $choices = array();
-            $choices[] = $this->createElement('radio', CourseTypeSettings :: PROPERTY_ACCESS, '', Translation :: get('Open'), 1);
-            $choices[] = $this->createElement('radio', CourseTypeSettings :: PROPERTY_ACCESS, '', Translation :: get('Closed'), 0);
+            $choices[] = $this->createElement('radio', CourseTypeSettings :: PROPERTY_ACCESS, '', Translation :: get('Open', null, Utilities :: COMMON_LIBRARIES ), 1);
+            $choices[] = $this->createElement('radio', CourseTypeSettings :: PROPERTY_ACCESS, '', Translation :: get('Closed', null, Utilities :: COMMON_LIBRARIES ), 0);
             $this->addGroup($choices, 'access_choices', Translation :: get('CourseTypeAccess'), '<br />', false);
         }
 

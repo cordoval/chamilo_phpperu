@@ -60,8 +60,8 @@ class CourseUserRelationForm extends FormValidator
         $this->addElement('select', CourseUserRelation :: PROPERTY_CATEGORY, Translation :: get('Category'), $cat_options);
 
         //$this->addElement('submit', 'course_user_category', Translation :: get('Ok'));
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save', null, Utilities :: COMMON_LIBRARIES ), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES ), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

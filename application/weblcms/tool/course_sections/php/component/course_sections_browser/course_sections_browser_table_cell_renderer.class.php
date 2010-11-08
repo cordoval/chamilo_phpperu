@@ -67,10 +67,10 @@ class CourseSectionsBrowserTableCellRenderer extends DefaultCourseSectionsTableC
 
         if (! in_array($course_section->get_name(), $array))
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_url(array(
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_url(array(
                     CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_UPDATE_COURSE_SECTION, CourseSectionsTool :: PARAM_COURSE_SECTION_ID => $course_section->get_id())), ToolbarItem :: DISPLAY_ICON));
 
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_url(array(
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_url(array(
                     CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_REMOVE_COURSE_SECTION, CourseSectionsTool :: PARAM_COURSE_SECTION_ID => $course_section->get_id())), ToolbarItem :: DISPLAY_ICON, true));
 
             $toolbar->add_item(new ToolbarItem(Translation :: get('SelectTools'), Theme :: get_common_image_path() . 'action_move.png', $this->browser->get_url(array(
@@ -79,8 +79,8 @@ class CourseSectionsBrowserTableCellRenderer extends DefaultCourseSectionsTableC
         }
         else
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('EditNA'), Theme :: get_common_image_path() . 'action_edit_na.png', null, ToolbarItem :: DISPLAY_ICON));
-            $toolbar->add_item(new ToolbarItem(Translation :: get('DeleteNA'), Theme :: get_common_image_path() . 'action_delete_na.png', null, ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('EditNA', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit_na.png', null, ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('DeleteNA', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete_na.png', null, ToolbarItem :: DISPLAY_ICON));
             $toolbar->add_item(new ToolbarItem(Translation :: get('SelectToolsNA'), Theme :: get_common_image_path() . 'action_move_na.png', null, ToolbarItem :: DISPLAY_ICON));
         }
 
@@ -88,17 +88,17 @@ class CourseSectionsBrowserTableCellRenderer extends DefaultCourseSectionsTableC
 
         if ($order == 1)
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUpNA'), Theme :: get_common_image_path() . 'action_up_na.png', null, ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUpNA', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_up_na.png', null, ToolbarItem :: DISPLAY_ICON));
         }
         else
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUp'), Theme :: get_common_image_path() . 'action_up.png', $this->browser->get_url(array(
+            $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUp', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_up.png', $this->browser->get_url(array(
                     CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_MOVE_COURSE_SECTION, CourseSectionsTool :: PARAM_COURSE_SECTION_ID => $course_section->get_id(), CourseSectionsTool :: PARAM_DIRECTION => - 1)), ToolbarItem :: DISPLAY_ICON));
         }
 
         if ($order == $this->count)
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDownNA'), Theme :: get_common_image_path() . 'action_down_na.png', null, ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDownNA', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_down_na.png', null, ToolbarItem :: DISPLAY_ICON));
         }
         else
         {

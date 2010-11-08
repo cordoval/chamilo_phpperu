@@ -167,7 +167,7 @@ class CourseListRenderer
         {
             if ($tool->visible && WeblcmsDataManager :: tool_has_new_publications($tool->name, $this->get_user(), $course))
             {
-                $html[] = '<a href="' . $this->get_tool_url($tool->name, $course) . '"><img src="' . Theme :: get_image_path('weblcms') . 'tool_' . $tool->name . '_new.png" alt="' . Translation :: get('New') . '"/></a>';
+                $html[] = '<a href="' . $this->get_tool_url($tool->name, $course) . '"><img src="' . Theme :: get_image_path('weblcms') . 'tool_' . $tool->name . '_new.png" alt="' . Translation :: get('New', null, Utilities :: COMMON_LIBRARIES ) . '"/></a>';
             }
         }
         return implode($html, "\n");

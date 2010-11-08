@@ -286,24 +286,24 @@ class WeblcmsManagerSorterComponent extends WeblcmsManager
         {
             if ($offset > 0 && $count > 1)
             {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUp'), Theme :: get_common_image_path() . 'action_up.png', $this->get_course_user_move_url($course_type_user_category, $course, 'up'), ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUp', null, Utilities :: COMMON_LIBRARIES ), Theme :: get_common_image_path() . 'action_up.png', $this->get_course_user_move_url($course_type_user_category, $course, 'up'), ToolbarItem :: DISPLAY_ICON));
             }
             else
             {
-                $toolbar_data[] = array('label' => Translation :: get('Up'), 'img' => Theme :: get_common_image_path() . 'action_up_na.png');
-                $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUpNA'), Theme :: get_common_image_path() . 'action_up_na.png', null, ToolbarItem :: DISPLAY_ICON));
+                $toolbar_data[] = array('label' => Translation :: get('Up', null, Utilities :: COMMON_LIBRARIES ), 'img' => Theme :: get_common_image_path() . 'action_up_na.png');
+                $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUpNA', null, Utilities :: COMMON_LIBRARIES ), Theme :: get_common_image_path() . 'action_up_na.png', null, ToolbarItem :: DISPLAY_ICON));
             }
 
             if ($offset < ($count - 1) && $count > 1)
             {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDown'), Theme :: get_common_image_path() . 'action_down.png', $this->get_course_user_move_url($course_type_user_category, $course, 'down'), ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDown', null, Utilities :: COMMON_LIBRARIES ), Theme :: get_common_image_path() . 'action_down.png', $this->get_course_user_move_url($course_type_user_category, $course, 'down'), ToolbarItem :: DISPLAY_ICON));
             }
             else
             {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDownNA'), Theme :: get_common_image_path() . 'action_down_na.png', null, ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDownNA', null, Utilities :: COMMON_LIBRARIES ), Theme :: get_common_image_path() . 'action_down_na.png', null, ToolbarItem :: DISPLAY_ICON));
             }
         }
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Move'), Theme :: get_common_image_path() . 'action_move.png', $this->get_course_user_edit_url($course_type_user_category, $course), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Move', null, Utilities :: COMMON_LIBRARIES ), Theme :: get_common_image_path() . 'action_move.png', $this->get_course_user_edit_url($course_type_user_category, $course), ToolbarItem :: DISPLAY_ICON));
 
         return $toolbar->as_html();
     }
@@ -319,25 +319,25 @@ class WeblcmsManagerSorterComponent extends WeblcmsManager
 
         if ($offset > 0 && $count > 1)
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUp'), Theme :: get_common_image_path() . 'action_up.png', $this->get_course_user_category_move_url($course_type_user_category, 'up'), ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUp', null, Utilities :: COMMON_LIBRARIES ), Theme :: get_common_image_path() . 'action_up.png', $this->get_course_user_category_move_url($course_type_user_category, 'up'), ToolbarItem :: DISPLAY_ICON));
         }
         else
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUpNA'), Theme :: get_common_image_path() . 'action_up_na.png', null, ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUpNA', null, Utilities :: COMMON_LIBRARIES ), Theme :: get_common_image_path() . 'action_up_na.png', null, ToolbarItem :: DISPLAY_ICON));
         }
 
         if ($offset < ($count - 1) && $count > 1)
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDown'), Theme :: get_common_image_path() . 'action_down.png', $this->get_course_user_category_move_url($course_type_user_category, 'down'), ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDown', null, Utilities :: COMMON_LIBRARIES ), Theme :: get_common_image_path() . 'action_down.png', $this->get_course_user_category_move_url($course_type_user_category, 'down'), ToolbarItem :: DISPLAY_ICON));
         }
         else
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDownNA'), Theme :: get_common_image_path() . 'action_down_na.png', null, ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDownNA', null, Utilities :: COMMON_LIBRARIES ), Theme :: get_common_image_path() . 'action_down_na.png', null, ToolbarItem :: DISPLAY_ICON));
         }
 
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_course_user_category_edit_url($course_type_user_category), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES ), Theme :: get_common_image_path() . 'action_edit.png', $this->get_course_user_category_edit_url($course_type_user_category), ToolbarItem :: DISPLAY_ICON));
 
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_course_user_category_delete_url($course_type_user_category), ToolbarItem :: DISPLAY_ICON, true));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES ), Theme :: get_common_image_path() . 'action_delete.png', $this->get_course_user_category_delete_url($course_type_user_category), ToolbarItem :: DISPLAY_ICON, true));
 
         return '<div style="float:right;">' . $toolbar->as_html() . '</div>';
     }

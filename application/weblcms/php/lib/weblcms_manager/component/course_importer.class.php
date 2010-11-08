@@ -49,7 +49,7 @@ class WeblcmsManagerCourseImporterComponent extends WeblcmsManager
         {
             $this->display_header();
             echo '<div class="clear"></div><br />';
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
         }
@@ -84,9 +84,9 @@ class WeblcmsManagerCourseImporterComponent extends WeblcmsManager
         $html[] = '<p>' . Translation :: get('Details') . '</p>';
         $html[] = '<blockquote>';
         $html[] = '<u><b>' . Translation :: get('Action') . '</u></b>';
-        $html[] = '<br />A: ' . Translation :: get('Add');
-        $html[] = '<br />U: ' . Translation :: get('Update');
-        $html[] = '<br />D: ' . Translation :: get('Delete');
+        $html[] = '<br />A: ' . Translation :: get('Add', null, Utilities :: COMMON_LIBRARIES );
+        $html[] = '<br />U: ' . Translation :: get('Update', null, Utilities :: COMMON_LIBRARIES );
+        $html[] = '<br />D: ' . Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES );
         $html[] = '</blockquote>';
 
         echo implode($html, "\n");
@@ -97,7 +97,7 @@ class WeblcmsManagerCourseImporterComponent extends WeblcmsManager
 
         if ($this->get_user()->is_platform_admin())
         {
-            $breadcrumbtrail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
+            $breadcrumbtrail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration', null, Utilities :: COMMON_LIBRARIES )));
             $breadcrumbtrail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => WeblcmsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Courses')));
         }
 

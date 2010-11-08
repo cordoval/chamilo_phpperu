@@ -59,9 +59,9 @@ class CourseCategoryBrowserTableCellRenderer extends DefaultCourseCategoryTableC
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
 
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_course_category_edit_url($coursecategory), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES ), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_course_category_edit_url($coursecategory), ToolbarItem :: DISPLAY_ICON));
 
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_course_category_delete_url($coursecategory), ToolbarItem :: DISPLAY_ICON, true));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES ), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_course_category_delete_url($coursecategory), ToolbarItem :: DISPLAY_ICON, true));
 
         return $toolbar->as_html();
     }

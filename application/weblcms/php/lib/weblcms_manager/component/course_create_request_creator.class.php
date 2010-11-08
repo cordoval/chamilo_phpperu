@@ -50,7 +50,7 @@ class WeblcmsManagerCourseCreateRequestCreatorComponent extends WeblcmsManager
     {
 
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(null, array(Application :: PARAM_ACTION)), Translation :: get('MyCourses')));
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get('Create')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES )));
         $breadcrumbtrail->add_help('weblcms_course_create_request');
     }
 

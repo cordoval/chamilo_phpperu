@@ -84,7 +84,7 @@ class CourseGroupSubscriptionsForm extends FormValidator
         $locale['Display'] = Translation :: get('SelectGroupUsers');
         $locale['Searching'] = Translation :: get('Searching');
         $locale['NoResults'] = Translation :: get('NoResults');
-        $locale['Error'] = Translation :: get('Error');
+        $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARIES );
 
         $legend_items = array();
         $legend_items[] = new ToolbarItem(Translation :: get('CourseUser'), Theme :: get_common_image_path() . 'treemenu/user.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'legend');
@@ -99,7 +99,7 @@ class CourseGroupSubscriptionsForm extends FormValidator
         $this->addElement('static', null, null, $legend->as_html());
 
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Subscribe'), array('class' => 'positive subscribe'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES ), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
