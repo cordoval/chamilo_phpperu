@@ -102,7 +102,7 @@ class CourseSectionsBrowserTableCellRenderer extends DefaultCourseSectionsTableC
         }
         else
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDown'), Theme :: get_common_image_path() . 'action_down.png', $this->browser->get_url(array(
+            $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDown', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_down.png', $this->browser->get_url(array(
                     CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_MOVE_COURSE_SECTION, CourseSectionsTool :: PARAM_COURSE_SECTION_ID => $course_section->get_id(), CourseSectionsTool :: PARAM_DIRECTION => 1)), ToolbarItem :: DISPLAY_ICON));
         }
 

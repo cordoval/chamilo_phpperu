@@ -29,7 +29,7 @@ class CpImportSelectionMaintenanceWizardPage extends MaintenanceWizardPage
         $this->addElement('file', self :: IMPORT_FILE_NAME, Translation :: get('FileName'));
         $this->addRule(self :: IMPORT_FILE_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
 
-        $prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< ' . Translation :: get('Previous'));
+        $prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< ' . Translation :: get('Previous', null, Utilities :: COMMON_LIBRARIES));
         $prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Import'));
         $this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
         $this->setDefaultAction('next');
