@@ -275,11 +275,11 @@ class PortfolioManager extends WebApplication
         
         if ($success)
         {
-            return Translation :: get('PublicationCreated');
+            return Translation :: get('ObjectCreated', array('OBJECT' => Translation::get('PortfolioPublication')), Utilities::COMMON_LIBRARIES);
         }
         else
         {
-            return Translation :: get('ProblemWithPublicationCreation');
+            return Translation :: get('ObjectNotCreation', array('OBJECT' => Translation::get('PortfolioPublication')), Utilities::COMMON_LIBRARIES);
         }
     }
 
@@ -550,11 +550,11 @@ class PortfolioManager extends WebApplication
         $html[] = '<a class="help" target="about:blank" href="';
         $html[] = PortfolioManager :: get_portfolio_system_settings_page();
         $html[] = '" title="';
-        $html[] = Translation :: get('SeeSystemSettings');
+        $html[] = Translation :: get('ViewDefaultSystemSettings');
         $html[] = '   ">';
         $html[] = '<img HEIGHT = 15 WIDTH = 15 src="' . Theme :: get_image_path('portfolio') . 'help.png"  class="labeled">';
         $html[] = '<span>';
-        $html[] = Translation :: get('SeeSystemSettings');
+        $html[] = Translation :: get('ViewDefaultSystemSettings');
         $html[] = '</span>';
         $html[] = '</a>';
         $html[] = '</div>';
@@ -573,11 +573,11 @@ class PortfolioManager extends WebApplication
         $html[] = $link;
         
         $html[] = '" title="';
-        $html[] = Translation :: get('SeeAllPortfolioPermissions');
+        $html[] = Translation :: get('ViewAllMyPortfolioPermissions');
         $html[] = '   ">';
         $html[] = '<img HEIGHT = 15 WIDTH = 15 src="' . Theme :: get_image_path('portfolio') . 'help.png"  class="labeled">';
         $html[] = '<span>';
-        $html[] = Translation :: get('SeeAllPortfolioPermissions');
+        $html[] = Translation :: get('ViewAllMyPortfolioPermissions');
         $html[] = '</span>';
         $html[] = '</a>';
         $html[] = '</div>';

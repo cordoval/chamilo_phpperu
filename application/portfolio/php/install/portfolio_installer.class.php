@@ -40,7 +40,7 @@ class PortfolioInstaller extends Installer
 		}
 		else
 		{
-			$this->add_message(self :: TYPE_NORMAL, Translation :: get('DefaultLocationCreated'));
+			$this->add_message(self :: TYPE_NORMAL, Translation :: get('DefaultLocationCreated'), null, Utilities::COMMON_LIBRARIES);
 		}
 
 

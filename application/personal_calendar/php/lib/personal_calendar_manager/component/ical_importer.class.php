@@ -31,7 +31,7 @@ class PersonalCalendarManagerIcalImporterComponent extends PersonalCalendarManag
         if(! PersonalCalendarRights :: is_allowed(PersonalCalendarRights :: RIGHT_SHARE, PersonalCalendarRights :: get_root()))
         {
             $this->display_header();
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get("NotAllowed", null , Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
@@ -57,17 +57,17 @@ class PersonalCalendarManagerIcalImporterComponent extends PersonalCalendarManag
         $url = $this->get_url(array(PersonalCalendarManager :: PARAM_ACTION => PersonalCalendarManager :: ACTION_IMPORT_ICAL));
         $form = new FormValidator('ical_import', 'post', $url);
 
-        $this->categories[0] = Translation :: get('MyRepository');
+        $this->categories[0] = Translation :: get('MyRepository', null , 'repository');
         $this->retrieve_categories(0, 1);
         $categories = $this->categories;
 
-        $form->addElement('select', 'category', Translation :: get('Category'), $categories);
-        $form->addElement('file', 'file', sprintf(Translation :: get('FileName'), ini_get('upload_max_filesize')));
+        $form->addElement('select', 'category', Translation :: get('Category', null , Utilities :: COMMON_LIBRARIES), $categories);
+        $form->addElement('file', 'file', sprintf(Translation :: get('FileName', null , 'repository\content_object\document'), ini_get('upload_max_filesize', null , 'repository\content_object\document')));
 
         $allowed_upload_types = array('ics');
         $form->addRule('file', Translation :: get('OnlyIcsAllowed'), 'filetype', $allowed_upload_types);
 
-        $buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Import'), array('class' => 'positive import'));
+        $buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Import', null , Utilities :: COMMON_LIBRARIES), array('class' => 'positive import'));
 
         $form->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         return $form;

@@ -92,7 +92,7 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
         $menu_items = array();
 
         $general = array();
-        $general['title'] = Translation :: get('Browse');
+        $general['title'] = Translation :: get('Browse', null, Utilities :: COMMON_LIBRARIES);
         $general['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_GENERAL), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
         $general['class'] = 'home';
         $menu_items[] = $general;

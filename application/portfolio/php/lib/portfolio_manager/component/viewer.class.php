@@ -175,13 +175,13 @@ class PortfolioManagerViewerComponent extends PortfolioManager
         $rdm = RepositoryDataManager::get_instance();
 
         $trail = new BreadcrumbTrail;
-        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE)), Translation :: get('BrowsePortfolios')));
+        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE)), Translation :: get('BrowseObjects', array('OBJECT' => Translation::get('Portfolios')), Utilities::COMMON_LIBRARIES)));
         if(!isset ($this->owner_user_id))
         {
             $this->owner_user_id = $_REQUEST[PortfolioManager::PARAM_PORTFOLIO_OWNER_ID] ;
         }
         $user = UserDataManager :: get_instance()->retrieve_user($this->owner_user_id);
-        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->current_user_id)), Translation :: get('ViewPortfolio') . ' ' . $user->get_fullname()));
+        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->current_user_id)), Translation :: get('ViewObject', array('OBJECT' => Translation::get('Portfolio')), Utilities::COMMON_LIBRARIES) . ' ' . $user->get_fullname()));
 
 
         if($current_action == self::ACTION_VIEW)
@@ -305,7 +305,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager
         $user = $udm->retrieve_user($this->owner_user_id);
         if($current_user_id != 1)
         {
-            $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $current_user_id)), Translation :: get('ViewPortfolio') . ' ' . $user->get_fullname()));
+            $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $current_user_id)), Translation :: get('ViewObject', array('OBJECT' => Translation::get('Portfolio')), Utilities::COMMON_LIBRARIES) . ' ' . $user->get_fullname()));
         }
 
         echo implode("\n", $html);
@@ -358,7 +358,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager
         if ($this->selected_object) {
             if (! $this->cid) {
                 $url = $this->get_delete_portfolio_publication_url($this->pid);
-                $action_bar->add_common_action(new ToolbarItem(Translation :: get('Delete_portfolio_publication'), Theme :: get_common_image_path() . 'action_delete.png', $url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+                $action_bar->add_common_action(new ToolbarItem(Translation :: get('DeletePortfolioPublication'), Theme :: get_common_image_path() . 'action_delete.png', $url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
             }
             else {
                 $url = $this->get_delete_portfolio_item_url($this->cid);

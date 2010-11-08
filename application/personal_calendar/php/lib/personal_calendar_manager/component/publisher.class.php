@@ -29,7 +29,7 @@ class PersonalCalendarManagerPublisherComponent extends PersonalCalendarManager 
         if(! PersonalCalendarRights :: is_allowed(PersonalCalendarRights :: RIGHT_PUBLISH, PersonalCalendarRights :: get_root()))
         {
             $this->display_header();
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get("NotAllowed", null , Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }

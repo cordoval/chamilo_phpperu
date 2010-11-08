@@ -89,7 +89,7 @@ class CategoryBrowserTableCellRenderer extends ObjectTableCellRenderer
         if ($this->browser->allowed_to_edit_category($category->get_id()))
         {
             $toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('Edit'),
+	        		Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES),
 	        		Theme :: get_common_image_path() . 'action_edit.png',
 	        		$this->browser->get_update_category_url($category->get_id()),
 	        		ToolbarItem :: DISPLAY_ICON
@@ -98,7 +98,7 @@ class CategoryBrowserTableCellRenderer extends ObjectTableCellRenderer
         else
         {
             $toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('EditNA'),
+	        		Translation :: get('EditNA', null, Utilities :: COMMON_LIBRARIES),
 	        		Theme :: get_common_image_path() . 'action_edit_na.png',
 	        		null,
 	        		ToolbarItem :: DISPLAY_ICON
@@ -108,7 +108,7 @@ class CategoryBrowserTableCellRenderer extends ObjectTableCellRenderer
         if ($this->browser->allowed_to_delete_category($category->get_id()))
         {
             $toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('Delete'),
+	        		Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES),
 	        		Theme :: get_common_image_path() . 'action_delete.png',
 	        		$this->browser->get_delete_category_url($category->get_id()),
 	        		ToolbarItem :: DISPLAY_ICON,
@@ -118,7 +118,7 @@ class CategoryBrowserTableCellRenderer extends ObjectTableCellRenderer
         else
         {
         	$toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('Delete'),
+	        		Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES),
 	        		Theme :: get_common_image_path() . 'action_delete_na.png',
 	        		null,
 	        		ToolbarItem :: DISPLAY_ICON,
@@ -129,7 +129,7 @@ class CategoryBrowserTableCellRenderer extends ObjectTableCellRenderer
         if ($category->get_display_order() > 1)
         {
             $toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('MoveUp'),
+	        		Translation :: get('MoveUp', null, Utilities :: COMMON_LIBRARIES),
 	        		Theme :: get_common_image_path() . 'action_up.png',
 	        		$this->browser->get_move_category_url($category->get_id(), - 1),
 	        		ToolbarItem :: DISPLAY_ICON
@@ -138,7 +138,7 @@ class CategoryBrowserTableCellRenderer extends ObjectTableCellRenderer
         else
         {
             $toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('MoveUpNA'),
+	        		Translation :: get('MoveUpNA', null, Utilities :: COMMON_LIBRARIES),
 	        		Theme :: get_common_image_path() . 'action_up_na.png',
 	        		null,
 	        		ToolbarItem :: DISPLAY_ICON
@@ -148,7 +148,7 @@ class CategoryBrowserTableCellRenderer extends ObjectTableCellRenderer
         if ($category->get_display_order() < $this->count)
         {
             $toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('MoveDown'),
+	        		Translation :: get('MoveDown', null, Utilities :: COMMON_LIBRARIES),
 	        		Theme :: get_common_image_path() . 'action_down.png',
 	        		$this->browser->get_move_category_url($category->get_id(), 1),
 	        		ToolbarItem :: DISPLAY_ICON
@@ -157,7 +157,7 @@ class CategoryBrowserTableCellRenderer extends ObjectTableCellRenderer
         else
         {
             $toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('MoveDownNA'),
+	        		Translation :: get('MoveDownNA', null, Utilities :: COMMON_LIBRARIES),
 	        		Theme :: get_common_image_path() . 'action_down_na.png',
 	        		null,
 	        		ToolbarItem :: DISPLAY_ICON
@@ -169,7 +169,7 @@ class CategoryBrowserTableCellRenderer extends ObjectTableCellRenderer
 	        if ($this->count_all > 1)
 	        {
 	            $toolbar->add_item(new ToolbarItem(
-		        		Translation :: get('Move'),
+		        		Translation :: get('Move', null, Utilities :: COMMON_LIBRARIES),
 		        		Theme :: get_common_image_path() . 'action_move.png',
 		        		$this->browser->get_change_category_parent_url($category->get_id()),
 		        		ToolbarItem :: DISPLAY_ICON
@@ -178,7 +178,7 @@ class CategoryBrowserTableCellRenderer extends ObjectTableCellRenderer
 	        else
 	        {
 	            $toolbar->add_item(new ToolbarItem(
-		        		Translation :: get('MoveNA'),
+		        		Translation :: get('MoveNA', null, Utilities :: COMMON_LIBRARIES),
 		        		Theme :: get_common_image_path() . 'action_move_na.png',
 		        		null,
 		        		ToolbarItem :: DISPLAY_ICON
