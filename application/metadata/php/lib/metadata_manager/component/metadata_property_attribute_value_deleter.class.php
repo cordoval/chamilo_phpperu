@@ -38,30 +38,30 @@ class MetadataManagerMetadataPropertyAttributeValueDeleterComponent extends Meta
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedMetadataPropertyAttributeValueNotDeleted';
+					$message = 'ObjectNotDeleted';
 				}
 				else
 				{
-					$message = 'Selected{MetadataPropertyAttributeValuesNotDeleted';
+					$message = 'ObjectsNotDeleted';
 				}
 			}
 			else
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedMetadataPropertyAttributeValueDeleted';
+					$message = 'ObjectDeleted';
 				}
 				else
 				{
-					$message = 'SelectedMetadataPropertyAttributeValuesDeleted';
+					$message = 'ObjectsDeleted';
 				}
 			}
 
-			$this->redirect(Translation :: get($message), ($failures ? true : false), array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_EDIT_METADATA, MetadataManager :: PARAM_CONTENT_OBJECT => Request  :: get(MetadataManager :: PARAM_CONTENT_OBJECT)));
+			$this->redirect(Translation :: get($message, array('OBJECT' => Translation :: get('MetadataPropertyAttributeValue')), Utilities :: COMMON_LIBRARY), ($failures ? true : false), array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_EDIT_METADATA, MetadataManager :: PARAM_CONTENT_OBJECT => Request  :: get(MetadataManager :: PARAM_CONTENT_OBJECT)));
 		}
 		else
 		{
-			$this->display_error_page(htmlentities(Translation :: get('NoMetadataPropertyAttributeValuesSelected')));
+			$this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('MetadataPropertyAttributeValue')), Utilities :: COMMON_LIBRARY)));
 		}
 	}
 }

@@ -42,8 +42,8 @@ class CountriesReportingBlock extends UserReportingBlock
 	{
 		$modes = array();
         //$modes[ReportingFormatter::DISPLAY_TEXT] = Translation :: get('Text');
-        $modes[ReportingFormatter::DISPLAY_TABLE] = Translation :: get('Table');
-        $modes[ReportingChartFormatter::DISPLAY_PIE] = Translation :: get('Chart:Pie');
+        $modes[ReportingFormatter::DISPLAY_TABLE] = Translation :: get('Table', null, 'reporting');
+        $modes[ReportingChartFormatter::DISPLAY_PIE] = Translation :: get('Chart:Pie', null, 'reporting');
 		return $modes;
 	}
 }

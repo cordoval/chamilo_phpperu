@@ -69,9 +69,9 @@ class UserManagerResetPasswordComponent extends UserManager
         {
             $form = new FormValidator('lost_password', 'post', $this->get_url());
             $form->addElement('text', User :: PROPERTY_EMAIL, Translation :: get('Email'));
-            $form->addRule(User :: PROPERTY_EMAIL, Translation :: get('ThisFieldIsRequired'), 'required');
+            $form->addRule(User :: PROPERTY_EMAIL, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
             $form->addRule(User :: PROPERTY_EMAIL, Translation :: get('WrongEmail'), 'email');
-            $form->addElement('submit', 'submit', Translation :: get('Ok'));
+            $form->addElement('submit', 'submit', Translation :: get('Ok', null, Utilities :: COMMON_LIBRARIES));
             if ($form->validate())
             {
                 $udm = UserDataManager :: get_instance();
@@ -136,7 +136,7 @@ class UserManagerResetPasswordComponent extends UserManager
         $mail_body[] = $user->get_fullname() . ',';
         $mail_body[] = Translation :: get('YourAccountParam') . ' ' . $this->get_path(WEB_PATH);
         $mail_body[] = Translation :: get('UserName') . ' :' . $user->get_username();
-        $mail_body[] = Translation :: get('Pass') . ' :' . $password;
+        $mail_body[] = Translation :: get('Password') . ' :' . $password;
         $mail_body = implode("\n", $mail_body);
         $mail = Mail :: factory($mail_subject, $mail_body, $user->get_email());
         return $mail->send();

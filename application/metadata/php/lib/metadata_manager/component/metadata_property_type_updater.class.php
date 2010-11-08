@@ -20,7 +20,7 @@ class MetadataManagerMetadataPropertyTypeUpdaterComponent extends MetadataManage
         if($form->validate())
         {
                 $success = $form->update_metadata_property_type();
-                $this->redirect($success ? Translation :: get('MetadataPropertyTypeUpdated') : Translation :: get('MetadataPropertyTypeNotUpdated'), !$success, array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE_METADATA_PROPERTY_TYPES));
+                $this->redirect(Translation :: get($success ? 'ObjectUpdated':'ObjectNotUpdated', array('OBJECT' => Translation :: get('MetadataPropertyType')), Utilities :: COMMON_LIBRARY), !$success, array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE_METADATA_PROPERTY_TYPES));
         }
         else
         {

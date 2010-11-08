@@ -30,7 +30,7 @@ class UserManagerQuotaComponent extends UserManager implements AdministrationCom
 	        if (!UserRights :: is_allowed_in_users_subtree(UserRights :: EDIT_RIGHT, $id))
 	        {
 	        	$this->display_header();
-	            Display :: error_message(Translation :: get("NotAllowed"));
+	            Display :: error_message(Translation :: get("NotAllowed", null, Utilities :: COMMON_LIBRARIES));
 	            $this->display_footer();
 	            exit();
 	        }
@@ -40,7 +40,7 @@ class UserManagerQuotaComponent extends UserManager implements AdministrationCom
             if (! $this->get_user()->is_platform_admin())
             {
                 $this->display_header();
-                Display :: error_message(Translation :: get("NotAllowed"));
+                Display :: error_message(Translation :: get("NotAllowed", null, Utilities :: COMMON_LIBRARIES));
                 $this->display_footer();
                 exit();
             }
@@ -60,7 +60,7 @@ class UserManagerQuotaComponent extends UserManager implements AdministrationCom
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('User')), Utilities :: COMMON_LIBRARIES)));
         }
     }
 

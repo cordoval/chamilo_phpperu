@@ -56,7 +56,7 @@ class BuddyListCategoryForm extends FormValidator
     function build_header()
     {
         $this->addElement('html', '<div class="configuration_form">');
-        $this->addElement('html', '<span class="category">' . Translation :: get('Required') . '</span>');
+        $this->addElement('html', '<span class="category">' . Translation :: get('Required', null, Utilities :: COMMON_LIBRARIES) . '</span>');
     }
 
     function build_footer()
@@ -68,8 +68,8 @@ class BuddyListCategoryForm extends FormValidator
         //$this->addElement('submit', 'submit', 'OK');
 
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -125,7 +125,7 @@ class BuddyListCategoryForm extends FormValidator
                     $group[] = $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_list_remove.png', array('style="border: 0px;"'));
                 }
                 $this->addGroup($group, BuddyListCategory :: PROPERTY_TITLE . $option_number, Translation :: get('BuddyListCategoryName'), '', false);
-                $this->addRule(BuddyListCategory :: PROPERTY_TITLE . $option_number, Translation :: get('ThisFieldIsRequired'), 'required');
+                $this->addRule(BuddyListCategory :: PROPERTY_TITLE . $option_number, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
             }
         }
 

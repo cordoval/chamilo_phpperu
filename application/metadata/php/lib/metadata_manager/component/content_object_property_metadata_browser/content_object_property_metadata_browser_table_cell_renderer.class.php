@@ -59,14 +59,14 @@ class ContentObjectPropertyMetadataBrowserTableCellRenderer extends DefaultConte
 		$toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
 
         $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Edit'),
+        		Translation :: get('Edit', null, Utilities :: COMMON_LIBRARY),
         		Theme :: get_common_image_path() . 'action_edit.png',
         		$this->browser->get_update_content_object_property_metadata_url($content_object_property_metadata),
         		ToolbarItem :: DISPLAY_ICON
         ));
 
         $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Delete'),
+        		Translation :: get('Delete', null, Utilities :: COMMON_LIBRARY),
         		Theme :: get_common_image_path() . 'action_delete.png',
         		$this->browser->get_delete_content_object_property_metadata_url($content_object_property_metadata),
         		ToolbarItem :: DISPLAY_ICON,
