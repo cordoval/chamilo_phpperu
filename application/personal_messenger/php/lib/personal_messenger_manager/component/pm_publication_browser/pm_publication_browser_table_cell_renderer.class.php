@@ -47,7 +47,7 @@ class PmPublicationBrowserTableCellRenderer extends DefaultPmPublicationTableCel
         switch ($column->get_name())
         {
             case PersonalMessengerPublication :: PROPERTY_PUBLISHED :
-                return DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $personal_message->get_published());
+                return DatetimeUtilities :: format_locale_date(Translation :: get('DateFormatShort', null , Utilities :: COMMON_LIBRARIES) . ', ' . Translation :: get('TimeNoSecFormat', null , Utilities :: COMMON_LIBRARIES), $personal_message->get_published());
                 break;
             case PersonalMessengerPublication :: PROPERTY_STATUS :
                 if ($personal_message->get_status() == 1)
@@ -86,7 +86,7 @@ class PmPublicationBrowserTableCellRenderer extends DefaultPmPublicationTableCel
     	$toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
         $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Delete'),
+        		Translation :: get('Delete', null , Utilities :: COMMON_LIBRARIES),
         		Theme :: get_common_image_path() . 'action_delete.png',
         		$delete_url,
         		ToolbarItem :: DISPLAY_ICON,
