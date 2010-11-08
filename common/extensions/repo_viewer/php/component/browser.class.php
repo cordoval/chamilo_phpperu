@@ -221,7 +221,7 @@ class RepoViewerBrowserComponent extends RepoViewer
         ));
 
         $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Preview', null, Utilities :: COMMON_LIBRARIES),
+        		Translation :: get('Preview'),
         		Theme :: get_common_image_path() . 'action_browser.png',
         		$this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_VIEWER, RepoViewer :: PARAM_ID => '__ID__')), false),
         		ToolbarItem :: DISPLAY_ICON

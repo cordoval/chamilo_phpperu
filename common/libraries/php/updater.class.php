@@ -694,7 +694,7 @@ abstract class Updater
         $application = $this->get_application();
         
         // Parse the Locations XML of the application
-        $this->add_message(self :: TYPE_NORMAL, '<span class="subtitle">' . Translation :: get('Rights', null, 'right') . '</span>');
+        $this->add_message(self :: TYPE_NORMAL, '<span class="subtitle">' . Translation :: get('Rights', null, 'rights') . '</span>');
         if (! $this->register_location())
         {
             return $this->update_failed(Translation :: get('LocationsFailed'));

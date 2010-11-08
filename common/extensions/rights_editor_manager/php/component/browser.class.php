@@ -183,7 +183,7 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
         }
 
         $table = new LocationGroupBrowserTable($this, $this->get_parameters(), $this->get_group_conditions(false));
-        $tabs->add_tab(new DynamicContentTab(self :: TAB_DETAILS, Translation :: get('Rights', null, 'right'), Theme :: get_image_path('admin') . 'place_mini_rights.png', $table->as_html()));
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_DETAILS, Translation :: get('Rights', null, 'rights'), Theme :: get_image_path('admin') . 'place_mini_rights.png', $table->as_html()));
 
         $html[] = $tabs->render();
         $html[] = '</div>';
