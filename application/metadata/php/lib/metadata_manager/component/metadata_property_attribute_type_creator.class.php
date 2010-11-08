@@ -20,7 +20,7 @@ class MetadataManagerMetadataPropertyAttributeTypeCreatorComponent extends Metad
             if($form->validate())
             {
                     $success = $form->create_metadata_property_attribute_type();
-                    $this->redirect($success ? Translation :: get('MetadataPropertyAttributeTypeCreated') : Translation :: get('MetadataPropertyAttributeTypeNotCreated'), !$success, array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE_METADATA_PROPERTY_ATTRIBUTE_TYPES));
+                    $this->redirect(Translation :: get($success ? 'ObjectCreated' : 'ObjectnotCreated', array('OBJECT' => Translation :: get('MetadataPropertyAttributeType')), Utilities :: COMMON_LIBRARY), !$success, array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE_METADATA_PROPERTY_ATTRIBUTE_TYPES));
             }
             else
             {

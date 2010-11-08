@@ -38,30 +38,30 @@ class MetadataManagerContentObjectPropertyMetadataDeleterComponent extends Metad
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedContentObjectPropertyMetadataNotDeleted';
+					$message = 'ObjectNotDeleted';
 				}
 				else
 				{
-					$message = 'Selected{ContentObjectPropertyMetadatasNotDeleted';
+					$message = 'ObjectsNotDeleted';
 				}
 			}
 			else
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedContentObjectPropertyMetadataDeleted';
+					$message = 'ObjectDeleted';
 				}
 				else
 				{
-					$message = 'SelectedContentObjectPropertyMetadatasDeleted';
+					$message = 'ObjectsDeleted';
 				}
 			}
 
-			$this->redirect(Translation :: get($message), ($failures ? true : false), array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE_CONTENT_OBJECT_PROPERTY_METADATAS));
+			$this->redirect(Translation :: get($message, array('OBJECT' => Translation :: get('ContentObjectPropertyMetadata')), Utilities :: COMMON_LIBRARY), ($failures ? true : false), array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE_CONTENT_OBJECT_PROPERTY_METADATAS));
 		}
 		else
 		{
-			$this->display_error_page(htmlentities(Translation :: get('NoContentObjectPropertyMetadatasSelected')));
+			$this->display_error_page(htmlentities(Translation :: get('NoObjectsSelected', array('OBJECT' => Translation :: get('ContentObjectPropertyMetadata')), Utilities :: COMMON_LIBRARY)));
 		}
 	}
 }

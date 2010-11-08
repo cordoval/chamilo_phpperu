@@ -25,8 +25,6 @@ class ContentObjectBrowserTable extends ObjectTable
 		$this->set_additional_parameters($parameters);
 		$actions = array();
 
-		//$actions[] = new ObjectTableFormAction(ContentObjecterManager :: PARAM_DELETE_SELECTED_CONTEXT_LINKS, Translation :: get('RemoveSelected'));
-
 		$this->set_form_actions($actions);
 		$this->set_default_row_count(20);
 	}

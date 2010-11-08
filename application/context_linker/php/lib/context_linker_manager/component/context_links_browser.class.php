@@ -30,7 +30,7 @@ class ContextLinkerManagerContextLinksBrowserComponent extends ContextLinkerMana
         }
         else
         {
-            $html[] = '<p>' . Translation :: get('NoContentObjectSelected') . '</p>';
+            $html[] = '<p>' . Translation :: get('NoContentObjectSelected', null, 'repository') . '</p>';
         }
 
         echo implode("\n", $html);
@@ -50,7 +50,7 @@ class ContextLinkerManagerContextLinksBrowserComponent extends ContextLinkerMana
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
         $actions = array();
-        $actions[] = new ToolbarItem(Translation :: get('CreateContextLink'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_CREATE_CONTEXT_LINK, ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => Request :: get(ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID))));
+        $actions[] = new ToolbarItem(Translation :: get('CreateObject', array('OBJECT' => Translation :: get('ContextLink')), Utilities :: COMMON_LIBRARIES) . Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_CREATE_CONTEXT_LINK, ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => Request :: get(ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID))));
 
         $action_bar->set_common_actions($actions);
         $action_bar->set_search_url($this->get_url());
