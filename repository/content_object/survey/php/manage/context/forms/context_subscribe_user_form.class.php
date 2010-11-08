@@ -27,10 +27,10 @@ class SurveyContextSubscribeUserForm extends FormValidator
         $attributes = array();
         $attributes['search_url'] = Path :: get(WEB_PATH) . 'user/xml_feeds/xml_user_feed.php';
         $locale = array();
-        $locale['Display'] = Translation :: get('ShareWith');
-        $locale['Searching'] = Translation :: get('Searching');
-        $locale['NoResults'] = Translation :: get('NoResults');
-        $locale['Error'] = Translation :: get('Error');
+        $locale['Display'] = Translation :: get('ShareWith', null, Utilities::COMMON_LIBRARIES);
+        $locale['Searching'] = Translation :: get('Searching', null, Utilities::COMMON_LIBRARIES);
+        $locale['NoResults'] = Translation :: get('NoResults', null, Utilities::COMMON_LIBRARIES);
+        $locale['Error'] = Translation :: get('Error', null, Utilities::COMMON_LIBRARIES);
         $attributes['locale'] = $locale;
         $attributes['defaults'] = array();
         $attributes['options'] = array('load_elements' => false);
@@ -38,7 +38,7 @@ class SurveyContextSubscribeUserForm extends FormValidator
         $this->add_receivers(self :: APPLICATION_NAME . '_opt_' . self :: PARAM_TARGET, Translation :: get('PublishFor'), $attributes);
         
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('AddContextUsers'), array('class' => 'positive update'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal empty'));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         
         $this->addElement('category');

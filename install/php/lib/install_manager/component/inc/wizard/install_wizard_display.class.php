@@ -46,7 +46,7 @@ class InstallWizardDisplay extends HTML_QuickForm_Action_Display
 EOT;
         $renderer->setFormTemplate($form_template);
 
-        $current_page->setRequiredNote('<font color="#FF0000"><img src="../common/libraries/resources/images/aqua/action_required.png" alt="*" title ="*"/></font> ' . Translation :: get('ThisFieldIsRequired'));
+        $current_page->setRequiredNote('<font color="#FF0000"><img src="../common/libraries/resources/images/aqua/action_required.png" alt="*" title ="*"/></font> ' . Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES));
         //		$element_template = "\n\t<tr>\n\t\t<td valign=\"top\"><!-- BEGIN required --><span style=\"color: #ff0000\">*</span> <!-- END required -->{label}</td>\n\t\t<td valign=\"top\" align=\"left\"><!-- BEGIN error --><span style=\"color: #ff0000;font-size:x-small;margin:2px;\">{error}</span><br /><!-- END error -->\t{element}</td>\n\t</tr>";
         $element_template = array();
         $element_template[] = '<div class="row">';

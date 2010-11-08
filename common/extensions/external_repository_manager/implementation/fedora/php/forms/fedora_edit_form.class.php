@@ -139,11 +139,11 @@ class FedoraEditForm extends FormValidator
             $this->addElement('static', '', Translation :: get('File'), $html);
         }
 
-        $this->addElement('text', $id = FedoraExternalRepositoryObject :: PROPERTY_TITLE, Translation :: get('Title'), array("size" => "50"));
-        $this->addRule(FedoraExternalRepositoryObject :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addElement('text', $id = FedoraExternalRepositoryObject :: PROPERTY_TITLE, Translation :: get('Title', null, Utilities::COMMON_LIBRARIES), array("size" => "50"));
+        $this->addRule(FedoraExternalRepositoryObject :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
         $defaults[$id] = $this->default_title();
 
-        $this->addElement('textarea', FedoraExternalRepositoryObject :: PROPERTY_DESCRIPTION, Translation :: get('Description'), array("rows" => "7", "cols" => "80"));
+        $this->addElement('textarea', FedoraExternalRepositoryObject :: PROPERTY_DESCRIPTION, Translation :: get('Description', null, Utilities::COMMON_LIBRARIES), array("rows" => "7", "cols" => "80"));
 
         $this->addElement('text', $key = FedoraExternalRepositoryObject :: PROPERTY_AUTHOR, Translation :: get('Author'), array("size" => "50"));
         $defaults[$key] = $this->get_user()->get_fullname();
@@ -276,12 +276,12 @@ class FedoraEditForm extends FormValidator
     {
         if ($course = $this->get_course())
         {
-            $result = $course->get_name() . '-' . Translation :: get('Export') . '-' . time();
+            $result = $course->get_name() . '-' . Translation :: get('Export', null, Utilities::COMMON_LIBRARIES) . '-' . time();
         }
         else
         {
             $file = $this->get_file();
-            $result = $file['title'] . '-' . Translation :: get('Export') . '-' . time();
+            $result = $file['title'] . '-' . Translation :: get('Export', null, Utilities::COMMON_LIBRARIES) . '-' . time();
         }
         return $result;
     }

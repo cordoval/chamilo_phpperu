@@ -25,7 +25,7 @@ class HomeManagerUserComponent extends HomeManager
         $html = array();
         
         $html[] = '<div class="block" id="block_user" style="background-image: url(' . Theme :: get_common_image_path() . 'block_user.png);">';
-        $html[] = '<div class="title">' . Translation :: get('User') . '<a href="#" class="closeEl">[-]</a></div>';
+        $html[] = '<div class="title">' . Translation :: get('User', null, Utilities::USER) . '<a href="#" class="closeEl">[-]</a></div>';
         $html[] = '<div class="description">';
         $html[] = $this->display_anonymous_right_menu();
         $html[] = '<div style="clear: both;"></div>';
@@ -92,10 +92,10 @@ class HomeManagerUserComponent extends HomeManager
         $renderer->setElementTemplate('<div>{label}&nbsp;<!-- BEGIN required --><span style="color: #ff0000">*</span><!-- END required --></div><div>{element}</div>');
         $renderer->setElementTemplate('<div>{element}</div>', 'submitAuth');
         $form->addElement('text', 'login', Translation :: get('UserName'), array('size' => 15));
-        $form->addRule('login', Translation :: get('ThisFieldIsRequired'), 'required');
+        $form->addRule('login', Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
         $form->addElement('password', 'password', Translation :: get('Pass'), array('size' => 15));
-        $form->addRule('password', Translation :: get('ThisFieldIsRequired'), 'required');
-        $form->addElement('submit', 'submitAuth', Translation :: get('Ok'));
+        $form->addRule('password', Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
+        $form->addElement('submit', 'submitAuth', Translation :: get('Ok', null, Utilities::COMMON_LIBRARIES));
         return $form->toHtml();
     }
 }

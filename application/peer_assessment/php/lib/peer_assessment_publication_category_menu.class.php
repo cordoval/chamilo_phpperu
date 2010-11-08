@@ -67,7 +67,7 @@ class PeerAssessmentPublicationCategoryMenu extends HTML_Menu
         $menu = array();
         $menu_item = array();
 
-        $menu_item['title'] = Translation :: get('Root') . ' (' . $this->get_publication_count(0) . ')';
+        $menu_item['title'] = Translation :: get('Root', null, Utilities::COMMON_LIBRARIES) . ' (' . $this->get_publication_count(0) . ')';
         $menu_item['url'] = $this->get_url(0);
         $sub_menu_items = $this->get_menu_items(0);
         if (count($sub_menu_items) > 0)

@@ -187,7 +187,7 @@ class CriteriaForm extends ContentObjectForm
                 
                 $this->addGroup($group, 'options_' . $option_number, null, '', false);
                 
-                $this->addGroupRule('options_' . $option_number, array('options[' . $option_number . ']' => array(array(Translation :: get('ThisFieldIsRequired'), 'required')), 'scores[' . $option_number . ']' => array(array(Translation :: get('ThisFieldIsRequired'), 'required'), array(Translation :: get('ValueShouldBeNumeric'), 'numeric'))));
+                $this->addGroupRule('options_' . $option_number, array('options[' . $option_number . ']' => array(array(Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required')), 'scores[' . $option_number . ']' => array(array(Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required'), array(Translation :: get('ValueShouldBeNumeric', null, Utilities::COMMON_LIBRARIES), 'numeric'))));
                 
                 $renderer->setElementTemplate('<tr id="options_' . $option_number . '" class="' . ($option_number % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', 'options_' . $option_number);
                 $renderer->setGroupElementTemplate('<td>{element}</td>', 'options_' . $option_number);

@@ -94,10 +94,10 @@ class AnnouncementDistributionForm extends FormValidator
 
         $url = Path :: get(WEB_PATH) . 'common/libraries/php/xml_feeds/xml_user_group_feed.php';
         $locale = array();
-        $locale['Display'] = Translation :: get('ShareWith');
-        $locale['Searching'] = Translation :: get('Searching');
-        $locale['NoResults'] = Translation :: get('NoResults');
-        $locale['Error'] = Translation :: get('Error');
+        $locale['Display'] = Translation :: get('ShareWith', null, Utilities::COMMON_LIBRARIES);
+        $locale['Searching'] = Translation :: get('Searching', null, Utilities::COMMON_LIBRARIES);
+        $locale['NoResults'] = Translation :: get('NoResults', null, Utilities::COMMON_LIBRARIES);
+        $locale['Error'] = Translation :: get('Error', null, Utilities::COMMON_LIBRARIES);
         $hidden = false;
         $elem = $this->addElement('user_group_finder', 'recipients', Translation :: get('SendTo'), $url, $locale, $shares);
         $elem->excludeElements(array('user_' . $this->form_user->get_id()));
@@ -106,8 +106,8 @@ class AnnouncementDistributionForm extends FormValidator
 
     function add_footer()
     {
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Publish'), array('class' => 'positive publish'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Publish', null, Utilities::COMMON_LIBRARIES), array('class' => 'positive publish'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         //$this->addElement('submit', 'submit', Translation :: get('Ok'));

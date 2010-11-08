@@ -36,17 +36,17 @@ class SurveyQuestionViewerWizardPage extends SurveyViewerWizardPage
         // Add buttons
         if ($this->page_number > 1)
         {
-            $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Back'), array('class' => 'previous'));
+            $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Back', null, Utilities::COMMON_LIBRARIES), array('class' => 'previous'));
         }
         
         if ($this->page_number < $this->survey->count_pages())
         {
-            $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next'), array('class' => 'next'));
+            $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next', null, Utilities::COMMON_LIBRARIES), array('class' => 'next'));
         
         }
         else
         {
-            $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('submit'), Translation :: get('Submit'), array('class' => 'positive'));
+            $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('submit'), Translation :: get('Submit', null, Utilities::COMMON_LIBRARIES), array('class' => 'positive'));
         }
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         

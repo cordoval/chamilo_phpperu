@@ -84,8 +84,8 @@ class SurveyContextTemplateBrowserTableCellRenderer extends DefaultSurveyContext
     private function get_modification_links($context_template)
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_context_template_update_url($context_template), ToolbarItem :: DISPLAY_ICON));
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_context_template_delete_url($context_template), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_context_template_update_url($context_template), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_context_template_delete_url($context_template), ToolbarItem :: DISPLAY_ICON));
         return $toolbar->as_html();
     }
 }

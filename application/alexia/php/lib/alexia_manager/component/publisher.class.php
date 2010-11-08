@@ -24,7 +24,7 @@ class AlexiaManagerPublisherComponent extends AlexiaManager implements RepoViewe
     {
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => AlexiaManager :: ACTION_BROWSE_PUBLICATIONS)), Translation :: get('Alexia')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Publish')));
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Publish', null ,Utilities::COMMON_LIBRARIES)));
         $trail->add_help('alexia general');
 
         

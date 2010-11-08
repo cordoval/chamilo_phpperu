@@ -47,8 +47,8 @@ class SurveyBuilderContextViewerComponent extends SurveyBuilder
 
             echo '<div class="clear"></div><div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_template.png);">';
             echo '<div class="title">' . Translation :: get('SurveyContextTemplateDetails') . '</div>';
-            echo '<b>' . Translation :: get('Name') . '</b>: ' . $template->get_name();
-            echo '<br /><b>' . Translation :: get('Description') . '</b>: ' . $template->get_description();
+            echo '<b>' . Translation :: get('Name', null, Utilities::COMMON_LIBRARIES) . '</b>: ' . $template->get_name();
+            echo '<br /><b>' . Translation :: get('Description', null, Utilities::COMMON_LIBRARIES) . '</b>: ' . $template->get_description();
             echo '<div class="clear">&nbsp;</div>';
             echo '</div>';
             echo '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_users.png);">';

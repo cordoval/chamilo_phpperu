@@ -66,25 +66,25 @@ class PhrasesMasteryLevelBrowserTableCellRenderer extends DefaultPhrasesMasteryL
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
 
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_phrases_mastery_level_url($phrases_mastery_level), ToolbarItem :: DISPLAY_ICON));
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_phrases_mastery_level_url($phrases_mastery_level), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_phrases_mastery_level_url($phrases_mastery_level), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_phrases_mastery_level_url($phrases_mastery_level), ToolbarItem :: DISPLAY_ICON));
 
         if ($phrases_mastery_level->get_display_order() > 1)
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUp'), Theme :: get_common_image_path() . 'action_up.png', $this->browser->get_url(array(PhrasesMasteryLevelManager :: PARAM_MASTERY_LEVEL_MANAGER_ACTION => PhrasesMasteryLevelManager :: ACTION_MOVE_UP, PhrasesMasteryLevelManager :: PARAM_PHRASES_MASTERY_LEVEL_ID => $phrases_mastery_level->get_id())), ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUp', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_up.png', $this->browser->get_url(array(PhrasesMasteryLevelManager :: PARAM_MASTERY_LEVEL_MANAGER_ACTION => PhrasesMasteryLevelManager :: ACTION_MOVE_UP, PhrasesMasteryLevelManager :: PARAM_PHRASES_MASTERY_LEVEL_ID => $phrases_mastery_level->get_id())), ToolbarItem :: DISPLAY_ICON));
         }
         else
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUpNA'), Theme :: get_common_image_path() . 'action_up_na.png', null, ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUpNA', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_up_na.png', null, ToolbarItem :: DISPLAY_ICON));
         }
 
         if ($phrases_mastery_level->get_display_order() < $this->object_count)
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDown'), Theme :: get_common_image_path() . 'action_down.png', $this->browser->get_url(array(PhrasesMasteryLevelManager :: PARAM_MASTERY_LEVEL_MANAGER_ACTION => PhrasesMasteryLevelManager :: ACTION_MOVE_DOWN, PhrasesMasteryLevelManager :: PARAM_PHRASES_MASTERY_LEVEL_ID => $phrases_mastery_level->get_id())), ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDown', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_down.png', $this->browser->get_url(array(PhrasesMasteryLevelManager :: PARAM_MASTERY_LEVEL_MANAGER_ACTION => PhrasesMasteryLevelManager :: ACTION_MOVE_DOWN, PhrasesMasteryLevelManager :: PARAM_PHRASES_MASTERY_LEVEL_ID => $phrases_mastery_level->get_id())), ToolbarItem :: DISPLAY_ICON));
         }
         else
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDownNA'), Theme :: get_common_image_path() . 'action_down_na.png', null, ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDownNA', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_down_na.png', null, ToolbarItem :: DISPLAY_ICON));
         }
 
         return $toolbar->as_html();

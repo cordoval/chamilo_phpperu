@@ -30,7 +30,7 @@ if (Authentication :: is_valid())
 else
 {
     $json_result['success'] = '0';
-    $json_result['title'] = Translation :: get('Error');
+    $json_result['title'] = Translation :: get('Error', null, Utilities::COMMON_LIBRARIES);
     $json_result['subtitle'] = Translation :: get('SomethingWentWrong');
     $json_result['message'] = Translation :: get('NotAuthorized');
 }

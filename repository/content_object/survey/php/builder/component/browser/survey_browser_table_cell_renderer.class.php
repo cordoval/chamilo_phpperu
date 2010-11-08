@@ -76,7 +76,7 @@ class SurveyBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
         if ($cloi->is_extended() || $this->browser instanceof ComplexBuilder)
         {
             $toolbar->add_item(new ToolbarItem(
-        			Translation :: get('Edit'),
+        			Translation :: get('Edit', null, Utilities::COMMON_LIBRARIES),
         			Theme :: get_common_image_path().'action_edit.png',
 					$this->browser->get_complex_content_object_item_edit_url($cloi->get_id()),
 				 	ToolbarItem :: DISPLAY_ICON
@@ -85,7 +85,7 @@ class SurveyBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
         else
         {
             $toolbar->add_item(new ToolbarItem(
-        			Translation :: get('EditNA'),
+        			Translation :: get('EditNA', null, Utilities::COMMON_LIBRARIES),
         			Theme :: get_common_image_path().'action_edit_na.png',
 					null,
 				 	ToolbarItem :: DISPLAY_ICON
@@ -95,7 +95,7 @@ class SurveyBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
         if ($lo->get_type() == SurveyPage :: get_type_name())
         {
         	$toolbar->add_item(new ToolbarItem(
-        			Translation :: get('Configure'),
+        			Translation :: get('Configure', null, Utilities::COMMON_LIBRARIES),
         			Theme :: get_common_image_path().'action_build_prerequisites.png',
 					$this->browser->get_configure_url ( $cloi),
 				 	ToolbarItem :: DISPLAY_ICON
@@ -103,7 +103,7 @@ class SurveyBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
         }
 
         $toolbar->add_item(new ToolbarItem(
-        			Translation :: get('Delete'),
+        			Translation :: get('Delete', null, Utilities::COMMON_LIBRARIES),
         			Theme :: get_common_image_path().'action_delete.png',
 					$this->browser->get_complex_content_object_item_delete_url($cloi->get_id()),
 				 	ToolbarItem :: DISPLAY_ICON,
@@ -115,7 +115,7 @@ class SurveyBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
         if ($allowed["moveup"])
         {
             $toolbar->add_item(new ToolbarItem(
-        			Translation :: get('MoveUp'),
+        			Translation :: get('MoveUp', null, Utilities::COMMON_LIBRARIES),
         			Theme :: get_common_image_path().'action_up.png',
 					$this->browser->get_complex_content_object_item_move_url($cloi->get_id(), RepositoryManager :: PARAM_DIRECTION_UP),
 				 	ToolbarItem :: DISPLAY_ICON
@@ -124,7 +124,7 @@ class SurveyBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
         else
         {
             $toolbar->add_item(new ToolbarItem(
-        			Translation :: get('MoveUpNA'),
+        			Translation :: get('MoveUpNA', null, Utilities::COMMON_LIBRARIES),
         			Theme :: get_common_image_path().'action_up_na.png',
 					null,
 				 	ToolbarItem :: DISPLAY_ICON
@@ -134,7 +134,7 @@ class SurveyBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
         if ($allowed["movedown"])
         {
             $toolbar->add_item(new ToolbarItem(
-        			Translation :: get('MoveDown'),
+        			Translation :: get('MoveDown', null, Utilities::COMMON_LIBRARIES),
         			Theme :: get_common_image_path().'action_down.png',
 					$this->browser->get_complex_content_object_item_move_url($cloi->get_id(), RepositoryManager :: PARAM_DIRECTION_DOWN),
 				 	ToolbarItem :: DISPLAY_ICON
@@ -143,7 +143,7 @@ class SurveyBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
         else
         {
         	$toolbar->add_item(new ToolbarItem(
-        			Translation :: get('MoveDownNA'),
+        			Translation :: get('MoveDownNA', null, Utilities::COMMON_LIBRARIES),
         			Theme :: get_common_image_path().'action_down_na.png',
 					null,
 				 	ToolbarItem :: DISPLAY_ICON

@@ -44,13 +44,13 @@ class CasUserRequestForm extends FormValidator
     function build_basic_form()
     {
         $this->addElement('text', CasUserRequest :: PROPERTY_FIRST_NAME, Translation :: get('FirstName'), array("size" => "50"));
-        $this->addRule(CasUserRequest :: PROPERTY_FIRST_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(CasUserRequest :: PROPERTY_FIRST_NAME, Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
 
         $this->addElement('text', CasUserRequest :: PROPERTY_LAST_NAME, Translation :: get('LastName'), array("size" => "50"));
-        $this->addRule(CasUserRequest :: PROPERTY_LAST_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(CasUserRequest :: PROPERTY_LAST_NAME, Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
 
         $this->addElement('text', CasUserRequest :: PROPERTY_EMAIL, Translation :: get('Email'), array("size" => "50"));
-        $this->addRule(CasUserRequest :: PROPERTY_EMAIL, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(CasUserRequest :: PROPERTY_EMAIL, Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
         $this->addRule(CasUserRequest :: PROPERTY_EMAIL, Translation :: get('WrongEmail'), 'email');
 
         $affiliation_options = array();
@@ -74,8 +74,8 @@ class CasUserRequestForm extends FormValidator
 
         $this->addElement('hidden', CasUserRequest :: PROPERTY_ID);
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null, Utilities::COMMON_LIBRARIES), array('class' => 'positive update'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -84,8 +84,8 @@ class CasUserRequestForm extends FormValidator
     {
         $this->build_basic_form();
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities::COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

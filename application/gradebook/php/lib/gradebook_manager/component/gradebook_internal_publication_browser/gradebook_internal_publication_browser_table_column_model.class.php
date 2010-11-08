@@ -37,7 +37,7 @@ class GradebookInternalPublicationBrowserTableColumnModel extends DefaultGradebo
     {
         if (!isset(self :: $modification_column))
         {
-            self :: $modification_column = new StaticTableColumn(Translation :: get('Action'));
+            self :: $modification_column = new StaticTableColumn(Translation :: get('Action', null, Utilities::COMMON_LIBRARIES));
         }
         return self :: $modification_column;
     }

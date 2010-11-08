@@ -21,9 +21,9 @@ class RowsAmountBuildWizardPage extends BuildWizardPage
     {
         $this->addElement('static', '', '', Translation :: get('BuildRowsAmountMessage'));
         $this->addElement('text', 'rowsamount', Translation :: get('BuildRowsAmount'), array("size" => "50"));
-        $this->addRule('rowsamount', Translation :: get('FieldMustBeNumeric'), 'numeric');
-        $prevnext[] = & $this->createElement('submit', $this->getButtonName('back'), '<< ' . Translation :: get('Previous'));
-        $prevnext[] = & $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next') . ' >>');
+        $this->addRule('rowsamount', Translation :: get('FieldMustBeNumeric', null, Utilities::COMMON_LIBRARIES), 'numeric');
+        $prevnext[] = & $this->createElement('submit', $this->getButtonName('back'), '<< ' . Translation :: get('Previous', null, Utilities::COMMON_LIBRARIES));
+        $prevnext[] = & $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next', null, Utilities::COMMON_LIBRARIES) . ' >>');
         $this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
         $this->setDefaultAction('next');
         $this->_formBuilt = true;

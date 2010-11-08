@@ -125,7 +125,7 @@ class FedoraExternalRepositoryObjectDisplay extends ExternalRepositoryObjectDisp
         if (! $ds->is_system_datastream())
         {
             $import_url = $this->get_import_datastream_url($ds->get_dsID());
-            $item = new ToolbarItem(Translation :: get('Import'), Theme :: get_common_image_path() . 'action_import.png', $import_url, ToolbarItem :: DISPLAY_ICON, false, 'labeled');
+            $item = new ToolbarItem(Translation :: get('Import, null, Utilities::COMMON_LIBRARIES'), Theme :: get_common_image_path() . 'action_import.png', $import_url, ToolbarItem :: DISPLAY_ICON, false, 'labeled');
             $bar->add_item($item);
         }
 

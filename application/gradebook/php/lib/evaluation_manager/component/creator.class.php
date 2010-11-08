@@ -21,7 +21,7 @@ class EvaluationManagerCreatorComponent extends EvaluationManager
         if ($form->validate())
         {
             $success = $form->create_evaluation();
-            $this->redirect($success ? Translation :: get('EvaluationCreated') : Translation :: get('EvaluationNotCreated'), !$success, array(EvaluationManager :: PARAM_EVALUATION_ACTION => EvaluationManager :: ACTION_BROWSE));
+            $this->redirect($success ? Translation :: get('EvaluationCreated', null, Utilities::COMMON_LIBRARIES) : Translation :: get('EvaluationNotCreated', null, Utilities::COMMON_LIBRARIES), !$success, array(EvaluationManager :: PARAM_EVALUATION_ACTION => EvaluationManager :: ACTION_BROWSE));
         }
         else
         {

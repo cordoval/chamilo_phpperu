@@ -112,7 +112,7 @@ class FedoraExternalRepositoryConnector extends ExternalRepositoryConnector
         $result = new fedora_fs_store(Translation :: get_instance()->translate('root'));
         $result->add(new fedora_fs_mystuff(self :: DOCUMENTS_MY_STUFF, $owner));
         $result->add($history = new fedora_fs_store(Translation :: get_instance()->translate('history')));
-        $history->add(new fedora_fs_history(Translation :: get('today'), today(), NULL, $owner, self :: DOCUMENTS_TODAY));
+        $history->add(new fedora_fs_history(Translation :: get('today', null, Utilities::COMMON_LIBRARIES), today(), NULL, $owner, self :: DOCUMENTS_TODAY));
         $history->add(new fedora_fs_history(Translation :: get('this_week'), $this_week, NULL, $owner, self :: DOCUMENTS_THIS_WEEK));
         $history->add(new fedora_fs_history(Translation :: get('last_week'), $last_week, $this_week, $owner, self :: DOCUMENTS_LAST_WEEK));
         $history->add(new fedora_fs_history(Translation :: get('two_weeks_ago'), $two_weeks_ago, $last_week, $owner, self :: DOCUMENTS_TWO_WEEKS_AGO));

@@ -46,7 +46,7 @@ class AlexiaManagerReintroducerComponent extends AlexiaManager
                 
                 $message = ($success ? 'ContentObjectUpdated' : 'ContentObjectNotUpdated');
                 
-                $this->redirect(Translation :: get($message), ! $success, array(Application :: PARAM_ACTION => AlexiaManager :: ACTION_BROWSE_PUBLICATIONS), array(AlexiaManager :: PARAM_ALEXIA_ID));
+                $this->redirect(Translation :: get($message, null, Utilities::COMMON_LIBRARIES), ! $success, array(Application :: PARAM_ACTION => AlexiaManager :: ACTION_BROWSE_PUBLICATIONS), array(AlexiaManager :: PARAM_ALEXIA_ID));
             }
             else
             {

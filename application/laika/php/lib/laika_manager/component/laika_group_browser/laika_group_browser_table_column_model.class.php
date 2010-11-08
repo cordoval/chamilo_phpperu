@@ -28,8 +28,8 @@ class LaikaGroupBrowserTableColumnModel extends DefaultGroupTableColumnModel
     {
         parent :: __construct();
         $this->set_default_order_column(1);
-        $this->add_column(new StaticTableColumn(Translation :: get('Subgroups')));
-        $this->add_column(new StaticTableColumn(Translation :: get('Users')));
+        $this->add_column(new StaticTableColumn(Translation :: get('Subgroups', null, Utilities::GROUP)));
+        $this->add_column(new StaticTableColumn(Translation :: get('Users', null, Utilities::USER)));
         $this->add_column(new StaticTableColumn(Translation :: get('Participants')));
         $this->add_column(new StaticTableColumn(Translation :: get('Percentage')));
         $this->add_column(self :: get_modification_column());

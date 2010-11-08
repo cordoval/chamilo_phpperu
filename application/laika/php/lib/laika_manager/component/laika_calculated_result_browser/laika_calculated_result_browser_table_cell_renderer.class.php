@@ -53,7 +53,7 @@ class LaikaCalculatedResultBrowserTableCellRenderer extends DefaultLaikaCalculat
     private function get_modification_links($calculated_result)
     {
         $toolbar= new Toolbar();
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Browse'), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_laika_calculated_result_attempt_viewing_url($calculated_result), ToolbarItem :: DISPLAY_ICON ));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Browse', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_laika_calculated_result_attempt_viewing_url($calculated_result), ToolbarItem :: DISPLAY_ICON ));
 
         return $toolbar->as_html();
     }
