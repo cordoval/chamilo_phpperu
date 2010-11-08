@@ -64,8 +64,8 @@ class DocumentPublicationSlideshowRenderer extends ListContentObjectPublicationL
             }
             else
             {
-                $navigation[] = '<img src="' . Theme :: get_common_image_path() . 'action_first_na.png" alt="' . Translation :: get('First') . '"/>';
-                $navigation[] = '<img src="' . Theme :: get_common_image_path() . 'action_prev_na.png" alt="' . Translation :: get('Previous') . '"/>';
+                $navigation[] = '<img src="' . Theme :: get_common_image_path() . 'action_first_na.png" alt="' . Translation :: get('First', null, Utilities :: COMMON_LIBRARIES) . '"/>';
+                $navigation[] = '<img src="' . Theme :: get_common_image_path() . 'action_prev_na.png" alt="' . Translation :: get('Previous', null, Utilities :: COMMON_LIBRARIES) . '"/>';
             }
             $navigation[] = '</div>';
             $navigation[] = '<div style="width=30%;text-align:right;float:right;">';
@@ -76,8 +76,8 @@ class DocumentPublicationSlideshowRenderer extends ListContentObjectPublicationL
             }
             else
             {
-                $navigation[] = '<img src="' . Theme :: get_common_image_path() . 'action_next_na.png" alt="' . Translation :: get('Next') . '"/>';
-                $navigation[] = '<img src="' . Theme :: get_common_image_path() . 'action_last_na.png" alt="' . Translation :: get('Last') . '"/>';
+                $navigation[] = '<img src="' . Theme :: get_common_image_path() . 'action_next_na.png" alt="' . Translation :: get('Next', null, Utilities :: COMMON_LIBRARIES) . '"/>';
+                $navigation[] = '<img src="' . Theme :: get_common_image_path() . 'action_last_na.png" alt="' . Translation :: get('Last', null, Utilities :: COMMON_LIBRARIES) . '"/>';
 
             }
             $navigation[] = '</div>';
