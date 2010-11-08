@@ -284,7 +284,7 @@ class DatabasePortfolioDataManager extends Database implements PortfolioDataMana
 			$info->set_publisher_user_id($record[PortfolioPublication :: PROPERTY_PUBLISHER]);
 			$info->set_publication_date($record[PortfolioPublication :: PROPERTY_PUBLISHED]);
 			$info->set_application(PortfolioManager :: APPLICATION_NAME);
-			//TODO: i8n location string
+			
 			$info->set_location(Translation :: get('MyPortfolio'));
 			$info->set_url('run.php?application=portfolio&go=view_portfolio&user_id=' . Session :: get_user_id() . '&pid=' . $record[PortfolioPublication :: PROPERTY_ID]);
 			$info->set_publication_object_id($record[PortfolioPublication :: PROPERTY_CONTENT_OBJECT]);

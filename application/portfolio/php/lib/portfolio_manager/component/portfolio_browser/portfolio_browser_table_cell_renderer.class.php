@@ -58,7 +58,7 @@ class PortfolioBrowserTableCellRenderer extends DefaultPortfolioTableCellRendere
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
         $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('ViewPortfolio'),
+        		Translation :: get('ViewObject', array('OBJECT' => Translation::get('Portfolio')), Utilities::COMMON_LIBRARIES),
         		Theme :: get_common_image_path() . 'action_browser.png',
         		$this->browser->get_view_portfolio_url($user->get_id()),
         		ToolbarItem :: DISPLAY_ICON
