@@ -12,8 +12,8 @@ class ConfirmationForm extends FormValidator
 
     function build_confirmation_form()
     {
-        $buttons[] = $this->createElement('style_submit_button', 'yes', Translation :: get('Yes', null, Utilities :: COMMON_LIBRARY), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_submit_button', 'no', Translation :: get('No', null, Utilities :: COMMON_LIBRARY), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'yes', Translation :: get('ConfirmYes', null, Utilities :: COMMON_LIBRARY), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_submit_button', 'no', Translation :: get('ConfirmNo', null, Utilities :: COMMON_LIBRARY), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

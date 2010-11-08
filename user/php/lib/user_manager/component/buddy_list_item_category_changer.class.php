@@ -38,7 +38,7 @@ class UserManagerBuddyListItemCategoryChangerComponent extends UserManager
         }
         else
         {
-            echo Translation :: get('NoObjectSelected');
+            echo Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('BuddyListItem')), Utilities :: COMMON_LIBRARIES);
         }
     }
 }

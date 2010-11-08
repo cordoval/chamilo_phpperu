@@ -47,7 +47,7 @@ class BuddyListItemForm extends FormValidator
         $locale['Display'] = Translation :: get('AddUsers');
         $locale['Searching'] = Translation :: get('Searching');
         $locale['NoResults'] = Translation :: get('NoResults');
-        $locale['Error'] = Translation :: get('Error');
+        $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARIES);
 
         $elem = $this->addElement('element_finder', 'users', null, $url, $locale, array(), array('load_elements' => true));
         $elem->excludeElements(array($this->user->get_id()));
@@ -78,8 +78,8 @@ class BuddyListItemForm extends FormValidator
 
         // Submit button
         //$this->addElement('submit', 'user_settings', 'OK');
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
