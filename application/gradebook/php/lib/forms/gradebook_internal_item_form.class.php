@@ -17,7 +17,7 @@ class GradebookInternalItemForm extends FormValidator
 
     function build_evaluation_question($form)
     {
-        $form->addElement('checkbox', 'evaluation', Translation :: get('CreateEvaluation'));
+        $form->addElement('checkbox', 'evaluation', Translation :: get('CreateEvaluation', null, Utilities::COMMON_LIBRARIES));
     }
 
     function create_internal_item($publication_id, $calculated = 0, $category = null)

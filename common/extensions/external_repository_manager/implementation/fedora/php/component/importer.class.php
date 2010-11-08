@@ -115,11 +115,11 @@ class FedoraExternalRepositoryManagerImporterComponent extends FedoraExternalRep
 
         if ($result)
         {
-            $messages[] = Translation :: get('ImportSuccesfull');
+            $messages[] = Translation :: get('ImportSuccesfull', null, Utilities::COMMON_LIBRARIES);
         }
         else
         {
-            $errors[] = Translation :: get('ImportFailed');
+            $errors[] = Translation :: get('ImportFailed', null, Utilities::COMMON_LIBRARIES);
         }
 
         $parameters = $this->get_parameters();

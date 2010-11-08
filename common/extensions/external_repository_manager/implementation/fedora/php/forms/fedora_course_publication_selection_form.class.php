@@ -71,7 +71,7 @@ class FedoraCoursePublicationSelectionForm extends FormValidator
         //$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< ' . Translation::get('Previous'));
 
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Next') . ' >>', array('class' => 'export'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Next', null, Utilities::COMMON_LIBRARIES) . ' >>', array('class' => 'export'));
         $this->addGroup($buttons, 'buttons', '', '&nbsp;', false);
         //$this->setDefaultAction('next');
         $this->setDefaults($defaults);

@@ -66,9 +66,9 @@ class PeerAssessmentPublicationForm extends FormValidator
 
         $locale = array();
         $locale['Display'] = Translation :: get('SelectRecipients');
-        $locale['Searching'] = Translation :: get('Searching');
-        $locale['NoResults'] = Translation :: get('NoResults');
-        $locale['Error'] = Translation :: get('Error');
+        $locale['Searching'] = Translation :: get('Searching', null, Utilities::COMMON_LIBRARIES);
+        $locale['NoResults'] = Translation :: get('NoResults', null, Utilities::COMMON_LIBRARIES);
+        $locale['Error'] = Translation :: get('Error', null, Utilities::COMMON_LIBRARIES);
         $attributes['locale'] = $locale;
         //$attributes['exclude'] = array('user_' . $this->user->get_id());
         $attributes['defaults'] = array();
@@ -101,20 +101,20 @@ class PeerAssessmentPublicationForm extends FormValidator
         // Add rule doesn't work with criteria
         //$this->addRule(Criteria :: PROPERTY_ID, Translation :: get('ThisFieldIsRequired'), 'required');               
 
-        $this->add_receivers(self :: PARAM_TARGET, Translation :: get('PublishFor'), $attributes);
+        $this->add_receivers(self :: PARAM_TARGET, Translation :: get('PublishFor', null, Utilities::COMMON_LIBRARIES), $attributes);
         //$this->add_indicators(self :: PARAM_TARGET, Translation :: get('PublishFor'), $attributes);
 
         $this->add_forever_or_timewindow();
-        $this->addElement('checkbox', self :: PARAM_HIDDEN, Translation :: get('Hidden'));
+        $this->addElement('checkbox', self :: PARAM_HIDDEN, Translation :: get('Hidden', null, Utilities::COMMON_LIBRARIES));
     }
 
     function build_editing_form()
     {
         $this->build_basic_form();
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive publish'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null, Utilities::COMMON_LIBRARIES), array('class' => 'positive publish'));
         $buttons[] = $this->createElement('style_submit_button', 'publish_and_build', Translation :: get('UpdateAndBuild'), array('class' => 'positive build'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -123,9 +123,9 @@ class PeerAssessmentPublicationForm extends FormValidator
     {
         $this->build_basic_form();
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Publish'), array('class' => 'positive publish'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Publish', null, Utilities::COMMON_LIBRARIES), array('class' => 'positive publish'));
         $buttons[] = $this->createElement('style_submit_button', 'publish_and_build', Translation :: get('PublishAndBuild'), array('class' => 'positive build'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

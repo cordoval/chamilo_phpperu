@@ -84,7 +84,7 @@ class ValidationBrowserTableCellRend extends DefaultValidationTableCellRend
 	        ));*/
 	        
 	        $toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('Delete'),
+	        		Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES),
 	        		Theme :: get_common_image_path() . 'action_delete.png',
 	        		$delete_url,
 	        		ToolbarItem :: DISPLAY_ICON,

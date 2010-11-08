@@ -22,9 +22,9 @@ class PhotobucketForm extends ContentObjectForm
         $this->addElement('category', Translation :: get('Properties'));
         $this->addElement('static', null, null, '<a class="button normal_button upload_button" onclick="javascript:openPopup(\'' . $link . '\');"> ' . Translation :: get('BrowseStreamingVideo') . '</a>');
         //$this->add_textfield(Photobucket :: PROPERTY_PHOTOBUCKET_ID, Translation :: get('PhotobucketId'), true, array('size' => '255'));
-        $this->add_textfield(Photobucket :: PROPERTY_WIDTH, Translation :: get('Width'), true, array('size' => '5'));
-        $this->add_textfield(Photobucket :: PROPERTY_HEIGHT, Translation :: get('Height'), true, array('size' => '5'));
-        $this->add_textfield(Photobucket :: PROPERTY_THUMBNAIL, Translation :: get('Thumbnail'), true, array('size' => '255'));
+        $this->add_textfield(Photobucket :: PROPERTY_WIDTH, Translation :: get('Width', null, Utilities :: COMMON_LIBRARIES), true, array('size' => '5'));
+        $this->add_textfield(Photobucket :: PROPERTY_HEIGHT, Translation :: get('Height', null, Utilities :: COMMON_LIBRARIES), true, array('size' => '5'));
+        $this->add_textfield(Photobucket :: PROPERTY_THUMBNAIL, Translation :: get('Thumbnail', null, Utilities :: COMMON_LIBRARIES), true, array('size' => '255'));
         $this->addElement('category');
 
         $html = array();
@@ -45,9 +45,9 @@ class PhotobucketForm extends ContentObjectForm
         $this->addElement('category', Translation :: get('Properties'));
         $this->addElement('static', null, null, '<a class="button normal_button upload_button" onclick="javascript:openPopup(\'' . $link . '\');"> ' . Translation :: get('BrowseStreamingVideo') . '</a>');
         //$this->add_textfield(Photobucket :: PROPERTY_PHOTOBUCKET_ID, Translation :: get('PhotobucketId'), true, array('size' => '255'));
-        $this->add_textfield(Photobucket :: PROPERTY_WIDTH, Translation :: get('Width'), true, array('size' => '5'));
-        $this->add_textfield(Photobucket :: PROPERTY_HEIGHT, Translation :: get('Height'), true, array('size' => '5'));
-        $this->add_textfield(Photobucket :: PROPERTY_THUMBNAIL, Translation :: get('Thumbnail'), true, array('size' => '255'));
+        $this->add_textfield(Photobucket :: PROPERTY_WIDTH, Translation :: get('Width', null, Utilities :: COMMON_LIBRARIES), true, array('size' => '5'));
+        $this->add_textfield(Photobucket :: PROPERTY_HEIGHT, Translation :: get('Height', null, Utilities :: COMMON_LIBRARIES), true, array('size' => '5'));
+        $this->add_textfield(Photobucket :: PROPERTY_THUMBNAIL, Translation :: get('Thumbnail', null, Utilities :: COMMON_LIBRARIES), true, array('size' => '255'));
         $this->addElement('category');
     }
 

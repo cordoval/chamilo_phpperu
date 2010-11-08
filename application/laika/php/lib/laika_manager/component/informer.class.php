@@ -25,7 +25,7 @@ class LaikaManagerInformerComponent extends LaikaManager
         if (! LaikaRights :: is_allowed(LaikaRights :: RIGHT_VIEW, LaikaRights :: LOCATION_INFORMER, LaikaRights :: TYPE_LAIKA_COMPONENT))
         {
             $this->display_header($trail);
-            $this->display_error_message(Translation :: get('NotAllowed'));
+            $this->display_error_message(Translation :: get('NotAllowed', null, Utilities::COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
@@ -52,7 +52,7 @@ class LaikaManagerInformerComponent extends LaikaManager
         $table->set_additional_parameters($this->get_parameters());
         $table->set_header(0, Translation :: get('Cluster'), false);
         $table->set_header(1, Translation :: get('Scale'), false);
-        $table->set_header(2, Translation :: get('Description'), false);
+        $table->set_header(2, Translation :: get('Description', null, Utilities::COMMON_LIBRARIES), false);
         
         $this->display_header($trail);
         echo $table->as_html();

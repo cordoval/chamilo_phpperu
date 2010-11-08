@@ -86,7 +86,7 @@ class InvitationAuthentication extends Authentication implements UserRegistratio
     public function register_new_user(Invitation $invitation)
     {
         $user = new User();
-        $user->set_lastname(Translation :: get('User'));
+        $user->set_lastname(Translation :: get('User', null, 'user'));
         $user->set_firstname(Translation :: get('Invited'));
         $user->set_username($invitation->get_email());
         $user->set_password('PLACEHOLDER');

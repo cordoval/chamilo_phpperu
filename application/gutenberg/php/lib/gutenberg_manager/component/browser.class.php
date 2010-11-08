@@ -89,7 +89,7 @@ class GutenbergManagerBrowserComponent extends GutenbergManager
         if (! isset($this->action_bar))
         {
             $this->action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-            $this->action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(Application :: PARAM_ACTION => GutenbergManager :: ACTION_CREATE_PUBLICATION))));
+            $this->action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(Application :: PARAM_ACTION => GutenbergManager :: ACTION_CREATE_PUBLICATION))));
             
             $renderers = $this->get_available_renderers();
             
@@ -97,7 +97,7 @@ class GutenbergManagerBrowserComponent extends GutenbergManager
             {
                 foreach ($renderers as $renderer)
                 {
-                    $this->action_bar->add_tool_action(new ToolbarItem(Translation :: get(Utilities :: underscores_to_camelcase($renderer) . 'View'), Theme :: get_image_path() . 'view_' . $renderer . '.png', $this->get_url(array(GutenbergManager :: PARAM_RENDERER => $renderer)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+                    $this->action_bar->add_tool_action(new ToolbarItem(Translation :: get(Utilities :: underscores_to_camelcase($renderer) . 'View', null, Utilities::COMMON_LIBRARIES), Theme :: get_image_path() . 'view_' . $renderer . '.png', $this->get_url(array(GutenbergManager :: PARAM_RENDERER => $renderer)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
                 }
             }
             

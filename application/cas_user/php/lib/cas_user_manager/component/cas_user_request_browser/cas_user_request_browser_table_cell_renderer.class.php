@@ -66,15 +66,15 @@ class CasUserRequestBrowserTableCellRenderer extends DefaultCasUserRequestTableC
     private function get_modification_links($cas_user_request)
     {
         $toolbar = new Toolbar();
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_cas_user_request_url($cas_user_request), ToolbarItem :: DISPLAY_ICON));
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_cas_user_request_url($cas_user_request), ToolbarItem :: DISPLAY_ICON, true));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_cas_user_request_url($cas_user_request), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_cas_user_request_url($cas_user_request), ToolbarItem :: DISPLAY_ICON, true));
 
         if ($this->browser->get_user()->is_platform_admin() && ($cas_user_request->is_pending() || $cas_user_request->is_rejected()))
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Accept'), Theme :: get_image_path() . 'action_accept.png', $this->browser->get_accept_cas_user_request_url($cas_user_request), ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Accept', null, Utilities::COMMON_LIBRARIES), Theme :: get_image_path() . 'action_accept.png', $this->browser->get_accept_cas_user_request_url($cas_user_request), ToolbarItem :: DISPLAY_ICON));
             if ($cas_user_request->is_pending())
             {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('Reject'), Theme :: get_image_path() . 'action_reject.png', $this->browser->get_reject_cas_user_request_url($cas_user_request), ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Reject', null, Utilities::COMMON_LIBRARIES), Theme :: get_image_path() . 'action_reject.png', $this->browser->get_reject_cas_user_request_url($cas_user_request), ToolbarItem :: DISPLAY_ICON));
             }
         }
 

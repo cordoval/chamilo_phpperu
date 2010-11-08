@@ -342,12 +342,12 @@ abstract class VideoConferencingyManager extends SubManager
 
         if ($object->is_editable())
         {
-            $toolbar_items[self :: ACTION_EDIT_EXTERNAL_REPOSITORY] = new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_EDIT_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
+            $toolbar_items[self :: ACTION_EDIT_EXTERNAL_REPOSITORY] = new ToolbarItem(Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_EDIT_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
         }
 
         if ($object->is_deletable())
         {
-            $toolbar_items[self :: ACTION_DELETE_EXTERNAL_REPOSITORY] = new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_url(array(self :: PARAM_VIDEO_CONFERENCING_MANAGER_ACTION => self :: ACTION_DELETE_VIDEO_CONFERENCING, self :: PARAM_VIDEO_CONFERENCING_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
+            $toolbar_items[self :: ACTION_DELETE_EXTERNAL_REPOSITORY] = new ToolbarItem(Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->get_url(array(self :: PARAM_VIDEO_CONFERENCING_MANAGER_ACTION => self :: ACTION_DELETE_VIDEO_CONFERENCING, self :: PARAM_VIDEO_CONFERENCING_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
         }
         if ($object->is_usable())
         {
@@ -360,7 +360,7 @@ abstract class VideoConferencingyManager extends SubManager
             //            {
             if ($object->is_importable())
             {
-                $toolbar_items[self :: ACTION_IMPORT_VIDEO_CONFERENCING] = new ToolbarItem(Translation :: get('Import'), Theme :: get_common_image_path() . 'action_import.png', $this->get_url(array(self :: PARAM_VIDEO_CONFERENCING_MANAGER_ACTION => self :: ACTION_IMPORT_VIDEO_CONFERENCING, self :: PARAM_VIDEO_CONFERENCING_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
+                $toolbar_items[self :: ACTION_IMPORT_VIDEO_CONFERENCING] = new ToolbarItem(Translation :: get('Import', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_import.png', $this->get_url(array(self :: PARAM_VIDEO_CONFERENCING_MANAGER_ACTION => self :: ACTION_IMPORT_VIDEO_CONFERENCING, self :: PARAM_VIDEO_CONFERENCING_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
                 //                }
             //                else
             //                {

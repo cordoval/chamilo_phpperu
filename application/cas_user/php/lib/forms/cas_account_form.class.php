@@ -52,13 +52,13 @@ class CasAccountForm extends FormValidator
     function build_basic_form()
     {
         $this->addElement('text', CasAccount :: PROPERTY_FIRST_NAME, Translation :: get('FirstName'), array("size" => "50"));
-        $this->addRule(CasAccount :: PROPERTY_FIRST_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(CasAccount :: PROPERTY_FIRST_NAME, Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
 
         $this->addElement('text', CasAccount :: PROPERTY_LAST_NAME, Translation :: get('LastName'), array("size" => "50"));
-        $this->addRule(CasAccount :: PROPERTY_LAST_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(CasAccount :: PROPERTY_LAST_NAME, Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
 
         $this->addElement('text', CasAccount :: PROPERTY_EMAIL, Translation :: get('Email'), array("size" => "50"));
-        $this->addRule(CasAccount :: PROPERTY_EMAIL, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(CasAccount :: PROPERTY_EMAIL, Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
         $this->addRule(CasAccount :: PROPERTY_EMAIL, Translation :: get('WrongEmail'), 'email');
 
         $group = array();
@@ -80,7 +80,7 @@ class CasAccountForm extends FormValidator
         $this->addElement('select', CasAccount :: PROPERTY_AFFILIATION, Translation :: get('Affiliation'), $affiliation_options);
 
         $this->addElement('text', CasAccount :: PROPERTY_GROUP, Translation :: get('Group'), array("size" => "50"));
-        $this->addRule(CasAccount :: PROPERTY_GROUP, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(CasAccount :: PROPERTY_GROUP, Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
 
         $this->addElement('checkbox', CasAccount :: PROPERTY_STATUS, Translation :: get('Enabled'), '', 1);
 
@@ -95,8 +95,8 @@ class CasAccountForm extends FormValidator
 
         $this->addElement('hidden', CasAccount :: PROPERTY_ID);
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null, Utilities::COMMON_LIBRARIES), array('class' => 'positive update'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -105,8 +105,8 @@ class CasAccountForm extends FormValidator
     {
         $this->build_basic_form();
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities::COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

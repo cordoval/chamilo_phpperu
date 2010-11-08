@@ -97,9 +97,9 @@ class CreateExternalItemForm extends FormValidator
                 $group[] = $this->createElement($this->evaluation_format->get_evaluation_field_type(), $this->evaluation_format->get_evaluation_field_name() . $counter, false, array('size' => '4'));
                 $group[] = $this->createElement('text', GradeEvaluation :: PROPERTY_COMMENT . $counter, Translation :: get('Comment'), false);
                 $this->addGroup($group, 'grades', $username, null, false);
-                $rule[$this->evaluation_format->get_evaluation_field_name() . $counter][] = array(Translation :: get('ValueShouldBeNumeric'), 'numeric');
-                $rule[$this->evaluation_format->get_evaluation_field_name() . $counter][] = array(Translation :: get('DecimalValueNotAllowed'), $score_rule);
-                $rule[$this->evaluation_format->get_evaluation_field_name() . $counter][] = array(Translation :: get('ScoreIsOutsideBoundaries'), $boundaries_rule);
+                $rule[$this->evaluation_format->get_evaluation_field_name() . $counter][] = array(Translation :: get('ValueShouldBeNumeric', null, Utilities::COMMON_LIBRARIES), 'numeric');
+                $rule[$this->evaluation_format->get_evaluation_field_name() . $counter][] = array(Translation :: get('DecimalValueNotAllowed', null, Utilities::COMMON_LIBRARIES), $score_rule);
+                $rule[$this->evaluation_format->get_evaluation_field_name() . $counter][] = array(Translation :: get('ScoreIsOutsideBoundaries', null, Utilities::COMMON_LIBRARIES), $boundaries_rule);
                 $this->addGroupRule('grades', $rule);
                 $counter++;
             }
@@ -121,8 +121,8 @@ class CreateExternalItemForm extends FormValidator
     {
         $this->addElement('category', Translation :: get('ExternalItemProperties'));
         $this->addElement('html', '<div id="message"></div>');
-        $this->add_textfield(ExternalItem :: PROPERTY_TITLE, Translation :: get('Title'), true, array('size' => '100', 'id' => 'title', 'style' => 'width: 95%'));
-        $this->add_html_editor(ExternalItem :: PROPERTY_DESCRIPTION, Translation :: get('Description'), $required);
+        $this->add_textfield(ExternalItem :: PROPERTY_TITLE, Translation :: get('Title', null, Utilities::COMMON_LIBRARIES), true, array('size' => '100', 'id' => 'title', 'style' => 'width: 95%'));
+        $this->add_html_editor(ExternalItem :: PROPERTY_DESCRIPTION, Translation :: get('Description', null, Utilities::COMMON_LIBRARIES), $required);
         if ($this->form_type == self :: TYPE_CREATE)
             $formats_array[0] = Translation :: get('ChooseEvaluationFormat');
         $formats = EvaluationManager :: retrieve_all_active_evaluation_formats();
@@ -136,9 +136,9 @@ class CreateExternalItemForm extends FormValidator
             $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_user_group_feed.php';
             $locale = array();
             $locale['Display'] = Translation :: get('SelectRecipients');
-            $locale['Searching'] = Translation :: get('Searching');
-            $locale['NoResults'] = Translation :: get('NoResults');
-            $locale['Error'] = Translation :: get('Error');
+            $locale['Searching'] = Translation :: get('Searching', null, Utilities::COMMON_LIBRARIES);
+            $locale['NoResults'] = Translation :: get('NoResults', null, Utilities::COMMON_LIBRARIES);
+            $locale['Error'] = Translation :: get('Error', null, Utilities::COMMON_LIBRARIES);
             $attributes['locale'] = $locale;
             $attributes['exclude'] = array('user_' . $this->user->get_id());
             $attributes['defaults'] = array();
@@ -183,8 +183,8 @@ class CreateExternalItemForm extends FormValidator
     {
         $this->build_basic_form($users_ids);
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null, Utilities::COMMON_LIBRARIES), array('class' => 'positive update'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -193,8 +193,8 @@ class CreateExternalItemForm extends FormValidator
     {
         $this->build_basic_form($users_ids);
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities::COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

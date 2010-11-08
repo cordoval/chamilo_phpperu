@@ -95,7 +95,7 @@ class HomeInstaller extends Installer
         
         $block_user = new HomeBlock();
         $block_user->set_column($column_varia->get_id());
-        $block_user->set_title(Translation :: get('User'));
+        $block_user->set_title(Translation :: get('User', null, Utilities::USER));
         $block_user->set_application('user');
         $block_user->set_component('login');
         $block_user->set_user('0');

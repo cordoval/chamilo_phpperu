@@ -34,7 +34,7 @@ class WebconferenceBrowserTable extends ObjectTable
         $this->set_additional_parameters($parameters);
         $actions = array();
         
-        $actions[] = new ObjectTableFormAction(WebconferencingManager :: PARAM_DELETE_SELECTED_WEBCONFERENCES, Translation :: get('RemoveSelected'));
+        $actions[] = new ObjectTableFormAction(WebconferencingManager :: PARAM_DELETE_SELECTED_WEBCONFERENCES, Translation :: get('RemoveSelected', null, Utilities::COMMON_LIBRARIES));
         
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);

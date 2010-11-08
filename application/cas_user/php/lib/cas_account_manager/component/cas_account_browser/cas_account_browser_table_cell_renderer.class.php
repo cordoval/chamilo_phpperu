@@ -60,18 +60,18 @@ class CasAccountBrowserTableCellRenderer extends DefaultCasAccountTableCellRende
     private function get_modification_links($cas_account)
     {
         $toolbar = new Toolbar();
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_cas_account_url($cas_account), ToolbarItem :: DISPLAY_ICON));
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_cas_account_url($cas_account), ToolbarItem :: DISPLAY_ICON, true));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_cas_account_url($cas_account), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_cas_account_url($cas_account), ToolbarItem :: DISPLAY_ICON, true));
 
         if ($this->browser->get_user()->is_platform_admin())
         {
             if ($cas_account->is_enabled())
             {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('Deactivate'), Theme :: get_image_path() . 'action_deactivate.png', $this->browser->get_deactivate_cas_account_url($cas_account), ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Deactivate', null, Utilities::COMMON_LIBRARIES), Theme :: get_image_path() . 'action_deactivate.png', $this->browser->get_deactivate_cas_account_url($cas_account), ToolbarItem :: DISPLAY_ICON));
             }
             else
             {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('Activate'), Theme :: get_image_path() . 'action_activate.png', $this->browser->get_activate_cas_account_url($cas_account), ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Activate', null, Utilities::COMMON_LIBRARIES), Theme :: get_image_path() . 'action_activate.png', $this->browser->get_activate_cas_account_url($cas_account), ToolbarItem :: DISPLAY_ICON));
             }
         }
 

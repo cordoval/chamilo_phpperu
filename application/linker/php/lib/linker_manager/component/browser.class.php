@@ -21,18 +21,18 @@ class LinkerManagerBrowserComponent extends LinkerManager
         
         $this->display_header($trail);
         
-        echo '<a href="' . $this->get_create_link_url() . '">' . Translation :: get('Create') . '</a>';
+        echo '<a href="' . $this->get_create_link_url() . '">' . Translation :: get('Create', null, Utilities::COMMON_LIBRARIES) . '</a>';
         echo '<br /><br />';
         
         $links = $this->retrieve_links();
         while ($link = $links->next_result())
         {
             echo '<div style="border: 1px solid grey; padding: 5px;">';
-            echo Translation :: get('Title') . ': ' . $link->get_name();
-            echo '<br />' . Translation :: get('Description') . ': ' . $link->get_description();
+            echo Translation :: get('Title', null, Utilities::COMMON_LIBRARIES) . ': ' . $link->get_name();
+            echo '<br />' . Translation :: get('Description', null, Utilities::COMMON_LIBRARIES) . ': ' . $link->get_description();
             echo '<br /><a href="' . $link->get_url() . '">' . $link->get_url() . '</a>';
-            echo '<br /><a href="' . $this->get_update_link_url($link) . '">' . Translation :: get('Update') . '</a>';
-            echo ' | <a href="' . $this->get_delete_link_url($link) . '">' . Translation :: get('Delete') . '</a>';
+            echo '<br /><a href="' . $this->get_update_link_url($link) . '">' . Translation :: get('Update', null, Utilities::COMMON_LIBRARIES) . '</a>';
+            echo ' | <a href="' . $this->get_delete_link_url($link) . '">' . Translation :: get('Delete', null, Utilities::COMMON_LIBRARIES) . '</a>';
             echo '</div><br /><br />';
         }
         

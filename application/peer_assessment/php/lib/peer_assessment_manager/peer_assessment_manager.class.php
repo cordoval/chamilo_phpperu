@@ -252,7 +252,7 @@ class PeerAssessmentManager extends WebApplication
         $publication->set_to_date(0);
 
         $publication->create();
-        return Translation :: get('PublicationCreated');
+        return Translation :: get('PublicationCreated', null, Utilities::COMMON_LIBRARIES);
     }
 
     /**

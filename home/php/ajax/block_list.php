@@ -39,7 +39,7 @@ if ($user_home_allowed && Authentication :: is_valid())
     echo '<div style="clear: both;">';
 
     echo '<div id="applications" style="float: left; margin-right: 30px;">';
-    echo '<div id="show_all" style="clear: both; margin-bottom: 5px;"><a href="#">::&nbsp;' . Translation :: get('ShowAll') . '&nbsp;::</a></div>';
+    echo '<div id="show_all" style="clear: both; margin-bottom: 5px;"><a href="#">::&nbsp;' . Translation :: get('ShowAll', null, Utilities::COMMON_LIBRARIES) . '&nbsp;::</a></div>';
     foreach ($applications as $application_key => $application_value)
     {
         echo '<div class="application" id="' . $application_key . '" style="clear: both; margin-bottom: 5px;"><a href="#">' . $application_value . '</a></div>';

@@ -128,7 +128,7 @@ class IcalRecurrence
     	{
     		$html[] = ' ' . Translation :: get('Once');
     	}
-    	$date_format = Translation :: get('dateFormatShort');
+    	$date_format = Translation :: get('dateFormatShort', null, Utilities :: COMMON_LIBRARIES);
 
     	if ($this->get_until_unixtime())
     	{

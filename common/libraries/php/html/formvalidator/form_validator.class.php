@@ -115,7 +115,7 @@ EOT;
 
         $renderer->setHeaderTemplate($header_template);
 
-        HTML_QuickForm :: setRequiredNote('<span class="form_required"><img src="' . Theme :: get_common_image_path() . '/action_required.png" alt="*" title ="*"/>&nbsp;<small>' . Translation :: get('ThisFieldIsRequired') . '</small></span>');
+        HTML_QuickForm :: setRequiredNote('<span class="form_required"><img src="' . Theme :: get_common_image_path() . '/action_required.png" alt="*" title ="*"/>&nbsp;<small>' . Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES) . '</small></span>');
         $required_note_template = <<<EOT
 	<div class="row">
 		<div class="label"></div>
@@ -154,7 +154,7 @@ EOT;
         $this->applyFilter($name, 'trim');
         if ($required)
         {
-            $this->addRule($name, Translation :: get('ThisFieldIsRequired'), 'required');
+            $this->addRule($name, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         }
         return $element;
     }
@@ -183,7 +183,7 @@ EOT;
 		$this->addElement($element);
 		if ($required)
 		{
-			$this->addRule($name, Translation :: get('ThisFieldIsRequired'), 'required');
+			$this->addRule($name, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
 		}
 		return $element;
 	}
@@ -220,7 +220,7 @@ EOT;
         $element = $this->addElement('select', $name, $label, $values, $attributes);
         if ($required)
         {
-            $this->addRule($name, Translation :: get('ThisFieldIsRequired'), 'required');
+            $this->addRule($name, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         }
         return $element;
     }

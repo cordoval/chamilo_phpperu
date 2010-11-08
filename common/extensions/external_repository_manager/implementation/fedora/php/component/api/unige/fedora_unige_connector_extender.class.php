@@ -74,7 +74,7 @@ class FedoraUnigeExternalRepositoryConnectorExtender
         $rights->add(new fedora_fs_access_right('private', translation :: get('Private'), $owner, 'red_light', self :: DOCUMENTS_PRIVATE));
 
         $mystuff->add($history = new fedora_fs_store(Translation :: get_instance()->translate('history')));
-        $history->add(new fedora_fs_history(Translation :: get('today'), today(), NULL, $owner, FedoraExternalRepositoryConnector :: DOCUMENTS_TODAY));
+        $history->add(new fedora_fs_history(Translation :: get('today', null, Utilities::COMMON_LIBRARIES), today(), NULL, $owner, FedoraExternalRepositoryConnector :: DOCUMENTS_TODAY));
         $history->add(new fedora_fs_history(Translation :: get('this_week'), $this_week, NULL, $owner, FedoraExternalRepositoryConnector :: DOCUMENTS_THIS_WEEK));
         $history->add(new fedora_fs_history(Translation :: get('last_week'), $last_week, $this_week, $owner, FedoraExternalRepositoryConnector :: DOCUMENTS_LAST_WEEK));
         $history->add(new fedora_fs_history(Translation :: get('two_weeks_ago'), $two_weeks_ago, $last_week, $owner, FedoraExternalRepositoryConnector :: DOCUMENTS_TWO_WEEKS_AGO));

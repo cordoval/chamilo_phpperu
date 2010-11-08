@@ -31,8 +31,8 @@ class PeerAssessmentPublicationBrowserTable extends ObjectTable
         $this->set_additional_parameters($parameters);
         $actions = array();
 
-        $actions[] = new ObjectTableFormAction(PeerAssessmentManager :: PARAM_DELETE_SELECTED_PEER_ASSESSMENT_PUBLICATIONS, Translation :: get('RemoveSelected'));
-        $actions[] = new ObjectTableFormAction(PeerAssessmentManager :: PARAM_MOVE_SELECTED_PEER_ASSESSMENT_PUBLICATIONS, Translation :: get('MoveSelected'));
+        $actions[] = new ObjectTableFormAction(PeerAssessmentManager :: PARAM_DELETE_SELECTED_PEER_ASSESSMENT_PUBLICATIONS, Translation :: get('RemoveSelected', null, Utilities::COMMON_LIBRARIES));
+        $actions[] = new ObjectTableFormAction(PeerAssessmentManager :: PARAM_MOVE_SELECTED_PEER_ASSESSMENT_PUBLICATIONS, Translation :: get('MoveSelected', null, Utilities::COMMON_LIBRARIES));
 
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);

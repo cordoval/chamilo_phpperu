@@ -136,14 +136,14 @@ class FedoraConfirmForm extends FormValidator
         if ($file = $this->get_file())
         {
             $html = '<a href="' . $file['href'] . '">' . $this->get(FedoraExternalRepositoryObject :: PROPERTY_TITLE) . '</a>';
-            $properties[Translation :: get('Title')] = $html;
+            $properties[Translation :: get('Title', null, Utilities::COMMON_LIBRARIES)] = $html;
         }
         else
         {
-            $properties[Translation :: get('Title')] = $this->get(FedoraExternalRepositoryObject :: PROPERTY_TITLE);
+            $properties[Translation :: get('Title', null, Utilities::COMMON_LIBRARIES)] = $this->get(FedoraExternalRepositoryObject :: PROPERTY_TITLE);
         }
         $properties[Translation :: get('Owerwite')] = $this->get('pid') ? '<span class="highlight">' . Translation :: get('True') . '</span>' : Translation :: get('False');
-        $properties[Translation :: get('Description')] = $this->get(FedoraExternalRepositoryObject :: PROPERTY_DESCRIPTION);
+        $properties[Translation :: get('Description', null, Utilities::COMMON_LIBRARIES)] = $this->get(FedoraExternalRepositoryObject :: PROPERTY_DESCRIPTION);
         $properties[Translation :: get('Author')] = $this->get(FedoraExternalRepositoryObject :: PROPERTY_AUTHOR);
         if ($thumbnail = $this->get('thumbnail'))
         {
@@ -173,7 +173,7 @@ class FedoraConfirmForm extends FormValidator
 
         $table = new PropertiesTable($properties);
         $html = '';
-        $html .= '<h3>' . Translation :: get('Confirm') . '</h3>';
+        $html .= '<h3>' . Translation :: get('Confirm', null, Utilities::COMMON_LIBRARIES) . '</h3>';
         $html .= $table->toHtml();
 
         $this->addElement('html', $html);
