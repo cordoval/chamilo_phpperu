@@ -82,11 +82,11 @@ class PhotoGalleryPublisher
 
             if (! $publication)
             {
-                $message = Translation :: get('ObjectNotPublished');
+                $message = Translation :: get('ObjectNotPublished', null, Utilities :: COMMON_LIBRARIES);
             }
             else
             {
-                $message = Translation :: get('ObjectPublished');
+                $message = Translation :: get('ObjectPublished', null, Utilities :: COMMON_LIBRARIES);
             }
 
             $this->parent->redirect($message, (! $publication ? true : false), array(Application :: PARAM_ACTION => PhotoGalleryManager :: ACTION_BROWSE));

@@ -34,14 +34,14 @@ class EmailForm extends FormValidator
         $this->addElement('category', Translation :: get('Email'));
 
         $this->addElement('text', 'title', Translation :: get('EmailTitle'), array('size' => '50'));
-        $this->addRule('title', Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule('title', Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
 
         $this->add_html_editor('message', Translation :: get('EmailMessage'), true, array('height' => 500, 'width' => 750));
 
         $this->addElement('category');
 
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Email'), array('class' => 'positive update'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 

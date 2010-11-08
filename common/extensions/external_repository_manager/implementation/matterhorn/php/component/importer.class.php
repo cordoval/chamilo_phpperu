@@ -8,7 +8,6 @@ use common\extensions\external_repository_manager\ExternalRepositoryComponent;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 
 use repository\ExternalRepositorySync;
-use repository\content_object\matterhorn\Matterhorn;
 use repository\ContentObject;
 use repository\RepositoryManager;
 
@@ -23,7 +22,7 @@ class MatterhornExternalRepositoryManagerImporterComponent extends MatterhornExt
     {
         if ($object->is_importable())
         {
-           
+
             $streaming_video_clip = ContentObject :: factory(Matterhorn :: get_type_name());
             $streaming_video_clip->set_title($object->get_title());
             $streaming_video_clip->set_description($object->get_description());

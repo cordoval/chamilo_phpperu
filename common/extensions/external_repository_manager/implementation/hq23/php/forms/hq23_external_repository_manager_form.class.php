@@ -73,7 +73,7 @@ class Hq23ExternalRepositoryManagerForm extends FormValidator
 
         $this->addElement('textarea', Hq23ExternalRepositoryObject :: PROPERTY_TAGS, Translation :: get('Tags'), array('rows' => '2', 'cols' => '80'));
 
-        $this->addElement('textarea', Hq23ExternalRepositoryObject :: PROPERTY_DESCRIPTION, Translation :: get('Description'), array('rows' => '7', 'cols' => '80'));
+        $this->addElement('textarea', Hq23ExternalRepositoryObject :: PROPERTY_DESCRIPTION, Translation :: get('Description', null, Utilities :: COMMON_LIBRARIES), array('rows' => '7', 'cols' => '80'));
     }
 
     function build_editing_form()
@@ -84,8 +84,8 @@ class Hq23ExternalRepositoryManagerForm extends FormValidator
 
         $this->addElement('hidden', Hq23ExternalRepositoryObject :: PROPERTY_ID);
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Edit'), array('class' => 'positive update'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive update'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -113,8 +113,8 @@ class Hq23ExternalRepositoryManagerForm extends FormValidator
 
         $this->addElement('file', self :: FILE, Translation :: get('FileName'));
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

@@ -27,7 +27,7 @@ class EmailManagerEmailerComponent extends EmailManager
         if (PlatformSetting :: get('active_online_email_editor') == 0)
         {
             $this->display_header();
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
