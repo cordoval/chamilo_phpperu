@@ -108,14 +108,14 @@ class GroupImportForm extends FormValidator
     	$action = strtoupper($group['action']);
     	if($action != 'A' && $action != 'U' && $action != 'D')
     	{
-    		$this->failed_elements[] = Translation :: get('Invalid') . ': ' . $this->display_group($group);
+    		$this->failed_elements[] = Translation :: get('Invalid', null , Utilities :: COMMON_LIBRARIES) . ': ' . $this->display_group($group);
     		return $this->validate_children($group['children']);
     	}
     	
     	//2. Check if name & code is filled in
     	if(!$group['name'] || $group['name'] == '' || !$group['code'] || $group['code'] == '')
     	{ 
-    		$this->failed_elements[] = Translation :: get('Invalid') . ': ' . $this->display_group($group);
+    		$this->failed_elements[] = Translation :: get('Invalid', null , Utilities :: COMMON_LIBRARIES) . ': ' . $this->display_group($group);
     		return $this->validate_children($group['children']);
     	}
     	
@@ -123,7 +123,7 @@ class GroupImportForm extends FormValidator
     	if( ($action == 'A' && $this->group_code_exists($group['code'])) || 
     		($action != 'A' && !$this->group_code_exists($group['code']) ))
     	{
-    		$this->failed_elements[] = Translation :: get('Invalid') . ': ' . $this->display_group($group);
+    		$this->failed_elements[] = Translation :: get('Invalid', null , Utilities :: COMMON_LIBRARIES) . ': ' . $this->display_group($group);
     		return $this->validate_children($group['children']);
     	}
     	

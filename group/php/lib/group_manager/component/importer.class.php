@@ -23,7 +23,7 @@ class GroupManagerImporterComponent extends GroupManager implements Administrati
        if (!GroupRights::is_allowed_in_groups_subtree(GroupRights::RIGHT_CREATE, GroupRights::get_location_by_identifier_from_groups_subtree(Request::get(GroupManager::PARAM_GROUP_ID))))
         {
             $this->display_header();
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get('NotAllowed', null , Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
@@ -73,9 +73,9 @@ class GroupManagerImporterComponent extends GroupManager implements Administrati
         $html[] = '<p>' . Translation :: get('Details') . '</p>';
         $html[] = '<blockquote>';
         $html[] = '<u><b>' . Translation :: get('Action') . '</u></b>';
-        $html[] = '<br />A: ' . Translation :: get('Add');
-        $html[] = '<br />U: ' . Translation :: get('Update');
-        $html[] = '<br />D: ' . Translation :: get('Delete');
+        $html[] = '<br />A: ' . Translation :: get('Add', null , Utilities :: COMMON_LIBRARIES);
+        $html[] = '<br />U: ' . Translation :: get('Update', null , Utilities :: COMMON_LIBRARIES);
+        $html[] = '<br />D: ' . Translation :: get('Delete', null , Utilities :: COMMON_LIBRARIES);
         $html[] = '</blockquote>';
         
         echo implode($html, "\n");

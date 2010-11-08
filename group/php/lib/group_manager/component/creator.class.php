@@ -24,7 +24,7 @@ class GroupManagerCreatorComponent extends GroupManager implements Administratio
 //        if (!GroupRights::is_allowed_in_groups_subtree(GroupRights::RIGHT_CREATE, Request::get(GroupManager::PARAM_GROUP_ID)))
 //        {
 //            $this->display_header();
-//            Display :: warning_message(Translation :: get('NotAllowed'));
+//            Display :: warning_message(Translation :: get('NotAllowed', null , Utilities :: COMMON_LIBRARIES));
 //            $this->display_footer();
 //            exit();
 //        }
@@ -38,11 +38,11 @@ class GroupManagerCreatorComponent extends GroupManager implements Administratio
             if ($success)
             {
                 $group = $form->get_group();
-                $this->redirect(Translation :: get('GroupCreated'), (false), array(Application :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $group->get_id()));
+                $this->redirect(Translation :: get('ObjectCreated', array('OBJECT' => Translation :: get('Group'))), (false), array(Application :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $group->get_id()));
             }
             else
             {
-                $this->redirect(Translation :: get('GroupNotCreated'), (true), array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS));
+                $this->redirect(Translation :: get('ObjectNotCreated', array ('OBJECT' => Translation :: get('Group'))), (true), array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS));
             }
         }
         else

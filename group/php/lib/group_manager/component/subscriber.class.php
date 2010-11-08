@@ -28,7 +28,7 @@ class GroupManagerSubscriberComponent extends GroupManager implements Administra
         if (!GroupRights::is_allowed_in_groups_subtree(GroupRights::RIGHT_SUBSCRIBE, GroupRights::get_location_by_identifier_from_groups_subtree(Request::get(GroupManager::PARAM_GROUP_ID))))
         {
             $this->display_header();
-            Display :: error_message(Translation :: get('NotAllowed'));
+            Display :: error_message(Translation :: get('NotAllowed', null , Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
@@ -100,7 +100,7 @@ class GroupManagerSubscriberComponent extends GroupManager implements Administra
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoGroupRelUserSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
         }
     }
     

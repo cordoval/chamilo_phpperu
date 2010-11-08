@@ -32,9 +32,9 @@ class GroupMoveForm extends FormValidator
     function build_form()
     {
         $this->addElement('select', self :: PROPERTY_LOCATION, Translation :: get('NewLocation'), $this->get_groups());
-        //$this->addElement('submit', 'group_export', Translation :: get('Ok'));
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Move'), array('class' => 'positive move'));
-        //$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        //$this->addElement('submit', 'group_export', Translation :: get('Ok', null , Utilities :: COMMON_LIBRARIES));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Move', null , Utilities :: COMMON_LIBRARIES), array('class' => 'positive move'));
+        //$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null , Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
         
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);

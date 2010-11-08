@@ -28,7 +28,7 @@ class GroupManagerTruncaterComponent extends GroupManager implements Administrat
         if (!GroupRights::is_allowed_in_groups_subtree(GroupRights::RIGHT_UNSUBSCRIBE, GroupRights::get_location_by_identifier_from_groups_subtree(Request::get(GroupManager::PARAM_GROUP_ID))))
         {
             $this->display_header();
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get('NotAllowed', null , Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
@@ -87,7 +87,7 @@ class GroupManagerTruncaterComponent extends GroupManager implements Administrat
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoGroupSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
         }
     }
     

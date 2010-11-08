@@ -35,7 +35,7 @@ class GroupUserImportForm extends FormValidator
         $allowed_upload_types = array('csv');
         $this->addRule('file', Translation :: get('OnlyCSVAllowed'), 'filetype', $allowed_upload_types);
         
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Import'), array('class' => 'positive import'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Import', null , Utilities :: COMMON_LIBRARIES), array('class' => 'positive import'));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
     
@@ -51,7 +51,7 @@ class GroupUserImportForm extends FormValidator
         	if($validated_group = $this->validate_group_user($group_user))
         		$validated_groups[] = $validated_group; 
         	else
-        		$this->failed_elements[] = Translation :: get('Invalid') . ': ' . implode(";", $group_user);
+        		$this->failed_elements[] = Translation :: get('Invalid', null , Utilities :: COMMON_LIBRARIES) . ': ' . implode(";", $group_user);
         }
 
         if(count($this->failed_elements) > 0)

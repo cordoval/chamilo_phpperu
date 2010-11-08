@@ -29,7 +29,7 @@ class GroupManagerEditorComponent extends GroupManager implements Administration
             if (!GroupRights::is_allowed_in_groups_subtree(GroupRights::RIGHT_EDIT, GroupRights::get_location_by_identifier_from_groups_subtree(Request::get(GroupManager::PARAM_GROUP_ID))))
         	{
                 $this->display_header();
-                Display :: error_message(Translation :: get("NotAllowed"));
+                Display :: error_message(Translation :: get('NotAllowed', null , Utilities :: COMMON_LIBRARIES));
                 $this->display_footer();
                 exit();
             }
@@ -40,7 +40,8 @@ class GroupManagerEditorComponent extends GroupManager implements Administration
             {
                 $success = $form->update_group();
                 $group = $form->get_group();
-                $this->redirect(Translation :: get($success ? 'GroupUpdated' : 'GroupNotUpdated'), ($success ? false : true), array(Application :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $group->get_id()));
+                $message =$success ? Translation :: get('ObjectUpdated', array('OBJECT' => Translation :: get('Group'), Utilities :: COMMON_LIBRARIES) : Translation :: get('ObjectNotUpdated', array('OBJECT' => Translation :: get('Group'), Utilities :: COMMON_LIBRARIES);
+                $this->redirect($message, ($success ? false : true), array(Application :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $group->get_id()));
             }
             else
             {
@@ -51,7 +52,7 @@ class GroupManagerEditorComponent extends GroupManager implements Administration
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoGroupSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', null , Utilities :: COMMON_LIBRARIES)));
         }
     }
     
