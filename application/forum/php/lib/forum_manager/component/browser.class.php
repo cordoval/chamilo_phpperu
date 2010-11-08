@@ -95,7 +95,7 @@ class ForumManagerBrowserComponent extends ForumManager
         {
             if($this->get_user()->is_platform_admin())
             {
-        		$toolbar = new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_rights_editor_url($category->get_id()), ToolbarItem :: DISPLAY_ICON);
+        		$toolbar = new ToolbarItem(Translation :: get('ManageRights' , null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_rights.png', $this->get_rights_editor_url($category->get_id()), ToolbarItem :: DISPLAY_ICON);
             	$rights = $toolbar->as_html();
             }
             
@@ -176,7 +176,7 @@ class ForumManagerBrowserComponent extends ForumManager
     	$toolbar = new Toolbar();
         if ($this->get_user()->is_platform_admin() || $publication->get_author() == $this->get_user_id())
         {
-        	$delete = new ToolbarItem(Translation :: get('Delete'), 
+        	$delete = new ToolbarItem(Translation :: get('Delete' , null , Utilities :: COMMON_LIBRARIES), 
         					Theme :: get_common_image_path() . 'action_delete.png', 
         					$this->get_url(array(ForumManager :: PARAM_PUBLICATION_ID => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_DELETE)),
         					ToolbarItem :: DISPLAY_ICON, 
@@ -184,7 +184,7 @@ class ForumManagerBrowserComponent extends ForumManager
         					
             if ($publication->is_hidden())
             {
-            	$toolbar->add_item(new ToolbarItem(Translation :: get('Show'), 
+            	$toolbar->add_item(new ToolbarItem(Translation :: get('Show' , null , Utilities :: COMMON_LIBRARIES), 
         					Theme :: get_common_image_path() . 'action_invisible.png', 
         					$this->get_url(array(ForumManager :: PARAM_PUBLICATION_ID => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_TOGGLE_VISIBILITY)),
         					ToolbarItem :: DISPLAY_ICON
@@ -192,7 +192,7 @@ class ForumManagerBrowserComponent extends ForumManager
             }
             else
             {
-            	$toolbar->add_item(new ToolbarItem(Translation :: get('Hide'), 
+            	$toolbar->add_item(new ToolbarItem(Translation :: get('Hide' , null , Utilities :: COMMON_LIBRARIES), 
         					Theme :: get_common_image_path() . 'action_visible.png', 
         					$this->get_url(array(ForumManager :: PARAM_PUBLICATION_ID => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_TOGGLE_VISIBILITY)),
         					ToolbarItem :: DISPLAY_ICON
@@ -201,7 +201,7 @@ class ForumManagerBrowserComponent extends ForumManager
             
             if ($first)
             {
-            	$toolbar->add_item(new ToolbarItem(Translation :: get('MoveUpNA'), 
+            	$toolbar->add_item(new ToolbarItem(Translation :: get('MoveUpNA' , null , Utilities :: COMMON_LIBRARIES), 
         					Theme :: get_common_image_path() . 'action_up_na.png', 
         					null,
         					ToolbarItem :: DISPLAY_ICON
@@ -209,7 +209,7 @@ class ForumManagerBrowserComponent extends ForumManager
             }
             else
             {
-            	$toolbar->add_item(new ToolbarItem(Translation :: get('MoveUp'), 
+            	$toolbar->add_item(new ToolbarItem(Translation :: get('MoveUp' , null , Utilities :: COMMON_LIBRARIES), 
         					Theme :: get_common_image_path() . 'action_up.png', 
         					$this->get_url(array(ForumManager :: PARAM_PUBLICATION_ID => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_MOVE, ForumManager :: PARAM_MOVE => - 1)),
         					ToolbarItem :: DISPLAY_ICON
@@ -218,7 +218,7 @@ class ForumManagerBrowserComponent extends ForumManager
             
             if ($last)
             {
-            	$toolbar->add_item(new ToolbarItem(Translation :: get('MoveDownNA'), 
+            	$toolbar->add_item(new ToolbarItem(Translation :: get('MoveDownNA' , null , Utilities :: COMMON_LIBRARIES), 
         					Theme :: get_common_image_path() . 'action_down_na.png', 
         					null,
         					ToolbarItem :: DISPLAY_ICON
@@ -226,7 +226,7 @@ class ForumManagerBrowserComponent extends ForumManager
             }
             else
             {
-            	$toolbar->add_item(new ToolbarItem(Translation :: get('MoveDown'), 
+            	$toolbar->add_item(new ToolbarItem(Translation :: get('MoveDown' , null , Utilities :: COMMON_LIBRARIES), 
         					Theme :: get_common_image_path() . 'action_down.png', 
         					$this->get_url(array(ForumManager :: PARAM_PUBLICATION_ID => $publication->get_id())),
         					ToolbarItem :: DISPLAY_ICON
@@ -240,7 +240,7 @@ class ForumManagerBrowserComponent extends ForumManager
             //				'img' => Theme :: get_common_image_path() . 'action_move.png'
             //			);
             
-			$toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), 
+			$toolbar->add_item(new ToolbarItem(Translation :: get('Edit' , null , Utilities :: COMMON_LIBRARIES), 
         					Theme :: get_common_image_path() . 'action_edit.png', 
         					$this->get_url(array(ForumManager :: PARAM_PUBLICATION_ID => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_EDIT)),
         					ToolbarItem :: DISPLAY_ICON
@@ -274,7 +274,7 @@ class ForumManagerBrowserComponent extends ForumManager
 	        {
 	        	require_once dirname (__FILE__) . '/../../../gradebook/evaluation_manager/evaluation_manager.class.php';
         		if(EvaluationManager :: retrieve_internal_item_by_publication(ForumManager :: APPLICATION_NAME, $publication->get_id()))
-        			$toolbar->add_item(new ToolbarItem(Translation :: get('Evaluation'), 
+        			$toolbar->add_item(new ToolbarItem(Translation :: get('Evaluation' , null , 'application\gradebook' ), 
         					Theme :: get_common_image_path() . 'action_evaluation.png', 
         					$this->get_url(array(ForumManager :: PARAM_PUBLICATION_ID => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_EVALUATE)),
         					ToolbarItem :: DISPLAY_ICON
@@ -290,7 +290,7 @@ class ForumManagerBrowserComponent extends ForumManager
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_CREATE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish' , null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_CREATE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         //$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path().'action_category.png', $this->get_url(array(DocumentTool :: PARAM_ACTION => DocumentTool :: ACTION_MANAGE_CATEGORIES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
 
@@ -304,8 +304,8 @@ class ForumManagerBrowserComponent extends ForumManager
         
 		if($this->get_user()->is_platform_admin())
 		{
-        	$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path() . 'action_category.png', $this->get_category_manager_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        	$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_rights_editor_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        	$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories' , null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_category.png', $this->get_category_manager_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        	$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageRights' , null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_rights.png', $this->get_rights_editor_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		}
         
         return $action_bar;
