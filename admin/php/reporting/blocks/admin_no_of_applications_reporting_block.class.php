@@ -22,28 +22,28 @@ class AdminNoOfApplicationsReportingBlock extends AdminReportingBlock
         {
             $arr[Translation :: get('NumberOfApplications')] ++;
         }
-		
+
         $reporting_data->set_categories(array(Translation :: get('NumberOfApplications')));
         $reporting_data->set_rows(array(Translation :: get('count')));
 
-        $reporting_data->add_data_category_row(Translation :: get('NumberOfApplications'), Translation :: get('count'), $arr[Translation :: get('NumberOfApplications')]);
+        $reporting_data->add_data_category_row(Translation :: get('NumberOfApplications'), Translation :: get('Count', array(), Utilities :: COMMON_LIBRARIES), $arr[Translation :: get('NumberOfApplications')]);
         return $reporting_data;
-	}	
-	
+	}
+
 	public function retrieve_data()
 	{
 		return $this->count_data();
 	}
-	
+
 	public function get_application()
 	{
 		return AdminManager::APPLICATION_NAME;
 	}
-	
+
 	public function get_available_displaymodes()
 	{
 		$modes = array();
-        //$modes[ReportingFormatter::DISPLAY_TEXT] = Translation :: get('Text');
+        //$modes[ReportingFormatter::DISPLAY_TEXT] = Translation :: get('Text', array(), Utilities :: COMMON_LIBRARIES);
         return $modes;
 	}
 }

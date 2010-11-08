@@ -25,12 +25,12 @@ class ServerPackageDependency extends PackageDependency
     {
         return $this->version;
     }
-    
+
 	public function get_operator()
     {
     	return $this->version['type'];
     }
-    
+
     public function get_version_number()
     {
     	return $this->version['_content'];
@@ -47,7 +47,7 @@ class ServerPackageDependency extends PackageDependency
     function check()
     {
         $version = $this->get_version();
-        $message = Translation :: get('DependencyCheckServer') . ': ' . $this->as_html() . ' ' . Translation :: get('Found') . ': ';
+        $message = Translation :: get('DependencyCheckServer') . ': ' . $this->as_html() . ' ' . Translation :: get('Found', array(), Utilities :: COMMON_LIBRARIES) . ': ';
 
         switch ($this->get_id())
         {
@@ -64,7 +64,7 @@ class ServerPackageDependency extends PackageDependency
     function as_html()
     {
         $version = $this->get_version();
-        return $this->get_id() . '. ' . Translation :: get('Expecting') . ': ' . $version['_content'];
+        return $this->get_id() . '. ' . Translation :: get('Expecting', array(), Utilities :: COMMON_LIBRARIES) . ': ' . $version['_content'];
     }
 }
 ?>

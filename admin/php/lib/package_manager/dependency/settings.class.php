@@ -37,7 +37,7 @@ class SettingsPackageDependency extends PackageDependency
     function check()
     {
         $setting = ini_get($this->get_id());
-        $message = Translation :: get('DependencyCheckSetting') . ': ' . $this->as_html() . ' ' . Translation :: get('Found') . ': ' . $setting;
+        $message = Translation :: get('DependencyCheckSetting') . ': ' . $this->as_html() . ' ' . Translation :: get('Found', array(), Utilities :: COMMON_LIBRARIES) . ': ' . $setting;
         $value = $this->get_value();
         $this->logger->add_message($message);
         return $this->compare($value['type'], $value['_content'], $setting);
@@ -46,7 +46,7 @@ class SettingsPackageDependency extends PackageDependency
     function as_html()
     {
         $value = $this->get_value();
-        return $this->get_id() . '. ' . Translation :: get('Expecting') . ': ' . $value['_content'];
+        return $this->get_id() . '. ' . Translation :: get('Expecting', array(), Utilities :: COMMON_LIBRARIES) . ': ' . $value['_content'];
     }
 }
 ?>

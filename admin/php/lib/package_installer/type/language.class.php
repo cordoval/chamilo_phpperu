@@ -17,29 +17,29 @@ class PackageInstallerLanguageType extends PackageInstallerType
         if ($this->verify_dependencies())
         {
             $this->get_parent()->installation_successful('dependencies', Translation :: get('LanguageDependenciesVerified'));
-            
+
             if (! $this->add_registration())
             {
-                $this->get_parent()->add_message(Translation :: get('LanguageRegistrationNotAdded'), PackageInstaller :: TYPE_WARNING);
+                $this->get_parent()->add_message(Translation :: get('ObjectNotAdded', array('OBJECT' => Translation :: get('LanguageRegistration')), Utilities :: COMMON_LIBRARIES), PackageInstaller :: TYPE_WARNING);
             }
             else
             {
-                $this->get_parent()->add_message(Translation :: get('LanguageRegistrationAdded'));
+                $this->get_parent()->add_message(Translation :: get('ObjectAdded', array('OBJECT' => Translation :: get('LanguageRegistration')), Utilities :: COMMON_LIBRARIES));
             }
         }
         else
         {
             return $this->get_parent()->installation_failed('dependencies', Translation :: get('PackageDependenciesFailed'));
         }
-        
+
         //$this->cleanup();
-        
+
 
         $this->get_source()->cleanup();
-        
+
         return true;
     }
-    
+
     static function get_path($language_name)
     {
     	return Path :: get_language_path() . $language_name . '/';
@@ -50,14 +50,14 @@ class PackageInstallerLanguageType extends PackageInstallerType
         $source = $this->get_source();
         $attributes = $source->get_attributes();
         $language_name = $attributes->get_code();
-        
+
         $registration = new Language();
         $registration->set_original_name($language_name);
         $registration->set_english_name($language_name);
         $registration->set_isocode($language_name);
         $registration->set_folder($language_name);
         $registration->set_available(1);
-        
+
         return $registration->create();
     }
 }

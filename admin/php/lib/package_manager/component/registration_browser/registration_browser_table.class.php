@@ -31,10 +31,10 @@ class RegistrationBrowserTable extends ObjectTable
         parent :: __construct($data_provider, RegistrationBrowserTable :: DEFAULT_NAME, $model, $renderer);
         $this->set_additional_parameters($parameters);
         $actions = array();
-        
-        $actions[] = new ObjectTableFormAction(PackageManager :: PARAM_ACTIVATE_SELECTED, Translation :: get('ActivateSelected'), false);
-        $actions[] = new ObjectTableFormAction(PackageManager :: PARAM_DEACTIVATE_SELECTED, Translation :: get('DeactivateSelected'), false);
-        
+
+        $actions[] = new ObjectTableFormAction(PackageManager :: PARAM_ACTIVATE_SELECTED, Translation :: get('Activate', array(), Utilities :: COMMON_LIBRARIES), false);
+        $actions[] = new ObjectTableFormAction(PackageManager :: PARAM_DEACTIVATE_SELECTED, Translation :: get('Deactivate', array(), Utilities :: COMMON_LIBRARIES), false);
+
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
     }

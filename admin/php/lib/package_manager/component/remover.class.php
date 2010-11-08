@@ -24,18 +24,18 @@ class PackageManagerRemoverComponent extends PackageManager
 //        if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW))
 //        {
 //            $this->display_header();
-//            $this->display_error_message(Translation :: get('NotAllowed'));
+//            $this->display_error_message(Translation :: get('NotAllowed', array(), Utilities :: COMMON_LIBRARIES));
 //            $this->display_footer();
 //            exit();
 //        }
-        
+
         $type = Request :: get(PackageManager :: PARAM_SECTION);
-        
+
         if ($type)
         {
             $remover = PackageRemover :: factory($type, $this);
             $remover->run();
-            
+
             $this->display_header();
             echo $remover->retrieve_result();
             $this->display_footer();
@@ -47,13 +47,13 @@ class PackageManagerRemoverComponent extends PackageManager
             $this->display_footer();
         }
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_BROWSE_PACKAGES)), Translation :: get('PackageManagerBrowserComponent')));
     	$breadcrumbtrail->add_help('admin_package_manager_remover');
     }
-    
+
  	function get_additional_parameters()
     {
     	return array(PackageManager :: PARAM_SECTION, PackageManager :: PARAM_PACKAGE);

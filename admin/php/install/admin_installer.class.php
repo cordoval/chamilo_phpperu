@@ -74,7 +74,7 @@ class AdminInstaller extends Installer
 
 	    		if ($language->create())
 		        {
-		            $this->add_message(self :: TYPE_NORMAL, Translation :: get('LanguageAdded') . ' ' . $xml_data['english']);
+		            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectsAdded', array('OBJECT' => Translation ::get('Language')), Utilities :: COMMON_LIBRARIES) . ' ' . $xml_data['english']);
 		        }
 		        else
 		        {
