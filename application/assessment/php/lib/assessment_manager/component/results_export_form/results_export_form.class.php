@@ -8,6 +8,7 @@ use common\libraries\EqualityCondition;
 use user\UserDataManager;
 use common\libraries\Theme;
 use common\libraries\Export;
+use common\libraries\Utilities;
 /**
  * $Id: results_export_form.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.assessment_manager.component.results_export_form
@@ -62,7 +63,7 @@ class AssessmentResultsExportForm extends FormValidator
         
         $options = Export :: get_supported_filetypes(array('ical'));
         $this->addElement('select', 'filetype', 'Export to filetype:', $options);
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Export'), array('class' => 'positive export'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Export', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive export'));
         
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

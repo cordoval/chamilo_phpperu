@@ -71,7 +71,8 @@ class ProfilerManagerEditorComponent extends ProfilerManager
                     if ($publication_form->validate())
                     {
                         $success = $publication_form->update_content_object_publication();
-                        $this->redirect('url', Translation :: get(($success ? 'ProfilePublicationUpdated' : 'ProfilePublicationNotUpdated')), ($success ? false : true), array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES));
+                        $message = $success ? Translation :: get ('ObjectUpdated', array('OBJECT' => Translation :: get('ProfilePublication') , Utilities :: COMMON_LIBRARIES)) : Translation :: get ('ObjectNotUpdated', array('OBJECT' => Translation :: get('ProfilePublication') , Utilities :: COMMON_LIBRARIES));
+                        $this->redirect('url', $message, ($success ? false : true), array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES));
                     }
                     else
                     {
@@ -84,7 +85,8 @@ class ProfilerManagerEditorComponent extends ProfilerManager
                 }
                 else
                 {
-                    $this->redirect(Translation :: get(($success ? 'ProfilePublicationUpdated' : 'ProfilePublicationNotUpdated')), ($success ? false : true), array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES));
+                     $message = $success ? Translation :: get ('ObjectUpdated', array('OBJECT' => Translation :: get('ProfilePublication') , Utilities :: COMMON_LIBRARIES)) : Translation :: get ('ObjectNotUpdated', array('OBJECT' => Translation :: get('ProfilePublication') , Utilities :: COMMON_LIBRARIES));
+                     $this->redirect($message , ($success ? false : true), array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES));
                 }
             }
             else
@@ -96,7 +98,7 @@ class ProfilerManagerEditorComponent extends ProfilerManager
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoCalendarEventPublicationSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectsSelected', null , Utilities :: COMMON_LIBRARIES)));
         }
     }
 

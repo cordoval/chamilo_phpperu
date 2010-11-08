@@ -31,7 +31,7 @@ class ProfilePublicationBrowserTable extends ObjectTable
         parent :: __construct($data_provider, ProfilePublicationBrowserTable :: DEFAULT_NAME, $model, $renderer);
         $actions = array();
         
-        $actions[] = new ObjectTableFormAction(ProfilerManager :: PARAM_DELETE_SELECTED, Translation :: get('RemoveSelected'));
+        $actions[] = new ObjectTableFormAction(ProfilerManager :: PARAM_DELETE_SELECTED, Translation :: get('RemoveSelected', null , Utilities :: COMMON_LIBRARIES));
         
         if ($browser->get_user()->is_platform_admin())
         {

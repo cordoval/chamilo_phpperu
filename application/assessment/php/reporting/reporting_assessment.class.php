@@ -12,6 +12,7 @@ use common\libraries\ToolbarItem;
 use common\libraries\Theme;
 use repository\content_object\assessment\Assessment;
 use common\libraries\DatetimeUtilities;
+use common\libraries\Utilities;
 /**
  * $Id: reporting_assessment.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.reporting
@@ -45,14 +46,14 @@ class ReportingAssessment
         $assessment = $pub->get_publication_object();
        	
         $reporting_data = new ReportingData();
-		$set_rows = $reporting_data->set_rows(array(Translation :: get('User'), Translation :: get('Date'), Translation :: get('TotalScore'), Translation :: get('Action')));
+		$set_rows = $reporting_data->set_rows(array(Translation :: get('User', null, 'user'), Translation :: get('Date', null, Utilities :: COMMON_LIBRARIES), Translation :: get('TotalScore'), Translation :: get('Action', null, Utilities :: COMMON_LIBRARIES)));
 
         foreach ($trackers as $index => $tracker)
         {
         	$reporting_data->add_category($index);
             $user = UserDataManager :: get_instance()->retrieve_user($tracker->get_user_id());
-            $reporting_data->add_data_category_row($index, Translation :: get('User'), $user->get_fullname());
-            $reporting_data->add_data_category_row($index, Translation :: get('Date'), DatetimeUtilities :: format_locale_date(null, $tracker->get_date()));
+            $reporting_data->add_data_category_row($index, Translation :: get('User', null, 'user'), $user->get_fullname());
+            $reporting_data->add_data_category_row($index, Translation :: get('Date', null, Utilities :: COMMON_LIBRARIES), DatetimeUtilities :: format_locale_date(null, $tracker->get_date()));
             $reporting_data->add_data_category_row($index, Translation :: get('TotalScore'), $tracker->get_total_score() . '%');
             $toolbar = new Toolbar();
             if (!array_key_exists('export',$params))
@@ -65,7 +66,7 @@ class ReportingAssessment
 	            }
 	            
 	            $toolbar->add_item(new ToolbarItem(Translation :: get('DeleteResults'), Theme :: get_common_image_path() . 'action_delete.png', $url . '&delete=tid_' . $tracker->get_id(), ToolbarItem :: DISPLAY_ICON, true ));
-            $reporting_data->add_data_category_row($index, Translation :: get('Action'), $toolbar->as_html());
+            $reporting_data->add_data_category_row($index, Translation :: get('Action', null, Utilities :: COMMON_LIBRARIES), $toolbar->as_html());
             }
         }
         $reporting_data->hide_categories();
@@ -84,10 +85,10 @@ class ReportingAssessment
         $dummy = new AssessmentAssessmentAttemptsTracker();
 		
         $reporting_data = new ReportingData();
-		$reporting_data->set_rows(array(Translation :: get('Type'), Translation :: get('Title'), Translation :: get('TimesTaken'), Translation :: get('AverageScore')));
+		$reporting_data->set_rows(array(Translation :: get('Type', null, Utilities :: COMMON_LIBRARIES), Translation :: get('Title', null, Utilities :: COMMON_LIBRARIES), Translation :: get('TimesTaken'), Translation :: get('AverageScore')));
 		if (!array_key_exists('export',$params))
         {
-        	$reporting_data->add_row(Translation :: get('Action'));
+        	$reporting_data->add_row(Translation :: get('Action', null, Utilities :: COMMON_LIBRARIES));
         }
         while ($publication = $publications->next_result())
         {
@@ -100,8 +101,8 @@ class ReportingAssessment
                 $type = $lo->get_assessment_type();
             }
             
-            $reporting_data->add_data_category_row($lo->get_id(), Translation :: get('Type'), Translation :: get($type));
-            $reporting_data->add_data_category_row($lo->get_id(), Translation :: get('Title'), $lo->get_title());
+            $reporting_data->add_data_category_row($lo->get_id(), Translation :: get('Type', null, Utilities :: COMMON_LIBRARIES), Translation :: get($type));
+            $reporting_data->add_data_category_row($lo->get_id(), Translation :: get('Title', null, Utilities :: COMMON_LIBRARIES), $lo->get_title());
             $reporting_data->add_data_category_row($lo->get_id(), Translation :: get('TimesTaken'), $dummy->get_times_taken($publication));
             $reporting_data->add_data_category_row($lo->get_id(), Translation :: get('AverageScore'),$dummy->get_average_score($publication) . '%');
             
@@ -112,7 +113,7 @@ class ReportingAssessment
 	            
             	$toolbar->add_item(new ToolbarItem(Translation :: get('DeleteResults'), Theme :: get_common_image_path() . 'action_delete.png', $url . '&delete=aid_' . $publication->get_id(), ToolbarItem::DISPLAY_ICON, true));
 	            
-	            $reporting_data->add_data_category_row($lo->get_id(), Translation :: get('Action'), $toolbar->as_html());
+	            $reporting_data->add_data_category_row($lo->get_id(), Translation :: get('Action', null, Utilities :: COMMON_LIBRARIES), $toolbar->as_html());
             }
         }
         

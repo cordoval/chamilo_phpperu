@@ -49,7 +49,7 @@ class ProfilePublicationBrowserTableCellRenderer extends DefaultProfilePublicati
         switch ($column->get_name())
         {
             case ProfilerPublication :: PROPERTY_PUBLISHED :
-                return DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $profile->get_published());
+                return DatetimeUtilities :: format_locale_date(Translation :: get('DateFormatShort', null , Utilities :: COMMON_LIBRARIES) . ', ' . Translation :: get('TimeNoSecFormat', null , Utilities :: COMMON_LIBRARIES), $profile->get_published());
                 break;
             case ProfilerPublication :: PROPERTY_PROFILE :
                 $title = parent :: render_cell($column, $profile);
@@ -79,7 +79,7 @@ class ProfilePublicationBrowserTableCellRenderer extends DefaultProfilePublicati
         {
             $edit_url = $this->browser->get_publication_editing_url($profile);
             $toolbar->add_item(new ToolbarItem(
-                            Translation :: get('Edit'),
+                            Translation :: get('Edit', null , Utilities :: COMMON_LIBRARIES),
                             Theme :: get_common_image_path() . 'action_edit.png',
                             $edit_url,
                             ToolbarItem :: DISPLAY_ICON
@@ -90,7 +90,7 @@ class ProfilePublicationBrowserTableCellRenderer extends DefaultProfilePublicati
         {
             $delete_url = $this->browser->get_publication_deleting_url($profile);
             $toolbar->add_item(new ToolbarItem(
-                            Translation :: get('Delete'),
+                            Translation :: get('Delete', null , Utilities :: COMMON_LIBRARIES),
                             Theme :: get_common_image_path() . 'action_delete.png',
                             $delete_url,
                             ToolbarItem :: DISPLAY_ICON,
@@ -101,7 +101,7 @@ class ProfilePublicationBrowserTableCellRenderer extends DefaultProfilePublicati
         {
             $edit_url = $this->browser->get_rights_editor_url($profile->get_default_property("category_name"),$profile->get_id());
             $toolbar->add_item(new ToolbarItem(
-                            Translation :: get('EditRights'),
+                            Translation :: get('ManageRights', null , Utilities :: COMMON_LIBRARIES),
                             Theme :: get_common_image_path() . 'action_rights.png',
                             $edit_url,
                             ToolbarItem :: DISPLAY_ICON

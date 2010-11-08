@@ -39,7 +39,7 @@ class AssessmentPublicationBrowserTable extends ObjectTable
         $this->set_additional_parameters($parameters);
         $actions = new ObjectTableFormActions(AssessmentManager :: PARAM_ACTION);
         
-        $actions->add_form_action(new ObjectTableFormAction(AssessmentManager :: ACTION_DELETE_ASSESSMENT_PUBLICATION, Translation :: get('RemoveSelected')));
+        $actions->add_form_action(new ObjectTableFormAction(AssessmentManager :: ACTION_DELETE_ASSESSMENT_PUBLICATION, Translation :: get('RemoveSelected', null, Utilities :: COMMON_LIBRARIES)));
         
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);

@@ -57,7 +57,7 @@ class ProfilerManagerRightsEditorComponent extends ProfilerManager
         if (!$edit_rights_right)
         {
             $this->display_header($trail);
-            Display :: warning_message(Translation :: get('NotAllowed'));
+            Display :: warning_message(Translation :: get('NotAllowed', null , Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }

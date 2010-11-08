@@ -39,7 +39,7 @@ class ProfilerInstaller extends Installer
         }
         else
         {
-            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ProfilerSubtreeCreated'));
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectCreated', array('OBJECT' => Translation :: get('ProfilerSubtree')) , Utilities :: COMMON_LIBRARIES));
         }
 
         return true;

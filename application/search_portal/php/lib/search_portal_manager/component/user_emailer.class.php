@@ -28,7 +28,7 @@ class SearchPortalManagerUserEmailerComponent extends SearchPortalManager
 	    if (!($this->get_user()->is_platform_admin()))
         {
             $this->display_header();
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get("NotAllowed", null , Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
@@ -57,7 +57,7 @@ class SearchPortalManagerUserEmailerComponent extends SearchPortalManager
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', null , Utilities :: COMMON_LIBRARIES)));
         }
     }
 
