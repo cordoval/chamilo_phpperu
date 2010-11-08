@@ -31,7 +31,7 @@ class SettingsManagerTable extends ObjectTable
 			$actions[RepositoryManager :: PARAM_MOVE_SELECTED] = Translation :: get('MoveSelected');
 			$actions[RepositoryManager :: PARAM_PUBLISH_SELECTED] = Translation :: get('PublishSelected');*/
 
-            $actions[] = new ObjectTableFormAction(MediamosaExternalRepositoryManager :: ACTION_ADD_SETTING, Translation :: get('Add'));
+            $actions[] = new ObjectTableFormAction(MediamosaExternalRepositoryManager :: ACTION_ADD_SETTING, Translation :: get('Add', null, Utilities :: COMMON_LIBRARIES));
         }
 
         $this->set_additional_parameters($parameters);

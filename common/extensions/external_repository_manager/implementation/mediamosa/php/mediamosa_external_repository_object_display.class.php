@@ -22,11 +22,11 @@ class MediamosaExternalRepositoryObjectDisplay extends ExternalRepositoryObjectD
         $object = $this->get_object();
 
         $properties = array();
-        $properties[Translation :: get('Title')] = $object->get_title();
+        $properties[Translation :: get('Title', null, Utilities :: COMMON_LIBRARIES)] = $object->get_title();
 
         if ($object->get_description())
         {
-            $properties[Translation :: get('Description')] = $object->get_description();
+            $properties[Translation :: get('Description', null, Utilities :: COMMON_LIBRARIES)] = $object->get_description();
         }
         $properties[Translation :: get('UploadedOn')] = DatetimeUtilities :: format_locale_date(null, $object->get_created());
         if ($object->get_created() != $object->get_modified())

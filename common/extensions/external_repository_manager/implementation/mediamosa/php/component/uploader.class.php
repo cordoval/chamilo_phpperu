@@ -65,7 +65,7 @@ class MediamosaExternalRepositoryManagerUploaderComponent extends MediamosaExter
                     $params[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = ExternalRepositoryManager :: ACTION_VIEW_EXTERNAL_REPOSITORY;
                     $params[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY] = $this->get_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY);
                     $params[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID] = $ticket_response['asset_id'];
-                    $params['message'] = Translation :: get('UploadSuccess') . '. ' . Translation :: get('TranscodeNeeded');
+                    $params['message'] = Translation :: get('Success', null, Utilities :: COMMON_LIBRARIES) . '. ' . Translation :: get('TranscodeNeeded');
 
                     //generate uploadform
                     $uploadform = new MediamosaExternalRepositoryManagerUploadForm($ticket_response, $params, $this);
@@ -78,7 +78,7 @@ class MediamosaExternalRepositoryManagerUploaderComponent extends MediamosaExter
                 else
                 {
                     $params[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = ExternalRepositoryManager :: ACTION_BROWSE_EXTERNAL_REPOSITORY;
-                    $this->redirect(Translation :: get('failed'), 1, $params);
+                    $this->redirect(Translation :: get('failed', null, Utilities :: COMMON_LIBRARIES), 1, $params);
                 }
             }
             else
@@ -91,7 +91,7 @@ class MediamosaExternalRepositoryManagerUploaderComponent extends MediamosaExter
         else
         {
             $params[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = ExternalRepositoryManager :: ACTION_BROWSE_EXTERNAL_REPOSITORY;
-            $this->redirect(Translation :: get('OverQuota'), 1, $params);
+            $this->redirect(Translation :: get('OverQuota', null, 'user'), 1, $params);
 
         }
     }
