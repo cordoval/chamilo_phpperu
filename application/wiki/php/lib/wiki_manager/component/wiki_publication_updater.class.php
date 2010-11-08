@@ -36,7 +36,8 @@ class WikiManagerWikiPublicationUpdaterComponent extends WikiManager
             if ($pub_form->validate())
             {
                 $success = $pub_form->update_wiki_publication();
-                $this->redirect($success ? Translation :: get('WikiPublicationUpdated') : Translation :: get('WikiPublicationNotUpdated'), ! $success, array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_BROWSE_WIKI_PUBLICATIONS));
+                $message = $success ? Translation :: get('ObjectUpdated', array('OBJECT' => Translation :: get('WikiPublication')), Utilities :: COMMON_LIBRARIES) : Translation :: get('ObjectNotUpdated', array('OBJECT' => Translation :: get('WikiPublication')), Utilities :: COMMON_LIBRARIES);
+                $this->redirect($message , ! $success, array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_BROWSE_WIKI_PUBLICATIONS));
             }
             else
             {

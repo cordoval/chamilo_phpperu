@@ -36,11 +36,11 @@ class WikiPublicationPublisher
         
         if ($error)
         {
-            $message = Translation :: get('ObjectNotPublished');
+            $message = Translation :: get('ObjectNotPublished', array('OBJECT' => Translation :: get('Wiki')) , Utilities :: COMMON_LIBRARIES);
         }
         else
         {
-            $message = Translation :: get('ObjectPublished');
+            $message = Translation :: get('ObjectPublished', array('OBJECT' => Translation :: get('Wiki')) , Utilities :: COMMON_LIBRARIES);
         }
         
         $this->parent->redirect($message, false);

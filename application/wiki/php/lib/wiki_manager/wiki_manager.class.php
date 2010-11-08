@@ -188,7 +188,7 @@ class WikiManager extends WebApplication
         $publication->set_to_date(0);
 
         $publication->create();
-        return Translation :: get('PublicationCreated');
+        return Translation :: get('ObjectCreated', array('OBJECT' => Translation :: get('Wiki')) , Utilities :: COMMON_LIBRARIES);
     }
 
     /**

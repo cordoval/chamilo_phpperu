@@ -70,14 +70,14 @@ class WikiPublicationBrowserTableCellRenderer extends DefaultWikiPublicationTabl
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
         $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Edit'),
+        		Translation :: get('Edit', null , Utilities :: COMMON_LIBRARIES),
         		Theme :: get_common_image_path() . 'action_edit.png',
         		$this->browser->get_update_wiki_publication_url($wiki_publication),
         		ToolbarItem :: DISPLAY_ICON
         ));
         
         $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Delete'),
+        		Translation :: get('Delete', null , Utilities :: COMMON_LIBRARIES),
         		Theme :: get_common_image_path() . 'action_delete.png',
         		$this->browser->get_delete_wiki_publication_url($wiki_publication),
         		ToolbarItem :: DISPLAY_ICON,
@@ -90,7 +90,7 @@ class WikiPublicationBrowserTableCellRenderer extends DefaultWikiPublicationTabl
         	if(EvaluationManager :: retrieve_internal_item_by_publication(WikiManager :: APPLICATION_NAME, $wiki_publication->get_id()))
         	{
         		$toolbar->add_item(new ToolbarItem(
-		        		Translation :: get('Evaluation'),
+		        		Translation :: get('Evaluation', null , 'application/gradebook'),
 		        		Theme :: get_common_image_path() . 'action_evaluation.png',
 		        		$this->browser->get_evaluation_publication_url($wiki_publication),
 		        		ToolbarItem :: DISPLAY_ICON
