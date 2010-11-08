@@ -27,7 +27,7 @@ class SearchPortalBasic extends SearchPortalBlock
         //$html[] = 'Search Portal test block ...';
         $form = new FormValidator('search_simple', 'get', 'run.php', '', null, false);
         $form->addElement('text', 'query', '', 'style="width:80%;" id="inputString" onkeyup="lookup(this.value);"');
-        $form->addElement('submit', 'submit', Translation :: get('Search'));
+        $form->addElement('submit', 'submit', Translation :: get('Search', null , Utilities :: COMMON_LIBRARIES));
         $form->addElement('hidden', 'application', 'search_portal');
         $html[] = '<div style="text-align: center; margin: 0 0 2em 0;">';
         $renderer = clone $form->defaultRenderer();
