@@ -8,6 +8,7 @@ use common\libraries\Path;
 
 use repository\RepositoryDataManager;
 use repository\ContentObjectForm;
+use common\libraries\Utilities;
 
 /**
  * $Id: hotspot_question_form.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -37,9 +38,9 @@ class HotspotQuestionForm extends ContentObjectForm
         $url = $this->get_path(WEB_PATH) . 'repository/php/xml_feeds/xml_image_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('AddAttachments');
-        $locale['Searching'] = Translation :: get('Searching');
-        $locale['NoResults'] = Translation :: get('NoResults');
-        $locale['Error'] = Translation :: get('Error');
+        $locale['Searching'] = Translation :: get('Searching', null, Utilities :: COMMON_LIBRARIES);
+        $locale['NoResults'] = Translation :: get('NoResults', null, Utilities :: COMMON_LIBRARIES);
+        $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARIES);
 
         //$this->add_warning_message('hotspot_javascript', Translation :: get('HotspotJavascriptWarning'), Translation :: get('HotspotJavascriptRequired'), true);
 

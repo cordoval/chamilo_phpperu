@@ -198,8 +198,8 @@ class AssessmentMultipleChoiceQuestionForm extends MultipleChoiceQuestionForm
                 }
 
                 $group[] = $this->create_html_editor(MultipleChoiceQuestionOption :: PROPERTY_VALUE . '[' . $option_number . ']', Translation :: get('Answer'), $html_editor_options);
-                $group[] = $this->create_html_editor(AssessmentMultipleChoiceQuestionOption :: PROPERTY_FEEDBACK . '[' . $option_number . ']', Translation :: get('feedback'), $html_editor_options);
-                $group[] = & $this->createElement('text', AssessmentMultipleChoiceQuestionOption :: PROPERTY_SCORE . '[' . $option_number . ']', Translation :: get('score'), 'size="2"  class="input_numeric"');
+                $group[] = $this->create_html_editor(AssessmentMultipleChoiceQuestionOption :: PROPERTY_FEEDBACK . '[' . $option_number . ']', Translation :: get('Feedback'), $html_editor_options);
+                $group[] = & $this->createElement('text', AssessmentMultipleChoiceQuestionOption :: PROPERTY_SCORE . '[' . $option_number . ']', Translation :: get('Score'), 'size="2"  class="input_numeric"');
 
                 if ($number_of_options - count($_SESSION['mc_skip_options']) > 2)
                 {
