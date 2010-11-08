@@ -67,7 +67,7 @@ class FlickrExternalRepositoryManagerForm extends FormValidator
 
     function build_basic_form()
     {
-        $this->addElement('text', FlickrExternalRepositoryObject :: PROPERTY_TITLE, Translation :: get('Title'), array('size' => '50'));
+        $this->addElement('text', FlickrExternalRepositoryObject :: PROPERTY_TITLE, Translation :: get('Title', null, Utilities :: COMMON_LIBRARIES), array('size' => '50'));
         $this->addRule(FlickrExternalRepositoryObject :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
 
         $this->addElement('textarea', FlickrExternalRepositoryObject :: PROPERTY_TAGS, Translation :: get('Tags'), array('rows' => '2', 'cols' => '80'));

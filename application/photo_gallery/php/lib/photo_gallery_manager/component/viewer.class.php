@@ -54,7 +54,7 @@ class PhotoGalleryManagerViewerComponent extends PhotoGalleryManager
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoPublicationSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('Publication')), Utilities :: COMMON_LIBRARIES)));
         }
     }
 

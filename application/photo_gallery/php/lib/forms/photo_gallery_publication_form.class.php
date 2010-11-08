@@ -103,15 +103,15 @@ class PhotoGalleryPublicationForm extends FormValidator
         $attributes = array();
         $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_user_group_feed.php';
         $locale = array();
-        $locale['Display'] = Translation :: get('ShareWith');
+        $locale['Display'] = Translation :: get('ShareWith', null, Utilities :: COMMON_LIBRARIES);
         $locale['Searching'] = Translation :: get('Searching', null, Utilities :: COMMON_LIBRARIES);
-        $locale['NoResults'] = Translation :: get('NoResults');
+        $locale['NoResults'] = Translation :: get('NoResults', null, Utilities :: COMMON_LIBRARIES);
         $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARIES);
         $attributes['locale'] = $locale;
         $attributes['exclude'] = array('user_' . $this->form_user->get_id());
         $attributes['defaults'] = array();
 
-        $this->add_receivers(self :: PARAM_SHARE, Translation :: get('ShareWith'), $attributes, 'Nobody');
+        $this->add_receivers(self :: PARAM_SHARE, Translation :: get('ShareWith', null, Utilities :: COMMON_LIBRARIES), $attributes, 'Nobody');
     }
 
     function add_footer()

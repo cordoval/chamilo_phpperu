@@ -34,7 +34,7 @@ class SurveyPublicationForm extends FormValidator
         }
 
         $this->addElement('text', 'email_header', Translation :: get('EmailTitle'), array('size' => 80));
-        $this->addRule('email_header', Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule('email_header', Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         $this->add_html_editor('email_content', Translation :: get('EmailContent'), true);
 
         $this->addElement('advmultiselect', 'course_users', Translation :: get('SelectUsers'), $course_users, 'style="width: 250px;"');

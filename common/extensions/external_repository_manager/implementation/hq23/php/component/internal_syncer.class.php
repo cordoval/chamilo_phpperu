@@ -50,7 +50,7 @@ class Hq23ExternalRepositoryManagerInternalSyncerComponent extends Hq23ExternalR
                 $parameters = $this->get_parameters();
                 $parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS;
                 $parameters[RepositoryManager :: PARAM_CONTENT_OBJECT_ID] = $content_object->get_id();
-                $this->redirect(Translation :: get('ObjectUpdated', array('ContentObject' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES), false, $parameters, array(
+                $this->redirect(Translation :: get('ObjectUpdated', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES), false, $parameters, array(
                 ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY, ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION));
             }
             else
@@ -58,7 +58,7 @@ class Hq23ExternalRepositoryManagerInternalSyncerComponent extends Hq23ExternalR
                 $parameters = $this->get_parameters();
                 $parameters[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = ExternalRepositoryManager :: ACTION_VIEW_EXTERNAL_REPOSITORY;
                 $parameters[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID] = $external_object->get_id();
-                $this->redirect(Translation :: get('ObjectUpdated', array('ContentObject' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES), true, $parameters);
+                $this->redirect(Translation :: get('ObjectUpdated', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES), true, $parameters);
             }
         }
         else
@@ -66,7 +66,7 @@ class Hq23ExternalRepositoryManagerInternalSyncerComponent extends Hq23ExternalR
             $parameters = $this->get_parameters();
             $parameters[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = ExternalRepositoryManager :: ACTION_VIEW_EXTERNAL_REPOSITORY;
             $parameters[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID] = $external_object->get_id();
-            $this->redirect(Translation :: get('ObjectUpdated', array('ContentObject' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES), true, $parameters);
+            $this->redirect(Translation :: get('ObjectUpdated', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES), true, $parameters);
         }
     }
 }
