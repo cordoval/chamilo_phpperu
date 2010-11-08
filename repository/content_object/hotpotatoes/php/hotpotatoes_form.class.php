@@ -49,7 +49,7 @@ class HotpotatoesForm extends ContentObjectForm
         $this->add_textfield(Assessment :: PROPERTY_MAXIMUM_ATTEMPTS, Translation :: get('MaximumAttempts'));
         $this->addElement('html', Translation :: get('NoMaximumAttemptsFillIn0'));
         $this->addElement('file', 'file', Translation :: get('UploadHotpotatoes'));
-        $this->addRule('file', Translation :: get('ThisFileIsRequired'), 'required');
+        $this->addRule('file', Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         $this->addElement('category');
     }
 
@@ -61,7 +61,7 @@ class HotpotatoesForm extends ContentObjectForm
         $this->add_textfield(Hotpotatoes :: PROPERTY_MAXIMUM_ATTEMPTS, Translation :: get('MaximumAttempts'));
         $this->addElement('html', Translation :: get('NoMaximumAttemptsFillIn0'));
         $this->addElement('file', 'file', Translation :: get('ChangeHotpotatoes'));
-        $this->addRule('file', Translation :: get('ThisFileIsRequired'), 'required');
+        $this->addRule('file', Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         $this->addElement('category');
     }
 

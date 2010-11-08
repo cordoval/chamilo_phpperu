@@ -7,6 +7,7 @@ use common\libraries\ResourceManager;
 use common\libraries\Theme;
 use repository\MatchingQuestionForm;
 use repository\MatchingQuestionOption;
+use common\libraries\Utilities;
 
 /**
  * $Id: assessment_matching_question_form.class.php $
@@ -251,7 +252,7 @@ class AssessmentMatchingQuestionForm extends MatchingQuestionForm
                 $renderer->setElementTemplate('<tr id="match_' . $match_number . '" class="' . ($match_number - 1 % 2 == 0 ? 'row_odd' : 'row_even') . '">{element}</tr>', 'match_' . $match_number);
                 $renderer->setGroupElementTemplate('<td>{element}</td>', 'match_' . $match_number);
 
-                $this->addGroupRule('match_' . $match_number, array('match[' . $match_number . ']' => array(array(Translation :: get('ThisFieldIsRequired'), 'required'))));
+                $this->addGroupRule('match_' . $match_number, array('match[' . $match_number . ']' => array(array(Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required'))));
             }
 
             $this->setConstants($defaults);
