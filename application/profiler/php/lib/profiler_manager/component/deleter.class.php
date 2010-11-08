@@ -34,7 +34,7 @@ class ProfilerManagerDeleterComponent extends ProfilerManager
                 if (!ProfilerRights::is_allowed_in_profiler_subtree(ProfilerRights::RIGHT_DELETE, $id, ProfilerRights::TYPE_PUBLICATION))
                 {
                     $this->display_header();
-                    Display :: warning_message(Translation :: get('NotAllowed'));
+                    Display :: warning_message(Translation :: get('NotAllowed', null , Utilities :: COMMON_LIBRARIES));
                     $this->display_footer();
                     exit();
 
@@ -47,34 +47,34 @@ class ProfilerManagerDeleterComponent extends ProfilerManager
                 }
             }
             
-            if ($failures)
+     	    if ($failures)
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedPublicationNotDeleted';
+                    $message = Translation :: get('ObjectNotDeleted',array('OBJECT' => Translation :: get('Profile')), Utilities :: COMMON_LIBRARIES);
                 }
                 else
                 {
-                    $message = 'SelectedPublicationsNotDeleted';
+                    $message = Translation :: get('ObjectsNotDeleted',array('OBJECT' => Translation :: get('Profile')), Utilities :: COMMON_LIBRARIES);
                 }
             }
             else
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedPublicationDeleted';
+                    $message = Translation :: get('ObjectDeleted',array('OBJECT' => Translation :: get('Profile')), Utilities :: COMMON_LIBRARIES);
                 }
                 else
                 {
-                    $message = 'SelectedPublicationsDeleted';
+                    $message = Translation :: get('ObjectsDeleted',array('OBJECT' => Translation :: get('Profile')), Utilities :: COMMON_LIBRARIES);
                 }
             }
             
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES));
+            $this->redirect($message, ($failures ? true : false), array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoPublicationSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectsSelected')));
         }
     }
     

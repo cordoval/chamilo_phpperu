@@ -35,7 +35,7 @@ class ProfilerManagerCreatorComponent extends ProfilerManager implements RepoVie
         if(!$RIGHT_PUBLISH)
         {
             $this->display_header();
-            Display :: warning_message(Translation :: get('NotAllowed'));
+            Display :: warning_message(Translation :: get('NotAllowed', null , Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
