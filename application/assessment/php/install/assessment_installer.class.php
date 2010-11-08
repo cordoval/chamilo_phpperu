@@ -4,6 +4,7 @@ namespace application\assessment;
 
 use common\libraries\Installer;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 /**
  * $Id: assessment_installer.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.install
@@ -38,7 +39,7 @@ class AssessmentInstaller extends Installer
         }
         else
         {
-            $this->add_message(self :: TYPE_NORMAL, Translation :: get('AssessmentsSubtreeCreated'));
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectCreated', array('OBJECT' => Translation :: get('AssessmentsSubtree')), Utilities :: COMMON_LIBRARIES));
         }
         
         return true;

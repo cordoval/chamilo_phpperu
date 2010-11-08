@@ -11,6 +11,7 @@ use common\libraries\NotCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\InCondition;
+use common\libraries\Utilities;
 /**
  * $Id: mover.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.assessment_manager.component
@@ -56,7 +57,7 @@ class AssessmentManagerMoverComponent extends AssessmentManager
         if ($form->validate())
         {
             $new_category_id = $this->move_publications_to_category($form, $pids);
-            $this->redirect(Translation :: get('CategoriesMoved'), false, array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS, 'category' => $new_category_id));
+            $this->redirect(Translation :: get('ObjectsMoved', array('OBJECTS' => Translation :: get('Categories', null, Utilities :: COMMON_LIBRARIES)), Utilities :: COMMON_LIBRARIES), false, array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS, 'category' => $new_category_id));
         }
         else
         {
@@ -83,13 +84,13 @@ class AssessmentManagerMoverComponent extends AssessmentManager
         $form = new FormValidator('assessment_publication_mover', 'post', $url);
         
         $this->categories = array();
-        $this->categories[0] = Translation :: get('Root');
+        $this->categories[0] = Translation :: get('Root', null, Utilities :: COMMON_LIBRARIES);
         
         $this->retrieve_categories_recursive(0, $exclude_category);
         
         $form->addElement('select', AssessmentPublication :: PROPERTY_CATEGORY, Translation :: get('SelectCategory'), $this->categories);
         
-        $buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Move'), array('class' => 'positive finish'));
+        $buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Move', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive finish'));
         
         $form->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         return $form;

@@ -7,6 +7,7 @@ use common\libraries\WebApplication;
 use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
+use common\libraries\Utilities;
 /**
  * $Id: deleter.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.assessment_manager.component
@@ -62,22 +63,22 @@ class AssessmentManagerDeleterComponent extends AssessmentManager
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedAssessmentPublicationDeleted';
+                    $message = Translation :: get('ObjectDeleted', array('OBJECT' => Translation :: get('AssessmentPublication')), Utilities :: COMMON_LIBRARIES);
                 }
                 else
                 {
-                    $message = 'SelectedAssessmentPublicationDeleted';
+                    $message = Translation :: get('ObjectsDeleted', array('OBJECTS' => Translation :: get('AssessmentPublications')), Utilities :: COMMON_LIBRARIES);
                 }
             }
             else
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedAssessmentPublicationsDeleted';
+                    $message = Translation :: get('ObjectDeleted', array('OBJECT' => Translation :: get('AssessmentPublication')), Utilities :: COMMON_LIBRARIES);
                 }
                 else
                 {
-                    $message = 'SelectedAssessmentPublicationsDeleted';
+                    $message = Translation :: get('ObjectsDeleted', array('OBJECTS' => Translation :: get('AssessmentPublications')), Utilities :: COMMON_LIBRARIES);
                 }
             }
             
@@ -85,7 +86,7 @@ class AssessmentManagerDeleterComponent extends AssessmentManager
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoAssessmentPublicationsSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectsSelected', null, Utilities :: COMMON_LIBRARIES)));
         }
     }
     
