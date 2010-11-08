@@ -3,6 +3,7 @@ namespace application\handbook;
 use common\libraries\Toolbar;
 use user\User;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Theme;
 use common\libraries\ToolbarItem;
 require_once   dirname(__FILE__) .  '/handbook_publication_browser_table_column_model.class.php';

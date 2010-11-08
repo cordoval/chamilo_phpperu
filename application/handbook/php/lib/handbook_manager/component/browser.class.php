@@ -3,6 +3,7 @@ namespace application\handbook;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 /**
  * @package application.handbook.handbook.component
  */

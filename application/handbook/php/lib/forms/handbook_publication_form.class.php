@@ -2,6 +2,7 @@
 namespace application\handbook;
 use common\libraries\FormValidator;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/../handbook_publication.class.php';
 

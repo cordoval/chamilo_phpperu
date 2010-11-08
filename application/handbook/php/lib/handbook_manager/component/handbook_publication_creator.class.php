@@ -5,6 +5,7 @@ use common\libraries\Breadcrumb;
 use user\UserDataManager;
 use common\extensions\repo_viewer\RepoViewer;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\InCondition;
 use common\libraries\Theme;
 use repository\ContentObject;
