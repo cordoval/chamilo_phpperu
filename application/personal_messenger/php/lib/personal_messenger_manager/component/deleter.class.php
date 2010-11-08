@@ -50,7 +50,7 @@ class PersonalMessengerManagerDeleterComponent extends PersonalMessengerManager
                 }
                 else
                 {
-                    $message = Translation :: get('ObjectsNotDeleted',array('OBJECT' => Translation :: get('PersonalMessengerPublication')), Utilities :: COMMON_LIBRARIES);
+                    $message = Translation :: get('ObjectsNotDeleted',array('OBJECT' => Translation :: get('PersonalMessengerPublications')), Utilities :: COMMON_LIBRARIES);
                 }
             }
             else
@@ -61,7 +61,7 @@ class PersonalMessengerManagerDeleterComponent extends PersonalMessengerManager
                 }
                 else
                 {
-                    $message = Translation :: get('ObjectsDeleted',array('OBJECT' => Translation :: get('PersonalMessengerPublication')), Utilities :: COMMON_LIBRARIES);
+                    $message = Translation :: get('ObjectsDeleted',array('OBJECT' => Translation :: get('PersonalMessengerPublications')), Utilities :: COMMON_LIBRARIES);
                 }
             }
                   

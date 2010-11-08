@@ -58,7 +58,7 @@ class ForumManagerDeleterComponent extends ForumManager
                 }
                 else
                 {
-                    $message = Translation :: get('ObjectsNotDeleted',array('OBJECT' => Translation :: get('ForumPublication')), Utilities :: COMMON_LIBRARIES);
+                    $message = Translation :: get('ObjectsNotDeleted',array('OBJECT' => Translation :: get('ForumPublications')), Utilities :: COMMON_LIBRARIES);
                 }
             }
             else
@@ -69,7 +69,7 @@ class ForumManagerDeleterComponent extends ForumManager
                 }
                 else
                 {
-                    $message = Translation :: get('ObjectsDeleted',array('OBJECT' => Translation :: get('ForumPublication')), Utilities :: COMMON_LIBRARIES);
+                    $message = Translation :: get('ObjectsDeleted',array('OBJECT' => Translation :: get('ForumPublications')), Utilities :: COMMON_LIBRARIES);
                 }
             }
             

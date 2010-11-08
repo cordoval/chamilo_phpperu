@@ -57,7 +57,7 @@ class PersonalCalendarManagerDeleterComponent extends PersonalCalendarManager
                 }
                 else
                 {
-                    $message = Translation :: get('ObjectsNotDeleted',array('OBJECT' => Translation :: get('PersonalCalendarPublication')), Utilities :: COMMON_LIBRARIES);
+                    $message = Translation :: get('ObjectsNotDeleted',array('OBJECT' => Translation :: get('PersonalCalendarPublications')), Utilities :: COMMON_LIBRARIES);
                 }
             }
             else
@@ -68,7 +68,7 @@ class PersonalCalendarManagerDeleterComponent extends PersonalCalendarManager
                 }
                 else
                 {
-                    $message = Translation :: get('ObjectsDeleted',array('OBJECT' => Translation :: get('PersonalCalendarPublication')), Utilities :: COMMON_LIBRARIES);
+                    $message = Translation :: get('ObjectsDeleted',array('OBJECT' => Translation :: get('PersonalCalendarPublications')), Utilities :: COMMON_LIBRARIES);
                 }
             }
                   

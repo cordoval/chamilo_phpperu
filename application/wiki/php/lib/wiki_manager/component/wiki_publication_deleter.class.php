@@ -65,7 +65,7 @@ class WikiManagerWikiPublicationDeleterComponent extends WikiManager
                 }
                 else
                 {
-                    $message = Translation :: get('ObjectsNotDeleted',array('OBJECT' => Translation :: get('WikiPublication')), Utilities :: COMMON_LIBRARIES);
+                    $message = Translation :: get('ObjectsNotDeleted',array('OBJECT' => Translation :: get('WikiPublications')), Utilities :: COMMON_LIBRARIES);
                 }
             }
             else
@@ -76,7 +76,7 @@ class WikiManagerWikiPublicationDeleterComponent extends WikiManager
                 }
                 else
                 {
-                    $message = Translation :: get('ObjectsDeleted',array('OBJECT' => Translation :: get('WikiPublication')), Utilities :: COMMON_LIBRARIES);
+                    $message = Translation :: get('ObjectsDeleted',array('OBJECT' => Translation :: get('WikiPublications')), Utilities :: COMMON_LIBRARIES);
                 }
             }
              
