@@ -84,7 +84,7 @@ class Diagnoser
         $array[] = $this->build_setting($status, '[FILES]', Translation :: get('DirectoryExists') . ': /install', 'http://be2.php.net/file_exists', $writable, 0, 'yes_no', Translation :: get('DirectoryShouldBeRemoved'));
         
         $date = Configuration :: get_instance()->get_parameter('general', 'install_date');
-        $date = DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $date);
+        $date = DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort', null, Utilities :: COMMON_LIBRARIES) . ', ' . Translation :: get('timeNoSecFormat', null, Utilities :: COMMON_LIBRARIES), $date);
         $array[] = $this->build_setting(1, '[INFORMATION]', Translation :: get('InstallDate'), '', $date, '', null, Translation :: get('InstallDateInfo'));
         
         return $array;
@@ -326,12 +326,12 @@ class Diagnoser
 
     function format_yes_no($value)
     {
-        return $value ? Translation :: get('Yes') : Translation :: get('No');
+        return $value ? Translation :: get('ConfirmYes', null, Utilities :: COMMON_LIBRARIES) : Translation :: get('ConfirmNo', null, Utilities :: COMMON_LIBRARIES);
     }
 
     function format_on_off($value)
     {
-        return $value ? Translation :: get('On') : Translation :: get('Off');
+        return $value ? Translation :: get('ConfirmOn', null, Utilities :: COMMON_LIBRARIES) : Translation :: get('ConfirmOff', null, Utilities :: COMMON_LIBRARIES);
     }
 }
 ?>

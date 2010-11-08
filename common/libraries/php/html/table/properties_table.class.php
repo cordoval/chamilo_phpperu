@@ -51,7 +51,7 @@ class PropertiesTable extends HTML_Table
         else
         {
             $contents = array();
-            $contents[] = Translation :: get('NoResults');
+            $contents[] = Translation :: get('NoResults', null, Utilities :: COMMON_LIBRARIES);
             $row = $this->addRow($contents);
             $this->setCellAttributes($row, 0, 'style="font-style: italic;text-align:center;" colspan=2');
         }

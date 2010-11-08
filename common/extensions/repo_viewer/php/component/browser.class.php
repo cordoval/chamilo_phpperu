@@ -53,7 +53,7 @@ class RepoViewerBrowserComponent extends RepoViewer
 
         $this->set_form(new FormValidator('search', 'post', $this->get_url($form_parameters), '', array('id' => 'search'), false));
         $this->get_form()->addElement('hidden', RepoViewer :: PARAM_ACTION);
-        $this->get_form()->addElement('text', RepoViewer :: PARAM_QUERY, Translation :: get('Find'), 'size="30" class="search_query"');
+        $this->get_form()->addElement('text', RepoViewer :: PARAM_QUERY, Translation :: get('Search', null, Utilities :: COMMON_LIBRARIES), 'size="30" class="search_query"');
         $this->get_form()->addElement('style_submit_button', 'submit', Theme :: get_common_image('action_search'), array('class' => 'search'));
     }
 
@@ -183,7 +183,7 @@ class RepoViewerBrowserComponent extends RepoViewer
             }
             else
             {
-                $search['title'] = Translation :: get('SearchResults');
+                $search['title'] = Translation :: get('SearchResults', null, Utilities :: COMMON_LIBRARIES);
             }
 
             $search['url'] = $search_url;
@@ -214,14 +214,14 @@ class RepoViewerBrowserComponent extends RepoViewer
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
 
         $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Publish'),
+        		Translation :: get('Publish', null, Utilities :: COMMON_LIBRARIES),
         		Theme :: get_common_image_path() . 'action_publish.png',
         		$this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_PUBLISHER, RepoViewer :: PARAM_ID => '__ID__')), false),
         		ToolbarItem :: DISPLAY_ICON
         ));
 
         $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Preview'),
+        		Translation :: get('Preview', null, Utilities :: COMMON_LIBRARIES),
         		Theme :: get_common_image_path() . 'action_browser.png',
         		$this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_VIEWER, RepoViewer :: PARAM_ID => '__ID__')), false),
         		ToolbarItem :: DISPLAY_ICON

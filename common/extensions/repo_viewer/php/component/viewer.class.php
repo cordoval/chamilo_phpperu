@@ -32,7 +32,7 @@ class RepoViewerViewerComponent extends RepoViewer
             $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
 
 	        $toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('Publish'),
+	        		Translation :: get('Publish', null, Utilities :: COMMON_LIBRARIES),
 	        		Theme :: get_common_image_path() . 'action_publish.png',
 	        		$this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_PUBLISHER, RepoViewer :: PARAM_ID => $content_object->get_id())), false)
 	        ));

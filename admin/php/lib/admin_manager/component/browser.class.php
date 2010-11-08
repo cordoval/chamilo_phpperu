@@ -38,7 +38,7 @@ class AdminManagerBrowserComponent extends AdminManager
         
         $breadcrumbtrail = BreadcrumbTrail :: get_instance();
         $breadcrumbtrail->truncate(true);
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get('Administration')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get('Administration', null, 'admin')));
         
         $tab = Request :: get(self :: PARAM_TAB);
         if(!$tab)

@@ -116,7 +116,7 @@ class CategoryManagerParentChangerComponent extends CategoryManagerComponent
         $this->build_category_tree(0, $selected_categories, $current_parent);
         $form = new FormValidator('select_category', 'post', $this->get_url(array(CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_CHANGE_CATEGORY_PARENT, CategoryManager :: PARAM_CATEGORY_ID => Request :: get(CategoryManager :: PARAM_CATEGORY_ID))));
         $form->addElement('select', 'category', Translation :: get('Category', null, Utilities :: COMMON_LIBRARIES), $this->tree);
-        $form->addElement('submit', 'submit', Translation :: get('OK', null, Utilities :: COMMON_LIBRARIES));
+        $form->addElement('submit', 'submit', Translation :: get('Ok', null, Utilities :: COMMON_LIBRARIES));
         return $form;
     }
 

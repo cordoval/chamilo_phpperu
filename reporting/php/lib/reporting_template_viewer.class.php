@@ -30,7 +30,7 @@ class ReportingTemplateViewer
         $rpdm = ReportingDataManager :: get_instance();
         if (! $reporting_template_registration = $rpdm->retrieve_reporting_template_registration($reporting_template_registration_id))
         {
-            Display :: error_message(Translation :: get("NotFound"));
+            Display :: error_message(Translation :: get('NotFound'));
             exit();
         }
 
@@ -51,14 +51,14 @@ class ReportingTemplateViewer
         //registration doesn't exist
         if (! isset($reporting_template_registration))
         {
-            Display :: error_message(Translation :: get("NotFound"));
+            Display :: error_message(Translation :: get('NotFound', null, Utilities :: COMMON_LIBRARIES));
             exit();
         }
 
         //is platform template
         if ($reporting_template_registration->isPlatformTemplate() && ! $this->parent->get_user()->is_platform_admin())
         {
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES));
             exit();
         }
 

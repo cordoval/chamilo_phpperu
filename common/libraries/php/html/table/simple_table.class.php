@@ -91,7 +91,7 @@ class SimpleTable extends HTML_Table
         if ($this->actionhandler)
         {
             $this->tableform->addElement('select', 'action', Translation :: get('Actions'), $this->actionhandler->get_actions());
-            $this->tableform->addElement('submit', 'actionbutton', Translation :: get('Ok'), 'class="submit"');
+            $this->tableform->addElement('submit', 'actionbutton', Translation :: get('Ok', null, Utilities :: COMMON_LIBRARIES), 'class="submit"');
         }
     }
 
@@ -168,7 +168,7 @@ class SimpleTable extends HTML_Table
         else
         {
             $contents = array();
-            $contents[] = Translation :: get('NoResults');
+            $contents[] = Translation :: get('NoResults', null, Utilities :: COMMON_LIBRARIES);
             $row = $this->addRow($contents);
             $this->setCellAttributes($row, 0, 'style="font-style: italic;text-align:center;" colspan=' . $this->cellrenderer->get_property_count());
         }
