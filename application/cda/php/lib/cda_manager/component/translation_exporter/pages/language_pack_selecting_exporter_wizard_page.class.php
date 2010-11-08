@@ -7,6 +7,7 @@ use common\libraries\ResourceManager;
 use common\libraries\EqualityCondition;
 use common\libraries\ObjectTableOrder;
 use common\libraries\Path;
+use common\libraries\Utilities;
 /**
  * $Id: language_pack_selecting_exporter_wizard_page.class.php 225 2009-11-13 14:43:20Z vanpouckesven $
  */
@@ -56,7 +57,7 @@ class LanguagePackSelectingExporterWizardPage extends ExporterWizardPage
     	}
     	
     	$buttons = array();
-    	$buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Previous'), array('class' => 'normal previous'));
+    	$buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Previous', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal previous'));
         $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Download'), array('class' => 'normal save'));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         $this->setDefaultAction($this->getButtonName('next'));

@@ -6,6 +6,7 @@ use common\libraries\FormValidator;
 use common\libraries\Translation;
 use common\libraries\Session;
 use common\libraries\EqualityCondition;
+use common\libraries\Utilities;
 /**
  * $Id: variable_translation_browser_filter_form.class.php 196 2009-11-13 12:19:18Z chellee $
  *
@@ -55,7 +56,7 @@ class VariableTranslationBrowserFilterForm extends FormValidator
         $options[3] = Translation :: get('OutdatedVariableTranslations');
 
         $this->addElement('select', self :: BROWSER_FILTER_TRANSLATION, Translation :: get('TranslatingStatus'), $options);
-        $this->addElement('style_submit_button', 'submit', Translation :: get('Filter'), array('class' => 'normal search'));
+        $this->addElement('style_submit_button', 'submit', Translation :: get('Filter', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal search'));
     }
 
     function get_filter_conditions()

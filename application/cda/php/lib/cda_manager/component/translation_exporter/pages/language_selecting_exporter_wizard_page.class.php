@@ -6,7 +6,7 @@ use common\libraries\Translation;
 use common\libraries\ResourceManager;
 use common\libraries\ObjectTableOrder;
 use common\libraries\Path;
-
+use common\libraries\Utilities;
 
 /**
  * $Id: language_selecting_exporter_wizard_page.class.php 225 2009-11-13 14:43:20Z vanpouckesven $
@@ -32,8 +32,8 @@ class LanguageSelectingExporterWizardPage extends ExporterWizardPage
     	$this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/cda_export.js'));
     	
     	$html[] = '<div style="margin-left: 20%">';
-    	$html[] = '<a href="#" id="selectall_languages">' . Translation :: get('SelectAll') . '</a> - ';
-    	$html[] = '<a href="#" id="unselectall_languages">' . Translation :: get('UnSelectAll') . '</a>';
+    	$html[] = '<a href="#" id="selectall_languages">' . Translation :: get('SelectAll', null, Utilities :: COMMON_LIBRARIES) . '</a> - ';
+    	$html[] = '<a href="#" id="unselectall_languages">' . Translation :: get('UnSelectAll', null, Utilities :: COMMON_LIBRARIES) . '</a>';
     	$html[] = '</div><br />';
     	
     	$this->addElement('html', implode("\n", $html));
@@ -47,8 +47,8 @@ class LanguageSelectingExporterWizardPage extends ExporterWizardPage
     	$this->addElement('html', '<br />' . implode("\n", $html));
     	
     	$buttons = array();
-    	$buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Previous'), array('class' => 'normal previous'));
-        $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next'), array('class' => 'normal next'));
+    	$buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Previous', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal previous'));
+        $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal next'));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         $this->setDefaultAction($this->getButtonName('next'));
     	

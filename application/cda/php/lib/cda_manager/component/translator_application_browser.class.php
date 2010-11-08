@@ -17,6 +17,7 @@ use common\libraries\AndCondition;
 use common\libraries\ActionBarRenderer;
 use common\libraries\Theme;
 use common\libraries\ToolbarItem;
+use common\libraries\Utilities;
 /**
  * @package application.cda.cda.component
  */
@@ -111,7 +112,7 @@ class CdaManagerTranslatorApplicationBrowserComponent extends CdaManager
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         
         $action_bar->set_search_url($this->get_url());
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url()));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url()));
         
         return $action_bar;
     }

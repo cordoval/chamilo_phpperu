@@ -13,6 +13,7 @@ use common\libraries\ObjectTableOrder;
 use common\libraries\LocalSetting;
 use common\libraries\Session;
 use common\libraries\Path;
+use common\libraries\Utilities;
 /**
  * $Id: language_pack_browser_filter_form.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.cda.forms
@@ -73,7 +74,7 @@ class TranslatorApplicationForm extends FormValidator
 
     	if (count($target_languages) > 0)
     	{
-        	$this->addElement('style_submit_button', 'submit', Translation :: get('Apply'), array('class' => 'positive'));
+        	$this->addElement('style_submit_button', 'submit', Translation :: get('Apply', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
     	}
     }
 

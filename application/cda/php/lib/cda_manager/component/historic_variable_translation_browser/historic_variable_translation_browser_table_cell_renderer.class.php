@@ -8,6 +8,7 @@ use common\libraries\Translation;
 use common\libraries\Theme;
 use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
+use common\libraries\Utilities;
 /**
  * @package cda.tables.variable_translation_table
  */
@@ -70,9 +71,9 @@ class HistoricVariableTranslationBrowserTableCellRenderer extends DefaultHistori
 
 		if ($can_delete)
 		{
-			$toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_historic_variable_translation_url($historic_variable_translation), ToolbarItem :: DISPLAY_ICON, true));
+			$toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_historic_variable_translation_url($historic_variable_translation), ToolbarItem :: DISPLAY_ICON, true));
 
-			$toolbar->add_item(new ToolbarItem(Translation :: get('Revert'), Theme :: get_common_image_path() . 'action_revert.png', $this->browser->get_revert_historic_variable_translation_url($historic_variable_translation), ToolbarItem :: DISPLAY_ICON, true));
+			$toolbar->add_item(new ToolbarItem(Translation :: get('Revert', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_revert.png', $this->browser->get_revert_historic_variable_translation_url($historic_variable_translation), ToolbarItem :: DISPLAY_ICON, true));
 		}
 
 		return $toolbar->as_html();

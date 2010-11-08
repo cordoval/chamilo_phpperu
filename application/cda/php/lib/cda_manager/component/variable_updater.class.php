@@ -8,6 +8,7 @@ use common\libraries\Translation;
 use common\libraries\Display;
 use common\libraries\Request;
 use common\libraries\AdministrationComponent;
+use common\libraries\Utilities;
 
 /**
  * @package application.cda.cda.component
@@ -39,7 +40,10 @@ class CdaManagerVariableUpdaterComponent extends CdaManager implements Administr
 		if($form->validate())
 		{
 			$success = $form->update_variable();
-			$this->redirect($success ? Translation :: get('VariableUpdated') : Translation :: get('VariableNotUpdated'), !$success,
+                        $object = Translation :: get('Variable');
+                        $message = $success ? Translation :: get('ObjectUpdated', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES) :
+                                              Translation :: get('ObjectNotUpdated', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES);
+			$this->redirect($message, !$success,
 						    array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_VARIABLES, CdaManager :: PARAM_LANGUAGE_PACK => $language_pack_id));
 		}
 		else

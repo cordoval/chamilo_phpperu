@@ -35,7 +35,7 @@ class DefaultHistoricVariableTranslationTableColumnModel extends ObjectTableColu
 	{
 		$columns = array();		
 		$columns[] = new ObjectTableColumn(HistoricVariableTranslation :: PROPERTY_TRANSLATION);
-		$columns[] = new StaticTableColumn(Translation :: get('User'));
+		$columns[] = new StaticTableColumn(Translation :: get('User', null, 'user'));
 		$columns[] = new ObjectTableColumn(HistoricVariableTranslation :: PROPERTY_DATE);
 		$columns[] = new StaticTableColumn(Translation :: get('Rating'));
 

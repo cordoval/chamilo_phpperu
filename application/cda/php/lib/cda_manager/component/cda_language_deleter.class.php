@@ -7,6 +7,7 @@ use common\libraries\Display;
 use common\libraries\Translation;
 use common\libraries\Breadcrumb;
 use common\libraries\AdministrationComponent;
+use common\libraries\Utilities;
 
 /**
  * @package application.cda.cda.component
@@ -55,30 +56,30 @@ class CdaManagerCdaLanguageDeleterComponent extends CdaManager implements Admini
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedCdaLanguageNotDeleted';
+                                    $message = Translation :: get('ObjectNotDeleted', array('OBJECT' => Translation :: get('Language')), Utilities :: COMMON_LIBRARIES);
 				}
 				else
 				{
-					$message = 'SelectedCdaLanguagesNotDeleted';
-				}
+                                    $message = Translation :: get('ObjectsNotDeleted', array('OBJECTS' => Translation :: get('Language')), Utilities :: COMMON_LIBRARIES);
+                                }
 			}
 			else
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedCdaLanguageDeleted';
+                                    $message = Translation :: get('ObjectDeleted', array('OBJECT' => Translation :: get('Languages')), Utilities :: COMMON_LIBRARIES);
 				}
 				else
 				{
-					$message = 'SelectedCdaLanguagesDeleted';
+                                    $message = Translation :: get('ObjectsDeleted', array('OBJECTS' => Translation :: get('Languages')), Utilities :: COMMON_LIBRARIES);
 				}
 			}
 
-			$this->redirect(Translation :: get($message), ($failures ? true : false), array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_CDA_LANGUAGES));
+			$this->redirect($message, !$failures, array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_CDA_LANGUAGES));
 		}
 		else
 		{
-			$this->display_error_page(htmlentities(Translation :: get('NoCdaLanguagesSelected')));
+			$this->display_error_page(htmlentities(Translation :: get('NoObjectsSelected', null, Utilities :: COMMON_LIBRARIES)));
 		}
 	}
 	

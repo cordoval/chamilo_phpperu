@@ -4,6 +4,7 @@ namespace application\cda;
 
 use common\libraries\FormValidator;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 /**
  * This class describes the form for a LanguagePack object.
  * @author Sven Vanpoucke
@@ -40,15 +41,15 @@ class LanguagePackForm extends FormValidator
     function build_basic_form()
     {
 		$this->addElement('text', LanguagePack :: PROPERTY_NAME, Translation :: get('Name'));
-		$this->addRule(LanguagePack :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addRule(LanguagePack :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
 		
     	$this->addElement('select',LanguagePack :: PROPERTY_BRANCH, Translation :: get('Branch'), LanguagePack :: get_branch_options());
 
 		$types = array();
-		$types[LanguagePack :: TYPE_APPLICATION] = Translation :: get('Application');
-		$types[LanguagePack :: TYPE_CORE] = Translation :: get('Core');
-    	$this->addElement('select',LanguagePack :: PROPERTY_TYPE, Translation :: get('Type'), $types);
-    	$this->addRule(LanguagePack :: PROPERTY_TYPE, Translation :: get('ThisFieldIsRequired'), 'required');
+		$types[LanguagePack :: TYPE_APPLICATION] = Translation :: get('Application', null, Utilities :: COMMON_LIBRARIES);
+		$types[LanguagePack :: TYPE_CORE] = Translation :: get('Core', null, Utilities :: COMMON_LIBRARIES);
+    	$this->addElement('select',LanguagePack :: PROPERTY_TYPE, Translation :: get('Type', null, Utilities :: COMMON_LIBRARIES), $types);
+    	$this->addRule(LanguagePack :: PROPERTY_TYPE, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
     }
 
     function build_editing_form()
@@ -57,8 +58,8 @@ class LanguagePackForm extends FormValidator
 
     	//$this->addElement('hidden', LanguagePack :: PROPERTY_ID);
 
-		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
-		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive update'));
+		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -67,8 +68,8 @@ class LanguagePackForm extends FormValidator
     {
     	$this->build_basic_form();
 
-		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
-		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
+		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

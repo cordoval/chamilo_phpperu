@@ -6,6 +6,7 @@ use common\libraries\WebApplication;
 use common\libraries\Installer;
 use common\libraries\Translation;
 use rights\RightsUtilities;
+use common\libraries\Utilities;
 /**
  * cda.install
  */
@@ -42,7 +43,7 @@ class CdaInstaller extends Installer
         }
         else
         {
-            $this->add_message(self :: TYPE_NORMAL, Translation :: get('LanguagesTreeCreated'));
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectCreated', array('OBJECT' => Translation :: get('LanguagesTree')), Utilities :: COMMON_LIBRARIES));
         }
         
         return true;
