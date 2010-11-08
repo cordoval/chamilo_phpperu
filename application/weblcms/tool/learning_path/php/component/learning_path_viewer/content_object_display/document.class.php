@@ -29,7 +29,7 @@ class DocumentDisplay extends LearningPathContentObjectDisplay
         else
         {
             $info = sprintf(Translation :: get('LPDownloadDocument'), $document->get_filename(), $document->get_filesize());
-            $info .= '<br /><a target="about:blank" href="' . RepositoryManager :: get_document_downloader_url($document->get_id()) . '">' . Translation :: get('Download') . '</a>';
+            $info .= '<br /><a target="about:blank" href="' . RepositoryManager :: get_document_downloader_url($document->get_id()) . '">' . Translation :: get('Download', null , Utilities :: COMMON_LIBRARIES) . '</a>';
 
             $html[] = '<h3>' . $document->get_title() . '</h3>';
             $html[] = $this->display_box($info);

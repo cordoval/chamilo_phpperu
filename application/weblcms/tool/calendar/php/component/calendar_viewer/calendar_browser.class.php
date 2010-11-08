@@ -83,12 +83,12 @@ class CalendarBrowser extends ContentObjectPublicationBrowser
                 case CalendarBrowser :: CALENDAR_LIST_VIEW :
                     {
                         $renderer = new CalendarListRenderer($this);
-                        //$actions = array(Tool :: ACTION_DELETE => Translation :: get('DeleteSelected'), Tool :: ACTION_HIDE => Translation :: get('Hide'), Tool :: ACTION_SHOW => Translation :: get('Show'));
+                        //$actions = array(Tool :: ACTION_DELETE => Translation :: get('DeleteSelected', null , Utilities :: COMMON_LIBRARIES), Tool :: ACTION_HIDE => Translation :: get('Hide'), Tool :: ACTION_SHOW => Translation :: get('Show'));
 
 
-                        $actions[] = new ObjectTableFormAction(Tool :: ACTION_DELETE, Translation :: get('DeleteSelected'));
-                        $actions[] = new ObjectTableFormAction(Tool :: ACTION_HIDE, Translation :: get('Hide'), false);
-                        $actions[] = new ObjectTableFormAction(Tool :: ACTION_SHOW, Translation :: get('Show'), false);
+                        $actions[] = new ObjectTableFormAction(Tool :: ACTION_DELETE, Translation :: get('DeleteSelected', null , Utilities :: COMMON_LIBRARIES));
+                        $actions[] = new ObjectTableFormAction(Tool :: ACTION_HIDE, Translation :: get('Hide', null , Utilities :: COMMON_LIBRARIES), false);
+                        $actions[] = new ObjectTableFormAction(Tool :: ACTION_SHOW, Translation :: get('Show', null , Utilities :: COMMON_LIBRARIES), false);
 
                         $renderer->set_actions($actions);
                         break;
@@ -238,8 +238,8 @@ class CalendarBrowser extends ContentObjectPublicationBrowser
                 $form = new FormValidator('user_filter', 'post', $this->get_parent()->get_url());
                 $renderer = $form->defaultRenderer();
                 $renderer->setElementTemplate('{element}');
-                $form->addElement('select', 'filter', Translation :: get('FilterTarget'), $this->get_filter_targets());
-                $form->addElement('submit', 'submit', Translation :: get('Ok'));
+                $form->addElement('select', 'filter', Translation :: get('Filter', null , Utilities :: COMMON_LIBRARIES), $this->get_filter_targets());
+                $form->addElement('submit', 'submit', Translation :: get('Ok', null , Utilities :: COMMON_LIBRARIES));
 
                 $html[] = $form->toHtml();
                 $html[] = '<div class="clear"></div></div>';
@@ -261,7 +261,7 @@ class CalendarBrowser extends ContentObjectPublicationBrowser
         $course = $this->get_parent()->get_course_id();
 
         $targets = array();
-        $targets[] = Translation :: get('Users');
+        $targets[] = Translation :: get('Users', null , 'user');
         $targets[] = '----------';
 
         $users = WeblcmsDataManager :: get_instance()->retrieve_course_user_relations(new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $course));
@@ -274,7 +274,7 @@ class CalendarBrowser extends ContentObjectPublicationBrowser
         }
 
         $targets[] = '';
-        $targets[] = Translation :: get('Groups');
+        $targets[] = Translation :: get('Groups', null , 'group');
         $targets[] = '----------';
 
         $groups = WeblcmsDataManager :: get_instance()->retrieve_course_groups(new EqualityCondition(CourseGroup :: PROPERTY_COURSE_CODE, $course));

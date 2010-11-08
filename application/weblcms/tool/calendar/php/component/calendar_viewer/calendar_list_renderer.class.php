@@ -88,15 +88,15 @@ class CalendarListRenderer extends ListContentObjectPublicationListRenderer
 							</script>';
 
             $html[] = '<div style="text-align: right;">';
-            $html[] = '<a href="?" onclick="setCheckbox(\'publication_list\', true); return false;">' . Translation :: get('SelectAll') . '</a>';
-            $html[] = '- <a href="?" onclick="setCheckbox(\'publication_list\', false); return false;">' . Translation :: get('UnSelectAll') . '</a><br />';
+            $html[] = '<a href="?" onclick="setCheckbox(\'publication_list\', true); return false;">' . Translation :: get('SelectAll', null , Utilities :: COMMON_LIBRARIES) . '</a>';
+            $html[] = '- <a href="?" onclick="setCheckbox(\'publication_list\', false); return false;">' . Translation :: get('UnSelectAll', null , Utilities :: COMMON_LIBRARIES) . '</a><br />';
             $html[] = '<select name="tool_action">';
             foreach ($this->get_actions() as $action => $label)
             {
                 $html[] = '<option value="' . $action . '">' . $label . '</option>';
             }
             $html[] = '</select>';
-            $html[] = ' <input type="submit" value="' . Translation :: get('Ok') . '"/>';
+            $html[] = ' <input type="submit" value="' . Translation :: get('Ok', null , Utilities :: COMMON_LIBRARIES) . '"/>';
             $html[] = '</div>';
             $html[] = '</form>';
         }
@@ -111,10 +111,10 @@ class CalendarListRenderer extends ListContentObjectPublicationListRenderer
         $event = $publication->get_content_object();
         $html[] = '<br /><em>';
         //TODO: date formatting
-        $html[] = htmlentities(Translation :: get('From')) . ': ' . date('r', $event->get_start_date());
+        $html[] = htmlentities(Translation :: get('From', null , Utilities :: COMMON_LIBRARIES)) . ': ' . date('r', $event->get_start_date());
         $html[] = '<br />';
         //TODO: date formatting
-        $html[] = htmlentities(Translation :: get('To')) . ': ' . date('r', $event->get_end_date());
+        $html[] = htmlentities(Translation :: get('To', null , Utilities :: COMMON_LIBRARIES)) . ': ' . date('r', $event->get_end_date());
         $html[] = '</em>';
         $html[] = '<br />';
         $html[] = $event->get_description();

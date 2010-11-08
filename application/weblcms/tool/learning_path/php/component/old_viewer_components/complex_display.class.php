@@ -62,7 +62,7 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool
         if (! $pid)
         {
             $this->display_header();
-            $this->display_error_message(Translation :: get('NoObjectSelected'));
+            $this->display_error_message(Translation :: get('NoObjectSelected', null , Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
         }
 
@@ -114,7 +114,7 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool
 
             if ($details)
             {
-                $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT, Tool :: PARAM_PUBLICATION_ID => $pid, 'lp_action' => 'view_progress', 'cid' => $cid, 'details' => $details)), Translation :: get('AssessmentResult')));
+                $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT, Tool :: PARAM_PUBLICATION_ID => $pid, 'lp_action' => 'view_progress', 'cid' => $cid, 'details' => $details)), Translation :: get('AssessmentResult', null , 'application/assessment')));
 
                 $this->set_parameter('tool_action', 'view');
                 $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, $pid);
@@ -264,9 +264,9 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool
         {
             $previous_url = $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT, LearningPathTool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID), 'step' => $total_steps));
 
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Previous'), Theme :: get_common_image_path() . 'action_prev.png', $previous_url, ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Previous', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_prev.png', $previous_url, ToolbarItem :: DISPLAY_ICON));
 
-            $toolbar->add_item(new ToolbarItem(Translation :: get('NextNA'), Theme :: get_common_image_path() . 'action_next_na.png', null, ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('NextNA', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_next_na.png', null, ToolbarItem :: DISPLAY_ICON));
         }
         else
         {
@@ -288,7 +288,7 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool
 
                 if (! in_array('previous', $hide_lms_ui))
                 {
-                    $toolbar->add_item(new ToolbarItem(Translation :: get('Previous'), Theme :: get_common_image_path() . 'action_prev.png', $previous_url, ToolbarItem :: DISPLAY_ICON));
+                    $toolbar->add_item(new ToolbarItem(Translation :: get('Previous', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_prev.png', $previous_url, ToolbarItem :: DISPLAY_ICON));
                 }
                 else
                 {
@@ -302,7 +302,7 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool
 
             if ($add_previous_na)
             {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('PreviousNA'), Theme :: get_common_image_path() . 'action_prev_na.png', null, ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('PreviousNA', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_prev_na.png', null, ToolbarItem :: DISPLAY_ICON));
             }
 
             $add_continue_na = false;
@@ -316,7 +316,7 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool
               if (! in_array('continue', $hide_lms_ui))
               {
               $toolbar->add_item(new ToolbarItem(
-              Translation :: get('Next'),
+              Translation :: get('Next' , null , Utilities :: COMMON_LIBRARIES),
               Theme :: get_common_image_path() . 'action_next.png',
               $continue_url,
               ToolbarItem :: DISPLAY_ICON
@@ -336,7 +336,7 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool
               if (! in_array('continue', $hide_lms_ui))
               {
               $toolbar->add_item(new ToolbarItem(
-              Translation :: get('Next'),
+              Translation :: get('Next' , null , Utilities :: COMMON_LIBRARIES),
               Theme :: get_common_image_path() . 'action_next.png',
               $continue_url,
               ToolbarItem :: DISPLAY_ICON
@@ -352,11 +352,11 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool
 
             if (! in_array('continue', $hide_lms_ui) && $total_steps > 0)
             {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('Next'), Theme :: get_common_image_path() . 'action_next.png', $continue_url, ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Next', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_next.png', $continue_url, ToolbarItem :: DISPLAY_ICON));
             }
             else
             {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('NextNA'), Theme :: get_common_image_path() . 'action_next_na.png', null, ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('NextNA', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_next_na.png', null, ToolbarItem :: DISPLAY_ICON));
             }
         }
 
@@ -520,7 +520,7 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool
 
         if ($details)
         {
-            $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT, Tool :: PARAM_PUBLICATION_ID => $pid, 'lp_action' => 'view_progress', 'cid' => $cid, 'details' => $details)), Translation :: get('AssessmentResult')));
+            $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT, Tool :: PARAM_PUBLICATION_ID => $pid, 'lp_action' => 'view_progress', 'cid' => $cid, 'details' => $details)), Translation :: get('AssessmentResult', null , 'application/assessment')));
         }
     }
 
