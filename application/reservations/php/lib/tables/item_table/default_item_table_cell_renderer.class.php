@@ -53,7 +53,7 @@ class DefaultItemTableCellRenderer extends ObjectTableCellRenderer
                     //return $user->get_fullname();
                     return $item->get_responsible();
                 case Item :: PROPERTY_CREDITS :
-                    return $item->get_credits() . ' ' . Translation :: get('per_hour');
+                    return $item->get_credits() . ' ' . Translation :: get('PerHour');
             }
         }
 

@@ -7,6 +7,7 @@ use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use common\libraries\Translation;
 use common\libraries\Theme;
+use common\libraries\Utilities;
 /**
  * $Id: category_quota_box_browser_table_cell_renderer.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.reservations_manager.component.category_quota_box_browser
@@ -54,14 +55,14 @@ class CategoryQuotaBoxBrowserTableCellRenderer extends DefaultCategoryQuotaBoxTa
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
 
         $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Edit'),
+        		Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES),
         		Theme :: get_common_image_path() . 'action_edit.png',
         		$this->browser->get_update_category_quota_box_url($quota_box_rel_category->get_id()),
         		ToolbarItem :: DISPLAY_ICON
         ));
         
         $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Delete'),
+        		Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES),
         		Theme :: get_common_image_path() . 'action_delete.png',
         		$this->browser->get_delete_category_quota_box_url($quota_box_rel_category->get_id(), $quota_box_rel_category->get_category_id()),
         		ToolbarItem :: DISPLAY_ICON,

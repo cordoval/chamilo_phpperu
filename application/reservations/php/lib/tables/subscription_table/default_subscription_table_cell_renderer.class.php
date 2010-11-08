@@ -6,6 +6,7 @@ use common\libraries\ObjectTableCellRenderer;
 use common\libraries\EqualityCondition;
 use common\libraries\DatetimeUtilities;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 /**
  * $Id: default_subscription_table_cell_renderer.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations.tables.subscription_table
@@ -74,9 +75,9 @@ class DefaultSubscriptionTableCellRenderer extends ObjectTableCellRenderer
                     }
                 case Subscription :: PROPERTY_ACCEPTED :
                     if ($subscription->get_accepted())
-                        return Translation :: get('Yes');
+                        return Translation :: get('ConfirmYes', null, Utilities :: COMMON_LIBRARIES);
                     
-                    return Translation :: get('No');
+                    return Translation :: get('No', null, Utilities :: COMMON_LIBRARIES);
             }
         
         }

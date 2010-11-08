@@ -39,7 +39,7 @@ class ReservationBrowserTable extends ObjectTable
         {
             $actions = new ObjectTableFormActions();
 
-            $actions->add_form_action(new ObjectTableFormAction(ReservationsManager :: ACTION_DELETE_RESERVATION, Translation :: get('RemoveSelected')));
+            $actions->add_form_action(new ObjectTableFormAction(ReservationsManager :: ACTION_DELETE_RESERVATION, Translation :: get('RemoveSelected', null, Utilities :: COMMON_LIBRARIES)));
 
             $this->set_form_actions($actions);
         }

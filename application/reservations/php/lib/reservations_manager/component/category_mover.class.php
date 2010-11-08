@@ -10,6 +10,7 @@ use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use tracking\Event;
 use tracking\ChangesTracker;
+use common\libraries\Utilities;
 /**
  * $Id: category_mover.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.reservations_manager.component
@@ -25,10 +26,10 @@ class ReservationsManagerCategoryMoverComponent extends ReservationsManager
         $category_id = $_GET[ReservationsManager :: PARAM_CATEGORY_ID];
         $direction = $_GET[ReservationsManager :: PARAM_DIRECTION];
 
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => null)), Translation :: get('Reservations')));
-        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_CATEGORIES, ReservationsManager :: PARAM_CATEGORY_ID => $category_id)), Translation :: get('ManageCategories')));
-        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_CATEGORY_ID => $category_id)), Translation :: get('MoveCategory')));
+//        $trail = BreadcrumbTrail :: get_instance();
+//        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => null)), Translation :: get('Reservations')));
+//        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_CATEGORIES, ReservationsManager :: PARAM_CATEGORY_ID => $category_id)), Translation :: get('ManageCategories')));
+//        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_CATEGORY_ID => $category_id)), Translation :: get('MoveCategory')));
 
         $user = $this->get_user();
 
@@ -63,7 +64,11 @@ class ReservationsManagerCategoryMoverComponent extends ReservationsManager
 
         Event :: trigger('move_category', ReservationsManager :: APPLICATION_NAME, array(ChangesTracker :: PROPERTY_REFERENCE_ID => $category_id, ChangesTracker :: PROPERTY_USER_ID => $this->get_user_id()));
 
-        $this->redirect(Translation :: get($sucess ? 'CategoryMoved' : 'CategoryNotMoved'), ($sucess ? false : true), array(
+        $category = Translation :: get('Category');
+        $message = $succes ? Translation :: get('ObjectMoved', array('OBJECT' => $category), Utilities :: COMMON_LIBRARIES) :
+                             Translation :: get('ObjectNotMoved', array('OBJECT' => $category), Utilities :: COMMON_LIBRARIES);
+        
+        $this->redirect($message, !$succes, array(
                 ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_CATEGORIES, ReservationsManager :: PARAM_CATEGORY_ID => $category->get_parent()));
     }
 }

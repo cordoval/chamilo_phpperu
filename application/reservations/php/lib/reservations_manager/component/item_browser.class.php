@@ -14,6 +14,7 @@ use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\PatternMatchCondition;
 use common\libraries\OrCondition;
+use common\libraries\Utilities;
 /**
  * $Id: item_browser.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.reservations_manager.component
@@ -30,9 +31,9 @@ class ReservationsManagerItemBrowserComponent extends ReservationsManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => null)), Translation :: get('Reservations')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewItems')));
+//        $trail = BreadcrumbTrail :: get_instance();
+//        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => null)), Translation :: get('Reservations')));
+//        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewItems')));
 
         $this->ab = $this->get_action_bar();
         $menu = new ReservationsMenu($_GET[ReservationsManager :: PARAM_CATEGORY_ID], '?application=reservations&go=item_browser&category_id=%s');
@@ -114,7 +115,7 @@ class ReservationsManagerItemBrowserComponent extends ReservationsManager
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
         $action_bar->set_search_url($this->get_url(array(ReservationsManager :: PARAM_CATEGORY_ID => $this->get_category())));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         return $action_bar;
     }

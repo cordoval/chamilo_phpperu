@@ -56,11 +56,11 @@ class SubscriptionBrowserTableCellRenderer extends DefaultSubscriptionTableCellR
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
 
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_subscription_url($subscription->get_id()), ToolbarItem :: DISPLAY_ICON, true));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_subscription_url($subscription->get_id()), ToolbarItem :: DISPLAY_ICON, true));
 
         if ($this->browser instanceof ReservationsManagerAdminSubscriptionBrowserComponent && $subscription->get_accepted() == 0)
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Accept'), Theme :: get_common_image_path() . 'thumbs_up.png', $this->browser->get_approve_subscription_url($subscription->get_id()), ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Accept', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'thumbs_up.png', $this->browser->get_approve_subscription_url($subscription->get_id()), ToolbarItem :: DISPLAY_ICON));
         }
 
         $toolbar->add_item(new ToolbarItem(Translation :: get('Details'), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_subscription_user_browser_url($subscription->get_id()), ToolbarItem :: DISPLAY_ICON));

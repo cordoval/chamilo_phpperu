@@ -38,12 +38,6 @@ class DefaultQuotaBoxTableCellRenderer extends ObjectTableCellRenderer
                     return $quota_box->get_name();
                 case QuotaBox :: PROPERTY_DESCRIPTION :
                     return strip_tags($quota_box->get_description());
-                /*case QuotaBox :: PROPERTY_ID :
-					return $quota_box->get_id();
-				case QuotaBox :: PROPERTY_CREDITS :
-					return $quota_box->get_credits();
-				case QuotaBox :: PROPERTY_TIME_UNIT :
-					return $quota_box->get_time_unit() . ' ' . Translation :: get('day(s)');*/
             }
         
         }

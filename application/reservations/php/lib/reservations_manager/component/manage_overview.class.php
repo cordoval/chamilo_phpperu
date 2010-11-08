@@ -6,6 +6,7 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Translation;
 use common\libraries\Display;
+use common\libraries\Utilities;
 /*/**
  * $Id: manage_overview.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.reservations_manager.component
@@ -35,7 +36,10 @@ class ReservationsManagerManageOverviewComponent extends ReservationsManager
         if ($form->validate())
         {
             $success = $form->update_overview();
-            $this->redirect(Translation :: get($success ? 'StatisticsListUpdated' : 'StatisticsListNotUpdated'), ($success ? false : true), array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_OVERVIEW));
+            $object = Translation :: get('StatisticsList');
+            $message = $succes ? Translation :: get('ObjectUpdated', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES):
+                                 Translation :: get('ObjectNotUpdated', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES);
+            $this->redirect($message, !$success, array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_OVERVIEW));
         }
         else
         {

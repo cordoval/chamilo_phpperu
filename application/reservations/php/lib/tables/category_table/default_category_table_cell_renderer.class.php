@@ -5,6 +5,7 @@ namespace application\reservations;
 use common\libraries\ObjectTableCellRenderer;
 use common\libraries\Translation;
 use common\libraries\Theme;
+use common\libraries\Utilities;
 /**
  * $Id: default_category_table_cell_renderer.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations.tables.category_table
@@ -42,9 +43,9 @@ class DefaultCategoryTableCellRenderer extends ObjectTableCellRenderer
                 return '<a href="' . $url . '" alt="' . $category->get_name() . '">' . $category->get_name() . '</a>';
             case Category :: PROPERTY_POOL :
                 if ($category->use_as_pool())
-                    return Translation :: get('Yes');
+                    return Translation :: get('ConfirmYes', null, Utilities :: COMMON_LIBRARIES);
                 else
-                    return Translation :: get('No');
+                    return Translation :: get('ConfirmNo', null, Utilities :: COMMON_LIBRARIES);
         }
         
         $title = $column->get_title();
