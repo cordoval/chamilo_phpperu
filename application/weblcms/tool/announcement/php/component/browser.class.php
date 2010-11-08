@@ -12,6 +12,7 @@ use common\libraries\InequalityCondition;
 use common\libraries\Request;
 use application\weblcms\ToolComponent;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 class AnnouncementToolBrowserComponent extends AnnouncementTool
 {

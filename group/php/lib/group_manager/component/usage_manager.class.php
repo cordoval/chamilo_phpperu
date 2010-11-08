@@ -1,4 +1,10 @@
 <?php
+namespace group;
+
+use common\libraries\Application;
+use common\libraries\Translation;
+use common\libraries\Utilities;
+
 require_once dirname(__FILE__) . '/../../group_usage_tree_menu_data_provider.class.php';
 require_once dirname(__FILE__) . '/../../forms/group_usage_form.class.php';
 

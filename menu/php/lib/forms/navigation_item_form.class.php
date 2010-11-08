@@ -3,6 +3,7 @@ namespace menu;
 use common\libraries\Application;
 use common\libraries\WebApplication;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\FormValidator;

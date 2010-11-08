@@ -3,6 +3,7 @@ namespace repository\content_object\wiki;
 
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Path;
 use repository\ComplexDisplay;
 use repository\RepositoryDataManager;

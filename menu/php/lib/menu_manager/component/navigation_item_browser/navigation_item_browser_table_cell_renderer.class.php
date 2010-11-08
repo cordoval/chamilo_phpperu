@@ -1,6 +1,7 @@
 <?php
 namespace menu;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Theme;
 use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;

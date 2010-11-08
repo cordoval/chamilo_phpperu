@@ -4,6 +4,7 @@ namespace application\wiki;
 use common\libraries\WebApplication;
 use common\libraries\Breadcrumb;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use repository\RepoViewer;
 
 use application\GradebookUtilities;

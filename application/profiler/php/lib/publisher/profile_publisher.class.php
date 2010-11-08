@@ -7,6 +7,7 @@ use repository\ContentObject;
 use repository\RepositoryDataManager;
 use common\extensions\repo_viewer\RepoViewer;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Application;
 use common\libraries\Theme;
 /**

@@ -4,6 +4,7 @@ namespace application\personal_messenger;
 
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Application;
 use common\libraries\Breadcrumb;
 /**

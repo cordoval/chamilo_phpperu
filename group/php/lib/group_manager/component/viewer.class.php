@@ -1,5 +1,6 @@
 <?php
 namespace group;
+
 use common\libraries\Utilities;
 use common\libraries\Application;
 use common\libraries\Translation;

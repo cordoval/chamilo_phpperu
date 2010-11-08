@@ -5,6 +5,7 @@ namespace application\profiler;
 use common\libraries\FormValidator;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\PatternMatchCondition;
 use user\User;
 use common\libraries\OrCondition;
