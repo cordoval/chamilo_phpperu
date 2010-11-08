@@ -39,7 +39,7 @@ class PersonalCalendarManagerViewerComponent extends PersonalCalendarManager
             if (! $this->can_view())
             {
                 $this->display_header();
-                $this->display_error_message(Translation :: get('NotAllowed'));
+                $this->display_error_message(Translation :: get('NotAllowed', null , Utilities :: COMMON_LIBRARIES));
                 $this->display_footer();
                 exit();
             }
@@ -104,9 +104,9 @@ class PersonalCalendarManagerViewerComponent extends PersonalCalendarManager
         
         $html[] = $display->get_full_html();
         $html[] = '<div class="event_publication_info">';
-        $html[] = htmlentities(Translation :: get('PublishedOn')) . ' ' . $this->render_publication_date();
-        $html[] = htmlentities(Translation :: get('By')) . ' ' . $this->render_repo_viewer($event);
-        $html[] = htmlentities(Translation :: get('SharedWith')) . ' ' . $this->render_publication_targets();
+        $html[] = htmlentities(Translation :: get('PublishedOn', null , Utilities :: COMMON_LIBRARIES)) . ' ' . $this->render_publication_date();
+        $html[] = htmlentities(Translation :: get('By', null , Utilities :: COMMON_LIBRARIES)) . ' ' . $this->render_repo_viewer($event);
+        $html[] = htmlentities(Translation :: get('SharedWith', null , Utilities :: COMMON_LIBRARIES)) . ' ' . $this->render_publication_targets();
         $html[] = '</div>';
         
         $back = $this->get_url();
@@ -114,15 +114,15 @@ class PersonalCalendarManagerViewerComponent extends PersonalCalendarManager
         $delete_url = $this->get_publication_deleting_url($event);
         $ical_url = $this->get_ical_export_url($event);
         
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Back'), Theme :: get_common_image_path() . 'action_prev.png', $back));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Back', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_prev.png', $back));
         $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ExportIcal'), Theme :: get_common_image_path() . 'export_csv.png', $ical_url));
         
         $user = $this->get_user();
         
         if ($user->is_platform_admin() || $event->get_publisher() == $user->get_id())
         {
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $edit_url));
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $delete_url));
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Edit', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $edit_url));
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Delete', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $delete_url));
         }
         
         $html[] = '</div>';
@@ -138,7 +138,7 @@ class PersonalCalendarManagerViewerComponent extends PersonalCalendarManager
 
     function render_publication_date()
     {
-        $date_format = Translation :: get('dateTimeFormatLong');
+        $date_format = Translation :: get('DateTimeFormatLong', null , Utilities :: COMMON_LIBRARIES);
         return DatetimeUtilities :: format_locale_date($date_format, $this->event->get_published());
     }
 
@@ -148,7 +148,7 @@ class PersonalCalendarManagerViewerComponent extends PersonalCalendarManager
         
         if ($event->is_for_nobody())
         {
-            return htmlentities(Translation :: get('Nobody'));
+            return htmlentities(Translation :: get('Nobody', null , 'user'));
         }
         else
         {
@@ -193,14 +193,14 @@ class PersonalCalendarManagerViewerComponent extends PersonalCalendarManager
         
         if (PlatformSetting :: get('allow_personal_agenda', 'user') && ! Request :: get('calendar_event'))
         {
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_CREATE_PUBLICATION))));
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_CREATE_PUBLICATION))));
         }
         
-        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ListView'), Theme :: get_image_path() . 'tool_calendar_down.png', $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR, 'view' => 'list'))));
-        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('MonthView'), Theme :: get_image_path() . 'tool_calendar_month.png', $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR, 'view' => 'month'))));
-        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('WeekView'), Theme :: get_image_path() . 'tool_calendar_week.png', $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR, 'view' => 'week'))));
-        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('DayView'), Theme :: get_image_path() . 'tool_calendar_day.png', $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR, 'view' => 'day'))));
-        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('Today'), Theme :: get_image_path() . 'tool_calendar_today.png', $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR, 'view' => (Request :: get('view') ? Request :: get('view') : 'month'), 'time' => time()))));
+        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ListView', null , Utilities :: COMMON_LIBRARIES), Theme :: get_image_path() . 'tool_calendar_down.png', $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR, 'view' => 'list'))));
+        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('MonthView', null , Utilities :: COMMON_LIBRARIES), Theme :: get_image_path() . 'tool_calendar_month.png', $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR, 'view' => 'month'))));
+        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('WeekView', null , Utilities :: COMMON_LIBRARIES), Theme :: get_image_path() . 'tool_calendar_week.png', $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR, 'view' => 'week'))));
+        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('DayView', null , Utilities :: COMMON_LIBRARIES), Theme :: get_image_path() . 'tool_calendar_day.png', $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR, 'view' => 'day'))));
+        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('Today', null , Utilities :: COMMON_LIBRARIES), Theme :: get_image_path() . 'tool_calendar_today.png', $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR, 'view' => (Request :: get('view') ? Request :: get('view') : 'month'), 'time' => time()))));
         return $action_bar;
     }
     

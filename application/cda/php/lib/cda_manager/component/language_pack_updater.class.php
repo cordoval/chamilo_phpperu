@@ -8,6 +8,7 @@ use common\libraries\Translation;
 use common\libraries\Display;
 use common\libraries\Request;
 use common\libraries\WebApplication;
+use common\libraries\Utilities;
 /**
  * @package application.cda.cda.component
  */
@@ -38,7 +39,10 @@ class CdaManagerLanguagePackUpdaterComponent extends CdaManager
 		if($form->validate())
 		{
 			$success = $form->update_language_pack();
-			$this->redirect($success ? Translation :: get('LanguagePackUpdated') : Translation :: get('LanguagePackNotUpdated'), !$success, array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_LANGUAGE_PACKS));
+                        $object = Translation :: get('LanguagePack');
+                        $message = $success ? Translation :: get('ObjectUpdated', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES) :
+                                              Translation :: get('ObjectNotUpdated', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES);
+			$this->redirect($message, !$success, array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_LANGUAGE_PACKS));
 		}
 		else
 		{

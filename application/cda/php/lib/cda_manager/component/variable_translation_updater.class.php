@@ -14,6 +14,7 @@ use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\Path;
 use common\libraries\ResourceManager;
+use common\libraries\Utilities;
 /**
  * @package application.cda.cda.component
  */
@@ -99,7 +100,10 @@ class CdaManagerVariableTranslationUpdaterComponent extends CdaManager
 						{
 							if(!$message)
 							{
-								$message = $success ? Translation :: get('PreviousVariableTranslationUpdated') : Translation :: get('PreviousVariableTranslationNotUpdated');
+								$object = Translation :: get('PreviousVariableTranslation');
+                                                                $message = $success ? Translation :: get('ObjectUpdated', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES) :
+                                                                                    Translation :: get('ObjectNotUpdated', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES);
+
 								$message .= '<br /> ' . $variable->get_variable() . ' = ' . $variable_translation->get_translation(); 
 							}
 								
@@ -117,7 +121,10 @@ class CdaManagerVariableTranslationUpdaterComponent extends CdaManager
 						}
 						break;
 					case VariableTranslationForm :: SUBMIT_SAVE :
-						$message = $success ? Translation :: get('VariableTranslationUpdated') : Translation :: get('VariableTranslationNotUpdated');
+                                                $object = Translation :: get('VariableTranslationUpdated');
+                                                 $message = $success ? Translation :: get('ObjectUpdated', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES) :
+                                                                       Translation :: get('ObjectNotUpdated', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES);
+
 						$message .= '<br /> ' . $variable->get_variable() . ' = ' . $variable_translation->get_translation(); 
 						$parameters = array();
 						$parameters[CdaManager :: PARAM_ACTION] = CdaManager :: ACTION_BROWSE_VARIABLE_TRANSLATIONS;

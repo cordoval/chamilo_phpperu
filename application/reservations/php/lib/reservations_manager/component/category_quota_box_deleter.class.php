@@ -9,6 +9,7 @@ use common\libraries\EqualityCondition;
 use tracking\Event;
 use tracking\ChangesTracker;
 use common\libraries\AndCondition;
+use common\libraries\Utilities;
 /**
  * $Id: category_quota_box_deleter.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.reservations_manager.component
@@ -30,7 +31,7 @@ class ReservationsManagerCategoryQuotaBoxDeleterComponent extends ReservationsMa
         if (! $this->get_user())
         {
             $this->display_header(null);
-            Display :: display_error_message(Translation :: get("NotAllowed"));
+            Display :: display_error_message(Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
@@ -89,16 +90,24 @@ class ReservationsManagerCategoryQuotaBoxDeleterComponent extends ReservationsMa
             }
 
             if (count($ids) == 1)
-                $message = $bool ? 'CategoryQuotaBoxDeleted' : 'CategoryQuotaBoxNotDeleted';
+            {
+                $category_quota_box = Translation :: get('CategoryQuotaBox');
+                $message = $bool ? Translation :: get('ObjectDeleted', array('OBJECT' => $category_quota_box), Utilities :: COMMON_LIBRARIES) :
+                                   Translation :: get('ObjectNotDeleted', array('OBJECT' => $category_quota_box), Utilities :: COMMON_LIBRARIES);
+            }
             else
-                $message = $bool ? 'CategoryQuotaBoxesDeleted' : 'CategoryQuotaBoxesNotDeleted';
+            {
+                $category_quota_boxes = Translation :: get('CategoryQuotaBoxes');
+                $message = $bool ? Translation :: get('ObjectsDeleted', array('OBJECTS' => $category_quota_boxes), Utilities :: COMMON_LIBRARIES) :
+                                   Translation :: get('ObjectsNotDeleted', array('OBJECTS' => $category_quota_boxes), Utilities :: COMMON_LIBRARIES);
+            }
 
-            $this->redirect(Translation :: get($message), ($bool ? false : true), array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_CATEGORY_QUOTA_BOXES, ReservationsManager :: PARAM_CATEGORY_ID => $cat_id));
+            $this->redirect($message, !$bool, array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_CATEGORY_QUOTA_BOXES, ReservationsManager :: PARAM_CATEGORY_ID => $cat_id));
         }
         else
         {
             $this->display_header();
-            $this->display_error_message(Translation :: get("NoObjectSelected"));
+            $this->display_error_message(Translation :: get('NoObjectSelected', null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
         }
     }

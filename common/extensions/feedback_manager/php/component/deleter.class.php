@@ -32,7 +32,7 @@ class FeedbackManagerDeleterComponent extends FeedbackManager
 
         if (! $this->get_user())
         {
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES));
             exit();
         }
 
@@ -61,7 +61,7 @@ class FeedbackManagerDeleterComponent extends FeedbackManager
         }
         else
         {
-        	Display :: error_message(Translation :: get("NoObjectSelected"));
+        	Display :: error_message(Translation :: get('NoObjectSelected', null, Utilities :: COMMON_LIBRARIES));
             exit();
         }
     }

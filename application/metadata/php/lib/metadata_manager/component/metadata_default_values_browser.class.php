@@ -23,7 +23,7 @@ class MetadataManagerMetadataDefaultValuesBrowserComponent extends MetadataManag
         $metadata_property_type_id = Request :: get(MetadataManager :: PARAM_METADATA_PROPERTY_TYPE);
         if(!isset($metadata_property_type_id))
         {
-            exit(Translation :: get('NoMetadataPropertyType'));
+            exit(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('MetadataPropertyType')), Utilities :: COMMON_LIBRARY));
         }
         
         $this->display_header($trail);
@@ -56,8 +56,8 @@ class MetadataManagerMetadataDefaultValuesBrowserComponent extends MetadataManag
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
         $actions = array();
-        $actions[] = new ToolbarItem(Translation :: get('CreateMetadataDefaultValue'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_CREATE_METADATA_DEFAULT_VALUE, MetadataManager :: PARAM_METADATA_PROPERTY_TYPE => Request :: get(MetadataManager :: PARAM_METADATA_PROPERTY_TYPE))));
-        $actions[] = new ToolbarItem(Translation :: get('ImportMetadataDefaultValue'), Theme :: get_common_image_path() . 'action_import.png', $this->get_url(array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_IMPORT_METADATA_DEFAULT_VALUE, MetadataManager :: PARAM_METADATA_PROPERTY_TYPE => Request :: get(MetadataManager :: PARAM_METADATA_PROPERTY_TYPE))));
+        $actions[] = new ToolbarItem(Translation :: get('CreateObject', array('OBJECT' => Translation :: get('MetadataDefaultValue')), Utilities :: COMMON_LIBRARY), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_CREATE_METADATA_DEFAULT_VALUE, MetadataManager :: PARAM_METADATA_PROPERTY_TYPE => Request :: get(MetadataManager :: PARAM_METADATA_PROPERTY_TYPE))));
+        $actions[] = new ToolbarItem(Translation :: get('Import', null, Utilities :: COMMON_LIBRARY), Theme :: get_common_image_path() . 'action_import.png', $this->get_url(array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_IMPORT_METADATA_DEFAULT_VALUE, MetadataManager :: PARAM_METADATA_PROPERTY_TYPE => Request :: get(MetadataManager :: PARAM_METADATA_PROPERTY_TYPE))));
 
         $action_bar->set_common_actions($actions);
         $action_bar->set_search_url($this->get_url());

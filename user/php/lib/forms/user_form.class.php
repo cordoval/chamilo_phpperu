@@ -70,17 +70,17 @@ class UserForm extends FormValidator
         $this->addElement('html', '<img src="' . $this->user->get_full_picture_url() . '" alt="' . $this->user->get_fullname() . '" style="position:absolute; right: 10px; z-index:1; border:1px solid black; max-width: 150px;"/>');
         // Lastname
         $this->addElement('text', User :: PROPERTY_LASTNAME, Translation :: get('LastName'), array("size" => "50"));
-        $this->addRule(User :: PROPERTY_LASTNAME, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(User :: PROPERTY_LASTNAME, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         // Firstname
         $this->addElement('text', User :: PROPERTY_FIRSTNAME, Translation :: get('FirstName'), array("size" => "50"));
-        $this->addRule(User :: PROPERTY_FIRSTNAME, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(User :: PROPERTY_FIRSTNAME, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         // Email
         $this->addElement('text', User :: PROPERTY_EMAIL, Translation :: get('Email'), array("size" => "50"));
-        $this->addRule(User :: PROPERTY_EMAIL, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(User :: PROPERTY_EMAIL, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         $this->addRule(User :: PROPERTY_EMAIL, Translation :: get('WrongEmail'), 'email');
         // Username
         $this->addElement('text', User :: PROPERTY_USERNAME, Translation :: get('Username'), array("size" => "50"));
-        $this->addRule(User :: PROPERTY_USERNAME, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(User :: PROPERTY_USERNAME, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
 
         $group = array();
         $group[] = & $this->createElement('radio', User :: PROPERTY_ACTIVE, null, Translation :: get('Yes'), 1);
@@ -113,13 +113,13 @@ class UserForm extends FormValidator
 
         // Disk Quota
         $this->addElement('text', User :: PROPERTY_DISK_QUOTA, Translation :: get('DiskQuota'), array("size" => "50"));
-        $this->addRule(User :: PROPERTY_DISK_QUOTA, Translation :: get('FieldMustBeNumeric'), 'numeric', null, 'server');
+        $this->addRule(User :: PROPERTY_DISK_QUOTA, Translation :: get('ThisFieldMustBeNumeric', null, Utilities :: COMMON_LIBRARIES), 'numeric', null, 'server');
         // Database Quota
         $this->addElement('text', User :: PROPERTY_DATABASE_QUOTA, Translation :: get('DatabaseQuota'), array("size" => "50"));
-        $this->addRule(User :: PROPERTY_DATABASE_QUOTA, Translation :: get('FieldMustBeNumeric'), 'numeric', null, 'server');
+        $this->addRule(User :: PROPERTY_DATABASE_QUOTA, Translation :: get('ThisFieldMustBeNumeric', null, Utilities :: COMMON_LIBRARIES), 'numeric', null, 'server');
         // Version quota
         $this->addElement('text', User :: PROPERTY_VERSION_QUOTA, Translation :: get('VersionQuota'), array("size" => "50"));
-        $this->addRule(User :: PROPERTY_VERSION_QUOTA, Translation :: get('FieldMustBeNumeric'), 'numeric', null, 'server');
+        $this->addRule(User :: PROPERTY_VERSION_QUOTA, Translation :: get('ThisFieldMustBeNumeric', null, Utilities :: COMMON_LIBRARIES), 'numeric', null, 'server');
 
         // Status
         $status = array();
@@ -138,8 +138,8 @@ class UserForm extends FormValidator
 
         //  Send email
         $group = array();
-        $group[] = & $this->createElement('radio', 'send_mail', null, Translation :: get('Yes'), 1);
-        $group[] = & $this->createElement('radio', 'send_mail', null, Translation :: get('No'), 0);
+        $group[] = & $this->createElement('radio', 'send_mail', null, Translation :: get('ConfirmYes', null, Utilities :: COMMON_LIBRARIES), 1);
+        $group[] = & $this->createElement('radio', 'send_mail', null, Translation :: get('ConfirmNo', null, Utilities :: COMMON_LIBRARIES), 0);
         $this->addGroup($group, 'mail', Translation :: get('SendMailToNewUser'), '&nbsp;');
 
         // RightsTemplates element finder
@@ -166,7 +166,7 @@ class UserForm extends FormValidator
         $locale['Display'] = Translation :: get('AddRightsTemplates');
         $locale['Searching'] = Translation :: get('Searching');
         $locale['NoResults'] = Translation :: get('NoResults');
-        $locale['Error'] = Translation :: get('Error');
+        $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARIES);
         $hidden = true;
 
         $elem = $this->addElement('element_finder', 'rights_templates', null, $url, $locale, $user_rights_templates);
@@ -183,8 +183,8 @@ class UserForm extends FormValidator
 
         $this->addElement('hidden', User :: PROPERTY_ID);
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive update'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
@@ -195,8 +195,8 @@ class UserForm extends FormValidator
     {
         $this->build_basic_form();
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 

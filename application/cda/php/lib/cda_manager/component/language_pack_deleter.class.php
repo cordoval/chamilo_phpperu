@@ -7,6 +7,7 @@ use common\libraries\Breadcrumb;
 use common\libraries\Translation;
 use common\libraries\Display;
 use common\libraries\Request;
+use common\libraries\Utilities;
 /**
  * @package application.cda.cda.component
  */
@@ -54,22 +55,22 @@ class CdaManagerLanguagePackDeleterComponent extends CdaManager
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedLanguagePackNotDeleted';
+                                    $message = Translation :: get('ObjectNotDeleted', array('OBJECT' => Translation :: get('LanguagePack')), Utilities :: COMMON_LIBRARIES);
 				}
 				else
 				{
-					$message = 'SelectedLanguagePacksNotDeleted';
-				}
+                                    $message = Translation :: get('ObjectsNotDeleted', array('OBJECTS' => Translation :: get('LanguagePacks')), Utilities :: COMMON_LIBRARIES);
+                                				}
 			}
 			else
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedLanguagePackDeleted';
+                                    $message = Translation :: get('ObjectDeleted', array('OBJECT' => Translation :: get('LanguagePack')), Utilities :: COMMON_LIBRARIES);
 				}
 				else
 				{
-					$message = 'SelectedLanguagePacksNotDeleted';
+                                    $message = Translation :: get('ObjectsDeleted', array('OBJECTS' => Translation :: get('LanguagePacks')), Utilities :: COMMON_LIBRARIES);
 				}
 			}
 
@@ -77,7 +78,7 @@ class CdaManagerLanguagePackDeleterComponent extends CdaManager
 		}
 		else
 		{
-			$this->display_error_page(htmlentities(Translation :: get('NoLanguagePacksSelected')));
+			$this->display_error_page(htmlentities(Translation :: get('NoObjectsSelected', null, Utilities :: COMMON_LIBRARIES)));
 		}
 	}
 	

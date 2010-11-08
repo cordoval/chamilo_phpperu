@@ -694,7 +694,7 @@ abstract class Updater
         $application = $this->get_application();
         
         // Parse the Locations XML of the application
-        $this->add_message(self :: TYPE_NORMAL, '<span class="subtitle">' . Translation :: get('Rights') . '</span>');
+        $this->add_message(self :: TYPE_NORMAL, '<span class="subtitle">' . Translation :: get('Rights', null, 'rights') . '</span>');
         if (! $this->register_location())
         {
             return $this->update_failed(Translation :: get('LocationsFailed'));
@@ -710,7 +710,7 @@ abstract class Updater
         
 
         // VARIOUS #1: Tracking
-        $this->add_message(self :: TYPE_NORMAL, '<span class="subtitle">' . Translation :: get('Tracking') . '</span>');
+        $this->add_message(self :: TYPE_NORMAL, '<span class="subtitle">' . Translation :: get('Tracking', null, 'tracking') . '</span>');
         if (! $this->register_trackers())
         {
             return $this->update_failed(Translation :: get('TrackingFailed'));
@@ -722,7 +722,7 @@ abstract class Updater
         $this->add_message(self :: TYPE_NORMAL, '');
         
         // VARIOUS #2: Reporting
-        $this->add_message(self :: TYPE_NORMAL, '<span class="subtitle">' . Translation :: get('Reporting') . '</span>');
+        $this->add_message(self :: TYPE_NORMAL, '<span class="subtitle">' . Translation :: get('Reporting', null, 'reporting') . '</span>');
         if (! $this->register_reporting())
         {
             return $this->update_failed(Translation :: get('ReportingFailed'));
@@ -734,7 +734,7 @@ abstract class Updater
         $this->add_message(self :: TYPE_NORMAL, '');
         
         // VARIOUS #3: Webservices
-        $this->add_message(self :: TYPE_NORMAL, '<span class="subtitle">' . Translation :: get('Webservice') . '</span>');
+        $this->add_message(self :: TYPE_NORMAL, '<span class="subtitle">' . Translation :: get('Webservice', null, 'webservice') . '</span>');
         if (! $this->register_webservices())
         {
             return $this->update_failed(Translation :: get('WebserviceFailed'));

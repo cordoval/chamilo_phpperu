@@ -38,7 +38,7 @@ class CategoryManagerParentChangerComponent extends CategoryManagerComponent
         if (! $user)
         {
             $this->display_header();
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
@@ -83,7 +83,7 @@ class CategoryManagerParentChangerComponent extends CategoryManagerComponent
                 $this->display_header();
 
                 echo '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'action_category.png);">';
-                echo '<div class="title">' . Translation :: get('SelectedCategories');
+                echo '<div class="title">' . Translation :: get(get('ObjectSelected', array('OBJECT' => Translation :: get('Category')), Utilities :: COMMON_LIBRARIES));
                 echo '</div>';
                 echo '<div class="description">';
                 echo '<ul>';
@@ -102,7 +102,7 @@ class CategoryManagerParentChangerComponent extends CategoryManagerComponent
         else
         {
             $this->display_header($this->get_breadcrumb_trail());
-            Display :: error_message(Translation :: get("NoObjectSelected"));
+            Display :: error_message(Translation :: get('NoObjectSelected', null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
         }
     }
@@ -115,8 +115,8 @@ class CategoryManagerParentChangerComponent extends CategoryManagerComponent
 
         $this->build_category_tree(0, $selected_categories, $current_parent);
         $form = new FormValidator('select_category', 'post', $this->get_url(array(CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_CHANGE_CATEGORY_PARENT, CategoryManager :: PARAM_CATEGORY_ID => Request :: get(CategoryManager :: PARAM_CATEGORY_ID))));
-        $form->addElement('select', 'category', Translation :: get('Category'), $this->tree);
-        $form->addElement('submit', 'submit', Translation :: get('Ok'));
+        $form->addElement('select', 'category', Translation :: get('Category', null, Utilities :: COMMON_LIBRARIES), $this->tree);
+        $form->addElement('submit', 'submit', Translation :: get('Ok', null, Utilities :: COMMON_LIBRARIES));
         return $form;
     }
 

@@ -34,7 +34,7 @@ class PersonalMessengerManagerBrowserComponent extends PersonalMessengerManager
         if(!PersonalMessengerRights :: is_allowed_in_personal_messenger_subtree(PersonalMessengerRights :: RIGHT_BROWSE, PersonalMessengerRights :: get_personal_messenger_subtree_root()))
         {
             $this->display_header();
-                Display :: error_message(Translation :: get("NotAllowed"));
+                Display :: error_message(Translation :: get("NotAllowed", null , Utilities :: COMMON_LIBRARIES));
                 $this->display_footer();
                 exit();
         }
@@ -93,7 +93,7 @@ class PersonalMessengerManagerBrowserComponent extends PersonalMessengerManager
         if($this->get_user()->is_platform_admin())
         {
             $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('EditRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_url(array(Application :: PARAM_ACTION => PersonalMessengerManager :: ACTION_RIGHT_EDITS))));
+            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ManageRights', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_rights.png', $this->get_url(array(Application :: PARAM_ACTION => PersonalMessengerManager :: ACTION_RIGHT_EDITS))));
         
             return $action_bar->as_html();
         }

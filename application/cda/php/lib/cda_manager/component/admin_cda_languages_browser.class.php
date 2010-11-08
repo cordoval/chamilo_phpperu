@@ -11,6 +11,7 @@ use common\libraries\ToolbarItem;
 use common\libraries\ConditionProperty;
 use common\libraries\AdministrationComponent;
 use common\libraries\Application;
+use common\libraries\Utilities;
 
 /**
  * @package application.cda.cda.component
@@ -62,9 +63,9 @@ class CdaManagerAdminCdaLanguagesBrowserComponent extends CdaManager implements 
         $can_add = CdaRights :: is_allowed(CdaRights :: ADD_RIGHT, CdaRights :: LOCATION_LANGUAGES, 'manager');
         if ($can_add)
         {
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('AddLanguage'), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_cda_language_url()));
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Add', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_cda_language_url()));
         }
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url()));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url()));
 
         return $action_bar;
     }

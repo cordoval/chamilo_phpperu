@@ -202,7 +202,7 @@ class PortfolioManagerRightsOverviewComponent extends PortfolioManager
             $html[] = '<div class ="permissions"  >';
 
             $html[] = '<div class ="permissionsIcon"   >';
-            $html[] = '<img HEIGHT = 20 WIDTH = 20 alt ="'.Translation :: get('view');
+            $html[] = '<img HEIGHT = 20 WIDTH = 20 alt ="'.Translation :: get('ViewPortfolio');
             $html[] = '" title="'. Translation :: get('view');
             $html[] = '" src="'.Theme ::get_image_path('portfolio'). '/' .'view.png'. '"  class="labeled">';
             $html[] = ':';
@@ -210,7 +210,7 @@ class PortfolioManagerRightsOverviewComponent extends PortfolioManager
             $html[] = '</div>';
             
             $html[] = '<div class ="permissionsIcon">';
-            $html[] = '<img HEIGHT = 20 WIDTH = 20 alt ="'.Translation :: get('edit');
+            $html[] = '<img HEIGHT = 20 WIDTH = 20 alt ="'.Translation :: get('EditPortfolio');
             $html[] = '" title="'.Translation :: get('edit');
             $html[] = '" src="'.Theme ::get_image_path('portfolio'). '/' .'edit.png'. '"  class="labeled">';
             $html[] = ':';
@@ -218,7 +218,7 @@ class PortfolioManagerRightsOverviewComponent extends PortfolioManager
             $html[] = '</div>';
             
             $html[] = '<div class ="permissionsIcon" >';
-            $html[] = '<img HEIGHT = 20 WIDTH = 20 alt ="'.Translation :: get('viewFeedback');
+            $html[] = '<img HEIGHT = 20 WIDTH = 20 alt ="'.Translation :: get('ViewFeedback');
             $html[] = '" title="'.Translation :: get('viewFeedback');
             $html[] = '" src="'.Theme ::get_image_path('portfolio'). '/' .'view_feedback.png'. '"  class="labeled">';
             $html[] = ':';
@@ -226,7 +226,7 @@ class PortfolioManagerRightsOverviewComponent extends PortfolioManager
             $html[] = '</div>';
 
             $html[] = '<div class ="permissionsIcon">';
-            $html[] = '<img HEIGHT = 20 WIDTH = 20 alt ="'.Translation :: get('giveFeedback');
+            $html[] = '<img HEIGHT = 20 WIDTH = 20 alt ="'.Translation :: get('GiveFeedback');
             $html[] = '" title="'.Translation :: get('giveFeedback');;
             $html[] = '" src="'.Theme ::get_image_path('portfolio'). '/' .'give_feedback.png'. '"  class="labeled">';
             $html[] = ':';

@@ -8,6 +8,7 @@ use common\libraries\Theme;
 use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use common\libraries\Display;
+use common\libraries\Utilities;
 /**
  * @package cda.tables.variable_translation_table
  */
@@ -164,7 +165,7 @@ class VariableTranslationBrowserTableCellRenderer extends DefaultVariableTransla
     	));
 
     	$toolbar->add_item(new ToolbarItem(
-    		Translation :: get('View'), 
+    		Translation :: get('View', null, Utilities :: COMMON_LIBRARIES),
     		$theme_common_image_path.'action_browser.png', 
     		$this->browser->get_view_variable_translation_url($variable_translation), 
     		ToolbarItem :: DISPLAY_ICON

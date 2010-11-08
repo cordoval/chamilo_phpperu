@@ -7,6 +7,7 @@ use common\libraries\Breadcrumb;
 use common\libraries\Translation;
 use common\libraries\Display;
 use common\libraries\EqualityCondition;
+use common\libraries\Utilities;
 /**
  * $Id: reservation_updater.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations.reservations_manager.component
@@ -23,10 +24,10 @@ class ReservationsManagerReservationUpdaterComponent extends ReservationsManager
         $reservation_id = $_GET[ReservationsManager :: PARAM_RESERVATION_ID];
         
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => null)), Translation :: get('Reservations')));
-        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_ITEMS)), Translation :: get('ManageItems')));
-        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_RESERVATIONS, ReservationsManager :: PARAM_ITEM_ID => $item_id)), Translation :: get('ManageReservations')));
-        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_RESERVATION_ID => $reservation_id, ReservationsManager :: PARAM_ITEM_ID => $item_id)), Translation :: get('UpdateReservation')));
+//        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => null)), Translation :: get('Reservations')));
+//        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_ITEMS)), Translation :: get('ManageItems')));
+//        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_RESERVATIONS, ReservationsManager :: PARAM_ITEM_ID => $item_id)), Translation :: get('ManageReservations')));
+//        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_RESERVATION_ID => $reservation_id, ReservationsManager :: PARAM_ITEM_ID => $item_id)), Translation :: get('UpdateReservation')));
         
         $user = $this->get_user();
         
@@ -45,7 +46,11 @@ class ReservationsManagerReservationUpdaterComponent extends ReservationsManager
         if ($status == 1)
         {
             $success = $form->update_reservation();
-            $this->redirect(Translation :: get($success ? 'ReservationUpdated' : 'ReservationNotUpdated'), ($success ? false : true), array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_RESERVATIONS, ReservationsManager :: PARAM_ITEM_ID => $item_id));
+            $object = Translation :: get('Reservation');
+            $message = $success ? Translation :: get('ObjectUpdated', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES) :
+                                  Translation :: get('ObjectNotUpdated', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES);
+
+            $this->redirect($message, !$success, array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_RESERVATIONS, ReservationsManager :: PARAM_ITEM_ID => $item_id));
         }
         else
         {

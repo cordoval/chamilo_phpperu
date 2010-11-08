@@ -15,6 +15,7 @@ use common\libraries\AndCondition;
 use common\libraries\AdministrationComponent;
 use common\libraries\Breadcrumb;
 use common\libraries\Application;
+use common\libraries\Utilities;
 
 /**
  * @package application.cda.cda.component
@@ -68,10 +69,10 @@ class CdaManagerAdminVariablesBrowserComponent extends CdaManager implements Adm
         $can_add = CdaRights :: is_allowed(CdaRights :: ADD_RIGHT, CdaRights :: LOCATION_VARIABLES, 'manager');
         if ($can_add)
         {
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('AddVariable'), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_variable_url(Request :: get(CdaManager :: PARAM_LANGUAGE_PACK))));
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Add', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_variable_url(Request :: get(CdaManager :: PARAM_LANGUAGE_PACK))));
         }
 
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_admin_browse_variables_url($language_pack_id)));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_admin_browse_variables_url($language_pack_id)));
         $action_bar->set_search_url($this->get_admin_browse_variables_url($language_pack_id));
 
         return $action_bar;

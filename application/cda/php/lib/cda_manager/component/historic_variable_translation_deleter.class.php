@@ -6,6 +6,7 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\Utilities;
 /**
  * @package application.cda.cda.component
  */
@@ -51,30 +52,30 @@ class CdaManagerHistoricVariableTranslationDeleterComponent extends CdaManager
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedHistoricVariableTranslationNotDeleted';
+                                    $message = Translation :: get('ObjectNotDeleted', array('OBJECT' => Translation :: get('HistoricVariableTranslation')), Utilities :: COMMON_LIBRARIES);
 				}
 				else
 				{
-					$message = 'SelectedHistoricVariableTranslationsNotDeleted';
+                                    $message = Translation :: get('ObjectsNotDeleted', array('OBJECTS' => Translation :: get('HistoricVariableTranslation')), Utilities :: COMMON_LIBRARIES);
 				}
 			}
 			else
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedHistoricVariableTranslationDeleted';
+                                    $message = Translation :: get('ObjectDeleted', array('OBJECT' => Translation :: get('HistoricVariableTranslations')), Utilities :: COMMON_LIBRARIES);
 				}
 				else
 				{
-					$message = 'SelectedHistoricVariableTranslationsNotDeleted';
+                                    $message = Translation :: get('ObjectsDeleted', array('OBJECTS' => Translation :: get('HistoricVariableTranslations')), Utilities :: COMMON_LIBRARIES);
 				}
 			}
 
-			$this->redirect(Translation :: get($message), ($failures ? true : false), array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_VIEW_VARIABLE_TRANSLATION, CdaManager :: PARAM_VARIABLE_TRANSLATION => $historic_variable_translation->get_variable_translation_id()));
+			$this->redirect($message, !$failures, array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_VIEW_VARIABLE_TRANSLATION, CdaManager :: PARAM_VARIABLE_TRANSLATION => $historic_variable_translation->get_variable_translation_id()));
 		}
 		else
 		{
-			$this->display_error_page(htmlentities(Translation :: get('NoHistoricVariableTranslationsSelected')));
+			$this->display_error_page(htmlentities(Translation :: get('NoObjectsSelected', null, Utilities :: COMMON_LIBRARIES)));
 		}
 	}
 	

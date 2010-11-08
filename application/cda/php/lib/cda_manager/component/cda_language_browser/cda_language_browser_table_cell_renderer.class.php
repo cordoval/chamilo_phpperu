@@ -75,7 +75,7 @@ class CdaLanguageBrowserTableCellRenderer extends DefaultCdaLanguageTableCellRen
                 {
                     return '<img src="' . Theme :: get_image_path() . 'orientation_left.png" title="' . Translation :: get('LeftToRight') . '" alt="' . Translation :: get('LeftToRight') . '" />';
                 }
-                return Translation :: get('False');
+                return Translation :: get('ConfirmFalse', null, Utilities :: COMMON_LIBRARIES);
         }
 
         return parent :: render_cell($column, $cda_language);
@@ -98,12 +98,12 @@ class CdaLanguageBrowserTableCellRenderer extends DefaultCdaLanguageTableCellRen
 
             if ($can_edit)
             {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_cda_language_url($cda_language), ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_cda_language_url($cda_language), ToolbarItem :: DISPLAY_ICON));
             }
 
             if ($can_delete)
             {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_cda_language_url($cda_language), ToolbarItem :: DISPLAY_ICON, true));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_cda_language_url($cda_language), ToolbarItem :: DISPLAY_ICON, true));
             }
         }
         else

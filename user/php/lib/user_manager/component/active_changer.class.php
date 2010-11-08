@@ -63,7 +63,7 @@ class UserManagerActiveChangerComponent extends UserManager implements Administr
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => TRanslation :: get('User')), Utilities :: COMMON_LIBRARIES)));
         }
     }
 

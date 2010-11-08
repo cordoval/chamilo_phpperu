@@ -151,8 +151,8 @@ class AssessmentMatchNumericQuestionForm extends ContentObjectForm
         $select_options[AssessmentMatchNumericQuestion :: TOLERANCE_TYPE_ABSOLUTE] = Translation :: get(AssessmentMatchNumericQuestion :: TOLERANCE_TYPE_ABSOLUTE);
         $select_options[AssessmentMatchNumericQuestion :: TOLERANCE_TYPE_RELATIVE] = Translation :: get(AssessmentMatchNumericQuestion :: TOLERANCE_TYPE_RELATIVE);
         $select_group = array();
-        $select_group[] = & $this->createElement('select', AssessmentMatchNumericQuestion :: PROPERTY_TOLERANCE_TYPE, Translation :: get('Tolerance type'), $select_options);
-        $this->addGroup($select_group, 'tolerance_type', Translation :: get('Tolerance type'), '', false);
+        $select_group[] = & $this->createElement('select', AssessmentMatchNumericQuestion :: PROPERTY_TOLERANCE_TYPE, Translation :: get('ToleranceType'), $select_options);
+        $this->addGroup($select_group, 'tolerance_type', Translation :: get('ToleranceType'), '', false);
         
         $buttons = array();
         //Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button

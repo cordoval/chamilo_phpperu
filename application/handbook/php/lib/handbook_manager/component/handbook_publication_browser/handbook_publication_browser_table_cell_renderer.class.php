@@ -3,6 +3,7 @@ namespace application\handbook;
 use common\libraries\Toolbar;
 use user\User;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Theme;
 use common\libraries\ToolbarItem;
 require_once   dirname(__FILE__) .  '/handbook_publication_browser_table_column_model.class.php';
@@ -56,7 +57,7 @@ class HandbookPublicationBrowserTableCellRenderer extends DefaultHandbookPublica
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
         $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('ViewHandbookPublication'),
+        		Translation :: get('View' , array('OBJECT' => Translation::get('HandbookPublication')), Utilities::COMMON_LIBRARIES),
         		Theme :: get_common_image_path() . 'action_browser.png',
         		$this->browser->get_view_handbook_publication_url($handbook->get_id()),
         		ToolbarItem :: DISPLAY_ICON

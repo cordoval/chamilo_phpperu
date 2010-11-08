@@ -4,6 +4,7 @@ namespace application\cda;
 
 use common\libraries\FormValidator;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 /**
  * @package application.lib.cda.forms
  */
@@ -35,12 +36,12 @@ class TranslationImportForm extends FormValidator
     	$this->addElement('file', 'file', Translation :: get('FileName'));
         $allowed_upload_types = array('zip');
         $this->addRule('file', Translation :: get('OnlyZIPAllowed'), 'filetype', $allowed_upload_types);
-        $this->addRule('file', Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule('file', Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         
         // Submit button
         //$this->addElement('submit', 'user_settings', 'OK');
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Import'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Import', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
         
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

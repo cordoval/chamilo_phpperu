@@ -2,7 +2,12 @@
 namespace common\extensions\external_repository_manager\implementation\matterhorn;
 
 use common\libraries\Path;
+use common\libraries\PatternMatchCondition;
+use common\libraries\OrCondition;
+
 use repository\ExternalRepositorySetting;
+
+use repository\content_object\document\Document;
 
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;

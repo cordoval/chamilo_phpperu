@@ -37,7 +37,7 @@ class ComplexDisplayPreviewLauncher extends LauncherApplication
         }
         else
         {
-            $this->display_error_page(Translation :: get('NoObjectSelected'));
+            $this->display_error_page(Translation :: get('NoObjectSelected', null, Utilities :: COMMON_LIBRARIES));
         }
     }
 

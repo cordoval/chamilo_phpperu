@@ -23,7 +23,7 @@ class UserManagerExporterComponent extends UserManager implements Administration
         if (!UserRights :: is_allowed_in_users_subtree(UserRights :: EDIT_RIGHT, 0))
         {
             $this->display_header();
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get("NotAllowed", null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }

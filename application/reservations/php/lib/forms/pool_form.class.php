@@ -4,6 +4,7 @@ namespace application\reservations;
 
 use common\libraries\FormValidator;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 /**
  * $Id: pool_form.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.forms
@@ -28,8 +29,8 @@ class PoolForm extends FormValidator
         $this->add_timewindow(Subscription :: PROPERTY_START_TIME, Subscription :: PROPERTY_STOP_TIME, Translation :: get('StartDate'), Translation :: get('StopDate'));
         
         // Submit button
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Ok'), array('class' => 'positive'));
-        //		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Ok', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
+        //		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
         
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);

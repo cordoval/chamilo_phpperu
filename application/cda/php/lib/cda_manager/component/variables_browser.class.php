@@ -30,7 +30,7 @@ class CdaManagerVariablesBrowserComponent extends CdaManager
 	function run()
 	{
 		$trail = BreadcrumbTrail :: get_instance();
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseVariables')));
+		//$trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseVariables')));
 
 		$can_edit = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, CdaRights :: LOCATION_VARIABLES, 'manager');
 		$can_delete = CdaRights :: is_allowed(CdaRights :: DELETE_RIGHT, CdaRights :: LOCATION_VARIABLES, 'manager');

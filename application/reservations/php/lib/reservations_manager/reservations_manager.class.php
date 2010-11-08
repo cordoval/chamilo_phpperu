@@ -8,6 +8,7 @@ use common\libraries\Translation;
 use common\libraries\DynamicAction;
 use common\libraries\Redirect;
 use common\libraries\Path;
+use common\libraries\Utilities;
 /**
  * $Id: reservations_manager.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations.reservations_manager
@@ -150,7 +151,7 @@ class ReservationsManager extends WebApplication
         if ($this->has_right(0, 0, ReservationsRights :: MANAGE_CATEGORIES_RIGHT))
         {
             $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_category.png)"><a href="' . $this->get_url(array(
-                    ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_CATEGORIES)) . '">' . Translation :: get('ManageCategories') . '</a></li>';
+                    ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_CATEGORIES)) . '">' . Translation :: get('ManageCategories', null, Utilities :: COMMON_LIBRARIES) . '</a></li>';
             $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_quota.png)"><a href="' . $this->get_url(array(
                     ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_QUOTAS)) . '">' . Translation :: get('ManageQuota') . '</a></li>';
             $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_browser.png)"><a href="' . $this->get_url(array(

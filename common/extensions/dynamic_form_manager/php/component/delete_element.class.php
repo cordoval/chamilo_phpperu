@@ -27,7 +27,7 @@ class DynamicFormManagerDeleteElementComponent extends DynamicFormManager
             $trail = BreadcrumbTrail :: get_instance();
             $trail->add_help('dynamic form manager general');
             $this->display_header($trail);
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
@@ -59,7 +59,7 @@ class DynamicFormManagerDeleteElementComponent extends DynamicFormManager
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', null, Utilities :: COMMON_LIBRARIES)));
         }
     }
 }

@@ -34,7 +34,7 @@ class ReservationsManagerPoolSearcherComponent extends ReservationsManager
         if (! $this->get_user())
         {
             $this->display_header(null);
-            Display :: display_error_message(Translation :: get("NotAllowed"));
+            Display :: display_error_message(Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }

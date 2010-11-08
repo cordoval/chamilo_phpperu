@@ -39,7 +39,7 @@ class CdaLanguageBrowserTable extends ObjectTable
 
         if (! $browser instanceof CdaManagerCdaLanguagesBrowserComponent)
         {
-            $actions[] = new ObjectTableFormAction(CdaManager :: PARAM_DELETE_SELECTED_CDA_LANGUAGES, Translation :: get('RemoveSelected'));
+            $actions[] = new ObjectTableFormAction(CdaManager :: PARAM_DELETE_SELECTED_CDA_LANGUAGES, Translation :: get('RemoveSelected', null, Utilities :: COMMON_LIBRARIES));
         }
 
         $this->set_form_actions($actions);

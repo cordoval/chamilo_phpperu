@@ -5,6 +5,7 @@ use common\libraries\Translation;
 use common\libraries\Path;
 use repository\RatingQuestionForm;
 use repository\RatingQuestion;
+use common\libraries\Utilities;
 
 /**
  * $Id: assessment_rating_question_form.class.php $
@@ -51,7 +52,7 @@ class AssessmentRatingQuestionForm extends RatingQuestionForm
         
         $elem[] = $this->createElement('radio', 'ratingtype', null, Translation :: get('Percentage') . ' (0-100)', 0, array('onclick' => 'javascript:hide_controls(\'buttons\')'));
         $elem[] = $this->createElement('radio', 'ratingtype', null, Translation :: get('Rating'), 1, array('onclick' => 'javascript:show_controls(\'buttons\')'));
-        $this->addGroup($elem, 'type', Translation :: get('type'), '<br />', false);
+        $this->addGroup($elem, 'type', Translation :: get('Type', null, Utilities :: COMMON_LIBRARIES), '<br />', false);
         
         $this->addElement('html', '<div style="margin-left: 25px; display: block;" id="buttons">');
         $ratings[] = $this->createElement('text', RatingQuestion :: PROPERTY_LOW, null, array('class' => 'rating_question_low_value', 'style' => 'width: 124px; margin-right: 4px;'));
@@ -75,9 +76,9 @@ class AssessmentRatingQuestionForm extends RatingQuestionForm
 				</script>\n");
         $this->addElement('category');
         
-        $this->addGroupRule('ratings', array(RatingQuestion :: PROPERTY_LOW => array(array(Translation :: get('ValueShouldBeNumeric'), 'numeric')), RatingQuestion :: PROPERTY_HIGH => array(array(Translation :: get('ValueShouldBeNumeric'), 'numeric'))));
+        $this->addGroupRule('ratings', array(RatingQuestion :: PROPERTY_LOW => array(array(Translation :: get('ThisFieldShouldBeNumeric', null, Utilities :: COMMON_LIBRARIES), 'numeric')), RatingQuestion :: PROPERTY_HIGH => array(array(Translation :: get('ThisFieldShouldBeNumeric', null, Utilities :: COMMON_LIBRARIES), 'numeric'))));
         
-        $this->addRule(AssessmentRatingQuestion :: PROPERTY_CORRECT, Translation :: get('ValueShouldBeNumeric'), 'numeric');
+        $this->addRule(AssessmentRatingQuestion :: PROPERTY_CORRECT, Translation :: get('ThisFieldShouldBeNumeric', null, Utilities :: COMMON_LIBRARIES), 'numeric');
     }
 
     function build_editing_form()
@@ -87,7 +88,7 @@ class AssessmentRatingQuestionForm extends RatingQuestionForm
         
         $elem[] = $this->createElement('radio', 'ratingtype', null, Translation :: get('Percentage'), 0, array('onclick' => 'javascript:hide_controls(\'buttons\')', 'id' => 'ratingtype_percentage'));
         $elem[] = $this->createElement('radio', 'ratingtype', null, Translation :: get('Rating'), 1, array('onclick' => 'javascript:show_controls(\'buttons\')'));
-        $this->addGroup($elem, 'type', Translation :: get('type'), '<br />', false);
+        $this->addGroup($elem, 'type', Translation :: get('Type', null, Utilities :: COMMON_LIBRARIES), '<br />', false);
         
         $this->addElement('html', '<div style="margin-left: 25px; display: block;" id="buttons">');
         $ratings[] = $this->createElement('text', RatingQuestion :: PROPERTY_LOW, null, array('class' => 'rating_question_low_value', 'style' => 'width: 124px; margin-right: 4px;'));
@@ -115,9 +116,9 @@ class AssessmentRatingQuestionForm extends RatingQuestionForm
 				</script>\n");
         $this->addElement('category');
         
-        $this->addGroupRule('ratings', array(RatingQuestion :: PROPERTY_LOW => array(array(Translation :: get('ValueShouldBeNumeric'), 'numeric')), RatingQuestion :: PROPERTY_HIGH => array(array(Translation :: get('ValueShouldBeNumeric'), 'numeric'))));
+        $this->addGroupRule('ratings', array(RatingQuestion :: PROPERTY_LOW => array(array(Translation :: ge('ThisFieldShouldBeNumeric', null, Utilities :: COMMON_LIBRARIES), 'numeric')), RatingQuestion :: PROPERTY_HIGH => array(array(Translation :: get('ThisFieldShouldBeNumeric', null, Utilities :: COMMON_LIBRARIES), 'numeric'))));
         
-        $this->addRule(AssessmentRatingQuestion :: PROPERTY_CORRECT, Translation :: get('ValueShouldBeNumeric'), 'numeric');
+        $this->addRule(AssessmentRatingQuestion :: PROPERTY_CORRECT, Translation :: get('ThisFieldShouldBeNumeric', null, Utilities :: COMMON_LIBRARIES), 'numeric');
     }
 
     function create_content_object($object)

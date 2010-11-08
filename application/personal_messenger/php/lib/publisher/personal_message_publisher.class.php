@@ -37,7 +37,7 @@ class PersonalMessagePublisher
     function get_publication_form($content_object_id, $new = false)
     {
         $html = array();
-        $html[] = ($new ? Display :: normal_message(htmlentities(Translation :: get('ContentObjectCreated')), true) : '');
+        $html[] = ($new ? Display :: normal_message(htmlentities(Translation :: get('ObjectCreated', array('OBJECT' => Translation :: get('PersonalMessage')) , Utilities :: COMMON_LIBRARIES )), true) : '');
         //$tool = $this->get_parent()->get_parent();
         $content_object = RepositoryDataManager :: get_instance()->retrieve_content_object($content_object_id);
         $edit = Request :: get('reply');
@@ -57,14 +57,14 @@ class PersonalMessagePublisher
 
             if ($form->create_content_object_publication($recipients))
             {
-                $message = 'PersonalMessagePublished';
+                $message = Translation :: get('ObjectPublished', array('OBJECT' => Translation :: get('PersonalMessage')) , Utilities :: COMMON_LIBRARIES);
             }
             else
             {
                 $failures ++;
-                $message = 'PersonalMessageNotPublished';
+                $message = Translation :: get('ObjectNotPublished', array('OBJECT' => Translation :: get('PersonalMessage')) , Utilities :: COMMON_LIBRARIES);
             }
-            $this->parent->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => PersonalMessengerManager :: ACTION_BROWSE_MESSAGES));
+            $this->parent->redirect($message, ($failures ? true : false), array(Application :: PARAM_ACTION => PersonalMessengerManager :: ACTION_BROWSE_MESSAGES));
         }
         else
         {

@@ -79,7 +79,7 @@ class ProfilerManager extends WebApplication
 	{
 		$extra_items = array ();
 		$create = array ();
-		$create['title'] = Translation :: get('Publish');
+		$create['title'] = Translation :: get('Publish', null , Utilities :: COMMON_LIBRARIES);
 		$create['url'] = $this->get_profile_creation_url();
 		$create['class'] = 'create';
 		$extra_items[] = $create;
@@ -89,7 +89,7 @@ class ProfilerManager extends WebApplication
 			// $search_url = $this->get_url();
 			$search_url = '#';
 			$search = array ();
-			$search['title'] = Translation :: get('SearchResults');
+			$search['title'] = Translation :: get('SearchResults', null , Utilities :: COMMON_LIBRARIES);
 			$search['url'] = $search_url;
 			$search['class'] = 'search_results';
 			$extra_items[] = $search;
@@ -323,7 +323,7 @@ class ProfilerManager extends WebApplication
         $publication->set_published(time());
         $publication->set_category(0);
         $publication->create();
-        return Translation :: get('PublicationCreated');
+        return Translation :: get('ObjectCreated', array('OBJECT' => Translation :: get('ProfilePublication')) , Utilities :: COMMON_LIBRARIES);
     }
 
     /**

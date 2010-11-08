@@ -8,7 +8,6 @@ use common\extensions\external_repository_manager\ExternalRepositoryComponent;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 
 use repository\ExternalRepositorySync;
-use repository\content_object\matterhorn\Matterhorn;
 use repository\ContentObject;
 use repository\RepositoryManager;
 
@@ -23,7 +22,7 @@ class MatterhornExternalRepositoryManagerImporterComponent extends MatterhornExt
     {
         if ($object->is_importable())
         {
-           
+
             $streaming_video_clip = ContentObject :: factory(Matterhorn :: get_type_name());
             $streaming_video_clip->set_title($object->get_title());
             $streaming_video_clip->set_description($object->get_description());
@@ -36,14 +35,14 @@ class MatterhornExternalRepositoryManagerImporterComponent extends MatterhornExt
                 ExternalRepositorySync :: quicksave($streaming_video_clip, $object, $this->get_external_repository()->get_id());
                 $parameters = $this->get_parameters();
                 $parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS;
-                $this->redirect(Translation :: get('ImportSuccesfull'), false, $parameters, array(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY, ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION));
+                $this->redirect(Translation :: get('ObjectImported', null, Utilities :: COMMON_LIBRARIES), false, $parameters, array(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY, ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION));
             }
             else
             {
                 $parameters = $this->get_parameters();
                 $parameters[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = ExternalRepositoryManager :: ACTION_VIEW_EXTERNAL_REPOSITORY;
                 $parameters[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID] = $object->get_id();
-                $this->redirect(Translation :: get('ImportFailed'), true, $parameters);
+                $this->redirect(Translation :: get('ObjectFailedImported', null, Utilities :: COMMON_LIBRARIES), true, $parameters);
             }
         }
         else

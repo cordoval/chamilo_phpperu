@@ -37,7 +37,7 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
 
         if (count($events) == 0)
         {
-            $this->get_parent()->display_message(Translation :: get('NoPublications'));
+            $this->get_parent()->display_message(Translation :: get('NoPublications', null , Utilities :: COMMON_LIBRARIES));
         }
 
         foreach ($events as $index => $event)
@@ -56,14 +56,14 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
     function render_event($event)
     {
         $html = array();
-        $date_format = Translation :: get('dateTimeFormatLong');
+        $date_format = Translation :: get('DateTimeFormatLong', null , Utilities :: COMMON_LIBRARIES);
 
         $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/calendar_event.png);">';
         $html[] = '<div class="title">' . htmlentities($event->get_title()) . '</div>';
         $html[] = '<div class="description">';
         if ($event->get_end_date() != '')
         {
-            $html[] = '<div class="calendar_event_range">' . htmlentities(Translation :: get('From') . ' ' . DatetimeUtilities :: format_locale_date($date_format, $event->get_start_date()) . ' ' . Translation :: get('Until') . ' ' . DatetimeUtilities :: format_locale_date($date_format, $event->get_end_date())) . '</div>';
+            $html[] = '<div class="calendar_event_range">' . htmlentities(Translation :: get('From', null , Utilities :: COMMON_LIBRARIES) . ' ' . DatetimeUtilities :: format_locale_date($date_format, $event->get_start_date()) . ' ' . Translation :: get('Until', null , Utilities :: COMMON_LIBRARIES) . ' ' . DatetimeUtilities :: format_locale_date($date_format, $event->get_end_date())) . '</div>';
         }
         else
         {
@@ -94,11 +94,11 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
 
-        $toolbar->add_item(new ToolbarItem(Translation :: get('View'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_VIEW_PUBLICATION, PersonalCalendarManager :: PARAM_PERSONAL_CALENDAR_ID => $event->get_id())), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('View', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_VIEW_PUBLICATION, PersonalCalendarManager :: PARAM_PERSONAL_CALENDAR_ID => $event->get_id())), ToolbarItem :: DISPLAY_ICON));
 
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_parent()->get_publication_editing_url($event), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->get_parent()->get_publication_editing_url($event), ToolbarItem :: DISPLAY_ICON));
 
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_parent()->get_publication_deleting_url($event), ToolbarItem :: DISPLAY_ICON, true));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->get_parent()->get_publication_deleting_url($event), ToolbarItem :: DISPLAY_ICON, true));
 
         return $toolbar->as_html();
     }
@@ -107,7 +107,7 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
 
-        $toolbar->add_item(new ToolbarItem(Translation :: get('View'), Theme :: get_common_image_path() . 'action_browser.png', html_entity_decode($event->get_url()), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('View', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', html_entity_decode($event->get_url()), ToolbarItem :: DISPLAY_ICON));
 
         return $toolbar->as_html();
     }
@@ -139,12 +139,12 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
             if (count($attachments) > 0)
             {
                 $html[] = '<div class="attachments" style="margin-top: 1em;">';
-                $html[] = '<div class="attachments_title">' . htmlentities(Translation :: get('Attachments')) . '</div>';
+                $html[] = '<div class="attachments_title">' . htmlentities(Translation :: get('Attachments', null , 'repository')) . '</div>';
                 Utilities :: order_content_objects_by_title($attachments);
                 $html[] = '<ul class="attachments_list">';
                 foreach ($attachments as $attachment)
                 {
-                    $html[] = '<li><a href="' . $this->get_parent()->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_VIEW_ATTACHMENT, 'object' => $attachment->get_id())) . '"><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $attachment->get_type() . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($attachment->get_type()) . 'TypeName')) . '"/> ' . $attachment->get_title() . '</a></li>';
+                    $html[] = '<li><a href="' . $this->get_parent()->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_VIEW_ATTACHMENT, 'object' => $attachment->get_id())) . '"><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $attachment->get_type() . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($attachment->get_type()) . 'TypeName', null , 'repository/content_object/'.$$attachment->get_type())) . '"/> ' . $attachment->get_title() . '</a></li>';
                 }
                 $html[] = '</ul></div>';
                 return implode("\n", $html);

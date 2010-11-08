@@ -49,7 +49,7 @@ class UserManagerQuotaViewerComponent extends UserManager implements Administrat
         if (!UserRights :: is_allowed_in_users_subtree(UserRights :: EDIT_RIGHT, $this->selected_user->get_id()))
         {
         	$this->display_header();
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get("NotAllowed", null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
@@ -202,7 +202,7 @@ class UserManagerQuotaViewerComponent extends UserManager implements Administrat
             }
             else
             {
-                $quota_data_row[] = Translation :: get('NotVersionable');
+                $quota_data_row[] = Translation :: get('NotVersionable', null, 'repository');
             }
 
             $quota_data[] = $quota_data_row;

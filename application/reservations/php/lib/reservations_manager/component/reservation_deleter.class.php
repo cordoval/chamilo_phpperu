@@ -27,7 +27,7 @@ class ReservationsManagerReservationDeleterComponent extends ReservationsManager
         if (! $this->get_user())
         {
             $this->display_header(null);
-            Display :: display_error_message(Translation :: get("NotAllowed"));
+            Display :: display_error_message(Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
@@ -64,16 +64,24 @@ class ReservationsManagerReservationDeleterComponent extends ReservationsManager
             }
 
             if (count($ids) == 1)
-                $message = $bool ? 'ReservationsDeleted' : 'ReservationsNotDeleted';
+            {
+                $object = Translation :: get('Reservation');
+                $message = $bool ? Translation :: get('ObjectDeleted', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES) :
+                                   Translation :: get('ObjectNotDeleted', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES);
+            }
             else
-                $message = $bool ? 'ReservationsDeleted' : 'ReservationsNotDeleted';
+            {
+                $objects = Translation :: get('Reservations');
+                $message = $bool ? Translation :: get('ObjectsDeleted', array('OBJECTS' => $objects), Utilities :: COMMON_LIBRARIES) :
+                                   Translation :: get('ObjectsNotDeleted', array('OBJECTS' => $objects), Utilities :: COMMON_LIBRARIES);
+            }
 
-            $this->redirect(Translation :: get($message), ($bool ? false : true), array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_RESERVATIONS, ReservationsManager :: PARAM_ITEM_ID => $item_id));
+            $this->redirect($message, !$bool, array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_RESERVATIONS, ReservationsManager :: PARAM_ITEM_ID => $item_id));
         }
         else
         {
             $this->display_header();
-            $this->display_error_message(Translation :: get("NoObjectSelected"));
+            $this->display_error_message(Translation :: get('NoObjectSelected', null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
         }
     }

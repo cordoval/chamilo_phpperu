@@ -36,11 +36,11 @@ class CategoryBrowserTable extends ObjectTable
         {
             $actions = new ObjectTableFormActions(CategoryManager :: PARAM_ACTION);
             
-            $actions->add_form_action(new ObjectTableFormAction(CategoryManager :: ACTION_DELETE_CATEGORY, Translation :: get('RemoveSelected')));
+            $actions->add_form_action(new ObjectTableFormAction(CategoryManager :: ACTION_DELETE_CATEGORY, Translation :: get('RemoveSelected', null, Utilities :: COMMON_LIBRARIES)));
             
             if($browser->get_subcategories_allowed())
             {
-            	$actions->add_form_action(new ObjectTableFormAction(CategoryManager :: ACTION_CHANGE_CATEGORY_PARENT, Translation :: get('MoveSelected'), false));
+            	$actions->add_form_action(new ObjectTableFormAction(CategoryManager :: ACTION_CHANGE_CATEGORY_PARENT, Translation :: get('MoveSelected', null, Utilities :: COMMON_LIBRARIES), false));
             }
             
             $this->set_form_actions($actions);

@@ -70,16 +70,16 @@ class MediamosaExternalRepositoryManagerUploadForm extends FormValidator
 
             if ($this->connector->mediamosa_put_upload(Path :: get(WEB_PATH) . 'application/common/external_repository_manager/type/mediamosa/test/mvi_5988.avi', $this->upload_ticket['action'], $params))
             {
-                $this->application->redirect(Translation :: get('succes'), 0, $this->params);
+                $this->application->redirect(Translation :: get('succes', null, Utilities :: COMMON_LIBRARIES), 0, $this->params);
             }
             else
             {
-                $this->application->redirect(Translation :: get('failed'), 1, $this->params);
+                $this->application->redirect(Translation :: get('failed', null, Utilities :: COMMON_LIBRARIES), 1, $this->params);
             }
         }
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Upload'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Upload', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

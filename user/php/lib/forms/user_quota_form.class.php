@@ -53,20 +53,20 @@ class UserQuotaForm extends FormValidator
         $this->addElement('category', Translation :: get('GeneralQuota'));
         // Disk Quota
         $this->addElement('text', User :: PROPERTY_DISK_QUOTA, Translation :: get('DiskQuota'), array("size" => "50"));
-        $this->addRule(User :: PROPERTY_DISK_QUOTA, Translation :: get('FieldMustBeNumeric'), 'numeric', null, 'server');
+        $this->addRule(User :: PROPERTY_DISK_QUOTA, Translation :: get('ThisFieldMustBeNumeric', null, Utilities :: COMMON_LIBRARIES), 'numeric', null, 'server');
         // Database Quota
         $this->addElement('text', User :: PROPERTY_DATABASE_QUOTA, Translation :: get('DatabaseQuota'), array("size" => "50"));
-        $this->addRule(User :: PROPERTY_DATABASE_QUOTA, Translation :: get('FieldMustBeNumeric'), 'numeric', null, 'server');
+        $this->addRule(User :: PROPERTY_DATABASE_QUOTA, Translation :: get('ThisFieldMustBeNumeric', null, Utilities :: COMMON_LIBRARIES), 'numeric', null, 'server');
         // Version quota
         $this->addElement('text', User :: PROPERTY_VERSION_QUOTA, Translation :: get('VersionQuota'), array("size" => "50"));
-        $this->addRule(User :: PROPERTY_VERSION_QUOTA, Translation :: get('FieldMustBeNumeric'), 'numeric', null, 'server');
+        $this->addRule(User :: PROPERTY_VERSION_QUOTA, Translation :: get('ThisFieldMustBeNumeric', null, Utilities :: COMMON_LIBRARIES), 'numeric', null, 'server');
         $this->addElement('category');
 
         $this->addElement('category', Translation :: get('VersionQuota'));
         foreach ($this->content_object_types as $type)
         {
             $this->addElement('text', $type, Translation :: get(Utilities :: underscores_to_camelcase($type)), array("size" => "50"));
-            $this->addRule($type, Translation :: get('FieldMustBeNumeric'), 'numeric', null, 'server');
+            $this->addRule($type, Translation :: get('ThisFieldMustBeNumeric', null, Utilities :: COMMON_LIBRARIES), 'numeric', null, 'server');
         }
         $this->addElement('category');
 
@@ -85,8 +85,8 @@ class UserQuotaForm extends FormValidator
 
         // Submit button
         //$this->addElement('submit', 'quota_settings', 'OK');
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
-        //$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
+        //$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);

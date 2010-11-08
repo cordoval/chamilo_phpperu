@@ -12,6 +12,7 @@ use group\GroupDataManager;
 use common\libraries\Path;
 use tracking\Event;
 use tracking\ChangesTracker;
+use common\libraries\Utilities;
 /**
  * $Id: category_quota_box_form.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.forms
@@ -74,7 +75,7 @@ class CategoryQuotaBoxForm extends FormValidator
             $quota_boxes[$qb->get_id()] = $qb->get_name();
 
         $this->addElement('html', '<div class="configuration_form">');
-        $this->addElement('html', '<span class="category">' . Translation :: get('Required') . '</span>');
+        $this->addElement('html', '<span class="category">' . Translation :: get('Required', null, Utilities :: COMMON_LIBRARIES) . '</span>');
         $this->addElement('select', QuotaBoxRelCategory :: PROPERTY_QUOTA_BOX_ID, Translation :: get('QuotaBox'), $quota_boxes);
         $this->addElement('html', '<div style="clear: both;"></div>');
         $this->addElement('html', '</div>');
@@ -90,7 +91,7 @@ class CategoryQuotaBoxForm extends FormValidator
         $gdm = GroupDataManager :: get_instance();
 
         $this->addElement('html', '<div class="configuration_form">');
-        $this->addElement('html', '<span class="category">' . Translation :: get('UsersGroups') . '</span>');
+        $this->addElement('html', '<span class="category">' . Translation :: get('UsersAndGroups') . '</span>');
 
         $defaults = array();
 
@@ -115,19 +116,19 @@ class CategoryQuotaBoxForm extends FormValidator
         //$url = Path :: get(WEB_PATH).'application/lib/reservations/xml_feeds/users_groups_xml_feed.php';
         $url = Path :: get(WEB_PATH) . 'common/libraries/php/xml_feeds/xml_user_group_feed.php';
         $locale = array();
-        $locale['Display'] = Translation :: get('SelectRecipients');
-        $locale['Searching'] = Translation :: get('Searching');
-        $locale['NoResults'] = Translation :: get('NoResults');
-        $locale['Error'] = Translation :: get('Error');
+        $locale['Display'] = Translation :: get('SelectUsersAndGroups');
+        $locale['Searching'] = Translation :: get('Searching', null, Utilities :: COMMON_LIBRARIES);
+        $locale['NoResults'] = Translation :: get('NoResults', null, Utilities :: COMMON_LIBRARIES);
+        $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARIES);
 
-        $this->addElement('element_finder', 'users', Translation :: get('SelectUsersOrGroups'), $url, $locale, $defaults, array('load_elements' => false));
+        $this->addElement('element_finder', 'users', Translation :: get('SelectUsersAndGroups'), $url, $locale, $defaults, array('load_elements' => false));
 
         $this->addElement('html', '<div style="clear: both;"></div>');
         $this->addElement('html', '</div>');
 
         // Submit button
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

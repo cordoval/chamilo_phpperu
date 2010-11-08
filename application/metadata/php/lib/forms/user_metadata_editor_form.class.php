@@ -41,7 +41,7 @@ class UserMetadataEditorForm extends MetadataForm
 
         $this->build_empty_property_value();
 
-        $this->addElement('category', Translation :: get('PropertyValues'));
+        $this->addElement('category', Translation :: get('MetadataPropertyValues'));
         $this->build_metadata_property_values();
         $this->addElement('category');
     }
@@ -50,8 +50,8 @@ class UserMetadataEditorForm extends MetadataForm
     {
     	$this->build_basic_form();
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities :: COMMON_LIBRARY), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARY), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -103,8 +103,8 @@ class UserMetadataEditorForm extends MetadataForm
     {
         $value_types = array();
         $value_types[MetadataPropertyAttributeValue :: VALUE_TYPE_NONE] = '--';
-        $value_types[MetadataPropertyAttributeValue :: VALUE_TYPE_ID] = Translation :: get('id');
-        $value_types[MetadataPropertyAttributeValue :: VALUE_TYPE_VALUE] = Translation :: get('value');
+        $value_types[MetadataPropertyAttributeValue :: VALUE_TYPE_ID] = Translation :: get('Id', null, Utilities :: COMMON_LIBRARY);
+        $value_types[MetadataPropertyAttributeValue :: VALUE_TYPE_VALUE] = Translation :: get('Value', null, Utilities :: COMMON_LIBRARY);
 
         return $value_types;
     }

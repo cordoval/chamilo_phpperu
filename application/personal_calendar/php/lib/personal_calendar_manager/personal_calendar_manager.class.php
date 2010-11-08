@@ -183,7 +183,7 @@ class PersonalCalendarManager extends WebApplication
         $pub->set_publisher($content_object->get_owner_id());
         $pub->create();
 
-        return Translation :: get('PublicationCreated');
+        return Translation :: get('ObjectCreated', array('OBJECT' => Translation :: ('PersonalCalendarPublication')) , Utilities :: COMMON_LIBRARIES);
     }
 
     /**

@@ -8,6 +8,7 @@ use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\EqualityCondition;
 use common\libraries\Display;
+use common\libraries\Utilities;
 /**
  * $Id: category_quota_box_updater.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.reservations_manager.component
@@ -26,11 +27,11 @@ class ReservationsManagerCategoryQuotaBoxUpdaterComponent extends ReservationsMa
         
         $category_id = $quota_box_rel_category->get_category_id();
         
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => null)), Translation :: get('Reservations')));
-        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_CATEGORIES)), Translation :: get('ManageCategories')));
-        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_CATEGORY_QUOTA_BOXES, ReservationsManager :: PARAM_CATEGORY_ID => $category_id)), Translation :: get('ViewCategoryQuotaBoxes')));
-        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_CATEGORY_QUOTA_BOX_ID => $category_quota_box_id)), Translation :: get('UpdateCategoryQuotaBox')));
+//        $trail = BreadcrumbTrail :: get_instance();
+//        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => null)), Translation :: get('Reservations')));
+//        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_CATEGORIES)), Translation :: get('ManageCategories')));
+//        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_CATEGORY_QUOTA_BOXES, ReservationsManager :: PARAM_CATEGORY_ID => $category_id)), Translation :: get('ViewCategoryQuotaBoxes')));
+//        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_CATEGORY_QUOTA_BOX_ID => $category_quota_box_id)), Translation :: get('UpdateCategoryQuotaBox')));
         
         $user = $this->get_user();
         
@@ -45,7 +46,11 @@ class ReservationsManagerCategoryQuotaBoxUpdaterComponent extends ReservationsMa
         if ($form->validate())
         {
             $success = $form->update_quota_box_rel_category();
-            $this->redirect(Translation :: get($success ? 'CategoryQuotaBoxUpdated' : 'CategoryQuotaBoxNotUpdated'), ($success ? false : true), array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_CATEGORY_QUOTA_BOXES, ReservationsManager :: PARAM_CATEGORY_ID => $category_id));
+            $object = Translation :: get('CategoryQuotaBox');
+            $message = $succes ? Translation :: get('ObjectUpdated', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES) :
+                                 Translation :: get('ObjectNotUpdated', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES);
+            
+            $this->redirect($message, !$succes, array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_CATEGORY_QUOTA_BOXES, ReservationsManager :: PARAM_CATEGORY_ID => $category_id));
         }
         else
         {

@@ -6,6 +6,7 @@ use common\libraries\WebApplication;
 use rights\RightsUtilities;
 use common\libraries\Installer;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: reservations_installer.class.php 217 2009-11-13 14:12:25Z chellee $
@@ -41,7 +42,7 @@ class ReservationsInstaller extends Installer
         }
         else
         {
-            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ReservationsTreeCreated'));
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectCreated', array('OBJECT' => Translation :: get('ReservationsTree')), Utilities :: COMMON_LIBRARIES));
         }
         
         return true;

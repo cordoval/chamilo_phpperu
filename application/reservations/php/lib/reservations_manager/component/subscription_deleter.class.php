@@ -5,6 +5,7 @@ namespace application\reservations;
 use common\libraries\EqualityCondition;
 use tracking\Event;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 /**
  * $Id: subscription_deleter.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations.reservations_manager.component
@@ -26,7 +27,7 @@ class ReservationsManagerSubscriptionDeleterComponent extends ReservationsManage
         if (! $this->get_user())
         {
             $this->display_header(null);
-            Display :: display_error_message(Translation :: get("NotAllowed"));
+            Display :: display_error_message(Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
@@ -62,19 +63,23 @@ class ReservationsManagerSubscriptionDeleterComponent extends ReservationsManage
 
             if (count($ids) == 1)
             {
-                $message = $bool ? 'SubscriptionDeleted' : 'SubscriptionNotDeleted';
+                $object = Translation :: get('Subscription');
+                $message = $bool ? Translation :: get('ObjectDeleted', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES) :
+                                   Translation :: get('ObjectNotDeleted', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES);
             }
             else
             {
-                $message = $bool ? 'SubscriptionsDeleted' : 'SubscriptionsNotDeleted';
+                $objects = Translation :: get('Subscriptions');
+                $message = $bool ? Translation :: get('ObjectsDeleted', array('OBJECTS' => $objects), Utilities :: COMMON_LIBRARIES) :
+                                   Translation :: get('ObjectsNotDeleted', array('OBJECTS' => $objects), Utilities :: COMMON_LIBRARIES);
             }
 
-            $this->redirect(Translation :: get($message), ($bool ? false : true), array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_SUBSCRIPTIONS));
+            $this->redirect($message, !$bool, array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_SUBSCRIPTIONS));
         }
         else
         {
             $this->display_header();
-            $this->display_error_message(Translation :: get("NoObjectSelected"));
+            $this->display_error_message(Translation :: get('NoObjectSelected', null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
         }
     }

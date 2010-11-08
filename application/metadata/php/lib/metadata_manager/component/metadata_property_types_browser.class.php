@@ -43,7 +43,7 @@ class MetadataManagerMetadataPropertyTypesBrowserComponent extends MetadataManag
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
         $actions = array();
-        $actions[] = new ToolbarItem(Translation :: get('CreateMetadataPropertyType'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_CREATE_METADATA_PROPERTY_TYPE)));
+        $actions[] = new ToolbarItem(Translation :: get('CreateObject', array('OBJECT' => Translation :: get('MetadataPropertyType')), Utilities :: COMMON_LIBRARY), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_CREATE_METADATA_PROPERTY_TYPE)));
 
         $action_bar->set_common_actions($actions);
         $action_bar->set_search_url($this->get_url());

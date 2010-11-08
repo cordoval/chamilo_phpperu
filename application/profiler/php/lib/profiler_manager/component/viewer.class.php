@@ -36,7 +36,7 @@ class ProfilerManagerViewerComponent extends ProfilerManager
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoProfileSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectsSelected', null , Utilities :: COMMON_LIBRARIES)));
         }
     }
 

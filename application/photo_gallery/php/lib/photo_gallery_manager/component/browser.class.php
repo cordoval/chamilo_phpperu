@@ -104,7 +104,7 @@ class PhotoGalleryManagerBrowserComponent extends PhotoGalleryManager
         if (! isset($this->action_bar))
         {
             $this->action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-            $this->action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(Application :: PARAM_ACTION => PhotoGalleryManager :: ACTION_PUBLISH))));
+            $this->action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(Application :: PARAM_ACTION => PhotoGalleryManager :: ACTION_PUBLISH))));
             
             $renderers = $this->get_available_renderers();
             

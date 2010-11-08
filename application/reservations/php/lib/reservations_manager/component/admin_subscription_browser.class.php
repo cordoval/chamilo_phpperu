@@ -30,10 +30,9 @@ class ReservationsManagerAdminSubscriptionBrowserComponent extends ReservationsM
         $reservation = $this->retrieve_reservations(new EqualityCondition(Reservation :: PROPERTY_ID, $this->get_reservation_id()))->next_result();
         $item = $this->retrieve_items(new EqualityCondition(Item :: PROPERTY_ID, $reservation->get_item()))->next_result();
         
-        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => null)), Translation :: get('Reservations')));
-        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_ITEMS)), Translation :: get('ManageItems')));
-        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_RESERVATIONS, ReservationsManager :: PARAM_ITEM_ID => $reservation->get_item())), Translation :: get('ManageReservations')));
-        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_RESERVATION_ID => $this->get_reservation_id())), Translation :: get('ManageSubscriptions')));
+//        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_ITEMS)), Translation :: get('ManageItems')));
+//        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_RESERVATIONS, ReservationsManager :: PARAM_ITEM_ID => $reservation->get_item())), Translation :: get('ManageReservations')));
+//        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_RESERVATION_ID => $this->get_reservation_id())), Translation :: get('ManageSubscriptions')));
         
         $this->display_header($trail);
         
@@ -83,8 +82,8 @@ class ReservationsManagerAdminSubscriptionBrowserComponent extends ReservationsM
         $html[] = $item->get_description();
         $html[] = '<b>' . Translation :: get('Responsible') . '</b>: ' . $responsible;
         $html[] = '<br /><b>' . Translation :: get('Type') . '</b>: ' . $this->get_reservation_type($reservation);
-        $html[] = '<br /><b>' . Translation :: get('Start') . '</b>: ' . DatetimeUtilities :: format_locale_date(null, $reservation->get_start_date());
-        $html[] = '<br /><b>' . Translation :: get('End') . '</b>: ' . DatetimeUtilities :: format_locale_date(null, $reservation->get_stop_date());
+        $html[] = '<br /><b>' . Translation :: get('StartTime') . '</b>: ' . DatetimeUtilities :: format_locale_date(null, $reservation->get_start_date());
+        $html[] = '<br /><b>' . Translation :: get('EndTime') . '</b>: ' . DatetimeUtilities :: format_locale_date(null, $reservation->get_stop_date());
         $html[] = '</div>';
         $html[] = '</div>';
         echo implode("\n", $html);

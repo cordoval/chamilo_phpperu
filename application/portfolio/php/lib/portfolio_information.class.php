@@ -165,31 +165,31 @@ class PortfolioInformation extends DataClass
             else
                 if ($action == self :: ACTION_ITEM_ADDED)
                 {
-                    $text .= Translation :: get('PortfolioItemAdded');
+                    $text .= Translation :: get('ObjectAdded', array('OBJECT' => Translation::get('Portfolio')), Utilities::COMMON_LIBRARIES);
                 }
                 else
                     if ($action == self :: ACTION_PORTFOLIO_ADDED)
                     {
-                        $text .= Translation :: get('PortfolioAdded');
+                        $text .= Translation :: get('ObjectAdded', array('OBJECT' => Translation::get('PortfolioItem')), Utilities::COMMON_LIBRARIES);
                     }
                     else
                         if ($action == self :: ACTION_DELETED)
                         {
-                            $text .= Translation :: get('PortfolioDeleted');
+                            $text .= Translation :: get('ObjectDeleted', array('OBJECT' => Translation::get('Portfolio')), Utilities::COMMON_LIBRARIES);
                         }
                         else
                             if ($action == self :: ACTION_PORTFOLIO_INTRODUCTION_SET)
                             {
-                                $text .= Translation :: get('PortfolioIntroductionChanged');
+                                $text .= Translation :: get('ObjectChanged', array('OBJECT' => Translation::get('PortfolioIntroduction')), Utilities::COMMON_LIBRARIES);
                             }
                             else
                                 if ($action == self :: ACTION_PORTFOLIO_INTRODUCTION_SET)
                                 {
-                                    $text .= Translation :: get('PortfolioIntroductionChanged');
+                                    $text .= Translation :: get('ObjectChanged', array('OBJECT' => Translation::get('PortfolioIntroduction')), Utilities::COMMON_LIBRARIES);
                                 }
                                 else
                                 {
-                                    $text .= Translation :: get('PortfolioChanged');
+                                    $text .= Translation :: get('ObjectChanged', array('OBJECT' => Translation::get('Portfolio')), Utilities::COMMON_LIBRARIES);
                                 }
         //        $text .= '</div><div>';
         //        $text .= Translation :: get('LastChangedItem');

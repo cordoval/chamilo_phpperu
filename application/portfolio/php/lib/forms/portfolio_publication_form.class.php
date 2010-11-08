@@ -81,10 +81,10 @@ class PortfolioPublicationForm extends FormValidator
         $attributes1 = array();
         $attributes1['search_url'] = Path :: get(WEB_PATH) . 'common/libraries/php/xml_feeds/xml_user_group_feed.php';
         $locale1 = array();
-        $locale1['Display'] = Translation :: get('SelectRecipients');
-        $locale1['Searching'] = Translation :: get('Searching');
-        $locale1['NoResults'] = Translation :: get('NoResults');
-        $locale1['Error'] = Translation :: get('Error');
+        $locale1['Display'] = Translation :: get('SelectRecipients', null, Utilities::COMMON_LIBRARIES);
+        $locale1['Searching'] = Translation :: get('Searching', null, Utilities::COMMON_LIBRARIES);
+        $locale1['NoResults'] = Translation :: get('NoResults', null, Utilities::COMMON_LIBRARIES);
+        $locale1['Error'] = Translation :: get('Error', null, Utilities::COMMON_LIBRARIES);
         $attributes1['locale'] = $locale1;
         $attributes1['exclude'] = array('user_' . $this->user->get_id(), 'user_' . PortfolioRights :: ANONYMOUS_USERS_ID);
 
@@ -216,8 +216,8 @@ class PortfolioPublicationForm extends FormValidator
 
         $this->build_basic_form($type);
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null, Utilities::COMMON_LIBRARIES), array('class' => 'positive update'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 
@@ -228,8 +228,8 @@ class PortfolioPublicationForm extends FormValidator
     {
         $this->build_basic_form($type);
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities::COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 
@@ -253,10 +253,10 @@ class PortfolioPublicationForm extends FormValidator
         $attributes = array();
         $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_user_group_feed.php';
         $locale = array();
-        $locale['Display'] = Translation :: get('SelectRecipients');
-        $locale['Searching'] = Translation :: get('Searching');
-        $locale['NoResults'] = Translation :: get('NoResults');
-        $locale['Error'] = Translation :: get('Error');
+        $locale['Display'] = Translation :: get('SelectRecipients', null, Utilities::COMMON_LIBRARIES);
+        $locale['Searching'] = Translation :: get('Searching', null, Utilities::COMMON_LIBRARIES);
+        $locale['NoResults'] = Translation :: get('NoResults', null, Utilities::COMMON_LIBRARIES);
+        $locale['Error'] = Translation :: get('Error', null, Utilities::COMMON_LIBRARIES);
         $attributes['locale'] = $locale;
         $attributes['exclude'] = array('user_' . PortfolioRights :: ANONYMOUS_USERS_ID);
         $attributes['defaults'] = array();
@@ -483,7 +483,7 @@ class PortfolioPublicationForm extends FormValidator
         $idSet = PortfolioRights :: RADIO_OPTION_SET_SPECIFIC;
         $choices[] = $this->createElement('radio', self :: INHERIT_OR_SET . '_option', '', Translation :: get($this->inherit_default), $this->inherit_default, array('onclick' => 'javascript:options_hide()', 'id' => $this->inherit_default));
         $choices[] = $this->createElement('radio', self :: INHERIT_OR_SET . '_option', '', Translation :: get(PortfolioRights :: RADIO_OPTION_SET_SPECIFIC), PortfolioRights :: RADIO_OPTION_SET_SPECIFIC, array('onclick' => 'javascript:options_show()', 'id' => $idSet));
-        $this->addGroup($choices, null, Translation :: get('inherit_default_set_choice'), '<br/>', false);
+        $this->addGroup($choices, null, Translation :: get('InheritDefaultSetChoice'), '<br/>', false);
 
         $nameWindow = 'options_window';
         $this->addElement('html', '<div id="' . $nameWindow . '">');

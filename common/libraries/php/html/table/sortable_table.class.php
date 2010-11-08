@@ -217,7 +217,7 @@ class SortableTable extends HTML_Table
         {
             $cols = $this->getHeader()->getColCount();
             $this->setCellAttributes(0, 0, 'style="font-style: italic;text-align:center;" colspan=' . $cols);
-            $this->setCellContents(0, 0, Translation :: get('NoSearchResults'));
+            $this->setCellContents(0, 0, Translation :: get('NoSearchResults', null, Utilities :: COMMON_LIBRARIES));
             $empty_table = true;
         }
 
@@ -282,9 +282,9 @@ class SortableTable extends HTML_Table
             {
                 $html[] = '<div class="sortable_table_selection_controls">';
                 $html[] = '<span class="sortable_table_selection_controls_options">';
-                $html[] = '<a href="?' . $params . '&amp;' . $this->param_prefix . 'selectall=1" onclick="javascript: setCheckbox(\'form_' . $this->table_name . '\', true); return false;">' . Translation :: get('SelectAll') . '</a>';
+                $html[] = '<a href="?' . $params . '&amp;' . $this->param_prefix . 'selectall=1" onclick="javascript: setCheckbox(\'form_' . $this->table_name . '\', true); return false;">' . Translation :: get('SelectAll', null, Utilities :: COMMON_LIBRARIES) . '</a>';
                 $html[] = '&nbsp;-&nbsp;';
-                $html[] = '<a href="?' . $params . '"  onclick="javascript: setCheckbox(\'form_' . $this->table_name . '\', false); return false;">' . Translation :: get('UnSelectAll') . '</a> ';
+                $html[] = '<a href="?' . $params . '"  onclick="javascript: setCheckbox(\'form_' . $this->table_name . '\', false); return false;">' . Translation :: get('UnSelectAll', null, Utilities :: COMMON_LIBRARIES) . '</a> ';
                 $html[] = '</span>';
                 $html[] = '<select id="actions_' . $this->table_name . '" name="' . $this->table_name . '_action_value">';
                 foreach ($this->form_actions->get_form_actions() as $form_action)
@@ -299,7 +299,7 @@ class SortableTable extends HTML_Table
                 $html[] = '<input type="hidden" name="' . $this->table_name . '_action_name" value="' . $this->form_actions->get_action() . '"/>';
                 $html[] = '<input type="hidden" name="table_name" value="' . $this->table_name . '"/>';
                 //                $html[] = '<button class="normal start" type="submit" value="' . Translation :: get('Ok') . '">' . Translation :: get('Ok') . '</button>';
-                $html[] = ' <input type="submit" value="' . Translation :: get('Ok') . '"/>';
+                $html[] = ' <input type="submit" value="' . Translation :: get('Ok', null, Utilities :: COMMON_LIBRARIES) . '"/>';
                 //                $html[] = '</div>';
             }
             else
@@ -423,7 +423,7 @@ class SortableTable extends HTML_Table
         }
         $result[] = '</select>';
         $result[] = '<noscript>';
-        $result[] = '<button class="normal" type="submit" value="' . Translation :: get('Ok') . '">' . Translation :: get('Ok') . '</button>';
+        $result[] = '<button class="normal" type="submit" value="' . Translation :: get('Ok', null, Utilities :: COMMON_LIBRARIES) . '">' . Translation :: get('Ok', null, Utilities :: COMMON_LIBRARIES) . '</button>';
         $result[] = '</noscript>';
         $result[] = '</form>';
         return implode("\n", $result);

@@ -36,11 +36,11 @@ class DefaultContentObjectPropertyMetadataTableCellRenderer extends ObjectTableC
                             switch ($content_object_property_metadata->get_source())
                             {
                                 case ContentObjectPropertyMetadata :: SOURCE_TEXT:
-                                    return Translation :: get('text');
+                                    return Translation :: get('Text', null, Utilities :: COMMON_LIBRARY);
                                 case ContentObjectPropertyMetadata :: SOURCE_CHAMILO_USER:
-                                    return Translation :: get('chamiloUser');
+                                    return Translation :: get('chamiloUser', null, Utilities :: COMMON_LIBRARY);
                                 case ContentObjectPropertyMetadata :: SOURCE_TIMESTAMP:
-                                    return Translation :: get('timestamp');
+                                    return Translation :: get('Timestamp', null, Utilities :: COMMON_LIBRARY);
                             }
                         default :
 				return '&nbsp;';

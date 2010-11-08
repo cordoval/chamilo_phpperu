@@ -5,6 +5,7 @@ use repository\RepositoryDataManager;
 use common\libraries\ActionBarRenderer;
 use common\libraries\ToolbarItem;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Theme;
 use common\libraries\Application;
@@ -15,7 +16,6 @@ use application\metadata\MetadataManager;
 use repository\ContentObjectDisplay;
 use repository\content_object\document\Document;
 use repository\RepositoryManager;
-use common\libraries\Utilities;
 
 
 
@@ -179,7 +179,7 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
         if($this->selected_object)
         {
             //create alternative context version
-            $actions[] = new ToolbarItem(Translation :: get('CreateContextLink'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(Application::PARAM_APPLICATION => ContextLinkerManager::APPLICATION_NAME, ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_CREATE_CONTEXT_LINK, ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => $this->selected_object->get_id())));
+            $actions[] = new ToolbarItem(Translation :: get('CreateObject' , array('OBJECT' => Translation::get('ContextLink')), 'application\\context_linker\\'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(Application::PARAM_APPLICATION => ContextLinkerManager::APPLICATION_NAME, ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_CREATE_CONTEXT_LINK, ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => $this->selected_object->get_id())));
         }
         //view glossary
 
@@ -270,7 +270,7 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
                              $html[] = '<div class="alternative_text">';
                             $html[] = $value->get_text();
                             $html[] = '</div>';
-                             $html[] = '</div>';
+//                             $html[] = '</div>';
                          }
                          $html[] = '</div>';
                     }

@@ -8,6 +8,7 @@ use common\libraries\Translation;
 use common\libraries\WebApplication;
 use common\libraries\EqualityCondition;
 use common\libraries\Application;
+use common\libraries\Utilities;
 /**
  * @package application.cda.cda.component
  */
@@ -27,9 +28,9 @@ class CdaManagerVariableTranslationsSearcherComponent extends CdaManager
 	
 	function run()
 	{
-		$trail = BreadcrumbTrail :: get_instance();
-		$trail->add(new Breadcrumb($this->get_browse_cda_languages_url(), Translation :: get('Cda')));
-		$trail->add(new Breadcrumb($this->get_variable_translations_searcher_url(), Translation :: get('SearchVariableTranslations')));
+//		$trail = BreadcrumbTrail :: get_instance();
+//		$trail->add(new Breadcrumb($this->get_browse_cda_languages_url(), Translation :: get('Cda')));
+//		$trail->add(new Breadcrumb($this->get_variable_translations_searcher_url(), Translation :: get('SearchVariableTranslations')));
 
 		$this->display_header($trail);
 		echo $this->display_form();
@@ -43,7 +44,7 @@ class CdaManagerVariableTranslationsSearcherComponent extends CdaManager
 		$this->form = new VariableTranslationSearchForm($this, $this->get_variable_translations_searcher_url());
 		
 		$html[] = '<div class="configuration_form">';
-		$html[] = '<span class="category">' . Translation :: get('Search') . '</span>';
+		$html[] = '<span class="category">' . Translation :: get('Search', null, Utilities :: COMMON_LIBRARIES) . '</span>';
 		$html[] = $this->form->toHtml();
 		$html[] = '</div>';
 

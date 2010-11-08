@@ -30,9 +30,9 @@ class DefaultDynamicFormElementTableCellRenderer extends ObjectTableCellRenderer
                 return $dynamic_form_element->get_name();
             case DynamicFormElement :: PROPERTY_REQUIRED :
                 if($dynamic_form_element->get_required())
-                	return Translation :: get('True');
+                	return Translation :: get('ConfirmTrue', null, Utilities :: COMMON_LIBRARIES);
                 else
-                	return Translation :: get('False');
+                	return Translation :: get('ConfirmFalse', null, Utilities :: COMMON_LIBRARIES);
             default :
                 return '&nbsp;';
         }

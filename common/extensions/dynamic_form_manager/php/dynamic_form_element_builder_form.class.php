@@ -40,8 +40,8 @@ class DynamicFormElementBuilderForm extends FormValidator
 	{
 		$this->build_basic_form();
 		
-		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 	}
@@ -50,8 +50,8 @@ class DynamicFormElementBuilderForm extends FormValidator
 	{
 		$this->build_basic_form();
 		
-		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 	}
@@ -61,9 +61,9 @@ class DynamicFormElementBuilderForm extends FormValidator
 		$this->addElement('category', $this->element->get_type_name($this->element->get_type()));
 		
 		$this->addElement('text', DynamicFormElement :: PROPERTY_NAME, Translation :: get('Name'));
-		$this->addRule(DynamicFormElement :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addRule(DynamicFormElement :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
 		
-		$this->addElement('checkbox', DynamicFormElement :: PROPERTY_REQUIRED, Translation :: get('Required'));
+		$this->addElement('checkbox', DynamicFormElement :: PROPERTY_REQUIRED, Translation :: get('Required', null, Utilities :: COMMON_LIBRARIES));
 		
 		$this->addElement('category');
 		
@@ -123,7 +123,7 @@ class DynamicFormElementBuilderForm extends FormValidator
                     $group[] = $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_list_remove.png', array('style="border: 0px;"'));
                 }
                 $this->addGroup($group, 'option_' . DynamicFormElementOption :: PROPERTY_NAME . '[' . $option_number . ']', Translation :: get('OptionName'), '', false);
-                $this->addRule('option_' . DynamicFormElementOption :: PROPERTY_NAME . '[' . $option_number . ']', Translation :: get('ThisFieldIsRequired'), 'required');
+                $this->addRule('option_' . DynamicFormElementOption :: PROPERTY_NAME . '[' . $option_number . ']', Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
             }
         }
         

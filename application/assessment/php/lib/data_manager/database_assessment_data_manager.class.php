@@ -337,7 +337,7 @@ class DatabaseAssessmentDataManager extends Database implements AssessmentDataMa
             $info->set_publication_date($record[AssessmentPublication :: PROPERTY_PUBLISHED]);
             $info->set_application(AssessmentManager :: APPLICATION_NAME);
             //TODO: i8n location string
-            $info->set_location(Translation :: get('Assessment'));
+            $info->set_location(Translation :: get('Assessment', null, 'repository\content_object\assessment'));
             $info->set_url('run.php?application=assessment&go='.AssessmentManager::ACTION_VIEW_ASSESSMENT_PUBLICATION);
             $info->set_publication_object_id($record[AssessmentPublication :: PROPERTY_CONTENT_OBJECT]);
 
@@ -364,7 +364,7 @@ class DatabaseAssessmentDataManager extends Database implements AssessmentDataMa
         $publication_attr->set_publication_date($record[AssessmentPublication :: PROPERTY_PUBLISHED]);
         $publication_attr->set_application(AssessmentManager :: APPLICATION_NAME);
         //TODO: i8n location string
-        $publication_attr->set_location(Translation :: get('Assessment'));
+        $publication_attr->set_location(Translation :: get('Assessment', null, 'repository\content_object\assessment'));
         $publication_attr->set_url('run.php?application=assessment&go=browse_assessments');
         $publication_attr->set_publication_object_id($record[AssessmentPublication :: PROPERTY_CONTENT_OBJECT]);
 

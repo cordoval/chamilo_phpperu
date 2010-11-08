@@ -29,11 +29,11 @@ class ForumManagerMoverComponent extends ForumManager
             $publication = $datamanager->retrieve_forum_publication($fpid);
             if ($publication->move($move))
             {
-                $message = Translation :: get('ContentObjectPublicationMoved');
+                $message = Translation :: get('ObjectMoved' , array('OBJECT' => Translation :: get('ForumPublication')) , Utilities :: COMMON_LIBRARIES);
             }
             else
             {
-            	$message = Translation :: get('ContentObjectPublicationNotMoved');
+       			$message = Translation :: get('ObjectNotMoved' , array('OBJECT' => Translation :: get('ForumPublication')) , Utilities :: COMMON_LIBRARIES);
             }
             
             $this->redirect($message, false, array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE));

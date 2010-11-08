@@ -118,13 +118,13 @@ class BuddyList
             $toolbar = new Toolbar();
 
             $toolbar->add_item(new ToolbarItem(
-        			Translation :: get('Edit'),
+        			Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES),
         			Theme :: get_common_image_path().'action_edit.png',
 					$this->parent->get_update_buddylist_category_url($category->get_id()),
 				 	ToolbarItem :: DISPLAY_ICON
 			));
 	       	$toolbar->add_item(new ToolbarItem(
-        			Translation :: get('Delete'),
+        			Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES),
         			Theme :: get_common_image_path().'action_delete.png',
 					$this->parent->get_delete_buddylist_category_url($category->get_id()),
 				 	ToolbarItem :: DISPLAY_ICON,
@@ -194,7 +194,7 @@ class BuddyList
         if (! $is_request)
         {
         	$toolbar->add_item(new ToolbarItem(
-        			Translation :: get('DeleteUser'),
+        			Translation :: get('DeleteObject', array('OBJECT' => Translation :: get('User')), Utilities :: COMMON_LIBRARIES),
         			Theme :: get_common_image_path().'action_unsubscribe.png',
 					$this->parent->get_delete_buddylist_item_url($buddy->get_buddy_id()),
 				 	ToolbarItem :: DISPLAY_ICON,
@@ -207,7 +207,7 @@ class BuddyList
         else
         {
            	$toolbar->add_item(new ToolbarItem(
-        			Translation :: get('Accept'),
+        			Translation :: get('Accept', null, Utilities :: COMMON_LIBRARIES),
         			Theme :: get_common_image_path().'action_setting_true.png',
 					$this->parent->get_change_buddylist_item_status_url($buddy->get_user_id(), BuddyListItem :: STATUS_NORMAL),
 				 	ToolbarItem :: DISPLAY_ICON,
@@ -215,7 +215,7 @@ class BuddyList
 				 	'accept_buddy'
 			));
            	$toolbar->add_item(new ToolbarItem(
-        			Translation :: get('Reject'),
+        			Translation :: get('Reject', null, Utilities :: COMMON_LIBRARIES),
         			Theme :: get_common_image_path().'action_setting_false.png',
 					$this->parent->get_change_buddylist_item_status_url($buddy->get_user_id(), BuddyListItem :: STATUS_REJECTED),
 				 	ToolbarItem :: DISPLAY_ICON,
@@ -257,7 +257,7 @@ class BuddyList
 		));
 
 		$toolbar->add_item(new ToolbarItem(
-        	Translation :: get('AddUser'),
+        	Translation :: get('AddObject', array('OBJECT' => Translation :: get('User')), Utilities :: COMMON_LIBRARIES),
         	Theme :: get_common_image_path().'action_subscribe.png',
 			$this->parent->get_create_buddylist_item_url(),
 			ToolbarItem :: DISPLAY_ICON

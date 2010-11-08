@@ -9,6 +9,7 @@ use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use user\UserDataManager;
 use user\User;
+use common\libraries\Utilities;
 /**
  * @package cda.tables.translator_application_table
  */
@@ -53,12 +54,12 @@ class TranslatorApplicationBrowserTableCellRenderer extends DefaultTranslatorApp
 				$user = UserDataManager :: get_instance()->retrieve_user($translator_application->get_user_id());
 				if($user)
 					return $user->get_fullname();
-				return Translation :: get('UserUnknown');
+				return Translation :: get('UserUnknown', null, 'user');
 			case User :: PROPERTY_USERNAME:
 				$user = UserDataManager :: get_instance()->retrieve_user($translator_application->get_user_id());
 				if($user)
 					return $user->get_username();
-				return Translation :: get('UserUnknown');
+				return Translation :: get('UserUnknown', null, 'user');
 			case CdaLanguage :: PROPERTY_ENGLISH_NAME:
 				$alias = CdaDataManager :: get_instance()->get_alias(CdaLanguage :: get_table_name());
 				if($column->get_storage_unit_alias() == $alias)
@@ -91,7 +92,7 @@ class TranslatorApplicationBrowserTableCellRenderer extends DefaultTranslatorApp
 		if ($status == TranslatorApplication :: STATUS_ACCEPTED)
 		{
 			$toolbar->add_item(new ToolbarItem(
-    				Translation :: get('Deactivate'), 
+    				Translation :: get('Deactivate', null, Utilities :: COMMON_LIBRARIES),
     				Theme :: get_common_image_path() . 'action_deactivate.png', 
     				$this->browser->get_deactivate_translator_application_url($translator_application), 
     				ToolbarItem :: DISPLAY_ICON
@@ -100,7 +101,7 @@ class TranslatorApplicationBrowserTableCellRenderer extends DefaultTranslatorApp
 		elseif ($status == TranslatorApplication :: STATUS_PENDING)
 		{
 			$toolbar->add_item(new ToolbarItem(
-    				Translation :: get('Activate'), 
+    				Translation :: get('Activate', null, Utilities :: COMMON_LIBRARIES),
     				Theme :: get_common_image_path() . 'action_activate.png', 
     				$this->browser->get_activate_translator_application_url($translator_application), 
     				ToolbarItem :: DISPLAY_ICON
@@ -108,7 +109,7 @@ class TranslatorApplicationBrowserTableCellRenderer extends DefaultTranslatorApp
 		}
 		
 		$toolbar->add_item(new ToolbarItem(
-    				Translation :: get('Delete'), 
+    				Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES),
     				Theme :: get_common_image_path() . 'action_delete.png', 
     				$this->browser->get_delete_translator_application_url($translator_application), 
     				ToolbarItem :: DISPLAY_ICON

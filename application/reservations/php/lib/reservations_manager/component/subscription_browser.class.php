@@ -25,11 +25,11 @@ class ReservationsManagerSubscriptionBrowserComponent extends ReservationsManage
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => null)), Translation :: get('Reservations')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('MySubscriptions')));
+//        $trail = BreadcrumbTrail :: get_instance();
+//        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => null)), Translation :: get('Reservations')));
+//        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('MySubscriptions')));
 
-        $this->display_header($trail);
+        $this->display_header();
         echo $this->get_user_html();
 
         $this->display_footer();

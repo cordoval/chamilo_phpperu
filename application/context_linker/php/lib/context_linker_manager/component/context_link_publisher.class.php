@@ -43,17 +43,17 @@ class ContextLinkerManagerContextLinkPublisherComponent extends ContextLinkerMan
         if($alternative_form->validate())
         {
             $success = $alternative_form->create_context_link();
-            $this->redirect($success ? Translation :: get('ContextLinkCreated') : Translation :: get('ContextLinkNotCreated'), !$success, array(ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_BROWSE_CONTEXT_LINKS, ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => Request :: get(ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID)));
+            $this->redirect($success ? Translation :: get('ObjectCreated', array('OBJECT' => Translation :: get('ContextLink')), Utilities :: COMMON_LIBRARIES) : Translation :: get('ObjectNotCreated', array('OBJECT' => Translation :: get('ContextLink')), Utilities :: COMMON_LIBRARIES), !$success, array(ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_BROWSE_CONTEXT_LINKS, ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => Request :: get(ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID)));
         }
         elseif($original_form->validate())
         {
             if($success = $original_form->create_metadata_property_value())
             {
-                $this->redirect(Translation :: get('MetadataPropertyValueCreated'), false, $params);
+                $this->redirect(Translation :: get('ObjectCreated', array('OBJECT' => Translation :: get('MetadataPropertyValue')), Utilities :: COMMON_LIBRARIES), false, $params);
             }
             else
             {
-                $this->redirect(Translation :: get('MetadataPropertyValueNotCreated') . implode("\n", $context_link->get_errors()), true, $params);
+                $this->redirect(Translation :: get('ObjectNotCreated', array('OBJECT' => Translation :: get('MetadataPropertyValue')), Utilities :: COMMON_LIBRARIES) . implode("\n", $context_link->get_errors()), true, $params);
             }
         }
         else

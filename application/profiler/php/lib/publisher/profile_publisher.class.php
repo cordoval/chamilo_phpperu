@@ -51,13 +51,13 @@ class ProfilePublisher
 
 
             $html[] = '<div class="content_object padding_10">';
-            $html[] = '<div class="title">' . Translation :: get('SelectedContentObjects') . '</div>';
+            $html[] = '<div class="title">' . Translation :: get('SelectedContentObjects', null , Utilities :: COMMON_LIBRARIES) . '</div>';
             $html[] = '<div class="description">';
             $html[] = '<ul class="attachments_list">';
 
             while ($content_object = $content_objects->next_result())
             {
-                $html[] = '<li><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $content_object->get_type() . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($content_object->get_type()) . 'TypeName')) . '"/> ' . $content_object->get_title() . '</li>';
+                $html[] = '<li><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $content_object->get_type() . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($content_object->get_type()) . 'TypeName', null , 'repository/content_object/'.$content_object->get_type())) . '"/> ' . $content_object->get_title() . '</li>';
             }
 
             $html[] = '</ul>';
@@ -76,11 +76,11 @@ class ProfilePublisher
 
             if (! $publication)
             {
-                $message = Translation :: get('ObjectNotPublished');
+                $message = Translation :: get('ObjectNotPublished', array('OBJECT' => Translation :: get ('Profile')), Utilities :: COMMON_LIBRARIES);
             }
             else
             {
-                $message = Translation :: get('ObjectPublished');
+                $message = Translation :: get('ObjectPublished', array('OBJECT' => Translation :: get ('Profile')), Utilities :: COMMON_LIBRARIES);
             }
 
             $this->parent->redirect($message, (! $publication ? true : false), array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES));
