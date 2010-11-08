@@ -15,30 +15,30 @@ abstract class MenuManagerEditorComponent extends MenuManager
         {
             $success = $form->update_navigation_item();
             
-       		if($success)
+            if($success)
             {
             	if($item->get_is_category() == 0)
             	{
-            		$message = 'MenuManagerItemUpdated';
+            		$message = Translation :: get('ObjectUpdated', array('OBJECT' => Translation :: get('MenuManagerItem')) , Utilities :: COMMON_LIBRARIES);
             	}
             	else
             	{
-            		$message = 'MenuManagerCategoryUpdated';
+            		$message = Translation :: get('ObjectUpdated', array('OBJECT' => Translation :: get('MenuManagerCategory')) , Utilities :: COMMON_LIBRARIES);
             	}
             }
             else
             {
             	if($item->get_is_category() == 0)
             	{
-            		$message = 'MenuManagerItemNotUpdated';
+            		$message = Translation :: get('ObjectNotUpdated', array('OBJECT' => Translation :: get('MenuManagerItem')) , Utilities :: COMMON_LIBRARIES);
             	}
             	else
             	{
-            		$message = 'MenuManagerCategoryNotUpdated';
+            		$message = Translation :: get('ObjectNotUpdated', array('OBJECT' => Translation :: get('MenuManagerCategory')) , Utilities :: COMMON_LIBRARIES);
             	}
             }
             
-            $this->redirect(Translation :: get($message), ($success ? false : true), array(
+            $this->redirect($message, ($success ? false : true), array(
             		MenuManager :: PARAM_ACTION => MenuManager :: ACTION_BROWSE,
             		MenuManager :: PARAM_ITEM => $form->get_navigation_item()->get_category()));
         }

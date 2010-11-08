@@ -39,13 +39,14 @@ class MenuManagerMoverComponent extends MenuManager implements AdministrationCom
             {
                 $success = false;
             }
-
-            $this->redirect(Translation :: get($success ? 'MenuManagerItemMoved' : 'MenuManagerItemNotMoved'), ($success ? false : true), array(
+			
+            $message = $succes ? Translation :: get('ObjectMoved', array('OBJECT' => Translation :: get('MenuManagerItem')), Utilities :: COMMON_LIBRARIES) : Translation :: get('ObjectNotMoved', array('OBJECT' => Translation :: get('MenuManagerItem')) , Utilities :: COMMON_LIBRARIES);
+            $this->redirect($message , ($success ? false : true), array(
             	MenuManager :: PARAM_ACTION => MenuManager :: ACTION_BROWSE, MenuManager :: PARAM_ITEM => $move_category->get_category()));
         }
         else
         {
-            $this->display_error_page(Translation :: get('NoObjectsSelected'));
+            $this->display_error_page(Translation :: get('NoObjectsSelected', null , Utilities :: COMMON_LIBRARIES));
         }
 	}
 	

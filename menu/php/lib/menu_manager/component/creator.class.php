@@ -17,26 +17,26 @@ abstract class MenuManagerCreatorComponent extends MenuManager
             {
             	if($item->get_is_category() == 0)
             	{
-            		$message = 'MenuManagerItemCreated';
+            		$message = Translation :: get('ObjectCreated', array('OBJECT' => Translation :: get('MenuManagerItem')) , Utilities :: COMMON_LIBRARIES);
             	}
             	else
             	{
-            		$message = 'MenuManagerCategoryCreated';
+            		$message = Translation :: get('ObjectCreated', array('OBJECT' => Translation :: get('MenuManagerCategory')) , Utilities :: COMMON_LIBRARIES);
             	}
             }
             else
             {
             	if($item->get_is_category() == 0)
             	{
-            		$message = 'MenuManagerItemNotCreated';
+            		$message = Translation :: get('ObjectNotCreated', array('OBJECT' => Translation :: get('MenuManagerItem')) , Utilities :: COMMON_LIBRARIES);
             	}
             	else
             	{
-            		$message = 'MenuManagerCategoryNotCreated';
+            		$message = Translation :: get('ObjectNotCreated', array('OBJECT' => Translation :: get('MenuManagerCategory')) , Utilities :: COMMON_LIBRARIES);
             	}
             }
             
-            $this->redirect(Translation :: get($message), ($success ? false : true), array(
+            $this->redirect($message, ($success ? false : true), array(
             	MenuManager :: PARAM_ACTION => MenuManager :: ACTION_BROWSE,
             	MenuManager :: PARAM_ITEM => $item->get_category()));
         }

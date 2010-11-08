@@ -40,7 +40,7 @@ class MenuManagerDeleterComponent extends MenuManager implements AdministrationC
         }
         else
         {
-            $this->display_error_page(Translation :: get('NoObjectsSelected'));
+            $this->display_error_page(Translation :: get('NoObjectsSelected', null , Utilities :: COMMON_LIBRARIES));
         }
 	}
 	
