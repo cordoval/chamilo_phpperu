@@ -37,9 +37,9 @@ class ReservationsManagerOverviewBrowserComponent extends ReservationsManager
     function run()
     {
         //Header
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => null)), Translation :: get('Reservations')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Statistics')));
+//        $trail = BreadcrumbTrail :: get_instance();
+//        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => null)), Translation :: get('Reservations')));
+//        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Statistics')));
 
         $this->display_header($trail);
 
@@ -89,7 +89,7 @@ class ReservationsManagerOverviewBrowserComponent extends ReservationsManager
         if (Request :: get(self :: PARAM_CURRENT_ACTION) == 'list_view')
         {
             $action_bar->set_search_url($this->get_url());
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
 
         return $action_bar;
@@ -109,7 +109,7 @@ class ReservationsManagerOverviewBrowserComponent extends ReservationsManager
         $overview_items = $this->retrieve_overview_items($this->get_condition(), $from - 1, $to);
 
         if ($overview_items->size() == 0)
-            $this->display_message(Translation :: get('NoItemsSelected'));
+            $this->display_message(Translation :: get('NoObjectsSelected', null, Utilities :: COMMON_LIBRARIES));
 
         while ($overview_item = $overview_items->next_result())
         {
@@ -150,7 +150,7 @@ class ReservationsManagerOverviewBrowserComponent extends ReservationsManager
     	$overview_items = $this->retrieve_overview_items($this->get_condition());
 
         if ($overview_items->size() == 0)
-            $this->display_message(Translation :: get('NoItemsSelected'));
+            $this->display_message(Translation :: get('NoObjectsSelected', null, Utilities :: COMMON_LIBRARIES));
 
         $ids = array();
 

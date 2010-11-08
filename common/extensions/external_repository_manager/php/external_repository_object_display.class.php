@@ -82,7 +82,7 @@ abstract class ExternalRepositoryObjectDisplay
 
         if ($object->get_description())
         {
-            $properties[Translation :: get('Description')] = $object->get_description();
+            $properties[Translation :: get('Description', null, Utilities :: COMMON_LIBRARIES)] = $object->get_description();
         }
 
         $properties[Translation :: get('UploadedOn')] = DatetimeUtilities :: format_locale_date(null, $object->get_created());

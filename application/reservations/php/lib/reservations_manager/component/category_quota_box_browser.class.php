@@ -11,6 +11,7 @@ use common\libraries\Theme;
 use common\libraries\WebApplication;
 use common\libraries\EqualityCondition;
 use common\libraries\Request;
+use common\libraries\Utilities;
 /**
  * $Id: category_quota_box_browser.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.reservations_manager.component
@@ -30,8 +31,8 @@ class ReservationsManagerCategoryQuotaBoxBrowserComponent extends ReservationsMa
         
         $category_id = $this->get_category_id();
         
-        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => null)), Translation :: get('Reservations')));
-        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_CATEGORY_ID, $category_id)), Translation :: get('ViewCategoryQuotaBoxes')));
+//        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => null)), Translation :: get('Reservations')));
+//        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_CATEGORY_ID, $category_id)), Translation :: get('ViewCategoryQuotaBoxes')));
         
         $this->ab = $this->get_action_bar();
         
@@ -72,8 +73,8 @@ class ReservationsManagerCategoryQuotaBoxBrowserComponent extends ReservationsMa
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         
         //$action_bar->set_search_url($this->get_url(array(ReservationsManager :: PARAM_CATEGORY_ID => $this->get_category())));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_category_quota_box_url($this->get_category_id()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Add', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_category_quota_box_url($this->get_category_id()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
         return $action_bar;
     }

@@ -39,7 +39,7 @@ class MatterhornExternalRepositoryManagerInternalSyncerComponent extends Matterh
                 $parameters = $this->get_parameters();
                 $parameters[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = ExternalRepositoryManager :: ACTION_VIEW_EXTERNAL_REPOSITORY;
                 $parameters[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID] = $external_object->get_id();
-                $this->redirect(Translation :: get('ContentObjectUpdatedFailed'), true, $parameters);
+                $this->redirect(Translation :: get('ObjectFailedUpdated', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES), true, $parameters);
             }
         }
         else
@@ -47,7 +47,7 @@ class MatterhornExternalRepositoryManagerInternalSyncerComponent extends Matterh
             $parameters = $this->get_parameters();
             $parameters[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = ExternalRepositoryManager :: ACTION_VIEW_EXTERNAL_REPOSITORY;
             $parameters[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID] = $external_object->get_id();
-            $this->redirect(Translation :: get('ContentObjectUpdatedFailed'), true, $parameters);
+            $this->redirect(Translation :: get('ObjectFailedUpdated', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES), true, $parameters);
         }
     }
 }

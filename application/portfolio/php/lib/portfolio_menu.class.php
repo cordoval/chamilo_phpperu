@@ -105,23 +105,14 @@ class PortfolioMenu extends HTML_Menu
         
         $menu[] = $users;
         
-        /*$institution = array ();
-        $institution['title'] = Translation :: get('Institution');
-        $institution['url'] = $this->get_root_url();
-        $institution['class'] = 'home';
-        $subs = $this->get_institute_publications();
-
-        if(count($subs) > 0)
-        	$institution['sub'] = $subs;
-
-        $menu[] = $institution;*/
+       
         
         return $menu;
     }
 
-    private function get_institute_publications()
-    {
-    }
+//    private function get_institute_publications()
+//    {
+//    }
 
     private function get_publications()
     {

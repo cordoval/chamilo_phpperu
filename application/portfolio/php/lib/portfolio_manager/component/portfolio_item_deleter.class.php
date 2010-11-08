@@ -58,11 +58,11 @@ class PortfolioManagerPortfolioItemDeleterComponent extends PortfolioManager
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedPortfolioItemDeleted';
+                    $message = 'ObjectDeleted';
                 }
                 else
                 {
-                    $message = 'SelectedPortfolioItemsDeleted';
+                    $message = 'ObjectsDeleted';
                 }
                 //UPDATE INFORMATION
                 $success = PortfolioManager::update_portfolio_info($object_id, PortfolioRights::TYPE_PORTFOLIO_ITEM, PortfolioInformation::ACTION_DELETED, $item->get_user_id());
@@ -71,19 +71,19 @@ class PortfolioManagerPortfolioItemDeleterComponent extends PortfolioManager
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedPortfolioItemNotDeleted';
+                    $message = 'ObjectNotDeleted';
                 }
                 else
                 {
-                    $message = 'SelectedPortfolioItemsNotDeleted';
+                    $message = 'ObjectsNotDeleted';
                 }
             }
             
-            $this->redirect(Translation :: get($message), ($success ? false : true), array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id()));
+            $this->redirect(Translation :: get($message, array('OBJECT' => Translation::get('PortfolioItem')), Utilities::COMMON_LIBRARIES), ($success ? false : true), array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id()));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoPortfolioPublicationsSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectsSelected', array('OBJECT' => Translation::get('PortfolioPublications')), Utilities::COMMON_LIBRARIES)));
         }
     }
 }

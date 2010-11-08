@@ -7,6 +7,7 @@ use common\libraries\Display;
 use common\libraries\EqualityCondition;
 use tracking\ChangesTracker;
 use tracking\Event;
+use common\libraries\Utilities;
 /**
  * $Id: item_deleter.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.reservations_manager.component
@@ -27,7 +28,7 @@ class ReservationsManagerItemDeleterComponent extends ReservationsManager
         if (! $this->get_user())
         {
             $this->display_header(null);
-            Display :: display_error_message(Translation :: get("NotAllowed"));
+            Display :: display_error_message(Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
@@ -64,16 +65,23 @@ class ReservationsManagerItemDeleterComponent extends ReservationsManager
             }
 
             if (count($ids) == 1)
-                $message = $bool ? 'ItemDeleted' : 'ItemNotDeleted';
+            {
+                $object = Translation :: get('Item');
+                $message = $bool ? Translation :: get('ObjectDeleted', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES) :
+                                   Translation :: get('ObjectNotDeleted', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES);
+            }
             else
-                $message = $bool ? 'ItemsDeleted' : 'ItemsNotDeleted';
-
-            $this->redirect(Translation :: get($message), ($bool ? false : true), array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_ITEMS, ReservationsManager :: PARAM_CATEGORY_ID => $category));
+            {
+                $objects = Translation :: get('Items');
+                $message = $bool ? Translation :: get('ObjectsDeleted', array('OBJECTS' => $objects), Utilities :: COMMON_LIBRARIES) :
+                                   Translation :: get('ObjectsNotDeleted', array('OBJECTS' => $objects), Utilities :: COMMON_LIBRARIES);
+            }
+            $this->redirect($message, !$bool, array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_ITEMS, ReservationsManager :: PARAM_CATEGORY_ID => $category));
         }
         else
         {
             $this->display_header();
-            $this->display_error_message(Translation :: get("NoObjectSelected"));
+            $this->display_error_message(Translation :: get('NoObjectSelected', null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
         }
     }

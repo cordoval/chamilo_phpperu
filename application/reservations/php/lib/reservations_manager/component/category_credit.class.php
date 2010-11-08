@@ -20,9 +20,9 @@ class ReservationsManagerCategoryCreditComponent extends ReservationsManager
     function run()
     {
         $category_id = $_GET[ReservationsManager :: PARAM_CATEGORY_ID];
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => null)), Translation :: get('Reservations')));
-        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_CATEGORY_ID => $category_id)), Translation :: get('SetCredits')));
+//        $trail = BreadcrumbTrail :: get_instance();
+//        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => null)), Translation :: get('Reservations')));
+//        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_CATEGORY_ID => $category_id)), Translation :: get('SetCredits')));
         
         $user = $this->get_user();
         

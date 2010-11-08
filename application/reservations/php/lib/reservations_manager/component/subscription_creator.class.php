@@ -7,6 +7,7 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Translation;
 use common\libraries\Display;
+use common\libraries\Utilities;
 /**
  * $Id: subscription_creator.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations.reservations_manager.component
@@ -22,10 +23,10 @@ class ReservationsManagerSubscriptionCreatorComponent extends ReservationsManage
         $reservation_id = $_GET[ReservationsManager :: PARAM_RESERVATION_ID];
         $reservation = $this->retrieve_reservations(new EqualityCondition(Reservation :: PROPERTY_ID, $reservation_id))->next_result();
         $item = $this->retrieve_items(new EqualityCondition(Item :: PROPERTY_ID, $reservation->get_item()))->next_result();
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_ITEMS)), Translation :: get('ViewItems')));
-        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_RESERVATIONS, ReservationsManager :: PARAM_ITEM_ID => $reservation->get_item())), Translation :: get('ViewReservations')));
-        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_RESERVATION_ID => $reservation_id)), Translation :: get('CreateSubscription')));
+//        $trail = BreadcrumbTrail :: get_instance();
+//        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_ITEMS)), Translation :: get('ViewItems')));
+//        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_RESERVATIONS, ReservationsManager :: PARAM_ITEM_ID => $reservation->get_item())), Translation :: get('ViewReservations')));
+//        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_RESERVATION_ID => $reservation_id)), Translation :: get('CreateSubscription')));
         
         $user = $this->get_user();
         
@@ -45,7 +46,11 @@ class ReservationsManagerSubscriptionCreatorComponent extends ReservationsManage
         if ($status == 1)
         {
             $success = $form->create_subscription();
-            $this->redirect(Translation :: get($success ? 'SubscriptionCreated' : 'SubscriptionNotCreated'), ($success ? false : true), array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_RESERVATIONS, ReservationsManager :: PARAM_ITEM_ID => $reservation->get_item()));
+            $object = Translation :: get('Subscription');
+            $message = $success ? Translation :: get('ObjectCreated', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES) :
+                                  Translation :: get('ObjectNotCreated', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES);
+
+            $this->redirect($message, !$success, array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_RESERVATIONS, ReservationsManager :: PARAM_ITEM_ID => $reservation->get_item()));
         }
         else
         {

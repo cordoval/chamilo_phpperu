@@ -83,15 +83,15 @@ class ReservationBrowserTableCellRenderer extends DefaultReservationTableCellRen
         {
             if ($reservation->get_subscriptions() == 0)
             {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_reservation_url($reservation->get_id(), $this->browser->get_item()), ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_reservation_url($reservation->get_id(), $this->browser->get_item()), ToolbarItem :: DISPLAY_ICON));
             }
             else
             {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('EditNA'), Theme :: get_common_image_path() . 'action_edit_na.png', null, ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('EditNA', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit_na.png', null, ToolbarItem :: DISPLAY_ICON));
             }
 
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_reservation_url($reservation->get_id(), $this->browser->get_item()), ToolbarItem :: DISPLAY_ICON, true));
-            $toolbar->add_item(new ToolbarItem(Translation :: get('BrowseSubscriptions'), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_admin_browse_subscription_url($reservation->get_id()), ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_reservation_url($reservation->get_id(), $this->browser->get_item()), ToolbarItem :: DISPLAY_ICON, true));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('BrowseObjects', array('OBJECTS' => Translation :: get('Subscriptions')), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_admin_browse_subscription_url($reservation->get_id()), ToolbarItem :: DISPLAY_ICON));
         }
 
         return $toolbar->as_html();

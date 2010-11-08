@@ -211,8 +211,8 @@ class HandbookMenu extends HTML_Menu
         $breadcrumbs = $this->array_renderer->toArray();
         foreach ($breadcrumbs as $crumb)
         {
-            if ($crumb['title'] == Translation :: get('MyHandbook'))
-                continue;
+//            if ($crumb['title'] == Translation :: get('MyHandbook'))
+//                continue;
             $trail->add(new Breadcrumb($crumb['url'], $crumb['title']));
         }
         return $trail;

@@ -7,6 +7,7 @@ use common\libraries\Breadcrumb;
 use common\libraries\Translation;
 use common\libraries\Display;
 use common\libraries\EqualityCondition;
+use common\libraries\Utilities;
 /**
  * $Id: quota_updater.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations.reservations_manager.component
@@ -21,9 +22,9 @@ class ReservationsManagerQuotaUpdaterComponent extends ReservationsManager
     {
         $quota_id = $_GET[ReservationsManager :: PARAM_QUOTA_ID];
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => null)), Translation :: get('Reservations')));
-        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_QUOTAS)), Translation :: get('ViewQuota')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateQuota')));
+//        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => null)), Translation :: get('Reservations')));
+//        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_QUOTAS)), Translation :: get('ViewQuota')));
+//        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateQuota')));
         
         $user = $this->get_user();
         
@@ -41,7 +42,11 @@ class ReservationsManagerQuotaUpdaterComponent extends ReservationsManager
         if ($form->validate())
         {
             $success = $form->update_quota();
-            $this->redirect(Translation :: get($success ? 'QuotaUpdated' : 'QuotaNotUpdated'), ($success ? false : true), array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_QUOTAS));
+            $object = Translation :: get('Quota');
+            $message = $success ? Translation :: get('ObjectUpdated', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES) :
+                                  Translation :: get('ObjectNotUpdated', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES);
+
+            $this->redirect($message, !$success, array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_QUOTAS));
         }
         else
         {

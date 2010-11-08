@@ -40,7 +40,7 @@ class DefaultQuotaTableCellRenderer extends ObjectTableCellRenderer
                 case Quota :: PROPERTY_CREDITS :
                     return $quota->get_credits();
                 case Quota :: PROPERTY_TIME_UNIT :
-                    return $quota->get_time_unit() . ' ' . Translation :: get('day(s)');
+                    return $quota->get_time_unit() . ' ' . Translation :: get('Days');
             }
         
         }

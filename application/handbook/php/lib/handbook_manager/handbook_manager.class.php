@@ -3,6 +3,7 @@ namespace application\handbook;
 use common\libraries\WebApplication;
 use common\libraries\EqualityCondition;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use group\Group;
 use group\GroupDataManager;
 use common\libraries\ObjectTableOrder;

@@ -5,6 +5,7 @@ use common\libraries\Breadcrumb;
 use user\UserDataManager;
 use common\extensions\repo_viewer\RepoViewer;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\InCondition;
 use common\libraries\Theme;
 use repository\ContentObject;
@@ -29,12 +30,12 @@ class HandbookManagerHandbookPublicationCreatorComponent extends HandbookManager
     {
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(
-                HandbookManager :: PARAM_ACTION => HandbookManager :: ACTION_BROWSE)), Translation :: get('BrowseHandbook')));
+                HandbookManager :: PARAM_ACTION => HandbookManager :: ACTION_BROWSE)), Translation :: get('Browse' , array('OBJECT' => Translation::get('HandbookPublication')), Utilities::COMMON_LIBRARIES)));
 
         $udm = UserDataManager :: get_instance();
         $user = $udm->retrieve_user($this->get_user_id());
 
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateHandbook')));
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Create' , array('OBJECT' => Translation::get('HandbookPublication')), Utilities::COMMON_LIBRARIES)));
         $trail->add_help('Handbook_Create');
 
         $html = array();
@@ -63,7 +64,7 @@ class HandbookManagerHandbookPublicationCreatorComponent extends HandbookManager
             if ($form->validate())
             {
                 $success = $form->create_handbook_publications($object);
-                $this->redirect($success ? Translation :: get('HandbookCreatedddd') : Translation :: get('HandbookNotCreated'), ! $success, array(
+                $this->redirect($success ? Translation :: get('ObjectCreated', array('OBJECT'=> Translation::get('Handbook')), Utilities::COMMON_LIBRARIES) : Translation :: get('ObjectNotCreated', array('OBJECT'=> Translation::get('Handbook')), Utilities::COMMON_LIBRARIES), ! $success, array(
                         HandbookManager :: PARAM_ACTION => HandbookManager :: ACTION_VIEW_HANDBOOK,
                         HandbookManager :: PARAM_HANDBOOK_ID => $object[0]));
 
@@ -74,13 +75,13 @@ class HandbookManagerHandbookPublicationCreatorComponent extends HandbookManager
                 $content_objects = RepositoryDataManager :: get_instance()->retrieve_content_objects($condition);
 
                 $html[] = '<div class="content_object padding_10">';
-                $html[] = '<div class="title">' . Translation :: get('SelectedContentObjects') . '</div>';
+                $html[] = '<div class="title">' . Translation :: get('SelectedContentObjects' , array('OBJECT' => Translation::get('Handbooks')), Utilities::COMMON_LIBRARIES) . '</div>';
                 $html[] = '<div class="description">';
                 $html[] = '<ul class="attachments_list">';
 
                 while ($content_object = $content_objects->next_result())
                 {
-                    $html[] = '<li><img src="' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($content_object->get_type())) . 'logo/' . $content_object->get_icon_name(Theme :: ICON_MINI) . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($content_object->get_type()) . 'TypeName')) . '"/> ' . $content_object->get_title() . '</li>';
+                    $html[] = '<li><img src="' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($content_object->get_type())) . 'logo/' . $content_object->get_icon_name(Theme :: ICON_MINI) . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($content_object->get_type())), 'repository\\content_object\\') . '"/> ' . $content_object->get_title() . '</li>';
                 }
 
                 $html[] = '</ul>';

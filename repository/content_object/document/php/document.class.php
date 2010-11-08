@@ -11,6 +11,7 @@ use common\libraries\Text;
 use common\libraries\Path;
 use common\libraries\Filesystem;
 use common\libraries\Theme;
+use common\libraries\Translation;
 /**
  * $Id: document.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.document
