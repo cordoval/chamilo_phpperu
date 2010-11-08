@@ -60,7 +60,7 @@ class LaikaBrowserFilterForm extends FormValidator
         
         $this->add_timewindow(self :: USER_FILTER_START_DATE, self :: USER_FILTER_END_DATE, Translation :: get('StartTimeWindow'), Translation :: get('EndTimeWindow'), false);
         $this->addElement('select', self :: USER_FILTER_GROUP, Translation :: get('Group'), $this->get_groups());
-        $this->addElement('style_submit_button', 'submit', Translation :: get('Filter'), array('class' => 'normal search'));
+        $this->addElement('style_submit_button', 'submit', Translation :: get('Filter', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal search'));
     }
 
     function get_filter_conditions()

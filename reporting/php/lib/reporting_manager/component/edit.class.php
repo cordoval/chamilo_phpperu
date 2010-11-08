@@ -34,7 +34,7 @@ class ReportingManagerEditComponent extends ReportingManager implements Administ
             if (! $this->get_user()->is_platform_admin())
             {
                 $this->display_header();
-                Display :: error_message(Translation :: get("NotAllowed"));
+                Display :: error_message(Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES));
                 $this->display_footer();
                 exit();
             }
@@ -55,7 +55,7 @@ class ReportingManagerEditComponent extends ReportingManager implements Administ
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoReportingTemplateRegistrationSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('ReportingTemplateRegistration')), Utilities :: COMMON_LIBRARIES)));
         }
     }
 

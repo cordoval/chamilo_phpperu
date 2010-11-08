@@ -34,7 +34,7 @@ class UserNoOfUsersReportingBlock extends UserReportingBlock
     public function get_available_displaymodes()
     {
         $modes = array();
-        $modes[ReportingFormatter :: DISPLAY_TABLE] = Translation :: get('Table');
+        $modes[ReportingFormatter :: DISPLAY_TABLE] = Translation :: get('Table', null, 'reporting');
         return $modes;
     }
 }

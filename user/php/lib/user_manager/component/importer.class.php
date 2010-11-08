@@ -23,7 +23,7 @@ class UserManagerImporterComponent extends UserManager implements Administration
         if (!UserRights :: is_allowed_in_users_subtree(UserRights :: EDIT_RIGHT, 0))
         {
             $this->display_header();
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get("NotAllowed", null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
@@ -125,15 +125,15 @@ class UserManagerImporterComponent extends UserManager implements Administration
         $html[] = '<p>' . Translation :: get('Details') . '</p>';
         $html[] = '<blockquote>';
         $html[] = '<u><b>' . Translation :: get('Action') . '</u></b>';
-        $html[] = '<br />A: ' . Translation :: get('Add');
-        $html[] = '<br />U: ' . Translation :: get('Update');
-        $html[] = '<br />D: ' . Translation :: get('Delete');
+        $html[] = '<br />A: ' . Translation :: get('Add', null, Utilities :: COMMON_LIBRARIES);
+        $html[] = '<br />U: ' . Translation :: get('Update', null, Utilities :: COMMON_LIBRARIES);
+        $html[] = '<br />D: ' . Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES);
         $html[] = '<br /><br />';
         $html[] = '<u><b>' . Translation :: get('Status') . '</u></b>';
         $html[] = '<br />1: ' . Translation :: get('Teacher');
         $html[] = '<br />5: ' . Translation :: get('Student');
         $html[] = '<br /><br />';
-        $html[] = '<u><b>' . Translation :: get('Date') . '</u></b>';
+        $html[] = '<u><b>' . Translation :: get('Date', null, Utilities :: COMMON_LIBRARIES) . '</u></b>';
         $html[] = '<br />0 ' . Translation :: get('NotTakenIntoAccount');
         $html[] = '<br />YYYY-MM-DD HH:MM:SS';
         $html[] = '</blockquote>';

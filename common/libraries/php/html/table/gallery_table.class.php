@@ -286,7 +286,7 @@ class GalleryTable extends HTML_Table
 							</script>';
                 $params = $this->get_gallery_table_param_string . '&amp;' . $this->get_additional_url_paramstring();
 
-                $html[] = '<form method="post" action="' . $_SERVER['PHP_SELF'] . '?' . $params . '" name="form_' . $this->table_name . '"  onsubmit="return anyCheckboxChecked(\'form_' . $this->table_name . '\') &amp;&amp; confirm(\'' . addslashes(htmlentities(Translation :: get("ConfirmYourChoice"))) . '\');">';
+                $html[] = '<form method="post" action="' . $_SERVER['PHP_SELF'] . '?' . $params . '" name="form_' . $this->table_name . '"  onsubmit="return anyCheckboxChecked(\'form_' . $this->table_name . '\') &amp;&amp; confirm(\'' . addslashes(htmlentities(Translation :: get('Confirm', null, Utilities :: COMMON_LIBRARIES))) . '\');">';
             }
         }
         $html[] = $this->get_table_html();
@@ -297,15 +297,15 @@ class GalleryTable extends HTML_Table
             $html[] = '<td colspan="2">';
             if (count($this->form_actions))
             {
-                $html[] = '<a href="?' . $params . '&amp;' . $this->param_prefix . 'selectall=1" onclick="setCheckbox(\'form_' . $this->table_name . '\', true); return false;">' . Translation :: get('SelectAll') . '</a> - ';
-                $html[] = '<a href="?' . $params . '"  onclick="setCheckbox(\'form_' . $this->table_name . '\', false); return false;">' . Translation :: get('UnSelectAll') . '</a> ';
+                $html[] = '<a href="?' . $params . '&amp;' . $this->param_prefix . 'selectall=1" onclick="setCheckbox(\'form_' . $this->table_name . '\', true); return false;">' . Translation :: get('SelectAll', null, Utilities :: COMMON_LIBRARIES) . '</a> - ';
+                $html[] = '<a href="?' . $params . '"  onclick="setCheckbox(\'form_' . $this->table_name . '\', false); return false;">' . Translation :: get('UnSelectAll', null, Utilities :: COMMON_LIBRARIES) . '</a> ';
                 $html[] = '<select name="action">';
                 foreach ($this->form_actions as $action => $label)
                 {
                     $html[] = '<option value="' . $action . '">' . $label . '</option>';
                 }
                 $html[] = '</select>';
-                $html[] = '<input type="submit" value="' . Translation :: get('Ok') . '"/>';
+                $html[] = '<input type="submit" value="' . Translation :: get('Ok', null, Utilities :: COMMON_LIBRARIES) . '"/>';
             }
             else
             {
@@ -410,7 +410,7 @@ class GalleryTable extends HTML_Table
         }
         $result[] = '</select>';
         $result[] = '<noscript>';
-        $result[] = '<button class="normal" type="submit" value="' . Translation :: get('Ok') . '">' . Translation :: get('Ok') . '</button>';
+        $result[] = '<button class="normal" type="submit" value="' . Translation :: get('Ok', null, Utilities :: COMMON_LIBRARIES) . '">' . Translation :: get('Ok', null, Utilities :: COMMON_LIBRARIES) . '</button>';
         $result[] = '</noscript>';
         $result[] = '</form>';
         return implode("\n", $result);

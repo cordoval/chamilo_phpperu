@@ -55,20 +55,20 @@ class RegisterForm extends FormValidator
         $this->addElement('category', Translation :: get('Basic'));
     	// Lastname
         $this->addElement('text', User :: PROPERTY_LASTNAME, Translation :: get('LastName'), array("size" => "50"));
-        $this->addRule(User :: PROPERTY_LASTNAME, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(User :: PROPERTY_LASTNAME, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         // Firstname
         $this->addElement('text', User :: PROPERTY_FIRSTNAME, Translation :: get('FirstName'), array("size" => "50"));
-        $this->addRule(User :: PROPERTY_FIRSTNAME, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(User :: PROPERTY_FIRSTNAME, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         // Email
         $this->addElement('text', User :: PROPERTY_EMAIL, Translation :: get('Email'), array("size" => "50"));
         if (PlatformSetting :: get('require_email', 'user'))
         {
-            $this->addRule(User :: PROPERTY_EMAIL, Translation :: get('ThisFieldIsRequired'), 'required');
+            $this->addRule(User :: PROPERTY_EMAIL, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         }
         $this->addRule(User :: PROPERTY_EMAIL, Translation :: get('WrongEmail'), 'email');
         // Username
         $this->addElement('text', User :: PROPERTY_USERNAME, Translation :: get('Username'), array("size" => "50"));
-        $this->addRule(User :: PROPERTY_USERNAME, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(User :: PROPERTY_USERNAME, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         //pw
         $group = array();
         $group[] = & $this->createElement('radio', 'pass', null, Translation :: get('AutoGeneratePassword') . '<br />', 1);
@@ -83,7 +83,7 @@ class RegisterForm extends FormValidator
         $this->addElement('text', User :: PROPERTY_OFFICIAL_CODE, Translation :: get('OfficialCode'), array("size" => "50"));
         if (PlatformSetting :: get('require_official_code', 'user'))
         {
-            $this->addRule(User :: PROPERTY_OFFICIAL_CODE, Translation :: get('ThisFieldIsRequired'), 'required');
+            $this->addRule(User :: PROPERTY_OFFICIAL_CODE, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         }
         // Picture URI
         if (PlatformSetting :: get('allow_change_user_picture', 'user'))
@@ -105,8 +105,8 @@ class RegisterForm extends FormValidator
         }
         //  Send email
         $group = array();
-        $group[] = & $this->createElement('radio', 'send_mail', null, Translation :: get('Yes'), 1);
-        $group[] = & $this->createElement('radio', 'send_mail', null, Translation :: get('No'), 0);
+        $group[] = & $this->createElement('radio', 'send_mail', null, Translation :: get('ConfirmYes', null, Utilities :: COMMON_LIBRARIES), 1);
+        $group[] = & $this->createElement('radio', 'send_mail', null, Translation :: get('ConfirmNo', null, Utilities :: COMMON_LIBRARIES), 0);
         $this->addGroup($group, 'mail', Translation :: get('SendMailToNewUser'), '&nbsp;');
         // Submit button
         //$this->addElement('submit', 'user_settings', 'OK');
@@ -123,7 +123,7 @@ class RegisterForm extends FormValidator
         }
 
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Register'), array('class' => 'positive register'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

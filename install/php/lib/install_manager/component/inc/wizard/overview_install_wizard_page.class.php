@@ -73,7 +73,7 @@ class OverviewInstallWizardPage extends InstallWizardPage
         $this->addElement('category');
 
         $buttons = array();
-        $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Previous'), array('class' => 'normal previous'));
+        $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Previous', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal previous'));
         $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('submit'), Translation :: get('Finish'), array('class' => 'positive'));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         $this->setDefaultAction($this->getButtonName('submit'));
@@ -90,7 +90,7 @@ class OverviewInstallWizardPage extends InstallWizardPage
         $defaults['database_name']		= $this->controller->exportValue('page_database', 'database_name');
         $defaults['database_username']	= $this->controller->exportValue('page_database', 'database_username');
         $defaults['database_password']	= $this->controller->exportValue('page_database', 'database_password');
-        $defaults['database_exists'] 	= $this->controller->exportValue('page_database', 'database_exists') ? Translation :: get('Yes') : Translation :: get('No');
+        $defaults['database_exists'] 	= $this->controller->exportValue('page_database', 'database_exists') ? Translation :: get('ConfirmYes', null, Utilities::COMMON_LIBRARIES) : Translation :: get('ConfirmNo', null, Utilities::COMMON_LIBRARIES);
         
         // Application selections
     	$applications = Filesystem :: get_directory_content(Path :: get_application_path(), Filesystem :: LIST_DIRECTORIES, false);

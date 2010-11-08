@@ -84,15 +84,8 @@ class ContextLinkBrowserTableCellRenderer extends DefaultContextLinkTableCellRen
 	{
 		$toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
 
-//        $toolbar->add_item(new ToolbarItem(
-//        		Translation :: get('Edit'),
-//        		Theme :: get_common_image_path() . 'action_edit.png',
-//        		$this->browser->get_update_context_link_url($context_link),
-//        		ToolbarItem :: DISPLAY_ICON
-//        ));
-
-        $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Delete'),
+                $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('DeleteObject', array('OBJECT' => Translation :: get('ContextLink')), Utilities :: COMMON_LIBRARY),
         		Theme :: get_common_image_path() . 'action_delete.png',
         		$this->browser->get_delete_context_link_url($context_link),
         		ToolbarItem :: DISPLAY_ICON,

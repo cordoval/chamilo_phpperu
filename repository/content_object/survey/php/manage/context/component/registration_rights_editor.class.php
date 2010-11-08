@@ -14,7 +14,7 @@ class SurveyContextManagerRegistrationRightsEditorComponent extends SurveyContex
         if (! SurveyContextManagerRights :: is_allowed_in_survey_context_manager_subtree(SurveyContextManagerRights :: RIGHT_VIEW, $context_registration_id, SurveyContextManagerRights :: TYPE_CONTEXT_REGISTRATION))
         {
             $this->display_header();
-            $this->display_error_message(Translation :: get('NotAllowed'));
+            $this->display_error_message(Translation :: get('NotAllowed', null, Utilities::COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }

@@ -4,6 +4,7 @@ namespace repository\content_object\assessment;
 use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\ResourceManager;
+use common\libraries\Utilities;
 
 /**
  * $Id: questions_assessment_viewer_wizard_page.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -48,16 +49,16 @@ class QuestionsAssessmentViewerWizardPage extends AssessmentViewerWizardPage
             
         // Add buttons
         if ($this->page_number > 1)
-            $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Back'), array('class' => 'previous'));
+            $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Back', null, Utilities :: COMMON_LIBRARIES), array('class' => 'previous'));
         
         if ($this->page_number < $this->get_parent()->get_total_pages())
         {
             $style = 'display: none';
-            $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('process'), Translation :: get('Submit'), array('class' => 'positive finish process', 'style' => $style));
-            $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next'), array('class' => 'next'));
+            $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('process'), Translation :: get('Submit', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive finish process', 'style' => $style));
+            $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next', null, Utilities :: COMMON_LIBRARIES), array('class' => 'next'));
         }
         
-        $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('submit'), Translation :: get('Submit'), array('class' => 'positive finish', 'style' => $style));
+        $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('submit'), Translation :: get('Submit', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive finish', 'style' => $style));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         
         // Add question forms

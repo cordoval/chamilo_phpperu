@@ -52,9 +52,9 @@ class SurveyContextTableCellRenderer extends DefaultSurveyContextTableCellRender
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->component->get_context_update_url($this->context_registration_id, $context), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->component->get_context_update_url($this->context_registration_id, $context), ToolbarItem :: DISPLAY_ICON));
         
-        $toolbar->add_item(new ToolbarItem(Translation :: get('View'), Theme :: get_common_image_path() . 'action_browser.png', $this->component->get_context_view_url($context), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('View', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->component->get_context_view_url($context), ToolbarItem :: DISPLAY_ICON));
         
         return $toolbar->as_html();
     }

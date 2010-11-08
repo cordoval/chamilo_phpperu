@@ -75,9 +75,9 @@ class LaikaBrowserFilterForm extends FormValidator
         }
 
         $this->addElement('select', self :: BROWSER_FILTER_SCALE, Translation :: get('Scale'), $scale_options);
-        $this->addElement('select', self :: BROWSER_FILTER_GROUP, Translation :: get('Group'), $this->get_groups());
+        $this->addElement('select', self :: BROWSER_FILTER_GROUP, Translation :: get('Group', null, Utilities::GROUP), $this->get_groups());
         $this->addElement('select', self :: BROWSER_FILTER_CODE, Translation :: get('Code'), $code_options);
-        $this->addElement('style_submit_button', 'submit', Translation :: get('Filter'), array('class' => 'normal search'));
+        $this->addElement('style_submit_button', 'submit', Translation :: get('Filter', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal search'));
         //$this->addElement('submit', 'search', Translation :: get('Filter'));
     }
 

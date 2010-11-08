@@ -43,7 +43,7 @@ class HomeManagerEditorComponent extends HomeManager implements AdministrationCo
             if (! $user->is_platform_admin())
             {
                 $this->display_header();
-                Display :: error_message(Translation :: get('NotAllowed'));
+                Display :: error_message(Translation :: get('NotAllowed', null, Utilities::COMMON_LIBRARIES));
                 $this->display_footer();
                 exit();
             }
@@ -90,12 +90,12 @@ class HomeManagerEditorComponent extends HomeManager implements AdministrationCo
             }
             else
             {
-                $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
+                $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', null, Utilities::COMMON_LIBRARIES)));
             }
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', null, Utilities::COMMON_LIBRARIES)));
         }
     }
     

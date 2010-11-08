@@ -56,7 +56,7 @@ class FeedbackManagerBrowserComponent extends FeedbackManager
         if ($form->validate())
         {
             $success = $form->create_feedback($this->get_user()->get_id(), $publication_id, $complex_wrapper_id, $application);
-            $this->redirect($success ? "" : Translation :: get('FeedbackNotCreated'), $success ? null : true, array());
+            $this->redirect($success ? "" : Translation :: get('ObjectNotCreated', array('OBJECT' => Translation :: get('Feedback')), Utilities :: COMMON_LIBRARIES), $success ? null : true, array());
 
         }
         else
@@ -138,7 +138,7 @@ class FeedbackManagerBrowserComponent extends FeedbackManager
     function render_delete_action($feedback)
     {
         $delete_url = $this->get_url(array(FeedbackManager :: PARAM_ACTION => FeedbackManager :: ACTION_DELETE_FEEDBACK,  FeedbackManager :: PARAM_FEEDBACK_ID => $feedback->get_id()));
-        $delete_link = '<a href="' . $delete_url . '" onclick="return confirm(\'' . addslashes(Translation :: get('ConfirmYourChoice')) . '\');"><img src="' . Theme :: get_common_image_path() . 'action_delete.png"  alt=""/></a>';
+        $delete_link = '<a href="' . $delete_url . '" onclick="return confirm(\'' . addslashes(Translation :: get('Confirm', null, Utilities :: COMMON_LIBRARIES)) . '\');"><img src="' . Theme :: get_common_image_path() . 'action_delete.png"  alt=""/></a>';
         return $delete_link;
     }
 
@@ -152,7 +152,7 @@ class FeedbackManagerBrowserComponent extends FeedbackManager
     function render_create_action()
     {
         $create_url = $this->get_url(array(FeedbackManager :: PARAM_ACTION => FeedbackManager :: ACTION_CREATE_FEEDBACK));
-        $item = new ToolbarItem(Translation :: get('CreateFeedback'), Theme :: get_common_image_path() . 'action_create.png', $create_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL);
+        $item = new ToolbarItem(Translation :: get('Create', array('OBJECT' => Translation :: get('Feedback')), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_create.png', $create_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL);
         $this->get_parent()->add_actionbar_item($item);
     }
 
@@ -169,7 +169,7 @@ class FeedbackManagerBrowserComponent extends FeedbackManager
 
     function format_date($date)
     {
-        $date_format = Translation :: get('dateTimeFormatLong');
+        $date_format = Translation :: get('dateTimeFormatLong', null, Utilities :: COMMON_LIBRARIES);
         return DatetimeUtilities :: format_locale_date($date_format, $date);
     }
 

@@ -34,7 +34,7 @@ class ValidationManagerCreatorComponent extends ValidationManagerComponent
         if (! $this->get_user())
         {
             $this->display_header($this->get_breadcrumb_trail());
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }

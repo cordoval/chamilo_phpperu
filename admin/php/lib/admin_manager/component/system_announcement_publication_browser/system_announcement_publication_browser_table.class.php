@@ -26,7 +26,7 @@ class SystemAnnouncementPublicationBrowserTable extends ObjectTable
         parent :: __construct($data_provider, SystemAnnouncementPublicationBrowserTable :: DEFAULT_NAME, $model, $renderer);
         $actions = array();
         
-        $actions[] = new ObjectTableFormAction(AdminManager :: PARAM_DELETE_SELECTED, Translation :: get('RemoveSelected'));
+        $actions[] = new ObjectTableFormAction(AdminManager :: PARAM_DELETE_SELECTED, Translation :: get('RemoveSelected', null, Utilities :: COMMON_LIBRARIES));
         
         if ($browser->get_user()->is_platform_admin())
         {

@@ -62,7 +62,7 @@ class ComicBookForm extends ContentObjectForm
         $types['Complete'] = Translation :: get('Complete');
         $types['Luxury'] = Translation :: get('LuxuryEdition');
         $types['TPB'] = Translation :: get('TradePaperback');
-        $this->addElement('select', ComicBook :: PROPERTY_BOOK_TYPE, Translation :: get('Type'), $types);
+        $this->addElement('select', ComicBook :: PROPERTY_BOOK_TYPE, Translation :: get('Type', null, Utilities::COMMON_LIBRARIES), $types);
         
         $bindings = array('HC' => 'HC', 'SC' => 'SC', 'HC & SC' => 'HC &amp; SC');
         $this->addElement('select', ComicBook :: PROPERTY_BINDING, Translation :: get('Binding'), $bindings);
@@ -105,9 +105,9 @@ class ComicBookForm extends ContentObjectForm
         $this->addElement('category', Translation :: get('Links'));
         
         $locale = array();
-        $locale['Searching'] = Translation :: get('Searching');
-        $locale['NoResults'] = Translation :: get('NoResults');
-        $locale['Error'] = Translation :: get('Error');
+        $locale['Searching'] = Translation :: get('Searching', null, Utilities::COMMON_LIBRARIES);
+        $locale['NoResults'] = Translation :: get('NoResults', null, Utilities::COMMON_LIBRARIES);
+        $locale['Error'] = Translation :: get('Error', null, Utilities::COMMON_LIBRARIES);
         
         // Comic book covers
         $url = $this->get_path(WEB_PATH) . 'repository/xml_feeds/xml_image_feed.php';

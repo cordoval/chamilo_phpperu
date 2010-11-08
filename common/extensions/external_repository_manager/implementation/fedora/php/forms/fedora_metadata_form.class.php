@@ -121,7 +121,7 @@ class FedoraMetadataForm extends FormValidator
 
     protected function build_footer()
     {
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Next') . ' >>', array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Next', null, Utilities::COMMON_LIBRARIES) . ' >>', array('class' => 'positive'));
         //$buttons[] = $this->createElement('style_reset_button', 'reset', Translation::get('Reset'), array('class' => 'normal empty'));
 
 
@@ -141,11 +141,11 @@ class FedoraMetadataForm extends FormValidator
             $this->addElement('static', '', Translation :: get('File'), $html);
         }
 
-        $this->addElement('text', $id = FedoraExternalRepositoryObject :: PROPERTY_TITLE, Translation :: get('Title'), array("size" => "50"));
-        $this->addRule(FedoraExternalRepositoryObject :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addElement('text', $id = FedoraExternalRepositoryObject :: PROPERTY_TITLE, Translation :: get('Title', null, Utilities::COMMON_LIBRARIES), array("size" => "50"));
+        $this->addRule(FedoraExternalRepositoryObject :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
         $defaults[$id] = $this->default_title();
 
-        $this->addElement('textarea', $id = FedoraExternalRepositoryObject :: PROPERTY_DESCRIPTION, Translation :: get('Description'), array("rows" => "7", "cols" => "80"));
+        $this->addElement('textarea', $id = FedoraExternalRepositoryObject :: PROPERTY_DESCRIPTION, Translation :: get('Description', null, Utilities::COMMON_LIBRARIES), array("rows" => "7", "cols" => "80"));
         $defaults[$id] = $this->default_description();
 
         $this->addElement('text', $key = FedoraExternalRepositoryObject :: PROPERTY_AUTHOR, Translation :: get('Author'), array("size" => "50"));
@@ -284,12 +284,12 @@ class FedoraMetadataForm extends FormValidator
         else
             if ($course = $this->get_course())
             {
-                return $course->get_name() . '-' . Translation :: get('Export') . '-' . time();
+                return $course->get_name() . '-' . Translation :: get('Export', null, Utilities::COMMON_LIBRARIES) . '-' . time();
             }
             else
             {
                 $file = $this->get_file();
-                return $file['title'] . '-' . Translation :: get('Export') . '-' . time();
+                return $file['title'] . '-' . Translation :: get('Export', null, Utilities::COMMON_LIBRARIES) . '-' . time();
             }
     }
 

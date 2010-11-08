@@ -28,7 +28,7 @@ class ContextLinkerManagerContextLinkUpdaterComponent extends ContextLinkerManag
         if($form->validate())
         {
                 $success = $form->update_context_link();
-                $this->redirect($success ? Translation :: get('ContextLinkUpdated') : Translation :: get('ContextLinkNotUpdated'), !$success, array(ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_BROWSE_CONTEXT_LINKS, ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => $context_link->get_original_content_object_id()));
+                $this->redirect($success ? Translation :: get('ObjectUpdated', array('OBJECT' => Translation :: get('ContextLink')), Utilities :: COMMON_LIBRARIES) : Translation :: get('ObjectNotUpdated', array('OBJECT' => Translation :: get('ContextLink')), Utilities :: COMMON_LIBRARIES), !$success, array(ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_BROWSE_CONTEXT_LINKS, ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => $context_link->get_original_content_object_id()));
         }
         else
         {

@@ -61,11 +61,11 @@ class AlexiaManagerDeleterComponent extends AlexiaManager
                 }
             }
             
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => AlexiaManager :: ACTION_BROWSE_PUBLICATIONS));
+            $this->redirect(Translation :: get($message, null, Utilities::COMMON_LIBRARIES), ($failures ? true : false), array(Application :: PARAM_ACTION => AlexiaManager :: ACTION_BROWSE_PUBLICATIONS));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoPublicationSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoPublicationSelected', null, Utilities::COMMON_LIBRARIES)));
         }
     }
 }

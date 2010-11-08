@@ -42,7 +42,7 @@ class SubscribeContextTemplateForm extends FormValidator
     {
 
         $this->addElement('select', Survey :: PROPERTY_CONTEXT_TEMPLATE_ID, Translation :: get('SurveyContextTemplate'), $this->get_registered_context_templates());
-        $this->addRule(Survey :: PROPERTY_CONTEXT_TEMPLATE_ID, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(Survey :: PROPERTY_CONTEXT_TEMPLATE_ID, Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
 
     }
 
@@ -53,8 +53,8 @@ class SubscribeContextTemplateForm extends FormValidator
 
         $this->addElement('hidden', SurveyContextTemplate :: PROPERTY_ID);
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null, Utilities::COMMON_LIBRARIES), array('class' => 'positive update'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -63,8 +63,8 @@ class SubscribeContextTemplateForm extends FormValidator
     {
         $this->build_basic_form();
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities::COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

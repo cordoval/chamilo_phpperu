@@ -92,11 +92,11 @@ class SettingsManagerTableCellRenderer extends ObjectTableCellRenderer
         {
             $toolbar = new Toolbar();
 
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->component->get_server_editing_url($server_setting), ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->component->get_server_editing_url($server_setting), ToolbarItem :: DISPLAY_ICON));
 
             if ($url = $this->component->get_server_recycling_url($server_setting))
             {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('Remove'), Theme :: get_common_image_path() . 'action_recycle_bin.png', $url, ToolbarItem :: DISPLAY_ICON, true));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Remove', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_recycle_bin.png', $url, ToolbarItem :: DISPLAY_ICON, true));
             }
 
             /*$toolbar->add_item(new ToolbarItem(

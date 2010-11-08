@@ -60,19 +60,19 @@ class WebconferenceForm extends FormValidator
     function build_basic_form()
     {
         $this->addElement('text', Webconference :: PROPERTY_CONFNAME, Translation :: get('Confname'));
-        $this->addRule(Webconference :: PROPERTY_CONFNAME, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(Webconference :: PROPERTY_CONFNAME, Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
         
         $value = PlatformSetting :: get('description_required', 'repository');
         $required = ($value == 'true') ? true : false;
-        $this->add_html_editor(Webconference :: PROPERTY_DESCRIPTION, Translation :: get('Description'), $required);
-        $this->addRule(Webconference :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->add_html_editor(Webconference :: PROPERTY_DESCRIPTION, Translation :: get('Description', null, Utilities::COMMON_LIBRARIES), $required);
+        $this->addRule(Webconference :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
         
         if (PlatformSetting :: get('allow_duration_selection', WebconferencingManager :: APPLICATION_NAME) == 'true')
         {
             $this->addElement('text', Webconference :: PROPERTY_DURATION, Translation :: get('DurationInMinutes'));
             $this->defaults_create[Webconference :: PROPERTY_DURATION] = PlatformSetting :: get('default_webconference_duration', WebconferencingManager :: APPLICATION_NAME);
-            $this->addRule(Webconference :: PROPERTY_DURATION, Translation :: get('ThisFieldIsRequired'), 'required');
-            $this->addRule(Webconference :: PROPERTY_DURATION, Translation :: get('ValueShouldBeNumeric'), 'numeric');
+            $this->addRule(Webconference :: PROPERTY_DURATION, Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
+            $this->addRule(Webconference :: PROPERTY_DURATION, Translation :: get('ValueShouldBeNumeric', null, Utilities::COMMON_LIBRARIES), 'numeric');
         }
         
         $this->add_html_editor('option[agenda]', Translation :: get('Agenda'), false);
@@ -127,8 +127,8 @@ class WebconferenceForm extends FormValidator
         foreach ($yes_no_items as $yes_no_item)
         {
             $group = array();
-            $group[] = & $this->createElement('radio', $yes_no_item, null, Translation :: get('Yes'), 'true');
-            $group[] = & $this->createElement('radio', $yes_no_item, null, Translation :: get('No'), 'false');
+            $group[] = & $this->createElement('radio', $yes_no_item, null, Translation :: get('ConfirmYes'), 'true');
+            $group[] = & $this->createElement('radio', $yes_no_item, null, Translation :: get('ConfirmNo'), 'false');
             if (PlatformSetting :: get('allow_' . strtolower($yes_no_item) . '_selection', WebconferencingManager :: APPLICATION_NAME) == 'true')
             {
                 $this->addGroup($group, 'option', Translation :: get('Option' . Utilities :: underscores_to_camelcase($yes_no_item)), '&nbsp;');
@@ -142,17 +142,17 @@ class WebconferenceForm extends FormValidator
         $attributes = array();
         $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_user_group_feed.php';
         $locale = array();
-        $locale['Display'] = Translation :: get('ShareWith');
-        $locale['Searching'] = Translation :: get('Searching');
-        $locale['NoResults'] = Translation :: get('NoResults');
-        $locale['Error'] = Translation :: get('Error');
+        $locale['Display'] = Translation :: get('ShareWith', null, Utilities::COMMON_LIBRARIES);
+        $locale['Searching'] = Translation :: get('Searching', null, Utilities::COMMON_LIBRARIES);
+        $locale['NoResults'] = Translation :: get('NoResults', null, Utilities::COMMON_LIBRARIES);
+        $locale['Error'] = Translation :: get('Error', null, Utilities::COMMON_LIBRARIES);
         $attributes['locale'] = $locale;
         $attributes['exclude'] = array('user_' . $this->user->get_id());
         $attributes['defaults'] = array();
         
-        $this->add_receivers(self :: PARAM_TARGET, Translation :: get('PublishFor'), $attributes);
+        $this->add_receivers(self :: PARAM_TARGET, Translation :: get('PublishFor', null, Utilities::COMMON_LIBRARIES), $attributes);
         $this->add_forever_or_timewindow();
-        $this->addElement('checkbox', Webconference :: PROPERTY_HIDDEN, Translation :: get('Hidden'));
+        $this->addElement('checkbox', Webconference :: PROPERTY_HIDDEN, Translation :: get('Hidden', null, Utilities::COMMON_LIBRARIES));
     }
 
     function build_editing_form()
@@ -162,8 +162,8 @@ class WebconferenceForm extends FormValidator
         //$this->addElement('hidden', Webconference :: PROPERTY_ID);
         
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null, Utilities::COMMON_LIBRARIES), array('class' => 'positive update'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal empty'));
         
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         $this->setDefaults($this->defaults_update);
@@ -173,8 +173,8 @@ class WebconferenceForm extends FormValidator
     {
         $this->build_basic_form();
         
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities::COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal empty'));
         
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         

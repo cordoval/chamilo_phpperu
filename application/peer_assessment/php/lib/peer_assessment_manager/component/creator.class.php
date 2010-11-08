@@ -45,11 +45,11 @@ class PeerAssessmentManagerCreatorComponent extends PeerAssessmentManager implem
 
                 if (!$published)
                 {
-                    $message = Translation :: get('ObjectNotPublished');
+                    $message = Translation :: get('ObjectNotPublished', null, Utilities::COMMON_LIBRARIES);
                 }
                 else
                 {
-                    $message = Translation :: get('ObjectPublished');
+                    $message = Translation :: get('ObjectPublished', null, Utilities::COMMON_LIBRARIES);
                     $peer_assessment_publication = $this->retrieve_peer_assessment_publication_via_content_object($content_object_id);
                 }
 

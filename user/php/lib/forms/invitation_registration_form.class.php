@@ -47,7 +47,7 @@ class InvitationRegistrationForm extends FormValidator
         $this->addElement('category', Translation :: get('Profile'));
 
         $this->addElement('text', User :: PROPERTY_USERNAME, Translation :: get('Username'), array("size" => "50"));
-        $this->addRule(User :: PROPERTY_USERNAME, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(User :: PROPERTY_USERNAME, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         $this->addRule(User :: PROPERTY_USERNAME, Translation :: get('UsernameNotAvailable'), 'username_available');
 
         $this->add_warning_message('password_requirements', null, Translation :: get('GeneralPasswordRequirements'));
@@ -55,22 +55,22 @@ class InvitationRegistrationForm extends FormValidator
         $this->addElement('password', self :: PASSWORD, Translation :: get('Password'), array('size' => 40, 'autocomplete' => 'off', 'id' => 'password'));
         $this->addElement('password', self :: PASSWORD_CONFIRMATION, Translation :: get('PasswordConfirmation'), array('size' => 40, 'autocomplete' => 'off'));
         $this->addRule(array(self :: PASSWORD, self :: PASSWORD_CONFIRMATION), Translation :: get('PassTwo'), 'compare');
-        $this->addRule(self :: PASSWORD, Translation :: get('ThisFieldIsRequired'), 'required');
-        $this->addRule(self :: PASSWORD_CONFIRMATION, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(self :: PASSWORD, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
+        $this->addRule(self :: PASSWORD_CONFIRMATION, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
 
         $this->addElement('category');
 
         $this->addElement('category', Translation :: get('BasicProfile'));
 
         $this->addElement('text', User :: PROPERTY_FIRSTNAME, Translation :: get('FirstName'), array("size" => "50"));
-        $this->addRule(User :: PROPERTY_FIRSTNAME, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(User :: PROPERTY_FIRSTNAME, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
 
         $this->addElement('text', User :: PROPERTY_LASTNAME, Translation :: get('LastName'), array("size" => "50"));
-        $this->addRule(User :: PROPERTY_LASTNAME, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(User :: PROPERTY_LASTNAME, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
 
         // Email
         $this->addElement('text', User :: PROPERTY_EMAIL, Translation :: get('Email'), array("size" => "50"));
-        $this->addRule(User :: PROPERTY_EMAIL, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(User :: PROPERTY_EMAIL, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         $this->addRule(User :: PROPERTY_EMAIL, Translation :: get('WrongEmail'), 'email');
         $this->freeze(User :: PROPERTY_EMAIL);
 
@@ -81,12 +81,12 @@ class InvitationRegistrationForm extends FormValidator
             $this->addElement('category', Translation :: get('Information'));
             $this->addElement('textarea', 'conditions', Translation :: get('TermsAndConditions'), array('cols' => 80, 'rows' => 20, 'disabled' => 'disabled', 'style' => 'background-color: white;'));
             $this->addElement('checkbox', 'conditions_accept', '', Translation :: get('IAccept'));
-            $this->addRule('conditions_accept', Translation :: get('ThisFieldIsRequired'), 'required');
+            $this->addRule('conditions_accept', Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
             $this->addElement('category');
         }
 
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('CreateAccount'), array('class' => 'positive register'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

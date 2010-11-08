@@ -40,10 +40,10 @@ class HomeRowForm extends FormValidator
     function build_basic_form()
     {
         $this->addElement('text', HomeRow :: PROPERTY_TITLE, Translation :: get('HomeRowTitle'), array("size" => "50"));
-        $this->addRule(HomeRow :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(HomeRow :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
         
         $this->addElement('select', HomeRow :: PROPERTY_TAB, Translation :: get('HomeRowTab'), $this->get_tabs());
-        $this->addRule(HomeRow :: PROPERTY_TAB, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(HomeRow :: PROPERTY_TAB, Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
         
         $this->addElement('hidden', HomeRow :: PROPERTY_USER);
         
@@ -55,8 +55,8 @@ class HomeRowForm extends FormValidator
         $this->build_basic_form();
         $this->addElement('hidden', HomeRow :: PROPERTY_ID);
         
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null, Utilities::COMMON_LIBRARIES), array('class' => 'positive update'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal empty'));
         
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -65,8 +65,8 @@ class HomeRowForm extends FormValidator
     {
         $this->build_basic_form();
         
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities::COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal empty'));
         
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

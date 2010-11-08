@@ -57,19 +57,11 @@ class UserMetadataPropertyValueBrowserTableCellRenderer extends DefaultUserTable
 		$toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
 
                 $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Edit'),
+        		Translation :: get('Edit', null, Utilities :: COMMON_LIBRARY),
         		Theme :: get_common_image_path() . 'action_edit.png',
         		$this->browser->get_edit_user_metadata_property_values_url($user),
         		ToolbarItem :: DISPLAY_ICON
         ));
-
-//        $toolbar->add_item(new ToolbarItem(
-//        		Translation :: get('Delete'),
-//        		Theme :: get_common_image_path() . 'action_delete.png',
-//        		$this->browser->get_delete_metadata_property_value_url($metadata_property_value),
-//        		ToolbarItem :: DISPLAY_ICON,
-//        		true
-//        ));
 
         return $toolbar->as_html();
 	}

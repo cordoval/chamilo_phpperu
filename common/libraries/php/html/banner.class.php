@@ -53,7 +53,7 @@ class Banner
 
         if (! is_null(Session::get('_as_admin')))
         {
-            $output[] = '<div style="width: 100%; height: 20px; text-align: center; background-color: lightblue;">' . Translation :: get('LoggedInAsUser') . ' ' . $user->get_fullname() . ' <a href="index.php?adminuser=1">' . Translation :: get('Back') . '</a></div>';
+            $output[] = '<div style="width: 100%; height: 20px; text-align: center; background-color: lightblue;">' . Translation :: get('LoggedInAsUser') . ' ' . $user->get_fullname() . ' <a href="index.php?adminuser=1">' . Translation :: get('Back', null, Utilities :: COMMON_LIBRARIES) . '</a></div>';
         }
 
         $output[] = '<a name="top"></a>';

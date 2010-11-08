@@ -26,19 +26,19 @@ class MetadataManagerMetadataPropertyAttributeTypeDeleterComponent extends Metad
             {
                 $fail = true;
                 
-                $message = 'MetadataPropertyAttributeTypeNotDeleted';
+                $message = 'ObjectNotDeleted';
                 if($metadata_property_attribute_type->has_errors()) $message .= implode("\n", $metadata_property_attribute_type->get_errors());
             }
             else
             {
-                $message = 'MetadataPropertyAttributeTypeDeleted';
+                $message = 'ObjectDeleted';
             }
 
-            $this->redirect(Translation :: get($message), ($fail ? true : false), array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE_METADATA_PROPERTY_ATTRIBUTE_TYPES));
+            $this->redirect(Translation :: get($message, array('OBJECT' => Translation :: get('MetadataPropertyAttributeType')), Utilities :: COMMON_LIBRARY), ($fail ? true : false), array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE_METADATA_PROPERTY_ATTRIBUTE_TYPES));
         }
         else
         {
-                $this->display_error_page(htmlentities(Translation :: get('NoMetadataPropertyAttributeTypesSelected')));
+                $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('MetadataPropertyAttributeType')), Utilities :: COMMON_LIBRARY)));
         }
     }
 }

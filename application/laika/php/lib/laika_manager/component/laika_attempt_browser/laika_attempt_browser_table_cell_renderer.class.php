@@ -50,7 +50,7 @@ class LaikaAttemptBrowserTableCellRenderer extends DefaultLaikaAttemptTableCellR
     private function get_modification_links($attempt)
     {
         $toolbar= new Toolbar();
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Browse'), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_laika_attempt_viewing_url($attempt), ToolbarItem :: DISPLAY_ICON ));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Browse', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_laika_attempt_viewing_url($attempt), ToolbarItem :: DISPLAY_ICON ));
         
         return $toolbar->as_html();
     }

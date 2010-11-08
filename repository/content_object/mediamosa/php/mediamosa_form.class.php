@@ -37,7 +37,7 @@ class MediamosaForm extends ContentObjectForm
             if($external_repository->get_type() == 'mediamosa')
             {
                 $link = Path :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=' . ExternalRepositoryLauncher :: APPLICATION_NAME . '&' . ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '=' . $external_repository->get_id();
-                $this->addElement('static', null, null, '<a class="button normal_button upload_button" onclick="javascript:openPopup(\'' . $link . '\');"> ' . Translation :: get('Browse') .' '. $external_repository->get_title() . '</a>');
+                $this->addElement('static', null, null, '<a class="button normal_button upload_button" onclick="javascript:openPopup(\'' . $link . '\');"> ' . Translation :: get('Browse' , null, Utilities :: COMMON_LIBRARIES) .' '. $external_repository->get_title() . '</a>');
             }
         }
 

@@ -146,14 +146,14 @@ class WebconferenceBrowserTableCellRenderer extends DefaultWebconferenceTableCel
         if ($this->browser->get_user()->is_platform_admin() || $webconference->get_user_id() == $this->browser->get_user()->get_id())
         {
 	        $toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('Edit'),
+	        		Translation :: get('Edit', null, Utilities::COMMON_LIBRARIES),
 	        		Theme :: get_common_image_path() . 'action_edit.png',
 	        		$this->browser->get_update_webconference_url($webconference),
 	        		ToolbarItem :: DISPLAY_ICON
 	        ));
 	        
 	        $toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('Delete'),
+	        		Translation :: get('Delete', null, Utilities::COMMON_LIBRARIES),
 	        		Theme :: get_common_image_path() . 'action_delete.png',
 	        		$this->browser->get_delete_webconference_url($webconference),
 	        		ToolbarItem :: DISPLAY_ICON,

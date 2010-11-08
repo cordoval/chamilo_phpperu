@@ -47,10 +47,10 @@ class HTML_QuickForm_upload_or_create extends HTML_QuickForm_group
      */
     function _createElements()
     {
-        $this->_elements[0] = new HTML_QuickForm_Radio(self :: ELEMENT_CHOICE, '', Translation :: get('Upload'), '0', array('onclick' => 'javascript:editor_hide(\'editor_html_content\'); javascript:uncompress_show(\''. self :: ELEMENT_UNCOMPRESS .'\')'));
+        $this->_elements[0] = new HTML_QuickForm_Radio(self :: ELEMENT_CHOICE, '', Translation :: get('Upload', null, Utilities :: COMMON_LIBRARIES), '0', array('onclick' => 'javascript:editor_hide(\'editor_html_content\'); javascript:uncompress_show(\''. self :: ELEMENT_UNCOMPRESS .'\')'));
         $this->_elements[0]->setChecked(true);
         $this->_elements[1] = new HTML_QuickForm_file(self :: ELEMENT_FILE, '');
-        $this->_elements[2] = new HTML_QuickForm_Radio(self :: ELEMENT_CHOICE, '', Translation :: get('Create'), '1', array('onclick' => 'javascript:editor_show(\'editor_html_content\'); javascript:editor_hide(\''. self :: ELEMENT_UNCOMPRESS .'\')'));
+        $this->_elements[2] = new HTML_QuickForm_Radio(self :: ELEMENT_CHOICE, '', Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES), '1', array('onclick' => 'javascript:editor_show(\'editor_html_content\'); javascript:editor_hide(\''. self :: ELEMENT_UNCOMPRESS .'\')'));
         $this->_elements[3] = new HTML_QuickForm_textarea(self :: ELEMENT_EDITOR, '');
         $this->_elements[4] = new HTML_QuickForm_checkbox(self :: ELEMENT_UNCOMPRESS, '', Translation :: get('Uncompress'), array('id' => self :: ELEMENT_UNCOMPRESS));
     }

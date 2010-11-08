@@ -74,19 +74,19 @@ class PeerAssessmentPublicationBrowserTableCellRenderer extends DefaultPeerAsses
 
         if ($user->is_platform_admin() || $user->get_id() == $peer_assessment_publication->get_publisher())
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_peer_assessment_publication_url($peer_assessment_publication), ToolbarItem :: DISPLAY_ICON, true));
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_peer_assessment_publication_url($peer_assessment_publication), ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_peer_assessment_publication_url($peer_assessment_publication), ToolbarItem :: DISPLAY_ICON, true));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_peer_assessment_publication_url($peer_assessment_publication), ToolbarItem :: DISPLAY_ICON));
 
             if ($peer_assessment_publication->get_hidden())
             {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('Show'), Theme :: get_common_image_path() . 'action_visible_na.png', $this->browser->get_change_peer_assessment_publication_visibility_url($peer_assessment_publication), ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Show', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_visible_na.png', $this->browser->get_change_peer_assessment_publication_visibility_url($peer_assessment_publication), ToolbarItem :: DISPLAY_ICON));
             }
             else
             {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('Hide'), Theme :: get_common_image_path() . 'action_visible.png', $this->browser->get_change_peer_assessment_publication_visibility_url($peer_assessment_publication), ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Hide', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_visible.png', $this->browser->get_change_peer_assessment_publication_visibility_url($peer_assessment_publication), ToolbarItem :: DISPLAY_ICON));
             }
 
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Move'), Theme :: get_common_image_path() . 'action_move.png', $this->browser->get_move_peer_assessment_publication_url($peer_assessment_publication), ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Move', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_move.png', $this->browser->get_move_peer_assessment_publication_url($peer_assessment_publication), ToolbarItem :: DISPLAY_ICON));
             $toolbar->add_item(new ToolbarItem(Translation :: get('BuildComplex'), Theme :: get_common_image_path() . 'action_build.png', $this->browser->get_build_peer_assessment_url($peer_assessment_publication), ToolbarItem :: DISPLAY_ICON));
         }
 

@@ -131,7 +131,7 @@ class MetadataNamespace extends DataClass
         }
         else
         {
-            $this->add_error(Translation :: get('childrenExist'));
+            $this->add_error(Translation :: get('ChildrenExist'));
             return false;
         }
     }

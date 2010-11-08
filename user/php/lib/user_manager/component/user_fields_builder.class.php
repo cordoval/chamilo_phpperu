@@ -22,7 +22,7 @@ class UserManagerUserFieldsBuilderComponent extends UserManager implements Admin
 		if (!UserRights :: is_allowed(UserRights :: VIEW_RIGHT, UserRights :: LOCATION_FIELDS_BUILDER, UserRights :: TYPE_COMPONENT))
         {
             $this->display_header();
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get("NotAllowed", null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }

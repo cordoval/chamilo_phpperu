@@ -33,9 +33,9 @@ class AdminUserBrowserTable extends ObjectTable
         $this->set_additional_parameters($parameters);
         $actions = array();
         //Deactivated: What should happen when a user is removed ? Full remove or deactivation of account ?
-        $actions[] =  new ObjectTableFormAction(UserManager :: ACTION_DELETE_USER, Translation :: get('RemoveSelected'));
-        $actions[] =  new ObjectTableFormAction(UserManager :: ACTION_ACTIVATE, Translation :: get('ActivateSelected'), false);
-        $actions[] =  new ObjectTableFormAction(UserManager :: ACTION_DEACTIVATE, Translation :: get('DeactivateSelected'));
+        $actions[] =  new ObjectTableFormAction(UserManager :: ACTION_DELETE_USER, Translation :: get('RemoveSelected', null, Utilities :: COMMON_LIBRARIES));
+        $actions[] =  new ObjectTableFormAction(UserManager :: ACTION_ACTIVATE, Translation :: get('ActivateSelected', null, Utilities :: COMMON_LIBRARIES), false);
+        $actions[] =  new ObjectTableFormAction(UserManager :: ACTION_DEACTIVATE, Translation :: get('DeactivateSelected', null, Utilities :: COMMON_LIBRARIES));
         $actions[] =  new ObjectTableFormAction(UserManager :: ACTION_RESET_PASSWORD_MULTI, Translation :: get('ResetPassword'));
 
         if(PlatformSetting :: get('active_online_email_editor'))

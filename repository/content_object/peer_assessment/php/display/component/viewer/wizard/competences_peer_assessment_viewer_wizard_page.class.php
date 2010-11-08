@@ -343,7 +343,7 @@ class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWiza
     {
     	// Submit button
 		$button[] = '<div style="float: right; margin-top: 15px">';
-        $button[] = $this->createElement('style_submit_button', $this->getButtonName('submit'), Translation :: get('Submit'), array('class' => 'positive'))->toHtml();
+        $button[] = $this->createElement('style_submit_button', $this->getButtonName('submit'), Translation :: get('Submit, null, Utilities::COMMON_LIBRARIES'), array('class' => 'positive'))->toHtml();
         $button[] = '</div>';
 
         // Prints of the submit button
