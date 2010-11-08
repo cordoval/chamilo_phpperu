@@ -29,7 +29,7 @@ class PortfolioManagerPortfolioIntroductionCreatorComponent extends PortfolioMan
         $user = $udm->retrieve_user($this->get_user_id());
         $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id())), Translation :: get('ViewPortfolio') . ' ' . $user->get_fullname()));
 
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateIntroduction')));
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateObject', array('OBJECT' => Translation::get('PortfolioIntroduction')), Utilities::COMMON_LIBRARIES)));
         $trail->add_help('portfolio introduction');
 
         
@@ -39,7 +39,7 @@ class PortfolioManagerPortfolioIntroductionCreatorComponent extends PortfolioMan
             if ($form->validate())
             {
                 $success = $form->create_portfolio_introduction();
-                $this->redirect($success ? Translation :: get('PortfolioIntroductionCreated') : Translation :: get('PortfolioIntroductionNotCreated'), ! $success, array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id()));
+                $this->redirect($success ? Translation :: get('ObjectCreated', array('OBJECT' => Translation::get('PortfolioIntroduction')), Utilities::COMMON_LIBRARIES) : Translation :: get('ObjectNotCreated', array('OBJECT' => Translation::get('PortfolioIntroduction')), Utilities::COMMON_LIBRARIES), ! $success, array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id()));
             }
             else
             {

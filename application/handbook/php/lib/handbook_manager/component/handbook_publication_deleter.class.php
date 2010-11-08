@@ -65,7 +65,7 @@ class HandbookManagerHandbookPublicationDeleterComponent extends HandbookManager
 		}
 		else
 		{
-			$this->display_error_page(htmlentities(Translation :: get('NoHandbookPublicationsSelected')));
+			$this->display_error_page(htmlentities(Translation :: get('NoObjectsSelected', array('OBJECT' => Translation::get('HandbookPublications')), Utilities::COMMON_LIBRARIES)));
 		}
 	}
 }

@@ -8,6 +8,7 @@ use common\libraries\ActionBarSearchForm;
 use common\libraries\Application;
 use common\libraries\PatternMatchCondition;
 use common\libraries\AndCondition;
+use common\libraries\Utilities;
 /**
  * @package application.handbook.handbook.component
  */
@@ -31,7 +32,7 @@ class HandbookManagerHandbookPublicationsBrowserComponent extends HandbookManage
 
 
 
-            echo '<a href="' . $this->get_create_handbook_publication_url() . '">' . Translation :: get('CreateHandbookPublication') . '</a>';
+            echo '<a href="' . $this->get_create_handbook_publication_url() . '">' . Translation :: get('CreateObject', array('OBJECT' => Translation::get('HandbookPublication')), Utilities::COMMON_LIBRARIES) . '</a>';
             echo '<br /><br />';
 
             $this->display_header();
@@ -53,7 +54,7 @@ class HandbookManagerHandbookPublicationsBrowserComponent extends HandbookManage
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         $action_bar->set_search_url($this->get_url());
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_create_handbook_publication_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishObject', array('OBJECT' => Translation::get('HandbookPublication')), Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_publish.png', $this->get_create_handbook_publication_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
 
         return $action_bar;

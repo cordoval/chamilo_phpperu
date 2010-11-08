@@ -47,11 +47,11 @@ class PortfolioManagerPortfolioPublicationDeleterComponent extends PortfolioMana
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedPortfolioPublicationDeletionSuccess';
+                    $message = 'ObjectsNotDeleted';
                 }
                 else
                 {
-                    $message = 'SelectedPortfolioPublicationsDeletionSuccess';
+                    $message = 'ObjectsDeleted';
                 }
                 
                 //UPDATE PORTFOLIO INFORMATION
@@ -62,19 +62,19 @@ class PortfolioManagerPortfolioPublicationDeleterComponent extends PortfolioMana
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedPortfolioPublicationDeletionProblem';
+                    $message = 'ObjectNotDeleted';
                 }
                 else
                 {
-                    $message = 'SelectedPortfolioPublicationsDeletionProblem';
+                    $message = 'ObjectsNotDeleted';
                 }
             }
             
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id()));
+            $this->redirect(Translation :: get($message, array('OBJECT' => Translation::get('PortfolioPublication')), Utilities::COMMON_LIBRARIES), ($failures ? true : false), array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id()));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoPortfolioPublicationsSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectsSelected', array('OBJECT' => Translation::get('PortfolioPublications')), Utilities::COMMON_LIBRARIES)));
         }
     }
 }
