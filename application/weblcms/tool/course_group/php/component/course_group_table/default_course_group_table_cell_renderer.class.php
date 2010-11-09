@@ -8,6 +8,7 @@ use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: default_course_group_table_cell_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $

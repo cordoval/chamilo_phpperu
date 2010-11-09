@@ -4,6 +4,7 @@ namespace application\weblcms\tool\user;
 use application\weblcms\Tool;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: unsubscribe.class.php 218 2009-11-13 14:21:26Z kariboe $

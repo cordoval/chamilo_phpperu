@@ -11,6 +11,7 @@ use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: assessment_results_export.class.php 216 2009-11-13 14:08:06Z kariboe $

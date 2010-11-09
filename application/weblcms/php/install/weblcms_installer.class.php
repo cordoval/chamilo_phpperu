@@ -4,6 +4,7 @@ namespace application\weblcms;
 use common\libraries\Installer;
 use rights\RightsUtilities;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * @package application.lib.weblcms.install

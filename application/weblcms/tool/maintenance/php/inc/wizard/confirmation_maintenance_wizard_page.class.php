@@ -2,6 +2,7 @@
 namespace application\weblcms\tool\maintenance;
 
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: confirmation_maintenance_wizard_page.class.php 216 2009-11-13 14:08:06Z kariboe $

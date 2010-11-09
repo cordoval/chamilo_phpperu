@@ -4,6 +4,7 @@ namespace application\weblcms\tool\document;
 use common\libraries\FormValidator;
 use common\libraries\Session;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 class DocumentSlideshowSettingsForm extends FormValidator
 {
