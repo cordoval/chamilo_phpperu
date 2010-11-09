@@ -4,6 +4,7 @@ namespace common\extensions\feedback_manager;
 use admin\AdminDataManager;
 use common\libraries\FormValidator;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use repository\content_object\feedback\Feedback;
 use admin\FeedbackPublication;
 

@@ -4,6 +4,8 @@ namespace common\extensions\feedback_manager;
 use common\libraries\Request;
 use admin\FeedbackPublication;
 use common\libraries\Translation;
+use common\libraries\Utilities;
+
 /**
  * $Id: deleter.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.feedback_manager.component
