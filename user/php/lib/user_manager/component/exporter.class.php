@@ -4,7 +4,7 @@ namespace user;
 use common\libraries\Translation;
 use common\libraries\Display;
 use common\libraries\BreadcrumbTrail;
-
+use common\libraries\Utilities;
 use common\libraries\AdministrationComponent;
 
 /**

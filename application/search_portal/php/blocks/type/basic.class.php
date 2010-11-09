@@ -2,6 +2,7 @@
 namespace application\search_portal;
 
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\FormValidator;
 
 /**

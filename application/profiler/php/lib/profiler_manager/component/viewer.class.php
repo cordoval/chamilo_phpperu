@@ -4,6 +4,7 @@ namespace application\profiler;
 
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use repository\ContentObjectDisplay;
 use common\libraries\Breadcrumb;
 use common\libraries\Application;

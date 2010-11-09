@@ -3,6 +3,7 @@ namespace repository\content_object\wiki;
 
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\BreadcrumbTrail;
 use repository\ComplexDisplay;
@@ -48,7 +49,7 @@ class WikiDisplayViewerComponent extends WikiDisplay
                 $parser = new MediawikiParser(new MediawikiParserContext($this->get_root_content_object(), $wiki_homepage->get_title(), $wiki_homepage->get_description(), $this->get_parameters()));
 
                 $html[] = '<div class="wiki-pane-content-title">' . $wiki_homepage->get_title() . '</div>';
-                $html[] = '<div class="wiki-pane-content-subtitle">' . Translation :: get('From') . ' ' . $this->get_root_content_object()->get_title() . '</div>';
+                $html[] = '<div class="wiki-pane-content-subtitle">' . Translation :: get('From', null , Utilities :: COMMON_LIBRARIES) . ' ' . $this->get_root_content_object()->get_title() . '</div>';
 
                 $html[] = '<div class="wiki-pane-content-body">';
                 $html[] = $parser->parse();

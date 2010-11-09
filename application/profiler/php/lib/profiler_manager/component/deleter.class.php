@@ -5,6 +5,7 @@ namespace application\profiler;
 use common\libraries\Request;
 use common\libraries\Display;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Application;
 use common\libraries\Breadcrumb;
 /**
@@ -51,22 +52,22 @@ class ProfilerManagerDeleterComponent extends ProfilerManager
             {
                 if (count($ids) == 1)
                 {
-                    $message = Translation :: get('ObjectNotDeleted',array('OBJECT' => Translation :: get('Profile')), Utilities :: COMMON_LIBRARIES);
+                    $message = Translation :: get('ObjectNotDeleted',array('OBJECT' => Translation :: get('ProfilePublication')), Utilities :: COMMON_LIBRARIES);
                 }
                 else
                 {
-                    $message = Translation :: get('ObjectsNotDeleted',array('OBJECT' => Translation :: get('Profile')), Utilities :: COMMON_LIBRARIES);
+                    $message = Translation :: get('ObjectsNotDeleted',array('OBJECT' => Translation :: get('ProfilePublications')), Utilities :: COMMON_LIBRARIES);
                 }
             }
             else
             {
                 if (count($ids) == 1)
                 {
-                    $message = Translation :: get('ObjectDeleted',array('OBJECT' => Translation :: get('Profile')), Utilities :: COMMON_LIBRARIES);
+                    $message = Translation :: get('ObjectDeleted',array('OBJECT' => Translation :: get('ProfilePublication')), Utilities :: COMMON_LIBRARIES);
                 }
                 else
                 {
-                    $message = Translation :: get('ObjectsDeleted',array('OBJECT' => Translation :: get('Profile')), Utilities :: COMMON_LIBRARIES);
+                    $message = Translation :: get('ObjectsDeleted',array('OBJECT' => Translation :: get('ProfilePublications')), Utilities :: COMMON_LIBRARIES);
                 }
             }
             

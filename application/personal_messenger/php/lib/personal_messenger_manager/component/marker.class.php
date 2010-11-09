@@ -4,6 +4,7 @@ namespace application\personal_messenger;
 
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Application;
 use common\libraries\Breadcrumb;
 /**
@@ -57,7 +58,7 @@ class PersonalMessengerManagerMarkerComponent extends PersonalMessengerManager
                 }
                 else
                 {
-                    $message = Translation :: get('ObjectsNotUpdated',array('OBJECT' => Translation :: get('PersonalMessengerPublication')), Utilities :: COMMON_LIBRARIES);
+                    $message = Translation :: get('ObjectsNotUpdated',array('OBJECT' => Translation :: get('PersonalMessengerPublications')), Utilities :: COMMON_LIBRARIES);
                 }
             }
             else
@@ -68,7 +69,7 @@ class PersonalMessengerManagerMarkerComponent extends PersonalMessengerManager
                 }
                 else
                 {
-                    $message = Translation :: get('ObjectsUpdated',array('OBJECT' => Translation :: get('PersonalMessengerPublication')), Utilities :: COMMON_LIBRARIES);
+                    $message = Translation :: get('ObjectsUpdated',array('OBJECT' => Translation :: get('PersonalMessengerPublications')), Utilities :: COMMON_LIBRARIES);
                 }
             }
                   

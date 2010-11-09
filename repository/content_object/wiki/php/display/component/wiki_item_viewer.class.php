@@ -3,6 +3,7 @@ namespace repository\content_object\wiki;
 
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
@@ -67,7 +68,7 @@ class WikiDisplayWikiItemViewerComponent extends WikiDisplay
             $this->display_header($complex_wiki_page);
 
             $html[] = '<div class="wiki-pane-content-title">' . $display_wiki_page->get_title() . '</div>';
-            $html[] = '<div class="wiki-pane-content-subtitle">' . Translation :: get('From') . ' ' . $this->get_root_content_object()->get_title() . '</div>';
+            $html[] = '<div class="wiki-pane-content-subtitle">' . Translation :: get('From', null , Utilities :: COMMON_LIBRARIES) . ' ' . $this->get_root_content_object()->get_title() . '</div>';
 
             if ($version_object_id && $wiki_page->get_id() != $version_object_id)
             {

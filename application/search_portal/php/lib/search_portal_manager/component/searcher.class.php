@@ -7,6 +7,7 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\Request;
 use common\libraries\FormValidator;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Text;
 use common\libraries\Theme;
 use common\libraries\PlatformSetting;

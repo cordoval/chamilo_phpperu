@@ -31,7 +31,7 @@ class GroupBrowserTable extends ObjectTable
         $this->set_additional_parameters($parameters);
         $actions = new ObjectTableFormActions();
         
-        $actions->add_form_action(new ObjectTableFormAction(GroupManager :: ACTION_DELETE_GROUP, Translation :: get('RemoveSelected')));
+        $actions->add_form_action(new ObjectTableFormAction(GroupManager :: ACTION_DELETE_GROUP, Translation :: get('RemoveSelected', null , Utilities :: COMMON_LIBRARIES)));
         $actions->add_form_action(new ObjectTableFormAction(GroupManager :: ACTION_TRUNCATE_GROUP, Translation :: get('TruncateSelected')));
         
         $this->set_form_actions($actions);

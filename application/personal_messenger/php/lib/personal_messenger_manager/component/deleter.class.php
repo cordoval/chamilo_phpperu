@@ -4,6 +4,7 @@ namespace application\personal_messenger;
 
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Application;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
@@ -49,7 +50,7 @@ class PersonalMessengerManagerDeleterComponent extends PersonalMessengerManager
                 }
                 else
                 {
-                    $message = Translation :: get('ObjectsNotDeleted',array('OBJECT' => Translation :: get('PersonalMessengerPublication')), Utilities :: COMMON_LIBRARIES);
+                    $message = Translation :: get('ObjectsNotDeleted',array('OBJECT' => Translation :: get('PersonalMessengerPublications')), Utilities :: COMMON_LIBRARIES);
                 }
             }
             else
@@ -60,7 +61,7 @@ class PersonalMessengerManagerDeleterComponent extends PersonalMessengerManager
                 }
                 else
                 {
-                    $message = Translation :: get('ObjectsDeleted',array('OBJECT' => Translation :: get('PersonalMessengerPublication')), Utilities :: COMMON_LIBRARIES);
+                    $message = Translation :: get('ObjectsDeleted',array('OBJECT' => Translation :: get('PersonalMessengerPublications')), Utilities :: COMMON_LIBRARIES);
                 }
             }
                   

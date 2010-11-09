@@ -311,7 +311,7 @@ class SurveyContentObjectPublicationForm extends FormValidator
         $locale['Display'] = Translation :: get('SelectRecipients');
         $locale['Searching'] = Translation :: get('Searching');
         $locale['NoResults'] = Translation :: get('NoResults');
-        $locale['Error'] = Translation :: get('Error');
+        $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARIES);
         $attributes['locale'] = $locale;
         //$attributes['exclude'] = array('user_' . $this->tool->get_user_id());
         $attributes['defaults'] = array();

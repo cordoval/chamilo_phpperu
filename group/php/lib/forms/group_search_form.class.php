@@ -1,6 +1,8 @@
 <?php
 namespace group;
+
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Request;
 use common\libraries\FormValidator;
  
@@ -107,8 +109,8 @@ class GroupSearchForm extends FormValidator
     private function build_simple_search_form()
     {
         $this->renderer->setElementTemplate('{element}');
-        $this->frozen_elements[] = $this->addElement('text', self :: PARAM_SIMPLE_SEARCH_QUERY, Translation :: get('Find'), 'size="20" class="search_query"');
-        $this->addElement('submit', 'search', Translation :: get('Ok'));
+        $this->frozen_elements[] = $this->addElement('text', self :: PARAM_SIMPLE_SEARCH_QUERY, Translation :: get('Search', null , Utilities :: COMMON_LIBRARIES), 'size="20" class="search_query"');
+        $this->addElement('submit', 'search', Translation :: get('Ok', null , Utilities :: COMMON_LIBRARIES));
     }
 
     /**

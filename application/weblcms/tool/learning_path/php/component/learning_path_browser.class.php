@@ -6,11 +6,11 @@ use application\weblcms\ContentObjectPublication;
 use application\weblcms\WeblcmsDataManager;
 use application\weblcms\WeblcmsRights;
 use application\weblcms\Tool;
-use common\libraries\PatternMatchCondition;
+use repository\RepositoryDataManager;
 use repository\ContentObject;
+use common\libraries\PatternMatchCondition;
 use common\libraries\ActionBarRenderer;
 use common\libraries\SubselectCondition;
-use repository\RepositoryDataManager;
 use common\libraries\ToolbarItem;
 use common\libraries\Display;
 use common\libraries\Theme;
@@ -20,6 +20,7 @@ use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: learning_path_browser.class.php 216 2009-11-13 14:08:06Z kariboe $

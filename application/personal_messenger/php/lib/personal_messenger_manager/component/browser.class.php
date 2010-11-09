@@ -6,6 +6,7 @@ use common\libraries\WebApplication;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Display;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;

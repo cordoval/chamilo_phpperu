@@ -11,6 +11,7 @@ use common\libraries\Breadcrumb;
 use common\extensions\repo_viewer\RepoViewerInterface;
 use common\libraries\Application;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 /**
  * $Id: publisher.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.personal_calendar.personal_calendar_manager.component

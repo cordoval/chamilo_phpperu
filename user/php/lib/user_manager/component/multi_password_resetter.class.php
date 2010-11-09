@@ -10,6 +10,7 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\Text;
 use common\libraries\Hashing;
 use common\libraries\Mail;
+use common\libraries\Utilities;
 
 /**
  * $Id: deleter.class.php 211 2009-11-13 13:28:39Z vanpouckesven $

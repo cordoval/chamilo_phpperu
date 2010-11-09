@@ -62,7 +62,7 @@ class GroupBrowserTableCellRenderer extends DefaultGroupTableCellRenderer
                 //					$description = mb_substr($description,0,170).'&hellip;';
                 //				}
                 return Utilities :: truncate_string($description);
-            case Translation :: get('Users') :
+            case Translation :: get('Users', null , 'user') :
                 return $group->count_users(true, true);
             case Translation :: get('Subgroups') :
                 return $group->count_subgroups(true, true);
@@ -84,7 +84,7 @@ class GroupBrowserTableCellRenderer extends DefaultGroupTableCellRenderer
 
         if (GroupRights::is_allowed_in_groups_subtree(GroupRights::RIGHT_EDIT, $group->get_id()))
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png',
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png',
                             $this->browser->get_group_editing_url($group), ToolbarItem :: DISPLAY_ICON));
         }
         if (GroupRights::is_allowed_in_groups_subtree(GroupRights::RIGHT_SUBSCRIBE, $group->get_id()))
@@ -94,7 +94,7 @@ class GroupBrowserTableCellRenderer extends DefaultGroupTableCellRenderer
         }
         if (GroupRights::is_allowed_in_groups_subtree(GroupRights::RIGHT_EDIT_RIGHTS, $group->get_id()))
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('EditRights'), Theme :: get_common_image_path() . 'action_rights.png',
+            $toolbar->add_item(new ToolbarItem(Translation :: get('ManageRights', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_rights.png',
                             $this->browser->get_group_edit_rights_url($group), ToolbarItem :: DISPLAY_ICON));
         }
         $condition = new EqualityCondition(GroupRelUser :: PROPERTY_GROUP_ID, $group->get_id());
@@ -128,7 +128,7 @@ class GroupBrowserTableCellRenderer extends DefaultGroupTableCellRenderer
         if (GroupRights::is_allowed_in_groups_subtree(GroupRights::RIGHT_DELETE, $group->get_id()))
         {
             $toolbar->add_item(new ToolbarItem(
-                            Translation :: get('Delete'),
+                            Translation :: get('Delete', null , Utilities :: COMMON_LIBRARIES),
                             Theme :: get_common_image_path() . 'action_delete.png',
                             $this->browser->get_group_delete_url($group),
                             ToolbarItem :: DISPLAY_ICON,
@@ -140,7 +140,7 @@ class GroupBrowserTableCellRenderer extends DefaultGroupTableCellRenderer
         if (GroupRights::is_allowed_in_groups_subtree(GroupRights::RIGHT_MOVE, $group->get_id()))
         {
             $toolbar->add_item(new ToolbarItem(
-                            Translation :: get('Move'),
+                            Translation :: get('Move', null , Utilities :: COMMON_LIBRARIES),
                             Theme :: get_common_image_path() . 'action_move.png',
                             $this->browser->get_move_group_url($group),
                             ToolbarItem :: DISPLAY_ICON

@@ -1,4 +1,10 @@
 <?php
+namespace group;
+
+use common\libraries\Translation;
+use common\libraries\Utilities;
+use common\libraries\FormValidator;
+
 /**
  * @author Hans De Bisschop
  *
@@ -59,9 +65,9 @@ class GroupUsageForm extends FormValidator
         $url = Path :: get(WEB_PATH) . 'group/xml_feeds/xml_group_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('SelectUsableGroup');
-        $locale['Searching'] = Translation :: get('Searching');
-        $locale['NoResults'] = Translation :: get('NoResults');
-        $locale['Error'] = Translation :: get('Error');
+        $locale['Searching'] = Translation :: get('Searching', null , Utilities :: COMMON_LIBRARIES);
+        $locale['NoResults'] = Translation :: get('NoResults', null , Utilities :: COMMON_LIBRARIES);
+        $locale['Error'] = Translation :: get('Error', null , Utilities :: COMMON_LIBRARIES);
         $hidden = true;
 
         $elem = $this->addElement('element_finder', self :: GROUP_USAGE, null, $url, $locale, $group_rights_templates);
@@ -72,8 +78,8 @@ class GroupUsageForm extends FormValidator
         $elem = $this->addElement('hidden', GroupUseGroup :: PROPERTY_REQUEST_GROUP_ID, $this->group);
         $elem = $this->addElement('hidden', GroupUseGroup :: PROPERTY_APPLICATION, $this->application);
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null , Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null , Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

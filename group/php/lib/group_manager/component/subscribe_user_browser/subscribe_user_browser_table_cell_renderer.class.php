@@ -1,6 +1,7 @@
 <?php
 namespace group;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\ToolbarItem; 
 use common\libraries\Toolbar; 
 use common\libraries\Theme; 
@@ -50,20 +51,20 @@ class SubscribeUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
  
                 if ($user->get_status() == 1)
                 {
-                    return Translation :: get('CourseAdmin');
+                    return Translation :: get('CourseAdmin', null , 'user');
                 }
                 else
                 {
-                    return Translation :: get('Student');
+                    return Translation :: get('Student', null , 'user');
                 }
             case User :: PROPERTY_PLATFORMADMIN :
                 if ($user->get_platformadmin() == '1')
                 {
-                    return Translation :: get('True');
+                    return Translation :: get('ConfirmTrue', null , Utilities :: COMMON_LIBRARIES);
                 }
                 else
                 {
-                    return Translation :: get('False');
+                    return Translation :: get('ConfirmFalse', null , Utilities :: COMMON_LIBRARIES);
                 }
             case User :: PROPERTY_EMAIL :
                 return '<a href="mailto:' . $user->get_email() . '">' . $user->get_email() . '</a>';

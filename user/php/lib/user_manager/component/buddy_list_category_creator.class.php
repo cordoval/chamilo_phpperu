@@ -1,6 +1,7 @@
 <?php
 namespace user;
 
+use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;

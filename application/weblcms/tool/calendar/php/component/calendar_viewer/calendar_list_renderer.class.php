@@ -5,6 +5,7 @@ use application\weblcms\WeblcmsRights;
 use common\libraries\Display;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: calendar_list_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $

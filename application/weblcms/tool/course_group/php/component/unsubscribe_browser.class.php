@@ -79,7 +79,7 @@ class CourseGroupToolUnsubscribeBrowserComponent extends CourseGroupTool
         $html[] = '</div>';
 
         $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_users.png);">';
-        $html[] = '<div class="title">' . Translation :: get('Users') . '</div>';
+        $html[] = '<div class="title">' . Translation :: get('Users', null, 'user') . '</div>';
         $html[] = $table->as_html();
         $html[] = '</div>';
         $trail = BreadcrumbTrail :: get_instance();

@@ -4,6 +4,8 @@ namespace application\forum;
 
 use common\extensions\repo_viewer\RepoViewer;
 use common\libraries\Translation;
+use common\libraries\Utilities;
+
 /**
  * $Id: forum_publication_publisher.class.php 195 2009-11-13 12:02:41Z chellee $
  * @package application.lib.forum.publisher

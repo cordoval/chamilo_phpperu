@@ -8,6 +8,8 @@ use common\libraries\AdministrationComponent;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use reporting\ReportingManager;
+use common\libraries\Utilities;
+
 use common\extensions\reporting_viewer\ReportingViewer;
 
 /**

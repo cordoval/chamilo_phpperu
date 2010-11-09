@@ -2,6 +2,7 @@
 namespace group;
 use common\libraries\Export;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\FormValidator;
 
 
@@ -38,12 +39,12 @@ class GroupExportForm extends FormValidator
 
     function build_exporting_form()
     {
-        $this->addElement('select', 'file_type', Translation :: get('OutputFileType'), Export :: get_supported_filetypes(array('ical', 'csv', 'pdf')));
-        //$this->addElement('submit', 'group_export', Translation :: get('Ok'));
+        $this->addElement('select', 'file_type', Translation :: get('OutputFileType', null , 'common/libraries'), Export :: get_supported_filetypes(array('ical', 'csv', 'pdf')));
+        //$this->addElement('submit', 'group_export', Translation :: get('Ok', null , Utilities :: COMMON_LIBRARIES));
         
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Export'), array('class' => 'positive export'));
-        //$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Export', null , Utilities :: COMMON_LIBRARIES), array('class' => 'positive export'));
+        //$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null , Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
         
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
