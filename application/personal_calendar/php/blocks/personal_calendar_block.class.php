@@ -1,12 +1,13 @@
 <?php
 namespace application\personal_calendar;
 
-use common\libraries\Webapplication;
+//use common\libraries\Webapplication;
+use common\libraries\Block;
 
 /**
  * @author Hans De bisschop
  */
-require_once WebApplication :: get_application_class_lib_path('personal_calendar') . 'personal_calendar_data_manager.class.php';
+//require_once WebApplication :: get_application_class_lib_path('personal_calendar') . 'personal_calendar_data_manager.class.php';
 
 class PersonalCalendarBlock extends Block
 {
