@@ -5,6 +5,7 @@ use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use common\libraries\Translation;
 use common\libraries\Theme;
+use common\libraries\Utilities;
 
 /**
  * @package cda.tables.cas_user_request_table

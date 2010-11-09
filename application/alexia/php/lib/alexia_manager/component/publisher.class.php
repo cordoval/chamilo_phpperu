@@ -9,6 +9,8 @@ use common\libraries\Translation;
 use common\extensions\repo_viewer\RepoViewer;
 use common\extensions\repo_viewer\RepoViewerInterface;
 
+use common\libraries\Utilities;
+
 use repository\content_object\link\Link;
 /**
  * $Id: publisher.class.php 205 2009-11-13 12:57:33Z vanpouckesven $

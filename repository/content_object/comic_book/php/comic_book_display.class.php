@@ -5,6 +5,7 @@ use common\libraries\Translation;
 use common\libraries\Theme;
 
 use repository\ContentObjectDisplay;
+use repository\ContentObject;
 
 /**
  * This class can be used to display comic books

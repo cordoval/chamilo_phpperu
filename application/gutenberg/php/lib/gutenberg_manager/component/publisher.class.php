@@ -11,6 +11,7 @@ use common\extensions\repo_viewer\RepoViewerInterface;
 use common\extensions\repo_viewer\RepoViewer;
 
 use repository\content_object\comic_book\ComicBook;
+use common\libraries\Utilities;
 
 /**
  * $Id: publisher.class.php 205 2009-11-13 12:57:33Z vanpouckesven $

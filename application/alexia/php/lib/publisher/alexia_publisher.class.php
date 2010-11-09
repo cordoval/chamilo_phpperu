@@ -9,6 +9,7 @@ use common\libraries\Translation;
 use common\libraries\Theme;
 use common\extensions\repo_viewer\RepoViewer;
 use common\libraries\Application;
+use common\libraries\Utilities;
 /**
  * $Id: alexia_publisher.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.alexia.publisher

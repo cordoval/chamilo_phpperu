@@ -1,6 +1,8 @@
 <?php
 namespace repository\content_object\peer_assessment;
 
+use repository\ComplexDisplay;
+
 class PeerAssessmentDisplay extends ComplexDisplay
 {
     const ACTION_TAKE_PEER_ASSESSMENT = 'peer_assessment_viewer';

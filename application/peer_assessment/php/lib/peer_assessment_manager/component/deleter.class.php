@@ -3,6 +3,7 @@
 namespace application\peer_assessment;
 
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/../peer_assessment_manager.class.php';
 

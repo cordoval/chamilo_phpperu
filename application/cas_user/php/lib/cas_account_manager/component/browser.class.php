@@ -9,6 +9,7 @@ use common\libraries\Theme;
 use common\libraries\PatternMatchCondition;
 use common\libraries\OrCondition;
 use common\libraries\AndCondition;
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/cas_account_browser/cas_account_browser_table.class.php';
 

@@ -11,6 +11,7 @@ use common\libraries\ActionBarRenderer;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;
 use repository\ContentObjectDisplay;
+use common\libraries\Utilities;
 /**
  * $Id: viewer.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.alexia.alexia_manager

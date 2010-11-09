@@ -7,6 +7,7 @@ use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use common\libraries\Translation;
 use common\libraries\Theme;
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/peer_assessment_publication_browser_table_column_model.class.php';
 require_once dirname(__FILE__) . '/../../../tables/peer_assessment_publication_table/default_peer_assessment_publication_table_cell_renderer.class.php';

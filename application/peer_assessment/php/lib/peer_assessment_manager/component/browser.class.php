@@ -15,6 +15,7 @@ use common\libraries\PatternMatchCondition;
 use common\libraries\OrCondition;
 use repository\ContentObject;
 use common\libraries\AndCondition;
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/../peer_assessment_manager.class.php';
 require_once dirname(__FILE__) . '/peer_assessment_publication_browser/peer_assessment_publication_browser_table.class.php';

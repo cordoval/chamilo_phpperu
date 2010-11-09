@@ -11,6 +11,7 @@ use common\libraries\ObjectTableOrder;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\TreeMenuRenderer;
+use common\libraries\Utilities;
 
 require_once 'HTML/Menu.php';
 require_once 'HTML/Menu/ArrayRenderer.php';

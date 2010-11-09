@@ -4,6 +4,7 @@ namespace application\peer_assessment;
 
 use common\libraries\WebApplication;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/../peer_assessment_data_manager.class.php';
 require_once dirname(__FILE__) . '/component/peer_assessment_publication_browser/peer_assessment_publication_browser_table.class.php';

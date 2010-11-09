@@ -13,6 +13,7 @@ use common\libraries\Application;
 
 use repository\ContentObject;
 use repository\ContentObjectDisplay;
+use common\libraries\Utilities;
 
 /**
  * $Id: viewer.class.php 192 2009-11-13 11:51:02Z chellee $

@@ -11,6 +11,7 @@ use common\libraries\NotCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\InCondition;
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/../peer_assessment_manager.class.php';
 require_once dirname(__FILE__) . '/../../category_manager/peer_assessment_publication_category.class.php';

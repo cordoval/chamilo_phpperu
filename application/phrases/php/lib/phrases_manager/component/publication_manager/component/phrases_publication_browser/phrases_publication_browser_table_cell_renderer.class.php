@@ -6,6 +6,7 @@ use common\libraries\WebApplication;
 use common\libraries\ToolbarItem;
 use common\libraries\Toolbar;
 use common\libraries\Theme;
+use common\libraries\Utilities;
 /**
  * $Id: phrases_publication_browser_table_cell_renderer.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.phrases.phrases_manager.component.phrases_publication_browser

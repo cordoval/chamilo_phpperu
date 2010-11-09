@@ -8,6 +8,7 @@ use common\libraries\Toolbar;
 use common\libraries\Theme;
 
 use repository\ContentObjectDisplay;
+use common\libraries\Display;
 
 class SlideshowGutenbergPublicationRenderer extends GutenbergPublicationRenderer
 {
