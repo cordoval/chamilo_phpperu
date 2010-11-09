@@ -5,6 +5,7 @@ use user\User;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\PlatformSetting;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Theme;
 
 /**
