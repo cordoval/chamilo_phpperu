@@ -5,8 +5,8 @@ use common\libraries\Utilities;
 use common\libraries\Versionable;
 use common\libraries\AttachmentSupport;
 use common\libraries\Translation;
-use common\libraries\Theme;
 use repository\ContentObject;
+use common\libraries\Theme;
 
 /**
  * $Id: calendar_event.class.php 200 2009-11-13 12:30:04Z kariboe $
