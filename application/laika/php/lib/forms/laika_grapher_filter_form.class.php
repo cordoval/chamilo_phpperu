@@ -10,6 +10,7 @@ use common\libraries\ObjectTableOrder;
 use common\libraries\OptionsMenuRenderer;
 
 use group\GroupMenu;
+use common\libraries\Utilities;
 /**
  * $Id: laika_grapher_filter_form.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika.forms
@@ -83,7 +84,7 @@ class LaikaGrapherFilterForm extends FormValidator
         $this->add_timewindow(self :: GRAPH_FILTER_START_DATE, self :: GRAPH_FILTER_END_DATE, Translation :: get('StartTimeWindow'), Translation :: get('EndTimeWindow'), false);
         $this->addElement('category');
 
-        $this->addElement('category', Translation :: get('Groups', null, Utilities::GROUP));
+        $this->addElement('category', Translation :: get('Groups', null, 'group'));
 
         $group_options = $this->get_groups();
 

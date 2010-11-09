@@ -33,8 +33,9 @@ class Autoloader
             'gradebook_manager' => 'gradebook_manager/gradebook_manager.class.php',
             'evaluation_form' => 'forms/evaluation_form.class.php',
             'evaluation_format' => 'evaluation_format/evaluation_format.class.php',
-            'gradebook_tree_menu_data_provider' => 'data_provider/gradebook_tree_menu_data_provider.class.php'
-        );
+            'gradebook_tree_menu_data_provider' => 'data_provider/gradebook_tree_menu_data_provider.class.php',
+            'gradebook_internal_item_form' => 'forms/gradebook_internal_item_form.class.php'
+            );
         $lower_case = Utilities :: camelcase_to_underscores($classname);
 
         if (key_exists($lower_case, $list))

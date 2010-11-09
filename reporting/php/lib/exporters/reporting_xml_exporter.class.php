@@ -3,6 +3,7 @@ namespace reporting;
 
 use common\libraries\Export;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/reporting_csv_exporter.class.php';
 

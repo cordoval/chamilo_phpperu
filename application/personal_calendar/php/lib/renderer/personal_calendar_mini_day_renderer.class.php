@@ -4,6 +4,7 @@ namespace application\personal_calendar;
 
 use common\libraries\Translation;
 use common\libraries\Application;
+use common\libraries\MiniDayCalendar;
 /**
  * $Id: personal_calendar_mini_day_renderer.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.personal_calendar.renderer

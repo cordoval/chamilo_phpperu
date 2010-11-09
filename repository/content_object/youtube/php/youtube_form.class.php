@@ -7,6 +7,7 @@ use common\libraries\Path;
 use common\libraries\ExternalRepositoryLauncher;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use repository\ContentObjectForm;
+use common\libraries\Utilities;
 
 /**
  * $Id: youtube_form.class.php 200 2009-11-13 12:30:04Z kariboe $

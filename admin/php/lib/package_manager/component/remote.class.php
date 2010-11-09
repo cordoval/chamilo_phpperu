@@ -2,7 +2,13 @@
 namespace admin;
 use common\libraries\Translation;
 use common\libraries\Path;
- 
+use common\libraries\Breadcrumb;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ActionBarSearchForm;
+//PatternMatchCondition
 /**
  * $Id: remote.class.php 126 2009-11-09 13:11:05Z vanpouckesven $
  * @package admin.lib.package_manager.component

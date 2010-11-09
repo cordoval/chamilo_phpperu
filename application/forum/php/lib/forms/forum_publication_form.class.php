@@ -11,6 +11,9 @@ use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\Path;
+
+use application\gradebook\GradebookInternalItemForm;
+
 /**
  * $Id: forum_publication_form.class.php 195 2009-11-13 12:02:41Z chellee $
  * @package application.lib.forum.forms
@@ -92,8 +95,7 @@ class ForumPublicationForm extends FormValidator
         {
         	if(PlatformSetting :: get_instance()->get('allow_evaluate_application_forum', 'gradebook'))
         	{
-	        	require_once dirname (__FILE__) . '/../../gradebook/forms/gradebook_internal_item_form.class.php';
-	        	$gradebook_internal_item_form = new GradebookInternalItemForm();
+ 				$gradebook_internal_item_form = new GradebookInternalItemForm();
 	        	$gradebook_internal_item_form->build_evaluation_question($this);
         	}
         }
