@@ -1,4 +1,8 @@
 <?php
+namespace repository;
+
+use user\UserManager;
+use group\GroupManager;
 
 require_once dirname(__FILE__) . "/content_object_user_share_rights_browser/content_object_user_share_rights_browser_table.class.php";
 require_once dirname(__FILE__) . "/content_object_group_share_rights_browser/content_object_group_share_rights_browser_table.class.php";

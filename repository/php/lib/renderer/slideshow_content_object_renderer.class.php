@@ -6,6 +6,7 @@ use common\libraries\Translation;
 use common\libraries\ToolbarItem;
 use common\libraries\Toolbar;
 use common\libraries\Theme;
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/../content_object_renderer.class.php';
 

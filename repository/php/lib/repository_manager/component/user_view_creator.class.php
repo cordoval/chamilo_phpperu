@@ -5,6 +5,7 @@ use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Application;
+use common\libraries\Utilities;
 
 /**
  * $Id: user_view_creator.class.php 204 2009-11-13 12:51:30Z kariboe $

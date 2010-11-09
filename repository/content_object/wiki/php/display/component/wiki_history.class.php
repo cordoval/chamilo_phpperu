@@ -1,7 +1,6 @@
 <?php
 namespace repository\content_object\wiki;
 
-use common\libraries;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Utilities;

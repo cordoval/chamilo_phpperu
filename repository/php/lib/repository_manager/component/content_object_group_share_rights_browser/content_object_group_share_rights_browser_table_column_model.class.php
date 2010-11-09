@@ -1,4 +1,8 @@
 <?php
+namespace repository;
+
+use user\UserManager;
+use group\GroupManager;
 
 require_once dirname (__FILE__) . '/../content_object_user_share_rights_browser/action_column.php';
 

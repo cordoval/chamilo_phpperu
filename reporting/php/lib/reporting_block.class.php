@@ -1,8 +1,6 @@
 <?php
 namespace reporting;
 
-use common\libraries;
-
 use common\extensions\reporting_viewer\ReportingViewer;
 use common\libraries\Export;
 use common\libraries\Utilities;

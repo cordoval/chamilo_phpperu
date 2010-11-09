@@ -2,7 +2,6 @@
 namespace user;
 
 use common\libraries\Versionable;
-use common\libraries;
 use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;

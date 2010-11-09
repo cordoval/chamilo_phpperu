@@ -7,6 +7,7 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\EqualityCondition;
 use common\libraries\Application;
+use common\libraries\Utilities;
 
 /**
  * $Id: user_view_updater.class.php 204 2009-11-13 12:51:30Z kariboe $

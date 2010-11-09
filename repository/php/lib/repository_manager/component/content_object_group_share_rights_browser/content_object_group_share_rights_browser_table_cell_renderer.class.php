@@ -1,6 +1,7 @@
 <?php
 namespace repository;
 
+use user\UserManager;
 use common\libraries\ToolbarItem;
 use common\libraries\Toolbar;
 use common\libraries\Theme;
@@ -8,6 +9,7 @@ use common\libraries\Path;
 use common\libraries\Translation;
 use group\GroupDataManager;
 use group\Group;
+use group\GroupManager;
 
 require_once dirname(__FILE__) . '/../content_object_user_share_rights_browser/share_right_column.class.php';
 require_once dirname(__FILE__) . '/../content_object_user_share_rights_browser/action_column.php';

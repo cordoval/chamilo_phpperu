@@ -1,6 +1,5 @@
 <?php
 namespace admin;
-use common\libraries;
 
 use common\libraries\Application;
 use common\libraries\Translation;

@@ -1,14 +1,13 @@
 <?php
 namespace repository;
 
-use common\libraries;
-
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Theme;
 use common\libraries\DelegateComponent;
+use common\libraries\Utilities;
 
 use common\extensions\rights_editor_manager\RightsEditorManager;
 /**

@@ -1,8 +1,6 @@
 <?php
 namespace reporting;
 
-use common\libraries;
-
 use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Application;

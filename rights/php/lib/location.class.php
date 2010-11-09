@@ -1,8 +1,6 @@
 <?php
 namespace rights;
 
-use common\libraries;
-
 use common\libraries\Utilities;
 use common\libraries\DataClass;
 use common\libraries\EqualityCondition;

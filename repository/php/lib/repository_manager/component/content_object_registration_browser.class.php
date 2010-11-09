@@ -11,6 +11,7 @@ use common\libraries\AndCondition;
 use common\libraries\ActionBarSearchForm;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\PatternMatchCondition;
+use common\libraries\Utilities;
 /**
  * $Id: template_browser.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component

@@ -1,8 +1,6 @@
 <?php
 namespace application\weblcms;
 
-use common\libraries;
-
 use common\libraries\Theme;
 use common\libraries\DynamicContentTab;
 use common\libraries\DynamicTabsRenderer;

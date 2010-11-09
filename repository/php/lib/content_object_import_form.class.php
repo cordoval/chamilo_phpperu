@@ -5,6 +5,7 @@ use common\libraries\Translation;
 use common\libraries\Filesystem;
 use common\libraries\Path;
 use common\libraries\OptionsMenuRenderer;
+use common\libraries\Utilities;
 /**
  * $Id: content_object_import_form.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib

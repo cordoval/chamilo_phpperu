@@ -1,5 +1,7 @@
 <?php
 namespace repository;
+
+use common\libraries\Utilities;
 use repository\RepositoryManager;
 use common\libraries\Breadcrumb;
 use common\libraries\Translation;

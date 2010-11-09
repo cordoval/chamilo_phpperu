@@ -1,8 +1,6 @@
 <?php
 namespace repository;
 
-use common\libraries;
-
 use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\Path;

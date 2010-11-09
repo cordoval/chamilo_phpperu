@@ -8,6 +8,7 @@ use common\libraries\Session;
 use common\libraries\Theme;
 use common\libraries\AndCondition;
 use common\libraries\DatetimeUtilities;
+use common\libraries\Utilities;
 
 /*
  *	@author Nick Van Loocke

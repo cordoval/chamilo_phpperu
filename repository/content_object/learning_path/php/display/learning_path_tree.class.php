@@ -2,9 +2,6 @@
 namespace repository\content_object\learning_path;
 
 use repository\content_object\scorm_item\ScormItem;
-
-use common\libraries;
-
 use repository\content_object\learning_path_item\LearningPathItem;
 use repository\ComplexContentObjectItem;
 use HTML_Menu_ArrayRenderer;
@@ -35,24 +32,24 @@ require_once dirname(__FILE__) . '/rule_condition_translator.class.php';
 class LearningPathTree extends HTML_Menu
 {
     const TREE_NAME = __CLASS__;
-    
+
     private $current_step;
     private $lp_id;
     private $lp;
     private $lpi_tracker_data;
-    
+
     /**
      * The string passed to sprintf() to format category URLs
      */
     private $urlFmt;
-    
+
     private $current_object;
     private $current_cloi;
     private $current_tracker;
     private $current_parent;
     private $objects = array();
     private $translator;
-    
+
     private $dm;
 
     /**
@@ -75,13 +72,13 @@ class LearningPathTree extends HTML_Menu
         $this->urlFmt = $url_format;
         $this->lpi_tracker_data = $lpi_tracker_data;
         $this->translator = new RuleConditionTranslator();
-        
+
         $menu = $this->get_menu($lp_id);
         parent :: __construct($menu);
         $this->array_renderer = new HTML_Menu_ArrayRenderer();
-        
+
         $this->clean_urls();
-        
+
         if (! $current_step)
         {
             $this->forceCurrentUrl($this->get_progress_url());
@@ -99,7 +96,7 @@ class LearningPathTree extends HTML_Menu
         $lp_item = array();
         $lp_item['title'] = $lo->get_title();
         //$menu_item['url'] = $this->get_url($lp_id);
-        
+
 
         $sub_menu_items = $this->get_menu_items($lo);
         if (count($sub_menu_items) > 0)
@@ -109,19 +106,19 @@ class LearningPathTree extends HTML_Menu
         $lp_item['class'] = 'type_' . $lo->get_type();
         //$menu_item['class'] = 'type_category';
         $lp_item[OptionsMenuRenderer :: KEY_ID] = - 1;
-        
+
         $menu_item = array();
         $menu_item['title'] = Translation :: get('Progress');
         $menu_item['url'] = $this->get_progress_url();
         $menu_item['class'] = 'type_statistics';
         $menu_item[OptionsMenuRenderer :: KEY_ID] = $this->step;
         $lp_item['sub'] = array_merge($lp_item['sub'], array($menu_item));
-        
+
         $menu[] = $lp_item;
-        
+
         return $menu;
     }
-    
+
     /**
      * Returns the menu items.
      * @param array $extra_items An array of extra tree items, added to the
@@ -130,7 +127,7 @@ class LearningPathTree extends HTML_Menu
      * is the structure needed by PEAR::HTML_Menu, on which this
      * class is based.
      */
-    
+
     private $step = 1;
     private $step_urls = array();
     private $jump_urls = array();
@@ -140,29 +137,29 @@ class LearningPathTree extends HTML_Menu
         $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $parent->get_id(), ComplexContentObjectItem :: get_table_name());
         $datamanager = $this->dm;
         $objects = $datamanager->retrieve_complex_content_object_items($condition);
-        
+
         while (($object = $objects->next_result()))
         {
             $lo = $datamanager->retrieve_content_object($object->get_ref());
             $lpi_tracker_data = $this->lpi_tracker_data[$object->get_id()];
-            
+
             if ($lo->get_type() == LearningPathItem :: get_type_name())
             {
                 $lo = $datamanager->retrieve_content_object($lo->get_reference());
             }
-            
+
             $menu_item = array();
             $menu_item['title'] = $lo->get_title();
             $menu_item['class'] = 'type_' . $lo->get_type();
             $menu_item[OptionsMenuRenderer :: KEY_ID] = - 1;
-            
+
             $sub_menu_items = array();
-            
+
             $control_mode = $parent->get_control_mode();
-            
+
             if ($lo->get_type() == LearningPath :: get_type_name())
                 $sub_menu_items = $this->get_menu_items($lo);
-            
+
             if (count($sub_menu_items) > 0)
             {
                 $menu_item['sub'] = $sub_menu_items;
@@ -173,17 +170,17 @@ class LearningPathTree extends HTML_Menu
             }
             else
             {
-                
+
                 $this->step_urls[$this->step] = $this->get_url($this->step);
                 $status = 'enabled';
-                
+
                 if ($lo instanceof ScormItem)
                 {
                     if ($this->lp->get_version() == 'SCORM2004')
                     {
                         $this->jump_urls[$lo->get_identifier()] = $this->step_urls[$this->step];
                         $status = $this->translator->get_status_from_item($lo, $lpi_tracker_data);
-                        
+
                         switch ($status)
                         {
                             case 'skip' :
@@ -198,20 +195,20 @@ class LearningPathTree extends HTML_Menu
                         }
                     }
                 }
-                
+
                 $this->objects[$object->get_id()] = $lo;
                 if ($lpi_tracker_data['completed'])
                 {
                     $menu_item['title'] = $menu_item['title'] . Theme :: get_common_image('status_ok_mini');
                     $this->taken_steps ++;
                 }
-                
+
                 if ((! array_key_exists('choice', $control_mode) || $control_mode['choice'] != 0) && ($status != 'disabled' || $status != 'hidden_from_choice'))
                 {
                     $menu_item['url'] = $this->get_url($this->step);
                     $menu_item[OptionsMenuRenderer :: KEY_ID] = $this->step;
                 }
-                
+
                 if ($this->step == $this->current_step)
                 {
                     $this->current_cloi = $object;
@@ -219,14 +216,14 @@ class LearningPathTree extends HTML_Menu
                     $this->current_tracker = $lpi_tracker_data['active_tracker'];
                     $this->current_parent = $parent;
                 }
-                
+
                 $this->step ++;
-            
+
             }
-            
+
             $menu[] = $menu_item;
         }
-        
+
         return $menu;
     }
 
@@ -234,9 +231,9 @@ class LearningPathTree extends HTML_Menu
     {
         if (! $this->get_current_parent())
             return;
-        
+
         $control_mode = $this->get_current_parent()->get_control_mode();
-        
+
         if ($control_mode['forwardOnly'] != 0)
         {
             for($i = 1; $i <= $this->current_step; $i ++)
@@ -245,7 +242,7 @@ class LearningPathTree extends HTML_Menu
             }
         }
     }
-    
+
     private $continue_url = null;
 
     function get_continue_url()
@@ -257,18 +254,18 @@ class LearningPathTree extends HTML_Menu
             {
                 $step ++;
             }
-            
+
             if ($step <= $this->count_steps())
             {
                 $this->continue_url = $this->step_urls[$step];
                 return $this->continue_url;
             }
-            
+
             $this->continue_url = $this->get_progress_url();
         }
         return $this->continue_url;
     }
-    
+
     private $previous_url = null;
 
     function get_previous_url()
@@ -280,13 +277,13 @@ class LearningPathTree extends HTML_Menu
             {
                 $step --;
             }
-            
+
             if ($step > 0)
             {
                 $this->previous_url = $this->step_urls[$step];
             }
         }
-        
+
         return $this->previous_url;
     }
 

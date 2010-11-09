@@ -2,9 +2,6 @@
 namespace repository;
 
 use common\extensions\external_repository_manager;
-
-use common\libraries;
-
 use common\libraries\FormValidator;
 use common\libraries\Translation;
 use common\libraries\Utilities;

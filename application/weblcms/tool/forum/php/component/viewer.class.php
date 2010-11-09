@@ -1,7 +1,6 @@
 <?php
 namespace application\weblcms\tool\forum;
 
-use common\libraries;
 use repository\ComplexDisplay;
 use application\weblcms\WeblcmsDataManager;
 use application\weblcms\WeblcmsRights;

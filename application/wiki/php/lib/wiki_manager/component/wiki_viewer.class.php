@@ -1,8 +1,6 @@
 <?php
 namespace application\wiki;
 
-use common\libraries;
-
 use repository\ComplexDisplay;
 use repository\content_object\wiki\Wiki;
 use repository\content_object\wiki\WikiComplexDisplaySupport;

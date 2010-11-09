@@ -5,6 +5,7 @@ use common\libraries\Translation;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Application;
+use common\libraries\Utilities;
 
 /**
  * $Id: importer.class.php 204 2009-11-13 12:51:30Z kariboe $

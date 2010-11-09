@@ -4,6 +4,7 @@ use common\libraries\AdministrationComponent;
 use user\User;
 use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\Utilities;
 use common\libraries\Application;
 /**
  * $Id: template_importer.class.php 204 2009-11-13 12:51:30Z kariboe $

@@ -8,6 +8,7 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\EqualityCondition;
 use common\libraries\Application;
 use common\libraries\OrCondition;
+use common\libraries\Utilities;
 
 /**
  * $Id: template_deleter.class.php 204 2009-11-13 12:51:30Z kariboe $

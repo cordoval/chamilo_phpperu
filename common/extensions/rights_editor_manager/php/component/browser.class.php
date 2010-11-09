@@ -1,6 +1,5 @@
 <?php
 namespace common\extensions\rights_editor_manager;
-use common\libraries;
 
 use common\libraries\Path;
 use common\libraries\BreadcrumbTrail;

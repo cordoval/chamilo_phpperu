@@ -10,6 +10,7 @@ use common\libraries\EqualityCondition;
 use common\libraries\InCondition;
 use common\libraries\ObjectTableOrder;
 use common\libraries\ComplexContentObjectSupport;
+use common\libraries\Utilities;
 
 /**
  * $Id: updater.class.php 200 2009-11-13 12:30:04Z kariboe $

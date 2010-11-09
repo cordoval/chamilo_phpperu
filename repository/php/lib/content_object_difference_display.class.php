@@ -4,6 +4,7 @@ namespace repository;
 use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\Theme;
+use common\libraries\Utilities;
 
 /**
  * $Id: content_object_difference_display.class.php 204 2009-11-13 12:51:30Z kariboe $

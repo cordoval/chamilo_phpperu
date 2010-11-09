@@ -8,6 +8,7 @@ use common\libraries\Versionable;
 use common\libraries\Theme;
 use common\libraries\Filesystem;
 use common\libraries\SortableTable;
+use common\libraries\Utilities;
 
 /**
  * $Id: quota_viewer.class.php 204 2009-11-13 12:51:30Z kariboe $

@@ -10,6 +10,7 @@ use common\libraries\Path;
 use common\libraries\ToolbarItem;
 use common\libraries\Toolbar;
 use common\libraries\Theme;
+use common\libraries\Utilities;
 
 /**
  * $Id: user_view_form.class.php 200 2009-11-13 12:30:04Z kariboe $

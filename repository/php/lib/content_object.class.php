@@ -1,6 +1,5 @@
 <?php
 namespace repository;
-use common\libraries;
 
 use common\libraries\DataClass;
 use common\libraries\Utilities;

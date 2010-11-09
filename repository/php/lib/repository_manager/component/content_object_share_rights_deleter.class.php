@@ -1,7 +1,7 @@
 <?php
-
 namespace repository;
 
+use common\libraries\Utilities;
 use common\libraries\Request;
 use common\libraries\Application;
 use common\libraries\Translation;

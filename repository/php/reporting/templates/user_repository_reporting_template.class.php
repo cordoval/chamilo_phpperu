@@ -6,6 +6,7 @@ use common\libraries\Translation;
 use common\libraries\Session;
 
 use user\UserDataManager;
+use user\UserManager;
 
 use reporting\ReportingTemplate;
 
