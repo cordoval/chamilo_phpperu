@@ -36,7 +36,7 @@ class ForumInstaller extends Installer
         }
         else
         {
-            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectCreated', array('OBJECT'=> Translation :: get('ForumsSubtree')),Utilities :: COMMON_LIBRARIES);
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectCreated', array('OBJECT'=> Translation :: get('ForumsSubtree')),Utilities :: COMMON_LIBRARIES));
         }
         
         return true;
