@@ -6,7 +6,7 @@ use application\weblcms\CourseLayout;
 use application\weblcms\ToolListRenderer;
 use common\libraries\BreadcrumbTrail;
 
-class HomeToolViewerComponent extends HomeTool
+class HomeToolBrowserComponent extends HomeTool
 {
 
     function run()
@@ -27,7 +27,7 @@ class HomeToolViewerComponent extends HomeTool
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add_help('weblcms_home_viewer');
+        $breadcrumbtrail->add_help('weblcms_home_browser');
     }
 
     function get_additional_parameters()
