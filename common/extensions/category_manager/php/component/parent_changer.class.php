@@ -10,6 +10,7 @@ use common\libraries\AndCondition;
 use common\libraries\NotCondition;
 use common\libraries\FormValidator;
 use common\libraries\ObjectTableOrder;
+use common\libraries\Utilities;
 /**
  * $Id: parent_changer.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.common.category_manager.component
@@ -83,7 +84,7 @@ class CategoryManagerParentChangerComponent extends CategoryManagerComponent
                 $this->display_header();
 
                 echo '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'action_category.png);">';
-                echo '<div class="title">' . Translation :: get(get('ObjectSelected', array('OBJECT' => Translation :: get('Category')), Utilities :: COMMON_LIBRARIES));
+                echo '<div class="title">' . Translation :: get('ObjectSelected', array('OBJECT' => Translation :: get('Category')), Utilities :: COMMON_LIBRARIES);
                 echo '</div>';
                 echo '<div class="description">';
                 echo '<ul>';
