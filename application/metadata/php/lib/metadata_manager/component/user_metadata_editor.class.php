@@ -6,6 +6,7 @@ use common\libraries\OrCondition;
 use common\libraries\Request;
 use common\libraries\Translation;
 use user\UserDataManager;
+use common\libraries\Utilities;
 
 /**
  * Component to edit an existing metadata_property_value object
@@ -31,7 +32,7 @@ class MetadataManagerUserMetadataEditorComponent extends MetadataManager
         if($form->validate())
         {
             $success = $form->edit_metadata();
-            $this->redirect(Translation :: get($success ? 'ObjectUpdated' : 'ObjectnotUpdated' , array('OBJECT' => Translation :: get('Metadata')), Utilities :: COMMON_LIBRARY), !$success, array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_EDIT_USER_METADATA, MetadataManager :: PARAM_USER => $user->get_id()));
+            $this->redirect(Translation :: get($success ? 'ObjectUpdated' : 'ObjectnotUpdated' , array('OBJECT' => Translation :: get('Metadata')), Utilities :: COMMON_LIBRARIES), !$success, array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_EDIT_USER_METADATA, MetadataManager :: PARAM_USER => $user->get_id()));
         }
         else
         {

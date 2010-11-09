@@ -1,6 +1,7 @@
 <?php
 namespace application\metadata;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * Component to delete metadata_property_attribute_types objects
@@ -34,11 +35,11 @@ class MetadataManagerMetadataPropertyAttributeTypeDeleterComponent extends Metad
                 $message = 'ObjectDeleted';
             }
 
-            $this->redirect(Translation :: get($message, array('OBJECT' => Translation :: get('MetadataPropertyAttributeType')), Utilities :: COMMON_LIBRARY), ($fail ? true : false), array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE_METADATA_PROPERTY_ATTRIBUTE_TYPES));
+            $this->redirect(Translation :: get($message, array('OBJECT' => Translation :: get('MetadataPropertyAttributeType')), Utilities :: COMMON_LIBRARIES), ($fail ? true : false), array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE_METADATA_PROPERTY_ATTRIBUTE_TYPES));
         }
         else
         {
-                $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('MetadataPropertyAttributeType')), Utilities :: COMMON_LIBRARY)));
+                $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('MetadataPropertyAttributeType')), Utilities :: COMMON_LIBRARIES)));
         }
     }
 }

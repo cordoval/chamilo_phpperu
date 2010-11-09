@@ -3,6 +3,7 @@ namespace application\metadata;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
+use common\libraries\Utilities;
 
 /**
  * Component to edit an existing metadata_default_value object
@@ -34,7 +35,7 @@ class MetadataManagerMetadataDefaultValueUpdaterComponent extends MetadataManage
         if($form->validate())
         {
                 $success = $form->update_metadata_default_value();
-                $this->redirect(Translation :: get($success ?'ObjectUpdated' : 'ObjectNotUpdated', array('OBJECT' => Translation :: get('MetadataPropertyType')), Utilities :: COMMON_LIBRARY), !$success, array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE_METADATA_DEFAULT_VALUES, MetadataManager :: PARAM_METADATA_PROPERTY_TYPE => $metadata_default_value->get_property_type_id()));
+                $this->redirect(Translation :: get($success ?'ObjectUpdated' : 'ObjectNotUpdated', array('OBJECT' => Translation :: get('MetadataPropertyType')), Utilities :: COMMON_LIBRARIES), !$success, array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE_METADATA_DEFAULT_VALUES, MetadataManager :: PARAM_METADATA_PROPERTY_TYPE => $metadata_default_value->get_property_type_id()));
         }
         else
         {

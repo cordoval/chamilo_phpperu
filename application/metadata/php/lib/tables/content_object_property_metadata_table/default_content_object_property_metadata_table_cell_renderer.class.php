@@ -2,6 +2,7 @@
 namespace application\metadata;
 use common\libraries\ObjectTableCellRenderer;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 /**
  * Default cell renderer for the content_object_property_metadata table
  *
@@ -36,11 +37,11 @@ class DefaultContentObjectPropertyMetadataTableCellRenderer extends ObjectTableC
                             switch ($content_object_property_metadata->get_source())
                             {
                                 case ContentObjectPropertyMetadata :: SOURCE_TEXT:
-                                    return Translation :: get('Text', null, Utilities :: COMMON_LIBRARY);
+                                    return Translation :: get('Text', null, Utilities :: COMMON_LIBRARIES);
                                 case ContentObjectPropertyMetadata :: SOURCE_CHAMILO_USER:
-                                    return Translation :: get('chamiloUser', null, Utilities :: COMMON_LIBRARY);
+                                    return Translation :: get('chamiloUser', null, Utilities :: COMMON_LIBRARIES);
                                 case ContentObjectPropertyMetadata :: SOURCE_TIMESTAMP:
-                                    return Translation :: get('Timestamp', null, Utilities :: COMMON_LIBRARY);
+                                    return Translation :: get('Timestamp', null, Utilities :: COMMON_LIBRARIES);
                             }
                         default :
 				return '&nbsp;';

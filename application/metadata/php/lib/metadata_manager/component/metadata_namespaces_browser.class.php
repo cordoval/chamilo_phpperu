@@ -5,6 +5,7 @@ use common\libraries\Translation;
 use common\libraries\Application;
 use common\libraries\ActionBarRenderer;
 use common\libraries\Theme;
+use common\libraries\Utilities;
 
 /**
  * metadata component which allows the user to browse his metadata_namespaces
@@ -46,7 +47,7 @@ class MetadataManagerMetadataNamespacesBrowserComponent extends MetadataManager
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
         $actions = array();
-        $actions[] = new ToolbarItem(Translation :: get('Create', null, Utilities :: COMMON_LIBRARY), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_CREATE_METADATA_NAMESPACE)));
+        $actions[] = new ToolbarItem(Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_CREATE_METADATA_NAMESPACE)));
 
         $action_bar->set_common_actions($actions);
         $action_bar->set_search_url($this->get_url());
