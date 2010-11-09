@@ -1,8 +1,6 @@
 <?php
 namespace repository;
 
-use common\extensions\external_repository_manager;
-
 use common\libraries\ComplexDisplayPreviewLauncher;
 use common\libraries\CoreApplication;
 use common\libraries\DynamicAction;
@@ -21,9 +19,7 @@ use common\libraries\ObjectTableOrder;
 use common\libraries\OrCondition;
 use common\libraries\OptionsMenuRenderer;
 use common\libraries\Path;
-
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
-
 use user\UserDataManager;
 /**
  * @package repository.lib.repository_manager

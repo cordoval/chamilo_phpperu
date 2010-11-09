@@ -1,6 +1,7 @@
 <?php
 namespace repository;
 
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;

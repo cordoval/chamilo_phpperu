@@ -5,6 +5,7 @@ use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\Installer;
 use common\libraries\Utilities;
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
 
 require_once Path :: get_admin_path() . 'lib/package_installer/source/package_info/package_info.class.php';
 require_once Path :: get_repository_path() . 'lib/content_object_installer.class.php';
