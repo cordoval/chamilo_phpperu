@@ -8,6 +8,7 @@ use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\DelegateComponent;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: course_category_manager.class.php 218 2009-11-13 14:21:26Z kariboe $

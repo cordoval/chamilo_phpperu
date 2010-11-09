@@ -4,6 +4,7 @@ namespace application\weblcms;
 use common\libraries\Application;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: subscribe.class.php 218 2009-11-13 14:21:26Z kariboe $

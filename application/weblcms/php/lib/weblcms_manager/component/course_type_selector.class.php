@@ -9,6 +9,7 @@ use common\libraries\DynamicTabsRenderer;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: course_type_selector.class.php 218 2010-03-26 14:21:26Z Yannick & Tristan $

@@ -5,6 +5,7 @@ use common\libraries\OptionsMenuRenderer;
 use application\weblcms\tool\course_group\CourseGroupMenu;
 use common\libraries\FormValidator;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: course_group_form.class.php 216 2009-11-13 14:08:06Z kariboe $

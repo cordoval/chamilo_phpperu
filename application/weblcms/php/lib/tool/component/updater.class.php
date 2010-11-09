@@ -6,6 +6,7 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\Request;
 use common\libraries\Translation;
 use repository\ContentObjectForm;
+use common\libraries\Utilities;
 
 /**
  * $Id: edit.class.php 216 2009-11-13 14:08:06Z kariboe $

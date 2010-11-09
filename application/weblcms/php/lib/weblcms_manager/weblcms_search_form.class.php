@@ -6,6 +6,7 @@ use common\libraries\OrCondition;
 use common\libraries\Request;
 use common\libraries\FormValidator;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: weblcms_search_form.class.php 218 2009-11-13 14:21:26Z kariboe $

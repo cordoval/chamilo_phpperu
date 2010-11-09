@@ -2,6 +2,7 @@
 namespace home;
 use common\libraries\Translation;
 use common\libraries\Installer;
+use common\libraries\Utilities;
 /**
  * $Id: home_installer.class.php 227 2009-11-13 14:45:05Z kariboe $
  * @package home.install
@@ -95,7 +96,7 @@ class HomeInstaller extends Installer
         
         $block_user = new HomeBlock();
         $block_user->set_column($column_varia->get_id());
-        $block_user->set_title(Translation :: get('User', null, Utilities::USER));
+        $block_user->set_title(Translation :: get('User', null, 'user'));
         $block_user->set_application('user');
         $block_user->set_component('login');
         $block_user->set_user('0');

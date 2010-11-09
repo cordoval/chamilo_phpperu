@@ -7,6 +7,7 @@ use common\libraries\Theme;
 use common\libraries\InCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: content_object_publisher.class.php 216 2009-11-13 14:08:06Z kariboe $
