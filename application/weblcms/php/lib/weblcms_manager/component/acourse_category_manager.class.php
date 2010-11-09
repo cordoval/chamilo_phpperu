@@ -43,7 +43,7 @@ class WeblcmsManagerCourseCategoryManagerComponent extends WeblcmsManager
             $trail->add_help('courses category manager');
 
             $this->display_header();
-            Display :: error_message(Translation :: get('NotAllowed'));
+            Display :: error_message(Translation :: get('NotAllowed', null ,Utilies:: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
@@ -113,7 +113,7 @@ class WeblcmsManagerCourseCategoryManagerComponent extends WeblcmsManager
             // $search_url = $this->get_url();
             $search_url = '#';
             $search = array();
-            $search['title'] = Translation :: get('SearchResults');
+            $search['title'] = Translation :: get('SearchResults', null ,Utilies:: COMMON_LIBRARIES);
             $search['url'] = $search_url;
             $search['class'] = 'search_results';
             $extra_items[] = $search;

@@ -38,7 +38,7 @@ class CourseCodeForm extends FormValidator
         $this->build_code_form();
 
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Subscribe'), array('class' => 'positive update'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES ), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null ,Utilies:: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -51,7 +51,7 @@ class CourseCodeForm extends FormValidator
         $this->addElement('static', 'course', Translation :: get('Course'), $course_name);
 
         $user_name = $this->user->get_fullname();
-        $this->addElement('static', 'user', Translation :: get('User', null, 'user' ), $user_name);
+        $this->addElement('static', 'user', Translation :: get('User', null ,'user'), $user_name);
 
         $this->add_textfield(self :: TEMP_CODE, Translation :: get('Code'));
 

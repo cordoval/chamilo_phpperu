@@ -58,7 +58,7 @@ class WeblcmsManagerAdminRequestBrowserComponent extends WeblcmsManager
         if (! $this->get_user()->is_platform_admin())
         {
             $this->display_header();
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get('NotAllowed', null ,Utilies:: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
@@ -90,8 +90,8 @@ class WeblcmsManagerAdminRequestBrowserComponent extends WeblcmsManager
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         $action_bar->set_search_url($this->get_url());
-        //$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path().'action_add.png', $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_CREATOR)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        //$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add', null ,Utilies:: COMMON_LIBRARIES), Theme :: get_common_image_path().'action_add.png', $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_CREATOR)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null ,Utilies:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         return $action_bar;
     }

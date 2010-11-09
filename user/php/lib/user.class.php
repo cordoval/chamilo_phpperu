@@ -600,18 +600,18 @@ class User extends DataClass
 
         $succes = $udm->create_user($this);
 
-        $version_quota = $this->get_version_quota() ? $this->get_version_quota() : 20;
+        //$version_quota = $this->get_version_quota() ? $this->get_version_quota() : 20;
 
-        $types = RepositoryDataManager :: get_registered_types(false);
-
-        foreach ($types as $type)
-        {
-            $userquota = new UserQuota();
-            $userquota->set_content_object_type($type);
-            $userquota->set_user_quota($version_quota);
-            $userquota->set_user_id($this->get_id());
-            $userquota->create();
-        }
+//        $types = RepositoryDataManager :: get_registered_types(false);
+//
+  //      foreach ($types as $type)
+//        {
+//            $userquota = new UserQuota();
+//            $userquota->set_content_object_type($type);
+//            $userquota->set_user_quota($version_quota);
+//            $userquota->set_user_id($this->get_id());
+//            $userquota->create();
+//        }
 
         if (! UserRights :: create_location_in_users_subtree($this->get_fullname(), $this->get_id(), UserRights :: get_users_subtree_root_id()))
         {

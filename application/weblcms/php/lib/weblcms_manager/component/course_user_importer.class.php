@@ -31,7 +31,7 @@ class WeblcmsManagerCourseUserImporterComponent extends WeblcmsManager
         if (! $this->get_user()->is_platform_admin())
         {
             $this->display_header();
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get('NotAllowed', null ,Utilies:: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
@@ -65,9 +65,9 @@ class WeblcmsManagerCourseUserImporterComponent extends WeblcmsManager
         $html[] = '<p>' . Translation :: get('Details') . '</p>';
         $html[] = '<blockquote>';
         $html[] = '<u><b>' . Translation :: get('Action') . '</u></b>';
-        $html[] = '<br />A: ' . Translation :: get('Add');
-        $html[] = '<br />U: ' . Translation :: get('Update');
-        $html[] = '<br />D: ' . Translation :: get('Delete');
+        $html[] = '<br />A: ' . Translation :: get('Add', null ,Utilies:: COMMON_LIBRARIES);
+        $html[] = '<br />U: ' . Translation :: get('Update', null ,Utilies:: COMMON_LIBRARIES);
+        $html[] = '<br />D: ' . Translation :: get('Delete', null ,Utilies:: COMMON_LIBRARIES);
         $html[] = '<br /><br />';
         $html[] = '<u><b>' . Translation :: get('Status') . '</u></b>';
         $html[] = '<br />1: ' . Translation :: get('Teacher');

@@ -86,11 +86,11 @@ class AdminCourseTypeBrowserTableCellRenderer extends DefaultCourseTypeTableCell
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
 
-        $toolbar->add_item(new ToolbarItem(($course_type->get_active() == 1) ? Translation :: get('Deactivate') : Translation :: get('Activate'), ($course_type->get_active() == 1) ? Theme :: get_common_image_path() . 'action_visible.png' : Theme :: get_common_image_path() . 'action_invisible.png', $this->browser->get_change_active_url('course_type', $course_type->get_id()), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(($course_type->get_active() == 1) ? Translation :: get('Deactivate', null ,Utilies:: COMMON_LIBRARIES) : Translation :: get('Activate', null ,Utilies:: COMMON_LIBRARIES), ($course_type->get_active() == 1) ? Theme :: get_common_image_path() . 'action_visible.png' : Theme :: get_common_image_path() . 'action_invisible.png', $this->browser->get_change_active_url('course_type', $course_type->get_id()), ToolbarItem :: DISPLAY_ICON));
 
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_course_type_editing_url($course_type), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null ,Utilies:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_course_type_editing_url($course_type), ToolbarItem :: DISPLAY_ICON));
 
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_course_type_deleting_url($course_type), ToolbarItem :: DISPLAY_ICON, true));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null ,Utilies:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_course_type_deleting_url($course_type), ToolbarItem :: DISPLAY_ICON, true));
 
         return $toolbar->as_html();
     }

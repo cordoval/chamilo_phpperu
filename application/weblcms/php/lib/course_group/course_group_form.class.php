@@ -43,19 +43,19 @@ class CourseGroupForm extends FormValidator
 
     function build_basic_form()
     {
-        $this->addElement('text', CourseGroup :: PROPERTY_NAME, Translation :: get('Title'), array("size" => "50"));
-        $this->addRule(CourseGroup :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addElement('text', CourseGroup :: PROPERTY_NAME, Translation :: get('Title', null ,Utilies:: COMMON_LIBRARIES), array("size" => "50"));
+        $this->addRule(CourseGroup :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired', null ,Utilies:: COMMON_LIBRARIES), 'required');
 
-        $this->addElement('select', CourseGroup :: PROPERTY_PARENT_ID, Translation :: get('Parent'), $this->get_groups());
-        $this->addRule(CourseGroup :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addElement('select', CourseGroup :: PROPERTY_PARENT_ID, Translation :: get('Parent', null ,Utilies:: COMMON_LIBRARIES), $this->get_groups());
+        $this->addRule(CourseGroup :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired', null ,Utilies:: COMMON_LIBRARIES), 'required');
 
-        $this->add_html_editor(CourseGroup :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
+        $this->add_html_editor(CourseGroup :: PROPERTY_DESCRIPTION, Translation :: get('Description', null ,Utilies:: COMMON_LIBRARIES), false);
         $this->addElement('text', CourseGroup :: PROPERTY_MAX_NUMBER_OF_MEMBERS, Translation :: get('MaxNumberOfMembers'), 'size="4"');
-        $this->addRule(CourseGroup :: PROPERTY_MAX_NUMBER_OF_MEMBERS, Translation :: get('ThisFieldShouldBeNumeric'), 'regex', '/^[0-9]*$/');
+        $this->addRule(CourseGroup :: PROPERTY_MAX_NUMBER_OF_MEMBERS,Translation :: get('ThisFieldShouldBeNumeric', null ,Utilies:: COMMON_LIBRARIES), 'regex', '/^[0-9]*$/');
         $this->addElement('checkbox', CourseGroup :: PROPERTY_SELF_REG, Translation :: get('Registration'), Translation :: get('SelfRegAllowed'));
         $this->addElement('checkbox', CourseGroup :: PROPERTY_SELF_UNREG, null, Translation :: get('SelfUnRegAllowed'));
 
-     //$this->addElement('submit', 'course_group_settings', Translation :: get('Ok'));
+     //$this->addElement('submit', 'course_group_settings', Translation :: get('Ok', null ,Utilies:: COMMON_LIBRARIES));
     }
 
     function get_groups()
@@ -77,8 +77,8 @@ class CourseGroupForm extends FormValidator
 
         $this->addElement('hidden', CourseGroup :: PROPERTY_ID);
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null ,Utilies:: COMMON_LIBRARIES), array('class' => 'positive update'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null ,Utilies:: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -87,8 +87,8 @@ class CourseGroupForm extends FormValidator
     {
         $this->build_basic_form();
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null ,Utilies:: COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null ,Utilies:: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

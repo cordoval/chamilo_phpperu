@@ -78,11 +78,11 @@ class CoursesRightsEditorManagerBrowserComponent extends RightsEditorManagerBrow
         if ($course_group_object->has_children())
         {
             $table = new LocationCourseGroupBrowserTable($this, $this->get_parameters(), $this->get_course_group_conditions());
-            $tabs->add_tab(new DynamicContentTab(self :: TAB_SUBGROUPS, Translation :: get('Subgroups'), Theme :: get_image_path('admin') . 'place_mini_group.png', $table->as_html()));
+            $tabs->add_tab(new DynamicContentTab(self :: TAB_SUBGROUPS, Translation :: get('SubGroups', null ,'groups'), Theme :: get_image_path('admin') . 'place_mini_group.png', $table->as_html()));
         }
 
         $table = new LocationCourseGroupBrowserTable($this, $this->get_parameters(), $this->get_course_group_conditions(false));
-        $tabs->add_tab(new DynamicContentTab(self :: TAB_DETAILS, Translation :: get('Rights'), Theme :: get_image_path('admin') . 'place_mini_rights.png', $table->as_html()));
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_DETAILS, Translation :: get('Rights', null ,'rights'), Theme :: get_image_path('admin') . 'place_mini_rights.png', $table->as_html()));
 
         $html[] = $tabs->render();
         $html[] = '</div>';

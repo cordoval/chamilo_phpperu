@@ -65,11 +65,11 @@ class ToolComponentCategoryMoverComponent extends ToolComponent
                 }
                 if (count($publication_ids) == 1)
                 {
-                    $message = Translation :: get('ContentObjectPublicationMoved');
+                    $message = Translation :: get('ObjectMoved', array('OBJECT' => Translation :: get('Publication')),Utilies:: COMMON_LIBRARIES);
                 }
                 else
                 {
-                    $message = Translation :: get('ContentObjectPublicationsMoved');
+                    $message = Translation :: get('ObjectsMoved', array('OBJECTS' => Translation :: get('Publications')),Utilies:: COMMON_LIBRARIES);
                 }
                 $this->redirect($message, false, array('tool_action' => null, Tool :: PARAM_PUBLICATION_ID => null));
             }
@@ -106,10 +106,10 @@ class ToolComponentCategoryMoverComponent extends ToolComponent
                     $this->tree[0] = Translation :: get('Root');
                 $this->build_category_tree(0, $cat);
                 $form = new FormValidator('select_category', 'post', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_TO_CATEGORY, Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))));
-                $form->addElement('select', 'category', Translation :: get('Category'), $this->tree);
-                //$form->addElement('submit', 'submit', Translation :: get('Ok'));
-                $buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Move'), array('class' => 'positive move'));
-                $buttons[] = $form->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+                $form->addElement('select', 'category', Translation :: get('Category', null ,Utilies:: COMMON_LIBRARIES), $this->tree);
+                //$form->addElement('submit', 'submit', Translation :: get('Ok', null ,Utilies:: COMMON_LIBRARIES));
+                $buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Move', null ,Utilies:: COMMON_LIBRARIES), array('class' => 'positive move'));
+                $buttons[] = $form->createElement('style_reset_button', 'reset', Translation :: get('Reset', null ,Utilies:: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
                 $form->addGroup($buttons, 'buttons', null, '&nbsp;', false);
                 return $form;

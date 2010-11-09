@@ -138,7 +138,7 @@ class WeblcmsManagerSubscribeComponent extends WeblcmsManager
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
         $action_bar->set_search_url($this->get_url(array('category' => Request :: get('category'))));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array('category' => Request :: get('category'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null ,Utilies:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array('category' => Request :: get('category'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         return $action_bar;
     }
@@ -163,7 +163,7 @@ class WeblcmsManagerSubscribeComponent extends WeblcmsManager
             // $search_url = $this->get_url();
             $search_url = '#';
             $search = array();
-            $search['title'] = Translation :: get('SearchResults');
+            $search['title'] = Translation :: get('SearchResults', null ,Utilies:: COMMON_LIBRARIES);
             $search['url'] = $search_url;
             $search['class'] = 'search_results';
             $extra_items[] = $search;

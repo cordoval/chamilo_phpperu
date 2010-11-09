@@ -38,10 +38,10 @@ class CourseTypeUserCategoryRelCourseForm extends FormValidator
             $cat_options[$category->get_id()] = $category->get_optional_property(CourseUserCategory :: PROPERTY_TITLE);
         }
 
-        $this->addElement('select', CourseTypeUserCategoryRelCourse :: PROPERTY_COURSE_TYPE_USER_CATEGORY_ID, Translation :: get('Category'), $cat_options);
+        $this->addElement('select', CourseTypeUserCategoryRelCourse :: PROPERTY_COURSE_TYPE_USER_CATEGORY_ID, Translation :: get('Category', null ,Utilies:: COMMON_LIBRARIES), $cat_options);
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save', null ,Utilies:: COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null ,Utilies:: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

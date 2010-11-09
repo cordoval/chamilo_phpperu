@@ -72,9 +72,9 @@ class AdminCourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
 
         $toolbar->add_item(new ToolbarItem(Translation :: get('CourseHome'), Theme :: get_common_image_path() . 'action_home.png', $this->browser->get_course_viewing_url($course), ToolbarItem :: DISPLAY_ICON));
 
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_course_editing_url($course), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null ,Utilies:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_course_editing_url($course), ToolbarItem :: DISPLAY_ICON));
 
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_course_deleting_url($course), ToolbarItem :: DISPLAY_ICON, true));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null ,Utilies:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_course_deleting_url($course), ToolbarItem :: DISPLAY_ICON, true));
 
         $toolbar->add_item(new ToolbarItem(Translation :: get('ChangeCourseType'), Theme :: get_common_image_path() . 'action_move.png', $this->browser->get_course_changing_course_type_url($course), ToolbarItem :: DISPLAY_ICON));
 
@@ -85,7 +85,7 @@ class AdminCourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
         //$params[ReportingManager::PARAM_TEMPLATE_ID] = Reporting::get_name_registration('course_student_tracker_reporting_template', WeblcmsManager::APPLICATION_NAME)->get_id();
         $url = $this->browser->get_reporting_url($params);
 
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Report'), Theme :: get_common_image_path() . 'action_reporting.png', $url, ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Report', null, 'reporting'), Theme :: get_common_image_path() . 'action_reporting.png', $url, ToolbarItem :: DISPLAY_ICON));
 
         return $toolbar->as_html();
     }

@@ -31,7 +31,7 @@ class WeblcmsManagerCourseCodeSubscriberComponent extends WeblcmsManager
         if (! $this->get_user()->is_platform_admin())
         {
             $this->display_header($trail);
-            Display :: warning_message(Translation :: get('NotAllowed'));
+            Display :: warning_message(Translation :: get('NotAllowed', null ,Utilies:: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }

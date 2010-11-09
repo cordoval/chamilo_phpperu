@@ -47,12 +47,12 @@ if (Authentication :: is_valid())
     }
 
     $json_result['success'] = '1';
-    $json_result['message'] = Translation :: get('BlockAdded');
+    $json_result['message'] = Translation :: get('ObjectAdded', array('OBJECT' => Translation :: get('Block')),Utilies:: COMMON_LIBRARIES);
 }
 else
 {
     $json_result['success'] = '0';
-    $json_result['message'] = Translation :: get('NotAuthorized');
+    $json_result['message'] = Translation :: get('NotAllowed', null ,Utilies:: COMMON_LIBRARIES);
 }
 
 // Return a JSON object

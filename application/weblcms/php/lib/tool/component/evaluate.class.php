@@ -28,7 +28,7 @@ class ToolComponentEvaluateComponent extends ToolComponent implements Evaluation
         }
         else
         {
-            $this->display_error_message(Translation :: get('NoPublicationSelected'));
+            $this->display_error_message(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('Publication')),Utilies:: COMMON_LIBRARIES));
         }
     }
 

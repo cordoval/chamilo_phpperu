@@ -64,7 +64,7 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
                 return '<a href="' . $details_url . '">' . parent :: render_cell($column, $publication->get_content_object()) . '</a>';
                 break;
             case ContentObjectPublication :: PROPERTY_PUBLICATION_DATE :
-                $date_format = Translation :: get('dateTimeFormatLong');
+                $date_format = Translation :: get('DateTimeFormatLong', null ,Utilies:: COMMON_LIBRARIES);
                 $data = DatetimeUtilities :: format_locale_date($date_format, $publication->get_publication_date());
                 break;
             case ContentObjectPublication :: PROPERTY_PUBLISHER_ID :
@@ -102,7 +102,7 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
         }
         if ($publication->is_for_everybody())
         {
-            return htmlentities(Translation :: get('Everybody')) . $email_suffix;
+            return htmlentities(Translation :: get('Everybody', null ,Utilies:: COMMON_LIBRARIES)) . $email_suffix;
         }
         else
         {

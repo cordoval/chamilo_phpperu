@@ -29,7 +29,7 @@ class WeblcmsManagerActiveChangerComponent extends WeblcmsManager
             $trail = BreadcrumbTrail :: get_instance();
             $trail->add_help('course_type_active_changer');
             $this->display_header();
-            Display :: error_message(Translation :: get("Not allowed"));
+            Display :: error_message(Translation :: get('NoObjectsSelected', null ,Utilies:: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
@@ -80,7 +80,7 @@ class WeblcmsManagerActiveChangerComponent extends WeblcmsManager
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectsSelected', null ,Utilies:: COMMON_LIBRARIES)));
         }
     }
 }

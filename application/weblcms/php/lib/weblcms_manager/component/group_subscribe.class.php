@@ -85,12 +85,12 @@ class WeblcmsManagerGroupSubscribeComponent extends WeblcmsManager
             }
             else
             {
-                $this->display_error_page(htmlentities(Translation :: get('NoGroupsSelected')));
+                $this->display_error_page(htmlentities(Translation :: get('NoObjectsSelected', array('OBJECT' => Translation :: get('Groups')),Utilies:: COMMON_LIBRARIES)));
             }
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoCourseSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('Course')),Utilies:: COMMON_LIBRARIES)));
         }
     }
 }

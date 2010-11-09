@@ -29,10 +29,10 @@ class ToolComponentAttachmentViewerComponent extends ToolComponent
         $object_id = Request :: get('object_id');
         if ($object_id)
         {
-            $trail->add(new Breadcrumb($this->get_url(array('object' => $object_id)), Translation :: get('ViewAttachment')));
+            $trail->add(new Breadcrumb($this->get_url(array('object' => $object_id)), Translation :: get('ViewAttachment', null ,'repository')));
             $this->display_header();
 
-            echo '<a href="javascript:history.go(-1)">' . Translation :: get('Back') . '</a><br /><br />';
+            echo '<a href="javascript:history.go(-1)">' . Translation :: get('Back', null ,Utilies:: COMMON_LIBRARIES) . '</a><br /><br />';
 
             $object = RepositoryDataManager :: get_instance()->retrieve_content_object($object_id);
             $display = ContentObjectDisplay :: factory($object);
