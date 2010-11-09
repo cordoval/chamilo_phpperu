@@ -10,6 +10,7 @@ use common\libraries\PlatformSetting;
 use common\libraries\Text;
 use common\libraries\Hashing;
 use common\libraries\Mail;
+use common\libraries\Utilities;
 
 use repository\RepositoryDataManager;
 

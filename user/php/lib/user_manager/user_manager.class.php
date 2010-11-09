@@ -9,6 +9,7 @@ use common\libraries\LocalSetting;
 use common\libraries\Theme;
 use common\libraries\DynamicAction;
 use common\libraries\PlatformSetting;
+use common\libraries\Utilities;
 
 use repository\RepositoryDataManager;
 use rights\RightsManager;

@@ -15,6 +15,7 @@ use common\libraries\AndCondition;
 use common\libraries\OrCondition;
 use common\libraries\PatternMatchCondition;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\Utilities;
 
 /**
  * $Id: admin_user_browser.class.php 211 2009-11-13 13:28:39Z vanpouckesven $

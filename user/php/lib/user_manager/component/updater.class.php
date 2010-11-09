@@ -8,6 +8,7 @@ use common\libraries\AdministrationComponent;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Application;
+use common\libraries\Utilities;
 
 /**
  * $Id: updater.class.php 211 2009-11-13 13:28:39Z vanpouckesven $

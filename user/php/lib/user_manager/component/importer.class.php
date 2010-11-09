@@ -6,7 +6,7 @@ use common\libraries\AdministrationComponent;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\PlatformSetting;
 use common\libraries\Display;
-
+use common\libraries\Utilities;
 /**
  * $Id: importer.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager.component

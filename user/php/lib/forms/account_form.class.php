@@ -13,6 +13,7 @@ use common\libraries\Path;
 use admin\AdminDataManager;
 use tracking\Event;
 use tracking\ChangesTracker;
+use common\libraries\Utilities;
 
 /**
  * $Id: account_form.class.php 211 2009-11-13 13:28:39Z vanpouckesven $

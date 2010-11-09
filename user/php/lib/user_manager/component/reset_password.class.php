@@ -11,7 +11,7 @@ use common\libraries\FormValidator;
 use common\libraries\Text;
 use common\libraries\Hashing;
 use common\libraries\Mail;
-
+use common\libraries\Utilities;
 /**
  * $Id: reset_password.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager.component

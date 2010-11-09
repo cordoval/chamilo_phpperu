@@ -4,6 +4,7 @@ namespace user;
 use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\FormValidator;
+use common\libraries\Utilities;
 
 use rights\RightsUtilities;
 use rights\RightsDataManager;
