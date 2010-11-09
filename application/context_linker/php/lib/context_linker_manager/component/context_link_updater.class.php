@@ -1,5 +1,7 @@
 <?php namespace application\context_linker;
 
+use common\libraries\Utilities;
+
 /**
  * Component to edit an existing context_link object
  * @author Sven Vanpoucke

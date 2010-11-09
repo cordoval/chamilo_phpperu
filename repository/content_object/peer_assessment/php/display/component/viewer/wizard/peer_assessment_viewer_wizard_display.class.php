@@ -3,6 +3,7 @@ namespace repository\content_object\peer_assessment;
 
 use common\libraries\Request;
 use common\libraries\Translation;
+use HTML_QuickForm_Action_Display;
 
 /**
  * @author Sven Vanpoucke

@@ -5,6 +5,7 @@ use common\libraries\Translation;
 use common\libraries\Application;
 use common\libraries\ActionBarRenderer;
 use common\libraries\Theme;
+use common\libraries\Utilities;
 
 /**
  * metadata component which allows the user to browse his content_object_property_metadatas
@@ -44,7 +45,7 @@ class MetadataManagerContentObjectPropertyMetadatasBrowserComponent extends Meta
        $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
         $actions = array();
-        $actions[] = new ToolbarItem(Translation :: get('CreateObject', array('OBJECT' => Translation :: get('ContentObjectPropertyMetadata')), Utilities :: COMMON_LIBRARY), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_CREATE_CONTENT_OBJECT_PROPERTY_METADATA)));
+        $actions[] = new ToolbarItem(Translation :: get('CreateObject', array('OBJECT' => Translation :: get('ContentObjectPropertyMetadata')), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_CREATE_CONTENT_OBJECT_PROPERTY_METADATA)));
 
         $action_bar->set_common_actions($actions);
         $action_bar->set_search_url($this->get_url());

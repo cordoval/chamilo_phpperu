@@ -10,6 +10,7 @@ use common\libraries\Translation;
 use common\libraries\Theme;
 use common\extensions\repo_viewer\RepoViewer;
 use common\libraries\Application;
+use common\libraries\Utilities;
 /**
  * $Id: announcement_distributor.class.php 194 2009-11-13 11:54:13Z chellee $
  * @package application.lib.distribute.distributor

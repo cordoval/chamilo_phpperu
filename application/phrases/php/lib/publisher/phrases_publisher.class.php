@@ -10,6 +10,7 @@ use common\extensions\repo_viewer\RepoViewer;
 
 use repository\ContentObject;
 use repository\RepositoryDataManager;
+use common\libraries\Utilities;
 
 /**
  * $Id: phrases_publisher.class.php 201 2009-11-13 12:34:51Z chellee $

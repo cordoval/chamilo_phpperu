@@ -3,6 +3,8 @@ namespace application\cas_user;
 
 use common\libraries\FormValidator;
 use common\libraries\Translation;
+use common\libraries\Utilities;
+use common\libraries\Text;
 
 class CasAccountForm extends FormValidator
 {

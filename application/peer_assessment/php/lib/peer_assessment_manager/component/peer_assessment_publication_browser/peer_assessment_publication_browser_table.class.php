@@ -5,6 +5,7 @@ namespace application\peer_assessment;
 use common\libraries\ObjectTable;
 use common\libraries\ObjectTableFormAction;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/peer_assessment_publication_browser_table_data_provider.class.php';
 require_once dirname(__FILE__) . '/peer_assessment_publication_browser_table_column_model.class.php';

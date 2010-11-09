@@ -10,6 +10,7 @@ use common\extensions\repo_viewer\RepoViewer;
 
 use repository\RepositoryDataManager;
 use repository\ContentObject;
+use common\libraries\Utilities;
 /**
  * $Id: gutenberg_publisher.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.gutenberg.publisher

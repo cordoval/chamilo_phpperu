@@ -7,6 +7,7 @@ use common\libraries\Translation;
 use common\libraries\Theme;
 use common\libraries\Path;
 use group\DefaultGroupTableCellRenderer;
+use common\libraries\Utilities;
 
 require_once Path :: get_group_path() . 'lib/group_table/default_group_table_cell_renderer.class.php';
 
@@ -57,7 +58,7 @@ class GroupMetadataPropertyValueBrowserTableCellRenderer extends DefaultGroupTab
 		$toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
 
                 $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Edit', null, Utilities :: COMMON_LIBRARY),
+        		Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES),
         		Theme :: get_common_image_path() . 'action_edit.png',
         		$this->browser->get_edit_group_metadata_property_values_url($group),
         		ToolbarItem :: DISPLAY_ICON

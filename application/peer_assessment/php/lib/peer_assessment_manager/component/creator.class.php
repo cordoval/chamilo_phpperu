@@ -8,6 +8,7 @@ use common\libraries\Breadcrumb;
 use common\libraries\Translation;
 use common\extensions\repo_viewer\RepoViewer;
 use repository\content_object\peer_assessment\PeerAssessment;
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/../peer_assessment_manager.class.php';
 require_once dirname(__FILE__) . '/../../forms/peer_assessment_publication_form.class.php';

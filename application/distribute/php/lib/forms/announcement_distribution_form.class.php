@@ -5,6 +5,7 @@ namespace application\distribute;
 use common\libraries\FormValidator;
 use common\libraries\Path;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 /**
  * $Id: announcement_distribution_form.class.php 194 2009-11-13 11:54:13Z chellee $
  * @package application.lib.distribute.forms

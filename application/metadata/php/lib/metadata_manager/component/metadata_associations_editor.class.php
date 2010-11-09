@@ -2,6 +2,7 @@
 namespace application\metadata;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * Component to edit an existing metadata_attribute_nesting object
@@ -23,7 +24,7 @@ class MetadataManagerMetadataAssociationsEditorComponent extends MetadataManager
         if($form->validate())
         {
             $success = $form->update_associations();
-            $this->redirect($success ? Translation :: get('ObjectUpdated', array('OBJECT' => Translation :: get('MetadataAttributeNesting')), Utilities :: COMMON_LIBRARY) : Translation :: get('ObjectNotUpdated', array('OBJECT' => Translation :: get('MetadataAttributeNesting')), Utilities :: COMMON_LIBRARY), !$success, array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE_METADATA_PROPERTY_TYPES));
+            $this->redirect($success ? Translation :: get('ObjectUpdated', array('OBJECT' => Translation :: get('MetadataAttributeNesting')), Utilities :: COMMON_LIBRARIES) : Translation :: get('ObjectNotUpdated', array('OBJECT' => Translation :: get('MetadataAttributeNesting')), Utilities :: COMMON_LIBRARIES), !$success, array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE_METADATA_PROPERTY_TYPES));
         }
         else
         {

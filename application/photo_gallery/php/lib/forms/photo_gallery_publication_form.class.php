@@ -7,6 +7,7 @@ use common\libraries\FormValidator;
 
 use user\UserDataManager;
 use group\GroupDataManager;
+use common\libraries\Utilities;
 /**
  * $Id: photo_gallery_publication_form.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.photo_gallery.forms

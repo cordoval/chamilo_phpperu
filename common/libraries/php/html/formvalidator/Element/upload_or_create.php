@@ -3,6 +3,7 @@ use common\libraries\Translation;
 use common\libraries\FormValidatorHtmlEditor;
 use common\libraries\LocalSetting;
 use common\libraries\FormValidatorHtmlEditorOptions;
+use common\libraries\Utilities;
 
 /**
  * @package common.html.formvalidator.Element

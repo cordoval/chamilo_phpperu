@@ -3,6 +3,7 @@ namespace application\metadata;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
+use common\libraries\Utilities;
 
 /**
  * Component to create a new metadata_default_value object
@@ -19,7 +20,7 @@ class MetadataManagerMetadataDefaultValueCreatorComponent extends MetadataManage
             $metadata_property_type_id = Request :: get(MetadataManager :: PARAM_METADATA_PROPERTY_TYPE);
             if(!isset($metadata_property_type_id))
             {
-                exit(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('MetadataPropertyType')), Utilities :: COMMON_LIBRARY));
+                exit(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('MetadataPropertyType')), Utilities :: COMMON_LIBRARIES));
             }
 
             $metadata_property_type = $this->retrieve_metadata_property_type($metadata_property_type_id);
@@ -41,7 +42,7 @@ class MetadataManagerMetadataDefaultValueCreatorComponent extends MetadataManage
             if($form->validate())
             {
                     $success = $form->create_metadata_default_value();
-                    $this->redirect($success ? Translation :: get('ObjectCreated', array('OBJECT' => Translation :: get('MetadataDefaultValue')), Utilities :: COMMON_LIBRARY) : Translation :: get('ObjectNotCreated', array('OBJECT' => Translation :: get('MetadataDefaultValue')), Utilities :: COMMON_LIBRARY), !$success, array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE_METADATA_DEFAULT_VALUES, MetadataManager :: PARAM_METADATA_DEFAULT_VALUE => $success->get_id(), MetadataManager :: PARAM_METADATA_PROPERTY_TYPE => Request :: get(MetadataManager :: PARAM_METADATA_PROPERTY_TYPE)));
+                    $this->redirect($success ? Translation :: get('ObjectCreated', array('OBJECT' => Translation :: get('MetadataDefaultValue')), Utilities :: COMMON_LIBRARIES) : Translation :: get('ObjectNotCreated', array('OBJECT' => Translation :: get('MetadataDefaultValue')), Utilities :: COMMON_LIBRARIES), !$success, array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE_METADATA_DEFAULT_VALUES, MetadataManager :: PARAM_METADATA_DEFAULT_VALUE => $success->get_id(), MetadataManager :: PARAM_METADATA_PROPERTY_TYPE => Request :: get(MetadataManager :: PARAM_METADATA_PROPERTY_TYPE)));
             }
             else
             {

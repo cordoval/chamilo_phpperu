@@ -11,6 +11,7 @@ use common\libraries\PatternMatchCondition;
 use common\libraries\OrCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/cas_user_request_browser/cas_user_request_browser_table.class.php';
 

@@ -5,6 +5,7 @@ use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Application;
+use common\libraries\Utilities;
 
 use repository\content_object\assessment\Assessment;
 

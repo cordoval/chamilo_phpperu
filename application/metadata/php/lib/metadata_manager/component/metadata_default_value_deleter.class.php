@@ -1,6 +1,7 @@
 <?php
 namespace application\metadata;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * Component to delete metadata_default_values objects
@@ -38,11 +39,11 @@ class MetadataManagerMetadataDefaultValueDeleterComponent extends MetadataManage
             }
 
 
-            $this->redirect(Translation :: get($message, array('OBJECT' => Translation :: get('MetadataDefaultValue')), Utilities :: COMMON_LIBRARY), ($fail ? true : false), array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE_METADATA_DEFAULT_VALUES, MetadataManager :: PARAM_METADATA_PROPERTY_TYPE => $property_type_id));
+            $this->redirect(Translation :: get($message, array('OBJECT' => Translation :: get('MetadataDefaultValue')), Utilities :: COMMON_LIBRARIES), ($fail ? true : false), array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE_METADATA_DEFAULT_VALUES, MetadataManager :: PARAM_METADATA_PROPERTY_TYPE => $property_type_id));
         }
         else
         {
-                $this->display_error_page(htmlentities(Translation :: get('NoObjectsSelected', array('OBJECT' => Translation :: get('MetadataDefaultValues')), Utilities :: COMMON_LIBRARY)));
+                $this->display_error_page(htmlentities(Translation :: get('NoObjectsSelected', array('OBJECT' => Translation :: get('MetadataDefaultValues')), Utilities :: COMMON_LIBRARIES)));
         }
     }
 }

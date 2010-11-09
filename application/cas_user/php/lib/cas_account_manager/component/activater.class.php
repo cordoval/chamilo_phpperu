@@ -59,7 +59,7 @@ class CasAccountManagerActivaterComponent extends CasAccountManager
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoCasAccountSelected'Translation :: get($message, null, Utilities::COMMON_LIBRARIES))));
+            $this->display_error_page(htmlentities(Translation :: get('NoCasAccountSelected', Translation :: get($message, null, Utilities::COMMON_LIBRARIES))));
         }
     }
 }

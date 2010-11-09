@@ -9,6 +9,7 @@ namespace application\metadata;
 use common\libraries\Translation;
 use common\libraries\ResourceManager;
 use common\libraries\Path;
+use common\libraries\Utilities;
 
 class GroupMetadataEditorForm extends MetadataForm
 {
@@ -50,8 +51,8 @@ class GroupMetadataEditorForm extends MetadataForm
     {
     	$this->build_basic_form();
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities :: COMMON_LIBRARY), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARY), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -103,8 +104,8 @@ class GroupMetadataEditorForm extends MetadataForm
     {
         $value_types = array();
         $value_types[MetadataPropertyAttributeValue :: VALUE_TYPE_NONE] = '--';
-        $value_types[MetadataPropertyAttributeValue :: VALUE_TYPE_ID] = Translation :: get('Id', null, Utilities :: COMMON_LIBRARY);
-        $value_types[MetadataPropertyAttributeValue :: VALUE_TYPE_VALUE] = Translation :: get('Value', null, Utilities :: COMMON_LIBRARY);
+        $value_types[MetadataPropertyAttributeValue :: VALUE_TYPE_ID] = Translation :: get('Id', null, Utilities :: COMMON_LIBRARIES);
+        $value_types[MetadataPropertyAttributeValue :: VALUE_TYPE_VALUE] = Translation :: get('Value', null, Utilities :: COMMON_LIBRARIES);
 
         return $value_types;
     }

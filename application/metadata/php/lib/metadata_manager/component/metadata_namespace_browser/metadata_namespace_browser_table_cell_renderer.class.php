@@ -4,6 +4,7 @@ use common\libraries\Toolbar;
 use common\libraries\Translation;
 use common\libraries\Theme;
 use common\libraries\ToolbarItem;
+use common\libraries\Utilities;
 require_once dirname(__FILE__) . '/../../../tables/metadata_namespace_table/default_metadata_namespace_table_cell_renderer.class.php';
 
 /**
@@ -58,13 +59,13 @@ class MetadataNamespaceBrowserTableCellRenderer extends DefaultMetadataNamespace
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
         $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Edit', null, Utilities :: COMMON_LIBRARY),
+        		Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES),
         		Theme :: get_common_image_path() . 'action_edit.png',
         		$this->browser->get_update_metadata_namespace_url($namespace),
         		ToolbarItem :: DISPLAY_ICON
         ));
         $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Delete', null, Utilities :: COMMON_LIBRARY),
+        		Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES),
         		Theme :: get_common_image_path() . 'action_delete.png',
         		$this->browser->get_delete_metadata_namespace_url($namespace),
         		ToolbarItem :: DISPLAY_ICON

@@ -6,6 +6,7 @@ use common\libraries\Translation;
 use repository\DefaultContentObjectTableCellRenderer;
 use common\libraries\Toolbar;
 use common\libraries\Theme;
+use common\libraries\Utilities;
 
 /**
  * Cell rendere for the learning object browser table
@@ -53,7 +54,7 @@ class ContentObjectBrowserTableCellRenderer extends DefaultContentObjectTableCel
             $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
 
             $toolbar->add_item(new ToolbarItem(
-                            Translation :: get('Edit', null, Utilities :: COMMON_LIBRARY),
+                            Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES),
                             Theme :: get_common_image_path() . 'action_edit.png',
                             $this->browser->get_browse_context_links_url($content_object),
                             ToolbarItem :: DISPLAY_ICON
