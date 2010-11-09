@@ -30,11 +30,11 @@ class RowsConfigBuildWizardPage extends BuildWizardPage
         for($i = 1; $i <= $row_amount; $i ++)
         {
             $this->addElement('static', '', '', '<b>' . Translation :: get('Row') . '&nbsp;' . $i . '</b>');
-            $this->addElement('text', 'row' . $i . '[title]', Translation :: get('Title'), array("size" => "50"));
+            $this->addElement('text', 'row' . $i . '[title]', Translation :: get('Title', null, Utilities::COMMON_LIBRARIES), array("size" => "50"));
             $this->addElement('text', 'row' . $i . '[columnsamount]', Translation :: get('Columns'), array("size" => "50"));
-            $this->addRule('row' . $i . '[columnsamount]', Translation :: get('FieldMustBeNumeric'), 'numeric');
-            $this->addRule('row' . $i . '[title]', Translation :: get('ThisFieldIsRequired'), 'required');
-            $this->addRule('row' . $i . '[columnsamount]', Translation :: get('ThisFieldIsRequired'), 'required');
+            $this->addRule('row' . $i . '[columnsamount]', Translation :: get('FieldMustBeNumeric', null, Utilities::COMMON_LIBRARIES), 'numeric');
+            $this->addRule('row' . $i . '[title]', Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
+            $this->addRule('row' . $i . '[columnsamount]', Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
             
             if ($i != $row_amount)
             {
@@ -42,8 +42,8 @@ class RowsConfigBuildWizardPage extends BuildWizardPage
             }
         }
         
-        $prevnext[] = & $this->createElement('submit', $this->getButtonName('back'), '<< ' . Translation :: get('Previous'));
-        $prevnext[] = & $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next') . ' >>');
+        $prevnext[] = & $this->createElement('submit', $this->getButtonName('back'), '<< ' . Translation :: get('Previous', null, Utilities::COMMON_LIBRARIES));
+        $prevnext[] = & $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next', null, Utilities::COMMON_LIBRARIES) . ' >>');
         $this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
         $this->setDefaultAction('next');
         $this->_formBuilt = true;

@@ -5,6 +5,7 @@ namespace application\personal_calendar;
 use common\libraries\InCondition;
 use repository\RepositoryDataManager;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Theme;
 use common\extensions\repo_viewer\RepoViewer;
 use repository\ContentObject;

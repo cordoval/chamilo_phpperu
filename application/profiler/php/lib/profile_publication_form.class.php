@@ -6,6 +6,7 @@ use common\libraries\Path;
 use common\libraries\FormValidator;
 use common\libraries\EqualityCondition;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: profile_publication_form.class.php 212 2009-11-13 13:38:35Z chellee $

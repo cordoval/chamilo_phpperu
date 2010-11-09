@@ -2,6 +2,7 @@
 namespace application\weblcms\tool\calendar;
 
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: calendar_details_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -21,10 +22,10 @@ class CalendarDetailsRenderer extends ContentObjectPublicationDetailsRenderer
         $event = $publication->get_content_object();
         $html[] = '<em>';
         //TODO: date formatting
-        $html[] = htmlentities(Translation :: get('From')) . ': ' . date('r', $event->get_start_date());
+        $html[] = htmlentities(Translation :: get('From', null , Utilities :: COMMON_LIBRARIES)) . ': ' . date('r', $event->get_start_date());
         $html[] = '<br />';
         //TODO: date formatting
-        $html[] = htmlentities(Translation :: get('To')) . ': ' . date('r', $event->get_end_date());
+        $html[] = htmlentities(Translation :: get('To', null , Utilities :: COMMON_LIBRARIES)) . ': ' . date('r', $event->get_end_date());
         $html[] = '</em>';
         $html[] = '<br />';
         $html[] = $event->get_description();

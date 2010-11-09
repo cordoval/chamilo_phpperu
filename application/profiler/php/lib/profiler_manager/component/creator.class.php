@@ -6,6 +6,7 @@ use common\extensions\repo_viewer\RepoViewerInterface;
 use common\libraries\Request;
 use common\libraries\Display;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\extensions\repo_viewer\RepoViewer;
 use repository\content_object\profile\Profile;
 use common\libraries\BreadcrumbTrail;

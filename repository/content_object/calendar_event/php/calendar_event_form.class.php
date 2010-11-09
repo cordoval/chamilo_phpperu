@@ -31,8 +31,8 @@ class CalendarEventForm extends ContentObjectForm
         $this->addElement('category', Translation :: get('Properties'));
         $this->add_timewindow(CalendarEvent :: PROPERTY_START_DATE, CalendarEvent :: PROPERTY_END_DATE, Translation :: get('StartTimeWindow'), Translation :: get('EndTimeWindow'));
         
-        $choices[] = $this->createElement('radio', self :: PARAM_REPEAT, '', Translation :: get('No'), 0, array('onclick' => 'javascript:timewindow_hide(\'repeat_timewindow\')', 'id' => self :: PARAM_REPEAT));
-        $choices[] = $this->createElement('radio', self :: PARAM_REPEAT, '', Translation :: get('Yes'), 1, array('onclick' => 'javascript:timewindow_show(\'repeat_timewindow\')'));
+        $choices[] = $this->createElement('radio', self :: PARAM_REPEAT, '', Translation :: get('ConfirmNo', null , Utilities :: COMMON_LIBRARIES), 0, array('onclick' => 'javascript:timewindow_hide(\'repeat_timewindow\')', 'id' => self :: PARAM_REPEAT));
+        $choices[] = $this->createElement('radio', self :: PARAM_REPEAT, '', Translation :: get('ConfirmYes', null , Utilities :: COMMON_LIBRARIES), 1, array('onclick' => 'javascript:timewindow_show(\'repeat_timewindow\')'));
         $this->addGroup($choices, null, Translation :: get('Repeat'), '<br />', false);
         $this->addElement('html', '<div style="padding-left: 25px; display: block;" id="repeat_timewindow">');
         
@@ -40,7 +40,7 @@ class CalendarEventForm extends ContentObjectForm
         
         $repeat_elements = array();
         $repeat_elements[] = $this->createElement('select', CalendarEvent :: PROPERTY_REPEAT_TYPE, null, $options);
-        $repeat_elements[] = $this->createElement('static', null, null, Translation :: get('Until'));
+        $repeat_elements[] = $this->createElement('static', null, null, Translation :: get('Until', null , Utilities :: COMMON_LIBRARIES));
         $repeat_elements[] = $this->createElement('datepicker', CalendarEvent :: PROPERTY_REPEAT_TO, '', array('form_name' => $this->getAttribute('name'), 'class' => CalendarEvent :: PROPERTY_REPEAT_TO), true);
         $this->addGroup($repeat_elements, self :: PARAM_REPEAT_DATE, null, '&nbsp;', false);
         $this->addGroupRule(self :: PARAM_REPEAT_DATE, array(CalendarEvent :: PROPERTY_REPEAT_TO => array(array(Translation :: get('InvalidDate'), 'date'))));
@@ -75,8 +75,8 @@ class CalendarEventForm extends ContentObjectForm
         $this->addElement('category', Translation :: get('Properties'));
         $this->add_timewindow(CalendarEvent :: PROPERTY_START_DATE, CalendarEvent :: PROPERTY_END_DATE, Translation :: get('StartTimeWindow'), Translation :: get('EndTimeWindow'));
         
-        $choices[] = $this->createElement('radio', self :: PARAM_REPEAT, '', Translation :: get('No'), 0, array('onclick' => 'javascript:timewindow_hide(\'repeat_timewindow\')', 'id' => self :: PARAM_REPEAT));
-        $choices[] = $this->createElement('radio', self :: PARAM_REPEAT, '', Translation :: get('Yes'), 1, array('onclick' => 'javascript:timewindow_show(\'repeat_timewindow\')'));
+        $choices[] = $this->createElement('radio', self :: PARAM_REPEAT, '', Translation :: get('ConfirmNo', null , Utilities :: COMMON_LIBRARIES), 0, array('onclick' => 'javascript:timewindow_hide(\'repeat_timewindow\')', 'id' => self :: PARAM_REPEAT));
+        $choices[] = $this->createElement('radio', self :: PARAM_REPEAT, '', Translation :: get('ConfirmYes', null , Utilities :: COMMON_LIBRARIES), 1, array('onclick' => 'javascript:timewindow_show(\'repeat_timewindow\')'));
         $this->addGroup($choices, null, Translation :: get('Repeat'), '<br />', false);
         $this->addElement('html', '<div style="padding-left: 25px; display: block;" id="repeat_timewindow">');
         
@@ -84,7 +84,7 @@ class CalendarEventForm extends ContentObjectForm
         
         $repeat_elements = array();
         $repeat_elements[] = $this->createElement('select', CalendarEvent :: PROPERTY_REPEAT_TYPE, null, $options);
-        $repeat_elements[] = $this->createElement('static', null, null, Translation :: get('Until'));
+        $repeat_elements[] = $this->createElement('static', null, null, Translation :: get('Until', null , Utilities :: COMMON_LIBRARIES));
         $repeat_elements[] = $this->createElement('datepicker', CalendarEvent :: PROPERTY_REPEAT_TO, '', array('form_name' => $this->getAttribute('name'), 'class' => CalendarEvent :: PROPERTY_REPEAT_TO), true);
         $this->addGroup($repeat_elements, self :: PARAM_REPEAT_DATE, null, '&nbsp;', false);
         $this->addGroupRule(self :: PARAM_REPEAT_DATE, array(CalendarEvent :: PROPERTY_REPEAT_TO => array(array(Translation :: get('InvalidDate'), 'date'))));

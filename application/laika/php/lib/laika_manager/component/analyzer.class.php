@@ -31,7 +31,7 @@ class LaikaManagerAnalyzerComponent extends LaikaManager
         if (! LaikaRights :: is_allowed(LaikaRights :: RIGHT_VIEW, LaikaRights :: LOCATION_ANALYZER, LaikaRights :: TYPE_LAIKA_COMPONENT))
         {
             $this->display_header($trail);
-            $this->display_error_message(Translation :: get('NotAllowed'));
+            $this->display_error_message(Translation :: get('NotAllowed', null, Utilities::COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }

@@ -185,11 +185,11 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 
         if ($this->isCollapsed())
         {
-            $html[] = '<button id="' . $this->getName() . '_collapse_button" style="display: none" class="normal hide">' . htmlentities(Translation :: get('Hide')) . '</button>';
+            $html[] = '<button id="' . $this->getName() . '_collapse_button" style="display: none" class="normal hide">' . htmlentities(Translation :: get('Hide', null, Utilities :: COMMON_LIBRARIES)) . '</button>';
         }
         else
         {
-            $html[] = '<button id="' . $this->getName() . '_collapse_button" class="normal hide mini">' . htmlentities(Translation :: get('Hide')) . '</button>';
+            $html[] = '<button id="' . $this->getName() . '_collapse_button" class="normal hide mini">' . htmlentities(Translation :: get('Hide', null, Utilities :: COMMON_LIBRARIES)) . '</button>';
         }
 
         $html[] = '</div>';

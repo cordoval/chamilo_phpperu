@@ -58,11 +58,11 @@ class CasAccountManagerDeleterComponent extends CasAccountManager
                 }
             }
 
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(CasAccountManager :: PARAM_CAS_ACCOUNT_ACTION => CasAccountManager :: ACTION_BROWSE));
+            $this->redirect(Translation :: get($message, null, Utilities::COMMON_LIBRARIES), ($failures ? true : false), array(CasAccountManager :: PARAM_CAS_ACCOUNT_ACTION => CasAccountManager :: ACTION_BROWSE));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoCasAccountSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoCasAccountSelected', null, Utilities::COMMON_LIBRARIES)));
         }
     }
 }

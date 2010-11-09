@@ -280,7 +280,7 @@ abstract class ReportingBlock
         $html[] = '<div style="float:left;">' . Translation :: get('Download') . ' : ';
         $html[] = $download_bar->as_html() . '</div>';
         $html[] = '<div style="float:left;">&nbsp;|&nbsp;';
-        $html[] = Translation :: get('Save') . ' : ';
+        $html[] = Translation :: get('Save', null, Utilities :: COMMON_LIBRARIES) . ' : ';
         $html[] = $save_bar->as_html() . '</div>';
 
         return implode("\n", $html);

@@ -14,6 +14,7 @@ use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\DelegateComponent;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: learning_path_statistics_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -45,7 +46,7 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathTool impleme
         if (! $pid)
         {
             $this->display_header();
-            $this->display_error_message(Translation :: get('NoObjectSelected'));
+            $this->display_error_message(Translation :: get('NoObjectSelected', null , Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
         }
 
@@ -95,7 +96,7 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathTool impleme
 
             if ($details)
             {
-                $trail->add(new Breadcrumb($this->get_url($parameters), Translation :: get('AssessmentResult')));
+                $trail->add(new Breadcrumb($this->get_url($parameters), Translation :: get('AssessmentResult', null , 'application/assessment')));
                 $this->set_parameter('tool_action', 'stats');
                 $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, $pid);
                 $this->set_parameter(LearningPathTool :: PARAM_ATTEMPT_ID, $attempt_id);

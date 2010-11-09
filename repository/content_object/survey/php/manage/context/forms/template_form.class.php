@@ -80,10 +80,10 @@ class SurveyTemplateForm extends FormValidator
         $attributes = array();
         $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_user_group_feed.php';
         $locale = array();
-        $locale['Display'] = Translation :: get('ShareWith');
-        $locale['Searching'] = Translation :: get('Searching');
-        $locale['NoResults'] = Translation :: get('NoResults');
-        $locale['Error'] = Translation :: get('Error');
+        $locale['Display'] = Translation :: get('ShareWith', null, Utilities::COMMON_LIBRARIES);
+        $locale['Searching'] = Translation :: get('Searching', null, Utilities::COMMON_LIBRARIES);
+        $locale['NoResults'] = Translation :: get('NoResults', null, Utilities::COMMON_LIBRARIES);
+        $locale['Error'] = Translation :: get('Error', null, Utilities::COMMON_LIBRARIES);
         $attributes['locale'] = $locale;
         $attributes['defaults'] = array();
         $attributes['options'] = array('load_elements' => false);
@@ -101,9 +101,9 @@ class SurveyTemplateForm extends FormValidator
 
             $locale = array();
             $locale['Display'] = Translation :: get('Choose');
-            $locale['Searching'] = Translation :: get('Searching');
-            $locale['NoResults'] = Translation :: get('NoResults');
-            $locale['Error'] = Translation :: get('Error');
+            $locale['Searching'] = Translation :: get('Searching', null, Utilities::COMMON_LIBRARIES);
+            $locale['NoResults'] = Translation :: get('NoResults', null, Utilities::COMMON_LIBRARIES);
+            $locale['Error'] = Translation :: get('Error', null, Utilities::COMMON_LIBRARIES);
 
             $elem = $this->addElement('element_finder', self :: PARAM_TARGET_LEVEL . '_' . $labels[1], $label, $url, $locale, array(), array('load_elements' => true));
             $defaults = array();

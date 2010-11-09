@@ -4,16 +4,17 @@ namespace application\profiler;
 
 use common\libraries\Path;
 use common\libraries\EqualityCondition;
-use user\UserDataManager;
 use common\libraries\ConditionTranslator;
 use common\libraries\ObjectResultSet;
 use common\libraries\InCondition;
+use common\libraries\Translation;
+use common\libraries\Utilities;
+use common\libraries\Database;
+use user\User;
+use user\UserDataManager;
 use repository\RepositoryDataManager;
 use repository\ContentObject;
 use repository\ContentObjectPublicationAttributes;
-use common\libraries\Translation;
-use common\libraries\Database;
-use user\User;
 
 
 /**

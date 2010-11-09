@@ -1,6 +1,7 @@
 <?php
 namespace menu;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Theme;
 use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
@@ -77,7 +78,7 @@ class NavigationItemBrowserTableCellRenderer extends DefaultNavigationItemTableC
         $toolbar = new Toolbar();
         
         $toolbar->add_item(new ToolbarItem(
-    			Translation :: get('Edit'),
+    			Translation :: get('Edit', null , Utilities :: COMMON_LIBRARIES),
     			Theme :: get_common_image_path() . 'action_edit.png',
     			$this->browser->get_navigation_item_editing_url($menu),
     			ToolbarItem :: DISPLAY_ICON
@@ -86,7 +87,7 @@ class NavigationItemBrowserTableCellRenderer extends DefaultNavigationItemTableC
         if ($index == 'first' || $index == 'single')
         {
            	$toolbar->add_item(new ToolbarItem(
-    			Translation :: get('MoveUpNA'),
+    			Translation :: get('MoveUpNA', null , Utilities :: COMMON_LIBRARIES),
     			Theme :: get_common_image_path() . 'action_up_na.png',
     			null,
     			ToolbarItem :: DISPLAY_ICON
@@ -95,7 +96,7 @@ class NavigationItemBrowserTableCellRenderer extends DefaultNavigationItemTableC
         else
         {
             $toolbar->add_item(new ToolbarItem(
-    			Translation :: get('MoveUp'),
+    			Translation :: get('MoveUp', null , Utilities :: COMMON_LIBRARIES),
     			Theme :: get_common_image_path() . 'action_up.png',
     			$this->browser->get_navigation_item_moving_url($menu, 'up'),
     			ToolbarItem :: DISPLAY_ICON
@@ -105,7 +106,7 @@ class NavigationItemBrowserTableCellRenderer extends DefaultNavigationItemTableC
         if ($index == 'last' || $index == 'single')
         {
             $toolbar->add_item(new ToolbarItem(
-    			Translation :: get('MoveDownNA'),
+    			Translation :: get('MoveDownNA', null , Utilities :: COMMON_LIBRARIES),
     			Theme :: get_common_image_path() . 'action_down_na.png',
     			null,
     			ToolbarItem :: DISPLAY_ICON
@@ -114,7 +115,7 @@ class NavigationItemBrowserTableCellRenderer extends DefaultNavigationItemTableC
         else
         {
             $toolbar->add_item(new ToolbarItem(
-    			Translation :: get('MoveDown'),
+    			Translation :: get('MoveDown', null , Utilities :: COMMON_LIBRARIES),
     			Theme :: get_common_image_path() . 'action_down.png',
     			$this->browser->get_navigation_item_moving_url($menu, 'down'),
     			ToolbarItem :: DISPLAY_ICON
@@ -122,7 +123,7 @@ class NavigationItemBrowserTableCellRenderer extends DefaultNavigationItemTableC
         }
 
         $toolbar->add_item(new ToolbarItem(
-    			Translation :: get('Delete'),
+    			Translation :: get('Delete', null , Utilities :: COMMON_LIBRARIES),
     			Theme :: get_common_image_path() . 'action_delete.png',
     			$this->browser->get_navigation_item_deleting_url($menu),
     			ToolbarItem :: DISPLAY_ICON,

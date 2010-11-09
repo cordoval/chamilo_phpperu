@@ -8,6 +8,7 @@ use repository\ContentObjectForm;
 use common\libraries\Application;
 use common\libraries\EqualityCondition;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use repository\ContentObjectDisplay;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;

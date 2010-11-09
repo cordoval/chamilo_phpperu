@@ -1,4 +1,10 @@
 <?php
+namespace group;
+
+use common\libraries\Application;
+use common\libraries\Translation;
+use common\libraries\Utilities;
+
 require_once dirname(__FILE__) . '/../../group_usage_tree_menu_data_provider.class.php';
 require_once dirname(__FILE__) . '/../../forms/group_usage_form.class.php';
 
@@ -50,7 +56,8 @@ class GroupManagerUsageManagerComponent extends GroupManager implements Administ
             if ($usage_form->validate())
             {
                 $success = $usage_form->update_group_usage();
-                $this->redirect(Translation :: get($success ? 'GroupUsageUpdated' : 'GroupUsageNotUpdated'), !$success, array(GroupManager :: PARAM_GROUP_ID => $this->get_group()));
+                $message = $success ? Translation :: get('ObjectUpdated', array('OBJECT' => Translation :: get('GroupUsage')) , Utilities :: COMMON_LIBRARIES) : Translation :: get('ObjectNotUpdated', array('OBJECT' => Translation :: get('GroupUsage')) , Utilities :: COMMON_LIBRARIES);
+                $this->redirect($message, !$success, array(GroupManager :: PARAM_GROUP_ID => $this->get_group()));
             }
             else
             {
@@ -65,7 +72,7 @@ class GroupManagerUsageManagerComponent extends GroupManager implements Administ
             $html[] = '<div style="float: right; width: 80%;">';
             if ($this->get_group() == $this->get_root_group()->get_id())
             {
-                $html[] = Display :: warning_message('NoPermissionsToConfigureRoot', true);
+                $html[] = Display :: warning_message(Translation :: get('NoPermissionsToConfigureRoot'), true);
             }
             else
             {

@@ -62,9 +62,9 @@ class WikiPublicationForm extends FormValidator
         $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/libraries/php/xml_feeds/xml_user_group_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('SelectRecipients');
-        $locale['Searching'] = Translation :: get('Searching');
-        $locale['NoResults'] = Translation :: get('NoResults');
-        $locale['Error'] = Translation :: get('Error');
+        $locale['Searching'] = Translation :: get('Searching', null , Utilities :: COMMON_LIBRARIES);
+        $locale['NoResults'] = Translation :: get('NoResults', null , Utilities :: COMMON_LIBRARIES);
+        $locale['Error'] = Translation :: get('Error', null , Utilities :: COMMON_LIBRARIES);
         $attributes['locale'] = $locale;
         $attributes['exclude'] = array('user_' . $this->user->get_id());
         $attributes['defaults'] = array();
@@ -77,13 +77,13 @@ class WikiPublicationForm extends FormValidator
 	        	$gradebook_internal_item_form->build_evaluation_question($this);
         	}
         }
-        $this->add_receivers(self :: PARAM_TARGET, Translation :: get('PublishFor'), $attributes);
+        $this->add_receivers(self :: PARAM_TARGET, Translation :: get('PublishFor', null , Utilities :: COMMON_LIBRARIES), $attributes);
 
         $this->add_forever_or_timewindow();
-        $this->addElement('checkbox', self :: PARAM_HIDDEN, Translation :: get('Hidden'));
+        $this->addElement('checkbox', self :: PARAM_HIDDEN, Translation :: get('Hidden', null , Utilities :: COMMON_LIBRARIES));
         if ($this->email_option)
         {
-            $this->addElement('checkbox', self :: PARAM_EMAIL, Translation :: get('SendByEMail'));
+            $this->addElement('checkbox', self :: PARAM_EMAIL, Translation :: get('SendByEMail', null , Utilities :: COMMON_LIBRARIES));
         }
     }
 
@@ -91,8 +91,8 @@ class WikiPublicationForm extends FormValidator
     {
         $this->build_basic_form();
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null , Utilities :: COMMON_LIBRARIES), array('class' => 'positive update'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null , Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -101,8 +101,8 @@ class WikiPublicationForm extends FormValidator
     {
         $this->build_basic_form();
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null , Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null , Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

@@ -67,15 +67,15 @@ class GutenbergPublicationBrowserTableCellRenderer extends DefaultGutenbergPubli
         
         $viewing_url = $this->browser->get_publication_viewing_url($gutenberg_publication);
         
-        $toolbar->add_item(new ToolbarItem(Translation :: get('View'), Theme :: get_common_image_path() . 'action_details.png', $viewing_url, ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('View', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_details.png', $viewing_url, ToolbarItem :: DISPLAY_ICON));
         
         if ($this->browser->get_user()->is_platform_admin() || $gutenberg_publication->get_publisher() == $this->browser->get_user()->get_id())
         {
             $edit_url = $this->browser->get_publication_editing_url($gutenberg_publication);
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $edit_url, ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $edit_url, ToolbarItem :: DISPLAY_ICON));
             
             $delete_url = $this->browser->get_publication_deleting_url($gutenberg_publication);
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $delete_url, ToolbarItem :: DISPLAY_ICON, true));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $delete_url, ToolbarItem :: DISPLAY_ICON, true));
         }
         
         return $toolbar->as_html();

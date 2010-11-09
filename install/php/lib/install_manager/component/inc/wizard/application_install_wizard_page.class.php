@@ -42,8 +42,8 @@ class ApplicationInstallWizardPage extends InstallWizardPage
         $this->get_package_tabs($packages);
 
         $buttons = array();
-        $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Previous'), array('class' => 'normal previous'));
-        $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next'), array('class' => 'normal next'));
+        $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Previous', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal previous'));
+        $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal next'));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         $this->setDefaultAction($this->getButtonName('next'));
     }
@@ -95,9 +95,9 @@ class ApplicationInstallWizardPage extends InstallWizardPage
         $html[] = '<div class="clear"></div>';
 
         $html[] = '<div id="selectbuttons" style="padding-left: 10px; display: none;"><br />';
-        $html[] = '<a href="#" id="selectall">' . Translation :: get('SelectAll') . '</a>';
+        $html[] = '<a href="#" id="selectall">' . Translation :: get('SelectAll', null, Utilities::COMMON_LIBRARIES) . '</a>';
         $html[] = ' - ';
-        $html[] = '<a href="#" id="unselectall">' . Translation :: get('UnSelectAll') . '</a>';
+        $html[] = '<a href="#" id="unselectall">' . Translation :: get('UnSelectAll', null, Utilities::COMMON_LIBRARIES) . '</a>';
         $html[] = '</div><br />';
 
         $html[] = '<div id="tabs">';

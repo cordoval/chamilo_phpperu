@@ -38,14 +38,14 @@ class ColumnsConfigBuildWizardPage extends BuildWizardPage
             {
                 // TODO: Also pass on site width to javascript once this can be changed.
                 $this->addElement('static', '', '', '<b>' . Translation :: get('Row') . '&nbsp;' . $i . '&nbsp;-&nbsp;' . Translation :: get('Column') . '&nbsp;' . $j . '</b>');
-                $this->addElement('text', 'row' . $i . '[column' . $j . '][title]', Translation :: get('Title'), array("size" => "50"));
+                $this->addElement('text', 'row' . $i . '[column' . $j . '][title]', Translation :: get('Title', null, Utilities::COMMON_LIBRARIES), array("size" => "50"));
                 $this->addElement('text', 'row' . $i . '[column' . $j . '][width]', Translation :: get('Width'), 'size="50" onchange="recalculate(' . $i . ',' . $column_amount . ')"');
                 $this->addElement('text', 'row' . $i . '[column' . $j . '][blocksamount]', Translation :: get('BlockAmount'), array("size" => "50"));
-                $this->addRule('row' . $i . '[column' . $j . '][width]', Translation :: get('FieldMustBeNumeric'), 'numeric');
-                $this->addRule('row' . $i . '[column' . $j . '][blocksamount]', Translation :: get('FieldMustBeNumeric'), 'numeric');
-                $this->addRule('row' . $i . '[column' . $j . '][title]', Translation :: get('ThisFieldIsRequired'), 'required');
-                $this->addRule('row' . $i . '[column' . $j . '][width]', Translation :: get('ThisFieldIsRequired'), 'required');
-                $this->addRule('row' . $i . '[column' . $j . '][blocksamount]', Translation :: get('ThisFieldIsRequired'), 'required');
+                $this->addRule('row' . $i . '[column' . $j . '][width]', Translation :: get('FieldMustBeNumeric', null, Utilities::COMMON_LIBRARIES), 'numeric');
+                $this->addRule('row' . $i . '[column' . $j . '][blocksamount]', Translation :: get('FieldMustBeNumeric', null, Utilities::COMMON_LIBRARIES), 'numeric');
+                $this->addRule('row' . $i . '[column' . $j . '][title]', Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
+                $this->addRule('row' . $i . '[column' . $j . '][width]', Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
+                $this->addRule('row' . $i . '[column' . $j . '][blocksamount]', Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
                 
                 if ($j != $column_amount)
                 {
@@ -59,8 +59,8 @@ class ColumnsConfigBuildWizardPage extends BuildWizardPage
             }
         }
         
-        $prevnext[] = & $this->createElement('submit', $this->getButtonName('back'), '<< ' . Translation :: get('Previous'));
-        $prevnext[] = & $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next') . ' >>');
+        $prevnext[] = & $this->createElement('submit', $this->getButtonName('back'), '<< ' . Translation :: get('Previous', null, Utilities::COMMON_LIBRARIES));
+        $prevnext[] = & $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next', null, Utilities::COMMON_LIBRARIES) . ' >>');
         $this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
         $this->setDefaultAction('next');
         $this->_formBuilt = true;

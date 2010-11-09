@@ -32,7 +32,7 @@ class NavigationItemBrowserTable extends ObjectTable
         parent :: __construct($data_provider, NavigationItemBrowserTable :: DEFAULT_NAME, $model, $renderer);
         $actions = new ObjectTableFormActions();
         
-        $actions->add_form_action(new ObjectTableFormAction(MenuManager :: ACTION_DELETE, Translation :: get('RemoveSelected')));
+        $actions->add_form_action(new ObjectTableFormAction(MenuManager :: ACTION_DELETE, Translation :: get('RemoveSelected', null , Utilities :: COMMON_LIBRARIES)));
         
         $user = $browser->get_user();
         $this->set_form_actions($actions);

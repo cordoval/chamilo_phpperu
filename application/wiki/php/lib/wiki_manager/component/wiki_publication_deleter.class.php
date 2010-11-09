@@ -4,6 +4,7 @@ namespace application\wiki;
 use common\libraries\WebApplication;
 use common\libraries\Breadcrumb;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use repository\RepoViewer;
 
 use application\GradebookUtilities;
@@ -56,34 +57,34 @@ class WikiManagerWikiPublicationDeleterComponent extends WikiManager
                 }
             }
             
-            if ($failures)
+     	    if ($failures)
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedWikiPublicationDeleted';
+                    $message = Translation :: get('ObjectNotDeleted',array('OBJECT' => Translation :: get('WikiPublication')), Utilities :: COMMON_LIBRARIES);
                 }
                 else
                 {
-                    $message = 'SelectedWikiPublicationDeleted';
+                    $message = Translation :: get('ObjectsNotDeleted',array('OBJECT' => Translation :: get('WikiPublications')), Utilities :: COMMON_LIBRARIES);
                 }
             }
             else
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedWikiPublicationsDeleted';
+                    $message = Translation :: get('ObjectDeleted',array('OBJECT' => Translation :: get('WikiPublication')), Utilities :: COMMON_LIBRARIES);
                 }
                 else
                 {
-                    $message = 'SelectedWikiPublicationsDeleted';
+                    $message = Translation :: get('ObjectsDeleted',array('OBJECT' => Translation :: get('WikiPublications')), Utilities :: COMMON_LIBRARIES);
                 }
             }
-            
+             
             $this->redirect(Translation :: get($message), ($failures ? true : false), array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_BROWSE_WIKI_PUBLICATIONS));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoWikiPublicationsSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectsSelected', null , Utilities :: COMMON_LIBRARIES)));
         }
     }
     

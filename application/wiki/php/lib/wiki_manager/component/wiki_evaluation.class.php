@@ -30,7 +30,7 @@ class WikiManagerWikiEvaluationComponent extends WikiManager implements Evaluati
         }
         else
         {
-            $this->display_error_message(Translation :: get('NoWikiPublicationsSelected'));
+            $this->display_error_message(Translation :: get('NoObjectsSelected', null , Utilities :: COMMON_LIBRARIES));
         }
     }
 

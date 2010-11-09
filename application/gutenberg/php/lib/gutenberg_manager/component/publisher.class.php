@@ -28,7 +28,7 @@ class GutenbergManagerPublisherComponent extends GutenbergManager implements Rep
     {
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => GutenbergManager :: ACTION_BROWSE_PUBLICATIONS)), Translation :: get('Gutenberg')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Publish')));
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Publish', null, Utilities::COMMON_LIBRARIES)));
         $trail->add_help('gutenberg general');
 
         

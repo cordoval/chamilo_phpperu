@@ -2,6 +2,7 @@
 namespace group;
 use common\libraries\Application;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Request;
 use common\libraries\DynamicTabsRenderer;
 use common\libraries\AdministrationComponent;
@@ -35,7 +36,7 @@ class GroupManagerDeleterComponent extends GroupManager implements Administratio
             $trail->add_help('group general');
 
             $this->display_header($trail, false);
-            Display :: error_message(Translation :: get('NotAllowed'));
+            Display :: error_message(Translation :: get('NotAllowed', null , Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
@@ -68,30 +69,30 @@ class GroupManagerDeleterComponent extends GroupManager implements Administratio
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedGroupDeleted';
+                    $message = Translation :: get('ObjectNotDeleted', array('OBJECT' => Translation :: get('SelectedGroup')), Utilities :: COMMON_LIBRARIES);
                 }
                 else
                 {
-                    $message = 'SelectedGroupDeleted';
+                    $message = Translation :: get('ObjectsNotDeleted', array('OBJECT' => Translation :: get('SelectedGroups')), Utilities :: COMMON_LIBRARIES);
                 }
             }
             else
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedGroupsDeleted';
+                    $message = Translation :: get('ObjectDeleted', array('OBJECT' => Translation :: get('SelectedGroup')), Utilities :: COMMON_LIBRARIES);
                 }
                 else
                 {
-                    $message = 'SelectedGroupsDeleted';
+                    $message = Translation :: get('ObjectsDeleted', array('OBJECT' => Translation :: get('SelectedGroups')), Utilities :: COMMON_LIBRARIES);
                 }
             }
 
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS));
+            $this->redirect($message, ($failures ? true : false), array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoGroupsSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectsSelected', null , Utilities :: COMMON_LIBRARIES)));
         }
     }
     

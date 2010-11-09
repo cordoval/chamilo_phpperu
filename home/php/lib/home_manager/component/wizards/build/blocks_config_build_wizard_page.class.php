@@ -42,8 +42,8 @@ class BlocksConfigBuildWizardPage extends BuildWizardPage
                 for($k = 1; $k <= $block_amount; $k ++)
                 {
                     $this->addElement('static', '', '', '<b>' . Translation :: get('Row') . '&nbsp;' . $i . '&nbsp;-&nbsp;' . Translation :: get('Column') . '&nbsp;' . $j . '&nbsp;-&nbsp;' . Translation :: get('Block') . '&nbsp;' . $k . '</b>');
-                    $this->addElement('text', 'row' . $i . '[column' . $j . '][block' . $k . '][title]', Translation :: get('Title'), array("size" => "50"));
-                    $this->addRule('row' . $i . '[column' . $j . '][block' . $k . '][title]', Translation :: get('ThisFieldIsRequired'), 'required');
+                    $this->addElement('text', 'row' . $i . '[column' . $j . '][block' . $k . '][title]', Translation :: get('Title', null, Utilities::COMMON_LIBRARIES), array("size" => "50"));
+                    $this->addRule('row' . $i . '[column' . $j . '][block' . $k . '][title]', Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
                     $this->addElement('select', 'row' . $i . '[column' . $j . '][block' . $k . '][component]', Translation :: get('Component'), $this->components);
                     
                     if ($j != $block_amount)
@@ -64,8 +64,8 @@ class BlocksConfigBuildWizardPage extends BuildWizardPage
             }
         }
         
-        $prevnext[] = & $this->createElement('submit', $this->getButtonName('back'), '<< ' . Translation :: get('Previous'));
-        $prevnext[] = & $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next') . ' >>');
+        $prevnext[] = & $this->createElement('submit', $this->getButtonName('back'), '<< ' . Translation :: get('Previous', null, Utilities::COMMON_LIBRARIES));
+        $prevnext[] = & $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next', null, Utilities::COMMON_LIBRARIES) . ' >>');
         $this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
         $this->setDefaultAction('next');
         $this->_formBuilt = true;

@@ -1,6 +1,7 @@
 <?php
 namespace menu;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Request;
 use common\libraries\AdministrationComponent;
 use common\libraries\BreadcrumbTrail;
@@ -40,7 +41,7 @@ class MenuManagerDeleterComponent extends MenuManager implements AdministrationC
         }
         else
         {
-            $this->display_error_page(Translation :: get('NoObjectsSelected'));
+            $this->display_error_page(Translation :: get('NoObjectsSelected', null , Utilities :: COMMON_LIBRARIES));
         }
 	}
 	

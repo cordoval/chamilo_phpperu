@@ -51,7 +51,7 @@ class ConfigureQuestionForm extends FormValidator {
 
 
 		$this->addElement ( 'advmultiselect', SurveyPage:: TO_VISIBLE_QUESTIONS_IDS, Translation::get ( 'Questions' ), $this->get_questions () , array('style'=> 'width: 250px'));
-		$this->addRule ( SurveyPage:: TO_VISIBLE_QUESTIONS_IDS, Translation::get ( 'ThisFieldIsRequired' ), 'required' );
+		$this->addRule ( SurveyPage:: TO_VISIBLE_QUESTIONS_IDS, Translation::get ( 'ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES ), 'required' );
 
 	}
 
@@ -72,8 +72,8 @@ class ConfigureQuestionForm extends FormValidator {
 	function build_creation_form() {
 		$this->build_basic_form ();
 
-		$buttons [] = $this->createElement ( 'style_submit_button', 'submit', Translation::get ( 'Create' ), array ('class' => 'positive' ) );
-		$buttons [] = $this->createElement ( 'style_reset_button', 'reset', Translation::get ( 'Reset' ), array ('class' => 'normal empty' ) );
+		$buttons [] = $this->createElement ( 'style_submit_button', 'submit', Translation::get ( 'Create', null, Utilities::COMMON_LIBRARIES ), array ('class' => 'positive' ) );
+		$buttons [] = $this->createElement ( 'style_reset_button', 'reset', Translation::get ( 'Reset', null, Utilities::COMMON_LIBRARIES), array ('class' => 'normal empty' ) );
 
 		$this->addGroup ( $buttons, 'buttons', null, '&nbsp;', false );
 	}

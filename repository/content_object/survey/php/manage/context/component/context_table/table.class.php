@@ -28,7 +28,7 @@ class SurveyContextTable extends ObjectTable
         $this->set_additional_parameters($parameters);
 
         $actions = new ObjectTableFormActions(SurveyContextManager :: PARAM_ACTION);
-        $actions->add_form_action(new ObjectTableFormAction(SurveyContextManager :: ACTION_DELETE_CONTEXT, Translation :: get('Delete')));
+        $actions->add_form_action(new ObjectTableFormAction(SurveyContextManager :: ACTION_DELETE_CONTEXT, Translation :: get('Delete', null, Utilities::COMMON_LIBRARIES)));
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
 

@@ -2,9 +2,9 @@
 
 namespace application\cda;
 
-require_once dirname(__FILE__) . '/variable_scanner.class.php';
+require_once dirname(__FILE__) . '/variable_writer.class.php';
 
-class DatabaseVariableScanner extends VariableScanner
+class DatabaseVariableWriter extends VariableWriter
 {
     private $language_packs;
 

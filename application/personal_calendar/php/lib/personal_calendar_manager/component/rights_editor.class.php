@@ -6,6 +6,7 @@ use common\libraries\WebApplication;
 use common\extensions\rights_editor_manager\RightsEditorManager;
 use common\libraries\Display;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Breadcrumb;
 use common\libraries\Application;
 

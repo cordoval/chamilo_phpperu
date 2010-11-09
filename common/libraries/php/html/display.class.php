@@ -259,7 +259,7 @@ class Display
         self :: header($trail);
         $home_url = Path :: get(WEB_PATH);
 
-        $html[] = Translation :: get('NotAllowed');
+        $html[] = Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES);
 
         if ($show_login_form)
         {
@@ -283,7 +283,7 @@ class Display
         $form->addElement('text', 'login', Translation :: get('UserName'), array(
                 'size' => 20,
                 'onclick' => 'this.value=\'\';'));
-        $form->addRule('login', Translation :: get('ThisFieldIsRequired'), 'required');
+        $form->addRule('login', Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         $form->addElement('password', 'password', Translation :: get('Pass'), array(
                 'size' => 20,
                 'onclick' => 'this.value=\'\';'));

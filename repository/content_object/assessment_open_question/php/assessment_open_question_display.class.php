@@ -3,6 +3,7 @@ namespace repository\content_object\assessment_open_question;
 
 use common\libraries\Translation;
 use common\libraries\Path;
+use common\libraries\Utilities;
 
 /**
  * $Id: assessment_open_question_display.class.php $
@@ -37,7 +38,7 @@ class AssessmentOpenQuestionDisplay extends OpenQuestionDisplay
                 break;
         }
 
-        return '<b>' . Translation :: get('Type') . ':</b> ' . $type . $description;
+        return '<b>' . Translation :: get('Type', null, Utilities :: COMMON_LIBRARIES) . ':</b> ' . $type . $description;
     }
 }
 ?>

@@ -142,7 +142,7 @@ class AlexiaManagerBrowserComponent extends AlexiaManager
     function get_action_bar()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(Application :: PARAM_ACTION => AlexiaManager :: ACTION_CREATE_PUBLICATION))));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(Application :: PARAM_ACTION => AlexiaManager :: ACTION_CREATE_PUBLICATION))));
         if (! isset($this->introduction))
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('AddIntroduction'), Theme :: get_common_image_path() . 'action_introduce.png', $this->get_url(array(Application :: PARAM_ACTION => AlexiaManager :: ACTION_PUBLISH_INTRODUCTION))));
@@ -160,8 +160,8 @@ class AlexiaManagerBrowserComponent extends AlexiaManager
         if (isset($introduction))
         {
         	$toolbar = new Toolbar();
-        	$toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_introduction_editing_url($introduction), ToolbarItem :: DISPLAY_ICON));
-			$toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_publication_deleting_url($introduction), ToolbarItem :: DISPLAY_ICON, true));
+        	$toolbar->add_item(new ToolbarItem(Translation :: get('Edit',null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->get_introduction_editing_url($introduction), ToolbarItem :: DISPLAY_ICON));
+			$toolbar->add_item(new ToolbarItem(Translation :: get('Delete',null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->get_publication_deleting_url($introduction), ToolbarItem :: DISPLAY_ICON, true));
 
             $object = $introduction->get_publication_object();
 

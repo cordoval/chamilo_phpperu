@@ -31,9 +31,9 @@ class FeedbackManagerForm extends FormValidator
     function build_text_form()
     {
         $this->add_html_editor(self :: PROPERTY_TEXT, 'comment', 'required');
-        $this->addRule(self :: PROPERTY_TEXT, Translation :: get('ThisFieldIsRequired'), 'required');
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $this->addRule(self :: PROPERTY_TEXT, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

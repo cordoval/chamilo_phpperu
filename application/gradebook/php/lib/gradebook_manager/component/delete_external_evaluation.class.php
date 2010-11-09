@@ -52,7 +52,7 @@ class GradebookManagerDeleteExternalEvaluationComponent extends GradebookManager
             }
         }
 
-        $this->redirect(Translation :: get($message), ($failures ? true : false), array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_BROWSE_GRADEBOOK, GradebookManager :: PARAM_PUBLICATION_TYPE => Request :: get(GradebookManager :: PARAM_PUBLICATION_TYPE), GradebookManager :: PARAM_PUBLICATION_APP => Request :: get(GradebookManager :: PARAM_PUBLICATION_APP)));
+        $this->redirect(Translation :: get($message, null, Utilities::COMMON_LIBRARIES), ($failures ? true : false), array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_BROWSE_GRADEBOOK, GradebookManager :: PARAM_PUBLICATION_TYPE => Request :: get(GradebookManager :: PARAM_PUBLICATION_TYPE), GradebookManager :: PARAM_PUBLICATION_APP => Request :: get(GradebookManager :: PARAM_PUBLICATION_APP)));
     }
 
 }

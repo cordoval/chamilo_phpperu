@@ -8,6 +8,7 @@ use common\libraries\Display;
 use repository\content_object\profile\Profile;
 use common\libraries\Session;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\ObjectTable;
 
 /**

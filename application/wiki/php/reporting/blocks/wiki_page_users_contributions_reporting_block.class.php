@@ -35,7 +35,7 @@ class WikiPageUsersContributionsReportingBlock extends WikiReportingBlock
             {
                 $user = UserDataManager :: get_instance()->retrieve_user($user);
                 $reporting_data->add_category(0);
-            	$reporting_data->add_data_category_row(0, Translation :: get('Username'), $user->get_username());
+            	$reporting_data->add_data_category_row(0, Translation :: get('Username', null , 'user'), $user->get_username());
             	$reporting_data->add_data_category_row(0, Translation :: get('NumberOfContributions'), $number);
             	$reporting_data->hide_categories();
                 $count ++;

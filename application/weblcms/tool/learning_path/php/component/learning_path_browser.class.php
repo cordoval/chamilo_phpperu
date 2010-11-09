@@ -6,11 +6,11 @@ use application\weblcms\ContentObjectPublication;
 use application\weblcms\WeblcmsDataManager;
 use application\weblcms\WeblcmsRights;
 use application\weblcms\Tool;
-use common\libraries\PatternMatchCondition;
+use repository\RepositoryDataManager;
 use repository\ContentObject;
+use common\libraries\PatternMatchCondition;
 use common\libraries\ActionBarRenderer;
 use common\libraries\SubselectCondition;
-use repository\RepositoryDataManager;
 use common\libraries\ToolbarItem;
 use common\libraries\Display;
 use common\libraries\Theme;
@@ -20,6 +20,7 @@ use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: learning_path_browser.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -73,10 +74,10 @@ class LearningPathToolBrowserComponent extends LearningPathToolComponent
 
         if ($this->is_allowed(WeblcmsRights :: ADD_RIGHT))
         {
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(LearningPathTool :: PARAM_ACTION => LearningPathTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(LearningPathTool :: PARAM_ACTION => LearningPathTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
 
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Browse'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(LearningPathTool :: PARAM_ACTION => LearningPathTool :: ACTION_BROWSE_LEARNING_PATHS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Browse', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(LearningPathTool :: PARAM_ACTION => LearningPathTool :: ACTION_BROWSE_LEARNING_PATHS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         if (! $this->introduction_text && $this->get_course()->get_intro_text() && $this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {

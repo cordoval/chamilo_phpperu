@@ -1,6 +1,7 @@
 <?php
 namespace menu;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Request;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
@@ -52,7 +53,7 @@ class MenuManagerBrowserComponent extends MenuManager implements AdministrationC
 
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('AddItem'), Theme :: get_common_image_path() . 'action_create.png', $this->get_navigation_item_creation_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('AddCategory'), Theme :: get_common_image_path() . 'action_category.png', $this->get_category_navigation_item_creation_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(self :: PARAM_ITEM => $category)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(self :: PARAM_ITEM => $category)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         return $action_bar;
     }

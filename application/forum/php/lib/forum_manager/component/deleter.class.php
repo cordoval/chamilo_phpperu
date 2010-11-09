@@ -6,6 +6,8 @@ use common\libraries\Request;
 use common\libraries\WebApplication;
 use common\libraries\Translation;
 use common\libraries\Breadcrumb;
+use common\libraries\Utilities;
+
 /**
  * $Id: deleter.class.php 195 2009-11-13 12:02:41Z chellee $
  * @package application.lib.forum.forum_manager.component
@@ -56,7 +58,7 @@ class ForumManagerDeleterComponent extends ForumManager
                 }
                 else
                 {
-                    $message = Translation :: get('ObjectsNotDeleted',array('OBJECT' => Translation :: get('ForumPublication')), Utilities :: COMMON_LIBRARIES);
+                    $message = Translation :: get('ObjectsNotDeleted',array('OBJECT' => Translation :: get('ForumPublications')), Utilities :: COMMON_LIBRARIES);
                 }
             }
             else
@@ -67,7 +69,7 @@ class ForumManagerDeleterComponent extends ForumManager
                 }
                 else
                 {
-                    $message = Translation :: get('ObjectsDeleted',array('OBJECT' => Translation :: get('ForumPublication')), Utilities :: COMMON_LIBRARIES);
+                    $message = Translation :: get('ObjectsDeleted',array('OBJECT' => Translation :: get('ForumPublications')), Utilities :: COMMON_LIBRARIES);
                 }
             }
             

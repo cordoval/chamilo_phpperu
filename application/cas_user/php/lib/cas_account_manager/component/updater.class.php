@@ -26,7 +26,7 @@ class CasAccountManagerUpdaterComponent extends CasAccountManager
         if ($form->validate())
         {
             $success = $form->update_cas_account();
-            $this->redirect($success ? Translation :: get('CasAccountUpdated') : Translation :: get('CasAccountNotUpdated'), ! $success, array(CasAccountManager :: PARAM_CAS_ACCOUNT_ACTION => CasAccountManager :: ACTION_BROWSE));
+            $this->redirect($success ? Translation :: get('CasAccountUpdated', null, Utilities::COMMON_LIBRARIES) : Translation :: get('CasAccountNotUpdated'), ! $success, array(CasAccountManager :: PARAM_CAS_ACCOUNT_ACTION => CasAccountManager :: ACTION_BROWSE));
         }
         else
         {

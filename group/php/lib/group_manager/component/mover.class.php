@@ -2,6 +2,7 @@
 namespace group;
 use common\libraries\Application;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Request;
 use common\libraries\EqualityCondition;
 use common\libraries\AdministrationComponent;
@@ -25,7 +26,7 @@ class GroupManagerMoverComponent extends GroupManager implements AdministrationC
         if (!GroupRights::is_allowed_in_groups_subtree(GroupRights::RIGHT_MOVE, GroupRights::get_location_by_identifier_from_groups_subtree(Request::get(GroupManager::PARAM_GROUP_ID))))
         {
             $this->display_header();
-            Display :: warning_message(Translation :: get('NotAllowed'));
+            Display :: warning_message(Translation :: get('NotAllowed', null , Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
@@ -39,7 +40,8 @@ class GroupManagerMoverComponent extends GroupManager implements AdministrationC
 
             $success = $form->move_group();
             $parent = $form->get_new_parent();
-            $this->redirect($success ? Translation :: get('GroupMoved') : Translation :: get('GroupNotMoved'), $success ? (false) : true, array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS, GroupManager :: PARAM_GROUP_ID => $parent));
+            $message = $success ? Translation :: get('ObjectMoved', array('OBJECT' => Translation :: get('Group')), Utilities :: COMMON_LIBRARIES) : Translation :: get('ObjectNotMoved', array('OBJECT' => Translation :: get('Group')) , Utilities :: COMMON_LIBRARIES);
+            $this->redirect($message , $success ? (false) : true, array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS, GroupManager :: PARAM_GROUP_ID => $parent));
         }
         else
         {
