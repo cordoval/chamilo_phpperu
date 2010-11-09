@@ -3,6 +3,7 @@ namespace reporting;
 
 use common\libraries\Export;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 class ReportingCsvExporter extends ReportingExporter
 {
