@@ -22,7 +22,7 @@ class MetadataManagerMetadataNamespaceCreatorComponent extends MetadataManager
         if($form->validate())
         {
             $success = $form->create_metadata_namespace();
-            $this->redirect(Translation :: get($success ? 'ObjectCreated' : 'ObjectnotCreated', array('OBJECT' => Translation :: get('MetadataNamespace')), Utilities :: COMMON_LIBRARY) , !$success, array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE_METADATA_NAMESPACES));
+            $this->redirect(Translation :: get($success ? 'ObjectCreated' : 'ObjectnotCreated', array('OBJECT' => Translation :: get('MetadataNamespace')), Utilities :: COMMON_LIBRARIES) , !$success, array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE_METADATA_NAMESPACES));
         }
         else
         {

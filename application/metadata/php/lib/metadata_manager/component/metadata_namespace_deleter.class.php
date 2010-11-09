@@ -33,7 +33,7 @@ class MetadataManagerMetadataNamespaceDeleterComponent extends MetadataManager
                         $message = 'ObjectDeleted';
                     }
                                     
-                    $this->redirect(Translation :: get($message, array('OBJECT' => Translation :: get('MetadataNameSpace')), Utilities :: COMMON_LIBRARY), ($fail ? true : false), array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE_METADATA_NAMESPACES));
+                    $this->redirect(Translation :: get($message, array('OBJECT' => Translation :: get('MetadataNameSpace')), Utilities :: COMMON_LIBRARIES), ($fail ? true : false), array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE_METADATA_NAMESPACES));
                 }
 	}
 }

@@ -88,16 +88,16 @@ class MetadataAssociationsForm extends FormValidator
         $attributes['defaults'] = $defaults;
         $attributes['exclude'] = array();
         $attributes['nodesSelectable'] = true;
-        $attributes['locale']['Display'] = Translation :: get('SelectObjects', array('OBJECT' => Translation :: get('MetadataPropertyAttributeTypes')), Utilities :: COMMON_LIBRARY);
-        $locale['Searching'] = Translation :: get('Searching', null, Utilities :: COMMON_LIBRARY);
-        $locale['NoResults'] = Translation :: get('NoResults', null, Utilities :: COMMON_LIBRARY);
-        $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARY);
+        $attributes['locale']['Display'] = Translation :: get('SelectObjects', array('OBJECT' => Translation :: get('MetadataPropertyAttributeTypes')), Utilities :: COMMON_LIBRARIES);
+        $locale['Searching'] = Translation :: get('Searching', null, Utilities :: COMMON_LIBRARIES);
+        $locale['NoResults'] = Translation :: get('NoResults', null, Utilities :: COMMON_LIBRARIES);
+        $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARIES);
         //$attributes['options'] = '';
         $attributes['search_url'] = Path :: get(WEB_PATH) . 'application/metadata/php/xml_feeds/xml_attributes_feed.php';
        
 
 
-        $element_finder = $this->createElement('element_finder', MetadataManager :: PARAM_METADATA_ATTRIBUTE_NESTING, Translation :: get('SelectObjects', array('OBJECT' => Translation :: get('MetadataPropertyAttributeType')), Utilities :: COMMON_LIBRARY), $attributes['search_url'], $attributes['locale'], $attributes['defaults'], $attributes['options']);
+        $element_finder = $this->createElement('element_finder', MetadataManager :: PARAM_METADATA_ATTRIBUTE_NESTING, Translation :: get('SelectObjects', array('OBJECT' => Translation :: get('MetadataPropertyAttributeType')), Utilities :: COMMON_LIBRARIES), $attributes['search_url'], $attributes['locale'], $attributes['defaults'], $attributes['options']);
         $element_finder->excludeElements($attributes['exclude']);
         $this->addElement($element_finder);
         
@@ -137,7 +137,7 @@ class MetadataAssociationsForm extends FormValidator
         $attributes['locale']['NoResults'] = 'No results found';
         $attributes['locale']['Searching'] = 'Searching';
         $attributes['search_url'] = Path :: get(WEB_PATH) . 'application/metadata/php/xml_feeds/xml_attributes_feed.php';
-        $element_finder = $this->createElement('element_finder', MetadataManager :: PARAM_METADATA_PROPERTY_NESTING, Translation :: get('SelectObjects', array('OBJECT' => Translation :: get('MetadataPropertyAttributeType')), Utilities :: COMMON_LIBRARY), $attributes['search_url'], $attributes['locale'], $attributes['defaults'], $attributes['options']);
+        $element_finder = $this->createElement('element_finder', MetadataManager :: PARAM_METADATA_PROPERTY_NESTING, Translation :: get('SelectObjects', array('OBJECT' => Translation :: get('MetadataPropertyAttributeType')), Utilities :: COMMON_LIBRARIES), $attributes['search_url'], $attributes['locale'], $attributes['defaults'], $attributes['options']);
         $this->addElement($element_finder);
     }
 
@@ -148,8 +148,8 @@ class MetadataAssociationsForm extends FormValidator
         //$this->addElement('hidden', MetadataAttributeNesting :: PROPERTY_ID);
         
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null, Utilities :: COMMON_LIBRARY), array('class' => 'positive update'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARY), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive update'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
         
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -158,8 +158,8 @@ class MetadataAssociationsForm extends FormValidator
     {
         $this->build_basic_form();
         
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities :: COMMON_LIBRARY), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARY), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
         
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

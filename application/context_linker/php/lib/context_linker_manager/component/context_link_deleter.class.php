@@ -24,7 +24,7 @@ class ContextLinkerManagerContextLinkDeleterComponent extends ContextLinkerManag
         
         if(!$context_link = $this->retrieve_context_link($id))
         {
-            die(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('ContextLink')), Utilities :: COMMON_LIBRARY));
+            die(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('ContextLink')), Utilities :: COMMON_LIBRARIES));
         }
 
 //        $form = new ConfirmationForm($this->get_url(array(ContextLinkerManager :: PARAM_CONTEXT_LINK => Request :: get(ContextLinkerManager :: PARAM_CONTEXT_LINK))));
@@ -72,12 +72,12 @@ class ContextLinkerManagerContextLinkDeleterComponent extends ContextLinkerManag
                 $content_object_id = $context_link->get_original_content_object_id();
                 if (!$context_link->delete())
                 {
-                    $message .= Translation :: get('ObjectNotDeleted', array('OBJECT' => Translation :: get('ContextLink')), Utilities :: COMMON_LIBRARY);
+                    $message .= Translation :: get('ObjectNotDeleted', array('OBJECT' => Translation :: get('ContextLink')), Utilities :: COMMON_LIBRARIES);
                     $fail = true;
                 }
                 else
                 {
-                    $message .= Translation :: get('ObjectDeleted', array('OBJECT' => Translation :: get('ContextLink')), Utilities :: COMMON_LIBRARY);
+                    $message .= Translation :: get('ObjectDeleted', array('OBJECT' => Translation :: get('ContextLink')), Utilities :: COMMON_LIBRARIES);
                 }
 //            }
            

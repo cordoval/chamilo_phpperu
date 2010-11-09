@@ -17,7 +17,7 @@ class ContextLinkerManagerBrowserComponent extends ContextLinkerManager
 
 		$this->display_header($trail);
 
-		echo '<br /><a href="' . $this->get_browse_context_links_url() . '">' . Translation :: get('BrowseObjects', array('OBJECT' => Translation :: get('ContextLink')), Utilities :: COMMON_LIBRARY) . '</a>';
+		echo '<br /><a href="' . $this->get_browse_context_links_url() . '">' . Translation :: get('BrowseObjects', array('OBJECT' => Translation :: get('ContextLink')), Utilities :: COMMON_LIBRARIES) . '</a>';
 
 		$this->display_footer();
 	}

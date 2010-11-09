@@ -45,7 +45,7 @@ class ContextLinkerManagerContextLinkCreatorComponent extends ContextLinkerManag
 
                 foreach ($objects as $object_id)
                 {
-                    $this->redirect(Translation :: get('ObjectSelected', array('OBJECT' => Translation :: get('AlternativeContentObject')), Utilities :: COMMON_LIBRARY), false, array(ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_PUBLISH_CONTEXT_LINK, ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => Request :: get(ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID), ContextLinkerManager :: PARAM_ALTERNATIVE_CONTENT_OBJECT_ID => $object_id));
+                    $this->redirect(Translation :: get('ObjectSelected', array('OBJECT' => Translation :: get('AlternativeContentObject')), Utilities :: COMMON_LIBRARIES), false, array(ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_PUBLISH_CONTEXT_LINK, ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => Request :: get(ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID), ContextLinkerManager :: PARAM_ALTERNATIVE_CONTENT_OBJECT_ID => $object_id));
                 }
             }
         }

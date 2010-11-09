@@ -60,14 +60,14 @@ class MetadataPropertyAttributeTypeBrowserTableCellRenderer extends DefaultMetad
 		$toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
 
         $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Edit', null, Utilities :: COMMON_LIBRARY),
+        		Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES),
         		Theme :: get_common_image_path() . 'action_edit.png',
         		$this->browser->get_update_metadata_property_attribute_type_url($metadata_property_attribute_type),
         		ToolbarItem :: DISPLAY_ICON
         ));
 
         $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Delete', null, Utilities :: COMMON_LIBRARY),
+        		Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES),
         		Theme :: get_common_image_path() . 'action_delete.png',
         		$this->browser->get_delete_metadata_property_attribute_type_url($metadata_property_attribute_type),
         		ToolbarItem :: DISPLAY_ICON,

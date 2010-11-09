@@ -24,7 +24,7 @@ class MetadataManagerContentObjectPropertyMetadataUpdaterComponent extends Metad
 		if($form->validate())
 		{
 			$success = $form->update_content_object_property_metadata();
-			$this->redirect($success ? Translation :: get('ObjectUpdated', array('OBJECT' => Translation :: get('ContentObjectPropertyMetadata')), Utilities :: COMMON_LIBRARY) : Translation :: get('ObjectNotUpdated', array('OBJECT' => Translation :: get('ContentObjectPropertyMetadata')), Utilities :: COMMON_LIBRARY), !$success, array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE_CONTENT_OBJECT_PROPERTY_METADATAS));
+			$this->redirect($success ? Translation :: get('ObjectUpdated', array('OBJECT' => Translation :: get('ContentObjectPropertyMetadata')), Utilities :: COMMON_LIBRARIES) : Translation :: get('ObjectNotUpdated', array('OBJECT' => Translation :: get('ContentObjectPropertyMetadata')), Utilities :: COMMON_LIBRARIES), !$success, array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_BROWSE_CONTENT_OBJECT_PROPERTY_METADATAS));
 		}
 		else
 		{

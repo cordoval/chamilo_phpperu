@@ -19,7 +19,7 @@ class MetadataManagerMetadataDefaultValueImporterComponent extends MetadataManag
     {
        if(!$property_type_id = Request :: get(MetadataManager :: PARAM_METADATA_PROPERTY_TYPE))
        {
-           exit(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('MetadataPropertyType')), Utilities :: COMMON_LIBRARY));
+           exit(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('MetadataPropertyType')), Utilities :: COMMON_LIBRARIES));
        }
 
        //$metadata_property_type = $this->retrieve_metadata_property_type($property_type_id);
@@ -33,7 +33,7 @@ class MetadataManagerMetadataDefaultValueImporterComponent extends MetadataManag
             if(is_uploaded_file($_FILES['File']['tmp_name']))
             {
                 $handle = fopen($_FILES['File']['tmp_name'], 'r');
-                $out = '<h3>' . Translation :: get('Import', null, Utilities :: COMMON_LIBRARY) . '</h3>';
+                $out = '<h3>' . Translation :: get('Import', null, Utilities :: COMMON_LIBRARIES) . '</h3>';
                 while(($data = fgetcsv($handle, 1000, ";")) !== FALSE)
                 {
                     $num = count($data);
@@ -45,11 +45,11 @@ class MetadataManagerMetadataDefaultValueImporterComponent extends MetadataManag
 
                     if($metadata_default_value->create())
                     {
-                        $out .=  '<p>' . Translation :: get('ObjectCreated', array('OBJECT' => Translation :: get('MetadataDefaultValue')), Utilities :: COMMON_LIBRARY) . ' ' . $data[0]  . '</p>' . "\n";
+                        $out .=  '<p>' . Translation :: get('ObjectCreated', array('OBJECT' => Translation :: get('MetadataDefaultValue')), Utilities :: COMMON_LIBRARIES) . ' ' . $data[0]  . '</p>' . "\n";
                     }
                     else
                     {
-                        $out .=  '<p>' . Translation :: get('ObjectNotCreated', array('OBJECT' => Translation :: get('MetadataDefaultValue')), Utilities :: COMMON_LIBRARY) . ' ' . $data[0] . '</p>' . "\n";
+                        $out .=  '<p>' . Translation :: get('ObjectNotCreated', array('OBJECT' => Translation :: get('MetadataDefaultValue')), Utilities :: COMMON_LIBRARIES) . ' ' . $data[0] . '</p>' . "\n";
                     }
 
                 }
@@ -57,13 +57,13 @@ class MetadataManagerMetadataDefaultValueImporterComponent extends MetadataManag
             }
             else
             {
-                $out = Translation :: get('NoFileUploaded',null, Utilities :: COMMON_LIBRARY);
+                $out = Translation :: get('NoFileUploaded',null, Utilities :: COMMON_LIBRARIES);
             }
             
            }
            else
            {
-               $out = Translation :: get('NoFileUploaded', null, Utilities :: COMMON_LIBRARY);
+               $out = Translation :: get('NoFileUploaded', null, Utilities :: COMMON_LIBRARIES);
            }
            $this->display_header();
             echo $out;

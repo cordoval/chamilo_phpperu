@@ -54,14 +54,14 @@ class ContentObjectPropertyMetadataForm extends FormValidator
         $this->addElement('select', ContentObjectPropertyMetadata :: PROPERTY_PROPERTY_TYPE_ID, Translation :: get('PropertyType'), $options);
 
         $this->addElement('text', ContentObjectPropertyMetadata :: PROPERTY_CONTENT_OBJECT_PROPERTY, Translation :: get('ContentObjectProperty'));
-        $this->addRule(ContentObjectPropertyMetadata :: PROPERTY_CONTENT_OBJECT_PROPERTY, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARY), 'required');
+        $this->addRule(ContentObjectPropertyMetadata :: PROPERTY_CONTENT_OBJECT_PROPERTY, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
 
         $sources = array();
-        $sources[ContentObjectPropertyMetadata :: SOURCE_TEXT] = Translation :: get('Text', null, Utilities :: COMMON_LIBRARY);
+        $sources[ContentObjectPropertyMetadata :: SOURCE_TEXT] = Translation :: get('Text', null, Utilities :: COMMON_LIBRARIES);
         $sources[ContentObjectPropertyMetadata :: SOURCE_CHAMILO_USER] = Translation :: get('ChamiloUser');
-        $sources[ContentObjectPropertyMetadata :: SOURCE_TIMESTAMP] = Translation :: get('Timestamp', null, Utilities :: COMMON_LIBRARY);
+        $sources[ContentObjectPropertyMetadata :: SOURCE_TIMESTAMP] = Translation :: get('Timestamp', null, Utilities :: COMMON_LIBRARIES);
 
-        $this->addElement('select', ContentObjectPropertyMetadata :: PROPERTY_SOURCE, Translation :: get('Source', null, Utilities :: COMMON_LIBRARY), $sources);
+        $this->addElement('select', ContentObjectPropertyMetadata :: PROPERTY_SOURCE, Translation :: get('Source', null, Utilities :: COMMON_LIBRARIES), $sources);
 
     }
 
@@ -71,8 +71,8 @@ class ContentObjectPropertyMetadataForm extends FormValidator
 
     	$this->addElement('hidden', ContentObjectPropertyMetadata :: PROPERTY_ID);
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null, Utilities :: COMMON_LIBRARY), array('class' => 'positive update'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARY), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive update'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -81,8 +81,8 @@ class ContentObjectPropertyMetadataForm extends FormValidator
     {
     	$this->build_basic_form();
 
-		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities :: COMMON_LIBRARY), array('class' => 'positive'));
-		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARY), array('class' => 'normal empty'));
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
+		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

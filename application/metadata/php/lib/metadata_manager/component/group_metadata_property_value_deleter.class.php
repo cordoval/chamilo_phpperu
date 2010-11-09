@@ -34,11 +34,11 @@ class MetadataManagerGroupMetadataPropertyValueDeleterComponent extends Metadata
                 $message = 'ObjectDeleted';
             }
 
-            $this->redirect(Translation :: get($message, array('OBJECT' => Translation :: get('MetadataPropertyValue')), Utilities :: COMMON_LIBRARY), ($fail ? true : false), array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_EDIT_GROUP_METADATA, MetadataManager :: PARAM_GROUP => Request :: get(MetadataManager :: PARAM_GROUP)));
+            $this->redirect(Translation :: get($message, array('OBJECT' => Translation :: get('MetadataPropertyValue')), Utilities :: COMMON_LIBRARIES), ($fail ? true : false), array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_EDIT_GROUP_METADATA, MetadataManager :: PARAM_GROUP => Request :: get(MetadataManager :: PARAM_GROUP)));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('MetadataPropertyValue')), Utilities :: COMMON_LIBRARY)));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('MetadataPropertyValue')), Utilities :: COMMON_LIBRARIES)));
         }
     }
 }

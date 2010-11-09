@@ -34,7 +34,7 @@ class MetadataManagerGroupMetadataEditorComponent extends MetadataManager
         if($form->validate())
         {
             $success = $form->edit_metadata();
-            $this->redirect($success ? Translation :: get('ObjectUpdated', array('OBJECT' => Translation :: get('Metadata')), Utilities :: COMMON_LIBRARY) : Translation :: get('ObjectNotUpdated', array('OBJECT' => Translation :: get('Metadata')), Utilities :: COMMON_LIBRARY), !$success, array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_EDIT_GROUP_METADATA, MetadataManager :: PARAM_GROUP => $group->get_id()));
+            $this->redirect($success ? Translation :: get('ObjectUpdated', array('OBJECT' => Translation :: get('Metadata')), Utilities :: COMMON_LIBRARIES) : Translation :: get('ObjectNotUpdated', array('OBJECT' => Translation :: get('Metadata')), Utilities :: COMMON_LIBRARIES), !$success, array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_EDIT_GROUP_METADATA, MetadataManager :: PARAM_GROUP => $group->get_id()));
         }
         else
         {

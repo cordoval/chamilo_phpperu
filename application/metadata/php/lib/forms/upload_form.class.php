@@ -18,8 +18,8 @@ class UploadForm extends FormValidator
 
     function build_upload_form()
     {
-        $this->addElement('file', Translation :: get('File', null, Utilities :: COMMON_LIBRARY));
-        $this->addElement('style_submit_button', 'submit', Translation :: get('Upload', null, Utilities :: COMMON_LIBRARY), array('class' => 'positive update'));
+        $this->addElement('file', Translation :: get('File', null, Utilities :: COMMON_LIBRARIES));
+        $this->addElement('style_submit_button', 'submit', Translation :: get('Upload', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive update'));
     }
 }
 ?>

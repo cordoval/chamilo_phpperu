@@ -58,7 +58,7 @@ class ContentObjectMetadataPropertyValueBrowserTableCellRenderer extends Default
 		$toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
 
                 $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Edit', null, Utilities :: COMMON_LIBRARY),
+        		Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES),
         		Theme :: get_common_image_path() . 'action_edit.png',
         		$this->browser->get_edit_content_object_metadata_property_values_url($content_object),
         		ToolbarItem :: DISPLAY_ICON

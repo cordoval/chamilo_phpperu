@@ -91,7 +91,7 @@ class MetadataManagerContentObjectMetadataEditorComponent extends MetadataManage
         if($form->validate())
         {
                 $success = $form->edit_metadata();
-                $this->redirect($success ? Translation :: get('ObjectUpdated', array('OBJECT' => Translation :: get('Metadata')), Utilities :: COMMON_LIBRARY) : Translation :: get('ObjectNotUpdated', array('OBJECT' => Translation :: get('Metadata')), Utilities :: COMMON_LIBRARY), !$success, array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_EDIT_CONTENT_OBJECT_METADATA, MetadataManager :: PARAM_CONTENT_OBJECT => $content_object->get_id()));
+                $this->redirect($success ? Translation :: get('ObjectUpdated', array('OBJECT' => Translation :: get('Metadata')), Utilities :: COMMON_LIBRARIES) : Translation :: get('ObjectNotUpdated', array('OBJECT' => Translation :: get('Metadata')), Utilities :: COMMON_LIBRARIES), !$success, array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_EDIT_CONTENT_OBJECT_METADATA, MetadataManager :: PARAM_CONTENT_OBJECT => $content_object->get_id()));
         }
         else
         {
