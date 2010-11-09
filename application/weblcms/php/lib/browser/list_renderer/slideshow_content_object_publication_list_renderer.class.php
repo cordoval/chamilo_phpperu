@@ -9,6 +9,7 @@ use common\libraries\Theme;
 use common\libraries\Session;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/../content_object_publication_list_renderer.class.php';
 

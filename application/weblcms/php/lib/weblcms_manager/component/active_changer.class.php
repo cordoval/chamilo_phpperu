@@ -7,6 +7,7 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: active_changer.class.php 211 2010-03-23 13:28:39Z Yannick $

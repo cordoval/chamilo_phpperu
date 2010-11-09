@@ -12,6 +12,7 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: course_change_course_type.class.php 224 2010-04-06 14:40:30Z Yannick $

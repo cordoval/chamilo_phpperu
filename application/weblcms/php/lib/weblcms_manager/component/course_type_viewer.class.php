@@ -16,6 +16,7 @@ use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: course_type_viewer.class.php 218 2010-03-26 14:21:26Z Yannick & Tristan $

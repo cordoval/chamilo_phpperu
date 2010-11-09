@@ -6,6 +6,7 @@ use common\libraries\OrCondition;
 use common\libraries\InCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * Course list renderer to render the course list (used in courses home, courses sorter, courses block...)

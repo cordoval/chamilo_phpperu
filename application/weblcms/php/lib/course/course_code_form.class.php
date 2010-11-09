@@ -3,6 +3,7 @@ namespace application\weblcms;
 
 use common\libraries\FormValidator;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: course_request_form.class.php 2 2010-02-25 11:43:06Z Yannick & Tristan $

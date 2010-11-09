@@ -12,6 +12,7 @@ use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\FormValidatorTab;
 use common\libraries\FormValidatorHtmlEditorOptions;
+use common\libraries\Utilities;
 /**
  * $Id: course_type_form.class.php 2 2010-02-25 11:43:06Z Yannick & Tristan $
  * @package application.lib.weblcms.course_type

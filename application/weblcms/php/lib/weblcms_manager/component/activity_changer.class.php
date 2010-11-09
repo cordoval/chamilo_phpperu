@@ -6,6 +6,7 @@ use common\libraries\Application;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: activity_changer.class.php 213 2009-11-13 13:38:50Z vanpouckesven $

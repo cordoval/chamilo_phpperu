@@ -19,6 +19,7 @@ use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\ActionBarSearchForm;
+use common\libraries\Utilities;
 
 /**
  * $Id: admin_course_browser.class.php 218 2009-11-13 14:21:26Z kariboe $

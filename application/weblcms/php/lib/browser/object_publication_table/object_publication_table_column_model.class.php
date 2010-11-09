@@ -6,6 +6,7 @@ use repository\ContentObject;
 use common\libraries\ObjectTableColumn;
 use common\libraries\ObjectTableColumnModel;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: object_publication_table_column_model.class.php 216 2009-11-13 14:08:06Z kariboe $

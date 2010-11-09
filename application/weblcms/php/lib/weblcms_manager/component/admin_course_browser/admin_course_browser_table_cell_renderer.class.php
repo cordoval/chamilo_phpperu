@@ -6,6 +6,7 @@ use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: admin_course_browser_table_cell_renderer.class.php 218 2009-11-13 14:21:26Z kariboe $

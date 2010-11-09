@@ -11,6 +11,7 @@ use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/admin_request_browser.class.php';
 require_once dirname(__FILE__) . '/../../course/course_request_form.class.php';
