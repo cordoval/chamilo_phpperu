@@ -106,7 +106,7 @@ class MenuToolListRenderer extends ToolListRenderer
             $renderer->setFormTemplate('<form {attributes}>{content}</form>');
             $renderer->setElementTemplate('{element}<br />');
             $form->addElement('text', 'query', '', 'size="18" class="search_query_no_icon" style="background-color: white; border: 1px solid grey; height: 18px; margin-bottom: 10px;"');
-            $form->addElement('style_submit_button', 'submit', Translation :: get('Search', null ,Utilies:: COMMON_LIBRARIES), array('class' => 'normal search'));
+            $form->addElement('style_submit_button', 'submit', Translation :: get('Search', null ,Utilities:: COMMON_LIBRARIES), array('class' => 'normal search'));
             $form->accept($renderer);
             $html[] = $renderer->toHtml();
         }

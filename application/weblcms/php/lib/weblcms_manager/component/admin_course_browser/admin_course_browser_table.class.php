@@ -31,7 +31,7 @@ class AdminCourseBrowserTable extends ObjectTable
         parent :: __construct($data_provider, AdminCourseBrowserTable :: DEFAULT_NAME, $model, $renderer);
         $actions = array();
 
-        $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_REMOVE_SELECTED, Translation :: get('RemoveSelected', null ,Utilies:: COMMON_LIBRARIES));
+        $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_REMOVE_SELECTED, Translation :: get('RemoveSelected', null ,Utilities:: COMMON_LIBRARIES));
         $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_CHANGE_COURSE_TYPE_SELECTED_COURSES, Translation :: get('ChangeCourseTypeSelected'), false);
 
         $this->set_form_actions($actions);

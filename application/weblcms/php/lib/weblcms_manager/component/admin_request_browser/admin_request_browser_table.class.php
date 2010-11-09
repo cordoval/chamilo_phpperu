@@ -33,7 +33,7 @@ class AdminRequestBrowserTable extends ObjectTable
         $this->set_additional_parameters($parameters);
 
         $actions = array();
-        $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_REMOVE_SELECTED_REQUESTS, Translation :: get('RemoveSelected', null ,Utilies:: COMMON_LIBRARIES));
+        $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_REMOVE_SELECTED_REQUESTS, Translation :: get('RemoveSelected', null ,Utilities:: COMMON_LIBRARIES));
         $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_ALLOW_SELECTED_REQUESTS, Translation :: get('AcceptSelected'));
         $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_REFUSE_SELECTED_REQUESTS, Translation :: get('RejectSelected'));
 

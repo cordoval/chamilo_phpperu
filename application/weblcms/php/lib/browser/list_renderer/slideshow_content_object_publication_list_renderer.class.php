@@ -34,7 +34,7 @@ class SlideshowContentObjectPublicationListRenderer extends ContentObjectPublica
         $publication_count = $this->get_publication_count();
         if ($publication_count == 0)
         {
-            $html[] = Display :: normal_message(Translation :: get('NoPublications', null ,Utilies:: COMMON_LIBRARIES), true);
+            $html[] = Display :: normal_message(Translation :: get('NoPublications', null ,Utilities:: COMMON_LIBRARIES), true);
             return implode("\n", $html);
         }
 
@@ -66,34 +66,34 @@ class SlideshowContentObjectPublicationListRenderer extends ContentObjectPublica
         $play_toolbar = $this->get_publication_actions($publication, false);
         if (Request :: get(self :: SLIDESHOW_AUTOPLAY))
         {
-            $play_toolbar->add_item(new ToolbarItem(Translation :: get('Stop', null ,Utilies:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_stop.png', $this->get_url(array(self :: SLIDESHOW_INDEX => Request :: get(self :: SLIDESHOW_INDEX), self :: SLIDESHOW_AUTOPLAY => null)), ToolbarItem :: DISPLAY_ICON));
+            $play_toolbar->add_item(new ToolbarItem(Translation :: get('Stop', null ,Utilities:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_stop.png', $this->get_url(array(self :: SLIDESHOW_INDEX => Request :: get(self :: SLIDESHOW_INDEX), self :: SLIDESHOW_AUTOPLAY => null)), ToolbarItem :: DISPLAY_ICON));
         }
         else
         {
-            $play_toolbar->add_item(new ToolbarItem(Translation :: get('Play', null ,Utilies:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_play.png', $this->get_url(array(self :: SLIDESHOW_INDEX => Request :: get(self :: SLIDESHOW_INDEX), self :: SLIDESHOW_AUTOPLAY => 1)), ToolbarItem :: DISPLAY_ICON));
+            $play_toolbar->add_item(new ToolbarItem(Translation :: get('Play', null ,Utilities:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_play.png', $this->get_url(array(self :: SLIDESHOW_INDEX => Request :: get(self :: SLIDESHOW_INDEX), self :: SLIDESHOW_AUTOPLAY => 1)), ToolbarItem :: DISPLAY_ICON));
         }
 
         $navigation_toolbar = new Toolbar();
         if (! $first)
         {
-            $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('First', null ,Utilies:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_first.png', $this->get_url(array(self :: SLIDESHOW_INDEX => 0)), ToolbarItem :: DISPLAY_ICON));
-            $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('Previous', null ,Utilies:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_prev.png', $this->get_url(array(self :: SLIDESHOW_INDEX => $slideshow_index - 1)), ToolbarItem :: DISPLAY_ICON));
+            $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('First', null ,Utilities:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_first.png', $this->get_url(array(self :: SLIDESHOW_INDEX => 0)), ToolbarItem :: DISPLAY_ICON));
+            $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('Previous', null ,Utilities:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_prev.png', $this->get_url(array(self :: SLIDESHOW_INDEX => $slideshow_index - 1)), ToolbarItem :: DISPLAY_ICON));
         }
         else
         {
-            $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('First', null ,Utilies:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_first_na.png', null, ToolbarItem :: DISPLAY_ICON));
-            $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('Previous', null ,Utilies:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_prev_na.png', null, ToolbarItem :: DISPLAY_ICON));
+            $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('First', null ,Utilities:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_first_na.png', null, ToolbarItem :: DISPLAY_ICON));
+            $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('Previous', null ,Utilities:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_prev_na.png', null, ToolbarItem :: DISPLAY_ICON));
         }
 
         if (! $last)
         {
-            $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('Next', null ,Utilies:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_next.png', $this->get_url(array(self :: SLIDESHOW_INDEX => $slideshow_index + 1)), ToolbarItem :: DISPLAY_ICON));
-            $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('Last', null ,Utilies:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_last.png', $this->get_url(array(self :: SLIDESHOW_INDEX => $publication_count - 1)), ToolbarItem :: DISPLAY_ICON));
+            $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('Next', null ,Utilities:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_next.png', $this->get_url(array(self :: SLIDESHOW_INDEX => $slideshow_index + 1)), ToolbarItem :: DISPLAY_ICON));
+            $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('Last', null ,Utilities:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_last.png', $this->get_url(array(self :: SLIDESHOW_INDEX => $publication_count - 1)), ToolbarItem :: DISPLAY_ICON));
         }
         else
         {
-            $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('Next', null ,Utilies:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_next_na.png', null, ToolbarItem :: DISPLAY_ICON));
-            $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('Last', null ,Utilies:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_last_na.png', null, ToolbarItem :: DISPLAY_ICON));
+            $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('Next', null ,Utilities:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_next_na.png', null, ToolbarItem :: DISPLAY_ICON));
+            $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('Last', null ,Utilities:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_last_na.png', null, ToolbarItem :: DISPLAY_ICON));
         }
 
         $table = array();
@@ -114,7 +114,7 @@ class SlideshowContentObjectPublicationListRenderer extends ContentObjectPublica
         $table[] = ContentObjectDisplay :: factory($content_object)->get_preview();
         //$table[] = '<a href="' . $download_url . '" target="about:blank"><img src="' . $view_url . '" alt="" style="max-width: 800px; border: 1px solid #f0f0f0;' . $additional_styles . '"/></a>';
         $table[] = '</td></tr>';
-        $table[] = '<tr><td class="header" colspan="3">' . Translation :: get('Description', null ,Utilies:: COMMON_LIBRARIES) . '</td></tr>';
+        $table[] = '<tr><td class="header" colspan="3">' . Translation :: get('Description', null ,Utilities:: COMMON_LIBRARIES) . '</td></tr>';
         $table[] = '<tr><td colspan="3">' . $content_object->get_description() . '</td></tr>';
         $table[] = '</tbody>';
         $table[] = '</table>';

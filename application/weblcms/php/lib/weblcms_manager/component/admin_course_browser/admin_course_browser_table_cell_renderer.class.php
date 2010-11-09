@@ -73,9 +73,9 @@ class AdminCourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
 
         $toolbar->add_item(new ToolbarItem(Translation :: get('CourseHome'), Theme :: get_common_image_path() . 'action_home.png', $this->browser->get_course_viewing_url($course), ToolbarItem :: DISPLAY_ICON));
 
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null ,Utilies:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_course_editing_url($course), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null ,Utilities:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_course_editing_url($course), ToolbarItem :: DISPLAY_ICON));
 
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null ,Utilies:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_course_deleting_url($course), ToolbarItem :: DISPLAY_ICON, true));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null ,Utilities:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_course_deleting_url($course), ToolbarItem :: DISPLAY_ICON, true));
 
         $toolbar->add_item(new ToolbarItem(Translation :: get('ChangeCourseType'), Theme :: get_common_image_path() . 'action_move.png', $this->browser->get_course_changing_course_type_url($course), ToolbarItem :: DISPLAY_ICON));
 

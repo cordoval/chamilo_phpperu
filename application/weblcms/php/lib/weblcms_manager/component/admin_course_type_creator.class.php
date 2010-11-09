@@ -40,7 +40,7 @@ class WeblcmsManagerAdminCourseTypeCreatorComponent extends WeblcmsManager
         {
             $this->display_header();
             echo '<div class="clear"></div><br />';
-            Display :: error_message(Translation :: get('NotAllowed', null ,Utilies:: COMMON_LIBRARIES));
+            Display :: error_message(Translation :: get('NotAllowed', null ,Utilities:: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }

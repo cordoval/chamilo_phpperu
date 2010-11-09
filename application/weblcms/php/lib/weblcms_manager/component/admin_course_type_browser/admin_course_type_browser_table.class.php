@@ -33,9 +33,9 @@ class AdminCourseTypeBrowserTable extends ObjectTable
 
         //$actions[] = new ObjectTableFormAction('enable', Translation :: get('EnableSelectedCourseTypes'), false);
         //$actions[] = new ObjectTableFormAction('disable', Translation :: get('DisableSelectedCourseTypes'), false);
-        $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_REMOVE_SELECTED_COURSE_TYPES, Translation :: get('RemoveSelected', null ,Utilies:: COMMON_LIBRARIES));
-        $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_ACTIVATE_SELECTED_COURSE_TYPES, Translation :: get('ActivateSelected', null ,Utilies:: COMMON_LIBRARIES));
-        $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_DEACTIVATE_SELECTED_COURSE_TYPES, Translation :: get('DeactivateSelected', null ,Utilies:: COMMON_LIBRARIES));
+        $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_REMOVE_SELECTED_COURSE_TYPES, Translation :: get('RemoveSelected', null ,Utilities:: COMMON_LIBRARIES));
+        $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_ACTIVATE_SELECTED_COURSE_TYPES, Translation :: get('ActivateSelected', null ,Utilities:: COMMON_LIBRARIES));
+        $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_DEACTIVATE_SELECTED_COURSE_TYPES, Translation :: get('DeactivateSelected', null ,Utilities:: COMMON_LIBRARIES));
 
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);

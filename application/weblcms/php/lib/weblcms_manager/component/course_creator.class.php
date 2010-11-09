@@ -44,7 +44,7 @@ class WeblcmsManagerCourseCreatorComponent extends WeblcmsManager implements Del
         {
             $this->display_header();
             echo '<div class="clear"></div><br />';
-            Display :: error_message(Translation :: get('NotAllowed', null ,Utilies:: COMMON_LIBRARIES));
+            Display :: error_message(Translation :: get('NotAllowed', null ,Utilities:: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
@@ -120,12 +120,12 @@ class WeblcmsManagerCourseCreatorComponent extends WeblcmsManager implements Del
 
         if (! $id)
         {
-            $breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get('Create', null ,Utilies:: COMMON_LIBRARIES)));
+            $breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get('Create', null ,Utilities:: COMMON_LIBRARIES)));
         }
         else
         {
             $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER), array(WeblcmsManager :: PARAM_COURSE, WeblcmsManager :: PARAM_TOOL)), Translation :: get('CourseList')));
-            $breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get('Update', null ,Utilies:: COMMON_LIBRARIES)));
+            $breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get('Update', null ,Utilities:: COMMON_LIBRARIES)));
         }
     }
 

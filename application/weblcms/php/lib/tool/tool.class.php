@@ -435,10 +435,10 @@ abstract class Tool extends SubManager
     {
         $form = new FormValidator($action, 'get', $this->get_url());
         $categories = $this->get_categories(true);
-        $form->addElement('select', ContentObjectPublication :: PROPERTY_CATEGORY_ID, Translation :: get('Category', null ,Utilies:: COMMON_LIBRARIES), $categories);
-        //$form->addElement('submit', 'submit', Translation :: get('Ok', null ,Utilies:: COMMON_LIBRARIES));
-        $buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Move', null ,Utilies:: COMMON_LIBRARIES), array('class' => 'positive move'));
-        $buttons[] = $form->createElement('style_reset_button', 'reset', Translation :: get('Reset', null ,Utilies:: COMMON_LIBRARIES), array('class' => 'normal empty'));
+        $form->addElement('select', ContentObjectPublication :: PROPERTY_CATEGORY_ID, Translation :: get('Category', null ,Utilities:: COMMON_LIBRARIES), $categories);
+        //$form->addElement('submit', 'submit', Translation :: get('Ok', null ,Utilities:: COMMON_LIBRARIES));
+        $buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Move', null ,Utilities:: COMMON_LIBRARIES), array('class' => 'positive move'));
+        $buttons[] = $form->createElement('style_reset_button', 'reset', Translation :: get('Reset', null ,Utilities:: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $form->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         $parameters = $this->get_parameters();
@@ -461,8 +461,8 @@ abstract class Tool extends SubManager
             {
                 $toolbar = new Toolbar();
 
-                $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null ,Utilies:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_UPDATE, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())), ToolbarItem :: DISPLAY_ICON));
-                $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null ,Utilies:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())), ToolbarItem :: DISPLAY_ICON, true));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null ,Utilities:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_UPDATE, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())), ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null ,Utilities:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())), ToolbarItem :: DISPLAY_ICON, true));
             }
 
             $html[] = '<div class="announcements level_1" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/introduction.png);">';
