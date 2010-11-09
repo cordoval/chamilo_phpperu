@@ -3,6 +3,7 @@ namespace install;
 use common\libraries\Translation;
 use HTML_QuickForm_Action_Display;
 use HTML_QuickForm;
+use common\libraries\Utilities;
 /**
  * $Id: install_wizard_display.class.php 225 2009-11-13 14:43:20Z vanpouckesven $
  * @package install.lib.installmanager.component.inc.wizard

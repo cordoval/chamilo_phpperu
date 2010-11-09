@@ -38,7 +38,7 @@ class WeblcmsInstaller extends Installer
         }
         else
         {
-            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectCreated', array('OBJECT' => Translation :: get('CoursesTree')),Utilies:: COMMON_LIBRARIES));
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectCreated', array('OBJECT' => Translation :: get('CoursesTree')), Utilities :: COMMON_LIBRARIES));
         }
         if (! $this->create_default_categories_in_weblcms())
         {
