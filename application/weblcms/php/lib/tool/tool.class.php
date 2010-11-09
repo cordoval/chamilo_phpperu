@@ -583,5 +583,9 @@ abstract class Tool extends SubManager
     {
         return $this->get_parent()->tool_has_new_publications($tool_name, $course);
     }
+    static function get_tool_type_namespace($type)
+    {
+        return 'application\\weblcms\\tool\\' . $type;
+    }
 }
 ?>

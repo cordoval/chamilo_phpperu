@@ -149,14 +149,14 @@ class MenuToolListRenderer extends ToolListRenderer
         {
             $new = '_new';
         }
-        $tool_image = 'tool_mini_' . $tool->name . $new . '.png';
-        $title = htmlspecialchars(Translation :: get(Tool :: type_to_class($tool->name) . 'Title'));
+        $tool_image = Theme :: ICON_MINI . $new . '.png';
+        $title = htmlspecialchars(Translation :: get('Title', null, Tool :: get_tool_type_namespace($tool->name)));
         $html[] = '<li class="tool_list_menu" style="padding: 0px 0px 2px 0px;">';
         $html[] = '<a href="' . $parent->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_TOOL => $tool->name, Tool :: PARAM_ACTION => null, Tool :: PARAM_PUBLICATION_ID => null), array(), true) . '" title="' . $title . '">';
 
         if ($this->display_menu_icons())
         {
-            $html[] = '<img src="' . Theme :: get_image_path() . $tool_image . '" style="vertical-align: middle;" alt="' . $title . '"/> ';
+            $html[] = '<img src="' . Theme :: get_image_path(Tool :: get_tool_type_namespace($tool->name)) . 'logo/' . $tool_image . '" style="vertical-align: middle;" alt="' . $title . '"/> ';
         }
 
         if ($this->display_menu_text())
