@@ -66,26 +66,26 @@ class RepositoryManagerRestorerComponent extends RepositoryManager
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedObjectNotRestored';
+                    $message = Translation :: get('ObjectNotRestored', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES);
                 }
                 else
                 {
-                    $message = 'NotAllSelectedObjectsRestored';
+                    $message = Translation :: get('ObjectsRestored', array('OBJECTS' => Translation :: get('ContentObjects')), Utilities :: COMMON_LIBRARIES);
                 }
             }
             else
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedObjectRestored';
+                    $message = Translation :: get('ObjectRestored', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES);
                 }
                 else
                 {
-                    $message = 'AllSelectedObjectsRestored';
+                    $message = Translation :: get('ObjectsRestored', array('OBJECTS' => Translation :: get('ContentObjects')), Utilities :: COMMON_LIBRARIES);
                 }
             }
 
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_RECYCLED_CONTENT_OBJECTS));
+            $this->redirect($message, ($failures ? true : false), array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_RECYCLED_CONTENT_OBJECTS));
         }
         else
         {

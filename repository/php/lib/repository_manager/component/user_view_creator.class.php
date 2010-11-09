@@ -35,7 +35,7 @@ class RepositoryManagerUserViewCreatorComponent extends RepositoryManager
             $success = $form->create_user_view();
             $user_view = $form->get_user_view();
 
-            $message = $success ? Translation :: get('UserViewCreated') : Translation :: get('UserViewNotCreated');
+            $message = $success ? Translation :: get('ObjectCreated', array('OBJECT' => Translation :: get('UserView')), Utilities :: COMMON_LIBRARIES) : Translation :: get('ObjectNotCreated', array('OBJECT' => Translation :: get('UserView')), Utilities :: COMMON_LIBRARIES);
 
             if(!$success)
             {

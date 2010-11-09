@@ -42,7 +42,7 @@ class RepositoryManagerComplexBuilderComponent extends RepositoryManager impleme
 //                  	//$complex_builder = ComplexBuilder :: factory($this, $this->content_object->get_type());
 //        	//$complex_builder->run();
 //        }
-		
+
 		if($this->content_object)
         {
             ComplexBuilder :: launch($this->content_object->get_type(), $this);
@@ -51,7 +51,7 @@ class RepositoryManagerComplexBuilderComponent extends RepositoryManager impleme
         }
         else
         {
-        	$this->display_error_page(Translation :: get('NoObjectSelected'));
+        	$this->display_error_page(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES));
         }
     }
 

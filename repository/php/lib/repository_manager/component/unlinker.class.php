@@ -54,18 +54,18 @@ class RepositoryManagerUnlinkerComponent extends RepositoryManager
             {
                 if ($failures >= 1)
                 {
-                    $message = 'SelectedObjectNotUnlinked';
+                    $message = Translation :: get('ObjectNotUnlinked', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES);
                 }
                 else
                 {
-                    $message = 'NotAllVersionsUnlinked';
+                    $message = Translation :: get('ObjectsNotUnlinked', array('OBJECT' => Translation :: get('ContentObjectVersions')), Utilities :: COMMON_LIBRARIES);
                 }
             }
             else
             {
-                $message = 'SelectedObjectUnlinked';
+                $message = Translation :: get('ObjectUnlinked', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES);
             }
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $id));
+            $this->redirect($message, ($failures ? true : false), array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $id));
         }
         else
         {

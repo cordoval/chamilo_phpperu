@@ -46,7 +46,7 @@ class RepositoryManagerContentObjectShareRightsEditorComponent extends Repositor
 	        if ($share_form->validate())
 	        {
 	            $succes = $share_form->update_content_object_share($target_users, $target_groups);
-	            $message = $succes ? Translation :: get('ContentObjectShared') : Translation :: get('ContentObjectNotShared');
+	            $message = $succes ? Translation :: get('ObjectShared') : Translation :: get('ObjectNotShared', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES);
 	            $this->redirect($message, !$succes, array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_CONTENT_OBJECT_SHARE_BROWSER, self :: PARAM_TARGET_GROUP => null, self :: PARAM_TARGET_USER => null));
 	        }
 	        else
@@ -59,7 +59,7 @@ class RepositoryManagerContentObjectShareRightsEditorComponent extends Repositor
         }
         else
         {
-        	$this->display_error_page(Translation :: get('NoObjectsSelected'));
+        	$this->display_error_page(Translation :: get('NoObjectsSelected', array('OBJECTS' => Translation :: get('ContentObjects')), Utilities :: COMMON_LIBRARIES));
         }
     }
 
@@ -67,7 +67,7 @@ class RepositoryManagerContentObjectShareRightsEditorComponent extends Repositor
     {
     	$html = array();
         $html[] = '<div class="content_object padding_10">';
-        $html[] = '<div class="title">' . Translation :: get('SelectedContentObjects') . '</div>';
+        $html[] = '<div class="title">' . Translation :: get('SelectedObjects', array('OBJECTS' => Translation :: get('ContentObjects')), Utilities :: COMMON_LIBRARIES) . '</div>';
         $html[] = '<div class="description">';
         $html[] = '<ul class="attachments_list">';
 

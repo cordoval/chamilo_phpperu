@@ -82,42 +82,32 @@ class RepositoryManagerMoverComponent extends RepositoryManager
                 {
                     if (count($ids) == 1)
                     {
-                        $message = 'SelectedObjectNotMoved';
+                        $message = Translation :: get('ObjectNotMoved', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES);
                     }
                     else
                     {
-                        $message = 'NotAllSelectedObjectsMoved';
+                        $message = Translation :: get('ObjectsNotMoved', array('OBJECTS' => Translation :: get('ContentObjects')), Utilities :: COMMON_LIBRARIES);
                     }
                 }
                 else
                 {
                     if (count($ids) == 1)
                     {
-                        $message = 'SelectedObjectMoved';
+                        $message = Translation :: get('ObjectMoved', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES);
                     }
                     else
                     {
-                        $message = 'AllSelectedObjectsMoved';
+                        $message = Translation :: get('ObjectsMoved', array('OBJECTS' => Translation :: get('ContentObjects')), Utilities :: COMMON_LIBRARIES);
                     }
                 }
 
                 $parameters = array();
                 $parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS;
                 $parameters[RepositoryManager :: PARAM_CATEGORY_ID] = $object->get_parent_id();
-                $this->redirect(Translation :: get($message), ($failures ? true : false), $parameters);
+                $this->redirect($message, ($failures ? true : false), $parameters);
             }
             else
             {
-                //$renderer = clone $form->defaultRenderer();
-                //$renderer->setElementTemplate('{label} {element} ');
-                //$form->accept($renderer);
-
-                /*if (count($ids) == 1)
-                    $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $ids[0])), $this->retrieve_content_object($ids[0])->get_title()));
-                else
-                    $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS), Translation :: get('Objects'))));
-
-                $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Move')));*/
                 $this->display_header(null, false, true);
                 echo $form->toHTML();
                 $this->display_footer();

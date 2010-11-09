@@ -31,14 +31,14 @@ class RepositoryManagerPublicationDeleterComponent extends RepositoryManager
 
             if ($succes)
             {
-             	$message =  'SelectedPublicationDeleted';
+             	$message =  Translation :: get('ObjectDeleted', array('OBJECT' => Translation :: get('Publication')), Utilities :: COMMON_LIBRARIES);
             }
             else
             {
-                $message = 'SelectedPublicationNotDeleted';
+                $message = Translation :: get('ObjectNotDeleted', array('OBJECT' => Translation :: get('Publication')), Utilities :: COMMON_LIBRARIES);
             }
 
-            $this->redirect(Translation :: get($message), !$succes, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_MY_PUBLICATIONS));
+            $this->redirect($message, !$succes, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_MY_PUBLICATIONS));
         }
         else
         {

@@ -113,14 +113,14 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManager implement
 
 	        $html = array();
 	        $html[] = '<div class="content_object padding_10">';
-	        $html[] = '<div class="title">' . Translation :: get('SelectedContentObjects') . '</div>';
+	        $html[] = '<div class="title">' . Translation :: get('SelectedObjects', array('OBJECTS' => Translation :: get('ContentObjects')), Utilities :: COMMON_LIBRARIES) . '</div>';
 	        $html[] = '<div class="description">';
 	        $html[] = '<ul class="attachments_list">';
 
 	        foreach ($object_ids as $object_id)
 	        {
 	            $object = $this->retrieve_content_object($object_id);
-	            $html[] = '<li><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $object->get_type() . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class('TypeName', null, ContentObject :: get_content_object_type_namespace($object->get_type())))) . '"/> ' . $object->get_title() . '</li>';
+	            $html[] = '<li><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $object->get_type() . '.png" alt="' . htmlentities(Translation :: get('TypeName', null, ContentObject :: get_content_object_type_namespace($object->get_type()))) . '"/> ' . $object->get_title() . '</li>';
 	        }
 
 	        $html[] = '</ul>';
