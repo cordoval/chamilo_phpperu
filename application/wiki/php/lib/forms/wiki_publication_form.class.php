@@ -72,9 +72,6 @@ class WikiPublicationForm extends FormValidator
         {
         	if(PlatformSetting :: get_instance()->get('allow_evaluate_application_wiki', 'gradebook'))
         	{
-	        	require_once WebApplication :: get_application_path() . 'gradebook/php/lib/forms/gradebook_internal_item_form.class.php';
-        		
-	        	//require_once dirname (__FILE__) . '/../../gradebook/forms/gradebook_internal_item_form.class.php';
 	        	$gradebook_internal_item_form = new GradebookInternalItemForm();
 	        	$gradebook_internal_item_form->build_evaluation_question($this);
         	}

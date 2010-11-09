@@ -19,6 +19,7 @@ use HTML_Table;
 use common\libraries\WebApplication;
 use common\libraries\DatetimeUtilities;
 
+use application\gradebook\EvaluationManager;
 
 /**
  * $Id: browser.class.php 195 2009-11-13 12:02:41Z chellee $
@@ -272,8 +273,7 @@ class ForumManagerBrowserComponent extends ForumManager
             
 	        if(WebApplication :: is_active('gradebook'))
 	        {
-	        	require_once dirname (__FILE__) . '/../../../gradebook/evaluation_manager/evaluation_manager.class.php';
-        		if(EvaluationManager :: retrieve_internal_item_by_publication(ForumManager :: APPLICATION_NAME, $publication->get_id()))
+		  		if(EvaluationManager :: retrieve_internal_item_by_publication(ForumManager :: APPLICATION_NAME, $publication->get_id()))
         			$toolbar->add_item(new ToolbarItem(Translation :: get('Evaluation' , null , 'application\gradebook' ), 
         					Theme :: get_common_image_path() . 'action_evaluation.png', 
         					$this->get_url(array(ForumManager :: PARAM_PUBLICATION_ID => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_EVALUATE)),
