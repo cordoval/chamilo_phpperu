@@ -1,5 +1,4 @@
 <?php
-
 namespace admin;
 use common\libraries\Utilities;
 use common\libraries\Translation;

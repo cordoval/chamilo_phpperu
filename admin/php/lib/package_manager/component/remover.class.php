@@ -4,7 +4,7 @@ use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\Breadcrumb;
-
+use common\libraries\Utilities;
 
 /**
  * $Id: remover.class.php 168 2009-11-12 11:53:23Z vanpouckesven $

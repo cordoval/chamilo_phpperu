@@ -77,10 +77,10 @@ class RepositoryInstaller extends Installer
             return false;
         }
 
-        if (! $this->install_external_repository_managers())
-        {
-            return false;
-        }
+//        if (! $this->install_external_repository_managers())
+//        {
+//            return false;
+//        }
 
         return true;
     }
@@ -138,7 +138,7 @@ class RepositoryInstaller extends Installer
         $youtube = new ExternalRepository();
         $youtube->set_title('YouTube');
         $youtube->set_type('youtube');
-        $youtube->set_description(Translation :: get('Tagline', array(), ExternalRepositoryManager :: get_namespace(YoutubeExternalRepositoryManager :: REPOSITORY_TYPE)));
+        $youtube->set_description(Translation :: get('Tagline', array(), ExternalRepositoryManager :: get_namespace('youtube')));
         $youtube->set_enabled(true);
         $youtube->set_creation_date(time());
         $youtube->set_modification_date(time());
@@ -156,7 +156,7 @@ class RepositoryInstaller extends Installer
         $flickr = new ExternalRepository();
         $flickr->set_title('Flickr');
         $flickr->set_type('flickr');
-        $flickr->set_description(Translation :: get('Tagline', array(), ExternalRepositoryManager :: get_namespace(FlickrExternalRepositoryManager :: REPOSITORY_TYPE)));
+        $flickr->set_description(Translation :: get('Tagline', array(), ExternalRepositoryManager :: get_namespace('flickr')));
         $flickr->set_enabled(true);
         $flickr->set_creation_date(time());
         $flickr->set_modification_date(time());
@@ -174,7 +174,7 @@ class RepositoryInstaller extends Installer
         $photobucket = new ExternalRepository();
         $photobucket->set_title('Photobucket');
         $photobucket->set_type('photobucket');
-        $photobucket->set_description(Translation :: get('Tagline', array(), ExternalRepositoryManager :: get_namespace(PhotobucketExternalRepositoryManager :: REPOSITORY_TYPE)));
+        $photobucket->set_description(Translation :: get('Tagline', array(), ExternalRepositoryManager :: get_namespace('photobucket')));
         $photobucket->set_enabled(true);
         $photobucket->set_creation_date(time());
         $photobucket->set_modification_date(time());
@@ -192,7 +192,7 @@ class RepositoryInstaller extends Installer
         $matterhorn = new ExternalRepository();
         $matterhorn->set_title('Matterhorn');
         $matterhorn->set_type('matterhorn');
-        $matterhorn->set_description(Translation :: get('Tagline', array(), ExternalRepositoryManager :: get_namespace(MatterhornExternalRepositoryManager :: REPOSITORY_TYPE)));
+        $matterhorn->set_description(Translation :: get('Tagline', array(), ExternalRepositoryManager :: get_namespace('matterhorn')));
         $matterhorn->set_enabled(true);
         $matterhorn->set_creation_date(time());
         $matterhorn->set_modification_date(time());

@@ -1,5 +1,7 @@
 <?php
 namespace admin;
+use common\libraries;
+
 use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Translation;
@@ -109,7 +111,7 @@ class LocalPackageBrowser
     {
         $objects = array();
 
-        $object_path = Path :: get_repository_path() . 'lib/content_object/';
+        $object_path = Path :: get_repository_content_object_path();
         $object_folders = Filesystem :: get_directory_content($object_path, Filesystem :: LIST_DIRECTORIES, false);
 
         $condition = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_CONTENT_OBJECT);

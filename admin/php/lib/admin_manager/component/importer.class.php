@@ -1,5 +1,6 @@
 <?php
 namespace admin;
+use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\AdministrationComponent;
 use common\libraries\Theme;
