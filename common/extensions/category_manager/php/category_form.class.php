@@ -7,6 +7,8 @@ use common\libraries\ResourceManager;
 use common\libraries\Path;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
+use common\libraries\Utilities;
+
 /**
  * $Id: category_form.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.category_manager

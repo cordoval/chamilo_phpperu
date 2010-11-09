@@ -8,6 +8,7 @@ use common\libraries\Display;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Path;
 use common\libraries\Translation;
+use phpFreeChat;
 
 /**
  * $Id: chat_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $
