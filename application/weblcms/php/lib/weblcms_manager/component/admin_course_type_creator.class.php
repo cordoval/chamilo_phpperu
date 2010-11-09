@@ -10,6 +10,7 @@ use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: admin_course_type_creator.class.php 1 2010-02-25 11:44:26Z Tristan $
@@ -39,7 +40,7 @@ class WeblcmsManagerAdminCourseTypeCreatorComponent extends WeblcmsManager
         {
             $this->display_header();
             echo '<div class="clear"></div><br />';
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get('NotAllowed', null ,Utilities:: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }

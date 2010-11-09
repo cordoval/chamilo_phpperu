@@ -12,6 +12,7 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: acourse_category_manager.class.php 218 2009-11-13 14:21:26Z kariboe $
@@ -43,7 +44,7 @@ class WeblcmsManagerCourseCategoryManagerComponent extends WeblcmsManager
             $trail->add_help('courses category manager');
 
             $this->display_header();
-            Display :: error_message(Translation :: get('NotAllowed'));
+            Display :: error_message(Translation :: get('NotAllowed', null ,Utilities:: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
@@ -113,7 +114,7 @@ class WeblcmsManagerCourseCategoryManagerComponent extends WeblcmsManager
             // $search_url = $this->get_url();
             $search_url = '#';
             $search = array();
-            $search['title'] = Translation :: get('SearchResults');
+            $search['title'] = Translation :: get('SearchResults', null ,Utilities:: COMMON_LIBRARIES);
             $search['url'] = $search_url;
             $search['class'] = 'search_results';
             $extra_items[] = $search;

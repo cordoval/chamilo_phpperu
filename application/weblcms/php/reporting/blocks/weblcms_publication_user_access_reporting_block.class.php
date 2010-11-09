@@ -46,7 +46,7 @@ class WeblcmsPublicationUserAccessReportingBlock extends WeblcmsToolReportingBlo
 
         $trackerdata = $tracker->retrieve_tracker_items_result_set($condition, null, null, $order_by);
 
-        $reporting_data->set_categories(array(Translation :: get('User'), Translation :: get('LastAccess'), Translation :: get('TotalTime'), Translation :: get('Clicks')));
+        $reporting_data->set_categories(array(Translation :: get('User', null, 'user'), Translation :: get('LastAccess'), Translation :: get('TotalTime'), Translation :: get('Clicks')));
         $reporting_data->set_rows(array(Translation :: get('count')));
 
         //$arr[Translation :: get('User')] = $udm->retrieve_user($user_id)->get_fullname();
@@ -62,7 +62,7 @@ class WeblcmsPublicationUserAccessReportingBlock extends WeblcmsToolReportingBlo
             $arr[Translation :: get('Clicks')] ++;
         }
 
-        $reporting_data->add_data_category_row(Translation :: get('User'), Translation :: get('count'), $arr[Translation :: get('User')]);
+        $reporting_data->add_data_category_row(Translation :: get('User', null,'user'), Translation :: get('count'), $arr[Translation :: get('User', null,'user')]);
         $reporting_data->add_data_category_row(Translation :: get('LastAccess'), Translation :: get('count'), $arr[Translation :: get('LastAccess')]);
         $reporting_data->add_data_category_row(Translation :: get('TotalTime'), Translation :: get('count'), $arr[Translation :: get('TotalTime')]);
         $reporting_data->add_data_category_row(Translation :: get('Clicks'), Translation :: get('count'), $arr[Translation :: get('Clicks')]);

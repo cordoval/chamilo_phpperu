@@ -4,7 +4,7 @@ namespace application\portfolio;
 
 use common\libraries\Installer;
 use common\libraries\Translation;
-
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__). '/../lib/portfolio_data_manager.class.php';
 require_once dirname(__FILE__). '/../lib/rights/portfolio_rights.class.php';

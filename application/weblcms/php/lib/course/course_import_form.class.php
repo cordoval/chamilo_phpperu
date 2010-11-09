@@ -6,6 +6,7 @@ use common\libraries\FormValidator;
 use common\libraries\EqualityCondition;
 use common\libraries\Translation;
 use common\libraries\Import;
+use common\libraries\Utilities;
 
 /**
  * $Id: course_import_form.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -39,9 +40,9 @@ class CourseImportForm extends FormValidator
     function build_importing_form()
     {
         $this->addElement('file', 'file', Translation :: get('FileName'));
-        //$this->addElement('submit', 'course_import', Translation :: get('Ok'));
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Import'), array('class' => 'positive import'));
-        //	$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        //$this->addElement('submit', 'course_import', Translation :: get('Ok', null ,Utilities:: COMMON_LIBRARIES));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Import', null ,Utilities:: COMMON_LIBRARIES), array('class' => 'positive import'));
+        //	$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null ,Utilities:: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
@@ -57,7 +58,8 @@ class CourseImportForm extends FormValidator
             if (! $this->validate_data($csvcourse))
             {
                 $failures ++;
-                $this->failedcsv[] = Translation :: get('Invalid') . ': ' . implode($csvcourse, ';');
+                $this->failedcsv[] = Translation :: get('Invalid', null ,Utilities:: COMMON_LIBRARIES)
+ . ': ' . implode($csvcourse, ';');
             }
         }
 

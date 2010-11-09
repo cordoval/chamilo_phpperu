@@ -7,6 +7,7 @@ use common\libraries\Theme;
 use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: menu_tool_list_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -105,7 +106,7 @@ class MenuToolListRenderer extends ToolListRenderer
             $renderer->setFormTemplate('<form {attributes}>{content}</form>');
             $renderer->setElementTemplate('{element}<br />');
             $form->addElement('text', 'query', '', 'size="18" class="search_query_no_icon" style="background-color: white; border: 1px solid grey; height: 18px; margin-bottom: 10px;"');
-            $form->addElement('style_submit_button', 'submit', Translation :: get('Search'), array('class' => 'normal search'));
+            $form->addElement('style_submit_button', 'submit', Translation :: get('Search', null ,Utilities:: COMMON_LIBRARIES), array('class' => 'normal search'));
             $form->accept($renderer);
             $html[] = $renderer->toHtml();
         }

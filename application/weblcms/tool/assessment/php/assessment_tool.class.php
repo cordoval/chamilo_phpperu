@@ -13,6 +13,7 @@ use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
 use repository\content_object\hotpotatoes\Hotpotatoes;
+use common\libraries\Utilities;
 
 /**
  * $Id: assessment_tool.class.php 216 2009-11-13 14:08:06Z kariboe $

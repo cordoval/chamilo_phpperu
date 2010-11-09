@@ -4,6 +4,7 @@ namespace common\extensions\email_manager;
 use user\User;
 use common\libraries\FormValidator;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Mail;
 
 /**

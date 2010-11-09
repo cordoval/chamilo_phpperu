@@ -49,7 +49,7 @@ class WeblcmsLearningPathAttemptsReportingBlock extends WeblcmsToolReportingBloc
             $delete_url = Redirect :: get_url($params);
 
             $user = $udm->retrieve_user($tracker->get_user_id());
-            $data[Translation :: get('User')] = $user->get_fullname();
+            $data[Translation :: get('User', null, 'user')] = $user->get_fullname();
             $data[Translation :: get('Progress')] = $tracker->get_progress() . '%';
             //$action = '<a href="' . $url . '">' . Theme :: get_common_image('action_reporting') . '</a>';
             $action = Text :: create_link($url, Theme :: get_common_image('action_reporting')) . ' ' . Text :: create_link($delete_url, Theme :: get_common_image('action_delete'));

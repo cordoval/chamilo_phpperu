@@ -36,7 +36,7 @@ class ContentObjectPublicationDetailsRenderer extends ContentObjectPublicationLi
         $publication = $dm->retrieve_content_object_publication($publication_id);
         $this->get_tool_browser()->get_parent()->set_parameter(Tool :: PARAM_PUBLICATION_ID, $publication_id);
 
-        $html[] = '<h3>' . Translation :: get('ContentObjectPublicationDetails') . '</h3>';
+        $html[] = '<h3>' . Translation :: get('ContentObjectPublicationDetails', null, 'repository' ) . '</h3>';
         $html[] = $this->render_publication($publication);
         $html[] = '<br />';
         return implode("\n", $html);

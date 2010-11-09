@@ -22,6 +22,7 @@ use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: course_group_browser.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -114,7 +115,7 @@ class CourseGroupToolBrowserComponent extends CourseGroupTool
         $param_add_course_group[WeblcmsManager :: PARAM_COURSE_GROUP] = $this->get_group_id();
         if ($this->is_allowed(WeblcmsRights :: ADD_RIGHT))
         {
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Create'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url($param_add_course_group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_create.png', $this->get_url($param_add_course_group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
 
         if (! $this->introduction_text && $this->is_allowed(WeblcmsRights :: EDIT_RIGHT))

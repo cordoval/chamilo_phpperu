@@ -7,6 +7,7 @@ use common\libraries\ObjectTableOrder;
 use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: course_user_relation_form.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -60,8 +61,8 @@ class CourseUserRelationForm extends FormValidator
         $this->addElement('select', CourseUserRelation :: PROPERTY_CATEGORY, Translation :: get('Category'), $cat_options);
 
         //$this->addElement('submit', 'course_user_category', Translation :: get('Ok'));
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save', null, Utilities :: COMMON_LIBRARIES ), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES ), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

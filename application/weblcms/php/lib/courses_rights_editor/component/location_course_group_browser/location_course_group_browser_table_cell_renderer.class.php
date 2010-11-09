@@ -52,9 +52,9 @@ class LocationCourseGroupBrowserTableCellRenderer extends ObjectTableCellRendere
             case CourseGroup :: PROPERTY_DESCRIPTION :
                 $description = Utilities :: truncate_string($course_group->get_description(), 50);
                 return Utilities :: truncate_string($description);
-            case Translation :: get('Users') :
+            case Translation :: get('Users', null, 'user') :
                 return $course_group->count_members();
-            case Translation :: get('Subgroups') :
+            case Translation :: get('SubGroups', null, 'group') :
                 return $course_group->count_children(true);
         }
 

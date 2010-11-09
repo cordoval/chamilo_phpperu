@@ -6,6 +6,7 @@ use common\libraries\OrCondition;
 use common\libraries\Request;
 use common\libraries\FormValidator;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: weblcms_search_form.class.php 218 2009-11-13 14:21:26Z kariboe $
@@ -122,8 +123,8 @@ class WeblcmsSearchForm extends FormValidator
     private function build_simple_search_form()
     {
         $this->renderer->setElementTemplate('{element}');
-        $this->frozen_elements[] = $this->addElement('text', self :: PARAM_SIMPLE_SEARCH_QUERY, Translation :: get('Find'), 'size="20" class="search_query"');
-        $this->addElement('submit', 'search', Translation :: get('Ok'));
+        $this->frozen_elements[] = $this->addElement('text', self :: PARAM_SIMPLE_SEARCH_QUERY, Translation :: get('Search',null,Utilities:: COMMON_LIBRARIES), 'size="20" class="search_query"');
+        $this->addElement('submit', 'search', Translation :: get('Ok',null,Utilities:: COMMON_LIBRARIES ));
     }
 
     /**

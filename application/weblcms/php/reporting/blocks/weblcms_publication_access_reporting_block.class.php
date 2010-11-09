@@ -20,7 +20,7 @@ class WeblcmsPublicationAccessReportingBlock extends WeblcmsToolReportingBlock
     public function count_data()
     {
         $reporting_data = new ReportingData();
-        $reporting_data->set_rows(array(Translation :: get('User'), Translation :: get('LastAccess'), Translation :: get('TotalTime')));
+        $reporting_data->set_rows(array(Translation :: get('User', null, 'user'), Translation :: get('LastAccess'), Translation :: get('TotalTime')));
         require_once Path :: get_user_path() . 'trackers/visit_tracker.class.php';
 
         $course_id = $this->get_course_id();
@@ -45,7 +45,7 @@ class WeblcmsPublicationAccessReportingBlock extends WeblcmsToolReportingBlock
         $arr = self :: visit_tracker_to_array($condition, $user);
 
         $i = 1;
-        foreach ($arr[Translation :: get('User')] as $category)
+        foreach ($arr[Translation :: get('User', null, 'user')] as $category)
         {
             $reporting_data->add_category($i);
             $i ++;

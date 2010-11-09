@@ -10,6 +10,7 @@ use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: course_group_subscriptions_form.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -84,7 +85,7 @@ class CourseGroupSubscriptionsForm extends FormValidator
         $locale['Display'] = Translation :: get('SelectGroupUsers');
         $locale['Searching'] = Translation :: get('Searching');
         $locale['NoResults'] = Translation :: get('NoResults');
-        $locale['Error'] = Translation :: get('Error');
+        $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARIES );
 
         $legend_items = array();
         $legend_items[] = new ToolbarItem(Translation :: get('CourseUser'), Theme :: get_common_image_path() . 'treemenu/user.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'legend');
@@ -99,7 +100,7 @@ class CourseGroupSubscriptionsForm extends FormValidator
         $this->addElement('static', null, null, $legend->as_html());
 
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Subscribe'), array('class' => 'positive subscribe'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES ), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

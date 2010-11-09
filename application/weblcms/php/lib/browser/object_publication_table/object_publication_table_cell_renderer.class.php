@@ -10,6 +10,7 @@ use common\libraries\Path;
 use repository\DefaultContentObjectTableCellRenderer;
 use common\libraries\Translation;
 use common\libraries\ComplexContentObjectSupport;
+use common\libraries\Utilities;
 
 /**
  * $Id: object_publication_table_cell_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -64,7 +65,7 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
                 return '<a href="' . $details_url . '">' . parent :: render_cell($column, $publication->get_content_object()) . '</a>';
                 break;
             case ContentObjectPublication :: PROPERTY_PUBLICATION_DATE :
-                $date_format = Translation :: get('dateTimeFormatLong');
+                $date_format = Translation :: get('DateTimeFormatLong', null ,Utilities:: COMMON_LIBRARIES);
                 $data = DatetimeUtilities :: format_locale_date($date_format, $publication->get_publication_date());
                 break;
             case ContentObjectPublication :: PROPERTY_PUBLISHER_ID :
@@ -102,7 +103,7 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
         }
         if ($publication->is_for_everybody())
         {
-            return htmlentities(Translation :: get('Everybody')) . $email_suffix;
+            return htmlentities(Translation :: get('Everybody', null ,Utilities:: COMMON_LIBRARIES)) . $email_suffix;
         }
         else
         {

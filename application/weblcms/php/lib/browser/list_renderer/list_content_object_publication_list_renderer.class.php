@@ -10,6 +10,7 @@ use common\libraries\Utilities;
 use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\Translation;
+use repository\ContentObject;
 
 /**
  * $Id: list_content_object_publication_list_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -76,8 +77,8 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
 							</script>';
 
             $html[] = '<div style="text-align: right;">';
-            $html[] = '<a href="?" onclick="setCheckbox(\'publication_list\', true); return false;">' . Translation :: get('SelectAll') . '</a>';
-            $html[] = '- <a href="?" onclick="setCheckbox(\'publication_list\', false); return false;">' . Translation :: get('UnSelectAll') . '</a><br />';
+            $html[] = '<a href="?" onclick="setCheckbox(\'publication_list\', true); return false;">' . Translation :: get('SelectAll', null, Utilities :: COMMON_LIBRARIES ) . '</a>';
+            $html[] = '- <a href="?" onclick="setCheckbox(\'publication_list\', false); return false;">' . Translation :: get('UnSelectAll', null, Utilities :: COMMON_LIBRARIES ) . '</a><br />';
             $html[] = '<select id="tool_actions" name="' . $table_name . '_action_value">';
             foreach ($this->get_actions()->get_form_actions() as $form_action)
             {
@@ -86,7 +87,7 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
             $html[] = '</select>';
             $html[] = '<input type="hidden" name="' . $table_name . '_action_name" value="' . $this->get_actions()->get_action() . '"/>';
             $html[] = '<input type="hidden" name="table_name" value="' . $table_name . '"/>';
-            $html[] = ' <input type="submit" value="' . Translation :: get('Ok') . '"/>';
+            $html[] = ' <input type="submit" value="' . Translation :: get('Ok', null, Utilities :: COMMON_LIBRARIES ) . '"/>';
             $html[] = '</div>';
             $html[] = '</form>';
             $html[] = '</div>';

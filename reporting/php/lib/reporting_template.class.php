@@ -8,6 +8,7 @@ use common\libraries\Path;
 use common\libraries\Application;
 use common\libraries\CoreApplication;
 use common\libraries\WebApplication;
+use common\libraries\BasicApplication;
 use common\libraries\Redirect;
 use common\libraries\Translation;
 use common\libraries\Request;

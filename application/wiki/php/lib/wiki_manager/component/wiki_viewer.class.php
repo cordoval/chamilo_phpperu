@@ -47,7 +47,7 @@ class WikiManagerWikiViewerComponent extends WikiManager implements WikiComplexD
         return $this->publication->get_content_object();
     }
 
-    function get_wiki_publication()
+    function get_publication()
     {
         return $this->publication;
     }

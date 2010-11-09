@@ -6,6 +6,7 @@ use common\libraries\Display;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: course_sections_creator.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -24,7 +25,7 @@ class CourseSectionsToolCreatorComponent extends CourseSectionsTool
     {
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses sections');
-        $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => CourseSectionsTool :: ACTION_CREATE_COURSE_SECTION)), Translation :: get('Create')));
+        $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => CourseSectionsTool :: ACTION_CREATE_COURSE_SECTION)), Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES)));
 
         if (! $this->get_course()->is_course_admin($this->get_parent()->get_user()))
         {

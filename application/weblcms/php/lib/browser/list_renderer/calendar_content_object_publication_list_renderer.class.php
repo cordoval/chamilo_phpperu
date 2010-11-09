@@ -9,6 +9,7 @@ use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: week_calendar_content_object_publication_list_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -143,7 +144,7 @@ class CalendarContentObjectPublicationListRenderer extends ContentObjectPublicat
         $user_relations = WeblcmsDataManager :: get_instance()->retrieve_course_user_relations($user_condition);
         if ($user_relations->size() > 0)
         {
-            $targets[] = Translation :: get('Users');
+            $targets[] = Translation :: get('Users', null ,'user');
             $targets[] = '----------';
 
             while ($user_relation = $user_relations->next_result())
@@ -162,7 +163,7 @@ class CalendarContentObjectPublicationListRenderer extends ContentObjectPublicat
                 $targets[] = '';
             }
 
-            $targets[] = Translation :: get('Groups');
+            $targets[] = Translation :: get('Groups', null ,'groups');
             $targets[] = '----------';
 
             while ($group = $groups->next_result())
@@ -177,10 +178,10 @@ class CalendarContentObjectPublicationListRenderer extends ContentObjectPublicat
     function list_views()
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_VERTICAL);
-        $toolbar->add_item(new ToolbarItem(Translation :: get('MonthView'), Theme :: get_image_path() . 'tool_calendar_month.png', $this->get_url(array(self :: PARAM_CALENDAR_VIEW => self :: CALENDAR_MONTH_VIEW, 'time' => $this->get_display_time())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $toolbar->add_item(new ToolbarItem(Translation :: get('WeekView'), Theme :: get_image_path() . 'tool_calendar_week.png', $this->get_url(array(self :: PARAM_CALENDAR_VIEW => self :: CALENDAR_WEEK_VIEW, 'time' => $this->get_display_time())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $toolbar->add_item(new ToolbarItem(Translation :: get('DayView'), Theme :: get_image_path() . 'tool_calendar_day.png', $this->get_url(array(self :: PARAM_CALENDAR_VIEW => self :: CALENDAR_DAY_VIEW, 'time' => $this->get_display_time())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Today'), Theme :: get_image_path() . 'tool_calendar_today.png', $this->get_url(array(self :: PARAM_CALENDAR_VIEW => $this->get_view(), 'time' => time())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('MonthView', null ,Utilities:: COMMON_LIBRARIES), Theme :: get_image_path() . 'tool_calendar_month.png', $this->get_url(array(self :: PARAM_CALENDAR_VIEW => self :: CALENDAR_MONTH_VIEW, 'time' => $this->get_display_time())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Weekview', null ,Utilities:: COMMON_LIBRARIES), Theme :: get_image_path() . 'tool_calendar_week.png', $this->get_url(array(self :: PARAM_CALENDAR_VIEW => self :: CALENDAR_WEEK_VIEW, 'time' => $this->get_display_time())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('DayView', null ,Utilities:: COMMON_LIBRARIES), Theme :: get_image_path() . 'tool_calendar_day.png', $this->get_url(array(self :: PARAM_CALENDAR_VIEW => self :: CALENDAR_DAY_VIEW, 'time' => $this->get_display_time())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Today', null ,Utilities:: COMMON_LIBRARIES), Theme :: get_image_path() . 'tool_calendar_today.png', $this->get_url(array(self :: PARAM_CALENDAR_VIEW => $this->get_view(), 'time' => time())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         $html = array();
         $html[] = '<div class="content_object" style="padding: 10px;">';
@@ -192,7 +193,7 @@ class CalendarContentObjectPublicationListRenderer extends ContentObjectPublicat
             $renderer = $form->defaultRenderer();
             $renderer->setElementTemplate('{element}');
             $form->addElement('select', 'filter', Translation :: get('FilterTarget'), $this->get_filter_targets());
-            $form->addElement('submit', 'submit', Translation :: get('Ok'));
+            $form->addElement('submit', 'submit', Translation :: get('Ok', null ,Utilities:: COMMON_LIBRARIES));
 
             $html[] = $form->toHtml();
             $html[] = '<br />';

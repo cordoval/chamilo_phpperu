@@ -6,6 +6,7 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\Request;
 use common\libraries\Translation;
 use repository\ContentObjectForm;
+use common\libraries\Utilities;
 
 /**
  * $Id: edit.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -65,7 +66,7 @@ class ToolComponentUpdaterComponent extends ToolComponent
                 if ($publication_form->validate() || $content_object->get_type() == 'introduction')
                 {
                     $publication_form->update_content_object_publication();
-                    $message = htmlentities(Translation :: get('ContentObjectUpdated'));
+                    $message = htmlentities(Translation :: get('ObjectUpdated', null ,Utilities:: COMMON_LIBRARIES));
 
                     $show_details = Request :: get('details');
                     $tool = Request :: get('tool');

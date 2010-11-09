@@ -8,6 +8,7 @@ use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: default_course_group_table_cell_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -71,9 +72,9 @@ class DefaultCourseGroupTableCellRenderer implements CourseGroupTableCellRendere
                 case CourseGroup :: PROPERTY_MAX_NUMBER_OF_MEMBERS :
                     return $course_group->get_max_number_of_members();
                 case CourseGroup :: PROPERTY_SELF_REG :
-                    return $course_group->is_self_registration_allowed() ? Translation :: get('Yes') : Translation :: get('No');
+                    return $course_group->is_self_registration_allowed() ? Translation :: get('ConfirmYes', null, Utilities :: COMMON_LIBRARIES) : Translation :: get('No');
                 case CourseGroup :: PROPERTY_SELF_UNREG :
-                    return $course_group->is_self_unregistration_allowed() ? Translation :: get('Yes') : Translation :: get('No');
+                    return $course_group->is_self_unregistration_allowed() ? Translation :: get('ConfirmYes', null, Utilities :: COMMON_LIBRARIES) : Translation :: get('No');
             }
         }
         return '&nbsp;';
@@ -99,13 +100,13 @@ class DefaultCourseGroupTableCellRenderer implements CourseGroupTableCellRendere
             $parameters[CourseGroupTool :: PARAM_COURSE_GROUP] = $course_group->get_id();
             $parameters[CourseGroupTool :: PARAM_COURSE_GROUP_ACTION] = CourseGroupTool :: ACTION_EDIT_COURSE_GROUP;
             $edit_url = $this->course_group_tool->get_url($parameters);
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $edit_url, ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $edit_url, ToolbarItem :: DISPLAY_ICON));
 
             $parameters = array();
             $parameters[WeblcmsManager :: PARAM_COURSE_GROUP] = $course_group->get_id();
             $parameters[CourseGroupTool :: PARAM_COURSE_GROUP_ACTION] = CourseGroupTool :: ACTION_DELETE_COURSE_GROUP;
             $delete_url = $this->course_group_tool->get_url($parameters);
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $delete_url, ToolbarItem :: DISPLAY_ICON, true));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $delete_url, ToolbarItem :: DISPLAY_ICON, true));
         }
 
         $user = $this->course_group_tool->get_user();

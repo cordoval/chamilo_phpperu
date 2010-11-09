@@ -3,6 +3,7 @@ namespace application\weblcms;
 
 use common\libraries\FormValidator;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: course_type_select_form.class.php 2 2010-02-25 11:43:06Z Yannick & Tristan $
@@ -47,10 +48,10 @@ class CourseTypeSelectForm extends FormValidator
         }
 
         $this->addElement('select', self :: SELECT_ELEMENT, Translation :: get('CourseType'), $course_types);
-        $this->addRule('CourseType', Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule('CourseType', Translation :: get('ThisFieldIsRequired', null ,Utilities:: COMMON_LIBRARIES), 'required');
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Select'), array('class' => 'positive update'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Select', null ,Utilities:: COMMON_LIBRARIES), array('class' => 'positive update'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null ,Utilities:: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

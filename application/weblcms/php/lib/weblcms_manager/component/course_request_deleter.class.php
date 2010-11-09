@@ -34,7 +34,7 @@ class WeblcmsManagerCourseRequestDeleterComponent extends WeblcmsManager
             $trail->add(new Breadcrumb($this->get_url(), Translation :: get('DeleteRequest')));
             $trail->add_help('request delete');
 
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get('NotAllowed'));
             $this->display_header();
             $this->display_footer();
             exit();

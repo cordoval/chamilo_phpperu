@@ -125,7 +125,7 @@ abstract class ContentObjectPublicationListRenderer
         }
         if ($publication->is_for_everybody())
         {
-            return htmlentities(Translation :: get('Everybody')) . $email_suffix;
+            return htmlentities(Translation :: get('Everybody', null ,'user')) . $email_suffix;
         }
         else
         {
@@ -143,7 +143,7 @@ abstract class ContentObjectPublicationListRenderer
                     }
                     else
                     {
-                        return Translation :: get('UserUnknown');
+                        return Translation :: get('UserUnknown', null ,'user');
                     }
                 }
                 elseif (count($groups) == 1)
@@ -156,7 +156,7 @@ abstract class ContentObjectPublicationListRenderer
                     }
                     else
                     {
-                        return Translation :: get('GroupUnknown');
+                        return Translation :: get('GroupUnknown', null ,'group');
                     }
                 }
                 else
@@ -185,7 +185,7 @@ abstract class ContentObjectPublicationListRenderer
                 }
                 else
                 {
-                    $name = Translation :: get('UserUnknown');
+                    $name = Translation :: get('UserUnknown', null ,'user');
                 }
 
                 $target_list[] = '<option>' . $name . '</option>';
@@ -202,7 +202,7 @@ abstract class ContentObjectPublicationListRenderer
                 }
                 else
                 {
-                    $name = Translation :: get('GroupUnknown');
+                    $name = Translation :: get('GroupUnknown', null ,'group');
                 }
 
                 $target_list[] = '<option>' . $name . '</option>';
@@ -239,9 +239,9 @@ abstract class ContentObjectPublicationListRenderer
     {
         if ($publication->is_forever())
         {
-            return htmlentities(Translation :: get('Forever'));
+            return htmlentities(Translation :: get('Forever', null ,Utilities:: COMMON_LIBRARIES));
         }
-        return htmlentities(Translation :: get('From') . ' ' . $this->format_date($publication->get_from_date()) . ' ' . Translation :: get('Until') . ' ' . $this->format_date($publication->get_to_date()));
+        return htmlentities(Translation :: get('From', null ,Utilities:: COMMON_LIBRARIES) . ' ' . $this->format_date($publication->get_from_date()) . ' ' . Translation :: get('Until') . ' ' . $this->format_date($publication->get_to_date()));
     }
 
     /**
@@ -253,9 +253,9 @@ abstract class ContentObjectPublicationListRenderer
     {
         $repo_viewer = $this->tool_browser->get_parent()->get_user_info($publication->get_publisher_id());
         $html = array();
-        $html[] = htmlentities(Translation :: get('PublishedOn')) . ' ' . $this->render_publication_date($publication);
-        $html[] = htmlentities(Translation :: get('By')) . ' ' . $this->render_repo_viewer($publication);
-        $html[] = htmlentities(Translation :: get('For')) . ' ' . $this->render_publication_targets($publication);
+        $html[] = htmlentities(Translation :: get('PublishedOn', null ,Utilities:: COMMON_LIBRARIES)) . ' ' . $this->render_publication_date($publication);
+        $html[] = htmlentities(Translation :: get('By', null ,Utilities:: COMMON_LIBRARIES)) . ' ' . $this->render_repo_viewer($publication);
+        $html[] = htmlentities(Translation :: get('For', null ,Utilities:: COMMON_LIBRARIES)) . ' ' . $this->render_publication_targets($publication);
         if (! $publication->is_forever())
         {
             $html[] = '(' . $this->render_publication_period($publication) . ')';

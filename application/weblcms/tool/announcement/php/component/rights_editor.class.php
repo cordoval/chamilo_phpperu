@@ -2,7 +2,6 @@
 namespace application\weblcms\tool\announcement;
 
 use application\weblcms\WeblcmsRights;
-use application\weblcms\Tool;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Request;

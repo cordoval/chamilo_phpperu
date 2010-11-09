@@ -5,6 +5,7 @@ use user\UserDataManager;
 use common\libraries\FormValidator;
 use common\libraries\EqualityCondition;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: course_user_import_form.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -39,7 +40,7 @@ class CourseUserImportForm extends FormValidator
     {
         $this->addElement('file', 'file', Translation :: get('FileName'));
         //$this->addElement('submit', 'course_user_import', Translation :: get('Ok'));
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Ok'), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Ok', null, Utilities :: COMMON_LIBRARIES ), array('class' => 'positive'));
         //$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
 
@@ -84,7 +85,7 @@ class CourseUserImportForm extends FormValidator
                 if (! $wdm->unsubscribe_user_from_course($course, $user_info->get_id()))
                 {
                     $failures ++;
-                    $this->failedcsv[] = Translation :: get('Failed') . ': ' . implode($csvcourse, ';');
+                    $this->failedcsv[] = Translation :: get('Failed', null, Utilities :: COMMON_LIBRARIES ) . ': ' . implode($csvcourse, ';');
                     continue;
                 }
             }
@@ -94,7 +95,7 @@ class CourseUserImportForm extends FormValidator
                 if (! $wdm->subscribe_user_to_course($course, $status, $tutor, $user_info->get_id()))
                 {
                     $failures ++;
-                    $this->failedcsv[] = Translation :: get('Failed') . ': ' . implode($csvcourse, ';');
+                    $this->failedcsv[] = Translation :: get('Failed', null, Utilities :: COMMON_LIBRARIES ) . ': ' . implode($csvcourse, ';');
                     continue;
                 }
             }

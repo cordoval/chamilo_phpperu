@@ -1,6 +1,7 @@
 <?php
 namespace common\extensions\feedback_manager;
 
+use repository\ContentObject;
 use repository\ContentObjectDisplay;
 use common\libraries\DatetimeUtilities;
 use repository\RepositoryDataManager;
