@@ -13,7 +13,7 @@ class HomeTool extends Tool implements DelegateComponent
     const ACTION_MAKE_TOOL_INVISIBLE = 'tool_invisible';
     const ACTION_DELETE_LINKS = 'links_deleter';
 
-    const DEFAULT_ACTION = self :: ACTION_VIEW;
+    const DEFAULT_ACTION = self :: ACTION_BROWSE;
 
     function set_optional_parameters()
     {

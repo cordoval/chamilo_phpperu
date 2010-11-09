@@ -48,12 +48,12 @@ class ToolComponentBrowserComponent extends ToolComponent
         $publication_renderer = ContentObjectPublicationListRenderer :: factory($this->get_parent()->get_browser_type(), $this);
 
         $actions = new ObjectTableFormActions(Tool :: PARAM_ACTION);
-        $actions->add_form_action(new ObjectTableFormAction(Tool :: ACTION_DELETE, Translation :: get('RemoveSelected', null ,Utilies:: COMMON_LIBRARIES)));
+        $actions->add_form_action(new ObjectTableFormAction(Tool :: ACTION_DELETE, Translation :: get('RemoveSelected', null ,Utilities:: COMMON_LIBRARIES)));
         $actions->add_form_action(new ObjectTableFormAction(Tool :: ACTION_TOGGLE_VISIBILITY, Translation :: get('ToggleVisibility'), false));
         //$actions->add_form_action(new ObjectTableFormAction(Tool :: ACTION_TOGGLE_VISIBILITY, Translation :: get('ToggleVisibility'), false));
         if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT) && $this->get_parent() instanceof Categorizable)
         {
-            $actions->add_form_action(new ObjectTableFormAction(Tool :: ACTION_MOVE_TO_CATEGORY, Translation :: get('MoveSelected', null ,Utilies:: COMMON_LIBRARIES), false));
+            $actions->add_form_action(new ObjectTableFormAction(Tool :: ACTION_MOVE_TO_CATEGORY, Translation :: get('MoveSelected', null ,Utilities:: COMMON_LIBRARIES), false));
         }
         $publication_renderer->set_actions($actions);
 

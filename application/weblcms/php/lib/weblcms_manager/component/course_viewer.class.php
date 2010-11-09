@@ -62,7 +62,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager implements Dele
         $trail = BreadcrumbTrail :: get_instance();
         $tool_action = Request :: get(Tool :: PARAM_ACTION);
 
-        if ($this->is_teacher() && $this->get_course()->get_student_view() == 1 && ! isset($tool_action))
+        if ($this->is_teacher() && $this->get_course()->get_student_view() == 1 && (!isset($tool_action) || $tool_action == Tool :: ACTION_BROWSE))
         {
             $studentview = Session :: retrieve('studentview');
 

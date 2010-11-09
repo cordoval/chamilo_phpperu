@@ -10,6 +10,7 @@ use common\libraries\Utilities;
 use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\Translation;
+use repository\ContentObject;
 
 /**
  * $Id: list_content_object_publication_list_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $

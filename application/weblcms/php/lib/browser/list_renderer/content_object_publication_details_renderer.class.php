@@ -4,6 +4,7 @@ namespace application\weblcms;
 use common\libraries\ComplexContentObjectSupport;
 use common\libraries\Theme;
 use common\libraries\Translation;
+use repository\ContentObject;
 
 /**
  * $Id: content_object_publication_details_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $

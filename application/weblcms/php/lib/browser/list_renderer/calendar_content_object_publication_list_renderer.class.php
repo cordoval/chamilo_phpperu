@@ -178,10 +178,10 @@ class CalendarContentObjectPublicationListRenderer extends ContentObjectPublicat
     function list_views()
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_VERTICAL);
-        $toolbar->add_item(new ToolbarItem(Translation :: get('MonthView', null ,Utilies:: COMMON_LIBRARIES), Theme :: get_image_path() . 'tool_calendar_month.png', $this->get_url(array(self :: PARAM_CALENDAR_VIEW => self :: CALENDAR_MONTH_VIEW, 'time' => $this->get_display_time())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Weekview', null ,Utilies:: COMMON_LIBRARIES), Theme :: get_image_path() . 'tool_calendar_week.png', $this->get_url(array(self :: PARAM_CALENDAR_VIEW => self :: CALENDAR_WEEK_VIEW, 'time' => $this->get_display_time())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $toolbar->add_item(new ToolbarItem(Translation :: get('DayView', null ,Utilies:: COMMON_LIBRARIES), Theme :: get_image_path() . 'tool_calendar_day.png', $this->get_url(array(self :: PARAM_CALENDAR_VIEW => self :: CALENDAR_DAY_VIEW, 'time' => $this->get_display_time())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Today', null ,Utilies:: COMMON_LIBRARIES), Theme :: get_image_path() . 'tool_calendar_today.png', $this->get_url(array(self :: PARAM_CALENDAR_VIEW => $this->get_view(), 'time' => time())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('MonthView', null ,Utilities:: COMMON_LIBRARIES), Theme :: get_image_path() . 'tool_calendar_month.png', $this->get_url(array(self :: PARAM_CALENDAR_VIEW => self :: CALENDAR_MONTH_VIEW, 'time' => $this->get_display_time())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Weekview', null ,Utilities:: COMMON_LIBRARIES), Theme :: get_image_path() . 'tool_calendar_week.png', $this->get_url(array(self :: PARAM_CALENDAR_VIEW => self :: CALENDAR_WEEK_VIEW, 'time' => $this->get_display_time())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('DayView', null ,Utilities:: COMMON_LIBRARIES), Theme :: get_image_path() . 'tool_calendar_day.png', $this->get_url(array(self :: PARAM_CALENDAR_VIEW => self :: CALENDAR_DAY_VIEW, 'time' => $this->get_display_time())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Today', null ,Utilities:: COMMON_LIBRARIES), Theme :: get_image_path() . 'tool_calendar_today.png', $this->get_url(array(self :: PARAM_CALENDAR_VIEW => $this->get_view(), 'time' => time())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         $html = array();
         $html[] = '<div class="content_object" style="padding: 10px;">';
@@ -193,7 +193,7 @@ class CalendarContentObjectPublicationListRenderer extends ContentObjectPublicat
             $renderer = $form->defaultRenderer();
             $renderer->setElementTemplate('{element}');
             $form->addElement('select', 'filter', Translation :: get('FilterTarget'), $this->get_filter_targets());
-            $form->addElement('submit', 'submit', Translation :: get('Ok', null ,Utilies:: COMMON_LIBRARIES));
+            $form->addElement('submit', 'submit', Translation :: get('Ok', null ,Utilities:: COMMON_LIBRARIES));
 
             $html[] = $form->toHtml();
             $html[] = '<br />';

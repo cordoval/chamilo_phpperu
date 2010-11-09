@@ -251,14 +251,14 @@ class FixedLocationToolListRenderer extends ToolListRenderer
                 {
                     $new = '_new';
                 }
-                $tool_image = 'tool_' . $tool->name . $new . '.png';
+                $tool_image = Theme :: ICON_MEDIUM . $new . '.png';
                 $link_class = '';
             }
             else
             {
                 $lcms_action = HomeTool :: ACTION_MAKE_TOOL_VISIBLE;
                 $visible_image = 'action_invisible.png';
-                $tool_image = 'tool_' . $tool->name . '_na.png';
+                $tool_image = Theme :: ICON_MEDIUM . '_na.png';
                 $link_class = ' class="invisible"';
             }
 
@@ -288,7 +288,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
                 // Show tool-icon + name
 
 
-                $html[] = '<img class="tool_image"' . $id . ' src="' . Theme :: get_image_path() . $tool_image . '" style="vertical-align: middle;" alt="' . $title . '"/>';
+                $html[] = '<img class="tool_image"' . $id . ' src="' . Theme :: get_image_path(Tool :: get_tool_type_namespace($tool->name)) . 'logo/' . $tool_image . '" style="vertical-align: middle;" alt="' . $title . '"/>';
                 $html[] = '&nbsp;';
                 $html[] = '<a id="tool_text" href="' . $parent->get_url(array(WeblcmsManager :: PARAM_COMPONENT_ACTION => null, WeblcmsManager :: PARAM_TOOL => $tool->name, 'tool_action' => null, Tool :: PARAM_BROWSER_TYPE => null), array(), true) . '" ' . $link_class . '>';
                 $html[] = $title;

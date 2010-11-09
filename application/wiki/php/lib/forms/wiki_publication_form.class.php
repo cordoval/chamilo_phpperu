@@ -5,11 +5,11 @@ use common\libraries\Utilities;
 use common\libraries\FormValidator;
 use common\libraries\Translation;
 use common\libraries\Path;
-use common\libraries\Webapplication;
+use common\libraries\WebApplication;
 use common\libraries\PlatformSetting;
 use common\libraries\Session;
 
-use application\GradebookInternalItemForm;
+use application\gradebook\GradebookInternalItemForm;
 
 /**
  * $Id: wiki_publication_form.class.php 210 2009-11-13 13:18:50Z kariboe $
@@ -72,7 +72,6 @@ class WikiPublicationForm extends FormValidator
         {
         	if(PlatformSetting :: get_instance()->get('allow_evaluate_application_wiki', 'gradebook'))
         	{
-	        	require_once dirname (__FILE__) . '/../../gradebook/forms/gradebook_internal_item_form.class.php';
 	        	$gradebook_internal_item_form = new GradebookInternalItemForm();
 	        	$gradebook_internal_item_form->build_evaluation_question($this);
         	}

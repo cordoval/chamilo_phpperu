@@ -239,9 +239,9 @@ abstract class ContentObjectPublicationListRenderer
     {
         if ($publication->is_forever())
         {
-            return htmlentities(Translation :: get('Forever', null ,Utilies:: COMMON_LIBRARIES));
+            return htmlentities(Translation :: get('Forever', null ,Utilities:: COMMON_LIBRARIES));
         }
-        return htmlentities(Translation :: get('From', null ,Utilies:: COMMON_LIBRARIES) . ' ' . $this->format_date($publication->get_from_date()) . ' ' . Translation :: get('Until') . ' ' . $this->format_date($publication->get_to_date()));
+        return htmlentities(Translation :: get('From', null ,Utilities:: COMMON_LIBRARIES) . ' ' . $this->format_date($publication->get_from_date()) . ' ' . Translation :: get('Until') . ' ' . $this->format_date($publication->get_to_date()));
     }
 
     /**
@@ -253,9 +253,9 @@ abstract class ContentObjectPublicationListRenderer
     {
         $repo_viewer = $this->tool_browser->get_parent()->get_user_info($publication->get_publisher_id());
         $html = array();
-        $html[] = htmlentities(Translation :: get('PublishedOn', null ,Utilies:: COMMON_LIBRARIES)) . ' ' . $this->render_publication_date($publication);
-        $html[] = htmlentities(Translation :: get('By', null ,Utilies:: COMMON_LIBRARIES)) . ' ' . $this->render_repo_viewer($publication);
-        $html[] = htmlentities(Translation :: get('For', null ,Utilies:: COMMON_LIBRARIES)) . ' ' . $this->render_publication_targets($publication);
+        $html[] = htmlentities(Translation :: get('PublishedOn', null ,Utilities:: COMMON_LIBRARIES)) . ' ' . $this->render_publication_date($publication);
+        $html[] = htmlentities(Translation :: get('By', null ,Utilities:: COMMON_LIBRARIES)) . ' ' . $this->render_repo_viewer($publication);
+        $html[] = htmlentities(Translation :: get('For', null ,Utilities:: COMMON_LIBRARIES)) . ' ' . $this->render_publication_targets($publication);
         if (! $publication->is_forever())
         {
             $html[] = '(' . $this->render_publication_period($publication) . ')';

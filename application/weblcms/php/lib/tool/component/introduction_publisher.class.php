@@ -66,7 +66,7 @@ class ToolComponentIntroductionPublisherComponent extends ToolComponent implemen
             $parameters = $this->get_parameters();
             $parameters['tool_action'] = null;
 
-            $this->redirect(Translation :: get('ObjectPublished', array('OBJECT' => Translation :: get('Introduction')),Utilies:: COMMON_LIBRARIES), (false), $parameters);
+            $this->redirect(Translation :: get('ObjectPublished', array('OBJECT' => Translation :: get('Introduction')),Utilities:: COMMON_LIBRARIES), (false), $parameters);
         }
     }
 

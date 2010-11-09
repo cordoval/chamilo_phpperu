@@ -3,8 +3,9 @@ namespace repository\content_object\hotpotatoes;
 
 use common\libraries\Translation;
 use common\libraries\Path;
-
 use repository\ContentObjectForm;
+use repository\content_object\assessment\Assessment;
+use common\libraries\Utilities;
 
 /**
  * $Id: hotpotatoes_form.class.php 200 2009-11-13 12:30:04Z kariboe $

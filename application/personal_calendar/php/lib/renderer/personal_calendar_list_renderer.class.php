@@ -7,10 +7,11 @@ use common\libraries\Translation;
 use common\libraries\DatetimeUtilities;
 use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
-use repository\RepositoryDataManager;
 use common\libraries\Theme;
 use common\libraries\Utilities;
+use common\libraries\Application;
 use repository\content_object\calendar_event\CalendarEvent;
+use repository\RepositoryDataManager;
 
 /**
  * $Id: personal_calendar_list_renderer.class.php 201 2009-11-13 12:34:51Z chellee $

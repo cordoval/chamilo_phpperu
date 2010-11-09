@@ -37,7 +37,7 @@ class CourseChangeCourseTypeForm extends FormValidator
         $this->addElement('hidden', Course :: PROPERTY_ID);
 
         $this->addElement('select', self :: SELECT_COURSE_TYPE, Translation :: get('NewCourseType'), $this->get_course_types());
-        $this->addRule('CourseType', Translation :: get('ThisFieldIsRequired', null ,Utilies:: COMMON_LIBRARIES), 'required');
+        $this->addRule('CourseType', Translation :: get('ThisFieldIsRequired', null ,Utilities:: COMMON_LIBRARIES), 'required');
 
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('ChangeCourseType'), array('class' => 'positive move'));
 
@@ -69,7 +69,7 @@ class CourseChangeCourseTypeForm extends FormValidator
                 $this->parent->simple_redirect($parameters);
             }
             $this->addElement('select', Course :: PROPERTY_ID, Translation :: get('CourseType'), $course_types, array('class' => 'course_type_selector'));
-            $this->addRule('CourseType', Translation :: get('ThisFieldIsRequired', null ,Utilies:: COMMON_LIBRARIES), 'required');
+            $this->addRule('CourseType', Translation :: get('ThisFieldIsRequired', null ,Utilities:: COMMON_LIBRARIES), 'required');
         }
         else
         {

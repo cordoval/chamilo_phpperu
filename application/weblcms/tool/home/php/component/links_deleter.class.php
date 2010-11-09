@@ -20,7 +20,7 @@ class HomeToolLinksDeleterComponent extends HomeTool
 
         $message = $succes ? 'PublicationRemovedFromHomepage' : 'PublicationNotRemovedFromHomepage';
 
-        $this->redirect(Translation :: get($message), ! $succes, array(HomeTool :: PARAM_ACTION => HomeTool :: ACTION_VIEW));
+        $this->redirect(Translation :: get($message), ! $succes, array(HomeTool :: PARAM_ACTION => HomeTool :: ACTION_BROWSE));
     }
 }
 ?>

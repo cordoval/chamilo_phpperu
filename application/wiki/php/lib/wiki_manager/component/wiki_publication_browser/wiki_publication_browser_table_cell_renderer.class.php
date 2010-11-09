@@ -10,7 +10,7 @@ use common\libraries\ToolbarItem;
 use repository\ContentObject;
 use repository\content_object\wiki\WikiDisplay;
 
-use application\gradebook;
+use application\gradebook\EvaluationManager;
 /**
  * $Id: wiki_publication_browser_table_cell_renderer.class.php 210 2009-11-13 13:18:50Z kariboe $
  * @package application.lib.wiki.wiki_manager.component.wiki_publication_browser
@@ -86,7 +86,6 @@ class WikiPublicationBrowserTableCellRenderer extends DefaultWikiPublicationTabl
         
         if(WebApplication :: is_active('gradebook'))
         {
-        	require_once dirname (__FILE__) . '/../../../../gradebook/evaluation_manager/evaluation_manager.class.php';
         	if(EvaluationManager :: retrieve_internal_item_by_publication(WikiManager :: APPLICATION_NAME, $wiki_publication->get_id()))
         	{
         		$toolbar->add_item(new ToolbarItem(

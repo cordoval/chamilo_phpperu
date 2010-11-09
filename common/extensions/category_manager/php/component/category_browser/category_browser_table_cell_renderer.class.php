@@ -6,6 +6,7 @@ use common\libraries\Theme;
 use common\libraries\EqualityCondition;
 use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
+use common\libraries\Utilities;
 /**
  * $Id: category_browser_table_cell_renderer.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.common.category_manager.component.category_browser

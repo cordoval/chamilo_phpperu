@@ -33,7 +33,7 @@ class WeblcmsManagerActivityChangerComponent extends WeblcmsManager
         if (! $this->get_user() || ! $this->get_user()->is_platform_admin())
         {
             $this->display_header();
-            Display :: error_message(Translation :: get('NotAllowed', null ,Utilies:: COMMON_LIBRARIES));
+            Display :: error_message(Translation :: get('NotAllowed', null ,Utilities:: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
@@ -47,7 +47,7 @@ class WeblcmsManagerActivityChangerComponent extends WeblcmsManager
         else
         {
             $this->display_header();
-            $this->display_error_message(Translation :: get('NoObjectsSelected', null ,Utilies:: COMMON_LIBRARIES));
+            $this->display_error_message(Translation :: get('NoObjectsSelected', null ,Utilities:: COMMON_LIBRARIES));
             $this->display_footer();
         }
 
