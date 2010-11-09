@@ -28,12 +28,12 @@ class ApplicationsPackageDependency extends PackageDependency
     {
         return $this->version;
     }
-    
+
     public function get_operator()
     {
     	return $this->version['type'];
     }
-    
+
     public function get_version_number()
     {
     	return $this->version['_content'];
@@ -50,13 +50,13 @@ class ApplicationsPackageDependency extends PackageDependency
     function as_html()
     {
         $version = $this->get_version();
-        return Translation :: get(Utilities :: underscores_to_camelcase($this->get_id())) . ', ' . Translation :: get('Version') . ': ' . $version['_content'];
+        return Translation :: get(Utilities :: underscores_to_camelcase($this->get_id())) . ', ' . Translation :: get('Version', array(), Utilities :: COMMON_LIBRARIES) . ': ' . $version['_content'];
     }
 
     function check()
     {
         $version = $this->get_version();
-        $message = Translation :: get('DependencyCheckApplication') . ': ' . $this->as_html() . ' ' . Translation :: get('Found') . ': ';
+        $message = Translation :: get('DependencyCheckApplication') . ': ' . $this->as_html() . ' ' . Translation :: get('Found', array(), Utilities :: COMMON_LIBRARIES) . ': ';
 
         $conditions = array();
         $conditions[] = new EqualityCondition(Registration :: PROPERTY_NAME, $this->get_id());
@@ -67,7 +67,7 @@ class ApplicationsPackageDependency extends PackageDependency
 
         if ($registrations->size() === 0)
         {
-            $message .= '--' . Translation :: get('Nothing') . '--';
+            $message .= '--' . Translation :: get('Nothing', array(), Utilities :: COMMON_LIBRARIES) . '--';
             $this->logger->add_message($message);
             return false;
         }
@@ -78,7 +78,7 @@ class ApplicationsPackageDependency extends PackageDependency
             $application_version = $this->version_compare($version['type'], $version['_content'], $registration->get_version());
             if (! $application_version)
             {
-                $message .= '--' . Translation :: get('WrongVersion') . '--';
+                $message .= '--' . Translation :: get('WrongVersion', array(), Utilities :: COMMON_LIBRARIES) . '--';
                 $this->logger->add_message($message);
                 $this->logger->add_message(Translation :: get('DependencyApplicationWrongVersion'), MessageLogger :: TYPE_WARNING);
                 return false;
@@ -87,7 +87,7 @@ class ApplicationsPackageDependency extends PackageDependency
             {
                 if (! $registration->is_active())
                 {
-                    $message .= '--' . Translation :: get('InactiveApplication') . '--';
+                    $message .= '--' . Translation :: get('InactiveApplication', array(), Utilities :: COMMON_LIBRARIES) . '--';
                     $this->logger->add_message($message);
                     $this->logger->add_message(Translation :: get('DependencyActivateObjectWarning'), MessageLogger :: TYPE_WARNING);
                 }
