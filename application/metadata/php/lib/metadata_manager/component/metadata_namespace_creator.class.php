@@ -1,6 +1,8 @@
 <?php
 namespace application\metadata;
+
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * Component to create a new metadata_namespace object

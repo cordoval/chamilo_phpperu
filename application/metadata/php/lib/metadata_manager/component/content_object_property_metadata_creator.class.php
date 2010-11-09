@@ -1,6 +1,8 @@
 <?php
 namespace application\metadata;
+
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * Component to create a new content_object_property_metadata object

@@ -1,11 +1,13 @@
 <?php
 
 namespace application\context_linker;
+
 use common\libraries\ToolbarItem;
 use common\libraries\Translation;
 use repository\DefaultContentObjectTableCellRenderer;
 use common\libraries\Toolbar;
 use common\libraries\Theme;
+use common\libraries\Utilities;
 
 /**
  * Cell rendere for the learning object browser table

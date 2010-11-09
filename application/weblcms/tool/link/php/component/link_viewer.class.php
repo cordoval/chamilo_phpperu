@@ -2,15 +2,9 @@
 namespace application\weblcms\tool\link;
 
 use repository\content_object\introduction\Introduction;
-use application\weblcms\ContentObjectPublication;
-use application\weblcms\WeblcmsDataManager;
-use application\weblcms\WeblcmsRights;
-use application\weblcms\Tool;
 use common\libraries\PatternMatchCondition;
-use repository\ContentObject;
 use common\libraries\ActionBarRenderer;
 use common\libraries\SubselectCondition;
-use repository\RepositoryDataManager;
 use common\libraries\ToolbarItem;
 use common\libraries\Display;
 use common\libraries\Theme;
@@ -22,6 +16,14 @@ use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\Translation;
+use common\libraries\Utilities;
+
+use application\weblcms\ContentObjectPublication;
+use application\weblcms\WeblcmsDataManager;
+use application\weblcms\WeblcmsRights;
+use application\weblcms\Tool;
+use repository\ContentObject;
+use repository\RepositoryDataManager;
 
 /**
  * $Id: link_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $

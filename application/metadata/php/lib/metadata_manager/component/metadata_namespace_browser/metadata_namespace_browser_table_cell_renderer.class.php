@@ -1,9 +1,12 @@
 <?php
 namespace application\metadata;
+
 use common\libraries\Toolbar;
 use common\libraries\Translation;
 use common\libraries\Theme;
 use common\libraries\ToolbarItem;
+use common\libraries\Utilities;
+
 require_once dirname(__FILE__) . '/../../../tables/metadata_namespace_table/default_metadata_namespace_table_cell_renderer.class.php';
 
 /**

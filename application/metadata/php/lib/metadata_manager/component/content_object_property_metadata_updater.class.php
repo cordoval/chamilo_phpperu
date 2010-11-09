@@ -1,8 +1,10 @@
 <?php
 
 namespace application\metadata;
+
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\Utilities;
 
 /**
  * Component to edit an existing content_object_property_metadata object

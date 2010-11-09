@@ -1,6 +1,6 @@
 <?php
-
 namespace application\context_linker;
+
 use common\libraries\EqualityCondition;
 use common\libraries\Translation;
 use common\libraries\Application;
@@ -8,6 +8,8 @@ use common\libraries\ToolbarItem;
 use common\libraries\Theme;
 use common\libraries\Request;
 use common\libraries\ActionBarRenderer;
+use common\libraries\Utilities;
+
 require_once dirname(__FILE__) . '/context_link_browser/context_link_browser_table.class.php';
 /**
  * context_linker component which allows the user to browse his context_links

@@ -6,6 +6,7 @@ use common\libraries\AndCondition;
 use common\libraries\OrCondition;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * Component to edit an existing metadata_property_value object

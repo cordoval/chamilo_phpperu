@@ -1,5 +1,6 @@
 <?php
 namespace application\context_linker;
+
 use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use common\libraries\Translation;
@@ -7,6 +8,8 @@ use common\libraries\Theme;
 use repository\ContentObject;
 use application\metadata\MetadataPropertyType;
 use application\metadata\MetadataPropertyValue;
+use common\libraries\Utilities;
+
 require_once dirname(__FILE__) . '/../../../tables/context_link_table/default_context_link_table_cell_renderer.class.php';
 
 

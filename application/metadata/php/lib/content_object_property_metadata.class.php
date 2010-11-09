@@ -1,12 +1,16 @@
 <?php
 namespace application\metadata;
+
 use common\libraries\DataClass;
-use user\UserDataManager;
 use common\libraries\Utilities;
-use repository\ContentObject;
 use common\libraries\EqualityCondition;
 use common\libraries\Translation;
 use common\libraries\AndCondition;
+
+use user\UserDataManager;
+
+use repository\ContentObject;
+
 /**
  * This class describes a ContentObjectPropertyMetadata data object
  * @author Sven Vanpoucke

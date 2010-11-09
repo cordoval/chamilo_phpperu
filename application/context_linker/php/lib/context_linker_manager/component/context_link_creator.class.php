@@ -1,11 +1,13 @@
 <?php
 namespace application\context_linker;
+
 use common\extensions\repo_viewer\RepoViewer;
 use common\libraries\Request;
 use common\libraries\Translation;
 use repository\RepositoryDataManager;
 use repository\content_object\document\Document;
 use repository\content_object\youtube\Youtube;
+use common\libraries\Utilities;
 
 /**
  * Component to create a new context_link object

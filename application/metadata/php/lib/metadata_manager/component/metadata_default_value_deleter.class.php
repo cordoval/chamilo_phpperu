@@ -1,6 +1,8 @@
 <?php
 namespace application\metadata;
+
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * Component to delete metadata_default_values objects

@@ -9,6 +9,7 @@ namespace application\metadata;
 use common\libraries\Translation;
 use common\libraries\ResourceManager;
 use common\libraries\Path;
+use common\libraries\Utilities;
 
 class UserMetadataEditorForm extends MetadataForm
 {

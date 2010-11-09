@@ -1,10 +1,14 @@
 <?php
 namespace application\metadata;
-use repository\DefaultContentObjectTableCellRenderer;
+
 use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use common\libraries\Translation;
 use common\libraries\Theme;
+use common\libraries\Utilities;
+
+use repository\DefaultContentObjectTableCellRenderer;
+
 require_once dirname(__FILE__) . '/../../../../../../../repository/php/lib/content_object_table/default_content_object_table_cell_renderer.class.php';
 
 

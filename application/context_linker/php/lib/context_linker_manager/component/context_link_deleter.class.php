@@ -6,6 +6,7 @@ use common\libraries\Translation;
 use repository\RepositoryDataManager;
 use common\libraries\EqualityCondition;
 use common\libraries\OrCondition;
+use common\libraries\Utilities;
 
 /**
  * Component to delete context_links objects

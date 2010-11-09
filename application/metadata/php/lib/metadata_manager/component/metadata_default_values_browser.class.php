@@ -1,5 +1,6 @@
 <?php
 namespace application\metadata;
+
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Application;
@@ -7,6 +8,7 @@ use common\libraries\ToolbarItem;
 use common\libraries\Theme;
 use common\libraries\ActionBarRenderer;
 use common\libraries\EqualityCondition;
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/../metadata_manager.class.php';
 require_once dirname(__FILE__) . '/metadata_default_value_browser/metadata_default_value_browser_table.class.php';

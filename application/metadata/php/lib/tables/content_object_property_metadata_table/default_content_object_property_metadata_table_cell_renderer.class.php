@@ -1,7 +1,10 @@
 <?php 
 namespace application\metadata;
+
 use common\libraries\ObjectTableCellRenderer;
 use common\libraries\Translation;
+use common\libraries\Utilities;
+
 /**
  * Default cell renderer for the content_object_property_metadata table
  *

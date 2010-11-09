@@ -6,6 +6,8 @@ use common\libraries\ToolbarItem;
 use common\libraries\Translation;
 use common\libraries\Theme;
 use common\libraries\Path;
+use common\libraries\Utilities;
+
 use group\DefaultGroupTableCellRenderer;
 
 require_once Path :: get_group_path() . 'lib/group_table/default_group_table_cell_renderer.class.php';

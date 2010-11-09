@@ -1,7 +1,9 @@
 <?php
 namespace application\context_linker;
+
 use common\libraries\FormValidator;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 class ConfirmationForm extends FormValidator
 {

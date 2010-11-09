@@ -1,6 +1,7 @@
 <?php
 namespace application\context_linker;
 
+use common\libraries\Utilities;
 /**
  * ContextLinker component which allows the user to browse the context_linker application
  * @author Sven Vanpoucke
