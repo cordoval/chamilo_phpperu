@@ -42,7 +42,7 @@ class ComplexDisplayComponentUpdaterComponent extends ComplexDisplayComponent
                     }
                 }
 
-                $message = htmlentities(Translation :: get('ContentObjectUpdated'));
+                $message = htmlentities(Translation :: get('ObjectUpdated', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES));
 
                 $params = array();
                 $params[ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID] = $this->get_complex_content_object_item_id();
@@ -54,7 +54,7 @@ class ComplexDisplayComponentUpdaterComponent extends ComplexDisplayComponent
             else
             {
                 $trail = BreadcrumbTrail :: get_instance();
-                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_selected_complex_content_object_item_id(), ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id())), Translation :: get('EditWikiPage')));
+                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_selected_complex_content_object_item_id(), ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id())), Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES)));
 
                 $this->display_header();
                 $form->display();

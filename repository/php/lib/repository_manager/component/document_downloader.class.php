@@ -24,7 +24,7 @@ class RepositoryManagerDocumentDownloaderComponent extends RepositoryManager
         if (! $object_id)
         {
             $this->display_header();
-            $this->display_error_message(Translation :: get('NoContentObjectSelected'));
+            $this->display_error_message(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }

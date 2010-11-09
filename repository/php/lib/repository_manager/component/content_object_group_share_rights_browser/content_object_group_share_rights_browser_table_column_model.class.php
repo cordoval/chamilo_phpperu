@@ -8,14 +8,14 @@ require_once dirname (__FILE__) . '/../content_object_user_share_rights_browser/
  */
 class ContentObjectGroupShareRightsBrowserTableColumnModel extends ObjectTableColumnModel
 {
-    
+
     function ContentObjectGroupShareRightsBrowserTableColumnModel()
     {
         parent :: __construct();
         $this->add_column(new ObjectTableColumn(Group :: PROPERTY_NAME));
         $this->set_default_order_column(1);
-        $this->add_column(new StaticTableColumn(Translation :: get('Users')));
-        $this->add_column(new StaticTableColumn(Translation :: get('Subgroups')));
+        $this->add_column(new StaticTableColumn(Translation :: get('Users', null, UserManager :: APPLICATION_NAME)));
+        $this->add_column(new StaticTableColumn(Translation :: get('Subgroups', null, GroupManager :: APPLICATION_NAME)));
         $this->add_rights_columns();
         $this->add_column(new ActionColumn());
 

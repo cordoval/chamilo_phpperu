@@ -493,5 +493,17 @@ abstract class ExternalRepositoryManager extends SubManager
 
         return new $class($application->get_external_repository(), $application->get_parent());
     }
+
+    static function get_namespace($type = null)
+    {
+        if ($type)
+        {
+            return __NAMESPACE__ . '\implementation\\' . $type;
+        }
+        else
+        {
+            return __NAMESPACE__;
+        }
+    }
 }
 ?>

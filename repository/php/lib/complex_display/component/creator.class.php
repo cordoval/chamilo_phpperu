@@ -93,7 +93,7 @@ class ComplexDisplayComponentCreatorComponent extends ComplexDisplayComponent im
 
     private function my_redirect($complex_content_object_item_id)
     {
-        $message = htmlentities(Translation :: get('ContentObjectCreated'));
+        $message = htmlentities(Translation :: get('ObjectCreated', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES));
 
         $params = array();
         $params['cid'] = $complex_content_object_item_id;

@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use common\extensions\external_repository_manager;
+
 use common\libraries\ComplexDisplayPreviewLauncher;
 use common\libraries\CoreApplication;
 use common\libraries\DynamicAction;
@@ -791,27 +793,27 @@ class RepositoryManager extends CoreApplication
             }
             $extra_items = array();
             $create = array();
-            $create['title'] = Translation :: get('Create');
+            $create['title'] = Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES);
             $create['url'] = $this->get_content_object_creation_url();
             $create['class'] = 'create';
 
             $templates = array();
-            $templates['title'] = Translation :: get('BrowseTemplates', self :: APPLICATION_NAME);
+            $templates['title'] = Translation :: get('BrowseTemplates');
             $templates['url'] = $this->get_url(array(self :: PARAM_CATEGORY_ID => null, self :: PARAM_ACTION => self :: ACTION_BROWSE_TEMPLATES));
             $templates['class'] = 'template';
 
             $import = array();
-            $import['title'] = Translation :: get('Import', self :: APPLICATION_NAME);
+            $import['title'] = Translation :: get('Import', null, Utilities :: COMMON_LIBRARIES);
             $import['url'] = $this->get_content_object_importing_url();
             $import['class'] = 'import';
 
             $quota = array();
-            $quota['title'] = Translation :: get('Quota', self :: APPLICATION_NAME);
+            $quota['title'] = Translation :: get('Quota');
             $quota['url'] = $this->get_quota_url();
             $quota['class'] = 'quota';
 
             $pub = array();
-            $pub['title'] = Translation :: get('MyPublications', self :: APPLICATION_NAME);
+            $pub['title'] = Translation :: get('MyPublications');
             $pub['url'] = $this->get_publication_url();
             $pub['class'] = 'publication';
 
@@ -820,7 +822,7 @@ class RepositoryManager extends CoreApplication
             $line['class'] = 'divider';
 
             $trash = array();
-            $trash['title'] = Translation :: get('RecycleBin', self :: APPLICATION_NAME);
+            $trash['title'] = Translation :: get('RecycleBin');
             $trash['url'] = $this->get_recycle_bin_url();
             if ($this->current_user_has_recycled_objects())
             {
@@ -869,7 +871,7 @@ class RepositoryManager extends CoreApplication
             if ($this->get_user()->is_platform_admin())
             {
                 $external_repository_item = array();
-                $external_repository_item['title'] = (count($external_repository_manager_types) > 0) ? Translation :: get('ExternalRepositories') : Translation :: get('ExternalRepository');
+                $external_repository_item['title'] = (count($external_repository_manager_types) > 0) ? Translation :: get('ExternalRepositories', null, ExternalRepositoryManager :: get_namespace()) : Translation :: get('ExternalRepository', null, ExternalRepositoryManager :: get_namespace());
                 $external_repository_item['url'] = $this->get_external_repository_instance_manager_url();
                 $external_repository_item['class'] = 'external_repository';
             }
@@ -879,7 +881,7 @@ class RepositoryManager extends CoreApplication
                 if (! $this->get_user()->is_platform_admin())
                 {
                     $external_repository_item = array();
-                    $external_repository_item['title'] = (count($external_repository_manager_types) > 0) ? Translation :: get('ExternalRepositories') : Translation :: get('ExternalRepository');
+                    $external_repository_item['title'] = (count($external_repository_manager_types) > 0) ? Translation :: get('ExternalRepositories', null, ExternalRepositoryManager :: get_namespace()) : Translation :: get('ExternalRepository', null, ExternalRepositoryManager :: get_namespace());
                     $external_repository_item['url'] = '#';
                     $external_repository_item['class'] = 'external_repository';
                 }
@@ -896,7 +898,7 @@ class RepositoryManager extends CoreApplication
                     if ($external_repository_managers->size() > 1)
                     {
                         $external_repository_type_item = array();
-                        $external_repository_type_item['title'] = Utilities :: underscores_to_camelcase($external_repository_manager_type);
+                        $external_repository_type_item['title'] = Translation :: get('TypeName', null, ExternalRepositoryManager :: get_namespace($external_repository_manager_type));
                         $external_repository_type_item['url'] = '#';
                         $external_repository_type_item['class'] = $external_repository_manager_type;
                         $external_repository_type_subitems = array();
@@ -941,7 +943,7 @@ class RepositoryManager extends CoreApplication
             if (count($content_object_managers) > 0)
             {
                 $content_object_manage_item = array();
-                $content_object_manage_item['title'] = Translation :: get('ManageContentObjects', self :: APPLICATION_NAME);
+                $content_object_manage_item['title'] = Translation :: get('ManageContentObjects');
                 $content_object_manage_item['url'] = '#';
                 $content_object_manage_item['class'] = 'manage';
 
@@ -1003,7 +1005,7 @@ class RepositoryManager extends CoreApplication
             {
                 $search_url = '#';
                 $search = array();
-                $search['title'] = Translation :: get('SearchResults');
+                $search['title'] = Translation :: get('SearchResults', null, Utilities :: COMMON_LIBRARIES);
                 $search['url'] = $search_url;
                 $search['class'] = 'search_results';
                 $extra_items[] = $search;

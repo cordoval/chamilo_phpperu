@@ -43,11 +43,11 @@ class ComplexDisplayComponentDeleterComponent extends ComplexDisplayComponent
 
             if (count($complex_content_object_item_ids) > 1)
             {
-                $message = htmlentities(Translation :: get('ComplexContentObjectItemsDeleted'));
+                $message = htmlentities(Translation :: get('ObjectsDeleted', array('OBJECTS' => Translation :: get('ComplexContentObjectItems')), Utilities :: COMMON_LIBRARIES));
             }
             else
             {
-                $message = htmlentities(Translation :: get('ComplexContentObjectItemDeleted'));
+                $message = htmlentities(Translation :: get('ObjectDeleted', array('OBJECT' => Translation :: get('ComplexContentObjectItem')), Utilities :: COMMON_LIBRARIES));
             }
 
             $this->redirect($message, false, array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_VIEW_COMPLEX_CONTENT_OBJECT,

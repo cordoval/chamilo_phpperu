@@ -61,7 +61,7 @@ class LinkBrowserTableCellRenderer extends DefaultLinkTableCellRenderer
         }
 
         $toolbar->add_item(new ToolbarItem(
-        			Translation :: get('Delete'),
+        			Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES),
         			Theme :: get_common_image_path().'action_delete.png',
 					$this->browser->get_delete_link_url($this->type, $this->browser->get_object()->get_id(), $link_id),
 				 	ToolbarItem :: DISPLAY_ICON,

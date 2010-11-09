@@ -140,8 +140,8 @@ class RepositorySearchForm extends FormValidator
     private function build_simple_search_form()
     {
         $this->renderer->setElementTemplate('{element}');
-        $this->frozen_elements[] = $this->addElement('text', self :: PARAM_SIMPLE_SEARCH_QUERY, Translation :: get('Find'), 'size="20" class="search_query"');
-        $this->addElement('submit', 'search', Translation :: get('Ok'));
+        $this->frozen_elements[] = $this->addElement('text', self :: PARAM_SIMPLE_SEARCH_QUERY, Translation :: get('Search', null, Utilities :: COMMON_LIBRARIES), 'size="20" class="search_query"');
+        $this->addElement('submit', 'search', Translation :: get('Ok', null, Utilities :: COMMON_LIBRARIES));
         $this->addElement('static', '', '', '<div class="to_advanced_search" style="font-size:smaller;"><a href="' . $this->manager->get_url(array(self :: PARAM_ADVANCED_SEARCH => 1), array(), true) . '">' . htmlentities(Translation :: get('ToAdvancedSearch')) . '</a></div>');
     }
 
@@ -153,7 +153,7 @@ class RepositorySearchForm extends FormValidator
         $types = array();
         foreach ($this->manager->get_content_object_types() as $type)
         {
-            $types[$type] = Translation :: get(ContentObject :: type_to_class($type) . 'TypeName');
+            $types[$type] = Translation :: get('TypeName', null, ContentObject :: get_content_object_type_namespace($type));
         }
         asort($types);
         $this->frozen_elements[] = $this->addElement('text', self :: PARAM_TITLE_SEARCH_QUERY, Translation :: get('Title'), 'size="60" style="width: 100%"');
@@ -164,7 +164,7 @@ class RepositorySearchForm extends FormValidator
         $scope_buttons[] = $this->createElement('radio', null, null, Translation :: get('CurrentCategoryOnly'), self :: SEARCH_SCOPE_CATEGORY);
         $scope_buttons[] = $this->createElement('radio', null, null, Translation :: get('CurrentCategoryAndSubcategories'), self :: SEARCH_SCOPE_CATEGORY_AND_SUBCATEGORIES);
         $this->frozen_elements[] = $this->addGroup($scope_buttons, self :: PARAM_SEARCH_SCOPE, Translation :: get('SearchIn'));
-        $this->addElement('submit', 'search', Translation :: get('Ok'));
+        $this->addElement('submit', 'search', Translation :: get('Ok', null, Utilities :: COMMON_LIBRARIES));
     }
 
     /**

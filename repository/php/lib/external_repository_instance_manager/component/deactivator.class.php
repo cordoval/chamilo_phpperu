@@ -39,26 +39,30 @@ class ExternalRepositoryInstanceManagerDeactivatorComponent extends ExternalRepo
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedExternalRepositoryDeleted';
+                    $message = 'ObjectNotDeactivated';
+                    $parameter = array('OBJECT' => Translation :: get('ExternalRepository'));
                 }
                 else
                 {
-                    $message = 'SelectedExternalRepositoryDeleted';
+                    $message = 'ObjectsNotDeactivated';
+                    $parameter = array('OBJECTS' => Translation :: get('ExternalRepositories'));
                 }
             }
             else
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedExternalRepositoriesDeleted';
+                    $message = 'ObjectDeactivated';
+                    $parameter = array('OBJECT' => Translation :: get('ExternalRepository'));
                 }
                 else
                 {
-                    $message = 'SelectedExternalRepositoriesDeleted';
+                    $message = 'ObjectsDeactivated';
+                    $parameter = array('OBJECTS' => Translation :: get('ExternalRepositories'));
                 }
             }
 
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION => ExternalRepositoryInstanceManager :: ACTION_BROWSE_INSTANCES));
+            $this->redirect(Translation :: get($message, $parameter, Utilities :: COMMON_LIBRARIES), ($failures ? true : false), array(ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION => ExternalRepositoryInstanceManager :: ACTION_BROWSE_INSTANCES));
         }
         else
         {

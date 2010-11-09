@@ -44,7 +44,7 @@ class ComplexBuilderComponentParentChangerComponent extends ComplexBuilderCompon
 
             $form = new FormValidator('move', 'post', $this->get_url($parameters));
             $form->addElement('select', self :: PARAM_NEW_PARENT, Translation :: get('NewParent'), $parents);
-            $form->addElement('submit', 'submit', Translation :: get('Move'));
+            $form->addElement('submit', 'submit', Translation :: get('Move', null, Utilities :: COMMON_LIBRARIES));
             if ($form->validate())
             {
                 $selected_parent = $form->exportValue(self :: PARAM_NEW_PARENT);
@@ -125,7 +125,7 @@ class ComplexBuilderComponentParentChangerComponent extends ComplexBuilderCompon
             {
                 $menu_trail = $this->get_complex_content_object_breadcrumbs();
                 $trail->merge($menu_trail);
-                $trail->add(new Breadcrumb($this->get_url($parameters), Translation :: get('Move')));
+                $trail->add(new Breadcrumb($this->get_url($parameters), Translation :: get('Move', null, Utilities :: COMMON_LIBRARIES)));
                 $this->display_header($trail);
                 echo $form->display();
                 $this->display_footer();
@@ -133,7 +133,7 @@ class ComplexBuilderComponentParentChangerComponent extends ComplexBuilderCompon
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES)));
         }
 
     }
@@ -144,7 +144,7 @@ class ComplexBuilderComponentParentChangerComponent extends ComplexBuilderCompon
 
         if (! $parent_complex_content_object_item)
         {
-            $current = ' (' . Translation :: get('Current') . ')';
+            $current = ' (' . Translation :: get('Current', null, Utilities :: COMMON_LIBRARIES) . ')';
         }
 
         $parents = array(0 => $root_content_object->get_title() . $current);

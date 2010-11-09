@@ -31,7 +31,7 @@ class UserViewBrowserTable extends ObjectTable
         parent :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
         $this->set_additional_parameters($parameters);
         $actions = array();
-		$actions[] = new ObjectTableFormAction(RepositoryManager :: ACTION_DELETE_USER_VIEW, Translation :: get('DeleteSelected'));
+		$actions[] = new ObjectTableFormAction(RepositoryManager :: ACTION_DELETE_USER_VIEW, Translation :: get('DeleteSelected', null, Utilities :: COMMON_LIBRARIES));
 		$this->set_form_actions($actions);
         $this->set_default_row_count(20);
     }

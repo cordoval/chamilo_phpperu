@@ -2,6 +2,7 @@
 namespace repository\content_object\calendar_event;
 
 use common\libraries\Translation;
+use common\libraries\Theme;
 use common\libraries\Utilities;
 use common\libraries\Versionable;
 use common\libraries\AttachmentSupport;

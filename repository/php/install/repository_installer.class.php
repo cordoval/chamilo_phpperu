@@ -51,7 +51,8 @@ class RepositoryInstaller extends Installer
         //            }
         //        }
 
-		if (!RepositoryRights :: create_content_objects_subtree_root_location())
+
+        if (! RepositoryRights :: create_content_objects_subtree_root_location())
         {
             return false;
         }
@@ -60,7 +61,7 @@ class RepositoryInstaller extends Installer
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('ContentObjectsSubtreeCreated'));
         }
 
-        if (!RepositoryRights :: create_external_repositories_subtree_root_location())
+        if (! RepositoryRights :: create_external_repositories_subtree_root_location())
         {
             return false;
         }
@@ -68,7 +69,6 @@ class RepositoryInstaller extends Installer
         {
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('ExternalRepositoriesSubtreeCreated'));
         }
-
 
         if (! $this->add_metadata_catalogs())
         {
@@ -82,47 +82,6 @@ class RepositoryInstaller extends Installer
 
         return true;
     }
-
-    //    function process_result($content_object, $result, $message, $default_collapse = true)
-    //    {
-    //        echo $this->display_install_block_header($content_object, $result, $default_collapse);
-    //        echo $message;
-    //        echo $this->display_install_block_footer();
-    //        if (! $result)
-    //        {
-    //            $this->parent->display_footer();
-    //            exit();
-    //        }
-    //    }
-    //
-    //	function display_install_block_header($content_object, $result, $default_collapse)
-    //    {
-    //        $counter = $this->counter;
-    //
-    //        $html = array();
-    //        $html[] = '<div class="content_object" style="padding: 15px 15px 15px 76px; background-image: url(../layout/aqua/images/admin/place_' . $application . '.png);' . ($counter % 2 == 0 ? 'background-color: #fafafa;' : '') . '">';
-    //        $html[] = '<div class="title">' . Translation :: get(ContentObject::type_to_class($content_object)) . '</div>';
-    //
-    //        $collapse = '';
-    //
-    //        if($result && $default_collapse)
-    //        {
-    //        	$collapse = ' collapse';
-    //        }
-    //
-    //        $html[] = '<div class="description' . $collapse . '">';
-    //
-    //        return implode("\n", $html);
-    //    }
-    //
-    //    function display_install_block_footer()
-    //    {
-    //        $html = array();
-    //        $html[] = '</div>';
-    //        $html[] = '</div>';
-    //        return implode("\n", $html);
-    //    }
-
 
     function get_path()
     {
@@ -177,72 +136,72 @@ class RepositoryInstaller extends Installer
         $youtube = new ExternalRepository();
         $youtube->set_title('YouTube');
         $youtube->set_type('youtube');
-        $youtube->set_description(Translation :: get('YouTubeTagline'));
+        $youtube->set_description(Translation :: get('Tagline', array(), ExternalRepositoryManager :: get_namespace(YoutubeExternalRepositoryManager :: REPOSITORY_TYPE)));
         $youtube->set_enabled(true);
         $youtube->set_creation_date(time());
         $youtube->set_modification_date(time());
         if (! $youtube->create())
         {
-            $this->add_message(self :: TYPE_ERROR, Translation :: get('ExternalRepositoryManagerNotAdded') . ': YouTube');
+            $this->add_message(self :: TYPE_ERROR, Translation :: get('ObjectNotAdded', array('OBJECT' => Translation :: get('ExternalRepositoryManager')), Utilities :: COMMON_LIBRARIES) . ': YouTube');
             return false;
         }
         else
         {
-            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ExternalRepositoryManagerAdded') . ': YouTube');
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectAdded', array('OBJECT' => Translation :: get('ExternalRepositoryManager')), Utilities :: COMMON_LIBRARIES) . ': YouTube');
         }
 
         // Adding the Flickr Manager
         $flickr = new ExternalRepository();
         $flickr->set_title('Flickr');
         $flickr->set_type('flickr');
-        $flickr->set_description(Translation :: get('FlickrTagline'));
+        $flickr->set_description(Translation :: get('Tagline', array(), ExternalRepositoryManager :: get_namespace(FlickrExternalRepositoryManager :: REPOSITORY_TYPE)));
         $flickr->set_enabled(true);
         $flickr->set_creation_date(time());
         $flickr->set_modification_date(time());
         if (! $flickr->create())
         {
-            $this->add_message(self :: TYPE_ERROR, Translation :: get('ExternalRepositoryManagerNotAdded') . ': Flickr');
+            $this->add_message(self :: TYPE_ERROR, Translation :: get('ObjectNotAdded', array('OBJECT' => Translation :: get('ExternalRepositoryManager')), Utilities :: COMMON_LIBRARIES) . ': Flickr');
             return false;
         }
         else
         {
-            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ExternalRepositoryManagerAdded') . ': Flickr');
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectAdded', array('OBJECT' => Translation :: get('ExternalRepositoryManager')), Utilities :: COMMON_LIBRARIES) . ': Flickr');
         }
 
-    	// Adding the Photobucket Manager
+        // Adding the Photobucket Manager
         $photobucket = new ExternalRepository();
         $photobucket->set_title('Photobucket');
         $photobucket->set_type('photobucket');
-        $photobucket->set_description(Translation :: get('PhotobucketTagline'));
+        $photobucket->set_description(Translation :: get('Tagline', array(), ExternalRepositoryManager :: get_namespace(PhotobucketExternalRepositoryManager :: REPOSITORY_TYPE)));
         $photobucket->set_enabled(true);
         $photobucket->set_creation_date(time());
         $photobucket->set_modification_date(time());
         if (! $photobucket->create())
         {
-            $this->add_message(self :: TYPE_ERROR, Translation :: get('ExternalRepositoryManagerNotAdded') . ': Photobucket');
+            $this->add_message(self :: TYPE_ERROR, Translation :: get('ObjectNotAdded', array('OBJECT' => Translation :: get('ExternalRepositoryManager')), Utilities :: COMMON_LIBRARIES) . ': Photobucket');
             return false;
         }
         else
         {
-            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ExternalRepositoryManagerAdded') . ': Photobucket');
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectAdded', array('OBJECT' => Translation :: get('ExternalRepositoryManager')), Utilities :: COMMON_LIBRARIES) . ': Photobucket');
         }
 
-    	// Adding the Matterhorn Manager
+        // Adding the Matterhorn Manager
         $matterhorn = new ExternalRepository();
         $matterhorn->set_title('Matterhorn');
         $matterhorn->set_type('matterhorn');
-        $matterhorn->set_description(Translation :: get('MatterhornTagline'));
+        $matterhorn->set_description(Translation :: get('Tagline', array(), ExternalRepositoryManager :: get_namespace(MatterhornExternalRepositoryManager :: REPOSITORY_TYPE)));
         $matterhorn->set_enabled(true);
         $matterhorn->set_creation_date(time());
         $matterhorn->set_modification_date(time());
         if (! $matterhorn->create())
         {
-            $this->add_message(self :: TYPE_ERROR, Translation :: get('ExternalRepositoryManagerNotAdded') . ': Matterhorn');
+            $this->add_message(self :: TYPE_ERROR, Translation :: get('ObjectNotAdded', array('OBJECT' => Translation :: get('ExternalRepositoryManager')), Utilities :: COMMON_LIBRARIES) . ': Matterhorn');
             return false;
         }
         else
         {
-            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ExternalRepositoryManagerAdded') . ': Matterhorn');
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectAdded', array('OBJECT' => Translation :: get('ExternalRepositoryManager')), Utilities :: COMMON_LIBRARIES) . ': Matterhorn');
         }
 
         return true;

@@ -77,12 +77,12 @@ class ContentObjectShare extends DataClass
 
         if (! PlatformSetting :: get('all_objects_searchable', RepositoryManager :: APPLICATION_NAME))
         {
-            $rights[self :: SEARCH_RIGHT] = Translation :: get('Search');
+            $rights[self :: SEARCH_RIGHT] = Translation :: get('Search', null, Utilities :: COMMON_LIBRARIES);
         }
 
-        $rights[self :: VIEW_RIGHT] = Translation :: get('View');
-        $rights[self :: USE_RIGHT] = Translation :: get('Use');
-        $rights[self :: REUSE_RIGHT] = Translation :: get('Reuse');
+        $rights[self :: VIEW_RIGHT] = Translation :: get('View', null, Utilities :: COMMON_LIBRARIES);
+        $rights[self :: USE_RIGHT] = Translation :: get('Use', null, Utilities :: COMMON_LIBRARIES);
+        $rights[self :: REUSE_RIGHT] = Translation :: get('Reuse', null, Utilities :: COMMON_LIBRARIES);
 
         return $rights;
     }

@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use common\libraries;
+
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
@@ -166,7 +168,7 @@ class RepositoryManagerViewerComponent extends RepositoryManager
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES)));
         }
     }
 
@@ -183,19 +185,19 @@ class RepositoryManagerViewerComponent extends RepositoryManager
                 $in_recycle_bin = false;
                 if (isset($recycle_url))
                 {
-                    $action_bar->add_common_action(new ToolbarItem(Translation :: get('Remove'), Theme :: get_common_image_path() . 'action_recycle_bin.png', $recycle_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL, true));
+                    $action_bar->add_common_action(new ToolbarItem(Translation :: get('Remove', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_recycle_bin.png', $recycle_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL, true));
                 }
                 else
                 {
                     $delete_url = $this->get_content_object_deletion_url($object);
                     if (isset($delete_url))
                     {
-                        $recycle_bin_button = new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $delete_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL, true);
+                        $recycle_bin_button = new ToolbarItem(Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $delete_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL, true);
                         $in_recycle_bin = true;
                     }
                     else
                     {
-                        $recycle_bin_button = new ToolbarItem(Translation :: get('Remove'), Theme :: get_common_image_path() . 'action_recycle_bin_na.png');
+                        $recycle_bin_button = new ToolbarItem(Translation :: get('Remove', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_recycle_bin_na.png');
                     }
                 }
 
@@ -205,17 +207,17 @@ class RepositoryManagerViewerComponent extends RepositoryManager
 
                     if (! isset($recycle_url))
                     {
-                        $force_delete_button = new ToolbarItem(Translation :: get('Unlink'), Theme :: get_common_image_path() . 'action_unlink.png', $delete_link_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL, true);
+                        $force_delete_button = new ToolbarItem(Translation :: get('Unlink', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_unlink.png', $delete_link_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL, true);
                     }
 
                     $edit_url = $this->get_content_object_editing_url($object);
                     if (isset($edit_url))
                     {
-                        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $edit_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+                        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $edit_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
                     }
                     else
                     {
-                        $action_bar->add_common_action(new ToolbarItem(Translation :: get('EditNA'), Theme :: get_common_image_path() . 'action_edit_na.png'));
+                        $action_bar->add_common_action(new ToolbarItem(Translation :: get('EditNotAvailable', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit_na.png'));
                     }
 
                     if (isset($recycle_bin_button))
@@ -231,15 +233,15 @@ class RepositoryManagerViewerComponent extends RepositoryManager
                     if (RepositoryDataManager :: get_number_of_categories($this->get_user_id()) > 1)
                     {
                         $move_url = $this->get_content_object_moving_url($object);
-                        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Move'), Theme :: get_common_image_path() . 'action_move.png', $move_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+                        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Move', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_move.png', $move_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
                     }
 
                     $metadata_url = $this->get_content_object_metadata_editing_url($object);
-                    $action_bar->add_common_action(new ToolbarItem(Translation :: get('Metadata'), Theme :: get_common_image_path() . 'action_metadata.png', $metadata_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+                    $action_bar->add_common_action(new ToolbarItem(Translation :: get('Metadata', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_metadata.png', $metadata_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
                     $rights_url = $this->get_content_object_rights_editing_url($object);
-                    $action_bar->add_common_action(new ToolbarItem(Translation :: get('Rights'), Theme :: get_common_image_path() . 'action_rights.png', $rights_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-                    $action_bar->add_common_action(new ToolbarItem(Translation :: get('Share'), Theme :: get_common_image_path() . 'action_share.png', $this->get_content_object_share_create_url($object->get_id()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+                    $action_bar->add_common_action(new ToolbarItem(Translation :: get('Rights', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_rights.png', $rights_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+                    $action_bar->add_common_action(new ToolbarItem(Translation :: get('Share', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_share.png', $this->get_content_object_share_create_url($object->get_id()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
                     if ($object instanceof ComplexContentObjectSupport)
                     {
@@ -250,7 +252,7 @@ class RepositoryManagerViewerComponent extends RepositoryManager
                 else
                 {
                     $restore_url = $this->get_content_object_restoring_url($object);
-                    $action_bar->add_common_action(new ToolbarItem(Translation :: get('Restore'), Theme :: get_common_image_path() . 'action_restore.png', $restore_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL, true));
+                    $action_bar->add_common_action(new ToolbarItem(Translation :: get('Restore', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_restore.png', $restore_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL, true));
                     if (isset($recycle_bin_button))
                     {
                         $action_bar->add_common_action($recycle_bin_button);
@@ -275,7 +277,7 @@ class RepositoryManagerViewerComponent extends RepositoryManager
         if ($content_object->is_external())
         {
             $browser = new ExternalLinkBrowserTable($this, $parameters);
-            $this->tabs->add_tab(new DynamicContentTab('external_repositories', Translation :: get('ExternalRepositories'), Theme :: get_image_path() . 'place_mini_external_repository.png', $browser->as_html()));
+            $this->tabs->add_tab(new DynamicContentTab('external_repositories', Translation :: get('ExternalRepositories', null, ExternalRepositoryManager :: get_namespace()), Theme :: get_image_path() . 'place_mini_external_repository.png', $browser->as_html()));
         }
 
         // LINKS | PUBLICATIONS
@@ -284,11 +286,11 @@ class RepositoryManagerViewerComponent extends RepositoryManager
 
         // LINKS | PARENTS
         $browser = new LinkBrowserTable($this, $parameters, null, LinkBrowserTable :: TYPE_PARENTS);
-        $this->tabs->add_tab(new DynamicContentTab(LinkBrowserTable :: TYPE_PARENTS, Translation :: get('Parents'), Theme :: get_image_path() . 'place_mini_parents.png', $browser->as_html()));
+        $this->tabs->add_tab(new DynamicContentTab(LinkBrowserTable :: TYPE_PARENTS, Translation :: get('Parents', null, Utilities :: COMMON_LIBRARIES), Theme :: get_image_path() . 'place_mini_parents.png', $browser->as_html()));
 
         // LINKS | CHILDREN
         $browser = new LinkBrowserTable($this, $parameters, null, LinkBrowserTable :: TYPE_CHILDREN);
-        $this->tabs->add_tab(new DynamicContentTab(LinkBrowserTable :: TYPE_CHILDREN, Translation :: get('Children'), Theme :: get_image_path() . 'place_mini_children.png', $browser->as_html()));
+        $this->tabs->add_tab(new DynamicContentTab(LinkBrowserTable :: TYPE_CHILDREN, Translation :: get('Children', null, Utilities :: COMMON_LIBRARIES), Theme :: get_image_path() . 'place_mini_children.png', $browser->as_html()));
 
         // LINKS | ATTACHED TO
         $browser = new LinkBrowserTable($this, $parameters, null, LinkBrowserTable :: TYPE_ATTACHMENTS);

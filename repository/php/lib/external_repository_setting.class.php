@@ -208,7 +208,7 @@ class ExternalRepositorySetting extends DataClass
 
             if (is_null($external_repository_id) || ! is_numeric($external_repository_id))
             {
-                Display :: error_page(Translation :: get('WhatsUpDoc'));
+                Display :: error_page(Translation :: get('WhatsUpDoc', null, Utilities :: COMMON_LIBRARIES));
             }
         }
 
@@ -228,7 +228,7 @@ class ExternalRepositorySetting extends DataClass
 
             if (is_null($external_repository_id) || ! is_numeric($external_repository_id))
             {
-                Display :: error_page(Translation :: get('WhatsUpDoc'));
+                Display :: error_page(Translation :: get('WhatsUpDoc', null, Utilities :: COMMON_LIBRARIES));
             }
         }
 

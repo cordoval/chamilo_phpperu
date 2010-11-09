@@ -31,7 +31,7 @@ class RepositoryManagerUserViewUpdaterComponent extends RepositoryManager
             /*if (! $this->get_user()->is_platform_admin())
             {
                 $this->display_header($trail, false, true);
-                Display :: error_message(Translation :: get("NotAllowed"));
+                Display :: error_message(Translation :: get("NotAllowed", null, Utilities :: COMMON_LIBRARIES));
                 $this->display_footer();
                 exit();
             }*/
@@ -43,7 +43,7 @@ class RepositoryManagerUserViewUpdaterComponent extends RepositoryManager
                 $success = $form->update_user_view();
                 $user_view = $form->get_user_view();
 
-                $message = Translation :: get($success ? 'UserViewUpdated' : 'UserViewNotUpdated');
+                $message = Translation :: get($success ? 'ObjectUpdated' : 'ObjectNotUpdated', array('OBJECT' => Translation :: get('UserView')), Utilities :: COMMON_LIBRARIES);
 
                 if(!$success)
                 {
@@ -61,7 +61,7 @@ class RepositoryManagerUserViewUpdaterComponent extends RepositoryManager
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoUserViewSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('UserView')), Utilities :: COMMON_LIBRARIES)));
         }
     }
 

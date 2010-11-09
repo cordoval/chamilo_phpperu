@@ -1,6 +1,7 @@
 <?php
 namespace repository;
 
+use common\extensions\external_repository_manager;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\ObjectTableCellRenderer;
@@ -16,14 +17,14 @@ use common\libraries\Theme;
  */
 class DefaultExternalLinkTableCellRenderer extends ObjectTableCellRenderer
 {
-	private $browser;
+    private $browser;
 
     /**
      * Constructor
      */
     function DefaultExternalLinkTableCellRenderer($browser)
     {
-    	$this->browser = $browser;
+        $this->browser = $browser;
     }
 
     /**
@@ -36,11 +37,11 @@ class DefaultExternalLinkTableCellRenderer extends ObjectTableCellRenderer
     function render_cell($column, $object)
     {
         $external_repository = $object->get_external_repository();
-    	switch ($column->get_name())
+        switch ($column->get_name())
         {
             case ExternalRepository :: PROPERTY_TYPE :
                 $type = $external_repository->get_type();
-                return '<img src="' . Theme :: get_common_image_path() . 'external_repository/' . $type . '/logo/22.png" alt="' . htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($type))) . '"/>';
+                return '<img src="' . Theme :: get_common_image_path() . 'external_repository/' . $type . '/logo/22.png" alt="' . htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($type), null, ExternalRepositoryManager :: get_type())) . '"/>';
             case ExternalRepository :: PROPERTY_TITLE :
                 return Utilities :: truncate_string($external_repository->get_title(), 50);
             case ExternalRepository :: PROPERTY_DESCRIPTION :

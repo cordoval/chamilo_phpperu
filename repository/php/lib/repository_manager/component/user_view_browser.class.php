@@ -33,7 +33,7 @@ class RepositoryManagerUserViewBrowserComponent extends RepositoryManager
         /*if (! $this->get_user()->is_platform_admin())
         {
             $this->display_header($trail, false, true);
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get("NotAllowed", null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }*/

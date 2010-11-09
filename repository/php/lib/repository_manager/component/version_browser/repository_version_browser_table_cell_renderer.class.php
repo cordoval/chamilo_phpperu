@@ -70,7 +70,7 @@ class RepositoryVersionBrowserTableCellRenderer extends DefaultContentObjectTabl
         if($remove_url)
         {
             $toolbar->add_item(new ToolbarItem(
-        			Translation :: get('Delete'),
+        			Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES),
         			Theme :: get_common_image_path().'action_remove.png',
     				$remove_url,
     			 	ToolbarItem :: DISPLAY_ICON
@@ -79,7 +79,7 @@ class RepositoryVersionBrowserTableCellRenderer extends DefaultContentObjectTabl
         else
         {
             $toolbar->add_item(new ToolbarItem(
-        			Translation :: get('DeleteNotPossible'),
+        			Translation :: get('DeleteNotAvailable', null, Utilities :: COMMON_LIBRARIES),
         			Theme :: get_common_image_path().'action_remove_na.png',
     				null,
     			 	ToolbarItem :: DISPLAY_ICON
@@ -90,7 +90,7 @@ class RepositoryVersionBrowserTableCellRenderer extends DefaultContentObjectTabl
 		if($revert_url)
         {
     		$toolbar->add_item(new ToolbarItem(
-        			Translation :: get('Revert'),
+        			Translation :: get('Revert', null, Utilities :: COMMON_LIBRARIES),
         			Theme :: get_common_image_path().'action_revert.png',
     				$revert_url,
     			 	ToolbarItem :: DISPLAY_ICON
@@ -99,7 +99,7 @@ class RepositoryVersionBrowserTableCellRenderer extends DefaultContentObjectTabl
         else
         {
     		$toolbar->add_item(new ToolbarItem(
-        			Translation :: get('RevertNotPossible'),
+        			Translation :: get('RevertNotAvailable', null, Utilities :: COMMON_LIBRARIES),
         			Theme :: get_common_image_path().'action_revert_na.png',
     				null,
     			 	ToolbarItem :: DISPLAY_ICON

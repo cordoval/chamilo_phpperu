@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use common\libraries;
+
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
@@ -100,7 +102,7 @@ class PublisherWizardProcess extends HTML_QuickForm_Action
         $this->process_result($previous_application, true, $message);
 
         $url = $this->parent->get_url(array(RepositoryManager :: PARAM_ACTION => null));
-        echo '<a href="' . $url . '">' . Translation :: get('GoBack') . '</a>';
+        echo '<a href="' . $url . '">' . Translation :: get('GoBack', null, Utilities :: COMMON_LIBRARIES) . '</a>';
 
         // Display the page footer
         $this->parent->display_footer();
@@ -110,7 +112,7 @@ class PublisherWizardProcess extends HTML_QuickForm_Action
     {
         $html = array();
         $html[] = '<div class="content_object" style="padding: 15px 15px 15px 76px; background-image: url(layout/aqua/images/admin/place_' . Utilities :: camelcase_to_underscores($application) . '.png);">';
-        $html[] = '<div class="title">' . Translation :: get(Application :: application_to_class($application)) . '</div>';
+        $html[] = '<div class="title">' . Translation :: get('ApplicationName', null, Application :: determine_namespace($application)) . '</div>';
         $html[] = '<div class="description">';
         return implode("\n", $html);
     }

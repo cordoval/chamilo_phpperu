@@ -40,7 +40,7 @@ class ComplexDisplayComponentFeedbackEditComponent extends ComplexDisplayCompone
                         $feedback_display->update();
                     }*/
                     $feedback_display->update();
-                    $message = htmlentities(Translation :: get('ContentObjectFeedbackUpdated'));
+                    $message = htmlentities(Translation :: get('ObjectUpdated', array('OBJECT' => Translation :: get('ContentObjectFeedback')), Utilities :: COMMON_LIBRARIES));
 
                     $params = array();
                     if (Request :: get('pid') != null)

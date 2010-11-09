@@ -35,7 +35,7 @@ class ComplexDisplayComponentAttachmentViewerComponent extends ComplexDisplayCom
             $trail->add(new Breadcrumb($this->get_url(array('object' => $object_id)), Translation :: get('ViewAttachment')));
             $this->display_header($trail, true);
 
-            echo '<a href="javascript:history.go(-1)">' . Translation :: get('Back') . '</a><br /><br />';
+            echo '<a href="javascript:history.go(-1)">' . Translation :: get('Back', null, Utilities :: COMMON_LIBRARIES) . '</a><br /><br />';
 
             $object = RepositoryDataManager :: get_instance()->retrieve_content_object($object_id);
             $display = ContentObjectDisplay :: factory($object);

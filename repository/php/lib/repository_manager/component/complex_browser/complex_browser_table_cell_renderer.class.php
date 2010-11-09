@@ -72,7 +72,7 @@ class ComplexBrowserTableCellRenderer extends DefaultContentObjectTableCellRende
             case ContentObject :: PROPERTY_TYPE :
                 $type = $content_object->get_type();
                 $icon = $content_object->get_icon_name();
-                $url = '<img src="' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($type)) . 'logo/' . $icon . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($type) . 'TypeName')) . '"/>';
+                $url = '<img src="' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($type)) . 'logo/' . $icon . '.png" alt="' . htmlentities(Translation :: get('TypeName'), null, ContentObject :: get_content_object_type_namespace($type)) . '"/>';
                 return $url; //'<a href="'.htmlentities($this->browser->get_type_filter_url($content_object->get_type())).'">'.$url.'</a>';
             case ContentObject :: PROPERTY_TITLE :
                 $title = htmlspecialchars($content_object->get_title());
@@ -113,13 +113,13 @@ class ComplexBrowserTableCellRenderer extends DefaultContentObjectTableCellRende
     {
         $toolbar = new Toolbar();
 
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_complex_content_object_item_edit_url($cloi->get_id()), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_complex_content_object_item_edit_url($cloi->get_id()), ToolbarItem :: DISPLAY_ICON));
 
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_complex_content_object_item_delete_url($cloi->get_id()), ToolbarItem :: DISPLAY_ICON, true));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_complex_content_object_item_delete_url($cloi->get_id()), ToolbarItem :: DISPLAY_ICON, true));
 
         if ($this->browser instanceof ComplexMenuSupport)
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('ChangeParent'), Theme :: get_common_image_path() . 'action_move.png', $this->browser->get_complex_content_object_parent_changer_url($cloi->get_id()), ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('ChangeParent', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_move.png', $this->browser->get_complex_content_object_parent_changer_url($cloi->get_id()), ToolbarItem :: DISPLAY_ICON));
         }
 
         $allowed = $this->check_move_allowed($cloi);
@@ -128,21 +128,21 @@ class ComplexBrowserTableCellRenderer extends DefaultContentObjectTableCellRende
         {
             if ($allowed["moveup"])
             {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUp'), Theme :: get_common_image_path() . 'action_up.png', $this->browser->get_complex_content_object_item_move_url($cloi->get_id(), RepositoryManager :: PARAM_DIRECTION_UP), ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUp', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_up.png', $this->browser->get_complex_content_object_item_move_url($cloi->get_id(), RepositoryManager :: PARAM_DIRECTION_UP), ToolbarItem :: DISPLAY_ICON));
             }
             else
             {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUpNA'), Theme :: get_common_image_path() . 'action_up_na.png', null, ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUpNotAvailable', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_up_na.png', null, ToolbarItem :: DISPLAY_ICON));
 
             }
 
             if ($allowed["movedown"])
             {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDown'), Theme :: get_common_image_path() . 'action_down.png', $this->browser->get_complex_content_object_item_move_url($cloi->get_id(), RepositoryManager :: PARAM_DIRECTION_DOWN), ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDown', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_down.png', $this->browser->get_complex_content_object_item_move_url($cloi->get_id(), RepositoryManager :: PARAM_DIRECTION_DOWN), ToolbarItem :: DISPLAY_ICON));
             }
             else
             {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDownNA'), Theme :: get_common_image_path() . 'action_down_na.png', null, ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDownNotAvailable', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_down_na.png', null, ToolbarItem :: DISPLAY_ICON));
             }
         }
 

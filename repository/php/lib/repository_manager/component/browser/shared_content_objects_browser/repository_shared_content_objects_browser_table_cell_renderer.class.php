@@ -57,7 +57,7 @@ class RepositorySharedContentObjectsBrowserTableCellRenderer extends DefaultShar
                 else*/
                 	return $title_short;
             case ContentObject :: PROPERTY_MODIFICATION_DATE :
-                return DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $content_object->get_modification_date());
+                return DatetimeUtilities :: format_locale_date(Translation :: get('DateFormatShort', null, Utilities :: COMMON_LIBRARIES) . ', ' . Translation :: get('TimeNoSecFormat', null, Utilities :: COMMON_LIBRARIES), $content_object->get_modification_date());
             case ContentObject :: PROPERTY_OWNER_ID :
                 return UserDataManager :: get_instance()->retrieve_user($content_object->get_owner_id())->get_fullname();
         }
@@ -81,11 +81,11 @@ class RepositorySharedContentObjectsBrowserTableCellRenderer extends DefaultShar
 	        {
 	        	$right = $content_object->get_optional_property('group_right');
 	        }
-	        
+
 	       	if ($right >= ContentObjectShare :: VIEW_RIGHT)
 	       	{
 	            $toolbar->add_item(new ToolbarItem(
-	        			Translation :: get('View'),
+	        			Translation :: get('View', null, Utilities :: COMMON_LIBRARIES),
 	        			Theme :: get_common_image_path().'action_visible.png',
 						$this->browser->get_content_object_viewing_url($content_object),
 					 	ToolbarItem :: DISPLAY_ICON
@@ -94,17 +94,17 @@ class RepositorySharedContentObjectsBrowserTableCellRenderer extends DefaultShar
 	        else
 	        {
 	            $toolbar->add_item(new ToolbarItem(
-	        			Translation :: get('View'),
+	        			Translation :: get('View', null, Utilities :: COMMON_LIBRARIES),
 	        			Theme :: get_common_image_path().'action_visible_na.png',
 						null,
 					 	ToolbarItem :: DISPLAY_ICON
 				));
 	        }
-	        
+
 	        if ($right >= ContentObjectShare :: USE_RIGHT)
 	        {
 	            $toolbar->add_item(new ToolbarItem(
-	        			Translation :: get('Publish'),
+	        			Translation :: get('Publish', null, Utilities :: COMMON_LIBRARIES),
 	        			Theme :: get_common_image_path().'action_publish.png',
 						$this->browser->get_publish_content_object_url($content_object),
 					 	ToolbarItem :: DISPLAY_ICON
@@ -113,17 +113,17 @@ class RepositorySharedContentObjectsBrowserTableCellRenderer extends DefaultShar
 	        else
 	        {
 	            $toolbar->add_item(new ToolbarItem(
-	        			Translation :: get('PublishNA'),
+	        			Translation :: get('PublishNotAvailable', null, Utilities :: COMMON_LIBRARIES),
 	        			Theme :: get_common_image_path().'action_publish_na.png',
 						null,
 					 	ToolbarItem :: DISPLAY_ICON
 				));
 	        }
-	        
+
 	        if ($right >= ContentObjectShare :: REUSE_RIGHT)
 	        {
 	            $toolbar->add_item(new ToolbarItem(
-	        			Translation :: get('ReUse'),
+	        			Translation :: get('ReUse', null, Utilities :: COMMON_LIBRARIES),
 	        			Theme :: get_common_image_path().'action_reuse.png',
 						$this->browser->get_copy_content_object_url($content_object->get_id(), $this->browser->get_user_id()),
 					 	ToolbarItem :: DISPLAY_ICON
@@ -132,13 +132,13 @@ class RepositorySharedContentObjectsBrowserTableCellRenderer extends DefaultShar
 	        else
 	        {
 	            $toolbar->add_item(new ToolbarItem(
-	        			Translation :: get('ReUseNA'),
+	        			Translation :: get('ReUseNotAvailable', null, Utilities :: COMMON_LIBRARIES),
 	        			Theme :: get_common_image_path().'action_reuse_na.png',
 						null,
 					 	ToolbarItem :: DISPLAY_ICON
 				));
 	        }
-	
+
 	        if ($content_object instanceof ComplexContentObjectSupport)
 	        {
 	        	            $toolbar->add_item(new ToolbarItem(
@@ -158,13 +158,13 @@ class RepositorySharedContentObjectsBrowserTableCellRenderer extends DefaultShar
 					 	ToolbarItem :: DISPLAY_ICON
 	                ));
                 $toolbar->add_item(new ToolbarItem(
-	        			Translation :: get('UnShare'),
+	        			Translation :: get('UnShare', null, Utilities :: COMMON_LIBRARIES),
 	        			Theme :: get_common_image_path() . 'delete_rights',
 						$this->browser->get_content_object_share_deleter_url($content_object->get_id(), null),
 					 	ToolbarItem :: DISPLAY_ICON
 	                ));
 		}
-		
+
         return $toolbar->as_html();
     }
 }

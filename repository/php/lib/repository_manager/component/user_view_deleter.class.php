@@ -72,7 +72,7 @@ class RepositoryManagerUserViewDeleterComponent extends RepositoryManager
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoUserViewSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('UserView')), Utilities :: COMMON_LIBRARIES)));
         }
     }
 

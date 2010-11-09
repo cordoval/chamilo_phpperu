@@ -49,8 +49,8 @@ class RepositoryManagerBrowserComponent extends RepositoryManager
         $query = $this->get_action_bar()->get_query();
         if (isset($query) && $query != '')
         {
-            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Search')));
-            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('SearchResultsFor') . ' ' . $query));
+            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Search', null, Utilities :: COMMON_LIBRARIES)));
+            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('SearchResultsFor', null, Utilities :: COMMON_LIBRARIES) . ' ' . $query));
         }
 
         $session_filter = Session :: retrieve('filter');
@@ -61,10 +61,10 @@ class RepositoryManagerBrowserComponent extends RepositoryManager
             {
                 $condition = new EqualityCondition(UserView :: PROPERTY_ID, $session_filter);
                 $user_view = RepositoryDataManager :: get_instance()->retrieve_user_views($condition)->next_result();
-                $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Filter') . ': ' . $user_view->get_name()));
+                $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Filter', null, Utilities :: COMMON_LIBRARIES) . ': ' . $user_view->get_name()));
             }
             else
-                $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Filter') . ': ' . Utilities :: underscores_to_camelcase(($session_filter))));
+                $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Filter', null, Utilities :: COMMON_LIBRARIES) . ': ' . Utilities :: underscores_to_camelcase(($session_filter))));
         }
 
         $this->display_header($trail, false, true);
@@ -95,7 +95,7 @@ class RepositoryManagerBrowserComponent extends RepositoryManager
 
             $this->action_bar->set_search_url($this->get_url(array('category' => $this->get_parent_id())));
 
-            $this->action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array('category' => Request :: get('category'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $this->action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array('category' => Request :: get('category'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
             $this->action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path() . 'action_category.png', $this->get_url(array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_MANAGE_CATEGORIES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
             $renderers = $this->get_available_renderers();
@@ -104,7 +104,7 @@ class RepositoryManagerBrowserComponent extends RepositoryManager
             {
                 foreach ($renderers as $renderer)
                 {
-                    $this->action_bar->add_tool_action(new ToolbarItem(Translation :: get(Utilities :: underscores_to_camelcase($renderer) . 'View'), Theme :: get_image_path() . 'view_' . $renderer . '.png', $this->get_url(array(RepositoryManager :: PARAM_RENDERER => $renderer)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+                    $this->action_bar->add_tool_action(new ToolbarItem(Translation :: get(Utilities :: underscores_to_camelcase($renderer) . 'View', null, Utilities :: COMMON_LIBRARIES), Theme :: get_image_path() . 'view_' . $renderer . '.png', $this->get_url(array(RepositoryManager :: PARAM_RENDERER => $renderer)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
                 }
             }
 

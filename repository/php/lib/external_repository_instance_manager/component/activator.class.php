@@ -39,30 +39,34 @@ class ExternalRepositoryInstanceManagerActivatorComponent extends ExternalReposi
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedExternalRepositoryDeleted';
+                    $message = 'ObjectNotActivated';
+                    $parameter = array('OBJECT' => Translation :: get('ExternalRepository'));
                 }
                 else
                 {
-                    $message = 'SelectedExternalRepositoryDeleted';
+                    $message = 'ObjectsNotActivated';
+                    $parameter = array('OBJECTS' => Translation :: get('ExternalRepositories'));
                 }
             }
             else
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedExternalRepositoriesDeleted';
+                    $message = 'ObjectActivated';
+                    $parameter = array('OBJECT' => Translation :: get('ExternalRepository'));
                 }
                 else
                 {
-                    $message = 'SelectedExternalRepositoriesDeleted';
+                    $message = 'ObjectsActivated';
+                    $parameter = array('OBJECTS' => Translation :: get('ExternalRepositories'));
                 }
             }
 
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION => ExternalRepositoryInstanceManager :: ACTION_BROWSE_INSTANCES));
+            $this->redirect(Translation :: get($message, $parameter, Utilities :: COMMON_LIBRARIES), ($failures ? true : false), array(ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION => ExternalRepositoryInstanceManager :: ACTION_BROWSE_INSTANCES));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoExternalRepositorySelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('ExternalRepository')), Utilities :: COMMON_LIBRARIES)));
         }
     }
 }

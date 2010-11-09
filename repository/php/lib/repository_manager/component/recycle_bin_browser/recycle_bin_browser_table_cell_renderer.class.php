@@ -62,7 +62,7 @@ class RecycleBinBrowserTableCellRenderer extends DefaultContentObjectTableCellRe
                 {
                     $category = RepositoryDataManager :: get_instance()->retrieve_categories(new EqualityCondition(RepositoryCategory :: PROPERTY_ID, $pid))->next_result();
 
-                    $this->parent_title_cache[$pid] = '<a href="' . htmlentities($this->browser->get_url(array(RepositoryManager :: PARAM_CATEGORY_ID => $pid, RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS))) . '" title="' . htmlentities(Translation :: get('BrowseThisCategory')) . '">' . ($category ? $category->get_name() : Translation :: get('Root')) . '</a>';
+                    $this->parent_title_cache[$pid] = '<a href="' . htmlentities($this->browser->get_url(array(RepositoryManager :: PARAM_CATEGORY_ID => $pid, RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS))) . '" title="' . htmlentities(Translation :: get('BrowseThisCategory')) . '">' . ($category ? $category->get_name() : Translation :: get('Root', null, Utilities :: COMMON_LIBRARIES)) . '</a>';
                 }
                 return $this->parent_title_cache[$pid];
         }
@@ -80,14 +80,14 @@ class RecycleBinBrowserTableCellRenderer extends DefaultContentObjectTableCellRe
         $toolbar  = new Toolbar();
 
 		$toolbar->add_item(new ToolbarItem(
-       		Translation :: get('Restore'),
+       		Translation :: get('Restore', null, Utilities :: COMMON_LIBRARIES),
        		Theme :: get_common_image_path().'action_restore.png',
 			$this->browser->get_content_object_restoring_url($content_object),
 			ToolbarItem :: DISPLAY_ICON
 		));
 
 	   	$toolbar->add_item(new ToolbarItem(
-        	Translation :: get('Delete'),
+        	Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES),
      		Theme :: get_common_image_path().'action_delete.png',
 			$this->browser->get_content_object_deletion_url($content_object),
 			ToolbarItem :: DISPLAY_ICON,

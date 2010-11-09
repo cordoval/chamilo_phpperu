@@ -65,7 +65,7 @@ class DefaultSharedContentObjectTableCellRenderer extends ObjectTableCellRendere
             case ContentObject :: PROPERTY_TYPE :
                 $type = $content_object->get_type();
                 $icon = $content_object->get_icon_name();
-                return '<img src="' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($type)) . 'logo/' . $icon . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($type) . 'TypeName')) . '"/>';
+                return '<img src="' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($type)) . 'logo/' . $icon . '.png" alt="' . htmlentities(Translation :: get('TypeName', null, ContentObject :: get_content_object_type_namespace($type))) . '"/>';
             case ContentObject :: PROPERTY_TITLE :
                 return htmlspecialchars($content_object->get_title());
             case ContentObject :: PROPERTY_DESCRIPTION :

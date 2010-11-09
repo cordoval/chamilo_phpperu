@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use common\libraries;
+
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Breadcrumb;
@@ -31,7 +33,7 @@ class ComplexBuilderComponentCreatorComponent extends ComplexBuilderComponent im
         parent :: display_header();
         $type = is_array($this->type) ? implode(',', $this->type) : $this->type;
         $content_object = $this->rdm->retrieve_content_object($this->root_content_object_id);
-        echo '<h4>' . sprintf(Translation :: get('AddOrCreateNewTo'), Translation :: get(Utilities :: underscores_to_camelcase($type)), Translation :: get(Utilities :: underscores_to_camelcase($content_object->get_type())), $content_object->get_title()) . '</h4><br />';
+        echo '<h4>' . sprintf(Translation :: get('AddOrCreateNewTo'), Translation :: get('TypeName', null, ContentObject :: get_content_object_type_namespace($type)), Translation :: get('TypeName', null, ContentObject :: get_content_object_type_namespace($content_object->get_type())), $content_object->get_title()) . '</h4><br />';
     }
 
     function run()
@@ -64,7 +66,7 @@ class ComplexBuilderComponentCreatorComponent extends ComplexBuilderComponent im
 
         $exclude = $this->retrieve_used_items($this->get_root_content_object()->get_id());
         $exclude[] = $this->get_root_content_object()->get_id();
-        
+
         if (!$this->type)
         {
             $this->type = $content_object->get_allowed_types();
@@ -82,7 +84,7 @@ class ComplexBuilderComponentCreatorComponent extends ComplexBuilderComponent im
 
             $complex_repository_viewer->set_parameter(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID, $complex_content_object_item_id);
             $complex_repository_viewer->set_excluded_objects($exclude);
-            $trail->add(new Breadcrumb($this->get_url(array('builder_action' => 'create_complex_content_object_item', 'type' => Request :: get('type'))), Translation :: get('Create') . ' ' . Translation :: get(Utilities :: underscores_to_camelcase(Request :: get('type')))));
+            $trail->add(new Breadcrumb($this->get_url(array('builder_action' => 'create_complex_content_object_item', 'type' => Request :: get('type'))), Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES) . ' ' . Translation :: get('TypeName', null, ContentObject :: get_content_object_type_namespace(Request :: get('type')))));
             $complex_repository_viewer->run();
         }
         else
@@ -109,7 +111,7 @@ class ComplexBuilderComponentCreatorComponent extends ComplexBuilderComponent im
                 $complex_content_object_item->create();
             }
 
-            $this->redirect(Translation :: get('ObjectAdded'), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id));
+            $this->redirect(Translation :: get('ObjectAdded', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id));
         }
     }
 

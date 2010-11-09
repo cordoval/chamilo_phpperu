@@ -21,7 +21,7 @@ class RepositoryManagerAttachmentViewerComponent extends RepositoryManager
         {
             $this->display_header(null, false, false);
 
-            echo '<a href="javascript:history.go(-1)">' . Translation :: get('Back') . '</a><br /><br />';
+            echo '<a href="javascript:history.go(-1)">' . Translation :: get('Back', null, Utilities :: COMMON_LIBRARIES) . '</a><br /><br />';
 
             $object = RepositoryDataManager :: get_instance()->retrieve_content_object($object_id);
             $display = ContentObjectDisplay :: factory($object);

@@ -89,7 +89,7 @@ class RepositoryManagerRestorerComponent extends RepositoryManager
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES)));
         }
     }
 

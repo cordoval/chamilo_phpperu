@@ -30,7 +30,7 @@ class UserRepositoryReportingBlock extends RepositoryReportingBlock
     public function retrieve_data()
     {
         $reporting_data = new ReportingData();
-        $reporting_data->set_rows(array(Translation :: get('Count')));
+        $reporting_data->set_rows(array(Translation :: get('Count', null, Utilities :: COMMON_LIBRARIES)));
 
         $rdm = RepositoryDataManager :: get_instance();
         $registered_types = RepositoryDataManager :: get_registered_types();
@@ -51,10 +51,10 @@ class UserRepositoryReportingBlock extends RepositoryReportingBlock
 
             if ($count > 0)
             {
-                $category_name = Translation :: get(Utilities :: underscores_to_camelcase($registered_type) . 'TypeName');
+                $category_name = Translation :: get('TypeName', null, ContentObject :: get_content_object_type_namespace($registered_type));
 
                 $reporting_data->add_category($category_name);
-                $reporting_data->add_data_category_row($category_name, Translation :: get('Count'), $count);
+                $reporting_data->add_data_category_row($category_name, Translation :: get('Count', null, Utilities :: COMMON_LIBRARIES), $count);
             }
         }
 
@@ -70,9 +70,9 @@ class UserRepositoryReportingBlock extends RepositoryReportingBlock
     {
         $modes = array();
 
-        $modes[ReportingFormatter :: DISPLAY_TEXT] = Translation :: get('Text');
-        $modes[ReportingFormatter :: DISPLAY_TABLE] = Translation :: get('Table');
-        $modes[ReportingChartFormatter :: DISPLAY_BAR] = Translation :: get('Chart:Bar');
+        $modes[ReportingFormatter :: DISPLAY_TEXT] = Translation :: get('Text', null, ReportingManager :: APPLICATION_NAME);
+        $modes[ReportingFormatter :: DISPLAY_TABLE] = Translation :: get('Table', null, ReportingManager :: APPLICATION_NAME);
+        $modes[ReportingChartFormatter :: DISPLAY_BAR] = Translation :: get('Chart:Bar', null, ReportingManager :: APPLICATION_NAME);
 
         return $modes;
     }

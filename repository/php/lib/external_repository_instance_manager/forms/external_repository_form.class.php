@@ -1,6 +1,10 @@
 <?php
 namespace repository;
 
+use common\extensions\external_repository_manager;
+
+use common\libraries;
+
 use common\libraries\FormValidator;
 use common\libraries\Translation;
 use common\libraries\Utilities;
@@ -64,12 +68,12 @@ class ExternalRepositoryForm extends FormValidator
 
     function build_general_form()
     {
-        $this->addElement('static', null, Translation :: get('ExternalRepositoryType'), Translation :: get(Utilities :: underscores_to_camelcase($this->external_repository->get_type())));
+        $this->addElement('static', null, Translation :: get('ExternalRepositoryType', null, ExternalRepositoryManager :: get_namespace()), Translation :: get('TypeName', null, ExternalRepositoryManager :: get_namespace($this->external_repository->get_type())));
         $this->addElement('hidden', ExternalRepository :: PROPERTY_TYPE, $this->external_repository->get_type());
-        $this->addElement('text', ExternalRepository :: PROPERTY_TITLE, Translation :: get('ExternalRepositoryTitle'), array("size" => "50"));
-        $this->addRule(ExternalRepository :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
-        $this->add_html_editor(ExternalRepository :: PROPERTY_DESCRIPTION, Translation :: get('ExternalRepositoryDescription'), true);
-        $this->addElement('checkbox', ExternalRepository :: PROPERTY_ENABLED, Translation :: get('ExternalRepositoryEnabled'));
+        $this->addElement('text', ExternalRepository :: PROPERTY_TITLE, Translation :: get('Title', null, ExternalRepositoryManager :: get_namespace()), array("size" => "50"));
+        $this->addRule(ExternalRepository :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
+        $this->add_html_editor(ExternalRepository :: PROPERTY_DESCRIPTION, Translation :: get('Description', null, ExternalRepositoryManager :: get_namespace()), true);
+        $this->addElement('checkbox', ExternalRepository :: PROPERTY_ENABLED, Translation :: get('Enabled', null, Utilities :: COMMON_LIBRARIES));
     }
 
     function build_settings_form()
@@ -87,11 +91,11 @@ class ExternalRepositoryForm extends FormValidator
 
             foreach ($settings as $name => $setting)
             {
-                $label = Translation :: get(Utilities :: underscores_to_camelcase($name));
+                $label = Translation :: get(Utilities :: underscores_to_camelcase($name), null, ExternalRepositoryManager::get_namespace($this->external_repository->get_type()));
                 $name = self :: SETTINGS_PREFIX . '[' . $name . ']';
                 if (! $has_settings && $categories > 1)
                 {
-                    $this->addElement('category', Translation :: get(Utilities :: underscores_to_camelcase($category_name)));
+                    $this->addElement('category', Translation :: get(Utilities :: underscores_to_camelcase($category_name), null, ExternalRepositoryManager::get_namespace($this->external_repository->get_type())));
                     $has_settings = true;
                 }
 
@@ -115,7 +119,7 @@ class ExternalRepositoryForm extends FormValidator
                                     $validation['format'] = NULL;
                                 }
 
-                                $this->addRule($name, Translation :: get($validation['message']), $validation['rule'], $validation['format']);
+                                $this->addRule($name, Translation :: get($validation['message'], null, ExternalRepositoryManager::get_namespace($this->external_repository->get_type())), $validation['rule'], $validation['format']);
                             }
                         }
                     }
@@ -153,7 +157,7 @@ class ExternalRepositoryForm extends FormValidator
                             }
                             else
                             {
-                                $group[] = & $this->createElement($setting['field'], $name, null, Translation :: get(Utilities :: underscores_to_camelcase($option_name)), $option_value);
+                                $group[] = & $this->createElement($setting['field'], $name, null, Translation :: get(Utilities :: underscores_to_camelcase($option_name), null, ExternalRepositoryManager::get_namespace($this->external_repository->get_type())), $option_value);
                             }
                         }
                         $this->addGroup($group, $name, $label, '<br/>', false);
@@ -178,8 +182,8 @@ class ExternalRepositoryForm extends FormValidator
 
         $this->addElement('hidden', ExternalRepository :: PROPERTY_ID);
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive update'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -188,8 +192,8 @@ class ExternalRepositoryForm extends FormValidator
     {
         $this->build_basic_form();
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -332,7 +336,7 @@ class ExternalRepositoryForm extends FormValidator
         $types = array();
         foreach ($folders as $folder)
         {
-            $types[$folder] = Translation :: get(Utilities :: underscores_to_camelcase($folder));
+            $types[$folder] = Translation :: get('TypeName', null, ExternalRepositoryManager :: get_namespace($folder));
         }
         ksort($types);
         return $types;

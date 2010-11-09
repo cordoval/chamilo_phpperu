@@ -321,9 +321,9 @@ EOT;
             $url = $this->get_path(WEB_PATH) . 'repository/php/xml_feed.php';
             $locale = array();
             $locale['Display'] = Translation :: get('AddAttachments');
-            $locale['Searching'] = Translation :: get('Searching');
-            $locale['NoResults'] = Translation :: get('NoResults');
-            $locale['Error'] = Translation :: get('Error');
+            $locale['Searching'] = Translation :: get('Searching', null, Utilities :: COMMON_LIBRARIES);
+            $locale['NoResults'] = Translation :: get('NoResults', null, Utilities :: COMMON_LIBRARIES);
+            $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARIES);
             $hidden = true;
 
             $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/uploadify2/swfobject.js'));
@@ -368,23 +368,23 @@ EOT;
         switch ($this->form_type)
         {
             case self :: TYPE_COMPARE :
-                $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Compare'), array('class' => 'normal compare'));
+                $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Compare', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal compare'));
                 break;
             case self :: TYPE_CREATE :
-                $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
+                $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
                 break;
             case self :: TYPE_EDIT :
-                $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
+                $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive update'));
                 break;
             case self :: TYPE_REPLY :
-                $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Reply'), array('class' => 'positive send'));
+                $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Reply', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive send'));
                 break;
             default :
-                $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
+                $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
                 break;
         }
 
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
@@ -401,7 +401,7 @@ EOT;
 
         if ($this->form_type == self :: TYPE_REPLY)
         {
-            $defaults[ContentObject :: PROPERTY_TITLE] = Translation :: get('ReplyShort') . ' ' . $content_object->get_title();
+            $defaults[ContentObject :: PROPERTY_TITLE] = Translation :: get('ReplyShort', null, Utilities :: COMMON_LIBRARIES) . ' ' . $content_object->get_title();
         }
         else
         {

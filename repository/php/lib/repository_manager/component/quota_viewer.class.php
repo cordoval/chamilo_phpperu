@@ -101,7 +101,7 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManager
         $table = new SortableTable('version_quota', array($this, 'get_registered_types_cout'), array($this, 'get_registered_types_data'), 1, 30, SORT_ASC);
         $table->set_additional_parameters($this->get_parameters());
         $table->set_header(0, null, false);
-        $table->set_header(1, Translation :: get('Type'), false);
+        $table->set_header(1, Translation :: get('Type', null, Utilities :: COMMON_LIBRARIES), false);
         $table->set_header(2, Translation :: get('Quota'), false);
         $this->table = $table;
         $html[] = $table->as_html();
@@ -138,7 +138,7 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManager
         {
             $quota_data_row = array();
             $quota_data_row[] = '<img src="' . Theme :: get_common_image_path() . 'place_versions.png" alt=""/>';
-            $quota_data_row[] = Translation :: get('Default');
+            $quota_data_row[] = Translation :: get('Default', null, Utilities :: COMMON_LIBRARIES);
             $quota_data_row[] = $user->get_version_quota();
             $quota_data[] = $quota_data_row;
             $counter ++;
@@ -154,7 +154,7 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManager
             $quota_data_row = array();
 
             $quota_data_row[] = '<img src="' . Theme :: get_common_image_path() . 'content_object/' . $type . '.png" alt="' . $type . '"/>';
-            $quota_data_row[] = Translation :: get(self :: type_to_class($type) . 'TypeName');
+            $quota_data_row[] = Translation :: get('TypeName', null, ContentObject :: get_content_object_type_namespace($type));
             $object = ContentObject :: factory($type);
             if ($object instanceof Versionable)
             {

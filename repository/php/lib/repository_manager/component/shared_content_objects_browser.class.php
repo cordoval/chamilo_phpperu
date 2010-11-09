@@ -56,8 +56,8 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
         //$query = $this->action_bar->get_query();
         //if(isset($query) && $query != '')
         //{
-        //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Search')));
-        //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('SearchResultsFor').': '.$query));
+        //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Search', null, Utilities :: COMMON_LIBRARIES)));
+        //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('SearchResultsFor', null, Utilities :: COMMON_LIBRARIES).': '.$query));
         //}
 
 
@@ -69,11 +69,11 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
             {
                 $condition = new EqualityCondition(UserView :: PROPERTY_ID, $session_filter);
                 $user_view = RepositoryDataManager :: get_instance()->retrieve_user_views($condition)->next_result();
-                $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Filter') . ': ' . $user_view->get_name()));
+                $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Filter', null, Utilities :: COMMON_LIBRARIES) . ': ' . $user_view->get_name()));
             }
             else
             {
-                $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Filter') . ': ' . Utilities :: underscores_to_camelcase(($session_filter))));
+                $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Filter', null, Utilities :: COMMON_LIBRARIES) . ': ' . Utilities :: underscores_to_camelcase(($session_filter))));
             }
         }
 
@@ -132,7 +132,7 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         $action_bar->set_search_url($this->get_url());
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         return $action_bar;
     }
 

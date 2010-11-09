@@ -66,7 +66,7 @@ class RepositoryFilterForm extends FormValidator
 
             while ($userview = $userviews->next_result())
             {
-                $filters[$userview->get_id()] = Translation :: get('View') . ': ' . $userview->get_name();
+                $filters[$userview->get_id()] = Translation :: get('View', null, Utilities :: COMMON_LIBRARIES) . ': ' . $userview->get_name();
             }
         }
 
@@ -78,11 +78,11 @@ class RepositoryFilterForm extends FormValidator
         {
             if (in_array($registrations[$i], $hidden_types))
                 continue;
-            $filters[$registrations[$i]] = Translation :: get(Utilities :: underscores_to_camelcase($registrations[$i] . 'TypeName'));
+            $filters[$registrations[$i]] = Translation :: get('TypeName', null, ContentObject :: get_content_object_type_namespace($registrations[$i]));
         }
 
         $this->addElement('select', self :: FILTER_TYPE, null, $filters, array('class' => 'postback'));
-        $this->addElement('style_submit_button', 'submit', Translation :: get('Filter'), array('class' => 'normal filter'));
+        $this->addElement('style_submit_button', 'submit', Translation :: get('Filter', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal filter'));
 
         $session_filter = Session :: retrieve('filter');
         $this->setDefaults(array(self :: FILTER_TYPE => $session_filter, 'published' => 1));

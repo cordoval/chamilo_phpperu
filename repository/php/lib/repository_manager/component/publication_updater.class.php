@@ -37,7 +37,7 @@ class RepositoryManagerPublicationUpdaterComponent extends RepositoryManager
         }
         else
         {
-            $this->display_warning_page(htmlentities(Translation :: get('NoPublicationSelected')));
+            $this->display_warning_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('Publication')), Utilities :: COMMON_LIBRARIES)));
         }
     }
 

@@ -59,7 +59,7 @@ class RepositoryManagerLinkDeleterComponent extends RepositoryManager
     	}
     	else
     	{
-    		$this->display_error_page(Translation :: get('NoObjectSelected'));
+    		$this->display_error_page(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES));
     	}
     }
 

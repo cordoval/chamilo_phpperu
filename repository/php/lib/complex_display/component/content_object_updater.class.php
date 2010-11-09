@@ -28,7 +28,7 @@ class ComplexDisplayComponentContentObjectUpdaterComponent extends ComplexDispla
             {
                 $form->update_content_object();
 
-                $message = htmlentities(Translation :: get('ContentObjectUpdated'));
+                $message = htmlentities(Translation :: get('ObjectUpdated', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES));
 
                 $params = array();
                 $params['pid'] = Request :: get('pid');

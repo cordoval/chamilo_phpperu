@@ -27,7 +27,7 @@ class RepositoryManagerExporterCpComponent extends RepositoryManager
         if (empty($ids))
         {
             $this->display_header();
-            $this->display_error_message(Translation :: get('NoObjectsSelected'));
+            $this->display_error_message(Translation :: get('NoObjectsSelected', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             return;
         }
@@ -57,7 +57,7 @@ class RepositoryManagerExporterCpComponent extends RepositoryManager
         $webpath = Path :: get(WEB_TEMP_PATH) . $this->get_user_id() . '/package.zip';
 
         $this->display_header();
-        $this->display_message('<a href="' . $webpath . '">' . Translation :: get('Download') . '</a>');
+        $this->display_message('<a href="' . $webpath . '">' . Translation :: get('Download', null, Utilities :: COMMON_LIBRARIES) . '</a>');
         $this->display_footer();
     }
 

@@ -60,11 +60,11 @@ class ComplexBuilderComponentMoverComponent extends ComplexBuilderComponent
                 $parent = null;
             }
 
-            $this->redirect($succes ? Translation :: get('ComplexContentObjectItemsMoved') : Translation :: get('ComplexContentObjectItemsNotMoved'), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $parent_complex_content_object_item));
+            $this->redirect($succes ? Translation :: get('ObjectsMoved') : Translation :: get('ObjectsNotMoved', array('OBJECTS' => Translation :: get('ComplexContentObjectItems')), Utilities :: COMMON_LIBRARIES), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $parent_complex_content_object_item));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectsSelected', array('OBJECTS' => Translation :: get('ContentObjectItems')), Utilities :: COMMON_LIBRARIES)));
         }
     }
 }

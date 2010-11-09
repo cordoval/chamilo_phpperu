@@ -18,31 +18,31 @@ class RepositoryManagerContentObjectShareRightsEditorComponent extends Repositor
         $ids = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
         $target_users = Request :: get(self :: PARAM_TARGET_USER);
         $target_groups = Request :: get(self :: PARAM_TARGET_GROUP);
-        
+
         if($ids && ($target_users || $target_groups))
         {
 	        if(!is_array($ids))
 	        {
 	        	$ids = array($ids);
 	        }
-	        
+
 	        if($target_users && !is_array($target_users))
 	        {
 	        	$target_users = array($target_users);
 	        }
-	        
+
         	if($target_groups && !is_array($target_groups))
 	        {
 	        	$target_groups = array($target_groups);
 	        }
-        
+
         	$share_form = new ContentObjectShareForm(ContentObjectShareForm :: TYPE_EDIT, $ids, $this->get_user(), $this->get_url());
-        	
+
         	if(count($target_users) + count($target_groups) == 1 && count($ids) == 1)
         	{
         		$share_form->set_default_rights($target_users, $target_groups);
         	}
-	        
+
 	        if ($share_form->validate())
 	        {
 	            $succes = $share_form->update_content_object_share($target_users, $target_groups);
@@ -62,7 +62,7 @@ class RepositoryManagerContentObjectShareRightsEditorComponent extends Repositor
         	$this->display_error_page(Translation :: get('NoObjectsSelected'));
         }
     }
-    
+
 	function display_content_objects($content_object_ids)
     {
     	$html = array();
@@ -74,7 +74,7 @@ class RepositoryManagerContentObjectShareRightsEditorComponent extends Repositor
         foreach ($content_object_ids as $object_id)
         {
             $object = $this->retrieve_content_object($object_id);
-            $html[] = '<li><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $object->get_type() . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($object->get_type()) . 'TypeName')) . '"/> ' . $object->get_title() . '</li>';
+            $html[] = '<li><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $object->get_type() . '.png" alt="' . htmlentities(Translation :: get('TypeName', null, ContentObject :: get_content_object_type_namespace($object->get_type()))) . '"/> ' . $object->get_title() . '</li>';
         }
 
         $html[] = '</ul>';
@@ -83,13 +83,13 @@ class RepositoryManagerContentObjectShareRightsEditorComponent extends Repositor
 
         return implode("\n", $html);
     }
-    
+
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
     	$breadcrumbtrail->add_help('repository_content_object_share_rights_creator');
     }
-    
+
     function get_additional_parameters()
     {
     	return array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID, self :: PARAM_TARGET_GROUP, self :: PARAM_TARGET_USER);

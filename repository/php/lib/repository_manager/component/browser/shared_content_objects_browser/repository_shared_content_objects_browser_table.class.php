@@ -33,9 +33,9 @@ class RepositorySharedContentObjectsBrowserTable extends ObjectTable
         if ($browser instanceof RepositoryManagerBrowserComponent)
         {
             $actions = array();
-            //$actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_RECYCLE_SELECTED, Translation :: get('RemoveSelected'));
-            //$actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_MOVE_SELECTED, Translation :: get('MoveSelected'), false);
-            $actions[] = new ObjectTableFormAction(RepositoryManager :: ACTION_PUBLISH_CONTENT_OBJECT, Translation :: get('PublishSelected'), false);
+            //$actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_RECYCLE_SELECTED, Translation :: get('RemoveSelected', null, Utilities :: COMMON_LIBRARIES));
+            //$actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_MOVE_SELECTED, Translation :: get('MoveSelected', null, Utilities :: COMMON_LIBRARIES), false);
+            $actions[] = new ObjectTableFormAction(RepositoryManager :: ACTION_PUBLISH_CONTENT_OBJECT, Translation :: get('PublishSelected', null, Utilities :: COMMON_LIBRARIES), false);
         }
 
         $this->set_additional_parameters($parameters);

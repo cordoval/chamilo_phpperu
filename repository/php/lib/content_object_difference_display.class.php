@@ -110,7 +110,7 @@ class ContentObjectDifferenceDisplay
     {
         $html = array();
         $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_legend.png);">';
-        $html[] = '<div class="title">' . Translation :: get('Legend') . '</div>';
+        $html[] = '<div class="title">' . Translation :: get('Legend', null, Utilities :: COMMON_LIBRARIES) . '</div>';
         $html[] = '<span class="compare_delete">' . Translation :: get('CompareExample') . '</span>: ' . Translation :: get('CompareDeleteInfo') . '<br />';
         $html[] = '<span class="compare_add">' . Translation :: get('CompareExample') . '</span>: ' . Translation :: get('CompareAddInfo') . '<br />';
         $html[] = '<span class="compare_change">' . Translation :: get('CompareExample') . '</span>: ' . Translation :: get('CompareChangeInfo') . '<br />';

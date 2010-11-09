@@ -33,9 +33,9 @@ class RepositoryManagerContentObjectShareRightsCreatorComponent extends Reposito
 	        {
 	        	$ids = array($ids);
 	        }
-        
+
         	$share_form = new ContentObjectShareForm(ContentObjectShareForm :: TYPE_CREATE, $ids, $this->get_user(), $this->get_url());
-	        
+
 	        if ($share_form->validate())
 	        {
 	            $succes = $share_form->create_content_object_share();
@@ -55,7 +55,7 @@ class RepositoryManagerContentObjectShareRightsCreatorComponent extends Reposito
         	$this->display_error_page(Translation :: get('NoObjectsSelected'));
         }
     }
-    
+
 	function display_content_objects($content_object_ids)
     {
     	$html = array();
@@ -67,7 +67,7 @@ class RepositoryManagerContentObjectShareRightsCreatorComponent extends Reposito
         foreach ($content_object_ids as $object_id)
         {
             $object = $this->retrieve_content_object($object_id);
-            $html[] = '<li><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $object->get_type() . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($object->get_type()) . 'TypeName')) . '"/> ' . $object->get_title() . '</li>';
+            $html[] = '<li><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $object->get_type() . '.png" alt="' . htmlentities(Translation :: get('TypeName', null, ContentObject :: get_content_object_type_namespace($object->get_type()))) . '"/> ' . $object->get_title() . '</li>';
         }
 
         $html[] = '</ul>';
@@ -76,13 +76,13 @@ class RepositoryManagerContentObjectShareRightsCreatorComponent extends Reposito
 
         return implode("\n", $html);
     }
-    
+
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
     	$breadcrumbtrail->add_help('repository_content_object_share_rights_creator');
     }
-    
+
     function get_additional_parameters()
     {
     	return array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);

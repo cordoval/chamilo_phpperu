@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use common\libraries;
+
 use common\libraries\AndCondition;
 
 use common\libraries\Request;
@@ -97,8 +99,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManager
                     $parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS;
                     $parameters[RepositoryManager :: PARAM_CATEGORY_ID] = $parent;
 
-                    $message = Utilities :: underscores_to_camelcase($type_name) . 'TypeNameCreated';
-                    $this->redirect(Translation :: get($message), false, $parameters);
+                    $this->redirect(Translation :: get('ObjectCreated', array('OBJECT' => Translation :: get('TypeName', null, ContentObject :: get_content_object_type_namespace($type_name))), Utilities :: COMMON_LIBRARIES), false, $parameters);
                 }
             }
             else

@@ -45,7 +45,7 @@ class RepositoryManagerMoverComponent extends RepositoryManager
             $this->get_categories_for_select(0, $parent);
             $form = new FormValidator('move', 'post', $this->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $ids)));
             $form->addElement('select', RepositoryManager :: PARAM_DESTINATION_CONTENT_OBJECT_ID, Translation :: get('NewCategory'), $this->tree);
-            $form->addElement('submit', 'submit', Translation :: get('Move'));
+            $form->addElement('submit', 'submit', Translation :: get('Move', null, Utilities :: COMMON_LIBRARIES));
             if ($form->validate())
             {
                 $destination = $form->exportValue(RepositoryManager :: PARAM_DESTINATION_CONTENT_OBJECT_ID);
@@ -125,7 +125,7 @@ class RepositoryManagerMoverComponent extends RepositoryManager
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES)));
         }
     }
     /**
@@ -157,7 +157,7 @@ class RepositoryManagerMoverComponent extends RepositoryManager
 
         	if($current_parent == $cat->get_id())
         	{
-        		$this->tree[$cat->get_id()] .= ' (' . Translation :: get('Current') . ')';
+        		$this->tree[$cat->get_id()] .= ' (' . Translation :: get('Current', null, Utilities :: COMMON_LIBRARIES) . ')';
         	}
 
             $this->level ++;

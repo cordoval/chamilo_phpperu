@@ -72,9 +72,9 @@ class ContentObjectGroupShareRightsBrowserTableCellRenderer extends ObjectTableC
             {
                 case Group :: PROPERTY_NAME :
                     return $group->get_name();
-                case Translation :: get('Users') :
+                case Translation :: get('Users', null, UserManager :: APPLICATION_NAME) :
                     return $group->count_users(true);
-                case Translation :: get('Subgroups') :
+                case Translation :: get('Subgroups', null, GroupManager :: APPLICATION_NAME) :
                     return $group->count_subgroups(true);
             }
         }

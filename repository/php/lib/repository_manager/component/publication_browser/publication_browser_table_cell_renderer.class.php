@@ -45,7 +45,7 @@ class PublicationBrowserTableCellRenderer extends DefaultPublicationTableCellRen
         switch ($column->get_name())
         {
             case ContentObjectPublicationAttributes :: PROPERTY_PUBLICATION_DATE :
-                return DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $content_object->get_publication_date());
+                return DatetimeUtilities :: format_locale_date(Translation :: get('DateFormatShort', null, Utilities :: COMMON_LIBRARIES) . ', ' . Translation :: get('TimeNoSecFormat', null, Utilities :: COMMON_LIBRARIES), $content_object->get_publication_date());
         }
         return parent :: render_cell($column, $content_object);
     }
@@ -60,22 +60,11 @@ class PublicationBrowserTableCellRenderer extends DefaultPublicationTableCellRen
     {
         $toolbar = new Toolbar();
 
-        $toolbar->add_item(new ToolbarItem(
-       			Translation :: get('Delete'),
-       			Theme :: get_common_image_path().'action_delete.png',
-   				$this->browser->get_content_object_delete_publications_url($content_object),
-				ToolbarItem :: DISPLAY_ICON,
-				true
-		));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_content_object_delete_publications_url($content_object), ToolbarItem :: DISPLAY_ICON, true));
 
-    	if (! $content_object->get_publication_object()->is_latest_version())
+        if (! $content_object->get_publication_object()->is_latest_version())
         {
-        	$toolbar->add_item(new ToolbarItem(
-       			Translation :: get('Update'),
-       			Theme :: get_common_image_path().'action_revert.png',
-   				$this->browser->get_publication_update_url($content_object),
-				ToolbarItem :: DISPLAY_ICON
-			));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Update', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_revert.png', $this->browser->get_publication_update_url($content_object), ToolbarItem :: DISPLAY_ICON));
         }
 
         return $toolbar->as_html();

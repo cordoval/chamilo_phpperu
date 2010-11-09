@@ -31,7 +31,7 @@ class ComplexBuilderComponentViewerComponent extends ComplexBuilderComponent
             $trail = BreadcrumbTrail :: get_instance();
             $this->get_complex_content_object_breadcrumbs();
             $parameters = array(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_parent()->get_complex_content_object_item_id(), ComplexBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $id);
-            $trail->add(new Breadcrumb($this->get_url($parameters), Translation :: get('View') . ' ' . $content_object->get_title()));
+            $trail->add(new Breadcrumb($this->get_url($parameters), Translation :: get('View', null, Utilities :: COMMON_LIBRARIES) . ' ' . $content_object->get_title()));
 
             $this->display_header($trail);
 
@@ -42,7 +42,7 @@ class ComplexBuilderComponentViewerComponent extends ComplexBuilderComponent
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES)));
         }
     }
 }
