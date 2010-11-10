@@ -3,6 +3,7 @@ namespace application\handbook;
 use common\libraries\ObjectTableCellRenderer;
 use common\libraries\Theme;
 use repository\content_object\handbook\Handbook;
+use repository\ContentObject;
 
 
 class DefaultHandbookPublicationTableCellRenderer extends ObjectTableCellRenderer
@@ -30,7 +31,7 @@ class DefaultHandbookPublicationTableCellRenderer extends ObjectTableCellRendere
         $title = $column->get_title();
         if ($title == '')
         {
-            $img = Theme :: get_common_image_path() . ('treemenu_types/profile.png');
+            $img = Theme :: get_image_path(ContentObject::get_content_object_type_namespace('handbook')) . 'logo/22.png';
             return '<img src="' . $img . '"alt="course" />';
         }
         

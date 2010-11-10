@@ -2,6 +2,7 @@
 namespace application\portfolio;
 
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: portfolio_publication_deleter.class.php 206 2009-11-13 13:08:01Z chellee $

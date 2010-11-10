@@ -6,6 +6,7 @@ use common\libraries\Redirect;
 use common\libraries\Breadcrumb;
 use admin\AdminManager;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Display;
 use common\libraries\Header;
 use common\libraries\BreadcrumbTrail;

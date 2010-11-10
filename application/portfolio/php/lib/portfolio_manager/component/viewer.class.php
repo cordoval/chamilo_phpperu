@@ -13,6 +13,7 @@ use user\User;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\PlatformSetting;
 use user\UserDataManager;
 use common\libraries\ActionBarRenderer;
@@ -24,6 +25,7 @@ use repository\ContentObjectForm;
 use repository\content_object\portfolio\Portfolio;
 use admin\AdminDataManager;
 use repository\content_object\portfolio_item\PortfolioItem;
+use repository\ContentObject;
 
 
 /**
@@ -325,11 +327,11 @@ class PortfolioManagerViewerComponent extends PortfolioManager
     {
          $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishNewPortfolio'), Theme :: get_common_image_path() . 'content_object/portfolio.png', $this->get_create_portfolio_publication_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishNewPortfolio'), Theme :: get_image_path(ContentObject::get_content_object_type_namespace('portfolio')) . 'logo/22.png', $this->get_create_portfolio_publication_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         if($this->portfolio_identifier == self::PROPERTY_ROOT)
         {
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('ChangeIntroductionText'), Theme :: get_common_image_path() . 'content_object/portfolio.png', $this->get_create_portfolio_introduction_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('ChangeIntroductionText'), Theme :: get_image_path(ContentObject::get_content_object_type_namespace('portfolio')) . 'logo/22.png', $this->get_create_portfolio_introduction_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
 
 

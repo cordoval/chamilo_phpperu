@@ -10,6 +10,7 @@ use repository\RepositoryDataManager;
 use repository\content_object\portfolio_item\PortfolioItem;
 use repository\ComplexContentObjectItem;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use repository\content_object\link\Link;
 use common\libraries\EqualityCondition;
 use repository\content_object\youtube\Youtube;

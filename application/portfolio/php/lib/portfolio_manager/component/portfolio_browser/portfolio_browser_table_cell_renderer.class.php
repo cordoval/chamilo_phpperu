@@ -6,6 +6,7 @@ use common\libraries\ToolbarItem;
 use user\User;
 use common\libraries\Theme;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/portfolio_browser_table_data_provider.class.php';
 require_once dirname(__FILE__) . '/../../../tables/portfolio_table/default_portfolio_table_cell_renderer.class.php';

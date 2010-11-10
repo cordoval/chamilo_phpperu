@@ -12,6 +12,7 @@ use common\libraries\Translation;
 use common\libraries\Utilities;
 use user\UserManager;
 use common\libraries\BbcodeParser;
+use repository\ContentObject;
 /**
  * $Id: browser.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.feedback_manager.component
