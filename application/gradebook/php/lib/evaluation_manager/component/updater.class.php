@@ -28,7 +28,7 @@ class EvaluationManagerUpdaterComponent extends EvaluationManager
         }
         else
         {
-            BreadcrumbTrail :: get_instance()->add(new Breadcrumb($this->get_url(array(EvaluationManager :: PARAM_EVALUATION_ID => $evaluation_id)), Translation :: get('UpdateEvaluation')));
+            BreadcrumbTrail :: get_instance()->add(new Breadcrumb($this->get_url(array(EvaluationManager :: PARAM_EVALUATION_ID => $evaluation_id)), Translation :: get('UpdateEvaluation', null, Utilities::COMMON_LIBRARIES)));
             $this->display_header($trail);
             $pub_form->display();
             $this->display_footer();

@@ -26,7 +26,7 @@ class EvaluationManagerCreatorComponent extends EvaluationManager
         else
         {
             $trail = BreadcrumbTrail :: get_instance();
-            $trail->add(new Breadcrumb($this->get_url(array()), Translation :: get('CreateEvaluation')));
+            $trail->add(new Breadcrumb($this->get_url(array()), Translation :: get('CreateEvaluation', null, Utilities::COMMON_LIBRARIES)));
             $this->display_header($trail);
             $form->display();
             $this->display_footer();

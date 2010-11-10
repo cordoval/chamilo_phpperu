@@ -70,7 +70,7 @@ EOT;
         $header_template = implode("\n", $header_template);
 
         $renderer->setHeaderTemplate($header_template);
-        HTML_QuickForm :: setRequiredNote('<span class="form_required"><img src="../common/libraries/resources/images/aqua/action_required.png" alt="*" title ="*"/>&nbsp;<small>' . Translation :: get('ThisFieldIsRequired') . '</small></span>');
+        HTML_QuickForm :: setRequiredNote('<span class="form_required"><img src="../common/libraries/resources/images/aqua/action_required.png" alt="*" title ="*"/>&nbsp;<small>' . Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES) . '</small></span>');
         $required_note_template = <<<EOT
 	<div class="row">
 		<div class="label"></div>

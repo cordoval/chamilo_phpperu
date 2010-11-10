@@ -127,8 +127,8 @@ class WebconferenceForm extends FormValidator
         foreach ($yes_no_items as $yes_no_item)
         {
             $group = array();
-            $group[] = & $this->createElement('radio', $yes_no_item, null, Translation :: get('ConfirmYes'), 'true');
-            $group[] = & $this->createElement('radio', $yes_no_item, null, Translation :: get('ConfirmNo'), 'false');
+            $group[] = & $this->createElement('radio', $yes_no_item, null, Translation :: get('ConfirmYes', null, Utilities::COMMON_LIBRARIES), 'true');
+            $group[] = & $this->createElement('radio', $yes_no_item, null, Translation :: get('ConfirmNo', null, Utilities::COMMON_LIBRARIES), 'false');
             if (PlatformSetting :: get('allow_' . strtolower($yes_no_item) . '_selection', WebconferencingManager :: APPLICATION_NAME) == 'true')
             {
                 $this->addGroup($group, 'option', Translation :: get('Option' . Utilities :: underscores_to_camelcase($yes_no_item)), '&nbsp;');

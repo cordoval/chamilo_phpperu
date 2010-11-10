@@ -28,7 +28,7 @@ class LinkerManagerCreatorComponent extends LinkerManager
         if ($form->validate())
         {
             $success = $form->create_link();
-            $this->redirect($success ? Translation :: get('LinkCreated') : Translation :: get('LinkNotCreated'), ! $success, array(Application :: PARAM_ACTION => LinkerManager :: ACTION_BROWSE_LINKS));
+            $this->redirect($success ? Translation :: get('LinkCreated', null, Utilities::COMMON_LIBRARIES) : Translation :: get('LinkNotCreated', null, Utilities::COMMON_LIBRARIES), ! $success, array(Application :: PARAM_ACTION => LinkerManager :: ACTION_BROWSE_LINKS));
         }
         else
         {
