@@ -12,6 +12,7 @@ use common\libraries\DynamicTabsRenderer;
 use common\libraries\DynamicAction;
 use common\libraries\DynamicActionsTab;
 use common\libraries\Theme;
+use common\libraries\Application;
 /**
  * $Id: browser.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package admin.lib.admin_manager.component
@@ -71,7 +72,7 @@ class AdminManagerBrowserComponent extends AdminManager
             {
                 $index ++;
                 $html = array();
-                $actions_tab = new DynamicActionsTab($application_links['application']['class'], Translation :: get($application_links['application']['name']), Theme :: get_image_path('admin') . 'place_mini_' . $application_links['application']['class'] . '.png', implode("\n", $html));
+                $actions_tab = new DynamicActionsTab($application_links['application']['class'], Translation :: get($application_links['application']['name']), Theme :: get_image_path(Application :: determine_namespace($application_links['application']['class'])) . 'logo/22.png', implode("\n", $html));
 
                 if (isset($application_links['search']))
                 {
