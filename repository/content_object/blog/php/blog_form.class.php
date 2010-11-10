@@ -2,6 +2,7 @@
 namespace repository\content_object\blog;
 
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 use repository\ContentObjectForm;
 
@@ -36,7 +37,7 @@ class BlogForm extends ContentObjectForm
     protected function build_creation_form()
     {
         parent :: build_creation_form();
-        $this->addElement('category', Translation :: get('Properties'));
+        $this->addElement('category', Translation :: get('Properties', null, Utilities :: COMMON_LIBRARIES));
         $this->addElement('select', Blog :: PROPERTY_BLOG_LAYOUT, Translation :: get('BlogLayout'), Blog :: get_available_blog_layouts());
         $this->addElement('category');
     }
@@ -44,7 +45,7 @@ class BlogForm extends ContentObjectForm
     protected function build_editing_form()
     {
         parent :: build_editing_form();
-        $this->addElement('category', Translation :: get('Properties'));
+        $this->addElement('category', Translation :: get('Properties', null, Utilities :: COMMON_LIBRARIES));
         $this->addElement('select', Blog :: PROPERTY_BLOG_LAYOUT, Translation :: get('BlogLayout'), Blog :: get_available_blog_layouts());
         $this->addElement('category');
     }
