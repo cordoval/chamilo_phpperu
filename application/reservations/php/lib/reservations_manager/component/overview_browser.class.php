@@ -14,6 +14,8 @@ use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\Utilities;
 use Pager;
+use repository\ContentObject;
+use repository\content_object\calendar_event\CalendarEvent;
 /**
  */
 require_once WebApplication :: get_application_class_lib_path('reservations') . 'calendar/reservations_calendar_week_renderer.class.php';
@@ -63,7 +65,7 @@ class ReservationsManagerOverviewBrowserComponent extends ReservationsManager
             {
                 echo ' class="current"';
             }
-            echo ' href="' . $this->get_url(array_merge($this->get_parameters(), array(self :: PARAM_CURRENT_ACTION => $action, 'time' => $this->get_time()))) . '">' . htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($action) . 'Title')) . '</a></li>';
+            echo ' href="' . $this->get_url(array_merge($this->get_parameters(), array(self :: PARAM_CURRENT_ACTION => $action, 'time' => $this->get_time()))) . '">' . htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($action), null, ContentObject :: get_content_object_type_namespace(CalendarEvent :: get_type_name()))) . '</a></li>';
         }
         echo '</ul><div class="tabbed-pane-content">';
 
