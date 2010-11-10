@@ -291,3 +291,10 @@ table.collapsed tr.collapsable {
 .wiki-pane-content .wiki-pane-content-body a.new {
 	color: #e17009;
 }
+ul.tree-menu li div a.wiki {
+	background-image: url(../../images/aqua/logo/16.png);
+}
+
+ul.tree-menu li div a.type_wiki {
+	background-image: url(../../images/aqua/logo/16.png);
+}
