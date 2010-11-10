@@ -6,6 +6,7 @@ use common\libraries\Breadcrumb;
 use user\UserDataManager;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\extensions\repo_viewer\RepoViewer;
 use common\libraries\InCondition;
 use common\libraries\Theme;

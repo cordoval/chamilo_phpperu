@@ -4,6 +4,7 @@ namespace application\portfolio;
 use common\libraries\WebApplication;
 use common\libraries\DynamicAction;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Theme;
 use common\libraries\Redirect;
 use repository\RepositoryDataManager;
@@ -552,7 +553,7 @@ class PortfolioManager extends WebApplication
         $html[] = '" title="';
         $html[] = Translation :: get('ViewDefaultSystemSettings');
         $html[] = '   ">';
-        $html[] = '<img HEIGHT = 15 WIDTH = 15 src="' . Theme :: get_image_path('portfolio') . 'help.png"  class="labeled">';
+        $html[] = '<img HEIGHT = 15 WIDTH = 15 src="' . Theme :: get_common_image_path() . 'action_help.png"  class="labeled">';
         $html[] = '<span>';
         $html[] = Translation :: get('ViewDefaultSystemSettings');
         $html[] = '</span>';
@@ -575,7 +576,7 @@ class PortfolioManager extends WebApplication
         $html[] = '" title="';
         $html[] = Translation :: get('ViewAllMyPortfolioPermissions');
         $html[] = '   ">';
-        $html[] = '<img HEIGHT = 15 WIDTH = 15 src="' . Theme :: get_image_path('portfolio') . 'help.png"  class="labeled">';
+        $html[] = '<img HEIGHT = 15 WIDTH = 15 src="' . Theme :: get_common_image_path() . 'action_help.png"  class="labeled">';
         $html[] = '<span>';
         $html[] = Translation :: get('ViewAllMyPortfolioPermissions');
         $html[] = '</span>';

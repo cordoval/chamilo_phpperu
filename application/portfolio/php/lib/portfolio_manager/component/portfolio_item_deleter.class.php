@@ -1,6 +1,7 @@
 <?php
 namespace application\portfolio;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use repository\RepositoryDataManager;
 use repository\content_object\portfolio_item\PortfolioItem;
 
