@@ -11,6 +11,7 @@ class ComponentFileScanner extends FileScanner
     function scan_file($file, $contents, $namespace, $variable_writer)
     {
         $regex = '/class [a-zA-Z0-9]*/';
+        $file = str_replace('\\', '/', $file);
         $parts = explode('/', $file);
 	if($parts[count($parts) - 2] == 'component')
 	{
