@@ -97,8 +97,7 @@ class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
         $html[] = $current_page->get_page_number() . ' / ' . $this->survey->count_pages();
         $html[] = '</div>';
         $html[] = '</div>';
-        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/survey.js');
-        $html[] = '<div class="clear"></div>';
+        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/survey/resources/javascript/survey.js');        $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
         
         echo implode("\n", $html);

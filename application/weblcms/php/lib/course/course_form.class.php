@@ -57,7 +57,7 @@ class CourseForm extends CommonForm
         $this->user = $user;
 
         parent :: __construct($form_type, $course, $action, $parent, 'course_settings', 'post');
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/course_form.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_APP_PATH) . 'weblcms/resources/javascript/course_form.js'));
         $this->addElement('html', "<script type=\"text/javascript\">
 			/* <![CDATA[ */
 			var current_course_type = " . (is_null($this->course_type_id) ? '0' : $this->course_type_id) . ";
