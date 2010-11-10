@@ -48,13 +48,13 @@ class InstallWizardProcess extends HTML_QuickForm_Action
         if(array_key_exists('config_file', $_FILES))
         {
         	$values = array();
-			
+
         	//TODO check why this gives install errors for missing path ??
         	if($_FILES['config_file']['tmp_name']){
         		require_once($_FILES['config_file']['tmp_name']);
         	$this->values = $values;
         	}
-        	
+
         }
         else
         {
@@ -481,8 +481,13 @@ class InstallWizardProcess extends HTML_QuickForm_Action
     {
         $counter = $this->counter;
 
+        if(BasicApplication :: exists())
+        {
+
+        }
+
         $html = array();
-        $html[] = '<div class="content_object" style="padding: 15px 15px 15px 76px; background-image: url(../admin/resources/images/aqua/place_' . $application . '.png);' . ($counter % 2 == 0 ? 'background-color: #fafafa;' : '') . '">';
+        $html[] = '<div class="content_object" style="padding: 15px 15px 15px 76px; background-image: url(../application/' . $application . 'resources/images/aqua/logo/32.png);' . ($counter % 2 == 0 ? 'background-color: #fafafa;' : '') . '">';
         $html[] = '<div class="title">' . Translation :: get(Application :: application_to_class($application)) . '</div>';
 
         $collapse = '';
