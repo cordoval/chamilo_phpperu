@@ -9,32 +9,39 @@ function check_icons($applications)
 {
     $sizes = array(Theme :: ICON_MINI, Theme :: ICON_SMALL, Theme :: ICON_MEDIUM, Theme :: ICON_BIG);
 
-    $html = array();
+    $data = array();
+
     foreach ($applications as $application)
     {
-        $failures = 0;
+        $data_row = array();
+        $data_row[] = $application;
+
         foreach ($sizes as $size)
         {
-            $icon_paths = array();
-            $icon_paths[] = Theme :: get_image_system_path(Application :: determine_namespace($application)) . 'logo/' . $size . '.png';
+            $icon_path = Theme :: get_image_system_path(Application :: determine_namespace($application)) . 'logo/' . $size . '.png';
 
-            foreach ($icon_paths as $icon_path)
+            if (! file_exists($icon_path))
             {
-                if (! file_exists($icon_path))
-                {
-                    $failures ++;
-                    $html[] = $application . ' - ' . $icon_path;
-                }
+                $data_row[] = '<img src="' . Theme :: get_common_image_path() . 'error/' . $size . '.png" />';
+            }
+            else
+            {
+                $data_row[] = '<img src="' . Theme :: get_image_path(Application :: determine_namespace($application)) . 'logo/' . $size . '.png" />';
             }
         }
 
-        if ($failures > 0)
-        {
-            $html[] = '';
-        }
+        $data[] = $data_row;
     }
 
-    echo implode("<br />\n", $html);
+    $table = new SortableTableFromArray($data, 0, 200);
+    $table->set_header(0, 'Application');
+
+    foreach ($sizes as $key => $size)
+    {
+        $table->set_header($key + 1, $size . ' x ' . $size);
+    }
+
+    echo $table->as_html();
 }
 
 $core_applications = array('webservice', 'admin', 'help', 'reporting', 'tracking', 'repository', 'user', 'group', 'rights', 'home', 'menu', 'migration');

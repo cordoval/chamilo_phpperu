@@ -40,7 +40,7 @@ class ValidationBrowserTableCellRend extends DefaultValidationTableCellRend
         switch ($column->get_name())
         {
             /* case ProfilerPublication :: PROPERTY_PUBLISHED :
-                return DatetimeUtilities :: format_locale_date(Translation :: get('DateFormatShort', null, Utilities :: COMMON_LIBRARIES) . ', ' . Translation :: get('timeNoSecFormat'), $profile->get_published());
+                return DatetimeUtilities :: format_locale_date(Translation :: get('DateFormatShort', null, Utilities :: COMMON_LIBRARIES) . ', ' . Translation :: get('TimeNoSecFormat', null, Utilities :: COMMON_LIBRARIES), $profile->get_published());
                 break;*/
             case User :: PROPERTY_USERNAME :
                 return '<a href ="' . $this->browser->get_url(array('user_id' => $user->get_id())) . '">' . $user->get_username() . '</a>';

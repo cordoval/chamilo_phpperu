@@ -51,7 +51,7 @@ class GradebookInternalPublicationBrowserTableCellRenderer extends DefaultGradeb
         switch ($column->get_name())
         {
             case ContentObject :: PROPERTY_CREATION_DATE :
-                return DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $content_object->get_creation_date());
+                return DatetimeUtilities :: format_locale_date(Translation :: get('DateFormatShort', null, Utilities :: COMMON_LIBRARIES) . ', ' . Translation :: get('TimeNoSecFormat', null, Utilities :: COMMON_LIBRARIES), $content_object->get_creation_date());
                 break;
         }
 

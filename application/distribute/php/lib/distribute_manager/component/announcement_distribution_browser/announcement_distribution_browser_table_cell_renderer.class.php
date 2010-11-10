@@ -40,12 +40,12 @@ class AnnouncementDistributionBrowserTableCellRenderer extends DefaultAnnounceme
         {
             return $this->get_modification_links($announcement_distribution);
         }
-        
+
         // Add special features here
         switch ($column->get_name())
         {
             case AnnouncementDistribution :: PROPERTY_PUBLISHED :
-                return DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $announcement_distribution->get_published());
+                return DatetimeUtilities :: format_locale_date(Translation :: get('DateFormatShort', null, Utilities :: COMMON_LIBRARIES) . ', ' . Translation :: get('TimeNoSecFormat', null, Utilities :: COMMON_LIBRARIES), $announcement_distribution->get_published());
                 break;
             case AnnouncementDistribution :: PROPERTY_STATUS :
                 return $announcement_distribution->get_status_icon();
@@ -67,7 +67,7 @@ class AnnouncementDistributionBrowserTableCellRenderer extends DefaultAnnounceme
     private function get_modification_links($announcement_distribution)
     {
         $toolbar = new Toolbar();
-        
+
         //		$delete_url = $this->browser->get_publication_deleting_url($announcement_distribution);
         //		$toolbar_data[] = array(
         //			'href' => $delete_url,
@@ -75,7 +75,7 @@ class AnnouncementDistributionBrowserTableCellRenderer extends DefaultAnnounceme
         //			'confirm' => true,
         //			'img' => Theme :: get_common_image_path().'action_delete.png'
         //		);
-        
+
 
         return $toolbar->as_html();
     }
