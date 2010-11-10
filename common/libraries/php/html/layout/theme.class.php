@@ -147,7 +147,7 @@ class Theme
     /**
      * Get the path to the application's image folder
      */
-    static function get_image_path($context = null)
+    function get_image_path($context = null)
     {
         $instance = self :: get_instance();
 
