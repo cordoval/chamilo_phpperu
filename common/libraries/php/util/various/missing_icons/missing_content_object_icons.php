@@ -4,8 +4,6 @@ namespace common\libraries;
 use repository\RepositoryDataManager;
 use repository\ContentObject;
 
-require_once dirname(__FILE__) . '/../../../../global.inc.php';
-
 $sizes = array(Theme :: ICON_MINI, Theme :: ICON_SMALL, /*Theme :: ICON_MEDIUM,*/
         Theme :: ICON_BIG/*, Theme :: ICON_HUGE*/);
 $content_objects = RepositoryDataManager :: get_registered_types();
