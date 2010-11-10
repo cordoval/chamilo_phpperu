@@ -1,10 +1,12 @@
 <?php
 namespace install;
+
 use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\SimpleTable;
 use common\libraries\Diagnoser;
 use common\libraries\DiagnoserCellRenderer;
+use common\libraries\Utilities;
 /**
  * $Id: requirements_install_wizard_page.class.php 225 2009-11-13 14:43:20Z vanpouckesven $
  * @package install.lib.installmanager.component.inc.wizard
@@ -51,16 +53,16 @@ class RequirementsInstallWizardPage extends InstallWizardPage
 
         $files_folder = Path :: get(SYS_PATH) . '/files';
 
-        if (!file_exists($files_folder))
+        if (! file_exists($files_folder))
         {
-           	mkdir($files_folder);
+            mkdir($files_folder);
         }
 
         $writable_folders = array('/files', '/common/configuration');
 
         foreach ($writable_folders as $folder)
         {
-            $exists   = file_exists(Path :: get(SYS_PATH) . $folder);
+            $exists = file_exists(Path :: get(SYS_PATH) . $folder);
             $writable = is_writable(Path :: get(SYS_PATH) . $folder);
 
             if (! $exists || ! $writable)
@@ -74,20 +76,20 @@ class RequirementsInstallWizardPage extends InstallWizardPage
 
         $version = phpversion();
         $status = $version > '5.3' ? Diagnoser :: STATUS_OK : Diagnoser :: STATUS_ERROR;
-        if($status == Diagnoser :: STATUS_ERROR)
+        if ($status == Diagnoser :: STATUS_ERROR)
         {
-        	$this->fatal = true;
+            $this->fatal = true;
         }
         $array[] = $diagnoser->build_setting($status, '[PHP]', 'phpversion()', 'http://www.php.net/manual/en/function.phpversion.php', phpversion(), '>= 5.3', null, Translation :: get('PHPVersionInfo'), $path);
 
-		$setting = ini_get('output_buffering');
-	    $req_setting = 0;
-	    $status = $setting == $req_setting ? Diagnoser :: STATUS_OK : Diagnoser :: STATUS_ERROR;
-    	if($status == Diagnoser :: STATUS_ERROR)
+        $setting = ini_get('output_buffering');
+        $req_setting = 0;
+        $status = $setting == $req_setting ? Diagnoser :: STATUS_OK : Diagnoser :: STATUS_ERROR;
+        if ($status == Diagnoser :: STATUS_ERROR)
         {
-        	$this->fatal = true;
+            $this->fatal = true;
         }
-        
+
         $array[] = $diagnoser->build_setting($status, '[PHP-INI]', 'output_buffering', 'http://www.php.net/manual/en/outcontrol.configuration.php#ini.output-buffering', $setting, $req_setting, 'on_off', Translation :: get('FileUploadsInfo'), $path);
 
         $extensions = array('gd' => 'http://www.php.net/gd', 'pcre' => 'http://www.php.net/pcre', 'session' => 'http://www.php.net/session', 'standard' => 'http://www.php.net/spl', 'zlib' => 'http://www.php.net/zlib', 'xsl' => 'http://be2.php.net/xsl');
@@ -110,14 +112,14 @@ class RequirementsInstallWizardPage extends InstallWizardPage
 
     function buildForm()
     {
-    	$this->set_lang($this->controller->exportValue('page_language', 'install_language'));
+        $this->set_lang($this->controller->exportValue('page_language', 'install_language'));
 
         $this->_formBuilt = true;
 
         $buttons = array();
-        $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Previous', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal previous'));
+        $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Previous', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal previous'));
         $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('refresh'), Translation :: get('Refresh'), array('class' => 'normal refresh', 'id' => 'refresh_button'));
-        $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal next'));
+        $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal next'));
 
         $table = new SimpleTable($this->get_data(), new DiagnoserCellRenderer(), null, 'diagnoser');
         $this->addElement('html', $table->toHTML());

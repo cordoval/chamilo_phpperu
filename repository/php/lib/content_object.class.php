@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use common\libraries;
+
 use common\libraries\DataClass;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
@@ -1062,17 +1064,8 @@ class ContentObject extends DataClass
     static function get_default_property_names()
     {
         return parent :: get_default_property_names(array(
-                self :: PROPERTY_OWNER_ID,
-                self :: PROPERTY_TYPE,
-                self :: PROPERTY_TITLE,
-                self :: PROPERTY_DESCRIPTION,
-                self :: PROPERTY_PARENT_ID,
-                self :: PROPERTY_CREATION_DATE,
-                self :: PROPERTY_MODIFICATION_DATE,
-                self :: PROPERTY_OBJECT_NUMBER,
-                self :: PROPERTY_STATE,
-                self :: PROPERTY_COMMENT,
-                self :: PROPERTY_CONTENT_HASH));
+                self :: PROPERTY_OWNER_ID, self :: PROPERTY_TYPE, self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CREATION_DATE, self :: PROPERTY_MODIFICATION_DATE,
+                self :: PROPERTY_OBJECT_NUMBER, self :: PROPERTY_STATE, self :: PROPERTY_COMMENT, self :: PROPERTY_CONTENT_HASH));
     }
 
     static function get_additional_property_names()
@@ -1162,9 +1155,7 @@ class ContentObject extends DataClass
     {
         $class = self :: type_to_class($type);
 
-        $properties = call_user_func(array(
-                $class,
-                'get_additional_property_names'));
+        $properties = call_user_func(array($class, 'get_additional_property_names'));
         return ! empty($properties);
     }
 
@@ -1185,8 +1176,7 @@ class ContentObject extends DataClass
 		$form = ContentObjectForm :: factory($this->get_type(), $this, $this->get_type());
 		return $form->get_html_editors();*/
 
-        return array(
-                self :: PROPERTY_DESCRIPTION);
+        return array(self :: PROPERTY_DESCRIPTION);
     }
 
     /**
@@ -1230,7 +1220,6 @@ class ContentObject extends DataClass
             $sync_condition = new AndCondition($sync_conditions);
 
             $this->synchronization_data = RepositoryDataManager :: get_instance()->retrieve_external_repository_syncs($sync_condition)->next_result();
-
         }
 
         return $this->synchronization_data;
@@ -1246,6 +1235,19 @@ class ContentObject extends DataClass
     static function get_content_object_type_namespace($type)
     {
         return 'repository\content_object\\' . $type;
+    }
+
+    static function type_exists($type)
+    {
+        $path = Path :: get_repository_content_object_path() . $type . '/';
+        if (file_exists($path) && is_dir($path))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
 ?>

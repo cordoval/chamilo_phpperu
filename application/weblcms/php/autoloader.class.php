@@ -29,6 +29,8 @@ class Autoloader
             'course_group_form' => 'course_group/course_group_form.class.php',
             'course_group_subscriptions_form' => 'course_group/course_group_subscriptions_form.class.php',
             'common_request' => 'course/common_request.class.php',
+            'tool' => 'tool/tool.class.php',
+            'tool_component' => 'tool/tool_component.class.php',
             'content_object_publication_user' => 'content_object_publication_user.class.php',
             'content_object_publication_group' => 'content_object_publication_group.class.php',
             'content_object_publication_course_group' => 'content_object_publication_course_group.class.php',
