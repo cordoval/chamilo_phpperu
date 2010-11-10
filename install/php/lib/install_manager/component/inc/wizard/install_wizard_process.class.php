@@ -10,12 +10,12 @@ use HTML_QuickForm_Action;
 use MDB2;
 use common\libraries\Connection;
 use repository\ContentObjectInstaller;
+use repository\ContentObject;
 
 /**
  * $Id: install_wizard_process.class.php 225 2009-11-13 14:43:20Z vanpouckesven $
  * @package install.lib.installmanager.component.inc.wizard
  */
-
 
 /**
  * This class implements the action to take after the user has completed a
@@ -45,20 +45,21 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 
     function perform($page, $actionName)
     {
-        if(array_key_exists('config_file', $_FILES))
+        if (array_key_exists('config_file', $_FILES))
         {
-        	$values = array();
-			
-        	//TODO check why this gives install errors for missing path ??
-        	if($_FILES['config_file']['tmp_name']){
-        		require_once($_FILES['config_file']['tmp_name']);
-        	$this->values = $values;
-        	}
-        	
+            $values = array();
+
+            //TODO check why this gives install errors for missing path ??
+            if ($_FILES['config_file']['tmp_name'])
+            {
+                require_once ($_FILES['config_file']['tmp_name']);
+                $this->values = $values;
+            }
+
         }
         else
         {
-    		$this->values = $page->controller->exportValues();
+            $this->values = $page->controller->exportValues();
         }
 
         $this->applications['core'] = array('webservice', 'admin', 'help', 'reporting', 'tracking', 'repository', 'user', 'group', 'rights', 'home', 'menu', 'migration');
@@ -71,12 +72,14 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 
         // 1. Connection to the DBMS and create the database
         $db_creation = $this->create_database();
-        $this->process_result('database', $db_creation['success'], $db_creation['message']);
+        $image = 'resources/images/aqua/place_database.png';
+        $this->process_result('database', $db_creation['success'], $db_creation['message'], $image);
         flush();
 
         // 2. Write the config files
         $config_file = $this->write_config_file();
-        $this->process_result('config', $config_file['success'], $config_file['message']);
+        $image = 'resources/images/aqua/place_config.png';
+        $this->process_result('config', $config_file['success'], $config_file['message'], $image);
         flush();
 
         //Sets the correct database before installing applications
@@ -99,7 +102,8 @@ class InstallWizardProcess extends HTML_QuickForm_Action
         echo '<h3>' . Translation :: get('Filesystem') . '</h3>';
         // 5. Create additional folders
         $folder_creation = $this->create_folders();
-        $this->process_result('folder', $folder_creation['success'], $folder_creation['message']);
+        $image = 'resources/images/aqua/place_folder.png';
+        $this->process_result('folder', $folder_creation['success'], $folder_creation['message'], $image);
         flush();
 
         $this->counter ++;
@@ -108,12 +112,15 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 
         // 6. If all goes well we now show the link to the portal
         $message = '<a href="../index.php">' . Translation :: get('GoToYourNewlyCreatedPortal') . '</a>';
-        $this->process_result('finished', true, $message, false);
+        $image = 'resources/images/aqua/place_finished.png';
+        $this->process_result('finished', true, $message, $image);
         flush();
 
-//        $page->controller->container(true);
+        //        $page->controller->container(true);
 
-		//echo '<a href="#" id="showall">' . Translation :: get('ShowAll') . '</a> - <a href="#" id="hideall">' . Translation :: get('HideAll') . '</a>';
+
+        //echo '<a href="#" id="showall">' . Translation :: get('ShowAll') . '</a> - <a href="#" id="hideall">' . Translation :: get('HideAll') . '</a>';
+
 
         // Display the page footer
         $this->parent->display_footer();
@@ -123,8 +130,8 @@ class InstallWizardProcess extends HTML_QuickForm_Action
     {
         $values = $this->values;
 
-    	$this->parent->display_header(array(), "install");
-    	$all_pages = $page->controller->_pages;
+        $this->parent->display_header(array(), "install");
+        $all_pages = $page->controller->_pages;
 
         $total_number_of_pages = count($all_pages) + 1;
 
@@ -133,10 +140,10 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 
         $page_number = 1;
 
-        foreach($all_pages as $page)
+        foreach ($all_pages as $page)
         {
-        	 $html[] = '<li class="active"><a href="#">' . $page_number . '.&nbsp;&nbsp;' . $page->get_title() . '</a></li>';
-        	 $page_number++;
+            $html[] = '<li class="active"><a href="#">' . $page_number . '.&nbsp;&nbsp;' . $page->get_title() . '</a></li>';
+            $page_number ++;
         }
 
         $html[] = '<li class="active"><a href="#">' . $total_number_of_pages . '.&nbsp;&nbsp;' . Translation :: get('Installation') . '</a></li>';
@@ -155,6 +162,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
         //$html[] = '<a href="#" id="showall">' . Translation :: get('ShowAll') . '</a> - <a href="#" id="hideall">' . Translation :: get('HideAll') . '</a><br />';
         //$html[] = ResourceManager :: get_instance()->get_resource_html($values['platform_url'] . 'common/javascript/install_process.js');
 
+
         echo implode("\n", $html);
     }
 
@@ -171,17 +179,17 @@ class InstallWizardProcess extends HTML_QuickForm_Action
         }
         else
         {
-        	$connection->loadModule('Manager');
+            $connection->loadModule('Manager');
             $database_exists = $connection->databaseExists($values['database_name']);
 
             if ($database_exists == true)
             {
-                if(array_key_exists('database_exists', $values) && $values['database_exists'] == 1)
-           		{
-            		return array(Installer :: INSTALL_SUCCESS => true, Installer :: INSTALL_MESSAGE => Translation :: get('UseExistingDB'));
-           		}
+                if (array_key_exists('database_exists', $values) && $values['database_exists'] == 1)
+                {
+                    return array(Installer :: INSTALL_SUCCESS => true, Installer :: INSTALL_MESSAGE => Translation :: get('UseExistingDB'));
+                }
 
-            	$drop_result = $connection->dropDatabase($values['database_name']);
+                $drop_result = $connection->dropDatabase($values['database_name']);
 
                 if (MDB2 :: isError($drop_result))
                 {
@@ -282,7 +290,8 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 
             $installer = Installer :: factory($core_application, $values);
             $result = $installer->install();
-            $this->process_result($core_application, $result, $installer->retrieve_message());
+            $image = '../' . $core_application . '/resources/images/aqua/logo/48.png';
+            $this->process_result($core_application, $result, $installer->retrieve_message(), $image);
             unset($installer);
             flush();
 
@@ -300,23 +309,11 @@ class InstallWizardProcess extends HTML_QuickForm_Action
                 {
                     $installer = Installer :: factory($application, $values);
                     $result = $installer->install();
-                    $this->process_result($application, $result, $installer->retrieve_message());
+                    $image = '../application/' . $application . '/resources/images/aqua/logo/48.png';
+                    $this->process_result($application, $result, $installer->retrieve_message(), $image);
                     unset($installer, $result);
                     flush();
                 }
-                //				else
-            //				{
-            //					// TODO: Does this work ?
-            //					$application_path = dirname(__FILE__).'/../../application/lib/' . $application . '/';
-            //					if (!Filesystem::remove($application_path))
-            //					{
-            //						$this->process_result($application, array(Installer :: INSTALL_SUCCESS => false, Installer :: INSTALL_MESSAGE => Translation :: get('ApplicationRemoveFailed')));
-            //					}
-            //					else
-            //					{
-            //						$this->process_result($application, array(Installer :: INSTALL_SUCCESS => true, Installer :: INSTALL_MESSAGE => Translation :: get('ApplicationRemoveSuccess')));
-            //					}
-            //				}
             }
             flush();
         }
@@ -420,8 +417,8 @@ class InstallWizardProcess extends HTML_QuickForm_Action
         {
             $installer = Installer :: factory($core_application, $values);
             $result = $installer->post_process();
-
-            $this->process_result($core_application, $result, $installer->retrieve_message());
+            $image = '../' . $core_application . '/resources/images/aqua/logo/48.png';
+            $this->process_result($core_application, $result, $installer->retrieve_message(), $image);
 
             unset($installer);
             flush();
@@ -435,26 +432,26 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 
         foreach ($folders as $folder)
         {
-            $content_object = ContentObjectInstaller::factory($folder);
+            $content_object = ContentObjectInstaller :: factory($folder);
             if ($content_object)
             {
-            	$content_object->install();
-            	$this->process_result($folder, $result, $content_object->retrieve_message());
+                $content_object->install();
+                $image = '../repository/content_object/' . $folder . '/resources/images/aqua/logo/48.png';
+                $this->process_result($folder, $result, $content_object->retrieve_message(), $image);
                 unset($content_object);
                 flush();
             }
         }
 
-
         // Post-processing for selected applications
-    	if (count($applications) > 0)
+        if (count($applications) > 0)
         {
-        	echo '<h3>' . Translation :: get('PostProcessingWebApplications') . '</h3>';
+            echo '<h3>' . Translation :: get('PostProcessingWebApplications') . '</h3>';
         }
         $count = 0;
         foreach ($applications as $application)
         {
-            $toolPath = WebApplication::get_application_class_path($application) . 'install';
+            $toolPath = WebApplication :: get_application_class_path($application) . 'install';
             if (is_dir($toolPath) && WebApplication :: is_application_name($application))
             {
                 $check_name = 'install_' . $application;
@@ -462,7 +459,8 @@ class InstallWizardProcess extends HTML_QuickForm_Action
                 {
                     $installer = Installer :: factory($application, $values);
                     $result = $installer->post_process();
-                    $this->process_result($application, $result, $installer->retrieve_message());
+                    $image = '../application/' . $application . '/resources/images/aqua/logo/48.png';
+                    $this->process_result($application, $result, $installer->retrieve_message(), $image);
 
                     unset($installer, $result);
                     flush();
@@ -473,26 +471,18 @@ class InstallWizardProcess extends HTML_QuickForm_Action
         }
         if ($count == 0)
         {
-        	$this->process_result('web_application', true, Translation :: get('NoWebApplicationSelected'));
+            $this->process_result('web_application', true, Translation :: get('NoWebApplicationSelected'));
         }
     }
 
-    function display_install_block_header($application, $result, $default_collapse)
+    function display_install_block_header($application, $result, $image)
     {
         $counter = $this->counter;
 
         $html = array();
-        $html[] = '<div class="content_object" style="padding: 15px 15px 15px 76px; background-image: url(../admin/resources/images/aqua/place_' . $application . '.png);' . ($counter % 2 == 0 ? 'background-color: #fafafa;' : '') . '">';
+        $html[] = '<div class="content_object" style="padding: 15px 15px 15px 76px; background-image: url(' . $image . ');' . ($counter % 2 == 0 ? 'background-color: #fafafa;' : '') . '">';
         $html[] = '<div class="title">' . Translation :: get(Application :: application_to_class($application)) . '</div>';
-
-        $collapse = '';
-
-        if($result && $default_collapse)
-        {
-        	$collapse = ' collapse';
-        }
-
-        $html[] = '<div class="description' . $collapse . '">';
+        $html[] = '<div class="description">';
 
         return implode("\n", $html);
     }
@@ -505,9 +495,9 @@ class InstallWizardProcess extends HTML_QuickForm_Action
         return implode("\n", $html);
     }
 
-    function process_result($application, $result, $message, $default_collapse = true)
+    function process_result($application, $result, $message, $image)
     {
-        echo $this->display_install_block_header($application, $result, $default_collapse);
+        echo $this->display_install_block_header($application, $result, $image);
         echo $message;
         echo $this->display_install_block_footer();
         if (! $result)
