@@ -122,7 +122,7 @@ abstract class CoreApplication extends BasicApplication
     
     static function exists($application)
     {
-    	$application_path = self :: get_application_path($name);       
+    	$application_path = self :: get_application_path($application);
         
         if (file_exists($application_path) && is_dir($application_path) )
         {
