@@ -39,10 +39,10 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManager
         echo '<h3>' . htmlentities(Translation :: get('DiskSpace')) . '</h3>';
         echo self :: get_bar($quotamanager->get_used_disk_space_percent(), Filesystem :: format_file_size($quotamanager->get_used_disk_space()) . ' / ' . Filesystem :: format_file_size($quotamanager->get_max_disk_space()));
         echo '<div style="clear: both;">&nbsp;</div>';
-        echo '<h3>' . htmlentities(Translation :: get('NumberOfContentObjects')) . '</h3>';
-        echo self :: get_bar($quotamanager->get_used_database_space_percent(), $quotamanager->get_used_database_space() . ' / ' . $quotamanager->get_max_database_space());
-        echo '<div style="clear: both;">&nbsp;</div>';
-        echo $this->get_version_quota();
+        //echo '<h3>' . htmlentities(Translation :: get('NumberOfContentObjects')) . '</h3>';
+        //echo self :: get_bar($quotamanager->get_used_database_space_percent(), $quotamanager->get_used_database_space() . ' / ' . $quotamanager->get_max_database_space());
+        //echo '<div style="clear: both;">&nbsp;</div>';
+        //echo $this->get_version_quota();
         $this->display_footer();
     }
 
