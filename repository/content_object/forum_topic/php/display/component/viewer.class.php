@@ -196,7 +196,7 @@ class ForumTopicDisplayViewerComponent extends ForumTopicDisplay
             if ($object->get_creation_date() != $object->get_modification_date())
             {
                 $bottom_bar[] = Translation :: get('LastChangedAt', array(
-                        'TIME' => DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $object->get_modification_date())));
+                        'TIME' => DatetimeUtilities :: format_locale_date(Translation :: get('DateFormatShort', null, Utilities :: COMMON_LIBRARIES) . ', ' . Translation :: get('TimeNoSecFormat', null, Utilities :: COMMON_LIBRARIES), $object->get_modification_date())));
             }
 
             $bottom_bar[] = '</div>';

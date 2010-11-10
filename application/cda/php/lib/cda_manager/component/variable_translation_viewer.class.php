@@ -127,7 +127,7 @@ class CdaManagerVariableTranslationViewerComponent extends CdaManager
         $html[] = '<div class="title">' . Translation :: get('Statistics') . '</div>';
         $html[] = '<div class="description" style="overflow: auto;">';
 
-        $html[] = '<b>' . Translation :: get('Date') . ': </b>' . DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort', null, Utilities :: COMMON_LIBRARIES) . ', ' . Translation :: get('timeNoSecFormat', null, Utilities :: COMMON_LIBRARIES), Utilities :: time_from_datepicker($variable_translation->get_date()));
+        $html[] = '<b>' . Translation :: get('Date') . ': </b>' . DatetimeUtilities :: format_locale_date(Translation :: get('DateFormatShort', null, Utilities :: COMMON_LIBRARIES) . ', ' . Translation :: get('TimeNoSecFormat', null, Utilities :: COMMON_LIBRARIES), Utilities :: time_from_datepicker($variable_translation->get_date()));
         $html[] = '<br /><b>' . Translation :: get('Rating') . ': </b>' . $variable_translation->get_relative_rating();
         $html[] = '<br /><b>' . Translation :: get('NumberOfPersonsRated') . ': </b>' . $variable_translation->get_rated();
         $html[] = '<br /><b>' . Translation :: get('Status') . ': </b>' . $variable_translation->get_status_icon();
@@ -154,7 +154,7 @@ class CdaManagerVariableTranslationViewerComponent extends CdaManager
 
     	return implode("\n", $html);
     }
-    
+
 	function add_additional_breadcrumbs(BreacrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add(new Breadcrumb($this->get_browse_cda_languages_url(), Translation :: get('CdaManagerCdaLanguagesBrowserComponent')));
@@ -162,7 +162,7 @@ class CdaManagerVariableTranslationViewerComponent extends CdaManager
     	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_VARIABLE_TRANSLATIONS, CdaManager :: PARAM_LANGUAGE_PACK => Request :: get(self :: PARAM_LANGUAGE_PACK), CdaManager :: PARAM_CDA_LANGUAGE => Request :: get(self :: PARAM_CDA_LANGUAGE))), Translation :: get('CdaManagerVariableTranslationsBrowserComponent')));
     	$breadcrumbtrail->add_help('cda_variable_translations_viewer');
     }
-    
+
     function get_additional_parameters()
     {
     	return array(CdaManager :: PARAM_VARIABLE_TRANSLATION);

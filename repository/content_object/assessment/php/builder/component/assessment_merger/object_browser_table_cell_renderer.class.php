@@ -48,7 +48,7 @@ class ObjectBrowserTableCellRenderer extends DefaultContentObjectTableCellRender
         switch ($column->get_name())
         {
             case ContentObject :: PROPERTY_MODIFICATION_DATE :
-                return DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort', null, Utilities :: COMMON_LIBRARIES) . ', ' . Translation :: get('timeNoSecFormat', null, Utilities :: COMMON_LIBRARIES), $content_object->get_modification_date());
+                return DatetimeUtilities :: format_locale_date(Translation :: get('DateFormatShort', null, Utilities :: COMMON_LIBRARIES) . ', ' . Translation :: get('TimeNoSecFormat', null, Utilities :: COMMON_LIBRARIES), $content_object->get_modification_date());
         }
 
         return parent :: render_cell($column, $content_object);
