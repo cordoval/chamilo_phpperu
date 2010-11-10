@@ -103,7 +103,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
         // 5. Create additional folders
         $folder_creation = $this->create_folders();
         $image = 'resources/images/aqua/place_folder.png';
-        $this->process_result('folder', $folder_creation['success'], $folder_creation['message']);
+        $this->process_result('folder', $folder_creation['success'], $folder_creation['message'], $image);
         flush();
 
         $this->counter ++;
@@ -113,7 +113,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
         // 6. If all goes well we now show the link to the portal
         $message = '<a href="../index.php">' . Translation :: get('GoToYourNewlyCreatedPortal') . '</a>';
         $image = 'resources/images/aqua/place_finished.png';
-        $this->process_result('finished', true, $message, false);
+        $this->process_result('finished', true, $message, $image);
         flush();
 
         //        $page->controller->container(true);
@@ -436,7 +436,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
             if ($content_object)
             {
                 $content_object->install();
-                $image = '../repository/content_object/' . $folder . 'resources/images/aqua/logo/48.png';
+                $image = '../repository/content_object/' . $folder . '/resources/images/aqua/logo/48.png';
                 $this->process_result($folder, $result, $content_object->retrieve_message(), $image);
                 unset($content_object);
                 flush();
