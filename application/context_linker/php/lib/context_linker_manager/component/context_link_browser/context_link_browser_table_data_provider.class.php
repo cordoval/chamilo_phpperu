@@ -37,7 +37,7 @@ class ContextLinkBrowserTableDataProvider extends ObjectTableDataProvider
    */
     function get_object_count()
     {
-      return $this->get_browser()->count_context_links($this->get_condition());
+      return count($this->get_browser()->retrieve_full_context_links($this->get_condition(), $offset, $count, $order_property));
     }
 }
 ?>

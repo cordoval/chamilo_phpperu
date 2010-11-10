@@ -108,12 +108,12 @@ class DatabaseContextLinkerDataManager extends Database implements ContextLinker
         {
             $context_links[] = array(ContextLink :: PROPERTY_ID => $record[ContextLink :: PROPERTY_ID],
                                     ContextLink :: PROPERTY_DATE => $record[ContextLink :: PROPERTY_DATE],
-                                    'orig_' . ContentObject :: PROPERTY_ID => $record['orig_id'],
-                                    'orig_' . ContentObject :: PROPERTY_TYPE => $record['orig_type'],
-                                    'orig_' . ContentObject :: PROPERTY_TITLE => $record['orig_title'],
-                                    'alt_' . ContentObject :: PROPERTY_ID => $record[ContextLinkerManager::PROPERTY_ALT_ID],
-                                    'alt_' . ContentObject :: PROPERTY_TYPE => $record['alt_type'],
-                                    'alt_' . ContentObject :: PROPERTY_TITLE => $record['alt_title'],
+                                    ContextLinkerManager::PROPERTY_ORIG_ID => $record['orig_id'],
+                                    ContextLinkerManager :: PROPERTY_ORIG_TYPE => $record['orig_type'],
+                                    ContextLinkerManager :: PROPERTY_ORIG_TITLE => $record['orig_title'],
+                                    ContextLinkerManager::PROPERTY_ALT_ID => $record[ContextLinkerManager::PROPERTY_ALT_ID],
+                                    ContextLinkerManager :: PROPERTY_ALT_TYPE => $record['alt_type'],
+                                    ContextLinkerManager :: PROPERTY_ALT_TITLE => $record['alt_title'],
                                     MetadataPropertyType :: PROPERTY_NS_PREFIX => $record[MetadataPropertyType :: PROPERTY_NS_PREFIX],
                                     MetadataPropertyType :: PROPERTY_NAME => $record[MetadataPropertyType :: PROPERTY_NAME],
                                     MetadataPropertyValue :: PROPERTY_VALUE => $record[MetadataPropertyValue :: PROPERTY_VALUE]);
@@ -127,7 +127,7 @@ class DatabaseContextLinkerDataManager extends Database implements ContextLinker
      *
      * @return array[n] = output from retrieve_full_context_links
      */
-    function retrieve_full_context_links_recursive($condition = null, $offset = null, $max_objects = null, $order_by = null, $ids = array())
+    function retrieve_recursive($condition = null, $offset = null, $max_objects = null, $order_by = null, $ids = array(), $array_type = ContextLinkerManager :: ARRAY_TYPE_FLAT, $direction = ContextLinkerManager :: RECURSIVE_DIRECTION_BOTH)
     {
         $context_links = $this->retrieve_full_context_links($condition, $offset, $max_objects, $order_by);
 
@@ -138,23 +138,86 @@ class DatabaseContextLinkerDataManager extends Database implements ContextLinker
                 $condition_orig = new EqualityCondition(ContextLink :: PROPERTY_ORIGINAL_CONTENT_OBJECT_ID, $context_link[ContextLinkerManager::PROPERTY_ALT_ID]);
                 $condition_alt = new EqualityCondition(ContextLink :: PROPERTY_ALTERNATIVE_CONTENT_OBJECT_ID, $context_link[ContextLinkerManager::PROPERTY_ORIG_ID]);
 
-                $result[] = $context_link;
+                if($array_type == ContextLinkerManager :: ARRAY_TYPE_FLAT)
+                {
+                    $result[] = $context_link;
+                }
+                else
+                {
+                    
+                    if($direction == ContextLinkerManager :: RECURSIVE_DIRECTION_UP)
+                    {
+                        $result[$context_link[ContextLinkerManager :: PROPERTY_ORIG_ID]] = $context_link;
+                    }
+                    else
+                    {
+                        $result[$context_link[ContextLinkerManager :: PROPERTY_ALT_ID]] = $context_link;
+                    }
+                }
 
                 //downward direction
-                //if parent is not used as child (endless loop protection)
-		if(!isset($ids[$context_link[ContextLinkerManager::PROPERTY_ALT_ID]]))
+                if($direction == ContextLinkerManager :: RECURSIVE_DIRECTION_BOTH || $direction == ContextLinkerManager :: RECURSIVE_DIRECTION_DOWN)
                 {
-                    $ids[$context_link[ContextLinkerManager::PROPERTY_ALT_ID]] = 1;
-                    $result = array_merge($result, $this->retrieve_full_context_links_recursive($condition_orig, $offset, $max_objects, $order_by, $ids));
+                    //downward direction
+                    //if parent is not used as child (endless loop protection)
+                    if(!isset($ids[$context_link[ContextLinkerManager::PROPERTY_ALT_ID]]))
+                    {
+                        $ids[$context_link[ContextLinkerManager::PROPERTY_ALT_ID]] = 1;
+                        $result2 = $this->retrieve_recursive($condition_orig, $offset, $max_objects, $order_by, $ids, $array_type, $direction);
 
+                        if($array_type == ContextLinkerManager :: ARRAY_TYPE_FLAT)
+                        {
+                            $result = array_merge($result, $result2);
+                        }
+                        else
+                        {
+                            $new_child = $result2;
+                            if(count($new_child))
+                            {
+                                if(!isset($result[$context_link[ContextLinkerManager :: PROPERTY_ALT_ID]]['children'])) $result[$context_link[ContextLinkerManager :: PROPERTY_ALT_ID]]['children'] = array();
+
+                                foreach($new_child as $n => $value)
+                                {
+                                    if(!isset($result[$context_link[ContextLinkerManager :: PROPERTY_ALT_ID]]['children'][$n])) $result[$context_link[ContextLinkerManager :: PROPERTY_ALT_ID]]['children'][$n] = array();
+                                    $result[$context_link[ContextLinkerManager :: PROPERTY_ALT_ID]]['children'][$n] = $value;
+                                }
+                            }
+                        }
+                    }
                 }
 
                 //upward direction
-                //if child is not used as parent (endless loop protection)
-                if(!isset($ids[$context_link[ContextLinkerManager::PROPERTY_ORIG_ID]]))
+                if($direction == ContextLinkerManager :: RECURSIVE_DIRECTION_BOTH || $direction == ContextLinkerManager :: RECURSIVE_DIRECTION_UP)
                 {
-                    $ids[$context_link[ContextLinkerManager::PROPERTY_ORIG_ID]] = 1;
-                    $result = array_merge($this->retrieve_full_context_links_recursive($condition_alt, $offset, $max_objects, $order_by, $ids), $result);
+                    //if child is not used as parent (endless loop protection)
+                    if(!isset($ids[$context_link[ContextLinkerManager::PROPERTY_ALT_ID]]))
+                        //if(!isset($ids[$context_link[ContextLinkerManager::PROPERTY_ALT_ID]]))
+                    {
+                        $ids[$context_link[ContextLinkerManager::PROPERTY_ORIG_ID]] = 1;
+                        $result2 = $this->retrieve_recursive($condition_alt, $offset, $max_objects, $order_by, $ids, $array_type, $direction);
+
+                        if($array_type == ContextLinkerManager :: ARRAY_TYPE_FLAT)
+                        {
+                            $result = array_merge($result2, $result);
+                        }
+                        else
+                        {
+                            $new_parent = $result2;
+
+                            if(count($new_parent))
+                            {
+                                if(!isset($result[$context_link[ContextLinkerManager :: PROPERTY_ORIG_ID]]['parents'])) $result[$context_link[ContextLinkerManager :: PROPERTY_ORIG_ID]]['parents'] = array();
+
+                                foreach($new_parent as $n => $value)
+                                {
+                                    $result[$context_link[ContextLinkerManager :: PROPERTY_ORIG_ID]]['parents'][$n] = $value;
+                                
+                                    
+                                }
+
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -165,6 +228,37 @@ class DatabaseContextLinkerDataManager extends Database implements ContextLinker
         return $result;
     }
 
+    function retrieve_full_context_links_recursive($content_object_id, $offset = null, $max_objects = null, $order_by = null, $ids = array(), $array_type = ContextLinkerManager :: ARRAY_TYPE_FLAT)
+    {
+        //create conditions
+        $condition_down = new EqualityCondition(ContextLink :: PROPERTY_ORIGINAL_CONTENT_OBJECT_ID, $content_object_id);
+        $condition_up = new EqualityCondition(ContextLink :: PROPERTY_ALTERNATIVE_CONTENT_OBJECT_ID, $content_object_id);
 
+        //do queries
+        $result_parents = $this->retrieve_recursive($condition_up, $offset = null, $max_objects = null, $order_by = null, $ids = array(), $array_type, ContextLinkerManager :: RECURSIVE_DIRECTION_UP);
+        $result_children = $this->retrieve_recursive($condition_down, $offset = null, $max_objects = null, $order_by = null, $ids = array(), $array_type, ContextLinkerManager :: RECURSIVE_DIRECTION_DOWN);
+    
+        //format result
+        if($array_type == ContextLinkerManager :: ARRAY_TYPE_RECURSIVE)
+        {
+            $orig = next($result_children);
+
+            $result[$orig[ContextLinkerManager :: PROPERTY_ORIG_ID]][ContextLinkerManager :: PROPERTY_ORIG_ID] = $orig[ContextLinkerManager :: PROPERTY_ORIG_ID];
+            $result[$orig[ContextLinkerManager :: PROPERTY_ORIG_ID]][ContextLinkerManager :: PROPERTY_ORIG_TYPE] = $orig[ContextLinkerManager :: PROPERTY_ORIG_TYPE];
+            $result[$orig[ContextLinkerManager :: PROPERTY_ORIG_ID]][ContextLinkerManager :: PROPERTY_ORIG_TITLE] = $orig[ContextLinkerManager :: PROPERTY_ORIG_TITLE];
+            $result[$orig[ContextLinkerManager :: PROPERTY_ORIG_ID]][ContextLinkerManager :: PROPERTY_ALT_ID] = $orig[ContextLinkerManager :: PROPERTY_ALT_ID];
+            $result[$orig[ContextLinkerManager :: PROPERTY_ORIG_ID]][ContextLinkerManager :: PROPERTY_ALT_TYPE] = $orig[ContextLinkerManager :: PROPERTY_ALT_TYPE];
+            $result[$orig[ContextLinkerManager :: PROPERTY_ORIG_ID]][ContextLinkerManager :: PROPERTY_ALT_TITLE] = $orig[ContextLinkerManager :: PROPERTY_ALT_TITLE];
+
+            $result[$orig[ContextLinkerManager :: PROPERTY_ORIG_ID]]['parents'] = $result_parents;
+            $result[$orig[ContextLinkerManager :: PROPERTY_ORIG_ID]]['children'] = $result_children;
+
+            return $result;
+        }
+        else
+        {
+            return array_merge($result_parents,$result_children);
+        }
+    }
 }
 ?>

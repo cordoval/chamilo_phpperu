@@ -6,6 +6,7 @@ use application\metadata\MetadataDataManager;
 use common\libraries\EqualityCondition;
 use application\metadata\MetadataPropertyValue;
 use application\metadata\ContentObjectMetadataPropertyValue;
+use common\libraries\Utilities;
 
 /**
  * Component to create a new context_link object
