@@ -8,6 +8,8 @@ use common\libraries\Translation;
 use common\libraries\Session;
 use common\libraries\Authentication;
 use common\libraries\Theme;
+use common\libraries\PlatformSetting;
+use user\UserDataManager;
 /**
  * $Id: tab_add.php 227 2009-11-13 14:45:05Z kariboe $
  * @package home.ajax
@@ -78,17 +80,18 @@ if ($user_home_allowed && Authentication :: is_valid())
 
     if (! WebApplication :: is_application($application))
     {
-        $path = Path :: get(SYS_PATH) . $application . '/lib/' . $application . '_manager' . '/' . $application . '_manager.class.php';
+        $path = Path :: get(SYS_PATH) . $application . '/php/lib/' . $application . '_manager' . '/' . $application . '_manager.class.php';
         require_once $path;
-        $application_class .= 'Manager';
-        $app = new $application_class($user);
+        /*$application_class .= 'Manager';
+        $app = new $application_class($user);*/
     }
     else
     {
-        $path = Path :: get_application_path() . 'lib' . '/' . $application . '/' . $application . '_manager' . '/' . $application . '_manager.class.php';
+        $path = Path :: get_application_path() . 'php/lib' . '/' . $application . '/' . $application . '_manager' . '/' . $application . '_manager.class.php';
         require_once $path;
-        $app = Application :: factory($application, $user);
     }
+
+    $app = Application :: factory($application, $user);
 
     $html[] = '<div class="tab" id="tab_' . $tab->get_id() . '" style="display: none;">';
     $html[] = '<div class="row" id="row_' . $row->get_id() . '">';
