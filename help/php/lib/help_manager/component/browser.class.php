@@ -1,6 +1,7 @@
 <?php
 namespace help;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Request;
 use common\libraries\AdministrationComponent;
 use common\libraries\ActionBarRenderer;
@@ -29,7 +30,7 @@ class HelpManagerBrowserComponent extends HelpManager implements AdministrationC
         if (! $this->get_user()->is_platform_admin())
         {
             $this->display_header();
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
@@ -79,7 +80,7 @@ class HelpManagerBrowserComponent extends HelpManager implements AdministrationC
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
         $action_bar->set_search_url($this->get_url(array(HelpManager :: PARAM_HELP_ITEM => $this->get_help_item())));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(HelpManager :: PARAM_HELP_ITEM => $this->get_help_item())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(HelpManager :: PARAM_HELP_ITEM => $this->get_help_item())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
         return $action_bar;
     }
