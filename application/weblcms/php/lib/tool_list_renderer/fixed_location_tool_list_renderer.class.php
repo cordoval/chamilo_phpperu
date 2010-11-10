@@ -116,8 +116,8 @@ class FixedLocationToolListRenderer extends ToolListRenderer
             echo '<div class="warning-message">' . Translation :: get('NoVisibleCourseSections') . '</div>';
         }
 
-        echo '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/home_ajax.js' . '"></script>';
-        echo '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/course_home.js' . '"></script>';
+        echo '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'libraries/resources/javascript/home_ajax.js' . '"></script>';
+        echo '<script type="text/javascript" src="' . Path :: get(WEB_APP_PATH) . 'weblcms/resources/javascript/course_home.js' . '"></script>';
     }
 
     /**

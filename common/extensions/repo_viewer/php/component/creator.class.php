@@ -186,7 +186,6 @@ class RepoViewerCreatorComponent extends RepoViewer
         }
         else
         {
-
             $this->display_header();
             echo $form->toHtml();
             $this->display_footer();

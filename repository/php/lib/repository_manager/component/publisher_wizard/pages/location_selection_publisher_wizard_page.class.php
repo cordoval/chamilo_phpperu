@@ -178,7 +178,7 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
             $this->addElement('html', ' - <a href="?" onclick="setCheckbox(\'\', false); return false;">' . Translation :: get('UnSelectAll') . '</a>');
         }
 
-        $this->addElement('html', '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/home_ajax.js' . '"></script>');
+        $this->addElement('html', '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'libraries/resources/javascript/home_ajax.js' . '"></script>');
 
         $this->setDefaultAction('next');
 
