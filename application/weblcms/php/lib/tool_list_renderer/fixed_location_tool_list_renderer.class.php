@@ -82,16 +82,23 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 
             if ($section->get_type() == CourseSection :: TYPE_LINK)
             {
-                $content = $this->show_links($section);
-                $tabs->add_tab(new DynamicContentTab($section->get_id(), $section->get_name(), null, $content));
+                if ($this->get_publication_links()->size() > 0)
+                {
+                    $content = $this->show_links($section);
+                    $tabs->add_tab(new DynamicContentTab($section->get_id(), $section->get_name(), null, $content));
+                }
             }
             else
             {
                 if ($section->get_type() == CourseSection :: TYPE_DISABLED && ($this->course->get_layout() < 3 || ! $this->is_course_admin))
+                {
                     continue;
+                }
 
                 if ($section->get_type() == CourseSection :: TYPE_ADMIN && ! $this->is_course_admin)
+                {
                     continue;
+                }
 
                 $id = ($section->get_type() == CourseSection :: TYPE_DISABLED && $this->course->get_layout() > 2) ? 0 : $section->get_id();
 
@@ -118,19 +125,30 @@ class FixedLocationToolListRenderer extends ToolListRenderer
         echo '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/course_home.js' . '"></script>';
     }
 
+    private function get_publication_links()
+    {
+        if (! isset($this->publication_links))
+        {
+            $parent = $this->get_parent();
+
+            $conditions = array();
+            $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $parent->get_course_id());
+            $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE, 1);
+            $condition = new AndCondition($conditions);
+
+            $this->publication_links = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications($condition);
+        }
+
+        return $this->publication_links;
+    }
+
     /**
      * Show the links to publications in this course
      */
     private function show_links($section)
     {
         $parent = $this->get_parent();
-
-        $conditions = array();
-        $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $parent->get_course_id());
-        $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE, 1);
-        $condition = new AndCondition($conditions);
-
-        $publications = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications($condition);
+        $publications = $this->get_publication_links();
 
         $table = new HTML_Table('style="width: 100%;"');
         $table->setColCount($this->number_of_columns);
@@ -260,7 +278,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
                 $link_class = ' class="invisible"';
             }
 
-            $title = htmlspecialchars(Translation :: get(Utilities:: underscores_to_camelcase($tool->name) . 'Title'));
+            $title = htmlspecialchars(Translation :: get('ToolTypeName', null, Tool :: get_tool_type_namespace($tool->name)));
             $row = $count / $this->number_of_columns;
             $col = $count % $this->number_of_columns;
             //$html = array();
