@@ -21,6 +21,7 @@ use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Text;
 
 /**
@@ -159,7 +160,7 @@ class SearchToolSearcherComponent extends SearchTool
 
             if ($results == 0)
             {
-                $html[] = Translation :: get('NoSearchResults');
+                $html[] = Translation :: get('NoSearchResults', null, Utilities :: COMMON_LIBRARIES);
             }
 
             echo $results . ' ' . Translation :: get('ResultsFoundFor') . ' <span style="background-color: yellow;">' . $query . '</span>';
