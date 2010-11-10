@@ -149,7 +149,7 @@ class ApplicationInstallWizardPage extends InstallWizardPage
                 $html = array();
                 $html[] = '<div class="vertical_action"' . ($count == 1 ? ' style="border-top: 0px solid #FAFCFC;"' : '') . '>';
                 $html[] = '<div class="icon">';
-                $html[] = '<a href="#"><img src="../application/' . $package['code'] . 'resources/images/aqua/logo/32.png" alt="' . $package['name'] . '" title="' . $package['name'] . '"/></a>';
+                $html[] = '<a href="#"><img src="../application/' . $package['code'] . '/resources/images/aqua/logo/32.png" alt="' . $package['name'] . '" title="' . $package['name'] . '"/></a>';
                 $html[] = '</div>';
                 $html[] = '<div class="description">';
                 $html[] = '<h4>' . $package['name'] . '</h4>';
