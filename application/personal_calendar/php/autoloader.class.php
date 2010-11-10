@@ -31,8 +31,8 @@ class Autoloader
             'personal_calendar_data_manager_interface' => 'personal_calendar_data_manager_interface.class.php',
             'personal_calendar_publication_form' => 'personal_calendar_publication_form.class.php',
             'personal_calendar_renderer' => 'personal_calendar_renderer.class.php',
-            'personal_calendar_manager' => 'personal_calendar_manager/personal_calendar_manager.class.php');
-
+            'personal_calendar_manager' => 'personal_calendar_manager/personal_calendar_manager.class.php',
+			'personal_calendar_rights' => '../rights/personal_calendar_rights.class.php');
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 
         if (key_exists($lower_case, $list))
