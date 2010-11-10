@@ -20,7 +20,7 @@ class OrderingQuestionForm extends ContentObjectForm
     {
         parent :: build_creation_form();
         $this->addElement('category', Translation :: get('Items'));
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/ordering_question.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/ordering_question/resources/javascript/ordering_question.js'));
         $this->add_options();
         $this->addElement('category');
     }

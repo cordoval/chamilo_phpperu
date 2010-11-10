@@ -31,7 +31,7 @@ class FillInBlanksQuestionForm extends ContentObjectForm
         $this->addElement('html', '<div class="normal-message">' . Translation :: get('FillInTheblanksInfo') . '</div>');
         $this->addElement('textarea', 'answer', Translation :: get('QuestionText'), 'rows="10" class="answer"');
         $this->addRule('answer', Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/fill_in_the_blanks.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/fill_in_blanks_question/resources/javascript/fill_in_the_blanks.js'));
         $this->add_options();
         $this->addElement('category');
     }
@@ -49,7 +49,7 @@ class FillInBlanksQuestionForm extends ContentObjectForm
         $this->addElement('html', '<div class="normal-message">' . Translation :: get('FillInTheblanksInfo') . '</div>');
         $this->addElement('textarea', 'answer', Translation :: get('QuestionText'), 'rows="10" class="answer"');
         $this->addRule('answer', Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/fill_in_the_blanks.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/fill_in_blanks_question/resources/javascript/fill_in_the_blanks.js'));
         $this->setDefaults();
         $this->add_options();
         $this->addElement('category');

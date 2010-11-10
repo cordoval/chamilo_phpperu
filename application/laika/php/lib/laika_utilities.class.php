@@ -18,7 +18,6 @@ class LaikaUtilities
 
     function get_laika_results_html($attempt, $url_format = '?application=laika&go=info&scale=%s')
     {
-        
         $ldm = LaikaDataManager :: get_instance();
         $html = array();
         
@@ -97,8 +96,7 @@ class LaikaUtilities
         
         $html[] = '<div class="clear">&nbsp;</div>';
         $html[] = '</div>';
-        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/laika.js');
-        
+        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get_application_web_path() . 'laika/resources/javascript/laika.js');
         return implode("\n", $html);
     }
 
@@ -171,9 +169,8 @@ class LaikaUtilities
         $html[] = '</div>';
         
         $html[] = '</div>';
-        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/tool_bar.js' . '"></script>';
+        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'libraries/resources/javascript/tool_bar.js');
         $html[] = '<div class="clear"></div>';
-        
         return implode("\n", $html);
     }
 
