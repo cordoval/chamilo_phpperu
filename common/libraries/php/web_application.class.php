@@ -134,7 +134,7 @@ abstract class WebApplication extends BasicApplication
                 {
                     if ($include_application_classes)
                     {
-                        require_once ($path . $directory . '/' . $application_name . '_manager/' . $application_name . '_manager.class.php');
+                        require_once ($path . $directory . '/php/lib/' . $application_name . '_manager/' . $application_name . '_manager.class.php');
                     }
                     $applications[] = $application_name;
                 }

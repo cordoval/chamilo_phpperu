@@ -10,7 +10,6 @@ use common\libraries\Utilities;
 use common\libraries\Breadcrumb;
 use common\libraries\Application;
 
-require_once WebApplication :: get_application_class_lib_path('personal_calendar') . 'personal_calendar_rights.class.php';
 /**
  * $Id: deleter.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package group.lib.group_manager.component
