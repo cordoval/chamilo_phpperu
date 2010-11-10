@@ -61,7 +61,7 @@ class SurveyTableCellRenderer extends DefaultSurveyTableCellRenderer
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         if (! $survey->has_context())
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path() . 'action_add.png', $this->component->get_subscribe_context_template_url($survey), ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Add', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_add.png', $this->component->get_subscribe_context_template_url($survey), ToolbarItem :: DISPLAY_ICON));
         
         }else{
         $toolbar->add_item(new ToolbarItem(Translation :: get('Subscribe'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->component->get_context_template_suscribe_page_browser_url($survey), ToolbarItem :: DISPLAY_ICON));

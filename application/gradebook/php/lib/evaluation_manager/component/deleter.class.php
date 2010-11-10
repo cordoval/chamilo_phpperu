@@ -57,7 +57,7 @@ class EvaluationManagerDeleterComponent extends EvaluationManager
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoEvaluationsSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoEvaluationsSelected', null, Utilities::COMMON_LIBRARIES)));
         }
     }
 
