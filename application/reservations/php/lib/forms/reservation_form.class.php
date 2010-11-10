@@ -102,16 +102,16 @@ class ReservationForm extends FormValidator
     {
         //Timepicker
         $this->addElement('html', '<div class="configuration_form">');
-        $this->addElement('html', '<span class="category">' . Translation :: get('TimePicker') . '</span>');
+        $this->addElement('html', '<span class="category">' . Translation :: get('Timepicker') . '</span>');
 
-        $this->addElement('checkbox', 'use_timepicker', Translation :: get('UseTimePicker'));
+        $this->addElement('checkbox', 'use_timepicker', Translation :: get('UseTimepicker'));
 
         $options = array();
         for($i = 0; $i < 1440; $i ++)
             $options[$i] = $i;
 
-        $this->addElement('select', Reservation :: PROPERTY_TIMEPICKER_MIN, Translation :: get('MinTimePicker'), $options);
-        $this->addElement('select', Reservation :: PROPERTY_TIMEPICKER_MAX, Translation :: get('MaxTimePicker'), $options);
+        $this->addElement('select', Reservation :: PROPERTY_TIMEPICKER_MIN, Translation :: get('MinTimepicker'), $options);
+        $this->addElement('select', Reservation :: PROPERTY_TIMEPICKER_MAX, Translation :: get('MaxTimepicker'), $options);
 
         $this->addElement('html', '<div style="clear: both;"></div>');
         $this->addElement('html', '</div>');

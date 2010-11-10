@@ -55,9 +55,10 @@ class SubscriptionForm extends FormValidator
     function build_block_form()
     {
         //Please confirm your reservation from <b>%s</b> untill <b>%s</b> for item <b>%s</b>.
-        $this->addElement('html', sprintf(Translation :: get('ConfirmSubscription'),
-        								  DatetimeUtilities :: format_locale_date(null,$this->reservation->get_start_date()),
-        				   	              DatetimeUtilities :: format_locale_date(null,$this->reservation->get_stop_date()), $this->item->get_name()));
+        $this->addElement('html', Translation :: get('ConfirmSubscription',
+        			  array('START' => DatetimeUtilities :: format_locale_date(null,$this->reservation->get_start_date()),
+        				'STOP' =>DatetimeUtilities :: format_locale_date(null,$this->reservation->get_stop_date()),
+                                        'ITEM' =>$this->item->get_name())));
 
         $start = $this->reservation->get_stop_date();
         $rdm = ReservationsDataManager :: get_instance();
@@ -127,9 +128,9 @@ class SubscriptionForm extends FormValidator
     function build_timepicker_form()
     {
         if ($this->reservation->get_timepicker_max() == 0)
-            $this->addElement('html', '<br />' . sprintf(Translation :: get('ValidateTimeWithBlock'), $this->item->get_name()) . '<br /><ul>');
+            $this->addElement('html', '<br />' . Translation :: get('ValidateTimeWithBlock', array('ITEM' => $this->item->get_name())) . '<br /><ul>');
         else
-            $this->addElement('html', '<br />' . sprintf(Translation :: get('ValidateTimeWithTimepicker'), $this->item->get_name(), $this->reservation->get_timepicker_min(), $this->reservation->get_timepicker_max()) . '<br /><ul>');
+            $this->addElement('html', '<br />' . Translation :: get('ValidateTimeWithTimepicker', array('ITEM' =>$this->item->get_name(), 'MIN' => $this->reservation->get_timepicker_min(), 'MAX' => $this->reservation->get_timepicker_max())) . '<br /><ul>');
 
         $rdm = ReservationsDataManager :: get_instance();
 
