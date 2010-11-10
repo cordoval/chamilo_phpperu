@@ -248,7 +248,7 @@ abstract class WebApplication extends BasicApplication
     static function factory($application, $user = null)
     {
         require_once self :: get_application_manager_path($application);
-        $class = self :: get_application_class_name($application);
+        $class = self :: get_application_namespace($application) . '\\' . self :: get_application_class_name($application);
         return new $class($user);
     }
 

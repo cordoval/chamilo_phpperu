@@ -34,7 +34,7 @@ class CourseTypeForm extends CommonForm
     function CourseTypeForm($form_type, $course_type, $action, $parent)
     {
         parent :: __construct($form_type, $course_type, $action, $parent, 'course_type_settings', 'post');
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/course_type_form.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_APP_PATH) . 'weblcms/resources/javascript/course_type_form.js'));
     }
 
     function build_basic_form()

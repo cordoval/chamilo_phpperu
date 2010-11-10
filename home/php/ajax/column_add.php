@@ -10,6 +10,9 @@ use common\libraries\InequalityCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\Authentication;
+use common\libraries\PlatformSetting;
+use common\libraries\ObjectTableOrder;
+use user\UserDataManager;
 /**
  * $Id: column_add.php 227 2009-11-13 14:45:05Z kariboe $
  * @package home.ajax
@@ -88,18 +91,19 @@ if ($user_home_allowed && Authentication :: is_valid())
 
         if (! WebApplication :: is_application($application))
         {
-            $path = Path :: get(SYS_PATH) . $application . '/lib/' . $application . '_manager' . '/' . $application . '_manager.class.php';
+            $path = Path :: get(SYS_PATH) . $application . '/php/lib/' . $application . '_manager' . '/' . $application . '_manager.class.php';
             require_once $path;
-            $application_class .= 'Manager';
-            $app = new $application_class($user);
+//            $application_class .= 'Manager';
+//            $app = new $application_class($user);
         }
         else
         {
-            $path = Path :: get_application_path() . 'lib' . '/' . $application . '/' . $application . '_manager' . '/' . $application . '_manager.class.php';
+            $path = Path :: get_application_path() . 'php/lib' . '/' . $application . '/' . $application . '_manager' . '/' . $application . '_manager.class.php';
             require_once $path;
-            $app = Application :: factory($application, $user);
         }
 
+        $app = Application :: factory($application, $user);
+        
         // Render the actual html to be displayed
         $html[] = '<div class="column" id="column_' . $new_column->get_id() . '" style="width: ' . $new_column->get_width() . '%;">';
         $html[] = $app->render_block($block);

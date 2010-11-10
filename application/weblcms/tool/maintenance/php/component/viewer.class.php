@@ -4,6 +4,7 @@ namespace application\weblcms\tool\maintenance;
 use common\libraries\Display;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: reporting_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -24,7 +25,7 @@ class MaintenanceToolViewerComponent extends MaintenanceTool
         if (! $this->get_course()->is_course_admin($this->get_parent()->get_user()))
         {
             $this->display_header();
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }

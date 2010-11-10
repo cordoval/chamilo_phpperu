@@ -199,7 +199,7 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
         $html[] = '<script type="text/javascript">';
         $html[] = '  var tabnumber = ' . $selected_tab . ';';
         $html[] = '</script>';
-        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/gradebook_tabs.js');
+        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_APP_PATH) . 'gradebook/resources/javascript/gradebook_tabs.js');
 
         return implode("\n", $html);
     }

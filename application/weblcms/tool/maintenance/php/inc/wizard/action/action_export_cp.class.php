@@ -6,6 +6,7 @@ use common\libraries\Filesystem;
 use common\libraries\Session;
 use common\libraries\Path;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/../maintenance_wizard_process.class.php';
 require_once Path :: get_repository_path() . 'lib/export/content_object_export.class.php';
@@ -47,7 +48,7 @@ class ActionExportCp extends MaintenanceWizardProcess
         Filesystem :: copy_file($path, Path :: get(SYS_TEMP_PATH) . Session :: get_user_id() . '/course.zip', true);
         $webpath = Path :: get(WEB_TEMP_PATH) . Session :: get_user_id() . '/course.zip';
 
-        $_SESSION['maintenance_message'] = '<a href="' . $webpath . '">' . Translation :: get('Download') . '</a>';
+        $_SESSION['maintenance_message'] = '<a href="' . $webpath . '">' . Translation :: get('Download', null, Utilities :: COMMON_LIBRARIES) . '</a>';
 
         $page->controller->container(true);
         $page->controller->run();

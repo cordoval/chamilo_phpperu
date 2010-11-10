@@ -75,7 +75,7 @@ class SurveyContextTemplateForm extends FormValidator
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/survey_context_template_form.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/survey/resources/javascript/survey_context_template_form.js'));
     }
 
     function get_context_select_box($number = null)

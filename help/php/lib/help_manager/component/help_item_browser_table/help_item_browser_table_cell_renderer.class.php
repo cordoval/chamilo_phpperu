@@ -2,6 +2,7 @@
 namespace help;
 use common\libraries\Application;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use common\libraries\Theme;
@@ -58,7 +59,7 @@ class HelpItemBrowserTableCellRenderer extends DefaultHelpItemTableCellRenderer
 
        
         $toolbar->add_item(new ToolbarItem(
-                    Translation :: get('Edit'),
+                    Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES),
                     Theme :: get_common_image_path() . 'action_edit.png',
                     $this->browser->get_url(array(Application :: PARAM_ACTION => HelpManager :: ACTION_UPDATE_HELP_ITEM, HelpManager :: PARAM_HELP_ITEM => $help_item->get_id())),
                     ToolbarItem :: DISPLAY_ICON
@@ -67,7 +68,7 @@ class HelpItemBrowserTableCellRenderer extends DefaultHelpItemTableCellRenderer
         if($this->browser->get_user()->is_platform_admin())
         {
             $toolbar->add_item(new ToolbarItem(
-                    Translation :: get('EditRights'),
+                    Translation :: get('EditRights', null, Utilities :: COMMON_LIBRARIES),
                     Theme :: get_common_image_path() . 'action_rights.png',
                     $this->browser->get_url(array(Application :: PARAM_ACTION => HelpManager :: ACTION_RIGHT_EDITS, HelpManager :: PARAM_HELP_ITEM => $help_item->get_id())),
                     ToolbarItem :: DISPLAY_ICON
