@@ -1,6 +1,3 @@
-TypeName = "Photobucket"
-BrowseStreamingVideo = ""
-PhotobucketId = ""
-Width = ""
-Height = ""
-Thumbnail = ""
+Properties = 
+BrowseStreamingVideo = 
+PhotobucketId = 

@@ -1,7 +1,5 @@
-TypeName = "Feedback"
-thumbs_up = ""
-thumbs_down = ""
-wrong = ""
-right = ""
-informative = ""
-icon = ""
+wrong = 
+right = 
+informative = 
+Properties = 
+icon = 

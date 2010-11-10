@@ -1,7 +1,4 @@
-TypeName = "Criteria"
-AddOption = ""
-Options = ""
-Score = ""
-Option = ""
-ThisFieldIsRequired = ""
-ValueShouldBeNumeric = ""
+Options = 
+AddOption = 
+Score = 
+Option = 

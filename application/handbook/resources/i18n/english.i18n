@@ -1,13 +1,13 @@
-ShowAllTextAlternatives = "Show all alternative texts"
-HideAllTextAlternatives = "Hide all alternative texts"
-ShowAllImageAlternatives = "Show all alternative images"
-HideAllImageAlternatives = "Hide all alternative images"
-ShowAllVideoAlternatives = "Show all alternative videos"
-HideAllVideoAlternatives = "Hide all alternative videos"
-
-Handbook = "Handbook"
-Handbooks = "Handbooks"
-HandbookPublication = "Handbook Publication"
-HandbookPublications = "Handbook Publications"
-HandbookManagerHandbookPublicationsBrowserComponent = "Browse Handbook Publications"
-HandbookPermissions = "Handbook Permissions"
+HandbookPermissions = 
+HandbookPublication = 
+HandbookPublications = 
+Handbook = 
+Handbooks = 
+ContextLink = 
+ShowAllTextAlternatives = 
+HideAllTextAlternatives = 
+ShowAllImageAlternatives = 
+HideAllImageAlternatives = 
+ShowAllVideoAlternatives = 
+HideAllVideoAlternatives = 
+MyHandbook = 
