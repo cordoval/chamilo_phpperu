@@ -2,6 +2,7 @@
 namespace repository\content_object\forum_topic;
 
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\extensions\repo_viewer\RepoViewerInterface;
@@ -48,7 +49,7 @@ class ForumTopicDisplayCreatorComponent extends ForumTopicDisplay implements
             }
 
             $trail = BreadcrumbTrail :: get_instance();
-            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('reply_on_post')));
+            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ReplyOnPost', null , 'repository/content_object/forum_post')));
 
             $repo_viewer->run();
         }
@@ -85,7 +86,7 @@ class ForumTopicDisplayCreatorComponent extends ForumTopicDisplay implements
 
     private function my_redirect()
     {
-        $message = htmlentities(Translation :: get('ContentObjectCreated'));
+        $message = htmlentities(Translation :: get('ObjectCreated', array ('OBJECT' => Translation :: get('ForumTopic')), Utilities :: COMMON_LIBRARIES));
 
         $params = array();
         $params[ComplexDisplay :: PARAM_DISPLAY_ACTION] = self :: ACTION_VIEW_COMPLEX_CONTENT_OBJECT;

@@ -3,6 +3,7 @@ namespace repository\content_object\forum;
 
 use repository\RepositoryDataManager;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\Path;
 
@@ -62,7 +63,7 @@ class ForumDisplayForumSubforumEditorComponent extends ForumDisplay
 
     private function my_redirect($pid, $is_subforum, $forum)
     {
-        $message = htmlentities(Translation :: get('SubforumEdited'));
+        $message = htmlentities(Translation :: get('ObjectUpdated',array('OBJECT' => Translation :: get('Subforum')) , Utilities :: COMMON_LIBRARIES ));
 
         $params = array();
         $params[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_VIEW_FORUM;

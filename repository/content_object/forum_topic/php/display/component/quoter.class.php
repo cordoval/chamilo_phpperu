@@ -72,7 +72,7 @@ class ForumTopicDisplayQuoterComponent extends ForumTopicDisplay
 
     private function my_redirect($pid, $cid)
     {
-        $message = htmlentities(Translation :: get('ContentObjectCreated'));
+        $message = htmlentities(Translation :: get('ObjectCreated', array('OBJECT' => Translation :: get('ForumTopic')) , Utilities :: COMMON_LIBRARIES));
 
         $params = array();
         $params[ComplexDisplay :: PARAM_DISPLAY_ACTION] = self :: ACTION_VIEW_COMPLEX_CONTENT_OBJECT;

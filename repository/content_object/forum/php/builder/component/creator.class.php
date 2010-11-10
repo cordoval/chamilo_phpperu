@@ -107,7 +107,7 @@ class ForumBuilderCreatorComponent extends ForumBuilder implements RepoViewerInt
                 $complex_content_object_item->create();
             }
 
-            $this->redirect(Translation :: get('ObjectAdded'), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id));
+            $this->redirect(Translation :: get('ObjectAdded', array('OBJECT' => Transalation :: get('Forum')) , Utilities :: COMMON_LIBRARIES), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id));
         }
 
         /* $this->display_header($trail);

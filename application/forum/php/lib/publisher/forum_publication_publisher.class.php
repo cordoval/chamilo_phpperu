@@ -32,7 +32,7 @@ class ForumPublicationPublisher
         if ($form->validate())
         {
             $succes = $form->create_forum_publications($object);
-            $message = $succes ? Translation :: get('ObjectCreated' , array ('OBJECT' => Translation :: get ('ForumPublication')) , Utilities :: COMMON_LIBRARIES) : Translation :: get('ObjectNotCreated' , array ('OBJECT' => Translation :: get ('ForumPublication')) , Utilities :: COMMON_LIBRARIES);
+            $message = $succes ? Translation :: get('ObjectCreated' , array ('OBJECT' => Translation :: get ('Forum', null, 'repository/forum')) , Utilities :: COMMON_LIBRARIES) : Translation :: get('ObjectNotCreated' , array ('OBJECT' => Translation :: get ('Forum', null, 'repository/forum')) , Utilities :: COMMON_LIBRARIES);
             $this->parent->redirect($message, ! $succes, array(ForumManager :: PARAM_ACTION => null));
         }
         else

@@ -143,7 +143,7 @@ class ForumManager extends WebApplication
         $pub->set_author($content_object->get_owner_id());
         $pub->create();
 
-        return Translation :: get('ObjectCreated' , array ('OBJECT' => Translation :: get ('ForumPublication')) , Utilities :: COMMON_LIBRARIES);
+        return Translation :: get('ObjectCreated' , array ('OBJECT' => Translation :: get ('Forum', null, 'repository/forum')) , Utilities :: COMMON_LIBRARIES);
     }
 
     static function get_content_object_publication_attribute($object_id)

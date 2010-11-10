@@ -26,7 +26,7 @@ class ForumManagerForumEvaluationComponent extends ForumManager implements Evalu
         }
         else
         {
-            $this->display_error_message(Translation :: get('NoObjectsSelected'));
+            $this->display_error_message(Translation :: get('NoObjectsSelected',null, Utilities :: COMMON_LIBRARIES));
         }
     }
 

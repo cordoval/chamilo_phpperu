@@ -47,11 +47,11 @@ class ForumDisplayForumPostDeleterComponent extends ForumDisplay
             }
             if (count($posts) > 1)
             {
-                $message = htmlentities(Translation :: get('ForumPostsDeleted'));
+                $message = htmlentities(Translation :: get('ObjectsDeleted', array('POST' => Translation :: get('ForumPosts')) , Utilities :: COMMON_LIBRARIES));
             }
             else
             {
-                $message = htmlentities(Translation :: get('ForumPostDeleted'));
+                $message = htmlentities(Translation :: get('ObjectDeleted', array('POST' => Translation :: get('ForumPost')) , Utilities :: COMMON_LIBRARIES));
             }
 
             $this->redirect($message, false, $params);

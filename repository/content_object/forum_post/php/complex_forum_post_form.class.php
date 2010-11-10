@@ -20,14 +20,14 @@ class ComplexForumPostForm extends ComplexContentObjectItemForm
     protected function build_creation_form()
     {
         parent :: build_creation_form();
-        $this->addElement('text', ComplexForumPost :: PROPERTY_REPLY_ON_POST, Translation :: get('reply_on_post'));
+        $this->addElement('text', ComplexForumPost :: PROPERTY_REPLY_ON_POST, Translation :: get('ReplyOnPost'));
     }
 
     // Inherited
     protected function build_editing_form()
     {
         parent :: build_editing_form();
-        $this->addElement('text', ComplexForumPost :: PROPERTY_REPLY_ON_POST, Translation :: get('reply_on_post'));
+        $this->addElement('text', ComplexForumPost :: PROPERTY_REPLY_ON_POST, Translation :: get('ReplyOnPost'));
     }
 
     public function get_elements()

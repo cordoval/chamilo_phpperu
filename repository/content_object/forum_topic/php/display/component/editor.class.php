@@ -2,6 +2,7 @@
 namespace repository\content_object\forum_topic;
 
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use repository\ComplexDisplay;
 use repository\RepositoryDataManager;
 use repository\ContentObjectForm;
@@ -40,7 +41,7 @@ class ForumTopicDisplayEditorComponent extends ForumTopicDisplay
                     $parent->update();
                 }
 
-                $message = htmlentities(Translation :: get('ForumPostUpdated'));
+                $message = htmlentities(Translation :: get('ObjectUpdated', array('OBJECT' => Translation :: get('ForumTopic')) , Utilities :: COMMON_LIBRARIES));
 
                 $params = array();
                 $params[ComplexDisplay :: PARAM_DISPLAY_ACTION] = self :: ACTION_VIEW_COMPLEX_CONTENT_OBJECT;
