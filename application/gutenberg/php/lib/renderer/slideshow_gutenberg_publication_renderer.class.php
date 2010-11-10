@@ -8,7 +8,6 @@ use common\libraries\Toolbar;
 use common\libraries\Theme;
 
 use repository\ContentObjectDisplay;
-use common\libraries\Display;
 
 class SlideshowGutenbergPublicationRenderer extends GutenbergPublicationRenderer
 {
@@ -69,14 +68,14 @@ class SlideshowGutenbergPublicationRenderer extends GutenbergPublicationRenderer
             if (! $first)
             {
                 $parameters[self :: SLIDESHOW_INDEX] = 0;
-                $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('First'), Theme :: get_common_image_path() . 'action_first.png', $this->get_url($parameters), ToolbarItem :: DISPLAY_ICON));
+                $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('First', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_first.png', $this->get_url($parameters), ToolbarItem :: DISPLAY_ICON));
                 
                 $parameters[self :: SLIDESHOW_INDEX] = $slideshow_index - 1;
                 $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('Previous', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_prev.png', $this->get_url($parameters), ToolbarItem :: DISPLAY_ICON));
             }
             else
             {
-                $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('First'), Theme :: get_common_image_path() . 'action_first_na.png', null, ToolbarItem :: DISPLAY_ICON));
+                $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('First', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_first_na.png', null, ToolbarItem :: DISPLAY_ICON));
                 $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('Previous', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_prev_na.png', null, ToolbarItem :: DISPLAY_ICON));
             }
             
@@ -86,12 +85,12 @@ class SlideshowGutenbergPublicationRenderer extends GutenbergPublicationRenderer
                 $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('Next', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_next.png', $this->get_url($parameters), ToolbarItem :: DISPLAY_ICON));
                 
                 $parameters[self :: SLIDESHOW_INDEX] = $publication_count - 1;
-                $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('Last'), Theme :: get_common_image_path() . 'action_last.png', $this->get_url($parameters), ToolbarItem :: DISPLAY_ICON));
+                $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('Last', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_last.png', $this->get_url($parameters), ToolbarItem :: DISPLAY_ICON));
             }
             else
             {
                 $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('Next', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_next_na.png', null, ToolbarItem :: DISPLAY_ICON));
-                $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('Last'), Theme :: get_common_image_path() . 'action_last_na.png', null, ToolbarItem :: DISPLAY_ICON));
+                $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('Last', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_last_na.png', null, ToolbarItem :: DISPLAY_ICON));
             }
         }
         

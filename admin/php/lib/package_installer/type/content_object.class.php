@@ -1,7 +1,10 @@
 <?php
 namespace admin;
+use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Translation;
+use repository\RepositoryDataManager;
+use common\libraries\Filesystem;
 require_once Path :: get_admin_path() . 'lib/package_installer/package_installer_type.class.php';
 
 /**

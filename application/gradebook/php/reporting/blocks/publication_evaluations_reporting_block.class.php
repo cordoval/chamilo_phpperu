@@ -42,7 +42,7 @@ class PublicationEvaluationsReportingBlock extends EvaluationsReportingBlock
 					
 					$reporting_data->add_category($evaluation->get_id());
 		            $reporting_data->add_data_category_row($evaluation->get_id(), Translation :: get('EvaluationDate'), DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $evaluation->get_evaluation_date()));
-		            $reporting_data->add_data_category_row($evaluation->get_id(), Translation :: get('User', null, Utilities::USER), $optional_properties['user']);
+		            $reporting_data->add_data_category_row($evaluation->get_id(), Translation :: get('User', null, 'user'), $optional_properties['user']);
 					$reporting_data->add_data_category_row($evaluation->get_id(), Translation :: get('Evaluator'), $optional_properties['evaluator']);
 					$reporting_data->add_data_category_row($evaluation->get_id(), Translation :: get('Score'), $evaluation_format->get_formatted_score());
 					$reporting_data->add_data_category_row($evaluation->get_id(), Translation :: get('Comment'), $optional_properties['comment']);
@@ -79,7 +79,7 @@ class PublicationEvaluationsReportingBlock extends EvaluationsReportingBlock
 						}
 						$reporting_data->add_category($date[$i]);
 			            $reporting_data->add_data_category_row($date[$i], Translation :: get('EvaluationDate'), DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $date[$i]));
-			            $reporting_data->add_data_category_row($date[$i], Translation :: get('User', null, Utilities::USER), $username);
+			            $reporting_data->add_data_category_row($date[$i], Translation :: get('User', null, 'user'), $username);
 						$reporting_data->add_data_category_row($date[$i], Translation :: get('Evaluator'), $publisher);
 						$reporting_data->add_data_category_row($date[$i], Translation :: get($score_translation), $score[$i] . '%');
 						$reporting_data->add_data_category_row($date[$i], Translation :: get('Comment'), 'automatic generated result');
@@ -105,7 +105,7 @@ class PublicationEvaluationsReportingBlock extends EvaluationsReportingBlock
 				$reporting_data->add_category($evaluation->get_id());
 	            $reporting_data->add_data_category_row($evaluation->get_id(), Translation :: get('EvaluationDate'), DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $evaluation->get_evaluation_date()));
 				$reporting_data->add_data_category_row($evaluation->get_id(), Translation :: get('Evaluator'), $evaluator_name);
-	            $reporting_data->add_data_category_row($evaluation->get_id(), Translation :: get('User', null, Utilities::USER), $optional_properties['evaluator']);
+	            $reporting_data->add_data_category_row($evaluation->get_id(), Translation :: get('User', null, 'user'), $optional_properties['evaluator']);
 				$reporting_data->add_data_category_row($evaluation->get_id(), Translation :: get('Score'), $evaluation_format->get_formatted_score());
 				$reporting_data->add_data_category_row($evaluation->get_id(), Translation :: get('Comment'), $optional_properties['comment']);
 				$reporting_data->hide_categories();

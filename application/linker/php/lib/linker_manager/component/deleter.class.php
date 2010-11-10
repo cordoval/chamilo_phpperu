@@ -64,7 +64,7 @@ class LinkerManagerDeleterComponent extends LinkerManager
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoLinksSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoLinksSelected', null, Utilities::COMMON_LIBRARIES)));
         }
     }
 }
