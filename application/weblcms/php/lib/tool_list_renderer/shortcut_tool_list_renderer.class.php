@@ -48,7 +48,7 @@ class ShortcutToolListRenderer extends ToolListRenderer
             }
 
             $tool_image = Theme :: ICON_MINI . $new . '.png';
-            $title = htmlspecialchars(Translation :: get('Title', null, Tool :: get_tool_type_namespace($tool->name)));
+            $title = htmlspecialchars(Translation :: get('ToolTypeName', null, Tool :: get_tool_type_namespace($tool->name)));
             $html[] = '<a href="' . $parent->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_TOOL => $tool->name), array(), true) . '" title="' . $title . '">';
             $html[] = '<img src="' . Theme :: get_image_path(Tool :: get_tool_type_namespace($tool->name)) . 'logo/' . $tool_image . '" style="vertical-align: middle;" alt="' . $title . '"/> ';
             $html[] = '</a>';
