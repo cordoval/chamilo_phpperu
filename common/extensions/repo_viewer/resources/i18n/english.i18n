@@ -1,8 +1,8 @@
-SelectMaximumNumberOfContentObjects = 
-SharedContentObjects = 
-SharedSearchResults = 
-Preview = 
-EditAndPublish = 
-PublishSelected = 
-RepoViewerBrowserComponent = 
-ComponentFailedToLoad = 
+SelectMaximumNumberOfContentObjects = ""
+SharedContentObjects = ""
+SharedSearchResults = ""
+Preview = ""
+EditAndPublish = ""
+PublishSelected = ""
+RepoViewerBrowserComponent = ""
+ComponentFailedToLoad = ""

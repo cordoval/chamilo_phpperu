@@ -23,7 +23,7 @@ class FileVariableWriter extends VariableWriter
 
         $file = $dir . '/english.i18n';
         $translations_handle = fopen($file, 'a+');
-        fwrite($translations_handle, $variable_name . ' = ' . "\n");
+        fwrite($translations_handle, $variable_name . ' = ""' . "\n");
         fclose($file);
 
         $this->used_variables[$context][$variable_name] = true;
