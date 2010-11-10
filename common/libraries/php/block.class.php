@@ -80,7 +80,7 @@ class Block
     {
         $html = array();
 
-        $html[] = '<div class="block" id="block_' . $this->get_block_info()->get_id() . '" style="background-image: url(' . Theme :: get_image_path() . 'block_' . $this->get_block_info()->get_application() . '.png);">';
+        $html[] = '<div class="block" id="block_' . $this->get_block_info()->get_id() . '" style="background-image: url(' . Theme :: get_image_path(Application :: determine_namespace($this->get_block_info()->get_application())) . 'logo/' . Theme :: ICON_MEDIUM. '.png);">';
         $html[] = $this->display_title();
         $html[] = '<div class="description"' . ($this->get_block_info()->is_visible() ? '' : ' style="display: none"') . '>';
 
@@ -153,9 +153,9 @@ class Block
         return $this->get_link(array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_CONFIGURE_HOME, HomeManager :: PARAM_HOME_TYPE => HomeManager :: TYPE_BLOCK, HomeManager :: PARAM_HOME_ID => $home_block->get_id()));
     }
 
-    public function get_link($parameters = array (), $encode = false)
+    public function get_link($application, $parameters = array (), $encode = false)
     {
-        return Redirect :: get_link(HomeManager :: APPLICATION_NAME, $parameters, array(), $encode, Redirect :: TYPE_CORE);
+        return Redirect :: get_link($application, $parameters, array(), $encode, Redirect :: TYPE_CORE);
     }
 
     function display_footer()
