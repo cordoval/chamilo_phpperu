@@ -5,6 +5,7 @@ use common\libraries\Translation;
 use common\libraries\Theme;
 use common\libraries\ToolbarItem;
 use common\libraries\Toolbar;
+use common\libraries\Utilities;
 
 /**
  * $Id: event_browser_table_cell_renderer.class.php 213 2009-11-13 13:38:50Z vanpouckesven $
@@ -88,7 +89,7 @@ class EventBrowserTableCellRenderer extends DefaultEventTableCellRenderer
 			));
 
 			$toolbar->add_item(new ToolbarItem(
-	        	Translation :: get('ManageRights'),
+	        	Translation :: get('ManageRights', null, Utilities :: COMMON_LIBRARIES),
 	        	Theme :: get_common_image_path().'action_rights.png',
 				$this->browser->get_manage_rights_url($event->get_id()),
 				ToolbarItem :: DISPLAY_ICON
