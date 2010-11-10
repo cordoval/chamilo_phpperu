@@ -1,7 +1,5 @@
-TypeName = "Rating question"
-Percentage = ""
-Rating = ""
-type = ""
-CorrectValue = ""
-ValueShouldBeNumeric = ""
-Weight = ""
+Properties = 
+Percentage = 
+Rating = 
+CorrectValue = 
+Weight = 

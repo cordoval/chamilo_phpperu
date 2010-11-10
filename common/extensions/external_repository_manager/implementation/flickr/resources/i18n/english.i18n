@@ -1,4 +1,10 @@
-BrowserTitle = ""'Browser'
-UploaderTitle = ""'Uploader'
-ExporterTitle = ""'Exporter'
-ConfigurerTitle = ""'Configurer'
+ContentObject = 
+ExternalRepository = 
+FlickrUploadProblem = 
+MostRecent = 
+MostInteresting = 
+MyPhotos = 
+AvailableSizes = 
+Tags = 
+License = 
+FileName = 

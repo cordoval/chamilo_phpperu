@@ -1,7 +1,4 @@
-NotAllowed = ""
-SelectedUsers = ""
-Email = ""
-EmailTitle = ""
-ThisFieldIsRequired = ""
-EmailMessage = ""
-Reset = ""
+SelectedUsers = 
+Email = 
+EmailTitle = 
+EmailMessage = 

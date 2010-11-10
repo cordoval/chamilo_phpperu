@@ -16,7 +16,7 @@ $web_applications = WebApplication :: load_all_from_filesystem(false, false);
 $applications = array_merge($core_applications, $web_applications);
 
 $start = microtime(true);
-$applications = array('cda');
+
 foreach ($applications as $application)
 {
     if($application == 'lib') continue;

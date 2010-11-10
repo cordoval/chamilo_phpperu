@@ -1,5 +1,3 @@
-BrowseStreamingVideo = ""
-URL = ""
-Width = ""
-Height = ""
-TypeName = "YouTube"
+Properties = 
+BrowseStreamingVideo = 
+URL = 
