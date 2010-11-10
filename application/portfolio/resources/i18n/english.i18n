@@ -1,58 +1,47 @@
-DefaultLocationCreated = ""
-
-IntroductionTextLabel = "Introduction Text"
-IntroductionMaximumLengthMessage = "The maximum length of you message is 255 characters"
-
-SelectRecipients = ""
-
-SetSystemDefaults = "Set system default permissions"
-PortfolioIntroductionStandardText = "To start using your portfolio, enter your own introduction-text here"
-LastChangedDate = "Portfolio last changed on:"
-LastChangedAction = "Last action:"
-PortfolioEdited = "Portfolio edited"
-FirstPortfolioCreated = "First portfolio created"
-MyPortfolio = "My Portfolio"
-
-LastChangedItem = ""
-Administration = "Administration"
-Portfolio = "Portfolio"
-DefaultSystemSettings = "Default Systemsettings"
-
-PortfolioDefaultSettings = "Default Settings"
-
-PortfolioIntroduction = "Portfolio introduction-text"
-ChangeIntroductionText = ""
-AddNewItemToPortfolio = "Add new item to portfolio"
-NoPermissionToViewItem = ""
-PortfolioNotUpdatedYet = ""
-NoPermissionToViewFeedback = "The user did not give you permission to view feedback"
-NoPermissionToGiveFeedback = "The user did not give you permission to leave feedback"
-
-PortfolioProperties = ""
-PortfolioPublications = "Portfolio publications"
-SetPortfolioDefaults = "Set portfolio default permissions"
-SetPortfolioDefaultsDescription = "Here you can set the default permissions for all created portfolios"
-PortfolioPublicationCreated = ""
-PortfolioItem= "Portfolio-item"
-ViewDefaultSystemSettings = "View the default system settings"
-ViewAllMyPortfolioPermissions = "View all my portfolio-permissions"
-
-InheritDefaultSetChoice = ""
-
-ViewPortfolio = "View"
-EditPortfolio = "Edit"
-ViewFeedback = "View Feedback"
-GiveFeedback = "Give Feedback"
-
-inheritFromParent = "Inherit from parent"
-AnonymousUsers = "Anonymous users"
-SystemUsers ="All system users"
-OnlyMe = "Only Me"
-
-Users = "users"
-PublishNewPortfolio = "Publish new portfolio"
-ChangeIntroductionText = "Change introduction-text"
-
-
-
-
+DefaultLocationCreated = 
+MyPortfolio = 
+IntroductionTextLabel = 
+IntroductionMaximumLengthMessage = 
+SetSystemDefaults = 
+InheritDefaultSetChoice = 
+PortfolioIntroductionStandardText = 
+LastChangedDate = 
+LastChangedAction = 
+PortfolioEdited = 
+FirstPortfolioCreated = 
+Portfolio = 
+PortfolioItem = 
+PortfolioIntroduction = 
+LastChangedItem = 
+Administration = 
+DefaultSystemSettings = 
+BrowsePortfolio = 
+ViewPortfolio = 
+BrowsePortfolios = 
+PortfolioPublications = 
+PortfolioPublication = 
+view = 
+EditPortfolio = 
+edit = 
+ViewFeedback = 
+viewFeedback = 
+GiveFeedback = 
+giveFeedback = 
+Portfolios = 
+PublishNewPortfolio = 
+ChangeIntroductionText = 
+AddNewItemToPortfolio = 
+DeletePortfolioPublication = 
+NoPermissionToViewItem = 
+PortfolioNotUpdatedYet = 
+NoPermissionToViewFeedback = 
+NoPermissionToGiveFeedback = 
+PortfolioUpdated = 
+PortfolioNotUpdated = 
+PortfolioPropertiesUpdated = 
+PortfolioPropertiesNotUpdated = 
+SetPortfolioDefaults = 
+SetPortfolioDefaultsDescription = 
+ViewDefaultSystemSettings = 
+ViewAllMyPortfolioPermissions = 
+Users = 
