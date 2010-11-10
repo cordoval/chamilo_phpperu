@@ -6,6 +6,7 @@ use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Theme;
+use common\libraries\Utilities;
 /**
  * $Id: complex_feedback.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.assessment.component
@@ -80,7 +81,7 @@ class ComplexDisplayComponentComplexFeedbackComponent extends ComplexDisplayComp
 
             $content_object_pub_feedback->create();
 
-            $this->redirect(Translation :: get('FeedbackAdded'), '', array(
+            $this->redirect(Translation :: get('ObjectAdded', array('OBJECT' => Translation :: get('TypeName', null, ContentObject :: get_content_object_type_namespace('feedback'))), Utilities :: COMMON_LIBRARIES), '', array(
                     Tool :: PARAM_ACTION => Request :: get('tool_action'), 'display_action' => 'discuss', 'selected_cloi' => $this->pub->get_parameter('selected_cloi'),
                     ComplexDisplay :: PARAM_ROOT_CONTENT_OBJECT => $this->content_object));
         }

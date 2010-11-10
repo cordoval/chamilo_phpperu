@@ -3,12 +3,12 @@ namespace application\wiki;
 
 use common\libraries\WebApplication;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: wiki_manager.class.php 210 2009-11-13 13:18:50Z kariboe $
  * @package application.lib.wiki.wiki_manager
  */
-require_once WebApplication :: get_application_class_lib_path('wiki') . 'wiki_manager/component/wiki_publication_browser/wiki_publication_browser_table.class.php';
 
 /**
  * A wiki manager
@@ -189,7 +189,7 @@ class WikiManager extends WebApplication
         $publication->set_to_date(0);
 
         $publication->create();
-        return Translation :: get('PublicationCreated');
+        return Translation :: get('ObjectCreated', array('OBJECT' => Translation :: get('Wiki')) , Utilities :: COMMON_LIBRARIES);
     }
 
     /**

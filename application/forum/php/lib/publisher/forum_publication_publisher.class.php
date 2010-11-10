@@ -4,6 +4,8 @@ namespace application\forum;
 
 use common\extensions\repo_viewer\RepoViewer;
 use common\libraries\Translation;
+use common\libraries\Utilities;
+
 /**
  * $Id: forum_publication_publisher.class.php 195 2009-11-13 12:02:41Z chellee $
  * @package application.lib.forum.publisher
@@ -30,8 +32,8 @@ class ForumPublicationPublisher
         if ($form->validate())
         {
             $succes = $form->create_forum_publications($object);
-            $message = $succes ? 'ForumPublicationCreated' : 'ForumPublicationNotCreated';
-            $this->parent->redirect(Translation :: get($message), ! $succes, array(ForumManager :: PARAM_ACTION => null));
+            $message = $succes ? Translation :: get('ObjectCreated' , array ('OBJECT' => Translation :: get ('Forum', null, 'repository/forum')) , Utilities :: COMMON_LIBRARIES) : Translation :: get('ObjectNotCreated' , array ('OBJECT' => Translation :: get ('Forum', null, 'repository/forum')) , Utilities :: COMMON_LIBRARIES);
+            $this->parent->redirect($message, ! $succes, array(ForumManager :: PARAM_ACTION => null));
         }
         else
         {

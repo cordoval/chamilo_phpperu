@@ -5,6 +5,7 @@ namespace application\reservations;
 use common\libraries\Translation;
 use common\libraries\Display;
 use common\libraries\EqualityCondition;
+use common\libraries\Utilities;
 /**
  * $Id: category_blackout.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.reservations_manager.component
@@ -26,7 +27,7 @@ class ReservationsManagerCategoryBlackoutComponent extends ReservationsManager
         if (! $this->get_user())
         {
             $this->display_header(null);
-            Display :: display_error_message(Translation :: get("NotAllowed"));
+            Display :: display_error_message(Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
@@ -35,8 +36,7 @@ class ReservationsManagerCategoryBlackoutComponent extends ReservationsManager
         {
             $bool = $this->blackout_category($id, $blackout);
             
-            $message = $bool ? 'BlackoutSuccesFull' : 'BlackoutFailed';
-            
+            $message = $bool ? 'BlackoutSuccesfull' : 'BlackoutFailed';
             $message = $blackout ? $message : 'Un' . $message;
             
             $this->redirect(Translation :: get($message), ($bool ? false : true), array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_ITEMS, ReservationsManager :: PARAM_CATEGORY_ID => $id));
@@ -44,7 +44,7 @@ class ReservationsManagerCategoryBlackoutComponent extends ReservationsManager
         else
         {
             $this->display_header();
-            $this->display_error_message(Translation :: get("NoObjectSelected"));
+            $this->display_error_message(Translation :: get('NoObjectSelected', null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
         }
     }

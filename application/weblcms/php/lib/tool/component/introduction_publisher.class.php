@@ -8,6 +8,7 @@ use common\libraries\Session;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Translation;
 use repository\content_object\introduction\Introduction;
+use common\libraries\Utilities;
 
 /**
  * $Id: introduction_publisher.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -65,7 +66,7 @@ class ToolComponentIntroductionPublisherComponent extends ToolComponent implemen
             $parameters = $this->get_parameters();
             $parameters['tool_action'] = null;
 
-            $this->redirect(Translation :: get('IntroductionPublished'), (false), $parameters);
+            $this->redirect(Translation :: get('ObjectPublished', array('OBJECT' => Translation :: get('Introduction')),Utilities:: COMMON_LIBRARIES), (false), $parameters);
         }
     }
 

@@ -25,11 +25,9 @@ class PersonalMessengerNew extends PersonalMessengerBlock
     {
         $html = array();
 
-        $personal_messenger = $this->get_parent();
-
         $html[] = $this->display_header();
 
-        $publications = $personal_messenger->retrieve_personal_message_publications($this->get_condition(), array(), array(), 5);
+        $publications = PersonalMessengerDataManager :: get_instance()->retrieve_personal_message_publications($this->get_condition(), array(), array(), 5);
 
         if ($publications->size() > 0)
         {
@@ -37,7 +35,7 @@ class PersonalMessengerNew extends PersonalMessengerBlock
             while ($publication = $publications->next_result())
             {
                 $html[] = '<li>';
-                $html[] = '<a href="' . $personal_messenger->get_publication_viewing_link($publication) . '">' . $publication->get_publication_object()->get_title() . '</a>';
+                $html[] = '<a href="' . $this->get_publication_viewing_link($publication) . '">' . $publication->get_publication_object()->get_title() . '</a>';
                 $html[] = '</li>';
             }
             $html[] = '</ul>';
@@ -59,6 +57,11 @@ class PersonalMessengerNew extends PersonalMessengerBlock
         $conditions[] = new EqualityCondition(PersonalMessengerPublication :: PROPERTY_RECIPIENT, $this->get_user_id());
         $conditions[] = new EqualityCondition(PersonalMessengerPublication :: PROPERTY_USER, $this->get_user_id());
         return new AndCondition($conditions);
+    }
+
+    function get_publication_viewing_link($personal_message)
+    {
+        return $this->get_link(PersonalMessengerManager :: APPLICATION_NAME, array(PersonalMessengerManager :: PARAM_ACTION => PersonalMessengerManager :: ACTION_VIEW_PUBLICATION, PersonalMessengerManager :: PARAM_PERSONAL_MESSAGE_ID => $personal_message->get_id()));
     }
 }
 ?>

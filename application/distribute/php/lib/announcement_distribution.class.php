@@ -21,7 +21,7 @@ use user\UserDataManager;
 class AnnouncementDistribution extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     /**
      * DistributePublication properties
      */
@@ -29,13 +29,13 @@ class AnnouncementDistribution extends DataClass
     const PROPERTY_PUBLISHER = 'publisher_id';
     const PROPERTY_PUBLISHED = 'published';
     const PROPERTY_STATUS = 'status';
-    
+
     const STATUS_PENDING = 1;
     const STATUS_VERIFIED = 2;
     const STATUS_REFUSED = 3;
     const STATUS_SENDING = 4;
     const STATUS_SENT = 5;
-    
+
     private $target_groups;
     private $target_users;
 
@@ -130,7 +130,7 @@ class AnnouncementDistribution extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 
     function get_distribution_object()
@@ -152,7 +152,7 @@ class AnnouncementDistribution extends DataClass
             $ddm = DistributeDataManager :: get_instance();
             $this->target_users = $ddm->retrieve_announcement_distribution_target_users($this);
         }
-        
+
         return $this->target_users;
     }
 
@@ -163,7 +163,7 @@ class AnnouncementDistribution extends DataClass
             $ddm = DistributeDataManager :: get_instance();
             $this->target_groups = $ddm->retrieve_announcement_distribution_target_groups($this);
         }
-        
+
         return $this->target_groups;
     }
 
@@ -180,7 +180,7 @@ class AnnouncementDistribution extends DataClass
     function get_status_icon()
     {
         $status = $this->get_status();
-        
+
         switch ($status)
         {
             case STATUS_PENDING :
@@ -202,7 +202,7 @@ class AnnouncementDistribution extends DataClass
                 $status = array('icon' => 'unknown', 'description' => 'StatusUnknown');
                 break;
         }
-        
+
         return Theme :: get_image('status_' . $status['icon'], 'png', Translation :: get('Message' . $status['description']), null, ToolbarItem :: DISPLAY_ICON);
     }
 }

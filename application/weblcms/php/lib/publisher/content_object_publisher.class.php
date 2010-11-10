@@ -7,6 +7,7 @@ use common\libraries\Theme;
 use common\libraries\InCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: content_object_publisher.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -50,7 +51,7 @@ class ContentObjectPublisher
             $content_objects = RepositoryDataManager :: get_instance()->retrieve_content_objects($condition);
 
             $html[] = '<div class="content_object padding_10">';
-            $html[] = '<div class="title">' . Translation :: get('SelectedContentObjects') . '</div>';
+            $html[] = '<div class="title">' . Translation :: get('SelectedContentObjects', null ,Utilities:: COMMON_LIBRARIES) . '</div>';
             $html[] = '<div class="description">';
             $html[] = '<ul class="attachments_list">';
 
@@ -73,11 +74,11 @@ class ContentObjectPublisher
 
             if (! $publication)
             {
-                $message = Translation :: get('ObjectNotPublished');
+                $message = Translation :: get('ObjectNotPublished', array('OBJECT' => Translation :: get('Object')),Utilities:: COMMON_LIBRARIES);
             }
             else
             {
-                $message = Translation :: get('ObjectPublished');
+                $message = Translation :: get('ObjectPublished', array('OBJECT' => Translation :: get('Object')),Utilities:: COMMON_LIBRARIES);
             }
 
             $parameters['tool_action'] = null;

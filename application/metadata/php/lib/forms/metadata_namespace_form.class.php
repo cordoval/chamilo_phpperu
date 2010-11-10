@@ -2,6 +2,7 @@
 namespace application\metadata;
 use common\libraries\FormValidator;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * This class describes the form for a MetadataNamespace object.
@@ -41,11 +42,11 @@ class MetadataNamespaceForm extends FormValidator
 
 
 
-        $this->addElement('text', MetadataNamespace :: PROPERTY_NAME, Translation :: get('Name'));
-        $this->addRule(MetadataNamespace :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addElement('text', MetadataNamespace :: PROPERTY_NAME, Translation :: get('Name', null, Utilities :: COMMON_LIBRARIES));
+        $this->addRule(MetadataNamespace :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
 
-        $this->addElement('text', MetadataNamespace :: PROPERTY_URL, Translation :: get('Url'));
-        $this->addRule(MetadataNamespace :: PROPERTY_URL, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addElement('text', MetadataNamespace :: PROPERTY_URL, Translation :: get('Url', null, Utilities :: COMMON_LIBRARIES));
+        $this->addRule(MetadataNamespace :: PROPERTY_URL, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
 
     }
 
@@ -58,8 +59,8 @@ class MetadataNamespaceForm extends FormValidator
 
     	//$this->addElement('hidden', MetadataNamespace :: PROPERTY_ID);
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive update'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -67,12 +68,12 @@ class MetadataNamespaceForm extends FormValidator
     function build_creation_form()
     {
     	$this->addElement('text', MetadataNamespace :: PROPERTY_NS_PREFIX, Translation :: get('NsPrefix'));
-        $this->addRule(MetadataNamespace :: PROPERTY_NS_PREFIX, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(MetadataNamespace :: PROPERTY_NS_PREFIX, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
 
         $this->build_basic_form();
 
-		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
-		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
+		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

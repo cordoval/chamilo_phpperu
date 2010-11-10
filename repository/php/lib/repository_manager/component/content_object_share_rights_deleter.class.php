@@ -1,7 +1,7 @@
 <?php
-
 namespace repository;
 
+use common\libraries\Utilities;
 use common\libraries\Request;
 use common\libraries\Application;
 use common\libraries\Translation;
@@ -80,18 +80,18 @@ class RepositoryManagerContentObjectShareRightsDeleterComponent extends Reposito
 
         if($failures > 0)
         {
-            $message = 'share(s) not deleted';
+            $message = Translation :: get('ObjectsNotDeleted', array('OBJECTS' => Translation :: get('SharedContentObjects')), Utilities :: COMMON_LIBRARIES);
         }
 
         else
         {
-            $message = 'share(s) deleted';
+            $message = Translation :: get('ObjectsDeleted', array('OBJECTS' => Translation :: get('SharedContentObjects')), Utilities :: COMMON_LIBRARIES);
         }
 
         $parameters = $this->get_parameters();
         $parameters[Application :: PARAM_ACTION] = ($is_in_shared_objects_browser? RepositoryManager :: ACTION_BROWSE_SHARED_CONTENT_OBJECTS : RepositoryManager :: ACTION_EDIT_CONTENT_OBJECT_SHARE_RIGHTS);
 
-        $this->redirect(Translation :: get($message), ($failures ? true : false), $parameters);
+        $this->redirect($message, ($failures ? true : false), $parameters);
 
     }
 

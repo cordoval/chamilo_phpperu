@@ -1,5 +1,6 @@
 <?php
 namespace admin;
+
 use common\libraries\Utilities;
 use common\libraries\Translation;
 /**
@@ -35,12 +36,12 @@ class SystemAnnouncementPublicationBrowserTableCellRenderer extends DefaultSyste
         {
             return $this->get_modification_links($system_announcement_publication);
         }
-        
+
         // Add special features here
         switch ($column->get_name())
         {
             case SystemAnnouncementPublication :: PROPERTY_PUBLISHED :
-                return DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $system_announcement_publication->get_published());
+                return DatetimeUtilities :: format_locale_date(Translation :: get('DateFormatShort', array(), Utilities :: COMMON_LIBRARIES) . ', ' . Translation :: get('TimeNoSecFormat', array(), Utilities :: COMMON_LIBRARIES), $system_announcement_publication->get_published());
                 break;
             case SystemAnnouncementPublication :: PROPERTY_CONTENT_OBJECT_ID :
                 $title = parent :: render_cell($column, $system_announcement_publication);
@@ -64,15 +65,15 @@ class SystemAnnouncementPublicationBrowserTableCellRenderer extends DefaultSyste
      */
     private function get_modification_links($system_announcement_publication)
     {
-        
+
         $toolbar = new Toolbar();
-        
+
         if ($this->browser->get_user()->is_platform_admin() || $system_announcement_publication->get_publisher() == $this->browser->get_user()->get_id())
         {
-			$toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', 
-					$this->browser->get_system_announcement_publication_editing_url($system_announcement_publication), ToolbarItem :: DISPLAY_ICON));		
+			$toolbar->add_item(new ToolbarItem(Translation :: get('Edit', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path().'action_edit.png',
+					$this->browser->get_system_announcement_publication_editing_url($system_announcement_publication), ToolbarItem :: DISPLAY_ICON));
 
-			$toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path().'action_delete.png', 
+			$toolbar->add_item(new ToolbarItem(Translation :: get('Delete', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path().'action_delete.png',
 					$this->browser->get_system_announcement_publication_deleting_url($system_announcement_publication), ToolbarItem :: DISPLAY_ICON, true));
 
             if ($system_announcement_publication->is_hidden())
@@ -87,10 +88,10 @@ class SystemAnnouncementPublicationBrowserTableCellRenderer extends DefaultSyste
             {
                 $visibility_img = 'action_period.png';
             }
-        
-             $toolbar->add_item(new ToolbarItem(Translation :: get('Hide'), Theme :: get_common_image_path(). $visibility_img, 
+
+             $toolbar->add_item(new ToolbarItem(Translation :: get('Hide', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path(). $visibility_img,
 					$this->browser->get_system_announcement_publication_visibility_url($system_announcement_publication), ToolbarItem :: DISPLAY_ICON));
-            
+
         }
         return $toolbar->as_html();
     }

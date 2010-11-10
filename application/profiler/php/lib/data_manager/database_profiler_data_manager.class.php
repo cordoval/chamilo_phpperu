@@ -4,16 +4,17 @@ namespace application\profiler;
 
 use common\libraries\Path;
 use common\libraries\EqualityCondition;
-use user\UserDataManager;
 use common\libraries\ConditionTranslator;
 use common\libraries\ObjectResultSet;
 use common\libraries\InCondition;
+use common\libraries\Translation;
+use common\libraries\Utilities;
+use common\libraries\Database;
+use user\User;
+use user\UserDataManager;
 use repository\RepositoryDataManager;
 use repository\ContentObject;
 use repository\ContentObjectPublicationAttributes;
-use common\libraries\Translation;
-use common\libraries\Database;
-use user\User;
 
 
 /**
@@ -202,7 +203,7 @@ class DatabaseProfilerDataManager extends Database implements ProfilerDataManage
             $info->set_publication_date($publication->get_published());
             $info->set_application('Profiler');
             //TODO: i8n location string
-            $info->set_location(Translation :: get('List'));
+            $info->set_location(Translation :: get('List', null , Utilities :: COMMON_LIBRARIES));
         	$info->set_url('run.php?application=profiler&amp;go='.ProfilerManager::ACTION_VIEW_PUBLICATION.'&profile=' . $publication->get_id());
             $info->set_publication_object_id($publication->get_profile());
 
@@ -225,7 +226,7 @@ class DatabaseProfilerDataManager extends Database implements ProfilerDataManage
         $info->set_publication_date($publication->get_published());
         $info->set_application('Profiler');
         //TODO: i8n location string
-        $info->set_location(Translation :: get('List'));
+        $info->set_location(Translation :: get('List', null , Utilities :: COMMON_LIBRARIES));
         $info->set_url('run.php?application=profiler&amp;go=view&profile=' . $publication->get_id());
         $info->set_publication_object_id($publication->get_profile());
 

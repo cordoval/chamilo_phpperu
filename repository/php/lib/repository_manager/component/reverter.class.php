@@ -6,6 +6,7 @@ use common\libraries\Translation;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Application;
+use common\libraries\Utilities;
 /**
  * $Id: reverter.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component
@@ -57,17 +58,17 @@ class RepositoryManagerReverterComponent extends RepositoryManager
 
             if ($failures)
             {
-                $message = 'SelectedObjectNotReverted';
+                $message = Translation :: get('ObjectNotReverted', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES);
             }
             else
             {
-                $message = 'SelectedObjectReverted';
+                $message = Translation :: get('ObjectReverted', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES);
             }
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS));
+            $this->redirect($message, ($failures ? true : false), array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES)));
         }
     }
 

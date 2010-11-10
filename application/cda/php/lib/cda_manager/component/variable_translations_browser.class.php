@@ -16,6 +16,7 @@ use common\libraries\AndCondition;
 use common\libraries\ToolbarItem;
 use common\libraries\ActionBarRenderer;
 use common\libraries\Theme;
+use common\libraries\Utilities;
 /**
  * @package application.cda.cda.component
  */
@@ -97,7 +98,7 @@ class CdaManagerVariableTranslationsBrowserComponent extends CdaManager
         $language_pack = $this->retrieve_language_pack(Request :: get(CdaManager :: PARAM_LANGUAGE_PACK));
         
         $action_bar->set_search_url($this->get_browse_variable_translations_url($cda_language_id, $language_pack->get_id()));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', 
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png',
         	$this->get_browse_variable_translations_url($cda_language_id, $language_pack->get_id())));
         
         $can_lock = CdaRights :: is_allowed_in_languages_subtree(CdaRights :: EDIT_RIGHT, $cda_language_id, 'cda_language');

@@ -12,6 +12,7 @@ use common\libraries\InequalityCondition;
 use common\libraries\Request;
 use application\weblcms\ToolComponent;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 class AnnouncementToolBrowserComponent extends AnnouncementTool
 {
@@ -30,9 +31,9 @@ class AnnouncementToolBrowserComponent extends AnnouncementTool
         if ($this->get_browser_type() != ContentObjectPublicationListRenderer :: TYPE_CALENDAR)
         {
             $tool_actions = array();
-            $tool_actions[] = new ToolbarItem(Translation :: get('ShowToday'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => null, self :: PARAM_FILTER => self :: FILTER_TODAY)), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
-            $tool_actions[] = new ToolbarItem(Translation :: get('ShowThisWeek'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => null, self :: PARAM_FILTER => self :: FILTER_THIS_WEEK)), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
-            $tool_actions[] = new ToolbarItem(Translation :: get('ShowThisMonth'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => null, self :: PARAM_FILTER => self :: FILTER_THIS_MONTH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
+            $tool_actions[] = new ToolbarItem(Translation :: get('ShowToday', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => null, self :: PARAM_FILTER => self :: FILTER_TODAY)), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
+            $tool_actions[] = new ToolbarItem(Translation :: get('ShowThisWeek', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => null, self :: PARAM_FILTER => self :: FILTER_THIS_WEEK)), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
+            $tool_actions[] = new ToolbarItem(Translation :: get('ShowThisMonth', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => null, self :: PARAM_FILTER => self :: FILTER_THIS_MONTH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
             return $tool_actions;
         }
     }

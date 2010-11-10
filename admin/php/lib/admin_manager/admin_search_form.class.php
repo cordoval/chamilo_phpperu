@@ -4,7 +4,7 @@ use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\EqualityCondition;
 use common\libraries\FormValidator;
- 
+
 /**
  * $Id: admin_search_form.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package admin.lib.admin_manager
@@ -81,9 +81,9 @@ class AdminSearchForm extends FormValidator
         $this->renderer = clone $this->defaultRenderer();
         $this->manager = $manager;
         $this->frozen_elements = array();
-        
+
         $this->build_simple_search_form();
-        
+
         $this->autofreeze();
         $this->accept($this->renderer);
     }
@@ -124,8 +124,8 @@ class AdminSearchForm extends FormValidator
     {
         $this->renderer->setFormTemplate('<form {attributes}><div class="admin_search_form">{content}</div><div class="clear">&nbsp;</div></form>');
         $this->renderer->setElementTemplate('<div class="row"><div class="formw">{element}</div></div>');
-        
-        $this->frozen_elements[] = $this->addElement('text', self :: PARAM_SIMPLE_SEARCH_QUERY, Translation :: get('Find'), 'size="20"');
+
+        $this->frozen_elements[] = $this->addElement('text', self :: PARAM_SIMPLE_SEARCH_QUERY, Translation :: get('Search'), 'size="20"');
         $this->addElement('style_submit_button', 'submit', Translation :: get('Search'), array('class' => 'normal search'));
     }
 
@@ -157,16 +157,16 @@ class AdminSearchForm extends FormValidator
     private function get_search_conditions()
     {
         $values = $this->exportValues();
-        
+
         $query = $values[self :: PARAM_SIMPLE_SEARCH_QUERY];
-        
+
         if (isset($query) && $query != '')
         {
             $conditions = array();
             $conditions[] = new EqualityCondition(Course :: PROPERTY_ID, $values[self :: PARAM_SIMPLE_SEARCH_QUERY]);
             $conditions[] = new EqualityCondition(Course :: PROPERTY_NAME, $values[self :: PARAM_SIMPLE_SEARCH_QUERY]);
             $conditions[] = new EqualityCondition(Course :: PROPERTY_LANGUAGE, $values[self :: PARAM_SIMPLE_SEARCH_QUERY]);
-            
+
             return new OrCondition($conditions);
         }
         else

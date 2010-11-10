@@ -8,6 +8,7 @@ use common\libraries\EqualityCondition;
 use common\libraries\Session;
 use common\libraries\AndCondition;
 use common\libraries\DataClass;
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
 
 /**
  * $Id: external_repository_user_setting.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
@@ -78,8 +79,7 @@ class ExternalRepositoryUserSetting extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 
     static function get_class_name()
@@ -100,7 +100,7 @@ class ExternalRepositoryUserSetting extends DataClass
 
             if (is_null($external_repository_id) || ! is_numeric($external_repository_id))
             {
-                Display :: error_page(Translation :: get('WhatsUpDoc'));
+                Display :: error_page(Translation :: get('WhatsUpDoc', null, Utilities :: COMMON_LIBRARIES));
             }
         }
 
@@ -125,7 +125,7 @@ class ExternalRepositoryUserSetting extends DataClass
 
             if (is_null($external_repository_id) || ! is_numeric($external_repository_id))
             {
-                Display :: error_page(Translation :: get('WhatsUpDoc'));
+                Display :: error_page(Translation :: get('WhatsUpDoc', null, Utilities :: COMMON_LIBRARIES));
             }
         }
 

@@ -123,13 +123,13 @@ class GutenbergPublicationForm extends FormValidator
     function build_form()
     {
         $this->add_forever_or_timewindow();
-        $this->addElement('checkbox', self :: PARAM_HIDDEN, Translation :: get('Hidden'));
+        $this->addElement('checkbox', self :: PARAM_HIDDEN, Translation :: get('Hidden', null, Utilities::COMMON_LIBRARIES));
     }
 
     function add_footer()
     {
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Publish'), array('class' => 'positive publish'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Publish', null, Utilities::COMMON_LIBRARIES), array('class' => 'positive publish'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal empty'));
         
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

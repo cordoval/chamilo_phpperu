@@ -238,7 +238,7 @@ class Course extends DataClass
             {
                 foreach ($this->tools as $index => $tool)
                 {
-                    require_once dirname(__FILE__) . '/../tool/' . $tool->name . '/' . $tool->name . '_tool.class.php';
+                    require_once Path :: get_application_path() . 'weblcms/tool/' . $tool->name . '/php/' . $tool->name . '_tool.class.php';
                 }
             }
         }
@@ -1152,17 +1152,16 @@ class Course extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 
     function initialize_course_sections()
     {
         $sections = array();
-        $sections[] = array('name' => Translation :: get('Tools'), 'type' => 1, 'order' => 1);
-        $sections[] = array('name' => Translation :: get('Links'), 'type' => 2, 'order' => 2);
-        $sections[] = array('name' => Translation :: get('Disabled'), 'type' => 0, 'order' => 3);
-        $sections[] = array('name' => Translation :: get('CourseAdministration'), 'type' => 3, 'order' => 4);
+        $sections[] = array('name' => Translation :: get('Tools', null, Utilities :: COMMON_LIBRARIES ), 'type' => 1, 'order' => 1);
+        $sections[] = array('name' => Translation :: get('Links', null, Utilities :: COMMON_LIBRARIES ), 'type' => 2, 'order' => 2);
+        $sections[] = array('name' => Translation :: get('Disabled', null, Utilities :: COMMON_LIBRARIES ), 'type' => 0, 'order' => 3);
+        $sections[] = array('name' => Translation :: get('CourseAdministration', null, Utilities :: COMMON_LIBRARIES ), 'type' => 3, 'order' => 4);
 
         foreach ($sections as $section)
         {

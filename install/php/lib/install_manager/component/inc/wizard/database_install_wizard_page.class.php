@@ -3,6 +3,7 @@ namespace install;
 use common\libraries\Translation;
 use HTML_QuickForm_Rule;
 use MDB2;
+use common\libraries\Utilities;
 /**
  * $Id: database_install_wizard_page.class.php 225 2009-11-13 14:43:20Z vanpouckesven $
  * @package install.lib.installmanager.component.inc.wizard
@@ -56,8 +57,8 @@ class DatabaseInstallWizardPage extends InstallWizardPage
         $this->addRule(array('database_driver', 'database_host', 'database_username', 'database_password'), Translation :: get('CouldNotConnectToDatabase'), new ValidateDatabaseConnection());
 
         $buttons = array();
-        $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Previous'), array('class' => 'normal previous'));
-        $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next'), array('class' => 'normal next'));
+        $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Previous', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal previous'));
+        $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal next'));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         $this->setDefaultAction($this->getButtonName('next'));
         $this->set_form_defaults();

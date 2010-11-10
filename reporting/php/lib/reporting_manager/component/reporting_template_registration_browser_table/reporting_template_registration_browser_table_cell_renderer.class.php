@@ -5,6 +5,7 @@ use common\libraries\Path;
 use common\libraries\Theme;
 use common\libraries\ToolbarItem;
 use common\libraries\Toolbar;
+use common\libraries\Translation;
 
 /**
  * $Id: reporting_template_registration_browser_table_cell_renderer.class.php 215 2009-11-13 14:07:59Z vanpouckesven $
@@ -56,14 +57,14 @@ class ReportingTemplateRegistrationBrowserTableCellRenderer extends DefaultRepor
 		$toolbar = new Toolbar();
 
     	$toolbar->add_item(new ToolbarItem(
-    			Translation :: get('View'),
+    			Translation :: get('View', null, Utilities :: COMMON_LIBRARIES),
     			Theme :: get_common_image_path() . 'action_reporting.png',
     			$this->browser->get_reporting_template_registration_viewing_url($reporting_template_registration),
     			ToolbarItem :: DISPLAY_ICON
     	));
 
     	$toolbar->add_item(new ToolbarItem(
-    			Translation :: get('Edit'),
+    			Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES),
     			Theme :: get_common_image_path() . 'action_edit.png',
     			$this->browser->get_reporting_template_registration_editing_url($reporting_template_registration),
     			ToolbarItem :: DISPLAY_ICON

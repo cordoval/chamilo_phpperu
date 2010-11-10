@@ -6,6 +6,7 @@ use common\libraries\Translation;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Application;
+use common\libraries\Utilities;
 /**
  * $Id: publication_deleter.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component
@@ -31,18 +32,18 @@ class RepositoryManagerPublicationDeleterComponent extends RepositoryManager
 
             if ($succes)
             {
-             	$message =  'SelectedPublicationDeleted';
+             	$message =  Translation :: get('ObjectDeleted', array('OBJECT' => Translation :: get('Publication')), Utilities :: COMMON_LIBRARIES);
             }
             else
             {
-                $message = 'SelectedPublicationNotDeleted';
+                $message = Translation :: get('ObjectNotDeleted', array('OBJECT' => Translation :: get('Publication')), Utilities :: COMMON_LIBRARIES);
             }
 
-            $this->redirect(Translation :: get($message), !$succes, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_MY_PUBLICATIONS));
+            $this->redirect($message, !$succes, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_MY_PUBLICATIONS));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES)));
         }
     }
 

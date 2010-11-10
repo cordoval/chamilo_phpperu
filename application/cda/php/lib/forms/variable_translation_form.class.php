@@ -8,6 +8,7 @@ use common\libraries\Translation;
 use common\libraries\NotCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
+use common\libraries\Utilities;
 /**
  * This class describes the form for a VariableTranslation object.
  * @author Sven Vanpoucke
@@ -65,13 +66,13 @@ class VariableTranslationForm extends FormValidator
     	
     	$this->addElement('category', Translation :: get('Translation'));
     	$this->addElement('textarea', VariableTranslation :: PROPERTY_TRANSLATION, Translation :: get('Translation'), array('style' => 'width: 500px; height: 250px;', 'id' => 'translation'));
-		$this->addRule(VariableTranslation :: PROPERTY_TRANSLATION, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addRule(VariableTranslation :: PROPERTY_TRANSLATION, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
 		$this->addElement('category');
 		
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('TranslateNextVariable'), array('class' => 'normal continue'), self :: SUBMIT_NEXT);
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('GoToNextVariableWithoutSave'), array('class' => 'normal next'), self :: SUBMIT_NEXT_NO_SAVE);
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Translate'), array('class' => 'positive save'), self :: SUBMIT_SAVE);
-		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 		
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 		

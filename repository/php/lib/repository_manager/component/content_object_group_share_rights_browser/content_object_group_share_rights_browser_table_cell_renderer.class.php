@@ -1,6 +1,7 @@
 <?php
 namespace repository;
 
+use user\UserManager;
 use common\libraries\ToolbarItem;
 use common\libraries\Toolbar;
 use common\libraries\Theme;
@@ -8,6 +9,7 @@ use common\libraries\Path;
 use common\libraries\Translation;
 use group\GroupDataManager;
 use group\Group;
+use group\GroupManager;
 
 require_once dirname(__FILE__) . '/../content_object_user_share_rights_browser/share_right_column.class.php';
 require_once dirname(__FILE__) . '/../content_object_user_share_rights_browser/action_column.php';
@@ -72,9 +74,9 @@ class ContentObjectGroupShareRightsBrowserTableCellRenderer extends ObjectTableC
             {
                 case Group :: PROPERTY_NAME :
                     return $group->get_name();
-                case Translation :: get('Users') :
+                case Translation :: get('Users', null, UserManager :: APPLICATION_NAME) :
                     return $group->count_users(true);
-                case Translation :: get('Subgroups') :
+                case Translation :: get('Subgroups', null, GroupManager :: APPLICATION_NAME) :
                     return $group->count_subgroups(true);
             }
         }

@@ -1,5 +1,6 @@
 <?php
 namespace admin;
+use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\Request;
 /**
@@ -16,25 +17,25 @@ class AdminManagerSystemAnnouncementViewerComponent extends AdminManager impleme
     function run()
     {
         $id = Request :: get(AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID);
-        
+
         $user = $this->get_user();
-        
+
         if ($id)
         {
             $system_announcement_publication = $this->retrieve_system_announcement_publication($id);
             $object = $system_announcement_publication->get_publication_object();
-            
+
             $display = ContentObjectDisplay :: factory($object);
-            
+
             $this->display_header();
             echo $display->get_full_html();
             echo $this->get_toolbar($system_announcement_publication, $object);
             $this->display_footer();
-        
+
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoSystemAnnouncementSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('SystemAnnouncement')), Utilities :: COMMON_LIBRARIES)));
         }
     }
 
@@ -42,25 +43,24 @@ class AdminManagerSystemAnnouncementViewerComponent extends AdminManager impleme
     {
         $user = $this->get_user();
         $toolbar = new Toolbar();
-        
+
         if ($user->is_platform_admin())
         {
-            
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_system_announcement_publication_editing_url($system_announcement_publication), ToolbarItem :: DISPLAY_ICON));
-            
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_system_announcement_publication_deleting_url($system_announcement_publication), ToolbarItem :: DISPLAY_ICON, true));
-        
+
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->get_system_announcement_publication_editing_url($system_announcement_publication), ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->get_system_announcement_publication_deleting_url($system_announcement_publication), ToolbarItem :: DISPLAY_ICON, true));
+
         }
-        
+
         return $toolbar->as_html();
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS)), Translation :: get('AdminManagerSystemAnnouncementBrowserComponent')));
     	$breadcrumbtrail->add_help('admin_system_announcements_viewer');
     }
-    
+
     function get_additional_parameters()
     {
     	return array(AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID);

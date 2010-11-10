@@ -10,6 +10,7 @@ use common\libraries\Utilities;
 use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\Translation;
+use repository\ContentObject;
 
 /**
  * $Id: list_content_object_publication_list_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -76,8 +77,8 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
 							</script>';
 
             $html[] = '<div style="text-align: right;">';
-            $html[] = '<a href="?" onclick="setCheckbox(\'publication_list\', true); return false;">' . Translation :: get('SelectAll') . '</a>';
-            $html[] = '- <a href="?" onclick="setCheckbox(\'publication_list\', false); return false;">' . Translation :: get('UnSelectAll') . '</a><br />';
+            $html[] = '<a href="?" onclick="setCheckbox(\'publication_list\', true); return false;">' . Translation :: get('SelectAll', null, Utilities :: COMMON_LIBRARIES ) . '</a>';
+            $html[] = '- <a href="?" onclick="setCheckbox(\'publication_list\', false); return false;">' . Translation :: get('UnSelectAll', null, Utilities :: COMMON_LIBRARIES ) . '</a><br />';
             $html[] = '<select id="tool_actions" name="' . $table_name . '_action_value">';
             foreach ($this->get_actions()->get_form_actions() as $form_action)
             {
@@ -86,7 +87,7 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
             $html[] = '</select>';
             $html[] = '<input type="hidden" name="' . $table_name . '_action_name" value="' . $this->get_actions()->get_action() . '"/>';
             $html[] = '<input type="hidden" name="table_name" value="' . $table_name . '"/>';
-            $html[] = ' <input type="submit" value="' . Translation :: get('Ok') . '"/>';
+            $html[] = ' <input type="submit" value="' . Translation :: get('Ok', null, Utilities :: COMMON_LIBRARIES ) . '"/>';
             $html[] = '</div>';
             $html[] = '</form>';
             $html[] = '</div>';
@@ -172,7 +173,7 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
             $title_url = $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_VIEW), array(), true);
         }
 
-        $html[] = '<div class="announcements ' . $level . '" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/' . $publication->get_content_object()->get_icon_name() . $icon_suffix . '.png);">';
+        $html[] = '<div class="announcements ' . $level . '" style="background-image: url(' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($publication->get_content_object()->get_type())) . 'logo/' . $publication->get_content_object()->get_icon_name() . $icon_suffix . '.png);">';
         $html[] = '<div class="title' . ($publication->is_visible_for_target_users() ? '' : ' invisible') . '">';
         $html[] = '<a href="' . $title_url . '">' . $this->render_title($publication) . '</a>';
         $html[] = '</div>';

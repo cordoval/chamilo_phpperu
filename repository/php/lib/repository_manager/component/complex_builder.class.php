@@ -7,8 +7,7 @@ use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Application;
 use common\libraries\DelegateComponent;
-
-
+use common\libraries\Utilities;
 
 /**
  * $Id: complex_builder.class.php 204 2009-11-13 12:51:30Z kariboe $
@@ -42,7 +41,7 @@ class RepositoryManagerComplexBuilderComponent extends RepositoryManager impleme
 //                  	//$complex_builder = ComplexBuilder :: factory($this, $this->content_object->get_type());
 //        	//$complex_builder->run();
 //        }
-		
+
 		if($this->content_object)
         {
             ComplexBuilder :: launch($this->content_object->get_type(), $this);
@@ -51,7 +50,7 @@ class RepositoryManagerComplexBuilderComponent extends RepositoryManager impleme
         }
         else
         {
-        	$this->display_error_page(Translation :: get('NoObjectSelected'));
+        	$this->display_error_page(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES));
         }
     }
 

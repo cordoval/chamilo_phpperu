@@ -3,6 +3,7 @@ namespace common\libraries;
 
 use common\libraries\Request;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
+use repository\RepositoryDataManager;
 
 class ExternalRepositoryLauncher extends LauncherApplication
 {

@@ -9,6 +9,7 @@ use common\libraries\Theme;
 use common\libraries\DatetimeUtilities;
 use repository\DefaultContentObjectTableCellRenderer;
 use repository\ContentObject;
+use common\libraries\Utilities;
 
 /**
  * $Id: object_browser_table_cell_renderer.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -47,7 +48,7 @@ class ObjectBrowserTableCellRenderer extends DefaultContentObjectTableCellRender
         switch ($column->get_name())
         {
             case ContentObject :: PROPERTY_MODIFICATION_DATE :
-                return DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $content_object->get_modification_date());
+                return DatetimeUtilities :: format_locale_date(Translation :: get('DateFormatShort', null, Utilities :: COMMON_LIBRARIES) . ', ' . Translation :: get('TimeNoSecFormat', null, Utilities :: COMMON_LIBRARIES), $content_object->get_modification_date());
         }
 
         return parent :: render_cell($column, $content_object);

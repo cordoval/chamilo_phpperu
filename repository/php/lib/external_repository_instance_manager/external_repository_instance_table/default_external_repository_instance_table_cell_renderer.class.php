@@ -1,6 +1,7 @@
 <?php
 namespace repository;
 
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\ObjectTableCellRenderer;
@@ -22,7 +23,7 @@ class DefaultExternalRepositoryInstanceTableCellRenderer extends ObjectTableCell
                 return $external_repository->get_id();
             case ExternalRepository :: PROPERTY_TYPE :
                 $type = $external_repository->get_type();
-                return '<img src="' . Theme :: get_common_image_path() . 'external_repository/' . $type . '/logo/22.png" alt="' . htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($type))) . '"/>';
+                return '<img src="' . Theme :: get_image_path(ExternalRepositoryManager :: get_namespace($type)) . '/logo/22.png" alt="' . htmlentities(Translation :: get('TypeName', null, ExternalRepositoryManager :: get_namespace($type))) . '"/>';
             case ExternalRepository :: PROPERTY_TITLE :
                 return Utilities :: truncate_string($external_repository->get_title(), 50);
             case ExternalRepository :: PROPERTY_DESCRIPTION :

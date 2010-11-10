@@ -11,6 +11,7 @@ use common\libraries\Theme;
 use common\libraries\WebApplication;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
+use common\libraries\Utilities;
 /**
  * $Id: admin_reservation_browser.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.reservations_manager.component
@@ -28,10 +29,7 @@ class ReservationsManagerAdminReservationBrowserComponent extends ReservationsMa
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => null)), Translation :: get('Reservations')));
-        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_ITEMS)), Translation :: get('ManageItems')));
-        $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ITEM_ID => $this->get_item())), Translation :: get('ManageReservations')));
+        //$trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_ITEMS)), Translation :: get('ManageItems')));
 
         $this->ab = $this->get_action_bar();
         $this->display_header($trail);
@@ -94,7 +92,7 @@ class ReservationsManagerAdminReservationBrowserComponent extends ReservationsMa
 
         if($this->is_allowed_to_edit())
         {
-        	$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_reservation_url($this->get_item()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        	$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_reservation_url($this->get_item()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
 
         return $action_bar;

@@ -2,8 +2,6 @@
 namespace application\wiki;
 
 use reporting\ReportingData;
-use common\libraries\WebApplication;
-use common\libraries\CoreApplication;
 use common\libraries\Translation;
 use common\libraries\Request;
 use repository\ComplexDisplay;
@@ -12,9 +10,6 @@ use repository\RepositoryDataManager;
 use repository\ContentObject;
 use user\userDataManager;
 use reporting\ReportingFormatter;
-
-require_once WebApplication :: get_application_class_path('wiki') . 'reporting/wiki_reporting_block.class.php';
-require_once  CoreApplication :: get_application_class_lib_path('reporting') . 'reporting_data.class.php';
 
 class WikiPageMostActiveUsersReportingBlock extends WikiReportingBlock
 {

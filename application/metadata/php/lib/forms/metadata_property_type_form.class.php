@@ -2,6 +2,7 @@
 namespace application\metadata;
 use common\libraries\FormValidator;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * This class describes the form for a MetadataPropertyType object.
@@ -47,10 +48,10 @@ class MetadataPropertyTypeForm extends FormValidator
         }
 
         $this->addElement('select', MetadataPropertyType :: PROPERTY_NS_PREFIX, Translation :: get('NsPrefix'), $options);
-        $this->addRule(MetadataPropertyType :: PROPERTY_NS_PREFIX, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(MetadataPropertyType :: PROPERTY_NS_PREFIX, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
 
-        $this->addElement('text', MetadataPropertyType :: PROPERTY_NAME, Translation :: get('Name'));
-        $this->addRule(MetadataPropertyType :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addElement('text', MetadataPropertyType :: PROPERTY_NAME, Translation :: get('Name', null, Utilities :: COMMON_LIBRARIES));
+        $this->addRule(MetadataPropertyType :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
 
     }
 
@@ -60,8 +61,8 @@ class MetadataPropertyTypeForm extends FormValidator
 
     	$this->addElement('hidden', MetadataPropertyType :: PROPERTY_ID);
 
-		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
-		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive update'));
+		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -70,8 +71,8 @@ class MetadataPropertyTypeForm extends FormValidator
     {
     	$this->build_basic_form();
 
-		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
-		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
+		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

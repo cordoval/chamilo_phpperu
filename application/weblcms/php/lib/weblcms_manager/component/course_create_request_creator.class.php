@@ -6,6 +6,7 @@ use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: request.class.php 224 2010-04-06 14:40:30Z Yannick $
@@ -50,7 +51,7 @@ class WeblcmsManagerCourseCreateRequestCreatorComponent extends WeblcmsManager
     {
 
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(null, array(Application :: PARAM_ACTION)), Translation :: get('MyCourses')));
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get('Create')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES )));
         $breadcrumbtrail->add_help('weblcms_course_create_request');
     }
 

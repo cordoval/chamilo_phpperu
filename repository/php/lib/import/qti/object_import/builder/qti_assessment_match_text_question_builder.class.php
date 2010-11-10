@@ -1,5 +1,6 @@
 <?php
 namespace repository;
+use repository\QtiQuestionBuilder;
 /**
  * Question builder for match text questions.
  *

@@ -6,6 +6,7 @@ use common\libraries\Path;
 use common\libraries\FormValidator;
 use common\libraries\EqualityCondition;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: profile_publication_form.class.php 212 2009-11-13 13:38:35Z chellee $
@@ -112,13 +113,13 @@ class ProfilePublicationForm extends FormValidator
      */
     function build_form()
     {
-        $this->categories[0] = Translation :: get('Root');
+        $this->categories[0] = Translation :: get('Root', null , Utilities :: COMMON_LIBRARIES);
         $this->get_categories(0);
         
         //if(count($this->categories) > 1)
         {
             // More than one category -> let user select one
-            $this->addElement('select', ProfilerPublication :: PROPERTY_CATEGORY, Translation :: get('Category'), $this->categories);
+            $this->addElement('select', ProfilerPublication :: PROPERTY_CATEGORY, Translation :: get('Category', null , Utilities :: COMMON_LIBRARIES), $this->categories);
         }
         /*else
 		{
@@ -129,11 +130,11 @@ class ProfilePublicationForm extends FormValidator
 
     function add_footer()
     {
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Publish'), array('class' => 'positive publish'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Publish', null , Utilities :: COMMON_LIBRARIES), array('class' => 'positive publish'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null , Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
         
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
-        //$this->addElement('submit', 'submit', Translation :: get('Ok'));
+        //$this->addElement('submit', 'submit', Translation :: get('Ok' , null , Utilities :: COMMON_LIBRARIES));
     }
 
     /**

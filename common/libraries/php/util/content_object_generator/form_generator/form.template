@@ -30,7 +30,7 @@ class {OBJECT_CLASS}Form extends ContentObjectForm
     {
 		<!-- BEGIN PROPERTIES -->
 		$this->addElement('text', {OBJECT_CLASS} :: {PROPERTIES.PROPERTY}, Translation :: get('{PROPERTIES.PROPERTY_CAMEL_CASE}'));
-		$this->addRule({OBJECT_CLASS} :: {PROPERTIES.PROPERTY}, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addRule({OBJECT_CLASS} :: {PROPERTIES.PROPERTY}, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
 
 		<!-- END PROPERTIES -->
     }

@@ -6,6 +6,7 @@ use common\libraries\ToolbarItem;
 use user\User;
 use common\libraries\Theme;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/portfolio_browser_table_data_provider.class.php';
 require_once dirname(__FILE__) . '/../../../tables/portfolio_table/default_portfolio_table_cell_renderer.class.php';
@@ -58,7 +59,7 @@ class PortfolioBrowserTableCellRenderer extends DefaultPortfolioTableCellRendere
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
         $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('ViewPortfolio'),
+        		Translation :: get('ViewObject', array('OBJECT' => Translation::get('Portfolio')), Utilities::COMMON_LIBRARIES),
         		Theme :: get_common_image_path() . 'action_browser.png',
         		$this->browser->get_view_portfolio_url($user->get_id()),
         		ToolbarItem :: DISPLAY_ICON

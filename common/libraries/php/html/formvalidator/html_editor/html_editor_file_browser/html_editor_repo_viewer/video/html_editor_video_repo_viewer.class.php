@@ -1,5 +1,9 @@
 <?php
 namespace common\libraries;
+
+use repository\content_object\document\Document;
+use common\extensions\repo_viewer\RepoViewer;
+
 class HtmlEditorVideoRepoViewer extends HtmlEditorRepoViewer
 {
 

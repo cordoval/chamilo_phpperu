@@ -128,7 +128,7 @@ class ContentObjectPropertyMetadata extends DataClass
 
         if($count >= 1)
         {
-            $this->add_error(Translation :: get('ObjectAlreadyExtists'));
+            $this->add_error(Translation :: get('ObjectAlreadyExists', array('OBJECT' => Translation :: get('ContentObjectPropertyMetadata')), Utilities :: COMMON_LIBRARIES));
             return false;
         }
         return parent :: create();
@@ -158,7 +158,7 @@ class ContentObjectPropertyMetadata extends DataClass
 
         if($fails == 0) return parent :: delete();
 
-        $this->add_error(Translation :: get('MetadataPropertyAttributeValuesNotAllDeleted'));
+        $this->add_error(Translation :: get('ObjectsNotDeleted', array('OBJECT' => Translation :: get('MetadataPropertyAttributeValue')), Utilities :: COMMON_LIBRARIES));
         return false;
     }
 }

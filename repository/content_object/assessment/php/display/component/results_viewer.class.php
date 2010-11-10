@@ -6,6 +6,7 @@ use common\libraries\Translation;
 use common\libraries\InCondition;
 use repository\RepositoryDataManager;
 use repository\ComplexContentObjectItem;
+use common\libraries\Utilities;
 /**
  * $Id: result_viewer.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.assessment.component
@@ -116,8 +117,8 @@ class AssessmentDisplayResultsViewerComponent extends AssessmentDisplay
         
         $form->addElement('html', implode("\n", $html));
         
-        $buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
-        $buttons[] = $form->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Save', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $form->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
         
         if ($this->get_parent()->can_change_answer_data())
             $form->addGroup($buttons, 'buttons', null, '&nbsp;', false);

@@ -6,6 +6,7 @@ use common\libraries\Request;
 use common\libraries\AdministrationComponent;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\Utilities;
 
 /**
  * $Id: deleter.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
@@ -63,7 +64,7 @@ class UserManagerActiveChangerComponent extends UserManager implements Administr
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => TRanslation :: get('User')), Utilities :: COMMON_LIBRARIES)));
         }
     }
 

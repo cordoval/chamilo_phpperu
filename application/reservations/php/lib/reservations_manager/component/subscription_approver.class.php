@@ -7,6 +7,7 @@ use common\libraries\Translation;
 use common\libraries\EqualityCondition;
 use tracking\Event;
 use tracking\ChangesTracker;
+use common\libraries\Utilities;
 /**
  * $Id: subscription_approver.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations.reservations_manager.component
@@ -27,7 +28,7 @@ class ReservationsManagerSubscriptionApproverComponent extends ReservationsManag
         if (! $this->get_user())
         {
             $this->display_header(null);
-            Display :: display_error_message(Translation :: get("NotAllowed"));
+            Display :: display_error_message(Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
@@ -71,7 +72,7 @@ class ReservationsManagerSubscriptionApproverComponent extends ReservationsManag
         else
         {
             $this->display_header();
-            $this->display_error_message(Translation :: get("NoObjectSelected"));
+            $this->display_error_message(Translation :: get('NoObjectSelected', null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
         }
     }

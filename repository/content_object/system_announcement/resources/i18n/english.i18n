@@ -1,7 +1,8 @@
-Confirmation = 
-Error = 
-Warning = 
-Stop = 
-Question = 
-Config = 
-icon = 
+Confirmation = ""
+Error = ""
+Warning = ""
+Stop = ""
+Question = ""
+Config = ""
+Properties = ""
+icon = ""

@@ -195,7 +195,7 @@ class DatabaseForumDataManager extends Database implements ForumDataManagerInter
             $info->set_publisher_user_id($record[ForumPublication :: PROPERTY_AUTHOR]);
             $info->set_application(ForumManager :: APPLICATION_NAME);
             //TODO: i8n location string
-            $info->set_location(Translation :: get('Forum'));
+            $info->set_location(Translation :: get('Forum', null, 'repository/forum'));
             $info->set_url('run.php?application=forum&go=' . ForumManager::ACTION_VIEW . '&publication_id=' . $record[ForumPublication :: PROPERTY_ID]);
             $info->set_publication_object_id($record[ForumPublication :: PROPERTY_FORUM_ID]);
 
@@ -227,7 +227,7 @@ class DatabaseForumDataManager extends Database implements ForumDataManagerInter
         $publication_attr->set_publisher_user_id($record[ForumPublication :: PROPERTY_AUTHOR]);
         $publication_attr->set_application(ForumManager :: APPLICATION_NAME);
         //TODO: i8n location string
-        $publication_attr->set_location(Translation :: get('Forum'));
+        $publication_attr->set_location(Translation :: get('Forum', null, 'repository/forum'));
         $publication_attr->set_url('run.php?application=forum&go=view_forum_publications&publication_id=' . $record[ForumPublication :: PROPERTY_ID]);
         $publication_attr->set_publication_object_id($record[ForumPublication :: PROPERTY_FORUM_ID]);
 

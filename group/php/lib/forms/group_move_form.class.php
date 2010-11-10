@@ -1,6 +1,9 @@
 <?php
 namespace group;
 use common\libraries\Translation;
+use common\libraries\Utilities;
+use common\libraries\FormValidator;
+use common\libraries\OptionsMenuRenderer;
 /**
  * $Id: group_move_form.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package groups.lib.forms
@@ -30,9 +33,9 @@ class GroupMoveForm extends FormValidator
     function build_form()
     {
         $this->addElement('select', self :: PROPERTY_LOCATION, Translation :: get('NewLocation'), $this->get_groups());
-        //$this->addElement('submit', 'group_export', Translation :: get('Ok'));
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Move'), array('class' => 'positive move'));
-        //$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        //$this->addElement('submit', 'group_export', Translation :: get('Ok', null , Utilities :: COMMON_LIBRARIES));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Move', null , Utilities :: COMMON_LIBRARIES), array('class' => 'positive move'));
+        //$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null , Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
         
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
@@ -42,7 +45,7 @@ class GroupMoveForm extends FormValidator
     {
         $new_parent = $this->exportValue(self :: PROPERTY_LOCATION);
         $this->group->set_parent($new_parent);
-        return $this->group->update();
+        return $this->group->move($new_parent);
     }
 
     function get_new_parent()

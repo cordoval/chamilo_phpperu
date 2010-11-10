@@ -6,6 +6,7 @@ use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\EqualityCondition;
 use common\libraries\Path;
+use common\libraries\Utilities;
 /**
  * $Id: feedback_editor.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.assessment.component
@@ -40,7 +41,7 @@ class ComplexDisplayComponentFeedbackEditComponent extends ComplexDisplayCompone
                         $feedback_display->update();
                     }*/
                     $feedback_display->update();
-                    $message = htmlentities(Translation :: get('ContentObjectFeedbackUpdated'));
+                    $message = htmlentities(Translation :: get('ObjectUpdated', array('OBJECT' => Translation :: get('ContentObjectFeedback')), Utilities :: COMMON_LIBRARIES));
 
                     $params = array();
                     if (Request :: get('pid') != null)

@@ -4,6 +4,7 @@ namespace repository;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
+use common\libraries\Utilities;
 /**
  * $Id: feedback_deleter.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.assessment.component
@@ -51,11 +52,11 @@ class ComplexDisplayComponentFeedbackDeleterComponent extends ComplexDisplayComp
             }
             if (count($feedback_ids) > 1)
             {
-                $message = htmlentities(Translation :: get('ContentObjectFeedbacksDeleted'));
+                $message = htmlentities(Translation :: get('ObjectsDeleted', array('OBJECTS' => Translation :: get('ContentObjectFeedbacks')), Utilities :: COMMON_LIBRARIES));
             }
             else
             {
-                $message = htmlentities(Translation :: get('ContentObjectFeedbackDeleted'));
+                $message = htmlentities(Translation :: get('ObjectDeleted', array('OBJECT' => Translation :: get('ContentObjectFeedback')), Utilities :: COMMON_LIBRARIES));
             }
 
             $this->redirect($message, '', array(Tool :: PARAM_ACTION => Request :: get('tool_action'), 'display_action' => 'discuss', 'pid' => $this->pid, 'selected_cloi' => $this->cid));

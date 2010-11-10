@@ -7,6 +7,7 @@ use common\libraries\ObjectTable;
 use common\libraries\ObjectTableFormActions;
 use common\libraries\ObjectTableFormAction;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 /**
  * @package cda.cda_manager.component.variable_browser
  */
@@ -36,7 +37,7 @@ class VariableBrowserTable extends ObjectTable
 		$this->set_additional_parameters($parameters);
 		$actions = array();
 
-		$actions[] = new ObjectTableFormAction(CdaManager :: PARAM_DELETE_SELECTED_VARIABLES, Translation :: get('RemoveSelected'));
+		$actions[] = new ObjectTableFormAction(CdaManager :: PARAM_DELETE_SELECTED_VARIABLES, Translation :: get('RemoveSelected', null, Utilities :: COMMON_LIBRARIES));
 
 		$this->set_form_actions($actions);
 		$this->set_default_row_count(20);

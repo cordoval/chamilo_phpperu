@@ -6,6 +6,7 @@ use common\libraries\CoreApplication;
 use common\libraries\StaticTableColumn;
 
 use group\DefaultGroupTableColumnModel;
+use common\libraries\Utilities;
 /**
  * $Id: laika_group_browser_table_column_model.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika.laika_manager.component.laika_group_browser
@@ -28,8 +29,8 @@ class LaikaGroupBrowserTableColumnModel extends DefaultGroupTableColumnModel
     {
         parent :: __construct();
         $this->set_default_order_column(1);
-        $this->add_column(new StaticTableColumn(Translation :: get('Subgroups')));
-        $this->add_column(new StaticTableColumn(Translation :: get('Users')));
+        $this->add_column(new StaticTableColumn(Translation :: get('Subgroups', null, 'group')));
+        $this->add_column(new StaticTableColumn(Translation :: get('Users', null, 'user')));
         $this->add_column(new StaticTableColumn(Translation :: get('Participants')));
         $this->add_column(new StaticTableColumn(Translation :: get('Percentage')));
         $this->add_column(self :: get_modification_column());

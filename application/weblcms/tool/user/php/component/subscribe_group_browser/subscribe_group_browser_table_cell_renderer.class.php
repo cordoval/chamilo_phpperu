@@ -70,11 +70,11 @@ class SubscribeGroupBrowserTableCellRenderer extends DefaultGroupTableCellRender
                 //					$description = mb_substr($description,0,170).'&hellip;';
                 //				}
                 return Utilities :: truncate_string($description, 175);
-            case Translation :: get('Users') :
+            case Translation :: get('Users', null, 'user') :
                 $condition = new EqualityCondition(GroupRelUser :: PROPERTY_GROUP_ID, $group->get_id());
                 $count = GroupDataManager :: get_instance()->count_group_rel_users($condition);
                 return $count;
-            case Translation :: get('Subgroups') :
+            case Translation :: get('Subgroups', null, 'group') :
                 $condition = new EqualityCondition(Group :: PROPERTY_PARENT, $group->get_id());
                 $count = GroupDataManager :: get_instance()->count_groups($condition);
                 return $count;

@@ -1,8 +1,6 @@
 <?php
 namespace reporting;
 
-use common\libraries;
-
 use common\extensions\reporting_viewer\ReportingViewer;
 use common\libraries\Export;
 use common\libraries\Utilities;
@@ -280,7 +278,7 @@ abstract class ReportingBlock
         $html[] = '<div style="float:left;">' . Translation :: get('Download') . ' : ';
         $html[] = $download_bar->as_html() . '</div>';
         $html[] = '<div style="float:left;">&nbsp;|&nbsp;';
-        $html[] = Translation :: get('Save') . ' : ';
+        $html[] = Translation :: get('Save', null, Utilities :: COMMON_LIBRARIES) . ' : ';
         $html[] = $save_bar->as_html() . '</div>';
 
         return implode("\n", $html);
@@ -367,8 +365,7 @@ abstract class ReportingBlock
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 }
 ?>

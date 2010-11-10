@@ -9,7 +9,7 @@ use common\libraries\Utilities;
  * @package application.reservations
  */
 /**
- *	@author Sven Vanpoucke
+ * @author Sven Vanpoucke
  */
 
 class Item extends DataClass
@@ -151,22 +151,22 @@ class Item extends DataClass
 
         return $succes;
     }
-    
-	function delete()
+
+    function delete()
     {
-    	$location = ReservationsRights :: get_location_by_identifier_from_reservations_subtree(ReservationsRights :: TYPE_ITEM, $this->get_id());
-    	if($location)
-    	{
-    		if(!$location->remove())
-    		{
-    			return false;
-    		}
-    	}
-    	return parent :: delete();
+        $location = ReservationsRights :: get_location_by_identifier_from_reservations_subtree(ReservationsRights :: TYPE_ITEM, $this->get_id());
+        if ($location)
+        {
+            if (! $location->remove())
+            {
+                return false;
+            }
+        }
+        return parent :: delete();
     }
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 }

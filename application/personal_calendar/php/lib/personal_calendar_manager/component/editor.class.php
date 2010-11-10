@@ -5,6 +5,7 @@ namespace application\personal_calendar;
 use common\libraries\WebApplication;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use repository\ContentObjectForm;
 use common\libraries\Application;
 use common\libraries\Breadcrumb;
@@ -36,7 +37,7 @@ class PersonalCalendarManagerEditorComponent extends PersonalCalendarManager
             if (! $user->is_platform_admin() && $calendar_event_publication->get_publisher() != $user->get_id())
             {
                 $this->display_header();
-                $this->display_error_message(Translation :: get('NotAllowed'));
+                $this->display_error_message(Translation :: get('NotAllowed', null , Utilities :: COMMON_LIBRARIES));
                 $this->display_footer();
                 exit();
             }
@@ -64,7 +65,9 @@ class PersonalCalendarManagerEditorComponent extends PersonalCalendarManager
                 if ($publication_form->validate())
                 {
                     $success = $publication_form->update_calendar_event_publication();
-                    $this->redirect(Translation :: get(($success ? 'PersonalCalendarPublicationUpdated' : 'PersonalCalendarPublicationNotUpdated')), ($success ? false : true), array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR));
+               		$message = $success ? Translation :: get('ObjectUpdated',array('OBJECT' => Translation :: get('PersonalCalendar')) , Utilities :: COMMON_LIBRARIES) : Translation :: get('ObjectNotUpdated',array('OBJECT' => Translation :: get('PersonalCalendar')) , Utilities :: COMMON_LIBRARIES);
+                    
+                    $this->redirect($message, ($success ? false : true), array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR));
                 }
                 else
                 {
@@ -82,7 +85,7 @@ class PersonalCalendarManagerEditorComponent extends PersonalCalendarManager
         }
         else
         {
-            $this->display_error_page(\htmlentities(Translation :: get('NoPersonalCalendarPublicationSelected')));
+            $this->display_error_page(\htmlentities(Translation :: get('NoObjectsSelected', null , Utilities :: COMMON_LIBRARIES)));
         }
     }
     

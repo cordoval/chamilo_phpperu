@@ -1,9 +1,6 @@
-SelectImage = 
-Searching = 
-NoResults = 
-Error = 
-Image = 
-SelectCovers = 
-ComicBooks = 
-Tags = 
-ThisFieldIsRequired = 
+Properties = ""
+SelectImage = ""
+Image = ""
+SelectCovers = ""
+ComicBooks = ""
+Tags = ""

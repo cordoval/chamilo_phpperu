@@ -217,7 +217,7 @@ function dump_tree($users, $groups_tree)
     {
         if (contains_results($users))
         {
-            echo '<node id="user" classes="category unlinked" title="' . Translation :: get('Users') . '">', "\n";
+            echo '<node id="user" classes="category unlinked" title="' . Translation :: get('Users', null, 'user') . '">', "\n";
             foreach ($users as $user)
             {
                 if (in_array($user->get_id(), $group_users))

@@ -28,9 +28,7 @@ class MetadataPropertyAttributeTypeBrowserTable extends ObjectTable
 		$this->set_additional_parameters($parameters);
 		$actions = array();
 
-		//$actions[] = new ObjectTableFormAction(MetadataManager :: PARAM_DELETE_SELECTED_METADATA_PROPERTY_ATTRIBUTE_TYPES, Translation :: get('RemoveSelected'));
-
-		$this->set_form_actions($actions);
+                $this->set_form_actions($actions);
 		$this->set_default_row_count(20);
 	}
 }

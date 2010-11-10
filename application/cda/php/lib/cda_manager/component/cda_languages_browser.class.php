@@ -8,6 +8,7 @@ use common\libraries\Translation;
 use common\libraries\ToolbarItem;
 use common\libraries\ConditionProperty;
 use common\libraries\Application;
+use common\libraries\Utilities;
 /**
  * @package application.cda.cda.component
  */
@@ -62,7 +63,7 @@ class CdaManagerCdaLanguagesBrowserComponent extends CdaManager
         	$action_bar->add_common_action(new ToolbarItem(Translation :: get('ImportTranslations'), Theme :: get_common_image_path() . 'action_import.png', $this->get_import_variable_translations_url()));
         }
 
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url()));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url()));
         return $action_bar;
     }
 

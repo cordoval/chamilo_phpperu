@@ -2,6 +2,7 @@
 namespace reporting;
 
 use common\libraries\Path;
+use common\libraries\BasicApplication;
 use common\libraries\CoreApplication;
 use common\libraries\WebApplication;
 use common\libraries\Request;
@@ -15,6 +16,21 @@ use common\libraries\OrCondition;
 use common\libraries\PatternMatchCondition;
 use common\libraries\AdministrationComponent;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ActionBarSearchForm;
+
+use admin\AdminDataManager;
+use admin\AdminManager;
+use group\GroupManager;
+use help\HelpManager;
+use home\HomeManager;
+use migration\MigrationManager;
+use menu\MenuManager;
+use repository\RepositoryManager;
+use rights\RightsManager;
+use tracking\TrackingManager;
+use user\UserManager;
+use webservice\WebserviceManager;
 
 /**
  * $Id: browser.class.php 215 2009-11-13 14:07:59Z vanpouckesven $
@@ -40,7 +56,7 @@ class ReportingManagerBrowserComponent extends ReportingManager implements Admin
         if (! $this->get_user()->is_platform_admin())
         {
             $this->display_header();
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
@@ -72,15 +88,17 @@ class ReportingManagerBrowserComponent extends ReportingManager implements Admin
 
         $html = array();
 
-        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/reporting_menu.js' . '"></script>';
-        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/reporting_menu_interface.js' . '"></script>';
-        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/reporting_dock.js' . '"></script>';
-
+//        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/reporting_menu.js' . '"></script>';
+//        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/reporting_menu_interface.js' . '"></script>';
+//        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/reporting_dock.js' . '"></script>';
+        
+        $html[] = '<script type="text/javascript" src="' . BasicApplication :: get_application_resources_javascript_path(ReportingManager :: APPLICATION_NAME) . 'reporting_menu.js' . '"></script>';
+        $html[] = '<script type="text/javascript" src="' . BasicApplication :: get_application_resources_javascript_path(ReportingManager :: APPLICATION_NAME) . 'reporting_menu_interface.js' . '"></script>';
+        $html[] = '<script type="text/javascript" src="' . BasicApplication :: get_application_resources_javascript_path(ReportingManager :: APPLICATION_NAME) . 'reporting_dock.js' . '"></script>';
+        
         $html[] = '<div class="dock" id="dock">';
         $html[] = '<div class="dock-container"> ';
-        $applications = WebApplication :: load_all();
-        $admin_manager = CoreApplication :: factory('admin', $this->get_user());
-        $links = $admin_manager->get_application_platform_admin_links();
+        $links = $this->get_application_platform_admin_links();
 
         foreach ($links as $application_links)
         {
@@ -105,6 +123,33 @@ class ReportingManagerBrowserComponent extends ReportingManager implements Admin
         $html[] = '<div style="clear: both;"></div><br /><br />';
         return implode("\n", $html);
     }
+    
+	public static function get_application_platform_admin_links()
+    {
+        $info = array();
+
+        $info[] = AdminManager :: get_application_platform_admin_links();
+        $info[] = RepositoryManager :: get_application_platform_admin_links();
+        $info[] = UserManager :: get_application_platform_admin_links();
+        $info[] = RightsManager :: get_application_platform_admin_links();
+        $info[] = GroupManager :: get_application_platform_admin_links();
+        $info[] = WebserviceManager :: get_application_platform_admin_links();
+        $info[] = TrackingManager :: get_application_platform_admin_links();
+        $info[] = ReportingManager :: get_application_platform_admin_links();
+        $info[] = HomeManager :: get_application_platform_admin_links();
+        $info[] = MenuManager :: get_application_platform_admin_links();
+        $info[] = MigrationManager :: get_application_platform_admin_links();
+        $info[] = HelpManager :: get_application_platform_admin_links();
+
+        //The links for the plugin applications running on top of the essential Chamilo components
+        $applications = WebApplication :: load_all();
+        foreach ($applications as $index => $application_name)
+        {
+            $info[] = call_user_func(array('application\\' . $application_name . '\\' . WebApplication :: get_application_class_name($application_name), 'get_application_platform_admin_links'));
+        }
+
+        return $info;
+    }
 
     function get_templates()
     {
@@ -125,7 +170,7 @@ class ReportingManagerBrowserComponent extends ReportingManager implements Admin
         }
         $html[] = '</div>';
 
-        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/reporting_browser.js' . '"></script>';
+        $html[] = '<script type="text/javascript" src="' . BasicApplication :: get_application_resources_javascript_path(ReportingManager :: APPLICATION_NAME) . 'reporting_browser.js' . '"></script>';
         return implode("\n", $html);
     }
 

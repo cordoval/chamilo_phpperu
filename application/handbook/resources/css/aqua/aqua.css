@@ -1,0 +1,26 @@
+
+.alternative_metadata
+{
+   font-style: italic;
+   font-size: xx-small;
+}
+
+.alternative_title
+{
+   font-weight: bold;
+   text-decoration: underline;
+   font-size: x-small;
+}
+.alternative_text
+{
+   font-size: x-small;
+}
+.main_title
+{
+   font-weight: bold;
+   text-decoration: underline;
+}
+.main_text
+{
+
+}

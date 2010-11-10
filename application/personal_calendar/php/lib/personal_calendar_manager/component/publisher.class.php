@@ -11,12 +11,11 @@ use common\libraries\Breadcrumb;
 use common\extensions\repo_viewer\RepoViewerInterface;
 use common\libraries\Application;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 /**
  * $Id: publisher.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.personal_calendar.personal_calendar_manager.component
  */
-require_once WebApplication :: get_application_class_lib_path('personal_calendar') . 'publisher/personal_calendar_publisher.class.php';
-require_once WebApplication :: get_application_class_lib_path('personal_calendar') . 'personal_calendar_rights.class.php';
 
 class PersonalCalendarManagerPublisherComponent extends PersonalCalendarManager implements RepoViewerInterface
 {
@@ -29,7 +28,7 @@ class PersonalCalendarManagerPublisherComponent extends PersonalCalendarManager 
         if(! PersonalCalendarRights :: is_allowed(PersonalCalendarRights :: RIGHT_PUBLISH, PersonalCalendarRights :: get_root()))
         {
             $this->display_header();
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get("NotAllowed", null , Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }

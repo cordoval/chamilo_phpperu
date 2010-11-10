@@ -1,8 +1,6 @@
 <?php
 namespace application\wiki;
 
-use common\libraries;
-
 use repository\ComplexDisplay;
 use repository\content_object\wiki\Wiki;
 use repository\content_object\wiki\WikiComplexDisplaySupport;
@@ -63,14 +61,24 @@ class WikiManagerWikiViewerComponent extends WikiManager implements WikiComplexD
     	return array(self :: PARAM_WIKI_PUBLICATION);
     }
 
-    function get_page_statistics_reporting_template_name()
+    function get_wiki_page_statistics_reporting_template_name()
     {
         return 'wiki_page_most_reporting_template';
     }
 
-    function get_statistics_reporting_template_name()
+    function get_wiki_statistics_reporting_template_name()
     {
         return 'wiki_most_reporting_template';
+    }
+
+    /**
+     * Unused for the wiki
+     *
+     * @param $right
+     */
+    function is_allowed($right)
+    {
+        return true;
     }
 
 }

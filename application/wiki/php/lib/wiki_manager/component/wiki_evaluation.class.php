@@ -1,15 +1,17 @@
 <?php
 namespace application\wiki;
 
-use common\libraries\WebApplication;
+//use common\libraries\WebApplication;
 use common\libraries\Breadcrumb;
-use common\libraries\EvaluationManager;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Utilities;
 use repository\ContentObject;
 
-require_once WebApplication :: get_application_class_lib_path('gradebook') . 'evaluation_manager/evaluation_manager.class.php';
+use application\gradebook\EvaluationManager;
+use application\gradebook\EvaluationManagerInterface;
+
+//require_once WebApplication :: get_application_class_lib_path('gradebook') . 'evaluation_manager/evaluation_manager.class.php';
 
 class WikiManagerWikiEvaluationComponent extends WikiManager implements EvaluationManagerInterface
 {
@@ -28,7 +30,7 @@ class WikiManagerWikiEvaluationComponent extends WikiManager implements Evaluati
         }
         else
         {
-            $this->display_error_message(Translation :: get('NoWikiPublicationsSelected'));
+            $this->display_error_message(Translation :: get('NoObjectsSelected', null , Utilities :: COMMON_LIBRARIES));
         }
     }
 

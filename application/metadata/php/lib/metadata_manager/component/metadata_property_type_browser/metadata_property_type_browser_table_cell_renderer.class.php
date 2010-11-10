@@ -4,6 +4,7 @@ use common\libraries\Toolbar;
 use common\libraries\Translation;
 use common\libraries\Theme;
 use common\libraries\ToolbarItem;
+use common\libraries\Utilities;
 require_once dirname(__FILE__) . '/../../../tables/metadata_property_type_table/default_metadata_property_type_table_cell_renderer.class.php';
 /**
  * Cell rendere for the learning object browser table
@@ -51,14 +52,14 @@ class MetadataPropertyTypeBrowserTableCellRenderer extends DefaultMetadataProper
 		$toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
 
         $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Edit'),
+        		Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES),
         		Theme :: get_common_image_path() . 'action_edit.png',
         		$this->browser->get_update_metadata_property_type_url($metadata_property_type),
         		ToolbarItem :: DISPLAY_ICON
         ));
 
         $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Delete'),
+        		Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES),
         		Theme :: get_common_image_path() . 'action_delete.png',
         		$this->browser->get_delete_metadata_property_type_url($metadata_property_type),
         		ToolbarItem :: DISPLAY_ICON,
@@ -73,7 +74,7 @@ class MetadataPropertyTypeBrowserTableCellRenderer extends DefaultMetadataProper
         ));
 
         $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Defaults'),
+        		Translation :: get('MetadataDefaultValues'),
         		Theme :: get_common_image_path() . 'action_link.png',
         		$this->browser->get_browse_metadata_default_values_url($metadata_property_type),
         		ToolbarItem :: DISPLAY_ICON

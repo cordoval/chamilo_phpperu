@@ -14,7 +14,7 @@ class RepositoryManagerExternalRepositoryComponent extends RepositoryManager
 	function run()
 	{
 	    $trail = BreadcrumbTrail::get_instance();
-	    $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ExternalRepository')));
+	    $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ExternalRepository', null, ExternalRepositoryManager :: get_namespace())));
 
 		$external_repository_id = Request :: get(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY);
 		$this->set_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY, $external_repository_id);

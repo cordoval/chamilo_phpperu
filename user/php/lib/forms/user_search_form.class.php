@@ -5,6 +5,7 @@ use common\libraries\Translation;
 use common\libraries\OrCondition;
 use common\libraries\PatternMatchCondition;
 use common\libraries\FormValidator;
+use common\libraries\Utilities;
 
 /**
  * $Id: user_search_form.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
@@ -110,7 +111,7 @@ class UserSearchForm extends FormValidator
     {
         $this->renderer->setElementTemplate('{element}');
         $this->frozen_elements[] = $this->addElement('text', self :: PARAM_SIMPLE_SEARCH_QUERY, Translation :: get('Find'), 'size="20" class="search_query"');
-        $this->addElement('submit', 'search', Translation :: get('Ok'));
+        $this->addElement('submit', 'search', Translation :: get('Ok', null, Utilities :: COMMON_LIBRARIES));
     }
 
     /**

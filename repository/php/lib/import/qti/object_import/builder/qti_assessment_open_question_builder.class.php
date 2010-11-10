@@ -1,4 +1,5 @@
 <?php
+namespace repository;
 
 class QtiAssessmentOpenQuestionBuilder extends QtiQuestionBuilder{
 

@@ -5,6 +5,8 @@ namespace application\forum;
 use common\libraries\WebApplication;
 use common\libraries\Installer;
 use common\libraries\Translation;
+use common\libraries\Utilities;
+
 /**
  * $Id: forum_installer.class.php 195 2009-11-13 12:02:41Z chellee $
  * @package application.lib.forum.install
@@ -34,7 +36,7 @@ class ForumInstaller extends Installer
         }
         else
         {
-            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ForumsSubtreeCreated'));
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectCreated', array('OBJECT'=> Translation :: get('ForumsSubtree')),Utilities :: COMMON_LIBRARIES));
         }
         
         return true;

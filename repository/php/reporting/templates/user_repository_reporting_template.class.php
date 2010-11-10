@@ -6,6 +6,7 @@ use common\libraries\Translation;
 use common\libraries\Session;
 
 use user\UserDataManager;
+use user\UserManager;
 
 use reporting\ReportingTemplate;
 
@@ -50,7 +51,7 @@ class UserRepositoryReportingTemplate extends ReportingTemplate
 //        if ($user_id)
 //        {
 //            $user = UserDataManager :: get_instance()->retrieve_user($user_id);
-//            $html[] = Translation :: get('User') . ': ' . $user->get_fullname();
+//            $html[] = Translation :: get('User', null, UserManager :: APPLICATION_NAME) . ': ' . $user->get_fullname();
 //        }
 
         return implode("\n", $html);

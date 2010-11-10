@@ -15,17 +15,17 @@ class AssessmentDisplay extends ComplexDisplay
 {
     const ACTION_VIEW_ASSESSMENT = 'assessment_viewer';
     const ACTION_VIEW_ASSESSMENT_RESULT = 'results_viewer';
-    
+
     const DEFAULT_ACTION = self :: ACTION_VIEW_ASSESSMENT;
 
-    function save_answer($complex_question_id, $answer, $score)
+    function save_assessment_answer($complex_question_id, $answer, $score)
     {
-        return $this->get_parent()->save_answer($complex_question_id, $answer, $score);
+        return $this->get_parent()->save_assessment_answer($complex_question_id, $answer, $score);
     }
 
-    function finish_assessment($total_score)
+    function save_assessment_result($total_score)
     {
-        return $this->get_parent()->finish_assessment($total_score);
+        return $this->get_parent()->save_assessment_result($total_score);
     }
 
     function change_answer_data($complex_question_id, $score, $feedback)
@@ -38,14 +38,14 @@ class AssessmentDisplay extends ComplexDisplay
         return $this->get_parent()->change_total_score($total_score);
     }
 
-    function get_current_attempt_id()
+    function get_assessment_current_attempt_id()
     {
-        return $this->get_parent()->get_current_attempt_id();
+        return $this->get_parent()->get_assessment_current_attempt_id();
     }
 
-    function get_go_back_url()
+    function get_assessment_go_back_url()
     {
-        return $this->get_parent()->get_go_back_url();
+        return $this->get_parent()->get_assessment_go_back_url();
     }
 
     function get_application_component_path()

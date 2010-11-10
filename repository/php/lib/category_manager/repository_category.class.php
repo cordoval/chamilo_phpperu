@@ -9,10 +9,9 @@ use common\libraries\Session;
  * @package repository.lib.category_manager
  */
 /**
- *	@author Sven Vanpoucke
+ * @author Sven Vanpoucke
  */
 require_once Path :: get_common_extensions_path() . 'category_manager/php/platform_category.class.php';
-
 
 class RepositoryCategory extends PlatformCategory
 {
@@ -50,7 +49,7 @@ class RepositoryCategory extends PlatformCategory
             $parent_id = RepositoryRights :: get_location_id_by_identifier_from_user_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $this->get_parent(), $user_id);
         }
 
-    	if (!RepositoryRights :: create_location_in_user_tree($this->get_name(), RepositoryRights :: TYPE_USER_CATEGORY, $this->get_id(), $parent_id, $user_id))
+        if (! RepositoryRights :: create_location_in_user_tree($this->get_name(), RepositoryRights :: TYPE_USER_CATEGORY, $this->get_id(), $parent_id, $user_id))
         {
             return false;
         }
@@ -60,47 +59,46 @@ class RepositoryCategory extends PlatformCategory
 
     function update($move = false)
     {
-        if(!RepositoryDataManager :: get_instance()->update_category($this))
+        if (! RepositoryDataManager :: get_instance()->update_category($this))
         {
-        	return false;
+            return false;
         }
 
-    	if($move)
+        if ($move)
         {
-        	if($this->get_parent())
-        	{
-        		$new_parent_id = RepositoryRights :: get_location_id_by_identifier_from_user_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $this->get_parent(), $this->get_user_id());
-        	}
-        	else
-        	{
-        		$new_parent_id = RepositoryRights :: get_user_root_id();
-        	}
+            if ($this->get_parent())
+            {
+                $new_parent_id = RepositoryRights :: get_location_id_by_identifier_from_user_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $this->get_parent(), $this->get_user_id());
+            }
+            else
+            {
+                $new_parent_id = RepositoryRights :: get_user_root_id();
+            }
 
-        	$location =  RepositoryRights :: get_location_by_identifier_from_users_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $this->get_id(), $this->get_user_id());
-        	return $location->move($new_parent_id);
+            $location = RepositoryRights :: get_location_by_identifier_from_users_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $this->get_id(), $this->get_user_id());
+            return $location->move($new_parent_id);
         }
 
-    	return true;
+        return true;
     }
 
     function delete()
     {
-    	$location = RepositoryRights :: get_location_by_identifier_from_users_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $this->get_id(), $this->get_user_id());
-		if($location)
-		{
-			if(!$location->remove())
-			{
-				return false;
-			}
-		}
+        $location = RepositoryRights :: get_location_by_identifier_from_users_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $this->get_id(), $this->get_user_id());
+        if ($location)
+        {
+            if (! $location->remove())
+            {
+                return false;
+            }
+        }
 
-    	return RepositoryDataManager :: get_instance()->delete_category($this);
+        return RepositoryDataManager :: get_instance()->delete_category($this);
     }
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 
     static function get_default_property_names()

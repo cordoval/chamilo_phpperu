@@ -7,6 +7,7 @@ use common\libraries\Theme;
 use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: menu_tool_list_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -105,7 +106,7 @@ class MenuToolListRenderer extends ToolListRenderer
             $renderer->setFormTemplate('<form {attributes}>{content}</form>');
             $renderer->setElementTemplate('{element}<br />');
             $form->addElement('text', 'query', '', 'size="18" class="search_query_no_icon" style="background-color: white; border: 1px solid grey; height: 18px; margin-bottom: 10px;"');
-            $form->addElement('style_submit_button', 'submit', Translation :: get('Search'), array('class' => 'normal search'));
+            $form->addElement('style_submit_button', 'submit', Translation :: get('Search', null ,Utilities:: COMMON_LIBRARIES), array('class' => 'normal search'));
             $form->accept($renderer);
             $html[] = $renderer->toHtml();
         }
@@ -148,14 +149,14 @@ class MenuToolListRenderer extends ToolListRenderer
         {
             $new = '_new';
         }
-        $tool_image = 'tool_mini_' . $tool->name . $new . '.png';
-        $title = htmlspecialchars(Translation :: get(Tool :: type_to_class($tool->name) . 'Title'));
+        $tool_image = Theme :: ICON_MINI . $new . '.png';
+        $title = htmlspecialchars(Translation :: get('ToolTypeName', null, Tool :: get_tool_type_namespace($tool->name)));
         $html[] = '<li class="tool_list_menu" style="padding: 0px 0px 2px 0px;">';
         $html[] = '<a href="' . $parent->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_TOOL => $tool->name, Tool :: PARAM_ACTION => null, Tool :: PARAM_PUBLICATION_ID => null), array(), true) . '" title="' . $title . '">';
 
         if ($this->display_menu_icons())
         {
-            $html[] = '<img src="' . Theme :: get_image_path() . $tool_image . '" style="vertical-align: middle;" alt="' . $title . '"/> ';
+            $html[] = '<img src="' . Theme :: get_image_path(Tool :: get_tool_type_namespace($tool->name)) . 'logo/' . $tool_image . '" style="vertical-align: middle;" alt="' . $title . '"/> ';
         }
 
         if ($this->display_menu_text())

@@ -2,7 +2,7 @@
 namespace reporting;
 
 use common\libraries\ObjectTableColumnModel;
-
+use common\libraries\ObjectTableColumn;
 /**
  * $Id: default_reporting_template_registration_table_column_model.class.php 215 2009-11-13 14:07:59Z vanpouckesven $
  * @package reporting.lib.reporting_template_registration_table

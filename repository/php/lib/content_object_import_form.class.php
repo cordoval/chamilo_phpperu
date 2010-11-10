@@ -5,6 +5,7 @@ use common\libraries\Translation;
 use common\libraries\Filesystem;
 use common\libraries\Path;
 use common\libraries\OptionsMenuRenderer;
+use common\libraries\Utilities;
 /**
  * $Id: content_object_import_form.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib
@@ -78,10 +79,10 @@ class ContentObjectImportForm extends FormValidator
         	$this->addElement('hidden', 'type');
         }
 
-        $this->addElement('file', self :: IMPORT_FILE_NAME, Translation :: get('FileName'));
-        //$this->addElement('submit', 'content_object_import', Translation :: get('Ok'));
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Import'), array('class' => 'positive import'));
-        //$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $this->addElement('file', self :: IMPORT_FILE_NAME, Translation :: get('FileName', null, Utilities :: COMMON_LIBRARIES));
+        //$this->addElement('submit', 'content_object_import', Translation :: get('Ok', null, Utilities :: COMMON_LIBRARIES));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Import', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive import'));
+        //$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
@@ -94,7 +95,7 @@ class ContentObjectImportForm extends FormValidator
             if (strpos($f, '.svn') !== false || strpos($f, 'csv') !== false)
                 continue;
 
-            $types[$f] = Translation :: get('Type' . $f);
+            $types[$f] = Translation :: get('Type' . $f, null, Utilities :: COMMON_LIBRARIES);
         }
 
         return $types;

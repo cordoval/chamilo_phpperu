@@ -46,7 +46,7 @@ class UserNoOfLoginsReportingBlock extends UserReportingBlock
 	{
 		$modes = array();
         //$modes[ReportingFormatter::DISPLAY_TEXT] = Translation :: get('Text');
-        $modes[ReportingFormatter::DISPLAY_TABLE] = Translation :: get('Table');
+        $modes[ReportingFormatter::DISPLAY_TABLE] = Translation :: get('Table', null, 'reporting');
 
         return $modes;
 	}

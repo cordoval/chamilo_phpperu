@@ -1,5 +1,6 @@
 <?php
 namespace repository;
+use common\libraries\ImsQtiReader;
 /**
  * Question builder for hotspot questions.
  *
@@ -7,7 +8,7 @@ namespace repository;
  * @author laurent.opprecht@unige.ch
  *
  */
-use common\libraries\ImsQtiReader;
+
 class QtiHotspotQuestionBuilder extends QtiQuestionBuilder
 {
 
@@ -57,7 +58,7 @@ class QtiHotspotQuestionBuilder extends QtiQuestionBuilder
             $responses = $this->get_possible_responses($item, $interaction);
             foreach ($responses as $response)
             {
-	    		if(	$response instanceof ImsQtiReader:: && $response->shape == Qti::SHAPE_POLY)
+	    		if(	$response instanceof ImsQtiReader && $response->shape == Qti::SHAPE_POLY)
                 {
                     $coords = $response->coords;
                     $coords = shape :: string_to_polygone($coords);

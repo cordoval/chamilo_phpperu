@@ -11,6 +11,7 @@ use common\libraries\PatternMatchCondition;
 use common\libraries\OrCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/cas_user_request_browser/cas_user_request_browser_table.class.php';
 
@@ -77,9 +78,9 @@ class CasUserManagerBrowserComponent extends CasUserManager
 
             if ($this->get_user()->is_platform_admin())
             {
-                $this->action_bar->add_common_action(new ToolbarItem(Translation :: get('RequestAccount'), Theme :: get_image_path() . 'action_request.png', $this->get_url(array(
+                $this->action_bar->add_common_action(new ToolbarItem(Translation :: get('RequestAccount', null, Utilities::COMMON_LIBRARIES), Theme :: get_image_path() . 'action_request.png', $this->get_url(array(
                         Application :: PARAM_ACTION => CasUserManager :: ACTION_CREATE))));
-                $this->action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageAccounts'), Theme :: get_image_path() . 'action_manage.png', $this->get_url(array(
+                $this->action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageAccounts', null, Utilities::COMMON_LIBRARIES), Theme :: get_image_path() . 'action_manage.png', $this->get_url(array(
                         Application :: PARAM_ACTION => CasUserManager :: ACTION_ACCOUNT))));
             }
         }

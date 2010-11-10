@@ -1,6 +1,7 @@
 <?php
 namespace application\weblcms\tool\blog;
 
+use repository\content_object\blog\BlogComplexDisplaySupport;
 use application\weblcms\Tool;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
@@ -18,7 +19,9 @@ use common\libraries\Translation;
  * Represents the view component for the assessment tool.
  *
  */
-class BlogToolComplexDisplayComponent extends BlogTool implements DelegateComponent
+class BlogToolComplexDisplayComponent extends BlogTool implements
+        DelegateComponent,
+        BlogComplexDisplaySupport
 {
 
     function run()
@@ -28,14 +31,18 @@ class BlogToolComplexDisplayComponent extends BlogTool implements DelegateCompon
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_BROWSE)), Translation :: get('BlogToolBrowserComponent')));
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW, Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), Translation :: get('BlogToolViewerComponent')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                Tool :: PARAM_ACTION => Tool :: ACTION_BROWSE)), Translation :: get('BlogToolBrowserComponent')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(
+                Tool :: PARAM_ACTION => Tool :: ACTION_VIEW,
+                Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), Translation :: get('BlogToolViewerComponent')));
 
     }
 
     function get_additional_parameters()
     {
-        return array(Tool :: PARAM_PUBLICATION_ID);
+        return array(
+                Tool :: PARAM_PUBLICATION_ID);
     }
 
 }

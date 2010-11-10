@@ -26,11 +26,11 @@ class DocumentToolImporterComponent extends DocumentTool
             $errors = array();
             if ($success)
             {
-                $messages[] = Translation :: translate('ContentObjectImported');
+                $messages[] = Translation :: translate('ContentObjectImported', null, 'repository');
             }
             else
             {
-                $errors[] = Translation :: translate('ContentObjectNotImported');
+                $errors[] = Translation :: translate('ContentObjectNotImported', null, 'repository');
             }
 
             $messages = array_merge($messages, $import_form->get_messages());

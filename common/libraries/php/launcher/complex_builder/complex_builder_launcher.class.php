@@ -1,5 +1,10 @@
 <?php
 namespace common\libraries;
+
+use repository\RepositoryManager;
+use repository\RepositoryDataManager;
+use repository\ComplexBuilder;
+
 class ComplexBuilderLauncher extends LauncherApplication
 {
     const APPLICATION_NAME = 'complex_builder';
@@ -17,12 +22,10 @@ class ComplexBuilderLauncher extends LauncherApplication
         if ($content_object)
         {
             ComplexBuilder :: launch($content_object->get_type(), $this);
-            //$complex_builder = ComplexBuilder :: factory($this, $this->content_object->get_type());
-        //$complex_builder->run();
         }
         else
         {
-            $this->display_error_page(Translation :: get('NoObjectSelected'));
+            $this->display_error_page(Translation :: get('NoObjectSelected', null, Utilities :: COMMON_LIBRARIES));
         }
     }
 

@@ -13,7 +13,6 @@ require_once Path :: get_common_libraries_path() . 'php/debug/debug_utilities.cl
 require_once dirname(__FILE__) . '/../../metadata/ieee_lom/ieee_lom_mapper.class.php';
 require_once dirname(__FILE__) . '/../../metadata/ieee_lom/ieee_lom_langstring_mapper.class.php';
 
-
 class RepositoryManagerMetadataComponent extends RepositoryManager
 {
     const METADATA_FORMAT_LOM = 'lom';
@@ -84,7 +83,7 @@ class RepositoryManagerMetadataComponent extends RepositoryManager
      */
     function get_metadata_type()
     {
-        $metadata_type = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE);
+        $metadata_type = Request :: get(ContentObjectTypeSelector :: PARAM_CONTENT_OBJECT_TYPE);
         if (! isset($metadata_type))
         {
             $metadata_type = self :: METADATA_FORMAT_LOM;

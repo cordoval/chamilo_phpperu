@@ -1,5 +1,4 @@
-<?php 
-
+<?php
 namespace application\reservations;
 
 use common\libraries\EqualityCondition;
@@ -167,7 +166,7 @@ class Subscription extends DataClass
             if ($count != 0)
                 return 2;
 
-            //Max users is reached
+     //Max users is reached
             $count = $rdm->count_subscriptions($reservation_condition);
             if ($count > $reservation->get_max_users())
                 return 3;
@@ -184,17 +183,17 @@ class Subscription extends DataClass
             if (($stamp_sub_start < $stamp_res_start) || ($stamp_sub_end > $stamp_res_end))
                 return 4;
 
-            //Chosen time is smaller than now
+     //Chosen time is smaller than now
             if ($stamp_sub_start < time())
                 return 9;
 
-            //Timewindow is not between timepicker min and max values
+     //Timewindow is not between timepicker min and max values
             $difference = $stamp_sub_end - $stamp_sub_start;
             if ($reservation->get_timepicker_min() > 0)
                 if (($difference < $reservation->get_timepicker_min() * 60) || ($difference > $reservation->get_timepicker_max() * 60))
                     return 5;
 
-            //There is allready a subscription that overlaps this period
+     //There is allready a subscription that overlaps this period
             $condition = ReservationsDataManager :: get_subscriptions_condition($this->get_start_time(), $this->get_stop_time(), $this->get_reservation_id());
             $count = $rdm->count_subscriptions($condition);
             if ($count != 0)
@@ -216,6 +215,7 @@ class Subscription extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 }
+?>

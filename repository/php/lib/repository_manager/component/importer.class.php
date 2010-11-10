@@ -5,6 +5,7 @@ use common\libraries\Translation;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Application;
+use common\libraries\Utilities;
 
 /**
  * $Id: importer.class.php 204 2009-11-13 12:51:30Z kariboe $
@@ -23,7 +24,7 @@ class RepositoryManagerImporterComponent extends RepositoryManager
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ContentObjectImport')));
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Import', null, Utilities :: COMMON_LIBRARIES)));
         $trail->add_help('repository importer');
 
         $import_form = new ContentObjectImportForm('import', 'post', $this->get_url(), $this->get_parameter(RepositoryManager :: PARAM_CATEGORY_ID), $this->get_user());

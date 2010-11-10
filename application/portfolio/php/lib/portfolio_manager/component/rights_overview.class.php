@@ -4,10 +4,12 @@ namespace application\portfolio;
 use repository\RepositoryDataManager;
 use common\libraries\EqualityCondition;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use repository\ComplexContentObjectItem;
 use repository\content_object\portfolio_item\PortfolioItem;
 use repository\content_object\portfolio\Portfolio;
 use common\libraries\Theme;
+use common\libraries\Application;
 
 /* 
  * To change this template, choose Tools | Templates
@@ -202,33 +204,33 @@ class PortfolioManagerRightsOverviewComponent extends PortfolioManager
             $html[] = '<div class ="permissions"  >';
 
             $html[] = '<div class ="permissionsIcon"   >';
-            $html[] = '<img HEIGHT = 20 WIDTH = 20 alt ="'.Translation :: get('view');
+            $html[] = '<img HEIGHT = 20 WIDTH = 20 alt ="'.Translation :: get('ViewPortfolio');
             $html[] = '" title="'. Translation :: get('view');
-            $html[] = '" src="'.Theme ::get_image_path('portfolio'). '/' .'view.png'. '"  class="labeled">';
+            $html[] = '" src="'.Theme ::get_image_path(Application::determine_namespace('portfolio')). '/' .'view.png'. '"  class="labeled">';
             $html[] = ':';
             $html[] = self::return_correct_icon($array['view']['option']);
             $html[] = '</div>';
             
             $html[] = '<div class ="permissionsIcon">';
-            $html[] = '<img HEIGHT = 20 WIDTH = 20 alt ="'.Translation :: get('edit');
+            $html[] = '<img HEIGHT = 20 WIDTH = 20 alt ="'.Translation :: get('EditPortfolio');
             $html[] = '" title="'.Translation :: get('edit');
-            $html[] = '" src="'.Theme ::get_image_path('portfolio'). '/' .'edit.png'. '"  class="labeled">';
+            $html[] = '" src="'.Theme ::get_image_path(Application::determine_namespace('portfolio')). '/' .'edit.png'. '"  class="labeled">';
             $html[] = ':';
             $html[] = self::return_correct_icon($array['edit']['option']);
             $html[] = '</div>';
             
             $html[] = '<div class ="permissionsIcon" >';
-            $html[] = '<img HEIGHT = 20 WIDTH = 20 alt ="'.Translation :: get('viewFeedback');
+            $html[] = '<img HEIGHT = 20 WIDTH = 20 alt ="'.Translation :: get('ViewFeedback');
             $html[] = '" title="'.Translation :: get('viewFeedback');
-            $html[] = '" src="'.Theme ::get_image_path('portfolio'). '/' .'view_feedback.png'. '"  class="labeled">';
+            $html[] = '" src="'.Theme ::get_image_path(Application::determine_namespace('portfolio')). '/' .'view_feedback.png'. '"  class="labeled">';
             $html[] = ':';
             $html[] = self::return_correct_icon($array['viewFeedback']['option']);
             $html[] = '</div>';
 
             $html[] = '<div class ="permissionsIcon">';
-            $html[] = '<img HEIGHT = 20 WIDTH = 20 alt ="'.Translation :: get('giveFeedback');
+            $html[] = '<img HEIGHT = 20 WIDTH = 20 alt ="'.Translation :: get('GiveFeedback');
             $html[] = '" title="'.Translation :: get('giveFeedback');;
-            $html[] = '" src="'.Theme ::get_image_path('portfolio'). '/' .'give_feedback.png'. '"  class="labeled">';
+            $html[] = '" src="'.Theme ::get_image_path(Application::determine_namespace('portfolio')). '/' .'give_feedback.png'. '"  class="labeled">';
             $html[] = ':';
             $html[] = self::return_correct_icon($array['giveFeedback']['option']);
             $html[] = '</div>';
@@ -275,7 +277,7 @@ class PortfolioManagerRightsOverviewComponent extends PortfolioManager
         }
 
 
-         return '<img HEIGHT = 20 WIDTH = 20 alt ="'. $text .'" title="'. $text .'" src="'.Theme ::get_image_path('portfolio'). '/' .$icon. '"  class="labeled">';
+         return '<img HEIGHT = 20 WIDTH = 20 alt ="'. $text .'" title="'. $text .'" src="'.Theme ::get_image_path(Application::determine_namespace('portfolio')). '/' .$icon. '"  class="labeled">';
     }
 
 

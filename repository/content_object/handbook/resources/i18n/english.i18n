@@ -1,8 +1,9 @@
-Publish = 
-HandbookAddContentObject = 
-NoObjectSelected = 
-AddOrCreateNewTo = 
-ObjectAdded = 
-ContentObjectUpdated = 
-Uuid = 
-Reference = 
+Publish = ""
+NoObjectSelected = ""
+AddOrCreateNewTo = ""
+ObjectAdded = ""
+ContentObjectUpdated = ""
+HandbookPreviewNotAvailable = ""
+Properties = ""
+Uuid = ""
+Reference = ""

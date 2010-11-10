@@ -9,6 +9,7 @@ use common\libraries\OrCondition;
 use common\libraries\PatternMatchCondition;
 use common\libraries\AdministrationComponent;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\Utilities;
 
 /**
  * $Id: admin_user_browser.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
@@ -29,7 +30,7 @@ class UserManagerUserApprovalBrowserComponent extends UserManager implements Adm
         if (!UserRights :: is_allowed(UserRights :: VIEW_RIGHT, UserRights :: LOCATION_APPROVER_BROWSER, UserRights :: TYPE_COMPONENT))
         {
             $this->display_header();
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get("NotAllowed", null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }

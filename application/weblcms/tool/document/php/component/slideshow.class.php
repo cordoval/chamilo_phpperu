@@ -11,6 +11,7 @@ use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: document_slideshow.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -47,7 +48,7 @@ class DocumentToolSlideshowComponent extends DocumentTool
 
         if (Request :: get('thumbnails'))
         {
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Slideshow'), Theme :: get_common_image_path() . 'action_slideshow.png', $this->get_url(array('tool_action' => 'slideshow', 'thumbnails' => null)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Slideshow', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_slideshow.png', $this->get_url(array('tool_action' => 'slideshow', 'thumbnails' => null)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
         else
         {

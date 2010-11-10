@@ -8,6 +8,7 @@ use common\libraries\Translation;
 use common\libraries\Breadcrumb;
 use common\libraries\AdministrationComponent;
 use common\libraries\Request;
+use common\libraries\Utilities;
 
 /**
  * @package application.cda.cda.component
@@ -39,7 +40,10 @@ class CdaManagerCdaLanguageUpdaterComponent extends CdaManager implements Admini
 		if($form->validate())
 		{
 			$success = $form->update_cda_language();
-			$this->redirect($success ? Translation :: get('CdaLanguageUpdated') : Translation :: get('CdaLanguageNotUpdated'), !$success, array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_CDA_LANGUAGES));
+                        $object = Translation :: get('Language');
+                        $message = $success ? Translation :: get('ObjectUpdated', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES) :
+                                              Translation :: get('ObjectNotUpdated', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES);
+			$this->redirect($message, !$success, array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_CDA_LANGUAGES));
 		}
 		else
 		{

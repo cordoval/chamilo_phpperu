@@ -3,6 +3,7 @@ namespace application\laika;
 
 use common\libraries\Translation;
 use common\libraries\WebApplication;
+use common\libraries\Utilities;
 /**
  * $Id: questions_laika_wizard_page.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika.laika_manager.component.inc.wizard
@@ -45,7 +46,7 @@ class QuestionsLaikaWizardPage extends LaikaWizardPage
             $group[] = & $this->createElement('radio', 'question[' . $question->get_id() . ']', null, null, 5);
             
             $qf_question = $this->addGroup($group, 'question[' . $question->get_id() . ']', $i . ') ' . $question->get_title(), '', false);
-            $this->addRule('question[' . $question->get_id() . ']', Translation :: get('ThisFieldIsRequired'), 'required');
+            $this->addRule('question[' . $question->get_id() . ']', Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
             $renderer->setElementTemplate('<div style="padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px solid #c0c0c0;"><div style="float: left; width: 300px;">{label}</div><div style="float: right; width: 500px;">{element}<div class="clear"></div></div><div class="clear"></div></div>', 'question[' . $question->get_id() . ']');
             $renderer->setGroupElementTemplate('<div style="float:left; width: 20%; text-align: center;">{element}</div>', 'question[' . $question->get_id() . ']');
             
@@ -54,8 +55,8 @@ class QuestionsLaikaWizardPage extends LaikaWizardPage
         
         $this->addElement('html', '</div>');
         
-        $prevnext[] = & $this->createElement('submit', $this->getButtonName('back'), '<< ' . Translation :: get('Previous'));
-        $prevnext[] = & $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next') . ' >>');
+        $prevnext[] = & $this->createElement('submit', $this->getButtonName('back'), '<< ' . Translation :: get('Previous', null, Utilities::COMMON_LIBRARIES));
+        $prevnext[] = & $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next', null, Utilities::COMMON_LIBRARIES) . ' >>');
         $this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
         $this->setDefaultAction('next');
         $this->_formBuilt = true;

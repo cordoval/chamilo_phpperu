@@ -9,6 +9,8 @@ use common\libraries\Translation;
 use common\extensions\repo_viewer\RepoViewer;
 use common\extensions\repo_viewer\RepoViewerInterface;
 
+use common\libraries\Utilities;
+
 use repository\content_object\link\Link;
 /**
  * $Id: publisher.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
@@ -24,7 +26,7 @@ class AlexiaManagerPublisherComponent extends AlexiaManager implements RepoViewe
     {
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => AlexiaManager :: ACTION_BROWSE_PUBLICATIONS)), Translation :: get('Alexia')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Publish')));
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Publish', null ,Utilities::COMMON_LIBRARIES)));
         $trail->add_help('alexia general');
 
         

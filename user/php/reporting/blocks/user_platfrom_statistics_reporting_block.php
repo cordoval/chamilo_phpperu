@@ -2,6 +2,7 @@
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
+use common\libraries\Utilities;
 
 require_once dirname (__FILE__) . '/../user_reporting_block.class.php';
 
@@ -60,12 +61,12 @@ class UserPlatformStatisticsReportingBlock extends UserReportingBlock
 	public function get_available_displaymodes()
 	{
 		$modes = array();
-        $modes["Text"] = Translation :: get('Text');
-        $modes["Table"] = Translation :: get('Table');
-        $modes["Chart:Pie"] = Translation :: get('Chart:Pie');
-        $modes["Chart:Bar"] = Translation :: get('Chart:Bar');
-        $modes["Chart:Line"] = Translation :: get('Chart:Line');
-        $modes["Chart:FilledCubic"] = Translation :: get('Chart:FilledCubic');
+        $modes["Text"] = Translation :: get('Text', null, Utilities :: COMMON_LIBRARIES);
+        $modes["Table"] = Translation :: get('Table', null, 'reporting');
+        $modes["Chart:Pie"] = Translation :: get('Chart:Pie', null, 'reporting');
+        $modes["Chart:Bar"] = Translation :: get('Chart:Bar', null, 'reporting');
+        $modes["Chart:Line"] = Translation :: get('Chart:Line', null, 'reporting');
+        $modes["Chart:FilledCubic"] = Translation :: get('Chart:FilledCubic', null, 'reporting');
         return $modes;
 	}
 

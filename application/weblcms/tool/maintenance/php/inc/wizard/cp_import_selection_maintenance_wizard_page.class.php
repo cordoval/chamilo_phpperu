@@ -5,6 +5,7 @@ use common\libraries\OptionsMenuRenderer;
 use common\libraries\Session;
 use common\libraries\Translation;
 use common\libraries\Path;
+use common\libraries\Utilities;
 
 //require_once dirname(__FILE__) . '/maintenance_wizard_page.class.php';
 require_once Path :: get_repository_path() . '/lib/export/cp/cp_export.class.php';
@@ -26,11 +27,11 @@ class CpImportSelectionMaintenanceWizardPage extends MaintenanceWizardPage
     {
         $this->add_select(self :: CATEGORY_ID, Translation :: get('CategoryTypeName'), $this->get_categories());
 
-        $this->addElement('file', self :: IMPORT_FILE_NAME, Translation :: get('FileName'));
-        $this->addRule(self :: IMPORT_FILE_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addElement('file', self :: IMPORT_FILE_NAME, Translation :: get('FileName', null, Utilities :: COMMON_LIBRARIES));
+        $this->addRule(self :: IMPORT_FILE_NAME, Translation :: get('Required', null, Utilities :: COMMON_LIBRARIES), 'required');
 
-        $prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< ' . Translation :: get('Previous'));
-        $prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Import'));
+        $prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< ' . Translation :: get('Previous', null, Utilities :: COMMON_LIBRARIES));
+        $prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Import', null, Utilities :: COMMON_LIBRARIES));
         $this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
         $this->setDefaultAction('next');
         $this->_formBuilt = true;

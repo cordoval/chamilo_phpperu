@@ -2,6 +2,12 @@
 namespace common\extensions\email_manager;
 
 use user\User;
+use common\libraries\BreadcrumbTrail;
+use common\libraries\PlatformSetting;
+use common\libraries\Translation;
+use common\libraries\Utilities;
+use common\libraries\Theme;
+
 /**
  * $Id: emailer.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.email_manager.component
@@ -22,7 +28,7 @@ class EmailManagerEmailerComponent extends EmailManager
         if (PlatformSetting :: get('active_online_email_editor') == 0)
         {
             $this->display_header();
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }

@@ -8,6 +8,7 @@ use repository\ContentObjectForm;
 use common\libraries\Application;
 use common\libraries\EqualityCondition;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use repository\ContentObjectDisplay;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
@@ -36,9 +37,6 @@ class ProfilerManagerEditorComponent extends ProfilerManager
         {
             $profile_publication = $this->retrieve_profile_publication($id);
 
-
-            
-
             if (!$user->is_platform_admin() && $user->get_id() != $profile_publication->get_publisher())
             {
                 //Display :: not_allowed();
@@ -47,7 +45,7 @@ class ProfilerManagerEditorComponent extends ProfilerManager
 
             $content_object = $profile_publication->get_publication_object();
 
-            if (!ProfilerRights::is_allowed_in_profiler_subtree(ProfilerRights::RIGHT_EDIT, $content_object->get_id(), ProfilerRights::TYPE_PUBLICATION))
+            if (!ProfilerRights::is_allowed_in_profiler_subtree(ProfilerRights::RIGHT_EDIT, $id, ProfilerRights::TYPE_PUBLICATION))
             {
                 Display :: not_allowed();
                 exit();
@@ -74,7 +72,8 @@ class ProfilerManagerEditorComponent extends ProfilerManager
                     if ($publication_form->validate())
                     {
                         $success = $publication_form->update_content_object_publication();
-                        $this->redirect('url', Translation :: get(($success ? 'ProfilePublicationUpdated' : 'ProfilePublicationNotUpdated')), ($success ? false : true), array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES));
+                        $message = $success ? Translation :: get ('ObjectUpdated', array('OBJECT' => Translation :: get('ProfilePublication') , Utilities :: COMMON_LIBRARIES)) : Translation :: get ('ObjectNotUpdated', array('OBJECT' => Translation :: get('ProfilePublication') , Utilities :: COMMON_LIBRARIES));
+                        $this->redirect('url', $message, ($success ? false : true), array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES));
                     }
                     else
                     {
@@ -87,7 +86,8 @@ class ProfilerManagerEditorComponent extends ProfilerManager
                 }
                 else
                 {
-                    $this->redirect(Translation :: get(($success ? 'ProfilePublicationUpdated' : 'ProfilePublicationNotUpdated')), ($success ? false : true), array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES));
+                     $message = $success ? Translation :: get ('ObjectUpdated', array('OBJECT' => Translation :: get('ProfilePublication') , Utilities :: COMMON_LIBRARIES)) : Translation :: get ('ObjectNotUpdated', array('OBJECT' => Translation :: get('ProfilePublication') , Utilities :: COMMON_LIBRARIES));
+                     $this->redirect($message , ($success ? false : true), array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES));
                 }
             }
             else
@@ -99,7 +99,7 @@ class ProfilerManagerEditorComponent extends ProfilerManager
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoCalendarEventPublicationSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectsSelected', null , Utilities :: COMMON_LIBRARIES)));
         }
     }
 

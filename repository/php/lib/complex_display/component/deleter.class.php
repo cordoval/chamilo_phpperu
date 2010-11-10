@@ -3,6 +3,8 @@ namespace repository;
 
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
+
 /**
  * $Id: deleter.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.assessment.component
@@ -43,11 +45,11 @@ class ComplexDisplayComponentDeleterComponent extends ComplexDisplayComponent
 
             if (count($complex_content_object_item_ids) > 1)
             {
-                $message = htmlentities(Translation :: get('ComplexContentObjectItemsDeleted'));
+                $message = htmlentities(Translation :: get('ObjectsDeleted', array('OBJECTS' => Translation :: get('ComplexContentObjectItems')), Utilities :: COMMON_LIBRARIES));
             }
             else
             {
-                $message = htmlentities(Translation :: get('ComplexContentObjectItemDeleted'));
+                $message = htmlentities(Translation :: get('ObjectDeleted', array('OBJECT' => Translation :: get('ComplexContentObjectItem')), Utilities :: COMMON_LIBRARIES));
             }
 
             $this->redirect($message, false, array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_VIEW_COMPLEX_CONTENT_OBJECT,

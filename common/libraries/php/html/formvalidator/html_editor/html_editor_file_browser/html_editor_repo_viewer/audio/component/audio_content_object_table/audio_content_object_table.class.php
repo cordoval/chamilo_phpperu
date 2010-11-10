@@ -1,5 +1,7 @@
 <?php
 namespace common\libraries;
+
+use common\extensions\repo_viewer\RepoViewer;
 /**
  * $Id: content_object_table.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.repo_viewer.component.content_object_table
@@ -37,7 +39,7 @@ class AudioContentObjectTable extends ObjectTable
         if ($parent->get_maximum_select() != RepoViewer :: SELECT_SINGLE)
         {
             $actions = array();
-            $actions[] = new ObjectTableFormAction(RepoViewer :: PARAM_PUBLISH_SELECTED, Translation :: get('PublishSelected'), false);
+            $actions[] = new ObjectTableFormAction(RepoViewer :: PARAM_PUBLISH_SELECTED, Translation :: get('PublishSelected', null, Utilities :: COMMON_LIBRARIES), false);
         }
 
         $this->set_form_actions($actions);

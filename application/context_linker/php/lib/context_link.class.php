@@ -2,6 +2,8 @@
 namespace application\context_linker;
 use common\libraries\DataClass;
 use common\libraries\Utilities;
+use common\libraries\EqualityCondition;
+use common\libraries\Translation;
 
 /**
  * This class describes a ContextLink data object
@@ -48,12 +50,12 @@ class ContextLink extends DataClass
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_ORIGINAL_CONTENT_OBJECT_ID, self :: PROPERTY_ALTERNATIVE_CONTENT_OBJECT_ID, self :: PROPERTY_METADATA_PROPERTY_VALUE_ID, self :: PROPERTY_DATE);
+            return array (self :: PROPERTY_ID, self :: PROPERTY_ORIGINAL_CONTENT_OBJECT_ID, self :: PROPERTY_ALTERNATIVE_CONTENT_OBJECT_ID, self :: PROPERTY_METADATA_PROPERTY_VALUE_ID, self :: PROPERTY_DATE);
 	}
 
 	function get_data_manager()
 	{
-		return ContextLinkerDataManager :: get_instance();
+            return ContextLinkerDataManager :: get_instance();
 	}
 
 	/**
@@ -62,7 +64,7 @@ class ContextLink extends DataClass
 	 */
 	function get_original_content_object_id()
 	{
-		return $this->get_default_property(self :: PROPERTY_ORIGINAL_CONTENT_OBJECT_ID);
+            return $this->get_default_property(self :: PROPERTY_ORIGINAL_CONTENT_OBJECT_ID);
 	}
 
 	/**
@@ -71,7 +73,7 @@ class ContextLink extends DataClass
 	 */
 	function set_original_content_object_id($original_content_object_id)
 	{
-		$this->set_default_property(self :: PROPERTY_ORIGINAL_CONTENT_OBJECT_ID, $original_content_object_id);
+            $this->set_default_property(self :: PROPERTY_ORIGINAL_CONTENT_OBJECT_ID, $original_content_object_id);
 	}
 
 	/**
@@ -80,7 +82,7 @@ class ContextLink extends DataClass
 	 */
 	function get_alternative_content_object_id()
 	{
-		return $this->get_default_property(self :: PROPERTY_ALTERNATIVE_CONTENT_OBJECT_ID);
+            return $this->get_default_property(self :: PROPERTY_ALTERNATIVE_CONTENT_OBJECT_ID);
 	}
 
 	/**
@@ -89,7 +91,7 @@ class ContextLink extends DataClass
 	 */
 	function set_alternative_content_object_id($alternative_content_object_id)
 	{
-		$this->set_default_property(self :: PROPERTY_ALTERNATIVE_CONTENT_OBJECT_ID, $alternative_content_object_id);
+            $this->set_default_property(self :: PROPERTY_ALTERNATIVE_CONTENT_OBJECT_ID, $alternative_content_object_id);
 	}
 
 	/**
@@ -98,7 +100,7 @@ class ContextLink extends DataClass
 	 */
 	function get_metadata_property_value_id()
 	{
-		return $this->get_default_property(self :: PROPERTY_METADATA_PROPERTY_VALUE_ID);
+            return $this->get_default_property(self :: PROPERTY_METADATA_PROPERTY_VALUE_ID);
 	}
 
 	/**
@@ -107,7 +109,7 @@ class ContextLink extends DataClass
 	 */
 	function set_metadata_property_value_id($metadata_property_value_id)
 	{
-		$this->set_default_property(self :: PROPERTY_METADATA_PROPERTY_VALUE_ID, $metadata_property_value_id);
+            $this->set_default_property(self :: PROPERTY_METADATA_PROPERTY_VALUE_ID, $metadata_property_value_id);
 	}
 
 	/**
@@ -116,7 +118,7 @@ class ContextLink extends DataClass
 	 */
 	function get_date()
 	{
-		return $this->get_default_property(self :: PROPERTY_DATE);
+            return $this->get_default_property(self :: PROPERTY_DATE);
 	}
 
 	/**
@@ -125,14 +127,34 @@ class ContextLink extends DataClass
 	 */
 	function set_date($date)
 	{
-		$this->set_default_property(self :: PROPERTY_DATE, $date);
+            $this->set_default_property(self :: PROPERTY_DATE, $date);
 	}
 
 
 	static function get_table_name()
 	{
-		return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
+            return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
 	}
+
+        function create()
+        {
+            //endless recursion prevention
+            //retrieve all linked content objects and look if alternative_content_object_id is linked in any way
+            $condition = new EqualityCondition(ContextLink :: PROPERTY_ALTERNATIVE_CONTENT_OBJECT_ID, $this->get_original_content_object_id());
+            $full_context_links = $this->get_data_manager()->retrieve_full_context_links_recursive($condition);
+
+            foreach($full_context_links as $n => $full_context_link)
+            {
+                if(($full_context_link[ContextLinkerManager :: PROPERTY_ORIG_ID] == $this->get_alternative_content_object_id()) || $full_context_link[ContextLinkerManager :: PROPERTY_ALT_ID] == $this->get_alternative_content_object_id())
+                {
+                    $this->add_error(Translation :: get('AlreadyInChain'));
+                    return false;
+                }
+            }
+            return parent :: create();
+        }
+
+        
 }
 
 ?>

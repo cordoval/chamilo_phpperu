@@ -6,6 +6,7 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\Utilities;
 /**
  * @package application.cda.cda.component
  */
@@ -84,7 +85,7 @@ class CdaManagerVariableTranslationVerifierComponent extends CdaManager
 		}
 		else
 		{
-			$this->display_error_page(htmlentities(Translation :: get('NoVariableTranslationsSelected')));
+			$this->display_error_page(htmlentities(Translation :: get('NoObjectsSelected', null, Utilities :: COMMON_LIBRARIES)));
 		}
 	}
 	

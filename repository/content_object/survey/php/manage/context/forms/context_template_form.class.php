@@ -72,10 +72,10 @@ class SurveyContextTemplateForm extends FormValidator
         }
 
         $buttons[] = $this->createElement('style_submit_button', 'create', Translation :: get($action_name), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/survey_context_template_form.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/survey/resources/javascript/survey_context_template_form.js'));
     }
 
     function get_context_select_box($number = null)
@@ -157,7 +157,7 @@ class SurveyContextTemplateForm extends FormValidator
                     $group[] = $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_list_remove.png', array('style="border: 0px;"'));
                 }
                 $this->addGroup($group, self :: CONTEXT_REGISTRATIONS . $option_number, Translation :: get('SurveyContext'), '', false);
-                $this->addRule(self :: CONTEXT_REGISTRATIONS . $option_number, Translation :: get('ThisFieldIsRequired'), 'required');
+                $this->addRule(self :: CONTEXT_REGISTRATIONS . $option_number, Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
             }
         }
 

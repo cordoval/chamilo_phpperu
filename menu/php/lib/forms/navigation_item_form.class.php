@@ -3,6 +3,7 @@ namespace menu;
 use common\libraries\Application;
 use common\libraries\WebApplication;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\FormValidator;
@@ -45,7 +46,7 @@ class NavigationItemForm extends FormValidator
         $this->addElement('html', '<div class="configuration_form">');
         $this->addElement('html', '<span class="category">' . Translation :: get('Main') . '</span>');
         $this->addElement('text', NavigationItem :: PROPERTY_TITLE, Translation :: get('NavigationItemTitle'), array("size" => "50"));
-        $this->addRule(NavigationItem :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(NavigationItem :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired', null , Utilities :: COMMON_LIBRARIES), 'required');
         
         $this->addElement('select', NavigationItem :: PROPERTY_CATEGORY, Translation :: get('NavigationItemParent'), $this->get_categories());
         $this->addRule(NavigationItem :: PROPERTY_CATEGORY, Translation :: get('ThisFieldIsRequired'), 'required');
@@ -93,7 +94,7 @@ class NavigationItemForm extends FormValidator
         $this->addElement('html', '<div style="clear: both;"></div>');
         $this->addElement('html', '</div>');
         
-    //$this->addElement('submit', 'navigation_item', Translation :: get('Ok'));
+    //$this->addElement('submit', 'navigation_item', Translation :: get('Ok', null , Utilities :: COMMON_LIBRARIES));
     }
 
     function build_editing_form()
@@ -101,8 +102,8 @@ class NavigationItemForm extends FormValidator
         $this->build_basic_form();
         $this->addElement('hidden', NavigationItem :: PROPERTY_ID);
         
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null , Utilities :: COMMON_LIBRARIES), array('class' => 'positive update'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null , Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
         
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -111,8 +112,8 @@ class NavigationItemForm extends FormValidator
     {
         $this->build_basic_form();
         
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null , Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null , Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
         
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -191,7 +192,7 @@ class NavigationItemForm extends FormValidator
         
         $items = MenuDataManager :: get_instance()->retrieve_navigation_items($condition, null, null, new ObjectTableOrder(NavigationItem :: PROPERTY_SORT));
         $item_options = array();
-        $item_options[0] = Translation :: get('Root');
+        $item_options[0] = Translation :: get('Root', null , Utilities :: COMMON_LIBRARIES);
         
         while ($item = $items->next_result())
         {
@@ -204,7 +205,7 @@ class NavigationItemForm extends FormValidator
     {
         $items = WebApplication :: load_all(false);
         $applications = array();
-        $applications['root'] = Translation :: get('Root');
+        $applications['root'] = Translation :: get('Root', null , Utilities :: COMMON_LIBRARIES);
         
         foreach ($items as $item)
         {

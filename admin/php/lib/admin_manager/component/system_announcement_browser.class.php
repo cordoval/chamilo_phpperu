@@ -1,11 +1,11 @@
 <?php
 namespace admin;
+use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\InequalityCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
- 
 
 /**
  * $Id: system_announcement_browser.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
@@ -25,7 +25,7 @@ class AdminManagerSystemAnnouncementBrowserComponent extends AdminManager implem
 //        if (!AdminRights::is_allowed(AdminRights::RIGHT_VIEW, AdminRights::LOCATION_SYSTEM_ANNOUNCEMENTS))
 //        {
 //            $this->display_header();
-//            Display :: warning_message(Translation :: get('NotAllowed'));
+//            Display :: warning_message(Translation :: get('NotAllowed', array(), Utilities :: COMMON_LIBRARIES));
 //            $this->display_footer();
 //            exit();
 //        }
@@ -74,10 +74,10 @@ class AdminManagerSystemAnnouncementBrowserComponent extends AdminManager implem
         if (!Request :: get('pid'))
         {
             $action_bar->set_search_url($this->get_url());
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_system_announcement_publication_creating_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_publish.png', $this->get_system_announcement_publication_creating_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('EditRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_rights_editor_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', array(), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('EditSystemAnnouncementRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_rights_editor_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         return $action_bar;
     }
 
@@ -111,7 +111,7 @@ class AdminManagerSystemAnnouncementBrowserComponent extends AdminManager implem
 
         return $condition;
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add_help('admin_system_announcement_browser');

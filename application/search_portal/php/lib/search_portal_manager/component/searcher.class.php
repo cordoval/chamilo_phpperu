@@ -7,6 +7,7 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\Request;
 use common\libraries\FormValidator;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Text;
 use common\libraries\Theme;
 use common\libraries\PlatformSetting;
@@ -41,7 +42,7 @@ class SearchPortalManagerSearcherComponent extends SearchPortalManager
 
         if ($query && $query != '')
         {
-            $trail->add(new Breadcrumb($this->get_url(array('query' => Request :: get('query'), 'submit' => 'Search')), Translation :: get('SearchResultsFor') . ' ' . $query));
+            $trail->add(new Breadcrumb($this->get_url(array('query' => Request :: get('query'), 'submit' => 'Search')), Translation :: get('SearchResultsFor', null , Utilities :: COMMON_LIBRARIES) . ' ' . $query));
         }
 
         $this->display_header();
@@ -49,7 +50,7 @@ class SearchPortalManagerSearcherComponent extends SearchPortalManager
         $form = new FormValidator('search_simple', 'get', $this->get_url(), '', null, false);
 
         $form->addElement('text', self :: PARAM_QUERY, '', 'size="40" class="search_query_no_icon" id="search_query"');
-        $buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Search'), array('class' => 'normal search'));
+        $buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Search', null , Utilities :: COMMON_LIBRARIES), array('class' => 'normal search'));
         $form->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         $form->addElement('hidden', 'application');
 
@@ -97,7 +98,7 @@ class SearchPortalManagerSearcherComponent extends SearchPortalManager
                 $offset = $pager->getOffsetByPageId();
                 $first = $offset[0] - 1;
 
-                $str = htmlentities(str_ireplace(array('%first%', '%last%', '%total%'), array($offset[0], $offset[1], $count), Translation :: get('Results_Through_Of_From_')));
+                $str = htmlentities(str_ireplace(array('%first%', '%last%', '%total%'), array($offset[0], $offset[1], $count), Translation :: get('ResultsThroughOfFrom')));
 
                 $html[] = '<h3>' . $str . '</h3>';
                 $html[] = $pager_links;
@@ -119,14 +120,14 @@ class SearchPortalManagerSearcherComponent extends SearchPortalManager
             }
             else
             {
-                echo '<p>' . htmlentities(Translation :: get('NoResultsFound')) . '</p>';
+                echo '<p>' . htmlentities(Translation :: get('NoResults', null , Utilities :: COMMON_LIBRARIES)) . '</p>';
             }
         }
     }
 
     private function report_exception($exception)
     {
-        echo '<p><strong>' . htmlentities(Translation :: get('Error')) . ':</strong> ' . htmlentities($exception->getMessage()) . '</p>';
+        echo '<p><strong>' . htmlentities(Translation :: get('Error', null , Utilities :: COMMON_LIBRARIES)) . ':</strong> ' . htmlentities($exception->getMessage()) . '</p>';
     }
 
     private function display_result($object)
@@ -142,7 +143,7 @@ class SearchPortalManagerSearcherComponent extends SearchPortalManager
         }
         else
         {
-        	$fullname = Translation :: get('UserUnknown');
+        	$fullname = Translation :: get('UserUnknown', null , 'user');
         }
 
         $html = array();
@@ -150,14 +151,14 @@ class SearchPortalManagerSearcherComponent extends SearchPortalManager
         $html[] = '<div class="portal_search_result_title">' . $object->get_title() . '</div>';
         $html[] = '<div class="portal_search_result_type">' . str_replace('_', ' ', $object->get_type()) . '</div>';
         $html[] = '<div class="portal_search_result_description">' . $object->get_description() . '</div>';
-        $html[] = '<div class="portal_search_result_owner">'. Translation :: get('ObjectOwner') . ': ' . $fullname . '</div>';
+        $html[] = '<div class="portal_search_result_owner">'. Translation :: get('ObjectOwner', null , 'repository') . ': ' . $fullname . '</div>';
 
     	if(PlatformSetting :: get('active_online_email_editor'))
         {
-        	$html[] = '<div style="float: right;"><a href="' . $this->get_email_user_url($object->get_owner_id()) . '"><img src="' . Theme :: get_common_image_path() . 'action_email.png" title="' . Translation :: get('EmailUser') . '"/></a></div>';
+        	$html[] = '<div style="float: right;"><a href="' . $this->get_email_user_url($object->get_owner_id()) . '"><img src="' . Theme :: get_common_image_path() . 'action_email.png" title="' . Translation :: get('EmailUser', null , 'user') . '"/></a></div>';
         }
 
-        $html[] = '<div class="portal_search_result_date">'. Translation :: get('LastModification') . ': ' . DatetimeUtilities :: format_locale_date(null, $object->get_modification_date()) . '</div>';
+        $html[] = '<div class="portal_search_result_date">'. Translation :: get('LastModification', null , Utilities :: COMMON_LIBRARIES) . ': ' . DatetimeUtilities :: format_locale_date(null, $object->get_modification_date()) . '</div>';
         $html[] = '</li>';
 
         return implode("\n", $html);

@@ -38,19 +38,19 @@ class RepositoryManagerPublicationBrowserComponent extends RepositoryManager
 
         $condition = $this->get_search_condition();
         $parameters = $this->get_parameters(true);
-        $types = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE);
+        $types = Request :: get(ContentObjectTypeSelector :: PARAM_CONTENT_OBJECT_TYPE);
         if (is_array($types) && count($types))
         {
-            $parameters[RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE] = $types;
+            $parameters[ContentObjectTypeSelector :: PARAM_CONTENT_OBJECT_TYPE] = $types;
         }
         $table = new PublicationBrowserTable($this, $parameters, $condition);
         return $table->as_html();
     }
 
-	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
-    	$breadcrumbtrail->add_help('repository_publication_browser');
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
+        $breadcrumbtrail->add_help('repository_publication_browser');
     }
 }
 ?>

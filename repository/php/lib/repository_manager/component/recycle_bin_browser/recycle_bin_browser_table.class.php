@@ -32,8 +32,8 @@ class RecycleBinBrowserTable extends ObjectTable
         $this->set_additional_parameters($parameters);
         $actions = array();
 
-        $actions[] = new ObjectTableFormAction(RepositoryManager :: ACTION_RESTORE_CONTENT_OBJECTS, Translation :: get('RestoreSelected'));
-        $actions[] = new ObjectTableFormAction(RepositoryManager :: ACTION_DELETE_CONTENT_OBJECTS_PERMANENTLY, Translation :: get('DeleteSelected'));
+        $actions[] = new ObjectTableFormAction(RepositoryManager :: ACTION_RESTORE_CONTENT_OBJECTS, Translation :: get('RestoreSelected', null, Utilities :: COMMON_LIBRARIES));
+        $actions[] = new ObjectTableFormAction(RepositoryManager :: ACTION_DELETE_CONTENT_OBJECTS_PERMANENTLY, Translation :: get('DeleteSelected', null, Utilities :: COMMON_LIBRARIES));
 
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);

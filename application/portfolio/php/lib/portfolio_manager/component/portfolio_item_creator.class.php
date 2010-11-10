@@ -10,6 +10,7 @@ use repository\RepositoryDataManager;
 use repository\content_object\portfolio_item\PortfolioItem;
 use repository\ComplexContentObjectItem;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use repository\content_object\link\Link;
 use common\libraries\EqualityCondition;
 use repository\content_object\youtube\Youtube;
@@ -56,9 +57,9 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManager imp
 
             $udm = UserDataManager :: get_instance();
             $user = $udm->retrieve_user($this->get_user_id());
-            $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id())), Translation :: get('ViewPortfolio') . ' ' . $user->get_fullname()));
+            $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id())), Translation :: get('ViewObject', array('OBJECT' => Translation::get('Portfolio')), Utilities::COMMON_LIBRARIES) . ' ' . $user->get_fullname()));
 
-            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreatePortfolioItem')));
+            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateObject', array('OBJECT' => Translation::get('PortfolioItem')), Utilities::COMMON_LIBRARIES)));
             $trail->add_help('portfolio create');
 
             $repo_viewer->run();
@@ -134,7 +135,7 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManager imp
                 }
             }
 
-            $this->redirect($success ? Translation :: get('PortfolioItemCreated') : Translation :: get('PortfolioItemNotCreated'), ! $success, array(
+            $this->redirect($success ? Translation :: get('ObjectCreated', array('OBJECT' => Translation::get('PortfolioItem')), Utilities::COMMON_LIBRARIES) : Translation :: get('ObjectNotCreated', array('OBJECT' => Translation::get('PortfolioItem')), Utilities::COMMON_LIBRARIES), ! $success, array(
                     PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id(),
                     PortfolioManager :: PROPERTY_CID => $wrapper->get_id(), PortfolioManager :: PROPERTY_PID => $pp));
         }

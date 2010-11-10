@@ -19,6 +19,7 @@ use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\ActionBarSearchForm;
+use common\libraries\Utilities;
 
 /**
  * $Id: admin_course_browser.class.php 218 2009-11-13 14:21:26Z kariboe $
@@ -49,7 +50,7 @@ class WeblcmsManagerAdminCourseBrowserComponent extends WeblcmsManager
         {
             $this->display_header($trail, false, true);
             echo '<div class="clear"></div><br />';
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get('NotAllowed', null ,Utilities:: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }*/
@@ -71,8 +72,8 @@ class WeblcmsManagerAdminCourseBrowserComponent extends WeblcmsManager
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
         $action_bar->set_search_url($this->get_url(array('category' => Request :: get('category'))));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path() . 'action_add.png', $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_CREATE_COURSE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array('category' => Request :: get('category'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Add', null ,Utilities:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_add.png', $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_CREATE_COURSE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null ,Utilities:: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array('category' => Request :: get('category'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         return $action_bar;
     }
 
@@ -98,7 +99,7 @@ class WeblcmsManagerAdminCourseBrowserComponent extends WeblcmsManager
             // $search_url = $this->get_url();
             $search_url = '#';
             $search = array();
-            $search['title'] = Translation :: get('SearchResults');
+            $search['title'] = Translation :: get('SearchResults', null ,Utilities:: COMMON_LIBRARIES);
             $search['url'] = $search_url;
             $search['class'] = 'search_results';
             $extra_items[] = $search;

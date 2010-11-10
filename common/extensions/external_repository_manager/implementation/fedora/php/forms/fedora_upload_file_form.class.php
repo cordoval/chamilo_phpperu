@@ -11,28 +11,31 @@ use common\libraries\Redirect;
  * @author laurent.opprecht@unige.ch
  *
  */
-class FedoraUploadFileForm extends FormValidator{
+class FedoraUploadFileForm extends FormValidator
+{
 
-	function __construct($application, $parameters, $data = false){
-		parent::__construct(__CLASS__, 'post', Redirect::get_url($parameters));
+    function __construct($application, $parameters, $data = false)
+    {
+        parent :: __construct(__CLASS__, 'post', Redirect :: get_url($parameters));
 
         $this->build_upload_form();
     }
 
-	function validate(){
-		return isset($_FILES['file']) && !empty($_FILES['file']['tmp_name']);
-	}
+    function validate()
+    {
+        return isset($_FILES['file']) && ! empty($_FILES['file']['tmp_name']);
+    }
 
-    function build_upload_form(){
-    	$this->addElement('file', 'file', Translation::get('FileName'));
-		$this->addRule('file', Translation::get('Required'), 'required');
+    function build_upload_form()
+    {
+        $this->addElement('file', 'file', Translation :: get('FileName'));
+        $this->addRule('file', Translation :: get('Required'), 'required');
 
-    	$buttons[] = $this->createElement('style_submit_button', 'submit', Translation::get('Upload'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation::get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Upload'), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 }
-
 
 ?>

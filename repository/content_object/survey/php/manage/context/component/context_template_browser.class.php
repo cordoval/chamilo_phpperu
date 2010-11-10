@@ -71,10 +71,10 @@ class SurveyContextManagerContextTemplateBrowserComponent extends SurveyContextM
         
         $action_bar->set_search_url($this->get_url());
         
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Create'), Theme :: get_common_image_path() . 'action_add.png', $this->get_context_template_creation_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Create', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_add.png', $this->get_context_template_creation_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         if (SurveyContextManagerRights :: is_allowed_in_survey_context_manager_subtree(SurveyContextManagerRights :: RIGHT_VIEW, SurveyContextManagerRights :: LOCATION_CONTEXT_REGISTRATION, SurveyContextManagerRights :: TYPE_COMPONENT))
         {
-            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_rights_editor_url(SurveyContextManagerRights :: LOCATION_CONTEXT_REGISTRATION), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ManageRights', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_rights.png', $this->get_rights_editor_url(SurveyContextManagerRights :: LOCATION_CONTEXT_REGISTRATION), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
         
         return $action_bar;

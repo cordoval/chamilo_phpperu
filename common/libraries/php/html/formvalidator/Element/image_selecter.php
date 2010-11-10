@@ -2,6 +2,7 @@
 use common\libraries\Translation;
 use common\libraries\ResourceManager;
 use common\libraries\Path;
+use common\libraries\Utilities;
 
 /**
  * $Id: element_finder.php 128 2009-11-09 13:13:20Z vanpouckesven $
@@ -150,11 +151,11 @@ class HTML_QuickForm_image_selecter extends HTML_QuickForm_group
         
         if ($this->isCollapsed())
         {
-            $html[] = '<button id="' . $this->getName() . '_collapse_button" style="display: none" class="normal hide">' . htmlentities(Translation :: get('Hide')) . '</button>';
+            $html[] = '<button id="' . $this->getName() . '_collapse_button" style="display: none" class="normal hide">' . htmlentities(Translation :: get('Hide', null, Utilities :: COMMON_LIBRARIES)) . '</button>';
         }
         else
         {
-            $html[] = '<button id="' . $this->getName() . '_collapse_button" class="normal hide mini">' . htmlentities(Translation :: get('Hide')) . '</button>';
+            $html[] = '<button id="' . $this->getName() . '_collapse_button" class="normal hide mini">' . htmlentities(Translation :: get('Hide', null, Utilities :: COMMON_LIBRARIES)) . '</button>';
         }
         
         $html[] = '</div>';

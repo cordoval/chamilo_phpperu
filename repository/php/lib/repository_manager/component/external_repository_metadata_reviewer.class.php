@@ -104,7 +104,7 @@ class RepositoryManagerExternalRepositoryMetadataReviewerComponent extends Repos
      */
     function get_metadata_type()
     {
-        $metadata_type = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE);
+        $metadata_type = Request :: get(ContentObjectTypeSelector :: PARAM_CONTENT_OBJECT_TYPE);
         if (! isset($metadata_type))
         {
             $metadata_type = self :: METADATA_FORMAT_LOM;

@@ -7,6 +7,7 @@ use common\libraries\Display;
 use common\libraries\Translation;
 use common\libraries\AdministrationComponent;
 use common\libraries\Breadcrumb;
+use common\libraries\Utilities;
 
 /**
  * @package application.cda.cda.component
@@ -38,7 +39,11 @@ class CdaManagerCdaLanguageCreatorComponent extends CdaManager implements Admini
 		if($form->validate())
 		{
 			$success = $form->create_cda_language();
-			$this->redirect($success ? Translation :: get('CdaLanguageCreated') : Translation :: get('CdaLanguageNotCreated'), !$success, array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_CDA_LANGUAGES));
+                        $object = Translation :: get('Language');
+                        $message = $success ? Translation :: get('ObjectCreated', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES) :
+                                              Translation :: get('ObjectNotCreated', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES);
+
+			$this->redirect($message, !$success, array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_CDA_LANGUAGES));
 		}
 		else
 		{

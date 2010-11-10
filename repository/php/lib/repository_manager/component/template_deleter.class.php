@@ -8,6 +8,7 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\EqualityCondition;
 use common\libraries\Application;
 use common\libraries\OrCondition;
+use common\libraries\Utilities;
 
 /**
  * $Id: template_deleter.class.php 204 2009-11-13 12:51:30Z kariboe $
@@ -60,30 +61,30 @@ class RepositoryManagerTemplateDeleterComponent extends RepositoryManager
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedObjectNotDeleted';
+                    $message = Translation :: get('ObjectNotDeleted', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES);
                 }
                 else
                 {
-                    $message = 'NotAllSelectedObjectsDeleted';
+                    $message = Translation :: get('ObjectsNotDeleted', array('OBJECTS' => Translation :: get('ContentObjects')), Utilities :: COMMON_LIBRARIES);
                 }
             }
             else
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedObjectDeleted';
+                    $message = Translation :: get('ObjectDeleted', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES);
                 }
                 else
                 {
-                    $message = 'AllSelectedObjectsDeleted';
+                    $message = Translation :: get('ObjectsDeleted', array('OBJECTS' => Translation :: get('ContentObjects')), Utilities :: COMMON_LIBRARIES);
                 }
             }
 
-            $this->redirect(Translation :: get($message), ($failures > 0), array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_TEMPLATES));
+            $this->redirect($message, ($failures > 0), array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_TEMPLATES));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES)));
         }
     }
 

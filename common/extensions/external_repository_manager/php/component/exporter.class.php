@@ -44,7 +44,7 @@ class ExternalRepositoryComponentExporterComponent extends ExternalRepositoryCom
     function get_default_browser_actions()
     {
         $browser_actions = array();
-        $browser_actions[] = new ToolbarItem(Translation :: get('Export'), Theme :: get_common_image_path() . 'action_export.png', $this->get_url(array_merge($this->get_parameters(), array(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => '__ID__')), false), ToolbarItem :: DISPLAY_ICON);
+        $browser_actions[] = new ToolbarItem(Translation :: get('Export', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_export.png', $this->get_url(array_merge($this->get_parameters(), array(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => '__ID__')), false), ToolbarItem :: DISPLAY_ICON);
         //$browser_actions[] = array('href' => $this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_VIEWER, RepoViewer :: PARAM_ID => '__ID__')), false), 'img' => Theme :: get_common_image_path() . 'action_browser.png', 'label' => Translation :: get('Preview'));
         return $browser_actions;
     }

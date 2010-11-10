@@ -7,6 +7,7 @@ use common\libraries\Translation;
 use common\libraries\Theme;
 use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
+use common\libraries\Utilities;
 /**
  * @package cda.tables.variable_table
  */
@@ -64,7 +65,7 @@ class VariableBrowserTableCellRenderer extends DefaultVariableTableCellRenderer
 		if ($can_edit)
 		{
 			$toolbar->add_item(new ToolbarItem(
-    				Translation :: get('Edit'), 
+    				Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES),
     				Theme :: get_common_image_path() . 'action_edit.png', 
     				$this->browser->get_update_variable_url($variable), 
     				ToolbarItem :: DISPLAY_ICON
@@ -74,7 +75,7 @@ class VariableBrowserTableCellRenderer extends DefaultVariableTableCellRenderer
 		if ($can_delete)
 		{
 			$toolbar->add_item(new ToolbarItem(
-    				Translation :: get('Delete'), 
+    				Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES),
     				Theme :: get_common_image_path() . 'action_delete.png', 
     				$this->browser->get_delete_variable_url($variable), 
     				ToolbarItem :: DISPLAY_ICON,

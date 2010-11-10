@@ -7,6 +7,7 @@ use common\libraries\Display;
 use common\libraries\AdministrationComponent;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\Utilities;
 
 /**
  * $Id: deleter.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
@@ -30,7 +31,7 @@ class UserManagerUserApproverComponent extends UserManager implements Administra
         if (!UserRights :: is_allowed(UserRights :: VIEW_RIGHT, UserRights :: LOCATION_APPROVER, UserRights :: TYPE_COMPONENT));
         {
             $this->display_header();
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get("NotAllowed", null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
@@ -94,7 +95,7 @@ class UserManagerUserApproverComponent extends UserManager implements Administra
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected'), array('OBJECT' => Translation :: get('User')), Utilities :: COMMON_LIBRARIES));
         }
     }
 

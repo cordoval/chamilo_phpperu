@@ -1,8 +1,6 @@
 <?php
 namespace webservice;
 
-use common\libraries;
-
 use common\libraries\Configuration;
 
 /**

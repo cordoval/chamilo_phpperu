@@ -40,20 +40,20 @@ class WhoisOnlineTableCellRenderer extends DefaultUserTableCellRenderer
             case User :: PROPERTY_STATUS :
                 if ($user->get_platformadmin() == '1')
                 {
-                    return Translation :: get('PlatformAdministrator');
+                    return Translation :: get('PlatformAdministrator', array(), 'user');
                 }
                 if ($user->get_status() == '1')
                 {
-                    return Translation :: get('CourseAdmin');
+                    return Translation :: get('CourseAdmin', array(), 'user');
                 }
                 else
                 {
-                    return Translation :: get('Student');
+                    return Translation :: get('Student', array(), 'user');
                 }
             case User :: PROPERTY_PLATFORMADMIN :
                 if ($user->get_platformadmin() == '1')
                 {
-                    return Translation :: get('PlatformAdministrator');
+                    return Translation :: get('PlatformAdministrator', array(), 'user');
                 }
                 else
                 {
@@ -62,7 +62,7 @@ class WhoisOnlineTableCellRenderer extends DefaultUserTableCellRenderer
             case User :: PROPERTY_PICTURE_URI :
                 if ($user->get_picture_uri())
                 {
-                    return '<a href="' . $this->browser->get_url(array('uid' => $user->get_id())) . '">' . '<img style="max-width: 100px; max-height: 100px;" src="' . $user->get_full_picture_url() . '" alt="' . Translation :: get('UserPic') . '" /></a>';
+                    return '<a href="' . $this->browser->get_url(array('uid' => $user->get_id())) . '">' . '<img style="max-width: 100px; max-height: 100px;" src="' . $user->get_full_picture_url() . '" alt="' . Translation :: get('UserPicture', array(), 'user') . '" /></a>';
                 }
                 return '';
         }

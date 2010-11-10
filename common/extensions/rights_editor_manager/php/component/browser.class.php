@@ -1,6 +1,5 @@
 <?php
 namespace common\extensions\rights_editor_manager;
-use common\libraries;
 
 use common\libraries\Path;
 use common\libraries\BreadcrumbTrail;
@@ -179,11 +178,11 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
             $parameters[self :: PARAM_TYPE] = 'group';
             $parameters['query'] = $this->action_bar->get_query();
             $table = new LocationGroupBrowserTable($this, $parameters, $this->get_group_conditions());
-            $tabs->add_tab(new DynamicContentTab(self :: TAB_SUBGROUPS, Translation :: get('Subgroups'), Theme :: get_image_path('admin') . 'place_mini_group.png', $table->as_html()));
+            $tabs->add_tab(new DynamicContentTab(self :: TAB_SUBGROUPS, Translation :: get('Subgroups', null, 'group'), Theme :: get_image_path('admin') . 'place_mini_group.png', $table->as_html()));
         }
 
         $table = new LocationGroupBrowserTable($this, $this->get_parameters(), $this->get_group_conditions(false));
-        $tabs->add_tab(new DynamicContentTab(self :: TAB_DETAILS, Translation :: get('Rights'), Theme :: get_image_path('admin') . 'place_mini_rights.png', $table->as_html()));
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_DETAILS, Translation :: get('Rights', null, 'rights'), Theme :: get_image_path('admin') . 'place_mini_rights.png', $table->as_html()));
 
         $html[] = $tabs->render();
         $html[] = '</div>';
@@ -204,7 +203,7 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
         {
             $current = $this->type == self :: TYPE_USER ? ' current' : '';
             $html[] = '<a href="' . $this->get_url(array(self :: PARAM_TYPE => self :: TYPE_USER)) . '">';
-            $html[] = '<div class="application' . $current . '" style="background-image: url(' . Theme :: get_image_path('admin') . 'place_user.png);">' . Translation :: get('Users') . '</div>';
+            $html[] = '<div class="application' . $current . '" style="background-image: url(' . Theme :: get_image_path('admin') . 'place_user.png);">' . Translation :: get('Users', null, 'user') . '</div>';
             $html[] = '</a>';
         }
 
@@ -212,7 +211,7 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
         {
             $current = $this->type == self :: TYPE_GROUP ? ' current' : '';
             $html[] = '<a href="' . $this->get_url(array(self :: PARAM_TYPE => self :: TYPE_GROUP)) . '">';
-            $html[] = '<div class="application' . $current . '" style="background-image: url(' . Theme :: get_image_path('admin') . 'place_group.png);">' . Translation :: get('Groups') . '</div>';
+            $html[] = '<div class="application' . $current . '" style="background-image: url(' . Theme :: get_image_path('admin') . 'place_group.png);">' . Translation :: get('Groups', null, 'group') . '</div>';
             $html[] = '</a>';
         }
 
@@ -220,7 +219,7 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
         {
             $current = $this->type == self :: TYPE_TEMPLATE ? ' current' : '';
             $html[] = '<a href="' . $this->get_url(array(self :: PARAM_TYPE => self :: TYPE_TEMPLATE)) . '">';
-            $html[] = '<div class="application' . $current . '" style="background-image: url(' . Theme :: get_image_path('admin') . 'place_template.png);">' . Translation :: get('Templates') . '</div>';
+            $html[] = '<div class="application' . $current . '" style="background-image: url(' . Theme :: get_image_path('admin') . 'place_template.png);">' . Translation :: get('Templates', null, 'right') . '</div>';
             $html[] = '</a>';
         }
 
@@ -345,7 +344,7 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         $action_bar->set_search_url($this->get_url(array(self :: PARAM_TYPE => $this->type)));
 
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(self :: PARAM_TYPE => $this->type)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(self :: PARAM_TYPE => $this->type)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $locations = $this->get_locations();
         if(count($locations) == 1)
         {

@@ -57,14 +57,14 @@ class DynamicFormElementBrowserTableCellRenderer extends DefaultDynamicFormEleme
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
 
         $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Edit'),
+        		Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES),
         		Theme :: get_common_image_path() . 'action_edit.png',
         		$update_url,
         		ToolbarItem :: DISPLAY_ICON
         ));
         
         $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Delete'),
+        		Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES),
         		Theme :: get_common_image_path() . 'action_delete.png',
         		$delete_url,
         		ToolbarItem :: DISPLAY_ICON,

@@ -6,6 +6,7 @@ use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
+use common\libraries\Utilities;
 
 use repository\content_object\learning_path_item\LearningPathItem;
 use repository\content_object\portfolio_item\PortfolioItem;
@@ -44,16 +45,16 @@ class UserViewForm extends FormValidator
 
     function build_basic_form()
     {
-        $this->addElement('text', UserView :: PROPERTY_NAME, Translation :: get('Name'), array("size" => "50"));
-        $this->addRule(UserView :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
-        $this->add_html_editor(UserView :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
+        $this->addElement('text', UserView :: PROPERTY_NAME, Translation :: get('Name', null, Utilities :: COMMON_LIBRARIES), array("size" => "50"));
+        $this->addRule(UserView :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
+        $this->add_html_editor(UserView :: PROPERTY_DESCRIPTION, Translation :: get('Description', null, Utilities :: COMMON_LIBRARIES), false);
 
         if ($this->form_type == self :: TYPE_EDIT)
         {
             $uvrlo = RepositoryDataManager :: get_instance()->retrieve_user_view_rel_content_objects(new EqualityCondition(UserViewRelContentObject :: PROPERTY_VIEW_ID, $this->get_user_view()->get_id()));
             while ($type = $uvrlo->next_result())
             {
-                $content_object_types[$type->get_content_object_type()] = Translation :: get(Utilities :: underscores_to_camelcase($type->get_content_object_type()) . 'TypeName');
+                $content_object_types[$type->get_content_object_type()] = Translation :: get('TypeName', null, ContentObject :: get_content_object_type_namespace($type->get_content_object_type()));
                 if ($type->get_visibility())
                     $defaults[] = $type->get_content_object_type();
             }
@@ -68,7 +69,7 @@ class UserViewForm extends FormValidator
             {
                 if (in_array($registration, $hidden_types))
                     continue;
-                $content_object_types[$registration] = Translation :: get(Utilities :: underscores_to_camelcase($registration) . 'TypeName');
+                $content_object_types[$registration] = Translation :: get('TypeName', null, ContentObject :: get_content_object_type_namespace($registration));
                 //$defaults[] = $registration;
             }
         }
@@ -87,8 +88,8 @@ class UserViewForm extends FormValidator
 
         $this->addElement('hidden', UserView :: PROPERTY_ID);
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive update'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -97,8 +98,8 @@ class UserViewForm extends FormValidator
     {
         $this->build_basic_form();
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

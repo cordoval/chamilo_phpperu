@@ -5,6 +5,7 @@ use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\Utilities;
 /**
  * $Id: content_object_copier.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component
@@ -43,21 +44,27 @@ class RepositoryManagerContentObjectCopierComponent extends RepositoryManager
             $content_object_copier->copy_content_object($lo);
         }
 
-        if (count($lo_ids) > 0)
+        if (count($lo_ids) > 1)
         {
             if ($failed == 0)
-                $message = Translation :: get('ContentObjectsCopied');
-            elseif ($failed > 0 && $failed < count($lo_ids))
-                $message = Translation :: get('SomeContentObjectsNotCopied');
+            {
+                $message = Translation :: get('ObjectsCopied', array('OBJECTS' => Translation :: get('ContentObjects')), Utilities :: COMMON_LIBRARIES);
+            }
             else
-                $message = Translation :: get('ContentObjectsNotCopied');
+            {
+                $message = Translation :: get('ObjectsNotCopied', array('OBJECTS' => Translation :: get('ContentObjects')), Utilities :: COMMON_LIBRARIES);
+            }
         }
         else
         {
             if ($failed == 0)
-                $message = Translation :: get('ContentObjectCopied');
+            {
+                $message = Translation :: get('ObjectCopied', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES);
+            }
             else
-                $message = Translation :: get('ContentObjectNotCopied');
+            {
+                $message = Translation :: get('ObjectNotCopied', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES);
+            }
         }
 
         $this->redirect($message, ($failed > 0), array(RepositoryManager :: PARAM_ACTION => null));

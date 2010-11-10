@@ -18,8 +18,10 @@ class Autoloader
 
         $list = array(
             'search_source' => 'search_source/search_source.class.php',
-            'search_portal_manager' => 'search_portal_manager/search_portal_manager.class.php'
-        );
+            'search_portal_manager' => 'search_portal_manager/search_portal_manager.class.php',
+            'search_portal_block' => '../blocks/search_portal_block.class.php',
+        	'SearchPortalBasic' => '../blocks/type/basic.class.php'
+            );
 
         $lower_case = Utilities :: camelcase_to_underscores($classname);
 

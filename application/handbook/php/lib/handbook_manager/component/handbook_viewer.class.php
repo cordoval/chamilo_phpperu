@@ -5,6 +5,7 @@ use repository\RepositoryDataManager;
 use common\libraries\ActionBarRenderer;
 use common\libraries\ToolbarItem;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Theme;
 use common\libraries\Application;
@@ -13,6 +14,8 @@ use repository\content_object\handbook_item\HandbookItem;
 use repository\content_object\handbook\Handbook;
 use application\metadata\MetadataManager;
 use repository\ContentObjectDisplay;
+use repository\content_object\document\Document;
+use repository\RepositoryManager;
 
 
 
@@ -125,7 +128,6 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
                     $html[] = $menu->render_as_tree();
                 $html[] = '</div>';
             $html[] = '</div>';
-
             $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'libraries/resources/javascript/tool_bar.js' . '"></script>';
             $html[] = '<div class="clear"></div>';
 
@@ -177,7 +179,7 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
         if($this->selected_object)
         {
             //create alternative context version
-            $actions[] = new ToolbarItem(Translation :: get('CreateContextLink'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(Application::PARAM_APPLICATION => ContextLinkerManager::APPLICATION_NAME, ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_CREATE_CONTEXT_LINK, ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => $this->selected_object->get_id())));
+            $actions[] = new ToolbarItem(Translation :: get('CreateObject' , array('OBJECT' => Translation::get('ContextLink')), 'application\\context_linker\\'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(Application::PARAM_APPLICATION => ContextLinkerManager::APPLICATION_NAME, ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_CREATE_CONTEXT_LINK, ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => $this->selected_object->get_id())));
         }
         //view glossary
 
@@ -189,124 +191,7 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
 
     }
 
-//    function determine_relevant_alternatives($context_links_resultset)
-//    {
-//        $texts = array();
-//        $images = array();
-//        $videos = array();
-//        $links = array();
-//        $others = array();
-//        $handbooks = array();
-//        $rdm = RepositoryDataManager::get_instance();
-//
-//        while ($item = $context_links_resultset->next_result())
-//             {
-//                 $alternative_co = $rdm->retrieve_content_object($item[ContentObject :: PROPERTY_ID]);
-//                 $display = ContentObjectDisplay :: factory($alternative_co);
-//
-//                 if($alternative_co->get_type() == Handbook::get_type_name())
-//                    {
-//                        $handbooks[] = $alternative_co;
-//                    }
-//                 else if($alternative_co->get_type() == Document::get_type_name())
-//                 {
-//                     if($alternative_co->is_image())
-//                     {
-//                        $images[] = $alternative_co;
-//                     }
-//                      else if($alternative_co->is_flash() || $alternative_co->is_video() || $alternative_co->is_audio())
-//                      {
-//                        $videos[] = $alternative_co;
-//                      }
-//                      else
-//                      {
-//                          $texts[$item[MetadataPropertyValue :: PROPERTY_VALUE]] = $alternative_co;
-//                      }
-//                    }
-//                    else if($alternative_co->get_type() == Youtube::get_type_name())
-//                    {
-//                        $videos[] = $alternative_co;
-//                    }
-//                    else if($alternative_co->get_type() == Link::get_type_name())
-//                    {
-//                        $links[] = $alternative_co;
-//                    }
-//                    else if($alternative_co->get_type() == WikiPage::get_type_name())
-//                    {
-//                        $texts[] = $alternative_co;
-//                    }
-//                    else
-//                    {
-//                        $others[] = $alternative_co;
-//                    }
-//             }
-//
-//            if($this->selected_object->get_type() == Handbook::get_type_name())
-//            {
-//                $handbooks[] = $this->selected_object;
-//            }
-//             else if($this->selected_object->get_type() == Document::get_type_name())
-//             {
-//                 if($this->selected_object->is_image())
-//                 {
-//                    $images[] = $alternative_co;
-//                 }
-//                  else if($this->selected_object->is_flash() || $this->selected_object->is_video() || $this->selected_object->is_audio())
-//                  {
-//                    $videos[] = $alternative_co;
-//                  }
-//                  else
-//                  {
-//                      $condition = new EqualityCondition(MetadataPropertyValue :: PROPERTY_CONTENT_OBJECT_ID, $this->selected_object->get_id());
-//                      $metadata_property_values = MetadataManager::retrieve_metadata_property_values($condition);
-//
-//                      $metadata_array = array();
-//
-//                      while($metadata = $metadata_property_values->next_result())
-//                      {
-//                          $metadata_array[$metadata->get_property_type_id()]= $metadata->get_value();
-//                      }
-//                      $texts['original'] = $this->selected_object;
-//                  }
-//            }
-//            else if($this->selected_object->get_type() == Youtube::get_type_name())
-//            {
-//                $videos[] = $this->selected_object;
-//            }
-//            else if($this->selected_object->get_type() == Link::get_type_name())
-//            {
-//                $links[] = $this->selected_object;
-//            }
-//            else if($this->selected_object->get_type() == WikiPage::get_type_name())
-//            {
-//                $texts[] = $this->selected_object;
-//            }
-//            else
-//            {
-//                $others[] = $this->selected_object;
-//            }
-//                 $alternatives['text'] = $texts;
-//                 $alternatives['image'] = $images;
-//                 $alternatives['video'] = $videos;
-//                 $alternatives['other'] = $others;
-//                 $alternatives['link'] = $links;
-//                 $alternatives['handbook'] = $handbooks;
-//
-//                 //TODO: Determine most relevant ones (Voorlopig is gewoon de eerste de "main" en zit die ook nog eens bij de alternatives)
-//                 //TEXT
-//                 //1. user language 2. publication language
-//                 //3. user institution 4. publication institution
-//                 $alternatives['text_main'] = current($alternatives['text']);
-//                 $alternatives['handbook_main'] = current($alternatives['handbook']);
-//
-//                 //IMAGE & VIDEO
-//                 //1. user language 2. publication language
-//                 //3. user institution 4. publication institution
-//                 $alternatives['image_main'] = current($alternatives['image']);
-//                 $alternatives['video_main'] = current($alternatives['video']);
-//
-//                 return $alternatives;
-//    }
+
 
     /**
      * retrieve all the glossary's in this handbook publication and combine them in one
@@ -338,8 +223,8 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
 
          if($alternatives_array['image_main'] != null|| $alternatives_array['video_main'] != null)
          {
-             $text_width = '70%';
-             $visual_width = '30%';
+             $text_width = '67%';
+             $visual_width = '33%';
          }
          else
          {
@@ -348,46 +233,69 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
          }
 
          //OUTPUT HTML
-        $html[] = '<div class = "handbook_item" style="float:left; width:100%; padding:10px;">';
+        $html[] = '<div class = "handbook_item" style="float:left; background:green; padding:10px;">';
 
-            $html[] = '<div class = "handbook_item_primary_info" style="float:left; width:100%;">';
+            $html[] = '<div class = "handbook_item_primary_info" style="float:left; background:pink; width:'.$text_width.';">';
                 if($alternatives_array['text_main'] != null)
                 {
-                    $html[] = '<div class = "handbook_item_text" style="float:left; width:'.$text_width.';">';
+                    $html[] = '<div class = "handbook_item_text" style="float:left; width:'.'100%'.';">';
                     //TEXT
                     //MAIN
                     $display = ContentObjectDisplay :: factory($alternatives_array['text_main']);
-                    $html[] = $display->get_full_html();
+//                    $html[] = $display->get_full_html();
+                    $html[] = '<div class="main_title">';
+                    $html[] = $alternatives_array['text_main']->get_title();
+                     $html[] = '</div>';
+                    $html[] = '<div class="main_text">';
                     $html[] = $alternatives_array['text_main']->get_text();
+                     $html[] = '</div>';
                     $html[] = '</div>';
                     //ALTERNATIVES
                     if(count($alternatives_array['text'])>0 )
                     {
-                        $html[] = '<br /><a href="#" id="showtext" style="display:none; float:left;">' . Translation :: get('ShowAllTextAlternatives') . '</a><br><br>';
+                        $html[] = '<br /><a href="#" id="showtext" style="display:block; float:left;">' . Translation :: get('ShowAllTextAlternatives') . '</a><br><br>';
                         $html[] = '<a href="#" id="hidetext" style="display:none; font-size: 80%; font-weight: normal;">(' . Translation :: get('HideAllTextAlternatives') . ')</a>';
-                        $html[] = '<div id="textlist">';
+                        $html[] = '<div id="textlist" style="display:none;">';
 
                         while(list($key, $value)= each($alternatives_array['text']))
                          {
+                            $html[] = '<div class="alternative_metadata">';
                              $html[] = $this->print_metadata($value->get_id());
-                             $display = ContentObjectDisplay :: factory($value);
-                             $html[] = $display->get_full_html();
                              $html[] = '</div>';
+                             $display = ContentObjectDisplay :: factory($value);
+//                             $html[] = $display->get_full_html();
+                             $html[] = '<div class="alternative_title">';
+                             $html[] = $value->get_title();
+                             $html[] = '</div>';
+                             $html[] = '<div class="alternative_text">';
+                            $html[] = $value->get_text();
+                            $html[] = '</div>';
+//                             $html[] = '</div>';
                          }
                          $html[] = '</div>';
                     }
-                    $html[] = '</div>';
+//                    $html[] = '</div>';
                 }
 
-                $html[] = '<div class = "handbook_item_visual" style="float:left; width:'.$visual_width.'">';
+
+               //IMAGES START
+                $html[] = '<div class = "handbook_item_visual" style="float:left; background:blue; width:'.$visual_width.'">';
                 if($alternatives_array['image_main'] != null)
                 {
                     $html[] = '<div class = "handbook_item_images" style="padding: 10px;">';
                     //IMAGES
                     //MAIN
-                    $display = ContentObjectDisplay :: factory($alternatives_array['image_main']);
-                    $html[] = $display->get_description();
+                    $object = $alternatives_array['image_main'];
+                    $url = Path :: get(WEB_PATH) . RepositoryManager :: get_document_downloader_url($object->get_id());
+                    //TODO SHOW POPUP WITH LARGER PIC ON CLICK INSTEAD OF DOWNLOAD
+                   $html[] = '<div>';
+                    $html[] = '<a href="'.$url.'"><img style = "max-width:100%" src="'.$url.'"></a>';
                     $html[] = '</div>';
+                   
+                    
+
+
+                    
                     //ALTERNATIVES
                     if(count($alternatives_array['image'])>0)
                     {
@@ -401,7 +309,7 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
                              $display = ContentObjectDisplay :: factory($value);
                              $html[] = $display->get_description();
                          }
-//                         $html[] = '</div>';
+                         $html[] = '</div>';
                     $html[] = '</div>';
                     }
                 }
@@ -432,10 +340,12 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
                     }
                 }
                 $html[] = '</div>';
+//                $html[] = '</div>';
+//            $html[] = '</div>';
+//            $html[] = '</div>';
 
-            $html[] = '</div>';
-
-            $html[] = '<div class = "handbook_item_secondary_info">';
+            $html[] = '<div class = "handbook_item_secondary_info" style="float:left; background:red;">';
+            $html[] = 'secondary';
             if(count($alternatives_array['link'])>0)
             {
               //SHOW LINKS
@@ -446,7 +356,7 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
                      $html[] = $this->print_metadata($value->get_id());
                      $display = ContentObjectDisplay :: factory($value);
                      $html[] = $display->get_description();
-                     $html[] = '</div>';
+//                     $html[] = '</div>';
 
                  }
                  $html[] = '</div>';
@@ -470,7 +380,8 @@ class HandbookManagerHandbookViewerComponent extends HandbookManager
             $html[] = '</div>';
 
         $html[] = '</div>';
-        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/handbook_alternatives.js' . '"></script>';
+        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_PATH) .'application/'. $this->get_application_name() . '/resources/javascript/handbook_alternatives.js' . '"></script>';
+//        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_PATH) . 'common/resources/javascript/handbook_alternatives.js' . '"></script>';
 
         return implode ("\n", $html);
 

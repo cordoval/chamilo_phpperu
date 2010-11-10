@@ -1,12 +1,16 @@
 <?php
 namespace repository;
 
+use rights\RightsManager;
+use user\UserManager;
+use group\GroupManager;
 use common\libraries\FormValidator;
 use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\ToolbarItem;
 use common\libraries\Toolbar;
 use common\libraries\Theme;
+use common\libraries\Utilities;
 
 /**
  * $Id: user_view_form.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -32,7 +36,7 @@ class ContentObjectShareForm extends FormValidator
     function ContentObjectShareForm($form_type, $content_object_ids = array(), $user, $action)
     {
         parent :: __construct('content_object_share_form', 'post', $action);
-        
+
         $this->content_object_ids = $content_object_ids;
         $this->form_type = $form_type;
         $this->user = $user;
@@ -51,15 +55,15 @@ class ContentObjectShareForm extends FormValidator
 
     function build_basic_form()
     {
-        $this->addElement('select', self :: PARAM_RIGHT, Translation :: get('Rights'), ContentObjectShare :: get_rights());
+        $this->addElement('select', self :: PARAM_RIGHT, Translation :: get('Rights', null, RightsManager :: APPLICATION_NAME), ContentObjectShare :: get_rights());
     }
 
     function build_editing_form()
     {
         $this->build_basic_form();
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive update'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -72,26 +76,26 @@ class ContentObjectShareForm extends FormValidator
         $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/libraries/php/xml_feeds/xml_user_group_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('SelectUsersGroups');
-        $locale['Searching'] = Translation :: get('Searching');
-        $locale['NoResults'] = Translation :: get('NoResults');
-        $locale['Error'] = Translation :: get('Error');
+        $locale['Searching'] = Translation :: get('Searching', null, Utilities :: COMMON_LIBRARIES);
+        $locale['NoResults'] = Translation :: get('NoResults', null, Utilities :: COMMON_LIBRARIES);
+        $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARIES);
         $attributes['locale'] = $locale;
         $attributes['exclude'] = array('user_' . $this->user->get_id());
         $attributes['defaults'] = array();
         $attributes['nodesSelectable'] = true;
 
         $legend_items = array();
-        $legend_items[] = new ToolbarItem(Translation :: get('User'), Theme :: get_common_image_path() . 'treemenu/user.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'legend');
-        $legend_items[] = new ToolbarItem(Translation :: get('Group'), Theme :: get_common_image_path() . 'treemenu/group.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'legend');
+        $legend_items[] = new ToolbarItem(Translation :: get('User', null, UserManager :: APPLICATION_NAME), Theme :: get_common_image_path() . 'treemenu/user.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'legend');
+        $legend_items[] = new ToolbarItem(Translation :: get('Group', null, GroupManager :: APPLICATION_NAME), Theme :: get_common_image_path() . 'treemenu/group.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'legend');
 
         $legend = new Toolbar();
         $legend->set_items($legend_items);
         $legend->set_type(Toolbar :: TYPE_HORIZONTAL);
 
         $this->add_element_finder_with_legend(self :: PARAM_TARGET, Translation :: get('SelectUsers'), $attributes, $legend);
-        
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -102,9 +106,9 @@ class ContentObjectShareForm extends FormValidator
         $user_ids = $values[self :: PARAM_TARGET_ELEMENTS][self :: PARAM_USER];
         $group_ids = $values[self :: PARAM_TARGET_ELEMENTS][self :: PARAM_GROUP];
         $right_id = $values[self :: PARAM_RIGHT];
-        
+
         $succes = true;
-        
+
         foreach($this->content_object_ids as $content_object_id)
         {
 	        foreach($user_ids as $user_id)
@@ -115,7 +119,7 @@ class ContentObjectShareForm extends FormValidator
 	        	$content_object_user_share->set_right_id($right_id);
 	        	$succes &= $content_object_user_share->create();
 	        }
-	        
+
         	foreach($group_ids as $group_id)
 	        {
 	        	$content_object_group_share = new ContentObjectGroupShare();
@@ -125,7 +129,7 @@ class ContentObjectShareForm extends FormValidator
 	        	$succes &= $content_object_group_share->create();
 	        }
         }
-        
+
     	return $succes;
     }
 
@@ -133,10 +137,10 @@ class ContentObjectShareForm extends FormValidator
     {
 		$rdm = RepositoryDataManager :: get_instance();
 		$succes = true;
-		
+
 		$values = $this->exportValues();
         $right_id = $values[self :: PARAM_RIGHT];
-		
+
     	foreach($this->content_object_ids as $content_object_id)
 		{
     		foreach($target_user_ids as $target_user_id)
@@ -145,7 +149,7 @@ class ContentObjectShareForm extends FormValidator
 	        	$content_object_user_share->set_right_id($right_id);
 	        	$succes &= $content_object_user_share->update();
 			}
-			
+
 			foreach($target_group_ids as $target_group_id)
 			{
 				$content_object_group_share = $rdm->retrieve_content_object_group_share($content_object_id, $target_group_id);
@@ -153,7 +157,7 @@ class ContentObjectShareForm extends FormValidator
 	        	$succes &= $content_object_group_share->update();
 			}
 		}
-		
+
 		return $succes;
     }
 
@@ -164,7 +168,7 @@ class ContentObjectShareForm extends FormValidator
 function set_default_rights($target_user_ids = array(), $target_group_ids = array())
     {
     	$rdm = RepositoryDataManager :: get_instance();
-    	
+
     	if(count($target_user_ids) > 0)
     	{
     		$content_object_user_share = $rdm->retrieve_content_object_user_share($this->content_object_ids[0], $target_user_ids[0]);
@@ -175,7 +179,7 @@ function set_default_rights($target_user_ids = array(), $target_group_ids = arra
     		$content_object_group_share = $rdm->retrieve_content_object_group_share($this->content_object_ids[0], $target_group_ids[0]);
     		$right = $content_object_group_share->get_right_id();
     	}
-    	
+
     	$this->setDefaults(array(self :: PARAM_RIGHT => $right));
     }
 }

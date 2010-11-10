@@ -135,7 +135,7 @@ class CourseSettings extends DataClass
 
     static function get_access_states()
     {
-        return array(self :: ACCESS_OPEN => Translation :: get('Open'), self :: ACCESS_CLOSED => Translation :: get('Closed'));
+        return array(self :: ACCESS_OPEN => Translation :: get('Open', null, Utilities :: COMMON_LIBRARIES ), self :: ACCESS_CLOSED => Translation :: get('Closed', null, Utilities :: COMMON_LIBRARIES ));
     }
 
     //    function set_max_number_of_admin($max_number_of_admin)
@@ -208,8 +208,7 @@ class CourseSettings extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 
     //   /**

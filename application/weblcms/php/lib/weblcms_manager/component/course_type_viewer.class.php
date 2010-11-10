@@ -16,6 +16,7 @@ use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: course_type_viewer.class.php 218 2010-03-26 14:21:26Z Yannick & Tristan $
@@ -59,7 +60,7 @@ class WeblcmsManagerCourseTypeViewerComponent extends WeblcmsManager
         $html[] = '<div>';
         $html[] = $this->ab->as_html() . '<br />';
         $html[] = '<div class="clear"></div><div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_group.png);">';
-        $html[] = '<div class="title">' . Translation :: get('Description') . '</div>';
+        $html[] = '<div class="title">' . Translation :: get('Description', null, Utilities :: COMMON_LIBRARIES ) . '</div>';
         $html[] = $this->course_type->get_description();
         $html[] = '</div>';
         $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_publications.png);">';
@@ -133,8 +134,8 @@ class WeblcmsManagerCourseTypeViewerComponent extends WeblcmsManager
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
         $action_bar->set_search_url($this->get_url(array(WeblcmsManager :: PARAM_COURSE_TYPE => $course_type->get_id())));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_course_type_editing_url($course_type), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_course_type_deleting_url($course_type), ToolbarItem :: DISPLAY_ICON_AND_LABEL, true));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES ), Theme :: get_common_image_path() . 'action_edit.png', $this->get_course_type_editing_url($course_type), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES ), Theme :: get_common_image_path() . 'action_delete.png', $this->get_course_type_deleting_url($course_type), ToolbarItem :: DISPLAY_ICON_AND_LABEL, true));
         $action_bar->add_tool_action(new ToolbarItem(Translation :: get('DeleteAllCourses'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_course_type_deleting_all_courses_url($course_type), ToolbarItem :: DISPLAY_ICON_AND_LABEL, true));
         return $action_bar;
     }

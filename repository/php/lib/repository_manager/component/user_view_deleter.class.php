@@ -6,6 +6,7 @@ use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Application;
+use common\libraries\Utilities;
 
 /**
  * $Id: user_view_deleter.class.php 204 2009-11-13 12:51:30Z kariboe $
@@ -49,30 +50,30 @@ class RepositoryManagerUserViewDeleterComponent extends RepositoryManager
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedUserViewNotDeleted';
+                    $message = ranslation :: get('ObjectNotDeleted', array('OBJECT' => Translation :: get('UserView')), Utilities :: COMMON_LIBRARIES);
                 }
                 else
                 {
-                    $message = 'NotAllSelectedUserViewsDeleted';
+                    $message = ranslation :: get('ObjectsNotDeleted', array('OBJECT' => Translation :: get('UserViews')), Utilities :: COMMON_LIBRARIES);
                 }
             }
             else
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedUserViewDeleted';
+                    $message = ranslation :: get('ObjectDeleted', array('OBJECT' => Translation :: get('UserView')), Utilities :: COMMON_LIBRARIES);
                 }
                 else
                 {
-                    $message = 'AllSelectedUserViewsDeleted';
+                    $message = ranslation :: get('ObjectsDeleted', array('OBJECT' => Translation :: get('UserViews')), Utilities :: COMMON_LIBRARIES);
                 }
             }
 
-            $this->redirect(Translation :: get($message), $failures ? true : false, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_USER_VIEWS));
+            $this->redirect($message, $failures ? true : false, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_USER_VIEWS));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoUserViewSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('UserView')), Utilities :: COMMON_LIBRARIES)));
         }
     }
 

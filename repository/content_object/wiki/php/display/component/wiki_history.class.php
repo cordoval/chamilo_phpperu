@@ -1,9 +1,9 @@
 <?php
 namespace repository\content_object\wiki;
 
-use common\libraries;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\EqualityCondition;
 use common\libraries\ResourceManager;
@@ -21,7 +21,6 @@ use repository\RepositoryManager;
  * @package repository.lib.complex_display.wiki.component
  */
 
-require_once Path :: get_repository_content_object_path() . 'wiki/php/display/wiki_parser.class.php';
 require_once Path :: get_repository_content_object_path() . 'wiki/php/display/wiki_display.class.php';
 
 class WikiDisplayWikiHistoryComponent extends WikiDisplay
@@ -54,7 +53,7 @@ class WikiDisplayWikiHistoryComponent extends WikiDisplay
 
             $html = array();
             $html[] = '<div class="wiki-pane-content-title">' . Translation :: get('RevisionHistory') . ': ' . $wiki_page->get_title() . '</div>';
-            $html[] = '<div class="wiki-pane-content-subtitle">' . Translation :: get('From') . ' ' . $this->get_root_content_object()->get_title() . '</div>';
+            $html[] = '<div class="wiki-pane-content-subtitle">' . Translation :: get('From', null , Utilities :: COMMON_LIBRARIES) . ' ' . $this->get_root_content_object()->get_title() . '</div>';
             $html[] = '<div class="wiki-pane-content-history">';
             $html[] = $version_browser->as_html();
             $html[] = ResourceManager :: get_instance()->get_resource_html(BasicApplication :: get_application_web_resources_javascript_path(RepositoryManager::APPLICATION_NAME) . 'repository.js');
@@ -82,7 +81,7 @@ class WikiDisplayWikiHistoryComponent extends WikiDisplay
 
     function get_content_object_viewing_url($content_object)
     {
-        return $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->complex_wiki_page_id, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
+        return $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->complex_wiki_page_id, self :: PARAM_WIKI_VERSION_ID => $content_object->get_id()));
     }
 
     function get_content_object_deletion_url($content_object, $type = null)
@@ -94,7 +93,7 @@ class WikiDisplayWikiHistoryComponent extends WikiDisplay
             return null;
         }
 
-        return $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VERSION_DELETE, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->complex_wiki_page_id, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
+        return $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VERSION_DELETE, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->complex_wiki_page_id, self :: PARAM_WIKI_VERSION_ID => $content_object->get_id()));
     }
 
     function get_content_object_revert_url($content_object)
@@ -106,7 +105,7 @@ class WikiDisplayWikiHistoryComponent extends WikiDisplay
             return null;
         }
 
-        return $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VERSION_REVERT, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->complex_wiki_page_id, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
+        return $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VERSION_REVERT, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->complex_wiki_page_id, self :: PARAM_WIKI_VERSION_ID => $content_object->get_id()));
     }
 }
 ?>

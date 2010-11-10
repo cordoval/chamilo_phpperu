@@ -3,6 +3,7 @@ namespace application\cas_user;
 
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/../../forms/cas_user_request_form.class.php';
 
@@ -23,7 +24,7 @@ class CasUserManagerEditorComponent extends CasUserManager
         if ($form->validate())
         {
             $success = $form->update_cas_user_request();
-            $this->redirect($success ? Translation :: get('CasUserRequestUpdated') : Translation :: get('CasUserRequestNotUpdated'), ! $success, array(CasUserManager :: PARAM_ACTION => CasUserManager :: ACTION_BROWSE));
+            $this->redirect($success ? Translation :: get('CasUserRequestUpdated', null, Utilities::COMMON_LIBRARIES) : Translation :: get('CasUserRequestNotUpdated', null, Utilities::COMMON_LIBRARIES), ! $success, array(CasUserManager :: PARAM_ACTION => CasUserManager :: ACTION_BROWSE));
         }
         else
         {

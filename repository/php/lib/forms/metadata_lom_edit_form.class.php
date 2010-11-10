@@ -7,6 +7,7 @@ use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\ResourceManager;
 use common\libraries\Theme;
+use common\libraries\Utilities;
 /**
  * $Id: metadata_lom_edit_form.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.forms
@@ -526,8 +527,8 @@ class MetadataLomEditForm extends FormValidator
      */
     private function add_submit_buttons()
     {
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update', 'onclick' => "$('#" . self :: FORM_ACTION . "').val('" . self :: FORM_ACTION_SAVE . "')"));
-        //$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive update', 'onclick' => "$('#" . self :: FORM_ACTION . "').val('" . self :: FORM_ACTION_SAVE . "')"));
+        //$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 

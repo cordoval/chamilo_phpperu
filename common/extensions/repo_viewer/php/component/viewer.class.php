@@ -10,6 +10,8 @@ use repository\ContentObjectDisplay;
 use repository\RepositoryDataManager;
 use common\libraries\Request;
 use common\libraries\ToolbarItem;
+use common\libraries\Utilities;
+
 /**
  * $Id: viewer.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.repo_viewer.component
@@ -32,7 +34,7 @@ class RepoViewerViewerComponent extends RepoViewer
             $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
 
 	        $toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('Publish'),
+	        		Translation :: get('Publish', null, Utilities :: COMMON_LIBRARIES),
 	        		Theme :: get_common_image_path() . 'action_publish.png',
 	        		$this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_PUBLISHER, RepoViewer :: PARAM_ID => $content_object->get_id())), false)
 	        ));

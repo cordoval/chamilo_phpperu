@@ -4,6 +4,7 @@ namespace application\cda;
 
 use common\libraries\FormValidator;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 /**
  * @package 
  * 
@@ -56,12 +57,12 @@ class RateForm extends FormValidator
 		}
 		
     	$this->addElement('select',VariableTranslation :: PROPERTY_RATING, Translation :: get('Rating'), $rating);
-    	$this->addRule(VariableTranslation :: PROPERTY_RATING, Translation :: get('ThisFieldIsRequired'), 'required');
+    	$this->addRule(VariableTranslation :: PROPERTY_RATING, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
 		
 		$this->addElement('category');  
 
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Rate'), array('class' => 'positive update'));
-		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

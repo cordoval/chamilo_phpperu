@@ -8,27 +8,26 @@ use common\libraries\Utilities;
  * @author Hans de Bisschop
  */
 /**
- *	This class represents a rights_template.
+ * This class represents a rights_template.
  *
- *	User objects have a number of default properties:
- *	- user_id: the numeric ID of the user;
- *	- lastname: the lastname of the user;
- *	- firstname: the firstname of the user;
- *	- password: the password for this user;
- *	- auth_source:
- *	- email: the email address of this user;
- *	- status: the status of this user: 1 is teacher, 5 is a student;
- *	- phone: the phone number of the user;
- *	- official_code; the official code of this user;
- *	- picture_uri: the URI location of the picture of this user;
- *	- creator_id: the user_id of the user who created this user;
- *	- language: the language setting of this user;
- *	- disk quota: the disk quota for this user;
- *	- database_quota: the database quota for this user;
- *	- version_quota: the default quota for this user of no quota for a specific learning object type is set.
+ * User objects have a number of default properties:
+ * - user_id: the numeric ID of the user;
+ * - lastname: the lastname of the user;
+ * - firstname: the firstname of the user;
+ * - password: the password for this user;
+ * - auth_source:
+ * - email: the email address of this user;
+ * - status: the status of this user: 1 is teacher, 5 is a student;
+ * - phone: the phone number of the user;
+ * - official_code; the official code of this user;
+ * - picture_uri: the URI location of the picture of this user;
+ * - creator_id: the user_id of the user who created this user;
+ * - language: the language setting of this user;
+ * - disk quota: the disk quota for this user;
+ * - database_quota: the database quota for this user;
+ * - version_quota: the default quota for this user of no quota for a specific learning object type is set.
  *
  */
-
 
 class Right extends DataClass
 {
@@ -75,8 +74,7 @@ class Right extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 }
 ?>

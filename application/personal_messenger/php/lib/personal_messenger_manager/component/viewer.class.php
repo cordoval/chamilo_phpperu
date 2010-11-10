@@ -46,7 +46,7 @@ class PersonalMessengerManagerViewerComponent extends PersonalMessengerManager
             if ($this->get_user_id() != $publication->get_user())
             {
                 $this->display_header();
-                Display :: error_message(Translation :: get('NotAllowed'));
+                Display :: error_message(Translation :: get('NotAllowed', null , Utilities :: COMMON_LIBRARIES));
                 $this->display_footer();
                 exit();
             }
@@ -114,7 +114,7 @@ class PersonalMessengerManagerViewerComponent extends PersonalMessengerManager
             $html[] = '<b>' . Translation :: get('MessageTo') . '</b>:&nbsp;' . Translation :: get('RecipientUnknown') . '<br />';
         }
 
-        $html[] = '<b>' . Translation :: get('MessageDate') . '</b>:&nbsp;' . DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $publication->get_published()) . '<br />';
+        $html[] = '<b>' . Translation :: get('MessageDate') . '</b>:&nbsp;' . DatetimeUtilities :: format_locale_date(Translation :: get('DateFormatShort', null , Utilities :: COMMON_LIBRARIES) . ', ' . Translation :: get('TimeNoSecFormat', null , Utilities :: COMMON_LIBRARIES), $publication->get_published()) . '<br />';
         $html[] = '<b>' . Translation :: get('MessageSubject') . '</b>:&nbsp;' . $message->get_title();
         $html[] = '</div>';
         $html[] = '</div>';
@@ -130,13 +130,13 @@ class PersonalMessengerManagerViewerComponent extends PersonalMessengerManager
             if (count($attachments))
             {
                 $html[] = '<div class="attachments" style="margin-top: 1em;">';
-                $html[] = '<div class="attachments_title">' . htmlentities(Translation :: get('Attachments')) . '</div>';
+                $html[] = '<div class="attachments_title">' . htmlentities(Translation :: get('Attachments', null , 'repository')) . '</div>';
                 $html[] = '<ul class="attachments_list">';
                 $html[] = Utilities :: add_block_hider();
                 Utilities :: order_content_objects_by_title($attachments);
                 foreach ($attachments as $attachment)
                 {
-                    $html[] = '<li class="personal_message_attachment"><div style="float: left;"><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $attachment->get_type() . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($attachment->get_type()) . 'TypeName')) . '"/></div><div style="float: left;">&nbsp;' . $attachment->get_title() . '&nbsp;</div>';
+                    $html[] = '<li class="personal_message_attachment"><div style="float: left;"><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $attachment->get_type() . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($attachment->get_type()) . 'TypeName', null , 'repository/content_object/'.$attachment->get_type())) . '"/></div><div style="float: left;">&nbsp;' . $attachment->get_title() . '&nbsp;</div>';
                     $html[] = Utilities :: build_block_hider($attachment->get_id(), 'Attachment');
 
                     $display = ContentObjectDisplay :: factory($attachment);

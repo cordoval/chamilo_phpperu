@@ -20,6 +20,7 @@ use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\ObjectTableFormAction;
+use common\libraries\Utilities;
 
 /**
  * $Id: note_browser.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -54,9 +55,9 @@ class NoteBrowser extends ContentObjectPublicationBrowser
             //$actions = array(Tool :: ACTION_DELETE => Translation :: get('DeleteSelected'), Tool :: ACTION_HIDE => Translation :: get('Hide'), Tool :: ACTION_SHOW => Translation :: get('Show'));
 
 
-            $actions[] = new ObjectTableFormAction(Tool :: ACTION_DELETE, Translation :: get('DeleteSelected'));
-            $actions[] = new ObjectTableFormAction(Tool :: ACTION_HIDE, Translation :: get('Hide'), false);
-            $actions[] = new ObjectTableFormAction(Tool :: ACTION_SHOW, Translation :: get('Show'), false);
+            $actions[] = new ObjectTableFormAction(Tool :: ACTION_DELETE, Translation :: get('RemoveSelected', null, Utilities :: COMMON_LIBRARIES));
+            $actions[] = new ObjectTableFormAction(Tool :: ACTION_HIDE, Translation :: get('Hide', null, Utilities :: COMMON_LIBRARIES), false);
+            $actions[] = new ObjectTableFormAction(Tool :: ACTION_SHOW, Translation :: get('Show', null, Utilities :: COMMON_LIBRARIES), false);
 
             $renderer->set_actions($actions);
         }

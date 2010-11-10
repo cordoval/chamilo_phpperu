@@ -4,6 +4,7 @@ namespace application\profiler;
 
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use repository\ContentObjectDisplay;
 use common\libraries\Breadcrumb;
 use common\libraries\Application;
@@ -36,7 +37,7 @@ class ProfilerManagerViewerComponent extends ProfilerManager
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoProfileSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectsSelected', null , Utilities :: COMMON_LIBRARIES)));
         }
     }
 

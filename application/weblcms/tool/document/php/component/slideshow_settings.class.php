@@ -7,6 +7,7 @@ use common\libraries\Display;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: document_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -31,7 +32,7 @@ class DocumentToolSlideshowSettingsComponent extends DocumentTool
         else
         {
             $trail = BreadcrumbTrail :: get_instance();
-            $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => DocumentTool :: ACTION_SLIDESHOW)), Translation :: get('Slideshow')));
+            $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => DocumentTool :: ACTION_SLIDESHOW)), Translation :: get('Slideshow', null, Utilities :: COMMON_LIBRARIES)));
             $trail->add(new Breadcrumb($this->get_url(array()), Translation :: get('SlideshowSettings')));
 
             $this->display_header();

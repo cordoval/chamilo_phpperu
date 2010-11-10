@@ -1,4 +1,8 @@
 <?php
+namespace repository;
+
+use user\UserManager;
+use group\GroupManager;
 
 require_once dirname(__FILE__) . "/content_object_user_share_rights_browser/content_object_user_share_rights_browser_table.class.php";
 require_once dirname(__FILE__) . "/content_object_group_share_rights_browser/content_object_group_share_rights_browser_table.class.php";
@@ -21,9 +25,9 @@ class RepositoryManagerContentObjectShareRightsBrowserComponent extends Reposito
      */
     function run()
     {
-        
+
         $content_object_ids = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
-        
+
 
         //set rights for users or groups?
         $this->type = Request :: get(ContentObjectShare :: PARAM_TYPE);
@@ -73,11 +77,11 @@ class RepositoryManagerContentObjectShareRightsBrowserComponent extends Reposito
         $html[] = '<div class="application_selecter">';
 
         $html[] = '<a href="' . $this->get_url(array(ContentObjectShare :: PARAM_TYPE => ContentObjectUserShare::TYPE_USER_SHARE)) . '">';
-        $html[] = '<div class="application" style="background-image: url(' . Theme :: get_image_path('admin') . 'place_user.png);">' . Translation :: get('Users') . '</div>';
+        $html[] = '<div class="application" style="background-image: url(' . Theme :: get_image_path('admin') . 'place_user.png);">' . Translation :: get('Users', null, UserManager :: APPLICATION_NAME) . '</div>';
         $html[] = '</a>';
 
         $html[] = '<a href="' . $this->get_url(array(ContentObjectShare :: PARAM_TYPE => ContentObjectGroupShare::TYPE_GROUP_SHARE)) . '">';
-        $html[] = '<div class="application" style="background-image: url(' . Theme :: get_image_path('admin') . 'place_group.png);">' . Translation :: get('Groups') . '</div>';
+        $html[] = '<div class="application" style="background-image: url(' . Theme :: get_image_path('admin') . 'place_group.png);">' . Translation :: get('Groups', null, GroupManager :: APPLICATION_NAME) . '</div>';
         $html[] = '</a>';
 
         $html[] = '</div>';

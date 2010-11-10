@@ -14,6 +14,7 @@ require_once Path :: get_common_extensions_path() . 'category_manager/php/platfo
 class AdminCategory extends PlatformCategory
 {
     const CLASS_NAME = __CLASS__;
+
     function create()
     {
         $wdm = AdminDataManager :: get_instance();
@@ -33,7 +34,6 @@ class AdminCategory extends PlatformCategory
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 }

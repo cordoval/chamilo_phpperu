@@ -2,6 +2,7 @@
 namespace repository\content_object\forum;
 
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\EqualityCondition;
@@ -289,7 +290,7 @@ class ForumDisplayForumViewerComponent extends ForumDisplay
         {
         	$parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_DELETE_TOPIC;
 
-        	$tool_bar->add_item(new ToolbarItem(Translation :: get('Delete'),
+        	$tool_bar->add_item(new ToolbarItem(Translation :: get('Delete', null , Utilities :: COMMON_LIBRARIES),
         		Theme :: get_common_image_path() . 'action_delete.png',
         		$this->get_url($parameters),
         		ToolbarItem :: DISPLAY_ICON,
@@ -497,7 +498,7 @@ class ForumDisplayForumViewerComponent extends ForumDisplay
         if ($this->get_parent()->is_allowed(DELETE_RIGHT))
         {
             $parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_DELETE_SUBFORUM;
-        	$delete = new ToolbarItem(Translation :: get('Delete'),
+        	$delete = new ToolbarItem(Translation :: get('Delete', null , Utilities :: COMMON_LIBRARIES),
             	Theme :: get_common_image_path() . 'action_delete.png',
             	$this->get_url($parameters),
             	ToolbarItem :: DISPLAY_ICON,
@@ -513,7 +514,7 @@ class ForumDisplayForumViewerComponent extends ForumDisplay
             /*if($first)
             {
                 $actions[] = array(
-                    'label' => Translation :: get('MoveUpNA'),
+                    'label' => Translation :: get('MoveUpNA', null , Utilities :: COMMON_LIBRARIES),
                     'img' => Theme :: get_common_image_path() . 'action_up_na.png'
                 );
             }
@@ -521,7 +522,7 @@ class ForumDisplayForumViewerComponent extends ForumDisplay
             {
                 $actions[] = array(
                     'href' => $this->get_url(array('subforum' => $forum->get_id(), Tool :: PARAM_ACTION => ForumTool :: ACTION_MOVE_SUBFORUM, Tool :: PARAM_MOVE => -1)),
-                    'label' => Translation :: get('MoveUp'),
+                    'label' => Translation :: get('MoveUp', null , Utilities :: COMMON_LIBRARIES),
                     'img' => Theme :: get_common_image_path() . 'action_up.png'
                 );
             }
@@ -529,7 +530,7 @@ class ForumDisplayForumViewerComponent extends ForumDisplay
             if($last)
             {
                 $actions[] = array(
-                    'label' => Translation :: get('MoveDownNA'),
+                    'label' => Translation :: get('MoveDownNA', null , Utilities :: COMMON_LIBRARIES),
                     'img' => Theme :: get_common_image_path() . 'action_down_na.png'
                 );
             }
@@ -537,13 +538,13 @@ class ForumDisplayForumViewerComponent extends ForumDisplay
             {
                 $actions[] = array(
                     'href' => $this->get_url(array('subforum' => $forum->get_id(), Tool :: PARAM_ACTION => ForumTool :: ACTION_MOVE_SUBFORUM, Tool :: PARAM_MOVE => 1)),
-                    'label' => Translation :: get('MoveDown'),
+                    'label' => Translation :: get('MoveDown', null , Utilities :: COMMON_LIBRARIES),
                     'img' => Theme :: get_common_image_path() . 'action_down.png'
                 );
             }*/
 
         	$parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_EDIT_SUBFORUM;
-            	$tool_bar->add_item( new ToolbarItem(Translation :: get('Edit'),
+            	$tool_bar->add_item( new ToolbarItem(Translation :: get('Edit', null , Utilities :: COMMON_LIBRARIES),
             	Theme :: get_common_image_path() . 'action_edit.png',
             	$this->get_url($parameters),
             	ToolbarItem :: DISPLAY_ICON

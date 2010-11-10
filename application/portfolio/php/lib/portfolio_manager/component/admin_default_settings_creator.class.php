@@ -6,6 +6,7 @@ use common\libraries\Redirect;
 use common\libraries\Breadcrumb;
 use admin\AdminManager;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Display;
 use common\libraries\Header;
 use common\libraries\BreadcrumbTrail;
@@ -36,7 +37,7 @@ class PortfolioManagerAdminDefaultSettingsCreatorComponent extends PortfolioMana
 		if (! $this->get_user()->is_platform_admin())
         {
             $this->display_header();
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get("NotAllowed" , null, Utilities::COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
@@ -48,7 +49,7 @@ class PortfolioManagerAdminDefaultSettingsCreatorComponent extends PortfolioMana
             if ($form->validate())
             {
                 $success = $form->create_portfolio_default_settings();
-                $this->redirect($success ? Translation :: get('PortfolioDefaultSettingsSaved') : Translation :: get('PortfolioDefaultSettingsNotSaved'), ! $success, array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_SET_PORTFOLIO_DEFAULTS));
+                $this->redirect($success ? Translation :: get('ObjectSaved' , array('OBJECT' => Translation::get('DefaultSystemSettings')), Utilities::COMMON_LIBRARIES) : Translation :: get('ObjectNotSaved' , array('OBJECT' => Translation::get('DefaultSystemSettings')), Utilities::COMMON_LIBRARIES), ! $success, array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_SET_PORTFOLIO_DEFAULTS));
             }
             else
             {

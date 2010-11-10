@@ -4,6 +4,7 @@ namespace application\weblcms;
 use common\libraries\Installer;
 use rights\RightsUtilities;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * @package application.lib.weblcms.install
@@ -37,9 +38,8 @@ class WeblcmsInstaller extends Installer
         }
         else
         {
-            $this->add_message(self :: TYPE_NORMAL, Translation :: get('CoursesTreeCreated'));
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectCreated', array('OBJECT' => Translation :: get('CoursesTree')), Utilities :: COMMON_LIBRARIES));
         }
-
         if (! $this->create_default_categories_in_weblcms())
         {
             return false;

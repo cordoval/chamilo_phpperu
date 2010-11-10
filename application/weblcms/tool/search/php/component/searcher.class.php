@@ -21,6 +21,8 @@ use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
+use common\libraries\Text;
 
 /**
  * $Id: search_searcher.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -94,7 +96,8 @@ class SearchToolSearcherComponent extends SearchTool
             if (! empty($user_id) || ! empty($course_group_ids))
             {
                 $access[] = new AndCondition(array(
-                        new EqualityCondition(ContentObjectPublicationUser :: PROPERTY_USER, null, ContentObjectPublicationUser :: get_table_name()), new EqualityCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, null, ContentObjectPublicationCourseGroup :: get_table_name())));
+                        new EqualityCondition(ContentObjectPublicationUser :: PROPERTY_USER, null, ContentObjectPublicationUser :: get_table_name()),
+                        new EqualityCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, null, ContentObjectPublicationCourseGroup :: get_table_name())));
             }
 
             $conditions[] = new OrCondition($access);
@@ -137,14 +140,17 @@ class SearchToolSearcherComponent extends SearchTool
                         $object = $pub->get_content_object();
                         if ($object->get_type() != Introduction :: get_type_name())
                         {
-                            $url = $this->get_url(array(WeblcmsManager :: PARAM_TOOL => $tool, Tool :: PARAM_PUBLICATION_ID => $pub->get_id(), Tool :: PARAM_ACTION => 'view'));
+                            $url = $this->get_url(array(
+                                    WeblcmsManager :: PARAM_TOOL => $tool,
+                                    Tool :: PARAM_PUBLICATION_ID => $pub->get_id(),
+                                    Tool :: PARAM_ACTION => Tool :: ACTION_VIEW));
                         }
                         else
                         {
                             $url = '#';
                         }
 
-                        $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/' . $object->get_icon_name() . '.png);">';
+                        $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($object->get_type())) . 'logo/' . $object->get_icon_name() . '.png);">';
                         $html[] = '<div class="title"><a href="' . $url . '">' . Text :: highlight($object->get_title(), $query, 'yellow') . '</a></div>';
                         $html[] = '<div class="description">' . Text :: highlight(strip_tags($object->get_description()), $query, 'yellow') . '</div>';
                         $html[] = '</div>';
@@ -154,7 +160,7 @@ class SearchToolSearcherComponent extends SearchTool
 
             if ($results == 0)
             {
-                $html[] = Translation :: get('NoSearchResults');
+                $html[] = Translation :: get('NoSearchResults', null, Utilities :: COMMON_LIBRARIES);
             }
 
             echo $results . ' ' . Translation :: get('ResultsFoundFor') . ' <span style="background-color: yellow;">' . $query . '</span>';
@@ -182,7 +188,8 @@ class SearchToolSearcherComponent extends SearchTool
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-        $action_bar->set_search_url($this->get_url(array(Tool :: PARAM_ACTION => SearchTool :: ACTION_SEARCH)));
+        $action_bar->set_search_url($this->get_url(array(
+                Tool :: PARAM_ACTION => SearchTool :: ACTION_SEARCH)));
 
         return $action_bar;
     }

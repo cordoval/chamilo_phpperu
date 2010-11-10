@@ -1,6 +1,6 @@
-Publish = 
-PortfolioAddContentObject = 
-NoObjectSelected = 
-AddOrCreateNewTo = 
-ObjectAdded = 
-ContentObjectUpdated = 
+Publish = ""
+NoObjectSelected = ""
+AddOrCreateNewTo = ""
+ObjectAdded = ""
+ContentObjectUpdated = ""
+PortfolioPreviewNotAvailable = ""

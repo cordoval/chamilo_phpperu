@@ -5,6 +5,7 @@ use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\Utilities;
 
 use repository\content_object\learning_path_item\LearningPathItem;
 use repository\content_object\portfolio_item\PortfolioItem;
@@ -59,7 +60,7 @@ class RepositoryManagerLinkDeleterComponent extends RepositoryManager
     	}
     	else
     	{
-    		$this->display_error_page(Translation :: get('NoObjectSelected'));
+    		$this->display_error_page(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES));
     	}
     }
 

@@ -1,5 +1,4 @@
 <?php
-use common\libraries;
 use common\libraries\Path;
 
 require_once  Path::get_common_libraries_path() .'php/ims/main.php';
@@ -16,9 +15,5 @@ require_once_all(dirname(__FILE__) .'/object_import/*.class.php');
 require_once_all(dirname(__FILE__) .'/object_import/import/*.class.php');
 require_once_all(dirname(__FILE__) .'/organization_import/*.class.php');
 
-
 //require_once 'cp_chamilo.class.php';
-
-
-
 ?>

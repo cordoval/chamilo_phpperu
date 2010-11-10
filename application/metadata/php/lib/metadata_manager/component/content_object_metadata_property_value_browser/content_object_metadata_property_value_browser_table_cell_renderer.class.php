@@ -5,6 +5,7 @@ use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use common\libraries\Translation;
 use common\libraries\Theme;
+use common\libraries\Utilities;
 require_once dirname(__FILE__) . '/../../../../../../../repository/php/lib/content_object_table/default_content_object_table_cell_renderer.class.php';
 
 
@@ -54,19 +55,11 @@ class ContentObjectMetadataPropertyValueBrowserTableCellRenderer extends Default
 		$toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
 
                 $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Edit'),
+        		Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES),
         		Theme :: get_common_image_path() . 'action_edit.png',
         		$this->browser->get_edit_content_object_metadata_property_values_url($content_object),
         		ToolbarItem :: DISPLAY_ICON
         ));
-
-//        $toolbar->add_item(new ToolbarItem(
-//        		Translation :: get('Delete'),
-//        		Theme :: get_common_image_path() . 'action_delete.png',
-//        		$this->browser->get_delete_metadata_property_value_url($metadata_property_value),
-//        		ToolbarItem :: DISPLAY_ICON,
-//        		true
-//        ));
 
         return $toolbar->as_html();
 	}

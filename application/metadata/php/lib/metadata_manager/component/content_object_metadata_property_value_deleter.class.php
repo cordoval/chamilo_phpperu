@@ -2,6 +2,7 @@
 namespace application\metadata;
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\Utilities;
 /**
  * Component to delete metadata_property_values objects
  * @author Sven Vanpoucke
@@ -23,19 +24,19 @@ class MetadataManagerContentObjectMetadataPropertyValueDeleterComponent extends 
 
             if(!$content_object_metadata_property_value->delete())
             {
-                $message = 'SelectedMetadataPropertyValueNotDeleted';
+                $message = 'ObjectNotDeleted';
                 $fail = true;
             }
             else
             {
-                $message = 'SelectedMetadataPropertyValueDeleted';
+                $message = 'ObjectDeleted';
             }
 
-            $this->redirect(Translation :: get($message), ($fail ? true : false), array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_EDIT_CONTENT_OBJECT_METADATA, MetadataManager :: PARAM_CONTENT_OBJECT => Request :: get(MetadataManager :: PARAM_CONTENT_OBJECT)));
+            $this->redirect(Translation :: get($message, array('OBJECT' => Translation :: get('MetadataPropertyValue')), Utilities :: COMMON_LIBRARIES), ($fail ? true : false), array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_EDIT_CONTENT_OBJECT_METADATA, MetadataManager :: PARAM_CONTENT_OBJECT => Request :: get(MetadataManager :: PARAM_CONTENT_OBJECT)));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoMetadataPropertyValuesSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectsSelected', array('OBJECT' => Translation :: get('MetadataPropertyValue')), Utilities :: COMMON_LIBRARIES)));
         }
     }
 }

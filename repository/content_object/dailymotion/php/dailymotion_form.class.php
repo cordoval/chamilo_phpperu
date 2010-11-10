@@ -2,8 +2,8 @@
 namespace repository\content_object\dailymotion;
 
 use common\libraries\Translation;
-
 use repository\ContentObjectForm;
+use common\libraries\Utilities;
 
 /**
  * $Id: dailymotion_form.class.php 2010-06-08
@@ -21,8 +21,8 @@ class DailymotionForm extends ContentObjectForm
         parent :: build_creation_form();
         $this->addElement('category', Translation :: get('Properties'));
         $this->add_textfield(Dailymotion :: PROPERTY_URL, Translation :: get('URL'), true, array('size' => '100'));
-        $this->add_textfield(Dailymotion :: PROPERTY_WIDTH, Translation :: get('Width'), true, array('size' => '5'));
-        $this->add_textfield(Dailymotion :: PROPERTY_HEIGHT, Translation :: get('Height'), true, array('size' => '5'));
+        $this->add_textfield(Dailymotion :: PROPERTY_WIDTH, Translation :: get('Width', null, Utilities :: COMMON_LIBRARIES), true, array('size' => '5'));
+        $this->add_textfield(Dailymotion :: PROPERTY_HEIGHT, Translation :: get('Height', null, Utilities :: COMMON_LIBRARIES), true, array('size' => '5'));
         $this->addElement('category');
     }
 
@@ -31,8 +31,8 @@ class DailymotionForm extends ContentObjectForm
         parent :: build_editing_form();
         $this->addElement('category', Translation :: get('Properties'));
         $this->add_textfield(Dailymotion :: PROPERTY_URL, Translation :: get('URL'), true, array('size' => '100'));
-        $this->add_textfield(Dailymotion :: PROPERTY_WIDTH, Translation :: get('Width'), true, array('size' => '5'));
-        $this->add_textfield(Dailymotion :: PROPERTY_HEIGHT, Translation :: get('Height'), true, array('size' => '5'));
+        $this->add_textfield(Dailymotion :: PROPERTY_WIDTH, Translation :: get('Width', null, Utilities :: COMMON_LIBRARIES), true, array('size' => '5'));
+        $this->add_textfield(Dailymotion :: PROPERTY_HEIGHT, Translation :: get('Height', null, Utilities :: COMMON_LIBRARIES), true, array('size' => '5'));
         $this->addElement('category');
     }
 

@@ -1,5 +1,6 @@
 <?php
 namespace repository;
+
 use common\libraries\FormValidator;
 use common\libraries\Request;
 use common\libraries\Translation;
@@ -16,14 +17,14 @@ use common\libraries\Session;
  * A form to search in the repository.
  * This form can have two representations
  * - A simple search form.
- *   This form only contains a text field and a submit
- *   button. The form will also contain a link to the advanced view of the
- *   search  form.
+ * This form only contains a text field and a submit
+ * button. The form will also contain a link to the advanced view of the
+ * search  form.
  * - An advanced search form.
- *   Using   the advanced search form, a user will be able to search on title,
- *   description,    type and has the choice in which part of the repository the
- *   system    should search (whole repository, current category, current
- *   category  + subcategories)
+ * Using   the advanced search form, a user will be able to search on title,
+ * description,    type and has the choice in which part of the repository the
+ * system    should search (whole repository, current category, current
+ * category  + subcategories)
  */
 class RepositorySearchForm extends FormValidator
 {
@@ -90,7 +91,7 @@ class RepositorySearchForm extends FormValidator
         {
             $_SESSION[self :: SESSION_KEY_ADVANCED_SEARCH] = Request :: get(self :: PARAM_ADVANCED_SEARCH);
         }
-        $this->advanced = Session::get(self :: SESSION_KEY_ADVANCED_SEARCH);
+        $this->advanced = Session :: get(self :: SESSION_KEY_ADVANCED_SEARCH);
         if ($this->advanced)
         {
             $this->build_advanced_search_form();
@@ -138,8 +139,8 @@ class RepositorySearchForm extends FormValidator
     private function build_simple_search_form()
     {
         $this->renderer->setElementTemplate('{element}');
-        $this->frozen_elements[] = $this->addElement('text', self :: PARAM_SIMPLE_SEARCH_QUERY, Translation :: get('Find'), 'size="20" class="search_query"');
-        $this->addElement('submit', 'search', Translation :: get('Ok'));
+        $this->frozen_elements[] = $this->addElement('text', self :: PARAM_SIMPLE_SEARCH_QUERY, Translation :: get('Search', null, Utilities :: COMMON_LIBRARIES), 'size="20" class="search_query"');
+        $this->addElement('submit', 'search', Translation :: get('Ok', null, Utilities :: COMMON_LIBRARIES));
         $this->addElement('static', '', '', '<div class="to_advanced_search" style="font-size:smaller;"><a href="' . $this->manager->get_url(array(self :: PARAM_ADVANCED_SEARCH => 1), array(), true) . '">' . htmlentities(Translation :: get('ToAdvancedSearch')) . '</a></div>');
     }
 
@@ -151,18 +152,18 @@ class RepositorySearchForm extends FormValidator
         $types = array();
         foreach ($this->manager->get_content_object_types() as $type)
         {
-            $types[$type] = Translation :: get(ContentObject :: type_to_class($type) . 'TypeName');
+            $types[$type] = Translation :: get('TypeName', null, ContentObject :: get_content_object_type_namespace($type));
         }
         asort($types);
         $this->frozen_elements[] = $this->addElement('text', self :: PARAM_TITLE_SEARCH_QUERY, Translation :: get('Title'), 'size="60" style="width: 100%"');
         $this->frozen_elements[] = $this->addElement('text', self :: PARAM_DESCRIPTION_SEARCH_QUERY, Translation :: get('Description'), 'size="60" style="width: 100%"');
-        $this->frozen_elements[] = $this->addElement('select', RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE, Translation :: get('Type'), $types, 'multiple="multiple" size="5" style="width: 100%"');
+        $this->frozen_elements[] = $this->addElement('select', ContentObjectTypeSelector :: PARAM_CONTENT_OBJECT_TYPE, Translation :: get('Type'), $types, 'multiple="multiple" size="5" style="width: 100%"');
         $scope_buttons = array();
         $scope_buttons[] = $this->createElement('radio', null, null, Translation :: get('EntireRepository'), self :: SEARCH_SCOPE_REPOSITORY);
         $scope_buttons[] = $this->createElement('radio', null, null, Translation :: get('CurrentCategoryOnly'), self :: SEARCH_SCOPE_CATEGORY);
         $scope_buttons[] = $this->createElement('radio', null, null, Translation :: get('CurrentCategoryAndSubcategories'), self :: SEARCH_SCOPE_CATEGORY_AND_SUBCATEGORIES);
         $this->frozen_elements[] = $this->addGroup($scope_buttons, self :: PARAM_SEARCH_SCOPE, Translation :: get('SearchIn'));
-        $this->addElement('submit', 'search', Translation :: get('Ok'));
+        $this->addElement('submit', 'search', Translation :: get('Ok', null, Utilities :: COMMON_LIBRARIES));
     }
 
     /**
@@ -295,14 +296,15 @@ class RepositorySearchForm extends FormValidator
      */
     private function get_types()
     {
-        if (Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE))
+        if (Request :: get(ContentObjectTypeSelector :: PARAM_CONTENT_OBJECT_TYPE))
         {
-            $types = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE);
+            $types = Request :: get(ContentObjectTypeSelector :: PARAM_CONTENT_OBJECT_TYPE);
         }
         else
         {
-        	$key = RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE;
-            $types = isset($_POST[$key]) ? $_POST[$key] : null;
+            $key = ContentObjectTypeSelector :: PARAM_CONTENT_OBJECT_TYPE;
+            $post_value = Request :: post($key);
+            $types = isset($post_value) ? $post_value : null;
         }
         return (is_array($types) && count($types) ? $types : null);
     }
@@ -316,19 +318,5 @@ class RepositorySearchForm extends FormValidator
         return (count($this->get_search_conditions()) > 0);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ?>

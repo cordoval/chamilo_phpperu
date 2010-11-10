@@ -10,11 +10,7 @@ use common\libraries\TreeMenu;
 use common\libraries\TreeMenuItem;
 use common\libraries\TreeMenuDataProvider;
 use repository\RepositoryDataManager;
-use  application\GradebookTreeMenuDataProvider;
-
-require_once Path :: get_common_libraries_class_path() . '/html/menu/tree_menu/tree_menu_data_provider.class.php';
-require_once Path :: get_common_libraries_class_path() . '/html/menu/tree_menu/tree_menu.class.php';
-require_once Path :: get_common_libraries_class_path() . '/html/menu/tree_menu/tree_menu_item.class.php';
+use application\GradebookTreeMenuDataProvider;
 
 class WikiGradebookTreeMenuDataProvider extends GradebookTreeMenuDataProvider
 {

@@ -3,6 +3,7 @@
 namespace application\peer_assessment;
 
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/../peer_assessment_manager.class.php';
 
@@ -61,11 +62,11 @@ class PeerAssessmentManagerDeleterComponent extends PeerAssessmentManager
                     $message = 'SelectedPeerAssessmentPublicationsDeleted';
                 }
             }
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS, 'category' => $category_id));
+            $this->redirect(Translation :: get($message, null, Utilities::COMMON_LIBRARIES), ($failures ? true : false), array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS, 'category' => $category_id));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoPeerAssessmentPublicationsSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoPeerAssessmentPublicationsSelected', null, Utilities::COMMON_LIBRARIES)));
         }
     }
 

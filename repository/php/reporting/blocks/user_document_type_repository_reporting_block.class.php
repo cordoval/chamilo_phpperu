@@ -6,6 +6,7 @@ use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\OrCondition;
 use common\libraries\PatternMatchCondition;
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/../repository_reporting_block.class.php';
 
@@ -31,19 +32,19 @@ class UserDocumentTypeRepositoryReportingBlock extends RepositoryReportingBlock
     public function retrieve_data()
     {
         $reporting_data = new ReportingData();
-        $reporting_data->set_rows(array(Translation :: get('Count')));
+        $reporting_data->set_rows(array(Translation :: get('Count', null, Utilities :: COMMON_LIBRARIES)));
 
-        $category_name = Translation :: get('Images');
+        $category_name = Translation :: get('Images', null, Utilities :: COMMON_LIBRARIES);
         $reporting_data->add_category($category_name);
-        $reporting_data->add_data_category_row($category_name, Translation :: get('Count'), $this->get_image_count());
+        $reporting_data->add_data_category_row($category_name, Translation :: get('Count', null, Utilities :: COMMON_LIBRARIES), $this->get_image_count());
 
-        $category_name = Translation :: get('Video');
+        $category_name = Translation :: get('Video', null, Utilities :: COMMON_LIBRARIES);
         $reporting_data->add_category($category_name);
-        $reporting_data->add_data_category_row($category_name, Translation :: get('Count'), $this->get_video_count());
+        $reporting_data->add_data_category_row($category_name, Translation :: get('Count', null, Utilities :: COMMON_LIBRARIES), $this->get_video_count());
 
-        $category_name = Translation :: get('Audio');
+        $category_name = Translation :: get('Audio', null, Utilities :: COMMON_LIBRARIES);
         $reporting_data->add_category($category_name);
-        $reporting_data->add_data_category_row($category_name, Translation :: get('Count'), $this->get_audio_count());
+        $reporting_data->add_data_category_row($category_name, Translation :: get('Count', null, Utilities :: COMMON_LIBRARIES), $this->get_audio_count());
 
         return $reporting_data;
     }
@@ -57,12 +58,12 @@ class UserDocumentTypeRepositoryReportingBlock extends RepositoryReportingBlock
     {
         $modes = array();
 
-        $modes[ReportingFormatter :: DISPLAY_TEXT] = Translation :: get('Text');
-        $modes[ReportingFormatter :: DISPLAY_TABLE] = Translation :: get('Table');
-        $modes[ReportingChartFormatter :: DISPLAY_BAR] = Translation :: get('Chart:Bar');
-        $modes[ReportingChartFormatter :: DISPLAY_PIE] = Translation :: get('Chart:Pie');
-        $modes[ReportingChartFormatter::DISPLAY_LINE] = Translation :: get('Chart:Line');
-        $modes[ReportingChartFormatter::DISPLAY_FILLED_CUBIC] = Translation :: get('Chart:FilledCubic');
+        $modes[ReportingFormatter :: DISPLAY_TEXT] = Translation :: get('Text', null, ReportingManager :: APPLICATION_NAME);
+        $modes[ReportingFormatter :: DISPLAY_TABLE] = Translation :: get('Table', null, ReportingManager :: APPLICATION_NAME);
+        $modes[ReportingChartFormatter :: DISPLAY_BAR] = Translation :: get('Chart:Bar', null, ReportingManager :: APPLICATION_NAME);
+        $modes[ReportingChartFormatter :: DISPLAY_PIE] = Translation :: get('Chart:Pie', null, ReportingManager :: APPLICATION_NAME);
+        $modes[ReportingChartFormatter::DISPLAY_LINE] = Translation :: get('Chart:Line', null, ReportingManager :: APPLICATION_NAME);
+        $modes[ReportingChartFormatter::DISPLAY_FILLED_CUBIC] = Translation :: get('Chart:FilledCubic', null, ReportingManager :: APPLICATION_NAME);
 
         return $modes;
     }

@@ -11,6 +11,7 @@ use common\libraries\Toolbar;
 use common\libraries\AdministrationComponent;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\Utilities;
 
 /**
  * $Id: user_detail.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
@@ -31,7 +32,7 @@ class UserManagerUserDetailComponent extends UserManager implements Administrati
 			if (!UserRights :: is_allowed_in_users_subtree(UserRights :: EDIT_RIGHT, $id))
 		    {
 		      	$this->display_header();
-		        Display :: error_message(Translation :: get("NotAllowed"));
+		        Display :: error_message(Translation :: get("NotAllowed", null, Utilities :: COMMON_LIBRARIES));
 		        $this->display_footer();
 		        exit();
 		    }
@@ -69,7 +70,7 @@ class UserManagerUserDetailComponent extends UserManager implements Administrati
 		}
 		else
 		{
-			$this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
+			$this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('User')), Utilities :: COMMON_LIBRARIES)));
 		}
 	}
 
@@ -120,7 +121,7 @@ class UserManagerUserDetailComponent extends UserManager implements Administrati
 		switch($attribute)
 		{
 			case 'active':
-				return $value ? Translation :: get('True') : Translation :: get('False');
+				return $value ? Translation :: get('ConfiirmTrue', null, Utilities :: COMMON_LIBRARIES) : Translation :: get('ConfirmFalse', null, Utilities :: COMMON_LIBRARIES);
 			case 'activation_date':
 				return $value == 0 ? Translation :: get('Forever') : DatetimeUtilities :: format_locale_date(null, $value);
 			case 'expiration_date':
@@ -143,7 +144,7 @@ class UserManagerUserDetailComponent extends UserManager implements Administrati
 
 		$table = new Html_Table(array('class' => 'data_table'));
 
-		$table->setHeaderContents(0, 0, Translation :: get('Groups'));
+		$table->setHeaderContents(0, 0, Translation :: get('Groups', null, 'group'));
         $table->setCellAttributes(0, 0, array('colspan' => 2, 'style' => 'text-align: center;'));
 
         $table->setHeaderContents(1, 0, Translation :: get('GroupCode'));
@@ -184,10 +185,10 @@ class UserManagerUserDetailComponent extends UserManager implements Administrati
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png',
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path().'action_edit.png',
 					$this->get_user_editing_url($user), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path().'action_delete.png',
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path().'action_delete.png',
 					$this->get_user_delete_url($user), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ViewQuota'), Theme :: get_common_image_path().'action_browser.png',
@@ -196,7 +197,7 @@ class UserManagerUserDetailComponent extends UserManager implements Administrati
 		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('VersionQuota'), Theme :: get_common_image_path().'action_statistics.png',
 					$this->get_user_quota_url($user), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ManageRightsTemplates'), Theme :: get_common_image_path().'action_rights.png',
+		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ManageRightsTemplates', null, 'rights'), Theme :: get_common_image_path().'action_rights.png',
 					$this->get_manage_user_rights_url($user), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
 		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('LoginAsUser'), Theme :: get_common_image_path().'action_login.png',

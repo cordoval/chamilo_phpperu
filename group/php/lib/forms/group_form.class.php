@@ -1,10 +1,10 @@
 <?php
 namespace group;
-use common\libraries;
 
 use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\FormValidator;
 use common\libraries\OptionsMenuRenderer;
 
@@ -55,15 +55,15 @@ class GroupForm extends FormValidator
     function build_basic_form()
     {
         $this->addElement('text', Group :: PROPERTY_NAME, Translation :: get('Name'), array("size" => "50"));
-        $this->addRule(Group :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(Group :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired', null , Utilities :: COMMON_LIBRARIES), 'required');
 
         $this->addElement('text', Group :: PROPERTY_CODE, Translation :: get('Code'), array("size" => "50"));
-        $this->addRule(Group :: PROPERTY_CODE, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(Group :: PROPERTY_CODE, Translation :: get('ThisFieldIsRequired', null , Utilities :: COMMON_LIBRARIES), 'required');
 
         $this->addElement('select', Group :: PROPERTY_PARENT, Translation :: get('Location'), $this->get_groups());
-        $this->addRule(Group :: PROPERTY_PARENT, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(Group :: PROPERTY_PARENT, Translation :: get('ThisFieldIsRequired', null , Utilities :: COMMON_LIBRARIES), 'required');
 
-        $this->add_html_editor(Group :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
+        $this->add_html_editor(Group :: PROPERTY_DESCRIPTION, Translation :: get('Description', null , Utilities :: COMMON_LIBRARIES), false);
 
         // RightsTemplates element finder
         $group = $this->group;
@@ -87,9 +87,9 @@ class GroupForm extends FormValidator
         $url = Path :: get(WEB_PATH) . 'rights/php/xml_feeds/xml_rights_template_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('AddRightsTemplates');
-        $locale['Searching'] = Translation :: get('Searching');
-        $locale['NoResults'] = Translation :: get('NoResults');
-        $locale['Error'] = Translation :: get('Error');
+        $locale['Searching'] = Translation :: get('Searching', null , Utilities :: COMMON_LIBRARIES);
+        $locale['NoResults'] = Translation :: get('NoResults', null , Utilities :: COMMON_LIBRARIES);
+        $locale['Error'] = Translation :: get('Error', null , Utilities :: COMMON_LIBRARIES);
         $hidden = true;
 
         $elem = $this->addElement('element_finder', 'rights_templates', null, $url, $locale, $group_rights_templates);
@@ -108,8 +108,8 @@ class GroupForm extends FormValidator
 
         $this->addElement('hidden', Group :: PROPERTY_ID);
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null , Utilities :: COMMON_LIBRARIES), array('class' => 'positive update'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null , Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -118,8 +118,8 @@ class GroupForm extends FormValidator
     {
         $this->build_basic_form();
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null , Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null , Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

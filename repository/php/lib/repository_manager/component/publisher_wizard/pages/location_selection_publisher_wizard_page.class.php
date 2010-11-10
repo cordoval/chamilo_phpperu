@@ -35,7 +35,7 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 
         if (empty($ids))
         {
-            Request :: set_get('message', Translation :: get('NoObjectSelected'));
+            Request :: set_get('message', Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES));
             $this->get_parent()->display_header($trail, false, true, 'repository publication wizard');
             $this->get_parent()->display_footer();
             exit();
@@ -84,7 +84,7 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 
 	function display_content_object($content_object)
 	{
-		$html[] = '<div class="content_object" style="background-image: url('. Theme :: get_common_image_path(). 'content_object/' .$content_object->get_icon_name().'.png);">';
+		$html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($content_object->get_type())) . 'logo/' . $content_object->get_icon_name() . '.png);">';
 		$html[] = '<div class="title">';
 		$html[] = $content_object->get_title();
 		$html[] = '</div>';
@@ -109,7 +109,7 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 				foreach ($attachments as $attachment)
 				{
 					$disp = ContentObjectDisplay :: factory($attachment);
-					$html[] = '<li><img src="'.Theme :: get_common_image_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(ContentObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
+					$html[] = '<li><img src="'.Theme :: get_common_image_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(ContentObject :: type_to_class('TypeName', null, ContentObject :: get_content_object_type_namespace($attachment->get_type()))).'"/> '.$disp->get_short_html().'</li>';
 				}
 				$html[] = '</ul>';
 				return implode("\n",$html);
@@ -163,8 +163,8 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
         if ($location_count > 0)
         {
             $this->addElement('html', '<br /><br />');
-            //$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get('Previous'));
-            $prevnext[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next') . ' >>', 'style=\'margin-left: -20%;\' class="positive finish"');
+            //$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get('Previous', null, Utilities :: COMMON_LIBRARIES));
+            $prevnext[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next', null, Utilities :: COMMON_LIBRARIES) . ' >>', 'style=\'margin-left: -20%;\' class="positive finish"');
             $this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
         }
         else
@@ -174,11 +174,11 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 
         if (count($this->apps) > 1)
         {
-            $this->addElement('html', '<br /><br /><a href="?" style="margin-left: 0%"  onclick="setCheckbox(\'\', true); return false;">' . Translation :: get('SelectAll') . '</a>');
-            $this->addElement('html', ' - <a href="?" onclick="setCheckbox(\'\', false); return false;">' . Translation :: get('UnSelectAll') . '</a>');
+            $this->addElement('html', '<br /><br /><a href="?" style="margin-left: 0%"  onclick="setCheckbox(\'\', true); return false;">' . Translation :: get('SelectAll', null, Utilities :: COMMON_LIBRARIES) . '</a>');
+            $this->addElement('html', ' - <a href="?" onclick="setCheckbox(\'\', false); return false;">' . Translation :: get('UnSelectAll', null, Utilities :: COMMON_LIBRARIES) . '</a>');
         }
 
-        $this->addElement('html', '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/home_ajax.js' . '"></script>');
+        $this->addElement('html', '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'libraries/resources/javascript/home_ajax.js' . '"></script>');
 
         $this->setDefaultAction('next');
 
@@ -195,7 +195,7 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
         $this->apps[] = $application;
 
         $this->addElement('html', '<div class="block" id="block_introduction" style="background-image: url(' . Theme :: get_image_path('home') . 'block_' . $application_name . '.png);">');
-        $this->addElement('html', '<div class="title"><div style="float:left;">' . Translation :: get(Application :: application_to_class($application_name)));
+        $this->addElement('html', '<div class="title"><div style="float:left;">' . Translation :: get('ApplicationName', null, Application :: determine_namespace($application_name)));
         $this->addElement('html', '</div><div style="float:right;"><a href="#" class="closeEl"><img class="visible" src="' . Theme :: get_common_image_path() . 'action_visible.png" /><img class="invisible" style="display: none;") src="' . Theme :: get_common_image_path() . 'action_invisible.png" /></a></div><div class="clear">&nbsp;</div></div>');
         $this->addElement('html', '<div class="description"><br />');
 
@@ -212,8 +212,8 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 
         if (count($locations) > 1)
         {
-            $this->addElement('html', '<br /><br /><a href="?" style="margin-left: 0%" onclick="setCheckbox(\'' . $application_name . '\', true); return false;">' . Translation :: get('SelectAll') . '</a>');
-            $this->addElement('html', ' - <a href="?" onclick="setCheckbox(\'' . $application_name . '\', false); return false;">' . Translation :: get('UnSelectAll') . '</a>');
+            $this->addElement('html', '<br /><br /><a href="?" style="margin-left: 0%" onclick="setCheckbox(\'' . $application_name . '\', true); return false;">' . Translation :: get('SelectAll', null, Utilities :: COMMON_LIBRARIES) . '</a>');
+            $this->addElement('html', ' - <a href="?" onclick="setCheckbox(\'' . $application_name . '\', false); return false;">' . Translation :: get('UnSelectAll', null, Utilities :: COMMON_LIBRARIES) . '</a>');
         }
         $this->addElement('html', '<div style="clear: both;"></div></div></div><br />');
     }

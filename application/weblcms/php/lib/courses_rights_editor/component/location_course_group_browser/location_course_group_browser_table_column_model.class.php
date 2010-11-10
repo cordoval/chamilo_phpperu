@@ -42,8 +42,8 @@ class LocationCourseGroupBrowserTableColumnModel extends ObjectTableColumnModel
         $columns = array();
         $columns[] = new ObjectTableColumn(CourseGroup :: PROPERTY_NAME, true);
         $columns[] = new ObjectTableColumn(CourseGroup :: PROPERTY_DESCRIPTION, true);
-        $columns[] = new StaticTableColumn(Translation :: get('Users'));
-        $columns[] = new StaticTableColumn(Translation :: get('Subgroups'));
+        $columns[] = new StaticTableColumn(Translation :: get('Users', null, 'user' ));
+        $columns[] = new StaticTableColumn(Translation :: get('Subgroups', null, 'group' ));
         return $columns;
     }
 

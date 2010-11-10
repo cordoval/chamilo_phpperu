@@ -49,7 +49,7 @@ abstract class WeblcmsCourseReportingBlock extends WeblcmsReportingBlock
                 $user = $udm->retrieve_user($visittracker->get_user_id());
             }
 
-            $arr[Translation :: get('User')][] = $user->get_fullname();
+            $arr[Translation :: get('User', null, 'user')][] = $user->get_fullname();
             $arr[Translation :: get('LastAccess')][] = DatetimeUtilities :: format_locale_date(null, $visittracker->get_enter_date());
             $time = $visittracker->get_leave_date() - $visittracker->get_enter_date();
             $time = mktime(0, 0, $time, 0, 0, 0);

@@ -1,8 +1,6 @@
 <?php
 namespace application\wiki;
 
-use common\libraries\WebApplication;
-use common\libraries\CoreApplication;
 use common\libraries\Translation;
 use common\libraries\Request;
 use repository\ComplexDisplay;
@@ -12,9 +10,6 @@ use repository\RepositoryDataManager;
 use user\userDataManager;
 use reporting\ReportingFormatter;
 use reporting\ReportingData;
-
-require_once WebApplication :: get_application_class_path('wiki') . 'reporting/wiki_reporting_block.class.php';
-require_once CoreApplication :: get_application_class_lib_path('reporting') . 'reporting_data.class.php';
 
 class WikiPageUsersContributionsReportingBlock extends WikiReportingBlock
 {
@@ -40,7 +35,7 @@ class WikiPageUsersContributionsReportingBlock extends WikiReportingBlock
             {
                 $user = UserDataManager :: get_instance()->retrieve_user($user);
                 $reporting_data->add_category(0);
-            	$reporting_data->add_data_category_row(0, Translation :: get('Username'), $user->get_username());
+            	$reporting_data->add_data_category_row(0, Translation :: get('Username', null , 'user'), $user->get_username());
             	$reporting_data->add_data_category_row(0, Translation :: get('NumberOfContributions'), $number);
             	$reporting_data->hide_categories();
                 $count ++;

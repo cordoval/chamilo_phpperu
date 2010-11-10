@@ -7,6 +7,7 @@ use common\libraries\FormValidator;
 use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: survey_publication_form.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -34,7 +35,7 @@ class SurveyPublicationForm extends FormValidator
         }
 
         $this->addElement('text', 'email_header', Translation :: get('EmailTitle'), array('size' => 80));
-        $this->addRule('email_header', Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule('email_header', Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         $this->add_html_editor('email_content', Translation :: get('EmailContent'), true);
 
         $this->addElement('advmultiselect', 'course_users', Translation :: get('SelectUsers'), $course_users, 'style="width: 250px;"');
@@ -44,8 +45,8 @@ class SurveyPublicationForm extends FormValidator
         $this->addElement('checkbox', 'resend', Translation :: get('ResendEmail'));
         $this->addElement('html', '<br />' . Translation :: get('PublishSurveyResendMailInfo') . '<br /><br />');
         //$this->addElement('submit', 'submit', Translation :: get('SendMail'));
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Publish'), array('class' => 'positive publish'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Publish', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive publish'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

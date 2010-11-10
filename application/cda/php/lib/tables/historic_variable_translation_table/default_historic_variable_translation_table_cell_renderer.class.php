@@ -37,7 +37,7 @@ class DefaultHistoricVariableTranslationTableCellRenderer extends ObjectTableCel
 				return $historic_variable_translation->get_translation();
 			case HistoricVariableTranslation :: PROPERTY_DATE :
 				return $historic_variable_translation->get_date();
-			case Translation :: get('User') :
+			case Translation :: get('User', null, 'user') :
 				return $historic_variable_translation->get_user()->get_fullname();
 			case HistoricVariableTranslation :: PROPERTY_RATING :
 				return $historic_variable_translation->get_rating();

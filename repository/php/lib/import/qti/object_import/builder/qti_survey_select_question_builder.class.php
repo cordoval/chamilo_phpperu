@@ -1,5 +1,5 @@
 <?php
-
+namespace repository;
 /**
  * Question builder for Survey Select Questions.
  *

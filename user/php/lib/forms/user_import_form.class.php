@@ -7,6 +7,7 @@ use common\libraries\FormValidator;
 use common\libraries\PlatformSetting;
 use common\libraries\Hashing;
 use common\libraries\Mail;
+
 /**
  * $Id: user_import_form.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.forms
@@ -52,12 +53,12 @@ class UserImportForm extends FormValidator
         $this->addRule('file', Translation :: get('OnlyXMLCSVAllowed'), 'filetype', $allowed_upload_types);
 
         $group = array();
-        $group[] = & $this->createElement('radio', 'send_mail', null, Translation :: get('Yes'), 1);
-        $group[] = & $this->createElement('radio', 'send_mail', null, Translation :: get('No'), 0);
+        $group[] = & $this->createElement('radio', 'send_mail', null, Translation :: get('ConfirmYes', null, Utilities :: COMMON_LIBRARIES), 1);
+        $group[] = & $this->createElement('radio', 'send_mail', null, Translation :: get('ConfirmNo', null, Utilities :: COMMON_LIBRARIES), 0);
         $this->addGroup($group, 'mail', Translation :: get('SendMailToNewUser'), '&nbsp;');
 
         //$this->addElement('submit', 'user_import', Translation :: get('Ok'));
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Import'), array('class' => 'positive import'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Import', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive import'));
         //$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
 

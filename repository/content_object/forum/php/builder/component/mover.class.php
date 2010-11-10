@@ -4,6 +4,7 @@ namespace repository\content_object\forum;
 use common\libraries\SubselectCondition;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use repository\ComplexBuilder;
@@ -63,12 +64,12 @@ class ForumBuilderMoverComponent extends ForumBuilder
             {
                 $parent = null;
             }
-
-            $this->redirect($succes ? Translation :: get('ComplexContentObjectItemsMoved') : Translation :: get('ComplexContentObjectItemsNotMoved'), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $parent_complex_content_object_item));
+			$message = $succes ? Translation :: get('ObjectMoved', array('OBJECT'=> Translation ::get('ComplexContentObjectItems')) , Utilities :: COMMON_LIBRARIES) : Translation :: get('ObjectNotMoved', array('OBJECT' => Translation ::get('ComplexContentObjectItems')) , Utilities :: COMMON_LIBRARIES);
+            $this->redirect($message, false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $parent_complex_content_object_item));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', null , Utilities :: COMMON_LIBRARIES)));
         }
     }
 }

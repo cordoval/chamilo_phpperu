@@ -1,5 +1,6 @@
 <?php
 namespace admin;
+use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\AdministrationComponent;
 use common\libraries\DelegateComponent;
@@ -18,14 +19,14 @@ class AdminManagerPackagerComponent extends AdminManager implements Administrati
 //        if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW))
 //        {
 //            $this->display_header();
-//            $this->display_error_message(Translation :: get('NotAllowed'));
+//            $this->display_error_message(Translation :: get('NotAllowed', array(), Utilities :: COMMON_LIBRARIES));
 //            $this->display_footer();
 //            exit();
 //        }
-        
+
         PackageManager :: launch($this);
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add_help('admin_package_manager');

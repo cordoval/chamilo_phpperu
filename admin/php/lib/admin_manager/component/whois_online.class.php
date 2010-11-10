@@ -18,7 +18,7 @@ class AdminManagerWhoisOnlineComponent extends AdminManager
     function run()
     {
         $world = PlatformSetting :: get('whoisonlineaccess');
-        
+
         if ($world == "1" || ($this->get_user_id() && $world == "2"))
         {
             $user_id = Request :: get('uid');
@@ -40,18 +40,18 @@ class AdminManagerWhoisOnlineComponent extends AdminManager
             $this->display_error_message('NotAllowed');
             $this->display_footer();
         }
-    
+
     }
 
     private function get_table_html()
     {
         $parameters = $this->get_parameters(true);
-        
+
         $table = new WhoisOnlineTable($this, $parameters, $this->get_condition());
-        
+
         $html = array();
         $html[] = $table->as_html();
-        
+
         return implode("\n", $html);
     }
 
@@ -63,7 +63,7 @@ class AdminManagerWhoisOnlineComponent extends AdminManager
         {
             $users[] = $item->get_user_id();
         }
-        
+
         if (! empty($users))
         {
             return new InCondition(User :: PROPERTY_ID, $users);
@@ -77,13 +77,13 @@ class AdminManagerWhoisOnlineComponent extends AdminManager
     private function get_user_html($user_id)
     {
         $user = UserDataManager :: get_instance()->retrieve_user($user_id);
-        
+
         $html[] = '<br /><div style="float: left; width: 150px;">';
-        $html[] = Translation :: get('Username') . ':<br />';
-        $html[] = Translation :: get('Fullname') . ':<br />';
-        $html[] = Translation :: get('OfficialCode') . ':<br />';
-        $html[] = Translation :: get('Email') . ':<br />';
-        $html[] = Translation :: get('Status') . ':<br />';
+        $html[] = Translation :: get('Username', array(), 'user') . ':<br />';
+        $html[] = Translation :: get('Fullname', array(), 'user') . ':<br />';
+        $html[] = Translation :: get('OfficialCode', array(), 'user') . ':<br />';
+        $html[] = Translation :: get('Email', array(), 'user') . ':<br />';
+        $html[] = Translation :: get('Status', array(), 'user') . ':<br />';
         $html[] = '</div><div style="float: left; width: 250px;">';
         $html[] = $user->get_username() . '<br />';
         $html[] = $user->get_fullname() . '<br />';
@@ -93,10 +93,10 @@ class AdminManagerWhoisOnlineComponent extends AdminManager
         $html[] = '</div><div style="float: right; max-width: 400px;">';
         $html[] = '<img src="' . $user->get_full_picture_url() . '" />';
         $html[] = '</div>';
-        
+
         return implode("\n", $html);
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add_help('admin_whois_online');

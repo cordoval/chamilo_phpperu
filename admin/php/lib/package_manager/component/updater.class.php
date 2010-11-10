@@ -1,5 +1,6 @@
 <?php
 namespace admin;
+use common\libraries\Utilities;
 use common\libraries\Translation;
 /**
  * $Id: updater.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
@@ -17,7 +18,7 @@ class PackageManagerUpdaterComponent extends PackageManager
 //        if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW))
 //        {
 //            $this->display_header();
-//            $this->display_error_message(Translation :: get('NotAllowed'));
+//            $this->display_error_message(Translation :: get('NotAllowed', array(), Utilities :: COMMON_LIBRARIES));
 //            $this->display_footer();
 //            exit();
 //        }
@@ -29,13 +30,13 @@ class PackageManagerUpdaterComponent extends PackageManager
         echo $updater->retrieve_result();
         $this->display_footer();
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_BROWSE_PACKAGES)), Translation :: get('PackageManagerBrowserComponent')));
     	$breadcrumbtrail->add_help('admin_package_manager_updater');
     }
-    
+
  	function get_additional_parameters()
     {
     	return array(PackageManager :: PARAM_REGISTRATION);

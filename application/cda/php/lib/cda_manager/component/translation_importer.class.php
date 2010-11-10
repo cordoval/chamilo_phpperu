@@ -7,6 +7,7 @@ use common\libraries\Breadcrumb;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\WebApplication;
+use common\libraries\Utilities;
 /**
  * @package application.cda.cda.component
  */
@@ -38,7 +39,8 @@ class CdaManagerTranslationImporterComponent extends CdaManager
 			
 			$importer = TranslationImporter :: factory($branch, $this->get_user(), $options);
 			$importer->import($file);
-			$this->redirect(Translation :: get('TranslationsImported'), false, array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_CDA_LANGUAGES));
+
+			$this->redirect(Translation :: get('ObjectImported', array('OBJECT' => Translation :: get('Translations')), Utilities :: COMMON_LIBRARIES), false, array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_CDA_LANGUAGES));
 		}
 		else
 		{

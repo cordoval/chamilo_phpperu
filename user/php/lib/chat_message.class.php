@@ -75,10 +75,11 @@ class ChatMessage extends DataClass
 		$this->set_default_property(self :: PROPERTY_MESSAGE, $message);
 	}
 
-	static function get_table_name()
-	{
-		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
-	}
+    static function get_table_name()
+    {
+        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+    }
 
 }
 ?>

@@ -3,6 +3,7 @@ namespace application\reservations;
 
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\Utilities;
 
 use tracking\Event;
 use tracking\ChangesTracker;
@@ -26,7 +27,7 @@ class ReservationsManagerQuotaBoxDeleterComponent extends ReservationsManager
         if (! $this->get_user())
         {
             $this->display_header(null);
-            Display :: display_error_message(Translation :: get("NotAllowed"));
+            Display :: display_error_message(Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
@@ -57,16 +58,24 @@ class ReservationsManagerQuotaBoxDeleterComponent extends ReservationsManager
             }
 
             if (count($ids) == 1)
-                $message = $bool ? 'QuotaBoxDeleted' : 'QuotaBoxNotDeleted';
+            {
+                $object = Translation :: get('QuotaBox');
+                $message = $bool ? Translation :: get('ObjectDeleted', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES) :
+                                   Translation :: get('ObjectNotDeleted', array('OBJECT' => $object), Utilities :: COMMON_LIBRARIES);
+            }
             else
-                $message = $bool ? 'QuotaBoxesDeleted' : 'QuotaBoxesNotDeleted';
+            {
+                $objects = Translation :: get('QuotaBoxes');
+                $message = $bool ? Translation :: get('ObjectsDeleted', array('OBJECTS' => $objects), Utilities :: COMMON_LIBRARIES) :
+                                   Translation :: get('ObjectsNotDeleted', array('OBJECTS' => $objects), Utilities :: COMMON_LIBRARIES);
+            }
 
-            $this->redirect(Translation :: get($message), ($bool ? false : true), array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_QUOTA_BOXES));
+            $this->redirect($message, !$bool, array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_QUOTA_BOXES));
         }
         else
         {
             $this->display_header();
-            $this->display_error_message(Translation :: get("NoObjectSelected"));
+            $this->display_error_message(Translation :: get('NoObjectSelected', null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
         }
     }

@@ -5,6 +5,7 @@ namespace application\forum;
 use common\libraries\WebApplication;
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\Utilities;
 
 /**
  * $Id: forum_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
@@ -142,7 +143,7 @@ class ForumManager extends WebApplication
         $pub->set_author($content_object->get_owner_id());
         $pub->create();
 
-        return Translation :: get('PublicationCreated');
+        return Translation :: get('ObjectCreated' , array ('OBJECT' => Translation :: get ('Forum', null, 'repository/forum')) , Utilities :: COMMON_LIBRARIES);
     }
 
     static function get_content_object_publication_attribute($object_id)

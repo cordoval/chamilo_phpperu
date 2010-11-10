@@ -1,8 +1,6 @@
 <?php
 namespace tracking;
 
-use common\libraries;
-
 use common\libraries\Utilities;
 use common\libraries\Application;
 use common\libraries\BasicApplication;

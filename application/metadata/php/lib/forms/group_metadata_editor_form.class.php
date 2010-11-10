@@ -9,6 +9,7 @@ namespace application\metadata;
 use common\libraries\Translation;
 use common\libraries\ResourceManager;
 use common\libraries\Path;
+use common\libraries\Utilities;
 
 class GroupMetadataEditorForm extends MetadataForm
 {
@@ -50,8 +51,8 @@ class GroupMetadataEditorForm extends MetadataForm
     {
     	$this->build_basic_form();
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -103,8 +104,8 @@ class GroupMetadataEditorForm extends MetadataForm
     {
         $value_types = array();
         $value_types[MetadataPropertyAttributeValue :: VALUE_TYPE_NONE] = '--';
-        $value_types[MetadataPropertyAttributeValue :: VALUE_TYPE_ID] = Translation :: get('id');
-        $value_types[MetadataPropertyAttributeValue :: VALUE_TYPE_VALUE] = Translation :: get('value');
+        $value_types[MetadataPropertyAttributeValue :: VALUE_TYPE_ID] = Translation :: get('Id', null, Utilities :: COMMON_LIBRARIES);
+        $value_types[MetadataPropertyAttributeValue :: VALUE_TYPE_VALUE] = Translation :: get('Value', null, Utilities :: COMMON_LIBRARIES);
 
         return $value_types;
     }
@@ -117,7 +118,7 @@ class GroupMetadataEditorForm extends MetadataForm
 
             $group = array();
             
-            $group[] = $this->createElement('text', MetadataPropertyValue :: PROPERTY_VALUE . '_' . $metadata_property_value->get_id(), Translation :: get('PropertyValue'));
+            $group[] = $this->createElement('text', MetadataPropertyValue :: PROPERTY_VALUE . '_' . $metadata_property_value->get_id(), Translation :: get('MetadataPropertyValue'));
             $group[] = $this->createElement('static', null, null, '<a href="' . $this->application->get_url(array(MetadataManager :: PARAM_ACTION => MetadataManager :: ACTION_DELETE_GROUP_METADATA_PROPERTY_VALUE, MetadataManager :: PARAM_METADATA_PROPERTY_VALUE => $metadata_property_value->get_id(), MetadataManager :: PARAM_GROUP => $this->group->get_id())). '">delete</a>');
 
             $property_types = $this->get_property_types();

@@ -18,7 +18,7 @@ class InvitationForm extends FormValidator
 
         $this->add_information_message(null, null, Translation :: get('CommaSeparatedListOfEmailAddresses'));
         $this->addElement('textarea', Invitation :: PROPERTY_EMAIL, Translation :: get('EmailAddresses'), 'cols="70" rows="8"');
-        $this->addRule(Invitation :: PROPERTY_EMAIL, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(Invitation :: PROPERTY_EMAIL, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         $this->add_forever_or_expiration_date_window(Invitation :: PROPERTY_EXPIRATION_DATE);
         $this->addElement('checkbox', Invitation :: PROPERTY_ANONYMOUS, Translation :: get('Anonymous'), null, 1);
 
@@ -31,9 +31,9 @@ class InvitationForm extends FormValidator
         $url = Path :: get(WEB_PATH) . 'rights/xml_feeds/xml_rights_template_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('AddRightsTemplates');
-        $locale['Searching'] = Translation :: get('Searching');
-        $locale['NoResults'] = Translation :: get('NoResults');
-        $locale['Error'] = Translation :: get('Error');
+        $locale['Searching'] = Translation :: get('Searching', null, Utilities :: COMMON_LIBRARIES);
+        $locale['NoResults'] = Translation :: get('NoResults', null, Utilities :: COMMON_LIBRARIES);
+        $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARIES);
         $hidden = true;
 
         $element_finder = $this->addElement('element_finder', 'rights_templates', null, $url, $locale, array());
@@ -42,22 +42,22 @@ class InvitationForm extends FormValidator
         $this->addElement('category');
 
         $this->addElement('category', Translation :: get('InvitationMessage'));
-        $this->add_textfield(Invitation :: PROPERTY_TITLE, Translation::get('InvitationSubject'), true);
+        $this->add_textfield(Invitation :: PROPERTY_TITLE, Translation :: get('InvitationSubject'), true);
         //$this->addElement('text', Invitation :: PROPERTY_TITLE, Translation :: get('InvitationSubject'));
-        $this->addRule(Invitation :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(Invitation :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         $this->add_html_editor(Invitation :: PROPERTY_MESSAGE, Translation :: get('InvitationBody'), true);
         $this->addElement('category');
 
         $checkboxes = array();
         $checkboxes[] = '<script type="text/javascript">';
         $checkboxes[] = '$(document).ready(function() {';
-        $checkboxes[] = '$("input:checkbox[name=\'' . Invitation :: PROPERTY_ANONYMOUS . '\']").iphoneStyle({ checkedLabel: \'' . Translation :: get('Yes') . '\', uncheckedLabel: \'' . Translation :: get('No') . '\'});';
+        $checkboxes[] = '$("input:checkbox[name=\'' . Invitation :: PROPERTY_ANONYMOUS . '\']").iphoneStyle({ checkedLabel: \'' . Translation :: get('ConfirmYes', null, Utilities :: COMMON_LIBRARIES) . '\', uncheckedLabel: \'' . Translation :: get('ConfirmNo', null, Utilities :: COMMON_LIBRARIES) . '\'});';
         $checkboxes[] = '});';
         $checkboxes[] = '</script>';
         $this->addElement('html', implode("\n", $checkboxes));
 
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Invite'), array('class' => 'positive update'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
@@ -71,52 +71,53 @@ class InvitationForm extends FormValidator
         parent :: setDefaults($defaults);
     }
 
-//    function render()
-//    {
-//        $this->form->addElement('category', Translation :: get('InviteExternalUsers'));
-//        $this->form->add_information_message(null, null, Translation :: get('CommaSeparatedListOfEmailAddresses'));
-//        $this->form->addElement('textarea', Invitation :: PROPERTY_EMAIL, Translation :: get('EmailAddresses'), 'cols="70" rows="8"');
-//        $this->form->addRule(Invitation :: PROPERTY_EMAIL, Translation :: get('ThisFieldIsRequired'), 'required');
-//        $this->form->add_forever_or_expiration_date_window(Invitation :: PROPERTY_EXPIRATION_DATE);
-//        $this->form->addElement('checkbox', Invitation :: PROPERTY_ANONYMOUS, Translation :: get('Anonymous'), null, 1);
-//
-//        $rights_templates = RightsDataManager :: get_instance()->retrieve_rights_templates();
-//        while ($rights_template = $rights_templates->next_result())
-//        {
-//            $defaults[$rights_template->get_id()] = array('title' => $rights_template->get_name(), 'description', $rights_template->get_description(), 'class' => 'rights_template');
-//        }
-//
-//        $url = Path :: get(WEB_PATH) . 'rights/xml_feeds/xml_rights_template_feed.php';
-//        $locale = array();
-//        $locale['Display'] = Translation :: get('AddRightsTemplates');
-//        $locale['Searching'] = Translation :: get('Searching');
-//        $locale['NoResults'] = Translation :: get('NoResults');
-//        $locale['Error'] = Translation :: get('Error');
-//        $hidden = true;
-//
-//        //        $element_finder = $this->form->addElement('element_finder', 'rights_templates', null, $url, $locale, array());
-//        //        $element_finder->setDefaultCollapsed(true);
-//
-//
-//        if ($this->show_message_fields)
-//        {
-//            $this->form->addElement('text', Invitation :: PROPERTY_TITLE, Translation :: get('Subject'));
-//            $this->form->addRule(Invitation :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
-//            $this->form->add_html_editor(Invitation :: PROPERTY_MESSAGE, Translation :: get('Message'), true);
-//        }
-//
-//        $this->form->addElement('category');
-//
-//        $checkboxes = array();
-//        $checkboxes[] = '<script type="text/javascript">';
-//        $checkboxes[] = '$(document).ready(function() {';
-//        $checkboxes[] = '$("input:checkbox[name=\'' . Invitation :: PROPERTY_ANONYMOUS . '\']").iphoneStyle({ checkedLabel: \'' . Translation :: get('Yes') . '\', uncheckedLabel: \'' . Translation :: get('No') . '\'});';
-//        $checkboxes[] = '});';
-//        $checkboxes[] = '</script>';
-//
-//        $this->form->addElement('html', implode("\n", $checkboxes));
-//        $this->form->setDefaults(array('forever' => 1));
-//    }
+    //    function render()
+    //    {
+    //        $this->form->addElement('category', Translation :: get('InviteExternalUsers'));
+    //        $this->form->add_information_message(null, null, Translation :: get('CommaSeparatedListOfEmailAddresses'));
+    //        $this->form->addElement('textarea', Invitation :: PROPERTY_EMAIL, Translation :: get('EmailAddresses'), 'cols="70" rows="8"');
+    //        $this->form->addRule(Invitation :: PROPERTY_EMAIL, Translation :: get('ThisFieldIsRequired'), 'required');
+    //        $this->form->add_forever_or_expiration_date_window(Invitation :: PROPERTY_EXPIRATION_DATE);
+    //        $this->form->addElement('checkbox', Invitation :: PROPERTY_ANONYMOUS, Translation :: get('Anonymous'), null, 1);
+    //
+    //        $rights_templates = RightsDataManager :: get_instance()->retrieve_rights_templates();
+    //        while ($rights_template = $rights_templates->next_result())
+    //        {
+    //            $defaults[$rights_template->get_id()] = array('title' => $rights_template->get_name(), 'description', $rights_template->get_description(), 'class' => 'rights_template');
+    //        }
+    //
+    //        $url = Path :: get(WEB_PATH) . 'rights/xml_feeds/xml_rights_template_feed.php';
+    //        $locale = array();
+    //        $locale['Display'] = Translation :: get('AddRightsTemplates');
+    //        $locale['Searching'] = Translation :: get('Searching');
+    //        $locale['NoResults'] = Translation :: get('NoResults');
+    //        $locale['Error'] = Translation :: get('Error');
+    //        $hidden = true;
+    //
+    //        //        $element_finder = $this->form->addElement('element_finder', 'rights_templates', null, $url, $locale, array());
+    //        //        $element_finder->setDefaultCollapsed(true);
+    //
+    //
+    //        if ($this->show_message_fields)
+    //        {
+    //            $this->form->addElement('text', Invitation :: PROPERTY_TITLE, Translation :: get('Subject'));
+    //            $this->form->addRule(Invitation :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
+    //            $this->form->add_html_editor(Invitation :: PROPERTY_MESSAGE, Translation :: get('Message'), true);
+    //        }
+    //
+    //        $this->form->addElement('category');
+    //
+    //        $checkboxes = array();
+    //        $checkboxes[] = '<script type="text/javascript">';
+    //        $checkboxes[] = '$(document).ready(function() {';
+    //        $checkboxes[] = '$("input:checkbox[name=\'' . Invitation :: PROPERTY_ANONYMOUS . '\']").iphoneStyle({ checkedLabel: \'' . Translation :: get('Yes') . '\', uncheckedLabel: \'' . Translation :: get('No') . '\'});';
+    //        $checkboxes[] = '});';
+    //        $checkboxes[] = '</script>';
+    //
+    //        $this->form->addElement('html', implode("\n", $checkboxes));
+    //        $this->form->setDefaults(array('forever' => 1));
+    //    }
+
 
     function process()
     {

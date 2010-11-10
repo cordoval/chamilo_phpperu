@@ -6,6 +6,7 @@ use common\libraries\FormValidator;
 use common\libraries\Translation;
 use tracking\Event;
 use tracking\ChangesTracker;
+use common\libraries\Utilities;
 /**
  * $Id: quota_form.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.forms
@@ -51,17 +52,17 @@ class QuotaForm extends FormValidator
         $this->addElement('html', '<div style="float: left;width: 100%;">');
 
         $this->addElement('html', '<div class="configuration_form">');
-        $this->addElement('html', '<span class="category">' . Translation :: get('Required') . '</span>');
+        $this->addElement('html', '<span class="category">' . Translation :: get('Required', null, Utilities :: COMMON_LIBRARIES) . '</span>');
 
         // Credits
         $this->addElement('text', Quota :: PROPERTY_CREDITS, Translation :: get('Credits'));
-        $this->addRule(Quota :: PROPERTY_CREDITS, Translation :: get('ThisFieldIsRequired'), 'required');
-        $this->addElement('text', Quota :: PROPERTY_TIME_UNIT, Translation :: get('TimeUnitD'));
-        $this->addRule(Quota :: PROPERTY_TIME_UNIT, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(Quota :: PROPERTY_CREDITS, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
+        $this->addElement('text', Quota :: PROPERTY_TIME_UNIT, Translation :: get('TimeUnitInDays'));
+        $this->addRule(Quota :: PROPERTY_TIME_UNIT, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
 
         // Submit button
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 

@@ -18,7 +18,7 @@ class GradebookManagerAdminActiveChangerComponent extends GradebookManager
             $trail = BreadcrumbTrail :: get_instance();
             $trail->add_help('course_type_active_changer');
             $this->display_header($trail);
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get("NotAllowed", null, Utilities::COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
@@ -60,7 +60,7 @@ class GradebookManagerAdminActiveChangerComponent extends GradebookManager
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', null, Utilities::COMMON_LIBRARIES)));
         }
     }
 

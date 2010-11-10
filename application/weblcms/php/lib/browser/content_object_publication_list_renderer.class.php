@@ -125,7 +125,7 @@ abstract class ContentObjectPublicationListRenderer
         }
         if ($publication->is_for_everybody())
         {
-            return htmlentities(Translation :: get('Everybody')) . $email_suffix;
+            return htmlentities(Translation :: get('Everybody', null ,'user')) . $email_suffix;
         }
         else
         {
@@ -143,7 +143,7 @@ abstract class ContentObjectPublicationListRenderer
                     }
                     else
                     {
-                        return Translation :: get('UserUnknown');
+                        return Translation :: get('UserUnknown', null ,'user');
                     }
                 }
                 elseif (count($groups) == 1)
@@ -156,7 +156,7 @@ abstract class ContentObjectPublicationListRenderer
                     }
                     else
                     {
-                        return Translation :: get('GroupUnknown');
+                        return Translation :: get('GroupUnknown', null ,'group');
                     }
                 }
                 else
@@ -185,7 +185,7 @@ abstract class ContentObjectPublicationListRenderer
                 }
                 else
                 {
-                    $name = Translation :: get('UserUnknown');
+                    $name = Translation :: get('UserUnknown', null ,'user');
                 }
 
                 $target_list[] = '<option>' . $name . '</option>';
@@ -202,7 +202,7 @@ abstract class ContentObjectPublicationListRenderer
                 }
                 else
                 {
-                    $name = Translation :: get('GroupUnknown');
+                    $name = Translation :: get('GroupUnknown', null ,'group');
                 }
 
                 $target_list[] = '<option>' . $name . '</option>';
@@ -239,9 +239,9 @@ abstract class ContentObjectPublicationListRenderer
     {
         if ($publication->is_forever())
         {
-            return htmlentities(Translation :: get('Forever'));
+            return htmlentities(Translation :: get('Forever', null ,Utilities:: COMMON_LIBRARIES));
         }
-        return htmlentities(Translation :: get('From') . ' ' . $this->format_date($publication->get_from_date()) . ' ' . Translation :: get('Until') . ' ' . $this->format_date($publication->get_to_date()));
+        return htmlentities(Translation :: get('From', null ,Utilities:: COMMON_LIBRARIES) . ' ' . $this->format_date($publication->get_from_date()) . ' ' . Translation :: get('Until') . ' ' . $this->format_date($publication->get_to_date()));
     }
 
     /**
@@ -253,9 +253,9 @@ abstract class ContentObjectPublicationListRenderer
     {
         $repo_viewer = $this->tool_browser->get_parent()->get_user_info($publication->get_publisher_id());
         $html = array();
-        $html[] = htmlentities(Translation :: get('PublishedOn')) . ' ' . $this->render_publication_date($publication);
-        $html[] = htmlentities(Translation :: get('By')) . ' ' . $this->render_repo_viewer($publication);
-        $html[] = htmlentities(Translation :: get('For')) . ' ' . $this->render_publication_targets($publication);
+        $html[] = htmlentities(Translation :: get('PublishedOn', null ,Utilities:: COMMON_LIBRARIES)) . ' ' . $this->render_publication_date($publication);
+        $html[] = htmlentities(Translation :: get('By', null ,Utilities:: COMMON_LIBRARIES)) . ' ' . $this->render_repo_viewer($publication);
+        $html[] = htmlentities(Translation :: get('For', null ,Utilities:: COMMON_LIBRARIES)) . ' ' . $this->render_publication_targets($publication);
         if (! $publication->is_forever())
         {
             $html[] = '(' . $this->render_publication_period($publication) . ')';
@@ -275,7 +275,9 @@ abstract class ContentObjectPublicationListRenderer
         if (! $first)
         {
             $up_img = 'action_up.png';
-            $up_url = $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_UP, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true);
+            $up_url = $this->get_url(array(
+                    Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_UP,
+                    Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true);
             $up_link = '<a href="' . $up_url . '"><img src="' . Theme :: get_common_image_path() . $up_img . '" alt=""/></a>';
         }
         else
@@ -297,7 +299,9 @@ abstract class ContentObjectPublicationListRenderer
         if (! $last)
         {
             $down_img = 'action_down.png';
-            $down_url = $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_DOWN, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true);
+            $down_url = $this->get_url(array(
+                    Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_DOWN,
+                    Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true);
             $down_link = '<a href="' . $down_url . '"><img src="' . Theme :: get_common_image_path() . $down_img . '"  alt=""/></a>';
         }
         else
@@ -314,7 +318,9 @@ abstract class ContentObjectPublicationListRenderer
      */
     function render_visibility_action($publication)
     {
-        $visibility_url = $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true);
+        $visibility_url = $this->get_url(array(
+                Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY,
+                Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true);
         if ($publication->is_hidden())
         {
             $visibility_img = 'action_invisible.png';
@@ -339,7 +345,9 @@ abstract class ContentObjectPublicationListRenderer
      */
     function render_edit_action($publication)
     {
-        $edit_url = $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_UPDATE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true);
+        $edit_url = $this->get_url(array(
+                Tool :: PARAM_ACTION => Tool :: ACTION_UPDATE,
+                Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true);
         $edit_link = '<a href="' . $edit_url . '"><img src="' . Theme :: get_common_image_path() . 'action_edit.png"  alt=""/></a>';
         return $edit_link;
     }
@@ -356,7 +364,9 @@ abstract class ContentObjectPublicationListRenderer
      */
     function render_delete_action($publication)
     {
-        $delete_url = $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true);
+        $delete_url = $this->get_url(array(
+                Tool :: PARAM_ACTION => Tool :: ACTION_DELETE,
+                Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true);
         $delete_link = '<a href="' . $delete_url . '" onclick="return confirm(\'' . addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))) . '\');"><img src="' . Theme :: get_common_image_path() . 'action_delete.png"  alt=""/></a>';
         return $delete_link;
     }
@@ -368,7 +378,9 @@ abstract class ContentObjectPublicationListRenderer
      */
     function render_feedback_action($publication)
     {
-        $feedback_url = $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => 'view'), array(), true);
+        $feedback_url = $this->get_url(array(
+                Tool :: PARAM_PUBLICATION_ID => $publication->get_id(),
+                Tool :: PARAM_ACTION => 'view'), array(), true);
         $feedback_link = '<a href="' . $feedback_url . '"><img src="' . Theme :: get_common_image_path() . 'action_browser.png" alt=""/></a>';
         return $feedback_link;
     }
@@ -377,7 +389,9 @@ abstract class ContentObjectPublicationListRenderer
     {
         if (EvaluationManager :: retrieve_internal_item_by_publication(WeblcmsManager :: APPLICATION_NAME, $publication->get_id()))
         {
-            $evaluation_url = $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_EVALUATE_TOOL_PUBLICATION), array(), true);
+            $evaluation_url = $this->get_url(array(
+                    Tool :: PARAM_PUBLICATION_ID => $publication->get_id(),
+                    Tool :: PARAM_ACTION => Tool :: ACTION_EVALUATE_TOOL_PUBLICATION), array(), true);
             $evaluation_link = '<a href="' . $evaluation_url . '"><img src="' . Theme :: get_common_image_path() . 'action_evaluation.png" alt=""/></a>';
             return $evaluation_link;
         }
@@ -399,7 +413,9 @@ abstract class ContentObjectPublicationListRenderer
             $count ++;
             if ($count > 1)
             {
-                $url = $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_TO_CATEGORY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true);
+                $url = $this->get_url(array(
+                        Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_TO_CATEGORY,
+                        Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true);
                 $link = '<a href="' . $url . '"><img src="' . Theme :: get_common_image_path() . 'action_move.png"  alt=""/></a>';
             }
             else
@@ -432,7 +448,7 @@ abstract class ContentObjectPublicationListRenderer
       foreach ($attachments as $attachment)
       {
       $disp = ContentObjectDisplay :: factory($attachment);
-      $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path().'content_object/'.$attachment->get_icon_name().$icon_suffix.'.png);">';
+      $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($attachment->get_type())) . 'logo/' . $attachment->get_icon_name() . $icon_suffix . '.png);">';
       $html[] = '<div class="title">';
       $html[] = $attachment->get_title();
       $html[] = '</div>';
@@ -461,7 +477,9 @@ abstract class ContentObjectPublicationListRenderer
                 $html[] = '<ul>';
                 foreach ($attachments as $attachment)
                 {
-                    $html[] = '<li><a href="' . $this->tool_browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_ATTACHMENT, Tool :: PARAM_OBJECT_ID => $attachment->get_id())) . '"><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $attachment->get_type() . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($attachment->get_type()) . 'TypeName')) . '"/> ' . $attachment->get_title() . '</a></li>';
+                    $html[] = '<li><a href="' . $this->tool_browser->get_url(array(
+                            Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_ATTACHMENT,
+                            Tool :: PARAM_OBJECT_ID => $attachment->get_id())) . '"><img src="' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($attachment->get_type())) . 'logo/' . $attachment->get_icon_name(Theme :: ICON_MINI) . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($attachment->get_type()) . 'TypeName')) . '"/> ' . $attachment->get_title() . '</a></li>';
                 }
                 $html[] = '</ul>';
                 return implode("\n", $html);
@@ -626,7 +644,8 @@ abstract class ContentObjectPublicationListRenderer
         $file = dirname(__FILE__) . '/list_renderer/' . $type . '_content_object_publication_list_renderer.class.php';
         if (! file_exists($file))
         {
-            throw new Exception(Translation :: get('ContentObjectPublicationListRendererTypeDoesNotExist', array('type' => $type)));
+            throw new Exception(Translation :: get('ContentObjectPublicationListRendererTypeDoesNotExist', array(
+                    'type' => $type)));
         }
 
         require_once $file;
@@ -679,7 +698,9 @@ abstract class ContentObjectPublicationListRenderer
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
 
-        $details_url = $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_VIEW));
+        $details_url = $this->get_url(array(
+                Tool :: PARAM_PUBLICATION_ID => $publication->get_id(),
+                Tool :: PARAM_ACTION => Tool :: ACTION_VIEW));
         $toolbar->add_item(new ToolbarItem(Translation :: get('Details'), Theme :: get_common_image_path() . 'action_details.png', $details_url, ToolbarItem :: DISPLAY_ICON));
 
         if ($publication->get_content_object() instanceof ComplexContentObjectSupport)
@@ -689,11 +710,17 @@ abstract class ContentObjectPublicationListRenderer
 
         if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT, $publication->get_id()))
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_UPDATE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_url(array(
+                    Tool :: PARAM_ACTION => Tool :: ACTION_UPDATE,
+                    Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
 
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON, true));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_url(array(
+                    Tool :: PARAM_ACTION => Tool :: ACTION_DELETE,
+                    Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON, true));
 
-            $toolbar->add_item(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_RIGHTS, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_url(array(
+                    Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_RIGHTS,
+                    Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
 
             if ($publication->get_content_object() instanceof ComplexContentObjectSupport)
             {
@@ -705,7 +732,9 @@ abstract class ContentObjectPublicationListRenderer
                 if ($publication->get_display_order_index() > 1)
                 {
                     $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUp'), Theme :: get_common_image_path() . 'action_up.png', $this->get_url(array(
-                            Tool :: PARAM_ACTION => Tool :: ACTION_MOVE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_MOVE_DIRECTION => Tool :: PARAM_MOVE_DIRECTION_UP)), ToolbarItem :: DISPLAY_ICON));
+                            Tool :: PARAM_ACTION => Tool :: ACTION_MOVE,
+                            Tool :: PARAM_PUBLICATION_ID => $publication->get_id(),
+                            Tool :: PARAM_MOVE_DIRECTION => Tool :: PARAM_MOVE_DIRECTION_UP)), ToolbarItem :: DISPLAY_ICON));
                 }
                 else
                 {
@@ -715,7 +744,9 @@ abstract class ContentObjectPublicationListRenderer
                 if ($publication->get_display_order_index() < $this->get_publication_count())
                 {
                     $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDown'), Theme :: get_common_image_path() . 'action_down.png', $this->get_url(array(
-                            Tool :: PARAM_ACTION => Tool :: ACTION_MOVE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_MOVE_DIRECTION => Tool :: PARAM_MOVE_DIRECTION_DOWN)), ToolbarItem :: DISPLAY_ICON));
+                            Tool :: PARAM_ACTION => Tool :: ACTION_MOVE,
+                            Tool :: PARAM_PUBLICATION_ID => $publication->get_id(),
+                            Tool :: PARAM_MOVE_DIRECTION => Tool :: PARAM_MOVE_DIRECTION_DOWN)), ToolbarItem :: DISPLAY_ICON));
                 }
                 else
                 {
@@ -723,7 +754,9 @@ abstract class ContentObjectPublicationListRenderer
                 }
             }
 
-            $visibility_url = $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()));
+            $visibility_url = $this->get_url(array(
+                    Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY,
+                    Tool :: PARAM_PUBLICATION_ID => $publication->get_id()));
             if ($publication->is_hidden())
             {
                 $visibility_image = 'action_invisible.png';
@@ -742,7 +775,9 @@ abstract class ContentObjectPublicationListRenderer
 
             if ($this->get_tool_browser()->get_parent() instanceof Categorizable)
             {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('Move'), Theme :: get_common_image_path() . 'action_move.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_TO_CATEGORY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Move'), Theme :: get_common_image_path() . 'action_move.png', $this->get_url(array(
+                        Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_TO_CATEGORY,
+                        Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
             }
         }
 
@@ -752,7 +787,9 @@ abstract class ContentObjectPublicationListRenderer
             $internal_item = EvaluationManager :: retrieve_internal_item_by_publication(WeblcmsManager :: APPLICATION_NAME, $publication->get_id());
             if ($internal_item && $internal_item->get_calculated() != 1)
             {
-                $evaluate_url = $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EVALUATE_TOOL_PUBLICATION, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()));
+                $evaluate_url = $this->get_url(array(
+                        Tool :: PARAM_ACTION => Tool :: ACTION_EVALUATE_TOOL_PUBLICATION,
+                        Tool :: PARAM_PUBLICATION_ID => $publication->get_id()));
 
                 $toolbar->add_item(new ToolbarItem(Translation :: get('Evaluate'), Theme :: get_common_image_path() . 'action_evaluation.png', $evaluate_url, ToolbarItem :: DISPLAY_ICON));
             }

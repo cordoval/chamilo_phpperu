@@ -11,6 +11,7 @@ use common\libraries\NotCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\InCondition;
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/../peer_assessment_manager.class.php';
 require_once dirname(__FILE__) . '/../../category_manager/peer_assessment_publication_category.class.php';
@@ -74,13 +75,13 @@ class PeerAssessmentManagerMoverComponent extends PeerAssessmentManager
         $form = new FormValidator('peer_assessment_publication_mover', 'post', $url);
 
         $this->categories = array();
-        $this->categories[0] = Translation :: get('Root');
+        $this->categories[0] = Translation :: get('Root', null, Utilities::COMMON_LIBRARIES);
 
         $this->retrieve_categories_recursive(0, $exclude_category);
 
         $form->addElement('select', PeerAssessmentPublication :: PROPERTY_CATEGORY, Translation :: get('SelectCategory'), $this->categories);
 
-        $buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Move'), array('class' => 'positive finish'));
+        $buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Move', null, Utilities::COMMON_LIBRARIES), array('class' => 'positive finish'));
 
         $form->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         return $form;

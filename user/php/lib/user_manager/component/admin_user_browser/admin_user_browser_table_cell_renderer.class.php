@@ -85,10 +85,10 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 
         if (UserRights :: is_allowed_in_users_subtree(UserRights :: EDIT_RIGHT, $user->get_id()))
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_user_editing_url($user), ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_user_editing_url($user), ToolbarItem :: DISPLAY_ICON));
             $toolbar->add_item(new ToolbarItem(Translation :: get('VersionQuota'), Theme :: get_common_image_path() . 'action_statistics.png', $this->browser->get_user_quota_url($user), ToolbarItem :: DISPLAY_ICON));
 
-            $toolbar->add_item(new ToolbarItem(Translation :: get('ManageRightsTemplates'), Theme :: get_common_image_path() . 'action_rights.png', $this->browser->get_manage_user_rights_url($user), ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('ManageRightsTemplates', null, 'rights'), Theme :: get_common_image_path() . 'action_rights.png', $this->browser->get_manage_user_rights_url($user), ToolbarItem :: DISPLAY_ICON));
 
             $toolbar->add_item(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->browser->get_url(array(
                     UserManager :: PARAM_ACTION => UserManager :: ACTION_EDIT_RIGHTS, UserManager :: PARAM_USER_USER_ID => $user->get_id())), ToolbarItem :: DISPLAY_ICON));
@@ -114,11 +114,11 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
         {
             if (UserDataManager :: user_deletion_allowed($user) && UserRights :: is_allowed_in_users_subtree(UserRights :: DELETE_RIGHT, $user->get_id()))
             {
-                $toolbar->add_item(new ToolBarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_user_delete_url($user), ToolbarItem :: DISPLAY_ICON, true));
+                $toolbar->add_item(new ToolBarItem(Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_user_delete_url($user), ToolbarItem :: DISPLAY_ICON, true));
             }
             else
             {
-                $toolbar->add_item(new ToolBarItem(Translation :: get('DeleteNA'), Theme :: get_common_image_path() . 'action_delete_na.png', null, ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolBarItem(Translation :: get('DeleteNA', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete_na.png', null, ToolbarItem :: DISPLAY_ICON));
             }
 
             if (UserRights :: is_allowed_in_users_subtree(UserRights :: EDIT_RIGHT, $user->get_id()))
@@ -128,7 +128,7 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
         }
         else
         {
-            $toolbar->add_item(new ToolBarItem(Translation :: get('DeleteNA'), Theme :: get_common_image_path() . 'action_delete_na.png', null, ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolBarItem(Translation :: get('DeleteNA', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete_na.png', null, ToolbarItem :: DISPLAY_ICON));
         }
 
         return $toolbar->as_html();

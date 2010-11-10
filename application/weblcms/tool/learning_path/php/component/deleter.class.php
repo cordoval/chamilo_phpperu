@@ -9,6 +9,7 @@ use application\weblcms\WeblcmsLpAttemptTracker;
 use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\WebApplication;
 
 /**
@@ -53,11 +54,11 @@ class LearningPathToolDeleterComponent extends LearningPathTool
             }
             if (count($publication_ids) > 1)
             {
-                $message = htmlentities(Translation :: get('ContentObjectPublicationsDeleted'));
+                $message = htmlentities(Translation :: get('ObjectsDeleted', array('OBJECT' => Translation :: get('LearningPath')) , Utilities :: COMMON_LIBRARIES ));
             }
             else
             {
-                $message = htmlentities(Translation :: get('ContentObjectPublicationDeleted'));
+                $message = htmlentities(Translation :: get('ObjectDeleted', array('OBJECT' => Translation :: get('LearningPath')) , Utilities :: COMMON_LIBRARIES));
             }
 
             $this->redirect($message, '', array('tool_action' => null, Tool :: PARAM_PUBLICATION_ID => null));

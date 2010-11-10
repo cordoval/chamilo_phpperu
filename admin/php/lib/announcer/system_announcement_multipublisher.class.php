@@ -43,13 +43,13 @@ class SystemAnnouncerMultipublisher
 
 
             $html[] = '<div class="content_object padding_10">';
-            $html[] = '<div class="title">' . Translation :: get('SelectedContentObjects') . '</div>';
+            $html[] = '<div class="title">' . Translation :: get('SelectedObjects', array('OBJECTS' => Translation :: get('ContentObjects')), Utilities :: COMMON_LIBRARIES) . '</div>';
             $html[] = '<div class="description">';
             $html[] = '<ul class="attachments_list">';
 
             while ($content_object = $content_objects->next_result())
             {
-                $html[] = '<li><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $content_object->get_icon_name() . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($content_object->get_type()) . 'TypeName')) . '"/> ' . $content_object->get_title() . '</li>';
+                $html[] = '<li><img src="' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($content_object->get_type())) . 'logo/' . $content_object->get_icon_name(Theme :: ICON_MINI) . '.png" alt="' . htmlentities(Translation :: get('TypeName', array(), ContentObject :: get_content_object_namespace($content_object->get_type()))) . '"/> ' . $content_object->get_title() . '</li>';
             }
 
             $html[] = '</ul>';
@@ -68,14 +68,15 @@ class SystemAnnouncerMultipublisher
 
             if (! $publication)
             {
-                $message = Translation :: get('ObjectNotPublished');
+                $message = Translation :: get('ObjectNotPublished', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES);
             }
             else
             {
-                $message = Translation :: get('ObjectPublished');
+                $message = Translation :: get('ObjectPublished', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES);
             }
 
-            $this->parent->redirect($message, (! $publication ? true : false), array(Application :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS));
+            $this->parent->redirect($message, (! $publication ? true : false), array(
+                    Application :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS));
         }
         else
         {

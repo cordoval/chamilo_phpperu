@@ -2,8 +2,8 @@
 namespace repository\content_object\assessment;
 
 use common\libraries\Translation;
-
 use repository\ContentObjectForm;
+use common\libraries\Utilities;
 
 /**
  * $Id: assessment_form.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -142,10 +142,10 @@ class AssessmentForm extends ContentObjectForm
 					/* ]]> */
 					</script>\n");
         
-        $this->addRule(Assessment :: PROPERTY_MAXIMUM_ATTEMPTS, Translation :: get('ValueShouldBeNumeric'), 'numeric');
-        $this->addRule(Assessment :: PROPERTY_QUESTIONS_PER_PAGE, Translation :: get('ValueShouldBeNumeric'), 'numeric');
-        $this->addRule(Assessment :: PROPERTY_MAXIMUM_TIME, Translation :: get('ValueShouldBeNumeric'), 'numeric');
-        $this->addRule(Assessment :: PROPERTY_RANDOM_QUESTIONS, Translation :: get('ValueShouldBeNumeric'), 'numeric');
+        $this->addRule(Assessment :: PROPERTY_MAXIMUM_ATTEMPTS, Translation :: get('ThisFieldShouldBeNumeric', null, Utilities :: COMMON_LIBRARIES), 'numeric');
+        $this->addRule(Assessment :: PROPERTY_QUESTIONS_PER_PAGE, Translation :: get('ThisFieldShouldBeNumeric', null, Utilities :: COMMON_LIBRARIES), 'numeric');
+        $this->addRule(Assessment :: PROPERTY_MAXIMUM_TIME, Translation :: get('ThisFieldShouldBeNumeric', null, Utilities :: COMMON_LIBRARIES), 'numeric');
+        $this->addRule(Assessment :: PROPERTY_RANDOM_QUESTIONS, Translation :: get('ThisFieldShouldBeNumeric', null, Utilities :: COMMON_LIBRARIES), 'numeric');
     }
 
     // Inherited
@@ -232,10 +232,10 @@ class AssessmentForm extends ContentObjectForm
 					/* ]]> */
 					</script>\n");
         
-        $this->addRule(Assessment :: PROPERTY_MAXIMUM_ATTEMPTS, Translation :: get('ValueShouldBeNumeric'), 'numeric');
-        $this->addRule(Assessment :: PROPERTY_QUESTIONS_PER_PAGE, Translation :: get('ValueShouldBeNumeric'), 'numeric');
-        $this->addRule(Assessment :: PROPERTY_MAXIMUM_TIME, Translation :: get('ValueShouldBeNumeric'), 'numeric');
-        $this->addRule(Assessment :: PROPERTY_RANDOM_QUESTIONS, Translation :: get('ValueShouldBeNumeric'), 'numeric');
+        $this->addRule(Assessment :: PROPERTY_MAXIMUM_ATTEMPTS, Translation :: get('ThisFieldShouldBeNumeric', null, Utilities :: COMMON_LIBRARIES), 'numeric');
+        $this->addRule(Assessment :: PROPERTY_QUESTIONS_PER_PAGE, Translation :: get('ThisFieldShouldBeNumeric', null, Utilities :: COMMON_LIBRARIES), 'numeric');
+        $this->addRule(Assessment :: PROPERTY_MAXIMUM_TIME, Translation :: get('ThisFieldShouldBeNumeric', null, Utilities :: COMMON_LIBRARIES), 'numeric');
+        $this->addRule(Assessment :: PROPERTY_RANDOM_QUESTIONS, Translation :: get('ThisFieldShouldBeNumeric', null, Utilities :: COMMON_LIBRARIES), 'numeric');
     }
 
     // Inherited

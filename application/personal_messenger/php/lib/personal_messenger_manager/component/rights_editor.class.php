@@ -5,6 +5,7 @@ namespace application\personal_messenger;
 use common\extensions\rights_editor_manager\RightsEditorManager;
 use common\libraries\Display;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Breadcrumb;
 use common\libraries\Application;
 /**
@@ -33,7 +34,7 @@ class PersonalMessengerManagerRightsEditorComponent extends PersonalMessengerMan
         else
         {
             $this->display_header();
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get('NotAllowed', null , Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }

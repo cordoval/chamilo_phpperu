@@ -1,4 +1,6 @@
-LocationsSummary = 
-GeolocationToolBrowserComponent = 
-GeoLocationToolViewerComponent = 
-DocumentToolBrowserComponent = 
+LocationsSummary = ""
+GeolocationToolBrowserComponent = ""
+geolocationToolBrowserComponent = ""
+geolocationToolViewerComponent = ""
+GeoLocationToolViewerComponent = ""
+DocumentToolBrowserComponent = ""

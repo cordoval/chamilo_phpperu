@@ -1,15 +1,14 @@
 <?php
 namespace application\search_portal;
 
-use common\libraries\WebApplication;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\FormValidator;
 
 /**
  * $Id: basic.class.php 222 2009-11-13 14:39:28Z chellee $
  * @package application.search_portal.block
  */
-require_once WebApplication :: get_application_class_path('search_portal') . 'blocks/search_portal_block.class.php';
 
 /**
  * This class represents a calendar publisher component which can be used
@@ -29,7 +28,7 @@ class SearchPortalBasic extends SearchPortalBlock
         //$html[] = 'Search Portal test block ...';
         $form = new FormValidator('search_simple', 'get', 'run.php', '', null, false);
         $form->addElement('text', 'query', '', 'style="width:80%;" id="inputString" onkeyup="lookup(this.value);"');
-        $form->addElement('submit', 'submit', Translation :: get('Search'));
+        $form->addElement('submit', 'submit', Translation :: get('Search', null , Utilities :: COMMON_LIBRARIES));
         $form->addElement('hidden', 'application', 'search_portal');
         $html[] = '<div style="text-align: center; margin: 0 0 2em 0;">';
         $renderer = clone $form->defaultRenderer();

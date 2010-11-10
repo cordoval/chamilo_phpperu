@@ -5,6 +5,13 @@ use common\libraries\Translation;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\Path;
+use common\libraries\Utilities;
+
+use reporting\ReportingData;
+use reporting\ReportingFormatter;
+use reporting\ReportingChartFormatter;
+
+use tracking\Tracker;
 
 require_once dirname(__FILE__) . '/../user_reporting_block.class.php';
 require_once Path :: get_reporting_path() . '/lib/reporting_data.class.php';
@@ -31,8 +38,8 @@ class UserNoOfLoginsDayReportingBlock extends UserReportingBlock
         $new_days = array();
 
         $day_names = array(
-                Translation :: get('MondayLong'), Translation :: get('TuesdayLong'), Translation :: get('WednesdayLong'), Translation :: get('ThursdayLong'), Translation :: get('FridayLong'), Translation :: get('SaturdayLong'),
-                Translation :: get('SundayLong'));
+                Translation :: get('MondayLong', null, Utilities :: COMMON_LIBRARIES), Translation :: get('TuesdayLong', null, Utilities :: COMMON_LIBRARIES), Translation :: get('WednesdayLong', null, Utilities :: COMMON_LIBRARIES), Translation :: get('ThursdayLong', null, Utilities :: COMMON_LIBRARIES), Translation :: get('FridayLong', null, Utilities :: COMMON_LIBRARIES), Translation :: get('SaturdayLong', null, Utilities :: COMMON_LIBRARIES),
+                Translation :: get('SundayLong', null, Utilities :: COMMON_LIBRARIES));
 
         $reporting_data->set_categories($day_names);
         $reporting_data->set_rows(array(Translation :: get('logins')));

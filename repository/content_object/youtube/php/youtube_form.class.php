@@ -7,6 +7,7 @@ use common\libraries\Path;
 use common\libraries\ExternalRepositoryLauncher;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use repository\ContentObjectForm;
+use common\libraries\Utilities;
 
 /**
  * $Id: youtube_form.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -25,8 +26,8 @@ class YoutubeForm extends ContentObjectForm
         $this->addElement('category', Translation :: get('Properties'));
         $this->addElement('static', null, null, '<a class="button normal_button upload_button" onclick="javascript:openPopup(\'' . $link . '\');"> ' . Translation :: get('BrowseStreamingVideo') . '</a>');
         $this->add_textfield(Youtube :: PROPERTY_URL, Translation :: get('URL'), true, array('size' => '100'));
-        $this->add_textfield(Youtube :: PROPERTY_WIDTH, Translation :: get('Width'), true, array('size' => '5'));
-        $this->add_textfield(Youtube :: PROPERTY_HEIGHT, Translation :: get('Height'), true, array('size' => '5'));
+        $this->add_textfield(Youtube :: PROPERTY_WIDTH, Translation :: get('Width', null, Utilities :: COMMON_LIBRARIES), true, array('size' => '5'));
+        $this->add_textfield(Youtube :: PROPERTY_HEIGHT, Translation :: get('Height', null, Utilities :: COMMON_LIBRARIES), true, array('size' => '5'));
         $this->addElement('category');
 
         $html = array();
@@ -47,8 +48,8 @@ class YoutubeForm extends ContentObjectForm
         $this->addElement('category', Translation :: get('Properties'));
         $this->addElement('static', null, null, '<a class="button normal_button upload_button" onclick="javascript:openPopup(\'' . $link . '\');"> ' . Translation :: get('BrowseStreamingVideo') . '</a>');
         $this->add_textfield(Youtube :: PROPERTY_URL, Translation :: get('URL'), true, array('size' => '100'));
-        $this->add_textfield(Youtube :: PROPERTY_WIDTH, Translation :: get('Width'), true, array('size' => '5'));
-        $this->add_textfield(Youtube :: PROPERTY_HEIGHT, Translation :: get('Height'), true, array('size' => '5'));
+        $this->add_textfield(Youtube :: PROPERTY_WIDTH, Translation :: get('Width', null, Utilities :: COMMON_LIBRARIES), true, array('size' => '5'));
+        $this->add_textfield(Youtube :: PROPERTY_HEIGHT, Translation :: get('Height', null, Utilities :: COMMON_LIBRARIES), true, array('size' => '5'));
         $this->addElement('category');
     }
 

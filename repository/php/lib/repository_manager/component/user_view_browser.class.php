@@ -12,6 +12,7 @@ use common\libraries\Theme;
 use common\libraries\AndCondition;
 use common\libraries\OrCondition;
 use common\libraries\PatternMatchCondition;
+use common\libraries\Utilities;
 
 /**
  * $Id: user_view_browser.class.php 204 2009-11-13 12:51:30Z kariboe $
@@ -33,7 +34,7 @@ class RepositoryManagerUserViewBrowserComponent extends RepositoryManager
         /*if (! $this->get_user()->is_platform_admin())
         {
             $this->display_header($trail, false, true);
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get("NotAllowed", null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }*/
@@ -90,8 +91,8 @@ class RepositoryManagerUserViewBrowserComponent extends RepositoryManager
 
         $action_bar->set_search_url($this->get_url());
 
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_user_view_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Add', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_user_view_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         return $action_bar;
     }

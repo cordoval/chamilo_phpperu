@@ -10,7 +10,6 @@ use common\libraries\Utilities;
  * @package application.lib.forum
  */
 
-
 /**
  * This class describes a ForumPublication data object
  *
@@ -19,7 +18,7 @@ use common\libraries\Utilities;
 class ForumPublication extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     /**
      * ForumPublication properties
      */
@@ -139,24 +138,24 @@ class ForumPublication extends DataClass
 
     function move($move)
     {
-        if($this->get_display_order() == 1 && $move == -1)
+        if ($this->get_display_order() == 1 && $move == - 1)
         {
-        	return false;
+            return false;
         }
-        
+
         $count = ForumDataManager :: get_instance()->count_forum_publications();
 
-        if($this->get_display_order() == ($count) && $move == 1)
+        if ($this->get_display_order() == ($count) && $move == 1)
         {
-        	return false;
+            return false;
         }
 
-    	return ForumDataManager :: get_instance()->move_forum_publication($this, $move);
+        return ForumDataManager :: get_instance()->move_forum_publication($this, $move);
     }
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 
     function create()

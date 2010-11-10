@@ -35,8 +35,8 @@ class ActionSelectionBuildWizardPage extends BuildWizardPage
     function buildForm()
     {
         $this->addElement('radio', 'action', Translation :: get('BuildUsers'), Translation :: get('Build'), self :: ACTION_BUILD);
-        $this->addRule('action', Translation :: get('ThisFieldIsRequired'), 'required');
-        $prevnext[] = & $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next') . ' >>');
+        $this->addRule('action', Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
+        $prevnext[] = & $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next', null, Utilities::COMMON_LIBRARIES) . ' >>');
         $this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
         $this->setDefaultAction('next');
         $this->_formBuilt = true;

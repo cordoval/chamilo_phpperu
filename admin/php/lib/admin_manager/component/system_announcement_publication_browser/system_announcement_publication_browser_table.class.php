@@ -1,5 +1,6 @@
 <?php
 namespace admin;
+use common\libraries\Utilities;
 use common\libraries\Translation;
 /**
  * $Id: system_announcement_publication_browser_table.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
@@ -25,9 +26,9 @@ class SystemAnnouncementPublicationBrowserTable extends ObjectTable
         $data_provider = new SystemAnnouncementPublicationBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, SystemAnnouncementPublicationBrowserTable :: DEFAULT_NAME, $model, $renderer);
         $actions = array();
-        
-        $actions[] = new ObjectTableFormAction(AdminManager :: PARAM_DELETE_SELECTED, Translation :: get('RemoveSelected'));
-        
+
+        $actions[] = new ObjectTableFormAction(AdminManager :: PARAM_DELETE_SELECTED, Translation :: get('RemoveSelected', array(), Utilities :: COMMON_LIBRARIES));
+
         if ($browser->get_user()->is_platform_admin())
         {
             $this->set_form_actions($actions);

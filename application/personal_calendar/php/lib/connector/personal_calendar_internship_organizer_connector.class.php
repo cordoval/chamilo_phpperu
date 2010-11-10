@@ -3,9 +3,10 @@
 namespace application\personal_calendar;
 
 use common\libraries\WebApplication;
-use InternshipOrganizerDataManager;
 use common\libraries\EqualityCondition;
-use InternshipOrganizerAppointment;
+use application\internship_organizer\InternshipOrganizerDataManager;
+use application\internship_organizer\InternshipOrganizerMoment;
+use application\internship_organizer\InternshipOrganizerAppointment;
 
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') .  'internship_organizer_data_manager.class.php';
 /**

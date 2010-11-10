@@ -9,6 +9,7 @@ use common\libraries\Translation;
 use common\libraries\Theme;
 use common\extensions\repo_viewer\RepoViewer;
 use common\libraries\Application;
+use common\libraries\Utilities;
 /**
  * $Id: alexia_publisher.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.alexia.publisher
@@ -46,7 +47,7 @@ class AlexiaPublisher
 
 
             $html[] = '<div class="content_object padding_10">';
-            $html[] = '<div class="title">' . Translation :: get('SelectedContentObjects') . '</div>';
+            $html[] = '<div class="title">' . Translation :: get('SelectedContentObjects', null, Utilities::COMMON_LIBRARIES) . '</div>';
             $html[] = '<div class="description">';
             $html[] = '<ul class="attachments_list">';
 
@@ -71,11 +72,11 @@ class AlexiaPublisher
 
             if (! $publication)
             {
-                $message = Translation :: get('ObjectNotPublished');
+                $message = Translation :: get('ObjectNotPublished', null, Utilities::COMMON_LIBRARIES);
             }
             else
             {
-                $message = Translation :: get('ObjectPublished');
+                $message = Translation :: get('ObjectPublished', null, Utilities::COMMON_LIBRARIES);
             }
 
             $this->parent->redirect($message, (! $publication ? true : false), array(Application :: PARAM_ACTION => AlexiaManager :: ACTION_BROWSE_PUBLICATIONS));

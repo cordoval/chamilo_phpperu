@@ -1,5 +1,4 @@
-MaximumAttempts = 
-NoMaximumAttemptsFillIn0 = 
-UploadHotpotatoes = 
-ThisFileIsRequired = 
-ChangeHotpotatoes = 
+Properties = ""
+MaximumAttempts = ""
+UploadHotpotatoes = ""
+ChangeHotpotatoes = ""

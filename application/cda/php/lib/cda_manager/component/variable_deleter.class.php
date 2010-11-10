@@ -8,6 +8,7 @@ use common\libraries\Translation;
 use common\libraries\Display;
 use common\libraries\Request;
 use common\libraries\AdministrationComponent;
+use common\libraries\Utilities;
 
 /**
  * @package application.cda.cda.component
@@ -59,22 +60,22 @@ class CdaManagerVariableDeleterComponent extends CdaManager implements Administr
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedVariableNotDeleted';
+                                    $message = Translation :: get('ObjectNotDeleted', array('OBJECT' => Translation :: get('Variable')), Utilities :: COMMON_LIBRARIES);
 				}
 				else
 				{
-					$message = 'SelectedVariablesNotDeleted';
-				}
+                                    $message = Translation :: get('ObjectsNotDeleted', array('OBJECTS' => Translation :: get('Variables')), Utilities :: COMMON_LIBRARIES);
+                                }
 			}
 			else
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedVariableDeleted';
+                                    $message = Translation :: get('ObjectDeleted', array('OBJECT' => Translation :: get('Variable')), Utilities :: COMMON_LIBRARIES);
 				}
 				else
 				{
-					$message = 'SelectedVariablesDeleted';
+                                    $message = Translation :: get('ObjectsDeleted', array('OBJECTS' => Translation :: get('Variables')), Utilities :: COMMON_LIBRARIES);
 				}
 			}
 
@@ -83,7 +84,7 @@ class CdaManagerVariableDeleterComponent extends CdaManager implements Administr
 		}
 		else
 		{
-			$this->display_error_page(htmlentities(Translation :: get('NoVariablesSelected')));
+			$this->display_error_page(Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES));
 		}
 	}
 	

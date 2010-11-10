@@ -58,8 +58,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager implements DelegateComp
 
         $renderer->show_new_publication_icons();
         $html[] = $renderer->as_html();
-
-        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/home_ajax.js' . '"></script>';
+        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'libraries/resources/javascript/home_ajax.js' . '"></script>';
         $toolbar_state = Session :: retrieve('toolbar_state');
         if ($toolbar_state == 'hide')
         {
@@ -121,7 +120,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager implements DelegateComp
         $html[] = '</div>';
 
         $html[] = '</div>';
-        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/tool_bar.js' . '"></script>';
+        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'libraries/resources/javascript/tool_bar.js' . '"></script>';
         $html[] = '<div class="clear"></div>';
         return implode($html, "\n");
     }

@@ -6,6 +6,7 @@ use user\UserDataManager;
 use common\libraries\FormValidator;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: course_request_form.class.php 2 2010-02-25 11:43:06Z Yannick & Tristan $
@@ -58,8 +59,8 @@ class CourseRequestForm extends FormValidator
     {
         $this->build_request_form();
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive update'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES ), array('class' => 'positive update'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES ), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -87,12 +88,12 @@ class CourseRequestForm extends FormValidator
                 $users = array();
                 while ($user = $users_result->next_result())
                     $users[$user->get_id()] = $user->get_fullname();
-                $this->addElement('select', CommonRequest :: PROPERTY_USER_ID, Translation :: get('User'), $users);
+                $this->addElement('select', CommonRequest :: PROPERTY_USER_ID, Translation :: get('User', null, 'user'), $users);
             }
             else
             {
                 $user_name = UserDataManager :: get_instance()->retrieve_user($this->user_id)->get_fullname();
-                $this->addElement('static', 'user', Translation :: get('User'), $user_name);
+                $this->addElement('static', 'user', Translation :: get('User', null, 'user'), $user_name);
             }
 
             if ($this->request instanceof CourseCreateRequest)
@@ -124,7 +125,7 @@ class CourseRequestForm extends FormValidator
             $this->addElement('category', Translation :: get(Utilities :: get_classname_from_object($this->request)));
 
             $name_user = UserDataManager :: get_instance()->retrieve_user($this->request->get_user_id())->get_fullname();
-            $this->addElement('static', 'request', Translation :: get('User'), $name_user);
+            $this->addElement('static', 'request', Translation :: get('User', null, 'user'), $name_user);
 
             if ($this->request instanceof CourseCreateRequest)
             {
@@ -151,11 +152,11 @@ class CourseRequestForm extends FormValidator
             {
                 case CommonRequest :: ALLOWED_DECISION :
                     $this->addElement('static', 'request', Translation :: get('Decision'), Translation :: get('Allowed'));
-                    $this->addElement('static', 'request', Translation :: get('on'), $decision_date);
+                    $this->addElement('static', 'request', Translation :: get('ConfirmOn', null, Utilities :: COMMON_LIBRARIES), $decision_date);
                     break;
                 case CommonRequest :: DENIED_DECISION :
                     $this->addElement('static', 'request', Translation :: get('Decision'), Translation :: get('Denied'));
-                    $this->addElement('static', 'request', Translation :: get('on'), $decision_date);
+                    $this->addElement('static', 'request', Translation :: get('ConfirmOn', null, Utilities :: COMMON_LIBRARIES), $decision_date);
                     break;
                 default :
                     $this->addElement('static', 'request', Translation :: get('Decision'), Translation :: get('NoDecisionYet'));

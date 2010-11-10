@@ -81,7 +81,7 @@ class CourseGroupUserMenu extends HTML_Menu
         $menu = array();
 
         $menu_item = array();
-        $menu_item['title'] = Translation :: get('Course');
+        $menu_item['title'] = Translation :: get('Course', null, 'weblcms');
         $menu_item['url'] = $this->get_home_url();
         $menu_item['class'] = 'home';
 

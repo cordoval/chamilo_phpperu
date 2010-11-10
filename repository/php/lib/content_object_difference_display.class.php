@@ -4,6 +4,7 @@ namespace repository;
 use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\Theme;
+use common\libraries\Utilities;
 
 /**
  * $Id: content_object_difference_display.class.php 204 2009-11-13 12:51:30Z kariboe $
@@ -40,7 +41,7 @@ class ContentObjectDifferenceDisplay
         $diff = $this->get_difference();
 
         $html = array();
-        $html[] = '<div class="difference" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/' . $diff->get_object()->get_icon_name() . '.png);">';
+        $html[] = '<div class="difference" style="background-image: url(' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($diff->get_object->get_type())) . 'logo/' . $diff->get_object->get_icon_name() . '.png);">';
         $html[] = '<div class="titleleft">';
         $html[] = $diff->get_object()->get_title();
         $html[] = date(" (d M Y, H:i:s O)", $diff->get_object()->get_creation_date());
@@ -110,7 +111,7 @@ class ContentObjectDifferenceDisplay
     {
         $html = array();
         $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_legend.png);">';
-        $html[] = '<div class="title">' . Translation :: get('Legend') . '</div>';
+        $html[] = '<div class="title">' . Translation :: get('Legend', null, Utilities :: COMMON_LIBRARIES) . '</div>';
         $html[] = '<span class="compare_delete">' . Translation :: get('CompareExample') . '</span>: ' . Translation :: get('CompareDeleteInfo') . '<br />';
         $html[] = '<span class="compare_add">' . Translation :: get('CompareExample') . '</span>: ' . Translation :: get('CompareAddInfo') . '<br />';
         $html[] = '<span class="compare_change">' . Translation :: get('CompareExample') . '</span>: ' . Translation :: get('CompareChangeInfo') . '<br />';

@@ -2,8 +2,6 @@
 namespace application\wiki;
 
 use common\libraries\Application;
-use common\libraries\WebApplication;
-use common\libraries\Path;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\ActionBarRenderer;
@@ -18,8 +16,6 @@ use repository\ContentObjectForm;
  * $Id: wiki_publications_browser.class.php 210 2009-11-13 13:18:50Z kariboe $
  * @package application.lib.wiki.wiki_manager.component
  */
-require_once WebApplication :: get_application_class_lib_path('wiki') . 'wiki_manager/component/wiki_publication_browser/wiki_publication_browser_table.class.php';
-require_once Path :: get_repository_path() . '../content_object/wiki/php/display/wiki_display.class.php';
 
 /**
  * wiki component which allows the user to browse his wiki_publications

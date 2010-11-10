@@ -1,6 +1,5 @@
 <?php
 namespace repository;
-use common\libraries;
 
 use common\libraries\Translation;
 use common\libraries\Path;
@@ -810,7 +809,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     {
         if (! is_array($record) || ! count($record))
         {
-            throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
+            throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase', null, Utilities :: COMMON_LIBRARIES));
         }
         $defaultProp = array();
         foreach (ContentObject :: get_default_property_names() as $prop)
@@ -839,7 +838,6 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         {
             $additionalProp = null;
         }
-
         $content_object->set_additional_properties($additionalProp);
 
         return $content_object;
@@ -1159,7 +1157,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     {
         if (! is_array($record) || ! count($record))
         {
-            throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
+            throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase', null, Utilities :: COMMON_LIBRARIES));
         }
 
         $cloi = ComplexContentObjectItem :: factory($type, array(), array());

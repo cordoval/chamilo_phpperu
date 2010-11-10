@@ -132,9 +132,9 @@ class LanguagePack extends DataClass
 		switch($this->get_type())
 		{
 			case LanguagePack :: TYPE_CORE:
-				return Translation :: get('Core');
+				return Translation :: get('Core', null, Utilities :: COMMON_LIBRARIES);
 			default:
-				return Translation :: get('Application');
+				return Translation :: get('Application', null, Utilities :: COMMON_LIBRARIES);
 		}
 	}
 

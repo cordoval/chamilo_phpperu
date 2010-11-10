@@ -55,12 +55,11 @@ class CasAccountManagerActivaterComponent extends CasAccountManager
                     $message = 'SelectedCasAccountsActivated';
                 }
             }
-
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(CasAccountManager :: PARAM_CAS_ACCOUNT_ACTION => CasAccountManager :: ACTION_BROWSE));
+			$this->redirect(Translation :: get($message, null, Utilities::COMMON_LIBRARIES), ($failures ? true : false), array(CasAccountManager :: PARAM_CAS_ACCOUNT_ACTION => CasAccountManager :: ACTION_BROWSE));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoCasAccountSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoCasAccountSelected', Translation :: get($message, null, Utilities::COMMON_LIBRARIES))));
         }
     }
 }

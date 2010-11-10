@@ -9,6 +9,7 @@ use common\libraries\Theme;
 use common\libraries\PatternMatchCondition;
 use common\libraries\OrCondition;
 use common\libraries\AndCondition;
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/cas_account_browser/cas_account_browser_table.class.php';
 
@@ -71,7 +72,7 @@ class CasAccountManagerBrowserComponent extends CasAccountManager
 
             if ($this->get_user()->is_platform_admin())
             {
-                $this->action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateAccount'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(
+                $this->action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateAccount', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(
                         CasAccountManager :: PARAM_CAS_ACCOUNT_ACTION => CasAccountManager :: ACTION_CREATE))));
             }
         }

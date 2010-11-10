@@ -6,6 +6,7 @@ use HTML_QuickForm_Action_Display;
 use HTML_QuickForm;
 use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\Utilities;
 /**
  * $Id: exporter_wizard_display.class.php 225 2009-11-13 14:43:20Z vanpouckesven $
  * @package exporter.lib.exportermanager.component.inc.wizard
@@ -38,10 +39,10 @@ class ExporterWizardDisplay extends HTML_QuickForm_Action_Display
 	function _renderForm($current_page)
     {
         $renderer = $current_page->defaultRenderer();
-        $current_page->setRequiredNote('<font color="#FF0000">*</font> ' . Translation :: get('ThisFieldIsRequired'));
+        $current_page->setRequiredNote('<font color="#FF0000">*</font> ' . Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES));
         $header_template = "\n\t<tr>\n\t\t<td valign=\"top\" colspan=\"2\">{header}</td>\n\t</tr>";
         $renderer->setHeaderTemplate($header_template);
-        HTML_QuickForm :: setRequiredNote('<font color="red">*</font> <small>' . Translation :: get('ThisFieldIsRequired') . '</small>');
+        HTML_QuickForm :: setRequiredNote('<font color="red">*</font> <small>' . Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES) . '</small>');
         $current_page->accept($renderer);
         
         $trail = BreadcrumbTrail :: get_instance();

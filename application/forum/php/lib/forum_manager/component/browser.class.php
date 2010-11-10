@@ -19,6 +19,7 @@ use HTML_Table;
 use common\libraries\WebApplication;
 use common\libraries\DatetimeUtilities;
 
+use application\gradebook\EvaluationManager;
 
 /**
  * $Id: browser.class.php 195 2009-11-13 12:02:41Z chellee $
@@ -53,7 +54,7 @@ class ForumManagerBrowserComponent extends ForumManager
         echo $table->toHtml();
         
         if ($this->size == 0)
-            echo '<br><div style="text-align: center"><h3>' . Translation :: get('NoPublications') . '</h3></div>';
+            echo '<br><div style="text-align: center"><h3>' . Translation :: get('NoPublications', null , Utilities :: COMMON_LIBRARIES) . '</h3></div>';
         
         $this->display_footer();
     }
@@ -75,13 +76,13 @@ class ForumManagerBrowserComponent extends ForumManager
         $table->setCellContents(0, 0, '');
         $table->setCellAttributes(0, 0, array('colspan' => 6, 'class' => 'category'));
         
-        $table->setHeaderContents(1, 0, Translation :: get('Forum'));
+        $table->setHeaderContents(1, 0, Translation :: get('Forum', null, 'repository/forum'));
         $table->setCellAttributes(1, 0, array('colspan' => 2));
-        $table->setHeaderContents(1, 2, Translation :: get('Topics'));
+        $table->setHeaderContents(1, 2, Translation :: get('Topics', null, 'repository/forum'));
         $table->setCellAttributes(1, 2, array('width' => 50));
-        $table->setHeaderContents(1, 3, Translation :: get('Posts'));
+        $table->setHeaderContents(1, 3, Translation :: get('Posts', null, 'repository/forum'));
         $table->setCellAttributes(1, 3, array('width' => 50));
-        $table->setHeaderContents(1, 4, Translation :: get('LastPost'));
+        $table->setHeaderContents(1, 4, Translation :: get('LastPost', null, 'repository/forum'));
         $table->setCellAttributes(1, 4, array('width' => 130));
         $table->setHeaderContents(1, 5, '');
         $table->setCellAttributes(1, 5, array('width' => 125));
@@ -95,7 +96,7 @@ class ForumManagerBrowserComponent extends ForumManager
         {
             if($this->get_user()->is_platform_admin())
             {
-        		$toolbar = new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_rights_editor_url($category->get_id()), ToolbarItem :: DISPLAY_ICON);
+        		$toolbar = new ToolbarItem(Translation :: get('ManageRights' , null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_rights.png', $this->get_rights_editor_url($category->get_id()), ToolbarItem :: DISPLAY_ICON);
             	$rights = $toolbar->as_html();
             }
             
@@ -144,7 +145,7 @@ class ForumManagerBrowserComponent extends ForumManager
             	$src = Theme :: get_common_image_path() . 'action_lock.png';
             }
             
-            $table->setCellContents($row, 0, '<img title="' . Translation :: get('NoNewPosts') . '" src="' . $src . '" />');
+            $table->setCellContents($row, 0, '<img title="' . Translation :: get('NoNewPosts', null, 'repository/forum') . '" src="' . $src . '" />');
             $table->setCellAttributes($row, 0, array('width' => 50, 'class' => 'row1', 'style' => 'height:50px; text-align: center;'));
             $table->setCellContents($row, 1, $title);
             $table->setCellAttributes($row, 1, array('width' => '0%', 'class' => 'row1'));
@@ -156,7 +157,7 @@ class ForumManagerBrowserComponent extends ForumManager
             {
                 $link = '';
             	//$link = $this->get_url(array(ComplexDisplay::PARAM_DISPLAY_ACTION => ForumDisplay::ACTION_VIEW_TOPIC,'pid' => $this->pid, 'cid' => $topic->get_id())) . '#post_' . $last_post->get_id();
-                $table->setCellContents($row, 4, DatetimeUtilities :: format_locale_date(null,$last_post->get_add_date()) . '<br />' . $udm->retrieve_user($last_post->get_user_id())->get_fullname() . ' <a href="' . $link . '"><img title="' . Translation :: get('ViewLastPost') . '" src="' . Theme :: get_image_path() . 'forum/icon_topic_latest.gif" /></a>');
+                $table->setCellContents($row, 4, DatetimeUtilities :: format_locale_date(null,$last_post->get_add_date()) . '<br />' . $udm->retrieve_user($last_post->get_user_id())->get_fullname() . ' <a href="' . $link . '"><img title="' . Translation :: get('ViewLastPost', null , 'repository/forum') . '" src="' . Theme :: get_image_path() . 'forum/icon_topic_latest.gif" /></a>');
             }
             else
             {
@@ -176,7 +177,7 @@ class ForumManagerBrowserComponent extends ForumManager
     	$toolbar = new Toolbar();
         if ($this->get_user()->is_platform_admin() || $publication->get_author() == $this->get_user_id())
         {
-        	$delete = new ToolbarItem(Translation :: get('Delete'), 
+        	$delete = new ToolbarItem(Translation :: get('Delete' , null , Utilities :: COMMON_LIBRARIES), 
         					Theme :: get_common_image_path() . 'action_delete.png', 
         					$this->get_url(array(ForumManager :: PARAM_PUBLICATION_ID => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_DELETE)),
         					ToolbarItem :: DISPLAY_ICON, 
@@ -184,7 +185,7 @@ class ForumManagerBrowserComponent extends ForumManager
         					
             if ($publication->is_hidden())
             {
-            	$toolbar->add_item(new ToolbarItem(Translation :: get('Show'), 
+            	$toolbar->add_item(new ToolbarItem(Translation :: get('Show' , null , Utilities :: COMMON_LIBRARIES), 
         					Theme :: get_common_image_path() . 'action_invisible.png', 
         					$this->get_url(array(ForumManager :: PARAM_PUBLICATION_ID => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_TOGGLE_VISIBILITY)),
         					ToolbarItem :: DISPLAY_ICON
@@ -192,7 +193,7 @@ class ForumManagerBrowserComponent extends ForumManager
             }
             else
             {
-            	$toolbar->add_item(new ToolbarItem(Translation :: get('Hide'), 
+            	$toolbar->add_item(new ToolbarItem(Translation :: get('Hide' , null , Utilities :: COMMON_LIBRARIES), 
         					Theme :: get_common_image_path() . 'action_visible.png', 
         					$this->get_url(array(ForumManager :: PARAM_PUBLICATION_ID => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_TOGGLE_VISIBILITY)),
         					ToolbarItem :: DISPLAY_ICON
@@ -201,7 +202,7 @@ class ForumManagerBrowserComponent extends ForumManager
             
             if ($first)
             {
-            	$toolbar->add_item(new ToolbarItem(Translation :: get('MoveUpNA'), 
+            	$toolbar->add_item(new ToolbarItem(Translation :: get('MoveUpNA' , null , Utilities :: COMMON_LIBRARIES), 
         					Theme :: get_common_image_path() . 'action_up_na.png', 
         					null,
         					ToolbarItem :: DISPLAY_ICON
@@ -209,7 +210,7 @@ class ForumManagerBrowserComponent extends ForumManager
             }
             else
             {
-            	$toolbar->add_item(new ToolbarItem(Translation :: get('MoveUp'), 
+            	$toolbar->add_item(new ToolbarItem(Translation :: get('MoveUp' , null , Utilities :: COMMON_LIBRARIES), 
         					Theme :: get_common_image_path() . 'action_up.png', 
         					$this->get_url(array(ForumManager :: PARAM_PUBLICATION_ID => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_MOVE, ForumManager :: PARAM_MOVE => - 1)),
         					ToolbarItem :: DISPLAY_ICON
@@ -218,7 +219,7 @@ class ForumManagerBrowserComponent extends ForumManager
             
             if ($last)
             {
-            	$toolbar->add_item(new ToolbarItem(Translation :: get('MoveDownNA'), 
+            	$toolbar->add_item(new ToolbarItem(Translation :: get('MoveDownNA' , null , Utilities :: COMMON_LIBRARIES), 
         					Theme :: get_common_image_path() . 'action_down_na.png', 
         					null,
         					ToolbarItem :: DISPLAY_ICON
@@ -226,7 +227,7 @@ class ForumManagerBrowserComponent extends ForumManager
             }
             else
             {
-            	$toolbar->add_item(new ToolbarItem(Translation :: get('MoveDown'), 
+            	$toolbar->add_item(new ToolbarItem(Translation :: get('MoveDown' , null , Utilities :: COMMON_LIBRARIES), 
         					Theme :: get_common_image_path() . 'action_down.png', 
         					$this->get_url(array(ForumManager :: PARAM_PUBLICATION_ID => $publication->get_id())),
         					ToolbarItem :: DISPLAY_ICON
@@ -236,11 +237,11 @@ class ForumManagerBrowserComponent extends ForumManager
             
             //			$actions[] = array(
             //				'href' => $this->get_url(array('pid' => $publication->get_id(), ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_MOVE_TO_CATEGORY)),
-            //				'label' => Translation :: get('Move'),
+            //				'label' => Translation :: get('Move', null , Utilities :: COMMON_LIBRARIES),
             //				'img' => Theme :: get_common_image_path() . 'action_move.png'
             //			);
             
-			$toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), 
+			$toolbar->add_item(new ToolbarItem(Translation :: get('Edit' , null , Utilities :: COMMON_LIBRARIES), 
         					Theme :: get_common_image_path() . 'action_edit.png', 
         					$this->get_url(array(ForumManager :: PARAM_PUBLICATION_ID => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_EDIT)),
         					ToolbarItem :: DISPLAY_ICON
@@ -253,7 +254,7 @@ class ForumManagerBrowserComponent extends ForumManager
         	{
         		$parameters[ForumManager :: PARAM_ACTION] = ForumManager :: ACTION_CHANGE_LOCK;
         		$parameters[ForumManager :: PARAM_PUBLICATION_ID] = $publication->get_id();
-        		$toolbar->add_item(new ToolbarItem(Translation :: get('Unlock'), 
+        		$toolbar->add_item(new ToolbarItem(Translation :: get('Unlock', null, 'repository/forum'), 
         			Theme :: get_common_image_path() . 'action_unlock.png', 
         			$this->get_url($parameters),
         			ToolbarItem :: DISPLAY_ICON
@@ -263,7 +264,7 @@ class ForumManagerBrowserComponent extends ForumManager
         	{
         		$parameters[ForumManager :: PARAM_ACTION] = ForumManager :: ACTION_CHANGE_LOCK;
         		$parameters[ForumManager :: PARAM_PUBLICATION_ID] = $publication->get_id();
-        		$toolbar->add_item(new ToolbarItem(Translation :: get('Lock'), 
+        		$toolbar->add_item(new ToolbarItem(Translation :: get('Lock', null, 'repository/forum'), 
         			Theme :: get_common_image_path() . 'action_lock.png', 
         			$this->get_url($parameters),
         			ToolbarItem :: DISPLAY_ICON
@@ -272,9 +273,8 @@ class ForumManagerBrowserComponent extends ForumManager
             
 	        if(WebApplication :: is_active('gradebook'))
 	        {
-	        	require_once dirname (__FILE__) . '/../../../gradebook/evaluation_manager/evaluation_manager.class.php';
-        		if(EvaluationManager :: retrieve_internal_item_by_publication(ForumManager :: APPLICATION_NAME, $publication->get_id()))
-        			$toolbar->add_item(new ToolbarItem(Translation :: get('Evaluation'), 
+		  		if(EvaluationManager :: retrieve_internal_item_by_publication(ForumManager :: APPLICATION_NAME, $publication->get_id()))
+        			$toolbar->add_item(new ToolbarItem(Translation :: get('Evaluation' , null , 'application\gradebook' ), 
         					Theme :: get_common_image_path() . 'action_evaluation.png', 
         					$this->get_url(array(ForumManager :: PARAM_PUBLICATION_ID => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_EVALUATE)),
         					ToolbarItem :: DISPLAY_ICON
@@ -290,8 +290,8 @@ class ForumManagerBrowserComponent extends ForumManager
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_CREATE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        //$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path().'action_category.png', $this->get_url(array(DocumentTool :: PARAM_ACTION => DocumentTool :: ACTION_MANAGE_CATEGORIES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish' , null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_CREATE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        //$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories' , null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path().'action_category.png', $this->get_url(array(DocumentTool :: PARAM_ACTION => DocumentTool :: ACTION_MANAGE_CATEGORIES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
 
         //		if(!$this->introduction_text && PlatformSetting :: get('enable_introduction', 'weblcms'))
@@ -304,8 +304,8 @@ class ForumManagerBrowserComponent extends ForumManager
         
 		if($this->get_user()->is_platform_admin())
 		{
-        	$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path() . 'action_category.png', $this->get_category_manager_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        	$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_rights_editor_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        	$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories' , null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_category.png', $this->get_category_manager_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        	$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageRights' , null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_rights.png', $this->get_rights_editor_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		}
         
         return $action_bar;

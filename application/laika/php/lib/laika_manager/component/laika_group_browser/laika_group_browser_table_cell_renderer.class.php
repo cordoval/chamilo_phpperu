@@ -57,9 +57,9 @@ class LaikaGroupBrowserTableCellRenderer extends DefaultGroupTableCellRenderer
                 return '<a href="' . htmlentities($this->browser->get_group_statistics_viewing_url($group)) . '" title="' . $title . '">' . $title_short . '</a>';
             case Group :: PROPERTY_DESCRIPTION :
                 return Utilities :: truncate_string(parent :: render_cell($column, $group), 170);
-            case Translation :: get('Users') :
+            case Translation :: get('Users', null, 'user') :
                 return $group->count_users(true, true);
-            case Translation :: get('Subgroups') :
+            case Translation :: get('Subgroups', null, 'group') :
                 return $group->count_subgroups(true);
             case Translation :: get('Participants') :
                 return $this->count_participants($group);

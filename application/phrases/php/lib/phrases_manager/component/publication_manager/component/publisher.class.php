@@ -5,6 +5,7 @@ use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Application;
+use common\libraries\Utilities;
 
 use repository\content_object\assessment\Assessment;
 
@@ -24,7 +25,7 @@ class PhrasesPublicationManagerPublisherComponent extends PhrasesPublicationMana
     {
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PhrasesManager :: ACTION_MANAGE_PHRASES)), Translation :: get('Phrases')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Publish')));
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Publish', null, Utilities::COMMON_LIBRARIES)));
         $trail->add_help('phrases general');
 
         

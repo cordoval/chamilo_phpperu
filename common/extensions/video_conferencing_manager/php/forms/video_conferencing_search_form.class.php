@@ -49,7 +49,7 @@ class VideoConferencingSearchForm extends FormValidator
     private function build_simple_search_form()
     {
         $this->renderer->setElementTemplate('<div style="vertical-align: middle; float: left;">{element}</div>');
-        $this->addElement('text', self :: PARAM_SIMPLE_SEARCH_QUERY, Translation :: get('Find'), 'size="20" class="search_query"');
+        $this->addElement('text', self :: PARAM_SIMPLE_SEARCH_QUERY, Translation :: get('Search', null, Utilities :: COMMON_LIBRARIES), 'size="20" class="search_query"');
         $this->addElement('style_submit_button', 'submit', Theme :: get_common_image('action_search'), array('class' => 'search'));
     }
 

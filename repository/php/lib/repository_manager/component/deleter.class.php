@@ -6,6 +6,7 @@ use common\libraries\Translation;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Application;
+use common\libraries\Utilities;
 /**
  * $Id: deleter.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component
@@ -102,22 +103,26 @@ class RepositoryManagerDeleterComponent extends RepositoryManager
                 {
                     if (count($ids) == 1)
                     {
-                        $message = 'SelectedObjectNot' . ($permanent ? 'Deleted' : 'MovedToRecycleBin');
+                        $message = 'ObjectNot' . ($permanent ? 'Deleted' : 'MovedToRecycleBin');
+                        $parameter = array('OBJECT' => Translation :: get('ContentObject'));
                     }
                     else
                     {
-                        $message = 'NotAllSelectedObjects' . ($permanent ? 'Deleted' : 'MovedToRecycleBin');
+                        $message = 'ObjectsNot' . ($permanent ? 'Deleted' : 'MovedToRecycleBin');
+                        $parameter = array('OBJECTS' => Translation :: get('ContentObjects'));
                     }
                 }
                 else
                 {
                     if (count($ids) == 1)
                     {
-                        $message = 'SelectedObject' . ($permanent ? 'Deleted' : 'MovedToRecycleBin');
+                        $message = 'Object' . ($permanent ? 'Deleted' : 'MovedToRecycleBin');
+                        $parameter = array('OBJECT' => Translation :: get('ContentObject'));
                     }
                     else
                     {
-                        $message = 'AllSelectedObjects' . ($permanent ? 'Deleted' : 'MovedToRecycleBin');
+                        $message = 'Objects' . ($permanent ? 'Deleted' : 'MovedToRecycleBin');
+                        $parameter = array('OBJECTS' => Translation :: get('ContentObjects'));
                     }
                 }
             }
@@ -125,7 +130,7 @@ class RepositoryManagerDeleterComponent extends RepositoryManager
             $parameters = array();
             $parameters[Application :: PARAM_ACTION] = ($permanent ? RepositoryManager :: ACTION_BROWSE_RECYCLED_CONTENT_OBJECTS : RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS);
 
-            $this->redirect(Translation :: get($message), ($failures ? true : false), $parameters);
+            $this->redirect(Translation :: get($message, $parameter, Utilities :: COMMON_LIBRARIES), ($failures ? true : false), $parameters);
         }
         else
         {

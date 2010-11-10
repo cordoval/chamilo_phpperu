@@ -1,1 +1,3 @@
-reply_on_post = 
+TypeName = "Forum post_"
+ReplyOnPost = "Reply on post_"
+Properties = "***"

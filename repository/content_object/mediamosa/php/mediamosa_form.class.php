@@ -4,12 +4,12 @@ namespace repository\content_object\mediamosa;
 use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\Application;
-
 use repository\ContentObjectForm;
 use common\libraries\ExternalRepositoryLauncher;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use repository\ExternalRepositorySync;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
+use repository\RepositoryDataManager;
 
 /**
  * Description of MediamosaForm class
@@ -37,7 +37,7 @@ class MediamosaForm extends ContentObjectForm
             if($external_repository->get_type() == 'mediamosa')
             {
                 $link = Path :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=' . ExternalRepositoryLauncher :: APPLICATION_NAME . '&' . ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '=' . $external_repository->get_id();
-                $this->addElement('static', null, null, '<a class="button normal_button upload_button" onclick="javascript:openPopup(\'' . $link . '\');"> ' . Translation :: get('Browse') .' '. $external_repository->get_title() . '</a>');
+                $this->addElement('static', null, null, '<a class="button normal_button upload_button" onclick="javascript:openPopup(\'' . $link . '\');"> ' . Translation :: get('Browse' , null, Utilities :: COMMON_LIBRARIES) .' '. $external_repository->get_title() . '</a>');
             }
         }
 

@@ -8,6 +8,7 @@ use common\libraries\Translation;
 use common\libraries\Request;
 use user\UserDataManager;
 use common\libraries\Mail;
+use common\libraries\Utilities;
 /**
  * @package application.cda.cda.component
  */
@@ -56,7 +57,7 @@ class CdaManagerTranslatorApplicationActivatorComponent extends CdaManager
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedTranslatorApplicationNotActivated';
+                                    $message = 'SelectedTranslatorApplicationNotActivated';
 				}
 				else
 				{
@@ -79,7 +80,7 @@ class CdaManagerTranslatorApplicationActivatorComponent extends CdaManager
 		}
 		else
 		{
-			$this->display_error_page(htmlentities(Translation :: get('NoTranslatorApplicationsSelected')));
+			$this->display_error_page(htmlentities(Translation :: get('NoObjectsSelected', null, Utilities :: COMMON_LIBRARIES)));
 		}
 	}
 

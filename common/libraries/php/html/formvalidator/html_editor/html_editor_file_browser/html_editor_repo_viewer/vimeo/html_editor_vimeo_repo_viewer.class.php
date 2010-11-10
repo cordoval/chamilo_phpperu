@@ -1,5 +1,9 @@
 <?php
 namespace common\libraries;
+
+use repository\content_object\vimeo\Vimeo;
+use common\extensions\repo_viewer\RepoViewer;
+
 class HtmlEditorVimeoRepoViewer extends HtmlEditorRepoViewer
 {
 

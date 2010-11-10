@@ -4,6 +4,7 @@ namespace user;
 use common\libraries\Translation;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/../user_reporting_block.class.php';
 
@@ -26,8 +27,8 @@ class UserNoOfLoginsMonthReportingBlock extends UserReportingBlock
         $data = Tracker :: get_data('login_logout_tracker', UserManager :: APPLICATION_NAME, $condition);
 
         $months_names = array(
-                Translation :: get('JanuaryLong'), Translation :: get('FebruaryLong'), Translation :: get('MarchLong'), Translation :: get('AprilLong'), Translation :: get('MayLong'), Translation :: get('JuneLong'),
-                Translation :: get('JulyLong'), Translation :: get('AugustLong'), Translation :: get('SeptemberLong'), Translation :: get('OctoberLong'), Translation :: get('NovemberLong'), Translation :: get('DecemberLong'));
+                Translation :: get('JanuaryLong', null, Utilities :: COMMON_LIBRARIES), Translation :: get('FebruaryLong', null, Utilities :: COMMON_LIBRARIES), Translation :: get('MarchLong', null, Utilities :: COMMON_LIBRARIES), Translation :: get('AprilLong', null, Utilities :: COMMON_LIBRARIES), Translation :: get('MayLong', null, Utilities :: COMMON_LIBRARIES), Translation :: get('JuneLong', null, Utilities :: COMMON_LIBRARIES),
+                Translation :: get('JulyLong', null, Utilities :: COMMON_LIBRARIES), Translation :: get('AugustLong', null, Utilities :: COMMON_LIBRARIES), Translation :: get('SeptemberLong', null, Utilities :: COMMON_LIBRARIES), Translation :: get('OctoberLong', null, Utilities :: COMMON_LIBRARIES), Translation :: get('NovemberLong', null, Utilities :: COMMON_LIBRARIES), Translation :: get('DecemberLong', null, Utilities :: COMMON_LIBRARIES));
         $months = UserReportingBlock :: getDateArray($data, 'n');
 
         $reporting_data->set_categories($months_names);
@@ -54,8 +55,8 @@ class UserNoOfLoginsMonthReportingBlock extends UserReportingBlock
     {
         $modes = array();
         //$modes[ReportingFormatter::DISPLAY_TEXT] = Translation :: get('Text');
-        $modes[ReportingFormatter :: DISPLAY_TABLE] = Translation :: get('Table');
-        $modes[ReportingChartFormatter :: DISPLAY_PIE] = Translation :: get('Chart:Pie');
+        $modes[ReportingFormatter :: DISPLAY_TABLE] = Translation :: get('Table', null, 'reporting');
+        $modes[ReportingChartFormatter :: DISPLAY_PIE] = Translation :: get('Chart:Pie', null, 'reporting');
         return $modes;
     }
 }

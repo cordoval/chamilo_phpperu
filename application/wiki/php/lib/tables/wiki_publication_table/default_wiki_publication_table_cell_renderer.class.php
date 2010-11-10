@@ -2,8 +2,9 @@
 namespace application\wiki;
 
 
-use common\libraries\WebApplication;
 use common\libraries\ObjectTableCellRenderer;
+use common\libraries\Path;
+
 use repository\ContentObject;
 use repository\content_object\wiki\WikiDisplay;
 
@@ -12,8 +13,6 @@ use repository\content_object\wiki\WikiDisplay;
  * @package application.lib.wiki.tables.wiki_publication_table
  */
 
-require_once WebApplication :: get_application_class_lib_path('wiki') . 'wiki_publication.class.php';
-//require_once Path :: get_repository_path() . 'lib/complex_display/wiki/wiki_display.class.php';
 
 /**
  * Default cell renderer for the wiki_publication table

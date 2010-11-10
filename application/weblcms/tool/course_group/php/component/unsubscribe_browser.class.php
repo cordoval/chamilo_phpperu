@@ -18,6 +18,7 @@ use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: course_group_unsubscribe_browser.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -79,7 +80,7 @@ class CourseGroupToolUnsubscribeBrowserComponent extends CourseGroupTool
         $html[] = '</div>';
 
         $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_users.png);">';
-        $html[] = '<div class="title">' . Translation :: get('Users') . '</div>';
+        $html[] = '<div class="title">' . Translation :: get('Users', null, 'user') . '</div>';
         $html[] = $table->as_html();
         $html[] = '</div>';
         $trail = BreadcrumbTrail :: get_instance();
@@ -96,7 +97,7 @@ class CourseGroupToolUnsubscribeBrowserComponent extends CourseGroupTool
 
         $action_bar->set_search_url($this->get_url());
         $parameters[WeblcmsManager :: PARAM_COURSE_GROUP] = $course_group->get_id();
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url($parameters), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url($parameters), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         $user = $this->get_parent()->get_user();
 

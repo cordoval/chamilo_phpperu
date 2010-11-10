@@ -2,6 +2,7 @@
 namespace application\weblcms\tool\maintenance;
 
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: course_selection_maintenance_wizard_page.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -30,9 +31,9 @@ class CourseSelectionMaintenanceWizardPage extends MaintenanceWizardPage
         }
         
         $this->addElement('select', 'course', Translation :: get('Course'), $options, array('multiple' => 'multiple', 'size' => '20', 'style' => 'width: 300px;'));
-        $this->addRule('course', Translation :: get('ThisFieldIsRequired'), 'required');
-        $prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< ' . Translation :: get('Previous'));
-        $prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next') . ' >>');
+        $this->addRule('course', Translation :: get('Required', null, Utilities :: COMMON_LIBRARIES), 'required');
+        $prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< ' . Translation :: get('Previous', null, Utilities :: COMMON_LIBRARIES));
+        $prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next', null, Utilities :: COMMON_LIBRARIES) . ' >>');
         $this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
         $this->setDefaultAction('next');
         $this->_formBuilt = true;

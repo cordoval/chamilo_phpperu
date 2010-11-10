@@ -24,7 +24,7 @@ class ExternalRepositoryComponentConfigurerComponent extends ExternalRepositoryC
             $form->display();
             echo '<script type="text/javascript">';
             echo '$(document).ready(function() {';
-            echo '$(\':checkbox\').iphoneStyle({ checkedLabel: \'' . Translation :: get('On') . '\', uncheckedLabel: \'' . Translation :: get('Off') . '\'});';
+            echo '$(\':checkbox\').iphoneStyle({ checkedLabel: \'' . Translation :: get('ConfirmOn', null, Utilities :: COMMON_LIBRARIES) . '\', uncheckedLabel: \'' . Translation :: get('ConfirmOff', null, Utilities :: COMMON_LIBRARIES) . '\'});';
             echo '});';
             echo '</script>';
             $this->display_footer();

@@ -1,5 +1,6 @@
 <?php
 namespace admin;
+use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\AdministrationComponent;
 use common\libraries\Diagnoser;
@@ -22,19 +23,19 @@ class AdminManagerDiagnoserComponent extends AdminManager implements Administrat
 //        if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW))
 //        {
 //            $this->display_header();
-//            $this->display_error_message(Translation :: get('NotAllowed'));
+//            $this->display_error_message(Translation :: get('NotAllowed', array(), Utilities :: COMMON_LIBRARIES));
 //            $this->display_footer();
 //            exit();
 //        }
-        
+
         $this->display_header();
-        
+
         $diag = new Diagnoser($this);
         echo $diag->to_html();
-        
+
         $this->display_footer();
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add_help('admin_diagnoser');

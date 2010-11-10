@@ -6,6 +6,7 @@ use common\libraries\Translation;
 use common\libraries\Session;
 use common\libraries\Theme;
 use common\libraries\DatetimeUtilities;
+use common\libraries\Utilities;
 
 /*
  *	@author Nick Van Loocke
@@ -52,8 +53,8 @@ class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWiza
         }
         else
         {
-            $from_date = DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $from_date);
-            $to_date = DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $to_date);
+            $from_date = DatetimeUtilities :: format_locale_date(Translation :: get('DateFormatShort', null, Utilities :: COMMON_LIBRARIES) . ', ' . Translation :: get('TimeNoSecFormat', null, Utilities :: COMMON_LIBRARIES), $from_date);
+            $to_date = DatetimeUtilities :: format_locale_date(Translation :: get('DateFormatShort', null, Utilities :: COMMON_LIBRARIES) . ', ' . Translation :: get('TimeNoSecFormat', null, Utilities :: COMMON_LIBRARIES), $to_date);
           	$date_message = Translation :: get('From') . ' ' .$from_date . ' - ' . Translation :: get('To') . ' ' . $to_date;
         }
 

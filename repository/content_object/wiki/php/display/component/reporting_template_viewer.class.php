@@ -3,6 +3,7 @@ namespace repository\content_object\wiki;
 
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use repository\ComplexDisplayComponent;
 use repository\ComplexDisplay;
 use repository\RepositoryDataManager;
@@ -23,10 +24,10 @@ class WikiDisplayReportingTemplateViewerComponent extends WikiDisplay
         switch ($action)
         {
             case self :: ACTION_PAGE_STATISTICS :
-                $browser->set_template_name($this->get_parent()->get_page_statistics_reporting_template_name());
+                $browser->set_template_name($this->get_parent()->get_wiki_page_statistics_reporting_template_name());
                 break;
             case self :: ACTION_STATISTICS :
-                $browser->set_template_name($this->get_parent()->get_statistics_reporting_template_name());
+                $browser->set_template_name($this->get_parent()->get_wiki_statistics_reporting_template_name());
                 break;
             case self :: ACTION_ACCESS_DETAILS :
                 $browser->set_template_name('publication_detail_reporting_template');
@@ -46,7 +47,7 @@ class WikiDisplayReportingTemplateViewerComponent extends WikiDisplay
 
         $html = array();
         $html[] = '<div class="wiki-pane-content-title">' . Translation :: get('Statistics') . ' ' . $wiki_page->get_title() . '</div>';
-        $html[] = '<div class="wiki-pane-content-subtitle">' . Translation :: get('From') . ' ' . $this->get_root_content_object()->get_title() . '</div>';
+        $html[] = '<div class="wiki-pane-content-subtitle">' . Translation :: get('From', null , Utilities :: COMMON_LIBRARIES) . ' ' . $this->get_root_content_object()->get_title() . '</div>';
         echo implode("\n", $html);
     }
 }

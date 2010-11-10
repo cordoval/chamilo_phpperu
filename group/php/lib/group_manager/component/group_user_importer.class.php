@@ -2,6 +2,7 @@
 namespace group;
 use common\libraries\Application;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\AdministrationComponent;
 use common\libraries\BreadcrumbTrail;
 
@@ -21,7 +22,7 @@ class GroupManagerGroupUserImporterComponent extends GroupManager implements Adm
         if (! $this->get_user()->is_platform_admin())
         {
             $this->display_header();
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get('NotAllowed', null , Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
@@ -55,8 +56,8 @@ class GroupManagerGroupUserImporterComponent extends GroupManager implements Adm
         $html[] = '<p>' . Translation :: get('Details') . '</p>';
         $html[] = '<blockquote>';
         $html[] = '<u><b>' . Translation :: get('Action') . '</u></b>';
-        $html[] = '<br />A: ' . Translation :: get('Add');
-        $html[] = '<br />D: ' . Translation :: get('Delete');
+        $html[] = '<br />A: ' . Translation :: get('Add', null , Utilities :: COMMON_LIBRARIES);
+        $html[] = '<br />D: ' . Translation :: get('Delete', null , Utilities :: COMMON_LIBRARIES);
         $html[] = '</blockquote>';
         
         echo implode($html, "\n");

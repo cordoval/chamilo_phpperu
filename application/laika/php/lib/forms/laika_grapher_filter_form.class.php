@@ -10,6 +10,7 @@ use common\libraries\ObjectTableOrder;
 use common\libraries\OptionsMenuRenderer;
 
 use group\GroupMenu;
+use common\libraries\Utilities;
 /**
  * $Id: laika_grapher_filter_form.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika.forms
@@ -83,7 +84,7 @@ class LaikaGrapherFilterForm extends FormValidator
         $this->add_timewindow(self :: GRAPH_FILTER_START_DATE, self :: GRAPH_FILTER_END_DATE, Translation :: get('StartTimeWindow'), Translation :: get('EndTimeWindow'), false);
         $this->addElement('category');
 
-        $this->addElement('category', Translation :: get('Groups'));
+        $this->addElement('category', Translation :: get('Groups', null, 'group'));
 
         $group_options = $this->get_groups();
 
@@ -98,8 +99,8 @@ class LaikaGrapherFilterForm extends FormValidator
                 $count = 10;
             }
 
-            $this->addElement('select', self :: GRAPH_FILTER_GROUP, Translation :: get('Group'), $this->get_groups(), array('multiple', 'size' => $count));
-            $this->addRule(self :: GRAPH_FILTER_GROUP, Translation :: get('ThisFieldIsRequired'), 'required');
+            $this->addElement('select', self :: GRAPH_FILTER_GROUP, Translation :: get('Group', null, Utilities::GROUP), $this->get_groups(), array('multiple', 'size' => $count));
+            $this->addRule(self :: GRAPH_FILTER_GROUP, Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
         }
         else
         {
@@ -111,9 +112,9 @@ class LaikaGrapherFilterForm extends FormValidator
 
         $this->addElement('category', Translation :: get('Results'));
         $this->addElement('select', self :: GRAPH_FILTER_SCALE, Translation :: get('Scale'), $scale_options, array('multiple', 'size' => '10'));
-        $this->addRule(self :: GRAPH_FILTER_SCALE, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(self :: GRAPH_FILTER_SCALE, Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
         $this->addElement('select', self :: GRAPH_FILTER_CODE, Translation :: get('Code'), $code_options, array('multiple', 'size' => '4'));
-        $this->addRule(self :: GRAPH_FILTER_CODE, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(self :: GRAPH_FILTER_CODE, Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
         $this->addElement('category');
 
         $this->addElement('category', Translation :: get('Options'));
@@ -148,8 +149,8 @@ class LaikaGrapherFilterForm extends FormValidator
 
         $buttons = array();
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Filter'), array('class' => 'normal search'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Filter', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal search'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

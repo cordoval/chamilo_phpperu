@@ -49,14 +49,14 @@ class GradebookExternalPublicationBrowserTableCellRenderer extends DefaultGradeb
     private function get_modification_links($external_item)
     {
         $toolbar = new Toolbar();
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Browser'), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_external_evaluations_on_publications_viewer_url($external_item), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Browser', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_external_evaluations_on_publications_viewer_url($external_item), ToolbarItem :: DISPLAY_ICON));
 
         $user = $this->browser->get_user();
 
         if ($user->is_platform_admin())
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_edit_external_evaluation_url($external_item), ToolbarItem :: DISPLAY_ICON));
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_external_evaluation_url($external_item), ToolbarItem :: DISPLAY_ICON, true));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_edit_external_evaluation_url($external_item), ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_external_evaluation_url($external_item), ToolbarItem :: DISPLAY_ICON, true));
         }
 
         return $toolbar->as_html();

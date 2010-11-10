@@ -38,7 +38,7 @@ class BufferedObjectExport{
 	    		return $result;
 	    	}else{
     			$object_name = CpExport::get_object_name($object);
-    			$message = Translation::translate('ContentObjectNotExported'). ': ' .$object_name;
+    			$message = Translation :: get('ObjectNotExported', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES). ': ' .$object_name;
     			$log = $settings->get_log();
 	    		$log->error($message);
 	    		return null;

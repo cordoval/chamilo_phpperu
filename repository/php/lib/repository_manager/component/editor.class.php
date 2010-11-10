@@ -6,6 +6,7 @@ use common\libraries\Translation;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Application;
+use common\libraries\Utilities;
 /**
  * $Id: editor.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component
@@ -35,7 +36,7 @@ class RepositoryManagerEditorComponent extends RepositoryManager
                 $parameters = array();
                 $parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS;
                 $parameters[RepositoryManager :: PARAM_CATEGORY_ID] = $object->get_parent_id();
-                
+
                 $this->redirect(Translation :: get('EditNotAllowed'), true, $parameters);
             }
             $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $object, 'edit', 'post', $this->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $id)));
@@ -43,12 +44,12 @@ class RepositoryManagerEditorComponent extends RepositoryManager
             {
                 $success = $form->update_content_object();
                 $category_id = $object->get_parent_id();
-                
+
                 $parameters = array();
                 $parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS;
                 $parameters[RepositoryManager :: PARAM_CATEGORY_ID] = $category_id;
-                
-                $this->redirect(Translation :: get($success == ContentObjectForm :: RESULT_SUCCESS ? 'ObjectUpdated' : 'ObjectUpdateFailed'), ($success == ContentObjectForm :: RESULT_SUCCESS ? false : true), $parameters);
+
+                $this->redirect(Translation :: get($success == ContentObjectForm :: RESULT_SUCCESS ? 'ObjectUpdated' : 'ObjectNotUpdated', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES), ($success == ContentObjectForm :: RESULT_SUCCESS ? false : true), $parameters);
             }
             else
             {
@@ -59,7 +60,7 @@ class RepositoryManagerEditorComponent extends RepositoryManager
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES)));
         }
     }
 

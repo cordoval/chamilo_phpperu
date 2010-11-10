@@ -9,6 +9,7 @@ use common\libraries\Theme;
 use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: results_export_form.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -65,7 +66,7 @@ class AssessmentResultsExportForm extends FormValidator
 
         $options = Export :: get_supported_filetypes(array('ical'));
         $this->addElement('select', 'filetype', 'Export to filetype:', $options);
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Export'), array('class' => 'positive export'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Export', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive export'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

@@ -1,8 +1,6 @@
 <?php
 namespace repository;
 
-use common\libraries;
-
 use common\libraries\FormValidator;
 use common\libraries\Translation;
 use common\libraries\Path;
@@ -73,7 +71,6 @@ abstract class ContentObjectForm extends FormValidator
 
         parent :: __construct($form_name, $method, $action);
         $this->form_type = $form_type;
-
         $this->content_object = $content_object;
         $this->owner_id = $content_object->get_owner_id();
         $this->extra = $extra;
@@ -243,21 +240,6 @@ EOT;
         if (isset($this->extra['version_data']))
         {
             $object = $this->content_object;
-
-            //            if ($object->is_latest_version())
-            //            {
-            //                $html[] = '<div class="versions" style="margin-top: 1em;">';
-            //            }
-            //            else
-            //            {
-            //                $html[] = '<div class="versions_na" style="margin-top: 1em;">';
-            //            }
-
-
-            //            $html[] = '<div class="versions_title">' . htmlentities(Translation :: get('Versions')) . '</div>';
-
-
-            //            $this->addElement('html', implode("\n", $html));
             $this->add_element_hider('script_radio', $object);
 
             $i = 0;
@@ -279,11 +261,8 @@ EOT;
                 $i ++;
             }
 
-            //$this->addElement('submit', 'submit', Translation :: get('CompareVersions'));
             $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('CompareVersions'), array('class' => 'normal compare'));
             $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
-
-        //            $this->addElement('html', '</div>');
         }
     }
 
@@ -295,8 +274,6 @@ EOT;
      */
     private function build_basic_form($htmleditor_options = array())
     {
-        //$this->add_textfield(ContentObject :: PROPERTY_TITLE, Translation :: get('Title'), true, 'size="100" style="width: 100%"');
-        //$this->add_textfield(ContentObject :: PROPERTY_TITLE, Translation :: get('Title'), true, array('size' => '100'));
         $this->addElement('html', '<div id="message"></div>');
         $this->add_textfield(ContentObject :: PROPERTY_TITLE, Translation :: get('Title', array(), Utilities :: get_namespace_from_object($this)), true, array('size' => '100', 'id' => 'title', 'style' => 'width: 95%'));
         if ($this->allows_category_selection())
@@ -315,8 +292,6 @@ EOT;
     protected function add_footer()
     {
         $object = $this->content_object;
-        //$elem = $this->addElement('advmultiselect', 'ihsTest', 'Hierarchical select:', array("test"), array('style' => 'width: 20em;'), '<br />');
-
 
         if ($object instanceof AttachmentSupport)
         {
@@ -344,9 +319,9 @@ EOT;
             $url = $this->get_path(WEB_PATH) . 'repository/php/xml_feed.php';
             $locale = array();
             $locale['Display'] = Translation :: get('AddAttachments');
-            $locale['Searching'] = Translation :: get('Searching');
-            $locale['NoResults'] = Translation :: get('NoResults');
-            $locale['Error'] = Translation :: get('Error');
+            $locale['Searching'] = Translation :: get('Searching', null, Utilities :: COMMON_LIBRARIES);
+            $locale['NoResults'] = Translation :: get('NoResults', null, Utilities :: COMMON_LIBRARIES);
+            $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARIES);
             $hidden = true;
 
             $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/uploadify2/swfobject.js'));
@@ -362,7 +337,6 @@ EOT;
             {
                 $elem->excludeElements(array($object->get_id()));
             }
-            //$elem->setDefaultCollapsed(count($attachments) == 0);
         }
 
         if (count($this->additional_elements) > 0)
@@ -392,23 +366,23 @@ EOT;
         switch ($this->form_type)
         {
             case self :: TYPE_COMPARE :
-                $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Compare'), array('class' => 'normal compare'));
+                $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Compare', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal compare'));
                 break;
             case self :: TYPE_CREATE :
-                $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
+                $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
                 break;
             case self :: TYPE_EDIT :
-                $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
+                $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive update'));
                 break;
             case self :: TYPE_REPLY :
-                $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Reply'), array('class' => 'positive send'));
+                $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Reply', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive send'));
                 break;
             default :
-                $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
+                $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
                 break;
         }
 
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
@@ -425,7 +399,7 @@ EOT;
 
         if ($this->form_type == self :: TYPE_REPLY)
         {
-            $defaults[ContentObject :: PROPERTY_TITLE] = Translation :: get('ReplyShort') . ' ' . $content_object->get_title();
+            $defaults[ContentObject :: PROPERTY_TITLE] = Translation :: get('ReplyShort', null, Utilities :: COMMON_LIBRARIES) . ' ' . $content_object->get_title();
         }
         else
         {
@@ -630,6 +604,7 @@ EOT;
         else
         {
             $class = ContentObject :: type_to_class($type) . 'Form';
+
             require_once Path :: get_repository_content_object_path() . $type . '/php/' . $type . '_form.class.php';
         }
 

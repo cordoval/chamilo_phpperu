@@ -1,8 +1,6 @@
 <?php
 namespace application\weblcms;
 
-use common\libraries;
-
 use HTML_Menu_ArrayRenderer;
 use common\libraries\TreeMenuRenderer;
 use common\libraries\SubselectCondition;

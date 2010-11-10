@@ -21,12 +21,12 @@ class EvaluationManagerCreatorComponent extends EvaluationManager
         if ($form->validate())
         {
             $success = $form->create_evaluation();
-            $this->redirect($success ? Translation :: get('EvaluationCreated') : Translation :: get('EvaluationNotCreated'), !$success, array(EvaluationManager :: PARAM_EVALUATION_ACTION => EvaluationManager :: ACTION_BROWSE));
+            $this->redirect($success ? Translation :: get('EvaluationCreated', null, Utilities::COMMON_LIBRARIES) : Translation :: get('EvaluationNotCreated', null, Utilities::COMMON_LIBRARIES), !$success, array(EvaluationManager :: PARAM_EVALUATION_ACTION => EvaluationManager :: ACTION_BROWSE));
         }
         else
         {
             $trail = BreadcrumbTrail :: get_instance();
-            $trail->add(new Breadcrumb($this->get_url(array()), Translation :: get('CreateEvaluation')));
+            $trail->add(new Breadcrumb($this->get_url(array()), Translation :: get('CreateEvaluation', null, Utilities::COMMON_LIBRARIES)));
             $this->display_header($trail);
             $form->display();
             $this->display_footer();

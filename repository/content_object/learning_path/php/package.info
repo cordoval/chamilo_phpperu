@@ -36,7 +36,7 @@
 		  			<severity>1</severity>
 				</dependency>
 				<dependency>
-		  			<id>blog_item</id>
+		  			<id>blog</id>
 		  			<version type="4">1.0.0</version>
 		  			<severity>1</severity>
 				</dependency>
@@ -52,6 +52,11 @@
 				</dependency>
 				<dependency>
 		  			<id>document</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
+		  			<id>youtube</id>
 		  			<version type="4">1.0.0</version>
 		  			<severity>1</severity>
 				</dependency>

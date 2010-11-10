@@ -7,7 +7,7 @@ abstract class LauncherApplication extends Application
 
     static function get_application_path($application_name)
     {
-    	return Path :: get_common_libraries_class_path() . 'php/launcher/';
+    	return Path :: get_common_libraries_class_path() . 'launcher/';
     }
 
     static function get_application_manager_path($application_name)
@@ -28,7 +28,7 @@ abstract class LauncherApplication extends Application
     static function factory($application, $user = null)
     {
         require_once self :: get_application_manager_path($application);
-        $class = self :: get_application_class_name($application);
+        $class = __NAMESPACE__ . '\\' . self :: get_application_class_name($application);
         return new $class($user);
     }
 

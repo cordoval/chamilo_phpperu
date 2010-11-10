@@ -12,6 +12,7 @@ use common\libraries\ToolbarItem;
 use common\libraries\Theme;
 
 use repository\ContentObjectDisplay;
+use common\libraries\Utilities;
 /**
  * $Id: viewer.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.photo_gallery.photo_gallery_manager
@@ -54,15 +55,15 @@ class PhotoGalleryManagerViewerComponent extends PhotoGalleryManager
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoPublicationSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('Publication')), Utilities :: COMMON_LIBRARIES)));
         }
     }
 
     function get_action_bar($publication)
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_publication_editing_url($publication), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_publication_deleting_url($publication), ToolbarItem :: DISPLAY_ICON_AND_LABEL, true));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->get_publication_editing_url($publication), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->get_publication_deleting_url($publication), ToolbarItem :: DISPLAY_ICON_AND_LABEL, true));
         
         return $action_bar;
     }

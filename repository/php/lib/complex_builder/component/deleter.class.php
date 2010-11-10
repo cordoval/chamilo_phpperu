@@ -3,6 +3,8 @@ namespace repository;
 
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
+
 /**
  * $Id: deleter.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.component
@@ -57,30 +59,34 @@ class ComplexBuilderComponentDeleterComponent extends ComplexBuilderComponent
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedObjectNotDeleted';
+                    $message = 'ObjectNotDeleted';
+                    $parameter = array('OBJECT' => Translation :: get('ContentObject'));
                 }
                 else
                 {
-                    $message = 'NotAllSelectedObjectsDeleted';
+                    $message = 'ObjectsNotDeleted';
+                    $parameter = array('OBJECTS' => Translation :: get('ContentObjects'));
                 }
             }
             else
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedObjectDeleted';
+                    $message = 'ObjectDeleted';
+                    $parameter = array('OBJECT' => Translation :: get('ContentObject'));
                 }
                 else
                 {
-                    $message = 'AllSelectedObjectsDeleted';
+                    $message = 'ObjectsDeleted';
+                    $parameter = array('OBJECTS' => Translation :: get('ContentObjects'));
                 }
             }
 
-            $this->redirect(Translation :: get($message), $failures ? true : false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $parent_complex_content_object_item));
+            $this->redirect(Translation :: get($message, $parameter, Utilities :: COMMON_LIBRARIES), $failures ? true : false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $parent_complex_content_object_item));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES)));
         }
     }
 }

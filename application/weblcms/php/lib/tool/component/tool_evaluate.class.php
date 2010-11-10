@@ -5,6 +5,7 @@ use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/../../../gradebook/evaluation_manager/evaluation_manager.class.php';
 
@@ -28,7 +29,7 @@ class ToolComponentToolEvaluateComponent extends ToolComponent implements Evalua
         }
         else
         {
-            $this->display_error_message(Translation :: get('NoPublicationSelected'));
+            $this->display_error_message(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('Publication')),Utilities:: COMMON_LIBRARIES));
         }
     }
 

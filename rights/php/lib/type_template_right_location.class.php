@@ -62,15 +62,16 @@ class TypeTemplateRightLocation extends DataClass
         $this->set_default_property(self :: PROPERTY_APPLICATION, $application);
     }
 
-//    function get_tree_type()
-//    {
-//        return $this->get_default_property(self :: PROPERTY_TREE_TYPE);
-//    }
-//
-//    function set_tree_type($tree_type)
-//    {
-//        $this->set_default_property(self :: PROPERTY_TREE_TYPE, $tree_type);
-//    }
+    //    function get_tree_type()
+    //    {
+    //        return $this->get_default_property(self :: PROPERTY_TREE_TYPE);
+    //    }
+    //
+    //    function set_tree_type($tree_type)
+    //    {
+    //        $this->set_default_property(self :: PROPERTY_TREE_TYPE, $tree_type);
+    //    }
+
 
     function get_type()
     {
@@ -106,8 +107,7 @@ class TypeTemplateRightLocation extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 }
 ?>

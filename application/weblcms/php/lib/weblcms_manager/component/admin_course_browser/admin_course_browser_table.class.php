@@ -4,6 +4,7 @@ namespace application\weblcms;
 use common\libraries\ObjectTableFormAction;
 use common\libraries\ObjectTable;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: admin_course_browser_table.class.php 218 2009-11-13 14:21:26Z kariboe $
@@ -30,7 +31,7 @@ class AdminCourseBrowserTable extends ObjectTable
         parent :: __construct($data_provider, AdminCourseBrowserTable :: DEFAULT_NAME, $model, $renderer);
         $actions = array();
 
-        $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_REMOVE_SELECTED, Translation :: get('RemoveSelected'));
+        $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_REMOVE_SELECTED, Translation :: get('RemoveSelected', null ,Utilities:: COMMON_LIBRARIES));
         $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_CHANGE_COURSE_TYPE_SELECTED_COURSES, Translation :: get('ChangeCourseTypeSelected'), false);
 
         $this->set_form_actions($actions);

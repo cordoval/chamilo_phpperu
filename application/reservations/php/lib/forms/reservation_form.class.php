@@ -56,11 +56,11 @@ class ReservationForm extends FormValidator
 
         //Required
         $this->addElement('html', '<div class="configuration_form">');
-        $this->addElement('html', '<span class="category">' . Translation :: get('Required') . '</span>');
+        $this->addElement('html', '<span class="category">' . Translation :: get('Required', null, Utilities :: COMMON_LIBRARIES) . '</span>');
 
         $this->add_timewindow(Reservation :: PROPERTY_START_DATE, Reservation :: PROPERTY_STOP_DATE, Translation :: get('StartDate'), Translation :: get('StopDate'));
-        $this->addRule(Reservation :: PROPERTY_START_DATE, Translation :: get('ThisFieldIsRequired'), 'required');
-        $this->addRule(Reservation :: PROPERTY_STOP_DATE, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(Reservation :: PROPERTY_START_DATE, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
+        $this->addRule(Reservation :: PROPERTY_STOP_DATE, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
 
         $this->addElement('html', '<div style="clear: both;"></div>');
         $this->addElement('html', '</div>');
@@ -81,7 +81,7 @@ class ReservationForm extends FormValidator
     {
         //Optional
         $this->addElement('html', '<div class="configuration_form">');
-        $this->addElement('html', '<span class="category">' . Translation :: get('Optional') . '</span>');
+        $this->addElement('html', '<span class="category">' . Translation :: get('Optional', null, Utilities :: COMMON_LIBRARIES) . '</span>');
 
         $this->addElement('text', Reservation :: PROPERTY_MAX_USERS, Translation :: get('MaxUsers'));
         //$this->addElement('html_editor', Reservation :: PROPERTY_NOTES, Translation :: get('Notes'));
@@ -92,8 +92,8 @@ class ReservationForm extends FormValidator
         $this->addElement('html', '</div>');
 
         // Submit button
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -102,16 +102,16 @@ class ReservationForm extends FormValidator
     {
         //Timepicker
         $this->addElement('html', '<div class="configuration_form">');
-        $this->addElement('html', '<span class="category">' . Translation :: get('TimePicker') . '</span>');
+        $this->addElement('html', '<span class="category">' . Translation :: get('Timepicker') . '</span>');
 
-        $this->addElement('checkbox', 'use_timepicker', Translation :: get('UseTimePicker'));
+        $this->addElement('checkbox', 'use_timepicker', Translation :: get('UseTimepicker'));
 
         $options = array();
         for($i = 0; $i < 1440; $i ++)
             $options[$i] = $i;
 
-        $this->addElement('select', Reservation :: PROPERTY_TIMEPICKER_MIN, Translation :: get('MinTimePicker'), $options);
-        $this->addElement('select', Reservation :: PROPERTY_TIMEPICKER_MAX, Translation :: get('MaxTimePicker'), $options);
+        $this->addElement('select', Reservation :: PROPERTY_TIMEPICKER_MIN, Translation :: get('MinTimepicker'), $options);
+        $this->addElement('select', Reservation :: PROPERTY_TIMEPICKER_MAX, Translation :: get('MaxTimepicker'), $options);
 
         $this->addElement('html', '<div style="clear: both;"></div>');
         $this->addElement('html', '</div>');
@@ -124,7 +124,7 @@ class ReservationForm extends FormValidator
 
         $this->addElement('text', 'repeat_every', Translation :: get('RepeatEvery'));
 
-        $options = array(1 => Translation :: get('Hour(s)'), 24 => Translation :: get('Day(s)'), 168 => Translation :: get('Week(s)'));
+        $options = array(1 => Translation :: get('Hours'), 24 => Translation :: get('Days'), 168 => Translation :: get('Weeks'));
         $this->addElement('select', 'repeat_every_select', '', $options);
 
         $this->add_datepicker('repeat_untill', Translation :: get('RepeatUntill'));

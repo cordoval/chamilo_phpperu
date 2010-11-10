@@ -1,7 +1,10 @@
-PossibleAnswer = 
-AddItem = 
-Feedback = 
-Score = 
-Answer = 
-Comment = 
-Weight = 
+PossibleAnswer = ""
+Options = ""
+UseWildcards = ""
+IgnoreCase = ""
+AddItem = ""
+Feedback = ""
+Score = ""
+Answer = ""
+Comment = ""
+Weight = ""

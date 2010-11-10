@@ -3,6 +3,7 @@ namespace repository\content_object\wiki;
 
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Path;
 use repository\ComplexDisplay;
 use repository\RepositoryDataManager;
@@ -57,7 +58,7 @@ class WikiDisplayWikiDiscussComponent extends WikiDisplay
         $parser = new MediawikiParser(new MediawikiParserContext($this->get_root_content_object(), $wiki_page->get_title(), $wiki_page->get_description(), $this->get_parameters()));
 
         $html[] = '<div class="wiki-pane-content-title">' . Translation :: get('Discuss') . ' ' . $wiki_page->get_title() . '</div>';
-        $html[] = '<div class="wiki-pane-content-subtitle">' . Translation :: get('From') . ' ' . $this->get_root_content_object()->get_title() . '</div>';
+        $html[] = '<div class="wiki-pane-content-subtitle">' . Translation :: get('From', null , Utilities :: COMMON_LIBRARIES) . ' ' . $this->get_root_content_object()->get_title() . '</div>';
         $html[] = '<div class="wiki-pane-content-discuss">';
 
         //                $html[] = $parser->parse_wiki_text();

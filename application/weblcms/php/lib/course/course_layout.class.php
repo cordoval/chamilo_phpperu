@@ -72,19 +72,23 @@ class CourseLayout extends DataClass
 
     static function get_tool_shortcut_options()
     {
-        return array(self :: TOOL_SHORTCUT_OFF => Translation :: get('Off'), self :: TOOL_SHORTCUT_ON => Translation :: get('On'));
+        return array(self :: TOOL_SHORTCUT_OFF => Translation :: get('ConfirmOff', null ,Utilities:: COMMON_LIBRARIES)
+, self :: TOOL_SHORTCUT_ON => Translation :: get('ConfirmOn', null ,Utilities:: COMMON_LIBRARIES)
+);
     }
 
     static function get_menu_options()
     {
         return array(
-                self :: MENU_OFF => Translation :: get('Off'), self :: MENU_LEFT_ICON => Translation :: get('LeftIcon'), self :: MENU_LEFT_ICON_TEXT => Translation :: get('LeftIconText'), self :: MENU_LEFT_TEXT => Translation :: get('LeftText'),
+                self :: MENU_OFF => Translation :: get('ConfirmOff', null ,Utilities:: COMMON_LIBRARIES)
+, self :: MENU_LEFT_ICON => Translation :: get('LeftIcon'), self :: MENU_LEFT_ICON_TEXT => Translation :: get('LeftIconText'), self :: MENU_LEFT_TEXT => Translation :: get('LeftText'),
                 self :: MENU_RIGHT_ICON => Translation :: get('RightIcon'), self :: MENU_RIGHT_ICON_TEXT => Translation :: get('RightIconText'), self :: MENU_RIGHT_TEXT => Translation :: get('RightText'));
     }
 
     static function get_breadcrumb_options()
     {
-        return array(self :: BREADCRUMB_TITLE => Translation :: get('Title'), self :: BREADCRUMB_CODE => Translation :: get('Code'), self :: BREADCRUMB_COURSE_HOME => Translation :: get('CourseHome'));
+        return array(self :: BREADCRUMB_TITLE => Translation :: get('Title', null ,Utilities:: COMMON_LIBRARIES)
+, self :: BREADCRUMB_CODE => Translation :: get('Code'), self :: BREADCRUMB_COURSE_HOME => Translation :: get('CourseHome'));
     }
 
     static function get_title($course)
@@ -239,7 +243,6 @@ class CourseLayout extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 }

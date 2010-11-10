@@ -157,7 +157,7 @@ class GroupValidator extends Validator
         $var = $this->get_person_id($input_group_rel_user[GroupRelUser :: PROPERTY_USER_ID]);
         if (! $var)
         {
-            $this->errorMessage = Translation :: get('User') . ' ' . $input_group_rel_user[GroupRelUser :: PROPERTY_USER_ID] . ' ' . Translation :: get('wasNotFoundInTheDatabase');
+            $this->errorMessage = Translation :: get('User', null , 'user') . ' ' . $input_group_rel_user[GroupRelUser :: PROPERTY_USER_ID] . ' ' . Translation :: get('wasNotFoundInTheDatabase');
             return false;
         }
         else

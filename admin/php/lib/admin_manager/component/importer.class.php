@@ -1,5 +1,6 @@
 <?php
 namespace admin;
+use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\AdministrationComponent;
 use common\libraries\Theme;
@@ -22,27 +23,27 @@ class AdminManagerImporterComponent extends AdminManager implements Administrati
 //        if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW))
 //        {
 //            $this->display_header();
-//            $this->display_error_message(Translation :: get('NotAllowed'));
+//            $this->display_error_message(Translation :: get('NotAllowed', array(), Utilities :: COMMON_LIBRARIES));
 //            $this->display_footer();
 //            exit();
 //        }
-        
+
         $this->display_header();
-        
+
         echo $this->display_import_buttons();
-        
+
         $this->display_footer();
     }
-    
+
     function display_import_buttons()
     {
     	$count = 0;
-    	
+
     	$html[] = '<div class="tab">';
     	$html[] = '<div class="items">';
-    	
+
     	$import_links = $this->get_application_platform_import_links();
-    	
+
     	foreach($import_links as $link)
     	{
 	    	$html[] = '<div class="vertical_action"' . ($count == 0 ? ' style="border-top: 0px solid #FAFCFC;"' : '') . '>';
@@ -54,16 +55,16 @@ class AdminManagerImporterComponent extends AdminManager implements Administrati
 	        $html[] = $link['description'];
 	        $html[] = '</div>';
 	        $html[] = '</div>';
-	        
+
 	        $count++;
     	}
-        
+
     	$html[] = '</div>';
     	$html[] ='</div>';
-    	
+
     	return implode("\n", $html);
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add_help('admin_importer');

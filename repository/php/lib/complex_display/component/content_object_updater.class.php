@@ -1,6 +1,7 @@
 <?php
 namespace repository;
 
+use common\libraries\Utilities;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
@@ -28,7 +29,7 @@ class ComplexDisplayComponentContentObjectUpdaterComponent extends ComplexDispla
             {
                 $form->update_content_object();
 
-                $message = htmlentities(Translation :: get('ContentObjectUpdated'));
+                $message = htmlentities(Translation :: get('ObjectUpdated', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES));
 
                 $params = array();
                 $params['pid'] = Request :: get('pid');

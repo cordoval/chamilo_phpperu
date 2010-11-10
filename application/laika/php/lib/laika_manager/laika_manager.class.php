@@ -38,7 +38,7 @@ class LaikaManager extends WebApplication
 
     static function publish_content_object($content_object, $location)
     {
-        return Translation :: get('PublicationCreated');
+        return Translation :: get('PublicationCreated', null, Utilities::COMMON_LIBRARIES);
     }
 
     function retrieve_laika_question($id)

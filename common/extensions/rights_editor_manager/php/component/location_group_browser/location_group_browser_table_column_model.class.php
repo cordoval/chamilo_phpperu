@@ -32,8 +32,8 @@ class LocationGroupBrowserTableColumnModel extends DefaultGroupTableColumnModel
         $this->browser = $browser;
         $this->set_default_order_column(1);
         $this->set_columns(array_slice($this->get_columns(), 0, 2));
-        $this->add_column(new StaticTableColumn(Translation :: get('Users')));
-        $this->add_column(new StaticTableColumn(Translation :: get('Subgroups')));
+        $this->add_column(new StaticTableColumn(Translation :: get('Users', null, 'user')));
+        $this->add_column(new StaticTableColumn(Translation :: get('Subgroups', null, 'group')));
         $this->add_rights_columns();
         //		$this->add_column(self :: get_modification_column());
     }

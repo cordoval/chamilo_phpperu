@@ -1,9 +1,8 @@
 <?php
 namespace application\wiki;
 
-use common\libraries\WebApplication;
 use reporting\ReportingTemplate;
-
+use reporting\ReportingTemplateRegistration;
 /**
  * $Id: wiki_page_reporting_template.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.reporting.templates
@@ -11,9 +10,6 @@ use reporting\ReportingTemplate;
 /**
  * @author Michael Kyndt
  */
-
-require_once WebApplication :: get_application_class_path('wiki') . 'reporting/blocks/wiki_page_most_active_users_reporting_block.class.php';
-require_once WebApplication :: get_application_class_path('wiki') . 'reporting/blocks/wiki_page_users_contributions_reporting_block.class.php';
 
 class WikiPageMostReportingTemplate extends ReportingTemplate
 {

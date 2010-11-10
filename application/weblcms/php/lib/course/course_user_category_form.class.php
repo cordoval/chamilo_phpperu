@@ -5,6 +5,7 @@ use common\libraries\FormValidator;
 use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: course_user_category_form.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -50,16 +51,16 @@ class CourseUserCategoryForm extends FormValidator
 
     function build_basic_form()
     {
-        $this->addElement('text', CourseUserCategory :: PROPERTY_TITLE, Translation :: get('Title'), array("maxlength" => 50, "size" => 50));
-        $this->addRule(CourseUserCategory :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addElement('text', CourseUserCategory :: PROPERTY_TITLE, Translation :: get('Title', null ,Utilities:: COMMON_LIBRARIES), array("maxlength" => 50, "size" => 50));
+        $this->addRule(CourseUserCategory :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired', null ,Utilities:: COMMON_LIBRARIES), 'required');
 
         $attributes = array();
         $attributes['search_url'] = Path :: get(WEB_PATH) . 'application/weblcms/php/xml_feeds/xml_course_type_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('SelectRecipients');
-        $locale['Searching'] = Translation :: get('Searching');
-        $locale['NoResults'] = Translation :: get('NoResults');
-        $locale['Error'] = Translation :: get('Error');
+        $locale['Searching'] = Translation :: get('Searching', null ,Utilities:: COMMON_LIBRARIES);
+        $locale['NoResults'] = Translation :: get('NoResults', null ,Utilities:: COMMON_LIBRARIES);
+        $locale['Error'] = Translation :: get('Error', null ,Utilities:: COMMON_LIBRARIES);
         $attributes['locale'] = $locale;
         $attributes['defaults'] = array();
 
@@ -78,8 +79,8 @@ class CourseUserCategoryForm extends FormValidator
 
         $this->addElement('hidden', CourseUserCategory :: PROPERTY_ID);
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null ,Utilities:: COMMON_LIBRARIES), array('class' => 'positive update'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null ,Utilities:: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -88,8 +89,8 @@ class CourseUserCategoryForm extends FormValidator
     {
         $this->build_basic_form();
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null ,Utilities:: COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null ,Utilities:: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

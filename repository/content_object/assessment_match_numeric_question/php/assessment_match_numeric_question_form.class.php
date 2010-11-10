@@ -20,8 +20,8 @@ class AssessmentMatchNumericQuestionForm extends ContentObjectForm
     {
         parent :: build_creation_form();
         $this->addElement('category', Translation :: get('Options'));
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/match_numeric_question.js'));
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/match_question.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/assessment_match_numeric_question/resources/javascript/match_numeric_question.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/match_question/resources/javascript/match_question.js'));
         $this->add_options();
         $this->addElement('category');
     }
@@ -30,8 +30,8 @@ class AssessmentMatchNumericQuestionForm extends ContentObjectForm
     {
         parent :: build_editing_form();
         $this->addElement('category', Translation :: get('Options'));
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/match_numeric_question.js'));
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/match_question.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/assessment_match_numeric_question/resources/javascript/match_numeric_question.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/content_object/match_question/resources/javascript/match_question.js'));
         $this->add_options();
         $this->addElement('category');
     
@@ -151,8 +151,8 @@ class AssessmentMatchNumericQuestionForm extends ContentObjectForm
         $select_options[AssessmentMatchNumericQuestion :: TOLERANCE_TYPE_ABSOLUTE] = Translation :: get(AssessmentMatchNumericQuestion :: TOLERANCE_TYPE_ABSOLUTE);
         $select_options[AssessmentMatchNumericQuestion :: TOLERANCE_TYPE_RELATIVE] = Translation :: get(AssessmentMatchNumericQuestion :: TOLERANCE_TYPE_RELATIVE);
         $select_group = array();
-        $select_group[] = & $this->createElement('select', AssessmentMatchNumericQuestion :: PROPERTY_TOLERANCE_TYPE, Translation :: get('Tolerance type'), $select_options);
-        $this->addGroup($select_group, 'tolerance_type', Translation :: get('Tolerance type'), '', false);
+        $select_group[] = & $this->createElement('select', AssessmentMatchNumericQuestion :: PROPERTY_TOLERANCE_TYPE, Translation :: get('ToleranceType'), $select_options);
+        $this->addGroup($select_group, 'tolerance_type', Translation :: get('ToleranceType'), '', false);
         
         $buttons = array();
         //Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button

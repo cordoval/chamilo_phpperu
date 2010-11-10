@@ -85,7 +85,7 @@ abstract class ContentObjectDisplay
         // TODO: split this into several methods, don't use marker
         $object = $this->get_content_object();
         $html = array();
-        $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/' . $object->get_icon_name() . ($object->is_latest_version() ? '' : '_na') . '.png);">';
+        $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($object->get_type())) . 'logo/' . $object->get_icon_name() . ($object->is_latest_version() ? '' : '_na') . '.png);">';
         $html[] = '<div class="title">' . $object->get_title() . '</div>';
         $html[] = self :: TITLE_MARKER;
         $html[] = '<div class="description" style="overflow: auto;">';
@@ -191,7 +191,7 @@ abstract class ContentObjectDisplay
                 foreach ($attachments as $attachment)
                 {
                     $disp = self :: factory($attachment);
-                    $html[] = '<li><img src="'.Theme :: get_common_image_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(ContentObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
+                    $html[] = '<li><img src="'.Theme :: get_common_image_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get('TypeName', null, ContentObject :: get_content_object_type_namespace($attachment->get_type()))).'"/> '.$disp->get_short_html().'</li>';
                 }
                 $html[] = '</ul>';
                 $html[] = '</div>';
@@ -206,7 +206,7 @@ abstract class ContentObjectDisplay
                 {
                     $url = Path :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=attachment_viewer&' . RepositoryManager :: PARAM_CONTENT_OBJECT_ID . '=' . $attachment->get_id();
                     $url = 'javascript:openPopup(\'' . $url . '\'); return false;';
-                    $html[] = '<li><a href="#" onClick="' . $url . '"><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $attachment->get_type() . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($attachment->get_type()) . 'TypeName')) . '"/> ' . $attachment->get_title() . '</a></li>';
+                    $html[] = '<li><a href="#" onClick="' . $url . '"><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $attachment->get_type() . '.png" alt="' . htmlentities(Translation :: get('TypeName', null, ContentObject :: get_content_object_type_namespace($attachment->get_type()))) . '"/> ' . $attachment->get_title() . '</a></li>';
                 }
                 $html[] = '</ul>';
                 $html[] = '</div>';
@@ -235,20 +235,20 @@ abstract class ContentObjectDisplay
         $html[] = $version_entry['date'] . '&nbsp;';
         if (isset($version_entry['delete_link']))
         {
-            $html[] = '<a href="' . $version_entry['delete_link'] . '" title="' . Translation :: get('Delete') . '" onclick="return confirm(\'' . addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))) . '\');"><img src="' . Theme :: get_common_image_path() . 'action_remove.png" alt="' . htmlentities(Translation :: get('Delete')) . '"/></a>';
+            $html[] = '<a href="' . $version_entry['delete_link'] . '" title="' . Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES) . '" onclick="return confirm(\'' . addslashes(htmlentities(Translation :: get('ConfirmYourChoice', null, Utilities :: COMMON_LIBRARIES))) . '\');"><img src="' . Theme :: get_common_image_path() . 'action_remove.png" alt="' . htmlentities(Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES)) . '"/></a>';
         }
         else
         {
-            $html[] = '<img src="' . Theme :: get_common_image_path() . 'action_remove_na.png" alt="' . htmlentities(Translation :: get('Delete')) . '"/>';
+            $html[] = '<img src="' . Theme :: get_common_image_path() . 'action_remove_na.png" alt="' . htmlentities(Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES)) . '"/>';
         }
 
         if (isset($version_entry['revert_link']))
         {
-            $html[] = '&nbsp;<a href="' . $version_entry['revert_link'] . '" title="' . Translation :: get('Revert') . '" onclick="return confirm(\'' . addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))) . '\');"><img src="' . Theme :: get_common_image_path() . 'action_revert.png" alt="' . htmlentities(Translation :: get('Revert')) . '"/></a>';
+            $html[] = '&nbsp;<a href="' . $version_entry['revert_link'] . '" title="' . Translation :: get('Revert', null, Utilities :: COMMON_LIBRARIES) . '" onclick="return confirm(\'' . addslashes(htmlentities(Translation :: get('ConfirmYourChoice', null, Utilities :: COMMON_LIBRARIES))) . '\');"><img src="' . Theme :: get_common_image_path() . 'action_revert.png" alt="' . htmlentities(Translation :: get('Revert', null, Utilities :: COMMON_LIBRARIES)) . '"/></a>';
         }
         else
         {
-            $html[] = '&nbsp;<img src="' . Theme :: get_common_image_path() . 'action_revert_na.png" alt="' . htmlentities(Translation :: get('Revert')) . '"/>';
+            $html[] = '&nbsp;<img src="' . Theme :: get_common_image_path() . 'action_revert_na.png" alt="' . htmlentities(Translation :: get('Revert', null, Utilities :: COMMON_LIBRARIES)) . '"/>';
         }
 
         //		if (isset($version_entry['comment']) && $version_entry['comment'] != '')

@@ -10,6 +10,7 @@ use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: course_group_editor.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -40,11 +41,11 @@ class CourseGroupToolEditorComponent extends CourseGroupTool
 
             if ($succes)
             {
-                $message = Translation :: get('CourseGroupUpdated');
+                $message = Translation :: get('ObjectUpdated', array('OBJECT' => Translation::get('CourseGroup')),Utilities:: COMMON_LIBRARIES );
             }
             else
             {
-                $message = Translation :: get('CourseGroupNotUpdated') . '<br />' . implode('<br />', $course_group->get_errors());
+                $message = Translation :: get('ObjectNotUpdated', array('OBJECT' => Translation::get('CourseGroup')),Utilities:: COMMON_LIBRARIES ) . '<br />' . implode('<br />', $course_group->get_errors());
             }
 
             $this->redirect($message, ! $succes, array(Tool :: PARAM_ACTION => CourseGroupTool :: ACTION_VIEW_GROUPS, CourseGroupTool :: PARAM_COURSE_GROUP => $course_group->get_parent_id()));

@@ -13,7 +13,7 @@ require_once dirname(__FILE__) . '/help_rights.class.php';
 class HelpItem extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_NAME = 'name';
     const PROPERTY_LANGUAGE = 'language';
     const PROPERTY_URL = 'url';
@@ -83,23 +83,22 @@ class HelpItem extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 
     function create()
     {
         $hdm = $this->get_data_manager();
 
-        if(!$hdm->create_help_item($this))
+        if (! $hdm->create_help_item($this))
         {
             return false;
         }
 
-//        if(!HelpRights :: create_location_in_help_subtree($this->get_name(), $this->get_id(), HelpRights :: get_help_subtree_root_id()))
-//        {
-//            
-//        }
+        //        if(!HelpRights :: create_location_in_help_subtree($this->get_name(), $this->get_id(), HelpRights :: get_help_subtree_root_id()))
+        //        {
+        //
+        //        }
         return true;
     }
 }

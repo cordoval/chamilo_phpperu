@@ -1,8 +1,6 @@
 <?php
 namespace application\weblcms;
 
-use common\libraries;
-
 use common\libraries\Theme;
 use common\libraries\DynamicContentTab;
 use common\libraries\DynamicTabsRenderer;
@@ -84,16 +82,23 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 
             if ($section->get_type() == CourseSection :: TYPE_LINK)
             {
-                $content = $this->show_links($section);
-                $tabs->add_tab(new DynamicContentTab($section->get_id(), $section->get_name(), null, $content));
+                if ($this->get_publication_links()->size() > 0)
+                {
+                    $content = $this->show_links($section);
+                    $tabs->add_tab(new DynamicContentTab($section->get_id(), $section->get_name(), null, $content));
+                }
             }
             else
             {
                 if ($section->get_type() == CourseSection :: TYPE_DISABLED && ($this->course->get_layout() < 3 || ! $this->is_course_admin))
+                {
                     continue;
+                }
 
                 if ($section->get_type() == CourseSection :: TYPE_ADMIN && ! $this->is_course_admin)
+                {
                     continue;
+                }
 
                 $id = ($section->get_type() == CourseSection :: TYPE_DISABLED && $this->course->get_layout() > 2) ? 0 : $section->get_id();
 
@@ -116,8 +121,25 @@ class FixedLocationToolListRenderer extends ToolListRenderer
             echo '<div class="warning-message">' . Translation :: get('NoVisibleCourseSections') . '</div>';
         }
 
-        echo '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/home_ajax.js' . '"></script>';
-        echo '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/course_home.js' . '"></script>';
+        echo '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'libraries/resources/javascript/home_ajax.js' . '"></script>';
+        echo '<script type="text/javascript" src="' . Path :: get(WEB_APP_PATH) . 'weblcms/resources/javascript/course_home.js' . '"></script>';
+    }
+
+    private function get_publication_links()
+    {
+        if (! isset($this->publication_links))
+        {
+            $parent = $this->get_parent();
+
+            $conditions = array();
+            $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $parent->get_course_id());
+            $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE, 1);
+            $condition = new AndCondition($conditions);
+
+            $this->publication_links = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications($condition);
+        }
+
+        return $this->publication_links;
     }
 
     /**
@@ -126,13 +148,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
     private function show_links($section)
     {
         $parent = $this->get_parent();
-
-        $conditions = array();
-        $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $parent->get_course_id());
-        $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE, 1);
-        $condition = new AndCondition($conditions);
-
-        $publications = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications($condition);
+        $publications = $this->get_publication_links();
 
         $table = new HTML_Table('style="width: 100%;"');
         $table->setColCount($this->number_of_columns);
@@ -251,18 +267,18 @@ class FixedLocationToolListRenderer extends ToolListRenderer
                 {
                     $new = '_new';
                 }
-                $tool_image = 'tool_' . $tool->name . $new . '.png';
+                $tool_image = Theme :: ICON_MEDIUM . $new . '.png';
                 $link_class = '';
             }
             else
             {
                 $lcms_action = HomeTool :: ACTION_MAKE_TOOL_VISIBLE;
                 $visible_image = 'action_invisible.png';
-                $tool_image = 'tool_' . $tool->name . '_na.png';
+                $tool_image = Theme :: ICON_MEDIUM . '_na.png';
                 $link_class = ' class="invisible"';
             }
 
-            $title = htmlspecialchars(Translation :: get(Utilities:: underscores_to_camelcase($tool->name) . 'Title'));
+            $title = htmlspecialchars(Translation :: get('ToolTypeName', null, Tool :: get_tool_type_namespace($tool->name)));
             $row = $count / $this->number_of_columns;
             $col = $count % $this->number_of_columns;
             //$html = array();
@@ -288,7 +304,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
                 // Show tool-icon + name
 
 
-                $html[] = '<img class="tool_image"' . $id . ' src="' . Theme :: get_image_path() . $tool_image . '" style="vertical-align: middle;" alt="' . $title . '"/>';
+                $html[] = '<img class="tool_image"' . $id . ' src="' . Theme :: get_image_path(Tool :: get_tool_type_namespace($tool->name)) . 'logo/' . $tool_image . '" style="vertical-align: middle;" alt="' . $title . '"/>';
                 $html[] = '&nbsp;';
                 $html[] = '<a id="tool_text" href="' . $parent->get_url(array(WeblcmsManager :: PARAM_COMPONENT_ACTION => null, WeblcmsManager :: PARAM_TOOL => $tool->name, 'tool_action' => null, Tool :: PARAM_BROWSER_TYPE => null), array(), true) . '" ' . $link_class . '>';
                 $html[] = $title;

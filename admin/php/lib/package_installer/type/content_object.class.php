@@ -1,7 +1,10 @@
 <?php
 namespace admin;
+use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Translation;
+use repository\RepositoryDataManager;
+use common\libraries\Filesystem;
 require_once Path :: get_admin_path() . 'lib/package_installer/package_installer_type.class.php';
 
 /**
@@ -18,17 +21,17 @@ class PackageInstallerContentObjectType extends PackageInstallerType
         $attributes = $source->get_attributes();
         $object_name = $attributes->get_code();
         $object_path = Path :: get_repository_content_object_path() . $object_name;
-        
+
         if ($this->verify_dependencies())
         {
             $this->get_parent()->installation_successful('dependencies', Translation :: get('ContentObjectDependenciesVerified'));
-            
+
             /**********************************************
              * Do the actual install of the objects here. *
              **********************************************/
             $rdm = RepositoryDataManager :: get_instance();
             $object_files = Filesystem :: get_directory_content($object_path, Filesystem :: LIST_FILES, false);
-            
+
             foreach ($object_files as $file)
             {
                 if ((substr($file, - 3) == 'xml'))
@@ -45,26 +48,26 @@ class PackageInstallerContentObjectType extends PackageInstallerType
                     }
                 }
             }
-            
+
             if (! $this->add_registration())
             {
-                $this->get_parent()->add_message(Translation :: get('ContentObjectRegistrationNotAdded'), PackageInstaller :: TYPE_WARNING);
+                $this->get_parent()->add_message(Translation :: get('ObjectNotAdded', array('OBJECT' => Translation :: get('ContentObjectRegistration')), Utilities :: COMMON_LIBRARIES), PackageInstaller :: TYPE_WARNING);
             }
             else
             {
-                $this->get_parent()->add_message(Translation :: get('ContentObjectRegistrationAdded'));
+                $this->get_parent()->add_message(Translation :: get('ObjectAdded', array('OBJECT' => Translation :: get('ContentObjectRegistration')), Utilities :: COMMON_LIBRARIES));
             }
         }
         else
         {
             return $this->get_parent()->installation_failed('dependencies', Translation :: get('PackageDependenciesFailed'));
         }
-        
+
         $source->cleanup();
-        
+
         return true;
     }
-    
+
 	static function get_path($content_object_name)
     {
     	return Path :: get_repository_content_object_path() . $content_object_name . '/';
@@ -75,13 +78,13 @@ class PackageInstallerContentObjectType extends PackageInstallerType
         $source = $this->get_source();
         $attributes = $source->get_attributes();
         $object_name = $attributes->get_code();
-        
+
         $registration = new Registration();
         $registration->set_type(Registration :: TYPE_CONTENT_OBJECT);
         $registration->set_name($attributes->get_code());
         $registration->set_status(1);
         $registration->set_version($attributes->get_version());
-        
+
         return $registration->create();
     }
 
@@ -89,10 +92,10 @@ class PackageInstallerContentObjectType extends PackageInstallerType
     {
         $rdm = RepositoryDataManager :: get_instance();
         $storage_unit_info = self :: parse_xml_file($path);
-        $this->get_parent()->add_message(Translation :: get('StorageUnitCreation') . ': <em>' . $storage_unit_info['name'] . '</em>');
+        $this->get_parent()->add_message(Translation :: get('StorageUnitCreation', array(), Utilities :: COMMON_LIBRARIES) . ': <em>' . $storage_unit_info['name'] . '</em>');
         if (! $rdm->create_storage_unit($storage_unit_info['name'], $storage_unit_info['properties'], $storage_unit_info['indexes']))
         {
-            return $this->get_parent()->installation_failed(Translation :: get('StorageUnitCreationFailed') . ': <em>' . $storage_unit_info['name'] . '</em>');
+            return $this->get_parent()->installation_failed(Translation :: get('StorageUnitCreationFailed', array(), Utilities :: COMMON_LIBRARIES) . ': <em>' . $storage_unit_info['name'] . '</em>');
         }
         else
         {
@@ -146,7 +149,7 @@ class PackageInstallerContentObjectType extends PackageInstallerType
         $result['name'] = $name;
         $result['properties'] = $properties;
         $result['indexes'] = $indexes;
-        
+
         return $result;
     }
 }

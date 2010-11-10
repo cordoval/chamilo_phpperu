@@ -4,6 +4,7 @@ namespace application\personal_messenger;
 
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Application;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
@@ -41,34 +42,34 @@ class PersonalMessengerManagerDeleterComponent extends PersonalMessengerManager
                 }
             }
             
-            if ($failures)
+     	    if ($failures)
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedPublicationNotDeleted';
+                    $message = Translation :: get('ObjectNotDeleted',array('OBJECT' => Translation :: get('PersonalMessengerPublication')), Utilities :: COMMON_LIBRARIES);
                 }
                 else
                 {
-                    $message = 'SelectedPublicationsNotDeleted';
+                    $message = Translation :: get('ObjectsNotDeleted',array('OBJECT' => Translation :: get('PersonalMessengerPublications')), Utilities :: COMMON_LIBRARIES);
                 }
             }
             else
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedPublicationDeleted';
+                    $message = Translation :: get('ObjectDeleted',array('OBJECT' => Translation :: get('PersonalMessengerPublication')), Utilities :: COMMON_LIBRARIES);
                 }
                 else
                 {
-                    $message = 'SelectedPublicationsDeleted';
+                    $message = Translation :: get('ObjectsDeleted',array('OBJECT' => Translation :: get('PersonalMessengerPublications')), Utilities :: COMMON_LIBRARIES);
                 }
             }
-            
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => PersonalMessengerManager :: ACTION_BROWSE_MESSAGES));
+                  
+            $this->redirect($message, ($failures ? true : false), array(Application :: PARAM_ACTION => PersonalMessengerManager :: ACTION_BROWSE_MESSAGES));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoPublicationSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', null , Utilities :: COMMON_LIBRARIES)));
         }
     }
     

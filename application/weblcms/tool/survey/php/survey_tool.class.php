@@ -10,7 +10,7 @@ use application\weblcms\Tool;
  * $Id: survey_tool.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.assessment
  */
-require_once Path :: get_application_path() . 'lib/weblcms/tool/tool.class.php';
+require_once Path :: get_application_path() . 'weblcms/php/lib/tool/tool.class.php';
 /**
  * This tool allows a user to publish assessments in his or her course.
  */

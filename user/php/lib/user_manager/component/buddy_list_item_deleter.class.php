@@ -2,7 +2,7 @@
 namespace user;
 
 use common\libraries\Request;
-
+use common\libraries\Utilities;
 /**
  * $Id: buddy_list_item_deleter.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager.component
@@ -42,29 +42,29 @@ class UserManagerBuddyListItemDeleterComponent extends UserManager
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'BuddyListItemsDeleted';
+                    $message = 'ObjectsDeleted';
                 }
                 else
                 {
-                    $message = 'BuddyListItemDeleted';
+                    $message = 'ObjectDeleted';
                 }
             }
             else
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'BuddyListItemsNotDeleted';
+                    $message = 'ObjectsNotDeleted';
                 }
                 else
                 {
-                    $message = 'BuddyListItemNotDeleted';
+                    $message = 'ObjectNotDeleted';
                 }
                 echo $message;
             }
 
             $ajax = Request :: get('ajax');
             if (! $ajax)
-                $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => UserManager :: ACTION_VIEW_BUDDYLIST));
+                $this->redirect(Translation :: get($message, array('OBJECT' => Translation :: get('BuddyListItem')), Utilities :: COMMON_LIBRARIES), ($failures ? true : false), array(Application :: PARAM_ACTION => UserManager :: ACTION_VIEW_BUDDYLIST));
         }
         else
         {

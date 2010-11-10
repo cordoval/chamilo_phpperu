@@ -10,13 +10,11 @@ use common\libraries\ToolbarItem;
 use repository\ContentObject;
 use repository\content_object\wiki\WikiDisplay;
 
-use application\gradebook;
+use application\gradebook\EvaluationManager;
 /**
  * $Id: wiki_publication_browser_table_cell_renderer.class.php 210 2009-11-13 13:18:50Z kariboe $
  * @package application.lib.wiki.wiki_manager.component.wiki_publication_browser
  */
-require_once WebApplication :: get_application_class_lib_path('wiki') . 'wiki_manager/component/wiki_publication_browser/wiki_publication_browser_table_column_model.class.php';
-require_once WebApplication :: get_application_class_lib_path('wiki') . 'tables/wiki_publication_table/default_wiki_publication_table_cell_renderer.class.php';
 
 /**
  * Cell rendere for the learning object browser table
@@ -72,14 +70,14 @@ class WikiPublicationBrowserTableCellRenderer extends DefaultWikiPublicationTabl
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
         $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Edit'),
+        		Translation :: get('Edit', null , Utilities :: COMMON_LIBRARIES),
         		Theme :: get_common_image_path() . 'action_edit.png',
         		$this->browser->get_update_wiki_publication_url($wiki_publication),
         		ToolbarItem :: DISPLAY_ICON
         ));
         
         $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Delete'),
+        		Translation :: get('Delete', null , Utilities :: COMMON_LIBRARIES),
         		Theme :: get_common_image_path() . 'action_delete.png',
         		$this->browser->get_delete_wiki_publication_url($wiki_publication),
         		ToolbarItem :: DISPLAY_ICON,
@@ -88,11 +86,10 @@ class WikiPublicationBrowserTableCellRenderer extends DefaultWikiPublicationTabl
         
         if(WebApplication :: is_active('gradebook'))
         {
-        	require_once dirname (__FILE__) . '/../../../../gradebook/evaluation_manager/evaluation_manager.class.php';
         	if(EvaluationManager :: retrieve_internal_item_by_publication(WikiManager :: APPLICATION_NAME, $wiki_publication->get_id()))
         	{
         		$toolbar->add_item(new ToolbarItem(
-		        		Translation :: get('Evaluation'),
+		        		Translation :: get('Evaluation', null , 'application/gradebook'),
 		        		Theme :: get_common_image_path() . 'action_evaluation.png',
 		        		$this->browser->get_evaluation_publication_url($wiki_publication),
 		        		ToolbarItem :: DISPLAY_ICON

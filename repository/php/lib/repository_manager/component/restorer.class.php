@@ -7,6 +7,7 @@ use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\EqualityCondition;
 use common\libraries\Application;
+use common\libraries\Utilities;
 /**
  * $Id: restorer.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component
@@ -66,30 +67,30 @@ class RepositoryManagerRestorerComponent extends RepositoryManager
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedObjectNotRestored';
+                    $message = Translation :: get('ObjectNotRestored', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES);
                 }
                 else
                 {
-                    $message = 'NotAllSelectedObjectsRestored';
+                    $message = Translation :: get('ObjectsRestored', array('OBJECTS' => Translation :: get('ContentObjects')), Utilities :: COMMON_LIBRARIES);
                 }
             }
             else
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedObjectRestored';
+                    $message = Translation :: get('ObjectRestored', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES);
                 }
                 else
                 {
-                    $message = 'AllSelectedObjectsRestored';
+                    $message = Translation :: get('ObjectsRestored', array('OBJECTS' => Translation :: get('ContentObjects')), Utilities :: COMMON_LIBRARIES);
                 }
             }
 
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_RECYCLED_CONTENT_OBJECTS));
+            $this->redirect($message, ($failures ? true : false), array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_RECYCLED_CONTENT_OBJECTS));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES)));
         }
     }
 

@@ -10,6 +10,7 @@ use common\libraries\EqualityCondition;
 use common\libraries\Application;
 use common\libraries\NotCondition;
 use common\libraries\AndCondition;
+use common\libraries\Utilities;
 /**
  * $Id: mover.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component
@@ -45,7 +46,7 @@ class RepositoryManagerMoverComponent extends RepositoryManager
             $this->get_categories_for_select(0, $parent);
             $form = new FormValidator('move', 'post', $this->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $ids)));
             $form->addElement('select', RepositoryManager :: PARAM_DESTINATION_CONTENT_OBJECT_ID, Translation :: get('NewCategory'), $this->tree);
-            $form->addElement('submit', 'submit', Translation :: get('Move'));
+            $form->addElement('submit', 'submit', Translation :: get('Move', null, Utilities :: COMMON_LIBRARIES));
             if ($form->validate())
             {
                 $destination = $form->exportValue(RepositoryManager :: PARAM_DESTINATION_CONTENT_OBJECT_ID);
@@ -82,42 +83,32 @@ class RepositoryManagerMoverComponent extends RepositoryManager
                 {
                     if (count($ids) == 1)
                     {
-                        $message = 'SelectedObjectNotMoved';
+                        $message = Translation :: get('ObjectNotMoved', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES);
                     }
                     else
                     {
-                        $message = 'NotAllSelectedObjectsMoved';
+                        $message = Translation :: get('ObjectsNotMoved', array('OBJECTS' => Translation :: get('ContentObjects')), Utilities :: COMMON_LIBRARIES);
                     }
                 }
                 else
                 {
                     if (count($ids) == 1)
                     {
-                        $message = 'SelectedObjectMoved';
+                        $message = Translation :: get('ObjectMoved', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES);
                     }
                     else
                     {
-                        $message = 'AllSelectedObjectsMoved';
+                        $message = Translation :: get('ObjectsMoved', array('OBJECTS' => Translation :: get('ContentObjects')), Utilities :: COMMON_LIBRARIES);
                     }
                 }
 
                 $parameters = array();
                 $parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS;
                 $parameters[RepositoryManager :: PARAM_CATEGORY_ID] = $object->get_parent_id();
-                $this->redirect(Translation :: get($message), ($failures ? true : false), $parameters);
+                $this->redirect($message, ($failures ? true : false), $parameters);
             }
             else
             {
-                //$renderer = clone $form->defaultRenderer();
-                //$renderer->setElementTemplate('{label} {element} ');
-                //$form->accept($renderer);
-
-                /*if (count($ids) == 1)
-                    $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $ids[0])), $this->retrieve_content_object($ids[0])->get_title()));
-                else
-                    $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS), Translation :: get('Objects'))));
-
-                $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Move')));*/
                 $this->display_header(null, false, true);
                 echo $form->toHTML();
                 $this->display_footer();
@@ -125,7 +116,7 @@ class RepositoryManagerMoverComponent extends RepositoryManager
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES)));
         }
     }
     /**
@@ -157,7 +148,7 @@ class RepositoryManagerMoverComponent extends RepositoryManager
 
         	if($current_parent == $cat->get_id())
         	{
-        		$this->tree[$cat->get_id()] .= ' (' . Translation :: get('Current') . ')';
+        		$this->tree[$cat->get_id()] .= ' (' . Translation :: get('Current', null, Utilities :: COMMON_LIBRARIES) . ')';
         	}
 
             $this->level ++;

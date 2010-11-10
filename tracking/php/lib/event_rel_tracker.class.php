@@ -14,7 +14,6 @@ use common\libraries\DataClass;
  * @author Sven Vanpoucke
  */
 
-
 class EventRelTracker extends DataClass
 {
     const CLASS_NAME = __CLASS__;
@@ -108,8 +107,7 @@ class EventRelTracker extends DataClass
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 }
 

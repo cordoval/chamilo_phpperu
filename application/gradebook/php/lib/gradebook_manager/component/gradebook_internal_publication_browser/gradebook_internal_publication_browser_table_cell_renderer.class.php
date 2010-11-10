@@ -51,7 +51,7 @@ class GradebookInternalPublicationBrowserTableCellRenderer extends DefaultGradeb
         switch ($column->get_name())
         {
             case ContentObject :: PROPERTY_CREATION_DATE :
-                return DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $content_object->get_creation_date());
+                return DatetimeUtilities :: format_locale_date(Translation :: get('DateFormatShort', null, Utilities :: COMMON_LIBRARIES) . ', ' . Translation :: get('TimeNoSecFormat', null, Utilities :: COMMON_LIBRARIES), $content_object->get_creation_date());
                 break;
         }
 
@@ -67,7 +67,7 @@ class GradebookInternalPublicationBrowserTableCellRenderer extends DefaultGradeb
     private function get_modification_links($content_object)
     {
         $toolbar = new Toolbar();
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Browser'), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_internal_evaluations_on_publications_viewer_url($content_object), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Browser', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_internal_evaluations_on_publications_viewer_url($content_object), ToolbarItem :: DISPLAY_ICON));
 
         return $toolbar->as_html();
     }

@@ -10,6 +10,7 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\Text;
 use common\libraries\Hashing;
 use common\libraries\Mail;
+use common\libraries\Utilities;
 
 /**
  * $Id: deleter.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
@@ -31,7 +32,7 @@ class UserManagerMultiPasswordResetterComponent extends UserManager implements A
             $trail = BreadcrumbTrail :: get_instance();
             $trail->add_help('user general');
             $this->display_header();
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get("NotAllowed", null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
@@ -58,7 +59,7 @@ class UserManagerMultiPasswordResetterComponent extends UserManager implements A
                     $mail_body[] = $user->get_fullname() . ',';
                     $mail_body[] = Translation :: get('YourAccountParam') . ' ' . $this->get_path(WEB_PATH);
                     $mail_body[] = Translation :: get('UserName') . ' :' . $user->get_username();
-                    $mail_body[] = Translation :: get('Pass') . ' :' . $password;
+                    $mail_body[] = Translation :: get('Password') . ' :' . $password;
                     $mail_body = implode("\n", $mail_body);
                     $mail = Mail :: factory($mail_subject, $mail_body, $user->get_email());
                     $mail->send();
@@ -78,7 +79,7 @@ class UserManagerMultiPasswordResetterComponent extends UserManager implements A
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('User')), Utilities :: COMMON_LIBRARIES)));
         }
     }
 

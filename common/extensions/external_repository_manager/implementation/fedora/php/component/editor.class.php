@@ -51,11 +51,11 @@ class FedoraExternalRepositoryManagerEditorComponent extends FedoraExternalRepos
             if ($sucess)
             {
                 $error_message = '';
-                $info_message = Translation :: get('ObjectUpdated');
+                $info_message = Translation :: get('ObjectUpdated', null, Utilities::COMMON_LIBRARIES);
             }
             else
             {
-                $error_message = Translation :: get('ObjectNotUpdated');
+                $error_message = Translation :: get('ObjectNotUpdated', null, Utilities::COMMON_LIBRARIES);
                 $info_message = '';
             }
 

@@ -50,7 +50,7 @@ class ComplexBrowserTable extends ObjectTable
         //            $action = ComplexBuilder :: PARAM_DELETE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM . '_' . $name;
 
 
-        $actions->add_form_action(new ObjectTableFormAction($action, Translation :: get('RemoveSelected')));
+        $actions->add_form_action(new ObjectTableFormAction($action, Translation :: get('RemoveSelected', null, Utilities :: COMMON_LIBRARIES)));
 
         if ($browser instanceof ComplexMenuSupport)
         {
@@ -59,7 +59,7 @@ class ComplexBrowserTable extends ObjectTable
             //                $action = ComplexBuilder :: PARAM_MOVE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM . '_' . $name;
 
 
-            $actions->add_form_action(new ObjectTableFormAction($action, Translation :: get('MoveSelected'), false));
+            $actions->add_form_action(new ObjectTableFormAction($action, Translation :: get('MoveSelected', null, Utilities :: COMMON_LIBRARIES), false));
         }
 
         $this->set_form_actions($actions);

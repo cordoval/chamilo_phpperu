@@ -1,6 +1,7 @@
 <?php
 namespace common\extensions\feedback_manager;
 
+use repository\ContentObject;
 use repository\ContentObjectDisplay;
 use common\libraries\DatetimeUtilities;
 use repository\RepositoryDataManager;
@@ -12,6 +13,7 @@ use common\libraries\Translation;
 use common\libraries\Utilities;
 use user\UserManager;
 use common\libraries\BbcodeParser;
+
 /**
  * $Id: browser.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.feedback_manager.component
@@ -56,7 +58,7 @@ class FeedbackManagerBrowserComponent extends FeedbackManager
         if ($form->validate())
         {
             $success = $form->create_feedback($this->get_user()->get_id(), $publication_id, $complex_wrapper_id, $application);
-            $this->redirect($success ? "" : Translation :: get('FeedbackNotCreated'), $success ? null : true, array());
+            $this->redirect($success ? "" : Translation :: get('ObjectNotCreated', array('OBJECT' => Translation :: get('Feedback')), Utilities :: COMMON_LIBRARIES), $success ? null : true, array());
 
         }
         else
@@ -104,7 +106,7 @@ class FeedbackManagerBrowserComponent extends FeedbackManager
         $id = $feedback->get_fid();
         $feedback_object = RepositoryDataManager :: get_instance()->retrieve_content_object($id);
         $html = array();
-        $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/' . $feedback_object->get_icon_name() . ($feedback_object->is_latest_version() ? '' : '_na') . '.png);">';
+        $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($feedback_object->get_type())) . 'logo/' . $feedback_object->get_icon_name() . ($feedback_object->is_latest_version() ? '' : '_na') . '.png);">';
         $html[] = '<div class="title">' . Utilities :: htmlentities($feedback_object->get_title());
         $html[] = '<span class="publication_info">';
         $html[] = $this->render_publication_information($feedback_object);
@@ -138,7 +140,7 @@ class FeedbackManagerBrowserComponent extends FeedbackManager
     function render_delete_action($feedback)
     {
         $delete_url = $this->get_url(array(FeedbackManager :: PARAM_ACTION => FeedbackManager :: ACTION_DELETE_FEEDBACK,  FeedbackManager :: PARAM_FEEDBACK_ID => $feedback->get_id()));
-        $delete_link = '<a href="' . $delete_url . '" onclick="return confirm(\'' . addslashes(Translation :: get('ConfirmYourChoice')) . '\');"><img src="' . Theme :: get_common_image_path() . 'action_delete.png"  alt=""/></a>';
+        $delete_link = '<a href="' . $delete_url . '" onclick="return confirm(\'' . addslashes(Translation :: get('Confirm', null, Utilities :: COMMON_LIBRARIES)) . '\');"><img src="' . Theme :: get_common_image_path() . 'action_delete.png"  alt=""/></a>';
         return $delete_link;
     }
 
@@ -152,7 +154,7 @@ class FeedbackManagerBrowserComponent extends FeedbackManager
     function render_create_action()
     {
         $create_url = $this->get_url(array(FeedbackManager :: PARAM_ACTION => FeedbackManager :: ACTION_CREATE_FEEDBACK));
-        $item = new ToolbarItem(Translation :: get('CreateFeedback'), Theme :: get_common_image_path() . 'action_create.png', $create_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL);
+        $item = new ToolbarItem(Translation :: get('Create', array('OBJECT' => Translation :: get('Feedback')), Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_create.png', $create_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL);
         $this->get_parent()->add_actionbar_item($item);
     }
 
@@ -169,7 +171,7 @@ class FeedbackManagerBrowserComponent extends FeedbackManager
 
     function format_date($date)
     {
-        $date_format = Translation :: get('dateTimeFormatLong');
+        $date_format = Translation :: get('dateTimeFormatLong', null, Utilities :: COMMON_LIBRARIES);
         return DatetimeUtilities :: format_locale_date($date_format, $date);
     }
 

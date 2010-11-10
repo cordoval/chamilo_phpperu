@@ -1,7 +1,6 @@
 <?php
 namespace application\wiki;
 
-use common\libraries\WebApplication;
 use common\libraries\Breadcrumb;
 use common\libraries\Utilities;
 use common\libraries\Translation;
@@ -13,8 +12,6 @@ use repository\content_object\wiki\Wiki;
  * $Id: wiki_publication_creator.class.php 210 2009-11-13 13:18:50Z kariboe $
  * @package application.lib.wiki.wiki_manager.component
  */
-//require_once WebApplication :: get_application_class_lib_path('weblcms') .'content_object_repo_viewer.class.php';
-
 
 /**
  * Component to create a new wiki_publication object

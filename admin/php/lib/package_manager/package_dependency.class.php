@@ -74,22 +74,22 @@ abstract class PackageDependency
         switch ($operator)
         {
             case self :: COMPARE_EQUAL :
-                return Translation :: get('Equal');
+                return Translation :: get('Equal', array(), Utilities :: COMMON_LIBRARIES);
                 break;
             case self :: COMPARE_NOT_EQUAL :
-                return Translation :: get('NotEqual');
+                return Translation :: get('NotEqual', array(), Utilities :: COMMON_LIBRARIES);
                 break;
             case self :: COMPARE_GREATER_THEN :
-                return Translation :: get('Greater');
+                return Translation :: get('Greater', array(), Utilities :: COMMON_LIBRARIES);
                 break;
             case self :: COMPARE_GREATER_THEN_OR_EQUAL :
-                return Translation :: get('GreaterThenOrEqual');
+                return Translation :: get('GreaterThenOrEqual', array(), Utilities :: COMMON_LIBRARIES);
                 break;
             case self :: COMPARE_LESS_THEN :
-                return Translation :: get('LessThen');
+                return Translation :: get('LessThen', array(), Utilities :: COMMON_LIBRARIES);
                 break;
             case self :: COMPARE_LESS_THEN_OR_EQUAL :
-                return Translation :: get('LessThenOrEqual');
+                return Translation :: get('LessThenOrEqual', array(), Utilities :: COMMON_LIBRARIES);
                 break;
         }
     }

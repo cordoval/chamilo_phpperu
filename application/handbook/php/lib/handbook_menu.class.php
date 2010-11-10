@@ -87,18 +87,27 @@ class HandbookMenu extends HTML_Menu
         
         $menu = array();
         
-        $handbooks = array();
+//        $handbooks = array();
+
+        $hdm = HandbookDataManager :: get_instance();
+        $rdm = RepositoryDataManager :: get_instance();
+        $handbook = $rdm->retrieve_content_object($this->handbook_id);
+        $pub['title'] = $handbook->get_title();
+        $pub['url'] = $this->get_publication_url($this->handbook_id);
+        $pub['class'] = 'handbook';
+        $pub['sub'] = $this->get_handbook_items($this->handbook_id, $this->handbook_id);
+        $menu[] = $pub;
         
-        $udm = UserDataManager :: get_instance();
-        $handbooks['title'] = 'handbook';
-        $handbooks['url'] = $this->get_root_url();
-        $handbooks['class'] = 'home';
-        $subs = $this->get_publications();
+//        $udm = UserDataManager :: get_instance();
+//        $handbooks['title'] = 'handbook';
+//        $handbooks['url'] = $this->get_root_url();
+//        $handbooks['class'] = 'home';
+//        $subs = $this->get_publications();
         
-        if (count($subs) > 0)
-            $handbooks['sub'] = $subs;
+//        if (count($subs) > 0)
+//            $handbooks['sub'] = $subs;
         
-        $menu[] = $handbooks;
+//        $menu[] = $handbooks;
         
         return $menu;
     }
@@ -165,8 +174,8 @@ class HandbookMenu extends HTML_Menu
 
             
             $item['url'] = $this->get_sub_item_url($handbook_id, $child->get_ref());
-//           $item['class'] = $lo->get_type();
-            $item['class'] = 'test';
+           $item['class'] = $lo->get_type();
+//            $item['class'] = 'test';
             $menu[] = $item;
         }
         
@@ -202,8 +211,8 @@ class HandbookMenu extends HTML_Menu
         $breadcrumbs = $this->array_renderer->toArray();
         foreach ($breadcrumbs as $crumb)
         {
-            if ($crumb['title'] == Translation :: get('MyHandbook'))
-                continue;
+//            if ($crumb['title'] == Translation :: get('MyHandbook'))
+//                continue;
             $trail->add(new Breadcrumb($crumb['url'], $crumb['title']));
         }
         return $trail;

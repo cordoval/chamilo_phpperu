@@ -1,9 +1,10 @@
 <?php
+namespace repository;
+
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/content_object_user_share_rights_browser_table_data_provider.class.php';
-
 require_once dirname(__FILE__) . '/content_object_user_share_rights_browser_table_cell_renderer.class.php';
-
 require_once dirname(__FILE__) . '/content_object_user_share_rights_browser_table_column_model.class.php';
 
 /**
@@ -21,7 +22,7 @@ class ContentObjectUserShareRightsBrowserTable extends ObjectTable
         ObjectTable :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
 
         $table_form_actions = new ObjectTableFormActions();
-        $table_form_actions->add_form_action(new ObjectTableFormAction(RepositoryManager :: ACTION_CONTENT_OBJECT_SHARE_DELETER, Translation :: get('delete'), true));
+        $table_form_actions->add_form_action(new ObjectTableFormAction(RepositoryManager :: ACTION_CONTENT_OBJECT_SHARE_DELETER, Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES), true));
 
         $this->set_form_actions($table_form_actions);
         $this->set_additional_parameters($parameters);

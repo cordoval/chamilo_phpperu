@@ -10,7 +10,6 @@ use common\libraries\DataClass;
  * @author Michael Kyndt
  */
 
-
 class ReportingTemplateRegistration extends DataClass
 {
     const CLASS_NAME = __CLASS__;
@@ -18,6 +17,9 @@ class ReportingTemplateRegistration extends DataClass
     const PROPERTY_APPLICATION = 'application';
     const PROPERTY_TEMPLATE = 'template';
     const PROPERTY_PLATFORM = 'platform';
+   
+    const PROPERTY_TITLE = 'title';
+    const PROPERTY_DESCRIPTION = 'description';
 
     /**
      * Get the default properties
@@ -25,7 +27,7 @@ class ReportingTemplateRegistration extends DataClass
      */
     static function get_default_property_names()
     {
-    	return parent :: get_default_property_names(array(self :: PROPERTY_APPLICATION, self :: PROPERTY_TEMPLATE, self :: PROPERTY_PLATFORM));
+        return parent :: get_default_property_names(array(self :: PROPERTY_APPLICATION, self :: PROPERTY_TEMPLATE, self :: PROPERTY_PLATFORM));
     }
 
     /**
@@ -60,7 +62,7 @@ class ReportingTemplateRegistration extends DataClass
 
     public function get_template()
     {
-    	return $this->get_default_property(self :: PROPERTY_TEMPLATE);
+        return $this->get_default_property(self :: PROPERTY_TEMPLATE);
     }
 
     public function set_template($value)
@@ -77,11 +79,30 @@ class ReportingTemplateRegistration extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_PLATFORM, $value);
     }
+    
+ 	public function get_title()
+    {
+        return $this->get_default_property(self :: PROPERTY_TITLE);
+    }
+
+    public function set_title($value)
+    {
+        $this->set_default_property(self :: PROPERTY_TITLE, $value);
+    }
+    
+ 	public function get_description()
+    {
+        return $this->get_default_property(self :: PROPERTY_DESCRIPTION);
+    }
+
+    public function set_description($value)
+    {
+        $this->set_default_property(self :: PROPERTY_DESCRIPTION, $value);
+    }
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 } //class ReportingTemplateRegistration
 ?>

@@ -1,5 +1,6 @@
 <?php
 namespace repository;
+
 use common\libraries;
 
 use common\libraries\DataClass;
@@ -210,7 +211,7 @@ class ContentObject extends DataClass
     function get_owner_fullname()
     {
         $owner = UserDataManager :: get_instance()->retrieve_user($this->get_owner_id());
-        if(!$owner)
+        if (! $owner)
         {
             return Translation :: get('OwnerUnknown');
         }
@@ -832,18 +833,18 @@ class ContentObject extends DataClass
         $this->set_parent_id($new_parent_id);
         $dm = RepositoryDataManager :: get_instance();
         $succes = $dm->update_content_object($this);
-        if(!$succes)
+        if (! $succes)
         {
-        	return false;
+            return false;
         }
 
-        if($new_parent_id == 0)
+        if ($new_parent_id == 0)
         {
-        	$new_parent = RepositoryRights :: get_user_root_id();
+            $new_parent = RepositoryRights :: get_user_root_id();
         }
         else
         {
-        	$new_parent = RepositoryRights :: get_location_id_by_identifier_from_user_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $new_parent_id, $this->get_owner_id());
+            $new_parent = RepositoryRights :: get_location_id_by_identifier_from_user_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $new_parent_id, $this->get_owner_id());
         }
 
         $location = RepositoryRights :: get_location_by_identifier_from_users_subtree(RepositoryRights :: TYPE_USER_CONTENT_OBJECT, $this->get_id(), $this->get_owner_id());
@@ -902,15 +903,15 @@ class ContentObject extends DataClass
      */
     function delete()
     {
-		$location = RepositoryRights :: get_location_by_identifier_from_users_subtree(RepositoryRights :: TYPE_USER_CONTENT_OBJECT, $this->get_id(), $this->get_owner_id());
-		if($location)
-		{
-			if(!$location->remove())
-			{
-				return false;
-			}
-		}
-    	return RepositoryDataManager :: get_instance()->delete_content_object($this);
+        $location = RepositoryRights :: get_location_by_identifier_from_users_subtree(RepositoryRights :: TYPE_USER_CONTENT_OBJECT, $this->get_id(), $this->get_owner_id());
+        if ($location)
+        {
+            if (! $location->remove())
+            {
+                return false;
+            }
+        }
+        return RepositoryDataManager :: get_instance()->delete_content_object($this);
     }
 
     function delete_version()
@@ -1031,15 +1032,15 @@ class ContentObject extends DataClass
     /**
      * Gets the name of the icon corresponding to this learning object.
      */
-    function get_icon_name()
+    function get_icon_name($size = Theme :: ICON_SMALL)
     {
-        return $this->get_type();
+        return $size;
     }
 
-    function get_icon_image()
+    function get_icon_image($size = Theme :: ICON_SMALL)
     {
-        $src = Theme :: get_common_image_path() . 'content_object/' . $this->get_icon_name() . '.png';
-        return '<img src="' . $src . '" alt="' . $this->get_icon_name() . '" />';
+        $src = Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($this->get_type())) . 'logo/' . $this->get_icon_name($size) . '.png';
+        return '<img src="' . $src . '" alt="' . $this->get_type() . '" />';
     }
 
     /**
@@ -1062,7 +1063,9 @@ class ContentObject extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_OWNER_ID, self :: PROPERTY_TYPE, self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CREATION_DATE, self :: PROPERTY_MODIFICATION_DATE, self :: PROPERTY_OBJECT_NUMBER, self :: PROPERTY_STATE, self :: PROPERTY_COMMENT, self :: PROPERTY_CONTENT_HASH));
+        return parent :: get_default_property_names(array(
+                self :: PROPERTY_OWNER_ID, self :: PROPERTY_TYPE, self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CREATION_DATE, self :: PROPERTY_MODIFICATION_DATE,
+                self :: PROPERTY_OBJECT_NUMBER, self :: PROPERTY_STATE, self :: PROPERTY_COMMENT, self :: PROPERTY_CONTENT_HASH));
     }
 
     static function get_additional_property_names()
@@ -1115,7 +1118,7 @@ class ContentObject extends DataClass
      */
     static function class_to_type($class)
     {
-        return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace($class));
+        return Utilities :: get_classname_from_namespace($class, true);
     }
 
     /**
@@ -1135,12 +1138,12 @@ class ContentObject extends DataClass
      */
     static function factory($type, $defaultProperties = array(), $additionalProperties = array())
     {
-    	if (! AdminDataManager :: is_registered($type, 'content_object'))
+        if (! AdminDataManager :: is_registered($type, 'content_object'))
         {
-        	return null; //problem with the here is the prepository
+            return null; //problem with the here is the prepository
         }
-
         $class = self :: type_to_class($type);
+
         return new $class($defaultProperties, $additionalProperties);
     }
 
@@ -1217,7 +1220,6 @@ class ContentObject extends DataClass
             $sync_condition = new AndCondition($sync_conditions);
 
             $this->synchronization_data = RepositoryDataManager :: get_instance()->retrieve_external_repository_syncs($sync_condition)->next_result();
-
         }
 
         return $this->synchronization_data;
@@ -1227,12 +1229,25 @@ class ContentObject extends DataClass
     {
         $is_external = $this->get_synchronization_data();
 
-    	return isset($is_external);
+        return isset($is_external);
     }
 
     static function get_content_object_type_namespace($type)
     {
         return 'repository\content_object\\' . $type;
+    }
+
+    static function type_exists($type)
+    {
+        $path = Path :: get_repository_content_object_path() . $type . '/';
+        if (file_exists($path) && is_dir($path))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
 ?>

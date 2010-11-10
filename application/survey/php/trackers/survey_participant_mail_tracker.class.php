@@ -9,7 +9,7 @@ class SurveyParticipantMailTracker extends SimpleTracker
     const CLASS_NAME = __CLASS__;
 
     const REGISTER_PARTICIPATION_MAIL_EVENT = 'register_survey_participation_mail';
-    
+
     // Can be used for subscribsion of users / classes
     const PROPERTY_USER_ID = 'user_id';
     const PROPERTY_SURVEY_PUBLICATION_ID = 'survey_publication_id';
@@ -89,8 +89,7 @@ class SurveyParticipantMailTracker extends SimpleTracker
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 }
 ?>

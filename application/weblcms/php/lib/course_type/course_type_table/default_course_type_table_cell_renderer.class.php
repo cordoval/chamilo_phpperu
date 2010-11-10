@@ -3,6 +3,7 @@ namespace application\weblcms;
 
 use common\libraries\ObjectTableCellRenderer;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: default_course_type_table_cell_renderer.class.php 216 2010-03-12 14:08:06Z Yannick $
@@ -45,11 +46,11 @@ class DefaultCourseTypeTableCellRenderer extends ObjectTableCellRenderer
                 //return $course_type->get_active();
                 if ($course_type->get_active())
                 {
-                    Return Translation :: get('True');
+                    Return Translation :: get('ConfirmTrue', null, Utilities :: COMMON_LIBRARIES );
                 }
                 else
                 {
-                    Return Translation :: get('False');
+                    Return Translation :: get('ConfirmFalse', null, Utilities :: COMMON_LIBRARIES );
                 }
             
             /*

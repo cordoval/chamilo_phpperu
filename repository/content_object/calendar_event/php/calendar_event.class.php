@@ -1,12 +1,12 @@
 <?php
 namespace repository\content_object\calendar_event;
 
-use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\Versionable;
 use common\libraries\AttachmentSupport;
-
+use common\libraries\Translation;
 use repository\ContentObject;
+use common\libraries\Theme;
 
 /**
  * $Id: calendar_event.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -19,12 +19,12 @@ use repository\ContentObject;
  */
 class CalendarEvent extends ContentObject implements Versionable, AttachmentSupport
 {
-	const CLASS_NAME = __CLASS__;
+    const CLASS_NAME = __CLASS__;
 
-	static function get_type_name()
-	{
-	    return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-	}
+    static function get_type_name()
+    {
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
+    }
 
     /**
      * The start date of the calendar event
@@ -294,15 +294,15 @@ class CalendarEvent extends ContentObject implements Versionable, AttachmentSupp
         return array(self :: PROPERTY_START_DATE, self :: PROPERTY_END_DATE, self :: PROPERTY_REPEAT_TYPE, self :: PROPERTY_REPEAT_TO);
     }
 
-    function get_icon_name()
+    function get_icon_name($size = Theme :: ICON_SMALL)
     {
         if ($this->repeats())
         {
-            return $this->get_type() . '_repeat';
+            return $size . '_repeat';
         }
         else
         {
-            return $this->get_type();
+            return $size;
         }
     }
 }

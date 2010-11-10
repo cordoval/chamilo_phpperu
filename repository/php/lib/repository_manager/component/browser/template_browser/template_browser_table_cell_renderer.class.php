@@ -54,7 +54,7 @@ class TemplateBrowserTableCellRenderer extends DefaultContentObjectTableCellRend
                 $title_short = Utilities :: truncate_string($title, 53, false);
                 return '<a href="' . htmlentities($this->browser->get_content_object_viewing_url($content_object)) . '" title="' . $title . '">' . $title_short . '</a>';
             case ContentObject :: PROPERTY_MODIFICATION_DATE :
-                return DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $content_object->get_modification_date());
+                return DatetimeUtilities :: format_locale_date(Translation :: get('DateFormatShort', null, Utilities :: COMMON_LIBRARIES) . ', ' . Translation :: get('TimeNoSecFormat', null, Utilities :: COMMON_LIBRARIES), $content_object->get_modification_date());
         }
         return parent :: render_cell($column, $content_object);
     }

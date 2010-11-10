@@ -10,6 +10,7 @@ use common\libraries\SubselectCondition;
 use common\libraries\PatternMatchCondition;
 use common\libraries\AndCondition;
 use common\libraries\ObjectTableOrder;
+use common\libraries\Utilities;
 /**
  * $Id: variable_translation_browser_filter_form.class.php 196 2009-11-13 12:19:18Z chellee $
  */
@@ -42,10 +43,10 @@ class VariableTranslationSearchForm extends FormValidator
     private function build_form()
     {
         $this->addElement('text', Variable :: PROPERTY_VARIABLE, Translation :: get('Variable'));
-        $this->addRule(Variable :: PROPERTY_VARIABLE, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(Variable :: PROPERTY_VARIABLE, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         
         $this->addElement('select', VariableTranslation :: PROPERTY_LANGUAGE_ID, Translation :: get('Language'), $this->get_languages());
-        $this->addRule(VariableTranslation :: PROPERTY_LANGUAGE_ID, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(VariableTranslation :: PROPERTY_LANGUAGE_ID, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         
         $branches = LanguagePack :: get_branch_options();
         $branches[0] = Translation :: get('Both');
@@ -53,8 +54,8 @@ class VariableTranslationSearchForm extends FormValidator
         
         $this->addElement('select', LanguagePack :: PROPERTY_BRANCH, Translation :: get('Branch'), $branches);
         
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Search'), array('class' => 'positive search'));
-		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Search', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive search'));
+		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

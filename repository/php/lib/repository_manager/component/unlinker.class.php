@@ -6,6 +6,7 @@ use common\libraries\Translation;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Application;
+use common\libraries\Utilities;
 
 /**
  * $Id: publication_deleter.class.php 204 2009-11-13 12:51:30Z kariboe $
@@ -54,22 +55,22 @@ class RepositoryManagerUnlinkerComponent extends RepositoryManager
             {
                 if ($failures >= 1)
                 {
-                    $message = 'SelectedObjectNotUnlinked';
+                    $message = Translation :: get('ObjectNotUnlinked', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES);
                 }
                 else
                 {
-                    $message = 'NotAllVersionsUnlinked';
+                    $message = Translation :: get('ObjectsNotUnlinked', array('OBJECT' => Translation :: get('ContentObjectVersions')), Utilities :: COMMON_LIBRARIES);
                 }
             }
             else
             {
-                $message = 'SelectedObjectUnlinked';
+                $message = Translation :: get('ObjectUnlinked', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES);
             }
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $id));
+            $this->redirect($message, ($failures ? true : false), array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $id));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES)));
         }
     }
 

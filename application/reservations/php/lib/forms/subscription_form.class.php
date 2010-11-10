@@ -49,15 +49,16 @@ class SubscriptionForm extends FormValidator
         if ($this->reservation->get_type() == Reservation :: TYPE_BLOCK)
             $this->addElement('html', '<span class="category">' . Translation :: get('Information') . '</span>');
         else
-            $this->addElement('html', '<span class="category">' . Translation :: get('Required') . '</span>');
+            $this->addElement('html', '<span class="category">' . Translation :: get('Required', null, Utilities :: COMMON_LIBRARIES) . '</span>');
     }
 
     function build_block_form()
     {
         //Please confirm your reservation from <b>%s</b> untill <b>%s</b> for item <b>%s</b>.
-        $this->addElement('html', sprintf(Translation :: get('ConfirmSubscription'),
-        								  DatetimeUtilities :: format_locale_date(null,$this->reservation->get_start_date()),
-        				   	              DatetimeUtilities :: format_locale_date(null,$this->reservation->get_stop_date()), $this->item->get_name()));
+        $this->addElement('html', Translation :: get('ConfirmSubscription',
+        			  array('START' => DatetimeUtilities :: format_locale_date(null,$this->reservation->get_start_date()),
+        				'STOP' =>DatetimeUtilities :: format_locale_date(null,$this->reservation->get_stop_date()),
+                                        'ITEM' =>$this->item->get_name())));
 
         $start = $this->reservation->get_stop_date();
         $rdm = ReservationsDataManager :: get_instance();
@@ -103,7 +104,7 @@ class SubscriptionForm extends FormValidator
             $this->addElement('html', '<div style="clear: both;"></div>');
             $this->addElement('html', '</div>');
             $this->addElement('html', '<div class="configuration_form">');
-            $this->addElement('html', '<span class="category">' . Translation :: get('Optional') . '</span>');
+            $this->addElement('html', '<span class="category">' . Translation :: get('Optional', null, Utilities :: COMMON_LIBRARIES) . '</span>');
             $this->addElement('select', 'additional_reservations', Translation :: get('ExtendPeriod'), $additional_reservations);
         }
 
@@ -127,9 +128,9 @@ class SubscriptionForm extends FormValidator
     function build_timepicker_form()
     {
         if ($this->reservation->get_timepicker_max() == 0)
-            $this->addElement('html', '<br />' . sprintf(Translation :: get('ChooseTime2'), $this->item->get_name()) . '<br /><ul>');
+            $this->addElement('html', '<br />' . Translation :: get('ValidateTimeWithBlock', array('ITEM' => $this->item->get_name())) . '<br /><ul>');
         else
-            $this->addElement('html', '<br />' . sprintf(Translation :: get('ChooseTime'), $this->item->get_name(), $this->reservation->get_timepicker_min(), $this->reservation->get_timepicker_max()) . '<br /><ul>');
+            $this->addElement('html', '<br />' . Translation :: get('ValidateTimeWithTimepicker', array('ITEM' =>$this->item->get_name(), 'MIN' => $this->reservation->get_timepicker_min(), 'MAX' => $this->reservation->get_timepicker_max())) . '<br /><ul>');
 
         $rdm = ReservationsDataManager :: get_instance();
 
@@ -156,7 +157,7 @@ class SubscriptionForm extends FormValidator
 
             if ((($start_time - $previous_stop_time)) > $this->reservation->get_timepicker_min() * 60)
             {
-                $this->addElement('html', '<li>' . DatetimeUtilities :: format_locale_date(null, $previous_stop) . ' ' . Translation :: get('and') . ' ' . DatetimeUtilities :: format_locale_date(null, $start) . '</li>');
+                $this->addElement('html', '<li>' . DatetimeUtilities :: format_locale_date(null, $previous_stop) . ' ' . Translation :: get('And', null, Utilities :: COMMON_LIBRARIES) . ' ' . DatetimeUtilities :: format_locale_date(null, $start) . '</li>');
             }
 
             $previous_stop = $stop;
@@ -165,7 +166,7 @@ class SubscriptionForm extends FormValidator
         $previous_stop_time = $previous_stop;
         if ((($end_time - $previous_stop_time)) > $this->reservation->get_timepicker_min() * 60)
         {
-            $this->addElement('html', '<li>' . DatetimeUtilities :: format_locale_date(null, $previous_stop) . ' ' . Translation :: get('and') . ' ' .
+            $this->addElement('html', '<li>' . DatetimeUtilities :: format_locale_date(null, $previous_stop) . ' ' . Translation :: get('And', null, Utilities :: COMMON_LIBRARIES) . ' ' .
             								   DatetimeUtilities :: format_locale_date(null, $this->reservation->get_stop_date()) . '</li>');
         }
 
@@ -201,9 +202,9 @@ class SubscriptionForm extends FormValidator
         $url = Path :: get(WEB_PATH) . 'user/php/xml_feeds/xml_user_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('AddUsers');
-        $locale['Searching'] = Translation :: get('Searching');
-        $locale['NoResults'] = Translation :: get('NoResults');
-        $locale['Error'] = Translation :: get('Error');
+        $locale['Searching'] = Translation :: get('Searching', null, Utilities :: COMMON_LIBRARIES);
+        $locale['NoResults'] = Translation :: get('NoResults', null, Utilities :: COMMON_LIBRARIES);
+        $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARIES);
 
         $elem = $this->addElement('element_finder', 'users', Translation :: get('SelectAdditionalUsers'), $url, $locale, array(), array('load_elements' => false));
         $elem->excludeElements(array($this->user->get_id()));
@@ -212,8 +213,8 @@ class SubscriptionForm extends FormValidator
         $this->addElement('html', '</div>');
 
         // Submit button
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 

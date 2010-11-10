@@ -39,7 +39,7 @@ class LanguagePackBrowserTable extends ObjectTable
 
         if (! $browser instanceof CdaManagerLanguagePacksBrowserComponent)
         {
-            $actions[] = new ObjectTableFormAction(CdaManager :: PARAM_DELETE_SELECTED_LANGUAGE_PACKS, Translation :: get('RemoveSelected'));
+            $actions[] = new ObjectTableFormAction(CdaManager :: PARAM_DELETE_SELECTED_LANGUAGE_PACKS, Translation :: get('RemoveSelected', null, Utilities :: COMMON_LIBRARIES));
         }
 
         $this->set_form_actions($actions);

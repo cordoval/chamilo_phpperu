@@ -6,6 +6,7 @@ use common\libraries\Translation;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Application;
+use common\libraries\Utilities;
 /**
  * $Id: publication_updater.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component
@@ -33,11 +34,11 @@ class RepositoryManagerPublicationUpdaterComponent extends RepositoryManager
             $pub->set_publication_object_id($latest_version);
             $success = $pub->update();
 
-            $this->redirect(Translation :: get($success ? 'PublicationUpdated' : 'PublicationUpdateFailed'), ($success ? false : true), array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_MY_PUBLICATIONS));
+            $this->redirect(Translation :: get($success ? 'ObjectUpdated' : 'ObjectNotUpdated', array('OBJECT' => Translation :: get('Publication')), Utilities :: COMMON_LIBRARIES), ($success ? false : true), array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_MY_PUBLICATIONS));
         }
         else
         {
-            $this->display_warning_page(htmlentities(Translation :: get('NoPublicationSelected')));
+            $this->display_warning_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('Publication')), Utilities :: COMMON_LIBRARIES)));
         }
     }
 

@@ -8,6 +8,7 @@ use common\libraries\Breadcrumb;
 use common\libraries\Translation;
 use common\extensions\repo_viewer\RepoViewer;
 use repository\content_object\peer_assessment\PeerAssessment;
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/../peer_assessment_manager.class.php';
 require_once dirname(__FILE__) . '/../../forms/peer_assessment_publication_form.class.php';
@@ -45,11 +46,11 @@ class PeerAssessmentManagerCreatorComponent extends PeerAssessmentManager implem
 
                 if (!$published)
                 {
-                    $message = Translation :: get('ObjectNotPublished');
+                    $message = Translation :: get('ObjectNotPublished', null, Utilities::COMMON_LIBRARIES);
                 }
                 else
                 {
-                    $message = Translation :: get('ObjectPublished');
+                    $message = Translation :: get('ObjectPublished', null, Utilities::COMMON_LIBRARIES);
                     $peer_assessment_publication = $this->retrieve_peer_assessment_publication_via_content_object($content_object_id);
                 }
 

@@ -27,7 +27,7 @@ class WikiDisplayVersionDeleterComponent extends WikiDisplay
 
         if ($complex_wiki_page_id)
         {
-            $object_id = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
+            $object_id = Request :: get(self :: PARAM_WIKI_VERSION_ID);
             $complex_wiki_page = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($complex_wiki_page_id);
             $wiki_page = $complex_wiki_page->get_ref_object();
 

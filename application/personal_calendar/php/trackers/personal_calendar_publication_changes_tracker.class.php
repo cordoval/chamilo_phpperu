@@ -2,11 +2,12 @@
 
 namespace application\personal_calendar;
 
+use common\libraries\Utilities;
+
 /**
  * $Id: personal_calendar_publication_changes_tracker.class.php 201 2009-11-13 12:34:51Z chellee $
  * @package application.personal_calendar.trackers
  */
-
 
 /**
  * This class tracks the login that a user uses
@@ -17,8 +18,7 @@ class PersonalCalendarPublicationChangesTracker extends ChangesTracker
 
     static function get_table_name()
     {
-        return Utilities :: camelcase_to_underscores(array_pop(explode('\\', self :: CLASS_NAME)));
-        //return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 }
 ?>

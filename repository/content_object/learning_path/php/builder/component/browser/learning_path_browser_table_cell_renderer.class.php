@@ -17,6 +17,7 @@ use repository\content_object\learning_path_item\LearningPathItem;
 use repository\content_object\assessment\Assessment;
 use repository\ComplexBrowserTableCellRenderer;
 use repository\ContentObject;
+use repository\ComplexBuilder;
 use repository\ComplexContentObjectItem;
 use repository\RepositoryDataManager;
 use repository\RepositoryManager;
@@ -80,7 +81,7 @@ class LearningPathBrowserTableCellRenderer extends ComplexBrowserTableCellRender
 
         switch ($column->get_name())
         {
-            case Translation :: get(Utilities :: underscores_to_camelcase(ContentObject :: PROPERTY_TITLE)) :
+            case ContentObject :: PROPERTY_TITLE :
                 $title = htmlspecialchars($content_object->get_title());
                 $title_short = $title;
 

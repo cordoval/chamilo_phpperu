@@ -3,6 +3,7 @@ namespace menu;
 use common\libraries\Application;
 use common\libraries\CoreApplication;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Request;
 use common\libraries\DynamicAction;
 use common\libraries\Theme;
@@ -151,7 +152,7 @@ class MenuManager extends CoreApplication
     	if (! $this->get_user()->is_platform_admin())
         {
             $this->display_header();
-            Display :: error_message(Translation :: get('NotAllowed'));
+            Display :: error_message(Translation :: get('NotAllowed', null , Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }

@@ -10,7 +10,7 @@ class MediamosaExternalRepositoryManagerExporterComponent extends MediamosaExter
     function run()
     {
         $this->display_header();
-        echo Translation :: get('NotAvailable');
+        echo Translation :: get('NotAvailable', null, Utilities :: COMMON_LIBRARIES);
         $this->display_footer();
     }
 }

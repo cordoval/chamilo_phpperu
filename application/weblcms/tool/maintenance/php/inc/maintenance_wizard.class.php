@@ -70,7 +70,7 @@ class MaintenanceWizard extends HTML_QuickForm_Controller
                 break;
             case ActionSelectionMaintenanceWizardPage :: ACTION_IMPORT_CP :
                 $this->addPage(new CpImportSelectionMaintenanceWizardPage('import', $this->parent));
-                //$this->addPage(new ConfirmationMaintenanceWizardPage('confirmation', $this->parent, Translation::get('ImportCpConfirmationQuestion')));
+                //$this->addPage(new ConfirmationMaintenanceWizardPage('confirmation', $this->parent, Translation :: get('ImportCpConfirmationQuestion')));
                 break;
         }
     }

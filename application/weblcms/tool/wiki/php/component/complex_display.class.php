@@ -39,7 +39,7 @@ class WikiToolComplexDisplayComponent extends WikiTool implements DelegateCompon
         return $this->publication->get_content_object();
     }
 
-    function get_publication()
+    function get_wiki_publication()
     {
         return $this->publication;
     }
@@ -55,12 +55,12 @@ class WikiToolComplexDisplayComponent extends WikiTool implements DelegateCompon
         return array(Tool :: PARAM_PUBLICATION_ID);
     }
 
-    function get_page_statistics_reporting_template_name()
+    function get_wiki_page_statistics_reporting_template_name()
     {
         return 'wiki_page_reporting_template';
     }
 
-    function get_statistics_reporting_template_name()
+    function get_wiki_statistics_reporting_template_name()
     {
         return 'wiki_reporting_template';
     }

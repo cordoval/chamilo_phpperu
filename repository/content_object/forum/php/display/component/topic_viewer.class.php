@@ -2,6 +2,7 @@
 namespace repository\content_object\forum;
 
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
@@ -200,7 +201,7 @@ class ForumDisplayTopicViewerComponent extends ForumDisplay
             $object = $post->get_ref();
 			if($object->get_creation_date() != $object->get_modification_date())
 			{
-            	$bottom_bar[] = Translation :: get('LastChangedAt', array('TIME' => DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $object->get_modification_date()) ));
+            	$bottom_bar[] = Translation :: get('LastChangedAt', array('TIME' => DatetimeUtilities :: format_locale_date(Translation :: get('DateFormatShort', null , Utilities :: COMMON_LIBRARIES) . ', ' . Translation :: get('TimeNoSecFormat', null , Utilities :: COMMON_LIBRARIES), $object->get_modification_date()) ));
 			}
 
             $bottom_bar[] = '</div>';
@@ -226,7 +227,7 @@ class ForumDisplayTopicViewerComponent extends ForumDisplay
 
     private function format_message($message)
     {
-    	$message = preg_replace('/\[quote=("|&quot;)(.*)("|&quot;)\]/', "<div class=\"quotetitle\">$2 " . Translation :: get('wrote') . ":</div><div class=\"quotecontent\">", $message);
+    	$message = preg_replace('/\[quote=("|&quot;)(.*)("|&quot;)\]/', "<div class=\"quotetitle\">$2 " . Translation :: get('Wrote') . ":</div><div class=\"quotecontent\">", $message);
         $message = str_replace('[/quote]', '</div>', $message);
 
         return $message;
@@ -268,7 +269,7 @@ class ForumDisplayTopicViewerComponent extends ForumDisplay
         {
             $parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_EDIT_FORUM_POST;
             $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Edit'),
+        		Translation :: get('Edit', null , Utilities :: COMMON_LIBRARIES),
         		Theme :: get_image_path() . 'forum/buttons/icon_post_edit.gif',
 				$this->get_url($parameters),
 				ToolbarItem :: DISPLAY_ICON
@@ -279,7 +280,7 @@ class ForumDisplayTopicViewerComponent extends ForumDisplay
         {
             $parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_DELETE_FORUM_POST;
              $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Delete'),
+        		Translation :: get('Delete', null , Utilities :: COMMON_LIBRARIES),
         		Theme :: get_image_path() . 'forum/buttons/icon_post_delete.gif',
 				$this->get_url($parameters),
 				ToolbarItem :: DISPLAY_ICON,
@@ -299,7 +300,7 @@ class ForumDisplayTopicViewerComponent extends ForumDisplay
         $parameters[ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID] = $this->get_complex_content_object_item_id();
         $parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_CREATE_FORUM_POST;
 
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ReplyOnTopic'), Theme :: get_common_image_path() . 'action_reply.png', $this->get_url($parameters), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ReplyOnTopic', null , 'repository\content_object\forum_topic'), Theme :: get_common_image_path() . 'action_reply.png', $this->get_url($parameters), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
        	return $action_bar;
     }
 

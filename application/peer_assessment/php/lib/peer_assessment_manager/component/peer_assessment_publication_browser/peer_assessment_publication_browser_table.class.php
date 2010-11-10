@@ -5,6 +5,7 @@ namespace application\peer_assessment;
 use common\libraries\ObjectTable;
 use common\libraries\ObjectTableFormAction;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/peer_assessment_publication_browser_table_data_provider.class.php';
 require_once dirname(__FILE__) . '/peer_assessment_publication_browser_table_column_model.class.php';
@@ -31,8 +32,8 @@ class PeerAssessmentPublicationBrowserTable extends ObjectTable
         $this->set_additional_parameters($parameters);
         $actions = array();
 
-        $actions[] = new ObjectTableFormAction(PeerAssessmentManager :: PARAM_DELETE_SELECTED_PEER_ASSESSMENT_PUBLICATIONS, Translation :: get('RemoveSelected'));
-        $actions[] = new ObjectTableFormAction(PeerAssessmentManager :: PARAM_MOVE_SELECTED_PEER_ASSESSMENT_PUBLICATIONS, Translation :: get('MoveSelected'));
+        $actions[] = new ObjectTableFormAction(PeerAssessmentManager :: PARAM_DELETE_SELECTED_PEER_ASSESSMENT_PUBLICATIONS, Translation :: get('RemoveSelected', null, Utilities::COMMON_LIBRARIES));
+        $actions[] = new ObjectTableFormAction(PeerAssessmentManager :: PARAM_MOVE_SELECTED_PEER_ASSESSMENT_PUBLICATIONS, Translation :: get('MoveSelected', null, Utilities::COMMON_LIBRARIES));
 
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);

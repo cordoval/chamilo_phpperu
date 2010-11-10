@@ -23,7 +23,7 @@ class RepositoryManagerContentObjectManagerComponent extends RepositoryManager
      */
     function run()
     {
-        $object_type = Request :: get(self :: PARAM_CONTENT_OBJECT_TYPE);
+        $object_type = Request :: get(ContentObjectTypeSelector :: PARAM_CONTENT_OBJECT_TYPE);
         $manage_type = Request :: get(self :: PARAM_CONTENT_OBJECT_MANAGER_TYPE);
 
         if (isset($object_type) && isset($manage_type))
@@ -42,15 +42,15 @@ class RepositoryManagerContentObjectManagerComponent extends RepositoryManager
         }
     }
 
-	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
-    	$breadcrumbtrail->add_help('repository_content_object_manager');
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
+        $breadcrumbtrail->add_help('repository_content_object_manager');
     }
 
     function get_additional_parameters()
     {
-    	return array(self :: PARAM_CONTENT_OBJECT_TYPE, self :: PARAM_CONTENT_OBJECT_MANAGER_TYPE);
+        return array(self :: PARAM_CONTENT_OBJECT_TYPE, self :: PARAM_CONTENT_OBJECT_MANAGER_TYPE);
     }
 }
 ?>

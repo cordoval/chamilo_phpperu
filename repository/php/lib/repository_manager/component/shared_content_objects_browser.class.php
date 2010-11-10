@@ -32,18 +32,20 @@ use common\libraries\ConditionProperty;
  */
 class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryManager
 {
-	const VIEW_OTHERS_OBJECTS = 0;
-	const VIEW_OWN_OBJECTS = 1;
+    const VIEW_OTHERS_OBJECTS = 0;
+    const VIEW_OWN_OBJECTS = 1;
 
     private $form;
-	private $view;
+    private $view;
+
     /**
      * Runs this component and displays its output.
      */
     function run()
     {
-		$this->view = Request :: get(self :: PARAM_SHOW_OBJECTS_SHARED_BY_ME);
-		if(is_null($this->view)) $this->view = self :: VIEW_OTHERS_OBJECTS;
+        $this->view = Request :: get(self :: PARAM_SHOW_OBJECTS_SHARED_BY_ME);
+        if (is_null($this->view))
+            $this->view = self :: VIEW_OTHERS_OBJECTS;
 
         $trail = BreadcrumbTrail :: get_instance();
 
@@ -54,9 +56,10 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
         //$query = $this->action_bar->get_query();
         //if(isset($query) && $query != '')
         //{
-        //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Search')));
-        //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('SearchResultsFor').': '.$query));
+        //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Search', null, Utilities :: COMMON_LIBRARIES)));
+        //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('SearchResultsFor', null, Utilities :: COMMON_LIBRARIES).': '.$query));
         //}
+
 
         $session_filter = Session :: retrieve('filter');
 
@@ -66,11 +69,11 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
             {
                 $condition = new EqualityCondition(UserView :: PROPERTY_ID, $session_filter);
                 $user_view = RepositoryDataManager :: get_instance()->retrieve_user_views($condition)->next_result();
-                $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Filter') . ': ' . $user_view->get_name()));
+                $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Filter', null, Utilities :: COMMON_LIBRARIES) . ': ' . $user_view->get_name()));
             }
             else
             {
-             	$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Filter') . ': ' . Utilities :: underscores_to_camelcase(($session_filter))));
+                $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Filter', null, Utilities :: COMMON_LIBRARIES) . ': ' . Utilities :: underscores_to_camelcase(($session_filter))));
             }
         }
 
@@ -79,7 +82,7 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
         echo $this->action_bar->as_html();
         echo '<br />' . $this->form->display() . '<br />';
         echo $output;
-        echo ResourceManager :: get_instance()->get_resource_html(BasicApplication :: get_application_web_resources_javascript_path(RepositoryManager::APPLICATION_NAME) . 'repository.js');
+        echo ResourceManager :: get_instance()->get_resource_html(BasicApplication :: get_application_web_resources_javascript_path(RepositoryManager :: APPLICATION_NAME) . 'repository.js');
 
         $this->display_footer();
     }
@@ -91,95 +94,95 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
     private function get_content_objects_html()
     {
         $condition = null;
-        switch($this->view)
+        switch ($this->view)
         {
-        	case self :: VIEW_OWN_OBJECTS:
-        		$condition = $this->get_view_own_objects_condition();
-        		break;
-        	case self :: VIEW_OTHERS_OBJECTS:
-        		 $condition = $this->get_view_other_objects_condition();
-        		break;
-        	default:
-        		$condition = new EqualityCondition(ContentObject :: PROPERTY_ID, -1);
+            case self :: VIEW_OWN_OBJECTS :
+                $condition = $this->get_view_own_objects_condition();
+                break;
+            case self :: VIEW_OTHERS_OBJECTS :
+                $condition = $this->get_view_other_objects_condition();
+                break;
+            default :
+                $condition = new EqualityCondition(ContentObject :: PROPERTY_ID, - 1);
         }
-        
+
         $search_condition = $this->action_bar->get_conditions(array(new ConditionProperty(ContentObject :: PROPERTY_TITLE), new ConditionProperty(ContentObject :: PROPERTY_DESCRIPTION)));
-        if($search_condition)
+        if ($search_condition)
         {
-        	$conditions = array();
-        	$conditions[] = $condition;
-        	$conditions[] = $search_condition;
-        	$condition = new AndCondition($conditions);
+            $conditions = array();
+            $conditions[] = $condition;
+            $conditions[] = $search_condition;
+            $condition = new AndCondition($conditions);
         }
-        
+
         $parameters = $this->get_parameters(true);
-        $types = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE);
+        $types = Request :: get(ContentObjectTypeSelector :: PARAM_CONTENT_OBJECT_TYPE);
 
         if (is_array($types) && count($types))
         {
-            $parameters[RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE] = $types;
+            $parameters[ContentObjectTypeSelector :: PARAM_CONTENT_OBJECT_TYPE] = $types;
         }
         $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
         $table = new RepositorySharedContentObjectsBrowserTable($this, $parameters, $condition);
-        
+
         return $table->as_html();
     }
 
-	function get_action_bar()
+    function get_action_bar()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         $action_bar->set_search_url($this->get_url());
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         return $action_bar;
     }
-    
-	function get_view_own_objects_condition()
+
+    function get_view_own_objects_condition()
     {
-    	$conditions = $subconditions = array();
-    	$conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->get_user_id());
-    	
-    	$subconditions[] = new NotCondition(new EqualityCondition(ContentObjectUserShare :: PROPERTY_USER_ID, null, ContentObjectUserShare :: get_table_name()));
-    	$subconditions[] = new NotCondition(new EqualityCondition(ContentObjectGroupShare :: PROPERTY_GROUP_ID, null, ContentObjectGroupShare :: get_table_name()));
-    	
-    	$conditions[] = new OrCondition($subconditions);
-		return new AndCondition($conditions);
+        $conditions = $subconditions = array();
+        $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->get_user_id());
+
+        $subconditions[] = new NotCondition(new EqualityCondition(ContentObjectUserShare :: PROPERTY_USER_ID, null, ContentObjectUserShare :: get_table_name()));
+        $subconditions[] = new NotCondition(new EqualityCondition(ContentObjectGroupShare :: PROPERTY_GROUP_ID, null, ContentObjectGroupShare :: get_table_name()));
+
+        $conditions[] = new OrCondition($subconditions);
+        return new AndCondition($conditions);
     }
 
     function get_view_other_objects_condition()
     {
-    	$conditions = array();
-    	
-    	$conditions[] = new EqualityCondition(ContentObjectUserShare :: PROPERTY_USER_ID, $this->get_user_id(), ContentObjectUserShare :: get_table_name());
-		
-		$group_ids = array();
-    	$groups = $this->get_user()->get_groups();
-    	if($groups)
-    	{
-    		while($group = $groups->next_result())
-    		{
-    			$group_ids[] = $group->get_id();
-    		}
-    	
-			$conditions[] = new InCondition(ContentObjectGroupShare :: PROPERTY_GROUP_ID, $group_ids, ContentObjectGroupShare :: get_table_name());
-    	}
-		
-		return new OrCondition($conditions);
+        $conditions = array();
+
+        $conditions[] = new EqualityCondition(ContentObjectUserShare :: PROPERTY_USER_ID, $this->get_user_id(), ContentObjectUserShare :: get_table_name());
+
+        $group_ids = array();
+        $groups = $this->get_user()->get_groups();
+        if ($groups)
+        {
+            while ($group = $groups->next_result())
+            {
+                $group_ids[] = $group->get_id();
+            }
+
+            $conditions[] = new InCondition(ContentObjectGroupShare :: PROPERTY_GROUP_ID, $group_ids, ContentObjectGroupShare :: get_table_name());
+        }
+
+        return new OrCondition($conditions);
     }
 
-  	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
-    	$breadcrumbtrail->add_help('repository_shared_content_object_browser');
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
+        $breadcrumbtrail->add_help('repository_shared_content_object_browser');
     }
 
     function get_additional_parameters()
     {
-    	return array(self :: PARAM_SHOW_OBJECTS_SHARED_BY_ME);
+        return array(self :: PARAM_SHOW_OBJECTS_SHARED_BY_ME);
     }
 
     function show_my_objects()
     {
-    	return Request :: get(self :: PARAM_SHOW_OBJECTS_SHARED_BY_ME) == 1;
+        return Request :: get(self :: PARAM_SHOW_OBJECTS_SHARED_BY_ME) == 1;
     }
 }
 ?>

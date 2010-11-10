@@ -4,7 +4,7 @@ namespace application\portfolio;
 
 use common\libraries\Installer;
 use common\libraries\Translation;
-
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__). '/../lib/portfolio_data_manager.class.php';
 require_once dirname(__FILE__). '/../lib/rights/portfolio_rights.class.php';
@@ -40,7 +40,7 @@ class PortfolioInstaller extends Installer
 		}
 		else
 		{
-			$this->add_message(self :: TYPE_NORMAL, Translation :: get('DefaultLocationCreated'));
+			$this->add_message(self :: TYPE_NORMAL, Translation :: get('DefaultLocationCreated'), null, Utilities::COMMON_LIBRARIES);
 		}
 
 

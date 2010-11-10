@@ -8,6 +8,8 @@ use repository\ContentObjectForm;
 use common\libraries\Translation;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\Utilities;
+
 /**
  * $Id: editor.class.php 195 2009-11-13 12:02:41Z chellee $
  * @package application.lib.forum.forum_manager.component
@@ -41,7 +43,7 @@ class ForumManagerEditorComponent extends ForumManager
                     RepositoryDataManager :: get_instance()->set_new_clo_version($old_id, $publication->get_forum_id());
                 }
                 
-                $message = $succes ? Translation :: get('ForumUpdated') : Translation :: get('ForumNotUpdated');
+                $message = $succes ? Translation :: get('ObjectUpdated',array('OBJECT' => Translation :: get('Forum', null, 'repository/forum')) , Utilities :: COMMON_LIBRARIES) : Translation :: get('ObjectNotUpdated',array('OBJECT' => Translation :: get('Forum')) , Utilities :: COMMON_LIBRARIES);
                 $this->redirect($message, ! $succes, array(ForumManager :: PARAM_ACTION => null));
             }
             else

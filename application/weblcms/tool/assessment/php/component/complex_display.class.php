@@ -14,6 +14,7 @@ use application\weblcms\WeblcmsAssessmentAttemptsTracker;
 use repository\content_object\hotpotatoes\Hotpotatoes;
 use tracking\Event;
 use repository\ComplexDisplay;
+use repository\content_object\assessment\AssessmentComplexDisplaySupport;
 
 /**
  * $Id: assessment_tester.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -23,7 +24,7 @@ require_once dirname(__FILE__) . '/../survey_invitation.class.php';
 require_once Path :: get_application_path() . '/weblcms/php/trackers/weblcms_assessment_attempts_tracker.class.php';
 require_once Path :: get_application_path() . '/weblcms/php/trackers/weblcms_question_attempts_tracker.class.php';
 
-class AssessmentToolComplexDisplayComponent extends AssessmentTool
+class AssessmentToolComplexDisplayComponent extends AssessmentTool implements AssessmentComplexDisplaySupport
 {
 
     private $datamanager;
@@ -99,7 +100,7 @@ class AssessmentToolComplexDisplayComponent extends AssessmentTool
         {
             $this->display_header();
 
-            $path = $this->assessment->add_javascript(Path :: get(WEB_PATH) . 'application/weblcms/php/ajax/hotpotatoes_save_score.php', $this->get_go_back_url(), $this->active_tracker->get_id());
+            $path = $this->assessment->add_javascript(Path :: get(WEB_PATH) . 'application/weblcms/php/ajax/hotpotatoes_save_score.php', $this->get_assessment_go_back_url(), $this->active_tracker->get_id());
             //$path = $this->assessment->get_test_path();
             echo '<iframe src="' . $path . '" width="100%" height="600">
   				 <p>Your browser does not support iframes.</p>
@@ -137,7 +138,7 @@ class AssessmentToolComplexDisplayComponent extends AssessmentTool
         return $tracker[0];
     }
 
-    function save_answer($complex_question_id, $answer, $score)
+    function save_assessment_answer($complex_question_id, $answer, $score)
     {
         $parameters = array();
         $parameters[WeblcmsQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID] = $this->active_tracker->get_id();
@@ -149,7 +150,7 @@ class AssessmentToolComplexDisplayComponent extends AssessmentTool
         Event :: trigger('attempt_question', 'weblcms', $parameters);
     }
 
-    function finish_assessment($total_score)
+    function save_assessment_result($total_score)
     {
         $tracker = $this->active_tracker;
 
@@ -159,12 +160,12 @@ class AssessmentToolComplexDisplayComponent extends AssessmentTool
         $tracker->update();
     }
 
-    function get_current_attempt_id()
+    function get_assessment_current_attempt_id()
     {
         return $this->active_tracker->get_id();
     }
 
-    function get_go_back_url()
+    function get_assessment_go_back_url()
     {
         return $this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW));
     }

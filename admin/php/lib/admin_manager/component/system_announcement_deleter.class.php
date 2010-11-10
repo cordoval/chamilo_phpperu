@@ -1,5 +1,6 @@
 <?php
 namespace admin;
+use common\libraries\Utilities;
 use common\libraries\Application;
 use common\libraries\Request;
 use common\libraries\Translation;
@@ -40,39 +41,43 @@ class AdminManagerSystemAnnouncementDeleterComponent extends AdminManager implem
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedPublicationNotDeleted';
+                    $message = 'ContentObjectNotDeleted';
+                    $parameter = array('OBJECT' => Translation :: get('Publication'));
                 }
                 else
                 {
-                    $message = 'SelectedPublicationsNotDeleted';
+                    $message = 'ContentObjectsNotDeleted';
+                    $parameter = array('OBJECTS' => Translation :: get('Publications'));
                 }
             }
             else
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedPublicationDeleted';
+                    $message = 'ContentObjectDeleted';
+                    $parameter = array('OBJECT' => Translation :: get('Publication'));
                 }
                 else
                 {
-                    $message = 'SelectedPublicationsDeleted';
+                    $message = 'ContentObjectsDeleted';
+                    $parameter = array('OBJECTS' => Translation :: get('Publications'));
                 }
             }
 
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS));
+            $this->redirect(Translation :: get($message, $parameter, Utilities :: COMMON_LIBRARIES), ($failures ? true : false), array(Application :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoPublicationSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECTS' => Translation :: get('Publication')), Utilities :: COMMON_LIBRARIES)));
         }
     }
-    
+
 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
     	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS)), Translation :: get('AdminManagerSystemAnnouncementBrowserComponent')));
     	$breadcrumbtrail->add_help('admin_system_announcements_deleter');
     }
-    
+
     function get_additional_parameters()
     {
     	return array(AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID);

@@ -6,10 +6,10 @@ use common\libraries\WebApplication;
 use common\extensions\rights_editor_manager\RightsEditorManager;
 use common\libraries\Display;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Breadcrumb;
 use common\libraries\Application;
 
-require_once WebApplication :: get_application_class_lib_path('personal_calendar') . 'personal_calendar_rights.class.php';
 /**
  * $Id: deleter.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package group.lib.group_manager.component
@@ -36,7 +36,7 @@ class PersonalCalendarManagerRightsEditorComponent extends PersonalCalendarManag
         else
         {
             $this->display_header();
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get("NotAllowed", null , Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }

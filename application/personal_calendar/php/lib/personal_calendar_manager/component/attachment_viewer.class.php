@@ -7,6 +7,7 @@ use repository\ContentObjectDisplay;
 use common\libraries\Breadcrumb;
 use common\libraries\Application;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\BreadcrumbTrail;
 /**
  * $Id: attachment_viewer.class.php 201 2009-11-13 12:34:51Z chellee $
@@ -24,7 +25,7 @@ class PersonalCalendarManagerAttachmentViewerComponent extends PersonalCalendarM
         {
             $this->display_header();
             
-            echo '<a href="javascript:history.go(-1)">' . Translation :: get('Back') . '</a><br /><br />';
+            echo '<a href="javascript:history.go(-1)">' . Translation :: get('Back', null , Utilities :: COMMON_LIBRARIES) . '</a><br /><br />';
             
             $object = RepositoryDataManager :: get_instance()->retrieve_content_object($object_id);
             $display = ContentObjectDisplay :: factory($object);

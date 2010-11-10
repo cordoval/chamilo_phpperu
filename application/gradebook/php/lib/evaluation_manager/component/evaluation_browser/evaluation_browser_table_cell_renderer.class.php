@@ -39,7 +39,7 @@ class EvaluationBrowserTableCellRenderer extends DefaultEvaluationBrowserTableCe
         switch ($column->get_name())
         {
             case Evaluation :: PROPERTY_EVALUATION_DATE :
-                return DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $evaluation->get_evaluation_date());
+                return DatetimeUtilities :: format_locale_date(Translation :: get('DateFormatShort', null, Utilities :: COMMON_LIBRARIES) . ', ' . Translation :: get('TimeNoSecFormat', null, Utilities :: COMMON_LIBRARIES), $evaluation->get_evaluation_date());
             case'user':
                 return $optional_properties['user'];
             case 'evaluator':
@@ -68,8 +68,8 @@ class EvaluationBrowserTableCellRenderer extends DefaultEvaluationBrowserTableCe
         $toolbar = new Toolbar();
         if ($evaluation->get_evaluator_id() == $this->browser->get_user_id())
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_evaluation_editing_url($evaluation), ToolbarItem :: DISPLAY_ICON));
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_evaluation_deleting_url($evaluation), ToolbarItem :: DISPLAY_ICON, true));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_evaluation_editing_url($evaluation), ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_evaluation_deleting_url($evaluation), ToolbarItem :: DISPLAY_ICON, true));
         }
 
         return $toolbar->as_html();

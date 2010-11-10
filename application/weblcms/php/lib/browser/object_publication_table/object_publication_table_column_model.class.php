@@ -6,6 +6,7 @@ use repository\ContentObject;
 use common\libraries\ObjectTableColumn;
 use common\libraries\ObjectTableColumnModel;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: object_publication_table_column_model.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -72,7 +73,7 @@ class ObjectPublicationTableColumnModel extends ObjectTableColumnModel
     {
         if (! isset(self :: $action_column))
         {
-            self :: $action_column = new StaticTableColumn(Translation :: get('Actions'));
+            self :: $action_column = new StaticTableColumn(Translation :: get('Actions', null, Utilities :: COMMON_LIBRARIES ));
         }
         return self :: $action_column;
     }

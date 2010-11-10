@@ -52,8 +52,8 @@ class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWiza
         }
         else
         {
-            $from_date = DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $from_date);
-            $to_date = DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $to_date);
+            $from_date = DatetimeUtilities :: format_locale_date(Translation :: get('DateFormatShort', null, Utilities :: COMMON_LIBRARIES) . ', ' . Translation :: get('TimeNoSecFormat', null, Utilities :: COMMON_LIBRARIES), $from_date);
+            $to_date = DatetimeUtilities :: format_locale_date(Translation :: get('DateFormatShort', null, Utilities :: COMMON_LIBRARIES) . ', ' . Translation :: get('TimeNoSecFormat', null, Utilities :: COMMON_LIBRARIES), $to_date);
           	$date_message = Translation :: get('From') . ' ' .$from_date . ' - ' . Translation :: get('To') . ' ' . $to_date;
         }
 
@@ -343,7 +343,7 @@ class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWiza
     {
     	// Submit button
 		$button[] = '<div style="float: right; margin-top: 15px">';
-        $button[] = $this->createElement('style_submit_button', $this->getButtonName('submit'), Translation :: get('Submit'), array('class' => 'positive'))->toHtml();
+        $button[] = $this->createElement('style_submit_button', $this->getButtonName('submit'), Translation :: get('Submit, null, Utilities::COMMON_LIBRARIES'), array('class' => 'positive'))->toHtml();
         $button[] = '</div>';
 
         // Prints of the submit button

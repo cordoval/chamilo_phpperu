@@ -2,6 +2,7 @@
 namespace repository\content_object\forum_post;
 
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 use repository\ContentObjectForm;
 
@@ -23,7 +24,7 @@ class ForumPostForm extends ContentObjectForm
     function build_creation_form()
     {
         parent :: build_creation_form();
-        //$this->addElement('category', Translation :: get('Properties'));
+        //$this->addElement('category', Translation :: get('Properties', null , Utilities :: COMMON_LIBRARIES));
     /*$this->build_form();*/
     //$this->addElement('category');
     }
@@ -31,7 +32,7 @@ class ForumPostForm extends ContentObjectForm
     function build_editing_form()
     {
         parent :: build_editing_form();
-        //$this->addElement('category', Translation :: get('Properties'));
+        //$this->addElement('category', Translation :: get('Properties', null , Utilities :: COMMON_LIBRARIES));
     /*$this->build_form();*/
     //$this->addElement('category');
     }

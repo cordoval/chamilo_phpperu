@@ -6,6 +6,7 @@ use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\Utilities;
 /**
  * $Id: visibility_changer.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.assessment_manager.component
@@ -45,7 +46,7 @@ class AssessmentManagerVisibilityChangerComponent extends AssessmentManager
         }
         else
         {
-            $this->redirect(Translation :: get('NoPublicationSelected'), true, array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS));
+            $this->redirect(Translation :: get('NoObjectsSelected', null, Utilities :: COMMON_LIBRARIES), true, array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS));
         }
     }
     

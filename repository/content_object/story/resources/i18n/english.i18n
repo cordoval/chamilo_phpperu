@@ -1,6 +1,4 @@
-HeaderRequiredForFeaturedItems = 
-Searching = 
-NoResults = 
-Error = 
-SelectHeaderImage = 
-HeaderImage = 
+Properties = ""
+HeaderRequiredForFeaturedItems = ""
+SelectHeaderImage = ""
+HeaderImage = ""

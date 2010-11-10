@@ -10,6 +10,7 @@ use common\libraries\InCondition;
 use common\libraries\AndCondition;
 use common\libraries\Path;
 use common\libraries\Filesystem;
+use common\libraries\Utilities;
 /**
  * $Id: exporter.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component
@@ -66,13 +67,13 @@ class RepositoryManagerExporterComponent extends RepositoryManager
                 $webpath = Path :: get(WEB_TEMP_PATH) . $this->get_user_id() . '/content_objects.cpo';
 
                 $this->display_header();
-                $this->display_message('<a href="' . $webpath . '">' . Translation :: get('Download') . '</a>');
+                $this->display_message('<a href="' . $webpath . '">' . Translation :: get('Download', null, Utilities :: COMMON_LIBRARIES) . '</a>');
                 $this->display_footer();
             }
             else
             {
                 $this->display_header();
-                $this->display_error_message(Translation :: get('NoObjectsSelected'));
+                $this->display_error_message(Translation :: get('NoObjectsSelected', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES));
                 $this->display_footer();
             }
         }

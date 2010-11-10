@@ -44,6 +44,7 @@ class Autoloader
             'wiki_most_edited_page_reporting_block' => '../reporting/blocks/wiki_most_edited_page_reporting_block.class.php',
             'wiki_most_visited_page_reporting_block' => '../reporting/blocks/wiki_most_visited_page_reporting_block.class.php',
             'wiki_page_most_active_users_reporting_block' => '../reporting/blocks/wiki_page_most_active_users_reporting_block.class.php',
+            'wiki_page_users_contributions_reporting_block' => '../reporting/blocks/wiki_page_users_contributions_reporting_block.class.php',
             'wiki_most_reporting_template' => '../reporting/templates/wiki_most_reporting_template.class.php',
             'wiki_page_most_reporting_template' => '../reporting/templates/wiki_page_most_reporting_template.class.php',
         );

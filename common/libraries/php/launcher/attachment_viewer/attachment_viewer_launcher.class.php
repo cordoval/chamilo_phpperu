@@ -1,5 +1,10 @@
 <?php
 namespace common\libraries;
+
+use repository\RepositoryManager;
+use repository\RepositoryDataManager;
+use repository\ContentObjectDisplay;
+
 class AttachmentViewerLauncher extends LauncherApplication
 {
     const APPLICATION_NAME = 'attachment_viewer';

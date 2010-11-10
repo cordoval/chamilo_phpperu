@@ -2,8 +2,10 @@
 
 namespace application\webconferencing;
 
+use common\libraries\Translation;
 use common\libraries\ObjectTable;
 use common\libraries\ObjectTableFormAction;
+use common\libraries\Utilities;
 /**
  * $Id: webconference_browser_table.class.php 220 2009-11-13 14:33:52Z kariboe $
  * @package application.lib.webconferencing.webconferencing_manager.component.webconference_browser
@@ -33,7 +35,7 @@ class WebconferenceBrowserTable extends ObjectTable
         $this->set_additional_parameters($parameters);
         $actions = array();
         
-        $actions[] = new ObjectTableFormAction(WebconferencingManager :: PARAM_DELETE_SELECTED_WEBCONFERENCES, Translation :: get('RemoveSelected'));
+        $actions[] = new ObjectTableFormAction(WebconferencingManager :: PARAM_DELETE_SELECTED_WEBCONFERENCES, Translation :: get('RemoveSelected', null, Utilities::COMMON_LIBRARIES));
         
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);

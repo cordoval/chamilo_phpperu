@@ -10,6 +10,7 @@ use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: course_group_creator.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -46,7 +47,7 @@ class CourseGroupToolCreatorComponent extends CourseGroupTool
         if ($form->validate())
         {
             $form->create_course_group();
-            $this->get_parent()->redirect(Translation :: get('CourseGroupCreated'), false, array('tool_action' => null, CourseGroupTool :: PARAM_COURSE_GROUP => $course_group_id));
+            $this->get_parent()->redirect(Translation :: get('ObjectCreated', array('OBJECT' => Translation::get('CourseGroup')),Utilities:: COMMON_LIBRARIES ), false, array('tool_action' => null, CourseGroupTool :: PARAM_COURSE_GROUP => $course_group_id));
         }
         else
         {

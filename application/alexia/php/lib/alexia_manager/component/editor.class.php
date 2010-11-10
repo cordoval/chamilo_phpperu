@@ -8,6 +8,7 @@ use common\libraries\Translation;
 use common\libraries\Application;
 use repository\ContentObjectForm;
 use common\libraries\Request;
+use common\libraries\Utilities;
 /**
  * $Id: editor.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.alexia.alexia_manager.component
@@ -22,7 +23,7 @@ class AlexiaManagerEditorComponent extends AlexiaManager
     {
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => AlexiaManager :: ACTION_BROWSE_PUBLICATIONS)), Translation :: get('Alexia')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Edit')));
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Edit' ,null ,Utilities::COMMON_LIBRARIES)));
         $trail->add_help('alexia general');
         
         $publication = Request :: get(AlexiaManager :: PARAM_ALEXIA_ID);
@@ -55,7 +56,7 @@ class AlexiaManagerEditorComponent extends AlexiaManager
                     $success = $publication_form->update_content_object_publication();
                     $message = ($success ? 'ContentObjectUpdated' : 'ContentObjectNotUpdated');
                     
-                    $this->redirect(Translation :: get($message), ! $success, array(Application :: PARAM_ACTION => AlexiaManager :: ACTION_BROWSE_PUBLICATIONS), array(AlexiaManager :: PARAM_ALEXIA_ID));
+                    $this->redirect(Translation :: get($message, null, Utilities::COMMON_LIBRARIES), ! $success, array(Application :: PARAM_ACTION => AlexiaManager :: ACTION_BROWSE_PUBLICATIONS), array(AlexiaManager :: PARAM_ALEXIA_ID));
                 }
                 else
                 {

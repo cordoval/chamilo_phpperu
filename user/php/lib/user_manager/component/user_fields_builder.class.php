@@ -5,7 +5,7 @@ use common\libraries\Display;
 use common\libraries\AdministrationComponent;
 use common\libraries\BreadcrumbTrail;
 use common\extensions\dynamic_form_manager\DynamicFormManager;
-
+use common\libraries\Utilities;
 /**
  * $Id: user_field_builder.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.user_manager.component
@@ -22,7 +22,7 @@ class UserManagerUserFieldsBuilderComponent extends UserManager implements Admin
 		if (!UserRights :: is_allowed(UserRights :: VIEW_RIGHT, UserRights :: LOCATION_FIELDS_BUILDER, UserRights :: TYPE_COMPONENT))
         {
             $this->display_header();
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get("NotAllowed", null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }

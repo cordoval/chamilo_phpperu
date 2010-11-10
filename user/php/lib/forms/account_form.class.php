@@ -8,10 +8,12 @@ use common\libraries\Translation;
 use common\libraries\FormValidator;
 use common\libraries\PlatformSetting;
 use common\libraries\ResourceManager;
+use common\libraries\Path;
 
 use admin\AdminDataManager;
 use tracking\Event;
 use tracking\ChangesTracker;
+use common\libraries\Utilities;
 
 /**
  * $Id: account_form.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
@@ -78,11 +80,11 @@ class AccountForm extends FormValidator
 
         if (PlatformSetting :: get('allow_change_lastname', UserManager :: APPLICATION_NAME) == 1)
         {
-            $this->addRule(User :: PROPERTY_LASTNAME, Translation :: get('ThisFieldIsRequired'), 'required');
+            $this->addRule(User :: PROPERTY_LASTNAME, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         }
         if (PlatformSetting :: get('allow_change_firstname', UserManager :: APPLICATION_NAME) == 1)
         {
-            $this->addRule(User :: PROPERTY_FIRSTNAME, Translation :: get('ThisFieldIsRequired'), 'required');
+            $this->addRule(User :: PROPERTY_FIRSTNAME, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         }
         // Official Code
         $this->addElement('text', User :: PROPERTY_OFFICIAL_CODE, Translation :: get('OfficialCode'), array("size" => "50"));
@@ -97,7 +99,7 @@ class AccountForm extends FormValidator
 
         if (PlatformSetting :: get('require_official_code', UserManager :: APPLICATION_NAME) && PlatformSetting :: get('allow_change_official_code', UserManager :: APPLICATION_NAME) == 1)
         {
-            $this->addRule(User :: PROPERTY_OFFICIAL_CODE, Translation :: get('ThisFieldIsRequired'), 'required');
+            $this->addRule(User :: PROPERTY_OFFICIAL_CODE, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         }
 
         // Email
@@ -113,7 +115,7 @@ class AccountForm extends FormValidator
 
         if (PlatformSetting :: get('require_email', UserManager :: APPLICATION_NAME))
         {
-            $this->addRule(User :: PROPERTY_EMAIL, Translation :: get('ThisFieldIsRequired'), 'required');
+            $this->addRule(User :: PROPERTY_EMAIL, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         }
 
         $this->addRule(User :: PROPERTY_EMAIL, Translation :: get('EmailWrong'), 'email');
@@ -127,7 +129,7 @@ class AccountForm extends FormValidator
 
         $this->applyFilter(User :: PROPERTY_USERNAME, 'stripslashes');
         $this->applyFilter(User :: PROPERTY_USERNAME, 'trim');
-        $this->addRule(User :: PROPERTY_USERNAME, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(User :: PROPERTY_USERNAME, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         $this->addRule(User :: PROPERTY_USERNAME, Translation :: get('UsernameWrong'), 'username');
         //Todo: The rule to check unique username should be updated to the LCMS code api
         //$this->addRule(User :: PROPERTY_USERNAME, Translation :: get('UserTaken'), 'username_available', $user_data['username']);
@@ -179,8 +181,8 @@ class AccountForm extends FormValidator
 
         $this->addElement('hidden', User :: PROPERTY_ID);
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

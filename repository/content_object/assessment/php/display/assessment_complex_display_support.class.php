@@ -1,13 +1,15 @@
 <?php
 namespace repository\content_object\assessment;
 
+use repository\ComplexDisplaySupport;
+
 /**
  * A class implements the <code>AssessmentComplexDisplaySupport</code> interface to
  * indicate that it will serve as a launch base for a AssessmentComplexDisplay.
  *
  * @author  Hans De Bisschop
  */
-interface AssessmentComplexDisplaySupport
+interface AssessmentComplexDisplaySupport extends ComplexDisplaySupport
 {
 
     /**
@@ -17,25 +19,25 @@ interface AssessmentComplexDisplaySupport
      * @param mixed $answer
      * @param int $score
      */
-    function save_answer($complex_question_id, $answer, $score);
+    function save_assessment_answer($complex_question_id, $answer, $score);
 
     /**
      * Write the total score to persistent storage
      *
      * @param int $total_score
      */
-    function finish_assessment($total_score);
+    function save_assessment_result($total_score);
 
     /**
      * Get the current assessment attempt id
      */
-    function get_current_attempt_id();
+    function get_assessment_current_attempt_id();
 
     /**
      * Get the url to go back to after finishing the assessment
      *
      * @return string
      */
-    function get_go_back_url();
+    function get_assessment_go_back_url();
 }
 ?>

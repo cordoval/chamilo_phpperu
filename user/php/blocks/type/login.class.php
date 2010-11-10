@@ -10,6 +10,7 @@ use common\libraries\Translation;
 use common\libraries\FormValidator;
 use common\libraries\PlatformSetting;
 use common\libraries\Request;
+use common\libraries\Utilities;
 
 /**
  * $Id: login.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
@@ -84,9 +85,9 @@ class UserLogin extends UserBlock
         $renderer->setElementTemplate('<div class="row">{label}<br />{element}</div>');
         $form->setRequiredNote(null);
         $form->addElement('text', 'login', Translation :: get('UserName'), array('style' => 'width: 90%;', 'onclick' => 'this.value=\'\';'));
-        $form->addRule('login', Translation :: get('ThisFieldIsRequired'), 'required');
+        $form->addRule('login', Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         $form->addElement('password', 'password', Translation :: get('Password'), array('style' => 'width: 90%;', 'onclick' => 'this.value=\'\';'));
-        $form->addRule('password', Translation :: get('ThisFieldIsRequired'), 'required');
+        $form->addRule('password', Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
 
         $buttons = array();
         $buttons[] = $form->createElement('style_submit_button', 'submitAuth', Translation :: get('Login'), array('class' => 'positive login'));

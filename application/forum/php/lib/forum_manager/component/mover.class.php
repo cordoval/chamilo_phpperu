@@ -6,6 +6,8 @@ use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
+use common\libraries\Utilities;
+
 /**
  * $Id: mover.class.php 195 2009-11-13 12:02:41Z chellee $
  * @package application.lib.forum.forum_manager.component
@@ -29,11 +31,11 @@ class ForumManagerMoverComponent extends ForumManager
             $publication = $datamanager->retrieve_forum_publication($fpid);
             if ($publication->move($move))
             {
-                $message = Translation :: get('ContentObjectPublicationMoved');
+                $message = Translation :: get('ObjectMoved' , array('OBJECT' => Translation :: get('Forum', null, 'repository/forum')) , Utilities :: COMMON_LIBRARIES);
             }
             else
             {
-            	$message = Translation :: get('ContentObjectPublicationNotMoved');
+       			$message = Translation :: get('ObjectNotMoved' , array('OBJECT' => Translation :: get('Forum', null, 'repository/forum')) , Utilities :: COMMON_LIBRARIES);
             }
             
             $this->redirect($message, false, array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE));

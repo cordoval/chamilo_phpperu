@@ -6,6 +6,8 @@ use common\libraries\Request;
 use common\libraries\WebApplication;
 use common\libraries\Translation;
 use common\libraries\Breadcrumb;
+use common\libraries\Utilities;
+
 /**
  * $Id: deleter.class.php 195 2009-11-13 12:02:41Z chellee $
  * @package application.lib.forum.forum_manager.component
@@ -40,7 +42,7 @@ class ForumManagerDeleterComponent extends ForumManager
        			{
        				require_once dirname(__FILE__) . '/../../../gradebook/gradebook_utilities.class.php';
 			    	if(!GradebookUtilities :: move_internal_item_to_external_item(ForumManager :: APPLICATION_NAME, $forum_publication->get_id()))
-			    		$message = 'failed to move internal evaluation to external evaluation';
+                    	$message = Translation :: get('MoveInternEvalToExternEvalFailed', null , 'application/gradebook');
        			}
                 if (! $forum_publication->delete())
                 {
@@ -52,30 +54,30 @@ class ForumManagerDeleterComponent extends ForumManager
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedForumPublicationDeleted';
+                    $message = Translation :: get('ObjectNotDeleted',array('OBJECT' => Translation :: get('Forum', null, 'repository/forum')), Utilities :: COMMON_LIBRARIES);
                 }
                 else
                 {
-                    $message = 'SelectedForumPublicationDeleted';
+                    $message = Translation :: get('ObjectsNotDeleted',array('OBJECT' => Translation :: get('Forums', null, 'repository/forum')), Utilities :: COMMON_LIBRARIES);
                 }
             }
             else
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedForumPublicationsDeleted';
+                    $message = Translation :: get('ObjectDeleted',array('OBJECT' => Translation :: get('Forum', null, 'repository/forum')), Utilities :: COMMON_LIBRARIES);
                 }
                 else
                 {
-                    $message = 'SelectedForumPublicationsDeleted';
+                    $message = Translation :: get('ObjectsDeleted',array('OBJECT' => Translation :: get('Forums', null, 'repository/forum')), Utilities :: COMMON_LIBRARIES);
                 }
             }
             
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE));
+            $this->redirect($message, ($failures ? true : false), array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoForumPublicationsSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectsSelected',null, Utilities :: COMMON_LIBRARIES)));
         }
     }
     

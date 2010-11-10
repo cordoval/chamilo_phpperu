@@ -31,7 +31,7 @@ class TemplateBrowserTable extends RepositoryBrowserTable
         parent :: ObjectTable($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
 
         $actions = new ObjectTableFormActions(RepositoryManager :: PARAM_ACTION);
-        $actions->add_form_action(new ObjectTableFormAction(RepositoryManager :: ACTION_DELETE_TEMPLATE, Translation :: get('RemoveSelected')));
+        $actions->add_form_action(new ObjectTableFormAction(RepositoryManager :: ACTION_DELETE_TEMPLATE, Translation :: get('RemoveSelected', null, Utilities :: COMMON_LIBRARIES)));
         $actions->add_form_action(new ObjectTableFormAction(RepositoryManager :: ACTION_COPY_CONTENT_OBJECT_FROM_TEMPLATES, Translation :: get('CopySelectedToRepository')));
         $this->set_form_actions($actions);
 

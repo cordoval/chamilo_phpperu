@@ -10,6 +10,7 @@ use common\extensions\repo_viewer\RepoViewer;
 
 use repository\ContentObject;
 use repository\RepositoryDataManager;
+use common\libraries\Utilities;
 
 /**
  * $Id: phrases_publisher.class.php 201 2009-11-13 12:34:51Z chellee $
@@ -49,7 +50,7 @@ class PhrasesPublisher
 
 
             $html[] = '<div class="content_object padding_10">';
-            $html[] = '<div class="title">' . Translation :: get('SelectedContentObjects') . '</div>';
+            $html[] = '<div class="title">' . Translation :: get('SelectedContentObjects', null, Utilities::COMMON_LIBRARIES) . '</div>';
             $html[] = '<div class="description">';
             $html[] = '<ul class="attachments_list">';
 
@@ -74,11 +75,11 @@ class PhrasesPublisher
 
             if (! $publication)
             {
-                $message = Translation :: get('ObjectNotPublished');
+                $message = Translation :: get('ObjectNotPublished', null, Utilities::COMMON_LIBRARIES);
             }
             else
             {
-                $message = Translation :: get('ObjectPublished');
+                $message = Translation :: get('ObjectPublished', null, Utilities::COMMON_LIBRARIES);
             }
 
             $this->parent->redirect($message, (! $publication ? true : false), array(Application :: PARAM_ACTION => PhrasesManager :: ACTION_MANAGE_PHRASES, PhrasesPublicationManager :: PARAM_PUBLICATION_MANAGER_ACTION => PhrasesPublicationManager :: ACTION_BROWSE));

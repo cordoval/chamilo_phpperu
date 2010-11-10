@@ -7,6 +7,7 @@ use common\libraries\ObjectTableOrder;
 use common\libraries\EqualityCondition;
 use common\libraries\Translation;
 use common\libraries\Path;
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/maintenance_wizard_page.class.php';
 require_once Path :: get_repository_path() . '/lib/export/cp/cp_export.class.php';
@@ -52,8 +53,8 @@ class CpExportSelectionMaintenanceWizardPage extends MaintenanceWizardPage
 
         $this->addFormRule(array('PublicationSelectionMaintenanceWizardPage', 'count_selected_publications'));
 
-        $prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< ' . Translation :: get('Previous'));
-        $prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next') . ' >>');
+        $prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< ' . Translation :: get('Previous', null, Utilities :: COMMON_LIBRARIES));
+        $prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next', null, Utilities :: COMMON_LIBRARIES) . ' >>');
         $this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
         $this->setDefaultAction('next');
         $this->setDefaults($defaults);

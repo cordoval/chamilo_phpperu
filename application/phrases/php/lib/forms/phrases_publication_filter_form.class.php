@@ -7,6 +7,7 @@ use common\libraries\FormValidator;
 use common\libraries\ObjectTableOrder;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
+use common\libraries\Utilities;
 
 use admin\AdminDataManager;
 
@@ -53,7 +54,7 @@ class PhrasesPublicationFilterForm extends FormValidator
 
         $this->addElement('select', self :: BROWSER_FILTER_LANGUAGE, Translation :: get('Language'), $this->get_languages());
         $this->addElement('select', self :: BROWSER_FILTER_MASTERY_LEVEL, Translation :: get('MasteryLevel'), $this->get_mastery_levels());
-        $this->addElement('style_submit_button', 'submit', Translation :: get('Filter'), array('class' => 'normal search'));
+        $this->addElement('style_submit_button', 'submit', Translation :: get('Filter', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal search'));
     }
 
     function get_mastery_levels()

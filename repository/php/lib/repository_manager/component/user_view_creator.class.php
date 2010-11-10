@@ -5,6 +5,7 @@ use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Application;
+use common\libraries\Utilities;
 
 /**
  * $Id: user_view_creator.class.php 204 2009-11-13 12:51:30Z kariboe $
@@ -23,7 +24,7 @@ class RepositoryManagerUserViewCreatorComponent extends RepositoryManager
         /*if (! $this->get_user()->is_platform_admin())
         {
             $this->display_header($trail, false, true);
-            Display :: warning_message(Translation :: get('NotAllowed'));
+            Display :: warning_message(Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }*/
@@ -35,7 +36,7 @@ class RepositoryManagerUserViewCreatorComponent extends RepositoryManager
             $success = $form->create_user_view();
             $user_view = $form->get_user_view();
 
-            $message = $success ? Translation :: get('UserViewCreated') : Translation :: get('UserViewNotCreated');
+            $message = $success ? Translation :: get('ObjectCreated', array('OBJECT' => Translation :: get('UserView')), Utilities :: COMMON_LIBRARIES) : Translation :: get('ObjectNotCreated', array('OBJECT' => Translation :: get('UserView')), Utilities :: COMMON_LIBRARIES);
 
             if(!$success)
             {

@@ -1,5 +1,5 @@
 <?php
-
+namespace repository;
 /**
  * Question builder for match numeric questions.
  *

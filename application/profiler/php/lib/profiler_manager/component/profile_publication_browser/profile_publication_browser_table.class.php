@@ -5,6 +5,7 @@ namespace application\profiler;
 use common\libraries\WebApplication;
 use common\libraries\ObjectTableFormAction;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\ObjectTable;
 /**
  * $Id: profile_publication_browser_table.class.php 212 2009-11-13 13:38:35Z chellee $
@@ -31,7 +32,7 @@ class ProfilePublicationBrowserTable extends ObjectTable
         parent :: __construct($data_provider, ProfilePublicationBrowserTable :: DEFAULT_NAME, $model, $renderer);
         $actions = array();
         
-        $actions[] = new ObjectTableFormAction(ProfilerManager :: PARAM_DELETE_SELECTED, Translation :: get('RemoveSelected'));
+        $actions[] = new ObjectTableFormAction(ProfilerManager :: PARAM_DELETE_SELECTED, Translation :: get('RemoveSelected', null , Utilities :: COMMON_LIBRARIES));
         
         if ($browser->get_user()->is_platform_admin())
         {

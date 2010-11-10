@@ -7,6 +7,7 @@ use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: request.class.php 224 2010-04-06 14:40:30Z Yannick $
@@ -31,7 +32,7 @@ class WeblcmsManagerCourseCodeSubscriberComponent extends WeblcmsManager
         if (! $this->get_user()->is_platform_admin())
         {
             $this->display_header($trail);
-            Display :: warning_message(Translation :: get('NotAllowed'));
+            Display :: warning_message(Translation :: get('NotAllowed', null ,Utilities:: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }

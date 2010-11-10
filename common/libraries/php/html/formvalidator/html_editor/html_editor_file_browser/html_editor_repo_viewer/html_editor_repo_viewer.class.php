@@ -1,5 +1,7 @@
 <?php
 namespace common\libraries;
+
+use common\extensions\repo_viewer\RepoViewer;
 /**
  * $Id: content_object_repo_viewer.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms
@@ -20,7 +22,7 @@ class HtmlEditorRepoViewer extends RepoViewer
     public static function construct($type, $parent)
     {
         $file = dirname(__FILE__) . '/' . $type . '/html_editor_' . $type . '_repo_viewer.class.php';
-        $class = 'HtmlEditor' . Utilities :: underscores_to_camelcase($type) . 'RepoViewer';
+        $class = __NAMESPACE__ . '\HtmlEditor' . Utilities :: underscores_to_camelcase($type) . 'RepoViewer';
 
         if (file_exists($file))
         {
