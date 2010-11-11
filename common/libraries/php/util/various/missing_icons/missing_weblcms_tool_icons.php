@@ -8,6 +8,7 @@ use repository\ContentObject;
 $sizes = array(Theme :: ICON_MINI, Theme :: ICON_MEDIUM);
 $tools = Filesystem :: get_directory_content(WebApplication :: get_application_path('weblcms') . 'tool/', Filesystem :: LIST_DIRECTORIES, false);
 
+$failures = 0;
 $data = array();
 foreach ($tools as $tool)
 {
@@ -18,6 +19,7 @@ foreach ($tools as $tool)
         $icon_path = Theme :: get_image_system_path(Tool :: get_tool_type_namespace($tool)) . 'logo/' . $size . '.png';
         if (! file_exists($icon_path))
         {
+            $failures++;
             $data_row[] = '<img src="' . Theme :: get_common_image_path() . 'error/' . $size . '.png" />';
         }
         else
@@ -28,6 +30,7 @@ foreach ($tools as $tool)
         $icon_path = Theme :: get_image_system_path(Tool :: get_tool_type_namespace($tool)) . 'logo/' . $size . '_na.png';
         if (! file_exists($icon_path))
         {
+            $failures++;
             $data_row[] = '<img src="' . Theme :: get_common_image_path() . 'error/' . $size . '.png" />';
         }
         else
@@ -38,6 +41,7 @@ foreach ($tools as $tool)
         $icon_path = Theme :: get_image_system_path(Tool :: get_tool_type_namespace($tool)) . 'logo/' . $size . '_new.png';
         if (! file_exists($icon_path))
         {
+            $failures++;
             $data_row[] = '<img src="' . Theme :: get_common_image_path() . 'error/' . $size . '.png" />';
         }
         else
@@ -60,4 +64,6 @@ foreach ($sizes as $key => $size)
 }
 
 echo $table->as_html();
+
+echo '<b>Missing icons: ' . $failures . '</b>';
 ?>

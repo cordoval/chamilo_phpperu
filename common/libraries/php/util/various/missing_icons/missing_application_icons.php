@@ -9,6 +9,7 @@ function check_icons($applications)
 {
     $sizes = array(Theme :: ICON_MINI, Theme :: ICON_SMALL, Theme :: ICON_MEDIUM, Theme :: ICON_BIG);
 
+    $failures = 0;
     $data = array();
 
     foreach ($applications as $application)
@@ -22,6 +23,7 @@ function check_icons($applications)
 
             if (! file_exists($icon_path))
             {
+                $failures++;
                 $data_row[] = '<img src="' . Theme :: get_common_image_path() . 'error/' . $size . '.png" />';
             }
             else
@@ -42,6 +44,8 @@ function check_icons($applications)
     }
 
     echo $table->as_html();
+
+    echo '<b>Missing icons: ' . $failures . '</b>';
 }
 
 $core_applications = array('webservice', 'admin', 'help', 'reporting', 'tracking', 'repository', 'user', 'group', 'rights', 'home', 'menu', 'migration');
