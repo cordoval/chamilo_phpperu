@@ -1,3 +1,4 @@
-Properties = ""
-Reference = ""
-Uuid = ""
+TypeName = "Handbook item"
+Properties = "Properties"
+Reference = "Reference"
+Uuid = "Unique identifier"

@@ -1,2 +1,3 @@
-Properties = ""
-Reference = ""
+TypeName = "Learning path item"
+Properties = "Properties"
+Reference = "Reference"

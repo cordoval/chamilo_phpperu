@@ -1,3 +1,4 @@
+TypeName = "Survey"
 Answer = ""
 SubscribeSurveyContext = ""
 ConfigureSurveyContext = ""

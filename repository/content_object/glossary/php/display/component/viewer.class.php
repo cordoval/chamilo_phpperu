@@ -10,6 +10,7 @@ use common\libraries\ActionBarRenderer;
 use common\libraries\ToolbarItem;
 use common\libraries\Toolbar;
 use common\libraries\Theme;
+use common\libraries\Utilities;
 use repository\ComplexDisplay;
 use repository\RepositoryDataManager;
 use repository\content_object\glossary_item\GlossaryItem;
@@ -122,8 +123,8 @@ class GlossaryDisplayViewerComponent extends GlossaryDisplay
                     self :: PARAM_VIEW => self :: VIEW_TABLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
 
-        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ShowAsTable'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(self :: PARAM_VIEW => self :: VIEW_TABLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ShowAsList'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(self :: PARAM_VIEW => self :: VIEW_LIST)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('TableView', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(self :: PARAM_VIEW => self :: VIEW_TABLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ListView', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(self :: PARAM_VIEW => self :: VIEW_LIST)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         return $action_bar;
     }

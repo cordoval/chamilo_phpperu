@@ -154,8 +154,8 @@ class Theme
         if (! $context)
         {
             $backtrace = debug_backtrace();
-            //$called_class = $backtrace[1]['class'];
-            $called_class = get_called_class();
+            $called_class = $backtrace[1]['class'];
+            //$called_class = get_called_class();
             $context = Utilities :: get_namespace_from_classname($called_class);
         }
 

@@ -19,7 +19,7 @@ class SystemAnnouncementForm extends ContentObjectForm
     {
         parent :: build_creation_form();
         $this->addElement('category', Translation :: get('Properties'));
-        $this->addElement('select', SystemAnnouncement :: PROPERTY_ICON, Translation :: get('icon'), SystemAnnouncement :: get_possible_icons());
+        $this->addElement('select', SystemAnnouncement :: PROPERTY_ICON, Translation :: get('Icon'), SystemAnnouncement :: get_possible_icons());
         $this->addElement('category');
     }
 
@@ -27,7 +27,7 @@ class SystemAnnouncementForm extends ContentObjectForm
     {
         parent :: build_editing_form();
         $this->addElement('category', Translation :: get('Properties'));
-        $this->addElement('select', SystemAnnouncement :: PROPERTY_ICON, Translation :: get('icon'), SystemAnnouncement :: get_possible_icons());
+        $this->addElement('select', SystemAnnouncement :: PROPERTY_ICON, Translation :: get('Icon'), SystemAnnouncement :: get_possible_icons());
         $this->addElement('category');
     }
 

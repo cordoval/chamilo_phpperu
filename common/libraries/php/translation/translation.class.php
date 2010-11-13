@@ -80,7 +80,10 @@ class Translation
     function get($variable, $parameters = array(), $context = null)
     {
         $instance = self :: get_instance();
-        self :: $called_class = get_called_class();
+
+        $backtrace = debug_backtrace();
+        self :: $called_class = $backtrace[1]['class'];
+        //self :: $called_class = get_called_class();
 
         $translation = $instance->translate($variable, $context);
 
