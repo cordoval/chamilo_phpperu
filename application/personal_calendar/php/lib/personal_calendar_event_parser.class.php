@@ -37,7 +37,7 @@ abstract class PersonalCalendarEventParser
             $message[] = '<b>' . Translation :: get('Stacktrace') . ':</b>';
             $message[] = '<ul>';
             $message[] = '<li>' . Translation :: get('PersonalCalendarEventParser') . '</li>';
-            $message[] = '<li>' . Translation :: get($type, null , 'repository/content_object/'.$type) . '</li>';
+            $message[] = '<li>' . Translation :: get($type, null , 'repository\content_object\'.$type) . '</li>';
             $message[] = '</ul>';
             
             $trail = BreadcrumbTrail :: get_instance();
