@@ -49,7 +49,7 @@ class ForumTopicDisplayCreatorComponent extends ForumTopicDisplay implements
             }
 
             $trail = BreadcrumbTrail :: get_instance();
-            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ReplyOnPost', null , 'repository/content_object/forum_post')));
+            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ReplyOnPost', null , 'repository\content_object\forum_post')));
 
             $repo_viewer->run();
         }

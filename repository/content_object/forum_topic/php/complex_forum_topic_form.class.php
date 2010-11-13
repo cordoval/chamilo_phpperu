@@ -42,8 +42,8 @@ class ComplexForumTopicForm extends ComplexContentObjectItemForm
     public function get_elements()
     {
         $elements[] = $this->createElement('radio', ComplexForumTopic :: PROPERTY_TYPE, Translation :: get('Nothing', null , Utilities :: COMMON_LIBRARIES), '', 0);
-        $elements[] = $this->createElement('radio', ComplexForumTopic :: PROPERTY_TYPE, Translation :: get('Sticky', null , 'repository/content_object/forum'), '', 1);
-        $elements[] = $this->createElement('radio', ComplexForumTopic :: PROPERTY_TYPE, Translation :: get('Important', null , 'repository/content_object/forum'), '', 2);
+        $elements[] = $this->createElement('radio', ComplexForumTopic :: PROPERTY_TYPE, Translation :: get('Sticky', null , 'repository\content_object\forum'), '', 1);
+        $elements[] = $this->createElement('radio', ComplexForumTopic :: PROPERTY_TYPE, Translation :: get('Important', null , 'repository\content_object\forum'), '', 2);
         return $elements;
     }
 

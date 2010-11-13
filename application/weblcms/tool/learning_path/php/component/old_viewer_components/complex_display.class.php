@@ -521,7 +521,7 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool
 
         if ($details)
         {
-            $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT, Tool :: PARAM_PUBLICATION_ID => $pid, 'lp_action' => 'view_progress', 'cid' => $cid, 'details' => $details)), Translation :: get('AssessmentResult', null , 'application/assessment')));
+            $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT, Tool :: PARAM_PUBLICATION_ID => $pid, 'lp_action' => 'view_progress', 'cid' => $cid, 'details' => $details)), Translation :: get('AssessmentResult', null , 'application\assessment')));
         }
     }
 

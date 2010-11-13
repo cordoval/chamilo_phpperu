@@ -41,11 +41,11 @@ class ForumTopicDisplayDeleterComponent extends ForumTopicDisplay
             }
             if (count($posts) > 1)
             {
-                $message = htmlentities(Translation :: get('ObjectsDeleted', array('OBJECT' => Translation :: get('ForumPosts', null ,'repository/content_object/forum')) , Utilities :: COMMON_LIBRARIES));
+                $message = htmlentities(Translation :: get('ObjectsDeleted', array('OBJECT' => Translation :: get('ForumPosts', null ,'repository\content_object\forum')) , Utilities :: COMMON_LIBRARIES));
             }
             else
             {
-                $message = htmlentities(Translation :: get('ObjectDeleted', array('OBJECT' => Translation :: get('ForumPost', null ,'repository/content_object/forum')) , Utilities :: COMMON_LIBRARIES));
+                $message = htmlentities(Translation :: get('ObjectDeleted', array('OBJECT' => Translation :: get('ForumPost', null ,'repository\content_object\forum')) , Utilities :: COMMON_LIBRARIES));
             }
 
             $this->redirect($message, false, $params);

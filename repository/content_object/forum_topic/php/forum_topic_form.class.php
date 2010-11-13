@@ -37,7 +37,7 @@ class ForumTopicForm extends ContentObjectForm
     {
         parent :: build_creation_form();
         $this->addElement('category', Translation :: get('Properties', null , Utilities :: COMMON_LIBRARIES));
-        $this->addElement('checkbox', 'locked', Translation :: get('Locked', null , 'repository/content_object/forum'));
+        $this->addElement('checkbox', 'locked', Translation :: get('Locked', null , 'repository\content_object\forum'));
         $this->addElement('category');
     }
 
@@ -45,7 +45,7 @@ class ForumTopicForm extends ContentObjectForm
     {
         parent :: build_editing_form();
         $this->addElement('category', Translation :: get('Properties', null , Utilities :: COMMON_LIBRARIES));
-        $this->addElement('checkbox', 'locked', Translation :: get('Locked', null , 'repository/content_object/forum'));
+        $this->addElement('checkbox', 'locked', Translation :: get('Locked', null , 'repository\content_object\forum'));
         $this->addElement('category');
     }
 
