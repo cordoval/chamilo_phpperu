@@ -76,13 +76,13 @@ class ForumManagerBrowserComponent extends ForumManager
         $table->setCellContents(0, 0, '');
         $table->setCellAttributes(0, 0, array('colspan' => 6, 'class' => 'category'));
         
-        $table->setHeaderContents(1, 0, Translation :: get('Forum', null, 'repository/forum'));
+        $table->setHeaderContents(1, 0, Translation :: get('Forum', null, 'repository\content_object\forum'));
         $table->setCellAttributes(1, 0, array('colspan' => 2));
-        $table->setHeaderContents(1, 2, Translation :: get('Topics', null, 'repository/forum'));
+        $table->setHeaderContents(1, 2, Translation :: get('Topics', null, 'repository\content_object\forum'));
         $table->setCellAttributes(1, 2, array('width' => 50));
-        $table->setHeaderContents(1, 3, Translation :: get('Posts', null, 'repository/forum'));
+        $table->setHeaderContents(1, 3, Translation :: get('Posts', null, 'repository\content_object\forum'));
         $table->setCellAttributes(1, 3, array('width' => 50));
-        $table->setHeaderContents(1, 4, Translation :: get('LastPost', null, 'repository/forum'));
+        $table->setHeaderContents(1, 4, Translation :: get('LastPost', null, 'repository\content_object\forum'));
         $table->setCellAttributes(1, 4, array('width' => 130));
         $table->setHeaderContents(1, 5, '');
         $table->setCellAttributes(1, 5, array('width' => 125));
@@ -145,7 +145,7 @@ class ForumManagerBrowserComponent extends ForumManager
             	$src = Theme :: get_common_image_path() . 'action_lock.png';
             }
             
-            $table->setCellContents($row, 0, '<img title="' . Translation :: get('NoNewPosts', null, 'repository/forum') . '" src="' . $src . '" />');
+            $table->setCellContents($row, 0, '<img title="' . Translation :: get('NoNewPosts', null, 'repository\content_object\forum') . '" src="' . $src . '" />');
             $table->setCellAttributes($row, 0, array('width' => 50, 'class' => 'row1', 'style' => 'height:50px; text-align: center;'));
             $table->setCellContents($row, 1, $title);
             $table->setCellAttributes($row, 1, array('width' => '0%', 'class' => 'row1'));
@@ -157,7 +157,7 @@ class ForumManagerBrowserComponent extends ForumManager
             {
                 $link = '';
             	//$link = $this->get_url(array(ComplexDisplay::PARAM_DISPLAY_ACTION => ForumDisplay::ACTION_VIEW_TOPIC,'pid' => $this->pid, 'cid' => $topic->get_id())) . '#post_' . $last_post->get_id();
-                $table->setCellContents($row, 4, DatetimeUtilities :: format_locale_date(null,$last_post->get_add_date()) . '<br />' . $udm->retrieve_user($last_post->get_user_id())->get_fullname() . ' <a href="' . $link . '"><img title="' . Translation :: get('ViewLastPost', null , 'repository/forum') . '" src="' . Theme :: get_image_path() . 'forum/icon_topic_latest.gif" /></a>');
+                $table->setCellContents($row, 4, DatetimeUtilities :: format_locale_date(null,$last_post->get_add_date()) . '<br />' . $udm->retrieve_user($last_post->get_user_id())->get_fullname() . ' <a href="' . $link . '"><img title="' . Translation :: get('ViewLastPost', null , 'repository\content_object\forum') . '" src="' . Theme :: get_image_path() . 'forum/icon_topic_latest.gif" /></a>');
             }
             else
             {
@@ -254,7 +254,7 @@ class ForumManagerBrowserComponent extends ForumManager
         	{
         		$parameters[ForumManager :: PARAM_ACTION] = ForumManager :: ACTION_CHANGE_LOCK;
         		$parameters[ForumManager :: PARAM_PUBLICATION_ID] = $publication->get_id();
-        		$toolbar->add_item(new ToolbarItem(Translation :: get('Unlock', null, 'repository/forum'), 
+        		$toolbar->add_item(new ToolbarItem(Translation :: get('Unlock', null, 'repository\content_object\forum'), 
         			Theme :: get_common_image_path() . 'action_unlock.png', 
         			$this->get_url($parameters),
         			ToolbarItem :: DISPLAY_ICON
@@ -264,7 +264,7 @@ class ForumManagerBrowserComponent extends ForumManager
         	{
         		$parameters[ForumManager :: PARAM_ACTION] = ForumManager :: ACTION_CHANGE_LOCK;
         		$parameters[ForumManager :: PARAM_PUBLICATION_ID] = $publication->get_id();
-        		$toolbar->add_item(new ToolbarItem(Translation :: get('Lock', null, 'repository/forum'), 
+        		$toolbar->add_item(new ToolbarItem(Translation :: get('Lock', null, 'repository\content_object\forum'), 
         			Theme :: get_common_image_path() . 'action_lock.png', 
         			$this->get_url($parameters),
         			ToolbarItem :: DISPLAY_ICON

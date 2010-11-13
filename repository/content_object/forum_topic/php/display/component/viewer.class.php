@@ -118,10 +118,10 @@ class ForumTopicDisplayViewerComponent extends ForumTopicDisplay
                 'colspan' => 2,
                 'class' => 'category'));
 
-        $table->setHeaderContents(1, 0, Translation :: get('Author', null , 'repository/content_object/forum'));
+        $table->setHeaderContents(1, 0, Translation :: get('Author', null , 'repository\content_object\forum'));
         $table->setCellAttributes(1, 0, array(
                 'width' => 130));
-        $table->setHeaderContents(1, 1, Translation :: get('Message', null , 'repository/content_object/forum'));
+        $table->setHeaderContents(1, 1, Translation :: get('Message', null , 'repository\content_object\forum'));
     }
 
     function create_posts_table_footer($table, $row)
@@ -149,7 +149,7 @@ class ForumTopicDisplayViewerComponent extends ForumTopicDisplay
                     'width' => 150,
                     'valign' => 'middle',
                     'align' => 'center'));
-            $table->setCellContents($row, 1, '<b>' . Translation :: get('Subject', null , 'repository/content_object/forum') . ':</b> ' . $post->get_ref()->get_title());
+            $table->setCellContents($row, 1, '<b>' . Translation :: get('Subject', null , 'repository\content_object\forum') . ':</b> ' . $post->get_ref()->get_title());
             $table->setCellAttributes($row, 1, array(
                     'class' => $class,
                     'height' => 25,
@@ -164,7 +164,7 @@ class ForumTopicDisplayViewerComponent extends ForumTopicDisplay
 
             if (count($attachments) > 0)
             {
-                $message .= '<div class="quotetitle">' . Translation :: get('Attachments', null , 'repository/content_object/forum') . ':</div><div class="quotecontent"><ul>';
+                $message .= '<div class="quotetitle">' . Translation :: get('Attachments', null , 'repository\content_object\forum') . ':</div><div class="quotecontent"><ul>';
 
                 foreach ($attachments as $attachment)
                 {
@@ -230,7 +230,7 @@ class ForumTopicDisplayViewerComponent extends ForumTopicDisplay
 
     private function format_message($message)
     {
-        $message = preg_replace('/\[quote=("|&quot;)(.*)("|&quot;)\]/', "<div class=\"quotetitle\">$2 " . Translation :: get('wrote', null , 'repository/content_object/forum') . ":</div><div class=\"quotecontent\">", $message);
+        $message = preg_replace('/\[quote=("|&quot;)(.*)("|&quot;)\]/', "<div class=\"quotetitle\">$2 " . Translation :: get('wrote', null , 'repository\content_object\forum') . ":</div><div class=\"quotecontent\">", $message);
         $message = str_replace('[/quote]', '</div>', $message);
 
         return $message;
@@ -250,11 +250,11 @@ class ForumTopicDisplayViewerComponent extends ForumTopicDisplay
         {
             $parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumTopicDisplay :: ACTION_QUOTE_FORUM_POST;
 
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Quote', null , 'repository/content_object/forum'), Theme :: get_image_path() . 'forum/buttons/icon_post_quote.gif', $this->get_url($parameters), ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Quote', null , 'repository\content_object\forum'), Theme :: get_image_path() . 'forum/buttons/icon_post_quote.gif', $this->get_url($parameters), ToolbarItem :: DISPLAY_ICON));
 
             $parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumTopicDisplay :: ACTION_CREATE_FORUM_POST;
 
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Reply', null , 'repository/content_object/forum'), Theme :: get_image_path() . 'forum/buttons/button_pm_reply.gif', $this->get_url($parameters), ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Reply', null , 'repository\content_object\forum'), Theme :: get_image_path() . 'forum/buttons/button_pm_reply.gif', $this->get_url($parameters), ToolbarItem :: DISPLAY_ICON));
         }
 
         if ($this->get_parent()->is_allowed(EDIT_RIGHT) || $complex_content_object_item->get_user_id() == $this->get_user_id())
@@ -281,7 +281,7 @@ class ForumTopicDisplayViewerComponent extends ForumTopicDisplay
         $parameters[ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID] = $this->get_complex_content_object_item_id();
         $parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumTopicDisplay :: ACTION_CREATE_FORUM_POST;
 
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ReplyOnTopic' , null , 'repository/content_object/forum_topic'), Theme :: get_common_image_path() . 'action_reply.png', $this->get_url($parameters), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ReplyOnTopic' , null , 'repository\content_object\forum_topic'), Theme :: get_common_image_path() . 'action_reply.png', $this->get_url($parameters), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         return $action_bar;
     }
 
