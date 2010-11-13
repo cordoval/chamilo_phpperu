@@ -21,7 +21,7 @@ class LanguageInstallWizardPage extends InstallWizardPage
 
     function get_info()
     {
-        return 'Please select the language you\'d like to use while installing:';
+        return Translation :: get('SelectLanguage');
     }
 
     function buildForm()

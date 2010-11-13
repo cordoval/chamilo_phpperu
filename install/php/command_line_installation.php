@@ -33,15 +33,15 @@ function __autoload($classname)
 					     Path :: get_reporting_path() . 'reporting_autoloader.class.php', Path :: get_rights_path() . 'rights_autoloader.class.php',
 					     Path :: get_tracking_path() . 'tracking_autoloader.class.php', Path :: get_webservice_path() . 'webservice_autoloader.class.php',
 					     Path :: get_common_extensions_path() . 'application_common_autoloader.class.php');
-	
+
 	foreach($autoloaders as $autoloader)
 	{
 		require_once $autoloader;
-		
+
 		$classn = substr(basename($autoloader), 0, -10);
 		$classname_upp = Utilities :: underscores_to_camelcase($classn);
 		$class = new $classname_upp;
-		
+
 		if($class->load($classname))
 			break;
 	}
@@ -49,10 +49,10 @@ function __autoload($classname)
 
 Filesystem :: remove(dirname(__FILE__) . '/../common/configuration/configuration.php');
 
-require_once dirname(__FILE__) . '/lib/install_manager/install_manager.class.php'; 
+require_once dirname(__FILE__) . '/lib/install_manager/install_manager.class.php';
 require_once 'MDB2.php';
 
-require_once dirname(__FILE__) . '/command_line_configuration.inc.php'; 
+require_once dirname(__FILE__) . '/command_line_configuration.inc.php';
 
 Request :: set_get('install_running', 1);
 
@@ -71,7 +71,7 @@ function create_database()
 
     if (MDB2 :: isError($connection))
     {
-        return array(Installer :: INSTALL_SUCCESS => false, Installer :: INSTALL_MESSAGE => (Translation :: get('DBConnectError') . $connection->getMessage()));
+        return array(Installer :: INSTALL_SUCCESS => false, Installer :: INSTALL_MESSAGE => (Translation :: get('CouldNotConnectToDatabase') . $connection->getMessage()));
     }
     else
     {
@@ -100,14 +100,14 @@ function create_database()
 function create_folders()
 {
     $files_path = dirname(__FILE__) . '/../files/';
-    
+
     $directories = array('archive', 'garbage', 'repository', 'temp', 'userpictures', 'scorm', 'logs', 'hotpotatoes');
     foreach ($directories as $directory)
     {
         $path = $files_path . $directory;
-        
+
         Filesystem :: remove($path);
-        
+
         if (! Filesystem :: create_dir($path))
         {
             return array(Installer :: INSTALL_SUCCESS => false, Installer :: INSTALL_MESSAGE => Translation :: get('FoldersCreatedFailed'));
@@ -139,7 +139,7 @@ function write_config_file()
     $config['{URL_APPEND}'] = $values['url_append'];
     $config['{HASHING_ALGORITHM}'] = $values['hashing_algorithm'];
     $config['{INSTALL_DATE}'] = time();
-    
+
     foreach ($config as $key => $value)
     {
         $content = str_replace($key, $value, $content);

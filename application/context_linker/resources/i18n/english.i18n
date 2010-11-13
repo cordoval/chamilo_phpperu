@@ -1,3 +1,4 @@
+TypeName = "Context linker"
 AlreadyInChain = ""
 BrowseContextLinker = ""
 ContextLink = ""
