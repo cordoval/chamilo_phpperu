@@ -26,10 +26,12 @@ class Configuration
     /**
      * Constructor.
      */
-    private function Configuration()
+    private function  __construct()
     {
         global $configuration;
-        include_once Path :: get_common_path(). 'configuration/configuration.php';
+        // changed include_once to include because another part of the program
+        // already have opened the file.
+        include Path :: get_common_path(). 'configuration/configuration.php';
         $this->params = $configuration;
     }
 

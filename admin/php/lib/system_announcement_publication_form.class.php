@@ -3,6 +3,7 @@ namespace admin;
 use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Translation;
+use common\libraries\FormValidator;
 /**
  * @package admin.lib
  * $Id: system_announcement_publication_form.class.php 170 2009-11-12 12:21:00Z vanpouckesven $

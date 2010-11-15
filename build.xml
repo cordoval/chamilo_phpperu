@@ -8,6 +8,7 @@
     <property name="files-dir" location="./files" />
     <property name="build-dir" location="${files-dir}/build" />
     <property name="build-logs-dir" location="${build-dir}/logs" />
+    <property name="build-coverage-dir" location="${build-dir}/coverage" />
     <property name="test-dir" location="./test" />
     <property name="phpunit-config-file" location="${test-dir}/phpunit.xml" />
 
@@ -46,12 +47,14 @@
     <target name="prepare">
         <echo message="Making a  build directory" />
         <mkdir dir="${build-dir}" />
+        <mkdir dir="${build-coverage-dir}" />
+        <mkdir dir="${build-logs-dir}" />
     </target>
 
     <!-- ============================================  -->
     <!-- Target: phpunit                               -->
     <!-- ============================================  -->
-    <target name="phpunit" depends="setcommands, prepare">
+    <target name="phpunit" depends="setcommands, clean, prepare">
         <echo message="Running all the tests" />
         <exec   dir="${test-dir}"
                 executable="${phpunitCmd}"
