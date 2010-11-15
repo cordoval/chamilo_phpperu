@@ -34,7 +34,7 @@ class SurveyUserTableColumnModel extends ObjectTableColumnModel
      * @return array An array of all columns in this table.
      * @see ContentObjectTableColumn
      */
-    static function get_columns()
+    function get_columns()
     {
         $columns = array();
         $columns[] = new ObjectTableColumn(SurveyInvitation :: PROPERTY_USER_ID);

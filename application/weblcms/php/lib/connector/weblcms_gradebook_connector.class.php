@@ -3,11 +3,12 @@ namespace application\weblcms;
 
 use common\libraries\Utilities;
 use common\libraries\Request;
+use application\gradebook\GradebookConnector;
 
 require_once dirname(__FILE__) . '/assessment_tool_gradebook_connector.class.php';
 require_once dirname(__FILE__) . '/learning_path_tool_gradebook_connector.class.php';
 
-class WeblcmsGradebookConnector extends GradeBookConnector
+class WeblcmsGradebookConnector extends GradebookConnector
 {
     private $tool;
 

@@ -6,7 +6,6 @@
  *
  */
 
-require_once 'PHPUnit/Autoload.php';
 require_once dirname(__FILE__) . '/../common/libraries/php/filesystem/path.class.php';
 require_once dirname(__FILE__) . '/../common/libraries/php/utilities.class.php';
 

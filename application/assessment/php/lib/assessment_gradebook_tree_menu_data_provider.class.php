@@ -1,10 +1,12 @@
 <?php
 
 namespace application\assessment;
+use common\libraries\Path;
+use application\gradebook\GradebookTreeMenuDataProvider;
 
-require_once Path :: get_common_path() . '/html/menu/tree_menu/tree_menu_data_provider.class.php';
-require_once Path :: get_common_path() . '/html/menu/tree_menu/tree_menu.class.php';
-require_once Path :: get_common_path() . '/html/menu/tree_menu/tree_menu_item.class.php';
+require_once Path :: get_common_libraries_class_path() . 'html/menu/tree_menu/tree_menu_data_provider.class.php';
+require_once Path :: get_common_libraries_class_path() . 'html/menu/tree_menu/tree_menu.class.php';
+require_once Path :: get_common_libraries_class_path() . 'html/menu/tree_menu/tree_menu_item.class.php';
 require_once dirname(__FILE__).'/assessment_data_manager.class.php';
 require_once dirname(__FILE__).'/assessment_publication.class.php';
 

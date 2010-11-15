@@ -27,7 +27,7 @@ class GradebookUtilities
             $category = split('_', $category);
             if ($internal_item->get_calculated() == 1)
             {
-                $connector = GradeBookConnector :: factory($application);
+                $connector = GradebookConnector :: factory($application);
                 if (!$connector->get_tracker_user($publication_id))
                 {
                     $del_internal_item = $gdm->delete_internal_item($internal_item);

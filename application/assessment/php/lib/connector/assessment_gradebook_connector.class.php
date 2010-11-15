@@ -3,11 +3,11 @@
 namespace application\assessment;
 
 use common\libraries\EqualityCondition;
+use application\gradebook\GradebookConnector;
 
+require_once dirname(__FILE__) . '/../../trackers/assessment_assessment_attempts_tracker.class.php';
 
-require_once dirname(__FILE__) . '/../trackers/assessment_assessment_attempts_tracker.class.php';
-
-class AssessmentGradebookConnector extends GradeBookConnector
+class AssessmentGradebookConnector extends GradebookConnector
 {
 	function get_tracker_score($publication_id)
 	{
