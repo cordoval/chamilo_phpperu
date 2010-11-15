@@ -61,7 +61,7 @@ class PublicationEvaluationsReportingBlock extends EvaluationsReportingBlock
 					$tool = $content_object->get_type();
 				}
 				$udm = UserDataManager :: get_instance();
-				$connector = GradeBookConnector :: factory($application, $tool);
+				$connector = GradebookConnector :: factory($application, $tool);
 				$user = $connector->get_tracker_user($publication_id);
 				$date = $connector->get_tracker_date($publication_id);
 				$score = $connector->get_tracker_score($publication_id);

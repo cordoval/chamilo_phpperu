@@ -9,7 +9,7 @@ use common\libraries\AndCondition;
  * $Id: export_xml.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.assessment_manager.component.results_export_form.result_exporters
  */
-require_once dirname(__FILE__) . '/../../../../trackers/assessment_question_attempts_tracker.class.php';
+require_once dirname(__FILE__) . '/../../../../../trackers/assessment_question_attempts_tracker.class.php';
 
 class ResultsXmlExport extends ResultsExport
 {

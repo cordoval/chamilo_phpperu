@@ -9,12 +9,14 @@ use common\libraries\Breadcrumb;
 use common\libraries\Translation;
 use repository\RepositoryDataManager;
 use repository\OpenQuestion;
+use common\libraries\Path;
 /**
  * $Id: document_downloader.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.assessment_manager.component
  */
-require_once dirname(__FILE__) . '/../../trackers/assessment_question_attempts_tracker.class.php';
-require_once dirname(__FILE__) . '/../../trackers/assessment_assessment_attempts_tracker.class.php';
+
+require_once dirname(__FILE__) . '/../../../trackers/assessment_question_attempts_tracker.class.php';
+require_once dirname(__FILE__) . '/../../../trackers/assessment_assessment_attempts_tracker.class.php';
 
 class AssessmentManagerDocumentDownloaderComponent extends AssessmentManager
 {

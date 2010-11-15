@@ -2,8 +2,9 @@
 
 namespace application\assessment;
 
-use WeblcmsDataManager;
+use application\weblcms\WeblcmsDataManager;
 use repository\RepositoryDataManager;
+use common\libraries\Path;
 /**
  * $Id: export.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment.assessment_manager.component.results_export_form
@@ -11,7 +12,7 @@ use repository\RepositoryDataManager;
 require_once dirname(__FILE__) . '/result_exporters/export_csv.class.php';
 require_once dirname(__FILE__) . '/result_exporters/export_xml.class.php';
 require_once dirname(__FILE__) . '/result_exporters/export_pdf.class.php';
-require_once dirname(__FILE__) . '/../../../../weblcms/weblcms_data_manager.class.php';
+require_once Path :: get_web_application_path('weblcms') . Path :: CLASS_PATH . '/lib/weblcms_data_manager.class.php';
 
 abstract class ResultsExport
 {

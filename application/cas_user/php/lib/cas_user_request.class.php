@@ -10,7 +10,7 @@ use user\User;
  * @author Hans De Bisschop
  */
 
-require dirname(__FILE__) . '/cas_account.class.php';
+require_once dirname(__FILE__) . '/cas_account.class.php';
 
 class CasUserRequest extends DataClass
 {
