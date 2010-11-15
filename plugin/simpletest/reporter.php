@@ -1,4 +1,8 @@
 <?php
+use common\libraries\BreadcrumbTrail;
+use common\libraries\Breadcrumb;
+use common\libraries\Display;
+
 /**
  *  base include file for SimpleTest
  *  @package    SimpleTest

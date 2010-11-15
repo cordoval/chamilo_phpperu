@@ -59,7 +59,7 @@ class DatetimeUtilities
     {
     	if(!$dateFormat)
     	{
-    		$dateFormat = Translation :: get('DateFormatShort', null, Utilities :: COMMON_LIBRARIES) . ', ' . Translation :: get('timeNoSecFormat');
+    		$dateFormat = Translation :: get('DateFormatShort') . ', ' . Translation :: get('TimeNoSecFormat');
     	}
 
         $DaysShort = self::get_days_short(); // Defining the shorts for the days

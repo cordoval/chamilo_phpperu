@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use common\extensions\external_repository_manager;
+
 use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\Installer;
@@ -134,6 +136,8 @@ class RepositoryInstaller extends Installer
 
     function install_external_repository_managers()
     {
+        $external_repository_manager = Translation :: get('ExternalRepositoryManager', null, ExternalRepositoryManager :: get_namespace());
+
         // Adding the YouTube Manager
         $youtube = new ExternalRepository();
         $youtube->set_title('YouTube');
@@ -162,12 +166,12 @@ class RepositoryInstaller extends Installer
         $flickr->set_modification_date(time());
         if (! $flickr->create())
         {
-            $this->add_message(self :: TYPE_ERROR, Translation :: get('ObjectNotAdded', array('OBJECT' => Translation :: get('ExternalRepositoryManager')), Utilities :: COMMON_LIBRARIES) . ': Flickr');
+            $this->add_message(self :: TYPE_ERROR, Translation :: get('ObjectNotAdded', array('OBJECT' => Translation :: get($external_repository_manager)), Utilities :: COMMON_LIBRARIES) . ': Flickr');
             return false;
         }
         else
         {
-            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectAdded', array('OBJECT' => Translation :: get('ExternalRepositoryManager')), Utilities :: COMMON_LIBRARIES) . ': Flickr');
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectAdded', array('OBJECT' => Translation :: get($external_repository_manager)), Utilities :: COMMON_LIBRARIES) . ': Flickr');
         }
 
         // Adding the Photobucket Manager
@@ -180,12 +184,12 @@ class RepositoryInstaller extends Installer
         $photobucket->set_modification_date(time());
         if (! $photobucket->create())
         {
-            $this->add_message(self :: TYPE_ERROR, Translation :: get('ObjectNotAdded', array('OBJECT' => Translation :: get('ExternalRepositoryManager')), Utilities :: COMMON_LIBRARIES) . ': Photobucket');
+            $this->add_message(self :: TYPE_ERROR, Translation :: get('ObjectNotAdded', array('OBJECT' => Translation :: get($external_repository_manager)), Utilities :: COMMON_LIBRARIES) . ': Photobucket');
             return false;
         }
         else
         {
-            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectAdded', array('OBJECT' => Translation :: get('ExternalRepositoryManager')), Utilities :: COMMON_LIBRARIES) . ': Photobucket');
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectAdded', array('OBJECT' => Translation :: get($external_repository_manager)), Utilities :: COMMON_LIBRARIES) . ': Photobucket');
         }
 
         // Adding the Matterhorn Manager
@@ -198,12 +202,12 @@ class RepositoryInstaller extends Installer
         $matterhorn->set_modification_date(time());
         if (! $matterhorn->create())
         {
-            $this->add_message(self :: TYPE_ERROR, Translation :: get('ObjectNotAdded', array('OBJECT' => Translation :: get('ExternalRepositoryManager')), Utilities :: COMMON_LIBRARIES) . ': Matterhorn');
+            $this->add_message(self :: TYPE_ERROR, Translation :: get('ObjectNotAdded', array('OBJECT' => Translation :: get($external_repository_manager)), Utilities :: COMMON_LIBRARIES) . ': Matterhorn');
             return false;
         }
         else
         {
-            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectAdded', array('OBJECT' => Translation :: get('ExternalRepositoryManager')), Utilities :: COMMON_LIBRARIES) . ': Matterhorn');
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectAdded', array('OBJECT' => Translation :: get($external_repository_manager)), Utilities :: COMMON_LIBRARIES) . ': Matterhorn');
         }
 
         return true;

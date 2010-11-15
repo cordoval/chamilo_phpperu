@@ -84,7 +84,7 @@ class CalendarBrowser extends ContentObjectPublicationBrowser
                 case CalendarBrowser :: CALENDAR_LIST_VIEW :
                     {
                         $renderer = new CalendarListRenderer($this);
-                        //$actions = array(Tool :: ACTION_DELETE => Translation :: get('DeleteSelected', null , Utilities :: COMMON_LIBRARIES), Tool :: ACTION_HIDE => Translation :: get('Hide'), Tool :: ACTION_SHOW => Translation :: get('Show'));
+                        //$actions = array(Tool :: ACTION_DELETE => Translation :: get('DeleteSelected', null , Utilities :: COMMON_LIBRARIES), Tool :: ACTION_HIDE => Translation :: get('Hide', null , Utilities :: COMMON_LIBRARIES), Tool :: ACTION_SHOW => Translation :: get('Show', null , Utilities :: COMMON_LIBRARIES));
 
 
                         $actions[] = new ObjectTableFormAction(Tool :: ACTION_DELETE, Translation :: get('DeleteSelected', null , Utilities :: COMMON_LIBRARIES));

@@ -6,6 +6,7 @@ use application\weblcms\WeblcmsDataManager;
 use common\libraries\ObjectTableOrder;
 use common\libraries\EqualityCondition;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use application\weblcms\CourseSection;
 
 /**
@@ -68,8 +69,8 @@ class PublicationSelectionMaintenanceWizardPage extends MaintenanceWizardPage
         $this->addElement('checkbox', 'content_object_categories', Translation :: get('PublicationCategories'));
         $defaults['content_object_categories'] = true;
 
-        $prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< ' . Translation :: get('Previous'));
-        $prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next') . ' >>');
+        $prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< ' . Translation :: get('Previous', null, Utilities :: COMMON_LIBRARIES));
+        $prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next', null, Utilities :: COMMON_LIBRARIES) . ' >>');
         $this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
         $this->setDefaultAction('next');
         $this->setDefaults($defaults);

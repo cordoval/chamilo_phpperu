@@ -6,6 +6,7 @@ use application\weblcms\WeblcmsDataManager;
 use application\weblcms\ContentObjectPublication;
 use common\libraries\EqualityCondition;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: action_selection_maintenance_wizard_page.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -57,8 +58,8 @@ class ActionSelectionMaintenanceWizardPage extends MaintenanceWizardPage
         $this->addElement('radio', 'action', Translation :: get('ImportCpThisCourse'), Translation :: get('ImportCpThisCourseInformation'), self :: ACTION_IMPORT_CP, $available);
 
         $this->addElement('radio', 'action', Translation :: get('DeleteThisCourse'), Translation :: get('DeleteThisCourseInformation'), self :: ACTION_DELETE);
-        $this->addRule('action', Translation :: get('ThisFieldIsRequired'), 'required');
-        $prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next') . ' >>');
+        $this->addRule('action', Translation :: get('Required', null, Utilities :: COMMON_LIBRARIES), 'required');
+        $prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next', null, Utilities :: COMMON_LIBRARIES) . ' >>');
         $this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
         $this->setDefaultAction('next');
         $this->_formBuilt = true;

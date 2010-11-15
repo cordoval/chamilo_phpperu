@@ -1,2 +1,3 @@
-Properties = 
-Reference = 
+TypeName = "Adaptive assessment item"
+Properties = "Properties"
+Reference = "Reference"

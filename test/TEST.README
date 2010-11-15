@@ -1,0 +1,22 @@
+Acceptance Tests :
+==================
+
+These tests are automated stories that simulates the usage of the complete system from a client.
+They simulate several request and assert the result, as viewed from the client, is as expected.
+
+Functional Tests :
+==================
+
+These tests trains a single piece of functionality. They might tests a single request or a call
+to a third party service.
+
+Performance Tests :
+==================
+
+Test a piece of code (small or large) under stress.
+
+Unit Tests :
+=============
+
+Test a small piece of code in isolation. Dependencies are mocked out and the assertions are all
+made about the small piece of code under test (most of the time a single function/method)

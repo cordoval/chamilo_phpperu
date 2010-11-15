@@ -107,3 +107,7 @@ syntax: regexp
 ^common/mail/phpmailer/phpmailer\.conf\.php$
 syntax: regexp
 ^common/mail/phpmailer/phpmailer\.conf\.php$
+syntax: regexp
+^common/libraries/php/authentication/cas/cas_proxy\.php$
+syntax: regexp
+^common/libraries/php/authentication/cas/cas_store_pgt\.php$

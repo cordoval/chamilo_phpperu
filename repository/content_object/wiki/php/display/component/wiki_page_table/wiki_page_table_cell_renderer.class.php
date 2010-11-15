@@ -62,7 +62,7 @@ class WikiPageTableCellRenderer extends DefaultContentObjectTableCellRenderer
 
         if ($publication->get_additional_property('is_homepage') == 1)
         {
-            $homepage = ' (' . Translation :: get('homepage') . ')';
+            $homepage = ' (' . Translation :: get('Homepage') . ')';
         }
 
         if (isset($wiki_page))

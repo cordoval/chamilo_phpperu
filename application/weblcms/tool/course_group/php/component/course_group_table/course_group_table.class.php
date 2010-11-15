@@ -78,7 +78,7 @@ class CourseGroupTable
         $actions = new ObjectTableFormActions(CourseGroupTool :: PARAM_ACTION);
         if ($parent->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
-            $actions->add_form_action(new ObjectTableFormAction(CourseGroupTool :: ACTION_DELETE_COURSE_GROUP, Translation :: get('RemoveSelected')));
+            $actions->add_form_action(new ObjectTableFormAction(CourseGroupTool :: ACTION_DELETE_COURSE_GROUP, Translation :: get('RemoveSelected',null,Utilities:: COMMON_LIBRARIES )));
             $this->set_form_actions($actions);
         }
     }

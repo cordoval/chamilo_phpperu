@@ -4,6 +4,7 @@ namespace repository\content_object\forum_topic;
 use repository\RepositoryDataManager;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use repository\ComplexBuilder;
 use repository\ContentObject;
@@ -60,22 +61,22 @@ class ForumTopicBuilderDeleterComponent extends ForumTopicBuilder
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedObjectNotDeleted';
+                    $message = Translation :: get('ObjectNotDeleted', array('OBJECT' => Translation :: get('ForumTopic')), Utilities :: COMMON_LIBRARIES);
                 }
                 else
                 {
-                    $message = 'NotAllSelectedObjectsDeleted';
+                    $message = Translation :: get('ObjectsNotDeleted', array('OBJECT' => Translation :: get('ForumTopic')), Utilities :: COMMON_LIBRARIES);
                 }
             }
             else
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedObjectDeleted';
+                    $message = Translation :: get('ObjectDeleted', array('OBJECT' => Translation :: get('ForumTopic')), Utilities :: COMMON_LIBRARIES);
                 }
                 else
                 {
-                    $message = 'AllSelectedObjectsDeleted';
+                    $message = Translation :: get('ObjectsDeleted', array('OBJECT' => Translation :: get('ForumTopics')), Utilities :: COMMON_LIBRARIES);
                 }
             }
 
@@ -83,7 +84,7 @@ class ForumTopicBuilderDeleterComponent extends ForumTopicBuilder
 
             if ($count == 1)
             {
-                $this->redirect(Translation :: get($message), $failures ? true : false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE));
+                $this->redirect($message, $failures ? true : false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE));
             }
             else
             {
@@ -92,7 +93,7 @@ class ForumTopicBuilderDeleterComponent extends ForumTopicBuilder
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', null , Utilities :: COMMON_LIBRARIES)));
         }
     }
 }

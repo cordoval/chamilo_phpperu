@@ -21,7 +21,7 @@ class ForumDisplayImportantComponent extends ForumDisplay
         if ($topic->get_type() == 2)
         {
             $topic->set_type(null);
-            $message = 'TopicUnImortant';
+            $message = 'TopicUnImportant';
         }
         else
         {

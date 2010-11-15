@@ -2,6 +2,7 @@
 namespace repository\content_object\forum;
 
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use repository\RepositoryDataManager;
 use repository\ComplexDisplay;
 
@@ -38,11 +39,11 @@ class ForumDisplayForumTopicDeleterComponent extends ForumDisplay
 
             if (count($topics) > 1)
             {
-                $message = htmlentities(Translation :: get('ForumTopicsDeleted'));
+                $message = htmlentities(Translation :: get('ObjectsDeleted', array('OBJECT' => Translation :: get('ForumTopics')), Utilities :: COMMON_LIBRARIES));
             }
             else
             {
-                $message = htmlentities(Translation :: get('ForumTopicDeleted'));
+                $message = htmlentities(Translation :: get('ObjectDeleted', array('OBJECT' => Translation :: get('ForumTopic')), Utilities :: COMMON_LIBRARIES));
             }
 
             $this->redirect($message, false, $params);

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Chamilo2" default="phpunit">
+
+    <!-- ============================================  -->
+    <!-- Defining locations                            -->
+    <!-- ============================================  -->
+    <property name="files-dir" location="./files" />
+    <property name="build-dir" location="${files-dir}/build" />
+    <property name="build-logs-dir" location="${build-dir}/logs" />
+    <property name="test-dir" location="./test" />
+    <property name="phpunit-config-file" location="${test-dir}/phpunit.xml" />
+
+    <!-- ============================================  -->
+    <!-- Defining conditions                           -->
+    <!-- ============================================  -->
+    <condition property="isWindows">
+        <os family="windows" />
+    </condition>
+
+    <!-- ============================================  -->
+    <!-- Target: setCommands depending on OS Family    -->
+    <!-- ============================================  -->
+    <target name="setcommands" depends="setcommandsNix, setcommandsWin" />
+
+    <target name="setcommandsNix" unless="isWindows">
+        <echo message="Defining executables for *Nix system" />
+        <property name="phpunitCmd" value="phpunit" />
+    </target>
+
+    <target name="setcommandsWin" if="isWindows">
+        <property name="phpunitCmd" value="phpunit.bat" />
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: clean                                 -->
+    <!-- ============================================  -->
+    <target name="clean">
+        <echo message="Removing build directory and all its content" />
+        <delete dir="${build-dir}"/>
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: prepare                               -->
+    <!-- ============================================  -->
+    <target name="prepare">
+        <echo message="Making a  build directory" />
+        <mkdir dir="${build-dir}" />
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: phpunit                               -->
+    <!-- ============================================  -->
+    <target name="phpunit" depends="setcommands, prepare">
+        <echo message="Running all the tests" />
+        <exec   dir="${test-dir}"
+                executable="${phpunitCmd}"
+                failonerror="true"
+         >
+            <arg line="--configuration ${phpunit-config-file}" />
+         </exec>
+    </target>
+
+    <!-- ============================================  -->
+    <!-- (DEFAULT)  Target: build                      -->
+    <!-- ============================================  -->
+    <target
+        name="build"
+        depends="phpunit"
+    />
+</project>
+

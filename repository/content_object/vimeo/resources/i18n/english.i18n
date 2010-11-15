@@ -1,2 +1,3 @@
-Properties = 
-URL = 
+TypeName = "Vimeo"
+Properties = "Properties"
+URL = "URI"

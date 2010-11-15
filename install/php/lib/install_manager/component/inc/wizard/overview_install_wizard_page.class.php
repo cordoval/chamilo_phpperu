@@ -31,8 +31,8 @@ class OverviewInstallWizardPage extends InstallWizardPage
     {
         $this->set_lang($this->controller->exportValue('page_language', 'install_language'));
         $this->_formBuilt = true;
-        
-        $this->addElement('category', Translation :: get('DatabaseProperties'));
+
+        $this->addElement('category', Translation :: get('Database'));
         $this->addElement('static', 'database_driver', Translation :: get('DBDriver'));
         $this->addElement('static', 'database_host', Translation :: get('DBHost'));
         $this->addElement('static', 'database_name', Translation :: get('DatabaseName'));
@@ -40,12 +40,12 @@ class OverviewInstallWizardPage extends InstallWizardPage
         $this->addElement('static', 'database_password', Translation :: get('DBPassword'));
         $this->addElement('Static', 'database_exists', Translation :: get('DatabaseExists'));
         $this->addElement('category');
-        
+
         $this->addElement('category', Translation :: get('Applications'));
         $this->addElement('static', 'selected_applications', Translation :: get('SelectedApplications'));
         $this->addElement('static', 'non_selected_applications', Translation :: get('NonSelectedApplications'));
         $this->addElement('category');
-        
+
 
         $this->addElement('category', Translation :: get('GeneralProperties'));
         $this->addElement('static', 'platform_language', Translation :: get('MainLang'));
@@ -83,7 +83,7 @@ class OverviewInstallWizardPage extends InstallWizardPage
     function set_form_defaults()
     {
         $defaults = array();
-        
+
         // Database settings
         $defaults['database_driver']	= $this->controller->exportValue('page_database', 'database_driver');
         $defaults['database_host']		= $this->controller->exportValue('page_database', 'database_host');
@@ -91,30 +91,30 @@ class OverviewInstallWizardPage extends InstallWizardPage
         $defaults['database_username']	= $this->controller->exportValue('page_database', 'database_username');
         $defaults['database_password']	= $this->controller->exportValue('page_database', 'database_password');
         $defaults['database_exists'] 	= $this->controller->exportValue('page_database', 'database_exists') ? Translation :: get('ConfirmYes', null, Utilities::COMMON_LIBRARIES) : Translation :: get('ConfirmNo', null, Utilities::COMMON_LIBRARIES);
-        
+
         // Application selections
     	$applications = Filesystem :: get_directory_content(Path :: get_application_path(), Filesystem :: LIST_DIRECTORIES, false);
     	$selected_applications = array();
     	$non_selected_applications = array();
-    	
+
     	foreach ($applications as $application)
     	{
     		$check_name = 'install_' . $application;
     		$value = $this->controller->exportValue('page_application', $check_name);
-    		
+
     		if (isset($value) && $value == '1')
     		{
-    			$selected_applications[] = Translation :: get(Utilities :: underscores_to_camelcase($application)); 
+    			$selected_applications[] = Translation :: get(Utilities :: underscores_to_camelcase($application));
     		}
     		else
     		{
     			$non_selected_applications[] = Translation :: get(Utilities :: underscores_to_camelcase($application));
     		}
     	}
-    	
+
     	$defaults['selected_applications'] = implode("<br />\n", $selected_applications);
     	$defaults['non_selected_applications'] = implode("<br />\n", $non_selected_applications);
-        
+
         // Platform settings
         $defaults['platform_language']	= $this->controller->exportValue('page_language', 'install_language');
         $defaults['platform_url']		= $this->controller->exportValue('page_settings', 'platform_url');
@@ -125,7 +125,7 @@ class OverviewInstallWizardPage extends InstallWizardPage
         $defaults['admin_password']		= $this->controller->exportValue('page_settings', 'admin_password');
         $defaults['platform_name']		= $this->controller->exportValue('page_settings', 'platform_name');
         $defaults['organization_name']	= $this->controller->exportValue('page_settings', 'organization_name');
-        $defaults['organization_url']	= $this->controller->exportValue('page_settings', 'organization_url');        
+        $defaults['organization_url']	= $this->controller->exportValue('page_settings', 'organization_url');
         $defaults['self_reg']			= Translation :: get(($this->controller->exportValue('page_settings', 'self_reg') == 1 ? 'Yes' : 'No'));
         $defaults['hashing_algorithm']	= $this->controller->exportValue('page_settings', 'hashing_algorithm');
         $this->setDefaults($defaults);

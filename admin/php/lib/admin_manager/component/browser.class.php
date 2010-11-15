@@ -77,7 +77,7 @@ class AdminManagerBrowserComponent extends AdminManager
                 if (isset($application_links['search']))
                 {
                     $search_form = new AdminSearchForm($this, $application_links['search'], $index);
-                    $actions_tab->add_action(new DynamicAction(null, $search_form->display(), Theme :: get_image_path() . 'browse_search.png'));
+                    $actions_tab->add_action(new DynamicAction(null, $search_form->display(), Theme :: get_image_path() . 'admin/search.png'));
                 }
 
                 $condition = new EqualityCondition(Setting :: PROPERTY_APPLICATION, $application_links['application']['class']);
@@ -86,7 +86,7 @@ class AdminManagerBrowserComponent extends AdminManager
                 if ($application_settings_count)
                 {
                     $settings_url = $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CONFIGURE_PLATFORM, self :: PARAM_WEB_APPLICATION => $application_links['application']['class']));
-                    $actions_tab->add_action(new DynamicAction(Translation :: get('Settings'), Translation :: get('SettingsDescription'), Theme :: get_image_path() . 'browse_manage.png', $settings_url));
+                    $actions_tab->add_action(new DynamicAction(Translation :: get('Settings'), Translation :: get('SettingsDescription'), Theme :: get_image_path() . 'admin/settings.png', $settings_url));
                 }
 
                 foreach ($application_links['links'] as $action)

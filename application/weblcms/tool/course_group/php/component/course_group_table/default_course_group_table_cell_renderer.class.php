@@ -72,9 +72,9 @@ class DefaultCourseGroupTableCellRenderer implements CourseGroupTableCellRendere
                 case CourseGroup :: PROPERTY_MAX_NUMBER_OF_MEMBERS :
                     return $course_group->get_max_number_of_members();
                 case CourseGroup :: PROPERTY_SELF_REG :
-                    return $course_group->is_self_registration_allowed() ? Translation :: get('ConfirmYes', null, Utilities :: COMMON_LIBRARIES) : Translation :: get('No');
+                    return $course_group->is_self_registration_allowed() ? Translation :: get('ConfirmYes', null, Utilities :: COMMON_LIBRARIES) : Translation :: get('ConfirmNo',null,Utilities:: COMMON_LIBRARIES );
                 case CourseGroup :: PROPERTY_SELF_UNREG :
-                    return $course_group->is_self_unregistration_allowed() ? Translation :: get('ConfirmYes', null, Utilities :: COMMON_LIBRARIES) : Translation :: get('No');
+                    return $course_group->is_self_unregistration_allowed() ? Translation :: get('ConfirmYes', null, Utilities :: COMMON_LIBRARIES) : Translation :: get('ConfirmNo',null,Utilities:: COMMON_LIBRARIES );
             }
         }
         return '&nbsp;';

@@ -7,6 +7,7 @@ use application\weblcms\WeblcmsRights;
 use common\libraries\Display;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: course_group_deleter.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -40,7 +41,7 @@ class CourseGroupToolDeleterComponent extends CourseGroupTool
                 $cg->delete();
             }
 
-            $message = Translation :: get('CourseGroupsDeleted');
+            $message = Translation :: get('ObjectDeleted', array('OBJECT' => Translation::get('CourseGroup')),Utilities:: COMMON_LIBRARIES );
             $this->redirect($message, '', array('course_group' => null, CourseGroupTool :: PARAM_ACTION => null));
 
         }

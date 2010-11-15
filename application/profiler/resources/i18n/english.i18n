@@ -1,7 +1,8 @@
-ProfilerSubtree = 
-ProfilerManagerBrowserComponent = 
-ProfilePublication = 
-ProfilePublications = 
-NoObjectsSelected = 
-ProfilerManagerViewerComponent = 
-Home = 
+TypeName = "Profiler"
+ProfilerSubtree = ""
+ProfilerManagerBrowserComponent = ""
+ProfilePublication = ""
+ProfilePublications = ""
+NoObjectsSelected = ""
+ProfilerManagerViewerComponent = ""
+Home = ""

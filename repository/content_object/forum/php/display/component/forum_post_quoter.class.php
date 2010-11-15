@@ -2,6 +2,7 @@
 namespace repository\content_object\forum;
 
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Path;
 
 use user\UserDataManager;
@@ -79,7 +80,7 @@ class ForumDisplayForumPostQuoterComponent extends ForumDisplay
 
     private function my_redirect($pid, $cid)
     {
-        $message = htmlentities(Translation :: get('ContentObjectCreated'));
+        $message = htmlentities(Translation :: get('ObjectCreated', array('OBJECT' => Translation :: get('ForumPost')), Utilities :: COMMON_LIBRARIES));
 
         $params = array();
         $params[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_VIEW_TOPIC;

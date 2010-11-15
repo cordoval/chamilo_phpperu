@@ -8,6 +8,7 @@ use common\libraries\AndCondition;
 use common\libraries\Theme;
 use common\libraries\Block;
 use common\libraries\PlatformSetting;
+use common\libraries\Path;
 
 use user\User;
 /**
@@ -159,7 +160,7 @@ class DefaultHomeRenderer extends HomeRenderer
 
         if ($user_home_allowed && $user instanceof User)
         {
-            $html[] = '<script type="text/javascript" src="' . BasicApplication :: get_application_web_resources_javascript_path(HomeManager :: APPLICATION_NAME) . 'home_ajax.js' . '"></script>';
+            $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'libraries/resources/javascript/home_ajax.js' . '"></script>';
         }
 
         return implode("\n", $html);

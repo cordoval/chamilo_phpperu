@@ -64,11 +64,11 @@ class Feedback extends ContentObject implements Versionable, AttachmentSupport
 
     static function get_possible_icons()
     {
-        $icons[self :: ICON_THUMBS_UP] = Translation :: get('thumbs_up');
-        $icons[self :: ICON_THUMBS_DOWN] = Translation :: get('thumbs_down');
-        $icons[self :: ICON_WRONG] = Translation :: get('wrong');
-        $icons[self :: ICON_RIGHT] = Translation :: get('right');
-        $icons[self :: ICON_INFORMATIVE] = Translation :: get('informative');
+        $icons[self :: ICON_THUMBS_UP] = Translation :: get('ThumbsUp');
+        $icons[self :: ICON_THUMBS_DOWN] = Translation :: get('ThumbsDown');
+        $icons[self :: ICON_WRONG] = Translation :: get('Wrong');
+        $icons[self :: ICON_RIGHT] = Translation :: get('Right');
+        $icons[self :: ICON_INFORMATIVE] = Translation :: get('Informative');
         return $icons;
     }
 

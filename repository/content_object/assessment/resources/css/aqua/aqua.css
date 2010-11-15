@@ -218,3 +218,10 @@ div.time_left {
 div.time {
 	display: inline;
 }
+ul.tree-menu li div a.assessment {
+	background-image: url(../../images/aqua/logo/16.png);
+}
+
+ul.tree-menu li div a.type_assessment {
+	background-image: url(../../images/aqua/logo/16.png);
+}

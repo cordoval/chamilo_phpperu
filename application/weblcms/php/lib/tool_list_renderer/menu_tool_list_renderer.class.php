@@ -150,7 +150,7 @@ class MenuToolListRenderer extends ToolListRenderer
             $new = '_new';
         }
         $tool_image = Theme :: ICON_MINI . $new . '.png';
-        $title = htmlspecialchars(Translation :: get('ToolTypeName', null, Tool :: get_tool_type_namespace($tool->name)));
+        $title = htmlspecialchars(Translation :: get('TypeName', null, Tool :: get_tool_type_namespace($tool->name)));
         $html[] = '<li class="tool_list_menu" style="padding: 0px 0px 2px 0px;">';
         $html[] = '<a href="' . $parent->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_TOOL => $tool->name, Tool :: PARAM_ACTION => null, Tool :: PARAM_PUBLICATION_ID => null), array(), true) . '" title="' . $title . '">';
 

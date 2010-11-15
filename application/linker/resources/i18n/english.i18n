@@ -1,4 +1,5 @@
-Name = 
-Url = 
-Links = 
-CreateLink = 
+TypeName = "Linker"
+Name = ""
+Url = ""
+Links = ""
+CreateLink = ""

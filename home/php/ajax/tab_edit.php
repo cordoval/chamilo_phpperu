@@ -4,6 +4,7 @@ use common\libraries\Translation;
 use common\libraries\Session;
 use common\libraries\Request;
 use common\libraries\Authentication;
+use common\libraries\PlatformSetting;
 /**
  * $Id: tab_edit.php 227 2009-11-13 14:45:05Z kariboe $
  * @package home.ajax

@@ -28,7 +28,7 @@ abstract class BasicApplication extends Application
                 $type = 'application';
             }
 
-            $application_name = Translation :: get('ApplicationTypeName', null, Application :: determine_namespace($the_application));
+            $application_name = Translation :: get('TypeName', null, Application :: determine_namespace($the_application));
 
             $html[] = '<a href="' . str_replace(self :: PLACEHOLDER_APPLICATION, $the_application, $url) . '">';
             $html[] = '<div class="' . $type . '" style="background-image: url(' . Theme :: get_image_path(Application :: determine_namespace($the_application)) . 'logo/48.png);">' . $application_name . '</div>';

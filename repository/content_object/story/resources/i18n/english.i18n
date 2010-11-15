@@ -1,4 +1,5 @@
-Properties = 
-HeaderRequiredForFeaturedItems = 
-SelectHeaderImage = 
-HeaderImage = 
+TypeName = "Story"
+Properties = "Properties"
+HeaderRequiredForFeaturedItems = "A header is required for featured items"
+SelectHeaderImage = "Select an image"
+HeaderImage = "Header"

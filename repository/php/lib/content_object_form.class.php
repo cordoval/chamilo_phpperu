@@ -564,16 +564,16 @@ EOT;
      */
     function display()
     {
-        $owner = UserDataManager :: get_instance()->retrieve_user($this->get_owner_id());
-        $quotamanager = new QuotaManager($owner);
-        if ($this->form_type == self :: TYPE_CREATE && $quotamanager->get_available_database_space() <= 0)
-        {
-            Display :: warning_message(htmlentities(Translation :: get('MaxNumberOfContentObjectsReached')));
-        }
-        else
-        {
+        //$owner = UserDataManager :: get_instance()->retrieve_user($this->get_owner_id());
+        //$quotamanager = new QuotaManager($owner);
+        //if ($this->form_type == self :: TYPE_CREATE && $quotamanager->get_available_database_space() <= 0)
+        //{
+        //    Display :: warning_message(htmlentities(Translation :: get('MaxNumberOfContentObjectsReached')));
+        //}
+        //else
+        //{
             parent :: display();
-        }
+        //}
     }
 
     private function allows_category_selection()

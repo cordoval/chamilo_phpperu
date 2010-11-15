@@ -1,2 +1,3 @@
-Properties = 
-URL = 
+TypeName = "Dailymotion"
+Properties = "Properties"
+URL = "URI"

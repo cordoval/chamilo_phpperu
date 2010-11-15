@@ -753,7 +753,7 @@ abstract class Application
         $component = self :: component($application_name, $user, $action);
         $component->set_parameter(self :: PARAM_APPLICATION, $application_name);
 
-        $context = Utilities :: get_namespace_from_object($context);
+        $context = Utilities :: get_namespace_from_object($component);
 
         if (! $component instanceof InstallManager)
         {

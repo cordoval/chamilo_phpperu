@@ -31,7 +31,7 @@ class CourseSelectionMaintenanceWizardPage extends MaintenanceWizardPage
         }
         
         $this->addElement('select', 'course', Translation :: get('Course'), $options, array('multiple' => 'multiple', 'size' => '20', 'style' => 'width: 300px;'));
-        $this->addRule('course', Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule('course', Translation :: get('Required', null, Utilities :: COMMON_LIBRARIES), 'required');
         $prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< ' . Translation :: get('Previous', null, Utilities :: COMMON_LIBRARIES));
         $prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next', null, Utilities :: COMMON_LIBRARIES) . ' >>');
         $this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);

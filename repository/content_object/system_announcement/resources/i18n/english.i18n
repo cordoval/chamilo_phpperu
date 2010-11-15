@@ -1,8 +1,9 @@
-Confirmation = 
-Error = 
-Warning = 
-Stop = 
-Question = 
-Config = 
-Properties = 
-icon = 
+TypeName = "System announcement"
+Confirmation = "Confirmation"
+Error = "Error"
+Warning = "Warning"
+Stop = "Stop"
+Question = "Question"
+Config = "Configuration"
+Properties = "Properties"
+Icon = "Icon"

@@ -7,6 +7,7 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: course_sections_visibility_changer.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -29,7 +30,7 @@ class CourseSectionsToolVisibilityChangerComponent extends CourseSectionsTool
             $trail = BreadcrumbTrail :: get_instance();
             $trail->add_help('courses sections');
             $this->display_header();
-            Display :: error_message(Translation :: get('NotAllowed'));
+            Display :: error_message(Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }

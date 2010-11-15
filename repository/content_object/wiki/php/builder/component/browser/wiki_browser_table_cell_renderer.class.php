@@ -43,7 +43,7 @@ class WikiBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
         switch ($column->get_name())
         {
             case Translation :: get(Utilities :: underscores_to_camelcase(ContentObject :: PROPERTY_TITLE)) :
-                return $content_object->get_title() . ($complex_content_object_item->get_is_homepage() ? ' (' . Translation :: get('HomePage') . ')' : '');
+                return $content_object->get_title() . ($complex_content_object_item->get_is_homepage() ? ' (' . Translation :: get('Homepage') . ')' : '');
         }
 
         return parent :: render_cell($column, $complex_content_object_item);

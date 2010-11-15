@@ -30,7 +30,7 @@ class CourseSectionsToolCreatorComponent extends CourseSectionsTool
         if (! $this->get_course()->is_course_admin($this->get_parent()->get_user()))
         {
             $this->display_header();
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
@@ -47,11 +47,11 @@ class CourseSectionsToolCreatorComponent extends CourseSectionsTool
             if ($success)
             {
                 $course_section = $form->get_course_section();
-                $this->redirect(Translation :: get('CourseSectionCreated'), (false), array(CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_VIEW_COURSE_SECTIONS));
+                $this->redirect(Translation :: get('ObjectCreated', array('OBJECT' => Translation::get('CourseSection')),Utilities:: COMMON_LIBRARIES ), (false), array(CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_VIEW_COURSE_SECTIONS));
             }
             else
             {
-                $this->redirect(Translation :: get('CourseSectionNotCreated'), (true), array(CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_VIEW_COURSE_SECTIONS));
+                $this->redirect(Translation :: get('ObjectNotCreated', array('OBJECT' => Translation::get('CourseSection')),Utilities:: COMMON_LIBRARIES ), (true), array(CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_VIEW_COURSE_SECTIONS));
             }
         }
         else

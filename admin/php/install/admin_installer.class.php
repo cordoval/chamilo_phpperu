@@ -36,7 +36,7 @@ class AdminInstaller extends Installer
         }
         else
         {
-            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectsAdded', array('OBJECT' => Translation ::get('Languages')), Utilities :: COMMON_LIBRARIES));
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectsAdded', array('OBJECTS' => Translation ::get('Languages')), Utilities :: COMMON_LIBRARIES));
         }
 
         // Update the default settings to the database
@@ -46,7 +46,7 @@ class AdminInstaller extends Installer
         }
         else
         {
-            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectsAdded', array('OBJECT' => Translation ::get('DefaultSettings')), Utilities :: COMMON_LIBRARIES));
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectsAdded', array('OBJECTS' => Translation ::get('DefaultSettings')), Utilities :: COMMON_LIBRARIES));
         }
 
         return true;
@@ -73,7 +73,7 @@ class AdminInstaller extends Installer
 
 	    		if ($language->create())
 		        {
-		            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectsAdded', array('OBJECT' => Translation ::get('Language')), Utilities :: COMMON_LIBRARIES) . ' ' . $xml_data['english']);
+		            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ObjectAdded', array('OBJECT' => Translation ::get('Language')), Utilities :: COMMON_LIBRARIES) . ' ' . $xml_data['english']);
 		        }
 		        else
 		        {

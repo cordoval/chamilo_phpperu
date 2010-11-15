@@ -1,6 +1,7 @@
 <?php
 namespace help;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\FormValidator;
 /**
  * $Id: help_item_form.class.php 226 2009-11-13 14:44:03Z chellee $
@@ -24,13 +25,13 @@ class HelpItemForm extends FormValidator
 
     function build_basic_form()
     {
-        $this->addElement('text', HelpItem :: PROPERTY_URL, Translation :: get('Url'), array('size' => '100'));
-        $this->addRule(HelpItem :: PROPERTY_URL, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addElement('text', HelpItem :: PROPERTY_URL, Translation :: get('URL', null, Utilities :: COMMON_LIBRARIES), array('size' => '100'));
+        $this->addRule(HelpItem :: PROPERTY_URL, Translation :: get('Required', null, Utilities :: COMMON_LIBRARIES), 'required');
         //$this->addElement('submit', 'help_item_settings', 'OK');
         
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
         
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         

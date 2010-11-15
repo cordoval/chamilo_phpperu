@@ -2,6 +2,7 @@
 namespace repository\content_object\forum_topic;
 
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 use repository\ContentObjectForm;
 
@@ -35,16 +36,16 @@ class ForumTopicForm extends ContentObjectForm
     function build_creation_form($default_content_object = null)
     {
         parent :: build_creation_form();
-        $this->addElement('category', Translation :: get('Properties'));
-        $this->addElement('checkbox', 'locked', Translation :: get('Locked'));
+        $this->addElement('category', Translation :: get('Properties', null , Utilities :: COMMON_LIBRARIES));
+        $this->addElement('checkbox', 'locked', Translation :: get('Locked', null , 'repository\content_object\forum'));
         $this->addElement('category');
     }
 
     function build_editing_form($object)
     {
         parent :: build_editing_form();
-        $this->addElement('category', Translation :: get('Properties'));
-        $this->addElement('checkbox', 'locked', Translation :: get('Locked'));
+        $this->addElement('category', Translation :: get('Properties', null , Utilities :: COMMON_LIBRARIES));
+        $this->addElement('checkbox', 'locked', Translation :: get('Locked', null , 'repository\content_object\forum'));
         $this->addElement('category');
     }
 

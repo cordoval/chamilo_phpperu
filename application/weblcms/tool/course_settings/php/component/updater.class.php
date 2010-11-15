@@ -6,6 +6,7 @@ use common\libraries\Display;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use application\weblcms\CourseForm;
 
 /**
@@ -25,7 +26,7 @@ class CourseSettingsToolUpdaterComponent extends CourseSettingsTool
         if (! $this->get_course()->is_course_admin($this->get_parent()->get_user()))
         {
             $this->display_header();
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }

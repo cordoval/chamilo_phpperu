@@ -1,8 +1,8 @@
-RemoveSelected = 
-timeNoSecFormat = 
-dateTimeFormatLong = 
-Edit = 
-Validate = 
-ThisFieldIsRequired = 
-Reset = 
-ValidationExists = 
+RemoveSelected = ""
+timeNoSecFormat = ""
+dateTimeFormatLong = ""
+Edit = ""
+Validate = ""
+ThisFieldIsRequired = ""
+Reset = ""
+ValidationExists = ""

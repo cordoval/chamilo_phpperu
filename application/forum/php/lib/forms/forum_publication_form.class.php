@@ -102,7 +102,7 @@ class ForumPublicationForm extends FormValidator
         
         $this->add_select(ForumPublication :: PROPERTY_CATEGORY_ID, Translation :: get('Category' , null , Utilities :: COMMON_LIBRARIES), $this->get_forum_publication_categories(), true);
         
-        $this->add_receivers('target', Translation :: get('PublishFor'), $attributes);
+        $this->add_receivers('target', Translation :: get('PublishFor', null , Utilities :: COMMON_LIBRARIES), $attributes);
         
         $this->add_forever_or_timewindow();
         $this->addElement('checkbox', ForumPublication :: PROPERTY_HIDDEN, Translation :: get('Hidden' , null , Utilities :: COMMON_LIBRARIES));
