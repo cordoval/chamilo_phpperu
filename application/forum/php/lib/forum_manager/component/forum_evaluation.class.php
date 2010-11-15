@@ -6,6 +6,7 @@ use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
+use application\gradebook\EvaluationManagerInterface;
 
 //require_once WebApplication :: get_application_class_lib_path('gradebook') . 'evaluation_manager/evaluation_manager.class.php';
 

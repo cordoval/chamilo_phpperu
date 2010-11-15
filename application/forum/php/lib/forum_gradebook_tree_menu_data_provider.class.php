@@ -3,7 +3,7 @@
 namespace application\forum;
 
 use common\libraries\EqualityCondition;
-use GradebookTreeMenuDataProvider;
+use application\gradebook\GradebookTreeMenuDataProvider;
 use common\libraries\TreeMenuItem;
 use common\libraries\Translation;
 
