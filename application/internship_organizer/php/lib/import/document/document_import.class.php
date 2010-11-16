@@ -2,6 +2,7 @@
 namespace application\internship_organizer;
 
 use repository\RepositoryDataManager;
+use repository\ContentObjectImport;
 /**
  * $Id: csv_import.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.import.csv
