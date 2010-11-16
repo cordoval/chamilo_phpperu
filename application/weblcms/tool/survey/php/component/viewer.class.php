@@ -20,6 +20,8 @@ use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\SubselectCondition;
+use common\libraries\Utilities;
+use application\weblcms\tool\announcement\AnnouncementTool;
 
 /**
  * $Id: survey_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -107,7 +109,7 @@ class SurveyToolViewerComponent extends SurveyTool
 
             if (! $this->introduction_text && $this->get_course()->get_intro_text())
             {
-                $bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText'), Theme :: get_common_image_path() . 'action_introduce.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+                $bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_introduce.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
             }
         }
         return $bar;

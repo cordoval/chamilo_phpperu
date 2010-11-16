@@ -2,6 +2,7 @@
 namespace application\weblcms\tool\course_sections;
 
 use common\libraries\StaticTableColumn;
+use application\weblcms\DefaultCourseSectionsTableColumnModel;
 
 /**
  * $Id: course_sections_browser_table_column_model.class.php 216 2009-11-13 14:08:06Z kariboe $

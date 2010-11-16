@@ -7,14 +7,15 @@ use common\libraries\ToolbarItem;
 use common\libraries\Theme;
 use common\libraries\Translation;
 use common\libraries\Utilities;
+use application\weblcms\DefaultCourseSectionsTableCellRenderer;
 
 /**
  * $Id: course_sections_browser_table_cell_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.course_sections.component.course_sections_browser
  */
 require_once dirname(__FILE__) . '/course_sections_browser_table_column_model.class.php';
-require_once dirname(__FILE__) . '/../../../../course/course_sections_table/default_course_sections_table_cell_renderer.class.php';
-require_once dirname(__FILE__) . '/../../../../course/course_section.class.php';
+require_once dirname(__FILE__) . '/../../../../../php/lib/course/course_sections_table/default_course_sections_table_cell_renderer.class.php';
+require_once dirname(__FILE__) . '/../../../../../php/lib/course/course_section.class.php';
 /**
  * Cell rendere for the learning object browser table
  */

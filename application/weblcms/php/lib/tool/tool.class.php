@@ -275,7 +275,7 @@ abstract class Tool extends SubManager
                 if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
                 {
                     $toolbar = new Toolbar();
-                    $toolbar->add_item(new ToolbarItem(Translation :: get('PublishIntroductionText'), null, $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_LABEL));
+                    $toolbar->add_item(new ToolbarItem(Translation :: get('PublishIntroductionText', null, Utilities :: COMMON_LIBRARIES), null, $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_LABEL));
                     echo '<div style="float: left;">';
                     echo $toolbar->as_html();
                     echo '</div>';
