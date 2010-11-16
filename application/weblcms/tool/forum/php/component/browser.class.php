@@ -300,7 +300,7 @@ class ForumToolBrowserComponent extends ForumTool
             if ($first)
             {
                 $actions[] = array('label' => Translation :: get('MoveUpNA', null , Utilities :: COMMON_LIBRARIES), 'img' => Theme :: get_common_image_path() . 'action_up_na.png');
-                $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUpNA'), Theme :: get_common_image_path() . 'action_up_na.png', null, ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUpNA', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_up_na.png', null, ToolbarItem :: DISPLAY_ICON));
             }
             else
             {
