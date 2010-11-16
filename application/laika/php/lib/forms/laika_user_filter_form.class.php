@@ -18,7 +18,7 @@ use group\GroupMenu;
 require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_manager/laika_manager.class.php';
 require_once WebApplication :: get_application_class_lib_path('laika') . 'laika_data_manager.class.php';
 
-class LaikaBrowserFilterForm extends FormValidator
+class LaikaUserFilterForm extends FormValidator
 {
     const USER_FILTER_START_DATE = 'filter_start_date';
     const USER_FILTER_END_DATE = 'filter_end_date';
