@@ -24,9 +24,9 @@ use repository\content_object\survey\Survey;
 
 use user\UserDataManager;
 
-require_once require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'agreement_manager.class.php';
-require_once require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'publisher/publication_table/publication_table.class.php';
-require_once require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'agreement_manager/component/viewer.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'agreement_manager/agreement_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'publisher/publication_table/publication_table.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'agreement_manager/component/viewer.class.php';
 
 class InternshipOrganizerAgreementManagerMomentViewerComponent extends InternshipOrganizerAgreementManager
 {

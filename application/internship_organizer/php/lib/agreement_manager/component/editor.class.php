@@ -7,8 +7,8 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Request;
 
-require_once require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'internship_organizer_manager/internship_organizer_manager.class.php';
-require_once require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'forms/agreement_form.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'internship_organizer_manager/internship_organizer_manager.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'forms/agreement_form.class.php';
 
 class InternshipOrganizerAgreementManagerEditorComponent extends InternshipOrganizerAgreementManager
 {

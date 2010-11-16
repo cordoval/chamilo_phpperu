@@ -5,7 +5,8 @@ use common\libraries\Translation;
 use common\libraries\FormValidator;
 use common\libraries\WebApplication;
 
-require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'location_rel_mentor.class.php';
+//unknown file
+//require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'location_rel_mentor.class.php';
 
 /**
  * This class describes the form for a InternshipOrganizerLocationRelMentor object.

@@ -6,7 +6,7 @@ use common\libraries\Translation;
 use common\libraries\DynamicTabsRenderer;
 
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'internship_organizer_manager/internship_organizer_manager.class.php';
-require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'moment_manager/component/viewer.class.php';
+//require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'moment_manager/component/viewer.class.php';
 
 
 class InternshipOrganizerAppointmentManagerAppointmentDeleterComponent extends InternshipOrganizerAppointmentManager

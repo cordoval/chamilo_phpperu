@@ -14,7 +14,7 @@ use repository\content_object\survey\Survey;
 use common\extensions\repo_viewer\RepoViewer;
 use common\extensions\repo_viewer\RepoViewerInterface;
 
-require_once require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'publisher/moment_publisher.class.php';
+require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'publisher/moment_publisher.class.php';
 
 class InternshipOrganizerAgreementManagerMomentPublisherComponent extends InternshipOrganizerAgreementManager implements RepoViewerInterface
 {
