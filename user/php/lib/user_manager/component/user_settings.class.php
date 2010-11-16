@@ -138,10 +138,10 @@ class UserManagerUserSettingsComponent extends UserManager
                 $type = 'application';
             }
 
-            $application_name = Translation :: get(Utilities :: underscores_to_camelcase($the_application));
+            $application_name = Translation :: get(Utilities :: underscores_to_camelcase($the_application), null, Application :: determine_namespace($the_application));
 
             $html[] = '<a href="' . $url . '&' . self :: PARAM_APPLICATION . '=' . $the_application . '">';
-            $html[] = '<div class="' . $type . '" style="background-image: url(' . Theme :: get_image_path('admin') . 'place_' . $the_application . '.png);">' . $application_name . '</div>';
+            $html[] = '<div class="' . $type . '" style="background-image: url(' . Theme :: get_image_path(Application :: determine_namespace($the_application)) . 'logo/' . Theme :: ICON_BIG . '.png);">' . $application_name . '</div>';
             $html[] = '</a>';
         }
 
