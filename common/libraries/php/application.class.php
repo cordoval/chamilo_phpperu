@@ -250,7 +250,7 @@ abstract class Application
         }
 
         $title = $breadcrumbtrail->get_last()->get_name();
-        Display :: header($breadcrumbtrail);
+        Display :: header($breadcrumbtrail);dump($breadcrumbtrail);
 
         // If there is an application-wide menu, show it
         if ($this->has_menu())

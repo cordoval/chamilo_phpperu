@@ -8,6 +8,7 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: content_object_publication_category_manager.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -21,7 +22,7 @@ class ContentObjectPublicationCategoryManager extends CategoryManager
     function ContentObjectPublicationCategoryManager($parent, $trail = null, $is_subcategories_allowed = true)
     {
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($parent->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MANAGE_CATEGORIES)), Translation :: get('ManageCategories')));
+        $trail->add(new Breadcrumb($parent->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MANAGE_CATEGORIES)), Translation :: get('ManageCategories', null, Utilities::COMMON_LIBRARIES)));
         parent :: __construct($parent, $trail, $is_subcategories_allowed);
     }
 

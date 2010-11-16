@@ -4,6 +4,7 @@ namespace application\weblcms\tool\assessment;
 use application\weblcms\WeblcmsDataManager;
 use common\libraries\Filesystem;
 use common\libraries\Request;
+use repository\ContentObjectExport;
 
 /**
  * $Id: assessment_qti_export.class.php 216 2009-11-13 14:08:06Z kariboe $

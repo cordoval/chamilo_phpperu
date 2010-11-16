@@ -5,6 +5,8 @@ use application\weblcms\WeblcmsDataManager;
 use common\libraries\StaticTableColumn;
 use common\libraries\ObjectTableColumnModel;
 use common\libraries\Translation;
+use application\weblcms\WeblcmsAssessmentAttemptsTracker;
+use repository\content_object\survey\Survey;
 
 /**
  * $Id: assessment_results_table_detail_column_model.class.php 216 2009-11-13 14:08:06Z kariboe $
