@@ -100,7 +100,7 @@ class HomeBlockConfigForm extends FormValidator
                 $this->addElement('html', '</div>');
             }
 
-            //$this->addElement('submit', 'submit', Translation :: get('Ok'));
+            //$this->addElement('submit', 'submit', Translation :: get('Ok', null, Utilities :: COMMON_LIBRARIES));
             $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save', null, Utilities::COMMON_LIBRARIES), array('class' => 'positive'));
             $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal empty'));
 
