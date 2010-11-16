@@ -8,9 +8,9 @@ use common\libraries\WebApplication;
  * @package application.lib.weblcms.block
  */
 require_once WebApplication :: get_application_class_path('weblcms') . 'blocks/weblcms_block.class.php';
-require_once dirname(__FILE__) . '/../course/course_user_category.class.php';
-require_once dirname(__FILE__) . '/../tool/tool.class.php';
-require_once dirname(__FILE__) . '/../course/course_list_renderer/course_list_renderer.class.php';
+require_once dirname(__FILE__) . '/../../lib/course/course_user_category.class.php';
+require_once dirname(__FILE__) . '/../../lib/tool/tool.class.php';
+require_once dirname(__FILE__) . '/../../lib/course/course_list_renderer/course_list_renderer.class.php';
 /**
  * This class represents a calendar repo_viewer component which can be used
  * to browse through the possible learning objects to publish.

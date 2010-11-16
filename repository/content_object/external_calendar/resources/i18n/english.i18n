@@ -1,4 +1,4 @@
-EventCount = ""
-Properties = ""
-URL = ""
-URLOfIcal = ""
+TypeName = "External calendar"
+EventCount = "Number of events"
+Properties = "Properties"
+ICalURL = "URI"

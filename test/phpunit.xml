@@ -1,0 +1,83 @@
+<phpunit
+    bootstrap="./TestBootstrap.php" 
+    colors="true" 
+    syntaxCheck="true"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+      
+>
+    
+
+    <testsuite name="Complete">
+        <!--  Every files in these directory directive ending by 'Test.php' will be considered as a test case -->
+        <directory >./functional</directory>
+        <directory >./unit</directory>
+        <directory >./acceptance</directory>
+        <directory >./performance</directory>
+    </testsuite>    
+
+
+    <!--  The filter directive enable us to define which files are relevant for coverage report -->
+    <filter>
+        <!-- when whitelist is not empty, whitelist is used. *recommended approach* -->
+        
+        <whitelist>
+            <directory suffix=".class.php">../admin</directory>
+            <directory suffix=".class.php">../application</directory>
+            <directory suffix=".class.php">../common</directory>
+            <directory suffix=".class.php">../group</directory>
+            <directory suffix=".class.php">../help</directory>
+            <directory suffix=".class.php">../home</directory>
+            <directory suffix=".class.php">../install</directory>
+            <directory suffix=".class.php">../menu</directory>
+            <directory suffix=".class.php">../migration</directory>
+            <directory suffix=".class.php">../reporting</directory>
+            <directory suffix=".class.php">../rights</directory>
+            <directory suffix=".class.php">../tracking</directory>
+            <directory suffix=".class.php">../user</directory>
+            <directory suffix=".class.php">../webservice</directory>
+        </whitelist>
+        <!--
+            phpunit loads every file in blacklist before excluding it.
+            Therefore this approach is really really slow !
+        -->
+        <!--
+        <blacklist>
+            <directory >../documentation/</directory>
+            <directory >../files/</directory>
+            <directory >../languages/</directory>
+            <directory >../layout/</directory>
+            <directory >../plugin/</directory>
+            <directory >../test/</directory>
+            <file >../core.php</file>
+            <file >../index.php</file>
+            <file >../run.php</file>
+            <file >../test.php</file>
+        </blacklist>
+        -->
+    </filter>
+
+    <!--
+    Uncomment the next sectionq if you want the tests to produce reports.
+    This does slow a bit the process
+    -->
+   
+    <logging>
+        <!-- HTML Coverage Report [Xdebug and Tokenizer Required]-->
+        
+        <log type="coverage-html" target="../files/build/coverage" charset="UTF-8"
+            yui="true" highlight="true"
+	        lowUpperBound="50" highLowerBound="80"/>
+        
+        <!-- Clover XML Report -->
+        <!--
+        <log type="coverage-clover" target="../files/build/logs/coverage-clover.xml"/>
+        -->
+        <!-- Junit XML Report -->
+        <!--
+		<log type="junit" target="../files/build/logs/phpunit.xml" logIncompleteSkipped="false"/>
+        -->
+    </logging>
+   
+</phpunit>

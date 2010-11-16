@@ -1,3 +1,4 @@
+TypeName = "Reservations"
 ReservationsTree = "Reservations tree"
 Day = "Day"
 OpenReservation = "Open reservation"

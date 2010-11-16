@@ -278,7 +278,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
                 $link_class = ' class="invisible"';
             }
 
-            $title = htmlspecialchars(Translation :: get('ToolTypeName', null, Tool :: get_tool_type_namespace($tool->name)));
+            $title = htmlspecialchars(Translation :: get('TypeName', null, Tool :: get_tool_type_namespace($tool->name)));
             $row = $count / $this->number_of_columns;
             $col = $count % $this->number_of_columns;
             //$html = array();

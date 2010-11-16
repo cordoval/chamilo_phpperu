@@ -1,5 +1,7 @@
 <?php
 namespace install;
+use common\libraries;
+
 use common\libraries\Translation;
 use HTML_QuickForm_Action_Display;
 use HTML_QuickForm;
@@ -180,7 +182,7 @@ EOT;
 
         echo '<div id="theForm" style="margin: 10px;">';
         echo '<div id="select" class="row"><div class="formc formc_no_margin">';
-        echo '<b>' . Translation :: get('Step') . ' ' . $current_page_number . ' ' . Translation :: get('of') . ' ' . $total_number_of_pages . ' &ndash; ' . $current_page->get_title() . '</b><br />';
+        echo '<b>' . Translation :: get('CurrentSteps', array('CURRENT' => $current_page_number, 'TOTAL' => $total_number_of_pages), Utilities :: COMMON_LIBRARIES) . ' &ndash; ' . $current_page->get_title() . '</b><br />';
 
         //		echo '<h2>'.Translation :: get('Step').' '.$current_page_number.' '.Translation :: get('of').' '.$total_number_of_pages.' &ndash; '.$current_page->get_title().'</h2>';
         echo $current_page->get_info();

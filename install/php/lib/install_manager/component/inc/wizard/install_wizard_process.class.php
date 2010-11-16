@@ -1,5 +1,9 @@
 <?php
 namespace install;
+use repository;
+
+use common\libraries;
+
 use common\libraries\Application;
 use common\libraries\Path;
 use common\libraries\WebApplication;
@@ -62,7 +66,19 @@ class InstallWizardProcess extends HTML_QuickForm_Action
             $this->values = $page->controller->exportValues();
         }
 
-        $this->applications['core'] = array('webservice', 'admin', 'help', 'reporting', 'tracking', 'repository', 'user', 'group', 'rights', 'home', 'menu', 'migration');
+        $this->applications['core'] = array(
+                'webservice',
+                'admin',
+                'help',
+                'reporting',
+                'tracking',
+                'repository',
+                'user',
+                'group',
+                'rights',
+                'home',
+                'menu',
+                'migration');
         $this->applications['extra'] = Filesystem :: get_directory_content(Path :: get_application_path(), Filesystem :: LIST_DIRECTORIES, false);
 
         $this->display_header($page);
@@ -73,13 +89,13 @@ class InstallWizardProcess extends HTML_QuickForm_Action
         // 1. Connection to the DBMS and create the database
         $db_creation = $this->create_database();
         $image = 'resources/images/aqua/place_database.png';
-        $this->process_result('database', $db_creation['success'], $db_creation['message'], $image);
+        $this->process_result(Translation :: get('Database'), $db_creation['success'], $db_creation['message'], $image);
         flush();
 
         // 2. Write the config files
         $config_file = $this->write_config_file();
         $image = 'resources/images/aqua/place_config.png';
-        $this->process_result('config', $config_file['success'], $config_file['message'], $image);
+        $this->process_result(Translation :: get('Configuration'), $config_file['success'], $config_file['message'], $image);
         flush();
 
         //Sets the correct database before installing applications
@@ -103,7 +119,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
         // 5. Create additional folders
         $folder_creation = $this->create_folders();
         $image = 'resources/images/aqua/place_folder.png';
-        $this->process_result('folder', $folder_creation['success'], $folder_creation['message'], $image);
+        $this->process_result(Translation :: get('Folders'), $folder_creation['success'], $folder_creation['message'], $image);
         flush();
 
         $this->counter ++;
@@ -113,13 +129,10 @@ class InstallWizardProcess extends HTML_QuickForm_Action
         // 6. If all goes well we now show the link to the portal
         $message = '<a href="../index.php">' . Translation :: get('GoToYourNewlyCreatedPortal') . '</a>';
         $image = 'resources/images/aqua/place_finished.png';
-        $this->process_result('finished', true, $message, $image);
+        $this->process_result(Translation :: get('InstallationFinished'), true, $message, $image);
         flush();
 
         //        $page->controller->container(true);
-
-
-        //echo '<a href="#" id="showall">' . Translation :: get('ShowAll') . '</a> - <a href="#" id="hideall">' . Translation :: get('HideAll') . '</a>';
 
 
         // Display the page footer
@@ -175,7 +188,9 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 
         if (MDB2 :: isError($connection))
         {
-            return array(Installer :: INSTALL_SUCCESS => false, Installer :: INSTALL_MESSAGE => (Translation :: get('DBConnectError') . $connection->getMessage()));
+            return array(
+                    Installer :: INSTALL_SUCCESS => false,
+                    Installer :: INSTALL_MESSAGE => (Translation :: get('CouldNotConnectToDatabase') . $connection->getMessage()));
         }
         else
         {
@@ -186,26 +201,36 @@ class InstallWizardProcess extends HTML_QuickForm_Action
             {
                 if (array_key_exists('database_exists', $values) && $values['database_exists'] == 1)
                 {
-                    return array(Installer :: INSTALL_SUCCESS => true, Installer :: INSTALL_MESSAGE => Translation :: get('UseExistingDB'));
+                    return array(
+                            Installer :: INSTALL_SUCCESS => true,
+                            Installer :: INSTALL_MESSAGE => Translation :: get('UseExistingDB'));
                 }
 
                 $drop_result = $connection->dropDatabase($values['database_name']);
 
                 if (MDB2 :: isError($drop_result))
                 {
-                    return array(Installer :: INSTALL_SUCCESS => false, Installer :: INSTALL_MESSAGE => (Translation :: get('DBDropError') . ' ' . $drop_result->getMessage()));
+                    return array(
+                            Installer :: INSTALL_SUCCESS => false,
+                            Installer :: INSTALL_MESSAGE => (Translation :: get('DBDropError') . ' ' . $drop_result->getMessage()));
                 }
             }
 
-            $create_result = $connection->createDatabase($values['database_name'], array('charset' => 'utf8', 'collation' => 'utf8_unicode_ci'));
+            $create_result = $connection->createDatabase($values['database_name'], array(
+                    'charset' => 'utf8',
+                    'collation' => 'utf8_unicode_ci'));
 
             if (! MDB2 :: isError($create_result))
             {
-                return array(Installer :: INSTALL_SUCCESS => true, Installer :: INSTALL_MESSAGE => Translation :: get('DBCreated'));
+                return array(
+                        Installer :: INSTALL_SUCCESS => true,
+                        Installer :: INSTALL_MESSAGE => Translation :: get('DBCreated'));
             }
             else
             {
-                return array(Installer :: INSTALL_SUCCESS => false, Installer :: INSTALL_MESSAGE => (Translation :: get('DBCreateError') . ' ' . $create_result->getMessage()));
+                return array(
+                        Installer :: INSTALL_SUCCESS => false,
+                        Installer :: INSTALL_MESSAGE => (Translation :: get('DBCreateError') . ' ' . $create_result->getMessage()));
             }
         }
     }
@@ -213,7 +238,14 @@ class InstallWizardProcess extends HTML_QuickForm_Action
     function create_folders()
     {
         $files_path = dirname(__FILE__) . '/../../../../../../../files/';
-        $directories = array('archive', 'garbage', 'repository', 'temp', 'userpictures', 'scorm', 'logs', 'hotpotatoes');
+        $directories = array('archive',
+                'garbage',
+                'repository',
+                'temp',
+                'userpictures',
+                'scorm',
+                'logs',
+                'hotpotatoes');
         foreach ($directories as $directory)
         {
             $path = $files_path . $directory;
@@ -223,10 +255,14 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 
             if (! Filesystem :: create_dir($path))
             {
-                return array(Installer :: INSTALL_SUCCESS => false, Installer :: INSTALL_MESSAGE => Translation :: get('FoldersCreatedFailed'));
+                return array(
+                        Installer :: INSTALL_SUCCESS => false,
+                        Installer :: INSTALL_MESSAGE => Translation :: get('FoldersCreatedFailed'));
             }
         }
-        return array(Installer :: INSTALL_SUCCESS => true, Installer :: INSTALL_MESSAGE => Translation :: get('FoldersCreatedSuccess'));
+        return array(
+                Installer :: INSTALL_SUCCESS => true,
+                Installer :: INSTALL_MESSAGE => Translation :: get('FoldersCreatedSuccess'));
     }
 
     function write_config_file()
@@ -237,7 +273,9 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 
         if ($content === false)
         {
-            return array(Installer :: INSTALL_SUCCESS => false, Installer :: INSTALL_MESSAGE => Translation :: get('ConfigWriteFailed'));
+            return array(
+                    Installer :: INSTALL_SUCCESS => false,
+                    Installer :: INSTALL_MESSAGE => Translation :: get('ConfigWriteFailed'));
         }
 
         $config['{DATABASE_DRIVER}'] = $values['database_driver'];
@@ -265,16 +303,22 @@ class InstallWizardProcess extends HTML_QuickForm_Action
             if (fwrite($fp, $content))
             {
                 fclose($fp);
-                return array(Installer :: INSTALL_SUCCESS => true, Installer :: INSTALL_MESSAGE => Translation :: get('ConfigWriteSuccess'));
+                return array(
+                        Installer :: INSTALL_SUCCESS => true,
+                        Installer :: INSTALL_MESSAGE => Translation :: get('ConfigWriteSuccess'));
             }
             else
             {
-                return array(Installer :: INSTALL_SUCCESS => false, Installer :: INSTALL_MESSAGE => Translation :: get('ConfigWriteFailed'));
+                return array(
+                        Installer :: INSTALL_SUCCESS => false,
+                        Installer :: INSTALL_MESSAGE => Translation :: get('ConfigWriteFailed'));
             }
         }
         else
         {
-            return array(Installer :: INSTALL_SUCCESS => false, Installer :: INSTALL_MESSAGE => Translation :: get('ConfigWriteFailed'));
+            return array(
+                    Installer :: INSTALL_SUCCESS => false,
+                    Installer :: INSTALL_MESSAGE => Translation :: get('ConfigWriteFailed'));
         }
     }
 
@@ -291,7 +335,8 @@ class InstallWizardProcess extends HTML_QuickForm_Action
             $installer = Installer :: factory($core_application, $values);
             $result = $installer->install();
             $image = '../' . $core_application . '/resources/images/aqua/logo/48.png';
-            $this->process_result($core_application, $result, $installer->retrieve_message(), $image);
+            $title = Translation :: get('TypeName', null, Application :: determine_namespace($core_application));
+            $this->process_result($title, $result, $installer->retrieve_message(), $image);
             unset($installer);
             flush();
 
@@ -310,7 +355,8 @@ class InstallWizardProcess extends HTML_QuickForm_Action
                     $installer = Installer :: factory($application, $values);
                     $result = $installer->install();
                     $image = '../application/' . $application . '/resources/images/aqua/logo/48.png';
-                    $this->process_result($application, $result, $installer->retrieve_message(), $image);
+                    $title = Translation :: get('TypeName', null, Application :: determine_namespace($application));
+                    $this->process_result($title, $result, $installer->retrieve_message(), $image);
                     unset($installer, $result);
                     flush();
                 }
@@ -329,8 +375,8 @@ class InstallWizardProcess extends HTML_QuickForm_Action
         {
             $installer = Installer :: factory($core_application, $values);
             $result = $installer->register_reporting();
-
-            $this->process_result($core_application, $result, $installer->retrieve_message());
+            $title = Translation :: get('TypeName', null, Application :: determine_namespace($core_application));
+            $this->process_result($title, $result, $installer->retrieve_message());
 
             unset($installer);
             flush();
@@ -346,7 +392,8 @@ class InstallWizardProcess extends HTML_QuickForm_Action
                 {
                     $installer = Installer :: factory($application, $values);
                     $result = $installer->register_reporting();
-                    $this->process_result($application, $result, $installer->retrieve_message());
+                    $title = Translation :: get('TypeName', null, Application :: determine_namespace($application));
+                    $this->process_result($title, $result, $installer->retrieve_message());
 
                     unset($installer, $result);
                     flush();
@@ -368,8 +415,8 @@ class InstallWizardProcess extends HTML_QuickForm_Action
         {
             $installer = Installer :: factory($core_application, $values);
             $result = $installer->register_trackers();
-
-            $this->process_result($core_application, $result, $installer->retrieve_message());
+            $title = Translation :: get('TypeName', null, Application :: determine_namespace($core_application));
+            $this->process_result($title, $result, $installer->retrieve_message());
 
             unset($installer);
             flush();
@@ -386,7 +433,8 @@ class InstallWizardProcess extends HTML_QuickForm_Action
                 {
                     $installer = Installer :: factory($application, $values);
                     $result = $installer->register_trackers();
-                    $this->process_result($application, $result, $installer->retrieve_message());
+                    $title = Translation :: get('TypeName', null, Application :: determine_namespace($application));
+                    $this->process_result($title, $result, $installer->retrieve_message());
 
                     unset($installer, $result);
                     flush();
@@ -418,16 +466,16 @@ class InstallWizardProcess extends HTML_QuickForm_Action
             $installer = Installer :: factory($core_application, $values);
             $result = $installer->post_process();
             $image = '../' . $core_application . '/resources/images/aqua/logo/48.png';
-            $this->process_result($core_application, $result, $installer->retrieve_message(), $image);
+            $title = Translation :: get('TypeName', null, Application :: determine_namespace($core_application));
+            $this->process_result($title, $result, $installer->retrieve_message(), $image);
 
             unset($installer);
             flush();
         }
 
-        //installation of contentObject
+        //installation of content objects
         echo '<h3>' . Translation :: get('InstallingContentObjects') . '</h3>';
         $dir = Path :: get_repository_content_object_path();
-        // Register the learning objects
         $folders = Filesystem :: get_directory_content($dir, Filesystem :: LIST_DIRECTORIES, false);
 
         foreach ($folders as $folder)
@@ -437,7 +485,8 @@ class InstallWizardProcess extends HTML_QuickForm_Action
             {
                 $content_object->install();
                 $image = '../repository/content_object/' . $folder . '/resources/images/aqua/logo/48.png';
-                $this->process_result($folder, $result, $content_object->retrieve_message(), $image);
+                $title = Translation :: get('TypeName', null, ContentObject :: get_content_object_type_namespace($folder));
+                $this->process_result($title, $result, $content_object->retrieve_message(), $image);
                 unset($content_object);
                 flush();
             }
@@ -446,7 +495,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
         // Post-processing for selected applications
         if (count($applications) > 0)
         {
-            echo '<h3>' . Translation :: get('PostProcessingWebApplications') . '</h3>';
+            echo '<h3>' . Translation :: get('PostProcessingOptionalApplications') . '</h3>';
         }
         $count = 0;
         foreach ($applications as $application)
@@ -460,7 +509,8 @@ class InstallWizardProcess extends HTML_QuickForm_Action
                     $installer = Installer :: factory($application, $values);
                     $result = $installer->post_process();
                     $image = '../application/' . $application . '/resources/images/aqua/logo/48.png';
-                    $this->process_result($application, $result, $installer->retrieve_message(), $image);
+                    $title = Translation :: get('TypeName', null, Application :: determine_namespace($application));
+                    $this->process_result($title, $result, $installer->retrieve_message(), $image);
 
                     unset($installer, $result);
                     flush();
@@ -471,17 +521,18 @@ class InstallWizardProcess extends HTML_QuickForm_Action
         }
         if ($count == 0)
         {
-            $this->process_result('web_application', true, Translation :: get('NoWebApplicationSelected'));
+            $image = 'resources/images/aqua/place_applications.png';
+            $this->process_result(Translation :: get('OptionalApplications'), true, Translation :: get('NoOptionalApplicationsSelected'), $image);
         }
     }
 
-    function display_install_block_header($application, $result, $image)
+    function display_install_block_header($title, $result, $image)
     {
         $counter = $this->counter;
 
         $html = array();
         $html[] = '<div class="content_object" style="padding: 15px 15px 15px 76px; background-image: url(' . $image . ');' . ($counter % 2 == 0 ? 'background-color: #fafafa;' : '') . '">';
-        $html[] = '<div class="title">' . Translation :: get(Application :: application_to_class($application)) . '</div>';
+        $html[] = '<div class="title">' . $title . '</div>';
         $html[] = '<div class="description">';
 
         return implode("\n", $html);
@@ -495,9 +546,9 @@ class InstallWizardProcess extends HTML_QuickForm_Action
         return implode("\n", $html);
     }
 
-    function process_result($application, $result, $message, $image)
+    function process_result($title, $result, $message, $image)
     {
-        echo $this->display_install_block_header($application, $result, $image);
+        echo $this->display_install_block_header($title, $result, $image);
         echo $message;
         echo $this->display_install_block_footer();
         if (! $result)

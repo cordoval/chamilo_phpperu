@@ -8,7 +8,7 @@ use common\libraries\Utilities;
 /**
  * 
  */
-abstract class GradeBookConnector
+abstract class GradebookConnector
 {
 
     static function factory($application, $tool = null)

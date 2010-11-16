@@ -9,6 +9,8 @@ use common\libraries\Request;
 use common\libraries\PlatformSetting;
 
 require_once Path :: get_plugin_path() . 'pear/HTML/QuickForm/Rule.php';
+require_once dirname(__FILE__) . '/rules/validate_score_boundaries_rule.class.php';
+require_once dirname(__FILE__) . '/rules/validate_score_step_rule.class.php';
 
 class EvaluationForm extends FormValidator
 {
@@ -266,42 +268,6 @@ class EvaluationForm extends FormValidator
     //        	$this->setEvaluationDefaults(true);
     //        	return false;
     //        }
-    }
-}
-
-class ValidateScoreStepRule extends HTML_QuickForm_Rule
-{
-    private $evaluation_format;
-
-    function ValidateScoreStepRule($evaluation_format)
-    {
-        $this->evaluation_format = $evaluation_format;
-    }
-
-    public function validate($evaluation_score)
-    {
-        $quotient = intval($evaluation_score / $this->evaluation_format->get_step());
-        $mod = $evaluation_score - $quotient * $this->evaluation_format->get_step();
-        if ($mod != 0)
-            return false;
-        return true;
-    }
-}
-
-class ValidateScoreBoundariesRule extends HTML_QuickForm_Rule
-{
-    private $evaluation_format;
-
-    function ValidateScoreBoundariesRule($evaluation_format)
-    {
-        $this->evaluation_format = $evaluation_format;
-    }
-
-    public function validate($evaluation_score)
-    {
-        if ($evaluation_score < $this->evaluation_format->get_min_value() || $evaluation_score > $this->evaluation_format->get_max_value())
-            return false;
-        return true;
     }
 }
 ?>

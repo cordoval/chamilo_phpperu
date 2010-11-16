@@ -126,16 +126,16 @@ class RepositoryManagerCreatorComponent extends RepositoryManager
                 $this->display_header(null, false, true);
             }
 
-            if ($quotamanager->get_available_database_space() <= 0)
-            {
-                Display :: warning_message(htmlentities(Translation :: get('MaxNumberOfContentObjectsReached')));
-            }
-            else
-            {
-                echo $type_selector->as_html();
-                //                $html[] = ResourceManager :: get_instance()->get_resource_html(BasicApplication :: get_application_web_resources_javascript_path(RepositoryManager :: APPLICATION_NAME) . 'repository.js');
+            //if ($quotamanager->get_available_database_space() <= 0)
+            //{
+            //    Display :: warning_message(htmlentities(Translation :: get('MaxNumberOfContentObjectsReached')));
+            //}
+            //else
+            //{
+            echo $type_selector->as_html();
+            //                $html[] = ResourceManager :: get_instance()->get_resource_html(BasicApplication :: get_application_web_resources_javascript_path(RepositoryManager :: APPLICATION_NAME) . 'repository.js');
             //                echo implode("\n", $html);
-            }
+            //}
             $this->display_footer();
         }
     }

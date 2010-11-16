@@ -1,6 +1,8 @@
 <?php
 namespace admin;
 use common\libraries\Translation;
+use common\libraries\AdministrationComponent;
+use common\libraries\DelegateComponent;
 /* 
  * To change this template, choose Tools | Templates
  * and open the template in the editor.

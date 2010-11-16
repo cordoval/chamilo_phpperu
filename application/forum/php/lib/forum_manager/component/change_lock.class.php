@@ -22,11 +22,11 @@ class ForumManagerChangeLockComponent extends ForumManager
         if($object->invert_locked())
         {
         	$succes = true;
-        	$message = Translation :: get('LockChanged');
+        	$message = Translation :: get('LockChanged', null, 'repository\content_object\forum');
         }
         else
         {
-        	$message= Translation :: get('LockNotChanged');
+        	$message= Translation :: get('LockNotChanged', null, 'repository\content_object\forum');
         }
         
         $params = array();

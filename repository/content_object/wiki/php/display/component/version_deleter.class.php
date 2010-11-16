@@ -3,6 +3,7 @@ namespace repository\content_object\wiki;
 
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use repository\ComplexDisplay;
 use repository\RepositoryManager;
 use repository\RepositoryDataManager;
@@ -40,13 +41,13 @@ class WikiDisplayVersionDeleterComponent extends WikiDisplay
                 {
                     if ($object->delete_version())
                     {
-                        $this->redirect(Translation :: get('WikiPageVersionDeleted'), false, array(
+                        $this->redirect(Translation :: get('ObjectDeleted', array('OBJECT' => Translation :: get('WikiPageVersion')) , Utilities :: COMMON_LIBRARIES), false, array(
                                 Complexdisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_HISTORY,
                                 ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_wiki_page_id));
                     }
                     else
                     {
-                        $this->redirect(Translation :: get('WikiPageVersionNotDeleted'), false, array(
+                        $this->redirect(Translation :: get('ObjectNotDeleted', array('OBJECT' => Translation :: get('WikiPageVersion')) , Utilities :: COMMON_LIBRARIES), false, array(
                                 Complexdisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_HISTORY,
                                 ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_wiki_page_id));
                     }
@@ -54,14 +55,14 @@ class WikiDisplayVersionDeleterComponent extends WikiDisplay
                 }
                 else
                 {
-                    $this->redirect(Translation :: get('WikiPageVersionNotDeleted'), false, array(
+                    $this->redirect(Translation :: get('ObjectNotDeleted', array('OBJECT' => Translation :: get('WikiPageVersion')) , Utilities :: COMMON_LIBRARIES), false, array(
                             Complexdisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_HISTORY,
                             ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_wiki_page_id));
                 }
             }
             else
             {
-                $this->redirect(Translation :: get('WikiPageVersionNotDeleted'), false, array(
+                $this->redirect(Translation :: get('ObjectNotDeleted', array('OBJECT' => Translation :: get('WikiPageVersion')) , Utilities :: COMMON_LIBRARIES), false, array(
                         Complexdisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_HISTORY, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_wiki_page_id));
             }
         }

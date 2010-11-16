@@ -39,7 +39,7 @@ class EvaluationBrowserTableCellRenderer extends DefaultEvaluationBrowserTableCe
         switch ($column->get_name())
         {
             case Evaluation :: PROPERTY_EVALUATION_DATE :
-                return DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $evaluation->get_evaluation_date());
+                return DatetimeUtilities :: format_locale_date(Translation :: get('DateFormatShort', null, Utilities :: COMMON_LIBRARIES) . ', ' . Translation :: get('TimeNoSecFormat', null, Utilities :: COMMON_LIBRARIES), $evaluation->get_evaluation_date());
             case'user':
                 return $optional_properties['user'];
             case 'evaluator':

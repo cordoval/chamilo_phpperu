@@ -22,7 +22,7 @@ use common\libraries\InequalityCondition;
  */
 require_once WebApplication :: get_application_class_path('alexia') . 'blocks/alexia_block.class.php';
 
-class AlexiaLinks extends AlexiaBlock
+class AlexiaLinks extends PhotoGalleryBlock
 {
 
     function as_html()

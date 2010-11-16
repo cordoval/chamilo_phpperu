@@ -1,6 +1,5 @@
 <?php
 namespace common\libraries;
-
 /**
  * $Id: core_application.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common
@@ -123,7 +122,7 @@ abstract class CoreApplication extends BasicApplication
     
     static function exists($application)
     {
-    	$application_path = self :: get_application_path($name);       
+    	$application_path = self :: get_application_path($application);
         
         if (file_exists($application_path) && is_dir($application_path) )
         {

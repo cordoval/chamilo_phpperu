@@ -1,6 +1,8 @@
 <?php
 namespace install;
 
+use common\libraries;
+
 use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\SimpleTable;
@@ -33,7 +35,7 @@ class RequirementsInstallWizardPage extends InstallWizardPage
     {
         $info[] = Translation :: get("ChamiloNeedFollowingOnServer");
         $info[] = '<br />';
-        $info[] = Translation :: get('MoreDetails') . ", <a href=\"../../documentation/installation_guide.html\" target=\"blank\">read the installation guide</a>.";
+        $info[] = Translation :: get('MoreDetails', array('URL' => '../../documentation/installation_guide.html'));
         $info[] = '<br /><br />';
         $info[] = '<b>' . Translation :: get("ReadThoroughly") . '</b>';
         $info[] = '<br />';
@@ -71,7 +73,7 @@ class RequirementsInstallWizardPage extends InstallWizardPage
             }
 
             $status = $exists && $writable ? Diagnoser :: STATUS_OK : Diagnoser :: STATUS_ERROR;
-            $array[] = $diagnoser->build_setting($status, '[FILES]', Translation :: get($exists ? 'IsWritable' : 'DirectoryExists') . ': ' . $folder, $exists ? 'http://php.net/manual/en/function.is-writable.php' : 'http://php.net/manual/en/function.file-exists.php', $writable, 1, 'yes_no', Translation :: get($exists ? 'DirectoryMustBeWritable' : 'DirectoryMustExist'), $path);
+            $array[] = $diagnoser->build_setting($status, '[FILES]', Translation :: get($exists ? 'IsWritable' : 'DirectoryExists', null, Utilities :: COMMON_LIBRARIES) . ': ' . $folder, $exists ? 'http://php.net/manual/en/function.is-writable.php' : 'http://php.net/manual/en/function.file-exists.php', $writable, 1, 'yes_no', Translation :: get($exists ? 'DirectoryMustBeWritable' : 'DirectoryMustExist', null, Utilities :: COMMON_LIBRARIES), $path);
         }
 
         $version = phpversion();
@@ -80,7 +82,7 @@ class RequirementsInstallWizardPage extends InstallWizardPage
         {
             $this->fatal = true;
         }
-        $array[] = $diagnoser->build_setting($status, '[PHP]', 'phpversion()', 'http://www.php.net/manual/en/function.phpversion.php', phpversion(), '>= 5.3', null, Translation :: get('PHPVersionInfo'), $path);
+        $array[] = $diagnoser->build_setting($status, '[PHP]', 'phpversion()', 'http://www.php.net/manual/en/function.phpversion.php', phpversion(), '>= 5.3', null, Translation :: get('PHPVersionInfo', null, Utilities :: COMMON_LIBRARIES), $path);
 
         $setting = ini_get('output_buffering');
         $req_setting = 0;
@@ -90,7 +92,7 @@ class RequirementsInstallWizardPage extends InstallWizardPage
             $this->fatal = true;
         }
 
-        $array[] = $diagnoser->build_setting($status, '[PHP-INI]', 'output_buffering', 'http://www.php.net/manual/en/outcontrol.configuration.php#ini.output-buffering', $setting, $req_setting, 'on_off', Translation :: get('FileUploadsInfo'), $path);
+        $array[] = $diagnoser->build_setting($status, '[PHP-INI]', 'output_buffering', 'http://www.php.net/manual/en/outcontrol.configuration.php#ini.output-buffering', $setting, $req_setting, 'on_off', Translation :: get('FileUploadsInfo', null, Utilities :: COMMON_LIBRARIES), $path);
 
         $extensions = array('gd' => 'http://www.php.net/gd', 'pcre' => 'http://www.php.net/pcre', 'session' => 'http://www.php.net/session', 'standard' => 'http://www.php.net/spl', 'zlib' => 'http://www.php.net/zlib', 'xsl' => 'http://be2.php.net/xsl');
 
@@ -104,7 +106,7 @@ class RequirementsInstallWizardPage extends InstallWizardPage
             }
 
             $status = $loaded ? Diagnoser :: STATUS_OK : Diagnoser :: STATUS_ERROR;
-            $array[] = $diagnoser->build_setting($status, '[PHP-EXTENSION]', Translation :: get('ExtensionLoaded') . ': ' . $extension, $url, $loaded, 1, 'yes_no', Translation :: get('ExtensionMustBeLoaded'), $path);
+            $array[] = $diagnoser->build_setting($status, '[PHP-EXTENSION]', Translation :: get('ExtensionLoaded', null, Utilities :: COMMON_LIBRARIES) . ': ' . $extension, $url, $loaded, 1, 'yes_no', Translation :: get('ExtensionMustBeLoaded', null, Utilities :: COMMON_LIBRARIES), $path);
         }
 
         return $array;

@@ -18,7 +18,7 @@ class ExternalCalendarForm extends ContentObjectForm
     {
         parent :: build_creation_form();
         $this->addElement('category', Translation :: get('Properties'));
-        $this->add_textfield(ExternalCalendar :: PROPERTY_URL, Translation :: get('URL'), true, array('size' => '100'));
+        $this->add_textfield(ExternalCalendar :: PROPERTY_URL, Translation :: get('ICalURL'), true, array('size' => '100'));
         $this->addElement('category');
     }
 
@@ -26,7 +26,7 @@ class ExternalCalendarForm extends ContentObjectForm
     {
         parent :: build_editing_form();
         $this->addElement('category', Translation :: get('Properties'));
-        $this->add_textfield(ExternalCalendar :: PROPERTY_URL, Translation :: get('URLOfIcal'), true, array('size' => '100'));
+        $this->add_textfield(ExternalCalendar :: PROPERTY_URL, Translation :: get('ICalURL'), true, array('size' => '100'));
         $this->addElement('category');
     }
 

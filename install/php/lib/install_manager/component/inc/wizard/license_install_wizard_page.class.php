@@ -16,7 +16,7 @@ class LicenseInstallWizardPage extends InstallWizardPage
 
     function get_title()
     {
-        return Translation :: get('Licence');
+        return Translation :: get('License');
     }
 
     function get_info()
@@ -28,12 +28,12 @@ class LicenseInstallWizardPage extends InstallWizardPage
     {
         $this->set_lang($this->controller->exportValue('page_language', 'install_language'));
         $this->_formBuilt = true;
-        $this->addElement('category', Translation :: get('Licence'));
-        $this->addElement('textarea', 'license', null, array('cols' => 80, 'rows' => 20, 'disabled' => 'disabled', 'style' => 'background-color: white;'));
+        $this->addElement('category', Translation :: get('License'));
+        $this->addElement('textarea', 'license', null, array('cols' => 80, 'rows' => 30, 'style' => 'background-color: white; line-height: 12px;'));
         $this->addElement('checkbox', 'license_accept', '', Translation :: get('IAccept'));
         $this->addRule('license_accept', Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
         $this->addElement('category');
-        
+
         $buttons = array();
         $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Previous', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal previous'));
         $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal next'));
@@ -45,7 +45,7 @@ class LicenseInstallWizardPage extends InstallWizardPage
     function set_form_defaults()
     {
         $defaults = array();
-        $defaults['license'] = implode("\n", file('../documentation/license.txt'));
+        $defaults['license'] = implode("", file('../documentation/license.txt'));
         $this->setDefaults($defaults);
     }
 }

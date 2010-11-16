@@ -147,15 +147,15 @@ class Theme
     /**
      * Get the path to the application's image folder
      */
-    static function get_image_path($context = null)
+    function get_image_path($context = null)
     {
         $instance = self :: get_instance();
 
         if (! $context)
         {
             $backtrace = debug_backtrace();
-            //$called_class = $backtrace[1]['class'];
-            $called_class = get_called_class();
+            $called_class = $backtrace[1]['class'];
+            //$called_class = get_called_class();
             $context = Utilities :: get_namespace_from_classname($called_class);
         }
 

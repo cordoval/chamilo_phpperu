@@ -1,5 +1,6 @@
 <?php
 namespace admin;
+use common\libraries\ObjectTableDataProvider;
 /**
  * $Id: whois_online_table_data_provider.class.php 126 2009-11-09 13:11:05Z vanpouckesven $
  * @package admin.lib.admin_manager.component.whois_online_table

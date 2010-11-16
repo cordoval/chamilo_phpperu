@@ -39,7 +39,7 @@ class GroupExportForm extends FormValidator
 
     function build_exporting_form()
     {
-        $this->addElement('select', 'file_type', Translation :: get('OutputFileType', null , 'common/libraries'), Export :: get_supported_filetypes(array('ical', 'csv', 'pdf')));
+        $this->addElement('select', 'file_type', Translation :: get('OutputFileType', null , Utilities :: COMMON_LIBRARIES), Export :: get_supported_filetypes(array('ical', 'csv', 'pdf')));
         //$this->addElement('submit', 'group_export', Translation :: get('Ok', null , Utilities :: COMMON_LIBRARIES));
         
 

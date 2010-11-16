@@ -39,9 +39,9 @@ class PublicationEvaluationsReportingBlock extends EvaluationsReportingBlock
 					$format = GradebookManager :: retrieve_evaluation_format($evaluation->get_format_id());
 					$evaluation_format = EvaluationFormat :: factory($format->get_title());
 					$evaluation_format->set_score($optional_properties['score']);
-					
+
 					$reporting_data->add_category($evaluation->get_id());
-		            $reporting_data->add_data_category_row($evaluation->get_id(), Translation :: get('EvaluationDate'), DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $evaluation->get_evaluation_date()));
+		            $reporting_data->add_data_category_row($evaluation->get_id(), Translation :: get('EvaluationDate'), DatetimeUtilities :: format_locale_date(Translation :: get('DateFormatShort', null, Utilities :: COMMON_LIBRARIES) . ', ' . Translation :: get('TimeNoSecFormat', null, Utilities :: COMMON_LIBRARIES), $evaluation->get_evaluation_date()));
 		            $reporting_data->add_data_category_row($evaluation->get_id(), Translation :: get('User', null, 'user'), $optional_properties['user']);
 					$reporting_data->add_data_category_row($evaluation->get_id(), Translation :: get('Evaluator'), $optional_properties['evaluator']);
 					$reporting_data->add_data_category_row($evaluation->get_id(), Translation :: get('Score'), $evaluation_format->get_formatted_score());
@@ -55,13 +55,13 @@ class PublicationEvaluationsReportingBlock extends EvaluationsReportingBlock
 	        	$attributes = $application_manager->get_content_object_publication_attribute($publication_id);
 	        	$rdm = RepositoryDataManager :: get_instance();
 				$content_object = $rdm->retrieve_content_object($attributes->get_publication_object_id());
-				
+
 				if(!($content_object->get_type() == $application))
 				{
 					$tool = $content_object->get_type();
 				}
 				$udm = UserDataManager :: get_instance();
-				$connector = GradeBookConnector :: factory($application, $tool);
+				$connector = GradebookConnector :: factory($application, $tool);
 				$user = $connector->get_tracker_user($publication_id);
 				$date = $connector->get_tracker_date($publication_id);
 				$score = $connector->get_tracker_score($publication_id);
@@ -78,7 +78,7 @@ class PublicationEvaluationsReportingBlock extends EvaluationsReportingBlock
 							$date[$i] = $content_date;
 						}
 						$reporting_data->add_category($date[$i]);
-			            $reporting_data->add_data_category_row($date[$i], Translation :: get('EvaluationDate'), DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $date[$i]));
+			            $reporting_data->add_data_category_row($date[$i], Translation :: get('EvaluationDate'), DatetimeUtilities :: format_locale_date(Translation :: get('DateFormatShort', null, Utilities :: COMMON_LIBRARIES) . ', ' . Translation :: get('TimeNoSecFormat', null, Utilities :: COMMON_LIBRARIES), $date[$i]));
 			            $reporting_data->add_data_category_row($date[$i], Translation :: get('User', null, 'user'), $username);
 						$reporting_data->add_data_category_row($date[$i], Translation :: get('Evaluator'), $publisher);
 						$reporting_data->add_data_category_row($date[$i], Translation :: get($score_translation), $score[$i] . '%');
@@ -89,7 +89,7 @@ class PublicationEvaluationsReportingBlock extends EvaluationsReportingBlock
 			}
 		}
 		else
-		{ 
+		{
 			//$reporting_data->set_rows(array(Translation :: get('EvaluationDate'), Translation :: get('User'), Translation :: get('Evaluator'), Translation :: get('Score'), Translation :: get('Comment')));
 			require_once dirname(__FILE__) . '/../../external_item.class.php';
 			$condition = new EqualityCondition(ExternalItem :: PROPERTY_ID, $publication_id, ExternalItem :: get_table_name());
@@ -103,7 +103,7 @@ class PublicationEvaluationsReportingBlock extends EvaluationsReportingBlock
 				$evaluation_format = EvaluationFormat :: factory($format->get_title());
 				$evaluation_format->set_score($optional_properties['score']);
 				$reporting_data->add_category($evaluation->get_id());
-	            $reporting_data->add_data_category_row($evaluation->get_id(), Translation :: get('EvaluationDate'), DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $evaluation->get_evaluation_date()));
+	            $reporting_data->add_data_category_row($evaluation->get_id(), Translation :: get('EvaluationDate'), DatetimeUtilities :: format_locale_date(Translation :: get('DateFormatShort', null, Utilities :: COMMON_LIBRARIES) . ', ' . Translation :: get('TimeNoSecFormat', null, Utilities :: COMMON_LIBRARIES), $evaluation->get_evaluation_date()));
 				$reporting_data->add_data_category_row($evaluation->get_id(), Translation :: get('Evaluator'), $evaluator_name);
 	            $reporting_data->add_data_category_row($evaluation->get_id(), Translation :: get('User', null, 'user'), $optional_properties['evaluator']);
 				$reporting_data->add_data_category_row($evaluation->get_id(), Translation :: get('Score'), $evaluation_format->get_formatted_score());
@@ -112,18 +112,18 @@ class PublicationEvaluationsReportingBlock extends EvaluationsReportingBlock
 			}
 		}
 		return $reporting_data;
-	}	
-	
+	}
+
 	public function retrieve_data()
 	{
 		return $this->count_data();
 	}
-	
+
 	function get_application()
 	{
 		return GradebookManager::APPLICATION_NAME;
 	}
-	
+
 	public function get_available_displaymodes()
     {
         $modes = array();

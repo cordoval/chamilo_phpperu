@@ -2,6 +2,7 @@
 namespace repository\content_object\forum;
 
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\extensions\repo_viewer\RepoViewerInterface;
 use common\extensions\repo_viewer\RepoViewer;
 use repository\ComplexDisplay;
@@ -55,7 +56,7 @@ class ForumDisplayForumSubforumCreatorComponent extends ForumDisplay implements 
 
     private function my_redirect($pid, $forum, $is_subforum)
     {
-        $message = htmlentities(Translation :: get('SubforumCreated'));
+        $message = htmlentities(Translation :: get('ObjectCreated',array('OBJECT' => Translation :: get('Subforum')) , Utilities :: COMMON_LIBRARIES ));
 
         $params = array();
         $params[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_VIEW_FORUM;

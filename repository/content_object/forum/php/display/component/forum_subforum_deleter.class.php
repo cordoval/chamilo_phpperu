@@ -2,6 +2,7 @@
 namespace repository\content_object\forum;
 
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use repository\RepositoryDataManager;
 use repository\ComplexDisplay;
 
@@ -37,11 +38,11 @@ class ForumDisplayForumSubforumDeleterComponent extends ForumDisplay
 
             if (count($subforums) > 1)
             {
-                $message = htmlentities(Translation :: get('SubforumsDeleted'));
+                $message = htmlentities(Translation :: get('ObjectsDeleted',array('OBJECT' => Translation :: get('Subforums')) , Utilities :: COMMON_LIBRARIES ));
             }
             else
             {
-                $message = htmlentities(Translation :: get('SubforumDeleted'));
+                $message = htmlentities(Translation :: get('ObjectDeleted',array('OBJECT' => Translation :: get('Subforum')) , Utilities :: COMMON_LIBRARIES ));
             }
 
             $this->redirect($message, false, $params);

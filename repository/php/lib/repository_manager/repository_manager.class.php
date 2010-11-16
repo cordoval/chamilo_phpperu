@@ -1229,7 +1229,7 @@ class RepositoryManager extends CoreApplication
     function render_block($block)
     {
         $repository_block = RepositoryBlock :: factory($this, $block);
-        return $repository_block->run();
+        return $repository_block->as_html();
     }
 
     function get_browse_user_views_url()
