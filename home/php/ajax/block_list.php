@@ -72,7 +72,7 @@ if ($user_home_allowed && Authentication :: is_valid())
     echo '</div>';
 
     echo '<div style="position: relative; bottom: -15px; padding: 5px 0px 5px 0px; margin: 0px -15px 0px -15px; text-align: center; background: url(' . Theme :: get_common_image_path() . 'background_ajax_hide.png)#F6F6F6 no-repeat top center;">';
-    echo '<a class="closeScreen" href="#"><img src="' . Theme :: get_common_image_path() . 'action_ajax_hide.png" alt="' . Translation :: get('close') . '" title="' . Translation :: get('close') . '" /></a>';
+    echo '<a class="closeScreen" href="#"><img src="' . Theme :: get_common_image_path() . 'action_ajax_hide.png" alt="' . Translation :: get('Close') . '" title="' . Translation :: get('Close') . '" /></a>';
     echo '</div>';
     echo '</div>';
 }

@@ -115,7 +115,7 @@ if ($user_home_allowed && Authentication :: is_valid())
 else
 {
     $json_result['success'] = '0';
-    $json_result['message'] = Translation :: get('NotAuthorized');
+    $json_result['message'] = Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES);
 }
 
 echo json_encode($json_result);

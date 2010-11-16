@@ -4,6 +4,7 @@ use common\libraries\Translation;
 use common\libraries\Session;
 use common\libraries\Authentication;
 use common\libraries\PlatformSetting;
+use common\libraries\Utilities;
 /**
  * $Id: block_move.php 227 2009-11-13 14:45:05Z kariboe $
  * @package home.ajax
@@ -36,7 +37,7 @@ if ($user_home_allowed && Authentication :: is_valid())
 else
 {
     $json_result['success'] = '0';
-    $json_result['message'] = Translation :: get('NotAuthorized');
+    $json_result['message'] = Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES);
 }
 
 // Return a JSON object
