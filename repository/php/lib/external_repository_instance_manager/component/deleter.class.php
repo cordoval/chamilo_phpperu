@@ -62,7 +62,7 @@ class ExternalRepositoryInstanceManagerDeleterComponent extends ExternalReposito
                 }
             }
 
-            $this->redirect(Translation :: get($message, $parameter, Utilities :: COMMON_UTILITIES), ($failures ? true : false), array(ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION => ExternalRepositoryInstanceManager :: ACTION_BROWSE_INSTANCES));
+            $this->redirect(Translation :: get($message, $parameter, Utilities :: COMMON_LIBRARIES), ($failures ? true : false), array(ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION => ExternalRepositoryInstanceManager :: ACTION_BROWSE_INSTANCES));
         }
         else
         {

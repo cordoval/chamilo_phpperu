@@ -66,11 +66,11 @@ class AdminManagerSystemAnnouncementHiderComponent extends AdminManager implemen
                 }
             }
 
-            $this->redirect(Translation :: get($message, $parameter, Utilities :: COMMON_UTILITIES), ($failures ? true : false), array(Application :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS));
+            $this->redirect(Translation :: get($message, $parameter, Utilities :: COMMON_LIBRARIES), ($failures ? true : false), array(Application :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => 'Publication'), Utilities :: COMMON_UTILITIES)));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => 'Publication'), Utilities :: COMMON_LIBRARIES)));
         }
     }
 

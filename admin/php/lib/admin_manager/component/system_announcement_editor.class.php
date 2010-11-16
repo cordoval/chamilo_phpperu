@@ -49,7 +49,7 @@ class AdminManagerSystemAnnouncementEditorComponent extends AdminManager impleme
                 if ($publication_form->validate())
                 {
                     $success = $publication_form->update_content_object_publication();
-                    $this->redirect(Translation :: get($success ? 'ObjectUpdated' : 'ObjectNotUpdated', array('OBJECT' => Translation :: get('SystemAnnouncementPublication')), Utilities :: COMMON_UTILITIES), ($success ? false : true), array(Application :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS));
+                    $this->redirect(Translation :: get($success ? 'ObjectUpdated' : 'ObjectNotUpdated', array('OBJECT' => Translation :: get('SystemAnnouncementPublication')), Utilities :: COMMON_LIBRARIES), ($success ? false : true), array(Application :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS));
                 }
                 else
                 {
@@ -69,7 +69,7 @@ class AdminManagerSystemAnnouncementEditorComponent extends AdminManager impleme
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('SystemAnnouncement')), Utilities :: COMMON_UTILITIES)));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => Translation :: get('SystemAnnouncement')), Utilities :: COMMON_LIBRARIES)));
         }
     }
 
