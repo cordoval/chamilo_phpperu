@@ -47,7 +47,7 @@ class HomeRowForm extends FormValidator
         
         $this->addElement('hidden', HomeRow :: PROPERTY_USER);
         
-    //$this->addElement('submit', 'home_row', Translation :: get('Ok'));
+    //$this->addElement('submit', 'home_row', Translation :: get('Ok', null, Utilities :: COMMON_LIBRARIES));
     }
 
     function build_editing_form()

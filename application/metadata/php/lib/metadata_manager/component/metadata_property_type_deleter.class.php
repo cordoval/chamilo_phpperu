@@ -1,7 +1,9 @@
 <?php 
 namespace application\metadata;
+
 use common\libraries\Translation;
 use common\libraries\Utilities;
+
 /**
  * Component to delete metadata_property_types objects
  * @author Sven Vanpoucke

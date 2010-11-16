@@ -3,6 +3,8 @@ namespace home;
 use common\libraries\Translation;
 use common\libraries\Installer;
 use common\libraries\Utilities;
+use admin\AdminManager;
+use user\UserManager;
 /**
  * $Id: home_installer.class.php 227 2009-11-13 14:45:05Z kariboe $
  * @package home.install
@@ -74,7 +76,7 @@ class HomeInstaller extends Installer
         
         $block_test = new HomeBlock();
         $block_test->set_column($column_news->get_id());
-        $block_test->set_title(Translation :: get('SystemAnnouncements'));
+        $block_test->set_title(Translation :: get('SystemAnnouncements', null, AdminManager :: APPLICATION_NAME));
         $block_test->set_application('admin');
         $block_test->set_component('system_announcements');
         $block_test->set_user('0');
@@ -96,7 +98,7 @@ class HomeInstaller extends Installer
         
         $block_user = new HomeBlock();
         $block_user->set_column($column_varia->get_id());
-        $block_user->set_title(Translation :: get('User', null, 'user'));
+        $block_user->set_title(Translation :: get('User', null, UserManager :: APPLICATION_NAME));
         $block_user->set_application('user');
         $block_user->set_component('login');
         $block_user->set_user('0');
@@ -107,7 +109,7 @@ class HomeInstaller extends Installer
         
         $block_portal_home = new HomeBlock();
         $block_portal_home->set_column($column_news->get_id());
-        $block_portal_home->set_title(Translation :: get('PortalHome'));
+        $block_portal_home->set_title(Translation :: get('PortalHome', null, AdminManager :: APPLICATION_NAME));
         $block_portal_home->set_application('admin');
         $block_portal_home->set_component('portal_home');
         $block_portal_home->set_user('0');

@@ -1,2 +1,5 @@
-BlogToolBrowserComponent = ""
-BlogToolViewerComponent = ""
+TypeName = "Blog"
+BlogToolBrowserComponent = "Browse blogs"
+BlogToolViewerComponent = "View blog"
+BlogToolUpdaterComponent = "Edit blog"
+BlogToolIntroductionPublisherComponent = "Publish introduction"

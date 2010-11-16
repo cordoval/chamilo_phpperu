@@ -55,7 +55,7 @@ class HandbookBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
         
         switch ($column->get_name())
         {
-            case Translation :: get(Utilities :: underscores_to_camelcase(ContentObject :: PROPERTY_TITLE)) :
+            case Translation :: get('Title', null, __NAMESPACE__) :
                 $title = htmlspecialchars($ref_content_object->get_title());
                 $title_short = $title;
                 

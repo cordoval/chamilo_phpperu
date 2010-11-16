@@ -13,6 +13,17 @@ use common\libraries\ArrayResultSet;
  {
     const APPLICATION_NAME = 'context_linker';
 
+    const ARRAY_TYPE_FLAT = '1';
+    const ARRAY_TYPE_RECURSIVE = '2';
+
+    const PARAM_VIEW = 'view';
+    const VIEW_TABLE = 'table';
+    const VIEW_GRAPHIC = 'graphic';
+
+    const RECURSIVE_DIRECTION_UP = '1';
+    const RECURSIVE_DIRECTION_DOWN = '2';
+    const RECURSIVE_DIRECTION_BOTH = '3';
+
     const ACTION_BROWSE_CONTENT_OBJECTS = 'content_objects_browser';
 
     const PARAM_CONTEXT_LINK = 'context_link';
@@ -31,7 +42,11 @@ use common\libraries\ArrayResultSet;
     const PARAM_PROPERTY_VALUE = 'property_value';
 
     const PROPERTY_ALT_ID = 'alt_id';
+    const PROPERTY_ALT_TYPE = 'alt_type';
+    const PROPERTY_ALT_TITLE = 'alt_title';
     const PROPERTY_ORIG_ID = 'orig_id';
+    const PROPERTY_ORIG_TYPE = 'orig_type';
+    const PROPERTY_ORIG_TITLE = 'orig_title';
     
     /**
      * Constructor
@@ -91,9 +106,10 @@ use common\libraries\ArrayResultSet;
             return ContextLinkerDataManager :: get_instance()->retrieve_context_links($condition, $offset, $count, $order_property);
     }
 
-    function retrieve_full_context_links($condition = null, $offset = null, $count = null, $order_property = null)
+    function retrieve_full_context_links($condition = null, $offset = null, $count = null, $order_property = null, $array_type = self :: ARRAY_TYPE_FLAT)
     {
-        return new ArrayResultSet(ContextLinkerDataManager :: get_instance()->retrieve_full_context_links_recursive($condition, $offset, $count, $order_property));
+        //return ContextLinkerDataManager :: get_instance()->retrieve_full_context_links_recursive($condition, $offset, $count, $order_property, array(), $array_type);
+        return new ArrayResultSet(ContextLinkerDataManager :: get_instance()->retrieve_full_context_links_recursive($condition, $offset, $count, $order_property, array(), $array_type));
     }
 
     function retrieve_context_link($id)

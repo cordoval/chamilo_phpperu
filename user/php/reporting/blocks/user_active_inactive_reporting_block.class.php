@@ -26,10 +26,10 @@ class UserActiveInactiveReportingBlock extends UserReportingBlock
             }
         }
         $reporting_data->set_categories(array(Translation :: get('Active'), Translation :: get('Inactive')));
-        $reporting_data->set_rows(array(Translation :: get('count')));
+        $reporting_data->set_rows(array(Translation :: get('Count')));
 
-        $reporting_data->add_data_category_row(Translation :: get('Active'), Translation :: get('count'), $active[Translation :: get('Active')]);
-		$reporting_data->add_data_category_row(Translation :: get('Inactive'), Translation :: get('count'), $active[Translation :: get('Inactive')]);
+        $reporting_data->add_data_category_row(Translation :: get('Active'), Translation :: get('Count'), $active[Translation :: get('Active')]);
+		$reporting_data->add_data_category_row(Translation :: get('Inactive'), Translation :: get('Count'), $active[Translation :: get('Inactive')]);
         return $reporting_data;
 	}
 

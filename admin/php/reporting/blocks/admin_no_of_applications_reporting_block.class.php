@@ -25,7 +25,7 @@ class AdminNoOfApplicationsReportingBlock extends AdminReportingBlock
         }
 
         $reporting_data->set_categories(array(Translation :: get('NumberOfApplications')));
-        $reporting_data->set_rows(array(Translation :: get('count')));
+        $reporting_data->set_rows(array(Translation :: get('Count')));
 
         $reporting_data->add_data_category_row(Translation :: get('NumberOfApplications'), Translation :: get('Count', array(), Utilities :: COMMON_LIBRARIES), $arr[Translation :: get('NumberOfApplications')]);
         return $reporting_data;

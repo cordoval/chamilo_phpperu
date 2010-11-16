@@ -11,6 +11,10 @@ use user\UserDataManager;
 use common\libraries\Theme;
 use common\libraries\Path;
 use common\libraries\Translation;
+use repository\DefaultContentObjectTableCellRenderer;
+use application\weblcms\WeblcmsAssessmentAttemptsTracker;
+use repository\content_object\hotpotatoes\Hotpotatoes;
+use repository\content_object\assessment\Assessment;
 
 /**
  * $Id: assessment_results_table_detail_cell_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $

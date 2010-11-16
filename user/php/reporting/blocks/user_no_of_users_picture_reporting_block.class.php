@@ -31,10 +31,10 @@ class UserNoOfUsersPictureReportingBlock extends UserReportingBlock
         }
 
         $reporting_data->set_categories(array(Translation :: get('Picture'), Translation :: get('NoPicture')));
-        $reporting_data->set_rows(array(Translation :: get('count')));
+        $reporting_data->set_rows(array(Translation :: get('Count')));
 
-        $reporting_data->add_data_category_row(Translation :: get('Picture'), Translation :: get('count'), $picture[$picturetext]);
-        $reporting_data->add_data_category_row(Translation :: get('NoPicture'), Translation :: get('count'), $picture[$nopicturetext]);
+        $reporting_data->add_data_category_row(Translation :: get('Picture'), Translation :: get('Count'), $picture[$picturetext]);
+        $reporting_data->add_data_category_row(Translation :: get('NoPicture'), Translation :: get('Count'), $picture[$nopicturetext]);
         return $reporting_data;
     }
 

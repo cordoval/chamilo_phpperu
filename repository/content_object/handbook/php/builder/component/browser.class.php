@@ -99,7 +99,7 @@ class HandbookBuilderBrowserComponent extends HandbookBuilder implements Content
 
         if ($pub && $pub != '')
         {
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $_SESSION['redirect_url']));
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_publish.png', $_SESSION['redirect_url']));
             return $action_bar;
         }
     }

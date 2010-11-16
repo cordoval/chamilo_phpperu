@@ -11,6 +11,7 @@ use common\libraries\AdministrationComponent;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\ActionBarRenderer;
 use common\libraries\ActionBarSearchForm;
+use common\libraries\Utilities;
 
 /**
  * $Id: webservice_browser.class.php 208 2009-11-13 13:14:39Z vanpouckesven $
@@ -33,7 +34,7 @@ class WebserviceManagerWebserviceBrowserComponent extends WebserviceManager impl
         if (! $this->get_user()->is_platform_admin())
         {
             $this->display_header();
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }

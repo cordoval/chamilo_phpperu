@@ -199,7 +199,7 @@ $(function () {
 		
 		var confirmation, columnId, order;
 		
-		confirmation = confirm('Are you sure ?');
+		confirmation = confirm(translation('Confirm', 'home'));
 		if (confirmation) {
 			columnId = $(this).parent().parent().parent().attr("id");
 
@@ -506,8 +506,8 @@ $(function () {
 		
 		var editTabHTML, loading;
 		
-		editTabHTML  = '<div id="editTab"><h3>Edit tab name</h3>';
-		editTabHTML += '<input id="tabTitle" type="text" value="' + $('.tabTitle', this).html() + '"/>&nbsp;';
+		editTabHTML  = '<div id="editTab"><h3>' + translation('EditTabName', 'home') + '</h3>';
+		editTabHTML += '<input id="tabTitle" type="text" value="' + $('.tabTitle', this).text() + '"/>&nbsp;';
 		editTabHTML += '<input id="tabSave" type="submit" class="button" value="' + translation('Save') + '"/>';
 		editTabHTML += '</div>';
 		

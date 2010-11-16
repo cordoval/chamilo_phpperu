@@ -781,8 +781,8 @@ class RightsUtilities
         $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_legend.png);">';
         $html[] = '<div class="title">' . Translation :: get('Legend') . '</div>';
         $html[] = '<ul class="rights_legend">';
-        $html[] = '<li>' . Theme :: get_common_image('action_setting_true', 'png', Translation :: get('True')) . '</li>';
-        $html[] = '<li>' . Theme :: get_common_image('action_setting_false', 'png', Translation :: get('False')) . '</li>';
+        $html[] = '<li>' . Theme :: get_common_image('action_setting_true', 'png', Translation :: get('ConfirmTrue', null, Utilities :: COMMON_LIBRARIES)) . '</li>';
+        $html[] = '<li>' . Theme :: get_common_image('action_setting_false', 'png', Translation :: get('ConfirmFalse', null, Utilities :: COMMON_LIBRARIES)) . '</li>';
         $html[] = '<li>' . Theme :: get_common_image('action_setting_true_locked', 'png', Translation :: get('LockedTrue')) . '</li>';
         $html[] = '<li>' . Theme :: get_common_image('action_setting_false_locked', 'png', Translation :: get('LockedFalse')) . '</li>';
         $html[] = '<li>' . Theme :: get_common_image('action_setting_true_inherit', 'png', Translation :: get('InheritedTrue')) . '</li>';

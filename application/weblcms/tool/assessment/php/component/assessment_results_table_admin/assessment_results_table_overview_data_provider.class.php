@@ -15,6 +15,9 @@ use common\libraries\Utilities;
 use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\ObjectTableDataProvider;
+use repository\content_object\assessment\Assessment;
+use repository\content_object\survey\Survey;
+use repository\content_object\hotpotatoes\Hotpotatoes;
 
 /**
  * $Id: assessment_results_table_overview_data_provider.class.php 216 2009-11-13 14:08:06Z kariboe $

@@ -324,7 +324,7 @@ class CalendarBrowser extends ContentObjectPublicationBrowser
     function render_upcomming_events()
     {
         $html = array();
-        $html[] = '<b>' . Translation :: get('UpcommingEvents') . '</b><br /><br />';
+        $html[] = '<b>' . Translation :: get('UpcomingEvents') . '</b><br /><br />';
 
         $amount_to_show = 5;
         $publications = $this->get_upcomming_events($amount_to_show);

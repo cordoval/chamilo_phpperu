@@ -4,6 +4,7 @@ use common\libraries\Translation;
 use common\libraries\Session;
 use common\libraries\Authentication;
 use common\libraries\PlatformSetting;
+use common\libraries\Utilities;
 /**
  * $Id: block_move.php 227 2009-11-13 14:45:05Z kariboe $
  * @package home.ajax
@@ -25,20 +26,25 @@ if ($user_home_allowed && Authentication :: is_valid())
     if ($block->update())
     {
         $json_result['success'] = '1';
-        $json_result['message'] = Translation :: get('BlockMovedToTab');
+        $json_result['message'] = translate('BlockMovedToTab');
     }
     else
     {
         $json_result['success'] = '0';
-        $json_result['message'] = Translation :: get('BlockNotMovedToTab');
+        $json_result['message'] = translate('BlockNotMovedToTab');
     }
 }
 else
 {
     $json_result['success'] = '0';
-    $json_result['message'] = Translation :: get('NotAuthorized');
+    $json_result['message'] = Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES);
 }
 
 // Return a JSON object
 echo json_encode($json_result);
+
+function translate($variable)
+{
+    return Translation :: get($variable, null, __NAMESPACE__);
+}
 ?>

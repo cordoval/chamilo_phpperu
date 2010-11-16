@@ -20,8 +20,7 @@ use common\libraries\Translation;
  *
  */
 class GlossaryToolComplexDisplayComponent extends GlossaryTool implements
-        DelegateComponent,
-        GlossaryComplexDisplaySupport
+        DelegateComponent
 {
 
     function run()

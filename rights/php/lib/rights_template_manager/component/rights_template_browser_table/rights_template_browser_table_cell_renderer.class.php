@@ -5,6 +5,7 @@ use common\libraries\Theme;
 use common\libraries\ToolbarItem;
 use common\libraries\Toolbar;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: rights_template_browser_table_cell_renderer.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
@@ -61,14 +62,14 @@ class RightsTemplateBrowserTableCellRenderer extends DefaultRightsTemplateTableC
 		));*/
 
        	$toolbar->add_item(new ToolbarItem(
-   			Translation :: get('Edit'),
+   			Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES),
    			Theme :: get_common_image_path().'action_edit.png',
 			$this->browser->get_rights_template_editing_url($rights_template),
 		 	ToolbarItem :: DISPLAY_ICON
 		));
 
 	  	$toolbar->add_item(new ToolbarItem(
-        	Translation :: get('Delete'),
+        	Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES),
         	Theme :: get_common_image_path().'action_delete.png',
 			$this->browser->get_rights_template_deleting_url($rights_template),
 		 	ToolbarItem :: DISPLAY_ICON,

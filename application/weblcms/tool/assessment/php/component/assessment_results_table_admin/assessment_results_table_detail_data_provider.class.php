@@ -6,6 +6,7 @@ use application\weblcms\WeblcmsRights;
 use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\ObjectTableDataProvider;
+use application\weblcms\WeblcmsAssessmentAttemptsTracker;
 
 /**
  * $Id: assessment_results_table_detail_data_provider.class.php 216 2009-11-13 14:08:06Z kariboe $

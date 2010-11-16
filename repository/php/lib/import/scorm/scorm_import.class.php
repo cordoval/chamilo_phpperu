@@ -5,6 +5,13 @@ use common\libraries\Path;
 use common\libraries\Utilities;
 
 use repository\content_object\learning_path_item\LearningPathItem;
+use common\libraries\Filecompression;
+use common\libraries\Filesystem;
+use repository\content_object\learning_path\LearningPath;
+use repository\content_object\scorm_item\Objective;
+use repository\content_object\scorm_item\ConditionRule;
+use repository\content_object\scorm_item\RuleCondition;
+use repository\content_object\scorm_item\ScormItem;
 
 /**
  * $Id: scorm_import.class.php 204 2009-11-13 12:51:30Z kariboe $

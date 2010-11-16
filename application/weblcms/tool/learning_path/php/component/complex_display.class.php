@@ -44,7 +44,7 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool implement
         ForumComplexDisplaySupport,
         GlossaryComplexDisplaySupport,
         BlogComplexDisplaySupport,
-        WikiComplexDisplaySupportt
+        WikiComplexDisplaySupport
 {
 
     private $publication;
@@ -358,6 +358,14 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool implement
 
         $dummy = new WeblcmsForumTopicViewsTracker();
         return $dummy->count_tracker_items($condition);
+    }
+
+    public function get_wiki_page_statistics_reporting_template_name() {
+
+    }
+
+    public function get_wiki_statistics_reporting_template_name() {
+
     }
 }
 ?>

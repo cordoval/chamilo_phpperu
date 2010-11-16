@@ -1,8 +1,16 @@
 <?php
+
 namespace admin;
+
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\EqualityCondition;
+use common\libraries\PlatformSetting;
+use tracking\Tracker;
+use common\libraries\InCondition;
+use user\UserDataManager;
+use user\User;
+
 /**
  * $Id: whois_online.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package admin.lib.admin_manager.component
@@ -40,7 +48,6 @@ class AdminManagerWhoisOnlineComponent extends AdminManager
             $this->display_error_message('NotAllowed');
             $this->display_footer();
         }
-
     }
 
     private function get_table_html()
@@ -58,13 +65,13 @@ class AdminManagerWhoisOnlineComponent extends AdminManager
     function get_condition()
     {
         $users = array();
-        $items = Tracker :: get_data('online_tracker', AdminManager :: APPLICATION_NAME);
+        $items = Tracker :: get_data(OnlineTracker :: CLASS_NAME, AdminManager :: APPLICATION_NAME);
         while ($item = $items->next_result())
         {
             $users[] = $item->get_user_id();
         }
 
-        if (! empty($users))
+        if (!empty($users))
         {
             return new InCondition(User :: PROPERTY_ID, $users);
         }
@@ -97,10 +104,11 @@ class AdminManagerWhoisOnlineComponent extends AdminManager
         return implode("\n", $html);
     }
 
-	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$breadcrumbtrail->add_help('admin_whois_online');
+        $breadcrumbtrail->add_help('admin_whois_online');
     }
 
 }
+
 ?>

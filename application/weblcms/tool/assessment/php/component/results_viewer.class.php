@@ -15,6 +15,11 @@ use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\Translation;
+use application\weblcms\Tool;
+use application\weblcms\ContentObjectPublicationCategoryTree;
+use application\weblcms\WeblcmsAssessmentAttemptsTracker;
+use repository\ComplexDisplay;
+use application\weblcms\WeblcmsQuestionAttemptsTracker;
 
 /**
  * $Id: assessment_results_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -23,10 +28,10 @@ use common\libraries\Translation;
 require_once dirname(__FILE__) . '/assessment_results_table_admin/assessment_results_table_overview.class.php';
 require_once dirname(__FILE__) . '/assessment_results_table_admin/assessment_results_table_detail.class.php';
 require_once dirname(__FILE__) . '/assessment_results_table_student/assessment_results_table_overview.class.php';
-require_once dirname(__FILE__) . '/../../../browser/content_object_publication_category_tree.class.php';
+require_once dirname(__FILE__) . '/../../../../php/lib/browser/content_object_publication_category_tree.class.php';
 
-require_once Path :: get_application_path() . 'lib/weblcms/trackers/weblcms_assessment_attempts_tracker.class.php';
-require_once Path :: get_application_path() . 'lib/weblcms/trackers/weblcms_question_attempts_tracker.class.php';
+require_once Path :: get_application_path() . 'weblcms/php/trackers/weblcms_assessment_attempts_tracker.class.php';
+require_once Path :: get_application_path() . 'weblcms/php/trackers/weblcms_question_attempts_tracker.class.php';
 
 class AssessmentToolResultsViewerComponent extends AssessmentTool
 {

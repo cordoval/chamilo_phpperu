@@ -175,7 +175,8 @@ class Autoloader
                 'publisher_wizard' => 'repository_manager/component/publisher_wizard/publisher_wizard.class.php',
                 'default_content_object_table_column_model' => 'content_object_table/default_content_object_table_column_model.class.php',
                 'default_content_object_table_cell_renderer' => 'content_object_table/default_content_object_table_cell_renderer.class.php',
-                'repository_block' => '../blocks/repository_block.class.php');
+                'repository_block' => '../blocks/repository_block.class.php',
+                'database_repository_data_manager' => 'data_manager/database_repository_data_manager.class.php');
 
         $lower_case = Utilities :: camelcase_to_underscores(self :: $class_name);
 

@@ -42,11 +42,11 @@ class UserNoOfLoginsDayReportingBlock extends UserReportingBlock
                 Translation :: get('SundayLong', null, Utilities :: COMMON_LIBRARIES));
 
         $reporting_data->set_categories($day_names);
-        $reporting_data->set_rows(array(Translation :: get('logins')));
+        $reporting_data->set_rows(array(Translation :: get('Logins')));
 
         foreach ($day_names as $key => $name)
         {
-            $reporting_data->add_data_category_row($name, Translation :: get('logins'), ($days[$key + 1] ? $days[$key + 1] : 0));
+            $reporting_data->add_data_category_row($name, Translation :: get('Logins'), ($days[$key + 1] ? $days[$key + 1] : 0));
         }
         return $reporting_data;
     }

@@ -39,7 +39,7 @@ class DocumentForm extends ContentObjectForm
     {
         parent :: build_creation_form();
         $post_max_size = ini_get('upload_max_filesize');
-        $this->addElement('category', Translation :: get('Properties'));
+        $this->addElement('category', Translation :: get('Properties', null, Utilities :: COMMON_LIBRARIES));
         //$this->addElement('html', '<span style="margin-left: -38px">' . Translation :: get('MaxSize') . ': ' . $post_max_size . '</span>');
         $this->addElement('upload_or_create', 'upload_or_create', sprintf(Translation :: get('FileName'), $post_max_size));
         $this->register_html_editor(HTML_QuickForm_upload_or_create :: ELEMENT_EDITOR);
@@ -53,18 +53,18 @@ class DocumentForm extends ContentObjectForm
         parent :: build_editing_form();
         $post_max_size = ini_get('upload_max_filesize');
 
-        $this->addElement('category', Translation :: get('Properties'));
+        $this->addElement('category', Translation :: get('Properties', null, Utilities :: COMMON_LIBRARIES));
         //$this->addElement('html', '<span style="margin-left: -40px">' . Translation :: get('MaxSize') . ': ' . $post_max_size . '</span>');
         $object = $this->get_content_object();
         if (Utilities :: is_html_document($object->get_filename()))
         {
             $this->add_html_editor('html_content', Translation :: get('EditDocument'), false, array(FormValidatorHtmlEditorOptions :: OPTION_HEIGHT => '500', FormValidatorHtmlEditorOptions :: OPTION_FULL_PAGE => true));
-            $this->addRule('html_content', Translation :: get('DiskQuotaExceeded'), 'disk_quota');
+            $this->addRule('html_content', Translation :: get('DiskQuotaExceeded', null, Utilities :: COMMON_LIBRARIES), 'disk_quota');
         }
         else
         {
             $this->addElement('file', 'file', sprintf(Translation :: get('FileName'), $post_max_size));
-            $this->addRule('file', Translation :: get('DiskQuotaExceeded'), 'disk_quota');
+            $this->addRule('file', Translation :: get('DiskQuotaExceeded', null, Utilities :: COMMON_LIBRARIES), 'disk_quota');
         }
         $this->addElement('category');
     }
@@ -372,7 +372,7 @@ class DocumentForm extends ContentObjectForm
 
                 if ($size > $available_disk_space)
                 {
-                    $errors['upload_or_create'] = Translation :: get('DiskQuotaExceeded');
+                    $errors['upload_or_create'] = Translation :: get('DiskQuotaExceeded', null, Utilities :: COMMON_LIBRARIES);
                 }
 
                 /*$filecompression = Filecompression::factory(); dump($_FILES); exit();
@@ -414,7 +414,7 @@ class DocumentForm extends ContentObjectForm
             $available_disk_space = $quotamanager->get_available_disk_space();
             if ($file['size'] > $available_disk_space)
             {
-                $errors['upload_or_create'] = Translation :: get('DiskQuotaExceeded');
+                $errors['upload_or_create'] = Translation :: get('DiskQuotaExceeded', null, Utilities :: COMMON_LIBRARIES);
             }
             else
             {

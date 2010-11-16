@@ -3,6 +3,9 @@ namespace repository;
 
 use common\libraries\Path;
 use common\libraries\Session;
+use common\libraries\ImscpManifestWriter;
+use common\libraries\Filesystem;
+use common\libraries\Filecompression;
 
 /**
  * $Id: qti_export.class.php 200 2009-11-13 12:30:04Z kariboe $

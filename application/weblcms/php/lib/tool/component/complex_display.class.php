@@ -3,12 +3,14 @@ namespace application\weblcms;
 
 use common\libraries\Request;
 use repository\ComplexDisplay;
+use repository\ComplexDisplaySupport;
+
 
 /**
  * $Id: complex_builder.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.component
  */
-class ToolComponentComplexDisplayComponent extends ToolComponent
+class ToolComponentComplexDisplayComponent extends ToolComponent implements ComplexDisplaySupport
 {
     private $publication;
 
