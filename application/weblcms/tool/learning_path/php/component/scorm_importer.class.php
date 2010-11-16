@@ -6,12 +6,14 @@ use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Request;
 use common\libraries\Translation;
+use application\weblcms\ContentObjectPublisher;
+use repository\ContentObjectImportForm;
 
 /**
  * $Id: learning_path_scorm_importer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.learning_path.component
  */
-require_once dirname(__FILE__) . '/../../../publisher/content_object_publisher.class.php';
+require_once dirname(__FILE__) . '/../../../../php/lib/publisher/content_object_publisher.class.php';
 
 class LearningPathToolScormImporterComponent extends LearningPathTool
 {
