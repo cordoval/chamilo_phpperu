@@ -32,11 +32,11 @@ class UserNoOfLoginsMonthReportingBlock extends UserReportingBlock
         $months = UserReportingBlock :: getDateArray($data, 'n');
 
         $reporting_data->set_categories($months_names);
-        $reporting_data->set_rows(array(Translation :: get('logins')));
+        $reporting_data->set_rows(array(Translation :: get('Logins')));
 
         foreach ($months_names as $key => $name)
         {
-            $reporting_data->add_data_category_row($name, Translation :: get('logins'), ($months[$key + 1] ? $months[$key + 1] : 0));
+            $reporting_data->add_data_category_row($name, Translation :: get('Logins'), ($months[$key + 1] ? $months[$key + 1] : 0));
         }
         return $reporting_data;
     }
