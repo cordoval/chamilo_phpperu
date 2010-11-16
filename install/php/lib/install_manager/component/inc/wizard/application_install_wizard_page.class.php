@@ -97,7 +97,7 @@ class ApplicationInstallWizardPage extends InstallWizardPage
         $html[] = '<div id="selectbuttons" style="padding-left: 10px; display: none;"><br />';
         $html[] = '<a href="#" id="selectall">' . Translation :: get('SelectAll', null, Utilities::COMMON_LIBRARIES) . '</a>';
         $html[] = ' - ';
-        $html[] = '<a href="#" id="unselectall">' . Translation :: get('UnSelectAll', null, Utilities::COMMON_LIBRARIES) . '</a>';
+        $html[] = '<a href="#" id="unselectall">' . Translation :: get('UnselectAll', null, Utilities::COMMON_LIBRARIES) . '</a>';
         $html[] = '</div><br />';
 
         $html[] = '<div id="tabs">';

@@ -92,7 +92,7 @@ class RequirementsInstallWizardPage extends InstallWizardPage
             $this->fatal = true;
         }
 
-        $array[] = $diagnoser->build_setting($status, '[PHP-INI]', 'output_buffering', 'http://www.php.net/manual/en/outcontrol.configuration.php#ini.output-buffering', $setting, $req_setting, 'on_off', Translation :: get('FileUploadsInfo', null, Utilities :: COMMON_LIBRARIES), $path);
+        $array[] = $diagnoser->build_setting($status, '[PHP-INI]', 'output_buffering', 'http://www.php.net/manual/en/outcontrol.configuration.php#ini.output-buffering', $setting, $req_setting, 'on_off', Translation :: get('OutputBufferingInfo', null, Utilities :: COMMON_LIBRARIES), $path);
 
         $extensions = array('gd' => 'http://www.php.net/gd', 'pcre' => 'http://www.php.net/pcre', 'session' => 'http://www.php.net/session', 'standard' => 'http://www.php.net/spl', 'zlib' => 'http://www.php.net/zlib', 'xsl' => 'http://be2.php.net/xsl');
 
