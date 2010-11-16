@@ -1,32 +1,31 @@
 <?php
-use common\libraries\Path;
 /**
- * Photobucket API 
+ * Photobucket API
  * Fluent interface for PHP5
- * 
+ *
  * @author jhart
  * @package PBAPI
- * 
+ *
  * @copyright Copyright (c) 2008, Photobucket, Inc.
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  */
-require_once Path :: get_plugin_path() . 'PBAPI-0.2.3/PBAPI-0.2.3/PBAPI/Exception.php';
+require_once dirname(__FILE__) . '/PBAPI/Exception.php';
 /**
  * Load Exceptions
  */
 /**
  * Load Response Exceptions
  */
-require_once Path :: get_plugin_path() . 'PBAPI-0.2.3/PBAPI-0.2.3/PBAPI/Exception/Response.php';
+require_once dirname(__FILE__) . '/PBAPI/Exception/Response.php';
 
 /**
  * PBAPI Class
  * Main class for Photobucket API interaction
- * 
+ *
  * @package PBAPI
  */
 class PBAPI {
-    
+
     /**
      * Request object holder
      *
@@ -45,7 +44,7 @@ class PBAPI {
      * @var PBAPI_Methods
      */
     protected $methods;
-    
+
     /**
      * current method stack
      *
@@ -64,7 +63,7 @@ class PBAPI {
      * @var string
      */
     protected $uri;
-    
+
     /**
      * Current username
      *
@@ -73,12 +72,12 @@ class PBAPI {
     protected $username = '';
 
     /**
-     * Flag to not reset after method call 
-     * 
+     * Flag to not reset after method call
+     *
      * @var bool
      */
     protected $noReset = false;
-    
+
     /**
      * Method validation map
      *
@@ -86,7 +85,7 @@ class PBAPI {
      * @var array
      */
     static $method_validation_map;
-    
+
     /**
      * Class constructor
      * Sets up request, consumer and methods
@@ -100,13 +99,13 @@ class PBAPI {
      */
     public function __construct($consumer_key, $consumer_secret, $type = null, $subdomain = 'api', $default_format = 'xml', $type_params = array()) {
     	$this->_loadMethodClass('base');
-        
+
         $this->setRequest($type, $subdomain, $default_format, $type_params);
         $this->setOAuthConsumer($consumer_key, $consumer_secret);
     }
-    
+
     /////////////////////// Setup and Settings ///////////////////////
-    
+
     /**
      * Set OAuth Token
      *
@@ -119,11 +118,11 @@ class PBAPI {
     public function setOAuthToken($token, $token_secret, $username = '') {
         if ($this->request) $this->request->setOAuthToken($token, $token_secret);
         else throw new PBAPI_Exception('Request missing - cannot set OAuth Token', $this);
-        
+
         if ($username) $this->username = $username;
         return $this;
     }
-    
+
     /**
      * Get OAuth Token
      *
@@ -133,7 +132,7 @@ class PBAPI {
         if ($this->request) return $this->request->getOAuthToken();
         else throw new PBAPI_Exception('Request missing - cannot get OAuth Token', $this);
     }
-    
+
     /**
      * Set OAuth Consumer info
      *
@@ -145,10 +144,10 @@ class PBAPI {
     public function setOAuthConsumer($consumer_key, $consumer_secret) {
         if ($this->request) $this->request->setOAuthConsumer($consumer_key, $consumer_secret);
         else throw new PBAPI_Exception('Request missing - cannot set OAuth Token', $this);
-        
+
         return $this;
     }
-    
+
     /**
      * Set current subdomain
      *
@@ -159,10 +158,10 @@ class PBAPI {
     public function setSubdomain($subdomain) {
         if ($this->request) $this->request->setSubdomain($subdomain);
         else throw new PBAPI_Exception('Request missing - cannot set Subdomain', $this);
-        
+
         return $this;
     }
-    
+
     /**
      * Get current subdomain
      */
@@ -170,14 +169,14 @@ class PBAPI {
         if ($this->request) return $this->request->getSubdomain();
         else throw new PBAPI_Exception('Request missing - cannot get Subdomain', $this);
     }
-    
+
     /**
      * Get oauth token username
      */
     public function getUsername() {
         return $this->username;
     }
-    
+
     /**
      * Set response parser
      *
@@ -189,14 +188,14 @@ class PBAPI {
         $class = 'PBAPI_Response_'.$type;
         if (!class_exists($class)) require('PBAPI/Response/'.$type.'.php');
         $this->response = new $class($params);
-        
+
         if (!$this->response) throw new PBAPI_Exception('Could not get Response Parser', $this);
         if (!$this->request) throw new PBAPI_Exception('Request missing - cannot set OAuth Token', $this);
-        
+
         $this->request->setDefaultFormat($this->response->getFormat());
         return $this;
     }
-    
+
     /**
      * Set request method
      *
@@ -213,7 +212,7 @@ class PBAPI {
         $this->request = new $class($subdomain, $default_format, $request_params);
         return $this;
     }
-    
+
     /**
      * Attempt to detect request strategy and set the type
      *
@@ -223,7 +222,7 @@ class PBAPI {
         if (function_exists('curl_init')) return 'curl';
         if (ini_get('allow_url_fopen')) return 'fopenurl';
     }
-    
+
     /**
      * Reset current data
      *
@@ -245,9 +244,9 @@ class PBAPI {
     }
 
     /**
-     * Set No Reset Flag 
-     * 
-     * @param bool $set 
+     * Set No Reset Flag
+     *
+     * @param bool $set
      * @return PBAPI $this Fluent reference to self
      */
     public function setNoReset($set) {
@@ -256,7 +255,7 @@ class PBAPI {
     }
 
     /////////////////////// Requests and Responses ///////////////////////
-    
+
     /**
      * Get current parameters
      *
@@ -265,7 +264,7 @@ class PBAPI {
     public function getParams() {
         return $this->params;
     }
-    
+
     /**
      * Get parsed response (from response parser)
      *
@@ -275,16 +274,16 @@ class PBAPI {
      * @throws PBAPI_Exception_Response on response exception
      */
     public function getParsedResponse($onlycontent = false) {
-        if (!$this->response) throw new PBAPI_Exception('No response parser set up', $this); 
-        
+        if (!$this->response) throw new PBAPI_Exception('No response parser set up', $this);
+
         try {
             return $this->response->parse(trim($this->response_string), $onlycontent);
         } catch (PBAPI_Exception_Response $e) {
             //set core into exception
-            throw new PBAPI_Exception_Response($e->getMessage(), $e->getCode(), $this); 
+            throw new PBAPI_Exception_Response($e->getMessage(), $e->getCode(), $this);
         }
     }
-    
+
     /**
      * Get raw response string
      *
@@ -293,7 +292,7 @@ class PBAPI {
     public function getResponseString() {
         return $this->response_string;
     }
-    
+
     /**#@+
      * Forward current set up request to the request method and get back the response
      *
@@ -324,7 +323,7 @@ class PBAPI {
         return $this;
     }
     /**#@-*/
-    
+
     /**
      * Load and set the current OAuth token from the last response string
      *
@@ -338,7 +337,7 @@ class PBAPI {
         if (empty($params) || empty($params['oauth_token']) || empty($params['oauth_token_secret'])) {
             throw new PBAPI_Exception('Token and Token Secret returned in response');
         }
-        
+
         $username = (!empty($params['username'])) ? $params['username'] : '';
         $this->setOAuthToken($params['oauth_token'], $params['oauth_token_secret'], $username);
         if ($subdomain && !empty($params['subdomain'])) {
@@ -346,7 +345,7 @@ class PBAPI {
         }
         return $this;
     }
-    
+
     /**
      * Go to Redirect URL
      * does actual header()
@@ -375,7 +374,7 @@ class PBAPI {
     }
 
     /////////////////////// Inter Class 'Private' Methods ///////////////////////
-    
+
     /**
      * Set a parameter
      *
@@ -387,7 +386,7 @@ class PBAPI {
         $this->params[$name] = $value;
         return $this;
     }
-    
+
     /**
      * Set a list of parameters
      *
@@ -401,7 +400,7 @@ class PBAPI {
         }
         return $this;
     }
-    
+
     /**
      * Set current URI
      *
@@ -418,7 +417,7 @@ class PBAPI {
         else $this->uri = $uri;
         return $this;
     }
-    
+
     /**
      * Append more to the current uri
      *
@@ -435,7 +434,7 @@ class PBAPI {
         else $this->uri .= $uri;
         return $this;
     }
-    
+
     /**
      * Load a method class
      *
@@ -448,10 +447,10 @@ class PBAPI {
         $classObj = new $class($this);
         return $this->_setMethods($classObj);
     }
-    
+
     /**
      * Set Methods class
-     * 
+     *
      * @param PBAPI_Methods $class class instance
      * @return PBAPI $this Fluent reference to self
      */
@@ -459,7 +458,7 @@ class PBAPI {
         $this->methods = $class;
         return $this;
     }
-    
+
     /**
      * Get parameters currently in obj
      *
@@ -468,7 +467,7 @@ class PBAPI {
     public function _getParams() {
         return $this->params;
     }
-    
+
     /**
      * Get method stack - this is the level list of the method
      *
@@ -477,7 +476,7 @@ class PBAPI {
     public function _getMethodStack() {
         return $this->method_stack;
     }
-    
+
     /**
      * Set the current response string
      *
@@ -488,7 +487,7 @@ class PBAPI {
         $this->response_string = $string;
         return $this;
     }
-    
+
     /**
      * Validate Request (as currently set)
      *
@@ -502,28 +501,28 @@ class PBAPI {
     protected function _validateRequest($method) {
         //get proper map
         $map = $this->_loadMethodValidationMap();
-        
+
         //fixup stack
         $stack = $this->method_stack;
         if (empty($stack[1])) $stack[1] = '_default';
-        
+
         //get method
         $val_methods = $map[$stack[0]][$stack[1]];
         if (!$val_methods || !array_key_exists($method, $val_methods)) throw new PBAPI_Exception('invalid method: '.$method, $this);
-        
+
         //get parameters
         $val_params = $val_methods[$method];
         if ($val_params) {
             //look for unknown parameters (if parameters are specified)
             $unknowns = array_diff_key($this->params, $val_params);
             if (count($unknowns)) throw new PBAPI_Exception('unknown parameters: ' . implode(', ', array_keys($unknowns)), $this);
-            
+
             //look for missing required parameters
             $missing = array_diff_key($val_params, $this->params);
             if (count($missing)) {
                 foreach ($missing as $key=>$val) {
                     if ($val != 'required') unset($missing[$key]);
-                    if ($key == 'aid' || $key == 'mid' || $key == 'uid' || $key == 'tagid') //todo somehow do this better 
+                    if ($key == 'aid' || $key == 'mid' || $key == 'uid' || $key == 'tagid') //todo somehow do this better
                         unset($missing[$key]); //also skip stuff we're catching already
                 }
                 if (count($missing)) throw new PBAPI_Exception('missing required parameters: ' . implode(', ', array_keys($missing)), $this);
@@ -531,7 +530,7 @@ class PBAPI {
         }
         return $this;
     }
-    
+
     /**
      * Load validation map from data file
      * Loads from ./PBAPI/data/methods.dat - a php serialize() file.
@@ -547,9 +546,9 @@ class PBAPI {
         }
         return self::$method_validation_map;
     }
-    
+
     /////////////////////// Magics ///////////////////////
-    
+
     /**
      * Magic function to forward other calls to the Methods
      * This is the meat of the API, really
@@ -569,9 +568,9 @@ class PBAPI {
             //not currently used, but for forward compatibility
             call_user_func_array(array($this->methods, $name), $args);
         }
-        
+
         $this->method_stack[] = $name;
         return $this;
     }
-    
+
 }

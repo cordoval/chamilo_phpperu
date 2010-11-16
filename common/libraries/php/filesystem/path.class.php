@@ -64,6 +64,8 @@ define('SYS_CACHE_PATH', 'SYS_CACHE_PATH');
 class Path
 {
     private static $path = array();
+    private static $namespace_path_map = array();
+
     const CLASS_PATH = 'php';
     const CLASS_LIB_PATH = 'lib';
     const RESOURCES_PATH = 'resources';
@@ -292,9 +294,16 @@ class Path
         return self :: get(SYS_APP_ADMIN_PATH) . self :: CLASS_PATH . '/';
     }
 
-    public static function get_plugin_path()
+    public static function get_plugin_path($context = null)
     {
-        return self :: get(SYS_PLUGIN_PATH);
+        if (!$context)
+        {
+            return self :: get(SYS_PLUGIN_PATH);
+        }
+        else
+        {
+            return self :: get(SYS_PATH) . self :: namespace_to_path($context) . '/plugin/';
+        }
     }
 
     public static function get_language_path()
@@ -360,6 +369,11 @@ class Path
     public static function get_layout_path()
     {
         return self :: get(SYS_LAYOUT_PATH);
+    }
+
+    public static function namespace_to_path($namespace)
+    {
+        return self :: $namespace_path_map[$namespace] = str_replace('\\', '/', $namespace);
     }
 }
 ?>

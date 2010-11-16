@@ -20,8 +20,8 @@ use common\extensions\external_repository_manager\ExternalRepositoryObject;
 use Soundcloud;
 use OAuthConsumer;
 
-require_once Path :: get_plugin_path() . 'soundcloud/soundcloud.php';
-require_once Path :: get_plugin_path() . 'soundcloud/oauth.php';
+require_once Path :: get_plugin_path(__NAMESPACE__) . 'soundcloud/soundcloud.php';
+require_once Path :: get_plugin_path(__NAMESPACE__) . 'soundcloud/oauth.php';
 require_once dirname(__FILE__) . '/soundcloud_external_repository_object.class.php';
 
 /**

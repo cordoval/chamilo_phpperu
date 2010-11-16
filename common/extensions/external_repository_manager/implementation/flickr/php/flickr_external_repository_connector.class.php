@@ -17,7 +17,7 @@ use common\extensions\external_repository_manager\ExternalRepositoryObject;
 
 use phpFlickr;
 
-require_once Path :: get_plugin_path() . 'phpflickr-3.0/phpFlickr.php';
+require_once Path :: get_plugin_path(__NAMESPACE__) . 'phpflickr-3.0/phpFlickr.php';
 require_once dirname(__FILE__) . '/flickr_external_repository_object.class.php';
 
 /**
@@ -71,7 +71,7 @@ class FlickrExternalRepositoryConnector extends ExternalRepositoryConnector
         $this->secret = ExternalRepositorySetting :: get('secret', $this->get_external_repository_instance_id());
         $this->flickr = new phpFlickr($this->key, $this->secret);
 
-        
+
         $session_token = ExternalRepositoryUserSetting :: get('session_token', $this->get_external_repository_instance_id());
 
         if (! $session_token)

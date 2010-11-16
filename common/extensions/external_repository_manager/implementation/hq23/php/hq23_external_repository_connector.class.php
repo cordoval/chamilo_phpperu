@@ -17,7 +17,7 @@ use repository\ExternalRepositoryUserSetting;
 
 use php23;
 
-require_once Path :: get_plugin_path() . 'php23/php23.php';
+require_once Path :: get_plugin_path(__NAMESPACE__) . 'php23/php23.php';
 require_once dirname(__FILE__) . '/hq23_external_repository_object.class.php';
 /**
  * @author Magali
@@ -32,19 +32,19 @@ class Hq23ExternalRepositoryConnector extends ExternalRepositoryConnector
     const SORT_DATE_TAKEN = 'date-taken';
     const SORT_INTERESTINGNESS = 'interestingness';
     const SORT_RELEVANCE = 'relevance';
-    
+
     private $hq23;
-    
+
     /**
      * @var string
      */
     private $key;
-    
+
     /**
      * @var string
      */
     private $secret;
-    
+
     /**
      * The id of the user on Flickr
      * @var string
@@ -56,27 +56,27 @@ class Hq23ExternalRepositoryConnector extends ExternalRepositoryConnector
      */
     function Hq23ExternalRepositoryConnector($external_repository_instance)
     {
-        
+
         parent :: __construct($external_repository_instance);
-        
+
         $this->key = ExternalRepositorySetting :: get('key', $this->get_external_repository_instance_id());
         $this->secret = ExternalRepositorySetting :: get('secret', $this->get_external_repository_instance_id());
         $this->hq23 = new php23($this->key, $this->secret);
         $uri = Redirect :: current_url();
-        
+
         $session_token = ExternalRepositoryUserSetting :: get('session_token', $this->get_external_repository_instance_id());
-        
+
         if (! $session_token)
         {
-            
+
             $frob = Session :: retrieve('23hq_frob');
-            
+
             if (! $frob)
             {
                 $frob = $this->hq23->auth_getFrob();
                 Session :: register('23hq_frob', $frob);
             }
-            
+
             $auth = Session :: retrieve('23hq_auth');
             if (! $auth)
             {
@@ -94,16 +94,16 @@ class Hq23ExternalRepositoryConnector extends ExternalRepositoryConnector
                     $user_setting->set_setting_id($setting->get_id());
                     $user_setting->set_user_id(Session :: get_user_id());
                     $user_setting->set_value($token['token']);
-                    
+
                     if ($user_setting->create())
                     {
-                        
+
                         $session_token = $token['token'];
                     }
                 }
                 Session :: unregister('23hq_frob');
                 Session :: unregister('23hq_auth');
-            
+
             }
         }
         if ($session_token)
@@ -134,14 +134,14 @@ class Hq23ExternalRepositoryConnector extends ExternalRepositoryConnector
         if (! isset($this->licenses))
         {
             $raw_licenses = $this->hq23->photos_licenses_getInfo();
-            
+
             $this->licenses = array();
             foreach ($raw_licenses as $raw_license)
             {
                 $this->licenses[$raw_license['id']] = array('name' => $raw_license['name'], 'url' => $raw_license['url']);
             }
         }
-        
+
         return $this->licenses;
     }
 
@@ -155,7 +155,7 @@ class Hq23ExternalRepositoryConnector extends ExternalRepositoryConnector
             $hidden = $this->hq23->test_login();
             $this->user_id = $hidden['id'];
         }
-        
+
         return $this->user_id;
     }
 
@@ -169,32 +169,32 @@ class Hq23ExternalRepositoryConnector extends ExternalRepositoryConnector
     function retrieve_photos($condition = null, $order_property, $offset, $count)
     {
         $feed_type = Request :: get(Hq23ExternalRepositoryManager :: PARAM_FEED_TYPE);
-        
+
         $offset = (($offset - ($offset % $count)) / $count) + 1;
         $attributes = 'description,date_upload,owner_name,license,media,original_format,last_update,url_sq,url_t,url_s,url_m,url_l,url_o';
-        
+
         $search_parameters = array();
         $search_parameters['api_key'] = $this->key;
         $search_parameters['per_page'] = $count;
         $search_parameters['page'] = $offset;
         $search_parameters['text'] = $condition;
         $search_parameters['extras'] = $attributes;
-        
+
         if ($order_property)
         {
             $order_direction = $this->convert_order_property($order_property);
-            
+
             if ($order_direction)
             {
                 $search_parameters['sort'] = $order_direction;
             }
         }
-        
+
         switch ($feed_type)
         {
             case Hq23ExternalRepositoryManager :: FEED_TYPE_GENERAL :
                 $photos = ($condition ? $this->hq23->photos_search($search_parameters) : $this->hq23->photos_getRecent($attributes, $count, $offset));
-                
+
                 break;
             case Hq23ExternalRepositoryManager :: FEED_TYPE_MY_PHOTOS :
                 $search_parameters['user_id'] = $this->retrieve_user_id();
@@ -205,7 +205,7 @@ class Hq23ExternalRepositoryConnector extends ExternalRepositoryConnector
                 $photos = $this->hq23->photos_search($search_parameters);
                 break;
         }
-        
+
         return $photos;
     }
 
@@ -221,9 +221,9 @@ class Hq23ExternalRepositoryConnector extends ExternalRepositoryConnector
         $photos = $this->retrieve_photos($condition, $order_property, $offset, $count);
         //$licenses = $this->retrieve_licenses();
         $licenses = Hq23ExternalRepositoryObject :: get_possible_licenses();
-        
+
         $objects = array();
-        
+
         foreach ($photos['photo'] as $photo)
         {
             $object = new Hq23ExternalRepositoryObject();
@@ -234,7 +234,7 @@ class Hq23ExternalRepositoryConnector extends ExternalRepositoryConnector
             $object->set_created($photo['dateupload']);
             $object->set_modified($photo['last_update']);
             $object->set_owner_id($photo['ownername']);
-            
+
             //            $photo_urls = array();
             foreach (Hq23ExternalRepositoryObject :: get_possible_sizes() as $key => $size)
                 //            {
@@ -244,7 +244,7 @@ class Hq23ExternalRepositoryConnector extends ExternalRepositoryConnector
                 //                }
                 //            }
                 //            $object->set_urls($photo_urls);
-                
+
 
                 //            $photo_size = array();
                 //            $photo_size['source'] = $photo['url_sq'];
@@ -255,7 +255,7 @@ class Hq23ExternalRepositoryConnector extends ExternalRepositoryConnector
                 //
                 $photo_sizes = $this->hq23->photos_getSizes($photo['id']);
             $photo_urls = array();
-            
+
             foreach ($photo_sizes as $photo_size)
             {
                 $key = strtolower($photo_size['label']);
@@ -265,9 +265,9 @@ class Hq23ExternalRepositoryConnector extends ExternalRepositoryConnector
                 $photo_urls[$key] = $photo_size;
             }
             $object->set_urls($photo_urls);
-            
+
             $object->set_license($licenses[$photo['license']]);
-            
+
             $types = array();
             $types[] = $photo['media'];
             if (isset($photo['originalformat']))
@@ -276,10 +276,10 @@ class Hq23ExternalRepositoryConnector extends ExternalRepositoryConnector
             }
             $object->set_type(implode('_', $types));
             $object->set_rights($this->determine_rights($photo['license'], $photo['owner']));
-            
+
             $objects[] = $object;
         }
-        
+
         return new ArrayResultSet($objects);
     }
 
@@ -318,7 +318,7 @@ class Hq23ExternalRepositoryConnector extends ExternalRepositoryConnector
             else
             {
                 $sorting_direction = $order_properties[0]->get_direction();
-                
+
                 if ($sorting_direction == SORT_ASC)
                 {
                     return $order_property . '-asc';
@@ -329,7 +329,7 @@ class Hq23ExternalRepositoryConnector extends ExternalRepositoryConnector
                 }
             }
         }
-        
+
         return null;
     }
 
@@ -340,7 +340,7 @@ class Hq23ExternalRepositoryConnector extends ExternalRepositoryConnector
     {
         $feed_type = Request :: get(Hq23ExternalRepositoryManager :: PARAM_FEED_TYPE);
         $query = ActionBarSearchForm :: get_query();
-        
+
         if (($feed_type == Hq23ExternalRepositoryManager :: FEED_TYPE_GENERAL && $query) || $feed_type == Hq23ExternalRepositoryManager :: FEED_TYPE_MY_PHOTOS)
         {
             return array(self :: SORT_DATE_POSTED, self :: SORT_DATE_TAKEN, self :: SORT_INTERESTINGNESS, self :: SORT_RELEVANCE);
@@ -349,7 +349,7 @@ class Hq23ExternalRepositoryConnector extends ExternalRepositoryConnector
         {
             return array();
         }
-    
+
     }
 
     /* (non-PHPdoc)
@@ -370,17 +370,17 @@ class Hq23ExternalRepositoryConnector extends ExternalRepositoryConnector
         $object->set_created($photo['dateuploaded']);
         $object->set_modified($photo['dates']['lastupdate']);
         $object->set_owner_id($photo['owner']['username']);
-        
+
         $tags = array();
         foreach ($photo['tags']['tag'] as $tag)
         {
             $tags[] = array('display' => $tag['raw'], 'text' => $tag['_content']);
         }
         $object->set_tags($tags);
-        
+
         $photo_sizes = $this->hq23->photos_getSizes($photo['id']);
         $photo_urls = array();
-        
+
         foreach ($photo_sizes as $photo_size)
         {
             $key = strtolower($photo_size['label']);
@@ -392,10 +392,10 @@ class Hq23ExternalRepositoryConnector extends ExternalRepositoryConnector
                 $photo_urls[$key] = $photo_size;
             }
         }
-        
+
         $object->set_urls($photo_urls);
         $object->set_license($licenses[$photo['license']]);
-        
+
         $types = array();
         $types[] = $photo['media'];
         if (isset($photo['originalformat']))
@@ -403,7 +403,7 @@ class Hq23ExternalRepositoryConnector extends ExternalRepositoryConnector
             $types[] = strtolower($photo['originalformat']);
         }
         $object->set_type(implode('_', $types));
-        
+
         $object->set_rights($this->determine_rights($photo['license'], $photo['owner']['nsid']));
         return $object;
     }
@@ -423,15 +423,15 @@ class Hq23ExternalRepositoryConnector extends ExternalRepositoryConnector
         {
             $tags = explode(',', $values[Hq23ExternalRepositoryObject :: PROPERTY_TAGS]);
             $tags = '"' . implode('" "', $tags) . '"';
-            
+
             $success = $this->hq23->photos_setTags($values[Hq23ExternalRepositoryObject :: PROPERTY_ID], $tags);
-            
+
             if (! $success)
             {
                 return false;
             }
         }
-        
+
         return true;
     }
 
@@ -444,7 +444,7 @@ class Hq23ExternalRepositoryConnector extends ExternalRepositoryConnector
     {
         $tags = explode(',', $values[Hq23ExternalRepositoryObject :: PROPERTY_TAGS]);
         $tags = '"' . implode('" "', $tags) . '"';
-        
+
         return $this->hq23->sync_upload($photo_path, $values[Hq23ExternalRepositoryObject :: PROPERTY_TITLE], $values[Hq23ExternalRepositoryObject :: PROPERTY_DESCRIPTION], $tags);
     }
 
@@ -467,13 +467,13 @@ class Hq23ExternalRepositoryConnector extends ExternalRepositoryConnector
         $users_match = ($this->retrieve_user_id() == $photo_user_id ? true : false);
         //$compatible_license = ($license == 0 ? false : true);
         $compatible_license = true;
-        
+
         $rights = array();
         $rights[ExternalRepositoryObject :: RIGHT_USE] = $compatible_license || $users_match;
         $rights[ExternalRepositoryObject :: RIGHT_EDIT] = $users_match;
         $rights[ExternalRepositoryObject :: RIGHT_DELETE] = $users_match;
         $rights[ExternalRepositoryObject :: RIGHT_DOWNLOAD] = $compatible_license || $users_match;
-        
+
         return $rights;
     }
 
