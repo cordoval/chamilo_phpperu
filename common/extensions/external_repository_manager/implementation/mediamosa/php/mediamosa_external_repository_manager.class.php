@@ -10,6 +10,7 @@ use repository\RepositoryDataManager;
 use common\libraries\PatternMatchCondition;
 use common\libraries\Breadcrumb;
 use common\libraries\Path;
+use common\libraries\Utilities;
 
 /**
  * Description of mediamosa_external_repository_manager

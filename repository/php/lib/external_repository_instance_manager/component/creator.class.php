@@ -11,6 +11,7 @@ use common\libraries\Theme;
 use common\libraries\DynamicTabsRenderer;
 use common\libraries\DynamicContentTab;
 use common\libraries\Filesystem;
+
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 
 use DOMDocument;
@@ -40,7 +41,7 @@ class ExternalRepositoryInstanceManagerCreatorComponent extends ExternalReposito
             if ($form->validate())
             {
             	$success = $form->create_external_repository();
-                $this->redirect(Translation :: get($success ? 'ObjectAdded' : 'ObjectNotAdded', array('OBJECT' => Translation :: get('ExternalRepository')), Utilities :: COMMON_UTILITIES), ($success ? false : true), array(ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION => ExternalRepositoryInstanceManager :: ACTION_BROWSE_INSTANCES));
+                $this->redirect(Translation :: get($success ? 'ObjectAdded' : 'ObjectNotAdded', array('OBJECT' => Translation :: get('ExternalRepository')), Utilities :: COMMON_LIBRARIES), ($success ? false : true), array(ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION => ExternalRepositoryInstanceManager :: ACTION_BROWSE_INSTANCES));
             }
             else
             {

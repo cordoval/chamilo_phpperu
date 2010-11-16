@@ -8,6 +8,7 @@ use common\libraries\Request;
 use common\libraries\Theme;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
+use common\libraries\Utilities;
 /**
  * Description of mediamosa_external_repository_displayclass
  *
