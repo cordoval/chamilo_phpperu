@@ -103,7 +103,7 @@ class UserManagerUserSettingsComponent extends UserManager
     {
         $html[] = '<script type="text/javascript">';
         $html[] = '$(document).ready(function() {';
-        $html[] = '$(\':checkbox\').iphoneStyle({ checkedLabel: \'' . Translation :: get('On') . '\', uncheckedLabel: \'' . Translation :: get('Off') . '\'});';
+        $html[] = '$(\':checkbox\').iphoneStyle({ checkedLabel: \'' . Translation :: get('ConfirmOn', null, Utilities :: COMMON_LIBRARIES) . '\', uncheckedLabel: \'' . Translation :: get('ConfirmOff', null, Utilities :: COMMON_LIBRARIES) . '\'});';
         $html[] = '});';
         $html[] = '</script>';
         $html[] = DynamicVisualTabsRenderer :: body_footer();

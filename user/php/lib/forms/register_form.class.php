@@ -119,7 +119,7 @@ class RegisterForm extends FormValidator
 	        $this->addElement('category', Translation :: get('Information'));
 			$this->addElement('textarea', 'conditions', Translation :: get('TermsAndConditions'), array('cols' => 80, 'rows' => 20, 'disabled' => 'disabled', 'style' => 'background-color: white;'));
 			$this->addElement('checkbox', 'conditions_accept', '', Translation :: get('IAccept'));
-        	$this->addRule('conditions_accept', Translation :: get('ThisFieldIsRequired'), 'required');
+        	$this->addRule('conditions_accept', Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
 	        $this->addElement('category');
         }
 

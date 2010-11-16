@@ -78,7 +78,7 @@ class BuddyListCategoryForm extends FormValidator
     function add_title_field($number = null)
     {
         $element = $this->createElement('text', BuddyListCategory :: PROPERTY_TITLE . $number, Translation :: get('Name'), array("size" => "50"));
-        //$this->addRule(BuddyListCategory :: PROPERTY_TITLE . $number, Translation :: get('ThisFieldIsRequired'), 'required');
+        //$this->addRule(BuddyListCategory :: PROPERTY_TITLE . $number, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         return $element;
     }
 

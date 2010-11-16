@@ -83,8 +83,8 @@ class UserForm extends FormValidator
         $this->addRule(User :: PROPERTY_USERNAME, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
 
         $group = array();
-        $group[] = & $this->createElement('radio', User :: PROPERTY_ACTIVE, null, Translation :: get('Yes'), 1);
-        $group[] = & $this->createElement('radio', User :: PROPERTY_ACTIVE, null, Translation :: get('No'), 0);
+        $group[] = & $this->createElement('radio', User :: PROPERTY_ACTIVE, null, Translation :: get('ConfirmYes', null, Utilities :: COMMON_LIBRARIES), 1);
+        $group[] = & $this->createElement('radio', User :: PROPERTY_ACTIVE, null, Translation :: get('ConfirmNo', null, Utilities :: COMMON_LIBRARIES), 0);
         $this->addGroup($group, 'active', Translation :: get('Active'), '&nbsp;');
 
         //pw
@@ -164,8 +164,8 @@ class UserForm extends FormValidator
         $url = Path :: get(WEB_PATH) . 'rights/xml_feeds/xml_rights_template_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('AddRightsTemplates');
-        $locale['Searching'] = Translation :: get('Searching');
-        $locale['NoResults'] = Translation :: get('NoResults');
+        $locale['Searching'] = Translation :: get('Searching', null, Utilities :: COMMON_LIBRARIES);
+        $locale['NoResults'] = Translation :: get('NoResults', null, Utilities :: COMMON_LIBRARIES);
         $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARIES);
         $hidden = true;
 

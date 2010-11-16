@@ -74,7 +74,7 @@ class UserQuotaForm extends FormValidator
 
         if (count($this->get_active_external_repositories()))
         {
-            $this->addElement('category', Translation :: get('ExternalRepositories'));
+            $this->addElement('category', Translation :: get('ExternalRepositories', null, ExternalRepositoryManager :: get_namespace()));
 
             foreach ($this->active_external_repositories as $repository)
             {

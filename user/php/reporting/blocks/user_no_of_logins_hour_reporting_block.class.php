@@ -29,11 +29,11 @@ class UserNoOfLoginsHourReportingBlock extends UserReportingBlock
 
         $hours_names = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24);
         $reporting_data->set_categories($hours_names);
-        $reporting_data->set_rows(array(Translation :: get('logins')));
+        $reporting_data->set_rows(array(Translation :: get('Logins')));
 
         foreach ($hours_names as $key => $name)
         {
-            $reporting_data->add_data_category_row($name, Translation :: get('logins'), ($hours[$key] ? $hours[$key] : 0));
+            $reporting_data->add_data_category_row($name, Translation :: get('Logins'), ($hours[$key] ? $hours[$key] : 0));
         }
         return $reporting_data;
     }

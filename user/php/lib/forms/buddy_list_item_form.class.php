@@ -46,8 +46,8 @@ class BuddyListItemForm extends FormValidator
 
         $locale = array();
         $locale['Display'] = Translation :: get('AddUsers');
-        $locale['Searching'] = Translation :: get('Searching');
-        $locale['NoResults'] = Translation :: get('NoResults');
+        $locale['Searching'] = Translation :: get('Searching', null, Utilities :: COMMON_LIBRARIES);
+        $locale['NoResults'] = Translation :: get('NoResults', null, Utilities :: COMMON_LIBRARIES);
         $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARIES);
 
         $elem = $this->addElement('element_finder', 'users', null, $url, $locale, array(), array('load_elements' => true));

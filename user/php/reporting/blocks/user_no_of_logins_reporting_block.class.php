@@ -24,10 +24,10 @@ class UserNoOfLoginsReportingBlock extends UserReportingBlock
 
         $count = Tracker :: count_data('login_logout_tracker', UserManager :: APPLICATION_NAME, $condition);
 
-		$reporting_data->set_categories(array(Translation :: get('logins')));
-        $reporting_data->set_rows(array(Translation :: get('count')));
+		$reporting_data->set_categories(array(Translation :: get('Logins')));
+        $reporting_data->set_rows(array(Translation :: get('Count')));
 
-        $reporting_data->add_data_category_row(Translation :: get('logins'), Translation :: get('count'), $count);
+        $reporting_data->add_data_category_row(Translation :: get('Logins'), Translation :: get('Count'), $count);
 
         return $reporting_data;
     }
