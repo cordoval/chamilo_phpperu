@@ -121,7 +121,7 @@ abstract class BlogLayout
         if ($this->get_parent()->is_allowed(EDIT_RIGHT))
         {
             $toolbar->add_item(new ToolbarItem(
-        			Translation :: get('Edit'),
+        			Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES),
         			Theme :: get_common_image_path().'action_edit.png',
 					$this->get_parent()->get_complex_content_object_item_update_url($complex_blog_item),
 				 	ToolbarItem :: DISPLAY_ICON
@@ -131,7 +131,7 @@ abstract class BlogLayout
         if ($this->get_parent()->is_allowed(DELETE_RIGHT))
         {
         	$toolbar->add_item(new ToolbarItem(
-        			Translation :: get('Delete'),
+        			Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES),
         			Theme :: get_common_image_path().'action_delete.png',
 					$this->get_parent()->get_complex_content_object_item_delete_url($complex_blog_item),
 				 	ToolbarItem :: DISPLAY_ICON,

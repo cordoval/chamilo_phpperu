@@ -5,6 +5,7 @@ use common\libraries\Translation;
 use common\libraries\Theme;
 use common\libraries\ToolbarItem;
 use common\libraries\Toolbar;
+use common\libraries\Utilities;
 
 /**
  * $Id: location_browser_table_cell_renderer.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
@@ -88,7 +89,7 @@ class LocationBrowserTableCellRenderer extends DefaultLocationTableCellRenderer
         $toolbar = new Toolbar();
 
        	$toolbar->add_item(new ToolbarItem(
-   			Translation :: get('Delete'),
+   			Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES),
    			Theme :: get_common_image_path().'action_reset.png',
 			null,
 			ToolbarItem :: DISPLAY_ICON

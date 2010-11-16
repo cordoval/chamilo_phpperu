@@ -5,6 +5,7 @@ use common\libraries\Translation;
 use common\libraries\Theme;
 use common\libraries\ToolbarItem;
 use common\libraries\Toolbar;
+use common\libraries\Utilities;
 
 use rights\RightsUtilities;
 /**
@@ -93,7 +94,7 @@ class GroupLocationBrowserTableCellRenderer extends DefaultLocationTableCellRend
     {
         $toolbar = new Toolbar();
        	$toolbar->add_item(new ToolbarItem(
-       		Translation :: get('Delete'),
+       		Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES),
      		Theme :: get_common_image_path().'action_reset.png',
 			null,
 			ToolbarItem :: DISPLAY_ICON
