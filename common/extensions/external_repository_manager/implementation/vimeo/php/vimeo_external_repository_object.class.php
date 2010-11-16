@@ -1,20 +1,19 @@
 <?php
-namespace common\extensions\external_repository_manager\implementation\hq23;
+namespace common\extensions\external_repository_manager\implementation\vimeo;
 
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
 
 use common\libraries\Translation;
-use common\libraries\ToolbarItem;
 use common\libraries\Utilities;
 use common\libraries\Theme;
+use common\libraries\ToolbarItem;
 
-class Hq23ExternalRepositoryObject extends ExternalRepositoryObject
+class VimeoExternalRepositoryObject extends ExternalRepositoryObject
 {
-    const OBJECT_TYPE = 'hq23';
+    const OBJECT_TYPE = 'vimeo';
 
     const PROPERTY_URLS = 'urls';
     const PROPERTY_LICENSE = 'license';
-    const PROPERTY_ALBUM_NAME = 'album_name';
     const PROPERTY_TAGS = 'tags';
 
     const SIZE_SQUARE = 'square';
@@ -26,7 +25,7 @@ class Hq23ExternalRepositoryObject extends ExternalRepositoryObject
 
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_TAGS, self :: PROPERTY_ALBUM_NAME));
+        return parent :: get_default_property_names(array(self :: PROPERTY_URLS, self :: PROPERTY_LICENSE, self :: PROPERTY_TAGS));
     }
 
     static function get_default_sizes()
@@ -103,7 +102,7 @@ class Hq23ExternalRepositoryObject extends ExternalRepositoryObject
         {
             if ($include_links)
             {
-                $tags[] = '<a href="http://www.23developper.com/api/tag/list' . $tag['text'] . '">' . $tag['display'] . '</a>';
+                $tags[] = '<a href="http://www.vimeo.com/tag:' . $tag['text'] . '">' . $tag['display'] . '</a>';
             }
             else
             {
@@ -113,18 +112,6 @@ class Hq23ExternalRepositoryObject extends ExternalRepositoryObject
 
         return implode(', ', $tags);
     }
-    
-    function get_album_name()
-    {
-    	return $this->get_default_property(self :: PROPERTY_ALBUM_NAME);
-    }
-    
-    function set_album_name($album_name)
-    {
-    	return $this->set_default_property(self :: PROPERTY_ALBUM_NAME, $album_name);
-    }
-    
-    
 
     function get_url($size = self :: SIZE_MEDIUM)
     {
@@ -180,7 +167,7 @@ class Hq23ExternalRepositoryObject extends ExternalRepositoryObject
 
     function get_license_icon()
     {
-        return Theme :: get_common_image('external_repository/hq23/licenses/license_' . $this->get_license_id(), 'png', $this->get_license_name(), $this->get_license_url(), ToolbarItem :: DISPLAY_ICON);
+        return Theme :: get_common_image('external_repository/flickr/licenses/license_' . $this->get_license_id(), 'png', $this->get_license_name(), $this->get_license_url(), ToolbarItem :: DISPLAY_ICON);
     }
 
     function set_license($license)
@@ -208,8 +195,8 @@ class Hq23ExternalRepositoryObject extends ExternalRepositoryObject
         $licenses[4] = array('id' => 4, 'name' => 'Attribution License', 'url' => 'http://creativecommons.org/licenses/by/2.0/');
         $licenses[5] = array('id' => 5, 'name' => 'Attribution-ShareAlike License', 'url' => 'http://creativecommons.org/licenses/by-sa/2.0/');
         $licenses[6] = array('id' => 6, 'name' => 'Attribution-NoDerivs License', 'url' => 'http://creativecommons.org/licenses/by-nd/2.0/');
-//        $licenses[7] = array('id' => 7, 'name' => 'No known copyright restrictions', 'url' => 'http://www.23hq.com/commons/usage/');
-//        $licenses[8] = array('id' => 8, 'name' => 'United States Government Work', 'url' => 'http://www.usa.gov/copyright.shtml');
+        $licenses[7] = array('id' => 7, 'name' => 'No known copyright restrictions', 'url' => 'http://www.flickr.com/commons/usage/');
+        $licenses[8] = array('id' => 8, 'name' => 'United States Government Work', 'url' => 'http://www.usa.gov/copyright.shtml');
         return $licenses;
     }
 }

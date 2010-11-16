@@ -1,189 +1,239 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\vimeo;
+
+use common\libraries\Path;
+use common\libraries\Request;
+use common\libraries\Redirect;
+use common\libraries\ActionBarSearchForm;
+use common\libraries\ArrayResultSet;
+use common\libraries\Session;
+
+use repository\ExternalRepositoryUserSetting;
+use repository\ExternalRepositorySetting;
+use repository\RepositoryDataManager;
+
+use common\extensions\external_repository_manager\ExternalRepositoryConnector;
+use common\extensions\external_repository_manager\ExternalRepositoryObject;
+
+use phpVimeo;
+
+require_once Path :: get_plugin_path() . 'phpvimeo/vimeo.php';
 require_once dirname(__FILE__) . '/vimeo_external_repository_object.class.php';
 
-require_once 'OAuth/Request.php';
+
 /**
- * 
- * @author magali.gillard
- * developer key : 179830482
+ * Consumer Key: 69950a3f3ed038479b4b65ffde049f1d
+ * Consumer Secret: a84782d0ca686c59
  */
+
 class VimeoExternalRepositoryConnector extends ExternalRepositoryConnector
 {
-    private $photobucket;
-	private $consumer;
-	private $url;
-    
+    //    const SORT_DATE_POSTED = 'date-posted';
+    //    const SORT_DATE_TAKEN = 'date-taken';
+    //    const SORT_INTERESTINGNESS = 'interestingness';
+    //    const SORT_RELEVANCE = 'relevance';
+    //    
+    private $vimeo;
+    private $consumer_key;
+    private $consumer_secret;
+    private $vimeo_session;
+
+    /**
+     * @param ExternalRepository $external_repository_instance
+     */
     function VimeoExternalRepositoryConnector($external_repository_instance)
     {
         parent :: __construct($external_repository_instance);
-
-        $this->key = ExternalRepositorySetting :: get('consumer_key', $this->get_external_repository_instance_id());
-        $this->secret = ExternalRepositorySetting :: get('consumer_secret', $this->get_external_repository_instance_id());
         
-        $this->url = ExternalRepositorySetting :: get('url', $this->get_external_repository_instance_id());
-       	$this->login();
-        //$this->photobucket = new PhotobucketRestClient($url);
-    }   
-
-    
-    function login()
-    {
-    	$this->consumer = new OAuth_Consumer($this->key, $this->secret);
-    	$request = OAuth_Request::fromConsumerAndToken($this->consumer, NULL, "POST", 'http://api.photobucket.com/login/request');
-    	$request->signRequest('HMAC-SHA1', $this->consumer);
-dump($request);
-   		Header("Location: $request");
-		
-    }
-    
-//    
-//    /**
-//     * @param int $instance_id
-//     * @return PhotobucketExternalRepositoryConnector:
-//     */
-//    static function get_instance($instance_id)
-//    {
-//        if (! isset(self :: $instance[$instance_id]))
-//        {
-//            self :: $instance[$instance_id] = new PhotobucketExternalRepositoryConnector($instance_id);
-//        }
-//        return self :: $instance[$instance_id];
-//    }
-
-    function retrieve_external_repository_objects($condition, $order_property, $offset, $count)
-    {       	   	  	   	
-    	$request = OAuth_Request::fromUrl($this->url . '/featured/group?format=xml', 'GET', $this->consumer);
-    	$request->signRequest('HMAC-SHA1', $this->consumer);
-    	Header("Location: $request");
-    	
-    	$response = $this->request($request);
-    	dump($response);
-    	
-		//check the url : OK
-    	$url = $request->__toString();
-		dump($url);
-		
-		//xml file from this ... NOT OK !!!
-		
-		exit;
-
-		$objects = array();
-        $xml = $this->get_xml($request->get_response_content());
-
-        if ($xml)
+        $this->consumer_key = ExternalRepositorySetting :: get('consumer_key', $this->get_external_repository_instance_id());
+        $this->consumer_secret = ExternalRepositorySetting :: get('consumer_secret', $this->get_external_repository_instance_id());
+        
+        $this->vimeo = new phpVimeo($this->consumer_key, $this->consumer_secret);
+        $oauth_token = ExternalRepositoryUserSetting :: get('oauth_token', $this->get_external_repository_instance_id());
+        $oauth_token_secret = ExternalRepositoryUserSetting :: get('oauth_token_secret', $this->get_external_repository_instance_id());
+        
+        if (! $oauth_token || ! $oauth_token_secret)
         {
-            
-        	foreach ($xml['result'] as $media_package)
+            if (! $_SESSION['request_token'])
             {
-            	$objects[] = $this->get_media_package($media_package);
+                $this->vimeo->auth('read');
+            }
+            else
+            {
+                $this->vimeo->setToken($_SESSION['request_token'], $_SESSION['request_token_secret'], 'access', true);
+                $token = $this->vimeo->getAccessToken($_GET['oauth_verifier']);
+                
+                $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('oauth_token', $this->get_external_repository_instance_id());
+                $user_setting = new ExternalRepositoryUserSetting();
+                $user_setting->set_setting_id($setting->get_id());
+                $user_setting->set_user_id(Session :: get_user_id());
+                $user_setting->set_value($token['oauth_token']);
+                $user_setting->create();
+                
+                $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('oauth_token_secret', $this->get_external_repository_instance_id());
+                $user_setting = new ExternalRepositoryUserSetting();
+                $user_setting->set_setting_id($setting->get_id());
+                $user_setting->set_user_id(Session :: get_user_id());
+                $user_setting->set_value($token['oauth_token_secret']);
+                $user_setting->create();
             }
         }
-        return new ArrayResultSet($objects);
-    }
-
- 	function request($request)
-    {
-        if ($this->photobucket)
+        else
         {
-        	return $this->photobucket;
+            $this->vimeo->setToken($oauth_token, $oauth_token_secret, 'access', true);
+        
         }
-        return false;
     }
 
-    function retrieve_external_repository_object($id)
+    /**
+     * @param int $instance_id
+     * @return VimeoExternalRepositoryConnector:
+     */
+    static function get_instance($instance_id)
     {
-//        $response = $this->request(MatterhornRestClient :: METHOD_GET, '/search/rest/episode', array('id' => $id));
-//        $xml = $this->get_xml($response->get_response_content());
-//
-//        if ($xml)
-//        {
-//            if ($xml['result'])
-//            {
-//            	return $this->get_media_package($xml['result'][0]);
-//            }
-//            else
-//            {
-//                return false;
-//            }
-//        }
+        if (! isset(self :: $instance[$instance_id]))
+        {
+            self :: $instance[$instance_id] = new VimeoExternalRepositoryConnector($instance_id);
+        }
+        return self :: $instance[$instance_id];
+    } 
+
+    /**
+     * @param mixed $condition
+     * @param ObjectTableOrder $order_property
+     * @param int $offset
+     * @param int $count
+     * @return array
+     */
+    function retrieve_videos($condition = null, $order_property, $offset, $count)
+    {
+    	$feed_type = Request :: get(VimeoExternalRepositoryManager :: PARAM_FEED_TYPE);
+        
+        $offset = (($offset - ($offset % $count)) / $count) + 1;
+        $attributes = 'description,upload_date,owner';
+        
+        $search_parameters = array();
+        $search_parameters['api_key'] = $this->consumer_key;
+        $search_parameters['per_page'] = $count;
+        $search_parameters['page'] = $offset;
+        $search_parameters['text'] = $condition;
+        $search_parameters['extras'] = $attributes;
+        
+        if ($order_property)
+        {
+            
+            $order_direction = $this->convert_order_property($order_property);
+            
+            if ($order_direction)
+            {
+                $search_parameters['sort'] = $order_direction;
+            }
+        }
+        
+        $videos = $this->vimeo->call('vimeo.videos.getAll', array('user_id' => '4744622'));
+
+        //        switch ($feed_type)
+        //        {
+        //            case FlickrExternalRepositoryManager :: FEED_TYPE_GENERAL :
+        //                $photos = ($condition ? $this->vimeo->photos_search($search_parameters) : $this->flickr->photos_getRecent($attributes, $count, $offset));
+        //                break;
+        //            case FlickrExternalRepositoryManager :: FEED_TYPE_MOST_INTERESTING :
+        //                $photos = $this->flickr->interestingness_getList(null, $attributes, $count, $offset);
+        //                break;
+        //            case FlickrExternalRepositoryManager :: FEED_TYPE_MOST_RECENT :
+        //                $photos = $this->flickr->photos_getRecent($attributes, $count, $offset);
+        //                break;
+        //            case FlickrExternalRepositoryManager :: FEED_TYPE_MY_PHOTOS :
+        //                $search_parameters['user_id'] = 'me';
+        //                $photos = $this->flickr->photos_search($search_parameters);
+        //                break;
+        //            default :
+        //                $photos = ($condition ? $this->flickr->photos_search($search_parameters) : $this->flickr->photos_getRecent($attributes, $count, $offset));
+        //                break;
+        //        }
+        //        
+        return $videos;
     }
 
-   
+    /**
+     * @param mixed $condition
+     * @param ObjectTableOrder $order_property
+     * @param int $offset
+     * @param int $count
+     * @return ArrayResultSet
+     */
+    function retrieve_external_repository_objects($condition = null, $order_property, $offset, $count)
+    {
+            $videos = $this->retrieve_videos($condition, $order_property, $offset, $count);
+            $objects = array();
 
+            foreach ($videos->videos->video as $video)
+            {
+                $object = new VimeoExternalRepositoryObject();
+                $object->set_id($video->id);
+                $object->set_external_repository_id($this->get_external_repository_instance_id());
+                $object->set_title($video->title);
+                $object->set_description($video->description);
+                $object->set_created($photo->upload_date);
+                $object->set_created($photo->modified_date);
+                $object->set_owner_id($photo->owner->realname);
+                
+                $video_urls = array();
+//                foreach (VimeoExternalRepositoryObject :: get_possible_sizes() as $key => $size)
+//                {
+//                    if (isset($video['url_' . $key]))
+//                    {
+//                        $video_urls[$size] = array('source' => $video['url_' . $key], 'width' => $video['width_' . $key], 'height' => $video['height_' . $key]);
+//                    }
+//                }
+//                $object->set_urls($video_urls);
+                
+                //            $photo_size = array();
+                //            $photo_size['source'] = $photo['url_sq'];
+                //            $photo_size['width'] = 75;
+                //            $photo_size['height'] = 75;
+                //
+                //            $object->set_urls(array('square' => $photo_size));
+                //
+                //            $photo_sizes = $this->flickr->photos_getSizes($photo['id']);
+                //            $photo_urls = array();
+                //
+                //            foreach ($photo_sizes as $photo_size)
+                //            {
+                //                $key = strtolower($photo_size['label']);
+                //                unset($photo_size['label']);
+                //                unset($photo_size['media']);
+                //                unset($photo_size['url']);
+                //                $photo_urls[$key] = $photo_size;
+                //            }
+                //            $object->set_urls($photo_urls);
+                
+    
+                //$object->set_license($licenses[$photo['license']]);
+                
+//                $types = array();
+//                $types[] = $video['media'];
+//                if (isset($video['originalformat']))
+//                {
+//                    $types[] = strtolower($video['originalformat']);
+//                }
+//                $object->set_type(implode('_', $types));
+//                //$object->set_rights($this->determine_rights($photo['license'], $photo['owner']));
+//                
+                $objects[] = $object;
+            }
+            return new ArrayResultSet($objects);
+    }
+
+    /**
+     * @param mixed $condition
+     * @return int
+     */
     function count_external_repository_objects($condition)
     {
-//    	$response = $this->request(MatterhornRestClient :: METHOD_GET, '/search/rest/episode', array('limit' => 1));
-//        $xml = $response->get_response_content();
-//
-//        $doc = new DOMDocument();
-//        $doc->loadXML($xml);
-//               
-//        $object = $doc->getElementsByTagname('search-results')->item(0);
-//        return $object->getAttribute('total');
+        $videos = $this->retrieve_videos($condition, $order_property, 1, 1);
+        return $videos->total;
     }
-
-    function delete_external_repository_object($id)
-    {
-//	    $search_response = $this->request(MatterhornRestClient :: METHOD_DELETE, '/search/rest/' . $id);
-//	    if ($search_response->get_response_http_code() == 200)
-//	    {
-//	    	return true;
-//	    }
-//    	return false;
-    }
-
-    function create_external_repository_object($values, $track_path)
-    {
-//    	$parameters = array('flavor' => 'presenter/source');
-//    	$parameters['title'] = $values[MatterhornExternalRepositoryObject::PROPERTY_TITLE];
-//    	$parameters['type'] = 'AudioVisual';
-//    	$parameters['BODY'] = file_get_contents($track_path);
-//    	$response = $this->request(MatterhornRestClient :: METHOD_POST, '/ingest/rest/addMediaPackage', $parameters);
-//        $xml = $this->get_xml($response->get_response_content());
-    }
-    
-    function export_external_repository_object($object)
-    {
- //       return true;
-    }
-
-    function determine_rights($video_entry)
-    {
-        $rights = array();
-        $rights[ExternalRepositoryObject :: RIGHT_USE] = true;
-        $rights[ExternalRepositoryObject :: RIGHT_EDIT] = false;
-        $rights[ExternalRepositoryObject :: RIGHT_DELETE] = true;
-        $rights[ExternalRepositoryObject :: RIGHT_DOWNLOAD] = false;
-        return $rights;
-    }
-    
-//    function update_matterhorn_video($values)
-//    {
-//    	$response = $this->request(MatterhornRestClient :: METHOD_GET, '/search/rest/episode', array('id' => MatterhornExternalRepositoryObject::PROPERTY_ID));
-//
-//        $xml = $this->get_xml($response->get_response_content());
-//        $catalogs = $xml['result'][0]['mediapackage']['metadata']['catalog'];
-//        if(isset ($catalogs))
-//        {
-//        	foreach($catalogs as $catalog)
-//        	{
-//        		if ($catalog['type'] == 'dublincore/episode')
-//        		{
-//        			$url = $catalog['url'];
-//        			
-//        		}
-//        	}
-//        	if (isset($url))
-//        	{
-//        		$doc = new DOMDocument();
-//        		$doc->load($url);
-//        		$object = $doc->getElementsByTagname('catalog')->item(0);
-//        	}
-//        }
-//
-//        $object = $doc->getElementsByTagname('catalog')->item(0);
-//        $object->getAttribute('total');
-//    }
 
     /**
      * @param string $query
@@ -194,122 +244,189 @@ dump($request);
         return $query;
     }
 
-//    public function get_series($id)
-//    {
-//        $response = $this->request(MatterhornRestClient :: METHOD_GET, '/series/rest/series/' . $id);
-//        $xml = $this->get_xml($response->get_response_content());
-//        if ($xml)
-//        {
-//        	if ($xml['metadataList'])
-//            {
-//				foreach($xml['metadataList']['metadata'] as $metadata)
-//				{
-//					if ($metadata['key'] == 'title')
-//					{
-//						return $metadata['value'];
-//					}
-//				}
-//				return "";
-//            }
-//            else
-//            {
-//                return false;
-//            }
-//        }
-//    }
-
-//    private function get_media_package($result)
-//    {
-//        $media_package = $result['mediapackage'];
-//        $matterhorn_external_repository_object = new MatterhornExternalRepositoryObject();
-//        $matterhorn_external_repository_object->set_id($media_package['id']);
-//        $matterhorn_external_repository_object->set_duration($result['dcExtent']);
-//        $matterhorn_external_repository_object->set_title($result['dcTitle']);
-//        $matterhorn_external_repository_object->set_description($result['dcDescription']);
-//        $matterhorn_external_repository_object->set_contributors($result['dcContributor']);
-//        $matterhorn_external_repository_object->set_series($this->get_series($media_package['series']));
-//        $matterhorn_external_repository_object->set_owner_id($result['dcCreator']);
-//        $matterhorn_external_repository_object->set_created(strtotime($result['dcCreated']));
-//        
-//        $matterhorn_external_repository_object->set_subjects($result['dcSubject']);
-//        $matterhorn_external_repository_object->set_license($result['dcLicense']);
-//        $matterhorn_external_repository_object->set_type(Utilities :: camelcase_to_underscores($result['mediaType']));
-//        $matterhorn_external_repository_object->set_modified(strtotime($result['modified']));
-//        
-//        foreach ($media_package['media']['track'] as $media_track)
-//        {
-//            $track = new MatterhornExternalRepositoryObjectTrack();
-//            $track->set_ref($media_track['ref']);
-//            $track->set_type($media_track['type']);
-//            $track->set_id($media_track['id']);
-//            $track->set_mimetype($media_track['mimetype']);
-//            $track->set_tags($media_track['tags']['tag']);
-//            $track->set_url($media_track['url']);
-//            $track->set_checksum($media_track['checksum']);
-//            $track->set_duration($media_track['duration']);
-//            
-//            if ($media_track['audio'])
-//            {
-//                $audio = new MatterhornExternalRepositoryObjectTrackAudio();
-//                $audio->set_id($media_track['audio']['id']);
-//                $audio->set_device($media_track['audio']['device']);
-//                $audio->set_encoder($media_track['audio']['encoder']['type']);
-//                $audio->set_bitdepth($media_track['audio']['bitdepth']);
-//                $audio->set_channels($media_track['audio']['channels']);
-//                $audio->set_samplingrate($media_track['audio']['samplingrate']);
-//                $audio->set_bitrate($media_track['audio']['bitrate']);
-//                $track->set_audio($audio);
-//            }
-//            
-//            if ($media_track['video'])
-//            {
-//                $video = new MatterhornExternalRepositoryObjectTrackVideo();
-//                $video->set_id($media_track['video']['id']);
-//                $video->set_device($media_track['video']['device']);
-//                $video->set_encoder($media_track['video']['encoder']['type']);
-//                $video->set_framerate($media_track['video']['framerate']);
-//                $video->set_bitrate($media_track['video']['bitrate']);
-//                $video->set_resolution($media_track['video']['resolution']);
-//                $track->set_video($video);
-//            }
-//            $matterhorn_external_repository_object->add_track($track);
-//        }
-//        
-//        foreach ($media_package['attachments']['attachment'] as $attachment)
-//        {
-//            $attach = new MatterhornExternalRepositoryObjectAttachment();
-//            $attach->set_id($attachment['id']);
-//            $attach->set_ref($attachment['ref']);
-//            $attach->set_type($attachment['type']);
-//            $attach->set_mimetype($attachment['mimetype']);
-//            $attach->set_tags($attachment['tags']['tag']);
-//            $attach->set_url($attachment['url']);
-//            
-//            $matterhorn_external_repository_object->add_attachment($attach);
-//        }
-//        
-//        $matterhorn_external_repository_object->set_rights($this->determine_rights($media_package));
-//        return $matterhorn_external_repository_object;
-//    }
-
-    private function get_xml($xml)
+    /**
+     * @param ObjectTableOrder $order_properties
+     * @return string|null
+     */
+    function convert_order_property($order_properties)
     {
-        if ($xml)
+        if (count($order_properties) > 0)
         {
-            $unserializer = new XML_Unserializer();
-            $unserializer->setOption(XML_UNSERIALIZER_OPTION_COMPLEXTYPE, 'array');
-            $unserializer->setOption(XML_UNSERIALIZER_OPTION_ATTRIBUTES_PARSE, true);
-            $unserializer->setOption(XML_UNSERIALIZER_OPTION_RETURN_RESULT, true);
-            $unserializer->setOption(XML_UNSERIALIZER_OPTION_GUESS_TYPES, true);
-            //$unserializer->setOption(XML_UNSERIALIZER_OPTION_FORCE_ENUM, array('result', 'track', 'attachment'));
-            
-            // userialize the document
-            return $unserializer->unserialize($xml);
+            $order_property = $order_properties[0]->get_property();
+            if ($order_property == self :: SORT_RELEVANCE)
+            {
+                return $order_property;
+            }
+            else
+            {
+                $sorting_direction = $order_properties[0]->get_direction();
+                
+                if ($sorting_direction == SORT_ASC)
+                {
+                    return $order_property . '-asc';
+                }
+                elseif ($sorting_direction == SORT_DESC)
+                {
+                    return $order_property . '-desc';
+                }
+            }
+        }
+        
+        return null;
+    }
+
+    /**
+     * @return array
+     */
+    static function get_sort_properties()
+    {
+        $feed_type = Request :: get(VimeoExternalRepositoryManager :: PARAM_FEED_TYPE);
+        $query = ActionBarSearchForm :: get_query();
+        
+        if (($feed_type == VimeoExternalRepositoryManager :: FEED_TYPE_GENERAL && $query) || $feed_type == VimeoExternalRepositoryManager :: FEED_TYPE_MY_PHOTOS)
+        {
+            return array(self :: SORT_DATE_POSTED, self :: SORT_DATE_TAKEN, self :: SORT_INTERESTINGNESS, self :: SORT_RELEVANCE);
         }
         else
         {
+            return array();
+        }
+    
+    }
+
+    /* (non-PHPdoc)
+     * @see application/common/external_repository_manager/ExternalRepositoryConnector#retrieve_external_repository_object()
+     */
+    function retrieve_external_repository_object($id)
+    {
+        //$licenses = $this->retrieve_licenses();
+    //        $licenses = FlickrExternalRepositoryObject :: get_possible_licenses();
+    //        $photo = $this->flickr->photos_getInfo($id);
+    //        
+    //        $object = new FlickrExternalRepositoryObject();
+    //        $object->set_external_repository_id($this->get_external_repository_instance_id());
+    //        $object->set_id($photo['id']);
+    //        $object->set_title($photo['title']);
+    //        $object->set_description($photo['description']);
+    //        $object->set_created($photo['dateuploaded']);
+    //        $object->set_modified($photo['dates']['lastupdate']);
+    //        $object->set_owner_id($photo['owner']['username']);
+    //        
+    //        $tags = array();
+    //        foreach ($photo['tags']['tag'] as $tag)
+    //        {
+    //            $tags[] = array('display' => $tag['raw'], 'text' => $tag['_content']);
+    //        }
+    //        $object->set_tags($tags);
+    //        
+    //        $photo_sizes = $this->flickr->photos_getSizes($photo['id']);
+    //        $photo_urls = array();
+    //        
+    //        foreach ($photo_sizes as $photo_size)
+    //        {
+    //            $key = strtolower($photo_size['label']);
+    //            if (in_array($key, FlickrExternalRepositoryObject :: get_possible_sizes()))
+    //            {
+    //                unset($photo_size['label']);
+    //                unset($photo_size['media']);
+    //                unset($photo_size['url']);
+    //                $photo_urls[$key] = $photo_size;
+    //            }
+    //        }
+    //        
+    //        $object->set_urls($photo_urls);
+    //        $object->set_license($licenses[$photo['license']]);
+    //        
+    //        $types = array();
+    //        $types[] = $photo['media'];
+    //        if (isset($photo['originalformat']))
+    //        {
+    //            $types[] = strtolower($photo['originalformat']);
+    //        }
+    //        $object->set_type(implode('_', $types));
+    //        
+    //        $object->set_rights($this->determine_rights($photo['license'], $photo['owner']['nsid']));
+    //        
+    //        return $object;
+    }
+
+    /**
+     * @param array $values
+     * @return boolean
+     */
+    function update_external_repository_object($values)
+    {
+        $success = $this->flickr->photos_setMeta($values[FlickrExternalRepositoryObject :: PROPERTY_ID], $values[FlickrExternalRepositoryObject :: PROPERTY_TITLE], $values[FlickrExternalRepositoryObject :: PROPERTY_DESCRIPTION]);
+        
+        if (! $success)
+        {
             return false;
         }
+        else
+        {
+            $tags = explode(',', $values[FlickrExternalRepositoryObject :: PROPERTY_TAGS]);
+            $tags = '"' . implode('" "', $tags) . '"';
+            
+            $success = $this->flickr->photos_setTags($values[FlickrExternalRepositoryObject :: PROPERTY_ID], $tags);
+            
+            if (! $success)
+            {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+
+    /**
+     * @param array $values
+     * @param string $photo_path
+     * @return mixed
+     */
+    function create_external_repository_object($values, $photo_path)
+    {
+        $tags = explode(',', $values[FlickrExternalRepositoryObject :: PROPERTY_TAGS]);
+        $tags = '"' . implode('" "', $tags) . '"';
+        
+        return $this->flickr->sync_upload($photo_path, $values[FlickrExternalRepositoryObject :: PROPERTY_TITLE], $values[FlickrExternalRepositoryObject :: PROPERTY_DESCRIPTION], $tags);
+    }
+
+    /**
+     * @param ContentObject $content_object
+     * @return mixed
+     */
+    function export_external_repository_object($content_object)
+    {
+        return $this->flickr->sync_upload($content_object->get_full_path(), $content_object->get_title(), $content_object->get_description());
+    }
+
+    /**
+     * @param int $license
+     * @param string $photo_user_id
+     * @return boolean
+     */
+    function determine_rights($license, $photo_user_id)
+    {
+        $users_match = ($this->retrieve_user_id() == $photo_user_id ? true : false);
+        //$compatible_license = ($license == 0 ? false : true);
+        $compatible_license = true;
+        
+        $rights = array();
+        $rights[ExternalRepositoryObject :: RIGHT_USE] = $compatible_license || $users_match;
+        $rights[ExternalRepositoryObject :: RIGHT_EDIT] = $users_match;
+        $rights[ExternalRepositoryObject :: RIGHT_DELETE] = $users_match;
+        $rights[ExternalRepositoryObject :: RIGHT_DOWNLOAD] = $compatible_license || $users_match;
+        
+        return $rights;
+    }
+
+    /**
+     * @param string $id
+     * @return mixed
+     */
+    function delete_external_repository_object($id)
+    {
+        return $this->flickr->photos_delete($id);
     }
 }
 ?>

@@ -55,9 +55,8 @@ abstract class ExternalRepositoryManager extends SubManager
      */
     function ExternalRepositoryManager($application)
     {
-        parent :: __construct($application);
+    	parent :: __construct($application);
         $this->external_repository = $application->get_external_repository();
-
         $external_repository_manager_action = Request :: get(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION);
         if ($external_repository_manager_action)
         {
@@ -65,7 +64,6 @@ abstract class ExternalRepositoryManager extends SubManager
         }
 
         $this->set_optional_parameters();
-
         if ($this->validate_settings())
         {
             $this->initialize_external_repository($this);
