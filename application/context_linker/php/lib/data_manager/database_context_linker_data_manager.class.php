@@ -241,17 +241,19 @@ class DatabaseContextLinkerDataManager extends Database implements ContextLinker
         //format result
         if($array_type == ContextLinkerManager :: ARRAY_TYPE_RECURSIVE)
         {
-            $orig = next($result_children);
+            $condition = new EqualityCondition(ContextLink :: PROPERTY_ORIGINAL_CONTENT_OBJECT_ID , $content_object_id);
+            $result_tmp = $this->retrieve_full_context_links($condition);
+            $result[$content_object_id] = $result_tmp[0];
+            unset($result_tmp);
+//            $result[$orig[ContextLinkerManager :: PROPERTY_ORIG_ID]][ContextLinkerManager :: PROPERTY_ORIG_ID] = $orig[ContextLinkerManager :: PROPERTY_ORIG_ID];
+//            $result[$orig[ContextLinkerManager :: PROPERTY_ORIG_ID]][ContextLinkerManager :: PROPERTY_ORIG_TYPE] = $orig[ContextLinkerManager :: PROPERTY_ORIG_TYPE];
+//            $result[$orig[ContextLinkerManager :: PROPERTY_ORIG_ID]][ContextLinkerManager :: PROPERTY_ORIG_TITLE] = $orig[ContextLinkerManager :: PROPERTY_ORIG_TITLE];
+//            $result[$orig[ContextLinkerManager :: PROPERTY_ORIG_ID]][ContextLinkerManager :: PROPERTY_ALT_ID] = $orig[ContextLinkerManager :: PROPERTY_ALT_ID];
+//            $result[$orig[ContextLinkerManager :: PROPERTY_ORIG_ID]][ContextLinkerManager :: PROPERTY_ALT_TYPE] = $orig[ContextLinkerManager :: PROPERTY_ALT_TYPE];
+//            $result[$orig[ContextLinkerManager :: PROPERTY_ORIG_ID]][ContextLinkerManager :: PROPERTY_ALT_TITLE] = $orig[ContextLinkerManager :: PROPERTY_ALT_TITLE];
 
-            $result[$orig[ContextLinkerManager :: PROPERTY_ORIG_ID]][ContextLinkerManager :: PROPERTY_ORIG_ID] = $orig[ContextLinkerManager :: PROPERTY_ORIG_ID];
-            $result[$orig[ContextLinkerManager :: PROPERTY_ORIG_ID]][ContextLinkerManager :: PROPERTY_ORIG_TYPE] = $orig[ContextLinkerManager :: PROPERTY_ORIG_TYPE];
-            $result[$orig[ContextLinkerManager :: PROPERTY_ORIG_ID]][ContextLinkerManager :: PROPERTY_ORIG_TITLE] = $orig[ContextLinkerManager :: PROPERTY_ORIG_TITLE];
-            $result[$orig[ContextLinkerManager :: PROPERTY_ORIG_ID]][ContextLinkerManager :: PROPERTY_ALT_ID] = $orig[ContextLinkerManager :: PROPERTY_ALT_ID];
-            $result[$orig[ContextLinkerManager :: PROPERTY_ORIG_ID]][ContextLinkerManager :: PROPERTY_ALT_TYPE] = $orig[ContextLinkerManager :: PROPERTY_ALT_TYPE];
-            $result[$orig[ContextLinkerManager :: PROPERTY_ORIG_ID]][ContextLinkerManager :: PROPERTY_ALT_TITLE] = $orig[ContextLinkerManager :: PROPERTY_ALT_TITLE];
-
-            $result[$orig[ContextLinkerManager :: PROPERTY_ORIG_ID]]['parents'] = $result_parents;
-            $result[$orig[ContextLinkerManager :: PROPERTY_ORIG_ID]]['children'] = $result_children;
+            $result[$content_object_id]['parents'] = $result_parents;
+            $result[$content_object_id]['children'] = $result_children;
 
             return $result;
         }

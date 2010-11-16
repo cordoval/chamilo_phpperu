@@ -11,6 +11,7 @@ use common\libraries\ActionBarRenderer;
 use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\ResourceManager;
+use common\libraries\Session;
 
 use \Freemind;
 use \FreemindNode;
@@ -25,9 +26,7 @@ require_once Path :: get_plugin_path() . 'mindmap/freemind.class.php';
  */
 class ContextLinkerManagerContextLinksBrowserComponent extends ContextLinkerManager
 {
-    const PARAM_VIEW = 'view';
-    const VIEW_TABLE = 'table';
-    const VIEW_GRAPHIC = 'graphic';
+
 
     function run()
     {
@@ -68,15 +67,30 @@ class ContextLinkerManagerContextLinksBrowserComponent extends ContextLinkerMana
             $this->get_children(&$base_node, $result[$content_object_id]['parents'], ContextLinkerManager :: RECURSIVE_DIRECTION_UP);
             //var_dump($mindmap);
 
-            $xml = $mindmap->to_xml();;
+            $xml = $mindmap->to_xml();
 
-            $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'plugin/mindmap/flashobject.js');
-            $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'application/context_linker/resources/javascript/mindmap_visualisation.js');
-            $html[] = '<div id="flashcontent" onmouseover="giveFocus();" onLoad="giveFocus();">
-                         Flash plugin or Javascript are turned off.
-                         Activate both  and reload to view the mindmap
-                       </div>';
+            $filename = 'mm_' . Session :: get_user_id() . '.mm';
+            $sys_file = Path :: get(SYS_FILE_PATH) . 'temp/tmp_' . $filename;
+            $rel_file = Path :: get(REL_FILE_PATH) . 'temp/tmp_' . $filename;
+
+            $mindmap_file = fopen($sys_file, 'w') or die ('can\'t create file');
+
+            fwrite($mindmap_file, $xml);
+            fclose($mindmap_file);
+
+            $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'plugin/mindmap/freemind_flash_browser/flashobject.js');
+
+            $html[] = '<div id="flashcontent">Flash plugin or Javascript are turned off.Activate both  and reload to view the mindmap</div>';
+            $html[] = '<script type="text/javascript">var fo = new FlashObject("' . Path :: get(WEB_PATH) . 'plugin/mindmap/freemind_flash_browser/visorFreemind.swf", "visorFreeMind", "100%", "100%", 6, "#9999ff");
+		fo.addParam("quality", "high");
+		fo.addParam("bgcolor", "#ffffff");
+		fo.addVariable("openUrl", "_blank");
+		fo.addVariable("initLoadFile", "' . $rel_file . '");
+		fo.addVariable("startCollapsedToLevel","5");
+		fo.write("flashcontent");</script>';
+
             return implode("\n", $html);
+            
         }
         else
         {
@@ -96,21 +110,37 @@ class ContextLinkerManagerContextLinksBrowserComponent extends ContextLinkerMana
     {
         foreach($context_link_children as $id => $content_object)
         {
+            
+            
             if($mode == ContextLinkerManager :: RECURSIVE_DIRECTION_DOWN)
             {
-                $node = new FreemindNode($id, $content_object[ContextLinkerManager :: PROPERTY_ALT_TITLE]);
-                $node->set_position($position);
-                $parent_node->add_child(&$node);
-                if(isset($content_object['children']))$this->get_children(&$node, $content_object['children'], $mode, FreemindNode :: POSITION_RIGHT);
+               $node = new FreemindNode($id, $content_object[ContextLinkerManager :: PROPERTY_ALT_TITLE]);
+               $node->set_position($position);
+               $parent_node->add_child(&$node);
+
+               if(isset($content_object['children']))$this->get_children(&$node, $content_object['children'], $mode, FreemindNode :: POSITION_RIGHT);
             }
+            
             if($mode == ContextLinkerManager :: RECURSIVE_DIRECTION_UP)
             {
                 $node = new FreemindNode($id, $content_object[ContextLinkerManager :: PROPERTY_ORIG_TITLE]);
                 $node->set_position($position);
                 $parent_node->add_child(&$node);
+
                 if(isset($content_object['parents']))$this->get_children(&$node, $content_object['parents'], $mode);
             }
+
+            $node->set_link($this->get_node_link($id));
         }
+    }
+
+    function get_node_link($id)
+    {
+        $params = array();
+        $params[ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID] = $id;
+        $params[ContextLinkerManager :: PARAM_VIEW] = ContextLinkerManager :: VIEW_GRAPHIC;
+
+        return $this->get_url($params);
     }
 
     function get_action_bar()
@@ -121,6 +151,12 @@ class ContextLinkerManagerContextLinksBrowserComponent extends ContextLinkerMana
         $actions[] = new ToolbarItem(Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES) , Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_CREATE_CONTEXT_LINK, ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => Request :: get(ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID))));
 
         $action_bar->set_common_actions($actions);
+
+        $actions = array();
+        $actions[] = new ToolbarItem(Translation :: get('TableView', null, Utilities :: COMMON_LIBRARIES) , Theme :: get_common_image_path() . 'view_table.png', $this->get_url(array(ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_BROWSE_CONTEXT_LINKS, ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => Request :: get(ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID), ContextLinkerManager :: PARAM_VIEW => ContextLinkerManager :: VIEW_TABLE)));
+        $actions[] = new ToolbarItem(Translation :: get('GraphicView', null, Utilities :: COMMON_LIBRARIES) , Theme :: get_common_image_path() . 'view_table.png', $this->get_url(array(ContextLinkerManager :: PARAM_ACTION => ContextLinkerManager :: ACTION_BROWSE_CONTEXT_LINKS, ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID => Request :: get(ContextLinkerManager :: PARAM_CONTENT_OBJECT_ID), ContextLinkerManager :: PARAM_VIEW => ContextLinkerManager :: VIEW_GRAPHIC)));
+        $action_bar->set_tool_actions($actions);
+        
         $action_bar->set_search_url($this->get_url());
 
         return $action_bar->as_html();

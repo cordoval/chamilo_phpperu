@@ -16,6 +16,10 @@ use common\libraries\ArrayResultSet;
     const ARRAY_TYPE_FLAT = '1';
     const ARRAY_TYPE_RECURSIVE = '2';
 
+    const PARAM_VIEW = 'view';
+    const VIEW_TABLE = 'table';
+    const VIEW_GRAPHIC = 'graphic';
+
     const RECURSIVE_DIRECTION_UP = '1';
     const RECURSIVE_DIRECTION_DOWN = '2';
     const RECURSIVE_DIRECTION_BOTH = '3';

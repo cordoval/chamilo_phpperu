@@ -1,4 +1,8 @@
 <?php
+/**
+ * generates xml for freemind mindmaps
+ * @author jens vanderheyden
+ */
 class Freemind
 {
     private $base_node;
@@ -14,20 +18,9 @@ class Freemind
         $this->base_node = $base_node;
     }
 
-
-    function to_html()
-    {
-        
-    }
-
-    function to_file()
-    {
-        
-    }
-
     function to_xml()
     {
-        return '<map version="' . $this->version . '">' . $this->base_node->to_xml() . '</map>';
+        return '<map version="' . $this->version . '">' . $this->base_node->to_xml() . '</map>' . "\n";
     }
 }
 

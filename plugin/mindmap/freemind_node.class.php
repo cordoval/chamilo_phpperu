@@ -1,4 +1,8 @@
 <?php
+/**
+ * generates xml for freemind mindmap points
+ * @author jens vanderheyden
+ */
 class FreemindNode
 {
     private $id;
@@ -128,7 +132,7 @@ class FreemindNode
            }
        }
 
-       $start = '<node ' . 'CREATED="' . $this->created . '" ID="' . $this->id . '" ' . $modified . 'TEXT="' . $this->text . '" ' . $position;
+       $start = '<node ' . 'CREATED="' . $this->created . '" ID="' . $this->id . '" ' . $modified . 'TEXT="' . $this->text . '" ' . $position . $link;
 
        if(count($this->children))
        {
