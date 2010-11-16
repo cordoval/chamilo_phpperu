@@ -1,7 +1,9 @@
 <?php 
 namespace application\metadata;
+
 use common\libraries\Translation;
 use common\libraries\Utilities;
+
 /**
  * Component to create a new metadata_property_type object
  * @author Sven Vanpoucke

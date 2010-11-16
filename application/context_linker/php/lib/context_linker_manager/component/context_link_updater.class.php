@@ -1,4 +1,7 @@
-<?php namespace application\context_linker;
+<?php
+namespace application\context_linker;
+
+use common\libraries\Utilities;
 
 use common\libraries\Utilities;
 
