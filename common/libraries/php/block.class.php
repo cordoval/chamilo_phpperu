@@ -188,7 +188,7 @@ class Block
                     {
                         $component = str_replace('.class.php', '', $file);
 
-                        $applications_options[$application] = Translation :: get(Application :: application_to_class($application));
+                        $applications_options[$application] = Translation :: get(Application :: application_to_class($application), null, Application :: determine_namespace($application));
                         $components_options[$application][$component] = Utilities :: underscores_to_camelcase($component);
                     }
                 }
@@ -212,7 +212,7 @@ class Block
 
                         $component = str_replace('.class.php', '', $file);
 
-                        $applications_options[$core_application] = Translation :: get(Application :: application_to_class($core_application));
+                        $applications_options[$core_application] = Translation :: get(Application :: application_to_class($core_application), null, Application :: determine_namespace($core_application));
                         $components_options[$core_application][$component] = Utilities :: underscores_to_camelcase($component);
                     }
                 }

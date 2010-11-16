@@ -29,19 +29,19 @@ if ($user_home_allowed && Authentication :: is_valid())
         if ($tab->update())
         {
             $json_result['success'] = '1';
-            $json_result['message'] = Translation :: get('TabUpdated');
+            $json_result['message'] = translate('TabUpdated');
             $json_result['title'] = $title;
         }
         else
         {
             $json_result['success'] = '0';
-            $json_result['message'] = Translation :: get('TabNotUpdated');
+            $json_result['message'] = translate('TabNotUpdated');
         }
     }
     else
     {
         $json_result['success'] = '0';
-        $json_result['message'] = Translation :: get('TabNotUpdated');
+        $json_result['message'] = translate('TabNotUpdated');
     }
 }
 else
@@ -52,4 +52,9 @@ else
 
 // Return a JSON object
 echo json_encode($json_result);
+
+function translate($variable)
+{
+    return Translation :: get($variable, null, __NAMESPACE__);
+}
 ?>

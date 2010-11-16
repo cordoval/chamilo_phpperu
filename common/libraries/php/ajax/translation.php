@@ -14,5 +14,15 @@ $string = $_POST['string'];
 $string = Utilities :: underscores_to_camelcase($string);
 
 Translation :: set_application($application);
-echo Translation :: get($string);
+
+if($application && $application != 'undefined')
+{
+    $namespace = Application :: determine_namespace($application);
+}
+else
+{
+    $namespace = Utilities :: COMMON_LIBRARIES;
+}
+
+echo Translation :: get($string, null, $namespace);
 ?>
