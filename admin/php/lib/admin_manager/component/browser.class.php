@@ -70,9 +70,9 @@ class AdminManagerBrowserComponent extends AdminManager
         {
             if (count($application_links['links']))
             {
-                $index ++;
+                $index ++; 
                 $html = array();
-                $actions_tab = new DynamicActionsTab($application_links['application']['class'], Translation :: get($application_links['application']['name']), Theme :: get_image_path(Application :: determine_namespace($application_links['application']['class'])) . 'logo/22.png', implode("\n", $html));
+                $actions_tab = new DynamicActionsTab($application_links['application']['class'], $application_links['application']['name'], Theme :: get_image_path(Application :: determine_namespace($application_links['application']['class'])) . 'logo/22.png', implode("\n", $html));
 
                 if (isset($application_links['search']))
                 {

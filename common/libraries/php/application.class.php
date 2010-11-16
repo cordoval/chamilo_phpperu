@@ -418,7 +418,7 @@ abstract class Application
     public static function get_application_platform_admin_links($application = self :: PARAM_APPLICATION)
     {
         $info = array();
-        $info['application'] = array('name' => Translation :: get(self :: application_to_class($application)), 'class' => $application);
+        $info['application'] = array('name' => Translation :: get(self :: application_to_class($application), null, Application :: determine_namespace($application)), 'class' => $application);
         $info['links'] = array();
         $info['search'] = null;
 
