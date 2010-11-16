@@ -8,6 +8,7 @@ use common\libraries\BreadcrumbTrail;
 use repository\RepositoryDataManager;
 use repository\ComplexMenu;
 use repository\ComplexBuilder;
+use common\libraries\Utilities;
 
 /**
  * $Id: prerequisites_builder.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -34,7 +35,7 @@ class LearningPathBuilderPrerequisitesBuilderComponent extends LearningPathBuild
         if (! $complex_content_object_item_id)
         {
             $this->display_header($trail);
-            $this->display_error_message(Translation :: get('NoObjectSelected'));
+            $this->display_error_message(Translation :: get('NoObjectSelected', null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }

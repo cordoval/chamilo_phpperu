@@ -4,6 +4,7 @@ namespace repository\content_object\handbook_item;
 use repository\ContentObjectForm;
 use repository\ContentObject;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 require_once dirname(__FILE__) . '/handbook_item.class.php';
 
 class HandbookItemForm extends ContentObjectForm
@@ -39,7 +40,7 @@ class HandbookItemForm extends ContentObjectForm
     function build_creation_form($default_content_object = null)
     {
         parent :: build_creation_form();
-        $this->addElement('category', Translation :: get('Properties'));
+        $this->addElement('category', Translation :: get('Properties', null, Utilities :: COMMON_LIBRARIES));
         $this->addElement('text', HandbookItem :: PROPERTY_REFERENCE, Translation :: get('Reference'));
         $this->addElement('text', HandbookItem :: PROPERTY_UUID, Translation :: get('Uuid'));
         $this->addElement('category');
@@ -48,7 +49,7 @@ class HandbookItemForm extends ContentObjectForm
     function build_editing_form($object)
     {
         parent :: build_editing_form();
-        $this->addElement('category', Translation :: get('Properties'));
+        $this->addElement('category', Translation :: get('Properties', null, Utilities :: COMMON_LIBRARIES));
         $this->addElement('text', HandbookItem :: PROPERTY_REFERENCE, Translation :: get('Reference'));
         $this->addElement('category');
     }

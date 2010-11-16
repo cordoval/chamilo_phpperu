@@ -14,6 +14,7 @@ use common\libraries\Translation;
 use common\libraries\EqualityCondition;
 use repository\ComplexContentObjectItem;
 use common\extensions\repo_viewer\RepoViewerInterface;
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/../../../../../../common/extensions/repo_viewer/php/repo_viewer_interface.class.php';
 
@@ -108,7 +109,7 @@ class HandbookBuilderItemCreatorComponent extends HandbookBuilder implements Rep
                 $complex_content_object_item->create();
             }
 
-            $this->redirect(Translation :: get('ObjectAdded'), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_id));
+            $this->redirect(Translation :: get('ObjectAdded', array('OBJECT' => Translation :: get('HandbookItem')), Utilities :: COMMON_LIBRARIES), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_id));
         }
     }
 

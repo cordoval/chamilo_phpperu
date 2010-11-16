@@ -74,7 +74,7 @@ class HandbookBuilderUpdaterComponent extends HandbookBuilder
             
             $parameters[HandbookBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID] = null;
             
-            $this->redirect(Translation :: get('ContentObjectUpdated'), false, array_merge($parameters, array(HandbookBuilder :: PARAM_BUILDER_ACTION => HandbookBuilder :: ACTION_BROWSE)));
+            $this->redirect(Translation :: get('ObjectUpdated', array('OBJECT' => Translation :: get('Handbook')), Utilities :: COMMON_LIBRARIES), false, array_merge($parameters, array(HandbookBuilder :: PARAM_BUILDER_ACTION => HandbookBuilder :: ACTION_BROWSE)));
         }
         else
         {

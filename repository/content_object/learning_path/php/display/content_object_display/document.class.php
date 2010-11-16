@@ -5,6 +5,7 @@ use repository\RepositoryManager;
 use common\libraries\Translation;
 use repository\content_object\document\Document;
 use repository\ComplexDisplay;
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/../learning_path_display_embedder.class.php';
 
@@ -34,7 +35,7 @@ class LearningPathDocumentContentObjectDisplay extends LearningPathContentObject
             $info = array();
             $info[] = sprintf(Translation :: get('LPDownloadDocument'), $content_object->get_filename(), $content_object->get_filesize());
             $info[] = '<br />';
-            $info[] = '<a target="about:blank" href="' . RepositoryManager :: get_document_downloader_url($content_object->get_id()) . '">' . Translation :: get('Download') . '</a>';
+            $info[] = '<a target="about:blank" href="' . RepositoryManager :: get_document_downloader_url($content_object->get_id()) . '">' . Translation :: get('Download', null , Utilities :: COMMON_LIBRARIES) . '</a>';
 
             $html[] = '<h3>' . $content_object->get_title() . '</h3>';
             $html[] = $this->display_box(implode("\n", $info));
