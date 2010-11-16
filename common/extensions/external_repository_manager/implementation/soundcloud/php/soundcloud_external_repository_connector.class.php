@@ -1,6 +1,8 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\soundcloud;
 
+use common\libraries;
+
 use common\libraries\Path;
 use common\libraries\Request;
 use common\libraries\Redirect;
@@ -16,8 +18,10 @@ use common\extensions\external_repository_manager\ExternalRepositoryConnector;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
 
 use Soundcloud;
+use OAuthConsumer;
 
 require_once Path :: get_plugin_path() . 'soundcloud/soundcloud.php';
+require_once Path :: get_plugin_path() . 'soundcloud/oauth.php';
 require_once dirname(__FILE__) . '/soundcloud_external_repository_object.class.php';
 
 /**
@@ -62,39 +66,61 @@ class SoundcloudExternalRepositoryConnector extends ExternalRepositoryConnector
     {
         parent :: __construct($external_repository_instance);
 
-    //        $this->key = ExternalRepositorySetting :: get('key', $this->get_external_repository_instance_id());
-    //        $this->secret = ExternalRepositorySetting :: get('secret', $this->get_external_repository_instance_id());
-    //        $this->soundcloud = new phpSoundcloud($this->key, $this->secret);
-    //
-    //
-    //        $session_token = ExternalRepositoryUserSetting :: get('session_token', $this->get_external_repository_instance_id());
-    //
-    //        if (! $session_token)
-    //        {
-    //            $frob = Request :: get('frob');
-    //
-    //            if (! $frob)
-    //            {
-    //                $this->soundcloud->auth("delete", Redirect :: current_url());
-    //            }
-    //            else
-    //            {
-    //                $token = $this->soundcloud->auth_getToken($frob);
-    //                if ($token['token'])
-    //                {
-    //                    $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('session_token', $this->get_external_repository_instance_id());
-    //                    $user_setting = new ExternalRepositoryUserSetting();
-    //                    $user_setting->set_setting_id($setting->get_id());
-    //                    $user_setting->set_user_id(Session :: get_user_id());
-    //                    $user_setting->set_value($token['token']);
-    //                    $user_setting->create();
-    //                }
-    //            }
-    //        }
-    //        else
-    //        {
-    //            $this->soundcloud->setToken($session_token);
-    //        }
+        $this->key = ExternalRepositorySetting :: get('key', $this->get_external_repository_instance_id());
+        $this->secret = ExternalRepositorySetting :: get('secret', $this->get_external_repository_instance_id());
+
+        $this->soundcloud = new Soundcloud($this->key, $this->secret);
+
+        $outh_token = ExternalRepositoryUserSetting :: get('oauth_token', $this->get_external_repository_instance_id());
+        $outh_token_secret = ExternalRepositoryUserSetting :: get('oauth_token_secret', $this->get_external_repository_instance_id());
+
+        if (! $outh_token || ! $outh_token_secret)
+        {
+            $oauth_token = Request :: get('oauth_token');
+            $oauth_verifier = Request :: get('oauth_verifier');
+
+            if (! $oauth_token)
+            {
+                $request_token = $this->soundcloud->get_request_token(Redirect :: current_url());
+
+                if ($request_token)
+                {
+                    Session :: register('soundcloud_request_token', $request_token['oauth_token']);
+                    Session :: register('soundcloud_request_token_secret', $request_token['oauth_token_secret']);
+
+                    Redirect :: write_header($this->soundcloud->get_authorize_url($request_token['oauth_token']));
+                }
+            }
+            else
+            {
+                $this->soundcloud->token = new OAuthConsumer(Session :: retrieve('soundcloud_request_token'), Session :: retrieve('soundcloud_request_token_secret'));
+                $access_token = $this->soundcloud->get_access_token($oauth_verifier);
+
+                if ($access_token)
+                {
+                    $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('oauth_token', $this->get_external_repository_instance_id());
+                    $user_setting = new ExternalRepositoryUserSetting();
+                    $user_setting->set_setting_id($setting->get_id());
+                    $user_setting->set_user_id(Session :: get_user_id());
+                    $user_setting->set_value($access_token['oauth_token']);
+                    $user_setting->create();
+
+                    $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('oauth_token_secret', $this->get_external_repository_instance_id());
+                    $user_setting = new ExternalRepositoryUserSetting();
+                    $user_setting->set_setting_id($setting->get_id());
+                    $user_setting->set_user_id(Session :: get_user_id());
+                    $user_setting->set_value($access_token['oauth_token_secret']);
+                    $user_setting->create();
+
+                    Session :: unregister('soundcloud_request_token');
+                    Session :: unregister('soundcloud_request_token_secret');
+                }
+            }
+        }
+        else
+        {
+            $this->soundcloud->token = new OAuthConsumer($outh_token, $outh_token_secret);
+        }
     }
 
     /**
@@ -119,7 +145,51 @@ class SoundcloudExternalRepositoryConnector extends ExternalRepositoryConnector
      */
     function retrieve_external_repository_objects($condition = null, $order_property, $offset, $count)
     {
-        return new ArrayResultSet(array());
+        $track_endpoint = $this->render_endpoint_url('tracks', array('limit' => $count, 'offset' => $offset));
+        $tracks = $this->soundcloud->request($track_endpoint);
+
+        $objects = array();
+
+        foreach (json_decode($tracks) as $track)
+        {
+            $object = new SoundcloudExternalRepositoryObject();
+            $object->set_id($track->id);
+            $object->set_external_repository_id($this->get_external_repository_instance_id());
+            $object->set_title($track->title);
+            $object->set_description($track->description);
+            $object->set_created(strtotime($track->created_at));
+            $object->set_modified(strtotime($track->created_at));
+            $object->set_owner_id($track->user->username);
+            $object->set_type($track->original_format);
+
+            $object->set_artwork($track->artwork_url);
+
+            $objects[] = $object;
+        }
+
+        return new ArrayResultSet($objects);
+    }
+
+    static function render_endpoint_url($endpoint, $parameters = array(), $format = 'json')
+    {
+        $url = array();
+        $url[] = $endpoint;
+        $url[] = '.';
+        $url[] = $format;
+
+        if (count($parameters) > 0)
+        {
+            $url[] = '?';
+
+            foreach ($parameters as $key => $value)
+            {
+                $url[] = urlencode($key);
+                $url[] = '=';
+                $url[] = urlencode($value);
+            }
+        }
+
+        return implode('', $url);
     }
 
     /**
@@ -128,7 +198,7 @@ class SoundcloudExternalRepositoryConnector extends ExternalRepositoryConnector
      */
     function count_external_repository_objects($condition)
     {
-        return 0;
+        return 50;
     }
 
     /**
@@ -185,7 +255,24 @@ class SoundcloudExternalRepositoryConnector extends ExternalRepositoryConnector
      */
     function retrieve_external_repository_object($id)
     {
+        $resource = 'tracks/' . $id;
+        $track_endpoint = $this->render_endpoint_url($resource, array('limit' => $count, 'offset' => $offset));
+        $track = json_decode($this->soundcloud->request($track_endpoint));
+
+//        dump($track);
+
         $object = new SoundcloudExternalRepositoryObject();
+        $object->set_id($track->id);
+        $object->set_external_repository_id($this->get_external_repository_instance_id());
+        $object->set_title($track->title);
+        $object->set_description($track->description);
+        $object->set_created(strtotime($track->created_at));
+        $object->set_modified(strtotime($track->created_at));
+        $object->set_owner_id($track->user->username);
+        $object->set_type($track->original_format);
+
+        $object->set_artwork($track->artwork_url);
+
         return $object;
     }
 

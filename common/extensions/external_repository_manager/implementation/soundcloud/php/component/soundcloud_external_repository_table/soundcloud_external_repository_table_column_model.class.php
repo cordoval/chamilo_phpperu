@@ -26,7 +26,6 @@ class SoundcloudExternalRepositoryTableColumnModel extends DefaultExternalReposi
     {
         parent :: __construct();
         $this->set_default_order_column(1);
-        $this->add_column(new ObjectTableColumn(SoundcloudExternalRepositoryObject :: PROPERTY_LICENSE));
         $this->add_column(self :: get_modification_column());
     }
 
