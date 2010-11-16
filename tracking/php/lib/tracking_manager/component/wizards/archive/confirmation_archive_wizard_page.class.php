@@ -2,6 +2,7 @@
 namespace tracking;
 
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: confirmation_archive_wizard_page.class.php 213 2009-11-13 13:38:50Z vanpouckesven $
@@ -71,8 +72,8 @@ class ConfirmationArchiveWizardPage extends ArchiveWizardPage
         $this->addElement('html', '<div style="margin-top: 3px">' . Translation :: get('End_date') . ': ' . $enddate . ' 23:59:59</div>');
         $this->addElement('html', '<div style="margin-top: 3px">' . Translation :: get('Period') . ': ' . $period . ' ' . Translation :: get('Days') . '</div>');
 
-        $prevnext[] = $this->createElement('style_submit_button', $this->getButtonName('back'), '<< ' . Translation :: get('Previous'), array('class' => 'previous'));
-        $prevnext[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Confirm') . ' >>', array('class' => 'positive finish'));
+        $prevnext[] = $this->createElement('style_submit_button', $this->getButtonName('back'), '<< ' . Translation :: get('Previous', null, Utilities :: COMMON_LIBRARIES), array('class' => 'previous'));
+        $prevnext[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Confirm', null, Utilities :: COMMON_LIBRARIES) . ' >>', array('class' => 'positive finish'));
         $this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
         $this->setDefaultAction('next');
     }

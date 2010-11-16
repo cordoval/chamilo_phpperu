@@ -2,6 +2,7 @@
 namespace repository\content_object\blog;
 
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Utilities;
 use common\libraries\Theme;
@@ -66,7 +67,7 @@ class PersonalBlogLayout extends BlogLayout
         if (count($attachments))
         {
             $html[] = '<div class="attachments">';
-            $html[] = '<div class="attachments_title">' . htmlentities(Translation :: get('Attachments')) . '</div>';
+            $html[] = '<div class="attachments_title">' . htmlentities(Translation :: get('Attachements', null, Utilities :: COMMON_LIBRARIES)) . '</div>';
             Utilities :: order_content_objects_by_title($attachments);
             $html[] = '<ul class="attachments_list">';
 

@@ -5,6 +5,7 @@ use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\Theme;
 use common\libraries\ResourceManager;
+use common\libraries\Utilities;
 
 /**
  * $Id: trackers_selection_archive_wizard_page.class.php 213 2009-11-13 13:38:50Z vanpouckesven $
@@ -79,9 +80,9 @@ class TrackersSelectionArchiveWizardPage extends ArchiveWizardPage
         $this->add_js_functions();
         $this->setDefaults($defaults);
 
-        //$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< ' . Translation :: get('Previous'), 'style=\'margin-top: 20px;\'');
-        //$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next') . ' >>', 'style=\'margin-top: 20px;\'');
-        $prevnext[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next') . ' >>', array('class' => 'next'));
+        //$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< ' . Translation :: get('Previous', null, Utilities :: COMMON_LIBRARIES), 'style=\'margin-top: 20px;\'');
+        //$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next', null, Utilities :: COMMON_LIBRARIES) . ' >>', 'style=\'margin-top: 20px;\'');
+        $prevnext[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next', null, Utilities :: COMMON_LIBRARIES) . ' >>', array('class' => 'next'));
         $this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 
         $this->setDefaultAction('next');

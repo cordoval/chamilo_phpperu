@@ -2,6 +2,7 @@
 namespace repository\content_object\feedback;
 
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 use repository\ContentObjectForm;
 
@@ -19,7 +20,7 @@ class FeedbackForm extends ContentObjectForm
     protected function build_creation_form()
     {
         parent :: build_creation_form();
-        $this->addElement('category', Translation :: get('Properties'));
+        $this->addElement('category', Translation :: get('Properties', null, Utilities :: COMMON_LIBRARIES));
         $this->addElement('select', Feedback :: PROPERTY_ICON, Translation :: get('icon'), Feedback :: get_possible_icons());
         $this->addElement('category');
     }
@@ -27,7 +28,7 @@ class FeedbackForm extends ContentObjectForm
     protected function build_editing_form()
     {
         parent :: build_editing_form();
-        $this->addElement('category', Translation :: get('Properties'));
+        $this->addElement('category', Translation :: get('Properties', null, Utilities :: COMMON_LIBRARIES));
         $this->addElement('select', Feedback :: PROPERTY_ICON, Translation :: get('icon'), Feedback :: get_possible_icons());
         $this->addElement('category');
     }

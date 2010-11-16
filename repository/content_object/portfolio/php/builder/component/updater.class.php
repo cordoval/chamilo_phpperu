@@ -77,7 +77,7 @@ class PortfolioBuilderUpdaterComponent extends PortfolioBuilder
 
             $parameters[PortfolioBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID] = null;
 
-            $this->redirect(Translation :: get('ContentObjectUpdated'), false, array_merge($parameters, array(PortfolioBuilder :: PARAM_BUILDER_ACTION => PortfolioBuilder :: ACTION_BROWSE)));
+            $this->redirect(Translation :: get('ContentObjectUpdated', null, Utilities :: COMMON_LIBRARIES), false, array_merge($parameters, array(PortfolioBuilder :: PARAM_BUILDER_ACTION => PortfolioBuilder :: ACTION_BROWSE)));
         }
         else
         {

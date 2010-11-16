@@ -2,6 +2,7 @@
 namespace repository\content_object\blog;
 
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\ActionBarRenderer;
@@ -51,7 +52,7 @@ class BlogDisplayViewerComponent extends BlogDisplay implements DelegateComponen
 
         if($this->is_allowed(ADD_RIGHT))
         {
-        	$action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateItem'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM, ComplexDisplay :: PARAM_TYPE => BlogItem :: get_type_name())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        	$action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateItem', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM, ComplexDisplay :: PARAM_TYPE => BlogItem :: get_type_name())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
 
         return $action_bar;
