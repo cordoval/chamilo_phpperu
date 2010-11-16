@@ -4,6 +4,7 @@ namespace repository;
 use common\libraries\Translation;
 use common\libraries\Theme;
 use common\libraries\CoreApplication;
+use home\HomeManager;
 
 /**
  * $Id: linker.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -24,7 +25,7 @@ class RepositoryLinker extends RepositoryBlock
         if (! isset($object_id) || $object_id == 0)
         {
             $html[] = $this->display_header();
-            $html[] = Translation :: get('ConfigureBlockFirst');
+            $html[] = Translation :: get('ConfigureBlockFirst', null, HomeManager :: APPLICATION_NAME);
             $html[] = $this->display_footer();
         }
         else

@@ -27,26 +27,31 @@ if ($user_home_allowed && Authentication :: is_valid())
         if ($tab->delete())
         {
             $json_result['success'] = '1';
-            $json_result['message'] = Translation :: get('TabDeleted');
+            $json_result['message'] = translate('TabDeleted');
         }
         else
         {
             $json_result['success'] = '0';
-            $json_result['message'] = Translation :: get('TabNotDeleted');
+            $json_result['message'] = translate('TabNotDeleted');
         }
     }
     else
     {
         $json_result['success'] = '0';
-        $json_result['message'] = Translation :: get('TabNotDeleted');
+        $json_result['message'] = translate('TabNotDeleted');
     }
 }
 else
 {
     $json_result['success'] = '0';
-    $json_result['message'] = Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES);
+    $json_result['message'] = translate('NotAllowed', null, Utilities :: COMMON_LIBRARIES);
 }
 
 // Return a JSON object
 echo json_encode($json_result);
+
+function translate($variable)
+{
+    return Translation :: get($variable, null, __NAMESPACE__);
+}
 ?>
