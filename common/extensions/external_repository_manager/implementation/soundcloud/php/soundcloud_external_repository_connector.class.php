@@ -145,26 +145,19 @@ class SoundcloudExternalRepositoryConnector extends ExternalRepositoryConnector
      */
     function retrieve_external_repository_objects($condition = null, $order_property, $offset, $count)
     {
-        $track_endpoint = $this->render_endpoint_url('tracks', array('limit' => $count, 'offset' => $offset));
+        $track_endpoint = $this->render_endpoint_url('tracks', array(
+                'q' => $condition,
+                'filter' => 'streamable',
+                'limit' => $count,
+                'offset' => $offset));
+
         $tracks = $this->soundcloud->request($track_endpoint);
 
         $objects = array();
 
         foreach (json_decode($tracks) as $track)
         {
-            $object = new SoundcloudExternalRepositoryObject();
-            $object->set_id($track->id);
-            $object->set_external_repository_id($this->get_external_repository_instance_id());
-            $object->set_title($track->title);
-            $object->set_description($track->description);
-            $object->set_created(strtotime($track->created_at));
-            $object->set_modified(strtotime($track->created_at));
-            $object->set_owner_id($track->user->username);
-            $object->set_type($track->original_format);
-
-            $object->set_artwork($track->artwork_url);
-
-            $objects[] = $object;
+            $objects[] = $this->get_track($track);
         }
 
         return new ArrayResultSet($objects);
@@ -181,12 +174,13 @@ class SoundcloudExternalRepositoryConnector extends ExternalRepositoryConnector
         {
             $url[] = '?';
 
+            $url_parameters = array();
             foreach ($parameters as $key => $value)
             {
-                $url[] = urlencode($key);
-                $url[] = '=';
-                $url[] = urlencode($value);
+                $url_parameters[] = urlencode($key) . '=' . urlencode($value);
             }
+
+            $url[] = implode('&', $url_parameters);
         }
 
         return implode('', $url);
@@ -256,24 +250,30 @@ class SoundcloudExternalRepositoryConnector extends ExternalRepositoryConnector
     function retrieve_external_repository_object($id)
     {
         $resource = 'tracks/' . $id;
-        $track_endpoint = $this->render_endpoint_url($resource, array('limit' => $count, 'offset' => $offset));
-        $track = json_decode($this->soundcloud->request($track_endpoint));
+        $track_endpoint = $this->render_endpoint_url($resource);
+        $response = json_decode($this->soundcloud->request($track_endpoint));
 
-//        dump($track);
+        return $this->get_track($response);
+    }
 
-        $object = new SoundcloudExternalRepositoryObject();
-        $object->set_id($track->id);
-        $object->set_external_repository_id($this->get_external_repository_instance_id());
-        $object->set_title($track->title);
-        $object->set_description($track->description);
-        $object->set_created(strtotime($track->created_at));
-        $object->set_modified(strtotime($track->created_at));
-        $object->set_owner_id($track->user->username);
-        $object->set_type($track->original_format);
+    function get_track($object)
+    {
+        $track = new SoundcloudExternalRepositoryObject();
+        $track->set_id($object->id);
+        $track->set_external_repository_id($this->get_external_repository_instance_id());
+        $track->set_title($object->title);
+        $track->set_description($object->description);
+        $track->set_created(strtotime($object->created_at));
+        $track->set_modified(strtotime($object->created_at));
+        $track->set_owner_id($object->user->username);
+        $track->set_type($object->original_format);
 
-        $object->set_artwork($track->artwork_url);
+        $track->set_artwork($object->artwork_url);
+        $track->set_license($object->license);
 
-        return $object;
+        $track->set_rights($this->determine_rights($object->license, $object->user->username));
+
+        return $track;
     }
 
     /**
@@ -308,9 +308,9 @@ class SoundcloudExternalRepositoryConnector extends ExternalRepositoryConnector
      * @param string $photo_user_id
      * @return boolean
      */
-    function determine_rights($license, $photo_user_id)
+    function determine_rights($license, $track_user_id)
     {
-        $users_match = ($this->retrieve_user_id() == $photo_user_id ? true : false);
+        $users_match = ($this->retrieve_user_id() == $track_user_id ? true : false);
         //$compatible_license = ($license == 0 ? false : true);
         $compatible_license = true;
 
@@ -321,6 +321,13 @@ class SoundcloudExternalRepositoryConnector extends ExternalRepositoryConnector
         $rights[ExternalRepositoryObject :: RIGHT_DOWNLOAD] = $compatible_license || $users_match;
 
         return $rights;
+    }
+
+    function retrieve_user_id()
+    {
+        $track_endpoint = $this->render_endpoint_url('me');
+        $user = json_decode($this->soundcloud->request($track_endpoint));
+        return $user->username;
     }
 
     /**

@@ -7,6 +7,7 @@ use common\libraries\ToolbarItem;
 use common\libraries\Translation;
 use common\libraries\Theme;
 use common\libraries\Request;
+use common\libraries\ActionBarSearchForm;
 
 require_once dirname(__FILE__) . '/external_repository_browser_gallery_table/external_repository_browser_gallery_table.class.php';
 require_once dirname(__FILE__) . '/external_repository_browser_table/external_repository_browser_table.class.php';
