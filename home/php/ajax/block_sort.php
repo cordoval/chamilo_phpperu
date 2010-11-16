@@ -54,7 +54,7 @@ if ($user_home_allowed && Authentication :: is_valid())
     }
 
     $json_result['success'] = '1';
-    $json_result['message'] = Translation :: get('BlockAdded');
+    $json_result['message'] = translate('BlockAdded');
 }
 else
 {
@@ -64,4 +64,9 @@ else
 
 // Return a JSON object
 echo json_encode($json_result);
+
+function translate($variable)
+{
+    return Translation :: get($variable, null, __NAMESPACE__);
+}
 ?>

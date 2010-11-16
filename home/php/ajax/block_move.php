@@ -26,12 +26,12 @@ if ($user_home_allowed && Authentication :: is_valid())
     if ($block->update())
     {
         $json_result['success'] = '1';
-        $json_result['message'] = Translation :: get('BlockMovedToTab');
+        $json_result['message'] = translate('BlockMovedToTab');
     }
     else
     {
         $json_result['success'] = '0';
-        $json_result['message'] = Translation :: get('BlockNotMovedToTab');
+        $json_result['message'] = translate('BlockNotMovedToTab');
     }
 }
 else
@@ -42,4 +42,9 @@ else
 
 // Return a JSON object
 echo json_encode($json_result);
+
+function translate($variable)
+{
+    return Translation :: get($variable, null, __NAMESPACE__);
+}
 ?>
