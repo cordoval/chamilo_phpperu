@@ -33,7 +33,7 @@ class SoundcloudExternalRepositoryObjectDisplay extends ExternalRepositoryObject
 
         if ($object->get_track_type())
         {
-            $properties[Translation :: get('TrackType')] = $object->get_track_type();
+            $properties[Translation :: get('TrackType')] = $object->get_track_type_string();
         }
 
         if ($object->get_bpm())
