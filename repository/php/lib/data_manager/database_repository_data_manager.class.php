@@ -2124,5 +2124,25 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
         return $this->retrieve_object(ContentObjectGroupShare :: get_table_name(), $condition, array(), ContentObjectGroupShare :: CLASS_NAME);
     }
+
+    function retrieve_active_external_repositories($types = array())
+    {
+        $conditions = array();
+        $conditions[] = new EqualityCondition(ExternalRepository :: PROPERTY_ENABLED, 1);
+
+        if (!is_array($types))
+        {
+            $types = array($types);
+        }
+
+        if(count($types) > 0)
+        {
+            $conditions[] = new InCondition(ExternalRepository :: PROPERTY_TYPE, $types);
+        }
+
+        $condition = new AndCondition($conditions);
+
+        return $this->retrieve_external_repositories($condition);
+    }
 }
 ?>

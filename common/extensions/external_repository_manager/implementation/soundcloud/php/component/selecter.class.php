@@ -1,10 +1,10 @@
 <?php
-namespace common\extensions\external_repository_manager\implementation\youtube;
+namespace common\extensions\external_repository_manager\implementation\soundcloud;
 
 use common\libraries\Request;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 
-class YoutubeExternalRepositoryManagerSelecterComponent extends YoutubeExternalRepositoryManager
+class SoundcloudExternalRepositoryManagerSelecterComponent extends SoundcloudExternalRepositoryManager
 {
 
     function run()
@@ -15,9 +15,9 @@ class YoutubeExternalRepositoryManagerSelecterComponent extends YoutubeExternalR
 
         $html = array();
         $html[] = '<script type="text/javascript">';
-        $html[] = 'window.opener.$("input[name=url]").val("http://www.youtube.com/watch?v=' . addslashes($object->get_id()) . '");';
+        $html[] = 'window.opener.$("input[name=track_id]").val("' . $object->get_id() . '");';
         $html[] = 'window.opener.$("input#title").val("' . addslashes($object->get_title()) . '");';
-        $description = preg_replace('/((\\\\n)+)/', "$1\"+\n\"", preg_replace("/(\r\n|\n)/", '\\n', addslashes($object->get_description())));
+        $description = preg_replace('/((\\\\n)+)/', "$1\"+\n\"", preg_replace("/(\r\n|\n)/", '\\n', addslashes(nl2br($object->get_description()))));
         $html[] = 'window.opener.$("textarea[name=description]").val("' . $description . '");';
         $html[] = 'window.close();';
         $html[] = '</script>';
