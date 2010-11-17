@@ -1,7 +1,10 @@
-<?php namespace application\survey;
+<?php
 
-require_once Path :: get_application_path() . 'lib/survey/reporting_manager/component/publication_rel_reporting_template_table/table.class.php';
-require_once Path :: get_application_path() . 'lib/survey/reporting_manager/component/reporting_template_table/table.class.php';
+namespace application\survey;
+
+use common\libraries\Path;
+use common\libraries\WebApplication;
+use common\libraries\SubManager;
 
 class SurveyExportManager extends SubManager
 {

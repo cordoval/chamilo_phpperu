@@ -2,9 +2,10 @@
 namespace application\survey;
 
 use repository\content_object\survey_description\SurveyDescription;
+use common\libraries\Path;
+use common\libraries\WizardPageValidator;
 
-require_once dirname(__FILE__) . '/../survey_publication.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/survey/analyzer/analyzer.class.php';
+require_once Path :: get_repository_content_object_path() . 'survey/php/analyzer/analyzer.class.php';
 
 class SurveyReportingFilterWizard extends WizardPageValidator
 {

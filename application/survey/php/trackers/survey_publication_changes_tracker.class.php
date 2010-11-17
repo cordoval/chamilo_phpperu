@@ -1,4 +1,8 @@
 <?php
+namespace application\survey;
+
+use tracking\ChangesTracker;
+
 /**
  * @package application.lib.survey.trackers
  */
