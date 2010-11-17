@@ -544,7 +544,7 @@ abstract class ContentObjectPublicationListRenderer
      */
     function format_date($date)
     {
-        $date_format = Translation :: get('dateTimeFormatLong');
+        $date_format = Translation :: get('dateTimeFormatLong', null, Utilities :: COMMON_LIBRARIES);
         return DatetimeUtilities :: format_locale_date($date_format, $date);
     }
 
@@ -701,7 +701,7 @@ abstract class ContentObjectPublicationListRenderer
         $details_url = $this->get_url(array(
                 Tool :: PARAM_PUBLICATION_ID => $publication->get_id(),
                 Tool :: PARAM_ACTION => Tool :: ACTION_VIEW));
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Details'), Theme :: get_common_image_path() . 'action_details.png', $details_url, ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Details', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_details.png', $details_url, ToolbarItem :: DISPLAY_ICON));
 
         if ($publication->get_content_object() instanceof ComplexContentObjectSupport)
         {
@@ -710,15 +710,15 @@ abstract class ContentObjectPublicationListRenderer
 
         if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT, $publication->get_id()))
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_url(array(
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->get_url(array(
                     Tool :: PARAM_ACTION => Tool :: ACTION_UPDATE,
                     Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
 
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_url(array(
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->get_url(array(
                     Tool :: PARAM_ACTION => Tool :: ACTION_DELETE,
                     Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON, true));
 
-            $toolbar->add_item(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_url(array(
+            $toolbar->add_item(new ToolbarItem(Translation :: get('ManageRights', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_rights.png', $this->get_url(array(
                     Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_RIGHTS,
                     Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
 
@@ -731,26 +731,26 @@ abstract class ContentObjectPublicationListRenderer
             {
                 if ($publication->get_display_order_index() > 1)
                 {
-                    $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUp'), Theme :: get_common_image_path() . 'action_up.png', $this->get_url(array(
+                    $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUp', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_up.png', $this->get_url(array(
                             Tool :: PARAM_ACTION => Tool :: ACTION_MOVE,
                             Tool :: PARAM_PUBLICATION_ID => $publication->get_id(),
                             Tool :: PARAM_MOVE_DIRECTION => Tool :: PARAM_MOVE_DIRECTION_UP)), ToolbarItem :: DISPLAY_ICON));
                 }
                 else
                 {
-                    $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUpNA'), Theme :: get_common_image_path() . 'action_up_na.png', null, ToolbarItem :: DISPLAY_ICON));
+                    $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUpNA', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_up_na.png', null, ToolbarItem :: DISPLAY_ICON));
                 }
 
                 if ($publication->get_display_order_index() < $this->get_publication_count())
                 {
-                    $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDown'), Theme :: get_common_image_path() . 'action_down.png', $this->get_url(array(
+                    $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDown', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_down.png', $this->get_url(array(
                             Tool :: PARAM_ACTION => Tool :: ACTION_MOVE,
                             Tool :: PARAM_PUBLICATION_ID => $publication->get_id(),
                             Tool :: PARAM_MOVE_DIRECTION => Tool :: PARAM_MOVE_DIRECTION_DOWN)), ToolbarItem :: DISPLAY_ICON));
                 }
                 else
                 {
-                    $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDownNA'), Theme :: get_common_image_path() . 'action_down_na.png', null, ToolbarItem :: DISPLAY_ICON));
+                    $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDownNA', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_down_na.png', null, ToolbarItem :: DISPLAY_ICON));
                 }
             }
 
@@ -771,11 +771,11 @@ abstract class ContentObjectPublicationListRenderer
                 $visibility_url = '#';
             }
 
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Visible'), Theme :: get_common_image_path() . $visibility_image, $visibility_url, ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Visible', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . $visibility_image, $visibility_url, ToolbarItem :: DISPLAY_ICON));
 
             if ($this->get_tool_browser()->get_parent() instanceof Categorizable)
             {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('Move'), Theme :: get_common_image_path() . 'action_move.png', $this->get_url(array(
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Move', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_move.png', $this->get_url(array(
                         Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_TO_CATEGORY,
                         Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
             }

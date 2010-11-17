@@ -41,7 +41,7 @@ class ConfirmationMaintenanceWizardPage extends MaintenanceWizardPage
     {
         $this->addElement('static', '', '', $this->message);
         $this->addElement('checkbox', 'confirm', ' ', Translation :: get('Confirm', null, Utilities :: COMMON_LIBRARIES));
-        $this->addRule('confirm', Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule('confirm', Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         $prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< ' . Translation :: get('Previous', null, Utilities :: COMMON_LIBRARIES));
         $prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next', null, Utilities :: COMMON_LIBRARIES) . ' >>');
         $this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
