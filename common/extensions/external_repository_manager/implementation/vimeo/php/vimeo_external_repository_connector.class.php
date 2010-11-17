@@ -1,6 +1,8 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\vimeo;
 
+use common\libraries;
+
 use common\libraries\Path;
 use common\libraries\Request;
 use common\libraries\Redirect;
@@ -20,7 +22,6 @@ use phpVimeo;
 require_once Path :: get_plugin_path() . 'phpvimeo/vimeo.php';
 require_once dirname(__FILE__) . '/vimeo_external_repository_object.class.php';
 
-
 /**
  * Consumer Key: 69950a3f3ed038479b4b65ffde049f1d
  * Consumer Secret: a84782d0ca686c59
@@ -36,7 +37,7 @@ class VimeoExternalRepositoryConnector extends ExternalRepositoryConnector
     private $vimeo;
     private $consumer_key;
     private $consumer_secret;
-    private $vimeo_session;
+    private $token;
 
     /**
      * @param ExternalRepository $external_repository_instance
@@ -56,25 +57,25 @@ class VimeoExternalRepositoryConnector extends ExternalRepositoryConnector
         {
             if (! $_SESSION['request_token'])
             {
-                $this->vimeo->auth('read');
+                $this->vimeo->auth('delete', Redirect :: current_url());
             }
             else
             {
                 $this->vimeo->setToken($_SESSION['request_token'], $_SESSION['request_token_secret'], 'access', true);
-                $token = $this->vimeo->getAccessToken($_GET['oauth_verifier']);
-                
+              
+                $this->token = $this->vimeo->getAccessToken($_GET['oauth_verifier']);
                 $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('oauth_token', $this->get_external_repository_instance_id());
                 $user_setting = new ExternalRepositoryUserSetting();
                 $user_setting->set_setting_id($setting->get_id());
                 $user_setting->set_user_id(Session :: get_user_id());
-                $user_setting->set_value($token['oauth_token']);
+                $user_setting->set_value($this->token['oauth_token']);
                 $user_setting->create();
                 
                 $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('oauth_token_secret', $this->get_external_repository_instance_id());
                 $user_setting = new ExternalRepositoryUserSetting();
                 $user_setting->set_setting_id($setting->get_id());
                 $user_setting->set_user_id(Session :: get_user_id());
-                $user_setting->set_value($token['oauth_token_secret']);
+                $user_setting->set_value($this->token['oauth_token_secret']);
                 $user_setting->create();
             }
         }
@@ -96,7 +97,7 @@ class VimeoExternalRepositoryConnector extends ExternalRepositoryConnector
             self :: $instance[$instance_id] = new VimeoExternalRepositoryConnector($instance_id);
         }
         return self :: $instance[$instance_id];
-    } 
+    }
 
     /**
      * @param mixed $condition
@@ -107,18 +108,19 @@ class VimeoExternalRepositoryConnector extends ExternalRepositoryConnector
      */
     function retrieve_videos($condition = null, $order_property, $offset, $count)
     {
-    	$feed_type = Request :: get(VimeoExternalRepositoryManager :: PARAM_FEED_TYPE);
+        $feed_type = Request :: get(VimeoExternalRepositoryManager :: PARAM_FEED_TYPE);
         
         $offset = (($offset - ($offset % $count)) / $count) + 1;
-        $attributes = 'description,upload_date,owner';
+        $attributes = 'description,upload_date,modified_date,owner';
         
         $search_parameters = array();
-        $search_parameters['api_key'] = $this->consumer_key;
+        //        $search_parameters['api_key'] = $this->consumer_key;
         $search_parameters['per_page'] = $count;
         $search_parameters['page'] = $offset;
-        $search_parameters['text'] = $condition;
-        $search_parameters['extras'] = $attributes;
+        //        $search_parameters['text'] = $condition;
+        //        $search_parameters['extras'] = $attributes;
         
+
         if ($order_property)
         {
             
@@ -131,7 +133,7 @@ class VimeoExternalRepositoryConnector extends ExternalRepositoryConnector
         }
         
         $videos = $this->vimeo->call('vimeo.videos.getAll', array('user_id' => '4744622'));
-
+        
         //        switch ($feed_type)
         //        {
         //            case FlickrExternalRepositoryManager :: FEED_TYPE_GENERAL :
@@ -164,65 +166,74 @@ class VimeoExternalRepositoryConnector extends ExternalRepositoryConnector
      */
     function retrieve_external_repository_objects($condition = null, $order_property, $offset, $count)
     {
-            $videos = $this->retrieve_videos($condition, $order_property, $offset, $count);
-            $objects = array();
+        $videos = $this->retrieve_videos($condition, $order_property, $offset, $count);
+        $videos_id = array();
+        foreach ($videos->videos->video as $video)
+        {
+            $videos_id[] = $video->id;
+        }
+        
+        $videos_info = array();
+        foreach ($videos_id as $video_id)
+        {
+            $videos_info[] = $this->vimeo->call('vimeo.videos.getInfo', array('video_id' => $video_id));
+        }
+        
+        $objects = array();
+        foreach ($videos_info as $video_info)
+        {
+            $video = $video_info->video[0];
+            $object = new VimeoExternalRepositoryObject();
+            $object->set_external_repository_id($this->get_external_repository_instance_id());
+            $object->set_id($video->id);
+            $object->set_title($video->title);
+            $object->set_description($video->description);
+            $object->set_created($video->upload_date);
+            $object->set_modified($video->modified_date);
+            $object->set_duration($video->duration);
+            $object->set_owner_id($video->owner->id);
+            $object->set_urls($video->urls->url[0]->_content);
+            $object->set_tags($video->tags->tag);
+            
+            $object->set_thumbnail($video->thumbnails->thumbnail[1]->_content);
+            
+            //            $video_urls = array();
+            //                            foreach (VimeoExternalRepositoryObject :: get_possible_sizes() as $key => $size)
+            //                {
+            //                    if (isset($video['url_' . $key]))
+            //                    {
+            //                        $video_urls[$size] = array('source' => $video['url_' . $key], 'width' => $video['width_' . $key], 'height' => $video['height_' . $key]);
+            //                    }
+            //                }
+            //                $object->set_urls($video_urls);
+            
 
-            foreach ($videos->videos->video as $video)
-            {
-                $object = new VimeoExternalRepositoryObject();
-                $object->set_id($video->id);
-                $object->set_external_repository_id($this->get_external_repository_instance_id());
-                $object->set_title($video->title);
-                $object->set_description($video->description);
-                $object->set_created($photo->upload_date);
-                $object->set_created($photo->modified_date);
-                $object->set_owner_id($photo->owner->realname);
-                
-                $video_urls = array();
-//                foreach (VimeoExternalRepositoryObject :: get_possible_sizes() as $key => $size)
-//                {
-//                    if (isset($video['url_' . $key]))
-//                    {
-//                        $video_urls[$size] = array('source' => $video['url_' . $key], 'width' => $video['width_' . $key], 'height' => $video['height_' . $key]);
-//                    }
-//                }
-//                $object->set_urls($video_urls);
-                
-                //            $photo_size = array();
-                //            $photo_size['source'] = $photo['url_sq'];
-                //            $photo_size['width'] = 75;
-                //            $photo_size['height'] = 75;
-                //
-                //            $object->set_urls(array('square' => $photo_size));
-                //
-                //            $photo_sizes = $this->flickr->photos_getSizes($photo['id']);
-                //            $photo_urls = array();
-                //
-                //            foreach ($photo_sizes as $photo_size)
-                //            {
-                //                $key = strtolower($photo_size['label']);
-                //                unset($photo_size['label']);
-                //                unset($photo_size['media']);
-                //                unset($photo_size['url']);
-                //                $photo_urls[$key] = $photo_size;
-                //            }
-                //            $object->set_urls($photo_urls);
-                
-    
-                //$object->set_license($licenses[$photo['license']]);
-                
-//                $types = array();
-//                $types[] = $video['media'];
-//                if (isset($video['originalformat']))
-//                {
-//                    $types[] = strtolower($video['originalformat']);
-//                }
-//                $object->set_type(implode('_', $types));
-//                //$object->set_rights($this->determine_rights($photo['license'], $photo['owner']));
-//                
-                $objects[] = $object;
-            }
-            return new ArrayResultSet($objects);
+            //                        $video_size = array();
+            //                        $video_size['source'] = $video->_content;
+            //                        $video_size['width'] = 75;
+            //                        $video_size['height'] = 75;
+            //            
+            //                        $object->set_urls(array('square' => $photo_size));
+            //            
+            //                        $photo_sizes = $this->flickr->photos_getSizes($photo['id']);
+            //                        $photo_urls = array();
+            //            
+            //                        foreach ($photo_sizes as $photo_size)
+            //                        {
+            //                            $key = strtolower($photo_size['label']);
+            //                            unset($photo_size['label']);
+            //                            unset($photo_size['media']);
+            //                            unset($photo_size['url']);
+            //                            $photo_urls[$key] = $photo_size;
+            //                        }
+            //                        $object->set_urls($photo_urls);
+            
+
+            //                //$object->set_rights($this->determine_rights($photo['license'], $photo['owner']));
+            $object->set_rights($this->determine_rights($video));
+            $objects[] = $object;
+        }
+        return new ArrayResultSet($objects);
     }
 
     /**
@@ -299,51 +310,27 @@ class VimeoExternalRepositoryConnector extends ExternalRepositoryConnector
      */
     function retrieve_external_repository_object($id)
     {
-        //$licenses = $this->retrieve_licenses();
-    //        $licenses = FlickrExternalRepositoryObject :: get_possible_licenses();
-    //        $photo = $this->flickr->photos_getInfo($id);
-    //        
-    //        $object = new FlickrExternalRepositoryObject();
-    //        $object->set_external_repository_id($this->get_external_repository_instance_id());
-    //        $object->set_id($photo['id']);
-    //        $object->set_title($photo['title']);
-    //        $object->set_description($photo['description']);
-    //        $object->set_created($photo['dateuploaded']);
-    //        $object->set_modified($photo['dates']['lastupdate']);
-    //        $object->set_owner_id($photo['owner']['username']);
-    //        
-    //        $tags = array();
-    //        foreach ($photo['tags']['tag'] as $tag)
-    //        {
-    //            $tags[] = array('display' => $tag['raw'], 'text' => $tag['_content']);
-    //        }
-    //        $object->set_tags($tags);
-    //        
-    //        $photo_sizes = $this->flickr->photos_getSizes($photo['id']);
-    //        $photo_urls = array();
-    //        
-    //        foreach ($photo_sizes as $photo_size)
-    //        {
-    //            $key = strtolower($photo_size['label']);
-    //            if (in_array($key, FlickrExternalRepositoryObject :: get_possible_sizes()))
-    //            {
-    //                unset($photo_size['label']);
-    //                unset($photo_size['media']);
-    //                unset($photo_size['url']);
-    //                $photo_urls[$key] = $photo_size;
-    //            }
-    //        }
-    //        
-    //        $object->set_urls($photo_urls);
-    //        $object->set_license($licenses[$photo['license']]);
-    //        
-    //        $types = array();
-    //        $types[] = $photo['media'];
-    //        if (isset($photo['originalformat']))
-    //        {
-    //            $types[] = strtolower($photo['originalformat']);
-    //        }
-    //        $object->set_type(implode('_', $types));
+        $video = $this->vimeo->call('vimeo.videos.getInfo', array('video_id' => $id));
+        $video = $video->video[0];
+        
+        $object = new VimeoExternalRepositoryObject();
+        $object->set_external_repository_id($this->get_external_repository_instance_id());
+        $object->set_id($video->id);
+        $object->set_title($video->title);
+        $object->set_description($video->description);
+        $object->set_created($video->upload_date);
+        $object->set_modified($video->modified_date);
+        $object->set_duration($video->duration);
+        $object->set_owner_id($video->owner->id);
+        $object->set_urls($video->urls->url[0]->_content);
+        $object->set_tags($video->tags->tag);
+        
+        $object->set_thumbnail($video->thumbnails->thumbnail[2]->_content);
+        
+        $object->set_rights($this->determine_rights($video));
+        
+        return $object;
+        
     //        
     //        $object->set_rights($this->determine_rights($photo['license'], $photo['owner']['nsid']));
     //        
@@ -356,26 +343,33 @@ class VimeoExternalRepositoryConnector extends ExternalRepositoryConnector
      */
     function update_external_repository_object($values)
     {
-        $success = $this->flickr->photos_setMeta($values[FlickrExternalRepositoryObject :: PROPERTY_ID], $values[FlickrExternalRepositoryObject :: PROPERTY_TITLE], $values[FlickrExternalRepositoryObject :: PROPERTY_DESCRIPTION]);
-        
-        if (! $success)
-        {
-            return false;
-        }
-        else
-        {
-            $tags = explode(',', $values[FlickrExternalRepositoryObject :: PROPERTY_TAGS]);
-            $tags = '"' . implode('" "', $tags) . '"';
-            
-            $success = $this->flickr->photos_setTags($values[FlickrExternalRepositoryObject :: PROPERTY_ID], $tags);
-            
-            if (! $success)
-            {
-                return false;
-            }
-        }
-        
-        return true;
+    	$response = $this->vimeo->call('vimeo.videos.setDescription', array('description' => $values['description'], 'video_id' => $values['id']));
+    	if (! $response->stat == 'ok')
+    	{
+    		return false;
+    	}
+    	else
+    	{    		
+    		$response = $this->vimeo->call('vimeo.videos.setTitle', array('title' => $values['title'], 'video_id' => $values['id']));
+    		if (! $response->stat == 'ok')
+    		{
+    			return false;
+    		}
+    		else
+    		{
+    			$response = $this->vimeo->call('vimeo.videos.clearTags', array('video_id' => $values['id']));
+    			if ($response->stat == 'ok')
+    			{
+    				$response = $this->vimeo->call('vimeo.videos.addTags', array('video_id' => $values['id'], 'tags' => $values['tags']));
+    				if (! $response->stat == 'ok')
+    				{
+    					return false;
+    				}
+    				
+    			}
+    			return true;
+    		}
+    	}
     }
 
     /**
@@ -404,19 +398,14 @@ class VimeoExternalRepositoryConnector extends ExternalRepositoryConnector
      * @param int $license
      * @param string $photo_user_id
      * @return boolean
-     */
-    function determine_rights($license, $photo_user_id)
+     */    
+    function determine_rights($video_entry)
     {
-        $users_match = ($this->retrieve_user_id() == $photo_user_id ? true : false);
-        //$compatible_license = ($license == 0 ? false : true);
-        $compatible_license = true;
-        
         $rights = array();
-        $rights[ExternalRepositoryObject :: RIGHT_USE] = $compatible_license || $users_match;
-        $rights[ExternalRepositoryObject :: RIGHT_EDIT] = $users_match;
-        $rights[ExternalRepositoryObject :: RIGHT_DELETE] = $users_match;
-        $rights[ExternalRepositoryObject :: RIGHT_DOWNLOAD] = $compatible_license || $users_match;
-        
+        $rights[ExternalRepositoryObject :: RIGHT_USE] = true;
+        $rights[ExternalRepositoryObject :: RIGHT_EDIT] = true;
+        $rights[ExternalRepositoryObject :: RIGHT_DELETE] = true;
+        $rights[ExternalRepositoryObject :: RIGHT_DOWNLOAD] = false;
         return $rights;
     }
 
@@ -426,7 +415,7 @@ class VimeoExternalRepositoryConnector extends ExternalRepositoryConnector
      */
     function delete_external_repository_object($id)
     {
-        return $this->flickr->photos_delete($id);
+        return $this->vimeo->call('vimeo.videos.delete', array('video_id' => $id));
     }
 }
 ?>
