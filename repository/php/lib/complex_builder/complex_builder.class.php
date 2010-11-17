@@ -105,7 +105,7 @@ abstract class ComplexBuilder extends SubManager
 
         if (! file_exists($file))
         {
-            throw new Exception(Translation :: get('ComplexBuilderTypeDoesNotExist', array('type' => $type)));
+            throw new Exception(Translation :: get('ComplexBuilderTypeDoesNotExist', array('TYPE' => $type)));
         }
 
         require_once $file;
