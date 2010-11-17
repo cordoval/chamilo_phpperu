@@ -36,17 +36,20 @@ class ExternalRepositoryInstanceManagerCreatorComponent extends ExternalReposito
 
         if ($type && ExternalRepositoryManager :: exists($type))
         {
-        	$external_repository = new ExternalRepository();
+            $external_repository = new ExternalRepository();
             $external_repository->set_type($type);
-            $form = new ExternalRepositoryForm(ExternalRepositoryForm :: TYPE_CREATE, $external_repository, $this->get_url(array(ExternalRepositoryInstanceManager :: PARAM_EXTERNAL_REPOSITORY_TYPE => $type)));
+            $form = new ExternalRepositoryForm(ExternalRepositoryForm :: TYPE_CREATE, $external_repository, $this->get_url(array(
+                    ExternalRepositoryInstanceManager :: PARAM_EXTERNAL_REPOSITORY_TYPE => $type)));
             if ($form->validate())
             {
-            	$success = $form->create_external_repository();
-                $this->redirect(Translation :: get($success ? 'ObjectAdded' : 'ObjectNotAdded', array('OBJECT' => Translation :: get('ExternalRepository')), Utilities :: COMMON_LIBRARIES), ($success ? false : true), array(ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION => ExternalRepositoryInstanceManager :: ACTION_BROWSE_INSTANCES));
+                $success = $form->create_external_repository();
+                $this->redirect(Translation :: get($success ? 'ObjectAdded' : 'ObjectNotAdded', array(
+                        'OBJECT' => Translation :: get('ExternalRepository')), Utilities :: COMMON_LIBRARIES), ($success ? false : true), array(
+                        ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION => ExternalRepositoryInstanceManager :: ACTION_BROWSE_INSTANCES));
             }
             else
             {
-            	$this->display_header();
+                $this->display_header();
                 $form->display();
                 $this->display_footer();
             }
@@ -66,7 +69,8 @@ class ExternalRepositoryInstanceManagerCreatorComponent extends ExternalReposito
 
                 foreach ($repository_types['types'][$category] as $type => $name)
                 {
-                    $types_html[] = '<a href="' . $this->get_url(array(ExternalRepositoryInstanceManager :: PARAM_EXTERNAL_REPOSITORY_TYPE => $type)) . '"><div class="create_block" style="background-image: url(' . Theme :: get_image_path(ExternalRepositoryManager :: get_namespace($type)) . 'logo/48.png);">';
+                    $types_html[] = '<a href="' . $this->get_url(array(
+                            ExternalRepositoryInstanceManager :: PARAM_EXTERNAL_REPOSITORY_TYPE => $type)) . '"><div class="create_block" style="background-image: url(' . Theme :: get_image_path(ExternalRepositoryManager :: get_namespace($type)) . 'logo/48.png);">';
                     $types_html[] = $name;
                     $types_html[] = '</div></a>';
                 }
@@ -109,22 +113,22 @@ class ExternalRepositoryInstanceManagerCreatorComponent extends ExternalReposito
                 {
                     $section = $property->getAttribute('value');
                 }
-                elseif($property->getAttribute('name') == 'multiple')
+                elseif ($property->getAttribute('name') == 'multiple')
                 {
                     $multiple = $property->getAttribute('value');
                 }
             }
 
-            $condition = new EqualityCondition(ExternalRepository::PROPERTY_TYPE, $folder);
+            $condition = new EqualityCondition(ExternalRepository :: PROPERTY_TYPE, $folder);
             $count = $this->count_external_repositories($condition);
-            if (!$multiple && $count > 0)
+            if (! $multiple && $count > 0)
             {
                 continue;
             }
 
             if (! in_array($section, array_keys($sections)))
             {
-                $sections[$section] = Translation :: get('ExternalRepository' . Utilities :: underscores_to_camelcase($section));
+                $sections[$section] = Translation :: get('Category' . Utilities :: underscores_to_camelcase($section), null, ExternalRepositoryManager :: get_namespace());
             }
 
             if (! isset($types[$section]))
@@ -132,11 +136,12 @@ class ExternalRepositoryInstanceManagerCreatorComponent extends ExternalReposito
                 $types[$section] = array();
             }
 
-            $types[$section][$folder] = Translation :: get(Utilities :: underscores_to_camelcase($folder));
+            $types[$section][$folder] = Translation :: get('TypeName', null, ExternalRepositoryManager :: get_namespace($folder));
             asort($types[$section]);
         }
         asort($sections);
-        return array('sections' => $sections, 'types' => $types);
+        return array('sections' => $sections,
+                'types' => $types);
     }
 }
 ?>

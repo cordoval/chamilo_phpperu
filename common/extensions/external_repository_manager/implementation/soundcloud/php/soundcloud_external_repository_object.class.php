@@ -123,7 +123,7 @@ class SoundcloudExternalRepositoryObject extends ExternalRepositoryObject
         $track_types['loop'] = Translation :: get('Loop');
         $track_types['sound effect'] = Translation :: get('SoundEffect');
         $track_types['sample'] = Translation :: get('OneShotSample');
-        $track_types['other'] = Translation :: get('Other ');
+        $track_types['other'] = Translation :: get('Other');
 
         return $track_types;
     }

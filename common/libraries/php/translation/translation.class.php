@@ -14,6 +14,7 @@ class Translation
      */
     private static $instance;
     private static $called_class;
+    private static $recently_added;
 
     /**
      * Language strings defined in the language-files. Stored as an associative array.
@@ -175,7 +176,7 @@ class Translation
                 }
                 else
                 {
-                    if (! $value)
+                    if (! key_exists($variable, $strings[$language][$context]))
                     {
                         $this->add_variable_to_context_internationalization($language, $context, $variable);
                     }
@@ -214,23 +215,28 @@ class Translation
 
     function add_variable_to_context_internationalization($language, $context, $variable)
     {
-        $path = Path :: get(SYS_PATH) . Path :: namespace_to_path($context) . '/resources/i18n/' . $language . '.i18n';
-        if (is_writable($path))
+        if (! in_array($variable, self :: $recently_added[$language][$context]))
         {
-            if (! $handle = fopen($path, 'a'))
+            $path = Path :: get(SYS_PATH) . Path :: namespace_to_path($context) . '/resources/i18n/' . $language . '.i18n';
+            if (is_writable($path))
             {
-                return;
+                if (! $handle = fopen($path, 'a'))
+                {
+                    return;
+                }
+
+                $string = "\n" . $variable . ' = ""';
+
+                // Write $somecontent to our opened file
+                if (fwrite($handle, $string) === FALSE)
+                {
+                    return;
+                }
+
+                fclose($handle);
+
+                self :: $recently_added[$language][$context][] = $variable;
             }
-
-            $string = $variable . ' = ""';
-
-            // Write $somecontent to our opened file
-            if (fwrite($handle, $string) === FALSE)
-            {
-                return;
-            }
-
-            fclose($handle);
         }
     }
 
