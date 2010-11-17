@@ -29,7 +29,7 @@ class SoundcloudForm extends ContentObjectForm
         parent :: build_creation_form();
         $this->addElement('category', Translation :: get('Properties'));
 
-        $external_repositories = $this->get_external_repositories();
+        $external_repositories = ExternalRepositoryLauncher :: get_links(Soundcloud :: get_type_name(), true);
         if ($external_repositories)
         {
             $this->addElement('static', null, null, $external_repositories);
@@ -41,10 +41,15 @@ class SoundcloudForm extends ContentObjectForm
 
     protected function build_editing_form()
     {
-        //        $link = Path :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=' . ExternalRepositoryLauncher :: APPLICATION_NAME . '&' . ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '=1'/* . Soundcloud :: get_type_name()*/;
         parent :: build_creation_form();
         $this->addElement('category', Translation :: get('Properties'));
-        //        $this->addElement('static', null, null, '<a class="button normal_button upload_button" onclick="javascript:openPopup(\'' . $link . '\');"> ' . Translation :: get('BrowseStreamingVideo') . '</a>');
+
+        $external_repositories = ExternalRepositoryLauncher :: get_links(Soundcloud :: get_type_name());
+        if ($external_repositories)
+        {
+            $this->addElement('static', null, null, $external_repositories);
+        }
+
         $this->add_textfield(Soundcloud :: PROPERTY_TRACK_ID, Translation :: get('TrackId'), true, array('size' => '100'));
         $this->addElement('category');
     }
@@ -73,43 +78,5 @@ class SoundcloudForm extends ContentObjectForm
         $object->set_track_id($this->exportValue(Soundcloud :: PROPERTY_TRACK_ID));
         return parent :: update_content_object();
     }
-
-    function get_external_repositories()
-    {
-        $instances = RepositoryDataManager :: get_instance()->retrieve_active_external_repositories(Soundcloud :: get_type_name());
-
-        if ($instances->size() == 0)
-        {
-            return null;
-        }
-        else
-        {
-            $html = array();
-            $buttons = array();
-
-            while ($instance = $instances->next_result())
-            {
-                $link = Path :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=' . ExternalRepositoryLauncher :: APPLICATION_NAME . '&' . ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '=' . $instance->get_id();
-                $image = Theme :: get_image_path(ExternalRepositoryManager :: get_namespace($instance->get_type())) . 'logo/16.png';
-                $title = Translation :: get('BrowseObject', array('OBJECT' => $instance->get_title()), Utilities :: COMMON_LIBRARIES);
-                $buttons[] = '<a class="button normal_button upload_button" style="background-image: url(' . $image . ');" onclick="javascript:openPopup(\'' . $link . '\');"> ' . $title . '</a>';
-            }
-
-            $html[] = '<div style="margin-bottom: 10px;">' . implode(' ', $buttons) . '</div>';
-
-            if ($instances->size() == 1 && $this->get_form_type() == self :: TYPE_CREATE)
-            {
-                $html[] = '<script type="text/javascript">';
-                $html[] = '$(document).ready(function ()';
-                $html[] = '{';
-                $html[] = '	openPopup(\'' . $link . '\');';
-                $html[] = '});';
-                $html[] = '</script>';
-            }
-
-            return implode("\n", $html);
-        }
-    }
-
 }
 ?>
