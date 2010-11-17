@@ -11,7 +11,9 @@ use common\libraries\Path;
 use common\libraries\Theme;
 use common\libraries\ExternalRepositoryLauncher;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
+use common\extensions\external_repository_manager\ExternalRepositoryObject;
 use repository\ContentObjectForm;
+use repository\ExternalRepositorySync;
 use common\libraries\Utilities;
 
 /**
@@ -35,7 +37,9 @@ class SoundcloudForm extends ContentObjectForm
             $this->addElement('static', null, null, $external_repositories);
         }
 
-        $this->add_textfield(Soundcloud :: PROPERTY_TRACK_ID, Translation :: get('TrackId'), true, array('size' => '100'));
+        $this->addElement('hidden', ExternalRepositoryObject :: PROPERTY_EXTERNAL_REPOSITORY_ID);
+        $this->add_textfield(Soundcloud :: PROPERTY_TRACK_ID, Translation :: get('TrackId'), true, array(
+                'size' => '100'));
         $this->addElement('category');
     }
 
@@ -50,7 +54,8 @@ class SoundcloudForm extends ContentObjectForm
             $this->addElement('static', null, null, $external_repositories);
         }
 
-        $this->add_textfield(Soundcloud :: PROPERTY_TRACK_ID, Translation :: get('TrackId'), true, array('size' => '100'));
+        $this->add_textfield(Soundcloud :: PROPERTY_TRACK_ID, Translation :: get('TrackId'), true, array(
+                'size' => '100'));
         $this->addElement('category');
     }
 
@@ -69,7 +74,22 @@ class SoundcloudForm extends ContentObjectForm
         $object = new Soundcloud();
         $object->set_track_id($this->exportValue(Soundcloud :: PROPERTY_TRACK_ID));
         $this->set_content_object($object);
-        return parent :: create_content_object();
+
+        $success = parent :: create_content_object();
+
+        if ($success)
+        {
+            $external_repository_id = (int) $this->exportValue(ExternalRepositoryObject :: PROPERTY_EXTERNAL_REPOSITORY_ID);
+
+            $external_respository_sync = new ExternalRepositorySync();
+            $external_respository_sync->set_external_repository_id($external_repository_id);
+            $external_respository_sync->set_external_repository_object_id((string) $object->get_track_id());
+            $external_object = $external_respository_sync->get_external_repository_object();
+
+            ExternalRepositorySync :: quicksave($object, $external_object, $external_repository_id);
+        }
+
+        return $success;
     }
 
     function update_content_object()

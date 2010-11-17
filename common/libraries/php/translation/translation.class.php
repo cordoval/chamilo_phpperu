@@ -85,6 +85,7 @@ class Translation
         self :: $called_class = $backtrace[1]['class'];
         //self :: $called_class = get_called_class();
 
+
         $translation = $instance->translate($variable, $context);
 
         if (empty($parameters))
@@ -174,6 +175,10 @@ class Translation
                 }
                 else
                 {
+                    if (! $value)
+                    {
+                        $this->add_variable_to_context_internationalization($language, $context, $variable);
+                    }
                     return '[CDA context={' . $context . '}]' . $variable . '[/CDA]';
                 }
             }
@@ -205,6 +210,28 @@ class Translation
 
         $instance = self :: get_instance();
         $instance->strings[$language][$context] = $strings;
+    }
+
+    function add_variable_to_context_internationalization($language, $context, $variable)
+    {
+        $path = Path :: get(SYS_PATH) . Path :: namespace_to_path($context) . '/resources/i18n/' . $language . '.i18n';
+        if (is_writable($path))
+        {
+            if (! $handle = fopen($path, 'a'))
+            {
+                return;
+            }
+
+            $string = $variable . ' = ""';
+
+            // Write $somecontent to our opened file
+            if (fwrite($handle, $string) === FALSE)
+            {
+                return;
+            }
+
+            fclose($handle);
+        }
     }
 
     static function application_to_class($application)

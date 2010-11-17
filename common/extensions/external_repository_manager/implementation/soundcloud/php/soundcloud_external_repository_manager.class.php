@@ -100,7 +100,7 @@ class SoundcloudExternalRepositoryManager extends ExternalRepositoryManager
 
         $general = array();
         $general['title'] = Translation :: get('MostRecent');
-        $general['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_GENERAL), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
+        $general['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_GENERAL), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY, self :: PARAM_TRACK_TYPE));
         $general['class'] = 'home';
 
         $types = array();

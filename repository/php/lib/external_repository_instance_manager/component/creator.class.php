@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use common\extensions\external_repository_manager;
+
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Path;
@@ -64,12 +66,12 @@ class ExternalRepositoryInstanceManagerCreatorComponent extends ExternalReposito
 
                 foreach ($repository_types['types'][$category] as $type => $name)
                 {
-                    $types_html[] = '<a href="' . $this->get_url(array(ExternalRepositoryInstanceManager :: PARAM_EXTERNAL_REPOSITORY_TYPE => $type)) . '"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'external_repository/' . $type . '/logo/48.png);">';
+                    $types_html[] = '<a href="' . $this->get_url(array(ExternalRepositoryInstanceManager :: PARAM_EXTERNAL_REPOSITORY_TYPE => $type)) . '"><div class="create_block" style="background-image: url(' . Theme :: get_image_path(ExternalRepositoryManager :: get_namespace($type)) . 'logo/48.png);">';
                     $types_html[] = $name;
                     $types_html[] = '</div></a>';
                 }
 
-                $tabs->add_tab(new DynamicContentTab($category, $category_name, Theme :: get_common_image_path() . 'place_external_repository_' . $category . '.png', implode("\n", $types_html)));
+                $tabs->add_tab(new DynamicContentTab($category, $category_name, Theme :: get_image_path(ExternalRepositoryManager :: get_namespace()) . 'category_' . $category . '.png', implode("\n", $types_html)));
             }
 
             echo $tabs->render();
