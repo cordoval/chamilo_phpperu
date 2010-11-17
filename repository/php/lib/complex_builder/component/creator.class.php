@@ -65,14 +65,12 @@ class ComplexBuilderComponentCreatorComponent extends ComplexBuilderComponent im
         $exclude = $this->retrieve_used_items($this->get_root_content_object()->get_id());
         $exclude[] = $this->get_root_content_object()->get_id();
 
-        if (!$this->type)
+        if (! $this->type)
         {
             $this->type = $content_object->get_allowed_types();
         }
 
-
-
-        if (!RepoViewer::is_ready_to_be_published())
+        if (! RepoViewer :: is_ready_to_be_published())
         {
             $complex_repository_viewer = RepoViewer :: construct($this);
             if ($rtype)
@@ -87,9 +85,9 @@ class ComplexBuilderComponentCreatorComponent extends ComplexBuilderComponent im
         }
         else
         {
-            $objects = RepoViewer::get_selected_objects();
+            $objects = RepoViewer :: get_selected_objects();
 
-            if (!is_array($objects))
+            if (! is_array($objects))
             {
                 $objects = array($objects);
             }
@@ -109,7 +107,8 @@ class ComplexBuilderComponentCreatorComponent extends ComplexBuilderComponent im
                 $complex_content_object_item->create();
             }
 
-            $this->redirect(Translation :: get('ObjectAdded', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id));
+            $this->redirect(Translation :: get('ObjectAdded', array('OBJECT' => Translation :: get('ContentObject')), Utilities :: COMMON_LIBRARIES), false, array(
+                    ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id));
         }
     }
 
@@ -132,7 +131,14 @@ class ComplexBuilderComponentCreatorComponent extends ComplexBuilderComponent im
 
     function get_allowed_content_object_types()
     {
-        return array($this->type);
+        if (!is_array($this->type))
+        {
+            return array($this->type);
+        }
+        else
+        {
+            return $this->type;
+        }
     }
 
 }

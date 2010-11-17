@@ -9,6 +9,7 @@ use common\libraries\Toolbar;
 use common\libraries\Theme;
 use common\libraries\Path;
 use repository\content_object\glossary_item\GlossaryItem;
+use common\libraries\Utilities;
 
 /**
  * $Id: glossary_viewer_table_cell_renderer.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -69,7 +70,7 @@ class GlossaryViewerTableCellRenderer extends DefaultContentObjectTableCellRende
         if ($this->browser->is_allowed(EDIT_RIGHT))
         {
         	$toolbar->add_item(new ToolbarItem(
-        			Translation :: get('Edit'),
+        			Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES),
         			Theme :: get_common_image_path().'action_edit.png',
 					$this->browser->get_complex_content_object_item_update_url($glossary_item),
 					ToolbarItem :: DISPLAY_ICON
@@ -79,7 +80,7 @@ class GlossaryViewerTableCellRenderer extends DefaultContentObjectTableCellRende
         if ($this->browser->is_allowed(DELETE_RIGHT))
         {
         	$toolbar->add_item(new ToolbarItem(
-        			Translation :: get('Delete'),
+        			Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES),
         			Theme :: get_common_image_path().'action_delete.png',
 					$this->browser->get_complex_content_object_item_delete_url($glossary_item),
 					ToolbarItem :: DISPLAY_ICON,

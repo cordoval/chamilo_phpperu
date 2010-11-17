@@ -47,7 +47,7 @@ class Reporting
         $i = 0;
         if (! isset($arr) || count($arr) == 0)
         {
-            $arr[''][] = '<div style="text-align: center;">' . Translation :: get('NoSearchResults') . '</div>';
+            $arr[''][] = '<div style="text-align: center;">' . Translation :: get('NoSearchResults', null, Utilities :: COMMON_LIBRARIES) . '</div>';
             unset($description);
             $description[self :: PARAM_ORIENTATION] = self :: ORIENTATION_HORIZONTAL;
         }

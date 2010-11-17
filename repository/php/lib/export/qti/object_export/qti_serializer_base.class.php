@@ -1,5 +1,7 @@
 <?php
 namespace repository;
+
+use common\libraries\Utilities;
 /**
  * Base class for serializers.
  * Includes resources management and path translation.

@@ -5,12 +5,14 @@ use application\weblcms\Tool;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Translation;
+use application\weblcms\CourseRequest;
+use application\weblcms\CourseRequestForm;
 
 /**
  * $Id: request.class.php 224 2010-04-06 14:40:30Z Yannick $
  * @package applicatie.lib.weblcms.weblcms_manager.component
  */
-require_once dirname(__FILE__) . '/../../../course/course_request_form.class.php';
+require_once dirname(__FILE__) . '/../../../../php/lib/course/course_request_form.class.php';
 
 class UserToolRequestSubscribeUserComponent extends UserTool
 {
@@ -31,7 +33,7 @@ class UserToolRequestSubscribeUserComponent extends UserTool
         if ($form->validate())
         {
             $success_request = $form->create_request();
-            $this->redirect(Translation :: get($success_request ? 'RequestSent' : 'RequestNotSent'), ($success_request ? false : true), array(Tool :: PARAM_ACTION => UserTool :: ACTION_SUBSCRIBE_USERS));
+            $this->redirect(Translation :: get($success_request ? 'RequestSent' : 'RequestNotSent'), ($success_request ? false : true), array(Tool :: PARAM_ACTION => UserTool :: ACTION_SUBSCRIBE_USER_BROWSER));
         }
         else
         {

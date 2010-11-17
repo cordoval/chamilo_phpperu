@@ -1,8 +1,10 @@
 <?php 
 namespace application\metadata;
+
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\Utilities;
+
 /**
  * Component to delete metadata_property_attribute_values objects
  * @author Sven Vanpoucke

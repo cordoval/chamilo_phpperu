@@ -13,10 +13,10 @@ class UserNoOfUsersReportingBlock extends UserReportingBlock
         $udm = UserDataManager :: get_instance();
         $reporting_data = new ReportingData();
 
-        $reporting_data->set_categories(array(Translation :: get('getNumberOfUsers')));
-        $reporting_data->set_rows(array(Translation :: get('count')));
+        $reporting_data->set_categories(array(Translation :: get('GetNumberOfUsers')));
+        $reporting_data->set_rows(array(Translation :: get('Count')));
 
-        $reporting_data->add_data_category_row(Translation :: get('getNumberOfUsers'), Translation :: get('count'), $udm->count_users());
+        $reporting_data->add_data_category_row(Translation :: get('GetNumberOfUsers'), Translation :: get('Count'), $udm->count_users());
 
         return $reporting_data;
     }

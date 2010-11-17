@@ -4,6 +4,7 @@ namespace admin;
 use common\libraries\Application;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\AdministrationComponent;
 /**
  * $Id: system_announcement_hider.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package admin.lib.admin_manager.component
@@ -65,11 +66,11 @@ class AdminManagerSystemAnnouncementHiderComponent extends AdminManager implemen
                 }
             }
 
-            $this->redirect(Translation :: get($message, $parameter, Utilities :: COMMON_UTILITIES), ($failures ? true : false), array(Application :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS));
+            $this->redirect(Translation :: get($message, $parameter, Utilities :: COMMON_LIBRARIES), ($failures ? true : false), array(Application :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS));
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => 'Publication'), Utilities :: COMMON_UTILITIES)));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', array('OBJECT' => 'Publication'), Utilities :: COMMON_LIBRARIES)));
         }
     }
 

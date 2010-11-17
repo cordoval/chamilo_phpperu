@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use common\libraries;
+
 use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\Path;
@@ -250,7 +252,7 @@ class ContentObjectTypeSelector
         {
             $type = $link['type'];
             $html[] = '<a href="' . $link['url'] . '">';
-            $html[] = '<div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/big/' . $type . '.png);">';
+            $html[] = '<div class="create_block" style="background-image: url(' . Theme :: get_image_path(Utilities :: get_namespace_from_object($this->parent)) . 'type_selector_' . $type . '.png);">';
             $html[] = $link['title'];
             $html[] = '<div class="clear">&nbsp;</div>';
             $html[] = '</div>';

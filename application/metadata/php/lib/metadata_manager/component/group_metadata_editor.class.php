@@ -1,12 +1,14 @@
 <?php
 namespace application\metadata;
+
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\OrCondition;
 use common\libraries\Request;
 use common\libraries\Translation;
-use group\GroupDataManager;
 use common\libraries\Utilities;
+
+use group\GroupDataManager;
 
 /**
  * Component to edit an existing metadata_property_value object

@@ -5,6 +5,7 @@ use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\Theme;
 use common\libraries\ResourceManager;
+use common\libraries\Utilities;
 
 /**
  * $Id: trackers_selection_archive_wizard_page.class.php 213 2009-11-13 13:38:50Z vanpouckesven $
@@ -48,8 +49,8 @@ class TrackersSelectionArchiveWizardPage extends ArchiveWizardPage
         $previousblock = '';
 
         $this->addElement('html', '<div style="margin-top: 10px;">&nbsp;</div>');
-        $this->addElement('html', '<div id="selectall" style="color: #4171B5; font-weight: bold; cursor: pointer; float: left;">' . Translation :: get('SelectAll') . '</div> &nbsp; | &nbsp; ');
-        $this->addElement('html', '<div id="unselectall" style="color: #4171B5; font-weight: bold; cursor: pointer; display: inline;">' . Translation :: get('UnSelectAll') . '</div>');
+        $this->addElement('html', '<div id="selectall" style="color: #4171B5; font-weight: bold; cursor: pointer; float: left;">' . Translation :: get('SelectAll', null, Utilities :: COMMON_LIBRARIES) . '</div> &nbsp; | &nbsp; ');
+        $this->addElement('html', '<div id="unselectall" style="color: #4171B5; font-weight: bold; cursor: pointer; display: inline;">' . Translation :: get('UnselectAll', null, Utilities :: COMMON_LIBRARIES) . '</div>');
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/checkboxes.js'));
 
         while ($event = $events->next_result())
@@ -79,9 +80,9 @@ class TrackersSelectionArchiveWizardPage extends ArchiveWizardPage
         $this->add_js_functions();
         $this->setDefaults($defaults);
 
-        //$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< ' . Translation :: get('Previous'), 'style=\'margin-top: 20px;\'');
-        //$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next') . ' >>', 'style=\'margin-top: 20px;\'');
-        $prevnext[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next') . ' >>', array('class' => 'next'));
+        //$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< ' . Translation :: get('Previous', null, Utilities :: COMMON_LIBRARIES), 'style=\'margin-top: 20px;\'');
+        //$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next', null, Utilities :: COMMON_LIBRARIES) . ' >>', 'style=\'margin-top: 20px;\'');
+        $prevnext[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next', null, Utilities :: COMMON_LIBRARIES) . ' >>', array('class' => 'next'));
         $this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 
         $this->setDefaultAction('next');

@@ -39,7 +39,6 @@ class QuestionsAssessmentViewerWizardPage extends AssessmentViewerWizardPage
         $this->addElement('hidden', 'start_time', '', array('id' => 'start_time'));
         $this->addElement('hidden', 'max_time', '', array('id' => 'max_time'));
         $this->addElement('html', Path :: get_repository_content_object_path() . '/assessment/resources/javascript/assessment.js');
-        dump(Path :: get_repository_content_object_path() . '/assessment/resources/javascript/assessment.js');
         $defaults['start_time'] = ($values['start_time']) ? $values['start_time'] : 0;
         $defaults['max_time'] = ($assessment->get_maximum_time() * 60);
         $this->setConstants($defaults);

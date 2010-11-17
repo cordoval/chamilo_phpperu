@@ -94,7 +94,7 @@ class UserLocationBrowserTableCellRenderer extends DefaultLocationTableCellRende
         $toolbar = new Toolbar();
 
         $toolbar->add_item(new ToolbarItem(
-       		Translation :: get('Delete'),
+       		Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES),
        		Theme :: get_common_image_path().'action_reset.png',
 			null,
 			ToolbarItem :: DISPLAY_ICON

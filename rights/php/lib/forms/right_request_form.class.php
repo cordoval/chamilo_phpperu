@@ -3,6 +3,7 @@ namespace rights;
 
 use common\libraries\Translation;
 use common\libraries\FormValidator;
+use common\libraries\Utilities;
 /**
  * $Id: right_request_form.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.data_manager.forms
@@ -35,10 +36,10 @@ class RightsTemplateRequestForm extends FormValidator
     function build_request_form()
     {
         $this->addElement('textarea', self :: REQUEST_CONTENT, Translation :: get('RightRequestContent'), array('style' => 'width:500px;height:200px;'));
-        $this->addRule(self :: REQUEST_CONTENT, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(self :: REQUEST_CONTENT, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Send'), array('class' => 'positive update'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Send', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive update'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 
         $this->setDefaults();
@@ -90,7 +91,7 @@ class RightsTemplateRequestForm extends FormValidator
     {
         if (isset($this->parameters[RightsManagerRightRequesterComponent :: USER_CURRENT_GROUPS]) && count($this->parameters[RightsManagerRightRequesterComponent :: USER_CURRENT_GROUPS]) > 0)
         {
-            echo '<h4>' . Translation :: get('Groups') . '</h4>';
+            echo '<h4>' . Translation :: get('Groups', null, Utilities :: COMMON_LIBRARIES) . '</h4>';
 
             $groups = $this->parameters[RightsManagerRightRequesterComponent :: USER_CURRENT_GROUPS];
 

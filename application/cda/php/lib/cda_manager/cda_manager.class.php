@@ -212,13 +212,13 @@ class CdaManager extends WebApplication
     public static function get_application_platform_admin_links()
     {
         $links = array();
-        $links[] = new DynamicAction(Translation :: get('ManageLanguages'), Translation :: get('ManageLanguagesDescription'), Theme :: get_image_path() . 'browse_list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+        $links[] = new DynamicAction(Translation :: get('ManageLanguages'), Translation :: get('ManageLanguagesDescription'), Theme :: get_image_path() . 'admin/list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
                 self :: PARAM_ACTION => self :: ACTION_ADMIN_BROWSE_CDA_LANGUAGES)));
-        $links[] = new DynamicAction(Translation :: get('ManageLanguagePacks'), Translation :: get('ManageLanguagePacksDescription'), Theme :: get_image_path() . 'browse_add.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+        $links[] = new DynamicAction(Translation :: get('ManageLanguagePacks'), Translation :: get('ManageLanguagePacksDescription'), Theme :: get_image_path() . 'admin/add.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
                 self :: PARAM_ACTION => self :: ACTION_ADMIN_BROWSE_LANGUAGE_PACKS)));
-        $links[] = new DynamicAction(Translation :: get('ManageTranslatorApplications'), Translation :: get('ManageTranslatorApplicationsDescription'), Theme :: get_image_path() . 'browse_list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+        $links[] = new DynamicAction(Translation :: get('ManageTranslatorApplications'), Translation :: get('ManageTranslatorApplicationsDescription'), Theme :: get_image_path() . 'admin/list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
                 self :: PARAM_ACTION => self :: ACTION_BROWSE_TRANSLATOR_APPLICATIONS)));
-        $links[] = new DynamicAction(Translation :: get('ImportLanguageFiles'), Translation :: get('ImportLanguageFilesDescription'), Theme :: get_image_path() . 'browse_list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+        $links[] = new DynamicAction(Translation :: get('ImportLanguageFiles'), Translation :: get('ImportLanguageFilesDescription'), Theme :: get_image_path() . 'admin/list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
                 self :: PARAM_ACTION => self :: ACTION_ADMIN_IMPORT_TRANSLATIONS)));
 
         $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);

@@ -97,7 +97,7 @@ class GroupManagerBrowserComponent extends GroupManager implements Administratio
         $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
 
         $table = new GroupBrowserTable($this, $parameters, $this->get_subgroups_condition());
-        $tabs->add_tab(new DynamicContentTab(self :: TAB_SUBGROUPS, Translation :: get('Subgroups'), Theme :: get_image_path('admin') . 'place_mini_group.png', $table->as_html()));
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_SUBGROUPS, Translation :: get('Subgroups'), Theme :: get_image_path('group') . 'logo/' . Theme :: ICON_MINI . '.png', $table->as_html()));
         //        }
 
 
@@ -108,12 +108,12 @@ class GroupManagerBrowserComponent extends GroupManager implements Administratio
         $parameters[GroupManager :: PARAM_GROUP_ID] = $this->get_group();
 
         $table = new GroupRelUserBrowserTable($this, $parameters, $this->get_users_condition());
-        $tabs->add_tab(new DynamicContentTab(self :: TAB_USERS, Translation :: get('Users', null , 'user'), Theme :: get_image_path('admin') . 'place_mini_user.png', $table->as_html()));
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_USERS, Translation :: get('Users', null , 'user'), Theme :: get_image_path('user') . 'logo/' . Theme :: ICON_MINI . '.png', $table->as_html()));
         //        }
 
 
         // Group info tab
-        $tabs->add_tab(new DynamicContentTab(self :: TAB_DETAILS, Translation :: get('Details'), Theme :: get_image_path('admin') . 'place_mini_help.png', $this->get_group_info()));
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_DETAILS, Translation :: get('Details'), Theme :: get_image_path('help') . 'logo/' . Theme :: ICON_MINI . '.png', $this->get_group_info()));
 
         $html[] = $tabs->render();
 

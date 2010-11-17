@@ -1,6 +1,9 @@
 <?php
 namespace admin;
 use common\libraries\Path;
+use user\DefaultUserTableColumnModel;
+use common\libraries\ObjectTableColumn;
+use user\User;
 /**
  * $Id: whois_online_table_column_model.class.php 166 2009-11-12 11:03:06Z vanpouckesven $
  * @package admin.lib.admin_manager.component.whois_online_table

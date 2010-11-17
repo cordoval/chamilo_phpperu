@@ -1,6 +1,8 @@
 <?php
 namespace admin;
 use common\libraries\Translation;
+use common\libraries\AdministrationComponent;
+use common\extensions\repo_viewer\RepoViewerInterface;
 /**
  * $Id: system_announcement_creator.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package admin.lib.admin_manager.component

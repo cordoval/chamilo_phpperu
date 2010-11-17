@@ -27,7 +27,7 @@ class ExternalRepositoryInstanceManagerUpdaterComponent extends ExternalReposito
             if ($form->validate())
             {
                 $success = $form->update_external_repository();
-                $this->redirect(Translation :: get($success ? 'ObjectUpdated' : 'ObjectNotUpdated', array('OBJECT' => Translation :: get('ExternalRepository')), Utilities :: COMMON_UTILITIES), ($success ? false : true), array(ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION => ExternalRepositoryInstanceManager :: ACTION_BROWSE_INSTANCES));
+                $this->redirect(Translation :: get($success ? 'ObjectUpdated' : 'ObjectNotUpdated', array('OBJECT' => Translation :: get('ExternalRepository')), Utilities :: COMMON_LIBRARIES), ($success ? false : true), array(ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION => ExternalRepositoryInstanceManager :: ACTION_BROWSE_INSTANCES));
             }
             else
             {

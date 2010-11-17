@@ -2,7 +2,7 @@
 namespace application\internship_organizer;
 
 use repository\RepositoryDataManager;
-
+use repository\ContentObjectImport;
 use common\libraries\EqualityCondition;
 /**
  * $Id: csv_import.class.php 204 2009-11-13 12:51:30Z kariboe $

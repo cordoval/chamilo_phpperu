@@ -7,6 +7,7 @@ use common\libraries\ToolbarItem;
 use common\libraries\Translation;
 use common\libraries\Theme;
 use common\libraries\Request;
+use common\libraries\ActionBarSearchForm;
 
 require_once dirname(__FILE__) . '/external_repository_browser_gallery_table/external_repository_browser_gallery_table.class.php';
 require_once dirname(__FILE__) . '/external_repository_browser_table/external_repository_browser_table.class.php';
@@ -91,7 +92,7 @@ class ExternalRepositoryComponentBrowserComponent extends ExternalRepositoryComp
         {
             $html[] = '<div style=" width: 80%; overflow: auto; float: left;">';
         }
-        
+
         $renderer = ExternalRepositoryObjectRenderer :: factory($this->get_parent()->get_renderer(), $this);
         $html[] = $renderer->as_html();
 
@@ -128,7 +129,7 @@ class ExternalRepositoryComponentBrowserComponent extends ExternalRepositoryComp
         {
             foreach ($renderers as $renderer)
             {
-                $action_bar->add_tool_action(new ToolbarItem(Translation :: get(Utilities :: underscores_to_camelcase($renderer) . 'View'), Theme :: get_image_path() . 'view_' . $renderer . '.png', $this->get_url(array(
+                $action_bar->add_tool_action(new ToolbarItem(Translation :: get(Utilities :: underscores_to_camelcase($renderer) . 'View', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'view_' . $renderer . '.png', $this->get_url(array(
                         ExternalRepositoryManager :: PARAM_RENDERER => $renderer)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
             }
         }

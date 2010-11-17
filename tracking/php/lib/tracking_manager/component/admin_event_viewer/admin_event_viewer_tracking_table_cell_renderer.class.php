@@ -5,6 +5,7 @@ use common\libraries\Translation;
 use common\libraries\Theme;
 use common\libraries\ToolbarItem;
 use common\libraries\Toolbar;
+use common\libraries\Utilities;
 
 /**
  * $Id: admin_event_viewer_tracking_table_cell_renderer.class.php 213 2009-11-13 13:38:50Z vanpouckesven $
@@ -40,7 +41,7 @@ class AdminEventViewerTrackingTableCellRenderer
     function get_modification_links($tracker)
     {
         $toolbar = new Toolbar();
-        $toolbar->add_item(new ToolbarItem(($tracker->get_active() == 1) ? Translation :: get('Hide') : Translation :: get('Visible'), ($tracker->get_active() == 1) ? (Theme :: get_common_image_path() . 'action_visible.png') : (Theme :: get_common_image_path() . 'action_invisible.png'), $this->eventviewer->get_change_active_url('tracker', $this->event->get_id(), $tracker->get_id()), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(($tracker->get_active() == 1) ? Translation :: get('Hide', null, Utilities :: COMMON_LIBRARIES) : Translation :: get('Visible', null, Utilities :: COMMON_LIBRARIES), ($tracker->get_active() == 1) ? (Theme :: get_common_image_path() . 'action_visible.png') : (Theme :: get_common_image_path() . 'action_invisible.png'), $this->eventviewer->get_change_active_url('tracker', $this->event->get_id(), $tracker->get_id()), ToolbarItem :: DISPLAY_ICON));
         $toolbar->add_item(new ToolbarItem(Translation :: get('Empty_Tracker'), Theme :: get_common_image_path() . 'action_delete.png', $this->eventviewer->get_empty_tracker_url($this->event->get_id(), $tracker->get_id()), ToolbarItem :: DISPLAY_ICON, true));
         return $toolbar->as_html();
 

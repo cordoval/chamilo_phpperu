@@ -323,7 +323,7 @@ abstract class SubManager
 
         if ($add_breadcrumb && !$component instanceof DelegateComponent)
         {
-            $trail->add(new Breadcrumb($component->get_url(), Translation :: get(Utilities :: get_classname_from_object(component), null, $context)));
+            $trail->add(new Breadcrumb($component->get_url(), Translation :: get(Utilities :: get_classname_from_object($component), null, $context)));
         }
 
         return $component;

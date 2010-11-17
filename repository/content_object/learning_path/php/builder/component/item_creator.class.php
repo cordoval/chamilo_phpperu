@@ -13,6 +13,7 @@ use common\extensions\repo_viewer\RepoViewer;
 use repository\ComplexBuilder;
 use repository\RepositoryDataManager;
 use repository\ComplexContentObjectItem;
+use common\libraries\Utilities;
 
 /**
  * $Id: item_creator.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -28,7 +29,7 @@ class LearningPathBuilderItemCreatorComponent extends LearningPathBuilder implem
     {
         $menu_trail = $this->get_complex_content_object_breadcrumbs();
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array()), Translation :: get('Create')));
+        $trail->add(new Breadcrumb($this->get_url(array()), Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES)));
         $trail->add_help('repository learnpath builder');
 
         $root_content_object = $this->get_root_content_object();
@@ -109,7 +110,7 @@ class LearningPathBuilderItemCreatorComponent extends LearningPathBuilder implem
                 $complex_content_object_item->create();
             }
 
-            $this->redirect(Translation :: get('ObjectAdded'), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id));
+            $this->redirect(Translation :: get('ObjectAdded', array('OBJECT' => Translation :: get('LearningPath')), Utilities :: COMMON_LIBRARIES), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id));
         }
     }
 

@@ -1,5 +1,6 @@
 <?php
 namespace application\metadata;
+
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\OrCondition;

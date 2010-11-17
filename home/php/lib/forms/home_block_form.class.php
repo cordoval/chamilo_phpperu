@@ -46,7 +46,7 @@ class HomeBlockForm extends FormValidator
         $this->addRule(HomeBlock :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
         
         /*$this->addElement('select', HomeBlock :: PROPERTY_, Translation :: get('HomeBlockColumn'), $this->get_columns());
-        $this->addRule(HomeBlock :: PROPERTY_COLUMN, Translation :: get('ThisFieldIsRequired'), 'required');*/
+        $this->addRule(HomeBlock :: PROPERTY_COLUMN, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');*/
         
         $this->addElement('select', HomeBlock :: PROPERTY_COLUMN, Translation :: get('HomeBlockColumn'), $this->get_columns());
         $this->addRule(HomeBlock :: PROPERTY_COLUMN, Translation :: get('ThisFieldIsRequired', null, Utilities::COMMON_LIBRARIES), 'required');
@@ -63,7 +63,7 @@ class HomeBlockForm extends FormValidator
         
         $this->addElement('hidden', HomeBlock :: PROPERTY_USER);
         
-    //$this->addElement('submit', 'home_block', Translation :: get('Ok'));
+    //$this->addElement('submit', 'home_block', Translation :: get('Ok', null, Utilities :: COMMON_LIBRARIES));
     }
 
     function build_editing_form()

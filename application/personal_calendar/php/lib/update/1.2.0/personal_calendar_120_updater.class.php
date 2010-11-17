@@ -1,6 +1,8 @@
 <?php
 
 namespace application\personal_calendar;
+use common\libraries\Updater;
+use common\libraries\WebApplication;
 /**
  * $Id: personal_calendar_120_updater.class.php 201 2009-11-13 12:34:51Z chellee $
  * @package application.personal_calendar.install

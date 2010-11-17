@@ -59,18 +59,18 @@ if ($user_home_allowed && Authentication :: is_valid())
         // Create the new column + a dummy block for it
         $new_column = new HomeColumn();
         $new_column->set_row($row_id);
-        $new_column->set_title(Translation :: get('NewColumn'));
+        $new_column->set_title(translate('NewColumn'));
         $new_column->set_width('19');
         $new_column->set_user($user_id);
         if (! $new_column->create())
         {
             $json_result['success'] = '0';
-            $json_result['message'] = Translation :: get('ColumnNotAdded');
+            $json_result['message'] = translate('ColumnNotAdded');
         }
 
         $block = new HomeBlock();
         $block->set_column($new_column->get_id());
-        $block->set_title(Translation :: get('DummyBlock'));
+        $block->set_title(translate('DummyBlock'));
         $block->set_application('repository');
         $block->set_component('linker');
         $block->set_visibility('1');
@@ -78,7 +78,7 @@ if ($user_home_allowed && Authentication :: is_valid())
         if (! $block->create())
         {
             $json_result['success'] = '0';
-            $json_result['message'] = Translation :: get('ColumnBlockNotAdded');
+            $json_result['message'] = translate('ColumnBlockNotAdded');
         }
 
         	$user = UserDataManager :: get_instance()->retrieve_user($user_id);
@@ -157,13 +157,18 @@ if ($user_home_allowed && Authentication :: is_valid())
 
         // Finally add the new column we added
         $json_result['success'] = '1';
-        $json_result['message'] = Translation :: get('ColumnAdded');
+        $json_result['message'] = translate('ColumnAdded');
     }
 }
 else
 {
     $json_result['success'] = '0';
-    $json_result['message'] = Translation :: get('NotAuthorized');
+    $json_result['message'] = Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES);
 }
 echo json_encode($json_result);
+
+function translate($variable)
+{
+    return Translation :: get($variable, null, __NAMESPACE__);
+}
 ?>

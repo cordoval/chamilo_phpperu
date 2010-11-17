@@ -1,5 +1,6 @@
 <?php
 namespace application\context_linker;
+
 use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use common\libraries\Translation;
@@ -7,6 +8,8 @@ use common\libraries\Theme;
 use repository\ContentObject;
 use application\metadata\MetadataPropertyType;
 use application\metadata\MetadataPropertyValue;
+use common\libraries\Utilities;
+
 require_once dirname(__FILE__) . '/../../../tables/context_link_table/default_context_link_table_cell_renderer.class.php';
 
 
@@ -85,7 +88,7 @@ class ContextLinkBrowserTableCellRenderer extends DefaultContextLinkTableCellRen
 		$toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
 
                 $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('DeleteObject', array('OBJECT' => Translation :: get('ContextLink')), Utilities :: COMMON_LIBRARY),
+        		Translation :: get('DeleteObject', array('OBJECT' => Translation :: get('ContextLink')), Utilities :: COMMON_LIBRARIES),
         		Theme :: get_common_image_path() . 'action_delete.png',
         		$this->browser->get_delete_context_link_url($context_link),
         		ToolbarItem :: DISPLAY_ICON,

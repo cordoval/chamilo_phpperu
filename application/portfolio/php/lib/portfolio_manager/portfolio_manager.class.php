@@ -81,7 +81,7 @@ class PortfolioManager extends WebApplication
     public static function get_application_platform_admin_links()
     {
         $links = array();
-        $links[] = new DynamicAction(Translation :: get('SetPortfolioDefaults'), Translation :: get('SetPortfolioDefaultsDescription'), Theme :: get_image_path() . 'browse_list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+        $links[] = new DynamicAction(Translation :: get('SetPortfolioDefaults'), Translation :: get('SetPortfolioDefaultsDescription'), Theme :: get_image_path() . 'admin/list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
                 Application :: PARAM_ACTION => self :: ACTION_SET_PORTFOLIO_DEFAULTS)));
         
         $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);

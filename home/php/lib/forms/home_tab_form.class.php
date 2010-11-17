@@ -43,7 +43,7 @@ class HomeTabForm extends FormValidator
         
         $this->addElement('hidden', HomeTab :: PROPERTY_USER);
         
-    //$this->addElement('submit', 'home_tab', Translation :: get('Ok'));
+    //$this->addElement('submit', 'home_tab', Translation :: get('Ok', null, Utilities :: COMMON_LIBRARIES));
     }
 
     function build_editing_form()

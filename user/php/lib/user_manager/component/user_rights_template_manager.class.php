@@ -26,7 +26,7 @@ class UserManagerUserRightsTemplateManagerComponent extends UserManager implemen
     	if (!UserRights :: is_allowed_in_users_subtree(UserRights :: EDIT_RIGHT, $user_id))
 	    {
 	      	$this->display_header();
-	        Display :: error_message(Translation :: get("NotAllowed"));
+	        Display :: error_message(Translation :: get("NotAllowed", null, Utilities :: COMMON_LIBRARIES));
 	        $this->display_footer();
 	        exit();
 	    }
@@ -34,7 +34,7 @@ class UserManagerUserRightsTemplateManagerComponent extends UserManager implemen
         if (! $user_id)
         {
             $this->display_header();
-            $this->display_error_message('NoObjectSelected');
+            $this->display_error_message('NoObjectSelected', null, Utilities :: COMMON_LIBRARIES);
             $this->display_footer();
             exit();
         }

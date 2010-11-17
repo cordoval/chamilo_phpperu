@@ -15,6 +15,7 @@ use repository\content_object\hotpotatoes\Hotpotatoes;
 use tracking\Event;
 use repository\ComplexDisplay;
 use repository\content_object\assessment\AssessmentComplexDisplaySupport;
+use common\libraries\DelegateComponent;
 
 /**
  * $Id: assessment_tester.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -24,7 +25,7 @@ require_once dirname(__FILE__) . '/../survey_invitation.class.php';
 require_once Path :: get_application_path() . '/weblcms/php/trackers/weblcms_assessment_attempts_tracker.class.php';
 require_once Path :: get_application_path() . '/weblcms/php/trackers/weblcms_question_attempts_tracker.class.php';
 
-class AssessmentToolComplexDisplayComponent extends AssessmentTool implements AssessmentComplexDisplaySupport
+class AssessmentToolComplexDisplayComponent extends AssessmentTool implements AssessmentComplexDisplaySupport, DelegateComponent
 {
 
     private $datamanager;

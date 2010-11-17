@@ -152,7 +152,7 @@ class LearningPathBrowserTableCellRenderer extends ComplexBrowserTableCellRender
         }
 
         $toolbar->add_item(new ToolbarItem(
-        			Translation :: get('Edit'),
+        			Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES),
         			Theme :: get_common_image_path().'action_edit.png',
 					$this->browser->get_complex_content_object_item_edit_url($complex_content_object_item->get_id()),
 					ToolbarItem :: DISPLAY_ICON
@@ -167,14 +167,14 @@ class LearningPathBrowserTableCellRenderer extends ComplexBrowserTableCellRender
 			$change_parent_url = $this->browser->get_complex_content_object_parent_changer_url($complex_content_object_item->get_id());
 
             $toolbar->add_item(new ToolbarItem(
-        			Translation :: get('Delete'),
+        			Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES),
         			Theme :: get_common_image_path().'action_delete.png',
 					$delete_url,
 					ToolbarItem :: DISPLAY_ICON,
 					true
 			));
 			$toolbar->add_item(new ToolbarItem(
-        			Translation :: get('ChangeParent'),
+        			Translation :: get('Move', null, Utilities :: COMMON_LIBRARIES),
         			Theme :: get_common_image_path().'action_move.png',
 					$change_parent_url,
 					ToolbarItem :: DISPLAY_ICON
@@ -185,7 +185,7 @@ class LearningPathBrowserTableCellRenderer extends ComplexBrowserTableCellRender
             if ($allowed["moveup"])
             {
                	$toolbar->add_item(new ToolbarItem(
-        			Translation :: get('MoveUp'),
+        			Translation :: get('MoveUp', null, Utilities :: COMMON_LIBRARIES),
         			Theme :: get_common_image_path().'action_up.png',
 					$moveup_url,
 					ToolbarItem :: DISPLAY_ICON
@@ -194,7 +194,7 @@ class LearningPathBrowserTableCellRenderer extends ComplexBrowserTableCellRender
             else
             {
             	$toolbar->add_item(new ToolbarItem(
-        			Translation :: get('MoveUpNA'),
+        			Translation :: get('MoveUpNA', null, Utilities :: COMMON_LIBRARIES),
         			Theme :: get_common_image_path().'action_up_na.png',
 					null,
 					ToolbarItem :: DISPLAY_ICON
@@ -205,7 +205,7 @@ class LearningPathBrowserTableCellRenderer extends ComplexBrowserTableCellRender
             if ($allowed["movedown"])
             {
                $toolbar->add_item(new ToolbarItem(
-        			Translation :: get('MoveDown'),
+        			Translation :: get('MoveDown', null, Utilities :: COMMON_LIBRARIES),
         			Theme :: get_common_image_path().'action_down.png',
 					$movedown_url,
 					ToolbarItem :: DISPLAY_ICON
@@ -214,7 +214,7 @@ class LearningPathBrowserTableCellRenderer extends ComplexBrowserTableCellRender
             else
             {
     		   	$toolbar->add_item(new ToolbarItem(
-        			Translation :: get('MoveDownNA'),
+        			Translation :: get('MoveDownNA', null, Utilities :: COMMON_LIBRARIES),
         			Theme :: get_common_image_path().'action_down_na.png',
 					null,
 					ToolbarItem :: DISPLAY_ICON

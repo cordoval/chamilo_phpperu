@@ -12,6 +12,7 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\PlatformSetting;
 use common\libraries\ActionBarRenderer;
 use common\libraries\ConditionProperty;
+use common\libraries\Utilities;
 
 /**
  * $Id: admin_event_browser.class.php 213 2009-11-13 13:38:50Z vanpouckesven $
@@ -82,11 +83,11 @@ class TrackingManagerAdminEventBrowserComponent extends TrackingManager implemen
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         $action_bar->set_search_url($this->get_url());
 
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         if(TrackingRights :: is_allowed_in_tracking_subtree(TrackingRights :: EDIT_RIGHT, 0))
         {
-        	$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_manage_rights_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        	$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageRights', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_rights.png', $this->get_manage_rights_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
 
         return $action_bar;

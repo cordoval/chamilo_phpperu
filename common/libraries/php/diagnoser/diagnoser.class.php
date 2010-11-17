@@ -163,12 +163,12 @@ class Diagnoser
         $array[] = $this->build_setting($status, '[INI]', 'default_charset', 'http://www.php.net/manual/en/ini.core.php#ini.default-charset', $setting, $req_setting, null, Translation :: get('DefaultCharsetInfo'));
 
         $setting = ini_get('max_execution_time');
-        $req_setting = '300 (' . Translation :: get('minimum') . ')';
+        $req_setting = '300 (' . Translation :: get('Minimum') . ')';
         $status = $setting >= 300 ? self :: STATUS_OK : self :: STATUS_WARNING;
         $array[] = $this->build_setting($status, '[INI]', 'max_execution_time', 'http://www.php.net/manual/en/ini.core.php#ini.max-execution-time', $setting, $req_setting, null, Translation :: get('MaxExecutionTimeInfo'));
 
         $setting = ini_get('max_input_time');
-        $req_setting = '300 (' . Translation :: get('minimum') . ')';
+        $req_setting = '300 (' . Translation :: get('Minimum') . ')';
         $status = $setting >= 300 ? self :: STATUS_OK : self :: STATUS_WARNING;
         $array[] = $this->build_setting($status, '[INI]', 'max_input_time', 'http://www.php.net/manual/en/ini.core.php#ini.max-input-time', $setting, $req_setting, null, Translation :: get('MaxInputTimeInfo'));
 

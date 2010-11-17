@@ -1,11 +1,11 @@
 <?php
 namespace admin;
-use common\libraries\Utilities;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\InequalityCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
+use common\libraries\AdministrationComponent;
 
 /**
  * $Id: system_announcement_browser.class.php 168 2009-11-12 11:53:23Z vanpouckesven $

@@ -134,7 +134,7 @@ class FlickrExternalRepositoryObject extends ExternalRepositoryObject
     {
         return $this->get_default_property(self :: PROPERTY_LICENSE);
     }
-    
+
     function get_license_id()
     {
         $license = $this->get_license();
@@ -167,7 +167,8 @@ class FlickrExternalRepositoryObject extends ExternalRepositoryObject
 
     function get_license_icon()
     {
-        return Theme :: get_common_image('external_repository/flickr/licenses/license_' . $this->get_license_id(), 'png', $this->get_license_name(), $this->get_license_url(), ToolbarItem :: DISPLAY_ICON);
+        $icon = new ToolbarItem($this->get_license_name(), Theme :: get_image_path() . 'licenses/license_' . $this->get_license_id() . '.png', null, ToolbarItem :: DISPLAY_ICON);
+        return $icon->as_html();
     }
 
     function set_license($license)

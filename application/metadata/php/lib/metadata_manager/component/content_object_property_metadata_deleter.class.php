@@ -1,8 +1,8 @@
 <?php
 namespace application\metadata;
-use common\libraries\Translation;
 use common\libraries\Utilities;
 
+use common\libraries\Translation;
 /**
  * Component to delete content_object_property_metadatas objects
  * @author Sven Vanpoucke

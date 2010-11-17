@@ -33,7 +33,7 @@ class LearningPathBuilderMasteryScoreSetterComponent extends LearningPathBuilder
         if (! $complex_content_object_item_id)
         {
             $this->display_header($trail);
-            $this->display_error_message(Translation :: get('NoObjectSelected'));
+            $this->display_error_message(Translation :: get('NoObjectSelected', null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }

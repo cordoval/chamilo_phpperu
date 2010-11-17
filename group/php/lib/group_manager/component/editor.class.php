@@ -41,7 +41,7 @@ class GroupManagerEditorComponent extends GroupManager implements Administration
             {
                 $success = $form->update_group();
                 $group = $form->get_group();
-                $message =$success ? Translation :: get('ObjectUpdated', array('OBJECT' => Translation :: get('Group'), Utilities :: COMMON_LIBRARIES) : Translation :: get('ObjectNotUpdated', array('OBJECT' => Translation :: get('Group'), Utilities :: COMMON_LIBRARIES);
+                $message =$success ? Translation :: get('ObjectUpdated', array('OBJECT' => Translation :: get('Group')), Utilities :: COMMON_LIBRARIES) : Translation :: get('ObjectNotUpdated', array('OBJECT' => Translation :: get('Group')), Utilities :: COMMON_LIBRARIES);
                 $this->redirect($message, ($success ? false : true), array(Application :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $group->get_id()));
             }
             else

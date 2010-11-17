@@ -146,5 +146,3 @@ class CasAccount extends DataClass
         return $this->get_status() == self :: STATUS_ENABLED;
     }
 }
-
-?>

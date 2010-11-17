@@ -10,7 +10,7 @@ use common\libraries\Request;
 
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'internship_organizer_manager/internship_organizer_manager.class.php';
 require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'forms/appointment_form.class.php';
-require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'moment_manager/component/viewer.class.php';
+//require_once WebApplication :: get_application_class_lib_path('internship_organizer') . 'moment_manager/component/viewer.class.php';
 
 
 class InternshipOrganizerAppointmentManagerAppointmentEditorComponent extends InternshipOrganizerAppointmentManager

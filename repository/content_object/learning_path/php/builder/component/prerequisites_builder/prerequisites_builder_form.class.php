@@ -13,6 +13,7 @@ use common\libraries\Text;
 use repository\content_object\learning_path_item\LearningPathItem;
 use repository\ComplexContentObjectItem;
 use repository\RepositoryDataManager;
+use common\libraries\Utilities;
 
 /**
  * $Id: prerequisites_builder_form.class.php 200 2009-11-13 12:30:04Z kariboe $
@@ -118,11 +119,11 @@ class PrerequisitesBuilderForm extends FormValidator
 //        $gbuttons[] = $this->createElement('style_button', 'add_group[]', Translation :: get('AddPrerequisiteGroup'), array('class' => 'normal add', 'id' => 'add_group'));
 //        $this->addGroup($gbuttons, 'option_buttons', null, '', false);
 
-        $operator = array('' => Translation :: get('Operator'), '&' => Translation :: get('And'), '|' => Translation :: get('Or'));
-        $goperator = array('&' => Translation :: get('And'), '|' => Translation :: get('Or'));
+        $operator = array('' => Translation :: get('Operator'), '&' => Translation :: get('And', null, Utilities :: COMMON_LIBRARIES), '|' => Translation :: get('Or', null, Utilities :: COMMON_LIBRARIES));
+        $goperator = array('&' => Translation :: get('And', null, Utilities :: COMMON_LIBRARIES), '|' => Translation :: get('Or', null, Utilities :: COMMON_LIBRARIES));
         //$goperator = array('' => Translation :: get('GroupOperator'), '&' => Translation :: get('And'), '|' => Translation :: get('Or'));
 
-        $not = array('' => '', '~' => Translation :: get('Not'));
+        $not = array('' => '', '~' => Translation :: get('Not', null, Utilities :: COMMON_LIBRARIES));
         $siblings = $this->retrieve_siblings();
 
         $number_of_groups = intval($_SESSION['number_of_groups']);
@@ -204,7 +205,7 @@ class PrerequisitesBuilderForm extends FormValidator
 
                 $renderer->setElementTemplate('{element}', 'add_item[' . $group_number . ']');
                 $this->addElement('html', '<div style="border-top: 1px dotted #cecece; padding: 10px;">');
-                $this->addElement('image', 'add_item[' . $group_number . ']', Theme :: get_common_image_path() . 'action_add.png', array('title' => Translation :: get('AddItem'), 'class' => 'add_item', 'id' => $group_number));
+                $this->addElement('image', 'add_item[' . $group_number . ']', Theme :: get_common_image_path() . 'action_add.png', array('title' => Translation :: get('Add', null, Utilities :: COMMON_LIBRARIES), 'class' => 'add_item', 'id' => $group_number));
                 $this->addElement('html', '</div>');
 
 //                if ($_SESSION['number_of_groups'] - count($_SESSION['skip_groups']) > 1)

@@ -45,9 +45,11 @@ class RepoViewerCreatorComponent extends RepoViewer
 
             if (count($types) > 1)
             {
-                if ($type_selector->get_selection())
+                $type = ($type_selector->get_selection() ? $type_selector->get_selection() : Request :: get(ContentObjectTypeSelector :: PARAM_CONTENT_OBJECT_TYPE));
+
+                if ($type)
                 {
-                    $this->get_creation_form($type_selector->get_selection());
+                    $this->get_creation_form($type);
                 }
                 else
                 {
@@ -107,7 +109,7 @@ class RepoViewerCreatorComponent extends RepoViewer
     function get_content_object_type_creation_url($type)
     {
         $object_type_parameters = $this->get_parameters();
-        $object_type_parameters[RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE] = $type;
+        $object_type_parameters[self :: PARAM_CONTENT_OBJECT_TYPE] = $type;
         return $this->get_url($object_type_parameters);
     }
 

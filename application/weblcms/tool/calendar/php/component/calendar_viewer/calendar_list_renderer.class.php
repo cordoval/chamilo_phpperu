@@ -23,7 +23,7 @@ class CalendarListRenderer extends ListContentObjectPublicationListRenderer
         $publications = $this->get_publications();
         if (count($publications) == 0)
         {
-            $html[] = Display :: normal_message(Translation :: get('NoPublicationsAvailable'), true);
+            $html[] = Display :: normal_message(Translation :: get('NoPublications', null, Utilities :: COMMON_LIBRARIES), true);
         }
 
         if ($this->get_actions() && $this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
