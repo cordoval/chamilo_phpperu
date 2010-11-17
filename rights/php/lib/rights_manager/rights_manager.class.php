@@ -115,9 +115,9 @@ class RightsManager extends CoreApplication
         $links = array();
 //        $links[] = new DynamicAction(Translation :: get('Locations'), Translation :: get('LocationsDescription'), Theme :: get_image_path() . 'browse_location.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
 //                self :: PARAM_ACTION => self :: ACTION_MANAGE_LOCATIONS), array(), false, Redirect :: TYPE_CORE));
-        $links[] = new DynamicAction(Translation :: get('TypeTemplates'), Translation :: get('TypeTemplatesDescription'), Theme :: get_image_path() . 'browse_template.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+        $links[] = new DynamicAction(Translation :: get('TypeTemplates'), Translation :: get('TypeTemplatesDescription'), Theme :: get_image_path() . 'admin/template.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
                 self :: PARAM_ACTION => self :: ACTION_MANAGE_TYPE_TEMPLATES), array(), false, Redirect :: TYPE_CORE));
-        $links[] = new DynamicAction(Translation :: get('RightsTemplates'), Translation :: get('RightsTemplatesDescription'), Theme :: get_image_path() . 'browse_template.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+        $links[] = new DynamicAction(Translation :: get('RightsTemplates'), Translation :: get('RightsTemplatesDescription'), Theme :: get_image_path() . 'admin/template.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
                 self :: PARAM_ACTION => self :: ACTION_MANAGE_RIGHTS_TEMPLATES), array(), false, Redirect :: TYPE_CORE));
 
 //        $links[] = new DynamicAction(Translation :: get('RightsTemplatePermissions'), Translation :: get('RightsTemplatePermissionsDescription'), Theme :: get_image_path() . 'browse_permission_template.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
