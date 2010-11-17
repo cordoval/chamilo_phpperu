@@ -4,8 +4,10 @@ namespace application\peer_assessment;
 
 use repository\ContentObject;
 use common\libraries\Utilities;
+use common\libraries\WebApplication;
 
-require_once Path :: get_application_path() . 'lib/peer_assessment/data_manager/database.class.php';
+require_once WebApplication:: get_application_class_lib_path('peer_assessment')
+    .'data_manager/database_peer_assessment_data_manager.class.php';
 
 class PeerAssessmentPubFeedback extends ContentObject
 {
