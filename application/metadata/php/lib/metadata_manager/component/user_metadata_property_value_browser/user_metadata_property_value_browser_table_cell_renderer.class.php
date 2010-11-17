@@ -9,7 +9,6 @@ use common\libraries\Path;
 use common\libraries\Utilities;
 
 use user\DefaultUserTableCellRenderer;
-use common\libraries\Utilities;
 
 require_once Path :: get_user_path() . 'lib/user_table/default_user_table_cell_renderer.class.php';
 
