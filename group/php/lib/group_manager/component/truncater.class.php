@@ -88,7 +88,7 @@ class GroupManagerTruncaterComponent extends GroupManager implements Administrat
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', null , Utilities :: COMMON_LIBRARIES)));
         }
     }
     

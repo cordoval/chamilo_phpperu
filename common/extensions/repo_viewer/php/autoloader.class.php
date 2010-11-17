@@ -15,7 +15,12 @@ class Autoloader
 
     static function load($classname)
     {
-        $list = array('repo_viewer' => 'repo_viewer.class.php', 'repo_viewer_interface' => 'repo_viewer_interface.class.php');
+        $list = array(
+            'repo_viewer' => 'repo_viewer.class.php',
+            'repo_viewer_interface' => 'repo_viewer_interface.class.php',
+            'repo_viewer_browser_component' => 'component/browser.class.php',
+            'repo_viewer_viewer_component' => 'component/viewer.class.php',
+            'repo_viewer_creator_component' => 'component/creator.class.php');
         $lower_case = Utilities :: camelcase_to_underscores($classname);
 
         if (key_exists($lower_case, $list))

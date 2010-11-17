@@ -1547,16 +1547,16 @@ class WeblcmsManager extends WebApplication
     public static function get_application_platform_admin_links()
     {
         $links = array();
-        $links[] = new DynamicAction(Translation :: get('CourseTypeList'), Translation :: get('CourseTypeListDescription'), Theme :: get_image_path() . 'browse_list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+        $links[] = new DynamicAction(Translation :: get('CourseTypeList'), Translation :: get('CourseTypeListDescription'), Theme :: get_image_path() . 'admin/list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
                 Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_BROWSER)));
-        //$links[] = new DynamicAction(Translation :: get('CreateCourseType'), Translation :: get('CreateTypeDescription'), Theme :: get_image_path() . 'browse_add.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_CREATOR)));
-        $links[] = new DynamicAction(Translation :: get('CourseList'), Translation :: get('ListDescription'), Theme :: get_image_path() . 'browse_list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER)));
-        $links[] = new DynamicAction(Translation :: get('CreateCourse'), Translation :: get('CreateDescription'), Theme :: get_image_path() . 'browse_add.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_CREATE_COURSE)));
-        $links[] = new DynamicAction(Translation :: get('Import'), Translation :: get('ImportDescription'), Theme :: get_image_path() . 'browse_import.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSES)));
-        $links[] = new DynamicAction(Translation :: get('RequestList'), Translation :: get('RequestDescription'), Theme :: get_image_path() . 'browse_list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_REQUEST_BROWSER)));
-        $links[] = new DynamicAction(Translation :: get('CourseCategoryManagement'), Translation :: get('CourseCategoryManagementDescription'), Theme :: get_image_path() . 'browse_category.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+        //$links[] = new DynamicAction(Translation :: get('CreateCourseType'), Translation :: get('CreateTypeDescription'), Theme :: get_image_path() . 'admin/add.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_CREATOR)));
+        $links[] = new DynamicAction(Translation :: get('CourseList'), Translation :: get('ListDescription'), Theme :: get_image_path() . 'admin/list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER)));
+        $links[] = new DynamicAction(Translation :: get('CreateCourse'), Translation :: get('CreateDescription'), Theme :: get_image_path() . 'admin/add.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_CREATE_COURSE)));
+        $links[] = new DynamicAction(Translation :: get('Import'), Translation :: get('ImportDescription'), Theme :: get_image_path() . 'admin/import.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSES)));
+        $links[] = new DynamicAction(Translation :: get('RequestList'), Translation :: get('RequestDescription'), Theme :: get_image_path() . 'admin/list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_REQUEST_BROWSER)));
+        $links[] = new DynamicAction(Translation :: get('CourseCategoryManagement'), Translation :: get('CourseCategoryManagementDescription'), Theme :: get_image_path() . 'admin/category.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
                 Application :: PARAM_ACTION => WeblcmsManager :: ACTION_COURSE_CATEGORY_MANAGER)));
-        $links[] = new DynamicAction(Translation :: get('UserImport'), Translation :: get('UserImportDescription'), Theme :: get_image_path() . 'browse_import.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSE_USERS)));
+        $links[] = new DynamicAction(Translation :: get('UserImport'), Translation :: get('UserImportDescription'), Theme :: get_image_path() . 'admin/import.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSE_USERS)));
 
         $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
         $info['links'] = $links;

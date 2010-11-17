@@ -72,7 +72,7 @@ class ComplexBrowserTableCellRenderer extends DefaultContentObjectTableCellRende
             case ContentObject :: PROPERTY_TYPE :
                 $type = $content_object->get_type();
                 $icon = $content_object->get_icon_name();
-                $url = '<img src="' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($type)) . 'logo/' . $icon . '.png" alt="' . htmlentities(Translation :: get('TypeName'), null, ContentObject :: get_content_object_type_namespace($type)) . '"/>';
+                $url = '<img src="' . Theme :: get_image_path(ContentObject :: get_content_object_type_namespace($type)) . 'logo/' . $icon . '.png" alt="' . htmlentities(Translation :: get('TypeName', null, ContentObject :: get_content_object_type_namespace($type))) . '"/>';
                 return $url; //'<a href="'.htmlentities($this->browser->get_type_filter_url($content_object->get_type())).'">'.$url.'</a>';
             case ContentObject :: PROPERTY_TITLE :
                 $title = htmlspecialchars($content_object->get_title());

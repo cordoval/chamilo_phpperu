@@ -1,5 +1,5 @@
 <xml>
-	<category name="manage users">
+	<category name="ManageUsers">
 		<webservice name="UpdateUser" description="ThisWebserviceAllowsYouToUpdateAUser" />
 		<webservice name="UpdateUsers"
 			description="ThisWebserviceAllowsYouToUpdateMultipleUsers" />

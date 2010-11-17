@@ -117,7 +117,7 @@ class WebServicesGroup
                 }
                 else
                 {
-                    return $this->webservice->raise_error(Translation :: get('Group') . ' ' . $input_group[input][name] . ' ' . Translation :: get('wasNotFoundInTheDatabase') . '.');
+                    return $this->webservice->raise_error(Translation :: get('Group') . ' ' . $input_group[input][name] . ' ' . Translation :: get('WasNotFoundInTheDatabase') . '.');
                 }
             }
             else
@@ -145,7 +145,7 @@ class WebServicesGroup
                         $groups[] = $g->get_default_properties();
                     else
                     {
-                        return $this->webservice->raise_error(Translation :: get('Group') . ' ' . $group[name] . ' ' . Translation :: get('wasNotFoundInTheDatabase') . '.');
+                        return $this->webservice->raise_error(Translation :: get('Group') . ' ' . $group[name] . ' ' . Translation :: get('WasNotFoundInTheDatabase') . '.');
                     }
                 
                 }

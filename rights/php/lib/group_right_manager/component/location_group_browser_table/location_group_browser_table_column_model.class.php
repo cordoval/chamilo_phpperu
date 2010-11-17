@@ -5,6 +5,11 @@ use common\libraries\Utilities;
 use common\libraries\Path;
 
 use rights\RightsUtilities;
+use common\libraries\StaticTableColumn;
+use common\libraries\Translation;
+use user\UserManager;
+use group\GroupManager;
+use group\DefaultGroupTableColumnModel;
 /**
  * $Id: location_group_browser_table_column_model.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.group_right_manager.component.location_group_browser_table
@@ -31,8 +36,8 @@ class LocationGroupBrowserTableColumnModel extends DefaultGroupTableColumnModel
         $this->browser = $browser;
         $this->set_default_order_column(1);
         $this->set_columns(array_slice($this->get_columns(), 0, 1));
-        $this->add_column(new StaticTableColumn(Translation :: get('Users')));
-        $this->add_column(new StaticTableColumn(Translation :: get('Subgroups')));
+        $this->add_column(new StaticTableColumn(Translation :: get('Users', null, UserManager :: APPLICATION_NAME)));
+        $this->add_column(new StaticTableColumn(Translation :: get('Subgroups', null, GroupManager :: APPLICATION_NAME)));
         $this->add_rights_columns();
         //		$this->add_column(self :: get_modification_column());
     }

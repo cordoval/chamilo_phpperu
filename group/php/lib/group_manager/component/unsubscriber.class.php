@@ -99,7 +99,7 @@ class GroupManagerUnsubscriberComponent extends GroupManager implements Administ
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected', null , Utilities :: COMMON_LIBRARIES)));
         }
     }
     

@@ -622,13 +622,13 @@ use common\libraries\Redirect;
     static function get_application_platform_admin_links()
     {
         $links = array();
-        $links[] = new DynamicAction(Translation :: get('MetadataNamespacesBrowser'), Translation :: get('MetadataNamespacesDescription'), Theme :: get_image_path() . 'browse_build.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+        $links[] = new DynamicAction(Translation :: get('MetadataNamespacesBrowser'), Translation :: get('MetadataNamespacesDescription'), Theme :: get_image_path() . 'admin/build.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
                 Application :: PARAM_ACTION => self :: ACTION_BROWSE_METADATA_NAMESPACES)));
-        $links[] = new DynamicAction(Translation :: get('MetadataPropertyTypesBrowser'), Translation :: get('MetadataPropertyTypesDescription'), Theme :: get_image_path() . 'browse_build.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+        $links[] = new DynamicAction(Translation :: get('MetadataPropertyTypesBrowser'), Translation :: get('MetadataPropertyTypesDescription'), Theme :: get_image_path() . 'admin/build.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
                 Application :: PARAM_ACTION => self :: ACTION_BROWSE_METADATA_PROPERTY_TYPES)));
-        $links[] = new DynamicAction(Translation :: get('MetadataPropertyAttributeTypesBrowser'), Translation :: get('MetadataPropertyAttributeTypesDescription'), Theme :: get_image_path() . 'browse_build.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+        $links[] = new DynamicAction(Translation :: get('MetadataPropertyAttributeTypesBrowser'), Translation :: get('MetadataPropertyAttributeTypesDescription'), Theme :: get_image_path() . 'admin/build.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
                 Application :: PARAM_ACTION => self :: ACTION_BROWSE_METADATA_PROPERTY_ATTRIBUTE_TYPES)));
-        $links[] = new DynamicAction(Translation :: get('ContentObjectPropertyMetadatasBrowser'), Translation :: get('ContentObjectPropertyMetadatasBrowserDescription'), Theme :: get_image_path() . 'browse_build.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+        $links[] = new DynamicAction(Translation :: get('ContentObjectPropertyMetadatasBrowser'), Translation :: get('ContentObjectPropertyMetadatasBrowserDescription'), Theme :: get_image_path() . 'admin/build.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
                 Application :: PARAM_ACTION => self :: ACTION_BROWSE_CONTENT_OBJECT_PROPERTY_METADATAS)));
         $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
         $info['links'] = $links;

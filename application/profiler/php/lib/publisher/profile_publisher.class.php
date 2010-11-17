@@ -58,7 +58,7 @@ class ProfilePublisher
 
             while ($content_object = $content_objects->next_result())
             {
-                $html[] = '<li><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $content_object->get_type() . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($content_object->get_type()) . 'TypeName', null , 'repository\content_object\'.$content_object->get_type())) . '"/> ' . $content_object->get_title() . '</li>';
+                $html[] = '<li><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $content_object->get_type() . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($content_object->get_type()) . 'TypeName', null , 'repository\\content_object\\'.$content_object->get_type())) . '"/> ' . $content_object->get_title() . '</li>';
             }
 
             $html[] = '</ul>';

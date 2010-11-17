@@ -90,7 +90,7 @@ abstract class ComplexDisplay extends SubManager
         $file = dirname(__FILE__) . '/../../../content_object/' . $type . '/php/display/' . $type . '_display.class.php';
         if (! file_exists($file))
         {
-            throw new Exception(Translation :: get('ComplexDisplayTypeDoesNotExist', array('type' => $type)));
+            throw new Exception(Translation :: get('ComplexDisplayTypeDoesNotExist', array('TYPE' => $type)));
         }
 
         require_once $file;

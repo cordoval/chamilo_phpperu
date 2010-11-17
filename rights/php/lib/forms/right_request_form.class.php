@@ -36,7 +36,7 @@ class RightsTemplateRequestForm extends FormValidator
     function build_request_form()
     {
         $this->addElement('textarea', self :: REQUEST_CONTENT, Translation :: get('RightRequestContent'), array('style' => 'width:500px;height:200px;'));
-        $this->addRule(self :: REQUEST_CONTENT, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(self :: REQUEST_CONTENT, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
 
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Send', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive update'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));

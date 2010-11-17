@@ -79,7 +79,7 @@ class GroupValidator extends Validator
             $var = $this->get_group_id($groupProperties[Group :: PROPERTY_PARENT]);
             if (! $var)
             {
-                $this->errorMessage = Translation :: get('ParentGroupName') . ' ' . $groupProperties[Group :: PROPERTY_PARENT] . ' ' . Translation :: get('wasNotFoundInTheDatabase');
+                $this->errorMessage = Translation :: get('ParentGroupName') . ' ' . $groupProperties[Group :: PROPERTY_PARENT] . ' ' . Translation :: get('WasNotFoundInTheDatabase');
                 return false;
             }
             else
@@ -102,7 +102,7 @@ class GroupValidator extends Validator
         $var = $this->get_group_id($groupProperties[Group :: PROPERTY_NAME]);
         if (! $var)
         {
-            $this->errorMessage = Translation :: get('Group') . ' ' . $groupProperties[Group :: PROPERTY_NAME] . ' ' . Translation :: get('wasNotFoundInTheDatabase');
+            $this->errorMessage = Translation :: get('Group') . ' ' . $groupProperties[Group :: PROPERTY_NAME] . ' ' . Translation :: get('WasNotFoundInTheDatabase');
             return false;
         }
         else
@@ -113,7 +113,7 @@ class GroupValidator extends Validator
             $var = $this->get_group_id($groupProperties[Group :: PROPERTY_PARENT]);
             if (! $var)
             {
-                $this->errorMessage = Translation :: get('ParentGroupName') . ' ' . $groupProperties[Group :: PROPERTY_PARENT] . ' ' . Translation :: get('wasNotFoundInTheDatabase');
+                $this->errorMessage = Translation :: get('ParentGroupName') . ' ' . $groupProperties[Group :: PROPERTY_PARENT] . ' ' . Translation :: get('WasNotFoundInTheDatabase');
                 return false;
             }
             else
@@ -135,7 +135,7 @@ class GroupValidator extends Validator
         $var = $this->get_group_id($groupProperties[Group :: PROPERTY_NAME]);
         if (! $var)
         {
-            $this->errorMessage = Translation :: get('Group') . ' ' . $groupProperties[Group :: PROPERTY_NAME] . ' ' . Translation :: get('wasNotFoundInTheDatabase');
+            $this->errorMessage = Translation :: get('Group') . ' ' . $groupProperties[Group :: PROPERTY_NAME] . ' ' . Translation :: get('WasNotFoundInTheDatabase');
             return false;
         }
         else
@@ -157,7 +157,7 @@ class GroupValidator extends Validator
         $var = $this->get_person_id($input_group_rel_user[GroupRelUser :: PROPERTY_USER_ID]);
         if (! $var)
         {
-            $this->errorMessage = Translation :: get('User', null , 'user') . ' ' . $input_group_rel_user[GroupRelUser :: PROPERTY_USER_ID] . ' ' . Translation :: get('wasNotFoundInTheDatabase');
+            $this->errorMessage = Translation :: get('User', null , 'user') . ' ' . $input_group_rel_user[GroupRelUser :: PROPERTY_USER_ID] . ' ' . Translation :: get('WasNotFoundInTheDatabase');
             return false;
         }
         else
@@ -166,7 +166,7 @@ class GroupValidator extends Validator
         $var = $this->get_group_id($input_group_rel_user[GroupRelUser :: PROPERTY_GROUP_ID]);
         if (! $var)
         {
-            $this->errorMessage = Translation :: get('Group') . ' ' . $input_group_rel_user[GroupRelUser :: PROPERTY_GROUP_ID] . ' ' . Translation :: get('wasNotFoundInTheDatabase');
+            $this->errorMessage = Translation :: get('Group') . ' ' . $input_group_rel_user[GroupRelUser :: PROPERTY_GROUP_ID] . ' ' . Translation :: get('WasNotFoundInTheDatabase');
             return false;
         }
         else

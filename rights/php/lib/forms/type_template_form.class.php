@@ -51,7 +51,7 @@ class TypeTemplateForm extends FormValidator
     {
         // Lastname
         $this->addElement('text', TypeTemplate :: PROPERTY_NAME, Translation :: get('Name'), array("size" => "50"));
-        $this->addRule(TypeTemplate :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(TypeTemplate :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
 
         $this->add_html_editor(TypeTemplate :: PROPERTY_DESCRIPTION, Translation :: get('Properties', null, Utilities :: COMMON_LIBRARIES), false);
     }

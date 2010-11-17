@@ -119,7 +119,7 @@ class ComplexBuilderComponentParentChangerComponent extends ComplexBuilderCompon
 
                 $parameters[ComplexBuilder :: PARAM_BUILDER_ACTION] = ComplexBuilder :: ACTION_BROWSE;
                 $parameters[ComplexBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID] = null;
-                $this->redirect($message, ($failures > 0), $parameters);
+                $this->redirect(Translation :: get($message, array('OBJECTS' => Translation :: get('ComplexContentObjectItems')), Utilities :: COMMON_LIBRARIES), ($failures > 0), $parameters);
 
             }
             else

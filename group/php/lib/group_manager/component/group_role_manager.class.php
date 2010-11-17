@@ -24,7 +24,7 @@ class GroupManagerGroupRightsTemplateManagerComponent extends GroupManager imple
         if (! $group_id)
         {
             $this->display_header();
-            $this->display_error_message('NoObjectSelected');
+            $this->display_error_message('NoObjectSelected', null , Utilities :: COMMON_LIBRARIES);
             $this->display_footer();
             exit();
         }

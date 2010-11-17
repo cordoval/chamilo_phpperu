@@ -3,6 +3,9 @@ namespace reporting;
 
 use common\libraries\Path;
 use common\libraries\Translation;
+use user\UserManager;
+use application\weblcms\CourseUserRelation;
+use application\weblcms\WeblcmsManager;
 
 /**
  * $Id: reporting_validator.class.php 215 2009-11-13 14:07:59Z vanpouckesven $
@@ -73,18 +76,18 @@ class ReportingValidator extends Validator
 
     function validate_get_user_courses(&$input_user)
     {
-        $this->errorSource = Translation :: get('ErrorRetrievingUserCourses');
+        $this->errorSource = Translation :: get('ErrorRetrievingUserCourses', null, WeblcmsManager :: APPLICATION_NAME);
 
         if (empty($input_user[USER :: PROPERTY_USERNAME]))
         {
-            $this->errorMessage = Translation :: get('UsernameIsRequired');
+            $this->errorMessage = Translation :: get('UsernameIsRequired', null, UserManager :: APPLICATION_NAME);
             return false;
         }
 
         $user = $this->get_person_id($input_user[USER :: PROPERTY_USERNAME]);
         if ($user === false)
         {
-            $this->errorMessage = Translation :: get('User') . ' ' . $inputUser[User :: PROPERTY_USERNAME] . ' ' . Translation :: get('WasNotFoundInTheDatabase');
+            $this->errorMessage = Translation :: get('User', null, UserManager :: APPLICATION_NAME) . ' ' . $inputUser[User :: PROPERTY_USERNAME] . ' ' . Translation :: get('WasNotFoundInTheDatabase');
             return false;
         }
         else
@@ -95,18 +98,18 @@ class ReportingValidator extends Validator
 
     function validate_get_course_users(&$input_course)
     {
-        $this->errorSource = Translation :: get('ErrorRetrievingCourseUsers');
+        $this->errorSource = Translation :: get('ErrorRetrievingCourseUsers', null, WeblcmsManager :: APPLICATION_NAME);
 
         if (empty($input_course[Course :: PROPERTY_VISUAL]))
         {
-            $this->errorMessage = Translation :: get('CourseVisualCodeIsRequired');
+            $this->errorMessage = Translation :: get('CourseVisualCodeIsRequired', null, WeblcmsManager :: APPLICATION_NAME);
             return false;
         }
 
         $course = $this->get_course_id($input_course[Course :: PROPERTY_VISUAL]);
         if ($course === false)
         {
-            $this->errorMessage = Translation :: get('Course') . ' ' . $inputCourse[Course :: PROPERTY_VISUAL] . ' ' . Translation :: get('WasNotFoundInTheDatabase');
+            $this->errorMessage = Translation :: get('Course', null, WeblcmsManager :: APPLICATION_NAME) . ' ' . $inputCourse[Course :: PROPERTY_VISUAL] . ' ' . Translation :: get('WasNotFoundInTheDatabase');
             return false;
         }
         else
@@ -117,24 +120,24 @@ class ReportingValidator extends Validator
 
     function validate_get_new_course_publications(&$input_course)
     {
-        $this->errorSource = Translation :: get('ErrorRetrievingNewCoursePublications');
+        $this->errorSource = Translation :: get('ErrorRetrievingNewCoursePublications', null, WeblcmsManager :: APPLICATION_NAME);
 
         if (empty($input_course[CourseUserRelation :: PROPERTY_COURSE]))
         {
-            $this->errorMessage = Translation :: get('CourseVisualCodeIsRequired');
+            $this->errorMessage = Translation :: get('CourseVisualCodeIsRequired', null, WeblcmsManager :: APPLICATION_NAME);
             return false;
         }
 
         if (empty($input_course[CourseUserRelation :: PROPERTY_USER]))
         {
-            $this->errorMessage = Translation :: get('UsernameIsRequired');
+            $this->errorMessage = Translation :: get('UsernameIsRequired', null, UserManager :: APPLICATION_NAME);
             return false;
         }
 
         $course = $this->get_course_id($input_course[CourseUserRelation :: PROPERTY_COURSE]);
         if ($course === false)
         {
-            $this->errorMessage = Translation :: get('Course', null, 'weblcms') . ' ' . $input_course[CourseUserRelation :: PROPERTY_COURSE] . ' ' . Translation :: get('WasNotFoundInTheDatabase');
+            $this->errorMessage = Translation :: get('Course', null, WeblcmsManager :: APPLICATION_NAME) . ' ' . $input_course[CourseUserRelation :: PROPERTY_COURSE] . ' ' . Translation :: get('WasNotFoundInTheDatabase');
             return false;
         }
         else
@@ -143,7 +146,7 @@ class ReportingValidator extends Validator
         $user = $this->get_person_id($input_course[CourseUserRelation :: PROPERTY_USER]);
         if ($user === false)
         {
-            $this->errorMessage = Translation :: get('User', null, 'user') . ' ' . $input_course[CourseUserRelation :: PROPERTY_USER] . ' ' . Translation :: get('WasNotFoundInTheDatabase');
+            $this->errorMessage = Translation :: get('User', null, UserManager :: APPLICATION_NAME) . ' ' . $input_course[CourseUserRelation :: PROPERTY_USER] . ' ' . Translation :: get('WasNotFoundInTheDatabase');
             return false;
         }
         else
@@ -154,30 +157,30 @@ class ReportingValidator extends Validator
 
     function validate_get_new_publications_in_course_tool(&$input_course)
     {
-        $this->errorSource = Translation :: get('ErrorRetrievingNewPublicationsInCourseTool');
+        $this->errorSource = Translation :: get('ErrorRetrievingNewPublicationsInCourseTool', null, WeblcmsManager :: APPLICATION_NAME);
 
         if (empty($input_course[ContentObjectPublicationUser :: PROPERTY_COURSE_ID]))
         {
-            $this->errorMessage = Translation :: get('CourseVisualCodeIsRequired');
+            $this->errorMessage = Translation :: get('CourseVisualCodeIsRequired', null, WeblcmsManager :: APPLICATION_NAME);
             return false;
         }
 
         if (empty($input_course[ContentObjectPublicationUser :: PROPERTY_USER_ID]))
         {
-            $this->errorMessage = Translation :: get('UsernameIsRequired');
+            $this->errorMessage = Translation :: get('UsernameIsRequired', null, UserManager :: APPLICATION_NAME);
             return false;
         }
 
         if (empty($input_course[ContentObjectPublicationUser :: PROPERTY_TOOL]))
         {
-            $this->errorMessage = Translation :: get('ToolNameIsRequired');
+            $this->errorMessage = Translation :: get('ToolNameIsRequired', null, WeblcmsManager :: APPLICATION_NAME);
             return false;
         }
 
         $course = $this->get_course_id($input_course[ContentObjectPublicationUser :: PROPERTY_COURSE_ID]);
         if ($course === false)
         {
-            $this->errorMessage = Translation :: get('Course', null, 'weblcms') . ' ' . $input_course[ContentObjectPublicationUser :: PROPERTY_COURSE_ID] . ' ' . Translation :: get('WasNotFoundInTheDatabase');
+            $this->errorMessage = Translation :: get('Course', null, WeblcmsManager :: APPLICATION_NAME) . ' ' . $input_course[ContentObjectPublicationUser :: PROPERTY_COURSE_ID] . ' ' . Translation :: get('WasNotFoundInTheDatabase');
             return false;
         }
         else
@@ -186,7 +189,7 @@ class ReportingValidator extends Validator
         $user = $this->get_person_id($input_course[ContentObjectPublicationUser :: PROPERTY_USER_ID]);
         if ($user === false)
         {
-            $this->errorMessage = Translation :: get('User', null, 'user') . ' ' . $input_course[ContentObjectPublicationUser :: PROPERTY_USER_ID] . ' ' . Translation :: get('WasNotFoundInTheDatabase');
+            $this->errorMessage = Translation :: get('User', null, UserManager :: APPLICATION_NAME) . ' ' . $input_course[ContentObjectPublicationUser :: PROPERTY_USER_ID] . ' ' . Translation :: get('WasNotFoundInTheDatabase');
             return false;
         }
         else
@@ -201,14 +204,14 @@ class ReportingValidator extends Validator
 
         if (empty($user[User :: PROPERTY_USERNAME]))
         {
-            $this->errorMessage = Translation :: get('UsernameIsRequired');
+            $this->errorMessage = Translation :: get('UsernameIsRequired', null, UserManager :: APPLICATION_NAME);
             return false;
         }
 
         $user = $this->get_person_id($user[User :: PROPERTY_USERNAME]);
         if ($user === false)
         {
-            $this->errorMessage = Translation :: get('User', null, 'user') . ' ' . $user[User :: PROPERTY_USERNAME] . ' ' . Translation :: get('WasNotFoundInTheDatabase');
+            $this->errorMessage = Translation :: get('User', null, UserManager :: APPLICATION_NAME) . ' ' . $user[User :: PROPERTY_USERNAME] . ' ' . Translation :: get('WasNotFoundInTheDatabase');
             return false;
         }
         else
@@ -230,7 +233,7 @@ class ReportingValidator extends Validator
         $course = $this->get_course_id($course[Course :: PROPERTY_VISUAL]);
         if ($course === false)
         {
-            $this->errorMessage = Translation :: get('Course', null, 'weblcms') . ' ' . $course[Course :: PROPERTY_VISUAL] . ' ' . Translation :: get('WasNotFoundInTheDatabase');
+            $this->errorMessage = Translation :: get('Course', null, WeblcmsManager :: APPLICATION_NAME) . ' ' . $course[Course :: PROPERTY_VISUAL] . ' ' . Translation :: get('WasNotFoundInTheDatabase');
             return false;
         }
         else

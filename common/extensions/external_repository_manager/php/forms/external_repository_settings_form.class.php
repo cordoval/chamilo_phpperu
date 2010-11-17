@@ -90,7 +90,7 @@ class ExternalRepositorySettingsForm extends FormValidator
                     }
                     elseif ($setting['field'] == 'text')
                     {
-                        $this->add_textfield($name, Translation :: get(Utilities :: underscores_to_camelcase($name), ExternalRepositoryManager::get_i18n_context($configuration['name'])), ($setting['required'] == 'true'));
+                        $this->add_textfield($name, Translation :: get(Utilities :: underscores_to_camelcase($name)/*, ExternalRepositoryManager::get_i18n_context($configuration['name'])*/), ($setting['required'] == 'true'));
 
                         $validations = $setting['validations'];
                         if ($validations)
@@ -104,7 +104,7 @@ class ExternalRepositorySettingsForm extends FormValidator
                                         $validation['format'] = NULL;
                                     }
 
-                                    $this->addRule($name, Translation :: get($validation['message'], ExternalRepositoryManager::get_i18n_context($configuration['name'])), $validation['rule'], $validation['format']);
+                                    $this->addRule($name, Translation :: get($validation['message']/*, ExternalRepositoryManager::get_i18n_context($configuration['name'])*/), $validation['rule'], $validation['format']);
                                 }
                             }
                         }
@@ -112,7 +112,7 @@ class ExternalRepositorySettingsForm extends FormValidator
                     }
                     elseif ($setting['field'] == 'html_editor')
                     {
-                        $this->add_html_editor($name, Translation :: get(Utilities :: underscores_to_camelcase($name), ExternalRepositoryManager::get_i18n_context($configuration['name'])), ($setting['required'] == 'true'));
+                        $this->add_html_editor($name, Translation :: get(Utilities :: underscores_to_camelcase($name)/*, ExternalRepositoryManager::get_i18n_context($configuration['name'])*/), ($setting['required'] == 'true'));
                     }
                     else
                     {

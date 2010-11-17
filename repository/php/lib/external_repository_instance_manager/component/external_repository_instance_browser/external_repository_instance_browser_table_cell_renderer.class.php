@@ -6,6 +6,7 @@ use common\libraries\Utilities;
 use common\libraries\ToolbarItem;
 use common\libraries\Toolbar;
 use common\libraries\Theme;
+use rights\RightsManager;
 
 /**
  * $Id: external_repository_instance_browser_table_cell_renderer.class.php 204 2009-11-13 12:51:30Z kariboe $
@@ -71,7 +72,7 @@ class ExternalRepositoryInstanceBrowserTableCellRenderer extends DefaultExternal
 
         $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_url(array(ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION => ExternalRepositoryInstanceManager :: ACTION_UPDATE_INSTANCE, ExternalRepositoryInstanceManager :: PARAM_INSTANCE => $external_repository->get_id())), ToolbarItem :: DISPLAY_ICON));
         $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_url(array(ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION => ExternalRepositoryInstanceManager :: ACTION_DELETE_INSTANCE, ExternalRepositoryInstanceManager :: PARAM_INSTANCE => $external_repository->get_id())), ToolbarItem :: DISPLAY_ICON, true));
-        $toolbar->add_item(new ToolbarItem(Translation :: get('ManageRights', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_rights.png', $this->browser->get_url(array(ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION => ExternalRepositoryInstanceManager :: ACTION_MANAGE_INSTANCE_RIGHTS, ExternalRepositoryInstanceManager :: PARAM_INSTANCE => $external_repository->get_id())), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('ManageRights', null, RightsManager :: APPLICATION_NAME), Theme :: get_common_image_path() . 'action_rights.png', $this->browser->get_url(array(ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION => ExternalRepositoryInstanceManager :: ACTION_MANAGE_INSTANCE_RIGHTS, ExternalRepositoryInstanceManager :: PARAM_INSTANCE => $external_repository->get_id())), ToolbarItem :: DISPLAY_ICON));
         return $toolbar->as_html();
     }
 }

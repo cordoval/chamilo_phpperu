@@ -6,12 +6,13 @@ use common\libraries\Translation;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\Utilities;
+use \HTML_Menu;
+use \HTML_Menu_ArrayRenderer;
 /**
  * $Id: content_object_category_menu.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib
  */
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
+
 /**
  * This class provides a navigation menu to allow a user to browse through his
  * categories of learning objects.

@@ -49,8 +49,8 @@ class TrackersSelectionArchiveWizardPage extends ArchiveWizardPage
         $previousblock = '';
 
         $this->addElement('html', '<div style="margin-top: 10px;">&nbsp;</div>');
-        $this->addElement('html', '<div id="selectall" style="color: #4171B5; font-weight: bold; cursor: pointer; float: left;">' . Translation :: get('SelectAll') . '</div> &nbsp; | &nbsp; ');
-        $this->addElement('html', '<div id="unselectall" style="color: #4171B5; font-weight: bold; cursor: pointer; display: inline;">' . Translation :: get('UnSelectAll') . '</div>');
+        $this->addElement('html', '<div id="selectall" style="color: #4171B5; font-weight: bold; cursor: pointer; float: left;">' . Translation :: get('SelectAll', null, Utilities :: COMMON_LIBRARIES) . '</div> &nbsp; | &nbsp; ');
+        $this->addElement('html', '<div id="unselectall" style="color: #4171B5; font-weight: bold; cursor: pointer; display: inline;">' . Translation :: get('UnselectAll', null, Utilities :: COMMON_LIBRARIES) . '</div>');
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/checkboxes.js'));
 
         while ($event = $events->next_result())
