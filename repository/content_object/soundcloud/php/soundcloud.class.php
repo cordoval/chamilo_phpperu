@@ -12,7 +12,6 @@ use repository\ContentObject;
  */
 class Soundcloud extends ContentObject implements Versionable
 {
-    const PROPERTY_TRACK_ID = 'track_id';
     const CLASS_NAME = __CLASS__;
 
     const SOUNDCLOUD_TRACK_API_URI = 'http://api.soundcloud.com/tracks/%s';
@@ -23,29 +22,14 @@ class Soundcloud extends ContentObject implements Versionable
         return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 
-    function get_track_id()
-    {
-        return $this->get_additional_property(self :: PROPERTY_TRACK_ID);
-    }
-
-    function set_track_id($track_id)
-    {
-        return $this->set_additional_property(self :: PROPERTY_TRACK_ID, $track_id);
-    }
-
     function get_track_api_uri()
     {
-        return sprintf(self ::SOUNDCLOUD_TRACK_API_URI, $this->get_track_id());
+        return sprintf(self ::SOUNDCLOUD_TRACK_API_URI, $this->get_synchronization_data()->get_external_repository_object_id());
     }
 
     function get_track_player_uri()
     {
         return sprintf(self :: SOUNDCLOUD_PLAYER_URI, urlencode($this->get_track_api_uri()));
-    }
-
-    static function get_additional_property_names()
-    {
-        return array(self :: PROPERTY_TRACK_ID);
     }
 }
 ?>

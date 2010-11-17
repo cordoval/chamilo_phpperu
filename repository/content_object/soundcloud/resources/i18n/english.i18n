@@ -2,3 +2,6 @@ TypeName = "Soundcloud"
 Properties = "Properties"
 BrowseSoundcloud = "Browse Soundcloud"
 TrackId = "Track id"
+
+Title = ""
+Description = ""
