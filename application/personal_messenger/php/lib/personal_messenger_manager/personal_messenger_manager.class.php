@@ -4,7 +4,6 @@ namespace application\personal_messenger;
 
 use common\libraries\WebApplication;
 use common\libraries\Request;
-use PersonalMessengerBlock;
 use common\libraries\Translation;
 use common\libraries\Application;
 use common\libraries\Session;

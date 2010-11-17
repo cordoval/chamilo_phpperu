@@ -136,7 +136,7 @@ class PersonalMessengerManagerViewerComponent extends PersonalMessengerManager
                 Utilities :: order_content_objects_by_title($attachments);
                 foreach ($attachments as $attachment)
                 {
-                    $html[] = '<li class="personal_message_attachment"><div style="float: left;"><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $attachment->get_type() . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($attachment->get_type()) . 'TypeName', null , 'repository\content_object\'.$attachment->get_type())) . '"/></div><div style="float: left;">&nbsp;' . $attachment->get_title() . '&nbsp;</div>';
+                    $html[] = '<li class="personal_message_attachment"><div style="float: left;"><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $attachment->get_type() . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($attachment->get_type()) . 'TypeName', null , 'repository\\content_object\\'.$attachment->get_type())) . '"/></div><div style="float: left;">&nbsp;' . $attachment->get_title() . '&nbsp;</div>';
                     $html[] = Utilities :: build_block_hider($attachment->get_id(), 'Attachment');
 
                     $display = ContentObjectDisplay :: factory($attachment);
