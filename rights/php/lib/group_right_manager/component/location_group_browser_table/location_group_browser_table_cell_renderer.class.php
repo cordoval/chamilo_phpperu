@@ -6,6 +6,8 @@ use common\libraries\Path;
 use common\libraries\Translation;
 
 use rights\RightsUtilities;
+use group\GroupManager;
+use user\UserManager;
 /**
  * $Id: location_group_browser_table_cell_renderer.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.group_right_manager.component.location_group_browser_table
@@ -64,9 +66,9 @@ class LocationGroupBrowserTableCellRenderer extends DefaultGroupTableCellRendere
                 //					$description = mb_substr($description,0,170).'&hellip;';
                 //				}
                 return Utilities :: truncate_string($description);
-            case Translation :: get('Users') :
+            case Translation :: get('Users', null, UserManager :: APPLICATION_NAME) :
                 return $group->count_users();
-            case Translation :: get('Subgroups') :
+            case Translation :: get('Subgroups', null, GroupManager :: APPLICATION_NAME) :
                 return $group->count_subgroups(true);
         }
 

@@ -39,11 +39,11 @@ class GroupManagerCreatorComponent extends GroupManager implements Administratio
             if ($success)
             {
                 $group = $form->get_group();
-                $this->redirect(Translation :: get('ObjectCreated', array('OBJECT' => Translation :: get('Group'))), (false), array(Application :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $group->get_id()));
+                $this->redirect(Translation :: get('ObjectCreated', array('OBJECT' => Translation :: get('Group')), Utilities :: COMMON_LIBRARIES), (false), array(Application :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $group->get_id()));
             }
             else
             {
-                $this->redirect(Translation :: get('ObjectNotCreated', array ('OBJECT' => Translation :: get('Group'))), (true), array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS));
+                $this->redirect(Translation :: get('ObjectNotCreated', array ('OBJECT' => Translation :: get('Group')), Utilities :: COMMON_LIBRARIES), (true), array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS));
             }
         }
         else
