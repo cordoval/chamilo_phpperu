@@ -3,6 +3,7 @@
 namespace application\personal_calendar;
 
 use common\libraries\Utilities;
+use tracking\ChangesTracker;
 
 /**
  * $Id: personal_calendar_publication_changes_tracker.class.php 201 2009-11-13 12:34:51Z chellee $
