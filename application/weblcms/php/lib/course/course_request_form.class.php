@@ -105,9 +105,9 @@ class CourseRequestForm extends FormValidator
                 foreach ($course_type_objects as $course_type)
                     $course_types[$course_type->get_id()] = $course_type->get_name();
                 $this->addElement('select', CourseCreateRequest :: PROPERTY_COURSE_TYPE_ID, Translation :: get('CourseType'), $course_types, array('class' => 'course_type_selector'));
-                $this->addRule(CourseCreateRequest :: PROPERTY_COURSE_TYPE_ID, Translation :: get('ThisFieldIsRequired'), 'required');
+                $this->addRule(CourseCreateRequest :: PROPERTY_COURSE_TYPE_ID, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
                 $this->add_textfield(CourseCreateRequest :: PROPERTY_COURSE_NAME, Translation :: get('CourseName'), true);
-                $this->addRule(CourseCreateRequest :: PROPERTY_COURSE_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
+                $this->addRule(CourseCreateRequest :: PROPERTY_COURSE_NAME, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
             }
             else
             {

@@ -2,7 +2,7 @@
 
 namespace application\personal_calendar;
 
-
+require_once dirname(__FILE__).'/../../../../../common/global.inc.php';
 require_once dirname(__FILE__).'/publication_rss.class.php';
 
 $rss = new PersonalCalendarPublicationRSS();

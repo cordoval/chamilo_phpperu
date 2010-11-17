@@ -6,6 +6,7 @@ use common\libraries\FormValidator;
 use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: course_category_form.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -44,7 +45,7 @@ class CourseCategoryForm extends FormValidator
     function build_basic_form()
     {
         $this->addElement('text', CourseCategory :: PROPERTY_NAME, Translation :: get('CourseCategoryName'), array("size" => "50"));
-        $this->addRule(CourseCategory :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(CourseCategory :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
 
         $cat_options = array();
 
@@ -63,7 +64,7 @@ class CourseCategoryForm extends FormValidator
             $cat_options[$category->get_id()] = $category->get_name();
         }
 
-        $this->addElement('select', CourseCategory :: PROPERTY_PARENT, Translation :: get('Parent'), $cat_options);
+        $this->addElement('select', CourseCategory :: PROPERTY_PARENT, Translation :: get('Parent', null, Utilities :: COMMON_LIBRARIES), $cat_options);
 
         $child_allowed = array();
         $child_allowed[] = & $this->createElement('radio', null, null, Translation :: get('Yes'), 1);
@@ -82,8 +83,8 @@ class CourseCategoryForm extends FormValidator
         $this->addElement('hidden', CourseCategory :: PROPERTY_ID);
 
         //$this->addElement('submit', 'course_settings', Translation :: get('Ok'));
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive update'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -91,12 +92,12 @@ class CourseCategoryForm extends FormValidator
     function build_creation_form()
     {
         $this->addElement('text', CourseCategory :: PROPERTY_CODE, Translation :: get('CourseCategoryCode'));
-        $this->addRule(CourseCategory :: PROPERTY_CODE, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(CourseCategory :: PROPERTY_CODE, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         $this->build_basic_form();
 
         //$this->addElement('submit', 'course_settings', Translation :: get('Ok'));
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create', null, Utilities :: COMMON_LIBRARIES), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

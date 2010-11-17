@@ -9,7 +9,6 @@ use common\libraries\Path;
 use common\libraries\Utilities;
 
 use group\DefaultGroupTableCellRenderer;
-use common\libraries\Utilities;
 
 require_once Path :: get_group_path() . 'lib/group_table/default_group_table_cell_renderer.class.php';
 

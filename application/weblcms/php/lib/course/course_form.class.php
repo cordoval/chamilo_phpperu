@@ -215,7 +215,7 @@ class CourseForm extends CommonForm
                 }
             }
             $this->addElement('select', Course :: PROPERTY_COURSE_TYPE_ID, Translation :: get('CourseType'), $course_types, array('class' => 'course_type_selector'));
-            $this->addRule('CourseType', Translation :: get('ThisFieldIsRequired'), 'required');
+            $this->addRule('CourseType', Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         }
         else
         {
@@ -229,26 +229,26 @@ class CourseForm extends CommonForm
         }
 
         $this->addElement('text', Course :: PROPERTY_NAME, Translation :: get('Title'), array("size" => "50"));
-        $this->addRule(Course :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(Course :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
 
         $this->addElement('text', Course :: PROPERTY_VISUAL, Translation :: get('VisualCode'), array("size" => "50"));
 
         $this->get_categories(0);
         if (count($this->categories) > 0)
         {
-            $this->addElement('select', Course :: PROPERTY_CATEGORY, Translation :: get('Category'), $this->categories);
+            $this->addElement('select', Course :: PROPERTY_CATEGORY, Translation :: get('Category', null, Utilities :: COMMON_LIBRARIES), $this->categories);
         }
         else
         {
             $category_name = Translation :: get('NoCategories');
-            $this->addElement('static', 'Category_Static', Translation :: get('Category'), $category_name);
+            $this->addElement('static', 'Category_Static', Translation :: get('Category', null, Utilities :: COMMON_LIBRARIES), $category_name);
             $this->addElement('hidden', Course :: PROPERTY_CATEGORY, 0);
         }
 
         if (! $this->object->get_titular_fixed() || $this->user->is_platform_admin())
         {
             $this->addElement('select', Course :: PROPERTY_TITULAR, Translation :: get('Teacher'), $this->user_options);
-            $this->addRule(Course :: PROPERTY_TITULAR, Translation :: get('ThisFieldIsRequired'), 'required');
+            $this->addRule(Course :: PROPERTY_TITULAR, Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         }
         else
         {
@@ -482,12 +482,12 @@ class CourseForm extends CommonForm
 
             $tool_image_src = Theme :: get_image_path() . 'tool_mini_' . $tool . '.png';
             $tool_image = $tool . "_image";
-            $title = htmlspecialchars(Translation :: get(Tool :: type_to_class($tool) . 'Title'));
+            $title = htmlspecialchars(Translation :: get('TypeName', null, Tool :: get_tool_type_namespace($tool)));
             $element_default = $tool . "elementdefault";
 
             $tool_data[] = '<img class="' . $tool_image . '" src="' . $tool_image_src . '" style="vertical-align: middle;" alt="' . $title . '"/>';
             $tool_data[] = $title;
-            $tool_data[] = '<div class="' . $element_default . '"/>' . $this->createElement('checkbox', $element_default, Translation :: get('IsVisible'), '', $element_default_arr)->toHtml() . '</div>';
+            $tool_data[] = '<div class="' . $element_default . '"/>' . $this->createElement('checkbox', $element_default . 'e', Translation :: get('IsVisible'), '', $element_default_arr)->toHtml() . '</div>';
             $count ++;
 
             $data[] = $tool_data;
@@ -511,9 +511,9 @@ class CourseForm extends CommonForm
         $attributes['search_url'] = Path :: get(WEB_PATH) . 'group/xml_feeds/xml_group_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('SelectRecipients');
-        $locale['Searching'] = Translation :: get('Searching');
-        $locale['NoResults'] = Translation :: get('NoResults');
-        $locale['Error'] = Translation :: get('Error');
+        $locale['Searching'] = Translation :: get('Searching', null, Utilities :: COMMON_LIBRARIES);
+        $locale['NoResults'] = Translation :: get('NoResults', null, Utilities :: COMMON_LIBRARIES);
+        $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARIES);
         $attributes['locale'] = $locale;
         // $attributes['exclude'] = array('user_' . $this->tool->get_user_id());
         $attributes['defaults'] = array();

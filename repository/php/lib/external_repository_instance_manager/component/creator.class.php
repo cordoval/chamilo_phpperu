@@ -1,8 +1,6 @@
 <?php
 namespace repository;
 
-use common\extensions\external_repository_manager;
-
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Path;
@@ -36,18 +34,17 @@ class ExternalRepositoryInstanceManagerCreatorComponent extends ExternalReposito
 
         if ($type && ExternalRepositoryManager :: exists($type))
         {
-            $external_repository = new ExternalRepository();
+        	$external_repository = new ExternalRepository();
             $external_repository->set_type($type);
             $form = new ExternalRepositoryForm(ExternalRepositoryForm :: TYPE_CREATE, $external_repository, $this->get_url(array(ExternalRepositoryInstanceManager :: PARAM_EXTERNAL_REPOSITORY_TYPE => $type)));
             if ($form->validate())
             {
-                $success = $form->create_external_repository();
-                $this->redirect(Translation :: get($success ? 'ObjectAdded' : 'ObjectNotAdded', array('OBJECT' => Translation :: get('ExternalRepository')), Utilities :: COMMON_LIBRARIES), ($success ? false : true), array(
-                        ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION => ExternalRepositoryInstanceManager :: ACTION_BROWSE_INSTANCES));
+            	$success = $form->create_external_repository();
+                $this->redirect(Translation :: get($success ? 'ObjectAdded' : 'ObjectNotAdded', array('OBJECT' => Translation :: get('ExternalRepository')), Utilities :: COMMON_LIBRARIES), ($success ? false : true), array(ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION => ExternalRepositoryInstanceManager :: ACTION_BROWSE_INSTANCES));
             }
             else
             {
-                $this->display_header();
+            	$this->display_header();
                 $form->display();
                 $this->display_footer();
             }
@@ -67,12 +64,12 @@ class ExternalRepositoryInstanceManagerCreatorComponent extends ExternalReposito
 
                 foreach ($repository_types['types'][$category] as $type => $name)
                 {
-                    $types_html[] = '<a href="' . $this->get_url(array(ExternalRepositoryInstanceManager :: PARAM_EXTERNAL_REPOSITORY_TYPE => $type)) . '"><div class="create_block" style="background-image: url(' . Theme :: get_image_path(ExternalRepositoryManager :: get_namespace($type)) . 'logo/48.png);">';
+                    $types_html[] = '<a href="' . $this->get_url(array(ExternalRepositoryInstanceManager :: PARAM_EXTERNAL_REPOSITORY_TYPE => $type)) . '"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'external_repository/' . $type . '/logo/48.png);">';
                     $types_html[] = $name;
                     $types_html[] = '</div></a>';
                 }
 
-                $tabs->add_tab(new DynamicContentTab($category, $category_name, Theme :: get_image_path(ExternalRepositoryManager :: get_namespace()) . 'category_' . $category . '.png', implode("\n", $types_html)));
+                $tabs->add_tab(new DynamicContentTab($category, $category_name, Theme :: get_common_image_path() . 'place_external_repository_' . $category . '.png', implode("\n", $types_html)));
             }
 
             echo $tabs->render();
@@ -110,15 +107,15 @@ class ExternalRepositoryInstanceManagerCreatorComponent extends ExternalReposito
                 {
                     $section = $property->getAttribute('value');
                 }
-                elseif ($property->getAttribute('name') == 'multiple')
+                elseif($property->getAttribute('name') == 'multiple')
                 {
                     $multiple = $property->getAttribute('value');
                 }
             }
 
-            $condition = new EqualityCondition(ExternalRepository :: PROPERTY_TYPE, $folder);
+            $condition = new EqualityCondition(ExternalRepository::PROPERTY_TYPE, $folder);
             $count = $this->count_external_repositories($condition);
-            if (! $multiple && $count > 0)
+            if (!$multiple && $count > 0)
             {
                 continue;
             }

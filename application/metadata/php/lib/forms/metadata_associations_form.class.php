@@ -9,7 +9,6 @@ use common\libraries\Utilities;
 use common\libraries\ToolbarItem;
 use common\libraries\Toolbar;
 use common\libraries\Theme;
-use common\libraries\Utilities;
 
 /**
  * This class describes the form for a MetadataAttributeNesting object.
