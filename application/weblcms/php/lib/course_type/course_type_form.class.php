@@ -217,9 +217,9 @@ class CourseTypeForm extends CommonForm
         $attributes['search_url'] = Path :: get(WEB_PATH) . 'group/xml_feeds/xml_group_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('SelectRecipients');
-        $locale['Searching'] = Translation :: get('Searching');
-        $locale['NoResults'] = Translation :: get('NoResults');
-        $locale['Error'] = Translation :: get('Error');
+        $locale['Searching'] = Translation :: get('Searching', null, Utilities :: COMMON_LIBRARIES);
+        $locale['NoResults'] = Translation :: get('NoResults', null, Utilities :: COMMON_LIBRARIES);
+        $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARIES);
         $attributes['locale'] = $locale;
         // $attributes['exclude'] = array('user_' . $this->tool->get_user_id());
         $attributes['defaults'] = array();
@@ -269,9 +269,9 @@ class CourseTypeForm extends CommonForm
         $attributes['search_url'] = Path :: get(WEB_PATH) . 'group/xml_feeds/xml_group_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('SelectRecipients');
-        $locale['Searching'] = Translation :: get('Searching');
-        $locale['NoResults'] = Translation :: get('NoResults');
-        $locale['Error'] = Translation :: get('Error');
+        $locale['Searching'] = Translation :: get('Searching', null, Utilities :: COMMON_LIBRARIES);
+        $locale['NoResults'] = Translation :: get('NoResults', null, Utilities :: COMMON_LIBRARIES);
+        $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARIES);
         $attributes['locale'] = $locale;
         // $attributes['exclude'] = array('user_' . $this->tool->get_user_id());
         $attributes['defaults'] = array();

@@ -22,7 +22,7 @@ class DocumentPublicationSlideshowRenderer extends ListContentObjectPublicationL
         $publications = $this->get_publications();
         if (count($publications) == 0)
         {
-            $html[] = Display :: normal_message(Translation :: get('NoPublicationsAvailable'), true);
+            $html[] = Display :: normal_message(Translation :: get('NoPublications', null, Utilities :: COMMON_LIBRARIES), true);
             return implode("\n", $html);
         }
         if (! Request :: get('slideshow_index'))

@@ -83,8 +83,8 @@ class CourseGroupSubscriptionsForm extends FormValidator
 
         $locale = array();
         $locale['Display'] = Translation :: get('SelectGroupUsers');
-        $locale['Searching'] = Translation :: get('Searching');
-        $locale['NoResults'] = Translation :: get('NoResults');
+        $locale['Searching'] = Translation :: get('Searching', null, Utilities :: COMMON_LIBRARIES);
+        $locale['NoResults'] = Translation :: get('NoResults', null, Utilities :: COMMON_LIBRARIES);
         $locale['Error'] = Translation :: get('Error', null, Utilities :: COMMON_LIBRARIES );
 
         $legend_items = array();
