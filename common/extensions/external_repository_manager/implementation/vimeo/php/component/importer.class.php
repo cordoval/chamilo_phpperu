@@ -30,9 +30,6 @@ class VimeoExternalRepositoryManagerImporterComponent extends VimeoExternalRepos
         $vimeo = ContentObject :: factory(Vimeo :: get_type_name());
         $vimeo->set_title($object->get_title());
         $vimeo->set_description($object->get_description());
-        $vimeo->set_url('http://vimeo.com/' . $object->get_id());
-        $vimeo->set_height(344);
-        $vimeo->set_width(425);
         $vimeo->set_owner_id($this->get_user_id());
         
         if ($vimeo->create())
@@ -42,7 +39,7 @@ class VimeoExternalRepositoryManagerImporterComponent extends VimeoExternalRepos
             $parameters = $this->get_parameters();
             $parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS;
             $this->redirect(Translation :: get('ObjectImported', null, Utilities :: COMMON_LIBRARIES), false, $parameters, array(
-                    ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY, ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION));
+            ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY, ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION));
         }
         else
         {

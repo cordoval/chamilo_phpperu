@@ -243,7 +243,6 @@ class VimeoExternalRepositoryConnector extends ExternalRepositoryConnector
     function count_external_repository_objects($condition)
     {
         $videos = $this->retrieve_videos($condition, $order_property, 1, 1);
-        dump($videos);
         return $videos->videos->total;
     }
 
