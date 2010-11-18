@@ -4,6 +4,8 @@ require_once dirname(__FILE__) . '/table_data_provider.class.php';
 require_once dirname(__FILE__) . '/table_column_model.class.php';
 require_once dirname(__FILE__) . '/table_cell_renderer.class.php';
 
+use common\libraries\ObjectTable;
+
 class SurveyPublicationRelReportingTemplateTable extends ObjectTable
 {
     const DEFAULT_NAME = 'survey_publication_rel_reporting_template_table';

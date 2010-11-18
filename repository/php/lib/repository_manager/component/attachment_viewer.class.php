@@ -35,7 +35,7 @@ class RepositoryManagerAttachmentViewerComponent extends RepositoryManager
         else
         {
             $this->display_header(null, false, true);
-            $this->display_error_message('NoObjectSelected');
+            $this->display_error_message('NoObjectSelected', null, Utilities :: COMMON_LIBRARIES);
             $this->display_footer();
         }
 

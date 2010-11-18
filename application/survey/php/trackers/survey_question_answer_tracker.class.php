@@ -2,6 +2,7 @@
 namespace application\survey;
 
 use common\libraries\Path;
+use tracking\SimpleTracker;
 
 class SurveyQuestionAnswerTracker extends SimpleTracker
 {

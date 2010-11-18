@@ -760,7 +760,7 @@ abstract class Application
             $trail = BreadcrumbTrail :: get_instance();
             if ($component instanceof AdministrationComponent)
             {
-                $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration', null, 'admin')));
+                $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration', null, AdminManager :: APPLICATION_NAME)));
                 $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => $application_name), array(), false, Redirect :: TYPE_CORE), Translation :: get(self :: application_to_class($application_name), null, $context)));
             }
             else

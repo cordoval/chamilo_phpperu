@@ -145,7 +145,7 @@ abstract class ExternalRepositoryObject
     {
         return $this->get_default_property(self :: PROPERTY_CREATED);
     }
-    
+
     /**
      * @return int
      */
@@ -239,7 +239,7 @@ abstract class ExternalRepositoryObject
     {
         $this->set_default_property(self :: PROPERTY_CREATED, $created);
     }
-    
+
     /**
      * @param int $modified
      */
@@ -288,7 +288,7 @@ abstract class ExternalRepositoryObject
      */
     function get_icon_image()
     {
-        $src = Theme :: get_common_image_path() . 'external_repository/' . $this->get_object_type() . '/types/' . $this->get_icon_name() . '.png';
+        $src = Theme :: get_image_path(ExternalRepositoryManager :: get_namespace($this->get_object_type())) . 'types/' . $this->get_icon_name() . '.png';
         return '<img src="' . $src . '" alt="' . htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($this->get_type()))) . '" title="' . htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($this->get_type()))) . '" />';
     }
 
@@ -347,7 +347,7 @@ abstract class ExternalRepositoryObject
 
         return $this->synchronization_data;
     }
-    
+
     /**
      * @return int
      */

@@ -34,7 +34,7 @@ class SurveyPublicationForm extends FormValidator
         }
 
         $this->addElement('text', 'email_header', Translation :: get('EmailTitle'), array('size' => 80));
-        $this->addRule('email_header', Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule('email_header', Translation :: get('ThisFieldIsRequired', null, Utilities :: COMMON_LIBRARIES), 'required');
         $this->add_html_editor('email_content', Translation :: get('EmailContent'), true);
 
         $this->addElement('advmultiselect', 'course_users', Translation :: get('SelectUsers'), $course_users, 'style="width: 250px;"');
@@ -45,7 +45,7 @@ class SurveyPublicationForm extends FormValidator
         $this->addElement('html', '<br />' . Translation :: get('PublishSurveyResendMailInfo') . '<br /><br />');
         //$this->addElement('submit', 'submit', Translation :: get('SendMail'));
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Publish'), array('class' => 'positive publish'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset', null, Utilities :: COMMON_LIBRARIES), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

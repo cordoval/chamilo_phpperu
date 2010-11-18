@@ -124,3 +124,5 @@ SurveyFinishText = ""
 Anonymous = ""
 CanNotUpdateSurveyContextBecauseSurveyIsPublished = ""
 SurveyContexts = ""
+
+SurveyContextManager = ""

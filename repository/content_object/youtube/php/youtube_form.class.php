@@ -21,32 +21,32 @@ class YoutubeForm extends ContentObjectForm
 
     protected function build_creation_form()
     {
-        $link = Path :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=' . ExternalRepositoryLauncher :: APPLICATION_NAME . '&' . ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '=1'/* . Youtube :: get_type_name()*/;
         parent :: build_creation_form();
         $this->addElement('category', Translation :: get('Properties'));
-        $this->addElement('static', null, null, '<a class="button normal_button upload_button" onclick="javascript:openPopup(\'' . $link . '\');"> ' . Translation :: get('BrowseStreamingVideo') . '</a>');
+
+        $external_repositories = ExternalRepositoryLauncher :: get_links(Youtube :: get_type_name(), true);
+        if ($external_repositories)
+        {
+            $this->addElement('static', null, null, $external_repositories);
+        }
+
         $this->add_textfield(Youtube :: PROPERTY_URL, Translation :: get('URL'), true, array('size' => '100'));
         $this->add_textfield(Youtube :: PROPERTY_WIDTH, Translation :: get('Width', null, Utilities :: COMMON_LIBRARIES), true, array('size' => '5'));
         $this->add_textfield(Youtube :: PROPERTY_HEIGHT, Translation :: get('Height', null, Utilities :: COMMON_LIBRARIES), true, array('size' => '5'));
         $this->addElement('category');
-
-        $html = array();
-        $html[] = '<script type="text/javascript">';
-        $html[] = '$(document).ready(function ()';
-        $html[] = '{';
-        $html[] = '	openPopup(\'' . $link . '\');';
-        $html[] = '});';
-        $html[] = '</script>';
-
-        $this->addElement('html', implode("\n", $html));
     }
 
     protected function build_editing_form()
     {
-        $link = Path :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=' . ExternalRepositoryLauncher :: APPLICATION_NAME . '&' . ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '=1'/* . Youtube :: get_type_name()*/;
         parent :: build_creation_form();
         $this->addElement('category', Translation :: get('Properties'));
-        $this->addElement('static', null, null, '<a class="button normal_button upload_button" onclick="javascript:openPopup(\'' . $link . '\');"> ' . Translation :: get('BrowseStreamingVideo') . '</a>');
+
+        $external_repositories = ExternalRepositoryLauncher :: get_links(Youtube :: get_type_name());
+        if ($external_repositories)
+        {
+            $this->addElement('static', null, null, $external_repositories);
+        }
+
         $this->add_textfield(Youtube :: PROPERTY_URL, Translation :: get('URL'), true, array('size' => '100'));
         $this->add_textfield(Youtube :: PROPERTY_WIDTH, Translation :: get('Width', null, Utilities :: COMMON_LIBRARIES), true, array('size' => '5'));
         $this->add_textfield(Youtube :: PROPERTY_HEIGHT, Translation :: get('Height', null, Utilities :: COMMON_LIBRARIES), true, array('size' => '5'));

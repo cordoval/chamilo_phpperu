@@ -1,6 +1,8 @@
 <?php 
 namespace application\survey;
 
+use common\libraries\DelegateComponent;
+
 class SurveyManagerReportingComponent extends SurveyManager implements DelegateComponent
 {
 

@@ -860,7 +860,8 @@ class RepositoryManager extends CoreApplication
 
             foreach ($external_repository_manager_types as $key => $external_repository_manager_type)
             {
-                $external_repository_manager_types[Translation :: get(Utilities :: underscores_to_camelcase($external_repository_manager_type))] = $external_repository_manager_type;
+                $name = Translation :: get('TypeName', null, ExternalRepositoryManager :: get_namespace($external_repository_manager_type));
+                $external_repository_manager_types[$name] = $external_repository_manager_type;
                 unset($external_repository_manager_types[$key]);
             }
 
@@ -950,7 +951,7 @@ class RepositoryManager extends CoreApplication
                     foreach ($managers as $manager)
                     {
                         $content_object_manage_sub_item = array();
-                        $content_object_manage_sub_item['title'] = Translation :: get(Utilities :: underscores_to_camelcase($content_object_type . '_' . $manager) . 'Manager');
+                        $content_object_manage_sub_item['title'] = Translation :: get(Utilities :: underscores_to_camelcase($content_object_type . '_' . $manager) . 'Manager', null, ContentObject :: get_content_object_type_namespace($content_object_type));
                         $content_object_manage_sub_item['url'] = $this->get_content_object_manager_url($content_object_type, $manager);
                         $content_object_manage_sub_item['class'] = 'type_' . $content_object_type;
                         $content_object_manage_sub_items[] = $content_object_manage_sub_item;

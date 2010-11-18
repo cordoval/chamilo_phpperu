@@ -64,6 +64,7 @@ class ConfigurationForm extends FormValidator
     private function build_form()
     {
         $application = $this->application;
+        $namespace = Application :: determine_namespace($application);
         $base_path = $this->base_path;
         $configuration = $this->configuration;
 
@@ -85,17 +86,17 @@ class ConfigurationForm extends FormValidator
                     if (! $has_settings)
                     {
                         $this->addElement('html', '<div class="configuration_form">');
-                        $this->addElement('html', '<span class="category">' . Translation :: get(Utilities :: underscores_to_camelcase($category_name)) . '</span>');
+                        $this->addElement('html', '<span class="category">' . Translation :: get(Utilities :: underscores_to_camelcase($category_name), null, $namespace) . '</span>');
                         $has_settings = true;
                     }
 
                     if ($setting['locked'] == 'true')
                     {
-                        $this->addElement('static', $name, Translation :: get(Utilities :: underscores_to_camelcase($name)));
+                        $this->addElement('static', $name, Translation :: get(Utilities :: underscores_to_camelcase($name), null, $namespace));
                     }
                     elseif ($setting['field'] == 'text')
                     {
-                        $this->add_textfield($name, Translation :: get(Utilities :: underscores_to_camelcase($name)), ($setting['required'] == 'true'));
+                        $this->add_textfield($name, Translation :: get(Utilities :: underscores_to_camelcase($name), null, $namespace), ($setting['required'] == 'true'));
 
                         $validations = $setting['validations'];
                         if ($validations)
@@ -109,7 +110,7 @@ class ConfigurationForm extends FormValidator
                                         $validation['format'] = NULL;
                                     }
 
-                                    $this->addRule($name, Translation :: get($validation['message']), $validation['rule'], $validation['format']);
+                                    $this->addRule($name, Translation :: get($validation['message'], null, $namespace), $validation['rule'], $validation['format']);
                                 }
                             }
                         }
@@ -117,7 +118,7 @@ class ConfigurationForm extends FormValidator
                     }
                     elseif ($setting['field'] == 'html_editor')
                     {
-                        $this->add_html_editor($name, Translation :: get(Utilities :: underscores_to_camelcase($name)), ($setting['required'] == 'true'));
+                        $this->add_html_editor($name, Translation :: get(Utilities :: underscores_to_camelcase($name), null, $namespace), ($setting['required'] == 'true'));
                     }
                     else
                     {
@@ -144,14 +145,14 @@ class ConfigurationForm extends FormValidator
                                 }
                                 else
                                 {
-                                    $group[] = & $this->createElement($setting['field'], $name, null, Translation :: get(Utilities :: underscores_to_camelcase($option_name)), $option_value);
+                                    $group[] = & $this->createElement($setting['field'], $name, null, Translation :: get(Utilities :: underscores_to_camelcase($option_name), null, $namespace), $option_value);
                                 }
                             }
-                            $this->addGroup($group, $name, Translation :: get(Utilities :: underscores_to_camelcase($name)), '<br/>', false);
+                            $this->addGroup($group, $name, Translation :: get(Utilities :: underscores_to_camelcase($name), null, $namespace), '<br/>', false);
                         }
                         elseif ($setting['field'] == 'select')
                         {
-                            $this->addElement('select', $name, Translation :: get(Utilities :: underscores_to_camelcase($name)), $options);
+                            $this->addElement('select', $name, Translation :: get(Utilities :: underscores_to_camelcase($name), null, $namespace), $options);
                         }
                     }
                 }

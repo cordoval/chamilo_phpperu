@@ -7,6 +7,7 @@ use common\libraries\Toolbar;
 use common\libraries\ToolbarItem;
 use common\libraries\Translation;
 use common\libraries\Theme;
+use rights\RightsManager;
 /**
  * $Id: registration_browser_table_cell_renderer.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package admin.lib.package_manager.component.registration_browser
@@ -38,7 +39,7 @@ class ContentObjectRegistrationBrowserTableCellRenderer extends RegistrationBrow
     {
         $toolbar = new Toolbar();
 
-		$toolbar->add_item(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path().'action_rights.png', 
+		$toolbar->add_item(new ToolbarItem(Translation :: get('ManageRights', null, RightsManager :: APPLICATION_NAME), Theme :: get_common_image_path().'action_rights.png',
 					$this->get_browser()->get_content_object_type_rights_editing_url($registration), ToolbarItem :: DISPLAY_ICON));
 
         

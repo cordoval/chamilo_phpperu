@@ -54,10 +54,10 @@ class SoundcloudExternalRepositoryConnector extends ExternalRepositoryConnector
     private $licenses;
 
     /**
-     * The id of the user on Soundcloud
-     * @var string
+     * The user authenticated on Soundcloud
+     * @var object
      */
-    private $user_id;
+    private $user;
 
     /**
      * @param ExternalRepository $external_repository_instance
@@ -136,6 +136,34 @@ class SoundcloudExternalRepositoryConnector extends ExternalRepositoryConnector
         return self :: $instance[$instance_id];
     }
 
+    function retrieve_tracks($condition = null, $order_property, $offset = null, $count = null)
+    {
+        $feed_type = Request :: get(SoundcloudExternalRepositoryManager :: PARAM_FEED_TYPE);
+        $track_type = Request :: get(SoundcloudExternalRepositoryManager :: PARAM_TRACK_TYPE);
+
+        $parameters = array();
+        $parameters['q'] = $condition;
+        $parameters['filter'] = 'streamable';
+        $parameters['limit'] = $count;
+        $parameters['offset'] = $offset;
+        $parameters['types'] = $track_type;
+
+        switch ($feed_type)
+        {
+            case SoundcloudExternalRepositoryManager :: FEED_TYPE_GENERAL :
+                $track_endpoint = $this->render_endpoint_url('tracks', $parameters);
+                break;
+            case SoundcloudExternalRepositoryManager :: FEED_TYPE_MY_TRACKS :
+                $track_endpoint = $this->render_endpoint_url('users/' . $this->retrieve_user()->id . '/tracks', $parameters);
+                break;
+            default :
+                $track_endpoint = $this->render_endpoint_url('users/' . $this->retrieve_user()->id . '/tracks', $parameters);
+                break;
+        }
+
+        return json_decode($this->soundcloud->request($track_endpoint));
+    }
+
     /**
      * @param mixed $condition
      * @param ObjectTableOrder $order_property
@@ -145,17 +173,11 @@ class SoundcloudExternalRepositoryConnector extends ExternalRepositoryConnector
      */
     function retrieve_external_repository_objects($condition = null, $order_property, $offset, $count)
     {
-        $track_endpoint = $this->render_endpoint_url('tracks', array(
-                'q' => $condition,
-                'filter' => 'streamable',
-                'limit' => $count,
-                'offset' => $offset));
-
-        $tracks = $this->soundcloud->request($track_endpoint);
+        $tracks = $this->retrieve_tracks($condition, $order_property, $offset, $count);
 
         $objects = array();
 
-        foreach (json_decode($tracks) as $track)
+        foreach ($tracks as $track)
         {
             $objects[] = $this->get_track($track);
         }
@@ -192,7 +214,7 @@ class SoundcloudExternalRepositoryConnector extends ExternalRepositoryConnector
      */
     function count_external_repository_objects($condition)
     {
-        return 50;
+        return $this->retrieve_external_repository_objects($condition)->size();
     }
 
     /**
@@ -241,7 +263,6 @@ class SoundcloudExternalRepositoryConnector extends ExternalRepositoryConnector
     static function get_sort_properties()
     {
         return array();
-
     }
 
     /* (non-PHPdoc)
@@ -270,6 +291,12 @@ class SoundcloudExternalRepositoryConnector extends ExternalRepositoryConnector
 
         $track->set_artwork($object->artwork_url);
         $track->set_license($object->license);
+
+        $track->set_genre($object->genre);
+        $track->set_waveform($object->waveform_url);
+        $track->set_track_type($object->track_type);
+        $track->set_bpm($object->bpm);
+        $track->set_label($object->label);
 
         $track->set_rights($this->determine_rights($object->license, $object->user->username));
 
@@ -323,11 +350,19 @@ class SoundcloudExternalRepositoryConnector extends ExternalRepositoryConnector
         return $rights;
     }
 
+    function retrieve_user()
+    {
+        if (! isset($this->user))
+        {
+            $track_endpoint = $this->render_endpoint_url('me');
+            $this->user = json_decode($this->soundcloud->request($track_endpoint));
+        }
+        return $this->user;
+    }
+
     function retrieve_user_id()
     {
-        $track_endpoint = $this->render_endpoint_url('me');
-        $user = json_decode($this->soundcloud->request($track_endpoint));
-        return $user->username;
+        return $this->retrieve_user()->username;
     }
 
     /**

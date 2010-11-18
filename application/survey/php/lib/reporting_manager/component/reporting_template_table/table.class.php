@@ -1,5 +1,7 @@
 <?php namespace application\survey;
 
+use common\libraries\ObjectTable;
+
 require_once dirname(__FILE__) . '/table_data_provider.class.php';
 require_once dirname(__FILE__) . '/table_column_model.class.php';
 require_once dirname(__FILE__) . '/table_cell_renderer.class.php';

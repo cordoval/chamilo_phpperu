@@ -26,11 +26,10 @@ class SoundcloudExternalRepositoryManager extends ExternalRepositoryManager
     const REPOSITORY_TYPE = 'soundcloud';
 
     const PARAM_FEED_TYPE = 'feed';
+    const PARAM_TRACK_TYPE = 'track_type';
 
     const FEED_TYPE_GENERAL = 1;
-    const FEED_TYPE_MOST_INTERESTING = 2;
-    const FEED_TYPE_MOST_RECENT = 3;
-    const FEED_TYPE_MY_PHOTOS = 4;
+    const FEED_TYPE_MY_TRACKS = 2;
 
     /**
      * @param Application $application
@@ -39,6 +38,7 @@ class SoundcloudExternalRepositoryManager extends ExternalRepositoryManager
     {
         parent :: __construct($external_repository, $application);
         $this->set_parameter(self :: PARAM_FEED_TYPE, Request :: get(self :: PARAM_FEED_TYPE));
+        $this->set_parameter(self :: PARAM_TRACK_TYPE, Request :: get(self :: PARAM_TRACK_TYPE));
     }
 
     /* (non-PHPdoc)
@@ -92,29 +92,28 @@ class SoundcloudExternalRepositoryManager extends ExternalRepositoryManager
     {
         $menu_items = array();
 
-        $general = array();
-        $general['title'] = Translation :: get('Browse', null, Utilities :: COMMON_LIBRARIES);
-        $general['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_GENERAL), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
-        $general['class'] = 'home';
-        $menu_items[] = $general;
+        $my_tracks = array();
+        $my_tracks['title'] = Translation :: get('MyTracks');
+        $my_tracks['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_MY_TRACKS), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY, self :: PARAM_TRACK_TYPE));
+        $my_tracks['class'] = 'user';
+        $menu_items[] = $my_tracks;
 
-//        $most_recent = array();
-//        $most_recent['title'] = Translation :: get('MostRecent');
-//        $most_recent['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_MOST_RECENT), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
-//        $most_recent['class'] = 'recent';
-//        $menu_items[] = $most_recent;
-//
-//        $most_interesting = array();
-//        $most_interesting['title'] = Translation :: get('MostInteresting');
-//        $most_interesting['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_MOST_INTERESTING), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
-//        $most_interesting['class'] = 'interesting';
-//        $menu_items[] = $most_interesting;
-//
-//        $my_photos = array();
-//        $my_photos['title'] = Translation :: get('MyPhotos');
-//        $my_photos['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_MY_PHOTOS), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
-//        $my_photos['class'] = 'user';
-//        $menu_items[] = $my_photos;
+        $general = array();
+        $general['title'] = Translation :: get('MostRecent');
+        $general['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_GENERAL), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY, self :: PARAM_TRACK_TYPE));
+        $general['class'] = 'home';
+
+        $types = array();
+        foreach (SoundcloudExternalRepositoryObject :: get_valid_track_types() as $track_type => $name)
+        {
+            $type = array();
+            $type['title'] = $name;
+            $type['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_GENERAL, self :: PARAM_TRACK_TYPE => $track_type), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
+            $type['class'] = 'category';
+            $types[] = $type;
+        }
+        $general['sub'] = $types;
+        $menu_items[] = $general;
 
         return $menu_items;
     }
@@ -132,7 +131,7 @@ class SoundcloudExternalRepositoryManager extends ExternalRepositoryManager
      */
     function get_external_repository_actions()
     {
-        $actions = array(self :: ACTION_BROWSE_EXTERNAL_REPOSITORY, self :: ACTION_UPLOAD_EXTERNAL_REPOSITORY, self :: ACTION_EXPORT_EXTERNAL_REPOSITORY);
+        $actions = array(self :: ACTION_BROWSE_EXTERNAL_REPOSITORY);
 
         $is_platform = $this->get_user()->is_platform_admin() && (count(ExternalRepositorySetting :: get_all()) > 0);
 

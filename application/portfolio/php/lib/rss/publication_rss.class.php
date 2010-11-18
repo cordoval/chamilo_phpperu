@@ -1,10 +1,6 @@
 <?php
 namespace application\portfolio;
-
-require_once dirname(__FILE__).'/../../../../common/global.inc.php';
-require_once Path :: get_common_path().'/rss/publication_rss.class.php';
-require_once dirname(__FILE__).'/../portfolio_data_manager.class.php';
-require_once dirname(__FILE__).'/../portfolio_manager/portfolio_manager.class.php';
+use common\libraries\PublicationRSS;
 
 class PortfolioPublicationRSS extends PublicationRSS
 {

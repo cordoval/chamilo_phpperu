@@ -33,7 +33,7 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
 
         if (count($publications) == 0)
         {
-            return Display :: normal_message(Translation :: get('NoPublicationsAvailable'), true);
+            return Display :: normal_message(Translation :: get('NoPublications', null, Utilities :: COMMON_LIBRARIES), true);
         }
 
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/publications_list.js');

@@ -126,7 +126,7 @@ class MatterhornExternalRepositoryObject extends StreamingMediaExternalRepositor
 	{
 		$attachments = $this->get_attachments();
 		$attach = explode('/', $attachment->get_type());
-		
+
 		$attachments[$attach[1]] = $attachment;
 		$this->set_attachments($attachments);
 	}
@@ -134,14 +134,14 @@ class MatterhornExternalRepositoryObject extends StreamingMediaExternalRepositor
 	public function get_search_preview()
 	{
 		$attachments = $this->get_attachments();
-		
+
 		return $attachments['search+preview'];
 	}
-	
+
 	public function is_usable()
 	{
 		return ExternalRepositoryObject::is_usable();
-		
+
 	}
 }
 ?>

@@ -12,6 +12,7 @@ use common\libraries\ActionBarSearchForm;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\PatternMatchCondition;
 use common\libraries\Utilities;
+use rights\RightsManager;
 /**
  * $Id: template_browser.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component
@@ -66,7 +67,7 @@ class RepositoryManagerContentObjectRegistrationBrowserComponent extends Reposit
 
         $action_bar->set_search_url($this->get_url());
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_content_object_type_rights_editing_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageRights', null, RightsManager :: APPLICATION_NAME), Theme :: get_common_image_path() . 'action_rights.png', $this->get_content_object_type_rights_editing_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         return $action_bar;
     }

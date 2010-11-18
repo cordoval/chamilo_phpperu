@@ -34,7 +34,7 @@ abstract class ComplexBuilderComponent extends SubManager
 		$file = dirname(__FILE__) . '/component/' . $type . '.class.php';
     	if(!file_exists($file))
     	{
-    		throw new Exception(Translation :: get('ComplexbuilderComponentTypeDoesNotExist', array('type' => $type)));
+    		throw new Exception(Translation :: get('ComplexbuilderComponentTypeDoesNotExist', array('TYPE' => $type)));
     	}
 
     	require_once $file;

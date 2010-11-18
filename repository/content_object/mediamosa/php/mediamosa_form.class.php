@@ -29,31 +29,27 @@ class MediamosaForm extends ContentObjectForm
         $this->addElement('hidden', ExternalRepositoryObject :: PROPERTY_EXTERNAL_REPOSITORY_ID);
         $this->addElement('hidden', ExternalRepositoryObject :: PROPERTY_ID);
 
-        $rdm = RepositoryDataManager :: get_instance();
-        $external_repositories = $rdm->retrieve_external_repositories();
-
-        while($external_repository = $external_repositories->next_result())
+        $external_repositories = ExternalRepositoryLauncher :: get_links(Mediamosa :: get_type_name(), true);
+        if ($external_repositories)
         {
-            if($external_repository->get_type() == 'mediamosa')
-            {
-                $link = Path :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=' . ExternalRepositoryLauncher :: APPLICATION_NAME . '&' . ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '=' . $external_repository->get_id();
-                $this->addElement('static', null, null, '<a class="button normal_button upload_button" onclick="javascript:openPopup(\'' . $link . '\');"> ' . Translation :: get('Browse' , null, Utilities :: COMMON_LIBRARIES) .' '. $external_repository->get_title() . '</a>');
-            }
+            $this->addElement('category', Translation :: get('Media'));
+            $this->addElement('static', null, null, $external_repositories);
+            $this->addElement('category');
         }
 
-        //$this->streaming_video_clip_form_elements();
+    //$this->streaming_video_clip_form_elements();
     }
 
     function build_editing_form()
     {
         parent :: build_editing_form();
 
-        //$this->streaming_video_clip_form_elements();
+    //$this->streaming_video_clip_form_elements();
     }
 
     function create_content_object()
     {
-        if(parent :: create_content_object())
+        if (parent :: create_content_object())
         {
             $mediamosa = $this->get_content_object();
 
@@ -66,7 +62,7 @@ class MediamosaForm extends ContentObjectForm
             ExternalRepositorySync :: quicksave($mediamosa, $object, $this->exportValue(ExternalRepositoryObject :: PROPERTY_EXTERNAL_REPOSITORY_ID));
 
             return $mediamosa;
-         }
+        }
     }
 }
 ?>

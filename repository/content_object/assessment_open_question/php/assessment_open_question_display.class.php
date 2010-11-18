@@ -4,6 +4,7 @@ namespace repository\content_object\assessment_open_question;
 use common\libraries\Translation;
 use common\libraries\Path;
 use common\libraries\Utilities;
+use repository\OpenQuestionDisplay;
 
 /**
  * $Id: assessment_open_question_display.class.php $

@@ -1,7 +1,6 @@
 <?php namespace application\survey;
 
-require_once Path :: get_application_path() . 'lib/survey/forms/subscribe_group_form.class.php';
-require_once Path :: get_application_path() . 'lib/survey/survey_manager/component/participant_browser.class.php';
+require_once dirname(__FILE__) . '/participant_browser.class.php';
 
 class SurveyManagerSubscribeGroupComponent extends SurveyManager
 {

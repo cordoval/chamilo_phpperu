@@ -5,6 +5,7 @@ use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\StringUtilities;
+use common\extensions\external_repository_manager\ExternalRepositoryConnector;
 
 /**
  * @author Hans De Bisschop
@@ -332,8 +333,8 @@ class ExternalRepositorySync extends RepositoryDataClass
         $sync = new ExternalRepositorySync();
         $sync->set_content_object_id($content_object->get_id());
         $sync->set_content_object_timestamp($content_object->get_modification_date());
-        $sync->set_external_repository_id($external_repository_id);
-        $sync->set_external_repository_object_id($external_repository_object->get_id());
+        $sync->set_external_repository_id((int) $external_repository_id);
+        $sync->set_external_repository_object_id((string) $external_repository_object->get_id());
         $sync->set_external_repository_object_timestamp($external_repository_object->get_modified());
         return $sync->create();
     }

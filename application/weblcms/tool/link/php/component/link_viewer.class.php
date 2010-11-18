@@ -24,6 +24,7 @@ use application\weblcms\WeblcmsRights;
 use application\weblcms\Tool;
 use repository\ContentObject;
 use repository\RepositoryDataManager;
+use application\weblcms\tool\document\DocumentTool;
 
 /**
  * $Id: link_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -112,7 +113,7 @@ class LinkToolViewerComponent extends LinkToolComponent
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => null)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         if (! Request :: get(Tool :: PARAM_PUBLICATION_ID) && $this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories', null, 'weblcms'), Theme :: get_common_image_path() . 'action_category.png', $this->get_url(array(DocumentTool :: PARAM_ACTION => DocumentTool :: ACTION_MANAGE_CATEGORIES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_category.png', $this->get_url(array(DocumentTool :: PARAM_ACTION => DocumentTool :: ACTION_MANAGE_CATEGORIES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         if (! $this->introduction_text && $this->get_course()->get_intro_text() && $this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
