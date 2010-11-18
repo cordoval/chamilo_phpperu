@@ -1,4 +1,4 @@
-TypeName = "Announcements"
+TypeName = "Announcement"
 AnnouncementToolBrowserComponent = "Browse announcements"
 AnnouncementToolViewerComponent = "View announcement"
 AnnouncementToolPublisherComponent = "Publish announcement"
