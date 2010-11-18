@@ -56,14 +56,15 @@ if ($user_home_allowed && Authentication :: is_valid())
         {
             $component_title = $application_value . ' > ' . $component_value;
             $component_id = $application_key . '.' . $component_key;
+            $component_name = Translation :: get($component_value, null, Application :: determine_namespace($application_key));
 
             echo '<div class="component" id="' . $component_id . '" style="float: left; background: url(' . Theme :: get_image_path() . 'background_ajax_component.png) #e7e7e7 repeat-x; margin-right: 5px; margin-bottom: 5px; height: 75px; width: 75px; overflow: hidden; text-align: center; font-size: 75%; font-weight: bolder; border: 1px solid white;">';
             echo '<img style="margin: 5px;" src="' . Theme :: get_image_path(Application :: determine_namespace($application_key)) . 'logo/' . Theme :: ICON_MEDIUM . '.png" alt="' . $component_title . '" title="' . $component_title . '"/>';
             echo '<br />';
-            echo Translation :: get($component_value, null, Application :: determine_namespace($application_key));
+            echo $component_name;
             echo '</div>';
 
-            $application_components[] = translate($component_value);
+            $application_components[] = $component_name;
         }
         echo '</div>';
     }

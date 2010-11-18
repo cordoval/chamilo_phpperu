@@ -15,68 +15,19 @@ use repository\ContentObject;
 class Vimeo extends ContentObject implements Versionable
 {
     const CLASS_NAME = __CLASS__;
+    
+    const VIMEO_PLAYER_URI = 'http://vimeo.com/moogaloop.swf?clip_id=%s&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=1&amp;color=ffffff&amp;fullscreen=1"';
 
-    const PROPERTY_URL = 'url';
-    const PROPERTY_HEIGHT = 'height';
-    const PROPERTY_WIDTH = 'width';
-
-    function get_url()
+    static function get_type_name()
     {
-        return $this->get_additional_property(self :: PROPERTY_URL);
-    }
-
-    function set_url($url)
-    {
-        return $this->set_additional_property(self :: PROPERTY_URL, $url);
-    }
-
-    function get_height()
-    {
-        return $this->get_additional_property(self :: PROPERTY_HEIGHT);
-    }
-
-    function set_height($height)
-    {
-        return $this->set_additional_property(self :: PROPERTY_HEIGHT, $height);
-    }
-
-    function get_width()
-    {
-        return $this->get_additional_property(self :: PROPERTY_WIDTH);
-    }
-
-    function set_width($width)
-    {
-        return $this->set_additional_property(self :: PROPERTY_WIDTH, $width);
-    }
-
-    static function get_additional_property_names()
-    {
-        return array(self :: PROPERTY_URL, self :: PROPERTY_HEIGHT, self :: PROPERTY_WIDTH);
-    }
-
-    function get_video_id()
-    {
-        $video_url = $this->get_url();
-        $video_url_components = parse_url($video_url);
-        $video_query_components = Text :: parse_query_string($video_url_components['query']);
-
-        return str_replace("/", "", $video_url_components['path']);
+        return Utilities :: get_classname_from_namespace(self :: CLASS_NAME, true);
     }
 
     function get_video_url()
     {
+        $video_url_custom = sprintf(self :: VIMEO_PLAYER_URI, $this->get_synchronization_data()->get_external_repository_object_id());
 
-        $video_url_custom = "http://vimeo.com/moogaloop.swf?clip_id=VIMEO_ID&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=1&amp;color=ffffff&amp;fullscreen=1";
-        $video_url_custom = str_replace("VIMEO_ID", $this->get_video_id(), $video_url_custom);
-
-        //return 'http://vimeo.com/' . $this->get_video_id();
         return $video_url_custom;
-    }
-
-    static function get_type_name()
-    {
-        return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: CLASS_NAME));
-    }
+    }  
 }
 ?>

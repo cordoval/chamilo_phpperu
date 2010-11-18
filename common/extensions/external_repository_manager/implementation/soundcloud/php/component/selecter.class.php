@@ -1,8 +1,6 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\soundcloud;
 
-use repository;
-
 use common\libraries\Request;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use repository\ExternalRepositorySync;

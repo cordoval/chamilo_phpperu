@@ -174,7 +174,7 @@ abstract class ExternalRepositoryObject
      * @param int $right
      * @return boolean
      */
-    private function get_right($right)
+    public function get_right($right)
     {
         $rights = $this->get_rights();
         if (! in_array($right, array_keys($rights)))
@@ -288,8 +288,9 @@ abstract class ExternalRepositoryObject
      */
     function get_icon_image()
     {
-        $src = Theme :: get_image_path(ExternalRepositoryManager :: get_namespace($this->get_object_type())) . 'types/' . $this->get_icon_name() . '.png';
-        return '<img src="' . $src . '" alt="' . htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($this->get_type()))) . '" title="' . htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($this->get_type()))) . '" />';
+        $source = Theme :: get_image_path(ExternalRepositoryManager :: get_namespace($this->get_object_type())) . 'types/' . $this->get_icon_name() . '.png';
+        $name = Translation :: get('Type' . Utilities :: underscores_to_camelcase($this->get_type()), null, ExternalRepositoryManager :: get_namespace($this->get_object_type()));
+        return '<img src="' . $source . '" alt="' . $name . '" title="' . $name . '" />';
     }
 
     /**
@@ -361,7 +362,7 @@ abstract class ExternalRepositoryObject
      */
     function is_importable()
     {
-        return !$this->get_synchronization_data() instanceof ExternalRepositorySync;
+        return ! $this->get_synchronization_data() instanceof ExternalRepositorySync;
     }
 }
 ?>

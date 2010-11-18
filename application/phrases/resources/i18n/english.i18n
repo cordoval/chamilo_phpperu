@@ -32,3 +32,5 @@ NoPublicationSelected = ""
 YouHaveReachedYourMaximumAttempts = ""
 MyRepository = ""
 NumberOfQuestions = ""
+
+PhrasesManagerStarterComponent = ""

@@ -11,6 +11,7 @@ use HTML_Menu;
 use common\libraries\Utilities;
 use common\libraries\ObjectTableOrder;
 use common\libraries\EqualityCondition;
+use group\Group;
 
 /**
  * $Id: group_menu.class.php 224 2009-11-13 14:40:30Z kariboe $

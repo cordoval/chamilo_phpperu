@@ -118,3 +118,5 @@ QuizRelQuestionConvertedMessage = "SUCCES: new quiz rel question added (QUIZ: {Q
 
 CourseLearningPathsMigrationBlockInfoNext = "On the next page all the learning paths, learning path chapters, learning path items and learning path statistics from all the courses will be migrated";
 CourseLearningPathsMigrationBlockInfo = "On this page all the learning paths, learning path chapters, learning path items and learning path statistics from all the courses will be migrated";
+
+Migration = ""

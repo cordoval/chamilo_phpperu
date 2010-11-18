@@ -22,3 +22,5 @@ ReportingManagerAddComponent = "Creator"
 ReportingManagerDeleteComponent = "Deleter"
 ReportingManagerEditComponent = "Updater"
 
+
+ShowReportingFilter = ""
