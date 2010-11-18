@@ -90,7 +90,7 @@ class CalendarListRenderer extends ListContentObjectPublicationListRenderer
 
             $html[] = '<div style="text-align: right;">';
             $html[] = '<a href="?" onclick="setCheckbox(\'publication_list\', true); return false;">' . Translation :: get('SelectAll', null , Utilities :: COMMON_LIBRARIES) . '</a>';
-            $html[] = '- <a href="?" onclick="setCheckbox(\'publication_list\', false); return false;">' . Translation :: get('UnSelectAll', null , Utilities :: COMMON_LIBRARIES) . '</a><br />';
+            $html[] = '- <a href="?" onclick="setCheckbox(\'publication_list\', false); return false;">' . Translation :: get('UnselectAll', null , Utilities :: COMMON_LIBRARIES) . '</a><br />';
             $html[] = '<select name="tool_action">';
             foreach ($this->get_actions() as $action => $label)
             {

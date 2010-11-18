@@ -78,7 +78,7 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
 
             $html[] = '<div style="text-align: right;">';
             $html[] = '<a href="?" onclick="setCheckbox(\'publication_list\', true); return false;">' . Translation :: get('SelectAll', null, Utilities :: COMMON_LIBRARIES ) . '</a>';
-            $html[] = '- <a href="?" onclick="setCheckbox(\'publication_list\', false); return false;">' . Translation :: get('UnSelectAll', null, Utilities :: COMMON_LIBRARIES ) . '</a><br />';
+            $html[] = '- <a href="?" onclick="setCheckbox(\'publication_list\', false); return false;">' . Translation :: get('UnselectAll', null, Utilities :: COMMON_LIBRARIES ) . '</a><br />';
             $html[] = '<select id="tool_actions" name="' . $table_name . '_action_value">';
             foreach ($this->get_actions()->get_form_actions() as $form_action)
             {

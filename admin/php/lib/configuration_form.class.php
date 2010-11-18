@@ -171,7 +171,7 @@ class ConfigurationForm extends FormValidator
         }
         else
         {
-            $this->addElement('html', Translation :: get('NoConfigurableSettings', array(), Utilities :: COMMON_LIBRARIES));
+            $this->addElement('html', '<div class="warning-message">' . Translation :: get('NoConfigurableSettings', array(), Utilities :: COMMON_LIBRARIES) . '</div>');
         }
     }
 
