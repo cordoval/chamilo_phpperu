@@ -28,3 +28,8 @@ MessageDate = ""
 MessageSubject = ""
 Message = ""
 PersonalMessage = ""
+
+PersonalMessenger = ""
+MostRecent = ""
+New = ""
+ViewMessages = ""
