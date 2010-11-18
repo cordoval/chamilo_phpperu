@@ -243,7 +243,8 @@ class VimeoExternalRepositoryConnector extends ExternalRepositoryConnector
     function count_external_repository_objects($condition)
     {
         $videos = $this->retrieve_videos($condition, $order_property, 1, 1);
-        return $videos->total;
+        dump($videos);
+        return $videos->videos->total;
     }
 
     /**
@@ -379,10 +380,10 @@ class VimeoExternalRepositoryConnector extends ExternalRepositoryConnector
      */
     function create_external_repository_object($values, $photo_path)
     {
-        $tags = explode(',', $values[FlickrExternalRepositoryObject :: PROPERTY_TAGS]);
+        $tags = explode(',', $values[VimeoExternalRepositoryObject :: PROPERTY_TAGS]);
         $tags = '"' . implode('" "', $tags) . '"';
         
-        return $this->flickr->sync_upload($photo_path, $values[FlickrExternalRepositoryObject :: PROPERTY_TITLE], $values[FlickrExternalRepositoryObject :: PROPERTY_DESCRIPTION], $tags);
+        return $this->vimeo->sync_upload($photo_path, $values[VimeoExternalRepositoryObject :: PROPERTY_TITLE], $values[VimeoExternalRepositoryObject :: PROPERTY_DESCRIPTION], $tags);
     }
 
     /**

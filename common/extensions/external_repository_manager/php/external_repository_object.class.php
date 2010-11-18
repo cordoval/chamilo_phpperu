@@ -174,7 +174,7 @@ abstract class ExternalRepositoryObject
      * @param int $right
      * @return boolean
      */
-    private function get_right($right)
+    public function get_right($right)
     {
         $rights = $this->get_rights();
         if (! in_array($right, array_keys($rights)))
