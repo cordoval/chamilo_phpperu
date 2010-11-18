@@ -8,12 +8,13 @@ use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Utilities;
+use application\weblcms\CourseSection;
 
 /**
  * $Id: course_section_tool_selector_form.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.course_sections
  */
-require_once dirname(__FILE__) . '/../../course/course_section.class.php';
+
 
 class CourseSectionToolSelectorForm extends FormValidator
 {

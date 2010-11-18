@@ -8,7 +8,6 @@ use common\libraries\ObjectTableCellRenderer;
  * @package application.lib.weblcms.course.course_category_table
  */
 
-require_once dirname(__FILE__) . '/../course_category.class.php';
 
 class DefaultCourseCategoryTableCellRenderer extends ObjectTableCellRenderer
 {

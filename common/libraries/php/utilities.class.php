@@ -576,6 +576,16 @@ class Utilities
             if ($autoloader_class :: load($unqualified_class_name))
                 return true;
         }
+        //standard fall back
+        $class_filename = self :: camelcase_to_underscores($unqualified_class_name) . '.class.php';
+        $class_path = dirname($autoloader_path) . '/' . $class_filename;
+        if (file_exists($class_path))
+        {
+            require_once $class_path;
+            if (class_exists($classname))
+                return true;
+        }
+
     }
 
     static function get_backtrace()

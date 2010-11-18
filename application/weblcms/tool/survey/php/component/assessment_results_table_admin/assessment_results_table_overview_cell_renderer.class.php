@@ -7,7 +7,7 @@ use common\libraries\ToolbarItem;
 use common\libraries\Theme;
 use common\libraries\Path;
 use common\libraries\Translation;
-
+use repository\DefaultContentObjectTableCellRenderer;
 /**
  * $Id: assessment_results_table_overview_cell_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.assessment.component.assessment_results_table_admin

@@ -2,12 +2,12 @@
 namespace application\weblcms\tool\survey;
 
 use application\weblcms\ToolComponent;
+use application\weblcms\ContentObjectRepoViewer;
 
 /**
  * $Id: survey_publisher.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.assessment.component
  */
-require_once dirname(__FILE__) . '/../../../content_object_repo_viewer.class.php';
 require_once dirname(__FILE__) . '/../survey_content_object_publisher.class.php';
 
 /**

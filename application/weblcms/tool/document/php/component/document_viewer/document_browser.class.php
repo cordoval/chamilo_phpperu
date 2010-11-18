@@ -3,14 +3,14 @@ namespace application\weblcms\tool\document;
 
 use application\weblcms\Tool;
 use common\libraries\Request;
+use application\weblcms\ContentObjectPublicationBrowser;
+use application\weblcms\ContentObjectPublicationDetailsRenderer;
+use application\weblcms\ContentObjectPublicationCategoryTree;
 
 /**
  * $Id: document_browser.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.document.component.document_viewer
  */
-require_once dirname(__FILE__) . '/../../../../content_object_publication_browser.class.php';
-require_once dirname(__FILE__) . '/../../../../browser/content_object_publication_category_tree.class.php';
-require_once dirname(__FILE__) . '/../../../../browser/list_renderer/content_object_publication_details_renderer.class.php';
 
 class DocumentBrowser extends ContentObjectPublicationBrowser
 {

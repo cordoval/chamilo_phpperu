@@ -10,12 +10,14 @@ use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Utilities;
+use common\libraries\WebApplication;
 
 /**
  * $Id: results_export_form.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.assessment.component.assessment_results_export_form.results_exporters
  */
-require_once dirname(__FILE__) . '/../../../../trackers/weblcms_assessment_attempts_tracker.class.php';
+require_once WebApplication :: get_application_class_path('weblcms') . 'trackers/weblcms_assessment_attempts_tracker.class.php';
+
 
 class AssessmentResultsExportForm extends FormValidator
 {

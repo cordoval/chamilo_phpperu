@@ -3,7 +3,6 @@ namespace application\weblcms;
 
 use common\libraries\EqualityCondition;
 
-require_once dirname(__FILE__) . '/../trackers/weblcms_assessment_attempts_tracker.class.php';
 class AssessmentToolGradebookConnector
 {
 

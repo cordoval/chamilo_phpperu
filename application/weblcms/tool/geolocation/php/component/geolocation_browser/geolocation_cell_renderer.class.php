@@ -1,11 +1,12 @@
 <?php
 namespace application\weblcms\tool\geolocation;
 
+use application\weblcms\ObjectPublicationTableCellRenderer;
+
 /**
  * $Id: geolocation_cell_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.geolocation.component.geolocation.browser
  */
-require_once dirname(__FILE__) . '/../../../../browser/object_publication_table/object_publication_table_cell_renderer.class.php';
 /**
  * This class is a cell renderer for a publication candidate table
  */

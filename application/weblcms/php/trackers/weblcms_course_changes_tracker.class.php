@@ -2,6 +2,7 @@
 namespace application\weblcms;
 
 use common\libraries\Utilities;
+use tracking\ChangesTracker;
 
 /**
  * $Id: weblcms_course_changes_tracker.class.php 216 2009-11-13 14:08:06Z kariboe $

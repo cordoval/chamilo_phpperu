@@ -3,12 +3,12 @@ namespace application\weblcms\tool\calendar;
 
 use common\libraries\Translation;
 use common\libraries\Utilities;
+use application\weblcms\ContentObjectPublicationDetailsRenderer;
 
 /**
  * $Id: calendar_details_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.calendar.component.calendar_viewer
  */
-require_once dirname(__FILE__) . '/../../../../browser/list_renderer/content_object_publication_details_renderer.class.php';
 class CalendarDetailsRenderer extends ContentObjectPublicationDetailsRenderer
 {
 

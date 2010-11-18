@@ -15,15 +15,15 @@ use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Path;
+use application\weblcms\ContentObjectPublicationBrowser;
+use application\weblcms\ContentObjectPublicationCategoryTree;
 
 /**
  * $Id: document_slideshow_browser.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.document.component.document_slideshow
  */
-require_once dirname(__FILE__) . '/../../../../content_object_publication_browser.class.php';
-require_once dirname(__FILE__) . '/../../../../browser/content_object_publication_category_tree.class.php';
 require_once dirname(__FILE__) . '/document_publication_slideshow_renderer.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/document/document.class.php';
+require_once Path :: get_repository_content_object_path() . 'document/php/document.class.php';
 
 class DocumentSlideshowBrowser extends ContentObjectPublicationBrowser
 {

@@ -1,11 +1,11 @@
 <?php
 namespace application\weblcms\tool\link;
 
+use application\weblcms\ContentObjectPublicationDetailsRenderer;
 /**
  * $Id: link_details_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.link.component.link_viewer
  */
-require_once dirname(__FILE__) . '/../../../../browser/list_renderer/content_object_publication_details_renderer.class.php';
 class LinkDetailsRenderer extends ContentObjectPublicationDetailsRenderer
 {
 

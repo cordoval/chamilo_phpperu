@@ -6,6 +6,7 @@ use user\UserDataManager;
 use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Translation;
+use repository\DefaultContentObjectTableCellRenderer;
 
 /**
  * $Id: survey_user_table_cell_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $

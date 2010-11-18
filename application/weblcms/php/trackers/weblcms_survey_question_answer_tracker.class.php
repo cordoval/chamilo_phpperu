@@ -2,6 +2,7 @@
 namespace application\weblcms;
 
 use common\libraries\Utilities;
+use tracking\SimpleTracker;
 
 /**
  * $Id: survey_question_attempts_tracker.class.php 193 2009-11-13 11:53:37Z chellee $

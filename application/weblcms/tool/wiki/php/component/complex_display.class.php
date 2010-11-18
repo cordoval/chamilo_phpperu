@@ -64,5 +64,10 @@ class WikiToolComplexDisplayComponent extends WikiTool implements DelegateCompon
     {
         return 'wiki_reporting_template';
     }
+    function get_publication()
+    {
+        throw new Exception("Unimplemented method
+            application\weblcms\tool\wiki\WikiToolComplexDisplayComponent#get_publication");
+    }
 }
 ?>

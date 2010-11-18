@@ -12,13 +12,13 @@ use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\ObjectTableFormAction;
 use common\libraries\Utilities;
-
+use application\weblcms\ContentObjectPublicationBrowser;
 use application\weblcms\CourseGroup;
 use application\weblcms\ContentObjectPublication;
 use application\weblcms\WeblcmsDataManager;
 use application\weblcms\WeblcmsRights;
 use application\weblcms\Tool;
-
+use application\weblcms\ContentObjectPublicationDetailsRenderer;
 use application\weblcms\ContentObjectPublicationListRenderer;
 use repository\RepositoryDataManager;
 use repository\ContentObject;
@@ -28,10 +28,8 @@ use user\User;
  * $Id: note_browser.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.note.component.note_viewer
  */
-require_once dirname(__FILE__) . '/../../../../content_object_publication_browser.class.php';
-require_once dirname(__FILE__) . '/../../../../browser/list_renderer/content_object_publication_details_renderer.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/note/note.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/description/description.class.php';
+require_once Path :: get_repository_content_object_path() . 'note/php/note.class.php';
+require_once Path :: get_repository_content_object_path() . 'description/php/description.class.php';
 /**
  * Browser to allow the user to view the published notes
  */

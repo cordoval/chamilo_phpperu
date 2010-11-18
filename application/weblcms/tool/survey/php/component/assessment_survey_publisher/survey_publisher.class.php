@@ -13,6 +13,7 @@ use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\Translation;
+use application\assessment\SurveyPublisherComponent;
 
 /**
  * $Id: survey_publisher.class.php 216 2009-11-13 14:08:06Z kariboe $

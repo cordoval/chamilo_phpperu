@@ -12,7 +12,6 @@ use common\libraries\Utilities;
  * @package applicatie.lib.weblcms.course
  */
 
-require_once Path :: get_application_path() . 'lib/weblcms/course/course.class.php';
 
 class CourseChangeCourseTypeForm extends FormValidator
 {

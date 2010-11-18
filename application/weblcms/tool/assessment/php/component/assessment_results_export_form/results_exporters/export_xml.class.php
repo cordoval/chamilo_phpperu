@@ -5,12 +5,14 @@ use application\weblcms\WeblcmsDataManager;
 use user\UserDataManager;
 use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
+use common\libraries\WebApplication;
 
 /**
  * $Id: export_xml.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.assessment.component.assessment_results_export_form.results_exporters
  */
-require_once dirname(__FILE__) . '/../../../../../trackers/weblcms_question_attempts_tracker.class.php';
+
+require_once WebApplication :: get_application_class_path('weblcms') . 'trackers/weblcms_question_attempts_tracker.class.php';
 
 class ResultsXmlExport extends ResultsExport
 {
