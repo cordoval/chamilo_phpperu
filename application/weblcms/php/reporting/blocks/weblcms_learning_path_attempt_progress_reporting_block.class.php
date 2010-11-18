@@ -73,7 +73,7 @@ class WeblcmsLearningPathAttemptProgressReportingBlock extends WeblcmsToolReport
             }
             else
             {
-                $status = Translation :: get('incomplete');
+                $status = Translation :: get('Incomplete');
                 $score = '0%';
                 $time = '0:00:00';
             }

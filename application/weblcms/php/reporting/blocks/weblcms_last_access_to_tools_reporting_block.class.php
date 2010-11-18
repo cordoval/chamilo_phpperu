@@ -47,7 +47,7 @@ class WeblcmsLastAccessToToolsReportingBlock extends WeblcmsToolReportingBlock
             $params[WeblcmsManager :: PARAM_COURSE] = $this->get_course_id();
             $params[WeblcmsManager :: PARAM_TOOL] = $name;
 
-            $link = ' <a href="' . Redirect :: get_url($params) . '">' . Translation :: get('access') . '</a>';
+            $link = ' <a href="' . Redirect :: get_url($params) . '">' . Translation :: get('Access') . '</a>';
             $date = $wdm->get_last_visit_date_per_course($course_id, $name);
             if ($date)
             {
