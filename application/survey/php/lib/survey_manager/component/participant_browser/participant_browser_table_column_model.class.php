@@ -1,4 +1,8 @@
-<?php namespace application\survey;
+<?php 
+namespace application\survey;
+
+use common\libraries\StaticTableColumn;
+
 
 //require_once dirname(__FILE__) . '/../../../tables/participant_table/default_participant_table_column_model.class.php';
 //require_once dirname(__FILE__) . '/../../../trackers/survey_participant_tracker.class.php';

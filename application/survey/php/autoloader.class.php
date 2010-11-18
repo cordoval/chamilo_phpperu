@@ -44,7 +44,13 @@ class Autoloader
             'survey_question_answer_tracker' => '../trackers/survey_question_answer_tracker.class.php',
             'survey_reporting_manager' => 'reporting_manager/reporting_manager.class.php',
             'survey_publication_rel_reporting_template_table' => 'reporting_manager/component/publication_rel_reporting_template_table/table.class.php',
-            'survey_reporting_template_table' => 'reporting_manager/component/reporting_template_table/table.class.php');
+            'survey_reporting_template_table' => 'reporting_manager/component/reporting_template_table/table.class.php',
+            'survey_participant_browser_table' => 'survey_manager/component/participant_browser/participant_browser_table.class.php',
+         	'default_participant_table_cell_renderer' => 'tables/participant_table/default_participant_table_cell_renderer.class.php',
+            'default_participant_table_column_model' => 'tables/participant_table/default_participant_table_column_model.class.php',
+         	'survey_user_browser_table' => 'survey_manager/component/user_browser/user_browser_table.class.php',
+         	'default_survey_user_table_cell_renderer' => 'tables/user_table/default_user_table_cell_renderer.class.php',
+            'default_survey_user_table_column_model' => 'tables/user_table/default_user_table_column_model.class.php');
 
 
 
