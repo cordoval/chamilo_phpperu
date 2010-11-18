@@ -2,6 +2,9 @@
 namespace application\survey;
 
 use common\libraries\ObjectTable;
+use common\libraries\ObjectTableFormActions;
+use common\libraries\ObjectTableFormAction;
+use common\libraries\Translation;
 
 require_once dirname(__FILE__) . '/user_browser_table_data_provider.class.php';
 require_once dirname(__FILE__) . '/user_browser_table_column_model.class.php';

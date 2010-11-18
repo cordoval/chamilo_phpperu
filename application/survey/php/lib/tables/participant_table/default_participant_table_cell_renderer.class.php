@@ -2,6 +2,9 @@
 namespace application\survey;
 
 use common\libraries\ObjectTableCellRenderer;
+use user\UserDataManager;
+use user\User;
+
 
 require_once dirname(__FILE__) . '/../../survey_publication.class.php';
 

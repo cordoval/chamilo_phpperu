@@ -2,6 +2,7 @@
 namespace application\survey;
 
 use common\libraries\ObjectTableCellRenderer;
+use user\User;
 
 class DefaultSurveyUserTableCellRenderer extends ObjectTableCellRenderer
 {

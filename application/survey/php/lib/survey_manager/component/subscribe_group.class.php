@@ -1,7 +1,15 @@
-<?php namespace application\survey;
+<?php 
+namespace application\survey;
 
-require_once Path :: get_application_path() . 'lib/survey/forms/subscribe_group_form.class.php';
-require_once Path :: get_application_path() . 'lib/survey/survey_manager/component/participant_browser.class.php';
+use common\libraries\Breadcrumb;
+use common\libraries\Translation;
+use common\libraries\Request;
+use common\libraries\DynamicTabsRenderer;
+use common\libraries\Path;
+
+
+//require_once Path :: get_application_path() . 'lib/survey/forms/subscribe_group_form.class.php';
+require_once Path :: get_application_path() . 'survey/php/lib/survey_manager/component/participant_browser.class.php';
 
 class SurveyManagerSubscribeGroupComponent extends SurveyManager
 {
