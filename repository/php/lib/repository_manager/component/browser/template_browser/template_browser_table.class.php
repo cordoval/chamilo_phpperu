@@ -30,7 +30,7 @@ class TemplateBrowserTable extends RepositoryBrowserTable
         $data_provider = new RepositoryBrowserTableDataProvider($browser, $condition);
         parent :: ObjectTable($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
 
-        $actions = new ObjectTableFormActions(RepositoryManager :: PARAM_ACTION);
+        $actions = new ObjectTableFormActions(__NAMESPACE__, RepositoryManager :: PARAM_ACTION);
         $actions->add_form_action(new ObjectTableFormAction(RepositoryManager :: ACTION_DELETE_TEMPLATE, Translation :: get('RemoveSelected', null, Utilities :: COMMON_LIBRARIES)));
         $actions->add_form_action(new ObjectTableFormAction(RepositoryManager :: ACTION_COPY_CONTENT_OBJECT_FROM_TEMPLATES, Translation :: get('CopySelectedToRepository')));
         $this->set_form_actions($actions);
@@ -41,7 +41,8 @@ class TemplateBrowserTable extends RepositoryBrowserTable
 
 	static function handle_table_action()
     {
-        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+        $class = Utilities :: get_classname_from_namespace(__CLASS__, true);
+        $ids = self :: get_selected_ids($class);
         Request :: set_get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID, $ids);
     }
 }

@@ -13,25 +13,26 @@ class SurveyContextRelUserBrowserTable extends ObjectTable
      */
     function SurveyContextRelUserBrowserTable($browser, $parameters, $condition)
     {
-        
+
         $model = new SurveyContextRelUserBrowserTableColumnModel($browser);
         $renderer = new SurveyContextRelUserBrowserTableCellRenderer($browser);
         $data_provider = new SurveyContextRelUserBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, SurveyContextRelUserBrowserTable :: DEFAULT_NAME, $model, $renderer);
-        $actions = new ObjectTableFormActions(SurveyContextManager :: PARAM_ACTION);
-        
+        $actions = new ObjectTableFormActions(__NAMESPACE__, SurveyContextManager :: PARAM_ACTION);
+
 //        if (SurveyContextManagerRights :: is_allowed_in_survey_context_manager_subtree(SurveyContextManagerRights :: SUBSCRIBE_AGREEMENT_USER_RIGHT, $browser->get_context()->get_id(), SurveyContextManagerRights :: TYPE_CONTEXT_REGISTRATION))
 //        {
             $actions->add_form_action(new ObjectTableFormAction(SurveyContextManager :: ACTION_UNSUBSCRIBE_USER, Translation :: get('Unsubscribe')));
 //        }
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
-    
+
     }
 
     static function handle_table_action()
     {
-        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+        $class = Utilities :: get_classname_from_namespace(__CLASS__, true);
+        $ids = self :: get_selected_ids($class);
         Request :: set_get(SurveyContextManager :: PARAM_CONTEXT_REL_USER_ID, $ids);
     }
 }

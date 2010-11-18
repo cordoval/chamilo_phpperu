@@ -296,7 +296,7 @@ class ObjectTable
     {
         if (is_array($actions))
         {
-            $actions = new ObjectTableFormActions();
+            $actions = new ObjectTableFormActions(__NAMESPACE__);
         }
         $this->form_actions = $actions;
     }

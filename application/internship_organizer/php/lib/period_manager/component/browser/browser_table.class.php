@@ -29,19 +29,20 @@ class InternshipOrganizerPeriodBrowserTable extends ObjectTable
         $data_provider = new InternshipOrganizerPeriodBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, InternshipOrganizerPeriodBrowserTable :: DEFAULT_NAME, $model, $renderer);
         $this->set_additional_parameters($parameters);
-        $actions = new ObjectTableFormActions(InternshipOrganizerPeriodManager :: PARAM_ACTION);
+        $actions = new ObjectTableFormActions(__NAMESPACE__, InternshipOrganizerPeriodManager :: PARAM_ACTION);
         if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_DELETE, InternshipOrganizerRights :: LOCATION_PERIOD, InternshipOrganizerRights :: TYPE_PERIOD))
         {
             $actions->add_form_action(new ObjectTableFormAction(InternshipOrganizerPeriodManager :: ACTION_DELETE_PERIOD, Translation :: get('Delete')));
         }
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
-    
+
     }
 
     static function handle_table_action()
     {
-        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+        $class = Utilities :: get_classname_from_namespace(__CLASS__, true);
+        $ids = self :: get_selected_ids($class);
         Request :: set_get(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID, $ids);
     }
 }

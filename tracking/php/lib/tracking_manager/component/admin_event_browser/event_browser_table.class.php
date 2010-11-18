@@ -6,6 +6,7 @@ use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\ObjectTable;
 use common\libraries\ObjectTableFormAction;
+use common\libraries\ObjectTableFormActions;
 
 /**
  * $Id: event_browser_table.class.php 213 2009-11-13 13:38:50Z vanpouckesven $
@@ -31,11 +32,11 @@ class EventBrowserTable extends ObjectTable
         $data_provider = new EventBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
         $this->set_additional_parameters($parameters);
-        $actions = array();
 
-        $actions[] = new ObjectTableFormAction(TrackingManager :: ACTION_ACTIVATE_EVENT, Translation :: get('EnableSelectedEvents'), false);
-        $actions[] = new ObjectTableFormAction(TrackingManager :: ACTION_DEACTIVATE_EVENT, Translation :: get('DisableSelectedEvents'), false);
-        $actions[] = new ObjectTableFormAction(TrackingManager :: ACTION_EMPTY_EVENT_TRACKERS, Translation :: get('EmptySelectedEvents'));
+        $actions = new ObjectTableFormActions(__NAMESPACE__);
+        $actions->add_form_action(new ObjectTableFormAction(TrackingManager :: ACTION_ACTIVATE_EVENT, Translation :: get('EnableSelectedEvents'), false));
+        $actions->add_form_action(new ObjectTableFormAction(TrackingManager :: ACTION_DEACTIVATE_EVENT, Translation :: get('DisableSelectedEvents'), false));
+        $actions->add_form_action(new ObjectTableFormAction(TrackingManager :: ACTION_EMPTY_EVENT_TRACKERS, Translation :: get('EmptySelectedEvents')));
 
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
@@ -43,7 +44,8 @@ class EventBrowserTable extends ObjectTable
 
 	static function handle_table_action()
     {
-        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+        $class = Utilities :: get_classname_from_namespace(__CLASS__, true);
+        $ids = self :: get_selected_ids($class);
         Request :: set_get(TrackingManager :: PARAM_EVENT_ID, $ids);
     }
 }

@@ -31,20 +31,21 @@ class GroupRelUserBrowserTable extends ObjectTable
         $data_provider = new GroupRelUserBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
         $this->set_additional_parameters($parameters);
-        $actions = new ObjectTableFormActions();
-        
+        $actions = new ObjectTableFormActions(__NAMESPACE__);
+
         $actions->add_form_action(new ObjectTableFormAction(GroupManager :: ACTION_UNSUBSCRIBE_USER_FROM_GROUP, Translation :: get('UnsubscribeSelected'), false));
-        
+
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
     }
 
 	static function handle_table_action()
     {
-        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+        $class = Utilities :: get_classname_from_namespace(__CLASS__, true);
+        $ids = self :: get_selected_ids($class);
         Request :: set_get(GroupManager :: PARAM_GROUP_REL_USER_ID, $ids);
     }
-    
+
     /**
      * A typical ObjectTable would get the database-id of the object as a
      * unique identifier. GroupRelUser has no such field since it's

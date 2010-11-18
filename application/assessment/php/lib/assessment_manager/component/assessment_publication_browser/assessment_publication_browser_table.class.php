@@ -21,7 +21,7 @@ require_once dirname(__FILE__) . '/../../assessment_manager.class.php';
  * Table to display a list of assessment_publications
  *
  * @author Sven Vanpoucke
- * @author 
+ * @author
  */
 class AssessmentPublicationBrowserTable extends ObjectTable
 {
@@ -37,17 +37,18 @@ class AssessmentPublicationBrowserTable extends ObjectTable
         $data_provider = new AssessmentPublicationBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
         $this->set_additional_parameters($parameters);
-        $actions = new ObjectTableFormActions(AssessmentManager :: PARAM_ACTION);
-        
+        $actions = new ObjectTableFormActions(__NAMESPACE__, AssessmentManager :: PARAM_ACTION);
+
         $actions->add_form_action(new ObjectTableFormAction(AssessmentManager :: ACTION_DELETE_ASSESSMENT_PUBLICATION, Translation :: get('RemoveSelected', null, Utilities :: COMMON_LIBRARIES)));
-        
+
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
     }
-    
+
     function handle_table_action()
     {
-    	$ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+        $class = Utilities :: get_classname_from_namespace(__CLASS__, true);
+    	$ids = self :: get_selected_ids($class);
     	Request :: set_get(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION, $ids);
     }
 }

@@ -27,7 +27,7 @@ class SurveyContextTable extends ObjectTable
         parent :: __construct($data_provider, SurveyContextTable :: DEFAULT_NAME, $model, $renderer);
         $this->set_additional_parameters($parameters);
 
-        $actions = new ObjectTableFormActions(SurveyContextManager :: PARAM_ACTION);
+        $actions = new ObjectTableFormActions(__NAMESPACE__, SurveyContextManager :: PARAM_ACTION);
         $actions->add_form_action(new ObjectTableFormAction(SurveyContextManager :: ACTION_DELETE_CONTEXT, Translation :: get('Delete', null, Utilities::COMMON_LIBRARIES)));
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
@@ -36,7 +36,8 @@ class SurveyContextTable extends ObjectTable
 
     static function handle_table_action()
     {
-        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+        $class = Utilities :: get_classname_from_namespace(__CLASS__, true);
+        $ids = self :: get_selected_ids($class);
         Request :: set_get(SurveyContextManager :: PARAM_CONTEXT_ID, $ids);
     }
 }

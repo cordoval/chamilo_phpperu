@@ -16,7 +16,7 @@ require_once dirname(__FILE__) . '/publication_table_cell_renderer.class.php';
  * Table to display a list of publications
  *
  * @author Sven Vanpoucke
- * @author 
+ * @author
  */
 class InternshipOrganizerPublicationTable extends ObjectTable
 {
@@ -34,18 +34,19 @@ class InternshipOrganizerPublicationTable extends ObjectTable
         $this->set_additional_parameters($parameters);
         $this->set_default_row_count(20);
 
-        $actions = new ObjectTableFormActions(InternshipOrganizerPeriodManager :: PARAM_ACTION);
+        $actions = new ObjectTableFormActions(__NAMESPACE__, InternshipOrganizerPeriodManager :: PARAM_ACTION);
 
 //         $actions->add_form_action(new ObjectTableFormAction(InternshipOrganizerAgreementManager :: ACTION_DELETE_PUBLICATION, Translation :: get('Delete')));
 
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
-    
+
     }
 
     static function handle_table_action()
     {
-//        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+        $class = Utilities :: get_classname_from_namespace(__CLASS__, true);
+//        $ids = self :: get_selected_ids($class);
 //        Request :: set_get(InternshipOrganizerAgreementManager :: PARAM_PUBLICATION_ID, $ids);
     }
 }

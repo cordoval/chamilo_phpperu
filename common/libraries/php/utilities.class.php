@@ -79,7 +79,8 @@ class Utilities
     {
         if (! is_array($properties))
         {
-            $properties = array($properties);
+            $properties = array(
+                    $properties);
         }
         $queries = self :: split_query($query);
         if (is_null($queries))
@@ -141,12 +142,14 @@ class Utilities
      */
     static function order_content_objects_by_title($objects)
     {
-        usort($objects, array(get_class(), 'by_title'));
+        usort($objects, array(get_class(),
+                'by_title'));
     }
 
     static function order_content_objects_by_id_desc($objects)
     {
-        usort($objects, array(get_class(), 'by_id_desc'));
+        usort($objects, array(get_class(),
+                'by_id_desc'));
     }
 
     /**
@@ -217,7 +220,11 @@ class Utilities
     {
         if (! isset(self :: $camel_us_map[$string]))
         {
-            self :: $camel_us_map[$string] = preg_replace(array('/^([A-Z])/e', '/([A-Z])/e'), array('strtolower("\1")', '"_".strtolower("\1")'), $string);
+            self :: $camel_us_map[$string] = preg_replace(array(
+                    '/^([A-Z])/e',
+                    '/([A-Z])/e'), array(
+                    'strtolower("\1")',
+                    '"_".strtolower("\1")'), $string);
         }
         return self :: $camel_us_map[$string];
     }
@@ -464,7 +471,7 @@ class Utilities
             foreach ($extra_options as $op => $value)
                 $unserializer->setOption($op, $value);
 
-     // userialize the document
+            // userialize the document
             $status = $unserializer->unserialize($file, true);
             if (PEAR :: isError($status))
             {
@@ -482,12 +489,19 @@ class Utilities
         }
     }
 
+    /**
+     * @param string $application
+     */
     static function set_application($application)
     {
         Translation :: set_application($application);
         Theme :: set_application($application);
     }
 
+    /**
+     * @param mixed $value
+     * @return string
+     */
     static function display_true_false_icon($value)
     {
         if ($value)
@@ -501,11 +515,17 @@ class Utilities
         return '<img src="' . Theme :: get_common_image_path() . $icon . '">';
     }
 
+    /**
+     * @param string $string
+     */
     static function htmlentities($string)
     {
         return htmlentities($string, ENT_COMPAT, 'UTF-8');
     }
 
+    /**
+     * @return int
+     */
     static function get_usable_memory()
     {
         $val = trim(@ini_get('memory_limit'));
@@ -550,12 +570,20 @@ class Utilities
         return $memory_limit;
     }
 
+    /**
+     * @param string $mimetype
+     * @return string The image html
+     */
     static function mimetype_to_image($mimetype)
     {
         $mimetype_image = str_replace('/', '_', $mimetype);
         return Theme :: get_common_image('mimetype/' . $mimetype_image, 'png', $mimetype, '', ToolbarItem :: DISPLAY_ICON);
     }
 
+    /**
+     * @param string $classname
+     * @return boolean
+     */
     static function autoload($classname)
     {
         $classname_parts = explode('\\', $classname);
@@ -574,7 +602,9 @@ class Utilities
             require_once $autoloader_path;
             $autoloader_class = implode('\\', $classname_parts) . '\\Autoloader';
             if ($autoloader_class :: load($unqualified_class_name))
+            {
                 return true;
+            }
         }
         //standard fall back
         $class_filename = self :: camelcase_to_underscores($unqualified_class_name) . '.class.php';
@@ -583,11 +613,17 @@ class Utilities
         {
             require_once $class_path;
             if (class_exists($classname))
+            {
                 return true;
+            }
         }
 
     }
 
+    /**
+     * Render a complete backtrace for the currently executing script
+     * @return string The backtrace
+     */
     static function get_backtrace()
     {
         $html = array();
@@ -599,6 +635,14 @@ class Utilities
         return implode('<br/>', $html);
     }
 
+    /**
+     * Get the class name from a fully qualified namespaced class name
+     * if and only if it's in the given namespace
+     *
+     * @param string $namespace
+     * @param string $classname
+     * @return string|boolean The class name or false
+     */
     static function get_namespace_classname($namespace, $classname)
     {
         $classname_parts = explode('\\', $classname);
@@ -622,16 +666,30 @@ class Utilities
         }
     }
 
+    /**
+     * @param Object $object
+     * @param booleean $convert_to_underscores
+     * @return string The class name
+     */
     static function get_classname_from_object($object, $convert_to_underscores = false)
     {
         return self :: get_classname_from_namespace(get_class($object), $convert_to_underscores);
     }
 
+    /**
+     * @param Object $object
+     * @return string The namespace
+     */
     static function get_namespace_from_object($object)
     {
         return self :: get_namespace_from_classname(get_class($object));
     }
 
+    /**
+     * @param string $classname
+     * @param boolean $convert_to_underscores
+     * @return string The class name
+     */
     static function get_classname_from_namespace($classname, $convert_to_underscores = false)
     {
         $classname = array_pop(explode('\\', $classname));
@@ -644,6 +702,10 @@ class Utilities
         return $classname;
     }
 
+    /**
+     * @param string $namespace
+     * @return string The namespace
+     */
     static function get_namespace_from_classname($namespace)
     {
         $namespace_parts = explode('\\', $namespace);
