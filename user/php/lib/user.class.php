@@ -15,6 +15,7 @@ use repository\RepositoryDataManager;
 
 use group\GroupDataManager;
 use group\Group;
+use common\libraries\ImageManipulation;
 
 /**
  * $Id: user.class.php 211 2009-11-13 13:28:39Z vanpouckesven $

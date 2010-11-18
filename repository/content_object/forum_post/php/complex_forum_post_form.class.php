@@ -14,7 +14,6 @@ require_once Path :: get_library_path() . 'utilities.class.php';
 
 class ComplexForumPostForm extends ComplexContentObjectItemForm
 {
-    const TOTAL_PROPERTIES = 0;
 
     // Inherited
     protected function build_creation_form()
@@ -53,12 +52,6 @@ class ComplexForumPostForm extends ComplexContentObjectItemForm
         }
 
         return $defaults;
-    }
-
-    function set_csv_values($valuearray)
-    {
-        $defaults[ComplexForumPost :: PROPERTY_REPLY_ON_POST] = $valuearray[0];
-        parent :: set_values($defaults);
     }
 
     // Inherited

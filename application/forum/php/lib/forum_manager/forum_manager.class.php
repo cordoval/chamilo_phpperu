@@ -6,6 +6,7 @@ use common\libraries\WebApplication;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\Utilities;
+use repository\content_object\forum\Forum;
 
 /**
  * $Id: forum_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $

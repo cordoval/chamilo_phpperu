@@ -14,15 +14,6 @@ require_once dirname(__FILE__) . '/open_question.class.php';
 class OpenQuestionForm extends ContentObjectForm
 {
 
-    function set_csv_values($valuearray)
-    {
-        $defaults[ContentObject :: PROPERTY_TITLE] = $valuearray[0];
-        $defaults[ContentObject :: PROPERTY_PARENT_ID] = $valuearray[1];
-        $defaults[ContentObject :: PROPERTY_DESCRIPTION] = $valuearray[2];
-
-        parent :: set_values($defaults);
-    }
-
     function setDefaults($defaults = array ())
     {
     	parent :: setDefaults($defaults);

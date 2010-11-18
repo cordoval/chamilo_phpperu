@@ -36,11 +36,12 @@ class Autoloader
             'content_object_publication_course_group' => 'content_object_publication_course_group.class.php',
             'content_object_publication_category_manager' => 'category_manager/content_object_publication_category_manager.class.php',
             'object_publication_table_cell_renderer.class' => 'browser/object_publication_table/object_publication_table_cell_renderer.class.php',
-            'course_type_settings' => 'course_type\course_type_settings.class.php',
-            'course_type_layout' => 'course_type\course_type_layout.class.php',
-            'course_type_rights' => 'course_type\course_type_rights.class.php',
-            'course_settings' => 'course\course_settings.class.php',
-            'course_rights' => 'course\course_rights.class.php'
+            'course_type_settings' => 'course_type/course_type_settings.class.php',
+            'course_type_layout' => 'course_type/course_type_layout.class.php',
+            'course_type_rights' => 'course_type/course_type_rights.class.php',
+            'course_settings' => 'course/course_settings.class.php',
+            'course_rights' => 'course/course_rights.class.php',
+            'course_user_relation' => 'course/course_user_relation.class.php'
         );
 
         $lower_case = Utilities :: camelcase_to_underscores($classname);

@@ -125,4 +125,4 @@ Anonymous = ""
 CanNotUpdateSurveyContextBecauseSurveyIsPublished = ""
 SurveyContexts = ""
 
-SurveyContextManager = ""
+SurveyContextManager = "Contexts"

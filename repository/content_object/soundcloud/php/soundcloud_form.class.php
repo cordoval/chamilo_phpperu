@@ -26,7 +26,6 @@ require_once dirname(__FILE__) . '/soundcloud.class.php';
 
 class SoundcloudForm extends ContentObjectForm
 {
-    const TOTAL_PROPERTIES = 5;
 
     protected function build_creation_form()
     {

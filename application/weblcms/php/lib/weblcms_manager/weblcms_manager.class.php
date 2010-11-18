@@ -725,17 +725,17 @@ class WeblcmsManager extends WebApplication
                 $c[] = $course;
         }
 
-        $directory = dirname(__FILE__) . '/../tool/';
+        $directory = dirname(__FILE__) . '/../../../tool/';
         $tools = Filesystem :: get_directory_content($directory, Filesystem :: LIST_DIRECTORIES, false);
         foreach ($tools as $tool)
         {
-            $path = $directory . $tool . '/' . $tool . '_tool.class.php';
+            $path = $directory . $tool . '/php/' . $tool . '_tool.class.php';
 
             if (! file_exists($path))
                 continue;
 
             require_once $path;
-            $class = Utilities :: underscores_to_camelcase($tool) . 'Tool';
+            $class = Tool :: get_tool_type_namespace($tool) . '\\' . Utilities :: underscores_to_camelcase($tool) . 'Tool';
             $obj = new $class(new self());
             $types[$tool] = $obj->get_allowed_types();
         }

@@ -14,15 +14,6 @@ require_once dirname(__FILE__) . '/learning_path_item.class.php';
 class LearningPathItemForm extends ContentObjectForm
 {
 
-    function set_csv_values($valuearray)
-    {
-        $defaults[ContentObject :: PROPERTY_TITLE] = $valuearray[0];
-        $defaults[ContentObject :: PROPERTY_PARENT_ID] = $valuearray[1];
-        $defaults[ContentObject :: PROPERTY_DESCRIPTION] = $valuearray[2];
-        $defaults[LearningPathItem :: PROPERTY_REFERENCE] = $valuearray[3];
-        parent :: set_values($defaults);
-    }
-
     function create_content_object()
     {
         $object = new LearningPathItem();

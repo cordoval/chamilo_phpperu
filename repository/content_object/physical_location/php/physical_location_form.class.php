@@ -32,15 +32,6 @@ class PhysicalLocationForm extends ContentObjectForm
         return parent :: update_content_object();
     }
 
-    function set_csv_values($valuearray)
-    {
-        $defaults[ContentObject :: PROPERTY_TITLE] = $valuearray[0];
-        $defaults[ContentObject :: PROPERTY_PARENT_ID] = $valuearray[1];
-        $defaults[ContentObject :: PROPERTY_DESCRIPTION] = $valuearray[2];
-        $defaults[PhysicalLocation :: PROPERTY_LOCATION] = $valuearray[3];
-        parent :: set_values($defaults);
-    }
-
     protected function build_creation_form()
     {
         parent :: build_creation_form();

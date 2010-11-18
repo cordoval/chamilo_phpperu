@@ -47,15 +47,6 @@ class ForumForm extends ContentObjectForm
         $this->addElement('category');
     }
 
-    function set_csv_values($valuearray)
-    {
-        $defaults[ContentObject :: PROPERTY_TITLE] = $valuearray[0];
-        $defaults[ContentObject :: PROPERTY_PARENT_ID] = $valuearray[1];
-        $defaults[ContentObject :: PROPERTY_DESCRIPTION] = $valuearray[2];
-        $defaults[ContentObject :: PROPERTY_LOCKED] = $valuearray[3];
-        parent :: set_values($defaults);
-    }
-
 	function setDefaults($defaults = array())
 	{
 		$object = $this->get_content_object();
