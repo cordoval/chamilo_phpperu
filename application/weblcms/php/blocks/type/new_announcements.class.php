@@ -10,14 +10,15 @@ use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
+use repository\content_object\announcement\Announcement;
 
 /**
  * $Id: new_announcements.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.block
  */
 require_once WebApplication :: get_application_class_path('weblcms') . 'blocks/weblcms_block.class.php';
-require_once dirname(__FILE__) . '/../course/course_user_category.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/announcement/announcement.class.php';
+require_once dirname(__FILE__) . '/../../lib/course/course_user_category.class.php';
+require_once Path :: get_repository_path() . '/../content_object/announcement/php/announcement.class.php';
 /**
  * This class represents a calendar repo_viewer component which can be used
  * to browse through the possible learning objects to publish.
@@ -38,7 +39,7 @@ class WeblcmsNewAnnouncements extends WeblcmsBlock
         $weblcms = $this->get_parent();
 
         $condition = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
-        $courses = $weblcms->retrieve_user_courses($condition);
+        $courses = $dm->retrieve_user_courses($condition);
 
         $items = array();
 

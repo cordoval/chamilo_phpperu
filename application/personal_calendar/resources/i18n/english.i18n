@@ -17,3 +17,6 @@ OnlyIcsAllowed = ""
 NoProfileSelected = ""
 ExportIcal = ""
 MyAgenda = ""
+
+Day = ""
+Month = ""
