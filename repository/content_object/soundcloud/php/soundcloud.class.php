@@ -24,7 +24,7 @@ class Soundcloud extends ContentObject implements Versionable
 
     function get_track_api_uri()
     {
-        return sprintf(self ::SOUNDCLOUD_TRACK_API_URI, $this->get_synchronization_data()->get_external_repository_object_id());
+        return sprintf(self :: SOUNDCLOUD_TRACK_API_URI, $this->get_synchronization_data()->get_external_repository_object_id());
     }
 
     function get_track_player_uri()
