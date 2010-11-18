@@ -26,11 +26,6 @@ class RightsToolRightsEditorComponent extends RightsTool implements DelegateComp
         return WeblcmsRights :: get_available_rights();
     }
 
-    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
-    {
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_BROWSE)), Translation :: get('RightsEditorToolBrowserComponent')));
-    }
-
     function get_additional_parameters()
     {
         array(Tool :: PARAM_PUBLICATION_ID);
