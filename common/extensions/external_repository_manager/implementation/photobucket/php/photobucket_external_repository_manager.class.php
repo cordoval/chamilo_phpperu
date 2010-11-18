@@ -5,6 +5,9 @@ use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\Path;
 use common\libraries\ActionBarSearchForm;
+use common\libraries\PatternMatchCondition;
+use common\libraries\OrCondition;
+use common\libraries\Utilities;
 
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
@@ -12,15 +15,16 @@ use common\extensions\external_repository_manager\ExternalRepositoryObjectRender
 use common\extensions\external_repository_manager\ExternalRepositoryObjectDisplay;
 
 use repository\ExternalRepositorySetting;
+use repository\content_object\document\Document;
 /**
- * 
+ *
  * @author magali.gillard
  *
  */
 class PhotobucketExternalRepositoryManager extends ExternalRepositoryManager
 {
     const REPOSITORY_TYPE = 'photobucket';
-    
+
     const PARAM_FEED_TYPE = 'feed';
     const PARAM_FEED_IDENTIFIER = 'identifier';
 
@@ -92,7 +96,7 @@ class PhotobucketExternalRepositoryManager extends ExternalRepositoryManager
         $my_photos['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_MY_PHOTOS), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
         $my_photos['class'] = 'user';
         $menu_items[] = $my_photos;
-        
+
         $general = array();
         $general['title'] = Translation :: get('Public');
         $general['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_GENERAL), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
@@ -157,7 +161,7 @@ class PhotobucketExternalRepositoryManager extends ExternalRepositoryManager
     {
         return self :: REPOSITORY_TYPE;
     }
-    
+
    /**
      * Helper function for the SubManager class,
      * pending access to class constants via variables in PHP 5.3

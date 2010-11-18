@@ -5,6 +5,7 @@ use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\Redirect;
+use common\libraries\Utilities;
 
 require_once dirname(__FILE__) . '/../../external_repository_object_display.class.php';
 

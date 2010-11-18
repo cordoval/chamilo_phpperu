@@ -24,7 +24,6 @@ class SoundcloudExternalRepositoryManagerImporterComponent extends SoundcloudExt
         $soundcloud = ContentObject :: factory(Soundcloud :: get_type_name());
         $soundcloud->set_title($object->get_title());
         $soundcloud->set_description(nl2br($object->get_description()));
-        $soundcloud->set_track_id($object->get_id());
         $soundcloud->set_owner_id($this->get_user_id());
 
         if ($soundcloud->create())

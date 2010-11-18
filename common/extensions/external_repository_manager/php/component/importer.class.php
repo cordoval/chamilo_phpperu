@@ -1,6 +1,7 @@
 <?php
 namespace common\extensions\external_repository_manager;
 
+use common\libraries\Utilities;
 use common\libraries\Request;
 use common\libraries\Translation;
 

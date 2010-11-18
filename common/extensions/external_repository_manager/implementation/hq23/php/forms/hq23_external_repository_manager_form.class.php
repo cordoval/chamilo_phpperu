@@ -50,7 +50,7 @@ class Hq23ExternalRepositoryManagerForm extends FormValidator
         $this->external_repository_object = $external_repository_object;
 
         $defaults[Hq23ExternalRepositoryObject :: PROPERTY_ID] = $external_repository_object->get_id();
-        $defaults[Hq23ExternalRepositoryObject :: PROPERTY_TITLE] = $external_repository_object->get_title();
+//        $defaults[Hq23ExternalRepositoryObject :: PROPERTY_TITLE] = $external_repository_object->get_title();
         $defaults[Hq23ExternalRepositoryObject :: PROPERTY_DESCRIPTION] = html_entity_decode($external_repository_object->get_description());
         $defaults[Hq23ExternalRepositoryObject :: PROPERTY_TAGS] = $external_repository_object->get_tags_string(false);
 

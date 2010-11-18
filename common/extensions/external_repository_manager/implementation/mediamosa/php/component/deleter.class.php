@@ -1,7 +1,11 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\mediamosa;
+
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
+
 use common\libraries\Translation;
+use common\libraries\Utilities;
+
 use common\extensions\external_repository_manager\ExternalRepositoryComponent;
 /**
  * Description of deleterclass

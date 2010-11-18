@@ -5,15 +5,16 @@ use common\libraries\Path;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\ActionBarSearchForm;
-use common\libraries\Document;
 use common\libraries\PatternMatchCondition;
 use common\libraries\OrCondition;
+use common\libraries\Utilities;
 
 use common\extensions\external_repository_manager\ExternalRepositoryObjectRenderer;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
 use common\extensions\external_repository_manager\ExternalRepositoryObject;
 
 use repository\ExternalRepositorySetting;
+use repository\content_object\document\Document;
 
 require_once dirname(__FILE__) . '/flickr_external_repository_connector.class.php';
 

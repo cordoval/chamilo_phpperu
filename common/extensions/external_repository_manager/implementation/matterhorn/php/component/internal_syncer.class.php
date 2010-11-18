@@ -1,6 +1,7 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\matterhorn;
 
+use common\libraries\Utilities;
 use common\libraries\Translation;
 
 class MatterhornExternalRepositoryManagerInternalSyncerComponent extends MatterhornExternalRepositoryManager
@@ -15,13 +16,13 @@ class MatterhornExternalRepositoryManagerInternalSyncerComponent extends Matterh
     {
         $synchronization_data = $external_object->get_synchronization_data();
         $content_object = $synchronization_data->get_content_object();
-        
+
         $content_object->set_title($external_object->get_title());
         $content_object->set_description($external_object->get_description());
         $content_object->set_owner_id($this->get_user_id());
         $content_object->set_matterhorn_id($external_object->get_id());
         $content_object->set_thumbnail($external_object->get_search_preview()->get_url());
-        
+
         if ($content_object->update())
         {
             $synchronization_data->set_content_object_timestamp($content_object->get_modification_date());
