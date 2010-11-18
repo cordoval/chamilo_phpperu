@@ -79,6 +79,11 @@
 				</options>
 			</setting>
 			<setting name="cda_url" field="text" default="http://translate.chamilo.org/" />
+                        <setting name="write_new_variables_to_translation_file" field="checkbox" default="0">
+				<options type="static">
+					<option name="write_new_variables_to_translation_file" value="1" />
+				</options>
+			</setting>
 		</category>
 		<category name="calendar">
 			<setting name="working_hours_start" field="select" default="0" user_setting="1">
