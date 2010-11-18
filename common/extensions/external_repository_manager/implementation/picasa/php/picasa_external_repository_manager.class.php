@@ -5,6 +5,7 @@ use common\libraries\Path;
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\ActionBarSearchForm;
+use common\libraries\Utilities;
 
 use repository\ExternalRepositorySetting;
 
@@ -185,7 +186,7 @@ class PicasaExternalRepositoryManager extends ExternalRepositoryManager
     {
         return self :: REPOSITORY_TYPE;
     }
-    
+
     /**
      * Helper function for the SubManager class,
      * pending access to class constants via variables in PHP 5.3

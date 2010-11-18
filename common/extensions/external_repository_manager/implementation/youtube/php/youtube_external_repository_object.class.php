@@ -20,6 +20,8 @@ class YoutubeExternalRepositoryObject extends StreamingMediaExternalRepositoryOb
     const STATUS_PROCESSING = 'processing';
     const STATUS_RESTRICTED = 'restricted';
 
+    const YOUTUBE_PLAYER_URI = 'http://www.youtube.com/v/%s';
+
     function get_category()
     {
         return $this->get_default_property(self :: PROPERTY_CATEGORY);
@@ -83,6 +85,11 @@ class YoutubeExternalRepositoryObject extends StreamingMediaExternalRepositoryOb
     static function get_object_type()
     {
         return self :: OBJECT_TYPE;
+    }
+
+    function get_video_url()
+    {
+        return sprintf(self :: YOUTUBE_PLAYER_URI, $this->get_id());
     }
 }
 ?>

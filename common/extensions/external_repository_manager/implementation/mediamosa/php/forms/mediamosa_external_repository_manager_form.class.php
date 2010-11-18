@@ -1,5 +1,7 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\mediamosa;
+
+use common\libraries\Utilities;
 use common\libraries\FormValidator;
 use user\UserDataManager;
 use common\libraries\Translation;
@@ -62,7 +64,7 @@ class MediamosaExternalRepositoryManagerForm extends FormValidator{
         {
             $defaults[$mediafile->get_id(). '_' . MediamosaExternalRepositoryObject :: PROPERTY_IS_DOWNLOADABLE] = $mediafile->get_is_downloadable();
         }
-       
+
         $this->setDefaults($defaults);
     }
 
@@ -77,7 +79,7 @@ class MediamosaExternalRepositoryManagerForm extends FormValidator{
         $this->addElement('textarea', MediaMosaExternalRepositoryObject::PROPERTY_DESCRIPTION, Translation :: get('Description', null, Utilities :: COMMON_LIBRARIES), array("rows" => "7", "cols" => "110"));
         $this->addElement('text', MediamosaExternalRepositoryObject :: PROPERTY_CREATOR, Translation :: get('Creator'), array("size" => "50"));
 
-        
+
 
         $this->addElement('hidden', MediamosaExternalRepositoryObject :: PROPERTY_PUBLISHER);
         $this->addelement('hidden', MediamosaExternalRepositoryObject :: PROPERTY_DATE_PUBLISHED);
@@ -87,10 +89,10 @@ class MediamosaExternalRepositoryManagerForm extends FormValidator{
     function build_creation_form()
     {
         $defaults = array();
-            
+
         $udm = UserDataManager :: get_instance();
 
-        //create values for hidden forms 
+        //create values for hidden forms
         $user = $udm->retrieve_user(Session :: get_user_id());
         $defaults[MediamosaExternalRepositoryObject :: PROPERTY_PUBLISHER] = $user->get_firstname().' '.$user->get_lastname();
         $defaults[MediamosaExternalRepositoryObject :: PROPERTY_DATE_PUBLISHED] = date('Y-m-d H:i:s');
@@ -106,7 +108,7 @@ class MediamosaExternalRepositoryManagerForm extends FormValidator{
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
-    
+
     function build_editing_form()
     {
         $this->build_basic_form();
@@ -189,7 +191,7 @@ class MediamosaExternalRepositoryManagerForm extends FormValidator{
 
             $connector->update_mediamosa_mediafile($mediafile->get_id(),$props);
         }
-        
+
         if(! $connector->add_mediamosa_metadata($this->external_repository_object->get_id(), $data))
         {
             return true;

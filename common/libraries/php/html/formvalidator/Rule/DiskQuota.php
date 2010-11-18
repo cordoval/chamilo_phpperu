@@ -1,8 +1,4 @@
 <?php
-
-namespace common\libraries;
-
-use HTML_QuickForm_Rule;
 use repository\QuotaManager;
 use user\UserDataManager;
 

@@ -6,15 +6,19 @@ use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\Request;
 use common\libraries\AndCondition;
-use common\libraries\ToolbarItem; 
-use common\libraries\Theme; 
-use common\libraries\ActionBarSearchForm;  
-use common\libraries\AdministrationComponent; 
+use common\libraries\NotCondition;
+use common\libraries\OrCondition;
+use common\libraries\PatternMatchCondition;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
+use common\libraries\ActionBarSearchForm;
+use common\libraries\AdministrationComponent;
 use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\ActionBarRenderer;
- 
-require_once dirname(__FILE__) ."/../../group_rights.class.php";
+use user\User;
+
+require_once dirname(__FILE__) . "/../../group_rights.class.php";
 /**
  * $Id: subscribe_user_browser.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package group.lib.group_manager.component
@@ -37,10 +41,10 @@ class GroupManagerSubscribeUserBrowserComponent extends GroupManager implements 
             $this->group = $this->retrieve_group($group_id);
         }
 
-        if (!GroupRights::is_allowed_in_groups_subtree(GroupRights::RIGHT_SUBSCRIBE, GroupRights::get_location_by_identifier_from_groups_subtree(Request::get(GroupManager::PARAM_GROUP_ID))))
+        if (! GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_SUBSCRIBE, GroupRights :: get_location_by_identifier_from_groups_subtree(Request :: get(GroupManager :: PARAM_GROUP_ID))))
         {
             $this->display_header();
-            Display :: error_message(Translation :: get('NotAllowed', null , Utilities :: COMMON_LIBRARIES));
+            Display :: error_message(Translation :: get('NotAllowed', null, Utilities :: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }
@@ -58,8 +62,8 @@ class GroupManagerSubscribeUserBrowserComponent extends GroupManager implements 
         $parameters = $this->get_parameters();
         $parameters[GroupManager :: PARAM_GROUP_ID] = $this->group->get_id();
         $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->ab->get_query();
-        
-    	$table = new SubscribeUserBrowserTable($this, $parameters, $this->get_subscribe_condition());
+
+        $table = new SubscribeUserBrowserTable($this, $parameters, $this->get_subscribe_condition());
 
         $html = array();
         $html[] = $table->as_html();
@@ -90,7 +94,9 @@ class GroupManagerSubscribeUserBrowserComponent extends GroupManager implements 
         }
 
         if (count($conditions) == 0)
+        {
             return null;
+        }
 
         $condition = new AndCondition($conditions);
 
@@ -110,23 +116,23 @@ class GroupManagerSubscribeUserBrowserComponent extends GroupManager implements 
 
         $action_bar->set_search_url($this->get_url(array(GroupManager :: PARAM_GROUP_ID => $group->get_id())));
 
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(GroupManager :: PARAM_GROUP_ID => $group->get_id())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(GroupManager :: PARAM_GROUP_ID => $group->get_id())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         //$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowGroup'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS, GroupManager :: PARAM_GROUP_ID => $group->get_id()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
 
         return $action_bar;
     }
-    
-	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS)), Translation :: get('GroupManagerBrowserComponent')));
-    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => Request :: get(GroupManager :: PARAM_GROUP_ID))), Translation :: get('GroupManagerViewerComponent')));
-    	$breadcrumbtrail->add_help('group general');
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS)), Translation :: get('GroupManagerBrowserComponent')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => Request :: get(GroupManager :: PARAM_GROUP_ID))), Translation :: get('GroupManagerViewerComponent')));
+        $breadcrumbtrail->add_help('group general');
     }
-    
+
     function get_additional_parameters()
     {
-    	return array(GroupManager :: PARAM_GROUP_ID);
+        return array(GroupManager :: PARAM_GROUP_ID);
     }
 }
 ?>

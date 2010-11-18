@@ -1,4 +1,7 @@
 <?php
+namespace common\extensions\external_repository_manager\implementation\mediamosa;
+
+use common\libraries\Utilities;
 /**
  * Description of importerclass
  *

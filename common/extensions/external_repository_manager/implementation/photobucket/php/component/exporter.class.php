@@ -1,9 +1,11 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\photobucket;
 
+use common\libraries\Utilities;
 use common\libraries\Translation;
-use common\extensions\external_repository_manager\ExternalRepositoryManager;
 
+use common\extensions\external_repository_manager\ExternalRepositoryManager;
+use common\extensions\external_repository_manager\ExternalRepositoryComponent;
 
 class PhotobucketExternalRepositoryManagerExporterComponent extends PhotobucketExternalRepositoryManager
 {
