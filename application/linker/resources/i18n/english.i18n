@@ -3,3 +3,5 @@ Name = ""
 Url = ""
 Links = ""
 CreateLink = ""
+
+LinkerManagerBrowserComponent = ""

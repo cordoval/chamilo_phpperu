@@ -17,3 +17,7 @@ First = ""
 Previous = ""
 Next = ""
 Last = ""
+
+GalleryTableView = ""
+SlideshowView = ""
+TableView = ""

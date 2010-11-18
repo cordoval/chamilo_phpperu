@@ -23,3 +23,5 @@ PeerAssessmentPublicationUpdated = ""
 PeerAssessmentPublicationNotUpdated = ""
 NoPublicationSelected = ""
 SelectedContentObject = ""
+
+PeerAssessmentManagerBrowserComponent = ""
