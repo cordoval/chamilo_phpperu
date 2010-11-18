@@ -47,7 +47,7 @@ class ToolComponentBrowserComponent extends ToolComponent
 
         $publication_renderer = ContentObjectPublicationListRenderer :: factory($this->get_parent()->get_browser_type(), $this);
 
-        $actions = new ObjectTableFormActions(Tool :: PARAM_ACTION);
+        $actions = new ObjectTableFormActions(__NAMESPACE__, Tool :: PARAM_ACTION);
         $actions->add_form_action(new ObjectTableFormAction(Tool :: ACTION_DELETE, Translation :: get('RemoveSelected', null ,Utilities:: COMMON_LIBRARIES)));
         $actions->add_form_action(new ObjectTableFormAction(Tool :: ACTION_TOGGLE_VISIBILITY, Translation :: get('ToggleVisibility'), false));
         //$actions->add_form_action(new ObjectTableFormAction(Tool :: ACTION_TOGGLE_VISIBILITY, Translation :: get('ToggleVisibility'), false));

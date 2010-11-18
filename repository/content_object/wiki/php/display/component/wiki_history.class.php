@@ -45,7 +45,7 @@ class WikiDisplayWikiHistoryComponent extends WikiDisplay
             $version_parameters[ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID] = $this->complex_wiki_page_id;
 
             $version_browser = new RepositoryVersionBrowserTable($this, $version_parameters, new EqualityCondition(ContentObject :: PROPERTY_OBJECT_NUMBER, $wiki_page->get_object_number()));
-            $actions = new ObjectTableFormActions(ComplexDisplay :: PARAM_DISPLAY_ACTION);
+            $actions = new ObjectTableFormActions(__NAMESPACE__, ComplexDisplay :: PARAM_DISPLAY_ACTION);
             $actions->add_form_action(new ObjectTableFormAction(WikiDisplay :: ACTION_COMPARE, Translation :: get('CompareSelected')));
             $version_browser->set_form_actions($actions);
 

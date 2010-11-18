@@ -30,20 +30,21 @@ class InternshipOrganizerCategoryBrowserTable extends ObjectTable
         $data_provider = new InternshipOrganizerCategoryBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, InternshipOrganizerCategoryBrowserTable :: DEFAULT_NAME, $model, $renderer);
         $this->set_additional_parameters($parameters);
-        
-        $actions = new ObjectTableFormActions(InternshipOrganizerCategoryManager :: PARAM_ACTION);
-        
+
+        $actions = new ObjectTableFormActions(__NAMESPACE__, InternshipOrganizerCategoryManager :: PARAM_ACTION);
+
         $actions->add_form_action(new ObjectTableFormAction(InternshipOrganizerCategoryManager :: ACTION_DELETE_CATEGORY, Translation :: get('RemoveSelected')));
         $actions->add_form_action(new ObjectTableFormAction(InternshipOrganizerCategoryManager :: ACTION_TRUNCATE_CATEGORY, Translation :: get('TruncateSelected')));
-        
+
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
-    
+
     }
 
     static function handle_table_action()
     {
-        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+        $class = Utilities :: get_classname_from_namespace(__CLASS__, true);
+        $ids = self :: get_selected_ids($class);
         Request :: set_get(InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID, $ids);
     }
 }

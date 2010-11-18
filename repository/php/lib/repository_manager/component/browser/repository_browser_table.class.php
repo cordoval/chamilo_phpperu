@@ -1,6 +1,8 @@
 <?php
 namespace repository;
 
+use common\libraries;
+
 use common\libraries\Request;
 use common\libraries\Translation;
 use common\libraries\Utilities;
@@ -33,7 +35,7 @@ class RepositoryBrowserTable extends ObjectTable
         $data_provider = new RepositoryBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, RepositoryBrowserTable :: DEFAULT_NAME, $model, $renderer);
 
-        $action = new ObjectTableFormActions();
+        $action = new ObjectTableFormActions(__NAMESPACE__);
         $actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_EXPORT_CP_SELECTED, Translation :: get('ExportCpSelected'), false);
 
         $action->add_form_action(new ObjectTableFormAction(RepositoryManager :: ACTION_RECYCLE_CONTENT_OBJECTS, Translation :: get('RemoveSelected', null, Utilities :: COMMON_LIBRARIES)));
@@ -42,7 +44,6 @@ class RepositoryBrowserTable extends ObjectTable
         $action->add_form_action(new ObjectTableFormAction(RepositoryManager :: ACTION_EXPORT_CONTENT_OBJECTS, Translation :: get('ExportSelected', null, Utilities :: COMMON_LIBRARIES), false));
         $action->add_form_action(new ObjectTableFormAction(RepositoryManager :: ACTION_CONTENT_OBJECT_SHARE_CREATOR, Translation :: get('ShareSelected', null, Utilities :: COMMON_LIBRARIES), false));
         //$action->add_form_action(new ObjectTableFormAction(RepositoryManager :: ACTION_EDIT_CONTENT_OBJECT_RIGHTS, Translation :: get('EditSelectedRights'), false));
-
 
         if ($browser->get_repository_browser()->get_user()->is_platform_admin())
         {
@@ -56,9 +57,10 @@ class RepositoryBrowserTable extends ObjectTable
 
     static function handle_table_action()
     {
-        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+        $class = Utilities :: get_classname_from_namespace(__CLASS__, true);
+        $ids = self :: get_selected_ids($class);
 
-        $action = Request :: post(Utilities :: camelcase_to_underscores(__CLASS__) . '_action_value');
+        $action = Request :: post($class . '_action_value');
         if ($action == RepositoryManager :: ACTION_EDIT_CONTENT_OBJECT_RIGHTS)
         {
             Request :: set_get(RepositoryManager :: PARAM_IDENTIFIER, $ids);

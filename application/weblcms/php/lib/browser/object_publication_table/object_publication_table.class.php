@@ -43,7 +43,8 @@ class ObjectPublicationTable extends ObjectTable
 
     static function handle_table_action()
     {
-        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+        $class = Utilities :: get_classname_from_namespace(__CLASS__, true);
+        $ids = self :: get_selected_ids($class);
         Request :: set_get(Tool :: PARAM_PUBLICATION_ID, $ids);
     }
 }

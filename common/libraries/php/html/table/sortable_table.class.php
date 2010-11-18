@@ -142,7 +142,7 @@ class SortableTable extends HTML_Table
 
         $this->ajax_enabled = $ajax_enabled;
         $this->column_filters = array();
-        $this->form_actions = new ObjectTableFormActions();
+        $this->form_actions = new ObjectTableFormActions(__NAMESPACE__);
         $this->checkbox_name = null;
         $this->td_attributes = array();
         $this->th_attributes = array();
@@ -297,6 +297,7 @@ class SortableTable extends HTML_Table
                 $html[] = '</select>';
 
                 $html[] = '<input type="hidden" name="' . $this->table_name . '_action_name" value="' . $this->form_actions->get_action() . '"/>';
+                $html[] = '<input type="hidden" name="' . $this->table_name . '_namespace" value="' . $this->form_actions->get_namespace() . '"/>';
                 $html[] = '<input type="hidden" name="table_name" value="' . $this->table_name . '"/>';
                 //                $html[] = '<button class="normal start" type="submit" value="' . Translation :: get('Ok') . '">' . Translation :: get('Ok') . '</button>';
                 $html[] = ' <input type="submit" value="' . Translation :: get('Ok', null, Utilities :: COMMON_LIBRARIES) . '"/>';

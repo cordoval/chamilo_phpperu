@@ -34,7 +34,7 @@ class SubscribedUserBrowserTable extends ObjectTable
         $data_provider = new SubscribedUserBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
         $this->set_additional_parameters($parameters);
-        $actions = new ObjectTableFormActions(Tool :: PARAM_ACTION);
+        $actions = new ObjectTableFormActions(__NAMESPACE__, Tool :: PARAM_ACTION);
 
         $group_id = Request :: get(WeblcmsManager :: PARAM_GROUP);
 
@@ -60,7 +60,8 @@ class SubscribedUserBrowserTable extends ObjectTable
 
     function handle_table_action()
     {
-        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+        $class = Utilities :: get_classname_from_namespace(__CLASS__, true);
+        $ids = self :: get_selected_ids($class);
         Request :: set_get(UserTool :: PARAM_USERS, $ids);
     }
 }

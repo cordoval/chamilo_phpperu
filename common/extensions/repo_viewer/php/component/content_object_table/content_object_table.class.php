@@ -43,7 +43,7 @@ class ContentObjectTable extends ObjectTable
         $cell_renderer = new ContentObjectTableCellRenderer($table_actions);
         parent :: __construct($data_provider, ContentObjectTable :: DEFAULT_NAME, $column_model, $cell_renderer);
 
-        $action = new ObjectTableFormActions();
+        $action = new ObjectTableFormActions(__NAMESPACE__);
         $action->set_action(RepoViewer :: PARAM_ACTION);
         if ($parent->get_maximum_select() != RepoViewer :: SELECT_SINGLE)
         {
@@ -55,7 +55,8 @@ class ContentObjectTable extends ObjectTable
 
     static function handle_table_action()
     {
-        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(array_pop(explode('\\', __CLASS__))));
+        $class = Utilities :: get_classname_from_namespace(__CLASS__, true);
+        $ids = self :: get_selected_ids($class);
         Request :: set_get(RepoViewer :: PARAM_ID, $ids);
     }
 }

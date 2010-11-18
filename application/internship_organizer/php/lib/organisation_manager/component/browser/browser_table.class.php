@@ -28,7 +28,7 @@ class InternshipOrganizerOrganisationBrowserTable extends ObjectTable
         parent :: __construct($data_provider, self :: DEFAULT_NAME, $model, $renderer);
         $this->set_additional_parameters($parameters);
 
-        $action = new ObjectTableFormActions();
+        $action = new ObjectTableFormActions(__NAMESPACE__);
         $action->set_action(InternshipOrganizerOrganisationManager :: PARAM_ACTION);
         $action->add_form_action(new ObjectTableFormAction(InternshipOrganizerOrganisationManager :: ACTION_DELETE_ORGANISATION, Translation :: get('RemoveSelected')));
 
@@ -38,7 +38,8 @@ class InternshipOrganizerOrganisationBrowserTable extends ObjectTable
 
     static function handle_table_action()
     {
-        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+        $class = Utilities :: get_classname_from_namespace(__CLASS__, true);
+        $ids = self :: get_selected_ids($class);
         Request :: set_get(InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_ID, $ids);
     }
 }
