@@ -1,2 +1,3 @@
 TypeName = "Search"
-ResultsFoundFor = ""
+ResultsFoundFor = "Results found for: "
+SearchToolSearcherComponent = "Search"
