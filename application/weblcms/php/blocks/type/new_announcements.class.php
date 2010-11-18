@@ -10,6 +10,7 @@ use common\libraries\AndCondition;
 use common\libraries\EqualityCondition;
 use common\libraries\Path;
 use common\libraries\Translation;
+use repository\content_object\announcement\Announcement;
 
 /**
  * $Id: new_announcements.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -38,7 +39,7 @@ class WeblcmsNewAnnouncements extends WeblcmsBlock
         $weblcms = $this->get_parent();
 
         $condition = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
-        $courses = $weblcms->retrieve_user_courses($condition);
+        $courses = $dm->retrieve_user_courses($condition);
 
         $items = array();
 

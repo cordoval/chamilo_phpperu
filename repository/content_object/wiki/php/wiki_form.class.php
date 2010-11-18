@@ -16,16 +16,6 @@ require_once dirname(__FILE__) . '/wiki.class.php';
 class WikiForm extends ContentObjectForm
 {
 
-    function set_csv_values($valuearray)
-    {
-        $defaults[ContentObject :: PROPERTY_TITLE] = $valuearray[0];
-        $defaults[ContentObject :: PROPERTY_PARENT_ID] = $valuearray[1];
-        $defaults[ContentObject :: PROPERTY_DESCRIPTION] = $valuearray[2];
-        $defaults[Wiki :: PROPERTY_LOCKED] = $valuearray[3];
-        $defaults[Wiki :: PROPERTY_LINKS] = $valuearray[4];
-        parent :: set_values($defaults);
-    }
-
     function create_content_object()
     {
         $object = new Wiki();

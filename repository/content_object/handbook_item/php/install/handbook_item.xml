@@ -2,9 +2,8 @@
 <object name="handbook_item">
 	<properties>
 		<property name="id" type="integer" unsigned="1" notnull="1" />
-		<property name="reference_id" type="integer" unsigned="1"
-			notnull="1" />
-                <property name="uuid" type="text" fixed="true" length="150" notnull="1" default="" />
+		<property name="reference_id" type="integer" unsigned="1" notnull="1" />
+		<property name="uuid" type="text" fixed="true" length="150" notnull="1" default="" />
 	</properties>
 	<index name="id" type="primary">
 		<indexproperty name="id" />
@@ -12,7 +11,7 @@
 	<index name="reference_id">
 		<indexproperty name="reference_id" />
 	</index>
-        <index name="uuid">
+	<index name="uuid">
 		<indexproperty name="uuid" />
 	</index>
 </object>

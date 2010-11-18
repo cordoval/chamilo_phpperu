@@ -203,7 +203,7 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
         {
             $current = $this->type == self :: TYPE_USER ? ' current' : '';
             $html[] = '<a href="' . $this->get_url(array(self :: PARAM_TYPE => self :: TYPE_USER)) . '">';
-            $html[] = '<div class="application' . $current . '" style="background-image: url(' . Theme :: get_image_path('admin') . 'place_user.png);">' . Translation :: get('Users', null, 'user') . '</div>';
+            $html[] = '<div class="application' . $current . '" style="background-image: url(' . Theme :: get_image_path('user') . 'logo/' . Theme :: ICON_BIG . '.png);">' . Translation :: get('Users', null, 'user') . '</div>';
             $html[] = '</a>';
         }
 
@@ -211,7 +211,7 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
         {
             $current = $this->type == self :: TYPE_GROUP ? ' current' : '';
             $html[] = '<a href="' . $this->get_url(array(self :: PARAM_TYPE => self :: TYPE_GROUP)) . '">';
-            $html[] = '<div class="application' . $current . '" style="background-image: url(' . Theme :: get_image_path('admin') . 'place_group.png);">' . Translation :: get('Groups', null, 'group') . '</div>';
+            $html[] = '<div class="application' . $current . '" style="background-image: url(' . Theme :: get_image_path('group') . 'logo/' . Theme :: ICON_BIG . '.png);">' . Translation :: get('Groups', null, 'group') . '</div>';
             $html[] = '</a>';
         }
 

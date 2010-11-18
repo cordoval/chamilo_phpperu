@@ -3,6 +3,20 @@ namespace application\survey;
 
 use common\libraries\Translation;
 use common\libraries\Request;
+use common\libraries\Breadcrumb;
+use common\libraries\ActionBarRenderer;
+use common\libraries\ToolbarItem;
+use common\libraries\Theme;
+use common\libraries\Utilities;
+use common\libraries\DynamicTabsRenderer;
+use common\libraries\ActionBarSearchForm;
+use common\libraries\EqualityCondition;
+use common\libraries\AndCondition;
+use common\libraries\DynamicContentTab;
+use user\User;
+use common\libraries\InCondition;
+
+
 
 class SurveyManagerParticipantBrowserComponent extends SurveyManager
 {

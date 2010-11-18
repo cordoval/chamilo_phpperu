@@ -284,7 +284,7 @@ class SortableTable extends HTML_Table
                 $html[] = '<span class="sortable_table_selection_controls_options">';
                 $html[] = '<a href="?' . $params . '&amp;' . $this->param_prefix . 'selectall=1" onclick="javascript: setCheckbox(\'form_' . $this->table_name . '\', true); return false;">' . Translation :: get('SelectAll', null, Utilities :: COMMON_LIBRARIES) . '</a>';
                 $html[] = '&nbsp;-&nbsp;';
-                $html[] = '<a href="?' . $params . '"  onclick="javascript: setCheckbox(\'form_' . $this->table_name . '\', false); return false;">' . Translation :: get('UnSelectAll', null, Utilities :: COMMON_LIBRARIES) . '</a> ';
+                $html[] = '<a href="?' . $params . '"  onclick="javascript: setCheckbox(\'form_' . $this->table_name . '\', false); return false;">' . Translation :: get('UnselectAll', null, Utilities :: COMMON_LIBRARIES) . '</a> ';
                 $html[] = '</span>';
                 $html[] = '<select id="actions_' . $this->table_name . '" name="' . $this->table_name . '_action_value">';
                 foreach ($this->form_actions->get_form_actions() as $form_action)

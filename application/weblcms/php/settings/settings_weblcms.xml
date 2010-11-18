@@ -16,9 +16,9 @@
 		<category name="viewer">
 			<setting name="view_state" field="radio" default="0" user_setting="1">
 				<options type="static">
-					<option name="Open and closed mixed" value="0" />
-					<option name="Open and closed seperated" value="1" />
-					<option name="Open only" value="2" />
+					<option name="open_and_closed_mixed" value="0" />
+					<option name="open_and_closed_seperated" value="1" />
+					<option name="open_only" value="2" />
 				</options>
 			</setting>
 		</category>

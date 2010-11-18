@@ -2,6 +2,7 @@
 namespace common\libraries;
 
 use help\HelpManager;
+use reporting\ReportingManager;
 
 /**
  * $Id: breadcrumb_trail.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
@@ -163,7 +164,7 @@ class BreadcrumbTrail
         $html[] = '<div id="extra_item">';
         $toolbar = new Toolbar();
         $toolbar->add_item(new ToolbarItem(Translation :: get('ShowActionBar'), Theme :: get_common_image_path() . 'action_bar.png', '#', ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'action_bar_text'));
-        $toolbar->add_item(new ToolbarItem(Translation :: get('ShowReportingFilter'), Theme :: get_common_image_path() . 'reporting_filter.png', '#', ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'reporting_filter_text'));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('ShowReportingFilter', null, ReportingManager :: APPLICATION_NAME), Theme :: get_common_image_path() . 'reporting_filter.png', '#', ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'reporting_filter_text'));
 
         if (is_array($extra_items) && count($extra_items) > 0)
         {

@@ -1,3 +1,6 @@
 TypeName = "Wiki"
-WikiToolBrowserComponent = ""
-WikiToolViewerComponent = ""
+WikiToolBrowserComponent = "Browse wikis"
+WikiToolViewerComponent = "View wiki"
+WikiToolIntroductionPublisherComponent = "Publish introduction"
+WikiToolPublisherComponent = "Publish Wiki"
+WikiToolUpdaterComponent = "Edit Wiki"

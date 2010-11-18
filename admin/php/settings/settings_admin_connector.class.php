@@ -7,6 +7,7 @@ use common\libraries\Session;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 use common\libraries\Theme;
+use common\libraries\Application;
 /**
  * Simple connector class to facilitate rendering settings forms by
  * preprocessing data from the datamanagers to a simple array format.
@@ -83,7 +84,7 @@ class SettingsAdminConnector
 
         while($registration = $registrations->next_result())
         {
-            $options[$registration->get_name()] = Translation :: get(Utilities :: underscores_to_camelcase($registration->get_name()));
+            $options[$registration->get_name()] = Translation :: get('TypeName', null, Application :: determine_namespace($registration->get_name()));
         }
 
         asort($options);

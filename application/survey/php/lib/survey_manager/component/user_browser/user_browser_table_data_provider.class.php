@@ -2,6 +2,7 @@
 namespace application\survey;
 
 use common\libraries\ObjectTableDataProvider;
+use user\UserDataManager;
 
 class SurveyUserBrowserTableDataProvider extends ObjectTableDataProvider
 {

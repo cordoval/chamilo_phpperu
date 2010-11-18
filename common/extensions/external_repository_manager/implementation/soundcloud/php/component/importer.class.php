@@ -2,12 +2,11 @@
 namespace common\extensions\external_repository_manager\implementation\soundcloud;
 
 use common\libraries\Translation;
+use common\libraries\Utilities;
 use common\libraries\Application;
 use repository\RepositoryManager;
 use common\extensions\external_repository_manager\ExternalRepositoryManager;
-
 use common\extensions\external_repository_manager\ExternalRepositoryComponent;
-
 use repository\ContentObject;
 use repository\ExternalRepositorySync;
 use repository\content_object\soundcloud\Soundcloud;
@@ -24,10 +23,8 @@ class SoundcloudExternalRepositoryManagerImporterComponent extends SoundcloudExt
     {
         $soundcloud = ContentObject :: factory(Soundcloud :: get_type_name());
         $soundcloud->set_title($object->get_title());
-        $soundcloud->set_description($object->get_description());
-        $soundcloud->set_url('http://www.soundcloud.com/watch?v=' . $object->get_id());
-        $soundcloud->set_height(344);
-        $soundcloud->set_width(425);
+        $soundcloud->set_description(nl2br($object->get_description()));
+        $soundcloud->set_track_id($object->get_id());
         $soundcloud->set_owner_id($this->get_user_id());
 
         if ($soundcloud->create())

@@ -23,7 +23,13 @@ class SoundcloudExternalRepositoryObject extends ExternalRepositoryObject
 
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_ARTWORK, self :: PROPERTY_GENRE, self :: PROPERTY_WAVEFORM, self :: PROPERTY_TRACK_TYPE, self :: PROPERTY_BPM, self :: PROPERTY_LABEL));
+        return parent :: get_default_property_names(array(
+                self :: PROPERTY_ARTWORK,
+                self :: PROPERTY_GENRE,
+                self :: PROPERTY_WAVEFORM,
+                self :: PROPERTY_TRACK_TYPE,
+                self :: PROPERTY_BPM,
+                self :: PROPERTY_LABEL));
     }
 
     function get_artwork()
@@ -77,6 +83,12 @@ class SoundcloudExternalRepositoryObject extends ExternalRepositoryObject
         return $this->get_default_property(self :: PROPERTY_TRACK_TYPE);
     }
 
+    function get_track_type_string()
+    {
+        $track_types = self :: get_valid_track_types();
+        return $track_types[$this->get_track_type()];
+    }
+
     function set_track_type($track_type)
     {
         return $this->set_default_property(self :: PROPERTY_TRACK_TYPE, $track_type);
@@ -123,7 +135,7 @@ class SoundcloudExternalRepositoryObject extends ExternalRepositoryObject
         $track_types['loop'] = Translation :: get('Loop');
         $track_types['sound effect'] = Translation :: get('SoundEffect');
         $track_types['sample'] = Translation :: get('OneShotSample');
-        $track_types['other'] = Translation :: get('Other ');
+        $track_types['other'] = Translation :: get('Other');
 
         return $track_types;
     }

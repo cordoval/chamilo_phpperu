@@ -298,7 +298,7 @@ class GalleryTable extends HTML_Table
             if (count($this->form_actions))
             {
                 $html[] = '<a href="?' . $params . '&amp;' . $this->param_prefix . 'selectall=1" onclick="setCheckbox(\'form_' . $this->table_name . '\', true); return false;">' . Translation :: get('SelectAll', null, Utilities :: COMMON_LIBRARIES) . '</a> - ';
-                $html[] = '<a href="?' . $params . '"  onclick="setCheckbox(\'form_' . $this->table_name . '\', false); return false;">' . Translation :: get('UnSelectAll', null, Utilities :: COMMON_LIBRARIES) . '</a> ';
+                $html[] = '<a href="?' . $params . '"  onclick="setCheckbox(\'form_' . $this->table_name . '\', false); return false;">' . Translation :: get('UnselectAll', null, Utilities :: COMMON_LIBRARIES) . '</a> ';
                 $html[] = '<select name="action">';
                 foreach ($this->form_actions as $action => $label)
                 {

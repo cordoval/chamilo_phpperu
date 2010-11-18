@@ -236,7 +236,7 @@ abstract class Application
             $breadcrumbtrail = BreadcrumbTrail :: get_instance();
             if ($breadcrumbtrail->size() == 1)
             {
-                $breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get(Utilities :: underscores_to_camelcase($this->get_application_name()))));
+                $breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get('TypeName', null, self :: determine_namespace($this->get_application_name()))));
             }
         }
 
@@ -418,7 +418,7 @@ abstract class Application
     public static function get_application_platform_admin_links($application = self :: PARAM_APPLICATION)
     {
         $info = array();
-        $info['application'] = array('name' => Translation :: get(self :: application_to_class($application), null, Application :: determine_namespace($application)), 'class' => $application);
+        $info['application'] = array('name' => Translation :: get('TypeName', null, Application :: determine_namespace($application)), 'class' => $application);
         $info['links'] = array();
         $info['search'] = null;
 
@@ -518,7 +518,7 @@ abstract class Application
             $application_name = Application :: application_to_class($this->get_application_name());
 
             $trail = BreadcrumbTrail :: get_instance();
-            $trail->add(new Breadcrumb('#', Translation :: get($application_name)));
+            $trail->add(new Breadcrumb('#', Translation :: get('TypeName', null, self :: determine_namespace($this->get_application_name()))));
 
             Display :: header($trail);
             Display :: error_message(implode("\n", $message));
@@ -760,12 +760,12 @@ abstract class Application
             $trail = BreadcrumbTrail :: get_instance();
             if ($component instanceof AdministrationComponent)
             {
-                $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration', null, 'admin')));
+                $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration', null, AdminManager :: APPLICATION_NAME)));
                 $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => $application_name), array(), false, Redirect :: TYPE_CORE), Translation :: get(self :: application_to_class($application_name), null, $context)));
             }
             else
             {
-                $trail->add(new Breadcrumb($component->get_url(), Translation :: get(self :: application_to_class($application_name), null, $context)));
+                $trail->add(new Breadcrumb($component->get_url(), Translation :: get('TypeName', null, $context)));
             }
 
             $component->add_additional_breadcrumbs($trail);

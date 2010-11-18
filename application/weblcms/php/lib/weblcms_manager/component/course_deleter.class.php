@@ -6,6 +6,7 @@ use common\libraries\Application;
 use common\libraries\BreadcrumbTrail;
 use common\libraries\Request;
 use common\libraries\Translation;
+use common\libraries\Utilities;
 
 /**
  * $Id: course_deleter.class.php 218 2009-11-13 14:21:26Z kariboe $
@@ -32,7 +33,7 @@ class WeblcmsManagerCourseDeleterComponent extends WeblcmsManager
             $trail = BreadcrumbTrail :: get_instance();
 
             $this->display_header();
-            Display :: error_message(Translation :: get('NotAllowed'));
+            Display :: error_message(Translation :: get('NotAllowed', null ,Utilities:: COMMON_LIBRARIES));
             $this->display_footer();
             exit();
         }

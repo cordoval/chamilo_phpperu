@@ -111,3 +111,7 @@ ViewResults = ""
 DeleteResults = ""
 Action = ""
 Text = ""
+
+SurveyManagerBrowserComponent = ""
+official = ""
+volunteer = ""

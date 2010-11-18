@@ -15,7 +15,7 @@
 			<setting name="allow_duration_selection" field="checkbox"
 				default="1">
 				<options type="static">
-					<option name="allow_duration_selection" value="true" />
+					<option name="allow_duration_selection" value="1" />
 				</options>
 			</setting>
 			<setting name="allow_mikes_selection" field="checkbox"
@@ -103,13 +103,13 @@
 				</options>
 			</setting>
 			<setting name="allow_feedback_selection" field="checkbox"
-				default="true">
+				default="1">
 				<options type="static">
 					<option name="allow_feedback_selection" value="1" />
 				</options>
 			</setting>
 			<setting name="allow_participantlist_selection" field="checkbox"
-				default="true">
+				default="1">
 				<options type="static">
 					<option name="allow_participantlist_selection" value="1" />
 				</options>

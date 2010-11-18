@@ -128,9 +128,9 @@ class ToolComponentBrowserComponent extends ToolComponent
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
 
-        if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
+        if ($this->get_user()->is_platform_admin() || $this->get_course()->is_course_admin($this->get_user()) )
         {
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageRights', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_rights.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_RIGHTS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageRights', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_rights.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_RIGHTS, WeblcmsManager :: PARAM_CATEGORY => Request :: get(WeblcmsManager :: PARAM_CATEGORY))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
 
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll', null, Utilities::COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => null)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));

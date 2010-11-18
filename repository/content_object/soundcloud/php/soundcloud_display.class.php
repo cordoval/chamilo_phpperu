@@ -48,14 +48,14 @@ class SoundcloudDisplay extends ContentObjectDisplay
 
     function get_thumbnail()
     {
-        return $this->get_track_element();
+        return $this->get_track_element('80%');
     }
 
     function get_preview($is_thumbnail = false)
     {
         if ($is_thumbnail)
         {
-            return $this->get_track_element();
+            return $this->get_track_element('80%');
         }
         else
         {

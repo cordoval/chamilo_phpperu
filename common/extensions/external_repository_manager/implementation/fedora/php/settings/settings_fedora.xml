@@ -31,7 +31,7 @@
 			<setting name="CheckTargetCertificate" field="checkbox"
 				default="0">
 				<options type="static">
-					<option name="CheckTargetCertificate" value="True" />
+					<option name="CheckTargetCertificate" value="1" />
 				</options>
 			</setting>
 

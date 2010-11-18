@@ -1,4 +1,5 @@
 <?php
+
 namespace application\weblcms\tool\forum;
 
 use repository\content_object\forum\ForumDisplay;
@@ -44,10 +45,10 @@ require_once 'HTML/Table.php';
 
 class ForumToolBrowserComponent extends ForumTool
 {
+
     private $action_bar;
     private $introduction_text;
     private $size; //Number of published forums
-
 
     function run()
     {
@@ -81,7 +82,7 @@ class ForumToolBrowserComponent extends ForumTool
         echo $table->toHtml();
 
         if ($this->size == 0)
-            echo '<br><div style="text-align: center"><h3>' . Translation :: get('NoPublications', null , Utilities :: COMMON_LIBRARIES) . '</h3></div>';
+            echo '<br><div style="text-align: center"><h3>' . Translation :: get('NoPublications', null, Utilities :: COMMON_LIBRARIES) . '</h3></div>';
 
         $this->display_footer();
     }
@@ -138,7 +139,7 @@ class ForumToolBrowserComponent extends ForumTool
         {
             if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
             {
-                $item = new ToolbarItem(Translation :: get('ManageRights', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_rights.png', $this->get_url(array(WeblcmsManager :: PARAM_CATEGORY => $category->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_RIGHTS)), ToolbarItem :: DISPLAY_ICON);
+                $item = new ToolbarItem(Translation :: get('ManageRights', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_rights.png', $this->get_url(array(WeblcmsManager :: PARAM_CATEGORY => $category->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_RIGHTS)), ToolbarItem :: DISPLAY_ICON);
                 $actions = $item->as_html();
             }
 
@@ -155,10 +156,9 @@ class ForumToolBrowserComponent extends ForumTool
                 $table->setCellAttributes($row, 2, array('colspan' => 3, 'class' => 'category_right'));
             }
 
-            $row ++;
+            $row++;
             $this->create_table_forums($table, $row, $category->get_id());
         }
-
     }
 
     function create_table_forums($table, &$row, $parent)
@@ -188,14 +188,14 @@ class ForumToolBrowserComponent extends ForumTool
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'forum');
         $conditions[] = new InCondition(ContentObjectPublication :: PROPERTY_CATEGORY_ID, $parent);
 
-        /*$access = array();
-        $access[] = new InCondition('user_id', $user_id, $datamanager->get_alias('content_object_publication_user'));
-        $access[] = new InCondition('course_group_id', $course_group_ids, $datamanager->get_alias('content_object_publication_course_group'));
-        if (! empty($user_id) || ! empty($course_group_ids))
-        {
-            $access[] = new AndCondition(array(new EqualityCondition('user_id', null, $datamanager->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $datamanager->get_alias('content_object_publication_course_group'))));
-        }
-        $conditions[] = new OrCondition($access);*/
+        /* $access = array();
+          $access[] = new InCondition('user_id', $user_id, $datamanager->get_alias('content_object_publication_user'));
+          $access[] = new InCondition('course_group_id', $course_group_ids, $datamanager->get_alias('content_object_publication_course_group'));
+          if (! empty($user_id) || ! empty($course_group_ids))
+          {
+          $access[] = new AndCondition(array(new EqualityCondition('user_id', null, $datamanager->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $datamanager->get_alias('content_object_publication_course_group'))));
+          }
+          $conditions[] = new OrCondition($access); */
 
         $access = array();
         if ($user_id)
@@ -208,10 +208,10 @@ class ForumToolBrowserComponent extends ForumTool
             $access[] = new InCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, $course_group_ids, ContentObjectPublicationCourseGroup :: get_table_name());
         }
 
-        if (! empty($user_id) || ! empty($course_group_ids))
+        if (!empty($user_id) || !empty($course_group_ids))
         {
             $access[] = new AndCondition(array(
-                    new EqualityCondition(ContentObjectPublicationUser :: PROPERTY_USER, null, ContentObjectPublicationUser :: get_table_name()), new EqualityCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, null, ContentObjectPublicationCourseGroup :: get_table_name())));
+                        new EqualityCondition(ContentObjectPublicationUser :: PROPERTY_USER, null, ContentObjectPublicationUser :: get_table_name()), new EqualityCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, null, ContentObjectPublicationCourseGroup :: get_table_name())));
         }
 
         $conditions[] = new OrCondition($access);
@@ -261,8 +261,8 @@ class ForumToolBrowserComponent extends ForumTool
             {
                 //$link = $this->get_url(array(ComplexDisplay::PARAM_DISPLAY_ACTION => ForumDisplay::ACTION_VIEW_TOPIC,Tool :: PARAM_PUBLICATION_ID => $this->pid, 'cid' => $last_post->get_id())) . '#post_' . $last_post->get_id();
                 $table->setCellContents($row, 4, DatetimeUtilities :: format_locale_date(null, $last_post->get_add_date()) . '<br />' . UserDataManager :: get_instance()->retrieve_user($last_post->get_user_id())->get_fullname()); // .
-            //' <a href="' . $link . '"><img title="' . Translation :: get('ViewLastPost') .
-            //'" src="' . Theme :: get_image_path() . 'forum/icon_topic_latest.gif" /></a>');
+                //' <a href="' . $link . '"><img title="' . Translation :: get('ViewLastPost') .
+                //'" src="' . Theme :: get_image_path() . 'forum/icon_topic_latest.gif" /></a>');
             }
             else
             {
@@ -277,8 +277,8 @@ class ForumToolBrowserComponent extends ForumTool
                 $table->setCellAttributes($row, 5, array('class' => 'row2'));
             }
 
-            $row ++;
-            $counter ++;
+            $row++;
+            $counter++;
         }
     }
 
@@ -290,46 +290,46 @@ class ForumToolBrowserComponent extends ForumTool
         {
             if ($publication->is_hidden())
             {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('Show', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_invisible.png', $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY)), ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Show', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_invisible.png', $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY)), ToolbarItem :: DISPLAY_ICON));
             }
             else
             {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('Hide', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_visible.png', $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY)), ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Hide', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_visible.png', $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY)), ToolbarItem :: DISPLAY_ICON));
             }
 
             if ($first)
             {
-                $actions[] = array('label' => Translation :: get('MoveUpNA', null , Utilities :: COMMON_LIBRARIES), 'img' => Theme :: get_common_image_path() . 'action_up_na.png');
-                $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUpNA', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_up_na.png', null, ToolbarItem :: DISPLAY_ICON));
+                $actions[] = array('label' => Translation :: get('MoveUpNA', null, Utilities :: COMMON_LIBRARIES), 'img' => Theme :: get_common_image_path() . 'action_up_na.png');
+                $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUpNA', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_up_na.png', null, ToolbarItem :: DISPLAY_ICON));
             }
             else
             {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUp', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_up.png', $this->get_url(array(
-                        Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_MOVE, Tool :: PARAM_MOVE_DIRECTION => Tool :: PARAM_MOVE_DIRECTION_UP)), ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUp', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_up.png', $this->get_url(array(
+                                    Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_MOVE, Tool :: PARAM_MOVE_DIRECTION => Tool :: PARAM_MOVE_DIRECTION_UP)), ToolbarItem :: DISPLAY_ICON));
             }
 
             if ($last)
             {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDownNA', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_down_na.png', null, ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDownNA', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_down_na.png', null, ToolbarItem :: DISPLAY_ICON));
             }
             else
             {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDown', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_down.png', $this->get_url(array(
-                        Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_MOVE, Tool :: PARAM_MOVE_DIRECTION => Tool :: PARAM_MOVE_DIRECTION_DOWN)), ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDown', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_down.png', $this->get_url(array(
+                                    Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_MOVE, Tool :: PARAM_MOVE_DIRECTION => Tool :: PARAM_MOVE_DIRECTION_DOWN)), ToolbarItem :: DISPLAY_ICON));
             }
 
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Move', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_move.png', $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_TO_CATEGORY)), ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Move', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_move.png', $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_TO_CATEGORY)), ToolbarItem :: DISPLAY_ICON));
 
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_UPDATE)), ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_edit.png', $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_UPDATE)), ToolbarItem :: DISPLAY_ICON));
 
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_DELETE)), ToolbarItem :: DISPLAY_ICON, true));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_delete.png', $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_DELETE)), ToolbarItem :: DISPLAY_ICON, true));
 
-            /*$toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('ManageRights'),
-	        		Theme :: get_common_image_path() . 'action_rights.png',
-	        		$this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_RIGHTS)),
-	        		ToolbarItem :: DISPLAY_ICON
-	        ));*/
+            /* $toolbar->add_item(new ToolbarItem(
+              Translation :: get('ManageRights'),
+              Theme :: get_common_image_path() . 'action_rights.png',
+              $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_RIGHTS)),
+              ToolbarItem :: DISPLAY_ICON
+              )); */
 
             $forum = $publication->get_content_object();
 
@@ -353,7 +353,7 @@ class ForumToolBrowserComponent extends ForumTool
             if ($internal_item && $internal_item->get_calculated() != 1)
             {
                 $evaluate_url = $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EVALUATE_TOOL_PUBLICATION, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()));
-                $toolbar->add_item(new ToolbarItem(Translation :: get('Evaluate', null , 'application/gradebook'), Theme :: get_common_image_path() . 'action_evaluation.png', $evaluate_url, ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Evaluate', null, 'application/gradebook'), Theme :: get_common_image_path() . 'action_evaluation.png', $evaluate_url, ToolbarItem :: DISPLAY_ICON));
             }
         }
 
@@ -366,16 +366,20 @@ class ForumToolBrowserComponent extends ForumTool
 
         if ($this->is_allowed(WeblcmsRights :: ADD_RIGHT))
         {
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
 
         if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageRights', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_rights.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_RIGHTS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories', null , Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_category.png', $this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_MANAGE_CATEGORIES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_category.png', $this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_MANAGE_CATEGORIES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
 
-        if (! $this->introduction_text && $this->get_course()->get_intro_text() && $this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
+        if ($this->get_course()->is_course_admin($this->get_user()) && $this->get_user()->is_platform_admin())
+        {
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageRights', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_rights.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_RIGHTS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
+        
+        if (!$this->introduction_text && $this->get_course()->get_intro_text() && $this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_introduce.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
@@ -388,5 +392,7 @@ class ForumToolBrowserComponent extends ForumTool
 
         return $action_bar;
     }
+
 }
+
 ?>
