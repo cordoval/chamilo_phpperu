@@ -45,11 +45,6 @@ class ComplexForumForm extends ComplexContentObjectItemForm
         return parent :: create_complex_content_object_item();
     }
 
-    function set_csv_values($valuearray)
-    {
-        parent :: set_values($defaults);
-    }
-
     // Inherited
     function create_complex_content_object_item()
     {

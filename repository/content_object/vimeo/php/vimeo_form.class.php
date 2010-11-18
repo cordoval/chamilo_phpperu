@@ -1,8 +1,11 @@
 <?php
 namespace repository\content_object\vimeo;
 
-use common\libraries\Translation;
 use repository\ContentObjectForm;
+use repository\ExternalRepositorySync;
+
+use common\libraries\Translation;
+use common\libraries\ExternalRepositoryLauncher;
 use common\libraries\Utilities;
 
 /**
@@ -20,9 +23,15 @@ class VimeoForm extends ContentObjectForm
     {
         parent :: build_creation_form();
         $this->addElement('category', Translation :: get('Properties'));
-        $this->add_textfield(Vimeo :: PROPERTY_URL, Translation :: get('URL'), true, array('size' => '100'));
-        $this->add_textfield(Vimeo :: PROPERTY_WIDTH, Translation :: get('Width', null, Utilities :: COMMON_LIBRARIES), true, array('size' => '5'));
-        $this->add_textfield(Vimeo :: PROPERTY_HEIGHT, Translation :: get('Height', null, Utilities :: COMMON_LIBRARIES), true, array('size' => '5'));
+
+        $external_repositories = ExternalRepositoryLauncher :: get_links(Vimeo :: get_type_name(), true);
+        if ($external_repositories)
+        {
+            $this->addElement('static', null, null, $external_repositories);
+        }
+
+        $this->addElement('hidden', ExternalRepositorySync :: PROPERTY_EXTERNAL_REPOSITORY_ID);
+        $this->addElement('hidden', ExternalRepositorySync :: PROPERTY_EXTERNAL_REPOSITORY_OBJECT_ID);
         $this->addElement('category');
     }
 
@@ -30,63 +39,40 @@ class VimeoForm extends ContentObjectForm
     {
         parent :: build_editing_form();
         $this->addElement('category', Translation :: get('Properties'));
-        $this->add_textfield(Vimeo :: PROPERTY_URL, Translation :: get('URL'), true, array('size' => '100'));
-        $this->add_textfield(Vimeo :: PROPERTY_WIDTH, Translation :: get('Width', null, Utilities :: COMMON_LIBRARIES), true, array('size' => '5'));
-        $this->add_textfield(Vimeo :: PROPERTY_HEIGHT, Translation :: get('Height', null, Utilities :: COMMON_LIBRARIES), true, array('size' => '5'));
         $this->addElement('category');
     }
 
     function setDefaults($defaults = array ())
     {
-        $lo = $this->get_content_object();
-        if (isset($lo))
-        {
-            $defaults[Vimeo :: PROPERTY_URL] = $lo->get_url();
-            $defaults[Vimeo :: PROPERTY_HEIGHT] = $lo->get_height();
-            $defaults[Vimeo :: PROPERTY_WIDTH] = $lo->get_width();
-        }
-        else
-        {
-            $defaults[Vimeo :: PROPERTY_URL] = 'http://www.vimeo.com/';
-            $defaults[Vimeo :: PROPERTY_HEIGHT] = '344';
-            $defaults[Vimeo :: PROPERTY_WIDTH] = '425';
-        }
         parent :: setDefaults($defaults);
-    }
-
-    function set_csv_values($valuearray)
-    {
-        $defaults[ContentObject :: PROPERTY_TITLE] = $valuearray[0];
-        $defaults[ContentObject :: PROPERTY_PARENT_ID] = $valuearray[1];
-        $defaults[ContentObject :: PROPERTY_DESCRIPTION] = $valuearray[2];
-        $defaults[Vimeo :: PROPERTY_URL] = $valuearray[3];
-        $defaults[Vimeo :: PROPERTY_HEIGHT] = $valuearray[4];
-        $defaults[Vimeo :: PROPERTY_WIDTH] = $valuearray[5];
-        parent :: set_values($defaults);
     }
 
     function create_content_object()
     {
         $object = new Vimeo();
-        $object->set_url($this->exportValue(Vimeo :: PROPERTY_URL));
-        $object->set_height($this->exportValue(Vimeo :: PROPERTY_HEIGHT));
-        $object->set_width($this->exportValue(Vimeo :: PROPERTY_WIDTH));
         $this->set_content_object($object);
-        return parent :: create_content_object();
+
+        $success = parent :: create_content_object();
+
+        if ($success)
+        {
+            $external_repository_id = (int) $this->exportValue(ExternalRepositorySync :: PROPERTY_EXTERNAL_REPOSITORY_ID);
+
+            $external_respository_sync = new ExternalRepositorySync();
+            $external_respository_sync->set_external_repository_id($external_repository_id);
+            $external_respository_sync->set_external_repository_object_id((string) $this->exportValue(ExternalRepositorySync :: PROPERTY_EXTERNAL_REPOSITORY_OBJECT_ID));
+            $external_object = $external_respository_sync->get_external_repository_object();
+
+            ExternalRepositorySync :: quicksave($object, $external_object, $external_repository_id);
+        }
+
+        return $success;
     }
 
     function update_content_object()
     {
         $object = $this->get_content_object();
-        $object->set_url($this->exportValue(Vimeo :: PROPERTY_URL));
-        $object->set_height($this->exportValue(Vimeo :: PROPERTY_HEIGHT));
-        $object->set_width($this->exportValue(Vimeo :: PROPERTY_WIDTH));
         return parent :: update_content_object();
-    }
-
-    function validatecsv($value)
-    {
-        return parent :: validatecsv($value);
     }
 
 }

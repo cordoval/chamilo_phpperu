@@ -176,7 +176,7 @@ class Translation
                 }
                 else
                 {
-                    if (! key_exists($variable, $strings[$language][$context]))
+                    if (PlatformSetting :: get('write_new_variables_to_translation_file') && !array_key_exists($variable, $strings[$language][$context]) && count($strings[$language][$context]) > 0)
                     {
                         $this->add_variable_to_context_internationalization($language, $context, $variable);
                     }

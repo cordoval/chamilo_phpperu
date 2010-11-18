@@ -54,17 +54,6 @@ class DailymotionForm extends ContentObjectForm
         parent :: setDefaults($defaults);
     }
 
-    function set_csv_values($valuearray)
-    {
-        $defaults[ContentObject :: PROPERTY_TITLE] = $valuearray[0];
-        $defaults[ContentObject :: PROPERTY_PARENT_ID] = $valuearray[1];
-        $defaults[ContentObject :: PROPERTY_DESCRIPTION] = $valuearray[2];
-        $defaults[Dailymotion :: PROPERTY_URL] = $valuearray[3];
-        $defaults[Dailymotion :: PROPERTY_HEIGHT] = $valuearray[4];
-        $defaults[Dailymotion :: PROPERTY_WIDTH] = $valuearray[5];
-        parent :: set_values($defaults);
-    }
-
     function create_content_object()
     {
         $object = new Dailymotion();
@@ -83,11 +72,5 @@ class DailymotionForm extends ContentObjectForm
         $object->set_width($this->exportValue(Dailymotion :: PROPERTY_WIDTH));
         return parent :: update_content_object();
     }
-
-    function validatecsv($value)
-    {
-        return parent :: validatecsv($value);
-    }
-
 }
 ?>

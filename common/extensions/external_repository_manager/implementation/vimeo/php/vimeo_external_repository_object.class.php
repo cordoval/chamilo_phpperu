@@ -65,5 +65,10 @@ class VimeoExternalRepositoryObject extends StreamingMediaExternalRepositoryObje
     {
         return self :: OBJECT_TYPE;
     }
+    
+    function is_usable()
+    {
+        return $this->get_right(self :: RIGHT_USE);
+    }
 }
 ?>

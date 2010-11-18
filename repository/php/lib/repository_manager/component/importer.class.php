@@ -1,4 +1,5 @@
 <?php
+
 namespace repository;
 
 use common\libraries\Translation;
@@ -11,6 +12,7 @@ use common\libraries\Utilities;
  * $Id: importer.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component
  */
+
 /**
  * Repository manager component which provides functionality to delete a
  * learning object from the users repository.
@@ -35,10 +37,13 @@ class RepositoryManagerImporterComponent extends RepositoryManager
 
             $messages = array();
             $errors = array();
-            if($success){
-            	$messages[] = Translation::translate('ContentObjectImported');
-            }else{
-            	$errors[] = Translation::translate('ContentObjectNotImported');
+            if ($success)
+            {
+                $messages[] = Translation :: get('ContentObjectImported');
+            }
+            else
+            {
+                $errors[] = Translation :: get('ContentObjectNotImported');
             }
 
             $messages = array_merge($messages, $import_form->get_messages());
@@ -50,7 +55,6 @@ class RepositoryManagerImporterComponent extends RepositoryManager
             $parameters[self::PARAM_ERROR_MESSAGE] = implode('<br/>', $errors);
 
             $this->simple_redirect($parameters);
-
         }
         else
         {
@@ -62,13 +66,15 @@ class RepositoryManagerImporterComponent extends RepositoryManager
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
-    	$breadcrumbtrail->add_help('repository_importer');
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
+        $breadcrumbtrail->add_help('repository_importer');
     }
 
     function get_additional_parameters()
     {
-    	return array(RepositoryManager :: PARAM_CATEGORY_ID);
+        return array(RepositoryManager :: PARAM_CATEGORY_ID);
     }
+
 }
+
 ?>

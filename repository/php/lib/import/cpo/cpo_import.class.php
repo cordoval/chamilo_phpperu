@@ -17,6 +17,7 @@ use repository\content_object\hotpotatoes\Hotpotatoes;
 use repository\content_object\learning_path\LearningPath;
 use repository\content_object\scorm_item\ScormIteme;
 use DOMDocument;
+use common\libraries\Text;
 
 /**
  * $Id: cpo_import.class.php 204 2009-11-13 12:51:30Z kariboe $

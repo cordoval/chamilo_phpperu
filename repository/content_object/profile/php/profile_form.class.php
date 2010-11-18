@@ -74,29 +74,6 @@ class ProfileForm extends ContentObjectForm
         parent :: setDefaults($defaults);
     }
 
-    function set_csv_values($valuearray)
-    {
-        $defaults[ContentObject :: PROPERTY_TITLE] = $valuearray[0];
-        $defaults[ContentObject :: PROPERTY_PARENT_ID] = $valuearray[1];
-        $defaults[ContentObject :: PROPERTY_DESCRIPTION] = $valuearray[2];
-        $defaults[Profile :: PROPERTY_COMPETENCES] = $valuearray[3];
-        $defaults[Profile :: PROPERTY_DIPLOMAS] = $valuearray[4];
-        $defaults[Profile :: PROPERTY_MAIL] = $valuearray[5];
-        $defaults[Profile :: PROPERTY_TEACHING] = $valuearray[6];
-        $defaults[Profile :: PROPERTY_OPEN] = $valuearray[7];
-        $defaults[Profile :: PROPERTY_PHONE] = $valuearray[8];
-        $defaults[Profile :: PROPERTY_FAX] = $valuearray[9];
-        $defaults[Profile :: PROPERTY_ADDRESS] = $valuearray[10];
-        $defaults[Profile :: PROPERTY_SKYPE] = $valuearray[11];
-        $defaults[Profile :: PROPERTY_MSN] = $valuearray[12];
-        $defaults[Profile :: PROPERTY_YIM] = $valuearray[13];
-        $defaults[Profile :: PROPERTY_AIM] = $valuearray[14];
-        $defaults[Profile :: PROPERTY_ICQ] = $valuearray[15];
-        $defaults[Profile :: PROPERTY_PICTURE] = $valuearray[16];
-
-        parent :: set_values($defaults);
-    }
-
     function create_content_object()
     {
         $object = new Profile();

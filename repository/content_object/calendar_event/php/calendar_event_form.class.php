@@ -30,21 +30,21 @@ class CalendarEventForm extends ContentObjectForm
         parent :: build_creation_form();
         $this->addElement('category', Translation :: get('Properties'));
         $this->add_timewindow(CalendarEvent :: PROPERTY_START_DATE, CalendarEvent :: PROPERTY_END_DATE, Translation :: get('StartTimeWindow'), Translation :: get('EndTimeWindow'));
-        
+
         $choices[] = $this->createElement('radio', self :: PARAM_REPEAT, '', Translation :: get('ConfirmNo', null , Utilities :: COMMON_LIBRARIES), 0, array('onclick' => 'javascript:timewindow_hide(\'repeat_timewindow\')', 'id' => self :: PARAM_REPEAT));
         $choices[] = $this->createElement('radio', self :: PARAM_REPEAT, '', Translation :: get('ConfirmYes', null , Utilities :: COMMON_LIBRARIES), 1, array('onclick' => 'javascript:timewindow_show(\'repeat_timewindow\')'));
         $this->addGroup($choices, null, Translation :: get('Repeat'), '<br />', false);
         $this->addElement('html', '<div style="padding-left: 25px; display: block;" id="repeat_timewindow">');
-        
+
         $options = CalendarEvent :: get_repeat_options();
-        
+
         $repeat_elements = array();
         $repeat_elements[] = $this->createElement('select', CalendarEvent :: PROPERTY_REPEAT_TYPE, null, $options);
         $repeat_elements[] = $this->createElement('static', null, null, Translation :: get('Until', null , Utilities :: COMMON_LIBRARIES));
         $repeat_elements[] = $this->createElement('datepicker', CalendarEvent :: PROPERTY_REPEAT_TO, '', array('form_name' => $this->getAttribute('name'), 'class' => CalendarEvent :: PROPERTY_REPEAT_TO), true);
         $this->addGroup($repeat_elements, self :: PARAM_REPEAT_DATE, null, '&nbsp;', false);
         $this->addGroupRule(self :: PARAM_REPEAT_DATE, array(CalendarEvent :: PROPERTY_REPEAT_TO => array(array(Translation :: get('InvalidDate'), 'date'))));
-        
+
         $this->addElement('html', '</div>');
         $this->addElement('html', "<script type=\"text/javascript\">
 					/* <![CDATA[ */
@@ -74,21 +74,21 @@ class CalendarEventForm extends ContentObjectForm
         parent :: build_editing_form();
         $this->addElement('category', Translation :: get('Properties'));
         $this->add_timewindow(CalendarEvent :: PROPERTY_START_DATE, CalendarEvent :: PROPERTY_END_DATE, Translation :: get('StartTimeWindow'), Translation :: get('EndTimeWindow'));
-        
+
         $choices[] = $this->createElement('radio', self :: PARAM_REPEAT, '', Translation :: get('ConfirmNo', null , Utilities :: COMMON_LIBRARIES), 0, array('onclick' => 'javascript:timewindow_hide(\'repeat_timewindow\')', 'id' => self :: PARAM_REPEAT));
         $choices[] = $this->createElement('radio', self :: PARAM_REPEAT, '', Translation :: get('ConfirmYes', null , Utilities :: COMMON_LIBRARIES), 1, array('onclick' => 'javascript:timewindow_show(\'repeat_timewindow\')'));
         $this->addGroup($choices, null, Translation :: get('Repeat'), '<br />', false);
         $this->addElement('html', '<div style="padding-left: 25px; display: block;" id="repeat_timewindow">');
-        
+
         $options = CalendarEvent :: get_repeat_options();
-        
+
         $repeat_elements = array();
         $repeat_elements[] = $this->createElement('select', CalendarEvent :: PROPERTY_REPEAT_TYPE, null, $options);
         $repeat_elements[] = $this->createElement('static', null, null, Translation :: get('Until', null , Utilities :: COMMON_LIBRARIES));
         $repeat_elements[] = $this->createElement('datepicker', CalendarEvent :: PROPERTY_REPEAT_TO, '', array('form_name' => $this->getAttribute('name'), 'class' => CalendarEvent :: PROPERTY_REPEAT_TO), true);
         $this->addGroup($repeat_elements, self :: PARAM_REPEAT_DATE, null, '&nbsp;', false);
         $this->addGroupRule(self :: PARAM_REPEAT_DATE, array(CalendarEvent :: PROPERTY_REPEAT_TO => array(array(Translation :: get('InvalidDate'), 'date'))));
-        
+
         $this->addElement('html', '</div>');
         $this->addElement('html', "<script type=\"text/javascript\">
 					/* <![CDATA[ */
@@ -120,7 +120,7 @@ class CalendarEventForm extends ContentObjectForm
         {
             $defaults[CalendarEvent :: PROPERTY_START_DATE] = $lo->get_start_date();
             $defaults[CalendarEvent :: PROPERTY_END_DATE] = $lo->get_end_date();
-            
+
             if ($this->form_type == self :: TYPE_EDIT)
             {
                 $repeats = $lo->repeats();
@@ -148,18 +148,8 @@ class CalendarEventForm extends ContentObjectForm
             $defaults[CalendarEvent :: PROPERTY_START_DATE] = time();
             $defaults[CalendarEvent :: PROPERTY_END_DATE] = strtotime('+1 Hour', time());
         }
-        
-        parent :: setDefaults($defaults);
-    }
 
-    function set_csv_values($valuearray)
-    {
-        $defaults[ContentObject :: PROPERTY_TITLE] = $valuearray[0];
-        $defaults[ContentObject :: PROPERTY_PARENT_ID] = $valuearray[1];
-        $defaults[ContentObject :: PROPERTY_DESCRIPTION] = $valuearray[2];
-        $defaults[CalendarEvent :: PROPERTY_START_DATE] = $valuearray[3];
-        $defaults[CalendarEvent :: PROPERTY_END_DATE] = $valuearray[4];
-        parent :: set_values($defaults);
+        parent :: setDefaults($defaults);
     }
 
     // Inherited
@@ -169,7 +159,7 @@ class CalendarEventForm extends ContentObjectForm
         $values = $this->exportValues();
         $object->set_start_date(Utilities :: time_from_datepicker($values[CalendarEvent :: PROPERTY_START_DATE]));
         $object->set_end_date(Utilities :: time_from_datepicker($values[CalendarEvent :: PROPERTY_END_DATE]));
-        
+
         if ($values[self :: PARAM_REPEAT] == 0)
         {
             $object->set_repeat_type(0);
@@ -181,7 +171,7 @@ class CalendarEventForm extends ContentObjectForm
             $to_date = Utilities :: time_from_datepicker($values[CalendarEvent :: PROPERTY_REPEAT_TO]);
             $object->set_repeat_to($to_date);
         }
-        
+
         $this->set_content_object($object);
         return parent :: create_content_object();
     }
@@ -193,7 +183,7 @@ class CalendarEventForm extends ContentObjectForm
         $values = $this->exportValues();
         $object->set_start_date(Utilities :: time_from_datepicker($values[CalendarEvent :: PROPERTY_START_DATE]));
         $object->set_end_date(Utilities :: time_from_datepicker($values[CalendarEvent :: PROPERTY_END_DATE]));
-        
+
         if ($values[self :: PARAM_REPEAT] == 0)
         {
             $object->set_repeat_type(0);
@@ -205,7 +195,7 @@ class CalendarEventForm extends ContentObjectForm
             $to_date = Utilities :: time_from_datepicker($values[CalendarEvent :: PROPERTY_REPEAT_TO]);
             $object->set_repeat_to($to_date);
         }
-        
+
         return parent :: update_content_object();
     }
 }

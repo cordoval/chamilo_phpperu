@@ -8,7 +8,7 @@ class MatterhornDisplay extends ContentObjectDisplay
 
     function get_video_element($width = 620, $height = 596)
     {
-    	return '<iframe src="' . $this->get_content_object()->get_video_url() . '" style="border:0px #FFFFFF none;" name="Opencast Matterhorn - Media Player" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" width="'. $width . '" height="'. $height .'"></iframe>';
+        return '<iframe src="' . $this->get_content_object()->get_video_url() . '" style="border:0px #FFFFFF none;" name="Opencast Matterhorn - Media Player" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" width="' . $width . '" height="' . $height . '"></iframe>';
     }
 
     function get_description()
@@ -27,7 +27,10 @@ class MatterhornDisplay extends ContentObjectDisplay
 
     function get_thumbnail()
     {
-        return '<img class="thumbnail" src="' . $this->get_content_object()->get_thumbnail() . '" />';
+        $external_object = $this->get_content_object()->get_synchronization_data()->get_external_repository_object();
+        $attachments = $external_object->get_attachments();
+
+        return '<img class="thumbnail" src="' . $attachments['search+preview']->get_url() . '" />';
     }
 
     function get_preview($is_thumbnail = false)
@@ -38,7 +41,7 @@ class MatterhornDisplay extends ContentObjectDisplay
         }
         else
         {
-			return $this->get_video_element();
+            return $this->get_video_element();
         }
     }
 }

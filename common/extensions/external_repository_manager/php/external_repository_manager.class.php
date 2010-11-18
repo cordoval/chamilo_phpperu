@@ -361,7 +361,6 @@ abstract class ExternalRepositoryManager extends SubManager
         }
         if ($object->is_usable())
         {
-
             if ($this->is_stand_alone())
             {
                 $toolbar_items[] = new ToolbarItem(Translation :: get('Select', null, Utilities :: COMMON_LIBRARIES), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SELECT_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
@@ -396,7 +395,6 @@ abstract class ExternalRepositoryManager extends SubManager
                 }
             }
         }
-
         return $toolbar_items;
     }
 

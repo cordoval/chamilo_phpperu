@@ -138,7 +138,7 @@ class IcalRecurrence
 
     	if ($this->get_byday())
     	{
-    		$html[] = Translation :: get('On');
+    		$html[] = Translation :: get('ConfirmOn');
     		$days = array();
     		$DaysLong = array(Translation :: get("SundayLong"), Translation :: get("MondayLong"), Translation :: get("TuesdayLong"), Translation :: get("WednesdayLong"), Translation :: get("ThursdayLong"), Translation :: get("FridayLong"), Translation :: get("SaturdayLong"));
     		foreach($this->get_byday() as $byday)

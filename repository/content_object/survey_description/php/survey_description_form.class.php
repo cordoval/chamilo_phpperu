@@ -16,14 +16,6 @@ require_once dirname(__FILE__) . '/survey_description.class.php';
 class SurveyDescriptionForm extends ContentObjectForm
 {
 
-    function set_csv_values($valuearray)
-    {
-        $defaults[ContentObject :: PROPERTY_TITLE] = $valuearray[0];
-        $defaults[ContentObject :: PROPERTY_PARENT_ID] = $valuearray[1];
-        $defaults[ContentObject :: PROPERTY_DESCRIPTION] = $valuearray[2];
-        parent :: set_values($defaults);
-    }
-
     // Inherited
     function create_content_object()
     {

@@ -55,12 +55,6 @@ class ComplexForumPostForm extends ComplexContentObjectItemForm
         return $defaults;
     }
 
-    function set_csv_values($valuearray)
-    {
-        $defaults[ComplexForumPost :: PROPERTY_REPLY_ON_POST] = $valuearray[0];
-        parent :: set_values($defaults);
-    }
-
     // Inherited
     function create_complex_content_object_item()
     {

@@ -66,12 +66,6 @@ class ComplexForumTopicForm extends ComplexContentObjectItemForm
         return $defaults;
     }
 
-    function set_csv_values($valuearray)
-    {
-        $defaults[ComplexForumTopic :: PROPERTY_TYPE] = $valuearray[0];
-        parent :: set_values($defaults);
-    }
-
     // Inherited
     function create_complex_content_object_item()
     {

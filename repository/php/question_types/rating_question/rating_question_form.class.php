@@ -24,14 +24,6 @@ class RatingQuestionForm extends ContentObjectForm
         parent :: build_editing_form();
     }
 
-    function set_csv_values($valuearray)
-    {
-        $defaults[ContentObject :: PROPERTY_TITLE] = $valuearray[0];
-        $defaults[ContentObject :: PROPERTY_PARENT_ID] = $valuearray[1];
-        $defaults[ContentObject :: PROPERTY_DESCRIPTION] = $valuearray[2];
-        parent :: set_values($defaults);
-    }
-
     function setDefaults($defaults = array ())
     {
         $object = $this->get_content_object();

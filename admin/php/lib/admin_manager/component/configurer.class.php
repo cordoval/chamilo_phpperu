@@ -49,7 +49,7 @@ class AdminManagerConfigurerComponent extends AdminManager
             $form->display();
             echo '<script type="text/javascript">';
             echo '$(document).ready(function() {';
-            echo '$(\':checkbox\').iphoneStyle({ checkedLabel: \'' . Translation :: get('On', array(), Utilities :: COMMON_LIBRARIES) . '\', uncheckedLabel: \'' . Translation :: get('Off', array(), Utilities :: COMMON_LIBRARIES) . '\'});';
+            echo '$(\':checkbox\').iphoneStyle({ checkedLabel: \'' . Translation :: get('ConfirmOn', array(), Utilities :: COMMON_LIBRARIES) . '\', uncheckedLabel: \'' . Translation :: get('ConfirmOff', array(), Utilities :: COMMON_LIBRARIES) . '\'});';
             echo '});';
             echo '</script>';
             $this->display_footer();
@@ -62,8 +62,7 @@ class AdminManagerConfigurerComponent extends AdminManager
 
     	$breadcrumbtrail->truncate(true);
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => null)), Translation :: get('Administration')));
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => $application)), Translation :: get(Utilities :: underscores_to_camelcase($application))));
-        //$breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get('AdminManagerConfigurerComponent')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => $application)), Translation :: get('TypeName', null, Application :: determine_namespace($application))));
 
     	$breadcrumbtrail->add_help('admin_configurer');
     }

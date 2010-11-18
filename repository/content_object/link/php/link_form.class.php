@@ -43,15 +43,6 @@ class LinkForm extends ContentObjectForm
         parent :: setDefaults($defaults);
     }
 
-    function set_csv_values($valuearray)
-    {
-        $defaults[ContentObject :: PROPERTY_TITLE] = $valuearray[0];
-        $defaults[ContentObject :: PROPERTY_PARENT_ID] = $valuearray[1];
-        $defaults[ContentObject :: PROPERTY_DESCRIPTION] = $valuearray[2];
-        $defaults[Link :: PROPERTY_URL] = $valuearray[3];
-        parent :: set_values($defaults);
-    }
-
     function create_content_object()
     {
         $object = new Link();
@@ -66,11 +57,5 @@ class LinkForm extends ContentObjectForm
         $object->set_url($this->exportValue(Link :: PROPERTY_URL));
         return parent :: update_content_object();
     }
-
-    function validatecsv($value)
-    {
-        return parent :: validatecsv($value);
-    }
-
 }
 ?>

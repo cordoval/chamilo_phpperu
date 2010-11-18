@@ -42,14 +42,6 @@ class MatterhornForm extends ContentObjectForm
         parent :: setDefaults($defaults);
     }
 
-    function set_csv_values($valuearray)
-    {
-        $defaults[ContentObject :: PROPERTY_TITLE] = $valuearray[0];
-        $defaults[ContentObject :: PROPERTY_PARENT_ID] = $valuearray[1];
-        $defaults[ContentObject :: PROPERTY_DESCRIPTION] = $valuearray[2];
-        parent :: set_values($defaults);
-    }
-
     function create_content_object()
     {
         $object = new Matterhorn();
@@ -76,11 +68,6 @@ class MatterhornForm extends ContentObjectForm
     {
         $object = $this->get_content_object();
         return parent :: update_content_object();
-    }
-
-    function validatecsv($value)
-    {
-        return parent :: validatecsv($value);
     }
 
 }
