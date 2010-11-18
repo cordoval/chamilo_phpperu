@@ -6,3 +6,7 @@ EditAndPublish = ""
 PublishSelected = ""
 RepoViewerBrowserComponent = ""
 ComponentFailedToLoad = ""
+
+RepoViewerCreatorComponent = ""
+CreatorTitle = ""
+BrowserTitle = ""

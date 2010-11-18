@@ -24,5 +24,5 @@ MyAccount = "My account"
 Home = "Home"
 Platform = "Platform"
 RootCategory = "Root"
-
-Menu = ""
+Visual = "Visual"
+ShowSitemap = "Show site map"

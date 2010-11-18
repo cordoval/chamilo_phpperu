@@ -8,3 +8,6 @@ HandbookPreviewNotAvailable = "Previews are currently not available for handbook
 Properties = "Properties"
 Uuid = "Unique identifier"
 Reference = "Reference"
+
+Title = ""
+Description = ""

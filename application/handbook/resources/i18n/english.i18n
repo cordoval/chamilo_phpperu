@@ -12,3 +12,6 @@ HideAllImageAlternatives = ""
 ShowAllVideoAlternatives = ""
 HideAllVideoAlternatives = ""
 MyHandbook = ""
+
+HandbookManagerHandbookPublicationsBrowserComponent = ""
+HandbookManagerHandbookPublicationCreatorComponent = ""

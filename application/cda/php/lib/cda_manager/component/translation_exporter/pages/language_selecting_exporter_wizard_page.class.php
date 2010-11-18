@@ -33,7 +33,7 @@ class LanguageSelectingExporterWizardPage extends ExporterWizardPage
     	
     	$html[] = '<div style="margin-left: 20%">';
     	$html[] = '<a href="#" id="selectall_languages">' . Translation :: get('SelectAll', null, Utilities :: COMMON_LIBRARIES) . '</a> - ';
-    	$html[] = '<a href="#" id="unselectall_languages">' . Translation :: get('UnSelectAll', null, Utilities :: COMMON_LIBRARIES) . '</a>';
+    	$html[] = '<a href="#" id="unselectall_languages">' . Translation :: get('UnselectAll', null, Utilities :: COMMON_LIBRARIES) . '</a>';
     	$html[] = '</div><br />';
     	
     	$this->addElement('html', implode("\n", $html));

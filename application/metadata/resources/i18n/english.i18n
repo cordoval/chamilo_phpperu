@@ -45,3 +45,5 @@ ContentObjectPropertyMetadatasBrowser = ""
 ContentObjectPropertyMetadatasBrowserDescription = ""
 ObjectAlreadyExists = ""
 ChildrenExist = ""
+
+MetadataManagerMetadataTypesBrowserComponent = ""

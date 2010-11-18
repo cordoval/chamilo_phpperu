@@ -175,7 +175,7 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
         if (count($this->apps) > 1)
         {
             $this->addElement('html', '<br /><br /><a href="?" style="margin-left: 0%"  onclick="setCheckbox(\'\', true); return false;">' . Translation :: get('SelectAll', null, Utilities :: COMMON_LIBRARIES) . '</a>');
-            $this->addElement('html', ' - <a href="?" onclick="setCheckbox(\'\', false); return false;">' . Translation :: get('UnSelectAll', null, Utilities :: COMMON_LIBRARIES) . '</a>');
+            $this->addElement('html', ' - <a href="?" onclick="setCheckbox(\'\', false); return false;">' . Translation :: get('UnselectAll', null, Utilities :: COMMON_LIBRARIES) . '</a>');
         }
 
         $this->addElement('html', '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'libraries/resources/javascript/home_ajax.js' . '"></script>');
@@ -213,7 +213,7 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
         if (count($locations) > 1)
         {
             $this->addElement('html', '<br /><br /><a href="?" style="margin-left: 0%" onclick="setCheckbox(\'' . $application_name . '\', true); return false;">' . Translation :: get('SelectAll', null, Utilities :: COMMON_LIBRARIES) . '</a>');
-            $this->addElement('html', ' - <a href="?" onclick="setCheckbox(\'' . $application_name . '\', false); return false;">' . Translation :: get('UnSelectAll', null, Utilities :: COMMON_LIBRARIES) . '</a>');
+            $this->addElement('html', ' - <a href="?" onclick="setCheckbox(\'' . $application_name . '\', false); return false;">' . Translation :: get('UnselectAll', null, Utilities :: COMMON_LIBRARIES) . '</a>');
         }
         $this->addElement('html', '<div style="clear: both;"></div></div></div><br />');
     }

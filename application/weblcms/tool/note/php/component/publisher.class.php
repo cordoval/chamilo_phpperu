@@ -7,6 +7,7 @@ use common\libraries\Breadcrumb;
 use common\libraries\BreadcrumbTrail;
 use application\weblcms\ToolComponent;
 use common\libraries\Translation;
+use repository\content_object\link\Link;
 
 /**
  * $Id: note_publisher.class.php 216 2009-11-13 14:08:06Z kariboe $
@@ -22,7 +23,7 @@ class NoteToolPublisherComponent extends NoteTool
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_BROWSE)), Translation :: get('LinkToolBrowserComponent')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_BROWSE)), Translation :: get('LinkToolBrowserComponent', null, Tool :: get_tool_type_namespace(Link :: class_to_type(Link)))));
     }
 
     function get_additional_parameters()
