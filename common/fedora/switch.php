@@ -241,7 +241,7 @@ function SWITCH_content_to_foxml($content, fedora_object_meta $meta, SWITCH_obje
 	$w->add_dc_publisher($switch->publisher);
 
 	//ensure chor_dc data is indexed by resource index
-	$w->add_dc_license(trim($switch->license));
+	$w->add_dc_license(trim($switch->license), trim($switch->license));
 	//REL-EXTS requires tag value content. It will not index values provided in attribute.
 	$w->add_dc_accessRights($switch->accessRights, $switch->accessRights);
 	$w->add_dc_rights($switch->rights, $switch->rights);
@@ -291,7 +291,7 @@ function SWITCH_get_rels_ext(fedora_object_meta $meta, SWITCH_object_meta $switc
 	$w->add_oai_itemID($meta->pid);
 
 	//ensure chor_dc data is indexed by resource index
-	$w->add_dc_license(trim($switch->license));
+	$w->add_dc_license(trim($switch->license), trim($switch->license));
 
 	//REL-EXTS requires tag value content. It will not index values provided in attribute.
 	$w->add_dc_accessRights($switch->accessRights, $switch->accessRights);

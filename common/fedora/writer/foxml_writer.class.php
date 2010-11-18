@@ -228,11 +228,11 @@ class FoxmlWriter extends XmlWriterBase{
 	/**
 	 * @return FoxmlWriter
 	 */
-	public function add_dc_license($value){
+	public function add_dc_license($value, $content = ''){
 		if(empty($value)){
 			return;
 		}
-		$result = $this->add_element('dcterms:license', $value);
+		$result = $this->add_element('dcterms:license', $content);
 		$result->set_attribute('xsi:type', $value);
 		return $result;
 	}
