@@ -1,6 +1,12 @@
 <?php 
 namespace application\survey;
 
+use common\libraries\StaticTableColumn;
+use common\libraries\ObjectTableFormActions;
+
+
+//require_once dirname(__FILE__) . '/../../../tables/user_table/default_user_table_column_model.class.php';
+
 class SurveyUserBrowserTableColumnModel extends DefaultSurveyUserTableColumnModel
 {
     /**

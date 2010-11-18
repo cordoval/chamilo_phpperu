@@ -5,7 +5,7 @@ use common\libraries\Utilities;
 use common\libraries\Path;
 use common\libraries\Translation;
 use common\libraries\FormValidator;
-
+use user\UserDataManager;
 use rights\RightsUtilities;
 use rights\RightsDataManager;
 
@@ -36,7 +36,7 @@ class SurveySubscribeUserForm extends FormValidator
         $publication = $this->publication;
         
         $attributes = array();
-        $attributes['search_url'] = Path :: get(WEB_PATH) . 'user/xml_feeds/xml_user_feed.php';
+        $attributes['search_url'] = Path :: get(WEB_PATH) . 'user/php/xml_feeds/xml_user_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('ShareWith');
         $locale['Searching'] = Translation :: get('Searching');

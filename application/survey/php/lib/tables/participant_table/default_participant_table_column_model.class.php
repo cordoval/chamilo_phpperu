@@ -3,6 +3,8 @@ namespace application\survey;
 
 use common\libraries\ObjectTableColumnModel;
 use common\libraries\ObjectTableColumn;
+use user\User;
+
 
 require_once dirname(__FILE__) . '/../../survey_publication.class.php';
 
