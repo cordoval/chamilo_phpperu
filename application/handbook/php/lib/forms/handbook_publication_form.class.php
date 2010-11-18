@@ -8,7 +8,7 @@ require_once dirname(__FILE__) . '/../handbook_publication.class.php';
 
 /**
  * This class describes the form for a HandbookPublication object.
- * @author Sven Vanpoucke
+ * in this form the view- and edit-rights and the preferences for a handbook application are shown
  * @author Nathalie Blocry
  **/
 class HandbookPublicationForm extends FormValidator

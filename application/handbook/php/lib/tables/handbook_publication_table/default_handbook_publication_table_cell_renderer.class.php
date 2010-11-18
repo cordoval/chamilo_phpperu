@@ -17,7 +17,7 @@ class DefaultHandbookPublicationTableCellRenderer extends ObjectTableCellRendere
 
        function render_cell($column, $handbook)
     {
-        $url = $this->browser->get_view_handbook_url($handbook->get_id());
+        $url = $this->browser->get_view_handbook_publication_url($handbook->get_id());
         switch ($column->get_name())
         {
             case Handbook::PROPERTY_TITLE:
