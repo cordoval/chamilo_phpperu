@@ -49,7 +49,7 @@ class AdminManagerConfigurerComponent extends AdminManager
             $form->display();
             echo '<script type="text/javascript">';
             echo '$(document).ready(function() {';
-            echo '$(\':checkbox\').iphoneStyle({ checkedLabel: \'' . Translation :: get('On', array(), Utilities :: COMMON_LIBRARIES) . '\', uncheckedLabel: \'' . Translation :: get('Off', array(), Utilities :: COMMON_LIBRARIES) . '\'});';
+            echo '$(\':checkbox\').iphoneStyle({ checkedLabel: \'' . Translation :: get('ConfirmOn', array(), Utilities :: COMMON_LIBRARIES) . '\', uncheckedLabel: \'' . Translation :: get('ConfirmOff', array(), Utilities :: COMMON_LIBRARIES) . '\'});';
             echo '});';
             echo '</script>';
             $this->display_footer();
