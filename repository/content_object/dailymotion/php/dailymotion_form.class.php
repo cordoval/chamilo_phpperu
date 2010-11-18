@@ -14,7 +14,6 @@ require_once dirname(__FILE__) . '/dailymotion.class.php';
 
 class DailymotionForm extends ContentObjectForm
 {
-    const TOTAL_PROPERTIES = 5;
 
     protected function build_creation_form()
     {

@@ -20,7 +20,6 @@ require_once dirname(__FILE__) . '/youtube.class.php';
 
 class YoutubeForm extends ContentObjectForm
 {
-    const TOTAL_PROPERTIES = 5;
 
     protected function build_creation_form()
     {

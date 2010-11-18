@@ -18,7 +18,6 @@ require_once dirname(__FILE__) . '/task.class.php';
  */
 class TaskForm extends ContentObjectForm
 {
-    const TOTAL_PROPERTIES = 5;
     const PARAM_REPEAT = 'repeated';
     const PARAM_REPEAT_DATE = 'repeate_date';
 

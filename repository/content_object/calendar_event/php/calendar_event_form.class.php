@@ -20,7 +20,6 @@ require_once dirname(__FILE__) . '/calendar_event.class.php';
  */
 class CalendarEventForm extends ContentObjectForm
 {
-    const TOTAL_PROPERTIES = 4;
     const PARAM_REPEAT = 'repeated';
     const PARAM_REPEAT_DATE = 'repeate_date';
 

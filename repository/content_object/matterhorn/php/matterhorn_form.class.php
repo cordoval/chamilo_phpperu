@@ -14,7 +14,6 @@ require_once dirname(__FILE__) . '/matterhorn.class.php';
 
 class MatterhornForm extends ContentObjectForm
 {
-    const TOTAL_PROPERTIES = 6;
 
     protected function build_creation_form()
     {

@@ -17,7 +17,6 @@ require_once dirname(__FILE__) . '/vimeo.class.php';
 
 class VimeoForm extends ContentObjectForm
 {
-    const TOTAL_PROPERTIES = 5;
 
     protected function build_creation_form()
     {

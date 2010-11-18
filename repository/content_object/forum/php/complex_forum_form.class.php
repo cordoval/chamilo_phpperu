@@ -13,7 +13,6 @@ require_once Path :: get_library_path() . 'utilities.class.php';
 
 class ComplexForumForm extends ComplexContentObjectItemForm
 {
-    const TOTAL_PROPERTIES = 0;
 
     // Inherited
     protected function build_creation_form()

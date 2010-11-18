@@ -11,7 +11,6 @@ use repository\ContentObjectForm;
  */
 class LinkForm extends ContentObjectForm
 {
-    const TOTAL_PROPERTIES = 3;
 
     protected function build_creation_form()
     {

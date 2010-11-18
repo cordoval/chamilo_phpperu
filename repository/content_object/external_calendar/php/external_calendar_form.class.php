@@ -12,7 +12,6 @@ use repository\ContentObjectForm;
 require_once dirname(__FILE__) . '/external_calendar.class.php';
 class ExternalCalendarForm extends ContentObjectForm
 {
-    const TOTAL_PROPERTIES = 3;
 
     protected function build_creation_form()
     {
