@@ -41,7 +41,7 @@ class ToolComponentRightsEditorComponent extends ToolComponent
         $course = $this->get_course_id();
         $course_module = $this->get_tool_id();
         $category_id = Request :: get(WeblcmsManager :: PARAM_CATEGORY);
-        $publications = Request :: get(WeblcmsManager :: PARAM_PUBLICATION);
+        $publications = Request :: get(WeblcmsManager :: PARAM_PUBLICATION); 
         $this->set_parameter(WeblcmsManager :: PARAM_PUBLICATION, $publications);
 
         if ($publications)

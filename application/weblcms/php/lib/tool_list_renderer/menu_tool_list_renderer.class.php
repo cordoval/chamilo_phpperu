@@ -123,7 +123,7 @@ class MenuToolListRenderer extends ToolListRenderer
         }
 
         $html[] = '</div>';
-        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/tool_bar.js' . '"></script>';
+        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'libraries/resources/javascript/tool_bar.js' . '"></script>';
 
         if ($_SESSION['toolbar_state'] == 'hide')
         {
