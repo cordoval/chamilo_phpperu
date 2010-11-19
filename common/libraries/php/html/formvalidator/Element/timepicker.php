@@ -25,7 +25,7 @@ class HTML_QuickForm_timepicker extends HTML_QuickForm_date
 
         $js_form_name = $attributes['form_name'];
         //unset($attributes['form_name']);
-        HTML_QuickForm_element :: HTML_QuickForm_element($elementName, $elementLabel, $attributes);
+        HTML_QuickForm_element :: __construct($elementName, $elementLabel, $attributes);
         $this->_persistantFreeze = true;
         $this->_appendName = true;
         $this->_type = 'timepicker';

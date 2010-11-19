@@ -261,7 +261,7 @@ class HTML_QuickForm_advmultiselect extends HTML_QuickForm_select
                                            $options = null, $attributes = null,
                                            $sort = null)
     {
-        $this->HTML_QuickForm_select($elementName, $elementLabel,
+        parent :: __construct($elementName, $elementLabel,
             $options, $attributes);
 
         // add multiple selection attribute by default if missing
