@@ -219,7 +219,7 @@ class ComplexMenu extends HTML_Menu
 
     static function get_tree_name()
     {
-        return Utilities :: camelcase_to_underscores(Utilities :: get_classname_from_namespace(self :: TREE_NAME));
+        return Utilities :: get_classname_from_namespace(self :: TREE_NAME, true);
     }
 }
 ?>

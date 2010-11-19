@@ -15,12 +15,12 @@ use common\libraries\TreeMenuRenderer;
 class UserMenu extends HTML_Menu
 {
     const TREE_NAME = __CLASS__;
-    
+
     /**
      * The string passed to sprintf() to format category URLs
      */
     private $urlFmt;
-    
+
     /**
      * The array renderer used to determine the breadcrumbs.
      */
@@ -57,40 +57,40 @@ class UserMenu extends HTML_Menu
      */
     private function get_menu()
     {
-        
+
         $menu = array();
-        
+
         $users = array();
         $users['title'] = Translation :: get('Users');
         $users['url'] = $this->get_menu_item_url(null);
         $users['class'] = 'home';
         $users['sub'] = $this->get_menu_items();
         $menu[] = $users;
-        
+
         return $menu;
     }
 
     private function get_menu_items($parent_id)
     {
         $start_label = 'A';
-        
+
         for($i = 0; $i < 9; $i ++)
         {
             $end_label = $start_label;
             $end_label ++;
-            
+
             if ($i < 8)
                 $end_label ++;
-            
+
             $item['title'] = $start_label . ' - ' . $end_label;
             $item['url'] = $this->get_menu_item_url($start_label);
             $item['class'] = 'type_category';
             $tree[] = $item;
-            
+
             $start_label = $end_label;
             $start_label ++;
         }
-        
+
         return $tree;
     }
 
@@ -103,7 +103,7 @@ class UserMenu extends HTML_Menu
     {
         if (! $firstletter)
             return str_replace('&firstletter=%s', '', $this->urlFmt);
-        
+
         return htmlentities(sprintf($this->urlFmt, $firstletter));
     }
 
@@ -135,9 +135,9 @@ class UserMenu extends HTML_Menu
         $this->render($renderer, 'sitemap');
         return $renderer->toHTML();
     }
-    
+
     static function get_tree_name()
     {
-    	return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
+    	return Utilities :: get_classname_from_namespace(self :: TREE_NAME, true);
     }
 }

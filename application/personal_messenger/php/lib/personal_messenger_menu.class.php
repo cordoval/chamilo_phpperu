@@ -23,7 +23,7 @@ require_once 'HTML/Menu/ArrayRenderer.php';
 class PersonalMessengerMenu extends HTML_Menu
 {
     const TREE_NAME = __CLASS__;
-    
+
     /**
      * The string passed to sprintf() to format category URLs
      */
@@ -38,10 +38,10 @@ class PersonalMessengerMenu extends HTML_Menu
      * @param int $owner The ID of the owner.
      * @param int $current_category The ID of the current category in the menu.
      * @param string $url_format The format to use for the URL of a category.
-     *                           Passed to sprintf(). Defaults to the string
-     *                           "?category=%s".
+     * Passed to sprintf(). Defaults to the string
+     * "?category=%s".
      * @param array $extra_items An array of extra tree items, added to the
-     *                           root.
+     * root.
      */
     function __construct($current_category, $url_format = '?folder=%s', $extra_items = array())
     {
@@ -55,10 +55,10 @@ class PersonalMessengerMenu extends HTML_Menu
     /**
      * Returns the menu items.
      * @param array $extra_items An array of extra tree items, added to the
-     *                           root.
+     * root.
      * @return array An array with all menu items. The structure of this array
-     *               is the structure needed by PEAR::HTML_Menu, on which this
-     *               class is based.
+     * is the structure needed by PEAR::HTML_Menu, on which this
+     * class is based.
      */
     private function get_menu_items($extra_items)
     {
@@ -67,13 +67,13 @@ class PersonalMessengerMenu extends HTML_Menu
         {
             $menu = array_merge($menu, $extra_items);
         }
-        
+
         $menu_item = array();
         $menu_item['title'] = Translation :: get('Inbox');
         $menu_item['url'] = $this->get_category_url('inbox');
         $menu_item['class'] = 'type_category';
         $home_item[] = $menu_item;
-        
+
         $menu_item = array();
         $menu_item['title'] = Translation :: get('Outbox');
         $menu_item['url'] = $this->get_category_url('outbox');
@@ -120,16 +120,16 @@ class PersonalMessengerMenu extends HTML_Menu
      * Renders the menu as a tree
      * @return string The HTML formatted tree
      */
-	function render_as_tree()
+    function render_as_tree()
     {
         $renderer = new TreeMenuRenderer($this->get_tree_name());
         $this->render($renderer, 'sitemap');
         return $renderer->toHTML();
     }
-    
+
     static function get_tree_name()
     {
-    	return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
+        return Utilities :: get_classname_from_namespace(self :: TREE_NAME, true);
     }
 }
 ?>
