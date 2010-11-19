@@ -1,5 +1,6 @@
 <?php
 namespace common\extensions\validation_manager;
+use common\libraries\ObjectTable;
 /**
  * $Id: validation_browser_table.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.validation_manager.component.validation_browser
@@ -7,7 +8,6 @@ namespace common\extensions\validation_manager;
 require_once dirname(__FILE__) . '/validation_browser_table_data_provider.class.php';
 require_once dirname(__FILE__) . '/validation_browser_table_column_model.class.php';
 require_once dirname(__FILE__) . '/validation_browser_table_cell_renderer.class.php';
-require_once dirname(__FILE__) . '/../../../../lib/profiler/profiler_manager/profiler_manager.class.php';
 /**
  * Table to display a set of learning objects.
  */
@@ -20,8 +20,8 @@ class ValidationBrowserTab extends ObjectTable
      */
     function __construct($browser, $name, $parameters, $condition)
     {
-        $model = new ValidationBrowserTableColumnMod();
-        $renderer = new ValidationBrowserTableCellRend($browser);
+        $model = new ValidationBrowserTableColumnModel();
+        $renderer = new ValidationBrowserTableCellRenderer($browser);
         $data_provider = new ValidationBrowserTableDataProvid($browser, $condition);
         parent :: __construct($data_provider, ValidationBrowserTab :: DEFAULT_NAME, $model, $renderer);
         /* $actions = array();

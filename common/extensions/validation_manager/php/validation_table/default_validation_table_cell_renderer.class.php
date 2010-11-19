@@ -1,12 +1,13 @@
 <?php
 namespace common\extensions\validation_manager;
+use common\libraries\ObjectTableCellRenderer;
 /**
  * $Id: default_validation_table_cell_renderer.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.validation_manager.component.validation_table
  */
 //require_once dirname(__FILE__) . '/../../../lib/profiler/profile_publication.class.php';
 
-class DefaultValidationTableCellRend extends ObjectTableCellRenderer
+class DefaultValidationTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

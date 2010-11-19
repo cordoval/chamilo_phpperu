@@ -1,6 +1,7 @@
 <?php
 namespace common\extensions\feedback_manager;
 
+use common\extensions\repo_viewer\RepoViewerInterface;
 use admin\FeedbackPublication;
 use repository\content_object\feedback\Feedback;
 use common\libraries\Translation;

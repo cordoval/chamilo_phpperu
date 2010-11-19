@@ -1,5 +1,6 @@
 <?php
 namespace common\extensions\validation_manager;
+use common\libraries\ObjectTableDataProvider;
 /**
  * $Id: validation_browser_table_data_provider.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.validation_manager.component.validation_browser

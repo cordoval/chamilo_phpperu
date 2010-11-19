@@ -5,11 +5,10 @@ namespace common\extensions\validation_manager;
  * @package application.common.validation_manager.component.validation_browser
  */
 require_once dirname(__FILE__) . '/validation_browser_table_column_model.class.php';
-require_once dirname(__FILE__) . '/../../validation_table/default_validation_table_cell_renderer.class.php';
 /**
  * Cell renderer for the learning object browser table
  */
-class ValidationBrowserTableCellRend extends DefaultValidationTableCellRend
+class ValidationBrowserTableCellRenderer extends DefaultValidationTableCellRenderer
 {
     /**
      * The repository browser component

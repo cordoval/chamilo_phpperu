@@ -1,5 +1,7 @@
 <?php
 namespace common\extensions\video_conferencing_manager;
+
+use common\libraries\SubManager;
 abstract class VideoConferencingComponent extends SubManager
 {
     const BROWSER_COMPONENT = 'browser';

@@ -4,11 +4,10 @@ namespace common\extensions\validation_manager;
  * $Id: validation_browser_table_column_model.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.validation_manager.component.validation_browser
  */
-require_once dirname(__FILE__) . '/../../validation_table/default_validation_table_column_model.class.php';
 /**
  * Table column model for the publication browser table
  */
-class ValidationBrowserTableColumnMod extends DefaultValidationTableColumnMod
+class ValidationBrowserTableColumnModel extends DefaultValidationTableColumnModel
 {
     /**
      * The tables modification column
