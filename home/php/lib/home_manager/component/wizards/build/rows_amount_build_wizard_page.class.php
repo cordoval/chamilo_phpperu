@@ -14,7 +14,7 @@ class RowsAmountBuildWizardPage extends BuildWizardPage
 
     public function __construct($name, $parent)
     {
-        parent :: BuildWizardPage($name, $parent);
+        parent :: __construct($name, $parent);
     }
 
     function buildForm()

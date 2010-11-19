@@ -26,7 +26,7 @@ abstract class BuildWizardPage extends HTML_QuickForm_Page
     {
         $this->parent = $parent;
         $this->wizard = $wizard;
-        parent :: HTML_QuickForm_Page($name, 'post');
+        parent :: __construct($name, 'post');
         $this->updateAttributes(array('action' => $parent->get_url()));
     }
 

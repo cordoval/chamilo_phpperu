@@ -28,7 +28,7 @@ class ConfirmationMaintenanceWizardPage extends MaintenanceWizardPage
      */
     public function __construct($name, $parent, $message)
     {
-        parent :: MaintenanceWizardPage($name, $parent);
+        parent :: __construct($name, $parent);
         $this->message = $message;
     }
 

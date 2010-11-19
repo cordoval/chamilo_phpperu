@@ -41,7 +41,7 @@ class MiniDayCalendar extends CalendarTable
         $this->navigation_html = '';
         $this->hour_step = $hour_step;
         $this->item_list = $item_list;
-        parent :: CalendarTable($display_time);
+        parent :: __construct($display_time);
         $this->build_table();
     }
 

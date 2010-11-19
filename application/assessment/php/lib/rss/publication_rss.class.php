@@ -16,7 +16,7 @@ class AssessmentPublicationRSS extends PublicationRSS
 {
 	function __construct()
 	{
-		parent :: PublicationRSS('Chamilo assessments', htmlspecialchars(Path :: get(WEB_PATH)), 'Assessment publications', htmlspecialchars(Path :: get(WEB_PATH)));
+		parent :: __construct('Chamilo assessments', htmlspecialchars(Path :: get(WEB_PATH)), 'Assessment publications', htmlspecialchars(Path :: get(WEB_PATH)));
 	}
 	
 	function retrieve_items($user, $min_date = '')

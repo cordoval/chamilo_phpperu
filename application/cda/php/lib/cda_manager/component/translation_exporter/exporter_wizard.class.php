@@ -36,7 +36,7 @@ class ExporterWizard extends HTML_QuickForm_Controller
     function __construct($parent)
     {
         $this->parent = $parent;
-        parent :: HTML_QuickForm_Controller('ExporterWizard', true);
+        parent :: __construct('ExporterWizard', true);
         $this->addPage(new BranchSelectingExporterWizardPage('page_branch_selecting', $this));
         $this->addPage(new LanguageSelectingExporterWizardPage('page_language_selecting', $this));
         $this->addPage(new LanguagePackSelectingExporterWizardPage('page_language_pack_selecting', $this));

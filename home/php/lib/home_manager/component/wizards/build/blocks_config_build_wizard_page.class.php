@@ -17,7 +17,7 @@ class BlocksConfigBuildWizardPage extends BuildWizardPage
 
     public function __construct($name, $parent, $values)
     {
-        parent :: BuildWizardPage($name, $parent);
+        parent :: __construct($name, $parent);
         $this->values = $values;
         $this->components = Block :: get_platform_blocks_deprecated();
     }

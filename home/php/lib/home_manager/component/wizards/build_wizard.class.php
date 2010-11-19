@@ -37,7 +37,7 @@ class BuildWizard extends HTML_QuickForm_Controller
     function __construct($parent, $trail)
     {
         $this->parent = $parent;
-        parent :: HTML_QuickForm_Controller('BuildWizard', true);
+        parent :: __construct('BuildWizard', true);
         
         $values = $this->exportValues();
         $this->addPage(new IntroductionBuildWizardPage('introduction', $this->parent, Translation :: get('BuildIntroductionMessage')));

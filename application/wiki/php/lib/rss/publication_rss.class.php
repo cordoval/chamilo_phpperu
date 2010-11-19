@@ -10,7 +10,7 @@ class WikiPublicationRSS extends PublicationRSS
 {
 	function __construct()
 	{
-		parent :: PublicationRSS('Chamilo wiki', htmlspecialchars(Path :: get(WEB_PATH)), 'Wiki publications', htmlspecialchars(Path :: get(WEB_PATH)));
+		parent :: __construct('Chamilo wiki', htmlspecialchars(Path :: get(WEB_PATH)), 'Wiki publications', htmlspecialchars(Path :: get(WEB_PATH)));
 	}
 	
 	function retrieve_items($user, $min_date = '')

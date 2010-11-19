@@ -21,7 +21,7 @@ class DynamicFormElementBuilderForm extends FormValidator
 	
 	function __construct($form_type, $element, $action, $user)
 	{
-		parent :: FormValidator('dynamic_form_element', 'post', $action);
+		parent :: __construct('dynamic_form_element', 'post', $action);
 		$this->user = $user;
 		$this->form_type = $form_type;
 		$this->element = $element;

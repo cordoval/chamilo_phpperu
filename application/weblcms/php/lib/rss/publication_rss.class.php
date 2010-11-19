@@ -23,7 +23,7 @@ class WeblcmsPublicationRSS extends PublicationRSS
     function __construct()
     {
         Utilities :: set_application(WeblcmsManager :: APPLICATION_NAME);
-        parent :: PublicationRSS(Translation :: get('WeblcmsPublicationRSSTitle'), htmlspecialchars(Path :: get(WEB_PATH)), Translation :: get('WeblcmsPublicationRSSDescription'), htmlspecialchars(Path :: get(WEB_PATH)));
+        parent :: __construct(Translation :: get('WeblcmsPublicationRSSTitle'), htmlspecialchars(Path :: get(WEB_PATH)), Translation :: get('WeblcmsPublicationRSSDescription'), htmlspecialchars(Path :: get(WEB_PATH)));
     }
 
     function retrieve_items($user, $min_date = '')
