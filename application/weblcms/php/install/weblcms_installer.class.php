@@ -10,8 +10,6 @@ use common\libraries\Utilities;
  * @package application.lib.weblcms.install
  */
 
-require_once 'Tree/Tree.php';
-
 /**
  * This installer can be used to create the storage structure for the
  * weblcms application.

@@ -61,7 +61,7 @@ abstract class ContentObjectForm extends FormValidator
      * @param string $method The method to use ('post' or 'get').
      * @param string $action The URL to which the form should be submitted.
      */
-    protected function __construct($form_type, $content_object, $form_name, $method = 'post', $action = null, $extra = null, $additional_elements, $allow_new_version = true)
+    public function __construct($form_type, $content_object, $form_name, $method = 'post', $action = null, $extra = null, $additional_elements, $allow_new_version = true)
     {
         /*$registration = AdminDataManager :: get_registration($content_object->get_type(), Registration :: TYPE_CONTENT_OBJECT);
         if(!RepositoryRights :: is_allowed_in_content_objects_subtree(RepositoryRights :: ADD_RIGHT, $registration->get_id()))
