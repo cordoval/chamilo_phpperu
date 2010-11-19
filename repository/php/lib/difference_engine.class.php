@@ -891,7 +891,7 @@ class Difference_Engine_Op
 class Difference_Engine_Op_copy extends Difference_Engine_Op
 {
 
-    function __construct(_Op_copy($orig, $final = false)
+    function __construct($orig, $final = false)
     {
         if (! is_array($final))
         {
@@ -929,7 +929,7 @@ class Difference_Engine_Op_copy extends Difference_Engine_Op
 class Difference_Engine_Op_delete extends Difference_Engine_Op
 {
 
-    function __construct(_Op_delete($lines)
+    function __construct($lines)
     {
         $this->orig = $lines;
         $this->final = false;
@@ -955,7 +955,7 @@ class Difference_Engine_Op_delete extends Difference_Engine_Op
 class Difference_Engine_Op_add extends Difference_Engine_Op
 {
 
-    function __construct(_Op_add($lines)
+    function __construct($lines)
     {
         $this->final = $lines;
         $this->orig = false;
@@ -981,7 +981,7 @@ class Difference_Engine_Op_add extends Difference_Engine_Op
 class Difference_Engine_Op_change extends Difference_Engine_Op
 {
 
-    function __construct(_Op_change($orig, $final)
+    function __construct($orig, $final)
     {
         $this->orig = $orig;
         $this->final = $final;

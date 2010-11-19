@@ -39,7 +39,7 @@ class WikiToolComplexDisplayComponent extends WikiTool implements DelegateCompon
         return $this->publication->get_content_object();
     }
 
-    function get_wiki_publication()
+    function get_publication()
     {
         return $this->publication;
     }
@@ -63,11 +63,6 @@ class WikiToolComplexDisplayComponent extends WikiTool implements DelegateCompon
     function get_wiki_statistics_reporting_template_name()
     {
         return 'wiki_reporting_template';
-    }
-    function get_publication()
-    {
-        throw new Exception("Unimplemented method
-            application\\weblcms\\tool\\wiki\\WikiToolComplexDisplayComponent#get_publication");
     }
 }
 ?>

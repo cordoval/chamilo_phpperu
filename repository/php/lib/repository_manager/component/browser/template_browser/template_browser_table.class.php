@@ -6,6 +6,7 @@ use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\ObjectTableFormAction;
 use common\libraries\ObjectTableFormActions;
+use common\libraries\ObjectTable;
 
 /**
  * $Id: template_browser_table.class.php 204 2009-11-13 12:51:30Z kariboe $
@@ -28,7 +29,7 @@ class TemplateBrowserTable extends RepositoryBrowserTable
         $model = new TemplateBrowserTableColumnModel();
         $renderer = new TemplateBrowserTableCellRenderer($browser);
         $data_provider = new RepositoryBrowserTableDataProvider($browser, $condition);
-        parent :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
+        ObjectTable :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
 
         $actions = new ObjectTableFormActions(__NAMESPACE__, RepositoryManager :: PARAM_ACTION);
         $actions->add_form_action(new ObjectTableFormAction(RepositoryManager :: ACTION_DELETE_TEMPLATE, Translation :: get('RemoveSelected', null, Utilities :: COMMON_LIBRARIES)));

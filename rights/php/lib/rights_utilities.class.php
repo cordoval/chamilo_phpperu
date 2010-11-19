@@ -26,7 +26,6 @@ use common\libraries\ObjectResultSet;
  * @package rights.lib
  * @author Hans de Bisschop
  */
-//require_once 'Tree/Tree.php';
 require_once 'XML/Unserializer.php';
 
 /*

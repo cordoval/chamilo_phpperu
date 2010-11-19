@@ -47,7 +47,7 @@ class WikiComplexDisplayPreview extends ComplexDisplayPreview implements WikiCom
      * Functionality is publication dependent,
      * so not available in preview mode.
      */
-    function get_wiki_publication()
+    function get_publication()
     {
         $this->not_available(Translation :: get('ImpossibleInPreviewMode'));
     }
