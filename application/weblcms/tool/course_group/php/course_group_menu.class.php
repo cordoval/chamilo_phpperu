@@ -15,9 +15,6 @@ use common\libraries\EqualityCondition;
  * @package group.lib
  */
 
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
-
 /**
  * This class provides a navigation menu to allow a user to browse through
  * categories of courses.

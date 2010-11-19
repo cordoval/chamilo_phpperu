@@ -34,8 +34,6 @@ class PBAPI_Response_xmlserializer extends PBAPI_Response {
      */
     public function parse($string, $onlycontent = false) {
         $result = array();
-
-        require_once('XML/Unserializer.php');
         $options = array(
             XML_UNSERIALIZER_OPTION_RETURN_RESULT => true,
             XML_UNSERIALIZER_OPTION_TAG_AS_CLASSNAME => true,

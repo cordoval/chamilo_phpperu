@@ -9,7 +9,6 @@ use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\PlatformSetting;
 
-require_once Path :: get_plugin_path() . 'pear/HTML/QuickForm/Rule.php';
 require_once WebApplication :: get_application_class_lib_path('gradebook') . 'data_provider/gradebook_tree_menu_data_provider.class.php';
 require_once WebApplication :: get_application_class_lib_path('weblcms') . 'course/course_user_relation.class.php';
 require_once WebApplication :: get_application_class_lib_path('weblcms') . 'weblcms_manager/weblcms_manager.class.php';
@@ -333,21 +332,21 @@ class ExternalItemForm extends FormValidator
 //			$defaults[$this->evaluation_format->get_evaluation_field_name()] = $grade_evaluation->get_score();
 //		    $defaults[GradeEvaluation :: PROPERTY_COMMENT] = $grade_evaluation->get_comment();
 //		    $defaults[GradeEvaluation :: PROPERTY_ID] = $grade_evaluation->get_id();
-//	
+//
 //		    $defaults[Evaluation :: PROPERTY_FORMAT_ID] = $evaluation->get_format_id();
 //		    $defaults[Evaluation :: PROPERTY_EVALUATION_DATE] = $evaluation->get_evaluation_date();
 //		    $defaults[Evaluation :: PROPERTY_USER_ID] = $evaluation->get_user_id();
 //		    $defaults[Evaluation :: PROPERTY_EVALUATOR_ID] = $evaluation->get_evaluator_id();
 //			parent :: setDefaults($defaults);
 //		}
-//		
+//
 //	}
 //	function validate()
 //	{
 //		$values = $this->getSubmitValues();
 //		if((unserialize($values['target_elements_active_hidden'])))
 //		{
-//	        
+//
 //			$this->setDefaults();
 //        	return parent :: validate();
 //		}
@@ -372,12 +371,12 @@ class ExternalItemForm extends FormValidator
 //class ValidateScoreStepRule extends HTML_QuickForm_Rule
 //{
 //	private $evaluation_format;
-//	
+//
 //	function __construct($evaluation_format)
 //	{
 //		$this->evaluation_format = $evaluation_format;
 //	}
-//	
+//
 //	public function validate($evaluation_score)
 //	{
 //		$quotient = intval($evaluation_score / $this->evaluation_format->get_step());
@@ -385,18 +384,18 @@ class ExternalItemForm extends FormValidator
 //		if($mod != 0)
 //			return false;
 //		return true;
-//	}	
+//	}
 //}
 //
 //class ValidateScoreBoundariesRule extends HTML_QuickForm_Rule
 //{
 //	private $evaluation_format;
-//	
+//
 //	function __construct($evaluation_format)
 //	{
 //		$this->evaluation_format = $evaluation_format;
 //	}
-//	
+//
 //	public function validate($evaluation_score)
 //	{
 //		if($evaluation_score < $this->evaluation_format->get_min_value() || $evaluation_score > $this->evaluation_format->get_max_value())

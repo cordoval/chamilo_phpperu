@@ -10,8 +10,6 @@ use Pager;
  * @author Michael Kyndt
  */
 
-require_once Path :: get_plugin_path() . '/pear/Pager/Pager.php';
-
 abstract class ReportingFormatter
 {
 	protected $block;

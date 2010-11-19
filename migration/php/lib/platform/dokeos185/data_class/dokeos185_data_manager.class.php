@@ -6,7 +6,6 @@ namespace migration;
  * @package migration.platform.dokeos185
  */
 require_once (dirname(__FILE__) . '/../../lib/old_migration_data_manager.class.php');
-require_once 'MDB2.php';
 
 /**
  * Class that connects to the old dokeos185 system

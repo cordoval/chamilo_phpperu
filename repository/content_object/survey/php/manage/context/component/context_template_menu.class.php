@@ -3,8 +3,6 @@ namespace repository\content_object\survey;
 
 use repository\RepositoryDataManager;
 
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
 require_once Path :: get_repository_path() . '/lib/content_object/survey/survey_context_template.class.php';
 
 class SurveyContextTemplateMenu extends HTML_Menu

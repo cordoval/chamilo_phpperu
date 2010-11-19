@@ -3,7 +3,6 @@
  * $Id: category.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common.html.formvalidator.Element
  */
-require_once 'HTML/QuickForm/html.php';
 
 /**
  * A pseudo-element used for adding raw HTML to form
@@ -18,7 +17,7 @@ class HTML_QuickForm_category extends HTML_QuickForm_html
 {
 
     // {{{ constructor
-    
+
 
     /**
      * Class constructor
@@ -30,7 +29,7 @@ class HTML_QuickForm_category extends HTML_QuickForm_html
     function __construct($title = null, $extra_classes = null)
     {
         $html = array();
-        
+
         if ($title != null)
         {
             $html[] = '<div class="configuration_form' . ($extra_classes ? ' ' . $extra_classes : '') . '" >';
@@ -41,9 +40,9 @@ class HTML_QuickForm_category extends HTML_QuickForm_html
             $html[] = '<div style="clear: both;"></div>';
             $html[] = '</div>';
         }
-        
+
         $html = implode("\n", $html);
-        
+
         parent :: __construct($html);
     }
 

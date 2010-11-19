@@ -11,9 +11,6 @@ use common\libraries\TreeMenuRenderer;
 use HTML_Menu;
 use HTML_Menu_ArrayRenderer;
 
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
-
 class SurveyMenu extends HTML_Menu
 {
     const TREE_NAME = __CLASS__;

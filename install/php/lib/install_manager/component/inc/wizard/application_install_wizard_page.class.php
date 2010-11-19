@@ -13,7 +13,6 @@ use PEAR;
  * @package install.lib.installmanager.component.inc.wizard
  */
 require_once dirname(__FILE__) . '/install_wizard_page.class.php';
-require_once 'XML/Unserializer.php';
 
 /**
  * Class for application settings page
@@ -42,8 +41,10 @@ class ApplicationInstallWizardPage extends InstallWizardPage
         $this->get_package_tabs($packages);
 
         $buttons = array();
-        $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Previous', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal previous'));
-        $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next', null, Utilities::COMMON_LIBRARIES), array('class' => 'normal next'));
+        $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Previous', null, Utilities :: COMMON_LIBRARIES), array(
+                'class' => 'normal previous'));
+        $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next', null, Utilities :: COMMON_LIBRARIES), array(
+                'class' => 'normal next'));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         $this->setDefaultAction($this->getButtonName('next'));
     }
@@ -55,7 +56,7 @@ class ApplicationInstallWizardPage extends InstallWizardPage
 
         foreach ($applications as $application)
         {
-            $xml_data = file_get_contents(Path :: get_application_path() .$application . '/php/package.info');
+            $xml_data = file_get_contents(Path :: get_application_path() . $application . '/php/package.info');
 
             if ($xml_data)
             {
@@ -64,7 +65,9 @@ class ApplicationInstallWizardPage extends InstallWizardPage
                 $unserializer->setOption(XML_UNSERIALIZER_OPTION_ATTRIBUTES_PARSE, true);
                 $unserializer->setOption(XML_UNSERIALIZER_OPTION_RETURN_RESULT, true);
                 $unserializer->setOption(XML_UNSERIALIZER_OPTION_GUESS_TYPES, true);
-                $unserializer->setOption(XML_UNSERIALIZER_OPTION_FORCE_ENUM, array('package', 'dependency'));
+                $unserializer->setOption(XML_UNSERIALIZER_OPTION_FORCE_ENUM, array(
+                        'package',
+                        'dependency'));
 
                 // unserialize the document
                 $status = $unserializer->unserialize($xml_data);
@@ -95,9 +98,9 @@ class ApplicationInstallWizardPage extends InstallWizardPage
         $html[] = '<div class="clear"></div>';
 
         $html[] = '<div id="selectbuttons" style="padding-left: 10px; display: none;"><br />';
-        $html[] = '<a href="#" id="selectall">' . Translation :: get('SelectAll', null, Utilities::COMMON_LIBRARIES) . '</a>';
+        $html[] = '<a href="#" id="selectall">' . Translation :: get('SelectAll', null, Utilities :: COMMON_LIBRARIES) . '</a>';
         $html[] = ' - ';
-        $html[] = '<a href="#" id="unselectall">' . Translation :: get('UnselectAll', null, Utilities::COMMON_LIBRARIES) . '</a>';
+        $html[] = '<a href="#" id="unselectall">' . Translation :: get('UnselectAll', null, Utilities :: COMMON_LIBRARIES) . '</a>';
         $html[] = '</div><br />';
 
         $html[] = '<div id="tabs">';
@@ -158,7 +161,8 @@ class ApplicationInstallWizardPage extends InstallWizardPage
                 $this->addElement('html', implode("\n", $html));
 
                 $checkbox_name = 'install_' . $package['code'];
-                $this->addElement('checkbox', $checkbox_name, '', '', array('class' => 'application_check'));
+                $this->addElement('checkbox', $checkbox_name, '', '', array(
+                        'class' => 'application_check'));
                 $renderer->setElementTemplate('{element}', $checkbox_name);
 
                 $this->addElement('html', '</div></div>');

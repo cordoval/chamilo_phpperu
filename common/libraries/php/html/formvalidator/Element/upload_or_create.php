@@ -8,11 +8,6 @@ use common\libraries\Utilities;
 /**
  * @package common.html.formvalidator.Element
  */
-// $Id: upload_or_create.php 128 2009-11-09 13:13:20Z vanpouckesven $
-require_once 'HTML/QuickForm/group.php';
-require_once 'HTML/QuickForm/radio.php';
-require_once 'HTML/QuickForm/file.php';
-require_once 'HTML/QuickForm/checkbox.php';
 /**
  * Form element to upload or create a document
  * This element contains 2 radio-

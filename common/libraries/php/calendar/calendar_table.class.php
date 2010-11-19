@@ -6,7 +6,6 @@ use HTML_Table;
  * $Id: calendar_table.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.common
  */
-require_once ('HTML/Table.php');
 /**
  * A tabular representation of a calendar
  */
@@ -31,7 +30,9 @@ abstract class CalendarTable extends HTML_Table
             $display_time = time();
         }
         $this->display_time = $display_time;
-        parent :: __construct(array('class' => 'calendar_table', 'cellspacing' => 0));
+        parent :: __construct(array(
+                'class' => 'calendar_table',
+                'cellspacing' => 0));
     }
 
     /**

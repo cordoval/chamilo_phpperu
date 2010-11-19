@@ -14,8 +14,6 @@ use common\libraries\Translation;
  * $Id: course_category_menu.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.course
  */
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
 require_once dirname(__FILE__) . '/../category_manager/course_category.class.php';
 /**
  * This class provides a navigation menu to allow a user to browse through

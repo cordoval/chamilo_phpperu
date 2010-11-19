@@ -3,7 +3,6 @@
  * $Id: option_orderer.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common.html.formvalidator.Element
  */
-require_once 'HTML/QuickForm/hidden.php';
 
 class HTML_QuickForm_option_orderer extends HTML_QuickForm_hidden
 {

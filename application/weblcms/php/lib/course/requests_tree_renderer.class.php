@@ -11,8 +11,6 @@ use common\libraries\Translation;
 /**
  * $Id: request_tree_renderer.class.php 204 2009-11-13 12:51:30Z tristan $
  */
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
 
 class RequestsTreeRenderer extends HTML_Menu
 {

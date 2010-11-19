@@ -3,9 +3,6 @@ namespace common\libraries;
 use HTML_Table;
 use Pager;
 
-require_once "HTML/Table.php";
-require_once "Pager/Pager.php";
-require_once "Pager/Sliding.php";
 require_once 'table_sort.class.php';
 /**
  * This class allows you to display a sortable data-table. It is possible to

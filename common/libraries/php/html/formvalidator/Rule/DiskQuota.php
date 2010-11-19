@@ -2,8 +2,6 @@
 use repository\QuotaManager;
 use user\UserDataManager;
 use common\libraries\Session;
-
-require_once ('HTML/QuickForm/Rule.php');
 /**
  * QuickForm rule to check if uploading a document is possible compared to the
  * available disk quota.

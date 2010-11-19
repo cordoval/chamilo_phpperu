@@ -3,8 +3,6 @@ use admin\AdminDataManager;
 /**
  * @package common.html.formvalidator.Element
  */
-// $Id: select_language.php 128 2009-11-09 13:13:20Z vanpouckesven $
-require_once ('HTML/QuickForm/select.php');
 /**
  * A dropdownlist with all languages to use with QuickForm
  */

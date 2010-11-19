@@ -10,8 +10,6 @@ use common\libraries\BreadcrumbTrail;
 /**
  * @package reporting.lib
  */
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
 require_once Path :: get_reporting_path() . 'lib/reporting_template.class.php';
 require_once Path :: get_reporting_path() . 'lib/reporting_block.class.php';
 /**

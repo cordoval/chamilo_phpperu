@@ -7,10 +7,6 @@ use HTML_QuickForm_Controller;
  * @package tracking.lib.tracking_manager.component.wizards
  */
 
-require_once 'HTML/QuickForm/Controller.php';
-require_once 'HTML/QuickForm/Rule.php';
-require_once 'HTML/QuickForm/Action/Display.php';
-
 require_once dirname(__FILE__) . '/archive/archive_wizard_page.class.php';
 require_once dirname(__FILE__) . '/archive/archive_wizard_display.class.php';
 require_once dirname(__FILE__) . '/archive/archive_wizard_process.class.php';

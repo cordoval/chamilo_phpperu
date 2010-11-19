@@ -8,9 +8,6 @@ use user\UserDataManager;
 /*
  *	@author Nick Van Loocke
  */
-require_once 'HTML/QuickForm/Controller.php';
-require_once 'HTML/QuickForm/Rule.php';
-require_once 'HTML/QuickForm/Action/Display.php';
 
 require_once dirname(__FILE__) . '/wizard/peer_assessment_result_viewer_wizard_display.class.php';
 require_once dirname(__FILE__) . '/wizard/peer_assessment_result_viewer_wizard_process.class.php';

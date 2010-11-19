@@ -5,7 +5,6 @@ use \HTML_Menu_ArrayRenderer;
  * $Id: options_menu_renderer.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common.html.menu
  */
-require_once 'HTML/Menu/ArrayRenderer.php';
 /**
  * Renderer which can be used to create an array of options to use in a select
  * list. The options are displayed in a hierarchical way in the select list.

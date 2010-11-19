@@ -1,5 +1,6 @@
 <?php
 namespace menu;
+
 use common\libraries\Utilities;
 use common\libraries\Translation;
 use HTML_Menu;
@@ -11,8 +12,6 @@ use common\libraries\TreeMenuRenderer;
  * $Id: navigation_item_menu.class.php 223 2009-11-13 14:39:28Z vanpouckesven $
  * @package menu.lib
  */
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
 /**
  * This class provides a navigation menu to allow a user to browse through
  * categories of encyclopedias.

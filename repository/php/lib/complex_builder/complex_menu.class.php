@@ -19,8 +19,6 @@ use common\libraries\TreeMenuRenderer;
  * $Id: complex_menu.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder
  */
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
 /**
  * This class provides a navigation menu to allow a user to browse through his
  * categories of learning objects.

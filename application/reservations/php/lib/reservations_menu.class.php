@@ -16,8 +16,6 @@ use common\libraries\ObjectTableOrder;
  * $Id: reservations_menu.class.php 219 2009-11-13 14:28:13Z chellee $
  * @package application.reservations
  */
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
 /**
  * This class provides a navigation menu to allow a user to browse through his
  * reservations categories

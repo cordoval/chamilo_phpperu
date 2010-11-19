@@ -1,5 +1,4 @@
 <?php
-
 namespace application\gradebook;
 
 use common\libraries\Path;
@@ -11,7 +10,6 @@ use application\weblcms\WeblcmsManager;
 use common\libraries\Translation;
 use user\UserDataManager;
 
-require_once Path :: get_plugin_path() . 'pear/HTML/QuickForm/Rule.php';
 require_once WebApplication :: get_application_class_lib_path('weblcms') . 'course/course_user_relation.class.php';
 require_once WebApplication :: get_application_class_lib_path('weblcms') .'weblcms_manager/weblcms_manager.class.php';
 require_once dirname(__FILE__) . '/rules/validate_score_boundaries_rule.class.php';

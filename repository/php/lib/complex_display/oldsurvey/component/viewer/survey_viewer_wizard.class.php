@@ -4,10 +4,6 @@ namespace repository;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
 
-require_once 'HTML/QuickForm/Controller.php';
-require_once 'HTML/QuickForm/Rule.php';
-require_once 'HTML/QuickForm/Action/Display.php';
-
 require_once dirname(__FILE__) . '/wizard/survey_viewer_wizard_display.class.php';
 require_once dirname(__FILE__) . '/wizard/survey_viewer_wizard_process.class.php';
 require_once dirname(__FILE__) . '/wizard/survey_viewer_wizard_next.class.php';

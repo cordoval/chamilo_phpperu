@@ -2,8 +2,6 @@
 /**
  * @package common.html.formvalidator.Element
  */
-// $Id: html_editor.php 168 2009-11-12 11:53:23Z vanpouckesven $
-require_once ('HTML/QuickForm/textarea.php');
 /**
  * A html editor field to use with QuickForm
  */

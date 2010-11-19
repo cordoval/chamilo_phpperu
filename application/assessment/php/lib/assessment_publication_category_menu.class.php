@@ -14,8 +14,6 @@ use common\libraries\Utilities;
  * $Id: assessment_publication_category_menu.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.assessment
  */
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
 require_once dirname(__FILE__) . '/category_manager/assessment_publication_category.class.php';
 require_once dirname(__FILE__) . '/assessment_data_manager.class.php';
 /**

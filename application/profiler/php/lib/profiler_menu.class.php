@@ -15,8 +15,6 @@ use common\libraries\Utilities;
  * $Id: profiler_menu.class.php 212 2009-11-13 13:38:35Z chellee $
  * @package application.profiler
  */
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
 /**
  * This class provides a navigation menu to allow a user to browse through
  * categories of profiles.

@@ -1,6 +1,6 @@
 <?php
-
 namespace application\portfolio;
+
 use HTML_Menu;
 use HTML_Menu_ArrayRenderer;
 use user\UserDataManager;
@@ -15,8 +15,6 @@ use repository\content_object\portfolio_item\PortfolioItem;
 use repository\content_object\portfolio\Portfolio;
 use common\libraries\BreadcrumbTrail;
 
-require_once dirname(__FILE__) . '/../../../../plugin/pear/HTML/Menu.php';
-require_once dirname(__FILE__) . '/../../../../plugin/pear/HTML/Menu/ArrayRenderer.php';
 /**
  * This class provides a navigation menu to allow a user to browse through portfolio publications
  * @author Sven Vanpoucke

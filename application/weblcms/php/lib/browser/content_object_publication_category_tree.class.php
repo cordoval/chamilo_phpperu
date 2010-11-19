@@ -21,7 +21,6 @@ use common\libraries\OptionsMenuRenderer;
  * $Id: content_object_publication_category_tree.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.browser
  */
-require_once 'HTML/Menu.php';
 /**
  * A tree menu to display categories in a tool
  */

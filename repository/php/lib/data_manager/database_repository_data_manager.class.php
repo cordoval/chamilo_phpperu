@@ -32,8 +32,6 @@ require_once dirname(__FILE__) . '/database/database_complex_content_object_item
 require_once dirname(__FILE__) . '/../category_manager/repository_category.class.php';
 require_once dirname(__FILE__) . '/../repository_data_manager_interface.class.php';
 
-require_once 'MDB2.php';
-
 /**
 ==============================================================================
  * This is a data manager that uses a database for storage. It was written

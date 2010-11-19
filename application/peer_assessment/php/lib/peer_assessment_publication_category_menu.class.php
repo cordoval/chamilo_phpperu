@@ -1,5 +1,4 @@
 <?php
-
 namespace application\peer_assessment;
 
 use HTML_Menu;
@@ -12,9 +11,6 @@ use common\libraries\BreadcrumbTrail;
 use common\libraries\Breadcrumb;
 use common\libraries\TreeMenuRenderer;
 use common\libraries\Utilities;
-
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
 
 require_once dirname(__FILE__) . '/category_manager/peer_assessment_publication_category.class.php';
 require_once dirname(__FILE__) . '/peer_assessment_data_manager.class.php';

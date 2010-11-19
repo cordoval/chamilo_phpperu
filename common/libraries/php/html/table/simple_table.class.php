@@ -18,8 +18,6 @@ use \HTML_Table;
  * @author Sven Vanpoucke
  */
 
-require_once 'HTML/Table.php';
-
 class SimpleTable extends HTML_Table
 {
     /**

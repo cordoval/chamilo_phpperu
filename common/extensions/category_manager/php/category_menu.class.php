@@ -14,8 +14,6 @@ use application\reservations\Category;
  * $Id: category_menu.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.category_manager
  */
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
 /**
  * This class provides a navigation menu to allow a user to browse through his
  * reservations categories

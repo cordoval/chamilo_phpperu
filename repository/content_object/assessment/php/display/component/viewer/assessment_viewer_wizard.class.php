@@ -12,9 +12,6 @@ use repository\ComplexContentObjectItem;
  * $Id: assessment_viewer_wizard.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.assessment.component.viewer
  */
-require_once 'HTML/QuickForm/Controller.php';
-require_once 'HTML/QuickForm/Rule.php';
-require_once 'HTML/QuickForm/Action/Display.php';
 
 require_once dirname(__FILE__) . '/wizard/assessment_viewer_wizard_display.class.php';
 require_once dirname(__FILE__) . '/wizard/assessment_viewer_wizard_process.class.php';

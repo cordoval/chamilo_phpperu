@@ -5,7 +5,6 @@
 <!-- BEGIN OBJECTS -->
 require_once dirname(__FILE__).'/../{OBJECTS.L_OBJECT_CLASS}.class.php';
 <!-- END OBJECTS -->
-require_once 'MDB2.php';
 
 /**
  *	This is a data manager that uses a database for storage. It was written

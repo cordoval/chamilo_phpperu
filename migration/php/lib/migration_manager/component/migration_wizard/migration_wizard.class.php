@@ -7,9 +7,6 @@ use common\libraries\PlatformSetting;
  * $Id: migration_wizard.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.migration_manager.component.inc
  */
-require_once 'HTML/QuickForm/Controller.php';
-require_once 'HTML/QuickForm/Rule.php';
-require_once 'HTML/QuickForm/Action/Display.php';
 
 require_once dirname(__FILE__) . '/pages/migration_wizard_display.class.php';
 require_once dirname(__FILE__) . '/pages/migration_wizard_page.class.php';

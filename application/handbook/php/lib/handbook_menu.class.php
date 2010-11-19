@@ -1,5 +1,6 @@
 <?php
 namespace application\handbook;
+
 use common\libraries\EqualityCondition;
 use repository\ComplexContentObjectItem;
 use HTML_Menu;
@@ -12,9 +13,6 @@ use common\libraries\Breadcrumb;
 use common\libraries\Utilities;
 use repository\content_object\handbook_item\HandbookItem;
 use repository\content_object\handbook\Handbook;
-
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
 
 /**
  * This class provides a navigation menu representing the structure of a handbook

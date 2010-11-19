@@ -7,8 +7,6 @@ use admin\AdminDataManager;
 /**
  * @package common.html.formvalidator.Element
  */
-// $Id: datepicker.php 128 2009-11-09 13:13:20Z vanpouckesven $
-require_once ('HTML/QuickForm/date.php');
 /**
  * Form element to select a date and hour (with popup datepicker)
  */

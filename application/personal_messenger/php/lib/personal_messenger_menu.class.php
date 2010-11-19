@@ -1,5 +1,4 @@
 <?php
-
 namespace application\personal_messenger;
 
 use HTML_Menu;
@@ -13,8 +12,6 @@ use HTML_Menu_ArrayRenderer;
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
 /**
  * This class provides a navigation menu to allow a user to browse through
  * personal messages.

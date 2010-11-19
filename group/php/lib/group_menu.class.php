@@ -8,15 +8,13 @@ use common\libraries\ObjectTableOrder;
 use common\libraries\OptionsMenuRenderer;
 use common\libraries\TreeMenuRenderer;
 
-use \HTML_Menu;
-use \HTML_Menu_ArrayRenderer;
+use HTML_Menu;
+use HTML_Menu_ArrayRenderer;
 
 /**
  * $Id: group_menu.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package group.lib
  */
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
 /**
  * This class provides a navigation menu to allow a user to browse through
  * categories of courses.
@@ -49,10 +47,10 @@ class GroupMenu extends HTML_Menu
      * this menu.
      * @param int $current_category The ID of the current category in the menu.
      * @param string $url_format The format to use for the URL of a category.
-     *                           Passed to sprintf(). Defaults to the string
-     *                           "?category=%s".
+     * Passed to sprintf(). Defaults to the string
+     * "?category=%s".
      * @param array $extra_items An array of extra tree items, added to the
-     *                           root.
+     * root.
      */
     function __construct($current_category, $url_format = '?application=group&go=browse&group_id=%s', $include_root = true, $show_complete_tree = false, $hide_current_category = false)
     {
@@ -113,10 +111,10 @@ class GroupMenu extends HTML_Menu
     /**
      * Returns the menu items.
      * @param array $extra_items An array of extra tree items, added to the
-     *                           root.
+     * root.
      * @return array An array with all menu items. The structure of this array
-     *               is the structure needed by PEAR::HTML_Menu, on which this
-     *               class is based.
+     * is the structure needed by PEAR::HTML_Menu, on which this
+     * class is based.
      */
     private function get_menu_items($parent_id = 0)
     {
@@ -208,6 +206,6 @@ class GroupMenu extends HTML_Menu
 
     static function get_tree_name()
     {
-    	return Utilities :: get_classname_from_namespace(self :: TREE_NAME, true);
+        return Utilities :: get_classname_from_namespace(self :: TREE_NAME, true);
     }
 }

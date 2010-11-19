@@ -5,8 +5,6 @@ namespace common\libraries;
  * @package common.html.menu
  */
 
-require_once 'HTML/Menu/DirectTreeRenderer.php';
-
 /**
  * Renderer which can be used to include a tree menu on your page.
  * @author Bart Mollet
@@ -18,7 +16,7 @@ class DragAndDropTreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
      * Boolean to check if this tree menu is allready initialized
      */
     private static $initialized;
-    
+
     private $id;
 
     /**
@@ -49,17 +47,17 @@ class DragAndDropTreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
                 $id = substr($id, strpos($id, 'index_') + 6);
                 $id = substr($id, 0, strlen($id) - 4);
             }
-            
+
             $id .= '_' . $this->id;
             $gc = '<li id="deletediv" style="display:none;"><img src="' . Theme :: get_common_image_path() . 'action_recycle_bin.png" /> <span id="deleter" style="font-weight: bold; color: #4171B5;">' . Translation :: get('Delete', null, Utilities :: COMMON_LIBRARIES) . '</span></li>';
             $this->setLevelTemplate('<ul id="' . $id . '" class="myTree">' . "\n", $gc . '</ul><br />' . "\n");
         }
-        
+
         if (! $root)
         {
             $this->setLevelTemplate('<ul>' . "\n", '</ul>' . "\n");
         }
-        
+
         parent :: finishLevel($level);
     }
 

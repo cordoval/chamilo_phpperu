@@ -15,8 +15,6 @@ use common\libraries\TreeMenuRenderer;
  * @package rights.lib
  * @author Hans de Bisschop
  */
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
 /**
  * This class provides a navigation menu to allow a user to browse through
  * categories of courses.

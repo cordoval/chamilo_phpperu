@@ -3,7 +3,6 @@ namespace application\cas_user;
 
 require_once dirname(__FILE__) . '/cas_account_database.class.php';
 require_once dirname(__FILE__) . '/cas_account_connection.class.php';
-require_once 'MDB2.php';
 
 /**
 ==============================================================================

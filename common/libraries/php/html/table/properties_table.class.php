@@ -3,8 +3,6 @@ namespace common\libraries;
 
 use HTML_Table;
 
-require_once 'HTML/Table.php';
-
 class PropertiesTable extends HTML_Table
 {
     private $properties;

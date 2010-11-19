@@ -14,8 +14,6 @@ use common\libraries\PlatformSetting;
  * @package admin.lib.admin_manager.component
  */
 
-require_once 'HTML/Table.php';
-
 /**
  * Admin component
  */

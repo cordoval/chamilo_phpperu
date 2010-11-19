@@ -2,10 +2,6 @@
 /**
  * @package common.html.formvalidator.Element
  */
-// $Id: receivers.php 128 2009-11-09 13:13:20Z vanpouckesven $
-require_once 'HTML/QuickForm/group.php';
-require_once 'HTML/QuickForm/radio.php';
-require_once 'HTML/QuickForm/advmultiselect.php';
 /**
  * Form element to select receivers
  * This element contains 1 radio-buttons. One with label 'everybody' and one

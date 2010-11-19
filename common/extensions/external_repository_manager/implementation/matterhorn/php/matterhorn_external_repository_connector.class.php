@@ -12,7 +12,6 @@ use common\extensions\external_repository_manager\ExternalRepositoryObject;
 use DOMDocument;
 use XML_Unserializer;
 
-require_once 'XML/Unserializer.php';
 require_once dirname(__FILE__) . '/matterhorn_external_repository_object.class.php';
 require_once dirname(__FILE__) . '/matterhorn_external_repository_object_track.class.php';
 require_once dirname(__FILE__) . '/matterhorn_external_repository_object_track_video.class.php';
@@ -48,7 +47,9 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
 
     function retrieve_external_repository_objects($condition, $order_property, $offset, $count)
     {
-        $response = $this->request(MatterhornRestClient :: METHOD_GET, '/search/rest/episode', array('limit' => $count, 'offset' => $offset));
+        $response = $this->request(MatterhornRestClient :: METHOD_GET, '/search/rest/episode', array(
+                'limit' => $count,
+                'offset' => $offset));
         $objects = array();
         $xml = $this->get_xml($response->get_response_content());
 
@@ -65,7 +66,8 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
 
     function retrieve_external_repository_object($id)
     {
-        $response = $this->request(MatterhornRestClient :: METHOD_GET, '/search/rest/episode', array('id' => $id));
+        $response = $this->request(MatterhornRestClient :: METHOD_GET, '/search/rest/episode', array(
+                'id' => $id));
         $xml = $this->get_xml($response->get_response_content());
 
         if ($xml)
@@ -92,7 +94,8 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
 
     function count_external_repository_objects($condition)
     {
-        $response = $this->request(MatterhornRestClient :: METHOD_GET, '/search/rest/episode', array('limit' => 1));
+        $response = $this->request(MatterhornRestClient :: METHOD_GET, '/search/rest/episode', array(
+                'limit' => 1));
         $xml = $response->get_response_content();
 
         $doc = new DOMDocument();
@@ -133,7 +136,8 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
 
     function create_external_repository_object($values, $track_path)
     {
-        $parameters = array('flavor' => 'presenter/source');
+        $parameters = array(
+                'flavor' => 'presenter/source');
         $parameters['title'] = $values[MatterhornExternalRepositoryObject :: PROPERTY_TITLE];
         $parameters['type'] = 'AudioVisual';
         $parameters['BODY'] = file_get_contents($track_path);
@@ -158,7 +162,8 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
 
     function update_matterhorn_video($values)
     {
-        $response = $this->request(MatterhornRestClient :: METHOD_GET, '/search/rest/episode', array('id' => MatterhornExternalRepositoryObject :: PROPERTY_ID));
+        $response = $this->request(MatterhornRestClient :: METHOD_GET, '/search/rest/episode', array(
+                'id' => MatterhornExternalRepositoryObject :: PROPERTY_ID));
 
         $xml = $this->get_xml($response->get_response_content());
         $catalogs = $xml['result'][0]['mediapackage']['metadata']['catalog'];
@@ -300,7 +305,10 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
             $unserializer->setOption(XML_UNSERIALIZER_OPTION_ATTRIBUTES_PARSE, true);
             $unserializer->setOption(XML_UNSERIALIZER_OPTION_RETURN_RESULT, true);
             $unserializer->setOption(XML_UNSERIALIZER_OPTION_GUESS_TYPES, true);
-            $unserializer->setOption(XML_UNSERIALIZER_OPTION_FORCE_ENUM, array('result', 'track', 'attachment'));
+            $unserializer->setOption(XML_UNSERIALIZER_OPTION_FORCE_ENUM, array(
+                    'result',
+                    'track',
+                    'attachment'));
 
             // userialize the document
             return $unserializer->unserialize($xml);

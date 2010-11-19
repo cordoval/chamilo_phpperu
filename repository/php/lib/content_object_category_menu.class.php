@@ -20,8 +20,6 @@ use HTML_Menu_ArrayRenderer;
  * $Id: content_object_category_menu.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib
  */
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
 require_once dirname(__FILE__) . '/category_manager/repository_category.class.php';
 /**
  * This class provides a navigation menu to allow a user to browse through his

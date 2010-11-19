@@ -1,81 +1,80 @@
 <?php
 use common\libraries\Path;
 require_once dirname(__FILE__) . '/rest_result.class.php';
-require_once Path :: get_plugin_path() . 'pear/HTTP/Request.php';
 
 
 /**
  * This class can be used to send REST requests to a REST service
- * 
+ *
  * The request may be sent by using the curl library if the mod_cul module is installed (default) or the HTTP_Request of the PEAR package.
- *  
- * If the curl library is used, some additional security features are available, 
- * such as sending a client certificate to authenticate the request  
+ *
+ * If the curl library is used, some additional security features are available,
+ * such as sending a client certificate to authenticate the request
  *
  */
 class RestClient
 {
     const MODE_CURL               = 'MODE_CURL';
     const MODE_PEAR               = 'MODE_PEAR';
-    
+
     const REQUEST                 = 'request';
     const RESPONSE                = 'response';
-    
+
     const RESPONSE_TARGET_URL     = 'RESULT_TARGET_URL';
     const RESPONSE_ERROR          = 'RESULT_ERROR';
     const RESPONSE_MIME           = 'RESULT_MIME';
     const RESPONSE_CONTENT        = 'RESULT_CONTENT';
     const RESPONSE_HTTP_CODE      = 'RESULT_HTTP_CODE';
-    
+
     /**
     * The connexion mode to the REST service
     *
     * @var string
-    */ 
+    */
     private $connexion_mode;
-    
+
     /**
     * The URL of the REST service
     *
     * @var string
-    */ 
+    */
     private $url = null;
-    
+
     /**
     * the basic authentication login
     *
     * @var string
-    */ 
+    */
     private $basic_login = null;
-    
+
     /**
     * the basic authentication password
     *
     * @var string
-    */ 
+    */
     private $basic_password = null;
-    
+
     /**
     * the HTTP method used to send the request
     *
     * @var string
-    */ 
+    */
     private $http_method = 'GET';
-    
+
     /**
     * the data to send with the request. Typically used with the POST http method
     *
     * @var mixed
-    */ 
+    */
     private $data_to_send = null;
-    
+
     /**
      * the mimetype of the data to send with the request. It is used to set the content-type header of the request
-     * 
+     *
      * @var string
      */
     private $data_to_send_mimetype = null;
-    
+
     /*
      * @var array
      */
@@ -86,55 +85,55 @@ class RestClient
     * The certificate format must be PEM.
     *
     * @var string
-    */ 
+    */
     private $client_certificate_file;
-    
+
     /**
     * client certificate key path
     *
     * @var string
-    */ 
+    */
     private $client_certificate_key_file;
-    
+
     /**
     * client certificate key password used for authentication
     *
     * @var string
-    */ 
+    */
     private $client_certificate_key_password;
-    
+
     /**
     * the checking of the target certificate
     *
     * @var bool
-    */ 
+    */
     private $check_target_certificate = true;
-    
+
     /**
     * the path to additional CA certificates used to verify the target certificate
     *
     * @var string
-    */ 
+    */
     private $target_ca_file;
 
     /*
      * @var array
      */
     private $proxy = null;
-    
+
     /****************************************************************************************/
-    
+
     public function __construct()
     {
         $this->set_default_mode();
     }
-    
-    
+
+
     /****************************************************************************************/
-    
+
     /**
      * Check if the cURL extension is installed. If not, the PEAR mode is used
-     * 
+     *
      * @return void
      */
     private function set_default_mode()
@@ -151,7 +150,7 @@ class RestClient
             $this->connexion_mode = self :: MODE_PEAR;
         }
     }
-    
+
     /**
     * Get the connexion mode to the REST service
     *
@@ -161,7 +160,7 @@ class RestClient
     {
     	return $this->connexion_mode;
     }
-    
+
     /**
     * Set the connexion mode to the REST service
     *
@@ -173,16 +172,16 @@ class RestClient
         if($connexion_mode == self :: MODE_CURL || $connexion_mode == self :: MODE_PEAR)
         {
             $this->connexion_mode = $connexion_mode;
-        } 
+        }
         else
         {
             $this->set_default_mode();
         }
     }
-    
-    
+
+
     /****************************************************************************************/
-    
+
     /**
     * Get The URL of the REST service
     *
@@ -192,7 +191,7 @@ class RestClient
     {
     	return $this->url;
     }
-    
+
     /**
     * Set The URL of the REST service
     *
@@ -203,10 +202,10 @@ class RestClient
     {
     	$this->url = $url;
     }
-   
-    
+
+
     /****************************************************************************************/
-    
+
     /**
     * Get the basic authentication login
     *
@@ -216,7 +215,7 @@ class RestClient
     {
     	return $this->basic_login;
     }
-    
+
     /**
     * Set the basic authentication login
     *
@@ -228,10 +227,10 @@ class RestClient
     	$this->basic_login = $basic_login;
     	dump($this->basic_login);
     }
-    
-    
+
+
     /****************************************************************************************/
-    
+
     /**
     * Get the basic authentication password
     *
@@ -241,7 +240,7 @@ class RestClient
     {
     	return $this->basic_password;
     }
-    
+
     /**
     * Set the basic authentication password
     *
@@ -252,10 +251,10 @@ class RestClient
     {
     	$this->basic_password = $basic_password;
     }
-    
-    
+
+
     /****************************************************************************************/
-    
+
     /**
     * Get the HTTP method used to send the request
     *
@@ -265,7 +264,7 @@ class RestClient
     {
     	return $this->http_method;
     }
-    
+
     /**
     * Set the HTTP method used to send the request
     *
@@ -275,16 +274,16 @@ class RestClient
     public function set_http_method($http_method)
     {
         $http_method = strtoupper($http_method);
-        
+
         if($http_method == 'GET' || $http_method == 'POST' || $http_method == 'PUT' || $http_method == 'DELETE' || $http_method == 'HEAD' || $http_method == 'TRACE')
         {
             $this->http_method = strtoupper($http_method);
         }
     }
-    
-    
+
+
     /****************************************************************************************/
-    
+
     /**
     * Get the data to send with the request
     *
@@ -294,7 +293,7 @@ class RestClient
     {
     	return $this->data_to_send;
     }
-    
+
     /**
     * Set the data to send with the request
     *
@@ -305,27 +304,27 @@ class RestClient
     public function set_data_to_send($data_to_send, $content_mimetype = null)
     {
     	$this->data_to_send = $data_to_send;
-    	
+
     	if(isset($content_mimetype))
     	{
     	    $this->data_to_send_mimetype = $content_mimetype;
     	}
     }
-    
-    
+
+
     /****************************************************************************************/
-    
+
     /**
     * Get client certificate path to use. The file may contain the certificate only or the certicate with the key.
     * The certificate must be in PEM format.
-    * 
+    *
     * @return string
     */
     public function get_client_certificate_file()
     {
     	return $this->client_certificate_file;
     }
-    
+
     /**
     * Set client certificate file to use to authenticate the REST request
     *
@@ -336,10 +335,10 @@ class RestClient
     {
     	$this->client_certificate_file = $client_certificate_file;
     }
-    
-    
+
+
     /****************************************************************************************/
-    
+
     /**
     * Get client certificate key file
     *
@@ -349,7 +348,7 @@ class RestClient
     {
     	return $this->client_certificate_key_file;
     }
-    
+
     /**
     * Set client certificate key file to use to authenticate the REST request
     *
@@ -360,10 +359,10 @@ class RestClient
     {
     	$this->client_certificate_key_file = $client_certificate_key_file;
     }
-    
-    
+
+
     /****************************************************************************************/
-    
+
     /**
     * Get client certificate key password used for authentication
     *
@@ -373,7 +372,7 @@ class RestClient
     {
     	return $this->client_certificate_key_password;
     }
-    
+
     /**
     * Set client certificate key password used for authentication
     *
@@ -384,10 +383,10 @@ class RestClient
     {
     	$this->client_certificate_key_password = $client_certificate_key_password;
     }
-    
-    
+
+
     /****************************************************************************************/
-    
+
 	/**
     * Get the checking of the target certificate
     *
@@ -397,7 +396,7 @@ class RestClient
     {
     	return $this->check_target_certificate;
     }
-    
+
     /**
     * Set the checking of the target certificate
     *
@@ -408,10 +407,10 @@ class RestClient
     {
     	$this->check_target_certificate = $check_target_certificate;
     }
-    
-    
+
+
     /****************************************************************************************/
-    
+
     /**
     * Get the file containing CA certificates used to verify the target certificate identity
     *
@@ -421,7 +420,7 @@ class RestClient
     {
     	return $this->target_ca_file;
     }
-    
+
     /**
     * Set the file containing CA certificates used to verify the target certificate identity
     *
@@ -432,13 +431,13 @@ class RestClient
     {
     	$this->target_ca_file = $target_ca_file;
     }
-    
-    
+
+
     /****************************************************************************************/
-    
+
     /**
-     * Send the request to the REST service 
-     * 
+     * Send the request to the REST service
+     *
      * @return RestResult
      */
     public function send_request()
@@ -448,7 +447,7 @@ class RestClient
             case self :: MODE_CURL:
                 return $this->send_curl_request();
                 break;
-                
+
             case self :: MODE_PEAR:
                 return $this->send_pear_request();
                 break;
@@ -491,10 +490,10 @@ class RestClient
     {
         return (is_array($this->proxy)) ? $this->proxy : false;
     }
-    
+
     /**
      * Send the request by using the cURL extension
-     * 
+     *
      * @return RestResult
      */
     protected function send_curl_request()
@@ -503,42 +502,42 @@ class RestClient
         $result->set_request_connexion_mode($this->connexion_mode);
         $result->set_request_http_method($this->http_method);
         $result->set_request_sent_data($this->data_to_send);
-        
+
         $url_info = parse_url($this->url);
-        
+
         if(isset($url_info['port']))
         {
             $url = $url_info['scheme'] . '://' . $url_info['host'] . $url_info['path'];
-            
+
             if(isset($url_info['query']) && strlen($url_info['query']) > 0)
             {
                 $url .= '?' . $url_info['query'];
             }
-            
+
             $result->set_request_port($url_info['port']);
-            
+
             $curl = curl_init($url);
             curl_setopt($curl, CURLOPT_PORT, $url_info['port']);
         }
         else
         {
             $url = $this->url;
-            
+
             $curl = curl_init($url);
         }
-        
+
         $result->set_request_url($url);
-        
+
         $headers = array();
-        
+
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $this->http_method);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        
+
         if($this->check_target_certificate)
         {
             curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
-            
+
             if(isset($this->target_ca_file))
             {
                 curl_setopt($curl, CURLOPT_CAINFO, $this->target_ca_file);
@@ -549,7 +548,7 @@ class RestClient
             curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         }
-        
+
     	/*
          * Client certificate used for authentication
          */
@@ -557,7 +556,7 @@ class RestClient
         {
             curl_setopt($curl, CURLOPT_SSLCERT, $this->client_certificate_file);
         }
-        
+
         /*
          * Client certificate key used for authentication
          */
@@ -565,7 +564,7 @@ class RestClient
         {
             curl_setopt($curl, CURLOPT_SSLKEY, $this->client_certificate_key_file);
         }
-        
+
     	/*
          * Client certificate key password used for authentication
          */
@@ -573,18 +572,18 @@ class RestClient
         {
             curl_setopt($curl, CURLOPT_SSLKEYPASSWD, $this->client_certificate_key_password);
         }
-        
+
         if(isset($this->basic_login) && isset($this->basic_password))
         {
             curl_setopt($curl, CURLOPT_USERPWD, $this->basic_login . ':' . $this->basic_password);
         }
-        
+
         if(isset($this->data_to_send))
         {
             curl_setopt($curl, CURLOPT_POST, 1);
-            
+
             if(is_string($this->data_to_send))
-            {                
+            {
                 curl_setopt($curl, CURLOPT_POSTFIELDS, $this->data_to_send);
             }
             elseif(is_array($this->data_to_send))
@@ -592,7 +591,7 @@ class RestClient
                 if(isset($this->data_to_send['content']))
                 {
                     /*
-                     * If $this->data_to_send is an array and the content to send 
+                     * If $this->data_to_send is an array and the content to send
                      * is in $this->data_to_send['content'], we use it
                      */
                     curl_setopt($curl, CURLOPT_POSTFIELDS, $this->data_to_send['content']);
@@ -607,7 +606,7 @@ class RestClient
                      */
                     curl_setopt($curl, CURLOPT_POSTFIELDS, $this->data_to_send['file']);
                 }
-          
+
                 /*
                  * If the mime type is given as a parameter, we use it to set the content-type request
                  */
@@ -617,26 +616,26 @@ class RestClient
                 }
             }
         }
-        
+
         if(isset($this->data_to_send_mimetype))
         {
             $headers[] = 'Content-type: ' . $this->data_to_send_mimetype;
         }
-        
+
         if(count($headers) > 0)
         {
             curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
         }
-        
+
         $response_content   = curl_exec($curl);
         $response_http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         $response_mime_type = curl_getinfo($curl, CURLINFO_CONTENT_TYPE);
         $response_error     = curl_error($curl);
-        
+
         $result->set_response_content($response_content);
         $result->set_response_http_code($response_http_code);
         $result->set_response_mime_type($response_mime_type);
-        
+
         if(isset($response_error) && strlen($response_error) > 0)
         {
             $result->set_response_error($response_error);
@@ -645,16 +644,16 @@ class RestClient
         {
             $result->set_response_error('The REST request returned an HTTP error code of ' . $response_http_code . ' (' . $this->get_http_code_translation($response_http_code) . ')');
         }
-        
+
         curl_close($curl);
-        
+
         return $result;
     }
-    
-	
+
+
 	/**
      * Send the request by using the HTTP_Request class of the PEAR package
-     * 
+     *
      * @return RestResult
      */
     protected function send_pear_request()
@@ -664,14 +663,14 @@ class RestClient
         $result->set_request_http_method($this->http_method);
         $result->set_request_sent_data($this->data_to_send);
         $result->set_request_url($this->url);
-        
+
         $request_properties = array();
         $request_properties['method'] = $this->http_method;
         $request_properties['user']   = $this->basic_login;
         $request_properties['pass']   = $this->basic_password;
-        
+
         $request = new HTTP_Request($this->url, $request_properties);
-               
+
         if(isset($this->data_to_send))
         {
             if(is_string($this->data_to_send))
@@ -681,7 +680,7 @@ class RestClient
             elseif(is_array($this->data_to_send) && isset($this->data_to_send['content']))
             {
                 /*
-                 * If $this->data_to_send is an array and the content to send 
+                 * If $this->data_to_send is an array and the content to send
                  * is in $this->data_to_send['content'], we use it
                  */
                 //$request->addPostData('content', $this->data_to_send['content'], true);
@@ -700,9 +699,9 @@ class RestClient
                         {
                             $file_path = substr($file_path, 1);
                         }
-                        
+
                         if(file_exists($file_path))
-                        {    
+                        {
                             /*
                              * The file is on the HD, and therefore must be read to be set in the body
                              */
@@ -717,10 +716,10 @@ class RestClient
                      */
                     $file_content = $this->data_to_send['file'];
                 }
-                
+
                 $request->setBody($file_content);
             }
-            
+
         	/*
              * If the mime type is given as a parameter, we use it to set the content-type request
              */
@@ -729,7 +728,7 @@ class RestClient
                 $request->addHeader('Content-type', $this->data_to_send['mime']);
             }
         }
-        
+
         $req_result = $request->sendRequest(true);
         if($req_result === true)
         {
@@ -741,13 +740,13 @@ class RestClient
             $result->set_response_http_code(curl_getinfo($curl, CURLINFO_HTTP_CODE));
             $result->set_response_error($request->getResponseReason());
         }
-        
+
         return $result;
     }
-    
-    
+
+
     /****************************************************************************************/
-    
+
     public function get_http_code_translation($http_code)
     {
         switch ($http_code)
@@ -794,7 +793,7 @@ class RestClient
                 return 'Locked';
             case '424':
                 return 'Method failure';
-                
+
             case '500':
                 return 'Internal Server Error';
             case '501':
@@ -811,12 +810,12 @@ class RestClient
                 return 'Insufficient storage';
             case '509':
                 return 'Bandwidth Limit Exceeded';
-                
+
             default:
                 return null;
         }
     }
-    
-    
+
+
 }
 ?>

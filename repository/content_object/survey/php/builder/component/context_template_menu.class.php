@@ -8,8 +8,6 @@ use common\libraries\EqualityCondition;
 use common\libraries\ObjectTableOrder;
 use common\libraries\OptionsMenuRenderer;
 
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
 require_once Path :: get_repository_path() . '/lib/content_object/survey/survey_context_template.class.php';
 
 class SurveyContextTemplateMenu extends HTML_Menu

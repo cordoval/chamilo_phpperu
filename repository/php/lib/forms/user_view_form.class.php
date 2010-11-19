@@ -6,7 +6,6 @@ use common\libraries\Translation;
 use common\libraries\Utilities;
 use common\libraries\EqualityCondition;
 use common\libraries\AndCondition;
-use common\libraries\Utilities;
 
 use repository\content_object\learning_path_item\LearningPathItem;
 use repository\content_object\portfolio_item\PortfolioItem;
@@ -74,7 +73,7 @@ class UserViewForm extends FormValidator
             }
         }
 
-        $this->addElement('advmultiselect', 'types', Translation :: get('SelectTypesToShow'), $content_object_types, array('style' => 'width:300px; height: 300px'));
+        $this->addElement('multiselect', 'types', Translation :: get('SelectTypesToShow'), $content_object_types, array('style' => 'width:300px; height: 300px'));
 
         $this->setDefaults(array('types' => $defaults));
 

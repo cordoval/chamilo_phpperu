@@ -11,8 +11,6 @@ use common\libraries\TreeMenuRenderer;
  * $Id: user_menu.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib
  */
-require_once 'HTML/Menu.php';
-require_once 'HTML/Menu/ArrayRenderer.php';
 /**
  * This class provides a navigation menu to allow a user to browse through
  * users.

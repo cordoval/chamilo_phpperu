@@ -6,8 +6,6 @@ namespace repository;
  */
 require_once dirname(__FILE__) . '/ieee_lom_langstring_mapper.class.php';
 require_once dirname(__FILE__) . '/ieee_lom_default_metadata_generator.class.php';
-require_once ('File/Contact_Vcard_Parse.php');
-require_once ('File/Contact_Vcard_Build.php');
 
 class IeeeLomMapper extends MetadataMapper
 {

@@ -8,11 +8,6 @@ use common\libraries\Utilities;
  * $Id: element_finder.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common.html.formvalidator.Element
  */
-require_once 'HTML/QuickForm/text.php';
-require_once 'HTML/QuickForm/select.php';
-require_once 'HTML/QuickForm/button.php';
-require_once 'HTML/QuickForm/hidden.php';
-require_once 'HTML/QuickForm/group.php';
 
 /**
  * AJAX-based tree search and image selecter.
@@ -22,20 +17,20 @@ class HTML_QuickForm_image_selecter extends HTML_QuickForm_group
 {
     const DEFAULT_HEIGHT = 300;
     const DEFAULT_WIDTH = 365;
-    
+
     private static $initialized;
-    
+
     private $search_url;
-    
+
     private $locale;
-    
+
     private $default_collapsed;
-    
+
     private $height;
     private $width;
-    
+
     private $exclude;
-    
+
     private $defaults;
 
     function __construct($elementName, $elementLabel, $search_url, $locale = array ('Display' => 'Display'), $default = array (), $options = array())
@@ -129,7 +124,7 @@ class HTML_QuickForm_image_selecter extends HTML_QuickForm_group
         $html = array();
         $html[] = '<div id="image_select" style="display: none;">';
         $html[] = '<div id="' . $this->getName() . '_uploadify"></div>';
-        
+
         if ($this->isCollapsed())
         {
             $html[] = '<button id="' . $this->getName() . '_expand_button" class="normal select">' . htmlentities($this->locale['Display']) . '</button>';
@@ -138,17 +133,17 @@ class HTML_QuickForm_image_selecter extends HTML_QuickForm_group
         {
             $html[] = '<button id="' . $this->getName() . '_expand_button" style="display: none" class="normal select">' . htmlentities($this->locale['Display']) . '</button>';
         }
-        
+
         $id = 'tbl_' . $this->getName();
-        
+
         $html[] = '<div class="element_finder" id="' . $id . '" style="margin-top: 5px;' . ($this->isCollapsed() ? ' display: none;' : '') . '">';
 
         // Search
         $html[] = '<div class="element_finder_search">';
-        
+
         $this->_elements[1]->setValue('');
         $html[] = $this->_elements[1]->toHTML();
-        
+
         if ($this->isCollapsed())
         {
             $html[] = '<button id="' . $this->getName() . '_collapse_button" style="display: none" class="normal hide">' . htmlentities(Translation :: get('Hide', null, Utilities :: COMMON_LIBRARIES)) . '</button>';
@@ -157,51 +152,51 @@ class HTML_QuickForm_image_selecter extends HTML_QuickForm_group
         {
             $html[] = '<button id="' . $this->getName() . '_collapse_button" class="normal hide mini">' . htmlentities(Translation :: get('Hide', null, Utilities :: COMMON_LIBRARIES)) . '</button>';
         }
-        
+
         $html[] = '</div>';
         $html[] = '<div class="clear"></div>';
-        
+
         // The elements
         $html[] = '<div class="element_finder_elements">';
-        
+
         // Inactive
         $html[] = '<div class="element_finder_inactive">';
         $html[] = '<div id="elf_' . $this->getName() . '_inactive" class="inactive_elements" style="height: ' . $this->getHeight() . 'px; width: ' . $this->getWidth() . 'px; overflow: auto;">';
         $html[] = '</div>';
         $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
-        
+
         // Make sure the elements are all within the div.
         $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
-        
+
         // Make sure everything is within the general div.
         $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
         $html[] = '</div>';
-        
+
         $html[] = $this->_elements[0]->toHTML();
-        
+
         $object_id = $this->getValue();
         $is_object_set = ! empty($object_id);
-        
+
         $html[] = '<div id="image_container" ' . ($is_object_set ? '' : ' style="display: none;"') . '>';
-        
+
         if ($is_object_set)
         {
             $image_object = RepositoryDataManager :: get_instance()->retrieve_content_object($object_id);
-            
+
             $dimensions = getimagesize($image_object->get_full_path());
             $dimensions = ImageManipulation :: rescale($dimensions[ImageManipulation :: DIMENSION_WIDTH], $dimensions[ImageManipulation :: DIMENSION_HEIGHT], 500, 450, ImageManipulation :: SCALE_INSIDE);
-            
+
             $html[] = '<img id="selected_image" style="width: ' . $dimensions[ImageManipulation :: DIMENSION_WIDTH] . 'px; height: ' . $dimensions[ImageManipulation :: DIMENSION_HEIGHT] . 'px;" src="' . $image_object->get_url() . '" />';
         }
         else
         {
             $html[] = '<img id="selected_image" />';
-        
+
         }
-        
+
         $html[] = '<div class="clear"></div>';
         $html[] = '<button id="change_image" class="negative delete">' . htmlentities(Translation :: get('SelectAnotherImage')) . '</button>';
         $html[] = '<div class="clear">&nbsp;</div>';
@@ -212,7 +207,7 @@ class HTML_QuickForm_image_selecter extends HTML_QuickForm_group
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/serializer.pack.js');
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/jquery.imageselecter.js');
         $html[] = '<script type="text/javascript">';
-        
+
         $exclude_ids = array();
         if (count($this->exclude))
         {
@@ -222,24 +217,24 @@ class HTML_QuickForm_image_selecter extends HTML_QuickForm_group
                 $exclude_ids[] = "'$exclude_id'";
             }
         }
-        
+
         $html[] = 'var ' . $this->getName() . '_excluded = new Array(' . implode(',', $exclude_ids) . ');';
-        
+
         $load_elements = $this->options['load_elements'];
         $load_elements = (isset($load_elements) && $load_elements == false ? ', loadElements: false' : ', loadElements: true');
-        
+
         $default_query = $this->options['default_query'];
         $default_query = (isset($default_query) && ! empty($default_query) ? ', defaultQuery: "' . $default_query . '"' : '');
-        
+
         $html[] = '$(function () {';
-        $html[] = '	$(document).ready(function ()'; 
+        $html[] = '	$(document).ready(function ()';
 		$html[] = '	{';
         $html[] = '		$("#' . $id . '").elementselecter({ name: "' . $this->getName() . '", search: "' . $this->search_url . '"' . $load_elements . $default_query . ' });';
         $html[] = '	});';
         $html[] = '});';
-        
+
         $html[] = '</script>';
-        
+
         return implode("\n", $html);
     }
 
