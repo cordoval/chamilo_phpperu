@@ -24,7 +24,7 @@ use \Zend_Gdata_Media_Extension_MediaKeywords;
 use \Zend_Gdata_Media_Extension_MediaGroup;
 use \Zend_Gdata_Photos_PhotoEntry;
 
-
+require_once 'Zend/Loader.php';
 require_once dirname(__FILE__) . '/picasa_external_repository_object.class.php';
 
 class PicasaExternalRepositoryConnector extends ExternalRepositoryConnector

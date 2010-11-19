@@ -22,7 +22,6 @@ use \Zend_Gdata_AuthSub;
 use \Zend_Gdata_YouTube;
 use \Zend_Gdata_YouTube_VideoEntry;
 
-
 require_once 'Zend/Loader.php';
 require_once dirname(__FILE__) . '/youtube_external_repository_object.class.php';
 require_once Path :: get_plugin_path() . 'getid3/getid3.php';
