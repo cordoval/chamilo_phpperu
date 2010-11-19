@@ -81,7 +81,7 @@ class CpeObjectExportBase extends CpObjectExport
      * Format properties. Ensure that data time properties are correctly encoded as XML data time.
      * @param unknown_type $properties
      */
-    public function __construct(mat_properties($properties)
+    public function format_properties($properties)
     {
         $result = $properties;
         $names = array(ContentObject :: PROPERTY_CREATION_DATE, ContentObject :: PROPERTY_MODIFICATION_DATE, ComplexContentObjectItem :: PROPERTY_ADD_DATE, Course :: PROPERTY_CREATION_DATE, Course :: PROPERTY_EXPIRATION_DATE, Course :: PROPERTY_LAST_EDIT, Course :: PROPERTY_LAST_VISIT, ContentObjectPublication :: PROPERTY_PUBLICATION_DATE, User :: PROPERTY_ACTIVATION_DATE, User :: PROPERTY_EXPIRATION_DATE, User :: PROPERTY_REGISTRATION_DATE, CalendarEvent :: PROPERTY_START_DATE, CalendarEvent :: PROPERTY_END_DATE);

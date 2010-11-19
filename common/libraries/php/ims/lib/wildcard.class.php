@@ -49,7 +49,7 @@ class Wildcard{
 		return $result;
 	}
 	
-	public static function __construct(_regex($regex, $is_case_sensitive){
+	public static function to_regex($regex, $is_case_sensitive){
 		$result = $is_case_sensitive ? $regex : strtolower($regex);
 		$star_escape = '_aa_start_aa_';
 		$result = str_replace('*', $star_escape, $result);

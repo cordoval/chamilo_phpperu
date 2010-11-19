@@ -24,7 +24,7 @@ require_once dirname(__FILE__) . '/../ims_id_factory.class.php';
 class ImsXmlWriter
 {
 
-    public static function __construct(mat_datetime($timestamp)
+    public static function format_datetime($timestamp)
     {
         if (empty($timestamp))
         {
