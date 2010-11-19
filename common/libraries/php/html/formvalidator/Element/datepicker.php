@@ -86,7 +86,7 @@ class HTML_QuickForm_datepicker extends HTML_QuickForm_date
             //define('DATEPICKER_JAVASCRIPT_INCLUDED',1);
             $js = "\n";
             $js .= '<script src="';
-            $js .= Path :: get(WEB_LIB_PATH) . 'html/formvalidator/Element/';
+            $js .= Path :: get(WEB_LIB_PATH) . 'libraries/php/html/formvalidator/Element/';
             $js .= 'tbl_change.js" type="text/javascript"></script>';
             $js .= "\n";
         }
