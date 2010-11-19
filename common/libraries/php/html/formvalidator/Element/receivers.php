@@ -37,7 +37,7 @@ class HTML_QuickForm_receivers extends HTML_QuickForm_group
         $this->receivers_selected = $attributes['receivers_selected'];
         unset($attributes['receivers']);
         unset($attributes['receivers_selected']);
-        $this->HTML_QuickForm_element($elementName, $elementLabel, $attributes);
+        HTML_QuickForm_element :: __construct($elementName, $elementLabel, $attributes);
         $this->_persistantFreeze = true;
         $this->_appendName = true;
         $this->_type = 'receivers';
@@ -54,7 +54,7 @@ class HTML_QuickForm_receivers extends HTML_QuickForm_group
         $this->_elements[] = new HTML_QuickForm_advmultiselect('to', '', $this->receivers);
         if ($this->receivers_selected)
             $this->_elements[2]->setSelected($this->receivers_selected);
-    
+
     }
 
     /**
@@ -79,7 +79,7 @@ class HTML_QuickForm_receivers extends HTML_QuickForm_group
     function getElementJS()
     {
         $value = $this->getValue();
-        
+
         $js = "<script type=\"text/javascript\">
 					/* <![CDATA[ */";
         if ($value['receivers'] != '1')

@@ -37,7 +37,7 @@ class HTML_QuickForm_upload_or_create extends HTML_QuickForm_group
      */
     function __construct($elementName = null, $elementLabel = null, $attributes = null)
     {
-        $this->HTML_QuickForm_element($elementName, $elementLabel, $attributes);
+        HTML_QuickForm_element :: __construct($elementName, $elementLabel, $attributes);
         $this->_persistantFreeze = true;
         $this->_appendName = false;
         $this->_type = 'upload_or_create';
