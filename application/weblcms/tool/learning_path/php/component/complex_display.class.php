@@ -367,5 +367,12 @@ class LearningPathToolComplexDisplayComponent extends LearningPathTool implement
     public function get_wiki_statistics_reporting_template_name() {
 
     }
+
+    public function get_wiki_publication()
+    {
+        throw new Exception("Unimplemented method : "
+               . "application\\weblcms\\tool\\learning_path\\" . _CLASS__
+               . "get_wiki_publication()");
+    }
 }
 ?>
