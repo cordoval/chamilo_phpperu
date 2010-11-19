@@ -4,6 +4,7 @@ namespace common\extensions\external_repository_manager\implementation\mediamosa
 use common\libraries\Utilities;
 use common\libraries\ObjectTableFormActions;
 use common\libraries\ObjectTableFormAction;
+use common\libraries\ObjectTable;
 /**
  * $Id: repository_browser_table.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.browser

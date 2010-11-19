@@ -1,5 +1,6 @@
 <?php
 namespace common\extensions\external_repository_manager\implementation\matterhorn;
+use common\libraries\ObjectTable;
 /**
  * Table to display a set of matterhorn external repository objects.
  */

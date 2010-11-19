@@ -24,7 +24,7 @@ require_once dirname(__FILE__) . '/id_factory.class.php';
 class XmlWriterBase
 {
 
-    public static function __construct(mat_datetime($timestamp)
+    public static function format_datetime($timestamp)
     {
         if (empty($timestamp))
         {

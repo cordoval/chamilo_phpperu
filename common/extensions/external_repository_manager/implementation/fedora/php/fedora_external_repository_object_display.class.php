@@ -6,8 +6,7 @@ use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\Redirect;
 use common\libraries\Utilities;
-
-require_once dirname(__FILE__) . '/../../external_repository_object_display.class.php';
+use common\extensions\external_repository_manager\ExternalRepositoryObjectDisplay;
 
 /**
  * Provides a readonly interface that display thumbail, metadata and datastream.

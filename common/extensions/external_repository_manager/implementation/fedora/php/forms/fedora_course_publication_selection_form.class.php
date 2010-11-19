@@ -6,8 +6,9 @@ use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\Redirect;
 use common\libraries\Utilities;
+use repository\CpExport;
+use common\libraries\FormValidator;
 
-require_once Path :: get_repository_path() . '/lib/export/cp/cp_export.class.php';
 require_once dirname(__FILE__) . '/fedora_tree.class.php';
 
 /**

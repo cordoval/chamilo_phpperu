@@ -6,8 +6,9 @@ use common\libraries\Translation;
 use common\libraries\Request;
 use common\libraries\Redirect;
 use common\libraries\Utilities;
+use common\libraries\FormValidator;
+use application\weblcms\Course;
 
-require_once Path :: get_application_path() . '/lib/weblcms/course/course.class.php';
 require_once dirname(__FILE__) . '/fedora_tree.class.php';
 
 /**

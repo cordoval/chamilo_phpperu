@@ -713,5 +713,19 @@ class Utilities
         return implode('\\', $namespace_parts);
     }
 
+    static function load_custom_class($path_hash, $class_name, $prefix_path)
+    {
+        $lower_case = self :: camelcase_to_underscores($class_name);
+
+        if (key_exists($lower_case, $path_hash))
+        {
+            $url = $path_hash[$lower_case];
+            require_once $prefix_path . $url;
+            return true;
+        }
+
+        return false;
+    }
+
 }
 ?>
