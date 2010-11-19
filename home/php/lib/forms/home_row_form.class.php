@@ -19,7 +19,7 @@ class HomeRowForm extends FormValidator
     private $homerow;
     private $form_type;
 
-    function HomeRowForm($form_type, $homerow, $action)
+    function __construct($form_type, $homerow, $action)
     {
         parent :: __construct('home_row', 'post', $action);
         

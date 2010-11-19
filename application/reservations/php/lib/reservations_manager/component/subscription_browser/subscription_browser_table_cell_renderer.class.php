@@ -29,7 +29,7 @@ class SubscriptionBrowserTableCellRenderer extends DefaultSubscriptionTableCellR
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function SubscriptionBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

@@ -14,7 +14,7 @@ require_once dirname(__FILE__) . '/content_object_group_share_rights_browser_tab
 class ContentObjectGroupShareRightsBrowserTable extends ObjectTable
 {
 
-    function ContentObjectGroupShareRightsBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new ContentObjectGroupShareRightsBrowserTableColumnModel();
         $renderer = new ContentObjectGroupShareRightsBrowserTableCellRenderer($browser);

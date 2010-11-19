@@ -31,7 +31,7 @@ class SimpleTag {
      *                               the keys must have been
      *                               converted to lower case.
      */
-    function SimpleTag($name, $attributes) {
+    function __construct($name, $attributes) {
         $this->_name = strtolower(trim($name));
         $this->_attributes = $attributes;
         $this->_content = '';

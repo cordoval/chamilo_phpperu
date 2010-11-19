@@ -23,7 +23,7 @@ class GroupUserImportForm extends FormValidator
      * Creates a new GroupUserImportForm 
      * Used to import group users from a file
      */
-    function GroupUserImportForm($action)
+    function __construct($action)
     {
         parent :: __construct('group_user_import', 'post', $action);
         

@@ -19,7 +19,7 @@ require_once dirname(__FILE__) . '/content_object_publication_category.class.php
 class ContentObjectPublicationCategoryManager extends CategoryManager
 {
 
-    function ContentObjectPublicationCategoryManager($parent, $trail = null, $is_subcategories_allowed = true)
+    function __construct($parent, $trail = null, $is_subcategories_allowed = true)
     {
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($parent->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MANAGE_CATEGORIES)), Translation :: get('ManageCategories', null, Utilities::COMMON_LIBRARIES)));

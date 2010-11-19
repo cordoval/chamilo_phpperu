@@ -28,7 +28,7 @@ class AssessmentPublicationBrowserTableColumnModel extends DefaultAssessmentPubl
     /**
      * Constructor
      */
-    function AssessmentPublicationBrowserTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->set_default_order_column(1);

@@ -185,7 +185,7 @@ class WeblcmsManager extends WebApplication
      * from the query string.
      * @param Tool $tool The default tool, or null if none.
      */
-    function WeblcmsManager($user)
+    function __construct($user)
     {
         parent :: __construct($user);
 

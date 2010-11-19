@@ -30,7 +30,7 @@ class AssessmentPublicationBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function AssessmentPublicationBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new AssessmentPublicationBrowserTableColumnModel();
         $renderer = new AssessmentPublicationBrowserTableCellRenderer($browser);

@@ -18,7 +18,7 @@ class InternshipOrganizerCategoryRelLocationBrowserTable extends ObjectTable
     const DEFAULT_NAME = 'internship_organizer_category_rel_location_browser_table';
 
 
-    function InternshipOrganizerCategoryRelLocationBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new InternshipOrganizerCategoryRelLocationBrowserTableColumnModel();
         $renderer = new InternshipOrganizerCategoryRelLocationBrowserTableCellRenderer($browser);

@@ -31,7 +31,7 @@ class HTML_QuickForm_receivers extends HTML_QuickForm_group
      * @param array $attributes This should contain the keys 'receivers' and
      * 'receivers_selected'
      */
-    function HTML_QuickForm_receivers($elementName = null, $elementLabel = null, $attributes = null)
+    function __construct($elementName = null, $elementLabel = null, $attributes = null)
     {
         $this->receivers = $attributes['receivers'];
         $this->receivers_selected = $attributes['receivers_selected'];

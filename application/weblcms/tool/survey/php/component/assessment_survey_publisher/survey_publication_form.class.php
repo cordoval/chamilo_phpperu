@@ -15,7 +15,7 @@ use common\libraries\Translation;
 class SurveyPublicationForm extends FormValidator
 {
 
-    function SurveyPublicationForm($parent, $survey, $url = '')
+    function __construct($parent, $survey, $url = '')
     {
         parent :: __construct('assessment', 'post', $url);
 

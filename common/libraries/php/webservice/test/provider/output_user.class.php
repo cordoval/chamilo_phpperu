@@ -11,7 +11,7 @@ class OutputUser
     
     private $defaultProperties;
 
-    function OutputUser($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }

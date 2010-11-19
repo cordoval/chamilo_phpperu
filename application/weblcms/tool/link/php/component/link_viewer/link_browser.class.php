@@ -34,7 +34,7 @@ require_once dirname(__FILE__) . '/link_details_renderer.class.php';
 class LinkBrowser extends ContentObjectPublicationBrowser
 {
 
-    function LinkBrowser($parent, $types)
+    function __construct($parent, $types)
     {
         parent :: __construct($parent, 'link');
 

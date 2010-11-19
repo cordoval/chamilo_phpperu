@@ -62,7 +62,7 @@ require_once 'PHPUnit/TestDecorator.php';
  *     var $fValue1;
  *     var $fValue2;
  *
- *     function MathTest($name) {
+ *     function __construct($name) {
  *         $this->PHPUnit_TestCase($name);
  *     }
  *

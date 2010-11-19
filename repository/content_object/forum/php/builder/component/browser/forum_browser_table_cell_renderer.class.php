@@ -24,7 +24,7 @@ class ForumBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function ForumBrowserTableCellRenderer($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

@@ -28,7 +28,7 @@ class AdminCourseTypeBrowserTableCellRenderer extends DefaultCourseTypeTableCell
      * Constructor
      * @param WeblcmsBrowserComponent $browser
      */
-    function AdminCourseTypeBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

@@ -17,7 +17,7 @@ class MatterhornExternalRepositoryTableColumnModel extends DefaultExternalReposi
     /**
      * Constructor
      */
-    function MatterhornExternalRepositoryTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->set_default_order_column(1);

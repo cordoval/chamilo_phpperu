@@ -21,7 +21,7 @@ class PhrasesPublicationBrowserTableDataProvider extends ObjectTableDataProvider
      * @param ApplicationComponent $browser
      * @param Condition $condition
      */
-    function PhrasesPublicationBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

@@ -10,7 +10,7 @@ class SurveyReportingTemplateTable extends ObjectTable
 {
     const DEFAULT_NAME = 'survey_reporting_template_table';
 
-    function SurveyReportingTemplateTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new SurveyReportingTemplateTableColumnModel();
         $renderer = new SurveyReportingTemplateTableCellRenderer($browser);

@@ -25,7 +25,7 @@ class CourseListRenderer
      */
     private $new_publication_icons;
 
-    function CourseListRenderer($parent)
+    function __construct($parent)
     {
         $this->parent = $parent;
         $this->new_publication_icons = false;

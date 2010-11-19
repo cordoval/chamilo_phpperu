@@ -44,7 +44,7 @@ class Tree_Memory_SQLsimple extends Tree_Memory
      *                    to define the table it shall work on
      * @param array $options additional options you can set
      */
-    function Tree_Memory_SQLsimple($config)
+    function __construct($config)
     {
         $this->_construct($config);
     }

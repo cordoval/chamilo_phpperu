@@ -18,7 +18,7 @@ class DefaultLocationTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function DefaultLocationTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns(), 1);
     }

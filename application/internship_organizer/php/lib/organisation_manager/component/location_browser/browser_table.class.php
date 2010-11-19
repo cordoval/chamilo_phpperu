@@ -20,7 +20,7 @@ class InternshipOrganizerLocationBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function InternshipOrganizerLocationBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new InternshipOrganizerLocationBrowserTableColumnModel();
         $renderer = new InternshipOrganizerLocationBrowserTableCellRenderer($browser);

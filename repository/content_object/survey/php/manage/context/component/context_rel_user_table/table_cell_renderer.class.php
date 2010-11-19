@@ -8,7 +8,7 @@ class SurveyContextRelUserBrowserTableCellRenderer extends DefaultSurveyContextR
     
     private $browser;
 
-    function SurveyContextRelUserBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct($browser);
         $this->browser = $browser;

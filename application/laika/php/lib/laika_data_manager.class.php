@@ -18,7 +18,7 @@ abstract class LaikaDataManager
     /**
      * Constructor. Initializes the data manager.
      */
-    protected function LaikaDataManager()
+    protected function __construct()
     {
         $this->initialize();
     }

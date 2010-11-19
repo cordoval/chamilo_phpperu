@@ -31,7 +31,7 @@ class ContextLinkBrowserTableCellRenderer extends DefaultContextLinkTableCellRen
 	 * Constructor
 	 * @param ApplicationComponent $browser
 	 */
-	function ContextLinkBrowserTableCellRenderer($browser)
+	function __construct($browser)
 	{
 		parent :: __construct();
 		$this->browser = $browser;

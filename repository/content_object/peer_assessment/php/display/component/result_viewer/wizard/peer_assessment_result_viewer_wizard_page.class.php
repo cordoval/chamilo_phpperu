@@ -16,7 +16,7 @@ abstract class PeerAssessmentResultViewerWizardPage extends FormValidatorPage
      * @param Tool $parent The parent in which the wizard
      * runs.
      */
-    public function PeerAssessmentResultViewerWizardPage($name, $parent)
+    public function __construct($name, $parent)
     {
         $this->parent = $parent;
         parent :: FormValidatorPage($name, 'post');

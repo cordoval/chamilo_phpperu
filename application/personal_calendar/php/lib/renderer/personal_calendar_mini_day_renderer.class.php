@@ -19,7 +19,7 @@ class PersonalCalendarMiniDayRenderer extends PersonalCalendarRenderer
     private $start_hour;
     private $end_hour;
 
-    public function PersonalCalendarMiniDayRenderer($personal_calendar, $display_time, $hour_step = '1', $start_hour = '0', $end_hour = '24')
+    public function __construct($personal_calendar, $display_time, $hour_step = '1', $start_hour = '0', $end_hour = '24')
     {
         $this->hour_step = $hour_step;
         $this->start_hour = $start_hour;

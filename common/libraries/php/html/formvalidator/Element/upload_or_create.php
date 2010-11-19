@@ -35,7 +35,7 @@ class HTML_QuickForm_upload_or_create extends HTML_QuickForm_group
      * @param array $attributes This should contain the keys 'receivers' and
      * 'receivers_selected'
      */
-    function HTML_QuickForm_upload_or_create($elementName = null, $elementLabel = null, $attributes = null)
+    function __construct($elementName = null, $elementLabel = null, $attributes = null)
     {
         $this->HTML_QuickForm_element($elementName, $elementLabel, $attributes);
         $this->_persistantFreeze = true;

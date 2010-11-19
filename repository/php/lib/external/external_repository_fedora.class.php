@@ -49,7 +49,7 @@ class ExternalRepositoryFedora extends ExternalRepository
     const DEFAULT_OBJECT_DATASTREAM_LABEL              = 'Object content';
 
 
-    function ExternalRepositoryFedora($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         parent :: __construct($defaultProperties);
     }

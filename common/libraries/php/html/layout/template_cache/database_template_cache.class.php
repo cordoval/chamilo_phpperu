@@ -6,7 +6,7 @@ class DatabaseTemplateCache extends TemplateCache
 	private $connection;
 	private $theme;
 	
-	function DatabaseTemplateCache($theme)
+	function __construct($theme)
 	{
 		$this->theme = $theme;
 		

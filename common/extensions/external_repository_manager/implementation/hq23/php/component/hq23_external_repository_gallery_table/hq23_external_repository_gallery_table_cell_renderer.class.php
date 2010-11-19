@@ -19,7 +19,7 @@ class Hq23ExternalRepositoryGalleryTableCellRenderer extends DefaultExternalRepo
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function Hq23ExternalRepositoryGalleryTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

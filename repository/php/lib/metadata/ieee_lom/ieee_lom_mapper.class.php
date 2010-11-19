@@ -34,7 +34,7 @@ class IeeeLomMapper extends MetadataMapper
      *
      * @param mixed $content_object Id of a content_object or a content_object instance
      */
-    function IeeeLomMapper($content_object)
+    function __construct($content_object)
     {
         parent :: MetadataMapper($content_object);
     }

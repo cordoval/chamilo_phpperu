@@ -10,7 +10,7 @@ use common\libraries\EqualityCondition;
 class LearningPathScormExport extends ScormExport
 {
 
-    function LearningPathScormExport($learning_path)
+    function __construct($learning_path)
     {
         parent :: __construct($learning_path);
     }

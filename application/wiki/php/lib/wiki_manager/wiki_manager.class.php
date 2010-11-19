@@ -35,7 +35,7 @@ class WikiManager extends WebApplication
      * Constructor
      * @param User $user The current user
      */
-    function WikiManager($user = null)
+    function __construct($user = null)
     {
         parent :: __construct($user);
         $this->parse_input_from_table();

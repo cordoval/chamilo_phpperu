@@ -25,7 +25,7 @@ class CdaInstaller extends Installer
 	/**
 	 * Constructor
 	 */
-    function CdaInstaller($values)
+    function __construct($values)
     {
     	parent :: __construct($values, CdaDataManager :: get_instance());
     }

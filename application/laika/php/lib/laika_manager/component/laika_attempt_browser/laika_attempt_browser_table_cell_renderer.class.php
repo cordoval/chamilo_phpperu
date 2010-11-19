@@ -24,7 +24,7 @@ class LaikaAttemptBrowserTableCellRenderer extends DefaultLaikaAttemptTableCellR
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function LaikaAttemptBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

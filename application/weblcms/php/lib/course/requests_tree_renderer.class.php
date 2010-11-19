@@ -21,7 +21,7 @@ class RequestsTreeRenderer extends HTML_Menu
     private $parent;
     private $current_item = 1;
 
-    function RequestsTreeRenderer($parent)
+    function __construct($parent)
     {
         $this->parent = $parent;
         $menu = $this->get_menu_items();

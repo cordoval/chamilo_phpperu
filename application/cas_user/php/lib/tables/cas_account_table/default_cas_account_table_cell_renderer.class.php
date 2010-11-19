@@ -14,7 +14,7 @@ class DefaultCasAccountTableCellRenderer extends ObjectTableCellRenderer
     /**
      * Constructor
      */
-    function DefaultCasAccountTableCellRenderer()
+    function __construct()
     {
     }
 

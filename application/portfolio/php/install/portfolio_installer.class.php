@@ -19,7 +19,7 @@ class PortfolioInstaller extends Installer
     /**
      * Constructor
      */
-    function PortfolioInstaller($values)
+    function __construct($values)
     {
         parent :: __construct($values, PortfolioDataManager :: get_instance());
     }

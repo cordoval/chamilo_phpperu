@@ -84,7 +84,7 @@ class SurveyContextManager extends SubManager
     
     const DEFAULT_ACTION = self :: ACTION_MANAGER_CHOOSER;
 
-    function SurveyContextManager($repository_manager)
+    function __construct($repository_manager)
     {
         parent :: __construct($repository_manager);
     }

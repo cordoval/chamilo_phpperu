@@ -19,7 +19,7 @@ class LinkForm extends FormValidator
     private $link;
     private $user;
 
-    function LinkForm($form_type, $link, $action, $user)
+    function __construct($form_type, $link, $action, $user)
     {
         parent :: __construct('links_settings', 'post', $action);
         

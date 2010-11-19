@@ -33,7 +33,7 @@ abstract class HomeRenderer
     /**
      * @param User|null $user
      */
-    function HomeRenderer($user = null)
+    function __construct($user = null)
     {
         $this->user = $user;
     }

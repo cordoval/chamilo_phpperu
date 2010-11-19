@@ -18,7 +18,7 @@ class DoublesBrowserTable extends RepositoryBrowserTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function DoublesBrowserTable($browser, $parameters, $condition, $is_detail = false)
+    function __construct($browser, $parameters, $condition, $is_detail = false)
     {
         $model = new DoublesBrowserTableColumnModel($is_detail);
         $renderer = new DoublesBrowserTableCellRenderer($browser, $is_detail);

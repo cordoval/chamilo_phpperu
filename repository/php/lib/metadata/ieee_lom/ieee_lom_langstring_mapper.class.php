@@ -15,7 +15,7 @@ class IeeeLomLangStringMapper extends IeeeLomLangString
     const LANGUAGE_OVERRIDE_ID = 'language_override_id';
     const LANGUAGE_ORIGINAL_ID = 'language_original_id';
 
-    public function IeeeLomLangStringMapper($string = null, $language = null, $string_metadata_id = null, $language_metadata_id = null, $string_override_id = null, $language_override_id = null, $string_original_id = null, $language_original_id = null, $strip_tag = true)
+    public function __construct($string = null, $language = null, $string_metadata_id = null, $language_metadata_id = null, $string_override_id = null, $language_override_id = null, $string_original_id = null, $language_original_id = null, $strip_tag = true)
     {
         parent :: IeeeLomLangString($string, $language, $strip_tag);
         

@@ -11,7 +11,7 @@ class InternshipOrganizerPeriodRelAgreementBrowserTableDataProvider extends Obje
      * @param ApplicationComponent $browser
      * @param Condition $condition
      */
-    function InternshipOrganizerPeriodRelAgreementBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

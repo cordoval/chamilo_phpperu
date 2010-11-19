@@ -24,7 +24,7 @@ class RepositorySharedContentObjectsBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function RepositorySharedContentObjectsBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new RepositorySharedContentObjectsBrowserTableColumnModel();
         $renderer = new RepositorySharedContentObjectsBrowserTableCellRenderer($browser);

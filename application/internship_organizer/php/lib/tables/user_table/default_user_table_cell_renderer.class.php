@@ -18,7 +18,7 @@ class DefaultInternshipOrganizerUserTableCellRenderer extends ObjectTableCellRen
     /**
      * Constructor
      */
-    function DefaultInternshipOrganizerUserTableCellRenderer($period)
+    function __construct($period)
     {
         $this->period = $period;
     }

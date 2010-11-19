@@ -158,7 +158,7 @@ class Benchmark {
 
 	public function __construct() {
 		$this->stat = new Base();
-	}	//	function Benchmark()
+	}	//	function __construct()
 
 }  // class Benchmark		(end MagicSquareExample)
 

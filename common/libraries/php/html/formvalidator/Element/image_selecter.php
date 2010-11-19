@@ -38,7 +38,7 @@ class HTML_QuickForm_image_selecter extends HTML_QuickForm_group
     
     private $defaults;
 
-    function HTML_QuickForm_image_selecter($elementName, $elementLabel, $search_url, $locale = array ('Display' => 'Display'), $default = array (), $options = array())
+    function __construct($elementName, $elementLabel, $search_url, $locale = array ('Display' => 'Display'), $default = array (), $options = array())
     {
         parent :: __construct($elementName, $elementLabel);
         $this->_type = 'image_selecter';

@@ -28,7 +28,7 @@ require_once Path :: get_repository_content_object_path() . 'document/php/docume
 class DocumentSlideshowBrowser extends ContentObjectPublicationBrowser
 {
 
-    function DocumentSlideshowBrowser($parent, $types)
+    function __construct($parent, $types)
     {
         parent :: __construct($parent, Document :: get_type_name());
         $tree_id = 'pcattree';

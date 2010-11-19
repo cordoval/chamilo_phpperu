@@ -17,7 +17,7 @@ abstract class CategoryManagerComponent
      * Constructor.
      * @param ObjectPublisher $parent The creator of this object.
      */
-    function CategoryManagerComponent($parent)
+    function __construct($parent)
     {
         $this->parent = $parent;
     }

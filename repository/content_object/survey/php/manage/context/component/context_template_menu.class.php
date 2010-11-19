@@ -34,7 +34,7 @@ class SurveyContextTemplateMenu extends HTML_Menu
     //	private $hide_current_template;
 
 
-    function SurveyContextTemplateMenu($current_template_id, $survey_id, $url_format = '?go=content_object_manager&application=repository&action=context_browser&manage=context&content_object_type=survey&survey_id=%s&context_template_id=%s')
+    function __construct($current_template_id, $survey_id, $url_format = '?go=content_object_manager&application=repository&action=context_browser&manage=context&content_object_type=survey&survey_id=%s&context_template_id=%s')
     {
 
         //		dump($current_template);

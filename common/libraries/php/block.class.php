@@ -18,7 +18,7 @@ class Block
     private $block_info;
     private $configuration;
 
-    function Block($parent, $block_info)
+    function __construct($parent, $block_info)
     {
         $this->parent = $parent;
         $this->block_info = $block_info;

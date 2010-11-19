@@ -15,7 +15,7 @@ class ExternalRepositoryBrowserGalleryTableCellRenderer extends DefaultExternalR
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function ExternalRepositoryBrowserGalleryTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

@@ -11,7 +11,7 @@ class PearSoapWebservice extends Webservice
 {
     private $webservice_handler;
 
-    function PearSoapWebservice($webservice_handler)
+    function __construct($webservice_handler)
     {
         $this->webservice_handler = $webservice_handler;
     }

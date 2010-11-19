@@ -10,7 +10,7 @@ class SurveyPublicationRelReportingTemplateTable extends ObjectTable
 {
     const DEFAULT_NAME = 'survey_publication_rel_reporting_template_table';
 
-    function SurveyPublicationRelReportingTemplateTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new SurveyPublicationRelReportingTemplateTableColumnModel();
         $renderer = new SurveyPublicationRelReportingTemplateTableCellRenderer($browser);

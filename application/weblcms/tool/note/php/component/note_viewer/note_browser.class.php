@@ -40,7 +40,7 @@ class NoteBrowser extends ContentObjectPublicationBrowser
      */
     private $publications;
 
-    function NoteBrowser($parent)
+    function __construct($parent)
     {
         parent :: __construct($parent, 'note');
         if (Request :: get(Tool :: PARAM_PUBLICATION_ID) && $parent->get_action() == 'view')

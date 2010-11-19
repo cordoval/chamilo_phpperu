@@ -22,7 +22,7 @@ class SettingsManagerTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function SettingsManagerTable($browser, $parameters)
+    function __construct($browser, $parameters)
     {
         $model = new SettingsManagerTableColumnModel();
         $renderer = new SettingsManagerTableCellRenderer($browser);

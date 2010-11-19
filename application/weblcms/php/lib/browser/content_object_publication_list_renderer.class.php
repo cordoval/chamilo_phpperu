@@ -54,7 +54,7 @@ abstract class ContentObjectPublicationListRenderer
      * renderer with.
      * @param array $parameters The parameters to pass to the renderer.
      */
-    function ContentObjectPublicationListRenderer($tool_browser, $parameters = array())
+    function __construct($tool_browser, $parameters = array())
     {
         $this->parameters = $parameters;
         $this->tool_browser = $tool_browser;

@@ -22,7 +22,7 @@ class YoutubeExternalRepositoryTableCellRenderer extends DefaultExternalReposito
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function YoutubeExternalRepositoryTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

@@ -21,7 +21,7 @@ class CourseChangeCourseTypeForm extends FormValidator
     private $course;
     private $wdm;
 
-    function CourseChangeCourseTypeForm($action, $course, $user)
+    function __construct($action, $course, $user)
     {
         parent :: __construct('course_change_course_type', 'post', $action);
         $this->course = $course;

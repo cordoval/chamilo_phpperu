@@ -15,7 +15,7 @@ class MigrationInstaller extends Installer
     /**
      * Constructor
      */
-    function MigrationInstaller($values)
+    function __construct($values)
     {
         parent :: __construct($values, MigrationDataManager :: get_instance());
     }

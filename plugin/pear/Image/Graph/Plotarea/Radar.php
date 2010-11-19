@@ -51,7 +51,7 @@ class Image_Graph_Plotarea_Radar extends Image_Graph_Plotarea
     /**
      * Create the plotarea, implicitely creates 2 normal axis
      */
-    function Image_Graph_Plotarea_Radar()
+    function __construct()
     {
         parent::Image_Graph_Element();
         $this->_padding = array('left' => 10, 'top' => 10, 'right' => 10, 'bottom' => 10);

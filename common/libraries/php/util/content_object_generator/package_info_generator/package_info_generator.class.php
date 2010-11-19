@@ -12,7 +12,7 @@ class PackageInfoGenerator
     /**
      * Constructor
      */
-    function PackageInfoGenerator()
+    function __construct()
     {
     }
 

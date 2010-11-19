@@ -12,7 +12,7 @@ abstract class SurveyAnalyzer
 	
     
     
-    public function SurveyAnalyzer($question, $answers)
+    public function __construct($question, $answers)
     {
         $this->question = $question;
         $this->answers = $answers;

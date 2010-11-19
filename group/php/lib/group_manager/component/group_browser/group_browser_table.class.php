@@ -22,7 +22,7 @@ class GroupBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function GroupBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new GroupBrowserTableColumnModel();
         $renderer = new GroupBrowserTableCellRenderer($browser);

@@ -12,7 +12,7 @@ class DefaultEvaluationBrowserTableCellRenderer extends ObjectTableCellRenderer
 	/**
 	 * Constructor
 	 */
-	function DefaultEvaluationBrowserTableCellRenderer()
+	function __construct()
 	{
 	}
 

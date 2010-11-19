@@ -14,7 +14,7 @@ use common\extensions\category_manager\CategoryManager;
 class ForumPublicationCategoryManager extends CategoryManager
 {
 
-    function ForumPublicationCategoryManager($parent, $trail)
+    function __construct($parent, $trail)
     {
         parent :: __construct($parent, $trail, false);
     }

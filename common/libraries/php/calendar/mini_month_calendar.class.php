@@ -17,7 +17,7 @@ class MiniMonthCalendar extends MonthCalendar
     const PERIOD_WEEK = 1;
     const PERIOD_DAY = 2;
 
-    public function MiniMonthCalendar($display_time)
+    public function __construct($display_time)
     {
         parent :: MonthCalendar($display_time);
         

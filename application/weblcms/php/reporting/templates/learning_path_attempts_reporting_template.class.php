@@ -17,7 +17,7 @@ class LearningPathAttemptsReportingTemplate extends ReportingTemplate
 {
     private $object;
 
-    function LearningPathAttemptsReportingTemplate($parent)
+    function __construct($parent)
     {
         parent :: __construct($parent);
         $this->add_reporting_block($this->get_learning_path_attempts());

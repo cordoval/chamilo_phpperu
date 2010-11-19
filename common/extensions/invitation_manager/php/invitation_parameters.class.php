@@ -19,7 +19,7 @@ class InvitationParameters
      */
     private $properties = array();
 
-    function InvitationParameters()
+    function __construct()
     {
     }
 

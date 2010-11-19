@@ -25,7 +25,7 @@ class RightsTemplateForm extends FormValidator
      * Creates a new UserForm
      * Used by the admin to create/update a user
      */
-    function RightsTemplateForm($form_type, $rights_template, $action)
+    function __construct($form_type, $rights_template, $action)
     {
         parent :: __construct('rights_template_edit', 'post', $action);
 

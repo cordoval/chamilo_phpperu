@@ -23,7 +23,7 @@ class DynamicForm extends DataClass
 
     private $elements;
 
-    function DynamicForm($defaultProperties)
+    function __construct($defaultProperties)
     {
         parent :: DataClass($defaultProperties);
 

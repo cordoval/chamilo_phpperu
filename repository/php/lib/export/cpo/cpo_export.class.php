@@ -78,7 +78,7 @@ class CpoExport extends ContentObjectExport
      */
     private $export_categories;
 
-    function CpoExport($content_object)
+    function __construct($content_object)
     {
         $this->rdm = RepositoryDataManager :: get_instance();
         $this->exported_content_objects = array();

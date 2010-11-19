@@ -7,7 +7,7 @@ use common\libraries\AndCondition;
 class CsvOrganisationCreator
 {
 
-    function CsvOrganisationCreator()
+    function __construct()
     {
     }
 

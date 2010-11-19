@@ -24,7 +24,7 @@ class DefaultWikiPublicationTableCellRenderer extends ObjectTableCellRenderer
     /**
      * Constructor
      */
-    function DefaultWikiPublicationTableCellRenderer()
+    function __construct()
     {
     }
 

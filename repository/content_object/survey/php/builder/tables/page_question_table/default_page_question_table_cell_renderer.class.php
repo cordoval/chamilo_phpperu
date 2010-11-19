@@ -10,7 +10,7 @@ use repository\ContentObject;
 class DefaultSurveyPageQuestionTableCellRenderer extends ObjectTableCellRenderer
 {
 
-    function DefaultSurveyPageQuestionTableCellRenderer()
+    function __construct()
     {
     }
 

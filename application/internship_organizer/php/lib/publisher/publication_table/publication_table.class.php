@@ -25,7 +25,7 @@ class InternshipOrganizerPublicationTable extends ObjectTable
     /**
      * Constructor
      */
-    function InternshipOrganizerPublicationTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new InternshipOrganizerPublicationTableColumnModel();
         $renderer = new InternshipOrganizerPublicationTableCellRenderer($browser);

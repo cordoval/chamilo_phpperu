@@ -50,7 +50,7 @@ class phpUnitException {
     /* Emulate a Java exception, sort of... */
   var $message;
   var $type;
-  function phpUnitException($message, $type = 'FAILURE') {
+  function __construct($message, $type = 'FAILURE') {
     $this->message = $message;
     $this->type = $type;
   }

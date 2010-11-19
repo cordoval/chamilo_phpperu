@@ -25,7 +25,7 @@ class SettingsManagerTableCellRenderer extends ObjectTableCellRenderer
      * Constructor
      * @param MediamosaExternalRepositoryManagerSettingsManagerComponent $component
      */
-    function SettingsManagerTableCellRenderer($component)
+    function __construct($component)
     {
         $this->component = $component;
     }

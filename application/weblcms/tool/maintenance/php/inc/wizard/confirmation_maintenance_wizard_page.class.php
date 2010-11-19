@@ -26,7 +26,7 @@ class ConfirmationMaintenanceWizardPage extends MaintenanceWizardPage
      * MaintenanceWizardPage is used
      * @param string $message The message which has to be confirmed by the user
      */
-    public function ConfirmationMaintenanceWizardPage($name, $parent, $message)
+    public function __construct($name, $parent, $message)
     {
         parent :: MaintenanceWizardPage($name, $parent);
         $this->message = $message;

@@ -19,7 +19,7 @@ class DynamicFormElementBuilderForm extends FormValidator
 	const TYPE_CREATE = 0;
 	const TYPE_EDIT = 1;
 	
-	function DynamicFormElementBuilderForm($form_type, $element, $action, $user)
+	function __construct($form_type, $element, $action, $user)
 	{
 		parent :: FormValidator('dynamic_form_element', 'post', $action);
 		$this->user = $user;

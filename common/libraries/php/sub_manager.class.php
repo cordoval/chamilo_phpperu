@@ -8,7 +8,7 @@ abstract class SubManager
 {
     private $parent;
 
-    function SubManager($parent)
+    function __construct($parent)
     {
     	$this->parent = $parent;
         if (Request :: get(Application :: PARAM_APPLICATION) == $this->parent->get_application_name())

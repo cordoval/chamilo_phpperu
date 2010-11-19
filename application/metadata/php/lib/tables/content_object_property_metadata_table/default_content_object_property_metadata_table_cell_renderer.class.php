@@ -16,7 +16,7 @@ class DefaultContentObjectPropertyMetadataTableCellRenderer extends ObjectTableC
 	/**
 	 * Constructor
 	 */
-	function DefaultContentObjectPropertyMetadataTableCellRenderer()
+	function __construct()
 	{
 	}
 

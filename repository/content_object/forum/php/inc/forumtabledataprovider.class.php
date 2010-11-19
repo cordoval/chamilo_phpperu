@@ -15,7 +15,7 @@ class ForumTableDataProvider implements ContentObjectTableDataProvider
 {
     private $forum;
 
-    function ForumTableDataProvider($forum)
+    function __construct($forum)
     {
         $this->forum = $forum;
     }

@@ -16,7 +16,7 @@ class DefaultDynamicFormElementTableCellRenderer extends ObjectTableCellRenderer
     /**
      * Constructor
      */
-    function DefaultDynamicFormElementTableCellRenderer()
+    function __construct()
     {
     }
 

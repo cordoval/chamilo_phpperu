@@ -27,7 +27,7 @@ class AnnouncementDistributionBrowserTableCellRenderer extends DefaultAnnounceme
      * Constructor
      * @param PersonalMessengerManagerBrowserComponent $browser
      */
-    function AnnouncementDistributionBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

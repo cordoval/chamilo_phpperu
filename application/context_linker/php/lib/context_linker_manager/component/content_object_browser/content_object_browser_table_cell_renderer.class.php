@@ -27,7 +27,7 @@ class ContentObjectBrowserTableCellRenderer extends DefaultContentObjectTableCel
 	 * Constructor
 	 * @param ApplicationComponent $browser
 	 */
-	function ContentObjectBrowserTableCellRenderer($browser)
+	function __construct($browser)
 	{
 		parent :: __construct();
 		$this->browser = $browser;

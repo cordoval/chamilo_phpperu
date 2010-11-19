@@ -17,7 +17,7 @@ class Hq23ExternalRepositoryTableColumnModel extends DefaultExternalRepositoryOb
     /**
      * Constructor
      */
-    function Hq23ExternalRepositoryTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->set_default_order_column(1);

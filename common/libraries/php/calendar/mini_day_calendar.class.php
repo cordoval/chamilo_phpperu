@@ -16,7 +16,7 @@ class MiniDayCalendar extends DayCalendar
 
     private $end_hour;
 
-    function MiniDayCalendar($display_time, $hour_step = '1', $start_hour = '0', $end_hour = '24')
+    function __construct($display_time, $hour_step = '1', $start_hour = '0', $end_hour = '24')
     {
         parent :: DayCalendar($display_time, $hour_step);
         $this->start_hour = $start_hour;

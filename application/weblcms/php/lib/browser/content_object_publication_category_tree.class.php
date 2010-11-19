@@ -48,7 +48,7 @@ class ContentObjectPublicationCategoryTree extends HTML_Menu
      * tree with.
      * @param string $tree_id An id for the tree
      */
-    function ContentObjectPublicationCategoryTree($browser, $tree_id, $url_params = array())
+    function __construct($browser, $tree_id, $url_params = array())
     {
         $this->browser = $browser;
         $this->tree_id = $tree_id;

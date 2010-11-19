@@ -24,7 +24,7 @@ class PicasaExternalRepositoryTableCellRenderer extends DefaultExternalRepositor
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function PicasaExternalRepositoryTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

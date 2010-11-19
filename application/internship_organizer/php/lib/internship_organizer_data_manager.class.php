@@ -15,7 +15,7 @@ class InternshipOrganizerDataManager implements DataManagerInterface
     /**
      * Constructor.
      */
-    protected function InternshipOrganizerDataManager()
+    protected function __construct()
     {
         $this->initialize();
     }

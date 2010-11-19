@@ -14,7 +14,7 @@ use pChart;
 class FilledCubicPchartReportingChartFormatter extends PchartReportingChartFormatter
 {
 
-    public function FilledCubicPchartReportingChartFormatter(&$reporting_block)
+    public function __construct(&$reporting_block)
     {
         parent :: __construct($reporting_block);
     }

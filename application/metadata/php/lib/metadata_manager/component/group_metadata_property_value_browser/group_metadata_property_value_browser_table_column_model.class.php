@@ -26,7 +26,7 @@ class GroupMetadataPropertyValueBrowserTableColumnModel extends DefaultGroupTabl
 	/**
 	 * Constructor
 	 */
-	function GroupMetadataPropertyValueBrowserTableColumnModel()
+	function __construct()
 	{
             $this->add_column(new ObjectTableColumn(GroupMetadataPropertyValue :: PROPERTY_GROUP_ID));
             parent :: __construct();

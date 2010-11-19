@@ -45,7 +45,7 @@ class LaikaGraphRenderer
 
     private $current_group;
 
-    function LaikaGraphRenderer($groups = array(), $scales = array(), $codes = array())
+    function __construct($groups = array(), $scales = array(), $codes = array())
     {
         $this->set_groups($groups);
         $this->current_group = null;

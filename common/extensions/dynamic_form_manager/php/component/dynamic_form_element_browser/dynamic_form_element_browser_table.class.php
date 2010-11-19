@@ -23,7 +23,7 @@ class DynamicFormElementBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function DynamicFormElementBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new DynamicFormElementBrowserTableColumnModel();
         $renderer = new DynamicFormElementBrowserTableCellRenderer($browser);

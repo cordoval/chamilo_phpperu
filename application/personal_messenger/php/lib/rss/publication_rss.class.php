@@ -15,7 +15,7 @@ require_once WebApplication :: get_application_class_lib_path('personal_messenge
 
 class PersonalMessengerPublicationRSS extends PublicationRSS
 {
-	function PersonalMessengerPublicationRSS()
+	function __construct()
 	{
 		parent :: PublicationRSS('Chamilo Personal Messenger', htmlspecialchars(Path :: get(WEB_PATH)), 'Personal messenger publications', htmlspecialchars(Path :: get(WEB_PATH)));
 	}

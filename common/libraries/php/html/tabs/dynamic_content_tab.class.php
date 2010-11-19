@@ -10,7 +10,7 @@ class DynamicContentTab extends DynamicTab
      * @param string $image
      * @param string $content
      */
-    public function DynamicContentTab($id, $name, $image, $content)
+    public function __construct($id, $name, $image, $content)
     {
         parent :: __construct($id, $name, $image);
         $this->content = $content;

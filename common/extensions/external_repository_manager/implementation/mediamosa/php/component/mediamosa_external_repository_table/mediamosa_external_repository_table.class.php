@@ -16,7 +16,7 @@ class MediamosaExternalRepositoryTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function MediamosaExternalRepositoryTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new MediamosaExternalRepositoryTableColumnModel();
         $renderer = new MediamosaExternalRepositoryTableCellRenderer($browser);

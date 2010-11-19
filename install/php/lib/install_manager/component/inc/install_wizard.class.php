@@ -36,7 +36,7 @@ class InstallWizard extends HTML_QuickForm_Controller
      * @param Tool $parent The repository tool in which this wizard
      * runs.
      */
-    function InstallWizard($parent)
+    function __construct($parent)
     {
     	global $language_interface;
         //$language_interface = 'english';

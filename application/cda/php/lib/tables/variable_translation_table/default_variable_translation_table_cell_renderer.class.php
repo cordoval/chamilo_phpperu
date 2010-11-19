@@ -19,7 +19,7 @@ class DefaultVariableTranslationTableCellRenderer extends ObjectTableCellRendere
 	/**
 	 * Constructor
 	 */
-	function DefaultVariableTranslationTableCellRenderer()
+	function __construct()
 	{
 	}
 

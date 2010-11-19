@@ -30,7 +30,7 @@ abstract class ReservationsCalendarRenderer
      * @param ReservationsCalendar $browser
      * @param int $display_time
      */
-    function ReservationsCalendarRenderer($browser, $display_time)
+    function __construct($browser, $display_time)
     {
         $this->browser = $browser;
         $this->display_time = $display_time;

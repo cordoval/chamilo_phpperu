@@ -54,7 +54,7 @@ class ContentObjectTypeSelector
     /**
      * @param array $content_object_types
      */
-    function ContentObjectTypeSelector($parent, $content_object_types = array(), $additional_links = array(), $use_general_statistics = false)
+    function __construct($parent, $content_object_types = array(), $additional_links = array(), $use_general_statistics = false)
     {
         $this->parent = $parent;
         $this->content_object_types = $content_object_types;

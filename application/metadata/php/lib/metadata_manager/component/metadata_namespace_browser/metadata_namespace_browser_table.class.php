@@ -16,7 +16,7 @@ class MetadataNamespaceBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function MetadataNamespaceBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new MetadataNamespaceBrowserTableColumnModel();
         $renderer = new MetadataNamespaceBrowserTableCellRenderer($browser);

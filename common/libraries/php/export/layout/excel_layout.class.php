@@ -11,7 +11,7 @@ class ExcelLayout {
 	private $background_question; 
 	private $background_answer;
 	
-	function ExcelLayout()
+	function __construct()
     {
     }
 	

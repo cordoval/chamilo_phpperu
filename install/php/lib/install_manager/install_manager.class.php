@@ -34,7 +34,7 @@ class InstallManager extends CoreApplication
      * Constructor
      * @param int $user_id The user id of current user
      */
-    function InstallManager()
+    function __construct()
     {
         parent :: __construct(null);
     }

@@ -19,7 +19,7 @@ class SurveyContextTemplateBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function SurveyContextTemplateBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new SurveyContextTemplateBrowserTableColumnModel();
         $renderer = new SurveyContextTemplateBrowserTableCellRenderer($browser);

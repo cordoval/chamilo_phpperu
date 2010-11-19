@@ -14,7 +14,7 @@ abstract class PersonalCalendarEventParser
 	private $end_date;
 	private $parent;
 	
-	function PersonalCalendarEventParser($parent, $publication, $start_date, $end_date)
+	function __construct($parent, $publication, $start_date, $end_date)
 	{
 		$this->parent = $parent;
 		$this->publication = $publication;

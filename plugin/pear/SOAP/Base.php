@@ -94,7 +94,7 @@ class SOAP_Base_Object extends PEAR
      *
      * @param string $faultcode  Error code.
      */
-    function SOAP_Base_Object($faultcode = 'Client')
+    function __construct($faultcode = 'Client')
     {
         $this->_myfaultcode = $faultcode;
         parent::PEAR('SOAP_Fault');

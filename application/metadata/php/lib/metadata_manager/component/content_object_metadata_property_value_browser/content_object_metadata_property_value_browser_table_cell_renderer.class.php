@@ -30,7 +30,7 @@ class ContentObjectMetadataPropertyValueBrowserTableCellRenderer extends Default
 	 * Constructor
 	 * @param ApplicationComponent $browser
 	 */
-	function ContentObjectMetadataPropertyValueBrowserTableCellRenderer($browser)
+	function __construct($browser)
 	{
 		parent :: __construct();
 		$this->browser = $browser;

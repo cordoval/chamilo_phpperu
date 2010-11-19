@@ -22,7 +22,7 @@ class InternshipOrganizerPeriodBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function InternshipOrganizerPeriodBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new InternshipOrganizerPeriodBrowserTableColumnModel();
         $renderer = new InternshipOrganizerPeriodBrowserTableCellRenderer($browser);

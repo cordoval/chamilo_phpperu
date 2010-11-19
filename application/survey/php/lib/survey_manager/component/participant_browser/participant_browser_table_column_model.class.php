@@ -17,7 +17,7 @@ class SurveyParticipantBrowserTableColumnModel extends DefaultParticipantTableCo
     /**
      * Constructor
      */
-    function SurveyParticipantBrowserTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->set_default_order_column(1);

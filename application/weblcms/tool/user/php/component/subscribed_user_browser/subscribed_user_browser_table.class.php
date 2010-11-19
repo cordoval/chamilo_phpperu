@@ -27,7 +27,7 @@ class SubscribedUserBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function SubscribedUserBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new SubscribedUserBrowserTableColumnModel();
         $renderer = new SubscribedUserBrowserTableCellRenderer($browser);

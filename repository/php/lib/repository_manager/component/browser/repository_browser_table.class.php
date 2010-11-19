@@ -28,7 +28,7 @@ class RepositoryBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function RepositoryBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new RepositoryBrowserTableColumnModel();
         $renderer = new RepositoryBrowserTableCellRenderer($browser);

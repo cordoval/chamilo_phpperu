@@ -64,7 +64,7 @@ class PortfolioManager extends WebApplication
      * Constructor
      * @param User $user The current user
      */
-    function PortfolioManager($user = null)
+    function __construct($user = null)
     {
         parent :: __construct($user);
     }

@@ -26,7 +26,7 @@ class TypeTemplateManager extends SubManager
 
     const DEFAULT_ACTION = self :: ACTION_BROWSE_TYPE_TEMPLATES;
 
-    function TypeTemplateManager($rights_manager)
+    function __construct($rights_manager)
     {
         parent :: __construct($rights_manager);
 

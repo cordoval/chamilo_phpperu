@@ -8,7 +8,7 @@ use common\libraries\FormValidator;
 class MatterhornExternalRepositoryManagerUploadForm extends FormValidator
 {
 
-    function MatterhornExternalRepositoryManagerUploadForm($action)
+    function __construct($action)
     {
         parent :: __construct('matterhorn_upload', 'post', $action);
 

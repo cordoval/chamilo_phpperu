@@ -14,7 +14,7 @@ class DefaultInternshipOrganizerLocationTableColumnModel extends ObjectTableColu
 	/**
 	 * Constructor
 	 */
-	function DefaultInternshipOrganizerLocationTableColumnModel() {
+	function __construct() {
 		parent::__construct ( self::get_default_columns (), 0 );
 	}
 	

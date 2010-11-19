@@ -64,7 +64,7 @@ require_once dirname(__FILE__).'/component/handbook_publication_browser/handbook
 	 * Constructor
 	 * @param User $user The current user
 	 */
-    function HandbookManager($user = null)
+    function __construct($user = null)
     {
     	parent :: __construct($user);
     	

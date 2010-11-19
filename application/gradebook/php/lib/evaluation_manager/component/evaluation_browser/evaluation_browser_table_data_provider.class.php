@@ -11,7 +11,7 @@ class EvaluationBrowserTableDataProvider extends ObjectTableDataProvider
      * Constructor
      * @param ApplicationComponent $browser
      */
-    function EvaluationBrowserTableDataProvider($browser)
+    function __construct($browser)
     {
         parent :: __construct($browser);
     }

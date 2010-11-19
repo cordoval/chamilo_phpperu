@@ -23,7 +23,7 @@ class ProfilerInstaller extends Installer
     /**
      * Constructor
      */
-    function ProfilerInstaller($values)
+    function __construct($values)
     {
         parent :: __construct($values, ProfilerDataManager :: get_instance());
     }

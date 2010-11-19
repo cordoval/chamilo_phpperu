@@ -24,7 +24,7 @@ class TreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
     /**
      * Constructor.
      */
-    function TreeMenuRenderer($tree_name = '', $search_url = '')
+    function __construct($tree_name = '', $search_url = '')
     {
         $this->search_url = $search_url;
         $this->tree_name = $tree_name;

@@ -16,7 +16,7 @@ class InternshipOrganizerPeriodUserBrowserTableColumnModel extends DefaultIntern
     /**
      * Constructor
      */
-    function InternshipOrganizerPeriodUserBrowserTableColumnModel($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->set_default_order_column(0);

@@ -25,7 +25,7 @@ class InternshipOrganizerLocationPublisher
     private $parent;
     private $type;
 
-    function InternshipOrganizerLocationPublisher($parent, $type)
+    function __construct($parent, $type)
     {
         $this->parent = $parent;
         $this->type = $type;

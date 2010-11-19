@@ -171,7 +171,7 @@ class HTML_Table extends HTML_Common {
      *                                       <tbody> or not
      * @access   public
      */
-    function HTML_Table($attributes = null, $tabOffset = 0, $useTGroups = false)
+    function __construct($attributes = null, $tabOffset = 0, $useTGroups = false)
     {
         HTML_Common::HTML_Common($attributes, (int)$tabOffset);
         $this->_useTGroups = (boolean)$useTGroups;

@@ -38,7 +38,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 
     private $defaults;
 
-    function HTML_QuickForm_element_finder($elementName, $elementLabel, $search_url, $locale = array ('Display' => 'Display'), $default_values = array (), $options = array())
+    function __construct($elementName, $elementLabel, $search_url, $locale = array ('Display' => 'Display'), $default_values = array (), $options = array())
     {
         parent :: __construct($elementName, $elementLabel);
         $this->_type = 'element_finder';

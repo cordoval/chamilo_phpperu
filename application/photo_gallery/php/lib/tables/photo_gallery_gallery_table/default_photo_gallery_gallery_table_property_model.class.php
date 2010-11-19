@@ -13,7 +13,7 @@ class DefaultPhotoGalleryGalleryTablePropertyModel extends GalleryObjectTablePro
     /**
      * Constructor
      */
-    function DefaultPhotoGalleryGalleryTablePropertyModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_properties(), 0);
     }

@@ -43,7 +43,7 @@ define('GETID3_FLV_VIDEO_VP6',    4);
 class getid3_flv
 {
 
-	function getid3_flv(&$fd, &$ThisFileInfo, $ReturnAllTagData=false) {
+	function __construct(&$fd, &$ThisFileInfo, $ReturnAllTagData=false) {
 //$start_time = microtime(true);
 		fseek($fd, $ThisFileInfo['avdataoffset'], SEEK_SET);
 

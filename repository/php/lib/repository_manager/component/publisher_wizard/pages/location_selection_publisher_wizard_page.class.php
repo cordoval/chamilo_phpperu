@@ -28,7 +28,7 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
     private $type;
     private $apps;
 
-    public function LocationSelectionPublisherWizardPage($name, $parent)
+    public function __construct($name, $parent)
     {
         parent :: PublisherWizardPage($name, $parent);
         $ids = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);

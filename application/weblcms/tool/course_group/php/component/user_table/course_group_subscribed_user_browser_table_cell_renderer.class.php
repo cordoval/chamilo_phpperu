@@ -21,7 +21,7 @@ class CourseGroupSubscribedUserBrowserTableCellRenderer extends DefaultUserTable
 {
     private $browser;
 
-    function CourseGroupSubscribedUserBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

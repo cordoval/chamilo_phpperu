@@ -12,7 +12,7 @@ class ComponentGenerator
     /**
      * Constructor
      */
-    function ComponentGenerator()
+    function __construct()
     {
         $this->template = new MyTemplate();
         $this->template->set_rootdir(dirname(__FILE__));

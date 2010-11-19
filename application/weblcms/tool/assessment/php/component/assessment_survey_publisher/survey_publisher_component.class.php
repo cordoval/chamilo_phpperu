@@ -12,7 +12,7 @@ abstract class SurveyPublisherComponent
 {
     protected $parent;
 
-    function SurveyPublisherComponent($parent)
+    function __construct($parent)
     {
         $this->parent = $parent;
     }

@@ -26,7 +26,7 @@ class RepositoryBrowserGalleryTable extends GalleryObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function RepositoryBrowserGalleryTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $property_model = new RepositoryBrowserGalleryTablePropertyModel();
         $cell_renderer = new RepositoryBrowserGalleryTableCellRenderer($browser);

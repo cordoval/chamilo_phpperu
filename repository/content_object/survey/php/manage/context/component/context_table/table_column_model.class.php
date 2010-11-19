@@ -17,7 +17,7 @@ class SurveyContextTableColumnModel extends DefaultSurveyContextTableColumnModel
     /**
      * Constructor
      */
-    function SurveyContextTableColumnModel($survey_context)
+    function __construct($survey_context)
     {
         parent :: __construct($survey_context);
         $this->set_default_order_column(0);

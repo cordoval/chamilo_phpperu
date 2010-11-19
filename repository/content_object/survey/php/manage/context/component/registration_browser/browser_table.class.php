@@ -18,7 +18,7 @@ class SurveyContextRegistrationBrowserTable extends ObjectTable
     const DEFAULT_NAME = 'survey_context_registration_browser_table';
 
 
-    function SurveyContextRegistrationBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new SurveyContextRegistrationBrowserTableColumnModel();
         $renderer = new SurveyContextRegistrationBrowserTableCellRenderer($browser);

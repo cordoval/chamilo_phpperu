@@ -34,7 +34,7 @@ class MenuManager extends CoreApplication
 
     const DEFAULT_ACTION = self :: ACTION_BROWSE;
 
-    function MenuManager($user)
+    function __construct($user)
     {
         parent :: __construct($user);
     }

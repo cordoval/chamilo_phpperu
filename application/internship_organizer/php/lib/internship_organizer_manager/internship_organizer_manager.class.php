@@ -42,7 +42,7 @@ class InternshipOrganizerManager extends WebApplication
      * Constructor
      * @param User $user The current user
      */
-    function InternshipOrganizerManager($user = null)
+    function __construct($user = null)
     {
         parent :: __construct($user);
     }

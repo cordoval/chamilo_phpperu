@@ -19,7 +19,7 @@ class MediamosaExternalRepositoryManagerUploadForm extends FormValidator
     private $application;
     private $upload_ticket;
 
-    function MediamosaExternalRepositoryManagerUploadForm($upload_ticket, $params, $application)
+    function __construct($upload_ticket, $params, $application)
     {
         $this->params = $params;
         $this->application = $application;

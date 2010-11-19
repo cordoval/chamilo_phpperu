@@ -30,7 +30,7 @@ class EvaluationForm extends FormValidator
     
     private $allow_creation = false;
 
-    function EvaluationForm($form_type, $evaluation, $grade_evaluation, $publication_id, $publisher_id, $action, $user)
+    function __construct($form_type, $evaluation, $grade_evaluation, $publication_id, $publisher_id, $action, $user)
     {
         parent :: __construct('evaluation_publication_settings', 'post', $action);
         $this->evaluation = $evaluation;

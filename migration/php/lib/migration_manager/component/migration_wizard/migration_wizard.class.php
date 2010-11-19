@@ -40,7 +40,7 @@ class MigrationWizard extends HTML_QuickForm_Controller
      * @param MigrationManagerComponent $parent The migrationmanager component
      * in which this wizard runs.
      */
-    function MigrationWizard($parent)
+    function __construct($parent)
     {
         parent :: HTML_QuickForm_Controller('MigrationWizard', true);
     	$this->parent = $parent;

@@ -6,7 +6,7 @@ use common\libraries\EqualityCondition;
 class AssessmentToolGradebookConnector
 {
 
-    function AssessmentToolGradebookConnector()
+    function __construct()
     {
 
     }

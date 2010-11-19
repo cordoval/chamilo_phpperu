@@ -18,7 +18,7 @@ class ValidationBrowserTab extends ObjectTable
     /**
      * Constructor
      */
-    function ValidationBrowserTab($browser, $name, $parameters, $condition)
+    function __construct($browser, $name, $parameters, $condition)
     {
         $model = new ValidationBrowserTableColumnMod();
         $renderer = new ValidationBrowserTableCellRend($browser);

@@ -10,7 +10,7 @@ use application\weblcms\ListContentObjectPublicationListRenderer;
 class LinkPublicationListRenderer extends ListContentObjectPublicationListRenderer
 {
 
-    function LinkPublicationListRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct($browser);
     }

@@ -14,7 +14,7 @@ class MetadataInstaller extends Installer
 	/**
 	 * Constructor
 	 */
-    function MetadataInstaller($values)
+    function __construct($values)
     {
     	parent :: __construct($values, MetadataDataManager :: get_instance());
     }

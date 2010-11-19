@@ -17,7 +17,7 @@ class DefaultGroupTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function DefaultGroupTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns(), 1);
     }

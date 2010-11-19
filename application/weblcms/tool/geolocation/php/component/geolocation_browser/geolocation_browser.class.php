@@ -16,7 +16,7 @@ use application\weblcms\ContentObjectPublicationDetailsRenderer;
 class GeolocationBrowser extends ContentObjectPublicationBrowser
 {
 
-    function GeolocationBrowser($parent, $types)
+    function __construct($parent, $types)
     {
         parent :: __construct($parent, 'geolocation');
 

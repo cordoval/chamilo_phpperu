@@ -32,7 +32,7 @@ class BreadcrumbTrail
         return self :: $instance;
     }
 
-    function BreadcrumbTrail($include_main_index = true)
+    function __construct($include_main_index = true)
     {
         $this->breadcrumbtrail = array();
         $this->help_items = array();

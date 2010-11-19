@@ -12,7 +12,7 @@ class DefaultInternshipOrganizerOrganisationTableCellRenderer extends ObjectTabl
     /**
      * Constructor
      */
-    function DefaultInternshipOrganizerOrganisationTableCellRenderer()
+    function __construct()
     {
     }
 

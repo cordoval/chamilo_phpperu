@@ -16,7 +16,7 @@ class DefaultPmPublicationTableCellRenderer extends ObjectTableCellRenderer
     /**
      * Constructor
      */
-    function DefaultPmPublicationTableCellRenderer()
+    function __construct()
     {
     }
 

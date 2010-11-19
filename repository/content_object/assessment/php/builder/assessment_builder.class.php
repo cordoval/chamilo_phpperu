@@ -19,7 +19,7 @@ class AssessmentBuilder extends ComplexBuilder
     const PARAM_QUESTION_ID = 'question';
     const PARAM_ASSESSMENT_ID = 'assessment';
 
-    function AssessmentBuilder($parent)
+    function __construct($parent)
     {
         parent :: __construct($parent);
 

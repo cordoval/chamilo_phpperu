@@ -28,7 +28,7 @@ class VariableBrowserTableColumnModel extends DefaultVariableTableColumnModel
 	/**
 	 * Constructor
 	 */
-	function VariableBrowserTableColumnModel()
+	function __construct()
 	{
 		parent :: __construct();
 		$this->set_default_order_column(1);

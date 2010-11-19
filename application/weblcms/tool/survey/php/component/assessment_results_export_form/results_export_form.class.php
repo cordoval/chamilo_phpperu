@@ -18,7 +18,7 @@ use common\libraries\Translation;
 class AssessmentResultsExportForm extends FormValidator
 {
 
-    function AssessmentResultsExportForm($url)
+    function __construct($url)
     {
         parent :: __construct('assessment', 'post', $url);
         $this->initialize();

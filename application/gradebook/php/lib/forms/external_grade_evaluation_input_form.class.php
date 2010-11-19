@@ -32,7 +32,7 @@ class ExternalGradeEvaluationInputForm extends FormValidator
     private $format_id;
     private $user;
 
-    function ExternalGradeEvaluationInputForm($form_type, $action, $category, $user, $values = null)
+    function __construct($form_type, $action, $category, $user, $values = null)
     {
         parent :: __construct('external_grade_evaluation_input_settings', 'post', $action);
         $this->description = $values['description'];

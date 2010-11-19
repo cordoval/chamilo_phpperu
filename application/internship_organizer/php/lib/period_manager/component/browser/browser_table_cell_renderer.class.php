@@ -23,7 +23,7 @@ class InternshipOrganizerPeriodBrowserTableCellRenderer extends DefaultInternshi
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function InternshipOrganizerPeriodBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

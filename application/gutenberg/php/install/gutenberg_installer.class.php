@@ -23,7 +23,7 @@ class GutenbergInstaller extends Installer
     /**
      * Constructor
      */
-    function GutenbergInstaller($values)
+    function __construct($values)
     {
         parent :: __construct($values, GutenbergDataManager :: get_instance());
     }

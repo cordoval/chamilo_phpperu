@@ -16,7 +16,7 @@ class InternshipOrganizerAgreementRelLocationBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function InternshipOrganizerAgreementRelLocationBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new InternshipOrganizerAgreementRelLocationBrowserTableColumnModel();
         $renderer = new InternshipOrganizerAgreementRelLocationBrowserTableCellRenderer($browser);

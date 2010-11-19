@@ -31,7 +31,7 @@ class LaikaWizard extends HTML_QuickForm_Controller
      * @param Tool $parent The repository tool in which this wizard
      * runs.
      */
-    function LaikaWizard($parent)
+    function __construct($parent)
     {
         $this->parent = $parent;
         parent :: HTML_QuickForm_Controller('LaikaWizard', true);

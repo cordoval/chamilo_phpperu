@@ -12,7 +12,7 @@ class SortableTableGenerator
     /**
      * Constructor
      */
-    function SortableTableGenerator()
+    function __construct()
     {
     }
 

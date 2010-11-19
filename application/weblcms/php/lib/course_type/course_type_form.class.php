@@ -31,7 +31,7 @@ class CourseTypeForm extends CommonForm
     const CREATION_ON_REQUEST_ELEMENTS = 'creationrequest_groups_elements';
     const CREATION_ON_REQUEST_OPTION = 'creationrequest_groups_option';
 
-    function CourseTypeForm($form_type, $course_type, $action, $parent)
+    function __construct($form_type, $course_type, $action, $parent)
     {
         parent :: __construct($form_type, $course_type, $action, $parent, 'course_type_settings', 'post');
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_APP_PATH) . 'weblcms/resources/javascript/course_type_form.js'));

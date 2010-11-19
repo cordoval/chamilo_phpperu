@@ -20,7 +20,7 @@ class OptionsMenuRenderer extends HTML_Menu_ArrayRenderer
      * value in the menu items). The whole submenu of which the elements of the
      * exclude array are the root elements will be excluded.
      */
-    function OptionsMenuRenderer($exclude = array())
+    function __construct($exclude = array())
     {
         $exclude = is_array($exclude) ? $exclude : array($exclude);
         $this->exclude = $exclude;

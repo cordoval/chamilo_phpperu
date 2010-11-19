@@ -33,7 +33,7 @@ class ExporterWizard extends HTML_QuickForm_Controller
      * Creates a new ExporterWizard
      * @param $parent The parent
      */
-    function ExporterWizard($parent)
+    function __construct($parent)
     {
         $this->parent = $parent;
         parent :: HTML_QuickForm_Controller('ExporterWizard', true);

@@ -15,7 +15,7 @@ class Hq23ExternalRepositoryTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function Hq23ExternalRepositoryTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new Hq23ExternalRepositoryTableColumnModel();
         $renderer = new Hq23ExternalRepositoryTableCellRenderer($browser);

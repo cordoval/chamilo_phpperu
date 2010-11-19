@@ -14,7 +14,7 @@ class DefaultParticipantTableCellRenderer extends ObjectTableCellRenderer
     /**
      * Constructor
      */
-    function DefaultParticipantTableCellRenderer()
+    function __construct()
     {
     }
 

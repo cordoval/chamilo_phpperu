@@ -24,7 +24,7 @@ class ActionBarRenderer
     private $search_form;
     private $type;
 
-    function ActionBarRenderer($type, $name = 'component')
+    function __construct($type, $name = 'component')
     {
         $this->type = $type;
         $this->name = $name;

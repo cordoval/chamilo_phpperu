@@ -24,7 +24,7 @@ class DragAndDropTreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
     /**
      * Constructor.
      */
-    function DragAndDropTreeMenuRenderer($id)
+    function __construct($id)
     {
         $this->id = $id;
         $this->current_id = $current_id;

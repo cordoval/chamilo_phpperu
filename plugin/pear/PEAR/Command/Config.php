@@ -144,7 +144,7 @@ and uninstall).
      *
      * @access public
      */
-    function PEAR_Command_Config(&$ui, &$config)
+    function __construct(&$ui, &$config)
     {
         parent::PEAR_Command_Common($ui, $config);
     }

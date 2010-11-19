@@ -10,7 +10,7 @@ class SurveyTable extends ObjectTable
     const DEFAULT_NAME = 'survey_context_table';
 
 
-    function SurveyTable($component, $parameters, $condition)
+    function __construct($component, $parameters, $condition)
     {
        	$model = new SurveyTableColumnModel($context_type);
         $renderer = new SurveyTableCellRenderer($component);

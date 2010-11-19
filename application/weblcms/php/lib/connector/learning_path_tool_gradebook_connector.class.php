@@ -6,7 +6,7 @@ use common\libraries\EqualityCondition;
 class LearningPathToolGradebookConnector
 {
 
-    function LearningPathToolGradebookConnector()
+    function __construct()
     {
 
     }

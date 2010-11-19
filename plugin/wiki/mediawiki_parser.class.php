@@ -175,7 +175,7 @@ class MediawikiParser
      */
     private $mediawiki_parser_context;
 
-    function MediawikiParser(MediaWikiParserContext $mediawiki_parser_context)
+    function __construct(MediaWikiParserContext $mediawiki_parser_context)
     {
         $this->mediawiki_parser_context = $mediawiki_parser_context;
         $this->mUniqPrefix = "\x7fUNIQ" . self :: getRandomString();

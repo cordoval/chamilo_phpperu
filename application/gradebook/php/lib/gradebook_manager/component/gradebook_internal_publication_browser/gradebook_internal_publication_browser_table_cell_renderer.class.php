@@ -26,7 +26,7 @@ class GradebookInternalPublicationBrowserTableCellRenderer extends DefaultGradeb
      * Constructor
      * @param ApplicationComponent $browser
      */
-    function GradebookInternalPublicationBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

@@ -12,7 +12,7 @@ class DefaultValidationTableCellRend extends ObjectTableCellRenderer
     /**
      * Constructor
      */
-    function DefaultValidationTableCellRend()
+    function __construct()
     {
     }
 

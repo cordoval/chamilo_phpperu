@@ -24,7 +24,7 @@ class VimeoExternalRepositoryManagerForm extends FormValidator
     private $form_type;
     private $external_repository_object;
 
-    function VimeoExternalRepositoryManagerForm($form_type, $action, $application)
+    function __construct($form_type, $action, $application)
     {
         parent :: __construct(Utilities :: get_classname_from_object($this, true), 'post', $action);
 

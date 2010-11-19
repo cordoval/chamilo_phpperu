@@ -54,7 +54,7 @@ class Hq23ExternalRepositoryConnector extends ExternalRepositoryConnector
     /**
      * @param ExternalRepository $external_repository_instance
      */
-    function Hq23ExternalRepositoryConnector($external_repository_instance)
+    function __construct($external_repository_instance)
     {
 
         parent :: __construct($external_repository_instance);

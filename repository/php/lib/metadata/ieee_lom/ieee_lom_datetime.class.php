@@ -12,7 +12,7 @@ require_once (dirname(__FILE__) . '/ieee_lom_time.class.php');
 class IeeeLomDateTime extends IeeeLomTime
 {
 
-    public function IeeeLomDateTime($timestamp = null, $description = null)
+    public function __construct($timestamp = null, $description = null)
     {
         parent :: IeeeLomTime($timestamp, $description);
     }

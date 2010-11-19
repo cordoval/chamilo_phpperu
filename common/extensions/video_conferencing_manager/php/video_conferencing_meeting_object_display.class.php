@@ -4,7 +4,7 @@ abstract class VideoConferencingMeetingObjectDisplay
 {
     private $object;
 
-    function VideoConferencingMeetingObjectDisplay($object)
+    function __construct($object)
     {
         $this->object = $object;
     }

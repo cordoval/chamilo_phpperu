@@ -17,7 +17,7 @@ class QuestionsAssessmentViewerWizardPage extends AssessmentViewerWizardPage
     private $page_number;
     private $questions;
 
-    function QuestionsAssessmentViewerWizardPage($name, $parent, $number)
+    function __construct($name, $parent, $number)
     {
         parent :: AssessmentViewerWizardPage($name, $parent);
         $this->page_number = $number;

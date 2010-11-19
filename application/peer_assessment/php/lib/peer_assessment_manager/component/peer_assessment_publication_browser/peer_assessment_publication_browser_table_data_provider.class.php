@@ -17,7 +17,7 @@ class PeerAssessmentPublicationBrowserTableDataProvider extends ObjectTableDataP
      * @param ApplicationComponent $browser
      * @param Condition $condition
      */
-    function PeerAssessmentPublicationBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

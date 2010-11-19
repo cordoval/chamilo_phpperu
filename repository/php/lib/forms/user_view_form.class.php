@@ -24,7 +24,7 @@ class UserViewForm extends FormValidator
     private $user_view;
     private $form_type;
 
-    function UserViewForm($form_type, $user_view, $action)
+    function __construct($form_type, $user_view, $action)
     {
         parent :: __construct('user_views_settings', 'post', $action);
 

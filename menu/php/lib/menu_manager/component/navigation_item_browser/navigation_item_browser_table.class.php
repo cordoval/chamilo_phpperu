@@ -24,7 +24,7 @@ class NavigationItemBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function NavigationItemBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new NavigationItemBrowserTableColumnModel($browser);
         $renderer = new NavigationItemBrowserTableCellRenderer($browser);

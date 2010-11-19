@@ -12,7 +12,7 @@ class DefaultInternshipOrganizerMomentTableCellRenderer extends ObjectTableCellR
     /**
      * Constructor
      */
-    function DefaultInternshipOrganizerMomentTableCellRenderer()
+    function __construct()
     {
     }
 

@@ -53,7 +53,7 @@ class FillInBlanksQuestionAnswer{
     private $size;
     private $position;
 
-    function FillInBlanksQuestionAnswer($value, $weight, $comment, $size, $position){
+    function __construct($value, $weight, $comment, $size, $position){
         $this->value = $value;
         $this->weight = $weight;
         $this->comment = $comment;

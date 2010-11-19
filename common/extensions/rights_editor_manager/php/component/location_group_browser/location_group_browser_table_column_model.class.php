@@ -26,7 +26,7 @@ class LocationGroupBrowserTableColumnModel extends DefaultGroupTableColumnModel
     /**
      * Constructor
      */
-    function LocationGroupBrowserTableColumnModel($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

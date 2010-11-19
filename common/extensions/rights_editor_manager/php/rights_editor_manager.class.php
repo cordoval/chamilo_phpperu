@@ -39,7 +39,7 @@ class RightsEditorManager extends SubManager
      * @param unknown_type $parent
      * @param array $locations
      */
-    function RightsEditorManager($parent, $locations)
+    function __construct($parent, $locations)
     {
         parent :: __construct($parent);
 

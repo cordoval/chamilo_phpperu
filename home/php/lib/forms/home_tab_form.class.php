@@ -18,7 +18,7 @@ class HomeTabForm extends FormValidator
     private $hometab;
     private $form_type;
 
-    function HomeTabForm($form_type, $hometab, $action)
+    function __construct($form_type, $hometab, $action)
     {
         parent :: __construct('home_tab', 'post', $action);
         

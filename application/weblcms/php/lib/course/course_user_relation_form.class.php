@@ -23,7 +23,7 @@ class CourseUserRelationForm extends FormValidator
     private $course_user_relation;
     private $user;
 
-    function CourseUserRelationForm($form_type, $course_user_relation, $user, $action)
+    function __construct($form_type, $course_user_relation, $user, $action)
     {
         parent :: __construct('course_user', 'post', $action);
 

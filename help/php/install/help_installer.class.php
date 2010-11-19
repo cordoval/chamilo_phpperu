@@ -17,7 +17,7 @@ class HelpInstaller extends Installer
     /**
      * Constructor
      */
-    function HelpInstaller($values)
+    function __construct($values)
     {
         parent :: __construct($values, HelpDataManager :: get_instance());
         

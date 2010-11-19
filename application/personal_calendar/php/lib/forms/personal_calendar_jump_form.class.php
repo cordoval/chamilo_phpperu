@@ -28,7 +28,7 @@ class PersonalCalendarJumpForm extends FormValidator
      * @param string $url The location to which the search request should be
      * posted.
      */
-    function PersonalCalendarJumpForm($manager, $url)
+    function __construct($manager, $url)
     {
         parent :: __construct('personal_calendar_jump_form', 'post', $url);
 

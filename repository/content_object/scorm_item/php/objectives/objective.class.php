@@ -11,7 +11,7 @@ class Objective
     private $minimum_satisfied_measure;
     private $contributes_to_rollup;
 
-    function Objective($index)
+    function __construct($index)
     {
         $this->id = $index;
         $this->satisfied_by_measure = 0;

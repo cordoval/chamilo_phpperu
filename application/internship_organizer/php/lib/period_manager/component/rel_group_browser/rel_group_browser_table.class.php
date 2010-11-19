@@ -19,7 +19,7 @@ class InternshipOrganizerPeriodRelGroupBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function InternshipOrganizerPeriodRelGroupBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
 
         $model = new InternshipOrganizerPeriodRelGroupBrowserTableColumnModel($browser);

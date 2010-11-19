@@ -9,7 +9,7 @@ class DefaultSurveyUserTableCellRenderer extends ObjectTableCellRenderer
     
     private $publication_id;
 
-    function DefaultSurveyUserTableCellRenderer($publication_id)
+    function __construct($publication_id)
     {
         $this->publication_id = $publication_id;
     }

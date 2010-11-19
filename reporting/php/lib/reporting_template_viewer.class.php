@@ -16,7 +16,7 @@ class ReportingTemplateViewer
 
     private $parent;
 
-    public function ReportingTemplateViewer($parent)
+    public function __construct($parent)
     {
         $this->parent = $parent;
     }

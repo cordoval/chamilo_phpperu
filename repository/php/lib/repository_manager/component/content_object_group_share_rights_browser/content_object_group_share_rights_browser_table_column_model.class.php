@@ -13,7 +13,7 @@ require_once dirname (__FILE__) . '/../content_object_user_share_rights_browser/
 class ContentObjectGroupShareRightsBrowserTableColumnModel extends ObjectTableColumnModel
 {
 
-    function ContentObjectGroupShareRightsBrowserTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->add_column(new ObjectTableColumn(Group :: PROPERTY_NAME));

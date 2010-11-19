@@ -23,7 +23,7 @@ class TemplateBrowserTable extends RepositoryBrowserTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function TemplateBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new TemplateBrowserTableColumnModel();
         $renderer = new TemplateBrowserTableCellRenderer($browser);

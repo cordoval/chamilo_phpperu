@@ -10,7 +10,7 @@ class SurveyContextTemplateBrowserTable extends ObjectTable
     const DEFAULT_NAME = 'template_browser_table';
 
 
-    function SurveyContextTemplateBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new SurveyContextTemplateBrowserTableColumnModel();
         $renderer = new SurveyContextTemplateBrowserTableCellRenderer($browser);

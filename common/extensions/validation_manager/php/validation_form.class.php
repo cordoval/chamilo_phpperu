@@ -17,7 +17,7 @@ class ValidationForm extends FormValidator
     
     private $adm;
 
-    function ValidationForm($action)
+    function __construct($action)
     {
         parent :: __construct('validation_form', 'post', $action);
         $this->build_form();

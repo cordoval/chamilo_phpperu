@@ -21,7 +21,7 @@ abstract class ExternalRepositoryConnector
     /**
      * @param ExternalRepository $external_repository_instance
      */
-    function ExternalRepositoryConnector($external_repository_instance)
+    function __construct($external_repository_instance)
     {
         $this->external_repository_instance = $external_repository_instance;
     }

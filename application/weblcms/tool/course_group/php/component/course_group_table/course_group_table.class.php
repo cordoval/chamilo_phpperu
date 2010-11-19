@@ -65,7 +65,7 @@ class CourseGroupTable
      * @param CourseGroupTableCellRenderer $cell_renderer The cell renderer for the
      * table. Omit to use the default renderer.
      */
-    function CourseGroupTable($parent, $data_provider, $table_name = null, $column_model = null, $cell_renderer = null)
+    function __construct($parent, $data_provider, $table_name = null, $column_model = null, $cell_renderer = null)
     {
         $this->parent = $parent;
         $this->set_data_provider($data_provider);

@@ -16,7 +16,7 @@ class RecycleBinBrowserTableDataProvider extends RepositoryBrowserTableDataProvi
      * @param RepositoryManagerRecycleBinBrowserComponent $browser
      * @param Condition $condition
      */
-    function RecycleBinBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

@@ -4,7 +4,7 @@ require_once "../Matrix.php";
 
 class TestMatrix {
 
-  function TestMatrix() {
+  function __construct() {
 
     // define test variables
 

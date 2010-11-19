@@ -20,7 +20,7 @@ class WebserviceInstaller extends Installer
     /**
      * Constructor
      */
-    function WebserviceInstaller($values)
+    function __construct($values)
     {
         parent :: __construct($values, WebserviceDataManager :: get_instance());
     }

@@ -261,7 +261,7 @@ class HTML_MenuBrowser
     *
     * @param    string  filename
     */
-    function exploreFile($file) 
+    function __construct($file) 
     {
         $xml = join('', @file($file));
         if (!$xml) {

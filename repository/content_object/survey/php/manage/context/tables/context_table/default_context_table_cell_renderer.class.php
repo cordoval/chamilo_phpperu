@@ -6,7 +6,7 @@ class DefaultSurveyContextTableCellRenderer extends ObjectTableCellRenderer
     /**
      * Constructor
      */
-    function DefaultSurveyContextTableCellRenderer()
+    function __construct()
     {
     }
 

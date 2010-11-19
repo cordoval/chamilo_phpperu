@@ -17,7 +17,7 @@ class RightsInstaller extends Installer
     /**
      * Constructor
      */
-    function RightsInstaller($values)
+    function __construct($values)
     {
         parent :: __construct($values, RightsDataManager :: get_instance());
     }

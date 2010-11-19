@@ -46,7 +46,7 @@ abstract class ContentObjectInstaller
     /**
      * Constructor
      */
-    function ContentObjectInstaller()
+    function __construct()
     {
         $this->data_manager = RepositoryDataManager :: get_instance();
         $this->message = array();

@@ -26,7 +26,7 @@ class MediamosaExternalRepositoryManagerForm extends FormValidator{
     const VIDEO_CATEGORY = 'category';
     const VIDEO_DESCRIPTION = 'description';
 
-    function MediamosaExternalRepositoryManagerForm($form_type, $action, $application)
+    function __construct($form_type, $action, $application)
     {
         parent :: __construct('mediamosa_upload', 'post', $action);
 

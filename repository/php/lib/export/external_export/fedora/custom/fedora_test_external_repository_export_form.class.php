@@ -9,7 +9,7 @@ require_once Path :: get_repository_path() . '/lib/forms/external_repository_exp
 class FedoraTestExternalRepositoryExportForm extends ExternalRepositoryExportForm
 {
 
-    function FedoraTestExternalRepositoryExportForm($content_object, $export, $action, $catalogs)
+    function __construct($content_object, $export, $action, $catalogs)
     {
         parent :: ExternalRepositoryExportForm($content_object, $export, $action, $catalogs);
 

@@ -16,7 +16,7 @@ require_once dirname(__FILE__) . '/../blocks/weblcms_users_tracking_reporting_bl
 class CourseStudentTrackerReportingTemplate extends ReportingTemplate
 {
 
-    function CourseStudentTrackerReportingTemplate($parent)
+    function __construct($parent)
     {
         parent :: __construct($parent);
         //$this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("UserTracking"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS));

@@ -20,7 +20,7 @@ class ConditionTranslator
     private $data_manager;
     private $storage_unit;
 
-    function ConditionTranslator($data_manager, $storage_unit = null)
+    function __construct($data_manager, $storage_unit = null)
     {
         $this->data_manager = $data_manager;
         $this->storage_unit = $storage_unit;

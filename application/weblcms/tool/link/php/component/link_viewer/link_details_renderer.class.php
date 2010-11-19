@@ -9,7 +9,7 @@ use application\weblcms\ContentObjectPublicationDetailsRenderer;
 class LinkDetailsRenderer extends ContentObjectPublicationDetailsRenderer
 {
 
-    function LinkDetailsRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct($browser);
     }

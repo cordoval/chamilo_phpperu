@@ -4,7 +4,7 @@ namespace common\libraries;
 
 require_once dirname(__FILE__) . '/../../../../global.inc.php';
 
-$root = Path :: get(SYS_PATH) . 'admin';
+$root = Path :: get(SYS_PATH) . 'plugin';
 
 $files = Filesystem :: get_directory_content($root);
 
@@ -26,6 +26,7 @@ foreach ($files as $file)
         {
             $new_contents = str_replace('function ' . $class . '(', 'function __construct(', $contents);
             file_put_contents($file, $new_contents);
+            dump('Changed class ' . $class);
         }
     }
 }

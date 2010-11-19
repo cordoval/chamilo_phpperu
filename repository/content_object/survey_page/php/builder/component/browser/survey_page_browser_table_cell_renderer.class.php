@@ -26,7 +26,7 @@ class SurveyPageBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function SurveyPageBrowserTableCellRenderer($browser, $condition)
+    function __construct($browser, $condition)
     {
        parent :: __construct($browser, $condition);
     }

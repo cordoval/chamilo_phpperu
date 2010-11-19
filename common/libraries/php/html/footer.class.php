@@ -13,7 +13,7 @@ class Footer
     /**
      * Create a new Footer
      */
-    function Footer()
+    function __construct()
     {
     }
 

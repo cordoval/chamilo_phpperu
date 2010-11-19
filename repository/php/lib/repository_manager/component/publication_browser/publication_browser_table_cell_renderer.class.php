@@ -28,7 +28,7 @@ class PublicationBrowserTableCellRenderer extends DefaultPublicationTableCellRen
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function PublicationBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

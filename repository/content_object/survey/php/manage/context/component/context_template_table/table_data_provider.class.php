@@ -3,7 +3,7 @@
 class SurveyContextTemplateBrowserTableDataProvider extends ObjectTableDataProvider
 {
 
-    function SurveyContextTemplateBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

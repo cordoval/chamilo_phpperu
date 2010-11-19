@@ -58,7 +58,7 @@ class SimpleTable extends HTML_Table
      * @param Array $data_array A list of data classes, the system will use this to extract the property values from it
      * @param CellRenderer $cellrenderer Used for actions on each row
      */
-    function SimpleTable($data_array, $cellrenderer, $actionhandler = null, $tablename)
+    function __construct($data_array, $cellrenderer, $actionhandler = null, $tablename)
     {
         parent :: HTML_Table(array('class' => 'data_table'));
 

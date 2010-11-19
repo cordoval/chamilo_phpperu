@@ -26,7 +26,7 @@ class MonthCalendar extends CalendarTable
      * Creates a new month calendar
      * @param int $display_time A time in the month to be displayed
      */
-    function MonthCalendar($display_time)
+    function __construct($display_time)
     {
         $this->navigation_html = '';
         parent :: CalendarTable($display_time);

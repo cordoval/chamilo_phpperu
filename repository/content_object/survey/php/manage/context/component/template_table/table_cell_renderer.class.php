@@ -23,7 +23,7 @@ class SurveyTemplateTableCellRenderer extends DefaultSurveyTemplateTableCellRend
      * Constructor
      * @param RepositoryManagerComponent $component
      */
-    function SurveyTemplateTableCellRenderer($component, $context_template_id)
+    function __construct($component, $context_template_id)
     {
         parent :: __construct();
         $this->component = $component;

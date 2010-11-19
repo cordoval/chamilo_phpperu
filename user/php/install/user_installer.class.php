@@ -20,7 +20,7 @@ class UserInstaller extends Installer
     /**
      * Constructor
      */
-    function UserInstaller($values)
+    function __construct($values)
     {
         parent :: __construct($values, UserDataManager :: get_instance());
     }

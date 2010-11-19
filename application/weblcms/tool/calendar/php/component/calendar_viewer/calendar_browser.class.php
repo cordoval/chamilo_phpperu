@@ -41,7 +41,7 @@ class CalendarBrowser extends ContentObjectPublicationBrowser
     private $publications;
     private $time;
 
-    function CalendarBrowser($parent)
+    function __construct($parent)
     {
         parent :: __construct($parent, 'calendar');
         if (Request :: get(Tool :: PARAM_PUBLICATION_ID))

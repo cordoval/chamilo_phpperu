@@ -11,7 +11,7 @@ class FlickrExternalRepositoryGalleryTable extends GalleryObjectTable
 {
     const DEFAULT_NAME = 'flickr_external_repository_gallery_table';
 
-    function FlickrExternalRepositoryGalleryTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $data_provider = new FlickrExternalRepositoryGalleryTableDataProvider($browser, $condition);
         $renderer = new FlickrExternalRepositoryGalleryTableCellRenderer($browser);

@@ -11,7 +11,7 @@ class SurveyContextTemplateSubscribePageBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function SurveyContextTemplateSubscribePageBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
 
     	$model = new SurveyContextTemplateSubscribePageBrowserTableColumnModel();

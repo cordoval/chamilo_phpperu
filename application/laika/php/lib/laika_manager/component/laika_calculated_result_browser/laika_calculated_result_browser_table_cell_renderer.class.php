@@ -27,7 +27,7 @@ class LaikaCalculatedResultBrowserTableCellRenderer extends DefaultLaikaCalculat
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function LaikaCalculatedResultBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

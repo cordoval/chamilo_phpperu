@@ -12,7 +12,7 @@ use application\weblcms\ContentObjectPublicationDetailsRenderer;
 class CalendarDetailsRenderer extends ContentObjectPublicationDetailsRenderer
 {
 
-    function CalendarDetailsRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct($browser);
     }

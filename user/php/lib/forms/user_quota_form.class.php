@@ -34,7 +34,7 @@ class UserQuotaForm extends FormValidator
     /**
      * Creates a new UserQuotaForm
      */
-    function UserQuotaForm($user, $action)
+    function __construct($user, $action)
     {
         parent :: __construct('quota_settings', 'post', $action);
 

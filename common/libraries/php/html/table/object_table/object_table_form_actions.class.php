@@ -24,7 +24,7 @@ class ObjectTableFormActions
      * @param array $form_actions
      * @param string $namespace
      */
-    function ObjectTableFormActions($namespace, $action = Application :: PARAM_ACTION, $form_actions = array())
+    function __construct($namespace, $action = Application :: PARAM_ACTION, $form_actions = array())
     {
         $this->action = $action;
         $this->form_actions = $form_actions;

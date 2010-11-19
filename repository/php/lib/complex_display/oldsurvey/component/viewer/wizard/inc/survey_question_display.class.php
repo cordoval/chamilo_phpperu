@@ -19,7 +19,7 @@ abstract class SurveyQuestionDisplay
     private $answer;
     private $visible;
 
-    function SurveyQuestionDisplay($formvalidator, $visible, $question_nr, $question, $survey, $page_nr, $answer)
+    function __construct($formvalidator, $visible, $question_nr, $question, $survey, $page_nr, $answer)
     {
 
         $this->formvalidator = $formvalidator;

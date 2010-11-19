@@ -17,7 +17,7 @@ class DefaultPmPublicationTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function DefaultPmPublicationTableColumnModel($folder)
+    function __construct($folder)
     {
         parent :: __construct(self :: get_default_columns($folder), 1);
     }

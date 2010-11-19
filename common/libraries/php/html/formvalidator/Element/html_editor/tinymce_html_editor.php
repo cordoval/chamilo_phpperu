@@ -12,7 +12,7 @@ require_once Path :: get_library_path() . 'html/formvalidator/Element/html_edito
 class HTML_QuickForm_tinymce_html_editor extends HTML_QuickForm_html_editor
 {
 
-    function HTML_QuickForm_tinymce_html_editor($elementName = null, $elementLabel = null, $attributes = null, $options = array())
+    function __construct($elementName = null, $elementLabel = null, $attributes = null, $options = array())
     {
         parent :: __construct($elementName, $elementLabel, $attributes, $options);
     }

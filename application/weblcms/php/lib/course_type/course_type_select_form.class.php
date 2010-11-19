@@ -24,7 +24,7 @@ class CourseTypeSelectForm extends FormValidator
     private $size;
     private $single_course_type_id;
 
-    function CourseTypeSelectForm($action)
+    function __construct($action)
     {
         parent :: __construct('course_type_select', 'post', $action);
         $this->build_form();

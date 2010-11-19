@@ -14,7 +14,7 @@ class HTML_QuickForm_Select_Language extends HTML_QuickForm_select
     /**
      * Class constructor
      */
-    function HTML_QuickForm_Select_Language($elementName = null, $elementLabel = null, $options = null, $attributes = null)
+    function __construct($elementName = null, $elementLabel = null, $options = null, $attributes = null)
     {
         parent :: HTML_QuickForm_Select($elementName, $elementLabel, $options, $attributes);
         // Get all languages

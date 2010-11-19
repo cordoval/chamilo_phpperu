@@ -23,7 +23,7 @@ class WikiPublicationBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function WikiPublicationBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new WikiPublicationBrowserTableColumnModel();
         $renderer = new WikiPublicationBrowserTableCellRenderer($browser);

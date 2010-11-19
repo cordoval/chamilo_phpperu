@@ -61,7 +61,7 @@ class GroupSearchForm extends FormValidator
      * @param string $url The location to which the search request should be
      * posted.
      */
-    function GroupSearchForm($manager, $url)
+    function __construct($manager, $url)
     {
         parent :: __construct(self :: FORM_NAME, 'post', $url);
         $this->renderer = clone $this->defaultRenderer();

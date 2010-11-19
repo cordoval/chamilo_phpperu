@@ -11,7 +11,7 @@ abstract class VideoConferencingConnector
     /**
      * @param VideoConferencing $video_conferencing_instance
      */
-    function VideoConferencingConnector($video_conferencing_instance)
+    function __construct($video_conferencing_instance)
     {
         $this->video_conferencing_instance = $video_conferencing_instance;
     }

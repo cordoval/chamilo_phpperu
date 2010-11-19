@@ -27,7 +27,7 @@ class MetadataDefaultValueBrowserTableCellRenderer extends DefaultMetadataDefaul
 	 * Constructor
 	 * @param ApplicationComponent $browser
 	 */
-	function MetadataDefaultValueBrowserTableCellRenderer($browser)
+	function __construct($browser)
 	{
 		parent :: __construct();
 		$this->browser = $browser;

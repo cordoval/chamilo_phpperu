@@ -18,7 +18,7 @@ class VideoConferencingMenu extends HTML_Menu
     private $external_repository_manager;
     private $menu_items;
 
-    function VideoConferencingMenu($current_item, $video_conferencing_manager, $menu_items)
+    function __construct($current_item, $video_conferencing_manager, $menu_items)
     {
         $this->current_item = $current_item;
         $this->video_conferencing_manager = $video_conferencing_manager;

@@ -20,7 +20,7 @@ use common\libraries\PublicationRSS;
 class WeblcmsPublicationRSS extends PublicationRSS
 {
 
-    function WeblcmsPublicationRSS()
+    function __construct()
     {
         Utilities :: set_application(WeblcmsManager :: APPLICATION_NAME);
         parent :: PublicationRSS(Translation :: get('WeblcmsPublicationRSSTitle'), htmlspecialchars(Path :: get(WEB_PATH)), Translation :: get('WeblcmsPublicationRSSDescription'), htmlspecialchars(Path :: get(WEB_PATH)));

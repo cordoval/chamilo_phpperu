@@ -145,7 +145,7 @@ class CpoImport extends ContentObjectImport
      * @return CpoImport
      */
 
-    function CpoImport($content_object_file, $user, $category)
+    function __construct($content_object_file, $user, $category)
     {
         $this->rdm = RepositoryDataManager :: get_instance();
         parent :: __construct($content_object_file, $user, $category);

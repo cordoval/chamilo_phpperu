@@ -26,7 +26,7 @@ class DynamicFormElementBrowserTableCellRenderer extends DefaultDynamicFormEleme
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function DynamicFormElementBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

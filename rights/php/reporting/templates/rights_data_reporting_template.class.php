@@ -10,7 +10,7 @@ use reporting\ReportingTemplate;
 class RightsDataReportingTemplate extends ReportingTemplate
 {
 
-    function RightsDataReportingTemplate($parent, $id, $params)
+    function __construct($parent, $id, $params)
     {
         $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("RightsUsersPerRightsTemplate"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
         $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("RightsNoOfRightsTemplates"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));

@@ -12,7 +12,7 @@ class DatabaseAliasGenerator
     const TYPE_TABLE = 1;
     const TYPE_CONSTRAINT = 2;
 
-    private function DatabaseAliasGenerator()
+    private function __construct()
     {
         foreach ($this->get_types() as $type)
         {

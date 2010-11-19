@@ -27,7 +27,7 @@ class LinkBrowserTableCellRenderer extends DefaultLinkTableCellRenderer
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function LinkBrowserTableCellRenderer($browser, $type)
+    function __construct($browser, $type)
     {
         parent :: __construct($browser, $type);
         $this->browser = $browser;

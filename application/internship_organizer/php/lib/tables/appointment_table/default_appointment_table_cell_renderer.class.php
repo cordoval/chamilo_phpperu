@@ -12,7 +12,7 @@ class DefaultInternshipOrganizerAppointmentTableCellRenderer extends ObjectTable
     /**
      * Constructor
      */
-    function DefaultInternshipOrganizerAppointmentTableCellRenderer()
+    function __construct()
     {
     }
 

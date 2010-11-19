@@ -26,7 +26,7 @@ class TestCallLocalWebservice
 {
     private $webservice;
 
-    function TestCallLocalWebservice()
+    function __construct()
     {
         $this->webservice = Webservice :: factory($this);
     }

@@ -33,7 +33,7 @@ class HistoricVariableTranslationBrowserTableCellRenderer extends DefaultHistori
 	 * Constructor
 	 * @param ApplicationComponent $browser
 	 */
-	function HistoricVariableTranslationBrowserTableCellRenderer($browser)
+	function __construct($browser)
 	{
 		parent :: __construct();
 		$this->browser = $browser;

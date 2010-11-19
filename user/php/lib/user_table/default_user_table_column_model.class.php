@@ -13,7 +13,7 @@ class DefaultUserTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function DefaultUserTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns(), 1);
     }

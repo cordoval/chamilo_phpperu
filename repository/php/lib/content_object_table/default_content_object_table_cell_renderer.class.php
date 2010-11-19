@@ -46,7 +46,7 @@ class DefaultContentObjectTableCellRenderer extends ObjectTableCellRenderer
     /**
      * Constructor
      */
-    function DefaultContentObjectTableCellRenderer()
+    function __construct()
     {
     }
 

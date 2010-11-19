@@ -15,7 +15,7 @@ class DefaultCasUserRequestTableCellRenderer extends ObjectTableCellRenderer
     /**
      * Constructor
      */
-    function DefaultCasUserRequestTableCellRenderer()
+    function __construct()
     {
     }
 

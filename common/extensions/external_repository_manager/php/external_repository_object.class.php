@@ -42,7 +42,7 @@ abstract class ExternalRepositoryObject
     /**
      * @param array $default_properties
      */
-    function ExternalRepositoryObject($default_properties = array ())
+    function __construct($default_properties = array ())
     {
         $this->default_properties = $default_properties;
     }

@@ -24,7 +24,7 @@ class PhrasesPublicationBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function PhrasesPublicationBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new PhrasesPublicationBrowserTableColumnModel();
         $renderer = new PhrasesPublicationBrowserTableCellRenderer($browser);

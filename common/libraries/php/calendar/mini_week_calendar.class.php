@@ -27,7 +27,7 @@ class MiniWeekCalendar extends CalendarTable
      * @param int $hour_step The number of hours for one table cell. Defaults to
      * 2.
      */
-    function MiniWeekCalendar($display_time, $hour_step = 2)
+    function __construct($display_time, $hour_step = 2)
     {
         $this->navigation_html = '';
         $this->hour_step = $hour_step;

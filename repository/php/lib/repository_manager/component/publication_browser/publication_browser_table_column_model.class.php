@@ -21,7 +21,7 @@ class PublicationBrowserTableColumnModel extends DefaultPublicationTableColumnMo
     /**
      * Constructor
      */
-    function PublicationBrowserTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->set_default_order_column(0);

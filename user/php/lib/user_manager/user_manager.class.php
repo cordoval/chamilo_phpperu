@@ -84,7 +84,7 @@ class UserManager extends CoreApplication
     private $create_url;
     private $recycle_bin_url;
 
-    function UserManager($user = null)
+    function __construct($user = null)
     {
         $user = $this->load_user($user);
         parent :: __construct($user);

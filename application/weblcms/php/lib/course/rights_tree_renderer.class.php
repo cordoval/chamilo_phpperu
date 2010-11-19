@@ -26,7 +26,7 @@ class RightsTreeRenderer extends HTML_Menu
      * @param array $extra_items An array of extra tree items, added to the
      * root.
      */
-    function RightsTreeRenderer($groups)
+    function __construct($groups)
     {
         $this->groups = $groups;
         $menu = $this->get_menu_items();

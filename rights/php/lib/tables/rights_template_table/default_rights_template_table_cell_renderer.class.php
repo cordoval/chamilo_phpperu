@@ -15,7 +15,7 @@ class DefaultRightsTemplateTableCellRenderer extends ObjectTableCellRenderer
     /**
      * Constructor
      */
-    function DefaultRightsTemplateTableCellRenderer()
+    function __construct()
     {
     }
 

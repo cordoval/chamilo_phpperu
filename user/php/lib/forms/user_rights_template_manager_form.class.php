@@ -23,7 +23,7 @@ class UserRightsTemplateManagerForm extends FormValidator
      * Creates a new UserForm
      * Used by the admin to create/update a user
      */
-    function UserRightsTemplateManagerForm($user, $form_user, $action)
+    function __construct($user, $form_user, $action)
     {
         parent :: __construct('user_rights_template_manager_form', 'post', $action);
 

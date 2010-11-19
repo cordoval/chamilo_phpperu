@@ -16,7 +16,7 @@ class SurveyUserBrowserTableCellRenderer extends DefaultSurveyUserTableCellRende
     private $publication_id;
     private $type;
 
-    function SurveyUserBrowserTableCellRenderer($browser, $publication_id, $type)
+    function __construct($browser, $publication_id, $type)
     {
         parent :: __construct($publication_id);
         $this->browser = $browser;

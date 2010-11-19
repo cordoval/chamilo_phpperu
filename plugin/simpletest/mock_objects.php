@@ -43,7 +43,7 @@ class ParametersExpectation extends SimpleExpectation {
      *    @param string $message    Customised message on failure.
      *    @access public
      */
-    function ParametersExpectation($expected = false, $message = '%s') {
+    function __construct($expected = false, $message = '%s') {
         $this->SimpleExpectation($message);
         $this->_expected = $expected;
     }

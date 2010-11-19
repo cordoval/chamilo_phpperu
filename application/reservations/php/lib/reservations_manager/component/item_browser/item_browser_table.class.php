@@ -27,7 +27,7 @@ class ItemBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function ItemBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new ItemBrowserTableColumnModel();
         $renderer = new ItemBrowserTableCellRenderer($browser);

@@ -24,7 +24,7 @@ class UserViewBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function UserViewBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new UserViewBrowserTableColumnModel();
         $renderer = new UserViewBrowserTableCellRenderer($browser);

@@ -17,7 +17,7 @@ class AssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
     
     private $parent;
 
-    public function AssessmentViewerWizardDisplay($parent)
+    public function __construct($parent)
     {
         $this->parent = $parent;
     }

@@ -26,7 +26,7 @@ class ReservationForm extends FormValidator
     /**
      * Creates a new LanguageForm
      */
-    function ReservationForm($form_type, $action, $reservation, $user)
+    function __construct($form_type, $action, $reservation, $user)
     {
         parent :: __construct('reservation_form', 'post', $action);
 

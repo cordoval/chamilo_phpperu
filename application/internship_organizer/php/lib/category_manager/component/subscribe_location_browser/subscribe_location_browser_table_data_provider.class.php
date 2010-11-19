@@ -6,7 +6,7 @@ use common\libraries\ObjectTableDataProvider;
 class SubscribeLocationBrowserTableDataProvider extends ObjectTableDataProvider
 {
 
-    function SubscribeLocationBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

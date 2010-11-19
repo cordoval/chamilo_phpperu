@@ -23,7 +23,7 @@ class InternshipOrganizerCategoryBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function InternshipOrganizerCategoryBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new InternshipOrganizerCategoryBrowserTableColumnModel();
         $renderer = new InternshipOrganizerCategoryBrowserTableCellRenderer($browser);

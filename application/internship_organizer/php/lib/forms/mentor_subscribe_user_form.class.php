@@ -16,7 +16,7 @@ class InternshipOrganizerMentorSubscribeUserForm extends FormValidator
     private $mentor;
     private $user;
 
-    function InternshipOrganizerMentorSubscribeUserForm($mentor, $action, $user)
+    function __construct($mentor, $action, $user)
     {
         parent :: __construct('create_mentor_rel_user', 'post', $action);
         

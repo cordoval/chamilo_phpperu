@@ -9,7 +9,7 @@ class YoutubeExternalRepositoryManagerUploadForm extends FormValidator
 {
     private $token;
 
-    function YoutubeExternalRepositoryManagerUploadForm($action, $token)
+    function __construct($action, $token)
     {
         parent :: __construct('youtube_upload', 'post', $action);
 

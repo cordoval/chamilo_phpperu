@@ -24,7 +24,7 @@ class ProfilePublicationBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function ProfilePublicationBrowserTable($browser, $name, $parameters, $condition)
+    function __construct($browser, $name, $parameters, $condition)
     {
         $model = new ProfilePublicationBrowserTableColumnModel();
         $renderer = new ProfilePublicationBrowserTableCellRenderer($browser);

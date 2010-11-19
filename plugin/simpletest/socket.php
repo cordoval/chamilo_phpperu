@@ -25,7 +25,7 @@ class SimpleStickyError {
      *    Sets the error to empty.
      *    @access public
      */
-    function SimpleStickyError() {
+    function __construct() {
         $this->_clearError();
     }
 

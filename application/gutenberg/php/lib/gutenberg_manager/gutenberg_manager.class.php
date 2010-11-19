@@ -31,7 +31,7 @@ class GutenbergManager extends WebApplication
      * Constructor
      * @param int $user_id
      */
-    public function GutenbergManager($user)
+    public function __construct($user)
     {
         parent :: __construct($user);
         $this->set_parameter(self :: PARAM_RENDERER, $this->get_renderer());

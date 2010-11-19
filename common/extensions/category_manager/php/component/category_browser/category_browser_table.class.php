@@ -24,7 +24,7 @@ class CategoryBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function CategoryBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new CategoryBrowserTableColumnModel($browser);
         $renderer = new CategoryBrowserTableCellRenderer($browser);

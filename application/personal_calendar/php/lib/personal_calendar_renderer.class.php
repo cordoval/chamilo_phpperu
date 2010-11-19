@@ -30,7 +30,7 @@ abstract class PersonalCalendarRenderer
      * @param PersonalCalendar $personal_calendar
      * @param int $display_time
      */
-    function PersonalCalendarRenderer($personal_calendar, $display_time)
+    function __construct($personal_calendar, $display_time)
     {
         $this->personal_calendar = $personal_calendar;
         $this->display_time = $display_time;

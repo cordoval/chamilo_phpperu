@@ -51,7 +51,7 @@ class Image_Graph_Marker_Pinpoint extends Image_Graph_Marker_Icon
     /**
      * Create the marker as a pin point
      */
-    function Image_Graph_Marker_Pinpoint()
+    function __construct()
     {
         parent::Image_Graph_Marker_Icon(
             dirname(__FILE__).'/../Images/Icons/pinpoint.png'

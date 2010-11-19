@@ -22,7 +22,7 @@ class GoogleDocsExternalRepositoryManager extends ExternalRepositoryManager
     /**
      * @param Application $application
      */
-    function GoogleDocsExternalRepositoryManager($external_repository, $application)
+    function __construct($external_repository, $application)
     {
         parent :: __construct($external_repository, $application);
     }

@@ -27,7 +27,7 @@ class EventBrowserTableCellRenderer extends DefaultEventTableCellRenderer
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function EventBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

@@ -21,7 +21,7 @@ class SurveySubscribeUserForm extends FormValidator
     private $publication;
     private $user;
 
-    function SurveySubscribeUserForm($publication, $action, $user)
+    function __construct($publication, $action, $user)
     {
         parent :: __construct('subscribe_users', 'post', $action);
         

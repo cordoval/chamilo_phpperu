@@ -15,7 +15,7 @@ use application\weblcms\ContentObjectPublicationCategoryTree;
 class DocumentBrowser extends ContentObjectPublicationBrowser
 {
 
-    function DocumentBrowser($parent, $types)
+    function __construct($parent, $types)
     {
         parent :: __construct($parent, Document :: get_type_name());
 

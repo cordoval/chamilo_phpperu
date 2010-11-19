@@ -27,7 +27,7 @@ class HTML_QuickForm_category extends HTML_QuickForm_html
      * @access public
      * @return void
      */
-    function HTML_QuickForm_category($title = null, $extra_classes = null)
+    function __construct($title = null, $extra_classes = null)
     {
         $html = array();
         

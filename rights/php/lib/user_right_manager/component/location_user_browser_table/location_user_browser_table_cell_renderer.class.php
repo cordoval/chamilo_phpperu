@@ -25,7 +25,7 @@ class LocationUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function LocationUserBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

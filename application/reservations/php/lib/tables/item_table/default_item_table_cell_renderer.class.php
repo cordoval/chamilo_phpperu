@@ -20,7 +20,7 @@ class DefaultItemTableCellRenderer extends ObjectTableCellRenderer
     /**
      * Constructor
      */
-    function DefaultItemTableCellRenderer($browser)
+    function __construct($browser)
     {
     }
 

@@ -37,7 +37,7 @@ class Header
     /**
      * Constructor
      */
-    function Header($language_code = 'en')
+    function __construct($language_code = 'en')
     {
         $this->http_headers = array();
         $this->html_headers = array();

@@ -20,7 +20,7 @@ class CourseGroupUnsubscribedUserBrowserTableCellRenderer extends DefaultUserTab
 {
     private $browser;
 
-    function CourseGroupUnsubscribedUserBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

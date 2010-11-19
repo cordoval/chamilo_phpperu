@@ -11,7 +11,7 @@ class SurveyContextRelGroupTable extends ObjectTable
     /**
      * Constructor
      */
-    function SurveyContextRelGroupTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
 
         $model = new SurveyContextRelGroupTableColumnModel($browser);

@@ -16,7 +16,7 @@ class pfcUserConfig
   //  var $is_init = false; // used internaly to know if the chat config is initialized
   //  var $errors = array();
   
-  function pfcUserConfig()
+  function __construct()
   {
     $c =& pfcGlobalConfig::Instance();
 

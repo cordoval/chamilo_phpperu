@@ -48,7 +48,7 @@ class Tree_Memory_Array
      * @param      string  $dsn    the path on the filesystem
      * @param      array   $options  additional options you can set
      */
-    function Tree_Memory_Array(&$array, $options = array())
+    function __construct(&$array, $options = array())
     {
         $this->_array = &$array;
         $this->_options = $options; // not in use currently

@@ -14,7 +14,7 @@ require_once WebApplication :: get_application_class_lib_path('personal_calendar
 
 class PersonalCalendarPublicationRSS extends PublicationRSS
 {
-	function PersonalCalendarPublicationRSS()
+	function __construct()
 	{
 		parent :: PublicationRSS('Chamilo Personal Calendar', htmlspecialchars(Path :: get(WEB_PATH)), 'Personal calendar publications', htmlspecialchars(Path :: get(WEB_PATH)));
 	}

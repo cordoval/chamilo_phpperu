@@ -211,7 +211,7 @@ class getid3_matroska
 	var $hide_clusters    = true;  // if true, do not return information about CLUSTER chunks, since there's a lot of them and they're not usually useful
 	var $warnings         = array();
 
-	function getid3_matroska(&$fd, &$ThisFileInfo) {
+	function __construct(&$fd, &$ThisFileInfo) {
 
 		// http://www.matroska.org/technical/specs/index.html#EBMLBasics
 		$offset = $ThisFileInfo['avdataoffset'];

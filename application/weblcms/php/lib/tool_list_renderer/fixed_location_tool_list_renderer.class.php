@@ -33,7 +33,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
      * Constructor
      * @param  WebLcms $parent The parent application
      */
-    function FixedLocationToolListRenderer($parent, $visible_tools)
+    function __construct($parent, $visible_tools)
     {
         parent :: ToolListRenderer($parent, $visible_tools);
 

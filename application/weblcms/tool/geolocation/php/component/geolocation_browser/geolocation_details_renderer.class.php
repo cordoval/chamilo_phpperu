@@ -12,7 +12,7 @@ use application\weblcms\ContentObjectPublicationDetailsRenderer;
 class GeolocationDetailsRenderer extends ContentObjectPublicationDetailsRenderer
 {
 
-    function GeolocationDetailsRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct($browser);
     }

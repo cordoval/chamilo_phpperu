@@ -8,7 +8,7 @@ class VideoConferencingLauncher extends LauncherApplication
 {
     const APPLICATION_NAME = 'external_repository';
 
-    function VideoConferencingLauncher($user)
+    function __construct($user)
     {
         parent :: __construct($user);
     }

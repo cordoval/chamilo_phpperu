@@ -33,7 +33,7 @@ class ComplexBrowserTableCellRenderer extends DefaultContentObjectTableCellRende
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function ComplexBrowserTableCellRenderer($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct();
         $this->browser = $browser;

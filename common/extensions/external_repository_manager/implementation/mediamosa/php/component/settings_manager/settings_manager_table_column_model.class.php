@@ -18,7 +18,7 @@ class SettingsManagerTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function SettingsManagerTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns(), 1);
         $this->set_default_order_column(0);

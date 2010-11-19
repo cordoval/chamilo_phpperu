@@ -24,7 +24,7 @@ abstract class CalendarTable extends HTML_Table
     /**
      *
      */
-    public function CalendarTable($display_time)
+    public function __construct($display_time)
     {
         if (is_null($display_time))
         {

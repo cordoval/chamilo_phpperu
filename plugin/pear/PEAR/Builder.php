@@ -72,7 +72,7 @@ class PEAR_Builder extends PEAR_Common
      *
      * @access public
      */
-    function PEAR_Builder(&$ui)
+    function __construct(&$ui)
     {
         parent::PEAR_Common();
         $this->setFrontendObject($ui);

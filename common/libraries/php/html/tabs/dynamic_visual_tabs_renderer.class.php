@@ -4,7 +4,7 @@ class DynamicVisualTabsRenderer extends DynamicTabsRenderer
 {
     private $content;
 
-    public function DynamicVisualTabsRenderer($name, $content='')
+    public function __construct($name, $content='')
     {
         parent :: __construct($name);
         $this->content = $content;

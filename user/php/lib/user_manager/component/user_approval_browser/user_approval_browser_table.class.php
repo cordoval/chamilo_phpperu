@@ -24,7 +24,7 @@ class UserApprovalBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function UserApprovalBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new UserApprovalBrowserTableColumnModel();
         $renderer = new UserApprovalBrowserTableCellRenderer($browser);

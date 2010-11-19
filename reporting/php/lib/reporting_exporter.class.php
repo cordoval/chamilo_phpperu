@@ -13,7 +13,7 @@ abstract class ReportingExporter
 
     private $template;
 
-    public function ReportingExporter($template)
+    public function __construct($template)
     {
         $this->template = $template;
     }

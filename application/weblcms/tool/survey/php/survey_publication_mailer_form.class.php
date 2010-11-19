@@ -15,7 +15,7 @@ class WeblcmsSurveyPublicationMailerForm extends FormValidator
     const EMAIL_HEADER = 'email_header';
     const EMAIL_CONTENT = 'email_content';
 
-    function WeblcmsSurveyPublicationMailerForm($parent, $user, $participants, $actions)
+    function __construct($parent, $user, $participants, $actions)
     {
         parent :: __construct('survey_publication_mailer', 'post', $actions);
 

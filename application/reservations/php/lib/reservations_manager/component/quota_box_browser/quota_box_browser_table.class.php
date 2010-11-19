@@ -25,7 +25,7 @@ class QuotaBoxBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function QuotaBoxBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new QuotaBoxBrowserTableColumnModel();
         $renderer = new QuotaBoxBrowserTableCellRenderer($browser);

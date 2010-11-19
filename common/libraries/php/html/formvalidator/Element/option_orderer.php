@@ -9,7 +9,7 @@ class HTML_QuickForm_option_orderer extends HTML_QuickForm_hidden
 {
     private $options;
 
-    function HTML_QuickForm_option_orderer($name, $label, $options, $separator = '|', $attributes = array())
+    function __construct($name, $label, $options, $separator = '|', $attributes = array())
     {
         $this->separator = $separator;
         $value = (isset($_REQUEST[$name]) ? $_REQUEST[$name] : implode($this->separator, array_keys($options)));

@@ -15,7 +15,7 @@ class DefaultGutenbergPublicationTableCellRenderer extends ObjectTableCellRender
     /**
      * Constructor
      */
-    function DefaultGutenbergPublicationTableCellRenderer()
+    function __construct()
     {
     }
 

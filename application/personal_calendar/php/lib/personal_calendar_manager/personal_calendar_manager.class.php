@@ -43,7 +43,7 @@ class PersonalCalendarManager extends WebApplication
      * Constructor
      * @param int $user_id
      */
-    public function PersonalCalendarManager($user)
+    public function __construct($user)
     {
         parent :: __construct($user);
     }

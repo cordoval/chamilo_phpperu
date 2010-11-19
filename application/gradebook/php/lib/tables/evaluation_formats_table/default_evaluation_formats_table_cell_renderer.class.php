@@ -12,7 +12,7 @@ class DefaultEvaluationFormatsTableCellRenderer extends ObjectTableCellRenderer
 	/**
 	 * Constructor
 	 */
-	function DefaultEvaluationFormatsTableCellRenderer()
+	function __construct()
 	{
 	}
 

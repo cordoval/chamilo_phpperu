@@ -168,7 +168,7 @@ class RepositoryManager extends CoreApplication
      * Constructor
      * @param int $user_id The user id of current user
      */
-    function RepositoryManager($user)
+    function __construct($user)
     {
         parent :: __construct($user);
         $this->determine_search_settings();

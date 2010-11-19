@@ -17,7 +17,7 @@ class DefaultInternshipOrganizerUserTableColumnModel extends ObjectTableColumnMo
     /**
      * Constructor
      */
-    function DefaultInternshipOrganizerUserTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns(), 1);
     }

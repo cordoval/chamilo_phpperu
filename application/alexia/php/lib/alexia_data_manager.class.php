@@ -19,7 +19,7 @@ class AlexiaDataManager
     /**
      * Constructor.
      */
-    protected function AlexiaDataManager()
+    protected function __construct()
     {
         $this->initialize();
     }

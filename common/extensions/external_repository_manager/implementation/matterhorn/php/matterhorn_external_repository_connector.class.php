@@ -33,7 +33,7 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
     private $login;
     private $password;
 
-    function MatterhornExternalRepositoryConnector($external_repository_instance)
+    function __construct($external_repository_instance)
     {
         parent :: __construct($external_repository_instance);
 

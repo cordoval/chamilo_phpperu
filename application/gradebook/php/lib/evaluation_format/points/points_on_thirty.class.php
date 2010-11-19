@@ -11,7 +11,7 @@ class PointsOnThirty extends EvaluationFormat
     const DEFAULT_ACTIVE_VALUE = 1;
     const EVALUATION_FORMAT_NAME = 'Points on thirty';
 
-    function PointsOnThirty()
+    function __construct()
     {
         
     }

@@ -26,7 +26,7 @@ class SimpleByName {
      *    Stashes the name for later comparison.
      *    @param string $name     Name attribute to match.
      */
-    function SimpleByName($name) {
+    function __construct($name) {
         $this->_name = $name;
     }
 

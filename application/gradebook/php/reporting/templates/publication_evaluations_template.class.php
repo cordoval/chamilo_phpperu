@@ -9,7 +9,7 @@ require_once WebApplication :: get_application_class_path('gradebook') . 'report
 
 class PublicationEvaluationsTemplate extends ReportingTemplate
 {	 
-	function PublicationEvaluationsTemplate($parent)
+	function __construct($parent)
 	{
 		parent :: __construct($parent);
 		$this->add_reporting_block(new PublicationEvaluationsReportingBlock($this));

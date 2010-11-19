@@ -42,7 +42,7 @@ class Phpbb2TemplateWrapper extends Phpbb2Template
      * Constructor. Simply sets the root dir.
      *
      */
-    function Phpbb2TemplateWrapper($theme)
+    function __construct($theme)
     {
     	parent :: Template(Path :: get(SYS_PATH) .  'layout/' . $theme . '/templates/');
         $this->cache = TemplateCache :: factory($theme, 'file');

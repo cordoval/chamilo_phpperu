@@ -15,7 +15,7 @@ class PicasaExternalRepositoryTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function PicasaExternalRepositoryTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new PicasaExternalRepositoryTableColumnModel();
         $renderer = new PicasaExternalRepositoryTableCellRenderer($browser);

@@ -30,7 +30,7 @@ class SurveyTemplateForm extends FormValidator
     /**
      * Creates a new LanguageForm
      */
-    function SurveyTemplateForm($form_type, $action, $survey_template, $user, $manager)
+    function __construct($form_type, $action, $survey_template, $user, $manager)
     {
         parent :: __construct('survey_template_form', 'post', $action);
 

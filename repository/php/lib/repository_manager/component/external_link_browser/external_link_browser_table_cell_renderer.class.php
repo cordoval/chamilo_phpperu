@@ -27,7 +27,7 @@ class ExternalLinkBrowserTableCellRenderer extends DefaultExternalLinkTableCellR
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function ExternalLinkBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct($browser);
         $this->browser = $browser;

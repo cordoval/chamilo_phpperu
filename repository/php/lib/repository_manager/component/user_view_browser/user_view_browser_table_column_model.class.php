@@ -17,7 +17,7 @@ use common\libraries\StaticTableColumn;
 class UserViewBrowserTableColumnModel extends ObjectTableColumnModel
 {
 
-    function UserViewBrowserTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns(), 1);
         $this->set_default_order_column(1);

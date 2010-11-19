@@ -10,7 +10,7 @@ class InternshipOrganizerPeriodUserBrowserTableDataProvider extends ObjectTableD
     
     private $browser;
 
-    function InternshipOrganizerPeriodUserBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     

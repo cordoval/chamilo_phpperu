@@ -35,7 +35,7 @@ class CourseForm extends CommonForm
     private $user;
     private $course_type_id;
 
-    function CourseForm($form_type, $course, $user, $action, $parent)
+    function __construct($form_type, $course, $user, $action, $parent)
     {
         $this->course_type_id = Request :: get(WeblcmsManager :: PARAM_COURSE_TYPE);
         $this->allow_no_course_type = $user->is_platform_admin() || PlatformSetting :: get('allow_course_creation_without_coursetype', 'weblcms');

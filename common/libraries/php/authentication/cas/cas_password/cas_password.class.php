@@ -7,7 +7,7 @@ abstract class CasPassword
     /**
      * Constructor
      */
-    function CasPassword($user)
+    function __construct($user)
     {
         $this->set_user($user);
     }

@@ -28,7 +28,7 @@ class ExternalRepositoryForm extends FormValidator
     private $configuration;
     private $form_type;
 
-    function ExternalRepositoryForm($form_type, $external_repository, $action)
+    function __construct($form_type, $external_repository, $action)
     {
         parent :: __construct('external_repository', 'post', $action);
 

@@ -15,7 +15,7 @@ class ObjectPublicationGalleryTable extends GalleryObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function ObjectPublicationGalleryTable($table_renderer, $condition, $cell_renderer = null, $property_model = null)
+    function __construct($table_renderer, $condition, $cell_renderer = null, $property_model = null)
     {
         $data_provider = new ObjectPublicationGalleryTableDataProvider($table_renderer, $condition);
 

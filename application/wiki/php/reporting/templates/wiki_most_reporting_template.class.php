@@ -12,7 +12,7 @@ use reporting\ReportingTemplate;
 class WikiMostReportingTemplate extends ReportingTemplate
 {
 
-    function WikiMostReportingTemplate($parent)
+    function __construct($parent)
     {
         parent :: __construct($parent);
         $this->set_template_parameters();

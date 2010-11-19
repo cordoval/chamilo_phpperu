@@ -25,7 +25,7 @@ abstract class SurveyQuestionDisplay
     private $visible;
     private $contex_path;
 
-    function SurveyQuestionDisplay($formvalidator, $complex_question, $question, $answer, $context_path, $survey)
+    function __construct($formvalidator, $complex_question, $question, $answer, $context_path, $survey)
     {
         $this->formvalidator = $formvalidator;
         $this->renderer = $formvalidator->defaultRenderer();

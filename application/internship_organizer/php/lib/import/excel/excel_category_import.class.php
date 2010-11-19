@@ -11,7 +11,7 @@ require_once Path :: get_plugin_path() . 'phpexcel/PHPExcel.php';
 class ExcelCategoryImport extends InternshipOrganizerImport
 {
 
-    function ExcelCategoryImport($internship_organizer_file, $user, $object_type)
+    function __construct($internship_organizer_file, $user, $object_type)
     {
         parent :: __construct($internship_organizer_file, $user, $object_type);
     }

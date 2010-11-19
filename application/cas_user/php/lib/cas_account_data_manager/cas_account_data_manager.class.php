@@ -26,7 +26,7 @@ class CasAccountDataManager
      */
     private $database;
 
-    protected function CasAccountDataManager()
+    protected function __construct()
     {
         $this->initialize();
     }

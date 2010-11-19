@@ -17,7 +17,7 @@ class DefaultQuotaBoxTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function DefaultQuotaBoxTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns(), 1);
     }

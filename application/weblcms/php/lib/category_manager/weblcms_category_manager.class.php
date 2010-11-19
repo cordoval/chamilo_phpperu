@@ -14,7 +14,7 @@ require_once dirname(__FILE__) . '/course_category.class.php';
 class WeblcmsCategoryManager extends CategoryManager
 {
 
-    function WeblcmsCategoryManager($parent)
+    function __construct($parent)
     {
         $trail = BreadcrumbTrail :: get_instance();
 

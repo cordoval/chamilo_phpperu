@@ -20,7 +20,7 @@ class MetadataDefaultValueBrowserTable extends ObjectTable
 	/**
 	 * Constructor
 	 */
-	function MetadataDefaultValueBrowserTable($browser, $parameters, $condition)
+	function __construct($browser, $parameters, $condition)
 	{
 		$model = new MetadataDefaultValueBrowserTableColumnModel();
 		$renderer = new MetadataDefaultValueBrowserTableCellRenderer($browser);

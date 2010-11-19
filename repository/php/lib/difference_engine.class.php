@@ -36,7 +36,7 @@ class Difference_Engine
      *                           lines from a file.
      * @param array $to_lines    An array of strings.
      */
-    function Difference_Engine($from_lines, $to_lines)
+    function __construct($from_lines, $to_lines)
     {
         array_walk($from_lines, array($this, '_trimNewlines'));
         array_walk($to_lines, array($this, '_trimNewlines'));

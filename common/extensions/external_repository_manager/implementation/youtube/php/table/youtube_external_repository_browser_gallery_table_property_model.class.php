@@ -5,7 +5,7 @@ require_once dirname(__FILE__) . '../youtube_external_repository_connector.class
 class YoutubeExternalRepositoryBrowserGalleryPropertyModel extends ExternalRepositoryBrowserGalleryPropertyModel
 {
 
-    function YoutubeExternalRepositoryBrowserGalleryPropertyModel()
+    function __construct()
     {
         parent :: __construct();
 

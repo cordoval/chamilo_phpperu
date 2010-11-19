@@ -27,7 +27,7 @@ class CasUserRequestBrowserTableColumnModel extends DefaultCasUserRequestTableCo
     /**
      * Constructor
      */
-    function CasUserRequestBrowserTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->set_default_order_column(1);

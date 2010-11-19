@@ -6,7 +6,7 @@ class DefaultSurveyContextTemplateRelPageTableColumnModel extends ObjectTableCol
     /**
      * Constructor
      */
-    function DefaultSurveyContextTemplateRelPageTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns());
     }

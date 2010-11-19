@@ -24,7 +24,7 @@ class Dokeos185DataManager extends OldMigrationDataManager
     private $_configuration;
     private static $move_file;
 
-    function Dokeos185DataManager($old_directory)
+    function __construct($old_directory)
     {
         $this->get_configuration($old_directory);
         $this->initialize();

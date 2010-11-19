@@ -25,7 +25,7 @@ class AdminUserBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function AdminUserBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new AdminUserBrowserTableColumnModel();
         $renderer = new AdminUserBrowserTableCellRenderer($browser);

@@ -48,7 +48,7 @@ class ForumManager extends WebApplication
      * Constructor
      * @param User $user The current user
      */
-    function ForumManager($user = null)
+    function __construct($user = null)
     {
         $this->user = $user;
         $this->parameters = array();

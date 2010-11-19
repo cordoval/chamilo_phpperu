@@ -11,7 +11,7 @@ class DefaultGradebookPublicationTableColumnModel extends ObjectTableColumnModel
 	/**
 	 * Constructor
 	 */
-	function DefaultGradebookPublicationTableColumnModel()
+	function __construct()
 	{
 		parent :: __construct(self :: get_default_columns());
 	}

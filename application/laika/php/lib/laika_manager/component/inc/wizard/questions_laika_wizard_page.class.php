@@ -16,7 +16,7 @@ class QuestionsLaikaWizardPage extends LaikaWizardPage
 {
     private $counter;
 
-    public function QuestionsLaikaWizardPage($name, $parent, $counter)
+    public function __construct($name, $parent, $counter)
     {
         parent :: LaikaWizardPage($name, $parent);
         $this->counter = $counter;

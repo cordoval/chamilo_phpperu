@@ -13,7 +13,7 @@ class InvitationManager extends SubManager
 
     const ACTION_CREATE_INVITATIONS = 'create';
 
-    function InvitationManager($application)
+    function __construct($application)
     {
         parent :: __construct($application);
     }

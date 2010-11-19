@@ -22,7 +22,7 @@ class CourseBrowserTableColumnModel extends DefaultCourseTableColumnModel
     /**
      * Constructor
      */
-    function CourseBrowserTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->set_default_order_column(0);

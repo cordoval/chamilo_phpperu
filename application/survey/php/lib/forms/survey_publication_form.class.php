@@ -27,7 +27,7 @@ class SurveyPublicationForm extends FormValidator
     private $content_object;
     private $user;
 
-    function SurveyPublicationForm($form_type, $content_object, $user, $action, $publication)
+    function __construct($form_type, $content_object, $user, $action, $publication)
     {
         parent :: __construct('survey_publication_settings', 'post', $action);
         

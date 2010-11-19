@@ -106,7 +106,7 @@ class ReservationsManager extends WebApplication
     private $user;
     private $dm;
 
-    function ReservationsManager($user)
+    function __construct($user)
     {
         $this->dm = ReservationsDataManager :: get_instance();
         parent :: __construct($user);

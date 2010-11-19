@@ -24,7 +24,7 @@ class Duration
      * @param string|null $duration
      * @param LangString|null $description
      */
-    function Duration($duration = null, $description = null)
+    function __construct($duration = null, $description = null)
     {
         $this->duration = $duration;
         $this->description = $description;

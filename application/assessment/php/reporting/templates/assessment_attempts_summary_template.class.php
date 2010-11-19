@@ -15,7 +15,7 @@ require_once dirname(__FILE__) . '/../blocks/assessment_attempts_summary_reporti
 class AssessmentAttemptsSummaryTemplate extends ReportingTemplate
 {
 
-    function AssessmentAttemptsSummaryTemplate($parent = null, $id, $params, $trail)
+    function __construct($parent = null, $id, $params, $trail)
     {
     	
         $block = new AssessmentAttemptsSummaryReportingBlock($this);

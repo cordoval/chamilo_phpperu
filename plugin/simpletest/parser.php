@@ -37,7 +37,7 @@ class ParallelRegex {
      *                            for insensitive.
      *    @access public
      */
-    function ParallelRegex($case) {
+    function __construct($case) {
         $this->_case = $case;
         $this->_patterns = array();
         $this->_labels = array();

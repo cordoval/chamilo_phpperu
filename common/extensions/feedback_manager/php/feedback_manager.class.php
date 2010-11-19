@@ -33,7 +33,7 @@ class FeedbackManager extends SubManager
     private $publication_id;
     private $complex_wrapper_id;
 
-    function FeedbackManager($parent, $application, $publication_id, $complex_wrapper_id, $optional_action = null)
+    function __construct($parent, $application, $publication_id, $complex_wrapper_id, $optional_action = null)
     {
         parent :: __construct($parent);
 

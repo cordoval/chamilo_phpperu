@@ -9,7 +9,7 @@ class DefaultSurveyPublicationRelReportingTemplateTableCellRenderer extends Obje
     /**
      * Constructor
      */
-    function DefaultSurveyPublicationRelReportingTemplateTableCellRenderer()
+    function __construct()
     {
     }
 

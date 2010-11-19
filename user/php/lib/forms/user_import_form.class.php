@@ -33,7 +33,7 @@ class UserImportForm extends FormValidator
      * Creates a new UserImportForm
      * Used to import users from a file
      */
-    function UserImportForm($form_type, $action, $form_user)
+    function __construct($form_type, $action, $form_user)
     {
         parent :: __construct('user_import', 'post', $action);
 

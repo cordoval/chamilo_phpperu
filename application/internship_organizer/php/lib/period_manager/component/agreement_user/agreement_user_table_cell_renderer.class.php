@@ -15,7 +15,7 @@ class InternshipOrganizerPeriodAgreementUserBrowserTableCellRenderer extends Def
     private $browser;
     private $user_type;
 
-    function InternshipOrganizerPeriodAgreementUserBrowserTableCellRenderer($browser, $user_type)
+    function __construct($browser, $user_type)
     {
         parent :: __construct();
         $this->browser = $browser;

@@ -11,7 +11,7 @@ class RuleCondition
     private $referenced_objective;
     private $measure_treshold;
 
-    function RuleCondition()
+    function __construct()
     {
         $this->not_condition = false;
     }

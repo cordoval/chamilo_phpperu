@@ -28,7 +28,7 @@ class MatterhornExternalRepositoryManagerForm extends FormValidator
     private $form_type;
     private $external_repository_object;
 
-    function MatterhornExternalRepositoryManagerForm($form_type, $action, $application)
+    function __construct($form_type, $action, $application)
     {
         parent :: __construct('matterhorn_upload', 'post', $action);
 

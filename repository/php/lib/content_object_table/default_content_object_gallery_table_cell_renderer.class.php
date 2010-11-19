@@ -6,7 +6,7 @@ use common\libraries\GalleryObjectTableCellRenderer;
 abstract class DefaultContentObjectGalleryTableCellRenderer implements GalleryObjectTableCellRenderer
 {
 
-    function DefaultContentObjectGalleryTableCellRenderer()
+    function __construct()
     {
     }
 

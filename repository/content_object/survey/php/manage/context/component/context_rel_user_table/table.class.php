@@ -11,7 +11,7 @@ class SurveyContextRelUserBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function SurveyContextRelUserBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
 
         $model = new SurveyContextRelUserBrowserTableColumnModel($browser);

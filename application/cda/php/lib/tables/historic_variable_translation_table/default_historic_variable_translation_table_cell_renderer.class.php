@@ -18,7 +18,7 @@ class DefaultHistoricVariableTranslationTableCellRenderer extends ObjectTableCel
 	/**
 	 * Constructor
 	 */
-	function DefaultHistoricVariableTranslationTableCellRenderer()
+	function __construct()
 	{
 	}
 

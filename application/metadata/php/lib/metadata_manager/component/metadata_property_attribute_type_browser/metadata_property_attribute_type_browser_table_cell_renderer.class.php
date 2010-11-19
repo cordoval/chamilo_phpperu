@@ -27,7 +27,7 @@ class MetadataPropertyAttributeTypeBrowserTableCellRenderer extends DefaultMetad
 	 * Constructor
 	 * @param ApplicationComponent $browser
 	 */
-	function MetadataPropertyAttributeTypeBrowserTableCellRenderer($browser)
+	function __construct($browser)
 	{
 		parent :: __construct();
 		$this->browser = $browser;

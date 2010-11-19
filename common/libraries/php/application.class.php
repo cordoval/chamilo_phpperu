@@ -28,7 +28,7 @@ abstract class Application
 
     const PLACEHOLDER_APPLICATION = '__APPLICATION__';
 
-    function Application($user)
+    function __construct($user)
     {
         $this->user = $user;
         $this->parameters = array();

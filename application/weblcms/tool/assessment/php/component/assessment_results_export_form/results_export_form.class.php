@@ -22,7 +22,7 @@ require_once WebApplication :: get_application_class_path('weblcms') . 'trackers
 class AssessmentResultsExportForm extends FormValidator
 {
 
-    function AssessmentResultsExportForm($url)
+    function __construct($url)
     {
         parent :: __construct('assessment', 'post', $url);
         $this->initialize();

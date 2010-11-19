@@ -12,7 +12,7 @@ class DefaultMetadataDefaultValueTableCellRenderer extends ObjectTableCellRender
 	/**
 	 * Constructor
 	 */
-	function DefaultMetadataDefaultValueTableCellRenderer()
+	function __construct()
 	{
 	}
 

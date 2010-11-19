@@ -21,7 +21,7 @@ class InternshipOrganizerMomentBrowserTable extends ObjectTable
     /**
      * Constructor
      */
-    function InternshipOrganizerMomentBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new InternshipOrganizerMomentBrowserTableColumnModel();
         $renderer = new InternshipOrganizerMomentBrowserTableCellRenderer($browser);

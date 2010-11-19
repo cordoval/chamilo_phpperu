@@ -38,7 +38,7 @@ class SubscribeGroupBrowserTableCellRenderer extends DefaultGroupTableCellRender
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function SubscribeGroupBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

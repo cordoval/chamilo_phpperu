@@ -11,7 +11,7 @@ class Percentage extends EvaluationFormat
     const DEFAULT_ACTIVE_VALUE = 0;
     const EVALUATION_FORMAT_NAME = 'Percentage';
 
-    function Percentage()
+    function __construct()
     {
         
     }

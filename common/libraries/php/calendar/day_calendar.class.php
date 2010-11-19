@@ -27,7 +27,7 @@ class DayCalendar extends CalendarTable
      * @param int $hour_step The number of hours for one table cell. Defaults to
      * 1.
      */
-    function DayCalendar($display_time, $hour_step = 1)
+    function __construct($display_time, $hour_step = 1)
     {
         $this->navigation_html = '';
         $this->hour_step = $hour_step;

@@ -3,7 +3,7 @@
 class DefaultSurveyContextRelUserTableCellRenderer extends ObjectTableCellRenderer
 {
 
-    function DefaultSurveyContextRelUserTableCellRenderer()
+    function __construct()
     {
     }
 

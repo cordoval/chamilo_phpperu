@@ -14,7 +14,7 @@ require_once dirname(__FILE__) . '/../../../content_object_table/content_object_
 class ForumTable extends ContentObjectTable
 {
 
-    function ForumTable($forum, $url_format)
+    function __construct($forum, $url_format)
     {
         $name = 'forumtable' . $forum->get_id();
         $data_provider = new ForumTableDataProvider($forum);

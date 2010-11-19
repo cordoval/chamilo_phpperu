@@ -8,7 +8,7 @@ use common\libraries\PublicationRSS;
 
 class WikiPublicationRSS extends PublicationRSS
 {
-	function WikiPublicationRSS()
+	function __construct()
 	{
 		parent :: PublicationRSS('Chamilo wiki', htmlspecialchars(Path :: get(WEB_PATH)), 'Wiki publications', htmlspecialchars(Path :: get(WEB_PATH)));
 	}

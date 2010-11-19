@@ -33,7 +33,7 @@ class PhotobucketExternalRepositoryConnector extends ExternalRepositoryConnector
     private $secret;
     private $photobucket_session;
 
-    function PhotobucketExternalRepositoryConnector($external_repository_instance)
+    function __construct($external_repository_instance)
     {
         parent :: __construct($external_repository_instance);
 

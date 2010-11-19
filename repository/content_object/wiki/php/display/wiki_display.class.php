@@ -59,7 +59,7 @@ class WikiDisplay extends ComplexDisplay
 
     private $search_form;
 
-    function WikiDisplay($parent)
+    function __construct($parent)
     {
         parent :: __construct($parent);
 

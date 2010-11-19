@@ -12,7 +12,7 @@ require_once dirname(__FILE__) . '/build_wizard_page.class.php';
 class RowsAmountBuildWizardPage extends BuildWizardPage
 {
 
-    public function RowsAmountBuildWizardPage($name, $parent)
+    public function __construct($name, $parent)
     {
         parent :: BuildWizardPage($name, $parent);
     }

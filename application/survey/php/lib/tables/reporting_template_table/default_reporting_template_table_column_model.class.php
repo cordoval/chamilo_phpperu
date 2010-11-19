@@ -13,7 +13,7 @@ class DefaultSurveyReportingTemplateTableColumnModel extends ObjectTableColumnMo
     /**
      * Constructor
      */
-    function DefaultSurveyReportingTemplateTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns(), 1);
     }

@@ -16,7 +16,7 @@ use repository\RepositoryDataManager;
 
 class ForumPublicationRSS extends PublicationRSS
 {
-	function ForumPublicationRSS()
+	function __construct()
 	{
 		parent :: PublicationRSS('Chamilo forum', htmlspecialchars(Path :: get(WEB_PATH)), 'Forum publications', htmlspecialchars(Path :: get(WEB_PATH)));
 	}

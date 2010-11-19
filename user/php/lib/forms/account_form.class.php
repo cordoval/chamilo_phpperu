@@ -37,7 +37,7 @@ class AccountForm extends FormValidator
     /**
      * Creates a new AccountForm
      */
-    function AccountForm($form_type, $user, $action)
+    function __construct($form_type, $user, $action)
     {
         parent :: __construct('user_account', 'post', $action);
 

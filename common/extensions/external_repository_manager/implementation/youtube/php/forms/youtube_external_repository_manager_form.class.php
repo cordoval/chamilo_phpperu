@@ -29,7 +29,7 @@ class YoutubeExternalRepositoryManagerForm extends FormValidator
     private $form_type;
     private $external_repository_object;
 
-    function YoutubeExternalRepositoryManagerForm($form_type, $action, $application)
+    function __construct($form_type, $action, $application)
     {
         parent :: __construct('youtube_upload', 'post', $action);
 

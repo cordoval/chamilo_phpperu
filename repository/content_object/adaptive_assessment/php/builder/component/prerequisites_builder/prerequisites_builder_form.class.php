@@ -28,7 +28,7 @@ class PrerequisitesBuilderForm extends FormValidator
     /**
      * Creates a new AccountForm
      */
-    function PrerequisitesBuilderForm($user, $clo_item, $action)
+    function __construct($user, $clo_item, $action)
     {
         parent :: __construct('prerequisites', 'post', $action);
 

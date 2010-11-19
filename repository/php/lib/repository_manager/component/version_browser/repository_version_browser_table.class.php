@@ -26,7 +26,7 @@ class RepositoryVersionBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function RepositoryVersionBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new RepositoryVersionBrowserTableColumnModel();
         $renderer = new RepositoryVersionBrowserTableCellRenderer($browser);

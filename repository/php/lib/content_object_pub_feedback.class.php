@@ -22,7 +22,7 @@ class ContentObjectPubFeedback extends ContentObject
      */
     private $defaultProperties;
 
-    function ContentObjectPubFeedback($publication_id = 0, $cloi_id = 0, $feedback_id = 0, $defaultProperties = array ())
+    function __construct($publication_id = 0, $cloi_id = 0, $feedback_id = 0, $defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }

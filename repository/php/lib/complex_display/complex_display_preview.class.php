@@ -15,7 +15,7 @@ abstract class ComplexDisplayPreview extends SubManager
     /**
      * @param Application|SubManager $parent
      */
-    function ComplexDisplayPreview($parent)
+    function __construct($parent)
     {
         parent :: __construct($parent);
     }

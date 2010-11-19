@@ -12,7 +12,7 @@ abstract class ExternalRepositoryObjectRenderer
 
     protected $external_repository_browser;
 
-    function ExternalRepositoryObjectRenderer($external_repository_browser)
+    function __construct($external_repository_browser)
     {
         $this->external_repository_browser = $external_repository_browser;
     }

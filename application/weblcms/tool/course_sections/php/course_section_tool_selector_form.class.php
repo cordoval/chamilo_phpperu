@@ -20,7 +20,7 @@ class CourseSectionToolSelectorForm extends FormValidator
 {
     private $course_section;
 
-    function CourseSectionToolSelectorForm($course_section, $action)
+    function __construct($course_section, $action)
     {
         parent :: __construct('course_sections', 'post', $action);
 

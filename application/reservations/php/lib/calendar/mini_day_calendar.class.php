@@ -36,7 +36,7 @@ class MiniDayCalendar extends CalendarTable
      * @param int $hour_step The number of hours for one table cell. Defaults to
      * 2.
      */
-    function MiniDayCalendar($display_time, $hour_step = 2, $item_list = array())
+    function __construct($display_time, $hour_step = 2, $item_list = array())
     {
         $this->navigation_html = '';
         $this->hour_step = $hour_step;

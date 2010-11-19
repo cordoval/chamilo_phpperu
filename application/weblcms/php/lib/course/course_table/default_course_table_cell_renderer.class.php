@@ -18,7 +18,7 @@ class DefaultCourseTableCellRenderer extends ObjectTableCellRenderer
     /**
      * Constructor
      */
-    function DefaultCourseTableCellRenderer()
+    function __construct()
     {
     }
 

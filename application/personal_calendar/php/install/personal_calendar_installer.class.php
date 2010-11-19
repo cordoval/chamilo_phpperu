@@ -20,7 +20,7 @@ class PersonalCalendarInstaller extends Installer
     /**
      * Constructor
      */
-    function PersonalCalendarInstaller($values)
+    function __construct($values)
     {
         parent :: __construct($values, PersonalCalendarDataManager :: get_instance());
     }

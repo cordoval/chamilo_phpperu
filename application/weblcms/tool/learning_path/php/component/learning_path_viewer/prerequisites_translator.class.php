@@ -12,7 +12,7 @@ class PrerequisitesTranslator
     private $items;
     private $version;
 
-    function PrerequisitesTranslator($lpi_tracker_data, $objects, $version)
+    function __construct($lpi_tracker_data, $objects, $version)
     {
         $this->lpi_tracker_data = $lpi_tracker_data;
         $this->objects = $objects;

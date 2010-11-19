@@ -20,7 +20,7 @@ class MetadataPropertyTypeBrowserTableColumnModel extends DefaultMetadataPropert
 	/**
 	 * Constructor
 	 */
-	function MetadataPropertyTypeBrowserTableColumnModel()
+	function __construct()
 	{
 		parent :: __construct();
 		$this->set_default_order_column(1);

@@ -29,7 +29,7 @@ class ExternalItemForm extends FormValidator
     private $user;
     private $users;
 
-    function ExternalItemForm($form_type, $action, $category, $user)
+    function __construct($form_type, $action, $category, $user)
     {
         parent :: __construct('external_item_form_settings', 'post', $action);
         $this->form_type = $form_type;

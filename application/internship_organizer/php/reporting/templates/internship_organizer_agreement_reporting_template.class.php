@@ -19,7 +19,7 @@ require_once WebApplication :: get_application_class_path('internship_organizer'
 class InternshipOrganizerAgreementReportingTemplate extends ReportingTemplate
 {
 
-    function InternshipOrganizerAgreementReportingTemplate($parent)
+    function __construct($parent)
     {
         parent :: __construct($parent);
         $this->add_reporting_block(new InternshipOrganizerAgreementCoordinatorReportingBlock($this));

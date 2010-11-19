@@ -14,7 +14,7 @@ class InternshipOrganizerCategoryMoveForm extends FormValidator
     private $level = 1;
     private $gdm;
 
-    function InternshipOrganizerCategoryMoveForm($category, $action, $user)
+    function __construct($category, $action, $user)
     {
         parent :: __construct('category_move', 'post', $action);
         $this->category = $category;

@@ -16,7 +16,7 @@ class SurveyPublicationBrowserTableColumnModel extends DefaultSurveyPublicationT
     /**
      * Constructor
      */
-    function SurveyPublicationBrowserTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->set_default_order_column(0);

@@ -23,7 +23,7 @@ class PeerAssessmentViewerWizard extends HTML_QuickForm_Controller
     private $peer_assessment;
     private $total;
 
-    function PeerAssessmentViewerWizard($parent, $peer_assessment)
+    function __construct($parent, $peer_assessment)
     {
         $this->parent = $parent;
         $this->peer_assessment = $peer_assessment;

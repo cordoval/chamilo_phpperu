@@ -38,7 +38,7 @@ class YoutubeExternalRepositoryConnector extends ExternalRepositoryConnector
     const VIEW_COUNT = 'viewCount';
     const RATING = 'rating';
 
-    function YoutubeExternalRepositoryConnector($external_repository_instance)
+    function __construct($external_repository_instance)
     {
         parent :: __construct($external_repository_instance);
 

@@ -18,7 +18,7 @@ class SurveyTemplateTable extends ObjectTable
     const DEFAULT_NAME = 'survey_template_table';
 
 
-    function SurveyTemplateTable($component, $parameters, $condition, $context_template)
+    function __construct($component, $parameters, $condition, $context_template)
     {
         $template_type = $context_template->get_type();
     	$model = new SurveyTemplateTableColumnModel($template_type);

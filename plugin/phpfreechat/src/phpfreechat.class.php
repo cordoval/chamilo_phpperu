@@ -35,7 +35,7 @@ require_once dirname(__FILE__).'/pfcresponse.class.php';
  */
 class phpFreeChat
 {
-  function phpFreeChat( &$params )
+  function __construct( &$params )
   {
     if (!is_array($params))
       die('phpFreeChat parameters must be an array');

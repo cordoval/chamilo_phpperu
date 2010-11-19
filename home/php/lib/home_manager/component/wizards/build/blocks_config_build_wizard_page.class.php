@@ -15,7 +15,7 @@ class BlocksConfigBuildWizardPage extends BuildWizardPage
     private $values;
     private $components;
 
-    public function BlocksConfigBuildWizardPage($name, $parent, $values)
+    public function __construct($name, $parent, $values)
     {
         parent :: BuildWizardPage($name, $parent);
         $this->values = $values;

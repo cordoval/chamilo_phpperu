@@ -18,7 +18,7 @@ class SurveyContextTable extends ObjectTable
     const DEFAULT_NAME = 'survey_context_table';
 
 
-    function SurveyContextTable($component, $parameters, $condition, $context_registration)
+    function __construct($component, $parameters, $condition, $context_registration)
     {
         $context_type = $context_registration->get_type();
     	$model = new SurveyContextTableColumnModel($context_type);

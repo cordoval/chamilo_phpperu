@@ -48,7 +48,7 @@ class SurveyMenu extends HTML_Menu
     
     private $parent_ids;
 
-    function SurveyMenu($parent, $current_context_path, $url_format, $survey)
+    function __construct($parent, $current_context_path, $url_format, $survey)
     {
         $this->survey = $survey;
         $this->survey_id = $this->survey->get_id();

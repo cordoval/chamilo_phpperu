@@ -20,7 +20,7 @@ class ValidationBrowserTableCellRend extends DefaultValidationTableCellRend
      * Constructor
      * @param ValidationManagerBrowserComponent $browser
      */
-    function ValidationBrowserTableCellRend($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

@@ -24,7 +24,7 @@ class GroupRelUserBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function GroupRelUserBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new GroupRelUserBrowserTableColumnModel();
         $renderer = new GroupRelUserBrowserTableCellRenderer($browser);

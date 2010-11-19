@@ -22,7 +22,7 @@ class WeblcmsInstaller extends Installer
     /**
      * Constructor
      */
-    function WeblcmsInstaller($values)
+    function __construct($values)
     {
         parent :: __construct($values, WeblcmsDataManager :: get_instance());
     }

@@ -27,7 +27,7 @@ class SubscribeGroupBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function SubscribeGroupBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new SubscribeGroupBrowserTableColumnModel();
         $renderer = new SubscribeGroupBrowserTableCellRenderer($browser);

@@ -47,7 +47,7 @@ class SurveyContextTemplateMenu extends HTML_Menu
      * @param array $extra_items An array of extra tree items, added to the
      * root.
      */
-    function SurveyContextTemplateMenu($current_template, $root_co, $url_format = '?go=complex_builder&application=repository&builder_action=context_browser&object=%s&template_id=%s', $include_root = true, $show_complete_tree = false, $hide_current_template = false)
+    function __construct($current_template, $root_co, $url_format = '?go=complex_builder&application=repository&builder_action=context_browser&object=%s&template_id=%s', $include_root = true, $show_complete_tree = false, $hide_current_template = false)
     {
 
         //		dump($current_template);

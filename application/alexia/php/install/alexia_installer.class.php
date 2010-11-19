@@ -20,7 +20,7 @@ class AlexiaInstaller extends Installer
     /**
      * Constructor
      */
-    function AlexiaInstaller($values)
+    function __construct($values)
     {
         parent :: __construct($values, AlexiaDataManager :: get_instance());
     }

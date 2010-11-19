@@ -13,7 +13,7 @@ class DefaultEvaluationFormatsTableColumnModel extends ObjectTableColumnModel
 	/**
 	 * Constructor
 	 */
-	function DefaultEvaluationFormatsTableColumnModel()
+	function __construct()
 	{
 		parent :: __construct(self :: get_default_columns());
 	}

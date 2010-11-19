@@ -35,7 +35,7 @@ class AlexiaManager extends WebApplication
      * Constructor
      * @param int $user_id
      */
-    public function AlexiaManager($user)
+    public function __construct($user)
     {
         parent :: __construct($user);
 

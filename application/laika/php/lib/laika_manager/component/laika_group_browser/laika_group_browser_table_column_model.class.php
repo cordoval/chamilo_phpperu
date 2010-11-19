@@ -25,7 +25,7 @@ class LaikaGroupBrowserTableColumnModel extends DefaultGroupTableColumnModel
     /**
      * Constructor
      */
-    function LaikaGroupBrowserTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->set_default_order_column(1);

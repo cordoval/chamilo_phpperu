@@ -27,7 +27,7 @@ class PublisherWizard extends HTML_QuickForm_Controller
 
     /**
      *	 */
-    function PublisherWizard($parent)
+    function __construct($parent)
     {
         global $language_interface;
         $this->parent = $parent;

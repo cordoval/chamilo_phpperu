@@ -27,7 +27,7 @@ class MenuToolListRenderer extends ToolListRenderer
      * Constructor
      * @param  WebLcms $parent The parent application
      */
-    function MenuToolListRenderer($parent, $visible_tools)
+    function __construct($parent, $visible_tools)
     {
         parent :: ToolListRenderer($parent, $visible_tools);
         $this->is_course_admin = $this->get_parent()->is_allowed(WeblcmsRights :: EDIT_RIGHT);

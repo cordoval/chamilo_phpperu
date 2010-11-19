@@ -35,7 +35,7 @@ class ArchiveWizard extends HTML_QuickForm_Controller
      * @param ArchiveComponent $parent The archive component
      * in which this wizard runs.
      */
-    function ArchiveWizard($parent)
+    function __construct($parent)
     {
         $this->parent = $parent;
         parent :: HTML_QuickForm_Controller('ArchiveWizard', true);

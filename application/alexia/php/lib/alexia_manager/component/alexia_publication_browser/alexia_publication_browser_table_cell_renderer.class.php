@@ -29,7 +29,7 @@ class AlexiaPublicationBrowserTableCellRenderer extends DefaultAlexiaPublication
      * Constructor
      * @param AlexiaManagerBrowserComponent $browser
      */
-    function AlexiaPublicationBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

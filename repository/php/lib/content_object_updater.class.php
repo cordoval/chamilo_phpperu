@@ -33,7 +33,7 @@ abstract class ContentObjectUpdater
     /**
      * Constructor
      */
-    function ContentObjectUpdater($type)
+    function __construct($type)
     {
         $this->data_manager = RepositoryDataManager :: get_instance();
         $this->message = array();

@@ -11,7 +11,7 @@ class DefaultValidationTableColumnMod extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function DefaultValidationTableColumnMod()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns(), 1);
     }

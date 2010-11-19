@@ -15,7 +15,7 @@ class PeerAssessmentInstaller extends Installer
     /**
      * Constructor
      */
-    function PeerAssessmentInstaller($values)
+    function __construct($values)
     {
         parent :: __construct($values, PeerAssessmentDataManager :: get_instance());
     }

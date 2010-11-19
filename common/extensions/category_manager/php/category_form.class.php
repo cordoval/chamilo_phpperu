@@ -31,7 +31,7 @@ class CategoryForm extends FormValidator
     /**
      * Creates a new LanguageForm
      */
-    function CategoryForm($form_type, $action, $category, $user, $manager)
+    function __construct($form_type, $action, $category, $user, $manager)
     {
         parent :: __construct('category_form', 'post', $action);
         

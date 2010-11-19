@@ -25,7 +25,7 @@ class EventBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function EventBrowserTable($browser, $name, $parameters, $condition)
+    function __construct($browser, $name, $parameters, $condition)
     {
         $model = new EventBrowserTableColumnModel();
         $renderer = new EventBrowserTableCellRenderer($browser);

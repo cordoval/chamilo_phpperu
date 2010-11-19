@@ -11,7 +11,7 @@ class TreeMenu extends HTML_Menu
 	private $name;
 	private $data_provider;
 
-	function TreeMenu($name, TreeMenuDataProvider $data_provider)
+	function __construct($name, TreeMenuDataProvider $data_provider)
 	{
 		$this->name = $name;
 		$this->data_provider = $data_provider;

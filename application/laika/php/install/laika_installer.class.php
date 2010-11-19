@@ -15,7 +15,7 @@ class LaikaInstaller extends Installer
     /**
      * Constructor
      */
-    function LaikaInstaller($values)
+    function __construct($values)
     {
         parent :: __construct($values, LaikaDataManager :: get_instance());
     }

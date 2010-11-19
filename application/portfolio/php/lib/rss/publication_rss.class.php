@@ -4,7 +4,7 @@ use common\libraries\PublicationRSS;
 
 class PortfolioPublicationRSS extends PublicationRSS
 {
-	function PortfolioPublicationRSS()
+	function __construct()
 	{
 		parent :: PublicationRSS('Chamilo Portfolio', htmlspecialchars(Path :: get(WEB_PATH)), 'Portfolio publications', htmlspecialchars(Path :: get(WEB_PATH)));
 	}

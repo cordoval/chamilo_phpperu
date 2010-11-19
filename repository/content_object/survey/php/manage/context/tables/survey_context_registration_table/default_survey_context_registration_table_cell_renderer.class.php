@@ -9,7 +9,7 @@ class DefaultSurveyContextRegistrationTableCellRenderer extends ObjectTableCellR
     /**
      * Constructor
      */
-    function DefaultSurveyContextRegistrationTableCellRenderer()
+    function __construct()
     {
     }
 

@@ -20,7 +20,7 @@ class DefaultPhrasesMasteryLevelTableCellRenderer extends ObjectTableCellRendere
     /**
      * Constructor
      */
-    function DefaultPhrasesMasteryLevelTableCellRenderer()
+    function __construct()
     {
     }
 

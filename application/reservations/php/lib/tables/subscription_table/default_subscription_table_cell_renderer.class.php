@@ -20,7 +20,7 @@ class DefaultSubscriptionTableCellRenderer extends ObjectTableCellRenderer
     /**
      * Constructor
      */
-    function DefaultSubscriptionTableCellRenderer($browser)
+    function __construct($browser)
     {
     
     }

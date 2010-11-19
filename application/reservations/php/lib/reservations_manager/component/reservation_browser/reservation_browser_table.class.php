@@ -27,7 +27,7 @@ class ReservationBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function ReservationBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new ReservationBrowserTableColumnModel();
         $renderer = new ReservationBrowserTableCellRenderer($browser);

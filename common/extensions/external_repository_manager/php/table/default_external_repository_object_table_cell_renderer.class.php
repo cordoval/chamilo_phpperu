@@ -9,7 +9,7 @@ use repository\ContentObject;
 
 class DefaultExternalRepositoryObjectTableCellRenderer extends ObjectTableCellRenderer
 {
-    function DefaultExternalRepositoryObjectTableCellRenderer()
+    function __construct()
     {
     }
 
