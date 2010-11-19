@@ -50,7 +50,7 @@ abstract class ContentObjectImport
      * Constructor
      * @param string $filename
      */
-    public function ContentObjectImport($content_object_file, $user, $category)
+    public function __construct($content_object_file, $user, $category)
     {
         $this->content_object_file = $content_object_file;
         $this->user = $user;

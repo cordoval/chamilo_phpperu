@@ -373,7 +373,7 @@ class ExternalItemForm extends FormValidator
 //{
 //	private $evaluation_format;
 //	
-//	function ValidateScoreStepRule($evaluation_format)
+//	function __construct($evaluation_format)
 //	{
 //		$this->evaluation_format = $evaluation_format;
 //	}
@@ -392,7 +392,7 @@ class ExternalItemForm extends FormValidator
 //{
 //	private $evaluation_format;
 //	
-//	function ValidateScoreBoundariesRule($evaluation_format)
+//	function __construct($evaluation_format)
 //	{
 //		$this->evaluation_format = $evaluation_format;
 //	}

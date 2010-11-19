@@ -48,7 +48,7 @@ class ReportingTemplateMenu
      * root.
      * @param string[] $filter_count_on_types - Array to define the types on which the count on the categories should be filtered
      */
-    function ReportingTemplateMenu(ReportingTemplate $reporting_template, $current_block, $url_format = '?block=%s')
+    function __construct(ReportingTemplate $reporting_template, $current_block, $url_format = '?block=%s')
     {
         $this->reporting_template = $reporting_template;
         $this->url_format = $url_format;

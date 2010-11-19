@@ -18,7 +18,7 @@ class ValidationBrowserTableDataProvid extends ObjectTableDataProvider
      * @param ValidationManagerComponent $browser
      * @param Condition $condition
      */
-    function ValidationBrowserTableDataProvid($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

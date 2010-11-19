@@ -42,7 +42,7 @@ class PatternMatchCondition implements Condition
      * @param string $name
      * @param string $pattern
      */
-    function PatternMatchCondition($name, $pattern, $storage_unit = null, $is_alias = false)
+    function __construct($name, $pattern, $storage_unit = null, $is_alias = false)
     {
         $this->name = $name;
         $this->pattern = $pattern;

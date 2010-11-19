@@ -30,7 +30,7 @@ class PortfolioPublicationForm extends FormValidator
     private $groups_defaults = array();
     private $inherit_default;
 
-    function PortfolioPublicationForm($form_type, $portfolio_publication, $action, $user, $type)
+    function __construct($form_type, $portfolio_publication, $action, $user, $type)
     {
         parent :: __construct('portfolio_publication_settings', 'post', $action);
         $this->portfolio_publication = $portfolio_publication;

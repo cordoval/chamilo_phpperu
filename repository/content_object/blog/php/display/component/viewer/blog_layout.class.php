@@ -34,7 +34,7 @@ abstract class BlogLayout
 	 * @param $parent
 	 * @param Blog $blog
 	 */
-	function BlogLayout($parent, Blog $blog)
+	function __construct($parent, Blog $blog)
 	{
 		$this->parent = $parent;
 		$this->blog = $blog;

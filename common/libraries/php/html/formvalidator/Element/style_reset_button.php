@@ -55,7 +55,7 @@ class HTML_QuickForm_styleresetbutton extends HTML_QuickForm_stylebutton
      * @access    public
      * @return    void
      */
-    function HTML_QuickForm_styleresetbutton($elementName = null, $elementLabel = null, $attributes = null, $value = null)
+    function __construct($elementName = null, $elementLabel = null, $attributes = null, $value = null)
     {
         HTML_QuickForm_stylebutton :: HTML_QuickForm_stylebutton($elementName, $elementLabel, $attributes, $value);
         $this->setType('reset');

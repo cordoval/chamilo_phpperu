@@ -39,7 +39,7 @@ class Dokeos185TrackEHotspot extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185TrackEHotspot object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185TrackEHotspot($defaultProperties = array())
+    function __construct($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }

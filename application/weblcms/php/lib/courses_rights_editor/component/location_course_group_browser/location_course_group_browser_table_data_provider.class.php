@@ -21,7 +21,7 @@ class LocationCourseGroupBrowserTableDataProvider extends ObjectTableDataProvide
      * @param RepositoryManagerComponent $browser
      * @param Condition $condition
      */
-    function LocationCourseGroupBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

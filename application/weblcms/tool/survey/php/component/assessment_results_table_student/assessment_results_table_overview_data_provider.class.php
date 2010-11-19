@@ -48,7 +48,7 @@ class AssessmentResultsTableOverviewStudentDataProvider extends ObjectTableDataP
      * selected.
      * @param string $query The search query.
      */
-    function AssessmentResultsTableOverviewStudentDataProvider($parent, $owner, $pid = null, $types = array(), $query = null)
+    function __construct($parent, $owner, $pid = null, $types = array(), $query = null)
     {
         $this->types = $types;
         $this->owner = $owner;

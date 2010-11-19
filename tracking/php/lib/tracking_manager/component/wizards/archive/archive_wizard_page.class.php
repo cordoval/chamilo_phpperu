@@ -30,7 +30,7 @@ abstract class ArchiveWizardPage extends FormValidatorPage
      * @param string $name A unique name of this page in the wizard
      * @param TrackingManagerArchiveComponent $parent The component in which the wizard runs
      */
-    public function ArchiveWizardPage($name, $parent)
+    public function __construct($name, $parent)
     {
         $this->parent = $parent;
         $this->name = $name;

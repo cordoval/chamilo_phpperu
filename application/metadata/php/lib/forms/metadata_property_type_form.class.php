@@ -18,7 +18,7 @@ class MetadataPropertyTypeForm extends FormValidator
 	private $metadata_property_type;
 	private $user;
 
-    function MetadataPropertyTypeForm($form_type, $metadata_property_type, $action, $user)
+    function __construct($form_type, $metadata_property_type, $action, $user)
     {
     	parent :: __construct('metadata_property_type_settings', 'post', $action);
 

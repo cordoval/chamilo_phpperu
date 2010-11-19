@@ -21,7 +21,7 @@ class LocationUserBrowserTableDataProvider extends ObjectTableDataProvider
      * @param UserManagerComponent $browser
      * @param Condition $condition
      */
-    function LocationUserBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

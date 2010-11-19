@@ -51,7 +51,7 @@ class PeerAssessmentPublicationCategoryMenu extends HTML_Menu
      * @param array $extra_items An array of extra tree items, added to the
      *                           root.
      */
-    function PeerAssessmentPublicationCategoryMenu($current_category, $url_format = '?application=peer_assessment&go=browse_peer_assessment_publications&category=%s')
+    function __construct($current_category, $url_format = '?application=peer_assessment&go=browse_peer_assessment_publications&category=%s')
     {
         $this->current_category = $current_category;
         $this->urlFmt = $url_format;

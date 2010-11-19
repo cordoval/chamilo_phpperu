@@ -38,7 +38,7 @@ class SoapNusoapWebservice extends Webservice
 {
     private $webservice_handler;
 
-    function SoapNusoapWebservice($webservice_handler)
+    function __construct($webservice_handler)
     {
         $this->webservice_handler = $webservice_handler;
         parent :: Webservice();

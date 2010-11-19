@@ -62,7 +62,7 @@ class Course extends DataClass
     private $request;
     private $course_type = false;
 
-    function Course($defaultProperties = array(), $optionalProperties = array())
+    function __construct($defaultProperties = array(), $optionalProperties = array())
     {
         parent :: __construct($defaultProperties, $optionalProperties);
     }

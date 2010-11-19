@@ -44,7 +44,7 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
      * Creates a new Dokeos185DropboxFile object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185DropboxFile($defaultProperties = array())
+    function __construct($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }

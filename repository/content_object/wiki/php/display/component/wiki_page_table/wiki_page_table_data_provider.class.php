@@ -39,7 +39,7 @@ class WikiPageTableDataProvider extends ObjectTableDataProvider
      * selected.
      * @param string $query The search query.
      */
-    function WikiPageTableDataProvider($parent, $owner)
+    function __construct($parent, $owner)
     {
         $this->parent = $parent;
         $this->owner = $owner;

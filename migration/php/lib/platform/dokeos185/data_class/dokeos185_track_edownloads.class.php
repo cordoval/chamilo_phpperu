@@ -35,7 +35,7 @@ class Dokeos185TrackEDownloads extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185TrackEDownloads object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185TrackEDownloads($defaultProperties = array())
+    function __construct($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }

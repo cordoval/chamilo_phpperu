@@ -46,7 +46,7 @@ class CourseCategoryMenu extends HTML_Menu
      * @param array $extra_items An array of extra tree items, added to the
      * root.
      */
-    function CourseCategoryMenu($current_category, $url_format = '?category=%s', $extra_items = array())
+    function __construct($current_category, $url_format = '?category=%s', $extra_items = array())
     {
         $this->urlFmt = $url_format;
         $menu = $this->get_menu_items($extra_items);

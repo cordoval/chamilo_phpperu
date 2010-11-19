@@ -116,7 +116,7 @@ class GalleryTable extends HTML_Table
      * @param int $default_order_direction The default order direction; either
      * the constant SORT_ASC or SORT_DESC
      */
-    function GalleryTable($table_name = 'table', $get_total_number_function = null, $get_data_function = null, $get_properties_function = null, $default_items_per_page = 20, $default_property = 0, $default_order_direction = SORT_ASC, $enable_order_directions = true, $ajax_enabled = false)
+    function __construct($table_name = 'table', $get_total_number_function = null, $get_data_function = null, $get_properties_function = null, $default_items_per_page = 20, $default_property = 0, $default_order_direction = SORT_ASC, $enable_order_directions = true, $ajax_enabled = false)
     {
         parent :: HTML_Table(array('class' => 'gallery_table'), 0, true);
         $this->table_name = $table_name;
@@ -787,7 +787,7 @@ class GalleryTableFromArray extends GalleryTable
      * @param int $default_items_per_page
      */
 
-    function GalleryTableFromArray($table_data, $default_property = 1, $default_items_per_page = 20, $tablename = 'tablename')
+    function __construct($table_data, $default_property = 1, $default_items_per_page = 20, $tablename = 'tablename')
     {
         $this->table_data = $table_data;
         parent :: GalleryTable($tablename, array($this, 'get_total_number_of_items'), array($this, 'get_table_data'), array($this, 'get_table_properties'), $default_items_per_page, $default_property, $default_order_direction, $ajax_enabled);

@@ -33,7 +33,7 @@ class ExternalRepositoryMenu extends HTML_Menu
     private $external_repository_manager;
     private $menu_items;
 
-    function ExternalRepositoryMenu($current_item, $external_repository_manager, $menu_items)
+    function __construct($current_item, $external_repository_manager, $menu_items)
     {
         $this->current_item = $current_item;
         $this->external_repository_manager = $external_repository_manager;

@@ -45,7 +45,7 @@ class HandbookMenu extends HTML_Menu
      *                           "?category=%s".
      * 
      */
-    function HandbookMenu($url_format, $handbook_id, $handbook_selection_id)
+    function __construct($url_format, $handbook_id, $handbook_selection_id)
     {
 //        $this->urlFmt = $url_format;
 //        $this->urlFmt = 'run.php?go='.HandbookManager::ACTION_VIEW_HANDBOOK.'&application=handbook&'. HandbookManager::PARAM_HANDBOOK_ID.'='.$handbook_id;

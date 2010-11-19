@@ -36,7 +36,7 @@ class Dokeos185DropboxFeedback extends Dokeos185CourseDataMigrationDataClass
      * Creates a new Dokeos185DropboxFeedback object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185DropboxFeedback($defaultProperties = array())
+    function __construct($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }

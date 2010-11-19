@@ -17,7 +17,7 @@ class PhrasesMasteryLevelForm extends FormValidator
     private $phrases_mastery_level;
     private $user;
 
-    function PhrasesMasteryLevelForm($form_type, $phrases_mastery_level, $action, $user)
+    function __construct($form_type, $phrases_mastery_level, $action, $user)
     {
         parent :: __construct('phrases_mastery_level_form', 'post', $action);
 

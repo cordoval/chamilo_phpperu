@@ -25,7 +25,7 @@ class PhrasesPublisher
 {
     private $parent;
 
-    function PhrasesPublisher($parent)
+    function __construct($parent)
     {
         $this->parent = $parent;
     }

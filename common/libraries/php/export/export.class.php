@@ -22,7 +22,7 @@ abstract class Export
      * Constructor
      * @param string $filename
      */
-    public function Export($data)
+    public function __construct($data)
     {
         $this->data = $data;
         Export :: get_supported_filetypes();

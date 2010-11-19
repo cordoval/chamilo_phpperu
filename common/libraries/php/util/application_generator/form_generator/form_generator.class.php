@@ -12,7 +12,7 @@ class FormGenerator
     /**
      * Constructor
      */
-    function FormGenerator()
+    function __construct()
     {
     }
 

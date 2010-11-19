@@ -32,7 +32,7 @@ class Dokeos185RoleUser extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185RoleUser object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185RoleUser($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }

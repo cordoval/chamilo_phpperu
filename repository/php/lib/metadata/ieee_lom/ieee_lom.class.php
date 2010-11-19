@@ -35,7 +35,7 @@ class IeeeLom
     /**
      * Constructor
      */
-    function IeeeLom($dom_document = null)
+    function __construct($dom_document = null)
     {
         if (! isset($dom_document))
         {

@@ -22,7 +22,7 @@ class GlossaryViewerTableDataProvider extends ObjectTableDataProvider
      * selected.
      * @param string $query The search query.
      */
-    function GlossaryViewerTableDataProvider($parent)
+    function __construct($parent)
     {
         $this->parent = $parent;
     }

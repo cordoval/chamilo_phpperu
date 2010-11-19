@@ -42,7 +42,7 @@ class CategoryMenu extends HTML_Menu
      *                           Passed to sprintf(). Defaults to the string
      *                           "?category=%s".
      */
-    function CategoryMenu($current_item, $category_manager)
+    function __construct($current_item, $category_manager)
     {
         $this->current_item = $current_item;
         $this->category_manager = $category_manager;

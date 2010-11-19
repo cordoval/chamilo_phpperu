@@ -30,7 +30,7 @@ class AssessmentMatrixQuestionOption extends MatrixQuestionOption
      * @param int $match The index of the match corresponding to this option
      * @param int $score The score of this answer in the question
      */
-    function AssessmentMatrixQuestionOption($value = '', $matches = array(), $score = 1, $feedback = '')
+    function __construct($value = '', $matches = array(), $score = 1, $feedback = '')
     {
 		parent :: MatrixQuestionOption($value);
         $this->score = $score;

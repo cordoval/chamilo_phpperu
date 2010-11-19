@@ -38,7 +38,7 @@ class Dokeos185GradebookLink extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185GradebookLink object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185GradebookLink($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }

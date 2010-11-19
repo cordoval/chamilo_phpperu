@@ -23,7 +23,7 @@ class UserValidator extends Validator
 {
     private $udm;
 
-    function UserValidator()
+    function __construct()
     {
         $this->udm = UserDataManager :: get_instance();
     }

@@ -52,7 +52,7 @@ class HTML_QuickForm_stylebutton extends HTML_QuickForm_element
      * @access    public
      * @return    void
      */
-    function HTML_QuickForm_stylebutton($elementName = null, $elementLabel = null, $attributes = null, $value = null)
+    function __construct($elementName = null, $elementLabel = null, $attributes = null, $value = null)
     {
         $this->HTML_QuickForm_element($elementName, null, $attributes);
         $this->styleButtonLabel = $elementLabel;

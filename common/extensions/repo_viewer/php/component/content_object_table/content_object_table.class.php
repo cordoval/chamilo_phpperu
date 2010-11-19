@@ -36,7 +36,7 @@ class ContentObjectTable extends ObjectTable
      * the selected learning object.
      * @see PublicationCandidateTableCellRenderer::PublicationCandidateTableCellRenderer()
      */
-    function ContentObjectTable($parent, $owner, $types, $query, $table_actions)
+    function __construct($parent, $owner, $types, $query, $table_actions)
     {
         $data_provider = new ContentObjectTableDataProvider($owner, $types, $query, $parent);
         $column_model = new ContentObjectTableColumnModel();

@@ -42,7 +42,7 @@ class AssessmentPublicationForm extends FormValidator
     private $content_object;
     private $user;
 
-    function AssessmentPublicationForm($form_type, $content_object, $user, $action)
+    function __construct($form_type, $content_object, $user, $action)
     {
         parent :: __construct('assessment_publication_settings', 'post', $action);
         $this->content_object = $content_object;

@@ -44,7 +44,7 @@ class NavigationItemMenu extends HTML_Menu
      * @param array $extra_items An array of extra tree items, added to the
      *                           root.
      */
-    function NavigationItemMenu($current_category, $url_format = '?item=%s', $extra_items_before = array(), $extra_items_after = array(), $condition = null)
+    function __construct($current_category, $url_format = '?item=%s', $extra_items_before = array(), $extra_items_after = array(), $condition = null)
     {
         $this->urlFmt = $url_format;
         $menu = $this->get_navigation_items($extra_items_before, $extra_items_after, $condition);

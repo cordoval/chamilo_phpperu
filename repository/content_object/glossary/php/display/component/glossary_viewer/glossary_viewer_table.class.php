@@ -31,7 +31,7 @@ class GlossaryViewerTable extends ObjectTable
      * the selected learning object.
      * @see ResultsCandidateTableCellRenderer::ResultsCandidateTableCellRenderer()
      */
-    function GlossaryViewerTable($parent)
+    function __construct($parent)
     {
         $data_provider = new GlossaryViewerTableDataProvider($parent);
         $column_model = new GlossaryViewerTableColumnModel();

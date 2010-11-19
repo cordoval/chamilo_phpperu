@@ -53,7 +53,7 @@ class InternshipOrganizerPeriodMenu extends HTML_Menu
      * @param array $extra_items An array of extra tree items, added to the
      * root.
      */
-    function InternshipOrganizerPeriodMenu($current_period, $url_format = '?application=internship_organizer&go=period&period_id=%s', $include_root = true, $show_complete_tree = false, $hide_current_period = false)
+    function __construct($current_period, $url_format = '?application=internship_organizer&go=period&period_id=%s', $include_root = true, $show_complete_tree = false, $hide_current_period = false)
     {
         $this->include_root = $include_root;
         $this->show_complete_tree = $show_complete_tree;

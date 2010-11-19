@@ -30,7 +30,7 @@ class CourseValidator extends Validator
     private $udm;
     private $wdm;
 
-    function CourseValidator()
+    function __construct()
     {
         $this->udm = DatabaseUserDataManager :: get_instance();
         $this->wdm = DatabaseWeblcmsDataManager :: get_instance();

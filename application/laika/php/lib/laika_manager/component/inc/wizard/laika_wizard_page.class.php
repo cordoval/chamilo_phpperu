@@ -24,7 +24,7 @@ abstract class LaikaWizardPage extends HTML_QuickForm_Page
      * @param Tool $parent The repository tool in which the wizard
      * runs.
      */
-    public function LaikaWizardPage($name, $parent, $wizard = null)
+    public function __construct($name, $parent, $wizard = null)
     {
         $this->parent = $parent;
         $this->wizard = $wizard;

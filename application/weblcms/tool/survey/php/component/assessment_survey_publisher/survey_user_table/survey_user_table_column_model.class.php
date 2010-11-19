@@ -23,7 +23,7 @@ class SurveyUserTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor.
      */
-    function SurveyUserTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_columns(), 1, SORT_ASC);
     }

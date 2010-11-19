@@ -18,7 +18,7 @@ class LanguagePackForm extends FormValidator
 	private $language_pack;
 	private $user;
 
-    function LanguagePackForm($form_type, $language_pack, $action, $user)
+    function __construct($form_type, $language_pack, $action, $user)
     {
     	parent :: __construct('language_pack_settings', 'post', $action);
 

@@ -40,7 +40,7 @@ class Dokeos185TrackEAttempt extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185TrackEAttempt object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185TrackEAttempt($defaultProperties = array())
+    function __construct($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }

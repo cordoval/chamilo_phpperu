@@ -37,7 +37,7 @@ class Dokeos185Link extends Dokeos185CourseDataMigrationDataClass
      * @param array $defaultProperties The default properties of the link
      *                                 object. Associative array.
      */
-    function Dokeos185Link($defaultProperties = array())
+    function __construct($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }

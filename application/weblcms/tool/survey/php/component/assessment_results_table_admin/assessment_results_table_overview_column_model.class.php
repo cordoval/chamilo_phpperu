@@ -24,7 +24,7 @@ class AssessmentResultsTableOverviewAdminColumnModel extends ObjectTableColumnMo
     /**
      * Constructor.
      */
-    function AssessmentResultsTableOverviewAdminColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_columns(), 1, SORT_ASC);
     }

@@ -64,7 +64,7 @@ class LearningPathTree extends HTML_Menu
      * @param array $extra_items An array of extra tree items, added to the
      * root.
      */
-    function LearningPathTree($lp_id, $current_step, $url_format, $lpi_tracker_data)
+    function __construct($lp_id, $current_step, $url_format, $lpi_tracker_data)
     {
         $this->dm = RepositoryDataManager :: get_instance();
         $this->current_step = $current_step;

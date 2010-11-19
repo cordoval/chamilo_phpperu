@@ -11,7 +11,7 @@ use application\weblcms\ObjectPublicationTableColumnModel;
 class SurveyColumnModel extends ObjectPublicationTableColumnModel
 {
 
-    function SurveyColumnModel()
+    function __construct()
     {
         parent :: __construct($this->get_columns());
     }

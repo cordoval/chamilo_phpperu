@@ -23,7 +23,7 @@ class LinkerDataManager
     /**
      * Constructor.
      */
-    protected function LinkerDataManager()
+    protected function __construct()
     {
         $this->initialize();
     }

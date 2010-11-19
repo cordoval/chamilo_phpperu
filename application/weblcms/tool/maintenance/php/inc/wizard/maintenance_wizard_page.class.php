@@ -24,7 +24,7 @@ abstract class MaintenanceWizardPage extends FormValidatorPage
      * @param Tool $parent The repository tool in which the wizard
      * runs.
      */
-    public function MaintenanceWizardPage($name, $parent)
+    public function __construct($name, $parent)
     {
         $this->parent = $parent;
         parent :: __construct($name, 'post');

@@ -43,7 +43,7 @@ class PersonalMessengerMenu extends HTML_Menu
      * @param array $extra_items An array of extra tree items, added to the
      *                           root.
      */
-    function PersonalMessengerMenu($current_category, $url_format = '?folder=%s', $extra_items = array())
+    function __construct($current_category, $url_format = '?folder=%s', $extra_items = array())
     {
         $this->urlFmt = $url_format;
         $menu = $this->get_menu_items($extra_items);

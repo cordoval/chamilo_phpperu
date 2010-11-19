@@ -47,7 +47,7 @@ class Dokeos185AssignmentSubmission extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185AssignmentSubmission object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185AssignmentSubmission($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }

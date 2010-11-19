@@ -27,7 +27,7 @@ class SubscribedUserBrowserTableDataProvider extends ObjectTableDataProvider
      * @param WeblcmsManagerComponent $browser
      * @param Condition $condition
      */
-    function SubscribedUserBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
         $this->udm = UserDataManager :: get_instance($browser->get_user_id());

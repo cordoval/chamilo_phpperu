@@ -109,7 +109,7 @@ class SortableTable extends HTML_Table
      * @param int $default_order_direction The default order direction; either
      * the constant SORT_ASC or SORT_DESC
      */
-    function SortableTable($table_name = 'table', $get_total_number_function = null, $get_data_function = null, $default_column = 1, $default_items_per_page = 20, $default_order_direction = SORT_ASC, $ajax_enabled = false)
+    function __construct($table_name = 'table', $get_total_number_function = null, $get_data_function = null, $default_column = 1, $default_items_per_page = 20, $default_order_direction = SORT_ASC, $ajax_enabled = false)
     {
         parent :: HTML_Table(array('class' => 'data_table'), 0, true);
         $this->table_name = $table_name;
@@ -764,7 +764,7 @@ class SortableTableFromArray extends SortableTable
      * @param int $default_column
      * @param int $default_items_per_page
      */
-    function SortableTableFromArray($table_data, $default_column = 1, $default_items_per_page = 20, $tablename = 'tablename')
+    function __construct($table_data, $default_column = 1, $default_items_per_page = 20, $tablename = 'tablename')
     {
         $this->table_data = $table_data;
         parent :: SortableTable($tablename, array($this, 'get_total_number_of_items'), array($this, 'get_table_data'), $default_column, $default_items_per_page);

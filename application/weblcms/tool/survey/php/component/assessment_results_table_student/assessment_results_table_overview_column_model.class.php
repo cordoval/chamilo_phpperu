@@ -24,7 +24,7 @@ class AssessmentResultsTableOverviewStudentColumnModel extends ObjectTableColumn
     /**
      * Constructor.
      */
-    function AssessmentResultsTableOverviewStudentColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_columns(), 1, SORT_ASC);
     }

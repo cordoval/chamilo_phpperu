@@ -44,7 +44,7 @@ abstract class ExternalAuthentication extends Authentication
     /**
      * Constructor
      */
-    function ExternalAuthentication()
+    function __construct()
     {
         parent :: Authentication();
 

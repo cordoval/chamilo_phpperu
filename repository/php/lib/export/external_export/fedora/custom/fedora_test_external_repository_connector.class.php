@@ -25,7 +25,7 @@ class FedoraTestExternalRepositoryConnector extends FedoraExternalRepositoryConn
 {
     const DATASTREAM_ANIMAL = 'ANIMAL';
 
-    function FedoraTestExternalRepositoryConnector($fedora_repository_id = DataClass :: NO_UID)
+    function __construct($fedora_repository_id = DataClass :: NO_UID)
     {
         parent :: FedoraExternalRepositoryConnector($fedora_repository_id);
     }

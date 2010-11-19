@@ -50,7 +50,7 @@ class ComplexContentObjectMenu extends HTML_Menu
      * @param array $extra_items An array of extra tree items, added to the
      *                           root.
      */
-    function ComplexContentObjectMenu($root, $current_item, $url_format = '?go=browsecomplex&cloi_id=%s&cloi_root_id=%s', $view_entire_structure = false)
+    function __construct($root, $current_item, $url_format = '?go=browsecomplex&cloi_id=%s&cloi_root_id=%s', $view_entire_structure = false)
     {
         $this->view_entire_structure = $view_entire_structure;
         $extra = array('publish', 'clo_action');

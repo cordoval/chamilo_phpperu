@@ -60,7 +60,7 @@ class RepositoryDataManager
     /**
      * Constructor.
      */
-    protected function RepositoryDataManager()
+    protected function __construct()
     {
         self :: $applications = array();
     }

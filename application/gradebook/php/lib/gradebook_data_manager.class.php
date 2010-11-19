@@ -20,7 +20,7 @@ class GradebookDataManager
     /**
      * Constructor. Initializes the data manager.
      */
-    protected function GradebookDataManager()
+    protected function __construct()
     {
         $this->initialize();
     }

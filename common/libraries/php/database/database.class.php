@@ -30,7 +30,7 @@ class Database
     /**
      * Constructor
      */
-    function Database($aliases = array())
+    function __construct($aliases = array())
     {
         $this->aliases = $aliases;
         $this->initialize();

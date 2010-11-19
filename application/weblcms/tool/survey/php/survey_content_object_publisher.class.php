@@ -28,7 +28,7 @@ class SurveyContentObjectPublisher
 {
     private $parent;
 
-    function SurveyContentObjectPublisher($parent)
+    function __construct($parent)
     {
         $this->parent = $parent;
     }

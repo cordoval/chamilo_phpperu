@@ -42,7 +42,7 @@ class FormValidator extends HTML_QuickForm
      * @param bool $trackSubmit (optional)Whether to track if the form was
      * submitted by adding a special hidden field (default = true)
      */
-    function FormValidator($form_name, $method = 'post', $action = '', $target = '', $attributes = null, $trackSubmit = true)
+    function __construct($form_name, $method = 'post', $action = '', $target = '', $attributes = null, $trackSubmit = true)
     {
         if (is_null($attributes))
         {

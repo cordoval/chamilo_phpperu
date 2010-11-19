@@ -38,7 +38,7 @@ class Dokeos185Scormdocument
      * Creates a new Dokeos185Scormdocument object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185Scormdocument($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }

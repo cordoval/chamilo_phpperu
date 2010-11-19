@@ -22,7 +22,7 @@ class PeerAssessmentDataManager
     /**
      * Constructor.
      */
-    protected function PeerAssessmentDataManager()
+    protected function __construct()
     {
         $this->initialize();
     }

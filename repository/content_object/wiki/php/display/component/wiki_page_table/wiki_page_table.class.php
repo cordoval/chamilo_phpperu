@@ -35,7 +35,7 @@ class WikiPageTable extends ObjectTable
      * the selected learning object.
      * @see PublicationCandidateTableCellRenderer::PublicationCandidateTableCellRenderer()
      */
-    function WikiPageTable($parent, $owner)
+    function __construct($parent, $owner)
     {
 
         $model = new WikiPageTableColumnModel();

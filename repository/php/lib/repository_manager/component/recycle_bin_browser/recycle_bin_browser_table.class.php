@@ -24,7 +24,7 @@ class RecycleBinBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function RecycleBinBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new RecycleBinBrowserTableColumnModel();
         $renderer = new RecycleBinBrowserTableCellRenderer($browser);

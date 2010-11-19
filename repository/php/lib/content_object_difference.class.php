@@ -29,7 +29,7 @@ abstract class ContentObjectDifference
      * @param ContentObject $object The learning object to compare.
      * @param ContentObject $version The learning object to compare with.
      */
-    protected function ContentObjectDifference($version, $object)
+    protected function __construct($version, $object)
     {
         $this->object = $object;
         $this->version = $version;

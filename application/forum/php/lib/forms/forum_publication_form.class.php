@@ -30,7 +30,7 @@ class ForumPublicationForm extends FormValidator
     private $forum_publication;
     private $user;
 
-    function ForumPublicationForm($form_type, $forum_publication, $action, $user)
+    function __construct($form_type, $forum_publication, $action, $user)
     {
         parent :: __construct('forum_publication_settings', 'post', $action);
         

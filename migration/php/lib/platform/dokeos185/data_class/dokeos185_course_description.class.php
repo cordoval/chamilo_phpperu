@@ -34,7 +34,7 @@ class Dokeos185CourseDescription extends Dokeos185CourseDataMigrationDataClass
      * @param array $defaultProperties The default properties of the course description
      *                                 object. Associative array.
      */
-    function Dokeos185CourseDescription($defaultProperties = array())
+    function __construct($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }

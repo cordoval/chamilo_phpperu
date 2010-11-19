@@ -21,7 +21,7 @@ abstract class InstallWizardPage extends HTML_QuickForm_Page
      * @param Tool $parent The repository tool in which the wizard
      * runs.
      */
-    public function InstallWizardPage($name, $parent)
+    public function __construct($name, $parent)
     {
         $this->parent = $parent;
         parent :: HTML_QuickForm_Page($name, 'post');

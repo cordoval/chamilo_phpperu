@@ -30,7 +30,7 @@ class ObjectResultSet extends RecordResultSet
      * @param DB_result $handle The handle to retrieve records from a database
      * resultset
      */
-    function ObjectResultSet($data_manager, $handle, $class_name)
+    function __construct($data_manager, $handle, $class_name)
     {
         parent :: __construct($handle);
         $this->data_manager = $data_manager;

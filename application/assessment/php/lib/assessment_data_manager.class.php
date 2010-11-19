@@ -27,7 +27,7 @@ class AssessmentDataManager
     /**
      * Constructor.
      */
-    protected function AssessmentDataManager()
+    protected function __construct()
     {
         $this->initialize();
     }

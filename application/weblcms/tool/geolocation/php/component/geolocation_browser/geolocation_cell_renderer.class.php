@@ -13,7 +13,7 @@ use application\weblcms\ObjectPublicationTableCellRenderer;
 class GeolocationCellRenderer extends ObjectPublicationTableCellRenderer
 {
 
-    function GeolocationCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct($browser);
     }

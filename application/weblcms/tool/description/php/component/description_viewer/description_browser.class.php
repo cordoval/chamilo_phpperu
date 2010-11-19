@@ -36,7 +36,7 @@ class DescriptionBrowser extends ContentObjectPublicationBrowser
     /**
      * Constructor
      */
-    function DescriptionBrowser($parent, $types)
+    function __construct($parent, $types)
     {
         parent :: __construct($parent, Description :: get_type_name());
         if (Request :: get(Tool :: PARAM_PUBLICATION_ID) && $parent->get_action() == 'view')

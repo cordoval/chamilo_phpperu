@@ -25,7 +25,7 @@ class DataClassGenerator
      * @param string $description the description
      * @param string $author, the author
      */
-    function DataClassGenerator($database, $classname, $properties, $package, $description, $author)
+    function __construct($database, $classname, $properties, $package, $description, $author)
     {
         $this->template = new MyTemplate();
         $this->classname = $classname;

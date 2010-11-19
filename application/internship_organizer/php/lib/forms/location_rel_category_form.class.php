@@ -21,7 +21,7 @@ class InternshipOrganizerLocationRelCategoryForm extends FormValidator
     private $location_rel_category;
     private $user;
 
-    function InternshipOrganizerLocationRelCategoryForm($form_type, $location_rel_category, $action, $user)
+    function __construct($form_type, $location_rel_category, $action, $user)
     {
         parent :: __construct('location_rel_category_settings', 'post', $action);
         

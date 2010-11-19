@@ -19,7 +19,7 @@ class SystemAnnouncementPublicationBrowserTableDataProvider extends ObjectTableD
      * @param ProfileManagerComponent $browser
      * @param Condition $condition
      */
-    function SystemAnnouncementPublicationBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

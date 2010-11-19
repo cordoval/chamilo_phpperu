@@ -20,7 +20,7 @@ class AdminUserBrowserTableDataProvider extends ObjectTableDataProvider
      * @param UserManagerComponent $browser
      * @param Condition $condition
      */
-    function AdminUserBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

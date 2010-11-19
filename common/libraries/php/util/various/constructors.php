@@ -4,7 +4,7 @@ namespace common\libraries;
 
 require_once dirname(__FILE__) . '/../../../../global.inc.php';
 
-$root = Path :: get(SYS_PATH) . 'plugin/pear/';
+$root = Path :: get(SYS_PATH);
 
 $files = Filesystem :: get_directory_content($root);
 

@@ -29,7 +29,7 @@ class AssessmentResultsTableOverviewAdminCellRenderer extends DefaultContentObje
      * @param string $edit_and_publish_url_format URL for editing and publishing
      * the selected learning object.
      */
-    function AssessmentResultsTableOverviewAdminCellRenderer($browser)
+    function __construct($browser)
     {
         $this->table_actions = array();
         $this->browser = $browser;

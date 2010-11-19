@@ -48,7 +48,7 @@ class ReservationsMenu extends HTML_Menu
      *                           Passed to sprintf(). Defaults to the string
      *                           "?category=%s".
      */
-    function ReservationsMenu($current_item, $url_format = '?application=reservations&go=browse_categories&category_id=%s')
+    function __construct($current_item, $url_format = '?application=reservations&go=browse_categories&category_id=%s')
     {
         $this->current_item = $current_item;
         $this->urlFmt = $url_format;

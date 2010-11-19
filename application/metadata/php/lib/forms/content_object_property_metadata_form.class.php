@@ -19,7 +19,7 @@ class ContentObjectPropertyMetadataForm extends FormValidator
 	private $user;
         private $application;
 
-    function ContentObjectPropertyMetadataForm($form_type, $content_object_property_metadata, $action, $user, $application)
+    function __construct($form_type, $content_object_property_metadata, $action, $user, $application)
     {
     	parent :: __construct('content_object_property_metadata_settings', 'post', $action);
 

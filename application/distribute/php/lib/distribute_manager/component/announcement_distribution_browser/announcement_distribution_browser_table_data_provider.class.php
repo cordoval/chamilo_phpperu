@@ -22,7 +22,7 @@ class AnnouncementDistributionBrowserTableDataProvider extends ObjectTableDataPr
      * @param DistributeManagerComponent $browser
      * @param Condition $condition
      */
-    function AnnouncementDistributionBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

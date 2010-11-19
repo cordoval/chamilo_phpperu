@@ -90,7 +90,7 @@ abstract class Tool extends SubManager
      * @param Application $parent The application that the tool is associated
      * with.
      */
-    function Tool($parent)
+    function __construct($parent)
     {
         parent :: __construct($parent);
         $this->properties = $parent->get_tool_properties($this->get_tool_id());

@@ -17,7 +17,7 @@ use application\weblcms\ObjectPublicationTableCellRenderer;
 class SurveyCellRenderer extends ObjectPublicationTableCellRenderer
 {
 
-    function SurveyCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct($browser);
     }

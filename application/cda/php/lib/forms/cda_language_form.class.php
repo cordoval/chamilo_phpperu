@@ -23,7 +23,7 @@ class CdaLanguageForm extends FormValidator
 	private $cda_language;
 	private $user;
 
-    function CdaLanguageForm($form_type, $cda_language, $action, $user)
+    function __construct($form_type, $cda_language, $action, $user)
     {
     	parent :: __construct('cda_language_settings', 'post', $action);
 

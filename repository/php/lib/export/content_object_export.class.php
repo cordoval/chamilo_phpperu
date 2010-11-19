@@ -23,7 +23,7 @@ abstract class ContentObjectExport
      * Constructor
      * @param string $content_object
      */
-    public function ContentObjectExport($content_object)
+    public function __construct($content_object)
     {
         $this->content_object = $content_object;
     }

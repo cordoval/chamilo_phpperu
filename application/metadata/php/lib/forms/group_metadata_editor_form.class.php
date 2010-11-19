@@ -19,7 +19,7 @@ class GroupMetadataEditorForm extends MetadataForm
     private $group;
     private $application;
     
-    function GroupMetadataEditorForm($group, $metadata_property_values, $action, $application)
+    function __construct($group, $metadata_property_values, $action, $application)
     {
     	$this->set_parent_type(self :: TYPE);
 

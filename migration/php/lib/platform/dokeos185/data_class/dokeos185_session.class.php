@@ -37,7 +37,7 @@ class Dokeos185Session extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185Session object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185Session($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }

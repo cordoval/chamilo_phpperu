@@ -91,7 +91,7 @@ class SurveyContentObjectPublicationForm extends FormValidator
      * @param boolean $email_option Add option in form to send the learning
      * object by email to the receivers
      */
-    function SurveyContentObjectPublicationForm($form_type, $content_object, $repo_viewer, $email_option = false, $course, $in_repo_viewer = true, $extra_parameters = array())
+    function __construct($form_type, $content_object, $repo_viewer, $email_option = false, $course, $in_repo_viewer = true, $extra_parameters = array())
     {
         if ($repo_viewer)
         {

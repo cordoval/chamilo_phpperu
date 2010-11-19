@@ -24,7 +24,7 @@ class VariableTranslationForm extends FormValidator
 	const SUBMIT_SAVE = 'save';
 	const SUBMIT_NEXT_NO_SAVE = 'next_no_save';
 
-    function VariableTranslationForm($variable_translation, $variable, $action, $user)
+    function __construct($variable_translation, $variable, $action, $user)
     {
     	parent :: __construct('variable_translation_settings', 'post', $action);
 

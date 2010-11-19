@@ -18,7 +18,7 @@ class MatrixQuestionOption
      * @param string $value The value of the option
      * @param int $matches The index of the match corresponding to this option
      */
-    function MatrixQuestionOption($value = '')
+    function __construct($value = '')
     {
         $this->value = $value;
     }

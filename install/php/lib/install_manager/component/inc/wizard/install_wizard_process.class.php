@@ -42,7 +42,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
      * @param Tool $parent The repository tool in which the wizard
      * runs.
      */
-    public function InstallWizardProcess($parent)
+    public function __construct($parent)
     {
         $this->parent = $parent;
     }

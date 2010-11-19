@@ -19,7 +19,7 @@ require_once dirname(__FILE__) . '/object_publication_table_cell_renderer.class.
 class ObjectPublicationTable extends ObjectTable
 {
 
-    function ObjectPublicationTable($table_renderer, $condition, $cell_renderer = null, $column_model = null)
+    function __construct($table_renderer, $condition, $cell_renderer = null, $column_model = null)
     {
         $data_provider = new ObjectPublicationTableDataProvider($table_renderer, $condition);
 

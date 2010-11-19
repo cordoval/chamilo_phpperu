@@ -22,7 +22,7 @@ class PhrasesDataManager
     /**
      * Constructor. Initializes the data manager.
      */
-    protected function PhrasesDataManager()
+    protected function __construct()
     {
         $this->initialize();
     }

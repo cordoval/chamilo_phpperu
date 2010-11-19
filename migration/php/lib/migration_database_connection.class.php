@@ -8,7 +8,7 @@ namespace migration;
 
 class MigrationDatabaseConnection Extends Connection
 {
-	function MigrationDatabaseConnection($connection_string)
+	function __construct($connection_string)
     {
         $connection = MDB2 :: connect($connection_string);
         if(MDB2 :: isError($this->connection))

@@ -49,7 +49,7 @@ class PhrasesPublicationMenu extends HTML_Menu
      * root.
      * @param string[] $filter_count_on_types - Array to define the types on which the count on the categories should be filtered
      */
-    function PhrasesPublicationMenu($owner, $current_category, $url_format = '?level=%s&language=%s', $extra_items = array())
+    function __construct($owner, $current_category, $url_format = '?level=%s&language=%s', $extra_items = array())
     {
         $this->owner = $owner;
         $this->urlFmt = $url_format;

@@ -37,7 +37,7 @@ class Dokeos185OpenidAssociation extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185OpenidAssociation object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185OpenidAssociation($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }

@@ -19,7 +19,7 @@ class VariableForm extends FormValidator
 	private $variable;
 	private $user;
 
-    function VariableForm($form_type, $variable, $action, $user)
+    function __construct($form_type, $variable, $action, $user)
     {
     	parent :: __construct('variable_settings', 'post', $action);
 

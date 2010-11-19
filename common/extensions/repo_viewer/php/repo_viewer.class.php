@@ -73,7 +73,7 @@ class RepoViewer extends SubManager
      * Constructor.
      * @param array $types The learning object types that may be repoviewered.
      */
-    function RepoViewer($parent)
+    function __construct($parent)
     {
         parent :: __construct($parent);
         $this->maximum_select = self :: SELECT_MULTIPLE;

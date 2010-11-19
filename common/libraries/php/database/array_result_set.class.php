@@ -26,7 +26,7 @@ class ArrayResultSet extends ResultSet
      * Constructor
      * @param array $array
      */
-    function ArrayResultSet($array)
+    function __construct($array)
     {
         $this->data = $array;
         $this->pointer = 0;

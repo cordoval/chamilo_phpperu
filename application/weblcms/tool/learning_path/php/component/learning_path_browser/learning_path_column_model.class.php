@@ -14,7 +14,7 @@ use application\weblcms\ObjectPublicationTableColumnModel;
 class LearningPathColumnModel extends ObjectPublicationTableColumnModel
 {
 
-    function LearningPathColumnModel()
+    function __construct()
     {
         parent :: __construct($this->get_columns());
     }

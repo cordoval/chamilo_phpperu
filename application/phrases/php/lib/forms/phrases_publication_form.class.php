@@ -54,7 +54,7 @@ class PhrasesPublicationForm extends FormValidator
      * @param boolean $email_option Add option in form to send the learning
      * object by email to the receivers
      */
-    function PhrasesPublicationForm($form_type, $content_object, $form_user, $action)
+    function __construct($form_type, $content_object, $form_user, $action)
     {
         parent :: __construct('publish', 'post', $action);
         $this->form_type = $form_type;

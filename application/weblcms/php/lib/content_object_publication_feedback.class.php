@@ -44,7 +44,7 @@ class ContentObjectPublicationFeedback extends ContentObjectPublication
      * @param int $displayOrder The display order of this publication in its
      * location (course - tool - category)
      */
-    function ContentObjectPublicationFeedback($id, $learningObject, $course, $tool, $parent_id, $repo_viewer, $publicationDate, $modifiedDate, $hidden, $emailSent)
+    function __construct($id, $learningObject, $course, $tool, $parent_id, $repo_viewer, $publicationDate, $modifiedDate, $hidden, $emailSent)
     {
 
         parent :: ContentObjectPublication($id, $learningObject, $course, $tool, 0, array(), array(), 0, 0, $repo_viewer, $publicationDate, $modifiedDate, $hidden, 0, $emailSent);

@@ -53,7 +53,7 @@ class LocationMenu extends HTML_Menu
      * @param array $extra_items An array of extra tree items, added to the
      *                           root.
      */
-    function LocationMenu($root_category, $current_category, $url_format = '?application=rights&go=browse&id=%s', $include_root = true, $exclude_children = false)
+    function __construct($root_category, $current_category, $url_format = '?application=rights&go=browse&id=%s', $include_root = true, $exclude_children = false)
     {
         $this->include_root = $include_root;
         $this->exclude_children = $exclude_children;

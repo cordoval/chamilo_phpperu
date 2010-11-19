@@ -37,7 +37,7 @@ class ReportingValidator extends Validator
     private $udm;
     private $wdm;
 
-    function ReportingValidator()
+    function __construct()
     {
         $this->udm = UserDataManager :: get_instance();
         $this->wdm = WeblcmsDataManager :: get_instance();

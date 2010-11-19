@@ -54,7 +54,7 @@ class PortfolioMenu extends HTML_Menu
      * @param array $extra_items An array of extra tree items, added to the
      *                           root.
      */
-    function PortfolioMenu($user, $url_format, $pid, $cid, $view_user)
+    function __construct($user, $url_format, $pid, $cid, $view_user)
     {
         $this->urlFmt = $url_format;
         $this->user = $user;

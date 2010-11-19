@@ -120,7 +120,7 @@ class FedoraExternalRepositoryConnector extends RestExternalRepositoryConnector
 
     /*************************************************************************/
 
-    protected function FedoraExternalRepositoryConnector($fedora_repository_id = DataClass :: NO_UID)
+    protected function __construct($fedora_repository_id = DataClass :: NO_UID)
     {
         parent :: RestExternalRepositoryConnector($fedora_repository_id);
     }

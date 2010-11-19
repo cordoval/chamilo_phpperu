@@ -93,7 +93,7 @@ class WebServicesCourse
     private $webservice;
     private $validator;
 
-    function WebServicesCourse()
+    function __construct()
     {
         $this->webservice = Webservice :: factory($this);
         $this->validator = Validator :: get_validator('course');

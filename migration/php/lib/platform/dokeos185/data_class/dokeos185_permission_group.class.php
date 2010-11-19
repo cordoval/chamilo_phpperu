@@ -33,7 +33,7 @@ class Dokeos185PermissionGroup extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185PermissionGroup object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185PermissionGroup($defaultProperties = array ())
+    function __construct($defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }

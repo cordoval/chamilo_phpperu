@@ -22,7 +22,7 @@ class ObjectBrowserTableDataProvider extends ObjectTableDataProvider
      * @param ObjectManagerComponent $browser
      * @param Condition $condition
      */
-    function ObjectBrowserTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

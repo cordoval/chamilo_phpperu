@@ -28,7 +28,7 @@ class ContentObjectMetadataEditorForm extends MetadataForm
     private $metadata_property_attribute_values = array();
     private $allowed_metadata_property_attribute_types = array();
 
-    function ContentObjectMetadataEditorForm($content_object, $metadata_property_values, $content_object_property_metadata_values, $metadata_property_attribute_values, $allowed_metadata_property_attribute_types,$action, $user, $application)
+    function __construct($content_object, $metadata_property_values, $content_object_property_metadata_values, $metadata_property_attribute_values, $allowed_metadata_property_attribute_types,$action, $user, $application)
     {
     	$this->set_parent_type(self :: TYPE);
 

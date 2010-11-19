@@ -20,7 +20,7 @@ class WhoisOnlineTableDataProvider extends ObjectTableDataProvider
      * @param UserManagerComponent $browser
      * @param Condition $condition
      */
-    function WhoisOnlineTableDataProvider($browser, $condition)
+    function __construct($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

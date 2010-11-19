@@ -65,7 +65,7 @@ class WebServicesUser
     private $webservice;
     private $validator;
 
-    function WebServicesUser()
+    function __construct()
     {
         $this->webservice = Webservice :: factory($this);
         $this->validator = Validator :: get_validator('user');

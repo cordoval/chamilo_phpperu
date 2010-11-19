@@ -58,7 +58,7 @@ class SubscribeGroupMenu extends HTML_Menu
      * @param array $extra_items An array of extra tree items, added to the
      * root.
      */
-    function SubscribeGroupMenu($course, $cur_category, $url_format = '?application=group&go=browse&group=%s', $include_root = true, $show_complete_tree = false, $hide_current_category = false)
+    function __construct($course, $cur_category, $url_format = '?application=group&go=browse&group=%s', $include_root = true, $show_complete_tree = false, $hide_current_category = false)
     {
         $this->course = $course;
         $this->include_root = $include_root;

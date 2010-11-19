@@ -54,7 +54,7 @@ class SurveyToolMenu extends HTML_Menu
      * @param array $extra_items An array of extra tree items, added to the
      * root.
      */
-    function SurveyToolMenu($current_participant, $url_format = '?application=weblcms&go=courseviewer&course=%s&tool=survey&publication=%s&survey_participant=%s&tool_action=take', $include_root = true, $show_complete_tree = false, $hide_current_participant = false)
+    function __construct($current_participant, $url_format = '?application=weblcms&go=courseviewer&course=%s&tool=survey&publication=%s&survey_participant=%s&tool_action=take', $include_root = true, $show_complete_tree = false, $hide_current_participant = false)
     {
         $this->include_root = $include_root;
         $this->show_complete_tree = $show_complete_tree;

@@ -38,7 +38,7 @@ class Dokeos185TrackCBrowsers extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185TrackCBrowsers object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185TrackCBrowsers($defaultProperties = array())
+    function __construct($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }

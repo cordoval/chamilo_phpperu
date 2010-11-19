@@ -49,7 +49,7 @@ class AssessmentPublicationCategoryMenu extends HTML_Menu
      * @param array $extra_items An array of extra tree items, added to the
      *                           root.
      */
-    function AssessmentPublicationCategoryMenu($current_category, $url_format = '?application=assessment&go=browser&category=%s')
+    function __construct($current_category, $url_format = '?application=assessment&go=browser&category=%s')
     {
         $this->current_category = $current_category;
         $this->urlFmt = $url_format;

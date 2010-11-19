@@ -34,7 +34,7 @@ abstract class ReportingTemplate
     private $blocks = array();
     private $parent;
 
-    function ReportingTemplate($parent)
+    function __construct($parent)
     {
         $this->set_parent($parent);
     }
