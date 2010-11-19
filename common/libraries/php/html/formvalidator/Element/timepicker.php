@@ -86,7 +86,7 @@ class HTML_QuickForm_timepicker extends HTML_QuickForm_date
             $js .= 'tbl_change.js" type="text/javascript"></script>';
             $js .= "\n";
         }*/
-        return ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'html/formvalidator/Element/tbl_change.js');
+        return ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'libraries/php/html/formvalidator/Element/tbl_change.js');
     }
 
     /**
