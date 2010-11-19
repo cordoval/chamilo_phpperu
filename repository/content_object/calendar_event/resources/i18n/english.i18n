@@ -11,3 +11,6 @@ StartTimeWindow = "Start"
 EndTimeWindow = "End"
 Repeat = "Repeat"
 InvalidDate = "The selected date is invalid"
+
+Title = ""
+Description = ""
