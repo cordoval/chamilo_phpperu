@@ -1158,10 +1158,10 @@ class Course extends DataClass
     function initialize_course_sections()
     {
         $sections = array();
-        $sections[] = array('name' => Translation :: get('Tools', null, Utilities :: COMMON_LIBRARIES ), 'type' => 1, 'order' => 1);
-        $sections[] = array('name' => Translation :: get('Links', null, Utilities :: COMMON_LIBRARIES ), 'type' => 2, 'order' => 2);
-        $sections[] = array('name' => Translation :: get('Disabled', null, Utilities :: COMMON_LIBRARIES ), 'type' => 0, 'order' => 3);
-        $sections[] = array('name' => Translation :: get('CourseAdministration', null, Utilities :: COMMON_LIBRARIES ), 'type' => 3, 'order' => 4);
+        $sections[] = array('name' => Translation :: get('SectionTools'), 'type' => 1, 'order' => 1);
+        $sections[] = array('name' => Translation :: get('SectionLinks'), 'type' => 2, 'order' => 2);
+        $sections[] = array('name' => Translation :: get('SectionDisabled'), 'type' => 0, 'order' => 3);
+        $sections[] = array('name' => Translation :: get('SectionCourseAdministration'), 'type' => 3, 'order' => 4);
 
         foreach ($sections as $section)
         {
