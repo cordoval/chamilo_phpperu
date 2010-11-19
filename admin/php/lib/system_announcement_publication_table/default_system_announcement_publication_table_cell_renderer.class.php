@@ -13,7 +13,7 @@ class DefaultSystemAnnouncementPublicationTableCellRenderer extends ObjectTableC
     /**
      * Constructor
      */
-    function DefaultSystemAnnouncementPublicationTableCellRenderer()
+    function __construct()
     {
     }
 

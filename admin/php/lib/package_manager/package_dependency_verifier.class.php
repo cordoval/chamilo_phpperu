@@ -21,7 +21,7 @@ class PackageDependencyVerifier
     const TYPE_REMOVE = 'remove';
     const TYPE_UPDATE = 'update';
 
-    function PackageDependencyVerifier($package)
+    function __construct($package)
     {
         $this->package = $package;
         $this->logger = MessageLogger :: get_instance(Utilities :: get_classname_from_object($this));

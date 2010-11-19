@@ -18,7 +18,7 @@ class AdminInstaller extends Installer
     /**
      * Constructor
      */
-    function AdminInstaller($values)
+    function __construct($values)
     {
         parent :: __construct($values, AdminDataManager :: get_instance());
     }

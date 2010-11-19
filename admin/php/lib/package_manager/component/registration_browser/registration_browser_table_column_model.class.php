@@ -20,7 +20,7 @@ class RegistrationBrowserTableColumnModel extends DefaultRegistrationTableColumn
     /**
      * Constructor
      */
-    function RegistrationBrowserTableColumnModel()
+    function __construct()
     {
         parent :: __construct();
         $this->set_default_order_column(1);

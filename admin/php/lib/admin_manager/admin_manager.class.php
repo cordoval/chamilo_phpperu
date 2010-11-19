@@ -69,7 +69,7 @@ class AdminManager extends CoreApplication
      * Constructor
      * @param User $user The current user
      */
-    function AdminManager($user = null)
+    function __construct($user = null)
     {
         parent :: __construct($user);
     }

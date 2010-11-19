@@ -24,7 +24,7 @@ class RegistrationBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function RegistrationBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new RegistrationBrowserTableColumnModel();
         $renderer = new RegistrationBrowserTableCellRenderer($browser);

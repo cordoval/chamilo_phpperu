@@ -17,7 +17,7 @@ class DefaultRemotePackageTableCellRenderer extends ObjectTableCellRenderer
     /**
      * Constructor
      */
-    function DefaultRemotePackageTableCellRenderer()
+    function __construct()
     {
     }
 

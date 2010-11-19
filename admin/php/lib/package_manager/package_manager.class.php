@@ -42,7 +42,7 @@ class PackageManager extends SubManager
     const INSTALL_ARCHIVE = 'archive';
     const INSTALL_LOCAL = 'local';
 
-    function PackageManager($admin_manager)
+    function __construct($admin_manager)
     {
         parent :: __construct($admin_manager);
         

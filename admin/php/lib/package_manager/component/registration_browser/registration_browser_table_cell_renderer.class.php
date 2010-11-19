@@ -27,7 +27,7 @@ class RegistrationBrowserTableCellRenderer extends DefaultRegistrationTableCellR
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function RegistrationBrowserTableCellRenderer($browser)
+    function __construct($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

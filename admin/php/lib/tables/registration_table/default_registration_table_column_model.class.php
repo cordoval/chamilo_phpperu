@@ -16,7 +16,7 @@ class DefaultRegistrationTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function DefaultRegistrationTableColumnModel()
+    function __construct()
     {
         parent :: __construct(self :: get_default_columns(), 1);
     }

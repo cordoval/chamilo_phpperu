@@ -33,7 +33,7 @@ class LocalPackageBrowser
     const STATUS_ERROR = 3;
     const STATUS_INFORMATION = 4;
 
-    function LocalPackageBrowser($manager)
+    function __construct($manager)
     {
         $this->manager = $manager;
     }

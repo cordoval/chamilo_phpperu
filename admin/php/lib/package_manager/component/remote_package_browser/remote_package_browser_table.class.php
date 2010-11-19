@@ -24,7 +24,7 @@ class RemotePackageBrowserTable extends ObjectTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function RemotePackageBrowserTable($browser, $parameters, $condition)
+    function __construct($browser, $parameters, $condition)
     {
         $model = new RemotePackageBrowserTableColumnModel();
         $renderer = new RemotePackageBrowserTableCellRenderer($browser);

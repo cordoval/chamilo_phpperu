@@ -74,7 +74,7 @@ class AdminSearchForm extends FormValidator
      * @param string $url The location to which the search request should be
      * posted.
      */
-    function AdminSearchForm($manager, $url, $form_id = '')
+    function __construct($manager, $url, $form_id = '')
     {
         parent :: __construct(self :: FORM_NAME . $form_id, 'post', $url);
         $this->updateAttributes(array('id' => self :: FORM_NAME . $form_id));

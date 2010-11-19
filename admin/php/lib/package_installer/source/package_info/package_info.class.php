@@ -12,7 +12,7 @@ class PackageInfo
 {
 	private $package_name;
 
-	function PackageInfo($package_name)
+	function __construct($package_name)
 	{
 		$this->package_name = $package_name;
 
