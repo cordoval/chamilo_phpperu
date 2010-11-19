@@ -38,7 +38,7 @@ class ArchiveWizard extends HTML_QuickForm_Controller
     function __construct($parent)
     {
         $this->parent = $parent;
-        parent :: HTML_QuickForm_Controller('ArchiveWizard', true);
+        parent :: __construct('ArchiveWizard', true);
         $this->addPage(new TrackersSelectionArchiveWizardPage('page_trackers', $this->parent));
         $this->addPage(new SettingsArchiveWizardPage('page_settings', $this->parent));
         $this->addPage(new ConfirmationArchiveWizardPage('page_confirmation', $this->parent));

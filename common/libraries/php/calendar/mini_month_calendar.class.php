@@ -19,7 +19,7 @@ class MiniMonthCalendar extends MonthCalendar
 
     public function __construct($display_time)
     {
-        parent :: MonthCalendar($display_time);
+        parent :: __construct($display_time);
         
         $setting = PlatformSetting :: get('first_day_of_week');
         

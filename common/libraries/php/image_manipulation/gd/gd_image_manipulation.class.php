@@ -13,7 +13,7 @@ class GdImageManipulation extends ImageManipulation
 
     public function __construct($source_file)
     {
-        parent :: ImageManipulation($source_file);
+        parent :: __construct($source_file);
         $this->load_gd_image();
     }
 

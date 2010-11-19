@@ -44,7 +44,7 @@ class Phpbb2TemplateWrapper extends Phpbb2Template
      */
     function __construct($theme)
     {
-    	parent :: Template(Path :: get(SYS_PATH) .  'layout/' . $theme . '/templates/');
+    	parent :: __construct(Path :: get(SYS_PATH) .  'layout/' . $theme . '/templates/');
         $this->cache = TemplateCache :: factory($theme, 'file');
     }
 

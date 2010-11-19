@@ -14,7 +14,7 @@ class IeeeLomDateTime extends IeeeLomTime
 
     public function __construct($timestamp = null, $description = null)
     {
-        parent :: IeeeLomTime($timestamp, $description);
+        parent :: __construct($timestamp, $description);
     }
 
     /**

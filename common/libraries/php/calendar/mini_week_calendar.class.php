@@ -31,7 +31,7 @@ class MiniWeekCalendar extends CalendarTable
     {
         $this->navigation_html = '';
         $this->hour_step = $hour_step;
-        parent :: CalendarTable($display_time);
+        parent :: __construct($display_time);
         $cell_mapping = array();
         $this->build_table();
     }

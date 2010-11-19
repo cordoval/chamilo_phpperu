@@ -18,7 +18,7 @@ class AllPublicationsRSS extends CombinedRSS
 {
 	function __construct()
 	{
-		parent :: CombinedRSS('Chamilo publications', htmlspecialchars(Path :: get(WEB_PATH)), 'Chamilo publications', htmlspecialchars(Path :: get(WEB_PATH).'common/rss/all_publications_rss.php'));
+		parent :: __construct('Chamilo publications', htmlspecialchars(Path :: get(WEB_PATH)), 'Chamilo publications', htmlspecialchars(Path :: get(WEB_PATH).'common/rss/all_publications_rss.php'));
 	}
 	
 	function get_basic_rss_objects()

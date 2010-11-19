@@ -31,7 +31,7 @@ class PublisherWizard extends HTML_QuickForm_Controller
     {
         global $language_interface;
         $this->parent = $parent;
-        parent :: HTML_QuickForm_Controller('PublisherWizard', true);
+        parent :: __construct('PublisherWizard', true);
         $this->addPage(new LocationSelectionPublisherWizardPage('page_locations', $this->parent));
         
         $this->addAction('process', new PublisherWizardProcess($this->parent));

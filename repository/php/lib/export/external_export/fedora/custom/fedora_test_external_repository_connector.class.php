@@ -27,7 +27,7 @@ class FedoraTestExternalRepositoryConnector extends FedoraExternalRepositoryConn
 
     function __construct($fedora_repository_id = DataClass :: NO_UID)
     {
-        parent :: FedoraExternalRepositoryConnector($fedora_repository_id);
+        parent :: __construct($fedora_repository_id);
     }
 
     /**

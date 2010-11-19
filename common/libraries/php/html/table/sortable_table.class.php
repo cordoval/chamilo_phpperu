@@ -111,7 +111,7 @@ class SortableTable extends HTML_Table
      */
     function __construct($table_name = 'table', $get_total_number_function = null, $get_data_function = null, $default_column = 1, $default_items_per_page = 20, $default_order_direction = SORT_ASC, $ajax_enabled = false)
     {
-        parent :: HTML_Table(array('class' => 'data_table'), 0, true);
+        parent :: __construct(array('class' => 'data_table'), 0, true);
         $this->table_name = $table_name;
         $this->additional_parameters = array();
         $this->param_prefix = $table_name . '_';
@@ -767,7 +767,7 @@ class SortableTableFromArray extends SortableTable
     function __construct($table_data, $default_column = 1, $default_items_per_page = 20, $tablename = 'tablename')
     {
         $this->table_data = $table_data;
-        parent :: SortableTable($tablename, array($this, 'get_total_number_of_items'), array($this, 'get_table_data'), $default_column, $default_items_per_page);
+        parent :: __construct($tablename, array($this, 'get_total_number_of_items'), array($this, 'get_table_data'), $default_column, $default_items_per_page);
     }
 
     /**

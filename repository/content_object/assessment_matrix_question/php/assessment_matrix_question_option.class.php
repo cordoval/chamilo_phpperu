@@ -32,7 +32,7 @@ class AssessmentMatrixQuestionOption extends MatrixQuestionOption
      */
     function __construct($value = '', $matches = array(), $score = 1, $feedback = '')
     {
-		parent :: MatrixQuestionOption($value);
+		parent :: __construct($value);
         $this->score = $score;
         $this->feedback = $feedback;
         $this->matches = $matches;

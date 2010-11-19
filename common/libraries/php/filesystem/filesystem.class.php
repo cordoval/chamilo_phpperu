@@ -389,7 +389,7 @@ class Filesystem
      * directory. If some subdirectories or files in the given directory can't
      * be deleted, this function will return false.
      */
-    public static function __construct($path)
+    public static function remove($path)
     {
         if(realpath($path) == '/')
         	return false;

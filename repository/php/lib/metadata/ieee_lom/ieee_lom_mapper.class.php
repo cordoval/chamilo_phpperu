@@ -36,7 +36,7 @@ class IeeeLomMapper extends MetadataMapper
      */
     function __construct($content_object)
     {
-        parent :: MetadataMapper($content_object);
+        parent :: __construct($content_object);
     }
 
     /****************************************************************************************/

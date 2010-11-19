@@ -44,7 +44,7 @@ class HTML_QuickForm_category extends HTML_QuickForm_html
         
         $html = implode("\n", $html);
         
-        parent :: HTML_QuickForm_html($html);
+        parent :: __construct($html);
     }
 
 } //end class HTML_QuickForm_header

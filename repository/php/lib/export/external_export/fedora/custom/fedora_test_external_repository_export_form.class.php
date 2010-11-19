@@ -11,7 +11,7 @@ class FedoraTestExternalRepositoryExportForm extends ExternalRepositoryExportFor
 
     function __construct($content_object, $export, $action, $catalogs)
     {
-        parent :: ExternalRepositoryExportForm($content_object, $export, $action, $catalogs);
+        parent :: __construct($content_object, $export, $action, $catalogs);
 
         $this->build_fedora_test_form();
     }

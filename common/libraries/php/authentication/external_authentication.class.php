@@ -46,7 +46,7 @@ abstract class ExternalAuthentication extends Authentication
      */
     function __construct()
     {
-        parent :: Authentication();
+        parent :: __construct();
 
         $this->initialize();
     }

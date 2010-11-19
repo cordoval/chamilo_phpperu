@@ -18,21 +18,26 @@ foreach ($files as $file)
     if (substr($file, -4) == '.php')
     {
         $contents = file_get_contents($file);
-        $regex = '/class [a-zA-Z0-9_-]*/';
+        $regex = '/.*parent :: [A-Z].*/';
         preg_match_all($regex, $contents, $matches);
-
-        foreach($matches[0] as $match)
+        
+        if($matches[0])
         {
-            $class = substr($match, 6);
-
-            if($class && strpos($contents, 'function ' . $class . '(') !== false)
-            {
-                $contents = str_replace('function ' . $class . '(', 'function __construct(', $contents);
-                dump('Changed class ' . $class);
-            }
+            dump($file);
+            dump($matches);
         }
-
-        file_put_contents($file, $contents);
+//        foreach($matches[0] as $match)
+//        {
+//            $class = substr($match, 6);
+//
+//            if($class && strpos($contents, 'function ' . $class . '(') !== false)
+//            {
+//                $contents = str_replace('function ' . $class . '(', 'function __construct(', $contents);
+//                dump('Changed class ' . $class);
+//            }
+//        }
+//
+//        file_put_contents($file, $contents);
     }
 }
 

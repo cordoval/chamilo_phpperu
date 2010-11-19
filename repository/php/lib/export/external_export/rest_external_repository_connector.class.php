@@ -14,7 +14,7 @@ abstract class RestExternalRepositoryConnector extends BaseExternalRepositoryCon
 
 	protected function __construct($fedora_repository_id = DataClass :: NO_UID)
 	{
-		parent :: BaseExternalRepositoryConnector($fedora_repository_id);
+		parent :: __construct($fedora_repository_id);
 	}
 
 

@@ -32,7 +32,7 @@ class AssessmentMatchingQuestionOption extends MatchingQuestionOption
      */
     function __construct($value, $match, $score, $feedback)
     {
-        parent :: MatchingQuestionOption($value);
+        parent :: __construct($value);
         $this->score = $score;
         $this->feedback = $feedback;
         $this->match = $match;
